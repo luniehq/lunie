@@ -1,0 +1,26 @@
+{
+  "difbruba": {
+    "key": "PubKeyExample",
+    "sequence": 1001,
+    "coins": [
+      { "denom": "test", "amount": 1000000 },
+      { "denom": "atom", "amount": 1234 }
+    ]
+  },
+  "q3ifnbe9": {
+    "key": "PubKeyExample",
+    "sequence": 1000,
+    "coins": [
+      { "denom": "test", "amount": 10000 },
+      { "denom": "btc", "amount": 32.423423 }
+    ]
+  },
+  "e0gneidf": {
+    "key": "PubKeyExample",
+    "sequence": 999,
+    "coins": [
+      { "denom": "test", "amount": 1000 },
+      { "denom": "eth", "amount": 104.294 }
+    ]
+  }
+}

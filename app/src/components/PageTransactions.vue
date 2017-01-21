@@ -1,3 +1,38 @@
 <template>
-  <h1>Transactions</h1>
+  <div class="page-transactions">
+    <page-header title="Transactions"></page-header>
+    <div class="transactions">
+      <card-transaction></card-transaction>
+      <card-transaction></card-transaction>
+      <card-transaction></card-transaction>
+      <card-transaction></card-transaction>
+      <card-transaction></card-transaction>
+      <card-transaction></card-transaction>
+      <card-transaction></card-transaction>
+      <card-transaction></card-transaction>
+      <card-transaction></card-transaction>
+      <card-transaction></card-transaction>
+      <card-transaction></card-transaction>
+      <card-transaction></card-transaction>
+      <card-transaction></card-transaction>
+    </div>
+  </div>
 </template>
+
+<script>
+import PageHeader from './PageHeader'
+import CardTransaction from './CardTransaction'
+export default {
+  components: {
+    PageHeader,
+    CardTransaction
+  }
+}
+</script>
+
+<style lang="stylus">
+@require '../styles/variables.styl'
+
+.transactions
+  padding 0.5rem
+</style>

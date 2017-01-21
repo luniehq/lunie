@@ -21,7 +21,7 @@
     "postinstall": "npm run lint:fix && cd app && npm install"
   },
   "author": "All In Bits, Inc <hello@tendermint.com>",
-  "license": "MIT",
+  "license": "Apache2.0",
   "devDependencies": {
     "babel-core": "^6.8.0",
     "babel-loader": "^6.2.4",
@@ -76,6 +76,8 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
+    "@nylira/vue-button": "^1.4.1",
+    "@nylira/vue-input": "^1.2.5",
     "nib": "^1.1.2",
     "stylus": "^0.54.5",
     "stylus-loader": "^2.4.0"
