@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Tendermint Blog]]></title><description><![CDATA[Byzantine fault-tolerant replicated state machines in any programming language]]></description><link>https://tendermint.com</link><image><url>https://tendermint.com/static/favicon.png</url><title>Tendermint Blog</title><link>https://tendermint.com</link></image><generator>RSS for Node</generator><lastBuildDate>Fri, 20 Jan 2017 05:50:53 GMT</lastBuildDate><atom:link href="https://tendermint.com/static/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Fri, 20 Jan 2017 05:50:53 GMT</pubDate><copyright><![CDATA[2016 Tendermint]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[Tendermint]]></managingEditor><webMaster><![CDATA[Tendermint ]]></webMaster><ttl>60</ttl><item><title><![CDATA[Announcing Ethermint]]></title><description><![CDATA[<h2>Announcing Ethermint - GoEthereum powered by Tendermint</h2>
+<p>While we were at the Shanghai Devcon event a little less than two months ago,
+we met and discovered a number of companies that were very interested in an
+integration between GoEthereum and Tendermint.</p>
+<p>GoEthereum is being used by a number of consortium blockchain initiatives.  But
+the proof-of-work component is less than ideal in consortium settings.  For
+one, the blockchain isn’t secure until it has a sufficient amount of mining
+power behind it.  Also, the blocks are generated stochastically, rather than at
+semi-regular intervals.  There’s no doubt about it, consortium blockchains
+require Byzantine fault-tolerant consensus like that provided by Tendermint.</p>
+<p>Today, we’re happy to announce Ethermint.  It’s a minimal modification of
+GoEthereum that includes Tendermint consensus, compiled as a single binary. It
+works out of the box with standard ethereum tooling like <code>geth attach</code> and
+web3, so you can deploy contracts and interact with them just as you would with
+GoEthereum. See the repository for more details:</p>
+<p><a href="https://github.com/tendermint/ethermint">github.com/tendermint/ethermint</a>.</p>
+<p>Please join us on <a href="http://forum.tendermint.com:3000/">Slack at #ethermint</a> or
+<a href="mailto:hello@tendermint.com">email us</a> and give us feedback.  We
+want to make Ethermint as accessible and useful for as many people as possible.</p>
+<p>To see other applications and libraries, visit <a href="http://tendermint.com/ecosystem">tendermint.com/ecosystem</a>.</p>
+<p>Many thanks to the GoEthereum team for building a fantastic state transition
+machine, and to Kobi Gurkan for doing most of the work integrating it with
+Tendermint.</p>
+]]></description><link>http://tendermint.com/blog/announcing-ethermint</link><guid isPermaLink="true">http://tendermint.com/blog/announcing-ethermint</guid></item><item><title><![CDATA[Tendermint: From Then to Now]]></title><description><![CDATA[<p>Some of you have asked about the history of <a href="http://tendermint.com/">Tendermint</a>, so here it is. Back in the day, we had some serious concerns about Bitcoin as a global currency, mainly because it is incredibly <a href="http://motherboard.vice.com/read/bitcoin-could-consume-as-much-electricity-as-denmark-by-2020">energy intensive</a>. So we started Tendermint to develop a more environmentally friendly cryptocurrency.</p>
+<p>But what started as a simple cryptocurrency based on an adaptation of a <a href="http://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf">1980’s consensus algorithm called DLS</a> eventually evolved into what it is today: a general purpose Byzantine fault tolerant (BFT) consensus algorithm for running replicated state machines over the internet in possibly adversarial conditions.</p>
+<p>Replicated state machines are a staple of modern Internet technology. They permit a consistent and fault-tolerant view of some set of data. Popular open-source implementations of replicated state machines include <a href="http://bookkeeper.apache.org/">Apache ZooKeeper</a>, <a href="https://coreos.com/etcd/">CoreOS’ etcd</a>, and <a href="https://www.consul.io/">Hashicorp’s Consul</a>.</p>
+<p>In each of these, the state machine is a simple key-value store, and the underlying consensus algorithm is either Paxos or <a href="https://raft.github.io/">Raft</a>. Neither of these algorithms tolerate even a single malicious node in the system. You can see an animation of the Paxos algorithm <a href="http://harry.me/blog/2014/12/27/neat-algorithms-paxos/">here</a>.</p>
+<p>In contrast, Tendermint lets you build arbitrary state machines in any programming language, whether that is a key-value store in Go, a voting system in C++, or a cryptocurrency in OCaml. In each case, the application implements a simple interface, and Tendermint handles the rest, including connecting to peers, syncing the latest state, gossipping transactions, and maintaining a consistent log of transactions.</p>
+<h2>Who is using Tendermint?</h2>
+<p>It’s been an exciting journey, and over the past few months people have been putting Tendermint to work in several applications.</p>
+<p>Probably the most complicated implementation of Tendermint so far is by Eris Industries. Eris is using Tendermint to power its <a href="https://erisindustries.com/components/erisdb/">eris:db</a> blockchain client. Eris:db includes a fully compatible Ethereum virtual machine and other features that make it a full-fledged blockchain.</p>
+<p>But there are other implementations. <a href="http://www.cloudsoft.io/">CloudSoft</a> published a <a href="http://www.cloudsoft.io/tendermint-and-clocker/">deployment strategy</a> for Apache Brooklyn that uses Tendermint and Clocker. Martin Dyring wrote an <a href="https://github.com/mdyring/cpp-abci">implementation of Tendermint ABCI in C++</a>, and wolfposd wrote a <a href="https://github.com/wolfposd/TMChat">chatroom app in Java</a> that uses Tendermint to broadcast messages from one user to another. Yes, that’s right, a chatroom.</p>
+<p>While it might sound crazy to run a chat application on a blockchain, this is simply an example of the flexibility of Tendermint. This sort of implementation might even come in handy in instances where you have several actors who are malicious and maintaining the total order of the system matters, for instance, in p2p gaming.</p>
+<p>Other companies building on Tendermint include <a href="https://blockfreight.com/">Blockfreight</a>, <a href="http://www.vidroll.com/">Vidroll</a>, and <a href="https://stratumn.com/">Stratumn</a> to name a few. Of course, we use Tendermint too. Our first product built on Tendermint is <a href="http://cosmos.network/">Cosmos, the internet of blockchains</a>.</p>
+<h2>What’s new?</h2>
+<p>In August 2016, we released Tendermint v0.7.0, the first stable release of our middleware. It featured a weakly-synchronous BFT consensus algorithm, which can process thousands of transactions per second with latencies on the order of a second and cluster sizes ranging from 4 to 64 nodes.</p>
+<p>Recently we released <a href="https://github.com/tendermint/tendermint">Tendermint v0.7.1</a>, which includes a variety of fixes, as well as the ability for applications to determine what peers Tendermint can connect to and filtering either by IP address, or by public key.</p>
+<p>In the next major release, Tendermint v0.8.0, which should be in October, we plan to introduce a handshake between Tendermint and whatever application is using it, ensuring the two stay synced even after crashes and restarts.</p>
+<p>Additionally, we’ll include some important fixes to the BFT consensus module. While testing Tendermint in adversarial conditions, we discovered a Byzantine node could potentially halt the system in some circumstances—this fix will prevent that from happening.</p>
+<p>This is critical because even though the Tendermint consensus algorithm guarantees your blockchain won’t fork, all of the subcomponents need to work perfectly to ensure liveness.</p>
+<p>Stay tuned for more updates. We are continuing to test Tendermint extensively in a push to provide a production ready offering in early 2017. And, if you are using Tendermint in a project, <a href="https://docs.google.com/a/tendermint.com/forms/d/e/1FAIpQLSclH87WiZrer8aUzO5oNWoSCqcbn4mwQ3sDJJX44E9rhdVJFw/viewform?c=0&amp;w=1">let us know</a>! We want to hear how you’re using it and what your feedback is.</p>
+]]></description><link>http://tendermint.com/blog/tendermint-from-then-to-now</link><guid isPermaLink="true">http://tendermint.com/blog/tendermint-from-then-to-now</guid></item><item><title><![CDATA[On TheDAO and Proof-of-Stake Governance]]></title><description><![CDATA[<h2>Introduction</h2>
+<p>This post will describe some of the discussions surrounding TheDAO hack, how
+Ethereum might soft-fork in a relatively safe manner, and how it relates to
+Gnuclear, a novel proof-of-stake cryptocurrency with built-in governance to
+address issues related to bugs and theft.</p>
+<h2>TheDAO Hack</h2>
+<p>An attacker (the hacker) has stolen more than 3.5mm ether (around $45mm) from
+the DAO yesterday.  The attack <a href="http://vessenes.com/deconstructing-thedao-attack-a-brief-code-tour/">is described
+here</a>.</p>
+<p>Since then, the <a href="https://blog.ethereum.org/2016/06/17/critical-update-re-dao-vulnerability/">Ethereum
+Foundation</a>
+has asked the community to decide on whether they want to soft-fork to freeze
+the funds of the hacker.  The Parity and Geth clients have released (differing?)
+updates that let the miner choose whether to soft-fork, or not.  Furthermore,
+<a href="http://Slock.it">Slock.it</a> has come out with a
+<a href="https://twitter.com/jaekwon/status/744609177738219520">counter-attack</a> against
+the hacker.</p>
+<p>Meanwhile, the community is arguing about the pros and cons of a soft-fork, and
+a hard-fork to return the funds, or <a href="https://twitter.com/crainbf/status/743842869010665472">negotiating-with/extorting the
+hacker</a> to return most of
+the funds without a hard-fork.  An <a href="http://pastebin.com/CcGUBgDG">open letter</a>
+as well as an
+<a href="https://www.cryptocoinsnews.com/exclusive-full-interview-transcript-alleged-dao-attacker/">interview</a>
+allegedly from the hacker is circulating in the web discussing
+plausibly-deniable bribes against the miners to prevent a soft-fork at all, but
+so far there had been no cryptographically verified messages from the hacker.</p>
+<p>A soft-fork to freeze the hacker’s child DAO would buy the community more time
+to decide on a more permanent course of action, whether it is to hard-fork to
+return the funds, to freeze the funds indefinitely, to “negotiate” or extort the
+hacker to return most of the funds, or to let the hacker keep the funds.</p>
+<p>Either way, a soft-fork already undermines the stated premise of Ethereum</p>
+<p><em>“Ethereum is a decentralized platform for applications that run exactly as
+programmed without any chance of fraud, censorship, or third-party influence”</em> -
+<a href="https://twitter.com/oditorium/status/744421990103134208">ethereum.org</a></p>
+<p>So, Ethereum is in a difficult position where it must either let the hacker get
+away with the theft of TheDAO’s ether, or, undermine its stated premise.  The
+arguments in favor of mitigating the hack is clear. Few in the Ethereum
+community really want 5% of the entire token supply of Ethereum to go to the
+hacker – the actual DAO experiment hadn’t even begun!  And yet, a coordinated
+action to reverse the attack or freeze the stolen funds is to undermine
+Ethereum’s stated premise.  Some argue that to do so would destroy the very
+purpose and value of Ethereum.</p>
+<h2>What Ethereum Could Do</h2>
+<p>There are four parties involved in TheDAO attack.</p>
+<ul>
+<li>The DAO token holders (DTH)</li>
+<li>The ether holders</li>
+<li>The Ethereum miners</li>
+<li>Everyone else</li>
+</ul>
+<p><em>The DAO token holders (DTH)</em> are quite obviously the victim of this tragedy.
+<em>The ether holders</em> are necessarily involved because most of the suggested
+courses of action start with a soft-fork to freeze the attacker’s funds
+currently held locked in the child DAO.  Ultimately, whether any soft-fork or
+hard-fork will happen at all hinges on the support from the <em>Ethereum miners</em>,
+though theoretically they are incentivized to follow the will of the community.
+<em>Everyone else</em> is composed of the greater cryptocurrency community, including
+those who are actively attempting to harm the system.</p>
+<h3>The DAO Wars</h3>
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en"
+dir="ltr">&quot;The future is happening fast. Hacker wars around the largest
+decentralized organisation in the world.&quot; <a
+href="https://twitter.com/hashtag/DAOwars?src=hash">#DAOwars</a> <a
+href="https://t.co/f7zO3s1D6N">pic.twitter.com/f7zO3s1D6N</a></p>&mdash; Simon
+de la Rouviere (@simondlr) <a
+href="https://twitter.com/simondlr/status/744926345679994881">June 20,
+2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<br />
+First of all, it should be noted that both Bitcoin and Ethereum themselves are
+DAOs, just as TheDAO is.  Some claim that Bitcoin and Ethereum are in
+competition with each other.  Thus, the Ethereum community would be wise to note
+that there is probably a distributed Sybil attack in social media to confuse
+Ethereum while it is vulnerable.
+<p>In short, any discussion in social media concerning what Ethereum &quot;ought to do&quot;
+or any comments about what will or will not happen to Ethereum with any
+decision, ought to be taken with a grain of salt.  Any polling of the Ethereum
+community should be done via cryptographic signatures from current ether
+holders.  Any polling of the Ethereum miners should be done via the mining
+process.</p>
+<h3>The Intention of TheDAO Investors</h3>
+<p>It’s pretty obvious that the “feature” that enabled the hacker to abscond with
+TheDAO’s ether was indeed a bug.  Arguments that it isn’t a bug generally point
+to two things: the text of TheDAO’s terms and conditions, and the stated premise
+of Ethereum.  For the former, we point the reader to <a href="http://www.bloomberg.com/view/articles/2016-06-17/blockchain-company-s-smart-contracts-were-dumb">this nuanced
+article</a>,
+and we accept that the latter premise is flawed – more on that later.</p>
+<p>The participants of TheDAO experiment were interested in seeing the investment
+mechanics – as written in English by the <a href="https://download.slock.it/public/DAO/WhitePaper.pdf">Slock.it team’s DAO
+whitepaper</a> – unfold as a
+social and cryptoeconomic experiment.  There were plenty of precautions taken to
+ensure that the DAO contract code was bug-free, and so many in the DTH weren’t
+expecting the funds to get drained before a single real proposal had a chance to
+see the light of day.</p>
+<p>To find out, one could simply ask the DAO holders or the original funders with
+an on-chain or off-chain poll (with cryptographic signature verification, of
+course).  However, noone is actually challenging the assumption that the DTH
+would vote in favor of a statement that claims that they were victims of grand
+theft token.</p>
+<h3>Too Big to Fail</h3>
+<p>Some say that TheDAO should not be rescued for the same reasons why we shouldn’t
+bail out banks.</p>
+<p>Comparing the rescue of TheDAO to the oligopoly of the too-big-to-fail US banks
+is a stretch.  The analogy would be better had if TheDAO failed due to bad
+investments, or if it had somehow turned into a ponzi scheme.  But that is not
+the case here.  The very mechanism that was designed to protect the DTH were
+unexpectedly used against them.  If any bank (or the Fed) were to roll back
+their database after getting hacked in a singular event, as long as it could do
+so and recover cleanly, nobody would complain that the bank were rescued.</p>
+<h3>Moral Hazard - Tyrrany of the Majority</h3>
+<p>Some argue that a soft-fork or hard-fork would bring about dangerous moral
+hazard, that rolling back the hacker’s stolen ether is a case of the majority
+expropriating a minority.</p>
+<p>This is mostly a matter of perspective.  Once we drop Ethereum’s original
+premise, it becomes apparent that the former argument’s logical extreme would
+make the absurd claim that the “acquisition” of tokens via theft of private keys
+at gunpoint would also constitute fair-game.  That’s perfectly fine as a
+personal subjective philosophy, but if society as a whole decides to counteract
+theft, the might of society is likewise justified.</p>
+<p>In this light, not returning the stolen funds might be a case of a minority
+expropriating a majority.</p>
+<h3>Moral Hazard - Slippery Slope</h3>
+<p>Some argue that once you allow one contract to be rolled back, you open
+Pandora’s box to allow anything to be rolled back. For example, a nation-state
+or powerful interest might compel the Ethereum Foundation to censor legitimate
+transactions with no victim at all.</p>
+<p>The way to get around this problem is to require a majority consensus from the
+remaining ether holders.  For most issues that people would want a roll-back
+for, the ether holders would likely vote against the measure.  But in the cases
+where a large chunk of the tokens are at stake, the remaining ether holders may
+prefer to allow for such a roll-back, if the alternative is deemed worse.</p>
+<p>However, there’s an obvious problem with this solution.  It would be very
+difficult to get a significant quorum of ether holders to vote for anything at
+all, because there’s no expectation for ether holders to be active in voting for
+proposals.  The miners are a more active group, but they aren’t necessarily
+representative of the community of ether holders.</p>
+<p>While not perfect, here’s a sketch of what could be done for this issue and for
+future issues in Ethereum 1.0:</p>
+<h4>Polling the Ether Holders</h4>
+<ol>
+<li>
+<p>First, construct a well written proposal that proposes a soft-fork to freeze
+the hacker’s child DAO.  Come up with a reasonable deadline for voting, like
+1 week. Post this proposal on social media.</p>
+</li>
+<li>
+<p>Program a simple smart contract that accepts a signed transaction by ether
+holders. For the sake of our collective sanity this contract won’t accept any
+ether.  It doesn’t even have to record anything in its state.  The user votes
+with voting-power in proportion to their ether holdings.  Only simple accounts
+can vote.</p>
+</li>
+<li>
+<p>Right after the deadline, for all the accounts that have voted, note the
+amount of ether left in their account and count that toward the vote’s total
+tally.  This must be done atomically at a single block-height, otherwise users
+might vote more than once with the same coins.  Note that this requires off-line
+chain-scanning and computation.</p>
+</li>
+</ol>
+<p>The result is a poll of the ether holders.  It is far from perfect,
+because a lot of users won’t vote, and, ether held in complex contracts won’t
+get any votes.  Also, it presupposes agreement about where to vote.  But just
+maybe, if enough ether holders vote (e.g. more than 25% of all ether) and there
+is a super-majority (e.g. more than 67% in favor of a soft-fork, of those who
+voted), then it seems prudent to consider that to be a vote by the Ethereum
+community in favor of a soft-fork.</p>
+<h4>Coordinating the Ethereum Miners</h4>
+<p>Next, the miners should follow the will of the Ethereum community and prepare
+for a soft-fork.  Miners could be required to announce their readiness for a
+soft-fork in each block.  Once a sufficient supermajority has been reached (e.g.
+67% or more) in a window of say 12 hours, all the miners can activate their
+soft-fork logic.  For safety, it’s important that all the miners agree on the
+exact behavior of this soft-fork, and that they only soft-fork once a
+supermajority quorum has been reached.</p>
+<h4>Preventing Spam</h4>
+<p>There is still the question of why TheDAO should get special attention while
+lesser contracts with much less value at stake might get ignored.  Ideally there
+is a permissionless way to bring up all such matters to the attention of the
+community, but since community engagement of this sort is quite expensive – one
+could calculate how many man-hours are necessary to evaluate each proposal –
+maybe there ought to be a market or fee mechanism to determine what deserves the
+chance of a soft-fork freeze or a hard-fork roll-back.</p>
+<h3>After the Soft-Fork</h3>
+<p>After a soft-fork, if there is one, I would argue that the community should
+negotiate with the hacker to get back most of the funds, and let the hacker keep
+a small portion like, like 8%.  Some people argue that the hacker deserves all
+of the stolen tokens.  Others argue that the hacker shouldn’t be incentivized
+any further because they already had control over the timing of market forces
+(e.g. they could have shorted the market just prior to the attack).  My opinion
+is that we should by default reward hackers a small amount for finding
+vulnerabilities, as long as they “voluntarily” return the vast majority of the
+stolen funds.  A social contract to reward hackers a small amount would be akin
+to enabling an automated penetration-testing bounty system, and would likely
+accelerate security improvements, rather than hinder it.</p>
+<p>To allow all such hackers to keep all of their stolen funds, in general, is to
+subject ourselves to the existing power structures that be, e.g.  to
+nation-states with immense intelligence capabilities like the NSA.  It’s great
+that we have a cryptocurrency whose premise is based on extreme crypto-anarchy
+(Bitcoin), but, if we allow all of our cryptocurrency systems to be coopted by
+the same technocratic bias, we deserve what we get.  On the other hand, if we
+don’t reward hackers sufficiently, we risk creating a fragile house of cards.</p>
+<h2>What About the Premise?</h2>
+<p>Ethereum’s original premise was destined to change.</p>
+<p><em>“… a decentralized platform for applications that run exactly as
+programmed without any chance of fraud, censorship, or third-party influence”</em></p>
+<p>Such a thing cannot exist in practice.  Fraud happens at all levels, especially
+at the human level.  For all we know, this whole DAO heist could have been
+premedidated all along – though the creators should be given the benefit of the
+doubt.  Private keys can be swindled.  If there is a sudden influx of legitimate
+transactions, the system can be coerced into dropping the majority of
+transactions.  And there is always a chance of third-party influence.</p>
+<p>Some argue that dropping this premise would undermine the entire purpose, and
+therefore the value, of Ethereum.  That’s hogwash.  There’s great value to be
+had in a system that allows for the execution of contracts written as code.
+<em>Code as Law</em> doesn’t have to mean that the code cannot be revised if it is
+found to be buggy, in the same way that many existing legal jurisdictions look
+into the intent of contracts, in the case of typos or mistakes – code doesn’t
+need to be any different.  Ethereum lets us write contracts in Solidity, to be
+interpreted by a virtual machine, rather by an army of expensive lawyers.
+Allowing for deliberated roll-backs does not take that value away.  On the
+contrary, it would strengthen the Ethereum community.</p>
+<p>Finally, it could be argued that the original premise of <em>unstoppable code</em> is
+<a href="https://medium.com/@lemurvanstar/immutability-of-any-blockchain-is-an-unrealistic-attempt-at-perfection-that-will-never-be-possible-4e4fcae59804">not
+desirable anyways.</a></p>
+<h2>An Alternative System</h2>
+<p>Here we describe <a href="https://github.com/gnuclear/gnuclear-whitepaper">Gnuclear</a>,
+alternative cryptocurrency with a governance system baked in that can address
+issues of theft or bugs in a more streamlined and defined way.  Gnuclear is a
+proof-of-stake cryptocurrency powered by Tendermint BFT consensus.</p>
+<h3>A Different Premise</h3>
+<p>First, we start with a different premise.</p>
+<p><em>Gnuclear is a multi-asset, scalable, proof-of-stake-2.0
+cryptocurrency run by stakeholders, for the benefit of stakeholders</em>.</p>
+<p>There’s no magic here, just a straight up business run by a distributed set of
+stakeholders using a BFT consensus algorithm.  There are no impossible
+guarantees, and everything is up for change.  If you don’t like it, you don’t
+have to use it.  If the stakeholders come to a deadlock due to disagreement,
+they will have all the information they need to split, thanks to its design
+principle of transparency and accountability.</p>
+<p>Stated a different way, the thesis of Gnuclear (and Tendermint) is that we can
+create distributed autonomous organizations built on accountable BFT blockchain
+systems that are self-incentivized and antifragile.</p>
+<h3>The Freedom to be Permissioned</h3>
+<p>Centralized (non-blockchain) organizations usually function in a permissioned
+way.  With a few exceptions, corporations get to select who they want to allow
+into their organizations.  There are valid arguments for and against such
+self-interested discretion, but those who argue in favor of Laissez-faire
+cooperation often use economic competitiveness as justification. There’s no
+reason to think that the same can’t work in a blockchain environment, where
+validators in a proof-of-stake system must be permissioned into the network by
+some form of consensus.</p>
+<p>Besides permissioning of its validators and stakeholders, a distributed ledger
+can use permissioning at the application-logic level to create a better curated
+and <em>well regulated</em> system for the benefit of its users.  For example, imagine
+that each top-level contract in Ethereum has a mandatory field specifying which
+regulatory group (similar to TheDAO’s curators) can decide on whether the spirit
+of the contract had been violated by bug or by theft.  Then, for the benefit of
+the ledger’s less-sophisticated users, the stakeholders may wish to whitelist
+certain regulatory groups at the system level.</p>
+<p>This field could be left <em>null</em> if the contract developers wanted to explicitly
+allow for absolute no roll-backs, but at least there would be a standard so that
+client-software can inform the user about the consequences of sending money to
+that contract – like when visiting a website with a broken cert.</p>
+<p>Note that this not analogous to arguing for a walled-garden internet.  The
+internet is composed of many independent domains with differing strategies on
+membership and permissions, and this has proven to be immensely valuable,
+enabling a Cambrian explosion of strategies.  Nor is this analogous to arguing
+in favor of a federation of data-silos.  Blockchains depend on transparency for
+their security.  A federation of permissioned and unpermissioned distributed
+ledgers is not at all like a federation of data-silos.</p>
+<p>Think of blockchains as sovereign transparent ecosystems, and the stakeholders
+of a blockchain as independent entities that are self-incentivized to make that
+blockchain succeed, in a sea of competing ledgers.  Permissioning may be a
+superior strategy for winning market-share in certain niches.</p>
+<h3>Proof-of-Stake on Tendermint</h3>
+<p>Gnuclear is powered by Tendermint’s BFT consensus algorithm, and is thus is
+specially designed for classical BFT consensus.</p>
+<p>For example, it’s a known fact that in a non-synchronous environment (read: in
+the real world with faulty networks), no consensus algorithm can tolerate more
+than 1/3 of Byzantine actors.  This means that if 1/3 or more validators are
+Byzantine, they could halt or fork the blockchain ledger.  Satoshi Nakamoto
+wrote that Bitcoin can handle up to 1/2, but that only works because clients are
+suppose to wait on the order of an hour for confirmation, thereby allowing the
+network to be modeled as a (slow) fully-synchronous system.  In other words, if
+you want a distributed ledger that can commit transactions to finality quickly
+(on the order of seconds), Tendermint offers an optimal solution.</p>
+<p>More information on how to solve the nothing-at-stake problem and the long-range
+forking problem are documented in the <a href="https://github.com/gnuclear/gnuclear-whitepaper#preventing-long-range-attacks">gnuclear
+whitepaper</a>.</p>
+<h4>Gnuclear Governance</h4>
+<p>That a 1/3 coalition of Byzantine voting power can halt the network in
+Tendermint necessitates an interesting governance model in Gnuclear in order to
+prevent halts from happening, which would result in decreased revenue and
+confidence in the ledger.  In other words, since a 1/3 coalition can temporarily
+halt the ledger, it creates an incentive for the stakeholders to find a
+compromise.</p>
+<p>The Gnuclear proposal system polls the stakeholders to see what they would do if
+the proposal were passed, and calls off the proposal if it appears that the
+proposal is contentious enough to cause a halt or filibuster.  Instead of
+actually halting the blockchain and punishing everyone, it imposes a slight
+penalty for everyone involved.</p>
+<blockquote>
+  <p>
+    For each proposal, voters may vote with the following options:
+  </p>
+  <ul>
+    <li>Yay</li>
+    <li>YayWithForce</li>
+    <li>Nay</li>
+    <li>NayWithForce</li>
+    <li>Abstain</li>
+  </ul>
+  <p>
+      A strict majority of Yay or YayWithForce votes (or Nay or NayWithForce votes)
+    is required for the proposal to be decided as accepted (or decided as failed),
+    but <sup>1</sup>&frasl;<sub>3</sub>+ can veto the majority decision by voting
+    with force.  When a strict majority is vetoed, everyone gets punished by losing
+    <code>VetoPenaltyFeeBlocks</code> (DEFAULT 1 day&rsquo;s worth of blocks) worth
+    of fees (except taxes which will not be affected), and the party that vetoed the
+    majority decision will be additionally punished by losing
+    <code>VetoPenaltyQuarks</code> (DEFAULT 0.1%) of its quarks.
+  </p>
+  <footer>
+    - <em><a href="https://github.com/gnuclear/gnuclear-whitepaper#governance">on Gnuclear governance</a></em>
+  </footer>
+</blockquote>
+<p>It’s interesting to compare this to the 1/2 or 2/3 required quorum for different
+types of proposals in various existing governance systems.  In Gnuclear, it’s a
+unified system – a simple majority is sufficient to pass any measure, unless
+there is a simultaneous veto by a 1/3 minority.</p>
+<h4>Need for a Constitution</h4>
+<p>Some things can’t be easily automated as code.  For example, determining:</p>
+<ul>
+<li>whether theft has occurred</li>
+<li>whether sophisticated DDoS attacks are happening</li>
+<li>whether a contract threatens the integrity of the ledger that it’s in</li>
+<li>whether a contract threatens the integrity of other systems or beings</li>
+<li>how to change the incentive strategy in the face of changing economic
+circumstances</li>
+<li>how to react to other extrinsic circumstances</li>
+</ul>
+<p>For these issues, the Gnuclear governance system lets stakeholders vote on
+human-readible proposals called TextProposals.</p>
+<p>Given such freedom in what can be decided by humans, even the best governing
+structures cannot prevent the system from disintegrating if the constitutents
+cannot agree on process.  A breakdown of communication or understanding can
+quickly lead to a breakdown of live-consensus, and ultimately can lead to a
+blockchain halt or split.</p>
+<p>For this reason, there needs to be a written constitution, or a human-protocol,
+that must be followed.  In the very least, the constitution must contain the
+following:</p>
+<ul>
+<li>Validators must execute the blockchain protocol decided on by consensus.</li>
+<li>This constitution may be amended by passing a TextProposal.</li>
+</ul>
+<p>Different ledgers may have additional elements in their constitution.  For
+example, the constitution may provide guidance on what constitutes a theft or
+bug, and how to deal with it.  Or, it may say that no validator may disuss
+soft-forks or roll-backs.  It won’t guarantee that the validators won’t actually
+soft-fork the ledger, but it does allow the ledger to specialize and attract
+stakeholders with compatible interests.</p>
+<h4>Stake Delegation</h4>
+<p>In Gnuclear proof-of-stake, there are three groups to consider: the validators,
+the staked delegators, and the non-staked token holders. The validators get to
+vote on any proposal (in fact, they must vote to avoid incurring a penalty). By
+default the delegators inherit the vote of the delegated validators, but
+delegators can override the vote manually.</p>
+<p>Non-staked token holders who aren’t putting their tokens at stake (and thus are
+not participating in the consensus process) do not get to vote on proposals.  In
+a future post we’ll discuss the pros and cons of this design decision.</p>
+<h4>Accountability and Reputation</h4>
+<p>A major benefit of the Gnuclear proof-of-stake system over any proof-of-work
+system is about accountability and reputation.</p>
+<p>Take for example, the alleged hacker’s plan to <a href="https://www.cryptocoinsnews.com/exclusive-full-interview-transcript-alleged-dao-attacker/">bribe Ethereum
+miners</a>
+to prevent a soft-fork.  Though this threat has little credibility until
+cryptographic evidence is published, the hypothetical threat is real.  Since
+proof-of-work miners are completely anonymous with no associable stake in the
+system, there’s not a whole lot that could be done to prevent such a bribe,
+except to bribe even more. Furthermore, there is little incentive for the miners
+to be enganged in these political issues, so the alleged hacker’s note about
+plausible deniability is also real.</p>
+<p>In Gnuclear, these issues resolved, because stakeholders are pseudonymous with
+associated stake, and validators are required to vote on all proposals.</p>
+<p>This pseudonymous reputation system also enables true antifragility. A
+blockchain split in a proof-of-stake blockchain is very different than a
+blockchain split in a proof-of-work blockchain.  In a proof-of-work blockchain,
+nobody rational would follow a fork with less than 50% of the mining power
+behind it because it would be vulnerable to attack by anonymous miners <em>unless
+there were also a change in the hashing algorithm that required an investment in
+different kinds of hardware</em>.  In Tendermint proof-of-stake, a blockchain split
+can result in increased security for both child blockchains.</p>
+<p><em>For a related explantion of Tendermint’s fork-accountability, refer to the
+Gnuclear whitepaper section on <a href="https://github.com/gnuclear/gnuclear-whitepaper#consensus">Tendermint
+consensus</a>.</em></p>
+<h3>Conclusion</h3>
+<ul>
+<li>It’s people all the way down.</li>
+<li>Ethereum doesn’t have to cater to extremists.</li>
+<li>Either way, lets create a diverse ecosystem of antifragile distributed
+ledgers.</li>
+<li>Check out <a href="http://github.com/gnuclear/gnuclear-whitepaper">Gnuclear</a> and <a href="http://forum.tendermint.com:3000/">join
+the discussionsi</a>!</li>
+</ul>
+]]></description><link>http://tendermint.com/blog/on-thedao-and-proof-of-stake-governance</link><guid isPermaLink="true">http://tendermint.com/blog/on-thedao-and-proof-of-stake-governance</guid><dc:creator><![CDATA[Jae Kwon]]></dc:creator></item><item><title><![CDATA[A Critique of Merkle's DAO Democracy: Making it Reliable]]></title><description><![CDATA[<h2>Merkle’s New DAO Paper</h2>
+<p>I’ve been looking for a paper that criticizes futarchy that specifically
+addresses the thin-market and corresponding manipulation and feedback problems
+that my gut tells me there is.  I haven’t found it yet, but I did stumble upon
+what may be a solution to it.</p>
+<p><a href="http://merkle.com/papers/DAOdemocracyDraft.pdf">Link to the paper</a></p>
+<p>While giving it a proper read, I noticed part way through that it includes a
+section that attempts to address the problem of securing a blockchain ledger
+using prediction markets.</p>
+<p>I predict that a general prediction market will find that a PoS system on
+Tendermint will be favored over the BFT validator-set selection system as
+proposed by Merkle.</p>
+<blockquote>
+<p>
+Breaking the system requires sneaking past a fully functioning and well financed
+prediction market that is actively looking for any attack and which is running
+as a distributed algorithm on a set of core servers that are fully protected
+from any attack. Any slightest hint of any attack that might actually be
+successful on any core server <b>will result in its immediate removal from the
+pool of core servers</b>, and its replacement with any one of a large number of
+constantly running alternate servers. Any strategy for better protecting the
+core servers, or for better detecting an attack, will be immediately adopted
+(thanks to a prediction market specifically aimed at improving security which is
+constantly evaluating new and better strategies). It will be hard to corrupt
+even a few core servers, let alone half of them. Yet half of them (and possibly
+more) would have to be corrupted before it would even be possible to gain
+control of the system and corrupt the prediction market.
+</p>
+<footer>- Merkle in "DAOs, Democracy and Governance"</footer>
+</blockquote>
+<p>The problem with futarchy, which is not the same problem with prediction
+markets, is that in a futarchy, the prediction market is used to make a decision
+that can have arbitrary impact.  In other words, <b>a futarchy is a prediction
+market plus feedback</b>.  In order to have futarchy be a good method of
+governance, not only do <b>you need a good prediction market free of noise by
+virtue of being sufficiently capitalized</b>, <b>you also need to ensure the
+prediction market cannot be manipulated to make a decision that yields an
+undesirable result</b> (but still creates a positive ROI for the manipulator).</p>
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr"><a
+href="https://twitter.com/paulg">@paulg</a> Noise in thin markets?</p>&mdash;
+Bram Cohen (@bramcohen) <a
+href="https://twitter.com/bramcohen/status/739261628303081472">June 5,
+2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>I think the first part of Merkle’s paper addresses this problem by giving each
+person a vote of 0 to 1, assuming that bribing attacks can be mitigated.  But
+the section entitled “Making it Reliable” which uses the prediction market to
+decide on the validator set, does not prevent manipulation.</p>
+<p>First, Merkle’s proposal makes it impossible to determine the true outcome of
+the fitness of a validator, because the outcome of the prediction market that
+assesses the fitness of the validator makes a decision to remove that validator
+from the validator set if it is deemed insecure.  <b>Once you make a decision to
+remove a validator, you’ve removed the incentive for that validator to perform
+correctly at all</b> – at least if you want financially sustainable blockchain
+security.  To secure a validator requires investment in internet/power/compute
+infrastructure, to invest in good op-sec, to pay the bills and salaries, etc.  A
+financially sustainable blockchain should only compensate those validators that
+have a reasonable expectation of being secure, and if the prediction market says
+otherwise, it should not be compensated.</p>
+<p>Well, if you dis-incentivize a validator, it will fail, so letting the
+prediction market dictate whether a validator should be allowed membership in
+the validator-set of a blockchain opens it up to arbitrary feedback, and thus
+manipulation.</p>
+<p>Second, a secure validator shouldn’t be leaking much information about its
+weaknesses for the prediction market to make judgements on.  Security in
+validating is about operational-security of human resources, of source-code, of
+compute hardware, and of internet/power reliability.  The best judge of one’s
+ability should be oneself – if a validator has resources to invest in either
+improving its operational-security or bonding more stake, it should be able to
+make the best judgement about where to allocate capital.  Meanwhile, it should
+invest in preventing any information leaks about its weaknesses to the public!</p>
+<p>Likely, any vulnerability in a mature validator-set will be ones that were
+difficult to detect, like a needle in a haystack.  The validators are their own
+best predictors of their own vulnerabilities, if additional stake can be
+purchased in the market.</p>
+<p>Fortunately, I think we can use the prediction market to help make blockchains
+reliable.  You can make a prediction market based on the high-level
+operational-security strategy choices made by validators (such as the
+operating-system used, etc), if any such information can be compelled to be
+truthfully published, and use the outcome of the prediction market to tweak the
+relative sizes of quorums of the disparate strategies – and otherwise let the
+strategies play out unless proven inferior.  This minimizes the effect of the
+decision swaying the measured outcome.</p>
+<p>Could you also use the prediction market to practically decide on the overall
+consensus strategy?  Maybe, if the prediction were about the security of the
+blockchain as a whole, and that prediction weren’t used to make any decisions
+that might impact the incentive structure of the blockchain once the consensus
+strategy is chosen. In other words, I think we just need to experiment with
+self-incentivized blockchains.</p>
+]]></description><link>http://tendermint.com/blog/a-critique-of-merkle-s-dao-democracy-making-it-reliable</link><guid isPermaLink="true">http://tendermint.com/blog/a-critique-of-merkle-s-dao-democracy-making-it-reliable</guid></item><item><title><![CDATA[ABCI: The Application BlockChain Interface]]></title><description><![CDATA[<blockquote>
+<p>After you read this post, don’t forget to check out our tutorials and guides!  They also appear at the end of this page.</p>
+</blockquote>
+<ol>
+<li><a href="/intro/getting-started/first-abci">Run your first ABCI application</a></li>
+<li><a href="/docs/guides/app-development">Learn more about the ABCI</a></li>
+</ol>
+<h2>Motivation</h2>
+<p>Thus far, all blockchains “stacks” (such as <a href="https://github.com/bitcoin/bitcoin">Bitcoin</a>) have had a monolithic design.  That is, each blockchain stack is a single program that handles all the concerns of a decentralized ledger; this includes P2P connectivity, the “mempool” broadcasting of transactions, consensus on the most recent block, account balances, Turing-complete contracts, user-level permissions, etc.</p>
+<p>This approach to blockchain development has several problems.  First, creating a new blockchain requires forking an existing blockchain stack, and this comes with the cost of complexity.  First you need to understand all the components of a blockchain stack, even those that aren’t directly relevant to the logic of your application.  This is especially true when the codebase is not modular in design and suffers from “spaghetti code”.</p>
+<p>Another problem with this approach is that it limits you to the language of the blockchain stack (or vice versa).  In the case of Ethereum which supports a Turing-complete bytecode virtual-machine, it limits you to languages that compile down to that bytecode; today, those are Serpent and Solidity.</p>
+<p>In contrast, our approach is to decouple the consensus engine and P2P layers from the details of the application state of the particular blockchain application.</p>
+<h2>Intro to ABCI</h2>
+<p><a href="https://github.com/tendermint/tendermint">Tendermint Core</a> (the “consensus engine”) speaks to the application via an interface called <a href="https://github.com/tendermint/abci">ABCI</a>.</p>
+<p>To draw an analogy, lets talk about a well-known cryptocurrency, Bitcoin.  Bitcoin is a cryptocurrency blockchain where each node maintains a fully audited Unspent Transaction Output (UTXO) database. If one wanted to create a Bitcoin-like system on top of ABCI, Tendermint Core would be responsible for</p>
+<ul>
+<li>Sharing blocks and transactions between nodes</li>
+<li>Establishing a canonical/immutable order of transactions (the blockchain)</li>
+</ul>
+<p>The application will be responsible for</p>
+<ul>
+<li>Maintaining the UTXO database</li>
+<li>Validating cryptographic signatures of transactions</li>
+<li>Preventing transactions from spending non-existent transactions</li>
+<li>Allowing clients to query the UTXO database.</li>
+</ul>
+<p>Tendermint is able to decompose the blockchain design by offering a very simple API between the application process and consensus process.</p>
+<p>The ABCI consists of 3 primary message types that get delivered from the core to the application.  The application replies with corresponding response messages.</p>
+<p>The messages are specified here: <a href="https://github.com/tendermint/abci#message-types">https://github.com/tendermint/abci#message-types</a></p>
+<p>The <code>DeliverTx</code> message is the work horse of the application.  Each transaction in the blockchain is delivered with this message. The application needs to validate each transactions received with the <code>DeliverTx</code> message against the current state, application protocol, and the cryptographic credentials of the transaction. A validated transaction then needs to update the application state — by binding a value into a key values store, or by updating the UTXO database.</p>
+<p>The <code>CheckTx</code> message is similar to <code>DeliverTx</code>, but it’s only for validating transactions.  Tendermint Core’s mempool first checks the validity of a transaction with <code>CheckTx</code>, and only relays valid transactions to its peers.  Applications may check an incrementing nonce in the transaction and return an error upon <code>CheckTx</code> if the nonce is old.</p>
+<p>The <code>Commit</code> message is used to compute a cryptographic commitment to the current application state, to be placed into the next block header. This has some handy properties. Inconsistencies in updating that state will now appear as blockchain forks which catches a whole class of programming errors. This also simplifies the development of secure lightweight clients, as Merkle-hash proofs can be verified by checking against the block hash, and the block hash is signed by a quorum of validators.</p>
+<p>There are may ways the ABCI can be implemented, including with in-process functions, a binary socket protocol, or even JSON over HTTP.
+We recommend a binary socket protocol, known as the Tendermint Socket Protocol (TMSP) for connecting Tendermint to an application running
+in another process.
+There can be multiple ABCI connections to an application.  Tendermint Core creates three ABCI connections to the application; one for the validation of transactions when broadcasting in the mempool, one for the consensus engine to run block proposals, and one for querying information from the app.</p>
+<p>It’s probably evident that applications designers need to very carefully design their message handlers to create a blockchain that does anything useful but this architecture provides a place to start.</p>
+<h2>A Note on Determinism</h2>
+<p>The logic for blockchain transaction processing must be deterministic.  If the application logic weren’t deterministic, consensus would not be reached among the Tendermint Core replica nodes.</p>
+<p>Solidity on Ethereum is a great language of choice for blockchain applications because, among other reasons, it is a completely deterministic programming language.  However, it’s also possible to create deterministic applications using existing popular languages like Java, C++, Python, or Go.  Game programmers and blockchain developers are already familiar with creating deterministic programs by avoiding sources of non-determinism such as:</p>
+<ul>
+<li>random number generators (without deterministic seeding)</li>
+<li>race conditions on threads (or avoiding threads altogether)</li>
+<li>the system clock</li>
+<li>uninitialized memory (in unsafe programming languages like C or C++)</li>
+<li><a href="http://gafferongames.com/networking-for-game-programmers/floating-point-determinism/">floating point arithmetic</a></li>
+<li>language features that are random (e.g. map iteration in Go)</li>
+</ul>
+<p>While programmers can avoid non-determinism by being careful, it is also possible to create a special linter or static analyzer for each language to check for determinism.  In the future we may work with partners to create such tools.</p>
+<h2>Tutorials</h2>
+<p>Follow these tutorials to quickly get started developing your ABCI application.</p>
+<ol>
+<li><a href="/intro/getting-started/first-abci">Run your first ABCI application</a></li>
+<li><a href="/docs/guides/app-development">Learn more about the ABCI</a></li>
+</ol>
+<h2>Contributions</h2>
+<p><em>Many thanks to Zaki Manian for providing the “Intro to ABCI” section</em></p>
+]]></description><link>http://tendermint.com/blog/abci-the-application-blockchain-interface</link><guid isPermaLink="true">http://tendermint.com/blog/abci-the-application-blockchain-interface</guid></item><item><title><![CDATA[Tendermint for Fast Settlement]]></title><description><![CDATA[<p>Some experts in the nascent blockchain industry have said the following:</p>
+<ul>
+<li>The blockchain is just a database_</li>
+<li><em>Blockchains don’t help with fast settlement</em></li>
+<li><em>The future of finance on the blockchain may not involve consensus</em></li>
+<li><em>You can build on top of the Bitcoin blockchain for fast settlement</em></li>
+</ul>
+<p>This short post will address these statements and paint a different picture.</p>
+<h3>Clearing and settlement woes</h3>
+<p>Clearing and settlement are separate but related terms.  The source of the differences stems from the significant duration of time (on the order of days) for the delivery of assets (e.g. paper certificates used to take over a week to deliver by courier).  A clearinghouse provides faster settlement between two trading parties by acting as the counterparty for both.</p>
+<p>So, it isn’t the clearing that is slow. Part of the purpose of clearing is to mitigate the slowness of settlement.  The reason why we don’t have fast settlement is because “Current banking databases are disparate and therefore require reconciliation between each other.”, and, “the existence of [3rd party] consortia … prevented banking systems from evolving, because there was no incentive for a single bank to create a better system outside of the consortia”  (<a href="https://medium.com/design-matters-4/blockchains-and-banks-cef72f0fcf29">source</a>).  To solve the problem of reconciliation, we need a common ledger and platform.</p>
+<p>Once we have a common ledger, we can think about tradeoffs between security and settlement speed.  When settlement becomes fast on the order of seconds, human intermediation becomes difficult, which in turn means that we need the system to be as fault tolerant as possible.</p>
+<h3>The source of Bitcoin’s security</h3>
+<p>Bitcoin and Bitcoin’s proof-of-work (PoW) mining, or Nakamoto consensus, provides something that until 2008 had never existed before.  Bitcoin was the first open decentralized application to provide Byzantine fault-tolerant (BFT) consensus on a global currency ledger.  Nakamoto consensus is a novel BFT consensus algorithm that utilizes computational power as a proxy for membership.</p>
+<p>The security of Nakamoto consensus depends on extrinsic factors such as the availability of energy and access to semiconductor fabs.  Ignoring these factors, the security of Nakamoto consensus can be modeled by the makeup and diversity of the mining network.  The more diverse the mining participants, the more difficult it is to coordinate a sufficiently large coalition to successfully attack the network and cause double-spends. If we discount the difficulty of coordination (which may be prudent considering that major mining pools communicate with each other routinely), what’s left is the opportunity cost of producing blockchain forks–just 25 bitcoins per block at today’s inflationary reward schedule.</p>
+<p>The Bitcoin blockchain does help with settlement in that it provides a BFT ledger.  The problem is that Nakamoto consensus is slow and expensive, as its security is only proportional to the cumulative sum of energy burned over time.</p>
+<h3>Classical BFT enables additive security</h3>
+<p>Classical BFT consensus algorithms don’t rely on the opportunity cost of energy expenditure for security.  They use pseudonymous identities and cryptographic signatures to ensure that a sufficient quorum of participants approve of new transactions before they are committed.  These algorithms had been around since the 70’s and 80’s, and culminated in 1999 with the renowned PBFT algorithm.  Existing PBFT solutions are difficult to use or incomplete (<a href="http://arxiv.org/abs/1110.4854">source</a>), so there is a need for a new free and open-source implementation.  Tendermint is such an open-source implementation of the PBFT consensus protocol (see <a href="http://tendermint.com/posts/tendermint-vs-pbft/">explanation</a>).  Tendermint can commit blocks to finality on a global ledger with hundreds of validators on the order of seconds.</p>
+<p>Unlike Nakamoto consensus, there is no extrinsic opportunity cost for signing conflicting blocks on the blockchain, since cryptographic signatures are practically free. Instead, we can design classical BFT consensus protocols to be <em>accountable</em>; that is, <strong>when the blockchain is forked, we can review the signatures and determine which participants caused the fork to happen</strong>.  If we combine this BFT accountability with the concept of collateral, we get something that I’m calling <em>additive-security</em>.  Each individual participant of the BFT consensus process might only post a small amount of collateral (limited by their confidence in ability to secure their hardware and software), but <strong>the total effective collateral can be large</strong>.  For example, if there are 1000 validators that each post $1M worth of collateral, a double-spend attack would cost attackers at minimum $333M dollars ($1M × 1000 × ⅓).  By the way, we can increase the minimum fraction of collateral at stake (beyond ⅓) by requiring a larger quorum of validators to commit each block.</p>
+<p>A consortium of banks could run a Tendermint blockchain where the validators are publicly identified.  Each validator can post collateral secured by legal contracts with real assets held in escrow by each other, and/or with tokens intrinsic to the blockchain.  Each validator on such a blockchain network would secure their public/private key to the best of their ability.  To mitigate the risk of accidents and hacks, each validator keypair can be derived from multiple keypairs that produce signatures jointly using a cryptographic threshold signature scheme;  in effect, each validator node would be running a BGA consensus network recursively for additional security.  Tendermint validators uses the Ed25519 Schnorr signature scheme because it supports cryptographic threshold signatures (<a href="http://cacr.uwaterloo.ca/techreports/2001/corr2001-13.ps">source</a>).  I’ll write more about this in a future post, but for now lets just say that, under this scheme, a single bank with a single effective public key on the main ledger could reasonably post billions of dollars in collateral.</p>
+<p>For public permissionless blockchains, Nielsen’s law of internet bandwidth is at play.  If we naively assume that doubling the number of validators requires four times the bandwidth, and that bandwidth doubles every two years, every four years a public blockchain can support twice as many validators (thus naively twice as much collateral) and still commit blocks at the same speed.  I bet we can do better.</p>
+<h2>Fin</h2>
+<p>With publicly identified Tendermint validators with collateral at risk, we can have a shared decentralized ledger that offers fast settlement.  This is a novel concept and one that has the potential to change the nature of banking itself.</p>
+]]></description><link>http://tendermint.com/blog/tendermint-for-fast-settlement</link><guid isPermaLink="true">http://tendermint.com/blog/tendermint-for-fast-settlement</guid></item><item><title><![CDATA[Tendermint vs PBFT]]></title><description><![CDATA[<p>Tendermint was originally inspired by the DLS algorithm (<a href="http://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf">link</a>).  After several iterations to improve efficiency, (namely, making it more asynchronous), it has become quite similar to the PBFT algorithm (<a href="http://www.pmg.lcs.mit.edu/papers/osdi99.pdf">link</a>).  This document serves to illustrate the similarities and differences between Tendermint and PBFT.</p>
+<table>
+<thead>
+<tr>
+<th>Tendermint</th>
+<th>PBFT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>proposer</td>
+<td>primary</td>
+</tr>
+<tr>
+<td>validator</td>
+<td>replica</td>
+</tr>
+<tr>
+<td>propose step</td>
+<td>pre-prepare phase</td>
+</tr>
+<tr>
+<td>prevote step</td>
+<td>prepare phase</td>
+</tr>
+<tr>
+<td>precommit step</td>
+<td>commit phase</td>
+</tr>
+<tr>
+<td>round change</td>
+<td>view change</td>
+</tr>
+</tbody>
+</table>
+<p><em>terminology comparison between Tendermint and PBFT</em></p>
+<h2>Byzantine fault tolerance</h2>
+<p>Both PBFT and Tendermint are Byzantine fault-tolerant transaction systems.  Both can handle up to ⅓ of malicious Byzantine validators/replicas.  Both require three steps/phases;  the first for broadcasting the block, and the last two for broadcasting signatures.  Finally, both require two quorums of signatures to commit a block.</p>
+<p>Where the two differ is in what happens when more than ⅓ of validators are Byzantine.  In PBFT, when there are between ⅓ and ⅔ of Byzantine validators, no guarantees are provided whatsoever; the attackers can return arbitrary results to the client (<a href="https://www.usenix.org/conference/nsdi-07/beyond-one-third-faulty-replicas-byzantine-fault-tolerant-systems">source</a>).  Tendermint’s consensus model considers a block to be committed when there are more than ⅔ of precommit signatures for the blockhash, which mitigates this issue.   Thus if ½ of the validators are Byzantine they can prevent future blocks from being committed; however, they cannot commit new blocks like they can in PBFT.</p>
+<h2>Round-robin vs sticky leaders</h2>
+<p>PBFT’s whitepaper, which was the inspiration for Hyperledger, illustrates a “sticky” leader (a.k.a. primary/proposer) system.  Tendermint’s specification describes a round-robin scheme for selecting new leaders for every block.</p>
+<p>In some scenarios, the sticky-leader approach has an advantage over the round-robin approach; the throughput in transactions-per-second is higher with sticky-leaders because the leader doesn’t have to wait for block confirmations before proposing the next block.  On the other hand, the round-robin approach has the benefit that leaders are continuously tested (preventing possible cascading failures), and the power to re-order transactions is shared equally among the participants.</p>
+<p>We don’t have to pick one solution; we can combine the two approaches into a hybrid scheme.  Fortunately, making this change is straightforward in Tendermint, so it’s easy to configure it for any purpose.</p>
+<h2>Dynamic membership</h2>
+<p>The PBFT algorithm assumes a fixed set of replicas/validators in the network.  This may work for internal systems, but it doesn’t work for “consortium” or “public” blockchains where the participants are expected to change over time.  Tendermint supports dynamic membership safely by requiring a +⅔ quorum of validators to approve of membership changes.  The reference implementation allows anyone to post a bond collateral (with intrinsic coins), but other variations are possible (especially when combined with our permissions framework).  For example, Tendermint could be easily modified to reject new members by default, and only approve new members that have been whitelisted (perhaps by an independent third party).</p>
+<h2>Epidemic gossip vs point-to-point</h2>
+<p>The PBFT algorithm illustrates a point-to-point consensus algorithm, which is simpler but is less robust to disruptions in the network.  Tendermint’s implementation uses an epidemic gossip protocol to ensure that consensus can be reached as long as the network is connected, no matter how many point-to-point edge connections have been broken.</p>
+<h2>Block propagation optimizations</h2>
+<p>Tendermint goes a step further than PBFT and implements a BitTorrent/LibSwift-inspired algorithm to quickly broadcast transaction blocks.  This makes the most out of limited available bandwidth to commit transactions sooner.</p>
+<p>See <a href="http://www.ds.ewi.tudelft.nl/fileadmin/pds/papers/PerformanceAnalysisOfLibswift.pdf"><em>Performance Analysis of the Libswift P2P Streaming Protocol</em></a> for details on how LibSwift fares in “flashcrowd” scenarios, which is similar to new block propagations in Tendermint.</p>
+<h2>Self-balancing Merkle trees</h2>
+<p>PBFT and its implementation (the BFS filesystem) doesn’t provide much by way of useful data structures.  Tendermint ships with a self-balancing Merkle tree library which can be used to keep track of application data (e.g. account balances) and prove any part of the application state to a client (with a Merkle proof and quorum of signatures).  Of course, it’s not necessary to use such a data structure if you need to build a blockchain that can handle a million transactions per second – for that, you should combine Tendermint with an LMAX “disruptor” (<a href="http://martinfowler.com/articles/lmax.html">source</a>) to process all transactions in memory.</p>
+<p>The self-balancing Merkle tree data structure also comes in handy when implementing a parallel-blockchain architecture.  Since the logic for light-client verification of application state is so cheap, efficient, and safe<sup>*</sup>, the same logic can be used for nodes and validators to keep track of the application state in foreign blockchains.</p>
+<h2>Fin</h2>
+<p>Though Tendermint was developed independently from PBFT, both algorithms share more than a few similarities. Both algorithms attempt to approach optimality in fault tolerance and performance.  Given the similarities, developers wishing to build BFT systems should consider building on Tendermint, which is furthest ahead at meeting the requirements laid out in this paper about PBFT:</p>
+<blockquote>
+“Interestingly, we may find that the current BFT debate may evolve to resemble the microkernel debate, with one camp advocating that the BFT concept is ultimately impractical for real-world applications and the other camp advocating that it is not the concept that is impractical/faulty, but it is the implementation that is impractical/faulty. Building a complete implementation that supports a real application for a long duration rather than for the length of time it takes to build and test a prototype implementation, that does not cut corners, that is not missing features, that does not make optimizations that break down in corner cases, that can be applied to more than one application, and that has good performance will go a long way to settling the debate. A tall order, for sure.”
+</blockquote>
+<p><cite><a href="http://arxiv.org/pdf/1110.4854.pdf"><em>On the Practicality of Byzantine Fault Tolerance</em></a>, 2011</cite></p>
+<p><sup>*</sup> <em>This isn’t completely implemented yet.  The Merkle proof logic is implemented, but we still need to implement a data structure to communicate validator set changes to clients, and ideally client code in Javascript as a demo.</em></p>
+]]></description><link>http://tendermint.com/blog/tendermint-vs-pbft</link><guid isPermaLink="true">http://tendermint.com/blog/tendermint-vs-pbft</guid></item><item><title><![CDATA[Cases for Tendermint]]></title><description><![CDATA[<p>You may have an application that benefits from blockchain technology, and you may be trying to figure out whether to build that on Bitcoin, some meta-coin protocol like Counterparty, with Solidity/Serpent on the Ethereum virtual machine, or on a new blockchain stack altogether.  Actually, you should seriously consider building on Tendermint.</p>
+<h2>A little background on Tendermint</h2>
+<p>Tendermint is not a fork of Bitcoin, NXT, Ripple, or Ethereum.  Tendermint is its own blockchain stack written from the ground up.  It was built to be the base blockchain stack from which to fork off of for a wide variety of decentralized applications.  It started back in 2014 as an ambitious project to solve the Bitcoin mining problem and bring real Byzantine fault-tolerant consensus to cryptocurrencies.  First we adapted an existing BGA consensus algorithm to make it suitable for blockchains.  For the actual implementation we considered forking Bitcoin, NXT, BitShares, and other projects, but none could easily accommodate the desired project architecture.  So, a brand spanking new blockchain stack was born.</p>
+<p>Tendermint offers:</p>
+<ul>
+<li>Byzantine fault-tolerant consensus with unparalleled speed and security guarantees – without mining. <a href="/docs/internals/consensus">(see spec)</a></li>
+<li>A very clean codebase with clear separation of concerns – no spaghetti, thanks Golang!</li>
+<li>Throttled/fair P2P stack to handle multiplexed channels of communication.</li>
+<li>Clear P2P logic with the <a href="https://en.wikipedia.org/wiki/Reactor_pattern">reactor pattern</a></li>
+</ul>
+<p>On top of this foundation, we’ve built more advanced blockchain features.</p>
+<ul>
+<li>A compatible and efficient Ethereum VM implementation</li>
+<li>A permissions system that works across accounts and VM contracts</li>
+</ul>
+<p>We’re going to build more exciting features going forward, except this time we’ll blog about it while we do it, so hang on to your metaphorical horses.</p>
+<h2>On Tendermint consensus</h2>
+<p>The consensus system is the foundational layer of any blockchain stack. It is the process by which all of the transaction validators (equivalent to miners in Bitcoin) agree on the state of the network.  Improvements in speed, security, and cost of a consensus system ripple up and improve the performance of any network or application built on top of it.  Let’s dive into some examples to get a sense of how it works.</p>
+<h3>Case 1: Payment verification</h3>
+<p>Say that your mobile phone is connected to untrusted wifi, and you’re making a business deal with Satoshi.  Satoshi just sent you a large payment, and you need to verify that this payment was committed onto the blockchain network irreversibly.</p>
+<p>With Bitcoin, you generally need to wait up to 6 confirmation blocks (about 1 hour, sometimes longer) to consider a transaction fully committed.  For very large payment transactions you should wait even longer, because the security afforded by the blockchain miners is no greater than the cost of double-spending that transaction, which is today only about 25 Bitcoins per reverted block, and soon to be half of that.</p>
+<p>With Tendermint, a global network of 1000 independent validators can commit a transaction in less than 60 seconds.  The time required to commit only gets shorter with increased bandwidth and computational capacity of the nodes of the network.  In the near future we’ll be able to commit transactions on a global Tendermint blockchain with more than 1000 validators in a matter of seconds – the only real limitation is the time it takes for light to travel around the globe.</p>
+<h3>Case 2: Name registry lookup</h3>
+<p>Similar to case 1, but instead of verifying a payment, you need to verify Satoshi’s public key as registered under the name “@satoshi” on a name-registry blockchain.  The difference here as compared to case 1 is that instead of verifying a new transaction, you’re verifying the current value of a pre-registered key that may have been changed by other transactions.</p>
+<p>With Bitcoin (and Namecoin), you can verify that “@satoshi” was registered with a particular public key at some point in the past, but you wouldn’t know whether the public key had since been updated without downloading the whole blockchain.  This is because the presence of a name-registration transaction in the blockchain does not imply that later transactions hadn’t updated the value for that key.  In order for you to efficiently check for the current value of a name, the blockchain should support a balanced Merkle tree on the most recent name-registry state.  Even if Bitcoin/Namecoin did support such a data structure, you would still have to download and verify all the blockchain hashes and headers, and if the value might have been updated recently you’re still vulnerable to a fork-censorship attack.</p>
+<p>With Tendermint, all you need is the most recent blockhash signed by more than 2/3 of the validators, and a Merkle proof that proves the current value associated with the name “@satoshi”.  You don’t even need to wait for a single commit.  If you’re interested, see <a href="https://github.com/tendermint/tendermint/wiki/Merkle-Trees#iavl-tree">this link</a> for more information on our balanced binary Merkle tree implementation.</p>
+<p>In future posts I’ll go into detail about the consensus algorithm and how it can provide these unique speed &amp; security guarantees without proof-of-work mining.  For now, you can check the most recent Tendermint spec on the <a href="/docs">Documentation</a> page.</p>
+<h2>Tendermint architecture</h2>
+<img src="../static/images/tm_architecture.png">
+<p>The diagram above is meant to show that:</p>
+<ul>
+<li>the consensus and transaction-execution (aka state-transition) modules are separate except for the shared (immutable/Merkle-ized) state.</li>
+<li>the consensus module takes a block, a commit for the block, and the last state, and uses the transaction-execution module to produce the next state.</li>
+<li>the VM call transaction is one of many transaction types offered by the transaction-execution module.</li>
+<li>the Ethereum VM (EVM) is only one of potentially many supported virtual machines.</li>
+</ul>
+<p>If you have a blockchain application in mind, on Tendermint there are two options to consider – a smart contract on the Ethereum VM (and in the future, other VMs as well), or, a native transaction type (like SendTx or NameTx above).</p>
+<h2>Whether to develop a VM smart contract or develop a native Tendermint contract</h2>
+<p>The main benefit of a Turing-complete VM on a blockchain is that anyone can upload new contract logic onto the blockchain.  This is especially true on big-bad-public-blockchains (BBPB) like Bitcoin or Ethereum which were designed to allow anyone to upload new contract logic.  On the other hand, private blockchains and consortium blockchains that are more tightly managed may not need or even want arbitrary user-defined logic.</p>
+<p>Sometimes, writing an EVM contract is the right answer.  Use the EVM if you need to deploy the contract on a public blockchain such as Ethereum.  Use the EVM if you don’t have systems programming experience, and you find that writing a solidity contract is easier than writing in Golang.  Use the EVM if your contract-logic is simple enough that you wouldn’t mind stepping over bytecode execution to debug your contract.</p>
+<p>For other applications where the former exceptions don’t apply, you probably want to write native code on Tendermint for a variety of reasons – Golang’s language tooling is better so debugging is easier, it’s computationally more efficient by far, and it removes two complex layers (one for the bytecode compiled language, and one for the VM itself).  If you want full control over your Merkle-ized data structures (e.g. without the 32-by-32-byte restriction of the EVM’s Patricia-trie) then you have to write your contract logic at the native level.  Tendermint provides you with the right tools to make this as easy as possible.</p>
+<h2>Fin</h2>
+<ul>
+<li>Check out the <a href="/docs">Tendermint documentation</a>.</li>
+<li>Start developing on Tendermint with the <a href="/intro/getting-started/install">Getting Started</a> guide.</li>
+<li>Join our Slack channel by clicking on <a href="http://forum.tendermint.com:3000/">this link</a>.</li>
+</ul>
+]]></description><link>http://tendermint.com/blog/cases-for-tendermint</link><guid isPermaLink="true">http://tendermint.com/blog/cases-for-tendermint</guid></item><item><title><![CDATA[Sidechains without Pegging]]></title><description><![CDATA[<p>There is an interesting debate happening between Bitcoin maximalists and the rest of the cryptocurrency community.</p>
+<p>First, BlockStream published Bitcoin maximalist paper on <a href="http://www.blockstream.com/sidechains.pdf">sidechains</a>.
+Then, Dominic of Pebble responded with due <a href="http://blog.pebble.io/post/100702644738/on-sidechains-bitcoin-maximalism-and-freedom">criticism</a>.
+Vitalik of Ethereum responded with <a href="https://blog.ethereum.org/2014/11/20/bitcoin-maximalism-currency-platform-network-effects/">more analysis</a>.
+And finally, Joel of Union Square Ventures wrote about a very <a href="http://joel.mn/post/103546215249/the-blockchain-application-stack">Bitcoin maximal world</a>.</p>
+<p>I’d like to add a few points to this conversation.</p>
+<p>First, let’s get this out of the way.  Metacoins like Counterparty are a nuisance for Bitcoin, regardless of the merits of the Counterparty protocol itself.  They benefit by taking advantage of the Bitcoin consensus network.  They bloat the block-chain space with transactions that aren’t relevant to other Bitcoin users.  The security of the Counterparty system is dependent on the security of Bitcoin’s, while it’s entirely possible that the market cap of assets in Counterparty become higher than that of Bitcoin, creating a lopsided security threat.  Metacoins will phase out as it becomes easier to bootstrap a secure coin with a pre-built consensus engine (such as Tendermint) that doesn’t rely on proof-of-work.  When the valuation of Bitcoin drops enough, Counterparty will be forced to migrate to its own block-chain too.</p>
+<p>The main thing I’d like to talk about is sidechains.  The term was first introduced by Bitcoin developers who were considering ways to encourage innovation in the alt-coin space while cutting down on the speculation and volatility that results from bootstrapping a new coin ex nihilo, by 1-way or 2-way pegging.  It works by having one block-chain track the consensus state of another block-chain.  It’s no wonder that the term “sidechain” refers to two distinct concepts — interchain-communication and pegging.  I like the term for its succinctness, so I’m going to try to hijack it to mean only interchain-communication — with or without pegging.</p>
+<p>The beautiful thing about sidechains is that it’s more than currency pegging.  For example, it can be used to run a decentralized exchange between two currencies.  You can do this now with “cross-chain-transactions”, but it requires both parties to be online, or for both to trust a few “smart oracles” with threshold signatures to handle the trade.  But when your block-chain can track the state of another with sidechain technology, you don’t have to trust anyone except the cryptocurrency network, which you trust already.  If you trust a block-chain enough to hold coins in it, you should trust the block-chain to enforce your exchange orders for you when you want to trade with a sidechain.  So now you can bootstrap a currency <em>and</em> provide liquidity without trusted centralized exchanges, and really incentivize the development of new currencies without pegging the valuation onto <s>the Euro</s>Bitcoin.  It’s especially important to have sovereign unpegged market-priced block-chains if the very thing you want to experiment with is monetary policy.</p>
+<p>Sidechain technology is more than 1-way or 2-way pegging to Bitcoin. It’s about contractual agreement between two communities represented by different consensus ledgers.  To pretend otherwise will only hurt the cryptocurrency movement.</p>
+]]></description><link>http://tendermint.com/blog/sidechains-without-pegging</link><guid isPermaLink="true">http://tendermint.com/blog/sidechains-without-pegging</guid></item><item><title><![CDATA[The Security of Cryptocurrency Protocols]]></title><description><![CDATA[<p>Many solutions to the consensus problem for cryptocurrencies have been proposed.  Since the innovation of Bitcoin’s proof-of-work based consensus algorithm–where miners compete in an energy intensive game to determine the order of transactions–several proof-of-stake algorithms have been proposed to make consensus faster while removing the reliance on energy expenditure.  The common objective of these protocols is to maintain a live decentralized transaction ledger while defending against double-spend attacks from malicious Byzantine actors deviating from the protocol.  Considering the financial nature of these protocols, we should strive to support a protocol that has well defined and robust security guarantees.</p>
+<p>The security analysis of cryptocurrency protocols is complicated by many factors.   One such complicating factor is the rational self-interested nature of participants.  The ideal protocol is an incentive aligned Nash equilibrium such that deviating from the protocol does not result in a net gain [<a href="http://fc14.ifca.ai/papers/fc14_submission_82.pdf">1</a>, <a href="https://www.cs.princeton.edu/~kroll/papers/weis13_bitcoin.pdf">2</a>].  This is a topic worthy of its own post, but won’t be discussed further here.</p>
+<p>Another complicating factor is whether the power to achieve or disrupt consensus is extrinsic in origin (e.g. access to the production of mining equipment or cheap access to electricity) or intrinsic in origin (e.g. the “stake” of validators in proof-of-stake protocols) and whether the disruption of consensus–especially via a successful double-spend attack–is associated with a commensurate penalty.  The problem with extrinsic factors of security is that they are not easily quantifiable for analysis.  For example, the depreciation costs of Bitcoin mining hardware in the event of a successful double-spend attack may not be significant compared to the running costs of electricity in mining.  On the other hand existing proof-of-stake protocols do not have a well defined intrinsic penalty for instigators of a double-spend attack.  This is commonly called, ironically, the “nothing at stake” problem.  Newer protocols like the BitShares delegated-proof-of-stake protocol attempt to address this problem by placing the role of ranked-delegate at stake, but security is dependant on the extrinsic ability of stakeholders to accurately predict the future performance of delegates.</p>
+<p>What is needed is a radical simplification.  Security analysis is much simpler for an intrinsically secure cryptocurrency protocol when it can be proved that launching a double-spend attack necessarily results in a very high intrinsic penalty compared to the possible intrinsic gains.  Then, the protocol may be considered resistant to double-spent attacks assuming no further extrinsic complications.</p>
+<p>For example, consider a protocol that requires stakeholders to first post a surety bond before becoming a validator to participate in the consensus process.  To get the bonded coins back, the validator must first submit an unbonding transaction and wait a fixed, relatively long duration of time.  The validator’s only duty until the unbonding period is over is to participate in the protocol while taking care not to sign two blocks at the same height: the only way to fork the block-chain.  The validator that signs duplicitously loses its bonded coins as evidence of duplicity is entered onto the block-chain.  This protocol might adapt an existing Byzantine consensus algorithm from academic research (e.g. one proposed by Dwork, et al. [<a href="http://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf">3</a>]) to create a quorum of validators that agree on and sign the next block.  For a partially synchronous network (such as the Internet) at least two thirds of voting power is needed to agree on the next block, and up to one third of Byzantine voting power can be tolerated.  A double-spend attack implies a fork in the block-chain, which by simple arithmetic requires at least one third of voting power to have signed duplicitously.</p>
+<p>The above proposed protocol is secured by completely intrinsic means; it does not require a massive expenditure of energy to secure.  The total intrinsic penalty for successfully launching a double-spend attack (which is at least one third of all bonded coins as mentioned previously) can be adjusted by judiciously setting the incentives given to validators by way of fees or inflationary rewards.  The block-chain does not fork at all except in extraordinary circumstances, making it ideally suited for side-chain extensions.  It is to the my best knowledge the only completely decentralized cryptocurrency protocol that could be proven to be intrinsically incentive aligned.  Perhaps it is time to consider this kind of algorithm.</p>
+<h2>Links</h2>
+<ol>
+<li>Eyal and Sirer.  The Majority is Not Enough. 2014, <a href="http://fc14.ifca.ai/papers/fc14_submission_82.pdf">http://fc14.ifca.ai/papers/fc14_submission_82.pdf</a></li>
+<li>Kroll et al.  The Economics of Bitcoin Mining, or Bitcoin in the Presence of Adversaries. 2013, <a href="https://www.cs.princeton.edu/~kroll/papers/weis13_bitcoin.pdf">https://www.cs.princeton.edu/~kroll/papers/weis13_bitcoin.pdf</a></li>
+<li>Dwork, Lynch, and Stockmeyer.  Consensus in the Presence of Partial Synchrony. 1988, <a href="http://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf">http://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf</a></li>
+</ol>
+]]></description><link>http://tendermint.com/blog/the-security-of-cryptocurrency-protocols</link><guid isPermaLink="true">http://tendermint.com/blog/the-security-of-cryptocurrency-protocols</guid></item></channel></rss>

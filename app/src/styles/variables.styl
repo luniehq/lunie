@@ -1,0 +1,61 @@
+//==============================================================================
+// colors
+
+mhue = 210
+msat = 70%
+mlit = 18%
+mcolor = hsl(mhue,msat,mlit)
+
+ahue = 140
+asat = 100%
+alit = 35%
+acolor = hsl(ahue,asat,alit)
+
+c-app-bc = hsl(0,0,87%)
+c-app-bg = darken(mcolor, 33%)
+c-app-fg = #fff
+
+bc = c-app-bc
+
+c-input-bc = #ccc
+c-input-bg = #fff
+c-input-hl = rgb(31,31,31)
+
+c-panel-bc = rgb(43,43,43)
+c-panel-bg = c-panel-bc
+c-panel-fg = rgb(50,50,50)
+c-panel-hl = rgb(74,74,74)
+
+txt = #000
+dim = #555
+light = #aaa
+
+lcolor = hsl(mhue,msat,45%)
+link = lcolor
+anchor = lcolor
+
+alert-color = hsl(330,100%,45%)
+
+// button colors
+btn-red-color = hsl(0,100%,40%)
+btn-green-color = hsl(120,100%,40%)
+
+//==============================================================================
+// typography
+
+x = 16px
+sans = system, -apple-system, BlinkMacSystemFont, "Roboto", "Seogue UI", "Helvetica Neue", "Lucida Grande", sans-serif
+mono = Consolas, Monaco, monospace
+
+df()
+  font-size x
+  line-height 1.5
+  font-family sans
+  color txt
+  font-weight 300
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+
+mono()
+  font-family Consolas, Monaco, monospace
+  font-weight normal
