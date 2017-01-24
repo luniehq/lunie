@@ -3,11 +3,10 @@
     <page-header title="Balances"></page-header>
     <div class="accounts">
       <div class="accounts-container">
-        <card-account data="account"></card-account>
-        <card-account data="account"></card-account>
-        <card-account data="account"></card-account>
-        <card-account data="account"></card-account>
-        <card-account data="account"></card-account>
+        <card-account v-for="value, key in accounts"
+          :account-key="key"
+          :account-value="value">
+        </card-account>
       </div>
     </div>
   </div>
@@ -16,22 +15,14 @@
 <script>
 import PageHeader from './PageHeader'
 import CardAccount from './CardAccount'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     PageHeader,
     CardAccount
   },
-  data () {
-    return {
-      account: {
-        key: 'PubKey', // will be null if the account has received money but not spent any yet
-        sequence: 1000,
-        coins: [
-          { denom: 'test', amount: 1000000 },
-          { denom: 'atom', amount: 1234 }
-        ]
-      }
-    }
+  computed: {
+    ...mapGetters(['accounts'])
   }
 }
 </script>

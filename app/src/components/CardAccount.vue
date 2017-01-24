@@ -1,20 +1,12 @@
 <template>
   <div class="card-account">
     <div class="card-account-container">
-      <header>Balance 1</header>
+      <header>Balance <span>{{ accountKey.toUpperCase() }}</span></header>
       <div class="content">
         <ul>
-          <li>
-            <div class="key">BTC</div>
-            <div class="value">{{ amount1 }}</div>
-          </li>
-          <li>
-            <div class="key">ETH</div>
-            <div class="value">{{ amount2 }}</div>
-          </li>
-          <li>
-            <div class="key">ATOM</div>
-            <div class="value">{{ amount3 }}</div>
+          <li v-for="coin in accountValue.coins">
+            <div class="key">{{ coin.denom.toUpperCase() }}</div>
+            <div class="value">{{ coin.amount }}</div>
           </li>
         </ul>
       </div>
@@ -24,13 +16,12 @@
 
 <script>
 export default {
-  data () {
-    return {
-      amount1: Math.floor(Math.random() * 1000000) / 1000,
-      amount2: Math.floor(Math.random() * 1000000) / 1000,
-      amount3: Math.floor(Math.random() * 1000000) / 1000
+  methods: {
+    capitalize (string) {
+      return string.toUpperCase()
     }
-  }
+  },
+  props: ['accountKey', 'accountValue']
 }
 </script>
 
@@ -47,6 +38,9 @@ export default {
       border-bottom 1px solid bc
       padding 0.25em 0.5em
       font-weight bold
+      span
+        font-weight 400
+        color light
 
     .content
       background lighten(c-app-bg,50%)

@@ -3,8 +3,8 @@
     <page-header title="Receive"></page-header>
     <form class="form">
       <div class="form-group">
-        <label>Receive Address</label>
-        <vue-input placeholder="Receive Address"></vue-input>
+        <label>Generate Receive Address</label>
+        <vue-button btn-icon="refresh" btn-value="Generate Address"></vue-input>
       </div>
     </form>
   </div>

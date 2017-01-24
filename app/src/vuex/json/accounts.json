@@ -3,15 +3,15 @@
     "key": "PubKeyExample",
     "sequence": 1001,
     "coins": [
-      { "denom": "test", "amount": 1000000 },
-      { "denom": "atom", "amount": 1234 }
+      { "denom": "eth", "amount": 445093 },
+      { "denom": "btc", "amount": 82244 }
     ]
   },
   "q3ifnbe9": {
     "key": "PubKeyExample",
     "sequence": 1000,
     "coins": [
-      { "denom": "test", "amount": 10000 },
+      { "denom": "atom", "amount": 8444 },
       { "denom": "btc", "amount": 32.423423 }
     ]
   },
@@ -19,8 +19,17 @@
     "key": "PubKeyExample",
     "sequence": 999,
     "coins": [
-      { "denom": "test", "amount": 1000 },
+      { "denom": "atom", "amount": 1000 },
       { "denom": "eth", "amount": 104.294 }
+    ]
+  },
+  "difbfodb": {
+    "key": "PubKeyExample",
+    "sequence": 998,
+    "coins": [
+      { "denom": "atom", "amount": 10349 },
+      { "denom": "eth", "amount": 2043.23423 },
+      { "denom": "btc", "amount": 52.321 }
     ]
   }
 }
