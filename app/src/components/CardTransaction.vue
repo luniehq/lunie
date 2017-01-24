@@ -1,18 +1,29 @@
 <template>
   <ul class="card-transaction">
-    <li>2017-01-19</li>
-    <li>ETH</li>
-    <li>+ {{ amount }}</li>
+    <li class="date">2017-01-19 16:42</li>
+    <li>
+      <span class="key">gas</span>
+      <span class="value">{{ tran.gas }}</span>
+    </li>
+    <li>
+      <span class="key">fee </span>
+      <span class="value">{{ tran.fee.amount }}</span>
+    </li>
+    <li v-for="coin in tran.inputs[0].coins" class="input">
+      <span class="key">{{ coin.denom }}</span>
+      <span class="value">{{ coin.amount }}</span>
+    </li>
   </ul>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      amount: Math.floor(Math.random() * 1000000) / 1000
+  computed: {
+    tran () {
+      return this.transactionValue
     }
-  }
+  },
+  props: ['transaction-value']
 }
 </script>
 
@@ -30,6 +41,12 @@ ul.card-transaction
   border-bottom 1px dotted bc
   li
     flex 1
+    display flex
+    .key
+      color light
+      padding-right 0.5rem
+    &.date, &.input
+      flex 2
 
 ul.card-transaction:first-of-type
   border-top 1px solid bc

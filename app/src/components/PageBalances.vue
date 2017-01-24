@@ -13,16 +13,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import PageHeader from './PageHeader'
 import CardAccount from './CardAccount'
-import { mapGetters } from 'vuex'
 export default {
   components: {
     PageHeader,
     CardAccount
   },
   computed: {
-    ...mapGetters(['accounts'])
+    accounts () {
+      return this.allAccounts
+    },
+    ...mapGetters(['allAccounts'])
   }
 }
 </script>
