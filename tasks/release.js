@@ -28,7 +28,11 @@ function pack () {
 function build () {
   let options = require('../config').building
 
-  options.afterCopy = [ buildTendermint ]
+  options.afterCopy = [
+    goBuild('github.com/tendermint/tendermint/cmd/tendermint'),
+    goBuild('github.com/tendermint/basecoin/cmd/basecoin'),
+    goBuild('github.com/tendermint/light-client/cmd/verifier')
+  ]
 
   console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')
   packager(options, (err, appPaths) => {
@@ -49,23 +53,21 @@ const GOARCH = {
   'ia32': '386'
 }
 
-/**
- * Build Tendermint binary for current arch/platform
- */
-function buildTendermint (buildPath, electronVersion, platform, arch, cb) {
-  console.log('\x1b[34mBuilding Tendermint...\n\x1b[0m')
+function goBuild (pkg) {
+  return function (buildPath, electronVersion, platform, arch, cb) {
+    if (GOARCH[arch]) arch = GOARCH[arch]
 
-  if (GOARCH[arch]) arch = GOARCH[arch]
+    let name = path.basename(pkg)
+    console.log(`\x1b[34mBuilding ${name} binary (${platform}/${arch})...\n\x1b[0m`)
 
-  let binPath = path.join(buildPath, 'bin')
-  mkdirp(binPath)
-  let tmPath = path.join(binPath, 'tendermint')
-  let tmPkg = 'github.com/tendermint/tendermint/cmd/tendermint'
-  let cmd = `GOOS=${platform} GOARCH=${arch} go build -o ${tmPath} ${tmPkg}`
-  console.log(`> ${cmd}\n`)
-  let goBuild = exec(cmd)
+    mkdirp(path.join(buildPath, 'bin'))
+    let binPath = path.join(buildPath, 'bin', name)
+    let cmd = `GOOS=${platform} GOARCH=${arch} go build -o ${binPath} ${pkg}`
+    console.log(`> ${cmd}\n`)
+    let goBuild = exec(cmd)
 
-  goBuild.stdout.pipe(process.stdout)
-  goBuild.stderr.pipe(process.stderr)
-  goBuild.once('exit', () => cb())
+    goBuild.stdout.pipe(process.stdout)
+    goBuild.stderr.pipe(process.stderr)
+    goBuild.once('exit', () => cb())
+  }
 }
