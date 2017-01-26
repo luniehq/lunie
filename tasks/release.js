@@ -1,6 +1,6 @@
 'use strict'
 
-const exec = require('child_process').exec
+const { exec } = require('child_process')
 const path = require('path')
 const packager = require('electron-packager')
 const mkdirp = require('mkdirp').sync
@@ -64,10 +64,10 @@ function goBuild (pkg) {
     let binPath = path.join(buildPath, 'bin', name)
     let cmd = `GOOS=${platform} GOARCH=${arch} go build -o ${binPath} ${pkg}`
     console.log(`> ${cmd}\n`)
-    let goBuild = exec(cmd)
+    let go = exec(cmd)
 
-    goBuild.stdout.pipe(process.stdout)
-    goBuild.stderr.pipe(process.stderr)
-    goBuild.once('exit', () => cb())
+    go.stdout.on('data', (data) => process.stdout.write(data))
+    go.stderr.on('data', (data) => process.stderr.write(data))
+    go.once('exit', () => cb())
   }
 }
