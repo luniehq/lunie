@@ -57,24 +57,6 @@ function startProcess (name, ...args) {
   return child
 }
 
-function startTendermintProcesses () {
-  // basecoin server
-  let basecoin = startProcess('basecoin', [
-    `--genesis=${path.join(__dirname, 'genesis.json')}`
-  ])
-
-  // tendermint node
-  let tendermint = startProcess('tendermint', [
-    'node'
-    // TODO: set TMPATH
-  ])
-
-  // light-client verifier
-  let verifier = startProcess('verifier', [
-    `--socket=${path.join(__dirname, 'verifier.sock')}`
-  ])
-}
-
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
@@ -89,4 +71,9 @@ app.on('activate', () => {
   }
 })
 
-startTendermintProcesses()
+// start basecoin/tendermint node
+startProcess('basecoin', [
+  'start',
+  '--in-proc',
+  `--dir=${path.join(__dirname)}`
+])
