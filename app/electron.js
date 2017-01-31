@@ -75,5 +75,5 @@ app.on('activate', () => {
 startProcess('basecoin', [
   'start',
   '--in-proc',
-  `--dir=${path.join(__dirname)}`
+  `--dir=${__dirname}`
 ])

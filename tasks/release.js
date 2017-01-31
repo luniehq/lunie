@@ -29,7 +29,6 @@ function build () {
   let options = require('../config').building
 
   options.afterCopy = [
-    goBuild('github.com/tendermint/tendermint/cmd/tendermint'),
     goBuild('github.com/tendermint/basecoin/cmd/basecoin')
   ]
 
