@@ -2,12 +2,17 @@
 
 const { spawn } = require('child_process')
 const path = require('path')
+const fs = require('fs-extra')
 const { app, BrowserWindow } = require('electron')
+const home = require('user-home')
+const mkdirp = require('mkdirp')
+const pkg = require('./package.json')
 
 let mainWindow
 let config = {}
 
-if (process.env.NODE_ENV === 'development') {
+const DEV = process.env.NODE_ENV === 'development'
+if (DEV) {
   config = require('../config')
   config.url = `http://localhost:${config.port}`
 } else {
@@ -46,7 +51,9 @@ function createWindow () {
 function startProcess (name, ...args) {
   let binPath
   if (process.env.NODE_ENV === 'development') {
-    binPath = name
+    let GOPATH = process.env.GOPATH
+    if (!GOPATH) GOPATH = path.join(home, 'go')
+    binPath = path.join(GOPATH, 'bin', name)
   } else {
     binPath = path.join(__dirname, 'bin', name)
   }
@@ -72,8 +79,35 @@ app.on('activate', () => {
 })
 
 // start basecoin/tendermint node
-startProcess('basecoin', [
-  'start',
-  '--in-proc',
-  `--dir=${__dirname}`
-])
+function startBasecoin (root) {
+  let tmroot = path.join(root, 'tendermint')
+  return startProcess('basecoin', [
+    'start',
+    '--in-proc',
+    `--dir=${root}`
+  ], { env: { TMROOT: tmroot } })
+}
+
+function createDataDir (root, cb) {
+  fs.access(root, (err) => {
+    if (err && err.code !== 'ENOENT') return cb(err)
+    if (!err) return cb(null)
+    mkdirp(root, (err) => {
+      if (err) return cb(err)
+      let paths = (base) => [
+        path.join(__dirname, base), // src
+        path.join(root, base) // dest
+      ]
+      fs.copy(...paths('tendermint'), (err) => {
+        if (err) return cb(err)
+        fs.copy(...paths('genesis.json'), cb)
+      })
+    })
+  })
+}
+
+let root = path.join(home, `.${pkg.name}${DEV ? '-dev' : ''}`)
+createDataDir(root, (err) => {
+  if (err) throw err
+  startBasecoin(root)
+})
