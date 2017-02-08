@@ -11,7 +11,8 @@
     "user-home": "^2.0.0",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.1.2",
-    "vuex": "^2.1.1"
+    "vuex": "^2.1.1",
+    "watt": "^3.3.0"
   },
   "devDependencies": {},
   "author": "Peng Zhong <peng@nylira.com>"
