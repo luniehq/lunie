@@ -55,6 +55,10 @@ let config = {
           limit: 10000,
           name: 'fonts/[name].[hash:7].[ext]'
         }
+      },
+      {
+        test: /\.node$/,
+        loader: 'node-loader'
       }
     ]
   },

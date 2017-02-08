@@ -32,7 +32,7 @@ function createWindow () {
 
   mainWindow.loadURL(config.url)
 
-  if (process.env.NODE_ENV === 'development') {
+  if (DEV) {
     BrowserWindow.addDevToolsExtension(join(__dirname, '../node_modules/devtron'))
 
     let installExtension = require('electron-devtools-installer')
@@ -51,7 +51,7 @@ function createWindow () {
 
 function startProcess (name, ...args) {
   let binPath
-  if (process.env.NODE_ENV === 'development') {
+  if (DEV) {
     let GOPATH = process.env.GOPATH
     if (!GOPATH) GOPATH = join(home, 'go')
     binPath = join(GOPATH, 'bin', name)
@@ -82,9 +82,10 @@ app.on('activate', () => {
 // start basecoin/tendermint node
 function startBasecoin (root) {
   let tmroot = join(root, 'tendermint')
-  return startProcess('basecoin', [
+  return startProcess('stakecoin', [
     'start',
     '--in-proc',
+    '--stake',
     `--dir=${root}`
   ], { env: { TMROOT: tmroot } })
 }
