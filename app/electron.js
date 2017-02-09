@@ -108,6 +108,14 @@ let createDataDir = watt(function * (root, next) {
   ]
   yield fs.copy(...paths('tendermint'), next)
   yield fs.copy(...paths('genesis.json'), next)
+
+  // generate validator private key, save to 'root/priv_validator.json'
+  let tmroot = join(root, 'tendermint')
+  let child = startProcess('tendermint',
+    [ 'gen_validator' ], { env: { TMROOT: tmroot } })
+  let privOut = fs.createWriteStream(join(root, 'priv_validator.json'))
+  child.stdout.pipe(privOut)
+  yield child.on('exit', next.arg(0))
 })
 
 watt(function * (next) {
