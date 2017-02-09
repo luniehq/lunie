@@ -7,7 +7,6 @@ const { app, BrowserWindow } = require('electron')
 const home = require('user-home')
 const mkdirp = require('mkdirp')
 const watt = require('watt')
-const pkg = require('./package.json')
 
 let mainWindow
 let config = {}
@@ -80,14 +79,20 @@ app.on('activate', () => {
 })
 
 // start basecoin/tendermint node
-function startBasecoin (root) {
+function startBasecoin (root, cb) {
   let tmroot = join(root, 'tendermint')
-  return startProcess('stakecoin', [
+  let child = startProcess('stakecoin', [
     'start',
     '--in-proc',
     '--stake',
     `--dir=${root}`
   ], { env: { TMROOT: tmroot } })
+  child.stdout.on('data', waitForRpc)
+  function waitForRpc (data) {
+    if (!data.toString().includes('Starting RPC HTTP server')) return
+    child.removeListener('data', waitForRpc)
+    cb(null)
+  }
 }
 
 let createDataDir = watt(function * (root, next) {
@@ -106,7 +111,8 @@ let createDataDir = watt(function * (root, next) {
 })
 
 watt(function * (next) {
-  let root = join(home, `.${pkg.name}${DEV ? '-dev' : ''}`)
+  let root = require('./src/root.js')
   yield createDataDir(root)
-  startBasecoin(root)
+  yield startBasecoin(root, next)
+  mainWindow.webContents.send('basecoin-ready')
 })()

@@ -6,6 +6,7 @@
   "dependencies": {
     "vue": "^2.1.10",
     "vue-electron": "^1.0.6",
+    "basecoin": "^2.0.0",
     "fs-extra": "^2.0.0",
     "mkdirp": "^0.5.1",
     "user-home": "^2.0.0",
