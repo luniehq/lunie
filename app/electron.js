@@ -84,7 +84,6 @@ function startBasecoin (root, cb) {
   let child = startProcess('stakecoin', [
     'start',
     '--in-proc',
-    '--stake',
     `--dir=${root}`
   ], { env: { TMROOT: tmroot } })
   child.stdout.on('data', waitForRpc)
