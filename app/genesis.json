@@ -2,7 +2,7 @@
   "base/chainID", "test_chain_id",
   "base/account", {
     "pub_key": [1, "67D3B5EAF0C0BF6B5A602D359DAECC86A7A74053490EC37AE08E71360587C870"],
-    "sequence": 1000,
+    "sequence": 0,
     "coins": [
       { "denom": "atom", "amount": 1000000 },
       { "denom": "test", "amount": 1234 }
