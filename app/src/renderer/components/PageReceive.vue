@@ -4,7 +4,7 @@
     <form class="form">
       <div class="form-group">
         <label>Generate Receive Address</label>
-        <vue-button btn-icon="refresh" btn-value="Generate Address"></vue-input>
+        <btn icon="refresh" value="Generate Address"></btn>
       </div>
     </form>
   </div>
@@ -12,13 +12,13 @@
 
 <script>
 import PageHeader from './PageHeader'
-import VueInput from '@nylira/vue-input'
-import VueButton from '@nylira/vue-button'
+import Field from '@nylira/vue-input'
+import Btn from '@nylira/vue-button'
 export default {
   components: {
     PageHeader,
-    VueInput,
-    VueButton
+    Field,
+    Btn
   }
 }
 </script>

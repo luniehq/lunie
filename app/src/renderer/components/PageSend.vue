@@ -4,14 +4,14 @@
     <form class="form">
       <div class="form-group">
         <label>Send To Address</label>
-        <vue-input placeholder="Send Address"></vue-input>
+        <field placeholder="Send Address"></field>
       </div>
       <div class="form-group">
         <label>Send Amount</label>
-        <vue-input placeholder="Send Amount"></vue-input>
+        <field placeholder="Send Amount"></field>
       </div>
       <div class="form-footer">
-        <vue-button btn-type="submit" btn-value="Send Now"></vue-button>
+        <btn type="submit" value="Send Now"></btn>
       </div>
     </form>
   </div>
@@ -19,13 +19,13 @@
 
 <script>
 import PageHeader from './PageHeader'
-import VueInput from '@nylira/vue-input'
-import VueButton from '@nylira/vue-button'
+import Field from '@nylira/vue-input'
+import Btn from '@nylira/vue-button'
 export default {
   components: {
     PageHeader,
-    VueInput,
-    VueButton
+    Field,
+    Btn
   }
 }
 </script>

@@ -18,6 +18,11 @@ import Btn from '@nylira/vue-button'
 export default {
   components: {
     Btn
+  },
+  methods: {
+    go (route) {
+      this.$router.push(route)
+    }
   }
 }
 </script>
