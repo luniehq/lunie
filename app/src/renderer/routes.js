@@ -1,8 +1,8 @@
 export default [
   {
     path: '/',
-    name: 'page-balances',
-    component: require('components/PageBalances')
+    name: 'page-wallets',
+    component: require('components/PageWallets')
   },
   {
     path: '/transactions',
@@ -18,6 +18,11 @@ export default [
     path: '/send',
     name: 'page-send',
     component: require('components/PageSend')
+  },
+  {
+    path: '/exchange',
+    name: 'page-exchange',
+    component: require('components/PageExchange')
   },
   {
     path: '*',

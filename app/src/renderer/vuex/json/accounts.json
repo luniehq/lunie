@@ -1,11 +1,36 @@
 {
-  "difbfodb": {
+  "l39a08a3": {
+    "key": "PubKeyExample",
+    "sequence": 997,
+    "chainId": "/cosmos/hub",
+    "expanded": false,
+    "coins": [
+      { "denom": "atom", "amount": 25 },
+      { "denom": "btc", "amount": 0.093025 },
+      { "denom": "eth", "amount": 5.492355 }
+    ]
+  },
+  "d93hqoab": {
     "key": "PubKeyExample",
     "sequence": 998,
+    "chainId": "/cosmos/hub",
+    "expanded": false,
     "coins": [
-      { "denom": "atom", "amount": 10349 },
-      { "denom": "eth", "amount": 2043.23423 },
-      { "denom": "btc", "amount": 52.321 }
+      { "denom": "atom", "amount": 2500 },
+      { "denom": "btc", "amount": 152.058873 },
+      { "denom": "eth", "amount": 2347.165367 },
+      { "denom": "ltc", "amount": 948.058924 }
+    ]
+  },
+  "pdsf1282": {
+    "key": "PubKeyExample",
+    "sequence": 999,
+    "chainId": "/cosmos/hub",
+    "expanded": false,
+    "coins": [
+      { "denom": "atom", "amount": 511 },
+      { "denom": "btc", "amount": 2.649534 },
+      { "denom": "eth", "amount": 81.039223 }
     ]
   }
 }
