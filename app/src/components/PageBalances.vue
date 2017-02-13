@@ -1,6 +1,6 @@
 <template>
   <div class="page-balances">
-    <page-header title="Balances"></page-header>
+    <page-header title="Wallets"></page-header>
     <div class="accounts">
       <div class="accounts-container">
         <card-account v-for="value, key in accounts"
@@ -37,9 +37,8 @@ export default {
   padding 0.25rem
   .accounts-container
     display flex
-    flex-flow row wrap
+    flex-flow column
     .card-account
-      flex 0 0 50%
-      max-width 400px
+      flex 1
 </style>
 

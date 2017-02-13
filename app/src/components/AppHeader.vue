@@ -1,7 +1,7 @@
 <template>
   <div class="app-header">
     <nav>
-      <router-link to="/" exact>Balances</router-link>
+      <router-link to="/" exact>Wallet</router-link>
       <router-link to="/transactions">Transactions</router-link>
       <router-link to="/send">Send</router-link>
       <router-link to="/receive">Receive</router-link>

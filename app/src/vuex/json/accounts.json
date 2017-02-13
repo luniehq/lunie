@@ -1,28 +1,4 @@
 {
-  "difbruba": {
-    "key": "PubKeyExample",
-    "sequence": 1001,
-    "coins": [
-      { "denom": "eth", "amount": 445093 },
-      { "denom": "btc", "amount": 82244 }
-    ]
-  },
-  "q3ifnbe9": {
-    "key": "PubKeyExample",
-    "sequence": 1000,
-    "coins": [
-      { "denom": "atom", "amount": 8444 },
-      { "denom": "btc", "amount": 32.423423 }
-    ]
-  },
-  "e0gneidf": {
-    "key": "PubKeyExample",
-    "sequence": 999,
-    "coins": [
-      { "denom": "atom", "amount": 1000 },
-      { "denom": "eth", "amount": 104.294 }
-    ]
-  },
   "difbfodb": {
     "key": "PubKeyExample",
     "sequence": 998,

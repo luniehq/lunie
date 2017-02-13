@@ -1,7 +1,7 @@
 <template>
   <div class="card-account">
     <div class="card-account-container">
-      <header>Balance <span>{{ accountKey.toUpperCase() }}</span></header>
+      <header>Balances <span>{{ accountKey.toUpperCase() }}</span></header>
       <div class="content">
         <ul>
           <li v-for="coin in accountValue.coins">
