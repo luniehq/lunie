@@ -1,22 +1,17 @@
-let { join } = require('path')
-let root = require('../../../root.js')
-
 export default ({ basecoin }) => {
-  const state = {}
+  const { wallets } = basecoin
+  const state = { default: {} }
 
-  // initialize default wallet
-  let walletPath = join(root, 'wallet.db')
-  basecoin.wallet(walletPath).then((wallet) => {
-    let updateState = () => {
-      state.balances = wallet.getBalances()
-    }
-    state.accounts = wallet.accounts
-    state.addresses = wallet.addresses
-    state.txs = wallet.txs
-    state.state = wallet.state
-    wallet.on('tx', updateState)
-    updateState()
-  })
+  const wallet = wallets.default
+  let updateState = () => {
+    state.default.balances = wallet.getBalances()
+  }
+  state.default.accounts = wallet.accounts
+  state.default.addresses = wallet.addresses
+  state.default.txs = wallet.txs
+  state.default.state = wallet.state
+  wallet.on('tx', updateState)
+  updateState()
 
   const mutations = {
     setWalletExpanded (state, data) {

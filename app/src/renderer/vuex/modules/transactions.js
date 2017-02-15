@@ -1,10 +1,6 @@
-import data from '../json/transactions.json'
-
-export default (opts) => {
-  const state = data
+export default ({ basecoin }) => {
+  const { wallets } = basecoin
+  const state = wallets.default.txs
   const mutations = {}
-  return {
-    state,
-    mutations
-  }
+  return { state, mutations }
 }

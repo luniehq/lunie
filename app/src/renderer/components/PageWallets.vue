@@ -27,10 +27,8 @@ export default {
     CardWallet
   },
   computed: {
-    wallets () {
-      return this.allAccounts
-    },
-    ...mapGetters(['allAccounts'])
+    wallets () { return this.allWallets },
+    ...mapGetters(['allWallets'])
   }
 }
 </script>
@@ -76,4 +74,3 @@ export default {
         margin-right 0.25rem
         color light
 </style>
-
