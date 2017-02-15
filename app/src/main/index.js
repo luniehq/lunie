@@ -87,7 +87,7 @@ let createDataDir = watt(function * (root, next) {
   yield mkdirp(root, next)
 
   let paths = (base) => [
-    join(__dirname, base), // src
+    join(__dirname, '../..', base), // src
     join(root, base) // dest
   ]
   yield fs.copy(...paths('tendermint'), next)

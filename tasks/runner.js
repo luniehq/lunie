@@ -41,7 +41,10 @@ function run (command, color, name) {
   })
 
   child.stderr.on('data', data => console.error(format(name, data, color)))
-  child.on('exit', code => exit(code))
+  child.on('exit', code => {
+    console.log('exit', command, code)
+    // exit(code)
+  })
 
   children.push(child)
 }
