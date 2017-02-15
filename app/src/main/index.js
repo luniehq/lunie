@@ -9,6 +9,7 @@ import watt from 'watt'
 import mkdirp from 'mkdirp'
 
 let mainWindow
+let tendermintNode
 const DEV = process.env.NODE_ENV === 'development'
 const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
@@ -27,6 +28,11 @@ function createWindow () {
 
   mainWindow.on('closed', () => {
     mainWindow = null
+
+    if (tendermintNode) {
+      tendermintNode.kill()
+      tendermintNode = null
+    }
   })
 
   // eslint-disable-next-line no-console
@@ -77,6 +83,7 @@ function startBasecoin (root, cb) {
     child.removeListener('data', waitForRpc)
     cb(null)
   }
+  return child
 }
 
 let createDataDir = watt(function * (root, next) {
@@ -105,6 +112,12 @@ let createDataDir = watt(function * (root, next) {
 watt(function * (next) {
   let root = require('../root.js')
   yield createDataDir(root)
-  yield startBasecoin(root, next)
+  tendermintNode = yield startBasecoin(root, next)
   mainWindow.webContents.send('basecoin-ready')
+  process.on('exit', () => {
+    if (tendermintNode) {
+      tendermintNode.kill()
+      tendermintNode = null
+    }
+  })
 })()
