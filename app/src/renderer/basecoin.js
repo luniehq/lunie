@@ -3,7 +3,7 @@
 const { join } = require('path')
 const Basecoin = require('basecoin')
 const watt = require('watt')
-const root = require('./root.js')
+const root = require('../root.js')
 
 module.exports = watt(function * (next) {
   let client = Basecoin('ws://localhost:46657')
