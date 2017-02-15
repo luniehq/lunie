@@ -9,12 +9,10 @@
 
 <script>
 import AppHeader from './components/AppHeader'
-import store from './vuex/store'
 export default {
   components: {
     AppHeader
-  },
-  store
+  }
 }
 </script>
 

@@ -1,11 +1,10 @@
 import data from '../json/transactions.json'
 
-const state = data
-
-const mutations = {
-}
-
-export default {
-  state,
-  mutations
+export default (opts) => {
+  const state = data
+  const mutations = {}
+  return {
+    state,
+    mutations
+  }
 }

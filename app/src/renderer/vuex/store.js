@@ -6,9 +6,9 @@ import modules from './modules'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+export default (opts) => new Vuex.Store({
   actions,
   getters,
-  modules,
+  modules: modules(opts),
   strict: true
 })
