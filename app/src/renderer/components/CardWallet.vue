@@ -11,7 +11,7 @@
         </a>
       </header>
       <div class="balances">
-        <div class="balance" v-for="coin in walletValue.coins">
+        <div class="balance" v-for="coin in walletValue.balances">
           <div class="value">
             <span class="integer">{{ integerize(coin.amount) }}</span><span class="fraction">{{ fractionize(coin.amount) }}</span>
           </div>
@@ -25,7 +25,7 @@
         <div class="left">
           <div class="title">Wallet <span>{{ capitalize(walletKey) }}</span></div>
           <div class="balances-header">
-            <div class="balance" v-for="coin in walletValue.coins">
+            <div class="balance" v-for="coin in walletValue.balances">
               <div class="value">
             <span class="integer">{{ integerize(coin.amount) }}</span><span class="fraction">{{ fractionize(coin.amount) }}</span>
 </div>
@@ -73,7 +73,7 @@ export default {
   .card-wallet-container
     background c-app-fg
     padding 0.25rem
-    
+
     header
       padding 0.25em 0.5em
       display flex
@@ -83,7 +83,7 @@ export default {
         flex 1
         display flex
         overflow hidden
-      
+
       .title
         font-weight 500
         margin-right 0.5rem
