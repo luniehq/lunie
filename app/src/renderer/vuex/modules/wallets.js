@@ -8,7 +8,8 @@ export default ({ commit, basecoin }) => {
 
   const state = {
     default: {
-      balances: wallet.getBalances()
+      balances: wallet.getBalances(),
+      expanded: true
     }
   }
 
