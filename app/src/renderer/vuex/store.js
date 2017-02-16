@@ -6,9 +6,13 @@ import modules from './modules'
 
 Vue.use(Vuex)
 
-export default (opts) => new Vuex.Store({
-  actions,
-  getters,
-  modules: modules(opts),
-  strict: true
-})
+export default (opts = {}) => {
+  opts.commit = (...args) => store.commit(...args)
+  var store = new Vuex.Store({
+    actions,
+    getters,
+    modules: modules(opts),
+    strict: true
+  })
+  return store
+}
