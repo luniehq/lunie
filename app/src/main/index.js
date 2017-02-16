@@ -72,12 +72,15 @@ app.on('activate', () => {
 // start basecoin/tendermint node
 function startBasecoin (root, cb) {
   let tmroot = join(root, 'tendermint')
+  let log = fs.createWriteStream(join(root, 'basecoin.log'))
   let child = startProcess('stakecoin', [
     'start',
     '--in-proc',
     `--dir=${root}`
   ], { env: { TMROOT: tmroot } })
   child.stdout.on('data', waitForRpc)
+  child.stdout.pipe(log)
+  child.stderr.pipe(log)
   function waitForRpc (data) {
     if (!data.toString().includes('Starting RPC HTTP server')) return
     child.removeListener('data', waitForRpc)
