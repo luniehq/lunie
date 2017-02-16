@@ -1,14 +1,14 @@
 {
         "app_hash": "",
-        "chain_id": "test-chain-IVZabU",
-        "genesis_time": "2017-02-10T00:32:41.862Z",
+        "chain_id": "test-chain-RM5qbp",
+        "genesis_time": "0001-01-01T00:00:00.000Z",
         "validators": [
                 {
                         "amount": 10,
                         "name": "",
                         "pub_key": [
                                 1,
-                                "9DAB6F3A4E72AF0517A7CA91075E92A45204A98317EFE81C3F111EE982775689"
+                                "EF33D34185F2A131180188496E61F4C2934E2960E75271F15169DB8A8A968B10"
                         ]
                 }
         ]
