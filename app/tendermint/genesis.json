@@ -1,15 +1,15 @@
 {
-        "app_hash": "",
-        "chain_id": "test-chain-RM5qbp",
-        "genesis_time": "0001-01-01T00:00:00.000Z",
-        "validators": [
-                {
-                        "amount": 10,
-                        "name": "",
-                        "pub_key": [
-                                1,
-                                "EF33D34185F2A131180188496E61F4C2934E2960E75271F15169DB8A8A968B10"
-                        ]
-                }
-        ]
+	"app_hash": "",
+	"chain_id": "test-chain-UMEDLn",
+	"genesis_time": "0001-01-01T00:00:00.000Z",
+	"validators": [
+		{
+			"amount": 10,
+			"name": "",
+			"pub_key": [
+				1,
+				"C6E5F7C3BEDCAF240812525C65CE5048F30C76B9BEFFBC2B17DF33A5FE4DFEB5"
+			]
+		}
+	]
 }
