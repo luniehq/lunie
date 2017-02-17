@@ -1,10 +1,12 @@
 export default ({ commit, basecoin }) => {
-  // TODO: support multiple wallets
   const { wallets } = basecoin
-  const wallet = wallets.default
 
-  const state = wallet.addresses.map(
-    (address) => ({ address, walletId: 'default' }))
+  let state = []
+  for (let walletId in wallets) {
+    let wallet = wallets[walletId]
+    state = state.concat(wallet.addresses.map(
+      (address) => ({ address, walletId })))
+  }
 
   const mutations = {
     addAddress (state, data) {
@@ -15,7 +17,7 @@ export default ({ commit, basecoin }) => {
   const actions = {
     generateAddress ({ commit }) {
       // TODO: support multiple wallets
-      wallet.createAccount((err, account) => {
+      wallets.default.createAccount((err, account) => {
         if (err) throw err
         commit('addAddress', {
           address: account.key.address(),
