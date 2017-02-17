@@ -1,26 +1,33 @@
+import { set } from 'vue'
+
+function walletState (wallet) {
+  return {
+    balances: wallet.getBalances(),
+    expanded: false
+  }
+}
+
 export default ({ commit, basecoin }) => {
   const { wallets } = basecoin
-  const state = {}
+  const state = { wallets: {} }
   for (let id in wallets) {
     let wallet = wallets[id]
-    state[id] = {
-      balances: wallet.getBalances(),
-      expanded: false
-    }
+    state.wallets[id] = walletState(wallet)
     wallet.on('tx', () => {
-      commit('updateBalances', { id, balances: wallet.getBalances() })
+      let balances = wallet.getBalances()
+      commit('updateBalances', { id, balances })
     })
   }
 
   const mutations = {
     setWalletExpanded (state, data) {
-      state[data.key].expanded = data.value
+      state.wallets[data.key].expanded = data.value
     },
     updateBalances (state, { balances, id }) {
-      state[id].balances = balances
+      state.wallets[id].balances = balances
     },
     addWallet (state, { wallet, id }) {
-      state[id] = wallet
+      set(state.wallets, id, walletState(wallet))
     }
   }
 
