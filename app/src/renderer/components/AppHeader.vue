@@ -32,7 +32,8 @@ export default {
 
 .app-header
   border-bottom 1px solid bc
-  position absolute
+  position fixed
+  z-index 100
   top 0
   left 0
   width 100%
