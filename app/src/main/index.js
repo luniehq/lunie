@@ -95,6 +95,7 @@ let createDataDir = watt(function * (root, next) {
   if (!err) return
 
   yield mkdirp(root, next)
+  yield mkdirp(join(root, 'wallets'), next)
 
   let paths = (base) => [
     join(__dirname, '../..', base), // src

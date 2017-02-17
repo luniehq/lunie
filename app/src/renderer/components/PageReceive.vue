@@ -34,9 +34,15 @@ export default {
     Btn
   },
   computed: {
-    ...mapGetters(['allAddresses']),
+    ...mapGetters([
+      'allAddresses',
+      'allWallets'
+    ]),
     addresses () {
       return this.allAddresses.slice().reverse()
+    },
+    wallets () {
+      return this.allWallets
     }
   },
   methods: {

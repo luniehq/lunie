@@ -1,26 +1,38 @@
 export default ({ commit, basecoin }) => {
-  // TODO: support multiple wallets
   const { wallets } = basecoin
-  const wallet = wallets.default
-  wallet.on('tx', () => {
-    commit('updateBalances', wallet.getBalances())
-  })
-
-  const state = {
-    default: {
+  const state = {}
+  for (let id in wallets) {
+    let wallet = wallets[id]
+    state[id] = {
       balances: wallet.getBalances(),
-      expanded: true
+      expanded: false
     }
+    wallet.on('tx', () => {
+      commit('updateBalances', { id, balances: wallet.getBalances() })
+    })
   }
 
   const mutations = {
     setWalletExpanded (state, data) {
       state[data.key].expanded = data.value
     },
-    updateBalances (state, balances) {
-      state.default.balances = balances
+    updateBalances (state, { balances, id }) {
+      state[id].balances = balances
+    },
+    addWallet (state, { wallet, id }) {
+      state[id] = wallet
     }
   }
 
-  return { state, mutations }
+  const actions = {
+    createWallet ({ commit }) {
+      console.log('createWallet')
+      basecoin.wallet((err, wallet) => {
+        if (err) throw err
+        commit('addWallet', wallet)
+      })
+    }
+  }
+
+  return { state, mutations, actions }
 }

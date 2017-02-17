@@ -10,7 +10,7 @@
           :wallet-value="value">
         </card-wallet>
       </div>
-      <a class="new-wallet">
+      <a class="new-wallet" @click="createWallet()">
         <header><i class="fa fa-plus-square"></i> New Wallet</header>
       </a>
     </div>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import PageHeader from './PageHeader'
 import CardWallet from './CardWallet'
 export default {
@@ -29,6 +29,9 @@ export default {
   computed: {
     wallets () { return this.allWallets },
     ...mapGetters(['allWallets'])
+  },
+  methods: {
+    ...mapActions(['createWallet'])
   }
 }
 </script>
