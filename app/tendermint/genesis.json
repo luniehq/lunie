@@ -1,6 +1,6 @@
 {
 	"app_hash": "",
-	"chain_id": "test-chain-dPJq7d",
+	"chain_id": "test-chain-vLPhJO",
 	"genesis_time": "0001-01-01T00:00:00.000Z",
 	"validators": [
 		{
@@ -8,7 +8,7 @@
 			"name": "",
 			"pub_key": [
 				1,
-				"25DDA22C06BDC57406C8E11F6C28E36EF665D481A243DA91A20D7CCB261110C5"
+				"1A23B3C38DBB11A480E2E1EAA33BD778D68FD00083A242B8B422E9990A0DECAB"
 			]
 		}
 	]
