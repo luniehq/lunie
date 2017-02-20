@@ -33,10 +33,21 @@ export default ({ commit, basecoin }) => {
 
   const actions = {
     createWallet ({ commit }) {
-      console.log('createWallet')
       basecoin.wallet((err, wallet) => {
         if (err) throw err
         commit('addWallet', wallet)
+      })
+    },
+    send ({ commit }, { address, amount }) {
+      // TODO: support wallet selection
+      let wallet = wallets.default
+      let coins = [{ denom: 'atom', amount }]
+      wallet.send(Buffer(address, 'hex'), coins, (err, res) => {
+        if (err) throw err
+        commit('updateBalances', {
+          balances: wallet.getBalances(),
+          id: 'default'
+        })
       })
     }
   }
