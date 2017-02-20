@@ -73,7 +73,7 @@ app.on('activate', () => {
 function startBasecoin (root, cb) {
   let tmroot = join(root, 'tendermint')
   let log = fs.createWriteStream(join(root, 'basecoin.log'))
-  let child = startProcess('stakecoin', [
+  let child = startProcess('basecoin', [
     'start',
     '--in-proc',
     `--dir=${root}`
