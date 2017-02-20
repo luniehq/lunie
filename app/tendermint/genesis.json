@@ -1,6 +1,6 @@
 {
 	"app_hash": "",
-	"chain_id": "test-chain-UMEDLn",
+	"chain_id": "test-chain-dPJq7d",
 	"genesis_time": "0001-01-01T00:00:00.000Z",
 	"validators": [
 		{
@@ -8,7 +8,7 @@
 			"name": "",
 			"pub_key": [
 				1,
-				"C6E5F7C3BEDCAF240812525C65CE5048F30C76B9BEFFBC2B17DF33A5FE4DFEB5"
+				"25DDA22C06BDC57406C8E11F6C28E36EF665D481A243DA91A20D7CCB261110C5"
 			]
 		}
 	]
