@@ -4,23 +4,32 @@
 
 ## Build Setup
 
-``` bash
-# install dependencies
+**Run app in development mode:**
+
+First, make sure you have [`basecoin`](https://github.com/tendermint/basecoin) installed on the `develop` branch.
+
+```bash
 npm install
-
-# serve with hot reload at localhost:9080
 npm run dev
-
-# build electron app for production
-npm run build
-
-# lint all JS/Vue component files in `app/src`
-npm run lint
-
-# run webpack in production
-npm run pack
 ```
-More information can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/docs/npm_scripts.html).
+
+**Build production releases:**
+
+```bash
+# build for all platforms
+npm run build
+```
+
+or
+
+```bash
+# build for one platform
+npm run build:darwin
+npm run build:linux
+npm run build:win32
+```
+
+You must have `wine` to build for win32 on non-Windows platforms.
 
 ---
 
