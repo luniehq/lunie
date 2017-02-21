@@ -1,18 +1,21 @@
 <template>
   <div id="app">
     <app-header></app-header>
-    <div class="app-content">
+    <div id="app-content">
       <router-view></router-view>
     </div>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import AppHeader from './components/AppHeader'
+import AppFooter from './components/AppFooter'
 import store from './vuex/store'
 export default {
   components: {
-    AppHeader
+    AppHeader,
+    AppFooter
   },
   store
 }

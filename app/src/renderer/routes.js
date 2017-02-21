@@ -1,28 +1,37 @@
+function r (pageName) {
+  return require(`components/Page${pageName}`)
+}
+
 export default [
   {
     path: '/',
     name: 'page-wallets',
-    component: require('components/PageWallets')
+    component: r('Wallets')
   },
   {
     path: '/transactions',
     name: 'page-transactions',
-    component: require('components/PageTransactions')
+    component: r('Transactions')
   },
   {
     path: '/receive',
     name: 'page-receive',
-    component: require('components/PageReceive')
+    component: r('Receive')
   },
   {
     path: '/send',
     name: 'page-send',
-    component: require('components/PageSend')
+    component: r('Send')
   },
   {
     path: '/exchange',
     name: 'page-exchange',
-    component: require('components/PageExchange')
+    component: r('Exchange')
+  },
+  {
+    path: '/console',
+    name: 'page-console',
+    component: r('Console')
   },
   {
     path: '*',

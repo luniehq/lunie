@@ -1,6 +1,6 @@
 <template>
   <div class="page-exchange">
-    <page-header title="Exchange"></page-header>
+    <page-header title="Console"></page-header>
   </div>
 </template>
 

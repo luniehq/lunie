@@ -1,9 +1,9 @@
 <template>
   <div class="page-wallets">
     <page-header title="Wallets">
-      <button>Test</button>
+      <btn value="New Wallet"></btn>
     </page-header>
-    <div class="wallets">
+    <div class="wallets scrollable-area">
       <div class="wallets-container">
         <card-wallet v-for="value, key in wallets"
           :wallet-key="key"
@@ -21,10 +21,12 @@
 import { mapGetters } from 'vuex'
 import PageHeader from './PageHeader'
 import CardWallet from './CardWallet'
+import Btn from '@nylira/vue-button'
 export default {
   components: {
     PageHeader,
-    CardWallet
+    CardWallet,
+    Btn
   },
   computed: {
     wallets () {
@@ -47,20 +49,16 @@ export default {
   flex 1
   padding 0.25rem
 
-  display flex
-  flex-flow column
-
   .wallets-container
     flex 1
 
     display flex
     flex-flow column
-    justify-content flex-start
 
   .new-wallet
-    border 0.25rem dashed bc
+    border 0.125rem dashed bc
     margin 0.25rem
-    height 3.5rem
+    height 3rem
     padding 0 0.5rem
     display flex
     align-items center

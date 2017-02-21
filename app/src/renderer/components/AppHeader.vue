@@ -4,12 +4,16 @@
     <nav>
       <router-link to="/" exact>Wallets</router-link>
       <router-link to="/transactions">Transactions</router-link>
+      <router-link to="/send">Send</router-link>
+      <router-link to="/receive">Receive</router-link>
       <router-link to="/exchange">Exchange</router-link>
+      <router-link to="/console">Console</router-link>
     </nav>
+    <!--
     <menu>
-      <btn @click.native="go('/send')" value="Send"></btn>
-      <btn @click.native="go('/receive')" value="Receive"></btn>
+      <btn value="Btn"></btn>
     </menu>
+    -->
   </div>
 </template>
 
@@ -32,19 +36,15 @@ export default {
 
 .app-header
   border-bottom 1px solid bc
-  position absolute
-  top 0
-  left 0
-  width 100%
   background c-app-bg
   display flex
   align-items center
   img
-    height 1.125rem
+    height .875rem
     padding 0 1rem
   nav
     flex 1
-    height 3rem
+    height 2.25rem
     display flex
     a
       border-bottom 1px solid bc
@@ -53,6 +53,7 @@ export default {
       display flex
       align-items center
       padding 0 1em
+      font-size 0.875rem
       font-weight 400
       color dim
       &:hover

@@ -9,8 +9,23 @@ reset-html5()
 
 body
   df()
+  height 100vh
   background c-app-bg
-  padding-top 3rem
+  display flex
+  flex-flow column
+
+#app
+  flex 1
+  display flex
+  flex-flow column
+
+#app-content
+  flex 1
+  display flex
+  flex-flow column
+
+.scrollable-area
+  overflow-y scroll
 
 a
   color link
@@ -26,4 +41,5 @@ strong
 
 em
   font-style italic
+
 @require './partials/*'
