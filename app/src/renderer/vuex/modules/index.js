@@ -1,9 +1,14 @@
 const files = require.context('.', false, /\.js$/)
-const modules = {}
-
+const funcs = {}
 files.keys().forEach((key) => {
   if (key === './index.js') return
-  modules[key.replace(/(\.\/|\.js)/g, '')] = files(key).default
+  funcs[key.replace(/(\.\/|\.js)/g, '')] = files(key).default
 })
 
-export default modules
+export default (opts) => {
+  const modules = {}
+  for (let key in funcs) {
+    modules[key] = funcs[key](opts)
+  }
+  return modules
+}

@@ -4,20 +4,21 @@
     <form class="form">
       <div class="form-group">
         <label>Send To Address</label>
-        <field placeholder="Send Address"></field>
+        <field v-model.trim="address" placeholder="Send Address"></field>
       </div>
       <div class="form-group">
         <label>Send Amount</label>
-        <field placeholder="Send Amount"></field>
+        <field v-model.number="amount" placeholder="Send Amount"></field>
       </div>
       <div class="form-footer">
-        <btn type="submit" value="Send Now"></btn>
+        <btn @click.native="send({ address, amount })" value="Send Now"></btn>
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import PageHeader from './PageHeader'
 import Field from '@nylira/vue-input'
 import Btn from '@nylira/vue-button'
@@ -26,7 +27,14 @@ export default {
     PageHeader,
     Field,
     Btn
-  }
+  },
+  methods: {
+    ...mapActions(['send'])
+  },
+  data: () => ({
+    address: '',
+    amount: null
+  })
 }
 </script>
 

@@ -1,6 +1,8 @@
 <template>
   <div class="page-exchange">
     <page-header title="Console"></page-header>
+    <div class="console scrollable-area">
+    </div>
   </div>
 </template>
 

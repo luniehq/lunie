@@ -9,8 +9,8 @@
         <div class="balances">
           <div class="balance" v-for="coin in walletValue.coins">
             <div class="value">
-          <span class="integer">{{ integerize(coin.amount) }}</span><span class="fraction">{{ fractionize(coin.amount) }}</span>
-</div>
+              <span class="integer">{{ integerize(coin.amount) }}</span><span class="fraction">{{ fractionize(coin.amount) }}</span>
+            </div>
             <div class="unit">{{ coin.denom.toUpperCase() }}</div>
           </div>
         </div>

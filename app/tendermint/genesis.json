@@ -1,0 +1,15 @@
+{
+	"app_hash": "",
+	"chain_id": "test-chain-vLPhJO",
+	"genesis_time": "0001-01-01T00:00:00.000Z",
+	"validators": [
+		{
+			"amount": 10,
+			"name": "",
+			"pub_key": [
+				1,
+				"1A23B3C38DBB11A480E2E1EAA33BD778D68FD00083A242B8B422E9990A0DECAB"
+			]
+		}
+	]
+}

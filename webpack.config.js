@@ -10,9 +10,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 let config = {
   devtool: '#eval-source-map',
-  eslint: {
-    formatter: require('eslint-friendly-formatter')
-  },
   entry: {
     build: path.join(__dirname, 'app/src/main.js')
   },
@@ -55,8 +52,15 @@ let config = {
           limit: 10000,
           name: 'fonts/[name].[hash:7].[ext]'
         }
+      },
+      {
+        test: /\.node$/,
+        loader: 'node-loader'
       }
     ]
+  },
+  externals: {
+    basecoin: 'require(process.env.PWD + "/app/node_modules/basecoin")'
   },
   plugins: [
     new ExtractTextPlugin('styles.css'),
@@ -101,11 +105,6 @@ if (process.env.NODE_ENV !== 'production') {
    */
   if (settings.eslint) {
     config.module.preLoaders.push(
-      {
-        test: /\.js$/,
-        loader: 'eslint-loader',
-        exclude: /node_modules/
-      },
       {
         test: /\.vue$/,
         loader: 'eslint-loader'

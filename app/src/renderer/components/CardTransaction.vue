@@ -1,6 +1,6 @@
 <template>
   <ul class="card-transaction">
-    <li class="date">2017-01-19 16:42</li>
+    <li class="date">{{ date }}</li>
     <li>
       <span class="key">gas</span>
       <span class="value">{{ tran.gas }}</span>
@@ -20,7 +20,10 @@
 export default {
   computed: {
     tran () {
-      return this.transactionValue
+      return this.transactionValue.tx
+    },
+    date () {
+      return new Date(this.transactionValue.time).toLocaleString()
     }
   },
   props: ['transaction-value']
