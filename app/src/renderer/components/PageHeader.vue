@@ -15,6 +15,8 @@ export default {
 @require '../styles/variables.styl'
 
 .page-header
+  flex 0 0 3.75rem
+
   border-bottom 1px solid bc
   background c-app-fg
   height 3.75rem

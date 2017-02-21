@@ -1,11 +1,12 @@
 <template>
   <div class="page-transactions">
     <page-header title="Transactions"></page-header>
-    <div class="transactions">
+    <div class="page-content">
       <card-transaction
         v-for="transaction in transactions"
         :transaction-value="transaction">
       </card-transaction>
+      <div class="card-empty" v-if="transactions.length < 1">No transactions yet</div>
     </div>
   </div>
 </template>
@@ -31,6 +32,6 @@ export default {
 <style lang="stylus">
 @require '../styles/variables.styl'
 
-.transactions
+.page-content
   padding 0.5rem
 </style>

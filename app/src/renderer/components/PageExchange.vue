@@ -1,6 +1,9 @@
 <template>
   <div class="page-exchange">
     <page-header title="Exchange"></page-header>
+    <div class="page-content">
+      <div class="card-empty">Exchange is under construction.</div>
+    </div>
   </div>
 </template>
 
@@ -16,4 +19,7 @@ export default {
 
 <style lang="stylus">
 @require '../styles/variables.styl'
+
+.page-content
+  padding 0.5rem
 </style>
