@@ -1,21 +1,21 @@
 <template>
   <div class="page-receive">
-    <page-header title="Receive"></page-header>
-    <form class="form">
-      <div class="form-group">
-        <label>Generate Receive Address</label>
-        <btn
-          icon="refresh"
-          value="Generate Address"
-          @click.native="generateAddress()">
-        </btn>
-      </div>
-    </form>
-    <div class="addresses">
-      <card-address
-        v-for="address in addresses"
-        :address="address">
-      </card-address>
+    <page-header title="Receive">
+      <btn
+        icon="plus-square"
+        value="Generate Address"
+        @click.native="generateAddress()">
+      </btn>
+    </page-header>
+    <div class="addresses scrollable-area">
+      <transition-group name="fade">
+        <card-address
+          :key="address.address"
+          v-for="address in addresses"
+          :address="address">
+        </card-address>
+      </transition-group>
+      <new-bar @click.native="generateAddress()" icon="plus-square" value="Generate Address"></new-bar>
     </div>
   </div>
 </template>
@@ -26,12 +26,14 @@ import PageHeader from './PageHeader'
 import CardAddress from './CardAddress'
 import Field from '@nylira/vue-input'
 import Btn from '@nylira/vue-button'
+import NewBar from './NewBar'
 export default {
   components: {
     PageHeader,
     CardAddress,
     Field,
-    Btn
+    Btn,
+    NewBar
   },
   computed: {
     ...mapGetters([
@@ -54,12 +56,23 @@ export default {
 <style lang="stylus">
 @require '../styles/variables.styl'
 
-div.page-receive
+.page-receive
   display flex
   flex-direction column
-  max-height 50%
 
-div.addresses
-  padding 0.5rem
+.addresses
+  padding 0.25rem
   flex-grow 1
+
+// animation
+.fade-enter-active, .fade-leave-active
+  transition all 0.5s ease
+  opacity 1
+  transform scaleY(1.0)
+  height 3.5rem
+
+.fade-enter, .fade-leave-to
+  opacity 0.5
+  transform scaleY(0.01)
+  height 0
 </style>

@@ -6,6 +6,7 @@
   "dependencies": {
     "babel-runtime": "^6.23.0",
     "basecoin": "^2.0.0",
+    "clipboard": "^1.6.0",
     "fs-extra": "^2.0.0",
     "mkdirp": "^0.5.1",
     "user-home": "^2.0.0",

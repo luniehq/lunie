@@ -1,18 +1,62 @@
 .form
   margin 0.5rem
-  background c-app-fg
   border 1px solid bc
-  padding 0.5rem
 
-  .form-group, .form-footer
-    padding 0.5rem
+  flex 1
+  display flex
+  flex-flow column
+
+  background c-app-fg
+
+  .form-body
+    flex 1
+
+  .form-group
+    padding 1rem
+    border-top 1px dotted bc
+    &:first-of-type
+      border-top none
 
     label
-      display none
-      font-size 0.75rem
+      font-weight bold
       line-height 2rem
 
-  .pz-button
-    min-width 10rem
-    padding 0 1rem
+    .ni-form-msg-error
+      display none
+
+    &.form-group-error
+      .ni-field
+        border-color #f00
+      .ni-form-msg-error
+        display flex
+
+  .input-group
+    display flex
+
+    .input-group-addon
+      border 1px solid bc
+      height 2rem
+      display flex
+      align-items center
+      justify-content center
+      min-width 4rem
+      padding 0 1rem
+      border-left none
+
+    .input-group-addon + .ni-btn-wrapper
+      margin-left 1rem
+      .ni-btn
+        min-width 6rem
+
+  .input-group + .ni-form-msg
+    margin-top 0.5rem
+
+  .form-footer
+    border-top 1px dotted bc
+    padding 1rem
+    display flex
+    justify-content space-between
+    .ni-btn
+      min-width 6rem
+      padding 0 1.5rem
 

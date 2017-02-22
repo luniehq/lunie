@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Electron from 'vue-electron'
 import Resource from 'vue-resource'
 import Router from 'vue-router'
+import Vuelidate from 'vuelidate'
 import watt from 'watt'
 
 import App from './App'
@@ -12,6 +13,7 @@ import Store from './vuex/store'
 Vue.use(Electron)
 Vue.use(Resource)
 Vue.use(Router)
+Vue.use(Vuelidate)
 Vue.config.debug = true
 
 const main = watt(function * (next) {

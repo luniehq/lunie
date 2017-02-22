@@ -1,49 +1,94 @@
 <template>
-  <ul class="card-address">
-    <li class="address">
-      <span>{{ address.address.toString('hex') }}</span>
-    </li>
-    <li class="walletId">
-      <span>{{ address.walletId.toUpperCase() }}</span>
-    </li>
-  </ul>
+  <div id="cssId" class="card-address">
+    <div class="card-address-container">
+      <div class="left">
+        <div class="title">
+          <i class="fa fa-envelope-o"></i>
+          <span>{{ address.walletId.toUpperCase() }}</span>
+        </div>
+        <div class="address">
+          <span class="value">{{ address.address.toString('hex') }}</span>
+        </div>
+      </div>
+      <menu>
+        <btn-copy :value="address.address.toString('hex')"></btn-copy>
+      </menu>
+    </div>
+  </div>
 </template>
 
 <script>
+import BtnCopy from './BtnCopy'
 export default {
+  components: {
+    BtnCopy
+  },
+  computed: {
+    cssId () {
+      return 'address-' + this.address.address.toString('hex')
+    }
+  },
+  methods: {
+    capitalize (string) {
+      return string.toUpperCase()
+    }
+  },
   props: ['address']
 }
 </script>
 
 <style lang="stylus">
 @require '../styles/variables.styl'
+.card-address
+  padding 0.25rem
+  transition
 
-ul.card-address
-  padding 0.25em 0.5em
-  background c-app-fg
-
-  display flex
-
-  border-left 1px solid bc
-  border-right 1px solid bc
-  border-bottom 1px dotted bc
-  li
-    flex 1
+  .card-address-container
+    background c-app-fg
+    
+    height 3rem
     display flex
-    &.address
-      font-weight 500
-      margin-right 2rem
+    align-items stretch
+
+    .left
+      flex 1
+      display flex
+      overflow hidden
+    
+    .title
+      display flex
+      align-items center
+      border-right 1px dotted bc
+      padding 0 0.75rem
+
+      i.fa
+        color light
+        margin-right 0.375rem
       span
         mono()
-    &.walletId
-      font-weight 500
-      margin-right 0.5rem
-      span
-        color light
+        font-size 0.75rem
+        font-weight bold
+
+    .address
+      overflow hidden
+      border-right 1px dotted bc
+
+      flex 1
+      display flex
+      align-items center
+      padding 0 0.75rem
+
+      .value
         mono()
 
-ul.card-address:first-of-type
-  border-top 1px solid bc
-ul.card-address:last-of-type
-  border-bottom 1px solid bc
+    menu
+      display flex
+      align-items center
+
+      padding 0 0.75rem
+      border-right 1px dotted bc
+
+      mono()
+      font-size 0.75rem
+      color light
 </style>

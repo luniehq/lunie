@@ -15,7 +15,9 @@
           </div>
         </div>
       </div>
-      <div class="chain-id">{{ walletValue.chainId }}</span></div>
+      <div v-if="walletValue.chainId" class="chain-id">
+        {{ walletValue.chainId }}
+      </div>
     </div>
   </div>
 </template>

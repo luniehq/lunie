@@ -10,9 +10,7 @@
           :wallet-value="value">
         </card-wallet>
       </div>
-      <a class="new-wallet" @click="createWallet()">
-        <header><i class="fa fa-plus-square"></i> New Wallet</header>
-      </a>
+      <new-bar @click.native="createWallet()" icon="plus-square" value="New Wallet"></new-bar>
     </div>
   </div>
 </template>
@@ -22,11 +20,13 @@ import { mapGetters, mapActions } from 'vuex'
 import PageHeader from './PageHeader'
 import CardWallet from './CardWallet'
 import Btn from '@nylira/vue-button'
+import NewBar from './NewBar'
 export default {
   components: {
     PageHeader,
     CardWallet,
-    Btn
+    Btn,
+    NewBar
   },
   computed: {
     wallets () { return this.allWallets },
@@ -55,23 +55,4 @@ export default {
 
     display flex
     flex-flow column
-
-  .new-wallet
-    border 0.125rem dashed bc
-    margin 0.25rem
-    height 3rem
-    padding 0 0.5rem
-    display flex
-    align-items center
-    justify-content center
-
-    cursor pointer
-    &:hover
-      background lighten(link, 90%)
-    header
-      color light
-      font-weight 500
-      i.fa
-        margin-right 0.25rem
-        color light
 </style>
