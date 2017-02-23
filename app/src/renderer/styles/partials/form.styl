@@ -1,6 +1,5 @@
 .form
   margin 0.5rem
-  border 1px solid bc
 
   flex 1
   display flex
@@ -11,15 +10,13 @@
   .form-body
     flex 1
 
-  .form-group
+  .form-group, .form-footer
     padding 1rem
+
+  .form-group
     border-top 1px dotted bc
     &:first-of-type
       border-top none
-
-    label
-      font-weight bold
-      line-height 2rem
 
     .ni-form-msg-error
       display none
@@ -29,6 +26,15 @@
         border-color #f00
       .ni-form-msg-error
         display flex
+
+  label, .input-group
+    max-width 32rem
+
+  label
+    display block
+    font-weight bold
+    line-height 1
+    margin-bottom 0.5rem
 
   .input-group
     display flex
@@ -43,20 +49,17 @@
       padding 0 1rem
       border-left none
 
+    .ni-field.ni-field-large + .input-group-addon
+      height 3rem
+
     .input-group-addon + .ni-btn-wrapper
       margin-left 1rem
-      .ni-btn
-        min-width 6rem
 
   .input-group + .ni-form-msg
     margin-top 0.5rem
 
   .form-footer
     border-top 1px dotted bc
-    padding 1rem
     display flex
     justify-content space-between
-    .ni-btn
-      min-width 6rem
-      padding 0 1.5rem
 

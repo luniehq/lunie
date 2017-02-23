@@ -105,7 +105,7 @@ export default {
   data: () => ({
     fields: {
       address: '',
-      amount: 0.0
+      amount: null
     },
     sending: false
   }),
@@ -133,4 +133,8 @@ export default {
   flex 1
   display flex
   flex-flow column
+
+#send-address
+#send-amount
+  mono()
 </style>

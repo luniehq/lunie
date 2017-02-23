@@ -86,7 +86,6 @@ export default {
       align-items center
 
       padding 0 0.75rem
-      border-right 1px dotted bc
 
       mono()
       font-size 0.75rem

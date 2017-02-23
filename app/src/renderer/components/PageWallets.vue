@@ -1,7 +1,7 @@
 <template>
   <div class="page-wallets">
     <page-header title="Wallets">
-      <btn value="New Wallet"></btn>
+      <btn icon="plus-square" value="New Wallet"></btn>
     </page-header>
     <div class="wallets scrollable-area">
       <div class="wallets-container">

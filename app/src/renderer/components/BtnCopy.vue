@@ -32,5 +32,5 @@ export default {
 @require '../styles/variables.styl'
 
 .btn-copy
-  width 8rem
+  width 6rem
 </style>

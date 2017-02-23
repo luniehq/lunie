@@ -45,7 +45,7 @@ export default {
   flex-flow column
 
 .console
-  border 1px solid bc
+  border none
   margin 0.5rem
   flex 1
   overflow-y scroll
