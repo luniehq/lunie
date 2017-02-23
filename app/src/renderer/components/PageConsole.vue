@@ -2,22 +2,25 @@
   <div class="page-exchange">
     <page-header title="Console">
       <menu>
-        <btn icon="copy" value="Copy"></btn>
+        <btn-copy :value="consoleOutput"></btn-copy>
       </menu>
     </page-header>
-    <textarea class="console scrollable-area">Welcome to Basecoin!&#13;&#10;>> </textarea>
+    <textarea class="console scrollable-area" v-html="consoleOutput"></textarea>
   </div>
 </template>
 
 <script>
 import PageHeader from './PageHeader'
-import Btn from '@nylira/vue-button'
+import BtnCopy from './BtnCopy'
 export default {
   name: 'page-exchange',
   components: {
     PageHeader,
-    Btn
+    BtnCopy
   },
+  data: () => ({
+    consoleOutput: 'Welcome to Basecoin!&#13;&#10;>> '
+  }),
   methods: {
     captureEnter (el) {
       el.addEventListener('keyup', function (event) {
@@ -51,7 +54,7 @@ export default {
   overflow-y scroll
 
   mono()
-  font-size 0.75rem
+  font-size 0.875rem
   line-height 1.25
   padding 0.5rem
   background c-app-fg

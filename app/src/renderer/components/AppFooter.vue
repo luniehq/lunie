@@ -2,11 +2,11 @@
   <div class="app-footer">
     <div class="status-sync">
       <div v-if="statusSynced"><i class="fa fa-spin fa-refresh"></i> Syncing&hellip;</div>
-      <div v-else><i class="fa fa-check"></i> Sync complete.</div>
+      <div v-else>Your balance: 0.00 (TODO)</div>
     </div>
     <div class="menu">
       <a href="#"><i class="fa fa-lock"></i></a>
-      <a href="#"><i class="fa fa-gear"></i></a>
+      <router-link to="/settings"><i class="fa fa-gear"></i></router-link>
       <a href="#"><i class="fa fa-user-secret"></i></a>
       <div class="status-online" :class="{ online: statusOnline }">
         <i v-if="statusOnline" class="fa fa-link"></i>

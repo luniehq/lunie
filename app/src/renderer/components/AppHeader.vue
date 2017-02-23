@@ -88,9 +88,4 @@ export default {
         margin-right 0.375rem
         color light
         display none
-  menu
-    display flex
-    align-items center
-    .ni-btn-wrapper
-      margin-right 0.5rem
 </style>

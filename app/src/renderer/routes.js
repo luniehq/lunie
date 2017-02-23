@@ -34,6 +34,11 @@ export default [
     component: r('Console')
   },
   {
+    path: '/',
+    name: 'page-settings',
+    component: r('Settings')
+  },
+  {
     path: '*',
     redirect: '/'
   }

@@ -137,4 +137,16 @@ export default {
 #send-address
 #send-amount
   mono()
+  &::-webkit-input-placeholder
+    df()
+    color light
+  &::-moz-placeholder
+    df()
+    color light
+  &:-ms-input-placeholder
+    df()
+    color light
+  &:-moz-placeholder
+    df()
+    color light
 </style>

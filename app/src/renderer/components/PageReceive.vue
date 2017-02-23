@@ -41,7 +41,7 @@ export default {
       'allWallets'
     ]),
     addresses () {
-      return this.allAddresses.slice().reverse()
+      return this.allAddresses.slice()
     },
     wallets () {
       return this.allWallets

@@ -11,11 +11,15 @@
 <script>
 import AppHeader from './components/AppHeader'
 import AppFooter from './components/AppFooter'
+import { mapGetters } from 'vuex'
 import store from './vuex/store'
 export default {
   components: {
     AppHeader,
     AppFooter
+  },
+  computed: {
+    ...mapGetters(['notifications'])
   },
   store
 }

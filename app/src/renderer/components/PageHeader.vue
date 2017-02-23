@@ -1,7 +1,9 @@
 <template>
   <div class="page-header">
     <h1 class="title">{{ title }}</h1>
-    <slot></slot>
+    <menu>
+      <slot></slot>
+    </menu>
   </div>
 </template>
 
@@ -32,4 +34,8 @@ export default {
   menu
     .ni-btn-wrapper
       margin-left 0.5rem
+    .ni-btn
+      border-color transparent
+      i.fa
+        color light
 </style>
