@@ -1,7 +1,7 @@
 <template>
   <div class="page-wallets">
     <page-header title="Wallets">
-      <btn icon="plus-square" value="New Wallet"></btn>
+      <btn @click.native="newWallet()" icon="plus-square" value="New Wallet"></btn>
     </page-header>
     <div class="wallets scrollable-area">
       <div class="wallets-container">
@@ -10,7 +10,7 @@
           :wallet-value="value">
         </card-wallet>
       </div>
-      <new-bar @click.native="createWallet()" icon="plus-square" value="New Wallet"></new-bar>
+      <new-bar @click.native="newWallet()" icon="plus-square" value="New Wallet"></new-bar>
     </div>
   </div>
 </template>
@@ -33,6 +33,13 @@ export default {
     ...mapGetters(['allWallets'])
   },
   methods: {
+    newWallet () {
+      this.$store.commit('notifyError', {
+        title: 'Wallet Not Created',
+        body: `Wallet creation is currently being worked on. Try again soon!`
+      })
+      // this.createWallet()
+    },
     ...mapActions(['createWallet'])
   }
 }

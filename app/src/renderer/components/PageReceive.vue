@@ -4,7 +4,7 @@
       <btn
         icon="plus-square"
         value="Generate Address"
-        @click.native="generateAddress()">
+        @click.native="newAddress()">
       </btn>
     </page-header>
     <div class="addresses scrollable-area">
@@ -15,7 +15,7 @@
           :address="address">
         </card-address>
       </transition-group>
-      <new-bar @click.native="generateAddress()" icon="plus-square" value="Generate Address"></new-bar>
+      <new-bar @click.native="newAddress()" icon="plus-square" value="Generate Address"></new-bar>
     </div>
   </div>
 </template>
@@ -48,6 +48,13 @@ export default {
     }
   },
   methods: {
+    newAddress () {
+      this.generateAddress()
+      this.$store.commit('notifyCustom', {
+        title: 'Receive Address Created',
+        body: `A new receive address has just been created.`
+      })
+    },
     ...mapActions(['generateAddress'])
   }
 }

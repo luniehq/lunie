@@ -23,7 +23,7 @@ function createWindow () {
     minWidth: 640,
     minHeight: 480,
     width: 640,
-    height: 480
+    height: 840
   })
 
   mainWindow.loadURL(winURL)

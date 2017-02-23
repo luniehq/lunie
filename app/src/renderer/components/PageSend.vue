@@ -88,6 +88,10 @@ export default {
     Btn
   },
   methods: {
+    trunc (value) {
+      if (value.length > 20) value = this.value.substring(0, 20) + '...'
+      return '“' + value + '”'
+    },
     resetForm () {
       this.fields.address = ''
       this.fields.amount = null
@@ -98,6 +102,11 @@ export default {
         this.sending = true
         this.send(this.fields.address, this.fields.amount)
         this.resetForm()
+
+        this.$store.commit('notifyCustom', {
+          title: `${this.fields.amount} Sent`,
+          body: `You've successfully sent coins to ${this.fields.adddress})`
+        })
       }
     },
     ...mapActions(['send'])
