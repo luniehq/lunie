@@ -6,7 +6,10 @@
         v-for="transaction in transactions"
         :transaction-value="transaction">
       </card-transaction>
-      <div class="card-empty" v-if="transactions.length < 1">No transactions yet</div>
+      <card-empty
+        v-if="transactions.length < 1"
+        value="No transactions yet">
+      </card-empty>
     </div>
   </div>
 </template>
@@ -15,10 +18,12 @@
 import { mapGetters } from 'vuex'
 import PageHeader from './PageHeader'
 import CardTransaction from './CardTransaction'
+import CardEmpty from './CardEmpty'
 export default {
   components: {
     PageHeader,
-    CardTransaction
+    CardTransaction,
+    CardEmpty
   },
   computed: {
     transactions () {

@@ -32,10 +32,16 @@ export default {
     font-weight 600
     line-height 1
   menu
+    display none
     .ni-btn-wrapper
       margin-left 0.5rem
     .ni-btn
       border-color transparent
       i.fa
         color light
+
+@media screen and (min-width: 640px)
+  .page-header
+    menu
+      display block
 </style>
