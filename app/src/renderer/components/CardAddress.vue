@@ -40,54 +40,65 @@ export default {
 <style lang="stylus">
 @require '../styles/variables.styl'
 .card-address
-  padding 0.25rem
+  font-size 0.75rem
+  padding 0.25em
   transition
 
   .card-address-container
     background c-app-fg
     
-    height 3rem
+    height 3em
     display flex
     align-items stretch
 
-    .left
-      flex 1
-      display flex
-      overflow hidden
-    
-    .title
-      display flex
-      align-items center
-      border-right 1px dotted bc
-      padding 0 0.75rem
+  .left
+    flex 1
+    display flex
+    overflow hidden
+  
+  .title
+    display flex
+    align-items center
+    border-right 1px dotted bc
+    padding 0 0.75em
 
-      i.fa
-        color light
-        margin-right 0.375rem
-      span
-        mono()
-        font-size 0.75rem
-        font-weight bold
-
-    .address
-      overflow hidden
-      border-right 1px dotted bc
-
-      flex 1
-      display flex
-      align-items center
-      padding 0 0.75rem
-
-      .value
-        mono()
-
-    menu
-      display flex
-      align-items center
-
-      padding 0 0.75rem
-
-      mono()
-      font-size 0.75rem
+    i.fa
       color light
+      margin-right 0.375em
+    span
+      mono()
+      font-size 0.75em
+      font-weight bold
+
+  .address
+    overflow hidden
+    border-right 1px dotted bc
+
+    flex 1
+    display flex
+    align-items center
+    padding 0 0.75em
+
+    .value
+      mono()
+
+  menu
+    display flex
+    align-items center
+    padding 0 0.75em
+
+  .ni-btn
+    font-size 0.75em
+
+@media screen and (min-width: 400px)
+  .card-address
+    font-size 0.875rem
+    .ni-btn
+      font-size 0.875em
+
+@media screen and (min-width: 640px)
+  .card-address
+    font-size 1rem
+    .ni-btn
+      font-size 1rem
 </style>

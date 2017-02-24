@@ -37,7 +37,4 @@ export default {
 
 <style lang="stylus">
 @require '../styles/variables.styl'
-
-.btn-copy
-  width 6rem
 </style>

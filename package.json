@@ -84,12 +84,11 @@
     "webpack-dev-server": "^2.2.0"
   },
   "dependencies": {
-    "@nylira/vue-button": "^2.0.2",
+    "@nylira/vue-button": "^2.0.3",
     "@nylira/vue-form-msg": "^1.0.3",
     "@nylira/vue-input": "^2.0.2",
     "@nylira/vue-notifications": "^1.0.3",
     "disable-scroll": "^0.3.0",
-    "jquery": "^3.1.1",
     "moment": "^2.17.1",
     "nib": "^1.1.2",
     "stylus": "^0.54.5",

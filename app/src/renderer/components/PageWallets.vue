@@ -10,7 +10,7 @@
           :wallet-value="value">
         </card-wallet>
       </div>
-      <new-bar @click.native="newWallet()" icon="plus-square" value="New Wallet"></new-bar>
+      <card-new @click.native="newWallet()" icon="plus-square" value="New Wallet"></card-new>
     </div>
   </div>
 </template>
@@ -20,13 +20,13 @@ import { mapGetters, mapActions } from 'vuex'
 import PageHeader from './PageHeader'
 import CardWallet from './CardWallet'
 import Btn from '@nylira/vue-button'
-import NewBar from './NewBar'
+import CardNew from './CardNew'
 export default {
   components: {
     PageHeader,
     CardWallet,
     Btn,
-    NewBar
+    CardNew
   },
   computed: {
     wallets () { return this.allWallets },

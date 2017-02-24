@@ -2,17 +2,21 @@
   <div class="page-exchange">
     <page-header title="Exchange"></page-header>
     <div class="page-content">
-      <div class="card-empty">Exchange is under construction.</div>
+      <card-empty
+        value="Exchange is under construction">
+      </card-empty>
     </div>
   </div>
 </template>
 
 <script>
 import PageHeader from './PageHeader'
+import CardEmpty from './CardEmpty'
 export default {
   name: 'page-exchange',
   components: {
-    PageHeader
+    PageHeader,
+    CardEmpty
   }
 }
 </script>

@@ -54,7 +54,7 @@ export default {
   overflow-y scroll
 
   mono()
-  font-size 0.875rem
+  font-size 0.75rem
   line-height 1.25
   padding 0.5rem
   background c-app-fg
@@ -77,4 +77,8 @@ export default {
   -moz-hyphens auto
   -webkit-hyphens auto
   hyphens auto
+
+@media screen and (min-width: 400px)
+  .console
+    font-size 0.875rem
 </style>

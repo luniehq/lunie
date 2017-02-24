@@ -12,7 +12,7 @@
 
   <menu class="menu-popup menu-app" v-if="activeMenu || desktop" @click="hide">
     <nav class="nav-app">
-      <router-link to="/">Wallets</router-link>
+      <router-link to="/" exact>Wallets</router-link>
       <router-link to="/transactions">Transactions</router-link>
       <router-link to="/receive">Receive</router-link>
       <router-link to="/send">Send</router-link>
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import $ from 'jquery'
 import disableScroll from 'disable-scroll'
 export default {
   name: 'app-header',
@@ -63,12 +62,6 @@ export default {
   mounted () {
     this.watchWindowSize()
     window.onresize = this.watchWindowSize
-
-    let self = this
-    $('.nav-app a').click(function () {
-      console.log('it got clicked!')
-      self.activeMenu = false
-    })
   }
 }
 </script>
@@ -112,7 +105,6 @@ export default {
         display flex
         align-items center
         cursor pointer
-        font-size 0.875rem
         i.fa
           margin-right 0.25rem
         img
@@ -136,7 +128,7 @@ export default {
     nav
       display flex
       flex-flow column
-      padding 1.5rem 3rem
+      padding 2rem 3rem
 
       a
         padding 0.75rem 0
@@ -156,12 +148,29 @@ export default {
       flex-flow row
       align-items center
       a
-        height 2.25rem
-        padding 0 0.75rem
-        color txt
+        height 2.25rem + 0.0625rem
+        align-items center
+        justify-content center
+        display flex
+
+        padding 0 1em
+
+        border-bottom 1px solid bc
         border-left 1px solid bc
-        &.router-link-active
-          background c-app-fg
+        margin-bottom -1px
+        font-size 0.875rem
+        font-weight 400
+        color txt
         &:hover
-          color link
+          background darken(c-app-bg, 3%)
+        &.router-link-active
+          color txt
+          background c-app-fg
+          border-bottom-color c-app-fg
+        i.fa
+          display block
+          margin-right 0.375rem
+          color light
+          display none
+
 </style>

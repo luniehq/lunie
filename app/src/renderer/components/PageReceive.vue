@@ -15,7 +15,7 @@
           :address="address">
         </card-address>
       </transition-group>
-      <new-bar @click.native="newAddress()" icon="plus-square" value="Generate Address"></new-bar>
+      <card-new @click.native="newAddress()" icon="plus-square" value="Generate Address"></card-new>
     </div>
   </div>
 </template>
@@ -26,14 +26,14 @@ import PageHeader from './PageHeader'
 import CardAddress from './CardAddress'
 import Field from '@nylira/vue-input'
 import Btn from '@nylira/vue-button'
-import NewBar from './NewBar'
+import CardNew from './CardNew'
 export default {
   components: {
     PageHeader,
     CardAddress,
     Field,
     Btn,
-    NewBar
+    CardNew
   },
   computed: {
     ...mapGetters([

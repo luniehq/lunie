@@ -48,12 +48,13 @@ export default {
 @require '../styles/variables.styl'
 
 .card-wallet
-  padding 0.25rem
+  font-size 0.75em
+  padding 0.25em
 
   .card-wallet-container
     background c-app-fg
     
-    height 3rem
+    height 3em
     display flex
     align-items stretch
 
@@ -66,14 +67,14 @@ export default {
       display flex
       align-items center
       border-right 1px dotted bc
-      padding 0 0.75rem
+      padding 0 0.75em
 
       i.fa
         color light
-        margin-right 0.375rem
+        margin-right 0.375em
       span
         mono()
-        font-size 0.75rem
+        font-size 0.75em
         font-weight bold
 
     .balances
@@ -83,16 +84,16 @@ export default {
       flex 1
       display flex
       align-items center
-      padding 0 0.5rem
+      padding 0 0.5em
 
       .balance
         display flex
-        padding 0 0.375rem
+        padding 0 0.375em
         background c-app-bg
-        margin 0 0.25rem
+        margin 0 0.25em
 
         .value
-          margin-right 0.25rem
+          margin-right 0.25em
           .fraction
             color dim
         .unit
@@ -102,10 +103,19 @@ export default {
       display flex
       align-items center
 
-      padding 0 0.75rem
+      padding 0 0.75em
       border-right 1px dotted bc
 
       mono()
-      font-size 0.75rem
+      font-size 0.75em
       color light
+
+@media screen and (min-width: 400px)
+  .card-wallet
+    font-size 0.875rem
+
+@media screen and (min-width: 640px)
+  .card-wallet
+    font-size 1rem
+
 </style>
