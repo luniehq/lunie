@@ -73,13 +73,8 @@ app.on('activate', () => {
 
 // start basecoin/tendermint node
 function startBasecoin (root, cb) {
-  let tmroot = join(root, 'tendermint')
   let log = fs.createWriteStream(join(root, 'basecoin.log'))
-  let child = startProcess('basecoin', [
-    'start',
-    '--in-proc',
-    `--dir=${root}`
-  ], { env: { TMROOT: tmroot } })
+  let child = startProcess('basecoin', ['start'], { env: { BCHOME: root } })
   child.stdout.on('data', waitForRpc)
   child.stdout.pipe(log)
   child.stderr.pipe(log)
@@ -99,26 +94,20 @@ let createDataDir = watt(function * (root, next) {
   yield mkdirp(root, next)
   yield mkdirp(join(root, 'wallets'), next)
 
-  let paths = (base) => [
-    join(__dirname, '../..', base), // src
-    join(root, base) // dest
-  ]
-  yield fs.copy(...paths('tendermint'), next)
-  yield fs.copy(...paths('genesis.json'), next)
+  // copy predefined genesis.json into root
+  yield fs.copy(join(__dirname, '../../bchome'), root, next)
 
-  // generate validator private key, save to 'root/priv_validator.json'
-  let tmroot = join(root, 'tendermint')
-  let child = startProcess('tendermint',
-    [ 'gen_validator' ], { env: { TMROOT: tmroot } })
-  let privOut = fs.createWriteStream(join(root, 'priv_validator.json'))
-  child.stdout.pipe(privOut)
+  // `basecoin init` to generate account keys, validator key
+  let child = startProcess('basecoin', ['init'], { env: { BCHOME: root } })
   yield child.on('exit', next.arg(0))
 })
 
 watt(function * (next) {
   let root = require('../root.js')
   yield createDataDir(root)
+  console.log('starting basecoin')
   tendermintNode = yield startBasecoin(root, next)
+  console.log('basecoin ready')
   mainWindow.webContents.send('basecoin-ready')
   process.on('exit', () => {
     if (tendermintNode) {
