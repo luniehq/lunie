@@ -7,7 +7,7 @@
           <span>{{ capitalize(walletKey) }}</span>
         </div>
         <div class="balances">
-          <div class="balance" v-for="coin in walletValue.coins">
+          <div class="balance" v-for="coin in walletValue.balances">
             <div class="value">
               <span class="integer">{{ integerize(coin.amount) }}</span><span class="fraction">{{ fractionize(coin.amount) }}</span>
             </div>
@@ -53,7 +53,7 @@ export default {
 
   .card-wallet-container
     background c-app-fg
-    
+
     height 3em
     display flex
     align-items stretch
@@ -62,7 +62,7 @@ export default {
       flex 1
       display flex
       overflow hidden
-    
+
     .title
       display flex
       align-items center
