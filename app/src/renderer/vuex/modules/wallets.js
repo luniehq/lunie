@@ -38,10 +38,9 @@ export default ({ commit, basecoin }) => {
         commit('addWallet', wallet)
       })
     },
-    send ({ commit }, { address, amount }) {
-      // TODO: support wallet selection
-      let wallet = wallets.default
-      let coins = [{ denom: 'atom', amount }]
+    send ({ commit }, { walletId, address, denom, amount }) {
+      let wallet = wallets[walletId]
+      let coins = [{ denom, amount }]
       wallet.send(Buffer(address, 'hex'), coins, (err, res) => {
         if (err) throw err
         commit('updateBalances', {

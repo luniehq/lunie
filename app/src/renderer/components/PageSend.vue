@@ -98,16 +98,20 @@ export default {
     },
     verifySend () {
       this.$v.$touch()
-      if (!this.$v.$error) {
-        this.sending = true
-        this.send(this.fields.address, this.fields.amount)
-        this.resetForm()
+      if (this.$v.$error) return
+      this.sending = true
+      this.send({
+        walletId: 'default', // TODO: allow wallet selection
+        address: this.fields.address,
+        denom: 'mycoin', // TODO: allow denom selection
+        amount: this.fields.amount
+      })
+      this.resetForm()
 
-        this.$store.commit('notifyCustom', {
-          title: `${this.fields.amount} Sent`,
-          body: `You've successfully sent coins to ${this.fields.adddress})`
-        })
-      }
+      this.$store.commit('notifyCustom', {
+        title: `${this.fields.amount} Sent`,
+        body: `You've successfully sent coins to ${this.fields.adddress})`
+      })
     },
     ...mapActions(['send'])
   },

@@ -7,7 +7,7 @@ export default ({ commit, basecoin }) => {
     state = state.concat(wallet.txs)
     wallet.on('tx', (tx) => commit('addTransaction', tx))
   }
-  state.sort((a, b) => b.time - a.time)
+  state.sort((a, b) => a.time < b.time)
 
   const mutations = {
     addTransaction (state, transaction) {
