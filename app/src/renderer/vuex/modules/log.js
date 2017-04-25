@@ -14,7 +14,7 @@ export default () => {
   const mutations = {
     addLogOutput (state, data) {
       // TODO: parse log format
-      state.output += data
+      state.output += data.replace(/\[\d{1,2}m/g, '')
       state.output = state.output.slice(-MAX_LENGTH)
     }
   }
