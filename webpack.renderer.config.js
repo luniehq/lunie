@@ -71,6 +71,10 @@ let rendererConfig = {
       }
     ]
   },
+  node: {
+    __dirname: false,
+    __filename: false
+  },
   plugins: [
     new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({

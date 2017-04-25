@@ -1,7 +1,6 @@
 'use strict'
 
 const path = require('path')
-const pkg = require('./app/package.json')
 const settings = require('./config.js')
 const webpack = require('webpack')
 
@@ -58,6 +57,10 @@ let config = {
         loader: 'node-loader'
       }
     ]
+  },
+  node: {
+    __dirname: false,
+    __filename: false
   },
   externals: {
     basecoin: 'require(process.env.PWD + "/app/node_modules/basecoin")'
