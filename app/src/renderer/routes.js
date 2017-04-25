@@ -5,8 +5,8 @@ function r (pageName) {
 export default [
   {
     path: '/',
-    name: 'page-wallets',
-    component: r('Wallets')
+    name: 'page-balances',
+    component: r('Balances')
   },
   {
     path: '/transactions',

@@ -1,11 +1,11 @@
 <template>
-  <div class="card-wallet" @click="setExpanded(true)">
+  <div class="card-wallet">
     <div class="card-wallet-container">
       <div class="left">
-        <div class="title">
+        <!-- <div class="title">
           <i class="fa fa-envelope-o"></i>
           <span>{{ capitalize(walletKey) }}</span>
-        </div>
+        </div> -->
         <div class="balances">
           <div class="balance" v-for="coin in walletValue.balances">
             <div class="value">
@@ -82,7 +82,7 @@ export default {
       border-right 1px dotted bc
 
       flex 1
-      display flex
+      display flex 
       align-items center
       padding 0 0.5em
 

@@ -45,7 +45,7 @@ export default ({ commit, basecoin }) => {
         if (err) throw err
         commit('updateBalances', {
           balances: wallet.getBalances(),
-          id: 'default'
+          id: walletId
         })
       })
     }
