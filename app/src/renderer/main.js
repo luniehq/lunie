@@ -25,6 +25,7 @@ const main = watt(function * (next) {
   })
 
   const store = Store({ basecoin })
+  store.dispatch('startReadingLog')
 
   return new Vue({
     router,

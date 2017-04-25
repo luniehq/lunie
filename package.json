@@ -93,6 +93,7 @@
     "nib": "^1.1.2",
     "stylus": "^0.54.5",
     "stylus-loader": "^2.4.0",
+    "tail": "^1.2.1",
     "vuelidate": "^0.2.0"
   }
 }

@@ -2,14 +2,16 @@
   <div class="page-exchange">
     <page-header title="Console">
       <menu>
-        <btn-copy :value="consoleOutput"></btn-copy>
+        <btn-copy :value="logOutput"></btn-copy>
       </menu>
     </page-header>
-    <textarea class="console scrollable-area" v-html="consoleOutput"></textarea>
+    <!-- TODO: HTML output instead of text -->
+    <textarea class="console scrollable-area" v-html="logOutput" readonly="1"></textarea>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import PageHeader from './PageHeader'
 import BtnCopy from './BtnCopy'
 export default {
@@ -18,23 +20,8 @@ export default {
     PageHeader,
     BtnCopy
   },
-  data: () => ({
-    consoleOutput: 'Welcome to Basecoin!&#13;&#10;>> '
-  }),
-  methods: {
-    captureEnter (el) {
-      el.addEventListener('keyup', function (event) {
-        event = event || window.event
-        if (event.keyCode === 13) {
-          el.value += '>> '
-        }
-      })
-    }
-  },
-  mounted () {
-    let ta = document.querySelector('.console.scrollable-area')
-    this.captureEnter(ta)
-    ta.focus()
+  computed: {
+    ...mapGetters(['logOutput'])
   }
 }
 </script>
