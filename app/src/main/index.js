@@ -108,7 +108,6 @@ watt(function * (next) {
   console.log('starting basecoin')
   tendermintNode = yield startBasecoin(root, next)
   console.log('basecoin ready')
-  mainWindow.webContents.send('basecoin-ready')
   process.on('exit', () => {
     if (tendermintNode) {
       tendermintNode.kill()

@@ -6,18 +6,22 @@ const Basecoin = require('basecoin')
 const watt = require('watt')
 const root = require('../root.js')
 
-const { ipcRenderer } = require('electron')
-
 const RPC_URI = 'ws://localhost:46657'
 
 module.exports = watt(function * (next) {
-  try {
-    var client = Basecoin(RPC_URI)
-    yield client.rpc.status(next)
-  } catch (err) {
-    yield ipcRenderer.once('basecoin-ready', next.arg(0))
-    console.log('basecoin ready')
-    client = Basecoin(RPC_URI)
+  let client
+  while (true) {
+    try {
+      client = Basecoin(RPC_URI)
+      client.once('error', next)
+      yield client.rpc.status(next)
+      console.log('connected to basecoin RPC')
+      client.removeListener('error', next)
+      break
+    } catch (err) {
+      console.log('waiting for basecoin RPC')
+      setTimeout(next.arg(0), 1000) // wait 1s
+    }
   }
 
   let walletsPath = join(root, 'wallets')
