@@ -16,7 +16,6 @@
       <router-link to="/transactions">Transactions</router-link>
       <router-link to="/receive">Receive</router-link>
       <router-link to="/send">Send</router-link>
-      <router-link to="/exchange">Exchange</router-link>
       <router-link to="/console">Console</router-link>
     </nav>
   </menu>
