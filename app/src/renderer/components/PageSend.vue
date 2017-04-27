@@ -4,13 +4,13 @@
     <form class="form" v-on:submit.prevent.default="verifySend">
       <div class="form-body">
 
-        <div class="form-group" :class="{ 'form-group-error': $v.fields.address.$error}">
+        <div class="form-group" :class="{ 'form-group-error': $v.fields.address.$error }">
           <label for="send-address">Pay To</label>
           <div class="input-group">
             <field
               id="send-address"
               type="text"
-              v-model.trim="fields.address"
+              v-model="fields.address"
               @input="$v.fields.address.$touch()"
               placeholder="Address"
               required>
@@ -34,13 +34,13 @@
           </form-msg>
         </div>
 
-        <div class="form-group" :class="{ 'form-group-error': $v.fields.amount.$error}">
+        <div class="form-group" :class="{ 'form-group-error': $v.fields.amount.$error }">
           <label for="send-address">Amount</label>
           <div class="input-group">
             <field
               id="send-amount"
               type="number"
-              v-model.trim="fields.amount"
+              v-model="fields.amount"
               @input="$v.fields.amount.$touch()"
               placeholder="Amount"
               required>
@@ -95,6 +95,7 @@ export default {
     resetForm () {
       this.fields.address = ''
       this.fields.amount = null
+      this.$v.$reset()
     },
     verifySend () {
       this.$v.$touch()
@@ -104,14 +105,14 @@ export default {
         walletId: 'default', // TODO: allow wallet selection
         address: this.fields.address,
         denom: 'mycoin', // TODO: allow denom selection
-        amount: this.fields.amount
+        amount: +this.fields.amount
       })
-      this.resetForm()
 
       this.$store.commit('notifyCustom', {
         title: `${this.fields.amount} Sent`,
         body: `You've successfully sent coins to ${this.fields.adddress})`
       })
+      this.resetForm()
     },
     ...mapActions(['send'])
   },
@@ -126,8 +127,8 @@ export default {
     fields: {
       address: {
         required,
-        minLength: minLength(40),
-        maxLength: maxLength(40),
+        minLength: minLength(39),
+        maxLength: maxLength(42),
         alphaNum: alphaNum
       },
       amount: {
