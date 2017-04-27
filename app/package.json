@@ -10,7 +10,7 @@
     "fs-extra": "^2.0.0",
     "mkdirp": "^0.5.1",
     "user-home": "^2.0.0",
-    "vue": "^2.1.10",
+    "vue": "^2.2.6",
     "vue-electron": "^1.0.6",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.1.2",
