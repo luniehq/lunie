@@ -2,10 +2,6 @@
   <div id="cssId" class="card-address">
     <div class="card-address-container">
       <div class="left">
-        <div class="title">
-          <i class="fa fa-envelope-o"></i>
-          <span>{{ address.walletId.toUpperCase() }}</span>
-        </div>
         <div class="address">
           <span class="value">{{ address.address.toString('hex') }}</span>
         </div>
@@ -46,7 +42,7 @@ export default {
 
   .card-address-container
     background c-app-fg
-    
+
     height 3em
     display flex
     align-items stretch
@@ -55,7 +51,7 @@ export default {
     flex 1
     display flex
     overflow hidden
-  
+
   .title
     display flex
     align-items center
