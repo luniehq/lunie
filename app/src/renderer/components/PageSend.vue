@@ -66,8 +66,8 @@
 
       <div class="form-footer">
         <btn value="Reset" @click.native="resetForm"></btn>
-        <btn class="disabled" v-if="sending" value="Sending..."></btn>
-        <btn type="submit" value="Send Now"></btn>
+        <btn v-if="sending" class="disabled" value="Sending..."></btn>
+        <btn v-else type="submit" value="Send Now"></btn>
       </div>
     </form>
   </div>
@@ -95,24 +95,30 @@ export default {
     resetForm () {
       this.fields.address = ''
       this.fields.amount = null
+      this.sending = false
       this.$v.$reset()
     },
     verifySend () {
       this.$v.$touch()
       if (this.$v.$error) return
       this.sending = true
+      let amount = +this.fields.amount
+      let address = this.fields.address
+      let denom = 'mycoin' // TODO: allow denom selection
       this.send({
-        walletId: 'default', // TODO: allow wallet selection
-        address: this.fields.address,
-        denom: 'mycoin', // TODO: allow denom selection
-        amount: +this.fields.amount
+        walletId: 'default',
+        address,
+        denom,
+        amount,
+        cb: (err) => {
+          if (err) throw err
+          this.$store.commit('notifyCustom', {
+            title: `${amount} ${denom} Sent`,
+            body: `You've successfully sent coins to ${address}`
+          })
+          this.resetForm()
+        }
       })
-
-      this.$store.commit('notifyCustom', {
-        title: `${this.fields.amount} Sent`,
-        body: `You've successfully sent coins to ${this.fields.adddress})`
-      })
-      this.resetForm()
     },
     ...mapActions(['send'])
   },
@@ -147,6 +153,9 @@ export default {
   flex 1
   display flex
   flex-flow column
+
+.disabled
+  color grey
 
 #send-address
 #send-amount

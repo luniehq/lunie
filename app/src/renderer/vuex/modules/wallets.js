@@ -38,15 +38,19 @@ export default ({ commit, basecoin }) => {
         commit('addWallet', wallet)
       })
     },
-    send ({ commit }, { walletId, address, denom, amount }) {
+    send ({ commit }, { walletId, address, denom, amount, cb }) {
       let wallet = wallets[walletId]
       let coins = [{ denom, amount }]
       wallet.send(Buffer(address, 'hex'), coins, (err, res) => {
-        if (err) throw err
+        if (err) {
+          if (cb) return cb(err)
+          throw err
+        }
         commit('updateBalances', {
           balances: wallet.getBalances(),
           id: walletId
         })
+        if (cb) cb(null)
       })
     }
   }
