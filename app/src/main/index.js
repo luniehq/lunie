@@ -74,7 +74,11 @@ app.on('activate', () => {
 // start basecoin/tendermint node
 function startBasecoin (root, cb) {
   let log = fs.createWriteStream(join(root, 'basecoin.log'))
-  let child = startProcess('basecoin', ['start'], { env: { BCHOME: root } })
+  let child = startProcess('basecoin', [ 'start' ],
+    { env: {
+      BCHOME: root,
+      TMROOT: root
+    } })
   child.stdout.on('data', waitForRpc)
   child.stdout.pipe(log)
   child.stderr.pipe(log)
