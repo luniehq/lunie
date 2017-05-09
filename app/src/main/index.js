@@ -98,12 +98,23 @@ let createDataDir = watt(function * (root, next) {
   yield mkdirp(root, next)
   yield mkdirp(join(root, 'wallets'), next)
 
-  // copy predefined genesis.json into root
+  // copy predefined genesis.json and config.toml into root
   yield fs.copy(join(__dirname, '../../bchome'), root, next)
 
   // `basecoin init` to generate account keys, validator key
-  let child = startProcess('basecoin', ['init'], { env: { BCHOME: root } })
+  let child = startProcess('basecoin', ['init'], { env: { BCHOME: root, TMROOT: root } })
   yield child.on('exit', next.arg(0))
+
+  if (DEV) {
+    // insert our pubkey into genesis validator set
+    let privValidatorBytes = yield fs.readFile(join(root, 'priv_validator.json'), next)
+    let privValidator = JSON.parse(privValidatorBytes.toString())
+    let genesisBytes = yield fs.readFile(join(root, 'genesis.json'), next)
+    let genesis = JSON.parse(genesisBytes.toString())
+    genesis.validators[0].pub_key = privValidator.pub_key
+    genesisBytes = JSON.stringify(genesis, null, '  ')
+    yield fs.writeFile(join(root, 'genesis.json'), genesisBytes, next)
+  }
 })
 
 watt(function * (next) {
