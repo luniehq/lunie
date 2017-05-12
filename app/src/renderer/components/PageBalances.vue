@@ -5,9 +5,11 @@
     </page-header>
     <div class="wallets scrollable-area">
       <div class="wallets-container">
-        <card-wallet v-for="value, key in wallets"
-          :wallet-value="value">
-        </card-wallet>
+        <template v-for="wallet in wallets">
+          <card-balance v-for="balance in wallet.balances"
+            :balance="balance">
+          </card-balance>
+        </template>
       </div>
       <!-- <card-new @click.native="newWallet()" icon="plus-square" value="New Wallet"></card-new> -->
     </div>
@@ -17,19 +19,19 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import PageHeader from './PageHeader'
-import CardWallet from './CardWallet'
+import CardBalance from './CardBalance'
 import Btn from '@nylira/vue-button'
 import CardNew from './CardNew'
 export default {
   components: {
     PageHeader,
-    CardWallet,
+    CardBalance,
     Btn,
     CardNew
   },
   computed: {
-    wallets () { return this.allWallets },
-    ...mapGetters(['allWallets'])
+    ...mapGetters(['allWallets']),
+    wallets () { return this.allWallets }
   },
   methods: {
     newWallet () {
