@@ -132,7 +132,7 @@ export default {
       thisDenomEl.classList.add('active')
 
       this.fields.denom = denom
-      console.log('setting denomination to', this.fields.denom)
+      // console.log('setting denomination to', this.fields.denom)
     },
     trunc (value) {
       if (value.length > 20) value = this.value.substring(0, 20) + '...'
