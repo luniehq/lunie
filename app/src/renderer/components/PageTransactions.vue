@@ -16,6 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { orderBy } from 'lodash'
 import PageHeader from './PageHeader'
 import CardTransaction from './CardTransaction'
 import CardEmpty from './CardEmpty'
@@ -27,7 +28,7 @@ export default {
   },
   computed: {
     transactions () {
-      return this.allTransactions
+      return orderBy(this.allTransactions, ['time'], ['desc'])
     },
     ...mapGetters(['allTransactions'])
   }

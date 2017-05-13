@@ -2,13 +2,11 @@
   <ul class="card-transaction">
     <li class="date">{{ date }}</li>
     <template v-for="coin in tran.inputs[0].coins">
-      <li class="input">
-        <span class="key">Denom</span>
-        <span class="value">{{ coin.denom }}</span>
-      </li>
-      <li class="input">
-        <span class="key">Balance</span>
+      <li class="balance">
         <span :class="valueCss(coin.amount)">{{ coin.amount }}</span>
+      </li>
+      <li class="denom">
+        <span class="value">{{ coin.denom.toUpperCase() }}</span>
       </li>
     </template>
   </ul>
@@ -47,20 +45,39 @@ ul.card-transaction
   background c-app-fg
 
   display flex
+  align-items center
 
   border-left 1px solid bc
   border-right 1px solid bc
-  border-bottom 1px dotted bc
+
+  &:nth-of-type(2n)
+    background lighten(c-app-bg, 50%)
+
+  mono()
+  height 2rem
+  font-size 0.875rem
   li
-    flex 1
     display flex
+    align-items center
+    &.balance
+      flex 1
+      .value
+        text-align right
+
+    &.denom
+      width 10rem
+      padding 0 1rem
+
     .key
       color light
       padding-right 0.5rem
-    &.date, &.input
-      flex 2
+      text-transform uppercase
+      font-weight bold
+      font-size 0.666rem
+      letter-spacing 0.05em
 
     .value
+      flex 1
       display inline-block
 
       &.positive

@@ -25,13 +25,11 @@
             </field>
             -->
           </div>
-          <!--
           <form-msg
             name="Denomination"
             type="required"
             v-if="!$v.fields.denom.required">
           </form-msg>
-          -->
         </div>
 
         <div class="form-group" :class="{ 'form-group-error': $v.fields.address.$error }">
