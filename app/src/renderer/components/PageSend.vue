@@ -4,6 +4,36 @@
     <form class="form" v-on:submit.prevent.default="verifySend">
       <div class="form-body">
 
+        <div class="form-group" :class="{ 'form-group-error': $v.fields.denom.$error }">
+          <label for="send-address">Denomination</label>
+          <div class="input-group">
+            <div class="denoms" v-for="wallet in wallets">
+              <div class="denom"
+                v-for="balance in wallet.balances"
+                @click="setDenom(balance.denom, $event)">
+                {{ balance.denom.toUpperCase() }}
+              </div>
+            </div>
+            <!--
+            <field
+              id="send-denom"
+              type="select"
+              v-model="fields.denom"
+              @input="$v.fields.denom.$touch()"
+              placeholder="Denomination"
+              required>
+            </field>
+            -->
+          </div>
+          <!--
+          <form-msg
+            name="Denomination"
+            type="required"
+            v-if="!$v.fields.denom.required">
+          </form-msg>
+          -->
+        </div>
+
         <div class="form-group" :class="{ 'form-group-error': $v.fields.address.$error }">
           <label for="send-address">Pay To</label>
           <div class="input-group">
@@ -75,7 +105,7 @@
 
 <script>
 import { required, between, minLength, maxLength, alphaNum } from 'vuelidate/lib/validators'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import PageHeader from './PageHeader'
 import Field from '@nylira/vue-input'
 import Btn from '@nylira/vue-button'
@@ -87,7 +117,23 @@ export default {
     FormMsg,
     Btn
   },
+  computed: {
+    ...mapGetters(['allWallets']),
+    wallets () { return this.allWallets }
+  },
   methods: {
+    setDenom (denom, $event) {
+      let denomEls = document.querySelectorAll('.denoms .denom')
+      // console.log('denomEls', denomEls)
+      Array.from(denomEls).map(el => el.classList.remove('active'))
+
+      let thisDenomEl = $event.target
+      // console.log('denom el', thisDenomEl)
+      thisDenomEl.classList.add('active')
+
+      this.fields.denom = denom
+      console.log('setting denomination to', this.fields.denom)
+    },
     trunc (value) {
       if (value.length > 20) value = this.value.substring(0, 20) + '...'
       return '“' + value + '”'
@@ -104,7 +150,8 @@ export default {
       this.sending = true
       let amount = +this.fields.amount
       let address = this.fields.address
-      let denom = 'mycoin' // TODO: allow denom selection
+      // let denom = 'mycoin' // TODO: allow denom selection
+      let denom = this.fields.denom
       this.send({
         walletId: 'default',
         address,
@@ -125,7 +172,8 @@ export default {
   data: () => ({
     fields: {
       address: '',
-      amount: null
+      amount: null,
+      denom: ''
     },
     sending: false
   }),
@@ -140,6 +188,9 @@ export default {
       amount: {
         required,
         between: between(1, 1000000)
+      },
+      denom: {
+        required
       }
     }
   }
@@ -172,4 +223,21 @@ export default {
   &:-moz-placeholder
     df()
     color light
+
+.denoms
+  display flex
+  .denom
+    border 1px solid bc
+    line-height 2*x - 2px
+    padding 0 0.75rem
+    margin-right 0.5rem
+
+    user-select none
+    cursor pointer
+    &.active
+      border-color link
+      background lighten(link, 90%)
+      color link
+    &:last-of-type
+      margin-right 0
 </style>
