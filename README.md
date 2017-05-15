@@ -9,24 +9,24 @@
 First, make sure you have [`basecoin`](https://github.com/tendermint/basecoin) installed on the `develop` branch.
 
 ```bash
-npm install
-npm run dev
+yarn install
+yarn run dev
 ```
 
 **Build production releases:**
 
 ```bash
 # build for all platforms
-npm run build
+yarn run build
 ```
 
 or
 
 ```bash
 # build for one platform
-npm run build:darwin
-npm run build:linux
-npm run build:win32
+yarn run build:darwin
+yarn run build:linux
+yarn run build:win32
 ```
 
 You must have `wine` to build for win32 on non-Windows platforms.
