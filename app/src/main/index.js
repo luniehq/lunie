@@ -9,8 +9,9 @@ import watt from 'watt'
 import mkdirp from 'mkdirp'
 
 let mainWindow
-let tendermintNode
+let basecoinProcess
 const DEV = process.env.NODE_ENV === 'development'
+const LIGHT = process.env.BASECOIN_LIGHT_CLIENT
 const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
   : `file://${__dirname}/index.html`
@@ -31,9 +32,9 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
 
-    if (tendermintNode) {
-      tendermintNode.kill()
-      tendermintNode = null
+    if (basecoinProcess) {
+      basecoinProcess.kill()
+      basecoinProcess = null
     }
   })
 
@@ -72,13 +73,25 @@ app.on('activate', () => {
 })
 
 // start basecoin/tendermint node
-function startBasecoin (root, cb) {
+function startBasecoin (root, light, cb) {
   let log = fs.createWriteStream(join(root, 'basecoin.log'))
-  let child = startProcess('basecoin', [ 'start' ],
-    { env: {
+  let opts = {
+    env: {
       BCHOME: root,
       TMROOT: root
-    } })
+    }
+  }
+
+  if (light) {
+    // TODO: figure out what node to connect to
+    // TODO: configurable chainid
+    var child = startProcess('basecli', [
+      'proxy', '--node', 'tcp://localhost:46657', '--chainid', 'test_chain_id'
+    ], opts)
+  } else {
+    var child = startProcess('basecoin', [ 'start' ], opts)
+  }
+
   child.stdout.on('data', waitForRpc)
   child.stdout.pipe(log)
   child.stderr.pipe(log)
@@ -120,13 +133,13 @@ let createDataDir = watt(function * (root, next) {
 watt(function * (next) {
   let root = require('../root.js')
   yield createDataDir(root)
-  console.log('starting basecoin')
-  tendermintNode = yield startBasecoin(root, next)
+  console.log(`starting basecoin${LIGHT ? ' light client proxy' : ''}`)
+  basecoinProcess = yield startBasecoin(root, LIGHT, next)
   console.log('basecoin ready')
   process.on('exit', () => {
-    if (tendermintNode) {
-      tendermintNode.kill()
-      tendermintNode = null
+    if (basecoinProcess) {
+      basecoinProcess.kill()
+      basecoinProcess = null
     }
   })
 })()
