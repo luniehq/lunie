@@ -130,16 +130,17 @@ if (process.env.NODE_ENV === 'production') {
 
   rendererConfig.plugins.push(
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
+      'process.env.NODE_ENV': '"production"',
+      'process.env.BASECOIN_LIGHT_CLIENT': `${!!process.env.BASECOIN_LIGHT_CLIENT}`
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
+    }) //,
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false
+    //   }
+    // })
   )
 }
 

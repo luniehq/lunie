@@ -8,7 +8,9 @@ const mkdirp = require('mkdirp').sync
 if (process.env.PLATFORM_TARGET === 'clean') {
   require('del').sync(['builds/*', '!.gitkeep'])
   console.log('\x1b[33m`builds` directory cleaned.\n\x1b[0m')
-} else pack()
+} else {
+  pack()
+}
 
 /**
  * Build webpack in production
@@ -27,9 +29,10 @@ function pack () {
  */
 function build () {
   let options = require('../config').building
+  let basecoinCommand = options.light ? 'basecli' : 'basecoin'
 
   options.afterCopy = [
-    goBuild('github.com/tendermint/basecoin/cmd/basecoin')
+    goBuild(`github.com/tendermint/basecoin/cmd/${basecoinCommand}`)
   ]
 
   console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')

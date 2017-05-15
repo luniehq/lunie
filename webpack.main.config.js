@@ -41,13 +41,14 @@ let mainConfig = {
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
+      'process.env.NODE_ENV': '"production"',
+      'process.env.BASECOIN_LIGHT_CLIENT': `${!!process.env.BASECOIN_LIGHT_CLIENT}`
+    }) //,
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false
+    //   }
+    // })
   ],
   resolve: {
     extensions: ['.js', '.json', '.node'],
