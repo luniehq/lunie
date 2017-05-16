@@ -16,6 +16,9 @@ const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
   : `file://${__dirname}/index.html`
 
+// what host the light client should connect to
+let BASECOIN_PEER = process.env.BASECOIN_PEER || 'localhost:46657'
+
 function createWindow () {
   /**
    * Initial window options
@@ -82,14 +85,17 @@ function startBasecoin (root, light, cb) {
     }
   }
 
+  let child
   if (light) {
     // TODO: figure out what node to connect to
     // TODO: configurable chainid
-    var child = startProcess('basecli', [
-      'proxy', '--node', 'tcp://localhost:46657', '--chainid', 'test_chain_id'
+    child = startProcess('basecli', [
+      'proxy',
+      '--node', `tcp://${BASECOIN_PEER}`,
+      '--chainid', 'test_chain_id'
     ], opts)
   } else {
-    var child = startProcess('basecoin', [ 'start' ], opts)
+    child = startProcess('basecoin', [ 'start' ], opts)
   }
 
   child.stdout.on('data', waitForRpc)
@@ -103,22 +109,41 @@ function startBasecoin (root, light, cb) {
   return child
 }
 
-let createDataDir = watt(function * (root, next) {
+let createDataDir = watt(function * (root, light, next) {
   let err = yield fs.access(root, next.arg(0))
   if (err && err.code !== 'ENOENT') throw err
   if (!err) return
+  let opts = {
+    env: {
+      BCHOME: root,
+      TMROOT: root
+    }
+  }
 
   yield mkdirp(root, next)
+
+  let child
+  if (light) {
+    // `basecli init` to set up light client stuff
+    child = startProcess('basecli', [
+      'init',
+      '--node', `tcp://${BASECOIN_PEER}`,
+      '--chainid', 'test_chain_id'
+    ], opts)
+    child.stdin.write('y\n')
+    yield child.on('exit', next.arg(0))
+  } else {
+    // copy predefined genesis.json and config.toml into root
+    yield fs.copy(join(__dirname, '../../bchome'), root, next)
+
+    // `basecoin init` to generate account keys, validator key
+    child = startProcess('basecoin', [ 'init' ], opts)
+    yield child.on('exit', next.arg(0))
+  }
+
   yield mkdirp(join(root, 'wallets'), next)
 
-  // copy predefined genesis.json and config.toml into root
-  yield fs.copy(join(__dirname, '../../bchome'), root, next)
-
-  // `basecoin init` to generate account keys, validator key
-  let child = startProcess('basecoin', ['init'], { env: { BCHOME: root, TMROOT: root } })
-  yield child.on('exit', next.arg(0))
-
-  if (DEV) {
+  if (DEV && !light) {
     // insert our pubkey into genesis validator set
     let privValidatorBytes = yield fs.readFile(join(root, 'priv_validator.json'), next)
     let privValidator = JSON.parse(privValidatorBytes.toString())
@@ -132,7 +157,7 @@ let createDataDir = watt(function * (root, next) {
 
 watt(function * (next) {
   let root = require('../root.js')
-  yield createDataDir(root)
+  yield createDataDir(root, LIGHT)
   console.log(`starting basecoin${LIGHT ? ' light client proxy' : ''}`)
   basecoinProcess = yield startBasecoin(root, LIGHT, next)
   console.log('basecoin ready')
