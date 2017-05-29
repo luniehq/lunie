@@ -1,10 +1,8 @@
 import data from '../json/validators.json'
 
-const state = data
+export default ({ commit, basecoin }) => {
+  const state = data
+  const mutations = {}
 
-const mutations = {}
-
-export default {
-  state,
-  mutations
+  return { state, mutations }
 }

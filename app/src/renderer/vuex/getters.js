@@ -11,3 +11,4 @@ export const syncing = state => state.node.syncing
 export const numPeers = state => state.node.numPeers
 
 export const allValidators = state => state.validators
+export const myStake = state => state.myStake

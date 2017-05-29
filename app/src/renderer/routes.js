@@ -3,15 +3,19 @@ function r (pageName) {
 }
 
 export default [
-  /*
   {
     path: '/',
     name: 'page-delegation',
     component: r('Delegation')
   },
- */
   {
-    path: '/',
+    path: '/settings',
+    name: 'page-settings',
+    component: r('Settings')
+  }
+  /*
+  {
+    path: '/balances',
     name: 'page-balances',
     component: r('Balances')
   },
@@ -41,12 +45,8 @@ export default [
     component: r('Console')
   },
   {
-    path: '/',
-    name: 'page-settings',
-    component: r('Settings')
-  },
-  {
     path: '*',
     redirect: '/'
   }
+  */
 ]

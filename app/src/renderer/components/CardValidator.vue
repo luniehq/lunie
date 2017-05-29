@@ -1,25 +1,67 @@
 <template>
+  <transition name="ts-card-validator">
   <div class="card-validator">
     <div class="card-validator-container">
-      <div class="left">
-        <div class="validator">
-          <span class="value">Validator</span>
+      <div class="values">
+        <div class="value id">
+          <span>{{ validator.id }}</span>
+        </div>
+        <!--
+        <div class="value ip num">
+          <span>{{ validator.ipAddress }}</span>
+        </div>
+        -->
+        <div class="value atoms num">
+          <span>{{ num.prettyInt(validator.atoms) }}</span>
+        </div>
+        <div class="value delegators num">
+          <span>{{ num.prettyInt(validator.delegators) }}</span>
         </div>
       </div>
       <menu>
-        <btn value="Stake Tokens"></btn>
+        <btn
+          v-if="myStake.validatorId === validator.id"
+          icon="times"
+          value="Undo Stake"
+          size="sm"
+          @click.native="unstake">
+        </btn>
+        <btn
+          v-else
+          icon="check"
+          value="Stake"
+          size="sm"
+          @click.native="stake(validator.id)">
+        </btn>
       </menu>
     </div>
   </div>
+  </transition>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import num from '../scripts/num'
 import Btn from '@nylira/vue-button'
 export default {
   name: 'card-validator',
   props: ['validator'],
   components: {
     Btn
+  },
+  computed: {
+    ...mapGetters(['myStake'])
+  },
+  data: () => ({
+    num: num
+  }),
+  methods: {
+    stake (validatorId) {
+      this.$store.commit('stake', validatorId)
+    },
+    unstake () {
+      this.$store.commit('unstake')
+    }
   }
 }
 </script>
@@ -27,65 +69,58 @@ export default {
 <style lang="stylus">
 @require '../styles/variables.styl'
 .card-validator
-  font-size 0.75rem
-  padding 0.25em
-  transition
+  &:nth-of-type(2n) .card-validator-container
+    background darken(c-app-fg, 3%)
 
-  .card-validator-container
-    background c-app-fg
+.card-validator-container
+  position relative
+  background c-app-fg
 
-    height 3em
+  .values
     display flex
-    align-items stretch
+    height 2em
 
-  .left
+  .value
     flex 1
     display flex
-    overflow hidden
-
-  .title
-    display flex
     align-items center
-    border-right 1px dotted bc
-    padding 0 0.75em
+    justify-content space-between
 
-    i.fa
-      color light
-      margin-right 0.375em
+    border-right 1px solid bc
+    &:last-of-type
+      border-right-color transparent
+
+    &.id
+      font-weight 500
+      letter-spacing -0.025em
+    &.num
+      mono()
+      font-size 0.875rem
+
     span
-      mono()
-      font-size 0.75em
-      font-weight bold
-
-  .validator
-    overflow hidden
-    border-right 1px dotted bc
-
-    flex 1
-    display flex
-    align-items center
-    padding 0 0.75em
-
-    .value
-      mono()
+      display block
+      padding 0 0.5em
 
   menu
+    position absolute
+    top 0
+    right 0
+    height 2rem
     display flex
     align-items center
-    padding 0 0.75em
+    padding 0 0.25em
+    justify-content center
 
-  .ni-btn
-    font-size 0.75em
+/* transition */
+.ts-card-validator-enter-active, .ts-card-validator-leave-active
+  transition all 0.5s ease
+  height 2rem
+  opacity 1
 
-@media screen and (min-width: 400px)
-  .card-validator
-    font-size 0.875rem
-    .ni-btn
-      font-size 0.875em
+.ts-card-validator-enter, .ts-card-validator-leave-to
+  height 0
+  opacity 0
 
-@media screen and (min-width: 640px)
-  .card-validator
-    font-size 1rem
-    .ni-btn
-      font-size 1rem
+.ts-card-validator-enter
+  background link
 </style>

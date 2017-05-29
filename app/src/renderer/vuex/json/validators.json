@@ -3,160 +3,160 @@
     "id": "john-connor",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Text string goes here",
-    "type": "user",
-    "created_at": 1451617860000,
-    "online_at": 1455610380000
+    "ipAddress": "35.102.58.60",
+    "delegators": 7,
+    "atoms": 763344
   },
   {
     "id": "agent-janssen",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Text string goes here",
-    "type": "user",
-    "created_at": 1452478440000,
-    "online_at": 1455264780000
+    "ipAddress": "72.4.172.62",
+    "delegators": 58,
+    "atoms": 621242
   },
   {
     "id": "janelle-voight",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Text string goes here",
-    "type": "user",
-    "created_at": 1452130500000,
-    "online_at": 1455438420000
+    "ipAddress": "23.144.70.72",
+    "delegators": 33,
+    "atoms": 532029
   },
   {
     "id": "dr-silberman",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Text string goes here",
-    "type": "user",
-    "created_at": 1453000320000,
-    "online_at": 1455595740000
+    "ipAddress": "209.152.16.89",
+    "delegators": 17,
+    "atoms": 510694
   },
   {
     "id": "serena-korgan",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Text string goes here",
-    "type": "user",
-    "created_at": 1453363500000,
-    "online_at": 1454464320000
+    "ipAddress": "247.67.58.219",
+    "delegators": 51,
+    "atoms": 406938
   },
   {
     "id": "kate-brewster",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Text string goes here",
-    "type": "user",
-    "created_at": 1452669900000,
-    "online_at": 1455264780000
+    "ipAddress": "32.226.184.34",
+    "delegators": 44,
+    "atoms": 375432
   },
   {
     "id": "miles-dyson",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Text string goes here",
-    "type": "user",
-    "created_at": 1453441380000,
-    "online_at": 1455696780000
+    "ipAddress": "252.108.145.162",
+    "delegators": 38,
+    "atoms": 346069
   },
   {
     "id": "marcus-wright",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Text string goes here",
-    "type": "user",
-    "created_at": 1452751980000,
-    "online_at": 1455495420000
+    "ipAddress": "251.249.98.149",
+    "delegators": 46,
+    "atoms": 330528
   },
   {
     "id": "kyle-reese",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Text string goes here",
-    "type": "user",
-    "created_at": 1452929460000,
-    "online_at": 1455531540000
+    "ipAddress": "215.216.123.168",
+    "delegators": 50,
+    "atoms": 307932
   },
   {
     "id": "sarah-connor",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Text string goes here",
-    "type": "user",
-    "created_at": 1452995460000,
-    "online_at": 1455680460000
+    "ipAddress": "67.164.35.159",
+    "delegators": 29,
+    "atoms": 306238
   },
   {
     "id": "machine-01",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Specific note about this machine",
-    "type": "machine",
-    "created_at": 1451617860000,
-    "online_at": 1455610380000
+    "ipAddress": "7.247.140.151",
+    "delegators": 13,
+    "atoms": 299604
   },
   {
     "id": "machine-02",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Specific note about this machine",
-    "type": "machine",
-    "created_at": 1452478440000,
-    "online_at": 1455264780000
+    "ipAddress": "9.160.179.15",
+    "delegators": 8,
+    "atoms": 286434
   },
   {
     "id": "machine-03",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Specific note about this machine",
-    "type": "machine",
-    "created_at": 1452130500000,
-    "online_at": 1455438420000
+    "ipAddress": "56.183.206.90",
+    "delegators": 65,
+    "atoms": 270349
   },
   {
     "id": "machine-04",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Specific note about this machine",
-    "type": "machine",
-    "created_at": 1453000320000,
-    "online_at": 1455595740000
+    "ipAddress": "10.239.7.140",
+    "delegators": 34,
+    "atoms": 262301
   },
   {
     "id": "machine-05",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Specific note about this machine",
-    "type": "machine",
-    "created_at": 1453363500000,
-    "online_at": 1454464320000
+    "ipAddress": "139.19.4.30",
+    "delegators": 68,
+    "atoms": 256105
   },
   {
     "id": "t-x",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Specific note about this machine",
-    "type": "machine",
-    "created_at": 1452669900000,
-    "online_at": 1455264780000
+    "ipAddress": "236.142.154.129",
+    "delegators": 45,
+    "atoms": 254183
   },
   {
     "id": "guardian-01",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Specific note about this machine",
-    "type": "machine",
-    "created_at": 1453441380000,
-    "online_at": 1455696780000
+    "ipAddress": "67.27.236.231",
+    "delegators": 73,
+    "atoms": 235029
   },
   {
     "id": "t-850",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Specific note about this machine",
-    "type": "machine",
-    "created_at": 1452751980000,
-    "online_at": 1455495420000
+    "ipAddress": "247.248.219.156",
+    "delegators": 24,
+    "atoms": 183200
   },
   {
     "id": "t-800",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Specific note about this machine",
-    "type": "machine",
-    "created_at": 1452929460000,
-    "online_at": 1455531540000
+    "ipAddress": "87.49.43.91",
+    "delegators": 11,
+    "atoms": 162395
   },
   {
     "id": "t-1000",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
     "info": "Specific note about this machine",
-    "type": "machine",
-    "created_at": 1452995460000,
-    "online_at": 1455680460000
+    "ipAddress": "170.19.167.106",
+    "delegators": 30,
+    "atoms": 84235
   }
 ]
