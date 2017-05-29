@@ -12,10 +12,13 @@
 
   <menu class="menu-popup menu-app" v-if="activeMenu || desktop" @click="hide">
     <nav class="nav-app">
+      <router-link to="/">Delegation</router-link>
+      <!--
       <router-link to="/" exact>Balances</router-link>
       <router-link to="/transactions">Transactions</router-link>
       <router-link to="/receive">Receive</router-link>
       <router-link to="/send">Send</router-link>
+      -->
       <router-link to="/console">Console</router-link>
     </nav>
   </menu>

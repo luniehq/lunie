@@ -3,6 +3,13 @@ function r (pageName) {
 }
 
 export default [
+  /*
+  {
+    path: '/',
+    name: 'page-delegation',
+    component: r('Delegation')
+  },
+ */
   {
     path: '/',
     name: 'page-balances',

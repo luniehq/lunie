@@ -1,0 +1,162 @@
+[
+  {
+    "id": "john-connor",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Text string goes here",
+    "type": "user",
+    "created_at": 1451617860000,
+    "online_at": 1455610380000
+  },
+  {
+    "id": "agent-janssen",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Text string goes here",
+    "type": "user",
+    "created_at": 1452478440000,
+    "online_at": 1455264780000
+  },
+  {
+    "id": "janelle-voight",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Text string goes here",
+    "type": "user",
+    "created_at": 1452130500000,
+    "online_at": 1455438420000
+  },
+  {
+    "id": "dr-silberman",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Text string goes here",
+    "type": "user",
+    "created_at": 1453000320000,
+    "online_at": 1455595740000
+  },
+  {
+    "id": "serena-korgan",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Text string goes here",
+    "type": "user",
+    "created_at": 1453363500000,
+    "online_at": 1454464320000
+  },
+  {
+    "id": "kate-brewster",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Text string goes here",
+    "type": "user",
+    "created_at": 1452669900000,
+    "online_at": 1455264780000
+  },
+  {
+    "id": "miles-dyson",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Text string goes here",
+    "type": "user",
+    "created_at": 1453441380000,
+    "online_at": 1455696780000
+  },
+  {
+    "id": "marcus-wright",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Text string goes here",
+    "type": "user",
+    "created_at": 1452751980000,
+    "online_at": 1455495420000
+  },
+  {
+    "id": "kyle-reese",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Text string goes here",
+    "type": "user",
+    "created_at": 1452929460000,
+    "online_at": 1455531540000
+  },
+  {
+    "id": "sarah-connor",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Text string goes here",
+    "type": "user",
+    "created_at": 1452995460000,
+    "online_at": 1455680460000
+  },
+  {
+    "id": "machine-01",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Specific note about this machine",
+    "type": "machine",
+    "created_at": 1451617860000,
+    "online_at": 1455610380000
+  },
+  {
+    "id": "machine-02",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Specific note about this machine",
+    "type": "machine",
+    "created_at": 1452478440000,
+    "online_at": 1455264780000
+  },
+  {
+    "id": "machine-03",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Specific note about this machine",
+    "type": "machine",
+    "created_at": 1452130500000,
+    "online_at": 1455438420000
+  },
+  {
+    "id": "machine-04",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Specific note about this machine",
+    "type": "machine",
+    "created_at": 1453000320000,
+    "online_at": 1455595740000
+  },
+  {
+    "id": "machine-05",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Specific note about this machine",
+    "type": "machine",
+    "created_at": 1453363500000,
+    "online_at": 1454464320000
+  },
+  {
+    "id": "t-x",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Specific note about this machine",
+    "type": "machine",
+    "created_at": 1452669900000,
+    "online_at": 1455264780000
+  },
+  {
+    "id": "guardian-01",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Specific note about this machine",
+    "type": "machine",
+    "created_at": 1453441380000,
+    "online_at": 1455696780000
+  },
+  {
+    "id": "t-850",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Specific note about this machine",
+    "type": "machine",
+    "created_at": 1452751980000,
+    "online_at": 1455495420000
+  },
+  {
+    "id": "t-800",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Specific note about this machine",
+    "type": "machine",
+    "created_at": 1452929460000,
+    "online_at": 1455531540000
+  },
+  {
+    "id": "t-1000",
+    "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
+    "info": "Specific note about this machine",
+    "type": "machine",
+    "created_at": 1452995460000,
+    "online_at": 1455680460000
+  }
+]
