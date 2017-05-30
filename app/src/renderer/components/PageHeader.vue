@@ -26,16 +26,18 @@ export default {
 
   h1.title
     flex 1
+    color dim
+    font-weight bold
     font-size 1.25rem
     line-height 1
     text-transform uppercase
   menu
     display none
-    .ni-btn
+    .ni-btn, .ni-field
       margin-left 1rem
 
 @media screen and (min-width: 480px)
   .page-header
     menu
-      display block
+      display flex
 </style>

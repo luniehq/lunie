@@ -53,7 +53,7 @@ export default {
     },
     watchWindowSize () {
       let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
-      if (w >= 640) {
+      if (w >= 480) {
         this.closeMenus()
         this.desktop = true
         return

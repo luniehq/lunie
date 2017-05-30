@@ -1,6 +1,7 @@
 <template>
   <div class="page-validators">
     <page-header title="Delegation Game">
+      <countdown-string date="2017-07-10"></countdown-string>
       <field theme="cosmos" type="text" placeholder="Filter..." v-model="query"></field>
     </page-header>
     <panel-sort :sort="sort"></panel-sort>
@@ -20,6 +21,7 @@
 import { mapGetters } from 'vuex'
 import { orderBy, includes } from 'lodash'
 import Btn from '@nylira/vue-button'
+import CountdownString from './CountdownString'
 import CardValidator from './CardValidator'
 import Field from '@nylira/vue-input'
 import PageHeader from './PageHeader'
@@ -29,6 +31,7 @@ export default {
   components: {
     Btn,
     CardValidator,
+    CountdownString,
     Field,
     PageHeader,
     PanelSort
@@ -52,7 +55,6 @@ export default {
       order: 'desc',
       properties: [
         { id: 1, title: 'Validator', value: 'id' },
-        // { id: 1, title: 'IP Address', value: 'ipAddress' },
         { id: 2, title: 'Atoms', value: 'atoms', initial: true },
         { id: 3, title: 'Delegators', value: 'delegators' }
       ]
