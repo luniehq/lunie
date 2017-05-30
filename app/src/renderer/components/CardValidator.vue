@@ -108,7 +108,6 @@ export default {
     color dim
 
     &.id
-      font-label()
       a
         color txt
         &:hover

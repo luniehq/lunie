@@ -20,7 +20,7 @@ export default {
   flex 0 0 4rem
   height 4rem
 
-  border-bottom 1px solid bc
+  border-bottom 1px solid bc-dim
   display flex
   align-items center
 
@@ -31,6 +31,7 @@ export default {
     font-size 1.25rem
     line-height 1
     text-transform uppercase
+
   menu
     display none
     .ni-btn, .ni-field

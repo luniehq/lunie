@@ -36,7 +36,7 @@ export default {
 
 .app-footer
   height 2rem
-  border-top 1px solid bc
+  border-top 1px solid bc-dim
   background c-app-fg url('../assets/images/background-grid.png')
 
   margin 0 1rem
