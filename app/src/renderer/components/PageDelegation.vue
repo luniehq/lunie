@@ -51,7 +51,7 @@ export default {
       property: 'atoms',
       order: 'desc',
       properties: [
-        { id: 1, title: 'Name', value: 'id' },
+        { id: 1, title: 'Validator', value: 'id' },
         // { id: 1, title: 'IP Address', value: 'ipAddress' },
         { id: 2, title: 'Atoms', value: 'atoms', initial: true },
         { id: 3, title: 'Delegators', value: 'delegators' }

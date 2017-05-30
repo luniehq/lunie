@@ -12,7 +12,13 @@ export default [
     path: '/settings',
     name: 'page-settings',
     component: r('Settings')
+  },
+  {
+    path: '/validator/:validator',
+    name: 'page-validator',
+    component: r('Validator')
   }
+
   /*
   {
     path: '/balances',

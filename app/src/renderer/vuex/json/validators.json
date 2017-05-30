@@ -2,161 +2,241 @@
   {
     "id": "john-connor",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Text string goes here",
+    "description": "Text string goes here",
+    "url": "john-connor.tmp",
     "ipAddress": "35.102.58.60",
     "delegators": 7,
-    "atoms": 763344
+    "atoms": 763344,
+    "startDate": "2017-05-25",
+    "commission": 0.0105,
+    "slashes": []
   },
   {
     "id": "agent-janssen",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Text string goes here",
+    "description": "Text string goes here",
+    "url": "",
     "ipAddress": "72.4.172.62",
     "delegators": 58,
-    "atoms": 621242
+    "atoms": 621242,
+    "startDate": "2017-04-11",
+    "commission": 0.0095,
+    "slashes": []
   },
   {
     "id": "janelle-voight",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Text string goes here",
+    "description": "Text string goes here",
+    "url": "voigh-industries.tmp",
     "ipAddress": "23.144.70.72",
     "delegators": 33,
-    "atoms": 532029
+    "atoms": 532029,
+    "startDate": "2016-12-28",
+    "commission": 0.011,
+    "slashes": []
   },
   {
     "id": "dr-silberman",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Text string goes here",
+    "description": "Text string goes here",
+    "url": "",
     "ipAddress": "209.152.16.89",
     "delegators": 17,
-    "atoms": 510694
+    "atoms": 510694,
+    "startDate": "2017-05-09",
+    "commission": 0.01,
+    "slashes": []
   },
   {
     "id": "serena-korgan",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Text string goes here",
+    "description": "Text string goes here",
+    "url": "serenssimo.tmp",
     "ipAddress": "247.67.58.219",
     "delegators": 51,
-    "atoms": 406938
+    "atoms": 406938,
+    "startDate": "2017-05-30",
+    "commission": 0.02,
+    "slashes": []
   },
   {
     "id": "kate-brewster",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Text string goes here",
+    "description": "Text string goes here",
+    "url": "brewster-validator.tmp",
     "ipAddress": "32.226.184.34",
     "delegators": 44,
-    "atoms": 375432
+    "atoms": 375432,
+    "startDate": "2017-03-17",
+    "commission": 0.09975,
+    "slashes": []
   },
   {
     "id": "miles-dyson",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Text string goes here",
+    "description": "Text string goes here",
+    "url": "dyson-vaccums.tmp",
     "ipAddress": "252.108.145.162",
     "delegators": 38,
-    "atoms": 346069
+    "atoms": 346069,
+    "startDate": "2017-02-10",
+    "commission": 0.005948,
+    "slashes": []
   },
   {
     "id": "marcus-wright",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Text string goes here",
+    "description": "Text string goes here",
+    "url": "wright-brothers.tmp",
     "ipAddress": "251.249.98.149",
     "delegators": 46,
-    "atoms": 330528
+    "atoms": 330528,
+    "startDate": "2017-01-03",
+    "commission": 0.0875,
+    "slashes": []
   },
   {
     "id": "kyle-reese",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Text string goes here",
+    "description": "Text string goes here",
+    "url": "reeses-pieces.tmp",
     "ipAddress": "215.216.123.168",
     "delegators": 50,
-    "atoms": 307932
+    "atoms": 307932,
+    "startDate": "2017-05-19",
+    "commission": 0.0975,
+    "slashes": []
   },
   {
     "id": "sarah-connor",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Text string goes here",
+    "description": "Text string goes here",
+    "url": "sarah-connor.tmp",
     "ipAddress": "67.164.35.159",
     "delegators": 29,
-    "atoms": 306238
+    "atoms": 306238,
+    "startDate": "2017-04-13",
+    "commission": 0.01125,
+    "slashes": []
   },
   {
     "id": "machine-01",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Specific note about this machine",
+    "description": "Specific note about this machine",
+    "url": "",
     "ipAddress": "7.247.140.151",
     "delegators": 13,
-    "atoms": 299604
+    "atoms": 299604,
+    "startDate": "2017-04-24",
+    "commission": 0.0128,
+    "slashes": []
   },
   {
     "id": "machine-02",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Specific note about this machine",
+    "description": "Specific note about this machine",
+    "url": "validator-machines.tmp",
     "ipAddress": "9.160.179.15",
     "delegators": 8,
-    "atoms": 286434
+    "atoms": 286434,
+    "startDate": "2017-03-18",
+    "commission": 0.01024,
+    "slashes": []
   },
   {
     "id": "machine-03",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Specific note about this machine",
+    "description": "Specific note about this machine",
+    "url": "",
     "ipAddress": "56.183.206.90",
     "delegators": 65,
-    "atoms": 270349
+    "atoms": 270349,
+    "startDate": "2017-02-23",
+    "commission": 0.0808,
+    "slashes": []
   },
   {
     "id": "machine-04",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Specific note about this machine",
+    "description": "Specific note about this machine",
+    "url": "",
     "ipAddress": "10.239.7.140",
     "delegators": 34,
-    "atoms": 262301
+    "atoms": 262301,
+    "startDate": "2017-05-26",
+    "commission": 0.0707,
+    "slashes": []
   },
   {
     "id": "machine-05",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Specific note about this machine",
+    "description": "Specific note about this machine",
+    "url": "five-nines.tmp",
     "ipAddress": "139.19.4.30",
     "delegators": 68,
-    "atoms": 256105
+    "atoms": 256105,
+    "startDate": "2017-04-20",
+    "commission": 0.0888,
+    "slashes": []
   },
   {
     "id": "t-x",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Specific note about this machine",
+    "description": "Specific note about this machine",
+    "url": "",
     "ipAddress": "236.142.154.129",
     "delegators": 45,
-    "atoms": 254183
+    "atoms": 254183,
+    "startDate": "2017-04-03",
+    "commission": 0.0901,
+    "slashes": []
   },
   {
     "id": "guardian-01",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Specific note about this machine",
+    "description": "Specific note about this machine",
+    "url": "",
     "ipAddress": "67.27.236.231",
     "delegators": 73,
-    "atoms": 235029
+    "atoms": 235029,
+    "startDate": "2017-03-29",
+    "commission": 0.009,
+    "slashes": []
   },
   {
     "id": "t-850",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Specific note about this machine",
+    "description": "Specific note about this machine",
+    "url": "altered-validator.tmp",
     "ipAddress": "247.248.219.156",
     "delegators": 24,
-    "atoms": 183200
+    "atoms": 183200,
+    "startDate": "2017-02-16",
+    "commission": 0.096,
+    "slashes": []
   },
   {
     "id": "t-800",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Specific note about this machine",
+    "description": "Specific note about this machine",
+    "url": "",
     "ipAddress": "87.49.43.91",
     "delegators": 11,
-    "atoms": 162395
+    "atoms": 162395,
+    "startDate": "2017-05-08",
+    "commission": 0.01108,
+    "slashes": []
   },
   {
     "id": "t-1000",
     "pub_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9",
-    "info": "Specific note about this machine",
+    "description": "Specific note about this machine",
+    "url": "latest-validator.tmp",
     "ipAddress": "170.19.167.106",
     "delegators": 30,
-    "atoms": 84235
+    "atoms": 84235,
+    "startDate": "2017-05-22",
+    "commission": 0.094,
+    "slashes": []
   }
 ]
