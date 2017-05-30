@@ -1,50 +1,59 @@
 //==============================================================================
 // colors
+//==============================================================================
 
 mhue = 210
-msat = 70%
-mlit = 18%
+msat = 80%
+mlit = 20%
 mcolor = hsl(mhue,msat,mlit)
 
-ahue = 140
+bc-bright = hsl(mhue, 16%, 68%)
+bc-vivid = hsl(mhue, 41%, 49%)
+bc = hsl(mhue, 26%, 36%)
+bc-dim = hsl(mhue, 20%, 18%)
+bc-faint = hsl(mhue, 11%, 9%)
+
+c-app-bg = hsl(mhue, 53%, 3%)
+c-app-fg = hsl(mhue, 53%, 9%)
+
+ahue = 60
 asat = 100%
-alit = 35%
+alit = 50%
 acolor = hsl(ahue,asat,alit)
 
-c-app-bc = #ddd
-c-app-bg = #eee
-c-app-fg = #fff
+// type colors
+bright = hsl(mhue, 32%, 86%)
+txt = hsl(mhue, 32%, 70%)
+dim = hsl(mhue, 32%, 50%)
+light = hsl(mhue,32%, 30%)
+faint = hsl(mhue, 32%, 12%)
 
-bc = c-app-bc
+// active colors
+txt-active = txt
+bc-active = bc-bright
 
-c-input-bc = #ccc
-c-input-bg = #fff
-c-input-hl = rgb(31,31,31)
-
-c-panel-bc = rgb(43,43,43)
-c-panel-bg = c-panel-bc
-c-panel-fg = rgb(50,50,50)
-c-panel-hl = rgb(74,74,74)
-
-txt = #000
-dim = #666
-light = #999
-
-lcolor = hsl(mhue,msat,45%)
+// links
+lcolor = dim
 link = lcolor
 anchor = lcolor
 
-alert-color = hsl(330,100%,45%)
+// input colors
+input-bg = transparent
+input-bc = bc
 
-// button colors
-btn-red-color = hsl(0,100%,40%)
-btn-green-color = hsl(120,100%,40%)
+// accents
+accent1 = hsl(60,38%,70%)
+accent2 = hsl(345,85%,49%)
 
 //==============================================================================
 // typography
+//==============================================================================
 
 x = 16px
-sans = system, -apple-system, BlinkMacSystemFont, "Roboto", "Seogue UI", "Helvetica Neue", "Lucida Grande", sans-serif
+px = 0.0625rem
+
+// sans = 'Helvetica Neue', Arial, Helvetica, sans-serif
+sans = 'DIN', -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif
 mono = Consolas, Monaco, monospace
 
 df()
@@ -52,10 +61,55 @@ df()
   line-height 1.5
   font-family sans
   color txt
-  font-weight 400
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
 
 mono()
   font-family Consolas, Monaco, monospace
   font-weight normal
+
+font-label()
+  font-size 0.75rem
+  letter-spacing 0.025em
+  color txt
+
+  white-space nowrap
+  text-overflow ellipsis
+  text-transform uppercase
+  overflow hidden
+
+nav-item()
+  i.fa
+    display none
+
+  .container
+    height 6rem
+    padding-top 1rem
+
+    align-items flex-start
+
+    position relative
+
+    font-label()
+    font-size 1rem
+    line-height 1rem
+    color link
+
+    &:before
+      content ''
+      height px
+      width 1rem
+      background accent1
+      position absolute
+      top 2.875rem
+      left 0
+      border-left 1rem solid link
+      border-right 0.5rem solid accent2
+
+  &:not(.header-item-logo):hover .container
+    color txt
+
+  &.router-link-active .container
+    color bright
+    cursor default
+    pointer-events none
+    &:hover
+      color bright

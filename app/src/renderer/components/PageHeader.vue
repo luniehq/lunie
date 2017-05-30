@@ -17,30 +17,24 @@ export default {
 @require '../styles/variables.styl'
 
 .page-header
-  flex 0 0 3.75rem
+  flex 0 0 4rem
+  height 4rem
 
   border-bottom 1px solid bc
-  background c-app-fg
-  height 3.75rem
   display flex
   align-items center
-  padding 0 1rem
 
   h1.title
     flex 1
     font-size 1.25rem
-    font-weight 600
     line-height 1
+    text-transform uppercase
   menu
     display none
-    .ni-btn-wrapper
-      margin-left 0.5rem
     .ni-btn
-      border-color transparent
-      i.fa
-        color light
+      margin-left 1rem
 
-@media screen and (min-width: 640px)
+@media screen and (min-width: 480px)
   .page-header
     menu
       display block

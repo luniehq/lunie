@@ -45,31 +45,25 @@ export default {
 <style lang="stylus">
 @require '../styles/variables.styl'
 
-.panel-sort
-  padding 0 0.25rem
-
 .panel-sort-container
   display flex
-  height 1.5rem
+  height 2rem
+  border-bottom 1px solid bc-dim
 
 .sort-by
   flex 1
   cursor pointer
   user-select none
-  padding 0 0.5rem
 
   display flex
   align-items center
 
   position relative
 
-  border-right 1px solid bc
-  &:last-of-type
-    border-right-color transparent
-
   .label
-    font-size 0.75rem
-    flex 1
+    font-label()
+    color dim
+    padding-right 0.5rem
 
   &:after
     display block
@@ -81,14 +75,12 @@ export default {
     content '\f0d7'
 
   &:not(.active):hover
-    background lighten(c-app-bg,50%)
-    .text
-      color link
+    .label
+      color txt
 
   &.active
-    background c-app-fg
-    .text
-      font-weight bold
+    .label
+      color bright
     &:after
       color txt
 </style>

@@ -31,4 +31,4 @@ export default {
 }
 </script>
 
-<style src="./styles/screen.styl" lang="stylus"></style>
+<style src="./styles/app.styl" lang="stylus"></style>

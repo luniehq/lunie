@@ -5,5 +5,5 @@ export const syncTime = state => state.node.syncTime
 export const syncing = state => state.node.syncing
 export const numPeers = state => state.node.numPeers
 
-export const allValidators = state => state.validators
+export const validators = state => state.validators
 export const myStake = state => state.myStake

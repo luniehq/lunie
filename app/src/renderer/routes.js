@@ -1,58 +1,23 @@
-function r (pageName) {
-  return require(`components/Page${pageName}`)
-}
+function r (pageName) { return require(`components/Page${pageName}`) }
 
 export default [
   {
     path: '/',
-    name: 'page-delegation',
-    component: r('Delegation')
+    name: 'validators',
+    component: r('Validators')
+  },
+  {
+    path: '/validators/:validator',
+    name: 'validator',
+    component: r('Validator')
   },
   {
     path: '/settings',
-    name: 'page-settings',
+    name: 'settings',
     component: r('Settings')
-  },
-  {
-    path: '/validator/:validator',
-    name: 'page-validator',
-    component: r('Validator')
-  }
-
-  /*
-  {
-    path: '/balances',
-    name: 'page-balances',
-    component: r('Balances')
-  },
-  {
-    path: '/transactions',
-    name: 'page-transactions',
-    component: r('Transactions')
-  },
-  {
-    path: '/receive',
-    name: 'page-receive',
-    component: r('Receive')
-  },
-  {
-    path: '/send',
-    name: 'page-send',
-    component: r('Send')
-  },
-  {
-    path: '/exchange',
-    name: 'page-exchange',
-    component: r('Exchange')
-  },
-  {
-    path: '/console',
-    name: 'page-console',
-    component: r('Console')
   },
   {
     path: '*',
     redirect: '/'
   }
-  */
 ]

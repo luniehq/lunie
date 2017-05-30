@@ -35,17 +35,21 @@ export default {
 @require '../styles/variables.styl'
 
 .app-footer
-  height 2rem + 0.0625rem
+  height 2rem
   border-top 1px solid bc
-  background c-app-fg
-  display flex
-  align-items center
+  background c-app-fg url('../assets/images/background-grid.png')
 
-  padding 0 0.5rem
+  margin 0 1rem
 
-  .status > div
-    font-size 0.875rem
-    display inline-block
+
+  .status
+    height 2rem
+    display flex
+    align-items center
+    > div
+      font-label()
+      color dim
+      display inline-block
 
   .menu
     display flex

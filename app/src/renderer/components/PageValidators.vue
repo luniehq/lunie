@@ -1,13 +1,13 @@
 <template>
-  <div class="page-delegation">
+  <div class="page-validators">
     <page-header title="Delegation Game">
-      <field type="text" placeholder="Filter..." v-model="query"></field>
+      <field theme="cosmos" type="text" placeholder="Filter..." v-model="query"></field>
     </page-header>
     <panel-sort :sort="sort"></panel-sort>
-    <div class="delegation scrollable-area">
-      <div class="delegation-container">
+    <div class="validators scrollable-area">
+      <div class="validators-container">
         <card-validator
-          v-for="validator in validators"
+          v-for="validator in filteredValidators"
           key="validator.id"
           :validator="validator">
         </card-validator>
@@ -25,7 +25,7 @@ import Field from '@nylira/vue-input'
 import PageHeader from './PageHeader'
 import PanelSort from './PanelSort'
 export default {
-  name: 'page-delegation',
+  name: 'page-validators',
   components: {
     Btn,
     CardValidator,
@@ -34,12 +34,12 @@ export default {
     PanelSort
   },
   computed: {
-    ...mapGetters(['allValidators']),
-    validators () {
+    ...mapGetters(['validators']),
+    filteredValidators () {
       let value = []
       let query = this.query
-      if (this.allValidators) {
-        value = orderBy(this.allValidators, [this.sort.property], [this.sort.order])
+      if (this.validators) {
+        value = orderBy(this.validators, [this.sort.property], [this.sort.order])
         value = value.filter(v => includes(v.id, query))
       }
       return value
@@ -64,16 +64,15 @@ export default {
 <style lang="stylus">
 @require '../styles/variables.styl'
 
-.page-delegation
+.page-validators
   flex 1
   display flex
   flex-flow column
 
-.delegation
+.validators.scrollable-area
   flex 1
-  padding 0.25rem
 
-  .delegation-container
+  .validators-container
     flex 1
 
     display flex

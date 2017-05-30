@@ -6,17 +6,17 @@
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/7zip/-/7zip-0.0.6.tgz#9cafb171af82329490353b4816f03347aa150a30"
 
-"@nylira/vue-button@^2.0.3":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-button/-/vue-button-2.1.0.tgz#758f2ff08e7d145a14f8d4212948fcc234ea3807"
+"@nylira/vue-button@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-button/-/vue-button-3.1.1.tgz#9d3badbba6919819d5f2515164f2f2e71223f4c6"
 
 "@nylira/vue-form-msg@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@nylira/vue-form-msg/-/vue-form-msg-1.0.3.tgz#257e3fcb1da345690f4fba959372b70e8abc9c20"
 
-"@nylira/vue-input@^2.0.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-input/-/vue-input-2.1.2.tgz#b2408dba7588e3670c7c3f066077716e9e13a3d5"
+"@nylira/vue-input@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-input/-/vue-input-3.0.4.tgz#081e2e3ad07b927f73ec0564ee667c7cdfd7ddb9"
 
 "@nylira/vue-notifications@^1.0.3":
   version "1.0.4"

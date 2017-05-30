@@ -1,8 +1,8 @@
 <template>
 <header class="app-header">
 
-  <router-link to="/" class="header-item">
-    <img src="../assets/images/logo-cosmos.png" alt="Cosmos Logo">
+  <router-link to="/" class="header-item header-item-logo">
+    Cosmos
   </router-link>
 
   <div class="header-item" @click="toggleMenu" v-if="!desktop">
@@ -77,17 +77,18 @@ export default {
   display flex
   flex-flow row wrap
   justify-content space-between
+  margin 0 1rem
 
   .header-item
-    height 2.25rem
+    height 2rem - px
     display flex
     align-items center
-    padding 0 1rem
 
     color txt
     cursor pointer
     &:hover
-      color link
+      color bright
+
 
     i.fa
       font-size 0.875rem
@@ -101,79 +102,81 @@ export default {
       height 0.875rem
       width auto
 
+    &.header-item-logo
+      font-weight bold
+      text-transform uppercase
+      font-size 0.75rem
+      color txt
+      letter-spacing 0.125em
+
   .menu-app
     nav
       display flex
       a
+        font-label()
+        color dim
         display flex
         align-items center
         cursor pointer
         i.fa
           margin-right 0.25rem
+
         img
           height 1rem
           margin-right 0.1rem
 
-@media screen and (max-width:639px)
+        &.router-link-active
+          color bright
+          &:before
+            background bc-vivid
+
+@media screen and (max-width:479px)
   .menu-popup
     height 100vh
     position fixed
-    top 2.25rem
+    top 2rem
     left 0
     bottom 0
     width 100vw
     z-index 100000
-    border-top 1px solid bc
 
-    background c-app-bg
+    background c-app-bg url('../assets/images/background-grid.png')
     user-select none
+
+    padding 0 1rem
 
     nav
       display flex
       flex-flow column
-      padding 2rem 3rem
+      padding 1rem 0
 
       a
-        padding 0.75rem 0
-        color txt
-        border-bottom 1px solid bc
+        height 3rem
+        border-bottom 1px solid bc-dim
         &:last-of-type
           border-bottom none
-        &:hover
-          color link
 
-@media screen and (min-width:640px)
+@media screen and (min-width:480px)
   .menu-app
     display flex
-    padding 0 1rem
     nav
       display flex
       flex-flow row
       align-items center
       a
-        height 2.25rem + 0.0625rem
+        width 8rem
         align-items center
         justify-content center
         display flex
+        &:before
+          content ''
+          width 0.5rem
+          height 1rem
+          background bc-dim
+          margin-right 0.5rem
 
-        padding 0 1em
-
-        border-bottom 1px solid bc
-        border-left 1px solid bc
-        margin-bottom -1px
-        font-size 0.875rem
-        font-weight 400
-        color txt
-        &:hover
-          background darken(c-app-bg, 3%)
         &.router-link-active
-          color txt
-          background c-app-fg
-          border-bottom-color c-app-fg
-        i.fa
-          display block
-          margin-right 0.375rem
-          color light
-          display none
-
+          color bright
+          &:before
+            background bc-vivid
 </style>

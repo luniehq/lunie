@@ -4,7 +4,12 @@
     <div class="card-validator-container">
       <div class="values">
         <div class="value id">
-          <span>{{ validator.id }}</span>
+          <span>
+            <router-link
+              :to="{ name: 'validator', params: { validator: validator.id } }">
+              {{ validator.id }}
+              </router-link>
+          </span>
         </div>
         <!--
         <div class="value ip num">
@@ -20,6 +25,7 @@
       </div>
       <menu>
         <btn
+          theme="cosmos"
           v-if="myStake.validatorId === validator.id"
           icon="times"
           value="Undo Stake"
@@ -28,6 +34,7 @@
         </btn>
         <btn
           v-else
+          theme="cosmos"
           icon="check"
           value="Stake"
           size="sm"
@@ -70,11 +77,10 @@ export default {
 @require '../styles/variables.styl'
 .card-validator
   &:nth-of-type(2n) .card-validator-container
-    background darken(c-app-fg, 3%)
+    background alpha(c-app-fg, 25%)
 
 .card-validator-container
   position relative
-  background c-app-fg
 
   .values
     display flex
@@ -86,20 +92,20 @@ export default {
     align-items center
     justify-content space-between
 
-    border-right 1px solid bc
-    &:last-of-type
-      border-right-color transparent
+    color dim
 
     &.id
       font-weight 500
-      letter-spacing -0.025em
+      a
+        color txt
+        &:hover
+          color bright
     &.num
       mono()
       font-size 0.875rem
 
     span
       display block
-      padding 0 0.5em
 
   menu
     position absolute
@@ -108,7 +114,6 @@ export default {
     height 2rem
     display flex
     align-items center
-    padding 0 0.25em
     justify-content center
 
 /* transition */
