@@ -21,7 +21,7 @@ module.exports = watt(function * (next) {
       break
     } catch (err) {
       console.log('waiting for basecoin RPC')
-      setTimeout(next.arg(0), 1000) // wait 1s
+      yield setTimeout(next, 1000) // wait 1s
     }
   }
 
