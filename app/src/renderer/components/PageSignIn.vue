@@ -1,7 +1,6 @@
 <template lang="pug">
-  .page-settings
-    page-header(title="Delegator Settings")
-      btn(theme="cosmos" icon="sign-out" value="Sign Out")
+  .page-sign-in
+    page-header(title="Sign In")
     form-struct(v-on:submit.prevent="onSubmit")
       div(slot="title") #[i.fa.fa-search] Authentication
       div(slot="subtitle") Enter your twelve-word seed phrase.
@@ -25,7 +24,7 @@ import Field from '@nylira/vue-input'
 import FormGroup from './FormGroup'
 import FormStruct from './FormStruct'
 export default {
-  name: 'page-settings',
+  name: 'page-sign-in',
   components: {
     Btn,
     Field,

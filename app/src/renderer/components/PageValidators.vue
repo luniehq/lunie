@@ -1,5 +1,5 @@
 <template>
-  <div class="page-validators">
+  <div class="page page-validators">
     <page-header title="Delegation Game">
       <countdown-string date="2017-07-10"></countdown-string>
       <field theme="cosmos" type="text" placeholder="Filter..." v-model="query"></field>
@@ -54,7 +54,7 @@ export default {
       property: 'atoms',
       order: 'desc',
       properties: [
-        { id: 1, title: 'Validator', value: 'id' },
+        { id: 1, title: 'Validator ID', value: 'id' },
         { id: 2, title: 'Atoms', value: 'atoms', initial: true },
         { id: 3, title: 'Delegators', value: 'delegators' }
       ]
@@ -65,11 +65,6 @@ export default {
 
 <style lang="stylus">
 @require '../styles/variables.styl'
-
-.page-validators
-  flex 1
-  display flex
-  flex-flow column
 
 .validators.scrollable-area
   flex 1

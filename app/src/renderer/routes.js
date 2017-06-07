@@ -12,9 +12,19 @@ export default [
     component: r('Validator')
   },
   {
-    path: '/settings',
-    name: 'settings',
-    component: r('Settings')
+    path: '/welcome',
+    name: 'welcome',
+    component: r('Welcome')
+  },
+  {
+    path: '/signin',
+    name: 'signin',
+    component: r('SignIn')
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: r('Profile')
   },
   {
     path: '*',

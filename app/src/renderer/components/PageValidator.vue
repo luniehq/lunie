@@ -14,7 +14,6 @@
           <div slot="key">Delegators</div>
           <div slot="value">{{ validator.delegators }}</div>
         </key-value>
-
       </key-values>
       <key-values>
         <key-value>

@@ -12,15 +12,12 @@
 
   <menu class="menu-popup menu-app" v-if="activeMenu || desktop" @click="hide">
     <nav class="nav-app">
-      <router-link to="/" exact>Delegation</router-link>
-      <router-link to="/settings" exact>Settings</router-link>
-      <!--
-      <router-link to="/" exact>Balances</router-link>
-      <router-link to="/transactions">Transactions</router-link>
-      <router-link to="/receive">Receive</router-link>
-      <router-link to="/send">Send</router-link>
-      <router-link to="/console">Console</router-link>
-      -->
+      <router-link to="/welcome" exact>Welcome</router-link>
+      <router-link to="/signin" exact>Sign In</router-link>
+      <router-link to="/profile" exact>Profile</router-link>
+      <router-link to="/" exact>Candidates</router-link>
+      <router-link to="/nominate" exact>Nominate</router-link>
+      <router-link to="/invite" exact>Invite</router-link>
     </nav>
   </menu>
 
@@ -130,7 +127,7 @@ export default {
           &:before
             background bc-vivid
 
-@media screen and (max-width:479px)
+@media screen and (max-width:639px)
   .menu-popup
     height 100vh
     position fixed
@@ -156,7 +153,7 @@ export default {
         &:last-of-type
           border-bottom none
 
-@media screen and (min-width:480px)
+@media screen and (min-width:640px)
   .menu-app
     display flex
     nav
@@ -164,7 +161,7 @@ export default {
       flex-flow row
       align-items center
       a
-        width 8rem
+        padding-right 1rem
         align-items center
         justify-content center
         display flex
