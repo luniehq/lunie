@@ -2,7 +2,7 @@
   .page.page-welcome
     page-header(title="Welcome")
     .scrollable-area: form-struct(v-on:submit.prevent="onSubmit")
-      div(slot="title") #[i.fa.fa-search] NOTICE
+      div(slot="title") #[i.fa.fa-search] IMPORTANT NOTICE
       div(slot="subtitle") Please read the following carefully before signing in to the Cosmos Delegation Game.
       p We want to discourage you from delegating your atoms to the validator with the most delegators, as that can cause them to achieve an unsafe amount of voting power.
 
