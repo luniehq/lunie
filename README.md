@@ -1,6 +1,6 @@
-# basecoin-ui
+# delegation-game
 
-> An interface for Basecoin.
+> An interface for the Cosmos Delegation game..
 
 ## Build Setup
 
