@@ -51,6 +51,4 @@ export default {
   display flex
   flex-flow column
 
-  .scrollable-area
-    flex 1
 </style>

@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import casual from 'casual'
 import Btn from '@nylira/vue-button'
 import PageHeader from './PageHeader'
 import KeyValue from './NiKeyValue'
@@ -37,9 +36,9 @@ export default {
   computed: {
     user () {
       let value = {
-        pubkey: casual.uuid,
-        atoms: casual.integer(1000, 1000000),
-        invitations: casual.integer(1, 10)
+        pubkey: 'asdofiandsfa223',
+        atoms: 243839,
+        invitations: 10
       }
       return value
     }

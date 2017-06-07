@@ -2,6 +2,9 @@
 app/dist/index.html
 app/dist/build.js
 app/dist/styles.css
+app/dist/fonts
+app/dist/imgs
+app/dist/renderer.js
 builds/*
 coverage
 node_modules

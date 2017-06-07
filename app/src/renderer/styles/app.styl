@@ -1,3 +1,4 @@
+@import '../../../../node_modules/nib/index.styl'
 @require './variables.styl'
 @require './vendor/*'
 
@@ -7,8 +8,10 @@ reset-html5()
 *
   box-sizing border-box
 
-body
+body, input, button, textarea
   df()
+
+body
   height 100vh
   background c-app-bg url('../assets/images/background-grid.png')
   display flex
@@ -30,6 +33,9 @@ body
     display flex
     flex-flow column
 
+    .scrollable-area
+      flex 1
+
 .ni-notifications
   top auto !important
   bottom 0 !important
@@ -42,10 +48,6 @@ a
   color link
   text-decoration none
 
-body, input, button, textarea
-  font-size x
-  line-height 1.5
-  font-family sans
 
 strong
   font-weight 600
