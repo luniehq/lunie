@@ -3,8 +3,8 @@ function r (pageName) { return require(`components/Page${pageName}`) }
 export default [
   {
     path: '/',
-    name: 'validators',
-    component: r('Validators')
+    name: 'candidates',
+    component: r('Candidates')
   },
   {
     path: '/invite',
@@ -27,9 +27,9 @@ export default [
     component: r('SignIn')
   },
   {
-    path: '/validators/:validator',
-    name: 'validator',
-    component: r('Validator')
+    path: '/candidates/:candidate',
+    name: 'candidate',
+    component: r('Candidate')
   },
   {
     path: '/welcome',

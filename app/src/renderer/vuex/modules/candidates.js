@@ -1,4 +1,4 @@
-import data from '../json/validators.json'
+import data from '../json/candidates.json'
 
 export default ({ commit, basecoin }) => {
   const state = data

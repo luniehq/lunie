@@ -1,6 +1,6 @@
 <template>
-  <div class="page-validator">
-    <page-header :title="validator.id">
+  <div class="page-candidate">
+    <page-header :title="candidate.id">
       <btn theme="cosmos" type="link" to="/" icon="angle-left" value="Back"></btn>
       <btn theme="cosmos" icon="check" value="Stake Atoms"></btn>
     </page-header>
@@ -8,37 +8,37 @@
       <key-values>
         <key-value>
           <div slot="key">Atoms</div>
-          <div slot="value">{{ validator.atoms }}</div>
+          <div slot="value">{{ candidate.atoms }}</div>
         </key-value>
         <key-value>
           <div slot="key">Delegators</div>
-          <div slot="value">{{ validator.delegators }}</div>
+          <div slot="value">{{ candidate.delegators }}</div>
         </key-value>
       </key-values>
       <key-values>
         <key-value>
           <div slot="key">Description</div>
-          <div slot="value">{{ validator.description }}</div>
+          <div slot="value">{{ candidate.description }}</div>
         </key-value>
         <key-value>
           <div slot="key">URL</div>
-          <div slot="value">{{ validator.url }}</div>
+          <div slot="value">{{ candidate.url }}</div>
         </key-value>
       </key-values>
       <key-values>
         <key-value>
           <div slot="key">Start Date</div>
-          <div slot="value">{{ validator.startDate }}</div>
+          <div slot="value">{{ candidate.startDate }}</div>
         </key-value>
         <key-value>
           <div slot="key">Commission</div>
-          <div slot="value">{{ validator.commission * 100 }}%</div>
+          <div slot="value">{{ candidate.commission * 100 }}%</div>
         </key-value>
       </key-values>
       <key-values>
         <key-value>
           <div slot="key">Slashes</div>
-          <div slot="value">{{ validator.slashes.length }}</div>
+          <div slot="value">{{ candidate.slashes.length }}</div>
         </key-value>
       </key-values>
     </div>
@@ -53,7 +53,7 @@ import KeyValue from './NiKeyValue'
 import KeyValues from './NiKeyValues'
 
 export default {
-  name: 'page-validator',
+  name: 'page-candidate',
   components: {
     Btn,
     PageHeader,
@@ -61,11 +61,11 @@ export default {
     KeyValues
   },
   computed: {
-    ...mapGetters(['validators']),
-    validator () {
+    ...mapGetters(['candidates']),
+    candidate () {
       let value = {}
-      if (this.validators) {
-        value = this.validators.find(v => v.id === this.$route.params.validator)
+      if (this.candidates) {
+        value = this.candidates.find(v => v.id === this.$route.params.candidate)
       }
       return value
     }

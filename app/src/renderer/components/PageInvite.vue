@@ -1,20 +1,25 @@
 <template lang="pug">
-  .page-sign-in
-    page-header(title="Sign In")
-    form-struct(v-on:submit.prevent="onSubmit")
-      div(slot="title") #[i.fa.fa-search] Authentication
-      div(slot="subtitle") Enter your twelve-word seed phrase.
+  .page.page-invite
+    page-header(title="Invite User")
+    .scrollable-area: form-struct(v-on:submit.prevent="onSubmit")
+      div(slot="title") Invite user
+      div(slot="subtitle") Invite a Cosmos ICO participant to play in this Delegation Game.
       form-group
+        Label Name
         field(
           theme="cosmos"
           type="text"
-          placeholder="Input seed..."
-          required
-          v-model="query"
-          pattern=".{32,128}"
-          title="32 to 128 characters")
+          placeholder="Name"
+          required)
+      form-group
+        Label Email
+        field(
+          theme="cosmos"
+          type="email"
+          placeholder="name@example.com"
+          required)
       div(slot="footer")
-        btn(theme="cosmos" icon="search" value="Authenticate")
+        btn(theme="cosmos" value="Send Invitation")
 </template>
 
 <script>
@@ -24,7 +29,7 @@ import Field from '@nylira/vue-input'
 import FormGroup from './FormGroup'
 import FormStruct from './FormStruct'
 export default {
-  name: 'page-sign-in',
+  name: 'page-invite',
   components: {
     Btn,
     Field,

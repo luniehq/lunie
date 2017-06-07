@@ -1,31 +1,31 @@
 <template>
-  <transition name="ts-card-validator">
-  <div class="card-validator">
-    <div class="card-validator-container">
+  <transition name="ts-card-candidate">
+  <div class="card-candidate">
+    <div class="card-candidate-container">
       <div class="values">
         <div class="value id">
           <span>
             <router-link
-              :to="{ name: 'validator', params: { validator: validator.id } }">
-              {{ validator.id }}
+              :to="{ name: 'candidate', params: { candidate: candidate.id } }">
+              {{ candidate.id }}
               </router-link>
           </span>
         </div>
         <div class="value atoms num bar">
-          <span>{{ num.prettyInt(validator.atoms) }}</span>
+          <span>{{ num.prettyInt(candidate.atoms) }}</span>
           <div class="bar" :style="barCss"></div>
         </div>
         <div class="value delegators num">
           <span>
             <i class="fa fa-user"></i>
-            {{ num.prettyInt(validator.delegators) }}
+            {{ num.prettyInt(candidate.delegators) }}
           </span>
         </div>
       </div>
       <menu>
         <btn
           theme="cosmos"
-          v-if="myStake.validatorId === validator.id"
+          v-if="myStake.candidateId === candidate.id"
           icon="times"
           value="Undo Stake"
           size="sm"
@@ -37,7 +37,7 @@
           icon="check"
           value="Stake"
           size="sm"
-          @click.native="stake(validator.id)">
+          @click.native="stake(candidate.id)">
         </btn>
       </menu>
     </div>
@@ -51,22 +51,22 @@ import num from '../scripts/num'
 import Btn from '@nylira/vue-button'
 import { maxBy } from 'lodash'
 export default {
-  name: 'card-validator',
-  props: ['validator'],
+  name: 'card-candidate',
+  props: ['candidate'],
   components: {
     Btn
   },
   computed: {
-    ...mapGetters(['myStake', 'validators']),
+    ...mapGetters(['myStake', 'candidates']),
     maxAtoms () {
-      if (this.validators) {
-        let richestValidator = maxBy(this.validators, 'atoms')
-        return richestValidator.atoms
+      if (this.candidates) {
+        let richestCandidate = maxBy(this.candidates, 'atoms')
+        return richestCandidate.atoms
       }
       return 0
     },
     barCss () {
-      let percentage = Math.round((this.validator.atoms / this.maxAtoms) * 100)
+      let percentage = Math.round((this.candidate.atoms / this.maxAtoms) * 100)
       return {
         width: percentage + '%'
       }
@@ -76,8 +76,8 @@ export default {
     num: num
   }),
   methods: {
-    stake (validatorId) {
-      this.$store.commit('stake', validatorId)
+    stake (candidateId) {
+      this.$store.commit('stake', candidateId)
     },
     unstake () {
       this.$store.commit('unstake')
@@ -88,11 +88,11 @@ export default {
 
 <style lang="stylus">
 @require '../styles/variables.styl'
-.card-validator
-  &:nth-of-type(2n) .card-validator-container
+.card-candidate
+  &:nth-of-type(2n) .card-candidate-container
     background alpha(c-app-fg, 20%)
 
-.card-validator-container
+.card-candidate-container
   position relative
 
   .values
@@ -149,23 +149,23 @@ export default {
     justify-content center
 
 @media screen and (max-width: 414px)
-  .card-validator-container menu .ni-btn .ni-btn-value
+  .card-candidate-container menu .ni-btn .ni-btn-value
     display none
 
 @media screen and (max-width: 479px)
-  .card-validator-container .value span i.fa
+  .card-candidate-container .value span i.fa
     display none
 
 /* transition */
-.ts-card-validator-enter-active, .ts-card-validator-leave-active
+.ts-card-candidate-enter-active, .ts-card-candidate-leave-active
   transition all 0.5s ease
   height 2rem
   opacity 1
 
-.ts-card-validator-enter, .ts-card-validator-leave-to
+.ts-card-candidate-enter, .ts-card-candidate-leave-to
   height 0
   opacity 0
 
-.ts-card-validator-enter
+.ts-card-candidate-enter
   background link
 </style>

@@ -1,17 +1,17 @@
 <template>
-  <div class="page page-validators">
-    <page-header title="Delegation Game">
+  <div class="page page-candidates">
+    <page-header title="Candidates">
       <countdown-string date="2017-07-10"></countdown-string>
       <field theme="cosmos" type="text" placeholder="Filter..." v-model="query"></field>
     </page-header>
     <panel-sort :sort="sort"></panel-sort>
-    <div class="validators scrollable-area">
-      <div class="validators-container">
-        <card-validator
-          v-for="validator in filteredValidators"
-          key="validator.id"
-          :validator="validator">
-        </card-validator>
+    <div class="candidates scrollable-area">
+      <div class="candidates-container">
+        <card-candidate
+          v-for="candidate in filteredCandidates"
+          key="candidate.id"
+          :candidate="candidate">
+        </card-candidate>
       </div>
     </div>
   </div>
@@ -22,27 +22,27 @@ import { mapGetters } from 'vuex'
 import { orderBy, includes } from 'lodash'
 import Btn from '@nylira/vue-button'
 import CountdownString from './CountdownString'
-import CardValidator from './CardValidator'
+import CardCandidate from './CardCandidate'
 import Field from '@nylira/vue-input'
 import PageHeader from './PageHeader'
 import PanelSort from './PanelSort'
 export default {
-  name: 'page-validators',
+  name: 'page-candidates',
   components: {
     Btn,
-    CardValidator,
+    CardCandidate,
     CountdownString,
     Field,
     PageHeader,
     PanelSort
   },
   computed: {
-    ...mapGetters(['validators']),
-    filteredValidators () {
+    ...mapGetters(['candidates']),
+    filteredCandidates () {
       let value = []
       let query = this.query
-      if (this.validators) {
-        value = orderBy(this.validators, [this.sort.property], [this.sort.order])
+      if (this.candidates) {
+        value = orderBy(this.candidates, [this.sort.property], [this.sort.order])
         value = value.filter(v => includes(v.id, query))
       }
       return value
@@ -54,7 +54,7 @@ export default {
       property: 'atoms',
       order: 'desc',
       properties: [
-        { id: 1, title: 'Validator ID', value: 'id' },
+        { id: 1, title: 'Candidate ID', value: 'id' },
         { id: 2, title: 'Atoms', value: 'atoms', initial: true },
         { id: 3, title: 'Delegators', value: 'delegators' }
       ]
@@ -66,10 +66,10 @@ export default {
 <style lang="stylus">
 @require '../styles/variables.styl'
 
-.validators.scrollable-area
+.candidates.scrollable-area
   flex 1
 
-  .validators-container
+  .candidates-container
     flex 1
 
     display flex
