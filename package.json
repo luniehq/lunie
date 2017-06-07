@@ -1,7 +1,7 @@
 {
-  "name": "basecoin-ui",
+  "name": "cosmos-delegation-game",
   "version": "0.0.0",
-  "description": "The wallet for Basecoin.",
+  "description": "The UI for the Cosmos Delegation Game.",
   "scripts": {
     "build": "node tasks/release.js",
     "build:clean": "cross-env PLATFORM_TARGET=clean node tasks/release.js",
