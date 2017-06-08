@@ -14,7 +14,7 @@ export default {
 @import '../styles/variables.styl'
 
 .ni-form-group
-  padding 0.5rem 0.5rem 0.5rem - px
+  padding 1rem 1rem 1rem - px
   border-bottom 1px solid bc-faint
 
   input
@@ -34,6 +34,8 @@ export default {
       border-color #f00
     .ni-form-msg-error
       display flex
+  &:first-child
+    padding-top 1rem - 2*px
 @media screen and (min-width: 480px)
   .ni-form-group
     padding 1rem 1rem 1rem - px

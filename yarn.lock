@@ -6725,9 +6725,9 @@ vue-template-es2015-compiler@^1.2.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.5.2.tgz#a0a6c50c941d2a4abda963f2f42c337ac450ee95"
 
-vuelidate@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.2.0.tgz#7c50b220ef3700b1a28900f32825c442df809337"
+vuelidate@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.5.0.tgz#c315659a023e760d0fb11b6b42b6c3cdf08306c3"
 
 walkdir@^0.0.11:
   version "0.0.11"

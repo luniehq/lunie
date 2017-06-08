@@ -5,7 +5,7 @@
       <field theme="cosmos" type="text" placeholder="Filter..." v-model="query"></field>
     </page-header>
     <panel-sort :sort="sort"></panel-sort>
-    <div class="candidates scrollable-area">
+    <div class="candidates">
       <div class="candidates-container">
         <card-candidate
           v-for="candidate in filteredCandidates"
@@ -62,16 +62,3 @@ export default {
   })
 }
 </script>
-
-<style lang="stylus">
-@require '../styles/variables.styl'
-
-.candidates.scrollable-area
-  flex 1
-
-  .candidates-container
-    flex 1
-
-    display flex
-    flex-flow column
-</style>

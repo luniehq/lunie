@@ -1,25 +1,25 @@
 <template lang="pug">
-  .page.page-invite
-    page-header(title="Invite User")
-    .scrollable-area: form-struct(v-on:submit.prevent="onSubmit")
-      div(slot="title") Invite user
-      div(slot="subtitle") Invite a Cosmos ICO participant to play in this Delegation Game.
-      form-group
-        Label Name
-        field(
-          theme="cosmos"
-          type="text"
-          placeholder="Name"
-          required)
-      form-group
-        Label Email
-        field(
-          theme="cosmos"
-          type="email"
-          placeholder="name@example.com"
-          required)
-      div(slot="footer")
-        btn(theme="cosmos" value="Send Invitation")
+.page.page-invite
+  page-header(title="Invite User")
+  form-struct(v-on:submit.prevent="onSubmit")
+    div(slot="title") Invite user
+    div(slot="subtitle") Invite a Cosmos ICO participant to play in this Delegation Game.
+    form-group
+      Label Name
+      field(
+        theme="cosmos"
+        type="text"
+        placeholder="Name"
+        required)
+    form-group
+      Label Email
+      field(
+        theme="cosmos"
+        type="email"
+        placeholder="name@example.com"
+        required)
+    div(slot="footer")
+      btn(theme="cosmos" value="Send Invitation")
 </template>
 
 <script>

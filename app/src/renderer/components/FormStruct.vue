@@ -2,15 +2,14 @@
   <form :class="cssClass" v-on:submit.prevent.default="submit">
     <div class="ni-form-container">
       <slot name="overlay"></slot>
-      <header class="ni-form-header">
-        <div class="ni-form-suptitle"><slot name="suptitle"></slot></div>
+      <header class="ni-form-header" v-if="hasHeader">
         <div class="ni-form-title"><slot name="title"></slot></div>
         <div class="ni-form-subtitle"><slot name="subtitle"></slot></div>
       </header>
       <main class="ni-form-main">
         <slot></slot>
       </main>
-      <footer class="ni-form-footer">
+      <footer class="ni-form-footer" v-if="hasFooter">
         <slot name="footer"></slot>
       </footer>
     </div>
@@ -25,6 +24,12 @@ export default {
       let value = 'ni-form'
       if (this.width === 'narrow') value += ' ni-form-narrow'
       return value
+    },
+    hasHeader () {
+      return this.$slots['title'] || this.$slots['subtitle']
+    },
+    hasFooter () {
+      return this.$slots['footer']
     }
   },
   props: ['width', 'submit']
@@ -57,6 +62,14 @@ export default {
   position relative
   shadow()
 
+.ni-form-header
+.ni-form-title
+.ni-form-subtitle
+.ni-form-main
+.ni-form-footer
+  &:empty
+    display none
+
 .ni-form-main
   flex 1
   p
@@ -83,7 +96,7 @@ export default {
 
 .ni-form-footer
   > div
-    padding 0.5rem - px 0.5rem
+    padding 1rem - px 1rem
     display flex
     justify-content space-between
     align-items center

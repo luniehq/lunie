@@ -1,16 +1,14 @@
 <template lang="pug">
-  .page-sign-in
+  .page.page-sign-in
     page-header(title="Sign In")
     form-struct(v-on:submit.prevent="onSubmit")
-      div(slot="title") #[i.fa.fa-search] Authentication
-      div(slot="subtitle") Enter your twelve-word seed phrase.
       form-group
         field(
           theme="cosmos"
           type="text"
           placeholder="Input seed..."
           required
-          v-model="query"
+          v-model="fields.seed"
           pattern=".{32,128}"
           title="32 to 128 characters")
       div(slot="footer")
@@ -31,6 +29,11 @@ export default {
     FormGroup,
     FormStruct,
     PageHeader
-  }
+  },
+  data: () => ({
+    fields: {
+      seed: ''
+    }
+  })
 }
 </script>

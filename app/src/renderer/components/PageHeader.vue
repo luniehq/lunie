@@ -1,14 +1,22 @@
 <template>
   <div class="page-header">
-    <h1 class="title">{{ title }}</h1>
-    <menu>
-      <slot></slot>
-    </menu>
+    <div class="page-header-container">
+      <h1 class="title">{{ title }}</h1>
+      <menu>
+        <slot></slot>
+      </menu>
+    </div>
+    <border color="dim"></border>
   </div>
 </template>
 
 <script>
+import Border from './NiBorder'
 export default {
+  name: 'page-header',
+  components: {
+    Border
+  },
   props: ['title']
 }
 </script>
@@ -17,10 +25,12 @@ export default {
 @require '../styles/variables.styl'
 
 .page-header
-  flex 0 0 4rem
-  height 4rem
+  display flex
+  flex-flow column nowrap
 
-  border-bottom 1px solid bc-dim
+.page-header-container
+  padding 1rem 0
+  flex 1
   display flex
   align-items center
 
@@ -38,7 +48,8 @@ export default {
       margin-left 1rem
 
 @media screen and (min-width: 480px)
-  .page-header
+  .page-header-container
+    padding 1.5rem 0
     menu
       display flex
 </style>
