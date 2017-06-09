@@ -9,30 +9,37 @@
 
       p If you delegate your atoms to a malicious validator, you take the risk of having your atoms slashed when the validator makes poor decisions.
 
-      p Now that you have been thoroughly warned, please type in “I understand the risks” into the input field below.
+      p Now that you have been thoroughly warned, please type in “{{ fields.agreement }}” into the input field below.
 
-    form-struct
-      form-group
+    form-struct(:submit="onSubmit")
+      form-group(:error="$v.fields.repeatAgreement.$error")
         field(
           theme="cosmos"
           type="text"
           placeholder="Type here..."
-          required
-          v-model="query"
-          pattern=".{32,128}"
-          title="32 to 128 characters")
+          v-model="fields.repeatAgreement")
+        form-msg(
+          name="Agreement"
+          type="required"
+          v-if="!$v.fields.repeatAgreement.required")
+        form-msg(
+          name="Agreement"
+          type="match"
+          v-if="!$v.fields.repeatAgreement.sameAsAgreement")
       div(slot="footer")
-        btn(theme="cosmos" icon="search" value="Continue")
+        btn(theme="cosmos" type="submit" icon="check" value="Continue")
 </template>
 
 <script>
+import { required, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
 import ArticleBody from './ArticleBody'
 import NiSection from './NiSection'
 import Btn from '@nylira/vue-button'
-import PageHeader from './PageHeader'
 import Field from '@nylira/vue-input'
 import FormGroup from './FormGroup'
+import FormMsg from './FormMsg'
 import FormStruct from './FormStruct'
+import PageHeader from './PageHeader'
 export default {
   name: 'page-welcome',
   components: {
@@ -40,9 +47,45 @@ export default {
     Btn,
     Field,
     FormGroup,
+    FormMsg,
     FormStruct,
     NiSection,
     PageHeader
+  },
+  data: () => ({
+    fields: {
+      agreement: 'I understand the risks',
+      repeatAgreement: ''
+    }
+  }),
+  methods: {
+    onSubmit () {
+      this.$v.$touch()
+      if (!this.$v.$error) {
+        this.$store.commit('notifyCustom',
+          { title: 'Agreement Complete',
+            body: 'Thanks for reading. Now you may sign in.' })
+        this.resetFields()
+        this.$router.push('/signin')
+      }
+    },
+    resetFields () {
+      this.$v.$reset()
+      this.fields = {
+        agreement: 'I understand the risks',
+        repeatAgreement: ''
+      }
+    }
+  },
+  validations: {
+    fields: {
+      repeatAgreement: {
+        required,
+        minLength: minLength(22),
+        maxLength: maxLength(22),
+        sameAs: sameAs('agreement')
+      }
+    }
   }
 }
 </script>

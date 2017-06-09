@@ -1,12 +1,20 @@
 <template>
-  <div class="ni-form-group">
+  <div :class="cssClass">
     <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ni-form-group'
+  name: 'ni-form-group',
+  computed: {
+    cssClass () {
+      let value = 'ni-form-group'
+      if (this.error) value += ' form-group-error'
+      return value
+    }
+  },
+  props: ['error']
 }
 </script>
 
@@ -29,8 +37,8 @@ export default {
   .ni-form-msg-error
     display none
 
-  &.error
-    .ni-field
+  &.form-group-error
+    .ni-field-container
       border-color #f00
     .ni-form-msg-error
       display flex

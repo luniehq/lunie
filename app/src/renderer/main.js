@@ -14,7 +14,6 @@ Vue.use(Electron)
 Vue.use(Resource)
 Vue.use(Router)
 Vue.use(Vuelidate)
-Vue.config.debug = true
 
 const main = watt(function * (next) {
   const basecoin = yield Basecoin()

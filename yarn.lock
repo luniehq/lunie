@@ -14,9 +14,9 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@nylira/vue-form-msg/-/vue-form-msg-1.0.3.tgz#257e3fcb1da345690f4fba959372b70e8abc9c20"
 
-"@nylira/vue-input@^3.0.4":
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-input/-/vue-input-3.0.4.tgz#081e2e3ad07b927f73ec0564ee667c7cdfd7ddb9"
+"@nylira/vue-input@^3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-input/-/vue-input-3.0.5.tgz#c329e1267b52b40adaaad07b46f147d5d282f944"
 
 "@nylira/vue-notifications@^1.0.3":
   version "1.0.4"

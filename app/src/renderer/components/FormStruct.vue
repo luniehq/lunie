@@ -17,8 +17,11 @@
 </template>
 
 <script>
+// NOTICE
+// Remember that v-on:submit will NOT work on this component
+// Use :submit="onSubmit on the parent component and it'll save you headaches
 export default {
-  name: 'ni-form',
+  name: 'ni-form-struct',
   computed: {
     cssClass () {
       let value = 'ni-form'

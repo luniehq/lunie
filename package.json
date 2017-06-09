@@ -91,7 +91,7 @@
   "dependencies": {
     "@nylira/vue-button": "^3.1.1",
     "@nylira/vue-form-msg": "^1.0.3",
-    "@nylira/vue-input": "^3.0.4",
+    "@nylira/vue-input": "^3.0.5",
     "@nylira/vue-notifications": "^1.0.3",
     "disable-scroll": "^0.3.0",
     "moment": "^2.17.1",
