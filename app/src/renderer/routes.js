@@ -7,6 +7,11 @@ export default [
     component: r('Candidates')
   },
   {
+    path: '/delegate',
+    name: 'delegate',
+    component: r('Delegate')
+  },
+  {
     path: '/invite',
     name: 'invite',
     component: r('Invite')

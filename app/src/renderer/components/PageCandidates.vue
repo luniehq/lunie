@@ -1,20 +1,12 @@
-<template>
-  <div class="page page-candidates">
-    <page-header title="Candidates">
-      <countdown-string date="2017-07-10"></countdown-string>
-      <field theme="cosmos" type="text" placeholder="Filter..." v-model="query"></field>
-    </page-header>
-    <panel-sort :sort="sort"></panel-sort>
-    <div class="candidates">
-      <div class="candidates-container">
-        <card-candidate
-          v-for="candidate in filteredCandidates"
-          key="candidate.id"
-          :candidate="candidate">
-        </card-candidate>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+.page.page-candidates
+  page-header(title='Candidates')
+    countdown-string(date='2017-07-10')
+    field(theme='cosmos', type='text', placeholder='Filter...', v-model='query')
+  panel-sort(:sort='sort')
+  .candidates
+    card-candidate(v-for='candidate in filteredCandidates', key='candidate.id', :candidate='candidate')
+  page-candidates-footer
 </template>
 
 <script>
@@ -24,6 +16,7 @@ import Btn from '@nylira/vue-button'
 import CountdownString from './CountdownString'
 import CardCandidate from './CardCandidate'
 import Field from '@nylira/vue-input'
+import PageCandidatesFooter from './PageCandidatesFooter'
 import PageHeader from './PageHeader'
 import PanelSort from './PanelSort'
 export default {
@@ -33,6 +26,7 @@ export default {
     CardCandidate,
     CountdownString,
     Field,
+    PageCandidatesFooter,
     PageHeader,
     PanelSort
   },

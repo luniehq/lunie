@@ -11,4 +11,4 @@ export const syncing = state => state.node.syncing
 export const numPeers = state => state.node.numPeers
 
 export const candidates = state => state.candidates
-export const myStake = state => state.myStake
+export const shoppingCart = state => state.shoppingCart

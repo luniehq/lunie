@@ -1,48 +1,24 @@
-<template>
-  <transition name="ts-card-candidate">
-  <div class="card-candidate">
-    <div class="card-candidate-container">
-      <div class="values">
-        <div class="value id">
-          <span>
-            <router-link
-              :to="{ name: 'candidate', params: { candidate: candidate.id } }">
-              {{ candidate.id }}
-              </router-link>
-          </span>
-        </div>
-        <div class="value atoms num bar">
-          <span>{{ num.prettyInt(candidate.atoms) }}</span>
-          <div class="bar" :style="barCss"></div>
-        </div>
-        <div class="value delegators num">
-          <span>
-            <i class="fa fa-user"></i>
-            {{ num.prettyInt(candidate.delegators) }}
-          </span>
-        </div>
-      </div>
-      <menu>
-        <btn
-          theme="cosmos"
-          v-if="myStake.candidateId === candidate.id"
-          icon="times"
-          value="Undo Stake"
-          size="sm"
-          @click.native="unstake">
-        </btn>
-        <btn
-          v-else
-          theme="cosmos"
-          icon="check"
-          value="Stake"
-          size="sm"
-          @click.native="stake(candidate.id)">
-        </btn>
-      </menu>
-    </div>
-  </div>
-  </transition>
+<template lang="pug">
+transition(name='ts-card-candidate'): div(:class='cssClass')
+  .card-candidate-container
+    .values
+      .icon
+        i.fa.fa-check-square-o(v-if='inCart' @click='rm(candidate.id)')
+        i.fa.fa-square-o(v-else @click='add(candidate.id)')
+      .value.id
+        span
+          router-link(:to="{ name: 'candidate', params: { candidate: candidate.id } }")
+            | {{ candidate.id }}
+      .value.atoms.num.bar
+        span {{ num.prettyInt(candidate.atoms) }}
+        .bar(:style='barCss')
+      .value.delegators.num
+        span
+          i.fa.fa-user
+          |  {{ num.prettyInt(candidate.delegators) }}
+    menu
+      btn(theme='cosmos' v-if='inCart' icon='times' value='Remove' size='sm' @click.native='rm(candidate.id)')
+      btn(v-else='', theme='cosmos', icon='check', value='Add', size='sm', @click.native='add(candidate.id)')
 </template>
 
 <script>
@@ -57,7 +33,12 @@ export default {
     Btn
   },
   computed: {
-    ...mapGetters(['myStake', 'candidates']),
+    ...mapGetters(['shoppingCart', 'candidates']),
+    cssClass () {
+      let value = 'card-candidate'
+      if (this.inCart) value += ' card-candidate-active '
+      return value
+    },
     maxAtoms () {
       if (this.candidates) {
         let richestCandidate = maxBy(this.candidates, 'atoms')
@@ -70,17 +51,20 @@ export default {
       return {
         width: percentage + '%'
       }
+    },
+    inCart () {
+      return this.shoppingCart.find(c => c.candidateId === this.candidate.id)
     }
   },
   data: () => ({
     num: num
   }),
   methods: {
-    stake (candidateId) {
-      this.$store.commit('stake', candidateId)
+    add (candidateId) {
+      this.$store.commit('addToCart', candidateId)
     },
-    unstake () {
-      this.$store.commit('unstake')
+    rm (candidateId) {
+      this.$store.commit('removeFromCart', candidateId)
     }
   }
 }
@@ -92,12 +76,24 @@ export default {
   &:nth-of-type(2n) .card-candidate-container
     background alpha(c-app-fg, 20%)
 
+  &.card-candidate-active .card-candidate-container
+    .value.id a, .icon
+      color hsl(mhue,75%,50%)
+
 .card-candidate-container
   position relative
 
   .values
     display flex
     height 2em
+
+  .icon
+    display flex
+    align-items center
+    justify-content center
+    width 2rem
+    color light
+    cursor pointer
 
   .value
     flex 1
