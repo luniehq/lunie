@@ -14,9 +14,9 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@nylira/vue-form-msg/-/vue-form-msg-1.0.3.tgz#257e3fcb1da345690f4fba959372b70e8abc9c20"
 
-"@nylira/vue-input@^3.0.5":
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-input/-/vue-input-3.0.5.tgz#c329e1267b52b40adaaad07b46f147d5d282f944"
+"@nylira/vue-input@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-input/-/vue-input-3.2.0.tgz#647bd70c92392593d91c1470b41beff99eac7787"
 
 "@nylira/vue-notifications@^1.0.3":
   version "1.0.4"
@@ -2782,6 +2782,10 @@ flat-cache@^1.2.1:
     del "^2.0.2"
     graceful-fs "^4.1.2"
     write "^0.2.1"
+
+flatpickr@^3.0.5-1:
+  version "3.0.5-1"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-3.0.5-1.tgz#c642991b71f8a404ec45e47e03dbf72c48f8b622"
 
 flatten@^1.0.2:
   version "1.0.2"
@@ -5874,10 +5878,6 @@ shelljs@^0.7.5:
     glob "^7.0.0"
     interpret "^1.0.0"
     rechoir "^0.6.2"
-
-shortid@^2.2.8:
-  version "2.2.8"
-  resolved "https://registry.yarnpkg.com/shortid/-/shortid-2.2.8.tgz#033b117d6a2e975804f6f0969dbe7d3d0b355131"
 
 sigmund@^1.0.1:
   version "1.0.1"

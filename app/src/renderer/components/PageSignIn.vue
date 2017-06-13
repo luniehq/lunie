@@ -1,23 +1,23 @@
-<template lang="pug">
+<template lang='pug'>
 .page.page-sign-in
-  page-header(title="Sign In")
-  form-struct(:submit="onSubmit")
-    form-group(:error="$v.fields.seed.$error")
+  page-header(title='Sign In')
+  form-struct(:submit='onSubmit')
+    form-group(:error='$v.fields.seed.$error')
       field(
-        theme="cosmos"
-        type="text"
-        placeholder="Input seed..."
-        v-model="fields.seed")
+        theme='cosmos'
+        type='text'
+        placeholder='Input seed...'
+        v-model='fields.seed')
       form-msg(
-        name="Seed"
-        type="required"
-        v-if="!$v.fields.seed.required")
+        name='Seed'
+        type='required'
+        v-if='!$v.fields.seed.required')
       form-msg(
-        name="Seed"
-        type="error"
-        v-if="!$v.fields.seed.valid")
-    div(slot="footer")
-      btn(theme="cosmos" type="submit" icon="search" value="Authenticate")
+        name='Seed'
+        type='error'
+        v-if='!$v.fields.seed.valid')
+    div(slot='footer')
+      btn(theme='cosmos' type='submit' icon='search' value='Sign In')
 </template>
 
 <script>

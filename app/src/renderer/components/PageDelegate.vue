@@ -2,7 +2,7 @@
 .page.page-candidates
   page-header(title='Delegate Atoms')
     countdown-string(date='2017-07-10')
-    btn(theme='cosmos' type='link' to='/' icon="angle-left" value='Change Candidates')
+    btn(theme='cosmos' type='link' to='/' icon='angle-left' value='Change Candidates')
   .candidates
     .candidates-container
       .delegation-form(v-for='c in filteredCandidates', key='c.id')
@@ -10,10 +10,10 @@
         form-group
           label Delegate how many atoms?
           field(
-            theme="cosmos"
-            type="text"
-            placeholder="Atoms"
-            v-model="getShoppingCartItem(c.id).atoms")
+            theme='cosmos'
+            type='text'
+            placeholder='Atoms'
+            v-model='getShoppingCartItem(c.id).atoms')
 </template>
 
 <script>

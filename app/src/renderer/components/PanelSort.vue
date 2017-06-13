@@ -1,5 +1,5 @@
 <template lang="pug">
-.panel-sort(:id="id")
+.panel-sort
   .panel-sort-container: .sort-by(
     v-for="property in sort.properties",
     @click="orderBy(property.value, $event)",
@@ -9,15 +9,11 @@
 
 <script>
 import $ from 'jquery'
-import shortid from 'shortid'
 export default {
   name: 'panel-sort',
-  data: () => ({
-    id: shortid.generate()
-  }),
   methods: {
     orderBy (property, event) {
-      let sortBys = '#' + this.id + ' .sort-by'
+      let sortBys = $(this.$el).children('.sort-by')
       $(sortBys).removeClass('active desc asc')
       let el = $(event.target).parent()
 

@@ -3,7 +3,7 @@
   page-header(title="Invite User")
   form-struct(:submit="onSubmit")
     div(slot="title") Invite user
-    div(slot="subtitle") Invite a Cosmos ICO participant to play in this Delegation Game.
+    div(slot="subtitle") Invite a Cosmos Atom holder to participate in the delegation game.
     form-group(:error="$v.fields.name.$error")
       field(
         theme="cosmos"
