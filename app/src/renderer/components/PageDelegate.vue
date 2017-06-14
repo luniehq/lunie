@@ -3,7 +3,7 @@
   page-header(title='Delegate Atoms')
     btn(theme='cosmos' type='link' to='/' icon='angle-left' value='Change Candidates')
   form-struct(:submit="onSubmit")
-    div(slot="title") Unallocated Atoms: 124,503
+    div(slot="title") Unallocated Atoms: {{ unallocatedAtoms }}
     form-group(v-for='c in filteredCandidates' key='c.id' :error="$v.fields.atoms.$error")
       Label {{ c.id }} - Allocation
       field-group
@@ -17,7 +17,7 @@
       form-msg(name="Atoms" type="required" v-if="!$v.fields.atoms.required")
       form-msg(name="Atoms" type="numeric" v-if="!$v.fields.atoms.numeric")
       form-msg(name="Atoms"
-        type="between" :min="atomsMin" :max="atomsMax" v-if="!$v.fields.atoms.numeric")
+        type="between" :min="atomsMin" :max="atomsMax" v-if="!$v.fields.atoms.between")
     div(slot="footer")
       btn(theme="cosmos" icon="refresh" value="Reset")
       btn(theme="cosmos" icon="check" value="Confirm Allocation" type="submit")
@@ -47,15 +47,20 @@ export default {
     PageHeader
   },
   computed: {
-    ...mapGetters(['shoppingCart', 'candidates']),
+    ...mapGetters(['shoppingCart', 'candidates', 'user']),
+    unallocatedAtoms () {
+      return this.user.atoms - this.fields.atoms
+    },
     filteredCandidates () {
       let ids = this.shoppingCart.map(c => c.candidateId)
       return this.candidates.filter(c => ids.includes(c.id))
+    },
+    atomsMax () {
+      return this.user.atoms
     }
   },
   data: () => ({
     atomsMin: 100,
-    atomsMax: 20000000,
     fields: {
       atoms: ''
     }
@@ -110,7 +115,9 @@ export default {
       atoms: {
         required,
         numeric,
-        between: between('atomsMin', 'atomsMax')
+        between (atoms) {
+          return between(this.atomsMin, this.atomsMax)(atoms)
+        }
       }
     }
   })
