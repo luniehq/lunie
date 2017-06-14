@@ -12,3 +12,4 @@ export const numPeers = state => state.node.numPeers
 
 export const candidates = state => state.candidates
 export const shoppingCart = state => state.shoppingCart
+export const user = state => state.user

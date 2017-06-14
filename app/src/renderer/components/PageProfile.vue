@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
 import PageHeader from './PageHeader'
 import KeyValue from './NiKeyValue'
@@ -27,14 +28,7 @@ export default {
     KeyValues
   },
   computed: {
-    user () {
-      let value = {
-        pubkey: 'asdofiandsfa223',
-        atoms: 243839,
-        invitations: 10
-      }
-      return value
-    }
+    ...mapGetters(['user'])
   }
 }
 </script>

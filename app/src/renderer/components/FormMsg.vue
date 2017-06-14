@@ -22,6 +22,8 @@ export default {
       switch (this.type) {
         case 'alphaNum':
           msg = 'must contain only alphanumeric characters'; break
+        case 'numeric':
+          msg = 'must contain only numerals'; break
         case 'between':
           msg = `must be between ${this.min} and ${this.max}`; break
         case 'exactLength':
