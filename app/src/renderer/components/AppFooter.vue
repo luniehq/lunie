@@ -1,22 +1,25 @@
-<template>
-  <div class="app-footer">
-    <border color="dim"></border>
-    <div class="app-footer-container">
-      <div v-if="syncing"><i class="fa yellow fa-spin fa-refresh"></i> Syncing chain&hellip; (block {{ syncHeight }})</div>
-      <div v-else><i class="fa green fa-circle"></i> Chain up-to-date (height {{ syncHeight }})</div>
-      <div> &middot; {{ numPeers }} peers</div>
-    </div>
-  </div>
-</template>
-
+<template lang="pug">
+.app-footer
+  border(color='dim')
+  .app-footer-container
+    .status(v-if='syncing')
+      i.fa.yellow.fa-spin.fa-refresh
+      |  Syncing chain… (block {{ syncHeight }})
+    .status(v-else='')
+      i.fa.green.fa-circle
+      |  Chain up-to-date (height {{ syncHeight }})
+    .peers {{ numPeers }} peers
+    countdown-string(date='2017-07-10')</template>
 <script>
 import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
 import Border from './NiBorder'
+import CountdownString from './CountdownString'
 export default {
   components: {
     Border,
-    Btn
+    Btn,
+    CountdownString
   },
   computed: {
     ...mapGetters(['syncHeight', 'syncTime', 'syncing', 'numPeers'])
@@ -33,20 +36,20 @@ export default {
 
   margin 0 1rem
 
-  .app-footer-container
-    height 2rem
-    display flex
-    align-items center
-    > div
-      font-label()
-      color dim
-      display inline-block
+.app-footer-container
+  height 2rem
+  display flex
+  align-items center
+  justify-content space-between
 
-    .menu
-      display flex
+  .status, .peers
+    display inline-block
+    font-label()
+    color dim
 
-    .red
-      color hsl(0,100%,35%)
-    .green
-      color hsl(120,100%,35%)
+  .red
+    color hsl(0,100%,35%)
+
+  .green
+    color hsl(120,100%,35%)
 </style>

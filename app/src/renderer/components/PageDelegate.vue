@@ -1,7 +1,6 @@
 <template lang="pug">
 .page.page-candidates
   page-header(title='Delegate Atoms')
-    countdown-string(date='2017-07-10')
     btn(theme='cosmos' type='link' to='/' icon='angle-left' value='Change Candidates')
   .candidates
     .candidates-container
@@ -19,7 +18,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
-import CountdownString from './CountdownString'
 import CardCandidate from './CardCandidate'
 import Field from '@nylira/vue-input'
 import FormGroup from './FormGroup'
@@ -30,7 +28,6 @@ export default {
   components: {
     CardCandidate,
     Btn,
-    CountdownString,
     Field,
     FormGroup,
     FormStruct,
@@ -52,7 +49,6 @@ export default {
 </script>
 <style lang="stylus">
 @import '../styles/variables.styl'
-
 .delegation-form
   border 2px solid bc-dim
   margin-top 1rem
@@ -69,6 +65,5 @@ export default {
     .ni-field
       flex 1
       width inherit
-
 </style>
 

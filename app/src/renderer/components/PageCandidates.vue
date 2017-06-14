@@ -1,22 +1,35 @@
 <template lang="pug">
 .page.page-candidates
-  page-header(title='Candidates')
-    countdown-string(date='2017-07-10')
+  page-header
+    div(slot="title") Candidates ({{candidatesNum }} Selected)
     field(theme='cosmos', type='text', placeholder='Filter...', v-model='query')
+    btn(
+      v-if="candidatesNum > 0"
+      theme='cosmos'
+      type='link'
+      to='/delegate'
+      icon='angle-right'
+      icon-pos='right'
+      :value='btnLabel')
+    btn(
+      disabled
+      v-else
+      theme='cosmos'
+      icon='angle-right'
+      icon-pos='right'
+      :value='btnLabel')
+
   panel-sort(:sort='sort')
   .candidates
     card-candidate(v-for='candidate in filteredCandidates', key='candidate.id', :candidate='candidate')
-  page-candidates-footer
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { orderBy, includes } from 'lodash'
 import Btn from '@nylira/vue-button'
-import CountdownString from './CountdownString'
 import CardCandidate from './CardCandidate'
 import Field from '@nylira/vue-input'
-import PageCandidatesFooter from './PageCandidatesFooter'
 import PageHeader from './PageHeader'
 import PanelSort from './PanelSort'
 export default {
@@ -24,14 +37,12 @@ export default {
   components: {
     Btn,
     CardCandidate,
-    CountdownString,
     Field,
-    PageCandidatesFooter,
     PageHeader,
     PanelSort
   },
   computed: {
-    ...mapGetters(['candidates']),
+    ...mapGetters(['candidates', 'shoppingCart']),
     filteredCandidates () {
       let value = []
       let query = this.query
@@ -40,6 +51,12 @@ export default {
         value = value.filter(v => includes(v.id, query))
       }
       return value
+    },
+    candidatesNum () {
+      return this.shoppingCart.length
+    },
+    btnLabel () {
+      return `Delegate`
     }
   },
   data: () => ({

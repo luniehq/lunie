@@ -1,5 +1,6 @@
 <template>
   <div class="ni-countdown-string">
+    <div class="label"><i class="fa fa-hourglass"></i></div>
     <div class="ni-cd-block">
       {{ twoDigits(days) }}
       <span class="key">D</span>
@@ -63,17 +64,20 @@ export default {
 @require '../styles/variables.styl'
 
 .ni-countdown-string
-  display inline-block
-  padding 0 1rem
-  height 2rem
   display flex
-  align-items center
+  flex-flow row wrap
+  margin 0 -0.25rem
+  font-label()
 
+  i.fa
+    font-size 0.6666rem
+    color dim
+    padding 0 0.25rem
   .ni-cd-block
+    padding 0 0.25rem
     display flex
-    margin-right 0.5rem
-    &:last-child
-      margin-right 0
+    color dim
     span
       color light
+      display block
 </style>

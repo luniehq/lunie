@@ -1,7 +1,7 @@
 <template>
   <div class="page-header">
     <div class="page-header-container">
-      <h1 class="title">{{ title }}</h1>
+      <h1 class="title"><slot name="title">{{ title }}</slot></h1>
       <menu>
         <slot></slot>
       </menu>
