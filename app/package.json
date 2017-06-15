@@ -1,5 +1,5 @@
 {
-  "name": "basecoin-ui",
+  "name": "delegation-game-ui",
   "version": "0.0.0",
   "description": "The wallet for Basecoin.",
   "main": "./dist/main.js",
