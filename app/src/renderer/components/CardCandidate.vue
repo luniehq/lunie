@@ -2,11 +2,10 @@
 transition(name='ts-card-candidate'): div(:class='cssClass')
   .card-candidate-container
     .values
-      .icon
-        i.fa.fa-check-square-o(v-if='inCart' @click='rm(candidate.id)')
-        i.fa.fa-square-o(v-else @click='add(candidate.id)')
       .value.id
         span
+          i.fa.fa-check-square-o(v-if='inCart' @click='rm(candidate.id)')
+          i.fa.fa-square-o(v-else @click='add(candidate.id)')
           router-link(:to="{ name: 'candidate', params: { candidate: candidate.id } }")
             | {{ candidate.id }}
       .value.atoms.num.bar
@@ -87,14 +86,6 @@ export default {
     display flex
     height 2em
 
-  .icon
-    display flex
-    align-items center
-    justify-content center
-    width 2rem
-    color light
-    cursor pointer
-
   .value
     flex 1
     display flex
@@ -104,6 +95,8 @@ export default {
     color dim
 
     &.id
+      i.fa
+        margin-right 0.5rem
       a
         color txt
         &:hover

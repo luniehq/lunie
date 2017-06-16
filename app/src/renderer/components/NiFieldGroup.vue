@@ -15,7 +15,6 @@ export default {
 
 .ni-field-group
   display flex
-  max-width 40rem
 
   .ni-field
     flex 1

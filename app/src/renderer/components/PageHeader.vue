@@ -41,6 +41,9 @@ export default {
     font-size 1.25rem
     line-height 1
     text-transform uppercase
+    em
+      font-weight normal
+      font-style normal
 
   menu
     display none

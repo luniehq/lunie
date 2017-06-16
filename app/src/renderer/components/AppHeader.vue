@@ -3,7 +3,7 @@
 <div class="app-header-container">
 
   <router-link to="/" class="header-item header-item-logo">
-    Cosmos
+    <img src="../assets/images/logo-cosmos-blue.png" alt="Cosmos Logo">
   </router-link>
 
   <div class="header-item" @click="toggleMenu" v-if="!desktop">
@@ -22,20 +22,14 @@
     </nav>
   </menu>
 
-  <border></border>
-
 </div>
 </header>
 </template>
 
 <script>
 import disableScroll from 'disable-scroll'
-import Border from './NiBorder'
 export default {
   name: 'app-header',
-  components: {
-    Border
-  },
   data: () => ({
     activeMenu: false,
     desktop: false
@@ -85,17 +79,19 @@ export default {
   display flex
   flex-flow row wrap
   justify-content space-between
-  margin 0 1rem
+  border-bottom 1px solid bc-dim
 
   .header-item
+    min-width 3rem
+    height 3rem
     display flex
     align-items center
+    justify-content center
 
     color txt
     cursor pointer
     &:hover
       color bright
-
 
     i.fa
       font-size 0.875rem
@@ -106,15 +102,11 @@ export default {
 
     img
       display block
-      height 0.875rem
+      height 1rem
       width auto
 
     &.header-item-logo
-      font-weight bold
-      text-transform uppercase
-      font-size 0.75rem
-      color txt
-      letter-spacing 0.125em
+      padding 0 1rem
 
   .menu-app
     nav
@@ -141,7 +133,7 @@ export default {
   .menu-popup
     height 100vh
     position fixed
-    top 2rem
+    top 3rem
     left 0
     bottom 0
     width 100vw
@@ -157,11 +149,12 @@ export default {
       flex-flow column
       padding 1rem 0
 
-      a
-        height 3rem
-        border-bottom 1px solid bc-dim
-        &:last-of-type
-          border-bottom none
+    a
+      height 3rem
+      line-height 3rem
+      border-bottom 1px solid bc-dim
+      &:last-of-type
+        border-bottom none
 
 @media screen and (min-width:640px)
   .menu-app
