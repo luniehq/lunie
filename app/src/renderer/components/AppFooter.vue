@@ -1,6 +1,5 @@
 <template lang="pug">
 .app-footer
-  border(color='dim')
   .app-footer-container
     .status(v-if='syncing')
       i.fa.yellow.fa-spin.fa-refresh
@@ -13,11 +12,9 @@
 <script>
 import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
-import Border from './NiBorder'
 import CountdownString from './CountdownString'
 export default {
   components: {
-    Border,
     Btn,
     CountdownString
   },
@@ -37,6 +34,7 @@ export default {
   margin 0 1rem
 
 .app-footer-container
+  border-top 1px solid bc
   height 2rem
   display flex
   align-items center

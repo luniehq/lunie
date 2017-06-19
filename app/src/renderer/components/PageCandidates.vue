@@ -18,7 +18,6 @@
       icon='angle-right'
       icon-pos='right'
       :value='btnLabel')
-
   panel-sort(:sort='sort')
   .candidates
     card-candidate(v-for='candidate in filteredCandidates', key='candidate.id', :candidate='candidate')

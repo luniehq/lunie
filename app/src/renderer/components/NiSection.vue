@@ -10,7 +10,6 @@
             <slot name="menu"></slot>
           </menu>
         </div>
-        <border></border>
       </header>
       <main class="ni-section-main">
         <slot></slot>
@@ -20,9 +19,8 @@
 </template>
 
 <script>
-import Border from './NiBorder'
 export default {
-  components: { Border }
+  name: 'ni-section'
 }
 </script>
 
@@ -52,6 +50,7 @@ export default {
   display flex
   align-items center
   height 2rem - px
+  border-bottom 1px solid bc
 
 .ni-section-title
 .ni-section-menu

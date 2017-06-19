@@ -31,7 +31,6 @@ export default {
   label
     display block
     font-label()
-    color dim
     line-height 2rem
 
   .ni-form-msg-error

@@ -120,5 +120,5 @@ export default {
       margin 1rem 1rem 0
 
   .ni-form-footer > div
-    padding 1rem 1rem - 2*px
+    padding 1rem - px
 </style>

@@ -15,8 +15,8 @@
   resolved "https://registry.yarnpkg.com/@nylira/vue-form-msg/-/vue-form-msg-1.0.3.tgz#257e3fcb1da345690f4fba959372b70e8abc9c20"
 
 "@nylira/vue-input@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-input/-/vue-input-3.2.0.tgz#647bd70c92392593d91c1470b41beff99eac7787"
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-input/-/vue-input-3.2.1.tgz#023ef0df6dcf330120a992e998fdad37c221ac8f"
 
 "@nylira/vue-notifications@^1.0.3":
   version "1.1.1"
@@ -87,10 +87,11 @@ ajv@^4.7.0, ajv@^4.9.1:
     json-stable-stringify "^1.0.1"
 
 ajv@^5.0.0:
-  version "5.1.6"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.1.6.tgz#4b2f1a19dece93d57ac216037e3e9791c7dd1564"
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.2.0.tgz#c1735024c5da2ef75cc190713073d44f098bf486"
   dependencies:
     co "^4.6.0"
+    fast-deep-equal "^0.1.0"
     json-schema-traverse "^0.3.0"
     json-stable-stringify "^1.0.1"
 
@@ -960,8 +961,8 @@ babel-types@^6.18.0, babel-types@^6.19.0, babel-types@^6.23.0, babel-types@^6.24
     to-fast-properties "^1.0.1"
 
 babylon@^6.13.0, babylon@^6.17.0, babylon@^6.17.2:
-  version "6.17.3"
-  resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.17.3.tgz#1327d709950b558f204e5352587fd0290f8d8e48"
+  version "6.17.4"
+  resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.17.4.tgz#3e8b7402b88d22c3423e137a1577883b15ff869a"
 
 backo2@1.0.2:
   version "1.0.2"
@@ -1240,8 +1241,8 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000686"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000686.tgz#d55b479ed6e6402c1fd3f1fd8f46e694d86ea464"
+  version "1.0.30000690"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000690.tgz#ee4e0750070f6aae6f40e76477984449bd6cb48a"
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -1511,7 +1512,7 @@ component-inherit@0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/component-inherit/-/component-inherit-0.0.3.tgz#645fc4adf58b72b649d5cae65135619db26ff143"
 
-compress-commons@^1.1.0:
+compress-commons@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/compress-commons/-/compress-commons-1.2.0.tgz#58587092ef20d37cb58baf000112c9278ff73b9f"
   dependencies:
@@ -2678,6 +2679,10 @@ extract-zip@^1.0.3, extract-zip@^1.6.5:
 extsprintf@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.0.2.tgz#e1080e0658e300b06294990cc70e1502235fd550"
+
+fast-deep-equal@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-0.1.0.tgz#5c6f4599aba6b333ee3342e2ed978672f1001f8d"
 
 fast-levenshtein@~2.0.4:
   version "2.0.6"
@@ -5249,8 +5254,8 @@ progress@^1.1.8:
   resolved "https://registry.yarnpkg.com/progress/-/progress-1.1.8.tgz#e260c78f6161cdd9b0e56cc3e0a85de17c7a57be"
 
 promise@^7.0.1:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/promise/-/promise-7.2.0.tgz#67075a5fc537b39d66b87cdeb3732cf75867dbe2"
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/promise/-/promise-7.3.0.tgz#e7feec5aa87a2cbb81acf47d9a3adbd9d4642d7b"
   dependencies:
     asap "~2.0.3"
 
@@ -6544,8 +6549,8 @@ uglify-js@2.6.x:
     yargs "~3.10.0"
 
 uglify-js@3.0.x:
-  version "3.0.17"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.0.17.tgz#d228cd55c2df9b3d2f53f147568cb4cc4a72cc06"
+  version "3.0.18"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.0.18.tgz#d67a3e5a0a08356b787fb1c9bddf3a807630902e"
   dependencies:
     commander "~2.9.0"
     source-map "~0.5.1"
@@ -6683,8 +6688,8 @@ uuid@^2.0.1, uuid@^2.0.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-2.0.3.tgz#67e2e863797215530dff318e5bf9dcebfd47b21a"
 
 uuid@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.1"
@@ -7099,10 +7104,10 @@ yeast@0.1.2:
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
 
 zip-stream@^1.1.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/zip-stream/-/zip-stream-1.1.1.tgz#5216b48bbb4d2651f64d5c6e6f09eb4a7399d557"
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/zip-stream/-/zip-stream-1.2.0.tgz#a8bc45f4c1b49699c6b90198baacaacdbcd4ba04"
   dependencies:
     archiver-utils "^1.3.0"
-    compress-commons "^1.1.0"
+    compress-commons "^1.2.0"
     lodash "^4.8.0"
     readable-stream "^2.0.0"

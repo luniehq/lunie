@@ -43,6 +43,17 @@ function createWindow () {
 
   // eslint-disable-next-line no-console
   console.log('mainWindow opened')
+
+  // handle opening external links in OS's browser
+  let webContents = mainWindow.webContents
+  let handleRedirect = (e, url) => {
+    if(url != webContents.getURL()) {
+      e.preventDefault()
+      require('electron').shell.openExternal(url)
+    }
+  }
+  webContents.on('will-navigate', handleRedirect)
+  webContents.on('new-window', handleRedirect)
 }
 
 function startProcess (name, ...args) {
@@ -60,6 +71,7 @@ function startProcess (name, ...args) {
   child.stderr.on('data', (data) => console.log(`${name}: ${data}`))
   return child
 }
+
 
 app.on('ready', createWindow)
 

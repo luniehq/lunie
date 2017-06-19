@@ -1,8 +1,9 @@
 <template lang="pug">
 .page.page-invite
-  page-header(title="Invite User")
+  page-header
+    div(slot="title") Invite User
+    p Invite Tokens: {{ user.inviteTokens }} / {{ config.MAX_INVITE_TOKENS }}
   form-struct(:submit="onSubmit")
-    div(slot="title") Invite user
     div(slot="subtitle") Invite a Cosmos Atom holder to participate in the delegation game.
     form-group(:error="$v.fields.name.$error")
       field(
@@ -29,10 +30,12 @@
         type="email"
         v-if="!$v.fields.email.email")
     div(slot="footer")
+      div
       btn(theme="cosmos" type="submit" icon="envelope-o" value="Send Invitation")
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { required, email } from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-input'
@@ -50,6 +53,9 @@ export default {
     FormStruct,
     PageHeader
   },
+  computed: {
+    ...mapGetters(['user', 'config'])
+  },
   data: () => ({
     fields: {
       name: '',
@@ -59,14 +65,12 @@ export default {
   methods: {
     onSubmit () {
       this.$v.$touch()
-      console.log('submitting')
       if (!this.$v.$error) {
+        this.$store.commit('useInviteToken')
         this.$store.commit('notifyCustom',
           { title: 'Invitation Sent',
             body: `You have sent an invite to ${this.fields.email}` })
         this.resetFields()
-      } else {
-        console.log('no errors')
       }
     },
     resetFields () {

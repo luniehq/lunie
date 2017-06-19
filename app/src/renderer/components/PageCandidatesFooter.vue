@@ -1,6 +1,5 @@
 <template lang="pug">
 .page-candidates-footer
-  border(color='dim')
   .page-candidates-footer-container
     h1.title {{candidatesNum }} Candidates Selected
     menu
@@ -14,13 +13,11 @@
 </template>
 
 <script>
-import Border from './NiBorder'
 import Btn from '@nylira/vue-button'
 import { mapGetters } from 'vuex'
 export default {
   name: 'page-candidates-footer',
   components: {
-    Border,
     Btn
   },
   computed: {
@@ -43,6 +40,7 @@ export default {
   flex-flow column nowrap
 
 .page-candidates-footer-container
+  border-top 1px solid bc
   padding 1rem 0
   flex 1
   display flex

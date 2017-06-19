@@ -92,7 +92,7 @@ export default {
         dateFormat: 'Y-m-d H:i',
         onChange: (dateObj, dateStr) => this.updateValue(dateStr)
       })
-      console.log('its a datetime!', el)
+      // console.log('its a datetime!', el)
     }
   }
 }
@@ -127,7 +127,7 @@ input.ni-field {
 }
 textarea.ni-field {
   height: 4rem;
-  resize: none;
+  resize: vertical;
 }
 
 /*==============================================================================*/

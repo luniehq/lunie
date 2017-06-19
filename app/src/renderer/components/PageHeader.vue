@@ -6,17 +6,12 @@
         <slot></slot>
       </menu>
     </div>
-    <border color="dim"></border>
   </div>
 </template>
 
 <script>
-import Border from './NiBorder'
 export default {
   name: 'page-header',
-  components: {
-    Border
-  },
   props: ['title']
 }
 </script>
@@ -33,10 +28,10 @@ export default {
   flex 1
   display flex
   align-items center
+  border-bottom 1px solid bc
 
   h1.title
     flex 1
-    color dim
     font-weight bold
     font-size 1.25rem
     line-height 1
@@ -47,8 +42,10 @@ export default {
 
   menu
     display none
-    .ni-btn, .ni-field
+    .ni-btn, .ni-field, p
       margin-left 1rem
+    p
+      font-label()
 
 @media screen and (min-width: 480px)
   .page-header-container

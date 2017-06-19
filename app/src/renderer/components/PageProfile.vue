@@ -10,7 +10,7 @@
         div(slot="value") {{ user.atoms }}
       key-value
         div(slot="key") Invite Tokens
-        div(slot="value") {{ user.invitations }}
+        div(slot="value") {{ user.inviteTokens }}
 </template>
 
 <script>

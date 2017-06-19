@@ -1,7 +1,7 @@
 <template>
   <div :class="cssClass">
-    <template v-if="body">{{ body }}</template>
-    <template v-else>{{ name }} {{ error }}</template>
+    <template v-if="name">{{ name }} {{ error }}</template>
+    <slot v-else></slot>
   </div>
 </template>
 
@@ -26,6 +26,10 @@ export default {
           msg = 'must contain only numerals'; break
         case 'between':
           msg = `must be between ${this.min} and ${this.max}`; break
+        case 'date':
+          msg = `must be a valid date`; break
+        case 'datetime':
+          msg = `must be a valid date and time`; break
         case 'exactLength':
           msg = `must be exactly ${this.length} characters`; break
         case 'length':
@@ -38,6 +42,8 @@ export default {
           msg = `must be shorter than ${this.max} characters`; break
         case 'required':
           msg = 'is required'; break
+        case 'url':
+          msg = 'must be a valid URL (http:// required)'; break
         default:
           msg = 'must be valid'; break
       }
