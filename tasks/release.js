@@ -29,7 +29,7 @@ function pack () {
  */
 function build () {
   let options = require('../config').building
-  let basecoinCommand = options.light ? 'basecli' : 'basecoin'
+  let basecoinCommand = options.light ? 'gaiacli' : 'gaia'
 
   options.afterCopy = [
     goBuild(`github.com/tendermint/basecoin/cmd/${basecoinCommand}`)

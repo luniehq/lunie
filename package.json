@@ -10,7 +10,7 @@
     "build:mas": "cross-env PLATFORM_TARGET=mas node tasks/release.js",
     "build:win32": "cross-env PLATFORM_TARGET=win32 node tasks/release.js",
     "dev": "node tasks/runner.js",
-    "dev2": "rm -rf ~/.basecoin-ui-dev && node tasks/runner.js",
+    "dev2": "rm -rf ~/.delegation-game-ui-dev && node tasks/runner.js",
     "e2e": "npm run pack && mocha test/e2e",
     "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter app test",
     "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix app test",
