@@ -19,6 +19,9 @@ const winURL = DEV
 // what host the light client should connect to
 let BASECOIN_PEER = process.env.BASECOIN_PEER || 'localhost:46657'
 
+let NODE_BINARY = 'gaia'
+let LIGHT_CLIENT_BINARY = 'gaiacli'
+
 function createWindow () {
   /**
    * Initial window options
@@ -100,13 +103,17 @@ function startBasecoin (root, light, cb) {
   if (light) {
     // TODO: figure out what node to connect to
     // TODO: configurable chainid
-    child = startProcess('basecli', [
+    child = startProcess(LIGHT_CLIENT_BINARY, [
       'proxy',
       '--node', `tcp://${BASECOIN_PEER}`,
-      '--chainid', 'test_chain_id'
+      '--chainid', 'test_chain_id',
+      '--home', root
     ], opts)
   } else {
-    child = startProcess('basecoin', [ 'start' ], opts)
+    child = startProcess(NODE_BINARY, [
+      'start',
+      '--home', root
+    ], opts)
   }
 
   child.stdout.on('data', waitForRpc)
@@ -136,10 +143,11 @@ let createDataDir = watt(function * (root, light, next) {
   let child
   if (light) {
     // `basecli init` to set up light client stuff
-    child = startProcess('basecli', [
+    child = startProcess(LIGHT_CLIENT_BINARY, [
       'init',
       '--node', `tcp://${BASECOIN_PEER}`,
-      '--chainid', 'test_chain_id'
+      '--chainid', 'test_chain_id',
+      '--home', root
     ], opts)
     child.stdin.write('y\n')
     yield child.on('exit', next.arg(0))
@@ -148,7 +156,10 @@ let createDataDir = watt(function * (root, light, next) {
     yield fs.copy(join(__dirname, '../../bchome'), root, next)
 
     // `basecoin init` to generate account keys, validator key
-    child = startProcess('basecoin', [ 'init' ], opts)
+    child = startProcess(NODE_BINARY, [
+      'init',
+      '--home', root
+    ], opts)
     yield child.on('exit', next.arg(0))
   }
 
