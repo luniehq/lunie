@@ -26,6 +26,7 @@ const main = watt(function * (next) {
   const store = Store({ basecoin })
   store.dispatch('startReadingLog')
   store.dispatch('startPollingNodeStatus')
+  store.dispatch('startCandidateInterval')
 
   return new Vue({
     router,

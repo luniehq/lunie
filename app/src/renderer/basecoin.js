@@ -1,6 +1,6 @@
 'use strict'
 
-const Basecoin = require('basecoin')
+const DelegationGame = require('cosmos-delegation-game')
 const watt = require('watt')
 
 const LIGHT = process.env.BASECOIN_LIGHT_CLIENT != null
@@ -10,14 +10,14 @@ module.exports = watt(function * (next) {
   let client
   while (true) {
     try {
-      client = Basecoin(RPC_URI)
+      client = DelegationGame(RPC_URI)
       client.once('error', next)
       yield client.rpc.status(next)
-      console.log('connected to basecoin RPC')
+      console.log('connected to gaia RPC')
       client.removeListener('error', next)
       break
     } catch (err) {
-      console.log('waiting for basecoin RPC')
+      console.log('waiting for gaia RPC')
       yield setTimeout(next, 1000) // wait 1s
     }
   }

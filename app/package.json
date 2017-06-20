@@ -5,8 +5,8 @@
   "main": "./dist/main.js",
   "dependencies": {
     "babel-runtime": "^6.23.0",
-    "basecoin": "^2.2.1",
     "clipboard": "^1.6.0",
+    "cosmos-delegation-game": "^0.0.0",
     "fs-extra": "^2.0.0",
     "mkdirp": "^0.5.1",
     "old": "^0.2.0",
