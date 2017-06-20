@@ -20,11 +20,11 @@
       },
       "coins": [
         {
-          "denom": "mycoin",
+          "denom": "atom",
           "amount": 9007199254740992
         },
         {
-          "denom": "sweetcoin",
+          "denom": "mycoin",
           "amount": 9007199254740992
         }
       ]
