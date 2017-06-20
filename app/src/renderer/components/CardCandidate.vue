@@ -9,12 +9,12 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
           router-link(:to="{ name: 'candidate', params: { candidate: candidate.id } }")
             | {{ candidate.id }}
       .value.atoms.num.bar
-        span {{ num.prettyInt(candidate.atoms) }}
+        span {{ num.prettyInt(candidate.computed.atoms) }}
         .bar(:style='barCss')
       .value.delegators.num
         span
           i.fa.fa-user
-          |  {{ num.prettyInt(candidate.delegators) }}
+          |  {{ num.prettyInt(candidate.computed.delegators) }}
     menu
       btn(theme='cosmos' v-if='inCart' icon='times' value='Remove' size='sm' @click.native='rm(candidate.id)')
       btn(v-else='', theme='cosmos', icon='check', value='Add', size='sm', @click.native='add(candidate.id)')
@@ -40,13 +40,13 @@ export default {
     },
     maxAtoms () {
       if (this.candidates) {
-        let richestCandidate = maxBy(this.candidates, 'atoms')
-        return richestCandidate.atoms
+        let richestCandidate = maxBy(this.candidates, 'computed.atoms')
+        return richestCandidate.computed.atoms
       }
       return 0
     },
     barCss () {
-      let percentage = Math.round((this.candidate.atoms / this.maxAtoms) * 100)
+      let percentage = Math.round((this.candidate.computed.atoms / this.maxAtoms) * 100)
       return {
         width: percentage + '%'
       }

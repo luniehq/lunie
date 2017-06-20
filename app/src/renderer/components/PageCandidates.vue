@@ -65,8 +65,8 @@ export default {
       order: 'desc',
       properties: [
         { id: 1, title: 'Candidate ID', value: 'id' },
-        { id: 2, title: 'Atoms', value: 'atoms', initial: true },
-        { id: 3, title: 'Delegators', value: 'delegators' }
+        { id: 2, title: 'Atoms', value: 'computed.atoms', initial: true },
+        { id: 3, title: 'Delegators', value: 'computed.delegators' }
       ]
     }
   })

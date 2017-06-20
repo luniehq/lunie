@@ -1,7 +1,7 @@
 <template>
   <div class="page-header">
     <div class="page-header-container">
-      <h1 class="title"><slot name="title">{{ title }}</slot></h1>
+      <h1 class="title"><slot name="title"></slot></h1>
       <menu>
         <slot></slot>
       </menu>
@@ -11,8 +11,7 @@
 
 <script>
 export default {
-  name: 'page-header',
-  props: ['title']
+  name: 'page-header'
 }
 </script>
 
@@ -24,18 +23,17 @@ export default {
   flex-flow column nowrap
 
 .page-header-container
-  padding 1rem 0
+  padding 1rem 0 1rem - px
+  height 5rem
   flex 1
   display flex
   align-items center
-  border-bottom 1px solid bc
+  border-bottom 1px solid bc-dim
 
   h1.title
     flex 1
-    font-weight bold
     font-size 1.25rem
     line-height 1
-    text-transform uppercase
     em
       font-weight normal
       font-style normal

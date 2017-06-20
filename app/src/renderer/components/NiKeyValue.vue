@@ -42,10 +42,7 @@ export default {
 .ni-kv-key
 .ni-kv-value
   height 2rem - 2*px
-  padding 0 0.5rem
-
-  font-label()
-  color dim
+  padding 0 1rem - 2*px
 
   display flex
   align-items center
@@ -59,6 +56,8 @@ export default {
   flex 1
 
   > div
+    font-label()
+    color dim
     font-size 0.666rem
     letter-spacing 0.025em
 
@@ -66,12 +65,13 @@ export default {
   flex 2
   text-transform none
   
-  > div
-    font-size 0.875rem
+  > div, > a
     color bright
 
-  > div a
-    color accent1
+  > a, > div a
+    color link
+    &:hover
+      color hover
 
 @media screen and (min-width: 768px)
   .ni-kv-value

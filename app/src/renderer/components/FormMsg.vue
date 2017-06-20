@@ -32,6 +32,8 @@ export default {
           msg = `must be a valid date and time`; break
         case 'exactLength':
           msg = `must be exactly ${this.length} characters`; break
+        case 'ipAddress':
+          msg = 'must be a valid IPv4 or IPv6 address'; break
         case 'length':
           msg = `must be between ${this.min} and ${this.max} characters`; break
         case 'minLength':

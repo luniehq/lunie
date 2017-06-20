@@ -1,12 +1,13 @@
 <template lang="pug">
   .page.page-profile
-    page-header(title="Your Profile")
+    page-header
+      div(slot="title") Your Profile
     key-values
       key-value
         div(slot="key") Public Key
         div(slot="value") {{ user.pubkey }}
       key-value
-        div(slot="key") Atoms/div
+        div(slot="key") Atoms
         div(slot="value") {{ user.atoms }}
       key-value
         div(slot="key") Invite Tokens

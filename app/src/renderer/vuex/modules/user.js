@@ -1,6 +1,5 @@
 export default ({ commit, basecoin }) => {
   const emptyNomination = {
-    active: false,
     keybase: '',
     country: '',
     website: '',
@@ -11,8 +10,8 @@ export default ({ commit, basecoin }) => {
   }
 
   const state = {
-    pubkey: 'asdofiandsfa223',
-    atoms: 24380,
+    pubkey: 'AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9',
+    atoms: 24399,
     inviteTokens: 10,
     nominationActive: false,
     nomination: JSON.parse(JSON.stringify(emptyNomination))
@@ -26,10 +25,12 @@ export default ({ commit, basecoin }) => {
     resetNomination () {
       state.nomination = JSON.parse(JSON.stringify(emptyNomination))
     },
-    submitNomination (state, value) {
-      state.nomination.active = true
+    activateNomination (state) {
+      state.nominationActive = true
+    },
+    saveNomination (state, value) {
       state.nomination = value
-      console.log('nomination submitted: ', JSON.stringify(state.nomination))
+      console.log('nomination saved: ', JSON.stringify(state.nomination))
     }
   }
   return { state, mutations }

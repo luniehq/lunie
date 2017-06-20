@@ -1,38 +1,39 @@
 <template lang="pug">
-  .page.page-welcome
-    page-header(title="Welcome - Important Notice")
-    article-body
-      p Please read the following carefully before signing in to the Cosmos Delegation Game.
-      p We want to discourage you from delegating your atoms to the validator with the most delegators, as that can cause them to achieve an unsafe amount of voting power.
+.page.page-welcome
+  page-header
+    div(slot="title") Welcome - Important Notice
+  article-body
+    p Please read the following carefully before signing in to the Cosmos Delegation Game.
+    p We want to discourage you from delegating your atoms to the validator with the most delegators, as that can cause them to achieve an unsafe amount of voting power.
 
-      p When you delegate your atoms, they will be bonded to the validator and you won’t able to transfer them or sell them unless you activate a month-long unbonding period.
+    p When you delegate your atoms, they will be bonded to the validator and you won’t able to transfer them or sell them unless you activate a month-long unbonding period.
 
-      p If you delegate your atoms to a malicious validator, you take the risk of having your atoms slashed when the validator makes poor decisions.
+    p If you delegate your atoms to a malicious validator, you take the risk of having your atoms slashed when the validator makes poor decisions.
 
-      p Now that you have been thoroughly warned, please type in “{{ fields.agreement }}” into the input field below.
+    p Now that you have been thoroughly warned, please type in “{{ fields.agreement }}” into the input field below.
 
-    form-struct(:submit="onSubmit")
-      form-group(:error="$v.fields.repeatAgreement.$error")
-        field(
-          theme="cosmos"
-          type="text"
-          placeholder="Type here..."
-          v-model="fields.repeatAgreement")
-        form-msg(
-          name="Agreement"
-          type="required"
-          v-if="!$v.fields.repeatAgreement.required")
-        form-msg(
-          name="Agreement"
-          type="match"
-          v-if="!$v.fields.repeatAgreement.sameAsAgreement")
-      div(slot="footer")
-        btn(theme="cosmos" type="submit" icon="check" value="Continue")
+  form-struct(:submit="onSubmit")
+    form-group(:error="$v.fields.repeatAgreement.$error")
+      field(
+        theme="cosmos"
+        type="text"
+        placeholder="Type here..."
+        v-model="fields.repeatAgreement")
+      form-msg(
+        name="Agreement"
+        type="required"
+        v-if="!$v.fields.repeatAgreement.required")
+      form-msg(
+        name="Agreement"
+        type="match"
+        v-if="!$v.fields.repeatAgreement.sameAsAgreement")
+    div(slot="footer")
+      btn(theme="cosmos" type="submit" icon="check" value="Continue")
 </template>
 
 <script>
 import { required, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
-import ArticleBody from './ArticleBody'
+import ArticleBody from './NiArticleBody'
 import NiSection from './NiSection'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-input'

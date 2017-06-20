@@ -112,10 +112,8 @@ export default {
   background: #fff;
 }
 .ni-field:disabled {
-  color: #666;
-  text-shadow: none;
-  box-shadow: none;
-  background: #eee;
+  opacity: 0.666;
+  cursor: not-allowed;
 }
 .ni-field:focus {
   outline: none;

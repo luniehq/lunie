@@ -1,6 +1,7 @@
 <template lang='pug'>
 .page.page-sign-in
-  page-header(title='Sign In')
+  page-header
+    div(slot="title") Sign In
   form-struct(:submit='onSubmit')
     form-group(:error='$v.fields.seed.$error')
       field(
