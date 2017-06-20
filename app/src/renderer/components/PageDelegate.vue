@@ -25,7 +25,7 @@
         // btn(type="button" theme="cosmos" value="Clear"
           @click.native="clearAtoms('unreserved')")
         btn(type="button" theme="cosmos" value="Remove" disabled)
-      form-msg(body="Reserved Atoms will be held by you and remain unbonded")
+      form-msg: div Reserved Atoms will be held by you and remain unbonded
       form-msg(name="Reserved Atoms" type="required"
         v-if="!$v.fields.reservedAtoms.required")
       form-msg(name="Reserved Atoms" type="numeric"
