@@ -4,19 +4,22 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
     .values
       .value.id
         span
-          template(v-if='user.signedIn')
+          template(v-if='isDelegator')
             i.fa.fa-check-square-o(v-if='inCart' @click='rm(candidate.id)')
             i.fa.fa-square-o(v-else @click='add(candidate.id)')
           router-link(:to="{ name: 'candidate', params: { candidate: candidate.id }}")
             | {{ candidate.id }}
       .value.atoms.num.bar
-        span {{ num.prettyInt(candidate.computed.atoms) }}
-        .bar(:style='barCss')
+        span {{ num.prettyInt(candidate.atoms) }}
+        .bar(:style='atomsCss')
+      .value.atoms.num.bar.delegated
+        span {{ num.prettyInt(candidate.computed.delegatedAtoms) }}
+        .bar(:style='delegatedAtomsCss')
       .value.delegators.num
         span
           i.fa.fa-user
           |  {{ num.prettyInt(candidate.computed.delegators) }}
-    menu(v-if='user.signedIn')
+    menu(v-if='isDelegator')
       btn(theme='cosmos' v-if='inCart'
         icon='times' value='Remove' size='sm' @click.native='rm(candidate.id)')
       btn(v-else='' theme='cosmos'
@@ -36,6 +39,7 @@ export default {
   },
   computed: {
     ...mapGetters(['shoppingCart', 'candidates', 'user']),
+    isDelegator () { return this.user.signedIn && !this.user.nominationActive },
     cssClass () {
       let value = 'card-candidate'
       if (this.inCart) value += ' card-candidate-active '
@@ -43,16 +47,24 @@ export default {
     },
     maxAtoms () {
       if (this.candidates) {
-        let richestCandidate = maxBy(this.candidates, 'computed.atoms')
-        return richestCandidate.computed.atoms
-      }
-      return 0
+        let richestCandidate = maxBy(this.candidates, 'atoms')
+        return richestCandidate.atoms
+      } else { return 0 }
     },
-    barCss () {
-      let percentage = Math.round((this.candidate.computed.atoms / this.maxAtoms) * 100)
-      return {
-        width: percentage + '%'
-      }
+    atomsCss () {
+      let percentage = Math.round((this.candidate.atoms / this.maxAtoms) * 100)
+      return { width: percentage + '%' }
+    },
+    maxDelegatedAtoms () {
+      if (this.candidates) {
+        let richestCandidate = maxBy(this.candidates, 'computed.delegatedAtoms')
+        return richestCandidate.computed.delegatedAtoms
+      } else { return 0 }
+    },
+    delegatedAtomsCss () {
+      let percentage = Math.round((this.candidate.computed.delegatedAtoms /
+        this.maxDelegatedAtoms) * 100)
+      return { width: percentage + '%' }
     },
     inCart () {
       return this.shoppingCart.find(c => c.candidateId === this.candidate.id)
@@ -122,9 +134,13 @@ export default {
 
       .bar
         height 1.5rem
-        border-right 4px solid lighten(c-app-fg, 4%)
         background alpha(c-app-fg, 75%)
         margin-right 1rem
+      &.delegated
+        span
+          color light
+        .bar
+          background alpha(c-app-fg, 50%)
 
     span
       display block

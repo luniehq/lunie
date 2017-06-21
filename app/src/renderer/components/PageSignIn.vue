@@ -87,7 +87,7 @@ export default {
     welcomeOnSubmit () {
       this.$v.welcomeFields.$touch()
       if (!this.$v.welcomeFields.$error) {
-        console.log('welcome on submit...')
+        // console.log('welcome on submit...')
         this.signInStep += 1
       }
     },

@@ -59,11 +59,9 @@
         v-if="!$v.fields.candidates.$each[index].atoms.between")
 
     div(slot="footer")
-      .left
-        btn(theme="cosmos" icon="refresh" value="Reset" type="button"
-          @click.native="resetCandidates")
+      div
         btn(theme="cosmos" icon="balance-scale" value="Equalize" type="button" @click.native="equalAlloc")
-      btn(theme="cosmos" icon="check" value="Confirm Allocation")
+      btn(theme="cosmos" icon="check" value="Set Allocation")
 </template>
 
 <script>
@@ -103,9 +101,6 @@ export default {
     unallocatedAtomsPercent () {
       return Math.round(this.unallocatedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
     }
-  },
-  created () {
-    this.resetFields()
   },
   data: () => ({
     equalize: false,
@@ -171,23 +166,19 @@ export default {
       }
       this.$v.$touch()
       if (!this.$v.$error) {
+        this.$store.commit('activateDelegation')
+        this.$store.commit('saveDelegation', this.fields)
         this.$store.commit('notifyCustom',
           { title: 'Atom Allocation Set',
             body: 'You have successfully set your atom allocation. You can change it up until the end of the game.' })
-        this.resetFields()
       } else {
-        console.log('submission has an error', this.$v.$error)
+        console.log('onSubmit error', this.$v.$error)
       }
     },
     resetCandidates () {
       this.fields.candidates = []
       this.shoppingCart.map(c => this.fields.candidates.push(
         { candidateId: c.candidateId, atoms: c.atoms }))
-    },
-    resetFields () {
-      this.$v.$reset()
-      this.fields.reservedAtoms = 0
-      this.resetCandidates()
     },
     getShoppingCartItem (candidateId) {
       return this.shoppingCart.find(c => c.candidateId === candidateId)
@@ -206,12 +197,16 @@ export default {
     }
   },
   mounted () {
+    this.resetCandidates()
     this.leaveIfNoCandidates(this.shoppingCart.length)
+    if (this.user.delegationActive) {
+      this.fields = JSON.parse(JSON.stringify(this.user.delegation))
+    }
   },
   watch: {
     shoppingCart (newVal) {
       this.leaveIfNoCandidates(newVal.length)
-      this.resetCandidates()
+      // this.resetCandidates()
       if (this.equalize) { this.equalAlloc }
     }
   },

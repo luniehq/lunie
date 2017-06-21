@@ -2,8 +2,11 @@
 .page.page-nominate
   page-header
     div(slot="title")
-      | Self-Nomination
-      span(v-if="user.nominationActive")  (Update)
+      span(v-if='user.nominationActive') Edit Candidacy
+      span(v-else) Self-Nomination
+    btn(v-if='user.nominationActive' theme='cosmos' type='link'
+      icon='eye' value='View Candidate'
+      :to="{name: 'candidate', params: { candidate: fields.id }}")
   form-struct(:submit='onSubmit')
     form-group(:error='$v.fields.id.$error')
       label(for='form-nominate-id') Keybase ID
@@ -134,7 +137,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { between, minLength, maxLength, required, url } from 'vuelidate/lib/validators'
-import validateIP from 'validate-ip-node'
+// import validateIP from 'validate-ip-node'
 // import moment from 'moment'
 import Btn from '@nylira/vue-button'
 import Field from './NiField'
@@ -163,6 +166,7 @@ export default {
   data: () => ({
     edit: false,
     fields: {
+      atoms: '',
       commissionPercent: '',
       country: '',
       description: '',
@@ -193,6 +197,7 @@ export default {
     resetFields () {
       this.$v.$reset()
       this.fields = {
+        atoms: this.user.atoms,
         country: '',
         commissionPercent: '',
         description: '',
@@ -205,6 +210,7 @@ export default {
     }
   },
   mounted () {
+    this.fields.atoms = this.user.atoms
     if (this.user.nominationActive) {
       this.fields = JSON.parse(JSON.stringify(this.user.nomination))
     }
@@ -250,7 +256,8 @@ export default {
       },
       */
       ipAddress: {
-        ipAddress (x) { return validateIP(x) }
+        // required,
+        // ipAddress (x) { return validateIP(x) }
       }
     }
   })

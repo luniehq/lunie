@@ -3,11 +3,13 @@
   page-header
     div(slot="title") {{ candidate.id }}
     btn(theme='cosmos' type='link' to='/' icon='angle-left' value='All Candidates')
-    template(v-if='user.signedIn')
+    template(v-if='isDelegator')
       btn(theme='cosmos'
         v-if='inCart' icon='times' value='Remove' @click.native='rm(candidate.id)')
       btn(v-else
         theme='cosmos' icon='check' value='Add' @click.native='add(candidate.id)')
+    btn(v-if='isMe' theme='cosmos' type='link' to='/nominate'
+      icon='edit' value='Edit Candidacy')
   div
     article-body
       div(v-html='md(candidate.description)')
@@ -18,17 +20,17 @@
         div(slot='key') Start Date
         div(slot='value') {{ candidate.startDate }}
       key-value
+        div(slot='key') Commission
+        div(slot='value') {{ candidate.commissionPercent }}%
+      key-value
         div(slot='key') Country
         div(slot='value') {{ countryName(candidate.country) }}
       key-value
-        div(slot='key') IP Address
-        a(slot='value' :href="candidate.ipAddress") {{ candidate.ipAddress }}
-      key-value
         div(slot='key') Website
         a(slot='value' :href="candidate.website") {{ candidate.website }}
-      key-value
-        div(slot='key') Commission
-        div(slot='value') {{ candidate.commissionPercent }}%
+      key-value(v-if='candidate.ipAddress')
+        div(slot='key') IP Address
+        a(slot='value' :href="candidate.ipAddress") {{ candidate.ipAddress }}
     key-values
       key-value
         div(slot='key') Atoms
@@ -70,6 +72,10 @@ export default {
     },
     inCart () {
       return this.shoppingCart.find(c => c.candidateId === this.candidate.id)
+    },
+    isDelegator () { return this.user.signedIn && !this.user.nominationActive },
+    isMe () {
+      return this.user.nominationActive && this.user.nomination.id === this.candidate.id
     }
   },
   methods: {
@@ -87,7 +93,8 @@ export default {
       this.$store.commit('removeFromCart', candidateId)
     }
   },
-  data: () => ({
-  })
+  mounted () {
+    if (!this.candidate) { this.$router.push('/') }
+  }
 }
 </script>
