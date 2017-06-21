@@ -196,8 +196,8 @@ export default {
         country: '',
         commissionPercent: '',
         description: '',
-        ipAddress: '',
         id: '',
+        ipAddress: '',
         serverPower: '',
         // startDate: '',
         website: ''

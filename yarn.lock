@@ -2793,8 +2793,8 @@ flat-cache@^1.2.1:
     write "^0.2.1"
 
 flatpickr@^3.0.5-1:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-3.0.5.tgz#a73ccaa1fc3609219ca91dd334ce0c45a7f012f1"
+  version "3.0.5-1"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-3.0.5-1.tgz#c642991b71f8a404ec45e47e03dbf72c48f8b622"
 
 flatten@^1.0.2:
   version "1.0.2"
