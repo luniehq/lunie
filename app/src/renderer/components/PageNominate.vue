@@ -81,35 +81,8 @@
       form-msg(name='Country' type='required'
         v-if='!$v.fields.country.required')
 
-    form-group(:error='$v.fields.ipAddress.$error')
-      label(for='form-nominate-ip-address') IP Address
-      field-group
-        field(
-          id='form-nominate-ip-address'
-          theme='cosmos'
-          type='text'
-          placeholder='Enter IP'
-          v-model.trim='fields.ipAddress')
-      form-msg(name='IP Address' type='required'
-        v-if='!$v.fields.ipAddress.required')
-      form-msg(name='IP Address' type='ipAddress'
-        v-if='!$v.fields.ipAddress.ipAddress')
-
-    form-group(:error='$v.fields.website.$error')
-      label(for='form-nominate-website') Website
-      field(
-        id='form-nominate-website'
-        theme='cosmos'
-        type='text'
-        placeholder='https://'
-        v-model='fields.website')
-      form-msg( name='Website' type='required'
-        v-if='!$v.fields.website.required')
-      form-msg(name='Website' type='url'
-        v-if='!$v.fields.website.url')
-
     form-group(:error='$v.fields.commissionPercent.$error')
-      label(for='form-nominate-commission-percent') Commission
+      label(for='form-nominate-commission-percent') Commission Percent
       field-group
         field(
           id='form-nominate-commission-percent'
@@ -124,6 +97,31 @@
       form-msg(name='Commission' type='between'
         :min='config.CANDIDATE.COMMISSION_MIN' :max='config.CANDIDATE.COMMISSION_MAX'
         v-if='!$v.fields.commissionPercent.between')
+
+    form-group(:error='$v.fields.website.$error')
+      label(for='form-nominate-website') Website
+      field(
+        id='form-nominate-website'
+        theme='cosmos'
+        type='text'
+        placeholder='https://'
+        v-model='fields.website')
+      form-msg( name='Website' type='required'
+        v-if='!$v.fields.website.required')
+      form-msg(name='Website' type='url'
+        v-if='!$v.fields.website.url')
+
+    form-group(:error='$v.fields.ipAddress.$error')
+      label(for='form-nominate-ip-address') Public IP Address (Optional)
+      field-group
+        field(
+          id='form-nominate-address'
+          theme='cosmos'
+          type='text'
+          placeholder='Enter IP'
+          v-model.trim='fields.ipAddress')
+      form-msg(name='IP Address' type='ipAddress'
+        v-if='!$v.fields.ipAddress.ipAddress')
 
     div(slot='footer')
       div
@@ -158,6 +156,9 @@ export default {
   },
   computed: {
     ...mapGetters(['config', 'user'])
+  },
+  created () {
+    if (!this.user.signedIn) { this.$store.commit('notifyAuthRequired') }
   },
   data: () => ({
     edit: false,
@@ -249,7 +250,6 @@ export default {
       },
       */
       ipAddress: {
-        required,
         ipAddress (x) { return validateIP(x) }
       }
     }

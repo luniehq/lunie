@@ -13,12 +13,12 @@
 
   <menu class="menu-popup menu-app" v-if="activeMenu || desktop" @click="hide">
     <nav class="nav-app">
-      <router-link to="/welcome" exact>Welcome</router-link>
-      <router-link to="/signin" exact>Sign In</router-link>
       <router-link to="/" exact>Candidates</router-link>
-      <router-link to="/nominate" exact>Nominate</router-link>
-      <router-link to="/invite" exact>Invite</router-link>
-      <router-link to="/profile" exact>Profile</router-link>
+      <template v-if="user.signedIn">
+        <router-link to="/nominate" exact>Self-Nomination</router-link>
+        <router-link to="/profile" exact>Profile</router-link>
+      </template>
+      <router-link v-else to="/signin" exact>Sign In</router-link>
     </nav>
   </menu>
 
@@ -28,8 +28,12 @@
 
 <script>
 import disableScroll from 'disable-scroll'
+import { mapGetters } from 'vuex'
 export default {
   name: 'app-header',
+  computed: {
+    ...mapGetters(['user'])
+  },
   data: () => ({
     activeMenu: false,
     desktop: false

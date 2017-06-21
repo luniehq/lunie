@@ -1,12 +1,13 @@
-<template lang="pug">
+<template lang='pug'>
 transition(name='ts-card-candidate'): div(:class='cssClass')
   .card-candidate-container
     .values
       .value.id
         span
-          i.fa.fa-check-square-o(v-if='inCart' @click='rm(candidate.id)')
-          i.fa.fa-square-o(v-else @click='add(candidate.id)')
-          router-link(:to="{ name: 'candidate', params: { candidate: candidate.id } }")
+          template(v-if='user.signedIn')
+            i.fa.fa-check-square-o(v-if='inCart' @click='rm(candidate.id)')
+            i.fa.fa-square-o(v-else @click='add(candidate.id)')
+          router-link(:to="{ name: 'candidate', params: { candidate: candidate.id }}")
             | {{ candidate.id }}
       .value.atoms.num.bar
         span {{ num.prettyInt(candidate.computed.atoms) }}
@@ -15,9 +16,11 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
         span
           i.fa.fa-user
           |  {{ num.prettyInt(candidate.computed.delegators) }}
-    menu
-      btn(theme='cosmos' v-if='inCart' icon='times' value='Remove' size='sm' @click.native='rm(candidate.id)')
-      btn(v-else='', theme='cosmos', icon='check', value='Add', size='sm', @click.native='add(candidate.id)')
+    menu(v-if='user.signedIn')
+      btn(theme='cosmos' v-if='inCart'
+        icon='times' value='Remove' size='sm' @click.native='rm(candidate.id)')
+      btn(v-else='' theme='cosmos'
+        icon='check' value='Add' size='sm' @click.native='add(candidate.id)')
 </template>
 
 <script>
@@ -32,7 +35,7 @@ export default {
     Btn
   },
   computed: {
-    ...mapGetters(['shoppingCart', 'candidates']),
+    ...mapGetters(['shoppingCart', 'candidates', 'user']),
     cssClass () {
       let value = 'card-candidate'
       if (this.inCart) value += ' card-candidate-active '

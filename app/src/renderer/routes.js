@@ -12,11 +12,6 @@ export default [
     component: r('Delegate')
   },
   {
-    path: '/invite',
-    name: 'invite',
-    component: r('Invite')
-  },
-  {
     path: '/nominate',
     name: 'nominate',
     component: r('Nominate')

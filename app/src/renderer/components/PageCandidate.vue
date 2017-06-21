@@ -3,10 +3,11 @@
   page-header
     div(slot="title") {{ candidate.id }}
     btn(theme='cosmos' type='link' to='/' icon='angle-left' value='All Candidates')
-    btn(theme='cosmos'
-      v-if='inCart' icon='times' value='Remove' @click.native='rm(candidate.id)')
-    btn(v-else
-      theme='cosmos' icon='check' value='Add' @click.native='add(candidate.id)')
+    template(v-if='user.signedIn')
+      btn(theme='cosmos'
+        v-if='inCart' icon='times' value='Remove' @click.native='rm(candidate.id)')
+      btn(v-else
+        theme='cosmos' icon='check' value='Add' @click.native='add(candidate.id)')
   div
     article-body
       div(v-html='md(candidate.description)')
@@ -59,7 +60,7 @@ export default {
     KeyValues
   },
   computed: {
-    ...mapGetters(['candidates', 'countries', 'shoppingCart']),
+    ...mapGetters(['candidates', 'countries', 'shoppingCart', 'user']),
     candidate () {
       let value = {}
       if (this.candidates) {

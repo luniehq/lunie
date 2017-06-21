@@ -9,18 +9,29 @@ export default ({ commit, basecoin }) => {
     description: ''
   }
 
-  const state = {
-    pubkey: 'AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9',
-    atoms: 24399,
-    inviteTokens: 10,
+  const emptyUser = {
+    atoms: 0,
     nominationActive: false,
-    nomination: JSON.parse(JSON.stringify(emptyNomination))
+    nomination: JSON.parse(JSON.stringify(emptyNomination)),
+    pubkey: '',
+    signedIn: false
   }
 
+  const state = JSON.parse(JSON.stringify(emptyUser))
+
   const mutations = {
-    useInviteToken (state) {
-      console.log('used up one invite token')
-      state.inviteTokens--
+    // TODO: fix hardcoded user stats
+    signIn () {
+      state.atoms = 24399
+      state.pubkey = 'AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9'
+      state.signedIn = true
+    },
+    signOut () {
+      state.atoms = 0
+      state.nominationActive = false
+      state.nomination = JSON.parse(JSON.stringify(emptyNomination))
+      state.pubkey = ''
+      state.signedIn = false
     },
     resetNomination () {
       state.nomination = JSON.parse(JSON.stringify(emptyNomination))

@@ -1,10 +1,10 @@
 <template lang="pug">
 .page.page-candidates
   page-header
-    div(slot="title") Candidates ({{candidatesNum }} Selected)
+    div(slot="title") Candidates #[span(v-if='signedIn') ({{candidatesNum }} Selected)]
     field(theme='cosmos', type='text', placeholder='Filter...', v-model='query')
     btn(
-      v-if="candidatesNum > 0"
+      v-if="signedIn && candidatesNum > 0"
       theme='cosmos'
       type='link'
       to='/delegate'
@@ -13,7 +13,7 @@
       :value='btnLabel')
     btn(
       disabled
-      v-else
+      v-else-if='signedIn'
       theme='cosmos'
       icon='angle-right'
       icon-pos='right'
@@ -41,7 +41,7 @@ export default {
     PanelSort
   },
   computed: {
-    ...mapGetters(['candidates', 'shoppingCart']),
+    ...mapGetters(['candidates', 'shoppingCart', 'user']),
     filteredCandidates () {
       let value = []
       let query = this.query
@@ -56,7 +56,8 @@ export default {
     },
     btnLabel () {
       return `Delegate`
-    }
+    },
+    signedIn () { return this.user.signedIn }
   },
   data: () => ({
     query: '',

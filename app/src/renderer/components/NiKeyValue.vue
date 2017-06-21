@@ -47,6 +47,9 @@ export default {
   display flex
   align-items center
 
+  // fix for longer strings
+  min-width 0
+
   > div
     white-space nowrap
     overflow hidden

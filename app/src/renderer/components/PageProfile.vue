@@ -1,17 +1,15 @@
-<template lang="pug">
+<template lang='pug'>
   .page.page-profile
     page-header
-      div(slot="title") Your Profile
+      div(slot='title') Your Profile
+      btn(theme='cosmos' icon='sign-out' value='Sign Out' @click.native='signOut')
     key-values
       key-value
-        div(slot="key") Public Key
-        div(slot="value") {{ user.pubkey }}
+        div(slot='key') Public Key
+        div(slot='value') {{ user.pubkey }}
       key-value
-        div(slot="key") Atoms
-        div(slot="value") {{ user.atoms }}
-      key-value
-        div(slot="key") Invite Tokens
-        div(slot="value") {{ user.inviteTokens }}
+        div(slot='key') Atoms
+        div(slot='value') {{ user.atoms }}
 </template>
 
 <script>
@@ -30,6 +28,15 @@ export default {
   },
   computed: {
     ...mapGetters(['user'])
+  },
+  created () {
+    if (!this.user.signedIn) { this.$store.commit('notifyAuthRequired') }
+  },
+  methods: {
+    signOut () {
+      this.$store.commit('signOut')
+      this.$store.commit('notifySignOut')
+    }
   }
 }
 </script>
