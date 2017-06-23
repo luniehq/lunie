@@ -146,6 +146,7 @@ import FormGroup from './FormGroup'
 import FormMsg from './FormMsg'
 import FormStruct from './FormStruct'
 import PageHeader from './PageHeader'
+import { PrivKey } from 'tendermint-crypto'
 export default {
   name: 'page-nominate',
   components: {
@@ -173,26 +174,41 @@ export default {
       id: '',
       ipAddress: '',
       serverPower: '',
-      // startDate: '',
       website: ''
     }
   }),
   methods: {
     onSubmit () {
       this.$v.$touch()
-      if (!this.$v.$error) {
-        if (this.user.nominationActive) {
-          this.$store.commit('updateCandidate', this.fields)
-        } else {
-          this.$store.commit('activateNomination')
-          this.$store.commit('addCandidate', this.fields)
-        }
-        this.$store.commit('saveNomination', this.fields)
-        this.resetFields()
-        this.$router.push('/')
-      } else {
+      if (this.$v.$error) {
         console.log('error in form', this.$v)
+        return
       }
+      if (this.user.nominationActive) {
+        this.$store.commit('updateCandidate', this.fields)
+        // TODO: send update tx
+      } else {
+        this.$store.commit('activateNomination')
+        let privkey = PrivKey.generate('ed25519')
+        // TODO: user should sign outside of app
+        let candidate = {
+          validatorPubKey: privkey.pubkey(),
+          signature: privkey.sign(Buffer('lol')),
+          keybaseID: this.fields.id,
+          description: this.fields.description,
+          country: this.fields.country,
+          serverDetails: this.fields.serverPower,
+          nodeAddress: this.fields.ipAddress,
+          website: this.fields.website,
+          interestCommission: Math.round(this.fields.commissionPercent * 100),
+          ownCoinsBonded: 123 // TODO: add to form
+        }
+        this.$store.commit('nominateCandidate', candidate)
+        this.$store.commit('addCandidate', candidate)
+      }
+      this.$store.commit('saveNomination', this.fields)
+      this.resetFields()
+      this.$router.push('/')
     },
     resetFields () {
       this.$v.$reset()
@@ -204,7 +220,6 @@ export default {
         id: '',
         ipAddress: '',
         serverPower: '',
-        // startDate: '',
         website: ''
       }
     }

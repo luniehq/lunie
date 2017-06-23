@@ -1,8 +1,8 @@
 'use strict'
 
-export default ({ basecoin }) => {
+export default ({ node }) => {
   // get tendermint RPC client from basecon client
-  const { rpc } = basecoin.client
+  const { rpc } = node
   const LIGHT = process.env.BASECOIN_LIGHT_CLIENT != null
 
   const state = {

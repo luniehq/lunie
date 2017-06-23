@@ -158,6 +158,7 @@ let createDataDir = watt(function * (root, light, next) {
     // `basecoin init` to generate account keys, validator key
     child = startProcess(NODE_BINARY, [
       'init',
+      '1B1BE55F969F54064628A63B9559E7C21C925165',
       '--home', root
     ], opts)
     yield child.on('exit', next.arg(0))

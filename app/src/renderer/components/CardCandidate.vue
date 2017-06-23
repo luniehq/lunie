@@ -5,10 +5,10 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
       .value.id
         span
           template(v-if='isDelegator')
-            i.fa.fa-check-square-o(v-if='inCart' @click='rm(candidate.id)')
-            i.fa.fa-square-o(v-else @click='add(candidate.id)')
-          router-link(:to="{ name: 'candidate', params: { candidate: candidate.id }}")
-            | {{ candidate.id }}
+            i.fa.fa-check-square-o(v-if='inCart' @click='rm(candidate.keybaseID)')
+            i.fa.fa-square-o(v-else @click='add(candidate.keybaseID)')
+          router-link(:to="{ name: 'candidate', params: { candidate: candidate.keybaseID }}")
+            | {{ candidate.keybaseID }}
       .value.atoms.num.bar
         span {{ num.prettyInt(candidate.atoms) }}
         .bar(:style='atomsCss')
@@ -21,16 +21,16 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
           |  {{ num.prettyInt(candidate.computed.delegators) }}
     menu(v-if='isDelegator')
       btn(theme='cosmos' v-if='inCart'
-        icon='times' value='Remove' size='sm' @click.native='rm(candidate.id)')
+        icon='times' value='Remove' size='sm' @click.native='rm(candidate.keybaseID)')
       btn(v-else='' theme='cosmos'
-        icon='check' value='Add' size='sm' @click.native='add(candidate.id)')
+        icon='check' value='Add' size='sm' @click.native='add(candidate.keybaseID)')
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import num from '../scripts/num'
 import Btn from '@nylira/vue-button'
-import { maxBy } from 'lodash'
+// import { maxBy } from 'lodash'
 export default {
   name: 'card-candidate',
   props: ['candidate'],
@@ -46,20 +46,22 @@ export default {
       return value
     },
     maxAtoms () {
-      if (this.candidates) {
-        let richestCandidate = maxBy(this.candidates, 'atoms')
-        return richestCandidate.atoms
-      } else { return 0 }
+      // if (this.candidates.length > 0) {
+      //   let richestCandidate = maxBy(this.candidates, 'atoms')
+      //   return richestCandidate.atoms
+      // } else { return 0 }
+      return 0
     },
     atomsCss () {
       let percentage = Math.round((this.candidate.atoms / this.maxAtoms) * 100)
       return { width: percentage + '%' }
     },
     maxDelegatedAtoms () {
-      if (this.candidates) {
-        let richestCandidate = maxBy(this.candidates, 'computed.delegatedAtoms')
-        return richestCandidate.computed.delegatedAtoms
-      } else { return 0 }
+      // if (this.candidates) {
+      //   let richestCandidate = maxBy(this.candidates, 'computed.delegatedAtoms')
+      //   return richestCandidate.computed.delegatedAtoms
+      // } else { return 0 }
+      return 0
     },
     delegatedAtomsCss () {
       let percentage = Math.round((this.candidate.computed.delegatedAtoms /
@@ -67,7 +69,7 @@ export default {
       return { width: percentage + '%' }
     },
     inCart () {
-      return this.shoppingCart.find(c => c.candidateId === this.candidate.id)
+      return this.shoppingCart.find(c => c.keybaseID === this.candidate.keybaseID)
     }
   },
   data: () => ({
@@ -125,7 +127,7 @@ export default {
       span
         display block
         position absolute
-        top 0 
+        top 0
         left 0
         z-index 10
 

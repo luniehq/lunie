@@ -7,7 +7,7 @@ import watt from 'watt'
 
 import App from './App'
 import routes from './routes'
-import Basecoin from './basecoin'
+import Node from './node'
 import Store from './vuex/store'
 
 Vue.use(Electron)
@@ -16,14 +16,14 @@ Vue.use(Router)
 Vue.use(Vuelidate)
 
 const main = watt(function * (next) {
-  const basecoin = yield Basecoin()
+  const node = yield Node()
 
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
     routes
   })
 
-  const store = Store({ basecoin })
+  const store = Store({ node })
   store.dispatch('startReadingLog')
   store.dispatch('startPollingNodeStatus')
   store.dispatch('startCandidateInterval')
@@ -35,4 +35,4 @@ const main = watt(function * (next) {
   }).$mount('#app')
 })
 
-main()
+main().catch(function (err) { throw err })

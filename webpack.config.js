@@ -63,7 +63,6 @@ let config = {
     __filename: false
   },
   externals: {
-    basecoin: 'require(process.env.PWD + "/app/node_modules/basecoin")'
   },
   plugins: [
     new ExtractTextPlugin('styles.css'),
