@@ -1,4 +1,6 @@
-export default ({ commit, basecoin }) => {
+import dg from 'cosmos-delegation-game'
+
+export default ({ commit, node }) => {
   const emptyNomination = {
     keybase: '',
     country: '',
@@ -23,12 +25,21 @@ export default ({ commit, basecoin }) => {
 
   const mutations = {
     // TODO: fix hardcoded user stats
-    signIn () {
-      state.atoms = 59999
-      state.pubkey = 'AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9'
+    signIn (state, seedWords) {
+      let privkey = dg.mnemonicToPrivKey(seedWords)
+      let address = privkey.address().toString('hex')
+      let allocation = dg.allocation[address]
+      if (allocation == null) {
+        // TODO: show error
+        // this account does not have any atoms
+        return
+      }
+      state.atoms = Math.round(allocation * 100) // measured in atom cents
+      state.privkey = privkey
+      state.pubkey = privkey.pubkey().bytes().toString('hex')
       state.signedIn = true
     },
-    signOut () {
+    signOut (state) {
       state.atoms = 0
       state.nominationActive = false
       state.nomination = JSON.parse(JSON.stringify(emptyNomination))

@@ -49,7 +49,7 @@ export default ({ commit, node }) => {
       setInterval(() => dispatch('getCandidates'), CANDIDATE_INTERVAL)
     },
     async nominateCandidate ({ commit }, candidate) {
-      await node.delegationGame.nominate(candidate)
+      await node.delegationGame.nominate(candidate, node.wallet)
     }
   }
 

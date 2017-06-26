@@ -94,7 +94,7 @@ export default {
     signInOnSubmit () {
       this.$v.signInFields.$touch()
       if (!this.$v.signInFields.$error) {
-        this.$store.commit('signIn')
+        this.$store.commit('signIn', this.signInFields.seed)
         this.$store.commit('notifyCustom',
           { title: 'Sign In Successful',
             body: 'Welcome to the Cosmos Delegation Game!' })

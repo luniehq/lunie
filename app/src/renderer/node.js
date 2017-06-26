@@ -29,6 +29,7 @@ module.exports = watt(function * (next) {
 
   let walletPath = join(root, 'wallet.db')
   let wallet = yield basecoin.wallet(walletPath)
+  console.log('basecoin address:', wallet.keys[0].address().toString('hex'))
 
   return { rpc, basecoin, delegationGame, wallet }
 })

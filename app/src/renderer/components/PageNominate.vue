@@ -203,7 +203,8 @@ export default {
           interestCommission: Math.round(this.fields.commissionPercent * 100),
           ownCoinsBonded: 123 // TODO: add to form
         }
-        this.$store.commit('nominateCandidate', candidate)
+        this.$store.dispatch('nominateCandidate', candidate)
+        // TODO: handle errors
         this.$store.commit('addCandidate', candidate)
       }
       this.$store.commit('saveNomination', this.fields)
