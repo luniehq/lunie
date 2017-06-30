@@ -1,10 +1,8 @@
 'use strict'
 
-const { join } = require('path')
 const Basecoin = require('basecoin')
 const DelegationGame = require('cosmos-delegation-game')
 const watt = require('watt')
-const root = require('../root.js')
 
 const LIGHT = process.env.BASECOIN_LIGHT_CLIENT != null
 const RPC_URI = `ws://localhost:${LIGHT ? 8888 : 46657}`
@@ -27,9 +25,5 @@ module.exports = watt(function * (next) {
   let { rpc } = basecoin
   let delegationGame = DelegationGame(RPC_URI)
 
-  let walletPath = join(root, 'wallet.db')
-  let wallet = yield basecoin.wallet(walletPath)
-  console.log('basecoin address:', wallet.keys[0].address().toString('hex'))
-
-  return { rpc, basecoin, delegationGame, wallet }
+  return { rpc, basecoin, delegationGame }
 })

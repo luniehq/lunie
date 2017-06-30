@@ -1,4 +1,7 @@
 import dg from 'cosmos-delegation-game'
+import level from 'levelup'
+import memdown from 'memdown'
+import { Wallet } from 'basecoin'
 
 export default ({ commit, node }) => {
   const emptyNomination = {
@@ -18,33 +21,31 @@ export default ({ commit, node }) => {
     delegationActive: false,
     delegation: [],
     pubkey: '',
+    privkey: null,
     signedIn: false
   }
 
   const state = JSON.parse(JSON.stringify(emptyUser))
 
   const mutations = {
-    // TODO: fix hardcoded user stats
-    signIn (state, seedWords) {
-      let privkey = dg.mnemonicToPrivKey(seedWords)
-      let address = privkey.address().toString('hex')
-      let allocation = dg.allocation[address]
-      if (allocation == null) {
-        // TODO: show error
-        // this account does not have any atoms
-        return
-      }
-      state.atoms = Math.round(allocation * 100) // measured in atom cents
-      state.privkey = privkey
+    setPrivateKey (state, privkey) {
       state.pubkey = privkey.pubkey().bytes().toString('hex')
-      state.signedIn = true
+      state.privkey = privkey
+    },
+    setAtoms (state, atoms) {
+      state.atoms = Math.round(atoms * 100) // measured in atom cents
+    },
+    setSignedIn (state, signedIn) {
+      state.signedIn = signedIn
     },
     signOut (state) {
       state.atoms = 0
       state.nominationActive = false
       state.nomination = JSON.parse(JSON.stringify(emptyNomination))
       state.pubkey = ''
+      state.privkey = null
       state.signedIn = false
+      node.wallet = null
     },
     activateNomination (state) {
       state.nominationActive = true
@@ -61,5 +62,30 @@ export default ({ commit, node }) => {
       console.log('delegation saved: ', JSON.stringify(state.delegation))
     }
   }
-  return { state, mutations }
+
+  const actions = {
+    async signIn ({ commit, state }, seedWords) {
+      let privkey = dg.mnemonicToPrivKey(seedWords)
+      let account = await node.basecoin.getAccount(privkey.address())
+      console.log('fetched account', account)
+      if (!account) return
+
+      commit('setPrivateKey', privkey)
+      commit('setAtoms', account.coins[0].amount)
+
+      // use in-memory data store so key is not persisted
+      let store = level({ db: memdown })
+      let wallet = node.wallet = Wallet(node.basecoin, store)
+      wallet.addAccount(state.privkey)
+      wallet.onceReady(() => {
+        commit('setSignedIn', true)
+        commit('notifyCustom',
+          { title: 'Sign In Successful',
+            body: 'Welcome to the Cosmos Delegation Game!' })
+      })
+      wallet.initialize()
+    }
+  }
+
+  return { state, mutations, actions }
 }
