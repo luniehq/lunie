@@ -69,7 +69,7 @@ export default {
       return { width: percentage + '%' }
     },
     inCart () {
-      return this.shoppingCart.find(c => c.keybaseID === this.candidate.keybaseID)
+      return this.shoppingCart.find(c => c.candidateId === this.candidate.keybaseID)
     }
   },
   data: () => ({
