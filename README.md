@@ -15,6 +15,9 @@ npm install
 npm run clean-dev
 ```
 
+In dev mode, you can log in using the following wallet seed:
+`squeeze erode soft fossil dog toss off cable define emerge minute air`
+
 **Build production releases:**
 
 ```bash
