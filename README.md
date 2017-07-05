@@ -6,27 +6,29 @@
 
 **Run app in development mode:**
 
-First, make sure you have [`basecoin`](https://github.com/tendermint/basecoin) installed on the `develop` branch.
+First, make sure you have [`gaia`](https://github.com/cosmos/gaia) up-to-date and installed.
+
+*(Note: I have noticed issues when using npm version 5, you may need to downgrade by running `npm install -g npm@4`)*
 
 ```bash
-yarn install
-yarn run dev
+npm install
+npm run clean-dev
 ```
 
 **Build production releases:**
 
 ```bash
 # build for all platforms
-yarn run build
+npm run build
 ```
 
 or
 
 ```bash
 # build for one platform
-yarn run build:darwin
-yarn run build:linux
-yarn run build:win32
+npm run build:darwin
+npm run build:linux
+npm run build:win32
 ```
 
 You must have `wine` to build for win32 on non-Windows platforms.
