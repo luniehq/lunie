@@ -2,7 +2,7 @@
 .page.page-delegate
   page-header
     div(slot="title")
-      | Delegate Atoms 
+      | Delegate Atoms
       em(v-if="unallocatedAtoms > 0")
         | ({{ unallocatedAtoms }}, {{ unallocatedAtomsPercent }})
       em(v-else) (DONE)
@@ -167,7 +167,7 @@ export default {
       this.$v.$touch()
       if (!this.$v.$error) {
         this.$store.commit('activateDelegation')
-        this.$store.commit('saveDelegation', this.fields)
+        this.$store.dispatch('submitDelegation', this.fields)
         this.$store.commit('notifyCustom',
           { title: 'Atom Allocation Set',
             body: 'You have successfully set your atom allocation. You can change it up until the end of the game.' })
@@ -262,4 +262,3 @@ export default {
     font-label()
     color dim
 </style>
-

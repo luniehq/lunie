@@ -2,7 +2,7 @@
 form-group(:class='cssClass' :error="$v.fields.atoms.$error")
   i.fa.fa-check-square-o(@click='rm(candidate.id)')
   router-link.id(:to="{ name: 'candidate', params: { candidate: candidate.id } }")
-    | {{ candidate.id }}
+    | {{ candidate.keybaseID }}
   field(
     theme="cosmos"
     type="number"

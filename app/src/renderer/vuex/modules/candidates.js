@@ -1,3 +1,5 @@
+import { PubKey } from 'tendermint-crypto'
+
 const CANDIDATE_INTERVAL = 1000 // update every second
 
 export default ({ commit, node }) => {
@@ -16,19 +18,20 @@ export default ({ commit, node }) => {
         slashes: []
       }
       state.list.splice(state.list.indexOf(
-        state.list.find(c => c.keybaseID === candidate.keybaseID)), 1, candidate)
+        state.list.find(c => c.id === candidate.id)), 1, candidate)
 
       // commit('notifyCustom', { title: 'Nomination Updated',
       //   body: 'You have successfuly updated your candidacy.' })
     },
     addCandidate (state, candidate) {
-      let pubkey = candidate.validatorPubKey.bytes().toString('base64')
+      let pubkey = PubKey.encode(candidate.validatorPubKey).toString('base64')
       if (state.map[pubkey] != null) return
 
+      candidate.id = pubkey
       candidate.computed = {
         delegators: 10,
         atoms: 31337,
-        pubkey: 'AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ67wzRdjbTb9HxduU9YQd9',
+        pubkey,
         slashes: []
       }
       state.list.push(candidate)

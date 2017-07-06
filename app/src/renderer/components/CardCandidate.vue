@@ -5,9 +5,9 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
       .value.id
         span
           template(v-if='isDelegator')
-            i.fa.fa-check-square-o(v-if='inCart' @click='rm(candidate.keybaseID)')
-            i.fa.fa-square-o(v-else @click='add(candidate.keybaseID)')
-          router-link(:to="{ name: 'candidate', params: { candidate: candidate.keybaseID }}")
+            i.fa.fa-check-square-o(v-if='inCart' @click='rm(candidate.id)')
+            i.fa.fa-square-o(v-else @click='add(candidate.id, candidate.keybaseID)')
+          router-link(:to="{ name: 'candidate', params: { candidate: candidate.id }}")
             | {{ candidate.keybaseID }}
       .value.atoms.num.bar
         span {{ num.prettyInt(candidate.atoms) }}
@@ -21,9 +21,9 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
           |  {{ num.prettyInt(candidate.computed.delegators) }}
     menu(v-if='isDelegator')
       btn(theme='cosmos' v-if='inCart'
-        icon='times' value='Remove' size='sm' @click.native='rm(candidate.keybaseID)')
+        icon='times' value='Remove' size='sm' @click.native='rm(candidate.id)')
       btn(v-else='' theme='cosmos'
-        icon='check' value='Add' size='sm' @click.native='add(candidate.keybaseID)')
+        icon='check' value='Add' size='sm' @click.native='add(candidate.id, candidate.keybaseID)')
 </template>
 
 <script>
@@ -69,15 +69,15 @@ export default {
       return { width: percentage + '%' }
     },
     inCart () {
-      return this.shoppingCart.find(c => c.candidateId === this.candidate.keybaseID)
+      return this.shoppingCart.find(c => c.candidateId === this.candidate.id)
     }
   },
   data: () => ({
     num: num
   }),
   methods: {
-    add (candidateId) {
-      this.$store.commit('addToCart', candidateId)
+    add (candidateId, keybaseId) {
+      this.$store.commit('addToCart', candidateId, keybaseId)
     },
     rm (candidateId) {
       this.$store.commit('removeFromCart', candidateId)
