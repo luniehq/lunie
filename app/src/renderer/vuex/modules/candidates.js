@@ -36,10 +36,6 @@ export default ({ commit, node }) => {
       }
       state.list.push(candidate)
       state.map[pubkey] = candidate
-
-      // TODO: move the notification to the nomination component
-      // commit('notifyCustom', { title: 'Nomination Submitted',
-      //   body: 'Well done! You\'ll appear on the candidates list shortly .' })
     }
   }
 

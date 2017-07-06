@@ -204,6 +204,10 @@ export default {
           ownCoinsBonded: 123 // TODO: add to form
         }
         this.$store.dispatch('nominateCandidate', candidate)
+        this.$store.commit('notifyCustom', { 
+          title: 'Nomination Submitted',
+          body: 'Well done! You\'ll appear on the candidates list shortly .'
+        })
         // TODO: handle errors
         this.$store.commit('addCandidate', candidate)
       }
