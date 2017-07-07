@@ -101,6 +101,23 @@
         :min='config.CANDIDATE.COMMISSION_MIN' :max='config.CANDIDATE.COMMISSION_MAX'
         v-if='!$v.fields.commissionPercent.between')
 
+    form-group(:error='$v.fields.ownCoinsBonded.$error')
+      label(for='form-atoms-to-bond') Atoms To Bond
+      field-group
+        field(
+          id='form-atoms-to-bond'
+          theme='cosmos'
+          type='number'
+          step='any'
+          placeholder='Enter how many of your own Atom to delegate to yourself'
+          v-model.number='fields.ownCoinsBonded')
+        .ni-field-addon %
+      form-msg(name='OwnCoinsBonded' type='required'
+        v-if='!$v.fields.ownCoinsBonded.required')
+      form-msg(name='OwnCoinsBonded' type='between'
+        :min='config.CANDIDATE.SELF_BOND_MIN' :max='config.CANDIDATE.SELF_BOND_MAX'
+        v-if='!$v.fields.ownCoinsBonded.between')
+
     form-group(:error='$v.fields.website.$error')
       label(for='form-nominate-website') Website
       field(
@@ -168,6 +185,7 @@ export default {
     edit: false,
     fields: {
       atoms: '',
+      ownCoinsBonded: '',
       commissionPercent: '',
       country: '',
       description: '',
@@ -201,7 +219,7 @@ export default {
           nodeAddress: this.fields.ipAddress,
           website: this.fields.website,
           interestCommission: Math.round(this.fields.commissionPercent * 100),
-          ownCoinsBonded: 123 // TODO: add to form
+          ownCoinsBonded: this.fields.ownCoinsBonded
         }
         this.$store.dispatch('nominateCandidate', candidate)
         this.$store.commit('notifyCustom', { 
@@ -219,6 +237,7 @@ export default {
       this.$v.$reset()
       this.fields = {
         atoms: this.user.atoms,
+        ownCoinsBonded: '',
         country: '',
         commissionPercent: '',
         description: '',
@@ -248,6 +267,14 @@ export default {
       website: {
         required,
         url
+      },
+      ownCoinsBonded: {
+        between (x) {
+          return between(
+            this.config.CANDIDATE.SELF_BOND_MIN,
+            this.config.CANDIDATE.SELF_BOND_MAX)(x)
+        },
+        required
       },
       commissionPercent: {
         between (x) {

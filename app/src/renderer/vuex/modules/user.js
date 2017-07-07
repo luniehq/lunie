@@ -12,7 +12,8 @@ export default ({ commit, node }) => {
     startDate: '',
     commission: '',
     serverPower: '',
-    description: ''
+    description: '',
+    ownCoinsBonded: ''
   }
 
   const emptyUser = {
@@ -46,6 +47,7 @@ export default ({ commit, node }) => {
       state.pubkey = ''
       state.privkey = null
       state.signedIn = false
+      state.ownCoinsBonded = 0
       node.wallet = null
     },
     activateNomination (state) {

@@ -7,7 +7,9 @@ export default ({ commit, basecoin }) => {
       DESCRIPTION_MIN: 20,
       DESCRIPTION_MAX: 40000,
       COMMISSION_MIN: 0,
-      COMMISSION_MAX: 99
+      COMMISSION_MAX: 99,
+      SELF_BOND_MIN: 100,
+      SELF_BOND_MAX: 1e10
     }
   }
   const mutations = {}
