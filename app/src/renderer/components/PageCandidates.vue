@@ -64,8 +64,8 @@ export default {
       order: 'desc',
       properties: [
         { id: 1, title: 'Candidate ID', value: 'keybaseID' },
-        { id: 2, title: 'Atoms', value: 'atoms', initial: true },
-        { id: 2, title: 'Delegated Atoms', value: 'computed.delegatedAtoms' },
+        { id: 2, title: 'Atoms Delegated', value: 'atoms', initial: true },
+        { id: 2, title: 'Atoms Delegated By You', value: 'computed.delegatedAtoms' },
         { id: 3, title: 'Delegators', value: 'computed.delegators' }
       ]
     }
