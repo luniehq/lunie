@@ -52,23 +52,28 @@ export default {
     candidatesNum () {
       return this.shoppingCart.length
     },
+    sort () {
+      let props = [
+        { id: 1, title: 'Candidate ID', value: 'keybaseID' },
+        { id: 2, title: 'Atoms Delegated', value: 'atoms', initial: true }
+      ]
+      if(this.user.signedIn){
+        props.push({ id: 2, title: 'Atoms Delegated By You', value: 'computed.delegatedAtoms' })
+      }
+      props.push({ id: 3, title: 'Delegators', value: 'computed.delegators' })
+      return {
+        property: 'atoms',
+        order: 'desc',
+        properties: props
+      }
+    },
     btnLabel () {
       return `Delegate`
     },
     isDelegator () { return this.user.signedIn && !this.user.nominationActive }
   },
   data: () => ({
-    query: '',
-    sort: {
-      property: 'atoms',
-      order: 'desc',
-      properties: [
-        { id: 1, title: 'Candidate ID', value: 'keybaseID' },
-        { id: 2, title: 'Atoms Delegated', value: 'atoms', initial: true },
-        { id: 2, title: 'Atoms Delegated By You', value: 'computed.delegatedAtoms' },
-        { id: 3, title: 'Delegators', value: 'computed.delegators' }
-      ]
-    }
+    query: ''
   })
 }
 </script>
