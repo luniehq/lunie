@@ -66,7 +66,7 @@ function startProcess (name, ...args) {
     if (!GOPATH) GOPATH = join(home, 'go')
     binPath = join(GOPATH, 'bin', name)
   } else {
-    binPath = join(__dirname, 'bin', name)
+    binPath = join(__dirname, '..', 'bin', name)
   }
 
   let child = spawn(binPath, ...args)

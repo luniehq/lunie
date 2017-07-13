@@ -29,10 +29,9 @@ function pack () {
  */
 function build () {
   let options = require('../config').building
-  let basecoinCommand = options.light ? 'gaiacli' : 'gaia'
 
   options.afterCopy = [
-    goBuild(`github.com/tendermint/basecoin/cmd/${basecoinCommand}`)
+    goBuild(`github.com/cosmos/gaia`)
   ]
 
   console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')
