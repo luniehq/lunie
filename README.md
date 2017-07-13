@@ -8,6 +8,7 @@
 
 First, make sure you have [`gaia`](https://github.com/cosmos/gaia) up-to-date and installed.
 
+Requires Node.js 8.0.0 or above.
 *(Note: I have noticed issues when using npm version 5, you may need to downgrade by running `npm install -g npm@4`)*
 
 ```bash
