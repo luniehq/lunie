@@ -80,7 +80,7 @@ export default {
       // reduce unallocated atoms by assigned atoms
       this.fields.candidates.forEach(f => (value -= f.atoms))
 
-      return value > 0 ? value : 0
+      return value
     },
     unallocatedAtomsPercent () {
       return Math.round(this.unallocatedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
@@ -139,10 +139,6 @@ export default {
       if (this.unallocatedAtoms === this.user.atoms) {
         this.$store.commit('notifyWarn', { title: 'Unallocated Atoms',
           body: 'You haven\'t allocated any atoms yet.' })
-        return
-      } else if (this.unallocatedAtoms > 0) {
-        this.$store.commit('notifyWarn', { title: 'Unallocated Atoms',
-          body: `You haven't allocated all of your atoms yet. (${this.unallocatedAtoms} left)` })
         return
       } else if (this.unallocatedAtoms < 0) {
         this.$store.commit('notifyWarn', { title: 'Too Many Allocated Atoms',
