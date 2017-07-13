@@ -43,6 +43,8 @@ export default ({ commit, node }) => {
       candidate.atoms = candidate.ownCoinsBonded + candidate.coinsBonded
       state.list.push(candidate)
       state.map[pubkey] = candidate
+
+      console.log('new candidate', candidate)
     }
   }
 

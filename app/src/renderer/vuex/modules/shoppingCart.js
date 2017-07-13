@@ -3,16 +3,16 @@ export default ({ commit, basecoin }) => {
   const state = []
 
   const mutations = {
-    addToCart (state, candidateId, keybaseId) {
+    addToCart (state, candidate) {
       state.push({
-        candidateId,
-        keybaseId,
+        id: candidate.id,
+        candidate: Object.assign({}, candidate),
         atoms: 0
       })
-      console.log(`+ ADD ${candidateId} ${keybaseId} to cart`)
+      console.log(`+ ADD ${candidate.keybaseID} to cart`)
     },
-    removeFromCart (state, candidateId) {
-      let index = findIndex(state, { candidateId })
+    removeFromCart (state, candidate) {
+      let index = findIndex(state, { id: candidate.id })
       console.log(`- RM ${JSON.stringify(state[index])} from cart[${index}]`)
       state.splice(index, 1)
     }

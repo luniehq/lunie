@@ -88,7 +88,7 @@ export default ({ commit, node }) => {
       state.delegation = value
       console.log('submitting delegation txs: ', JSON.stringify(state.delegation))
       for (let candidate of value.candidates) {
-        let pubKeyBytes = Buffer.from(candidate.candidateId, 'base64')
+        let pubKeyBytes = Buffer.from(candidate.id, 'base64')
         let pubKey = PubKey.decode(pubKeyBytes)
         await node.delegationGame.delegate(pubKey, node.wallet, candidate.atoms)
       }

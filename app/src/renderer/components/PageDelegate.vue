@@ -33,9 +33,9 @@
       form-msg(name="Reserved Atoms" type="between" :min="reservedAtomsMin"
         :max="user.atoms" v-if="!$v.fields.reservedAtoms.between")
 
-    form-group(v-for='(candidate, index) in fields.candidates' key='candidate.candidateId'
+    form-group(v-for='(candidate, index) in fields.candidates' key='candidate.id'
       :error="$v.fields.candidates.$each[index].$error")
-      Label {{ candidate.candidateId }}
+      Label {{ candidate.candidate.keybaseID }}
       field-group
         field(
           theme="cosmos"
@@ -46,11 +46,11 @@
         .ni-field-addon Atoms
         .percentage {{ percentAtoms(candidate.atoms) }}
         btn(type="button" theme="cosmos" value="Max"
-          @click.native="fillAtoms(candidate.candidateId)")
+          @click.native="fillAtoms(candidate.id)")
         // btn(type="button" theme="cosmos" value="Clear"
-          @click.native="clearAtoms(candidate.candidateId)")
+          @click.native="clearAtoms(candidate.id)")
         btn(type="button" theme="cosmos" value="Remove"
-          @click.native="rm(candidate.candidateId)")
+          @click.native="rm(candidate.id)")
       form-msg(name="Atoms" type="required"
         v-if="!$v.fields.candidates.$each[index].atoms.required")
       form-msg(name="Atoms" type="numeric"
@@ -133,6 +133,7 @@ export default {
       }
     },
     equalAlloc () {
+      console.log(this.fields)
       this.equalize = true
       this.resetCandidates()
       let atoms = this.unreservedAtoms
@@ -177,8 +178,7 @@ export default {
     },
     resetCandidates () {
       this.fields.candidates = []
-      this.shoppingCart.map(c => this.fields.candidates.push(
-        { candidateId: c.candidateId, atoms: c.atoms }))
+      this.shoppingCart.map(c => this.fields.candidates.push(Object.assign({}, c)))
     },
     getShoppingCartItem (candidateId) {
       return this.shoppingCart.find(c => c.candidateId === candidateId)
