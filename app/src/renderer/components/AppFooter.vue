@@ -8,7 +8,7 @@
       i.fa.green.fa-circle
       |  Chain up-to-date (height {{ syncHeight }})
     .peers {{ numPeers }} peers
-    countdown-string(date='2017-07-10')</template>
+    countdown-string(date='2017-08-10')</template>
 <script>
 import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
