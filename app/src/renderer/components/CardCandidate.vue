@@ -4,7 +4,7 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
     .values
       .value.id
         span
-          template(v-if='isDelegator')
+          template(v-if='signedIn')
             i.fa.fa-check-square-o(v-if='inCart' @click='rm(candidate.id)')
             i.fa.fa-square-o(v-else @click='add(candidate.id, candidate.keybaseID)')
           router-link(:to="{ name: 'candidate', params: { candidate: candidate.id }}")
@@ -19,7 +19,7 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
         span
           i.fa.fa-user
           |  {{ num.prettyInt(candidate.computed.delegators) }}
-    menu(v-if='isDelegator')
+    menu(v-if='signedIn')
       btn(theme='cosmos' v-if='inCart'
         icon='times' value='Remove' size='sm' @click.native='rm(candidate.id)')
       btn(v-else='' theme='cosmos'
@@ -39,11 +39,13 @@ export default {
   },
   computed: {
     ...mapGetters(['shoppingCart', 'candidates', 'user']),
-    isDelegator () { return this.user.signedIn && !this.user.nominationActive },
     cssClass () {
       let value = 'card-candidate'
       if (this.inCart) value += ' card-candidate-active '
       return value
+    },
+    signedIn(){
+      return this.user.signedIn
     },
     maxAtoms () {
       // if (this.candidates.length > 0) {
