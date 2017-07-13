@@ -7,31 +7,15 @@
         | ({{ unallocatedAtoms }}, {{ unallocatedAtomsPercent }})
       em(v-else) (DONE)
     btn(theme='cosmos' type='link' to='/' icon='angle-left' value='Change Candidates')
-
+  
   form-struct(:submit="onSubmit")
     form-group(:error="$v.fields.reservedAtoms.$error")
       Label Reserved Atoms
       field-group
-        field(
-          theme="cosmos"
-          type="number"
-          step="any"
-          placeholder="Reserved Atoms"
-          v-model.number="fields.reservedAtoms")
-        .ni-field-addon Atoms
-        .percentage {{ percentAtoms(fields.reservedAtoms) }}
-        btn(type="button" theme="cosmos" value="Max"
-          @click.native="fillAtoms('unreserved')")
-        // btn(type="button" theme="cosmos" value="Clear"
-          @click.native="clearAtoms('unreserved')")
-        btn(type="button" theme="cosmos" value="Remove" disabled)
+        h1 {{unallocatedAtoms}} 
+          small Atoms not yet delegated.
+        
       form-msg: div Reserved Atoms will be held by you and remain unbonded
-      form-msg(name="Reserved Atoms" type="required"
-        v-if="!$v.fields.reservedAtoms.required")
-      form-msg(name="Reserved Atoms" type="numeric"
-        v-if="!$v.fields.reservedAtoms.numeric")
-      form-msg(name="Reserved Atoms" type="between" :min="reservedAtomsMin"
-        :max="user.atoms" v-if="!$v.fields.reservedAtoms.between")
 
     form-group(v-for='(candidate, index) in fields.candidates' key='candidate.id'
       :error="$v.fields.candidates.$each[index].$error")
@@ -96,7 +80,7 @@ export default {
       // reduce unallocated atoms by assigned atoms
       this.fields.candidates.forEach(f => (value -= f.atoms))
 
-      return value
+      return value > 0 ? value : 0
     },
     unallocatedAtomsPercent () {
       return Math.round(this.unallocatedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
@@ -250,6 +234,12 @@ export default {
           margin-right 1rem
           &:last-child
             margin 0
+  
+  h1
+    font-size 2em
+
+  small
+    font-size .5em
 
   .percentage
     border 1px solid bc-dim
