@@ -18,8 +18,9 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
       .value.delegators.num
         span
           i.fa.fa-user
-          |  {{ num.prettyInt(candidate.computed.delegators) }}
     menu(v-if='signedIn')
+          |  {{ num.prettyInt(candidate.delegators) }}
+    menu(v-if='isDelegator')
       btn(theme='cosmos' v-if='inCart'
         icon='times' value='Remove' size='sm' @click.native='rm(candidate.id)')
       btn(v-else='' theme='cosmos'

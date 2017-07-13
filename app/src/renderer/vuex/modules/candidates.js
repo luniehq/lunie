@@ -14,7 +14,7 @@ export default ({ commit, node }) => {
 
       // TODO: replace hardcoded defaults with real data
       candidate.computed = {
-        delegators: 10,
+        // delegators: 10,
         // atoms: candidate.ownCoinsBonded + candidate.coindBonded,
         pubkey,
         slashes: []
@@ -35,7 +35,7 @@ export default ({ commit, node }) => {
 
       candidate.id = pubkey
       candidate.computed = {
-        delegators: 10,
+        // delegators: 10,
         // atoms: candidate.ownCoinsBonded + candidate.coindBonded,
         pubkey,
         slashes: []
@@ -52,6 +52,7 @@ export default ({ commit, node }) => {
       candidates.forEach((c) => commit('addCandidate', c))
     },
     startCandidateInterval ({ dispatch }) {
+      // TODO: use tx events instead of polling
       setInterval(() => dispatch('getCandidates'), CANDIDATE_INTERVAL)
     },
     async nominateCandidate ({ commit }, candidate) {

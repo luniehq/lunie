@@ -57,7 +57,7 @@ export default {
         { id: 1, title: 'Candidate ID', value: 'keybaseID' },
         { id: 2, title: 'Atoms Delegated', value: 'atoms', initial: true }
       ]
-      if(this.user.signedIn){
+      if (this.user.signedIn) {
         props.push({ id: 2, title: 'Atoms Delegated By You', value: 'computed.delegatedAtoms' })
       }
       props.push({ id: 3, title: 'Delegators', value: 'computed.delegators' })
