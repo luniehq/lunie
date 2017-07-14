@@ -13,7 +13,7 @@
       Label Reserved Atoms
       field-group
         h1 {{unallocatedAtoms}} 
-          small Atoms not yet delegated.
+          small Atoms not delegated.
         
       form-msg: div Reserved Atoms will be held by you and remain unbonded
 
