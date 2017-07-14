@@ -101,8 +101,7 @@ export default {
         console.log('filling reserved atoms')
         this.fields.reservedAtoms += this.unallocatedAtoms
       } else {
-        console.log('filling atoms for', candidateId)
-        let candidate = this.fields.candidates.find(c => c.candidateId === candidateId)
+        let candidate = this.fields.candidates.find(c => c.id === candidateId)
         candidate.atoms += this.unallocatedAtoms
       }
     },
