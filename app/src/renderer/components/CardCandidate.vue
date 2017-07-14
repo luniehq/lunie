@@ -12,7 +12,7 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
       .value.atoms.num.bar
         span {{ num.prettyInt(candidate.atoms) }}
         .bar(:style='atomsCss')
-      .value.atoms.num.bar.delegated
+      .value.atoms.num.bar.delegated(v-if='signedIn')
         span {{ num.prettyInt(candidate.computed.delegatedAtoms) }}
         .bar(:style='delegatedAtomsCss')
       .value.delegators.num
