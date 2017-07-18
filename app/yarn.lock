@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+abstract-leveldown@2.4.1, abstract-leveldown@~2.4.0:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/abstract-leveldown/-/abstract-leveldown-2.4.1.tgz#b3bfedb884eb693a12775f0c55e9f0a420ccee64"
+  dependencies:
+    xtend "~4.0.0"
+
 abstract-leveldown@^2.6.0, abstract-leveldown@~2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/abstract-leveldown/-/abstract-leveldown-2.6.1.tgz#f9014a5669b746418e145168dea49a044ae15900"
@@ -13,12 +19,6 @@ abstract-leveldown@~0.12.0:
   resolved "https://registry.yarnpkg.com/abstract-leveldown/-/abstract-leveldown-0.12.4.tgz#29e18e632e60e4e221d5810247852a63d7b2e410"
   dependencies:
     xtend "~3.0.0"
-
-abstract-leveldown@~2.4.0:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/abstract-leveldown/-/abstract-leveldown-2.4.1.tgz#b3bfedb884eb693a12775f0c55e9f0a420ccee64"
-  dependencies:
-    xtend "~4.0.0"
 
 ajv@^4.9.1:
   version "4.11.8"
@@ -77,9 +77,36 @@ babel-runtime@^6.23.0:
     core-js "^2.4.0"
     regenerator-runtime "^0.10.0"
 
+base-x@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/base-x/-/base-x-1.1.0.tgz#42d3d717474f9ea02207f6d1aa1f426913eeb7ac"
+
+base-x@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.2.tgz#bf873861b7514279b7969f340929eab87c11d130"
+  dependencies:
+    safe-buffer "^5.0.1"
+
 basecoin@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/basecoin/-/basecoin-2.3.0.tgz#3e5e65ded9baa2f5458f305c69992f630aaa591d"
+  dependencies:
+    crypto-service-client "^1.1.1"
+    deep-equal "^1.0.1"
+    ed25519-supercop "^1.0.2"
+    level-browserify "^1.1.0"
+    level-transactions "^2.1.4"
+    old "^0.1.3"
+    secp256k1 "^3.2.5"
+    tendermint "^2.0.0"
+    tendermint-crypto mappum/js-crypto
+    varstruct "^5.3.0"
+    varstruct-match "^3.1.0"
+    watt "^3.3.0"
+
+basecoin@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/basecoin/-/basecoin-2.3.1.tgz#e4ff3c0946b739017ddc690899d354d49cca1bc7"
   dependencies:
     crypto-service-client "^1.1.1"
     deep-equal "^1.0.1"
@@ -100,21 +127,64 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+bigi@^1.1.0, bigi@^1.4.0:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/bigi/-/bigi-1.4.2.tgz#9c665a95f88b8b08fc05cfd731f561859d725825"
+
+"bignumber.js@git+https://github.com/debris/bignumber.js.git#94d7146671b9719e00a09c29b01a691bc85048c2":
+  version "2.0.7"
+  resolved "git+https://github.com/debris/bignumber.js.git#94d7146671b9719e00a09c29b01a691bc85048c2"
+
 bindings@^1.2.1, bindings@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.2.1.tgz#14ad6113812d2d37d72e67b4cacb4bb726505f11"
 
-bip66@^1.1.3:
+bip39@^2.3.0:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/bip39/-/bip39-2.3.1.tgz#c8238abc09d719c6f01136ef042daccc5dc3581b"
+  dependencies:
+    create-hash "^1.1.0"
+    pbkdf2 "^3.0.9"
+    randombytes "^2.0.1"
+    safe-buffer "^5.0.1"
+    unorm "^1.3.3"
+
+bip66@^1.1.0, bip66@^1.1.3:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/bip66/-/bip66-1.1.5.tgz#01fa8748785ca70955d5011217d1b3139969ca22"
   dependencies:
     safe-buffer "^5.0.1"
+
+bitcoinjs-lib@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/bitcoinjs-lib/-/bitcoinjs-lib-2.3.0.tgz#fa4d27b9696415d5b30357eeac5d222713e1966a"
+  dependencies:
+    bigi "^1.4.0"
+    bip66 "^1.1.0"
+    bs58check "^1.0.5"
+    buffer-compare "^1.1.0"
+    buffer-equals "^1.0.3"
+    buffer-reverse "^1.0.0"
+    create-hash "^1.1.0"
+    create-hmac "^1.1.3"
+    ecurve "^1.0.0"
+    randombytes "^2.0.1"
+    typeforce "^1.6.2"
+    wif "^2.0.1"
+
+bitwise-xor@^0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/bitwise-xor/-/bitwise-xor-0.0.0.tgz#040a8172b5bb8cc562b0b7119f230b2a1a780e3d"
 
 bl@^1.0.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/bl/-/bl-1.2.1.tgz#cac328f7bee45730d404b692203fcb590e172d5e"
   dependencies:
     readable-stream "^2.0.5"
+
+bluebird@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.0.tgz#791420d7f551eea2897453a8a77653f96606d67c"
 
 bn.js@^4.11.3, bn.js@^4.4.0:
   version "4.11.7"
@@ -143,6 +213,44 @@ browserify-aes@^1.0.6:
     create-hash "^1.1.0"
     evp_bytestokey "^1.0.0"
     inherits "^2.0.1"
+
+bs58@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/bs58/-/bs58-3.1.0.tgz#d4c26388bf4804cac714141b1945aa47e5eb248e"
+  dependencies:
+    base-x "^1.1.0"
+
+bs58@^4.0.0:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/bs58/-/bs58-4.0.1.tgz#be161e76c354f6f788ae4071f63f34e8c4f0a42a"
+  dependencies:
+    base-x "^3.0.2"
+
+bs58check@<3.0.0, bs58check@^2.0.1:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/bs58check/-/bs58check-2.0.2.tgz#06f63b01c2fa6173033c90eb87f1fe3d2e13d89a"
+  dependencies:
+    bs58 "^4.0.0"
+    create-hash "^1.1.0"
+
+bs58check@^1.0.5:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/bs58check/-/bs58check-1.3.4.tgz#c52540073749117714fa042c3047eb8f9151cbf8"
+  dependencies:
+    bs58 "^3.1.0"
+    create-hash "^1.1.0"
+
+buffer-compare@^1.1.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/buffer-compare/-/buffer-compare-1.1.1.tgz#5be7be853af89198d1f4ddc090d1d66a48aef596"
+
+buffer-equals@^1.0.3:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/buffer-equals/-/buffer-equals-1.0.4.tgz#0353b54fd07fd9564170671ae6f66b9cf10d27f5"
+
+buffer-reverse@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/buffer-reverse/-/buffer-reverse-1.0.1.tgz#49283c8efa6f901bc01fa3304d06027971ae2f60"
 
 buffer-xor@^1.0.2:
   version "1.0.3"
@@ -200,15 +308,33 @@ core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-cosmos-delegation-game@^0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/cosmos-delegation-game/-/cosmos-delegation-game-0.0.0.tgz#1c2864c0694e15afed5499f3e842db698d76724c"
+cosmos-delegation-game@^0.1.0:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/cosmos-delegation-game/-/cosmos-delegation-game-0.1.2.tgz#1f30863c7775192754f91eb7926e221ab43853d6"
   dependencies:
     basecoin "^2.3.0"
+    bluebird "^3.5.0"
+    cosmos-fundraiser "^7.14.2"
     old "^0.2.0"
     tendermint "^2.0.1"
     tendermint-crypto "github:mappum/js-crypto"
     varstruct "^6.1.1"
+
+cosmos-fundraiser@^7.14.2:
+  version "7.14.4"
+  resolved "https://registry.yarnpkg.com/cosmos-fundraiser/-/cosmos-fundraiser-7.14.4.tgz#f7d87e9b92b7d36e056afb7b3625ca532df1e9af"
+  dependencies:
+    bip39 "^2.3.0"
+    bitcoinjs-lib "^2.3.0"
+    bitwise-xor "^0.0.0"
+    browser-request "^0.3.3"
+    bs58check "^2.0.1"
+    create-hash "^1.1.2"
+    keccak "^1.2.0"
+    left-pad "^1.1.3"
+    request "^2.79.0"
+    secp256k1 "^3.2.5"
+    web3 "^0.18.1"
 
 create-hash@^1.1.0, create-hash@^1.1.1, create-hash@^1.1.2, create-hash@^1.1.3:
   version "1.1.3"
@@ -219,7 +345,7 @@ create-hash@^1.1.0, create-hash@^1.1.1, create-hash@^1.1.2, create-hash@^1.1.3:
     ripemd160 "^2.0.0"
     sha.js "^2.4.0"
 
-create-hmac@^1.1.4:
+create-hmac@^1.1.3, create-hmac@^1.1.4:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/create-hmac/-/create-hmac-1.1.6.tgz#acb9e221a4e17bdb076e90657c42b93e3726cf06"
   dependencies:
@@ -235,6 +361,10 @@ cryptiles@2.x.x:
   resolved "https://registry.yarnpkg.com/cryptiles/-/cryptiles-2.0.5.tgz#3bdfecdc608147c1c67202fa291e7dca59eaa3b8"
   dependencies:
     boom "2.x.x"
+
+crypto-js@^3.1.4:
+  version "3.1.8"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-3.1.8.tgz#715f070bf6014f2ae992a98b3929258b713f08d5"
 
 crypto-service-client@^1.1.1:
   version "1.1.1"
@@ -308,6 +438,12 @@ ecc-jsbn@~0.1.1:
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.1.tgz#0fc73a9ed5f0d53c38193398523ef7e543777505"
   dependencies:
     jsbn "~0.1.0"
+
+ecurve@^1.0.0:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/ecurve/-/ecurve-1.0.5.tgz#d148e8fe50a674f983bb5bae09da0ea23e10535e"
+  dependencies:
+    bigi "^1.1.0"
 
 ed25519-supercop@^1.0.2:
   version "1.0.2"
@@ -516,6 +652,10 @@ idb-wrapper@^1.5.0:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/idb-wrapper/-/idb-wrapper-1.7.1.tgz#6a32670122e173a84ecc5cfa9668fa2ceb221b04"
 
+immediate@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/immediate/-/immediate-3.2.3.tgz#d140fa8f614659bd6541233097ddaac25cdd991c"
+
 inherits@^2.0.1, inherits@^2.0.3, inherits@~2.0.1, inherits@~2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
@@ -614,6 +754,20 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.3.6"
 
+keccak@^1.2.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/keccak/-/keccak-1.3.0.tgz#3681bd99ad3d0354ddb29b9040c1b6560cce08ac"
+  dependencies:
+    bindings "^1.2.1"
+    inherits "^2.0.3"
+    nan "^2.2.1"
+    prebuild-install "^2.0.0"
+    safe-buffer "^5.1.0"
+
+left-pad@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/left-pad/-/left-pad-1.1.3.tgz#612f61c033f3a9e08e939f1caebeea41b6f3199a"
+
 level-browserify@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/level-browserify/-/level-browserify-1.1.1.tgz#11b93f874c87232dc7509ad61a590ce65caf0503"
@@ -680,7 +834,7 @@ leveldown@^1.4.1:
     nan "~2.6.1"
     prebuild-install "^2.1.0"
 
-levelup@^1.3.2, levelup@~1.3.0:
+levelup@^1.3.2, levelup@^1.3.8, levelup@~1.3.0:
   version "1.3.8"
   resolved "https://registry.yarnpkg.com/levelup/-/levelup-1.3.8.tgz#fb442c488efbea1043f7eb9929a792a74fbd1da6"
   dependencies:
@@ -699,6 +853,20 @@ lowercase-keys@^1.0.0:
 ltgt@^2.1.2:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/ltgt/-/ltgt-2.2.0.tgz#b65ba5fcb349a29924c8e333f7c6a5562f2e4842"
+
+ltgt@~2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/ltgt/-/ltgt-2.1.3.tgz#10851a06d9964b971178441c23c9e52698eece34"
+
+memdown@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/memdown/-/memdown-1.2.4.tgz#cd9a34aaf074d53445a271108eb4b8dd4ec0f27f"
+  dependencies:
+    abstract-leveldown "2.4.1"
+    functional-red-black-tree "^1.0.1"
+    immediate "^3.2.3"
+    inherits "~2.0.1"
+    ltgt "~2.1.3"
 
 mime-db@~1.27.0:
   version "1.27.0"
@@ -822,6 +990,16 @@ p-timeout@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/p-timeout/-/p-timeout-1.1.1.tgz#d28e9fdf96e328886fbff078f886ad158c53bf6d"
 
+pbkdf2@^3.0.9:
+  version "3.0.12"
+  resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.0.12.tgz#be36785c5067ea48d806ff923288c5f750b6b8a2"
+  dependencies:
+    create-hash "^1.1.2"
+    create-hmac "^1.1.4"
+    ripemd160 "^2.0.1"
+    safe-buffer "^5.0.1"
+    sha.js "^2.4.8"
+
 performance-now@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
@@ -884,6 +1062,12 @@ qs@~6.4.0:
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.4.0.tgz#13e26d28ad6b0ffaa91312cd3bf708ed351e7233"
 
+randombytes@^2.0.1:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.0.5.tgz#dc009a246b8d09a177b4b7a0ae77bc570f4b1b79"
+  dependencies:
+    safe-buffer "^5.1.0"
+
 rc@^1.1.6:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.1.tgz#2e03e8e42ee450b8cb3dce65be1bf8974e1dfd95"
@@ -945,7 +1129,7 @@ request@^2.79.0:
     tunnel-agent "^0.6.0"
     uuid "^3.0.0"
 
-ripemd160@^2.0.0:
+ripemd160@^2.0.0, ripemd160@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/ripemd160/-/ripemd160-2.0.1.tgz#0f4584295c53a3628af7e6d79aca21ce57d1c6e7"
   dependencies:
@@ -1157,9 +1341,19 @@ typedarray-to-buffer@~1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/typedarray-to-buffer/-/typedarray-to-buffer-1.0.4.tgz#9bb8ba0e841fb3f4cf1fe7c245e9f3fa8a5fe99c"
 
+typeforce@^1.6.2:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/typeforce/-/typeforce-1.11.1.tgz#ab66f3b094856d00ed0c8913b0742d3dabfafe62"
+  dependencies:
+    inherits "^2.0.1"
+
 ultron@1.0.x:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.0.2.tgz#ace116ab557cd197386a4e88f4685378c8b2e4fa"
+
+unorm@^1.3.3:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/unorm/-/unorm-1.4.1.tgz#364200d5f13646ca8bcd44490271335614792300"
 
 unzip-response@^1.0.0:
   version "1.0.2"
@@ -1176,6 +1370,10 @@ user-home@^2.0.0:
   resolved "https://registry.yarnpkg.com/user-home/-/user-home-2.0.0.tgz#9c70bfd8169bc1dcbf48604e0f04b8b49cde9e9f"
   dependencies:
     os-homedir "^1.0.0"
+
+utf8@^2.1.1:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/utf8/-/utf8-2.1.2.tgz#1fa0d9270e9be850d9b05027f63519bf46457d96"
 
 util-deprecate@~1.0.1:
   version "1.0.2"
@@ -1235,6 +1433,16 @@ watt@^3.3.0:
   dependencies:
     setimmediate "^1.0.4"
 
+web3@^0.18.1:
+  version "0.18.4"
+  resolved "https://registry.yarnpkg.com/web3/-/web3-0.18.4.tgz#81ec1784145491f2eaa8955b31c06049e07c5e7d"
+  dependencies:
+    bignumber.js "git+https://github.com/debris/bignumber.js.git#94d7146671b9719e00a09c29b01a691bc85048c2"
+    crypto-js "^3.1.4"
+    utf8 "^2.1.1"
+    xhr2 "*"
+    xmlhttprequest "*"
+
 websocket-stream@^3.3.3:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/websocket-stream/-/websocket-stream-3.3.3.tgz#361da5404a337e60cfbc29b4a46368762679df0b"
@@ -1251,6 +1459,12 @@ wide-align@^1.1.0:
   dependencies:
     string-width "^1.0.2"
 
+wif@^2.0.1:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/wif/-/wif-2.0.6.tgz#08d3f52056c66679299726fade0d432ae74b4704"
+  dependencies:
+    bs58check "<3.0.0"
+
 wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
@@ -1261,6 +1475,14 @@ ws@^1.0.1:
   dependencies:
     options ">=0.0.5"
     ultron "1.0.x"
+
+xhr2@*:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/xhr2/-/xhr2-0.1.4.tgz#7f87658847716db5026323812f818cadab387a5f"
+
+xmlhttprequest@*:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/xmlhttprequest/-/xmlhttprequest-1.8.0.tgz#67fe075c5c24fef39f9d65f5f7b7fe75171968fc"
 
 xtend@4.0.1, xtend@^4.0.0, xtend@^4.0.1, xtend@~4.0.0, xtend@~4.0.1:
   version "4.0.1"
