@@ -14,7 +14,7 @@
     article-body
       div(v-html='md(candidate.description)')
     article-body
-      div(v-html='md(candidate.serverPower)')
+      div(v-html='md(candidate.serverDetails)')
     key-values
       // key-value
         div(slot='key') Start Date
@@ -34,7 +34,7 @@
     key-values
       key-value
         div(slot='key') Atoms
-        div(slot='value') {{ candidate.computed.atoms }}
+        div(slot='value') {{ candidate.atoms }}
       key-value
         div(slot='key') Delegators
         div(slot='value') {{ candidate.computed.delegators }}

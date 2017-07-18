@@ -46,19 +46,19 @@
         :min='config.CANDIDATE.DESCRIPTION_MIN' :max='config.CANDIDATE.DESCRIPTION_MAX'
         v-if='!$v.fields.description.minLength || !$v.fields.description.maxLength')
 
-    form-group(:error='$v.fields.serverPower.$error')
+    form-group(:error='$v.fields.serverDetails.$error')
       label(for='form-nominate-server-power') Server Power
       field(
         id='form-nominate-server-power'
         theme='cosmos'
         type='textarea'
         placeholder='Network connection, RAM, HDD space, OS, units, etc.'
-        v-model='fields.serverPower')
+        v-model='fields.serverDetails')
       form-msg(name='Server Power' type='required'
-        v-if='!$v.fields.serverPower.required')
+        v-if='!$v.fields.serverDetails.required')
       form-msg(name='Server Power' type='length'
         :min='config.CANDIDATE.DESCRIPTION_MIN' :max='config.CANDIDATE.DESCRIPTION_MAX'
-        v-if='!$v.fields.serverPower.minLength || !$v.fields.serverPower.maxLength')
+        v-if='!$v.fields.serverDetails.minLength || !$v.fields.serverDetails.maxLength')
 
     // form-group(:error='$v.fields.startDate.$error')
       label(for='form-nominate-start-date') Start Date
@@ -191,7 +191,7 @@ export default {
       description: '',
       id: '',
       ipAddress: '',
-      serverPower: '',
+      serverDetails: '',
       website: ''
     }
   }),
@@ -215,7 +215,7 @@ export default {
           keybaseID: this.fields.id,
           description: this.fields.description,
           country: this.fields.country,
-          serverDetails: this.fields.serverPower,
+          serverDetails: this.fields.serverDetails,
           nodeAddress: this.fields.ipAddress,
           website: this.fields.website,
           interestCommission: Math.round(this.fields.commissionPercent * 100),
@@ -243,7 +243,7 @@ export default {
         description: '',
         id: '',
         ipAddress: '',
-        serverPower: '',
+        serverDetails: '',
         website: ''
       }
     }
@@ -284,7 +284,7 @@ export default {
         },
         required
       },
-      serverPower: {
+      serverDetails: {
         required,
         minLength (x) { return minLength(this.config.CANDIDATE.DESCRIPTION_MIN)(x) },
         maxLength (x) { return maxLength(this.config.CANDIDATE.DESCRIPTION_MAX)(x) }

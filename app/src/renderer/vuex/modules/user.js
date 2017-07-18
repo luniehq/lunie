@@ -11,7 +11,7 @@ export default ({ commit, node }) => {
     website: '',
     startDate: '',
     commission: '',
-    serverPower: '',
+    serverDetails: '',
     description: '',
     ownCoinsBonded: ''
   }
