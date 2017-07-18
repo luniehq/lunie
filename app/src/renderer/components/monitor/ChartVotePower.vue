@@ -63,7 +63,7 @@ export default {
           },
           ticks: {
             fontColor: 'hsl(210, 32%, 50%)',
-            fontFamily: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif' 
+            fontFamily: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif'
           }
         }],
         yAxes: [{
@@ -72,7 +72,7 @@ export default {
           },
           ticks: {
             fontColor: 'hsl(210, 32%, 50%)',
-            fontFamily: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif' 
+            fontFamily: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif'
           },
           stacked: true
         }]
@@ -90,7 +90,7 @@ export default {
       type: 'line',
       data: this.chartData,
       options: this.chartOptions,
-      height: 256,
+      height: 256
     })
   }
 }

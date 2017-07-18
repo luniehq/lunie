@@ -59,7 +59,7 @@ export default {
     window.onresize = this.watchWindowSize
 
     // refresh the hacky address bar
-    setInterval(() => this.address = window.location.href.substring(23), 300)
+    setInterval(() => { this.address = window.location.href.substring(23) }, 300)
   }
 }
 </script>

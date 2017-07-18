@@ -22,6 +22,11 @@ let BASECOIN_PEER = process.env.BASECOIN_PEER || 'localhost:46657'
 let NODE_BINARY = 'gaia'
 let LIGHT_CLIENT_BINARY = 'gaiacli'
 
+// if (DEV) {
+  // Install `electron-debug` with `devtron`
+  // require('electron-debug')({ showDevTools: true })
+// }
+
 function createWindow () {
   /**
    * Initial window options
@@ -35,6 +40,7 @@ function createWindow () {
   mainWindow.maximize()
 
   mainWindow.loadURL(winURL)
+  mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', () => {
     mainWindow = null

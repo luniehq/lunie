@@ -20,7 +20,6 @@ page(icon="storage" :title="`${validatorId} Slashes`")
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import ListItem from '../common/NiListItem'
 import ToolBar from '../common/NiToolBar'
 import Page from '../common/NiPage'

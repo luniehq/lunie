@@ -1026,6 +1026,14 @@ var BASECOIN_PEER = process.env.BASECOIN_PEER || 'localhost:46657';
 var NODE_BINARY = 'gaia';
 var LIGHT_CLIENT_BINARY = 'gaiacli';
 
+<<<<<<< HEAD
+=======
+// if (DEV) {
+// Install `electron-debug` with `devtron`
+// require('electron-debug')({ showDevTools: true })
+// }
+
+>>>>>>> Added npm5 lockfiles
 function createWindow() {
   /**
    * Initial window options
@@ -1039,6 +1047,7 @@ function createWindow() {
   mainWindow.maximize();
 
   mainWindow.loadURL(winURL);
+  mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', function () {
     mainWindow = null;
@@ -1272,7 +1281,40 @@ var createDataDir = (0, _watt2.default)(_regenerator2.default.mark(function _cal
 /* 16 */
 /***/ (function(module, exports) {
 
+<<<<<<< HEAD
 module.exports = {"name":"cosmos-ui-vue","version":"0.0.0","description":"The user interface for Cosmos, built in Vue.","main":"./dist/main.js","author":"All In Bits, Inc <hello@tendermint.com>","license":"Apache-2.0","dependencies":{"babel-runtime":"^6.23.0","basecoin":"^2.3.1","clipboard":"^1.6.0","cosmos-delegation-game":"^0.1.0","fs-extra":"^2.0.0","levelup":"^1.3.8","memdown":"^1.2.4","mkdirp":"^0.5.1","old":"^0.2.0","tendermint-crypto":"github:mappum/js-crypto","user-home":"^2.0.0","vue":"^2.2.6","vue-electron":"^1.0.6","vue-resource":"^1.0.3","vue-router":"^2.1.2","vuex":"^2.1.1","watt":"^3.3.0"},"devDependencies":{"create-hash":"^1.1.3","prebuild-install":"^2.1.2"}}
+=======
+module.exports = {
+	"name": "delegation-game-ui",
+	"version": "0.0.0",
+	"description": "The wallet for Basecoin.",
+	"main": "./dist/main.js",
+	"dependencies": {
+		"babel-runtime": "^6.23.0",
+		"basecoin": "^2.3.1",
+		"clipboard": "^1.6.0",
+		"cosmos-delegation-game": "^0.1.0",
+		"fs-extra": "^2.0.0",
+		"levelup": "^1.3.8",
+		"memdown": "^1.2.4",
+		"mkdirp": "^0.5.1",
+		"old": "^0.2.0",
+		"tendermint-crypto": "github:mappum/js-crypto",
+		"user-home": "^2.0.0",
+		"vue": "^2.2.6",
+		"vue-electron": "^1.0.6",
+		"vue-resource": "^1.0.3",
+		"vue-router": "^2.1.2",
+		"vuex": "^2.1.1",
+		"watt": "^3.3.0"
+	},
+	"devDependencies": {
+		"create-hash": "^1.1.3",
+		"prebuild-install": "^2.1.2"
+	},
+	"author": "Peng Zhong <peng@nylira.com>"
+};
+>>>>>>> Added npm5 lockfiles
 
 /***/ })
 /******/ ]);

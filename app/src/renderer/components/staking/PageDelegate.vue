@@ -2,14 +2,14 @@
 page(:title="pageTitle")
   tool-bar
     btn(theme='cosmos' type='link' to='/' icon='angle-left' value='Change Candidates')
-  
+
   form-struct(:submit="onSubmit")
     form-group(:error="$v.fields.reservedAtoms.$error")
       Label Reserved Atoms
       field-group
-        h1 {{unallocatedAtoms}} 
+        h1 {{unallocatedAtoms}}
           small Atoms not delegated.
-        
+
       form-msg: div Reserved Atoms will be held by you and remain unbonded
 
     form-group(v-for='(candidate, index) in fields.candidates' key='candidate.id'
@@ -53,7 +53,6 @@ import FormGroup from '../common/NiFormGroup'
 import FormMsg from '../common/NiFormMsg'
 import FormStruct from '../common/NiFormStruct'
 import Page from '../common/NiPage'
-import ToolBar from '../common/NiToolBar'
 export default {
   name: 'page-delegate',
   components: {
@@ -74,6 +73,7 @@ export default {
       } else {
         title += '(DONE)'
       }
+      return title
     },
     unreservedAtoms () {
       return this.user.atoms - this.fields.reservedAtoms
@@ -234,7 +234,7 @@ export default {
           margin-right 1rem
           &:last-child
             margin 0
-  
+
   h1
     font-size 2em
 
