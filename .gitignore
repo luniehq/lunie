@@ -5,6 +5,7 @@ app/dist/styles.css
 app/dist/fonts
 app/dist/imgs
 app/dist/renderer.js
+app/dist/main.js
 builds/*
 coverage
 node_modules
