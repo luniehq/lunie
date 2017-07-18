@@ -4,7 +4,7 @@ const Basecoin = require('basecoin')
 const DelegationGame = require('cosmos-delegation-game')
 const watt = require('watt')
 
-const LIGHT = process.env.BASECOIN_LIGHT_CLIENT != null
+const LIGHT = Boolean(process.env.BASECOIN_LIGHT_CLIENT)
 const RPC_URI = `ws://localhost:${LIGHT ? 8888 : 46657}`
 
 module.exports = watt(function * (next) {

@@ -134,6 +134,16 @@ function startBasecoin (root, light, cb) {
   return child
 }
 
+let initialBchomeDataPath = watt(function * (next) {
+  let path = join(__dirname, '../../bchome')
+  let err = yield fs.access(path, next.arg(0))
+  if (err && err.code !== 'ENOENT') throw err
+  if (err && err.code === 'ENOENT') {
+    return join(__dirname, '../bchome')
+  }
+  return path
+})
+
 let createDataDir = watt(function * (root, light, next) {
   let err = yield fs.access(root, next.arg(0))
   if (err && err.code !== 'ENOENT') throw err
@@ -160,7 +170,8 @@ let createDataDir = watt(function * (root, light, next) {
     yield child.on('exit', next.arg(0))
   } else {
     // copy predefined genesis.json and config.toml into root
-    yield fs.copy(join(__dirname, '../../bchome'), root, next)
+    let bchome = yield initialBchomeDataPath()
+    yield fs.copy(bchome, root, next)
 
     // `basecoin init` to generate account keys, validator key
     child = startProcess(NODE_BINARY, [
