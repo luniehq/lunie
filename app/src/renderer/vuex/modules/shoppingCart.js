@@ -1,10 +1,11 @@
 import { findIndex } from 'lodash'
+import Vue from 'vue'
 export default ({ commit, basecoin }) => {
-  const state = []
+  let state = { candidates: [] }
 
   const mutations = {
     addToCart (state, candidate) {
-      state.push({
+      state.candidates.push({
         id: candidate.id,
         candidate: Object.assign({}, candidate),
         atoms: 0
@@ -12,9 +13,13 @@ export default ({ commit, basecoin }) => {
       console.log(`+ ADD ${candidate.keybaseID} to cart`)
     },
     removeFromCart (state, candidate) {
-      let index = findIndex(state, { id: candidate.id })
-      console.log(`- RM ${JSON.stringify(state[index])} from cart[${index}]`)
-      state.splice(index, 1)
+      let index = findIndex(state.candidates, c => {
+        return c.candidate.id === candidate
+      })
+      // console.log(`- RM ${JSON.stringify(state.candidates[index])} from cart[${index}]`)
+      let candidates = state.candidates.slice()
+      candidates.splice(index, 1)
+      state.candidates = candidates
     }
   }
 

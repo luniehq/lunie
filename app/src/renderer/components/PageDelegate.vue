@@ -173,6 +173,7 @@ export default {
     },
     rm (candidateId) {
       this.$store.commit('removeFromCart', candidateId)
+      this.resetCandidates()
     }
   },
   mounted () {
