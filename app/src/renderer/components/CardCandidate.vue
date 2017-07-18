@@ -82,7 +82,7 @@ export default {
       this.$store.commit('addToCart', candidate)
     },
     rm (candidate) {
-      this.$store.commit('removeFromCart', candidate)
+      this.$store.commit('removeFromCart', candidate.id)
     }
   }
 }
