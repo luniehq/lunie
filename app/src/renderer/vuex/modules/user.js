@@ -70,7 +70,7 @@ export default ({ commit, node }) => {
       if (!account) return
 
       commit('setPrivateKey', privkey)
-      commit('setAtoms', account.coins[0].amount)
+      commit('setAtoms', Math.floor(account.coins[0].amount / 100))
 
       // use in-memory data store so key is not persisted
       let store = level({ db: memdown })
