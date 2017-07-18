@@ -1,11 +1,5 @@
 .DS_Store
-app/dist/index.html
-app/dist/build.js
-app/dist/styles.css
-app/dist/fonts
-app/dist/imgs
-app/dist/renderer.js
-app/dist/main.js
+app/dist
 builds/*
 coverage
 node_modules
