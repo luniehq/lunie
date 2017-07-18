@@ -1,20 +1,13 @@
 <template lang="pug">
 .page.page-candidates
   page-header
-    div(slot="title") Candidates #[span(v-if='isDelegator') ({{candidatesNum }} Selected)]
+    div(slot="title") Candidates #[span(v-if='isSignedIn') ({{candidatesNum }} Selected)]
     field(theme='cosmos', type='text', placeholder='Filter...', v-model='query')
     btn(
-      v-if="isDelegator && candidatesNum > 0"
+      v-if="isSignedIn && candidatesNum > 0"
       theme='cosmos'
       type='link'
       to='/delegate'
-      icon='angle-right'
-      icon-pos='right'
-      :value='btnLabel')
-    btn(
-      disabled
-      v-else-if='isDelegator'
-      theme='cosmos'
       icon='angle-right'
       icon-pos='right'
       :value='btnLabel')
@@ -70,7 +63,7 @@ export default {
     btnLabel () {
       return `Delegate`
     },
-    isDelegator () { return this.user.signedIn && !this.user.nominationActive }
+    isSignedIn () { return this.user.signedIn }
   },
   data: () => ({
     query: ''
