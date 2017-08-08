@@ -1,43 +1,48 @@
-function r (pageName) { return require(`components/Page${pageName}`) }
+function r(type, pageName) {
+  return require(`components/${type}/Page${pageName}`)
+}
+
+let staking = r.bind(null, 'staking')
+let basecoin = r.bind(null, 'basecoin')
 
 export default [
   {
-    path: '/',
+    path: '/staking',
     name: 'candidates',
-    component: r('Candidates')
+    component: staking('Candidates')
   },
   {
-    path: '/delegate',
+    path: '/staking/delegate',
     name: 'delegate',
-    component: r('Delegate')
+    component: staking('Delegate')
   },
   {
-    path: '/nominate',
+    path: '/staking/nominate',
     name: 'nominate',
-    component: r('Nominate')
+    component: staking('Nominate')
   },
   {
-    path: '/profile',
+    path: '/staking/profile',
     name: 'profile',
-    component: r('Profile')
+    component: staking('Profile')
   },
   {
-    path: '/signin',
+    path: '/staking/signin',
     name: 'signin',
-    component: r('SignIn')
+    component: staking('SignIn')
   },
   {
-    path: '/candidates/:candidate',
+    path: '/staking/candidates/:candidate',
     name: 'candidate',
-    component: r('Candidate')
+    component: staking('Candidate')
   },
   {
-    path: '/welcome',
+    path: '/staking/welcome',
     name: 'welcome',
-    component: r('Welcome')
+    component: staking('Welcome')
   },
   {
     path: '*',
-    redirect: '/'
+    redirect: '/staking'
   }
 ]
