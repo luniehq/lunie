@@ -51,7 +51,7 @@ import Btn from '@nylira/vue-button'
 import PageHeader from './PageHeader'
 import KeyValue from './NiKeyValue'
 import KeyValues from './NiKeyValues'
-import countries from '../scripts/countries.json'
+import countries from '../../scripts/countries.json'
 export default {
   name: 'page-candidate',
   components: {
@@ -94,7 +94,7 @@ export default {
     }
   },
   mounted () {
-    if (!this.candidate) { this.$router.push('/') }
+    if (!this.candidate) { this.$router.push('/staking') }
   }
 }
 </script>

@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../styles/variables.styl'
+@require '../../styles/variables.styl'
 
 .panel-sort-container
   display flex

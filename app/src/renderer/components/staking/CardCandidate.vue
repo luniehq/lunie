@@ -28,7 +28,7 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
 
 <script>
 import { mapGetters } from 'vuex'
-import num from '../scripts/num'
+import num from '../../scripts/num'
 import Btn from '@nylira/vue-button'
 // import { maxBy } from 'lodash'
 export default {
@@ -44,7 +44,7 @@ export default {
       if (this.inCart) value += ' card-candidate-active '
       return value
     },
-    signedIn(){
+    signedIn () {
       return this.user.signedIn
     },
     maxAtoms () {
@@ -89,7 +89,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../styles/variables.styl'
+@require '../../styles/variables.styl'
 .card-candidate
   &:nth-of-type(2n) .card-candidate-container
     background alpha(c-app-fg, 20%)

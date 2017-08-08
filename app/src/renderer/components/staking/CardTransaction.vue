@@ -38,7 +38,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../styles/variables.styl'
+@require '../../styles/variables.styl'
 
 ul.card-transaction
   padding 0.25em 0.5em

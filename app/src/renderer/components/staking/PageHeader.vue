@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../styles/variables.styl'
+@require '../../styles/variables.styl'
 
 .page-header
   display flex

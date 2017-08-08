@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../styles/variables.styl'
+@require '../../styles/variables.styl'
 .card-address
   font-size 0.75rem
   padding 0.25em

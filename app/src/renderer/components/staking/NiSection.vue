@@ -25,7 +25,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../styles/variables.styl'
+@require '../../styles/variables.styl'
 
 .ni-section
   margin-bottom 1rem

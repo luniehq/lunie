@@ -52,7 +52,7 @@
 
 <script>
 import flatpickr from 'flatpickr'
-import countries from '../scripts/countries.json'
+import countries from '../../scripts/countries.json'
 export default {
   name: 'ni-field',
   props: ['placeholder', 'type', 'size', 'value', 'theme', 'options'],

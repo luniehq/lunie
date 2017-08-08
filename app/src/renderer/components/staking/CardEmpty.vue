@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../styles/variables.styl'
+@require '../../styles/variables.styl'
 
 .card-empty
   font-size 0.75rem

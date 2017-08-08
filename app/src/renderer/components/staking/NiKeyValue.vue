@@ -24,7 +24,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../styles/variables.styl'
+@require '../../styles/variables.styl'
 
 .ni-kv
   border-bottom 1px solid bc-faint

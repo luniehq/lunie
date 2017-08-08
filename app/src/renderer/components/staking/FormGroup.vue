@@ -19,7 +19,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '../styles/variables.styl'
+@import '../../styles/variables.styl'
 
 .ni-form-group
   padding 1rem 1rem 1rem - px

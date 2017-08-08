@@ -11,8 +11,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import AppHeader from './components/AppHeader.vue'
-import AppFooter from './components/AppFooter.vue'
+import AppHeader from './components/staking/AppHeader.vue'
+import AppFooter from './components/staking/AppFooter.vue'
 import Notifications from '@nylira/vue-notifications'
 import store from './vuex/store'
 export default {

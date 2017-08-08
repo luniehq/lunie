@@ -19,7 +19,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../styles/variables.styl'
+@require '../../styles/variables.styl'
 
 .new-bar
   font-size 0.75rem

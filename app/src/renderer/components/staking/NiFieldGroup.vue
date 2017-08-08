@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '../styles/variables.styl'
+@import '../../styles/variables.styl'
 
 .ni-field-group
   display flex

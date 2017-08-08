@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../styles/variables.styl'
+@require '../../styles/variables.styl'
 .card-candidate-atoms
   border 1px solid bc-dim
   margin-bottom 1rem

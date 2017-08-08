@@ -57,7 +57,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '../styles/variables.styl'
+@import '../../styles/variables.styl'
 
 .ni-form-msg
   line-height 2rem

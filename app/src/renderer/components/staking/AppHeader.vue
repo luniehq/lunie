@@ -3,7 +3,7 @@
 <div class="app-header-container">
 
   <router-link to="/" class="header-item header-item-logo">
-    <img src="../assets/images/logo-cosmos-blue.png" alt="Cosmos Logo">
+    <img src="../../assets/images/logo-cosmos-blue.png" alt="Cosmos Logo">
   </router-link>
 
   <div class="header-item" @click="toggleMenu" v-if="!desktop">
@@ -71,7 +71,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../styles/variables.styl'
+@require '../../styles/variables.styl'
 
 .app-header
   display flex
@@ -143,7 +143,7 @@ export default {
     width 100vw
     z-index 100000
 
-    background c-app-bg url('../assets/images/background-grid.png')
+    background c-app-bg url('../../assets/images/background-grid.png')
     user-select none
 
     padding 0 1rem

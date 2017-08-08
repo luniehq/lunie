@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '../styles/variables.styl'
+@import '../../styles/variables.styl'
 
 .ni-form
   display flex

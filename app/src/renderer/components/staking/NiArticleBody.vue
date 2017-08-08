@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../styles/variables.styl'
+@require '../../styles/variables.styl'
 
 .ni-article-body
   margin 1rem 0

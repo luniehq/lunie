@@ -25,11 +25,11 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../styles/variables.styl'
+@require '../../styles/variables.styl'
 
 .app-footer
   height 2rem
-  background c-app-fg url('../assets/images/background-grid.png')
+  background c-app-fg url('../../assets/images/background-grid.png')
 
   margin 0 1rem
 
