@@ -11,16 +11,11 @@ import mkdirp from 'mkdirp'
 let mainWindow
 let basecoinProcess
 const DEV = process.env.NODE_ENV === 'development'
-const LIGHT = process.env.BASECOIN_LIGHT_CLIENT
 const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
   : `file://${__dirname}/index.html`
 
-// what host the light client should connect to
-let BASECOIN_PEER = process.env.BASECOIN_PEER || 'localhost:46657'
-
-let NODE_BINARY = 'gaia'
-let LIGHT_CLIENT_BINARY = 'gaiacli'
+let NODE_BINARY = 'basecoin'
 
 // if (DEV) {
   // Install `electron-debug` with `devtron`
@@ -40,7 +35,7 @@ function createWindow () {
   mainWindow.maximize()
 
   mainWindow.loadURL(winURL)
-  mainWindow.webContents.openDevTools()
+  if (DEV) mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', () => {
     mainWindow = null
@@ -110,12 +105,12 @@ function startBasecoin (root, light, cb) {
   if (light) {
     // TODO: figure out what node to connect to
     // TODO: configurable chainid
-    child = startProcess(LIGHT_CLIENT_BINARY, [
-      'proxy',
-      '--node', `tcp://${BASECOIN_PEER}`,
-      '--chainid', 'test_chain_id',
-      '--home', root
-    ], opts)
+    // child = startProcess(LIGHT_CLIENT_BINARY, [
+    //   'proxy',
+    //   '--node', `tcp://${BASECOIN_PEER}`,
+    //   '--chainid', 'test_chain_id',
+    //   '--home', root
+    // ], opts)
   } else {
     child = startProcess(NODE_BINARY, [
       'start',
@@ -144,7 +139,7 @@ let initialBchomeDataPath = watt(function * (next) {
   return path
 })
 
-let createDataDir = watt(function * (root, light, next) {
+let createDataDir = watt(function * (root, next) {
   let err = yield fs.access(root, next.arg(0))
   if (err && err.code !== 'ENOENT') throw err
   if (!err) return
@@ -160,12 +155,12 @@ let createDataDir = watt(function * (root, light, next) {
   let child
   if (light) {
     // `basecli init` to set up light client stuff
-    child = startProcess(LIGHT_CLIENT_BINARY, [
-      'init',
-      '--node', `tcp://${BASECOIN_PEER}`,
-      '--chainid', 'test_chain_id',
-      '--home', root
-    ], opts)
+    // child = startProcess(LIGHT_CLIENT_BINARY, [
+    //   'init',
+    //   '--node', `tcp://${BASECOIN_PEER}`,
+    //   '--chainid', 'test_chain_id',
+    //   '--home', root
+    // ], opts)
     child.stdin.write('y\n')
     yield child.on('exit', next.arg(0))
   } else {
@@ -198,9 +193,9 @@ let createDataDir = watt(function * (root, light, next) {
 
 watt(function * (next) {
   let root = require('../root.js')
-  yield createDataDir(root, LIGHT)
-  console.log(`starting basecoin${LIGHT ? ' light client proxy' : ''}`)
-  basecoinProcess = yield startBasecoin(root, LIGHT, next)
+  yield createDataDir(root)
+  console.log(`starting basecoin`)
+  basecoinProcess = yield startBasecoin(root, next)
   console.log('basecoin ready')
   process.on('exit', () => {
     if (basecoinProcess) {

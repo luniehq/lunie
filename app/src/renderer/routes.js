@@ -71,6 +71,23 @@ export default [
   { path: '/signin', name: 'signin', component: common('SignIn') },
   { path: '/profile', name: 'profile', component: common('Profile') },
 
+  // sendtx
+  // {
+  //   path: '/balances',
+  //   name: 'balances',
+  //   component: r('Balances')
+  // },
+  // {
+  //   path: '/send',
+  //   name: 'send',
+  //   component: r('Send')
+  // },
+  // {
+  //   path: '/receive',
+  //   name: 'receive',
+  //   component: r('Receive')
+  // },
+
   // 404
   { path: '/404', component: common('404') },
   { path: '*', component: common('404') }

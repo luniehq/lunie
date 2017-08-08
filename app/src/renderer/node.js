@@ -1,29 +1,5 @@
 'use strict'
 
-const Basecoin = require('basecoin')
-const DelegationGame = require('cosmos-delegation-game')
-const watt = require('watt')
+// const Client = require('js-weave')
 
-const LIGHT = Boolean(process.env.BASECOIN_LIGHT_CLIENT)
-const RPC_URI = `ws://localhost:${LIGHT ? 8888 : 46657}`
-
-module.exports = watt(function * (next) {
-  let basecoin
-  while (true) {
-    try {
-      basecoin = Basecoin(RPC_URI)
-      basecoin.once('error', next)
-      yield basecoin.rpc.status(next)
-      console.log('connected to gaia RPC')
-      basecoin.removeListener('error', next)
-      break
-    } catch (err) {
-      console.log('waiting for gaia RPC')
-      yield setTimeout(next, 1000) // wait 1s
-    }
-  }
-  let { rpc } = basecoin
-  let delegationGame = DelegationGame(RPC_URI)
-
-  return { rpc, basecoin, delegationGame }
-})
+module.exports = function () { console.log(arguments) }

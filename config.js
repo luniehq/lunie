@@ -24,8 +24,7 @@ let config = {
     ignore: /^\/(src|index\.ejs|icons)/,
     out: path.join(__dirname, 'builds'),
     overwrite: true,
-    platform: process.env.PLATFORM_TARGET || 'all',
-    light: !!process.env.BASECOIN_LIGHT_CLIENT
+    platform: process.env.PLATFORM_TARGET || 'all'
   }
 }
 

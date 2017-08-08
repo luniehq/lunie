@@ -31,7 +31,8 @@ function build () {
   let options = require('../config').building
 
   options.afterCopy = [
-    goBuild(`github.com/cosmos/gaia`)
+    goBuild(`github.com/tendermint/basecoin/cmd/basecoin`),
+    goBuild(`github.com/tendermint/basecoin/cmd/baseserver`)
   ]
 
   console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')
