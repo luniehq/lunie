@@ -1,5 +1,4 @@
 import { findIndex } from 'lodash'
-import Vue from 'vue'
 export default ({ commit, basecoin }) => {
   let state = { candidates: [] }
 
