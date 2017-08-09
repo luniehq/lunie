@@ -17,15 +17,7 @@ const winURL = DEV
 
 let NODE_BINARY = 'basecoin'
 
-// if (DEV) {
-  // Install `electron-debug` with `devtron`
-  // require('electron-debug')({ showDevTools: true })
-// }
-
 function createWindow () {
-  /**
-   * Initial window options
-   */
   mainWindow = new BrowserWindow({
     minWidth: 320,
     minHeight: 480,
@@ -64,10 +56,12 @@ function createWindow () {
 function startProcess (name, ...args) {
   let binPath
   if (DEV) {
+    // in dev mode, use binaries installed in GOPATH
     let GOPATH = process.env.GOPATH
     if (!GOPATH) GOPATH = join(home, 'go')
     binPath = join(GOPATH, 'bin', name)
   } else {
+    // in production mode, use binaries packaged with app
     binPath = join(__dirname, '..', 'bin', name)
   }
 
@@ -92,7 +86,7 @@ app.on('activate', () => {
 })
 
 // start basecoin/tendermint node
-function startBasecoin (root, light, cb) {
+function startBasecoin (root, cb) {
   let log = fs.createWriteStream(join(root, 'basecoin.log'))
   let opts = {
     env: {
@@ -101,23 +95,10 @@ function startBasecoin (root, light, cb) {
     }
   }
 
-  let child
-  if (light) {
-    // TODO: figure out what node to connect to
-    // TODO: configurable chainid
-    // child = startProcess(LIGHT_CLIENT_BINARY, [
-    //   'proxy',
-    //   '--node', `tcp://${BASECOIN_PEER}`,
-    //   '--chainid', 'test_chain_id',
-    //   '--home', root
-    // ], opts)
-  } else {
-    child = startProcess(NODE_BINARY, [
-      'start',
-      '--home', root
-    ], opts)
-  }
-
+  let child = startProcess(NODE_BINARY, [
+    'start',
+    '--home', root
+  ], opts)
   child.stdout.on('data', waitForRpc)
   child.stdout.pipe(log)
   child.stderr.pipe(log)
@@ -152,34 +133,20 @@ let createDataDir = watt(function * (root, next) {
 
   yield mkdirp(root, next)
 
-  let child
-  if (light) {
-    // `basecli init` to set up light client stuff
-    // child = startProcess(LIGHT_CLIENT_BINARY, [
-    //   'init',
-    //   '--node', `tcp://${BASECOIN_PEER}`,
-    //   '--chainid', 'test_chain_id',
-    //   '--home', root
-    // ], opts)
-    child.stdin.write('y\n')
-    yield child.on('exit', next.arg(0))
-  } else {
-    // copy predefined genesis.json and config.toml into root
-    let bchome = yield initialBchomeDataPath()
-    yield fs.copy(bchome, root, next)
+  // copy predefined genesis.json and config.toml into root
+  let bchome = yield initialBchomeDataPath()
+  yield fs.copy(bchome, root, next)
 
-    // `basecoin init` to generate account keys, validator key
-    child = startProcess(NODE_BINARY, [
-      'init',
-      '1B1BE55F969F54064628A63B9559E7C21C925165',
-      '--home', root
-    ], opts)
-    yield child.on('exit', next.arg(0))
-  }
+  // `basecoin init` to generate account keys, validator key
+  let child = startProcess(NODE_BINARY, [
+    'init',
+    // currently using hardcoded address
+    '1B1BE55F969F54064628A63B9559E7C21C925165',
+    '--home', root
+  ], opts)
+  yield child.on('exit', next.arg(0))
 
-  yield mkdirp(join(root, 'wallets'), next)
-
-  if (DEV && !light) {
+  if (DEV) {
     // insert our pubkey into genesis validator set
     let privValidatorBytes = yield fs.readFile(join(root, 'priv_validator.json'), next)
     let privValidator = JSON.parse(privValidatorBytes.toString())
@@ -194,7 +161,7 @@ let createDataDir = watt(function * (root, next) {
 watt(function * (next) {
   let root = require('../root.js')
   yield createDataDir(root)
-  console.log(`starting basecoin`)
+  console.log('starting basecoin')
   basecoinProcess = yield startBasecoin(root, next)
   console.log('basecoin ready')
   process.on('exit', () => {

@@ -3,7 +3,6 @@
 export default ({ node }) => {
   // get tendermint RPC client from basecon client
   const { rpc } = node
-  const LIGHT = process.env.BASECOIN_LIGHT_CLIENT != null
 
   const state = {
     syncHeight: 0,
@@ -34,13 +33,11 @@ export default ({ node }) => {
             time: status.latest_block_time / 1e6
           })
         })
-        if (!LIGHT) {
-          rpc.netInfo((err, res) => {
-            if (err) return console.error(err)
-            let netInfo = res
-            commit('setNumPeers', netInfo.peers.length)
-          })
-        }
+        rpc.netInfo((err, res) => {
+          if (err) return console.error(err)
+          let netInfo = res
+          commit('setNumPeers', netInfo.peers.length)
+        })
       }, 1000)
     }
   }

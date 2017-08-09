@@ -123,8 +123,7 @@ if (process.env.NODE_ENV === 'production') {
 
   config.plugins.push(
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"',
-      'process.env.BASECOIN_LIGHT_CLIENT': `${!!process.env.BASECOIN_LIGHT_CLIENT}`
+      'process.env.NODE_ENV': '"production"'
     }),
     new webpack.optimize.OccurenceOrderPlugin() //,
     // new webpack.optimize.UglifyJsPlugin({
