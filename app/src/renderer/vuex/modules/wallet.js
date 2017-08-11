@@ -39,6 +39,7 @@ export default ({ commit, node }) => {
     },
     async queryWalletBalances ({ state, commit }) {
       let res = await node.queryAccount(state.key.address)
+      if (!res) return
       commit('setWalletBalances', res.data.coins)
     }
   }
