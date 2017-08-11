@@ -9,13 +9,14 @@ import watt from 'watt'
 import mkdirp from 'mkdirp'
 
 let mainWindow
-let basecoinProcess
+let basecoinProcess, baseserverProcess
 const DEV = process.env.NODE_ENV === 'development'
 const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
   : `file://${__dirname}/index.html`
 
 let NODE_BINARY = 'basecoin'
+let SERVER_BINARY = 'baseserver'
 
 function createWindow () {
   mainWindow = new BrowserWindow({
@@ -110,6 +111,26 @@ function startBasecoin (root, cb) {
   return child
 }
 
+// start baseserver REST API
+function startBaseserver (home, cb) {
+  console.log('startBaseserver', home)
+  let log = fs.createWriteStream(join(home, 'baseserver.log'))
+
+  let child = startProcess(SERVER_BINARY, [
+    'serve',
+    '--home', home
+  ])
+  child.stderr.on('data', waitForReady)
+  child.stdout.pipe(log)
+  child.stderr.pipe(log)
+  function waitForReady (data) {
+    if (!data.toString().includes('Serving on')) return
+    child.removeListener('data', waitForReady)
+    cb(null)
+  }
+  return child
+}
+
 let initialBchomeDataPath = watt(function * (next) {
   let path = join(__dirname, '../../bchome')
   let err = yield fs.access(path, next.arg(0))
@@ -120,10 +141,10 @@ let initialBchomeDataPath = watt(function * (next) {
   return path
 })
 
-let createDataDir = watt(function * (root, next) {
+let initBasecoin = watt(function * (root, next) {
   let err = yield fs.access(root, next.arg(0))
   if (err && err.code !== 'ENOENT') throw err
-  if (!err) return
+  if (!err) return // if already exists, skip init
   let opts = {
     env: {
       BCHOME: root,
@@ -158,16 +179,51 @@ let createDataDir = watt(function * (root, next) {
   }
 })
 
+let initBaseserver = watt(function * (home, next) {
+  let err = yield fs.access(home, next.arg(0))
+  if (err && err.code !== 'ENOENT') throw err
+  if (!err) return // if already exists, skip init
+
+  yield mkdirp(home, next)
+
+  // `baseserver init` to generate config, trust seed
+  let child = startProcess(SERVER_BINARY, [
+    'init',
+    '--home', home,
+    '--chain-id', 'test_chain_id', // TODO: configurable
+    '--node', 'localhost:46657'
+  ])
+  child.stdout.on('data', (data) => {
+    // answer 'y' to the prompt about trust seed. we can trust this is correct
+    // since the baseserver is talking to our own full node
+    child.stdin.write('y\n')
+  })
+  yield child.on('exit', next.arg(0))
+})
+
 watt(function * (next) {
   let root = require('../root.js')
-  yield createDataDir(root)
+  yield initBasecoin(root)
+
   console.log('starting basecoin')
   basecoinProcess = yield startBasecoin(root, next)
   console.log('basecoin ready')
+
+  let baseserverHome = join(root, 'baseserver')
+  yield initBaseserver(baseserverHome)
+
+  console.log('starting baseserver')
+  baseserverProcess = yield startBaseserver(baseserverHome, next)
+  console.log('baseserver ready')
+
   process.on('exit', () => {
     if (basecoinProcess) {
       basecoinProcess.kill()
       basecoinProcess = null
+    }
+    if (baseserverProcess) {
+      baseserverProcess.kill()
+      baseserverProcess = null
     }
   })
 })()

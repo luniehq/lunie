@@ -3,11 +3,11 @@
     <div class="card-address-container">
       <div class="left">
         <div class="address">
-          <span class="value">{{ address.address.toString('hex') }}</span>
+          <span class="value">{{ address }}</span>
         </div>
       </div>
       <menu>
-        <btn-copy :value="address.address.toString('hex')"></btn-copy>
+        <btn-copy :value="address"></btn-copy>
       </menu>
     </div>
   </div>
@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     cssId () {
-      return 'address-' + this.address.address.toString('hex')
+      return 'address-' + this.address
     }
   },
   methods: {
