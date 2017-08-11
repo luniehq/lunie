@@ -201,6 +201,17 @@ let initBaseserver = watt(function * (home, next) {
   yield child.on('exit', next.arg(0))
 })
 
+process.on('exit', () => {
+  if (basecoinProcess) {
+    basecoinProcess.kill()
+    basecoinProcess = null
+  }
+  if (baseserverProcess) {
+    baseserverProcess.kill()
+    baseserverProcess = null
+  }
+})
+
 watt(function * (next) {
   let root = require('../root.js')
   yield initBasecoin(root)
@@ -215,15 +226,4 @@ watt(function * (next) {
   console.log('starting baseserver')
   baseserverProcess = yield startBaseserver(baseserverHome, next)
   console.log('baseserver ready')
-
-  process.on('exit', () => {
-    if (basecoinProcess) {
-      basecoinProcess.kill()
-      basecoinProcess = null
-    }
-    if (baseserverProcess) {
-      baseserverProcess.kill()
-      baseserverProcess = null
-    }
-  })
 })()
