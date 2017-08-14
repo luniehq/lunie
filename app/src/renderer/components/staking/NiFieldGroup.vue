@@ -32,7 +32,7 @@ export default {
     margin-left 1rem
 
   .ni-field-addon
-    background c-app-bg
+    background app-bg
     border 1px solid bc-dim
     display flex
     align-items center

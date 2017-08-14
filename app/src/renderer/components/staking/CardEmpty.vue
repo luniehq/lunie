@@ -15,7 +15,7 @@ export default {
 
 .card-empty
   font-size 0.75rem
-  background c-app-fg
+  background app-fg
   min-height 3em
   display flex
   justify-content center

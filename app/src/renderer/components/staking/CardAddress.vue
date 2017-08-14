@@ -41,7 +41,7 @@ export default {
   transition
 
   .card-address-container
-    background c-app-fg
+    background app-fg
 
     height 3em
     display flex

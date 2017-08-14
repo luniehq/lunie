@@ -27,19 +27,14 @@ export default [
     component: staking('Profile')
   },
   {
-    path: '/staking/signin',
-    name: 'signin',
-    component: staking('SignIn')
-  },
-  {
     path: '/staking/candidates/:candidate',
     name: 'candidate',
     component: staking('Candidate')
   },
   {
-    path: '/staking/welcome',
-    name: 'welcome',
-    component: staking('Welcome')
+    path: '/signin',
+    name: 'signin',
+    component: staking('SignIn')
   },
   {
     path: '*',

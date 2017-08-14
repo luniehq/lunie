@@ -55,7 +55,7 @@ export default {
   padding 0.25em
 
   .card-balance-container
-    background c-app-fg
+    background app-fg
 
     height 3em
     display flex

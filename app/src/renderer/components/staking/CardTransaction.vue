@@ -42,7 +42,7 @@ export default {
 
 ul.card-transaction
   padding 0.25em 0.5em
-  background c-app-fg
+  background app-fg
 
   display flex
   align-items center
@@ -51,7 +51,7 @@ ul.card-transaction
   border-right 1px solid bc
 
   &:nth-of-type(2n)
-    background lighten(c-app-bg, 50%)
+    background lighten(app-bg, 50%)
 
   mono()
   height 2rem

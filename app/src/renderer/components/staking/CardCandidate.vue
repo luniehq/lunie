@@ -92,7 +92,7 @@ export default {
 @require '../../styles/variables.styl'
 .card-candidate
   &:nth-of-type(2n) .card-candidate-container
-    background alpha(c-app-fg, 20%)
+    background alpha(app-fg, 20%)
 
   &.card-candidate-active .card-candidate-container
     .value.id a, .icon
@@ -138,13 +138,13 @@ export default {
 
       .bar
         height 1.5rem
-        background alpha(c-app-fg, 75%)
+        background alpha(app-fg, 75%)
         margin-right 1rem
       &.delegated
         span
           color light
         .bar
-          background alpha(c-app-fg, 50%)
+          background alpha(app-fg, 50%)
 
     span
       display block

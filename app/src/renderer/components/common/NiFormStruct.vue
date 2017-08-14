@@ -44,19 +44,8 @@ export default {
 
 .ni-form
   display flex
-  margin 1rem 0
   position relative
-  border 2px solid bc-dim
-  border-radius 0.25rem
-  background alpha(app-bg, 50%)
-
-  /*
-  border-bottom 1px solid bc
-  &:before, &:after
-    dot()
-  &:after
-    right -1*px
-  */
+  max-width 640px
 
 .ni-form-container
   flex 1
@@ -83,9 +72,9 @@ export default {
 .ni-form-header
   display flex
   flex-flow column nowrap
-  border-bottom 1px solid bc-faint
+  border-bottom 1px solid bc-dim
   position relative
-  padding 0.5rem - px 0.5rem 0.5rem - 2*px
+  padding 1rem 0
 
 .ni-form-title
   font-label()
@@ -99,15 +88,13 @@ export default {
 
 .ni-form-footer
   > div
-    padding 1rem - px 1rem
+    padding 1rem 1rem 1rem - px
     display flex
     justify-content space-between
     align-items center
+    border-bottom 1px solid bc-dim
 
 @media screen and (min-width: 480px)
-  .ni-form-header
-    padding 1rem - px 1rem 1rem - 2*px
-
   .ni-form-title
     line-height 1.5rem
     margin-bottom 0.5rem
@@ -118,7 +105,4 @@ export default {
   .ni-form-main
     p
       margin 1rem 1rem 0
-
-  .ni-form-footer > div
-    padding 1rem - px
 </style>

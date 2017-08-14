@@ -11,14 +11,14 @@
     <i v-else class="fa fa-times"></i>
   </div>
 
-  <menu class="menu-popup menu-app" v-if="activeMenu || desktop" @click="hide">
+  <menu class="menu-popup menu-app" v-if="activeMenu || desktop">
     <nav class="nav-app">
-      <router-link to="/" exact>Candidates</router-link>
+      <router-link to="/" @click.native="hide" exact>Candidates</router-link>
       <template v-if="user.signedIn">
-        <router-link to="/nominate" exact>Self-Nomination</router-link>
-        <router-link to="/profile" exact>Profile</router-link>
+        <router-link to="/nominate" @click.native="hide" exact>Self-Nomination</router-link>
+        <router-link to="/profile" @click.native="hide" exact>Profile</router-link>
       </template>
-      <router-link v-else to="/signin" exact>Sign In</router-link>
+      <router-link v-else to="/signin" @click.native="hide" exact>Sign In</router-link>
     </nav>
   </menu>
 
@@ -40,6 +40,7 @@ export default {
   }),
   methods: {
     hide () {
+      console.log('hiding!')
       this.activeMenu = false
     },
     closeMenus () {
@@ -71,7 +72,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../../styles/variables.styl'
+@require '~@/styles/variables.styl'
 
 .app-header
   display flex
@@ -143,7 +144,7 @@ export default {
     width 100vw
     z-index 100000
 
-    background c-app-bg url('../../assets/images/background-grid.png')
+    background app-bg url('../../assets/images/background-grid.png')
     user-select none
 
     padding 0 1rem

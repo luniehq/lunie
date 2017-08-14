@@ -1,60 +1,47 @@
 //==============================================================================
-// colors
-//==============================================================================
+// variables
 
+// main colors
 mhue = 210
 msat = 80%
 mlit = 20%
-mcolor = hsl(mhue,msat,mlit)
-
-bc-bright = hsl(mhue, 16%, 68%)
-bc-vivid = hsl(mhue, 41%, 49%)
-bc = hsl(mhue, 26%, 36%)
-bc-dim = hsl(mhue, 20%, 18%)
-bc-faint = hsl(mhue, 11%, 9%)
-
-c-app-bg = hsl(mhue, 53%, 3%)
-c-app-fg = hsl(mhue, 53%, 9%)
-
-ahue = 60
-asat = 100%
-alit = 50%
-acolor = hsl(ahue,asat,alit)
-
-// type colors
-bright = hsl(mhue, 32%, 86%)
-txt = hsl(mhue, 32%, 70%)
-dim = hsl(mhue, 32%, 50%)
-light = hsl(mhue,32%, 30%)
-faint = hsl(mhue, 32%, 12%)
-
-// active colors
-txt-active = txt
-bc-active = bc-bright
-
-// links
-lcolor = dim
-link = lcolor
-anchor = lcolor
-hover = txt
-
-// input colors
-input-bg = transparent
-input-bc = bc
-
-// accents
+mc = hsl(mhue,msat,mlit)
 accent1 = hsl(60,38%,70%)
 accent2 = hsl(345,85%,49%)
 
-//==============================================================================
-// typography
-//==============================================================================
+// app colors
+app-bg = #070b0f
+app-fg = hsla(mhue,25%,60%,0.125)
+app-bg-alpha = alpha(app-bg, 85%)
 
+// text colors
+bright = hsl(mhue, 32%, 86%)
+txt = hsl(mhue, 32%, 70%)
+dim = hsl(mhue, 32%, 50%)
+faint = hsl(mhue,32%, 30%)
+
+// anchor
+link = hsl(mhue,75%,65%)
+
+// border color
+bc-bright = hsl(mhue, 16%, 68%)
+bc-vivid = hsl(mhue, 41%, 49%)
+bc = hsl(mhue, 26%, 36%)
+bc-dim = hsl(mhue, 22%, 24%)
+bc-faint = hsl(mhue, 18%, 12%)
+ 
+// background colors
+input-bg = transparent
+input-bc = bc
+
+// typography
 x = 16px
 px = 0.0625rem
-
-sans = 'DIN', -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif
+sans = -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif
 mono = Consolas, Monaco, monospace
+
+//==============================================================================
+// methods
 
 df()
   font-size x
@@ -68,48 +55,9 @@ mono()
 
 font-label()
   font-size 0.75rem
-  letter-spacing 0.025em
   color txt
-
   white-space nowrap
   text-overflow ellipsis
-  text-transform uppercase
   overflow hidden
-
-nav-item()
-  i.fa
-    display none
-
-  .container
-    height 6rem
-    padding-top 1rem
-
-    align-items flex-start
-
-    position relative
-
-    font-label()
-    font-size 1rem
-    line-height 1rem
-    color link
-
-    &:before
-      content ''
-      height px
-      width 1rem
-      background accent1
-      position absolute
-      top 2.875rem
-      left 0
-      border-left 1rem solid link
-      border-right 0.5rem solid accent2
-
-  &:not(.header-item-logo):hover .container
-    color txt
-
-  &.router-link-active .container
-    color bright
-    cursor default
-    pointer-events none
-    &:hover
-      color bright
+  text-transform uppercase
+  color bright
