@@ -101,6 +101,7 @@
     "electron": "^1.7.3",
     "moment": "^2.17.1",
     "nib": "^1.1.2",
+    "no-scroll": "^2.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^2.4.0",
     "tail": "^1.2.1",

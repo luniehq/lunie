@@ -10,8 +10,21 @@ export default ({ commit, basecoin }) => {
       COMMISSION_MAX: 99,
       SELF_BOND_MIN: 100,
       SELF_BOND_MAX: 1e10
+    },
+    activeMenu: '',
+    blockchainSelect: false,
+    desktop: false
+  }
+  const mutations = {
+    SET_CONFIG_BLOCKCHAIN_SELECT (state, value) {
+      state.blockchainSelect = value
+    },
+    setActiveMenu (state, value) {
+      state.activeMenu = value
+    },
+    SET_CONFIG_DESKTOP (state, value) {
+      state.desktop = value
     }
   }
-  const mutations = {}
   return { state, mutations }
 }
