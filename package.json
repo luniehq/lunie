@@ -1,7 +1,7 @@
 {
-  "name": "cosmos-delegation-game",
+  "name": "cosmos-ui",
   "version": "0.0.0",
-  "description": "The UI for the Cosmos Delegation Game.",
+  "description": "The user interface for Cosmos -- codename Voyager.",
   "scripts": {
     "build": "node tasks/release.js",
     "build:clean": "cross-env PLATFORM_TARGET=clean node tasks/release.js",

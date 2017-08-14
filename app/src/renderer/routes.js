@@ -1,9 +1,9 @@
-function r(type, pageName) {
+function r (type, pageName) {
   return require(`components/${type}/Page${pageName}`)
 }
 
 let staking = r.bind(null, 'staking')
-let basecoin = r.bind(null, 'basecoin')
+// let basecoin = r.bind(null, 'basecoin')
 
 export default [
   {

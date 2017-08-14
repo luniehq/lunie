@@ -80,7 +80,7 @@ export default ({ commit, node }) => {
         commit('setSignedIn', true)
         commit('notifyCustom',
           { title: 'Sign In Successful',
-            body: 'Welcome to the Cosmos Delegation Game!' })
+            body: 'Welcome to Cosmos Voyager.'})
       })
       wallet.initialize()
     },

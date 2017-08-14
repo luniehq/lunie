@@ -1,17 +1,66 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Cosmos: Delegation Game</title>
-    <% if (htmlWebpackPlugin.options.appModules) { %>
-      <!-- Add `app/node_modules` to global paths so `require` works properly in development -->
-      <script>
-        require('module').globalPaths.push('<%= htmlWebpackPlugin.options.appModules.replace(/\\/g, '\\\\') %>')
-      </script>
-    <% } %>
-  </head>
-  <body>
-    <div id="app"></div>
-    <!-- webpack builds are automatically injected -->
-  </body>
-</html>
+<meta charset="utf-8">
+<title>Cosmos Voyager</title>
+<% if (htmlWebpackPlugin.options.appModules) { %>
+  <!-- Add `app/node_modules` to global paths so `require` works properly in development -->
+  <script>
+    require('module').globalPaths.push('<%= htmlWebpackPlugin.options.appModules.replace(/\\/g, '\\\\') %>')
+  </script>
+<% } %>
+<meta name=viewport content="width=device-width, user-scalable=no">
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<div id="app">
+  <div id="load">
+    <div id="load-container">
+      <div id="load-title">Cosmos Voyager</div>
+      <div id="load-main">
+        <p class="green">app is loading&hellip;</p>
+        <p>need help? <a href="mailto:hello@tendermint.com">email us</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+body { margin: 0; }
+#load {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+}
+#load-container {
+  font: 16px/1.5 system, -apple-system, BlinkMacSystemFont, "Roboto", "Seogue UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+  color: #fff;
+  margin: 0 auto;
+  text-align: center;
+  width: 18rem;
+  height: 18rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+#load-title {
+  font-size: 1.5rem;
+  line-height: 3;
+  font-weight: 500;
+  width: 100%;
+}
+#load-main p {
+  font-size: 1rem;
+  font-weight: 300;
+  color: #ccc;
+  margin-bottom: 1em;
+}
+#load-main p.green {
+  color: hsl(210,50%,50%);
+}
+#load-main a {
+  text-decoration: none;
+  color: hsl(210,50%,50%);
+}
+</style>
