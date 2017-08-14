@@ -148,7 +148,7 @@ export default {
       if (!this.$v.$error) {
         this.$store.commit('activateDelegation')
         this.$store.dispatch('submitDelegation', this.fields)
-        this.$store.commit('notifyCustom',
+        this.$store.commit('notify',
           { title: 'Atom Allocation Set',
             body: 'You have successfully set your atom allocation. You can change it up until the end of the game.' })
       } else {
@@ -164,7 +164,7 @@ export default {
     },
     leaveIfNoCandidates (count) {
       if (count < 1) {
-        this.$store.commit('notifyCustom', {
+        this.$store.commit('notify', {
           title: 'No Candidates Selected',
           body: 'Choose one or more candidates before proceeding to delegate atoms.'
         })

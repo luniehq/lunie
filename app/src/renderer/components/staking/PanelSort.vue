@@ -13,9 +13,11 @@ export default {
   name: 'panel-sort',
   methods: {
     orderBy (property, event) {
-      let sortBys = $(this.$el).children('.sort-by')
+      let sortBys = $(this.$el).find('.sort-by')
+      console.log(sortBys)
       $(sortBys).removeClass('active desc asc')
       let el = $(event.target).parent()
+      console.log('el', el)
 
       if (this.sort.property === property) {
         if (this.sort.order === 'asc') {
@@ -39,7 +41,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../../styles/variables.styl'
+@require '~@/styles/variables.styl'
 
 .panel-sort-container
   display flex

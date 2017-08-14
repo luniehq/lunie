@@ -26,7 +26,7 @@ export default ({ commit, node }) => {
 
       state.map[pubkey] = candidate
 
-      // commit('notifyCustom', { title: 'Nomination Updated',
+      // commit('notify', { title: 'Nomination Updated',
       //   body: 'You have successfuly updated your candidacy.' })
     },
     addCandidate (state, candidate) {

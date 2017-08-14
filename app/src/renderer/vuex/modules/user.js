@@ -78,7 +78,7 @@ export default ({ commit, node }) => {
       wallet.addAccount(state.privkey)
       wallet.onceReady(() => {
         commit('setSignedIn', true)
-        commit('notifyCustom',
+        commit('notify',
           { title: 'Sign In Successful',
             body: 'Welcome to Cosmos Voyager.'})
       })

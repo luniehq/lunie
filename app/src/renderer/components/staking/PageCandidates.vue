@@ -1,40 +1,43 @@
 <template lang="pug">
-.page.page-candidates
-  page-header
-    div(slot="title") Candidates #[span(v-if='isSignedIn') ({{candidatesNum }} Selected)]
-    field(theme='cosmos', type='text', placeholder='Filter...', v-model='query')
-    btn(
-      v-if="isSignedIn && candidatesNum > 0"
-      theme='cosmos'
-      type='link'
-      to='/delegate'
-      icon='angle-right'
-      icon-pos='right'
-      :value='btnLabel')
+page(:title='pageTitle')
+  tool-bar
+    a(@click='toggleSearch'): i.material-icons search
+    // TODO: Fix Filter
+    // field(theme='cosmos', type='text', placeholder='Filter...', v-model='query')
+    router-link(v-if="user.signedIn && candidatesNum > 0" to='/delegate') Delegate
+    a(@click='toggleFilter'): i.material-icons filter_list
   panel-sort(:sort='sort')
-  .candidates
-    card-candidate(v-for='candidate in filteredCandidates', key='candidate.id', :candidate='candidate')
+  card-candidate(
+    v-for='candidate in filteredCandidates'
+    key='candidate.id'
+    :candidate='candidate')
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { orderBy, includes } from 'lodash'
-import Btn from '@nylira/vue-button'
 import CardCandidate from './CardCandidate'
-import Field from '@nylira/vue-input'
-import PageHeader from './PageHeader'
+import Field from '@nylira/vue-field'
+import Page from '../common/NiPage'
+import Part from '../common/NiPart'
 import PanelSort from './PanelSort'
+import ToolBar from '../common/NiToolBar'
 export default {
   name: 'page-candidates',
   components: {
-    Btn,
     CardCandidate,
     Field,
-    PageHeader,
-    PanelSort
+    Page,
+    Part,
+    PanelSort,
+    ToolBar
   },
   computed: {
     ...mapGetters(['candidates', 'shoppingCart', 'user']),
+    pageTitle () {
+      if (this.user.signedIn) return `Candidates (${candidatesNum} Selected)`
+      else return 'Candidates'
+    },
     filteredCandidates () {
       let value = []
       let query = this.query
@@ -47,11 +50,11 @@ export default {
     },
     sort () {
       let props = [
-        { id: 1, title: 'Candidate ID', value: 'keybaseID' },
-        { id: 2, title: 'Atoms Delegated', value: 'atoms', initial: true }
+        { id: 1, title: 'ID', value: 'keybaseID' },
+        { id: 2, title: 'Delegated', value: 'atoms', initial: true }
       ]
       if (this.user.signedIn) {
-        props.push({ id: 2, title: 'Atoms Delegated By You', value: 'computed.delegatedAtoms' })
+        props.push({ id: 2, title: 'Delegated (Yours)', value: 'computed.delegatedAtoms' })
       }
       props.push({ id: 3, title: 'Delegators', value: 'computed.delegators' })
       return {
@@ -59,14 +62,18 @@ export default {
         order: 'desc',
         properties: props
       }
-    },
-    btnLabel () {
-      return `Delegate`
-    },
-    isSignedIn () { return this.user.signedIn }
+    }
   },
   data: () => ({
     query: ''
-  })
+  }),
+  methods: {
+    toggleFilter () {
+      this.$store.commit('notify', { title: 'Filtering...', body: 'TODO' })
+    },
+    toggleSearch () {
+      this.$store.commit('notify', { title: 'Searching...', body: 'TODO' })
+    }
+  }
 }
 </script>

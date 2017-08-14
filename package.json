@@ -94,8 +94,8 @@
   },
   "dependencies": {
     "@nylira/vue-button": "^4.0.1",
+    "@nylira/vue-field": "^1.0.4",
     "@nylira/vue-form-msg": "^1.0.3",
-    "@nylira/vue-input": "^3.2.0",
     "@nylira/vue-notifications": "1.3.0",
     "disable-scroll": "^0.3.0",
     "electron": "^1.7.3",

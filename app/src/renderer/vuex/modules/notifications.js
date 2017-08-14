@@ -1,24 +1,24 @@
 export default ({ commit, basecoin }) => {
-  let noteSignUp = {
-    icon: 'smile-o',
-    title: 'Welcome to Cosmos!',
+  const noteSignUp = {
+    icon: 'mood',
+    title: 'Welcome!',
     body: 'Thank you for signing up.',
     time: 0
   }
-  let noteSignIn = {
-    icon: 'sign-in',
+  const noteSignIn = {
+    icon: 'mood',
     title: 'Signed In',
-    body: 'Welcome back to Cosmos.',
+    body: 'Welcome back.',
     time: 0
   }
-  let noteSignOut = {
-    icon: 'sign-out',
+  const noteSignOut = {
+    icon: 'exit_to_app',
     title: 'Signed Out',
     body: 'Come back again soon.',
     time: 0
   }
-  let noteAuthRequired = {
-    icon: 'exclamation-circle',
+  const noteAuthRequired = {
+    icon: 'error',
     title: 'Authentication Required',
     body: 'You must sign up or sign in to view that page.',
     time: 0
@@ -26,38 +26,38 @@ export default ({ commit, basecoin }) => {
 
   const state = [
     {
-      icon: 'sign-out',
+      icon: 'exit_to_app',
       title: 'Signed Out',
-      body: 'Come back again soon!',
+      body: 'A temporary notification.',
       time: 1485839462000
     },
     {
-      icon: 'smile-o',
-      title: 'A Permanent Notification',
-      body: 'Just a happy notification!',
+      icon: 'mood',
+      title: 'Hello World!',
+      body: 'A permanent notification!',
       time: 1485833462000
     }
   ]
 
   const mutations = {
-    notifyCustom (state, data) {
+    notify (state, data) {
       let note = data
-      note.icon = 'check-circle'
+      note.icon = 'check_circle'
       note.time = Date.now()
       state.push(note)
-      // console.log('notifyCustom', note)
+      // console.log('notify', note)
     },
     notifyWarn (state, data) {
       let note = data
-      note.icon = 'bell'
+      note.icon = 'warning'
       note.time = Date.now()
-      note.type = 'warn'
+      note.type = 'warning'
       state.push(note)
       // console.log('notifyError', note)
     },
     notifyError (state, data) {
       let note = data
-      note.icon = 'exclamation-triangle'
+      note.icon = 'error'
       note.time = Date.now()
       note.layout = 'alert'
       note.type = 'error'

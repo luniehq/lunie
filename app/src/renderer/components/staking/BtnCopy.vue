@@ -22,7 +22,7 @@ export default {
       return '“' + value + '”'
     },
     click () {
-      this.$store.commit('notifyCustom', {
+      this.$store.commit('notify', {
         title: 'Copy Success!',
         body: `${this.trunc(this.value)} has been copied to your clipboard.`
       })

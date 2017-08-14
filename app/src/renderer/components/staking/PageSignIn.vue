@@ -1,7 +1,5 @@
 <template lang='pug'>
-.page.page-welcome(v-if="signInStep === 0")
-  page-header
-    div(slot="title") Welcome - Important Notice
+page(title='Welcome - Important Notice' v-if="signInStep === 0")
   article-body
     p Please read the following carefully before signing in to Cosmos Voyager.
     p We want to discourage you from delegating your atoms to the validator with the most delegators, as that can cause them to achieve an unsafe amount of voting power.
@@ -29,10 +27,7 @@
         v-if="!$v.welcomeFields.repeatAgreement.sameAsAgreement")
     div(slot="footer")
       btn(theme="cosmos" type="submit" icon="check" value="Continue")
-
-.page.page-sign-in(v-else)
-  page-header
-    div(slot="title") Sign In
+page(title='Sign In' v-else)
   form-struct(:submit='signInOnSubmit')
     form-group(:error='$v.signInFields.seed.$error')
       label 12-Word Seed
@@ -57,11 +52,11 @@
 import { required, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
 import ArticleBody from './NiArticleBody'
 import Btn from '@nylira/vue-button'
-import Field from '@nylira/vue-input'
+import Field from '@nylira/vue-field'
 import FormGroup from './FormGroup'
 import FormMsg from './FormMsg'
 import FormStruct from './FormStruct'
-import PageHeader from './PageHeader'
+import Page from '../common/NiPage'
 export default {
   name: 'page-sign-in',
   components: {
@@ -71,7 +66,7 @@ export default {
     FormGroup,
     FormMsg,
     FormStruct,
-    PageHeader
+    Page
   },
   data: () => ({
     signInStep: 0,

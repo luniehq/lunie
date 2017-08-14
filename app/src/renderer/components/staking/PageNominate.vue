@@ -222,7 +222,7 @@ export default {
           ownCoinsBonded: this.fields.ownCoinsBonded
         }
         this.$store.dispatch('nominateCandidate', candidate)
-        this.$store.commit('notifyCustom', {
+        this.$store.commit('notify', {
           title: 'Nomination Submitted',
           body: 'Well done! You\'ll appear on the candidates list shortly .'
         })
