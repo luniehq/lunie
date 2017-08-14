@@ -12,7 +12,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
-import CountdownString from './CountdownString'
+import CountdownString from '../staking/CountdownString'
 export default {
   components: {
     Btn,

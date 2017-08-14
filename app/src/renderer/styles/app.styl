@@ -1,6 +1,7 @@
-@import '../../../../node_modules/nib/index.styl'
-@require './variables.styl'
-@require './vendor/*'
+@require '../../../../node_modules/nib/index.styl'
+@require 'variables'
+@require 'vendor/*'
+@require 'defaults/*'
 
 global-reset()
 reset-html5()
@@ -8,44 +9,50 @@ reset-html5()
 *
   box-sizing border-box
 
-body, input, button, textarea
-  df()
-
-body
-  height 100vh
-  background app-bg url('../assets/images/background-grid.png')
-  display flex
-  flex-flow column
-
-#app
-  flex 1
-  display flex
-  flex-flow column
-
-#app-content
-  flex 1
-  display flex
-  flex-flow column
-  margin 0 1rem
-
-  .page
-    flex 1
-    overflow-y scroll
-    overflow-x visible
-
-.ni-notifications
-  left 0
-  right auto !important
-
-.scrollable-area
-  overflow-y scroll
+html, body, #app
+  background #070b0f url('../assets/images/background-grid.png')
 
 a
   color link
   text-decoration none
 
-strong
-  font-weight 600
+.dont-break-out
+  /* These are technically the same, but use both */
+  overflow-wrap break-word
+  word-wrap break-word
 
-em
-  font-style italic
+  -ms-word-break break-all
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break break-all
+  /* Instead use this non-standard one */
+  word-break break-word
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink)
+  -ms-hyphens auto
+  -moz-hyphens auto
+  -webkit-hyphens auto
+  hyphens auto
+  */
+
+.desktop-only
+  display none
+
+@media screen and (min-width: 1024px)
+ agu .desktop-only
+    display block
+
+#app
+  df()
+  color txt
+  padding-top 3rem
+  min-height 100vh
+  display flex
+  flex-flow column nowrap
+
+#app-content
+  flex 1
+  display flex
+  flex-flow column nowrap
+
+#app-main
+  flex 1

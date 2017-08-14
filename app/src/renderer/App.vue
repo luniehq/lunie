@@ -1,25 +1,24 @@
 <template lang="pug">
-  #app
-    app-header
-    #app-content
-      router-view
+#app
+  app-header
+  #app-content
+    #app-main: router-view
     app-footer
-    notifications(
-      color="hsl(208,100%,25%)"
-      :notifications="notifications")
+  notifications(:notifications='notifications' theme='cosmos')
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import AppHeader from './components/staking/AppHeader.vue'
-import AppFooter from './components/staking/AppFooter.vue'
+import AppFooter from './components/common/AppFooter'
+import AppHeader from './components/common/AppHeader'
 import Notifications from '@nylira/vue-notifications'
 import store from './vuex/store'
 export default {
+  name: 'app',
   components: {
     AppHeader,
-    Notifications,
-    AppFooter
+    AppFooter,
+    Notifications
   },
   computed: {
     ...mapGetters(['notifications'])
@@ -28,4 +27,4 @@ export default {
 }
 </script>
 
-<style src="./styles/app.styl" lang="stylus"></style>
+<style lang="stylus" src="./styles/app.styl"></style>

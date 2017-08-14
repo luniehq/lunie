@@ -2,6 +2,7 @@ function r (type, pageName) {
   return require(`components/${type}/Page${pageName}`)
 }
 
+let common = r.bind(null, 'common')
 let staking = r.bind(null, 'staking')
 // let basecoin = r.bind(null, 'basecoin')
 
@@ -36,8 +37,8 @@ export default [
     name: 'signin',
     component: staking('SignIn')
   },
-  {
-    path: '*',
-    redirect: '/staking'
-  }
+
+  // wildcards
+  { path: '/404', component: common('404') },
+  { path: '*', component: common('404') }
 ]
