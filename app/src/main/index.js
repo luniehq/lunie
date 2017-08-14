@@ -7,6 +7,7 @@ import { spawn } from 'child_process'
 import home from 'user-home'
 import watt from 'watt'
 import mkdirp from 'mkdirp'
+import RpcClient from 'tendermint'
 
 let mainWindow
 let basecoinProcess, baseserverProcess
@@ -100,14 +101,23 @@ function startBasecoin (root, cb) {
     'start',
     '--home', root
   ], opts)
-  child.stdout.on('data', waitForRpc)
   child.stdout.pipe(log)
   child.stderr.pipe(log)
-  function waitForRpc (data) {
-    if (!data.toString().includes('Starting RPC HTTP server')) return
-    child.removeListener('data', waitForRpc)
-    cb(null)
+
+  let rpc = RpcClient('localhost:46657')
+  let interval = setInterval(() => {
+    rpc.status((err, res) => {
+      if (err) return
+      if (!res) return
+      if ((res.latest_block_time / 1e6) < (Date.now() - 1000 * 60 * 60 * 24)) return
+      done()
+    })
+  }, 1000)
+  function done (err) {
+    clearInterval(interval)
+    cb(err)
   }
+
   return child
 }
 
