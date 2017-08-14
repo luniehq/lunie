@@ -7,7 +7,7 @@
         <div class="form-group" :class="{ 'form-group-error': $v.fields.denom.$error }">
           <label for="send-address">Denomination</label>
           <div class="input-group">
-            <div class="denoms" v-for="wallet in wallets">
+            <div class="denoms">
               <div class="denom"
                 v-for="balance in wallet.balances"
                 @click="setDenom(balance.denom, $event)">
@@ -114,8 +114,7 @@ export default {
     Btn
   },
   computed: {
-    ...mapGetters(['allWallets']),
-    wallets () { return this.allWallets }
+    ...mapGetters(['wallet'])
   },
   methods: {
     setDenom (denom, $event) {
@@ -146,24 +145,14 @@ export default {
       this.sending = true
       let amount = +this.fields.amount
       let address = this.fields.address
-      // let denom = 'mycoin' // TODO: allow denom selection
       let denom = this.fields.denom
-      this.send({
-        walletId: 'default',
-        address,
-        denom,
-        amount,
-        cb: (err) => {
-          if (err) throw err
-          this.$store.commit('notifyCustom', {
-            title: `${amount} ${denom} Sent`,
-            body: `You've successfully sent coins to ${address}`
-          })
-          this.resetForm()
-        }
+      this.walletSend({
+        fees: { denom, amount: 0 },
+        to: address,
+        amount: [{ denom, amount }]
       })
     },
-    ...mapActions(['send'])
+    ...mapActions(['walletSend'])
   },
   data: () => ({
     fields: {
