@@ -59,26 +59,33 @@ export default ({ commit, node }) => {
       commit('setWalletSequence', res.data)
     },
     async walletSend ({ state, dispatch }, args) {
-      if (args.sequence == null) {
-        args.sequence = state.sequence + 1
+      let cb = args.cb
+      delete args.cb
+      try {
+        if (args.sequence == null) {
+          args.sequence = state.sequence + 1
+        }
+        args.to = {
+          chain: '',
+          app: 'sigs',
+          addr: args.to
+        }
+        args.from = {
+          chain: '',
+          app: 'sigs',
+          addr: state.key.address
+        }
+        let tx = await node.buildSend(args)
+        let signedTx = await node.sign({
+          name: KEY_NAME,
+          password: KEY_PASSWORD,
+          tx
+        })
+        await node.postTx(signedTx)
+      } catch (err) {
+        return cb(err)
       }
-      args.to = {
-        chain: '',
-        app: 'sigs',
-        addr: args.to
-      }
-      args.from = {
-        chain: '',
-        app: 'sigs',
-        addr: state.key.address
-      }
-      let tx = await node.buildSend(args)
-      let signedTx = await node.sign({
-        name: KEY_NAME,
-        password: KEY_PASSWORD,
-        tx
-      })
-      await node.postTx(signedTx)
+      if (cb) cb(null, args)
       dispatch('queryWalletBalances')
     }
   }
