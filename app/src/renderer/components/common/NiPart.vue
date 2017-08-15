@@ -62,10 +62,12 @@ export default {
 .ni-part-title
   flex 1
 
+/*
 @media screen and (min-width: 1024px)
   #app-main
     .ni-part-header
       padding 0
     .ni-part-container
       padding 0 1rem
+*/
 </style>

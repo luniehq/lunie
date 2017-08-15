@@ -76,7 +76,8 @@ let rendererConfig = {
     __filename: false
   },
   plugins: [
-    // the plugin below fixes a `formidable` lib issue with superagent
+    // the global.GENTLY below fixes a compile issue with superagent + webpack
+    // https://github.com/visionmedia/superagent/issues/672
     new webpack.DefinePlugin({ "global.GENTLY": false }),
     new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({

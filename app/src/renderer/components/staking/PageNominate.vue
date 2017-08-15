@@ -161,7 +161,7 @@ import Field from './NiField'
 import FieldGroup from './NiFieldGroup'
 import FormGroup from './FormGroup'
 import FormMsg from './FormMsg'
-import FormStruct from './FormStruct'
+import FormStruct from '../common/NiFormStruct'
 import PageHeader from './PageHeader'
 import { PrivKey } from 'tendermint-crypto'
 export default {

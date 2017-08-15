@@ -55,7 +55,7 @@ import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FormGroup from './FormGroup'
 import FormMsg from './FormMsg'
-import FormStruct from './FormStruct'
+import FormStruct from '../common/NiFormStruct'
 import Page from '../common/NiPage'
 export default {
   name: 'page-sign-in',

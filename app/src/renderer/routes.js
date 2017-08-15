@@ -3,12 +3,39 @@ function r (type, pageName) {
 }
 
 let common = r.bind(null, 'common')
+let govern = r.bind(null, 'govern')
 let monitor = r.bind(null, 'monitor')
 let staking = r.bind(null, 'staking')
 // let basecoin = r.bind(null, 'basecoin')
 
 export default [
-  // STAKING
+  // MONITOR
+  { path: '/block/:block', name: 'block', component: monitor('Block') },
+  {
+    path: '/blockchain',
+    name: 'blockchain',
+    component: monitor('Blockchain')
+  },
+  { path: '/validators', component: monitor('Validators') },
+  {
+    name: 'validator',
+    path: '/validators/:validator',
+    component: monitor('Validator')
+  },
+  { path: '/delegators', component: monitor('Delegators') },
+  {
+    name: 'delegator',
+    path: '/delegators/:delegator',
+    component: monitor('Delegator')
+  },
+
+  // GOVERN
+  { path: '/', component: govern('Proposals') },
+  { path: '/proposals/new', component: govern('ProposalsNew') },
+  { path: '/proposals/new/text', component: govern('ProposalsNewText') },
+  { path: '/proposals/:proposal', name: 'proposal', component: govern('Proposal') },
+
+  // STAKE
   {
     path: '/staking',
     name: 'candidates',
@@ -38,13 +65,6 @@ export default [
     path: '/signin',
     name: 'signin',
     component: staking('SignIn')
-  },
-
-  // MONITOR
-  {
-    path: '/blockchain',
-    name: 'blockchain',
-    component: monitor('Blockchain')
   },
 
   // wildcards
