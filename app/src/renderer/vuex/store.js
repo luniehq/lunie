@@ -11,8 +11,8 @@ export default (opts = {}) => {
   var store = new Vuex.Store({
     actions,
     getters,
-    modules: modules(opts),
-    strict: true
+    // strict: true,
+    modules: modules(opts)
   })
   return store
 }

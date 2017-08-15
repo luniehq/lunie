@@ -76,6 +76,8 @@ let rendererConfig = {
     __filename: false
   },
   plugins: [
+    // the plugin below fixes a `formidable` lib issue with superagent
+    new webpack.DefinePlugin({ "global.GENTLY": false }),
     new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({
       filename: 'index.html',

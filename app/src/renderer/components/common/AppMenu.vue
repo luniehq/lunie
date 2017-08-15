@@ -6,7 +6,7 @@
       list-item(to="/staking" exact @click.native="close" title="Staking")
       list-item(to="/nominate" exact @click.native="close" title="Self Nomination")
     part(title='Network')
-      list-item(to="/" exact @click.native="close" title="Blockchain")
+      list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
       list-item(to="/validators" exact @click.native="close" title="Validators"
         v-bind:class="{ 'active': isValidatorPage }")
       list-item(to="/delegators" exact @click.native="close" title="Delegators")

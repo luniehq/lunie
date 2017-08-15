@@ -12,3 +12,7 @@ export const candidates = state => state.candidates.list
 export const shoppingCart = state => state.shoppingCart.candidates
 export const user = state => state.user
 export const config = state => state.config
+
+// monitor
+export const blockchain = state => state.blockchain
+export const validators = state => state.validators

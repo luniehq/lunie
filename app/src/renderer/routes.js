@@ -3,10 +3,12 @@ function r (type, pageName) {
 }
 
 let common = r.bind(null, 'common')
+let monitor = r.bind(null, 'monitor')
 let staking = r.bind(null, 'staking')
 // let basecoin = r.bind(null, 'basecoin')
 
 export default [
+  // STAKING
   {
     path: '/staking',
     name: 'candidates',
@@ -36,6 +38,13 @@ export default [
     path: '/signin',
     name: 'signin',
     component: staking('SignIn')
+  },
+
+  // MONITOR
+  {
+    path: '/blockchain',
+    name: 'blockchain',
+    component: monitor('Blockchain')
   },
 
   // wildcards

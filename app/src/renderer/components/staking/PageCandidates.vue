@@ -6,11 +6,12 @@ page(:title='pageTitle')
     // field(theme='cosmos', type='text', placeholder='Filter...', v-model='query')
     router-link(v-if="user.signedIn && candidatesNum > 0" to='/delegate') Delegate
     a(@click='toggleFilter'): i.material-icons filter_list
-  panel-sort(:sort='sort')
-  card-candidate(
-    v-for='candidate in filteredCandidates'
-    key='candidate.id'
-    :candidate='candidate')
+  part(title='All Candidates')
+    panel-sort(:sort='sort')
+    card-candidate(
+      v-for='candidate in filteredCandidates'
+      key='candidate.id'
+      :candidate='candidate')
 </template>
 
 <script>
@@ -35,7 +36,7 @@ export default {
   computed: {
     ...mapGetters(['candidates', 'shoppingCart', 'user']),
     pageTitle () {
-      if (this.user.signedIn) return `Candidates (${candidatesNum} Selected)`
+      if (this.user.signedIn) return `Candidates (${this.candidatesNum} Selected)`
       else return 'Candidates'
     },
     filteredCandidates () {

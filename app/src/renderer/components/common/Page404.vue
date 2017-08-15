@@ -15,6 +15,6 @@ export default {
     ListItem,
     Page,
     Part
-  },
+  }
 }
 </script>
