@@ -77,23 +77,29 @@ module.exports = require("path");
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = require("user-home");
+module.exports = require("electron");
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports) {
+
+module.exports = require("user-home");
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(11), __esModule: true };
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(13);
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -102,13 +108,13 @@ module.exports = __webpack_require__(13);
 var _require = __webpack_require__(0),
     join = _require.join;
 
-var home = __webpack_require__(1);
+var home = __webpack_require__(2);
 var pkg = __webpack_require__(16);
 var DEV = "production" === 'development';
 module.exports = join(home, '.' + pkg.name + (DEV ? '-dev' : ''));
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -123,7 +129,7 @@ var config = {
 
   // Use ESLint (extends `standard`)
   // Further changes can be made in `.eslintrc.js`
-  eslint: true,
+  eslint: false,
 
   // webpack-dev-server port
   port: 9080,
@@ -148,16 +154,10 @@ config.building.name = config.name;
 module.exports = config;
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-module.exports = require("child_process");
-
-/***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("electron");
+module.exports = require("child_process");
 
 /***/ }),
 /* 8 */
@@ -181,18 +181,20 @@ module.exports = require("watt");
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var core  = __webpack_require__(12)
-  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
-module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
+var core = __webpack_require__(12);
+var $JSON = core.JSON || (core.JSON = { stringify: JSON.stringify });
+module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
   return $JSON.stringify.apply($JSON, arguments);
 };
+
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-var core = module.exports = {version: '2.4.0'};
-if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+var core = module.exports = { version: '2.5.0' };
+if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
+
 
 /***/ }),
 /* 13 */
@@ -980,15 +982,15 @@ if (hadRuntime) {
 "use strict";
 
 
-var _regenerator = __webpack_require__(3);
+var _regenerator = __webpack_require__(4);
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _stringify = __webpack_require__(2);
+var _stringify = __webpack_require__(3);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
-var _electron = __webpack_require__(7);
+var _electron = __webpack_require__(1);
 
 var _fsExtra = __webpack_require__(8);
 
@@ -996,9 +998,9 @@ var _fsExtra2 = _interopRequireDefault(_fsExtra);
 
 var _path = __webpack_require__(0);
 
-var _child_process = __webpack_require__(6);
+var _child_process = __webpack_require__(7);
 
-var _userHome = __webpack_require__(1);
+var _userHome = __webpack_require__(2);
 
 var _userHome2 = _interopRequireDefault(_userHome);
 
@@ -1016,10 +1018,13 @@ var mainWindow = void 0;
 var basecoinProcess = void 0;
 var DEV = "production" === 'development';
 var LIGHT = false;
-var winURL = DEV ? 'http://localhost:' + __webpack_require__(5).port : 'file://' + __dirname + '/index.html';
+var winURL = DEV ? 'http://localhost:' + __webpack_require__(6).port : 'file://' + __dirname + '/index.html';
 
 // what host the light client should connect to
 var BASECOIN_PEER = process.env.BASECOIN_PEER || 'localhost:46657';
+
+var NODE_BINARY = 'gaia';
+var LIGHT_CLIENT_BINARY = 'gaiacli';
 
 function createWindow() {
   /**
@@ -1028,9 +1033,10 @@ function createWindow() {
   mainWindow = new _electron.BrowserWindow({
     minWidth: 320,
     minHeight: 480,
-    width: 720,
-    height: 700
+    width: 800,
+    height: 600
   });
+  mainWindow.maximize();
 
   mainWindow.loadURL(winURL);
 
@@ -1045,6 +1051,17 @@ function createWindow() {
 
   // eslint-disable-next-line no-console
   console.log('mainWindow opened');
+
+  // handle opening external links in OS's browser
+  var webContents = mainWindow.webContents;
+  var handleRedirect = function handleRedirect(e, url) {
+    if (url !== webContents.getURL()) {
+      e.preventDefault();
+      __webpack_require__(1).shell.openExternal(url);
+    }
+  };
+  webContents.on('will-navigate', handleRedirect);
+  webContents.on('new-window', handleRedirect);
 }
 
 function startProcess(name) {
@@ -1054,7 +1071,7 @@ function startProcess(name) {
     if (!GOPATH) GOPATH = (0, _path.join)(_userHome2.default, 'go');
     binPath = (0, _path.join)(GOPATH, 'bin', name);
   } else {
-    binPath = (0, _path.join)(__dirname, 'bin', name);
+    binPath = (0, _path.join)(__dirname, '..', 'bin', name);
   }
 
   for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -1099,9 +1116,9 @@ function startBasecoin(root, light, cb) {
   if (light) {
     // TODO: figure out what node to connect to
     // TODO: configurable chainid
-    child = startProcess('basecli', ['proxy', '--node', 'tcp://' + BASECOIN_PEER, '--chainid', 'test_chain_id'], opts);
+    child = startProcess(LIGHT_CLIENT_BINARY, ['proxy', '--node', 'tcp://' + BASECOIN_PEER, '--chainid', 'test_chain_id', '--home', root], opts);
   } else {
-    child = startProcess('basecoin', ['start'], opts);
+    child = startProcess(NODE_BINARY, ['start', '--home', root], opts);
   }
 
   child.stdout.on('data', waitForRpc);
@@ -1161,7 +1178,7 @@ var createDataDir = (0, _watt2.default)(_regenerator2.default.mark(function _cal
           }
 
           // `basecli init` to set up light client stuff
-          child = startProcess('basecli', ['init', '--node', 'tcp://' + BASECOIN_PEER, '--chainid', 'test_chain_id'], opts);
+          child = startProcess(LIGHT_CLIENT_BINARY, ['init', '--node', 'tcp://' + BASECOIN_PEER, '--chainid', 'test_chain_id', '--home', root], opts);
           child.stdin.write('y\n');
           _context.next = 16;
           return child.on('exit', next.arg(0));
@@ -1177,7 +1194,7 @@ var createDataDir = (0, _watt2.default)(_regenerator2.default.mark(function _cal
         case 20:
 
           // `basecoin init` to generate account keys, validator key
-          child = startProcess('basecoin', ['init'], opts);
+          child = startProcess(NODE_BINARY, ['init', '1B1BE55F969F54064628A63B9559E7C21C925165', '--home', root], opts);
           _context.next = 23;
           return child.on('exit', next.arg(0));
 
@@ -1223,7 +1240,7 @@ var createDataDir = (0, _watt2.default)(_regenerator2.default.mark(function _cal
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          root = __webpack_require__(4);
+          root = __webpack_require__(5);
           _context2.next = 3;
           return createDataDir(root, LIGHT);
 
@@ -1255,28 +1272,7 @@ var createDataDir = (0, _watt2.default)(_regenerator2.default.mark(function _cal
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = {
-	"name": "basecoin-ui",
-	"version": "0.0.0",
-	"description": "The wallet for Basecoin.",
-	"main": "./dist/main.js",
-	"dependencies": {
-		"babel-runtime": "^6.23.0",
-		"basecoin": "^2.2.1",
-		"clipboard": "^1.6.0",
-		"fs-extra": "^2.0.0",
-		"mkdirp": "^0.5.1",
-		"user-home": "^2.0.0",
-		"vue": "^2.2.6",
-		"vue-electron": "^1.0.6",
-		"vue-resource": "^1.0.3",
-		"vue-router": "^2.1.2",
-		"vuex": "^2.1.1",
-		"watt": "^3.3.0"
-	},
-	"devDependencies": {},
-	"author": "Peng Zhong <peng@nylira.com>"
-};
+module.exports = {"name":"cosmos-ui-vue","version":"0.0.0","description":"The user interface for Cosmos, built in Vue.","main":"./dist/main.js","author":"All In Bits, Inc <hello@tendermint.com>","license":"Apache-2.0","dependencies":{"babel-runtime":"^6.23.0","basecoin":"^2.3.1","clipboard":"^1.6.0","cosmos-delegation-game":"^0.1.0","fs-extra":"^2.0.0","levelup":"^1.3.8","memdown":"^1.2.4","mkdirp":"^0.5.1","old":"^0.2.0","tendermint-crypto":"github:mappum/js-crypto","user-home":"^2.0.0","vue":"^2.2.6","vue-electron":"^1.0.6","vue-resource":"^1.0.3","vue-router":"^2.1.2","vuex":"^2.1.1","watt":"^3.3.0"},"devDependencies":{"create-hash":"^1.1.3","prebuild-install":"^2.1.2"}}
 
 /***/ })
 /******/ ]);

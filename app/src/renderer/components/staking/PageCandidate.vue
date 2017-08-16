@@ -1,7 +1,7 @@
 <template lang="pug">
 page(:title='candidate.id')
   tool-bar
-    router-link(to="{ name: 'candidates' }" exact): i.material-icons arrow_back
+    router-link(to="/staking" exact): i.material-icons arrow_back
     template(v-if='isDelegator')
       a(v-if='inCart' @click.native='rm(candidate.id)') Remove
       a(v-else @click.native='add(candidate.id)') Add
@@ -26,7 +26,7 @@ page(:title='candidate.id')
 <script>
 import { mapGetters } from 'vuex'
 import MarkdownIt from 'markdown-it'
-import ArticleBody from './NiArticleBody'
+import ArticleBody from '../common/NiArticleBody'
 import Btn from '@nylira/vue-button'
 import Page from '../common/NiPage'
 import Part from '../common/NiPart'

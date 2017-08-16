@@ -2,7 +2,7 @@
 page(title='Validators')
   tab-bar
     router-link(to="/validators" exact) Online ({{ online }})
-    router-link(to="/validators/offline" exact) Offline (0)
+    a Offline (0)
   tool-bar
     a(@click='toggleSearch'): i.material-icons search
     a(@click='toggleFilter'): i.material-icons filter_list

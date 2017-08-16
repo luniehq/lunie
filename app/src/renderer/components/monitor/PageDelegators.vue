@@ -2,7 +2,7 @@
 page(title='Delegators')
   tab-bar
     router-link(to="/delegators" exact) Online ({{ online }})
-    router-link(to="/delegators/offline" exact) Offline (0)
+    a Offline (0)
   tool-bar
     a(@click='toggleSearch'): i.material-icons search
     a(@click='toggleFilter'): i.material-icons filter_list

@@ -1,6 +1,4 @@
-function r (type, pageName) {
-  return require(`components/${type}/Page${pageName}`)
-}
+function r (type, pageName) { return require(`components/${type}/Page${pageName}` )}
 
 let common = r.bind(null, 'common')
 let govern = r.bind(null, 'govern')
@@ -9,22 +7,6 @@ let staking = r.bind(null, 'staking')
 // let basecoin = r.bind(null, 'basecoin')
 
 export default [
-  // MONITOR
-  { path: '/block/:block', name: 'block', component: monitor('Block') },
-  { path: '/blockchain', name: 'blockchain', component: monitor('Blockchain') },
-  { path: '/validators', name: 'validators', component: monitor('Validators') },
-  {
-    name: 'validator',
-    path: '/validators/:validator',
-    component: monitor('Validator')
-  },
-  { path: '/delegators', name: 'delegators', component: monitor('Delegators') },
-  {
-    name: 'delegator',
-    path: '/delegators/:delegator',
-    component: monitor('Delegator')
-  },
-
   // GOVERN
   { path: '/', name: 'proposals', component: govern('Proposals') },
   { path: '/proposals/new', component: govern('ProposalsNew') },
@@ -32,38 +14,28 @@ export default [
   { path: '/proposals/:proposal', name: 'proposal', component: govern('Proposal') },
 
   // STAKE
-  {
-    path: '/staking',
-    name: 'candidates',
-    component: staking('Candidates')
-  },
-  {
-    path: '/staking/delegate',
-    name: 'delegate',
-    component: staking('Delegate')
-  },
-  {
-    path: '/staking/nominate',
-    name: 'nominate',
-    component: staking('Nominate')
-  },
-  {
-    path: '/staking/profile',
-    name: 'profile',
-    component: staking('Profile')
-  },
+  { path: '/staking', name: 'candidates', component: staking('Candidates') },
+  { path: '/staking/delegate', name: 'delegate', component: staking('Delegate') },
+  { path: '/staking/nominate', name: 'nominate', component: staking('Nominate') },
   {
     path: '/staking/candidates/:candidate',
     name: 'candidate',
     component: staking('Candidate')
   },
-  {
-    path: '/signin',
-    name: 'signin',
-    component: staking('SignIn')
-  },
 
-  // wildcards
+  // MONITOR
+  { path: '/block/:block', name: 'block', component: monitor('Block') },
+  { path: '/blockchain', name: 'blockchain', component: monitor('Blockchain') },
+  { path: '/validators', name: 'validators', component: monitor('Validators') },
+  { path: '/validators/:validator', name: 'validator', component: monitor('Validator') },
+  { path: '/delegators', name: 'delegators', component: monitor('Delegators') },
+  { path: '/delegators/:delegator', name: 'delegator', component: monitor('Delegator') },
+
+  // USER
+  { path: '/signin', name: 'signin', component: common('SignIn') },
+  { path: '/profile', name: 'profile', component: common('Profile') },
+
+  // 404
   { path: '/404', component: common('404') },
   { path: '*', component: common('404') }
 ]

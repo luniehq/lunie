@@ -1,7 +1,7 @@
 <template lang="pug">
 page(:title='proposal.title')
   tool-bar
-    router-link(to="/proposals" exact): i.material-icons arrow_back
+    router-link(to="/" exact): i.material-icons arrow_back
     a(@click="commentOnProposal(proposal.id)"): i.material-icons comment
     a(@click="proposalIsSpam(proposal.id)"): i.material-icons error
 
