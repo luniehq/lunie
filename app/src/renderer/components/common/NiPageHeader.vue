@@ -1,7 +1,7 @@
 <template lang='pug'>
 header.ni-page-header
   .ni-page-header-container
-    h1.ni-page-header-title
+    h1.ni-page-header-title.break-lines
       slot(name='title')
     nav.ni-page-header-nav
       slot

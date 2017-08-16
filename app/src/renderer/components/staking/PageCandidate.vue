@@ -1,46 +1,26 @@
 <template lang="pug">
-.page.page-candidate
-  page-header
-    div(slot="title") {{ candidate.id }}
-    btn(theme='cosmos' type='link' to='/' icon='angle-left' value='All Candidates')
+page(:title='candidate.id')
+  tool-bar
+    router-link(to="{ name: 'candidates' }" exact): i.material-icons arrow_back
     template(v-if='isDelegator')
-      btn(theme='cosmos'
-        v-if='inCart' icon='times' value='Remove' @click.native='rm(candidate.id)')
-      btn(v-else
-        theme='cosmos' icon='check' value='Add' @click.native='add(candidate.id)')
-    btn(v-if='isMe' theme='cosmos' type='link' to='/nominate'
-      icon='edit' value='Edit Candidacy')
-  div
+      a(v-if='inCart' @click.native='rm(candidate.id)') Remove
+      a(v-else @click.native='add(candidate.id)') Add
+    router-link(v-if='isMe' to='/nominate') Edit
+  part(title="Description")
     article-body
       div(v-html='md(candidate.description)')
+  part(title="Server Details")
     article-body
       div(v-html='md(candidate.serverDetails)')
-    key-values
-      // key-value
-        div(slot='key') Start Date
-        div(slot='value') {{ candidate.startDate }}
-      key-value
-        div(slot='key') Commission
-        div(slot='value') {{ candidate.commissionPercent }}%
-      key-value
-        div(slot='key') Country
-        div(slot='value') {{ countryName(candidate.country) }}
-      key-value
-        div(slot='key') Website
-        a(slot='value' :href="candidate.website") {{ candidate.website }}
-      key-value(v-if='candidate.ipAddress')
-        div(slot='key') IP Address
-        a(slot='value' :href="candidate.ipAddress") {{ candidate.ipAddress }}
-    key-values
-      key-value
-        div(slot='key') Atoms
-        div(slot='value') {{ candidate.atoms }}
-      key-value
-        div(slot='key') Delegators
-        div(slot='value') {{ candidate.computed.delegators }}
-      key-value
-        div(slot='key') Slashes
-        div(slot='value') {{ candidate.computed.slashes.length }}
+  part(title="Candidate Details")
+    list-item(dt='Commission' :dd='candidate.commissionPercent')
+    list-item(dt='Country' :dd='countryName(candidate.country)')
+    list-item(dt='Website' :dd='candidate.website')
+    list-item(dt='IP Address' :dd='candidate.ipAddress')
+  part(title="Staking Details")
+    list-item(dt='Atoms' :dd='candidate.atoms')
+    list-item(dt='Delegators' :dd='candidate.computed.delegators')
+    list-item(dt='Slashes' :dd='candidate.computed.slashes.length')
 </template>
 
 <script>
@@ -48,18 +28,20 @@ import { mapGetters } from 'vuex'
 import MarkdownIt from 'markdown-it'
 import ArticleBody from './NiArticleBody'
 import Btn from '@nylira/vue-button'
-import PageHeader from './PageHeader'
-import KeyValue from './NiKeyValue'
-import KeyValues from './NiKeyValues'
+import Page from '../common/NiPage'
+import Part from '../common/NiPart'
+import ToolBar from '../common/NiToolBar'
+import ListItem from '../common/NiListItem'
 import countries from '../../scripts/countries.json'
 export default {
   name: 'page-candidate',
   components: {
     ArticleBody,
     Btn,
-    PageHeader,
-    KeyValue,
-    KeyValues
+    ListItem,
+    Page,
+    Part,
+    ToolBar
   },
   computed: {
     ...mapGetters(['candidates', 'countries', 'shoppingCart', 'user']),

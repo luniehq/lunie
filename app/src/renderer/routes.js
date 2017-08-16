@@ -11,18 +11,14 @@ let staking = r.bind(null, 'staking')
 export default [
   // MONITOR
   { path: '/block/:block', name: 'block', component: monitor('Block') },
-  {
-    path: '/blockchain',
-    name: 'blockchain',
-    component: monitor('Blockchain')
-  },
-  { path: '/validators', component: monitor('Validators') },
+  { path: '/blockchain', name: 'blockchain', component: monitor('Blockchain') },
+  { path: '/validators', name: 'validators', component: monitor('Validators') },
   {
     name: 'validator',
     path: '/validators/:validator',
     component: monitor('Validator')
   },
-  { path: '/delegators', component: monitor('Delegators') },
+  { path: '/delegators', name: 'delegators', component: monitor('Delegators') },
   {
     name: 'delegator',
     path: '/delegators/:delegator',
@@ -30,7 +26,7 @@ export default [
   },
 
   // GOVERN
-  { path: '/', component: govern('Proposals') },
+  { path: '/', name: 'proposals', component: govern('Proposals') },
   { path: '/proposals/new', component: govern('ProposalsNew') },
   { path: '/proposals/new/text', component: govern('ProposalsNewText') },
   { path: '/proposals/:proposal', name: 'proposal', component: govern('Proposal') },

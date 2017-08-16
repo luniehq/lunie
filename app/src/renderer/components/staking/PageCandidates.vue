@@ -4,14 +4,13 @@ page(:title='pageTitle')
     a(@click='toggleSearch'): i.material-icons search
     // TODO: Fix Filter
     // field(theme='cosmos', type='text', placeholder='Filter...', v-model='query')
-    router-link(v-if="user.signedIn && candidatesNum > 0" to='/delegate') Delegate
+    router-link(v-if="" to='/staking/delegate') Delegate
     a(@click='toggleFilter'): i.material-icons filter_list
-  part(title='All Candidates')
-    panel-sort(:sort='sort')
-    card-candidate(
-      v-for='candidate in filteredCandidates'
-      key='candidate.id'
-      :candidate='candidate')
+  panel-sort(:sort='sort')
+  card-candidate(
+    v-for='candidate in filteredCandidates'
+    key='candidate.id'
+    :candidate='candidate')
 </template>
 
 <script>

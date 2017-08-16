@@ -1,30 +1,25 @@
 <template lang='pug'>
-  .page.page-profile
-    page-header
-      div(slot='title') Your Profile
-      btn(theme='cosmos' icon='sign-out' value='Sign Out' @click.native='signOut')
-    key-values
-      key-value
-        div(slot='key') Public Key
-        div(slot='value') {{ user.pubkey }}
-      key-value
-        div(slot='key') Atoms
-        div(slot='value') {{ user.atoms }}
+page(title='Your Profile')
+  tool-bar
+    a(@click.native='signOut') Sign Out
+  part(title='Details')
+    list-item(dt='Public Key' dd='user.pubkey')
+    list-item(dt='Atoms Key' dd='user.atoms')
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
-import PageHeader from './PageHeader'
-import KeyValue from './NiKeyValue'
-import KeyValues from './NiKeyValues'
+import ListItem from '../common/NiListItem'
+import Page from '../common/NiPage'
+import Part from '../common/NiPart'
 export default {
   name: 'page-profile',
   components: {
     Btn,
-    PageHeader,
-    KeyValue,
-    KeyValues
+    ListItem,
+    Page,
+    Part
   },
   computed: {
     ...mapGetters(['user'])

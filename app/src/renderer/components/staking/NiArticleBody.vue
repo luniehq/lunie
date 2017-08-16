@@ -14,13 +14,9 @@ export default {
 @require '../../styles/variables.styl'
 
 .ni-article-body
-  margin 1rem 0
-  border 2px solid bc-dim
-  border-radius 0.25rem
   ul, ol, p
     &:last-child
       margin-bottom 0
-
   hr
     border none
     border-top 1px solid #eee
@@ -223,48 +219,4 @@ export default {
 .ni-article-body blockquote ul:last-child,
 .ni-article-body blockquote ol:last-child
   margin-bottom 0
-
-@media screen and (min-width: 360px)
-  .ni-article-body-container
-    padding 1.125rem
-  .ni-article-body
-    pre
-      margin-left -1.125rem
-      margin-right -1.125rem
-
-@media screen and (min-width: 414px)
-  .ni-article-body-container
-    padding 1.25rem
-  .ni-article-body
-    pre
-      margin-left -1.25rem
-      margin-right -1.25rem
-
-@media screen and (min-width: 540px)
-  .ni-article-body-container
-    padding 1.5rem
-  .ni-article-body
-    pre
-      margin-left -1.5rem
-      margin-right -1.5rem
-
-@media screen and (min-width: 768px)
-  .ni-article-body-container
-    padding 3rem 3rem 1.5rem
-  .ni-article-body
-    pre
-      margin-left 0
-      margin-right 0
-    iframe
-      &.iframe-video
-        max-width 48rem
-        max-height 27rem
-
-  .ni-article-body h1,
-  .ni-article-body h2,
-  .ni-article-body h3,
-  .ni-article-body h4,
-  .ni-article-body h5,
-  .ni-article-body h6
-    margin 3rem 0 1.5rem
 </style>

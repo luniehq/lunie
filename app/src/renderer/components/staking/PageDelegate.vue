@@ -172,7 +172,7 @@ export default {
           title: 'No Candidates Selected',
           body: 'Choose one or more candidates before proceeding to delegate atoms.'
         })
-        this.$router.push('/')
+        this.$router.push('/staking')
       }
     },
     rm (candidateId) {
