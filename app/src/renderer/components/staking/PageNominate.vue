@@ -1,9 +1,6 @@
 <template lang='pug'>
-.page.page-nominate
-  page-header
-    div(slot="title")
-      span(v-if='user.nominationActive') Edit Candidacy
-      span(v-else) Self-Nomination
+page(:title='pageTitle')
+  tool-bar
     btn(v-if='user.nominationActive' theme='cosmos' type='link'
       icon='eye' value='View Candidate'
       :to="{name: 'candidate', params: { candidate: fields.id }}")
@@ -157,12 +154,13 @@ import { between, minLength, maxLength, required, url } from 'vuelidate/lib/vali
 // import validateIP from 'validate-ip-node'
 // import moment from 'moment'
 import Btn from '@nylira/vue-button'
-import Field from './NiField'
-import FieldGroup from './NiFieldGroup'
-import FormGroup from './FormGroup'
-import FormMsg from './FormMsg'
+import Field from '@nylira/vue-field'
+import FieldGroup from '../common/NiFieldGroup'
+import FormGroup from '../common/NiFormGroup'
+import FormMsg from '../common/NiFormMsg'
 import FormStruct from '../common/NiFormStruct'
-import PageHeader from './PageHeader'
+import Page from '../common/NiPage'
+import ToolBar from '../common/NiToolBar'
 import { PrivKey } from 'tendermint-crypto'
 export default {
   name: 'page-nominate',
@@ -173,10 +171,18 @@ export default {
     FormGroup,
     FormMsg,
     FormStruct,
-    PageHeader
+    Page,
+    ToolBar
   },
   computed: {
-    ...mapGetters(['config', 'user'])
+    ...mapGetters(['config', 'user']),
+    pageTitle () {
+      if (this.user.nominationActive) {
+        return 'Edit Candidacy'
+      } else {
+        return 'Self-Nomination'
+      }
+    }
   },
   created () {
     if (!this.user.signedIn) { this.$store.commit('notifyAuthRequired') }

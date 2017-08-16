@@ -1,7 +1,7 @@
 <template lang="pug">
 page(title='Proposals')
   tab-bar
-    router-link(to="/proposals" exact) Active
+    router-link(to="/" exact) Active
     router-link(to="/proposals/prevote" exact) Prevote
     router-link(to="/proposals/archive" exact) Archive
   tool-bar

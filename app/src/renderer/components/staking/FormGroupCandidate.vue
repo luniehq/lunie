@@ -16,10 +16,10 @@ form-group(:class='cssClass' :error="$v.fields.atoms.$error")
 
 <script>
 import { mapGetters } from 'vuex'
-import Field from './NiField'
+import Field from '@nylira/vue-field'
 import Btn from '@nylira/vue-button'
-import FormGroup from './FormGroup'
-import FormMsg from './FormMsg'
+import FormGroup from '../common/NiFormGroup'
+import FormMsg from '../common/NiFormMsg'
 export default {
   name: 'card-candidate-atoms',
   props: ['candidate'],

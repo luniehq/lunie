@@ -1,7 +1,7 @@
 <template lang="pug">
 page(title='New Proposal')
   tool-bar
-    router-link(to="/proposals" exact): i.material-icons arrow_back
+    router-link(to="/" exact): i.material-icons arrow_back
   part(title='Choose a Type')
     list-item(title='Adjust Parameters' to="/proposals/new/adjust-parameters")
     list-item(title='Amend Constitution' to="/proposals/new/amend-constitution")

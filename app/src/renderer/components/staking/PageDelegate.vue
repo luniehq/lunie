@@ -1,11 +1,6 @@
 <template lang="pug">
-.page.page-delegate
-  page-header
-    div(slot="title")
-      | Delegate Atoms
-      em(v-if="unallocatedAtoms > 0")
-        | ({{ unallocatedAtoms }}, {{ unallocatedAtomsPercent }})
-      em(v-else) (DONE)
+page(:title="pageTitle")
+  tool-bar
     btn(theme='cosmos' type='link' to='/' icon='angle-left' value='Change Candidates')
   
   form-struct(:submit="onSubmit")
@@ -52,12 +47,13 @@
 import { between, numeric, required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
-import Field from './NiField'
-import FieldGroup from './NiFieldGroup'
-import FormGroup from './FormGroup'
-import FormMsg from './FormMsg'
+import Field from '@nylira/vue-field'
+import FieldGroup from '../common/NiFieldGroup'
+import FormGroup from '../common/NiFormGroup'
+import FormMsg from '../common/NiFormMsg'
 import FormStruct from '../common/NiFormStruct'
-import PageHeader from './PageHeader'
+import Page from '../common/NiPage'
+import ToolBar from '../common/NiToolBar'
 export default {
   name: 'page-delegate',
   components: {
@@ -67,10 +63,18 @@ export default {
     FormGroup,
     FormMsg,
     FormStruct,
-    PageHeader
+    Page
   },
   computed: {
     ...mapGetters(['shoppingCart', 'user']),
+    pageTitle () {
+      let title = 'Delegate Atoms'
+      if (this.unallocatedAtoms > 0) {
+        title += this.unallocatedAtoms + ', ' + this.unallocatedAtomsPercent
+      } else {
+        title += '(DONE)'
+      }
+    },
     unreservedAtoms () {
       return this.user.atoms - this.fields.reservedAtoms
     },

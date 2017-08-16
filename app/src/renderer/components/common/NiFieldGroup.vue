@@ -11,10 +11,11 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '../../styles/variables.styl'
+@import '~@/styles/variables.styl'
 
 .ni-field-group
   display flex
+  position relative
 
   .ni-field
     flex 1
@@ -31,27 +32,31 @@ export default {
   .ni-btn-wrapper + .ni-field
     margin-left 1rem
 
+  .ni-field-addon + .ni-field-addon
+  .ni-field + .ni-field-addon
+  .ni-field-addon + .ni-field
+    margin-left -1px
+    position relative
+    z-index 1
+
   .ni-field-addon
-    background app-bg
-    border 1px solid bc-dim
+    background c-app-bg
+    border 1px solid bc
     display flex
     align-items center
-    padding 0 0.5rem
+    justify-content center
     height 2rem
+    min-width 2rem
+    padding 0 0.5rem
 
     font-label()
-    color dim
-
-  .ni-field + .ni-field-addon
-    border-left none
-
-  .ni-field-addon + .ni-field
-    border-left none
 
   .ni-field-addon + .ni-btn
     margin-left 1rem
 
 @media screen and (min-width: 768px)
   .ni-field-group
-    margin-bottom 0.75rem
+    .ni-field-addon
+      font-size 1rem
+      padding 0 0.75rem
 </style>

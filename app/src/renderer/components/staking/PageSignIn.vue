@@ -53,8 +53,8 @@ import { required, minLength, maxLength, sameAs } from 'vuelidate/lib/validators
 import ArticleBody from './NiArticleBody'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
-import FormGroup from './FormGroup'
-import FormMsg from './FormMsg'
+import FormGroup from '../common/NiFormGroup'
+import FormMsg from '../common/NiFormMsg'
 import FormStruct from '../common/NiFormStruct'
 import Page from '../common/NiPage'
 export default {

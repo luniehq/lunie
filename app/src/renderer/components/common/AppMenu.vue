@@ -1,11 +1,11 @@
 <template lang="pug">
   menu.app-menu
-    part(title='Governance')
+    part(title='Govern')
       list-item(to="/" exact @click.native="close" title="Proposals")
-    part(title='Staking')
-      list-item(to="/staking" exact @click.native="close" title="Delegators")
-      list-item(to="/nominate" exact @click.native="close" title="Self Nomination")
-    part(title='Network')
+    part(title='Stake')
+      list-item(to="/staking" exact @click.native="close" title="Validator Candidates")
+      list-item(to="/staking/nominate" exact @click.native="close" title="Self Nomination")
+    part(title='Montiro')
       list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
       list-item(to="/validators" exact @click.native="close" title="Validators"
         v-bind:class="{ 'active': isValidatorPage }")

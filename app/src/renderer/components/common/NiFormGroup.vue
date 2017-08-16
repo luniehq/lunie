@@ -19,11 +19,11 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '../../styles/variables.styl'
+@import '~@/styles/variables.styl'
 
 .ni-form-group
   padding 1rem 1rem 1rem - px
-  border-bottom 1px solid bc-faint
+  border-bottom 1px solid bc-dim
 
   input
     width 100%
@@ -32,19 +32,14 @@ export default {
     display block
     font-label()
     line-height 2rem
+    color dim
 
   .ni-form-msg-error
     display none
 
   &.form-group-error
-    .ni-field-container
+    .ni-field
       border-color #f00
     .ni-form-msg-error
       display flex
-  &:first-child
-    padding-top 1rem - 2*px
-@media screen and (min-width: 480px)
-  .ni-form-group
-    padding 1rem 1rem 1rem - px
-
 </style>
