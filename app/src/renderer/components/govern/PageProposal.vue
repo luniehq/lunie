@@ -7,7 +7,7 @@ page(:title='proposal.title')
 
   part(v-if="proposal.type === 'text'")
     div(slot='title') Proposed by #[router-link(:to="{ name: 'delegator', params: { delegator: proposal.validatorId }}") {{ proposal.validatorId }}]
-    proposal-text(:content="proposal.data.text")
+    text-block(:content="proposal.data.text")
 
   part(title='Time to vote: 13D 23H 27M'): form-struct(:submit='confirmVote')
     field-vote(@click.native="vote('yes')" dt='Yes' :dd='yesPct'
@@ -33,7 +33,7 @@ import FieldVote from '../common/NiFieldVote'
 import FormStruct from '../common/NiFormStruct'
 import Page from '../common/NiPage'
 import Part from '../common/NiPart'
-import ProposalText from './ProposalText'
+import TextBlock from '../common/TextBlock'
 import ToolBar from '../common/NiToolBar'
 export default {
   name: 'page-proposal',
@@ -43,7 +43,7 @@ export default {
     FormStruct,
     Page,
     Part,
-    ProposalText,
+    TextBlock,
     ToolBar
   },
   computed: {

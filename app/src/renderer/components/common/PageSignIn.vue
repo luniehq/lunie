@@ -1,7 +1,7 @@
 <template lang='pug'>
 page(title='Welcome to Cosmos' v-if="signInStep === 0")
   part(title="Important Notice")
-    article-body
+    text-block
       p Please read the following carefully before signing in to Cosmos Voyager.
       p We want to discourage you from delegating your atoms to the validator with the most delegators, as that can cause them to achieve an unsafe amount of voting power.
 
@@ -56,7 +56,7 @@ page(title='Sign In' v-else)
 
 <script>
 import { required, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
-import ArticleBody from './NiArticleBody'
+import TextBlock from '../common/TextBlock'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FormGroup from '../common/NiFormGroup'
@@ -67,14 +67,14 @@ import Part from '../common/NiPart'
 export default {
   name: 'page-sign-in',
   components: {
-    ArticleBody,
     Btn,
     Field,
     FormGroup,
     FormMsg,
     FormStruct,
     Page,
-    Part
+    Part,
+    TextBlock
   },
   data: () => ({
     signInStep: 0,

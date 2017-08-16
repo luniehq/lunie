@@ -1,5 +1,6 @@
 <template lang="pug">
 .proposal-text: pre {{ content }}
+  slot
 </template>
 
 <script>
@@ -30,4 +31,7 @@ export default {
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
     max-width 40rem - 2rem
+
+  p
+    margin-bottom 1rem
 </style>
