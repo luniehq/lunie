@@ -1,5 +1,25 @@
 'use strict'
 
-// const Client = require('js-weave')
+const RestClient = require('js-weave')
+const RpcClient = require('tendermint')
 
-module.exports = function () { console.log(arguments) }
+let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+module.exports = async function () {
+  let rest = RestClient()
+  let rpc = RpcClient()
+
+  // poll server until it is online
+  while (true) {
+    try {
+      await rest.listKeys()
+      break
+    } catch (err) {
+      console.log('waiting for baseserver', err)
+    }
+    await sleep(1000)
+  }
+
+  rest.rpc = rpc
+  return rest
+}

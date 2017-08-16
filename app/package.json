@@ -16,6 +16,7 @@
     "memdown": "^1.2.4",
     "mkdirp": "^0.5.1",
     "old": "^0.2.0",
+    "tendermint": "^2.0.3",
     "tendermint-crypto": "github:mappum/js-crypto",
     "user-home": "^2.0.0",
     "vue": "^2.2.6",
