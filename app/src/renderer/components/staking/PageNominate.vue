@@ -106,7 +106,7 @@ page(:title='pageTitle')
           theme='cosmos'
           type='number'
           step='any'
-          placeholder='Enter how many of your own Atom to delegate to yourself'
+          placeholder='Enter how much ATOM you want to self-delegate'
           v-model.number='fields.ownCoinsBonded')
         .ni-field-addon %
       form-msg(name='OwnCoinsBonded' type='required'
@@ -151,7 +151,6 @@ page(:title='pageTitle')
 <script>
 import { mapGetters } from 'vuex'
 import { between, minLength, maxLength, required, url } from 'vuelidate/lib/validators'
-// import validateIP from 'validate-ip-node'
 // import moment from 'moment'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'

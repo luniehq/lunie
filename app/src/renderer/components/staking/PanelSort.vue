@@ -47,6 +47,7 @@ export default {
   display flex
   height 2rem
   border-bottom 1px solid bc-dim
+  padding 0 0.75rem
 
 .sort-by
   flex 1
@@ -57,11 +58,18 @@ export default {
   align-items center
 
   position relative
+  padding 0 0.25rem
+
+  min-width 0
 
   .label
-    font-label()
+    font-size 0.75rem
     color dim
     padding-right 0.5rem
+
+    white-space nowrap
+    text-overflow ellipsis
+    overflow hidden
 
   &:after
     display block

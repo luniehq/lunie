@@ -92,7 +92,7 @@ export default {
 @require '../../styles/variables.styl'
 .card-candidate
   &:nth-of-type(2n) .card-candidate-container
-    background alpha(app-fg, 20%)
+    background alpha(app-fg, 10%)
 
   &.card-candidate-active .card-candidate-container
     .value.id a, .icon
@@ -104,6 +104,7 @@ export default {
   .values
     display flex
     height 2em
+    padding 0 0.75rem
 
   .value
     flex 1
@@ -112,6 +113,10 @@ export default {
     justify-content space-between
 
     color dim
+    padding 0 0.25rem
+    font-size 0.75rem
+
+    min-width 0
 
     &.id
       i.fa
@@ -122,7 +127,6 @@ export default {
           color bright
     &.num
       mono()
-      font-size 0.875rem
 
     &.bar
       position relative
@@ -148,6 +152,10 @@ export default {
 
     span
       display block
+      
+      white-space nowrap
+      text-overflow ellipsis
+      overflow hidden
       i.fa
         color light
 
@@ -167,17 +175,9 @@ export default {
 @media screen and (max-width: 479px)
   .card-candidate-container .value span i.fa
     display none
+@media screen and (min-width: 768px)
+  .card-candidate-container
+    .value span
+      font-size 1rem
 
-/* transition */
-.ts-card-candidate-enter-active, .ts-card-candidate-leave-active
-  transition all 0.5s ease
-  height 2rem
-  opacity 1
-
-.ts-card-candidate-enter, .ts-card-candidate-leave-to
-  height 0
-  opacity 0
-
-.ts-card-candidate-enter
-  background link
 </style>

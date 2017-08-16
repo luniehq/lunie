@@ -1,5 +1,17 @@
-/* zoom */
+/* transition */
+.ts-card-candidate-enter-active, .ts-card-candidate-leave-active
+  transition all 0.5s ease
+  height 2rem
+  opacity 1
 
+.ts-card-candidate-enter, .ts-card-candidate-leave-to
+  height 0
+  opacity 0
+
+.ts-card-candidate-enter
+  background link
+
+/* zoom */
 .zoom-enter-active, .zoom-leave-active
   transition all 0.5s ease
   overflow hidden
@@ -9,7 +21,6 @@
   transform scale(0.1)
 
 /* member */
-
 .member-enter-active, .member-leave-active
   transition all 0.5s ease
   overflow hidden
@@ -28,7 +39,6 @@
   background link
 
 /* vote-entity */
-
 .vote-entity-enter-active, .vote-entity-leave-active
   transition all 0.3s ease
   padding 0.25*x
@@ -46,7 +56,6 @@
   background link
 
 /* proposal */
-
 .proposal-enter-active, .proposal-leave-active
   transition all 150ms ease
   height 6rem
@@ -59,7 +68,6 @@
   opacity 0 !important
 
 /* msg-small */
-
 .msg-small-enter-active, .msg-small-leave-active
   max-height 100vh
   padding 0.5*x
