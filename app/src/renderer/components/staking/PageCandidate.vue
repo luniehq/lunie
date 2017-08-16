@@ -7,11 +7,9 @@ page(:title='candidate.id')
       a(v-else @click.native='add(candidate.id)') Add
     router-link(v-if='isMe' to='/nominate') Edit
   part(title="Description")
-    article-body
-      div(v-html='md(candidate.description)')
+    text-block(:content="candidate.description")
   part(title="Server Details")
-    article-body
-      div(v-html='md(candidate.serverDetails)')
+    text-block(:content="candidate.serverDetails")
   part(title="Candidate Details")
     list-item(dt='Commission' :dd='candidate.commissionPercent')
     list-item(dt='Country' :dd='countryName(candidate.country)')
@@ -25,22 +23,21 @@ page(:title='candidate.id')
 
 <script>
 import { mapGetters } from 'vuex'
-import MarkdownIt from 'markdown-it'
-import ArticleBody from '../common/NiArticleBody'
 import Btn from '@nylira/vue-button'
+import ListItem from '../common/NiListItem'
 import Page from '../common/NiPage'
 import Part from '../common/NiPart'
+import TextBlock from '../common/TextBlock'
 import ToolBar from '../common/NiToolBar'
-import ListItem from '../common/NiListItem'
 import countries from '../../scripts/countries.json'
 export default {
   name: 'page-candidate',
   components: {
-    ArticleBody,
     Btn,
     ListItem,
     Page,
     Part,
+    TextBlock,
     ToolBar
   },
   computed: {
@@ -61,10 +58,6 @@ export default {
     }
   },
   methods: {
-    md (string) {
-      let md = new MarkdownIt()
-      return md.render(string)
-    },
     countryName (code) {
       return countries.find(c => c.value === code).key
     },
