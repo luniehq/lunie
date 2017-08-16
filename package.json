@@ -9,6 +9,7 @@
     "build:linux": "cross-env PLATFORM_TARGET=linux node tasks/release.js",
     "build:mas": "cross-env PLATFORM_TARGET=mas node tasks/release.js",
     "build:win32": "cross-env PLATFORM_TARGET=win32 node tasks/release.js",
+    "release:darwin": "electron-installer-dmg builds/basecoin-ui-darwin-x64/basecoin-ui.app cosmos",
     "clean": "rm -rf ~/.delegation-game-ui-dev",
     "dev": "node tasks/runner.js",
     "clean-dev": "npm run clean && npm run dev",
