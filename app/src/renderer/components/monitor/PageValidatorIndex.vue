@@ -1,10 +1,10 @@
 <template lang="pug">
-page(:title="'Validator: ' + validator.node_info.moniker")
+page(:title="validator.node_info.moniker")
   tool-bar
     router-link(to="/validators" exact): i.material-icons arrow_back
     anchor-copy(:value="tmpValidator.pub_key" icon="content_copy")
 
-  part(title="Profile")
+  part(title="Validator Profile")
     list-item(dt="Total Vote Power" dd="4.2M ATOM"
       :to="{ name: 'validator-power', params: { validator: validatorSlug }}")
     list-item(dt="Solo Vote Power" dd="1M ATOM (19%)")

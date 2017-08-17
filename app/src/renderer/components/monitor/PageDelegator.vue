@@ -4,7 +4,7 @@ page(:title="'Delegator: ' + delegator.id")
     router-link(to="/delegators" exact): i.material-icons arrow_back
     anchor-copy(:value="delegator.pub_key" icon="content_copy")
 
-  part(title='Profile')
+  part(title='Delegator Profile')
     list-item(dt="Vote Power" dd="12.2K ATOM" to="/vote-power")
     list-item(dt="Vote History" dd="35 Votes" to="/votes")
     list-item(dt="Proposals" dd="5" to="/proposals")

@@ -3,6 +3,8 @@ header.ni-page-header
   .ni-page-header-container
     h1.ni-page-header-title.break-lines
       slot(name='title')
+    .ni-page-header-subtitle.break-lines
+      slot(name='subtitle')
     nav.ni-page-header-nav
       slot
 </template>
@@ -35,6 +37,10 @@ export default {
   line-height 1.5rem
   font-weight 400
   color bright
+
+.ni-page-header-subtitle > div
+  color dim
+  font-size 0.75rem
 
 @media screen and (min-width: 1024px)
   .ni-page-header

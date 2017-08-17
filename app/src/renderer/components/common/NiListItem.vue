@@ -7,7 +7,9 @@ a.ni-li(v-if="type==='anchor'"): .ni-li-container
   .ni-li-label
     .ni-li-title {{ title }}
     .ni-li-subtitle {{ subtitle }}
-  .ni-li-icon: i.material-icons chevron_right
+  .ni-li-icon
+    i.material-icons.inactive chevron_right
+    i.material-icons.active my_location
 router-link.ni-li(v-else-if='dt && to' :to="to"): .ni-li-container
   .ni-li-thumb
     template(v-if='icon'): i.material-icons {{ icon }}
@@ -17,7 +19,9 @@ router-link.ni-li(v-else-if='dt && to' :to="to"): .ni-li-container
     .ni-li-dt {{ dt }}
     .ni-li-dd.ni-li-dd-flush(v-if="$slots['dd']"): slot(name='dd')
     .ni-li-dd(v-else) {{ dd }}
-  .ni-li-icon: i.material-icons chevron_right
+  .ni-li-icon
+    i.material-icons.inactive chevron_right
+    i.material-icons.active my_location
 .ni-li(v-else-if='dt'): .ni-li-container
   .ni-li-thumb
     template(v-if='icon'): i.material-icons {{ icon }}
@@ -36,7 +40,9 @@ router-link.ni-li(v-else :to='to'): .ni-li-container
   .ni-li-label
     .ni-li-title {{ title }}
     .ni-li-subtitle {{ subtitle }}
-  .ni-li-icon: i.material-icons chevron_right
+  .ni-li-icon
+    i.material-icons.inactive chevron_right
+    i.material-icons.active my_location
 </template>
 
 <script>
@@ -53,13 +59,18 @@ export default {
   display block
   border-bottom 1px solid bc-dim
   height 3rem
+  max-width 40rem
 
   &.router-link-exact-active
-    background app-fg
     .ni-li-title
-      color bright
-    .ni-li-icon i.material-icons
-      display none
+      color accent1
+    .ni-li-icon
+      i.material-icons
+        color accent1
+      .inactive
+        display none
+      .active
+        display block
 
 .ni-li-container
   display flex
@@ -160,4 +171,8 @@ a.ni-li-dd
   position absolute
   top 0
   right 0
+  .inactive
+    display block
+  .active
+    display none
 </style>

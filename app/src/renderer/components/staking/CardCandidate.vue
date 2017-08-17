@@ -92,7 +92,7 @@ export default {
 @require '../../styles/variables.styl'
 .card-candidate
   &:nth-of-type(2n) .card-candidate-container
-    background alpha(app-fg, 10%)
+    background alpha(app-fg, 7.5%)
 
   &.card-candidate-active .card-candidate-container
     .value.id a, .icon

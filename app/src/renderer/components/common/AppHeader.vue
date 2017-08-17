@@ -69,12 +69,12 @@ export default {
 
 .address
   height 0.5rem
-  background app-bg
   font-size 0.5rem
   position fixed
   top 0
   left 0
   width 100vw
+  color faint
 
 @media screen and (max-width: 1023px)
   #app-header

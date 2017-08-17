@@ -24,6 +24,7 @@ export default {
 
 .ni-part
   position relative
+  max-width 40rem
 
 .ni-part-container
 .ni-part-header
@@ -37,10 +38,11 @@ export default {
   margin 0 auto
 
 .ni-part-header
-  margin-top 1rem
+  // margin-top 1rem
   height 2rem
   padding 0 1rem
   border-bottom 1px solid bc-dim
+  background alpha(app-fg, 7.5%)
 
 .ni-part-header-container
   display flex
@@ -52,22 +54,10 @@ export default {
   font-label()
   color dim
 
-  span.dim
-    font-weight faint
-
   a
     color link
     border-bottom 1px dotted bc
 
 .ni-part-title
   flex 1
-
-/*
-@media screen and (min-width: 1024px)
-  #app-main
-    .ni-part-header
-      padding 0
-    .ni-part-container
-      padding 0 1rem
-*/
 </style>
