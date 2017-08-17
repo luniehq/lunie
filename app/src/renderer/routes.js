@@ -27,7 +27,43 @@ export default [
   { path: '/block/:block', name: 'block', component: monitor('Block') },
   { path: '/blockchain', name: 'blockchain', component: monitor('Blockchain') },
   { path: '/validators', name: 'validators', component: monitor('Validators') },
-  { path: '/validators/:validator', name: 'validator', component: monitor('Validator') },
+  {
+    path: '/validators/:validator',
+    name: 'validator',
+    component: monitor('Validator'),
+    children: [
+      {
+        path: '',
+        name: 'validator-index',
+        component: monitor('ValidatorIndex')
+      },
+      {
+        path: 'delegators',
+        name: 'validator-delegators',
+        component: monitor('ValidatorDelegators')
+      },
+      {
+        path: 'power',
+        name: 'validator-power',
+        component: monitor('ValidatorPower')
+      },
+      {
+        path: 'proposals',
+        name: 'validator-proposals',
+        component: monitor('ValidatorProposals')
+      },
+      {
+        path: 'slashes',
+        name: 'validator-slashes',
+        component: monitor('ValidatorSlashes')
+      },
+      {
+        path: 'votes',
+        name: 'validator-votes',
+        component: monitor('ValidatorVotes')
+      }
+    ]
+  },
   { path: '/delegators', name: 'delegators', component: monitor('Delegators') },
   { path: '/delegators/:delegator', name: 'delegator', component: monitor('Delegator') },
 

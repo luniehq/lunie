@@ -1,5 +1,6 @@
 <template lang='pug'>
 nav#app-header: .container
+  .address {{ address }}
   template(v-if="!config.desktop")
     .header-item(v-if="config.activeMenu === 'app'" @click="close")
       i.material-icons close
@@ -30,6 +31,9 @@ export default {
   computed: {
     ...mapGetters(['config'])
   },
+  data: () => ({
+    address: 'Loading...'
+  }),
   methods: {
     close () {
       this.$store.commit('setActiveMenu', '')
@@ -53,12 +57,24 @@ export default {
   mounted () {
     this.watchWindowSize()
     window.onresize = this.watchWindowSize
+
+    // refresh the hacky address bar
+    setInterval(() => this.address = window.location.href.substring(23), 300)
   }
 }
 </script>
 
 <style lang="stylus">
 @require '~@/styles/variables.styl'
+
+.address
+  height 0.5rem
+  background app-bg
+  font-size 0.5rem
+  position fixed
+  top 0
+  left 0
+  width 100vw
 
 @media screen and (max-width: 1023px)
   #app-header
@@ -95,6 +111,7 @@ export default {
         color link
 
       &.header-item-logo
+        font-size 0.66rem
         img
           height 1rem
 
