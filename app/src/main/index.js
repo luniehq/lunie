@@ -19,26 +19,33 @@ const winURL = DEV
 let NODE_BINARY = 'basecoin'
 let SERVER_BINARY = 'baseserver'
 
+function shutdown () {
+  mainWindow = null
+
+  if (basecoinProcess) {
+    basecoinProcess.kill()
+    basecoinProcess = null
+  }
+  if (baseserverProcess) {
+    baseserverProcess.kill()
+    baseserverProcess = null
+  }
+}
+
 function createWindow () {
   mainWindow = new BrowserWindow({
     minWidth: 320,
     minHeight: 480,
     width: 800,
-    height: 600
+    height: 600,
+    webPreferences: { webSecurity: false }
   })
   mainWindow.maximize()
 
   mainWindow.loadURL(winURL)
   if (DEV) mainWindow.webContents.openDevTools()
 
-  mainWindow.on('closed', () => {
-    mainWindow = null
-
-    if (basecoinProcess) {
-      basecoinProcess.kill()
-      basecoinProcess = null
-    }
-  })
+  mainWindow.on('closed', shutdown)
 
   // eslint-disable-next-line no-console
   console.log('mainWindow opened')
@@ -235,16 +242,7 @@ let initBaseserver = watt(function * (home, next) {
   yield child.on('exit', next.arg(0))
 })
 
-process.on('exit', () => {
-  if (basecoinProcess) {
-    basecoinProcess.kill()
-    basecoinProcess = null
-  }
-  if (baseserverProcess) {
-    baseserverProcess.kill()
-    baseserverProcess = null
-  }
-})
+process.on('exit', shutdown)
 
 watt(function * (next) {
   let root = require('../root.js')
