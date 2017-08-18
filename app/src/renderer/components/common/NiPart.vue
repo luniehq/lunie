@@ -24,7 +24,7 @@ export default {
 
 .ni-part
   position relative
-  max-width 40rem
+  max-width width-main
 
 .ni-part-container
 .ni-part-header
@@ -42,7 +42,7 @@ export default {
   height 2rem
   padding 0 1rem
   border-bottom 1px solid bc-dim
-  background alpha(app-fg, 7.5%)
+  background app-fg
 
 .ni-part-header-container
   display flex

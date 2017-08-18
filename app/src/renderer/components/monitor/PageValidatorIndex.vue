@@ -1,5 +1,5 @@
 <template lang="pug">
-page(:title="validator.node_info.moniker")
+page(icon="storage" :title="validator.node_info.moniker")
   tool-bar
     router-link(to="/validators" exact): i.material-icons arrow_back
     anchor-copy(:value="tmpValidator.pub_key" icon="content_copy")
@@ -7,9 +7,6 @@ page(:title="validator.node_info.moniker")
   part(title="Validator Profile")
     list-item(dt="Total Vote Power" dd="4.2M ATOM"
       :to="{ name: 'validator-power', params: { validator: validatorSlug }}")
-    list-item(dt="Solo Vote Power" dd="1M ATOM (19%)")
-    list-item(dt="Delg. Vote Power" dd="3.2M ATOM (81%)"
-      :to="{ name: 'validator-delegators', params: { validator: validatorSlug }}")
     list-item(dt="Vote History" dd="37 Votes"
       :to="{ name: 'validator-votes', params: { validator: validatorSlug }}")
     list-item(dt="Proposals" dd="13"

@@ -59,7 +59,7 @@ export default {
   display block
   border-bottom 1px solid bc-dim
   height 3rem
-  max-width 40rem
+  max-width width-main
 
   &.router-link-exact-active
     .ni-li-title
@@ -140,7 +140,7 @@ export default {
   padding-left 0.5rem
   padding-right 0.25rem
 
-  max-width 16rem
+  max-width width-side
   flex 2
   color txt
   font-size 0.75rem

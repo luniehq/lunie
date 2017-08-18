@@ -1,5 +1,5 @@
 <template lang="pug">
-page(:title="`${validatorId} Votes`")
+page(icon="storage" :title="`${validatorId} Votes`")
   tool-bar
     router-link(to="/validators" exact): i.material-icons arrow_back
     a(@click='toggleSearch'): i.material-icons search

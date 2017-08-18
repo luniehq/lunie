@@ -1,5 +1,5 @@
 <template lang="pug">
-page(:title="'Delegator: ' + delegator.id")
+page(icon="computer" :title="delegator.id")
   tool-bar
     router-link(to="/delegators" exact): i.material-icons arrow_back
     anchor-copy(:value="delegator.pub_key" icon="content_copy")

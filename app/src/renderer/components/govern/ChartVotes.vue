@@ -15,7 +15,6 @@
         .key No
         .value {{ votes.no }}
     .label(v-else :class="chartLabelClass") {{ chartLabel }}
-
 </template>
 
 <script>

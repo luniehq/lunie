@@ -2,6 +2,7 @@
 header.ni-page-header
   .ni-page-header-container
     h1.ni-page-header-title.break-lines
+      i.material-icons(v-if="icon") {{ icon }}
       slot(name='title')
     .ni-page-header-subtitle.break-lines
       slot(name='subtitle')
@@ -11,7 +12,8 @@ header.ni-page-header
 
 <script>
 export default {
-  name: 'ni-page-header'
+  name: 'ni-page-header',
+  props: ['icon']
 }
 </script>
 
@@ -26,8 +28,16 @@ export default {
   display flex
   align-items center
 
-.ni-page-header-title:empty
-  display none
+.ni-page-header-title
+  display flex
+  align-items center
+
+  &:empty
+    display noen
+
+  i.material-icons
+    font-size 1.375rem
+    padding-right 0.375rem
 
 .ni-page-header-title > div
   display flex

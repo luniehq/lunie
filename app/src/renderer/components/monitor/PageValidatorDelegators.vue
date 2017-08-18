@@ -1,5 +1,5 @@
 <template lang="pug">
-page(:title="`${validatorId} Delegators`")
+page(icon="storage" :title="`${validatorId} Delegators`")
   tool-bar
     router-link(
       :to="{ name: 'validator', params: { validator: $route.params.validator }}")

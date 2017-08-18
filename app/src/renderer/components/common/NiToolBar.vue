@@ -51,5 +51,5 @@ export default {
 
 @media screen and (min-width: 1024px)
   .ni-tool-bar
-    padding-left 16rem
+    padding-left width-side
 </style>

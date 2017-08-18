@@ -35,6 +35,7 @@ page(:title="`Block ${block.header.height}`")
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import request from 'superagent'
 import ToolBar from '../common/NiToolBar'
 import ListItem from '../common/NiListItem'
@@ -47,6 +48,9 @@ export default {
     ListItem,
     Part,
     Page
+  },
+  computed: {
+    ...mapGetters(['blockchain'])
   },
   data: () => ({
     blockUrl: '',
@@ -127,14 +131,10 @@ export default {
   }),
   methods: {
     fetchBlock () {
-      this.blockUrl = 'https://mercury-node0.testnets.interblock.io/block?height=' +
-        this.$route.params.block
-
+      this.blockUrl = `https://${this.blockchain.blockchainName}-node0.testnets.interblock.io/block?height=${this.$route.params.block}`
       request.get(this.blockUrl).end((err, res) => {
         if (err) console.log('err', err)
         let blockData = res.body.result
-        // console.log('block', JSON.stringify(blockData, null, 2))
-
         this.block_meta = blockData.block_meta
         this.block = blockData.block
       })

@@ -45,7 +45,7 @@ export default {
 .ni-form
   display flex
   position relative
-  max-width 640px
+  max-width width-main
 
 .ni-form-container
   flex 1

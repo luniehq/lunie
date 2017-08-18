@@ -115,14 +115,12 @@ export default {
         img
           height 1rem
 
-sidebar-width = 16rem
-
 @media screen and (min-width: 1024px)
   #app
     padding-top 0
 
   #app-header
-    width sidebar-width
+    width width-side
     border-right 1px solid bc
     position initial
     height 100vh
@@ -145,7 +143,7 @@ sidebar-width = 16rem
 
   #app-content
     min-height 100vh
-    margin-left sidebar-width
+    margin-left width-side
 
     display flex
     flex-flow column nowrap
