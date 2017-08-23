@@ -147,13 +147,6 @@ export default {
   line-height 1rem
   font-weight bold
 
-  // add some flair
-  height 3rem - px - 0.75rem
-  display flex
-  align-items center
-  background alpha(app-fg, 7.5%)
-  margin-right 0.5rem
-
 .ni-li-dd
   padding-left 0.25rem
   padding-right 0.5rem
@@ -161,6 +154,13 @@ export default {
   flex 3
   color txt
   line-height 1.25
+
+  // add some flair
+  height 3rem - px - 0.75rem
+  display flex
+  align-items center
+  background alpha(app-fg, 7.5%)
+
   &.ni-li-dd-flush
     padding 0
   &.ni-li-dd-flush > div

@@ -151,7 +151,6 @@ page(:title='pageTitle')
 <script>
 import { mapGetters } from 'vuex'
 import { between, minLength, maxLength, required, url } from 'vuelidate/lib/validators'
-// import moment from 'moment'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldGroup from '../common/NiFieldGroup'

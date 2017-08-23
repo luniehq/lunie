@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title="Proposal: Freeform Text")
+page(title="Proposal: Adjust Parameters")
   tool-bar
     router-link(to="/proposals/new" exact): i.material-icons arrow_back
   form-struct(:submit="onSubmit")
@@ -43,7 +43,7 @@ import Page from '../common/NiPage'
 import Part from '../common/NiPart'
 import ToolBar from '../common/NiToolBar'
 export default {
-  name: 'page-proposals-text',
+  name: 'page-proposals-new-adjust',
   components: {
     Btn,
     Field,
