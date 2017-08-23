@@ -13,6 +13,7 @@ let shuttingDown = false
 let mainWindow
 let basecoinProcess, baseserverProcess
 const DEV = process.env.NODE_ENV === 'development'
+const TEST = !!process.env.COSMOS_TEST
 const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
   : `file://${__dirname}/index.html`
@@ -94,8 +95,8 @@ function createWindow () {
 
 function startProcess (name, args, env) {
   let binPath
-  if (DEV) {
-    // in dev mode, use binaries installed in GOPATH
+  if (DEV || TEST) {
+    // in dev mode or tests, use binaries installed in GOPATH
     let GOPATH = process.env.GOPATH
     if (!GOPATH) GOPATH = join(home, 'go')
     binPath = join(GOPATH, 'bin', name)
@@ -116,9 +117,7 @@ function startProcess (name, args, env) {
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+  app.quit()
 })
 
 app.on('activate', () => {
@@ -235,7 +234,7 @@ let initBasecoin = watt(function * (root, next) {
   ], opts)
   yield child.on('exit', next.arg(0))
 
-  if (DEV) {
+  if (DEV || TEST) {
     // replace validator set so our node has 100% of voting power
     let privValidatorBytes = yield fs.readFile(join(root, 'priv_validator.json'), next)
     let privValidator = JSON.parse(privValidatorBytes.toString())
