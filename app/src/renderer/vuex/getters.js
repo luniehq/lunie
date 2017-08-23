@@ -20,3 +20,6 @@ export const delegators = state => state.delegators
 
 // govern
 export const proposals = state => state.proposals
+
+// ui
+export const filters = state => state.filters

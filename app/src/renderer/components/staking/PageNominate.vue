@@ -22,7 +22,7 @@ page(:title='pageTitle')
         type='text'
         placeholder='Keybase ID'
         v-model='fields.id')
-      form-msg(v-if='!user.nominationActive'): div Don't have a Keybase ID? Create one at #[a.open-in-browser(href='https://keybase.io') id.io]
+      form-msg(v-if='!user.nominationActive'): div Don't have a Keybase ID? Create one at #[a.open-in-browser(href='https://keybase.io') keybase.io]
       form-msg(name='Keybase ID' type='required'
         v-if='!$v.fields.id.required')
       form-msg(name='Keybase ID' type='length'
