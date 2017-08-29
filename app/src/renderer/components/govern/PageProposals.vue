@@ -1,14 +1,9 @@
 <template lang="pug">
 page(title='Proposals')
   modal-search(v-if="filters.proposals.search.visible")
-  tab-bar
-    router-link(to="/" exact) Active
-    a(@click="gotoPrevote()") Prevote
-    a(@click="gotoArchive()") Archive
   tool-bar
-    a(@click='toggleSearch'): i.material-icons search
+    a(@click='setSearch(true)'): i.material-icons search
     router-link(to="/proposals/new" exact): i.material-icons add
-    a(@click='toggleFilter'): i.material-icons filter_list
   part
     li-proposal(v-for="p in filteredProposals" :key="p.id" :proposal="p")
 </template>
@@ -16,8 +11,9 @@ page(title='Proposals')
 <script>
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
+import Mousetrap from 'mousetrap'
 import LiProposal from './LiProposal'
-import ModalSearch from '../common/NiModalSearch'
+import ModalSearch from '../common/ModalSearchProposals'
 import TabBar from '../common/NiTabBar'
 import ToolBar from '../common/NiToolBar'
 import Page from '../common/NiPage'
@@ -38,7 +34,11 @@ export default {
       if (this.proposals && this.filters) {
         let query = this.filters.proposals.search.query
         let proposals = orderBy(this.proposals, [this.sort.property], [this.sort.order])
-        return proposals.filter(p => includes(p.title.toLowerCase(), query))
+        if (this.filters.proposals.search.visible) {
+          return proposals.filter(p => includes(p.title.toLowerCase(), query))
+        } else {
+          return proposals
+        }
       } else {
         return []
       }
@@ -64,10 +64,13 @@ export default {
     gotoArchive () {
       this.$store.commit('notify', { title: 'TODO: Archive Proposals', body: 'Work in progress.' })
     },
-    toggleFilter () {
-      this.$store.commit('notify', { title: 'Filtering...', body: 'TODO' })
-    },
-    toggleSearch () { this.$store.commit('setProposalsSearchVisible', true) }
-  }
+    gotoNewProposal () { this.$router.push('/proposals/new') },
+    setSearch (v) { this.$store.commit('setProposalsSearchVisible', v) }
+  },
+  mounted () {
+    Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
+    Mousetrap.bind(['command+n', 'ctrl+n'], () => this.gotoNewProposal())
+    Mousetrap.bind('esc', () => this.setSearch(false))
+  } 
 }
 </script>
