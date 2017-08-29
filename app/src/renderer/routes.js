@@ -11,7 +11,11 @@ export default [
   // GOVERN
   { path: '/', name: 'proposals', component: govern('Proposals') },
   { path: '/proposals/new', component: govern('ProposalsNew') },
+  { path: '/proposals/new/adjust', component: govern('ProposalsNewAdjust') },
+  { path: '/proposals/new/amend', component: govern('ProposalsNewAmend') },
+  { path: '/proposals/new/create', component: govern('ProposalsNewCreate') },
   { path: '/proposals/new/text', component: govern('ProposalsNewText') },
+  { path: '/proposals/new/upgrade', component: govern('ProposalsNewUpgrade') },
   { path: '/proposals/:proposal', name: 'proposal', component: govern('Proposal') },
 
   // STAKE

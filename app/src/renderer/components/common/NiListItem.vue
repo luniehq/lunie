@@ -161,6 +161,13 @@ export default {
   flex 3
   color txt
   line-height 1.25
+
+  // add some flair
+  height 3rem - px - 0.75rem
+  display flex
+  align-items center
+  background alpha(app-fg, 7.5%)
+
   &.ni-li-dd-flush
     padding 0
   &.ni-li-dd-flush > div

@@ -108,6 +108,7 @@
     "disable-scroll": "^0.3.0",
     "electron": "^1.7.5",
     "moment": "^2.17.1",
+    "mousetrap": "^1.6.1",
     "nib": "^1.1.2",
     "no-scroll": "^2.1.0",
     "pikaday-time": "^1.6.1",

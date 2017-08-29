@@ -1,13 +1,13 @@
 <template lang="pug">
 page(title='Validators')
+  modal-search(v-if="filters.validators.search.visible")
   tab-bar
     router-link(to="/validators" exact) Online ({{ online }})
     a Offline (0)
   tool-bar
-    a(@click='toggleSearch'): i.material-icons search
-    a(@click='toggleFilter'): i.material-icons filter_list
+    a(@click='setSearch(true)'): i.material-icons search
   list-item(
-    v-for="v in values"
+    v-for="v in filteredValidators"
     :key="v.node_info.moniker"
     :title="v.node_info.moniker"
     :subtitle="todoAtoms"
@@ -17,8 +17,9 @@ page(title='Validators')
 
 <script>
 import { mapGetters } from 'vuex'
-import { orderBy } from 'lodash'
+import { includes, orderBy } from 'lodash'
 import ListItem from '../common/NiListItem'
+import ModalSearch from '../common/ModalSearchValidators'
 import Page from '../common/NiPage'
 import TabBar from '../common/NiTabBar'
 import ToolBar from '../common/NiToolBar'
@@ -26,6 +27,7 @@ export default {
   name: 'page-validators',
   components: {
     ListItem,
+    ModalSearch,
     Page,
     TabBar,
     ToolBar
@@ -34,22 +36,27 @@ export default {
     todoAtoms: '13.37M ATOM'
   }),
   computed: {
-    ...mapGetters(['validators']),
-    values () {
-      return orderBy(this.validators, ['node_info.moniker', 'desc'])
+    ...mapGetters(['validators', 'filters']),
+    filteredValidators () {
+      let query = this.filters.validators.search.query
+      let list = orderBy(this.validators, ['node_info.moniker', 'desc'])
+      if (this.filters.validators.search.visible) {
+        return list.filter(v => includes(v.node_info.moniker.toLowerCase(), query))
+      } else {
+        return list
+      }
     },
     online () { return this.validators.length }
   },
   methods: {
-    toggleFilter () {
-      this.$store.commit('notify', { title: 'Filtering...', body: 'TODO' })
-    },
-    toggleSearch () {
-      this.$store.commit('notify', { title: 'Searching...', body: 'TODO' })
-    },
+    setSearch (v) { this.$store.commit('setValidatorsSearchVisible', v) },
     urlsafeIp (ip) {
       return ip.split('.').join('-')
     }
-  }
+  },
+  mounted () {
+    Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
+    Mousetrap.bind('esc', () => this.setSearch(false))
+  } 
 }
 </script>

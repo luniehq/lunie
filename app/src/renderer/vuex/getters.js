@@ -21,5 +21,8 @@ export const delegators = state => state.delegators
 // govern
 export const proposals = state => state.proposals
 
-// sendtx
+// wallet
 export const wallet = state => state.wallet
+
+// ui
+export const filters = state => state.filters
