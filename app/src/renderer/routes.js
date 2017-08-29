@@ -4,6 +4,7 @@ let common = r.bind(null, 'common')
 let govern = r.bind(null, 'govern')
 let monitor = r.bind(null, 'monitor')
 let staking = r.bind(null, 'staking')
+let wallet = r.bind(null, 'wallet')
 // let basecoin = r.bind(null, 'basecoin')
 
 export default [
@@ -71,22 +72,10 @@ export default [
   { path: '/signin', name: 'signin', component: common('SignIn') },
   { path: '/profile', name: 'profile', component: common('Profile') },
 
-  // sendtx
-  // {
-  //   path: '/balances',
-  //   name: 'balances',
-  //   component: r('Balances')
-  // },
-  // {
-  //   path: '/send',
-  //   name: 'send',
-  //   component: r('Send')
-  // },
-  // {
-  //   path: '/receive',
-  //   name: 'receive',
-  //   component: r('Receive')
-  // },
+  // wallet
+  { path: '/wallet', name: 'balances', component: wallet('Balances') },
+  { path: '/wallet/send', name: 'send', component: wallet('Send') },
+  { path: '/wallet/receive', name: 'receive', component: wallet('Receive') },
 
   // 404
   { path: '/404', component: common('404') },

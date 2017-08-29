@@ -1,6 +1,6 @@
 'use strict'
 
-const RestClient = require('js-weave')
+const RestClient = require('cosmos-sdk')
 const RpcClient = require('tendermint')
 
 let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))

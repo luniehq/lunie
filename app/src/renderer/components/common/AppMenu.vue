@@ -1,5 +1,8 @@
 <template lang="pug">
   menu.app-menu
+    part(title='Wallet')
+      list-item(to="/wallet" exact @click.native="close" title="Balances")
+      list-item(to="/wallet/send" exact @click.native="close" title="Send")
     part(title='Govern')
       list-item(to="/" exact @click.native="close" title="Proposals")
     part(title='Stake')

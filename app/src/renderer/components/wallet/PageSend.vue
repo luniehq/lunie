@@ -104,7 +104,7 @@
 <script>
 import { required, between, minLength, maxLength, alphaNum } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
-import Field from '@nylira/vue-input'
+import Field from '@nylira/vue-field'
 import Btn from '@nylira/vue-button'
 import FormMsg from '@nylira/vue-form-msg'
 export default {

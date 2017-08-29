@@ -23,7 +23,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import CardAddress from './CardAddress'
-import Field from '@nylira/vue-input'
+import Field from '@nylira/vue-field'
 import Btn from '@nylira/vue-button'
 import CardNew from './CardNew'
 export default {
