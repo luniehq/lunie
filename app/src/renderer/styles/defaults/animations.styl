@@ -1,4 +1,19 @@
-/* transition */
+/* list-item */
+.ts-list-item-enter-active, .ts-list-item-leave-active
+  transition all 0.5s ease
+  height 3rem
+  opacity 1
+  font-size 1rem
+
+.ts-list-item-enter, .ts-list-item-leave-to
+  height 0
+  opacity 0
+  font-size 0
+
+.ts-list-item-enter
+  background link
+
+/* card-candidate */
 .ts-card-candidate-enter-active, .ts-card-candidate-leave-active
   transition all 0.5s ease
   height 2rem
