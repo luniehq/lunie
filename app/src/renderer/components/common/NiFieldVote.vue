@@ -4,11 +4,11 @@
     i.material-icons(v-if="active") radio_button_checked
     i.material-icons(v-else) radio_button_unchecked
   .ni-field-vote-label
-    .ni-field-vote-bar-outer
+    .ni-field-vote-bar-outer(v-if="results")
       .ni-field-vote-bar-inner(:style='innerBarStyle')
     .ni-field-vote-dl
       .ni-field-vote-dt {{ dt }}
-      .ni-field-vote-dd {{ Math.round(dd * 100) + '%' }}
+      .ni-field-vote-dd(v-if="results") {{ Math.round(dd * 100) + '%' }}
 </template>
 
 <script>
@@ -29,7 +29,7 @@ export default {
       this.$emit('input', formattedValue)
     }
   },
-  props: ['dt', 'dd', 'color', 'active']
+  props: ['dt', 'dd', 'color', 'active', 'results']
 }
 </script>
 
