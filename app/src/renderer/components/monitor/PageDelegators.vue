@@ -1,11 +1,11 @@
 <template lang='pug'>
 page(title='Delegators')
   modal-search(v-if="filters.delegators.search.visible")
+  tool-bar
+    a(@click='setSearch(true)'): i.material-icons search
   tab-bar
     router-link(to="/delegators" exact) Online ({{ online }})
     a Offline (0)
-  tool-bar
-    a(@click='setSearch(true)'): i.material-icons search
   list-item(
     v-for='d in filteredDelegators'
     icon='computer'
@@ -38,7 +38,7 @@ export default {
       let query = this.filters.delegators.search.query
       let list = orderBy(this.delegators, [this.sort.property], [this.sort.order])
       if (this.filters.delegators.search.visible) {
-        return list.filter(i => includes(i.id, query))
+        return list.filter(i => includes(i.id.toLowerCase(), query))
       } else {
         return list
       }
