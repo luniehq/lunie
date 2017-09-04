@@ -2,7 +2,7 @@
 page(title='Welcome to Cosmos' v-if="signInStep === 0")
   part(title="Important Notice")
     text-block
-      p Please read the following carefully before signing in to Cosmos Voyager.
+      p Please read the following carefully before signing in to Cosmos.
       p We want to discourage you from delegating your atoms to the validator with the most delegators, as that can cause them to achieve an unsafe amount of voting power.
 
       p When you delegate your atoms, they will be bonded to the validator and you won’t able to transfer them or sell them unless you activate a month-long unbonding period.
