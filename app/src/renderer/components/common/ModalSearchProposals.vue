@@ -6,7 +6,6 @@ modal-search
 
 <script>
 import { mapGetters } from 'vuex'
-import Mousetrap from 'mousetrap'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import ModalSearch from './ModalSearch'

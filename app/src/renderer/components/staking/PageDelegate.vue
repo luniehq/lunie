@@ -63,7 +63,8 @@ export default {
     FormGroup,
     FormMsg,
     FormStruct,
-    Page
+    Page,
+    ToolBar
   },
   computed: {
     ...mapGetters(['shoppingCart', 'user']),
@@ -74,6 +75,7 @@ export default {
       } else {
         title += '(DONE)'
       }
+      return title
     },
     unreservedAtoms () {
       return this.user.atoms - this.fields.reservedAtoms

@@ -14,6 +14,7 @@ page(:title='pageTitle')
 <script>
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
+import Mousetrap from 'mousetrap'
 import CardCandidate from './CardCandidate'
 import Field from '@nylira/vue-field'
 import ModalSearch from '../common/ModalSearchCandidates'
@@ -75,6 +76,6 @@ export default {
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
     Mousetrap.bind('esc', () => this.setSearch(false))
-  } 
+  }
 }
 </script>

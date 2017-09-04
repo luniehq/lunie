@@ -40,7 +40,6 @@ import FormGroup from '../common/NiFormGroup'
 import FormMsg from '../common/NiFormMsg'
 import FormStruct from '../common/NiFormStruct'
 import Page from '../common/NiPage'
-import Part from '../common/NiPart'
 import ToolBar from '../common/NiToolBar'
 export default {
   name: 'page-proposals-text',
@@ -64,7 +63,7 @@ export default {
     bodyMaxLength: 40000,
     fields: {
       title: '',
-      body: '',
+      body: ''
     }
   }),
   methods: {

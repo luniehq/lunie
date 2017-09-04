@@ -18,6 +18,7 @@ page(title='Validators')
 <script>
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
+import Mousetrap from 'mousetrap'
 import ListItem from '../common/NiListItem'
 import ModalSearch from '../common/ModalSearchValidators'
 import Page from '../common/NiPage'
@@ -57,6 +58,6 @@ export default {
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
     Mousetrap.bind('esc', () => this.setSearch(false))
-  } 
+  }
 }
 </script>

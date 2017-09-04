@@ -71,6 +71,6 @@ export default {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
     Mousetrap.bind(['command+n', 'ctrl+n'], () => this.gotoNewProposal())
     Mousetrap.bind('esc', () => this.setSearch(false))
-  } 
+  }
 }
 </script>

@@ -19,7 +19,6 @@ page(title="Your Profile")
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import ListItem from './NiListItem'
 import ToolBar from './NiToolBar'
 import Page from './NiPage'

@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'ni-modal-search',
+  name: 'ni-modal-search'
 }
 </script>
 
