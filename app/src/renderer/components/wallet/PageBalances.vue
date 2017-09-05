@@ -54,12 +54,12 @@ export default {
       balances: [
         { denom: 'testcoin', amount: 134234.23423 },
         { denom: 'ethermint', amount: 294.991254545 },
-        { denom: 'fakecoin', amount: 105923}
+        { denom: 'fakecoin', amount: 105923 }
       ]
     }
   }),
   methods: {
-    setSearch (v) { this.$store.commit('setBalancesSearchVisible', v) },
+    setSearch (v) { this.$store.commit('setBalancesSearchVisible', v) }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
