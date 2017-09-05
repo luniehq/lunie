@@ -42,8 +42,8 @@ export default ({ commit, basecoin }) => {
     }
   }
   const mutations = {
-    setCandidateSearchVisible (state, v) { state.candidates.search.visible = v },
-    setCandidateSearchQuery (state, v) { state.candidates.search.query = v },
+    setCandidatesSearchVisible (state, v) { state.candidates.search.visible = v },
+    setCandidatesSearchQuery (state, v) { state.candidates.search.query = v },
 
     setDelegatorsSearchVisible (state, v) { state.delegators.search.visible = v },
     setDelegatorsSearchQuery (state, v) { state.delegators.search.query = v },

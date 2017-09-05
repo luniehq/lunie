@@ -10,7 +10,7 @@ import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import ModalSearch from './ModalSearch'
 export default {
-  name: 'modal-search-proposals',
+  name: 'modal-search-delegators',
   components: {
     Btn,
     Field,
@@ -20,16 +20,16 @@ export default {
     ...mapGetters(['filters']),
     query: {
       get () {
-        return this.filters.proposals.search.query
+        return this.filters.delegators.search.query
       },
       set (val) {
-        this.$store.commit('setProposalsSearchQuery', val)
+        this.$store.commit('setDelegatorsSearchQuery', val)
       }
     }
   },
   methods: {
     close () {
-      this.$store.commit('setProposalsSearchVisible', false)
+      this.$store.commit('setDelegatorsSearchVisible', false)
     }
   },
   mounted () {

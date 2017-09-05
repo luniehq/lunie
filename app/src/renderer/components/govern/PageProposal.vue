@@ -11,18 +11,19 @@ page(:title='proposal.title')
 
   part(title='Time to vote: 13D 23H 27M'): form-struct(:submit='confirmVote')
     field-vote(@click.native="vote('yes')" dt='Yes' :dd='yesPct'
-      color='hsl(120,50%,35%)' :active="votePick === 'yes'")
+      color='hsl(120,50%,35%)' :active="votePick === 'yes'" :results="voteVisible")
 
     field-vote(@click.native="vote('no')" dt='No' :dd="noPct"
-      color='hsl(0,50%,35%)' :active="votePick === 'no'")
+      color='hsl(0,50%,35%)' :active="votePick === 'no'" :results="voteVisible")
 
     field-vote(@click.native="vote('reject')" dt='Reject' :dd="rejectPct"
-      color='hsl(330,50%,35%)' :active="votePick === 'reject'")
+      color='hsl(330,50%,35%)' :active="votePick === 'reject'" :results="voteVisible")
 
     field-vote(@click.native="vote('abstain')" dt='Abstain' :dd="abstainPct"
-      color='hsl(0,0%,35%)' :active="votePick === 'abstain'")
+      color='hsl(0,0%,35%)' :active="votePick === 'abstain'" :results="voteVisible")
+
     div(slot='footer')
-      div
+      btn(theme='cosmos' type='button' @click.native="toggleVoteVisible" value='Toggle Results')
       btn(theme='cosmos' type='submit' value='Confirm Vote')
 </template>
 
@@ -87,12 +88,12 @@ export default {
       },
       vote_id: 0
     },
-    votePick: 'abstain'
+    votePick: 'abstain',
+    voteVisible: false
   }),
   methods: {
     vote (choice, $event) {
       this.votePick = choice
-      // console.log('votePick', this.votePick)
     },
     confirmVote () {
       this.$store.commit('notify', { title: `Voted '${this.votePick}'`,
@@ -112,15 +113,10 @@ export default {
     proposalIsSpam (proposalId) {
       this.$store.commit('notify', { title: 'Mark Proposal As Spam',
         body: `TODO: Mark ${proposalId} proposal as a spam attack.`})
+    },
+    toggleVoteVisible () {
+      this.voteVisible = !this.voteVisible
     }
-    /* ,
-    deleteProposal (proposal) {
-      this.$router.push('/proposals')
-      this.$store.commit('RM_PROPOSAL', proposal)
-      this.$store.commit('RM_VOTES_BY_PROPOSAL', proposal.vote_id)
-      this.$store.commit('RM_MSGS_BY_PROPOSAL', proposal.id)
-    }
-    */
   }
 }
 </script>

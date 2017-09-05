@@ -1,23 +1,23 @@
 <template lang="pug">
 page(:title='pageTitle')
+  modal-search(v-if="filters.candidates.search.visible")
   tool-bar
-    a(@click='toggleSearch'): i.material-icons search
-    // TODO: Fix Filter
-    // field(theme='cosmos', type='text', placeholder='Filter...', v-model='query')
+    a(@click='setSearch(true)'): i.material-icons search
     router-link(v-if="" to='/staking/delegate') Delegate
-    a(@click='toggleFilter'): i.material-icons filter_list
   panel-sort(:sort='sort')
   card-candidate(
-    v-for='candidate in filteredCandidates'
-    key='candidate.id'
-    :candidate='candidate')
+    v-for='i in filteredCandidates'
+    key='i.id'
+    :candidate='i')
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { orderBy, includes } from 'lodash'
+import { includes, orderBy } from 'lodash'
+import Mousetrap from 'mousetrap'
 import CardCandidate from './CardCandidate'
 import Field from '@nylira/vue-field'
+import ModalSearch from '../common/ModalSearchCandidates'
 import Page from '../common/NiPage'
 import Part from '../common/NiPart'
 import PanelSort from './PanelSort'
@@ -27,23 +27,26 @@ export default {
   components: {
     CardCandidate,
     Field,
+    ModalSearch,
     Page,
     Part,
     PanelSort,
     ToolBar
   },
   computed: {
-    ...mapGetters(['candidates', 'shoppingCart', 'user']),
+    ...mapGetters(['candidates', 'filters', 'shoppingCart', 'user']),
     pageTitle () {
       if (this.user.signedIn) return `Candidates (${this.candidatesNum} Selected)`
       else return 'Candidates'
     },
     filteredCandidates () {
-      let value = []
-      let query = this.query
-      value = orderBy(this.candidates, [this.sort.property], [this.sort.order])
-      value = value.filter(v => includes(v.keybaseID, query))
-      return value
+      let query = this.filters.candidates.search.query
+      let list = orderBy(this.candidates, [this.sort.property], [this.sort.order])
+      if (this.filters.candidates.search.visible) {
+        return list.filter(i => includes(i.keybaseID.toLowerCase(), query))
+      } else {
+        return list
+      }
     },
     candidatesNum () {
       return this.shoppingCart.length
@@ -68,12 +71,11 @@ export default {
     query: ''
   }),
   methods: {
-    toggleFilter () {
-      this.$store.commit('notify', { title: 'Filtering...', body: 'TODO' })
-    },
-    toggleSearch () {
-      this.$store.commit('notify', { title: 'Searching...', body: 'TODO' })
-    }
+    setSearch (v) { this.$store.commit('setCandidatesSearchVisible', v) }
+  },
+  mounted () {
+    Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
+    Mousetrap.bind('esc', () => this.setSearch(false))
   }
 }
 </script>

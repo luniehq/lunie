@@ -1,7 +1,9 @@
 <template lang="pug">
 page(icon="storage" :title="`${validatorId} Votes`")
   tool-bar
-    router-link(to="/validators" exact): i.material-icons arrow_back
+    router-link(
+      :to="{ name: 'validator', params: { validator: $route.params.validator }}")
+      i.material-icons arrow_back
     a(@click='toggleSearch'): i.material-icons search
 
   part(title='Vote Statistics')

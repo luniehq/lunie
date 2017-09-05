@@ -1,48 +1,49 @@
 <template lang="pug">
-a.ni-li(v-if="type==='anchor'"): .ni-li-container
-  .ni-li-thumb
-    template(v-if='icon'): i.material-icons {{ icon }}
-    template(v-else-if='image'): img(:src='image')
-    template(v-else-if="$slots['graphic']"): slot(name='graphic')
-  .ni-li-label
-    .ni-li-title {{ title }}
-    .ni-li-subtitle {{ subtitle }}
-  .ni-li-icon
-    i.material-icons.inactive chevron_right
-    i.material-icons.active my_location
-router-link.ni-li(v-else-if='dt && to' :to="to"): .ni-li-container
-  .ni-li-thumb
-    template(v-if='icon'): i.material-icons {{ icon }}
-    template(v-else-if='image'): img(:src='image')
-    template(v-else-if="$slots['graphic']"): slot(name='graphic')
-  .ni-li-dl
-    .ni-li-dt {{ dt }}
-    .ni-li-dd.ni-li-dd-flush(v-if="$slots['dd']"): slot(name='dd')
-    .ni-li-dd(v-else) {{ dd }}
-  .ni-li-icon
-    i.material-icons.inactive chevron_right
-    i.material-icons.active my_location
-.ni-li(v-else-if='dt'): .ni-li-container
-  .ni-li-thumb
-    template(v-if='icon'): i.material-icons {{ icon }}
-    template(v-else-if='image'): img(:src='image')
-    template(v-else-if="$slots['graphic']"): slot(name='graphic')
-  .ni-li-dl
-    .ni-li-dt {{ dt }}
-    .ni-li-dd.ni-li-dd-flush(v-if="$slots['dd']"): slot(name='dd')
-    .ni-li-dd(v-else) {{ dd }}
-.ni-li(v-else-if="type === 'image'"): .ni-li-container: slot
-router-link.ni-li(v-else :to='to'): .ni-li-container
-  .ni-li-thumb
-    template(v-if='icon'): i.material-icons {{ icon }}
-    template(v-else-if='image'): img(:src='image')
-    template(v-else-if="$slots['graphic']"): slot(name='graphic')
-  .ni-li-label
-    .ni-li-title {{ title }}
-    .ni-li-subtitle {{ subtitle }}
-  .ni-li-icon
-    i.material-icons.inactive chevron_right
-    i.material-icons.active my_location
+transition(name="proposal")
+  a.ni-li(v-if="type==='anchor'"): .ni-li-container
+    .ni-li-thumb
+      template(v-if='icon'): i.material-icons {{ icon }}
+      template(v-else-if='image'): img(:src='image')
+      template(v-else-if="$slots['graphic']"): slot(name='graphic')
+    .ni-li-label
+      .ni-li-title {{ title }}
+      .ni-li-subtitle {{ subtitle }}
+    .ni-li-icon
+      i.material-icons.inactive chevron_right
+      i.material-icons.active my_location
+  router-link.ni-li(v-else-if='dt && to' :to="to"): .ni-li-container
+    .ni-li-thumb
+      template(v-if='icon'): i.material-icons {{ icon }}
+      template(v-else-if='image'): img(:src='image')
+      template(v-else-if="$slots['graphic']"): slot(name='graphic')
+    .ni-li-dl
+      .ni-li-dt {{ dt }}
+      .ni-li-dd.ni-li-dd-flush(v-if="$slots['dd']"): slot(name='dd')
+      .ni-li-dd(v-else) {{ dd }}
+    .ni-li-icon
+      i.material-icons.inactive chevron_right
+      i.material-icons.active my_location
+  .ni-li(v-else-if='dt'): .ni-li-container
+    .ni-li-thumb
+      template(v-if='icon'): i.material-icons {{ icon }}
+      template(v-else-if='image'): img(:src='image')
+      template(v-else-if="$slots['graphic']"): slot(name='graphic')
+    .ni-li-dl
+      .ni-li-dt {{ dt }}
+      .ni-li-dd.ni-li-dd-flush(v-if="$slots['dd']"): slot(name='dd')
+      .ni-li-dd(v-else) {{ dd }}
+  .ni-li(v-else-if="type === 'image'"): .ni-li-container: slot
+  router-link.ni-li(v-else :to='to'): .ni-li-container
+    .ni-li-thumb
+      template(v-if='icon'): i.material-icons {{ icon }}
+      template(v-else-if='image'): img(:src='image')
+      template(v-else-if="$slots['graphic']"): slot(name='graphic')
+    .ni-li-label
+      .ni-li-title {{ title }}
+      .ni-li-subtitle {{ subtitle }}
+    .ni-li-icon
+      i.material-icons.inactive chevron_right
+      i.material-icons.active my_location
 </template>
 
 <script>
