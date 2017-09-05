@@ -1,117 +1,73 @@
-<template>
-  <div class="page-send">
-    <!-- <page-header title="Send"></page-header> -->
-    <form class="form" v-on:submit.prevent.default="verifySend">
-      <div class="form-body">
+<template lang='pug'>
+page(title='Send Coins')
+  form-struct(:submit='verifySend')
+    form-group(:error='$v.fields.denom.$error')
+      label Denomination
+      field-group.denoms
+        btn.denom(
+          v-for='balance in wallet.balances'
+          @click.native='setDenom(balance.denom, $event)'
+          :value="balance.denom.toUpperCase()")
+        btn.denom(v-if="wallet.balances.length == 0" value="N/A" disabled)
 
-        <div class="form-group" :class="{ 'form-group-error': $v.fields.denom.$error }">
-          <label for="send-address">Denomination</label>
-          <div class="input-group">
-            <div class="denoms">
-              <div class="denom"
-                v-for="balance in wallet.balances"
-                @click="setDenom(balance.denom, $event)">
-                {{ balance.denom.toUpperCase() }}
-              </div>
-            </div>
-            <!--
-            <field
-              id="send-denom"
-              type="select"
-              v-model="fields.denom"
-              @input="$v.fields.denom.$touch()"
-              placeholder="Denomination"
-              required>
-            </field>
-            -->
-          </div>
-          <form-msg
-            name="Denomination"
-            type="required"
-            v-if="!$v.fields.denom.required">
-          </form-msg>
-        </div>
+        // field(type='select' :options='blockchainOptions' v-model='blockchainName')
+        //
+          <field
+          id="send-denom"
+          type="select"
+          v-model="fields.denom"
+          @input="$v.fields.denom.$touch()"
+          placeholder="Denomination"
+          required>
+          </field>
+      form-msg(name='Denomination', type='required', v-if='!$v.fields.denom.required')
 
-        <div class="form-group" :class="{ 'form-group-error': $v.fields.address.$error }">
-          <label for="send-address">Pay To</label>
-          <div class="input-group">
-            <field
-              id="send-address"
-              type="text"
-              v-model="fields.address"
-              @input="$v.fields.address.$touch()"
-              placeholder="Address"
-              required>
-            </field>
-          </div>
-          <form-msg
-            name="Address"
-            type="required"
-            v-if="!$v.fields.address.required">
-          </form-msg>
-          <form-msg
-            name="Address"
-            type="exactLength"
-            length="40"
-            v-if="!$v.fields.address.minLength || !$v.fields.address.maxLength">
-          </form-msg>
-          <form-msg
-            name="Address"
-            type="alphaNum"
-            v-if="!$v.fields.address.alphaNum">
-          </form-msg>
-        </div>
+    form-group(:error='$v.fields.address.$error')
+      label(for='send-address') Pay To
+      field-group
+        field#send-address(type='text', v-model='fields.address', @input='$v.fields.address.$touch()', placeholder='Address', required='')
+      form-msg(name='Address', type='required', v-if='!$v.fields.address.required')
+      form-msg(name='Address', type='exactLength', length='40', v-if='!$v.fields.address.minLength || !$v.fields.address.maxLength')
+      form-msg(name='Address', type='alphaNum', v-if='!$v.fields.address.alphaNum')
 
-        <div class="form-group" :class="{ 'form-group-error': $v.fields.amount.$error }">
-          <label for="send-address">Amount</label>
-          <div class="input-group">
-            <field
-              id="send-amount"
-              type="number"
-              v-model="fields.amount"
-              @input="$v.fields.amount.$touch()"
-              placeholder="Amount"
-              required>
-            </field>
-            <div class="input-group-addon">Coins</div>
-            <btn value="Max"></btn>
-          </div>
-          <form-msg
-            name="Amount"
-            type="required"
-            v-if="!$v.fields.amount.required">
-          </form-msg>
-          <form-msg
-            name="Amount"
-            type="between"
-            min="1"
-            max="1000000"
-            v-if="!$v.fields.amount.between">
-          </form-msg>
-        </div>
+    form-group(:error='$v.fields.amount.$error')
+      label(for='send-amount') Amount
+      field-group
+        field#send-amount(type='number', v-model='fields.amount', @input='$v.fields.amount.$touch()', placeholder='Amount', required='')
+        field-addon Coins
+        btn(value='Max')
+      form-msg(name='Amount', type='required', v-if='!$v.fields.amount.required')
+      form-msg(name='Amount', type='between', min='1', max='1000000', v-if='!$v.fields.amount.between')
 
-      </div><!--form-body-->
-
-      <div class="form-footer">
-        <btn value="Reset" @click.native="resetForm"></btn>
-        <btn v-if="sending" class="disabled" value="Sending..."></btn>
-        <btn v-else type="submit" value="Send Now"></btn>
-      </div>
-    </form>
-  </div>
+    div(slot='footer')
+      btn(value='Reset', @click.native='resetForm')
+      btn(v-if='sending', value='Sending...' disabled)
+      btn(v-else='', type='submit', value='Send Now')
 </template>
 
 <script>
 import { required, between, minLength, maxLength, alphaNum } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
-import Field from '@nylira/vue-field'
 import Btn from '@nylira/vue-button'
+import Field from '@nylira/vue-field'
+import FieldAddon from '../common/NiFieldAddon'
+import FieldGroup from '../common/NiFieldGroup'
+import FormGroup from '../common/NiFormGroup'
 import FormMsg from '@nylira/vue-form-msg'
+import FormStruct from '../common/NiFormStruct'
+import Page from '../common/NiPage'
+import ToolBar from '../common/NiToolBar'
 export default {
   components: {
+    Btn,
     Field,
+    FieldAddon,
+    FieldGroup,
+    FormGroup,
     FormMsg,
-    Btn
+    FormStruct,
+    Page,
+    ToolBar
   },
   computed: {
     ...mapGetters(['wallet'])
@@ -197,15 +153,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../../styles/variables.styl'
-
-.page-send
-  flex 1
-  display flex
-  flex-flow column
-
-.disabled
-  color grey
+@require '~@/styles/variables.styl'
 
 #send-address
 #send-amount
@@ -226,13 +174,7 @@ export default {
 .denoms
   display flex
   .denom
-    border 1px solid bc
-    line-height 2*x - 2px
-    padding 0 0.75rem
     margin-right 0.5rem
-
-    user-select none
-    cursor pointer
     &.active
       border-color link
       background lighten(link, 90%)

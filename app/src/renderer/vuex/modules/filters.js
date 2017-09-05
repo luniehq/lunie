@@ -1,5 +1,15 @@
 export default ({ commit, basecoin }) => {
   const state = {
+    balances: {
+      search: {
+        visible: false,
+        query: ''
+      },
+      sort: {
+        visible: false,
+        query: ''
+      }
+    },
     candidates: {
       search: {
         visible: false,
@@ -42,6 +52,9 @@ export default ({ commit, basecoin }) => {
     }
   }
   const mutations = {
+    setBalancesSearchVisible (state, v) { state.balances.search.visible = v },
+    setBalancesSearchQuery (state, v) { state.balances.search.query = v },
+
     setCandidatesSearchVisible (state, v) { state.candidates.search.visible = v },
     setCandidatesSearchQuery (state, v) { state.candidates.search.query = v },
 

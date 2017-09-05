@@ -1,23 +1,17 @@
-<template>
-  <div class="card-balance">
-    <div class="card-balance-container">
-      <div class="left">
-        <div class="title">
-          <i class="fa fa-circle-o"></i>
-          <span>{{ balance.denom.toUpperCase() }}</span>
-        </div>
-        <div class="balance">
-          <div class="unit">Balance:</div>
-          <div class="value">
-            <span class="integer">{{ integerize(balance.amount) }}</span><span class="fraction">{{ fractionize(balance.amount) }}</span>
-          </div>
-        </div>
-        <div class="actions">
-          <btn icon="search" value="Details"></btn>
-        </div>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+.card-balance
+  .card-balance-container
+    .left
+      .title
+        i.fa.fa-circle-o
+        span {{ balance.denom.toUpperCase() }}
+      .balance
+        .unit Balance:
+        .value
+          span.integer {{ integerize(balance.amount) }}
+          span.fraction {{ fractionize(balance.amount) }}
+      .actions
+        btn(icon='search', value='Details')
 </template>
 
 <script>
@@ -48,7 +42,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../../styles/variables.styl'
+@require '~@/styles/variables.styl'
 
 .card-balance
   font-size 0.75em
@@ -111,5 +105,4 @@ export default {
 @media screen and (min-width: 640px)
   .card-balance
     font-size 1rem
-
 </style>

@@ -22,7 +22,7 @@ page(:title="pageTitle")
           step="any"
           placeholder="Atoms"
           v-model.number="candidate.atoms")
-        .ni-field-addon Atoms
+        field-addon Atoms
         .percentage {{ percentAtoms(candidate.atoms) }}
         btn(type="button" theme="cosmos" value="Max"
           @click.native="fillAtoms(candidate.id)")
@@ -48,6 +48,7 @@ import { between, numeric, required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
+import FieldAddon from '../common/NiFieldAddon'
 import FieldGroup from '../common/NiFieldGroup'
 import FormGroup from '../common/NiFormGroup'
 import FormMsg from '../common/NiFormMsg'
@@ -59,6 +60,7 @@ export default {
   components: {
     Btn,
     Field,
+    FieldAddon,
     FieldGroup,
     FormGroup,
     FormMsg,

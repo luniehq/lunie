@@ -1,8 +1,6 @@
 # cosmos-ui
 
-> Human interface to Cosmos.
-
-Links to binary downloads coming soon.
+> Human interface to Cosmos. Links to binary downloads coming soon.
 
 ## Warning
 
@@ -16,4 +14,3 @@ npm run dev
 ```
 
 If you installed this app weeks or months before, try running `npm run clean-dev` instead to fix errors.
-```

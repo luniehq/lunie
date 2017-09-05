@@ -1,6 +1,6 @@
 <template lang='pug'>
 nav#app-header: .container
-  .address {{ address }}
+  .app-page-address {{ address }}
   template(v-if="!config.desktop")
     .header-item(v-if="config.activeMenu === 'app'" @click="close")
       i.material-icons close
@@ -67,7 +67,7 @@ export default {
 <style lang="stylus">
 @require '~@/styles/variables.styl'
 
-.address
+.app-page-address
   height 0.5rem
   font-size 0.5rem
   position fixed

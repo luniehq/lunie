@@ -1,11 +1,9 @@
-<template>
-  <btn
-    class="btn-copy"
+<template lang="pug">
+  btn.btn-copy(
     icon="copy"
     @click.native="click"
     :data-clipboard-text="value"
-    value="Copy">
-  </btn>
+    value="Copy")
 </template>
 
 <script>
@@ -34,7 +32,3 @@ export default {
   props: ['value']
 }
 </script>
-
-<style lang="stylus">
-@require '../../styles/variables.styl'
-</style>

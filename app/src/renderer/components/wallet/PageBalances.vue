@@ -1,64 +1,69 @@
-<template>
-  <div class="page-wallets">
-    <!-- <page-header title="Balances"></page-header> -->
-    <div class="address">
-      <h2 class="label">Your Address</h2>
-      <div class="address-container">
-        <card-address :address="wallet.key.address"></card-address>
-      </div>
-    </div>
-    <br />
-    <div class="wallets scrollable-area">
-      <div class="wallets-container">
-        <card-balance v-for="balance in wallet.balances"
-          :balance="balance">
-        </card-balance>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+page(title='Balances')
+  modal-search(v-if="filters.balances.search.visible")
+  tool-bar
+    a(@click='setSearch(true)'): i.material-icons search
+  part(title='Your Address')
+    list-item(dt="Address" :dd="wallet.key.address")
+  part(title="Address Balances")
+    list-item(
+      v-for="i in filteredBalances"
+      :key="i.denom"
+      :to="i.denom"
+      :dt="i.denom.toUpperCase()"
+      :dd="i.amount")
+    list-item(v-if='tmpWallet.balances.length === 0' dt="N/A" dd="None Available")
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import CardAddress from './CardAddress'
-import CardBalance from './CardBalance'
+import { includes, orderBy } from 'lodash'
+import Mousetrap from 'mousetrap'
 import Btn from '@nylira/vue-button'
-import CardNew from './CardNew'
+import ListItem from '../common/NiListItem'
+import ModalSearch from '../common/ModalSearchBalances'
+import Page from '../common/NiPage'
+import Part from '../common/NiPart'
+import ToolBar from '../common/NiToolBar'
 export default {
+  name: 'page-balances',
   components: {
-    CardAddress,
-    CardBalance,
     Btn,
-    CardNew
+    ListItem,
+    ModalSearch,
+    Page,
+    Part,
+    ToolBar
   },
   computed: {
-    ...mapGetters(['wallet'])
+    ...mapGetters(['filters', 'wallet']),
+    filteredBalances () {
+      let query = this.filters.balances.search.query
+      let list = orderBy(this.tmpWallet.balances, ['denom', 'desc'])
+      if (this.filters.balances.search.visible) {
+        return list.filter(i => includes(i.denom.toLowerCase(), query))
+      } else {
+        return list
+      }
+    }
+  },
+  data: () => ({
+    // TODO: the walletTmp data is only for previwing the page design
+    // please remove walletTmp for the actual 'wallet' from vuex
+    tmpWallet: {
+      balances: [
+        { denom: 'testcoin', amount: 134234.23423 },
+        { denom: 'ethermint', amount: 294.991254545 },
+        { denom: 'fakecoin', amount: 105923}
+      ]
+    }
+  }),
+  methods: {
+    setSearch (v) { this.$store.commit('setBalancesSearchVisible', v) },
+  },
+  mounted () {
+    Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
+    Mousetrap.bind('esc', () => this.setSearch(false))
   }
 }
 </script>
-
-<style lang="stylus">
-@require '../../styles/variables.styl'
-
-.page-wallets
-  flex 1
-  display flex
-  flex-flow column
-
-.wallets
-  flex 1
-  padding 0.25rem
-
-  .wallets-container
-    flex 1
-
-    display flex
-    flex-flow column
-
-h2.label
-  margin 10px 8px
-  font-size 0.9em
-  font-weight 500
-  text-transform uppercase
-  color rgb(96, 112, 130)
-</style>

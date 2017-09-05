@@ -7,12 +7,12 @@ page(title='Validators')
   tool-bar
     a(@click='setSearch(true)'): i.material-icons search
   list-item(
-    v-for="v in filteredValidators"
+    v-for="i in filteredValidators"
     icon='storage'
-    :key="v.node_info.moniker"
+    :key="i.node_info.moniker"
     :subtitle="todoAtoms"
-    :title="v.node_info.moniker"
-    :to="`/validators/${urlsafeIp(v.node_info.moniker)}`")
+    :title="i.node_info.moniker"
+    :to="`/validators/${urlsafeIp(i.node_info.moniker)}`")
 </template>
 
 <script>

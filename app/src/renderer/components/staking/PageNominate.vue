@@ -91,7 +91,7 @@ page(:title='pageTitle')
           step='any'
           placeholder='Enter rate'
           v-model.number='fields.commissionPercent')
-        .ni-field-addon %
+        field-addon %
       form-msg(name='Commission' type='required'
         v-if='!$v.fields.commissionPercent.required')
       form-msg(name='Commission' type='between'
@@ -108,7 +108,7 @@ page(:title='pageTitle')
           step='any'
           placeholder='Enter how much ATOM you want to self-delegate'
           v-model.number='fields.ownCoinsBonded')
-        .ni-field-addon %
+        field-addon ATOM
       form-msg(name='OwnCoinsBonded' type='required'
         v-if='!$v.fields.ownCoinsBonded.required')
       form-msg(name='OwnCoinsBonded' type='between'
@@ -149,22 +149,24 @@ page(:title='pageTitle')
 </template>
 
 <script>
+import { PrivKey } from 'tendermint-crypto'
 import { mapGetters } from 'vuex'
 import { between, minLength, maxLength, required, url } from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
+import FieldAddon from '../common/NiFieldAddon'
 import FieldGroup from '../common/NiFieldGroup'
 import FormGroup from '../common/NiFormGroup'
 import FormMsg from '../common/NiFormMsg'
 import FormStruct from '../common/NiFormStruct'
 import Page from '../common/NiPage'
 import ToolBar from '../common/NiToolBar'
-import { PrivKey } from 'tendermint-crypto'
 export default {
   name: 'page-nominate',
   components: {
     Btn,
     Field,
+    FieldAddon,
     FieldGroup,
     FormGroup,
     FormMsg,
