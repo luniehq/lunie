@@ -53,7 +53,7 @@ import FormGroup from '../common/NiFormGroup'
 import FormMsg from '../common/NiFormMsg'
 import FormStruct from '../common/NiFormStruct'
 import Page from '../common/NiPage'
-import ToolBar from '../common/ToolBar'
+import ToolBar from '../common/NiToolBar'
 export default {
   name: 'page-delegate',
   components: {
