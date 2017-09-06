@@ -23,13 +23,13 @@ export default {
         return this.filters.balances.search.query
       },
       set (val) {
-        this.$store.commit('setCandidatesSearchQuery', val)
+        this.$store.commit('setBalancesSearchQuery', val)
       }
     }
   },
   methods: {
     close () {
-      this.$store.commit('setCandidatesSearchVisible', false)
+      this.$store.commit('setBalancesSearchVisible', false)
     }
   },
   mounted () {
