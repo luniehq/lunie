@@ -1,6 +1,6 @@
 <template lang="pug">
 page(title='Validators')
-  modal-search(v-if="filters.validators.search.visible")
+  modal-search(v-if="filters.validators.search.visible" type="validators")
   tab-bar
     router-link(to="/validators" exact) Online ({{ online }})
     a Offline (0)
@@ -10,7 +10,7 @@ page(title='Validators')
     v-for="i in filteredValidators"
     icon='storage'
     :key="i.node_info.moniker"
-    :subtitle="todoAtoms"
+    :subtitle="TODOAtoms"
     :title="i.node_info.moniker"
     :to="`/validators/${urlsafeIp(i.node_info.moniker)}`")
 </template>
@@ -20,7 +20,7 @@ import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import ListItem from '../common/NiListItem'
-import ModalSearch from '../common/ModalSearchValidators'
+import ModalSearch from '../common/ModalSearch'
 import Page from '../common/NiPage'
 import TabBar from '../common/NiTabBar'
 import ToolBar from '../common/NiToolBar'
@@ -39,7 +39,7 @@ export default {
       let query = this.filters.validators.search.query
       let list = orderBy(this.validators, ['node_info.moniker', 'desc'])
       if (this.filters.validators.search.visible) {
-        return list.filter(i => includes(i.node_info.moniker.toLowerCase(), query))
+        return list.filter(i => includes(i.node_info.moniker, query))
       } else {
         return list
       }
@@ -47,13 +47,11 @@ export default {
     online () { return this.validators.length }
   },
   data: () => ({
-    todoAtoms: '13.37M ATOM'
+    TODOAtoms: '13.37M ATOM'
   }),
   methods: {
-    setSearch (v) { this.$store.commit('setValidatorsSearchVisible', v) },
-    urlsafeIp (ip) {
-      return ip.split('.').join('-')
-    }
+    setSearch (bool) { this.$store.commit('setSearchVisible', ['validators', bool]) },
+    urlsafeIp (ip) { return ip.split('.').join('-') }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))

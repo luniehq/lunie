@@ -1,6 +1,6 @@
 <template lang="pug">
 page(:title='pageTitle')
-  modal-search(v-if="filters.candidates.search.visible")
+  modal-search(v-if="filters.candidates.search.visible" type="candidates")
   tool-bar
     a(@click='setSearch(true)'): i.material-icons search
     router-link(v-if="" to='/staking/delegate') Delegate
@@ -17,7 +17,7 @@ import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import CardCandidate from './CardCandidate'
 import Field from '@nylira/vue-field'
-import ModalSearch from '../common/ModalSearchCandidates'
+import ModalSearch from '../common/ModalSearch'
 import Page from '../common/NiPage'
 import Part from '../common/NiPart'
 import PanelSort from './PanelSort'
@@ -71,7 +71,7 @@ export default {
     query: ''
   }),
   methods: {
-    setSearch (v) { this.$store.commit('setCandidatesSearchVisible', v) }
+    setSearch (bool) { this.$store.commit('setSearchVisible', ['candidates', bool]) }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))

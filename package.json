@@ -1,6 +1,6 @@
 {
-  "name": "cosmos-ui",
-  "version": "0.0.0",
+  "name": "cosmos-ui-electron",
+  "version": "0.1.0",
   "description": "The electron wrapper for Cosmos UI.",
   "scripts": {
     "build": "node tasks/release.js",

@@ -1,10 +1,13 @@
 <template lang="pug">
 page(title='Balances')
-  modal-search(v-if="filters.balances.search.visible")
+  modal-search(v-if="filters.balances.search.visible" type="balances")
   tool-bar
     a(@click='setSearch(true)'): i.material-icons search
+    anchor-copy(:value="delegator.pub_key" icon="content_copy")
+
   part(title='Your Address')
     list-item(dt="Address" :dd="wallet.key.address")
+
   part(title="Address Balances")
     list-item(
       v-for="i in filteredBalances"
@@ -19,15 +22,17 @@ page(title='Balances')
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
+import AnchorCopy from '../common/AnchorCopy'
 import Btn from '@nylira/vue-button'
 import ListItem from '../common/NiListItem'
-import ModalSearch from '../common/ModalSearchBalances'
+import ModalSearch from '../common/ModalSearch'
 import Page from '../common/NiPage'
 import Part from '../common/NiPart'
 import ToolBar from '../common/NiToolBar'
 export default {
   name: 'page-balances',
   components: {
+    AnchorCopy,
     Btn,
     ListItem,
     ModalSearch,
@@ -59,7 +64,7 @@ export default {
     }
   }),
   methods: {
-    setSearch (v) { this.$store.commit('setBalancesSearchVisible', v) }
+    setSearch (bool) { this.$store.commit('setSearchVisible', ['balances', bool]) }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))

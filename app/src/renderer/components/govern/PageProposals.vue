@@ -1,6 +1,6 @@
 <template lang="pug">
 page(title='Proposals')
-  modal-search(v-if="filters.proposals.search.visible")
+  modal-search(v-if="filters.proposals.search.visible" type="proposals")
   tool-bar
     a(@click='setSearch(true)'): i.material-icons search
     router-link(to="/proposals/new" exact): i.material-icons add
@@ -13,7 +13,7 @@ import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import LiProposal from './LiProposal'
-import ModalSearch from '../common/ModalSearchProposals'
+import ModalSearch from '../common/ModalSearch'
 import TabBar from '../common/NiTabBar'
 import ToolBar from '../common/NiToolBar'
 import Page from '../common/NiPage'
@@ -65,7 +65,7 @@ export default {
       this.$store.commit('notify', { title: 'TODO: Archive Proposals', body: 'Work in progress.' })
     },
     gotoNewProposal () { this.$router.push('/proposals/new') },
-    setSearch (v) { this.$store.commit('setProposalsSearchVisible', v) }
+    setSearch (bool) { this.$store.commit('setSearchVisible', ['proposals', bool]) }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))

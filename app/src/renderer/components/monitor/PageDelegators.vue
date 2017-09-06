@@ -1,6 +1,6 @@
 <template lang='pug'>
 page(title='Delegators')
-  modal-search(v-if="filters.delegators.search.visible")
+  modal-search(v-if="filters.delegators.search.visible" type="delegators")
   tool-bar
     a(@click='setSearch(true)'): i.material-icons search
   tab-bar
@@ -20,7 +20,7 @@ import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import ListItem from '../common/NiListItem'
-import ModalSearch from '../common/ModalSearchDelegators'
+import ModalSearch from '../common/ModalSearch'
 import Page from '../common/NiPage'
 import TabBar from '../common/NiTabBar'
 import ToolBar from '../common/NiToolBar'
@@ -61,7 +61,7 @@ export default {
     }
   }),
   methods: {
-    setSearch (v) { this.$store.commit('setDelegatorsSearchVisible', v) }
+    setSearch (bool) { this.$store.commit('setSearchVisible', ['delegators', bool]) }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))

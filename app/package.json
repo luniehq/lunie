@@ -1,6 +1,6 @@
 {
-  "name": "cosmos-ui-vue",
-  "version": "0.0.0",
+  "name": "cosmos-ui",
+  "version": "0.1.0",
   "description": "The user interface for Cosmos, built in Vue.",
   "main": "./dist/main.js",
   "author": "All In Bits, Inc <hello@tendermint.com>",

@@ -18,11 +18,11 @@ page(icon="computer" :title="delegator.id")
 
 <script>
 import { mapGetters } from 'vuex'
+import AnchorCopy from '../common/AnchorCopy'
 import ListItem from '../common/NiListItem'
 import ToolBar from '../common/NiToolBar'
 import Page from '../common/NiPage'
 import Part from '../common/NiPart'
-import AnchorCopy from '../common/AnchorCopy'
 export default {
   name: 'page-delegator',
   components: {
