@@ -3,7 +3,7 @@ page(title='Balances')
   modal-search(v-if="filters.balances.search.visible" type="balances")
   tool-bar
     a(@click='setSearch(true)'): i.material-icons search
-    anchor-copy(:value="delegator.pub_key" icon="content_copy")
+    anchor-copy(:value="wallet.key.address" icon="content_copy")
 
   part(title='Your Address')
     list-item(dt="Address" :dd="wallet.key.address")
