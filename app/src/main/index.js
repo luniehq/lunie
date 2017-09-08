@@ -233,7 +233,7 @@ let initBaseserver = watt(function * (home, next) {
   let child = startProcess(SERVER_BINARY, [
     'init',
     '--home', home,
-    '--chain-id', 'test_chain_id', // TODO: configurable
+    '--chain-id', 'mercury', // TODO: configurable
     '--node', 'localhost:46657'
   ])
   child.stdout.on('data', (data) => {

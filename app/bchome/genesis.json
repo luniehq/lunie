@@ -1,30 +1,198 @@
 {
-  "app_hash": "",
-  "chain_id": "test_chain_id",
-  "genesis_time": "0001-01-01T00:00:00.000Z",
+  "genesis_time":"2017-09-08T01:26:55Z",
+  "chain_id":"mercury",
   "validators": [
     {
-      "amount": 10,
-      "name": "",
       "pub_key": {
-        "type": "ed25519",
-        "data": "435148AA8B44BD3FE5597063940C221D24F23FB59F9DD063CBCF208D06488FAF"
-      }
+        "data": "11E14AEF7F58B8993A982543A772926D4992667F9C0D85D560D5BDDE69D91F32",
+        "type": "ed25519"
+      },
+      "amount":10,
+      "name":"159.203.99.115"
+    }
+    ,
+    {
+      "pub_key": {
+        "data": "576EC5CE3E7EF0EA4658CC383320167ABB55A166A1B4FDF115C0F5E1C79D335D",
+        "type": "ed25519"
+      },
+      "amount":10,
+      "name":"128.199.127.44"
+    }
+    ,
+    {
+      "pub_key": {
+        "data": "183968B831D766BA5ABF76E57947FEDBDFDE086A26760AED20E9340526AB1EA8",
+        "type": "ed25519"
+      },
+      "amount":10,
+      "name":"138.68.16.197"
+    }
+    ,
+    {
+      "pub_key": {
+        "data": "C852501D617BB00A639EFB8AC3804719B465EEF7C0538868899C0AF2AD777F05",
+        "type": "ed25519"
+      },
+      "amount":10,
+      "name":"178.62.86.11"
+    }
+    ,
+    {
+      "pub_key": {
+        "data": "8EE5D6AC0FBB7E503D30A86179BDF51EA892055C7530E7826ABF5237BB796ED9",
+        "type": "ed25519"
+      },
+      "amount":10,
+      "name":"159.203.27.63"
+    }
+    ,
+    {
+      "pub_key": {
+        "data": "2034FE95685D66AD8ED6274CC2C54736314F85C737DD8F11CE46458A6B7346CD",
+        "type": "ed25519"
+      },
+      "amount":10,
+      "name":"46.101.181.61"
+    }
+    ,
+    {
+      "pub_key": {
+        "data": "A7D1D76E347967DC40BB3C6329102A893B2F2720563107A9F55096F64809F0D3",
+        "type": "ed25519"
+      },
+      "amount":10,
+      "name":"192.81.221.89"
     }
   ],
+  "app_hash":"",
   "app_options": {
-    "accounts": [{
-      "address": "A2336641D3CCF392A1588070C5E9FA5A38027D07",
-      "coins": [
-        {
-          "denom": "mycoin",
-          "amount": 9007199254740992
+    "accounts": [
+      {
+        "name": "relay",
+        "address": "1B1BE55F969F54064628A63B9559E7C21C925165",
+        "pub_key": {
+          "type": "ed25519",
+          "data": "619D3678599971ED29C7529DDD4DA537B97129893598A17C82E3AC9A8BA95279"
         },
-        {
-          "denom": "atom",
-          "amount": 9007199254740992
-        }
-      ]
-    }]
-  }
+        "coins": [
+          {
+            "denom": "mycoin",
+            "amount": 9007199254740992
+          }
+        ]
+      },
+      {
+        "name": "gregkey",
+        "address": "B01C264BFE9CBD45458256E613A6F07061A3A6B6",
+        "pub_key": {
+          "type": "ed25519",
+          "data": "E1FFBD187FA2A922CE1B367532CEAC1AD8E606D576AB0D2E2CAA7EC6B7DAC10F"
+        },
+        "coins": [
+          {
+            "denom": "mycoin",
+            "amount": 9007199254740991
+          }
+        ]
+      },
+      {
+        "name": "anton",
+        "address": "40CC622438D3E42148A1FFD3A27C07C100F8FA3D",
+        "pub_key": {
+          "type": "ed25519",
+          "data": "97BD389257763747488803DC686A8819C685936A3CD275D54EABEE51E0117EE6"
+        },
+        "coins": [
+          {
+            "denom": "anton",
+            "amount": 9007199254740992
+          },
+          {
+            "denom": "tank",
+            "amount": 99
+          }
+        ]
+      },
+      {
+        "name": "adrian",
+        "address": "98F28277FA8C512968BBDE443F5DB27AC743F814",
+        "pub_key": {
+          "type": "ed25519",
+          "data": "2E7EAB9E4C93D3657A63E063D6ABB851596BA97ED9F4EB9A2FC714043DC9685D"
+        },
+        "coins": [
+          {
+            "denom": "axi",
+            "amount": 1928936473812
+          },
+          {
+            "denom": "bear",
+            "amount": 42
+          }
+        ]
+      },
+      {
+        "name": "bucky",
+        "address": "2B24DEE2364762300168DF19B6C18BCE2D399EA2",
+        "pub_key": {
+          "type": "ed25519",
+          "data": "37BF9D6F8D66DC3FAECD330291CF08DF52E2F646B01F7E43BC0A746AED927A62"
+        },
+        "coins": [
+          {
+            "denom": "buckyball",
+            "amount": 20000000000
+          },
+          {
+            "denom": "bumblebee",
+            "amount": 100
+          },
+          {
+            "denom": "french",
+            "amount": 10
+          },
+          {
+            "denom": "frey",
+            "amount": 4838271727204
+          }
+        ]
+      },
+      {
+        "name": "rigel",
+        "address": "3A8BE0EEE474C8D197AA14312B59ACB2D9DFECDE",
+        "pub_key": {
+          "type": "ed25519",
+          "data": "C7CAC198E3999C4DD9F25C575C4C10587C083F73B1E985AC65658992DE6B552E"
+        },
+        "coins": [
+          {
+            "denom": "radio",
+            "amount": 50
+          },
+          {
+            "denom": "tv",
+            "amount": 3478765434568
+          }
+        ]
+      },
+      {
+        "name": "shadow",
+        "address": "B140EFAAE6D5CA1C8E98814C557AF7112E3B9EAE",
+        "pub_key": {
+          "type": "ed25519",
+          "data": "F492282705DF29ACC3BB803D543B7BF98C8080FA28AE85B62B45827EA9DA8167"
+        },
+        "coins": [
+          {
+            "denom": "shadow",
+            "amount": 53712836452781
+          },
+          {
+            "denom": "unit",
+            "amount": 1
+          }
+        ]
+      }
+    ]  }
 }
