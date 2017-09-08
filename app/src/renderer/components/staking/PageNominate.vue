@@ -1,9 +1,13 @@
 <template lang='pug'>
 page(:title='pageTitle')
   tool-bar
-    btn(v-if='user.nominationActive' theme='cosmos' type='link'
-      icon='eye' value='View Candidate'
-      :to="{name: 'candidate', params: { candidate: fields.id }}")
+    router-link(v-if='user.nominationActive' :to="{name: 'candidate', params: { candidate: fields.id }}")
+      | #[i.material-icons eye] View Candidate
+    div
+    a(v-if='user.nominationActive' @click='onSubmit')
+      | #[i.material-icons refresh] Update Nomination
+    a(v-else @click='onSubmit')
+      | #[i.material-icons check] Nominate
   form-struct(:submit='onSubmit')
     form-group(:error='$v.fields.id.$error')
       label(for='form-nominate-id') Keybase ID
@@ -139,13 +143,6 @@ page(:title='pageTitle')
           v-model.trim='fields.ipAddress')
       form-msg(name='IP Address' type='ipAddress'
         v-if='!$v.fields.ipAddress.ipAddress')
-
-    div(slot='footer')
-      div
-      btn(v-if='user.nominationActive'
-        theme='cosmos' type='submit' icon='refresh' value='Update Nomination')
-      btn(v-else
-        theme='cosmos' type='submit' icon='check' value='Submit Nomination')
 </template>
 
 <script>
