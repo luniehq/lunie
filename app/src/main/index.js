@@ -187,9 +187,11 @@ function startBaseserver (home, cb) {
   child.on('exit', () => {
     if (shuttingDown) return
     console.log('baseserver crashed, restarting')
-    startBaseserver(home, (err) => {
-      if (err) console.log(err)
-    })
+    setTimeout(() => {
+      startBaseserver(home, (err) => {
+        if (err) console.log(err)
+      })
+    }, 1000)
   })
 
   return child
