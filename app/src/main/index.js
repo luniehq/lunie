@@ -9,6 +9,7 @@ import watt from 'watt'
 import mkdirp from 'mkdirp'
 import RpcClient from 'tendermint'
 
+let shuttingDown = false
 let mainWindow
 let basecoinProcess, baseserverProcess
 const DEV = process.env.NODE_ENV === 'development'
@@ -21,6 +22,7 @@ let SERVER_BINARY = 'baseserver'
 
 function shutdown () {
   mainWindow = null
+  shuttingDown = true
 
   if (basecoinProcess) {
     basecoinProcess.kill()
@@ -180,6 +182,16 @@ function startBaseserver (home, cb) {
     child.removeListener('data', waitForReady)
     cb(null)
   }
+
+  // restore baseserver if it crashes
+  child.on('exit', () => {
+    if (shuttingDown) return
+    console.log('baseserver crashed, restarting')
+    startBaseserver(home, (err) => {
+      if (err) console.log(err)
+    })
+  })
+
   return child
 }
 
