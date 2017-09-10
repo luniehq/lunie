@@ -15,7 +15,7 @@ page(title='Balances')
       :to="i.denom"
       :dt="i.denom.toUpperCase()"
       :dd="i.amount")
-    list-item(v-if='tmpWallet.balances.length === 0' dt="N/A" dd="None Available")
+    list-item(v-if='wallet.balances.length === 0' dt="N/A" dd="None Available")
 </template>
 
 <script>
@@ -44,7 +44,7 @@ export default {
     ...mapGetters(['filters', 'wallet']),
     filteredBalances () {
       let query = this.filters.balances.search.query
-      let list = orderBy(this.tmpWallet.balances, ['denom', 'desc'])
+      let list = orderBy(this.wallet.balances, ['denom', 'desc'])
       if (this.filters.balances.search.visible) {
         return list.filter(i => includes(i.denom.toLowerCase(), query))
       } else {
@@ -52,17 +52,6 @@ export default {
       }
     }
   },
-  data: () => ({
-    // TODO: the walletTmp data is only for previwing the page design
-    // please remove walletTmp for the actual 'wallet' from vuex
-    tmpWallet: {
-      balances: [
-        { denom: 'testcoin', amount: 134234.23423 },
-        { denom: 'ethermint', amount: 294.991254545 },
-        { denom: 'fakecoin', amount: 105923 }
-      ]
-    }
-  }),
   methods: {
     setSearch (bool) { this.$store.commit('setSearchVisible', ['balances', bool]) }
   },

@@ -4,7 +4,11 @@ const KEY_PASSWORD = '1234567890'
 
 export default ({ commit, node }) => {
   let state = {
-    balances: [],
+    balances: [
+      // TODO: set denom list dynamically somehow
+      { denom: 'atom', amount: 0 },
+      { denom: 'mycoin', amount: 0 }
+    ],
     sequence: 0,
     key: { address: '' }
   }
