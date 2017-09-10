@@ -133,10 +133,12 @@ function startBasecoin (root, cb) {
     }
   }
 
-  let child = startProcess(NODE_BINARY, [
+  let args = [
     'start',
     '--home', root
-  ], opts)
+  ]
+  if (DEV) args.push('--log_level', 'info')
+  let child = startProcess(NODE_BINARY, args, opts)
   child.stdout.pipe(log)
   child.stderr.pipe(log)
 
