@@ -88,7 +88,7 @@ function createWindow () {
   Menu.setApplicationMenu(Menu.buildFromTemplate(template))
 }
 
-function startProcess (name, ...args) {
+function startProcess (name, args, env) {
   let binPath
   if (DEV) {
     // in dev mode, use binaries installed in GOPATH
@@ -100,9 +100,12 @@ function startProcess (name, ...args) {
     binPath = join(__dirname, '..', 'bin', name)
   }
 
-  let child = spawn(binPath, ...args)
+  let argString = args.map((arg) => JSON.stringify(arg)).join(' ')
+  console.log(`spawning ${binPath} with args "${argString}"`)
+  let child = spawn(binPath, args, env)
   child.stdout.on('data', (data) => console.log(`${name}: ${data}`))
   child.stderr.on('data', (data) => console.log(`${name}: ${data}`))
+  child.on('exit', (code) => console.log(`${name} exited with code ${code}`))
   return child
 }
 
