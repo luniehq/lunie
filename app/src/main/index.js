@@ -144,10 +144,14 @@ function startBasecoin (root, cb) {
 
   let rpc = RpcClient('localhost:46657')
   let interval = setInterval(() => {
+    console.log('trying to get tendermint RPC status')
     rpc.status((err, res) => {
       if (err) return
       if (!res) return
-      if ((res.latest_block_time / 1e6) < (Date.now() - 1000 * 60 * 60 * 24)) return
+      if (res.syncing) {
+        console.log(`syncing blockchain... (height ${res.latest_block_height})`)
+        return
+      }
       done()
     })
   }, 1000)
