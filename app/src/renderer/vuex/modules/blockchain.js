@@ -22,7 +22,7 @@ export default ({ commit, basecoin }) => {
       let url = state.urlPrefix + state.blockchainName + state.urlSuffix
       // console.log(url + '/status')
       request.get(url + '/status').end((err, res) => {
-        if (err) { console.log('err', err) }
+        if (err) { return console.error('err', err) }
         // console.log('status', JSON.stringify(res.body.result, null, 2))
         state.status = res.body.result
       })
@@ -31,17 +31,17 @@ export default ({ commit, basecoin }) => {
       let url = state.urlPrefix + state.blockchainName + state.urlSuffix
       // console.log(url + '/abci_info')
       request.get(url + '/abci_info').end((err, res) => {
-        if (err) { console.log('err', err) }
+        if (err) { return console.error('err', err) }
         // console.log('abci_info', JSON.stringify(res.body.result, null, 2))
         state.abciInfo = res.body.result.response
       })
     }
   }
 
-  requestInterval(1000, () => {
-    mutations.getStatus(state)
-    mutations.getAbciInfo(state)
-  })
+  // requestInterval(1000, () => {
+  //   mutations.getStatus(state)
+  //   mutations.getAbciInfo(state)
+  // })
 
   return { state, mutations }
 }
