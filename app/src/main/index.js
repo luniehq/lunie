@@ -220,12 +220,18 @@ let initBasecoin = watt(function * (root, next) {
   yield child.on('exit', next.arg(0))
 
   if (DEV) {
-    // insert our pubkey into genesis validator set
+    // replace validator set so our node has 100% of voting power
     let privValidatorBytes = yield fs.readFile(join(root, 'priv_validator.json'), next)
     let privValidator = JSON.parse(privValidatorBytes.toString())
     let genesisBytes = yield fs.readFile(join(root, 'genesis.json'), next)
     let genesis = JSON.parse(genesisBytes.toString())
-    genesis.validators[0].pub_key = privValidator.pub_key
+    genesis.validators = [
+      {
+        pub_key: privValidator.pub_key,
+        amount: 100,
+        name: 'dev_validator'
+      }
+    ]
     genesisBytes = JSON.stringify(genesis, null, '  ')
     yield fs.writeFile(join(root, 'genesis.json'), genesisBytes, next)
   }
