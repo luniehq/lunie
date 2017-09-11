@@ -3,8 +3,8 @@ page(title="Proposal: Upgrade Code")
   tool-bar
     router-link(to="/proposals/new" exact): i.material-icons arrow_back
   form-struct(:submit="onSubmit")
-    form-group(:error="$v.fields.title.$error")
-      label(for="proposal-title") Proposal Title
+    form-group(:error="$v.fields.title.$error"
+      field-id='proposal-title' field-label='Proposal Title')
       field#proposal-title(
         type="text"
         placeholder="Proposal Title"
@@ -14,8 +14,8 @@ page(title="Proposal: Upgrade Code")
       form-msg(name='Proposal Title' type='length'
         :min='titleMinLength' :max='titleMaxLength'
         v-if='!$v.fields.title.minLength || !$v.fields.title.maxLength')
-    form-group(:error="$v.fields.body.$error")
-      label(for="proposal-body") Proposal Body
+    form-group(:error="$v.fields.body.$error"
+      field-id='proposal-body' field-label='Proposal Body')
       field#proposal-body(
         type="textarea"
         placeholder="Write your proposal here..."

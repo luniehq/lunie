@@ -1,8 +1,7 @@
-<template>
-  <div :class="cssClass">
-    <template v-if="name">{{ name }} {{ error }}</template>
-    <slot v-else></slot>
-  </div>
+<template lang='pug'>
+div(:class='cssClass')
+  template(v-if='name') {{ name }} {{ error }}
+  slot(v-else='')
 </template>
 
 <script>
@@ -63,6 +62,7 @@ export default {
   line-height 2rem
   font-size 0.75rem
   display flex
+  margin 0 !important
  
 .ni-form-msg:before
   content ''

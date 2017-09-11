@@ -9,8 +9,8 @@ page(:title='pageTitle')
     a(v-else @click='onSubmit')
       | #[i.material-icons check] Nominate
   form-struct(:submit='onSubmit')
-    form-group(:error='$v.fields.id.$error')
-      label(for='form-nominate-id') Keybase ID
+    form-group( error='$v.fields.id.$error'
+      field-id='form-nominate-id' field-label='Keybase ID')
       field(
         v-if="user.nominationActive"
         id='form-nominate-id'
@@ -33,8 +33,8 @@ page(:title='pageTitle')
         :min='config.CANDIDATE.KEYBASE_MIN' :max='config.CANDIDATE.KEYBASE_MAX'
         v-if='!$v.fields.id.minLength || !$v.fields.id.maxLength')
 
-    form-group(:error='$v.fields.description.$error')
-      label(for='form-nominate-description') Description
+    form-group(:error='$v.fields.description.$error'
+      field-id='form-nominate-descripton' field-label='Description')
       field(
         id='form-nominate-description'
         theme='cosmos'
@@ -47,8 +47,8 @@ page(:title='pageTitle')
         :min='config.CANDIDATE.DESCRIPTION_MIN' :max='config.CANDIDATE.DESCRIPTION_MAX'
         v-if='!$v.fields.description.minLength || !$v.fields.description.maxLength')
 
-    form-group(:error='$v.fields.serverDetails.$error')
-      label(for='form-nominate-server-power') Server Power
+    form-group(:error='$v.fields.serverDetails.$error'
+      field-id='form-nominate-server-power' field-label='Server Power')
       field(
         id='form-nominate-server-power'
         theme='cosmos'
@@ -61,21 +61,8 @@ page(:title='pageTitle')
         :min='config.CANDIDATE.DESCRIPTION_MIN' :max='config.CANDIDATE.DESCRIPTION_MAX'
         v-if='!$v.fields.serverDetails.minLength || !$v.fields.serverDetails.maxLength')
 
-    // form-group(:error='$v.fields.startDate.$error')
-      label(for='form-nominate-start-date') Start Date
-      field(
-        id='form-nominate-start-date'
-        theme='cosmos'
-        type='datetime'
-        placeholder='Select start date...'
-        v-model='fields.startDate')
-      form-msg(name='Start Date' type='required'
-        v-if='!$v.fields.startDate.required')
-      form-msg(name='Start Date' type='datetime'
-        v-if='!$v.fields.startDate.datetime')
-
-    form-group(:error='$v.fields.country.$error')
-      label(for='form-nominate-country') Country
+    form-group(:error='$v.fields.country.$error'
+      field-id='form-nominate-country' field-label='Country')
       field(
         id='form-nominate-country'
         theme='cosmos'
@@ -85,8 +72,8 @@ page(:title='pageTitle')
       form-msg(name='Country' type='required'
         v-if='!$v.fields.country.required')
 
-    form-group(:error='$v.fields.commissionPercent.$error')
-      label(for='form-nominate-commission-percent') Commission Percent
+    form-group(:error='$v.fields.commissionPercent.$error'
+      field-id='form-nominate-commission-percent' field-label='Commission Percent')
       field-group
         field(
           id='form-nominate-commission-percent'
@@ -102,8 +89,8 @@ page(:title='pageTitle')
         :min='config.CANDIDATE.COMMISSION_MIN' :max='config.CANDIDATE.COMMISSION_MAX'
         v-if='!$v.fields.commissionPercent.between')
 
-    form-group(:error='$v.fields.ownCoinsBonded.$error')
-      label(for='form-atoms-to-bond') Atoms To Bond
+    form-group(:error='$v.fields.ownCoinsBonded.$error'
+      field-id='form-nominate-atoms-to-bond' field-label='Atoms to Bond')
       field-group
         field(
           id='form-atoms-to-bond'
@@ -119,8 +106,8 @@ page(:title='pageTitle')
         :min='config.CANDIDATE.SELF_BOND_MIN' :max='config.CANDIDATE.SELF_BOND_MAX'
         v-if='!$v.fields.ownCoinsBonded.between')
 
-    form-group(:error='$v.fields.website.$error')
-      label(for='form-nominate-website') Website
+    form-group(:error='$v.fields.website.$error'
+      field-id='form-nominate-website' field-label='Website')
       field(
         id='form-nominate-website'
         theme='cosmos'
@@ -132,8 +119,8 @@ page(:title='pageTitle')
       form-msg(name='Website' type='url'
         v-if='!$v.fields.website.url')
 
-    form-group(:error='$v.fields.ipAddress.$error')
-      label(for='form-nominate-ip-address') Public IP Address (Optional)
+    form-group(:error='$v.fields.ipAddress.$error'
+      field-id='form-nominate-ip-address' field-label='Website (Optional')
       field-group
         field(
           id='form-nominate-address'

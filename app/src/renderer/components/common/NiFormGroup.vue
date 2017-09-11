@@ -1,7 +1,7 @@
-<template>
-  <div :class="cssClass">
-    <slot></slot>
-  </div>
+<template lang='pug'>
+div(:class='cssClass')
+  label(:for='fieldId') {{ fieldLabel }}
+  .ni-form-group-field: slot
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
       return value
     }
   },
-  props: ['error']
+  props: ['error', 'field-id', 'field-label']
 }
 </script>
 
@@ -42,4 +42,17 @@ export default {
       border-color #f00
     .ni-form-msg-error
       display flex
+
+@media (min-width: 768px)
+  .ni-form-group
+    display flex
+    label
+      flex 0 0 16rem
+    .ni-form-group-field
+      flex 1
+
+  .ni-form-group-field
+    > .ni-field
+    > .ni-field-group
+      width 100%
 </style>
