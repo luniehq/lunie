@@ -1,37 +1,33 @@
 <template lang='pug'>
 page(title='Send Coins')
   form-struct(:submit='verifySend')
-    form-group(:error='$v.fields.denom.$error')
-      label Denomination
-      field-group.denoms
+    form-group(:error='$v.fields.denom.$error'
+      field-id='send-denomination' field-label='Denomination')
+      field-group#send-denomination.denoms
         btn.denom(
           v-for='balance in wallet.balances'
           @click.native='setDenom(balance.denom, $event)'
           :value="balance.denom.toUpperCase()")
         btn.denom(v-if="wallet.balances.length == 0" value="N/A" disabled)
 
-        // field(type='select' :options='blockchainOptions' v-model='blockchainName')
-        //
-          <field
-          id="send-denom"
+        // field#send-denomination(
           type="select"
           v-model="fields.denom"
           @input="$v.fields.denom.$touch()"
           placeholder="Denomination"
-          required>
-          </field>
+          required)
       form-msg(name='Denomination', type='required', v-if='!$v.fields.denom.required')
 
-    form-group(:error='$v.fields.address.$error')
-      label(for='send-address') Pay To
+    form-group(:error='$v.fields.address.$error'
+      field-id='send-address' field-label='Pay To')
       field-group
         field#send-address(type='text', v-model='fields.address', @input='$v.fields.address.$touch()', placeholder='Address', required='')
       form-msg(name='Address', type='required', v-if='!$v.fields.address.required')
       form-msg(name='Address', type='exactLength', length='40', v-if='!$v.fields.address.minLength || !$v.fields.address.maxLength')
       form-msg(name='Address', type='alphaNum', v-if='!$v.fields.address.alphaNum')
 
-    form-group(:error='$v.fields.amount.$error')
-      label(for='send-amount') Amount
+    form-group(:error='$v.fields.amount.$error'
+      field-id='send-amount' field-label='Amount')
       field-group
         field#send-amount(type='number', v-model='fields.amount', @input='$v.fields.amount.$touch()', placeholder='Amount', required='')
         field-addon Coins

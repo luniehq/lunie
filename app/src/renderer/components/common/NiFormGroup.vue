@@ -38,7 +38,7 @@ export default {
     display none
 
   &.form-group-error
-    .ni-field
+    .ni-field, .ni-select
       border-color #f00
     .ni-form-msg-error
       display flex

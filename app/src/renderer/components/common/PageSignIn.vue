@@ -11,14 +11,14 @@ page(title='Welcome to Cosmos' v-if="signInStep === 0")
 
       p Now that you have been thoroughly warned, please type in “{{ welcomeFields.agreement }}” into the input field below.
 
-  part(title="Agreement")
+  part()
 
     form-struct(:submit="welcomeOnSubmit")
-      form-group(:error="$v.welcomeFields.repeatAgreement.$error")
-        field(
-          theme="cosmos"
+      form-group(:error="$v.welcomeFields.repeatAgreement.$error"
+        field-id="signin-agreement" field-label="Repeat Agreement")
+        field#signin-agreement(
           type="text"
-          placeholder="Type here..."
+          placeholder="Enter here"
           v-model="welcomeFields.repeatAgreement")
         form-msg(
           name="Agreement"
@@ -34,10 +34,9 @@ page(title='Welcome to Cosmos' v-if="signInStep === 0")
 
 page(title='Sign In' v-else)
   form-struct(:submit='signInOnSubmit')
-    form-group(:error='$v.signInFields.seed.$error')
-      label 12-Word Seed
-      field(
-        theme='cosmos'
+    form-group(:error='$v.signInFields.seed.$error'
+      field-id="signin-seed" field-label="12-Word Seed")
+      field#signin-seed(
         type='text'
         placeholder='Input seed...'
         v-model='signInFields.seed')
