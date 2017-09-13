@@ -9,7 +9,7 @@ let wallet = r.bind(null, 'wallet')
 
 export default [
   // GOVERN
-  { path: '/', name: 'proposals', component: govern('Proposals') },
+  { path: '/proposals', name: 'proposals', component: govern('Proposals') },
   { path: '/proposals/new', component: govern('ProposalsNew') },
   { path: '/proposals/new/adjust', component: govern('ProposalsNewAdjust') },
   { path: '/proposals/new/amend', component: govern('ProposalsNewAmend') },
@@ -76,7 +76,8 @@ export default [
   { path: '/signin', name: 'signin', component: common('SignIn') },
   { path: '/profile', name: 'profile', component: common('Profile') },
 
-  // wallet
+  // WALLET
+  { path: '/', name: 'balances', component: wallet('Balances') },
   { path: '/wallet', name: 'balances', component: wallet('Balances') },
   { path: '/wallet/send', name: 'send', component: wallet('Send') },
   { path: '/wallet/receive', name: 'receive', component: wallet('Receive') },
