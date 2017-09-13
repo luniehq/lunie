@@ -42,10 +42,12 @@ function createWindow () {
     height: 600,
     webPreferences: { webSecurity: false }
   })
-  mainWindow.maximize()
+  // mainWindow.maximize()
 
   mainWindow.loadURL(winURL)
-  if (DEV) mainWindow.webContents.openDevTools()
+  if (DEV || process.env.COSMOS_DEVTOOLS) {
+    mainWindow.webContents.openDevTools()
+  }
 
   mainWindow.on('closed', shutdown)
 
