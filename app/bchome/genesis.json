@@ -1,68 +1,42 @@
 {
-  "genesis_time":"2017-09-08T01:26:55Z",
-  "chain_id":"mercury",
+  "genesis_time":"2017-09-12T22:13:16Z",
+  "chain_id":"sdk1",
   "validators": [
+
     {
       "pub_key": {
-        "data": "11E14AEF7F58B8993A982543A772926D4992667F9C0D85D560D5BDDE69D91F32",
+        "data": "A371DC88F4DCFC2C77CE3FB39A52AC7832E9CD7D4948B7DABDF7F7DDA70966C0",
         "type": "ed25519"
       },
       "amount":10,
-      "name":"159.203.99.115"
+      "name":"46.101.42.155"
     }
     ,
     {
       "pub_key": {
-        "data": "576EC5CE3E7EF0EA4658CC383320167ABB55A166A1B4FDF115C0F5E1C79D335D",
+        "data": "5AF3D8A8623DA0284FB56445FB1360073B9FEFB96398342694538C8B64781A28",
         "type": "ed25519"
       },
       "amount":10,
-      "name":"128.199.127.44"
+      "name":"165.227.190.188"
     }
     ,
     {
       "pub_key": {
-        "data": "183968B831D766BA5ABF76E57947FEDBDFDE086A26760AED20E9340526AB1EA8",
+        "data": "9EF53A10905049B1D76421765D0ED8CAD7A24EFB203CF0C8734CCD78BF7FF845",
         "type": "ed25519"
       },
       "amount":10,
-      "name":"138.68.16.197"
+      "name":"165.227.149.101"
     }
     ,
     {
       "pub_key": {
-        "data": "C852501D617BB00A639EFB8AC3804719B465EEF7C0538868899C0AF2AD777F05",
+        "data": "330B41A8C7ED39D7EC4085E899566496E833D22EEE6142902E4FCD3A686CD2CF",
         "type": "ed25519"
       },
       "amount":10,
-      "name":"178.62.86.11"
-    }
-    ,
-    {
-      "pub_key": {
-        "data": "8EE5D6AC0FBB7E503D30A86179BDF51EA892055C7530E7826ABF5237BB796ED9",
-        "type": "ed25519"
-      },
-      "amount":10,
-      "name":"159.203.27.63"
-    }
-    ,
-    {
-      "pub_key": {
-        "data": "2034FE95685D66AD8ED6274CC2C54736314F85C737DD8F11CE46458A6B7346CD",
-        "type": "ed25519"
-      },
-      "amount":10,
-      "name":"46.101.181.61"
-    }
-    ,
-    {
-      "pub_key": {
-        "data": "A7D1D76E347967DC40BB3C6329102A893B2F2720563107A9F55096F64809F0D3",
-        "type": "ed25519"
-      },
-      "amount":10,
-      "name":"192.81.221.89"
+      "name":"37.139.30.72"
     }
   ],
   "app_hash":"",
