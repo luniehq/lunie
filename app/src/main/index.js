@@ -210,7 +210,7 @@ let initialBchomeDataPath = watt(function * (next) {
 })
 
 let initBasecoin = watt(function * (root, next) {
-  let err = yield fs.access(root, next.arg(0))
+  let err = yield fs.access(join(root, 'genesis.json'), next.arg(0))
   if (err && err.code !== 'ENOENT') throw err
   if (!err) return // if already exists, skip init
   let opts = {
@@ -264,7 +264,7 @@ let initBaseserver = watt(function * (home, next) {
   let child = startProcess(SERVER_BINARY, [
     'init',
     '--home', home,
-    '--chain-id', 'mercury', // TODO: configurable
+    '--chain-id', 'sdk1', // TODO: configurable
     '--node', 'localhost:46657'
   ])
   child.stdout.on('data', (data) => {
@@ -279,6 +279,23 @@ process.on('exit', shutdown)
 
 watt(function * (next) {
   let root = require('../root.js')
+  yield mkdirp(root, next)
+
+  if (!DEV) {
+    // redirect stdout/err to logfile
+    let mainLog = fs.createWriteStream(join(root, 'main.log'))
+    console.log = function (...args) {
+      mainLog.write(`${args.join(' ')}\n`)
+    }
+    console.error = function (...args) {
+      mainLog.write(`stderr: ${args.join(' ')}\n`)
+    }
+  }
+
+  console.log('starting app')
+  console.log(`dev mode: ${DEV}`)
+  console.log(`winURL: ${winURL}`)
+
   yield initBasecoin(root)
 
   console.log('starting basecoin')
