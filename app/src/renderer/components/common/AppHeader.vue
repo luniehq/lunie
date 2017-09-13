@@ -1,6 +1,5 @@
 <template lang='pug'>
 nav#app-header: .container
-  .app-page-address {{ address }}
   template(v-if="!config.desktop")
     .header-item(v-if="config.activeMenu === 'app'" @click="close")
       i.material-icons close
