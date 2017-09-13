@@ -12,10 +12,10 @@ export default ({ node }) => {
   }
 
   const mutations = {
-    setSync (state, { height, time }) {
+    setSync (state, { height, time, syncing }) {
       state.syncHeight = height
       state.syncTime = time
-      state.syncing = (Date.now() - time) > 15e3
+      state.syncing = syncing
     },
     setNumPeers (state, numPeers) {
       state.numPeers = numPeers
@@ -30,7 +30,8 @@ export default ({ node }) => {
           let status = res
           commit('setSync', {
             height: status.latest_block_height,
-            time: status.latest_block_time / 1e6
+            time: status.latest_block_time / 1e6,
+            syncing: status.syncing
           })
         })
         rpc.netInfo((err, res) => {

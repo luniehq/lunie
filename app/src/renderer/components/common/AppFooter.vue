@@ -3,7 +3,7 @@ footer.app-footer
   .container
     .status(v-if='syncing')
       i.fa.yellow.fa-spin.fa-refresh
-      |  Syncing chain&hellip; (\#{{ syncHeight }})
+      |  Syncing chain&hellip; \#{{ syncHeight }} ({{ new Date(syncTime).toISOString() }})
     .status(v-else='')
       i.fa.green.fa-circle
       |  Chain up-to-date (\#{{ syncHeight }})
