@@ -152,8 +152,8 @@ function startBasecoin (root, cb) {
     rpc.status((err, res) => {
       if (err) return
       if (!res) return
-      if (res.syncing) {
-        console.log(`syncing blockchain... (height ${res.latest_block_height})`)
+      if (res.latest_block_height === 0) {
+        console.log('waiting for blockchain to start syncing')
         return
       }
       done()
@@ -175,7 +175,7 @@ function startBaseserver (home, cb) {
   let child = startProcess(SERVER_BINARY, [
     'serve',
     '--home', home
-  ])
+  ], { env: { BC_TRUST_NODE: 1 } })
   child.stderr.on('data', waitForReady)
   child.stdout.pipe(log)
   child.stderr.pipe(log)
