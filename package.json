@@ -22,7 +22,7 @@
     "unit": "cross-env BABEL_ENV=testing-unit karma start test/unit/karma.conf.js",
     "vue:route": "node tasks/vue/route.js",
     "vuex:module": "node tasks/vuex/module.js",
-    "postinstall": "npm run lint:fix && cd app && npm install && cd .. && electron-rebuild --module-dir app"
+    "postinstall": "cd app && npm install && cd .. && electron-rebuild --module-dir app"
   },
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
