@@ -1,24 +1,16 @@
 <template lang='pug'>
 page(:title='pageTitle')
-  tool-bar
-    btn(v-if='user.nominationActive' theme='cosmos' type='link'
-      icon='eye' value='View Candidate'
-      :to="{name: 'candidate', params: { candidate: fields.id }}")
   form-struct(:submit='onSubmit')
-    form-group(:error='$v.fields.id.$error')
-      label(for='form-nominate-id') Keybase ID
-      field(
+    form-group( error='$v.fields.id.$error'
+      field-id='form-nominate-id' field-label='Keybase ID')
+      field#form-nominate-id(
         v-if="user.nominationActive"
-        id='form-nominate-id'
-        theme='cosmos'
         type='text'
         placeholder='Keybase ID'
         :value='fields.id'
         disabled)
-      field(
+      field#form-nominate-id(
         v-else
-        id='form-nominate-id'
-        theme='cosmos'
         type='text'
         placeholder='Keybase ID'
         v-model='fields.id')
@@ -29,11 +21,9 @@ page(:title='pageTitle')
         :min='config.CANDIDATE.KEYBASE_MIN' :max='config.CANDIDATE.KEYBASE_MAX'
         v-if='!$v.fields.id.minLength || !$v.fields.id.maxLength')
 
-    form-group(:error='$v.fields.description.$error')
-      label(for='form-nominate-description') Description
-      field(
-        id='form-nominate-description'
-        theme='cosmos'
+    form-group(:error='$v.fields.description.$error'
+      field-id='form-nominate-descripton' field-label='Description')
+      field#form-nominate-description(
         type='textarea'
         placeholder='Have a message for delegators? Write it here.'
         v-model='fields.description')
@@ -43,11 +33,9 @@ page(:title='pageTitle')
         :min='config.CANDIDATE.DESCRIPTION_MIN' :max='config.CANDIDATE.DESCRIPTION_MAX'
         v-if='!$v.fields.description.minLength || !$v.fields.description.maxLength')
 
-    form-group(:error='$v.fields.serverDetails.$error')
-      label(for='form-nominate-server-power') Server Power
-      field(
-        id='form-nominate-server-power'
-        theme='cosmos'
+    form-group(:error='$v.fields.serverDetails.$error'
+      field-id='form-nominate-server-power' field-label='Server Power')
+      field#form-nominate-server-power(
         type='textarea'
         placeholder='Network connection, RAM, HDD space, OS, units, etc.'
         v-model='fields.serverDetails')
@@ -57,36 +45,17 @@ page(:title='pageTitle')
         :min='config.CANDIDATE.DESCRIPTION_MIN' :max='config.CANDIDATE.DESCRIPTION_MAX'
         v-if='!$v.fields.serverDetails.minLength || !$v.fields.serverDetails.maxLength')
 
-    // form-group(:error='$v.fields.startDate.$error')
-      label(for='form-nominate-start-date') Start Date
-      field(
-        id='form-nominate-start-date'
-        theme='cosmos'
-        type='datetime'
-        placeholder='Select start date...'
-        v-model='fields.startDate')
-      form-msg(name='Start Date' type='required'
-        v-if='!$v.fields.startDate.required')
-      form-msg(name='Start Date' type='datetime'
-        v-if='!$v.fields.startDate.datetime')
-
-    form-group(:error='$v.fields.country.$error')
-      label(for='form-nominate-country') Country
-      field(
-        id='form-nominate-country'
-        theme='cosmos'
-        type='country'
-        placeholder='Select Country'
+    form-group(:error='$v.fields.country.$error'
+      field-id='form-nominate-country' field-label='Country')
+      field#form-nominate-country(type='countries' placeholder='Select country...'
         v-model='fields.country')
       form-msg(name='Country' type='required'
         v-if='!$v.fields.country.required')
 
-    form-group(:error='$v.fields.commissionPercent.$error')
-      label(for='form-nominate-commission-percent') Commission Percent
+    form-group(:error='$v.fields.commissionPercent.$error'
+      field-id='form-nominate-commission-percent' field-label='Commission Percent')
       field-group
-        field(
-          id='form-nominate-commission-percent'
-          theme='cosmos'
+        field#form-nominate-commission-percent(
           type='number'
           step='any'
           placeholder='Enter rate'
@@ -98,15 +67,13 @@ page(:title='pageTitle')
         :min='config.CANDIDATE.COMMISSION_MIN' :max='config.CANDIDATE.COMMISSION_MAX'
         v-if='!$v.fields.commissionPercent.between')
 
-    form-group(:error='$v.fields.ownCoinsBonded.$error')
-      label(for='form-atoms-to-bond') Atoms To Bond
+    form-group(:error='$v.fields.ownCoinsBonded.$error'
+      field-id='form-nominate-atoms-to-bond' field-label='Atoms to Bond')
       field-group
-        field(
-          id='form-atoms-to-bond'
-          theme='cosmos'
+        field#form-atoms-to-bond(
           type='number'
           step='any'
-          placeholder='Enter how much ATOM you want to self-delegate'
+          placeholder='Enter atoms'
           v-model.number='fields.ownCoinsBonded')
         field-addon ATOM
       form-msg(name='OwnCoinsBonded' type='required'
@@ -115,11 +82,9 @@ page(:title='pageTitle')
         :min='config.CANDIDATE.SELF_BOND_MIN' :max='config.CANDIDATE.SELF_BOND_MAX'
         v-if='!$v.fields.ownCoinsBonded.between')
 
-    form-group(:error='$v.fields.website.$error')
-      label(for='form-nominate-website') Website
-      field(
-        id='form-nominate-website'
-        theme='cosmos'
+    form-group(:error='$v.fields.website.$error'
+      field-id='form-nominate-website' field-label='Website (Optional)')
+      field#form-nominate-website(
         type='text'
         placeholder='https://'
         v-model='fields.website')
@@ -128,24 +93,21 @@ page(:title='pageTitle')
       form-msg(name='Website' type='url'
         v-if='!$v.fields.website.url')
 
-    form-group(:error='$v.fields.ipAddress.$error')
-      label(for='form-nominate-ip-address') Public IP Address (Optional)
+    // form-group(:error='$v.fields.ipAddress.$error'
+      field-id='form-nominate-ip-address' field-label='IP Address (Optional)')
       field-group
-        field(
-          id='form-nominate-address'
-          theme='cosmos'
+        field#form-nominate-address(
           type='text'
           placeholder='Enter IP'
           v-model.trim='fields.ipAddress')
       form-msg(name='IP Address' type='ipAddress'
         v-if='!$v.fields.ipAddress.ipAddress')
 
-    div(slot='footer')
+    div(slot="footer")
+      btn(v-if='user.nominationActive' type="link" :to="{name: 'candidate', params: { candidate: fields.id }}" icon="eye" value="View Candidate")
       div
-      btn(v-if='user.nominationActive'
-        theme='cosmos' type='submit' icon='refresh' value='Update Nomination')
-      btn(v-else
-        theme='cosmos' type='submit' icon='check' value='Submit Nomination')
+      btn(v-if='user.nominationActive' @click='onSubmit' icon="refresh" value="Update Nomination")
+      btn(v-else @click='onSubmit' icon="check" value="Nominate")
 </template>
 
 <script>
@@ -160,7 +122,6 @@ import FormGroup from '../common/NiFormGroup'
 import FormMsg from '../common/NiFormMsg'
 import FormStruct from '../common/NiFormStruct'
 import Page from '../common/NiPage'
-import ToolBar from '../common/NiToolBar'
 export default {
   name: 'page-nominate',
   components: {
@@ -171,8 +132,7 @@ export default {
     FormGroup,
     FormMsg,
     FormStruct,
-    Page,
-    ToolBar
+    Page
   },
   computed: {
     ...mapGetters(['config', 'user']),
