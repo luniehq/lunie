@@ -34,7 +34,6 @@ export default [
   { path: '/validators', name: 'validators', component: monitor('Validators') },
   {
     path: '/validators/:validator',
-    name: 'validator',
     component: monitor('Validator'),
     children: [
       {
@@ -78,7 +77,7 @@ export default [
 
   // WALLET
   { path: '/', name: 'balances', component: wallet('Balances') },
-  { path: '/wallet', name: 'balances', component: wallet('Balances') },
+  // { path: '/wallet', name: 'balances', component: wallet('Balances') },
   { path: '/wallet/send', name: 'send', component: wallet('Send') },
   { path: '/wallet/receive', name: 'receive', component: wallet('Receive') },
 
