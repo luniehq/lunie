@@ -36,7 +36,8 @@ page(title='Send Coins')
       form-msg(name='Amount', type='between', min='1', max='1000000', v-if='!$v.fields.amount.between')
 
     div(slot='footer')
-      btn(value='Reset', @click.native='resetForm')
+      // btn(value='Reset', @click.native='resetForm')
+      div
       btn(v-if='sending', value='Sending...' disabled)
       btn(v-else='', type='submit', value='Send Now')
 </template>
