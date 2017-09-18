@@ -1,5 +1,5 @@
 import request from 'superagent'
-import requestInterval from 'request-interval'
+// import requestInterval from 'request-interval'
 
 export default ({ commit, basecoin }) => {
   const state = {

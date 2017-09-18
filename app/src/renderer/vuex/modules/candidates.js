@@ -51,8 +51,8 @@ export default ({ commit, node }) => {
   const actions = {
     async getCandidates ({ commit }) {
       return // TODO: replace with REST-based client
-      let candidates = await node.delegationGame.getCandidates()
-      candidates.forEach((c) => commit('addCandidate', c))
+      // let candidates = await node.delegationGame.getCandidates()
+      // candidates.forEach((c) => commit('addCandidate', c))
     },
     startCandidateInterval ({ dispatch }) {
       // TODO: use tx events instead of polling
