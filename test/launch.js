@@ -1,7 +1,7 @@
 'use strict'
 
 let { Application } = require('spectron')
-let test = require('tape')
+let test = require('tape-promise/tape')
 let electron = require('electron')
 let { join } = require('path')
 let { tmpdir } = require('os')
@@ -24,8 +24,19 @@ async function launch () {
   return app
 }
 
+let app, client
+
 test('launch app', async (t) => {
-  let app = await launch()
+  app = await launch()
+  client = app.client
   t.ok(app.isRunning(), 'app launched')
   t.end()
 })
+
+test('wait for app to load', async (t) => {
+  await client.waitForExist('.header-item-logo', 5000)
+  t.pass('loaded')
+  t.end()
+})
+
+test.onFinish(() => app.stop())
