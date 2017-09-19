@@ -173,8 +173,9 @@ function startBaseserver (home, cb) {
 
   let child = startProcess(SERVER_BINARY, [
     'serve',
-    '--home', home
-  ], { env: { BC_TRUST_NODE: 1 } })
+    '--home', home // ,
+    // '--trust-node'
+  ])
   child.stderr.on('data', waitForReady)
   child.stdout.pipe(log)
   child.stderr.pipe(log)
@@ -199,11 +200,16 @@ function startBaseserver (home, cb) {
 }
 
 let initialBchomeDataPath = watt(function * (next) {
-  let path = join(__dirname, '../../bchome')
+  // optionally use a intiial home specified via envvar
+  let initHome = process.env.COSMOS_NETWORK
+  if (initHome) return initHome
+
+  // TODO: select network, support multiple
+  let path = join(__dirname, '../../networks/sdk1')
   let err = yield fs.access(path, next.arg(0))
   if (err && err.code !== 'ENOENT') throw err
   if (err && err.code === 'ENOENT') {
-    return join(__dirname, '../bchome')
+    return join(__dirname, '../networks/sdk1')
   }
   return path
 })
@@ -252,7 +258,7 @@ let initBasecoin = watt(function * (root, next) {
   }
 })
 
-let initBaseserver = watt(function * (home, next) {
+let initBaseserver = watt(function * (chainId, home, next) {
   let err = yield fs.access(home, next.arg(0))
   if (err && err.code !== 'ENOENT') throw err
   if (!err) return // if already exists, skip init
@@ -263,8 +269,9 @@ let initBaseserver = watt(function * (home, next) {
   let child = startProcess(SERVER_BINARY, [
     'init',
     '--home', home,
-    '--chain-id', 'sdk1', // TODO: configurable
-    '--node', 'localhost:46657'
+    '--chain-id', chainId,
+    '--node', 'localhost:46657' // ,
+    // '--trust-node'
   ])
   child.stdout.on('data', (data) => {
     // answer 'y' to the prompt about trust seed. we can trust this is correct
@@ -297,12 +304,17 @@ watt(function * (next) {
 
   yield initBasecoin(root)
 
+  // read chainId from genesis.json
+  let genesisText = fs.readFileSync(join(root, 'genesis.json'), 'utf8')
+  let genesis = JSON.parse(genesisText)
+  let chainId = genesis.chain_id
+
   console.log('starting basecoin')
   basecoinProcess = yield startBasecoin(root, next)
   console.log('basecoin ready')
 
   let baseserverHome = join(root, 'baseserver')
-  yield initBaseserver(baseserverHome)
+  yield initBaseserver(chainId, baseserverHome)
 
   console.log('starting baseserver')
   baseserverProcess = yield startBaseserver(baseserverHome, next)
