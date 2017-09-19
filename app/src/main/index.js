@@ -39,8 +39,8 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     minWidth: 320,
     minHeight: 480,
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 800,
     webPreferences: { webSecurity: false }
   })
   // mainWindow.maximize()
