@@ -8,6 +8,8 @@ import home from 'user-home'
 import watt from 'watt'
 import mkdirp from 'mkdirp'
 import RpcClient from 'tendermint'
+import semver from 'semver'
+import pkg from '../../package.json'
 
 let shuttingDown = false
 let mainWindow
@@ -199,7 +201,7 @@ function startBaseserver (home, cb) {
   return child
 }
 
-let initialBchomeDataPath = watt(function * (next) {
+let networkDataPath = watt(function * (next) {
   // optionally use a intiial home specified via envvar
   let initHome = process.env.COSMOS_NETWORK
   if (initHome) return initHome
@@ -215,9 +217,6 @@ let initialBchomeDataPath = watt(function * (next) {
 })
 
 let initBasecoin = watt(function * (root, next) {
-  let err = yield fs.access(join(root, 'genesis.json'), next.arg(0))
-  if (err && err.code !== 'ENOENT') throw err
-  if (!err) return // if already exists, skip init
   let opts = {
     env: {
       BCHOME: root,
@@ -225,10 +224,8 @@ let initBasecoin = watt(function * (root, next) {
     }
   }
 
-  yield mkdirp(root, next)
-
   // copy predefined genesis.json and config.toml into root
-  let bchome = yield initialBchomeDataPath()
+  let bchome = yield networkDataPath()
   yield fs.copy(bchome, root, next)
 
   // `basecoin init` to generate account keys, validator key
@@ -258,13 +255,17 @@ let initBasecoin = watt(function * (root, next) {
   }
 })
 
+let exists = watt(function * (path, next) {
+  try {
+    fs.accessSync(path)
+    return true
+  } catch (err) {
+    if (err.code !== 'ENOENT') throw err
+    return false
+  }
+})
+
 let initBaseserver = watt(function * (chainId, home, next) {
-  let err = yield fs.access(home, next.arg(0))
-  if (err && err.code !== 'ENOENT') throw err
-  if (!err) return // if already exists, skip init
-
-  yield mkdirp(home, next)
-
   // `baseserver init` to generate config, trust seed
   let child = startProcess(SERVER_BINARY, [
     'init',
@@ -281,11 +282,49 @@ let initBaseserver = watt(function * (chainId, home, next) {
   yield child.on('exit', next.arg(0))
 })
 
+let backupData = watt(function * (root, next) {
+  let i = 1
+  let path
+  do {
+    path = `${root}_backup_${i}`
+    i++
+  } while (yield exists(path))
+
+  console.log(`backing up data to "${path}"`)
+  fs.moveSync(root, path, {
+    overwrite: false,
+    errorOnExist: true
+  })
+})
+
 process.on('exit', shutdown)
 
 watt(function * (next) {
   let root = require('../root.js')
-  yield mkdirp(root, next)
+  let versionPath = join(root, 'app_version')
+
+  let init = true
+  if (yield exists(root)) {
+    console.log(`root exists (${root})`)
+
+    // check if the existing data came from a compatible app version
+    // if not, backup the data and re-initialize
+    if (yield exists(versionPath)) {
+      let existingVersion = fs.readFileSync(versionPath, 'utf8')
+      let compatible = semver.diff(existingVersion, pkg.version) !== 'major'
+      if (compatible) init = false
+      else yield backupData(root)
+    } else {
+      yield backupData(root)
+    }
+  }
+
+  if (init) {
+    console.log(`initializing data directory (${root})`)
+    yield mkdirp(root, next)
+    yield initBasecoin(root)
+    fs.writeFileSync(versionPath, pkg.version)
+  }
 
   if (!DEV) {
     // redirect stdout/err to logfile
@@ -302,8 +341,6 @@ watt(function * (next) {
   console.log(`dev mode: ${DEV}`)
   console.log(`winURL: ${winURL}`)
 
-  yield initBasecoin(root)
-
   // read chainId from genesis.json
   let genesisText = fs.readFileSync(join(root, 'genesis.json'), 'utf8')
   let genesis = JSON.parse(genesisText)
@@ -314,7 +351,9 @@ watt(function * (next) {
   console.log('basecoin ready')
 
   let baseserverHome = join(root, 'baseserver')
-  yield initBaseserver(chainId, baseserverHome)
+  if (init) {
+    yield initBaseserver(chainId, baseserverHome)
+  }
 
   console.log('starting baseserver')
   baseserverProcess = yield startBaseserver(baseserverHome, next)
