@@ -1,7 +1,7 @@
 <template lang='pug'>
 page(:title='pageTitle')
   form-struct(:submit='onSubmit')
-    form-group( error='$v.fields.id.$error'
+    form-group(:error='$v.fields.id.$error'
       field-id='form-nominate-id' field-label='Keybase ID')
       field#form-nominate-id(
         v-if="user.nominationActive"
@@ -22,7 +22,7 @@ page(:title='pageTitle')
         v-if='!$v.fields.id.minLength || !$v.fields.id.maxLength')
 
     form-group(:error='$v.fields.description.$error'
-      field-id='form-nominate-descripton' field-label='Description')
+      field-id='form-nominate-description' field-label='Description')
       field#form-nominate-description(
         type='textarea'
         placeholder='Have a message for delegators? Write it here.'
