@@ -1,10 +1,10 @@
 import request from 'superagent'
-// import requestInterval from 'request-interval'
+import requestInterval from 'request-interval'
 
 export default ({ commit, basecoin }) => {
   const state = {
     urlPrefix: 'https://',
-    blockchainName: 'mercury',
+    blockchainName: 'sdk1',
     urlSuffix: '-node0.testnets.interblock.io',
     status: {},
     abciInfo: {},
@@ -38,10 +38,10 @@ export default ({ commit, basecoin }) => {
     }
   }
 
-  // requestInterval(1000, () => {
-  //   mutations.getStatus(state)
-  //   mutations.getAbciInfo(state)
-  // })
+  requestInterval(1000, () => {
+    mutations.getStatus(state)
+    mutations.getAbciInfo(state)
+  })
 
   return { state, mutations }
 }
