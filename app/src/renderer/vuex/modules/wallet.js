@@ -15,7 +15,7 @@ export default ({ commit, node }) => {
 
   let mutations = {
     setWalletBalances (state, balances) {
-      state.balances = balances
+      state.balances = Object.assign({}, state.balances, balances)
     },
     setWalletKey (state, key) {
       state.key = key
@@ -41,9 +41,6 @@ export default ({ commit, node }) => {
         key = await node.getKey(KEY_NAME)
       }
       commit('setWalletKey', key)
-
-      // TODO: get sequence number
-      // commit('setWalletSequence', )
 
       // poll for balance updates every 2 seconds
       while (true) {
