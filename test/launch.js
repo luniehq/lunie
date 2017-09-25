@@ -5,6 +5,7 @@ let test = require('tape-promise/tape')
 let electron = require('electron')
 let { join } = require('path')
 let { tmpdir } = require('os')
+let { newTempDir } = require('./common.js')
 
 // re-use app instance
 let app
@@ -12,8 +13,8 @@ let app
 module.exports = async function launch (t) {
   if (app) return app
 
-  let home = join(tmpdir(), Math.random().toString(36).slice(2))
-  console.error(`COSMOS_HOME: ${home}`)
+  let home = newTempDir()
+  console.error(`ui home: ${home}`)
 
   app = new Application({
     path: electron,
