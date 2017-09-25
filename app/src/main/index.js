@@ -28,11 +28,13 @@ function shutdown () {
   shuttingDown = true
 
   if (basecoinProcess) {
-    basecoinProcess.kill()
+    console.log('killing basecoin')
+    basecoinProcess.kill('SIGKILL')
     basecoinProcess = null
   }
   if (baseserverProcess) {
-    baseserverProcess.kill()
+    console.log('killing baseserver')
+    baseserverProcess.kill('SIGKILL')
     baseserverProcess = null
   }
 }
