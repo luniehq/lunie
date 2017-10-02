@@ -32,7 +32,8 @@ function build () {
 
   options.afterCopy = [
     goBuild(`github.com/cosmos/cosmos-sdk/examples/basecoin/cmd/basecoin`),
-    goBuild(`github.com/cosmos/cosmos-sdk/examples/basecoin/cmd/baseserver`)
+    goBuild(`github.com/cosmos/cosmos-sdk/examples/basecoin/cmd/baseserver`),
+    goBuild(`github.com/tendermint/tendermint/cmd/tendermint`)
   ]
 
   console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')
@@ -70,6 +71,9 @@ function goBuild (pkg) {
 
     go.stdout.on('data', (data) => process.stdout.write(data))
     go.stderr.on('data', (data) => process.stderr.write(data))
-    go.once('exit', () => cb())
+    go.once('exit', (code) => {
+      if (code !== 0) return cb(Error('Build failed'))
+      cb()
+    })
   }
 }
