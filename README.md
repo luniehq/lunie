@@ -8,9 +8,36 @@ This is still alpha-level software as of September 2017. Do not enter in your Co
 
 ## Development
 
+To run the dev build, first you will need the following binaries installed in your GOPATH: `basecoin`, `baseserver`, and `tendermint`.
+
 ```
 npm install
 npm run dev
 ```
 
-If you installed this app weeks or months before, try running `npm run clean-dev` instead to fix errors.
+This should launch the app, running on a local testnet.
+
+## Production
+
+You can create production builds to get an app which will connect to an actual blockchain network.
+
+First you will need the prerequisite source repositories installed:
+```bash
+# install basecoin/baseserver
+go get github.com/cosmos/cosmos-sdk
+cd $GOPATH/src/github.com/cosmos/cosmos-sdk
+git checkout develop
+make get_vendor_deps
+
+# install tendermint
+go get github.com/tendermint/tendermint
+cd $GOPATH/src/github.com/tendermint/tendermint
+git checkout v0.10.4
+make get_vendor_deps
+```
+
+Then build and run the app:
+```bash
+npm run pack && npm run build:darwin
+open builds/cosmos-ui-darwin-x64/cosmos-ui.app
+```
