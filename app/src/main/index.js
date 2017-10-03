@@ -248,7 +248,7 @@ let initBasecoin = watt(function * (root, next) {
     genesis.validators = [
       {
         pub_key: privValidator.pub_key,
-        amount: 100,
+        power: 100,
         name: 'dev_validator'
       }
     ]
