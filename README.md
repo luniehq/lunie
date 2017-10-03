@@ -22,18 +22,31 @@ This should launch the app, running on a local testnet.
 You can create production builds to get an app which will connect to an actual blockchain network.
 
 First you will need the prerequisite source repositories installed:
+
 ```bash
 # install basecoin/baseserver
 go get github.com/cosmos/cosmos-sdk
 cd $GOPATH/src/github.com/cosmos/cosmos-sdk
 git checkout develop
 make get_vendor_deps
+make install
 
 # install tendermint
 go get github.com/tendermint/tendermint
 cd $GOPATH/src/github.com/tendermint/tendermint
-git checkout v0.10.4
+git checkout v0.11.0
 make get_vendor_deps
+make install
+```
+
+```fish
+# check your versions
+$ basecoin version
+v0.7.0-alpha f40fa5b
+$ basecli version
+v0.7.0-alpha f40fa5b
+$ tendermint version
+0.11.0-7682ad9a
 ```
 
 Then build and run the app:
