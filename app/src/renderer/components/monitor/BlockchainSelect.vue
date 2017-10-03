@@ -17,8 +17,8 @@ export default {
     blockchainName: '',
     blockchainOptions: [
       {
-        key: 'tak',
-        value: 'tak'
+        key: 'mercury',
+        value: 'mercury'
       },
       {
         key: 'hermes',
