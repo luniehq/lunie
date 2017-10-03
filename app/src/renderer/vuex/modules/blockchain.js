@@ -4,7 +4,7 @@ import requestInterval from 'request-interval'
 export default ({ commit, basecoin }) => {
   const state = {
     urlPrefix: 'https://',
-    blockchainName: 'sdk1',
+    blockchainName: 'tak',
     urlSuffix: '-node0.testnets.interblock.io',
     status: {},
     abciInfo: {},

@@ -209,11 +209,11 @@ let networkDataPath = watt(function * (next) {
   if (initHome) return initHome
 
   // TODO: select network, support multiple
-  let path = join(__dirname, '../../networks/sdk1')
+  let path = join(__dirname, '../../networks/tak')
   let err = yield fs.access(path, next.arg(0))
   if (err && err.code !== 'ENOENT') throw err
   if (err && err.code === 'ENOENT') {
-    return join(__dirname, '../networks/sdk1')
+    return join(__dirname, '../networks/tak')
   }
   return path
 })

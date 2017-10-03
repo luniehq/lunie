@@ -1,6 +1,6 @@
 export default ({ commit, node }) => {
   const state = {
-    blockchainName: 'mercury',
+    blockchainName: 'tak',
     validators: {}
   }
 
