@@ -13,7 +13,7 @@ import pkg from '../../package.json'
 
 let shuttingDown = false
 let mainWindow
-let basecoinProcess, baseserverProcess
+let basecoinProcess, baseserverProcess, tendermintProcess
 const DEV = process.env.NODE_ENV === 'development'
 const TEST = !!process.env.COSMOS_TEST
 const winURL = DEV
@@ -36,6 +36,11 @@ function shutdown () {
     console.log('killing baseserver')
     baseserverProcess.kill('SIGKILL')
     baseserverProcess = null
+  }
+  if (tendermintProcess) {
+    console.log('killing tendermint')
+    tendermintProcess.kill('SIGKILL')
+    tendermintProcess = null
   }
 }
 
@@ -130,7 +135,7 @@ app.on('activate', () => {
   }
 })
 
-// start basecoin/tendermint node
+// start basecoin node
 function startBasecoin (root, cb) {
   let log = fs.createWriteStream(join(root, 'basecoin.log'))
   let opts = {
@@ -142,10 +147,32 @@ function startBasecoin (root, cb) {
 
   let args = [
     'start',
+    '--without-tendermint',
     '--home', root
   ]
   if (DEV) args.push('--log_level', 'info')
   let child = startProcess(NODE_BINARY, args, opts)
+  child.stdout.pipe(log)
+  child.stderr.pipe(log)
+  return child
+}
+
+// start tendermint node
+function startTendermint (root, cb) {
+  let log = fs.createWriteStream(join(root, 'tendermint.log'))
+  let opts = {
+    env: {
+      BCHOME: root,
+      TMROOT: root
+    }
+  }
+
+  let args = [
+    'node',
+    '--home', root
+  ]
+  if (DEV) args.push('--log_level', 'info')
+  let child = startProcess('tendermint', args, opts)
   child.stdout.pipe(log)
   child.stderr.pipe(log)
 
@@ -348,9 +375,10 @@ watt(function * (next) {
   let genesis = JSON.parse(genesisText)
   let chainId = genesis.chain_id
 
-  console.log('starting basecoin')
-  basecoinProcess = yield startBasecoin(root, next)
-  console.log('basecoin ready')
+  console.log('starting basecoin and tendermint')
+  basecoinProcess = startBasecoin(root)
+  tendermintProcess = yield startTendermint(root, next)
+  console.log('basecoin and tendermint are ready')
 
   let baseserverHome = join(root, 'baseserver')
   if (init) {
