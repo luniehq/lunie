@@ -6,7 +6,7 @@ moniker = "46.101.42.155"
 fast_sync = true
 db_backend = "memdb"
 #log_level = "mempool:error,*:debug"
-log_level = "state:info,*:error"
+log_level = "info"
 
 [rpc]
 laddr = "tcp://0.0.0.0:46657"
@@ -31,4 +31,4 @@ create_empty_blocks_interval = 1
 #send_rate=51200000 # 50 MB/s
 #recv_rate=51200000 # 50 MB/s
 laddr = "tcp://0.0.0.0:46656"
-seeds = "165.227.190.188:46656,165.227.149.101:46656,37.139.30.72:46656"
+seeds = "tak-node0.testnets.interblock.io:46656,tak-node1.testnets.interblock.io:46656"

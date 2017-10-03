@@ -1,45 +1,55 @@
 {
-  "genesis_time":"2017-09-12T22:13:16Z",
-  "chain_id":"sdk1",
+  "genesis_time": "2017-09-25T09:51:05-04:00",
+  "chain_id": "tak",
+  "consensus_params": {
+    "block_size_params": {
+      "max_bytes": 22020096,
+      "max_txs": 100000,
+      "max_gas": -1
+    },
+    "tx_size_params": {
+      "max_bytes": 10240,
+      "max_gas": -1
+    },
+    "block_gossip_params": {
+      "block_part_size_bytes": 65536
+    }
+  },
   "validators": [
-
     {
       "pub_key": {
-        "data": "A371DC88F4DCFC2C77CE3FB39A52AC7832E9CD7D4948B7DABDF7F7DDA70966C0",
-        "type": "ed25519"
+        "type": "ed25519",
+        "data": "E77E8BADA1460DA9AD7BD8189DAEF9BB84A94FF370A14C6BB5F2BB5EC3B5DAEF"
       },
-      "amount":10,
-      "name":"46.101.42.155"
-    }
-    ,
+      "power": 10,
+      "name": "138.68.177.89"
+    },
     {
       "pub_key": {
-        "data": "5AF3D8A8623DA0284FB56445FB1360073B9FEFB96398342694538C8B64781A28",
-        "type": "ed25519"
+        "type": "ed25519",
+        "data": "1F3B6FF9C86E30B8954AD3A2DC6067BB193240D5C106B8F5ECFFD72B1DC7F7F6"
       },
-      "amount":10,
-      "name":"165.227.190.188"
-    }
-    ,
+      "power": 10,
+      "name": "188.226.180.223"
+    },
     {
       "pub_key": {
-        "data": "9EF53A10905049B1D76421765D0ED8CAD7A24EFB203CF0C8734CCD78BF7FF845",
-        "type": "ed25519"
+        "type": "ed25519",
+        "data": "2103E4D5ED45E608D5B01C0DEEE4F3BE9902DF2BF2E714782D4B587A40B117D7"
       },
-      "amount":10,
-      "name":"165.227.149.101"
-    }
-    ,
+      "power": 10,
+      "name": "138.197.65.16"
+    },
     {
       "pub_key": {
-        "data": "330B41A8C7ED39D7EC4085E899566496E833D22EEE6142902E4FCD3A686CD2CF",
-        "type": "ed25519"
+        "type": "ed25519",
+        "data": "C439F868ED3DEF4A4527CE67ED7A585065B5B50D8DB6BC56D90BBF4CD16527BA"
       },
-      "amount":10,
-      "name":"37.139.30.72"
+      "power": 10,
+      "name": "165.227.171.25"
     }
   ],
-  "app_hash":"",
+  "app_hash": "",
   "app_options": {
     "accounts": [
       {
@@ -168,5 +178,6 @@
           }
         ]
       }
-    ]  }
+    ]  
+  }
 }
