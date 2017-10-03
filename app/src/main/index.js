@@ -209,7 +209,7 @@ let networkDataPath = watt(function * (next) {
   if (initHome) return initHome
 
   // TODO: select network, support multiple
-  let path = join(__dirname, '../../networks/tak')
+  let path = join(__dirname, '../../networks/sdk1')
   let err = yield fs.access(path, next.arg(0))
   if (err && err.code !== 'ENOENT') throw err
   if (err && err.code === 'ENOENT') {
@@ -248,7 +248,7 @@ let initBasecoin = watt(function * (root, next) {
     genesis.validators = [
       {
         pub_key: privValidator.pub_key,
-        power: 100,
+        amount: 100,
         name: 'dev_validator'
       }
     ]
