@@ -230,23 +230,6 @@ function startBaseserver (home, cb) {
   return child
 }
 
-let networkDataPath = watt(function * (next) {
-  // optionally use a intiial home specified via envvar
-  let initHome = process.env.COSMOS_NETWORK
-  if (initHome) return initHome
-
-  // TODO: support multiple networks
-  let genesisPath = process.env.COSMOS_GENESIS || '../../networks/tak'
-  let path = join(__dirname, genesisPath)
-  let err = yield fs.access(path, next.arg(0))
-  if (err && err.code !== 'ENOENT') throw err
-  if (err && err.code === 'ENOENT') {
-    // sometimes we have to get rid of the first path component
-    return join(__dirname, genesisPath.split('/').slice(1).join('/'))
-  }
-  return path
-})
-
 let initBasecoin = watt(function * (root, next) {
   let opts = {
     env: {
@@ -256,7 +239,7 @@ let initBasecoin = watt(function * (root, next) {
   }
 
   // copy predefined genesis.json and config.toml into root
-  let bchome = yield networkDataPath()
+  let bchome = process.env.COSMOS_NETWORK
   yield fs.copy(bchome, root, next)
 
   // `basecoin init` to generate account keys, validator key
@@ -333,6 +316,7 @@ process.on('exit', shutdown)
 watt(function * (next) {
   let root = require('../root.js')
   let versionPath = join(root, 'app_version')
+  let genesisPath = join(root, 'genesis.json')
 
   let init = true
   if (yield exists(root)) {
@@ -347,6 +331,16 @@ watt(function * (next) {
       else yield backupData(root)
     } else {
       yield backupData(root)
+    }
+
+    // check to make sure the specified genesis.json matches the one
+    // we already have. if it has changed, back up the old data
+    if (!init) {
+      let existingGenesis = fs.readFileSync(genesisPath, 'utf8')
+      let specifiedGensis = fs.readFileSync(join(process.env.COSMOS_NETWORK, 'genesis.json'), 'utf8')
+      if (existingGenesis.trim() !== specifiedGensis.trim()) {
+        yield backupData(root)
+      }
     }
   }
 
@@ -373,7 +367,7 @@ watt(function * (next) {
   console.log(`winURL: ${winURL}`)
 
   // read chainId from genesis.json
-  let genesisText = fs.readFileSync(join(root, 'genesis.json'), 'utf8')
+  let genesisText = fs.readFileSync(genesisPath, 'utf8')
   let genesis = JSON.parse(genesisText)
   let chainId = genesis.chain_id
 

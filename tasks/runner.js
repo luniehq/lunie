@@ -48,13 +48,13 @@ function startRendererServer () {
   })
 }
 
-module.exports = async function (genesisPath) {
+module.exports = async function (networkPath) {
   await startRendererServer()
 
-  console.log(`${BLUE}Starting electron...\n  (genesis path: ${genesisPath})\n${END}`)
+  console.log(`${BLUE}Starting electron...\n  (network path: ${networkPath})\n${END}`)
   let env = {
     NODE_ENV: 'development',
-    COSMOS_GENESIS: genesisPath
+    COSMOS_NETWORK: networkPath
   }
   run('electron app/src/main/index.dev.js', BLUE, 'electron', env)
 }
