@@ -1,0 +1,24 @@
+{
+  "genesis_time":"2017-09-12T22:13:16Z",
+  "chain_id": "localtestnet",
+  "validators": [],
+  "app_hash":"",
+  "app_options": {
+    "accounts": [
+      {
+        "name": "test",
+        "address": "D0718DDFF62D301626B428A182F830CBB0AD21FC",
+        "coins": [
+          {
+            "denom": "mycoin",
+            "amount": 9007199254740992
+          },
+          {
+            "denom": "testcoin",
+            "amount": 9007199254740992
+          }
+        ]
+      }
+    ]
+  }
+}

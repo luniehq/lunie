@@ -2,14 +2,14 @@
 # For more information, see https://github.com/toml-lang/toml
 
 proxy_app = "tcp://127.0.0.1:46658"
-moniker = "46.101.42.155"
+moniker = "local"
 fast_sync = true
 db_backend = "memdb"
 #log_level = "mempool:error,*:debug"
-log_level = "info"
+log_level = "state:info,*:error"
 
 [rpc]
-laddr = "tcp://0.0.0.0:46657"
+laddr = "tcp://127.0.0.1:46657"
 
 #[mempool]
 #recheck = false
@@ -30,5 +30,5 @@ create_empty_blocks_interval = 1
 #max_msg_packet_payload_size=65536
 #send_rate=51200000 # 50 MB/s
 #recv_rate=51200000 # 50 MB/s
-laddr = "tcp://0.0.0.0:46656"
-seeds = "tak-node0.testnets.interblock.io:46656,tak-node1.testnets.interblock.io:46656"
+laddr = "tcp://127.0.0.1:46656"
+seeds = ""

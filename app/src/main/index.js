@@ -235,12 +235,14 @@ let networkDataPath = watt(function * (next) {
   let initHome = process.env.COSMOS_NETWORK
   if (initHome) return initHome
 
-  // TODO: select network, support multiple
-  let path = join(__dirname, '../../networks/sdk1')
+  // TODO: support multiple networks
+  let genesisPath = process.env.COSMOS_GENESIS || '../../networks/tak'
+  let path = join(__dirname, genesisPath)
   let err = yield fs.access(path, next.arg(0))
   if (err && err.code !== 'ENOENT') throw err
   if (err && err.code === 'ENOENT') {
-    return join(__dirname, '../networks/sdk1')
+    // sometimes we have to get rid of the first path component
+    return join(__dirname, genesisPath.split('/').slice(1).join('/'))
   }
   return path
 })
