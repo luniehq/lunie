@@ -3,57 +3,58 @@
 const config = require('../config')
 const exec = require('child_process').exec
 const treeKill = require('tree-kill')
+const path = require('path')
 
 let YELLOW = '\x1b[33m'
 let BLUE = '\x1b[34m'
 let END = '\x1b[0m'
 
-let isElectronOpen = false
+let NPM_BIN = path.join(path.dirname(__dirname), 'node_modules', '.bin')
+let PATH = `${NPM_BIN}:${process.env.PATH}`
 
 function format (command, data, color) {
   return color + command + END +
     '  ' + // Two space offset
-    data.toString().trim().replace(/\n/g, '\n' + repeat(' ', command.length + 2)) +
+    data.toString().trim().replace(/\n/g, '\n' + ' '.repeat(command.length + 2)) +
     '\n'
 }
 
-function repeat (str, times) {
-  return (new Array(times + 1)).join(str)
-}
-
-let children = []
-
-function run (command, color, name) {
-  let child = exec(command)
-
+function run (command, color, name, env) {
+  env = Object.assign({ PATH }, env)
+  let child = exec(command, { env })
   child.stdout.on('data', data => {
     console.log(format(name, data, color))
-
-    /**
-     * Start electron after successful compilation
-     * (prevents electron from opening a blank window that requires refreshing)
-     */
-    if (/Compiled successfully/g.test(data.toString().trim().replace(/\n/g, '\n' + repeat(' ', command.length + 2))) && !isElectronOpen) {
-      console.log(`${BLUE}Starting electron...\n${END}`)
-      run('cross-env NODE_ENV=development electron app/src/main/index.dev.js', BLUE, 'electron')
-      isElectronOpen = true
-    }
   })
-
-  child.stderr.on('data', data => console.error(format(name, data, color)))
+  child.stderr.on('data', data => {
+    console.error(format(name, data, color))
+  })
   child.on('exit', code => {
-    console.log('exit', command, code)
-    // exit(code)
+    console.log('exited', command, code)
   })
-
-  children.push(child)
+  process.on('exit', () => child.kill('SIGKILL'))
+  return child
 }
 
-function exit (code) {
-  children.forEach(child => {
-    treeKill(child.pid)
+function startRendererServer () {
+  return new Promise((resolve) => {
+    console.log(`${YELLOW}Starting webpack-dev-server...\n${END}`)
+    let child = run(`webpack-dev-server --hot --colors --config webpack.renderer.config.js --port ${config.port} --content-base app/dist`, YELLOW, 'webpack')
+    let waitForCompile = (data) => {
+      if (!data.toString().includes('Compiled successfully')) return
+      child.stdout.removeListener('data', waitForCompile)
+      resolve()
+    }
+    child.stdout.on('data', waitForCompile)
   })
 }
 
-console.log(`${YELLOW}Starting webpack-dev-server...\n${END}`)
-run(`webpack-dev-server --hot --colors --config webpack.renderer.config.js --port ${config.port} --content-base app/dist`, YELLOW, 'webpack')
+module.exports = async function (genesisPath) {
+  await startRendererServer()
+
+  console.log(`${BLUE}Starting electron...\n  (genesis path: ${genesisPath})\n${END}`)
+  let env = {
+    NODE_ENV: 'development',
+    COSMOS_GENESIS: genesisPath
+  }
+  run('electron app/src/main/index.dev.js', BLUE, 'electron', env)
+}
