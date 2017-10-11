@@ -337,9 +337,15 @@ watt(function * (next) {
     // we already have. if it has changed, back up the old data
     if (!init) {
       let existingGenesis = fs.readFileSync(genesisPath, 'utf8')
-      let specifiedGensis = fs.readFileSync(join(process.env.COSMOS_NETWORK, 'genesis.json'), 'utf8')
-      if (existingGenesis.trim() !== specifiedGensis.trim()) {
-        yield backupData(root)
+      let genesisJSON = JSON.parse(existingGenesis)
+      // skip this check for local testnet
+      if (genesisJSON.chain_id !== 'local') {
+        let specifiedGenesis = fs.readFileSync(join(process.env.COSMOS_NETWORK, 'genesis.json'), 'utf8')
+        console.log(existingGenesis, specifiedGenesis)
+        if (existingGenesis.trim() !== specifiedGenesis.trim()) {
+          console.log('genesis has changed')
+          yield backupData(root)
+        }
       }
     }
   }
