@@ -15,15 +15,10 @@ async function get (url) {
 }
 
 async function main () {
-  let network = process.argv[2]
-
-  if (!network) {
-    console.log('Usage: testnet.js <name>')
-    process.exit(1)
-  }
+  let network = process.argv[2] || 'tak'
 
   if (network === 'local') {
-    runDev('../../networks/localtestnet')
+    runDev('./app/networks/local')
   } else {
     // fetch genesis.json and config.toml from github testnets repo,
     // save to tmp dir and pass to app dev runner

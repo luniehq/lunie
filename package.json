@@ -10,7 +10,7 @@
     "build:mas": "cross-env PLATFORM_TARGET=mas node tasks/release.js",
     "build:win32": "cross-env PLATFORM_TARGET=win32 node tasks/release.js",
     "release:darwin": "electron-installer-dmg --overwrite builds/cosmos-ui-darwin-x64/cosmos-ui.app builds/cosmos",
-    "dev": "npm run testnet tak",
+    "local": "npm run testnet local",
     "testnet": "node tasks/testnet.js",
     "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter app test",
     "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix app test",
