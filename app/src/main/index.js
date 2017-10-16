@@ -5,10 +5,11 @@ import fs from 'fs-extra'
 import { join } from 'path'
 import { spawn } from 'child_process'
 import home from 'user-home'
-import watt from 'watt'
-import mkdirp from 'mkdirp'
+let mkdirp = require('mkdirp').sync
 import RpcClient from 'tendermint'
 import semver from 'semver'
+import event from 'event-to-promise'
+import util from 'util'
 import pkg from '../../package.json'
 
 let shuttingDown = false
@@ -22,6 +23,10 @@ const winURL = DEV
 
 let NODE_BINARY = 'basecoin'
 let SERVER_BINARY = 'baseserver'
+
+function sleep (ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
 
 function shutdown () {
   mainWindow = null
@@ -136,7 +141,7 @@ app.on('activate', () => {
 })
 
 // start basecoin node
-function startBasecoin (root, cb) {
+function startBasecoin (root) {
   let log = fs.createWriteStream(join(root, 'basecoin.log'))
   let opts = {
     env: {
@@ -158,7 +163,7 @@ function startBasecoin (root, cb) {
 }
 
 // start tendermint node
-function startTendermint (root, cb) {
+async function startTendermint (root) {
   let log = fs.createWriteStream(join(root, 'tendermint.log'))
   let opts = {
     env: {
@@ -177,28 +182,22 @@ function startTendermint (root, cb) {
   child.stderr.pipe(log)
 
   let rpc = RpcClient('localhost:46657')
-  let interval = setInterval(() => {
+  let status = util.promisify(rpc.status.bind(rpc))
+  while (true) {
     console.log('trying to get tendermint RPC status')
-    rpc.status((err, res) => {
-      if (err) return
-      if (!res) return
-      if (res.latest_block_height === 0) {
-        console.log('waiting for blockchain to start syncing')
-        return
-      }
-      done()
-    })
-  }, 1000)
-  function done (err) {
-    clearInterval(interval)
-    cb(err)
+    let res = await status()
+    if (res) {
+      if (res.latest_block_height > 0) break
+      console.log('waiting for blockchain to start syncing')
+    }
+    await sleep(1000)
   }
 
   return child
 }
 
 // start baseserver REST API
-function startBaseserver (home, cb) {
+async function startBaseserver (home) {
   console.log('startBaseserver', home)
   let log = fs.createWriteStream(join(home, 'baseserver.log'))
 
@@ -207,40 +206,32 @@ function startBaseserver (home, cb) {
     '--home', home // ,
     // '--trust-node'
   ])
-  child.stderr.on('data', waitForReady)
   child.stdout.pipe(log)
   child.stderr.pipe(log)
-  function waitForReady (data) {
-    if (!data.toString().includes('Serving on')) return
-    child.removeListener('data', waitForReady)
-    cb(null)
-  }
 
   // restore baseserver if it crashes
-  child.on('exit', () => {
+  child.on('exit', async () => {
     if (shuttingDown) return
     console.log('baseserver crashed, restarting')
-    setTimeout(() => {
-      startBaseserver(home, (err) => {
-        if (err) console.log(err)
-      })
-    }, 1000)
+    await sleep(1000)
+    await startBaseserver(home)
   })
+
+  while (true) {
+    let data = await event(child.stderr, 'data')
+    if (data.toString().includes('Serving on')) break
+  }
 
   return child
 }
 
-let initBasecoin = watt(function * (root, next) {
+async function initBasecoin (root) {
   let opts = {
     env: {
       BCHOME: root,
       TMROOT: root
     }
   }
-
-  // copy predefined genesis.json and config.toml into root
-  let bchome = process.env.COSMOS_NETWORK
-  yield fs.copy(bchome, root, next)
 
   // `basecoin init` to generate account keys, validator key
   let child = startProcess(NODE_BINARY, [
@@ -249,14 +240,20 @@ let initBasecoin = watt(function * (root, next) {
     '1B1BE55F969F54064628A63B9559E7C21C925165',
     '--home', root
   ], opts)
-  yield child.on('exit', next.arg(0))
+  await event(child, 'exit')
+
+  // copy predefined genesis.json and config.toml into root
+  let bchome = process.env.COSMOS_NETWORK
+  fs.copySync(bchome, root)
 
   if (DEV || TEST) {
+    console.log('adding self to validator set')
     // replace validator set so our node has 100% of voting power
-    let privValidatorBytes = yield fs.readFile(join(root, 'priv_validator.json'), next)
-    let privValidator = JSON.parse(privValidatorBytes.toString())
-    let genesisBytes = yield fs.readFile(join(root, 'genesis.json'), next)
-    let genesis = JSON.parse(genesisBytes.toString())
+    let privValidatorText = fs.readFileSync(join(root, 'priv_validator.json'), 'utf8')
+    let privValidator = JSON.parse(privValidatorText)
+    let genesisText = fs.readFileSync(join(root, 'genesis.json'), 'utf8')
+    console.log('g', genesisText)
+    let genesis = JSON.parse(genesisText)
     genesis.validators = [
       {
         pub_key: privValidator.pub_key,
@@ -264,12 +261,13 @@ let initBasecoin = watt(function * (root, next) {
         name: 'dev_validator'
       }
     ]
-    genesisBytes = JSON.stringify(genesis, null, '  ')
-    yield fs.writeFile(join(root, 'genesis.json'), genesisBytes, next)
+    genesisText = JSON.stringify(genesis, null, '  ')
+    console.log('genesisText', genesisText)
+    fs.writeFileSync(join(root, 'genesis.json'), genesisText)
   }
-})
+}
 
-let exists = watt(function * (path, next) {
+function exists (path) {
   try {
     fs.accessSync(path)
     return true
@@ -277,9 +275,9 @@ let exists = watt(function * (path, next) {
     if (err.code !== 'ENOENT') throw err
     return false
   }
-})
+}
 
-let initBaseserver = watt(function * (chainId, home, next) {
+async function initBaseserver (chainId, home) {
   // `baseserver init` to generate config, trust seed
   let child = startProcess(SERVER_BINARY, [
     'init',
@@ -293,47 +291,47 @@ let initBaseserver = watt(function * (chainId, home, next) {
     // since the baseserver is talking to our own full node
     child.stdin.write('y\n')
   })
-  yield child.on('exit', next.arg(0))
-})
+  await event(child, 'exit')
+}
 
-let backupData = watt(function * (root, next) {
+function backupData (root) {
   let i = 1
   let path
   do {
     path = `${root}_backup_${i}`
     i++
-  } while (yield exists(path))
+  } while (exists(path))
 
   console.log(`backing up data to "${path}"`)
   fs.moveSync(root, path, {
     overwrite: false,
     errorOnExist: true
   })
-})
+}
 
 process.on('exit', shutdown)
 
-watt(function * (next) {
+async function main () {
   let root = require('../root.js')
   let versionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
 
   let init = true
-  if (yield exists(root)) {
+  if (exists(root)) {
     console.log(`root exists (${root})`)
 
     // check if the existing data came from a compatible app version
     // if not, backup the data and re-initialize
-    if (yield exists(versionPath)) {
+    if (exists(versionPath)) {
       let existingVersion = fs.readFileSync(versionPath, 'utf8')
       let compatible = semver.diff(existingVersion, pkg.version) !== 'major'
       if (compatible) init = false
-      else yield backupData(root)
+      else backupData(root)
     } else {
-      yield backupData(root)
+      backupData(root)
     }
 
-    // check to make sure the specified genesis.json matches the one
+    // check to make sure the genesis.json we want to use matches the one
     // we already have. if it has changed, back up the old data
     if (!init) {
       let existingGenesis = fs.readFileSync(genesisPath, 'utf8')
@@ -341,10 +339,9 @@ watt(function * (next) {
       // skip this check for local testnet
       if (genesisJSON.chain_id !== 'local') {
         let specifiedGenesis = fs.readFileSync(join(process.env.COSMOS_NETWORK, 'genesis.json'), 'utf8')
-        console.log(existingGenesis, specifiedGenesis)
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
           console.log('genesis has changed')
-          yield backupData(root)
+          backupData(root)
         }
       }
     }
@@ -352,8 +349,8 @@ watt(function * (next) {
 
   if (init) {
     console.log(`initializing data directory (${root})`)
-    yield mkdirp(root, next)
-    yield initBasecoin(root)
+    mkdirp(root)
+    await initBasecoin(root)
     fs.writeFileSync(versionPath, pkg.version)
   }
 
@@ -379,15 +376,16 @@ watt(function * (next) {
 
   console.log('starting basecoin and tendermint')
   basecoinProcess = startBasecoin(root)
-  tendermintProcess = yield startTendermint(root, next)
+  tendermintProcess = await startTendermint(root)
   console.log('basecoin and tendermint are ready')
 
   let baseserverHome = join(root, 'baseserver')
   if (init) {
-    yield initBaseserver(chainId, baseserverHome)
+    initBaseserver(chainId, baseserverHome)
   }
 
   console.log('starting baseserver')
-  baseserverProcess = yield startBaseserver(baseserverHome, next)
+  baseserverProcess = await startBaseserver(baseserverHome)
   console.log('baseserver ready')
-})()
+}
+main().catch(function (err) { throw err })
