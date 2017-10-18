@@ -42,17 +42,25 @@ You can create production builds to get an app which will connect to an actual b
 First you will need the prerequisite source repositories installed:
 
 ```bash
+# install go, set $GOPATH
+brew install go
+
+# install glide
+brew install glide
+
 # install basecoin/baseserver
-go get github.com/cosmos/cosmos-sdk
+go get -d github.com/cosmos/cosmos-sdk
 cd $GOPATH/src/github.com/cosmos/cosmos-sdk
 git checkout develop
 make get_vendor_deps
+make install
 
 # install tendermint
-go get github.com/tendermint/tendermint
+go get -d github.com/tendermint/tendermint/cmd/tendermint
 cd $GOPATH/src/github.com/tendermint/tendermint
 git checkout v0.11.0
 make get_vendor_deps
+make install
 ```
 
 Then build and run the app:
