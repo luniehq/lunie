@@ -3,7 +3,7 @@
   "chain_id":"tak",
   "validators":
   [
-
+    
     {
       "pub_key": {
         "data": "92A20CF4C0FF5B122022EA1C165339B3DBDBAE8BD3EED83D243E7797DED7D86E",
@@ -261,3 +261,4 @@
 
     ]  }
 }
+
