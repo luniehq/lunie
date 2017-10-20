@@ -4,6 +4,7 @@ const config = require('../config')
 const exec = require('child_process').exec
 const treeKill = require('tree-kill')
 const path = require('path')
+const event = require('event-to-promise')
 
 let YELLOW = '\x1b[33m'
 let BLUE = '\x1b[34m'
@@ -35,17 +36,18 @@ function run (command, color, name, env) {
   return child
 }
 
-function startRendererServer () {
-  return new Promise((resolve) => {
-    console.log(`${YELLOW}Starting webpack-dev-server...\n${END}`)
-    let child = run(`webpack-dev-server --hot --colors --config webpack.renderer.config.js --port ${config.port} --content-base app/dist`, YELLOW, 'webpack')
-    let waitForCompile = (data) => {
-      if (!data.toString().includes('Compiled successfully')) return
-      child.stdout.removeListener('data', waitForCompile)
-      resolve()
-    }
-    child.stdout.on('data', waitForCompile)
-  })
+async function startRendererServer () {
+  console.log(`${YELLOW}Starting webpack-dev-server...\n${END}`)
+  let child = run(`
+    webpack-dev-server --hot --colors \
+      --config webpack.renderer.config.js \
+      --port ${config.port} \
+      --content-base app/dist
+    `, YELLOW, 'webpack')
+  while (true) {
+    let data = await event(child.stdout, 'data')
+    if (data.toString().includes('Compiled successfully')) break
+  }
 }
 
 module.exports = async function (networkPath) {
