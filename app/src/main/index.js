@@ -1,16 +1,16 @@
 'use strict'
 
-import { app, BrowserWindow, Menu } from 'electron'
-import fs from 'fs-extra'
-import { join } from 'path'
-import { spawn } from 'child_process'
-import home from 'user-home'
+let { app, BrowserWindow, Menu } = require('electron')
+let fs = require('fs-extra')
+let { join } = require('path')
+let { spawn } = require('child_process')
+let home = require('user-home')
 let mkdirp = require('mkdirp').sync
-import RpcClient from 'tendermint'
-import semver from 'semver'
-import event from 'event-to-promise'
-import util from 'util'
-import pkg from '../../package.json'
+let RpcClient = require('tendermint')
+let semver = require('semver')
+let event = require('event-to-promise')
+let { promisify } = require('util')
+let pkg = require('../../package.json')
 
 let shuttingDown = false
 let mainWindow
@@ -182,7 +182,10 @@ async function startTendermint (root) {
   child.stderr.pipe(log)
 
   let rpc = RpcClient('localhost:46657')
-  let status = util.promisify(rpc.status.bind(rpc))
+  let status = () => new Promise((resolve, reject) => {
+    // ignore errors, since we'll just poll until we get a response
+    rpc.status((err, res) => resolve(res))
+  })
   while (true) {
     console.log('trying to get tendermint RPC status')
     let res = await status()
@@ -388,4 +391,4 @@ async function main () {
   baseserverProcess = await startBaseserver(baseserverHome)
   console.log('baseserver ready')
 }
-main().catch(function (err) { throw err })
+main().catch(function (err) { console.error(err.stack) })
