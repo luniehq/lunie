@@ -21,6 +21,10 @@ const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
   : `file://${__dirname}/index.html`
 
+// this network gets used if none is specified via the
+// COSMOS_NETWORK env var
+let DEFAULT_NETWORK = join(__dirname, '../networks/tak')
+
 let NODE_BINARY = 'basecoin'
 let SERVER_BINARY = 'baseserver'
 
@@ -246,8 +250,9 @@ async function initBasecoin (root) {
   await event(child, 'exit')
 
   // copy predefined genesis.json and config.toml into root
-  let bchome = process.env.COSMOS_NETWORK
-  fs.copySync(bchome, root)
+  let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
+  fs.accessSync(networkPath) // crash if invalid path
+  fs.copySync(networkPath, root)
 
   if (DEV || TEST) {
     console.log('adding self to validator set')
@@ -255,7 +260,6 @@ async function initBasecoin (root) {
     let privValidatorText = fs.readFileSync(join(root, 'priv_validator.json'), 'utf8')
     let privValidator = JSON.parse(privValidatorText)
     let genesisText = fs.readFileSync(join(root, 'genesis.json'), 'utf8')
-    console.log('g', genesisText)
     let genesis = JSON.parse(genesisText)
     genesis.validators = [
       {
@@ -265,7 +269,6 @@ async function initBasecoin (root) {
       }
     ]
     genesisText = JSON.stringify(genesis, null, '  ')
-    console.log('genesisText', genesisText)
     fs.writeFileSync(join(root, 'genesis.json'), genesisText)
   }
 }
@@ -391,4 +394,7 @@ async function main () {
   baseserverProcess = await startBaseserver(baseserverHome)
   console.log('baseserver ready')
 }
-main().catch(function (err) { console.error(err.stack) })
+main().catch(function (err) {
+  console.error(err.stack)
+  process.exit(1)
+})
