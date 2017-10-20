@@ -36,18 +36,17 @@ function run (command, color, name, env) {
   return child
 }
 
-async function startRendererServer () {
-  console.log(`${YELLOW}Starting webpack-dev-server...\n${END}`)
-  let child = run(`
-    webpack-dev-server --hot --colors \
-      --config webpack.renderer.config.js \
-      --port ${config.port} \
-      --content-base app/dist
-    `, YELLOW, 'webpack')
-  while (true) {
-    let data = await event(child.stdout, 'data')
-    if (data.toString().includes('Compiled successfully')) break
-  }
+function startRendererServer () {
+  return new Promise((resolve) => {
+    console.log(`${YELLOW}Starting webpack-dev-server...\n${END}`)
+    let child = run(`webpack-dev-server --hot --colors --config webpack.renderer.config.js --port ${config.port} --content-base app/dist`, YELLOW, 'webpack')
+    let waitForCompile = (data) => {
+      if (!data.toString().includes('Compiled successfully')) return
+      child.stdout.removeListener('data', waitForCompile)
+      resolve()
+    }
+    child.stdout.on('data', waitForCompile)
+  })
 }
 
 module.exports = async function (networkPath) {
