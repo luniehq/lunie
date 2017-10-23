@@ -199,16 +199,19 @@ async function startTendermint (root) {
     rpc.status((err, res) => {
       // ignore connection errors, since we'll just poll until we get a response
       if (err && err.code !== 'ECONNREFUSED') {
-        console.log('Tendermint failed', err)
         reject(err)
         return
       }
       resolve(res)
     })
   })
+  let noFailure = true
   while (true) {
     console.log('trying to get tendermint RPC status')
     let res = await status()
+      .catch(e => {
+        throw new Error(`Tendermint produced an unexpected error: ${e.message}`)
+      })
     if (res) {
       if (res.latest_block_height > 0) break
       console.log('waiting for blockchain to start syncing')
