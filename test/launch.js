@@ -26,8 +26,12 @@ module.exports = async function launch (t) {
       COSMOS_NETWORK: join(__dirname, 'localtestnet')
     }
   })
-  await app.start()
-  .catch(e => t.fail(e.message))
+
+  try {
+    await app.start()
+  } catch (error) {
+    t.fail(err.message)
+  }
 
   t.test('launch app', async function (t) {
     t.ok(app.isRunning(), 'app is running')
