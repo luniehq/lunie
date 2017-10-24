@@ -2,7 +2,6 @@
 
 const config = require('../config')
 const exec = require('child_process').exec
-const treeKill = require('tree-kill')
 const path = require('path')
 const event = require('event-to-promise')
 
