@@ -29,7 +29,7 @@ module.exports = async function launch (t) {
 
   try {
     await app.start()
-  } catch (error) {
+  } catch (err) {
     t.fail(err.message)
   }
 
