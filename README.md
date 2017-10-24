@@ -68,3 +68,12 @@ Then build and run the app:
 npm run pack && npm run build:darwin
 open builds/cosmos-ui-darwin-x64/cosmos-ui.app
 ```
+
+## Testing
+
+To test you need to first package the web content of the app, as this content can only be used bundled by the electron instance.
+
+```bash
+$ npm run pack
+$ npm run test
+```

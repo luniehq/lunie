@@ -210,6 +210,7 @@ async function startTendermint (root) {
 // start baseserver REST API
 async function startBaseserver (home) {
   console.log('startBaseserver', home)
+  fs.ensureFileSync(join(home, 'baseserver.log'))
   let log = fs.createWriteStream(join(home, 'baseserver.log'))
 
   let child = startProcess(SERVER_BINARY, [
