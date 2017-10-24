@@ -9,7 +9,6 @@ let mkdirp = require('mkdirp').sync
 let RpcClient = require('tendermint')
 let semver = require('semver')
 let event = require('event-to-promise')
-let { promisify } = require('util')
 let pkg = require('../../package.json')
 
 let shuttingDown = false
@@ -188,7 +187,12 @@ async function startTendermint (root) {
   let rpc = RpcClient('localhost:46657')
   let status = () => new Promise((resolve, reject) => {
     // ignore errors, since we'll just poll until we get a response
-    rpc.status((err, res) => resolve(res))
+    rpc.status((err, res) => {
+      if (err) {
+        return
+      }
+      resolve(res)
+    })
   })
   while (true) {
     console.log('trying to get tendermint RPC status')

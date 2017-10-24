@@ -1,4 +1,4 @@
-let { spawn, spawnSync } = require('child_process')
+let { spawn } = require('child_process')
 let test = require('tape-promise/tape')
 let launchApp = require('./launch.js')
 let { navigate, newTempDir, waitForText, sleep } = require('./common.js')
@@ -47,10 +47,6 @@ function cliSendCoins (home, to, amount) {
     child.once('error', reject)
     child.once('exit', resolve)
   })
-}
-
-function cliQueryAccount (home, address) {
-
 }
 
 test('wallet', async function (t) {
