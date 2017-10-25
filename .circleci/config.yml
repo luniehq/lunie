@@ -29,4 +29,5 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
         
       - run: yarn lint
+      - run: npm run pack
       - run: yarn test

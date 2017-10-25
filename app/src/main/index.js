@@ -162,6 +162,11 @@ function startBasecoin (root) {
   let child = startProcess(NODE_BINARY, args, opts)
   child.stdout.pipe(log)
   child.stderr.pipe(log)
+  child.on('exit', code => {
+    if (code !== 0) {
+      throw new Error('Basecoin exited unplanned')
+    }
+  })
   return child
 }
 
@@ -179,24 +184,35 @@ async function startTendermint (root) {
     'node',
     '--home', root
   ]
-  if (DEV) args.push('--log_level', 'info')
+  // if (DEV) args.push('--log_level', 'info')
   let child = startProcess('tendermint', args, opts)
   child.stdout.pipe(log)
   child.stderr.pipe(log)
+  child.on('exit', code => {
+    if (code !== 0) {
+      throw new Error('Tendermint exited unplanned')
+    }
+  })
 
   let rpc = RpcClient('localhost:46657')
   let status = () => new Promise((resolve, reject) => {
-    // ignore errors, since we'll just poll until we get a response
     rpc.status((err, res) => {
-      if (err) {
+      // ignore connection errors, since we'll just poll until we get a response
+      if (err && err.code !== 'ECONNREFUSED') {
+        reject(err)
         return
       }
       resolve(res)
     })
   })
-  while (true) {
+  let noFailure = true
+  while (noFailure) {
     console.log('trying to get tendermint RPC status')
     let res = await status()
+      .catch(e => {
+        noFailure = false
+        throw new Error(`Tendermint produced an unexpected error: ${e.message}`)
+      })
     if (res) {
       if (res.latest_block_height > 0) break
       console.log('waiting for blockchain to start syncing')
@@ -210,7 +226,9 @@ async function startTendermint (root) {
 // start baseserver REST API
 async function startBaseserver (home) {
   console.log('startBaseserver', home)
-  let log = fs.createWriteStream(join(home, 'baseserver.log'))
+  const logFile = join(home, 'baseserver.log')
+  fs.ensureFileSync(logFile)
+  let log = fs.createWriteStream(logFile)
 
   let child = startProcess(SERVER_BINARY, [
     'serve',
@@ -352,6 +370,7 @@ async function main () {
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
           console.log('genesis has changed')
           backupData(root)
+          init = true
         }
       }
     }
@@ -361,6 +380,9 @@ async function main () {
     console.log(`initializing data directory (${root})`)
     mkdirp(root)
     await initBasecoin(root)
+    .catch(e => {
+      throw new Error('Initialization of basecoint failed:', e)
+    })
     fs.writeFileSync(versionPath, pkg.version)
   }
 
@@ -380,13 +402,21 @@ async function main () {
   console.log(`winURL: ${winURL}`)
 
   // read chainId from genesis.json
-  let genesisText = fs.readFileSync(genesisPath, 'utf8')
+  let genesisText
+  try {
+    genesisText = fs.readFileSync(genesisPath, 'utf8')
+  } catch (e) {
+    throw new Error(`Can't open genesis.json: ${e.message}`)
+  }
   let genesis = JSON.parse(genesisText)
   let chainId = genesis.chain_id
 
   console.log('starting basecoin and tendermint')
   basecoinProcess = startBasecoin(root)
   tendermintProcess = await startTendermint(root)
+  .catch(e => {
+    throw new Error(`Can't start Tendermint: ${e.message}`)
+  })
   console.log('basecoin and tendermint are ready')
 
   let baseserverHome = join(root, 'baseserver')
@@ -396,6 +426,9 @@ async function main () {
 
   console.log('starting baseserver')
   baseserverProcess = await startBaseserver(baseserverHome)
+  .catch(e => {
+    throw new Error(`Can't start baseserver: ${e.message}`)
+  })
   console.log('baseserver ready')
 }
 main().catch(function (err) {

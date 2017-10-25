@@ -7,6 +7,7 @@ test('sign in', async function (t) {
   let el = (...args) => client.$(...args)
 
   app = await launchApp(t)
+  console.log('app launched')
   client = app.client
 
   navigate(t, client, 'Sign In', 'Welcome to Cosmos')

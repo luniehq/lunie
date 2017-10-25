@@ -8,7 +8,7 @@ This is still alpha-level software as of September 2017. Do not enter in your Co
 
 ## Development
 
-To run the dev build, first you will need the following binaries installed in your GOPATH: `basecoin`, `baseserver`, and `tendermint`.
+To run the dev build, first you will need the following binaries installed in your GOPATH: `basecoin`, `baseserver`, and `tendermint`. Download those from `https://tendermint.com/downloads`.
 
 ```fish
 # check your versions
@@ -22,6 +22,8 @@ $ tendermint version
 
 ```
 npm install
+
+# on Window set GOPATH in `./config.js`
 
 # run on the default testnet
 npm run testnet
@@ -50,14 +52,14 @@ brew install glide
 
 # install basecoin/baseserver
 go get -d github.com/cosmos/cosmos-sdk
-cd $GOPATH/src/github.com/cosmos/cosmos-sdk
+cd $GOPATH/src/github.com/cosmos/cosmos-sdk // Windows: cd %GOPATH%/src/github.com/cosmos/cosmos-sdk
 git checkout develop
 make get_vendor_deps
 make install
 
 # install tendermint
 go get -d github.com/tendermint/tendermint/cmd/tendermint
-cd $GOPATH/src/github.com/tendermint/tendermint
+cd $GOPATH/src/github.com/tendermint/tendermint // Windows: cd %GOPATH%/src/github.com/tendermint/tendermint
 git checkout v0.11.0
 make get_vendor_deps
 make install
@@ -67,4 +69,13 @@ Then build and run the app:
 ```bash
 npm run pack && npm run build:darwin
 open builds/cosmos-ui-darwin-x64/cosmos-ui.app
+```
+
+## Testing
+
+To test you need to first package the web content of the app, as this content can only be used bundled by the electron instance.
+
+```bash
+$ npm run pack
+$ npm run test
 ```
