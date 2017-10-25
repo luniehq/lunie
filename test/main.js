@@ -1,5 +1,14 @@
 let test = require('tape-promise/tape')
+let proxyquire = require('proxyquire')
 
-module.exports = async function main (t) {
-  return require('../app/dist/main')
-}
+test('main runs', async function (t) {
+  await proxyquire('../app/dist/main', {
+    electron: {
+      app: {
+        on: () => {},
+        quit: () => {}
+      }
+    }
+  })
+  t.ok()
+})

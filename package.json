@@ -115,6 +115,7 @@
     "nib": "^1.1.2",
     "no-scroll": "^2.1.0",
     "pikaday-time": "^1.6.1",
+    "proxyquire": "^1.8.0",
     "request-interval": "^2.0.0",
     "shortid": "^2.2.8",
     "stylus": "^0.54.5",
