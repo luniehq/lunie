@@ -331,7 +331,10 @@ function backupData (root) {
   } while (exists(path))
 
   console.log(`backing up data to "${path}"`)
-  fs.copySync(root, path)
+  fs.moveSync(root, path, {
+    overwrite: false,
+    errorOnExist: true
+  })
 }
 
 process.on('exit', shutdown)
@@ -367,6 +370,7 @@ async function main () {
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
           console.log('genesis has changed')
           backupData(root)
+          init = true
         }
       }
     }
