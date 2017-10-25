@@ -431,7 +431,8 @@ async function main () {
   })
   console.log('baseserver ready')
 }
-main().catch(function (err) {
-  console.error(err.stack)
-  process.exit(1)
-})
+return main()
+// .catch(function (err) {
+//   console.error(err.stack)
+//   process.exit(1)
+// })
