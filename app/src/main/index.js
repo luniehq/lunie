@@ -187,10 +187,7 @@ async function startTendermint (root) {
   let rpc = RpcClient('localhost:46657')
   let status = () => new Promise((resolve, reject) => {
     // ignore errors, since we'll just poll until we get a response
-    rpc.status((err, res) => {
-      if (err) {
-        return
-      }
+    rpc.status((_, res) => {
       resolve(res)
     })
   })

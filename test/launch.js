@@ -27,7 +27,6 @@ module.exports = async function launch (t) {
     }
   })
   await app.start()
-  .catch(e => t.fail(e.message))
 
   t.test('launch app', async function (t) {
     t.ok(app.isRunning(), 'app is running')
