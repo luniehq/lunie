@@ -206,10 +206,11 @@ async function startTendermint (root) {
     })
   })
   let noFailure = true
-  while (true) {
+  while (noFailure) {
     console.log('trying to get tendermint RPC status')
     let res = await status()
       .catch(e => {
+        noFailure = false
         throw new Error(`Tendermint produced an unexpected error: ${e.message}`)
       })
     if (res) {
