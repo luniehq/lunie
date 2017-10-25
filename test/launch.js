@@ -4,7 +4,6 @@ let { Application } = require('spectron')
 let test = require('tape-promise/tape')
 let electron = require('electron')
 let { join } = require('path')
-let { tmpdir } = require('os')
 let { newTempDir } = require('./common.js')
 
 // re-use app instance
@@ -27,7 +26,9 @@ module.exports = async function launch (t) {
       COSMOS_NETWORK: join(__dirname, 'localtestnet')
     }
   })
+
   await app.start()
+  .catch(e => t.fail(e.message))
 
   t.test('launch app', async function (t) {
     t.ok(app.isRunning(), 'app is running')
