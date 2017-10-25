@@ -20,7 +20,7 @@
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config webpack.renderer.config.js",
-    "test": "tape test/main.js & tape test/*.js",
+    "test": "tape test/main.js",
     "vue:route": "node tasks/vue/route.js",
     "vuex:module": "node tasks/vuex/module.js",
     "postinstall": "cd app && npm install && cd .. && electron-rebuild --module-dir app"
