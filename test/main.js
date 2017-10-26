@@ -1,7 +1,18 @@
+let { join } = require('path')
 let test = require('tape-promise/tape')
 let proxyquire = require('proxyquire')
+let { newTempDir } = require('./common.js')
 
-test('main runs', async function (t) {
+let home = newTempDir()
+console.error(`ui home: ${home}`)
+
+Object.assign(process.env, {
+  COSMOS_TEST: 'true',
+  COSMOS_HOME: home,
+  COSMOS_NETWORK: join(__dirname, 'localtestnet')
+})
+
+test('main', async function (t) {
   await proxyquire('../app/dist/main', {
     electron: {
       app: {
@@ -9,6 +20,9 @@ test('main runs', async function (t) {
         quit: () => {}
       }
     }
-  })
-  t.ok()
+  }).default
+  .catch(t.fail)
+  t.ok(true, 'main function is running')
+  t.end()
+  process.exit(0)
 })

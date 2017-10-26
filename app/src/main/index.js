@@ -431,8 +431,8 @@ async function main () {
   })
   console.log('baseserver ready')
 }
-main()
-// .catch(function (err) {
-//   console.error(err.stack)
-//   process.exit(1)
-// })
+exports.default = main()
+.catch(function (err) {
+  console.error(err.stack)
+  process.exit(1)
+})
