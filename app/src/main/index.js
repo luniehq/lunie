@@ -386,9 +386,11 @@ async function main () {
     fs.writeFileSync(versionPath, pkg.version)
   }
 
-  if (!DEV) {
+  if (!DEV && !TEST) {
+    let logFilePath = join(root, 'main.log')
+    console.log('Redirecting console output to logfile', logFilePath)
     // redirect stdout/err to logfile
-    let mainLog = fs.createWriteStream(join(root, 'main.log'))
+    let mainLog = fs.createWriteStream(logFilePath)
     console.log = function (...args) {
       mainLog.write(`${args.join(' ')}\n`)
     }
@@ -432,7 +434,7 @@ async function main () {
   console.log('baseserver ready')
 }
 exports.default = main()
-.catch(function (err) {
-  console.error(err.stack)
-  process.exit(1)
-})
+// .catch(function (err) {
+//   console.error(err.stack)
+//   process.exit(1)
+// })
