@@ -317,6 +317,7 @@ async function initBaseserver (chainId, home) {
     // '--trust-node'
   ])
   child.stdout.on('data', (data) => {
+    if (shuttingDown) return
     // answer 'y' to the prompt about trust seed. we can trust this is correct
     // since the baseserver is talking to our own full node
     child.stdin.write('y\n')
