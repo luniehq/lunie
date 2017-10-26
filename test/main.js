@@ -13,13 +13,6 @@ Object.assign(process.env, {
 })
 
 test('main', async function (t) {
-  // exit if tests produce logs after termination
-  process.stdout.on('error', function( err ) {
-    if (err.code == "EPIPE" || err.code == "ECONNRESET") {
-        process.exit(0);
-    }
-  });
-
   await proxyquire('../app/dist/main', {
     electron: {
       app: {
