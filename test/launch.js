@@ -24,7 +24,7 @@ module.exports = async function launch (t) {
       COSMOS_TEST: 'true',
       COSMOS_HOME: home,
       COSMOS_NETWORK: join(__dirname, 'localtestnet')
-    } 
+    }
   })
 
   await app.start()

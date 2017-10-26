@@ -208,7 +208,9 @@ async function startTendermint (root) {
     })
   })
   let noFailure = true
-  while (noFailure && !shuttingDown) {
+  while (noFailure) {
+    if (shuttingDown) return
+
     console.log('trying to get tendermint RPC status')
     let res = await status()
       .catch(e => {
@@ -248,7 +250,9 @@ async function startBaseserver (home) {
     await startBaseserver(home)
   })
 
-  while (!shuttingDown) {
+  while (true) {
+    if (shuttingDown) break
+
     let data = await event(child.stderr, 'data')
     if (data.toString().includes('Serving on')) break
   }
