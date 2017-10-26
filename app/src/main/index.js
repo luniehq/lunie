@@ -145,7 +145,7 @@ app.on('activate', () => {
 
 // start basecoin node
 function startBasecoin (root) {
-  let log = TEST ? process.stdout : fs.createWriteStream(join(root, 'basecoin.log'))
+  let log = fs.createWriteStream(join(root, 'basecoin.log'))
   let opts = {
     env: {
       BCHOME: root,
@@ -172,7 +172,7 @@ function startBasecoin (root) {
 
 // start tendermint node
 async function startTendermint (root) {
-  let log = TEST ? process.stdout : fs.createWriteStream(join(root, 'tendermint.log'))
+  let log = fs.createWriteStream(join(root, 'tendermint.log'))
   let opts = {
     env: {
       BCHOME: root,
@@ -228,7 +228,7 @@ async function startBaseserver (home) {
   console.log('startBaseserver', home)
   const logFile = join(home, 'baseserver.log')
   fs.ensureFileSync(logFile)
-  let log = TEST ? process.stdout : fs.createWriteStream(logFile)
+  let log = fs.createWriteStream(logFile)
 
   let child = startProcess(SERVER_BINARY, [
     'serve',
@@ -434,7 +434,7 @@ async function main () {
   console.log('baseserver ready')
 }
 exports.default = main()
-// .catch(function (err) {
-//   console.error(err.stack)
-//   process.exit(1)
-// })
+.catch(function (err) {
+  console.error(err.stack)
+  process.exit(1)
+})
