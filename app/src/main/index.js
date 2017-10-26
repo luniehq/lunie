@@ -384,7 +384,7 @@ async function main () {
     mkdirp(root)
     await initBasecoin(root)
     .catch(e => {
-      throw new Error('Initialization of basecoint failed:', e)
+      throw new Error(`Initialization of basecoin failed: ${e.message}`)
     })
     fs.writeFileSync(versionPath, pkg.version)
   }

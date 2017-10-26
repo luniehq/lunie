@@ -6169,10 +6169,6 @@ proxyquire@^1.8.0:
     module-not-found-error "^1.0.0"
     resolve "~1.1.7"
 
-proxyrequire@^1.0.19:
-  version "1.0.19"
-  resolved "https://registry.yarnpkg.com/proxyrequire/-/proxyrequire-1.0.19.tgz#3083eda748899cfc5bd9247ea9a945748859f774"
-
 prr@~0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/prr/-/prr-0.0.0.tgz#1a84b85908325501411853d0081ee3fa86e2926a"

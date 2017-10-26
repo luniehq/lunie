@@ -25,11 +25,15 @@ test('main', async function (t) {
   main
   .then(() => {
     t.ok(true, 'main function is running')
-    main.shutdown()
-    t.end()
+    cleanUp(t, main)
   })
   .catch(e => {
-    main.shutdown()
     t.fail(e)
+    cleanUp(t, main)
   })
 })
+
+function cleanUp (t, main) {
+  main.shutdown()
+  t.end()
+}

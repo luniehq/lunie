@@ -24,20 +24,23 @@ module.exports = async function launch (t) {
       COSMOS_TEST: 'true',
       COSMOS_HOME: home,
       COSMOS_NETWORK: join(__dirname, 'localtestnet')
-    }
+    } 
   })
 
   await app.start()
-  .catch(e => t.fail(e.message))
 
-  t.test('launch app', async function (t) {
+  t.test('launch app', function (t) {
     t.ok(app.isRunning(), 'app is running')
     t.end()
   })
 
   t.test('wait for app to load', async function (t) {
     await app.client.waitForExist('.header-item-logo', 5000)
-    t.pass('app loaded')
+    .then(() => t.pass('app loaded'))
+    .catch(e => {
+      printAppLog(app)
+      t.fail(e)
+    })
     t.end()
   })
 
@@ -45,3 +48,18 @@ module.exports = async function launch (t) {
 }
 
 test.onFinish(() => app ? app.stop() : null)
+
+function printAppLog (app) {
+  app.client.getMainProcessLogs().then(function (logs) {
+    logs.forEach(function (log) {
+      console.log(log)
+    })
+  })
+  app.client.getRenderProcessLogs().then(function (logs) {
+    logs.forEach(function (log) {
+      console.log(log.message)
+      console.log(log.source)
+      console.log(log.level)
+    })
+  })
+}
