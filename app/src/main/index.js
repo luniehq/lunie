@@ -32,6 +32,8 @@ function sleep (ms) {
 }
 
 function shutdown () {
+  if (shuttingDown) return
+
   mainWindow = null
   shuttingDown = true
 
@@ -163,7 +165,7 @@ function startBasecoin (root) {
   child.stdout.pipe(log)
   child.stderr.pipe(log)
   child.on('exit', code => {
-    if (code !== 0) {
+    if (code !== 0 && !shuttingDown) {
       throw new Error('Basecoin exited unplanned')
     }
   })
@@ -189,7 +191,7 @@ async function startTendermint (root) {
   child.stdout.pipe(log)
   child.stderr.pipe(log)
   child.on('exit', code => {
-    if (code !== 0) {
+    if (code !== 0 && !shuttingDown) {
       throw new Error('Tendermint exited unplanned')
     }
   })
@@ -433,8 +435,13 @@ async function main () {
   })
   console.log('baseserver ready')
 }
-exports.default = main()
-.catch(function (err) {
-  console.error(err.stack)
-  process.exit(1)
-})
+exports.default = Object.assign(
+  main()
+  .catch(function (err) {
+    console.error(err.stack)
+    process.exit(1)
+  }),
+  {
+    shutdown
+  }
+)

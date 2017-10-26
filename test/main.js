@@ -13,7 +13,7 @@ Object.assign(process.env, {
 })
 
 test('main', async function (t) {
-  await proxyquire('../app/dist/main', {
+  let main = proxyquire('../app/dist/main', {
     electron: {
       app: {
         on: () => {},
@@ -21,8 +21,15 @@ test('main', async function (t) {
       }
     }
   }).default
-  .catch(t.fail)
-  t.ok(true, 'main function is running')
-  t.end()
-  process.exit(0)
+
+  main
+  .then(() => {
+    t.ok(true, 'main function is running')
+    main.shutdown()
+    t.end()
+  })
+  .catch(e => {
+    main.shutdown()
+    t.fail(e)
+  })
 })
