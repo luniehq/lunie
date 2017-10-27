@@ -9,6 +9,9 @@ jobs:
       # specify the version you desire here
       - image: faboweb/cosmos:t0.11.1c0.7.1
 
+    environment:
+      - GOPATH: "/go"
+
     working_directory: ~/repo
 
     steps:
