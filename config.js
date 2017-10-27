@@ -27,7 +27,7 @@ let config = {
     platform: process.env.PLATFORM_TARGET || 'all'
   },
 
-  GOPATH: `C:/Users/Fabo/Documents/Entwicklung/Go`
+  GOPATH: undefined
 }
 
 config.building.name = config.name
