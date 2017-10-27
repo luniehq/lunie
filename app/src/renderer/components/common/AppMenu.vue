@@ -3,16 +3,12 @@
     part(title='Wallet')
       list-item(to="/" exact @click.native="close" title="Balances")
       list-item(to="/wallet/send" exact @click.native="close" title="Send")
-    part(title='Govern')
-      list-item(to="/proposals" exact @click.native="close" title="Proposals")
     part(title='Stake')
       list-item(to="/staking" exact @click.native="close" title="Validator Candidates")
       list-item(to="/staking/nominate" exact @click.native="close" title="Self Nomination")
     part(title='Monitor')
-      list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
       list-item(to="/validators" exact @click.native="close" title="Validators"
         v-bind:class="{ 'active': isValidatorPage }")
-      list-item(to="/delegators" exact @click.native="close" title="Delegators")
 </template>
 
 <script>

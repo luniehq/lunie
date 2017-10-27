@@ -4,7 +4,6 @@ let { Application } = require('spectron')
 let test = require('tape-promise/tape')
 let electron = require('electron')
 let { join } = require('path')
-let { tmpdir } = require('os')
 let { newTempDir } = require('./common.js')
 
 // re-use app instance
