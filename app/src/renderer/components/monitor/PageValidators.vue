@@ -11,7 +11,6 @@ page(title='Validators')
 
 <script>
 import { mapGetters } from 'vuex'
-import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import ListItem from '../common/NiListItem'
 import ModalSearch from '../common/ModalSearch'
