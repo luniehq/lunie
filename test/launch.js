@@ -17,7 +17,11 @@ module.exports = async function launch (t) {
 
   app = new Application({
     path: electron,
-    args: [ join(__dirname, '../app/dist/main.js') ],
+    args: [
+      join(__dirname, '../app/dist/main.js'),
+      '--disable-gpu',
+      '--no-sandbox'
+    ],
     startTimeout: 10000,
     waitTimeout: 10000,
     env: {
