@@ -39,7 +39,7 @@ module.exports = async function launch (t) {
   })
 
   t.test('wait for app to load', async function (t) {
-    await app.client.waitForExist('.header-item-logo', 5000)
+    await app.client.waitForExist('.header-item-logo', 20000)
     .then(() => t.pass('app loaded'))
     .catch(e => {
       printAppLog(app)
