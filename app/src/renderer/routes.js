@@ -1,7 +1,7 @@
 function r (type, pageName) { return require(`components/${type}/Page${pageName}`) }
 
 let common = r.bind(null, 'common')
-let govern = r.bind(null, 'govern')
+// let govern = r.bind(null, 'govern')
 let monitor = r.bind(null, 'monitor')
 let staking = r.bind(null, 'staking')
 let wallet = r.bind(null, 'wallet')
@@ -9,14 +9,14 @@ let wallet = r.bind(null, 'wallet')
 
 export default [
   // GOVERN
-  { path: '/proposals', name: 'proposals', component: govern('Proposals') },
-  { path: '/proposals/new', component: govern('ProposalsNew') },
-  { path: '/proposals/new/adjust', component: govern('ProposalsNewAdjust') },
-  { path: '/proposals/new/amend', component: govern('ProposalsNewAmend') },
-  { path: '/proposals/new/create', component: govern('ProposalsNewCreate') },
-  { path: '/proposals/new/text', component: govern('ProposalsNewText') },
-  { path: '/proposals/new/upgrade', component: govern('ProposalsNewUpgrade') },
-  { path: '/proposals/:proposal', name: 'proposal', component: govern('Proposal') },
+  // { path: '/proposals', name: 'proposals', component: govern('Proposals') },
+  // { path: '/proposals/new', component: govern('ProposalsNew') },
+  // { path: '/proposals/new/adjust', component: govern('ProposalsNewAdjust') },
+  // { path: '/proposals/new/amend', component: govern('ProposalsNewAmend') },
+  // { path: '/proposals/new/create', component: govern('ProposalsNewCreate') },
+  // { path: '/proposals/new/text', component: govern('ProposalsNewText') },
+  // { path: '/proposals/new/upgrade', component: govern('ProposalsNewUpgrade') },
+  // { path: '/proposals/:proposal', name: 'proposal', component: govern('Proposal') },
 
   // STAKE
   { path: '/staking', name: 'candidates', component: staking('Candidates') },
@@ -29,8 +29,8 @@ export default [
   },
 
   // MONITOR
-  { path: '/block/:block', name: 'block', component: monitor('Block') },
-  { path: '/blockchain', name: 'blockchain', component: monitor('Blockchain') },
+  // { path: '/block/:block', name: 'block', component: monitor('Block') },
+  // { path: '/blockchain', name: 'blockchain', component: monitor('Blockchain') },
   { path: '/validators', name: 'validators', component: monitor('Validators') },
   {
     path: '/validators/:validator',
@@ -68,8 +68,8 @@ export default [
       }
     ]
   },
-  { path: '/delegators', name: 'delegators', component: monitor('Delegators') },
-  { path: '/delegators/:delegator', name: 'delegator', component: monitor('Delegator') },
+  // { path: '/delegators', name: 'delegators', component: monitor('Delegators') },
+  // { path: '/delegators/:delegator', name: 'delegator', component: monitor('Delegator') },
 
   // USER
   { path: '/signin', name: 'signin', component: common('SignIn') },

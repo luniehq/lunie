@@ -14,10 +14,13 @@ export default ({ commit, node }) => {
   }
 
   function getValidators () {
-    // retrieve peer validators (of validator01)
-    node.rpc.validators((err, { validators }) => {
+    node.rpc.status((err, status) => {
       if (err) return console.error(err)
-      commit('setValidators', validators)
+      let height = status.latest_block_height
+      node.rpc.validators({ height }, (err, { validators }) => {
+        if (err) return console.error(err)
+        commit('setValidators', validators)
+      })
     })
   }
 
