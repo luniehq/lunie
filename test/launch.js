@@ -39,7 +39,8 @@ module.exports = async function launch (t) {
     .then(() => t.pass('app loaded'))
     .catch(e => {
       printAppLog(app)
-      t.fail(e)
+      t.fail()
+      throw e
     })
     t.end()
   })

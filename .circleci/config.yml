@@ -11,6 +11,7 @@ jobs:
 
     environment:
       - GOPATH: "/go"
+      - CHROME_BIN: "/usr/bin/google-chrome"
 
     working_directory: ~/repo
 
