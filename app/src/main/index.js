@@ -450,7 +450,7 @@ exports.default = Object.assign(
   main()
   .catch(function (err) {
     console.error(err.stack)
-    process.exit(1)
+    // process.exit(1)
   }),
   {
     shutdown
