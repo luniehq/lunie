@@ -127,9 +127,9 @@ function startProcess (name, args, env) {
   let argString = args.map((arg) => JSON.stringify(arg)).join(' ')
   console.log(`spawning ${binPath} with args "${argString}"`)
   let child = spawn(binPath, args, env)
-  child.stdout.on('data', (data) => console.log(`${name}: ${data}`))
-  child.stderr.on('data', (data) => console.log(`${name}: ${data}`))
-  child.on('exit', (code) => console.log(`${name} exited with code ${code}`))
+  child.stdout.on('data', (data) => !shuttingDown && console.log(`${name}: ${data}`))
+  child.stderr.on('data', (data) => !shuttingDown && console.log(`${name}: ${data}`))
+  child.on('exit', (code) => !shuttingDown && console.log(`${name} exited with code ${code}`))
   return child
 }
 
