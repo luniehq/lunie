@@ -9,7 +9,6 @@ let mkdirp = require('mkdirp').sync
 let RpcClient = require('tendermint')
 let semver = require('semver')
 let event = require('event-to-promise')
-let { promisify } = require('util')
 let pkg = require('../../package.json')
 
 let shuttingDown = false
@@ -33,6 +32,8 @@ function sleep (ms) {
 }
 
 function shutdown () {
+  if (shuttingDown) return
+
   mainWindow = null
   shuttingDown = true
 
@@ -126,9 +127,15 @@ function startProcess (name, args, env) {
   let argString = args.map((arg) => JSON.stringify(arg)).join(' ')
   console.log(`spawning ${binPath} with args "${argString}"`)
   let child = spawn(binPath, args, env)
-  child.stdout.on('data', (data) => console.log(`${name}: ${data}`))
-  child.stderr.on('data', (data) => console.log(`${name}: ${data}`))
-  child.on('exit', (code) => console.log(`${name} exited with code ${code}`))
+  child.stdout.on('data', (data) => !shuttingDown && console.log(`${name}: ${data}`))
+  child.stderr.on('data', (data) => !shuttingDown && console.log(`${name}: ${data}`))
+  child.on('exit', (code) => !shuttingDown && console.log(`${name} exited with code ${code}`))
+  child.on('error', function (err) {
+    if (!(shuttingDown && err.code === 'ECONNRESET')) {
+      // Ignore ECONNRESET and re throw anything else
+      throw err
+    }
+  })
   return child
 }
 
@@ -163,6 +170,11 @@ function startBasecoin (root) {
   let child = startProcess(NODE_BINARY, args, opts)
   child.stdout.pipe(log)
   child.stderr.pipe(log)
+  child.on('exit', code => {
+    if (code !== 0 && !shuttingDown) {
+      throw new Error('Basecoin exited unplanned')
+    }
+  })
   return child
 }
 
@@ -180,19 +192,37 @@ async function startTendermint (root) {
     'node',
     '--home', root
   ]
-  if (DEV) args.push('--log_level', 'info')
+  // if (DEV) args.push('--log_level', 'info')
   let child = startProcess('tendermint', args, opts)
   child.stdout.pipe(log)
   child.stderr.pipe(log)
+  child.on('exit', code => {
+    if (code !== 0 && !shuttingDown) {
+      throw new Error('Tendermint exited unplanned')
+    }
+  })
 
   let rpc = RpcClient('localhost:46657')
   let status = () => new Promise((resolve, reject) => {
-    // ignore errors, since we'll just poll until we get a response
-    rpc.status((err, res) => resolve(res))
+    rpc.status((err, res) => {
+      // ignore connection errors, since we'll just poll until we get a response
+      if (err && err.code !== 'ECONNREFUSED') {
+        reject(err)
+        return
+      }
+      resolve(res)
+    })
   })
-  while (true) {
+  let noFailure = true
+  while (noFailure) {
+    if (shuttingDown) return
+
     console.log('trying to get tendermint RPC status')
     let res = await status()
+      .catch(e => {
+        noFailure = false
+        throw new Error(`Tendermint produced an unexpected error: ${e.message}`)
+      })
     if (res) {
       if (res.latest_block_height > 0) break
       console.log('waiting for blockchain to start syncing')
@@ -206,7 +236,9 @@ async function startTendermint (root) {
 // start baseserver REST API
 async function startBaseserver (home) {
   console.log('startBaseserver', home)
-  let log = fs.createWriteStream(join(home, 'baseserver.log'))
+  const logFile = join(home, 'baseserver.log')
+  fs.ensureFileSync(logFile)
+  let log = fs.createWriteStream(logFile)
 
   let child = startProcess(SERVER_BINARY, [
     'serve',
@@ -225,6 +257,8 @@ async function startBaseserver (home) {
   })
 
   while (true) {
+    if (shuttingDown) break
+
     let data = await event(child.stderr, 'data')
     if (data.toString().includes('Serving on')) break
   }
@@ -293,6 +327,7 @@ async function initBaseserver (chainId, home) {
     // '--trust-node'
   ])
   child.stdout.on('data', (data) => {
+    if (shuttingDown) return
     // answer 'y' to the prompt about trust seed. we can trust this is correct
     // since the baseserver is talking to our own full node
     child.stdin.write('y\n')
@@ -348,6 +383,7 @@ async function main () {
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
           console.log('genesis has changed')
           backupData(root)
+          init = true
         }
       }
     }
@@ -357,12 +393,17 @@ async function main () {
     console.log(`initializing data directory (${root})`)
     mkdirp(root)
     await initBasecoin(root)
+    .catch(e => {
+      throw new Error(`Initialization of basecoin failed: ${e.message}`)
+    })
     fs.writeFileSync(versionPath, pkg.version)
   }
 
-  if (!DEV) {
+  if (!DEV && !TEST) {
+    let logFilePath = join(root, 'main.log')
+    console.log('Redirecting console output to logfile', logFilePath)
     // redirect stdout/err to logfile
-    let mainLog = fs.createWriteStream(join(root, 'main.log'))
+    let mainLog = fs.createWriteStream(logFilePath)
     console.log = function (...args) {
       mainLog.write(`${args.join(' ')}\n`)
     }
@@ -376,13 +417,21 @@ async function main () {
   console.log(`winURL: ${winURL}`)
 
   // read chainId from genesis.json
-  let genesisText = fs.readFileSync(genesisPath, 'utf8')
+  let genesisText
+  try {
+    genesisText = fs.readFileSync(genesisPath, 'utf8')
+  } catch (e) {
+    throw new Error(`Can't open genesis.json: ${e.message}`)
+  }
   let genesis = JSON.parse(genesisText)
   let chainId = genesis.chain_id
 
   console.log('starting basecoin and tendermint')
   basecoinProcess = startBasecoin(root)
   tendermintProcess = await startTendermint(root)
+  .catch(e => {
+    throw new Error(`Can't start Tendermint: ${e.message}`)
+  })
   console.log('basecoin and tendermint are ready')
 
   let baseserverHome = join(root, 'baseserver')
@@ -392,9 +441,18 @@ async function main () {
 
   console.log('starting baseserver')
   baseserverProcess = await startBaseserver(baseserverHome)
+  .catch(e => {
+    throw new Error(`Can't start baseserver: ${e.message}`)
+  })
   console.log('baseserver ready')
 }
-main().catch(function (err) {
-  console.error(err.stack)
-  process.exit(1)
-})
+exports.default = Object.assign(
+  main()
+  .catch(function (err) {
+    console.error(err.stack)
+    process.exit(1)
+  }),
+  {
+    shutdown
+  }
+)

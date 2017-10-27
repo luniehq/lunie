@@ -24,7 +24,13 @@ async function main () {
     // save to tmp dir and pass to app dev runner
     console.log(`fetching genesis for network "${network}"`)
     let genesisJson = await get(`https://github.com/tendermint/testnets/raw/master/${network}/basecoin/genesis.json`)
+    .catch(e => {
+      throw new Error(`Can't load genesis.json: ${e.message}`)
+    })
     let configToml = await get(`https://github.com/tendermint/testnets/raw/master/${network}/basecoin/config.toml`)
+    .catch(e => {
+      throw new Error(`Can't load config.toml: ${e.message}`)
+    })
     let path = join(tmpdir(), Math.random().toString(36).slice(2))
     mkdirp(path)
     write(join(path, 'genesis.json'), genesisJson)

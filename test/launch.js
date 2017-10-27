@@ -4,7 +4,6 @@ let { Application } = require('spectron')
 let test = require('tape-promise/tape')
 let electron = require('electron')
 let { join } = require('path')
-let { tmpdir } = require('os')
 let { newTempDir } = require('./common.js')
 
 // re-use app instance
@@ -18,7 +17,11 @@ module.exports = async function launch (t) {
 
   app = new Application({
     path: electron,
-    args: [ join(__dirname, '../app/dist/main.js') ],
+    args: [
+      join(__dirname, '../app/dist/main.js'),
+      '--disable-gpu',
+      '--no-sandbox'
+    ],
     startTimeout: 10000,
     waitTimeout: 10000,
     env: {
@@ -27,16 +30,22 @@ module.exports = async function launch (t) {
       COSMOS_NETWORK: join(__dirname, 'localtestnet')
     }
   })
+
   await app.start()
 
-  t.test('launch app', async function (t) {
+  t.test('launch app', function (t) {
     t.ok(app.isRunning(), 'app is running')
     t.end()
   })
 
   t.test('wait for app to load', async function (t) {
     await app.client.waitForExist('.header-item-logo', 5000)
-    t.pass('app loaded')
+    .then(() => t.pass('app loaded'))
+    .catch(e => {
+      printAppLog(app)
+      t.fail()
+      throw e
+    })
     t.end()
   })
 
@@ -44,3 +53,18 @@ module.exports = async function launch (t) {
 }
 
 test.onFinish(() => app ? app.stop() : null)
+
+function printAppLog (app) {
+  app.client.getMainProcessLogs().then(function (logs) {
+    logs.forEach(function (log) {
+      console.log(log)
+    })
+  })
+  app.client.getRenderProcessLogs().then(function (logs) {
+    logs.forEach(function (log) {
+      console.log(log.message)
+      console.log(log.source)
+      console.log(log.level)
+    })
+  })
+}
