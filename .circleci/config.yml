@@ -32,5 +32,5 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
         
       - run: yarn lint
-      - run: sudo npm run pack
-      - run: sudo npm run test
+      - run: npm run pack
+      - run: npm run test
