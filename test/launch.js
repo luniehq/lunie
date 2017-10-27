@@ -20,8 +20,7 @@ module.exports = async function launch (t) {
     args: [
       join(__dirname, '../app/dist/main.js'),
       '--disable-gpu',
-      '--no-sandbox',
-      '--user-data-dir=' + join(home, './chrome-tmp')
+      '--no-sandbox'
     ],
     startTimeout: 10000,
     waitTimeout: 10000,
