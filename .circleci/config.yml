@@ -20,16 +20,27 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-root-{{ checksum "package.json" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          - v1-dependencies-root-
+      - restore_cache:
+          keys:
+          - v1-dependencies-app-{{ checksum "app/package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-app-
 
       - run: yarn
 
       - save_cache:
           paths:
+            - yarn.lock
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-root-{{ checksum "package.json" }}
+      - save_cache:
+          paths:
+            - app/yarn.lock
+            - app/node_modules
+          key: v1-dependencies-app-{{ checksum "app/package.json" }}
         
       - run: yarn lint
       - run: npm run pack
