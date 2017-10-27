@@ -131,7 +131,7 @@ function startProcess (name, args, env) {
   child.stderr.on('data', (data) => !shuttingDown && console.log(`${name}: ${data}`))
   child.on('exit', (code) => !shuttingDown && console.log(`${name} exited with code ${code}`))
   child.on('error', function (err) {
-    if (!(shuttingdown && err.code === 'ECONNRESET')) {
+    if (!(shuttingDown && err.code === 'ECONNRESET')) {
         // Ignore ECONNRESET and re throw anything else
         throw err
     }
