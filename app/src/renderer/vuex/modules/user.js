@@ -68,7 +68,7 @@ export default ({ commit, node }) => {
       try {
         privkey = dg.mnemonicToPrivKey(seedWords)
       } catch (e) {
-        commit('notifyError', {title: 'Generating private key failed', body: e.message})
+        commit('notifyError', {title: 'Deriving private key failed', body: e.message})
         return
       }
       let account = await node.basecoin.getAccount(privkey.address())
