@@ -20,10 +20,7 @@ $ tendermint version
 0.11.0-7682ad9a
 ```
 
-```
-npm install
-
-# on Window set GOPATH in `./config.js`
+# on Window set GOPATH in `./env.js`. This file is gitignored.
 
 # run on the default testnet
 npm run testnet
@@ -78,4 +75,22 @@ To test you need to first package the web content of the app, as this content ca
 ```bash
 $ npm run pack
 $ npm run test
+```
+
+
+## FAQ
+
+- If tendermint crashes and the log shows "Tendermint state.AppHash does not match AppHash after replay." delete the config folders at $HOME/.cosmos-ui[-dev].
+
+- If you use yarn, the postinstall hook is not executed. So you have to do these script manualy:
+```bash
+$ cd app
+$ yarn
+$ cd ..
+$ npm run rebuild
+```
+
+- If electron shows the error: "A DLL initialization routine has failed." rebuild the electron dependencies.
+```bash
+$ npm run rebuild
 ```

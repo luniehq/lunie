@@ -5,9 +5,9 @@ let fs = require('fs-extra')
 let { join } = require('path')
 let { spawn } = require('child_process')
 let home = require('user-home')
-let mkdirp = require('mkdirp').sync
 let RpcClient = require('tendermint')
 let semver = require('semver')
+// this dependency is wrapped in a file as it was not possible to mock the import with jest any other way
 let event = require('event-to-promise')
 let pkg = require('../../package.json')
 
@@ -15,7 +15,7 @@ let shuttingDown = false
 let mainWindow
 let basecoinProcess, baseserverProcess, tendermintProcess
 const DEV = process.env.NODE_ENV === 'development'
-const TEST = !!process.env.COSMOS_TEST
+const TEST = process.env.COSMOS_TEST === 'true' || process.env.COSMOS_TEST === true
 const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
   : `file://${__dirname}/index.html`
@@ -168,13 +168,16 @@ function startBasecoin (root) {
   ]
   if (DEV) args.push('--log_level', 'info')
   let child = startProcess(NODE_BINARY, args, opts)
+  console.log('basecoin process started')
   child.stdout.pipe(log)
   child.stderr.pipe(log)
+  console.log('basecoin pipes setup')
   child.on('exit', code => {
     if (code !== 0 && !shuttingDown) {
       throw new Error('Basecoin exited unplanned')
     }
   })
+  console.log('basecoin started')
   return child
 }
 
@@ -282,13 +285,14 @@ async function initBasecoin (root) {
     '--home', root
   ], opts)
   await event(child, 'exit')
+  console.log('basecoin process terminated')
 
   // copy predefined genesis.json and config.toml into root
   let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
   fs.accessSync(networkPath) // crash if invalid path
   fs.copySync(networkPath, root)
 
-  if (DEV || TEST) {
+  if (DEV) {
     console.log('adding self to validator set')
     // replace validator set so our node has 100% of voting power
     let privValidatorText = fs.readFileSync(join(root, 'priv_validator.json'), 'utf8')
@@ -305,6 +309,8 @@ async function initBasecoin (root) {
     genesisText = JSON.stringify(genesis, null, '  ')
     fs.writeFileSync(join(root, 'genesis.json'), genesisText)
   }
+
+  console.log('basecoin initialized')
 }
 
 function exists (path) {
@@ -391,10 +397,11 @@ async function main () {
 
   if (init) {
     console.log(`initializing data directory (${root})`)
-    mkdirp(root)
+    await fs.ensureDir(root)
     await initBasecoin(root)
     .catch(e => {
-      throw new Error(`Initialization of basecoin failed: ${e.message}`)
+      e.message = `Initialization of basecoin failed: ${e.message}`
+      throw e
     })
     fs.writeFileSync(versionPath, pkg.version)
   }
@@ -442,15 +449,16 @@ async function main () {
   console.log('starting baseserver')
   baseserverProcess = await startBaseserver(baseserverHome)
   .catch(e => {
-    throw new Error(`Can't start baseserver: ${e.message}`)
+    e.message = `Can't start baseserver: ${e.message}`
+    throw e
   })
   console.log('baseserver ready')
 }
 exports.default = Object.assign(
   main()
   .catch(function (err) {
-    console.error(err.stack)
-    process.exit(1)
+    console.error('Error in main process:', err.stack)
+    // process.exit(1)
   }),
   {
     shutdown

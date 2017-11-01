@@ -20,10 +20,14 @@
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config webpack.renderer.config.js",
-    "test": "tape \"test/!(main)*.js\"",
+    "test": "npm run test:unit",
+    "tdd": "jest --watch",
+    "test:unit": "jest",
+    "test:e2e": "tape \"test/e2e/!(main)*.js\"",
     "vue:route": "node tasks/vue/route.js",
     "vuex:module": "node tasks/vuex/module.js",
-    "postinstall": "cd app && npm install && cd .. && electron-rebuild --module-dir app"
+    "rebuild": "electron-rebuild --module-dir app",
+    "postinstall": "cd app && npm install && cd .. && npm run rebuild"
   },
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",

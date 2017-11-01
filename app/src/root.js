@@ -1,5 +1,5 @@
 // make it possible to configure GOPATH in config
-const { GOPATH } = require('../../config.js')
+const { GOPATH } = require('../../env.js')
 if (GOPATH) {
   Object.assign(process.env, { GOPATH })
 }

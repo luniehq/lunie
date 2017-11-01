@@ -25,9 +25,7 @@ let config = {
     out: path.join(__dirname, 'builds'),
     overwrite: true,
     platform: process.env.PLATFORM_TARGET || 'all'
-  },
-
-  GOPATH: undefined
+  }
 }
 
 config.building.name = config.name
