@@ -8,7 +8,7 @@ jest.mock('electron', () => {
   }
 })
 jest.mock('child_process', () => ({
-  spawn: () => ({
+  spawn: jest.fn(() => ({
     stdout: {
       on: () => {},
       pipe: () => {}
@@ -19,7 +19,7 @@ jest.mock('child_process', () => ({
     },
     on: () => {},
     kill: () => {}
-  })
+  }))
 }))
 
 let main
@@ -28,6 +28,7 @@ let appRoot = root + 'app/'
 let testRoot = './test/unit/tmp/test_root/'
 
 describe('Startup Process', () => {
+  let child_process = require('child_process')
   Object.assign(process.env, {
     COSMOS_TEST: true,
     COSMOS_NETWORK: 'app/networks/local'
@@ -49,26 +50,78 @@ describe('Startup Process', () => {
 
   describe('Initialization', function () {
     beforeAll(async function () {
-      await fs.ensureDir('./test/unit/tmp')
-      await fs.remove('./test/unit/tmp')
-      await fs.ensureDir('./test/unit/tmp')
+      if (fs.pathExistsSync('./test/unit/tmp')) {
+        // fs.removeSync did produce an ENOTEMPTY error under windows
+        fs.removeSync('./test/unit/tmp')
+      } else {
+        fs.ensureDirSync('./test/unit/tmp')
+      }
       // await fs.ensureFile('./test/unit/tmp/test_root/priv_validator.json')
-      main = await require(appRoot + 'src/main/index.js').default
+      main = await require(appRoot + 'src/main/index.js')
+      expect(main).toBeDefined()
+    })
+    
+    afterAll(async function () {
+      await main.shutdown()
     })
 
     it('should create the config dir', async function () {
       expect(fs.pathExistsSync(testRoot)).toBe(true)
     })
 
+    it('should init basecoin', async function () {
+      expect(child_process.spawn.mock.calls
+        .find(([path, args]) =>
+          path.includes('basecoin')
+          && args.includes('init')
+        )
+      ).toBeDefined()
+    })
+    
+    it('should start basecoin', async function () {
+      expect(child_process.spawn.mock.calls
+        .find(([path, args]) =>
+          path.includes('basecoin')
+          && args.includes('start')
+        )
+      ).toBeDefined()
+      expect(main.processes.basecoinProcess).toBeDefined()
+    })
+    
+    it('should start tendermint', async function () {
+      expect(child_process.spawn.mock.calls
+        .find(([path, args]) =>
+          path.includes('tendermint')
+          && args.includes('node')
+        )
+      ).toBeDefined()
+      expect(main.processes.tendermintProcess).toBeDefined()
+    })
+    
+    it('should init baseserver with correct testnet', async function () {
+      expect(child_process.spawn.mock.calls
+        .find(([path, args]) => 
+          path.includes('baseserver')
+          && args.includes('init')
+          && args.splice(1).join('=').includes('--chain-id=local')
+        )
+      ).toBeDefined()
+    })
+    
+    it('should start baseserver', async function () {
+      expect(child_process.spawn.mock.calls
+        .find(([path, args]) =>
+          path.includes('baseserver')
+          && args.includes('serve')
+        )
+      ).toBeDefined()
+      expect(main.processes.baseserverProcess).toBeDefined()
+    })
+
     it('should persist the app_version', async function () {
       expect(fs.pathExistsSync(testRoot + 'app_version')).toBe(true)
       let appVersion = fs.readFileSync(testRoot + 'app_version', 'utf8')
       expect(appVersion).toBe('123')
-    })
-
-    afterAll(() => {
-      main.shutdown()
-      // fs.removeSync('./test/unit/tmp')
     })
   })
 })
