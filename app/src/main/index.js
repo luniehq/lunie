@@ -66,7 +66,6 @@ function shutdown () {
   return Promise.all(
     streams.map(stream => new Promise((resolve) => stream.end(resolve)))
   )
-  
 }
 
 function createWindow () {
@@ -433,6 +432,7 @@ async function main () {
     // TODO overwriting console.log sounds like a bad idea, can we find an alternative?
     let mainLog = fs.createWriteStream(logFilePath)
     streams.push(mainLog)
+    // eslint-disable-next-line no-func-assign
     log = function (...args) {
       mainLog.write(`${args.join(' ')}\n`)
     }

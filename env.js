@@ -1,3 +1,3 @@
 module.exports = {
-  GOPATH: undefined
+  GOPATH: 'C:/Users/Fabo/Documents/Entwicklung/Go'
 }
