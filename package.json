@@ -21,7 +21,6 @@
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config webpack.renderer.config.js",
     "test": "npm run test:unit",
-    "tdd": "jest --watch",
     "test:unit": "cross-env LOGGING=false jest",
     "test:e2e": "tape \"test/e2e/!(main)*.js\"",
     "vue:route": "node tasks/vue/route.js",

@@ -10,6 +10,7 @@ let semver = require('semver')
 // this dependency is wrapped in a file as it was not possible to mock the import with jest any other way
 let event = require('event-to-promise')
 let pkg = require('../../package.json')
+let rmdir = require('../helpers/rmdir.js')
 
 let shuttingDown = false
 let mainWindow
@@ -355,7 +356,7 @@ async function initBaseserver (chainId, home) {
   await event(child, 'exit')
 }
 
-function backupData (root) {
+async function backupData (root) {
   let i = 1
   let path
   do {
@@ -364,10 +365,11 @@ function backupData (root) {
   } while (exists(path))
 
   log(`backing up data to "${path}"`)
-  fs.moveSync(root, path, {
+  fs.copySync(root, path, {
     overwrite: false,
     errorOnExist: true
   })
+  await rmdir(root)
 }
 
 process.on('exit', shutdown)
@@ -390,10 +392,10 @@ async function main () {
         log('configs are compatible with current app version')
         init = false
       } else {
-        backupData(root)
+        await backupData(root)
       }
     } else {
-      backupData(root)
+      await backupData(root)
     }
 
     // check to make sure the genesis.json we want to use matches the one
@@ -406,7 +408,7 @@ async function main () {
         let specifiedGenesis = fs.readFileSync(join(process.env.COSMOS_NETWORK, 'genesis.json'), 'utf8')
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
           log('genesis has changed')
-          backupData(root)
+          await backupData(root)
           init = true
         }
       }
@@ -476,10 +478,10 @@ async function main () {
 }
 module.exports = Object.assign(
   main()
-  .catch(function (err) {
-    console.error('Error in main process:', err.stack)
-    // process.exit(1)
-  })
+  // .catch(function (err) {
+  //   console.error('Error in main process:', err.stack)
+  //   // process.exit(1)
+  // })
   .then(() => ({
     shutdown,
     processes: {basecoinProcess, tendermintProcess, baseserverProcess}

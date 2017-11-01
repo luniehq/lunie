@@ -1,6 +1,7 @@
 const fs = require('fs-extra')
 const del = require('del')
 const {join} = require('path')
+const rmdir = require('../../../app/src/helpers/rmdir.js')
 
 jest.mock('electron', () => {
   return {
@@ -37,10 +38,6 @@ describe('Startup Process', () => {
   })
 
   jest.mock(appRoot + 'src/root.js', () => './test/unit/tmp/test_root')
-  // TODO: clarify if app_version should be taken from nested package.json
-  jest.mock(root + 'app/package.json', () => ({
-    version: '0.1.1'
-  }))
   jest.mock(appRoot + 'node_modules/event-to-promise', () => () => Promise.resolve({
     toString: () => 'Serving on'
   }))
@@ -53,10 +50,15 @@ describe('Startup Process', () => {
   beforeAll(async function () {
     if (fs.pathExistsSync('./test/unit/tmp')) {
       // fs.removeSync did produce an ENOTEMPTY error under windows
-      fs.removeSync('./test/unit/tmp')
+      await rmdir('./test/unit/tmp')
+      expect(fs.pathExistsSync('./test/unit/tmp')).toBe(false)
     } else {
       fs.ensureDirSync('./test/unit/tmp')
     }
+    // TODO: clarify if app_version should be taken from nested package.json
+    jest.mock(root + 'app/package.json', () => ({
+      version: '0.1.1'
+    }))
     // await fs.ensureFile('./test/unit/tmp/test_root/priv_validator.json')
     main = await require(appRoot + 'src/main/index.js')
     expect(main).toBeDefined()
@@ -189,5 +191,58 @@ describe('Startup Process', () => {
       ).toBeDefined()
       expect(main.processes.baseserverProcess).toBeDefined()
     })
+  })
+
+  describe('Update app version', function () {
+
+    beforeAll(async function () {
+      await main.shutdown()
+      
+      jest.mock(root + 'app/package.json', () => ({
+        version: '1.1.1'
+      }))
+
+      // restart main with a now initialized state
+      jest.resetModules()
+      child_process = require('child_process')
+      main = await require(appRoot + 'src/main/index.js')
+      expect(main).toBeDefined()
+    })
+    
+    afterAll(async function () {
+      await main.shutdown()
+    })
+
+    it('should backup the genesis.json', async function () {
+      expect(fs.pathExistsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
+    })
+  })
+
+  describe('Update genesis.json', function () {
+    beforeAll(async function () {
+      await main.shutdown()
+
+      let existingGenesis = JSON.parse(fs.readFileSync(testRoot + 'genesis.json', 'utf8'))
+      existingGenesis.genesis_time = (new Date()).toString()
+      fs.writeFileSync(testRoot + 'genesis.json', JSON.stringify(existingGenesis))
+
+      // restart main with a now initialized state
+      jest.resetModules()
+      child_process = require('child_process')
+      main = await require(appRoot + 'src/main/index.js')
+      expect(main).toBeDefined()
+    })
+    
+    afterAll(async function () {
+      await main.shutdown()
+    })
+
+    it('should backup the genesis.json', async function () {
+      expect(fs.pathExistsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
+    })
+  })
+  
+  describe('Error resilience', function () {
+    // TODO
   })
 })
