@@ -94,8 +94,18 @@
     "webpack-merge": "^0.14.1"
   },
   "dependencies": {
+    "@nylira/vue-button": "^4.0.1",
+    "@nylira/vue-field": "^1.1.8",
+    "@nylira/vue-form-msg": "^1.0.3",
+    "@nylira/vue-input": "^3.2.0",
+    "@nylira/vue-notifications": "^1.3.0",
+    "chart.js": "^2.6.0",
     "babel-jest": "^21.2.0",
     "electron": "^1.7.5",
+    "moment": "^2.17.1",
+    "mousetrap": "^1.6.1",
+    "nib": "^1.1.2",
+    "no-scroll": "^2.1.0",
     "fs-extra": "^4.0.2",
     "jest-vue-preprocessor": "^1.3.1",
     "proxyquire": "^1.8.0",
