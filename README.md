@@ -82,7 +82,7 @@ $ npm run test
 
 - If tendermint crashes and the log shows "Tendermint state.AppHash does not match AppHash after replay." delete the config folders at $HOME/.cosmos-ui[-dev].
 
-- If you use yarn, the postinstall hook is not executed. So you have to do these script manualy:
+- If you use yarn, the postinstall hook may not execute. In this case you have to execute these script manualy:
 ```bash
 $ cd app
 $ yarn

@@ -183,16 +183,13 @@ function startBasecoin (root) {
   ]
   if (DEV) args.push('--log_level', 'info')
   let child = startProcess(NODE_BINARY, args, opts)
-  log('basecoin process started')
   child.stdout.pipe(logStream)
   child.stderr.pipe(logStream)
-  log('basecoin pipes setup')
   child.on('exit', code => {
     if (code !== 0 && !shuttingDown) {
       throw new Error('Basecoin exited unplanned')
     }
   })
-  log('basecoin started')
   return child
 }
 
@@ -389,8 +386,12 @@ async function main () {
     if (exists(versionPath)) {
       let existingVersion = fs.readFileSync(versionPath, 'utf8')
       let compatible = semver.diff(existingVersion, pkg.version) !== 'major'
-      if (compatible) init = false
-      else backupData(root)
+      if (compatible) {
+        log('configs are compatible with current app version')
+        init = false
+      } else {
+        backupData(root)
+      }
     } else {
       backupData(root)
     }
