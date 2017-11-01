@@ -12,6 +12,8 @@ jobs:
     working_directory: ~/repo
 
     steps:
+      - run: npm i -g codeclimate-test-reporter
+
       - checkout
 
       # Download and cache dependencies
@@ -42,3 +44,4 @@ jobs:
       - run: yarn lint
       - run: npm run pack
       - run: xvfb-run -e /dev/stdout -a npm run test
+      - run: codeclimate-test-reporter < test/unit/coverage/lcov.info
