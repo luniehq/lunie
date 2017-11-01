@@ -67,6 +67,7 @@
     "html-webpack-plugin": "^2.16.1",
     "inject-loader": "^2.0.1",
     "isparta-loader": "^2.0.0",
+    "jest": "^21.2.1",
     "jquery": "^3.2.1",
     "json-loader": "^0.5.4",
     "level-packager": "^1.2.1",
