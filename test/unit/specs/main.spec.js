@@ -270,16 +270,14 @@ describe('Startup Process', () => {
     testFailingChildProcess('tendermint')
 
     // TODO unable to delete folders
-    // describe('On Init', () => {
-    //   beforeEach(async function () {
-    //     await main.shutdown()
-    //     sleep(2000)
-    //     await resetConfigs()
-    //   })
+    describe('On Init', () => {
+      beforeEach(async function () {
+        await resetConfigs()
+      })
 
-    //   testFailingChildProcess('basecoin', 'init')
-    //   testFailingChildProcess('baseserver', 'init')
-    // })
+      testFailingChildProcess('basecoin', 'init')
+      testFailingChildProcess('baseserver', 'init')
+    })
   })
 })
 
