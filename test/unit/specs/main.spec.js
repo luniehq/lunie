@@ -52,7 +52,7 @@ describe('Startup Process', () => {
       main = await require(appRoot + 'src/main/index.js')
       expect(main).toBeDefined()
     })
-  
+
     afterAll(async function () {
       await main.shutdown()
     })
@@ -251,7 +251,7 @@ describe('Startup Process', () => {
 
     it('should fail if there is a not handled error in the tendermint rpc client', async function (done) {
       jest.mock(appRoot + 'node_modules/tendermint', () => () => ({
-        status: (cb) => cb({code:'EPERM'})
+        status: (cb) => cb({code: 'EPERM'})
       }))
       jest.resetModules()
       await require(appRoot + 'src/main/index.js')
@@ -261,7 +261,7 @@ describe('Startup Process', () => {
         })
     })
     it('should rerun baseserver if baseserver fails', async function () {
-      failingChildProcess ('baseserver', 'serve')
+      failingChildProcess('baseserver', 'serve')
       jest.resetModules()
       main = await require(appRoot + 'src/main/index.js')
       expect(main).toBeDefined()
@@ -341,8 +341,4 @@ async function resetConfigs () {
   } else {
     fs.ensureDirSync('./test/unit/tmp')
   }
-}
-
-function sleep (ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
 }
