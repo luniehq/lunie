@@ -37,8 +37,27 @@ function log (...args) {
   }
 }
 
+function logProcess (process, logPath) {
+  fs.ensureFileSync(logPath)
+  // Writestreams are blocking fs cleanup in tests, if you get errors, disable logging
+  if (LOGGING) {
+    let logStream = fs.createWriteStream(logPath)
+    streams.push(logStream)
+    process.stdout.pipe(logStream)
+    process.stderr.pipe(logStream)
+  }
+}
+
 function sleep (ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+function expectCleanExit (process, errorMessage = 'Process exited unplaned') {
+  process.on('exit', code => {
+    if (code !== 0 && !shuttingDown) {
+      throw new Error(errorMessage)
+    }
+  })
 }
 
 function shutdown () {
@@ -64,7 +83,7 @@ function shutdown () {
   }
 
   return Promise.all(
-    streams.map(stream => new Promise((resolve) => stream.end(resolve)))
+    streams.map(stream => new Promise((resolve) => stream.close(resolve)))
   )
 }
 
@@ -167,8 +186,6 @@ app.on('activate', () => {
 
 // start basecoin node
 function startBasecoin (root) {
-  let logStream = fs.createWriteStream(join(root, 'basecoin.log'))
-  streams.push(logStream)
   let opts = {
     env: {
       BCHOME: root,
@@ -183,20 +200,13 @@ function startBasecoin (root) {
   ]
   if (DEV) args.push('--log_level', 'info')
   let child = startProcess(NODE_BINARY, args, opts)
-  child.stdout.pipe(logStream)
-  child.stderr.pipe(logStream)
-  child.on('exit', code => {
-    if (code !== 0 && !shuttingDown) {
-      throw new Error('Basecoin exited unplanned')
-    }
-  })
+  logProcess(child, join(root, 'basecoin.log'))
+  expectCleanExit(child, 'Basecoin start exited unplanned')
   return child
 }
 
 // start tendermint node
 async function startTendermint (root) {
-  let logStream = fs.createWriteStream(join(root, 'tendermint.log'))
-  streams.push(logStream)
   let opts = {
     env: {
       BCHOME: root,
@@ -210,13 +220,8 @@ async function startTendermint (root) {
   ]
   // if (DEV) args.push('--log_level', 'info')
   let child = startProcess('tendermint', args, opts)
-  child.stdout.pipe(logStream)
-  child.stderr.pipe(logStream)
-  child.on('exit', code => {
-    if (code !== 0 && !shuttingDown) {
-      throw new Error('Tendermint exited unplanned')
-    }
-  })
+  logProcess(child, join(root, 'tendermint.log'))
+  expectCleanExit(child, 'Tendermint exited unplanned')
 
   let rpc = RpcClient('localhost:46657')
   let status = () => new Promise((resolve, reject) => {
@@ -252,18 +257,12 @@ async function startTendermint (root) {
 // start baseserver REST API
 async function startBaseserver (home) {
   log('startBaseserver', home)
-  const logFile = join(home, 'baseserver.log')
-  fs.ensureFileSync(logFile)
-  let logStream = fs.createWriteStream(logFile)
-  streams.push(logStream)
-
   let child = startProcess(SERVER_BINARY, [
     'serve',
     '--home', home // ,
     // '--trust-node'
   ])
-  child.stdout.pipe(logStream)
-  child.stderr.pipe(logStream)
+  logProcess(child, join(home, 'baseserver.log'))
 
   // restore baseserver if it crashes
   child.on('exit', async () => {
@@ -298,8 +297,7 @@ async function initBasecoin (root) {
     '1B1BE55F969F54064628A63B9559E7C21C925165',
     '--home', root
   ], opts)
-  await event(child, 'exit')
-  log('basecoin process terminated')
+  await expectCleanExit(child, 'Basecoin init exited unplanned')
 
   // copy predefined genesis.json and config.toml into root
   let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
@@ -352,7 +350,7 @@ async function initBaseserver (chainId, home) {
     // since the baseserver is talking to our own full node
     child.stdin.write('y\n')
   })
-  await event(child, 'exit')
+  await expectCleanExit(child, 'Baseserver init exited unplanned')
 }
 
 async function backupData (root) {
@@ -466,7 +464,7 @@ async function main () {
 
   let baseserverHome = join(root, 'baseserver')
   if (init) {
-    initBaseserver(chainId, baseserverHome)
+    await initBaseserver(chainId, baseserverHome)
   }
 
   log('starting baseserver')

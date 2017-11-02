@@ -9,7 +9,7 @@ jest.mock('electron', () => {
   }
 })
 jest.mock('child_process', () => ({
-  spawn: jest.fn(() => ({
+  spawn: jest.fn((name, args) => ({
     stdout: {
       on: () => { },
       pipe: () => { }
@@ -18,7 +18,12 @@ jest.mock('child_process', () => ({
       on: () => { },
       pipe: () => { }
     },
-    on: () => { },
+    on: (type, cb) => {
+      // init processes always should return with 0
+      if (type === 'exit' && args[0] === 'init') {
+        cb(0)
+      }
+    },
     kill: () => { }
   }))
 }))
@@ -190,6 +195,10 @@ describe('Startup Process', () => {
   })
 
   describe('Error handling', function () {
+    afterEach(function () {
+      main.shutdown()
+    })
+
     it('should rerun tendermint if tendermint fails to connect as it is polled until alive', async function () {
       jest.mock(appRoot + 'node_modules/tendermint', () => {
         let i = 0
@@ -223,6 +232,7 @@ describe('Startup Process', () => {
         })
     })
     it('should rerun baseserver if baseserver fails', async function () {
+      tendermintMock()
       failingChildProcess('baseserver', 'serve')
       jest.resetModules()
       main = await require(appRoot + 'src/main/index.js')
@@ -230,16 +240,18 @@ describe('Startup Process', () => {
     })
 
     testFailingChildProcess('tendermint')
+  })
 
-    // TODO unable to delete folders on windows
-    // describe('On Init', () => {
-    //   beforeEach(async function () {
-    //     await resetConfigs()
-    //   })
+  describe('Error handling on init', () => {
+    beforeAll(async function () {
+      await resetConfigs()
+    })
+    testFailingChildProcess('basecoin', 'init')
+    testFailingChildProcess('baseserver', 'init')
+  })
 
-    //   testFailingChildProcess('basecoin', 'init')
-    //   testFailingChildProcess('baseserver', 'init')
-    // })
+  describe('Electron startup', () => {
+    // TODO
   })
 })
 
@@ -252,8 +264,8 @@ function mainSetup () {
     expect(main).toBeDefined()
   })
 
-  afterAll(async function () {
-    await main.shutdown()
+  afterAll(function () {
+    main.shutdown()
   })
 }
 
@@ -267,6 +279,7 @@ function tendermintMock () {
 
 function testFailingChildProcess (name, cmd) {
   return it(`should fail if there is a not handled error in the ${name} ${cmd || ''} process`, async function (done) {
+    tendermintMock()
     failingChildProcess(name, cmd)
     jest.resetModules()
     await require(appRoot + 'src/main/index.js')
@@ -278,7 +291,6 @@ function testFailingChildProcess (name, cmd) {
 }
 
 function failingChildProcess (mockName, mockCmd) {
-  tendermintMock()
   jest.mock('child_process', () => ({
     spawn: jest.fn((path, args) => ({
       stdout: {
@@ -293,7 +305,8 @@ function failingChildProcess (mockName, mockCmd) {
         if (type === 'exit') {
           if (path.includes(mockName) && (mockCmd === undefined || args[0] === mockCmd)) {
             cb(-1)
-          } else {
+            // init processes always should return with 0
+          } else if (args[0] === 'init') {
             cb(0)
           }
         }
