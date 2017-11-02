@@ -27,9 +27,9 @@ let main
 let root = '../../../'
 let appRoot = root + 'app/'
 let testRoot = './test/unit/tmp/test_root/'
+let childProcess
 
 describe('Startup Process', () => {
-  let childProcess = require('child_process')
   Object.assign(process.env, {
     COSMOS_TEST: true,
     COSMOS_NETWORK: 'app/networks/tak'
@@ -39,23 +39,17 @@ describe('Startup Process', () => {
   jest.mock(appRoot + 'node_modules/event-to-promise', () => () => Promise.resolve({
     toString: () => 'Serving on'
   }))
+  // TODO: clarify if app_version should be taken from nested package.json
+  jest.mock(root + 'app/package.json', () => ({
+    version: '0.1.1'
+  }))
   tendermintMock()
 
   describe('Initialization', function () {
     beforeAll(async function () {
       await resetConfigs()
-      // TODO: clarify if app_version should be taken from nested package.json
-      jest.mock(root + 'app/package.json', () => ({
-        version: '0.1.1'
-      }))
-      // await fs.ensureFile('./test/unit/tmp/test_root/priv_validator.json')
-      main = await require(appRoot + 'src/main/index.js')
-      expect(main).toBeDefined()
     })
-
-    afterAll(async function () {
-      await main.shutdown()
-    })
+    mainSetup()
 
     it('should create the config dir', async function () {
       expect(fs.pathExistsSync(testRoot)).toBe(true)
@@ -118,19 +112,7 @@ describe('Startup Process', () => {
   })
 
   describe('Start initialized', function () {
-    beforeAll(async function () {
-      await main.shutdown()
-
-      // restart main with a now initialized state
-      jest.resetModules()
-      childProcess = require('child_process')
-      main = await require(appRoot + 'src/main/index.js')
-      expect(main).toBeDefined()
-    })
-
-    afterAll(async function () {
-      await main.shutdown()
-    })
+    mainSetup()
 
     it('should not init basecoin again', async function () {
       expect(childProcess.spawn.mock.calls
@@ -182,22 +164,12 @@ describe('Startup Process', () => {
   })
 
   describe('Update app version', function () {
-    beforeAll(async function () {
-      await main.shutdown()
-
+    beforeAll(() => {
       jest.mock(root + 'app/package.json', () => ({
         version: '1.1.1'
       }))
-
-      // restart main with a now initialized state
-      jest.resetModules()
-      main = await require(appRoot + 'src/main/index.js')
-      expect(main).toBeDefined()
     })
-
-    afterAll(async function () {
-      await main.shutdown()
-    })
+    mainSetup()
 
     it('should backup the genesis.json', async function () {
       expect(fs.pathExistsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
@@ -206,21 +178,11 @@ describe('Startup Process', () => {
 
   describe('Update genesis.json', function () {
     beforeAll(async function () {
-      await main.shutdown()
-
       let existingGenesis = JSON.parse(fs.readFileSync(testRoot + 'genesis.json', 'utf8'))
       existingGenesis.genesis_time = (new Date()).toString()
       fs.writeFileSync(testRoot + 'genesis.json', JSON.stringify(existingGenesis))
-
-      // restart main with a now initialized state
-      jest.resetModules()
-      main = await require(appRoot + 'src/main/index.js')
-      expect(main).toBeDefined()
     })
-
-    afterAll(async function () {
-      await main.shutdown()
-    })
+    mainSetup()
 
     it('should backup the genesis.json', async function () {
       expect(fs.pathExistsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
@@ -269,17 +231,31 @@ describe('Startup Process', () => {
 
     testFailingChildProcess('tendermint')
 
-    // TODO unable to delete folders
-    describe('On Init', () => {
-      beforeEach(async function () {
-        await resetConfigs()
-      })
+    // TODO unable to delete folders on windows
+    // describe('On Init', () => {
+    //   beforeEach(async function () {
+    //     await resetConfigs()
+    //   })
 
-      testFailingChildProcess('basecoin', 'init')
-      testFailingChildProcess('baseserver', 'init')
-    })
+    //   testFailingChildProcess('basecoin', 'init')
+    //   testFailingChildProcess('baseserver', 'init')
+    // })
   })
 })
+
+function mainSetup () {
+  beforeAll(async function () {
+    // restart main with a now initialized state
+    jest.resetModules()
+    childProcess = require('child_process')
+    main = await require(appRoot + 'src/main/index.js')
+    expect(main).toBeDefined()
+  })
+
+  afterAll(async function () {
+    await main.shutdown()
+  })
+}
 
 function tendermintMock () {
   jest.mock(appRoot + 'node_modules/tendermint', () => () => ({
@@ -291,10 +267,6 @@ function tendermintMock () {
 
 function testFailingChildProcess (name, cmd) {
   return it(`should fail if there is a not handled error in the ${name} ${cmd || ''} process`, async function (done) {
-    // stop streams and processes
-    if (main) {
-      await main.shutdown()
-    }
     failingChildProcess(name, cmd)
     jest.resetModules()
     await require(appRoot + 'src/main/index.js')
