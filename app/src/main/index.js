@@ -459,7 +459,8 @@ async function main () {
   basecoinProcess = startBasecoin(root)
   tendermintProcess = await startTendermint(root)
   .catch(e => {
-    throw new Error(`Can't start Tendermint: ${e.message}`)
+    e.message = `Can't start Tendermint: ${e.message}`
+    throw e
   })
   log('basecoin and tendermint are ready')
 
@@ -478,6 +479,8 @@ async function main () {
 }
 module.exports = Object.assign(
   main()
+  // HACK if we need process.exit(1) we can wrap this whole file in another file
+  // We need the responses from main to test
   // .catch(function (err) {
   //   console.error('Error in main process:', err.stack)
   //   // process.exit(1)
