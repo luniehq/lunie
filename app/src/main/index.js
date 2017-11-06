@@ -17,7 +17,7 @@ let mainWindow
 let basecoinProcess, baseserverProcess, tendermintProcess
 let streams = []
 const DEV = process.env.NODE_ENV === 'development'
-const TEST = JSON.parse(process.env.COSMOS_TEST) !== false
+const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 // TODO default logging or default disable logging?
 const LOGGING = JSON.parse(process.env.LOGGING || DEV) !== false
 const winURL = DEV
