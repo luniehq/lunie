@@ -1,7 +1,8 @@
-// make it possible to configure GOPATH in config
-const { GOPATH } = require('../../env.js')
-if (GOPATH) {
-  Object.assign(process.env, { GOPATH })
+const fs = require('fs-extra')
+
+if (fs.existsSync('../../env.js')) {
+  const env = require('../../env.js')
+  Object.assign(process.env, env)
 }
 
 const { COSMOS_HOME, NODE_ENV } = process.env
