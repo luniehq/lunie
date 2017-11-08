@@ -52,7 +52,7 @@ function sleep (ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-function expectCleanExit (process, errorMessage = 'Process exited unplaned') {
+function expectCleanExit (process, errorMessage = 'Process exited unplanned') {
   return new Promise((resolve, reject) => {
     process.on('exit', code => {
       if (code !== 0 && !shuttingDown) {
