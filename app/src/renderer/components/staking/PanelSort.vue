@@ -8,6 +8,7 @@
 </template>
 
 <script>
+// TODO do we need jquery for one usage?
 import $ from 'jquery'
 export default {
   name: 'panel-sort',

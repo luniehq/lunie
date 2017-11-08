@@ -8,7 +8,7 @@ This is still alpha-level software as of September 2017. Do not enter in your Co
 
 ## Development
 
-To run the dev build, first you will need the following binaries installed in your GOPATH: `basecoin`, `baseserver`, and `tendermint`.
+To run the dev build, first you will need the following binaries installed in your GOPATH: `basecoin`, `baseserver`, and `tendermint`. Download those from `https://tendermint.com/downloads`.
 
 ```fish
 # check your versions
@@ -20,8 +20,7 @@ $ tendermint version
 0.11.0-7682ad9a
 ```
 
-```
-npm install
+# on Window set GOPATH in `./env.js`. This file is gitignored.
 
 # run on the default testnet
 npm run testnet
@@ -50,14 +49,14 @@ brew install glide
 
 # install basecoin/baseserver
 go get -d github.com/cosmos/cosmos-sdk
-cd $GOPATH/src/github.com/cosmos/cosmos-sdk
+cd $GOPATH/src/github.com/cosmos/cosmos-sdk // Windows: cd %GOPATH%/src/github.com/cosmos/cosmos-sdk
 git checkout develop
 make get_vendor_deps
 make install
 
 # install tendermint
 go get -d github.com/tendermint/tendermint/cmd/tendermint
-cd $GOPATH/src/github.com/tendermint/tendermint
+cd $GOPATH/src/github.com/tendermint/tendermint // Windows: cd %GOPATH%/src/github.com/tendermint/tendermint
 git checkout v0.11.0
 make get_vendor_deps
 make install
@@ -67,4 +66,31 @@ Then build and run the app:
 ```bash
 npm run pack && npm run build:darwin
 open builds/cosmos-ui-darwin-x64/cosmos-ui.app
+```
+
+## Testing
+
+To test you need to first package the web content of the app, as this content can only be used bundled by the electron instance.
+
+```bash
+$ npm run pack
+$ npm run test
+```
+
+
+## FAQ
+
+- If tendermint crashes and the log shows "Tendermint state.AppHash does not match AppHash after replay." delete the config folders at $HOME/.cosmos-ui[-dev].
+
+- If you use yarn, the postinstall hook may not execute. In this case you have to execute these script manualy:
+```bash
+$ cd app
+$ yarn
+$ cd ..
+$ npm run rebuild
+```
+
+- If electron shows the error: "A DLL initialization routine has failed." rebuild the electron dependencies.
+```bash
+$ npm run rebuild
 ```

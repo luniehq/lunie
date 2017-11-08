@@ -64,7 +64,13 @@ export default ({ commit, node }) => {
 
   const actions = {
     async signIn ({ commit, state }, seedWords) {
-      let privkey = dg.mnemonicToPrivKey(seedWords)
+      let privkey
+      try {
+        privkey = dg.mnemonicToPrivKey(seedWords)
+      } catch (e) {
+        commit('notifyError', {title: 'Deriving private key failed', body: e.message})
+        return
+      }
       let account = await node.basecoin.getAccount(privkey.address())
       console.log('fetched account', account)
       if (!account) return

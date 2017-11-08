@@ -5,17 +5,21 @@ let fs = require('fs-extra')
 let { join } = require('path')
 let { spawn } = require('child_process')
 let home = require('user-home')
-let mkdirp = require('mkdirp').sync
 let RpcClient = require('tendermint')
 let semver = require('semver')
+// this dependency is wrapped in a file as it was not possible to mock the import with jest any other way
 let event = require('event-to-promise')
 let pkg = require('../../package.json')
+let rmdir = require('../helpers/rmdir.js')
 
 let shuttingDown = false
 let mainWindow
 let basecoinProcess, baseserverProcess, tendermintProcess
+let streams = []
 const DEV = process.env.NODE_ENV === 'development'
-const TEST = !!process.env.COSMOS_TEST
+const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
+// TODO default logging or default disable logging?
+const LOGGING = JSON.parse(process.env.LOGGING || DEV) !== false
 const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
   : `file://${__dirname}/index.html`
@@ -27,29 +31,63 @@ let DEFAULT_NETWORK = join(__dirname, '../networks/tak')
 let NODE_BINARY = 'basecoin'
 let SERVER_BINARY = 'baseserver'
 
+function log (...args) {
+  if (LOGGING) {
+    console.log(...args)
+  }
+}
+
+function logProcess (process, logPath) {
+  fs.ensureFileSync(logPath)
+  // Writestreams are blocking fs cleanup in tests, if you get errors, disable logging
+  if (LOGGING) {
+    let logStream = fs.createWriteStream(logPath)
+    streams.push(logStream)
+    process.stdout.pipe(logStream)
+    process.stderr.pipe(logStream)
+  }
+}
+
 function sleep (ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
+function expectCleanExit (process, errorMessage = 'Process exited unplaned') {
+  return new Promise((resolve, reject) => {
+    process.on('exit', code => {
+      if (code !== 0 && !shuttingDown) {
+        throw new Error(errorMessage)
+      }
+      resolve()
+    })
+  })
+}
+
 function shutdown () {
+  if (shuttingDown) return
+
   mainWindow = null
   shuttingDown = true
 
   if (basecoinProcess) {
-    console.log('killing basecoin')
+    log('killing basecoin')
     basecoinProcess.kill('SIGKILL')
     basecoinProcess = null
   }
   if (baseserverProcess) {
-    console.log('killing baseserver')
+    log('killing baseserver')
     baseserverProcess.kill('SIGKILL')
     baseserverProcess = null
   }
   if (tendermintProcess) {
-    console.log('killing tendermint')
+    log('killing tendermint')
     tendermintProcess.kill('SIGKILL')
     tendermintProcess = null
   }
+
+  return Promise.all(
+    streams.map(stream => new Promise((resolve) => stream.close(resolve)))
+  )
 }
 
 function createWindow () {
@@ -70,7 +108,7 @@ function createWindow () {
   mainWindow.on('closed', shutdown)
 
   // eslint-disable-next-line no-console
-  console.log('mainWindow opened')
+  log('mainWindow opened')
 
   // handle opening external links in OS's browser
   let webContents = mainWindow.webContents
@@ -123,11 +161,17 @@ function startProcess (name, args, env) {
   }
 
   let argString = args.map((arg) => JSON.stringify(arg)).join(' ')
-  console.log(`spawning ${binPath} with args "${argString}"`)
+  log(`spawning ${binPath} with args "${argString}"`)
   let child = spawn(binPath, args, env)
-  child.stdout.on('data', (data) => console.log(`${name}: ${data}`))
-  child.stderr.on('data', (data) => console.log(`${name}: ${data}`))
-  child.on('exit', (code) => console.log(`${name} exited with code ${code}`))
+  child.stdout.on('data', (data) => !shuttingDown && log(`${name}: ${data}`))
+  child.stderr.on('data', (data) => !shuttingDown && log(`${name}: ${data}`))
+  child.on('exit', (code) => !shuttingDown && log(`${name} exited with code ${code}`))
+  child.on('error', function (err) {
+    if (!(shuttingDown && err.code === 'ECONNRESET')) {
+      // Ignore ECONNRESET and re throw anything else
+      throw err
+    }
+  })
   return child
 }
 
@@ -145,7 +189,6 @@ app.on('activate', () => {
 
 // start basecoin node
 function startBasecoin (root) {
-  let log = fs.createWriteStream(join(root, 'basecoin.log'))
   let opts = {
     env: {
       BCHOME: root,
@@ -160,14 +203,13 @@ function startBasecoin (root) {
   ]
   if (DEV) args.push('--log_level', 'info')
   let child = startProcess(NODE_BINARY, args, opts)
-  child.stdout.pipe(log)
-  child.stderr.pipe(log)
+  logProcess(child, join(root, 'basecoin.log'))
+  expectCleanExit(child, 'Basecoin start exited unplanned')
   return child
 }
 
 // start tendermint node
 async function startTendermint (root) {
-  let log = fs.createWriteStream(join(root, 'tendermint.log'))
   let opts = {
     env: {
       BCHOME: root,
@@ -179,24 +221,35 @@ async function startTendermint (root) {
     'node',
     '--home', root
   ]
-  if (DEV) args.push('--log_level', 'info')
+  // if (DEV) args.push('--log_level', 'info')
   let child = startProcess('tendermint', args, opts)
-  child.stdout.pipe(log)
-  child.stderr.pipe(log)
+  logProcess(child, join(root, 'tendermint.log'))
+  expectCleanExit(child, 'Tendermint exited unplanned')
 
   let rpc = RpcClient('localhost:46657')
   let status = () => new Promise((resolve, reject) => {
-    // ignore errors, since we'll just poll until we get a response
-    rpc.status((_, res) => {
+    rpc.status((err, res) => {
+      // ignore connection errors, since we'll just poll until we get a response
+      if (err && err.code !== 'ECONNREFUSED') {
+        reject(err)
+        return
+      }
       resolve(res)
     })
   })
-  while (true) {
-    console.log('trying to get tendermint RPC status')
+  let noFailure = true
+  while (noFailure) {
+    if (shuttingDown) return
+
+    log('trying to get tendermint RPC status')
     let res = await status()
+      .catch(e => {
+        noFailure = false
+        throw new Error(`Tendermint produced an unexpected error: ${e.message}`)
+      })
     if (res) {
       if (res.latest_block_height > 0) break
-      console.log('waiting for blockchain to start syncing')
+      log('waiting for blockchain to start syncing')
     }
     await sleep(1000)
   }
@@ -206,26 +259,25 @@ async function startTendermint (root) {
 
 // start baseserver REST API
 async function startBaseserver (home) {
-  console.log('startBaseserver', home)
-  let log = fs.createWriteStream(join(home, 'baseserver.log'))
-
+  log('startBaseserver', home)
   let child = startProcess(SERVER_BINARY, [
     'serve',
     '--home', home // ,
     // '--trust-node'
   ])
-  child.stdout.pipe(log)
-  child.stderr.pipe(log)
+  logProcess(child, join(home, 'baseserver.log'))
 
   // restore baseserver if it crashes
   child.on('exit', async () => {
     if (shuttingDown) return
-    console.log('baseserver crashed, restarting')
+    log('baseserver crashed, restarting')
     await sleep(1000)
     await startBaseserver(home)
   })
 
   while (true) {
+    if (shuttingDown) break
+
     let data = await event(child.stderr, 'data')
     if (data.toString().includes('Serving on')) break
   }
@@ -248,15 +300,15 @@ async function initBasecoin (root) {
     '1B1BE55F969F54064628A63B9559E7C21C925165',
     '--home', root
   ], opts)
-  await event(child, 'exit')
+  await expectCleanExit(child, 'Basecoin init exited unplanned')
 
   // copy predefined genesis.json and config.toml into root
   let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
   fs.accessSync(networkPath) // crash if invalid path
   fs.copySync(networkPath, root)
 
-  if (DEV || TEST) {
-    console.log('adding self to validator set')
+  if (DEV) {
+    log('adding self to validator set')
     // replace validator set so our node has 100% of voting power
     let privValidatorText = fs.readFileSync(join(root, 'priv_validator.json'), 'utf8')
     let privValidator = JSON.parse(privValidatorText)
@@ -272,6 +324,8 @@ async function initBasecoin (root) {
     genesisText = JSON.stringify(genesis, null, '  ')
     fs.writeFileSync(join(root, 'genesis.json'), genesisText)
   }
+
+  log('basecoin initialized')
 }
 
 function exists (path) {
@@ -294,14 +348,15 @@ async function initBaseserver (chainId, home) {
     // '--trust-node'
   ])
   child.stdout.on('data', (data) => {
+    if (shuttingDown) return
     // answer 'y' to the prompt about trust seed. we can trust this is correct
     // since the baseserver is talking to our own full node
     child.stdin.write('y\n')
   })
-  await event(child, 'exit')
+  await expectCleanExit(child, 'Baseserver init exited unplanned')
 }
 
-function backupData (root) {
+async function backupData (root) {
   let i = 1
   let path
   do {
@@ -309,11 +364,12 @@ function backupData (root) {
     i++
   } while (exists(path))
 
-  console.log(`backing up data to "${path}"`)
-  fs.moveSync(root, path, {
+  log(`backing up data to "${path}"`)
+  fs.copySync(root, path, {
     overwrite: false,
     errorOnExist: true
   })
+  await rmdir(root)
 }
 
 process.on('exit', shutdown)
@@ -325,17 +381,21 @@ async function main () {
 
   let init = true
   if (exists(root)) {
-    console.log(`root exists (${root})`)
+    log(`root exists (${root})`)
 
     // check if the existing data came from a compatible app version
     // if not, backup the data and re-initialize
     if (exists(versionPath)) {
       let existingVersion = fs.readFileSync(versionPath, 'utf8')
       let compatible = semver.diff(existingVersion, pkg.version) !== 'major'
-      if (compatible) init = false
-      else backupData(root)
+      if (compatible) {
+        log('configs are compatible with current app version')
+        init = false
+      } else {
+        await backupData(root)
+      }
     } else {
-      backupData(root)
+      await backupData(root)
     }
 
     // check to make sure the genesis.json we want to use matches the one
@@ -347,24 +407,34 @@ async function main () {
       if (genesisJSON.chain_id !== 'local') {
         let specifiedGenesis = fs.readFileSync(join(process.env.COSMOS_NETWORK, 'genesis.json'), 'utf8')
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
-          console.log('genesis has changed')
-          backupData(root)
+          log('genesis has changed')
+          await backupData(root)
+          init = true
         }
       }
     }
   }
 
   if (init) {
-    console.log(`initializing data directory (${root})`)
-    mkdirp(root)
+    log(`initializing data directory (${root})`)
+    await fs.ensureDir(root)
     await initBasecoin(root)
+    .catch(e => {
+      e.message = `Initialization of basecoin failed: ${e.message}`
+      throw e
+    })
     fs.writeFileSync(versionPath, pkg.version)
   }
 
-  if (!DEV) {
+  if (!DEV && !TEST) {
+    let logFilePath = join(root, 'main.log')
+    log('Redirecting console output to logfile', logFilePath)
     // redirect stdout/err to logfile
-    let mainLog = fs.createWriteStream(join(root, 'main.log'))
-    console.log = function (...args) {
+    // TODO overwriting console.log sounds like a bad idea, can we find an alternative?
+    let mainLog = fs.createWriteStream(logFilePath)
+    streams.push(mainLog)
+    // eslint-disable-next-line no-func-assign
+    log = function (...args) {
       mainLog.write(`${args.join(' ')}\n`)
     }
     console.error = function (...args) {
@@ -372,30 +442,52 @@ async function main () {
     }
   }
 
-  console.log('starting app')
-  console.log(`dev mode: ${DEV}`)
-  console.log(`winURL: ${winURL}`)
+  log('starting app')
+  log(`dev mode: ${DEV}`)
+  log(`winURL: ${winURL}`)
 
   // read chainId from genesis.json
-  let genesisText = fs.readFileSync(genesisPath, 'utf8')
+  let genesisText
+  try {
+    genesisText = fs.readFileSync(genesisPath, 'utf8')
+  } catch (e) {
+    throw new Error(`Can't open genesis.json: ${e.message}`)
+  }
   let genesis = JSON.parse(genesisText)
   let chainId = genesis.chain_id
 
-  console.log('starting basecoin and tendermint')
+  log('starting basecoin and tendermint')
   basecoinProcess = startBasecoin(root)
   tendermintProcess = await startTendermint(root)
-  console.log('basecoin and tendermint are ready')
+  .catch(e => {
+    e.message = `Can't start Tendermint: ${e.message}`
+    throw e
+  })
+  log('basecoin and tendermint are ready')
 
   let baseserverHome = join(root, 'baseserver')
   if (init) {
-    initBaseserver(chainId, baseserverHome)
+    await initBaseserver(chainId, baseserverHome)
   }
 
-  console.log('starting baseserver')
+  log('starting baseserver')
   baseserverProcess = await startBaseserver(baseserverHome)
-  console.log('baseserver ready')
+  .catch(e => {
+    e.message = `Can't start baseserver: ${e.message}`
+    throw e
+  })
+  log('baseserver ready')
 }
-main().catch(function (err) {
-  console.error(err.stack)
-  process.exit(1)
-})
+module.exports = Object.assign(
+  main()
+  // HACK if we need process.exit(1) we can wrap this whole file in another file
+  // We need the responses from main to test
+  // .catch(function (err) {
+  //   console.error('Error in main process:', err.stack)
+  //   // process.exit(1)
+  // })
+  .then(() => ({
+    shutdown,
+    processes: {basecoinProcess, tendermintProcess, baseserverProcess}
+  }))
+)
