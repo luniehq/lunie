@@ -53,10 +53,13 @@ function sleep (ms) {
 }
 
 function expectCleanExit (process, errorMessage = 'Process exited unplaned') {
-  process.on('exit', code => {
-    if (code !== 0 && !shuttingDown) {
-      throw new Error(errorMessage)
-    }
+  return new Promise((resolve, reject) => {
+    process.on('exit', code => {
+      if (code !== 0 && !shuttingDown) {
+        throw new Error(errorMessage)
+      }
+      resolve()
+    })
   })
 }
 
