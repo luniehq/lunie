@@ -6,7 +6,7 @@ export const logOutput = state => state.log.output
 export const syncHeight = state => state.node.syncHeight
 export const syncTime = state => state.node.syncTime
 export const syncing = state => state.node.syncing
-export const numPeers = state => state.node.numPeers
+export const nodeIP = state => state.node.nodeIP
 
 export const candidates = state => state.candidates.list
 export const shoppingCart = state => state.shoppingCart.candidates

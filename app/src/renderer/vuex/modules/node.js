@@ -2,13 +2,13 @@
 
 export default ({ node }) => {
   // get tendermint RPC client from basecon client
-  const { rpc } = node
+  const { rpc, nodeIP } = node
 
   const state = {
     syncHeight: 0,
     syncTime: 0,
     syncing: true,
-    numPeers: 0
+    nodeIP
   }
 
   const mutations = {
@@ -16,9 +16,6 @@ export default ({ node }) => {
       state.syncHeight = height
       state.syncTime = time
       state.syncing = syncing
-    },
-    setNumPeers (state, numPeers) {
-      state.numPeers = numPeers
     }
   }
 
@@ -33,11 +30,6 @@ export default ({ node }) => {
             time: status.latest_block_time / 1e6,
             syncing: status.syncing
           })
-        })
-        rpc.netInfo((err, res) => {
-          if (err) return console.error(err)
-          let netInfo = res
-          commit('setNumPeers', netInfo.peers.length)
         })
       }, 1000)
     }
