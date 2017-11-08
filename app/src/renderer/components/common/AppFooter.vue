@@ -7,7 +7,7 @@ footer.app-footer
     .status(v-else='')
       i.fa.green.fa-circle
       |  Chain up-to-date (\#{{ syncHeight }})
-    .peers {{ numPeers }} peers
+    .connection Connected to {{ nodeIP }}
   .container
     .copyright &copy; 2017 Interchain Foundation
 </template>
@@ -17,7 +17,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'app-footer',
   computed: {
-    ...mapGetters(['syncHeight', 'syncTime', 'syncing', 'numPeers'])
+    ...mapGetters(['syncHeight', 'syncTime', 'syncing', 'nodeIP'])
   }
 }
 </script>

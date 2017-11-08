@@ -7,7 +7,7 @@ let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 module.exports = async function (nodeIP) {
   let rest = RestClient()
-  let rpc = RpcClient(nodeIP)
+  let rpc = RpcClient(`ws://${nodeIP}`)
 
   // poll server until it is online
   while (true) {
@@ -21,5 +21,6 @@ module.exports = async function (nodeIP) {
   }
 
   rest.rpc = rpc
+  rest.nodeIP = nodeIP
   return rest
 }
