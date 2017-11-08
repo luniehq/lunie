@@ -1,5 +1,4 @@
 const fs = require('fs-extra')
-const {join} = require('path')
 const rmdir = require('../../../app/src/helpers/rmdir.js')
 
 jest.mock('electron', () => {
