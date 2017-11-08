@@ -1,7 +1,7 @@
 const fs = require('fs-extra')
 
 if (fs.existsSync('../../env.js')) {
-  const env = require('../../env.js')
+  const env = fs.readJsonSync('../../env.js')
   Object.assign(process.env, env)
 }
 
