@@ -5,9 +5,9 @@ const RpcClient = require('tendermint')
 
 let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-module.exports = async function () {
+module.exports = async function (nodeIP) {
   let rest = RestClient()
-  let rpc = RpcClient()
+  let rpc = RpcClient(nodeIP)
 
   // poll server until it is online
   while (true) {
