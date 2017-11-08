@@ -5,7 +5,6 @@ let fs = require('fs-extra')
 let { join } = require('path')
 let { spawn } = require('child_process')
 let home = require('user-home')
-let RpcClient = require('tendermint')
 let semver = require('semver')
 // this dependency is wrapped in a file as it was not possible to mock the import with jest any other way
 let event = require('event-to-promise')
@@ -17,6 +16,7 @@ let shuttingDown = false
 let mainWindow
 let basecoinProcess, baseserverProcess, tendermintProcess
 let streams = []
+let nodeIP
 const DEV = process.env.NODE_ENV === 'development'
 const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 // TODO default logging or default disable logging?
@@ -29,7 +29,6 @@ const winURL = DEV
 // COSMOS_NETWORK env var
 let DEFAULT_NETWORK = join(__dirname, '../networks/tak')
 
-let NODE_BINARY = 'basecoin'
 let SERVER_BINARY = 'baseserver'
 
 function log (...args) {
@@ -101,7 +100,7 @@ function createWindow () {
   })
   // mainWindow.maximize()
 
-  mainWindow.loadURL(winURL)
+  mainWindow.loadURL(winURL + '?node=' + nodeIP)
   if (DEV || process.env.COSMOS_DEVTOOLS) {
     mainWindow.webContents.openDevTools()
   }
@@ -176,8 +175,6 @@ function startProcess (name, args, env) {
   return child
 }
 
-app.on('ready', createWindow)
-
 app.on('window-all-closed', () => {
   app.quit()
 })
@@ -188,54 +185,7 @@ app.on('activate', () => {
   }
 })
 
-// start tendermint node
-async function startTendermint (root) {
-  let opts = {
-    env: {
-      BCHOME: root,
-      TMROOT: root
-    }
-  }
-
-  let args = [
-    'node',
-    '--home', root
-  ]
-  // if (DEV) args.push('--log_level', 'info')
-  let child = startProcess('tendermint', args, opts)
-  logProcess(child, join(root, 'tendermint.log'))
-  expectCleanExit(child, 'Tendermint exited unplanned')
-
-  let rpc = RpcClient('localhost:46657')
-  let status = () => new Promise((resolve, reject) => {
-    rpc.status((err, res) => {
-      // ignore connection errors, since we'll just poll until we get a response
-      if (err && err.code !== 'ECONNREFUSED') {
-        reject(err)
-        return
-      }
-      resolve(res)
-    })
-  })
-  let noFailure = true
-  while (noFailure) {
-    if (shuttingDown) return
-
-    log('trying to get tendermint RPC status')
-    let res = await status()
-      .catch(e => {
-        noFailure = false
-        throw new Error(`Tendermint produced an unexpected error: ${e.message}`)
-      })
-    if (res) {
-      if (res.latest_block_height > 0) break
-      log('waiting for blockchain to start syncing')
-    }
-    await sleep(1000)
-  }
-
-  return child
-}
+app.on('ready', () => createWindow())
 
 // start baseserver REST API
 async function startBaseserver (home) {
@@ -281,7 +231,7 @@ async function initBaseserver (chainId, home, node) {
     'init',
     '--home', home,
     '--chain-id', chainId,
-    '--node', node,
+    '--node', node
     // '--trust-node'
   ])
   child.stdout.on('data', (data) => {
@@ -404,17 +354,18 @@ async function main () {
   }
   let config = toml.parse(configText)
   let seeds = config.p2p.seeds.split(',')
-  if (seeds.length === 0) {
+  if (config.p2p.seeds === '' || seeds.length === 0) {
     throw Error('No seeds specified in config.toml')
   }
-  let node = seeds[Math.floor(Math.random() * seeds.length)]
+  nodeIP = seeds[Math.floor(Math.random() * seeds.length)]
+  console.log('Picked seed:', nodeIP, 'of', seeds)
   // replace port with default RPC port
-  node = `${node.split(':')[0]}:46657`
-  log(`Initializing baseserver with remote node ${node}`)
+  nodeIP = `${nodeIP.split(':')[0]}:46657`
+  log(`Initializing baseserver with remote node ${nodeIP}`)
 
   let baseserverHome = join(root, 'baseserver')
   if (init) {
-    await initBaseserver(chainId, baseserverHome, node)
+    await initBaseserver(chainId, baseserverHome, nodeIP)
   }
 
   log('starting baseserver')

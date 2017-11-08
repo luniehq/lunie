@@ -20,8 +20,21 @@ Vue.use(Resource)
 Vue.use(Router)
 Vue.use(Vuelidate)
 
+function getQueryParameter (name) {
+  let queryString = window.location.search.substring(1)
+  let pairs = queryString.split('&')
+    .map(pair => pair.split('='))
+    .filter(pair => pair[0] === name)
+  if (pairs.length > 0) {
+    return pairs[0][1]
+  }
+  return null
+}
+
 const main = watt(function * (next) {
-  const node = yield Node()
+  let nodeIP = getQueryParameter('node')
+  console.log('Connecting to node:', nodeIP)
+  const node = yield Node(nodeIP)
 
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
