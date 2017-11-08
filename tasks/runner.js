@@ -51,9 +51,9 @@ module.exports = async function (networkPath) {
   await startRendererServer()
 
   console.log(`${BLUE}Starting electron...\n  (network path: ${networkPath})\n${END}`)
-  let env = {
+  let env = Object.assign({}, process.env, {
     NODE_ENV: 'development',
     COSMOS_NETWORK: networkPath
-  }
+  })
   run('electron app/src/main/index.dev.js', BLUE, 'electron', env)
 }
