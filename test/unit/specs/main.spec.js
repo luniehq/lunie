@@ -50,7 +50,6 @@ describe('Startup Process', () => {
   jest.mock(root + 'package.json', () => ({
     version: '0.1.0'
   }))
-  tendermintMock()
 
   describe('Initialization', function () {
     beforeAll(async function () {
@@ -60,35 +59,6 @@ describe('Startup Process', () => {
 
     it('should create the config dir', async function () {
       expect(fs.pathExistsSync(testRoot)).toBe(true)
-    })
-
-    it('should init basecoin', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('basecoin') &&
-          args.includes('init')
-        )
-      ).toBeDefined()
-    })
-
-    it('should start basecoin', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('basecoin') &&
-          args.includes('start')
-        )
-      ).toBeDefined()
-      expect(main.processes.basecoinProcess).toBeDefined()
-    })
-
-    it('should start tendermint', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('tendermint') &&
-          args.includes('node')
-        )
-      ).toBeDefined()
-      expect(main.processes.tendermintProcess).toBeDefined()
     })
 
     it('should init baseserver with correct testnet', async function () {
@@ -139,35 +109,6 @@ describe('Startup Process', () => {
   //     expect(fs.pathExistsSync(testRoot)).toBe(true)
   //   })
 
-  //   it('should init basecoin', async function () {
-  //     expect(childProcess.spawn.mock.calls
-  //       .find(([path, args]) =>
-  //         path.includes('basecoin') &&
-  //         args.includes('init')
-  //       )
-  //     ).toBeDefined()
-  //   })
-
-  //   it('should start basecoin', async function () {
-  //     expect(childProcess.spawn.mock.calls
-  //       .find(([path, args]) =>
-  //         path.includes('basecoin') &&
-  //         args.includes('start')
-  //       )
-  //     ).toBeDefined()
-  //     expect(main.processes.basecoinProcess).toBeDefined()
-  //   })
-
-  //   it('should start tendermint', async function () {
-  //     expect(childProcess.spawn.mock.calls
-  //       .find(([path, args]) =>
-  //         path.includes('tendermint') &&
-  //         args.includes('node')
-  //       )
-  //     ).toBeDefined()
-  //     expect(main.processes.tendermintProcess).toBeDefined()
-  //   })
-
   //   it('should init baseserver with correct testnet', async function () {
   //     expect(childProcess.spawn.mock.calls
   //       .find(([path, args]) =>
@@ -213,35 +154,6 @@ describe('Startup Process', () => {
 
   describe('Start initialized', function () {
     mainSetup()
-
-    it('should not init basecoin again', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('basecoin') &&
-          args.includes('init')
-        )
-      ).toBeUndefined()
-    })
-
-    it('should start basecoin', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('basecoin') &&
-          args.includes('start')
-        )
-      ).toBeDefined()
-      expect(main.processes.basecoinProcess).toBeDefined()
-    })
-
-    it('should start tendermint', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('tendermint') &&
-          args.includes('node')
-        )
-      ).toBeDefined()
-      expect(main.processes.tendermintProcess).toBeDefined()
-    })
 
     it('should not init baseserver again', async function () {
       expect(childProcess.spawn.mock.calls
@@ -293,56 +205,18 @@ describe('Startup Process', () => {
     afterEach(function () {
       main.shutdown()
     })
-
-    it('should rerun tendermint if tendermint fails to connect as it is polled until alive', async function () {
-      jest.mock(appRoot + 'node_modules/tendermint', () => {
-        let i = 0
-        return () => ({
-          status: (cb) => {
-            if (i < 3) {
-              cb({ code: 'ECONNREFUSED' })
-              i++
-            } else {
-              cb(null, {
-                latest_block_height: 1
-              })
-            }
-          }
-        })
-      })
-      jest.resetModules()
-      main = await require(appRoot + 'src/main/index.js')
-      expect(main).toBeDefined()
-    })
-
-    it('should fail if there is a not handled error in the tendermint rpc client', async function (done) {
-      jest.mock(appRoot + 'node_modules/tendermint', () => () => ({
-        status: (cb) => cb({code: 'EPERM'})
-      }))
-      jest.resetModules()
-      await require(appRoot + 'src/main/index.js')
-        .catch(err => {
-          expect(err.message).toContain('Tendermint produced an unexpected error')
-          done()
-        })
-    })
     it('should rerun baseserver if baseserver fails', async function () {
-      tendermintMock()
       failingChildProcess('baseserver', 'serve')
       jest.resetModules()
       main = await require(appRoot + 'src/main/index.js')
       expect(main).toBeDefined()
     })
-
-    // TODO exception is not catched by the main.catch
-    // testFailingChildProcess('tendermint')
   })
 
   describe('Error handling on init', () => {
     beforeAll(async function () {
       await resetConfigs()
     })
-    testFailingChildProcess('basecoin', 'init')
     testFailingChildProcess('baseserver', 'init')
   })
 
@@ -369,17 +243,8 @@ async function initMain () {
   expect(main).toBeDefined()
 }
 
-function tendermintMock () {
-  jest.mock(appRoot + 'node_modules/tendermint', () => () => ({
-    status: (cb) => cb(null, {
-      latest_block_height: 1
-    })
-  }))
-}
-
 function testFailingChildProcess (name, cmd) {
   return it(`should fail if there is a not handled error in the ${name} ${cmd || ''} process`, async function (done) {
-    tendermintMock()
     failingChildProcess(name, cmd)
     jest.resetModules()
     await require(appRoot + 'src/main/index.js')

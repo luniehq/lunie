@@ -358,7 +358,7 @@ async function main () {
     throw Error('No seeds specified in config.toml')
   }
   nodeIP = seeds[Math.floor(Math.random() * seeds.length)]
-  console.log('Picked seed:', nodeIP, 'of', seeds)
+  log('Picked seed:', nodeIP, 'of', seeds)
   // replace port with default RPC port
   nodeIP = `${nodeIP.split(':')[0]}:46657`
   log(`Initializing baseserver with remote node ${nodeIP}`)
