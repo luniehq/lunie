@@ -37,6 +37,7 @@ const main = watt(function * (next) {
   })
 
   const store = Store({ node })
+
   store.dispatch('updateNodeStatus')
   store.dispatch('initializeWallet')
 
