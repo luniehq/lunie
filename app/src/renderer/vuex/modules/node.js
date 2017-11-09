@@ -1,22 +1,21 @@
 'use strict'
 
-export default ({ node, store }) => {
+export default function ({ node, commit }) {
   // get tendermint RPC client from basecon client
   const { rpc, nodeIP } = node
 
   const state = {
-    syncHeight: 0,
-    syncTime: 0,
-    syncing: true,
     nodeIP,
-    connected: false
+    connected: false,
+    lastHeader: {
+      height: 0,
+      chain_id: ''
+    }
   }
 
   const mutations = {
-    setSync (state, { height, time, syncing }) {
-      state.syncHeight = height
-      state.syncTime = time
-      state.syncing = syncing
+    setLastHeader (state, header) {
+      state.lastHeader = header
     },
     setConnected (state, connected) {
       state.connected = connected
@@ -29,10 +28,9 @@ export default ({ node, store }) => {
         if (err) return console.error(err)
         let status = res
         commit('setConnected', true)
-        commit('setSync', {
+        commit('setLastHeader', {
           height: status.latest_block_height,
-          time: status.latest_block_time / 1e6,
-          syncing: status.syncing
+          chain_id: status.node_info.network
         })
       })
     }
@@ -41,7 +39,12 @@ export default ({ node, store }) => {
   // TODO: get event from light-client websocket instead of RPC connection (once that exists)
   rpc.on('error', (err) => {
     console.log('rpc disconnected', err)
-    store.commit('setConnected', false)
+    commit('setConnected', false)
+  })
+  rpc.subscribe({ event: 'NewBlockHeader' }, (err, event) => {
+    if (err) return console.error('error subscribing to headers', err)
+    commit('setConnected', true)
+    commit('setLastHeader', event.data.data.header)
   })
 
   return { state, mutations, actions }
