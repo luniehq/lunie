@@ -325,6 +325,7 @@ describe('Startup Process', () => {
           done()
         })
     })
+
     it('should rerun baseserver if baseserver fails', async function () {
       tendermintMock()
       failingChildProcess('baseserver', 'serve')
