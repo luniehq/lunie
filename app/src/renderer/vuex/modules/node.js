@@ -20,18 +20,16 @@ export default ({ node }) => {
   }
 
   const actions = {
-    startPollingNodeStatus ({ commit }) {
-      setInterval(() => {
-        rpc.status((err, res) => {
-          if (err) return console.error(err)
-          let status = res
-          commit('setSync', {
-            height: status.latest_block_height,
-            time: status.latest_block_time / 1e6,
-            syncing: status.syncing
-          })
+    updateNodeStatus ({ commit }) {
+      rpc.status((err, res) => {
+        if (err) return console.error(err)
+        let status = res
+        commit('setSync', {
+          height: status.latest_block_height,
+          time: status.latest_block_time / 1e6,
+          syncing: status.syncing
         })
-      }, 1000)
+      })
     }
   }
 

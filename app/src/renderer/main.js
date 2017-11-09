@@ -37,8 +37,7 @@ const main = watt(function * (next) {
   })
 
   const store = Store({ node })
-  store.dispatch('startPollingNodeStatus')
-  store.dispatch('startCandidateInterval')
+  store.dispatch('updateNodeStatus')
   store.dispatch('initializeWallet')
 
   return new Vue({
