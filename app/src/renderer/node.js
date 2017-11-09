@@ -8,6 +8,8 @@ let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 module.exports = async function (nodeIP) {
   let rest = RestClient()
   let rpc = RpcClient(`ws://${nodeIP}`)
+  // TODO: handle disconnect, try to reconnect
+  // TODO: eventually, get all data from light-client connection instead of RPC
 
   // poll server until it is online
   while (true) {
