@@ -27,7 +27,7 @@ const winURL = DEV
 
 // this network gets used if none is specified via the
 // COSMOS_NETWORK env var
-let DEFAULT_NETWORK = join(__dirname, '../networks/tak')
+let DEFAULT_NETWORK = join(__dirname, '../networks/gaia-1')
 
 let SERVER_BINARY = 'baseserver'
 
