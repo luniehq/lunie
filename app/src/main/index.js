@@ -335,12 +335,7 @@ async function main () {
   log(`winURL: ${winURL}`)
 
   // read chainId from genesis.json
-  let genesisText
-  try {
-    genesisText = fs.readFileSync(genesisPath, 'utf8')
-  } catch (e) {
-    throw new Error(`Can't open genesis.json: ${e.message}`)
-  }
+  let genesisText = fs.readFileSync(genesisPath, 'utf8')
   let genesis = JSON.parse(genesisText)
   let chainId = genesis.chain_id
 
@@ -350,12 +345,12 @@ async function main () {
   try {
     configText = fs.readFileSync(join(root, 'config.toml'), 'utf8')
   } catch (e) {
-    throw Error(`Can't open config.toml: ${e.message}`)
+    throw new Error(`Can't open config.toml: ${e.message}`)
   }
   let config = toml.parse(configText)
   let seeds = config.p2p.seeds.split(',')
   if (config.p2p.seeds === '' || seeds.length === 0) {
-    throw Error('No seeds specified in config.toml')
+    throw new Error('No seeds specified in config.toml')
   }
   nodeIP = seeds[Math.floor(Math.random() * seeds.length)]
   log('Picked seed:', nodeIP, 'of', seeds)
@@ -370,10 +365,6 @@ async function main () {
 
   log('starting baseserver')
   baseserverProcess = await startBaseserver(baseserverHome)
-  .catch(e => {
-    e.message = `Can't start baseserver: ${e.message}`
-    throw e
-  })
   log('baseserver ready')
 }
 module.exports = Object.assign(
