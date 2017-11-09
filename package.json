@@ -85,6 +85,7 @@
     "tape-promise": "^2.0.1",
     "tree-kill": "^1.1.0",
     "url-loader": "^0.5.7",
+    "vue": "^2.2.6",
     "vue-hot-reload-api": "^2.0.7",
     "vue-html-loader": "^1.2.2",
     "vue-loader": "^10.0.2",

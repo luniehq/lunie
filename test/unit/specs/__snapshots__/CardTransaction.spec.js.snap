@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardTransaction has the expected html structure 1`] = `
+<ul
+  class="card-transaction"
+>
+  <li
+    class="date"
+  >
+    1969-12-31 18:00:01
+  </li>
+   
+</ul>
+`;
