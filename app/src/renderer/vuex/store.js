@@ -8,6 +8,7 @@ Vue.use(Vuex)
 
 export default (opts = {}) => {
   opts.commit = (...args) => store.commit(...args)
+
   var store = new Vuex.Store({
     actions,
     getters,
