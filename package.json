@@ -26,7 +26,7 @@
     "vue:route": "node tasks/vue/route.js",
     "vuex:module": "node tasks/vuex/module.js",
     "rebuild": "electron-rebuild --module-dir app",
-    "postinstall": "cd app && npm install && cd .. && npm run rebuild"
+    "postinstall": "cd app && yarn && cd .. && npm run rebuild"
   },
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
@@ -143,6 +143,9 @@
       "node_modules",
       "src"
     ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/app/src/$1"
+    },
     "transform": {
       ".*.vue$": "jest-vue-preprocessor",
       ".*.js$": "babel-jest"

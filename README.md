@@ -77,6 +77,8 @@ $ npm run pack
 $ npm run test
 ```
 
+To see where you are missing coverage, run a test first and then open `http-server test/unit/coverage/lcov-repor` to see details for the coverage.
+
 
 ## FAQ
 
