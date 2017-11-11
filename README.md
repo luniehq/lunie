@@ -94,3 +94,8 @@ $ npm run rebuild
 ```bash
 $ npm run rebuild
 ```
+
+- If the console shows: "Error: spawn C:\Users\Fabo\Documents\tendermint\cosmos-ui\node_modules\electron\dist\electron.exe" rebuild electron.
+```
+$ npm rebuild electron
+```

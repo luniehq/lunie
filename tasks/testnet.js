@@ -23,11 +23,11 @@ async function main () {
     // fetch genesis.json and config.toml from github testnets repo,
     // save to tmp dir and pass to app dev runner
     console.log(`fetching genesis for network "${network}"`)
-    let genesisJson = await get(`https://github.com/tendermint/testnets/raw/master/${network}/basecoin/genesis.json`)
+    let genesisJson = await get(`https://github.com/tendermint/testnets/raw/master/${network}/gaia/genesis.json`)
     .catch(e => {
       throw new Error(`Can't load genesis.json: ${e.message}`)
     })
-    let configToml = await get(`https://github.com/tendermint/testnets/raw/master/${network}/basecoin/config.toml`)
+    let configToml = await get(`https://github.com/tendermint/testnets/raw/master/${network}/gaia/config.toml`)
     .catch(e => {
       throw new Error(`Can't load config.toml: ${e.message}`)
     })
