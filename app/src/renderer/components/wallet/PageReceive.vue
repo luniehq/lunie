@@ -34,10 +34,7 @@ export default {
     CardNew
   },
   computed: {
-    ...mapGetters([
-      'allAddresses',
-      'allWallets'
-    ]),
+    ...mapGetters(['allAddresses', 'allWallets']),
     addresses () {
       return this.allAddresses.slice().reverse()
     },

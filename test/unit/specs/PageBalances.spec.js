@@ -1,8 +1,10 @@
 import Vuex from 'vuex'
 import { mount, createLocalVue } from 'vue-test-utils'
 import PageBalances from '@/renderer/components/wallet/PageBalances'
+
 const filters = require('@/renderer/vuex/modules/filters').default({})
 const wallet = require('@/renderer/vuex/modules/wallet').default({})
+
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
@@ -62,5 +64,5 @@ describe('PageBalances', () => {
     expect(wrapper.contains('.ni-modal-search')).toBe(true)
   })
 
-  // TODO do we test moustrap stuff??
+  // TODO do we test mousetrap stuff??
 })
