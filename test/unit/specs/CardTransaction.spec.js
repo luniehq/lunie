@@ -15,7 +15,8 @@ describe('CardTransaction', () => {
           }
         ]
       },
-      time: 1000
+      // fixing date to relative date as fixed number produces different results in different timezones
+      time: new Date(1987, 8, 16)
     }
   }
 
