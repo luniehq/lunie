@@ -29,7 +29,7 @@ const winURL = DEV
 // COSMOS_NETWORK env var
 let DEFAULT_NETWORK = join(__dirname, '../networks/gaia-1')
 
-let SERVER_BINARY = 'baseserver'
+let SERVER_BINARY = 'gaia'
 
 function log (...args) {
   if (LOGGING) {
@@ -191,6 +191,7 @@ app.on('ready', () => createWindow())
 async function startBaseserver (home) {
   log('startBaseserver', home)
   let child = startProcess(SERVER_BINARY, [
+    'server',
     'serve',
     '--home', home // ,
     // '--trust-node'
@@ -228,6 +229,7 @@ function exists (path) {
 async function initBaseserver (chainId, home, node) {
   // `baseserver init` to generate config, trust seed
   let child = startProcess(SERVER_BINARY, [
+    'server',
     'init',
     '--home', home,
     '--chain-id', chainId,
