@@ -8,16 +8,13 @@ This is still alpha-level software as of September 2017. Do not enter in your Co
 
 ## Development
 
-To run the dev build, first you will need the following binaries installed in your GOPATH: `basecoin`, `baseserver`, and `tendermint`. Download those from `https://tendermint.com/downloads`.
-
-```fish
-# check your versions
-$ basecoin version
-v0.7.0-alpha f40fa5b
-$ basecli version
-v0.7.0-alpha f40fa5b
-$ tendermint version
-0.11.0-7682ad9a
+To run the dev build, you will need the `gaia` binary installed:
+```golang
+go get github.com/cosmos/gaia
+cd $GOPATH/src/github.com/cosmos/gaia
+git checkout feature/delegation
+glide install
+make install
 ```
 
 # on Window set GOPATH in `./env.js`. This file is gitignored.
@@ -25,14 +22,9 @@ $ tendermint version
 # run on the default testnet
 npm run testnet
 
-# OR, run on a local testnet so you don't have to sync over the network
-npm run local
-
 # OR, specify a testnet from the github.com/tendermint/testnets repo
 npm run testnet <networkName>
 ```
-
-This should launch the app, running on a local testnet.
 
 ## Production
 
