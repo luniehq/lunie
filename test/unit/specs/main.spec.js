@@ -45,9 +45,10 @@ describe('Startup Process', () => {
   jest.mock(appRoot + 'node_modules/event-to-promise', () => () => Promise.resolve({
     toString: () => 'Serving on'
   }))
-  // TODO: clarify if app_version should be taken from nested package.json
-  jest.mock(root + 'app/package.json', () => ({
-    version: '0.1.1'
+
+  // uses package.json from cosmos-ui/ root.
+  jest.mock(root + 'package.json', () => ({
+    version: '0.1.0'
   }))
   tendermintMock()
 
@@ -113,7 +114,7 @@ describe('Startup Process', () => {
     it('should persist the app_version', async function () {
       expect(fs.pathExistsSync(testRoot + 'app_version')).toBe(true)
       let appVersion = fs.readFileSync(testRoot + 'app_version', 'utf8')
-      expect(appVersion).toBe('0.1.1')
+      expect(appVersion).toBe('0.1.0')
     })
   })
 
