@@ -9,7 +9,7 @@ let RpcClient = require('tendermint')
 let semver = require('semver')
 // this dependency is wrapped in a file as it was not possible to mock the import with jest any other way
 let event = require('event-to-promise')
-let pkg = require('../../package.json')
+let pkg = require('../../../package.json')
 let rmdir = require('../helpers/rmdir.js')
 
 let shuttingDown = false
