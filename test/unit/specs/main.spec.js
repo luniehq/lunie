@@ -265,7 +265,7 @@ describe('Startup Process', () => {
 
   describe('Update app version', function () {
     beforeAll(() => {
-      jest.mock(root + 'app/package.json', () => ({
+      jest.mock(root + 'package.json', () => ({
         version: '1.1.1'
       }))
     })
