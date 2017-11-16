@@ -31,7 +31,7 @@ let childProcess
 describe('Startup Process', () => {
   Object.assign(process.env, {
     COSMOS_TEST: true,
-    COSMOS_NETWORK: 'app/networks/tak',
+    COSMOS_NETWORK: 'app/networks/gaia-1',
     COSMOS_HOME: testRoot
   })
 
@@ -63,20 +63,22 @@ describe('Startup Process', () => {
       expect(fs.pathExistsSync(testRoot)).toBe(true)
     })
 
-    it('should init baseserver with correct testnet', async function () {
+    it('should init gaia server with correct testnet', async function () {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-          path.includes('baseserver') &&
+          path.includes('gaia') &&
+          args.includes('server') &&
           args.includes('init') &&
-          args.splice(1).join('=').includes('--chain-id=tak')
+          args.splice(1).join('=').includes('--chain-id=gaia-1')
         )
       ).toBeDefined()
     })
 
-    it('should start baseserver', async function () {
+    it('should start gaia server', async function () {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-          path.includes('baseserver') &&
+          path.includes('gaia') &&
+          args.includes('server') &&
           args.includes('serve')
         )
       ).toBeDefined()
@@ -90,7 +92,7 @@ describe('Startup Process', () => {
     })
 
     // TODO the stdout.on('data') trick doesn't work
-    xit('should init baseserver accepting the new app hash', async function () {
+    xit('should init gaia accepting the new app hash', async function () {
       await resetConfigs()
       let mockWrite = jest.fn()
       childProcessMock((path, args) => ({
@@ -99,7 +101,7 @@ describe('Startup Process', () => {
         },
         stdout: {
           on: (type, cb) => {
-            if (type === 'data' && path.includes('baseserver') && args[0] === 'init') {
+            if (type === 'data' && path.includes('gaia') && args[0] === 'server' && args[1] === 'init') {
               cb('Will you accept the hash?')
             }
           }
@@ -132,20 +134,22 @@ describe('Startup Process', () => {
       expect(fs.pathExistsSync(testRoot)).toBe(true)
     })
 
-    it('should init baseserver with correct testnet', async function () {
+    it('should init gaia server with correct testnet', async function () {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-          path.includes('baseserver') &&
+          path.includes('gaia') &&
+          args.includes('server') &&
           args.includes('init') &&
-          args.splice(1).join('=').includes('--chain-id=tak')
+          args.splice(1).join('=').includes('--chain-id=gaia-1')
         )
       ).toBeDefined()
     })
 
-    it('should start baseserver', async function () {
+    it('should start gaia server', async function () {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-          path.includes('baseserver') &&
+          path.includes('gaia') &&
+          args.includes('server') &&
           args.includes('serve')
         )
       ).toBeDefined()
@@ -178,19 +182,21 @@ describe('Startup Process', () => {
   describe('Start initialized', function () {
     mainSetup()
 
-    it('should not init baseserver again', async function () {
+    it('should not init gaia server again', async function () {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-          path.includes('baseserver') &&
+          path.includes('gaia') &&
+          args.includes('server') &&
           args.includes('init')
         )
       ).toBeUndefined()
     })
 
-    it('should start baseserver', async function () {
+    it('should start gaia server', async function () {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-          path.includes('baseserver') &&
+          path.includes('gaia') &&
+          args.includes('server') &&
           args.includes('serve')
         )
       ).toBeDefined()
@@ -228,15 +234,16 @@ describe('Startup Process', () => {
     afterEach(function () {
       main.shutdown()
     })
-    it('should rerun baseserver if baseserver fails', async function () {
-      failingChildProcess('baseserver', 'serve')
+    it('should rerun gaia server if gaia server fails', async function () {
+      failingChildProcess('gaia', 'server', 'serve')
       await initMain()
 
       await sleep(1000)
 
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-        path.includes('baseserver') &&
+        path.includes('gaia') &&
+        args.includes('server') &&
         args.includes('serve')
       ).length
       ).toBeGreaterThan(1)
@@ -288,7 +295,7 @@ describe('Startup Process', () => {
     beforeEach(async function () {
       await resetConfigs()
     })
-    testFailingChildProcess('baseserver', 'init')
+    testFailingChildProcess('gaia', 'server', 'init')
   })
 
   describe('Electron startup', () => {
