@@ -114,6 +114,7 @@
     "proxyquire": "^1.8.0",
     "request-interval": "^2.0.0",
     "shortid": "^2.2.8",
+    "stacktrace-js": "^2.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^2.4.0",
     "superagent": "^3.5.2",

@@ -48,9 +48,10 @@ describe('Startup Process', () => {
       }
     })
   })
-  // TODO: clarify if app_version should be taken from nested package.json
-  jest.mock(root + 'app/package.json', () => ({
-    version: '0.1.1'
+
+  // uses package.json from cosmos-ui/ root.
+  jest.mock(root + 'package.json', () => ({
+    version: '0.1.0'
   }))
 
   describe('Initialization', function () {
@@ -89,6 +90,49 @@ describe('Startup Process', () => {
       expect(fs.pathExistsSync(testRoot + 'app_version')).toBe(true)
       let appVersion = fs.readFileSync(testRoot + 'app_version', 'utf8')
       expect(appVersion).toBe('0.1.1')
+    })
+
+    // TODO the stdout.on('data') trick doesn't work
+    xit('should init gaia server accepting the new app hash', async function () {
+      await resetConfigs()
+      let mockWrite = jest.fn()
+      childProcessMock((path, args) => ({
+        stdin: {
+          write: mockWrite
+        },
+        stdout: {
+          on: (type, cb) => {
+            if (type === 'data' && path.includes('gaia') && args[0] === 'server' && args[1] === 'init') {
+              cb('Will you accept the hash?')
+            }
+          }
+        }
+      }))
+      jest.resetModules()
+      main = await require(appRoot + 'src/main/index.js')
+      expect(mockWrite).toHaveBeenCalledWith('y\n')
+    })
+  })
+
+  describe('Initialization in dev mode', function () {
+    beforeAll(async function () {
+      await resetConfigs()
+
+      Object.assign(process.env, {
+        NODE_ENV: 'development',
+        LOGGING: false
+      })
+    })
+
+    afterAll(() => {
+      Object.assign(process.env, {
+        NODE_ENV: null
+      })
+    })
+    mainSetup()
+
+    it('should create the config dir', async function () {
+      expect(fs.pathExistsSync(testRoot)).toBe(true)
     })
 
     // TODO the stdout.on('data') trick doesn't work
@@ -159,7 +203,7 @@ describe('Startup Process', () => {
     it('should persist the app_version', async function () {
       expect(fs.pathExistsSync(testRoot + 'app_version')).toBe(true)
       let appVersion = fs.readFileSync(testRoot + 'app_version', 'utf8')
-      expect(appVersion).toBe('0.1.1')
+      expect(appVersion).toBe('0.1.0')
     })
 
     xit('should have set the own node as a validator with 100% voting power', async () => {
@@ -206,7 +250,7 @@ describe('Startup Process', () => {
 
   describe('Update app version', function () {
     beforeAll(() => {
-      jest.mock(root + 'app/package.json', () => ({
+      jest.mock(root + 'package.json', () => ({
         version: '1.1.1'
       }))
     })
