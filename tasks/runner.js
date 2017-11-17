@@ -29,6 +29,7 @@ function run (command, color, name, env) {
   })
   child.on('exit', code => {
     console.log('exited', command, code)
+    process.exit(code)
   })
   process.on('exit', () => child.kill('SIGKILL'))
   return child
