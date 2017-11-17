@@ -266,22 +266,10 @@ async function backupData (root) {
   await rmdir(root)
 }
 
-process.on('exit', shutdown)
-process.on('uncaughtException', function (err) {
-  logError('[Uncaught Exception]', err)
-  setTimeout(shutdown, 200)
-  err.message = '[Uncaught Exception] ' + err.message
-  process.exit(1)
-})
-
-async function main () {
-  let root = require('../root.js')
-  let versionPath = join(root, 'app_version')
-  let genesisPath = join(root, 'genesis.json')
-
-  let rootExists = exists(root)
-  await fs.ensureDir(root)
-
+/*
+* log to file
+*/
+function setupLogging (root) {
   // initialize log file
   let logFilePath = join(root, 'main.log')
   fs.ensureFileSync(logFilePath)
@@ -298,19 +286,42 @@ async function main () {
     // TODO overwriting console.log sounds like a bad idea, can we find an alternative?
     // eslint-disable-next-line no-func-assign
     log = function (...args) {
-      if (DEV && LOGGING) {
-        console.log(...args)
+      if (LOGGING) {
+        if (DEV) {
+          console.log(...args)
+        }
+        mainLog.write(`main-process: ${args.join(' ')}\r\n`)
       }
-      mainLog.write(`main-process: ${args.join(' ')}\r\n`)
     }
     // eslint-disable-next-line no-func-assign
     logError = function (...args) {
-      if (DEV && LOGGING) {
-        console.error(...args)
+      if (LOGGING) {
+        if (DEV) {
+          console.error(...args)
+        }
+        mainLog.write(`main-process: ${args.join(' ')}\r\n`)
       }
-      mainLog.write(`main-process: [ERROR] ${args.join(' ')}\r\n`)
     }
   }
+}
+
+process.on('exit', shutdown)
+process.on('uncaughtException', function (err) {
+  logError('[Uncaught Exception]', err)
+  setTimeout(shutdown, 200)
+  err.message = '[Uncaught Exception] ' + err.message
+  process.exit(1)
+})
+
+async function main () {
+  let root = require('../root.js')
+  let versionPath = join(root, 'app_version')
+  let genesisPath = join(root, 'genesis.json')
+
+  let rootExists = exists(root)
+  await fs.ensureDir(root)
+
+  setupLogging(root)
 
   let init = true
   if (rootExists) {
@@ -399,6 +410,10 @@ async function main () {
 }
 module.exports = Object.assign(
   main()
+  .catch(err => {
+    logError(err)
+    throw err
+  })
   .then(() => ({
     shutdown,
     processes: {baseserverProcess}
