@@ -5,7 +5,7 @@ const KEY_PASSWORD = '1234567890'
 export default ({ commit, node }) => {
   let state = {
     balances: [
-      // TODO: set denom list dynamically somehow
+      // TODO: set denom list dynamically somehow (maybe from denoms genesis.json?)
       { denom: 'atom', amount: 0 },
       { denom: 'mycoin', amount: 0 }
     ],
@@ -41,13 +41,11 @@ export default ({ commit, node }) => {
         key = await node.getKey(KEY_NAME)
       }
       commit('setWalletKey', key)
-
-      // poll for balance updates every 2 seconds
-      while (true) {
-        dispatch('queryWalletBalances')
-        dispatch('queryWalletSequence')
-        await new Promise((resolve) => setTimeout(resolve, 2000))
-      }
+      dispatch('queryWalletState')
+    },
+    queryWalletState ({ state, dispatch }) {
+      dispatch('queryWalletBalances')
+      dispatch('queryWalletSequence')
     },
     async queryWalletBalances ({ state, commit }) {
       let res = await node.queryAccount(state.key.address)

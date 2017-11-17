@@ -5,10 +5,10 @@ let fs = require('fs-extra')
 let { join } = require('path')
 let { spawn } = require('child_process')
 let home = require('user-home')
-let RpcClient = require('tendermint')
 let semver = require('semver')
 // this dependency is wrapped in a file as it was not possible to mock the import with jest any other way
 let event = require('event-to-promise')
+let toml = require('toml')
 let pkg = require('../../../package.json')
 let rmdir = require('../helpers/rmdir.js')
 
@@ -16,6 +16,7 @@ let shuttingDown = false
 let mainWindow
 let basecoinProcess, baseserverProcess, tendermintProcess
 let streams = []
+let nodeIP
 const DEV = process.env.NODE_ENV === 'development'
 const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 // TODO default logging or default disable logging?
@@ -28,7 +29,6 @@ const winURL = DEV
 // COSMOS_NETWORK env var
 let DEFAULT_NETWORK = join(__dirname, '../networks/tak')
 
-let NODE_BINARY = 'basecoin'
 let SERVER_BINARY = 'baseserver'
 
 function log (...args) {
@@ -100,7 +100,7 @@ function createWindow () {
   })
   // mainWindow.maximize()
 
-  mainWindow.loadURL(winURL)
+  mainWindow.loadURL(winURL + '?node=' + nodeIP)
   if (DEV || process.env.COSMOS_DEVTOOLS) {
     mainWindow.webContents.openDevTools()
   }
@@ -175,8 +175,6 @@ function startProcess (name, args, env) {
   return child
 }
 
-app.on('ready', createWindow)
-
 app.on('window-all-closed', () => {
   app.quit()
 })
@@ -187,75 +185,7 @@ app.on('activate', () => {
   }
 })
 
-// start basecoin node
-function startBasecoin (root) {
-  let opts = {
-    env: {
-      BCHOME: root,
-      TMROOT: root
-    }
-  }
-
-  let args = [
-    'start',
-    '--without-tendermint',
-    '--home', root
-  ]
-  if (DEV) args.push('--log_level', 'info')
-  let child = startProcess(NODE_BINARY, args, opts)
-  logProcess(child, join(root, 'basecoin.log'))
-  expectCleanExit(child, 'Basecoin start exited unplanned')
-  return child
-}
-
-// start tendermint node
-async function startTendermint (root) {
-  let opts = {
-    env: {
-      BCHOME: root,
-      TMROOT: root
-    }
-  }
-
-  let args = [
-    'node',
-    '--home', root
-  ]
-  // if (DEV) args.push('--log_level', 'info')
-  let child = startProcess('tendermint', args, opts)
-  logProcess(child, join(root, 'tendermint.log'))
-  expectCleanExit(child, 'Tendermint exited unplanned')
-
-  let rpc = RpcClient('localhost:46657')
-  let status = () => new Promise((resolve, reject) => {
-    rpc.status((err, res) => {
-      // ignore connection errors, since we'll just poll until we get a response
-      if (err && err.code !== 'ECONNREFUSED') {
-        reject(err)
-        return
-      }
-      resolve(res)
-    })
-  })
-  let noFailure = true
-  while (noFailure) {
-    if (shuttingDown) return
-
-    log('trying to get tendermint RPC status')
-    let res = await status()
-      .catch(e => {
-        noFailure = false
-        throw new Error(`Tendermint produced an unexpected error: ${e.message}`)
-      })
-    if (res) {
-      if (res.latest_block_height > 0) break
-      log('waiting for blockchain to start syncing')
-    }
-    await sleep(1000)
-  }
-
-  return child
-}
+app.on('ready', () => createWindow())
 
 // start baseserver REST API
 async function startBaseserver (home) {
@@ -285,49 +215,6 @@ async function startBaseserver (home) {
   return child
 }
 
-async function initBasecoin (root) {
-  let opts = {
-    env: {
-      BCHOME: root,
-      TMROOT: root
-    }
-  }
-
-  // `basecoin init` to generate account keys, validator key
-  let child = startProcess(NODE_BINARY, [
-    'init',
-    // currently using hardcoded address
-    '1B1BE55F969F54064628A63B9559E7C21C925165',
-    '--home', root
-  ], opts)
-  await expectCleanExit(child, 'Basecoin init exited unplanned')
-
-  // copy predefined genesis.json and config.toml into root
-  let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
-  fs.accessSync(networkPath) // crash if invalid path
-  fs.copySync(networkPath, root)
-
-  if (DEV) {
-    log('adding self to validator set')
-    // replace validator set so our node has 100% of voting power
-    let privValidatorText = fs.readFileSync(join(root, 'priv_validator.json'), 'utf8')
-    let privValidator = JSON.parse(privValidatorText)
-    let genesisText = fs.readFileSync(join(root, 'genesis.json'), 'utf8')
-    let genesis = JSON.parse(genesisText)
-    genesis.validators = [
-      {
-        pub_key: privValidator.pub_key,
-        power: 100,
-        name: 'dev_validator'
-      }
-    ]
-    genesisText = JSON.stringify(genesis, null, '  ')
-    fs.writeFileSync(join(root, 'genesis.json'), genesisText)
-  }
-
-  log('basecoin initialized')
-}
-
 function exists (path) {
   try {
     fs.accessSync(path)
@@ -338,13 +225,13 @@ function exists (path) {
   }
 }
 
-async function initBaseserver (chainId, home) {
+async function initBaseserver (chainId, home, node) {
   // `baseserver init` to generate config, trust seed
   let child = startProcess(SERVER_BINARY, [
     'init',
     '--home', home,
     '--chain-id', chainId,
-    '--node', 'localhost:46657' // ,
+    '--node', node
     // '--trust-node'
   ])
   child.stdout.on('data', (data) => {
@@ -418,11 +305,12 @@ async function main () {
   if (init) {
     log(`initializing data directory (${root})`)
     await fs.ensureDir(root)
-    await initBasecoin(root)
-    .catch(e => {
-      e.message = `Initialization of basecoin failed: ${e.message}`
-      throw e
-    })
+
+    // copy predefined genesis.json and config.toml into root
+    let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
+    fs.accessSync(networkPath) // crash if invalid path
+    fs.copySync(networkPath, root)
+
     fs.writeFileSync(versionPath, pkg.version)
   }
 
@@ -447,35 +335,36 @@ async function main () {
   log(`winURL: ${winURL}`)
 
   // read chainId from genesis.json
-  let genesisText
-  try {
-    genesisText = fs.readFileSync(genesisPath, 'utf8')
-  } catch (e) {
-    throw new Error(`Can't open genesis.json: ${e.message}`)
-  }
+  let genesisText = fs.readFileSync(genesisPath, 'utf8')
   let genesis = JSON.parse(genesisText)
   let chainId = genesis.chain_id
 
-  log('starting basecoin and tendermint')
-  basecoinProcess = startBasecoin(root)
-  tendermintProcess = await startTendermint(root)
-  .catch(e => {
-    e.message = `Can't start Tendermint: ${e.message}`
-    throw e
-  })
-  log('basecoin and tendermint are ready')
+  // pick a random seed node from config.toml
+  // TODO: user-specified nodes, support switching?
+  let configText
+  try {
+    configText = fs.readFileSync(join(root, 'config.toml'), 'utf8')
+  } catch (e) {
+    throw new Error(`Can't open config.toml: ${e.message}`)
+  }
+  let config = toml.parse(configText)
+  let seeds = config.p2p.seeds.split(',')
+  if (config.p2p.seeds === '' || seeds.length === 0) {
+    throw new Error('No seeds specified in config.toml')
+  }
+  nodeIP = seeds[Math.floor(Math.random() * seeds.length)]
+  log('Picked seed:', nodeIP, 'of', seeds)
+  // replace port with default RPC port
+  nodeIP = `${nodeIP.split(':')[0]}:46657`
+  log(`Initializing baseserver with remote node ${nodeIP}`)
 
   let baseserverHome = join(root, 'baseserver')
   if (init) {
-    await initBaseserver(chainId, baseserverHome)
+    await initBaseserver(chainId, baseserverHome, nodeIP)
   }
 
   log('starting baseserver')
   baseserverProcess = await startBaseserver(baseserverHome)
-  .catch(e => {
-    e.message = `Can't start baseserver: ${e.message}`
-    throw e
-  })
   log('baseserver ready')
 }
 module.exports = Object.assign(
@@ -488,6 +377,6 @@ module.exports = Object.assign(
   // })
   .then(() => ({
     shutdown,
-    processes: {basecoinProcess, tendermintProcess, baseserverProcess}
+    processes: {baseserverProcess}
   }))
 )
