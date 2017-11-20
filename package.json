@@ -85,11 +85,12 @@
     "tape-promise": "^2.0.1",
     "tree-kill": "^1.1.0",
     "url-loader": "^0.5.7",
+    "vue": "^2.5.3",
     "vue-hot-reload-api": "^2.0.7",
     "vue-html-loader": "^1.2.2",
-    "vue-loader": "^10.0.2",
+    "vue-loader": "^13.5.0",
     "vue-style-loader": "^1.0.0",
-    "vue-template-compiler": "^2.1.10",
+    "vue-template-compiler": "^2.5.3",
     "webpack": "^2.2.0",
     "webpack-dev-server": "^2.2.0",
     "webpack-merge": "^0.14.1"
@@ -102,7 +103,10 @@
     "@nylira/vue-notifications": "^1.3.0",
     "axios": "^0.17.0",
     "babel-jest": "^21.2.0",
+    "bs58check": "^2.0.2",
     "chart.js": "^2.6.0",
+    "cosmos-delegation-game": "^0.1.2",
+    "cosmos-fundraiser": "^7.14.5",
     "electron": "^1.7.5",
     "flatpickr": "^4.0.6",
     "fs-extra": "^4.0.2",
@@ -120,8 +124,12 @@
     "superagent": "^3.5.2",
     "tail": "^1.2.1",
     "tendermint-crypto": "github:mappum/js-crypto",
+    "vue-test-utils": "^1.0.0-beta.4",
     "vuelidate": "^0.5.0",
-    "websocket-extensions": "^0.1.2"
+    "vuex": "^3.0.1",
+    "web3": "^1.0.0-beta.24",
+    "websocket-extensions": "^0.1.2",
+    "xmlhttprequest": "^1.8.0"
   },
   "jest": {
     "testMatch": [
@@ -135,6 +143,9 @@
       "node_modules",
       "src"
     ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/app/src/$1"
+    },
     "transform": {
       ".*.vue$": "jest-vue-preprocessor",
       ".*.js$": "babel-jest"
@@ -155,6 +166,9 @@
       "/test/",
       "/config/"
     ],
-    "testURL": "http://localhost"
+    "testURL": "http://localhost",
+    "setupFiles": [
+      "./test/unit/helpers/setup.js"
+    ]
   }
 }

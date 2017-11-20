@@ -1,14 +1,13 @@
-const files = require.context('.', false, /\.js$/)
-const funcs = {}
-files.keys().forEach((key) => {
-  if (key === './index.js') return
-  funcs[key.replace(/(\.\/|\.js)/g, '')] = files(key).default
+export default (opts) => ({
+  candidates: require('./candidates.js').default(opts),
+  config: require('./config.js').default(opts),
+  delegators: require('./delegators.js').default(opts),
+  filters: require('./filters.js').default(opts),
+  node: require('./node.js').default(opts),
+  notifications: require('./notifications.js').default(opts),
+  proposals: require('./proposals.js').default(opts),
+  shoppingCart: require('./shoppingCart.js').default(opts),
+  user: require('./user.js').default(opts),
+  validators: require('./validators.js').default(opts),
+  wallet: require('./wallet.js').default(opts)
 })
-
-export default (opts) => {
-  const modules = {}
-  for (let key in funcs) {
-    modules[key] = funcs[key](opts)
-  }
-  return modules
-}

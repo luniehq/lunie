@@ -36,7 +36,6 @@ export default ({ commit, basecoin }) => {
       state[type].search.visible = bool
     },
     setSearchQuery (state, [type, string]) {
-      console.log('setSearchQuery', type, string)
       state[type].search.query = string
     }
   }
