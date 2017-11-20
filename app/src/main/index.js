@@ -36,12 +36,19 @@ function log (...args) {
     console.log(...args)
   }
 }
+function logError (...args) {
+  if (LOGGING) {
+    console.log(...args)
+  }
+}
 
 function logProcess (process, logPath) {
   fs.ensureFileSync(logPath)
   // Writestreams are blocking fs cleanup in tests, if you get errors, disable logging
   if (LOGGING) {
-    let logStream = fs.createWriteStream(logPath)
+    let logStream = fs.createWriteStream(logPath, {
+      flags: 'a' // 'a' means appending (old data will be preserved)
+    })
     streams.push(logStream)
     process.stdout.pipe(logStream)
     process.stderr.pipe(logStream)
@@ -259,15 +266,65 @@ async function backupData (root) {
   await rmdir(root)
 }
 
+/*
+* log to file
+*/
+function setupLogging (root) {
+  // initialize log file
+  let logFilePath = join(root, 'main.log')
+  fs.ensureFileSync(logFilePath)
+  let mainLog = fs.createWriteStream(logFilePath, {
+    flags: 'a' // 'a' means appending (old data will be preserved)
+  })
+  mainLog.write(`${new Date()} Running Cosmos-UI\r\n`)
+  // mainLog.write(`${new Date()} Environment: ${JSON.stringify(process.env)}\r\n`) // TODO should be filtered before adding it to the log
+  streams.push(mainLog)
+
+  if (!TEST) {
+    log('Redirecting console output to logfile', logFilePath)
+    // redirect stdout/err to logfile
+    // TODO overwriting console.log sounds like a bad idea, can we find an alternative?
+    // eslint-disable-next-line no-func-assign
+    log = function (...args) {
+      if (LOGGING) {
+        if (DEV) {
+          console.log(...args)
+        }
+        mainLog.write(`main-process: ${args.join(' ')}\r\n`)
+      }
+    }
+    // eslint-disable-next-line no-func-assign
+    logError = function (...args) {
+      if (LOGGING) {
+        if (DEV) {
+          console.error(...args)
+        }
+        mainLog.write(`main-process: ${args.join(' ')}\r\n`)
+      }
+    }
+  }
+}
+
 process.on('exit', shutdown)
+process.on('uncaughtException', function (err) {
+  logError('[Uncaught Exception]', err)
+  setTimeout(shutdown, 200)
+  err.message = '[Uncaught Exception] ' + err.message
+  process.exit(1)
+})
 
 async function main () {
   let root = require('../root.js')
   let versionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
 
+  let rootExists = exists(root)
+  await fs.ensureDir(root)
+
+  setupLogging(root)
+
   let init = true
-  if (exists(root)) {
+  if (rootExists) {
     log(`root exists (${root})`)
 
     // check if the existing data came from a compatible app version
@@ -314,22 +371,6 @@ async function main () {
     fs.writeFileSync(versionPath, pkg.version)
   }
 
-  if (!DEV && !TEST) {
-    let logFilePath = join(root, 'main.log')
-    log('Redirecting console output to logfile', logFilePath)
-    // redirect stdout/err to logfile
-    // TODO overwriting console.log sounds like a bad idea, can we find an alternative?
-    let mainLog = fs.createWriteStream(logFilePath)
-    streams.push(mainLog)
-    // eslint-disable-next-line no-func-assign
-    log = function (...args) {
-      mainLog.write(`${args.join(' ')}\n`)
-    }
-    console.error = function (...args) {
-      mainLog.write(`stderr: ${args.join(' ')}\n`)
-    }
-  }
-
   log('starting app')
   log(`dev mode: ${DEV}`)
   log(`winURL: ${winURL}`)
@@ -369,12 +410,10 @@ async function main () {
 }
 module.exports = Object.assign(
   main()
-  // HACK if we need process.exit(1) we can wrap this whole file in another file
-  // We need the responses from main to test
-  // .catch(function (err) {
-  //   console.error('Error in main process:', err.stack)
-  //   // process.exit(1)
-  // })
+  .catch(err => {
+    logError(err)
+    throw err
+  })
   .then(() => ({
     shutdown,
     processes: {baseserverProcess}
