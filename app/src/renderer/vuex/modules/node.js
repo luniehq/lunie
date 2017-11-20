@@ -1,47 +1,51 @@
 'use strict'
 
-export default ({ node }) => {
+export default function ({ node, commit }) {
   // get tendermint RPC client from basecon client
-  const { rpc } = node
+  const { rpc, nodeIP } = node
 
   const state = {
-    syncHeight: 0,
-    syncTime: 0,
-    syncing: true,
-    numPeers: 0
+    nodeIP,
+    connected: false,
+    lastHeader: {
+      height: 0,
+      chain_id: ''
+    }
   }
 
   const mutations = {
-    setSync (state, { height, time, syncing }) {
-      state.syncHeight = height
-      state.syncTime = time
-      state.syncing = syncing
+    setLastHeader (state, header) {
+      state.lastHeader = header
     },
-    setNumPeers (state, numPeers) {
-      state.numPeers = numPeers
+    setConnected (state, connected) {
+      state.connected = connected
     }
   }
 
   const actions = {
-    startPollingNodeStatus ({ commit }) {
-      setInterval(() => {
-        rpc.status((err, res) => {
-          if (err) return console.error(err)
-          let status = res
-          commit('setSync', {
-            height: status.latest_block_height,
-            time: status.latest_block_time / 1e6,
-            syncing: status.syncing
-          })
+    updateNodeStatus ({ commit }) {
+      rpc.status((err, res) => {
+        if (err) return console.error(err)
+        let status = res
+        commit('setConnected', true)
+        commit('setLastHeader', {
+          height: status.latest_block_height,
+          chain_id: status.node_info.network
         })
-        rpc.netInfo((err, res) => {
-          if (err) return console.error(err)
-          let netInfo = res
-          commit('setNumPeers', netInfo.peers.length)
-        })
-      }, 1000)
+      })
     }
   }
+
+  // TODO: get event from light-client websocket instead of RPC connection (once that exists)
+  rpc.on('error', (err) => {
+    console.log('rpc disconnected', err)
+    commit('setConnected', false)
+  })
+  rpc.subscribe({ event: 'NewBlockHeader' }, (err, event) => {
+    if (err) return console.error('error subscribing to headers', err)
+    commit('setConnected', true)
+    commit('setLastHeader', event.data.data.header)
+  })
 
   return { state, mutations, actions }
 }

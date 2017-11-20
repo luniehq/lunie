@@ -1,13 +1,11 @@
 <template lang='pug'>
 footer.app-footer
   .container
-    .status(v-if='syncing')
-      i.fa.yellow.fa-spin.fa-refresh
-      |  Syncing chain&hellip; \#{{ syncHeight }} ({{ new Date(syncTime).toISOString() }})
-    .status(v-else='')
+    .status
       i.fa.green.fa-circle
-      |  Chain up-to-date (\#{{ syncHeight }})
-    .peers {{ numPeers }} peers
+      |  Chain {{ lastHeader.chain_id }} (\#{{ lastHeader.height }})
+    .connection(v-if='connected') Connected to {{ nodeIP }}
+    .connection(v-if='!connected') Connecting to network...
   .container
     .copyright &copy; 2017 Interchain Foundation
 </template>
@@ -17,7 +15,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'app-footer',
   computed: {
-    ...mapGetters(['syncHeight', 'syncTime', 'syncing', 'numPeers'])
+    ...mapGetters(['lastHeader', 'nodeIP', 'connected'])
   }
 }
 </script>

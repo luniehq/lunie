@@ -16,6 +16,7 @@ page(title='Balances')
       :dt="i.denom.toUpperCase()"
       :dd="i.amount")
     list-item(v-if='wallet.balances.length === 0' dt="N/A" dd="None Available")
+  btn.refresh(@click.native='updateBalances()' value="Refresh")
 </template>
 
 <script>
@@ -53,7 +54,8 @@ export default {
     }
   },
   methods: {
-    setSearch (bool) { this.$store.commit('setSearchVisible', ['balances', bool]) }
+    setSearch (bool) { this.$store.commit('setSearchVisible', ['balances', bool]) },
+    updateBalances () { this.$store.dispatch('queryWalletState') }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))

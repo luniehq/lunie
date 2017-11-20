@@ -15,9 +15,9 @@ export default ({ commit, node }) => {
 
   function getValidators () {
     // retrieve peer validators (of validator01)
-    node.rpc.validators((err, { validators }) => {
+    node.rpc.validators((err, data) => {
       if (err) return console.error(err)
-      commit('setValidators', validators)
+      commit('setValidators', data.validators)
     })
   }
 
