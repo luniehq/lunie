@@ -1,36 +1,25 @@
-<template>
-  <ul class="card-transaction">
-    <li class="date">{{ date }}</li>
-    <template v-for="coin in tran.inputs[0].coins">
-      <li class="balance">
-        <span :class="valueCss(coin.amount)">{{ coin.amount }}</span>
-      </li>
-      <li class="denom">
-        <span class="value">{{ coin.denom.toUpperCase() }}</span>
-      </li>
-    </template>
-  </ul>
+<template lang='pug'>
+.card-transaction
+  .key-value(v-for='coin in tx.inputs[0].coins')
+    .value(:class='sign(coin.amount)') {{ coin.amount }}
+    .key {{ coin.denom.toUpperCase() }}
+  .date {{ date }}
 </template>
 
 <script>
+import dateUnixAgo from '../../scripts/dateUnixAgo'
 export default {
   computed: {
-    tran () {
-      return this.transactionValue.tx
+    tx () {
+      // return this.transactionValue.tx
+      return this.transactionValue
     },
-    date () {
-      return new Date(this.transactionValue.time).toLocaleString()
-    }
+    date () { return dateUnixAgo(this.transactionValue.time) }
   },
   methods: {
-    valueCss (num) {
-      let v = 'value'
-      if (num > 0) {
-        v += ' positive'
-      } else if (num < 0) {
-        v += ' negative'
-      }
-      return v
+    sign (num) {
+      if (num > 0) { return 'positive' }
+      else if (num < 0) { return 'negative' }
     }
   },
   props: ['transaction-value']
@@ -40,60 +29,38 @@ export default {
 <style lang="stylus">
 @require '../../styles/variables.styl'
 
-ul.card-transaction
-  padding 0.25em 0.5em
-  background app-fg
-
+.card-transaction
   display flex
   align-items center
 
-  border-left 1px solid bc
-  border-right 1px solid bc
+  border-bottom 1px solid bc-dim
+  height 3rem
 
-  &:nth-of-type(2n)
-    background lighten(app-bg, 50%)
+  .date
+    color dim
+    padding 0 1rem
 
-  mono()
-  height 2rem
-  font-size 0.875rem
-  li
+  .date, .key-value
+    flex 1
+
+  .key-value
     display flex
-    align-items center
-    &.balance
-      flex 1
-      .value
-        text-align right
+    flex-flow row nowrap
+    padding 0 0.5rem
 
-    &.denom
-      width 10rem
-      padding 0 1rem
+  .key, .value
+    padding 0 0.5rem
 
-    .key
-      color light
-      padding-right 0.5rem
-      text-transform uppercase
-      font-weight bold
-      font-size 0.666rem
-      letter-spacing 0.05em
+  .value
+    &.positive
+      color accent1
+      &:before
+        content '+'
+        display inline-block
 
-    .value
-      flex 1
-      display inline-block
-
-      &.positive
-        color hsl(120,100%,35%)
-        &:before
-          content '+'
-          display inline-block
-
-      &.negative
-        color hsl(0,100%,35%)
-        &:before
-          content '-'
-          display inline-block
-
-ul.card-transaction:first-of-type
-  border-top 1px solid bc
-ul.card-transaction:last-of-type
-  border-bottom 1px solid bc
+    &.negative
+      color accent2
+      &:before
+        content '-'
+        display inline-block
 </style>
