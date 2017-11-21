@@ -3,6 +3,7 @@ page(title='Balances')
   modal-search(v-if="filters.balances.search.visible" type="balances")
   tool-bar
     a(@click='setSearch(true)'): i.material-icons search
+    a(@click.native='updateBalances()'): i.material-icons refresh
     anchor-copy(:value="wallet.key.address" icon="content_copy")
 
   part(title='Your Address')
@@ -16,7 +17,6 @@ page(title='Balances')
       :dt="i.denom.toUpperCase()"
       :dd="i.amount")
     list-item(v-if='wallet.balances.length === 0' dt="N/A" dd="None Available")
-  btn.refresh(@click.native='updateBalances()' value="Refresh")
 </template>
 
 <script>
