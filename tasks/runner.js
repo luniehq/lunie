@@ -39,7 +39,7 @@ function startRendererServer () {
     console.log(`${YELLOW}Starting webpack-dev-server...\n${END}`)
     let child = run(`webpack-dev-server --hot --colors --config webpack.renderer.config.js --port ${config.port} --content-base app/dist`, YELLOW, 'webpack')
     let waitForCompile = (data) => {
-      if (!data.toString().includes('Compiled successfully')) return
+      if (!data.toString().includes('Compiled')) return
       child.stdout.removeListener('data', waitForCompile)
       resolve()
     }
