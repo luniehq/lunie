@@ -242,7 +242,7 @@ async function initBaseserver (chainId, home, node) {
     // since the baseserver is talking to our own full node
     child.stdin.write('y\n')
   })
-  await expectCleanExit(child, 'Baseserver init exited unplanned')
+  await expectCleanExit(child, 'gaia init exited unplanned')
 }
 
 async function backupData (root) {

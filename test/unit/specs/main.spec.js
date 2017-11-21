@@ -16,7 +16,7 @@ jest.mock('electron', () => {
 childProcessMock((path, args) => ({
   on: (type, cb) => {
     // init processes always should return with 0
-    if (type === 'exit' && args[0] === 'init') {
+    if (type === 'exit' && args[1] === 'init') {
       cb(0)
     }
   }
@@ -89,7 +89,7 @@ describe('Startup Process', () => {
     it('should persist the app_version', async function () {
       expect(fs.pathExistsSync(testRoot + 'app_version')).toBe(true)
       let appVersion = fs.readFileSync(testRoot + 'app_version', 'utf8')
-      expect(appVersion).toBe('0.1.1')
+      expect(appVersion).toBe('0.1.0')
     })
 
     // TODO the stdout.on('data') trick doesn't work
@@ -279,7 +279,7 @@ describe('Startup Process', () => {
       main.shutdown()
     })
     it('should rerun gaia server if gaia server fails', async function () {
-      failingChildProcess('gaia', 'server', 'serve')
+      failingChildProcess('gaia', 'serve')
       await initMain()
 
       await sleep(1000)
@@ -339,7 +339,7 @@ describe('Startup Process', () => {
     beforeEach(async function () {
       await resetConfigs()
     })
-    testFailingChildProcess('gaia', 'server', 'init')
+    testFailingChildProcess('gaia', 'init')
   })
 
   describe('Electron startup', () => {
@@ -409,10 +409,10 @@ function failingChildProcess (mockName, mockCmd) {
   childProcessMock((path, args) => ({
     on: (type, cb) => {
       if (type === 'exit') {
-        if (path.includes(mockName) && (mockCmd === undefined || args[0] === mockCmd)) {
+        if (path.includes(mockName) && (mockCmd === undefined || args[1] === mockCmd)) {
           cb(-1)
           // init processes always should return with 0
-        } else if (args[0] === 'init') {
+        } else if (args[1] === 'init') {
           cb(0)
         }
       }
