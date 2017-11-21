@@ -29,6 +29,7 @@ const winURL = DEV
 // this network gets used if none is specified via the
 // COSMOS_NETWORK env var
 let DEFAULT_NETWORK = join(__dirname, '../networks/tak')
+let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
 
 let SERVER_BINARY = 'baseserver' + (WIN ? '.exe' : '')
 
@@ -347,7 +348,7 @@ async function main () {
       let genesisJSON = JSON.parse(existingGenesis)
       // skip this check for local testnet
       if (genesisJSON.chain_id !== 'local') {
-        let specifiedGenesis = fs.readFileSync(join(process.env.COSMOS_NETWORK, 'genesis.json'), 'utf8')
+        let specifiedGenesis = fs.readFileSync(join(networkPath, 'genesis.json'), 'utf8')
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
           log('genesis has changed')
           await backupData(root)
@@ -362,7 +363,6 @@ async function main () {
     await fs.ensureDir(root)
 
     // copy predefined genesis.json and config.toml into root
-    let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
     fs.accessSync(networkPath) // crash if invalid path
     fs.copySync(networkPath, root)
 
