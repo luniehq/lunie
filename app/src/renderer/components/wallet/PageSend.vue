@@ -3,16 +3,11 @@ page(title='Send Coins')
   form-struct(:submit='verifySend')
     form-group(:error='$v.fields.denom.$error'
       field-id='send-denomination' field-label='Denomination')
-      field-group#send-denomination.denoms
-        btn.denom(
-          v-for='balance in wallet.balances'
-          @click.native='setDenom(balance.denom, $event)'
-          :value="balance.denom.toUpperCase()")
-        btn.denom(v-if="wallet.balances.length == 0" value="N/A" disabled)
-
-        // field#send-denomination(
+      field-group
+        field#send-denomination(
           type="select"
           v-model="fields.denom"
+          :options="denominations"
           @input="$v.fields.denom.$touch()"
           placeholder="Denomination"
           required)
@@ -38,8 +33,8 @@ page(title='Send Coins')
     div(slot='footer')
       // btn(value='Reset', @click.native='resetForm')
       div
-      btn(v-if='sending', value='Sending...' disabled)
-      btn(v-else='', type='submit', value='Send Now')
+      btn(v-if='sending' value='Sending...' disabled)
+      btn(v-else type='submit' value='Send Now')
 </template>
 
 <script>
@@ -67,25 +62,12 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['wallet'])
+    ...mapGetters(['wallet']),
+    denominations () {
+      return this.wallet.balances.map(i => ({ key: i.denom.toUpperCase(), value: i.denom }))
+    }
   },
   methods: {
-    setDenom (denom, $event) {
-      let denomEls = document.querySelectorAll('.denoms .denom')
-      // console.log('denomEls', denomEls)
-      Array.from(denomEls).map(el => el.classList.remove('active'))
-
-      let thisDenomEl = $event.target
-      // console.log('denom el', thisDenomEl)
-      thisDenomEl.classList.add('active')
-
-      this.fields.denom = denom
-      // console.log('setting denomination to', this.fields.denom)
-    },
-    trunc (value) {
-      if (value.length > 20) value = this.value.substring(0, 20) + '...'
-      return '“' + value + '”'
-    },
     resetForm () {
       this.fields.address = ''
       this.fields.amount = null
@@ -93,6 +75,7 @@ export default {
       this.$v.$reset()
     },
     verifySend () {
+      console.log('sending', this.fields)
       this.$v.$touch()
       if (this.$v.$error) return
       this.sending = true
@@ -155,27 +138,7 @@ export default {
 #send-address
 #send-amount
   mono()
-  &::-webkit-input-placeholder
+  &:placeholder
     df()
     color light
-  &::-moz-placeholder
-    df()
-    color light
-  &:-ms-input-placeholder
-    df()
-    color light
-  &:-moz-placeholder
-    df()
-    color light
-
-.denoms
-  display flex
-  .denom
-    margin-right 0.5rem
-    &.active
-      border-color link
-      background lighten(link, 90%)
-      color link
-    &:last-of-type
-      margin-right 0
 </style>
