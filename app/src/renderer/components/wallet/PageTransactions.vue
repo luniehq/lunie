@@ -48,7 +48,7 @@ export default {
     }
   },
   methods: {
-    setSearch (bool) { this.$store.commit('setSearchVisible', ['transactions', bool]) },
+    setSearch (bool) { this.$store.commit('setSearchVisible', ['transactions', bool]) }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))

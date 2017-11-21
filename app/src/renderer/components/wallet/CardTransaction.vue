@@ -18,8 +18,11 @@ export default {
   },
   methods: {
     sign (num) {
-      if (num > 0) { return 'positive' }
-      else if (num < 0) { return 'negative' }
+      if (num > 0) {
+        return 'positive'
+      } else if (num < 0) {
+        return 'negative'
+      }
     }
   },
   props: ['transaction-value']
