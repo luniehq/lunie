@@ -14,7 +14,6 @@ export const config = state => state.config
 // monitor
 export const blockchain = state => state.blockchain
 export const validators = state => state.validators.validators
-export const delegators = state => state.delegators
 
 // govern
 export const proposals = state => state.proposals

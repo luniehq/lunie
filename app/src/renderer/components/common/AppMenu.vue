@@ -13,7 +13,6 @@
       list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
       list-item(to="/validators" exact @click.native="close" title="Validators"
         v-bind:class="{ 'active': isValidatorPage }")
-      list-item(to="/delegators" exact @click.native="close" title="Delegators")
 </template>
 
 <script>

@@ -12,12 +12,6 @@ export default ({ commit, basecoin }) => {
         query: ''
       }
     },
-    delegators: {
-      search: {
-        visible: false,
-        query: ''
-      }
-    },
     proposals: {
       search: {
         visible: false,
