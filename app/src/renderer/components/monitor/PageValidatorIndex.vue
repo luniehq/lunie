@@ -15,8 +15,6 @@ page(icon="storage" :title="validator.node_info.moniker")
       :to="{ name: 'validator-slashes', params: { validator: validatorSlug }}")
 
   part(title="Staking")
-    list-item(dt="Delegators" dd="137"
-      :to="{ name: 'validator-delegators', params: { validator: validatorSlug }}")
     list-item(dt="Earn Rate" dd="8.1K ATOM / day")
     list-item(dt="Total Earnings" dd="301.8K ATOM")
 </template>
