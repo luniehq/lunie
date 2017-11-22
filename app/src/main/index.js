@@ -45,7 +45,7 @@ function logError (...args) {
 function logProcess (process, logPath) {
   fs.ensureFileSync(logPath)
   // Writestreams are blocking fs cleanup in tests, if you get errors, disable logging
-  if (LOGGING) {
+  if (LOGGING && !TEST) {
     let logStream = fs.createWriteStream(logPath, {
       flags: 'a' // 'a' means appending (old data will be preserved)
     })
@@ -272,6 +272,8 @@ async function backupData (root) {
 * log to file
 */
 function setupLogging (root) {
+  if (TEST) return
+
   // initialize log file
   let logFilePath = join(root, 'main.log')
   fs.ensureFileSync(logFilePath)
@@ -282,27 +284,25 @@ function setupLogging (root) {
   // mainLog.write(`${new Date()} Environment: ${JSON.stringify(process.env)}\r\n`) // TODO should be filtered before adding it to the log
   streams.push(mainLog)
 
-  if (!TEST) {
-    log('Redirecting console output to logfile', logFilePath)
-    // redirect stdout/err to logfile
-    // TODO overwriting console.log sounds like a bad idea, can we find an alternative?
-    // eslint-disable-next-line no-func-assign
-    log = function (...args) {
-      if (LOGGING) {
-        if (DEV) {
-          console.log(...args)
-        }
-        mainLog.write(`main-process: ${args.join(' ')}\r\n`)
+  log('Redirecting console output to logfile', logFilePath)
+  // redirect stdout/err to logfile
+  // TODO overwriting console.log sounds like a bad idea, can we find an alternative?
+  // eslint-disable-next-line no-func-assign
+  log = function (...args) {
+    if (LOGGING) {
+      if (DEV) {
+        console.log(...args)
       }
+      mainLog.write(`main-process: ${args.join(' ')}\r\n`)
     }
-    // eslint-disable-next-line no-func-assign
-    logError = function (...args) {
-      if (LOGGING) {
-        if (DEV) {
-          console.error(...args)
-        }
-        mainLog.write(`main-process: ${args.join(' ')}\r\n`)
+  }
+  // eslint-disable-next-line no-func-assign
+  logError = function (...args) {
+    if (LOGGING) {
+      if (DEV) {
+        console.error(...args)
       }
+      mainLog.write(`main-process: ${args.join(' ')}\r\n`)
     }
   }
 }
