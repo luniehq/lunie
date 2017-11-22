@@ -42,6 +42,9 @@ export default {
   display flex
   position relative
 
+  cursor pointer
+  user-select none
+
 .ni-field-vote-input
 .ni-field-vote-dl
 .ni-field-vote-bar-outer
