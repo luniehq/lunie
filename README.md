@@ -17,8 +17,6 @@ glide install
 make install
 ```
 
-# on Window set GOPATH in `./env.js`. This file is gitignored.
-
 # run on the default testnet
 npm run testnet
 
