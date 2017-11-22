@@ -28,10 +28,10 @@ const winURL = DEV
 
 // this network gets used if none is specified via the
 // COSMOS_NETWORK env var
-let DEFAULT_NETWORK = join(__dirname, '../networks/tak')
+let DEFAULT_NETWORK = join(__dirname, '../networks/gaia-1')
 let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
 
-let SERVER_BINARY = 'baseserver' + (WIN ? '.exe' : '')
+let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
 
 function log (...args) {
   if (LOGGING) {
@@ -196,6 +196,7 @@ app.on('ready', () => createWindow())
 async function startBaseserver (home) {
   log('startBaseserver', home)
   let child = startProcess(SERVER_BINARY, [
+    'server',
     'serve',
     '--home', home // ,
     // '--trust-node'
@@ -234,6 +235,7 @@ async function initBaseserver (chainId, home, node) {
   // fs.ensureDirSync(home)
   // `baseserver init` to generate config, trust seed
   let child = startProcess(SERVER_BINARY, [
+    'server',
     'init',
     '--home', home,
     '--chain-id', chainId,
@@ -246,7 +248,7 @@ async function initBaseserver (chainId, home, node) {
     // since the baseserver is talking to our own full node
     child.stdin.write('y\n')
   })
-  await expectCleanExit(child, 'Baseserver init exited unplanned')
+  await expectCleanExit(child, 'gaia init exited unplanned')
 }
 
 async function backupData (root) {

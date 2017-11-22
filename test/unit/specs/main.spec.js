@@ -1,6 +1,5 @@
 const fs = require('fs-extra')
 const {join} = require('path')
-const rmdir = require('../../../app/src/helpers/rmdir.js')
 
 function sleep (ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -16,7 +15,7 @@ jest.mock('electron', () => {
 childProcessMock((path, args) => ({
   on: (type, cb) => {
     // init processes always should return with 0
-    if (type === 'exit' && args[0] === 'init') {
+    if (type === 'exit' && args[1] === 'init') {
       cb(0)
     }
   }
@@ -31,7 +30,7 @@ let childProcess
 describe('Startup Process', () => {
   Object.assign(process.env, {
     COSMOS_TEST: true,
-    COSMOS_NETWORK: 'app/networks/tak',
+    COSMOS_NETWORK: 'app/networks/gaia-1',
     COSMOS_HOME: testRoot
   })
 
@@ -64,20 +63,22 @@ describe('Startup Process', () => {
       expect(fs.existsSync(testRoot)).toBe(true)
     })
 
-    it('should init baseserver with correct testnet', async function () {
+    it('should init gaia server with correct testnet', async function () {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-          path.includes('baseserver') &&
+          path.includes('gaia') &&
+          args.includes('server') &&
           args.includes('init') &&
-          args.splice(1).join('=').includes('--chain-id=tak')
+          args.splice(1).join('=').includes('--chain-id=gaia-1')
         )
       ).toBeDefined()
     })
 
-    it('should start baseserver', async function () {
+    it('should start gaia server', async function () {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-          path.includes('baseserver') &&
+          path.includes('gaia') &&
+          args.includes('server') &&
           args.includes('serve')
         )
       ).toBeDefined()
@@ -91,7 +92,7 @@ describe('Startup Process', () => {
     })
 
     // TODO the stdout.on('data') trick doesn't work
-    xit('should init baseserver accepting the new app hash', async function () {
+    xit('should init gaia server accepting the new app hash', async function () {
       await resetConfigs()
       let mockWrite = jest.fn()
       childProcessMock((path, args) => ({
@@ -100,7 +101,7 @@ describe('Startup Process', () => {
         },
         stdout: {
           on: (type, cb) => {
-            if (type === 'data' && path.includes('baseserver') && args[0] === 'init') {
+            if (type === 'data' && path.includes('gaia') && args[0] === 'server' && args[1] === 'init') {
               cb('Will you accept the hash?')
             }
           }
@@ -133,20 +134,65 @@ describe('Startup Process', () => {
       expect(fs.existsSync(testRoot)).toBe(true)
     })
 
-    it('should init baseserver with correct testnet', async function () {
+    // TODO the stdout.on('data') trick doesn't work
+    xit('should init gaia accepting the new app hash', async function () {
+      await resetConfigs()
+      let mockWrite = jest.fn()
+      childProcessMock((path, args) => ({
+        stdin: {
+          write: mockWrite
+        },
+        stdout: {
+          on: (type, cb) => {
+            if (type === 'data' && path.includes('gaia') && args[0] === 'server' && args[1] === 'init') {
+              cb('Will you accept the hash?')
+            }
+          }
+        }
+      }))
+      jest.resetModules()
+      main = await require(appRoot + 'src/main/index.js')
+      expect(mockWrite).toHaveBeenCalledWith('y\n')
+    })
+  })
+
+  describe('Initialization in dev mode', function () {
+    beforeAll(async function () {
+      await resetConfigs()
+
+      Object.assign(process.env, {
+        NODE_ENV: 'development',
+        LOGGING: false
+      })
+    })
+
+    afterAll(() => {
+      Object.assign(process.env, {
+        NODE_ENV: null
+      })
+    })
+    mainSetup()
+
+    it('should create the config dir', async function () {
+      expect(fs.existsSync(testRoot)).toBe(true)
+    })
+
+    it('should init gaia server with correct testnet', async function () {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-          path.includes('baseserver') &&
+          path.includes('gaia') &&
+          args.includes('server') &&
           args.includes('init') &&
-          args.splice(1).join('=').includes('--chain-id=tak')
+          args.splice(1).join('=').includes('--chain-id=gaia-1')
         )
       ).toBeDefined()
     })
 
-    it('should start baseserver', async function () {
+    it('should start gaia server', async function () {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-          path.includes('baseserver') &&
+          path.includes('gaia') &&
+          args.includes('server') &&
           args.includes('serve')
         )
       ).toBeDefined()
@@ -179,19 +225,21 @@ describe('Startup Process', () => {
   describe('Start initialized', function () {
     mainSetup()
 
-    it('should not init baseserver again', async function () {
+    it('should not init gaia server again', async function () {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-          path.includes('baseserver') &&
+          path.includes('gaia') &&
+          args.includes('server') &&
           args.includes('init')
         )
       ).toBeUndefined()
     })
 
-    it('should start baseserver', async function () {
+    it('should start gaia server', async function () {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-          path.includes('baseserver') &&
+          path.includes('gaia') &&
+          args.includes('server') &&
           args.includes('serve')
         )
       ).toBeDefined()
@@ -229,15 +277,16 @@ describe('Startup Process', () => {
     afterEach(function () {
       main.shutdown()
     })
-    it('should rerun baseserver if baseserver fails', async function () {
-      failingChildProcess('baseserver', 'serve')
+    it('should rerun gaia server if gaia server fails', async function () {
+      failingChildProcess('gaia', 'serve')
       await initMain()
 
       await sleep(1000)
 
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-        path.includes('baseserver') &&
+        path.includes('gaia') &&
+        args.includes('server') &&
         args.includes('serve')
       ).length
       ).toBeGreaterThan(1)
@@ -289,7 +338,7 @@ describe('Startup Process', () => {
     beforeEach(async function () {
       await resetConfigs()
     })
-    testFailingChildProcess('baseserver', 'init')
+    testFailingChildProcess('gaia', 'init')
   })
 
   describe('Electron startup', () => {
@@ -359,10 +408,10 @@ function failingChildProcess (mockName, mockCmd) {
   childProcessMock((path, args) => ({
     on: (type, cb) => {
       if (type === 'exit') {
-        if (path.includes(mockName) && (mockCmd === undefined || args[0] === mockCmd)) {
+        if (path.includes(mockName) && (mockCmd === undefined || args[1] === mockCmd)) {
           cb(-1)
           // init processes always should return with 0
-        } else if (args[0] === 'init') {
+        } else if (args[1] === 'init') {
           cb(0)
         }
       }
@@ -373,7 +422,7 @@ function failingChildProcess (mockName, mockCmd) {
 async function resetConfigs () {
   if (fs.existsSync('./test/unit/tmp')) {
     // fs.removeSync did produce an ENOTEMPTY error under windows
-    await rmdir('./test/unit/tmp')
+    await fs.removeSync('./test/unit/tmp')
     expect(fs.existsSync('./test/unit/tmp')).toBe(false)
   } else {
     fs.ensureDirSync('./test/unit/tmp')
