@@ -132,9 +132,15 @@
       "vue"
     ],
     "moduleDirectories": [
+      "app/node_modules",
       "node_modules",
       "src"
     ],
+    "moduleNameMapper": { 
+      "^src/(.*)$": "<rootDir>/app/src/$1",
+      "^app/(.*)$": "<rootDir>/app/$1",
+      "^renderer/(.*)$": "<rootDir>/app/src/renderer/$1"
+    }, 
     "transform": {
       ".*.vue$": "jest-vue-preprocessor",
       ".*.js$": "babel-jest"
@@ -155,6 +161,9 @@
       "/test/",
       "/config/"
     ],
-    "testURL": "http://localhost"
+    "testURL": "http://localhost",
+    "setupFiles": [ 
+      "./test/unit/helpers/setup.js" 
+    ]
   }
 }
