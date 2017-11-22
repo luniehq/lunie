@@ -6,13 +6,14 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import {countVotes} from '../../scripts/votes'
+// import {countVotes} from '../../scripts/votes'
 export default {
   name: 'ni-votes',
   computed: {
     ...mapGetters(['user']),
     votes () {
-      return countVotes(this.parent.votes)
+      // return countVotes(this.parent.votes)
+      return 0
     },
     userVoted () {
       return this.parent.votes ? !!this.parent.votes[this.user.uid] : false

@@ -1,25 +1,44 @@
 <template lang="pug">
-modal-menu.app-menu
-  app-table-of-contents
+  menu.app-menu
+    part(title='Wallet')
+      list-item(to="/" exact @click.native="close" title="Balances")
+      list-item(to="/wallet/send" exact @click.native="close" title="Send")
+      list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions")
+    part(title='Govern')
+      list-item(to="/proposals" exact @click.native="close" title="Proposals")
+    part(title='Stake')
+      list-item(to="/staking" exact @click.native="close" title="Validator Candidates")
+      list-item(to="/staking/nominate" exact @click.native="close" title="Self Nomination")
+    part(title='Monitor')
+      list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
+      list-item(to="/validators" exact @click.native="close" title="Validators"
+        v-bind:class="{ 'active': isValidatorPage }")
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import ModalMenu from './NiModalMenu'
-import AppTableOfContents from './AppTableOfContents'
+import { mapGetters } from 'vuex'
+import noScroll from 'no-scroll'
+import ListItem from './NiListItem'
+import Part from './NiPart'
 export default {
   name: 'app-menu',
   components: {
-    ModalMenu,
-    AppTableOfContents
+    ListItem,
+    Part
   },
   computed: {
-    ...mapGetters(['proposals', 'proposalStages', 'validators', 'discussions']),
+    ...mapGetters(['proposals', 'validators']),
     proposalAlerts () {
       return this.proposals
         .filter(p => p.flags.read === false).length
     },
     isValidatorPage () { return this.$route.params.validator }
+  },
+  methods: {
+    close () {
+      this.$store.commit('setActiveMenu', '')
+      noScroll.off()
+    }
   }
 }
 </script>
@@ -27,7 +46,26 @@ export default {
 <style lang="stylus">
 @require '~@/styles/variables.styl'
 
+.app-menu
+  background app-bg-alpha
+  z-index 99
+  user-select none
+
+@media screen and (max-width:1023px)
+  .app-menu
+    height 100vh
+    position fixed
+    top 3rem
+    left 0
+    bottom 0
+    width 100vw
+
+    background bg-menu
+    user-select none
+
 @media screen and (min-width: 1024px)
-  .ni-modal-menu.app-menu
-    display none
+  .app-menu
+    nav > a
+      height 3rem
+      border-bottom 1px solid bc
 </style>

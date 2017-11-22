@@ -9,7 +9,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~variables.styl'
+@require '~variables'
 
 .ni-page-menu
   background app-fg
