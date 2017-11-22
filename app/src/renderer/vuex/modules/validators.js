@@ -11,7 +11,6 @@ export default ({ commit, node }) => {
     },
     setValidators (state, validators) {
       state.validators = validators
-      console.log('vallies', validators)
     },
     setValidatorHash (state, validatorHash) {
       state.validatorHash = validatorHash
