@@ -1,6 +1,5 @@
 const fs = require('fs-extra')
 const {join} = require('path')
-const rmdir = require('../../../app/src/helpers/rmdir.js')
 
 function sleep (ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
