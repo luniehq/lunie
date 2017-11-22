@@ -10,9 +10,9 @@
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@nylira/vue-button/-/vue-button-4.1.0.tgz#a63215722e7d8950e9f00b5e9c11b004561fdb16"
 
-"@nylira/vue-field@^1.1.8":
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-field/-/vue-field-1.1.8.tgz#16362526fcf07d537c95528ca91f7ee4cad37049"
+"@nylira/vue-field@1.1.9":
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-field/-/vue-field-1.1.9.tgz#44c1909db4d41e021f75e7e3f3aaf4028ce1e28f"
 
 "@nylira/vue-form-msg@^1.0.3":
   version "1.0.3"

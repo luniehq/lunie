@@ -1,5 +1,4 @@
 export const mainCounter = state => state.counters.main
-export const allTransactions = state => state.transactions
 export const notifications = state => state.notifications
 export const logOutput = state => state.log.output
 
@@ -15,13 +14,13 @@ export const config = state => state.config
 // monitor
 export const blockchain = state => state.blockchain
 export const validators = state => state.validators.validators
-export const delegators = state => state.delegators
 
 // govern
 export const proposals = state => state.proposals
 
 // wallet
 export const wallet = state => state.wallet
+export const transactions = state => state.transactions
 
 // ui
 export const filters = state => state.filters

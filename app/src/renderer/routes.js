@@ -42,11 +42,6 @@ export default [
         component: monitor('ValidatorIndex')
       },
       {
-        path: 'delegators',
-        name: 'validator-delegators',
-        component: monitor('ValidatorDelegators')
-      },
-      {
         path: 'power',
         name: 'validator-power',
         component: monitor('ValidatorPower')
@@ -68,8 +63,6 @@ export default [
       }
     ]
   },
-  { path: '/delegators', name: 'delegators', component: monitor('Delegators') },
-  { path: '/delegators/:delegator', name: 'delegator', component: monitor('Delegator') },
 
   // USER
   { path: '/signin', name: 'signin', component: common('SignIn') },
@@ -77,9 +70,9 @@ export default [
 
   // WALLET
   { path: '/', name: 'balances', component: wallet('Balances') },
-  // { path: '/wallet', name: 'balances', component: wallet('Balances') },
   { path: '/wallet/send', name: 'send', component: wallet('Send') },
   { path: '/wallet/receive', name: 'receive', component: wallet('Receive') },
+  { path: '/wallet/transactions', name: 'transactions', component: wallet('Transactions') },
 
   // 404
   { path: '/404', component: common('404') },

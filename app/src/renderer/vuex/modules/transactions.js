@@ -1,4 +1,4 @@
-import data from '../json/delegators.json'
+import data from '../json/transactions.json'
 
 export default ({ commit, basecoin }) => {
   const state = data

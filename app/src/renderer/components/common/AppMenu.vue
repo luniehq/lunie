@@ -3,6 +3,7 @@
     part(title='Wallet')
       list-item(to="/" exact @click.native="close" title="Balances")
       list-item(to="/wallet/send" exact @click.native="close" title="Send")
+      list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions")
     part(title='Govern')
       list-item(to="/proposals" exact @click.native="close" title="Proposals")
     part(title='Stake')
@@ -12,7 +13,6 @@
       list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
       list-item(to="/validators" exact @click.native="close" title="Validators"
         v-bind:class="{ 'active': isValidatorPage }")
-      list-item(to="/delegators" exact @click.native="close" title="Delegators")
 </template>
 
 <script>
