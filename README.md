@@ -20,8 +20,6 @@ $ tendermint version
 0.11.0-7682ad9a
 ```
 
-# on Window set GOPATH in `./env.js`. This file is gitignored.
-
 # run on the default testnet
 npm run testnet
 
