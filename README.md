@@ -77,6 +77,21 @@ $ npm run pack
 $ npm run test
 ```
 
+## Debug 
+ 
+To debug the electron application first build it and then run the node inspector for the build files: 
+ 
+```bash 
+$ electron --inspect-brk builds/{{your build}}/resources/app/dist/main.js 
+``` 
+ 
+Then attach to the debugger via the posted url in Chrome.
+
+
+To debug the electron view, set the environment variable `COSMOS_DEVTOOLS` to something truthy like `"true"`.
+
+To see the console output of the view in your terminal, set the environment variable `ELECTRON_ENABLE_LOGGING` to something truthy like `1`.
+
 
 ## FAQ
 
@@ -93,4 +108,13 @@ $ npm run rebuild
 - If electron shows the error: "A DLL initialization routine has failed." rebuild the electron dependencies.
 ```bash
 $ npm run rebuild
+```
+
+- If you have trouble installing dependencies, remove all the lockfiles and try again.
+
+```bash
+$ rm -rf app/yarn.lock
+$ rm -rf app/package-lock.json
+$ rm -rf yarn.lock
+$ rm -rf package-lock.json
 ```
