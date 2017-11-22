@@ -12,7 +12,7 @@ describe('CardBalance', () => {
 
   beforeEach(() => {
     wrapper = shallow(CardBalance, {
-      propsData: propsData
+      propsData
     })
   })
 

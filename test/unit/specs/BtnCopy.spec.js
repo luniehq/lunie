@@ -22,7 +22,7 @@ describe('BtnCopy', () => {
     wrapper = shallow(BtnCopy, {
       localVue,
       store,
-      propsData: propsData
+      propsData
     })
 
     jest.spyOn(store, 'commit')
