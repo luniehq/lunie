@@ -18,6 +18,12 @@ export default ({ commit, basecoin }) => {
         query: ''
       }
     },
+    transactions: {
+      search: {
+        visible: false,
+        query: ''
+      }
+    },
     validators: {
       search: {
         visible: false,
