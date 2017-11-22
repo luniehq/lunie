@@ -1,8 +1,8 @@
-import Vue from 'vue'
+import { shallow } from 'vue-test-utils'
 import CardBalance from '../../../app/src/renderer/components/wallet/CardBalance'
 
 describe('CardBalance', () => {
-  let Cmp, vm
+  let wrapper
   let propsData = {
     balance: {
       denom: 'jbcoin',
@@ -11,11 +11,19 @@ describe('CardBalance', () => {
   }
 
   beforeEach(() => {
-    Cmp = Vue.extend(CardBalance)
-    vm = new Cmp({ propsData: propsData }).$mount()
+    wrapper = shallow(CardBalance, {
+      propsData: propsData
+    })
+  })
+
+  it('has a value from props', () => {
+    expect(wrapper.vm.balance).toEqual({
+      denom: 'jbcoin',
+      amount: 1234.56 }
+    )
   })
 
   it('has the expected html structure', () => {
-    expect(vm.$el).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

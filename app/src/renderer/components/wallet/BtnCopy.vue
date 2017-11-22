@@ -16,13 +16,13 @@ export default {
   },
   methods: {
     trunc (value) {
-      if (value.length > 20) value = this.value.substring(0, 10) + '...'
-      return '“' + value + '”'
+      if (value.length > 20) value = value.substring(0, 10) + '...'
+      return value
     },
     click () {
       this.$store.commit('notify', {
         title: 'Copy Success!',
-        body: `${this.trunc(this.value)} has been copied to your clipboard.`
+        body: `"${this.trunc(this.value)}" has been copied to your clipboard.`
       })
     }
   },

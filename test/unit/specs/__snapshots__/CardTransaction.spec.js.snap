@@ -7,7 +7,7 @@ exports[`CardTransaction has the expected html structure 1`] = `
   <li
     class="date"
   >
-    1969-12-31 18:00:01
+    1987-9-16 00:00:00
   </li>
    
 </ul>

@@ -3,7 +3,7 @@
 exports[`CardAddress has the expected html structure 1`] = `
 <div
   class="card-address"
-  id="cssId"
+  id="address-12345678"
 >
   <div
     class="card-address-container"
@@ -23,26 +23,7 @@ exports[`CardAddress has the expected html structure 1`] = `
     </div>
      
     <menu>
-      <button
-        class="ni-btn btn-copy"
-        data-clipboard-text="12345678"
-      >
-        <span
-          class="ni-btn-container"
-        >
-          <i
-            aria-hidden="true"
-            class="ni-btn-icon material-icons"
-          >
-            copy
-          </i>
-          <span
-            class="ni-btn-value"
-          >
-            Copy
-          </span>
-        </span>
-      </button>
+      <!---->
     </menu>
   </div>
 </div>

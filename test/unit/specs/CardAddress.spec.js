@@ -1,18 +1,27 @@
-import Vue from 'vue'
+import { shallow } from 'vue-test-utils'
 import CardAddress from '../../../app/src/renderer/components/wallet/CardAddress'
 
 describe('CardAddress', () => {
-  let Cmp, vm
+  let wrapper
   let propsData = {
     address: 12345678
   }
 
   beforeEach(() => {
-    Cmp = Vue.extend(CardAddress)
-    vm = new Cmp({ propsData: propsData }).$mount()
+    wrapper = shallow(CardAddress, {
+      propsData: propsData
+    })
+  })
+
+  it('has an address from props', () => {
+    expect(wrapper.vm.address).toEqual(12345678)
   })
 
   it('has the expected html structure', () => {
-    expect(vm.$el).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it('returns an id with address-prop.address', () => {
+    expect(wrapper.vm.cssId).toBe('address-12345678')
   })
 })

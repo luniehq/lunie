@@ -46,25 +46,7 @@ exports[`CardBalance has the expected html structure 1`] = `
       <div
         class="actions"
       >
-        <button
-          class="ni-btn"
-        >
-          <span
-            class="ni-btn-container"
-          >
-            <i
-              aria-hidden="true"
-              class="ni-btn-icon material-icons"
-            >
-              search
-            </i>
-            <span
-              class="ni-btn-value"
-            >
-              Details
-            </span>
-          </span>
-        </button>
+        <!---->
       </div>
     </div>
   </div>
