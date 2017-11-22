@@ -20,8 +20,6 @@ $ tendermint version
 0.11.0-7682ad9a
 ```
 
-# on Window set GOPATH in `./env.js`. This file is gitignored.
-
 # run on the default testnet
 npm run testnet
 
@@ -77,6 +75,27 @@ $ npm run pack
 $ npm run test
 ```
 
+To see where you are missing coverage, run a test first and then open an http-server at `test/unit/coverage/lcov-report` to see details for the coverage.
+i.e.:
+
+```bash
+$ npm i -g http-server
+$ http-server test/unit/coverage/lcov-report
+
+## Debug 
+ 
+To debug the electron application first build it and then run the node inspector for the build files: 
+ 
+```bash 
+$ electron --inspect-brk builds/{{your build}}/resources/app/dist/main.js 
+``` 
+ 
+Then attach to the debugger via the posted url in Chrome.
+
+
+To debug the electron view, set the environment variable `COSMOS_DEVTOOLS` to something truthy like `"true"`.
+
+To see the console output of the view in your terminal, set the environment variable `ELECTRON_ENABLE_LOGGING` to something truthy like `1`.
 
 ## FAQ
 
@@ -93,4 +112,13 @@ $ npm run rebuild
 - If electron shows the error: "A DLL initialization routine has failed." rebuild the electron dependencies.
 ```bash
 $ npm run rebuild
+```
+
+- If you have trouble installing dependencies, remove all the lockfiles and try again.
+
+```bash
+$ rm -rf app/yarn.lock
+$ rm -rf app/package-lock.json
+$ rm -rf yarn.lock
+$ rm -rf package-lock.json
 ```

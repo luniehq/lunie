@@ -14,9 +14,10 @@ let rmdir = require('../helpers/rmdir.js')
 
 let shuttingDown = false
 let mainWindow
-let basecoinProcess, baseserverProcess, tendermintProcess
+let baseserverProcess
 let streams = []
 let nodeIP
+const WIN = /^win/.test(process.platform)
 const DEV = process.env.NODE_ENV === 'development'
 const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 // TODO default logging or default disable logging?
@@ -28,8 +29,9 @@ const winURL = DEV
 // this network gets used if none is specified via the
 // COSMOS_NETWORK env var
 let DEFAULT_NETWORK = join(__dirname, '../networks/tak')
+let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
 
-let SERVER_BINARY = 'baseserver'
+let SERVER_BINARY = 'baseserver' + (WIN ? '.exe' : '')
 
 function log (...args) {
   if (LOGGING) {
@@ -45,7 +47,7 @@ function logError (...args) {
 function logProcess (process, logPath) {
   fs.ensureFileSync(logPath)
   // Writestreams are blocking fs cleanup in tests, if you get errors, disable logging
-  if (LOGGING) {
+  if (LOGGING && !TEST) {
     let logStream = fs.createWriteStream(logPath, {
       flags: 'a' // 'a' means appending (old data will be preserved)
     })
@@ -76,20 +78,10 @@ function shutdown () {
   mainWindow = null
   shuttingDown = true
 
-  if (basecoinProcess) {
-    log('killing basecoin')
-    basecoinProcess.kill('SIGKILL')
-    basecoinProcess = null
-  }
   if (baseserverProcess) {
     log('killing baseserver')
     baseserverProcess.kill('SIGKILL')
     baseserverProcess = null
-  }
-  if (tendermintProcess) {
-    log('killing tendermint')
-    tendermintProcess.kill('SIGKILL')
-    tendermintProcess = null
   }
 
   return Promise.all(
@@ -169,7 +161,13 @@ function startProcess (name, args, env) {
 
   let argString = args.map((arg) => JSON.stringify(arg)).join(' ')
   log(`spawning ${binPath} with args "${argString}"`)
-  let child = spawn(binPath, args, env)
+  let child
+  try {
+    child = spawn(binPath, args, env)
+  } catch (err) {
+    log(`Err: Spawning ${name} failed`, err)
+    throw err
+  }
   child.stdout.on('data', (data) => !shuttingDown && log(`${name}: ${data}`))
   child.stderr.on('data', (data) => !shuttingDown && log(`${name}: ${data}`))
   child.on('exit', (code) => !shuttingDown && log(`${name} exited with code ${code}`))
@@ -233,6 +231,7 @@ function exists (path) {
 }
 
 async function initBaseserver (chainId, home, node) {
+  // fs.ensureDirSync(home)
   // `baseserver init` to generate config, trust seed
   let child = startProcess(SERVER_BINARY, [
     'init',
@@ -270,6 +269,8 @@ async function backupData (root) {
 * log to file
 */
 function setupLogging (root) {
+  if (TEST) return
+
   // initialize log file
   let logFilePath = join(root, 'main.log')
   fs.ensureFileSync(logFilePath)
@@ -280,27 +281,25 @@ function setupLogging (root) {
   // mainLog.write(`${new Date()} Environment: ${JSON.stringify(process.env)}\r\n`) // TODO should be filtered before adding it to the log
   streams.push(mainLog)
 
-  if (!TEST) {
-    log('Redirecting console output to logfile', logFilePath)
-    // redirect stdout/err to logfile
-    // TODO overwriting console.log sounds like a bad idea, can we find an alternative?
-    // eslint-disable-next-line no-func-assign
-    log = function (...args) {
-      if (LOGGING) {
-        if (DEV) {
-          console.log(...args)
-        }
-        mainLog.write(`main-process: ${args.join(' ')}\r\n`)
+  log('Redirecting console output to logfile', logFilePath)
+  // redirect stdout/err to logfile
+  // TODO overwriting console.log sounds like a bad idea, can we find an alternative?
+  // eslint-disable-next-line no-func-assign
+  log = function (...args) {
+    if (LOGGING) {
+      if (DEV) {
+        console.log(...args)
       }
+      mainLog.write(`main-process: ${args.join(' ')}\r\n`)
     }
-    // eslint-disable-next-line no-func-assign
-    logError = function (...args) {
-      if (LOGGING) {
-        if (DEV) {
-          console.error(...args)
-        }
-        mainLog.write(`main-process: ${args.join(' ')}\r\n`)
+  }
+  // eslint-disable-next-line no-func-assign
+  logError = function (...args) {
+    if (LOGGING) {
+      if (DEV) {
+        console.error(...args)
       }
+      mainLog.write(`main-process: ${args.join(' ')}\r\n`)
     }
   }
 }
@@ -349,7 +348,7 @@ async function main () {
       let genesisJSON = JSON.parse(existingGenesis)
       // skip this check for local testnet
       if (genesisJSON.chain_id !== 'local') {
-        let specifiedGenesis = fs.readFileSync(join(process.env.COSMOS_NETWORK, 'genesis.json'), 'utf8')
+        let specifiedGenesis = fs.readFileSync(join(networkPath, 'genesis.json'), 'utf8')
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
           log('genesis has changed')
           await backupData(root)
@@ -364,7 +363,6 @@ async function main () {
     await fs.ensureDir(root)
 
     // copy predefined genesis.json and config.toml into root
-    let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
     fs.accessSync(networkPath) // crash if invalid path
     fs.copySync(networkPath, root)
 
