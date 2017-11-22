@@ -1,14 +1,14 @@
-import Vue from 'vue'
+import { shallow } from 'vue-test-utils'
 import CardTransaction from '../../../app/src/renderer/components/wallet/CardTransaction'
 
 describe('CardTransaction', () => {
-  let Cmp, vm
+  let wrapper, num, result
   let propsData = {
     transactionValue: {
       tx: {
         inputs: [
           {
-            coin: {
+            coins: {
               denom: 'jbcoins',
               amount: 1234
             }
@@ -21,11 +21,26 @@ describe('CardTransaction', () => {
   }
 
   beforeEach(() => {
-    Cmp = Vue.extend(CardTransaction)
-    vm = new Cmp({ propsData: propsData }).$mount()
+    wrapper = shallow(CardTransaction, {
+      propsData
+    })
   })
 
   it('has the expected html structure', () => {
-    expect(vm.$el).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it('returns negative as a string for numbers below zero', () => {
+    num = -1
+    result = wrapper.vm.sign(num)
+
+    expect(result).toEqual('negative')
+  })
+
+  it('returns positive as a string for numbers above zero', () => {
+    num = 1
+    result = wrapper.vm.sign(num)
+
+    expect(result).toEqual('positive')
   })
 })

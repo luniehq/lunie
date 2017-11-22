@@ -2,7 +2,7 @@ import Vuex from 'vuex'
 import { shallow, createLocalVue } from 'vue-test-utils'
 import BtnCopy from '../../../app/src/renderer/components/wallet/BtnCopy'
 
-const notifications = require('@/renderer/vuex/modules/notifications').default({})
+const notifications = require('../../../app/src/renderer/vuex/modules/notifications').default({})
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
