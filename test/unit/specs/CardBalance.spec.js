@@ -17,9 +17,11 @@ describe('CardBalance', () => {
   })
 
   it('has a value from props', () => {
-    expect(wrapper.vm.balance).toEqual({
-      denom: 'jbcoin',
-      amount: 1234.56 }
+    expect(wrapper.vm.balance).toEqual(
+      {
+        denom: 'jbcoin',
+        amount: 1234.56
+      }
     )
   })
 
