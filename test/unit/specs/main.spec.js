@@ -61,7 +61,7 @@ describe('Startup Process', () => {
     mainSetup()
 
     it('should create the config dir', async function () {
-      expect(fs.pathExistsSync(testRoot)).toBe(true)
+      expect(fs.existsSync(testRoot)).toBe(true)
     })
 
     it('should init baseserver with correct testnet', async function () {
@@ -85,7 +85,7 @@ describe('Startup Process', () => {
     })
 
     it('should persist the app_version', async function () {
-      expect(fs.pathExistsSync(testRoot + 'app_version')).toBe(true)
+      expect(fs.existsSync(testRoot + 'app_version')).toBe(true)
       let appVersion = fs.readFileSync(testRoot + 'app_version', 'utf8')
       expect(appVersion).toBe('0.1.0')
     })
@@ -130,7 +130,7 @@ describe('Startup Process', () => {
     mainSetup()
 
     it('should create the config dir', async function () {
-      expect(fs.pathExistsSync(testRoot)).toBe(true)
+      expect(fs.existsSync(testRoot)).toBe(true)
     })
 
     it('should init baseserver with correct testnet', async function () {
@@ -154,7 +154,7 @@ describe('Startup Process', () => {
     })
 
     it('should persist the app_version', async function () {
-      expect(fs.pathExistsSync(testRoot + 'app_version')).toBe(true)
+      expect(fs.existsSync(testRoot + 'app_version')).toBe(true)
       let appVersion = fs.readFileSync(testRoot + 'app_version', 'utf8')
       expect(appVersion).toBe('0.1.0')
     })
@@ -208,7 +208,7 @@ describe('Startup Process', () => {
     mainSetup()
 
     it('should backup the genesis.json', async function () {
-      expect(fs.pathExistsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
+      expect(fs.existsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
     })
   })
 
@@ -221,7 +221,7 @@ describe('Startup Process', () => {
     mainSetup()
 
     it('should backup the genesis.json', async function () {
-      expect(fs.pathExistsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
+      expect(fs.existsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
     })
   })
 
@@ -371,10 +371,10 @@ function failingChildProcess (mockName, mockCmd) {
 }
 
 async function resetConfigs () {
-  if (fs.pathExistsSync('./test/unit/tmp')) {
+  if (fs.existsSync('./test/unit/tmp')) {
     // fs.removeSync did produce an ENOTEMPTY error under windows
     await rmdir('./test/unit/tmp')
-    expect(fs.pathExistsSync('./test/unit/tmp')).toBe(false)
+    expect(fs.existsSync('./test/unit/tmp')).toBe(false)
   } else {
     fs.ensureDirSync('./test/unit/tmp')
   }
