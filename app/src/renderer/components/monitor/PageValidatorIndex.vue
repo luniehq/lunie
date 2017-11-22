@@ -1,11 +1,11 @@
 <template lang="pug">
-page(icon="storage" :title="validator.node_info.moniker")
+page(icon="storage" :title="validator.pub_key.data")
   tool-bar
     router-link(to="/validators" exact): i.material-icons arrow_back
     anchor-copy(:value="tmpValidator.pub_key" icon="content_copy")
 
   part(title="Validator Profile")
-    list-item(dt="Total Vote Power" dd="4.2M ATOM"
+    list-item(dt="Total Vote Power" :dd="validator.voting_power"
       :to="{ name: 'validator-power', params: { validator: validatorSlug }}")
     list-item(dt="Vote History" dd="37 Votes"
       :to="{ name: 'validator-votes', params: { validator: validatorSlug }}")
@@ -40,14 +40,14 @@ export default {
     validator () {
       if (this.validators && this.validators.length > 0) {
         return this.validators.find(
-          d => this.urlsafeIp(d.node_info.moniker) ===
+          d => this.urlsafeIp(d.pub_key.data) ===
           this.$route.params.validator)
       } else {
         return this.tmpValidator
       }
     },
     validatorSlug () {
-      return this.urlsafeIp(this.validator.node_info.moniker)
+      return this.urlsafeIp(this.validator.pub_key.data)
     }
   },
   data: () => ({

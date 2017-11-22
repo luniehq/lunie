@@ -9,10 +9,10 @@ page(title='Validators')
   list-item(
     v-for="i in filteredValidators"
     icon='storage'
-    :key="i.node_info.moniker"
-    :subtitle="TODOAtoms"
-    :title="i.node_info.moniker"
-    :to="`/validators/${urlsafeIp(i.node_info.moniker)}`")
+    :key="i.pub_key.data"
+    :subtitle="`${i.voting_power} ATOM`"
+    :title="i.pub_key.data"
+    :to="`/validators/${urlsafeIp(i.pub_key.data)}`")
 </template>
 
 <script>
@@ -46,9 +46,6 @@ export default {
     },
     online () { return this.validators.length }
   },
-  data: () => ({
-    TODOAtoms: '13.37M ATOM'
-  }),
   methods: {
     setSearch (bool) { this.$store.commit('setSearchVisible', ['validators', bool]) },
     urlsafeIp (ip) { return ip.split('.').join('-') }
