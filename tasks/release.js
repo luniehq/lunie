@@ -63,7 +63,10 @@ function goBuild (pkg) {
 
     mkdirp(path.join(buildPath, 'bin'))
     let binPath = path.join(buildPath, 'bin', name)
-    let cmd = `GOOS=${platform} GOARCH=${arch} go build -o ${binPath} ${pkg}`
+    if (platform === 'windows') {
+      binPath = binPath + '.exe'
+    }
+    let cmd = `cross-env GOOS=${platform} GOARCH=${arch} go build -o ${binPath} ${pkg}`
     console.log(`> ${cmd}\n`)
     let go = exec(cmd)
 
