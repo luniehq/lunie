@@ -1,7 +1,8 @@
 export default ({ commit, node }) => {
   const state = {
-    blockchainName: 'mercury',
-    validators: {}
+    blockchainName: '',
+    validators: {},
+    validatorHash: null
   }
 
   const mutations = {
@@ -10,18 +11,28 @@ export default ({ commit, node }) => {
     },
     setValidators (state, validators) {
       state.validators = validators
+    },
+    setValidatorHash (state, validatorHash) {
+      state.validatorHash = validatorHash
+    }
+  }
+
+  const actions = {
+    maybeUpdateValidators (state, header) {
+      let validatorHash = header.validators_hash
+      if (validatorHash === state.validatorHash) return
+      commit('setValidatorHash', validatorHash)
+      getValidators()
     }
   }
 
   function getValidators () {
-    // retrieve peer validators (of validator01)
-    node.rpc.validators((err, data) => {
-      if (err) return console.error(err)
-      commit('setValidators', data.validators)
+    node.rpc.validators((err, { validators }) => {
+      if (err) return console.error('error fetching validator set')
+      commit('setValidators', validators)
     })
   }
+  getValidators()
 
-  setInterval(() => getValidators(), 1000)
-
-  return { state, mutations }
+  return { state, mutations, actions }
 }

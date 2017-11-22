@@ -1,6 +1,6 @@
 'use strict'
 
-export default function ({ node, commit }) {
+export default function ({ node, commit, dispatch }) {
   // get tendermint RPC client from basecon client
   const { rpc, nodeIP } = node
 
@@ -16,6 +16,7 @@ export default function ({ node, commit }) {
   const mutations = {
     setLastHeader (state, header) {
       state.lastHeader = header
+      dispatch('maybeUpdateValidators', header)
     },
     setConnected (state, connected) {
       state.connected = connected
