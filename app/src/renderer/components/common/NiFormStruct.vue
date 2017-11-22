@@ -52,7 +52,6 @@ export default {
   display flex
   flex-flow column
   position relative
-  shadow()
 
 .ni-form-header
 .ni-form-title
@@ -72,12 +71,11 @@ export default {
 .ni-form-header
   display flex
   flex-flow column nowrap
-  border-bottom 1px solid bc-dim
+  border-bottom 1px solid bc
   position relative
   padding 1rem 0
 
 .ni-form-title
-  font-label()
   line-height 1rem
   color bright
 

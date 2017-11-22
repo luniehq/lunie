@@ -60,5 +60,7 @@ export default {
 .ni-part-title
   flex 1
   color bright
+  text-transform uppercase
+  font-size sm
   font-weight 400
 </style>

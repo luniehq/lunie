@@ -30,16 +30,15 @@ export default {
 
   label
     display block
-    font-label()
     line-height 2rem
-    color dim
+    color txt
 
   .ni-form-msg-error
     display none
 
   &.form-group-error
     .ni-field, .ni-select
-      border-color alert-danger
+      border-color danger
     .ni-form-msg-error
       display flex
 

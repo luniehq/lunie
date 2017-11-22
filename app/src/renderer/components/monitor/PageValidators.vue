@@ -1,9 +1,6 @@
 <template lang="pug">
 page(title='Validators')
   modal-search(v-if="filters.validators.search.visible" type="validators")
-  tab-bar
-    router-link(to="/validators" exact) Online ({{ online }})
-    a Offline (0)
   tool-bar
     a(@click='setSearch(true)'): i.material-icons search
   list-item(

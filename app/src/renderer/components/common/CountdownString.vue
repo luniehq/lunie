@@ -60,13 +60,12 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .ni-countdown-string
   display flex
   flex-flow row wrap
   margin 0 -0.25rem
-  font-label()
 
   .ni-cd-block
     padding 0 0.25rem

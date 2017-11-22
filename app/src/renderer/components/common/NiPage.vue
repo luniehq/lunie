@@ -30,4 +30,8 @@ export default {
 .ni-page
   max-width 1024px
   margin 0 auto
+
+@media screen and (min-width: 768px)
+  .ni-page-main
+    padding 1rem
 </style>

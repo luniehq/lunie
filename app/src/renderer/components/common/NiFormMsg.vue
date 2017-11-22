@@ -69,16 +69,16 @@ export default {
   padding-right 0.35rem
  
 .ni-form-msg.ni-form-msg-error
-  color alert-danger
+  color danger
  
 .ni-form-msg.ni-form-msg-error:before
   content '\f06a'
-  color alert-danger
+  color danger
  
 .ni-form-msg.ni-form-msg-desc
-  color alert-warning
+  color warning
  
 .ni-form-msg.ni-form-msg-desc:before
   content '\f059'
-  color alert-warning
+  color warning
 </style>

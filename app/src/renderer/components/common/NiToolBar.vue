@@ -16,9 +16,10 @@ export default {
   position fixed
   bottom 0
   left 0
+  right 0
   z-index 90
 
-  width 100vw
+  margin-left width-side
 
 .ni-tool-bar-container
   height 3rem
@@ -65,7 +66,8 @@ export default {
       color dim
       cursor default
 
-@media screen and (min-width: 1024px)
+/* @media screen and (min-width: 1024px)
   .ni-tool-bar
     display none
+*/
 </style>

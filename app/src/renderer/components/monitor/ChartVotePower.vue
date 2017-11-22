@@ -102,5 +102,5 @@ export default {
 .chart-container
   position relative
   height 16rem
-  border-bottom 1px solid bc-dim
+  border-bottom 1px solid bc
 </style>

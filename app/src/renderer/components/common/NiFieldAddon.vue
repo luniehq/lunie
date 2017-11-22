@@ -28,8 +28,6 @@ export default {
   min-width 2rem
   padding 0 0.5rem
 
-  font-label()
-
 .ni-field-addon + .ni-btn
   margin-left 1rem
 

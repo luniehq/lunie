@@ -22,7 +22,7 @@ export default {
 
 .ni-page-header
   min-height 3rem
-  border-bottom 1px solid bc-dim
+  border-bottom 1px solid bc
   // background app-fg
   padding 0.75rem 1rem 0.75rem - px
   display flex
