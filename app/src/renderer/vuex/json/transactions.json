@@ -1,5 +1,7 @@
-{
-  "dri3bdow": {
+[
+  {
+    "id": "di30snrh",
+    "time": 1508630400000,
     "gas": 114,
     "fee": { "denom": "test", "amount": 125 },
     "inputs": [
@@ -24,7 +26,9 @@
       }
     ]
   },
-  "r03jf04n": {
+  {
+    "id": "r03jf04n",
+    "time": 1509062400000,
     "gas": 343,
     "fee": { "denom": "test", "amount": 231 },
     "inputs": [
@@ -49,7 +53,9 @@
       }
     ]
   },
-  "boe9rbdi": {
+  {
+    "id": "boe9rbdi",
+    "time": 1509321600000,
     "gas": 249,
     "fee": { "denom": "test", "amount": 294 },
     "inputs": [
@@ -74,4 +80,4 @@
       }
     ]
   }
-}
+]
