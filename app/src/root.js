@@ -1,9 +1,3 @@
-// make it possible to configure GOPATH in config
-try {
-  const env = require('../../env.js')
-  Object.assign(process.env, env)
-} catch (e) {}
-
 const { COSMOS_HOME, NODE_ENV } = process.env
 if (COSMOS_HOME) {
   module.exports = COSMOS_HOME
