@@ -175,7 +175,7 @@ describe('Startup Process', () => {
     mainSetup()
 
     it('should create the config dir', async function () {
-      expect(fs.pathExistsSync(testRoot)).toBe(true)
+      expect(fs.existsSync(testRoot)).toBe(true)
     })
 
     it('should init gaia server with correct testnet', async function () {
@@ -423,7 +423,7 @@ function failingChildProcess (mockName, mockCmd) {
 async function resetConfigs () {
   if (fs.existsSync('./test/unit/tmp')) {
     // fs.removeSync did produce an ENOTEMPTY error under windows
-    await rmdir('./test/unit/tmp')
+    await fs.removeSync('./test/unit/tmp')
     expect(fs.existsSync('./test/unit/tmp')).toBe(false)
   } else {
     fs.ensureDirSync('./test/unit/tmp')
