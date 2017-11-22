@@ -90,9 +90,9 @@
     "vue-loader": "^10.0.2",
     "vue-style-loader": "^1.0.0",
     "vue-template-compiler": "^2.1.10",
-    "webpack": "^2.2.0",
+    "webpack": "^3.8.1",
     "webpack-dev-server": "^2.2.0",
-    "webpack-merge": "^0.14.1"
+    "webpack-merge": "^4.1.1"
   },
   "dependencies": {
     "@nylira/vue-button": "^4.0.1",

@@ -58,16 +58,18 @@ export default {
 
 .ni-li
   display block
-  border-bottom 1px solid bc-dim
+  border-bottom 1px solid bc
   height 3rem
   max-width width-main
+  &:hover
+    background hover-bg
 
   &.router-link-exact-active
     .ni-li-title
-      color accent1
+      color mc
     .ni-li-icon
       i.material-icons
-        color accent1
+        color mc
       .inactive
         display none
       .active
@@ -93,7 +95,7 @@ export default {
   width 3rem - px
   i.material-icons
     display block
-    background bc-faint
+    background app-fg
     width 3rem - px
     height 3rem - px
     display flex
@@ -113,7 +115,7 @@ export default {
     line-height 1.25
   .ni-li-subtitle
     color dim
-    font-size 0.66666rem
+    font-size xs
     line-height 1.25
 
 // type: dl definition list
@@ -143,23 +145,16 @@ export default {
   max-width width-side
   flex 2
   color txt
-  font-size 0.75rem
   line-height 1rem
-  font-weight bold
 
 .ni-li-dd
   padding-left 0.25rem
   padding-right 0.5rem
 
   flex 3
-  color txt
   line-height 1.25
-
-  // add some flair
-  height 3rem - px - 0.75rem
-  display flex
-  align-items center
-  background alpha(app-fg, 7.5%)
+  font-size sm
+  color dim
 
   &.ni-li-dd-flush
     padding 0
@@ -168,7 +163,7 @@ export default {
     height 3rem - px
 
 a.ni-li-dd
-  color accent1
+  color mc
   cursor pointer
 
 .ni-li-icon

@@ -1,6 +1,6 @@
 <template lang='pug'>
 div(:class='cssClass')
-  label(:for='fieldId') {{ fieldLabel }}
+  label(:for='fieldId' v-if="fieldId && fieldLabel") {{ fieldLabel }}
   .ni-form-group-field: slot
 </template>
 
@@ -23,7 +23,7 @@ export default {
 
 .ni-form-group
   padding 1rem 1rem 1rem - px
-  border-bottom 1px solid bc-dim
+  border-bottom 1px solid bc
 
   input
     width 100%
@@ -39,7 +39,7 @@ export default {
 
   &.form-group-error
     .ni-field, .ni-select
-      border-color #f00
+      border-color alert-danger
     .ni-form-msg-error
       display flex
 

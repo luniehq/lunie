@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import ModalSearch from './ModalSearch'
@@ -45,7 +45,6 @@ export default {
 
 .ni-modal-search
   height 3rem
-  width 100vw
 
   position fixed
   bottom 0
@@ -58,14 +57,9 @@ export default {
   display flex
   height 3rem
   padding 0.5rem
-  background #000
   background mc
-  border-top 1px solid bc-dim
+  border-top 1px solid bc
   .ni-field
     margin-right 0.5rem
     background app-bg
-
-@media screen and (min-width: 1024px)
-  .ni-modal-search-container
-    margin-left width-side
 </style>

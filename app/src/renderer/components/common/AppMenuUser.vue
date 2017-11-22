@@ -1,31 +1,48 @@
 <template lang="pug">
-  menu.app-menu-user
-    part(title='User')
-      template(v-if="user.signedIn")
-        list-item(to="/profile" exact @click.native="close" title="Profile")
-        list-item(to="/settings" exact @click.native="close" title="Settings")
-      template(v-else)
-        list-item(to="/signin" exact @click.native="close" title="Sign In")
+modal-menu.app-menu-user(v-if="!config.desktop")
+  part(title='User Menu')
+    template(v-if="user.signedIn")
+      list-item(to="/settings" exact @click.native="close" title="Settings")
+      list-item(type="anchor" @click.native="signOut" title="Sign Out")
+    template(v-else)
+      list-item(type="anchor" @click.native="signIn" title="Sign In")
+modal-menu.app-menu-user(@click="close" v-else): .outer-wrapper: .inner-wrapper
+  part(title='User Menu')
+    template(v-if="user.signedIn")
+      list-item(to="/settings" exact @click.native="close" title="Settings")
+      list-item(type="anchor" @click.native="signOut" title="Sign Out")
+    template(v-else)
+      list-item(type="anchor" @click.native="signIn" title="Sign In")
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
+import ModalMenu from './NiModalMenu'
 import noScroll from 'no-scroll'
 import ListItem from './NiListItem'
 import Part from './NiPart'
 export default {
-  name: 'app-menu-user',
+  name: 'modal-menu-user',
   components: {
     ListItem,
+    ModalMenu,
     Part
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user', 'config'])
   },
   methods: {
     close () {
       this.$store.commit('setActiveMenu', '')
       noScroll.off()
+    },
+    signOut () {
+      this.$store.dispatch('logout', this.user.uid)
+      this.close()
+    },
+    signIn () {
+      this.$store.dispatch('login')
+      this.close()
     }
   }
 }
@@ -34,26 +51,27 @@ export default {
 <style lang="stylus">
 @require '~@/styles/variables.styl'
 
-.app-menu-user
-  background app-bg-alpha
-  z-index 99
-  user-select none
-
-@media screen and (max-width:1023px)
-  .app-menu-user
+@media screen and (min-width: 1024px)
+  .ni-modal-menu.app-menu-user
+    width 100vw
     height 100vh
     position fixed
-    top 3rem
+    top 0
     left 0
-    bottom 0
-    width 100vw
+    background none
 
-    background bg-menu
-    user-select none
+    .outer-wrapper
+      width 1024px
+      margin 3rem - px auto 0
+      position relative
+      display flex
+      align-items flex-end
+      justify-content flex-end
 
-@media screen and (min-width: 1024px)
-  .app-menu-user
-    nav > a
-      height 3rem
-      border-bottom 1px solid bc
+    .inner-wrapper
+      width 20rem
+      background app-bg-alpha
+      border 1px solid bc
+      border-bottom none
+      shadow()
 </style>

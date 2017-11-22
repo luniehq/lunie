@@ -7,10 +7,12 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+function resolve (dir) { return path.join(__dirname, dir) }
+
 let config = {
   devtool: '#eval-source-map',
   entry: {
-    build: path.join(__dirname, 'app/src/main.js')
+    build: resolve('app/src/main.js')
   },
   module: {
     preLoaders: [],
@@ -75,18 +77,20 @@ let config = {
   ],
   output: {
     filename: '[name].js',
-    path: path.join(__dirname, 'app/dist')
+    path: resolve('app/dist')
   },
   resolve: {
+    extensions: ['.js', '.vue', '.json', '.md', '.png', '.jpg', '.styl'],
     alias: {
-      'components': path.join(__dirname, 'app/src/components'),
-      'src': path.join(__dirname, 'app/src')
-    },
-    extensions: ['', '.js', '.vue', '.json', '.css'],
-    fallback: [path.join(__dirname, 'app/node_modules')]
+      '@': resolve('app/src/renderer'),
+      assets: resolve('app/src/assets'),
+      comp: resolve('app/src/components'),
+      common: resolve('app/src/components/common'),
+      variables: resolve('app/src/styles/variables.styl')
+    }
   },
   resolveLoader: {
-    root: path.join(__dirname, 'node_modules')
+    root: resolve('node_modules')
   },
   target: 'electron-renderer',
   vue: {
@@ -125,7 +129,7 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
     }),
-    new webpack.optimize.OccurenceOrderPlugin() //,
+    new webpack.optimize.OccurenceOrderPlugin()
     // new webpack.optimize.UglifyJsPlugin({
     //   compress: {
     //     warnings: false

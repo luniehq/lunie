@@ -54,7 +54,7 @@ page(title='Sign In' v-else)
 </template>
 
 <script>
-import { required, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
+import {required, minLength, maxLength, sameAs} from 'vuelidate/lib/validators'
 import TextBlock from '../common/TextBlock'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'

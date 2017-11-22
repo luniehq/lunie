@@ -1,21 +1,15 @@
 <template lang='pug'>
 footer.app-footer
   .container
-    .status
-      i.fa.green.fa-circle
-      |  Chain {{ lastHeader.chain_id }} (\#{{ lastHeader.height }})
-    .connection(v-if='connected') Connected to {{ nodeIP }}
-    .connection(v-if='!connected') Connecting to network...
-  .container
     .copyright &copy; 2017 Interchain Foundation
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 export default {
   name: 'app-footer',
   computed: {
-    ...mapGetters(['lastHeader', 'nodeIP', 'connected'])
+    ...mapGetters(['syncHeight', 'syncTime', 'syncing', 'numPeers'])
   }
 }
 </script>

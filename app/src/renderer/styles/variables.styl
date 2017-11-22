@@ -2,47 +2,56 @@
 // variables
 
 // main colors
-mhue = 210
-msat = 80%
-mlit = 20%
-mc = hsl(mhue,msat,mlit)
-accent1 = hsl(60,38%,70%)
-accent2 = hsl(345,85%,49%)
+mhue = 325
+msat = 96%
+mlit = 59%
+mc = hsl(mhue, msat, mlit)
 
-// app colors
-app-bg = #070b0f
-app-bg-alpha = alpha(app-bg, 90%)
-app-fg = hsla(mhue,25%,60%,0.125)
+app-hue = 233
 
-// text colors
-bright = hsl(mhue, 32%, 86%)
-txt = hsl(mhue, 32%, 70%)
-dim = hsl(mhue, 32%, 50%)
-faint = hsl(mhue,32%, 30%)
+accent = hsl((mhue + app-hue)/2, 96%, 62%)
+
+// backgrounds
+app-bg = hsl(app-hue, 36%, 13%)
+
+app-bg-alpha = alpha(app-bg, 92%)
+app-bg-hover = hsl(app-hue, 25%, 11%)
+app-fg = hsl(app-hue, 33%, 16%)
+
+// text
+bright = #fff
+txt = hsl(app-hue, 13%, 75%)
+dim = hsl(app-hue, 13%, 50%)
+
+// borders
+bc = hsl(app-hue, 22%, 23%)
 
 // anchor
-link = hsl(mhue,75%,65%)
-
-// border color
-bc-bright = hsl(mhue, 16%, 68%)
-bc-vivid = hsl(mhue, 41%, 49%)
-bc = hsl(mhue, 26%, 36%)
-bc-dim = hsl(mhue, 22%, 24%)
-bc-faint = hsl(mhue, 18%, 12%)
+link = hsl(app-hue, 96%, 70%)
+hover = hsl(app-hue, 96%, 60%)
+hover-bg = hsl(app-hue, 30%, 19%)
  
-// background colors
+// input
 input-bg = transparent
-input-bc = bc
+input-bc = hsl(app-hue, 22%, 33%)
+input-bc-hover = hsl(app-hue, 22%, 40%)
 
 // typography
 x = 16px
 px = 0.0625rem
-sans = -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif
+sans = -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
 mono = Consolas, Monaco, monospace
 
+// alerts
+alert-success = hsl(120,100%,50%)
+alert-info = txt
+alert-warning = hsl(60,100%,50%)
+alert-danger = hsl(0,100%,50%)
+
 // sizes
-width-main = 48rem
+width-main = 100%
 width-side = 16rem
+bw = 3*px
 
 //==============================================================================
 // methods
@@ -59,9 +68,23 @@ mono()
 
 font-label()
   font-size 0.75rem
-  color txt
   white-space nowrap
   text-overflow ellipsis
   overflow hidden
-  text-transform uppercase
   color bright
+
+shadow()
+  box-shadow hsla(0,0,0,0.5) 0 3px 5px
+
+xl = x * 1.5
+lg = x * 1.25
+m = x
+sm = x * 0.75
+xs = x * 0.625
+
+h1 = 2rem
+h2 = 1.5rem
+h3 = 1.25rem
+h4 = 1.125rem
+h5 = 1rem
+h6 = 0.75rem

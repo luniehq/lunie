@@ -27,29 +27,45 @@ export default {
   justify-content space-between
   align-items center
 
-  border-top 1px solid bc-dim
+  border-top 1px solid bc
   background app-bg-alpha
 
   a
-    display block
+    display flex
+    align-items center
+    justify-content center
     height 3rem
     padding 0 1rem
 
     display flex
     align-items center
     justify-content center
-    color link
 
     user-select none
 
-    i.material-icons
-      font-size 1.5rem
 
     cursor pointer
-    &:hover
+
+    border-bottom 0.25rem solid transparent
+
+    i.material-icons
+      font-size xl
+
+    .label
+      display none
+    
+    &.router-link-active
+      border-color mc
       color bright
+
+    &:hover:not([disabled])
+      color bright
+
+    &[disabled]
+      color dim
+      cursor default
 
 @media screen and (min-width: 1024px)
   .ni-tool-bar
-    padding-left width-side
+    display none
 </style>
