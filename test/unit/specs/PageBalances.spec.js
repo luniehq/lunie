@@ -1,9 +1,9 @@
 import Vuex from 'vuex'
 import { mount, createLocalVue } from 'vue-test-utils'
-import PageBalances from '../../../app/src/renderer/components/wallet/PageBalances'
+import PageBalances from '@/components/wallet/PageBalances'
 
-const filters = require('../../../app/src/renderer/vuex/modules/filters').default({})
-const wallet = require('../../../app/src/renderer/vuex/modules/wallet').default({})
+const filters = require('@/vuex/modules/filters').default({})
+const wallet = require('@/vuex/modules/wallet').default({})
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -42,6 +42,9 @@ describe('PageBalances', () => {
       denom: '456',
       amount: 456
     }])
+
+    jest.spyOn(store, 'commit')
+    jest.spyOn(store, 'dispatch')
   })
 
   it('has the expected html structure', () => {

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import CardNew from '../../../app/src/renderer/components/wallet/CardNew'
+import CardNew from '@/components/wallet/CardNew'
 
 describe('CardNew', () => {
   let Cmp, vm
