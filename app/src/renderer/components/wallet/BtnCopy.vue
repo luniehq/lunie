@@ -26,7 +26,7 @@ export default {
     }
   },
   mounted () {
-    new Clipboard('.btn-copy')
+    this.clipboard = new Clipboard('.btn-copy')
   },
   props: ['value']
 }
