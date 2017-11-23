@@ -1,9 +1,9 @@
 import Vuex from 'vuex'
 import { mount, createLocalVue } from 'vue-test-utils'
-import PageBalances from '@/components/wallet/PageBalances'
+import PageBalances from 'renderer/components/wallet/PageBalances'
 
-const filters = require('@/vuex/modules/filters').default({})
-const wallet = require('@/vuex/modules/wallet').default({})
+const filters = require('renderer/vuex/modules/filters').default({})
+const wallet = require('renderer/vuex/modules/wallet').default({})
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
