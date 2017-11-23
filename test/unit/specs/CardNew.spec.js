@@ -10,7 +10,7 @@ describe('CardNew', () => {
 
   beforeEach(() => {
     Cmp = Vue.extend(CardNew)
-    vm = new Cmp({ propsData: propsData }).$mount()
+    vm = new Cmp({ propsData }).$mount()
   })
 
   it('has the expected html structure', () => {
