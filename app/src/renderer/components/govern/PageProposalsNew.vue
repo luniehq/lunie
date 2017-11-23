@@ -1,6 +1,6 @@
 <template lang="pug">
 page(title='New Proposal')
-  tool-bar
+  div(slot="menu"): tool-bar
     router-link(to="/" exact): i.material-icons arrow_back
   part(title='Choose a Type')
     list-item(title='Adjust Parameters' to="/proposals/new/adjust")

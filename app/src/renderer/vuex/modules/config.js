@@ -13,9 +13,17 @@ export default ({ commit, basecoin }) => {
     },
     activeMenu: '',
     blockchainSelect: false,
-    desktop: false
+    desktop: false,
+    modals: {
+      help: {
+        active: false
+      }
+    }
   }
   const mutations = {
+    setModalHelp (state, value) {
+      state.modals.help.active = value
+    },
     SET_CONFIG_BLOCKCHAIN_SELECT (state, value) {
       state.blockchainSelect = value
     },
