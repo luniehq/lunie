@@ -22,9 +22,9 @@
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/@nylira/vue-input/-/vue-input-3.4.0.tgz#741346ce0613b831b756fccb253731015fa5c246"
 
-"@nylira/vue-notifications@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-notifications/-/vue-notifications-1.3.0.tgz#90aa05a0acd800054fff7b8e6d62d5c4fcba53db"
+"@nylira/vue-notifications@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-notifications/-/vue-notifications-1.4.0.tgz#af51a832f3f5ccae99bdc382d0746659da72e37a"
 
 "@types/node@^8.0.24":
   version "8.0.50"

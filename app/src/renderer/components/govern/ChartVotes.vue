@@ -158,7 +158,6 @@ export default {
         &.reject
           color mc
 
-
   &.chart-votes-size-lg
 
     .chart-canvas
