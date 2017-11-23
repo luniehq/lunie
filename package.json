@@ -139,7 +139,12 @@
     "moduleNameMapper": {
       "^src/(.*)$": "<rootDir>/app/src/$1",
       "^app/(.*)$": "<rootDir>/app/$1",
-      "^renderer/(.*)$": "<rootDir>/app/src/renderer/$1"
+      "^renderer/(.*)$": "<rootDir>/app/src/renderer/$1",
+      "^common/(.*)$": "<rootDir>/app/src/renderer/components/common/$1",
+      "^monitor/(.*)$": "<rootDir>/app/src/renderer/components/monitor/$1",
+      "^staking/(.*)$": "<rootDir>/app/src/renderer/components/staking/$1",
+      "^wallet/(.*)$": "<rootDir>/app/src/renderer/components/wallet/$1",
+      "^variables$": "<rootDir>/app/src/renderer/styles/variables.styl"
     },
     "transform": {
       ".*.vue$": "jest-vue-preprocessor",
