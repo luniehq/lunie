@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Module: Notification should add a notification object to the store 1`] = `
+Object {
+  "body": "BodyB",
+  "icon": "check_circle",
+  "time": 1608,
+  "title": "TitleA",
+}
+`;

@@ -1,33 +1,39 @@
 import Vuex from 'vuex'
 import { mount, createLocalVue } from 'vue-test-utils'
-import BtnCopy from '@/components/wallet/BtnCopy'
+import BtnCopy from 'renderer/components/wallet/BtnCopy'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
 describe('BtnCopy', () => {
   let wrapper
-  let propsData = {
-    value: 'some string longer than 20'
-  }
+  let store = new Vuex.Store()
+  store.commit = jest.fn()
 
   beforeEach(() => {
+    store.commit.mockReset()
     wrapper = mount(BtnCopy, {
       localVue,
-      propsData
+      store,
+      propsData: { value: 'this is a test' }
     })
   })
 
-  it('has a value from props', () => {
-    expect(wrapper.vm.value).toEqual('some string longer than 20')
-  })
-
   it('has the expected html structure', () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.html()).toMatchSnapshot()
   })
 
-  it('returns truncated value if value.length is greater than 20', () => {
-    const truncated = wrapper.vm.trunc(wrapper.vm.value)
-    expect(truncated).toEqual('some strin...')
+  it('should open a notification', () => {
+    wrapper.trigger('click')
+    expect(store.commit).toHaveBeenCalled()
+    expect(store.commit.mock.calls[0][0]).toBe('notify')
+    expect(store.commit.mock.calls[0][1].body).toContain('this is a test')
+  })
+
+  it('should truncate long messages', () => {
+    wrapper.setProps({value: '123456789012345678901234567890'})
+    wrapper.trigger('click')
+    expect(store.commit.mock.calls[0][1].body).not.toContain('123456789012345678901234567890')
+    expect(store.commit.mock.calls[0][1].body).toContain('1234567890')
   })
 })
