@@ -14,7 +14,11 @@
     .kv.no: .container
       .key No
       .value {{ votes.no }}
-  .chart-label(v-else :class="chartLabelClass") {{ chartLabel }}
+  .chart-legend(v-else :class="chartLabelClass")
+    .kv.abstain {{ votes.abstain }}
+    .kv.yes {{ votes.yes }}
+    .kv.reject {{ votes.reject }}
+    .kv.no {{ votes.no }}
 </template>
 
 <script>
@@ -57,10 +61,16 @@ export default {
             borderWidth: 0,
             data: this.chartValues,
             backgroundColor: [
-              'hsl(120,100%,50%)',
-              'hsl(30,100%,50%)',
-              'hsl(0,100%,50%)',
+              'hsl(0,0%,100%)',
+              'hsl(233,96%,60%)',
+              'hsl(326,96%,59%)',
+              'hsl(233,13%,50%)'
+              /*
+              'hsl(326,96%,59%)',
+              'hsl(279,96%,62%)',
+              'hsl(233,96%,65%)',
               'hsl(0,0%,50%)'
+              */
             ]
           }
         ]
@@ -118,7 +128,7 @@ export default {
       height 4rem
       // border-radius 2rem
 
-    .chart-label
+    .chart-legend
       position absolute
       top 0
       left 0
@@ -127,17 +137,26 @@ export default {
       height 4rem
 
       display flex
+      flex-flow row wrap
       align-items center
       justify-content center
-      font-size xl
-      font-weight 300
+      padding 1rem
 
-      &.yes
-        color success
-      &.no
-        color warning
-      &.reject
-        color danger
+      .kv
+        width 1rem
+        height 1rem
+        font-size xs
+        font-weight 500
+        text-align center
+
+        &.abstain
+          color dim
+        &.yes
+          color bright
+        &.no
+          color link
+        &.reject
+          color mc
 
 
   &.chart-votes-size-lg
