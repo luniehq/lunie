@@ -1,13 +1,14 @@
 <template lang='pug'>
 header.ni-page-header
   .ni-page-header-container
-    h1.ni-page-header-title.break-lines
-      i.material-icons(v-if="icon") {{ icon }}
-      slot(name='title')
-    .ni-page-header-subtitle.break-lines
-      slot(name='subtitle')
-    nav.ni-page-header-nav
-      slot
+    .ni-page-header-text
+      .ni-page-header-title.truncate
+        i.material-icons(v-if="icon") {{ icon }}
+        slot(name='title')
+      .ni-page-header-subtitle.truncate
+        slot(name='subtitle')
+    menu.ni-page-header-menu
+      slot(name="menu")
 </template>
 
 <script>
@@ -18,22 +19,21 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
-.ni-page-header
+.ni-page-header-container
   min-height 3rem
   border-bottom 1px solid bc
-  // background app-fg
+
+.ni-page-header-text
   padding 0.75rem 1rem 0.75rem - px
-  display flex
-  align-items center
 
 .ni-page-header-title
   display flex
   align-items center
 
   &:empty
-    display noen
+    display none
 
   i.material-icons
     font-size 1.375rem
@@ -43,6 +43,7 @@ export default {
   display flex
   align-items center
   
+  min-width 0
   font-size 1.25rem
   line-height 1.5rem
   font-weight 400
@@ -55,4 +56,13 @@ export default {
 @media screen and (min-width: 1024px)
   .ni-page-header
     border-bottom-color bc
+
+  .ni-page-header-container
+    display flex
+
+  .ni-page-header-text
+    flex 1
+
+  .ni-page-header-menu
+    flex 0 0 16rem
 </style>

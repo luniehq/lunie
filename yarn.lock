@@ -2490,6 +2490,10 @@ diffie-hellman@^5.0.0:
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
 
+disable-scroll@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/disable-scroll/-/disable-scroll-0.3.0.tgz#486d309ec9873edb18aec7891c5576bf8b506c59"
+
 dns-equal@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/dns-equal/-/dns-equal-1.0.0.tgz#b39e7f1da6eb0a75ba9c17324b34753c47e0654d"

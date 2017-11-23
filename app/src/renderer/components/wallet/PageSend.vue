@@ -1,48 +1,50 @@
 <template lang='pug'>
-page(title='Send Tokens'): form-struct(:submit='onSubmit')
-  form-group(:error='$v.fields.denom.$error'
-    field-id='send-denomination' field-label='Denomination')
-    field-group
+page(title='Send Tokens')
+  div(slot="menu"): tool-bar
+
+  form-struct(:submit='onSubmit')
+    form-group(:error='$v.fields.denom.$error'
+      field-id='send-denomination' field-label='Denomination')
       field#send-denomination(
         type="select"
         v-model="fields.denom"
         :options="denominations"
         @input="$v.fields.denom.$touch()"
         placeholder="Select token...")
-    form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
+      form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
 
-  form-group(:error='$v.fields.address.$error'
-    field-id='send-address' field-label='Pay To')
-    field-group
-      field#send-address(
-        type='text'
-        v-model='fields.address'
-        @input='$v.fields.address.$touch()'
-        placeholder='Address')
-    form-msg(name='Address' type='required' v-if='!$v.fields.address.required')
-    form-msg(name='Address' type='exactLength' length='40'
-      v-if='!$v.fields.address.minLength || !$v.fields.address.maxLength')
-    form-msg(name='Address' type='alphaNum' v-if='!$v.fields.address.alphaNum')
+    form-group(:error='$v.fields.address.$error'
+      field-id='send-address' field-label='Pay To')
+      field-group
+        field#send-address(
+          type='text'
+          v-model='fields.address'
+          @input='$v.fields.address.$touch()'
+          placeholder='Address')
+      form-msg(name='Address' type='required' v-if='!$v.fields.address.required')
+      form-msg(name='Address' type='exactLength' length='40'
+        v-if='!$v.fields.address.minLength || !$v.fields.address.maxLength')
+      form-msg(name='Address' type='alphaNum' v-if='!$v.fields.address.alphaNum')
 
-  form-group(:error='$v.fields.amount.$error'
-    field-id='send-amount' field-label='Amount')
-    field-group
-      field#send-amount(
-        type='number'
-        v-model='fields.amount'
-        @input='$v.fields.amount.$touch()'
-        placeholder='Amount')
-      field-addon Coins
-      btn(value='Max')
-    form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
-    form-msg(name='Amount' type='between' min='1' max='1000000'
-      v-if='!$v.fields.amount.between')
+    form-group(:error='$v.fields.amount.$error'
+      field-id='send-amount' field-label='Amount')
+      field-group
+        field#send-amount(
+          type='number'
+          v-model='fields.amount'
+          @input='$v.fields.amount.$touch()'
+          placeholder='Amount')
+        field-addon Coins
+        btn(value='Max')
+      form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
+      form-msg(name='Amount' type='between' min='1' max='1000000'
+        v-if='!$v.fields.amount.between')
 
-  div(slot='footer')
-    // btn(value='Reset' @click.native='resetForm')
-    div
-    btn(v-if='sending' value='Sending...' disabled)
-    btn(v-else @click='onSubmit' icon="check" value="Send Tokens")
+    div(slot='footer')
+      // btn(value='Reset' @click.native='resetForm')
+      div
+      btn(v-if='sending' value='Sending...' disabled)
+      btn(v-else @click='onSubmit' icon="check" value="Send Tokens")
 </template>
 
 <script>

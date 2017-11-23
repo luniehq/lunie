@@ -1,8 +1,10 @@
 <template lang="pug">
 page(title='Validators')
+  div(slot="menu"): tool-bar
+    a(@click='setSearch(true)')
+      i.material-icons search
+      .label Search
   modal-search(v-if="filters.validators.search.visible" type="validators")
-  tool-bar
-    a(@click='setSearch(true)'): i.material-icons search
   list-item(
     v-for="i in filteredValidators"
     icon='storage'
@@ -17,7 +19,7 @@ import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import ListItem from '../common/NiListItem'
-import ModalSearch from '../common/ModalSearch'
+import ModalSearch from '../common/NiModalSearch'
 import Page from '../common/NiPage'
 import TabBar from '../common/NiTabBar'
 import ToolBar from '../common/NiToolBar'

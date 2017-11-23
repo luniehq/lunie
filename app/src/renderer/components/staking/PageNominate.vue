@@ -1,5 +1,7 @@
 <template lang='pug'>
 page(:title='pageTitle')
+  div(slot="menu"): tool-bar
+
   form-struct(:submit='onSubmit')
     form-group(:error='$v.fields.id.$error'
       field-id='form-nominate-id' field-label='Keybase ID')
@@ -122,6 +124,7 @@ import FormGroup from '../common/NiFormGroup'
 import FormMsg from '../common/NiFormMsg'
 import FormStruct from '../common/NiFormStruct'
 import Page from '../common/NiPage'
+import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-nominate',
   components: {
@@ -132,7 +135,8 @@ export default {
     FormGroup,
     FormMsg,
     FormStruct,
-    Page
+    Page,
+    ToolBar
   },
   computed: {
     ...mapGetters(['config', 'user']),
