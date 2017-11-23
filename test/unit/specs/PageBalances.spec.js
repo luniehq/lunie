@@ -62,6 +62,11 @@ describe('PageBalances', () => {
     expect(wrapper.html()).toMatchSnapshot()
   })
 
+  it('should update balances by querying wallet state', () => {
+    wrapper.vm.updateBalances()
+    expect(store.dispatch).toHaveBeenCalledWith('queryWalletState')
+  })
+
   it('should show the search on click', () => {
     wrapper.find('.ni-tool-bar i').trigger('click')
     expect(wrapper.contains('.ni-modal-search')).toBe(true)
