@@ -103,6 +103,7 @@
     "axios": "^0.17.0",
     "babel-jest": "^21.2.0",
     "chart.js": "^2.6.0",
+    "disable-scroll": "^0.3.0",
     "electron": "^1.7.5",
     "flatpickr": "^4.1.2",
     "fs-extra": "^4.0.2",

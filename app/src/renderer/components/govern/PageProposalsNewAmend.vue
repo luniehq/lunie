@@ -1,6 +1,6 @@
 <template lang="pug">
 page(title="Proposal: Amend Constitution")
-  tool-bar
+  div(slot="menu"): tool-bar
     router-link(to="/proposals/new" exact): i.material-icons arrow_back
   form-struct(:submit="onSubmit")
     form-group(:error="$v.fields.title.$error"

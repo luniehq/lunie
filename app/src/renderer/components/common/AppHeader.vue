@@ -105,6 +105,7 @@ export default {
 
       i.material-icons
         width 1rem
+        font-size lg
 
       &:hover
         color link

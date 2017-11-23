@@ -1,7 +1,7 @@
 <template lang="pug">
 a.anchor-copy(:data-clipboard-text="value")
   i.material-icons {{ icon }}
-  | {{ label }}
+  .label {{ label }}
 </template>
 
 <script>
