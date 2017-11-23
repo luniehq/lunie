@@ -53,8 +53,12 @@ export default {
     }
   },
   methods: {
-    setSearch (bool) { this.$store.commit('setSearchVisible', ['balances', bool]) },
-    updateBalances () { this.$store.dispatch('queryWalletState') }
+    setSearch (bool) {
+      this.$store.commit('setSearchVisible', ['balances', bool])
+    },
+    updateBalances () {
+      this.$store.dispatch('queryWalletState')
+    }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
