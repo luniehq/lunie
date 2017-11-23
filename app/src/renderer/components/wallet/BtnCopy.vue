@@ -1,13 +1,12 @@
 <template lang="pug">
-  btn.btn-copy(
-    icon="copy"
-    @click.native="click"
-    :data-clipboard-text="value"
-    value="Copy")
+btn.btn-copy(
+  icon="copy"
+  @click.native="click"
+  :data-clipboard-text="value"
+  value="Copy")
 </template>
 
 <script>
-/* eslint-disable no-new */
 import Clipboard from 'clipboard'
 import Btn from '@nylira/vue-button'
 export default {

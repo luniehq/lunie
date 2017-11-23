@@ -1,31 +1,21 @@
 import Vuex from 'vuex'
-import { shallow, createLocalVue } from 'vue-test-utils'
-import BtnCopy from '../../../app/src/renderer/components/wallet/BtnCopy'
-
-const notifications = require('../../../app/src/renderer/vuex/modules/notifications').default({})
+import { mount, createLocalVue } from 'vue-test-utils'
+import BtnCopy from '@/components/wallet/BtnCopy'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
 describe('BtnCopy', () => {
-  let wrapper, store
+  let wrapper
   let propsData = {
     value: 'some string longer than 20'
   }
 
   beforeEach(() => {
-    store = new Vuex.Store({
-      modules: {
-        notifications
-      }
-    })
-    wrapper = shallow(BtnCopy, {
+    wrapper = mount(BtnCopy, {
       localVue,
-      store,
       propsData
     })
-
-    jest.spyOn(store, 'commit')
   })
 
   it('has a value from props', () => {
@@ -39,10 +29,5 @@ describe('BtnCopy', () => {
   it('returns truncated value if value.length is greater than 20', () => {
     const truncated = wrapper.vm.trunc(wrapper.vm.value)
     expect(truncated).toEqual('some strin...')
-  })
-
-  it('calls notify on click', () => {
-    wrapper.vm.click()
-    expect(store.commit).toHaveBeenCalled()
   })
 })
