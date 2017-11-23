@@ -1,20 +1,24 @@
 <template lang='pug'>
-  .chart-votes(:class="cssClass")
-    canvas(:id="id")
-    .legend(v-if="size === 'lg'" :class="chartLabelClass")
-      .kv.abstain: .container
-        .key Abstain
-        .value {{ votes.abstain }}
-      .kv.yes: .container
-        .key Yes
-        .value {{ votes.yes }}
-      .kv.reject: .container
-        .key Reject
-        .value {{ votes.reject }}
-      .kv.no: .container
-        .key No
-        .value {{ votes.no }}
-    .label(v-else :class="chartLabelClass") {{ chartLabel }}
+.chart-votes(:class="cssClass")
+  .chart-canvas: canvas(:id="id")
+  .chart-legend(v-if="size === 'lg'" :class="chartLabelClass")
+    .kv.abstain: .container
+      .key Abstain
+      .value {{ votes.abstain }}
+    .kv.yes: .container
+      .key Yes
+      .value {{ votes.yes }}
+    .kv.reject: .container
+      .key Reject
+      .value {{ votes.reject }}
+    .kv.no: .container
+      .key No
+      .value {{ votes.no }}
+  .chart-legend(v-else :class="chartLabelClass")
+    .kv.abstain {{ votes.abstain }}
+    .kv.yes {{ votes.yes }}
+    .kv.reject {{ votes.reject }}
+    .kv.no {{ votes.no }}
 </template>
 
 <script>
@@ -57,10 +61,16 @@ export default {
             borderWidth: 0,
             data: this.chartValues,
             backgroundColor: [
-              'hsl(210,41%,49%)',
-              'hsl(60,18%,70%)',
-              'hsl(345,75%,49%)',
-              'hsl(210,32%,12%)'
+              'hsl(0,0%,100%)',
+              'hsl(233,96%,60%)',
+              'hsl(326,96%,59%)',
+              'hsl(233,13%,50%)'
+              /*
+              'hsl(326,96%,59%)',
+              'hsl(279,96%,62%)',
+              'hsl(233,96%,65%)',
+              'hsl(0,0%,50%)'
+              */
             ]
           }
         ]
@@ -80,10 +90,12 @@ export default {
       animation: {
         duration: 0
       },
-      cutoutPercentage: 85,
+      cutoutPercentage: 92,
       legend: {
         display: false
-      }
+      },
+      responsive: true,
+      maintainAspectRatio: false
     }
   }),
   mounted () {
@@ -99,46 +111,59 @@ export default {
 </script>
 
 <style lang='stylus'>
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .chart-votes
   position relative
-  display flex
-  align-items center
-  justify-content center
-  border 1*px solid bc
+  .chart-canvas
+    position relative
+    display flex
+    align-items center
+    justify-content center
 
   &.chart-votes-size-sm
-    width 4rem
-    height 4rem
-    border-radius 5rem
 
-    .label
+    .chart-canvas
+      width 4rem
+      height 4rem
+      // border-radius 2rem
+
+    .chart-legend
       position absolute
-      top 0.75rem - 1*px
-      left 0.75em - 1*px
+      top 0
+      left 0
 
-      width 2.5rem
-      height 2.5rem
-      border 1px dotted bc-dim
-      border-radius 2rem
+      width 4rem
+      height 4rem
 
       display flex
+      flex-flow row wrap
       align-items center
       justify-content center
-      line-height 1
+      padding 1rem
 
-      &.yes
-        color bc-vivid
-      &.no
-        color accent1
-      &.reject
-        color accent2
+      .kv
+        width 1rem
+        height 1rem
+        font-size xs
+        font-weight 500
+        text-align center
+
+        &.abstain
+          color dim
+        &.yes
+          color bright
+        &.no
+          color link
+        &.reject
+          color mc
 
   &.chart-votes-size-lg
-    width 18rem
-    height 18rem
-    border-radius 20rem
+
+    .chart-canvas
+      width 18rem
+      height 18rem
+      border-radius 9rem
 
     .legend
       width 8rem
@@ -155,11 +180,11 @@ export default {
         padding 0 0.5rem
 
         &.yes .value
-           color bc-vivid
+          color success
         &.no .value
-          color accent1
+          color warning
         &.reject .value
-          color accent2
+          color danger
 
         .container
           flex 1
@@ -167,10 +192,10 @@ export default {
           flex-flow column nowrap
           align-items center
           justify-content center
-          border-top 4px solid bc-dim
+          border-top 4px solid bc
 
         .key
-          border-bottom 1px dotted bc-dim
+          border-bottom 1px dotted bc
           height 2rem - 4*px
           width 100%
 
@@ -190,5 +215,4 @@ export default {
           display flex
           align-items center
           justify-content center
-
 </style>

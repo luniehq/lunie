@@ -8,7 +8,7 @@ nav#app-header: .container
   router-link.header-item.header-item-logo(to="/")
     img(src="~@/assets/images/cosmos.png")
   app-menu(v-if="config.activeMenu === 'app' || config.desktop")
-  app-menu-user(v-if="config.activeMenu === 'user' || config.desktop")
+  // app-menu-user(v-if="config.activeMenu === 'user' || config.desktop")
 
   template(v-if="!config.desktop")
     .header-item(v-if="config.activeMenu === 'user'" @click="close")
@@ -64,7 +64,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .app-page-address
   height 0.5rem
@@ -73,7 +73,7 @@ export default {
   top 0
   left 0
   width 100vw
-  color faint
+  color dim
 
 @media screen and (max-width: 1023px)
   #app-header

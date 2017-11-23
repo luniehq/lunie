@@ -13,7 +13,7 @@ export default {
     let self = this
 
     clipboard.on('success', function (e) {
-      self.$store.commit('notify', { title: 'Copied to Clipboard', body: 'Selection has been successfully copied.' })
+      self.$store.commit('notify', {title: 'Copied to Clipboard', body: 'Selection has been successfully copied.'})
       e.clearSelection()
     })
   },

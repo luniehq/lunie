@@ -8,7 +8,7 @@ div(:class='cssClass')
 export default {
   computed: {
     cssClass () {
-      let value = 'ni-form-msg'
+      let value = 'ni-form-msg sm'
       if (this.type) {
         value += ' ni-form-msg-error'
       } else {
@@ -56,30 +56,29 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '../../styles/variables.styl'
+@require '~@/styles/variables.styl'
 
 .ni-form-msg
   line-height 2rem
-  font-size 0.75rem
   display flex
   margin 0 !important
  
 .ni-form-msg:before
   content ''
-  font-family FontAwesome
+  font-family 'Material Icons'
   padding-right 0.35rem
  
 .ni-form-msg.ni-form-msg-error
-  color #f00
+  color danger
  
 .ni-form-msg.ni-form-msg-error:before
   content '\f06a'
-  color #f00
+  color danger
  
 .ni-form-msg.ni-form-msg-desc
-  color #666
+  color warning
  
 .ni-form-msg.ni-form-msg-desc:before
   content '\f059'
-  color #ffbf00
+  color warning
 </style>

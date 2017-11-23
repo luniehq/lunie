@@ -30,13 +30,13 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../../styles/variables.styl'
+@require '~variables'
 
 .card-transaction
   display flex
   align-items center
 
-  border-bottom 1px solid bc-dim
+  border-bottom 1px solid bc
   height 3rem
 
   .date
@@ -56,13 +56,13 @@ export default {
 
   .value
     &.positive
-      color accent1
+      color success
       &:before
         content '+'
         display inline-block
 
     &.negative
-      color accent2
+      color warning
       &:before
         content '-'
         display inline-block

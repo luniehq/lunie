@@ -10,6 +10,10 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+function resolve (dir) {
+  return path.join(__dirname, dir)
+}
+
 let rendererConfig = {
   devtool: '#eval-source-map',
   entry: {
@@ -78,14 +82,14 @@ let rendererConfig = {
   plugins: [
     // the global.GENTLY below fixes a compile issue with superagent + webpack
     // https://github.com/visionmedia/superagent/issues/672
-    new webpack.DefinePlugin({ "global.GENTLY": false }),
+    new webpack.DefinePlugin({ 'global.GENTLY': false }),
     new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './app/index.ejs',
       appModules: process.env.NODE_ENV !== 'production'
         ? path.resolve(__dirname, 'app/node_modules')
-        : false,
+        : false
     }),
     new webpack.NoEmitOnErrorsPlugin()
   ],
@@ -96,11 +100,15 @@ let rendererConfig = {
   },
   resolve: {
     alias: {
-      'components': path.join(__dirname, 'app/src/renderer/components'),
-      'renderer': path.join(__dirname, 'app/src/renderer'),
-      '@': path.join(__dirname, 'app/src/renderer')
+      'components': resolve('app/src/renderer/components'),
+      'renderer': resolve('app/src/renderer'),
+      '@': resolve('app/src/renderer'),
+      assets: resolve('app/src/renderer/assets'),
+      comp: resolve('app/src/renderer/components'),
+      common: resolve('app/src/renderer/components/common'),
+      variables: resolve('app/src/renderer/styles/variables.styl')
     },
-    extensions: ['.js', '.vue', '.json', '.css', '.node'],
+    extensions: ['.js', '.vue', '.json', '.css', '.node', '.styl'],
     modules: [
       path.join(__dirname, 'app/node_modules'),
       path.join(__dirname, 'node_modules')
@@ -138,7 +146,7 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
-    }) //,
+    })
     // new webpack.optimize.UglifyJsPlugin({
     //   compress: {
     //     warnings: false

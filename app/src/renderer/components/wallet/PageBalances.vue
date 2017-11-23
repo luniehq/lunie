@@ -13,7 +13,6 @@ page(title='Balances')
     list-item(
       v-for="i in filteredBalances"
       :key="i.denom"
-      :to="i.denom"
       :dt="i.denom.toUpperCase()"
       :dd="i.amount")
     list-item(v-if='wallet.balances.length === 0' dt="N/A" dd="None Available")
@@ -23,13 +22,13 @@ page(title='Balances')
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
-import AnchorCopy from '../common/AnchorCopy'
+import AnchorCopy from 'common/AnchorCopy'
 import Btn from '@nylira/vue-button'
-import ListItem from '../common/NiListItem'
-import ModalSearch from '../common/ModalSearch'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
-import ToolBar from '../common/NiToolBar'
+import ListItem from 'common/NiListItem'
+import ModalSearch from 'common/ModalSearch'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
+import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-balances',
   components: {

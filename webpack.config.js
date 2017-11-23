@@ -94,10 +94,6 @@ let config = {
       sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
       scss: 'vue-style-loader!css-loader!sass-loader'
     }
-  },
-  stylus: {
-    use: [require('nib')()],
-    import: ['~nib/lib/nib/index.styl']
   }
 }
 
@@ -125,7 +121,7 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
     }),
-    new webpack.optimize.OccurenceOrderPlugin() //,
+    new webpack.optimize.OccurenceOrderPlugin()
     // new webpack.optimize.UglifyJsPlugin({
     //   compress: {
     //     warnings: false

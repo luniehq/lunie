@@ -15,7 +15,7 @@ export default {
 
 .ni-page-footer
   .container
-    border-top 1px solid bc-dim
+    border-top 1px solid bc
     height 3rem
     display flex
     align-items center

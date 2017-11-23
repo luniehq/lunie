@@ -17,11 +17,14 @@ glide install
 make install
 ```
 
-# run on the default testnet
-npm run testnet
+To run on the default testnet
+```bash
+$ npm run testnet
+```
 
-# OR, specify a testnet from the github.com/tendermint/testnets repo
-npm run testnet <networkName>
+OR, specify a testnet from the github.com/tendermint/testnets repo
+```bash
+$ npm run testnet <networkName>
 ```
 
 ## Production
@@ -114,3 +117,5 @@ $ rm -rf app/package-lock.json
 $ rm -rf yarn.lock
 $ rm -rf package-lock.json
 ```
+
+- If your components are not found using a short path, check if the path resolution is applied for webpack (in `webpack.renderer.js > rendererConfig.resolve.alias`) and jest (in `package.json > jest.moduleNameMapper`).
