@@ -21,7 +21,7 @@ exports[`CardTransaction has the expected html structure 1`] = `
   <div
     class="date"
   >
-    30 years ago
+    a few seconds ago
   </div>
 </div>
 `;

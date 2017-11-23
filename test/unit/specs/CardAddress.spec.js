@@ -1,5 +1,5 @@
 import { shallow } from 'vue-test-utils'
-import CardAddress from '@/components/wallet/CardAddress'
+import CardAddress from 'renderer/components/wallet/CardAddress'
 
 describe('CardAddress', () => {
   let wrapper

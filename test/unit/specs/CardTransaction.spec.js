@@ -1,5 +1,5 @@
 import { shallow } from 'vue-test-utils'
-import CardTransaction from '@/components/wallet/CardTransaction'
+import CardTransaction from 'renderer/components/wallet/CardTransaction'
 
 describe('CardTransaction', () => {
   let wrapper, num, result

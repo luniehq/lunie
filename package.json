@@ -145,7 +145,6 @@
       "src"
     ],
     "moduleNameMapper": {
-      "@/(.*)$": "<rootDir>app/src/renderer/$1",
       "^src/(.*)$": "<rootDir>/app/src/$1",
       "^app/(.*)$": "<rootDir>/app/$1",
       "^renderer/(.*)$": "<rootDir>/app/src/renderer/$1",
