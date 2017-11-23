@@ -73,6 +73,14 @@ i.e.:
 ```bash
 $ npm i -g http-server
 $ http-server test/unit/coverage/lcov-report
+```
+
+To test the running application e2e:
+
+```bash
+$ npm run pack
+$ npm run test:e2e
+```
 
 ## Debug 
  
