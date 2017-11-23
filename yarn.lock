@@ -8454,7 +8454,7 @@ tar@^2.0.0, tar@^2.1.1, tar@^2.2.1:
     fstream "^1.0.2"
     inherits "2"
 
-"tendermint-crypto@github:mappum/js-crypto", tendermint-crypto@mappum/js-crypto:
+"tendermint-crypto@github:mappum/js-crypto":
   version "2.0.2"
   resolved "https://codeload.github.com/mappum/js-crypto/tar.gz/1be988d2aecd81e824ff0d1fc4ea88d5c8e19bdb"
   dependencies:
@@ -9124,7 +9124,7 @@ vue-test-utils@^1.0.0-beta.6:
   dependencies:
     lodash "^4.17.4"
 
-vue@^2.5.8:
+vue@2.5.8:
   version "2.5.8"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.8.tgz#f855c1c27255184a82225f4bef225473e8faf15b"
 

@@ -1335,7 +1335,7 @@ tar-stream@^1.1.2:
     readable-stream "^2.0.0"
     xtend "^4.0.0"
 
-"tendermint-crypto@github:mappum/js-crypto", tendermint-crypto@mappum/js-crypto:
+"tendermint-crypto@github:mappum/js-crypto":
   version "2.0.2"
   resolved "https://codeload.github.com/mappum/js-crypto/tar.gz/1be988d2aecd81e824ff0d1fc4ea88d5c8e19bdb"
   dependencies:
