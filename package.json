@@ -102,10 +102,7 @@
     "@nylira/vue-notifications": "^1.4.0",
     "axios": "^0.17.0",
     "babel-jest": "^21.2.0",
-    "bs58check": "^2.0.2",
     "chart.js": "^2.6.0",
-    "cosmos-delegation-game": "^0.1.2",
-    "cosmos-fundraiser": "^7.14.5",
     "disable-scroll": "^0.3.0",
     "electron": "^1.7.5",
     "flatpickr": "^4.1.2",
@@ -126,8 +123,6 @@
     "tendermint-crypto": "github:mappum/js-crypto",
     "vue-test-utils": "^1.0.0-beta.6",
     "vuelidate": "^0.5.0",
-    "web3": "^1.0.0-beta.24",
-    "websocket-extensions": "^0.1.2",
     "xmlhttprequest": "^1.8.0"
   },
   "jest": {
