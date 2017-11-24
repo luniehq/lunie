@@ -1,4 +1,4 @@
-'use strict'
+    'use strict'
 
 let { app, BrowserWindow, Menu } = require('electron')
 let fs = require('fs-extra')
@@ -11,6 +11,7 @@ let event = require('event-to-promise')
 let toml = require('toml')
 let pkg = require('../../../package.json')
 let rmdir = require('../helpers/rmdir.js')
+let mockServer = require('./mockServer.js')
 
 let shuttingDown = false
 let mainWindow
@@ -404,9 +405,12 @@ async function main () {
     await initBaseserver(chainId, baseserverHome, nodeIP)
   }
 
-  log('starting baseserver')
+  log('starting gaia server')
   baseserverProcess = await startBaseserver(baseserverHome)
-  log('baseserver ready')
+  log('gaia server ready')
+
+  // start mock API server on port 8999
+  mockServer(8999)
 }
 module.exports = Object.assign(
   main()
