@@ -1,55 +1,117 @@
 <template lang="pug">
 .ni-tool-bar
-  .ni-tool-bar-container: slot
+  .ni-tool-bar-container
+    .main: slot
+    a.help(@click="enableModalHelp"): i.material-icons help_outline
 </template>
 
 <script>
 export default {
-  name: 'ni-tool-bar'
+  name: 'ni-tool-bar',
+  methods: {
+    enableModalHelp () { this.$store.commit('setModalHelp', true) }
+  }
 }
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
-
-.ni-tool-bar
-  position fixed
-  bottom 0
-  left 0
-  z-index 90
-
-  width 100vw
+@require '~variables'
 
 .ni-tool-bar-container
-  height 3rem
-
+  height 3rem - 0.0625rem
   display flex
-  justify-content space-between
-  align-items center
 
-  border-top 1px solid bc-dim
-  background app-bg-alpha
+  .main
+    flex 1
+    display flex
+    align-items center
+    border-right 1px solid bc
+
+  a, i.material-icons
+    display flex
+    align-items center
+    justify-content center
 
   a
-    display block
-    height 3rem
+    height 3rem - 0.0625rem
     padding 0 1rem
+
+    user-select none
+    cursor pointer
 
     display flex
     align-items center
     justify-content center
-    color link
+    position relative
 
-    user-select none
+    i, .label
+      color txt
 
-    i.material-icons
-      font-size 1.5rem
+    i
+      font-size lg
 
-    cursor pointer
-    &:hover
+    .label
+      position absolute
+      top 3rem
+      right 0
+
+      background hover
+      border-radius 0.25rem
+
+      line-height 2.5rem
+
+      padding 0 0.75rem
+
       color bright
+      z-index 101
+
+      display none
+      &:before
+        position absolute
+        top -0.375rem
+        right 1.125rem
+        z-index 102
+
+        // arrow
+        width 0
+        height 0
+        border-left 0.375rem solid transparent
+        border-right 0.375rem solid transparent
+        border-bottom 0.375rem solid hover
+
+        display block
+        content ''
+
+    &.router-link-active
+      i
+        color bright
+
+    &:hover:not([disabled])
+      background app-fg
+      i
+        color bright
+      .label
+        display block
+
+    &[disabled]
+      cursor default
+      i
+        color dim
+
+@media screen and (max-width: 1023px)
+  .ni-tool-bar
+    position fixed
+    bottom 0
+    left 0
+    right 0
+    z-index 90
+
+  .ni-tool-bar-container
+    background app-bg-alpha
+    border-top 1px solid bc
 
 @media screen and (min-width: 1024px)
-  .ni-tool-bar
-    padding-left width-side
+  .ni-tool-bar-container
+    .main
+      justify-content flex-end
 </style>

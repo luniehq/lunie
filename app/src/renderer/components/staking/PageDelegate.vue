@@ -222,8 +222,10 @@ export default {
   })
 }
 </script>
+
 <style lang="stylus">
-@import '../../styles/variables.styl'
+@import '~variables'
+
 .page-delegate
   .cards
     margin 1rem 0
@@ -246,13 +248,12 @@ export default {
     font-size .5em
 
   .percentage
-    border 1px solid bc-dim
+    border 1px solid bc
     border-left none
     height 2rem
     width 3.625rem
     display flex
     align-items center
     justify-content center
-    font-label()
     color dim
 </style>

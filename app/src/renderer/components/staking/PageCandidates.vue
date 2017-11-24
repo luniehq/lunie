@@ -1,9 +1,13 @@
 <template lang="pug">
 page(:title='pageTitle')
+  div(slot="menu"): tool-bar
+    a(@click='setSearch(true)')
+      i.material-icons search
+      .label Search
+    router-link(v-if="" to='/staking/delegate')
+      i.material-icons check_circle
+      .label Delegate
   modal-search(v-if="filters.candidates.search.visible" type="candidates")
-  tool-bar
-    a(@click='setSearch(true)'): i.material-icons search
-    router-link(v-if="" to='/staking/delegate') Delegate
   panel-sort(:sort='sort')
   card-candidate(
     v-for='i in filteredCandidates'
@@ -17,7 +21,7 @@ import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import CardCandidate from './CardCandidate'
 import Field from '@nylira/vue-field'
-import ModalSearch from '../common/ModalSearch'
+import ModalSearch from '../common/NiModalSearch'
 import Page from '../common/NiPage'
 import Part from '../common/NiPart'
 import PanelSort from './PanelSort'

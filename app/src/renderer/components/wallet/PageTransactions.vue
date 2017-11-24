@@ -1,8 +1,11 @@
 <template lang="pug">
 page(title='Transactions')
+  div(slot="menu"): tool-bar
+    a(@click='setSearch(true)')
+      i.material-icons search
+      .label Search
+
   modal-search(v-if="filters.transactions.search.visible" type="transactions")
-  tool-bar
-    a(@click='setSearch(true)'): i.material-icons search
 
   part(title="All Transactions")
     card-transaction(
@@ -19,7 +22,7 @@ import AnchorCopy from '../common/AnchorCopy'
 import Btn from '@nylira/vue-button'
 import ListItem from '../common/NiListItem'
 import CardTransaction from './CardTransaction'
-import ModalSearch from '../common/ModalSearch'
+import ModalSearch from '../common/NiModalSearch'
 import Page from '../common/NiPage'
 import Part from '../common/NiPart'
 import ToolBar from '../common/NiToolBar'
@@ -40,6 +43,7 @@ export default {
     filteredTransactions () {
       let query = this.filters.transactions.search.query
       let list = orderBy(this.transactions, ['id', 'desc'])
+
       if (this.filters.transactions.search.visible) {
         return list.filter(i => includes(i.id.toLowerCase(), query))
       } else {
@@ -48,7 +52,9 @@ export default {
     }
   },
   methods: {
-    setSearch (bool) { this.$store.commit('setSearchVisible', ['transactions', bool]) }
+    setSearch (bool) {
+      this.$store.commit('setSearchVisible', ['transactions', bool])
+    }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))

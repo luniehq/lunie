@@ -1,9 +1,11 @@
 <template lang="pug">
 page(title='Proposals')
-  modal-search(v-if="filters.proposals.search.visible" type="proposals")
-  tool-bar
-    a(@click='setSearch(true)'): i.material-icons search
+  div(slot="menu"): tool-bar
     router-link(to="/proposals/new" exact): i.material-icons add
+    a(@click='setSearch(true)')
+      i.material-icons search
+      .label Search
+  modal-search(v-if="filters.proposals.search.visible" type="proposals")
   part
     li-proposal(v-for="p in filteredProposals" :key="p.id" :proposal="p")
 </template>
@@ -13,7 +15,7 @@ import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import LiProposal from './LiProposal'
-import ModalSearch from '../common/ModalSearch'
+import ModalSearch from '../common/NiModalSearch'
 import TabBar from '../common/NiTabBar'
 import ToolBar from '../common/NiToolBar'
 import Page from '../common/NiPage'

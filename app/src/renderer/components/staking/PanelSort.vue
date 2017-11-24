@@ -47,7 +47,7 @@ export default {
 .panel-sort-container
   display flex
   height 2rem
-  border-bottom 1px solid bc-dim
+  border-bottom 1px solid bc
   padding 0 0.75rem
 
 .sort-by

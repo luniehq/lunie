@@ -1,12 +1,12 @@
 <template lang="pug">
-.proposal-text: pre {{ content }}
+.text-block: pre {{ content }}
   slot
 </template>
 
 <script>
 import MarkdownIt from 'markdown-it'
 export default {
-  name: 'proposal-text',
+  name: 'text-block',
   computed: {
     htmlContent () {
       let md = new MarkdownIt()
@@ -20,9 +20,9 @@ export default {
 <style lang="stylus">
 @require '~@/styles/variables.styl'
 
-.proposal-text
-  padding 1rem 1rem 1rem - px
-  border-bottom 1px solid bc-dim
+.text-block
+  padding 1rem
+  border-bottom 1px solid bc
 
   pre
     white-space: pre-wrap;       /* Since CSS 2.1 */
@@ -34,4 +34,11 @@ export default {
 
   p
     margin-bottom 1rem
+
+  p, ul, ol, blockquote, pre
+    max-width 40rem
+
+@media screen and (min-width: 768px)
+  .text-block
+    padding 1rem
 </style>

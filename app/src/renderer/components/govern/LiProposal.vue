@@ -46,24 +46,20 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .card-proposal
-  border-bottom 1px solid bc-dim
+  border-bottom 1px solid bc
   padding 0.75rem 1rem
   display flex
   position relative
 
   color txt
-  &:before
-  &:after
-    dot()
-    background bc
-    bottom -2*px
-  &:before
-    left -1*px
-  &:after
-    right -1*px
+
+  &:hover
+    background hover-bg
+    .title
+      color bright
 
   .chart
     width 4rem
@@ -76,33 +72,26 @@ export default {
 
   .title
     flex 1
-
-    height 2rem
-    font-size 0.875rem
-
     overflow hidden
     text-overflow ellipsis
 
     span
-      font-label()
       color dim
-      font-size 0.5rem
-      line-height 1rem - 2*px
+      font-size sm
       display inline-block
       padding 0 0.25rem
       vertical-align middle
-      border 1px solid bc-dim
+      border 1px solid bc
 
   .meta
-    font-label()
     display flex
-    line-height 1rem
-    font-size 0.666rem
+    font-size sm
     .author
       margin-right 0.25rem
       color dim
     .date
-      color faint
+      color dim
+
 @media screen and (min-width: 768px)
   .card-proposal
     .chart

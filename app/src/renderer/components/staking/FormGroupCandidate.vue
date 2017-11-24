@@ -48,7 +48,7 @@ export default {
 @require '~@/styles/variables.styl'
 
 .card-candidate-atoms
-  border 1px solid bc-dim
+  border 1px solid bc
   margin-bottom 1rem
 
   .id

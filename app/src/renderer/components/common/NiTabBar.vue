@@ -17,7 +17,7 @@ export default {
   align-items center
 
   background app-fg
-  border-bottom 1px solid bc-dim
+  border-bottom 1px solid bc
 
   a
     height 2rem - px
@@ -28,9 +28,9 @@ export default {
     align-items center
     justify-content center
 
-    border-right 1px solid bc-dim
+    border-right 1px solid bc
 
-    font-size 0.75rem
+    font-size sm
     color link
 
     &:last-of-type
@@ -41,5 +41,5 @@ export default {
       background app-bg
 
     i.material-icons
-      font-size 1.5rem
+      font-size xl
 </style>

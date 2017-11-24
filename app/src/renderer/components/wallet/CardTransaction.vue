@@ -1,6 +1,6 @@
 <template lang='pug'>
 .card-transaction
-  .key-value(v-for='coin in tx.inputs[0].coins')
+  .key-value(v-for='coin in coins')
     .value(:class='sign(coin.amount)') {{ coin.amount }}
     .key {{ coin.denom.toUpperCase() }}
   .date {{ date }}
@@ -10,11 +10,12 @@
 import dateUnixAgo from '../../scripts/dateUnixAgo'
 export default {
   computed: {
-    tx () {
-      // return this.transactionValue.tx
-      return this.transactionValue
+    coins () {
+      return this.transactionValue.tx.inputs[0]
     },
-    date () { return dateUnixAgo(this.transactionValue.time) }
+    date () {
+      return dateUnixAgo(this.transactionValue.time)
+    }
   },
   methods: {
     sign (num) {
@@ -30,13 +31,13 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../../styles/variables.styl'
+@require '~variables'
 
 .card-transaction
   display flex
   align-items center
 
-  border-bottom 1px solid bc-dim
+  border-bottom 1px solid bc
   height 3rem
 
   .date
@@ -56,13 +57,13 @@ export default {
 
   .value
     &.positive
-      color accent1
+      color success
       &:before
         content '+'
         display inline-block
 
     &.negative
-      color accent2
+      color warning
       &:before
         content '-'
         display inline-block

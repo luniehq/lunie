@@ -1,4 +1,4 @@
-export default ({ commit, basecoin }) => {
+export default () => {
   const noteSignUp = {
     icon: 'mood',
     title: 'Welcome!',
@@ -24,20 +24,7 @@ export default ({ commit, basecoin }) => {
     time: 0
   }
 
-  const state = [
-    {
-      icon: 'exit_to_app',
-      title: 'Signed Out',
-      body: 'A temporary notification.',
-      time: 1485839462000
-    },
-    {
-      icon: 'mood',
-      title: 'Hello World!',
-      body: 'A permanent notification!',
-      time: 1485833462000
-    }
-  ]
+  const state = []
 
   const mutations = {
     notify (state, data) {

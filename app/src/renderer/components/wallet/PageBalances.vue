@@ -1,10 +1,15 @@
 <template lang="pug">
 page(title='Balances')
+  div(slot="menu"): tool-bar
+    a(@click.native='updateBalances()')
+      i.material-icons refresh
+      .label Refresh
+    anchor-copy(:value="wallet.key.address" icon="content_copy" label="Copy")
+    a(@click='setSearch(true)')
+      i.material-icons search
+      .label Search
+
   modal-search(v-if="filters.balances.search.visible" type="balances")
-  tool-bar
-    a(@click='setSearch(true)'): i.material-icons search
-    a(@click.native='updateBalances()'): i.material-icons refresh
-    anchor-copy(:value="wallet.key.address" icon="content_copy")
 
   part(title='Your Address')
     list-item(dt="Address" :dd="wallet.key.address")
@@ -13,7 +18,6 @@ page(title='Balances')
     list-item(
       v-for="i in filteredBalances"
       :key="i.denom"
-      :to="i.denom"
       :dt="i.denom.toUpperCase()"
       :dd="i.amount")
     list-item(v-if='wallet.balances.length === 0' dt="N/A" dd="None Available")
@@ -23,13 +27,13 @@ page(title='Balances')
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
-import AnchorCopy from '../common/AnchorCopy'
+import AnchorCopy from 'common/AnchorCopy'
 import Btn from '@nylira/vue-button'
-import ListItem from '../common/NiListItem'
-import ModalSearch from '../common/ModalSearch'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
-import ToolBar from '../common/NiToolBar'
+import ListItem from 'common/NiListItem'
+import ModalSearch from 'common/NiModalSearch'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
+import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-balances',
   components: {
@@ -45,7 +49,7 @@ export default {
     ...mapGetters(['filters', 'wallet']),
     filteredBalances () {
       let query = this.filters.balances.search.query
-      let list = orderBy(this.wallet.balances, ['denom', 'desc'])
+      let list = orderBy(this.wallet.balances, ['denom'], ['desc'])
       if (this.filters.balances.search.visible) {
         return list.filter(i => includes(i.denom.toLowerCase(), query))
       } else {
@@ -54,8 +58,12 @@ export default {
     }
   },
   methods: {
-    setSearch (bool) { this.$store.commit('setSearchVisible', ['balances', bool]) },
-    updateBalances () { this.$store.dispatch('queryWalletState') }
+    setSearch (bool) {
+      this.$store.commit('setSearchVisible', ['balances', bool])
+    },
+    updateBalances () {
+      this.$store.dispatch('queryWalletState')
+    }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))

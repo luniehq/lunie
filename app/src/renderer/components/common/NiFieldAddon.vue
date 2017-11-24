@@ -19,7 +19,7 @@ export default {
   z-index 1
 
 .ni-field-addon
-  background c-app-bg
+  background app-bg
   border 1px solid bc
   display flex
   align-items center
@@ -28,13 +28,10 @@ export default {
   min-width 2rem
   padding 0 0.5rem
 
-  font-label()
-
 .ni-field-addon + .ni-btn
   margin-left 1rem
 
 @media screen and (min-width: 768px)
   .ni-field-addon
-    font-size 1rem
     padding 0 0.75rem
 </style>
