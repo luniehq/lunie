@@ -315,6 +315,10 @@ process.on('uncaughtException', function (err) {
 })
 
 async function main () {
+  if (JSON.parse(process.env.COSMOS_UI_ONLY)) {
+    return
+  }
+
   let root = require('../root.js')
   let versionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
