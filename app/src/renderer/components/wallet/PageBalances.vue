@@ -49,7 +49,7 @@ export default {
     ...mapGetters(['filters', 'wallet']),
     filteredBalances () {
       let query = this.filters.balances.search.query
-      let list = orderBy(this.wallet.balances, ['denom', 'desc'])
+      let list = orderBy(this.wallet.balances, ['denom'], ['desc'])
       if (this.filters.balances.search.visible) {
         return list.filter(i => includes(i.denom.toLowerCase(), query))
       } else {
@@ -58,8 +58,12 @@ export default {
     }
   },
   methods: {
-    setSearch (bool) { this.$store.commit('setSearchVisible', ['balances', bool]) },
-    updateBalances () { this.$store.dispatch('queryWalletState') }
+    setSearch (bool) {
+      this.$store.commit('setSearchVisible', ['balances', bool])
+    },
+    updateBalances () {
+      this.$store.dispatch('queryWalletState')
+    }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))

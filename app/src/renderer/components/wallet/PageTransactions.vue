@@ -43,6 +43,7 @@ export default {
     filteredTransactions () {
       let query = this.filters.transactions.search.query
       let list = orderBy(this.transactions, ['id', 'desc'])
+
       if (this.filters.transactions.search.visible) {
         return list.filter(i => includes(i.id.toLowerCase(), query))
       } else {
@@ -51,7 +52,9 @@ export default {
     }
   },
   methods: {
-    setSearch (bool) { this.$store.commit('setSearchVisible', ['transactions', bool]) }
+    setSearch (bool) {
+      this.$store.commit('setSearchVisible', ['transactions', bool])
+    }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))

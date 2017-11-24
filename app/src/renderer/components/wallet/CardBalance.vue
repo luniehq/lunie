@@ -22,19 +22,12 @@ export default {
     Btn
   },
   methods: {
-    capitalize (string) {
-      return string.toUpperCase()
-    },
     integerize (num) {
       return Math.trunc(num)
     },
     fractionize (num) {
       let value = Math.trunc(num % 1 * 100000) / 100000
       return value.toString().substring(1)
-    },
-    setExpanded (value) {
-      this.$store.commit('setWalletExpanded',
-        { key: this.walletKey, value: value })
     }
   },
   props: ['balance']
@@ -80,7 +73,7 @@ export default {
       border-right 1px dotted bc
 
       flex 1
-      display flex 
+      display flex
       align-items center
       padding 0 0.75em
 
