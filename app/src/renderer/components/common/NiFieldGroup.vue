@@ -1,7 +1,5 @@
-<template>
-  <div class="ni-field-group">
-    <slot></slot>
-  </div>
+<template lang="pug">
+.ni-field-group: slot
 </template>
 
 <script>
@@ -11,7 +9,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~@/styles/variables.styl'
+@import '~variables'
 
 .ni-field-group
   display flex

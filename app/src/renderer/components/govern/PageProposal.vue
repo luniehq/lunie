@@ -30,12 +30,12 @@ page(:title='proposal.title')
 <script>
 import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
-import FieldVote from '../common/NiFieldVote'
-import FormStruct from '../common/NiFormStruct'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
-import TextBlock from '../common/TextBlock'
-import ToolBar from '../common/NiToolBar'
+import FieldVote from 'common/NiFieldVote'
+import FormStruct from 'common/NiFormStruct'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
+import TextBlock from 'common/TextBlock'
+import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-proposal',
   components: {

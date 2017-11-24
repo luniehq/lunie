@@ -9,7 +9,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~@/styles/variables.styl'
+@import '~variables'
 
 .ni-cards
   display flex

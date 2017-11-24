@@ -59,7 +59,7 @@ export default {
     padding 0 0.75em
 
     i.fa
-      color light
+      color dim
       margin-right 0.375em
     span
       mono()

@@ -38,11 +38,11 @@ export default {
     background lighten(link, 90%)
 
   .label
-    color light
+    color dim
     font-weight 500
     i.fa
       margin-right 0.25em
-      color light
+      color dim
 
 @media screen and (min-width: 400px)
   .new-bar

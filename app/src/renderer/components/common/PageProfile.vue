@@ -1,8 +1,10 @@
 <template lang="pug">
 page(title="Your Profile")
-  tool-bar
-    anchor-copy(:value="user.pubkey" icon="content_copy")
-    a(@click.native='signOut') Sign Out
+  div(slot="menu"): tool-bar
+    anchor-copy(:value="user.pubkey" icon="content_copy" label="Copy")
+    a(@click.native='signOut')
+      i.material-icons sign_out
+      .label Sign Out
 
   part(title='Profile')
     list-item(dt="Total Vote Power" :dd="user.atoms" to="/vote-power")
@@ -19,11 +21,11 @@ page(title="Your Profile")
 </template>
 
 <script>
-import ListItem from './NiListItem'
-import ToolBar from './NiToolBar'
-import Page from './NiPage'
-import Part from './NiPart'
-import AnchorCopy from '../common/AnchorCopy'
+import AnchorCopy from 'common/AnchorCopy'
+import ListItem from 'common/NiListItem'
+import ToolBar from 'common/NiToolBar'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
 export default {
   name: 'page-validator',
   components: {

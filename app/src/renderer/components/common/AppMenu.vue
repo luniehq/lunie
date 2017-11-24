@@ -1,25 +1,25 @@
 <template lang="pug">
-  menu.app-menu
-    part(title='Wallet')
-      list-item(to="/" exact @click.native="close" title="Balances")
-      list-item(to="/wallet/send" exact @click.native="close" title="Send")
-      list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions")
-    part(title='Govern')
-      list-item(to="/proposals" exact @click.native="close" title="Proposals")
-    part(title='Stake')
-      list-item(to="/staking" exact @click.native="close" title="Validator Candidates")
-      list-item(to="/staking/nominate" exact @click.native="close" title="Self Nomination")
-    part(title='Monitor')
-      list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
-      list-item(to="/validators" exact @click.native="close" title="Validators"
-        v-bind:class="{ 'active': isValidatorPage }")
+menu.app-menu
+  part(title='Wallet')
+    list-item(to="/" exact @click.native="close" title="Balances")
+    list-item(to="/wallet/send" exact @click.native="close" title="Send")
+    list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions")
+  part(title='Govern')
+    list-item(to="/proposals" exact @click.native="close" title="Proposals")
+  part(title='Stake')
+    list-item(to="/staking" exact @click.native="close" title="Validator Candidates")
+    list-item(to="/staking/nominate" exact @click.native="close" title="Self Nomination")
+  part(title='Monitor')
+    list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
+    list-item(to="/validators" exact @click.native="close" title="Validators"
+      v-bind:class="{ 'active': isValidatorPage }")
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import noScroll from 'no-scroll'
-import ListItem from './NiListItem'
-import Part from './NiPart'
+import ListItem from 'common/NiListItem'
+import Part from 'common/NiPart'
 export default {
   name: 'app-menu',
   components: {
@@ -44,7 +44,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .app-menu
   background app-bg-alpha
@@ -67,5 +67,5 @@ export default {
   .app-menu
     nav > a
       height 3rem
-      border-bottom 1px solid bc
+      border-bottom px solid bc
 </style>

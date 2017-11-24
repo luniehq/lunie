@@ -55,14 +55,14 @@ page(title='Sign In' v-else)
 
 <script>
 import {required, minLength, maxLength, sameAs} from 'vuelidate/lib/validators'
-import TextBlock from '../common/TextBlock'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
-import FormGroup from '../common/NiFormGroup'
-import FormMsg from '../common/NiFormMsg'
-import FormStruct from '../common/NiFormStruct'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
+import FormGroup from 'common/NiFormGroup'
+import FormMsg from 'common/NiFormMsg'
+import FormStruct from 'common/NiFormStruct'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
+import TextBlock from 'common/TextBlock'
 export default {
   name: 'page-sign-in',
   components: {

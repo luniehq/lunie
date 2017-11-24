@@ -34,11 +34,11 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .ni-field-vote-container
   height 3rem
-  border-bottom 1px solid bc
+  border-bottom px solid bc
   display flex
   position relative
 
@@ -60,7 +60,7 @@ export default {
 .ni-field-vote-label
   flex 1
   position relative
-  border-left 1px solid bc
+  border-left px solid bc
 
 .ni-field-vote-dl
   position relative

@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~@/styles/variables.styl'
+@import '~variables'
 
 .ni-form
   display flex
@@ -71,7 +71,7 @@ export default {
 .ni-form-header
   display flex
   flex-flow column nowrap
-  border-bottom 1px solid bc
+  border-bottom px solid bc
   position relative
   padding 1rem 0
 
@@ -90,7 +90,7 @@ export default {
     display flex
     justify-content flex-end
     align-items center
-    border-bottom 1px solid bc-dim
+    border-bottom px solid bc-dim
 
     > *:not(:last-child)
       margin-right 1rem

@@ -23,7 +23,7 @@ export default {
 
 .ni-page-header-container
   min-height 3rem
-  border-bottom 1px solid bc
+  border-bottom px solid bc
 
 .ni-page-header-text
   padding 0.75rem 1rem 0.75rem - px

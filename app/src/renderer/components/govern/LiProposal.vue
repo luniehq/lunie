@@ -10,9 +10,9 @@ transition(name="proposal")
 </template>
 
 <script>
-import ChartVotes from './ChartVotes'
-import dateUnix from '../../scripts/dateUnix'
-import dateUnixAgo from '../../scripts/dateUnixAgo'
+import ChartVotes from 'govern/ChartVotes'
+import dateUnix from 'scripts/dateUnix'
+import dateUnixAgo from 'scripts/dateUnixAgo'
 export default {
   name: 'li-proposal',
   components: {

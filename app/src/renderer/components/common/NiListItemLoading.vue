@@ -15,10 +15,10 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .li-loading
-  border-bottom 1px solid bc
+  border-bottom px solid bc
   padding 0.75rem 1rem 0.75rem - px
   display flex
   position relative

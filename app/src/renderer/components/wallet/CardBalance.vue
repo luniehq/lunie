@@ -68,7 +68,7 @@ export default {
       width 8rem
 
       i.fa
-        color light
+        color dim
         margin-right 0.375em
       span
         mono()
@@ -85,7 +85,7 @@ export default {
       padding 0 0.75em
 
       .unit
-        color light
+        color dim
         margin-right 0.25em
 
       .value

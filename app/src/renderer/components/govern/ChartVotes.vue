@@ -192,10 +192,10 @@ export default {
           flex-flow column nowrap
           align-items center
           justify-content center
-          border-top 4px solid bc
+          border-top 0.25rem solid bc
 
         .key
-          border-bottom 1px dotted bc
+          border-bottom px dotted bc
           height 2rem - 4*px
           width 100%
 

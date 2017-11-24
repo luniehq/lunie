@@ -144,12 +144,12 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 #send-address
 #send-amount
   mono()
   &:placeholder
     df()
-    color light
+    color dim
 </style>

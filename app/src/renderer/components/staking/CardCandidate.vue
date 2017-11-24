@@ -89,7 +89,8 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../../styles/variables.styl'
+@require '~variables'
+
 .card-candidate
   &:nth-of-type(2n) .card-candidate-container
     background alpha(app-fg, 7.5%)
@@ -146,7 +147,7 @@ export default {
         margin-right 1rem
       &.delegated
         span
-          color light
+          color dim
         .bar
           background alpha(app-fg, 50%)
 
@@ -157,7 +158,7 @@ export default {
       text-overflow ellipsis
       overflow hidden
       i.fa
-        color light
+        color dim
 
   menu
     position absolute
@@ -175,6 +176,7 @@ export default {
 @media screen and (max-width: 479px)
   .card-candidate-container .value span i.fa
     display none
+
 @media screen and (min-width: 768px)
   .card-candidate-container
     .value span

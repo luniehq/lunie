@@ -44,9 +44,9 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import ListItem from '../common/NiListItem'
-import Part from '../common/NiPart'
 import noScroll from 'no-scroll'
+import ListItem from 'common/NiListItem'
+import Part from 'common/NiPart'
 export default {
   name: 'app-table-of-contents',
   components: {

@@ -14,12 +14,12 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .ni-text
   hr
     border none
-    border-top 1px solid bc
+    border-top px solid bc
     background transparent
     height 0
     margin 0
@@ -64,7 +64,7 @@ export default {
     & + figcaption
       margin-top -1.5rem
       background app-fg
-      border 1px solid #eee
+      border px solid bc
       border-top none
       padding 0.5rem
       color txt
@@ -103,7 +103,7 @@ export default {
     margin-bottom 1.5rem
     background app-fg
     padding 1rem
-    border-top 1px solid bc
+    border-top px solid bc
     img
       max-height 75vh
       max-width 87.5vw
@@ -115,10 +115,10 @@ export default {
     border-top 0.25rem solid bc
     padding-top 1.5rem
   h3:not(:first-child)
-    border-top 1px solid bc
+    border-top px solid bc
     padding-top 1.5rem
   h4:not(:first-child)
-    border-top 1px dotted bc
+    border-top px dotted bc
     padding-top 1.5rem
   ul
     li
@@ -128,7 +128,7 @@ export default {
     li
       list-style decimal
   table
-    border 1px solid #ddd
+    border px solid bc
     border-collapse collapse
     width 100%
     th
@@ -189,7 +189,7 @@ export default {
 
   table 
     td, th
-      border 1px solid #e0e0e0
+      border px solid bc
       padding 0.25em 0.5em
 
   blockquote
@@ -227,7 +227,7 @@ sbw = 20rem
 
   .ni-text
     h2, h2:not(:first-child)
-      border-top 1px solid bc
+      border-top px solid bc
       padding-top 1.5rem
       padding-left 1rem
 
@@ -255,7 +255,7 @@ sbw = 20rem
       margin-top 0
 
     h2 + p, h2 + ul, h2 + ol, h2 + blockquote, h2 + pre
-      border-top 1px solid bc
+      border-top px solid bc
       padding-top 1.5rem
 
   .ni-text-container
