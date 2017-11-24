@@ -3,7 +3,7 @@
 let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 module.exports = async function (nodeIP) {
-  if (JSON.parse(process.env.COSMOS_UI_ONLY)) {
+  if (JSON.parse(process.env.COSMOS_UI_ONLY || 'false')) {
     return Promise.resolve({
       rpc: {
         on: () => {},

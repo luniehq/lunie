@@ -315,7 +315,7 @@ process.on('uncaughtException', function (err) {
 })
 
 async function main () {
-  if (JSON.parse(process.env.COSMOS_UI_ONLY)) {
+  if (JSON.parse(process.env.COSMOS_UI_ONLY || 'false')) {
     return
   }
 
