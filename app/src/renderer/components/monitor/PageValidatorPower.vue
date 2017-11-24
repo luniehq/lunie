@@ -51,9 +51,8 @@ export default {
 @require '~variables'
 
 #li-solo-power .ni-li-dd
-  color hsl(mhue, 50%, 50%)
+  color mc
 
 #li-delegated-power .ni-li-dd
-  color hsl(330, 50%, 50%)
+  color accent
 </style>
-

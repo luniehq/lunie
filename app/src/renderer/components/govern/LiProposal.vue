@@ -49,7 +49,7 @@ export default {
 @require '~variables'
 
 .card-proposal
-  border-bottom 1px solid bc
+  border-bottom px solid bc
   padding 0.75rem 1rem
   display flex
   position relative
@@ -81,7 +81,7 @@ export default {
       display inline-block
       padding 0 0.25rem
       vertical-align middle
-      border 1px solid bc
+      border px solid bc
 
   .meta
     display flex

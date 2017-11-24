@@ -27,7 +27,7 @@ export default {
 
   border 0.125em dashed bc
   margin 0.25em
-  height 3em
+  height 3rem
   padding 0 0.5em
   display flex
   align-items center

@@ -104,7 +104,7 @@ export default {
 
   .values
     display flex
-    height 2em
+    height 2rem
     padding 0 0.75rem
 
   .value

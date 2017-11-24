@@ -244,10 +244,10 @@ export default {
             margin 0
 
   h1
-    font-size 2em
+    font-size h1
 
   small
-    font-size .5em
+    font-size xs
 
   .percentage
     border px solid bc

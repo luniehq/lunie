@@ -100,11 +100,8 @@ let rendererConfig = {
   },
   resolve: {
     alias: {
-      'components': resolve('app/src/renderer/components'),
       'renderer': resolve('app/src/renderer'),
-      '@': resolve('app/src/renderer'),
       assets: resolve('app/src/renderer/assets'),
-      comp: resolve('app/src/renderer/components'),
       scripts: resolve('app/src/renderer/scripts'),
       common: resolve('app/src/renderer/components/common'),
       govern: resolve('app/src/renderer/components/govern'),

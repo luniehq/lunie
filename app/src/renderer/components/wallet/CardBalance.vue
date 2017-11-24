@@ -51,7 +51,7 @@ export default {
   .card-balance-container
     background app-fg
 
-    height 3em
+    height 3rem
     display flex
     align-items stretch
 

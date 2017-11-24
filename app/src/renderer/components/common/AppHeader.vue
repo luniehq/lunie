@@ -71,7 +71,7 @@ export default {
     background app-bg
 
     > .container
-      max-width 1024px
+      max-width aw
       margin 0 auto
       display flex
       flex-flow row nowrap
