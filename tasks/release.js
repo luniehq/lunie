@@ -60,6 +60,7 @@ const GOARCH = {
 function goBuild (pkg) {
   return function (buildPath, electronVersion, platform, arch, cb) {
     if (platform === 'win32') platform = 'windows'
+    if (platform === 'mas') platform = 'darwin'
     if (GOARCH[arch]) arch = GOARCH[arch]
 
     let name = path.basename(pkg)
