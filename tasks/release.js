@@ -21,7 +21,11 @@ function pack () {
 
   pack.stdout.on('data', data => console.log(data))
   pack.stderr.on('data', data => console.error(data))
-  pack.on('exit', code => build())
+  pack.on('exit', code => {
+    if (code === null || code <= 0) {
+      build()
+    }
+  })
 }
 
 /**
