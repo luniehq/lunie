@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import dateUnixAgo from '../../scripts/dateUnixAgo'
+import dateUnixAgo from 'scripts/dateUnixAgo'
 export default {
   computed: {
     tx () {
@@ -36,7 +36,7 @@ export default {
   display flex
   align-items center
 
-  border-bottom 1px solid bc
+  border-bottom px solid bc
   height 3rem
 
   .date

@@ -14,8 +14,9 @@
 </template>
 
 <script>
-import BtnCopy from './BtnCopy'
+import BtnCopy from 'wallet/BtnCopy'
 export default {
+  name: 'card-address',
   components: {
     BtnCopy
   },
@@ -34,7 +35,8 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../../styles/variables.styl'
+@require '~variables'
+
 .card-address
   font-size 0.75rem
   padding 0.25em
@@ -55,7 +57,7 @@ export default {
   .title
     display flex
     align-items center
-    border-right 1px dotted bc
+    border-right px dotted bc
     padding 0 0.75em
 
     i.fa
@@ -68,7 +70,7 @@ export default {
 
   .address
     overflow hidden
-    border-right 1px dotted bc
+    border-right px dotted bc
 
     flex 1
     display flex

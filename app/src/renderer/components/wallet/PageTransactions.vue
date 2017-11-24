@@ -18,14 +18,14 @@ page(title='Transactions')
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
-import AnchorCopy from '../common/AnchorCopy'
+import AnchorCopy from 'common/AnchorCopy'
 import Btn from '@nylira/vue-button'
-import ListItem from '../common/NiListItem'
-import CardTransaction from './CardTransaction'
-import ModalSearch from '../common/NiModalSearch'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
-import ToolBar from '../common/NiToolBar'
+import ListItem from 'common/NiListItem'
+import CardTransaction from 'wallet/CardTransaction'
+import ModalSearch from 'common/NiModalSearch'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
+import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-transactions',
   components: {

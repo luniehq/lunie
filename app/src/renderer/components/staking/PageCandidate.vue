@@ -1,11 +1,20 @@
 <template lang="pug">
 page(:title='candidate.id')
-  tool-bar
-    router-link(to="/staking" exact): i.material-icons arrow_back
+  div(slot="menu"): tool-bar
+    router-link(to="/staking" exact)
+      i.material-icons arrow_back
+      .label Back
     template(v-if='isDelegator')
-      a(v-if='inCart' @click.native='rm(candidate.id)') Remove
-      a(v-else @click.native='add(candidate.id)') Add
-    router-link(v-if='isMe' to='/nominate') Edit
+      a(v-if='inCart' @click.native='rm(candidate.id)')
+        i.material-icons delete
+        .label Remove
+      a(v-else @click.native='add(candidate.id)')
+        i.material-icons add
+        .label Add
+    router-link(v-if='isMe' to='/nominate')
+      i.material-icons edit
+      .label Edit
+
   part(title="Description")
     text-block(:content="candidate.description")
   part(title="Server Details")
@@ -23,13 +32,13 @@ page(:title='candidate.id')
 
 <script>
 import { mapGetters } from 'vuex'
+import countries from 'scripts/countries.json'
 import Btn from '@nylira/vue-button'
-import ListItem from '../common/NiListItem'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
-import TextBlock from '../common/TextBlock'
-import ToolBar from '../common/NiToolBar'
-import countries from '../../scripts/countries.json'
+import ListItem from 'common/NiListItem'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
+import TextBlock from 'common/TextBlock'
+import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-candidate',
   components: {

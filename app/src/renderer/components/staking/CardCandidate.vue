@@ -28,7 +28,7 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
 
 <script>
 import { mapGetters } from 'vuex'
-import num from '../../scripts/num'
+import num from 'scripts/num'
 import Btn from '@nylira/vue-button'
 // import { maxBy } from 'lodash'
 export default {
@@ -93,11 +93,11 @@ export default {
 
 .card-candidate
   &:nth-of-type(2n) .card-candidate-container
-    background alpha(app-fg, 7.5%)
+    background app-fg
 
   &.card-candidate-active .card-candidate-container
     .value.id a, .icon
-      color hsl(mhue,75%,50%)
+      color link
 
 .card-candidate-container
   position relative
@@ -143,13 +143,13 @@ export default {
 
       .bar
         height 1.5rem
-        background alpha(app-fg, 75%)
+        background darken(app-bg, 20%)
         margin-right 1rem
       &.delegated
         span
           color dim
         .bar
-          background alpha(app-fg, 50%)
+          background accent
 
     span
       display block
@@ -181,5 +181,4 @@ export default {
   .card-candidate-container
     .value span
       font-size 1rem
-
 </style>

@@ -9,6 +9,7 @@
 
 <script>
 export default {
+  name: 'card-new',
   computed: {
     iconClass () {
       return `fa fa-${this.icon}`
@@ -19,7 +20,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../../styles/variables.styl'
+@require '~variables'
 
 .new-bar
   font-size 0.75rem
@@ -35,7 +36,7 @@ export default {
   cursor pointer
 
   &:hover
-    background lighten(link, 90%)
+    background hover-bg
 
   .label
     color dim

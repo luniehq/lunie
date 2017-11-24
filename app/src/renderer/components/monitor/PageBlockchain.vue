@@ -1,11 +1,15 @@
 <template lang="pug">
 page(title='Blockchain')
-  blockchain-select-modal
-  tool-bar
-    router-link(to="/search" exact): i.material-icons search
+  div(slot="menu"): tool-bar
+    router-link(to="/search" exact)
+      i.material-icons search
+      .label Search
     a(@click='toggleBlockchainSelect')
       i.material-icons(v-if='!config.blockchainSelect') filter_list
       i.material-icons(v-else='') close
+      .label Switch Blockchain
+
+  blockchain-select-modal
 
   part(title='Metadata')
     list-item(dt='Network' :dd='bc.status.node_info.network')
@@ -26,13 +30,13 @@ page(title='Blockchain')
 
 <script>
 import moment from 'moment'
-import num from '../../scripts/num'
+import num from 'scripts/num'
 import { mapGetters } from 'vuex'
-import BlockchainSelectModal from './BlockchainSelectModal'
-import ListItem from '../common/NiListItem'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
-import ToolBar from '../common/NiToolBar'
+import BlockchainSelectModal from 'monitor/BlockchainSelectModal'
+import ListItem from 'common/NiListItem'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
+import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-blockchain',
   components: {

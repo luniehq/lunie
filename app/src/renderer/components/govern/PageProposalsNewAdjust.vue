@@ -33,7 +33,6 @@ page(title="Proposal: Adjust Parameters")
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { minLength, maxLength, required } from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
@@ -54,9 +53,6 @@ export default {
     FormStruct,
     Page,
     ToolBar
-  },
-  computed: {
-    ...mapGetters([])
   },
   data: () => ({
     titleMinLength: 10,

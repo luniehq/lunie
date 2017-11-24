@@ -22,10 +22,10 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import CardAddress from './CardAddress'
+import CardAddress from 'wallet/CardAddress'
 import Field from '@nylira/vue-field'
 import Btn from '@nylira/vue-button'
-import CardNew from './CardNew'
+import CardNew from 'wallet/CardNew'
 export default {
   components: {
     CardAddress,
@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../../styles/variables.styl'
+@require '~variables'
 
 .page-receive
   display flex

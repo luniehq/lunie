@@ -1,8 +1,10 @@
 <template lang="pug">
 page(icon="storage" :title="validator.pub_key.data")
-  tool-bar
-    router-link(to="/validators" exact): i.material-icons arrow_back
-    anchor-copy(:value="tmpValidator.pub_key" icon="content_copy")
+  div(slot="menu"): tool-bar
+    router-link(to="/validators" exact)
+      i.material-icons arrow_back
+      .label Back
+    anchor-copy(:value="tmpValidator.pub_key" icon="content_copy" label="Copy Public Key")
 
   part(title="Validator Profile")
     list-item(dt="Total Vote Power" :dd="validator.voting_power"
@@ -21,11 +23,11 @@ page(icon="storage" :title="validator.pub_key.data")
 
 <script>
 import { mapGetters } from 'vuex'
-import ListItem from '../common/NiListItem'
-import ToolBar from '../common/NiToolBar'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
-import AnchorCopy from '../common/AnchorCopy'
+import ListItem from 'common/NiListItem'
+import ToolBar from 'common/NiToolBar'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
+import AnchorCopy from 'common/AnchorCopy'
 export default {
   name: 'page-validator-index',
   components: {
@@ -62,9 +64,6 @@ export default {
     urlsafeIp (ip) {
       return ip.split('.').join('-')
     }
-  },
-  mounted () {
-    console.log(this.$route.params)
   }
 }
 </script>
