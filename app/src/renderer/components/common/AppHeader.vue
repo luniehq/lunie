@@ -96,7 +96,7 @@ export default {
         color link
 
       &.header-item-logo
-        font-size 0.66rem
+        font-size sm
         img
           height 1rem
 

@@ -115,7 +115,7 @@ export default {
 
     color dim
     padding 0 0.25rem
-    font-size 0.75rem
+    font-size sm
 
     min-width 0
 
@@ -180,5 +180,5 @@ export default {
 @media screen and (min-width: 768px)
   .card-candidate-container
     .value span
-      font-size 1rem
+      font-size x
 </style>

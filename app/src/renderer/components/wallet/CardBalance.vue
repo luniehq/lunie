@@ -45,7 +45,7 @@ export default {
 @require '~variables'
 
 .card-balance
-  font-size 0.75em
+  font-size sm
   padding 0.25em
 
   .card-balance-container
@@ -72,7 +72,7 @@ export default {
         margin-right 0.375em
       span
         mono()
-        font-size 0.75em
+        font-size sm
         font-weight bold
 
     .balance
@@ -100,9 +100,5 @@ export default {
 
 @media screen and (min-width: 400px)
   .card-balance
-    font-size 0.875rem
-
-@media screen and (min-width: 640px)
-  .card-balance
-    font-size 1rem
+    font-size x
 </style>

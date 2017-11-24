@@ -63,7 +63,7 @@ export default {
   min-width 0
 
   .label
-    font-size 0.75rem
+    font-size sm
     color dim
     padding-right 0.5rem
 

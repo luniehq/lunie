@@ -149,7 +149,7 @@ export default {
   margin-left auto
   margin-right auto
   font-family sans
-  font-size 1rem
+  font-size x
   line-height 1.5
   font-weight 400
   color txt
@@ -236,7 +236,7 @@ sbw = 20rem
       margin-top 0
       position relative
 
-      font-size 1.5rem
+      font-size h2
       font-weight 500
 
       &:before

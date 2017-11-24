@@ -38,7 +38,7 @@ export default {
 @require '~variables'
 
 .card-address
-  font-size 0.75rem
+  font-size sm
   padding 0.25em
   transition
 
@@ -65,7 +65,7 @@ export default {
       margin-right 0.375em
     span
       mono()
-      font-size 0.75em
+      font-size sm
       font-weight bold
 
   .address
@@ -86,17 +86,11 @@ export default {
     padding 0 0.75em
 
   .ni-btn
-    font-size 0.75em
+    font-size sm
 
 @media screen and (min-width: 400px)
   .card-address
-    font-size 0.875rem
+    font-size x
     .ni-btn
-      font-size 0.875em
-
-@media screen and (min-width: 640px)
-  .card-address
-    font-size 1rem
-    .ni-btn
-      font-size 1rem
+      font-size x
 </style>

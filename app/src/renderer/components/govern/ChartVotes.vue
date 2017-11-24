@@ -203,14 +203,14 @@ export default {
           align-items center
           justify-content center
 
-          font-size 0.6666em
+          font-size xs
           color dim
           text-transform uppercase
 
         .value
           flex 1
           color bright
-          font-size 1.5rem
+          font-size xl
 
           display flex
           align-items center

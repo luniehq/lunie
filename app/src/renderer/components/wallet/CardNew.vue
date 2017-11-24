@@ -23,7 +23,7 @@ export default {
 @require '~variables'
 
 .new-bar
-  font-size 0.75rem
+  font-size sm
 
   border 0.125em dashed bc
   margin 0.25em
@@ -47,9 +47,5 @@ export default {
 
 @media screen and (min-width: 400px)
   .new-bar
-    font-size 0.875rem
-
-@media screen and (min-width: 640px)
-  .new-bar
-    font-size 1rem
+    font-size x
 </style>

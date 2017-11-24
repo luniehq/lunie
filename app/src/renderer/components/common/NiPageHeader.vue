@@ -36,7 +36,7 @@ export default {
     display none
 
   i.material-icons
-    font-size 1.375rem
+    font-size 1.375 * x
     padding-right 0.375rem
 
 .ni-page-header-title > div
@@ -44,14 +44,14 @@ export default {
   align-items center
   
   min-width 0
-  font-size 1.25rem
+  font-size lg
   line-height 1.5rem
   font-weight 400
   color bright
 
 .ni-page-header-subtitle > div
   color dim
-  font-size 0.75rem
+  font-size sm
 
 @media screen and (min-width: 1024px)
   .ni-page-header
