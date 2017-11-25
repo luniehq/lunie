@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardTransaction has the expected html structure 1`] = `
+<div
+  class="card-transaction"
+>
+  <div
+    class="key-value"
+  >
+    <div
+      class="value positive"
+    >
+      1234
+    </div>
+    <div
+      class="key"
+    >
+      JBCOINS
+    </div>
+  </div>
+  <div
+    class="date"
+  >
+    a few seconds ago
+  </div>
+</div>
+`;

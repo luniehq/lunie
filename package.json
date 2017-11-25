@@ -89,7 +89,7 @@
     "vue-html-loader": "^1.2.2",
     "vue-loader": "^10.0.2",
     "vue-style-loader": "^1.0.0",
-    "vue-template-compiler": "^2.1.10",
+    "vue-template-compiler": "^2.5.8",
     "webpack": "^2.2.0",
     "webpack-dev-server": "^2.2.0",
     "webpack-merge": "^0.14.1"
@@ -121,12 +121,13 @@
     "superagent": "^3.5.2",
     "tail": "^1.2.1",
     "tendermint-crypto": "github:mappum/js-crypto",
+    "vue-test-utils": "^1.0.0-beta.6",
     "vuelidate": "^0.5.0",
-    "websocket-extensions": "^0.1.2"
+    "xmlhttprequest": "^1.8.0"
   },
   "jest": {
     "testMatch": [
-      "**/unit/specs/*spec.js"
+      "**/unit/specs/**/*spec.js"
     ],
     "moduleFileExtensions": [
       "js",
@@ -171,6 +172,7 @@
     ],
     "testURL": "http://localhost",
     "setupFiles": [
+      "./test/unit/helpers/fixed_time.js",
       "./test/unit/helpers/setup.js"
     ]
   }

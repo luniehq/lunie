@@ -1,5 +1,5 @@
 <template>
-  <div id="cssId" class="card-address">
+  <div :id="cssId" class="card-address">
     <div class="card-address-container">
       <div class="left">
         <div class="address">
@@ -23,11 +23,6 @@ export default {
   computed: {
     cssId () {
       return 'address-' + this.address
-    }
-  },
-  methods: {
-    capitalize (string) {
-      return string.toUpperCase()
     }
   },
   props: ['address']

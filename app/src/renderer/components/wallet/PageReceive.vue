@@ -1,12 +1,10 @@
 <template>
   <div class="page-receive">
-    <!-- <page-header title="Receive"> -->
-      <btn
-        icon="plus-square"
-        value="Generate Address"
-        @click.native="newAddress()">
-      </btn>
-    <!-- </page-header> -->
+    <btn
+      icon="plus-square"
+      value="Generate Address"
+      @click.native="newAddress()">
+    </btn>
     <div class="addresses scrollable-area">
       <transition-group name="fade">
         <card-address
@@ -34,10 +32,7 @@ export default {
     CardNew
   },
   computed: {
-    ...mapGetters([
-      'allAddresses',
-      'allWallets'
-    ]),
+    ...mapGetters(['allAddresses', 'allWallets']),
     addresses () {
       return this.allAddresses.slice().reverse()
     },
