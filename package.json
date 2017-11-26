@@ -96,7 +96,7 @@
   },
   "dependencies": {
     "@nylira/vue-button": "^4.1.3",
-    "@nylira/vue-field": "1.1.9",
+    "@nylira/vue-field": "1.1.12",
     "@nylira/vue-form-msg": "^1.0.3",
     "@nylira/vue-input": "^3.2.0",
     "@nylira/vue-notifications": "^1.4.0",
