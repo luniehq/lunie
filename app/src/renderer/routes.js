@@ -21,7 +21,6 @@ export default [
   // STAKE
   { path: '/staking', name: 'candidates', component: staking('Candidates') },
   { path: '/staking/delegate', name: 'delegate', component: staking('Delegate') },
-  { path: '/staking/nominate', name: 'nominate', component: staking('Nominate') },
   {
     path: '/staking/candidates/:candidate',
     name: 'candidate',

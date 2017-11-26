@@ -8,7 +8,6 @@ menu.app-menu
     list-item(to="/proposals" exact @click.native="close" title="Proposals")
   part(title='Stake')
     list-item(to="/staking" exact @click.native="close" title="Validator Candidates")
-    list-item(to="/staking/nominate" exact @click.native="close" title="Self Nomination")
   part(title='Monitor')
     list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
     list-item(to="/validators" exact @click.native="close" title="Validators"

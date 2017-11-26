@@ -11,9 +11,6 @@ page(:title='candidate.id')
       a(v-else @click.native='add(candidate.id)')
         i.material-icons add
         .label Add
-    router-link(v-if='isMe' to='/nominate')
-      i.material-icons edit
-      .label Edit
 
   part(title="Description")
     text-block(:content="candidate.description")
