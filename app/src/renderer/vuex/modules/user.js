@@ -17,14 +17,14 @@ export default ({ commit, node }) => {
   }
 
   const emptyUser = {
-    atoms: 10000,
+    atoms: 0,
     nominationActive: false,
     nomination: JSON.parse(JSON.stringify(emptyNomination)),
     delegationActive: false,
     delegation: [],
     pubkey: '',
     privkey: null,
-    signedIn: true
+    signedIn: false
   }
 
   const state = JSON.parse(JSON.stringify(emptyUser))
