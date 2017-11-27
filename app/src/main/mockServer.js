@@ -41,7 +41,7 @@ module.exports = function (port = 8999) {
           commission: Math.random() * 0.1,
           url: `https://${Math.random().toString(36).slice(2)}.com`,
           keybaseID: Math.random().toString(36).slice(2),
-          country: ['USA','Canada','South Korea','Unknown','China','Germany','France'][Math.floor(Math.random() * 7)]
+          country: ['USA', 'Canada', 'South Korea', 'Unknown', 'China', 'Germany', 'France'][Math.floor(Math.random() * 7)]
         })
       }
     })
