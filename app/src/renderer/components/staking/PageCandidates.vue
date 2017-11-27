@@ -61,9 +61,9 @@ export default {
         { id: 2, title: 'Delegated', value: 'atoms', initial: true }
       ]
       if (this.user.signedIn) {
-        props.push({ id: 2, title: 'Delegated (Yours)', value: 'computed.delegatedAtoms' })
+        props.push({ id: 2, title: 'Delegated (Yours)', value: 'voting_power' })
       }
-      props.push({ id: 3, title: 'Delegators', value: 'computed.delegators' })
+      props.push({ id: 3, title: 'Shares', value: 'shares' })
       return {
         property: 'atoms',
         order: 'desc',

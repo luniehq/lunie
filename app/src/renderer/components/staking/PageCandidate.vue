@@ -8,17 +8,9 @@ page(:title='candidate.id')
     router-link(v-if='isMe' to='/nominate') Edit
   part(title="Description")
     text-block(:content="candidate.description")
-  part(title="Server Details")
-    text-block(:content="candidate.serverDetails")
-  part(title="Candidate Details")
-    list-item(dt='Commission' :dd='candidate.commissionPercent')
-    list-item(dt='Country' :dd='countryName(candidate.country)')
-    list-item(dt='Website' :dd='candidate.website')
-    list-item(dt='IP Address' :dd='candidate.ipAddress')
   part(title="Staking Details")
-    list-item(dt='Atoms' :dd='candidate.atoms')
-    list-item(dt='Delegators' :dd='candidate.computed.delegators')
-    list-item(dt='Slashes' :dd='candidate.computed.slashes.length')
+    list-item(dt='Voting Power' :dd='candidate.voting_power')
+    list-item(dt='Shares' :dd='candidate.shares')
 </template>
 
 <script>

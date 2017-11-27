@@ -8,17 +8,17 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
             i.fa.fa-check-square-o(v-if='inCart' @click='rm(candidate)')
             i.fa.fa-square-o(v-else @click='add(candidate)')
           router-link(:to="{ name: 'candidate', params: { candidate: candidate.id }}")
-            | {{ candidate.keybaseID }}
+            | {{ candidate.pubkey.data }}
       .value.atoms.num.bar
-        span {{ num.prettyInt(candidate.atoms) }}
+        span {{ num.prettyInt(candidate.voting_power) }}
         .bar(:style='atomsCss')
       .value.atoms.num.bar.delegated(v-if='signedIn')
-        span {{ num.prettyInt(candidate.computed.delegatedAtoms) }}
+        span {{ num.prettyInt(candidate.computed.delegatedCoins) }}
         .bar(:style='delegatedAtomsCss')
-      .value.delegators.num
+      .value.shares.num
         span
-          i.fa.fa-user
-          |  {{ num.prettyInt(candidate.delegators) }}
+          i.fa.pie-chart
+          |  {{ num.prettyInt(candidate.shares) }}
     menu(v-if='signedIn')
       btn(theme='cosmos' v-if='inCart'
         icon='times' value='Remove' size='sm' @click.native='rm(candidate)')
@@ -152,7 +152,7 @@ export default {
 
     span
       display block
-      
+
       white-space nowrap
       text-overflow ellipsis
       overflow hidden
