@@ -1,4 +1,6 @@
 function pubkeyToString (pubkey) {
+  // go-wire key encoding,
+  // ed25519 keys prefixed w/ 01, secp256k1 w/ 02
   let type = pubkey.type === 'ed25519' ? '01' : '02'
   return type + pubkey.data
 }

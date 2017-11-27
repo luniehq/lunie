@@ -88,6 +88,7 @@ export default ({ commit, node }) => {
 
       for (let candidate of value.candidates) {
         let tx = await node.buildDelegate([ candidate.id, candidate.atoms ])
+        // TODO: use wallet key management 
         let signedTx = await node.sign({
           name: 'default',
           password: '1234567890',
