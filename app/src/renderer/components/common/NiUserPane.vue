@@ -26,10 +26,6 @@ export default {
       this.$store.commit('setActiveMenu', '')
       noScroll.off()
     },
-    openProfile () {
-      window.alert('TODO: open user profile')
-      this.close()
-    },
     openSettings () {
       window.alert('TODO: open user settings')
       this.close()
