@@ -13,7 +13,7 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
         span {{ num.prettyInt(candidate.voting_power) }}
         .bar(:style='atomsCss')
       .value.atoms.num.bar.delegated(v-if='signedIn')
-        span {{ num.prettyInt(candidate.computed.delegatedCoins) }}
+        span {{ num.prettyInt(candidate.delegatedCoins) }}
         .bar(:style='delegatedAtomsCss')
       .value.shares.num
         span
@@ -66,7 +66,7 @@ export default {
       return 0
     },
     delegatedAtomsCss () {
-      let percentage = Math.round((this.candidate.computed.delegatedAtoms /
+      let percentage = Math.round((this.candidate.delegatedAtoms /
         this.maxDelegatedAtoms) * 100)
       return { width: percentage + '%' }
     },
