@@ -62,7 +62,7 @@ export default {
 
   .app-menu-main
     flex 1
-    overflow-y scroll
+    overflow-y auto
 
   .ni-user
     border-top 1px solid bc
