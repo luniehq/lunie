@@ -27,8 +27,8 @@ page(title='Blockchain')
       list-item(dt='Active Nodes' :dd='validators.length')
       list-item(dt='Current Rate' :dd="currentRate + ' bytes/s'")
       list-item(dt='Average Rate' :dd="averageRate + ' bytes/s'")
-  template(v-else)
-    p Nothing!
+
+  data-error(v-else)
 </template>
 
 <script>
@@ -37,6 +37,7 @@ import num from 'scripts/num'
 import { mapGetters } from 'vuex'
 import BlockchainSelectModal from 'monitor/BlockchainSelectModal'
 import ListItem from 'common/NiListItem'
+import DataError from 'common/NiDataError'
 import Page from 'common/NiPage'
 import Part from 'common/NiPart'
 import ToolBar from 'common/NiToolBar'
@@ -45,6 +46,7 @@ export default {
   components: {
     BlockchainSelectModal,
     ListItem,
+    DataError,
     Page,
     Part,
     ToolBar
