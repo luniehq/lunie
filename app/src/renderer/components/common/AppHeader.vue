@@ -131,6 +131,8 @@ export default {
 
     > .container
       flex 1
+      display flex
+      flex-flow column nowrap
 
     .header-item-logo
       height 3rem
