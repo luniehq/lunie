@@ -409,8 +409,10 @@ async function main () {
   baseserverProcess = await startBaseserver(baseserverHome)
   log('gaia server ready')
 
-  // start mock API server on port 8999
-  mockServer(8999)
+  if (!TEST) {
+    // start mock API server on port 8999
+    mockServer(8999)
+  }
 }
 module.exports = Object.assign(
   main()
