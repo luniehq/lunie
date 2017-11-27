@@ -46,7 +46,7 @@ export default {
 @require '~variables'
 
 .ni-user-pane
-  border-top 1px solid bc
+  border-top px solid bc
   display flex
 
 .ni-user-info
