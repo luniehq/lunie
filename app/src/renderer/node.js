@@ -5,9 +5,11 @@ const RpcClient = require('tendermint')
 
 let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
+const DEV = process.env.NODE_ENV === 'development'
+const MOCK = JSON.parse(process.env.MOCK || DEV) !== false
+
 module.exports = async function (nodeIP) {
-  // TODO: once we're done with the mock API server, switch this from port 8999 to 8998
-  let rest = RestClient('http://localhost:8999')
+  let rest = RestClient(MOCK ? 'http://localhost:8999' : null)
   let rpc = RpcClient(`ws://${nodeIP}`)
   // TODO: handle disconnect, try to reconnect
   // TODO: eventually, get all data from light-client connection instead of RPC

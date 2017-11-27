@@ -23,6 +23,7 @@ const DEV = process.env.NODE_ENV === 'development'
 const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 // TODO default logging or default disable logging?
 const LOGGING = JSON.parse(process.env.LOGGING || DEV) !== false
+const MOCK = JSON.parse(process.env.MOCK || DEV) !== false
 const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
   : `file://${__dirname}/index.html`
@@ -409,7 +410,7 @@ async function main () {
   baseserverProcess = await startBaseserver(baseserverHome)
   log('gaia server ready')
 
-  if (!TEST) {
+  if (MOCK) {
     // start mock API server on port 8999
     mockServer(8999)
   }
