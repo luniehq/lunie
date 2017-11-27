@@ -5,7 +5,7 @@ function pubkeyToString (pubkey) {
   return type + pubkey.data
 }
 
-export default ({ commit, dispatch, node }) => {
+export default ({ dispatch, node }) => {
   const state = []
 
   const mutations = {
@@ -22,7 +22,7 @@ export default ({ commit, dispatch, node }) => {
   }
 
   const actions = {
-    async getCandidates ({ commit }) {
+    async getCandidates ({ dispatch }) {
       let candidatePubkeys = (await node.candidates()).data
       for (let pubkey of candidatePubkeys) {
         dispatch('getCandidate', pubkey)
