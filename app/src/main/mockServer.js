@@ -42,53 +42,53 @@ module.exports = function (port = 8999) {
   })
   app.post('/tx/stake/delegate/:pubkey/:amount', (req, res) => {
     res.json({
-      "type": "sigs/one",
-      "data": {
-        "tx": {
-          "type": "chain/tx",
-          "data": {
-            "chain_id": "gaia-1",
-            "expires_at": 0,
-            "tx": {
-              "type": "nonce",
-              "data": {
-                "sequence": 1,
-                "signers": [
+      'type': 'sigs/one',
+      'data': {
+        'tx': {
+          'type': 'chain/tx',
+          'data': {
+            'chain_id': 'gaia-1',
+            'expires_at': 0,
+            'tx': {
+              'type': 'nonce',
+              'data': {
+                'sequence': 1,
+                'signers': [
                   {
-                    "chain": "",
-                    "app": "sigs",
-                    "addr": "84A057DCE7E1DB8EBE3903FC6B2D912E63EF9BEA"
+                    'chain': '',
+                    'app': 'sigs',
+                    'addr': '84A057DCE7E1DB8EBE3903FC6B2D912E63EF9BEA'
                   }
                 ],
-                "tx": {
-                  "type": "coin/send",
-                  "data": {
-                    "inputs": [
+                'tx': {
+                  'type': 'coin/send',
+                  'data': {
+                    'inputs': [
                       {
-                        "address": {
-                          "chain": "",
-                          "app": "sigs",
-                          "addr": "84A057DCE7E1DB8EBE3903FC6B2D912E63EF9BEA"
+                        'address': {
+                          'chain': '',
+                          'app': 'sigs',
+                          'addr': '84A057DCE7E1DB8EBE3903FC6B2D912E63EF9BEA'
                         },
-                        "coins": [
+                        'coins': [
                           {
-                            "denom": "atom",
-                            "amount": 1
+                            'denom': 'atom',
+                            'amount': 1
                           }
                         ]
                       }
                     ],
-                    "outputs": [
+                    'outputs': [
                       {
-                        "address": {
-                          "chain": "",
-                          "app": "sigs",
-                          "addr": "84A057DCE7E1DB8EBE3903FC6B2D912E63EF9BEA"
+                        'address': {
+                          'chain': '',
+                          'app': 'sigs',
+                          'addr': '84A057DCE7E1DB8EBE3903FC6B2D912E63EF9BEA'
                         },
-                        "coins": [
+                        'coins': [
                           {
-                            "denom": "atom",
-                            "amount": 1
+                            'denom': 'atom',
+                            'amount': 1
                           }
                         ]
                       }
@@ -99,9 +99,9 @@ module.exports = function (port = 8999) {
             }
           }
         },
-        "signature": {
-          "Sig": null,
-          "Pubkey": null
+        'signature': {
+          'Sig': null,
+          'Pubkey': null
         }
       }
     })

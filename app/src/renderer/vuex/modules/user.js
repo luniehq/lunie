@@ -2,7 +2,6 @@ import dg from 'cosmos-delegation-game'
 import level from 'levelup'
 import memdown from 'memdown'
 import { Wallet } from 'basecoin'
-import { PubKey } from 'tendermint-crypto'
 
 export default ({ commit, node }) => {
   const emptyNomination = {

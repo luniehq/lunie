@@ -1,5 +1,3 @@
-import { PubKey } from 'tendermint-crypto'
-
 function pubkeyToString (pubkey) {
   let type = pubkey.type === 'ed25519' ? '01' : '02'
   return type + pubkey.data

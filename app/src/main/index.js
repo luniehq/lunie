@@ -1,4 +1,4 @@
-    'use strict'
+'use strict'
 
 let { app, BrowserWindow, Menu } = require('electron')
 let fs = require('fs-extra')
