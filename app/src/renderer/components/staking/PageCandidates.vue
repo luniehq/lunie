@@ -19,13 +19,13 @@ page(:title='pageTitle')
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
-import CardCandidate from './CardCandidate'
+import CardCandidate from 'staking/CardCandidate'
 import Field from '@nylira/vue-field'
-import ModalSearch from '../common/NiModalSearch'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
-import PanelSort from './PanelSort'
-import ToolBar from '../common/NiToolBar'
+import ModalSearch from 'common/NiModalSearch'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
+import PanelSort from 'staking/PanelSort'
+import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-candidates',
   components: {

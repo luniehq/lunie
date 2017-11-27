@@ -112,7 +112,7 @@ export default {
   padding 1rem
 
 .ni-modal-main + .ni-modal-footer
-  border-top 1px solid bc
+  border-top px solid bc
 
 .ni-modal-main
   flex 1
@@ -130,7 +130,7 @@ export default {
   margin -1rem
 
 .ni-modal-footer
-  flex 0 0 4.0625rem
+  flex 0 0 4rem + px
   &:empty
     display none
 

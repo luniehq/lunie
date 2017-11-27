@@ -28,12 +28,12 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .ni-tags
   &.ni-tags-df
     padding 0.5rem 1rem
-    border-bottom 1px solid bc
+    border-bottom px solid bc
     display flex
     flex-flow row wrap
 

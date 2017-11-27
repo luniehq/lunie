@@ -1,6 +1,5 @@
 <template lang='pug'>
-.chart-container
-  canvas(:id="id")
+.chart-container: canvas(:id="id")
 </template>
 
 <script>
@@ -97,10 +96,10 @@ export default {
 </script>
 
 <style lang='stylus'>
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .chart-container
   position relative
   height 16rem
-  border-bottom 1px solid bc
+  border-bottom px solid bc
 </style>

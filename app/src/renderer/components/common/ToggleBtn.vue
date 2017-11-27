@@ -1,6 +1,6 @@
 <template lang='pug'>
-  span(class="btn--select-wrapper" :class="[active ? 'active' : '']")
-    btn(:value="value")
+span(class="btn--select-wrapper" :class="[active ? 'active' : '']")
+  btn(:value="value")
 </template>
 
 <script>
@@ -15,7 +15,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .btn--select-wrapper.active
   .ni-btn-value

@@ -9,6 +9,7 @@
 
 <script>
 export default {
+  name: 'card-new',
   computed: {
     iconClass () {
       return `fa fa-${this.icon}`
@@ -19,14 +20,14 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../../styles/variables.styl'
+@require '~variables'
 
 .new-bar
-  font-size 0.75rem
+  font-size sm
 
   border 0.125em dashed bc
   margin 0.25em
-  height 3em
+  height 3rem
   padding 0 0.5em
   display flex
   align-items center
@@ -35,20 +36,16 @@ export default {
   cursor pointer
 
   &:hover
-    background lighten(link, 90%)
+    background hover-bg
 
   .label
-    color light
+    color dim
     font-weight 500
     i.fa
       margin-right 0.25em
-      color light
+      color dim
 
 @media screen and (min-width: 400px)
   .new-bar
-    font-size 0.875rem
-
-@media screen and (min-width: 640px)
-  .new-bar
-    font-size 1rem
+    font-size x
 </style>

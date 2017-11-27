@@ -1,10 +1,18 @@
 <template lang="pug">
 page(:title="`Block ${block.header.height}`")
-  tool-bar
-    router-link(to="/blockchain"): i.material-icons arrow_back
-    a(:href="blockUrl" target="_blank") JSON
-    router-link(:to="{ name: 'block', params: { block: block.header.height - 1 }}"): i.material-icons chevron_left
-    router-link(:to="{ name: 'block', params: { block: block.header.height + 1 }}"): i.material-icons chevron_right
+  div(slot="menu"): tool-bar
+    router-link(to="/blockchain")
+      i.material-icons arrow_back
+      .label Back
+    a(:href="blockUrl" target="_blank")
+      i.material-icons code
+      .label JSON
+    router-link(:to="{ name: 'block', params: { block: block.header.height - 1 }}")
+      i.material-icons chevron_left
+      .label Previous Block
+    router-link(:to="{ name: 'block', params: { block: block.header.height + 1 }}")
+      i.material-icons chevron_right
+      .label Next Block
 
   part(title='Header')
     list-item(dt="Chain ID" :dd="block.header.chain_id")
@@ -37,10 +45,10 @@ page(:title="`Block ${block.header.height}`")
 <script>
 import { mapGetters } from 'vuex'
 import request from 'superagent'
-import ToolBar from '../common/NiToolBar'
-import ListItem from '../common/NiListItem'
-import Part from '../common/NiPart'
-import Page from '../common/NiPage'
+import ToolBar from 'common/NiToolBar'
+import ListItem from 'common/NiListItem'
+import Part from 'common/NiPart'
+import Page from 'common/NiPage'
 export default {
   name: 'page-block',
   components: {

@@ -17,12 +17,12 @@ modal-menu.app-menu-user(@click="close" v-else): .outer-wrapper: .inner-wrapper
 
 <script>
 import {mapGetters} from 'vuex'
-import ModalMenu from './NiModalMenu'
 import noScroll from 'no-scroll'
-import ListItem from './NiListItem'
-import Part from './NiPart'
+import ListItem from 'common/NiListItem'
+import ModalMenu from 'common/NiModalMenu'
+import Part from 'common/NiPart'
 export default {
-  name: 'modal-menu-user',
+  name: 'app-menu-user',
   components: {
     ListItem,
     ModalMenu,
@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 @media screen and (min-width: 1024px)
   .ni-modal-menu.app-menu-user
@@ -61,7 +61,7 @@ export default {
     background none
 
     .outer-wrapper
-      width 1024px
+      width aw
       margin 3rem - px auto 0
       position relative
       display flex
@@ -71,7 +71,7 @@ export default {
     .inner-wrapper
       width 20rem
       background app-bg-alpha
-      border 1px solid bc
+      border px solid bc
       border-bottom none
       shadow()
 </style>

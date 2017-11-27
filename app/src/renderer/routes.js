@@ -21,7 +21,6 @@ export default [
   // STAKE
   { path: '/staking', name: 'candidates', component: staking('Candidates') },
   { path: '/staking/delegate', name: 'delegate', component: staking('Delegate') },
-  { path: '/staking/nominate', name: 'nominate', component: staking('Nominate') },
   {
     path: '/staking/candidates/:candidate',
     name: 'candidate',
@@ -71,7 +70,6 @@ export default [
   // WALLET
   { path: '/', name: 'balances', component: wallet('Balances') },
   { path: '/wallet/send', name: 'send', component: wallet('Send') },
-  { path: '/wallet/receive', name: 'receive', component: wallet('Receive') },
   { path: '/wallet/transactions', name: 'transactions', component: wallet('Transactions') },
 
   // 404

@@ -1,10 +1,12 @@
 <template lang="pug">
 page(icon="storage" :title="`${validatorId} Votes`")
-  tool-bar
-    router-link(
-      :to="{ name: 'validator', params: { validator: $route.params.validator }}")
+  div(slot="menu"): tool-bar
+    router-link(:to="{ name: 'validator', params: { validator: $route.params.validator }}")
       i.material-icons arrow_back
-    a(@click='toggleSearch'): i.material-icons search
+      .label Back
+    a(@click='toggleSearch')
+      i.material-icons search
+      .label Search
 
   part(title='Vote Statistics')
     list-item(dt="Voted Yes:" dd="27%")
@@ -23,10 +25,10 @@ page(icon="storage" :title="`${validatorId} Votes`")
 </template>
 
 <script>
-import ListItem from '../common/NiListItem'
-import ToolBar from '../common/NiToolBar'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
+import ListItem from 'common/NiListItem'
+import ToolBar from 'common/NiToolBar'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
 export default {
   name: 'page-validator-votes',
   components: {

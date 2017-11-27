@@ -10,14 +10,14 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .ni-tab-bar-container
   display flex
   align-items center
 
   background app-fg
-  border-bottom 1px solid bc
+  border-bottom px solid bc
 
   a
     height 2rem - px
@@ -28,7 +28,7 @@ export default {
     align-items center
     justify-content center
 
-    border-right 1px solid bc
+    border-right px solid bc
 
     font-size sm
     color link

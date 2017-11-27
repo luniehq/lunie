@@ -18,11 +18,11 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .text-block
   padding 1rem
-  border-bottom 1px solid bc
+  border-bottom px solid bc
 
   pre
     white-space: pre-wrap;       /* Since CSS 2.1 */

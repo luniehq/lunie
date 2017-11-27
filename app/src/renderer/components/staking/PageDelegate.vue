@@ -1,7 +1,9 @@
 <template lang="pug">
 page(:title="pageTitle")
-  tool-bar
-    btn(theme='cosmos' type='link' to='/' icon='angle-left' value='Change Candidates')
+  div(slot="menu"): tool-bar
+    router-link(to='/staking')
+      i.material-icons arrow_back
+      .label Change Candidates
 
   form-struct(:submit="onSubmit")
     form-group(:error="$v.fields.reservedAtoms.$error")
@@ -48,13 +50,13 @@ import { between, numeric, required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
-import FieldAddon from '../common/NiFieldAddon'
-import FieldGroup from '../common/NiFieldGroup'
-import FormGroup from '../common/NiFormGroup'
-import FormMsg from '../common/NiFormMsg'
-import FormStruct from '../common/NiFormStruct'
-import Page from '../common/NiPage'
-import ToolBar from '../common/NiToolBar'
+import FieldAddon from 'common/NiFieldAddon'
+import FieldGroup from 'common/NiFieldGroup'
+import FormGroup from 'common/NiFormGroup'
+import FormMsg from 'common/NiFormMsg'
+import FormStruct from 'common/NiFormStruct'
+import Page from 'common/NiPage'
+import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-delegate',
   components: {
@@ -242,13 +244,13 @@ export default {
             margin 0
 
   h1
-    font-size 2em
+    font-size h1
 
   small
-    font-size .5em
+    font-size xs
 
   .percentage
-    border 1px solid bc
+    border px solid bc
     border-left none
     height 2rem
     width 3.625rem

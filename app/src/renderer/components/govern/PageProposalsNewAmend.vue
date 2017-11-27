@@ -1,7 +1,9 @@
 <template lang="pug">
 page(title="Proposal: Amend Constitution")
   div(slot="menu"): tool-bar
-    router-link(to="/proposals/new" exact): i.material-icons arrow_back
+    router-link(to="/proposals/new" exact)
+      i.material-icons arrow_back
+      .label Back
   form-struct(:submit="onSubmit")
     form-group(:error="$v.fields.title.$error"
       field-id='proposal-title' field-label='Proposal Title')
@@ -31,16 +33,15 @@ page(title="Proposal: Amend Constitution")
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { minLength, maxLength, required } from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
-import FieldGroup from '../common/NiFieldGroup'
-import FormGroup from '../common/NiFormGroup'
-import FormMsg from '../common/NiFormMsg'
-import FormStruct from '../common/NiFormStruct'
-import Page from '../common/NiPage'
-import ToolBar from '../common/NiToolBar'
+import FieldGroup from 'common/NiFieldGroup'
+import FormGroup from 'common/NiFormGroup'
+import FormMsg from 'common/NiFormMsg'
+import FormStruct from 'common/NiFormStruct'
+import Page from 'common/NiPage'
+import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-proposals-new-amend',
   components: {
@@ -52,9 +53,6 @@ export default {
     FormStruct,
     Page,
     ToolBar
-  },
-  computed: {
-    ...mapGetters([])
   },
   data: () => ({
     titleMinLength: 10,

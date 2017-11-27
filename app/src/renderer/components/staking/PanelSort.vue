@@ -1,10 +1,9 @@
 <template lang="pug">
-.panel-sort
-  .panel-sort-container: .sort-by(
-    v-for="property in sort.properties",
-    @click="orderBy(property.value, $event)",
-    :class="{ 'active': property.initial, 'asc': property.initial }")
-    .label {{ property.title }}
+.panel-sort: .panel-sort-container: .sort-by(
+  v-for="property in sort.properties",
+  @click="orderBy(property.value, $event)",
+  :class="{ 'active': property.initial, 'asc': property.initial }")
+  .label {{ property.title }}
 </template>
 
 <script>
@@ -42,12 +41,12 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .panel-sort-container
   display flex
   height 2rem
-  border-bottom 1px solid bc
+  border-bottom px solid bc
   padding 0 0.75rem
 
 .sort-by
@@ -64,7 +63,7 @@ export default {
   min-width 0
 
   .label
-    font-size 0.75rem
+    font-size sm
     color dim
     padding-right 0.5rem
 

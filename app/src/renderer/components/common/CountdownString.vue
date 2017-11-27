@@ -1,22 +1,9 @@
-<template>
-  <div class="ni-countdown-string">
-    <div class="ni-cd-block">
-      {{ twoDigits(days) }}
-      <span class="key">D</span>
-    </div>
-    <div class="ni-cd-block">
-      {{ twoDigits(hours) }}
-      <span class="key">H</span>
-    </div>
-    <div class="ni-cd-block">
-      {{ twoDigits(minutes) }}
-      <span class="key">M</span>
-    </div>
-    <div class="ni-cd-block">
-      {{ twoDigits(seconds) }}
-      <span class="key">S</span>
-    </div>
-  </div>
+<template lang="pug">
+.ni-countdown-string
+  .ni-cd-block {{ twoDigits(days) }} #[span.key D]
+  .ni-cd-block {{ twoDigits(hours) }} #[span.key H]
+  .ni-cd-block {{ twoDigits(minutes) }} #[span.key M]
+  .ni-cd-block {{ twoDigits(seconds) }} #[span.key S]
 </template>
 
 <script>
@@ -72,6 +59,6 @@ export default {
     display flex
     color dim
     span
-      color light
+      color dim
       display block
 </style>
