@@ -9,16 +9,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
 import noScroll from 'no-scroll'
-import ListItem from './NiListItem'
 import Part from './NiPart'
 export default {
   name: 'ni-user-pane',
   components: {
     Btn,
-    ListItem,
     Part
   },
   methods: {
