@@ -11,6 +11,7 @@ export default ({ dispatch, node }) => {
   const mutations = {
     addCandidate (state, candidate) {
       candidate.id = pubkeyToString(candidate.pubkey)
+      Object.assign(candidate, JSON.parse(candidate.description))
 
       // return if we already have this candidate
       for (let existingCandidate of state) {

@@ -1,5 +1,5 @@
 <template lang="pug">
-page(:title='candidate.id')
+page(:title='candidate.keybaseID')
   tool-bar
     router-link(to="/staking" exact): i.material-icons arrow_back
     template(v-if='isDelegator')
@@ -8,9 +8,13 @@ page(:title='candidate.id')
     router-link(v-if='isMe' to='/nominate') Edit
   part(title="Description")
     text-block(:content="candidate.description")
+  part(title="Validator Details")
+    list-item(dt='Public Key' :dd='candidate.id')
+    list-item(dt='Country' :dd='candidate.country')
   part(title="Staking Details")
     list-item(dt='Voting Power' :dd='candidate.voting_power')
     list-item(dt='Shares' :dd='candidate.shares')
+    list-item(dt='Commission Rate' :dd='`${(candidate.commission * 100).toFixed(2)}%`')
 </template>
 
 <script>

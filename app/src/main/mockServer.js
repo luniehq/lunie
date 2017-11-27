@@ -36,7 +36,13 @@ module.exports = function (port = 8999) {
         },
         shares: Math.floor(Math.random() * 1e7),
         voting_power: Math.floor(Math.random() * 1e5),
-        description: 'This is a fake candidate description.'
+        description: JSON.stringify({
+          description: 'This is a fake candidate description.',
+          commission: Math.random() * 0.1,
+          url: `https://${Math.random().toString(36).slice(2)}.com`,
+          keybaseID: Math.random().toString(36).slice(2),
+          country: ['USA','Canada','South Korea','Unknown','China','Germany','France'][Math.floor(Math.random() * 7)]
+        })
       }
     })
   })

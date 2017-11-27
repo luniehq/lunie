@@ -56,15 +56,14 @@ export default {
       return this.shoppingCart.length
     },
     sort () {
-      console.log('sort')
       let props = [
-        { id: 1, title: 'ID', value: 'id' },
-        { id: 2, title: 'Delegated', value: 'voting_power', initial: true }
+        { id: 1, title: 'Keybase ID', value: 'keybaseID' },
+        { id: 2, title: 'Public Key', value: 'id' },
+        { id: 3, title: 'Delegated', value: 'voting_power', initial: true }
       ]
       if (this.user.signedIn) {
-        props.push({ id: 2, title: 'Delegated (Yours)', value: 'delegated' })
+        props.push({ id: 4, title: 'Delegated (Yours)', value: 'delegated' })
       }
-      props.push({ id: 3, title: 'Shares', value: 'shares' })
       return {
         property: 'voting_power',
         order: 'desc',
