@@ -10,7 +10,6 @@ let semver = require('semver')
 let event = require('event-to-promise')
 let toml = require('toml')
 let pkg = require('../../../package.json')
-let rmdir = require('../helpers/rmdir.js')
 let mockServer = require('./mockServer.js')
 
 let shuttingDown = false
@@ -266,7 +265,7 @@ async function backupData (root) {
     overwrite: false,
     errorOnExist: true
   })
-  await rmdir(root)
+  await fs.remove(root)
 }
 
 /*
@@ -317,6 +316,10 @@ process.on('uncaughtException', function (err) {
 })
 
 async function main () {
+  if (JSON.parse(process.env.COSMOS_UI_ONLY || 'false')) {
+    return
+  }
+
   let root = require('../root.js')
   let versionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
