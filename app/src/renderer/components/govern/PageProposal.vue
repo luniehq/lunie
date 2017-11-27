@@ -76,7 +76,7 @@ export default {
       active_at: '',
       created_at: '',
       entity_id: '',
-      title: 'Loading',
+      title: 'Loading...',
       type: '',
       flags: {
         passed: false
