@@ -31,14 +31,15 @@ export default ({ commit, node }) => {
   let actions = {
     async initializeWallet ({ commit, dispatch }) {
       let key
+      // key was already created, fetch it
       try {
-        key = (await node.generateKey({ name: KEY_NAME, password: KEY_PASSWORD })).key
-      } catch (err) {
-        if (!err.message.includes('file exists')) {
-          throw err
-        }
-        // key was already created, fetch it
         key = await node.getKey(KEY_NAME)
+      } catch (e) {
+        console.log(`Key '${KEY_NAME}' does not exist`)
+      }
+      if (!key) {
+        console.log(`Creating new key '${KEY_NAME}'`)
+        key = (await node.generateKey({ name: KEY_NAME, password: KEY_PASSWORD })).key
       }
       commit('setWalletKey', key)
       dispatch('queryWalletState')
