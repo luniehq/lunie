@@ -10,7 +10,6 @@ let semver = require('semver')
 let event = require('event-to-promise')
 let toml = require('toml')
 let pkg = require('../../../package.json')
-let rmdir = require('../helpers/rmdir.js')
 
 let shuttingDown = false
 let mainWindow
@@ -264,7 +263,7 @@ async function backupData (root) {
     overwrite: false,
     errorOnExist: true
   })
-  await rmdir(root)
+  await fs.remove(root)
 }
 
 /*
