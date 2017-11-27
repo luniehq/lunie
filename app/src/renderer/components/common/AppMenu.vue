@@ -60,9 +60,9 @@ export default {
   display flex
   flex-flow column nowrap
 
-
   .app-menu-main
     flex 1
+    overflow-y scroll
 
   .ni-user
     border-top 1px solid bc
