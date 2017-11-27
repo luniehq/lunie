@@ -27,6 +27,12 @@ OR, specify a testnet from the github.com/tendermint/testnets repo
 $ npm run testnet <networkName>
 ```
 
+If you want to see the UI and work on that only, you can use:
+```bash
+$ yarn run uionly
+```
+This will not start the blockchain conenction.
+
 ## Production
 
 You can create production builds to get an app which will connect to an actual blockchain network.
