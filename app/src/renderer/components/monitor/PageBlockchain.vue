@@ -11,21 +11,24 @@ page(title='Blockchain')
 
   blockchain-select-modal
 
-  part(title='Metadata')
-    list-item(dt='Network' :dd='bc.status.node_info.network')
-    list-item(dt='App Version' :dd='version')
-    list-item(dt='Tendermint Version' :dd='bc.status.node_info.version')
+  template(v-if="bc")
+    part(title='Metadata')
+      list-item(dt='Network' :dd='bc.status.node_info.network')
+      list-item(dt='App Version' :dd='version')
+      list-item(dt='Tendermint Version' :dd='bc.status.node_info.version')
 
-  part(title='Block')
-    list-item(dt='Block Height' :dd='num.prettyInt(bc.status.latest_block_height)'
-      :to="{ name: 'block', params: { block: bc.status.latest_block_height} }")
-    list-item(dt='Latest Block Time' :dd='readableDate(bc.status.latest_block_time)')
-    list-item(dt='Latest Block Hash' :dd='bc.status.latest_block_hash')
+    part(title='Block')
+      list-item(dt='Block Height' :dd='num.prettyInt(bc.status.latest_block_height)'
+        :to="{ name: 'block', params: { block: bc.status.latest_block_height} }")
+      list-item(dt='Latest Block Time' :dd='readableDate(bc.status.latest_block_time)')
+      list-item(dt='Latest Block Hash' :dd='bc.status.latest_block_hash')
 
-  part(title='Nodes')
-    list-item(dt='Active Nodes' :dd='validators.length')
-    list-item(dt='Current Rate' :dd="currentRate + ' bytes/s'")
-    list-item(dt='Average Rate' :dd="averageRate + ' bytes/s'")
+    part(title='Nodes')
+      list-item(dt='Active Nodes' :dd='validators.length')
+      list-item(dt='Current Rate' :dd="currentRate + ' bytes/s'")
+      list-item(dt='Average Rate' :dd="averageRate + ' bytes/s'")
+
+  data-error(v-else)
 </template>
 
 <script>
@@ -34,6 +37,7 @@ import num from 'scripts/num'
 import { mapGetters } from 'vuex'
 import BlockchainSelectModal from 'monitor/BlockchainSelectModal'
 import ListItem from 'common/NiListItem'
+import DataError from 'common/NiDataError'
 import Page from 'common/NiPage'
 import Part from 'common/NiPart'
 import ToolBar from 'common/NiToolBar'
@@ -42,6 +46,7 @@ export default {
   components: {
     BlockchainSelectModal,
     ListItem,
+    DataError,
     Page,
     Part,
     ToolBar

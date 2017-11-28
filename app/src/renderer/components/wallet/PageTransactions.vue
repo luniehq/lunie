@@ -7,11 +7,10 @@ page(title='Transactions')
 
   modal-search(v-if="filters.transactions.search.visible" type="transactions")
 
-  part(title="All Transactions")
-    card-transaction(
-      v-for="i in filteredTransactions"
-      :transaction-value="i")
-    list-item(v-if='filteredTransactions.length === 0' dt="N/A" dd="None Available")
+  card-transaction(
+    v-for="i in filteredTransactions"
+    :transaction-value="i")
+  data-empty-tx(v-if='filteredTransactions.length === 0')
 </template>
 
 <script>
@@ -20,6 +19,7 @@ import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import AnchorCopy from 'common/AnchorCopy'
 import Btn from '@nylira/vue-button'
+import DataEmptyTx from 'common/NiDataEmptyTx'
 import ListItem from 'common/NiListItem'
 import CardTransaction from 'wallet/CardTransaction'
 import ModalSearch from 'common/NiModalSearch'
@@ -32,6 +32,7 @@ export default {
     AnchorCopy,
     Btn,
     CardTransaction,
+    DataEmptyTx,
     ListItem,
     ModalSearch,
     Page,

@@ -8,11 +8,13 @@ page(:title='pageTitle')
       i.material-icons check_circle
       .label Delegate
   modal-search(v-if="filters.candidates.search.visible" type="candidates")
-  panel-sort(:sort='sort')
-  card-candidate(
-    v-for='i in filteredCandidates'
-    key='i.id'
-    :candidate='i')
+  template(v-if="filteredCandidates.length > 0")
+    panel-sort(:sort='sort')
+    card-candidate(
+      v-for='i in filteredCandidates'
+      key='i.id'
+      :candidate='i')
+  data-error(v-else)
 </template>
 
 <script>
@@ -20,6 +22,7 @@ import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import CardCandidate from 'staking/CardCandidate'
+import DataError from 'common/NiDataError'
 import Field from '@nylira/vue-field'
 import ModalSearch from 'common/NiModalSearch'
 import Page from 'common/NiPage'
@@ -30,6 +33,7 @@ export default {
   name: 'page-candidates',
   components: {
     CardCandidate,
+    DataError,
     Field,
     ModalSearch,
     Page,
