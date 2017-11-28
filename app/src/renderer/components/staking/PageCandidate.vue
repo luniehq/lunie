@@ -1,9 +1,15 @@
 <template lang="pug">
+<<<<<<< HEAD
 page(:title='candidate.id')
   div(slot="menu"): tool-bar
     router-link(to="/staking" exact)
       i.material-icons arrow_back
       .label Back
+=======
+page(:title='candidate.keybaseID')
+  tool-bar
+    router-link(to="/staking" exact): i.material-icons arrow_back
+>>>>>>> develop
     template(v-if='isDelegator')
       a(v-if='inCart' @click.native='rm(candidate.id)')
         i.material-icons delete
@@ -14,17 +20,13 @@ page(:title='candidate.id')
 
   part(title="Description")
     text-block(:content="candidate.description")
-  part(title="Server Details")
-    text-block(:content="candidate.serverDetails")
-  part(title="Candidate Details")
-    list-item(dt='Commission' :dd='candidate.commissionPercent')
-    list-item(dt='Country' :dd='countryName(candidate.country)')
-    list-item(dt='Website' :dd='candidate.website')
-    list-item(dt='IP Address' :dd='candidate.ipAddress')
+  part(title="Validator Details")
+    list-item(dt='Public Key' :dd='candidate.id')
+    list-item(dt='Country' :dd='candidate.country')
   part(title="Staking Details")
-    list-item(dt='Atoms' :dd='candidate.atoms')
-    list-item(dt='Delegators' :dd='candidate.computed.delegators')
-    list-item(dt='Slashes' :dd='candidate.computed.slashes.length')
+    list-item(dt='Voting Power' :dd='candidate.voting_power')
+    list-item(dt='Shares' :dd='candidate.shares')
+    list-item(dt='Commission Rate' :dd='`${(candidate.commission * 100).toFixed(2)}%`')
 </template>
 
 <script>

@@ -7,7 +7,7 @@ menu.app-menu
   part(title='Govern')
     list-item(to="/proposals" exact @click.native="close" title="Proposals")
   part(title='Stake')
-    list-item(to="/staking" exact @click.native="close" title="Candidates")
+    list-item(to="/staking" exact @click.native="close" title="Delegate")
   part(title='Monitor')
     list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
     list-item(to="/validators" exact @click.native="close" title="Validators"

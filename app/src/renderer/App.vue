@@ -3,7 +3,7 @@
   app-header
   #app-content
     #app-main: router-view
-    // app-footer
+    app-footer
   notifications(:notifications='notifications' theme='cosmos')
   modal-help
 </template>

@@ -2,7 +2,6 @@ import dg from 'cosmos-delegation-game'
 import level from 'levelup'
 import memdown from 'memdown'
 import { Wallet } from 'basecoin'
-import { PubKey } from 'tendermint-crypto'
 
 export default ({ commit, node }) => {
   const emptyNomination = {
@@ -50,13 +49,6 @@ export default ({ commit, node }) => {
       state.ownCoinsBonded = 0
       node.wallet = null
     },
-    activateNomination (state) {
-      state.nominationActive = true
-    },
-    saveNomination (state, value) {
-      state.nomination = value
-      console.log('nomination saved: ', JSON.stringify(state.nomination))
-    },
     activateDelegation (state) {
       state.delegationActive = true
     }
@@ -93,11 +85,20 @@ export default ({ commit, node }) => {
     async submitDelegation (state, value) {
       state.delegation = value
       console.log('submitting delegation txs: ', JSON.stringify(state.delegation))
+
       for (let candidate of value.candidates) {
-        let pubKeyBytes = Buffer.from(candidate.id, 'base64')
-        let pubKey = PubKey.decode(pubKeyBytes)
-        await node.delegationGame.delegate(pubKey, node.wallet, candidate.atoms)
+        let tx = await node.buildDelegate([ candidate.id, candidate.atoms ])
+        // TODO: use wallet key management
+        let signedTx = await node.sign({
+          name: 'default',
+          password: '1234567890',
+          tx
+        })
+        let res = await node.postTx(signedTx)
+        console.log(res)
       }
+
+      commit('activateDelegation', true)
     }
   }
 
