@@ -56,10 +56,10 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .ni-form-msg
-  line-height 2rem
+  padding 0.25rem 0
   display flex
   margin 0 !important
  
