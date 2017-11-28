@@ -1,7 +1,8 @@
 <template lang="pug">
-page(icon="storage" :title="`${validatorId} Votes`")
+page(icon="storage" :title="`${validatorId}`" subtitle="Votes")
   div(slot="menu"): tool-bar
-    router-link(:to="{ name: 'validator', params: { validator: $route.params.validator }}")
+    router-link(
+      :to="{ name: 'validator-index', params: { validator: $route.params.validator }}")
       i.material-icons arrow_back
       .label Back
     a(@click='toggleSearch')
@@ -16,12 +17,12 @@ page(icon="storage" :title="`${validatorId} Votes`")
     list-item(dt="Did Not Vote:" dd="53%")
 
   part(title='Past Votes')
-    list-item(title="Title of the proposal here" subtitle="Voted: YES" to="/proposal")
-    list-item(title="Title of the proposal here" subtitle="Voted: NO" to="/proposal")
-    list-item(title="Title of the proposal here" subtitle="Voted: REJECT" to="/proposal")
-    list-item(title="Title of the proposal here" subtitle="Voted: YES." to="/proposal")
-    list-item(title="Title of the proposal here" subtitle="Voted: NO" to="/proposal")
-    list-item(title="Title of the proposal here" subtitle="Voted: YES." to="/proposal")
+    list-item(title="Title of the proposal here" subtitle="YES" to="/proposals")
+    list-item(title="Title of the proposal here" subtitle="NO" to="/proposals")
+    list-item(title="Title of the proposal here" subtitle="REJECT" to="/proposals")
+    list-item(title="Title of the proposal here" subtitle="YES" to="/proposals")
+    list-item(title="Title of the proposal here" subtitle="NO" to="/proposals")
+    list-item(title="Title of the proposal here" subtitle="YES" to="/proposals")
 </template>
 
 <script>

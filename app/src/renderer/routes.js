@@ -34,9 +34,10 @@ export default [
   {
     path: '/validators/:validator',
     component: monitor('Validator'),
+    name: 'validator',
     children: [
       {
-        path: '',
+        path: '/',
         name: 'validator-index',
         component: monitor('ValidatorIndex')
       },
