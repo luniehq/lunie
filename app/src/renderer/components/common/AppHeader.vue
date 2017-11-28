@@ -11,9 +11,7 @@ nav#app-header: .container
   // app-menu-user(v-if="config.activeMenu === 'user' || config.desktop")
 
   template(v-if="!config.desktop")
-    .header-item(v-if="config.activeMenu === 'user'" @click="close")
-      i.material-icons close
-    .header-item(v-else @click="enableMenu('user')"): i.material-icons settings
+    .header-item
 </template>
 
 <script>
@@ -95,6 +93,7 @@ export default {
 
     .header-item
       height 3rem - px
+      width 3rem
       display flex
       align-items center
       justify-content center
@@ -131,6 +130,8 @@ export default {
 
     > .container
       flex 1
+      display flex
+      flex-flow column nowrap
 
     .header-item-logo
       height 3rem

@@ -22,7 +22,7 @@
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config webpack.renderer.config.js",
     "test": "npm run test:unit",
-    "test:unit": "cross-env LOGGING=false jest",
+    "test:unit": "cross-env LOGGING=false MOCK=false jest",
     "test:e2e": "tape \"test/e2e/!(main)*.js\"",
     "vue:route": "node tasks/vue/route.js",
     "vuex:module": "node tasks/vuex/module.js",
@@ -97,7 +97,7 @@
   },
   "dependencies": {
     "@nylira/vue-button": "^4.1.3",
-    "@nylira/vue-field": "1.1.9",
+    "@nylira/vue-field": "1.1.12",
     "@nylira/vue-form-msg": "^1.0.3",
     "@nylira/vue-input": "^3.2.0",
     "@nylira/vue-notifications": "^1.4.0",

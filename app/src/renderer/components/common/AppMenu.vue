@@ -1,5 +1,6 @@
 <template lang="pug">
-  menu.app-menu
+menu.app-menu
+  .app-menu-main
     part(title='Wallet')
       list-item(to="/" exact @click.native="close" title="Balances")
       list-item(to="/wallet/send" exact @click.native="close" title="Send")
@@ -7,24 +8,28 @@
     part(title='Govern')
       list-item(to="/proposals" exact @click.native="close" title="Proposals")
     part(title='Stake')
-      list-item(to="/staking" exact @click.native="close" title="Validator Candidates")
-      list-item(to="/staking/nominate" exact @click.native="close" title="Self Nomination")
+      list-item(to="/staking" exact @click.native="close" title="Delegate")
     part(title='Monitor')
       list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
       list-item(to="/validators" exact @click.native="close" title="Validators"
         v-bind:class="{ 'active': isValidatorPage }")
+  user-pane
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import Btn from '@nylira/vue-button'
 import noScroll from 'no-scroll'
 import ListItem from './NiListItem'
+import UserPane from 'common/NiUserPane'
 import Part from './NiPart'
 export default {
   name: 'app-menu',
   components: {
+    Btn,
     ListItem,
-    Part
+    Part,
+    UserPane
   },
   computed: {
     ...mapGetters(['proposals', 'validators']),
@@ -51,9 +56,50 @@ export default {
   z-index 99
   user-select none
 
+  display flex
+  flex-flow column nowrap
+
+  .app-menu-main
+    flex 1
+    overflow-y auto
+
+  .ni-user
+    border-top 1px solid bc
+    padding 1rem
+
+    display flex
+
+    .ni-user-info
+      flex 1
+      display flex
+
+    .avatar
+      background link
+      width 2rem
+      height 2rem
+      border-radius 1rem
+
+      display flex
+      align-items center
+      justify-content center
+      i
+        color bright
+
+    .text
+      padding 0 0.5rem
+
+    .title
+      color bright
+
+    .subtitle
+      font-size xs
+      color dim
+
+    .ni-btn
+      margin-right 0.5rem
+
 @media screen and (max-width:1023px)
   .app-menu
-    height 100vh
     position fixed
     top 3rem
     left 0
@@ -63,9 +109,7 @@ export default {
     background bg-menu
     user-select none
 
-@media screen and (min-width: 1024px)
+@media screen and (min-width:1024px)
   .app-menu
-    nav > a
-      height 3rem
-      border-bottom 1px solid bc
+    flex 1
 </style>
