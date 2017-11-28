@@ -28,7 +28,7 @@ export default {
       this.close()
     },
     openWelcome () {
-      window.alert('TODO: open user welcome')
+      this.$store.commit('setModalWelcome', true)
       this.close()
     }
   }

@@ -17,12 +17,18 @@ export default ({ commit, basecoin }) => {
     modals: {
       help: {
         active: false
+      },
+      welcome: {
+        active: false
       }
     }
   }
   const mutations = {
     setModalHelp (state, value) {
       state.modals.help.active = value
+    },
+    setModalWelcome (state, value) {
+      state.modals.welcome.active = value
     },
     SET_CONFIG_BLOCKCHAIN_SELECT (state, value) {
       state.blockchainSelect = value
