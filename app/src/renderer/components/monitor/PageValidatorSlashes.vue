@@ -1,10 +1,12 @@
 <template lang="pug">
 page(icon="storage" :title="`${validatorId} Slashes`")
-  tool-bar
-    router-link(
-      :to="{ name: 'validator', params: { validator: $route.params.validator }}")
+  div(slot="menu"): tool-bar
+    router-link(:to="{ name: 'validator', params: { validator: $route.params.validator }}")
       i.material-icons arrow_back
-    a(@click='toggleSearch'): i.material-icons search
+      .label Back
+    a(@click='toggleSearch')
+      i.material-icons search
+      .label Search
 
   part(title='Statistics')
     list-item(dt="Slashes" dd="7")
@@ -20,10 +22,10 @@ page(icon="storage" :title="`${validatorId} Slashes`")
 </template>
 
 <script>
-import ListItem from '../common/NiListItem'
-import ToolBar from '../common/NiToolBar'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
+import ListItem from 'common/NiListItem'
+import ToolBar from 'common/NiToolBar'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
 export default {
   name: 'page-validator-slashes',
   components: {

@@ -20,9 +20,9 @@ menu.app-menu
 import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
 import noScroll from 'no-scroll'
-import ListItem from './NiListItem'
+import ListItem from 'common/NiListItem'
 import UserPane from 'common/NiUserPane'
-import Part from './NiPart'
+import Part from 'common/NiPart'
 export default {
   name: 'app-menu',
   components: {
@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .app-menu
   background app-bg-alpha

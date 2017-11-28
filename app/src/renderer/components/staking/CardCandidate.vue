@@ -26,7 +26,7 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
 
 <script>
 import { mapGetters } from 'vuex'
-import num from '../../scripts/num'
+import num from 'scripts/num'
 import Btn from '@nylira/vue-button'
 // import { maxBy } from 'lodash'
 export default {
@@ -87,21 +87,22 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../../styles/variables.styl'
+@require '~variables'
+
 .card-candidate
   &:nth-of-type(2n) .card-candidate-container
-    background alpha(app-fg, 7.5%)
+    background app-fg
 
   &.card-candidate-active .card-candidate-container
     .value.id a, .icon
-      color hsl(mhue,75%,50%)
+      color link
 
 .card-candidate-container
   position relative
 
   .values
     display flex
-    height 2em
+    height 2rem
     padding 0 0.75rem
 
   .value
@@ -112,7 +113,7 @@ export default {
 
     color dim
     padding 0 0.25rem
-    font-size 0.75rem
+    font-size sm
 
     min-width 0
 
@@ -140,13 +141,13 @@ export default {
 
       .bar
         height 1.5rem
-        background alpha(app-fg, 75%)
+        background darken(app-bg, 20%)
         margin-right 1rem
       &.delegated
         span
-          color light
+          color dim
         .bar
-          background alpha(app-fg, 50%)
+          background accent
 
     span
       display block
@@ -155,7 +156,7 @@ export default {
       text-overflow ellipsis
       overflow hidden
       i.fa
-        color light
+        color dim
 
   menu
     position absolute
@@ -173,9 +174,9 @@ export default {
 @media screen and (max-width: 479px)
   .card-candidate-container .value span i.fa
     display none
+
 @media screen and (min-width: 768px)
   .card-candidate-container
     .value span
-      font-size 1rem
-
+      font-size x
 </style>

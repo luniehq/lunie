@@ -25,7 +25,7 @@ export default {
     flex 1
     display flex
     align-items center
-    border-right 1px solid bc
+    border-right px solid bc
 
   a, i.material-icons
     display flex
@@ -108,7 +108,7 @@ export default {
 
   .ni-tool-bar-container
     background app-bg-alpha
-    border-top 1px solid bc
+    border-top px solid bc
 
 @media screen and (min-width: 1024px)
   .ni-tool-bar-container

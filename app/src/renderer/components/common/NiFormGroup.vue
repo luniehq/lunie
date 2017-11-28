@@ -19,11 +19,11 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~@/styles/variables.styl'
+@import '~variables'
 
 .ni-form-group
   padding 1rem 1rem 1rem - px
-  border-bottom 1px solid bc
+  border-bottom px solid bc
 
   input
     width 100%

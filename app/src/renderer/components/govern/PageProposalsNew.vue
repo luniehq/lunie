@@ -1,7 +1,9 @@
 <template lang="pug">
 page(title='New Proposal')
   div(slot="menu"): tool-bar
-    router-link(to="/" exact): i.material-icons arrow_back
+    router-link(to="/proposals" exact)
+      i.material-icons arrow_back
+      .label Back
   part(title='Choose a Type')
     list-item(title='Adjust Parameters' to="/proposals/new/adjust")
     list-item(title='Amend Constitution' to="/proposals/new/amend")
@@ -11,10 +13,10 @@ page(title='New Proposal')
 </template>
 
 <script>
-import ListItem from '../common/NiListItem'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
-import ToolBar from '../common/NiToolBar'
+import ListItem from 'common/NiListItem'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
+import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-proposals-new',
   components: {

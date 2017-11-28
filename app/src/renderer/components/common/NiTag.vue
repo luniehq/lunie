@@ -23,12 +23,11 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .ni-tag
   background app-fg
   color dim
-
 
   &:empty
     display none
@@ -47,10 +46,10 @@ export default {
     padding 0 0.25rem
 
   &.pro
-    color #0f0
-    border-color #0f0
+    color success
+    border-color success
 
   &.con
-    color #f00
-    border-color #f00
+    color danger
+    border-color danger
 </style>

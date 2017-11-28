@@ -7,31 +7,32 @@ page(title='Transactions')
 
   modal-search(v-if="filters.transactions.search.visible" type="transactions")
 
-  part(title="All Transactions")
-    card-transaction(
-      v-for="i in filteredTransactions"
-      :transaction-value="i")
-    list-item(v-if='filteredTransactions.length === 0' dt="N/A" dd="None Available")
+  card-transaction(
+    v-for="i in filteredTransactions"
+    :transaction-value="i")
+  data-empty-tx(v-if='filteredTransactions.length === 0')
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
-import AnchorCopy from '../common/AnchorCopy'
+import AnchorCopy from 'common/AnchorCopy'
 import Btn from '@nylira/vue-button'
-import ListItem from '../common/NiListItem'
-import CardTransaction from './CardTransaction'
-import ModalSearch from '../common/NiModalSearch'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
-import ToolBar from '../common/NiToolBar'
+import DataEmptyTx from 'common/NiDataEmptyTx'
+import ListItem from 'common/NiListItem'
+import CardTransaction from 'wallet/CardTransaction'
+import ModalSearch from 'common/NiModalSearch'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
+import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-transactions',
   components: {
     AnchorCopy,
     Btn,
     CardTransaction,
+    DataEmptyTx,
     ListItem,
     ModalSearch,
     Page,

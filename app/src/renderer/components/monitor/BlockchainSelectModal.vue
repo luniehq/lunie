@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import BlockchainSelect from './BlockchainSelect'
+import BlockchainSelect from 'monitor/BlockchainSelect'
 import { mapGetters } from 'vuex'
 export default {
   name: 'blockchain-select-modal',
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .modal-blockchain
   width 100vw
@@ -46,7 +46,7 @@ export default {
   z-index 1000
 
 .modal-blockchain-container 
-  border-top 1px solid bc
+  border-top px solid bc
   padding 1rem - px 1rem 1rem
   background app-bg-alpha
   position fixed

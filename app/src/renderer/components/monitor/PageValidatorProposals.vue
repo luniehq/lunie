@@ -1,10 +1,12 @@
 <template lang="pug">
 page(icon="storage" :title="`${validatorId} Proposals`")
-  tool-bar
-    router-link(
-      :to="{ name: 'validator', params: { validator: $route.params.validator }}")
+  div(slot="menu"): tool-bar
+    router-link(:to="{ name: 'validator', params: { validator: $route.params.validator }}")
       i.material-icons arrow_back
-    a(@click='toggleSearch'): i.material-icons search
+      .label Back
+    a(@click='toggleSearch')
+      i.material-icons search
+      .label Search
 
   part(title='Current Proposals')
     list-item(title="Title of the proposal here" subtitle="Live now" to="/proposal")
@@ -19,10 +21,10 @@ page(icon="storage" :title="`${validatorId} Proposals`")
 </template>
 
 <script>
-import ListItem from '../common/NiListItem'
-import ToolBar from '../common/NiToolBar'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
+import ListItem from 'common/NiListItem'
+import ToolBar from 'common/NiToolBar'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
 export default {
   name: 'page-validator-proposals',
   components: {

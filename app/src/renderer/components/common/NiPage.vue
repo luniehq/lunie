@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import PageHeader from './NiPageHeader'
-import PageFooter from './NiPageFooter'
+import PageHeader from 'common/NiPageHeader'
+import PageFooter from 'common/NiPageFooter'
 export default {
   name: 'ni-page',
   props: ['title', 'subtitle', 'icon'],
@@ -25,10 +25,10 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .ni-page
-  max-width 1024px
+  max-width aw
   margin 0 auto
 
 @media screen and (min-width: 768px)

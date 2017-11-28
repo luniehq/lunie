@@ -91,7 +91,7 @@ export default {
 
 .ni-li
   display block
-  border-bottom 1px solid bc
+  border-bottom px solid bc
   height 3rem
   max-width width-main
 
