@@ -2,10 +2,10 @@
 header.ni-page-header
   .ni-page-header-container
     .ni-page-header-text
-      .ni-page-header-title.truncate
+      .ni-page-header-title
         i.material-icons(v-if="icon") {{ icon }}
         slot(name='title')
-      .ni-page-header-subtitle.truncate
+      .ni-page-header-subtitle
         slot(name='subtitle')
     menu.ni-page-header-menu
       slot(name="menu")
@@ -24,34 +24,42 @@ export default {
 .ni-page-header-container
   min-height 3rem
   border-bottom px solid bc
+  display flex
 
 .ni-page-header-text
+  flex 1
+  display flex
+  min-width 0 // fix truncation
+
   padding 0.75rem 1rem 0.75rem - px
 
-.ni-page-header-title
-  display flex
-  align-items center
+  .ni-page-header-title
+    flex 3
+    display flex
+    min-width 0 // fix truncation
 
-  &:empty
-    display none
+    &:empty
+      display none
 
-  i.material-icons
-    font-size 1.375 * x
-    padding-right 0.375rem
+    i.material-icons
+      font-size 1.375 * x
+      padding-right 0.375rem
 
-.ni-page-header-title > div
-  display flex
-  align-items center
-  
-  min-width 0
-  font-size lg
-  line-height 1.5rem
-  font-weight 400
-  color bright
+    > div
+      white-space nowrap
+      overflow hidden
+      text-overflow ellipsis
+      
+      font-size lg
+      line-height 1.5rem
+      font-weight 400
+      color bright
 
-.ni-page-header-subtitle > div
-  color dim
-  font-size sm
+  .ni-page-header-subtitle
+    flex 1
+    > div
+      color dim
+      font-size sm
 
 @media screen and (min-width: 1024px)
   .ni-page-header
@@ -59,9 +67,6 @@ export default {
 
   .ni-page-header-container
     display flex
-
-  .ni-page-header-text
-    flex 1
 
   .ni-page-header-menu
     flex 0 0 16rem
