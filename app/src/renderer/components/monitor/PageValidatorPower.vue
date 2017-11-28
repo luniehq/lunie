@@ -1,7 +1,8 @@
 <template lang="pug">
 page(icon="storage" :title="`${validatorId} Vote Power`")
   div(slot="menu"): tool-bar
-    router-link(:to="{ name: 'validator', params: { validator: $route.params.validator }}")
+    router-link(
+      :to="{ name: 'validator-index', params: { validator: $route.params.validator }}")
       i.material-icons arrow_back
       .label Back
 
