@@ -10,6 +10,7 @@ let semver = require('semver')
 let event = require('event-to-promise')
 let toml = require('toml')
 let pkg = require('../../../package.json')
+let mockServer = require('./mockServer.js')
 
 let shuttingDown = false
 let mainWindow
@@ -21,6 +22,7 @@ const DEV = process.env.NODE_ENV === 'development'
 const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 // TODO default logging or default disable logging?
 const LOGGING = JSON.parse(process.env.LOGGING || DEV) !== false
+const MOCK = JSON.parse(process.env.MOCK || DEV) !== false
 const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
   : `file://${__dirname}/index.html`
@@ -406,9 +408,14 @@ async function main () {
     await initBaseserver(chainId, baseserverHome, nodeIP)
   }
 
-  log('starting baseserver')
+  log('starting gaia server')
   baseserverProcess = await startBaseserver(baseserverHome)
-  log('baseserver ready')
+  log('gaia server ready')
+
+  if (MOCK) {
+    // start mock API server on port 8999
+    mockServer(8999)
+  }
 }
 module.exports = Object.assign(
   main()

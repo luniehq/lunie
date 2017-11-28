@@ -57,15 +57,15 @@ export default {
     },
     sort () {
       let props = [
-        { id: 1, title: 'ID', value: 'keybaseID' },
-        { id: 2, title: 'Delegated', value: 'atoms', initial: true }
+        { id: 1, title: 'Keybase ID', value: 'keybaseID' },
+        { id: 2, title: 'Public Key', value: 'id' },
+        { id: 3, title: 'Delegated', value: 'voting_power', initial: true }
       ]
       if (this.user.signedIn) {
-        props.push({ id: 2, title: 'Delegated (Yours)', value: 'computed.delegatedAtoms' })
+        props.push({ id: 4, title: 'Delegated (Yours)', value: 'delegated' })
       }
-      props.push({ id: 3, title: 'Delegators', value: 'computed.delegators' })
       return {
-        property: 'atoms',
+        property: 'voting_power',
         order: 'desc',
         properties: props
       }
