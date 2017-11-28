@@ -2,15 +2,14 @@
 page(title="Your Profile")
   div(slot="menu"): tool-bar
     anchor-copy(value="TODO: user.pubkey" icon="content_copy")
-    a(@click.native='signOut') Sign Out
 
   part(title='Profile')
-    list-item(dt="Total Vote Power" dd="TODO: user.atoms" to="/vote-power")
+    list-item(dt="Total Vote Power" dd="TODO: USER.ATOMS")
     list-item(dt="Solo Vote Power" dd="31.2M ATOM (19%)")
     list-item(dt="Delg. Vote Power" dd="33.8M ATOM (81%)")
-    list-item(dt="Vote History" dd="37 Votes" to="/votes")
-    list-item(dt="Proposals" dd="13" to="/proposals")
-    list-item(dt="Slashes" dd="6" to="/slashes")
+    list-item(dt="Vote History" dd="37 Votes")
+    list-item(dt="Proposals" dd="13")
+    list-item(dt="Slashes" dd="6")
 
   part(title='Staking')
     list-item(dt="Earn Rate" dd="8.1K ATOM / day")
