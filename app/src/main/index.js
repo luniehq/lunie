@@ -195,8 +195,7 @@ app.on('ready', () => createWindow())
 async function startBaseserver (home) {
   log('startBaseserver', home)
   let child = startProcess(SERVER_BINARY, [
-    'server',
-    'serve',
+    'rest-server',
     '--home', home // ,
     // '--trust-node'
   ])
@@ -234,7 +233,7 @@ async function initBaseserver (chainId, home, node) {
   // fs.ensureDirSync(home)
   // `baseserver init` to generate config, trust seed
   let child = startProcess(SERVER_BINARY, [
-    'server',
+    'client',
     'init',
     '--home', home,
     '--chain-id', chainId,

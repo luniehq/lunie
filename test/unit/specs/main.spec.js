@@ -67,9 +67,9 @@ describe('Startup Process', () => {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
           path.includes('gaia') &&
-          args.includes('server') &&
+          args.includes('client') &&
           args.includes('init') &&
-          args.splice(1).join('=').includes('--chain-id=gaia-1')
+          args.join('=').includes('--chain-id=gaia-1')
         )
       ).toBeDefined()
     })
@@ -78,8 +78,7 @@ describe('Startup Process', () => {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
           path.includes('gaia') &&
-          args.includes('server') &&
-          args.includes('serve')
+          args.includes('rest-server')
         )
       ).toBeDefined()
       expect(main.processes.baseserverProcess).toBeDefined()
@@ -181,9 +180,9 @@ describe('Startup Process', () => {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
           path.includes('gaia') &&
-          args.includes('server') &&
+          args.includes('client') &&
           args.includes('init') &&
-          args.splice(1).join('=').includes('--chain-id=gaia-1')
+          args.join('=').includes('--chain-id=gaia-1')
         )
       ).toBeDefined()
     })
@@ -192,8 +191,7 @@ describe('Startup Process', () => {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
           path.includes('gaia') &&
-          args.includes('server') &&
-          args.includes('serve')
+          args.includes('rest-server')
         )
       ).toBeDefined()
       expect(main.processes.baseserverProcess).toBeDefined()
@@ -239,8 +237,7 @@ describe('Startup Process', () => {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
           path.includes('gaia') &&
-          args.includes('server') &&
-          args.includes('serve')
+          args.includes('rest-server')
         )
       ).toBeDefined()
       expect(main.processes.baseserverProcess).toBeDefined()
@@ -286,8 +283,7 @@ describe('Startup Process', () => {
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
         path.includes('gaia') &&
-        args.includes('server') &&
-        args.includes('serve')
+        args.includes('rest-server')
       ).length
       ).toBeGreaterThan(1)
     })
