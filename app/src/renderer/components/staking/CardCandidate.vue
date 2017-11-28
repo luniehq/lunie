@@ -2,23 +2,21 @@
 transition(name='ts-card-candidate'): div(:class='cssClass')
   .card-candidate-container
     .values
+      .value.keybaseID
+        span {{ candidate.keybaseID }}
       .value.id
         span
           template(v-if='signedIn')
             i.fa.fa-check-square-o(v-if='inCart' @click='rm(candidate)')
             i.fa.fa-square-o(v-else @click='add(candidate)')
           router-link(:to="{ name: 'candidate', params: { candidate: candidate.id }}")
-            | {{ candidate.keybaseID }}
-      .value.atoms.num.bar
-        span {{ num.prettyInt(candidate.atoms) }}
+            | {{ candidate.pubkey.data }}
+      .value.voting_power.num.bar
+        span {{ num.prettyInt(candidate.voting_power) }}
         .bar(:style='atomsCss')
-      .value.atoms.num.bar.delegated(v-if='signedIn')
-        span {{ num.prettyInt(candidate.computed.delegatedAtoms) }}
+      .value.delegated.num.bar.delegated(v-if='signedIn')
+        span {{ num.prettyInt(candidate.delegatedCoins) }}
         .bar(:style='delegatedAtomsCss')
-      .value.delegators.num
-        span
-          i.fa.fa-user
-          |  {{ num.prettyInt(candidate.delegators) }}
     menu(v-if='signedIn')
       btn(theme='cosmos' v-if='inCart'
         icon='times' value='Remove' size='sm' @click.native='rm(candidate)')
@@ -66,7 +64,7 @@ export default {
       return 0
     },
     delegatedAtomsCss () {
-      let percentage = Math.round((this.candidate.computed.delegatedAtoms /
+      let percentage = Math.round((this.candidate.delegatedAtoms /
         this.maxDelegatedAtoms) * 100)
       return { width: percentage + '%' }
     },
@@ -153,7 +151,7 @@ export default {
 
     span
       display block
-      
+
       white-space nowrap
       text-overflow ellipsis
       overflow hidden
