@@ -1,15 +1,9 @@
 <template lang="pug">
-<<<<<<< HEAD
-page(:title='candidate.id')
+page(:title='candidate.keybaseID')
   div(slot="menu"): tool-bar
     router-link(to="/staking" exact)
       i.material-icons arrow_back
       .label Back
-=======
-page(:title='candidate.keybaseID')
-  tool-bar
-    router-link(to="/staking" exact): i.material-icons arrow_back
->>>>>>> develop
     template(v-if='isDelegator')
       a(v-if='inCart' @click.native='rm(candidate.id)')
         i.material-icons delete

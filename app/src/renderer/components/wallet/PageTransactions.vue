@@ -10,7 +10,7 @@ page(title='Transactions')
   card-transaction(
     v-for="i in filteredTransactions"
     :transaction-value="i")
-  data-empty(v-if='filteredTransactions.length === 0')
+  data-empty-tx(v-if='filteredTransactions.length === 0')
 </template>
 
 <script>
@@ -19,7 +19,7 @@ import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import AnchorCopy from 'common/AnchorCopy'
 import Btn from '@nylira/vue-button'
-import DataEmpty from 'common/NiDataEmpty'
+import DataEmptyTx from 'common/NiDataEmptyTx'
 import ListItem from 'common/NiListItem'
 import CardTransaction from 'wallet/CardTransaction'
 import ModalSearch from 'common/NiModalSearch'
@@ -32,7 +32,7 @@ export default {
     AnchorCopy,
     Btn,
     CardTransaction,
-    DataEmpty,
+    DataEmptyTx,
     ListItem,
     ModalSearch,
     Page,
