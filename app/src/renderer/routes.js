@@ -34,7 +34,6 @@ export default [
   {
     path: '/validators/:validator',
     component: monitor('Validator'),
-    name: 'validator',
     children: [
       {
         path: '/',

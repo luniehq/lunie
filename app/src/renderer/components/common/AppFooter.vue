@@ -1,15 +1,24 @@
 <template lang='pug'>
 footer.app-footer
-  .container
-    .copyright &copy; 2017 Interchain Foundation
+  .app-footer-container(v-if='connected')
+    .afi.afi-success
+      i.material-icons done
+      span {{ lastHeader.chain_id }} (\#{{ lastHeader.height }})
+    .afi
+      i.material-icons settings_ethernet 
+      span {{ nodeIP }}
+  .app-footer-container(v-else)
+    .afi
+      i.material-icons.fa-spin rotate_right 
+      span Connecting&hellip;
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   name: 'app-footer',
   computed: {
-    ...mapGetters(['syncHeight', 'syncTime', 'syncing', 'numPeers'])
+    ...mapGetters(['lastHeader', 'nodeIP', 'connected'])
   }
 }
 </script>
@@ -17,14 +26,20 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.app-footer
-  .container
-    border-top px solid bc
-    height 3rem
+.app-footer-container
+  border-top 1px solid bc
+  height 3rem
+  display flex
+  align-items center
+  justify-content space-between
+
+  font-label()
+  color dim
+
+  .afi
     display flex
     align-items center
-    justify-content space-between
     padding 0 1rem
-
-    color dim
+    i
+      margin-right 0.5rem
 </style>

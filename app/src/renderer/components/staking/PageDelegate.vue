@@ -10,7 +10,7 @@ page(:title="pageTitle")
       Label Reserved Atoms
       field-group
         h1 {{unallocatedAtoms}}
-          small Atoms not delegated.
+          small &nbsp;ATOM not delegated.
 
       form-msg: div Reserved Atoms will be held by you and remain unbonded
 
@@ -73,7 +73,7 @@ export default {
   computed: {
     ...mapGetters(['shoppingCart', 'user']),
     pageTitle () {
-      let title = 'Delegate Atoms'
+      let title = 'Delegate Atoms '
       if (this.unallocatedAtoms > 0) {
         title += this.unallocatedAtoms + ', ' + this.unallocatedAtomsPercent
       } else {
