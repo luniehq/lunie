@@ -22,7 +22,7 @@ export default {
     HardwareState
   },
   data: () => ({
-    status: 'connect',
+    status: 'connect'
   }),
   methods: {
     setState (value) { this.$store.commit('setModalSessionState', value) },

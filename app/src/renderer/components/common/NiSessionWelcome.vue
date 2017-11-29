@@ -23,7 +23,7 @@ import ListItem from 'common/NiListItem'
 export default {
   name: 'ni-session-welcome',
   components: {
-    ListItem,
+    ListItem
   },
   methods: {
     setState (value) { this.$store.commit('setModalSessionState', value) }
