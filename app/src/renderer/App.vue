@@ -6,7 +6,7 @@
     app-footer
   notifications(:notifications='notifications' theme='cosmos')
   modal-help
-  modal-welcome
+  session
 </template>
 
 <script>
@@ -15,7 +15,7 @@ import AppFooter from './components/common/AppFooter'
 import AppHeader from './components/common/AppHeader'
 import Notifications from '@nylira/vue-notifications'
 import ModalHelp from './components/common/NiModalHelp'
-import ModalWelcome from './components/common/NiModalWelcome'
+import Session from './components/common/NiSession'
 import store from './vuex/store'
 export default {
   name: 'app',
@@ -23,8 +23,8 @@ export default {
     AppHeader,
     AppFooter,
     ModalHelp,
-    ModalWelcome,
-    Notifications
+    Notifications,
+    Session
   },
   computed: {
     ...mapGetters(['notifications'])

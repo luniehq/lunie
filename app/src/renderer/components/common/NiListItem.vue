@@ -101,6 +101,10 @@ export default {
     .ni-li-title
       color bright
 
+  &:first-child
+    border-top px solid bc
+    height 3rem + px
+
   &.ni-li-link
     &:before
       content ''
@@ -111,6 +115,7 @@ export default {
       height 3rem
       width bw
       background transparent
+      z-index 10
 
   &.router-link-exact-active
     .ni-li-title
@@ -121,12 +126,6 @@ export default {
     .ni-li-icon
       i.material-icons
         color mc
-    /*
-        .inactive
-          display none
-        .active
-          display block
-    */
 
 .ni-li-container
   display flex

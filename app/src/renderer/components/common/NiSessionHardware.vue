@@ -1,0 +1,37 @@
+<template lang="pug">
+.ni-session: .ni-session-container
+  .ni-session-header
+    a(@click="setState('welcome')"): i.material-icons arrow_back
+    .ni-session-title Plug In Hardware
+    a: i.material-icons help_outline
+  .ni-session-main
+    hardware-state(v-if="status == 'connect'" @click.native="setStatus('detect')"
+      icon="power" value="Please plug in your Ledger Wallet")
+    hardware-state(v-if="status == 'detect'" @click.native="setStatus('success')"
+      icon="rotate_right" spin="true" value="Detecting your Ledger Wallet")
+    hardware-state(v-if="status == 'success'" @click.native="onSubmit"
+      icon="check_circle" value="Ledger Wallet successfully loaded")
+  .ni-session-footer
+</template>
+
+<script>
+import HardwareState from 'common/NiHardwareState'
+export default {
+  name: 'ni-session-hardware',
+  components: {
+    HardwareState
+  },
+  data: () => ({
+    status: 'connect',
+  }),
+  methods: {
+    setState (value) { this.$store.commit('setModalSessionState', value) },
+    setStatus (value) { this.status = value },
+    onSubmit () {
+      this.$store.commit('setModalSession', false)
+      this.$store.commit('notify', { title: 'Signed In (Hardware)', body: 'TODO: REPLACE ME' })
+      this.$store.commit('setSignedIn', true)
+    }
+  }
+}
+</script>

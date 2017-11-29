@@ -24,6 +24,8 @@ export default {
 .ni-form-group
   padding 1rem 1rem 1rem - px
   border-bottom px solid bc
+  &:last-child
+    border-bottom none
 
   input
     width 100%

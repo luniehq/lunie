@@ -1,22 +1,29 @@
 <template lang="pug">
-.ni-user-pane
-  router-link.ni-user-info(to="/profile" @click.native="close()")
-    .avatar: i.material-icons face
-    .title CoolUser007
-  .ni-user-menu
-    a(@click="openSettings()"): i.material-icons settings
-    a(@click="openWelcome()"): i.material-icons notifications_active
+list-item.ni-li-user(
+  v-if="user.signedIn"
+  type="link"
+  to="/profile"
+  @click.native="close"
+  icon="face"
+  title="CosmosUser01")
+list-item.ni-li-user(
+  v-else
+  @click.native="openSession"
+  icon="exit_to_app"
+  title="Sign In")
 </template>
 
 <script>
-import Btn from '@nylira/vue-button'
+import {mapGetters} from 'vuex'
 import noScroll from 'no-scroll'
-import Part from './NiPart'
+import ListItem from 'common/NiListItem'
 export default {
   name: 'ni-user-pane',
   components: {
-    Btn,
-    Part
+    ListItem
+  },
+  computed: {
+    ...mapGetters(['user'])
   },
   methods: {
     close () {
@@ -27,8 +34,8 @@ export default {
       window.alert('TODO: open user settings')
       this.close()
     },
-    openWelcome () {
-      this.$store.commit('setModalWelcome', true)
+    openSession () {
+      this.$store.commit('setModalSession', true)
       this.close()
     }
   }
@@ -36,57 +43,9 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~variables'
+@import '~variables'
 
-.ni-user-pane
+.ni-li.ni-li-user
   border-top px solid bc
-  display flex
-
-.ni-user-info
-  flex 1
-  display flex
-  align-items center
-  padding-left 1rem
-
-  cursor pointer
-  user-select none
-
-  .avatar
-    background link
-    width 1.5rem
-    height 1.5rem
-    border-radius 0.75rem
-
-    display flex
-    align-items center
-    justify-content center
-    i
-      color bright
-
-  .title
-    padding 0 0.5rem
-    color txt
-
-  &:hover
-    background app-fg
-    .title
-      color bright
-
-.ni-user-menu
-  display flex
-  a
-    display block
-    width 3rem
-    height 3rem
-    display flex
-    align-items center
-    justify-content center
-
-    cursor pointer
-    &:hover
-      background app-fg
-      color bright
-  i
-    font-size lg
-    color txt
+  height 3rem + px
 </style>

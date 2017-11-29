@@ -18,8 +18,9 @@ export default ({ commit, basecoin }) => {
       help: {
         active: false
       },
-      welcome: {
-        active: false
+      session: {
+        active: false,
+        state: 'welcome'
       }
     }
   }
@@ -27,8 +28,13 @@ export default ({ commit, basecoin }) => {
     setModalHelp (state, value) {
       state.modals.help.active = value
     },
-    setModalWelcome (state, value) {
-      state.modals.welcome.active = value
+    setModalSession (state, value) {
+      // reset modal session state if we're closing the modal
+      if (!value) { state.modals.session.state = 'welcome' }
+      state.modals.session.active = value
+    },
+    setModalSessionState (state, value) {
+      state.modals.session.state = value
     },
     SET_CONFIG_BLOCKCHAIN_SELECT (state, value) {
       state.blockchainSelect = value
