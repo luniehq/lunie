@@ -1,7 +1,7 @@
 import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 import { mount, createLocalVue } from 'vue-test-utils'
-import NISessionSignIn from 'common/NISessionSignIn'
+import NISessionSignIn from 'renderer/components/common/NISessionSignIn'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
