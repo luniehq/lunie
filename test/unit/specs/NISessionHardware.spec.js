@@ -28,7 +28,7 @@ describe('NISessionHardware', () => {
     expect(store.commit.mock.calls[0][0]).toBe('setModalSessionState')
     expect(store.commit.mock.calls[0][1]).toBe('welcome')
   })
-  
+
   it('should show a state indicator for different states of the hardware connection', () => {
     wrapper.setData({status: 'connect'})
     wrapper.update()

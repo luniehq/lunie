@@ -44,14 +44,14 @@ describe('NISessionWelcome', () => {
     wrapper.update()
     expect(wrapper.contains('session-sign-up')).toBe(true)
   })
-  
+
   it('should show a signin screen if selected', () => {
     store.commit('setModalSession', true)
     store.commit('setModalSessionState', 'sign-in')
     wrapper.update()
     expect(wrapper.contains('session-sign-in')).toBe(true)
   })
-  
+
   it('should show a hardware signin screen if selected', () => {
     store.commit('setModalSession', true)
     store.commit('setModalSessionState', 'hardware')

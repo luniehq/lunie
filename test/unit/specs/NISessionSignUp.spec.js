@@ -28,7 +28,7 @@ describe('NISessionSignUp', () => {
     expect(store.commit.mock.calls[0][0]).toBe('setModalSessionState')
     expect(store.commit.mock.calls[0][1]).toBe('welcome')
   })
-  
+
   it('should close the modal on successful login', () => {
     wrapper.setData({ fields: {
       signInSeed: 'bar', // <-- doesn#t check for correctness of seed
@@ -38,7 +38,7 @@ describe('NISessionSignUp', () => {
     wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toEqual(['setModalSession', false])
   })
-  
+
   it('should signal signedin state on successful login', () => {
     wrapper.setData({ fields: {
       signInSeed: 'bar', // <-- doesn#t check for correctness of seed
@@ -50,7 +50,7 @@ describe('NISessionSignUp', () => {
     expect(store.commit.mock.calls[1][1].title.toLowerCase()).toContain('signed up')
     expect(store.commit.mock.calls[2]).toEqual(['setSignedIn', true])
   })
-  
+
   it('should show error if warnings not acknowledged', () => {
     wrapper.setData({ fields: {
       signInSeed: 'bar',
@@ -61,7 +61,7 @@ describe('NISessionSignUp', () => {
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
-  
+
   it('should show error if backup info not acknowledged', () => {
     wrapper.setData({ fields: {
       signInSeed: 'bar',
