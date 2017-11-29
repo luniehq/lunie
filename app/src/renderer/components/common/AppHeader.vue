@@ -17,8 +17,8 @@ nav#app-header: .container
 <script>
 import { mapGetters } from 'vuex'
 import noScroll from 'no-scroll'
-import AppMenu from './AppMenu'
-import AppMenuUser from './AppMenuUser'
+import AppMenu from 'common/AppMenu'
+import AppMenuUser from 'common/AppMenuUser'
 export default {
   name: 'app-header',
   components: {
@@ -28,9 +28,6 @@ export default {
   computed: {
     ...mapGetters(['config'])
   },
-  data: () => ({
-    address: 'Loading...'
-  }),
   methods: {
     close () {
       this.$store.commit('setActiveMenu', '')
@@ -54,24 +51,12 @@ export default {
   mounted () {
     this.watchWindowSize()
     window.onresize = this.watchWindowSize
-
-    // refresh the hacky address bar
-    setInterval(() => (this.address = window.location.href.substring(23)), 300)
   }
 }
 </script>
 
 <style lang="stylus">
 @require '~variables'
-
-.app-page-address
-  height 0.5rem
-  font-size 0.5rem
-  position fixed
-  top 0
-  left 0
-  width 100vw
-  color dim
 
 @media screen and (max-width: 1023px)
   #app-header
@@ -84,11 +69,11 @@ export default {
     background app-bg
 
     > .container
-      max-width 1024px
+      max-width aw
       margin 0 auto
       display flex
       flex-flow row nowrap
-      border-bottom 1px solid bc
+      border-bottom px solid bc
       justify-content space-between
 
     .header-item
@@ -110,7 +95,7 @@ export default {
         color link
 
       &.header-item-logo
-        font-size 0.66rem
+        font-size sm
         img
           height 1rem
 
@@ -120,7 +105,7 @@ export default {
 
   #app-header
     width width-side
-    border-right 1px solid bc
+    border-right px solid bc
     position initial
     height 100vh
     display flex
@@ -135,7 +120,7 @@ export default {
 
     .header-item-logo
       height 3rem
-      border-bottom 1px solid bc
+      border-bottom px solid bc
       display flex
       align-items center
       padding 0 1rem

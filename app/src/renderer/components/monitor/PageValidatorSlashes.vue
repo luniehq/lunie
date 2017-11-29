@@ -1,29 +1,32 @@
 <template lang="pug">
 page(icon="storage" :title="`${validatorId} Slashes`")
-  tool-bar
+  div(slot="menu"): tool-bar
     router-link(
-      :to="{ name: 'validator', params: { validator: $route.params.validator }}")
+      :to="{ name: 'validator-index', params: { validator: $route.params.validator }}")
       i.material-icons arrow_back
-    a(@click='toggleSearch'): i.material-icons search
+      .label Back
+    a(@click='toggleSearch')
+      i.material-icons search
+      .label Search
 
   part(title='Statistics')
     list-item(dt="Slashes" dd="7")
     list-item(dt="Percentage Slashed" dd="3%")
-    list-item(dt="Last Slash:" dd="2 weeks ago%")
+    list-item(dt="Last Slash:" dd="2 weeks ago")
 
   part(title='Slashes')
-    list-item(title="Title of the proposal here" subtitle="Slashed: 17%" to="/proposal")
-    list-item(title="Title of the proposal here" subtitle="Slashed: 5%" to="/proposal")
-    list-item(title="Title of the proposal here" subtitle="Slashed: 3%" to="/proposal")
-    list-item(title="Title of the proposal here" subtitle="Slashed: 2%" to="/proposal")
-    list-item(title="Title of the proposal here" subtitle="Slashed: 20%" to="/proposal")
+    list-item(title="Title of the proposal here" subtitle="Slashed: 17%" to="/proposals")
+    list-item(title="Title of the proposal here" subtitle="Slashed: 5%" to="/proposals")
+    list-item(title="Title of the proposal here" subtitle="Slashed: 3%" to="/proposals")
+    list-item(title="Title of the proposal here" subtitle="Slashed: 2%" to="/proposals")
+    list-item(title="Title of the proposal here" subtitle="Slashed: 20%" to="/proposals")
 </template>
 
 <script>
-import ListItem from '../common/NiListItem'
-import ToolBar from '../common/NiToolBar'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
+import ListItem from 'common/NiListItem'
+import ToolBar from 'common/NiToolBar'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
 export default {
   name: 'page-validator-slashes',
   components: {

@@ -24,7 +24,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .app-footer-container
   border-top 1px solid bc

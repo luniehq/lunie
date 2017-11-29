@@ -18,11 +18,11 @@ page(title='Validators')
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
-import ListItem from '../common/NiListItem'
-import ModalSearch from '../common/NiModalSearch'
-import Page from '../common/NiPage'
-import TabBar from '../common/NiTabBar'
-import ToolBar from '../common/NiToolBar'
+import ListItem from 'common/NiListItem'
+import ModalSearch from 'common/NiModalSearch'
+import Page from 'common/NiPage'
+import TabBar from 'common/NiTabBar'
+import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-validators',
   components: {

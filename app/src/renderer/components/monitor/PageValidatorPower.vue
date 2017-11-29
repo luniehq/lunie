@@ -1,9 +1,10 @@
 <template lang="pug">
 page(icon="storage" :title="`${validatorId} Vote Power`")
-  tool-bar
+  div(slot="menu"): tool-bar
     router-link(
-      :to="{ name: 'validator', params: { validator: $route.params.validator }}")
+      :to="{ name: 'validator-index', params: { validator: $route.params.validator }}")
       i.material-icons arrow_back
+      .label Back
 
   part(title='Vote Power (Millions of ATOMs) / Time')
     chart-vote-power(:votes="chartData")
@@ -16,11 +17,11 @@ page(icon="storage" :title="`${validatorId} Vote Power`")
 </template>
 
 <script>
-import ChartVotePower from './ChartVotePower'
-import ListItem from '../common/NiListItem'
-import ToolBar from '../common/NiToolBar'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
+import ChartVotePower from 'monitor/ChartVotePower'
+import ListItem from 'common/NiListItem'
+import ToolBar from 'common/NiToolBar'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
 export default {
   name: 'page-validator-power',
   components: {
@@ -48,12 +49,11 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 #li-solo-power .ni-li-dd
-  color hsl(mhue, 50%, 50%)
+  color mc
 
 #li-delegated-power .ni-li-dd
-  color hsl(330, 50%, 50%)
+  color accent
 </style>
-

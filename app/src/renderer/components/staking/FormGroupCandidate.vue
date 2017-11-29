@@ -18,8 +18,8 @@ form-group(:class='cssClass' :error="$v.fields.atoms.$error")
 import { mapGetters } from 'vuex'
 import Field from '@nylira/vue-field'
 import Btn from '@nylira/vue-button'
-import FormGroup from '../common/NiFormGroup'
-import FormMsg from '../common/NiFormMsg'
+import FormGroup from 'common/NiFormGroup'
+import FormMsg from 'common/NiFormMsg'
 export default {
   name: 'card-candidate-atoms',
   props: ['candidate'],
@@ -45,10 +45,10 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~@/styles/variables.styl'
+@require '~variables'
 
 .card-candidate-atoms
-  border 1px solid bc
+  border px solid bc
   margin-bottom 1rem
 
   .id

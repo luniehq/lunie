@@ -192,10 +192,10 @@ export default {
           flex-flow column nowrap
           align-items center
           justify-content center
-          border-top 4px solid bc
+          border-top 0.25rem solid bc
 
         .key
-          border-bottom 1px dotted bc
+          border-bottom px dotted bc
           height 2rem - 4*px
           width 100%
 
@@ -203,14 +203,14 @@ export default {
           align-items center
           justify-content center
 
-          font-size 0.6666em
+          font-size xs
           color dim
           text-transform uppercase
 
         .value
           flex 1
           color bright
-          font-size 1.5rem
+          font-size xl
 
           display flex
           align-items center

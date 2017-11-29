@@ -1,7 +1,9 @@
 <template lang="pug">
 page(title='Proposals')
   div(slot="menu"): tool-bar
-    router-link(to="/proposals/new" exact): i.material-icons add
+    router-link(to="/proposals/new" exact)
+      i.material-icons add
+      .label New Proposal
     a(@click='setSearch(true)')
       i.material-icons search
       .label Search
@@ -14,12 +16,12 @@ page(title='Proposals')
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
-import LiProposal from './LiProposal'
-import ModalSearch from '../common/NiModalSearch'
-import TabBar from '../common/NiTabBar'
-import ToolBar from '../common/NiToolBar'
-import Page from '../common/NiPage'
-import Part from '../common/NiPart'
+import LiProposal from 'govern/LiProposal'
+import ModalSearch from 'common/NiModalSearch'
+import TabBar from 'common/NiTabBar'
+import ToolBar from 'common/NiToolBar'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
 export default {
   name: 'page-proposals',
   components: {

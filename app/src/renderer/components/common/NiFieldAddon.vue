@@ -9,18 +9,18 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~@/styles/variables.styl'
+@import '~variables'
 
 .ni-field-addon + .ni-field-addon
 .ni-field + .ni-field-addon
 .ni-field-addon + .ni-field
-  margin-left -1px
+  margin-left -1 * px
   position relative
   z-index 1
 
 .ni-field-addon
   background app-bg
-  border 1px solid bc
+  border px solid bc
   display flex
   align-items center
   justify-content center
