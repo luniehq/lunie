@@ -1,7 +1,7 @@
 import Vuex from 'vuex'
 import { mount, createLocalVue } from 'vue-test-utils'
-import NISessionWelcome from 'renderer/components/common/NISessionWelcome'
-import NIListItem from 'renderer/components/common/NIListItem'
+import NISessionWelcome from 'common/NiSessionWelcome'
+import NIListItem from 'common/NiListItem'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)

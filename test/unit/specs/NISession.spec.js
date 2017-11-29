@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import { mount, createLocalVue } from 'vue-test-utils'
-import NISession from 'common/NISession'
+import NISession from 'common/NiSession'
 const config = require('renderer/vuex/modules/config').default({})
 
 const localVue = createLocalVue()

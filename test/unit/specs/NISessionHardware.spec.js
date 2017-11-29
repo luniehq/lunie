@@ -1,7 +1,7 @@
 import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 import { mount, createLocalVue } from 'vue-test-utils'
-import NISessionHardware from 'renderer/components/common/NISessionHardware'
+import NISessionHardware from 'common/NiSessionHardware'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
