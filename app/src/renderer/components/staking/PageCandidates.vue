@@ -44,7 +44,7 @@ export default {
   computed: {
     ...mapGetters(['candidates', 'filters', 'shoppingCart', 'user']),
     pageTitle () {
-      if (this.user.signedIn) return `Delegate (${this.candidatesNum} Selected)`
+      if (this.user.signedIn) return `Delegate (${this.candidatesNum} Candidates Selected)`
       else return 'Delegate'
     },
     filteredCandidates () {
