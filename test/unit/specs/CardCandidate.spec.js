@@ -62,30 +62,30 @@ describe('CardCandidate', () => {
   it('has the expected html structure', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-  
+
   it('should show the country', () => {
     expect(wrapper.html()).toContain('USA')
   })
-  
+
   it('should show the voting power', () => {
     expect(wrapper.html()).toContain('10,000')
   })
-   
+
   it('should show the relative voting power as a bar', () => {
     expect(wrapper.vm.$el.querySelector('.voting_power .bar').style.width).toBe(Math.floor(10000 / 30000 * 100) + '%')
   })
-  
+
   it('should show the relative shares hold as a bar', () => {
     expect(wrapper.vm.$el.querySelector('.voting_power .bar').style.width).toBe(Math.floor(5000 / 15000 * 100) + '%')
   })
-  
+
   it('should add to cart', () => {
     expect(wrapper.html()).not.toContain('card-candidate-active')
     wrapper.find('menu .ni-btn').trigger('click')
     expect(store.commit).toHaveBeenCalledWith('addToCart', store.state.candidates[0])
     expect(wrapper.html()).toContain('card-candidate-active')
   })
-  
+
   it('should remove from cart', () => {
     wrapper.find('menu .ni-btn').trigger('click')
     wrapper.find('menu .ni-btn').trigger('click')
