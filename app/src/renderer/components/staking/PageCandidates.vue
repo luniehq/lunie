@@ -44,8 +44,8 @@ export default {
   computed: {
     ...mapGetters(['candidates', 'filters', 'shoppingCart', 'user']),
     pageTitle () {
-      if (this.user.signedIn) return `Candidates (${this.candidatesNum} Selected)`
-      else return 'Candidates'
+      if (this.user.signedIn) return `Delegate (${this.candidatesNum} Selected)`
+      else return 'Delegate'
     },
     filteredCandidates () {
       let query = this.filters.candidates.search.query
@@ -56,27 +56,19 @@ export default {
         return list
       }
     },
-    candidatesNum () {
-      return this.shoppingCart.length
-    },
-    sort () {
-      let props = [
-        { id: 1, title: 'Keybase ID', value: 'keybaseID' },
-        { id: 2, title: 'Public Key', value: 'id' },
-        { id: 3, title: 'Delegated', value: 'voting_power', initial: true }
-      ]
-      if (this.user.signedIn) {
-        props.push({ id: 4, title: 'Delegated (Yours)', value: 'delegated' })
-      }
-      return {
-        property: 'voting_power',
-        order: 'desc',
-        properties: props
-      }
-    }
+    candidatesNum () { return this.shoppingCart.length }
   },
   data: () => ({
-    query: ''
+    query: '',
+    sort: {
+      property: 'voting_power',
+      order: 'desc',
+      properties: [
+        { id: 1, title: 'Keybase ID', value: 'keybaseID', initial: true },
+        { id: 2, title: 'Voting Power', value: 'voting_power' },
+        { id: 3, title: 'Delegated Power', value: 'shares' }
+      ]
+    }
   }),
   methods: {
     setSearch (bool) { this.$store.commit('setSearchVisible', ['candidates', bool]) }
