@@ -36,7 +36,7 @@ export default {
     Btn
   },
   computed: {
-    ...mapGetters(['shoppingCart', 'candidates', 'user']),
+    ...mapGetters(['shoppingCart', 'candidates']),
     styles () {
       let value = 'card-candidate'
       if (this.inCart) value += ' card-candidate-active '
@@ -65,7 +65,7 @@ export default {
       return { width: percentage + '%' }
     },
     inCart () {
-      return this.shoppingCart.find(c => c.id === this.candidate.id)
+      return this.shoppingCart.candidates.find(c => c.id === this.candidate.id)
     }
   },
   data: () => ({

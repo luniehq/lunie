@@ -9,13 +9,12 @@ export default ({ commit, basecoin }) => {
         candidate: Object.assign({}, candidate),
         atoms: 0
       })
-      console.log(`+ ADD ${candidate.keybaseID} to cart`)
     },
     removeFromCart (state, candidate) {
+      state.candidates = state.candidates.filter(({id}) => id !== candidate)
       let index = findIndex(state.candidates, c => {
         return c.candidate.id === candidate
       })
-      // console.log(`- RM ${JSON.stringify(state.candidates[index])} from cart[${index}]`)
       let candidates = state.candidates.slice()
       candidates.splice(index, 1)
       state.candidates = candidates

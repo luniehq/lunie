@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardCandidate has the expected html structure 1`] = `
+<div
+  class="card-candidate"
+  name="ts-card-candidate"
+>
+  <div
+    class="card-candidate-container"
+  >
+    <div
+      class="values"
+    >
+      <div
+        class="value id"
+      >
+        <span>
+          <i
+            class="fa fa-square-o"
+          />
+          <router-link
+            to="[object Object]"
+          >
+            keybaseX
+          </router-link>
+        </span>
+      </div>
+      <div
+        class="value"
+      >
+        USA
+      </div>
+      <div
+        class="value voting_power num bar"
+      >
+        <span>
+          10,000
+        </span>
+        <div
+          class="bar"
+          style="width: 33%;"
+        />
+      </div>
+      <div
+        class="value delegated num bar delegated"
+      >
+        <span>
+          5,000
+        </span>
+        <div
+          class="bar"
+          style="width: 50%;"
+        />
+      </div>
+      <div
+        class="value"
+      >
+        NaN%
+      </div>
+    </div>
+    <menu>
+      <button
+        class="ni-btn"
+      >
+        <span
+          class="ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos"
+        >
+          <i
+            aria-hidden="true"
+            class="ni-btn-icon material-icons"
+          >
+            check
+          </i>
+          <span
+            class="ni-btn-value"
+          >
+            Add
+          </span>
+        </span>
+      </button>
+    </menu>
+  </div>
+</div>
+`;
