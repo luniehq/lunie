@@ -4,7 +4,7 @@ page(:title='pageTitle')
     a(@click='setSearch(true)')
       i.material-icons search
       .label Search
-    router-link(v-if="" to='/staking/delegate')
+    router-link(to='/staking/delegate')
       i.material-icons check_circle
       .label Delegate
   modal-search(v-if="filters.candidates.search.visible" type="candidates")
@@ -42,7 +42,7 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['candidates', 'filters', 'shoppingCart', 'user']),
+    ...mapGetters(['candidates', 'filters', 'shoppingCart']),
     pageTitle () {
       return `Delegate (${this.candidatesNum} Candidates Selected)`
     },
@@ -50,7 +50,7 @@ export default {
       let query = this.filters.candidates.search.query
       let list = orderBy(this.candidates, [this.sort.property], [this.sort.order])
       if (this.filters.candidates.search.visible) {
-        return list.filter(i => includes(i.keybaseID.toLowerCase(), query))
+        return list.filter(i => includes(i.keybaseID.toLowerCase(), query.toLowerCase()))
       } else {
         return list
       }
