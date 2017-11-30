@@ -1,4 +1,5 @@
 import { findIndex } from 'lodash'
+import { start } from 'repl';
 export default ({ commit, basecoin }) => {
   let state = { candidates: [] }
 
@@ -11,12 +12,7 @@ export default ({ commit, basecoin }) => {
       })
     },
     removeFromCart (state, candidate) {
-      let index = findIndex(state.candidates, c => {
-        return c.candidate.id === candidate
-      })
-      let candidates = state.candidates.slice()
-      candidates.splice(index, 1)
-      state.candidates = candidates
+      state.candidates = state.candidates.filter(c => c.id !== candidate)
     }
   }
 

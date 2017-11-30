@@ -9,7 +9,7 @@ const localVue = createLocalVue()
 localVue.use(Vuex)
 
 describe('CardCandidate', () => {
-  let wrapper, store
+  let wrapper, store, candidate
 
   beforeEach(() => {
     store = new Vuex.Store({
@@ -46,7 +46,7 @@ describe('CardCandidate', () => {
       })
     })
 
-    let candidate = store.state.candidates[0]
+    candidate = store.state.candidates[0]
 
     wrapper = mount(CardCandidate, {
       localVue,
@@ -80,19 +80,25 @@ describe('CardCandidate', () => {
   })
 
   it('should add to cart', () => {
+    expect(wrapper.vm.shoppingCart.candidates).toEqual([])
+    expect(wrapper.vm.inCart).toBeFalsy()
+    expect(wrapper.find('menu .ni-btn').text()).toContain('Add')
     expect(wrapper.html()).not.toContain('card-candidate-active')
     wrapper.find('menu .ni-btn').trigger('click')
+    expect(wrapper.vm.inCart).toBeTruthy()
     expect(store.commit).toHaveBeenCalledWith('addToCart', store.state.candidates[0])
     expect(wrapper.html()).toContain('card-candidate-active')
   })
 
   it('should remove from cart', () => {
+    store.commit('addToCart', store.state.candidates[0])
+    wrapper.update()
+    expect(wrapper.vm.inCart).toBeTruthy()
+    expect(wrapper.find('menu .ni-btn').text()).toContain('Remove')
     wrapper.find('menu .ni-btn').trigger('click')
-    wrapper.find('menu .ni-btn').trigger('click')
-    expect(store.commit).toHaveBeenCalledWith('removeFromCart', store.state.candidates[0].id)
-
-    // TODO still has the candidate in the shopping cart
-    // console.log(store.state.candidates[0].id, store.state.shoppingCart.candidates.map(x => x.id))
-    // expect(wrapper.html()).not.toContain('card-candidate-active')
+    expect(store.commit).toHaveBeenCalledWith('removeFromCart', candidate.id)
+    expect(wrapper.vm.shoppingCart.candidates).toEqual([])
+    expect(wrapper.vm.inCart).toBeFalsy()
+    expect(wrapper.html()).not.toContain('card-candidate-active')
   })
 })
