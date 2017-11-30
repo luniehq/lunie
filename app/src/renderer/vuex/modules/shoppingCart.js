@@ -1,5 +1,3 @@
-import { findIndex } from 'lodash'
-import { start } from 'repl';
 export default ({ commit, basecoin }) => {
   let state = { candidates: [] }
 
