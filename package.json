@@ -103,6 +103,7 @@
     "@nylira/vue-notifications": "^1.4.0",
     "axios": "^0.17.0",
     "babel-jest": "^21.2.0",
+    "casual": "^1.5.17",
     "chart.js": "^2.6.0",
     "disable-scroll": "^0.3.0",
     "electron": "^1.7.5",
