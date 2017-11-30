@@ -44,8 +44,7 @@ export default {
   computed: {
     ...mapGetters(['candidates', 'filters', 'shoppingCart', 'user']),
     pageTitle () {
-      if (this.user.signedIn) return `Delegate (${this.candidatesNum} Candidates Selected)`
-      else return 'Delegate'
+      return `Delegate (${this.candidatesNum} Candidates Selected)`
     },
     filteredCandidates () {
       let query = this.filters.candidates.search.query
