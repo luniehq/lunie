@@ -51,7 +51,10 @@ describe('PageCandidates', () => {
 
     wrapper = mount(PageCandidates, {
       localVue,
-      store
+      store,
+      stubs: {
+        'data-error': '<data-error />'
+      }
     })
 
     jest.spyOn(store, 'commit')
@@ -60,16 +63,15 @@ describe('PageCandidates', () => {
   it('has the expected html structure', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-  
+
   it('should show the search on click', () => {
     wrapper.find('.ni-tool-bar i').trigger('click')
     expect(wrapper.contains('.ni-modal-search')).toBe(true)
   })
-  
+
   it('should sort the candidates by selected property', () => {
     expect(wrapper.vm.filteredCandidates.map(x => x.id)).toEqual(['idX', 'idY'])
     wrapper.vm.sort = 'voting_power'
-    wrapper.update()
     expect(wrapper.vm.filteredCandidates.map(x => x.id)).toEqual(['idY', 'idX'])
   })
 
@@ -80,5 +82,38 @@ describe('PageCandidates', () => {
     expect(wrapper.html()).toMatchSnapshot()
     store.commit('setSearchQuery', ['candidates', 'baseY'])
     expect(wrapper.vm.filteredCandidates.map(x => x.id)).toEqual(['idY'])
+  })
+
+  it('should show the amount of selected candidates', () => {
+    store.commit('addToCart', store.state.candidates[0])
+    store.commit('addToCart', store.state.candidates[1])
+    wrapper.update()
+    expect(wrapper.html()).toContain('2 Candidates Selected')
+  })
+
+  it('should show an error if there are no candidates', () => {
+    let store = new Vuex.Store({
+      getters: {
+        shoppingCart: () => shoppingCart.state,
+        candidates: () => [],
+        filters: () => filters.state
+      },
+      modules: {
+        shoppingCart,
+        candidates,
+        filters
+      }
+    })
+
+    let wrapper = mount(PageCandidates, {
+      localVue,
+      store,
+      stubs: {
+        'data-error': '<data-error />'
+      }
+    })
+
+    console.log(wrapper.html())
+    expect(wrapper.contains('data-error')).toBe(true)
   })
 })

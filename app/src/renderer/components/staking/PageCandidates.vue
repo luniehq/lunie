@@ -55,7 +55,7 @@ export default {
         return list
       }
     },
-    candidatesNum () { return this.shoppingCart.length }
+    candidatesNum () { return this.shoppingCart.candidates.length }
   },
   data: () => ({
     query: '',
