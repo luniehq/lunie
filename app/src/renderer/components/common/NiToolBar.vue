@@ -65,6 +65,8 @@ export default {
       color bright
       z-index 101
 
+      white-space nowrap
+
       display none
       &:before
         position absolute

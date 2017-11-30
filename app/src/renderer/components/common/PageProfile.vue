@@ -1,7 +1,12 @@
 <template lang="pug">
-page(title="Your Profile")
+page(title="Profile: CosmosUser01")
   div(slot="menu"): tool-bar
-    anchor-copy(value="TODO: user.pubkey" icon="content_copy")
+    a(@click="signOut")
+      i.material-icons exit_to_app
+      .label Sign Out
+    a(@click="openSettings")
+      i.material-icons settings
+      .label Settings
 
   part(title='Profile')
     list-item(dt="Total Vote Power" dd="TODO: USER.ATOMS")
@@ -38,7 +43,8 @@ export default {
     signOut () {
       this.$store.commit('signOut')
       this.$store.commit('notifySignOut')
-    }
+    },
+    openSettings () { window.alert('TODO: open user settings') }
   }
 }
 </script>

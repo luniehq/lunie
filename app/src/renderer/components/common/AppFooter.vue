@@ -27,8 +27,8 @@ export default {
 @require '~variables'
 
 .app-footer-container
-  border-top 1px solid bc
-  height 3rem
+  border-top px solid bc
+  height 3rem + px
   display flex
   align-items center
   justify-content space-between

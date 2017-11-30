@@ -17,12 +17,24 @@ export default ({ commit, basecoin }) => {
     modals: {
       help: {
         active: false
+      },
+      session: {
+        active: false,
+        state: 'welcome'
       }
     }
   }
   const mutations = {
     setModalHelp (state, value) {
       state.modals.help.active = value
+    },
+    setModalSession (state, value) {
+      // reset modal session state if we're closing the modal
+      if (!value) { state.modals.session.state = 'welcome' }
+      state.modals.session.active = value
+    },
+    setModalSessionState (state, value) {
+      state.modals.session.state = value
     },
     SET_CONFIG_BLOCKCHAIN_SELECT (state, value) {
       state.blockchainSelect = value

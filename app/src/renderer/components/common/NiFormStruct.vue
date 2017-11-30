@@ -63,10 +63,6 @@ export default {
 
 .ni-form-main
   flex 1
-  p
-    font-size sm
-    line-height 1rem
-    margin 0.5rem 0.5rem 0
 
 .ni-form-header
   display flex
