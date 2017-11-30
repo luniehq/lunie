@@ -1,6 +1,7 @@
 let express = require('express')
 let proxy = require('express-http-proxy')
 let randomBytes = require('crypto').pseudoRandomBytes
+let casual = require('casual')
 
 let randomPubkey = () => ({
   type: 'ed25519',
@@ -37,11 +38,14 @@ module.exports = function (port = 8999) {
         shares: Math.floor(Math.random() * 1e7),
         voting_power: Math.floor(Math.random() * 1e5),
         description: JSON.stringify({
-          description: 'This is a fake candidate description.',
-          commission: Math.random() * 0.1,
-          url: `https://${Math.random().toString(36).slice(2)}.com`,
-          keybaseID: Math.random().toString(36).slice(2),
-          country: ['USA', 'Canada', 'South Korea', 'Unknown', 'China', 'Germany', 'France'][Math.floor(Math.random() * 7)]
+          description: casual.sentences(3),
+          commission: casual.double(0.005, 0.05),
+          commissionMax: casual.double(0.05, 0.25),
+          commissionMaxRate: casual.double(0.005, 0.05),
+          url: casual.url,
+          keybaseID: casual.username,
+          country: casual.country,
+          startDate: casual.date('YYYY-MM-DD')
         })
       }
     })
