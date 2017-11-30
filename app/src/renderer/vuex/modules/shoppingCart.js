@@ -11,7 +11,6 @@ export default ({ commit, basecoin }) => {
       })
     },
     removeFromCart (state, candidate) {
-      state.candidates = state.candidates.filter(({id}) => id !== candidate)
       let index = findIndex(state.candidates, c => {
         return c.candidate.id === candidate
       })
