@@ -25,7 +25,7 @@
     "tendermint-crypto": "github:mappum/js-crypto",
     "toml": "^2.3.3",
     "user-home": "^2.0.0",
-    "vue": "^2.5.8",
+    "vue": "2.5.9",
     "vue-electron": "^1.0.6",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.1.2",
