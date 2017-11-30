@@ -59,7 +59,7 @@ export default {
 @require '~variables'
 
 .ni-form-msg
-  line-height 2rem
+  padding 0.75rem 0 0
   display flex
   margin 0 !important
  
@@ -72,13 +72,13 @@ export default {
   color danger
  
 .ni-form-msg.ni-form-msg-error:before
-  content '\f06a'
+  content 'error'
   color danger
  
 .ni-form-msg.ni-form-msg-desc
   color warning
  
 .ni-form-msg.ni-form-msg-desc:before
-  content '\f059'
+  content 'priority_high'
   color warning
 </style>

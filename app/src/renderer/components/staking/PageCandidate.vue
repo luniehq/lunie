@@ -1,5 +1,5 @@
 <template lang="pug">
-page(:title='candidate.keybaseID')
+page(icon="storage" :title="candidate.keybaseID")
   div(slot="menu"): tool-bar
     router-link(to="/staking" exact)
       i.material-icons arrow_back
@@ -17,10 +17,19 @@ page(:title='candidate.keybaseID')
   part(title="Validator Details")
     list-item(dt='Public Key' :dd='candidate.id')
     list-item(dt='Country' :dd='candidate.country')
+    list-item(dt='Start Date' :dd='candidate.startDate')
   part(title="Staking Details")
-    list-item(dt='Voting Power' :dd='candidate.voting_power')
-    list-item(dt='Shares' :dd='candidate.shares')
-    list-item(dt='Commission Rate' :dd='`${(candidate.commission * 100).toFixed(2)}%`')
+    list-item(dt='Voting Power' :dd='candidate.voting_power + " ATOM"')
+    list-item(dt='Shares' :dd='candidate.shares + " ATOM"')
+    list-item(dt='Commission'
+      :dd='(candidate.commission * 100).toFixed(2) + "%"')
+    list-item(dt='Max Commission'
+      :dd='(candidate.commissionMax * 100).toFixed(2) + "%"')
+    list-item(dt='Max Commission Increase'
+      :dd='(candidate.commissionMaxRate * 100).toFixed(2) + "%"')
+
+  part(title="External")
+    list-item(dt="Website" :dd="candidate.url" :href="candidate.url")
 </template>
 
 <script>
