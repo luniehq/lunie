@@ -113,7 +113,6 @@ describe('PageCandidates', () => {
       }
     })
 
-    console.log(wrapper.html())
     expect(wrapper.contains('data-error')).toBe(true)
   })
 })
