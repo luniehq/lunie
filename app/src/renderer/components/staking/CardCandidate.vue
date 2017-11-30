@@ -47,7 +47,6 @@ export default {
         let richestCandidate = maxBy(this.candidates, 'voting_power')
         return richestCandidate.voting_power
       } else { return 0 }
-      return 0
     },
     vpStyles () {
       let percentage =
