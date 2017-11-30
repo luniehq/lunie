@@ -32,6 +32,8 @@
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
   "homepage": "https://cosmos.network",
+  "name": "Cosmos",
+  "productName": "Cosmos",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cosmos/cosmos-ui.git"

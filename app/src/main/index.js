@@ -96,7 +96,8 @@ function createWindow () {
     minHeight: 480,
     width: 1200,
     height: 800,
-    webPreferences: { webSecurity: false }
+    webPreferences: { webSecurity: false },
+    icon: join(__dirname, '../icons/icon.icns')
   })
   // mainWindow.maximize()
 
