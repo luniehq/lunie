@@ -61,12 +61,14 @@ export default {
   data: () => ({
     query: '',
     sort: {
-      property: 'voting_power',
-      order: 'desc',
+      property: 'keybaseID',
+      order: 'asc',
       properties: [
         { id: 1, title: 'Keybase ID', value: 'keybaseID', initial: true },
-        { id: 2, title: 'Voting Power', value: 'voting_power' },
-        { id: 3, title: 'Delegated Power', value: 'shares' }
+        { id: 2, title: 'Country', value: 'country' },
+        { id: 3, title: 'Voting Power', value: 'voting_power' },
+        { id: 4, title: 'Delegated Power', value: 'shares' },
+        { id: 5, title: 'Commission', value: 'commission' }
       ]
     }
   }),

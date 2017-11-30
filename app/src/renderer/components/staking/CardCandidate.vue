@@ -9,12 +9,14 @@ transition(name='ts-card-candidate'): div(:class='styles')
             i.fa.fa-square-o(v-else @click='add(candidate)')
           router-link(:to="{ name: 'candidate', params: { candidate: candidate.id }}")
             | {{ candidate.keybaseID}}
+      .value {{ candidate.country }}
       .value.voting_power.num.bar
         span {{ num.prettyInt(candidate.voting_power) }}
         .bar(:style='vpStyles')
       .value.delegated.num.bar.delegated
         span {{ num.prettyInt(candidate.shares) }}
         .bar(:style='sharesStyles')
+      .value {{ (candidate.commission * 100).toFixed(2) }}%
     menu
       btn(theme='cosmos' v-if='inCart'
         icon='delete' value='Remove' size='sm' @click.native='rm(candidate)')
@@ -105,9 +107,7 @@ export default {
     align-items center
     justify-content space-between
 
-    color dim
     padding 0 0.25rem
-    font-size sm
 
     min-width 0
 
