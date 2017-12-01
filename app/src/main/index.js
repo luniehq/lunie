@@ -1,6 +1,6 @@
 'use strict'
 
-let { app, BrowserWindow, Menu } = require('electron')
+let { app, BrowserWindow, Menu, nativeImage } = require('electron')
 let fs = require('fs-extra')
 let { join } = require('path')
 let { spawn } = require('child_process')
@@ -17,6 +17,7 @@ let mainWindow
 let baseserverProcess
 let streams = []
 let nodeIP
+
 const WIN = /^win/.test(process.platform)
 const DEV = process.env.NODE_ENV === 'development'
 const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
@@ -90,16 +91,23 @@ function shutdown () {
   )
 }
 
+let appIcon = nativeImage.createFromPath(join(__dirname, '../icons/png/icon.png'))
+
 function createWindow () {
   mainWindow = new BrowserWindow({
     minWidth: 320,
     minHeight: 480,
     width: 1200,
     height: 800,
-    webPreferences: { webSecurity: false },
-    icon: join(__dirname, '../icons/icon.icns')
+    center: true,
+    title: 'Cosmos',
+    icon: appIcon,
+    darkTheme: true,
+    titleBarStyle: 'hiddenInset',
+    tabbingIdentifier: 'cosmos',
+    webPreferences: { webSecurity: false }
   })
-  // mainWindow.maximize()
+  mainWindow.maximize()
 
   mainWindow.loadURL(winURL + '?node=' + nodeIP)
   if (DEV || process.env.COSMOS_DEVTOOLS) {
