@@ -98,6 +98,22 @@ To debug the electron view, set the environment variable `COSMOS_DEVTOOLS` to so
 
 To see the console output of the view in your terminal, set the environment variable `ELECTRON_ENABLE_LOGGING` to something truthy like `1`.
 
+## Flags
+
+A list of all environment variables and their purpose:
+
+|Variable|Values|default|Purpose|
+|--|--|--|--|
+|NODE_ENV|'production', 'development'|||
+|LOGGING|'true', 'false'|'true'|Disable logging|
+|MOCK|'true', 'false'|'true' in development|Mock data to receive from the chain|
+|COSMOS_TEST|'true', 'false'|'false'|Disable code that influences unit tests, like logging to files|
+|COSMOS_NETWORK|{path to network configuration folder}|'../networks/gaia-1'|Network to connect to|
+|COSMOS_UI_ONLY|'true', 'false'|'false'|Ignore spinning up the tendermint binaries|
+|COSMOS_HOME|{path to config persistence folder}|'$HOME/cosmos-ui[-dev]'||
+|PLATFORM_TARGET|'all', 'win32', 'darwin', 'linux', 'mas'|'all'|Which platform to build for|
+
+
 ## FAQ
 
 - If tendermint crashes and the log shows "Tendermint state.AppHash does not match AppHash after replay." delete the config folders at $HOME/.cosmos-ui[-dev].
