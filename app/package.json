@@ -1,5 +1,6 @@
 {
   "name": "Cosmos",
+  "productName": "Cosmos",
   "version": "0.1.0",
   "description": "The human interface for Cosmos.",
   "main": "./dist/main.js",

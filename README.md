@@ -64,7 +64,7 @@ make install
 Then build and run the app:
 ```bash
 npm run pack && npm run build:darwin
-open builds/cosmos-ui-darwin-x64/cosmos-ui.app
+open builds/cosmos-ui-darwin-x64/Cosmos.app
 ```
 
 ## Testing
