@@ -39,11 +39,11 @@ describe('CardTransaction', () => {
   it('has the expected html structure', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-  
+
   it('should show incoming transcations', () => {
     expect(wrapper.find('.value').hasClass('positive')).toBe(true)
   })
-  
+
   it('should show outgoing transcations', () => {
     wrapper.setProps({
       transactionValue: {
@@ -73,7 +73,7 @@ describe('CardTransaction', () => {
     })
     expect(wrapper.find('.value').hasClass('negative')).toBe(true)
   })
-  
+
   it('should show all coins of the transaction', () => {
     wrapper.setProps({
       transactionValue: {
