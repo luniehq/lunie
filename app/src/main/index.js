@@ -104,10 +104,10 @@ function createWindow () {
     icon: appIcon,
     darkTheme: true,
     titleBarStyle: 'hiddenInset',
-    tabbingIdentifier: 'cosmos',
     webPreferences: { webSecurity: false }
   })
   mainWindow.maximize()
+  mainWindow.setTitle(require('../../../package.json').name)
 
   mainWindow.loadURL(winURL + '?node=' + nodeIP)
   if (DEV || process.env.COSMOS_DEVTOOLS) {

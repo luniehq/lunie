@@ -1,5 +1,5 @@
 {
-  "name": "cosmos-ui-electron",
+  "name": "Cosmos",
   "version": "0.1.0",
   "description": "The electron wrapper for Cosmos UI.",
   "engines": {
@@ -32,7 +32,6 @@
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
   "homepage": "https://cosmos.network",
-  "name": "Cosmos",
   "productName": "Cosmos",
   "repository": {
     "type": "git",
