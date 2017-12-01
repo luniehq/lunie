@@ -36,16 +36,16 @@ export default {
 .ni-part-container
   margin 0 auto
 
+  &:last-child
+    padding-bottom: 1.5rem
+
 .ni-part-header
-  // margin-top 1rem
-  height 2rem
-  padding 0 1rem
+  padding 0.5rem 1rem
   background app-fg
 
 .ni-part-header-container
   display flex
   align-items center
-  height 2rem - px
 
 .ni-part-title
 .ni-part-menu
@@ -59,8 +59,7 @@ export default {
 
 .ni-part-title
   flex 1
-  color bright
-  text-transform uppercase
+  color dim
   font-size sm
   font-weight 400
 </style>

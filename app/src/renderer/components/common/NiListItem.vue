@@ -91,21 +91,25 @@ export default {
 
 .ni-li
   display block
-  border-bottom px solid bc
+  border-bottom 2px solid bc-dim
   height 3rem
   max-width width-main
-
   position relative
+
+  &:last-child
+    border-bottom: none
 
   &:hover
     .ni-li-title
       color bright
 
   &:first-child
-    border-top px solid bc
     height 3rem + px
 
   &.ni-li-link
+    &:hover
+      background: app-bg-hover
+
     &:before
       content ''
       display block
