@@ -70,13 +70,13 @@ module.exports = function (port = 8999) {
 
   // delegation mock API
   let candidates = new Array(50).fill(0).map(randomPubkey)
-  app.get('/query/stake/candidate', (req, res) => {
+  app.get('/query/stake/candidates', (req, res) => {
     res.json({
       height: 10000,
       data: candidates
     })
   })
-  app.get('/query/stake/candidate/:pubkey', (req, res) => {
+  app.get('/query/stake/candidates/:pubkey', (req, res) => {
     res.json({
       height: 10000,
       data: {
