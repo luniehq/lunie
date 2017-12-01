@@ -14,10 +14,8 @@ export default {
   methods: {
     orderBy (property, event) {
       let sortBys = $(this.$el).find('.sort-by')
-      console.log(sortBys)
       $(sortBys).removeClass('active desc asc')
       let el = $(event.target).parent()
-      console.log('el', el)
 
       if (this.sort.property === property) {
         if (this.sort.order === 'asc') {
@@ -65,6 +63,7 @@ export default {
   .label
     font-size sm
     color dim
+    text-transform uppercase
     padding-right 0.5rem
 
     white-space nowrap
@@ -75,8 +74,10 @@ export default {
     display block
     font-family FontAwesome
     color dim
+
   &.asc:after
     content '\f0d8'
+
   &.desc:after
     content '\f0d7'
 
