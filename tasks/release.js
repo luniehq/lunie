@@ -5,16 +5,17 @@ const path = require('path')
 const packager = require('electron-packager')
 const rebuild = require('electron-rebuild').default
 const mkdirp = require('mkdirp').sync
+const fs = require('fs-extra')
 
 let skipPack = false
-// let binaryPath = null
+let binaryPath = null
 process.argv.forEach(function (val) {
   if (val === '--skip-pack') {
     skipPack = true
   }
-  // if (val.startsWith('--binary')) {
-  //   binaryPath = val.replace('--binary=', '')
-  // }
+  if (val.startsWith('--binary')) {
+    binaryPath = val.replace('--binary=', '')
+  }
 })
 
 if (process.env.PLATFORM_TARGET === 'clean') {
@@ -51,12 +52,14 @@ function build () {
   let options = require('../config').building
 
   options.afterCopy = [
-    goBuild(`github.com/cosmos/gaia/cmd/gaia`)
+    binaryPath
+      ? copyBinary('gaia', binaryPath)
+      : goBuild(`github.com/cosmos/gaia/cmd/gaia`)
   ]
   // prune installs the packages
   options.afterPrune = [
+    // we need to rebuild some native packages for the electron environment
     function rebuildNodeModules (buildPath, electronVersion, platform, arch, callback) {
-      // we need to rebuild some native packages for the electron environment
       rebuild({ buildPath, electronVersion, arch })
         .then(callback)
         .catch(callback)
@@ -75,6 +78,17 @@ function build () {
       console.log('\n\x1b[34mDONE\n\x1b[0m')
     }
   })
+}
+
+function copyBinary (name, binaryLocation) {
+  return function (buildPath, electronVersion, platform, arch, cb) {
+    let binPath = path.join(buildPath, 'bin', name)
+    if (platform === 'win32') {
+      binPath = binPath + '.exe'
+    }
+    fs.copySync(binaryLocation, binPath)
+    cb()
+  }
 }
 
 const GOARCH = {
