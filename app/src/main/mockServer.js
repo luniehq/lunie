@@ -10,6 +10,8 @@ let randomPubkey = () => ({
 
 let randomAddress = () => randomBytes(20).toString('hex')
 
+let randomTime = () => Date.now() - casual.integer(0, 32e9)
+
 let randomTx = ({ from, to }) => {
   let amount = casual.integer(1, 1e6)
   return {
@@ -23,7 +25,7 @@ let randomTx = ({ from, to }) => {
         coins: [{ amount, denom: 'fermion' }]
       }]
     },
-    time: casual.unix_time,
+    time: randomTime(),
     height: 1000
   }
 }
@@ -35,7 +37,7 @@ let randomBondTx = (address, delegator) => ({
     address: delegator ? address : randomAddress(),
     shares: casual.integer(1, 1e6)
   },
-  time: casual.unix_time,
+  time: randomTime(),
   height: 1000
 })
 
@@ -177,21 +179,21 @@ module.exports = function (port = 8999) {
       let toMe = Math.random() > 0.5
       txs.push(randomTx(toMe ? { to: address } : { from: address }))
     }
-    txs.sort((a, b) => a.time > b.time)
+    txs.sort((a, b) => b.time - a.time)
     res.json(txs)
   })
   app.get('/tx/bondings/delegator/:address', (req, res) => {
     let { address } = req.params
     let txs = new Array(100).fill(0)
       .map(() => randomBondTx(address, true))
-    txs.sort((a, b) => a.time > b.time)
+    txs.sort((a, b) => b.time - a.time)
     res.json(txs)
   })
   app.get('/tx/bondings/validator/:address', (req, res) => {
     let { address } = req.params
     let txs = new Array(100).fill(0)
       .map(() => randomBondTx(address, false))
-    txs.sort((a, b) => a.time > b.time)
+    txs.sort((a, b) => b.time - a.time)
     res.json(txs)
   })
 

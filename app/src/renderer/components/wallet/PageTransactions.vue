@@ -43,13 +43,13 @@ export default {
     ...mapGetters(['filters', 'transactions']),
     filteredTransactions () {
       let query = this.filters.transactions.search.query
-      let list = orderBy(this.transactions, ['id', 'desc'])
+      let list = this.transactions
 
-      if (this.filters.transactions.search.visible) {
-        return list.filter(i => includes(i.id.toLowerCase(), query))
-      } else {
+      // if (this.filters.transactions.search.visible) {
+        // return list.filter(i => includes(i.id.toLowerCase(), query))
+      // } else {
         return list
-      }
+      // }
     }
   },
   methods: {

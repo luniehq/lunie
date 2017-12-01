@@ -1,17 +1,26 @@
 <template lang='pug'>
 .card-transaction
   .key-value(v-for='coin in coins')
-    .value(:class='sign(coin.amount)') {{ coin.amount }}
+    .value(:class='sign(coin.amount * (sent ? -1 : 1))') {{ coin.amount }}
     .key {{ coin.denom.toUpperCase() }}
   .date {{ date }}
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import dateUnixAgo from 'scripts/dateUnixAgo'
 export default {
   computed: {
+    ...mapGetters([ 'wallet' ]),
+    // TODO: sum relevant inputs/outputs
+    sent () {
+      return this.transactionValue.tx.inputs[0].sender === this.wallet.key.address
+    },
+    received () {
+      return this.transactionValue.tx.outputs[0].receiver === this.wallet.key.address
+    },
     coins () {
-      return this.transactionValue.tx.inputs[0]
+      return this.transactionValue.tx.inputs[0].coins
     },
     date () {
       return dateUnixAgo(this.transactionValue.time)
