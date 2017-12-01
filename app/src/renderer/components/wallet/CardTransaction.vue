@@ -1,7 +1,7 @@
 <template lang='pug'>
 .card-transaction
   .key-value(v-for='coin in coins')
-    .value(:class='sign(coin.amount)') {{ coin.amount }}
+    .value(:class='sent ? "negative" : "positive"') {{ coin.amount }}
     .key {{ coin.denom.toUpperCase() }}
   .date {{ date }}
 </template>
@@ -10,23 +10,18 @@
 import dateUnixAgo from 'scripts/dateUnixAgo'
 export default {
   computed: {
+    // TODO: sum relevant inputs/outputs
+    sent () {
+      return this.transactionValue.tx.inputs[0].sender === this.address
+    },
     coins () {
-      return this.transactionValue.tx.inputs[0]
+      return this.transactionValue.tx.inputs[0].coins
     },
     date () {
       return dateUnixAgo(this.transactionValue.time)
     }
   },
-  methods: {
-    sign (num) {
-      if (num > 0) {
-        return 'positive'
-      } else if (num < 0) {
-        return 'negative'
-      }
-    }
-  },
-  props: ['transaction-value']
+  props: ['transaction-value', 'address']
 }
 </script>
 
