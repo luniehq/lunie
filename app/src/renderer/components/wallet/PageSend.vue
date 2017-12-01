@@ -1,5 +1,5 @@
 <template lang='pug'>
-page(title='Send Tokens')
+page(title='Send')
   div(slot="menu"): tool-bar
 
   form-struct(:submit='onSubmit')
@@ -14,7 +14,7 @@ page(title='Send Tokens')
       form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
 
     form-group(:error='$v.fields.address.$error'
-      field-id='send-address' field-label='Pay To')
+      field-id='send-address' field-label='Send To')
       field-group
         field#send-address(
           type='text'
@@ -148,7 +148,6 @@ export default {
 
 #send-address
 #send-amount
-  mono()
   &:placeholder
     df()
     color dim

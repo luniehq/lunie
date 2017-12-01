@@ -166,6 +166,10 @@ export default {
   justify-content center
   padding 0 1rem
   flex-flow column nowrap
+
+  &:hover
+    cursor: pointer
+
   .ni-li-title
     color txt
     line-height 1.25
@@ -180,7 +184,6 @@ export default {
   flex 1
   height 3rem - px
   padding 0 0.5rem
-
   display flex
   align-items center
 
@@ -193,6 +196,7 @@ export default {
   white-space nowrap
   text-overflow ellipsis
   overflow hidden
+  color txt
 
 .ni-li-dt
   padding-left 0.5rem
@@ -200,7 +204,6 @@ export default {
 
   max-width width-side
   flex 2
-  color dim
   line-height 1rem
 
 .ni-li-dd
@@ -209,7 +212,6 @@ export default {
 
   flex 3
   line-height 1.25
-  color txt
 
   &.ni-li-dd-flush
     padding 0
