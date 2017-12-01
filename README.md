@@ -67,6 +67,11 @@ npm run pack && npm run build:darwin
 open builds/cosmos-ui-darwin-x64/cosmos-ui.app
 ```
 
+When you are testing the build system you can skip the repackaging of the JS files with:
+```bash
+$ npm run build -- --skip-pack
+```
+
 ## Testing
 
 To test you need to first package the web content of the app, as this content can only be used bundled by the electron instance.
@@ -120,6 +125,8 @@ A list of all environment variables and their purpose:
 |COSMOS_UI_ONLY|'true', 'false'|'false'|Ignore spinning up the tendermint binaries|
 |COSMOS_HOME|{path to config persistence folder}|'$HOME/cosmos-ui[-dev]'||
 |PLATFORM_TARGET|'all', 'win32', 'darwin', 'linux', 'mas'|'all'|Which platform to build for|
+|COSMOS_DEVTOOLS|'true', 'false'|'false'|Open the debug panel in the electron view|
+|ELECTRON_ENABLE_LOGGING|'true', 'false'|'false'|Redirect the browser view console output to the console|
 
 
 ## FAQ

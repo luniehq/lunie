@@ -53,7 +53,7 @@
     "electron-debug": "^1.4.0",
     "electron-devtools-installer": "^2.1.0",
     "electron-installer-dmg": "^0.2.1",
-    "electron-packager": "^8.5.0",
+    "electron-packager": "^10.1.0",
     "electron-rebuild": "^1.5.7",
     "eslint": "^3.13.1",
     "eslint-config-standard": "^6.2.1",

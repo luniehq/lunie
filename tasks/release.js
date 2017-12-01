@@ -3,13 +3,29 @@
 const { exec } = require('child_process')
 const path = require('path')
 const packager = require('electron-packager')
+const rebuild = require('electron-rebuild').default
 const mkdirp = require('mkdirp').sync
+
+let skipPack = false
+// let binaryPath = null
+process.argv.forEach(function (val) {
+  if (val === '--skip-pack') {
+    skipPack = true
+  }
+  // if (val.startsWith('--binary')) {
+  //   binaryPath = val.replace('--binary=', '')
+  // }
+})
 
 if (process.env.PLATFORM_TARGET === 'clean') {
   require('del').sync(['builds/*', '!.gitkeep'])
   console.log('\x1b[33m`builds` directory cleaned.\n\x1b[0m')
 } else {
-  pack()
+  if (skipPack) {
+    build()
+  } else {
+    pack()
+  }
 }
 
 /**
@@ -36,6 +52,15 @@ function build () {
 
   options.afterCopy = [
     goBuild(`github.com/cosmos/gaia/cmd/gaia`)
+  ]
+  // prune installs the packages
+  options.afterPrune = [
+    function rebuildNodeModules (buildPath, electronVersion, platform, arch, callback) {
+      // we need to rebuild some native packages for the electron environment
+      rebuild({ buildPath, electronVersion, arch })
+        .then(callback)
+        .catch(callback)
+    }
   ]
 
   console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')
