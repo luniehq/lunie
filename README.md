@@ -64,7 +64,7 @@ make install
 Then build and run the app:
 ```bash
 npm run pack && npm run build:darwin
-open builds/cosmos-ui-darwin-x64/Cosmos.app
+open builds/Cosmos-darwin-x64/Cosmos.app
 ```
 
 ## Testing
@@ -83,14 +83,14 @@ i.e.:
 $ npm i -g http-server
 $ http-server test/unit/coverage/lcov-report
 
-## Debug 
- 
-To debug the electron application first build it and then run the node inspector for the build files: 
- 
-```bash 
-$ electron --inspect-brk builds/{{your build}}/resources/app/dist/main.js 
-``` 
- 
+## Debug
+
+To debug the electron application first build it and then run the node inspector for the build files:
+
+```bash
+$ electron --inspect-brk builds/{{your build}}/resources/app/dist/main.js
+```
+
 Then attach to the debugger via the posted url in Chrome.
 
 
