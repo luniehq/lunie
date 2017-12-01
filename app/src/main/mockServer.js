@@ -32,7 +32,7 @@ let randomTx = ({ from, to }) => {
 
 let randomBondTx = (address, delegator) => ({
   tx: {
-    type: Math.random() > 0.5 ? "bond" : "unbond",
+    type: Math.random() > 0.5 ? 'bond' : 'unbond',
     validator: delegator ? randomAddress() : address,
     address: delegator ? address : randomAddress(),
     shares: casual.integer(1, 1e6)

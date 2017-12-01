@@ -15,7 +15,7 @@ page(title='Transactions')
 
 <script>
 import { mapGetters } from 'vuex'
-import { includes, orderBy } from 'lodash'
+// import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import AnchorCopy from 'common/AnchorCopy'
 import Btn from '@nylira/vue-button'
@@ -42,14 +42,8 @@ export default {
   computed: {
     ...mapGetters(['filters', 'transactions']),
     filteredTransactions () {
-      let query = this.filters.transactions.search.query
-      let list = this.transactions
-
-      // if (this.filters.transactions.search.visible) {
-        // return list.filter(i => includes(i.id.toLowerCase(), query))
-      // } else {
-        return list
-      // }
+      return this.transactions
+      // TODO: restore searchability? (what part of the tx are we searching?)
     }
   },
   methods: {
