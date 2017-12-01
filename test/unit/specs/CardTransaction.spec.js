@@ -112,6 +112,7 @@ describe('CardTransaction', () => {
       address: 'myAddress'
     })
     expect(wrapper.findAll('.key-value').length).toBe(3)
+    expect(wrapper.findAll('.key-value').at(2).html().toLowerCase()).toContain('mattcoins')
     expect(wrapper.findAll('.key-value').at(2).html()).toContain('42')
   })
 })
