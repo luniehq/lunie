@@ -1,25 +1,25 @@
 <template lang='pug'>
-transition(name='ts-card-candidate'): div(:class='cssClass')
+transition(name='ts-card-candidate'): div(:class='styles')
   .card-candidate-container
     .values
-      .value.keybaseID
-        span {{ candidate.keybaseID }}
       .value.id
         span
-          template(v-if='signedIn')
+          template
             i.fa.fa-check-square-o(v-if='inCart' @click='rm(candidate)')
             i.fa.fa-square-o(v-else @click='add(candidate)')
           router-link(:to="{ name: 'candidate', params: { candidate: candidate.id }}")
-            | {{ candidate.pubkey.data }}
+            | {{ candidate.keybaseID}}
+      .value {{ candidate.country }}
       .value.voting_power.num.bar
         span {{ num.prettyInt(candidate.voting_power) }}
-        .bar(:style='atomsCss')
-      .value.delegated.num.bar.delegated(v-if='signedIn')
-        span {{ num.prettyInt(candidate.delegatedCoins) }}
-        .bar(:style='delegatedAtomsCss')
-    menu(v-if='signedIn')
+        .bar(:style='vpStyles')
+      .value.delegated.num.bar.delegated
+        span {{ num.prettyInt(candidate.shares) }}
+        .bar(:style='sharesStyles')
+      .value {{ (candidate.commission * 100).toFixed(2) }}%
+    menu
       btn(theme='cosmos' v-if='inCart'
-        icon='times' value='Remove' size='sm' @click.native='rm(candidate)')
+        icon='delete' value='Remove' size='sm' @click.native='rm(candidate)')
       btn(v-else='' theme='cosmos'
         icon='check' value='Add' size='sm' @click.native='add(candidate)')
 </template>
@@ -28,7 +28,7 @@ transition(name='ts-card-candidate'): div(:class='cssClass')
 import { mapGetters } from 'vuex'
 import num from 'scripts/num'
 import Btn from '@nylira/vue-button'
-// import { maxBy } from 'lodash'
+import { maxBy } from 'lodash'
 export default {
   name: 'card-candidate',
   props: ['candidate'],
@@ -36,52 +36,44 @@ export default {
     Btn
   },
   computed: {
-    ...mapGetters(['shoppingCart', 'candidates', 'user']),
-    cssClass () {
+    ...mapGetters(['shoppingCart', 'candidates']),
+    styles () {
       let value = 'card-candidate'
       if (this.inCart) value += ' card-candidate-active '
       return value
     },
-    signedIn () {
-      return this.user.signedIn
+    vpMax () {
+      if (this.candidates.length > 0) {
+        let richestCandidate = maxBy(this.candidates, 'voting_power')
+        return richestCandidate.voting_power
+      } else { return 0 }
     },
-    maxAtoms () {
-      // if (this.candidates.length > 0) {
-      //   let richestCandidate = maxBy(this.candidates, 'atoms')
-      //   return richestCandidate.atoms
-      // } else { return 0 }
-      return 0
-    },
-    atomsCss () {
-      let percentage = Math.round((this.candidate.atoms / this.maxAtoms) * 100)
+    vpStyles () {
+      let percentage =
+        Math.round((this.candidate.voting_power / this.vpMax) * 100)
       return { width: percentage + '%' }
     },
-    maxDelegatedAtoms () {
-      // if (this.candidates) {
-      //   let richestCandidate = maxBy(this.candidates, 'computed.delegatedAtoms')
-      //   return richestCandidate.computed.delegatedAtoms
-      // } else { return 0 }
-      return 0
+    sharesMax () {
+      if (this.candidates) {
+        let richestCandidate = maxBy(this.candidates, 'shares')
+        return richestCandidate.shares
+      } else { return 0 }
     },
-    delegatedAtomsCss () {
-      let percentage = Math.round((this.candidate.delegatedAtoms /
-        this.maxDelegatedAtoms) * 100)
+    sharesStyles () {
+      let percentage =
+        Math.round((this.candidate.shares / this.sharesMax) * 100)
       return { width: percentage + '%' }
     },
     inCart () {
-      return this.shoppingCart.find(c => c.id === this.candidate.id)
+      return this.shoppingCart.candidates.find(c => c.id === this.candidate.id)
     }
   },
   data: () => ({
     num: num
   }),
   methods: {
-    add (candidate) {
-      this.$store.commit('addToCart', candidate)
-    },
-    rm (candidate) {
-      this.$store.commit('removeFromCart', candidate.id)
-    }
+    add (candidate) { this.$store.commit('addToCart', candidate) },
+    rm (candidate) { this.$store.commit('removeFromCart', candidate.id) }
   }
 }
 </script>
@@ -99,6 +91,9 @@ export default {
 
 .card-candidate-container
   position relative
+  &:hover
+    menu
+      display block
 
   .values
     display flex
@@ -111,9 +106,7 @@ export default {
     align-items center
     justify-content space-between
 
-    color dim
     padding 0 0.25rem
-    font-size sm
 
     min-width 0
 
@@ -121,11 +114,9 @@ export default {
       i.fa
         margin-right 0.5rem
       a
-        color txt
+        color link
         &:hover
-          color bright
-    &.num
-      mono()
+          color hover
 
     &.bar
       position relative
@@ -138,16 +129,14 @@ export default {
 
         line-height 2rem
         padding 0 0.375rem
+        color txt
 
       .bar
         height 1.5rem
-        background darken(app-bg, 20%)
-        margin-right 1rem
-      &.delegated
-        span
-          color dim
-        .bar
-          background accent
+        background alpha(link, 33.3%)
+
+      &.delegated .bar
+        background alpha(accent, 33.3%)
 
     span
       display block
@@ -166,6 +155,7 @@ export default {
     display flex
     align-items center
     justify-content center
+    display none
 
 @media screen and (max-width: 414px)
   .card-candidate-container menu .ni-btn .ni-btn-value
