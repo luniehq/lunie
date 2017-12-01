@@ -9,7 +9,8 @@ page(title='Transactions')
 
   card-transaction(
     v-for="i in filteredTransactions"
-    :transaction-value="i")
+    :transaction-value="i"
+    :address="wallet.key.address")
   data-empty-tx(v-if='filteredTransactions.length === 0')
 </template>
 
@@ -40,7 +41,7 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['filters', 'transactions']),
+    ...mapGetters(['filters', 'transactions', 'wallet']),
     filteredTransactions () {
       return this.transactions
       // TODO: restore searchability? (what part of the tx are we searching?)
