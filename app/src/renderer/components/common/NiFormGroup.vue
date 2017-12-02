@@ -23,7 +23,10 @@ export default {
 
 .ni-form-group
   padding 1rem 1rem 1rem - px
-  border-bottom px solid bc
+
+  &:first-child
+    padding-top 0
+
   &:last-child
     border-bottom none
 

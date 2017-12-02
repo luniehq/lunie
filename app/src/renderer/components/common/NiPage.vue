@@ -1,10 +1,11 @@
 <template lang="pug">
 .ni-page
   page-header(:icon='icon')
-    div(slot='title') {{ title }}
-    div(slot='subtitle') {{ subtitle }}
     div(slot="menu"): slot(name="menu")
-  main.ni-page-main: slot
+  main.ni-page-main
+    h2.ni-page-title {{ title }}
+    h3.ni-page-subtitle {{ subtitle }}
+    .ni-page-content: slot
   page-footer
 </template>
 
@@ -27,6 +28,16 @@ export default {
 .ni-page
   max-width aw
   margin 0 auto
+
+.ni-page-title
+  color bright
+  font-size h2
+  padding 0.5rem 1rem 1rem
+
+.ni-page-subtitle
+  > div
+    color dim
+    font-size sm
 
 @media screen and (min-width: 768px)
   .ni-page-main

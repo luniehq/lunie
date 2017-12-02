@@ -10,7 +10,7 @@
         type="textarea"
         v-model="fields.signUpSeed"
         @input="$v.fields.signUpSeed.$touch()")
-      form-msg(body='Please back up this account seed phrase. These words cannot be recovered!')
+      form-msg(body='Please back up the seed phrase for this account. These words cannot be recovered!')
 
     form-group(field-id="sign-up-warning" field-label=' '
       :error='$v.fields.signUpWarning.$error')

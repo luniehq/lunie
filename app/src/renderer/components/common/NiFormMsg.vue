@@ -59,7 +59,7 @@ export default {
 @require '~variables'
 
 .ni-form-msg
-  padding 0.75rem 0 0
+  padding 0.25rem 0 0
   display flex
   margin 0 !important
  
