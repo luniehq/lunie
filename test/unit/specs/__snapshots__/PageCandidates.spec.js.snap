@@ -12,23 +12,7 @@ exports[`PageCandidates has the expected html structure 1`] = `
     >
       <div
         class="ni-page-header-text"
-      >
-        <div
-          class="ni-page-header-title"
-        >
-          <!---->
-          <div>
-            Delegate (0 Candidates Selected)
-          </div>
-        </div>
-        <div
-          class="ni-page-header-subtitle"
-        >
-          <div>
-            
-          </div>
-        </div>
-      </div>
+      />
       <menu
         class="ni-page-header-menu"
       >
@@ -89,216 +73,230 @@ exports[`PageCandidates has the expected html structure 1`] = `
   <main
     class="ni-page-main"
   >
-    <!---->
-    <div
-      class="panel-sort"
+    <h2
+      class="ni-page-title"
     >
+      Delegate (0 Candidates Selected)
+    </h2>
+    <h3
+      class="ni-page-subtitle"
+    >
+      
+    </h3>
+    <div
+      class="ni-page-content"
+    >
+      <!---->
       <div
-        class="panel-sort-container"
+        class="panel-sort"
       >
         <div
-          class="sort-by active asc"
+          class="panel-sort-container"
         >
           <div
-            class="label"
+            class="sort-by active asc"
           >
-            Keybase ID
+            <div
+              class="label"
+            >
+              Keybase ID
+            </div>
           </div>
-        </div>
-        <div
-          class="sort-by"
-        >
           <div
-            class="label"
+            class="sort-by"
           >
-            Country
+            <div
+              class="label"
+            >
+              Country
+            </div>
           </div>
-        </div>
-        <div
-          class="sort-by"
-        >
           <div
-            class="label"
+            class="sort-by"
           >
-            Voting Power
+            <div
+              class="label"
+            >
+              Voting Power
+            </div>
           </div>
-        </div>
-        <div
-          class="sort-by"
-        >
           <div
-            class="label"
+            class="sort-by"
           >
-            Delegated Power
+            <div
+              class="label"
+            >
+              Delegated Power
+            </div>
           </div>
-        </div>
-        <div
-          class="sort-by"
-        >
           <div
-            class="label"
+            class="sort-by"
           >
-            Commission
+            <div
+              class="label"
+            >
+              Commission
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="card-candidate"
-    >
       <div
-        class="card-candidate-container"
+        class="card-candidate"
       >
         <div
-          class="values"
+          class="card-candidate-container"
         >
           <div
-            class="value id"
+            class="values"
           >
-            <span>
-              <i
-                class="fa fa-square-o"
-              />
-              <router-link
-                to="[object Object]"
-              >
-                keybaseX
-              </router-link>
-            </span>
-          </div>
-          <div
-            class="value"
-          >
-            USA
-          </div>
-          <div
-            class="value voting_power num bar"
-          >
-            <span>
-              2,000
-            </span>
             <div
-              class="bar"
-              style="width: 7%;"
-            />
-          </div>
-          <div
-            class="value delegated num bar delegated"
-          >
-            <span>
-              5,000
-            </span>
-            <div
-              class="bar"
-              style="width: 50%;"
-            />
-          </div>
-          <div
-            class="value"
-          >
-            NaN%
-          </div>
-        </div>
-        <menu>
-          <button
-            class="ni-btn"
-          >
-            <span
-              class="ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos"
+              class="value id"
             >
-              <i
-                aria-hidden="true"
-                class="ni-btn-icon material-icons"
-              >
-                check
-              </i>
-              <span
-                class="ni-btn-value"
-              >
-                Add
+              <span>
+                <i
+                  class="fa fa-square-o"
+                />
+                <router-link
+                  to="[object Object]"
+                >
+                  keybaseX
+                </router-link>
               </span>
-            </span>
-          </button>
-        </menu>
+            </div>
+            <div
+              class="value"
+            >
+              USA
+            </div>
+            <div
+              class="value voting_power num bar"
+            >
+              <span>
+                2,000
+              </span>
+              <div
+                class="bar"
+                style="width: 7%;"
+              />
+            </div>
+            <div
+              class="value delegated num bar delegated"
+            >
+              <span>
+                5,000
+              </span>
+              <div
+                class="bar"
+                style="width: 50%;"
+              />
+            </div>
+            <div
+              class="value"
+            >
+              NaN%
+            </div>
+          </div>
+          <menu>
+            <button
+              class="ni-btn"
+            >
+              <span
+                class="ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos"
+              >
+                <i
+                  aria-hidden="true"
+                  class="ni-btn-icon material-icons"
+                >
+                  check
+                </i>
+                <span
+                  class="ni-btn-value"
+                >
+                  Add
+                </span>
+              </span>
+            </button>
+          </menu>
+        </div>
       </div>
-    </div>
-    <div
-      class="card-candidate"
-    >
       <div
-        class="card-candidate-container"
+        class="card-candidate"
       >
         <div
-          class="values"
+          class="card-candidate-container"
         >
           <div
-            class="value id"
+            class="values"
           >
-            <span>
-              <i
-                class="fa fa-square-o"
-              />
-              <router-link
-                to="[object Object]"
-              >
-                keybaseY
-              </router-link>
-            </span>
-          </div>
-          <div
-            class="value"
-          >
-            Canada
-          </div>
-          <div
-            class="value voting_power num bar"
-          >
-            <span>
-              30,000
-            </span>
             <div
-              class="bar"
-              style="width: 100%;"
-            />
-          </div>
-          <div
-            class="value delegated num bar delegated"
-          >
-            <span>
-              10,000
-            </span>
-            <div
-              class="bar"
-              style="width: 100%;"
-            />
-          </div>
-          <div
-            class="value"
-          >
-            NaN%
-          </div>
-        </div>
-        <menu>
-          <button
-            class="ni-btn"
-          >
-            <span
-              class="ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos"
+              class="value id"
             >
-              <i
-                aria-hidden="true"
-                class="ni-btn-icon material-icons"
-              >
-                check
-              </i>
-              <span
-                class="ni-btn-value"
-              >
-                Add
+              <span>
+                <i
+                  class="fa fa-square-o"
+                />
+                <router-link
+                  to="[object Object]"
+                >
+                  keybaseY
+                </router-link>
               </span>
-            </span>
-          </button>
-        </menu>
+            </div>
+            <div
+              class="value"
+            >
+              Canada
+            </div>
+            <div
+              class="value voting_power num bar"
+            >
+              <span>
+                30,000
+              </span>
+              <div
+                class="bar"
+                style="width: 100%;"
+              />
+            </div>
+            <div
+              class="value delegated num bar delegated"
+            >
+              <span>
+                10,000
+              </span>
+              <div
+                class="bar"
+                style="width: 100%;"
+              />
+            </div>
+            <div
+              class="value"
+            >
+              NaN%
+            </div>
+          </div>
+          <menu>
+            <button
+              class="ni-btn"
+            >
+              <span
+                class="ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos"
+              >
+                <i
+                  aria-hidden="true"
+                  class="ni-btn-icon material-icons"
+                >
+                  check
+                </i>
+                <span
+                  class="ni-btn-value"
+                >
+                  Add
+                </span>
+              </span>
+            </button>
+          </menu>
+        </div>
       </div>
     </div>
   </main>
@@ -312,4 +310,4 @@ exports[`PageCandidates has the expected html structure 1`] = `
 </div>
 `;
 
-exports[`PageCandidates should filter the candidates 1`] = `"<div class=\\"ni-page\\"><header class=\\"ni-page-header\\"><div class=\\"ni-page-header-container\\"><div class=\\"ni-page-header-text\\"><div class=\\"ni-page-header-title\\"><!----><div>Delegate (0 Candidates Selected)</div></div><div class=\\"ni-page-header-subtitle\\"><div></div></div></div><menu class=\\"ni-page-header-menu\\"><div><div><div class=\\"ni-tool-bar\\"><div class=\\"ni-tool-bar-container\\"><div class=\\"main\\"><a><i class=\\"material-icons\\">search</i><div class=\\"label\\">Search</div></a><router-link to=\\"/staking/delegate\\"><i class=\\"material-icons\\">check_circle</i><div class=\\"label\\">Delegate</div></router-link></div><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a></div></div></div></div></menu></div></header><main class=\\"ni-page-main\\"><div class=\\"ni-modal-search\\"><div class=\\"ni-modal-search-container\\"><input type=\\"text\\" placeholder=\\"Search...\\" class=\\"mousetrap ni-field\\"><button class=\\"ni-btn\\"><span class=\\"ni-btn-container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">close</i><!----></span></button></div></div><div class=\\"panel-sort\\"><div class=\\"panel-sort-container\\"><div class=\\"sort-by active asc\\"><div class=\\"label\\">Keybase ID</div></div><div class=\\"sort-by\\"><div class=\\"label\\">Country</div></div><div class=\\"sort-by\\"><div class=\\"label\\">Voting Power</div></div><div class=\\"sort-by\\"><div class=\\"label\\">Delegated Power</div></div><div class=\\"sort-by\\"><div class=\\"label\\">Commission</div></div></div></div><div class=\\"card-candidate\\"><div class=\\"card-candidate-container\\"><div class=\\"values\\"><div class=\\"value id\\"><span><i class=\\"fa fa-square-o\\"></i><router-link to=\\"[object Object]\\">keybaseX</router-link></span></div><div class=\\"value\\">USA</div><div class=\\"value voting_power num bar\\"><span>2,000</span><div class=\\"bar\\" style=\\"width: 7%;\\"></div></div><div class=\\"value delegated num bar delegated\\"><span>5,000</span><div class=\\"bar\\" style=\\"width: 50%;\\"></div></div><div class=\\"value\\">NaN%</div></div><menu><button class=\\"ni-btn\\"><span class=\\"ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">check</i><span class=\\"ni-btn-value\\">Add</span></span></button></menu></div></div><div class=\\"card-candidate\\"><div class=\\"card-candidate-container\\"><div class=\\"values\\"><div class=\\"value id\\"><span><i class=\\"fa fa-square-o\\"></i><router-link to=\\"[object Object]\\">keybaseY</router-link></span></div><div class=\\"value\\">Canada</div><div class=\\"value voting_power num bar\\"><span>30,000</span><div class=\\"bar\\" style=\\"width: 100%;\\"></div></div><div class=\\"value delegated num bar delegated\\"><span>10,000</span><div class=\\"bar\\" style=\\"width: 100%;\\"></div></div><div class=\\"value\\">NaN%</div></div><menu><button class=\\"ni-btn\\"><span class=\\"ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">check</i><span class=\\"ni-btn-value\\">Add</span></span></button></menu></div></div></main><footer class=\\"ni-page-footer\\"><div class=\\"container\\"></div></footer></div>"`;
+exports[`PageCandidates should filter the candidates 1`] = `"<div class=\\"ni-page\\"><header class=\\"ni-page-header\\"><div class=\\"ni-page-header-container\\"><div class=\\"ni-page-header-text\\"></div><menu class=\\"ni-page-header-menu\\"><div><div><div class=\\"ni-tool-bar\\"><div class=\\"ni-tool-bar-container\\"><div class=\\"main\\"><a><i class=\\"material-icons\\">search</i><div class=\\"label\\">Search</div></a><router-link to=\\"/staking/delegate\\"><i class=\\"material-icons\\">check_circle</i><div class=\\"label\\">Delegate</div></router-link></div><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a></div></div></div></div></menu></div></header><main class=\\"ni-page-main\\"><h2 class=\\"ni-page-title\\">Delegate (0 Candidates Selected)</h2><h3 class=\\"ni-page-subtitle\\"></h3><div class=\\"ni-page-content\\"><div class=\\"ni-modal-search\\"><div class=\\"ni-modal-search-container\\"><input type=\\"text\\" placeholder=\\"Search...\\" class=\\"mousetrap ni-field\\"><button class=\\"ni-btn\\"><span class=\\"ni-btn-container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">close</i><!----></span></button></div></div><div class=\\"panel-sort\\"><div class=\\"panel-sort-container\\"><div class=\\"sort-by active asc\\"><div class=\\"label\\">Keybase ID</div></div><div class=\\"sort-by\\"><div class=\\"label\\">Country</div></div><div class=\\"sort-by\\"><div class=\\"label\\">Voting Power</div></div><div class=\\"sort-by\\"><div class=\\"label\\">Delegated Power</div></div><div class=\\"sort-by\\"><div class=\\"label\\">Commission</div></div></div></div><div class=\\"card-candidate\\"><div class=\\"card-candidate-container\\"><div class=\\"values\\"><div class=\\"value id\\"><span><i class=\\"fa fa-square-o\\"></i><router-link to=\\"[object Object]\\">keybaseX</router-link></span></div><div class=\\"value\\">USA</div><div class=\\"value voting_power num bar\\"><span>2,000</span><div class=\\"bar\\" style=\\"width: 7%;\\"></div></div><div class=\\"value delegated num bar delegated\\"><span>5,000</span><div class=\\"bar\\" style=\\"width: 50%;\\"></div></div><div class=\\"value\\">NaN%</div></div><menu><button class=\\"ni-btn\\"><span class=\\"ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">check</i><span class=\\"ni-btn-value\\">Add</span></span></button></menu></div></div><div class=\\"card-candidate\\"><div class=\\"card-candidate-container\\"><div class=\\"values\\"><div class=\\"value id\\"><span><i class=\\"fa fa-square-o\\"></i><router-link to=\\"[object Object]\\">keybaseY</router-link></span></div><div class=\\"value\\">Canada</div><div class=\\"value voting_power num bar\\"><span>30,000</span><div class=\\"bar\\" style=\\"width: 100%;\\"></div></div><div class=\\"value delegated num bar delegated\\"><span>10,000</span><div class=\\"bar\\" style=\\"width: 100%;\\"></div></div><div class=\\"value\\">NaN%</div></div><menu><button class=\\"ni-btn\\"><span class=\\"ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">check</i><span class=\\"ni-btn-value\\">Add</span></span></button></menu></div></div></div></main><footer class=\\"ni-page-footer\\"><div class=\\"container\\"></div></footer></div>"`;
