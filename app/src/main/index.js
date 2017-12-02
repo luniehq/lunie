@@ -91,8 +91,6 @@ function shutdown () {
   )
 }
 
-let appIcon = nativeImage.createFromPath(join(__dirname, '../icons/png/icon.png'))
-
 function createWindow () {
   mainWindow = new BrowserWindow({
     minWidth: 320,
@@ -101,7 +99,6 @@ function createWindow () {
     height: 800,
     center: true,
     title: 'Cosmos',
-    icon: appIcon,
     darkTheme: true,
     titleBarStyle: 'hiddenInset',
     webPreferences: { webSecurity: false }
