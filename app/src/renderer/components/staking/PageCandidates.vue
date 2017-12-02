@@ -4,7 +4,7 @@ page(:title='pageTitle')
     a(@click='setSearch(true)')
       i.material-icons search
       .label Search
-    router-link(v-if="" to='/staking/delegate')
+    router-link(to='/staking/delegate')
       i.material-icons check_circle
       .label Delegate
   modal-search(v-if="filters.candidates.search.visible" type="candidates")
@@ -42,41 +42,34 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['candidates', 'filters', 'shoppingCart', 'user']),
+    ...mapGetters(['candidates', 'filters', 'shoppingCart']),
     pageTitle () {
-      if (this.user.signedIn) return `Candidates (${this.candidatesNum} Selected)`
-      else return 'Candidates'
+      return `Delegate (${this.candidatesNum} Candidates Selected)`
     },
     filteredCandidates () {
       let query = this.filters.candidates.search.query
       let list = orderBy(this.candidates, [this.sort.property], [this.sort.order])
       if (this.filters.candidates.search.visible) {
-        return list.filter(i => includes(i.keybaseID.toLowerCase(), query))
+        return list.filter(i => includes(i.keybaseID.toLowerCase(), query.toLowerCase()))
       } else {
         return list
       }
     },
-    candidatesNum () {
-      return this.shoppingCart.length
-    },
-    sort () {
-      let props = [
-        { id: 1, title: 'Keybase ID', value: 'keybaseID' },
-        { id: 2, title: 'Public Key', value: 'id' },
-        { id: 3, title: 'Delegated', value: 'voting_power', initial: true }
-      ]
-      if (this.user.signedIn) {
-        props.push({ id: 4, title: 'Delegated (Yours)', value: 'delegated' })
-      }
-      return {
-        property: 'voting_power',
-        order: 'desc',
-        properties: props
-      }
-    }
+    candidatesNum () { return this.shoppingCart.candidates.length }
   },
   data: () => ({
-    query: ''
+    query: '',
+    sort: {
+      property: 'keybaseID',
+      order: 'asc',
+      properties: [
+        { id: 1, title: 'Keybase ID', value: 'keybaseID', initial: true },
+        { id: 2, title: 'Country', value: 'country' },
+        { id: 3, title: 'Voting Power', value: 'voting_power' },
+        { id: 4, title: 'Delegated Power', value: 'shares' },
+        { id: 5, title: 'Commission', value: 'commission' }
+      ]
+    }
   }),
   methods: {
     setSearch (bool) { this.$store.commit('setSearchVisible', ['candidates', bool]) }
