@@ -1,6 +1,6 @@
 'use strict'
 
-let { app, BrowserWindow, Menu, nativeImage } = require('electron')
+let { app, BrowserWindow, Menu } = require('electron')
 let fs = require('fs-extra')
 let { join } = require('path')
 let { spawn } = require('child_process')
