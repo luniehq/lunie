@@ -10,7 +10,8 @@ export default ({ commit, node }) => {
       { denom: 'mycoin', amount: 0 }
     ],
     sequence: 0,
-    key: { address: '' }
+    key: { address: '' },
+    history: []
   }
 
   let mutations = {
@@ -25,6 +26,10 @@ export default ({ commit, node }) => {
       if (state.sequence === sequence) return
       state.sequence = sequence
       console.log('setWalletSequence', sequence)
+    },
+    setWalletHistory (state, history) {
+      state.history = history
+      console.log('setWalletHistory', history)
     }
   }
 
@@ -47,6 +52,7 @@ export default ({ commit, node }) => {
     queryWalletState ({ state, dispatch }) {
       dispatch('queryWalletBalances')
       dispatch('queryWalletSequence')
+      dispatch('queryWalletHistory')
     },
     async queryWalletBalances ({ state, commit }) {
       let res = await node.queryAccount(state.key.address)
@@ -57,6 +63,11 @@ export default ({ commit, node }) => {
       let res = await node.queryNonce(state.key.address)
       if (!res) return
       commit('setWalletSequence', res.data)
+    },
+    async queryWalletHistory ({ state, commit }) {
+      let res = await node.coinTxs(state.key.address)
+      if (!res) return
+      commit('setWalletHistory', res)
     },
     async walletSend ({ state, dispatch }, args) {
       let cb = args.cb

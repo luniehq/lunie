@@ -20,7 +20,7 @@ export const proposals = state => state.proposals
 
 // wallet
 export const wallet = state => state.wallet
-export const transactions = state => state.transactions
+export const transactions = state => state.wallet.history
 
 // ui
 export const filters = state => state.filters

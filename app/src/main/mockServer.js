@@ -8,6 +8,57 @@ let randomPubkey = () => ({
   data: randomBytes(32).toString('hex')
 })
 
+let randomAddress = () => randomBytes(20).toString('hex')
+
+let randomTime = () => Date.now() - casual.integer(0, 32e9)
+
+let randomTx = ({ from, to }) => {
+  let amount = casual.integer(1, 1e6)
+  return {
+    tx: {
+      inputs: [{
+        sender: from || randomAddress(),
+        coins: [{ amount, denom: 'fermion' }]
+      }],
+      outputs: [{
+        receiver: to || randomAddress(),
+        coins: [{ amount, denom: 'fermion' }]
+      }]
+    },
+    time: randomTime(),
+    height: 1000
+  }
+}
+
+let randomBondTx = (address, delegator) => ({
+  tx: {
+    type: Math.random() > 0.5 ? 'bond' : 'unbond',
+    validator: delegator ? randomAddress() : address,
+    address: delegator ? address : randomAddress(),
+    shares: casual.integer(1, 1e6)
+  },
+  time: randomTime(),
+  height: 1000
+})
+
+let randomCandidate = () => ({
+  address: randomAddress(),
+  owner: randomAddress(), // address
+  shares: casual.integer(1000, 1e7),
+  votingPower: casual.integer(10, 1e5),
+  since: casual.date('YYYY-MM-DD'),
+  description: {
+    name: casual.username,
+    website: casual.url,
+    details: casual.sentences(3)
+  },
+  commissionRate: casual.double(0.005, 0.05),
+  commissionMax: casual.double(0.05, 0.25),
+  status: [ 'active', 'bonding', 'unbonding' ][Math.floor(Math.random() * 3)],
+  slashRatio: Math.random() < 0.9 ? casual.double(0.01, 0.5) : 0,
+  reDelegatingShares: casual.integer(1000, 1e7)
+})
+
 module.exports = function (port = 8999) {
   let app = express()
 
@@ -19,13 +70,13 @@ module.exports = function (port = 8999) {
 
   // delegation mock API
   let candidates = new Array(50).fill(0).map(randomPubkey)
-  app.get('/query/stake/candidate', (req, res) => {
+  app.get('/query/stake/candidates', (req, res) => {
     res.json({
       height: 10000,
       data: candidates
     })
   })
-  app.get('/query/stake/candidate/:pubkey', (req, res) => {
+  app.get('/query/stake/candidates/:pubkey', (req, res) => {
     res.json({
       height: 10000,
       data: {
@@ -115,6 +166,35 @@ module.exports = function (port = 8999) {
         }
       }
     })
+  })
+  app.get('/candidates', (req, res) => {
+    res.json(new Array(200).fill(0).map(randomCandidate))
+  })
+
+  // tx history
+  app.get('/tx/coins/:address', (req, res) => {
+    let { address } = req.params
+    let txs = []
+    for (let i = 0; i < 100; i++) {
+      let toMe = Math.random() > 0.5
+      txs.push(randomTx(toMe ? { to: address } : { from: address }))
+    }
+    txs.sort((a, b) => b.time - a.time)
+    res.json(txs)
+  })
+  app.get('/tx/bondings/delegator/:address', (req, res) => {
+    let { address } = req.params
+    let txs = new Array(100).fill(0)
+      .map(() => randomBondTx(address, true))
+    txs.sort((a, b) => b.time - a.time)
+    res.json(txs)
+  })
+  app.get('/tx/bondings/validator/:address', (req, res) => {
+    let { address } = req.params
+    let txs = new Array(100).fill(0)
+      .map(() => randomBondTx(address, false))
+    txs.sort((a, b) => b.time - a.time)
+    res.json(txs)
   })
 
   // proxy everything else to light client
