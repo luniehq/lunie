@@ -2,21 +2,32 @@ import { shallow } from 'vue-test-utils'
 import CardTransaction from 'renderer/components/wallet/CardTransaction'
 
 describe('CardTransaction', () => {
-  let wrapper, num, result
+  let wrapper
   let propsData = {
     transactionValue: {
       tx: {
         inputs: [
           {
-            coins: {
+            coins: [{
               denom: 'jbcoins',
               amount: 1234
-            }
+            }],
+            sender: 'otherAddress'
+          }
+        ],
+        outputs: [
+          {
+            coins: [{
+              denom: 'jbcoins',
+              amount: 1234
+            }],
+            recipient: 'myAddress'
           }
         ]
       },
-      time: new Date()
-    }
+      time: Date.now()
+    },
+    address: 'myAddress'
   }
 
   beforeEach(() => {
@@ -29,17 +40,79 @@ describe('CardTransaction', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it('returns negative as a string for numbers below zero', () => {
-    num = -1
-    result = wrapper.vm.sign(num)
-
-    expect(result).toEqual('negative')
+  it('should show incoming transcations', () => {
+    expect(wrapper.find('.value').hasClass('positive')).toBe(true)
   })
 
-  it('returns positive as a string for numbers above zero', () => {
-    num = 1
-    result = wrapper.vm.sign(num)
+  it('should show outgoing transcations', () => {
+    wrapper.setProps({
+      transactionValue: {
+        tx: {
+          inputs: [
+            {
+              coins: [{
+                denom: 'jbcoins',
+                amount: 1234
+              }],
+              sender: 'myAddress'
+            }
+          ],
+          outputs: [
+            {
+              coins: [{
+                denom: 'jbcoins',
+                amount: 1234
+              }],
+              recipient: 'otherAddress'
+            }
+          ]
+        },
+        time: Date.now()
+      },
+      address: 'myAddress'
+    })
+    expect(wrapper.find('.value').hasClass('negative')).toBe(true)
+  })
 
-    expect(result).toEqual('positive')
+  it('should show all coins of the transaction', () => {
+    wrapper.setProps({
+      transactionValue: {
+        tx: {
+          inputs: [
+            {
+              coins: [{
+                denom: 'jbcoins',
+                amount: 1234
+              }, {
+                denom: 'fabocoins',
+                amount: 1
+              }, {
+                denom: 'mattcoins',
+                amount: 42
+              }],
+              sender: 'otherAddress'
+            }
+          ],
+          outputs: [{
+            coins: [{
+              denom: 'jbcoins',
+              amount: 1234
+            }, {
+              denom: 'fabocoins',
+              amount: 1
+            }, {
+              denom: 'mattcoins',
+              amount: 42
+            }],
+            recipient: 'myAddress'
+          }]
+        },
+        time: Date.now()
+      },
+      address: 'myAddress'
+    })
+    expect(wrapper.findAll('.key-value').length).toBe(3)
+    expect(wrapper.findAll('.key-value').at(2).html().toLowerCase()).toContain('mattcoins')
+    expect(wrapper.findAll('.key-value').at(2).html()).toContain('42')
   })
 })
