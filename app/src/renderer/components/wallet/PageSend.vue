@@ -110,7 +110,7 @@ export default {
             })
             return
           }
-          this.$store.commit('notifyCustom', {
+          this.$store.commit('notify', {
             title: 'Coins Sent',
             body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
           })
