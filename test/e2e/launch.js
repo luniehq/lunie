@@ -18,7 +18,7 @@ module.exports = async function launch (t) {
   app = new Application({
     path: electron,
     args: [
-      join(__dirname, '../app/dist/main.js'),
+      join(__dirname, '../../app/dist/main.js'),
       '--disable-gpu',
       '--no-sandbox'
     ],
@@ -27,7 +27,7 @@ module.exports = async function launch (t) {
     env: {
       COSMOS_TEST: 'true',
       COSMOS_HOME: home,
-      COSMOS_NETWORK: join(__dirname, 'localtestnet')
+      COSMOS_NETWORK: join(__dirname, 'gaia-1')
     }
   })
 
