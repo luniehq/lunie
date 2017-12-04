@@ -57,6 +57,10 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
+#app-header
+  .container
+    -webkit-app-region: drag
+
 @media screen and (max-width: 1023px)
   #app-header
     position fixed
@@ -95,6 +99,7 @@ export default {
 
       &.header-item-logo
         font-size sm
+
         img
           height 1rem
 
@@ -118,11 +123,8 @@ export default {
       flex-flow column nowrap
 
     .header-item-logo
-      height 3rem
       border-bottom px solid bc
-      display flex
-      align-items center
-      padding 0 1rem
+      padding 2rem 1rem .75rem
       img
         height 1.25rem
 

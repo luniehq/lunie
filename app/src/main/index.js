@@ -100,7 +100,7 @@ function createWindow () {
     center: true,
     title: 'Cosmos',
     darkTheme: true,
-    titleBarStyle: 'hiddenInset',
+    titleBarStyle: 'hidden',
     webPreferences: { webSecurity: false }
   })
   mainWindow.maximize()
