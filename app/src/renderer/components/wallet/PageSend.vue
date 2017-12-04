@@ -2,14 +2,13 @@
 page(title='Send Tokens')
   div(slot="menu"): tool-bar
 
-  form-struct(:submit='onSubmit')
+  form-struct(:submit="onSubmit")
     form-group(:error='$v.fields.denom.$error'
       field-id='send-denomination' field-label='Denomination')
       field#send-denomination(
         type="select"
         v-model="fields.denom"
         :options="denominations"
-        @input="$v.fields.denom.$touch()"
         placeholder="Select token...")
       form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
 
@@ -19,7 +18,6 @@ page(title='Send Tokens')
         field#send-address(
           type='text'
           v-model='fields.address'
-          @input='$v.fields.address.$touch()'
           placeholder='Address')
       form-msg(name='Address' type='required' v-if='!$v.fields.address.required')
       form-msg(name='Address' type='exactLength' length='40'
@@ -32,7 +30,6 @@ page(title='Send Tokens')
         field#send-amount(
           type='number'
           v-model='fields.amount'
-          @input='$v.fields.amount.$touch()'
           placeholder='Amount')
         field-addon Coins
         btn(value='Max')
@@ -41,7 +38,6 @@ page(title='Send Tokens')
         v-if='!$v.fields.amount.between')
 
     div(slot='footer')
-      // btn(value='Reset' @click.native='resetForm')
       div
       btn(v-if='sending' value='Sending...' disabled)
       btn(v-else @click='onSubmit' icon="check" value="Send Tokens")
@@ -52,13 +48,13 @@ import { required, between, minLength, maxLength, alphaNum } from 'vuelidate/lib
 import { mapActions, mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
-import FieldAddon from '../common/NiFieldAddon'
-import FieldGroup from '../common/NiFieldGroup'
-import FormGroup from '../common/NiFormGroup'
+import FieldAddon from 'common/NiFieldAddon'
+import FieldGroup from 'common/NiFieldGroup'
+import FormGroup from 'common/NiFormGroup'
 import FormMsg from '@nylira/vue-form-msg'
-import FormStruct from '../common/NiFormStruct'
-import Page from '../common/NiPage'
-import ToolBar from '../common/NiToolBar'
+import FormStruct from 'common/NiFormStruct'
+import Page from 'common/NiPage'
+import ToolBar from 'common/NiToolBar'
 export default {
   components: {
     Btn,
@@ -78,6 +74,14 @@ export default {
         ({ key: i.denom.toUpperCase(), value: i.denom }))
     }
   },
+  data: () => ({
+    fields: {
+      address: '',
+      amount: null,
+      denom: ''
+    },
+    sending: false
+  }),
   methods: {
     resetForm () {
       this.fields.address = ''
@@ -115,14 +119,6 @@ export default {
     },
     ...mapActions(['walletSend'])
   },
-  data: () => ({
-    fields: {
-      address: '',
-      amount: null,
-      denom: ''
-    },
-    sending: false
-  }),
   validations: () => ({
     fields: {
       address: {
@@ -142,14 +138,3 @@ export default {
   })
 }
 </script>
-
-<style lang="stylus">
-@require '~variables'
-
-#send-address
-#send-amount
-  mono()
-  &:placeholder
-    df()
-    color dim
-</style>
