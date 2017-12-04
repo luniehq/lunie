@@ -67,6 +67,11 @@ npm run pack && npm run build:darwin
 open builds/Cosmos-darwin-x64/Cosmos.app
 ```
 
+When you are testing the build system you can skip the repackaging of the JS files with:
+```bash
+$ npm run build -- --skip-pack
+```
+
 ## Testing
 
 To test you need to first package the web content of the app, as this content can only be used bundled by the electron instance.
@@ -82,6 +87,14 @@ i.e.:
 ```bash
 $ npm i -g http-server
 $ http-server test/unit/coverage/lcov-report
+```
+
+To test the running application e2e:
+
+```bash
+$ npm run pack
+$ npm run test:e2e
+```
 
 ## Debug
 
@@ -97,6 +110,24 @@ Then attach to the debugger via the posted url in Chrome.
 To debug the electron view, set the environment variable `COSMOS_DEVTOOLS` to something truthy like `"true"`.
 
 To see the console output of the view in your terminal, set the environment variable `ELECTRON_ENABLE_LOGGING` to something truthy like `1`.
+
+## Flags
+
+A list of all environment variables and their purpose:
+
+|Variable|Values|default|Purpose|
+|--|--|--|--|
+|NODE_ENV|'production', 'development'|||
+|LOGGING|'true', 'false'|'true'|Disable logging|
+|MOCK|'true', 'false'|'true' in development|Mock data to receive from the chain|
+|COSMOS_TEST|'true', 'false'|'false'|Disable code that influences unit tests, like logging to files|
+|COSMOS_NETWORK|{path to network configuration folder}|'../networks/gaia-1'|Network to connect to|
+|COSMOS_UI_ONLY|'true', 'false'|'false'|Ignore spinning up the tendermint binaries|
+|COSMOS_HOME|{path to config persistence folder}|'$HOME/cosmos-ui[-dev]'||
+|PLATFORM_TARGET|'all', 'win32', 'darwin', 'linux', 'mas'|'all'|Which platform to build for|
+|COSMOS_DEVTOOLS|'true', 'false'|'false'|Open the debug panel in the electron view|
+|ELECTRON_ENABLE_LOGGING|'true', 'false'|'false'|Redirect the browser view console output to the console|
+
 
 ## FAQ
 

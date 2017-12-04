@@ -27,7 +27,7 @@ module.exports = async function (nodeIP) {
   const RestClient = require('cosmos-sdk')
   const RpcClient = require('tendermint')
 
-  let rest = RestClient(MOCK ? 'http://localhost:8999' : null)
+  let rest = RestClient(MOCK ? 'http://localhost:8999' : undefined)
   let rpc = RpcClient(`ws://${nodeIP}`)
   // TODO: handle disconnect, try to reconnect
   // TODO: eventually, get all data from light-client connection instead of RPC

@@ -9,11 +9,11 @@ console.error(`ui home: ${home}`)
 Object.assign(process.env, {
   COSMOS_TEST: 'true',
   COSMOS_HOME: home,
-  COSMOS_NETWORK: join(__dirname, 'localtestnet')
+  COSMOS_NETWORK: join(__dirname, 'gaia-1')
 })
 
 test('main', async function (t) {
-  let main = proxyquire('../app/dist/main', {
+  let main = proxyquire('../../app/dist/main', {
     electron: {
       app: {
         on: () => {},
