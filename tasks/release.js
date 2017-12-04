@@ -3,13 +3,30 @@
 const { exec } = require('child_process')
 const path = require('path')
 const packager = require('electron-packager')
+const rebuild = require('electron-rebuild').default
 const mkdirp = require('mkdirp').sync
+const fs = require('fs-extra')
+
+let skipPack = false
+let binaryPath = null
+process.argv.forEach(function (val) {
+  if (val === '--skip-pack') {
+    skipPack = true
+  }
+  if (val.startsWith('--binary')) {
+    binaryPath = val.replace('--binary=', '')
+  }
+})
 
 if (process.env.PLATFORM_TARGET === 'clean') {
   require('del').sync(['builds/*', '!.gitkeep'])
   console.log('\x1b[33m`builds` directory cleaned.\n\x1b[0m')
 } else {
-  pack()
+  if (skipPack) {
+    build()
+  } else {
+    pack()
+  }
 }
 
 /**
@@ -21,7 +38,11 @@ function pack () {
 
   pack.stdout.on('data', data => console.log(data))
   pack.stderr.on('data', data => console.error(data))
-  pack.on('exit', code => build())
+  pack.on('exit', code => {
+    if (code === null || code <= 0) {
+      build()
+    }
+  })
 }
 
 /**
@@ -31,8 +52,18 @@ function build () {
   let options = require('../config').building
 
   options.afterCopy = [
-    goBuild('github.com/cosmos/gaia/cmd/gaia')
+    binaryPath
+      ? copyBinary('gaia', binaryPath)
+      : goBuild(`github.com/cosmos/gaia/cmd/gaia`)
   ]
+  // prune installs the packages
+  options.afterPrune = [
+    // we need to rebuild some native packages for the electron environment
+    function rebuildNodeModules (buildPath, electronVersion, platform, arch, callback) {
+      rebuild({ buildPath, electronVersion, arch })
+        .then(callback)
+        .catch(callback)
+    }
 
   console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')
   packager(options, (err, appPaths) => {
@@ -48,6 +79,17 @@ function build () {
   })
 }
 
+function copyBinary (name, binaryLocation) {
+  return function (buildPath, electronVersion, platform, arch, cb) {
+    let binPath = path.join(buildPath, 'bin', name)
+    if (platform === 'win32') {
+      binPath = binPath + '.exe'
+    }
+    fs.copySync(binaryLocation, binPath)
+    cb()
+  }
+}
+
 const GOARCH = {
   'x64': 'amd64',
   'ia32': '386'
@@ -56,6 +98,7 @@ const GOARCH = {
 function goBuild (pkg) {
   return function (buildPath, electronVersion, platform, arch, cb) {
     if (platform === 'win32') platform = 'windows'
+    if (platform === 'mas') platform = 'darwin'
     if (GOARCH[arch]) arch = GOARCH[arch]
 
     let name = path.basename(pkg)
