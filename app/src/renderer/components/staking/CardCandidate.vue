@@ -65,7 +65,7 @@ export default {
       return { width: percentage + '%' }
     },
     inCart () {
-      return this.shoppingCart.candidates.find(c => c.id === this.candidate.id)
+      return this.shoppingCart.find(c => c.id === this.candidate.id)
     }
   },
   data: () => ({
