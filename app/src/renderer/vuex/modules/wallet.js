@@ -16,7 +16,7 @@ export default ({ commit, node }) => {
 
   let mutations = {
     setWalletBalances (state, balances) {
-      state.balances = Object.assign({}, state.balances, balances)
+      state.balances = balances
     },
     setWalletKey (state, key) {
       state.key = key
