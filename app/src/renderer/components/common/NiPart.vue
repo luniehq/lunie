@@ -36,9 +36,6 @@ export default {
 .ni-part-container
   margin 0 auto
 
-  &:last-child
-    padding-bottom: 1.5rem
-
 .ni-part-header
   padding 0.5rem 1rem
   background app-fg
@@ -62,4 +59,9 @@ export default {
   color dim
   font-size sm
   font-weight 400
+
+@media screen and (min-width: 768px)
+  .ni-part-container
+    &:last-child
+      padding-bottom: 1.5rem
 </style>
