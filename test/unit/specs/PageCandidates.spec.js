@@ -15,7 +15,7 @@ describe('PageCandidates', () => {
   beforeEach(() => {
     store = new Vuex.Store({
       getters: {
-        shoppingCart: () => shoppingCart.state,
+        shoppingCart: () => shoppingCart.state.candidates,
         candidates: () => candidates.state,
         filters: () => filters.state
       },

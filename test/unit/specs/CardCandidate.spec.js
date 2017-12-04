@@ -14,7 +14,7 @@ describe('CardCandidate', () => {
   beforeEach(() => {
     store = new Vuex.Store({
       getters: {
-        shoppingCart: () => shoppingCart.state,
+        shoppingCart: () => shoppingCart.state.candidates,
         candidates: () => candidates.state
       },
       modules: {
@@ -80,7 +80,7 @@ describe('CardCandidate', () => {
   })
 
   it('should add to cart', () => {
-    expect(wrapper.vm.shoppingCart.candidates).toEqual([])
+    expect(wrapper.vm.shoppingCart).toEqual([])
     expect(wrapper.vm.inCart).toBeFalsy()
     expect(wrapper.find('menu .ni-btn').text()).toContain('Add')
     expect(wrapper.html()).not.toContain('card-candidate-active')
@@ -97,7 +97,7 @@ describe('CardCandidate', () => {
     expect(wrapper.find('menu .ni-btn').text()).toContain('Remove')
     wrapper.find('menu .ni-btn').trigger('click')
     expect(store.commit).toHaveBeenCalledWith('removeFromCart', candidate.id)
-    expect(wrapper.vm.shoppingCart.candidates).toEqual([])
+    expect(wrapper.vm.shoppingCart).toEqual([])
     expect(wrapper.vm.inCart).toBeFalsy()
     expect(wrapper.html()).not.toContain('card-candidate-active')
   })
