@@ -41,7 +41,7 @@ describe('LiTransaction', () => {
   })
 
   it('should show incoming transcations', () => {
-    expect(wrapper.find('.value').hasClass('positive')).toBe(true)
+    expect(wrapper.find('.ni-li-tx').hasClass('ni-li-tx-received')).toBe(true)
   })
 
   it('should show outgoing transcations', () => {
@@ -71,7 +71,7 @@ describe('LiTransaction', () => {
       },
       address: 'myAddress'
     })
-    expect(wrapper.find('.value').hasClass('negative')).toBe(true)
+    expect(wrapper.find('.ni-li-tx').hasClass('ni-li-tx-sent')).toBe(true)
   })
 
   it('should show all coins of the transaction', () => {
