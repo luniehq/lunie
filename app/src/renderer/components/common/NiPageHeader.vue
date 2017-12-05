@@ -4,7 +4,6 @@ header.ni-page-header
     .ni-page-header-text
       .ni-page-header-title
         slot(name='title')
-        i.material-icons(v-if="icon") {{ icon }}
       .ni-page-header-subtitle
         slot(name='subtitle')
     menu.ni-page-header-menu
@@ -26,6 +25,8 @@ export default {
 
 .ni-page-header-title
   font-size xl
+  > div
+    display inline-block
 
 .ni-page-header-container
   min-height 3rem
