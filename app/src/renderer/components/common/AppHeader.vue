@@ -125,6 +125,7 @@ export default {
     .header-item-logo
       border-bottom px solid bc
       padding 2rem 1rem .75rem
+      line-height: normal
       img
         height 1.25rem
 

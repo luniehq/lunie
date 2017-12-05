@@ -18,14 +18,13 @@ export default {
 @require '~variables'
 
 .ni-tool-bar-container
-  height 3rem - 0.0625rem
+  height 100%
   display flex
 
   .main
     flex 1
     display flex
     align-items center
-    border-right px solid bc
 
   a, i.material-icons
     display flex
@@ -33,8 +32,8 @@ export default {
     justify-content center
 
   a
-    height 3rem - 0.0625rem
-    padding 0 1rem
+    padding 1rem
+    margin-top 0.7rem
 
     user-select none
     cursor pointer

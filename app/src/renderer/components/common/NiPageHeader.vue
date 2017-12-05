@@ -3,8 +3,8 @@ header.ni-page-header
   .ni-page-header-container
     .ni-page-header-text
       .ni-page-header-title
-        i.material-icons(v-if="icon") {{ icon }}
         slot(name='title')
+        i.material-icons(v-if="icon") {{ icon }}
       .ni-page-header-subtitle
         slot(name='subtitle')
     menu.ni-page-header-menu
@@ -24,6 +24,9 @@ export default {
 .ni-page-header
   -webkit-app-region: drag;
 
+.ni-page-header-title
+  font-size xl
+
 .ni-page-header-container
   min-height 3rem
   border-bottom px solid bc
@@ -33,7 +36,7 @@ export default {
   flex 1
   display flex
   min-width 0 // fix truncation
-  padding 0.75rem 1rem 0.75rem - px
+  padding 1.66rem 1rem 1rem 2rem // 1.66 to match logo
 
   i.material-icons
     font-size 1.375 * x
@@ -44,14 +47,9 @@ export default {
     overflow hidden
     text-overflow ellipsis
 
-    font-size lg
+    font-size xl
     line-height 1.5rem
-    font-weight 400
-    color bright
-
-    font-size lg
-    line-height 1.5rem
-    font-weight 400
+    font-weight 500
     color bright
 
 @media screen and (min-width: 1024px)
@@ -62,5 +60,6 @@ export default {
     display flex
 
   .ni-page-header-menu
-    flex 0 0 16rem
+    display flex
+    align-items center
 </style>
