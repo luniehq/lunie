@@ -45,10 +45,4 @@ export default {
 
     p
       margin 0 0 2rem
-
-    .ni-li:first-of-type
-      border-top px solid bc
-
-    .ni-li:last-of-type
-      border-bottom none
 </style>
