@@ -10,19 +10,35 @@ let randomPubkey = () => ({
 
 let randomAddress = () => randomBytes(20).toString('hex')
 
-let randomTime = () => Date.now() - casual.integer(0, 32e9)
+let randomTime = () => Date.now() - casual.integer(0, 32e7)
 
 let randomTx = ({ from, to }) => {
-  let amount = casual.integer(1, 1e6)
+  let amountOne = casual.double(1, 1e6)
+  let amountTwo = casual.double(1, 1e4)
+  let amountThree = casual.double(1, 1e2)
+  let threeCoins = [
+    { amount: amountOne, denom: 'fermion' },
+    { amount: amountThree, denom: 'lepton' },
+    { amount: amountTwo, denom: 'quark' }
+  ]
+  let twoCoins = [
+    { amount: amountThree, denom: 'lepton' },
+    { amount: amountTwo, denom: 'quark' }
+  ]
+  let oneCoin = [
+    { amount: amountOne, denom: 'fermion' }
+  ]
+  let coins = [oneCoin, twoCoins, threeCoins]
+  let randomCoins = coins[Math.floor(Math.random() * coins.length)]
   return {
     tx: {
       inputs: [{
         sender: from || randomAddress(),
-        coins: [{ amount, denom: 'fermion' }]
+        coins: randomCoins
       }],
       outputs: [{
         receiver: to || randomAddress(),
-        coins: [{ amount, denom: 'fermion' }]
+        coins: randomCoins
       }]
     },
     time: randomTime(),

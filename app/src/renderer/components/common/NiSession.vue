@@ -104,7 +104,7 @@ export default {
   flex-flow column
   justify-content center
 
-  overflow-y scroll
+  overflow-y auto
 
   .ps-scrollbar-y-rail
     display none
@@ -155,8 +155,8 @@ export default {
 
   .ni-session-main
     padding 2rem 3rem
-    overflow-y scroll
+    overflow-y auto
 
-  .ni-form-group
-    display block !important
+    .ni-form-group
+      display block !important
 </style>

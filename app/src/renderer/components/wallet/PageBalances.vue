@@ -1,7 +1,7 @@
 <template lang="pug">
-page(title='Balances')
+page(title='Balance')
   div(slot="menu"): tool-bar
-    a(@click.native='updateBalances()')
+    a(@click='updateBalances()')
       i.material-icons refresh
       .label Refresh
     anchor-copy(:value="wallet.key.address" icon="content_copy" label="Copy")
@@ -14,7 +14,7 @@ page(title='Balances')
   part(title='Your Address')
     list-item(dt="Address" :dd="wallet.key.address")
 
-  part(title="Address Balances")
+  part(title="Denomination Balances")
     list-item(
       v-for="i in filteredBalances"
       :key="i.denom"

@@ -16,6 +16,9 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
+.ni-page-header
+  -webkit-app-region: drag;
+
 .ni-page-header-container
   min-height 3rem
   border-bottom px solid bc
@@ -35,6 +38,11 @@ export default {
     white-space nowrap
     overflow hidden
     text-overflow ellipsis
+
+    font-size lg
+    line-height 1.5rem
+    font-weight 400
+    color bright
 
     font-size lg
     line-height 1.5rem

@@ -7,7 +7,7 @@ page(title='Transactions')
 
   modal-search(v-if="filters.transactions.search.visible" type="transactions")
 
-  card-transaction(
+  li-transaction(
     v-for="i in filteredTransactions"
     :transaction-value="i"
     :address="wallet.key.address")
@@ -18,11 +18,8 @@ page(title='Transactions')
 import { mapGetters } from 'vuex'
 // import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
-import AnchorCopy from 'common/AnchorCopy'
-import Btn from '@nylira/vue-button'
 import DataEmptyTx from 'common/NiDataEmptyTx'
-import ListItem from 'common/NiListItem'
-import CardTransaction from 'wallet/CardTransaction'
+import LiTransaction from 'wallet/LiTransaction'
 import ModalSearch from 'common/NiModalSearch'
 import Page from 'common/NiPage'
 import Part from 'common/NiPart'
@@ -30,11 +27,8 @@ import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-transactions',
   components: {
-    AnchorCopy,
-    Btn,
-    CardTransaction,
+    LiTransaction,
     DataEmptyTx,
-    ListItem,
     ModalSearch,
     Page,
     Part,
