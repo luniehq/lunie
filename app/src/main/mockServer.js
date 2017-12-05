@@ -2,7 +2,6 @@ let express = require('express')
 let proxy = require('express-http-proxy')
 let randomBytes = require('crypto').pseudoRandomBytes
 let casual = require('casual')
-let _ = require('lodash')
 
 let randomPubkey = () => ({
   type: 'ed25519',
@@ -29,15 +28,17 @@ let randomTx = ({ from, to }) => {
   let oneCoin = [
     { amount: amountOne, denom: 'fermion' }
   ]
+  let coins = [oneCoin, twoCoins, threeCoins]
+  let randomCoins = coins[Math.floor(Math.random() * coins.length)]
   return {
     tx: {
       inputs: [{
         sender: from || randomAddress(),
-        coins: _.sample([oneCoin, twoCoins, threeCoins])
+        coins: randomCoins
       }],
       outputs: [{
         receiver: to || randomAddress(),
-        coins: _.sample([oneCoin, twoCoins, threeCoins])
+        coins: randomCoins
       }]
     },
     time: randomTime(),
