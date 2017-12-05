@@ -17,6 +17,7 @@ let mainWindow
 let baseserverProcess
 let streams = []
 let nodeIP
+
 const WIN = /^win/.test(process.platform)
 const DEV = process.env.NODE_ENV === 'development'
 const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
@@ -96,6 +97,10 @@ function createWindow () {
     minHeight: 480,
     width: 1200,
     height: 800,
+    center: true,
+    title: 'Cosmos',
+    darkTheme: true,
+    titleBarStyle: 'hidden',
     webPreferences: { webSecurity: false }
   })
   // mainWindow.maximize()
