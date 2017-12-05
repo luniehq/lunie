@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CardTransaction has the expected html structure 1`] = `
+exports[`LiTransaction has the expected html structure 1`] = `
 <div
-  class="card-transaction"
+  class="ni-li-tx"
 >
   <div
-    class="key-value"
+    class="tx-element tx-coin"
   >
     <div
       class="value positive"
@@ -15,13 +15,18 @@ exports[`CardTransaction has the expected html structure 1`] = `
     <div
       class="key"
     >
-      JBCOINS
+      jbcoins
     </div>
   </div>
   <div
-    class="date"
+    class="tx-element tx-date"
   >
     a few seconds ago
+  </div>
+  <div
+    class="tx-element tx-address"
+  >
+    otherAddress
   </div>
 </div>
 `;

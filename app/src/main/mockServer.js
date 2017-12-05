@@ -13,7 +13,7 @@ let randomAddress = () => randomBytes(20).toString('hex')
 let randomTime = () => Date.now() - casual.integer(0, 32e9)
 
 let randomTx = ({ from, to }) => {
-  let amount = casual.integer(1, 1e6)
+  let amount = casual.double(1, 1e6)
   return {
     tx: {
       inputs: [{
