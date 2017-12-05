@@ -103,7 +103,9 @@ function createWindow () {
     titleBarStyle: 'hidden',
     webPreferences: { webSecurity: false }
   })
-  mainWindow.maximize()
+  if (DEV) {
+    mainWindow.maximize()
+  }
 
   mainWindow.loadURL(winURL + '?node=' + nodeIP)
   if (DEV || process.env.COSMOS_DEVTOOLS) {
