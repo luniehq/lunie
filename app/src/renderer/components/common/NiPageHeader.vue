@@ -2,6 +2,11 @@
 header.ni-page-header
   .ni-page-header-container
     .ni-page-header-text
+      .ni-page-header-title
+        i.material-icons(v-if="icon") {{ icon }}
+        slot(name='title')
+      .ni-page-header-subtitle
+        slot(name='subtitle')
     menu.ni-page-header-menu
       slot(name="menu")
 </template>
