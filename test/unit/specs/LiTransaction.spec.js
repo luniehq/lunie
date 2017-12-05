@@ -1,7 +1,7 @@
 import { shallow } from 'vue-test-utils'
-import CardTransaction from 'renderer/components/wallet/CardTransaction'
+import LiTransaction from 'renderer/components/wallet/LiTransaction'
 
-describe('CardTransaction', () => {
+describe('LiTransaction', () => {
   let wrapper
   let propsData = {
     transactionValue: {
@@ -31,7 +31,7 @@ describe('CardTransaction', () => {
   }
 
   beforeEach(() => {
-    wrapper = shallow(CardTransaction, {
+    wrapper = shallow(LiTransaction, {
       propsData
     })
   })
@@ -41,7 +41,7 @@ describe('CardTransaction', () => {
   })
 
   it('should show incoming transcations', () => {
-    expect(wrapper.find('.value').hasClass('positive')).toBe(true)
+    expect(wrapper.find('.ni-li-tx').hasClass('ni-li-tx-received')).toBe(true)
   })
 
   it('should show outgoing transcations', () => {
@@ -71,7 +71,7 @@ describe('CardTransaction', () => {
       },
       address: 'myAddress'
     })
-    expect(wrapper.find('.value').hasClass('negative')).toBe(true)
+    expect(wrapper.find('.ni-li-tx').hasClass('ni-li-tx-sent')).toBe(true)
   })
 
   it('should show all coins of the transaction', () => {
@@ -111,8 +111,8 @@ describe('CardTransaction', () => {
       },
       address: 'myAddress'
     })
-    expect(wrapper.findAll('.key-value').length).toBe(3)
-    expect(wrapper.findAll('.key-value').at(2).html().toLowerCase()).toContain('mattcoins')
-    expect(wrapper.findAll('.key-value').at(2).html()).toContain('42')
+    expect(wrapper.findAll('.tx-coin').length).toBe(3)
+    expect(wrapper.findAll('.tx-coin').at(2).html().toLowerCase()).toContain('mattcoins')
+    expect(wrapper.findAll('.tx-coin').at(2).html()).toContain('42')
   })
 })
