@@ -157,6 +157,6 @@ export default {
     padding 2rem 3rem
     overflow-y scroll
 
-  .ni-form-group
-    display block !important
+    .ni-form-group
+      display block !important
 </style>
