@@ -1,7 +1,7 @@
 <template lang="pug">
 page(title='Balance')
   div(slot="menu"): tool-bar
-    a(@click.native='updateBalances()')
+    a(@click='updateBalances()')
       i.material-icons refresh
       .label Refresh
     anchor-copy(:value="wallet.key.address" icon="content_copy" label="Copy")
