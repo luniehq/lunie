@@ -64,7 +64,7 @@ make install
 Then build and run the app:
 ```bash
 npm run pack && npm run build:darwin
-open builds/cosmos-ui-darwin-x64/cosmos-ui.app
+open builds/Cosmos-darwin-x64/Cosmos.app
 ```
 
 When you are testing the build system you can skip the repackaging of the JS files with:
@@ -96,14 +96,14 @@ $ npm run pack
 $ npm run test:e2e
 ```
 
-## Debug 
- 
-To debug the electron application first build it and then run the node inspector for the build files: 
- 
-```bash 
-$ electron --inspect-brk builds/{{your build}}/resources/app/dist/main.js 
-``` 
- 
+## Debug
+
+To debug the electron application first build it and then run the node inspector for the build files:
+
+```bash
+$ electron --inspect-brk builds/{{your build}}/resources/app/dist/main.js
+```
+
 Then attach to the debugger via the posted url in Chrome.
 
 
