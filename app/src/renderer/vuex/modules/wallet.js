@@ -1,17 +1,18 @@
+let fs = require('fs-extra')
+let { join } = require('path')
+let root = require('../../../root.js')
+
 const KEY_NAME = 'default'
 // TODO: add UI for password, instead of hardcoding one
 const KEY_PASSWORD = '1234567890'
 
 export default ({ commit, node }) => {
   let state = {
-    balances: [
-      // TODO: set denom list dynamically somehow (maybe from denoms genesis.json?)
-      { denom: 'atom', amount: 0 },
-      { denom: 'mycoin', amount: 0 }
-    ],
+    balances: [],
     sequence: 0,
     key: { address: '' },
-    history: []
+    history: [],
+    denoms: []
   }
 
   let mutations = {
@@ -30,6 +31,10 @@ export default ({ commit, node }) => {
     setWalletHistory (state, history) {
       state.history = history
       console.log('setWalletHistory', history)
+    },
+    setDenoms (state, denoms) {
+      state.denoms = denoms
+      console.log('setDenoms', denoms)
     }
   }
 
@@ -48,6 +53,7 @@ export default ({ commit, node }) => {
       }
       commit('setWalletKey', key)
       dispatch('queryWalletState')
+      dispatch('loadDenoms')
     },
     queryWalletState ({ state, dispatch }) {
       dispatch('queryWalletBalances')
@@ -98,8 +104,37 @@ export default ({ commit, node }) => {
       }
       if (cb) cb(null, args)
       dispatch('queryWalletBalances')
+    },
+    async loadDenoms () {
+      // read genesis.json to get default denoms
+
+      // wait for genesis.json to exist
+      let genesisPath = join(root, 'genesis.json')
+      while (true) {
+        try {
+          await fs.pathExists(genesisPath)
+          break
+        } catch (err) {
+          console.log('waiting for genesis', err, genesisPath)
+          await sleep(500)
+        }
+      }
+
+      let genesis = await fs.readJson(genesisPath)
+      let denoms = {}
+      for (let account of genesis.app_options.accounts) {
+        for (let { denom } of account.coins) {
+          denoms[denom] = true
+        }
+      }
+
+      commit('setDenoms', Object.keys(denoms))
     }
   }
 
   return { state, mutations, actions }
+}
+
+function sleep (ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
