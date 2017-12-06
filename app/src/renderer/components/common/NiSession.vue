@@ -10,6 +10,7 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import noScroll from 'no-scroll'
 import SessionWelcome from 'common/NiSessionWelcome'
 import SessionSignUp from 'common/NiSessionSignUp'
 import SessionSignIn from 'common/NiSessionSignIn'

@@ -3,7 +3,7 @@
   .ni-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
     .ni-session-title Enter Password
-    a: i.material-icons help_outline
+    a(@click="help"): i.material-icons help_outline
   .ni-session-main
     form-group(:error='$v.fields.signInPassword.$error'
       field-id='sign-in-password' field-label='Password')
@@ -41,6 +41,7 @@ export default {
     }
   }),
   methods: {
+    help () { this.$store.commit('setModalHelp', true) },
     setState (value) { this.$store.commit('setModalSessionState', value) },
     onSubmit () {
       this.$v.$touch()

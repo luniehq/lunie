@@ -39,6 +39,7 @@ export default {
 @import '~variables'
 
 .ni-modal.ni-modal-help
+  z-index 1001
 
   .ni-modal-main
     padding 2rem

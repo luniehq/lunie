@@ -1,7 +1,9 @@
 <template lang="pug">
 .ni-session: .ni-session-container
   .ni-session-header
+    a &nbsp;
     .ni-session-title Welcome to Cosmos!
+    a(@click="help"): i.material-icons help_outline
   .ni-session-main
     li-session(
       @click.native="setState('sign-in')"
@@ -34,6 +36,7 @@ export default {
     LiSession
   },
   methods: {
+    help () { this.$store.commit('setModalHelp', true) },
     setState (value) { this.$store.commit('setModalSessionState', value) }
   }
 }

@@ -1,18 +1,18 @@
 import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 import { mount, createLocalVue } from 'vue-test-utils'
-import NISessionSignIn from 'common/NiSessionSignIn'
+import NiSessionSignIn from 'common/NiSessionSignIn'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
 
-describe('NISessionSignIn', () => {
+describe('NiSessionSignIn', () => {
   let wrapper, store
 
   beforeEach(() => {
     store = new Vuex.Store()
-    wrapper = mount(NISessionSignIn, {
+    wrapper = mount(NiSessionSignIn, {
       localVue,
       store
     })
@@ -31,7 +31,7 @@ describe('NISessionSignIn', () => {
 
   it('should close the modal on successful login', () => {
     wrapper.setData({ fields: {
-      signInSeed: 'bar' // <-- doesn#t check for correctness of seed
+      signInPassword: 'bar' // <-- doesn#t check for correctness of seed
     }})
     wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toEqual(['setModalSession', false])
@@ -39,7 +39,7 @@ describe('NISessionSignIn', () => {
 
   it('should signal signedin state on successful login', () => {
     wrapper.setData({ fields: {
-      signInSeed: 'bar' // <-- doesn#t check for correctness of seed
+      signInPassword: 'bar' // <-- doesn#t check for correctness of seed
     }})
     wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[1][0]).toEqual('notify')
@@ -49,7 +49,7 @@ describe('NISessionSignIn', () => {
 
   it('should show error if not seed specified', () => {
     wrapper.setData({ fields: {
-      signInSeed: ''
+      signInPassword: ''
     }})
     wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()

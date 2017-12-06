@@ -3,7 +3,7 @@
   .ni-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
     .ni-session-title New Account
-    a: i.material-icons help_outline
+    a(@click="help"): i.material-icons help_outline
   .ni-session-main
     form-group(field-id='sign-up-seed' field-label='Account Seed')
       field#sign-up-seed(
@@ -60,6 +60,7 @@ export default {
     }
   }),
   methods: {
+    help () { this.$store.commit('setModalHelp', true) },
     setState (value) { this.$store.commit('setModalSessionState', value) },
     onSubmit () {
       this.$v.$touch()
