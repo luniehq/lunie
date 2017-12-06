@@ -35,6 +35,10 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
+.ni-session-wrapper
+  position relative
+  z-index 1000
+
 .ni-field-checkbox
   display flex
   flex-flow row nowrap
