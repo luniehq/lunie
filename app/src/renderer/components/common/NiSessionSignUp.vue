@@ -71,7 +71,7 @@ export default {
     }
   },
   mounted () {
-    document.querySelector('#sign-up-warning').select()
+    this.$el.querySelector('#sign-up-warning').focus()
   },
   validations: () => ({
     fields: {
