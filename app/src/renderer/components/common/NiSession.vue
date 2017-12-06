@@ -21,7 +21,7 @@ export default {
     SessionHardware
   },
   computed: {
-    ...mapGetters(['config']),
+    ...mapGetters(['config', 'developerMode']),
     active () { return this.config.modals.session.active }
   },
   mounted () {
