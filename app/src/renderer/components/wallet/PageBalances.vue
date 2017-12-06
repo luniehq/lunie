@@ -4,7 +4,6 @@ page(title='Balance')
     a(@click='updateBalances()')
       i.material-icons refresh
       .label Refresh
-    anchor-copy(:value="wallet.key.address" icon="content_copy" label="Copy")
     a(@click='setSearch(true)')
       i.material-icons search
       .label Search
@@ -12,7 +11,7 @@ page(title='Balance')
   modal-search(v-if="filters.balances.search.visible" type="balances")
 
   part(title='Your Address')
-    list-item(dt="Address" :dd="wallet.key.address")
+    li-address(:value="wallet.key.address")
 
   part(title="Denomination Balances")
     list-item(
@@ -27,8 +26,7 @@ page(title='Balance')
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
-import AnchorCopy from 'common/AnchorCopy'
-import Btn from '@nylira/vue-button'
+import LiAddress from 'wallet/LiAddress'
 import ListItem from 'common/NiListItem'
 import ModalSearch from 'common/NiModalSearch'
 import Page from 'common/NiPage'
@@ -37,8 +35,7 @@ import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-balances',
   components: {
-    AnchorCopy,
-    Btn,
+    LiAddress,
     ListItem,
     ModalSearch,
     Page,

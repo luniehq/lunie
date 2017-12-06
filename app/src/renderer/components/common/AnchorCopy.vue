@@ -1,6 +1,6 @@
 <template lang="pug">
 a.anchor-copy(:data-clipboard-text="value")
-  i.material-icons {{ icon }}
+  i.material-icons content_copy
   .label {{ label }}
 </template>
 
@@ -17,6 +17,6 @@ export default {
       e.clearSelection()
     })
   },
-  props: ['value', 'label', 'icon']
+  props: ['value', 'label']
 }
 </script>

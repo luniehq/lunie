@@ -1,6 +1,6 @@
 <template lang="pug">
 btn.btn-copy(
-  icon="copy"
+  icon="content_copy"
   @click.native="click"
   :data-clipboard-text="value"
   value="Copy")
