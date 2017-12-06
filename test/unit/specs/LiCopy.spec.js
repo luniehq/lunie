@@ -13,11 +13,11 @@ describe('LiCopy', () => {
     })
   })
 
-  it('has an address from props', () => {
-    expect(wrapper.vm.value).toEqual(12345678)
-  })
-
   it('has the expected html structure', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it('has an address from props', () => {
+    expect(wrapper.html()).toContain(propsData.value)
   })
 })
