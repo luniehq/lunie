@@ -6,7 +6,7 @@
     a: i.material-icons help_outline
   .ni-session-main
     hardware-state(v-if="status == 'connect'" @click.native="setStatus('detect')"
-      icon="power" value="Please plug in your Ledger Wallet")
+      icon="usb" value="Please plug in your Ledger Wallet")
     hardware-state(v-if="status == 'detect'" @click.native="setStatus('success')"
       icon="rotate_right" spin="true" value="Detecting your Ledger Wallet")
     hardware-state(v-if="status == 'success'" @click.native="onSubmit"

@@ -3,27 +3,35 @@
   .ni-session-header
     .ni-session-title Welcome to Cosmos!
   .ni-session-main
-    list-item(
-      @click.native="setState('sign-up')"
-      icon="create"
-      title="Create new account")
-    list-item(
+    li-session(
       @click.native="setState('sign-in')"
-      icon="short_text"
-      title="Sign in with seed")
-    list-item(
+      icon="lock"
+      title="Sign in with password"
+      subtitle="If you have an account, choose this option")
+    li-session(
       @click.native="setState('hardware')"
       icon="usb"
-      title="Sign in with hardware")
+      title="Sign in with hardware"
+      subtitle="If you have a Ledger Wallet, choose this option")
+    li-session(
+      @click.native="setState('sign-up')"
+      icon="create"
+      title="Create new account"
+      subtitle="Generate a brand new seed and account")
+    li-session(
+      @click.native="setState('restore')"
+      icon="settings_backup_restore"
+      title="Restore account from seed"
+      subtitle="If you have a seed, choose this option")
   .ni-session-footer
 </template>
 
 <script>
-import ListItem from 'common/NiListItem'
+import LiSession from 'common/NiLiSession'
 export default {
   name: 'ni-session-welcome',
   components: {
-    ListItem
+    LiSession
   },
   methods: {
     setState (value) { this.$store.commit('setModalSessionState', value) }

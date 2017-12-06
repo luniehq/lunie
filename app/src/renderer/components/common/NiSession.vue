@@ -1,9 +1,11 @@
 <template lang="pug">
 .ni-session-wrapper(v-if="active")
+  img.ni-session-backdrop(src="../../assets/images/cosmos-logo.png")
   session-welcome(v-if="config.modals.session.state == 'welcome'")
   session-sign-up(v-if="config.modals.session.state == 'sign-up'")
   session-sign-in(v-if="config.modals.session.state == 'sign-in'")
   session-hardware(v-if="config.modals.session.state == 'hardware'")
+  session-restore(v-if="config.modals.session.state == 'restore'")
 </template>
 
 <script>
@@ -12,23 +14,42 @@ import SessionWelcome from 'common/NiSessionWelcome'
 import SessionSignUp from 'common/NiSessionSignUp'
 import SessionSignIn from 'common/NiSessionSignIn'
 import SessionHardware from 'common/NiSessionHardware'
+import SessionRestore from 'common/NiSessionRestore'
 export default {
   name: 'ni-session',
   components: {
     SessionWelcome,
     SessionSignUp,
     SessionSignIn,
-    SessionHardware
+    SessionHardware,
+    SessionRestore
   },
   computed: {
     ...mapGetters(['config']),
     active () { return this.config.modals.session.active }
+  },
+  mounted () {
+    noScroll.on()
+  },
+  beforeDestroy () {
+    noScroll.off()
   }
 }
 </script>
 
 <style lang="stylus">
 @import '~variables'
+
+.ni-session-wrapper
+  position relative
+  z-index 1000
+
+  .ni-session-backdrop
+    position absolute
+    top -10vw
+    left -10vw
+    width 50vw
+    opacity 0.25
 
 .ni-field-checkbox
   display flex
@@ -75,6 +96,7 @@ export default {
   justify-content space-between
   align-items center
   flex 0 0 3rem
+  margin-top 1.5rem // for macos traffic signals
 
   a
     width 3rem
@@ -114,7 +136,7 @@ export default {
     border-bottom px solid bc
 
 .ni-session-footer
-  border-top px solid bc
+  border-top 2*px solid bc-dim
   flex 0 0 5rem + px
   display flex
   align-items center
@@ -152,6 +174,7 @@ export default {
 
   .ni-session-header
     background app-fg
+    margin-top 0
 
   .ni-session-main
     padding 2rem 3rem
