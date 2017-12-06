@@ -62,7 +62,7 @@ export default {
     },
     filteredBalances () {
       let query = this.filters.balances.search.query
-      let list = orderBy(this.allDenomBalances, ['amount','denom'], ['desc','asc'])
+      let list = orderBy(this.allDenomBalances, ['amount', 'denom'], ['desc', 'asc'])
       if (this.filters.balances.search.visible) {
         return list.filter(i => includes(i.denom.toLowerCase(), query))
       } else {
