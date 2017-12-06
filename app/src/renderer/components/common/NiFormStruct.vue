@@ -45,7 +45,7 @@ export default {
 .ni-form
   display flex
   position relative
-  max-width width-main
+  width width-main
 
 .ni-form-container
   flex 1
@@ -86,7 +86,6 @@ export default {
     display flex
     justify-content flex-end
     align-items center
-    border-bottom px solid bc-dim
 
     > *:not(:last-child)
       margin-right 1rem

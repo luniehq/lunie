@@ -3,7 +3,6 @@ header.ni-page-header
   .ni-page-header-container
     .ni-page-header-text
       .ni-page-header-title
-        i.material-icons(v-if="icon") {{ icon }}
         slot(name='title')
       .ni-page-header-subtitle
         slot(name='subtitle')
@@ -24,6 +23,11 @@ export default {
 .ni-page-header
   -webkit-app-region: drag;
 
+.ni-page-header-title
+  font-size xl
+  > div
+    display inline-block
+
 .ni-page-header-container
   min-height 3rem
   border-bottom px solid bc
@@ -33,36 +37,21 @@ export default {
   flex 1
   display flex
   min-width 0 // fix truncation
+  padding 1.66rem 1rem 1rem 2rem // 1.66 to match logo
 
-  padding 0.75rem 1rem 0.75rem - px
+  i.material-icons
+    font-size 1.375 * x
+    padding-right 0.375rem
 
-  .ni-page-header-title
-    flex 3
-    display flex
-    min-width 0 // fix truncation
+  > div
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
 
-    &:empty
-      display none
-
-    i.material-icons
-      font-size 1.375 * x
-      padding-right 0.375rem
-
-    > div
-      white-space nowrap
-      overflow hidden
-      text-overflow ellipsis
-
-      font-size lg
-      line-height 1.5rem
-      font-weight 400
-      color bright
-
-  .ni-page-header-subtitle
-    flex 1
-    > div
-      color dim
-      font-size sm
+    font-size xl
+    line-height 1.5rem
+    font-weight 500
+    color bright
 
 @media screen and (min-width: 1024px)
   .ni-page-header
@@ -72,5 +61,6 @@ export default {
     display flex
 
   .ni-page-header-menu
-    flex 0 0 16rem
+    display flex
+    align-items center
 </style>

@@ -3,39 +3,41 @@ page(title='Send')
   div(slot="menu"): tool-bar
 
   form-struct(:submit="onSubmit")
-    form-group(:error='$v.fields.denom.$error'
-      field-id='send-denomination' field-label='Denomination')
-      field#send-denomination(
-        type="select"
-        v-model="fields.denom"
-        :options="denominations"
-        placeholder="Select token...")
-      form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
+    part(title='Denomination Options')
+      form-group(:error='$v.fields.denom.$error'
+        field-id='send-denomination' field-label='Denomination')
+        field#send-denomination(
+          type="select"
+          v-model="fields.denom"
+          :options="denominations"
+          placeholder="Select token...")
+        form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
 
-    form-group(:error='$v.fields.address.$error'
-      field-id='send-address' field-label='Send To')
-      field-group
-        field#send-address(
-          type='text'
-          v-model='fields.address'
-          placeholder='Address')
-      form-msg(name='Address' type='required' v-if='!$v.fields.address.required')
-      form-msg(name='Address' type='exactLength' length='40'
-        v-if='!$v.fields.address.minLength || !$v.fields.address.maxLength')
-      form-msg(name='Address' type='alphaNum' v-if='!$v.fields.address.alphaNum')
+    part(title='Transaction Details')
+      form-group(:error='$v.fields.address.$error'
+        field-id='send-address' field-label='Send To')
+        field-group
+          field#send-address(
+            type='text'
+            v-model='fields.address'
+            placeholder='Address')
+        form-msg(name='Address' type='required' v-if='!$v.fields.address.required')
+        form-msg(name='Address' type='exactLength' length='40'
+          v-if='!$v.fields.address.minLength || !$v.fields.address.maxLength')
+        form-msg(name='Address' type='alphaNum' v-if='!$v.fields.address.alphaNum')
 
-    form-group(:error='$v.fields.amount.$error'
-      field-id='send-amount' field-label='Amount')
-      field-group
-        field#send-amount(
-          type='number'
-          v-model='fields.amount'
-          placeholder='Amount')
-        field-addon Coins
-        btn(value='Max')
-      form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
-      form-msg(name='Amount' type='between' min='1' max='1000000'
-        v-if='!$v.fields.amount.between')
+      form-group(:error='$v.fields.amount.$error'
+        field-id='send-amount' field-label='Amount')
+        field-group
+          field#send-amount(
+            type='number'
+            v-model='fields.amount'
+            placeholder='Amount')
+          field-addon Coins
+          btn(value='Max')
+        form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
+        form-msg(name='Amount' type='between' min='1' max='1000000'
+          v-if='!$v.fields.amount.between')
 
     div(slot='footer')
       div
@@ -54,6 +56,7 @@ import FormGroup from 'common/NiFormGroup'
 import FormMsg from '@nylira/vue-form-msg'
 import FormStruct from 'common/NiFormStruct'
 import Page from 'common/NiPage'
+import Part from 'common/NiPart'
 import ToolBar from 'common/NiToolBar'
 export default {
   components: {
@@ -65,6 +68,7 @@ export default {
     FormMsg,
     FormStruct,
     Page,
+    Part,
     ToolBar
   },
   computed: {

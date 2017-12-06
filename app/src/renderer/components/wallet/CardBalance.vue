@@ -64,7 +64,6 @@ export default {
         color dim
         margin-right 0.375em
       span
-        mono()
         font-size sm
         font-weight bold
 
