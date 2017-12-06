@@ -31,8 +31,6 @@ page(title='Send')
           type='number'
           v-model='fields.amount'
           placeholder='Amount')
-        field-addon Coins
-        btn(value='Max')
       form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
       form-msg(name='Amount' type='between' min='1' max='1000000'
         v-if='!$v.fields.amount.between')
@@ -40,7 +38,7 @@ page(title='Send')
     div(slot='footer')
       div
       btn(v-if='sending' value='Sending...' disabled)
-      btn(v-else @click='onSubmit' icon="check" value="Send Tokens")
+      btn(v-else @click='onSubmit' value="Send Tokens")
 </template>
 
 <script>
@@ -118,6 +116,11 @@ export default {
       })
     },
     ...mapActions(['walletSend'])
+  },
+  mounted () {
+    if (this.denominations.length === 1) {
+      this.fields.denom = this.denominations[0].key
+    }
   },
   validations: () => ({
     fields: {
