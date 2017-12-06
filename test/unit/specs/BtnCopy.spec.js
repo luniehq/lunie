@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import { mount, createLocalVue } from 'vue-test-utils'
-import BtnCopy from 'renderer/components/wallet/BtnCopy'
+import BtnCopy from 'renderer/components/common/NiBtnCopy'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)

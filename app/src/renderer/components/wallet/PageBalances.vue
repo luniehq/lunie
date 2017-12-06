@@ -11,7 +11,7 @@ page(title='Balance')
   modal-search(v-if="filters.balances.search.visible" type="balances")
 
   part(title='Your Address')
-    li-address(:value="wallet.key.address")
+    li-copy(:value="wallet.key.address")
 
   part(title="Denomination Balances")
     list-item(
@@ -26,7 +26,7 @@ page(title='Balance')
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
-import LiAddress from 'wallet/LiAddress'
+import LiCopy from 'common/NiLiCopy'
 import ListItem from 'common/NiListItem'
 import ModalSearch from 'common/NiModalSearch'
 import Page from 'common/NiPage'
@@ -35,7 +35,7 @@ import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-balances',
   components: {
-    LiAddress,
+    LiCopy,
     ListItem,
     ModalSearch,
     Page,

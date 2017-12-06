@@ -1,21 +1,16 @@
 <template lang="pug">
-.ni-li-address(:id='cssId')
+.ni-li-copy
   .value {{ value }}
   menu
     btn-copy(:value='value')
 </template>
 
 <script>
-import BtnCopy from 'wallet/BtnCopy'
+import BtnCopy from 'common/NiBtnCopy'
 export default {
-  name: 'ni-li-address',
+  name: 'ni-li-copy',
   components: {
     BtnCopy
-  },
-  computed: {
-    cssId () {
-      return 'address-' + this.value
-    }
   },
   props: ['value']
 }
@@ -24,11 +19,13 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.ni-li-address
+.ni-li-copy
   height 3rem
   display flex
   align-items center
-  border-bottom 1px solid bc-dim
+  border-bottom px solid bc-dim
+  &:only-child
+    border-bottom none
 
   .value
     flex 1
