@@ -6,8 +6,7 @@ export default ({ commit, node }) => {
   let state = {
     balances: [
       // TODO: set denom list dynamically somehow (maybe from denoms genesis.json?)
-      { denom: 'atom', amount: 0 },
-      { denom: 'mycoin', amount: 0 }
+      { denom: 'fermion', amount: 0 }
     ],
     sequence: 0,
     key: { address: '' },
