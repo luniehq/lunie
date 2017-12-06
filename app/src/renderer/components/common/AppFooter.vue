@@ -2,7 +2,7 @@
 footer.app-footer
   .app-footer-container(v-if='connected')
     .afi.afi-success
-      i.material-icons done
+      i.material-icons.success done
       span {{ lastHeader.chain_id }} (\#{{ lastHeader.height }})
     .afi
       i.material-icons settings_ethernet 
@@ -40,6 +40,11 @@ export default {
     display flex
     align-items center
     padding 0 1rem
+
     i
       margin-right 0.5rem
+
+    .success
+      color success
+
 </style>

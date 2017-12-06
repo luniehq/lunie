@@ -44,7 +44,7 @@ export default {
   computed: {
     ...mapGetters(['candidates', 'filters', 'shoppingCart']),
     pageTitle () {
-      return `Delegate (${this.candidatesNum} Candidates Selected)`
+      return `Delegates (${this.candidatesNum} Candidates Selected)`
     },
     filteredCandidates () {
       let query = this.filters.candidates.search.query
