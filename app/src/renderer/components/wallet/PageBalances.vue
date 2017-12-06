@@ -47,9 +47,22 @@ export default {
   },
   computed: {
     ...mapGetters(['filters', 'wallet']),
+    allDenomBalances () {
+      // for denoms not in balances, add empty balance
+      let balances = this.wallet.balances
+      let hasDenom = (denom) => {
+        return !!balances.filter((balance) =>
+          balance.denom === denom)[0]
+      }
+      for (let denom of this.wallet.denoms) {
+        if (hasDenom(denom)) continue
+        balances.push({ denom, amount: 0 })
+      }
+      return balances
+    },
     filteredBalances () {
       let query = this.filters.balances.search.query
-      let list = orderBy(this.wallet.balances, ['denom'], ['desc'])
+      let list = orderBy(this.allDenomBalances, ['amount', 'denom'], ['desc', 'asc'])
       if (this.filters.balances.search.visible) {
         return list.filter(i => includes(i.denom.toLowerCase(), query))
       } else {
