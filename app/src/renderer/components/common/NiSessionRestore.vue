@@ -50,6 +50,9 @@ export default {
       this.$store.commit('setSignedIn', true)
     }
   },
+  mounted () {
+    document.querySelector('#restore-seed').focus()
+  },
   validations: () => ({
     fields: {
       restoreSeed: { required }

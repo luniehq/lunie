@@ -7,6 +7,7 @@
   .ni-session-main
     form-group(field-id='sign-up-seed' field-label='Account Seed')
       field#sign-up-seed(
+        disabled
         type="textarea"
         v-model="fields.signUpSeed"
         @input="$v.fields.signUpSeed.$touch()")
@@ -67,6 +68,9 @@ export default {
       this.$store.commit('notify', { title: 'Signed Up', body: 'TODO: REPLACE ME' })
       this.$store.commit('setSignedIn', true)
     }
+  },
+  mounted () {
+    document.querySelector('#sign-up-warning').select()
   },
   validations: () => ({
     fields: {

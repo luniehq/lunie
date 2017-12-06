@@ -50,6 +50,9 @@ export default {
       this.$store.commit('setSignedIn', true)
     }
   },
+  mounted () {
+    document.querySelector('#sign-in-password').focus()
+  },
   validations: () => ({
     fields: {
       signInPassword: { required }
