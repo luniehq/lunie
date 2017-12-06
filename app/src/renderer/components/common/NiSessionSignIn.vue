@@ -52,7 +52,7 @@ export default {
     }
   },
   mounted () {
-    document.querySelector('#sign-in-password').focus()
+    this.$el.querySelector('#sign-in-password').focus()
   },
   validations: () => ({
     fields: {
