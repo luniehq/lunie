@@ -12,6 +12,7 @@
       icon="short_text"
       title="Sign in with seed")
     list-item(
+      v-if="developerMode"
       @click.native="setState('hardware')"
       icon="usb"
       title="Sign in with hardware")
@@ -19,11 +20,15 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 import ListItem from 'common/NiListItem'
 export default {
   name: 'ni-session-welcome',
   components: {
     ListItem
+  },
+  computed: {
+    ...mapGetters(['developerMode'])
   },
   methods: {
     setState (value) { this.$store.commit('setModalSessionState', value) }

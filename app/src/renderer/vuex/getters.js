@@ -24,3 +24,6 @@ export const transactions = state => state.wallet.history
 
 // ui
 export const filters = state => state.filters
+
+// developer
+export const developerMode = state => state.config.developerMode

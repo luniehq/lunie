@@ -23,6 +23,11 @@ export default {
   computed: {
     ...mapGetters(['config']),
     active () { return this.config.modals.session.active }
+  },
+  mounted () {
+    if (!this.developerMode) {
+      this.$store.commit('setModalSession', true)
+    }
   }
 }
 </script>
