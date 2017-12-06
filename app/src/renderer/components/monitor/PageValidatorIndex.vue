@@ -4,7 +4,6 @@ page(icon="storage" :title="validator.pub_key.data")
     router-link(to="/validators" exact)
       i.material-icons arrow_back
       .label Back
-    anchor-copy(:value="tmpValidator.pub_key" icon="content_copy" label="Copy Public Key")
 
   part(title="Validator Profile")
     list-item(dt="Total Vote Power" :dd="validator.voting_power"
@@ -19,19 +18,22 @@ page(icon="storage" :title="validator.pub_key.data")
   part(title="Staking")
     list-item(dt="Earn Rate" dd="8.1K ATOM / day")
     list-item(dt="Total Earnings" dd="301.8K ATOM")
+
+  part(title="Public Key")
+    li-copy(:value="tmpValidator.pub_key")
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import LiCopy from 'common/NiLiCopy'
 import ListItem from 'common/NiListItem'
 import ToolBar from 'common/NiToolBar'
 import Page from 'common/NiPage'
 import Part from 'common/NiPart'
-import AnchorCopy from 'common/AnchorCopy'
 export default {
   name: 'page-validator-index',
   components: {
-    AnchorCopy,
+    LiCopy,
     ListItem,
     Page,
     Part,
