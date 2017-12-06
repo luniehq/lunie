@@ -1,12 +1,12 @@
 <template lang="pug">
 .ni-session: .ni-session-container
   .ni-session-header
-    .ni-session-title Welcome to Cosmos
+    .ni-session-title Welcome to Cosmos!
   .ni-session-main
     list-item(
       @click.native="setState('sign-up')"
       icon="create"
-      title="Create new account") 
+      title="Create new account")
     list-item(
       @click.native="setState('sign-in')"
       icon="short_text"

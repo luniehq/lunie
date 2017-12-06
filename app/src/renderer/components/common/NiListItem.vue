@@ -204,7 +204,6 @@ export default {
 
   max-width width-side
   flex 2
-  line-height 1rem
 
 .ni-li-dd
   padding-left 0.25rem
