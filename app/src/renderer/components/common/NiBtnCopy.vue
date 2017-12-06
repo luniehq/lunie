@@ -1,6 +1,6 @@
 <template lang="pug">
 btn.btn-copy(
-  icon="copy"
+  icon="content_copy"
   @click.native="click"
   :data-clipboard-text="value"
   value="Copy")
@@ -13,6 +13,16 @@ export default {
   components: {
     Btn
   },
+  computed: {
+    notifyTitle () {
+      if (this.title) return this.title
+      else return 'Copy Success!'
+    },
+    notifyBody () {
+      if (this.body) return this.body
+      else return `"${this.trunc(this.value)}" has been copied to your clipboard.`
+    }
+  },
   methods: {
     trunc (value) {
       if (value.length > 20) value = value.substring(0, 10) + '...'
@@ -20,14 +30,14 @@ export default {
     },
     click () {
       this.$store.commit('notify', {
-        title: 'Copy Success!',
-        body: `"${this.trunc(this.value)}" has been copied to your clipboard.`
+        title: this.notifyTitle,
+        body: this.notifyBody
       })
     }
   },
   mounted () {
     this.clipboard = new Clipboard('.btn-copy')
   },
-  props: ['value']
+  props: ['value', 'title', 'body']
 }
 </script>

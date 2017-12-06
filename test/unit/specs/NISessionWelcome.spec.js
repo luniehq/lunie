@@ -1,7 +1,7 @@
 import Vuex from 'vuex'
 import { mount, createLocalVue } from 'vue-test-utils'
 import NISessionWelcome from 'common/NiSessionWelcome'
-import NIListItem from 'common/NiListItem'
+import LiSession from 'common/NiLiSession'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -23,8 +23,8 @@ describe('NISessionWelcome', () => {
   })
 
   it('sets desired login method', () => {
-    wrapper.findAll(NIListItem).trigger('click')
+    wrapper.findAll(LiSession).trigger('click')
     expect(store.commit.mock.calls[0][0]).toBe('setModalSessionState')
-    expect(store.commit.mock.calls.map(args => args[1])).toEqual(['sign-up', 'sign-in', 'hardware'])
+    expect(store.commit.mock.calls.map(args => args[1])).toEqual(['sign-in', 'hardware', 'sign-up', 'restore'])
   })
 })

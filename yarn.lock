@@ -3622,6 +3622,10 @@ hpack.js@^2.1.6:
     readable-stream "^2.0.1"
     wbuf "^1.1.0"
 
+html-beautify@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/html-beautify/-/html-beautify-1.0.4.tgz#09b2cf5806fa0dbd7e3dbe649d6598316d4794e0"
+
 html-comment-regex@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/html-comment-regex/-/html-comment-regex-1.1.1.tgz#668b93776eaae55ebde8f3ad464b307a4963625e"

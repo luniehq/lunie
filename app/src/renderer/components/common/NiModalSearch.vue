@@ -41,22 +41,10 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.ni-modal-search
-  height 3rem
-
-  position fixed
-  bottom 0
-  left 0
-  width 100vw
-
-  z-index 100
-
 .ni-modal-search-container
   display flex
-  height 3rem
-  padding 0.5rem
-  background app-fg
-  border-top px solid bc
+  padding 0 1rem 1rem
+
   .ni-field
     margin-right 0.5rem
 

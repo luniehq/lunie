@@ -22,7 +22,6 @@ page(title="Profile: CosmosUser01")
 </template>
 
 <script>
-import AnchorCopy from 'common/AnchorCopy'
 import ListItem from 'common/NiListItem'
 import ToolBar from 'common/NiToolBar'
 import Page from 'common/NiPage'
@@ -30,7 +29,6 @@ import Part from 'common/NiPart'
 export default {
   name: 'page-validator',
   components: {
-    AnchorCopy,
     ListItem,
     Page,
     Part,

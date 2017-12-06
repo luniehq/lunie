@@ -22,8 +22,8 @@ export default {
 @import '~variables'
 
 .ni-form-group
-  padding 1rem 1rem 1rem - px
-  border-bottom px solid bc
+  padding 0.5rem 1rem
+
   &:last-child
     border-bottom none
 
@@ -43,6 +43,9 @@ export default {
       border-color danger
     .ni-form-msg-error
       display flex
+
+.ni-form-footer
+  border-top 2px solid bc-dim
 
 @media (min-width: 768px)
   .ni-form-group
