@@ -99,16 +99,10 @@ export default {
 
 @media screen and (max-width: 1023px)
   .ni-tool-bar
-    position fixed
-    bottom 0
-    left 0
-    right 0
     z-index 90
 
   .ni-tool-bar-container
     background app-bg-alpha
-    height 3rem + px
-    border-top px solid bc
 
 @media screen and (min-width: 1024px)
   .ni-tool-bar-container

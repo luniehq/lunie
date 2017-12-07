@@ -1,9 +1,7 @@
 <template lang='pug'>
 nav#app-header: .container
   template(v-if="!config.desktop")
-    .header-item(v-if="config.activeMenu === 'app'" @click="close")
-      i.material-icons close
-    .header-item(v-else @click="enableMenu('app')"): i.material-icons menu
+    .header-item
 
   router-link.header-item.header-item-logo(to="/")
     img(src="~@/assets/images/cosmos.png")
@@ -11,7 +9,9 @@ nav#app-header: .container
   // app-menu-user(v-if="config.activeMenu === 'user' || config.desktop")
 
   template(v-if="!config.desktop")
-    .header-item
+    .header-item(v-if="config.activeMenu === 'app'" @click="close")
+      i.material-icons close
+    .header-item(v-else @click="enableMenu('app')"): i.material-icons menu
 </template>
 
 <script>
@@ -66,7 +66,7 @@ export default {
     position fixed
     top 0
     left 0
-    z-index 100
+    z-index 2000
     width 100%
 
     background app-bg
