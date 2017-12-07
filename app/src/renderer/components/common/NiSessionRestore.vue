@@ -65,7 +65,7 @@ export default {
     }
   },
   mounted () {
-    document.querySelector('#restore-seed').focus()
+    this.$el.querySelector('#restore-seed').focus()
   },
   validations: () => ({
     fields: {

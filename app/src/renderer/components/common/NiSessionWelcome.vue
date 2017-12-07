@@ -28,6 +28,7 @@
         title="Restore account from seed"
         subtitle="If you have a seed, choose this option")
       li-session(
+        v-if="config.devMode"
         @click.native="setState('hardware')"
         icon="usb"
         title="Sign in with hardware"
@@ -36,11 +37,17 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+import ListItem from 'common/NiListItem'
 import LiSession from 'common/NiLiSession'
 export default {
   name: 'ni-session-welcome',
   components: {
+    ListItem,
     LiSession
+  },
+  computed: {
+    ...mapGetters(['config'])
   },
   methods: {
     help () { this.$store.commit('setModalHelp', true) },

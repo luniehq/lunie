@@ -99,16 +99,18 @@ export default {
   &:last-child
     border-bottom: none
 
-  &:hover
-    .ni-li-title
-      color bright
-
   &:first-child
     height 3rem + px
 
   &.ni-li-link
     &:hover
       background: app-bg-hover
+
+      .ni-li-label
+        cursor pointer
+
+      .ni-li-title
+        color bright
 
     &:before
       content ''
@@ -166,9 +168,6 @@ export default {
   justify-content center
   padding 0 1rem
   flex-flow column nowrap
-
-  &:hover
-    cursor: pointer
 
   .ni-li-title
     color txt

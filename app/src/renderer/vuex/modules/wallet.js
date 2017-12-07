@@ -21,20 +21,16 @@ export default ({ commit, node }) => {
     },
     setWalletKey (state, key) {
       state.key = key
-      console.log('setWalletKey', key)
     },
     setWalletSequence (state, sequence) {
       if (state.sequence === sequence) return
       state.sequence = sequence
-      console.log('setWalletSequence', sequence)
     },
     setWalletHistory (state, history) {
       state.history = history
-      console.log('setWalletHistory', history)
     },
     setDenoms (state, denoms) {
       state.denoms = denoms
-      console.log('setDenoms', denoms)
     }
   }
 

@@ -37,7 +37,7 @@ export default {
   flex 1
   display flex
   min-width 0 // fix truncation
-  padding 1.66rem 1rem 1rem 2rem // 1.66 to match logo
+  padding 1rem
 
   i.material-icons
     font-size 1.375 * x
@@ -59,6 +59,9 @@ export default {
 
   .ni-page-header-container
     display flex
+
+  .ni-page-header-text
+    padding 1.66rem 1rem 1rem 2rem // 1.66 to match logo
 
   .ni-page-header-menu
     display flex

@@ -1,5 +1,5 @@
 <template lang='pug'>
-.modal-blockchain(v-if='config.blockchainSelect' @click='close($event)')
+.modal-blockchain(v-if='config.modals.blockchain.active' @click='close($event)')
   .modal-blockchain-container: blockchain-select
 </template>
 
@@ -17,7 +17,7 @@ export default {
   methods: {
     close (event) {
       if (!event.target.classList.contains('ni-field-select')) {
-        this.$store.commit('SET_CONFIG_BLOCKCHAIN_SELECT', false)
+        this.$store.commit('setModalBlockchain', false)
         // console.log('closing it bc', event.target)
       } else {
         // console.log('clicked on select, not doing anything')
@@ -27,7 +27,7 @@ export default {
   watch: {
     'blockchain.blockchainName' (val, oldVal) {
       // console.log('blockchain name changed, closing modal')
-      this.$store.commit('SET_CONFIG_BLOCKCHAIN_SELECT', false)
+      this.$store.commit('setModalBlockchain', false)
     }
   }
 }

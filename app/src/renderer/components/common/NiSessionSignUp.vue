@@ -79,7 +79,7 @@ export default {
       let key = await this.$store.dispatch('createKey', { seedPhrase: this.fields.signUpSeed, password: this.fields.signInPassword })
       if (key) {
         this.$store.commit('setModalSession', false)
-        this.$store.commit('notify', { title: 'Signed Up', body: 'You have successfully create an account.' })
+        this.$store.commit('notify', { title: 'Signed Up', body: 'Your account has been created.' })
         this.$store.commit('setSignedIn', true)
       }
     }
