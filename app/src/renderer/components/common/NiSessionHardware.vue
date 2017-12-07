@@ -30,7 +30,7 @@ export default {
     setStatus (value) { this.status = value },
     onSubmit () {
       this.$store.commit('setModalSession', false)
-      this.$store.commit('notify', { title: 'Signed In (Hardware)', body: 'TODO: REPLACE ME' })
+      this.$store.commit('notify', { title: 'Welcome back!', body: 'You are now signed in to your Cosmos account.' })
       this.$store.commit('setSignedIn', true)
     }
   }

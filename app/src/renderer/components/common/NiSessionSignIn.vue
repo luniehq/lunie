@@ -47,7 +47,7 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       this.$store.commit('setModalSession', false)
-      this.$store.commit('notify', { title: 'Signed In (Seed)', body: 'TODO: REPLACE ME' })
+      this.$store.commit('notify', { title: 'Welcome back!', body: 'You are now signed in to your Cosmos account.' })
       this.$store.commit('setSignedIn', true)
     }
   },

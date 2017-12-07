@@ -26,7 +26,7 @@ export default {
     SessionRestore
   },
   computed: {
-    ...mapGetters(['config']),
+    ...mapGetters(['config', 'config']),
     active () { return this.config.modals.session.active }
   },
   mounted () {
@@ -34,6 +34,9 @@ export default {
   },
   beforeDestroy () {
     noScroll.off()
+    if (!this.config.devMode) {
+      this.$store.commit('setModalSession', true)
+    }
   }
 }
 </script>
