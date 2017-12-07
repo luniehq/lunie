@@ -31,6 +31,7 @@ describe('NISessionSignUp', () => {
       store
     })
     store.commit = jest.fn()
+    store.dispatch = jest.fn(() => Promise.resolve({}))
   })
 
   it('has the expected html structure', () => {
@@ -41,6 +42,11 @@ describe('NISessionSignUp', () => {
     wrapper.findAll('.ni-session-header a').at(0).trigger('click')
     expect(store.commit.mock.calls[0][0]).toBe('setModalSessionState')
     expect(store.commit.mock.calls[0][1]).toBe('welcome')
+  })
+  
+  it('should open the help model on click', () => {
+    wrapper.findAll('.ni-session-header a').at(1).trigger('click')
+    expect(store.commit.mock.calls[0]).toEqual(['setModalHelp', true])
   })
 
   it('should close the modal on successful login', async () => {
@@ -101,5 +107,17 @@ describe('NISessionSignUp', () => {
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
+  })
+  
+  it('should not continue if creation failed', async () => {
+    store.dispatch = jest.fn(() => Promise.resolve(null))
+    wrapper.setData({ fields: {
+      signInPassword: '1234567890',
+      signInSeed: 'bar',
+      signUpWarning: true,
+      signUpBackup: true
+    }})
+    await wrapper.vm.onSubmit()
+    expect(store.commit).not.toHaveBeenCalled()
   })
 })

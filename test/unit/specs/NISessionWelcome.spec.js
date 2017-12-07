@@ -36,6 +36,11 @@ describe('NISessionWelcome', () => {
     })
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
+  
+  it('should open the help model on click', () => {
+    wrapper.findAll('.ni-session-header a').at(1).trigger('click')
+    expect(store.commit.mock.calls[0]).toEqual(['setModalHelp', true])
+  })
 
   it('sets desired login method', () => {
     wrapper.setData({

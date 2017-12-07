@@ -30,6 +30,11 @@ describe('NiSessionAccountDelete', () => {
     expect(store.commit.mock.calls[0]).toEqual(['setModalSessionState', 'welcome'])
   })
   
+  it('should open the help model on click', () => {
+    wrapper.findAll('.ni-session-header a').at(1).trigger('click')
+    expect(store.commit.mock.calls[0]).toEqual(['setModalHelp', true])
+  })
+  
   it('should go back on successful deletion', async () => {
     wrapper.setData({ fields: {
       deletionPassword: '1234567890',
@@ -57,5 +62,16 @@ describe('NiSessionAccountDelete', () => {
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
+  })
+
+  it('should show a notification if deletion failed', async () => {
+    store.dispatch = jest.fn(() => Promise.reject('Planed rejection'))
+    wrapper.setData({ fields: {
+      deletionPassword: '1234567890',
+      deletionWarning: true
+    }})
+    await wrapper.vm.onSubmit()
+    expect(store.commit).toHaveBeenCalled()
+    expect(store.commit.mock.calls[0][0]).toBe('notifyError')
   })
 })
