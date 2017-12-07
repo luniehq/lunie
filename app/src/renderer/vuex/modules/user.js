@@ -31,9 +31,6 @@ export default ({ commit, node }) => {
       state.account = account
       state.signedIn = true
     },
-    setSignedIn (state, signedIn) {
-      state.signedIn = signedIn
-    },
     activateDelegation (state) {
       state.delegationActive = true
     }
