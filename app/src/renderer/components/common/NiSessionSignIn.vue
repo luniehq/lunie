@@ -10,15 +10,15 @@
       field#sign-in-password(
         type="password"
         placeholder="Enter your password"
-        v-model="fields.signInPassword"
-        @input="$v.fields.signInPassword.$touch()")
+        v-model="fields.signInPassword")
       form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
+      form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
   .ni-session-footer
     btn(icon="exit_to_app" value="Sign In" size="lg")
 </template>
 
 <script>
-import {required} from 'vuelidate/lib/validators'
+import {required, minLength} from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldGroup from 'common/NiFieldGroup'
@@ -43,12 +43,17 @@ export default {
   methods: {
     help () { this.$store.commit('setModalHelp', true) },
     setState (value) { this.$store.commit('setModalSessionState', value) },
-    onSubmit () {
+    async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return
-      this.$store.commit('setModalSession', false)
-      this.$store.commit('notify', { title: 'Signed In (Seed)', body: 'TODO: REPLACE ME' })
-      this.$store.commit('setSignedIn', true)
+      try {
+        await this.$store.dispatch('testLogin', {password: this.fields.signInPassword})
+        this.$store.commit('signIn', {password: this.fields.signInPassword})
+        this.$store.commit('setModalSession', false)
+        this.$store.commit('notify', { title: 'Signed In', body: `You have successfully signed in to the account 'default'` })
+      } catch (err) {
+        this.$store.commit('notifyError', { title: 'Signing In Failed', body: err.message })
+      }
     }
   },
   mounted () {
@@ -56,7 +61,7 @@ export default {
   },
   validations: () => ({
     fields: {
-      signInPassword: { required }
+      signInPassword: { required, minLength: minLength(10) }
     }
   })
 }

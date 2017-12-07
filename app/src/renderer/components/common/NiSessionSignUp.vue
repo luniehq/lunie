@@ -18,9 +18,9 @@
       field#sign-in-password(
         type="password"
         placeholder="Password to protect your keys locally"
-        v-model="fields.signInPassword"
-        @input="$v.fields.signInPassword.$touch()")
+        v-model="fields.signInPassword")
       form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
+      form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
 
     form-group(field-id="sign-up-warning" field-label=' '
       :error='$v.fields.signUpWarning.$error')
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import {required} from 'vuelidate/lib/validators'
+import {required, minLength} from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldGroup from 'common/NiFieldGroup'
@@ -94,7 +94,7 @@ export default {
   },
   validations: () => ({
     fields: {
-      signInPassword: { required },
+      signInPassword: { required, minLength: minLength(10) },
       signUpWarning: { required },
       signUpBackup: { required }
     }

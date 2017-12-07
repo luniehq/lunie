@@ -30,7 +30,7 @@ export default ({ commit, node }) => {
   const state = JSON.parse(JSON.stringify(emptyUser))
 
   const mutations = {
-    signIn (state, password, account = KEY_NAME) {
+    signIn (state, {password, account = KEY_NAME}) {
       state.password = password
       state.account = account
       state.signedIn = true
@@ -49,6 +49,17 @@ export default ({ commit, node }) => {
   }
 
   const actions = {
+    async testLogin (state, {password, account = KEY_NAME}) {
+      try {
+        await node.updateKey(account, {
+          name: account,
+          password: password,
+          new_passphrase: password
+        })
+      } catch (err) {
+        commit('notifyError', { title: `Couldn't login to '${account}'`, body: err.message })
+      }
+    },
     async createSeed ({ commit }) {
       try {
         // cleanup
