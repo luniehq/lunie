@@ -13,6 +13,15 @@
         @input="$v.fields.signUpSeed.$touch()")
       form-msg(body='Please back up the seed phrase for this account. These words cannot be recovered!')
 
+    form-group(:error='$v.fields.signInPassword.$error'
+      field-id='sign-in-password' field-label='Password')
+      field#sign-in-password(
+        type="password"
+        placeholder="Password to protect your keys locally"
+        v-model="fields.signInPassword"
+        @input="$v.fields.signInPassword.$touch()")
+      form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
+
     form-group(field-id="sign-up-warning" field-label=' '
       :error='$v.fields.signUpWarning.$error')
       .ni-field-checkbox
@@ -31,7 +40,7 @@
           | I have securely backed up my generated seed phrase.
       form-msg(name='Backup confirmation' type='required' v-if='!$v.fields.signUpBackup.required')
   .ni-session-footer
-    btn(icon="create" value="Create Account" size="lg")
+    btn(icon="create" value="Create Account" size="lg" :disabled="creating")
 </template>
 
 <script>
@@ -53,8 +62,10 @@ export default {
     FormStruct
   },
   data: () => ({
+    creating: true,
     fields: {
-      signUpSeed: 'one two three four five six seven eight nine ten eleven twelve',
+      signUpSeed: 'Creating seed...',
+      signInPassword: '',
       signUpWarning: false,
       signUpBackup: false
     }
@@ -62,19 +73,28 @@ export default {
   methods: {
     help () { this.$store.commit('setModalHelp', true) },
     setState (value) { this.$store.commit('setModalSessionState', value) },
-    onSubmit () {
+    async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return
-      this.$store.commit('setModalSession', false)
-      this.$store.commit('notify', { title: 'Signed Up', body: 'TODO: REPLACE ME' })
-      this.$store.commit('setSignedIn', true)
+      let key = await this.$store.dispatch('createKey', { seedPhrase: this.fields.signUpSeed, password: this.fields.signInPassword })
+      if (key) {
+        this.$store.commit('setModalSession', false)
+        this.$store.commit('notify', { title: 'Signed Up', body: 'You have successfully create an account.' })
+        this.$store.commit('setSignedIn', true)
+      }
     }
   },
   mounted () {
-    this.$el.querySelector('#sign-up-warning').focus()
+      this.$el.querySelector('#sign-up-warning').focus()
+      this.$store.dispatch('createSeed')
+      .then(seed_phrase => {
+        this.creating = false
+        this.fields.signUpSeed = seed_phrase
+      })
   },
   validations: () => ({
     fields: {
+      signInPassword: { required },
       signUpWarning: { required },
       signUpBackup: { required }
     }
