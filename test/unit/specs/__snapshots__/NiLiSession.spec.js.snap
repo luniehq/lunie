@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiLiSession has the expected html structure 1`] = `
+<div
+  class="ni-li-session"
+>
+  <div
+    class="ni-li-session-icon"
+  >
+    <i
+      class="material-icons"
+    >
+      mood
+    </i>
+  </div>
+  <div
+    class="ni-li-session-text"
+  >
+    <div
+      class="ni-li-session-title"
+    >
+      useful title
+    </div>
+    <div
+      class="ni-li-session-subtitle"
+    >
+      useful subtitle
+    </div>
+  </div>
+</div>
+`;

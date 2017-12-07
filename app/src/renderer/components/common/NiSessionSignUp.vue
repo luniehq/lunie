@@ -3,10 +3,11 @@
   .ni-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
     .ni-session-title New Account
-    a: i.material-icons help_outline
+    a(@click="help"): i.material-icons help_outline
   .ni-session-main
     form-group(field-id='sign-up-seed' field-label='Account Seed')
       field#sign-up-seed(
+        disabled
         type="textarea"
         v-model="fields.signUpSeed"
         @input="$v.fields.signUpSeed.$touch()")
@@ -59,6 +60,7 @@ export default {
     }
   }),
   methods: {
+    help () { this.$store.commit('setModalHelp', true) },
     setState (value) { this.$store.commit('setModalSessionState', value) },
     onSubmit () {
       this.$v.$touch()
@@ -67,6 +69,9 @@ export default {
       this.$store.commit('notify', { title: 'Welcome!', body: 'Your account has been created.' })
       this.$store.commit('setSignedIn', true)
     }
+  },
+  mounted () {
+    this.$el.querySelector('#sign-up-warning').focus()
   },
   validations: () => ({
     fields: {

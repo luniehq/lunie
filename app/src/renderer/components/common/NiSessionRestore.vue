@@ -2,19 +2,19 @@
 .ni-session: form-struct(:submit='onSubmit').ni-session-container
   .ni-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
-    .ni-session-title Enter Password
+    .ni-session-title Enter Seed
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
-    form-group(:error='$v.fields.signInPassword.$error'
-      field-id='sign-in-password' field-label='Password')
-      field#sign-in-password(
-        type="password"
-        placeholder="Enter your password"
-        v-model="fields.signInPassword"
-        @input="$v.fields.signInPassword.$touch()")
-      form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
+    form-group(:error='$v.fields.restoreSeed.$error'
+      field-id='restore-seed' field-label='Account Seed')
+      field#restore-seed(
+        type="textarea"
+        placeholder="Enter your 12-word seed here"
+        v-model="fields.restoreSeed"
+        @input="$v.fields.restoreSeed.$touch()")
+      form-msg(name='Account Seed' type='required' v-if='!$v.fields.restoreSeed.required')
   .ni-session-footer
-    btn(icon="exit_to_app" value="Sign In" size="lg")
+    btn(icon="settings_backup_restore" value="Restore Account" size="lg")
 </template>
 
 <script>
@@ -26,7 +26,7 @@ import FormGroup from 'common/NiFormGroup'
 import FormMsg from '@nylira/vue-form-msg'
 import FormStruct from 'common/NiFormStruct'
 export default {
-  name: 'ni-session-sign-in',
+  name: 'ni-session-restore',
   components: {
     Btn,
     Field,
@@ -37,7 +37,7 @@ export default {
   },
   data: () => ({
     fields: {
-      signInPassword: ''
+      restoreSeed: ''
     }
   }),
   methods: {
@@ -47,16 +47,16 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       this.$store.commit('setModalSession', false)
-      this.$store.commit('notify', { title: 'Welcome back!', body: 'You are now signed in to your Cosmos account.' })
+      this.$store.commit('notify', { title: 'Welcome back!', body: 'Your account has been successfully restored.' })
       this.$store.commit('setSignedIn', true)
     }
   },
   mounted () {
-    this.$el.querySelector('#sign-in-password').focus()
+    this.$el.querySelector('#restore-seed').focus()
   },
   validations: () => ({
     fields: {
-      signInPassword: { required }
+      restoreSeed: { required }
     }
   })
 }

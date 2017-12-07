@@ -3,10 +3,10 @@
   .ni-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
     .ni-session-title Plug In Hardware
-    a: i.material-icons help_outline
+    a(@click="help"): i.material-icons help_outline
   .ni-session-main
     hardware-state(v-if="status == 'connect'" @click.native="setStatus('detect')"
-      icon="power" value="Please plug in your Ledger Wallet")
+      icon="usb" value="Please plug in your Ledger Wallet")
     hardware-state(v-if="status == 'detect'" @click.native="setStatus('success')"
       icon="rotate_right" spin="true" value="Detecting your Ledger Wallet")
     hardware-state(v-if="status == 'success'" @click.native="onSubmit"
@@ -25,6 +25,7 @@ export default {
     status: 'connect'
   }),
   methods: {
+    help () { this.$store.commit('setModalHelp', true) },
     setState (value) { this.$store.commit('setModalSessionState', value) },
     setStatus (value) { this.status = value },
     onSubmit () {
