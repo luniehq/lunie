@@ -64,7 +64,6 @@ export default [
   },
 
   // USER
-  { path: '/signin', name: 'signin', component: common('SignIn') },
   { path: '/profile', name: 'profile', component: common('Profile') },
 
   // WALLET
