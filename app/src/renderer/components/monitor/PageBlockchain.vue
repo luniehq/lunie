@@ -5,7 +5,7 @@ page(title='Blockchain')
       i.material-icons search
       .label Search
     a(@click='toggleBlockchainSelect')
-      i.material-icons(v-if='!config.blockchainSelect') filter_list
+      i.material-icons(v-if='!config.modals.blockchain.active') filter_list
       i.material-icons(v-else='') close
       .label Switch Blockchain
 
@@ -93,7 +93,7 @@ export default {
       return moment(ms / 1000000).format('HH:mm:ss.SSS')
     },
     toggleBlockchainSelect () {
-      this.$store.commit('SET_CONFIG_BLOCKCHAIN_SELECT', !this.config.blockchainSelect)
+      this.$store.commit('setModalBlockchain', !this.config.modals.blockchain.active)
     }
   }
 }

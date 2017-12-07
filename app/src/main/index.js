@@ -95,15 +95,14 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     minWidth: 320,
     minHeight: 480,
-    width: 1200,
-    height: 800,
+    width: 1024,
+    height: 768,
     center: true,
     title: 'Cosmos',
     darkTheme: true,
     titleBarStyle: 'hidden',
     webPreferences: { webSecurity: false }
   })
-  // mainWindow.maximize()
 
   mainWindow.loadURL(winURL + '?node=' + nodeIP)
   if (DEV || process.env.COSMOS_DEVTOOLS) {
