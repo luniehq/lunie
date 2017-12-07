@@ -10,7 +10,7 @@
       icon="lock"
       title="Sign in with password"
       subtitle="If you have an account, choose this option")
-    list-item(
+    li-session(
       v-if="config.devMode"
       @click.native="setState('hardware')"
       icon="usb"
@@ -32,9 +32,11 @@
 <script>
 import {mapGetters} from 'vuex'
 import ListItem from 'common/NiListItem'
+import LiSession from 'common/NiLiSession'
 export default {
   name: 'ni-session-welcome',
   components: {
+    ListItem,
     LiSession
   },
   computed: {
