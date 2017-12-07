@@ -2,18 +2,18 @@ import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 import { mount, createLocalVue } from 'vue-test-utils'
 import htmlBeautify from 'html-beautify'
-import NiSessionRestore from 'common/NiSessionRestore'
+import NiSessionAccountDelete from 'common/NiSessionAccountDelete'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
 
-describe('NiSessionRestore', () => {
+describe('NiSessionAccountDelete', () => {
   let wrapper, store
 
   beforeEach(() => {
     store = new Vuex.Store()
-    wrapper = mount(NiSessionRestore, {
+    wrapper = mount(NiSessionAccountDelete, {
       localVue,
       store
     })
@@ -24,36 +24,35 @@ describe('NiSessionRestore', () => {
   it('has the expected html structure', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
-
+  
   it('should go back to the welcome screen on click', () => {
     wrapper.findAll('.ni-session-header a').at(0).trigger('click')
-    expect(store.commit.mock.calls[0][0]).toBe('setModalSessionState')
-    expect(store.commit.mock.calls[0][1]).toBe('welcome')
+    expect(store.commit.mock.calls[0]).toEqual(['setModalSessionState', 'welcome'])
   })
-
-  it('should close the modal on successful login', async () => {
+  
+  it('should go back on successful deletion', async () => {
     wrapper.setData({ fields: {
-      signInPassword: '1234567890',
-      restoreSeed: 'bar' // <-- doesn#t check for correctness of seed
+      deletionPassword: '1234567890',
+      deletionWarning: true
     }})
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toEqual(['setModalSession', false])
+    expect(store.commit.mock.calls[0]).toEqual(['setModalSessionState', 'welcome'])
   })
-
-  it('should signal signed in state on successful login', async () => {
+  
+  it('should show error if password not 10 long', async () => {
     wrapper.setData({ fields: {
-      signInPassword: '1234567890',
-      restoreSeed: 'bar' // <-- doesn#t check for correctness of seed
+      deletionPassword: '123',
+      deletionWarning: true
     }})
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[1][0]).toEqual('notify')
-    expect(store.commit.mock.calls[1][1].title.toLowerCase()).toContain('welcome back!')
-    expect(store.commit.mock.calls[2]).toEqual(['setSignedIn', true])
+    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
-
-  it('should show error if seed is not filled in', async () => {
+  
+  it('should show error if deletionWarning is not acknowledged', async () => {
     wrapper.setData({ fields: {
-      restoreSeed: ''
+      deletionPassword: '1234567890',
+      deletionWarning: false
     }})
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()

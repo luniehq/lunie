@@ -24,6 +24,16 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
 </div>
 </div>
       <div class=\\"ni-form-group\\">
+         <label for=\\"sign-in-password\\">Password</label>
+         <div class=\\"ni-form-group-field\\">
+            <input type=\\"password\\" placeholder=\\"Password to protect your keys locally\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
+            <div class=\\"ni-form-msg ni-form-msg-error\\">
+               Password is required
+            </div>
+               <!---->
+   </div>
+</div>
+      <div class=\\"ni-form-group\\">
          <label for=\\"sign-up-warning\\"></label>
          <div class=\\"ni-form-group-field\\">
             <div class=\\"ni-field-checkbox\\">

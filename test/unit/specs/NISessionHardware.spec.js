@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 import { mount, createLocalVue } from 'vue-test-utils'
+import htmlBeautify from 'html-beautify'
 import NISessionHardware from 'common/NiSessionHardware'
 
 const localVue = createLocalVue()
@@ -20,7 +21,7 @@ describe('NISessionHardware', () => {
   })
 
   it('has the expected html structure', () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
   it('should go back to the welcome screen on click', () => {
