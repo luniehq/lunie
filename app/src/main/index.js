@@ -104,7 +104,7 @@ function createWindow () {
     webPreferences: { webSecurity: false }
   })
 
-  mainWindow.loadURL(winURL + '?node=' + nodeIP)
+  mainWindow.loadURL(winURL)
   if (DEV || process.env.COSMOS_DEVTOOLS) {
     mainWindow.webContents.openDevTools()
   }
@@ -406,6 +406,8 @@ async function main () {
   // replace port with default RPC port
   nodeIP = `${nodeIP.split(':')[0]}:46657`
   log(`Initializing baseserver with remote node ${nodeIP}`)
+
+  mainWindow.loadURL(winURL + '?node=' + nodeIP)
 
   let baseserverHome = join(root, 'baseserver')
   if (init) {
