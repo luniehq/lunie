@@ -26,23 +26,21 @@ page(title='Send')
           v-if='!$v.fields.address.minLength || !$v.fields.address.maxLength')
         form-msg(name='Address' type='alphaNum' v-if='!$v.fields.address.alphaNum')
 
-      form-group(:error='$v.fields.amount.$error'
-        field-id='send-amount' field-label='Amount')
-        field-group
-          field#send-amount(
-            type='number'
-            v-model='fields.amount'
-            placeholder='Amount')
-          field-addon Coins
-          btn(value='Max')
-        form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
-        form-msg(name='Amount' type='between' min='1' max='1000000'
-          v-if='!$v.fields.amount.between')
+    form-group(:error='$v.fields.amount.$error'
+      field-id='send-amount' field-label='Amount')
+      field-group
+        field#send-amount(
+          type='number'
+          v-model='fields.amount'
+          placeholder='Amount')
+      form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
+      form-msg(name='Amount' type='between' min='1' max='1000000'
+        v-if='!$v.fields.amount.between')
 
     div(slot='footer')
       div
       btn(v-if='sending' value='Sending...' disabled)
-      btn(v-else @click='onSubmit' icon="check" value="Send Tokens")
+      btn(v-else @click='onSubmit' value="Send Tokens")
 </template>
 
 <script>
@@ -109,19 +107,24 @@ export default {
           this.sending = false
           if (err) {
             this.$store.commit('notifyError', {
-              title: 'Error Sending Coins',
-              body: `An error occurred while trying to send coins: "${err.message}"`
+              title: 'Error Sending',
+              body: `An error occurred while trying to send: "${err.message}"`
             })
             return
           }
           this.$store.commit('notify', {
-            title: 'Coins Sent',
+            title: 'Successfully Sent',
             body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
           })
         }
       })
     },
     ...mapActions(['walletSend'])
+  },
+  mounted () {
+    if (this.denominations.length === 1) {
+      this.fields.denom = this.denominations[0].value
+    }
   },
   validations: () => ({
     fields: {

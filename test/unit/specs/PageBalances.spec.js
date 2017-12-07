@@ -36,12 +36,14 @@ describe('PageBalances', () => {
       }
     })
     store.commit('setWalletBalances', [{
-      denom: '123',
+      denom: 'ATOM',
       amount: 123
     }, {
-      denom: '456',
+      denom: 'FERMION',
       amount: 456
     }])
+    store.commit('setSearchQuery', ['balances', ''])
+    store.state.wallet.key.address = '123abc456def'
 
     jest.spyOn(store, 'commit')
     jest.spyOn(store, 'dispatch')
@@ -52,13 +54,13 @@ describe('PageBalances', () => {
   })
 
   it('should sort the balances by denom', () => {
-    expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual(['456', '123'])
+    expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual(['FERMION', 'ATOM'])
   })
 
   it('should filter the balances', () => {
     store.commit('setSearchVisible', ['balances', true])
-    store.commit('setSearchQuery', ['balances', '12'])
-    expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual(['123'])
+    store.commit('setSearchQuery', ['balances', 'atom'])
+    expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual(['ATOM'])
     expect(wrapper.html()).toMatchSnapshot()
   })
 
@@ -72,5 +74,22 @@ describe('PageBalances', () => {
     expect(wrapper.contains('.ni-modal-search')).toBe(true)
   })
 
+  it('should list the denoms that are available', () => {
+    expect(wrapper.findAll('.ni-li').length).toBe(2) // 2 denoms
+  })
+
+  it('should show the n/a message if there are no denoms', () => {
+    store.commit('setWalletBalances', [])
+    wrapper.update()
+    expect(wrapper.findAll('.ni-li').length).toBe(1) // 1 n/a / 0 denoms
+    expect(wrapper.findAll('.ni-li').at(0).html()).toContain('N/A') // 1 address + 1 n/a
+  })
+
+  it('should not show the n/a message if there denoms', () => {
+    wrapper.update()
+    expect(wrapper.findAll('.ni-li').length).toBe(2) // 2 denoms
+    expect(wrapper.findAll('.ni-li').at(0).html()).not.toContain('N/A')
+    expect(wrapper.findAll('.ni-li').at(1).html()).not.toContain('N/A')
+  })
   // TODO do we test mousetrap stuff??
 })

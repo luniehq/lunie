@@ -29,7 +29,7 @@ export default {
 
   .value
     flex 1
-    padding 0 0.75em
+    padding 0 1rem
 
     overflow hidden
     text-overflow ellipsis
