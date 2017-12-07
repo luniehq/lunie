@@ -21,11 +21,11 @@ export default {
     SessionHardware
   },
   computed: {
-    ...mapGetters(['config', 'developerMode']),
+    ...mapGetters(['config', 'config']),
     active () { return this.config.modals.session.active }
   },
   mounted () {
-    if (!this.developerMode) {
+    if (!this.config.devMode) {
       this.$store.commit('setModalSession', true)
     }
   }

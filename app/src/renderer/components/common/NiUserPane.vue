@@ -1,6 +1,6 @@
 <template lang="pug">
 list-item.ni-li-user(
-  v-if="user.signedIn && developerMode"
+  v-if="user.signedIn && config.devMode"
   type="link"
   to="/profile"
   @click.native="close"
@@ -27,7 +27,7 @@ export default {
     ListItem
   },
   computed: {
-    ...mapGetters(['user', 'developerMode'])
+    ...mapGetters(['user', 'config'])
   },
   methods: {
     close () {

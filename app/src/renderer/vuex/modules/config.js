@@ -2,7 +2,7 @@ export default ({ commit, basecoin }) => {
   const state = {
     activeMenu: '',
     desktop: false,
-    developerMode: true,
+    devMode: true,
     modals: {
       help: {
         active: false

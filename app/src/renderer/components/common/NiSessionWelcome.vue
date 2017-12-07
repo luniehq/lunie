@@ -12,7 +12,7 @@
       icon="short_text"
       title="Sign in with seed")
     list-item(
-      v-if="developerMode"
+      v-if="config.devMode"
       @click.native="setState('hardware')"
       icon="usb"
       title="Sign in with hardware")
@@ -28,7 +28,7 @@ export default {
     ListItem
   },
   computed: {
-    ...mapGetters(['developerMode'])
+    ...mapGetters(['config'])
   },
   methods: {
     setState (value) { this.$store.commit('setModalSessionState', value) }

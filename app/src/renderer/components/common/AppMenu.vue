@@ -4,12 +4,12 @@ menu.app-menu
     part(title='Wallet')
       list-item(to="/" exact @click.native="close" title="Balance")
       list-item(to="/wallet/send" exact @click.native="close" title="Send")
-      list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions" v-if="developerMode")
-    part(title='Governance' v-if="developerMode")
+      list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions" v-if="config.devMode")
+    part(title='Governance' v-if="config.devMode")
       list-item(to="/proposals" exact @click.native="close" title="Proposals")
-    part(title='Stake' v-if="developerMode")
+    part(title='Stake' v-if="config.devMode")
       list-item(to="/staking" exact @click.native="close" title="Delegates")
-    part(title='Monitor' v-if="developerMode")
+    part(title='Monitor' v-if="config.devMode")
       list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
       list-item(to="/validators" exact @click.native="close" title="Validators"
         v-bind:class="{ 'active': isValidatorPage }")
@@ -32,7 +32,7 @@ export default {
     UserPane
   },
   computed: {
-    ...mapGetters(['proposals', 'validators', 'developerMode']),
+    ...mapGetters(['proposals', 'validators', 'config']),
     proposalAlerts () {
       return this.proposals
         .filter(p => p.flags.read === false).length
