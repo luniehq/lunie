@@ -97,7 +97,7 @@
     "webpack-merge": "^0.14.1"
   },
   "dependencies": {
-    "@nylira/vue-button": "^4.1.3",
+    "@nylira/vue-button": "^4.1.5",
     "@nylira/vue-field": "1.1.12",
     "@nylira/vue-form-msg": "^1.0.3",
     "@nylira/vue-input": "^3.2.0",
