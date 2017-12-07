@@ -72,6 +72,7 @@ export default ({ commit, node }) => {
         dispatch('initializeWallet')
         return key
       } catch (err) {
+        debugger
         commit('notifyError', { title: 'Couln\'t create a key', body: err.message })
       }
     },

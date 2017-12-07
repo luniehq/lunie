@@ -13,6 +13,15 @@
         v-model="fields.restoreSeed"
         @input="$v.fields.restoreSeed.$touch()")
       form-msg(name='Account Seed' type='required' v-if='!$v.fields.restoreSeed.required')
+
+    form-group(:error='$v.fields.signInPassword.$error'
+      field-id='sign-in-password' field-label='Password')
+      field#sign-in-password(
+        type="password"
+        placeholder="Password to protect your keys locally"
+        v-model="fields.signInPassword"
+        @input="$v.fields.signInPassword.$touch()")
+      form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
   .ni-session-footer
     btn(icon="settings_backup_restore" value="Restore Account" size="lg")
 </template>
@@ -37,18 +46,22 @@ export default {
   },
   data: () => ({
     fields: {
+      signInPassword: '',
       restoreSeed: ''
     }
   }),
   methods: {
     help () { this.$store.commit('setModalHelp', true) },
     setState (value) { this.$store.commit('setModalSessionState', value) },
-    onSubmit () {
+    async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return
-      this.$store.commit('setModalSession', false)
-      this.$store.commit('notify', { title: 'Welcome back!', body: 'Your account has been successfully restored.' })
-      this.$store.commit('setSignedIn', true)
+      let key = await this.$store.dispatch('createKey', { seedPhrase: this.fields.restoreSeed, password: this.fields.signInPassword })
+      if (key) {
+        this.$store.commit('setModalSession', false)
+        this.$store.commit('notify', { title: 'Welcome back!', body: 'Your account has been successfully restored.' })
+        this.$store.commit('setSignedIn', true)
+      }
     }
   },
   mounted () {
@@ -56,6 +69,7 @@ export default {
   },
   validations: () => ({
     fields: {
+      signInPassword: { required },
       restoreSeed: { required }
     }
   })
