@@ -30,7 +30,7 @@ export default {
       font-size 3rem
       color txt
   .text
-    max-width 40rem
+    max-width 30rem
     .title
       color bright
       font-size h2
