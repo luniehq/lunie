@@ -1,11 +1,15 @@
 <template lang="pug">
 list-item.ni-li-user(
-  v-if="user.signedIn"
+  v-if="user.signedIn && config.devMode"
   type="link"
   to="/profile"
   @click.native="close"
   icon="face"
   title="CosmosUser01")
+list-item.ni-li-user(
+  v-else-if="user.signedIn"
+  icon="mood"
+  title="Signed In")
 list-item.ni-li-user(
   v-else
   @click.native="openSession"
@@ -23,7 +27,7 @@ export default {
     ListItem
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user', 'config'])
   },
   methods: {
     close () {

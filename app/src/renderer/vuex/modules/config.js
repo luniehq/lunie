@@ -1,19 +1,8 @@
 export default ({ commit, basecoin }) => {
   const state = {
-    INVITE_TOKENS_MAX: 10,
-    CANDIDATE: {
-      KEYBASE_MIN: 2,
-      KEYBASE_MAX: 16,
-      DESCRIPTION_MIN: 20,
-      DESCRIPTION_MAX: 40000,
-      COMMISSION_MIN: 0,
-      COMMISSION_MAX: 99,
-      SELF_BOND_MIN: 100,
-      SELF_BOND_MAX: 1e10
-    },
     activeMenu: '',
-    blockchainSelect: false,
     desktop: false,
+    devMode: true,
     modals: {
       help: {
         active: false
@@ -21,6 +10,9 @@ export default ({ commit, basecoin }) => {
       session: {
         active: false,
         state: 'welcome'
+      },
+      blockchain: {
+        active: false
       }
     }
   }
@@ -36,13 +28,13 @@ export default ({ commit, basecoin }) => {
     setModalSessionState (state, value) {
       state.modals.session.state = value
     },
-    SET_CONFIG_BLOCKCHAIN_SELECT (state, value) {
-      state.blockchainSelect = value
+    setModalBlockchain (state, value) {
+      state.modals.blockchain.active = value
     },
     setActiveMenu (state, value) {
       state.activeMenu = value
     },
-    SET_CONFIG_DESKTOP (state, value) {
+    setConfigDesktop (state, value) {
       state.desktop = value
     }
   }

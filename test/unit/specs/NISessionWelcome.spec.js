@@ -7,10 +7,13 @@ const localVue = createLocalVue()
 localVue.use(Vuex)
 
 describe('NISessionWelcome', () => {
-  let wrapper, store
+  let wrapper, store, getters
 
   beforeEach(() => {
-    store = new Vuex.Store()
+    getters = {
+      config: () => ({ devMode: true })
+    }
+    store = new Vuex.Store({ getters })
     wrapper = mount(NISessionWelcome, {
       localVue,
       store
