@@ -4,6 +4,7 @@
   session-welcome(v-if="config.modals.session.state == 'welcome'")
   session-sign-up(v-if="config.modals.session.state == 'sign-up'")
   session-sign-in(v-if="config.modals.session.state == 'sign-in'")
+  session-account-delete(v-if="config.modals.session.state == 'delete'")
   session-hardware(v-if="config.modals.session.state == 'hardware'")
   session-restore(v-if="config.modals.session.state == 'restore'")
 </template>
@@ -16,6 +17,7 @@ import SessionSignUp from 'common/NiSessionSignUp'
 import SessionSignIn from 'common/NiSessionSignIn'
 import SessionHardware from 'common/NiSessionHardware'
 import SessionRestore from 'common/NiSessionRestore'
+import SessionAccountDelete from 'common/NiSessionAccountDelete'
 export default {
   name: 'ni-session',
   components: {
@@ -23,7 +25,8 @@ export default {
     SessionSignUp,
     SessionSignIn,
     SessionHardware,
-    SessionRestore
+    SessionRestore,
+    SessionAccountDelete
   },
   computed: {
     ...mapGetters(['config']),

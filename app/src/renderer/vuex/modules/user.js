@@ -1,7 +1,3 @@
-import dg from 'cosmos-delegation-game'
-import level from 'levelup'
-import memdown from 'memdown'
-import { Wallet } from 'basecoin'
 import { KEY_PASSWORD, KEY_NAME } from './wallet'
 
 export default ({ commit, node }) => {
@@ -49,6 +45,14 @@ export default ({ commit, node }) => {
   }
 
   const actions = {
+    async accountExists (state, account = KEY_NAME) {
+      try {
+        let keys = await node.listKeys()
+        return !!keys.find(key => key.name === account)
+      } catch (err) {
+        commit('notifyError', { title: `Couldn't read keys'`, body: err.message })
+      }
+    },
     async testLogin (state, {password, account = KEY_NAME}) {
       try {
         await node.updateKey(account, {
@@ -83,8 +87,15 @@ export default ({ commit, node }) => {
         dispatch('initializeWallet')
         return key
       } catch (err) {
-        debugger
         commit('notifyError', { title: 'Couln\'t create a key', body: err.message })
+      }
+    },
+    async deleteKey ({ commit, dispatch }, { password, name = KEY_NAME }) {
+      try {
+        await node.deleteKey(name, { name, password })
+        return true
+      } catch (err) {
+        commit('notifyError', { title: `Couln't delete account ${name}`, body: err.message })
       }
     },
     async submitDelegation (state, value) {
