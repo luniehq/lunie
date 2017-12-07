@@ -3,7 +3,17 @@ import { mount, createLocalVue } from 'vue-test-utils'
 import Vuelidate from 'vuelidate'
 import PageSend from 'renderer/components/wallet/PageSend'
 
-const wallet = require('renderer/vuex/modules/wallet').default({})
+const wallet = require('renderer/vuex/modules/wallet').default({
+  node: {
+    buildSend: (args) => {
+      if (args.to.addr.indexOf('fail') !== -1) return Promise.reject('Failed on purpose')
+      return Promise.resolve(null)
+    },
+    postTx: () => Promise.resolve(null),
+    sign: () => Promise.resolve(null),
+    queryAccount: () => {}
+  }
+})
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -23,19 +33,7 @@ describe('PageSend', () => {
     })
     wrapper = mount(PageSend, {
       localVue,
-      store,
-      stub: {
-        Btn: true,
-        Field: true,
-        FieldAddon: true,
-        FieldGroup: true,
-        FormGroup: true,
-        FormMsg: true,
-        FormStruct: true,
-        Page: true,
-        Part: true,
-        ToolBar: true
-      }
+      store
     })
     store.commit('setWalletBalances', [{
       denom: 'ATOM',
@@ -58,7 +56,7 @@ describe('PageSend', () => {
     expect(wrapper.findAll('option').at(2).text()).toBe('FERMION')
   })
 
-  xit('should show notification for successful send', () => {
+  it('should show notification for successful send', done => {
     wrapper.setData({
       fields: {
         denom: 'ATOM',
@@ -67,18 +65,29 @@ describe('PageSend', () => {
       }
     })
     wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0][0]).toEqual('notify')
+    // TODO setTimeout is always a little ghetto -> probably mock walletSend
+    // walletSend is async so we need to wait until it is resolved
+    setTimeout(() => {
+      expect(store.commit).toHaveBeenCalled()
+      expect(store.commit.mock.calls[0][0]).toEqual('notify')
+      done()
+    }, 10)
   })
 
-  it('should show notification for unsuccessful send', () => {
+  it('should show notification for unsuccessful send', done => {
     wrapper.setData({
       fields: {
         denom: 'ATOM',
-        address: 'CE456B8BA9AFD1CBDF4ED14558E8C30691E549EA',
+        address: 'CE456B8BA9AFD1CBDF4ED14558E8C30691E5fail',
         amount: 2
       }
     })
     wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0][0]).toEqual('notifyError')
+    // TODO setTimeout is always a little ghetto
+    setTimeout(() => {
+      expect(store.commit).toHaveBeenCalled()
+      expect(store.commit.mock.calls[0][0]).toEqual('notifyError')
+      done()
+    }, 10)
   })
 })
