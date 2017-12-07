@@ -12,6 +12,7 @@ let toml = require('toml')
 let pkg = require('../../../package.json')
 let mockServer = require('./mockServer.js')
 
+let started = false
 let shuttingDown = false
 let mainWindow
 let baseserverProcess
@@ -23,7 +24,7 @@ const DEV = process.env.NODE_ENV === 'development'
 const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 // TODO default logging or default disable logging?
 const LOGGING = JSON.parse(process.env.LOGGING || DEV) !== false
-const MOCK = JSON.parse(process.env.MOCK || DEV) !== false
+const MOCK = JSON.parse(process.env.MOCK || !TEST && DEV) !== false
 const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
   : `file://${__dirname}/index.html`
@@ -104,7 +105,11 @@ function createWindow () {
     webPreferences: { webSecurity: false }
   })
 
-  mainWindow.loadURL(winURL)
+  if (!started) {
+    mainWindow.loadURL(winURL)
+  } else {
+    mainWindow.loadURL(winURL + '?node=' + nodeIP)
+  }
   if (DEV || process.env.COSMOS_DEVTOOLS) {
     mainWindow.webContents.openDevTools()
   }
@@ -313,9 +318,11 @@ function setupLogging (root) {
 process.on('exit', shutdown)
 process.on('uncaughtException', function (err) {
   logError('[Uncaught Exception]', err)
+  setTimeout(async () => {
+    await shutdown()
+    process.exit(1)
+  }, 200)
   setTimeout(shutdown, 200)
-  err.message = '[Uncaught Exception] ' + err.message
-  process.exit(1)
 })
 
 async function main () {
@@ -407,8 +414,6 @@ async function main () {
   nodeIP = `${nodeIP.split(':')[0]}:46657`
   log(`Initializing baseserver with remote node ${nodeIP}`)
 
-  mainWindow.loadURL(winURL + '?node=' + nodeIP)
-
   let baseserverHome = join(root, 'baseserver')
   if (init) {
     await initBaseserver(chainId, baseserverHome, nodeIP)
@@ -420,7 +425,12 @@ async function main () {
 
   if (MOCK) {
     // start mock API server on port 8999
-    mockServer(8999)
+    mockServerInstance = mockServer(8999)
+  }
+  
+  started = true
+  if (mainWindow) {
+    mainWindow.loadURL(winURL + '?node=' + nodeIP)
   }
 }
 module.exports = Object.assign(
