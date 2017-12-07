@@ -57,7 +57,7 @@ export default {
     accountExists: false
   }),
   async mounted () {
-    this.accountExists = !!(await this.$store.dispatch('accountExists')) 
+    this.accountExists = !!(await this.$store.dispatch('accountExists'))
   }
 }
 </script>

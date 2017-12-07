@@ -24,17 +24,17 @@ describe('NiSessionAccountDelete', () => {
   it('has the expected html structure', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
-  
+
   it('should go back to the welcome screen on click', () => {
     wrapper.findAll('.ni-session-header a').at(0).trigger('click')
     expect(store.commit.mock.calls[0]).toEqual(['setModalSessionState', 'welcome'])
   })
-  
+
   it('should open the help model on click', () => {
     wrapper.findAll('.ni-session-header a').at(1).trigger('click')
     expect(store.commit.mock.calls[0]).toEqual(['setModalHelp', true])
   })
-  
+
   it('should go back on successful deletion', async () => {
     wrapper.setData({ fields: {
       deletionPassword: '1234567890',
@@ -43,7 +43,7 @@ describe('NiSessionAccountDelete', () => {
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toEqual(['setModalSessionState', 'welcome'])
   })
-  
+
   it('should show error if password not 10 long', async () => {
     wrapper.setData({ fields: {
       deletionPassword: '123',
@@ -53,7 +53,7 @@ describe('NiSessionAccountDelete', () => {
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
-  
+
   it('should show error if deletionWarning is not acknowledged', async () => {
     wrapper.setData({ fields: {
       deletionPassword: '1234567890',

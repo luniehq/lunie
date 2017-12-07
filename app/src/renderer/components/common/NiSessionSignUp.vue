@@ -85,11 +85,11 @@ export default {
     }
   },
   mounted () {
-      this.$el.querySelector('#sign-up-warning').focus()
-      this.$store.dispatch('createSeed')
-      .then(seed_phrase => {
+    this.$el.querySelector('#sign-up-warning').focus()
+    this.$store.dispatch('createSeed')
+      .then(seedPhrase => {
         this.creating = false
-        this.fields.signUpSeed = seed_phrase
+        this.fields.signUpSeed = seedPhrase
       })
   },
   validations: () => ({

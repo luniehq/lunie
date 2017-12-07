@@ -36,7 +36,7 @@ describe('NiSessionSignIn', () => {
     expect(store.commit.mock.calls[0][0]).toBe('setModalSessionState')
     expect(store.commit.mock.calls[0][1]).toBe('welcome')
   })
-  
+
   it('should open the help model on click', () => {
     wrapper.findAll('.ni-session-header a').at(1).trigger('click')
     expect(store.commit.mock.calls[0]).toEqual(['setModalHelp', true])
@@ -69,7 +69,7 @@ describe('NiSessionSignIn', () => {
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
-  
+
   it('should show a notification if signin failed', async () => {
     store.dispatch = jest.fn(() => Promise.reject('Planed rejection'))
     wrapper.setData({ fields: {
