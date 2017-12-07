@@ -425,9 +425,9 @@ async function main () {
 
   if (MOCK) {
     // start mock API server on port 8999
-    mockServerInstance = mockServer(8999)
+    mockServer(8999)
   }
-  
+
   started = true
   if (mainWindow) {
     mainWindow.loadURL(winURL + '?node=' + nodeIP)
