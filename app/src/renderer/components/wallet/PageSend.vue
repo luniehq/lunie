@@ -107,13 +107,13 @@ export default {
           this.sending = false
           if (err) {
             this.$store.commit('notifyError', {
-              title: 'Error Sending Coins',
-              body: `An error occurred while trying to send coins: "${err.message}"`
+              title: 'Error Sending',
+              body: `An error occurred while trying to send: "${err.message}"`
             })
             return
           }
           this.$store.commit('notify', {
-            title: 'Coins Sent',
+            title: 'Successfully Sent',
             body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
           })
         }
