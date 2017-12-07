@@ -34,11 +34,6 @@ export default ({ commit, node }) => {
     setSignedIn (state, signedIn) {
       state.signedIn = signedIn
     },
-    signOut (state) {
-      state.password = null
-      state.account = null
-      state.signedIn = false
-    },
     activateDelegation (state) {
       state.delegationActive = true
     }
@@ -97,6 +92,12 @@ export default ({ commit, node }) => {
       } catch (err) {
         commit('notifyError', { title: `Couln't delete account ${name}`, body: err.message })
       }
+    },
+    signOut ({ state, commit }) {
+      state.password = null
+      state.account = null
+      state.signedIn = false
+      commit('setModalSession', true)
     },
     async submitDelegation (state, value) {
       state.delegation = value

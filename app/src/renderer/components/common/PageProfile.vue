@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     signOut () {
-      this.$store.commit('signOut')
+      this.$store.dispatch('signOut')
       this.$store.commit('notifySignOut')
     },
     openSettings () { window.alert('TODO: open user settings') }
