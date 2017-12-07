@@ -43,7 +43,7 @@ describe('NISessionSignIn', () => {
     }})
     wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[1][0]).toEqual('notify')
-    expect(store.commit.mock.calls[1][1].title.toLowerCase()).toContain('signed in')
+    expect(store.commit.mock.calls[1][1].title.toLowerCase()).toContain('welcome back!')
     expect(store.commit.mock.calls[2]).toEqual(['setSignedIn', true])
   })
 

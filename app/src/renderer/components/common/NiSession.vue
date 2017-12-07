@@ -21,14 +21,23 @@ export default {
     SessionHardware
   },
   computed: {
-    ...mapGetters(['config']),
+    ...mapGetters(['config', 'config']),
     active () { return this.config.modals.session.active }
+  },
+  mounted () {
+    if (!this.config.devMode) {
+      this.$store.commit('setModalSession', true)
+    }
   }
 }
 </script>
 
 <style lang="stylus">
 @import '~variables'
+
+.ni-session-wrapper
+  position relative
+  z-index 1000
 
 .ni-field-checkbox
   display flex

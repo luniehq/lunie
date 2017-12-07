@@ -64,7 +64,7 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       this.$store.commit('setModalSession', false)
-      this.$store.commit('notify', { title: 'Signed Up', body: 'TODO: REPLACE ME' })
+      this.$store.commit('notify', { title: 'Welcome!', body: 'Your account has been created.' })
       this.$store.commit('setSignedIn', true)
     }
   },
