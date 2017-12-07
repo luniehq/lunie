@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { KEY_PASSWORD, KEY_NAME } from './wallet'
 
 export default ({ commit, node }) => {
@@ -75,7 +76,12 @@ export default ({ commit, node }) => {
     },
     async createKey ({ commit, dispatch }, { seedPhrase, password, name = KEY_NAME }) {
       try {
-        let {key} = await node.recoverKey({ name, password, seed_phrase: seedPhrase })
+        // TODO replace when cosmos-sdk-js is updated
+        // let {key} = await node.recoverKey({ name, password, seed_phrase: seedPhrase })
+        let {key} = await axios.post(
+          'http://localhost:8998/keys/recover',
+          { name, password, seed_phrase: seedPhrase })
+        .then(res => res.data)
         dispatch('initializeWallet')
         return key
       } catch (err) {
