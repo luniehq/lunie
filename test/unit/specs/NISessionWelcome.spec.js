@@ -15,8 +15,8 @@ describe('NISessionWelcome', () => {
     }
     store = new Vuex.Store({ getters })
     wrapper = mount(NISessionWelcome, {
-      localVue
-      store,
+      localVue,
+      store
     })
     store.commit = jest.fn()
   })
