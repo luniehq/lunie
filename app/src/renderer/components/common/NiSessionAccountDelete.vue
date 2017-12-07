@@ -20,7 +20,7 @@
         .ni-field-checkbox-input
           input#sign-up-warning(type="checkbox" v-model="fields.deletionWarning")
         label.ni-field-checkbox-label(for="sign-up-warning")
-          | I understand that Cosmos cannot recover deleted phrases.
+          | I understand that Cosmos cannot recover deleted accounts without the passphrase.
       form-msg(name='Deletion confirmation' type='required' v-if='!$v.fields.deletionWarning.required')
   .ni-session-footer
     btn(icon="exit_to_app" value="Sign In" size="lg")
