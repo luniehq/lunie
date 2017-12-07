@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>Cosmos</title>
+<title>Cosmos - Internet of Blockchains</title>
 <% if (htmlWebpackPlugin.options.appModules) { %>
   <!-- Add `app/node_modules` to global paths so `require` works properly in development -->
   <script>
@@ -8,13 +8,12 @@
   </script>
 <% } %>
 <meta name=viewport content="width=device-width, user-scalable=no">
-<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <div id="app">
   <div id="load">
     <div id="load-container">
       <div id="load-title">Cosmos</div>
       <div id="load-main">
-        <p class="accent">app is loading&hellip;</p>
+        <p>app is loading&hellip;</p>
         <p>need help? <a href="mailto:hello@tendermint.com">email us</a></p>
       </div>
     </div>
@@ -33,31 +32,32 @@ body { margin: 0; }
 }
 #load-container {
   font: 16px/1.5 system, -apple-system, BlinkMacSystemFont, "Roboto", "Seogue UI", "Helvetica Neue", "Lucida Grande", sans-serif;
-  color: #fff;
   margin: 0 auto;
-  text-align: center;
   width: 18rem;
-  height: 18rem;
   display: flex;
   flex-flow: column nowrap;
-  align-items: center;
   justify-content: center;
   box-sizing: border-box;
 }
 #load-title {
   font-size: 1.5rem;
-  line-height: 3;
-  font-weight: 500;
-  width: 100%;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.25rem;
+  color: #fff;
+  margin-bottom: 1rem;
+  padding: 0 0.5rem;
 }
+
 #load-main p {
   font-size: 1rem;
+  line-height: 2rem;
   font-weight: 300;
+  padding: 0 0.5rem;
   color: hsl(226, 13%, 50%);
-  margin-bottom: 1em;
-}
-#load-main p.accent {
-  color: hsl(325,96%,59%);
+  background: hsl(233, 33%, 16%);
+  margin: 0 0 1px;
 }
 #load-main a {
   text-decoration: none;

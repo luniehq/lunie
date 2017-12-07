@@ -18,7 +18,6 @@ export default {
 @require '~variables'
 
 .ni-tool-bar-container
-  height 100%
   display flex
 
   .main
@@ -33,7 +32,6 @@ export default {
 
   a
     padding 1rem
-    margin-top 0.7rem
 
     user-select none
     cursor pointer
@@ -109,10 +107,13 @@ export default {
 
   .ni-tool-bar-container
     background app-bg-alpha
+    height 3rem + px
     border-top px solid bc
 
 @media screen and (min-width: 1024px)
   .ni-tool-bar-container
     .main
       justify-content flex-end
+    a
+      margin-top 0.7rem
 </style>
