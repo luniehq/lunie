@@ -30,12 +30,8 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import LiSession from 'common/NiLiSession'
-=======
 import {mapGetters} from 'vuex'
 import ListItem from 'common/NiListItem'
->>>>>>> develop
 export default {
   name: 'ni-session-welcome',
   components: {
