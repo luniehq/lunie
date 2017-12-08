@@ -1,7 +1,5 @@
-import dg from 'cosmos-delegation-game'
-import level from 'levelup'
-import memdown from 'memdown'
-import { Wallet } from 'basecoin'
+import axios from 'axios'
+import { KEY_PASSWORD, KEY_NAME } from './wallet'
 
 export default ({ commit, node }) => {
   const emptyNomination = {
@@ -29,25 +27,10 @@ export default ({ commit, node }) => {
   const state = JSON.parse(JSON.stringify(emptyUser))
 
   const mutations = {
-    setPrivateKey (state, privkey) {
-      state.pubkey = privkey.pubkey().bytes().toString('hex')
-      state.privkey = privkey
-    },
-    setAtoms (state, atoms) {
-      state.atoms = Math.round(atoms * 100) // measured in atom cents
-    },
-    setSignedIn (state, signedIn) {
-      state.signedIn = signedIn
-    },
-    signOut (state) {
-      state.atoms = 0
-      state.nominationActive = false
-      state.nomination = JSON.parse(JSON.stringify(emptyNomination))
-      state.pubkey = ''
-      state.privkey = null
-      state.signedIn = false
-      state.ownCoinsBonded = 0
-      node.wallet = null
+    signIn (state, {password, account = KEY_NAME}) {
+      state.password = password
+      state.account = account
+      state.signedIn = true
     },
     activateDelegation (state) {
       state.delegationActive = true
@@ -55,32 +38,69 @@ export default ({ commit, node }) => {
   }
 
   const actions = {
-    async signIn ({ commit, state }, seedWords) {
-      let privkey
+    async accountExists (state, account = KEY_NAME) {
       try {
-        privkey = dg.mnemonicToPrivKey(seedWords)
-      } catch (e) {
-        commit('notifyError', {title: 'Deriving private key failed', body: e.message})
-        return
+        let keys = await node.listKeys()
+        return !!keys.find(key => key.name === account)
+      } catch (err) {
+        commit('notifyError', { title: `Couldn't read keys'`, body: err.message })
       }
-      let account = await node.basecoin.getAccount(privkey.address())
-      console.log('fetched account', account)
-      if (!account) return
-
-      commit('setPrivateKey', privkey)
-      commit('setAtoms', Math.floor(account.coins[0].amount / 100))
-
-      // use in-memory data store so key is not persisted
-      let store = level({ db: memdown })
-      let wallet = node.wallet = Wallet(node.basecoin, store)
-      wallet.addAccount(state.privkey)
-      wallet.onceReady(() => {
-        commit('setSignedIn', true)
-        commit('notify',
-          { title: 'Sign In Successful',
-            body: 'Welcome to Cosmos.'})
-      })
-      wallet.initialize()
+    },
+    async testLogin (state, {password, account = KEY_NAME}) {
+      try {
+        await node.updateKey(account, {
+          name: account,
+          password: password,
+          new_passphrase: password
+        })
+      } catch (err) {
+        commit('notifyError', { title: `Couldn't login to '${account}'`, body: err.message })
+      }
+    },
+    async createSeed ({ commit }) {
+      try {
+        // cleanup
+        try {
+          await node.deleteKey('trunk', {
+            password: KEY_PASSWORD,
+            name: 'trunk'
+          })
+        } catch (err) {
+          // ignore if this fails as we get an error anyway while creating if this fails and this fails if there is no key with that name
+        }
+        let temporaryKey = await node.generateKey({ name: 'trunk', password: KEY_PASSWORD })
+        return temporaryKey.seed_phrase
+      } catch (err) {
+        commit('notifyError', { title: 'Couln\'t create a seed', body: err.message })
+      }
+    },
+    async createKey ({ commit, dispatch }, { seedPhrase, password, name = KEY_NAME }) {
+      try {
+        // TODO replace when cosmos-sdk-js is updated
+        // let {key} = await node.recoverKey({ name, password, seed_phrase: seedPhrase })
+        let {key} = await axios.post(
+          'http://localhost:8998/keys/recover',
+          { name, password, seed_phrase: seedPhrase })
+        .then(res => res.data)
+        dispatch('initializeWallet')
+        return key
+      } catch (err) {
+        commit('notifyError', { title: 'Couln\'t create a key', body: err.message })
+      }
+    },
+    async deleteKey ({ commit, dispatch }, { password, name = KEY_NAME }) {
+      try {
+        await node.deleteKey(name, { name, password })
+        return true
+      } catch (err) {
+        commit('notifyError', { title: `Couln't delete account ${name}`, body: err.message })
+      }
+    },
+    signOut ({ state, commit }) {
+      state.password = null
+      state.account = null
+      state.signedIn = false
+      commit('setModalSession', true)
     },
     async submitDelegation (state, value) {
       state.delegation = value
@@ -90,8 +110,8 @@ export default ({ commit, node }) => {
         let tx = await node.buildDelegate([ candidate.id, candidate.atoms ])
         // TODO: use wallet key management
         let signedTx = await node.sign({
-          name: 'default',
-          password: '1234567890',
+          name: state.name,
+          password: state.default,
           tx
         })
         let res = await node.postTx(signedTx)

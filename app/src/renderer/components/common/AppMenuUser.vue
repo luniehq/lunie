@@ -37,7 +37,7 @@ export default {
       noScroll.off()
     },
     signOut () {
-      this.$store.dispatch('logout', this.user.uid)
+      this.$store.dispatch('signOut')
       this.close()
     },
     signIn () {
