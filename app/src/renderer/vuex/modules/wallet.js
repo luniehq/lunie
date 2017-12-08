@@ -83,14 +83,13 @@ export default ({ commit, node }) => {
 
       // once done, do next send in queue
       function done (err, res) {
+        commit('setSending', false)
+
         if (state.sendQueue.length > 0) {
           // do next send
           let send = state.sendQueue[0]
           commit('shiftSendQueue')
           dispatch('walletSend', send)
-        } else {
-          // no sends in queue
-          commit('setSending', false)
         }
 
         cb(err, res)
