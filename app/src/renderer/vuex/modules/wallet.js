@@ -12,7 +12,9 @@ export default ({ commit, node }) => {
     sequence: 0,
     key: { address: '' },
     history: [],
-    denoms: []
+    denoms: [],
+    sendQueue: [],
+    sending: false
   }
 
   let mutations = {
@@ -31,6 +33,15 @@ export default ({ commit, node }) => {
     },
     setDenoms (state, denoms) {
       state.denoms = denoms
+    },
+    queueSend (state, sendReq) {
+      state.sendQueue.push(sendReq)
+    },
+    shiftSendQueue (state) {
+      state.sendQueue = state.sendQueue.shift(1)
+    },
+    setSending (state, sending) {
+      state.sending = sending
     }
   }
 
@@ -70,9 +81,33 @@ export default ({ commit, node }) => {
       if (!res) return
       commit('setWalletHistory', res)
     },
-    async walletSend ({ state, dispatch }, args) {
+    async walletSend ({ state, dispatch, commit }, args) {
+      // wait until the current send operation is done
+      if (state.sending) {
+        commit('queueSend', args)
+        return
+      }
+      commit('setSending', true)
+
       let cb = args.cb
       delete args.cb
+
+      // once done, do next send in queue
+      function done (err, res) {
+        if (state.sendQueue.length > 0) {
+          // do next send
+          let send = state.sendQueue[0]
+          commit('shiftSendQueue')
+          dispatch('walletSend', send)
+
+        } else {
+          // no sends in queue
+          commit('setSending', false)
+        }
+
+        cb(err, res)
+      }
+
       try {
         if (args.sequence == null) {
           args.sequence = state.sequence + 1
@@ -93,11 +128,18 @@ export default ({ commit, node }) => {
           password: KEY_PASSWORD,
           tx
         })
-        await node.postTx(signedTx)
+        let res = await node.postTx(signedTx)
+        // check response code
+        if (res.check_tx.code !== 0 || res.deliver_tx.code !== 0) {
+          let message = res.check_tx.log || res.deliver_tx.log
+          return done(new Error('Error sending tx: ' + message))
+        }
+
+        commit('setWalletSequence', args.sequence)
       } catch (err) {
-        return cb(err)
+        return done(err)
       }
-      if (cb) cb(null, args)
+      done(null, args)
       dispatch('queryWalletBalances')
     },
     async loadDenoms () {
