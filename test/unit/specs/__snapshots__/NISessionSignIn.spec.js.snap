@@ -9,7 +9,7 @@ exports[`NiSessionSignIn has the expected html structure 1`] = `
             <div class=\\"ni-session-header\\">
                <a><i class=\\"material-icons\\">arrow_back</i></a>
                <div class=\\"ni-session-title\\">
-                  Enter Password
+                  Sign In
                </div>
       <a><i class=\\"material-icons\\">help_outline</i></a>
    </div>
@@ -17,7 +17,7 @@ exports[`NiSessionSignIn has the expected html structure 1`] = `
          <div class=\\"ni-form-group\\">
             <label for=\\"sign-in-password\\">Password</label>
             <div class=\\"ni-form-group-field\\">
-               <input type=\\"password\\" placeholder=\\"Enter your password\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
+               <input type=\\"password\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
                <div class=\\"ni-form-msg ni-form-msg-error\\">
                   Password is required
                </div>
@@ -26,7 +26,7 @@ exports[`NiSessionSignIn has the expected html structure 1`] = `
 </div>
 </div>
       <div class=\\"ni-session-footer\\">
-         <button class=\\"ni-btn\\"><span class=\\"ni-btn-container ni-btn-size-lg\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">exit_to_app</i><span class=\\"ni-btn-value\\">Sign In</span></span></button>
+         <button class=\\"ni-btn\\"><span class=\\"ni-btn-container ni-btn-icon-right ni-btn-size-lg\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">arrow_forward</i><span class=\\"ni-btn-value\\">Next</span></span></button>
       </div>
 </main>
       <!---->

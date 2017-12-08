@@ -1,7 +1,7 @@
 {
   "name": "Cosmos",
   "productName": "Cosmos",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "The electron wrapper for Cosmos UI.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
@@ -103,7 +103,7 @@
     "@nylira/vue-field": "1.1.12",
     "@nylira/vue-form-msg": "^1.0.3",
     "@nylira/vue-input": "^3.2.0",
-    "@nylira/vue-notifications": "^1.4.0",
+    "@nylira/vue-notifications": "^1.4.4",
     "axios": "^0.17.0",
     "babel-jest": "^21.2.0",
     "chart.js": "^2.6.0",
