@@ -46,7 +46,7 @@ export default {
     ...mapGetters(['filters', 'wallet']),
     allDenomBalances () {
       // for denoms not in balances, add empty balance
-      let balances = this.wallet.balances
+      let balances = this.wallet.balances.slice(0)
       let hasDenom = (denom) => {
         return !!balances.filter((balance) =>
           balance.denom === denom)[0]
