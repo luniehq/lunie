@@ -11,7 +11,6 @@ exports[`NISessionWelcome has the expected html structure 1`] = `
 <a><i class=\\"material-icons\\">help_outline</i></a>
 </div>
 <div class=\\"ni-session-main\\">
-   <!---->
    <div class=\\"ni-li-session\\">
       <div class=\\"ni-li-session-icon\\">
          <i class=\\"material-icons\\">create</i>
@@ -83,40 +82,14 @@ exports[`NISessionWelcome has the expected html structure if accoutn exists 1`] 
 </div>
 <div class=\\"ni-li-session\\">
    <div class=\\"ni-li-session-icon\\">
-      <i class=\\"material-icons\\">create</i>
+      <i class=\\"material-icons\\">delete_forever</i>
    </div>
 <div class=\\"ni-li-session-text\\">
    <div class=\\"ni-li-session-title\\">
-      Create new account
+      Remove account
    </div>
 <div class=\\"ni-li-session-subtitle\\">
-   Generate a brand new seed and account
-</div>
-</div>
-</div>
-<div class=\\"ni-li-session\\">
-   <div class=\\"ni-li-session-icon\\">
-      <i class=\\"material-icons\\">settings_backup_restore</i>
-   </div>
-<div class=\\"ni-li-session-text\\">
-   <div class=\\"ni-li-session-title\\">
-      Restore account from seed
-   </div>
-<div class=\\"ni-li-session-subtitle\\">
-   If you have a seed, choose this option
-</div>
-</div>
-</div>
-<div class=\\"ni-li-session\\">
-   <div class=\\"ni-li-session-icon\\">
-      <i class=\\"material-icons\\">usb</i>
-   </div>
-<div class=\\"ni-li-session-text\\">
-   <div class=\\"ni-li-session-title\\">
-      Sign in with hardware
-   </div>
-<div class=\\"ni-li-session-subtitle\\">
-   If you have a Ledger Wallet, choose this option
+   If you have want to login to a new account, choose this option
 </div>
 </div>
 </div>

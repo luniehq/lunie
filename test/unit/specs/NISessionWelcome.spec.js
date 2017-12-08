@@ -56,6 +56,6 @@ describe('NISessionWelcome', () => {
       accountExists: true
     })
     wrapper.findAll(LiSession).trigger('click')
-    expect(store.commit.mock.calls.map(args => args[1])).toEqual(['sign-in', 'sign-up', 'restore', 'hardware'])
+    expect(store.commit.mock.calls.map(args => args[1])).toEqual(['sign-in', 'delete'])
   })
 })

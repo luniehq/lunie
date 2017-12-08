@@ -36,7 +36,7 @@ async function main () {
   const store = Store({ node })
 
   store.dispatch('updateNodeStatus')
-  store.dispatch('showInitialScreen')
+  store.dispatch('initializeWallet')
 
   return new Vue({
     router,
