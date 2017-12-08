@@ -27,11 +27,6 @@ export default ({ commit, node }) => {
   const state = JSON.parse(JSON.stringify(emptyUser))
 
   const mutations = {
-    signIn (state, {password, account = KEY_NAME}) {
-      state.password = password
-      state.account = account
-      state.signedIn = true
-    },
     activateDelegation (state) {
       state.delegationActive = true
     }
@@ -40,7 +35,7 @@ export default ({ commit, node }) => {
   const actions = {
     async showInitialScreen ({ dispatch }) {
       let exists = await dispatch('accountExists')
-      let screen = exists ? 'sign-in' : 'new-account'
+      let screen = exists ? 'sign-in' : 'welcome'
       commit('setModalSessionState', screen)
       commit('setModalSession', true)
     },
@@ -52,9 +47,11 @@ export default ({ commit, node }) => {
         commit('notifyError', { title: `Couldn't read keys'`, body: err.message })
       }
     },
+    // testing if the provided password works so we can show the user early if he uses the wrong password
+    // testing this by trying to change the password... to the same password...
     async testLogin (state, {password, account = KEY_NAME}) {
       try {
-        await node.updateKey(account, {
+        return await node.updateKey(account, {
           name: account,
           password: password,
           new_passphrase: password
@@ -86,7 +83,7 @@ export default ({ commit, node }) => {
     async createKey ({ commit, dispatch }, { seedPhrase, password, name = KEY_NAME }) {
       try {
         let {key} = await node.recoverKey({ name, password, seed_phrase: seedPhrase })
-        dispatch('initializeWallet')
+        dispatch('initializeWallet', key)
         return key
       } catch (err) {
         commit('notifyError', { title: 'Couln\'t create a key', body: err.message })
@@ -99,6 +96,14 @@ export default ({ commit, node }) => {
       } catch (err) {
         commit('notifyError', { title: `Couln't delete account ${name}`, body: err.message })
       }
+    },
+    async signIn ({ state, dispatch }, {password, account = KEY_NAME}) {
+      state.password = password
+      state.account = account
+      state.signedIn = true
+
+      let key = await node.getKey(account)
+      dispatch('initializeWallet', key)
     },
     signOut ({ state, commit, dispatch }) {
       state.password = null

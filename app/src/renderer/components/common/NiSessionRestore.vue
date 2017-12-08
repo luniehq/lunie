@@ -62,7 +62,7 @@ export default {
       if (key) {
         this.$store.commit('setModalSession', false)
         this.$store.commit('notify', { title: 'Welcome back!', body: 'Your account has been successfully restored.' })
-        this.$store.commit('signIn', {password: this.fields.signInPassword})
+        this.$store.dispatch('signIn', {password: this.fields.signInPassword})
       }
     }
   },

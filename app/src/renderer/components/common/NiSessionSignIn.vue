@@ -48,7 +48,7 @@ export default {
       if (this.$v.$error) return
       try {
         await this.$store.dispatch('testLogin', {password: this.fields.signInPassword})
-        this.$store.commit('signIn', {password: this.fields.signInPassword})
+        this.$store.dispatch('signIn', {password: this.fields.signInPassword})
         this.$store.commit('setModalSession', false)
         this.$store.commit('notify', { title: 'Signed In', body: `You are now signed in to your Cosmos account.` })
       } catch (err) {
