@@ -23,7 +23,7 @@ const WIN = /^win/.test(process.platform)
 const DEV = process.env.NODE_ENV === 'development'
 const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 // TODO default logging or default disable logging?
-const LOGGING = JSON.parse(process.env.LOGGING || DEV) !== false
+const LOGGING = JSON.parse(process.env.LOGGING || 'true') !== false
 const MOCK = JSON.parse(process.env.MOCK || !TEST && DEV) !== false
 const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
@@ -252,10 +252,14 @@ async function initBaseserver (chainId, home, node) {
     // '--trust-node'
   ])
   child.stdout.on('data', (data) => {
-    if (shuttingDown) return
-    // answer 'y' to the prompt about trust seed. we can trust this is correct
-    // since the baseserver is talking to our own full node
-    child.stdin.write('y\n')
+    let hashMatch = /\w{40}/g.exec(data)
+    if (hashMatch) {
+      log('approving hash', hashMatch[0])
+      if (shuttingDown) return
+      // answer 'y' to the prompt about trust seed. we can trust this is correct
+      // since the baseserver is talking to our own full node
+      child.stdin.write('y\n')
+    }
   })
   await expectCleanExit(child, 'gaia init exited unplanned')
 }
