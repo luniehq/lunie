@@ -76,12 +76,7 @@ export default ({ commit, node }) => {
     },
     async createKey ({ commit, dispatch }, { seedPhrase, password, name = KEY_NAME }) {
       try {
-        // TODO replace when cosmos-sdk-js is updated
-        // let {key} = await node.recoverKey({ name, password, seed_phrase: seedPhrase })
-        let {key} = await axios.post(
-          'http://localhost:8998/keys/recover',
-          { name, password, seed_phrase: seedPhrase })
-        .then(res => res.data)
+        let {key} = await node.recoverKey({ name, password, seed_phrase: seedPhrase })
         dispatch('initializeWallet')
         return key
       } catch (err) {
