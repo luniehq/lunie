@@ -57,18 +57,21 @@ export default ({ commit, node }) => {
         commit('notifyError', { title: `Couldn't login to '${account}'`, body: err.message })
       }
     },
+    // to create a temporary seed phrase, we create a junk account with name 'trunk' for now
     async createSeed ({ commit }) {
+      let JUNK_ACCOUNT_NAME = 'trunk'
       try {
-        // cleanup
-        try {
-          await node.deleteKey('trunk', {
+        // cleanup an existing junk account
+        let keys = await node.listKeys()
+        if (keys.find(key => key.name === JUNK_ACCOUNT_NAME)) {
+          await node.deleteKey(JUNK_ACCOUNT_NAME, {
             password: KEY_PASSWORD,
-            name: 'trunk'
+            name: JUNK_ACCOUNT_NAME
           })
-        } catch (err) {
-          // ignore if this fails as we get an error anyway while creating if this fails and this fails if there is no key with that name
         }
-        let temporaryKey = await node.generateKey({ name: 'trunk', password: KEY_PASSWORD })
+        
+        // generate seedPhrase with junk account
+        let temporaryKey = await node.generateKey({ name: JUNK_ACCOUNT_NAME, password: KEY_PASSWORD })
         return temporaryKey.seed_phrase
       } catch (err) {
         commit('notifyError', { title: 'Couln\'t create a seed', body: err.message })
