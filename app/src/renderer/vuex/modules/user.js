@@ -56,7 +56,7 @@ export default ({ commit, node }) => {
           new_passphrase: password
         })
       } catch (err) {
-        commit('notifyError', { title: `Couldn't login to '${account}'`, body: err.message })
+        throw Error('Incorrect passphrase')
       }
     },
     // to create a temporary seed phrase, we create a junk account with name 'trunk' for now
