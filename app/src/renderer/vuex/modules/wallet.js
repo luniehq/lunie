@@ -99,7 +99,6 @@ export default ({ commit, node }) => {
           let send = state.sendQueue[0]
           commit('shiftSendQueue')
           dispatch('walletSend', send)
-
         } else {
           // no sends in queue
           commit('setSending', false)
