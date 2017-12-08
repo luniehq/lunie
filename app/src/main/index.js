@@ -23,7 +23,7 @@ const WIN = /^win/.test(process.platform)
 const DEV = process.env.NODE_ENV === 'development'
 const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 // TODO default logging or default disable logging?
-const LOGGING = JSON.parse(process.env.LOGGING || DEV) !== false
+const LOGGING = JSON.parse(process.env.LOGGING || 'true') !== false
 const MOCK = JSON.parse(process.env.MOCK || !TEST && DEV) !== false
 const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
