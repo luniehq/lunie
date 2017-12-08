@@ -2,9 +2,9 @@ let fs = require('fs-extra')
 let { join } = require('path')
 let root = require('../../../root.js')
 
-const KEY_NAME = 'default'
+export const KEY_NAME = 'default'
 // TODO: add UI for password, instead of hardcoding one
-const KEY_PASSWORD = '1234567890'
+export const KEY_PASSWORD = '1234567890'
 
 export default ({ commit, node }) => {
   let state = {
@@ -43,13 +43,12 @@ export default ({ commit, node }) => {
       } catch (e) {
         console.log(`Key '${KEY_NAME}' does not exist`)
       }
-      if (!key) {
-        console.log(`Creating new key '${KEY_NAME}'`)
-        key = (await node.generateKey({ name: KEY_NAME, password: KEY_PASSWORD })).key
+      if (key) {
+        commit('setWalletKey', key)
+        dispatch('queryWalletState')
+      } else {
+        commit('setModalSession', true)
       }
-      commit('setWalletKey', key)
-      dispatch('queryWalletState')
-      dispatch('loadDenoms')
     },
     queryWalletState ({ state, dispatch }) {
       dispatch('queryWalletBalances')
