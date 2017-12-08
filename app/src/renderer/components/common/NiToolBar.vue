@@ -97,23 +97,26 @@ export default {
       i
         color dim
 
-@media screen and (max-width: 1023px)
+@media screen and (max-width: 567px)
   .ni-tool-bar
+    z-index 90
     position fixed
     bottom 0
     left 0
     right 0
-    z-index 90
 
   .ni-tool-bar-container
     background app-bg-alpha
     height 3rem + px
     border-top px solid bc
 
-@media screen and (min-width: 1024px)
+@media screen and (min-width: 568px)
   .ni-tool-bar-container
     .main
       justify-content flex-end
+
+@media screen and (min-width: 1024px)
+  .ni-tool-bar-container
     a
       margin-top 0.7rem
 </style>

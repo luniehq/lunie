@@ -124,9 +124,9 @@ export default {
     .tx-icon
       background alpha(mc, 5%)
       i
-        color mc
+        color danger
     .tx-coin .value
-      color mc
+      color danger
       &:before
         content '-'
 
@@ -134,9 +134,9 @@ export default {
     .tx-icon
       background alpha(link, 5%)
       i
-        color link
+        color success
     .tx-coin .value
-      color link
+      color success
       &:before
         content '+'
 
@@ -145,7 +145,7 @@ export default {
     background app-fg
     .tx-coin
       .key
-        color bright
+        color txt
     .tx-date, .tx-address
       color txt
 
