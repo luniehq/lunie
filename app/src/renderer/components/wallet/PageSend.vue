@@ -26,16 +26,16 @@ page(title='Send')
           v-if='!$v.fields.address.minLength || !$v.fields.address.maxLength')
         form-msg(name='Address' type='alphaNum' v-if='!$v.fields.address.alphaNum')
 
-    form-group(:error='$v.fields.amount.$error'
-      field-id='send-amount' field-label='Amount')
-      field-group
-        field#send-amount(
-          type='number'
-          v-model='fields.amount'
-          placeholder='Amount')
-      form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
-      form-msg(name='Amount' type='between' min='1' max='1000000'
-        v-if='!$v.fields.amount.between')
+      form-group(:error='$v.fields.amount.$error'
+        field-id='send-amount' field-label='Amount')
+        field-group
+          field#send-amount(
+            type='number'
+            v-model='fields.amount'
+            placeholder='Amount')
+        form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
+        form-msg(name='Amount' type='between' min='1' max='1000000'
+          v-if='!$v.fields.amount.between')
 
     div(slot='footer')
       div
