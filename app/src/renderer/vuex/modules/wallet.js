@@ -48,6 +48,7 @@ export default ({ commit, node }) => {
   let actions = {
     initializeWallet ({ commit, dispatch }, key) {
       commit('setWalletKey', key)
+      dispatch('loadDenoms')
       dispatch('queryWalletState')
     },
     queryWalletState ({ state, dispatch }) {
