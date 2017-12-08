@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { KEY_PASSWORD, KEY_NAME } from './wallet'
 
 export default ({ commit, node }) => {
