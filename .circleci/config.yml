@@ -42,6 +42,6 @@ jobs:
           key: v1-dependencies-app-{{ checksum "app/package.json" }}
         
       - run: yarn lint
-      - run: npm run pack
+      # - run: npm run pack
       - run: xvfb-run -e /dev/stdout -a npm run test
       - run: codeclimate-test-reporter < test/unit/coverage/lcov.info
