@@ -2,10 +2,6 @@ let fs = require('fs-extra')
 let { join } = require('path')
 let root = require('../../../root.js')
 
-export const KEY_NAME = 'default'
-// TODO: add UI for password, instead of hardcoding one
-export const KEY_PASSWORD = '1234567890'
-
 export default ({ commit, node }) => {
   let state = {
     balances: [],

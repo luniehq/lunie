@@ -5,6 +5,13 @@
     .ni-session-title Create Account
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
+    form-group(field-id='sign-up-name' field-label='Account Name')
+      field#sign-up-name(
+        type="text"
+        placeholder="name your account"
+        v-model="fields.signUpName")
+      form-msg(name='Name' type='required' v-if='!$v.fields.signUpName.required')
+
     form-group(field-id='sign-up-seed' field-label='Seed (write it down)')
       field-seed#sign-up-seed(v-model="fields.signUpSeed" disabled)
       form-msg(body='Please back up the seed phrase for this account. These words cannot be recovered!')
@@ -63,6 +70,7 @@ export default {
   data: () => ({
     creating: true,
     fields: {
+      signUpName: '',
       signUpSeed: 'Creating seed...',
       signInPassword: '',
       signUpWarning: false,
@@ -75,16 +83,16 @@ export default {
     async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return
-      let key = await this.$store.dispatch('createKey', { seedPhrase: this.fields.signUpSeed, password: this.fields.signInPassword })
+      let key = await this.$store.dispatch('createKey', { seedPhrase: this.fields.signUpSeed, password: this.fields.signInPassword, name: this.fields.signUpName })
       if (key) {
         this.$store.commit('setModalSession', false)
         this.$store.commit('notify', { title: 'Signed Up', body: 'Your account has been created.' })
-        this.$store.dispatch('signIn', {password: this.fields.signInPassword})
+        this.$store.dispatch('signIn', { password: this.fields.signInPassword, account: this.fields.signUpName })
       }
     }
   },
   mounted () {
-    this.$el.querySelector('#sign-up-warning').focus()
+    this.$el.querySelector('#sign-up-name').focus()
     this.$store.dispatch('createSeed')
       .then(seedPhrase => {
         this.creating = false
@@ -93,6 +101,7 @@ export default {
   },
   validations: () => ({
     fields: {
+      signUpName: '',
       signInPassword: { required, minLength: minLength(10) },
       signUpWarning: { required },
       signUpBackup: { required }

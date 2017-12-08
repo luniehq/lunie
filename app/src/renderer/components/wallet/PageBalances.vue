@@ -19,7 +19,7 @@ page(title='Balance')
       :key="i.denom"
       :dt="i.denom.toUpperCase()"
       :dd="i.amount")
-    list-item(v-if='wallet.balances.length === 0' dt="N/A" dd="None Available")
+    list-item(v-if='wallet.denoms.length === 0' dt="N/A" dd="None Available")
 </template>
 
 <script>
