@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NiSessionSignIn has the expected html structure 1`] = `
+exports[`NiSessionAccountDelete has the expected html structure 1`] = `
 "<div class=\\"ni-session\\">
    <form class=\\"ni-session-container ni-form\\">
       <div class=\\"ni-form-container\\">
@@ -23,6 +23,20 @@ exports[`NiSessionSignIn has the expected html structure 1`] = `
                </div>
                   <!---->
    </div>
+</div>
+      <div class=\\"ni-form-group\\">
+         <label for=\\"sign-up-warning\\"></label>
+         <div class=\\"ni-form-group-field\\">
+            <div class=\\"ni-field-checkbox\\">
+               <div class=\\"ni-field-checkbox-input\\">
+                  <input id=\\"sign-up-warning\\" type=\\"checkbox\\">
+               </div>
+      <label for=\\"sign-up-warning\\" class=\\"ni-field-checkbox-label\\">I understand that Cosmos cannot recover deleted accounts without the passphrase.</label>
+   </div>
+      <div class=\\"ni-form-msg ni-form-msg-error\\">
+         Deletion confirmation is required
+      </div>
+</div>
 </div>
 </div>
       <div class=\\"ni-session-footer\\">

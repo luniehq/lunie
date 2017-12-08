@@ -6,10 +6,12 @@ list-item.ni-li-user(
   @click.native="close"
   icon="face"
   title="CosmosUser01")
-list-item.ni-li-user(
-  v-else-if="user.signedIn"
-  icon="mood"
-  title="Signed In")
+div(v-else-if="user.signedIn") 
+  list-item.ni-li-user(
+    type="link"
+    icon="mood"
+    @click.native="signOut"
+    title="Signed In (Sign Out)")
 list-item.ni-li-user(
   v-else
   @click.native="openSession"
@@ -41,6 +43,10 @@ export default {
     openSession () {
       this.$store.commit('setModalSession', true)
       this.close()
+    },
+    signOut () {
+      this.$store.dispatch('signOut')
+      this.openSession()
     }
   }
 }
@@ -52,4 +58,5 @@ export default {
 .ni-li.ni-li-user
   border-top px solid bc
   height 3rem + px
+  cursor: pointer
 </style>
