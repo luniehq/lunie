@@ -23,6 +23,16 @@ exports[`NiSessionRestore has the expected html structure 1`] = `
                </div>
 </div>
 </div>
+      <div class=\\"ni-form-group\\">
+         <label for=\\"sign-in-password\\">Password</label>
+         <div class=\\"ni-form-group-field\\">
+            <input type=\\"password\\" placeholder=\\"Password to protect your keys locally\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
+            <div class=\\"ni-form-msg ni-form-msg-error\\">
+               Password is required
+            </div>
+               <!---->
+   </div>
+</div>
 </div>
       <div class=\\"ni-session-footer\\">
          <button class=\\"ni-btn\\"><span class=\\"ni-btn-container ni-btn-size-lg\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">settings_backup_restore</i><span class=\\"ni-btn-value\\">Restore Account</span></span></button>

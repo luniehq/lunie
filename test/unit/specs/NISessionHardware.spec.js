@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 import { mount, createLocalVue } from 'vue-test-utils'
+import htmlBeautify from 'html-beautify'
 import NISessionHardware from 'common/NiSessionHardware'
 
 const localVue = createLocalVue()
@@ -20,13 +21,18 @@ describe('NISessionHardware', () => {
   })
 
   it('has the expected html structure', () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
   it('should go back to the welcome screen on click', () => {
     wrapper.findAll('.ni-session-header a').at(0).trigger('click')
     expect(store.commit.mock.calls[0][0]).toBe('setModalSessionState')
     expect(store.commit.mock.calls[0][1]).toBe('welcome')
+  })
+
+  it('should open the help model on click', () => {
+    wrapper.findAll('.ni-session-header a').at(1).trigger('click')
+    expect(store.commit.mock.calls[0]).toEqual(['setModalHelp', true])
   })
 
   it('should show a state indicator for different states of the hardware connection', () => {

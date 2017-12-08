@@ -2,29 +2,23 @@ import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 import { mount, createLocalVue } from 'vue-test-utils'
 import htmlBeautify from 'html-beautify'
-import NiSessionSignIn from 'common/NiSessionSignIn'
-
-const user = require('renderer/vuex/modules/user').default({})
+import NiSessionAccountDelete from 'common/NiSessionAccountDelete'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
 
-describe('NiSessionSignIn', () => {
+describe('NiSessionAccountDelete', () => {
   let wrapper, store
 
   beforeEach(() => {
-    store = new Vuex.Store({
-      modules: {
-        user
-      }
-    })
-    wrapper = mount(NiSessionSignIn, {
+    store = new Vuex.Store()
+    wrapper = mount(NiSessionAccountDelete, {
       localVue,
       store
     })
     store.commit = jest.fn()
-    store.dispatch = jest.fn(async () => null)
+    store.dispatch = jest.fn(async () => true)
   })
 
   it('has the expected html structure', () => {
@@ -33,8 +27,7 @@ describe('NiSessionSignIn', () => {
 
   it('should go back to the welcome screen on click', () => {
     wrapper.findAll('.ni-session-header a').at(0).trigger('click')
-    expect(store.commit.mock.calls[0][0]).toBe('setModalSessionState')
-    expect(store.commit.mock.calls[0][1]).toBe('welcome')
+    expect(store.commit.mock.calls[0]).toEqual(['setModalSessionState', 'welcome'])
   })
 
   it('should open the help model on click', () => {
@@ -42,38 +35,40 @@ describe('NiSessionSignIn', () => {
     expect(store.commit.mock.calls[0]).toEqual(['setModalHelp', true])
   })
 
-  it('should close the modal on successful login', async () => {
+  it('should go back on successful deletion', async () => {
     wrapper.setData({ fields: {
-      signInPassword: '1234567890'
+      deletionPassword: '1234567890',
+      deletionWarning: true
     }})
     await wrapper.vm.onSubmit()
-    let calls = store.commit.mock.calls.map(args => args[0])
-    expect(calls).toContain('setModalSession')
+    expect(store.commit.mock.calls[0]).toEqual(['setModalSessionState', 'welcome'])
   })
 
-  it('should signal signedin state on successful login', async () => {
+  it('should show error if password not 10 long', async () => {
     wrapper.setData({ fields: {
-      signInPassword: '1234567890'
+      deletionPassword: '123',
+      deletionWarning: true
     }})
     await wrapper.vm.onSubmit()
-    let calls = store.commit.mock.calls.map(args => args[0])
-    expect(calls).toContain('notify')
-    expect(calls).toContain('signIn')
-  })
-
-  it('should show error if password not 10 long', () => {
-    wrapper.setData({ fields: {
-      signInPassword: '123'
-    }})
-    wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
-  it('should show a notification if signin failed', async () => {
+  it('should show error if deletionWarning is not acknowledged', async () => {
+    wrapper.setData({ fields: {
+      deletionPassword: '1234567890',
+      deletionWarning: false
+    }})
+    await wrapper.vm.onSubmit()
+    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
+  })
+
+  it('should show a notification if deletion failed', async () => {
     store.dispatch = jest.fn(() => Promise.reject('Planed rejection'))
     wrapper.setData({ fields: {
-      signInPassword: '1234567890'
+      deletionPassword: '1234567890',
+      deletionWarning: true
     }})
     await wrapper.vm.onSubmit()
     expect(store.commit).toHaveBeenCalled()
