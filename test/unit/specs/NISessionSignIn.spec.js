@@ -33,7 +33,12 @@ describe('NiSessionSignIn', () => {
 
   it('should open the help model on click', () => {
     wrapper.findAll('.ni-session-header a').at(0).trigger('click')
-    expect(store.commit.mock.calls[0]).toEqual(['setModalHelp', true])
+    expect(store.commit).toHaveBeenCalledWith('setModalHelp', true)
+  })
+  
+  it('should go to account removal screen', () => {
+    wrapper.find('.ni-session-main a').trigger('click')
+    expect(store.commit).toHaveBeenCalledWith('setModalSessionState', 'delete')
   })
 
   it('should close the modal on successful login', async () => {
