@@ -14,7 +14,7 @@
         type="password"
         placeholder="at least 10 characters"
         v-model="fields.signInPassword")
-      form-msg(body="Create a password to secure your restored account")
+      form-msg(body="Create a password to secure your new account")
       form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
 
