@@ -70,7 +70,7 @@ describe('NISessionSignUp', () => {
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[1][0]).toEqual('notify')
     expect(store.commit.mock.calls[1][1].title.toLowerCase()).toContain('signed up')
-    expect(store.commit).toHaveBeenCalledWith('signIn', {password: '1234567890'})
+    expect(store.dispatch).toHaveBeenCalledWith('signIn', {password: '1234567890'})
   })
 
   it('should show error if warnings not acknowledged', () => {

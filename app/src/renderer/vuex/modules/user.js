@@ -26,11 +26,6 @@ export default ({ commit, node }) => {
   const state = JSON.parse(JSON.stringify(emptyUser))
 
   const mutations = {
-    signIn (state, {password, account = KEY_NAME}) {
-      state.password = password
-      state.account = account
-      state.signedIn = true
-    },
     activateDelegation (state) {
       state.delegationActive = true
     }
@@ -51,9 +46,11 @@ export default ({ commit, node }) => {
         commit('notifyError', { title: `Couldn't read keys'`, body: err.message })
       }
     },
+    // testing if the provided password works so we can show the user early if he uses the wrong password
+    // testing this by trying to change the password... to the same password...
     async testLogin (state, {password, account = KEY_NAME}) {
       try {
-        await node.updateKey(account, {
+        return await node.updateKey(account, {
           name: account,
           password: password,
           new_passphrase: password
@@ -62,18 +59,21 @@ export default ({ commit, node }) => {
         commit('notifyError', { title: `Couldn't login to '${account}'`, body: err.message })
       }
     },
+    // to create a temporary seed phrase, we create a junk account with name 'trunk' for now
     async createSeed ({ commit }) {
+      let JUNK_ACCOUNT_NAME = 'trunk'
       try {
-        // cleanup
-        try {
-          await node.deleteKey('trunk', {
+        // cleanup an existing junk account
+        let keys = await node.listKeys()
+        if (keys.find(key => key.name === JUNK_ACCOUNT_NAME)) {
+          await node.deleteKey(JUNK_ACCOUNT_NAME, {
             password: KEY_PASSWORD,
-            name: 'trunk'
+            name: JUNK_ACCOUNT_NAME
           })
-        } catch (err) {
-          // ignore if this fails as we get an error anyway while creating if this fails and this fails if there is no key with that name
         }
-        let temporaryKey = await node.generateKey({ name: 'trunk', password: KEY_PASSWORD })
+
+        // generate seedPhrase with junk account
+        let temporaryKey = await node.generateKey({ name: JUNK_ACCOUNT_NAME, password: KEY_PASSWORD })
         return temporaryKey.seed_phrase
       } catch (err) {
         commit('notifyError', { title: 'Couln\'t create a seed', body: err.message })
@@ -82,7 +82,7 @@ export default ({ commit, node }) => {
     async createKey ({ commit, dispatch }, { seedPhrase, password, name = KEY_NAME }) {
       try {
         let {key} = await node.recoverKey({ name, password, seed_phrase: seedPhrase })
-        dispatch('initializeWallet')
+        dispatch('initializeWallet', key)
         return key
       } catch (err) {
         commit('notifyError', { title: 'Couln\'t create a key', body: err.message })
@@ -96,11 +96,21 @@ export default ({ commit, node }) => {
         commit('notifyError', { title: `Couln't delete account ${name}`, body: err.message })
       }
     },
-    signOut ({ state, commit }) {
+    async signIn ({ state, dispatch }, {password, account = KEY_NAME}) {
+      state.password = password
+      state.account = account
+      state.signedIn = true
+
+      let key = await node.getKey(account)
+      dispatch('initializeWallet', key)
+    },
+    signOut ({ state, commit, dispatch }) {
       state.password = null
       state.account = null
       state.signedIn = false
+
       commit('setModalSession', true)
+      dispatch('showInitialScreen')
     },
     async submitDelegation (state, value) {
       state.delegation = value

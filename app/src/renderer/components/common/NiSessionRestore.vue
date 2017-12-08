@@ -8,7 +8,8 @@
     form-group(:error='$v.fields.restoreSeed.$error'
       field-id='restore-seed' field-label='Seed')
       field-seed#restore-seed(
-        v-model="fields.restoreSeed"
+        :value="fields.restoreSeed"
+        @input="val => fields.restoreSeed = val"
         placeholder="must be exactly 12 words")
       form-msg(name='Seed' type='required' v-if='!$v.fields.restoreSeed.required')
 
@@ -61,7 +62,7 @@ export default {
       if (key) {
         this.$store.commit('setModalSession', false)
         this.$store.commit('notify', { title: 'Welcome back!', body: 'Your account has been successfully restored.' })
-        this.$store.commit('signIn', {password: this.fields.signInPassword})
+        this.$store.dispatch('signIn', {password: this.fields.signInPassword})
       }
     }
   },

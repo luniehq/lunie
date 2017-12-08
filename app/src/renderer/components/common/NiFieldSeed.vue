@@ -1,7 +1,8 @@
 <template lang="pug">
 field.ni-field-seed(
   type="textarea"
-  v-model="value")
+  @input="update($event)"
+  :value="value")
 </template>
 
 <script>
@@ -10,6 +11,11 @@ export default {
   name: 'ni-field-seed',
   components: {
     Field
+  },
+  methods: {
+    update (value) {
+      this.$emit('input', value)
+    }
   },
   props: ['value']
 }

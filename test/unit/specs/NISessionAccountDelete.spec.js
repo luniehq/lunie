@@ -25,9 +25,9 @@ describe('NiSessionAccountDelete', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it('should go back to the welcome screen on click', () => {
+  it('should go back to the login screen on click', () => {
     wrapper.findAll('.ni-session-header a').at(0).trigger('click')
-    expect(store.commit.mock.calls[0]).toEqual(['setModalSessionState', 'welcome'])
+    expect(store.commit.mock.calls[0]).toEqual(['setModalSessionState', 'sign-in'])
   })
 
   it('should open the help model on click', () => {

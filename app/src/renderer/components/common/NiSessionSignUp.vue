@@ -7,6 +7,7 @@
   .ni-session-main
     form-group(field-id='sign-up-seed' field-label='Seed (write it down)')
       field-seed#sign-up-seed(v-model="fields.signUpSeed" disabled)
+      form-msg(body='Please back up the seed phrase for this account. These words cannot be recovered!')
 
     form-group(:error='$v.fields.signInPassword.$error'
       field-id='sign-in-password' field-label='Password')
@@ -78,7 +79,7 @@ export default {
       if (key) {
         this.$store.commit('setModalSession', false)
         this.$store.commit('notify', { title: 'Signed Up', body: 'Your account has been created.' })
-        this.$store.commit('signIn', {password: this.fields.signInPassword})
+        this.$store.dispatch('signIn', {password: this.fields.signInPassword})
       }
     }
   },

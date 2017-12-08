@@ -7,7 +7,6 @@ exports[`NiSessionSignIn has the expected html structure 1`] = `
          <!---->
          <main class=\\"ni-form-main\\">
             <div class=\\"ni-session-header\\">
-               <a><i class=\\"material-icons\\">arrow_back</i></a>
                <div class=\\"ni-session-title\\">
                   Sign In
                </div>
@@ -23,6 +22,12 @@ exports[`NiSessionSignIn has the expected html structure 1`] = `
                </div>
                   <!---->
    </div>
+</div>
+      <div class=\\"ni-form-group\\">
+         <!---->
+         <div class=\\"ni-form-group-field\\">
+            <a>Sign Out and Remove Account</a>
+         </div>
 </div>
 </div>
       <div class=\\"ni-session-footer\\">
