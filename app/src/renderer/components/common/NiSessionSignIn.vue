@@ -1,7 +1,6 @@
 <template lang="pug">
 .ni-session: form-struct(:submit='onSubmit').ni-session-container
   .ni-session-header
-    a(@click="setState('welcome')"): i.material-icons arrow_back
     .ni-session-title Sign In
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
@@ -12,6 +11,8 @@
         v-model="fields.signInPassword")
       form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
+    form-group
+      a(@click="setState('delete')") Sign Out and Remove Account
   .ni-session-footer
     btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
 </template>
@@ -65,3 +66,8 @@ export default {
   })
 }
 </script>
+<style lang="stylus">
+  .ni-form-group
+    a
+      cursor pointer
+</style>

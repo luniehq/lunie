@@ -1,8 +1,8 @@
 <template lang="pug">
 .ni-session: form-struct(:submit='onSubmit').ni-session-container
   .ni-session-header
-    a(@click="setState('welcome')"): i.material-icons arrow_back
-    .ni-session-title Enter Password
+    a(@click="setState('sign-in')"): i.material-icons arrow_back
+    .ni-session-title Remove Account
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
     form-group(:error='$v.fields.deletionPassword.$error'
@@ -23,7 +23,7 @@
           | I understand that Cosmos cannot recover deleted accounts without the passphrase.
       form-msg(name='Deletion confirmation' type='required' v-if='!$v.fields.deletionWarning.required')
   .ni-session-footer
-    btn(icon="exit_to_app" value="Sign In" size="lg")
+    btn(icon="exit_to_app" value="Sign Out and Remove Account" size="lg")
 </template>
 
 <script>

@@ -5,34 +5,22 @@
     .ni-session-title Welcome to Cosmos!
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
-    template(v-if="accountExists")
-      li-session(
-        @click.native="setState('sign-in')"
-        icon="lock"
-        title="Sign in with password"
-        subtitle="If you have an account, choose this option")
-      li-session(
-        @click.native="setState('delete')"
-        icon="delete_forever"
-        title="Remove account"
-        subtitle="If you have want to login to a new account, choose this option")
-    template(v-else)
-      li-session(
-        @click.native="setState('sign-up')"
-        icon="create"
-        title="Create new account"
-        subtitle="Generate a brand new seed and account")
-      li-session(
-        @click.native="setState('restore')"
-        icon="settings_backup_restore"
-        title="Restore account from seed"
-        subtitle="If you have a seed, choose this option")
-      li-session(
-        v-if="config.devMode"
-        @click.native="setState('hardware')"
-        icon="usb"
-        title="Sign in with hardware"
-        subtitle="If you have a Ledger Wallet, choose this option")
+    li-session(
+      @click.native="setState('sign-up')"
+      icon="create"
+      title="Create new account"
+      subtitle="Generate a brand new seed and account")
+    li-session(
+      @click.native="setState('restore')"
+      icon="settings_backup_restore"
+      title="Restore account from seed"
+      subtitle="If you have a seed, choose this option")
+    li-session(
+      v-if="config.devMode"
+      @click.native="setState('hardware')"
+      icon="usb"
+      title="Sign in with hardware"
+      subtitle="If you have a Ledger Wallet, choose this option")
   .ni-session-footer
 </template>
 

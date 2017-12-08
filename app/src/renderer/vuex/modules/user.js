@@ -38,6 +38,12 @@ export default ({ commit, node }) => {
   }
 
   const actions = {
+    async showInitialScreen ({ dispatch }) {
+      let exists = await dispatch('accountExists')
+      let screen = exists ? 'sign-in' : 'new-account'
+      commit('setModalSessionState', screen)
+      commit('setModalSession', true)
+    },
     async accountExists (state, account = KEY_NAME) {
       try {
         let keys = await node.listKeys()
@@ -94,11 +100,13 @@ export default ({ commit, node }) => {
         commit('notifyError', { title: `Couln't delete account ${name}`, body: err.message })
       }
     },
-    signOut ({ state, commit }) {
+    signOut ({ state, commit, dispatch }) {
       state.password = null
       state.account = null
       state.signedIn = false
+
       commit('setModalSession', true)
+      dispatch('showInitialScreen')
     },
     async submitDelegation (state, value) {
       state.delegation = value
