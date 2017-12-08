@@ -70,7 +70,7 @@ export default ({ commit, node }) => {
       if (!res) return
       commit('setWalletHistory', res)
     },
-    async walletSend ({ state, dispatch, commit }, args) {
+    async walletSend ({ state, dispatch, commit, rootState }, args) {
       // wait until the current send operation is done
       if (state.sending) {
         commit('queueSend', args)
@@ -111,15 +111,15 @@ export default ({ commit, node }) => {
         }
         let tx = await node.buildSend(args)
         let signedTx = await node.sign({
-          name: KEY_NAME,
-          password: KEY_PASSWORD,
+          name: rootState.user.account,
+          password: rootState.user.password,
           tx
         })
         let res = await node.postTx(signedTx)
         // check response code
-        if (res.check_tx.code !== 0 || res.deliver_tx.code !== 0) {
+        if (res.check_tx.code || res.deliver_tx.code) {
           let message = res.check_tx.log || res.deliver_tx.log
-          return done(new Error('Error sending tx: ' + message))
+          return done(new Error('Error sending transaction: ' + message))
         }
 
         commit('setWalletSequence', args.sequence)
