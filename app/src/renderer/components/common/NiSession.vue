@@ -70,11 +70,17 @@ export default {
     align-items center
     justify-content center
     background app-fg
+    input
+      width auto
+      display block
+      padding 0
+      margin 0
 
   .ni-field-checkbox-label
     flex 1
-    line-height 1.5
-    padding-left 1rem
+    line-height 1.375
+    padding 0.5rem 1rem
+    font-size 0.875rem
 
 .ni-session
   position fixed
@@ -132,6 +138,7 @@ export default {
   display flex
   flex-flow column
   justify-content center
+  min-height 0
 
   overflow-y auto
 
@@ -184,8 +191,7 @@ export default {
     margin-top 0
 
   .ni-session-main
-    padding 2rem 3rem
-    overflow-y auto
+    padding 2rem
 
     .ni-form-group
       display block !important

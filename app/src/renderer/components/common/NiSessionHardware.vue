@@ -2,7 +2,7 @@
 .ni-session: .ni-session-container
   .ni-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
-    .ni-session-title Plug In Hardware
+    .ni-session-title Sign In
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
     hardware-state(v-if="status == 'connect'" @click.native="setStatus('detect')"

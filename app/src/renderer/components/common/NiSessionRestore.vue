@@ -2,29 +2,27 @@
 .ni-session: form-struct(:submit='onSubmit').ni-session-container
   .ni-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
-    .ni-session-title Enter Seed
+    .ni-session-title Restore Account
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
     form-group(:error='$v.fields.restoreSeed.$error'
-      field-id='restore-seed' field-label='Account Seed')
-      field#restore-seed(
-        type="textarea"
-        placeholder="Enter your 12-word seed here"
+      field-id='restore-seed' field-label='Seed')
+      field-seed#restore-seed(
         v-model="fields.restoreSeed"
-        @input="$v.fields.restoreSeed.$touch()")
-      form-msg(name='Account Seed' type='required' v-if='!$v.fields.restoreSeed.required')
+        placeholder="must be exactly 12 words")
+      form-msg(name='Seed' type='required' v-if='!$v.fields.restoreSeed.required')
 
     form-group(:error='$v.fields.signInPassword.$error'
       field-id='sign-in-password' field-label='Password')
       field#sign-in-password(
         type="password"
-        placeholder="Password to protect your keys locally"
-        v-model="fields.signInPassword"
-        @input="$v.fields.signInPassword.$touch()")
+        placeholder="at least 10 characters"
+        v-model="fields.signInPassword")
+      form-msg(body="Create a password to secure your restored account")
       form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
   .ni-session-footer
-    btn(icon="settings_backup_restore" value="Restore Account" size="lg")
+    btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
 </template>
 
 <script>
@@ -32,6 +30,7 @@ import {required, minLength} from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldGroup from 'common/NiFieldGroup'
+import FieldSeed from 'common/NiFieldSeed'
 import FormGroup from 'common/NiFormGroup'
 import FormMsg from '@nylira/vue-form-msg'
 import FormStruct from 'common/NiFormStruct'
@@ -41,6 +40,7 @@ export default {
     Btn,
     Field,
     FieldGroup,
+    FieldSeed,
     FormGroup,
     FormMsg,
     FormStruct

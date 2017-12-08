@@ -2,23 +2,19 @@
 .ni-session: form-struct(:submit='onSubmit').ni-session-container
   .ni-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
-    .ni-session-title New Account
+    .ni-session-title Create Account
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
-    form-group(field-id='sign-up-seed' field-label='Account Seed')
-      field#sign-up-seed(
-        disabled
-        type="textarea"
-        v-model="fields.signUpSeed"
-        @input="$v.fields.signUpSeed.$touch()")
-      form-msg(body='Please back up the seed phrase for this account. These words cannot be recovered!')
+    form-group(field-id='sign-up-seed' field-label='Seed (write it down)')
+      field-seed#sign-up-seed(v-model="fields.signUpSeed" disabled)
 
     form-group(:error='$v.fields.signInPassword.$error'
       field-id='sign-in-password' field-label='Password')
       field#sign-in-password(
         type="password"
-        placeholder="Password to protect your keys locally"
+        placeholder="at least 10 characters"
         v-model="fields.signInPassword")
+      form-msg(body="Create a password to secure your restored account")
       form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
 
@@ -28,7 +24,7 @@
         .ni-field-checkbox-input
           input#sign-up-warning(type="checkbox" v-model="fields.signUpWarning")
         label.ni-field-checkbox-label(for="sign-up-warning")
-          | I understand that Cosmos cannot recover lost seed phrases.
+          | I understand that lost seeds cannot be recovered.
       form-msg(name='Recovery confirmation' type='required' v-if='!$v.fields.signUpWarning.required')
 
     form-group(field-id="sign-up-backup" field-label=' '
@@ -37,16 +33,17 @@
         .ni-field-checkbox-input
           input#sign-up-backup(type="checkbox" v-model="fields.signUpBackup")
         label.ni-field-checkbox-label(for="sign-up-backup")
-          | I have securely backed up my generated seed phrase.
+          | I have securely written down my seed.
       form-msg(name='Backup confirmation' type='required' v-if='!$v.fields.signUpBackup.required')
   .ni-session-footer
-    btn(icon="create" value="Create Account" size="lg" :disabled="creating")
+    btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg" :disabled="creating")
 </template>
 
 <script>
 import {required, minLength} from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
+import FieldSeed from 'common/NiFieldSeed'
 import FieldGroup from 'common/NiFieldGroup'
 import FormGroup from 'common/NiFormGroup'
 import FormMsg from '@nylira/vue-form-msg'
@@ -56,6 +53,7 @@ export default {
   components: {
     Btn,
     Field,
+    FieldSeed,
     FieldGroup,
     FormGroup,
     FormMsg,
