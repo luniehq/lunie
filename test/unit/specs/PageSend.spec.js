@@ -9,7 +9,10 @@ const wallet = require('renderer/vuex/modules/wallet').default({
       if (args.to.addr.indexOf('fail') !== -1) return Promise.reject('Failed on purpose')
       return Promise.resolve(null)
     },
-    postTx: () => Promise.resolve(null),
+    postTx: () => Promise.resolve({
+      check_tx: { code: 0 },
+      deliver_tx: { code: 0 }
+    }),
     sign: () => Promise.resolve(null),
     queryAccount: () => {}
   }
