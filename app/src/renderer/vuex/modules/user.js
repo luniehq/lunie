@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { KEY_PASSWORD, KEY_NAME } from './wallet'
 
 export default ({ commit, node }) => {
@@ -72,7 +71,7 @@ export default ({ commit, node }) => {
             name: JUNK_ACCOUNT_NAME
           })
         }
-        
+
         // generate seedPhrase with junk account
         let temporaryKey = await node.generateKey({ name: JUNK_ACCOUNT_NAME, password: KEY_PASSWORD })
         return temporaryKey.seed_phrase
