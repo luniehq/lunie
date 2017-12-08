@@ -5,18 +5,13 @@
     .ni-session-title Welcome to Cosmos!
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
-    template(v-if="accountExists")
+    template()
       li-session(
+        v-if="accountExists"
         @click.native="setState('sign-in')"
         icon="lock"
         title="Sign in with password"
         subtitle="If you have an account, choose this option")
-      li-session(
-        @click.native="setState('delete')"
-        icon="delete_forever"
-        title="Remove account"
-        subtitle="If you have want to login to a new account, choose this option")
-    template(v-else)
       li-session(
         @click.native="setState('sign-up')"
         icon="create"
@@ -47,17 +42,15 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters(['config'])
+    ...mapGetters(['config']),
+    sessionState () {
+      return this.config.modals.sessions.state
+    }
   },
   methods: {
     help () { this.$store.commit('setModalHelp', true) },
-    setState (value) { this.$store.commit('setModalSessionState', value) }
-  },
-  data: () => ({
-    accountExists: false
-  }),
-  async mounted () {
-    this.accountExists = !!(await this.$store.dispatch('accountExists'))
+    setState (value) { this.$store.commit('setModalSessionState', value) },
+    accountExists () { return !!this.$store.dispatch('accountExists') }
   }
 }
 </script>

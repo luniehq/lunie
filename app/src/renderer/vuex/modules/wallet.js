@@ -35,20 +35,9 @@ export default ({ commit, node }) => {
   }
 
   let actions = {
-    async initializeWallet ({ commit, dispatch }) {
-      let key
-      // key was already created, fetch it
-      try {
-        key = await node.getKey(KEY_NAME)
-      } catch (e) {
-        console.log(`Key '${KEY_NAME}' does not exist`)
-      }
-      if (key) {
-        commit('setWalletKey', key)
-        dispatch('queryWalletState')
-      } else {
-        commit('setModalSession', true)
-      }
+    initializeWallet ({ commit, dispatch }, key) {
+      commit('setWalletKey', key)
+      dispatch('queryWalletState')
     },
     queryWalletState ({ state, dispatch }) {
       dispatch('queryWalletBalances')

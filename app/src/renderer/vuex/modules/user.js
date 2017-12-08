@@ -38,6 +38,12 @@ export default ({ commit, node }) => {
   }
 
   const actions = {
+    async showInitialScreen ({ dispatch }) {
+      let exists = await dispatch('accountExists')
+      let screen = exists ? 'sign-in' : 'welcome'
+      commit('setModalSessionState', screen)
+      commit('setModalSession', true)
+    },
     async accountExists (state, account = KEY_NAME) {
       try {
         let keys = await node.listKeys()
