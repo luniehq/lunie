@@ -9,28 +9,28 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
             <div class=\\"ni-session-header\\">
                <a><i class=\\"material-icons\\">arrow_back</i></a>
                <div class=\\"ni-session-title\\">
-                  New Account
+                  Create Account
                </div>
       <a><i class=\\"material-icons\\">help_outline</i></a>
    </div>
       <div class=\\"ni-session-main\\">
          <div class=\\"ni-form-group\\">
-            <label for=\\"sign-up-seed\\">Account Seed</label>
+            <label for=\\"sign-up-seed\\">Seed (write it down)</label>
             <div class=\\"ni-form-group-field\\">
-               <textarea class=\\"ni-field\\" id=\\"sign-up-seed\\" disabled=\\"disabled\\"></textarea>
-               <div class=\\"ni-form-msg ni-form-msg-desc\\">
-                  Please back up the seed phrase for this account. These words cannot be recovered!
-               </div>
-</div>
+               <textarea class=\\"ni-field-seed ni-field\\" id=\\"sign-up-seed\\" disabled=\\"disabled\\"></textarea>
+            </div>
 </div>
       <div class=\\"ni-form-group\\">
          <label for=\\"sign-in-password\\">Password</label>
          <div class=\\"ni-form-group-field\\">
-            <input type=\\"password\\" placeholder=\\"Password to protect your keys locally\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
-            <div class=\\"ni-form-msg ni-form-msg-error\\">
-               Password is required
+            <input type=\\"password\\" placeholder=\\"at least 10 characters\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
+            <div class=\\"ni-form-msg ni-form-msg-desc\\">
+               Create a password to secure your restored account
             </div>
-               <!---->
+      <div class=\\"ni-form-msg ni-form-msg-error\\">
+         Password is required
+      </div>
+         <!---->
    </div>
 </div>
       <div class=\\"ni-form-group\\">
@@ -40,7 +40,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
                <div class=\\"ni-field-checkbox-input\\">
                   <input id=\\"sign-up-warning\\" type=\\"checkbox\\">
                </div>
-      <label for=\\"sign-up-warning\\" class=\\"ni-field-checkbox-label\\">I understand that Cosmos cannot recover lost seed phrases.</label>
+      <label for=\\"sign-up-warning\\" class=\\"ni-field-checkbox-label\\">I understand that lost seeds cannot be recovered.</label>
    </div>
       <div class=\\"ni-form-msg ni-form-msg-error\\">
          Recovery confirmation is required
@@ -54,7 +54,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
                <div class=\\"ni-field-checkbox-input\\">
                   <input id=\\"sign-up-backup\\" type=\\"checkbox\\">
                </div>
-      <label for=\\"sign-up-backup\\" class=\\"ni-field-checkbox-label\\">I have securely backed up my generated seed phrase.</label>
+      <label for=\\"sign-up-backup\\" class=\\"ni-field-checkbox-label\\">I have securely written down my seed.</label>
    </div>
       <div class=\\"ni-form-msg ni-form-msg-error\\">
          Backup confirmation is required
@@ -63,7 +63,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
 </div>
 </div>
       <div class=\\"ni-session-footer\\">
-         <button class=\\"ni-btn\\"><span class=\\"ni-btn-container ni-btn-size-lg\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">create</i><span class=\\"ni-btn-value\\">Create Account</span></span></button>
+         <button class=\\"ni-btn\\"><span class=\\"ni-btn-container ni-btn-icon-right ni-btn-size-lg\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">arrow_forward</i><span class=\\"ni-btn-value\\">Next</span></span></button>
       </div>
 </main>
       <!---->
