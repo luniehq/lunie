@@ -24,16 +24,6 @@ describe('NISessionWelcome', () => {
   })
 
   it('has the expected html structure', () => {
-    wrapper.setData({
-      accountExists: false
-    })
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
-  })
-
-  it('has the expected html structure if accoutn exists', () => {
-    wrapper.setData({
-      accountExists: true
-    })
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
@@ -43,19 +33,8 @@ describe('NISessionWelcome', () => {
   })
 
   it('sets desired login method', () => {
-    wrapper.setData({
-      accountExists: false
-    })
     wrapper.findAll(LiSession).trigger('click')
     expect(store.commit.mock.calls[0][0]).toBe('setModalSessionState')
     expect(store.commit.mock.calls.map(args => args[1])).toEqual(['sign-up', 'restore', 'hardware'])
-  })
-
-  it('sets desired login method if account exists', () => {
-    wrapper.setData({
-      accountExists: true
-    })
-    wrapper.findAll(LiSession).trigger('click')
-    expect(store.commit.mock.calls.map(args => args[1])).toEqual(['sign-in', 'delete'])
   })
 })

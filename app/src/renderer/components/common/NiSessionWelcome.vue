@@ -40,12 +40,6 @@ export default {
   methods: {
     help () { this.$store.commit('setModalHelp', true) },
     setState (value) { this.$store.commit('setModalSessionState', value) }
-  },
-  data: () => ({
-    accountExists: false
-  }),
-  async mounted () {
-    this.accountExists = !!(await this.$store.dispatch('accountExists'))
   }
 }
 </script>

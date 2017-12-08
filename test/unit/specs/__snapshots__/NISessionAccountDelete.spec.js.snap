@@ -9,7 +9,7 @@ exports[`NiSessionAccountDelete has the expected html structure 1`] = `
             <div class=\\"ni-session-header\\">
                <a><i class=\\"material-icons\\">arrow_back</i></a>
                <div class=\\"ni-session-title\\">
-                  Enter Password
+                  Remove Account
                </div>
       <a><i class=\\"material-icons\\">help_outline</i></a>
    </div>
@@ -40,7 +40,7 @@ exports[`NiSessionAccountDelete has the expected html structure 1`] = `
 </div>
 </div>
       <div class=\\"ni-session-footer\\">
-         <button class=\\"ni-btn\\"><span class=\\"ni-btn-container ni-btn-size-lg\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">exit_to_app</i><span class=\\"ni-btn-value\\">Sign In</span></span></button>
+         <button class=\\"ni-btn\\"><span class=\\"ni-btn-container ni-btn-size-lg\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">exit_to_app</i><span class=\\"ni-btn-value\\">Sign Out and Remove Account</span></span></button>
       </div>
 </main>
       <!---->

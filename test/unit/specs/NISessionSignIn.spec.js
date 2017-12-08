@@ -31,14 +31,8 @@ describe('NiSessionSignIn', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it('should go back to the welcome screen on click', () => {
-    wrapper.findAll('.ni-session-header a').at(0).trigger('click')
-    expect(store.commit.mock.calls[0][0]).toBe('setModalSessionState')
-    expect(store.commit.mock.calls[0][1]).toBe('welcome')
-  })
-
   it('should open the help model on click', () => {
-    wrapper.findAll('.ni-session-header a').at(1).trigger('click')
+    wrapper.findAll('.ni-session-header a').at(0).trigger('click')
     expect(store.commit.mock.calls[0]).toEqual(['setModalHelp', true])
   })
 
@@ -56,9 +50,9 @@ describe('NiSessionSignIn', () => {
       signInPassword: '1234567890'
     }})
     await wrapper.vm.onSubmit()
-    let calls = store.commit.mock.calls.map(args => args[0])
-    expect(calls).toContain('notify')
-    expect(calls).toContain('signIn')
+    let commitCalls = store.commit.mock.calls.map(args => args[0])
+    expect(commitCalls).toContain('notify')
+    expect(store.dispatch).toHaveBeenCalledWith('signIn', {password: '1234567890'})
   })
 
   it('should show error if password not 10 long', () => {
