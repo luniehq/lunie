@@ -25,7 +25,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
          <div class=\\"ni-form-group-field\\">
             <input type=\\"password\\" placeholder=\\"at least 10 characters\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
             <div class=\\"ni-form-msg ni-form-msg-desc\\">
-               Create a password to secure your restored account
+               Create a password to secure your new account
             </div>
       <div class=\\"ni-form-msg ni-form-msg-error\\">
          Password is required
