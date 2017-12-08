@@ -252,10 +252,14 @@ async function initBaseserver (chainId, home, node) {
     // '--trust-node'
   ])
   child.stdout.on('data', (data) => {
-    if (shuttingDown) return
-    // answer 'y' to the prompt about trust seed. we can trust this is correct
-    // since the baseserver is talking to our own full node
-    child.stdin.write('y\n')
+    let hashMatch = /\w{40}/g.exec(data)
+    if (hashMatch) {
+      log('approving hash', hashMatch[0])
+      if (shuttingDown) return
+      // answer 'y' to the prompt about trust seed. we can trust this is correct
+      // since the baseserver is talking to our own full node
+      child.stdin.write('y\n')
+    }
   })
   await expectCleanExit(child, 'gaia init exited unplanned')
 }
