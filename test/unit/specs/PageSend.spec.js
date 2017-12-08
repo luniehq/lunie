@@ -31,7 +31,13 @@ describe('PageSend', () => {
         wallet: () => wallet.state
       },
       modules: {
-        wallet
+        wallet,
+        user: {
+          state: {
+            account: 'default',
+            password: '1234567890'
+          }
+        }
       }
     })
     wrapper = mount(PageSend, {
