@@ -19,6 +19,10 @@ export default ({ commit, node }) => {
     },
     setWalletKey (state, key) {
       state.key = key
+      // clear previous account state
+      state.balances = []
+      state.history = []
+      state.sequence = 0
     },
     setWalletSequence (state, sequence) {
       if (state.sequence === sequence) return
