@@ -1,3 +1,5 @@
+import noScroll from 'no-scroll'
+
 export default ({ commit, basecoin }) => {
   const state = {
     activeMenu: '',
@@ -22,7 +24,12 @@ export default ({ commit, basecoin }) => {
     },
     setModalSession (state, value) {
       // reset modal session state if we're closing the modal
-      if (!value) { state.modals.session.state = 'welcome' }
+      if (value) {
+        noScroll.on()
+      } else {
+        state.modals.session.state = 'welcome'
+        noScroll.off()
+      }
       state.modals.session.active = value
     },
     setModalSessionState (state, value) {

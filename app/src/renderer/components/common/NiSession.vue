@@ -11,7 +11,6 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import noScroll from 'no-scroll'
 import SessionWelcome from 'common/NiSessionWelcome'
 import SessionSignUp from 'common/NiSessionSignUp'
 import SessionSignIn from 'common/NiSessionSignIn'
@@ -32,11 +31,7 @@ export default {
     ...mapGetters(['config', 'config']),
     active () { return this.config.modals.session.active }
   },
-  mounted () {
-    noScroll.on()
-  },
   beforeDestroy () {
-    noScroll.off()
     if (!this.config.devMode) {
       this.$store.commit('setModalSession', true)
     }
