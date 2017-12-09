@@ -10,12 +10,14 @@ export default ({ commit, node }) => {
     history: [],
     denoms: [],
     sendQueue: [],
-    sending: false
+    sending: false,
+    loadedBalances: false
   }
 
   let mutations = {
     setWalletBalances (state, balances) {
       state.balances = balances
+      state.loadedBalances = true
     },
     setWalletKey (state, key) {
       state.key = key
@@ -23,6 +25,7 @@ export default ({ commit, node }) => {
       state.balances = []
       state.history = []
       state.sequence = 0
+      state.loadedBalances = false
     },
     setWalletSequence (state, sequence) {
       if (state.sequence === sequence) return
