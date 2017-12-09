@@ -31,19 +31,15 @@ describe('NiSessionSignIn', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it('should open the help model on click', () => {
-    wrapper.findAll('.ni-session-header a').at(0).trigger('click')
+  it('should open the help modal on click', () => {
+    wrapper.findAll('.ni-session-header a').at(1).trigger('click')
     expect(store.commit).toHaveBeenCalledWith('setModalHelp', true)
-  })
-
-  it('should go to account removal screen', () => {
-    wrapper.find('.ni-session-main a').trigger('click')
-    expect(store.commit).toHaveBeenCalledWith('setModalSessionState', 'delete')
   })
 
   it('should close the modal on successful login', async () => {
     wrapper.setData({ fields: {
-      signInPassword: '1234567890'
+      signInPassword: '1234567890',
+      signInName: 'name'
     }})
     await wrapper.vm.onSubmit()
     let calls = store.commit.mock.calls.map(args => args[0])
@@ -52,12 +48,16 @@ describe('NiSessionSignIn', () => {
 
   it('should signal signedin state on successful login', async () => {
     wrapper.setData({ fields: {
-      signInPassword: '1234567890'
+      signInPassword: '1234567890',
+      signInName: 'name'
     }})
     await wrapper.vm.onSubmit()
     let commitCalls = store.commit.mock.calls.map(args => args[0])
     expect(commitCalls).toContain('notify')
-    expect(store.dispatch).toHaveBeenCalledWith('signIn', {password: '1234567890'})
+    expect(store.dispatch).toHaveBeenCalledWith('signIn', {
+      password: '1234567890',
+      account: 'name'
+    })
   })
 
   it('should show error if password not 10 long', () => {
@@ -70,9 +70,10 @@ describe('NiSessionSignIn', () => {
   })
 
   it('should show a notification if signin failed', async () => {
-    store.dispatch = jest.fn(() => Promise.reject('Planed rejection'))
+    store.dispatch = jest.fn(() => Promise.reject('Planned rejection'))
     wrapper.setData({ fields: {
-      signInPassword: '1234567890'
+      signInPassword: '1234567890',
+      signInName: 'name'
     }})
     await wrapper.vm.onSubmit()
     expect(store.commit).toHaveBeenCalled()
