@@ -35,6 +35,6 @@ describe('NISessionWelcome', () => {
   it('sets desired login method', () => {
     wrapper.findAll(LiSession).trigger('click')
     expect(store.commit.mock.calls[0][0]).toBe('setModalSessionState')
-    expect(store.commit.mock.calls.map(args => args[1])).toEqual(['sign-up', 'restore', 'hardware'])
+    expect(store.commit.mock.calls.map(args => args[1])).toEqual(['sign-in', 'sign-up', 'restore', 'hardware'])
   })
 })

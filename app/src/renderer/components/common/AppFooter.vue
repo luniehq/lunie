@@ -5,11 +5,11 @@ footer.app-footer
       i.material-icons.success done
       span {{ lastHeader.chain_id }} (\#{{ lastHeader.height }})
     .afi
-      i.material-icons settings_ethernet 
+      i.material-icons settings_ethernet
       span {{ nodeIP }}
   .app-footer-container(v-else)
     .afi
-      i.material-icons.fa-spin rotate_right 
+      i.material-icons.fa-spin rotate_right
       span Connecting&hellip;
 </template>
 
@@ -30,8 +30,13 @@ export default {
   border-top px solid bc
   height 3rem + px
   display flex
+  position fixed
   align-items center
   justify-content space-between
+  z-index 1
+  bottom 0
+  width 100%
+  background #15182d
 
   font-label()
   color dim
@@ -46,5 +51,9 @@ export default {
 
     .success
       color success
+
+@media screen and (max-width: 567px)
+  .app-footer-container
+    display none
 
 </style>

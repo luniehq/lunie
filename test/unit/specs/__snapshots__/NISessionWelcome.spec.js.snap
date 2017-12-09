@@ -13,8 +13,21 @@ exports[`NISessionWelcome has the expected html structure 1`] = `
 <div class=\\"ni-session-main\\">
    <div class=\\"ni-li-session\\">
       <div class=\\"ni-li-session-icon\\">
-         <i class=\\"material-icons\\">create</i>
+         <i class=\\"material-icons\\">lock</i>
       </div>
+<div class=\\"ni-li-session-text\\">
+   <div class=\\"ni-li-session-title\\">
+      Sign in with password
+   </div>
+<div class=\\"ni-li-session-subtitle\\">
+   If you have an account, choose this option
+</div>
+</div>
+</div>
+<div class=\\"ni-li-session\\">
+   <div class=\\"ni-li-session-icon\\">
+      <i class=\\"material-icons\\">create</i>
+   </div>
 <div class=\\"ni-li-session-text\\">
    <div class=\\"ni-li-session-title\\">
       Create new account

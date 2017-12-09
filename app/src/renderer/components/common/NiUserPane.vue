@@ -6,12 +6,12 @@ list-item.ni-li-user(
   @click.native="close"
   icon="face"
   title="CosmosUser01")
-div(v-else-if="user.signedIn") 
+div(v-else-if="user.signedIn")
   list-item.ni-li-user(
     type="link"
-    icon="mood"
+    icon="exit_to_app"
     @click.native="signOut"
-    title="Signed In (Sign Out)")
+    title="Sign Out")
 list-item.ni-li-user(
   v-else
   @click.native="openSession"
@@ -59,4 +59,7 @@ export default {
   border-top px solid bc
   height 3rem + px
   cursor: pointer
+
+  .ni-li-title
+    color link
 </style>

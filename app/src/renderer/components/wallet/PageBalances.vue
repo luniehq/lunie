@@ -15,11 +15,19 @@ page(title='Balance')
 
   part(title="Denomination Balances")
     list-item(
+      v-if="!wallet.loadedBalances"
+      dt=" "
+      dd="Loading...")
+    list-item(
+      v-if="wallet.loadedBalances"
       v-for="i in filteredBalances"
       :key="i.denom"
       :dt="i.denom.toUpperCase()"
       :dd="i.amount")
-    list-item(v-if='wallet.balances.length === 0' dt="N/A" dd="None Available")
+    list-item(
+      v-if="wallet.loadedBalances && wallet.denoms.length === 0"
+      dt=" "
+      dd="None Available")
 </template>
 
 <script>
