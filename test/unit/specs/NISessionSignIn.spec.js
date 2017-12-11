@@ -17,6 +17,9 @@ describe('NiSessionSignIn', () => {
     store = new Vuex.Store({
       modules: {
         user
+      },
+      getters: {
+        user: () => user.state
       }
     })
     wrapper = mount(NiSessionSignIn, {
