@@ -13,7 +13,7 @@ export default ({ commit, node }) => {
   }
 
   const emptyUser = {
-    atoms: 10000,
+    atoms: 2097152,
     nominationActive: false,
     nomination: JSON.parse(JSON.stringify(emptyNomination)),
     delegationActive: false,

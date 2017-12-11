@@ -183,8 +183,8 @@ export default {
     }
   },
   mounted () {
-    this.resetAlloc()
     this.leaveIfEmpty(this.shoppingCart.length)
+    this.resetAlloc()
     if (this.user.delegationActive) {
       this.fields = JSON.parse(JSON.stringify(this.user.delegation))
     }
@@ -238,4 +238,3 @@ export default {
 .reserved-atoms__number--error
   color danger
 </style>
-
