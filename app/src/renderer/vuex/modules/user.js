@@ -18,7 +18,8 @@ export default ({ commit, node }) => {
     delegation: [],
     pubkey: '',
     privkey: null,
-    signedIn: false
+    signedIn: false,
+    accounts: []
   }
 
   const state = JSON.parse(JSON.stringify(emptyUser))
@@ -26,22 +27,26 @@ export default ({ commit, node }) => {
   const mutations = {
     activateDelegation (state) {
       state.delegationActive = true
+    },
+    setAccounts (state, accounts) {
+      state.accounts = accounts
     }
   }
 
   const actions = {
     async showInitialScreen ({ dispatch }) {
-      let exists = await dispatch('accountExists')
+      await dispatch('loadAccounts')
+      let exists = state.accounts.length > 0
       let screen = exists ? 'sign-in' : 'welcome'
       commit('setModalSessionState', screen)
       commit('setModalSession', true)
     },
-    async accountExists (state, account) {
+    async loadAccounts ({ commit }) {
       try {
         let keys = await node.listKeys()
-        return !!keys.find(key => key.name === account)
+        commit('setAccounts', keys.map((key) => key.name))
       } catch (err) {
-        commit('notifyError', { title: `Couldn't read keys'`, body: err.message })
+        commit('notifyError', { title: `Couldn't read keys`, body: err.message })
       }
     },
     async testLogin (state, { password, account }) {

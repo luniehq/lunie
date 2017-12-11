@@ -25,7 +25,6 @@ export default ({ commit, node }) => {
       state.sequence = 0
     },
     setWalletSequence (state, sequence) {
-      if (state.sequence === sequence) return
       state.sequence = sequence
     },
     setWalletHistory (state, history) {

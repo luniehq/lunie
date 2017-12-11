@@ -7,8 +7,9 @@
   .ni-session-main
     form-group(field-id='sign-in-name' field-label='Account Name')
       field#sign-in-name(
-        type="text"
-        v-model="fields.signInName")
+        type="select"
+        v-model="fields.signInName"
+        :options="accounts")
       form-msg(name='Name' type='required' v-if='!$v.fields.signInName.required')
 
     form-group(:error='$v.fields.signInPassword.$error'
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 import {required, minLength} from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
@@ -60,6 +62,14 @@ export default {
       } catch (err) {
         this.$store.commit('notifyError', { title: 'Signing In Failed', body: err.message })
       }
+    }
+  },
+  computed: {
+    ...mapGetters(['user']),
+    accounts () {
+      let accounts = this.user.accounts
+      accounts = accounts.filter((name) => name !== 'trunk')
+      return accounts.map((name) => ({ key: name, value: name }))
     }
   },
   mounted () {
