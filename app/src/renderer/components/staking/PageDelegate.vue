@@ -1,37 +1,33 @@
 <template lang="pug">
-page(:title="pageTitle")
+page.page-delegate(title="Delegate Atoms")
   div(slot="menu"): tool-bar
     router-link(to='/staking')
       i.material-icons arrow_back
       .label Change Candidates
 
+  .reserved-atoms(v-if="unallocatedAtoms == this.user.atoms")
+    | You have #[.reserved-atoms__number {{ unallocatedAtoms }}] unbonded atoms. Begin the delegation process by allocating some of your atoms to these validator candidates.
+  .reserved-atoms(v-else-if="unallocatedAtoms === 0")
+    | You are allocating #[.reserved-atoms__number ALL {{ allocatedAtoms }}] atoms to these validator candidates. We suggest reserving some atoms for personal use&mdash;are you sure you wish to proceed? #[a(@click="resetAlloc") (start over?)]
+  .reserved-atoms(v-else-if="unallocatedAtoms < 0")
+    | #[.reserved-atoms__number.reserved-atoms__number--error You are allocating {{ unallocatedAtoms * -1 }} more atoms than exist in your balance.] Please reduce the number of atoms you are allocating to these validator candidates. #[a(@click="resetAlloc") (start over?)]
+  .reserved-atoms(v-else)
+    | You are reserving  #[.reserved-atoms__number {{ unallocatedAtoms }}] ({{ unallocatedAtomsPct }}) atoms. You are allocating #[.reserved-atoms__number {{ allocatedAtoms }}] ({{ allocatedAtomsPct }}) atoms to these validator candidates. #[a(@click="resetAlloc") (start over?)]
+
   form-struct(:submit="onSubmit")
-    form-group(:error="$v.fields.reservedAtoms.$error")
-      Label Reserved Atoms
-      field-group
-        h1 {{unallocatedAtoms}}
-          small &nbsp;ATOM not delegated.
-
-      form-msg: div Reserved Atoms will be held by you and remain unbonded
-
     form-group(v-for='(candidate, index) in fields.candidates' key='candidate.id'
       :error="$v.fields.candidates.$each[index].$error")
-      Label {{ candidate.candidate.keybaseID }}
+      Label {{ candidate.candidate.keybaseID }} ({{ percentAtoms(candidate.atoms) }})
       field-group
         field(
-          theme="cosmos"
           type="number"
           step="any"
           placeholder="Atoms"
           v-model.number="candidate.atoms")
-        field-addon Atoms
-        .percentage {{ percentAtoms(candidate.atoms) }}
-        btn(type="button" theme="cosmos" value="Max"
+        field-addon Atoms 
+        // btn(type="button" value="Max"
           @click.native="fillAtoms(candidate.id)")
-        // btn(type="button" theme="cosmos" value="Clear"
-          @click.native="clearAtoms(candidate.id)")
-        btn(type="button" theme="cosmos" value="Remove"
-          @click.native="rm(candidate.id)")
+        btn(type="button" icon="clear" @click.native="rm(candidate.id)")
       form-msg(name="Atoms" type="required"
         v-if="!$v.fields.candidates.$each[index].atoms.required")
       form-msg(name="Atoms" type="numeric"
@@ -40,9 +36,8 @@ page(:title="pageTitle")
         v-if="!$v.fields.candidates.$each[index].atoms.between")
 
     div(slot="footer")
-      div
-        btn(theme="cosmos" icon="balance-scale" value="Equalize" type="button" @click.native="equalAlloc")
-      btn(theme="cosmos" icon="check" value="Set Allocation")
+      btn(icon="drag_handle" value="Equalize" type="button" @click.native="equalAlloc")
+      btn(icon="check" value="Delegate")
 </template>
 
 <script>
@@ -72,28 +67,27 @@ export default {
   },
   computed: {
     ...mapGetters(['shoppingCart', 'user']),
-    pageTitle () {
-      let title = 'Delegate Atoms '
-      if (this.unallocatedAtoms > 0) {
-        title += this.unallocatedAtoms + ', ' + this.unallocatedAtomsPercent
-      } else {
-        title += '(DONE)'
-      }
-      return title
-    },
     unreservedAtoms () {
       return this.user.atoms - this.fields.reservedAtoms
     },
     unallocatedAtoms () {
       let value = this.unreservedAtoms
 
-      // reduce unallocated atoms by assigned atoms
+      // reduce unreserved atoms by allocated atoms
       this.fields.candidates.forEach(f => (value -= f.atoms))
 
       return value
     },
-    unallocatedAtomsPercent () {
+    unallocatedAtomsPct () {
       return Math.round(this.unallocatedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
+    },
+    allocatedAtoms () {
+      let value = 0
+      this.fields.candidates.forEach(f => (value += f.atoms))
+      return value
+    },
+    allocatedAtomsPct () {
+      return Math.round(this.allocatedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
     }
   },
   data: () => ({
@@ -108,7 +102,6 @@ export default {
   methods: {
     fillAtoms (candidateId) {
       if (candidateId === 'unreserved') {
-        console.log('filling reserved atoms')
         this.fields.reservedAtoms += this.unallocatedAtoms
       } else {
         let candidate = this.fields.candidates.find(c => c.id === candidateId)
@@ -126,9 +119,8 @@ export default {
       }
     },
     equalAlloc () {
-      console.log(this.fields)
       this.equalize = true
-      this.resetCandidates()
+      this.resetAlloc()
       let atoms = this.unreservedAtoms
       let candidates = this.fields.candidates.length
       let remainderAtoms = atoms % candidates
@@ -140,17 +132,21 @@ export default {
       for (let i = 0; i < remainderAtoms; i++) {
         this.fields.candidates[i].atoms += 1
       }
+
+      this.$store.commit('notify', { title: 'Equal Allocation',
+        body: 'You have split your atoms equally among all of these validator candidates.'
+      })
     },
-    percentAtoms (assignedAtoms) {
-      return Math.round(assignedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
+    percentAtoms (allocatedAtoms) {
+      return Math.round(allocatedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
     },
     onSubmit () {
       if (this.unallocatedAtoms === this.user.atoms) {
-        this.$store.commit('notifyWarn', { title: 'Unallocated Atoms',
+        this.$store.commit('notifyError', { title: 'Unallocated Atoms',
           body: 'You haven\'t allocated any atoms yet.' })
         return
       } else if (this.unallocatedAtoms < 0) {
-        this.$store.commit('notifyWarn', { title: 'Too Many Allocated Atoms',
+        this.$store.commit('notifyError', { title: 'Too Many Allocated Atoms',
           body: `You've allocated ${this.unallocatedAtoms * -1} more atoms than you have.`})
         return
       }
@@ -158,23 +154,20 @@ export default {
       if (!this.$v.$error) {
         this.$store.commit('activateDelegation')
         this.$store.dispatch('submitDelegation', this.fields)
-        this.$store.commit('notify',
-          { title: 'Atom Allocation Set',
-            body: 'You have successfully set your atom allocation. You can change it up until the end of the game.' })
+        this.$store.commit('notify', { title: 'Atoms Delegated',
+          body: 'You have successfully delegated your atoms. You can change your delegation after the unbonding period (30 days).' })
       } else {
-        console.log('onSubmit error', this.$v.$error)
+        this.$store.commit('notifyError', { title: 'Atoms Delegation Error',
+          body: this.$v.$error })
       }
     },
-    resetCandidates () {
+    resetAlloc () {
       this.fields.candidates = []
       this.shoppingCart.map(c => this.fields.candidates.push(Object.assign({}, c)))
     },
-    getShoppingCartItem (candidateId) {
-      return this.shoppingCart.find(c => c.candidateId === candidateId)
-    },
-    leaveIfNoCandidates (count) {
-      if (count < 1) {
-        this.$store.commit('notify', {
+    leaveIfEmpty (count) {
+      if (count === 0) {
+        this.$store.commit('notifyError', {
           title: 'No Candidates Selected',
           body: 'Choose one or more candidates before proceeding to delegate atoms.'
         })
@@ -182,21 +175,24 @@ export default {
       }
     },
     rm (candidateId) {
-      this.$store.commit('removeFromCart', candidateId)
-      this.resetCandidates()
+      let confirm = window.confirm('Are you sure you want to remove this validator candidate?')
+      if (confirm) {
+        this.$store.commit('removeFromCart', candidateId)
+        this.resetAlloc()
+      }
     }
   },
   mounted () {
-    this.resetCandidates()
-    this.leaveIfNoCandidates(this.shoppingCart.length)
+    this.resetAlloc()
+    this.leaveIfEmpty(this.shoppingCart.length)
     if (this.user.delegationActive) {
       this.fields = JSON.parse(JSON.stringify(this.user.delegation))
     }
   },
   watch: {
     shoppingCart (newVal) {
-      this.leaveIfNoCandidates(newVal.length)
-      // this.resetCandidates()
+      this.leaveIfEmpty(newVal.length)
+      // this.resetAlloc()
       if (this.equalize) { this.equalAlloc }
     }
   },
@@ -226,36 +222,20 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~variables'
+@require '~variables'
 
-.page-delegate
-  .cards
-    margin 1rem 0
+.reserved-atoms
+  padding 1rem
+  background app-fg
+  margin 0 0 1rem
+  color dim
 
-  .ni-form
-    .ni-field-group
-      .ni-btn
-        margin-left 1rem
-    .ni-form-footer
-      .left
-        .ni-btn
-          margin-right 1rem
-          &:last-child
-            margin 0
+.reserved-atoms__number
+  display inline
+  color bright
+  font-weight 500
 
-  h1
-    font-size h1
-
-  small
-    font-size xs
-
-  .percentage
-    border px solid bc
-    border-left none
-    height 2rem
-    width 3.625rem
-    display flex
-    align-items center
-    justify-content center
-    color dim
+.reserved-atoms__number--error
+  color danger
 </style>
+
