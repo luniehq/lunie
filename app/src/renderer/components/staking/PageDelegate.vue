@@ -156,9 +156,6 @@ export default {
         this.$store.dispatch('submitDelegation', this.fields)
         this.$store.commit('notify', { title: 'Atoms Delegated',
           body: 'You have successfully delegated your atoms. You can change your delegation after the unbonding period (30 days).' })
-      } else {
-        this.$store.commit('notifyError', { title: 'Atoms Delegation Error',
-          body: this.$v.$error })
       }
     },
     resetAlloc () {
