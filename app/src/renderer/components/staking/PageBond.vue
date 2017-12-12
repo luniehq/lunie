@@ -15,25 +15,25 @@ page.page-bond(title="Bond Atoms")
     | You are reserving  #[.reserved-atoms__number {{ unbondedAtoms }}] ({{ unbondedAtomsPct }}) atoms. You are bonding #[.reserved-atoms__number {{ bondedAtoms }}] ({{ bondedAtomsPct }}) atoms to these delegates. #[a(@click="resetAlloc") (start over?)]
 
   form-struct(:submit="onSubmit")
-    form-group(v-for='(candidate, index) in fields.candidates' key='candidate.id'
-      :error="$v.fields.candidates.$each[index].$error")
-      Label {{ candidate.candidate.keybaseID }} ({{ percentAtoms(candidate.atoms) }})
+    form-group(v-for='(delegate, index) in fields.delegates' key='delegate.id'
+      :error="$v.fields.delegates.$each[index].$error")
+      Label {{ delegate.delegate.keybaseID }} ({{ percentAtoms(delegate.atoms) }})
       field-group
         field(
           type="number"
           step="any"
           placeholder="Atoms"
-          v-model.number="candidate.atoms")
+          v-model.number="delegate.atoms")
         field-addon Atoms 
         // btn(type="button" value="Max"
-          @click.native="fillAtoms(candidate.id)")
-        btn(type="button" icon="clear" @click.native="rm(candidate.id)")
+          @click.native="fillAtoms(delegate.id)")
+        btn(type="button" icon="clear" @click.native="rm(delegate.id)")
       form-msg(name="Atoms" type="required"
-        v-if="!$v.fields.candidates.$each[index].atoms.required")
+        v-if="!$v.fields.delegates.$each[index].atoms.required")
       form-msg(name="Atoms" type="numeric"
-        v-if="!$v.fields.candidates.$each[index].atoms.numeric")
+        v-if="!$v.fields.delegates.$each[index].atoms.numeric")
       form-msg(name="Atoms" type="between" :min="atomsMin" :max="user.atoms"
-        v-if="!$v.fields.candidates.$each[index].atoms.between")
+        v-if="!$v.fields.delegates.$each[index].atoms.between")
 
     div(slot="footer")
       btn(icon="drag_handle" value="Equalize" type="button" @click.native="equalAlloc")
@@ -74,7 +74,7 @@ export default {
       let value = this.unreservedAtoms
 
       // reduce unreserved atoms by bonded atoms
-      this.fields.candidates.forEach(f => (value -= f.atoms))
+      this.fields.delegates.forEach(f => (value -= f.atoms))
 
       return value
     },
@@ -83,7 +83,7 @@ export default {
     },
     bondedAtoms () {
       let value = 0
-      this.fields.candidates.forEach(f => (value += f.atoms))
+      this.fields.delegates.forEach(f => (value += f.atoms))
       return value
     },
     bondedAtomsPct () {
@@ -96,41 +96,41 @@ export default {
     reservedAtomsMin: 0,
     fields: {
       reservedAtoms: 0,
-      candidates: []
+      delegates: []
     }
   }),
   methods: {
-    fillAtoms (candidateId) {
-      if (candidateId === 'unreserved') {
+    fillAtoms (delegateId) {
+      if (delegateId === 'unreserved') {
         this.fields.reservedAtoms += this.unbondedAtoms
       } else {
-        let candidate = this.fields.candidates.find(c => c.id === candidateId)
-        candidate.atoms += this.unbondedAtoms
+        let delegate = this.fields.delegates.find(c => c.id === delegateId)
+        delegate.atoms += this.unbondedAtoms
       }
     },
-    clearAtoms (candidateId) {
-      if (candidateId === 'unreserved') {
+    clearAtoms (delegateId) {
+      if (delegateId === 'unreserved') {
         console.log('clearing reserved atoms')
         this.fields.reservedAtoms = 0
       } else {
-        console.log('clearing atoms for', candidateId)
-        let candidate = this.fields.candidates.find(c => c.candidateId === candidateId)
-        candidate.atoms = 0
+        console.log('clearing atoms for', delegateId)
+        let delegate = this.fields.delegates.find(c => c.delegateId === delegateId)
+        delegate.atoms = 0
       }
     },
     equalAlloc () {
       this.equalize = true
       this.resetAlloc()
       let atoms = this.unreservedAtoms
-      let candidates = this.fields.candidates.length
-      let remainderAtoms = atoms % candidates
+      let delegates = this.fields.delegates.length
+      let remainderAtoms = atoms % delegates
 
-      // give equal atoms to every candidate
-      this.fields.candidates.forEach(c => (c.atoms += Math.floor(atoms / candidates)))
+      // give equal atoms to every delegate
+      this.fields.delegates.forEach(c => (c.atoms += Math.floor(atoms / delegates)))
 
       // give remainder atoms
       for (let i = 0; i < remainderAtoms; i++) {
-        this.fields.candidates[i].atoms += 1
+        this.fields.delegates[i].atoms += 1
       }
 
       this.$store.commit('notify', { title: 'Equal Allocation',
@@ -159,8 +159,8 @@ export default {
       }
     },
     resetAlloc () {
-      this.fields.candidates = []
-      this.shoppingCart.map(c => this.fields.candidates.push(Object.assign({}, c)))
+      this.fields.delegates = []
+      this.shoppingCart.map(c => this.fields.delegates.push(Object.assign({}, c)))
     },
     leaveIfEmpty (count) {
       if (count === 0) {
@@ -171,10 +171,10 @@ export default {
         this.$router.push('/staking')
       }
     },
-    rm (candidateId) {
+    rm (delegateId) {
       let confirm = window.confirm('Are you sure you want to remove this delegate?')
       if (confirm) {
-        this.$store.commit('removeFromCart', candidateId)
+        this.$store.commit('removeFromCart', delegateId)
         this.resetAlloc()
       }
     }
@@ -202,7 +202,7 @@ export default {
           return between(this.reservedAtomsMin, this.user.atoms)(atoms)
         }
       },
-      candidates: {
+      delegates: {
         $each: {
           atoms: {
             required,
