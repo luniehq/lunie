@@ -5,26 +5,27 @@
     .ni-session-title Create Account
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
-    form-group(field-id='sign-up-name' field-label='Account Name')
+    form-group(field-id='sign-up-name' field-label='Account Name' :error='$v.fields.signUpName.$error')
       field#sign-up-name(
         type="text"
-        placeholder="name your account"
+        placeholder="at least 5 characters"
         v-model="fields.signUpName")
       form-msg(name='Name' type='required' v-if='!$v.fields.signUpName.required')
+      form-msg(name='Name' type='minLength' min="5" v-if='!$v.fields.signUpName.minLength')
 
     form-group(field-id='sign-up-seed' field-label='Seed (write it down)')
       field-seed#sign-up-seed(v-model="fields.signUpSeed" disabled)
       form-msg(body='Please back up the seed phrase for this account. These words cannot be recovered!')
 
-    form-group(:error='$v.fields.signInPassword.$error'
+    form-group(:error='$v.fields.signUpPassword.$error'
       field-id='sign-in-password' field-label='Password')
       field#sign-in-password(
         type="password"
         placeholder="at least 10 characters"
-        v-model="fields.signInPassword")
+        v-model="fields.signUpPassword")
       form-msg(body="Create a password to secure your new account")
-      form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
-      form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
+      form-msg(name='Password' type='required' v-if='!$v.fields.signUpPassword.required')
+      form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signUpPassword.minLength')
 
     form-group(field-id="sign-up-warning" field-label=' '
       :error='$v.fields.signUpWarning.$error')
@@ -72,7 +73,7 @@ export default {
     fields: {
       signUpName: '',
       signUpSeed: 'Creating seed...',
-      signInPassword: '',
+      signUpPassword: '',
       signUpWarning: false,
       signUpBackup: false
     }
@@ -83,11 +84,11 @@ export default {
     async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return
-      let key = await this.$store.dispatch('createKey', { seedPhrase: this.fields.signUpSeed, password: this.fields.signInPassword, name: this.fields.signUpName })
+      let key = await this.$store.dispatch('createKey', { seedPhrase: this.fields.signUpSeed, password: this.fields.signUpPassword, name: this.fields.signUpName })
       if (key) {
         this.$store.commit('setModalSession', false)
         this.$store.commit('notify', { title: 'Signed Up', body: 'Your account has been created.' })
-        this.$store.dispatch('signIn', { password: this.fields.signInPassword, account: this.fields.signUpName })
+        this.$store.dispatch('signUp', { password: this.fields.signUpPassword, account: this.fields.signUpName })
       }
     }
   },
@@ -101,8 +102,8 @@ export default {
   },
   validations: () => ({
     fields: {
-      signUpName: '',
-      signInPassword: { required, minLength: minLength(10) },
+      signUpName: { required, minLength: minLength(5) },
+      signUpPassword: { required, minLength: minLength(10) },
       signUpWarning: { required },
       signUpBackup: { required }
     }

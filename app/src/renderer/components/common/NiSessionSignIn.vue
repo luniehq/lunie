@@ -5,7 +5,7 @@
     .ni-session-title Sign In
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
-    form-group(field-id='sign-in-name' field-label='Account Name')
+    form-group(field-id='sign-in-name' field-label='Select Account')
       field#sign-in-name(
         type="select"
         v-model="fields.signInName"
