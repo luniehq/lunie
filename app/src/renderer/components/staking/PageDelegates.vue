@@ -6,7 +6,7 @@ page(:title='pageTitle')
       .label Search
     router-link(to='/staking/bond')
       i.material-icons check_circle
-      .label ${this.delegatesNum} Delegates
+      .label Bond Atoms
   modal-search(v-if="filters.delegates.search.visible" type="delegates")
   template(v-if="filteredDelegates.length > 0")
     panel-sort(:sort='sort')
@@ -44,8 +44,8 @@ export default {
   computed: {
     ...mapGetters(['delegates', 'filters', 'shoppingCart']),
     pageTitle () {
-      if (this.canddiatesNum > 0) {
-        return `Delegates (${this.candidatesNum} Selected)`
+      if (this.shoppingCart.length > 0) {
+        return `Delegates (${this.shoppingCart.length} Selected)`
       } else {
         return 'Delegates'
       }
@@ -58,8 +58,7 @@ export default {
       } else {
         return list
       }
-    },
-    delegatesNum () { return this.shoppingCart.length }
+    }
   },
   data: () => ({
     query: '',

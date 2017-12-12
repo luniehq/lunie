@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import { mount, createLocalVue } from 'vue-test-utils'
-import CardDelegate from 'renderer/components/staking/CardDelegate'
+import LiDelegate from 'renderer/components/staking/LiDelegate'
 
 const shoppingCart = require('renderer/vuex/modules/shoppingCart').default({})
 const delegates = require('renderer/vuex/modules/delegates').default({})
@@ -8,7 +8,7 @@ const delegates = require('renderer/vuex/modules/delegates').default({})
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-describe('CardDelegate', () => {
+describe('LiDelegate', () => {
   let wrapper, store, delegate
 
   beforeEach(() => {
@@ -48,7 +48,7 @@ describe('CardDelegate', () => {
 
     delegate = store.state.delegates[0]
 
-    wrapper = mount(CardDelegate, {
+    wrapper = mount(LiDelegate, {
       localVue,
       store,
       propsData: {
@@ -83,11 +83,11 @@ describe('CardDelegate', () => {
     expect(wrapper.vm.shoppingCart).toEqual([])
     expect(wrapper.vm.inCart).toBeFalsy()
     expect(wrapper.find('menu .ni-btn').text()).toContain('Add')
-    expect(wrapper.html()).not.toContain('card-delegate-active')
+    expect(wrapper.html()).not.toContain('li-delegate-active')
     wrapper.find('menu .ni-btn').trigger('click')
     expect(wrapper.vm.inCart).toBeTruthy()
     expect(store.commit).toHaveBeenCalledWith('addToCart', store.state.delegates[0])
-    expect(wrapper.html()).toContain('card-delegate-active')
+    expect(wrapper.html()).toContain('li-delegate-active')
   })
 
   it('should remove from cart', () => {
@@ -99,6 +99,6 @@ describe('CardDelegate', () => {
     expect(store.commit).toHaveBeenCalledWith('removeFromCart', delegate.id)
     expect(wrapper.vm.shoppingCart).toEqual([])
     expect(wrapper.vm.inCart).toBeFalsy()
-    expect(wrapper.html()).not.toContain('card-delegate-active')
+    expect(wrapper.html()).not.toContain('li-delegate-active')
   })
 })
