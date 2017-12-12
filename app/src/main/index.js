@@ -329,6 +329,10 @@ process.on('uncaughtException', function (err) {
   setTimeout(shutdown, 200)
 })
 
+function consistentConfigDir (versionPath, genesisPath, configPath) {
+  return exists(genesisPath) && exists(versionPath) && exists(configPath)
+}
+
 async function main () {
   if (JSON.parse(process.env.COSMOS_UI_ONLY || 'false')) {
     return
@@ -337,6 +341,7 @@ async function main () {
   let root = require('../root.js')
   let versionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
+  let configPath = join(root, 'config.toml')
 
   let rootExists = exists(root)
   await fs.ensureDir(root)
@@ -349,7 +354,7 @@ async function main () {
 
     // check if the existing data came from a compatible app version
     // if not, backup the data and re-initialize
-    if (exists(versionPath)) {
+    if (consistentConfigDir(versionPath, genesisPath, configPath)) {
       let existingVersion = fs.readFileSync(versionPath, 'utf8')
       let compatible = semver.diff(existingVersion, pkg.version) !== 'major'
       if (compatible) {
@@ -403,7 +408,7 @@ async function main () {
   // TODO: user-specified nodes, support switching?
   let configText
   try {
-    configText = fs.readFileSync(join(root, 'config.toml'), 'utf8')
+    configText = fs.readFileSync(configPath, 'utf8')
   } catch (e) {
     throw new Error(`Can't open config.toml: ${e.message}`)
   }

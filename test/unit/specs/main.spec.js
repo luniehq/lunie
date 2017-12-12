@@ -320,11 +320,20 @@ describe('Startup Process', () => {
         await main.shutdown()
         await resetConfigs()
       })
-      testFileMissing(testRoot, 'config.toml')
-      testFileMissing(testRoot, 'genesis.json')
-
+      it('should survive the genesis.json being removed', async () => {
+        fs.removeSync(join(testRoot, 'genesis.json'))
+        await initMain()
+      })
+      it('should survive the config.toml being removed', async () => {
+        fs.removeSync(join(testRoot, 'config.toml'))
+        await initMain()
+      })
       it('should survive the app_version being removed', async () => {
         fs.removeSync(join(testRoot, 'app_version'))
+        await initMain()
+      })
+      it('should survive the baseserver folder being removed', async () => {
+        fs.removeSync(join(testRoot, 'baseserver'))
         await initMain()
       })
     })
@@ -368,18 +377,6 @@ function testFailingChildProcess (name, cmd) {
         expect(err.message.toLowerCase()).toContain(name)
         done()
       })
-  })
-}
-
-function testFileMissing (path, file) {
-  return it(`should fail if ${file} is missing`, async (done) => {
-    fs.removeSync(join(path, file))
-    jest.resetModules()
-    await require(appRoot + 'src/main/index.js')
-    .catch(err => {
-      expect(err.message.toLowerCase()).toContain(file)
-      done()
-    })
   })
 }
 
