@@ -143,7 +143,7 @@ export default {
     onSubmit () {
       if (this.unallocatedAtoms === this.user.atoms) {
         this.$store.commit('notifyError', { title: 'Unallocated Atoms',
-          body: 'You haven\'t allocated any atoms yet.' })
+          body: 'You either haven\'t allocated any atoms yet, or some candidates have 0 atoms.' })
         return
       } else if (this.unallocatedAtoms < 0) {
         this.$store.commit('notifyError', { title: 'Too Many Allocated Atoms',
@@ -180,8 +180,8 @@ export default {
     }
   },
   mounted () {
-    this.leaveIfEmpty(this.shoppingCart.length)
     this.resetAlloc()
+    this.leaveIfEmpty(this.shoppingCart.length)
     if (this.user.delegationActive) {
       this.fields = JSON.parse(JSON.stringify(this.user.delegation))
     }
