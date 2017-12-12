@@ -35,8 +35,11 @@ async function main () {
 
   const store = Store({ node })
 
-  store.dispatch('updateNodeStatus')
-  store.dispatch('showInitialScreen')
+  let connected = await store.dispatch('checkConnection')
+  if (connected) {
+    store.dispatch('updateNodeStatus')
+    store.dispatch('showInitialScreen')
+  }
 
   return new Vue({
     router,

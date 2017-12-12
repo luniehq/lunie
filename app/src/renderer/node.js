@@ -32,17 +32,6 @@ module.exports = async function (nodeIP) {
   // TODO: handle disconnect, try to reconnect
   // TODO: eventually, get all data from light-client connection instead of RPC
 
-  // poll server until it is online
-  while (true) {
-    try {
-      await rest.listKeys()
-      break
-    } catch (err) {
-      console.log('waiting for baseserver', err)
-    }
-    await sleep(1000)
-  }
-
   rest.rpc = rpc
   rest.nodeIP = nodeIP
   return rest

@@ -43,7 +43,7 @@ export default ({ commit, node }) => {
         let keys = await node.listKeys()
         return !!keys.find(key => key.name === account)
       } catch (err) {
-        commit('notifyError', { title: `Couldn't read keys'`, body: err.message })
+        commit('notifyError', { title: `Couldn't read keys`, body: err.message })
       }
     },
     // testing if the provided password works so we can show the user early if he uses the wrong password
