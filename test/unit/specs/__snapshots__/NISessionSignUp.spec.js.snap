@@ -17,11 +17,12 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
          <div class=\\"ni-form-group\\">
             <label for=\\"sign-up-name\\">Account Name</label>
             <div class=\\"ni-form-group-field\\">
-               <input type=\\"text\\" placeholder=\\"name your account\\" class=\\"ni-field\\" id=\\"sign-up-name\\">
+               <input type=\\"text\\" placeholder=\\"at least 5 characters\\" class=\\"ni-field\\" id=\\"sign-up-name\\">
                <div class=\\"ni-form-msg ni-form-msg-error\\">
                   Name is required
                </div>
-</div>
+                  <!---->
+   </div>
 </div>
       <div class=\\"ni-form-group\\">
          <label for=\\"sign-up-seed\\">Seed (write it down)</label>

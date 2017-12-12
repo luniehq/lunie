@@ -15,7 +15,7 @@ exports[`NiSessionSignIn has the expected html structure 1`] = `
    </div>
       <div class=\\"ni-session-main\\">
          <div class=\\"ni-form-group\\">
-            <label for=\\"sign-in-name\\">Account Name</label>
+            <label for=\\"sign-in-name\\">Select Account</label>
             <div class=\\"ni-form-group-field\\">
                <div class=\\"ni-select\\" id=\\"sign-in-name\\">
                   <select class=\\"ni-field ni-field-select\\">
