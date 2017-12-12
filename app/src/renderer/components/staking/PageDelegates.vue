@@ -4,16 +4,16 @@ page(:title='pageTitle')
     a(@click='setSearch(true)')
       i.material-icons search
       .label Search
-    router-link(to='/staking/delegate')
+    router-link(to='/staking/bond')
       i.material-icons check_circle
-      .label Delegate
-  modal-search(v-if="filters.candidates.search.visible" type="candidates")
-  template(v-if="filteredCandidates.length > 0")
+      .label ${this.delegatesNum} Delegates
+  modal-search(v-if="filters.delegates.search.visible" type="delegates")
+  template(v-if="filteredDelegates.length > 0")
     panel-sort(:sort='sort')
-    card-candidate(
-      v-for='i in filteredCandidates'
+    li-delegate(
+      v-for='i in filteredDelegates'
       key='i.id'
-      :candidate='i')
+      :delegate='i')
   data-error(v-else)
 </template>
 
@@ -21,7 +21,7 @@ page(:title='pageTitle')
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
-import CardCandidate from 'staking/CardCandidate'
+import LiDelegate from 'staking/LiDelegate'
 import DataError from 'common/NiDataError'
 import Field from '@nylira/vue-field'
 import ModalSearch from 'common/NiModalSearch'
@@ -30,9 +30,9 @@ import Part from 'common/NiPart'
 import PanelSort from 'staking/PanelSort'
 import ToolBar from 'common/NiToolBar'
 export default {
-  name: 'page-candidates',
+  name: 'page-delegates',
   components: {
-    CardCandidate,
+    LiDelegate,
     DataError,
     Field,
     ModalSearch,
@@ -42,20 +42,24 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['candidates', 'filters', 'shoppingCart']),
+    ...mapGetters(['delegates', 'filters', 'shoppingCart']),
     pageTitle () {
-      return `Delegate (${this.candidatesNum} Candidates Selected)`
+      if (this.canddiatesNum > 0) {
+        return `Delegates (${this.candidatesNum} Selected)`
+      } else {
+        return 'Delegates'
+      }
     },
-    filteredCandidates () {
-      let query = this.filters.candidates.search.query
-      let list = orderBy(this.candidates, [this.sort.property], [this.sort.order])
-      if (this.filters.candidates.search.visible) {
+    filteredDelegates () {
+      let query = this.filters.delegates.search.query
+      let list = orderBy(this.delegates, [this.sort.property], [this.sort.order])
+      if (this.filters.delegates.search.visible) {
         return list.filter(i => includes(i.keybaseID.toLowerCase(), query.toLowerCase()))
       } else {
         return list
       }
     },
-    candidatesNum () { return this.shoppingCart.length }
+    delegatesNum () { return this.shoppingCart.length }
   },
   data: () => ({
     query: '',
@@ -72,7 +76,7 @@ export default {
     }
   }),
   methods: {
-    setSearch (bool) { this.$store.commit('setSearchVisible', ['candidates', bool]) }
+    setSearch (bool) { this.$store.commit('setSearchVisible', ['delegates', bool]) }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))

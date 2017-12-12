@@ -116,8 +116,8 @@ export default ({ commit, node }) => {
       state.delegation = value
       console.log('submitting delegation txs: ', JSON.stringify(state.delegation))
 
-      for (let candidate of value.candidates) {
-        let tx = await node.buildDelegate([ candidate.id, candidate.atoms ])
+      for (let delegate of value.delegates) {
+        let tx = await node.buildDelegate([ delegate.id, delegate.atoms ])
         // TODO: use wallet key management
         let signedTx = await node.sign({
           name: state.name,

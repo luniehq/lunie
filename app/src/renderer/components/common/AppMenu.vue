@@ -8,7 +8,7 @@ menu.app-menu
     part(title='Governance' v-if="config.devMode")
       list-item(to="/proposals" exact @click.native="close" title="Proposals")
     part(title='Stake' v-if="config.devMode")
-      list-item(to="/staking" exact @click.native="close" title="Delegate")
+      list-item(to="/staking" exact @click.native="close" title="Delegates")
     part(title='Monitor' v-if="config.devMode")
       list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
       list-item(to="/validators" exact @click.native="close" title="Validators"

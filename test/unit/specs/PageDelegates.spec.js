@@ -1,32 +1,32 @@
 import Vuex from 'vuex'
 import { mount, createLocalVue } from 'vue-test-utils'
-import PageCandidates from 'renderer/components/staking/PageCandidates'
+import PageDelegates from 'renderer/components/staking/PageDelegates'
 
 const shoppingCart = require('renderer/vuex/modules/shoppingCart').default({})
-const candidates = require('renderer/vuex/modules/candidates').default({})
+const delegates = require('renderer/vuex/modules/delegates').default({})
 const filters = require('renderer/vuex/modules/filters').default({})
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-describe('PageCandidates', () => {
+describe('PageDelegates', () => {
   let wrapper, store
 
   beforeEach(() => {
     store = new Vuex.Store({
       getters: {
-        shoppingCart: () => shoppingCart.state.candidates,
-        candidates: () => candidates.state,
+        shoppingCart: () => shoppingCart.state.delegates,
+        delegates: () => delegates.state,
         filters: () => filters.state
       },
       modules: {
         shoppingCart,
-        candidates,
+        delegates,
         filters
       }
     })
 
-    store.commit('addCandidate', {
+    store.commit('addDelegate', {
       pubkey: 'pubkeyY',
       description: JSON.stringify({
         id: 'idY',
@@ -37,7 +37,7 @@ describe('PageCandidates', () => {
         country: 'Canada'
       })
     })
-    store.commit('addCandidate', {
+    store.commit('addDelegate', {
       pubkey: 'pubkeyX',
       description: JSON.stringify({
         id: 'idX',
@@ -49,7 +49,7 @@ describe('PageCandidates', () => {
       })
     })
 
-    wrapper = mount(PageCandidates, {
+    wrapper = mount(PageDelegates, {
       localVue,
       store,
       stubs: {
@@ -69,43 +69,43 @@ describe('PageCandidates', () => {
     expect(wrapper.contains('.ni-modal-search')).toBe(true)
   })
 
-  it('should sort the candidates by selected property', () => {
-    expect(wrapper.vm.filteredCandidates.map(x => x.id)).toEqual(['idX', 'idY'])
+  it('should sort the delegates by selected property', () => {
+    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['idX', 'idY'])
     wrapper.vm.sort = 'voting_power'
-    expect(wrapper.vm.filteredCandidates.map(x => x.id)).toEqual(['idY', 'idX'])
+    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['idY', 'idX'])
   })
 
-  it('should filter the candidates', () => {
-    store.commit('setSearchVisible', ['candidates', true])
-    store.commit('setSearchQuery', ['candidates', 'baseX'])
-    expect(wrapper.vm.filteredCandidates.map(x => x.id)).toEqual(['idX'])
+  it('should filter the delegates', () => {
+    store.commit('setSearchVisible', ['delegates', true])
+    store.commit('setSearchQuery', ['delegates', 'baseX'])
+    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['idX'])
     expect(wrapper.html()).toMatchSnapshot()
-    store.commit('setSearchQuery', ['candidates', 'baseY'])
-    expect(wrapper.vm.filteredCandidates.map(x => x.id)).toEqual(['idY'])
+    store.commit('setSearchQuery', ['delegates', 'baseY'])
+    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['idY'])
   })
 
-  it('should show the amount of selected candidates', () => {
-    store.commit('addToCart', store.state.candidates[0])
-    store.commit('addToCart', store.state.candidates[1])
+  it('should show the amount of selected delegates', () => {
+    store.commit('addToCart', store.state.delegates[0])
+    store.commit('addToCart', store.state.delegates[1])
     wrapper.update()
-    expect(wrapper.html()).toContain('2 Candidates Selected')
+    expect(wrapper.html()).toContain('2 Delegates Selected')
   })
 
-  it('should show an error if there are no candidates', () => {
+  it('should show an error if there are no delegates', () => {
     let store = new Vuex.Store({
       getters: {
         shoppingCart: () => shoppingCart.state,
-        candidates: () => [],
+        delegates: () => [],
         filters: () => filters.state
       },
       modules: {
         shoppingCart,
-        candidates,
+        delegates,
         filters
       }
     })
 
-    let wrapper = mount(PageCandidates, {
+    let wrapper = mount(PageDelegates, {
       localVue,
       store,
       stubs: {
