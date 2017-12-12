@@ -11,10 +11,12 @@ let skipPack = false
 let binaryPath = null
 process.argv.forEach(function (val) {
   if (val === '--skip-pack') {
+    console.log('Skipping packaging')
     skipPack = true
   }
   if (val.startsWith('--binary')) {
     binaryPath = val.replace('--binary=', '')
+    console.log('Using build binary', binaryPath)
   }
 })
 
