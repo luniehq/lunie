@@ -88,7 +88,7 @@ export default {
       if (key) {
         this.$store.commit('setModalSession', false)
         this.$store.commit('notify', { title: 'Signed Up', body: 'Your account has been created.' })
-        this.$store.dispatch('signUp', { password: this.fields.signUpPassword, account: this.fields.signUpName })
+        this.$store.dispatch('signIn', { password: this.fields.signUpPassword, account: this.fields.signUpName })
       }
     }
   },

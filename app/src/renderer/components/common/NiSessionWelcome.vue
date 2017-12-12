@@ -41,11 +41,11 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters(['config'])
+    ...mapGetters(['config', 'user']),
+    accountExists () { return this.user.accounts.length > 0 }
   },
   methods: {
     help () { this.$store.commit('setModalHelp', true) },
-    accountExists () { return !!this.$store.dispatch('accountExists') },
     setState (value) { this.$store.commit('setModalSessionState', value) }
   }
 }

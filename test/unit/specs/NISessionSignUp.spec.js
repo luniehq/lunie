@@ -72,7 +72,7 @@ describe('NISessionSignUp', () => {
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[1][0]).toEqual('notify')
     expect(store.commit.mock.calls[1][1].title.toLowerCase()).toContain('signed up')
-    expect(store.dispatch).toHaveBeenCalledWith('signUp', {
+    expect(store.dispatch).toHaveBeenCalledWith('signIn', {
       password: '1234567890',
       account: 'testaccount'
     })
