@@ -1,7 +1,5 @@
 'use strict'
 
-let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-
 const DEV = process.env.NODE_ENV === 'development'
 const MOCK = JSON.parse(process.env.MOCK || DEV) !== false
 
