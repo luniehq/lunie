@@ -91,7 +91,7 @@ export default {
       this.sending = false
       this.$v.$reset()
     },
-    onSubmit () {
+    async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return
 
@@ -99,7 +99,7 @@ export default {
       let amount = +this.fields.amount
       let address = this.fields.address
       let denom = this.fields.denom
-      this.walletSend({
+      await this.walletSend({
         fees: { denom, amount: 0 },
         to: address,
         amount: [{ denom, amount }],

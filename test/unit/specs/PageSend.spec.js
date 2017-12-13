@@ -4,18 +4,7 @@ import Vuelidate from 'vuelidate'
 import PageSend from 'renderer/components/wallet/PageSend'
 
 const wallet = require('renderer/vuex/modules/wallet').default({
-  node: {
-    buildSend: (args) => {
-      if (args.to.addr.indexOf('fail') !== -1) return Promise.reject('Failed on purpose')
-      return Promise.resolve(null)
-    },
-    postTx: () => Promise.resolve({
-      check_tx: { code: 0 },
-      deliver_tx: { code: 0 }
-    }),
-    sign: () => Promise.resolve(null),
-    queryAccount: () => {}
-  }
+  node: require('../helpers/node_mock')
 })
 
 const localVue = createLocalVue()
@@ -65,7 +54,7 @@ describe('PageSend', () => {
     expect(wrapper.findAll('option').at(2).text()).toBe('FERMION')
   })
 
-  it('should show notification for successful send', done => {
+  it('should show notification for successful send', async (done) => {
     wrapper.setData({
       fields: {
         denom: 'ATOM',
@@ -73,17 +62,14 @@ describe('PageSend', () => {
         amount: 2
       }
     })
-    wrapper.vm.onSubmit()
-    // TODO setTimeout is always a little ghetto -> probably mock walletSend
+    await wrapper.vm.onSubmit()
     // walletSend is async so we need to wait until it is resolved
-    setTimeout(() => {
-      expect(store.commit).toHaveBeenCalled()
-      expect(store.commit.mock.calls[0][0]).toEqual('notify')
-      done()
-    }, 10)
+    expect(store.commit).toHaveBeenCalled()
+    expect(store.commit.mock.calls[0][0]).toEqual('notify')
+    done()
   })
 
-  it('should show notification for unsuccessful send', done => {
+  it('should show notification for unsuccessful send', async (done) => {
     wrapper.setData({
       fields: {
         denom: 'ATOM',
@@ -91,12 +77,9 @@ describe('PageSend', () => {
         amount: 2
       }
     })
-    wrapper.vm.onSubmit()
-    // TODO setTimeout is always a little ghetto
-    setTimeout(() => {
-      expect(store.commit).toHaveBeenCalled()
-      expect(store.commit.mock.calls[0][0]).toEqual('notifyError')
-      done()
-    }, 10)
+    await wrapper.vm.onSubmit()
+    expect(store.commit).toHaveBeenCalled()
+    expect(store.commit.mock.calls[0][0]).toEqual('notifyError')
+    done()
   })
 })

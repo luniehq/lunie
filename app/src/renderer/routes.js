@@ -19,12 +19,12 @@ export default [
   { path: '/proposals/:proposal', name: 'proposal', component: govern('Proposal') },
 
   // STAKE
-  { path: '/staking', name: 'candidates', component: staking('Candidates') },
-  { path: '/staking/delegate', name: 'delegate', component: staking('Delegate') },
+  { path: '/staking', name: 'delegates', component: staking('Delegates') },
+  { path: '/staking/bond', name: 'bond', component: staking('Bond') },
   {
-    path: '/staking/candidates/:candidate',
-    name: 'candidate',
-    component: staking('Candidate')
+    path: '/staking/delegates/:delegate',
+    name: 'delegate',
+    component: staking('Delegate')
   },
 
   // MONITOR

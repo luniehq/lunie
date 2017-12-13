@@ -84,7 +84,7 @@ export default {
   > div
     padding 1rem 1rem 1rem - px
     display flex
-    justify-content flex-end
+    justify-content space-between
     align-items center
 
     > *:not(:last-child)

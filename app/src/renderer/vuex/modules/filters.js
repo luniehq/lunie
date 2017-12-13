@@ -6,7 +6,7 @@ export default ({ commit, basecoin }) => {
         query: ''
       }
     },
-    candidates: {
+    delegates: {
       search: {
         visible: false,
         query: ''
