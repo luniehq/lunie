@@ -17,7 +17,7 @@ exports[`NiSessionRestore has the expected html structure 1`] = `
          <div class=\\"ni-form-group\\">
             <label for=\\"restore-name\\">Account Name</label>
             <div class=\\"ni-form-group-field\\">
-               <input type=\\"text\\" placeholder=\\"at least 5 characters\\" class=\\"ni-field\\" id=\\"sign-up-name\\">
+               <input type=\\"text\\" placeholder=\\"at least 5 characters\\" class=\\"ni-field\\" id=\\"restore-name\\">
                <div class=\\"ni-form-msg ni-form-msg-error\\">
                   Name is required
                </div>
@@ -34,9 +34,9 @@ exports[`NiSessionRestore has the expected html structure 1`] = `
 </div>
 </div>
       <div class=\\"ni-form-group\\">
-         <label for=\\"sign-in-password\\">Password</label>
+         <label for=\\"restore-password\\">Password</label>
          <div class=\\"ni-form-group-field\\">
-            <input type=\\"password\\" placeholder=\\"at least 10 characters\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
+            <input type=\\"password\\" placeholder=\\"at least 10 characters\\" class=\\"ni-field\\" id=\\"restore-password\\">
             <div class=\\"ni-form-msg ni-form-msg-desc\\">
                Create a password to secure your restored account
             </div>
