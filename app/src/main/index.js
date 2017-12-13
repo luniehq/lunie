@@ -330,6 +330,13 @@ process.on('uncaughtException', function (err) {
 })
 
 async function main () {
+  // the windows installer opens the app once when installing
+  // the package recommends, that we exit if this happens
+  // we can also react to installer events, but currently don't need to
+  if (require('electron-squirrel-startup')) {
+    return
+  }
+
   if (JSON.parse(process.env.COSMOS_UI_ONLY || 'false')) {
     return
   }
