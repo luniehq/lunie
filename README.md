@@ -72,6 +72,26 @@ When you are testing the build system you can skip the repackaging of the JS fil
 $ npm run build -- --skip-pack
 ```
 
+### Build on Windows
+
+- Install [golang](`https://golang.org/dl/`)
+- Install [glide](`https://github.com/Masterminds/glide/releases`)
+
+- Install [node](`https://nodejs.org/en/download/`)
+- Install Yarn: `$ npm i -g yarn`
+- Install Microsoft build tools: `$ npm install --global --production windows-build-tools`
+- Set build tools to needed version `yarn config set msvs_version 2015 --global`
+
+- Install [GNU MAKE](`http://gnuwin32.sourceforge.net/packages/make.htm`)
+- Install [MinGW64](`https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download`)
+- Add MAKE and MinGW64 to the PATH environment variable ([HOW TO](https://msdn.microsoft.com/de-de/library/windows/desktop/bb776899(v=vs.85).aspx))
+    - MAKE should be at `C:\Program Files (x86)\GnuWin32\bin`
+    - MinGW64 you have to look up at `C:\Program Files\mingw-w64\{{version}}\mingw64\bin`
+
+- Pack the electron application: `$ npm run build:win32`
+- Build the Setup: `$ npm run release:win32`
+- The installer will be under `./builds/cosmos/Cosmos-win32`
+
 ## Testing
 
 To test you need to first package the web content of the app, as this content can only be used bundled by the electron instance.
