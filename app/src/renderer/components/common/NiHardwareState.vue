@@ -24,7 +24,7 @@ export default {
   flex-flow column nowrap
   align-items center
   justify-content center
-  margin 0 auto
+  margin 1.5rem auto
 
   height 15rem
   width 15rem
