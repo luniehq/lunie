@@ -38,7 +38,8 @@ describe('NiSessionRestore', () => {
 
   it('should close the modal on successful login', async () => {
     wrapper.setData({ fields: {
-      signInPassword: '1234567890',
+      restoreName: 'foo123',
+      restorePassword: '1234567890',
       restoreSeed: 'bar' // <-- doesn#t check for correctness of seed
     }})
     await wrapper.vm.onSubmit()
@@ -47,13 +48,17 @@ describe('NiSessionRestore', () => {
 
   it('should signal signed in state on successful login', async () => {
     wrapper.setData({ fields: {
-      signInPassword: '1234567890',
+      restoreName: 'foo123',
+      restorePassword: '1234567890',
       restoreSeed: 'bar' // <-- doesn#t check for correctness of seed
     }})
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[1][0]).toEqual('notify')
     expect(store.commit.mock.calls[1][1].title.toLowerCase()).toContain('welcome back!')
-    expect(store.dispatch).toHaveBeenCalledWith('signIn', {password: '1234567890'})
+    expect(store.dispatch).toHaveBeenCalledWith('signIn', {
+      account: 'foo123',
+      password: '1234567890'
+    })
   })
 
   it('should show error if seed is not filled in', async () => {
@@ -68,7 +73,8 @@ describe('NiSessionRestore', () => {
   it('should not continue if creation failed', async () => {
     store.dispatch = jest.fn(() => Promise.resolve(null))
     wrapper.setData({ fields: {
-      signInPassword: '1234567890',
+      restoreName: 'foo123',
+      restorePassword: '1234567890',
       restoreSeed: 'bar' // <-- doesn#t check for correctness of seed
     }})
     await wrapper.vm.onSubmit()

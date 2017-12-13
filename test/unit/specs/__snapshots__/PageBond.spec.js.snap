@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageBond has the expected html structure 1`] = `
+"<div class=\\"ni-page page-bond\\">
+   <header class=\\"ni-page-header\\">
+      <div class=\\"ni-page-header-container\\">
+         <div class=\\"ni-page-header-text\\">
+            <div class=\\"ni-page-header-title\\">
+               <div>
+                  Bond Atoms
+               </div>
+</div>
+   <div class=\\"ni-page-header-subtitle\\">
+      <div></div>
+</div>
+</div>
+   <menu class=\\"ni-page-header-menu\\">
+      <div>
+         <div>
+            <div class=\\"ni-tool-bar\\">
+               <div class=\\"ni-tool-bar-container\\">
+                  <div class=\\"main\\">
+                     <a href=\\"#/staking\\" class=\\"router-link-exact-active router-link-active\\"><i class=\\"material-icons\\">arrow_back</i>
+                     <div class=\\"label\\">
+                        Back
+                     </div>
+      </a>
+   </div>
+      <a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a>
+   </div>
+</div>
+</div>
+</div>
+</menu>
+</div>
+</header>
+<main class=\\"ni-page-main\\">
+   <div class=\\"reserved-atoms\\">
+      You have 
+      <div class=\\"reserved-atoms__number\\">
+         2097152
+      </div>
+unbonded atoms. Start by bonding some of your atoms to these delegates.
+</div>
+   <form class=\\"ni-form\\">
+      <div class=\\"ni-form-container\\">
+         <!---->
+         <main class=\\"ni-form-main\\"></main>
+      <footer class=\\"ni-form-footer\\">
+         <div>
+            <button type=\\"button\\" class=\\"ni-btn\\"><span class=\\"ni-btn-container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">drag_handle</i><span class=\\"ni-btn-value\\">Equalize</span></span></button><button class=\\"ni-btn\\"><span class=\\"ni-btn-container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">check</i><span class=\\"ni-btn-value\\">Bond</span></span></button>
+         </div>
+</footer>
+</div>
+</form>
+</main>
+<footer class=\\"ni-page-footer\\">
+   <div class=\\"container\\"></div>
+</footer>
+</div>"
+`;
