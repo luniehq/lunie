@@ -5,6 +5,14 @@
     .ni-session-title Restore Account
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
+    form-group(field-id='restore-name' field-label='Account Name' :error='$v.fields.restoreName.$error')
+      field#sign-up-name(
+        type="text"
+        placeholder="at least 5 characters"
+        v-model="fields.restoreName")
+      form-msg(name='Name' type='required' v-if='!$v.fields.restoreName.required')
+      form-msg(name='Name' type='minLength' min="5" v-if='!$v.fields.restoreName.minLength')
+
     form-group(:error='$v.fields.restoreSeed.$error'
       field-id='restore-seed' field-label='Seed')
       field-seed#restore-seed(
@@ -13,15 +21,15 @@
         placeholder="must be exactly 12 words")
       form-msg(name='Seed' type='required' v-if='!$v.fields.restoreSeed.required')
 
-    form-group(:error='$v.fields.signInPassword.$error'
+    form-group(:error='$v.fields.restorePassword.$error'
       field-id='sign-in-password' field-label='Password')
       field#sign-in-password(
         type="password"
         placeholder="at least 10 characters"
-        v-model="fields.signInPassword")
+        v-model="fields.restorePassword")
       form-msg(body="Create a password to secure your restored account")
-      form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
-      form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
+      form-msg(name='Password' type='required' v-if='!$v.fields.restorePassword.required')
+      form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.restorePassword.minLength')
   .ni-session-footer
     btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
 </template>
@@ -48,7 +56,8 @@ export default {
   },
   data: () => ({
     fields: {
-      signInPassword: '',
+      restoreName: '',
+      restorePassword: '',
       restoreSeed: ''
     }
   }),
@@ -58,11 +67,18 @@ export default {
     async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return
-      let key = await this.$store.dispatch('createKey', { seedPhrase: this.fields.restoreSeed, password: this.fields.signInPassword })
+      let key = await this.$store.dispatch('createKey', {
+        seedPhrase: this.fields.restoreSeed,
+        password: this.fields.restorePassword,
+        name: this.fields.restoreName
+      })
       if (key) {
         this.$store.commit('setModalSession', false)
         this.$store.commit('notify', { title: 'Welcome back!', body: 'Your account has been successfully restored.' })
-        this.$store.dispatch('signIn', {password: this.fields.signInPassword})
+        this.$store.dispatch('signIn', {
+          account: this.fields.restoreName,
+          password: this.fields.restorePassword
+        })
       }
     }
   },
@@ -71,7 +87,8 @@ export default {
   },
   validations: () => ({
     fields: {
-      signInPassword: { required, minLength: minLength(10) },
+      restoreName: { required, minLength: minLength(5) },
+      restorePassword: { required, minLength: minLength(10) },
       restoreSeed: { required }
     }
   })
