@@ -42,8 +42,8 @@ describe('NISessionWelcome', () => {
   })
 
   describe('with accounts', () => {
-    beforeEach(() => {
-      wrapper.vm.user.accounts = ['foo', 'bar']
+    beforeAll(() => {
+      accounts.push('foo', 'bar')
       wrapper.update()
     })
 
