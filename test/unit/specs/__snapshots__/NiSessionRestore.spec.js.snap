@@ -15,12 +15,22 @@ exports[`NiSessionRestore has the expected html structure 1`] = `
    </div>
       <div class=\\"ni-session-main\\">
          <div class=\\"ni-form-group\\">
-            <label for=\\"restore-seed\\">Seed</label>
+            <label for=\\"restore-name\\">Account Name</label>
             <div class=\\"ni-form-group-field\\">
-               <textarea class=\\"ni-field-seed ni-field\\" id=\\"restore-seed\\" placeholder=\\"must be exactly 12 words\\"></textarea>
+               <input type=\\"text\\" placeholder=\\"at least 5 characters\\" class=\\"ni-field\\" id=\\"sign-up-name\\">
                <div class=\\"ni-form-msg ni-form-msg-error\\">
-                  Seed is required
+                  Name is required
                </div>
+                  <!---->
+   </div>
+</div>
+      <div class=\\"ni-form-group\\">
+         <label for=\\"restore-seed\\">Seed</label>
+         <div class=\\"ni-form-group-field\\">
+            <textarea class=\\"ni-field-seed ni-field\\" id=\\"restore-seed\\" placeholder=\\"must be exactly 12 words\\"></textarea>
+            <div class=\\"ni-form-msg ni-form-msg-error\\">
+               Seed is required
+            </div>
 </div>
 </div>
       <div class=\\"ni-form-group\\">
