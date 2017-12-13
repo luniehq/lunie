@@ -51,8 +51,9 @@ describe('NISessionSignUp', () => {
 
   it('should close the modal on successful login', async () => {
     wrapper.setData({ fields: {
-      signInPassword: '1234567890',
-      signInSeed: 'bar', // <-- doesn#t check for correctness of seed
+      signUpPassword: '1234567890',
+      signUpSeed: 'bar', // <-- doesn#t check for correctness of seed
+      signUpName: 'testaccount',
       signUpWarning: true,
       signUpBackup: true
     }})
@@ -62,21 +63,26 @@ describe('NISessionSignUp', () => {
 
   it('should signal signedin state on successful login', async () => {
     wrapper.setData({ fields: {
-      signInPassword: '1234567890',
-      signInSeed: 'bar', // <-- doesn#t check for correctness of seed
+      signUpPassword: '1234567890',
+      signUpSeed: 'bar', // <-- doesn#t check for correctness of seed
+      signUpName: 'testaccount',
       signUpWarning: true,
       signUpBackup: true
     }})
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[1][0]).toEqual('notify')
     expect(store.commit.mock.calls[1][1].title.toLowerCase()).toContain('signed up')
-    expect(store.dispatch).toHaveBeenCalledWith('signIn', {password: '1234567890'})
+    expect(store.dispatch).toHaveBeenCalledWith('signIn', {
+      password: '1234567890',
+      account: 'testaccount'
+    })
   })
 
   it('should show error if warnings not acknowledged', () => {
     wrapper.setData({ fields: {
-      signInPassword: '1234567890',
-      signInSeed: 'bar',
+      signUpPassword: '1234567890',
+      signUpSeed: 'bar',
+      signUpName: 'testaccount',
       signUpWarning: false,
       signUpBackup: true
     }})
@@ -87,8 +93,9 @@ describe('NISessionSignUp', () => {
 
   it('should show error if backup info not acknowledged', async () => {
     wrapper.setData({ fields: {
-      signInPassword: '1234567890',
-      signInSeed: 'bar',
+      signUpPassword: '1234567890',
+      signUpSeed: 'bar',
+      signUpName: 'testaccount',
       signUpWarning: true,
       signUpBackup: false
     }})
@@ -99,8 +106,22 @@ describe('NISessionSignUp', () => {
 
   it('should show error if password is not 10 long', async () => {
     wrapper.setData({ fields: {
-      signInPassword: '123456789',
-      signInSeed: 'bar',
+      signUpPassword: '123456789',
+      signUpSeed: 'bar',
+      signUpName: 'testaccount',
+      signUpWarning: true,
+      signUpBackup: true
+    }})
+    await wrapper.vm.onSubmit()
+    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
+  })
+
+  it('should show error if account name is not 5 long', async () => {
+    wrapper.setData({ fields: {
+      signUpPassword: '1234567890',
+      signUpSeed: 'bar',
+      signUpName: 'test',
       signUpWarning: true,
       signUpBackup: true
     }})
@@ -112,8 +133,9 @@ describe('NISessionSignUp', () => {
   it('should not continue if creation failed', async () => {
     store.dispatch = jest.fn(() => Promise.resolve(null))
     wrapper.setData({ fields: {
-      signInPassword: '1234567890',
-      signInSeed: 'bar',
+      signUpPassword: '1234567890',
+      signUpSeed: 'bar',
+      signUpName: 'testaccount',
       signUpWarning: true,
       signUpBackup: true
     }})
