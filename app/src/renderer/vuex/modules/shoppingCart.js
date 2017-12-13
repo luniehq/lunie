@@ -1,16 +1,16 @@
 export default ({ commit, basecoin }) => {
-  let state = { candidates: [] }
+  let state = { delegates: [] }
 
   const mutations = {
-    addToCart (state, candidate) {
-      state.candidates.push({
-        id: candidate.id,
-        candidate: Object.assign({}, candidate),
+    addToCart (state, delegate) {
+      state.delegates.push({
+        id: delegate.id,
+        delegate: Object.assign({}, delegate),
         atoms: 0
       })
     },
-    removeFromCart (state, candidate) {
-      state.candidates = state.candidates.filter(c => c.id !== candidate)
+    removeFromCart (state, delegate) {
+      state.delegates = state.delegates.filter(c => c.id !== delegate)
     }
   }
 

@@ -4,9 +4,7 @@ import PageBalances from 'renderer/components/wallet/PageBalances'
 
 const filters = require('renderer/vuex/modules/filters').default({})
 const wallet = require('renderer/vuex/modules/wallet').default({
-  node: {
-    queryAccount () {}
-  }
+  node: require('../helpers/node_mock')
 })
 
 const localVue = createLocalVue()
