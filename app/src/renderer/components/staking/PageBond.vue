@@ -140,7 +140,7 @@ export default {
     percentAtoms (bondedAtoms) {
       return Math.round(bondedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
     },
-    onSubmit () {
+    async onSubmit () {
       if (this.unbondedAtoms === this.user.atoms) {
         this.$store.commit('notifyError', { title: 'Unbonded Delegates',
           body: 'You either haven\'t bonded any atoms yet, or some delegates have 0 atoms bonded.' })
@@ -153,9 +153,14 @@ export default {
       this.$v.$touch()
       if (!this.$v.$error) {
         this.$store.commit('activateDelegation')
-        this.$store.dispatch('submitDelegation', this.fields)
-        this.$store.commit('notify', { title: 'Atoms Bonded',
-          body: 'You have successfully bonded your atoms. You can rebond after the  30 day unbonding period.' })
+        try {
+          await this.$store.dispatch('submitDelegation', this.fields)
+          this.$store.commit('notify', { title: 'Atoms Bonded',
+            body: 'You have successfully bonded your atoms. You can rebond after the  30 day unbonding period.' })
+        } catch (err) {
+          this.$store.commit('notifyError', { title: 'Error While Bonding Atoms',
+            body: err.message })
+        }
       }
     },
     resetAlloc () {
