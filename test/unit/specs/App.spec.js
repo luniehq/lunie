@@ -1,8 +1,4 @@
-jest.mock('renderer/node.js', () => () => ({
-  generateKey: () => ({key: '123'}),
-  queryAccount: () => null,
-  queryNonce: () => '123'
-}))
+jest.mock('renderer/node.js', () => () => require('../helpers/node_mock'))
 
 // needs to be mocked as it imports the native supercop module and this fails in jest
 jest.mock('app/node_modules/tendermint-crypto', () => {})

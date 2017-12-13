@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CardCandidate has the expected html structure 1`] = `
+exports[`LiDelegate has the expected html structure 1`] = `
 <div
-  class="card-candidate"
-  name="ts-card-candidate"
+  class="li-delegate"
+  name="ts-li-delegate"
 >
   <div
-    class="card-candidate-container"
+    class="li-delegate-container"
   >
     <div
       class="values"

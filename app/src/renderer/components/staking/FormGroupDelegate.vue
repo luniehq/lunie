@@ -1,8 +1,8 @@
 <template lang="pug">
 form-group(:class='cssClass' :error="$v.fields.atoms.$error")
-  i.fa.fa-check-square-o(@click='rm(candidate.id)')
-  router-link.id(:to="{ name: 'candidate', params: { candidate: candidate.id } }")
-    | {{ candidate.keybaseID }}
+  i.fa.fa-check-square-o(@click='rm(delegate.id)')
+  router-link.id(:to="{ name: 'delegate', params: { delegate: delegate.id } }")
+    | {{ delegate.keybaseID }}
   field(
     theme="cosmos"
     type="number"
@@ -21,8 +21,8 @@ import Btn from '@nylira/vue-button'
 import FormGroup from 'common/NiFormGroup'
 import FormMsg from 'common/NiFormMsg'
 export default {
-  name: 'card-candidate-atoms',
-  props: ['candidate'],
+  name: 'card-delegate-atoms',
+  props: ['delegate'],
   components: {
     Btn,
     Field,
@@ -30,15 +30,15 @@ export default {
     FormMsg
   },
   computed: {
-    ...mapGetters(['shoppingCart', 'candidates']),
+    ...mapGetters(['shoppingCart', 'delegates']),
     cssClass () {
-      let value = 'card-candidate-atoms'
+      let value = 'card-delegate-atoms'
       return value
     }
   },
   methods: {
-    rm (candidateId) {
-      this.$store.commit('removeFromCart', candidateId)
+    rm (delegateId) {
+      this.$store.commit('removeFromCart', delegateId)
     }
   }
 }
@@ -47,7 +47,7 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.card-candidate-atoms
+.card-delegate-atoms
   border px solid bc
   margin-bottom 1rem
 
