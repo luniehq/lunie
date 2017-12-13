@@ -130,31 +130,7 @@ function createWindow () {
   webContents.on('will-navigate', handleRedirect)
   webContents.on('new-window', handleRedirect)
 
-  // setup menu to handle copy/paste, etc
-  var template = [
-    {
-      label: 'Cosmos UI',
-      submenu: [
-        { label: 'About Cosmos UI', selector: 'orderFrontStandardAboutPanel:' },
-        { type: 'separator' },
-        { label: 'Quit', accelerator: 'Command+Q', click: () => app.quit() }
-      ]
-    },
-    {
-      label: 'Edit',
-      submenu: [
-        { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-        { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
-        { type: 'separator' },
-        { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-        { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-        { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-        { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
-      ]
-    }
-  ]
-
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+  Menu.setApplicationMenu(null)
 }
 
 function startProcess (name, args, env) {
@@ -334,6 +310,13 @@ function consistentConfigDir (versionPath, genesisPath, configPath) {
 }
 
 async function main () {
+  // the windows installer opens the app once when installing
+  // the package recommends, that we exit if this happens
+  // we can also react to installer events, but currently don't need to
+  if (require('electron-squirrel-startup')) {
+    return
+  }
+
   if (JSON.parse(process.env.COSMOS_UI_ONLY || 'false')) {
     return
   }

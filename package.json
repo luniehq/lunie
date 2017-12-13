@@ -22,6 +22,7 @@
     "build:win32": "cross-env PLATFORM_TARGET=win32 node tasks/release.js",
     "release:darwin": "electron-installer-dmg --overwrite builds/Cosmos-darwin-x64/Cosmos.app builds/cosmos",
     "release:linux": "electron-installer-debian --src builds/Cosmos-linux-x64/ --dest builds/cosmos --arch amd64",
+    "release:win32": "node tasks/windows-installer.js",
     "uionly": "cross-env COSMOS_UI_ONLY='true' yarn run testnet",
     "local": "npm run testnet local",
     "testnet": "node tasks/testnet.js",
@@ -54,8 +55,6 @@
     "devtron": "^1.1.0",
     "electron-debug": "^1.4.0",
     "electron-devtools-installer": "^2.1.0",
-    "electron-installer-debian": "^0.7.1",
-    "electron-installer-dmg": "^0.2.1",
     "electron-packager": "^10.1.0",
     "electron-rebuild": "^1.5.7",
     "eslint": "^3.13.1",
@@ -180,5 +179,10 @@
       "./test/unit/helpers/fixed_time.js",
       "./test/unit/helpers/setup.js"
     ]
+  },
+  "optionalDependencies": {
+    "electron-installer-debian": "^0.7.1",
+    "electron-installer-dmg": "^0.2.1",
+    "electron-winstaller": "^2.6.3"
   }
 }
