@@ -52,14 +52,14 @@ export default {
       top 3rem
       right 0
 
-      background hover
+      background bc
       border-radius 0.25rem
 
       line-height 2.5rem
 
       padding 0 0.75rem
 
-      color bright
+      color txt
       z-index 101
 
       white-space nowrap
@@ -76,7 +76,7 @@ export default {
         height 0
         border-left 0.375rem solid transparent
         border-right 0.375rem solid transparent
-        border-bottom 0.375rem solid hover
+        border-bottom 0.375rem solid bc
 
         display block
         content ''
