@@ -6,7 +6,7 @@
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
     form-group(field-id='restore-name' field-label='Account Name' :error='$v.fields.restoreName.$error')
-      field#sign-up-name(
+      field#restore-name(
         type="text"
         placeholder="at least 5 characters"
         v-model="fields.restoreName")
@@ -22,8 +22,8 @@
       form-msg(name='Seed' type='required' v-if='!$v.fields.restoreSeed.required')
 
     form-group(:error='$v.fields.restorePassword.$error'
-      field-id='sign-in-password' field-label='Password')
-      field#sign-in-password(
+      field-id='restore-password' field-label='Password')
+      field#restore-password(
         type="password"
         placeholder="at least 10 characters"
         v-model="fields.restorePassword")
