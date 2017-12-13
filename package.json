@@ -55,7 +55,6 @@
     "devtron": "^1.1.0",
     "electron-debug": "^1.4.0",
     "electron-devtools-installer": "^2.1.0",
-    "electron-installer-dmg": "^0.2.1",
     "electron-packager": "^10.1.0",
     "electron-rebuild": "^1.5.7",
     "eslint": "^3.13.1",
@@ -130,9 +129,6 @@
     "vuelidate": "^0.5.0",
     "xmlhttprequest": "^1.8.0"
   },
-  "optional": {
-    "electron-installer-debian": "^0.7.1"
-  },
   "jest": {
     "testMatch": [
       "**/unit/specs/**/*spec.js"
@@ -185,6 +181,8 @@
     ]
   },
   "optionalDependencies": {
-    "electron-winstaller": "^2.6.3"
+    "electron-installer-debian": "^0.7.1",
+    "electron-winstaller": "^2.6.3",
+    "electron-installer-dmg": "^0.2.1"
   }
 }
