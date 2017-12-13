@@ -78,11 +78,12 @@ let randomCandidate = () => ({
 module.exports = function (port = 8999) {
   let app = express()
 
+  // TODO this lets the server timeout until there is an external request
   // log all requests
-  app.use((req, res, next) => {
-    console.log('REST request:', req.method, req.originalUrl, req.body)
-    next()
-  })
+  // app.use((req, res, next) => {
+  //   console.log('REST request:', req.method, req.originalUrl, req.body)
+  //   next()
+  // })
 
   // delegation mock API
   let candidates = new Array(50).fill(0).map(randomPubkey)
