@@ -58,6 +58,7 @@ export default {
 @require '~variables'
 
 #app-header
+  z-index 100
   .container
     -webkit-app-region: drag
 
@@ -66,7 +67,6 @@ export default {
     position fixed
     top 0
     left 0
-    z-index 100
     width 100%
 
     background app-bg
