@@ -26,20 +26,22 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
+.app-footer
+  position fixed
+  bottom 0
+  right 0
+  width 100vw
+
 .app-footer-container
   border-top px solid bc
   height 3rem + px
   display flex
-  position fixed
   align-items center
   justify-content space-between
-  z-index 1
-  bottom 0
-  width 100%
-  background #15182d
+  background app-bg
 
-  font-label()
   color dim
+  margin-left width-side
 
   .afi
     display flex
@@ -55,5 +57,4 @@ export default {
 @media screen and (max-width: 567px)
   .app-footer-container
     display none
-
 </style>
