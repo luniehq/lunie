@@ -10,7 +10,8 @@ page(title='Transactions')
   li-transaction(
     v-for="i in filteredTransactions"
     :transaction-value="i"
-    :address="wallet.key.address")
+    :address="wallet.key.address"
+    :devMode="config.devMode")
   data-empty-tx(v-if='filteredTransactions.length === 0')
 </template>
 
@@ -35,7 +36,7 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['filters', 'transactions', 'wallet']),
+    ...mapGetters(['filters', 'transactions', 'wallet', 'config']),
     orderedTransactions () {
       return orderBy(this.transactions, [this.sort.property], [this.sort.order])
     },
