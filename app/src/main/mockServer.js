@@ -187,18 +187,6 @@ module.exports = function (port = 8999) {
   app.get('/candidates', (req, res) => {
     res.json(new Array(200).fill(0).map(randomCandidate))
   })
-
-  // tx history
-  // app.get('/tx/coins/:address', (req, res) => {
-  //   let { address } = req.params
-  //   let txs = []
-  //   for (let i = 0; i < 100; i++) {
-  //     let toMe = Math.random() > 0.5
-  //     txs.push(randomTx(toMe ? { to: address } : { from: address }))
-  //   }
-  //   txs.sort((a, b) => b.time - a.time)
-  //   res.json(txs)
-  // })
   app.get('/tx/bondings/delegator/:address', (req, res) => {
     let { address } = req.params
     let txs = new Array(100).fill(0)
