@@ -16,7 +16,8 @@ describe('PageTransactions', () => {
       getters: {
         wallet: () => wallet.state,
         transactions: () => wallet.state.history,
-        filters: () => filters.state
+        filters: () => filters.state,
+        config: () => ({devMode: true})
       },
       modules: {
         wallet,

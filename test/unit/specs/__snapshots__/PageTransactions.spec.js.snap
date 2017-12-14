@@ -108,7 +108,11 @@ exports[`PageTransactions has the expected html structure 1`] = `
             </div>
           </div>
         </div>
-        <!---->
+        <div
+          class="tx-element tx-date"
+        >
+          a few seconds ago
+        </div>
         <div
           class="tx-element tx-address"
         >
@@ -149,7 +153,11 @@ exports[`PageTransactions has the expected html structure 1`] = `
             </div>
           </div>
         </div>
-        <!---->
+        <div
+          class="tx-element tx-date"
+        >
+          a few seconds ago
+        </div>
         <div
           class="tx-element tx-address"
         >
@@ -304,7 +312,11 @@ exports[`PageTransactions should filter the transactions 1`] = `
             </div>
           </div>
         </div>
-        <!---->
+        <div
+          class="tx-element tx-date"
+        >
+          a few seconds ago
+        </div>
         <div
           class="tx-element tx-address"
         >
@@ -345,7 +357,11 @@ exports[`PageTransactions should filter the transactions 1`] = `
             </div>
           </div>
         </div>
-        <!---->
+        <div
+          class="tx-element tx-date"
+        >
+          a few seconds ago
+        </div>
         <div
           class="tx-element tx-address"
         >
