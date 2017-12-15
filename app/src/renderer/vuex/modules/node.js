@@ -24,6 +24,15 @@ export default function ({ node, commit, dispatch }) {
   }
 
   const actions = {
+    async checkConnection ({ commit }) {
+      try {
+        await node.listKeys()
+        return true
+      } catch (err) {
+        commit('notifyError', {title: 'Critical Error', body: `Couldn't initialize blockchain connector`})
+        return false
+      }
+    },
     updateNodeStatus ({ commit }) {
       rpc.status((err, res) => {
         if (err) return console.error(err)

@@ -130,31 +130,7 @@ function createWindow () {
   webContents.on('will-navigate', handleRedirect)
   webContents.on('new-window', handleRedirect)
 
-  // setup menu to handle copy/paste, etc
-  var template = [
-    {
-      label: 'Cosmos UI',
-      submenu: [
-        { label: 'About Cosmos UI', selector: 'orderFrontStandardAboutPanel:' },
-        { type: 'separator' },
-        { label: 'Quit', accelerator: 'Command+Q', click: () => app.quit() }
-      ]
-    },
-    {
-      label: 'Edit',
-      submenu: [
-        { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-        { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
-        { type: 'separator' },
-        { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-        { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-        { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-        { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
-      ]
-    }
-  ]
-
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+  Menu.setApplicationMenu(null)
 }
 
 function startProcess (name, args, env) {
@@ -329,7 +305,18 @@ process.on('uncaughtException', function (err) {
   setTimeout(shutdown, 200)
 })
 
+function consistentConfigDir (versionPath, genesisPath, configPath) {
+  return exists(genesisPath) && exists(versionPath) && exists(configPath)
+}
+
 async function main () {
+  // the windows installer opens the app once when installing
+  // the package recommends, that we exit if this happens
+  // we can also react to installer events, but currently don't need to
+  if (require('electron-squirrel-startup')) {
+    return
+  }
+
   if (JSON.parse(process.env.COSMOS_UI_ONLY || 'false')) {
     return
   }
@@ -337,6 +324,7 @@ async function main () {
   let root = require('../root.js')
   let versionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
+  let configPath = join(root, 'config.toml')
 
   let rootExists = exists(root)
   await fs.ensureDir(root)
@@ -349,7 +337,7 @@ async function main () {
 
     // check if the existing data came from a compatible app version
     // if not, backup the data and re-initialize
-    if (exists(versionPath)) {
+    if (consistentConfigDir(versionPath, genesisPath, configPath)) {
       let existingVersion = fs.readFileSync(versionPath, 'utf8')
       let compatible = semver.diff(existingVersion, pkg.version) !== 'major'
       if (compatible) {
@@ -403,7 +391,7 @@ async function main () {
   // TODO: user-specified nodes, support switching?
   let configText
   try {
-    configText = fs.readFileSync(join(root, 'config.toml'), 'utf8')
+    configText = fs.readFileSync(configPath, 'utf8')
   } catch (e) {
     throw new Error(`Can't open config.toml: ${e.message}`)
   }

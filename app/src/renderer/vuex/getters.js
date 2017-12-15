@@ -6,8 +6,8 @@ export const nodeIP = state => state.node.nodeIP
 export const connected = state => state.node.connected
 export const lastHeader = state => state.node.lastHeader
 
-export const candidates = state => state.candidates
-export const shoppingCart = state => state.shoppingCart.candidates
+export const delegates = state => state.delegates
+export const shoppingCart = state => state.shoppingCart.delegates
 export const user = state => state.user
 export const config = state => state.config
 

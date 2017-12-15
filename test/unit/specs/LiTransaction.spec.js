@@ -4,6 +4,7 @@ import LiTransaction from 'renderer/components/wallet/LiTransaction'
 describe('LiTransaction', () => {
   let wrapper
   let propsData = {
+    devMode: true,
     transactionValue: {
       tx: {
         inputs: [
@@ -40,11 +41,11 @@ describe('LiTransaction', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it('should show incoming transcations', () => {
+  it('should show incoming transactions', () => {
     expect(wrapper.find('.ni-li-tx').hasClass('ni-li-tx-received')).toBe(true)
   })
 
-  it('should show outgoing transcations', () => {
+  it('should show outgoing transactions', () => {
     wrapper.setProps({
       transactionValue: {
         tx: {

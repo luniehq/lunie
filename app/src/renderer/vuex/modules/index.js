@@ -1,5 +1,5 @@
 export default (opts) => ({
-  candidates: require('./candidates.js').default(opts),
+  delegates: require('./delegates.js').default(opts),
   config: require('./config.js').default(opts),
   filters: require('./filters.js').default(opts),
   node: require('./node.js').default(opts),

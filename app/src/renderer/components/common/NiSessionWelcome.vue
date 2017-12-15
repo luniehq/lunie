@@ -6,6 +6,12 @@
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
     li-session(
+      v-if="accountExists"
+      @click.native="setState('sign-in')"
+      icon="lock"
+      title="Sign in with password"
+      subtitle="If you have an account, choose this option")
+    li-session(
       @click.native="setState('sign-up')"
       icon="create"
       title="Create new account"
@@ -35,7 +41,8 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters(['config'])
+    ...mapGetters(['config', 'user']),
+    accountExists () { return this.user.accounts.length > 0 }
   },
   methods: {
     help () { this.$store.commit('setModalHelp', true) },

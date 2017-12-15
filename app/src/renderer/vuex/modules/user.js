@@ -1,5 +1,3 @@
-import { KEY_PASSWORD, KEY_NAME } from './wallet'
-
 export default ({ commit, node }) => {
   const emptyNomination = {
     keybase: '',
@@ -13,14 +11,15 @@ export default ({ commit, node }) => {
   }
 
   const emptyUser = {
-    atoms: 0,
+    atoms: 2097152,
     nominationActive: false,
     nomination: JSON.parse(JSON.stringify(emptyNomination)),
     delegationActive: false,
     delegation: [],
     pubkey: '',
     privkey: null,
-    signedIn: false
+    signedIn: false,
+    accounts: []
   }
 
   const state = JSON.parse(JSON.stringify(emptyUser))
@@ -28,27 +27,29 @@ export default ({ commit, node }) => {
   const mutations = {
     activateDelegation (state) {
       state.delegationActive = true
+    },
+    setAccounts (state, accounts) {
+      state.accounts = accounts
     }
   }
 
   const actions = {
     async showInitialScreen ({ dispatch }) {
-      let exists = await dispatch('accountExists')
+      await dispatch('loadAccounts')
+      let exists = state.accounts.length > 0
       let screen = exists ? 'sign-in' : 'welcome'
       commit('setModalSessionState', screen)
       commit('setModalSession', true)
     },
-    async accountExists (state, account = KEY_NAME) {
+    async loadAccounts ({ commit }) {
       try {
         let keys = await node.listKeys()
-        return !!keys.find(key => key.name === account)
+        commit('setAccounts', keys.map((key) => key.name))
       } catch (err) {
-        commit('notifyError', { title: `Couldn't read keys'`, body: err.message })
+        commit('notifyError', { title: `Couldn't read keys`, body: err.message })
       }
     },
-    // testing if the provided password works so we can show the user early if he uses the wrong password
-    // testing this by trying to change the password... to the same password...
-    async testLogin (state, {password, account = KEY_NAME}) {
+    async testLogin (state, { password, account }) {
       try {
         return await node.updateKey(account, {
           name: account,
@@ -62,41 +63,42 @@ export default ({ commit, node }) => {
     // to create a temporary seed phrase, we create a junk account with name 'trunk' for now
     async createSeed ({ commit }) {
       let JUNK_ACCOUNT_NAME = 'trunk'
+      let TRUNK_PASSWORD = '1234567890'
       try {
         // cleanup an existing junk account
         let keys = await node.listKeys()
         if (keys.find(key => key.name === JUNK_ACCOUNT_NAME)) {
           await node.deleteKey(JUNK_ACCOUNT_NAME, {
-            password: KEY_PASSWORD,
+            password: TRUNK_PASSWORD,
             name: JUNK_ACCOUNT_NAME
           })
         }
 
         // generate seedPhrase with junk account
-        let temporaryKey = await node.generateKey({ name: JUNK_ACCOUNT_NAME, password: KEY_PASSWORD })
+        let temporaryKey = await node.generateKey({ name: JUNK_ACCOUNT_NAME, password: TRUNK_PASSWORD })
         return temporaryKey.seed_phrase
       } catch (err) {
-        commit('notifyError', { title: 'Couln\'t create a seed', body: err.message })
+        commit('notifyError', { title: `Couldn't create a seed`, body: err.message })
       }
     },
-    async createKey ({ commit, dispatch }, { seedPhrase, password, name = KEY_NAME }) {
+    async createKey ({ commit, dispatch }, { seedPhrase, password, name }) {
       try {
         let {key} = await node.recoverKey({ name, password, seed_phrase: seedPhrase })
         dispatch('initializeWallet', key)
         return key
       } catch (err) {
-        commit('notifyError', { title: 'Couln\'t create a key', body: err.message })
+        commit('notifyError', { title: `Couldn't create a key`, body: err.message })
       }
     },
-    async deleteKey ({ commit, dispatch }, { password, name = KEY_NAME }) {
+    async deleteKey ({ commit, dispatch }, { password, name }) {
       try {
         await node.deleteKey(name, { name, password })
         return true
       } catch (err) {
-        commit('notifyError', { title: `Couln't delete account ${name}`, body: err.message })
+        commit('notifyError', { title: `Couldn't delete account ${name}`, body: err.message })
       }
     },
-    async signIn ({ state, dispatch }, {password, account = KEY_NAME}) {
+    async signIn ({ state, dispatch }, { password, account }) {
       state.password = password
       state.account = account
       state.signedIn = true
@@ -116,8 +118,8 @@ export default ({ commit, node }) => {
       state.delegation = value
       console.log('submitting delegation txs: ', JSON.stringify(state.delegation))
 
-      for (let candidate of value.candidates) {
-        let tx = await node.buildDelegate([ candidate.id, candidate.atoms ])
+      for (let delegate of value.delegates) {
+        let tx = await node.buildDelegate([ delegate.id, delegate.atoms ])
         // TODO: use wallet key management
         let signedTx = await node.sign({
           name: state.name,

@@ -2,10 +2,6 @@ let fs = require('fs-extra')
 let { join } = require('path')
 let root = require('../../../root.js')
 
-export const KEY_NAME = 'default'
-// TODO: add UI for password, instead of hardcoding one
-export const KEY_PASSWORD = '1234567890'
-
 export default ({ commit, node }) => {
   let state = {
     balances: [],
@@ -23,9 +19,12 @@ export default ({ commit, node }) => {
     },
     setWalletKey (state, key) {
       state.key = key
+      // clear previous account state
+      state.balances = []
+      state.history = []
+      state.sequence = 0
     },
     setWalletSequence (state, sequence) {
-      if (state.sequence === sequence) return
       state.sequence = sequence
     },
     setWalletHistory (state, history) {

@@ -4,7 +4,7 @@ menu.app-menu
     part(title='Wallet')
       list-item(to="/" exact @click.native="close" title="Balance")
       list-item(to="/wallet/send" exact @click.native="close" title="Send")
-      list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions" v-if="config.devMode")
+      list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions")
     part(title='Governance' v-if="config.devMode")
       list-item(to="/proposals" exact @click.native="close" title="Proposals")
     part(title='Stake' v-if="config.devMode")

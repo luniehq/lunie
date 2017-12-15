@@ -179,7 +179,9 @@ export default {
     &:not(.ni-form)
     &.ni-form .ni-form-main
       width 32rem
-      height 36rem
+      min-height 28rem
+      max-height 90vh
+      height auto
 
   .ni-session-header
     background app-fg
