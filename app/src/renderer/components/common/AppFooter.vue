@@ -1,4 +1,4 @@
-<template lang='pug'>
+ <template lang='pug'>
 footer.app-footer
   .app-footer-container(v-if='connected')
     .afi.afi-success
@@ -10,7 +10,7 @@ footer.app-footer
   .app-footer-container(v-else)
     .afi
       i.material-icons.fa-spin rotate_right
-      span Connecting&hellip;
+      span.afi-connecting Connecting&hellip;
 </template>
 
 <script>
