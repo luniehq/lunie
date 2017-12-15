@@ -58,6 +58,7 @@ describe('PageDelegates', () => {
     })
 
     jest.spyOn(store, 'commit')
+    jest.spyOn(store, 'dispatch')
   })
 
   it('has the expected html structure', () => {
@@ -67,6 +68,11 @@ describe('PageDelegates', () => {
   it('should show the search on click', () => {
     wrapper.find('.ni-tool-bar i').trigger('click')
     expect(wrapper.contains('.ni-modal-search')).toBe(true)
+  })
+
+  it('should refresh candidates on click', () => {
+    wrapper.findAll('.ni-tool-bar i').at(1).trigger('click')
+    expect(store.dispatch).toHaveBeenCalledWith('getDelegates')
   })
 
   it('should sort the delegates by selected property', () => {
@@ -79,7 +85,7 @@ describe('PageDelegates', () => {
     store.commit('setSearchVisible', ['delegates', true])
     store.commit('setSearchQuery', ['delegates', 'baseX'])
     expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['idX'])
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit('setSearchQuery', ['delegates', 'baseY'])
     expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['idY'])
   })

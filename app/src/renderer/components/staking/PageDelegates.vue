@@ -4,6 +4,9 @@ page(:title='pageTitle')
     a(@click='setSearch(true)')
       i.material-icons search
       .label Search
+    a(@click='updateDelegates()')
+      i.material-icons refresh
+      .label Refresh
     router-link(to='/staking/bond')
       i.material-icons check_circle
       .label Bond Atoms
@@ -75,6 +78,7 @@ export default {
     }
   }),
   methods: {
+    updateDelegates () { this.$store.dispatch('getDelegates') },
     setSearch (bool) { this.$store.commit('setSearchVisible', ['delegates', bool]) }
   },
   mounted () {
