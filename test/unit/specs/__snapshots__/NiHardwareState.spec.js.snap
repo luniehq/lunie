@@ -2,7 +2,7 @@
 
 exports[`NiHardwareState has the expected html structure 1`] = `
 "<div class=\\"ni-hardware-state\\">
-   <i class=\\"material-icons fa-spin\\">rotate_right</i>
+   <i class=\\"ni-hardware-state__icon material-icons fa-spin\\">rotate_right</i>
    <div class=\\"ni-hardware-state__label\\">
       Detecting your Ledger Wallet
    </div>
