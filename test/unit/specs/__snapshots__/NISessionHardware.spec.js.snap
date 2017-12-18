@@ -13,20 +13,20 @@ exports[`NISessionHardware has the expected html structure 1`] = `
 <div class=\\"ni-session-main\\">
    <div class=\\"ni-hardware-state\\">
       <i class=\\"material-icons\\">usb</i>
-      <p>
+      <div class=\\"ni-hardware-state__label\\">
          Please plug in your Ledger Wallet
-      </p>
+      </div>
 </div>
-      <!---->
-      <!---->
+<!---->
+<!---->
 </div>
 <div class=\\"ni-session-footer\\"></div>
 </div>
 </div>"
 `;
 
-exports[`NISessionHardware should show a state indicator for different states of the hardware connection 1`] = `"<div class=\\"ni-session\\"><div class=\\"ni-session-container\\"><div class=\\"ni-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a><div class=\\"ni-session-title\\">Sign In</div><a><i class=\\"material-icons\\">help_outline</i></a></div><div class=\\"ni-session-main\\"><div class=\\"ni-hardware-state\\"><i class=\\"material-icons\\">usb</i><p>Please plug in your Ledger Wallet</p></div><!----><!----></div><div class=\\"ni-session-footer\\"></div></div></div>"`;
+exports[`NISessionHardware should show a state indicator for different states of the hardware connection 1`] = `"<div class=\\"ni-session\\"><div class=\\"ni-session-container\\"><div class=\\"ni-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a><div class=\\"ni-session-title\\">Sign In</div><a><i class=\\"material-icons\\">help_outline</i></a></div><div class=\\"ni-session-main\\"><div class=\\"ni-hardware-state\\"><i class=\\"material-icons\\">usb</i><div class=\\"ni-hardware-state__label\\">Please plug in your Ledger Wallet</div></div><!----><!----></div><div class=\\"ni-session-footer\\"></div></div></div>"`;
 
-exports[`NISessionHardware should show a state indicator for different states of the hardware connection 2`] = `"<div class=\\"ni-session\\"><div class=\\"ni-session-container\\"><div class=\\"ni-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a><div class=\\"ni-session-title\\">Sign In</div><a><i class=\\"material-icons\\">help_outline</i></a></div><div class=\\"ni-session-main\\"><!----><div class=\\"ni-hardware-state\\"><i class=\\"material-icons fa-spin\\">rotate_right</i><p>Detecting your Ledger Wallet</p></div><!----></div><div class=\\"ni-session-footer\\"></div></div></div>"`;
+exports[`NISessionHardware should show a state indicator for different states of the hardware connection 2`] = `"<div class=\\"ni-session\\"><div class=\\"ni-session-container\\"><div class=\\"ni-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a><div class=\\"ni-session-title\\">Sign In</div><a><i class=\\"material-icons\\">help_outline</i></a></div><div class=\\"ni-session-main\\"><!----><div class=\\"ni-hardware-state\\"><i class=\\"material-icons fa-spin\\">rotate_right</i><div class=\\"ni-hardware-state__label\\">Detecting your Ledger Wallet</div></div><!----></div><div class=\\"ni-session-footer\\"></div></div></div>"`;
 
-exports[`NISessionHardware should show a state indicator for different states of the hardware connection 3`] = `"<div class=\\"ni-session\\"><div class=\\"ni-session-container\\"><div class=\\"ni-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a><div class=\\"ni-session-title\\">Sign In</div><a><i class=\\"material-icons\\">help_outline</i></a></div><div class=\\"ni-session-main\\"><!----><!----><div class=\\"ni-hardware-state\\"><i class=\\"material-icons\\">check_circle</i><p>Ledger Wallet successfully loaded</p></div></div><div class=\\"ni-session-footer\\"></div></div></div>"`;
+exports[`NISessionHardware should show a state indicator for different states of the hardware connection 3`] = `"<div class=\\"ni-session\\"><div class=\\"ni-session-container\\"><div class=\\"ni-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a><div class=\\"ni-session-title\\">Sign In</div><a><i class=\\"material-icons\\">help_outline</i></a></div><div class=\\"ni-session-main\\"><!----><!----><div class=\\"ni-hardware-state\\"><i class=\\"material-icons\\">check_circle</i><div class=\\"ni-hardware-state__label\\">Ledger Wallet successfully loaded</div></div></div><div class=\\"ni-session-footer\\"></div></div></div>"`;
