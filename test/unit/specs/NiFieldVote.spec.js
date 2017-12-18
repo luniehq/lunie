@@ -37,5 +37,4 @@ describe('NiFieldVote', () => {
   it('shows the percentage who voted', () => {
     expect(wrapper.find('.ni-field-vote-dd').text().trim()).toBe('34%')
   })
-
 })

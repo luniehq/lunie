@@ -20,5 +20,4 @@ describe('NiFieldAddon', () => {
   it('has a slot with content', () => {
     expect(wrapper.findAll('.fake-addon').length).toBe(1)
   })
-
 })

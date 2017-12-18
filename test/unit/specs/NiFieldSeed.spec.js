@@ -6,7 +6,7 @@ describe('NiFieldSeed', () => {
   let wrapper
 
   let propsData = {
-    value: 'one two three four five six seven eight nine ten eleven twelve' 
+    value: 'one two three four five six seven eight nine ten eleven twelve'
   }
 
   beforeEach(() => {
@@ -24,5 +24,4 @@ describe('NiFieldSeed', () => {
   it('has the correct class', () => {
     expect(wrapper.find('.ni-field').classes()).toContain('ni-field-seed')
   })
-
 })

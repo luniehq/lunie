@@ -16,9 +16,8 @@ describe('NiFieldGroup', () => {
   it('has the expected html structure', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
-  
+
   it('has a slot with a field', () => {
     expect(wrapper.findAll('.fake-field').length).toBe(1)
   })
-
 })

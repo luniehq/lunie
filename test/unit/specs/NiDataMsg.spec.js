@@ -38,5 +38,4 @@ describe('NiDataMsg', () => {
     expect(wrapper.find('.ni-data-msg__subtitle').text())
       .toBe('Oh my! What could it be?')
   })
-
 })

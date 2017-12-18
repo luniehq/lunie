@@ -31,5 +31,4 @@ describe('NiDataLoading', () => {
     expect(wrapper.find('.ni-data-msg__subtitle div').text().trim())
       .toBe('Please wait a moment.')
   })
-
 })

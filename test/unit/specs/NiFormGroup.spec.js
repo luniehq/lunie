@@ -36,5 +36,4 @@ describe('NiFormGroup', () => {
   it('has a slot with a field', () => {
     expect(wrapper.findAll('.fake-field').length).toBe(1)
   })
-
 })

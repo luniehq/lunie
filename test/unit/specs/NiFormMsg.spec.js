@@ -30,5 +30,4 @@ describe('NiFormMsg', () => {
     expect(wrapper.find('.ni-form-msg').text().trim())
       .toContain('Password must be between 16 and 255 characters')
   })
-
 })
