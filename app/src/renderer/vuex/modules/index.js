@@ -8,5 +8,6 @@ export default (opts) => ({
   shoppingCart: require('./shoppingCart.js').default(opts),
   user: require('./user.js').default(opts),
   validators: require('./validators.js').default(opts),
-  wallet: require('./wallet.js').default(opts)
+  wallet: require('./wallet.js').default(opts),
+  delegation: require('./delegation.js').default(opts)
 })

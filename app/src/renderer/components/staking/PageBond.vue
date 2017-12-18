@@ -153,14 +153,23 @@ export default {
       this.$v.$touch()
       if (!this.$v.$error) {
         this.$store.commit('activateDelegation')
-        try {
-          await this.$store.dispatch('submitDelegation', this.fields)
-          this.$store.commit('notify', { title: 'Atoms Bonded',
-            body: 'You have successfully bonded your atoms. You can rebond after the  30 day unbonding period.' })
-        } catch (err) {
-          this.$store.commit('notifyError', { title: 'Error While Bonding Atoms',
-            body: err.message })
-        }
+        await Promise.all(this.fields.delegates.map(async delegation => {
+          try {
+            await this.$store.dispatch('submitDelegation', {
+              value: delegation.atoms,
+              candidate: delegation.delegate,
+              userAddress: this.user.address,
+              account: this.user.account,
+              password: this.user.password
+            })
+            this.$store.commit('notify', { title: 'Atoms Bonded',
+              body: `You have successfully bonded ${delegation.atoms} atoms to ${delegation.delegate.id}. You can rebond after the  30 day unbonding period.` })
+          } catch (err) {
+            this.$store.commit('notifyError', { title: `Error While Bonding Atoms to ${delegation.delegate.id}`,
+              body: err.message })
+          }
+        }))
+        this.$router.push('/staking')
       }
     },
     resetAlloc () {
