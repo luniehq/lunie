@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiUserPane has the expected html structure 1`] = `
+<a
+  class="ni-li ni-li-link ni-li-user"
+  href="#/profile"
+>
+  <div
+    class="ni-li-container"
+  >
+    <div
+      class="ni-li-thumb"
+    >
+      <i
+        class="material-icons"
+      >
+        face
+      </i>
+    </div>
+    <div
+      class="ni-li-label"
+    >
+      <div
+        class="ni-li-title"
+      >
+        Account ACTIVE_ACCOUNT
+      </div>
+      <div
+        class="ni-li-subtitle"
+      >
+        
+      </div>
+    </div>
+    <div
+      class="ni-li-icon"
+    >
+      <i
+        class="material-icons inactive"
+      >
+        chevron_right
+      </i>
+      <i
+        class="material-icons active"
+      >
+        my_location
+      </i>
+    </div>
+  </div>
+</a>
+`;
