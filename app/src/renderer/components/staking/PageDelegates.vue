@@ -11,7 +11,7 @@ page(:title='pageTitle')
       i.material-icons check_circle
       .label Bond Atoms
   modal-search(v-if="filters.delegates.search.visible" type="delegates")
-  template(v-if="filteredDelegates.length > 0")
+  template(v-if="delegates.length > 0")
     panel-sort(:sort='sort')
     li-delegate(
       v-for='i in filteredDelegates'
@@ -57,7 +57,7 @@ export default {
       let query = this.filters.delegates.search.query
       let list = orderBy(this.delegates, [this.sort.property], [this.sort.order])
       if (this.filters.delegates.search.visible) {
-        return list.filter(i => includes(i.keybaseID.toLowerCase(), query.toLowerCase()))
+        return list.filter(i => includes(JSON.stringify(i).toLowerCase(), query.toLowerCase()))
       } else {
         return list
       }
@@ -66,10 +66,11 @@ export default {
   data: () => ({
     query: '',
     sort: {
-      property: 'keybaseID',
+      property: 'id',
       order: 'asc',
       properties: [
-        { id: 1, title: 'Keybase ID', value: 'keybaseID', initial: true },
+        // { id: 1, title: 'Keybase ID', value: 'keybaseID', initial: true },
+        { id: 1, title: 'Public Key', value: 'id', initial: true },
         { id: 2, title: 'Country', value: 'country' },
         { id: 3, title: 'Voting Power', value: 'voting_power' },
         { id: 4, title: 'Delegated Power', value: 'shares' },

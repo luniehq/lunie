@@ -24,26 +24,30 @@ describe('LiDelegate', () => {
     })
 
     store.commit('addDelegate', {
-      pubkey: 'pubkeyX',
-      description: JSON.stringify({
-        id: 'idX',
+      pub_key: {
+        type: 'ed25519',
+        data: 'pubkeyX'
+      },
+      voting_power: 10000,
+      shares: 5000,
+      description: {
         description: 'descriptionX',
-        voting_power: 10000,
-        shares: 5000,
         keybaseID: 'keybaseX',
         country: 'USA'
-      })
+      }
     })
     store.commit('addDelegate', {
-      pubkey: 'pubkeyY',
-      description: JSON.stringify({
-        id: 'idY',
+      pub_key: {
+        type: 'ed25519',
+        data: 'pubkeyY'
+      },
+      voting_power: 30000,
+      shares: 10000,
+      description: {
         description: 'descriptionY',
-        voting_power: 30000,
-        shares: 10000,
         keybaseID: 'keybaseY',
         country: 'Canada'
-      })
+      }
     })
 
     delegate = store.state.delegates[0]
