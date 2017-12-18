@@ -17,7 +17,10 @@ describe('PageDelegates', () => {
       getters: {
         shoppingCart: () => shoppingCart.state.delegates,
         delegates: () => delegates.state,
-        filters: () => filters.state
+        filters: () => filters.state,
+        config: () => ({
+          devMode: true
+        })
       },
       modules: {
         shoppingCart,
@@ -108,7 +111,10 @@ describe('PageDelegates', () => {
       getters: {
         shoppingCart: () => shoppingCart.state,
         delegates: () => [],
-        filters: () => filters.state
+        filters: () => filters.state,
+        config: () => ({
+          devMode: true
+        })
       },
       modules: {
         shoppingCart,

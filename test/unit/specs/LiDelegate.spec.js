@@ -15,7 +15,10 @@ describe('LiDelegate', () => {
     store = new Vuex.Store({
       getters: {
         shoppingCart: () => shoppingCart.state.delegates,
-        delegates: () => delegates.state
+        delegates: () => delegates.state,
+        config: () => ({
+          devMode: true
+        })
       },
       modules: {
         shoppingCart,
