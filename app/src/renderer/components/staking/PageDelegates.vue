@@ -7,7 +7,7 @@ page(:title='pageTitle')
     a(@click='updateDelegates()')
       i.material-icons refresh
       .label Refresh
-    router-link(to='/staking/bond')
+    router-link(v-if="config.devMode" to='/staking/bond')
       i.material-icons check_circle
       .label Bond Atoms
   modal-search(v-if="filters.delegates.search.visible" type="delegates")
@@ -45,7 +45,7 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['delegates', 'filters', 'shoppingCart']),
+    ...mapGetters(['delegates', 'filters', 'shoppingCart', 'config']),
     pageTitle () {
       if (this.shoppingCart.length > 0) {
         return `Delegates (${this.shoppingCart.length} Selected)`
