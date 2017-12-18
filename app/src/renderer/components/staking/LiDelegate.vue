@@ -7,16 +7,18 @@ transition(name='ts-li-delegate'): div(:class='styles')
           template
             i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
             i.fa.fa-square-o(v-else @click='add(delegate)')
-          router-link(:to="{ name: 'delegate', params: { delegate: delegate.id }}")
-            | {{ delegate.keybaseID}}
-      .value {{ delegate.country }}
+          router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")
+            //- | {{ delegate.keybaseID ? delegate.keybaseID : 'n/a'}}
+            | {{ delegate.id }}
+          a(v-else) {{ delegate.id }}
+      .value {{ delegate.country ? delegate.country : 'n/a' }}
       .value.voting_power.num.bar
         span {{ num.prettyInt(delegate.voting_power) }}
         .bar(:style='vpStyles')
       .value.delegated.num.bar.delegated
         span {{ num.prettyInt(delegate.shares) }}
         .bar(:style='sharesStyles')
-      .value {{ (delegate.commission * 100).toFixed(2) }}%
+      .value {{ delegate.commission ? (delegate.commission * 100).toFixed(2) + '%' : 'n/a' }}
     menu
       btn(theme='cosmos' v-if='inCart'
         icon='delete' value='Remove' size='sm' @click.native='rm(delegate)')
@@ -36,7 +38,7 @@ export default {
     Btn
   },
   computed: {
-    ...mapGetters(['shoppingCart', 'delegates']),
+    ...mapGetters(['shoppingCart', 'delegates', 'config']),
     styles () {
       let value = 'li-delegate'
       if (this.inCart) value += ' li-delegate-active '

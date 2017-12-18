@@ -7,7 +7,7 @@ menu.app-menu
       list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions")
     part(title='Governance' v-if="config.devMode")
       list-item(to="/proposals" exact @click.native="close" title="Proposals")
-    part(title='Stake' v-if="config.devMode")
+    part(title='Stake')
       list-item(to="/staking" exact @click.native="close" title="Delegates")
     part(title='Monitor' v-if="config.devMode")
       list-item(to="/blockchain" exact @click.native="close" title="Blockchain")

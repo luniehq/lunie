@@ -21,7 +21,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
           <router-link
             to="[object Object]"
           >
-            keybaseX
+            pubkeyX
           </router-link>
         </span>
       </div>
@@ -55,7 +55,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
       <div
         class="value"
       >
-        NaN%
+        n/a
       </div>
     </div>
     <menu>
