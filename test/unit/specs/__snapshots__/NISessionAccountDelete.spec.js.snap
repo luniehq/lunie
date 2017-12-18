@@ -15,8 +15,8 @@ exports[`NiSessionAccountDelete has the expected html structure 1`] = `
    </div>
       <div class=\\"ni-session-main\\">
          <div class=\\"ni-form-group\\">
-            <label for=\\"sign-in-password\\">Password</label>
-            <div class=\\"ni-form-group-field\\">
+            <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Password</label>
+            <div class=\\"ni-form-group__field\\">
                <input type=\\"password\\" placeholder=\\"Enter your password\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
                <div class=\\"ni-form-msg ni-form-msg-error\\">
                   Password is required
@@ -25,8 +25,8 @@ exports[`NiSessionAccountDelete has the expected html structure 1`] = `
    </div>
 </div>
       <div class=\\"ni-form-group\\">
-         <label for=\\"sign-up-warning\\"></label>
-         <div class=\\"ni-form-group-field\\">
+         <label for=\\"sign-up-warning\\" class=\\"ni-form-group__label\\"></label>
+         <div class=\\"ni-form-group__field\\">
             <div class=\\"ni-field-checkbox\\">
                <div class=\\"ni-field-checkbox-input\\">
                   <input id=\\"sign-up-warning\\" type=\\"checkbox\\">
