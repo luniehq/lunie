@@ -5,6 +5,8 @@ export default ({ commit, basecoin }) => {
     activeMenu: '',
     desktop: false,
     devMode: true,
+    // TODO: change to atom
+    bondingDenom: 'fermion',
     modals: {
       help: {
         active: false

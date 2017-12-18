@@ -24,7 +24,7 @@ page.page-bond(title="Bond Atoms")
           step="any"
           placeholder="Atoms"
           v-model.number="delegate.atoms")
-        field-addon Atoms 
+        field-addon Atoms
         // btn(type="button" value="Max"
           @click.native="fillAtoms(delegate.id)")
         btn(type="button" icon="clear" @click.native="rm(delegate.id)")

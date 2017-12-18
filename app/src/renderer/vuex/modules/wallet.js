@@ -55,10 +55,16 @@ export default ({ commit, node }) => {
       dispatch('queryWalletSequence')
       dispatch('queryWalletHistory')
     },
-    async queryWalletBalances ({ state, commit }) {
+    async queryWalletBalances ({ state, rootState, commit }) {
       let res = await node.queryAccount(state.key.address)
       if (!res) return
       commit('setWalletBalances', res.data.coins)
+      for (let coin of res.data.coins) {
+        if (coin.denom === rootState.config.bondingDenom) {
+          commit('setAtoms', coin.amount)
+          break
+        }
+      }
     },
     async queryWalletSequence ({ state, commit }) {
       let res = await node.queryNonce(state.key.address)
@@ -70,7 +76,25 @@ export default ({ commit, node }) => {
       if (!res) return
       commit('setWalletHistory', res)
     },
-    async walletSend ({ state, dispatch, commit, rootState }, args) {
+    walletSend ({ dispatch }, args) {
+      args.type = 'buildSend'
+      args.to = {
+        chain: '',
+        app: 'sigs',
+        addr: args.to
+      }
+      dispatch('walletTx', args)
+    },
+    walletDelegate ({ dispatch }, args) {
+      args.type = 'buildDelegate'
+      args.to = {
+        chain: '',
+        app: 'sigs',
+        addr: args.to
+      }
+      dispatch('walletTx', args)
+    },
+    async walletTx ({ state, dispatch, commit, rootState }, args) {
       // wait until the current send operation is done
       if (state.sending) {
         commit('queueSend', args)
@@ -99,17 +123,12 @@ export default ({ commit, node }) => {
         if (args.sequence == null) {
           args.sequence = state.sequence + 1
         }
-        args.to = {
-          chain: '',
-          app: 'sigs',
-          addr: args.to
-        }
         args.from = {
           chain: '',
           app: 'sigs',
           addr: state.key.address
         }
-        let tx = await node.buildSend(args)
+        let tx = await node[args.type](args)
         let signedTx = await node.sign({
           name: rootState.user.account,
           password: rootState.user.password,
@@ -153,6 +172,25 @@ export default ({ commit, node }) => {
       }
 
       commit('setDenoms', Object.keys(denoms))
+    },
+    async submitDelegation ({ state, dispatch }, delegation) {
+      console.log('submitting delegation txs: ', JSON.stringify(delegation))
+
+      for (let delegate of delegation.delegates) {
+        await new Promise((resolve, reject) => {
+          dispatch('walletDelegate', {
+            // TODO: figure out which denom is bonding denom
+            amount: { denom: 'fermion', amount: delegate.atoms },
+            pub_key: delegate.delegate.pub_key,
+            cb: (err, res) => {
+              if (err) return reject(err)
+              resolve(res)
+            }
+          })
+        })
+      }
+
+      commit('activateDelegation', true)
     }
   }
 

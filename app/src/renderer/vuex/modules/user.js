@@ -11,7 +11,7 @@ export default ({ commit, node }) => {
   }
 
   const emptyUser = {
-    atoms: 2097152,
+    atoms: 0, // balance of bonding token
     nominationActive: false,
     nomination: JSON.parse(JSON.stringify(emptyNomination)),
     delegationActive: false,
@@ -30,6 +30,9 @@ export default ({ commit, node }) => {
     },
     setAccounts (state, accounts) {
       state.accounts = accounts
+    },
+    setAtoms (state, atoms) {
+      state.atoms = atoms
     }
   }
 
@@ -113,24 +116,6 @@ export default ({ commit, node }) => {
 
       commit('setModalSession', true)
       dispatch('showInitialScreen')
-    },
-    async submitDelegation (state, value) {
-      state.delegation = value
-      console.log('submitting delegation txs: ', JSON.stringify(state.delegation))
-
-      for (let delegate of value.delegates) {
-        let tx = await node.buildDelegate([ delegate.id, delegate.atoms ])
-        // TODO: use wallet key management
-        let signedTx = await node.sign({
-          name: state.name,
-          password: state.default,
-          tx
-        })
-        let res = await node.postTx(signedTx)
-        console.log(res)
-      }
-
-      commit('activateDelegation', true)
     }
   }
 
