@@ -12,9 +12,14 @@ describe('NiDataLoading', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it('should tell us something is loading', () => {
+  it('should tell the user something is loading', () => {
     expect(wrapper.find('.ni-data-msg__title div').html().toLowerCase())
       .toContain('data is loading')
+  })
+
+  it('should tell the user to be patient', () => {
+    expect(wrapper.find('.ni-data-msg__subtitle div').html().toLowerCase())
+      .toContain('please wait a moment')
   })
 
 })
