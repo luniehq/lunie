@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TogggleBtn has the expected html structure 1`] = `
+<span
+  class="btn--select-wrapper"
+>
+  <button
+    class="ni-btn"
+  >
+    <span
+      class="ni-btn-container"
+    >
+      <!---->
+      <span
+        class="ni-btn-value"
+      >
+        HALLO
+      </span>
+    </span>
+  </button>
+</span>
+`;
