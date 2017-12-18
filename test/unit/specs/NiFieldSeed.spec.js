@@ -21,4 +21,8 @@ describe('NiFieldSeed', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
+  it('has the correct class', () => {
+    expect(wrapper.find('.ni-field').classes()).toContain('ni-field-seed')
+  })
+
 })

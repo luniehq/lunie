@@ -1,6 +1,6 @@
 <template lang='pug'>
 .ni-hardware-state
-  i.material-icons(:class="iconClass") {{ icon }}
+  i.ni-hardware-state__icon.material-icons(:class="iconClass") {{ icon }}
   .ni-hardware-state__label {{ value }}
 </template>
 
@@ -32,10 +32,10 @@ export default {
 
   user-select none
 
-  i
-    font-size 5rem
-    margin-bottom 1rem
-    color dim
+.ni-hardware-state__icon
+  font-size 5rem
+  margin-bottom 1rem
+  color dim
 
 .ni-hardware-state__label
   text-align center

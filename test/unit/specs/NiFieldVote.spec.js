@@ -18,7 +18,7 @@ describe('NiFieldVote', () => {
   })
 
   it('has a color from props', () => {
-    expect(wrapper.vm.color).toContain('hsl(0,50%,35%)')
+    expect(wrapper.vm.color).toBe('hsl(0,50%,35%)')
   })
 
   it('has the expected html structure', () => {
@@ -26,16 +26,16 @@ describe('NiFieldVote', () => {
   })
 
   it('shows the title of the vote option', () => {
-    expect(wrapper.find('.ni-field-vote-dt').html()).toContain('No')
+    expect(wrapper.find('.ni-field-vote-dt').text().trim()).toBe('No')
   })
 
   it('has been selected by the user', () => {
-    expect(wrapper.find('.ni-field-vote-input i.material-icons').html())
-      .toContain('radio_button_checked')
+    expect(wrapper.find('.ni-field-vote-input i.material-icons').text().trim())
+      .toBe('radio_button_checked')
   })
 
   it('shows the percentage who voted', () => {
-    expect(wrapper.find('.ni-field-vote-dd').html()).toContain('34%')
+    expect(wrapper.find('.ni-field-vote-dd').text().trim()).toBe('34%')
   })
 
 })

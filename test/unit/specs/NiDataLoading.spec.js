@@ -12,14 +12,24 @@ describe('NiDataLoading', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it('should tell the user something is loading', () => {
-    expect(wrapper.find('.ni-data-msg__title div').html().toLowerCase())
-      .toContain('data is loading')
+  it('has an icon', () => {
+    expect(wrapper.find('.ni-data-msg__icon i.material-icons').text().trim())
+      .toBe('rotate_right')
   })
 
-  it('should tell the user to be patient', () => {
-    expect(wrapper.find('.ni-data-msg__subtitle div').html().toLowerCase())
-      .toContain('please wait a moment')
+  it('has a spinning icon', () => {
+    expect(wrapper.find('.ni-data-msg__icon').contains('i.material-icons.fa-spin'))
+      .toBe(true)
+  })
+
+  it('has a title', () => {
+    expect(wrapper.find('.ni-data-msg__title div').text().trim())
+      .toBe('Data is loading…')
+  })
+
+  it('has a subtitle', () => {
+    expect(wrapper.find('.ni-data-msg__subtitle div').text().trim())
+      .toBe('Please wait a moment.')
   })
 
 })

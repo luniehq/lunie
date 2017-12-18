@@ -23,6 +23,10 @@ describe('NiHardwareState', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
+  it('has a spinning icon', () => {
+    expect(wrapper.contains('i.material-icons.fa-spin')).toBe(true)
+  })
+
   it('has a label', () => {
     expect(wrapper.find('.ni-hardware-state__label').text().trim())
       .toContain('Detecting your Ledger Wallet')

@@ -125,7 +125,7 @@
     "superagent": "^3.5.2",
     "tail": "^1.2.1",
     "tendermint-crypto": "github:mappum/js-crypto",
-    "vue-test-utils": "^1.0.0-beta.6",
+    "vue-test-utils": "^1.0.0-beta.8",
     "vuelidate": "^0.5.0",
     "xmlhttprequest": "^1.8.0"
   },

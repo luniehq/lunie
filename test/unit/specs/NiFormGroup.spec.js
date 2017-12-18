@@ -12,11 +12,16 @@ describe('NiFormGroup', () => {
   }
 
   beforeEach(() => {
-    wrapper = mount(NiFormGroup, { propsData })
+    wrapper = mount(NiFormGroup, {
+      propsData,
+      slots: {
+        default: '<input class="fake-field" value="fake"></div>'
+      }
+    })
   })
 
   it('has a field id from props', () => {
-    expect(wrapper.vm.fieldId).toContain('sign-in-password')
+    expect(wrapper.vm.fieldId).toBe('sign-in-password')
   })
 
   it('has the expected html structure', () => {
@@ -24,8 +29,12 @@ describe('NiFormGroup', () => {
   })
 
   it('shows the label of the field', () => {
-    expect(wrapper.find('.ni-form-group__label').html().toLowerCase())
-      .toContain('sign in password')
+    expect(wrapper.find('.ni-form-group__label').text().trim())
+      .toBe('Sign In Password')
+  })
+
+  it('has a slot with a field', () => {
+    expect(wrapper.findAll('.fake-field').length).toBe(1)
   })
 
 })

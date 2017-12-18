@@ -9,7 +9,7 @@ describe('NiDataMsg', () => {
     title: 'sOmEtHiNg Is HaPpEnIng!!!',
     subtitle: 'Oh my! What could it be?',
     icon: 'help',
-    spin: true
+    spin: false
   }
 
   beforeEach(() => {
@@ -17,21 +17,26 @@ describe('NiDataMsg', () => {
   })
 
   it('has a title from props', () => {
-    expect(wrapper.vm.title.toLowerCase()).toContain('something is happening!!!')
+    expect(wrapper.vm.title).toBe('sOmEtHiNg Is HaPpEnIng!!!')
   })
 
   it('has the expected html structure', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it('has a visible icon', () => {
-    expect(wrapper.find('.ni-data-msg__icon i.material-icons').html().toLowerCase())
-      .toContain('help')
+  it('has an icon', () => {
+    expect(wrapper.find('.ni-data-msg__icon i.material-icons').text())
+      .toBe('help')
   })
 
-  it('has a visible subtitle', () => {
-    expect(wrapper.find('.ni-data-msg__subtitle').html().toLowerCase())
-      .toContain('oh my! what could it be?')
+  it('doesn\'t have a spinning icon', () => {
+    expect(wrapper.find('.ni-data-msg__icon').contains('i.material-icons.fa-spin'))
+      .toBe(false)
+  })
+
+  it('has a subtitle', () => {
+    expect(wrapper.find('.ni-data-msg__subtitle').text())
+      .toBe('Oh my! What could it be?')
   })
 
 })

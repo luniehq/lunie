@@ -3,7 +3,7 @@
 exports[`NiDataMsg has the expected html structure 1`] = `
 "<div class=\\"ni-data-msg\\">
    <div class=\\"ni-data-msg__icon\\">
-      <i class=\\"material-icons fa-spin\\">help</i>
+      <i class=\\"material-icons\\">help</i>
    </div>
 <div class=\\"ni-data-msg__text\\">
    <div class=\\"ni-data-msg__title\\">

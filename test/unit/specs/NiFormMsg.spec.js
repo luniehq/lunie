@@ -27,8 +27,8 @@ describe('NiFormMsg', () => {
   })
 
   it('shows the correct message', () => {
-    expect(wrapper.find('.ni-form-msg').html().toLowerCase())
-      .toContain('password must be between 16 and 255 characters')
+    expect(wrapper.find('.ni-form-msg').text().trim())
+      .toContain('Password must be between 16 and 255 characters')
   })
 
 })
