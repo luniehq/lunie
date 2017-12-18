@@ -17,7 +17,10 @@ describe('PageDelegates', () => {
       getters: {
         shoppingCart: () => shoppingCart.state.delegates,
         delegates: () => delegates.state,
-        filters: () => filters.state
+        filters: () => filters.state,
+        config: () => ({
+          devMode: true
+        })
       },
       modules: {
         shoppingCart,
@@ -27,26 +30,30 @@ describe('PageDelegates', () => {
     })
 
     store.commit('addDelegate', {
-      pubkey: 'pubkeyY',
-      description: JSON.stringify({
-        id: 'idY',
-        description: 'descriptionY',
-        voting_power: 30000,
-        shares: 10000,
-        keybaseID: 'keybaseY',
-        country: 'Canada'
-      })
-    })
-    store.commit('addDelegate', {
-      pubkey: 'pubkeyX',
-      description: JSON.stringify({
-        id: 'idX',
+      pub_key: {
+        type: 'ed25519',
+        data: 'pubkeyX'
+      },
+      voting_power: 10000,
+      shares: 5000,
+      description: {
         description: 'descriptionX',
-        voting_power: 2000,
-        shares: 5000,
         keybaseID: 'keybaseX',
         country: 'USA'
-      })
+      }
+    })
+    store.commit('addDelegate', {
+      pub_key: {
+        type: 'ed25519',
+        data: 'pubkeyY'
+      },
+      voting_power: 30000,
+      shares: 10000,
+      description: {
+        description: 'descriptionY',
+        keybaseID: 'keybaseY',
+        country: 'Canada'
+      }
     })
 
     wrapper = mount(PageDelegates, {
@@ -58,6 +65,7 @@ describe('PageDelegates', () => {
     })
 
     jest.spyOn(store, 'commit')
+    jest.spyOn(store, 'dispatch')
   })
 
   it('has the expected html structure', () => {
@@ -69,19 +77,26 @@ describe('PageDelegates', () => {
     expect(wrapper.contains('.ni-modal-search')).toBe(true)
   })
 
+  it('should refresh candidates on click', () => {
+    wrapper.findAll('.ni-tool-bar i').at(1).trigger('click')
+    expect(store.dispatch).toHaveBeenCalledWith('getDelegates')
+  })
+
   it('should sort the delegates by selected property', () => {
-    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['idX', 'idY'])
-    wrapper.vm.sort = 'voting_power'
-    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['idY', 'idX'])
+    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['pubkeyX', 'pubkeyY'])
+
+    wrapper.vm.sort.property = 'voting_power'
+    wrapper.vm.sort.order = 'desc'
+    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['pubkeyY', 'pubkeyX'])
   })
 
   it('should filter the delegates', () => {
     store.commit('setSearchVisible', ['delegates', true])
     store.commit('setSearchQuery', ['delegates', 'baseX'])
-    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['idX'])
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['pubkeyX'])
+    expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit('setSearchQuery', ['delegates', 'baseY'])
-    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['idY'])
+    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['pubkeyY'])
   })
 
   it('should show the amount of selected delegates', () => {
@@ -96,7 +111,10 @@ describe('PageDelegates', () => {
       getters: {
         shoppingCart: () => shoppingCart.state,
         delegates: () => [],
-        filters: () => filters.state
+        filters: () => filters.state,
+        config: () => ({
+          devMode: true
+        })
       },
       modules: {
         shoppingCart,
