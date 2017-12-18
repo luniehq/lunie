@@ -10,13 +10,14 @@ page(title='Transactions')
   li-transaction(
     v-for="i in filteredTransactions"
     :transaction-value="i"
-    :address="wallet.key.address")
+    :address="wallet.key.address"
+    :devMode="config.devMode")
   data-empty-tx(v-if='filteredTransactions.length === 0')
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-// import { includes, orderBy } from 'lodash'
+import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import DataEmptyTx from 'common/NiDataEmptyTx'
 import LiTransaction from 'wallet/LiTransaction'
@@ -35,12 +36,26 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['filters', 'transactions', 'wallet']),
+    ...mapGetters(['filters', 'transactions', 'wallet', 'config']),
+    orderedTransactions () {
+      return orderBy(this.transactions, [this.sort.property], [this.sort.order])
+    },
     filteredTransactions () {
-      return this.transactions
-      // TODO: restore searchability? (what part of the tx are we searching?)
+      let query = this.filters.transactions.search.query
+      if (this.filters.transactions.search.visible) {
+        // doing a full text comparison on the transaction data
+        return this.orderedTransactions.filter(t => includes(JSON.stringify(t).toLowerCase(), query))
+      } else {
+        return this.orderedTransactions
+      }
     }
   },
+  data: () => ({
+    sort: {
+      property: 'time',
+      order: 'desc'
+    }
+  }),
   methods: {
     setSearch (bool) {
       this.$store.commit('setSearchVisible', ['transactions', bool])

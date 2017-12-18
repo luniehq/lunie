@@ -1,22 +1,22 @@
 <template lang='pug'>
-.ni-li-tx.ni-li-tx-sent(v-if="sent" @click="viewTransaction")
+.ni-li-tx.ni-li-tx-sent(v-if="sent" @click="() => devMode && viewTransaction()")
   .tx-icon: i.material-icons remove_circle
   .tx-container
     .tx-element.tx-coins
       .tx-coin(v-for='coin in coinsSent')
         .value {{ num.pretty(coin.amount) }}
         .key {{ coin.denom }}
-    .tx-element.tx-date {{ date }}
+    .tx-element.tx-date(v-if="devMode") {{ date }}
     .tx-element.tx-address {{ receiver }}
 
-.ni-li-tx.ni-li-tx-received(v-else @click="viewTransaction")
+.ni-li-tx.ni-li-tx-received(v-else @click="() => devMode && viewTransaction()")
   .tx-icon: i.material-icons add_circle
   .tx-container
     .tx-element.tx-coins
       .tx-coin(v-for='coin in coinsReceived')
         .value {{ num.pretty(coin.amount) }}
         .key {{ coin.denom }}
-    .tx-element.tx-date {{ date }}
+    .tx-element.tx-date(v-if="devMode") {{ date }}
     .tx-element.tx-address {{ sender }}
 </template>
 
@@ -57,7 +57,7 @@ export default {
       })
     }
   },
-  props: ['transaction-value', 'address']
+  props: ['transaction-value', 'address', 'devMode']
 }
 </script>
 
