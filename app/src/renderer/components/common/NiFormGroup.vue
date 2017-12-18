@@ -1,7 +1,8 @@
 <template lang='pug'>
 div(:class='cssClass')
-  label(:for='fieldId' v-if="fieldId && fieldLabel") {{ fieldLabel }}
-  .ni-form-group-field: slot
+  label.ni-form-group__label(:for='fieldId' v-if="fieldId && fieldLabel")
+    | {{ fieldLabel }}
+  .ni-form-group__field: slot
 </template>
 
 <script>
@@ -10,7 +11,7 @@ export default {
   computed: {
     cssClass () {
       let value = 'ni-form-group'
-      if (this.error) value += ' form-group-error'
+      if (this.error) value += ' ni-form-group--error'
       return value
     }
   },
@@ -30,32 +31,31 @@ export default {
   input
     width 100%
 
-  label
-    display block
-    line-height 2rem
-    color txt
-
-  .ni-form-msg-error
+  .ni-form-msg--error
     display none
 
-  &.form-group-error
-    .ni-field, .ni-select
-      border-color danger
-    .ni-form-msg-error
-      display flex
+.ni-form-group--error
+  .ni-field, .ni-select
+    border-color danger
 
-.ni-form-footer
-  border-top 2px solid bc-dim
+  .ni-form-msg--error
+    display flex
+
+.ni-form-group__label
+  display block
+  line-height 2rem
+  color txt
 
 @media (min-width: 768px)
   .ni-form-group
     display flex
-    label
-      flex 0 0 16rem
-    .ni-form-group-field
-      flex 1
 
-  .ni-form-group-field
+  .ni-form-group__label
+    flex 0 0 16rem
+
+  .ni-form-group__field
+    flex 1
+
     > .ni-field
     > .ni-field-group
       width 100%

@@ -15,8 +15,8 @@ exports[`NiSessionRestore has the expected html structure 1`] = `
    </div>
       <div class=\\"ni-session-main\\">
          <div class=\\"ni-form-group\\">
-            <label for=\\"restore-name\\">Account Name</label>
-            <div class=\\"ni-form-group-field\\">
+            <label for=\\"restore-name\\" class=\\"ni-form-group__label\\">Account Name</label>
+            <div class=\\"ni-form-group__field\\">
                <input type=\\"text\\" placeholder=\\"at least 5 characters\\" class=\\"ni-field\\" id=\\"restore-name\\">
                <div class=\\"ni-form-msg ni-form-msg-error\\">
                   Name is required
@@ -25,8 +25,8 @@ exports[`NiSessionRestore has the expected html structure 1`] = `
    </div>
 </div>
       <div class=\\"ni-form-group\\">
-         <label for=\\"restore-seed\\">Seed</label>
-         <div class=\\"ni-form-group-field\\">
+         <label for=\\"restore-seed\\" class=\\"ni-form-group__label\\">Seed</label>
+         <div class=\\"ni-form-group__field\\">
             <textarea class=\\"ni-field-seed ni-field\\" id=\\"restore-seed\\" placeholder=\\"must be exactly 12 words\\"></textarea>
             <div class=\\"ni-form-msg ni-form-msg-error\\">
                Seed is required
@@ -34,8 +34,8 @@ exports[`NiSessionRestore has the expected html structure 1`] = `
 </div>
 </div>
       <div class=\\"ni-form-group\\">
-         <label for=\\"restore-password\\">Password</label>
-         <div class=\\"ni-form-group-field\\">
+         <label for=\\"restore-password\\" class=\\"ni-form-group__label\\">Password</label>
+         <div class=\\"ni-form-group__field\\">
             <input type=\\"password\\" placeholder=\\"at least 10 characters\\" class=\\"ni-field\\" id=\\"restore-password\\">
             <div class=\\"ni-form-msg ni-form-msg-desc\\">
                Create a password to secure your restored account
