@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiFormStruct has the expected html structure 1`] = `
+"<form class=\\"ni-form ni-form-narrow\\">
+   <div class=\\"ni-form-container\\">
+      <!---->
+      <main class=\\"ni-form-main\\"></main>
+         <!---->
+   </div>
+</form>"
+`;
