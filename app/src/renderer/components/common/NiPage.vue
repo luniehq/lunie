@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import PerfectScrollbar from 'perfect-scrollbar'
 import PageHeader from 'common/NiPageHeader'
 import AppFooter from 'common/AppFooter'
@@ -19,8 +20,16 @@ export default {
     PageHeader,
     AppFooter
   },
+  computed: {
+    ...mapGetters(['config'])
+  },
   mounted () {
-    const ps = new PerfectScrollbar('.ni-page-main')
+    let ps
+    if (this.config.desktop) {
+      ps = new PerfectScrollbar('.ni-page-main')
+    } else {
+      ps.destroy()
+    }
   }
 }
 </script>
