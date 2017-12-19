@@ -8,7 +8,7 @@ page(title='Transactions')
   modal-search(v-if="filters.transactions.search.visible" type="transactions")
 
   data-empty-tx(v-if='transactions.length === 0')
-  data-empty-search(v-else-if="filteredTransactions.length")
+  data-empty-search(v-else-if="filteredTransactions.length === 0")
   li-transaction(
     v-else
     v-for="i in filteredTransactions"
