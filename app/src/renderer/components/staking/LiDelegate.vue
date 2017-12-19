@@ -18,9 +18,9 @@ transition(name='ts-li-delegate'): div(:class='styles')
         span {{ num.percentInt(bondedPercent) }}
       .value {{ delegate.commission ? num.percentInt(delegate.commission) : 'n/a' }}
     menu
-      btn(theme='cosmos' v-if='inCart'
+      btn(v-if='inCart'
         icon='delete' value='Remove' size='sm' @click.native='rm(delegate)')
-      btn(v-else='' theme='cosmos'
+      btn(v-else
         icon='check' value='Add' size='sm' @click.native='add(delegate)')
 </template>
 
