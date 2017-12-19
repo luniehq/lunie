@@ -26,7 +26,16 @@ describe('PageBalances', () => {
     })
     wrapper = mount(PageBalances, {
       localVue,
-      store
+      store,
+      stub: {
+        AnchorCopy: true,
+        Btn: true,
+        ListItem: true,
+        ModalSearch: true,
+        Page: true,
+        Part: true,
+        ToolBar: true
+      }
     })
     store.commit('setWalletBalances', [{
       denom: 'ATOM',
