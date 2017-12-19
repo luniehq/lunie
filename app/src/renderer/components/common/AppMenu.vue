@@ -47,6 +47,7 @@ export default {
     }
   },
   mounted () {
+    // eslint-disable-next-line no-unused-vars
     const ps = new PerfectScrollbar('.app-menu-main')
   }
 }
