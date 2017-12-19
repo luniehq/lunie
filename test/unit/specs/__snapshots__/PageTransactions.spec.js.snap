@@ -168,11 +168,24 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <!---->
   </main>
   <footer
-    class="ni-page-footer"
+    class="app-footer"
   >
     <div
-      class="container"
-    />
+      class="app-footer-container"
+    >
+      <div
+        class="afi"
+      >
+        <i
+          class="material-icons fa-spin"
+        >
+          rotate_right
+        </i>
+        <span>
+          Connecting…
+        </span>
+      </div>
+    </div>
   </footer>
 </div>
 `;
@@ -372,11 +385,24 @@ exports[`PageTransactions should filter the transactions 1`] = `
     <!---->
   </main>
   <footer
-    class="ni-page-footer"
+    class="app-footer"
   >
     <div
-      class="container"
-    />
+      class="app-footer-container"
+    >
+      <div
+        class="afi"
+      >
+        <i
+          class="material-icons fa-spin"
+        >
+          rotate_right
+        </i>
+        <span>
+          Connecting…
+        </span>
+      </div>
+    </div>
   </footer>
 </div>
 `;

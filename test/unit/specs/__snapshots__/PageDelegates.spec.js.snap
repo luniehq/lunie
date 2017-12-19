@@ -314,11 +314,24 @@ exports[`PageDelegates has the expected html structure 1`] = `
     </div>
   </main>
   <footer
-    class="ni-page-footer"
+    class="app-footer"
   >
     <div
-      class="container"
-    />
+      class="app-footer-container"
+    >
+      <div
+        class="afi"
+      >
+        <i
+          class="material-icons fa-spin"
+        >
+          rotate_right
+        </i>
+        <span>
+          Connecting…
+        </span>
+      </div>
+    </div>
   </footer>
 </div>
 `;
@@ -664,11 +677,24 @@ exports[`PageDelegates should filter the delegates 1`] = `
     </div>
   </main>
   <footer
-    class="ni-page-footer"
+    class="app-footer"
   >
     <div
-      class="container"
-    />
+      class="app-footer-container"
+    >
+      <div
+        class="afi"
+      >
+        <i
+          class="material-icons fa-spin"
+        >
+          rotate_right
+        </i>
+        <span>
+          Connecting…
+        </span>
+      </div>
+    </div>
   </footer>
 </div>
 `;
