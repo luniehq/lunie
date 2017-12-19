@@ -12,7 +12,7 @@ To run the dev build, you will need the `gaia` binary installed:
 ```golang
 go get github.com/cosmos/gaia
 cd $GOPATH/src/github.com/cosmos/gaia
-git checkout feature/delegation
+git checkout develop
 glide install
 make install
 ```
