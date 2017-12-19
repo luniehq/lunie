@@ -75,7 +75,7 @@ export default {
         { id: 1, title: 'Public Key', value: 'id', initial: true },
         { id: 2, title: 'Country', value: 'country' },
         { id: 3, title: 'Voting Power', value: 'voting_power' },
-        { id: 4, title: 'Delegated Power', value: 'shares' },
+        { id: 4, title: 'Bonded Power', value: 'shares' },
         { id: 5, title: 'Commission', value: 'commission' }
       ]
     }

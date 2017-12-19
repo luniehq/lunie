@@ -45,6 +45,8 @@ function integerize (num) {
 function fractionize (num) {
   return numeral(num).format('.00')
 }
+function percentInt (x) { return numeral(x).format('0%') }
+function percent (x) { return numeral(x).format('0.00%') }
 
 export default {
   usd,
@@ -55,5 +57,7 @@ export default {
   int: integerize,
   frac: fractionize,
   short: short,
-  shortInt
+  shortInt,
+  percent: percent,
+  percentInt: percentInt
 }

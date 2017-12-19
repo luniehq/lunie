@@ -141,7 +141,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
           <div
             class="label"
           >
-            Delegated Power
+            Bonded Power
           </div>
         </div>
         <div
@@ -195,15 +195,11 @@ exports[`PageDelegates has the expected html structure 1`] = `
             />
           </div>
           <div
-            class="value delegated num bar delegated"
+            class="value delegated"
           >
             <span>
-              5,000
+              50%
             </span>
-            <div
-              class="bar"
-              style="width: 50%;"
-            />
           </div>
           <div
             class="value"
@@ -216,7 +212,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
             class="ni-btn"
           >
             <span
-              class="ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos"
+              class="ni-btn-container ni-btn-size-sm"
             >
               <i
                 aria-hidden="true"
@@ -274,15 +270,11 @@ exports[`PageDelegates has the expected html structure 1`] = `
             />
           </div>
           <div
-            class="value delegated num bar delegated"
+            class="value delegated"
           >
             <span>
-              10,000
+              33%
             </span>
-            <div
-              class="bar"
-              style="width: 100%;"
-            />
           </div>
           <div
             class="value"
@@ -295,7 +287,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
             class="ni-btn"
           >
             <span
-              class="ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos"
+              class="ni-btn-container ni-btn-size-sm"
             >
               <i
                 aria-hidden="true"
@@ -492,7 +484,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
           <div
             class="label"
           >
-            Delegated Power
+            Bonded Power
           </div>
         </div>
         <div
@@ -546,15 +538,11 @@ exports[`PageDelegates should filter the delegates 1`] = `
             />
           </div>
           <div
-            class="value delegated num bar delegated"
+            class="value delegated"
           >
             <span>
-              5,000
+              50%
             </span>
-            <div
-              class="bar"
-              style="width: 50%;"
-            />
           </div>
           <div
             class="value"
@@ -567,7 +555,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             class="ni-btn"
           >
             <span
-              class="ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos"
+              class="ni-btn-container ni-btn-size-sm"
             >
               <i
                 aria-hidden="true"
@@ -625,15 +613,11 @@ exports[`PageDelegates should filter the delegates 1`] = `
             />
           </div>
           <div
-            class="value delegated num bar delegated"
+            class="value delegated"
           >
             <span>
-              10,000
+              33%
             </span>
-            <div
-              class="bar"
-              style="width: 100%;"
-            />
           </div>
           <div
             class="value"
@@ -646,7 +630,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             class="ni-btn"
           >
             <span
-              class="ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos"
+              class="ni-btn-container ni-btn-size-sm"
             >
               <i
                 aria-hidden="true"
