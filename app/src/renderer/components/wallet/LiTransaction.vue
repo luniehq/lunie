@@ -22,7 +22,7 @@
 
 <script>
 import num from 'scripts/num'
-import dateUnixAgo from 'scripts/dateUnixAgo'
+import moment from 'moment'
 export default {
   name: 'ni-li-tx',
   computed: {
@@ -43,7 +43,7 @@ export default {
       return this.transactionValue.tx.inputs[0].coins
     },
     date () {
-      return dateUnixAgo(this.transactionValue.time)
+      return !!this.transactionValue.time ? moment(this.transactionValue.time).fromNow() : 'N/A'
     }
   },
   data: () => ({

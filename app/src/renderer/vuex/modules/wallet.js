@@ -10,7 +10,8 @@ export default ({ commit, node }) => {
     history: [],
     denoms: [],
     sendQueue: [],
-    sending: false
+    sending: false,
+    blocks: []
   }
 
   let mutations = {
@@ -41,6 +42,13 @@ export default ({ commit, node }) => {
     },
     setSending (state, sending) {
       state.sending = sending
+    },
+    setTransactionTime (state, { blockHeight, block }) {
+      state.history.forEach(t => {
+        if (t.height === blockHeight) {
+          t.time = block.block_meta.header.time
+        }
+      })
     }
   }
 
@@ -65,10 +73,37 @@ export default ({ commit, node }) => {
       if (!res) return
       commit('setWalletSequence', res.data)
     },
-    async queryWalletHistory ({ state, commit }) {
+    async queryWalletHistory ({ state, commit, dispatch }) {
       let res = await node.coinTxs(state.key.address)
       if (!res) return
       commit('setWalletHistory', res)
+      let blockHeights = new Set()
+      res.forEach(t => blockHeights.add(t.height))
+      blockHeights.forEach(h => {
+        dispatch('queryTransactionTime', h)
+      })
+    },
+    async queryTransactionTime ({ commit, dispatch }, blockHeight) {
+      let block = await dispatch('queryBlock', blockHeight)
+      commit('setTransactionTime', { blockHeight, block })
+    },
+    async queryBlock ({ state, commit }, height) {
+      let block = state.blocks.find(b => b.block_meta.header.height === height)
+      if (block) {
+        return block
+      }
+      block = await new Promise((resolve, reject) => {
+        node.rpc.block({height}, (err, block) => {
+          if (err) {
+            commit('notifyError', {title: `Couldn't query block`, body: err.message})
+            reject()
+          } else {
+            resolve(block)
+          }
+        })
+      })
+      block && state.blocks.push(block)
+      return block
     },
     async walletSend ({ state, dispatch, commit, rootState }, args) {
       // wait until the current send operation is done
