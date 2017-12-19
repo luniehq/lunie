@@ -101,6 +101,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
     class="ni-page-main"
   >
     <!---->
+    <!---->
     <div
       class="panel-sort"
     >
@@ -451,6 +452,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
         </button>
       </div>
     </div>
+    <!---->
     <div
       class="panel-sort"
     >

@@ -10,14 +10,14 @@ page(:title='pageTitle')
     router-link(v-if="config.devMode" to='/staking/bond')
       i.material-icons check_circle
       .label Bond Atoms
+
   modal-search(v-if="filters.delegates.search.visible" type="delegates")
-  template(v-if="delegates.length > 0")
+
+  data-error(v-if="delegates.length === 0")
+  data-empty-search(v-if="filteredDelegates.length === 0")
+  template(v-else)
     panel-sort(:sort='sort')
-    li-delegate(
-      v-for='i in filteredDelegates'
-      key='i.id'
-      :delegate='i')
-  data-error(v-else)
+    li-delegate( v-for='i in filteredDelegates' key='i.id' :delegate='i')
 </template>
 
 <script>
@@ -25,6 +25,7 @@ import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import LiDelegate from 'staking/LiDelegate'
+import DataEmptySearch from 'common/NiDataEmptySearch'
 import DataError from 'common/NiDataError'
 import Field from '@nylira/vue-field'
 import ModalSearch from 'common/NiModalSearch'
@@ -36,6 +37,7 @@ export default {
   name: 'page-delegates',
   components: {
     LiDelegate,
+    DataEmptySearch,
     DataError,
     Field,
     ModalSearch,

@@ -8,14 +8,22 @@ page(title='Proposals')
       i.material-icons search
       .label Search
   modal-search(v-if="filters.proposals.search.visible" type="proposals")
-  part
-    li-proposal(v-for="p in filteredProposals" :key="p.id" :proposal="p")
+
+  data-empty(v-if="proposals.length === 0")
+  data-empty-search(v-else-if="filteredProposals.length === 0")
+  li-proposal(
+    v-else
+    v-for="p in filteredProposals"
+    :key="p.id"
+    :proposal="p")
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
+import DataEmpty from 'common/NiDataEmpty'
+import DataEmptySearch from 'common/NiDataEmptySearch'
 import LiProposal from 'govern/LiProposal'
 import ModalSearch from 'common/NiModalSearch'
 import TabBar from 'common/NiTabBar'
@@ -25,6 +33,8 @@ import Part from 'common/NiPart'
 export default {
   name: 'page-proposals',
   components: {
+    DataEmpty,
+    DataEmptySearch,
     LiProposal,
     ModalSearch,
     Page,

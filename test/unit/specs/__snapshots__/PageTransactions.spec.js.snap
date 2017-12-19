@@ -76,96 +76,36 @@ exports[`PageTransactions has the expected html structure 1`] = `
   >
     <!---->
     <div
-      class="ni-li-tx ni-li-tx-received"
+      class="ni-data-msg"
     >
       <div
-        class="tx-icon"
+        class="ni-data-msg__icon"
       >
         <i
           class="material-icons"
         >
-          add_circle
+          search
         </i>
       </div>
       <div
-        class="tx-container"
+        class="ni-data-msg__text"
       >
         <div
-          class="tx-element tx-coins"
+          class="ni-data-msg__title"
         >
-          <div
-            class="tx-coin"
-          >
-            <div
-              class="value"
-            >
-              1,234.00
-            </div>
-            <div
-              class="key"
-            >
-              fabocoins
-            </div>
+          <div>
+            No Results
           </div>
         </div>
         <div
-          class="tx-element tx-date"
+          class="ni-data-msg__subtitle"
         >
-          a few seconds ago
-        </div>
-        <div
-          class="tx-element tx-address"
-        >
-          otherAddress
-        </div>
-      </div>
-    </div>
-    <div
-      class="ni-li-tx ni-li-tx-received"
-    >
-      <div
-        class="tx-icon"
-      >
-        <i
-          class="material-icons"
-        >
-          add_circle
-        </i>
-      </div>
-      <div
-        class="tx-container"
-      >
-        <div
-          class="tx-element tx-coins"
-        >
-          <div
-            class="tx-coin"
-          >
-            <div
-              class="value"
-            >
-              1,234.00
-            </div>
-            <div
-              class="key"
-            >
-              jbcoins
-            </div>
+          <div>
+            Your search did not match any available data.
           </div>
         </div>
-        <div
-          class="tx-element tx-date"
-        >
-          a few seconds ago
-        </div>
-        <div
-          class="tx-element tx-address"
-        >
-          myAddress
-        </div>
       </div>
     </div>
-    <!---->
   </main>
   <footer
     class="ni-page-footer"
@@ -280,96 +220,36 @@ exports[`PageTransactions should filter the transactions 1`] = `
       </div>
     </div>
     <div
-      class="ni-li-tx ni-li-tx-received"
+      class="ni-data-msg"
     >
       <div
-        class="tx-icon"
+        class="ni-data-msg__icon"
       >
         <i
           class="material-icons"
         >
-          add_circle
+          search
         </i>
       </div>
       <div
-        class="tx-container"
+        class="ni-data-msg__text"
       >
         <div
-          class="tx-element tx-coins"
+          class="ni-data-msg__title"
         >
-          <div
-            class="tx-coin"
-          >
-            <div
-              class="value"
-            >
-              1,234.00
-            </div>
-            <div
-              class="key"
-            >
-              fabocoins
-            </div>
+          <div>
+            No Results
           </div>
         </div>
         <div
-          class="tx-element tx-date"
+          class="ni-data-msg__subtitle"
         >
-          a few seconds ago
-        </div>
-        <div
-          class="tx-element tx-address"
-        >
-          otherAddress
-        </div>
-      </div>
-    </div>
-    <div
-      class="ni-li-tx ni-li-tx-received"
-    >
-      <div
-        class="tx-icon"
-      >
-        <i
-          class="material-icons"
-        >
-          add_circle
-        </i>
-      </div>
-      <div
-        class="tx-container"
-      >
-        <div
-          class="tx-element tx-coins"
-        >
-          <div
-            class="tx-coin"
-          >
-            <div
-              class="value"
-            >
-              1,234.00
-            </div>
-            <div
-              class="key"
-            >
-              jbcoins
-            </div>
+          <div>
+            Your search did not match any available data.
           </div>
         </div>
-        <div
-          class="tx-element tx-date"
-        >
-          a few seconds ago
-        </div>
-        <div
-          class="tx-element tx-address"
-        >
-          myAddress
-        </div>
       </div>
     </div>
-    <!---->
   </main>
   <footer
     class="ni-page-footer"
