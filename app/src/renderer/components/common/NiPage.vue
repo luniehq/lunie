@@ -27,8 +27,6 @@ export default {
     let ps
     if (this.config.desktop) {
       ps = new PerfectScrollbar('.ni-page-main')
-    } else {
-      ps.destroy()
     }
   }
 }
