@@ -43,7 +43,7 @@ export default {
       return this.transactionValue.tx.inputs[0].coins
     },
     date () {
-      return !!this.transactionValue.time ? moment(this.transactionValue.time).fromNow() : 'N/A'
+      return this.transactionValue.time ? moment(this.transactionValue.time).fromNow() : 'N/A'
     }
   },
   data: () => ({
