@@ -60,7 +60,8 @@ describe('PageDelegates', () => {
       localVue,
       store,
       stubs: {
-        'data-error': '<data-error />'
+        'data-error': '<data-error />',
+        'li-delegate': '<li-delegate />'
       }
     })
 
@@ -75,6 +76,10 @@ describe('PageDelegates', () => {
   it('should show the search on click', () => {
     wrapper.find('.ni-tool-bar i').trigger('click')
     expect(wrapper.contains('.ni-modal-search')).toBe(true)
+  })
+
+  it('should show candidates', () => {
+    expect(wrapper.findAll('li-delegate').length).toBe(2)
   })
 
   it('should refresh candidates on click', () => {
