@@ -102,40 +102,4 @@ export default {
 
         img
           height 1rem
-
-@media screen and (min-width: 1024px)
-  #app
-    padding-top 0
-
-  #app-header
-    width width-side
-    border-right px solid bc
-    position initial
-    height 100vh
-    display flex
-    position fixed
-    top 0
-    left 0
-
-    > .container
-      flex 1
-      display flex
-      flex-flow column nowrap
-
-    .header-item-logo
-      border-bottom px solid bc
-      padding 2rem 1rem .75rem
-      line-height: normal
-      img
-        height 1.25rem
-
-  #app-content
-    min-height 100vh
-    margin-left width-side
-
-    display flex
-    flex-flow column nowrap
-
-  #app-main
-    flex 1
 </style>
