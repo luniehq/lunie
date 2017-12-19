@@ -35,7 +35,7 @@ export default {
 
 .ni-page-main
   flex 1
-  overflow-y scroll
+  position relative
 
 .ni-page-title
   color bright
