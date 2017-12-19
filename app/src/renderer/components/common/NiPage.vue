@@ -5,18 +5,22 @@
     div(slot='subtitle') {{ subtitle }}
     div(slot="menu"): slot(name="menu")
   main.ni-page-main: slot
-  page-footer
+  app-footer
 </template>
 
 <script>
+import PerfectScrollbar from 'perfect-scrollbar'
 import PageHeader from 'common/NiPageHeader'
-import PageFooter from 'common/NiPageFooter'
+import AppFooter from 'common/AppFooter'
 export default {
   name: 'ni-page',
   props: ['title', 'subtitle', 'icon'],
   components: {
     PageHeader,
-    PageFooter
+    AppFooter
+  },
+  mounted () {
+    const ps = new PerfectScrollbar('.ni-page-main')
   }
 }
 </script>
@@ -25,8 +29,13 @@ export default {
 @require '~variables'
 
 .ni-page
-  max-width aw
-  margin 0 auto
+  flex 1
+  display flex
+  flex-flow column nowrap
+
+.ni-page-main
+  flex 1
+  overflow-y scroll
 
 .ni-page-title
   color bright
