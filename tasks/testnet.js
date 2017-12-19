@@ -15,7 +15,7 @@ async function get (url) {
 }
 
 async function main () {
-  let network = process.argv[2] || 'gaia-1'
+  let network = process.argv[2] || 'gaia-2-dev'
 
   if (network === 'local') {
     runDev('./app/networks/local')
