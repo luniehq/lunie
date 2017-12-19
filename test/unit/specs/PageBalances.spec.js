@@ -52,7 +52,7 @@ describe('PageBalances', () => {
   })
 
   it('has the expected html structure', () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it('should sort the balances by denom', () => {
@@ -63,7 +63,7 @@ describe('PageBalances', () => {
     store.commit('setSearchVisible', ['balances', true])
     store.commit('setSearchQuery', ['balances', 'atom'])
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual(['ATOM'])
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it('should update balances by querying wallet state', () => {
