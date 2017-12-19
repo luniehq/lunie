@@ -8,17 +8,15 @@ transition(name='ts-li-delegate'): div(:class='styles')
             i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
             i.fa.fa-square-o(v-else @click='add(delegate)')
           router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")
-            //- | {{ delegate.keybaseID ? delegate.keybaseID : 'n/a'}}
             | {{ delegate.id }}
           a(v-else) {{ delegate.id }}
       .value {{ delegate.country ? delegate.country : 'n/a' }}
       .value.voting_power.num.bar
         span {{ num.prettyInt(delegate.voting_power) }}
         .bar(:style='vpStyles')
-      .value.delegated.num.bar.delegated
-        span {{ num.prettyInt(delegate.shares) }}
-        .bar(:style='sharesStyles')
-      .value {{ delegate.commission ? (delegate.commission * 100).toFixed(2) + '%' : 'n/a' }}
+      .value.delegated
+        span {{ num.percentInt(bondedPercent) }}
+      .value {{ delegate.commission ? num.percentInt(delegate.commission) : 'n/a' }}
     menu
       btn(theme='cosmos' v-if='inCart'
         icon='delete' value='Remove' size='sm' @click.native='rm(delegate)')
@@ -55,16 +53,8 @@ export default {
         Math.round((this.delegate.voting_power / this.vpMax) * 100)
       return { width: percentage + '%' }
     },
-    sharesMax () {
-      if (this.delegates) {
-        let richestDelegate = maxBy(this.delegates, 'shares')
-        return richestDelegate.shares
-      } else { return 0 }
-    },
-    sharesStyles () {
-      let percentage =
-        Math.round((this.delegate.shares / this.sharesMax) * 100)
-      return { width: percentage + '%' }
+    bondedPercent () {
+      return this.delegate.shares / this.delegate.voting_power
     },
     inCart () {
       return this.shoppingCart.find(c => c.id === this.delegate.id)
