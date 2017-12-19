@@ -1,9 +1,7 @@
 <template lang="pug">
 #app
   app-header
-  #app-content
-    #app-main: router-view
-    app-footer
+  #app-content: router-view
   notifications(:notifications='notifications' theme='cosmos')
   modal-help
   session
@@ -11,7 +9,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import AppFooter from './components/common/AppFooter'
 import AppHeader from './components/common/AppHeader'
 import Notifications from '@nylira/vue-notifications'
 import ModalHelp from './components/common/NiModalHelp'
@@ -21,7 +18,6 @@ export default {
   name: 'app',
   components: {
     AppHeader,
-    AppFooter,
     ModalHelp,
     Notifications,
     Session

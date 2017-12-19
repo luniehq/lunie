@@ -54,8 +54,12 @@ unbonded atoms. Start by bonding some of your atoms to these delegates.
 </div>
 </form>
 </main>
-<footer class=\\"ni-page-footer\\">
-   <div class=\\"container\\"></div>
+<footer class=\\"app-footer\\">
+   <div class=\\"app-footer-container\\">
+      <div class=\\"afi\\">
+         <i class=\\"material-icons fa-spin\\">rotate_right</i><span>Connecting…</span>
+      </div>
+</div>
 </footer>
 </div>"
 `;
