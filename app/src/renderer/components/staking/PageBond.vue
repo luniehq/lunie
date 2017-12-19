@@ -17,7 +17,7 @@ page.page-bond(title="Bond Atoms")
   form-struct(:submit="onSubmit")
     form-group(v-for='(delegate, index) in fields.delegates' key='delegate.id'
       :error="$v.fields.delegates.$each[index].$error")
-      Label {{ delegate.delegate.keybaseID }} ({{ percentAtoms(delegate.atoms) }})
+      Label {{ shortenLabel(delegate.delegate.id, 20) }} ({{ percentAtoms(delegate.atoms) }})
       field-group
         field(
           type="number"
@@ -67,8 +67,11 @@ export default {
   },
   computed: {
     ...mapGetters(['shoppingCart', 'user']),
+    reservedAtoms () {
+      return this.shoppingCart.reduce((sum, d) => sum + (d.reservedAtoms || 0), 0)
+    },
     unreservedAtoms () {
-      return this.user.atoms - this.fields.reservedAtoms
+      return this.user.atoms - this.reservedAtoms
     },
     unbondedAtoms () {
       let value = this.unreservedAtoms
@@ -191,6 +194,12 @@ export default {
         this.$store.commit('removeFromCart', delegateId)
         this.resetAlloc()
       }
+    },
+    shortenLabel (label, maxLength) {
+      if (label.length <= maxLength) {
+        return label
+      } 
+      return label.substr(0, maxLength - 3) + '...'
     }
   },
   mounted () {
