@@ -77,11 +77,16 @@ export default ({ commit, node }) => {
       let res = await node.coinTxs(state.key.address)
       if (!res) return
       commit('setWalletHistory', res)
-      let blockHeights = new Set()
-      res.forEach(t => blockHeights.add(t.height))
-      blockHeights.forEach(h => {
-        dispatch('queryTransactionTime', h)
+
+      let blockHeights = []
+      res.forEach(t => {
+        if (!blockHeights.find(h => h === t.height)) {
+          blockHeights.push(t.height)
+        }
       })
+      return Promise.all(blockHeights.map(h =>
+        dispatch('queryTransactionTime', h)
+      ))
     },
     async queryTransactionTime ({ commit, dispatch }, blockHeight) {
       let block = await dispatch('queryBlock', blockHeight)

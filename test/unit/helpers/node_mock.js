@@ -10,5 +10,10 @@ module.exports = {
     check_tx: { code: 0 },
     deliver_tx: { code: 0 }
   }),
-  sign: () => Promise.resolve(null)
+  sign: () => Promise.resolve(null),
+  coinTxs: () => Promise.resolve(null),
+
+  rpc: {
+    block: (args, cb) => cb({})
+  }
 }
