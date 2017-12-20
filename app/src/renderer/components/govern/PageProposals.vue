@@ -7,7 +7,7 @@ page(title='Proposals')
     a(@click='setSearch(true)')
       i.material-icons search
       .label Search
-  modal-search(v-if="filters.proposals.search.visible" type="proposals")
+  modal-search(type="proposals")
 
   data-empty(v-if="proposals.length === 0")
   data-empty-search(v-else-if="filteredProposals.length === 0")

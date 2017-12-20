@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { mount, createLocalVue } from 'vue-test-utils'
 
 const Modules = require('renderer/vuex/modules').default
 const Getters = require('renderer/vuex/getters')
@@ -27,9 +27,12 @@ export default function vuexSetup (getters = {}) {
     localVue,
     store,
     router,
-    new: (componentConstructor, testType = shallow) => {
+    new: (componentConstructor, testType = mount, props = {}) => {
       return testType(componentConstructor, {
-        localVue, store, router
+        localVue,
+        store,
+        router,
+        propsData: props
       })
     }
   }
