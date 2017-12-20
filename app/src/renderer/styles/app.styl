@@ -40,25 +40,46 @@ a
 .desktop-only
   display none
 
-@media screen and (min-width: 1024px)
- agu .desktop-only
-    display block
-
 #app
   df()
   color txt
   padding-top 3rem
-  min-height 100vh
+  height 100vh
+  width 100vw
+
   display flex
   flex-flow column nowrap
-
-#app-content
-  flex 1
-  display flex
-  flex-flow column nowrap
-
-#app-main
-  flex 1
 
 .ni-field
   border-radius 2px!important
+
+@media screen and (min-width: 1024px)
+  #app
+    padding-top 0
+    flex-flow row nowrap
+
+  #app-header, #app-content
+    display flex
+
+  #app-header
+    flex 0 0 width-side
+    border-right px solid bc
+    display flex
+
+    > .container
+      flex 1
+      display flex
+      flex-flow column nowrap
+
+    .header-item-logo
+      border-bottom px solid bc
+      padding 2rem 1rem .75rem
+      line-height: normal
+      img
+        height 1.25rem
+
+  #app-content
+    flex 1
+
+ .desktop-only
+    display block

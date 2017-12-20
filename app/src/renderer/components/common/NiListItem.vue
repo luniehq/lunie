@@ -70,7 +70,6 @@ export default {
   display block
   border-bottom 2px solid bc-dim
   height 3rem
-  max-width width-main
   position relative
 
   &:last-child

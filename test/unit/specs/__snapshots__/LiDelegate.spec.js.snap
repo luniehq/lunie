@@ -21,7 +21,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
           <router-link
             to="[object Object]"
           >
-            keybaseX
+            pubkeyX
           </router-link>
         </span>
       </div>
@@ -42,20 +42,16 @@ exports[`LiDelegate has the expected html structure 1`] = `
         />
       </div>
       <div
-        class="value delegated num bar delegated"
+        class="value delegated"
       >
         <span>
-          5,000
+          50%
         </span>
-        <div
-          class="bar"
-          style="width: 50%;"
-        />
       </div>
       <div
         class="value"
       >
-        NaN%
+        n/a
       </div>
     </div>
     <menu>
@@ -63,7 +59,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
         class="ni-btn"
       >
         <span
-          class="ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos"
+          class="ni-btn-container ni-btn-size-sm"
         >
           <i
             aria-hidden="true"

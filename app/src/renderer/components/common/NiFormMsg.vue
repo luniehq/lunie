@@ -10,9 +10,9 @@ export default {
     cssClass () {
       let value = 'ni-form-msg sm'
       if (this.type) {
-        value += ' ni-form-msg-error'
+        value += ' ni-form-msg--error'
       } else {
-        value += ' ni-form-msg-desc'
+        value += ' ni-form-msg--desc'
       }
       return value
     },
@@ -68,17 +68,17 @@ export default {
   font-family 'Material Icons'
   padding-right 0.35rem
  
-.ni-form-msg.ni-form-msg-error
+.ni-form-msg.ni-form-msg--error
   color danger
  
-.ni-form-msg.ni-form-msg-error:before
+.ni-form-msg.ni-form-msg--error:before
   content 'error'
   color danger
  
-.ni-form-msg.ni-form-msg-desc
+.ni-form-msg.ni-form-msg--desc
   color warning
  
-.ni-form-msg.ni-form-msg-desc:before
+.ni-form-msg.ni-form-msg--desc:before
   content 'priority_high'
   color warning
 </style>

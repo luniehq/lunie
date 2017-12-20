@@ -1,19 +1,16 @@
-<template>
-  <form :class="cssClass" v-on:submit.prevent.default="submit">
-    <div class="ni-form-container">
-      <slot name="overlay"></slot>
-      <header class="ni-form-header" v-if="hasHeader">
-        <div class="ni-form-title"><slot name="title"></slot></div>
-        <div class="ni-form-subtitle"><slot name="subtitle"></slot></div>
-      </header>
-      <main class="ni-form-main">
-        <slot></slot>
-      </main>
-      <footer class="ni-form-footer" v-if="hasFooter">
-        <slot name="footer"></slot>
-      </footer>
-    </div>
-  </form>
+<template lang="pug">
+form(:class='cssClass' v-on:submit.prevent.default='submit')
+  .ni-form-container
+    slot(name='overlay')
+    header.ni-form-header(v-if='hasHeader')
+      .ni-form-title
+        slot(name='title')
+      .ni-form-subtitle
+        slot(name='subtitle')
+    main.ni-form-main
+      slot
+    footer.ni-form-footer(v-if='hasFooter')
+      slot(name='footer')
 </template>
 
 <script>

@@ -42,7 +42,7 @@ describe('LiTransaction', () => {
   })
 
   it('should show incoming transactions', () => {
-    expect(wrapper.find('.ni-li-tx').hasClass('ni-li-tx-received')).toBe(true)
+    expect(wrapper.find('.ni-li-tx').classes()).toContain('ni-li-tx-received')
   })
 
   it('should show outgoing transactions', () => {
@@ -72,7 +72,7 @@ describe('LiTransaction', () => {
       },
       address: 'myAddress'
     })
-    expect(wrapper.find('.ni-li-tx').hasClass('ni-li-tx-sent')).toBe(true)
+    expect(wrapper.find('.ni-li-tx').classes()).toContain('ni-li-tx-sent')
   })
 
   it('should show all coins of the transaction', () => {
