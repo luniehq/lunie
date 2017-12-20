@@ -31,19 +31,19 @@ describe('Module: Wallet', () => {
       tx: {},
       height: 2
     }])
-    node.rpc.block = ({height}, cb) => {
+    node.rpc.blockchain = ({minHeight, maxHeight}, cb) => {
       cb(null, {
-        block_meta: {
+        block_metas: [{
           header: {
-            height,
-            time: height
+            height: minHeight,
+            time: minHeight
           }
-        }
+        }]
       })
     }
-    jest.spyOn(node.rpc, 'block')
+    jest.spyOn(node.rpc, 'blockchain')
     await store.dispatch('queryWalletHistory')
-    expect(node.rpc.block.mock.calls.length).toBe(2)
+    expect(node.rpc.blockchain.mock.calls.length).toBe(2)
     expect(store.state.wallet.history[0].time).toBe(1)
     expect(store.state.wallet.history[1].time).toBe(2)
   })

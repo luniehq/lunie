@@ -11,7 +11,7 @@ export default ({ commit, node }) => {
     denoms: [],
     sendQueue: [],
     sending: false,
-    blocks: []
+    blockMetas: []
   }
 
   let mutations = {
@@ -43,11 +43,12 @@ export default ({ commit, node }) => {
     setSending (state, sending) {
       state.sending = sending
     },
-    setTransactionTime (state, { blockHeight, block }) {
-      state.history.forEach(t => {
+    setTransactionTime (state, { blockHeight, blockMetaInfo }) {
+      state.history = state.history.map(t => {
         if (t.height === blockHeight) {
-          t.time = block.block_meta.header.time
+          t.time = blockMetaInfo.header.time
         }
+        return t
       })
     }
   }
@@ -89,26 +90,26 @@ export default ({ commit, node }) => {
       ))
     },
     async queryTransactionTime ({ commit, dispatch }, blockHeight) {
-      let block = await dispatch('queryBlock', blockHeight)
-      commit('setTransactionTime', { blockHeight, block })
+      let blockMetaInfo = await dispatch('queryBlockInfo', blockHeight)
+      commit('setTransactionTime', { blockHeight, blockMetaInfo })
     },
-    async queryBlock ({ state, commit }, height) {
-      let block = state.blocks.find(b => b.block_meta.header.height === height)
-      if (block) {
-        return block
+    async queryBlockInfo ({ state, commit }, height) {
+      let blockMetaInfo = state.blockMetas.find(b => b.header.height === height)
+      if (blockMetaInfo) {
+        return blockMetaInfo
       }
-      block = await new Promise((resolve, reject) => {
-        node.rpc.block({height}, (err, block) => {
+      blockMetaInfo = await new Promise((resolve, reject) => {
+        node.rpc.blockchain({ minHeight: height, maxHeight: height }, (err, {block_metas}) => {
           if (err) {
             commit('notifyError', {title: `Couldn't query block`, body: err.message})
             reject()
           } else {
-            resolve(block)
+            resolve(block_metas[0])
           }
         })
       })
-      block && state.blocks.push(block)
-      return block
+      blockMetaInfo && state.blockMetas.push(blockMetaInfo)
+      return blockMetaInfo
     },
     async walletSend ({ state, dispatch, commit, rootState }, args) {
       // wait until the current send operation is done

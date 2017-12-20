@@ -14,6 +14,7 @@ module.exports = {
   coinTxs: () => Promise.resolve(null),
 
   rpc: {
-    block: (args, cb) => cb({})
+    block: (args, cb) => cb({}),
+    blockchain: (args, cb) => cb({})
   }
 }
