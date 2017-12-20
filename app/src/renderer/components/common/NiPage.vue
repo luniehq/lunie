@@ -24,13 +24,15 @@ export default {
     ...mapGetters(['config'])
   },
   mounted () {
-    let ps
     if (this.config.desktop) {
-      ps = new PerfectScrollbar('.ni-page-main')
+      this.ps = new PerfectScrollbar('.ni-page-main')
     } else {
-      ps.destroy()
+      this.ps && this.ps.destroy()
     }
-  }
+  },
+  data: () => ({
+    ps: null
+  })
 }
 </script>
 
