@@ -25,6 +25,7 @@ describe('PageTransactions', () => {
       }
     })
 
+    store.commit('setWalletKey', {address: 'myAddress'})
     store.commit('setWalletHistory', [{
       tx: {
         hash: 'x',
@@ -77,7 +78,8 @@ describe('PageTransactions', () => {
       localVue,
       store,
       stubs: {
-        'data-empty-tx': '<data-empty-tx />'
+        'data-empty-tx': '<data-empty-tx />',
+        'li-transaction': '<li-transactions />'
       }
     })
 
@@ -91,6 +93,10 @@ describe('PageTransactions', () => {
   it('should show the search on click', () => {
     wrapper.find('.ni-tool-bar i').trigger('click')
     expect(wrapper.contains('.ni-modal-search')).toBe(true)
+  })
+
+  it('should show transactions', () => {
+    expect(wrapper.findAll('li-transactions').length).toBe(2)
   })
 
   it('should sort the transaction by time', () => {
