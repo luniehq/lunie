@@ -1,4 +1,4 @@
-import { mount, createLocalVue } from 'vue-test-utils'
+import { mount } from 'vue-test-utils'
 import NiUserPane from 'common/NiUserPane'
 import ListItem from 'common/NiListItem'
 import setup from '../helpers/vuex-setup'

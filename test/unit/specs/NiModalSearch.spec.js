@@ -1,4 +1,3 @@
-import Vuex from 'vuex'
 import { mount } from 'vue-test-utils'
 import NiModalSearch from 'common/NiModalSearch'
 import setup from '../helpers/vuex-setup'
