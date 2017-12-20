@@ -151,12 +151,6 @@ exports[`Page404 has the expected html structure 1`] = `
       </div>
     </section>
   </main>
-  <footer
-    class="ni-page-footer"
-  >
-    <div
-      class="container"
-    />
-  </footer>
+  <!---->
 </div>
 `;
