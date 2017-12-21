@@ -34,7 +34,7 @@ exports[`PageBond has the expected html structure 1`] = `
 </menu>
 </div>
 </header>
-<main class=\\"ni-page-main\\">
+<main class=\\"ni-page-main ps\\">
    <div class=\\"reserved-atoms\\">
       You have 
       <div class=\\"reserved-atoms__number\\">
@@ -53,13 +53,12 @@ unbonded atoms. Start by bonding some of your atoms to these delegates.
 </footer>
 </div>
 </form>
-</main>
-<footer class=\\"app-footer\\">
-   <div class=\\"app-footer-container\\">
-      <div class=\\"afi\\">
-         <i class=\\"material-icons fa-spin\\">rotate_right</i><span>Connecting…</span>
-      </div>
+<div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
+   <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
 </div>
-</footer>
+<div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
+   <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
+</div>
+</main>
 </div>"
 `;
