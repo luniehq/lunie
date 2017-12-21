@@ -5,31 +5,27 @@
     div(slot='subtitle') {{ subtitle }}
     div(slot="menu"): slot(name="menu")
   main.ni-page-main: slot
-  app-footer
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import PerfectScrollbar from 'perfect-scrollbar'
 import PageHeader from 'common/NiPageHeader'
-import AppFooter from 'common/AppFooter'
+import PageFooter from 'common/NiPageFooter'
 export default {
   name: 'ni-page',
   props: ['title', 'subtitle', 'icon'],
   components: {
     PageHeader,
-    AppFooter
+    PageFooter
   },
   computed: {
     ...mapGetters(['config'])
   },
   mounted () {
-    let ps
-    if (this.config.desktop) {
-      ps = new PerfectScrollbar('.ni-page-main')
-    } else {
-      ps.destroy()
-    }
+    const container = this.$el.querySelector('.ni-page-main')
+    // eslint-disable-next-line no-new
+    new PerfectScrollbar(container)
   }
 }
 </script>

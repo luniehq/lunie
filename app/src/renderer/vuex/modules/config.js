@@ -19,6 +19,9 @@ export default ({ commit, basecoin }) => {
     }
   }
   const mutations = {
+    setDevMode (state, value) {
+      state.devMode = value
+    },
     setModalHelp (state, value) {
       state.modals.help.active = value
     },
