@@ -5,7 +5,7 @@ page(title='Transactions')
       i.material-icons search
       .label Search
 
-  modal-search(v-if="filters.transactions.search.visible" type="transactions")
+  modal-search(type="transactions")
 
   data-empty-tx(v-if='transactions.length === 0')
   data-empty-search(v-else-if="filteredTransactions.length === 0")

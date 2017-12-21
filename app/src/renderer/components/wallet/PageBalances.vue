@@ -8,7 +8,7 @@ page(title='Balance')
       i.material-icons search
       .label Search
 
-  modal-search(v-if="filters.balances.search.visible" type="balances")
+  modal-search(type="balances")
 
   part(title='Your Address')
     li-copy(:value="wallet.key.address")

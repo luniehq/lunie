@@ -170,7 +170,7 @@ export default ({ commit, node }) => {
       done(null, args)
       dispatch('queryWalletBalances')
     },
-    async loadDenoms () {
+    async loadDenoms ({ state, commit }) {
       // read genesis.json to get default denoms
 
       // wait for genesis.json to exist
