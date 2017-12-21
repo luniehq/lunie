@@ -1,37 +1,20 @@
-import Vuex from 'vuex'
-import { mount, createLocalVue } from 'vue-test-utils'
+import { mount } from 'vue-test-utils'
+import setup from '../helpers/vuex-setup'
 import Vuelidate from 'vuelidate'
 import PageSend from 'renderer/components/wallet/PageSend'
-
-const wallet = require('renderer/vuex/modules/wallet').default({
-  node: require('../helpers/node_mock')
-})
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
-localVue.use(Vuelidate)
 
 describe('PageSend', () => {
   let wrapper, store
 
-  beforeEach(() => {
-    store = new Vuex.Store({
-      getters: {
-        wallet: () => wallet.state
-      },
-      modules: {
-        wallet,
-        user: {
-          state: {
-            account: 'default',
-            password: '1234567890'
-          }
-        }
-      }
-    })
-    wrapper = mount(PageSend, {
-      localVue,
-      store
+  beforeEach(async () => {
+    let test = setup()
+    test.localVue.use(Vuelidate)
+    let instance = test.mount(PageSend)
+    wrapper = instance.wrapper
+    store = instance.store
+    await store.dispatch('signIn', {
+      account: 'default',
+      password: '1234567890'
     })
     store.commit('setWalletBalances', [{
       denom: 'ATOM',
@@ -40,12 +23,10 @@ describe('PageSend', () => {
       denom: 'FERMION',
       amount: 456
     }])
-
-    store.commit = jest.fn()
   })
 
   it('has the expected html structure', () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it('should populate the select options with denoms', () => {
@@ -54,7 +35,7 @@ describe('PageSend', () => {
     expect(wrapper.findAll('option').at(2).text()).toBe('FERMION')
   })
 
-  it('should show notification for successful send', async (done) => {
+  it('should show notification for successful send', async () => {
     wrapper.setData({
       fields: {
         denom: 'ATOM',
@@ -64,12 +45,10 @@ describe('PageSend', () => {
     })
     await wrapper.vm.onSubmit()
     // walletSend is async so we need to wait until it is resolved
-    expect(store.commit).toHaveBeenCalled()
-    expect(store.commit.mock.calls[0][0]).toEqual('notify')
-    done()
+    expect(store.commit).toHaveBeenCalledWith('notify', expect.any(Object))
   })
 
-  it('should show notification for unsuccessful send', async (done) => {
+  it('should show notification for unsuccessful send', async () => {
     wrapper.setData({
       fields: {
         denom: 'ATOM',
@@ -78,8 +57,6 @@ describe('PageSend', () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit).toHaveBeenCalled()
-    expect(store.commit.mock.calls[0][0]).toEqual('notifyError')
-    done()
+    expect(store.commit).toHaveBeenCalledWith('notifyError', expect.any(Object))
   })
 })

@@ -1,29 +1,15 @@
 import Vuex from 'vuex'
-import { mount, createLocalVue } from 'vue-test-utils'
+import setup from '../helpers/vuex-setup'
 import PageTransactions from 'renderer/components/wallet/PageTransactions'
-
-const wallet = require('renderer/vuex/modules/wallet').default({})
-const filters = require('renderer/vuex/modules/filters').default({})
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
 
 describe('PageTransactions', () => {
   let wrapper, store
 
   beforeEach(() => {
-    store = new Vuex.Store({
-      getters: {
-        wallet: () => wallet.state,
-        transactions: () => wallet.state.history,
-        filters: () => filters.state,
-        config: () => ({devMode: true})
-      },
-      modules: {
-        wallet,
-        filters
-      }
-    })
+    let test = setup()
+    let instance = test.mount(PageTransactions)
+    wrapper = instance.wrapper
+    store = instance.store
 
     store.commit('setWalletHistory', [{
       tx: {
@@ -73,15 +59,7 @@ describe('PageTransactions', () => {
       time: Date.now() + 10
     }])
 
-    wrapper = mount(PageTransactions, {
-      localVue,
-      store,
-      stubs: {
-        'data-empty-tx': '<data-empty-tx />'
-      }
-    })
-
-    jest.spyOn(store, 'commit')
+    wrapper.update()
   })
 
   it('has the expected html structure', () => {
@@ -100,6 +78,7 @@ describe('PageTransactions', () => {
   it('should filter the transactions', () => {
     store.commit('setSearchVisible', ['transactions', true])
     store.commit('setSearchQuery', ['transactions', 'fabo'])
+    wrapper.update()
     expect(wrapper.vm.filteredTransactions.map(x => x.tx.hash)).toEqual(['y'])
     // reflects the filter in the view
     expect(wrapper.vm.$el).toMatchSnapshot()
@@ -108,6 +87,11 @@ describe('PageTransactions', () => {
   })
 
   it('should show an error if there are no transactions', () => {
+    let test = setup()
+    let {store, wrapper} = test.mount(PageTransactions, {
+      'data-empty-tx': '<data-empty-tx />'
+    })
+
     store.commit('setWalletHistory', [])
     wrapper.update()
     expect(wrapper.contains('data-empty-tx')).toBe(true)

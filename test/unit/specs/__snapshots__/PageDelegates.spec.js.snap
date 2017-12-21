@@ -66,8 +66,9 @@ exports[`PageDelegates has the expected html structure 1`] = `
                       Refresh
                     </div>
                   </a>
-                  <router-link
-                    to="/staking/bond"
+                  <a
+                    class=""
+                    href="#/staking/bond"
                   >
                     <i
                       class="material-icons"
@@ -79,7 +80,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
                     >
                       Bond Atoms
                     </div>
-                  </router-link>
+                  </a>
                 </div>
                 <a
                   class="help"
@@ -155,7 +156,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
       </div>
     </div>
     <div
-      class="li-delegate"
+      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
     >
       <div
         class="li-delegate-container"
@@ -170,11 +171,12 @@ exports[`PageDelegates has the expected html structure 1`] = `
               <i
                 class="fa fa-square-o"
               />
-              <router-link
-                to="[object Object]"
+              <a
+                class=""
+                href="#/staking/delegates/pubkeyX"
               >
                 pubkeyX
-              </router-link>
+              </a>
             </span>
           </div>
           <div
@@ -230,7 +232,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
       </div>
     </div>
     <div
-      class="li-delegate"
+      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
     >
       <div
         class="li-delegate-container"
@@ -245,11 +247,12 @@ exports[`PageDelegates has the expected html structure 1`] = `
               <i
                 class="fa fa-square-o"
               />
-              <router-link
-                to="[object Object]"
+              <a
+                class=""
+                href="#/staking/delegates/pubkeyY"
               >
                 pubkeyY
-              </router-link>
+              </a>
             </span>
           </div>
           <div
@@ -394,8 +397,9 @@ exports[`PageDelegates should filter the delegates 1`] = `
                       Refresh
                     </div>
                   </a>
-                  <router-link
-                    to="/staking/bond"
+                  <a
+                    class=""
+                    href="#/staking/bond"
                   >
                     <i
                       class="material-icons"
@@ -407,7 +411,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
                     >
                       Bond Atoms
                     </div>
-                  </router-link>
+                  </a>
                 </div>
                 <a
                   class="help"
@@ -428,34 +432,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
   <main
     class="ni-page-main"
   >
-    <div
-      class="ni-modal-search"
-    >
-      <div
-        class="ni-modal-search-container"
-      >
-        <input
-          class="mousetrap ni-field"
-          placeholder="Search..."
-          type="text"
-        />
-        <button
-          class="ni-btn"
-        >
-          <span
-            class="ni-btn-container"
-          >
-            <i
-              aria-hidden="true"
-              class="ni-btn-icon material-icons"
-            >
-              close
-            </i>
-            <!---->
-          </span>
-        </button>
-      </div>
-    </div>
+    <!---->
     <div
       class="panel-sort"
     >
@@ -510,7 +487,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
       </div>
     </div>
     <div
-      class="li-delegate"
+      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
     >
       <div
         class="li-delegate-container"
@@ -525,11 +502,12 @@ exports[`PageDelegates should filter the delegates 1`] = `
               <i
                 class="fa fa-square-o"
               />
-              <router-link
-                to="[object Object]"
+              <a
+                class=""
+                href="#/staking/delegates/pubkeyX"
               >
                 pubkeyX
-              </router-link>
+              </a>
             </span>
           </div>
           <div
@@ -585,7 +563,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
       </div>
     </div>
     <div
-      class="li-delegate"
+      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
     >
       <div
         class="li-delegate-container"
@@ -600,11 +578,12 @@ exports[`PageDelegates should filter the delegates 1`] = `
               <i
                 class="fa fa-square-o"
               />
-              <router-link
-                to="[object Object]"
+              <a
+                class=""
+                href="#/staking/delegates/pubkeyY"
               >
                 pubkeyY
-              </router-link>
+              </a>
             </span>
           </div>
           <div

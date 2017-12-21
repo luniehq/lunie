@@ -337,51 +337,6 @@ exports[`PageTransactions should filter the transactions 1`] = `
         </div>
       </div>
     </div>
-    <div
-      class="ni-li-tx ni-li-tx-received"
-    >
-      <div
-        class="tx-icon"
-      >
-        <i
-          class="material-icons"
-        >
-          add_circle
-        </i>
-      </div>
-      <div
-        class="tx-container"
-      >
-        <div
-          class="tx-element tx-coins"
-        >
-          <div
-            class="tx-coin"
-          >
-            <div
-              class="value"
-            >
-              1,234.00
-            </div>
-            <div
-              class="key"
-            >
-              jbcoins
-            </div>
-          </div>
-        </div>
-        <div
-          class="tx-element tx-date"
-        >
-          a few seconds ago
-        </div>
-        <div
-          class="tx-element tx-address"
-        >
-          myAddress
-        </div>
-      </div>
-    </div>
     <!---->
   </main>
   <footer
