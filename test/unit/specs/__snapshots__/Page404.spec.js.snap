@@ -1,0 +1,175 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page404 has the expected html structure 1`] = `
+<div
+  class="ni-page"
+>
+  <header
+    class="ni-page-header"
+  >
+    <div
+      class="ni-page-header-container"
+    >
+      <div
+        class="ni-page-header-text"
+      >
+        <div
+          class="ni-page-header-title"
+        >
+          <div>
+            404 - Page Not Found
+          </div>
+        </div>
+        <div
+          class="ni-page-header-subtitle"
+        >
+          <div>
+            
+          </div>
+        </div>
+      </div>
+      <menu
+        class="ni-page-header-menu"
+      >
+        <div />
+      </menu>
+    </div>
+  </header>
+  <main
+    class="ni-page-main ps"
+  >
+    <section
+      class="ni-part"
+    >
+      <div
+        class="ni-part-container"
+      >
+        <header
+          class="ni-part-header"
+        >
+          <div
+            class="ni-part-header-container"
+          >
+            <div
+              class="ni-part-title h5"
+            >
+              Try another page...
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
+        >
+          <router-link
+            class="ni-li ni-li-link"
+            to="/"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-label"
+              >
+                <div
+                  class="ni-li-title"
+                >
+                  Balance
+                </div>
+                <div
+                  class="ni-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="ni-li-icon"
+              >
+                <i
+                  class="material-icons inactive"
+                >
+                  chevron_right
+                </i>
+                <i
+                  class="material-icons active"
+                >
+                  my_location
+                </i>
+              </div>
+            </div>
+          </router-link>
+          <router-link
+            class="ni-li ni-li-link"
+            to="/staking"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-label"
+              >
+                <div
+                  class="ni-li-title"
+                >
+                  Staking
+                </div>
+                <div
+                  class="ni-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="ni-li-icon"
+              >
+                <i
+                  class="material-icons inactive"
+                >
+                  chevron_right
+                </i>
+                <i
+                  class="material-icons active"
+                >
+                  my_location
+                </i>
+              </div>
+            </div>
+          </router-link>
+        </main>
+      </div>
+    </section>
+    <div
+      class="ps__rail-x"
+      style="left: 0px; top: 0px;"
+    >
+      <div
+        class="ps__thumb-x"
+        style="left: 0px; width: 0px;"
+        tabindex="0"
+      />
+    </div>
+    <div
+      class="ps__rail-y"
+      style="top: 0px; left: 0px;"
+    >
+      <div
+        class="ps__thumb-y"
+        style="top: 0px; height: 0px;"
+        tabindex="0"
+      />
+    </div>
+  </main>
+</div>
+`;

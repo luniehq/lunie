@@ -1,79 +1,56 @@
 <template lang="pug">
+mixin ni-li-thumb
+  .ni-li-thumb
+    template(v-if='icon'): i.material-icons {{ icon }}
+    template(v-else-if='image'): img(:src='image')
+    template(v-else-if="$slots['graphic']"): slot(name='graphic')
+mixin ni-li-dl
+  .ni-li-dl
+    .ni-li-dt {{ dt }}
+    .ni-li-dd.ni-li-dd-flush(v-if="$slots['dd']"): slot(name='dd')
+    .ni-li-dd(v-else) {{ dd }}
+mixin ni-li-icon
+  .ni-li-icon
+    i.material-icons.inactive chevron_right
+    i.material-icons.active my_location
+mixin ni-li-label
+  .ni-li-label
+    .ni-li-title {{ title }}
+    .ni-li-subtitle {{ subtitle }}
 transition(name="proposal")
   // dt/dd anchor
   a.ni-li.ni-li-link(v-if='dt && href' :href="href"): .ni-li-container
-    .ni-li-thumb
-      template(v-if='icon'): i.material-icons {{ icon }}
-      template(v-else-if='image'): img(:src='image')
-      template(v-else-if="$slots['graphic']"): slot(name='graphic')
-    .ni-li-dl
-      .ni-li-dt {{ dt }}
-      .ni-li-dd.ni-li-dd-flush(v-if="$slots['dd']"): slot(name='dd')
-      .ni-li-dd(v-else) {{ dd }}
-    .ni-li-icon
-      i.material-icons.inactive chevron_right
-      i.material-icons.active my_location
+    +ni-li-thumb
+    +ni-li-dl
+    +ni-li-icon
 
   // dt/dd router-link
   router-link.ni-li.ni-li-link(v-else-if='dt && to' :to="to"): .ni-li-container
-    .ni-li-thumb
-      template(v-if='icon'): i.material-icons {{ icon }}
-      template(v-else-if='image'): img(:src='image')
-      template(v-else-if="$slots['graphic']"): slot(name='graphic')
-    .ni-li-dl
-      .ni-li-dt {{ dt }}
-      .ni-li-dd.ni-li-dd-flush(v-if="$slots['dd']"): slot(name='dd')
-      .ni-li-dd(v-else) {{ dd }}
-    .ni-li-icon
-      i.material-icons.inactive chevron_right
-      i.material-icons.active my_location
+    +ni-li-thumb
+    +ni-li-dl
+    +ni-li-icon
 
   // dt/dd text
   .ni-li(v-else-if='dt'): .ni-li-container
-    .ni-li-thumb
-      template(v-if='icon'): i.material-icons {{ icon }}
-      template(v-else-if='image'): img(:src='image')
-      template(v-else-if="$slots['graphic']"): slot(name='graphic')
-    .ni-li-dl
-      .ni-li-dt {{ dt }}
-      .ni-li-dd.ni-li-dd-flush(v-if="$slots['dd']"): slot(name='dd')
-      .ni-li-dd(v-else) {{ dd }}
+    +ni-li-thumb
+    +ni-li-dl
 
   // title/subtitle anchor
   a.ni-li.ni-li-link(v-else-if="href" :href="href"): .ni-li-container
-    .ni-li-thumb
-      template(v-if='icon'): i.material-icons {{ icon }}
-      template(v-else-if='image'): img(:src='image')
-      template(v-else-if="$slots['graphic']"): slot(name='graphic')
-    .ni-li-label
-      .ni-li-title {{ title }}
-      .ni-li-subtitle {{ subtitle }}
-    .ni-li-icon
-      i.material-icons.inactive chevron_right
-      i.material-icons.active my_location
+    +ni-li-thumb
+    +ni-li-label
+    +ni-li-icon
 
   // title/subtitle router-link
   router-link.ni-li.ni-li-link(v-else-if="to" :to='to'): .ni-li-container
-    .ni-li-thumb
-      template(v-if='icon'): i.material-icons {{ icon }}
-      template(v-else-if='image'): img(:src='image')
-      template(v-else-if="$slots['graphic']"): slot(name='graphic')
-    .ni-li-label
-      .ni-li-title {{ title }}
-      .ni-li-subtitle {{ subtitle }}
-    .ni-li-icon
-      i.material-icons.inactive chevron_right
-      i.material-icons.active my_location
+    +ni-li-thumb
+    +ni-li-label
+    +ni-li-icon
 
   // title/subtitle text
   .ni-li(v-else-if='title'): .ni-li-container
-    .ni-li-thumb
-      template(v-if='icon'): i.material-icons {{ icon }}
-      template(v-else-if='image'): img(:src='image')
-      template(v-else-if="$slots['graphic']"): slot(name='graphic')
-    .ni-li-label
-      .ni-li-title {{ title }}
-      .ni-li-subtitle {{ subtitle }}
+    +ni-li-thumb
+    +ni-li-label
 
   // image
   .ni-li(v-else-if="type === 'image'"): .ni-li-container: slot

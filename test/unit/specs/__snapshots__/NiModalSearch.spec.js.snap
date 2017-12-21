@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiModalSearch has the expected html structure 1`] = `
+<div
+  class="ni-modal-search"
+>
+  <div
+    class="ni-modal-search-container"
+  >
+    <input
+      class="mousetrap ni-field"
+      placeholder="Search..."
+      type="text"
+    />
+    <button
+      class="ni-btn"
+    >
+      <span
+        class="ni-btn-container"
+      >
+        <i
+          aria-hidden="true"
+          class="ni-btn-icon material-icons"
+        >
+          close
+        </i>
+        <!---->
+      </span>
+    </button>
+  </div>
+</div>
+`;

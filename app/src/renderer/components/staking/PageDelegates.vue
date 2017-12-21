@@ -11,7 +11,7 @@ page(:title='pageTitle')
       i.material-icons check_circle
       .label Bond Atoms
 
-  modal-search(v-if="filters.delegates.search.visible" type="delegates")
+  modal-search(type="delegates")
 
   data-error(v-if="delegates.length === 0")
   data-empty-search(v-if="filteredDelegates.length === 0")

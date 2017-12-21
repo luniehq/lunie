@@ -12,8 +12,7 @@ header.ni-page-header
 
 <script>
 export default {
-  name: 'ni-page-header',
-  props: ['icon']
+  name: 'ni-page-header'
 }
 </script>
 

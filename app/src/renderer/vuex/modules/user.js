@@ -34,7 +34,7 @@ export default ({ commit, node }) => {
   }
 
   const actions = {
-    async showInitialScreen ({ dispatch }) {
+    async showInitialScreen ({ dispatch, commit }) {
       await dispatch('loadAccounts')
       let exists = state.accounts.length > 0
       let screen = exists ? 'sign-in' : 'welcome'

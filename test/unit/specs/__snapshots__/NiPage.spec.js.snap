@@ -6,6 +6,7 @@ exports[`NiPage has the expected html structure 1`] = `
 >
   <header
     class="ni-page-header"
+    icon="hello_icon"
   >
     <div
       class="ni-page-header-container"

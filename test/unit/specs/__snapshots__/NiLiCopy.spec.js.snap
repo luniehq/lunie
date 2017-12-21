@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiLiCopy has the expected html structure 1`] = `
+<div
+  class="ni-li-copy"
+>
+  <div
+    class="value"
+  >
+    
+  </div>
+  <menu>
+    <button
+      class="ni-btn btn-copy"
+    >
+      <span
+        class="ni-btn-container"
+      >
+        <i
+          aria-hidden="true"
+          class="ni-btn-icon material-icons"
+        >
+          content_copy
+        </i>
+        <span
+          class="ni-btn-value"
+        >
+          Copy
+        </span>
+      </span>
+    </button>
+  </menu>
+</div>
+`;
