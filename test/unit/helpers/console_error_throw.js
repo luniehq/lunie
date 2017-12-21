@@ -1,5 +1,5 @@
 global.console.error = (...args) => {
-  throw new Error(args.join(' '))
+  throw Error('Console Error: ' + args.join(' '))
 }
 
 if (!process.env.LISTENING_TO_UNHANDLED_REJECTION) {

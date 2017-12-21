@@ -1,5 +1,5 @@
 <template lang='pug'>
-.ni-modal-search: .ni-modal-search-container
+.ni-modal-search(v-if="open"): .ni-modal-search-container
   field.mousetrap(type="text" placeholder="Search..." v-model="query")
   btn(icon="close" @click.native="close")
 </template>
@@ -16,6 +16,9 @@ export default {
   },
   computed: {
     ...mapGetters(['filters']),
+    open () {
+      return this.filters[this.type].search.visible
+    },
     query: {
       get () {
         return this.filters[this.type].search.query
@@ -30,9 +33,13 @@ export default {
       this.$store.commit('setSearchVisible', [this.type, false])
     }
   },
-  mounted () {
-    let el = this.$el.querySelector('.ni-field')
-    el.select()
+  watch: {
+    open (open) {
+      if (open) {
+        let el = this.$el.querySelector('.ni-field')
+        el.select()
+      }
+    }
   },
   props: ['type']
 }

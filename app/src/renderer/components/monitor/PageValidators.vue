@@ -4,7 +4,7 @@ page(title='Validators')
     a(@click='setSearch(true)')
       i.material-icons search
       .label Search
-  modal-search(v-if="filters.validators.search.visible" type="validators")
+  modal-search(type="validators")
 
   data-empty(v-if="validators.length === 0")
   data-empty-search(v-else-if="filteredValidators.length === 0")

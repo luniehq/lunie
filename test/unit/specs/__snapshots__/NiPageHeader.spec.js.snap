@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiPageHeader has the expected html structure 1`] = `
+<header
+  class="ni-page-header"
+>
+  <div
+    class="ni-page-header-container"
+  >
+    <div
+      class="ni-page-header-text"
+    >
+      <div
+        class="ni-page-header-title"
+      />
+      <div
+        class="ni-page-header-subtitle"
+      />
+    </div>
+    <menu
+      class="ni-page-header-menu"
+    />
+  </div>
+</header>
+`;
