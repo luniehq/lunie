@@ -7,10 +7,14 @@ describe('PageTransactions', () => {
 
   beforeEach(() => {
     let test = setup()
-    let instance = test.mount(PageTransactions)
+    let instance = test.mount(PageTransactions, {
+      'li-transaction': '<li-transaction />',
+      'data-empty-tx': '<data-empty-tx />'
+    })
     wrapper = instance.wrapper
     store = instance.store
 
+    store.commit('setWalletKey', {address: 'myAddress'})
     store.commit('setWalletHistory', [{
       tx: {
         hash: 'x',
@@ -71,6 +75,10 @@ describe('PageTransactions', () => {
     expect(wrapper.contains('.ni-modal-search')).toBe(true)
   })
 
+  it('should show transactions', () => {
+    expect(wrapper.findAll('li-transaction').length).toBe(2)
+  })
+
   it('should sort the transaction by time', () => {
     expect(wrapper.vm.filteredTransactions.map(x => x.tx.hash)).toEqual(['y', 'x'])
   })
@@ -87,11 +95,6 @@ describe('PageTransactions', () => {
   })
 
   it('should show an error if there are no transactions', () => {
-    let test = setup()
-    let {store, wrapper} = test.mount(PageTransactions, {
-      'data-empty-tx': '<data-empty-tx />'
-    })
-
     store.commit('setWalletHistory', [])
     wrapper.update()
     expect(wrapper.contains('data-empty-tx')).toBe(true)

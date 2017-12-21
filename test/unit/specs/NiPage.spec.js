@@ -38,8 +38,4 @@ describe('NiPage', () => {
   it('has the expected html structure', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-
-  it('should init PerfectScrollbar on desktop', () => {
-    expect(wrapper.vm.ps).toBeDefined()
-  })
 })

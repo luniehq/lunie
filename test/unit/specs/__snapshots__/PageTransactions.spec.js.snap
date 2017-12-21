@@ -72,121 +72,40 @@ exports[`PageTransactions has the expected html structure 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main"
+    class="ni-page-main ps"
   >
     <!---->
+    <li-transaction
+      address="myAddress"
+      devmode="true"
+      transaction-value="[object Object]"
+    />
+    <li-transaction
+      address="myAddress"
+      devmode="true"
+      transaction-value="[object Object]"
+    />
     <div
-      class="ni-li-tx ni-li-tx-received"
+      class="ps__rail-x"
+      style="left: 0px; top: 0px;"
     >
       <div
-        class="tx-icon"
-      >
-        <i
-          class="material-icons"
-        >
-          add_circle
-        </i>
-      </div>
-      <div
-        class="tx-container"
-      >
-        <div
-          class="tx-element tx-coins"
-        >
-          <div
-            class="tx-coin"
-          >
-            <div
-              class="value"
-            >
-              1,234.00
-            </div>
-            <div
-              class="key"
-            >
-              fabocoins
-            </div>
-          </div>
-        </div>
-        <div
-          class="tx-element tx-date"
-        >
-          a few seconds ago
-        </div>
-        <div
-          class="tx-element tx-address"
-        >
-          otherAddress
-        </div>
-      </div>
+        class="ps__thumb-x"
+        style="left: 0px; width: 0px;"
+        tabindex="0"
+      />
     </div>
     <div
-      class="ni-li-tx ni-li-tx-received"
+      class="ps__rail-y"
+      style="top: 0px; left: 0px;"
     >
       <div
-        class="tx-icon"
-      >
-        <i
-          class="material-icons"
-        >
-          add_circle
-        </i>
-      </div>
-      <div
-        class="tx-container"
-      >
-        <div
-          class="tx-element tx-coins"
-        >
-          <div
-            class="tx-coin"
-          >
-            <div
-              class="value"
-            >
-              1,234.00
-            </div>
-            <div
-              class="key"
-            >
-              jbcoins
-            </div>
-          </div>
-        </div>
-        <div
-          class="tx-element tx-date"
-        >
-          a few seconds ago
-        </div>
-        <div
-          class="tx-element tx-address"
-        >
-          myAddress
-        </div>
-      </div>
+        class="ps__thumb-y"
+        style="top: 0px; height: 0px;"
+        tabindex="0"
+      />
     </div>
-    <!---->
   </main>
-  <footer
-    class="app-footer"
-  >
-    <div
-      class="app-footer-container"
-    >
-      <div
-        class="afi"
-      >
-        <i
-          class="material-icons fa-spin"
-        >
-          rotate_right
-        </i>
-        <span>
-          Connecting…
-        </span>
-      </div>
-    </div>
-  </footer>
 </div>
 `;
 
@@ -262,7 +181,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main"
+    class="ni-page-main ps"
   >
     <div
       class="ni-modal-search"
@@ -292,72 +211,31 @@ exports[`PageTransactions should filter the transactions 1`] = `
         </button>
       </div>
     </div>
+    <li-transaction
+      address="myAddress"
+      devmode="true"
+      transaction-value="[object Object]"
+    />
     <div
-      class="ni-li-tx ni-li-tx-received"
+      class="ps__rail-x"
+      style="left: 0px; top: 0px;"
     >
       <div
-        class="tx-icon"
-      >
-        <i
-          class="material-icons"
-        >
-          add_circle
-        </i>
-      </div>
-      <div
-        class="tx-container"
-      >
-        <div
-          class="tx-element tx-coins"
-        >
-          <div
-            class="tx-coin"
-          >
-            <div
-              class="value"
-            >
-              1,234.00
-            </div>
-            <div
-              class="key"
-            >
-              fabocoins
-            </div>
-          </div>
-        </div>
-        <div
-          class="tx-element tx-date"
-        >
-          a few seconds ago
-        </div>
-        <div
-          class="tx-element tx-address"
-        >
-          otherAddress
-        </div>
-      </div>
+        class="ps__thumb-x"
+        style="left: 0px; width: 0px;"
+        tabindex="0"
+      />
     </div>
-    <!---->
+    <div
+      class="ps__rail-y"
+      style="top: 0px; left: 0px;"
+    >
+      <div
+        class="ps__thumb-y"
+        style="top: 0px; height: 0px;"
+        tabindex="0"
+      />
+    </div>
   </main>
-  <footer
-    class="app-footer"
-  >
-    <div
-      class="app-footer-container"
-    >
-      <div
-        class="afi"
-      >
-        <i
-          class="material-icons fa-spin"
-        >
-          rotate_right
-        </i>
-        <span>
-          Connecting…
-        </span>
-      </div>
-    </div>
-  </footer>
 </div>
 `;

@@ -84,7 +84,7 @@ exports[`PageBalances has the expected html structure 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main"
+    class="ni-page-main ps"
   >
     <!---->
     <section
@@ -169,113 +169,84 @@ exports[`PageBalances has the expected html structure 1`] = `
         </header>
         <main
           class="ni-part-main"
-        >
-          <div
-            class="ni-li proposal-enter proposal-enter-active"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  FERMION
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  456
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li proposal-enter proposal-enter-active"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  ATOM
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  123
-                </div>
-              </div>
-            </div>
-          </div>
-          <!---->
-          <div
-            class="ni-li proposal-leave proposal-leave-active"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  N/A
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  None Available
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
+        />
       </div>
     </section>
-  </main>
-  <footer
-    class="app-footer"
-  >
     <div
-      class="app-footer-container"
+      class="ni-li proposal-enter proposal-enter-active"
     >
       <div
-        class="afi"
+        class="ni-li-container"
       >
-        <i
-          class="material-icons fa-spin"
+        <div
+          class="ni-li-thumb"
         >
-          rotate_right
-        </i>
-        <span>
-          Connecting…
-        </span>
+          <!---->
+        </div>
+        <div
+          class="ni-li-dl"
+        >
+          <div
+            class="ni-li-dt"
+          >
+            FERMION
+          </div>
+          <div
+            class="ni-li-dd"
+          >
+            456
+          </div>
+        </div>
       </div>
     </div>
-  </footer>
+    <div
+      class="ni-li proposal-enter proposal-enter-active"
+    >
+      <div
+        class="ni-li-container"
+      >
+        <div
+          class="ni-li-thumb"
+        >
+          <!---->
+        </div>
+        <div
+          class="ni-li-dl"
+        >
+          <div
+            class="ni-li-dt"
+          >
+            ATOM
+          </div>
+          <div
+            class="ni-li-dd"
+          >
+            123
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="ps__rail-x"
+      style="left: 0px; top: 0px;"
+    >
+      <div
+        class="ps__thumb-x"
+        style="left: 0px; width: 0px;"
+        tabindex="0"
+      />
+    </div>
+    <div
+      class="ps__rail-y"
+      style="top: 0px; left: 0px;"
+    >
+      <div
+        class="ps__thumb-y"
+        style="top: 0px; height: 0px;"
+        tabindex="0"
+      />
+    </div>
+  </main>
 </div>
 `;
 
@@ -363,7 +334,7 @@ exports[`PageBalances should filter the balances 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main"
+    class="ni-page-main ps"
   >
     <!---->
     <section
@@ -448,112 +419,83 @@ exports[`PageBalances should filter the balances 1`] = `
         </header>
         <main
           class="ni-part-main"
-        >
-          <div
-            class="ni-li proposal-enter proposal-enter-active"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  FERMION
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  456
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li proposal-enter proposal-enter-active"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  ATOM
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  123
-                </div>
-              </div>
-            </div>
-          </div>
-          <!---->
-          <div
-            class="ni-li proposal-leave proposal-leave-active"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  N/A
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  None Available
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
+        />
       </div>
     </section>
-  </main>
-  <footer
-    class="app-footer"
-  >
     <div
-      class="app-footer-container"
+      class="ni-li proposal-enter proposal-enter-active"
     >
       <div
-        class="afi"
+        class="ni-li-container"
       >
-        <i
-          class="material-icons fa-spin"
+        <div
+          class="ni-li-thumb"
         >
-          rotate_right
-        </i>
-        <span>
-          Connecting…
-        </span>
+          <!---->
+        </div>
+        <div
+          class="ni-li-dl"
+        >
+          <div
+            class="ni-li-dt"
+          >
+            FERMION
+          </div>
+          <div
+            class="ni-li-dd"
+          >
+            456
+          </div>
+        </div>
       </div>
     </div>
-  </footer>
+    <div
+      class="ni-li proposal-enter proposal-enter-active"
+    >
+      <div
+        class="ni-li-container"
+      >
+        <div
+          class="ni-li-thumb"
+        >
+          <!---->
+        </div>
+        <div
+          class="ni-li-dl"
+        >
+          <div
+            class="ni-li-dt"
+          >
+            ATOM
+          </div>
+          <div
+            class="ni-li-dd"
+          >
+            123
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="ps__rail-x"
+      style="left: 0px; top: 0px;"
+    >
+      <div
+        class="ps__thumb-x"
+        style="left: 0px; width: 0px;"
+        tabindex="0"
+      />
+    </div>
+    <div
+      class="ps__rail-y"
+      style="top: 0px; left: 0px;"
+    >
+      <div
+        class="ps__thumb-y"
+        style="top: 0px; height: 0px;"
+        tabindex="0"
+      />
+    </div>
+  </main>
 </div>
 `;

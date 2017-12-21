@@ -53,9 +53,13 @@ describe('PageBalances', () => {
   })
 
   it('should show the n/a message if there are no denoms', () => {
+    let test = setup()
+    let {store, wrapper} = test.mount(PageBalances, {
+      'data-empty': '<data-empty />'
+    })
     store.commit('setWalletBalances', [])
     wrapper.update()
-    expect(wrapper.html()).toContain('N/A')
+    expect(wrapper.find('data-empty')).toBeDefined()
   })
 
   // TODO
