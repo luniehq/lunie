@@ -1,16 +1,18 @@
-import { mount } from 'vue-test-utils'
 import NiModalSearch from 'common/NiModalSearch'
 import setup from '../helpers/vuex-setup'
 
 describe('NiModalSearch', () => {
   let wrapper, store
+  let {mount} = setup()
 
   beforeEach(() => {
-    let instance = setup()
-    store = instance.store
-    wrapper = instance.new(NiModalSearch, mount, {
-      type: 'transactions'
+    let instance = mount(NiModalSearch, {
+      propsData: {
+        type: 'transactions'
+      }
     })
+    store = instance.store
+    wrapper = instance.wrapper
     store.commit('setSearchVisible', ['transactions', true])
     wrapper.update()
   })

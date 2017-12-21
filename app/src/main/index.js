@@ -295,15 +295,17 @@ function setupLogging (root) {
   }
 }
 
-process.on('exit', shutdown)
-process.on('uncaughtException', function (err) {
-  logError('[Uncaught Exception]', err)
-  setTimeout(async () => {
-    await shutdown()
-    process.exit(1)
-  }, 200)
-  setTimeout(shutdown, 200)
-})
+if (!TEST) {
+  process.on('exit', shutdown)
+  process.on('uncaughtException', function (err) {
+    logError('[Uncaught Exception]', err)
+    setTimeout(async () => {
+      await shutdown()
+      process.exit(1)
+    }, 200)
+    setTimeout(shutdown, 200)
+  })
+}
 
 function consistentConfigDir (versionPath, genesisPath, configPath) {
   return exists(genesisPath) && exists(versionPath) && exists(configPath)

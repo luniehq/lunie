@@ -37,8 +37,28 @@ exports[`NiPage has the expected html structure 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main"
-  />
-  <app-footer />
+    class="ni-page-main ps"
+  >
+    <div
+      class="ps__rail-x"
+      style="left: 0px; top: 0px;"
+    >
+      <div
+        class="ps__thumb-x"
+        style="left: 0px; width: 0px;"
+        tabindex="0"
+      />
+    </div>
+    <div
+      class="ps__rail-y"
+      style="top: 0px; left: 0px;"
+    >
+      <div
+        class="ps__thumb-y"
+        style="top: 0px; height: 0px;"
+        tabindex="0"
+      />
+    </div>
+  </main>
 </div>
 `;
