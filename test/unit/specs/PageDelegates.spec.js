@@ -1,33 +1,14 @@
-import Vuex from 'vuex'
-import { mount, createLocalVue } from 'vue-test-utils'
+import setup from '../helpers/vuex-setup'
 import PageDelegates from 'renderer/components/staking/PageDelegates'
-
-const shoppingCart = require('renderer/vuex/modules/shoppingCart').default({})
-const delegates = require('renderer/vuex/modules/delegates').default({})
-const filters = require('renderer/vuex/modules/filters').default({})
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
 
 describe('PageDelegates', () => {
   let wrapper, store
+  let {mount} = setup()
 
   beforeEach(() => {
-    store = new Vuex.Store({
-      getters: {
-        shoppingCart: () => shoppingCart.state.delegates,
-        delegates: () => delegates.state,
-        filters: () => filters.state,
-        config: () => ({
-          devMode: true
-        })
-      },
-      modules: {
-        shoppingCart,
-        delegates,
-        filters
-      }
-    })
+    let instance = mount(PageDelegates)
+    wrapper = instance.wrapper
+    store = instance.store
 
     store.commit('addDelegate', {
       pub_key: {
@@ -55,17 +36,7 @@ describe('PageDelegates', () => {
         country: 'Canada'
       }
     })
-
-    wrapper = mount(PageDelegates, {
-      localVue,
-      store,
-      stubs: {
-        'data-error': '<data-error />'
-      }
-    })
-
-    jest.spyOn(store, 'commit')
-    jest.spyOn(store, 'dispatch')
+    wrapper.update()
   })
 
   it('has the expected html structure', () => {
@@ -107,25 +78,10 @@ describe('PageDelegates', () => {
   })
 
   it('should show an error if there are no delegates', () => {
-    let store = new Vuex.Store({
+    let {wrapper} = mount(PageDelegates, {
       getters: {
-        shoppingCart: () => shoppingCart.state,
-        delegates: () => [],
-        filters: () => filters.state,
-        config: () => ({
-          devMode: true
-        })
+        delegates: () => []
       },
-      modules: {
-        shoppingCart,
-        delegates,
-        filters
-      }
-    })
-
-    let wrapper = mount(PageDelegates, {
-      localVue,
-      store,
       stubs: {
         'data-error': '<data-error />'
       }

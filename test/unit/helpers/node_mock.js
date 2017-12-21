@@ -9,6 +9,7 @@ module.exports = {
     return Promise.resolve(null)
   },
   coinTxs: () => Promise.resolve({}),
+  candidates: () => Promise.resolve({data: []}),
   postTx: () => Promise.resolve({
     check_tx: { code: 0 },
     deliver_tx: { code: 0 }
