@@ -1,4 +1,3 @@
-import { mount } from 'vue-test-utils'
 import setup from '../helpers/vuex-setup'
 import Vuelidate from 'vuelidate'
 import PageSend from 'renderer/components/wallet/PageSend'

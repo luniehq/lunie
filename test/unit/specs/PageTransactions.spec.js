@@ -1,4 +1,3 @@
-import Vuex from 'vuex'
 import setup from '../helpers/vuex-setup'
 import PageTransactions from 'renderer/components/wallet/PageTransactions'
 
