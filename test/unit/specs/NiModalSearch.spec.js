@@ -5,8 +5,6 @@ import setup from '../helpers/vuex-setup'
 describe('NiModalSearch', () => {
   let wrapper, store
 
-  global.console.error = () => {}
-
   beforeEach(() => {
     let instance = setup()
     store = instance.store
