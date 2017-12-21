@@ -52,7 +52,7 @@ describe('PageBalances', () => {
   })
 
   it('has the expected html structure', () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it('should sort the balances by denom', () => {
@@ -63,7 +63,7 @@ describe('PageBalances', () => {
     store.commit('setSearchVisible', ['balances', true])
     store.commit('setSearchQuery', ['balances', 'atom'])
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual(['ATOM'])
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it('should update balances by querying wallet state', () => {
@@ -83,8 +83,9 @@ describe('PageBalances', () => {
   it('should show the n/a message if there are no denoms', () => {
     store.commit('setWalletBalances', [])
     wrapper.update()
-    expect(wrapper.findAll('.ni-li').length).toBe(1) // 1 n/a / 0 denoms
-    expect(wrapper.findAll('.ni-li').at(0).html()).toContain('N/A') // 1 address + 1 n/a
+    expect(wrapper.findAll('.ni-data-msg').length).toBe(1) // 1 n/a / 0 denoms
+    expect(wrapper.find('.ni-data-msg__title div').text().trim())
+      .toContain('N/A') // 1 address + 1 n/a
   })
 
   it('should not show the n/a message if there denoms', () => {
