@@ -32,7 +32,7 @@
     "pack:main": "cross-env NODE_ENV=production webpack --colors --config webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js",
     "test": "npm run test:unit",
-    "test:unit": "cross-env LOGGING=false MOCK=false jest",
+    "test:unit": "cross-env LOGGING=false MOCK=false jest --maxWorkers=2",
     "test:e2e": "tape \"test/e2e/!(main)*.js\"",
     "vue:route": "node tasks/vue/route.js",
     "vuex:module": "node tasks/vuex/module.js",
@@ -178,8 +178,8 @@
     "testURL": "http://localhost",
     "setupFiles": [
       "./test/unit/helpers/fixed_time.js",
-      "./test/unit/helpers/setup.js", 
-      "./test/unit/helpers/console_error_throw.js" 
+      "./test/unit/helpers/setup.js",
+      "./test/unit/helpers/console_error_throw.js"
     ]
   },
   "optionalDependencies": {
