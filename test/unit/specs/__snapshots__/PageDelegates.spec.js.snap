@@ -433,7 +433,34 @@ exports[`PageDelegates should filter the delegates 1`] = `
   <main
     class="ni-page-main ps"
   >
-    <!---->
+    <div
+      class="ni-modal-search"
+    >
+      <div
+        class="ni-modal-search-container"
+      >
+        <input
+          class="mousetrap ni-field"
+          placeholder="Search..."
+          type="text"
+        />
+        <button
+          class="ni-btn"
+        >
+          <span
+            class="ni-btn-container"
+          >
+            <i
+              aria-hidden="true"
+              class="ni-btn-icon material-icons"
+            >
+              close
+            </i>
+            <!---->
+          </span>
+        </button>
+      </div>
+    </div>
     <!---->
     <div
       class="panel-sort"
@@ -489,7 +516,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
       </div>
     </div>
     <div
-      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
+      class="li-delegate"
     >
       <div
         class="li-delegate-container"
@@ -565,7 +592,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
       </div>
     </div>
     <div
-      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
+      class="li-delegate"
     >
       <div
         class="li-delegate-container"

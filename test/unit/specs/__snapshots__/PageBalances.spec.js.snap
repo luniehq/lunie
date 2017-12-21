@@ -423,7 +423,7 @@ exports[`PageBalances should filter the balances 1`] = `
       </div>
     </section>
     <div
-      class="ni-li proposal-enter proposal-enter-active"
+      class="ni-li"
     >
       <div
         class="ni-li-container"
@@ -450,7 +450,7 @@ exports[`PageBalances should filter the balances 1`] = `
       </div>
     </div>
     <div
-      class="ni-li proposal-enter proposal-enter-active"
+      class="ni-li"
     >
       <div
         class="ni-li-container"

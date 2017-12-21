@@ -5,10 +5,11 @@ import PageSend from 'renderer/components/wallet/PageSend'
 describe('PageSend', () => {
   let wrapper, store
 
+  let {mount, localVue} = setup()
+  localVue.use(Vuelidate)
+
   beforeEach(async () => {
-    let test = setup()
-    test.localVue.use(Vuelidate)
-    let instance = test.mount(PageSend)
+    let instance = mount(PageSend)
     wrapper = instance.wrapper
     store = instance.store
     await store.dispatch('signIn', {

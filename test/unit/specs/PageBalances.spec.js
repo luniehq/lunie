@@ -3,10 +3,10 @@ import PageBalances from 'renderer/components/wallet/PageBalances'
 
 describe('PageBalances', () => {
   let wrapper, store
+  let {mount} = setup()
 
   beforeEach(() => {
-    let test = setup()
-    let instance = test.mount(PageBalances)
+    let instance = mount(PageBalances)
     wrapper = instance.wrapper
     store = instance.store
 
@@ -53,8 +53,7 @@ describe('PageBalances', () => {
   })
 
   it('should show the n/a message if there are no denoms', () => {
-    let test = setup()
-    let {store, wrapper} = test.mount(PageBalances, {
+    let {store, wrapper} = mount(PageBalances, {
       'data-empty': '<data-empty />'
     })
     store.commit('setWalletBalances', [])
@@ -62,7 +61,6 @@ describe('PageBalances', () => {
     expect(wrapper.find('data-empty')).toBeDefined()
   })
 
-  // TODO
   it('should not show the n/a message if there are denoms', () => {
     wrapper.update()
     expect(wrapper.vm.allDenomBalances.length).not.toBe(0)

@@ -3,10 +3,10 @@ import PageDelegates from 'renderer/components/staking/PageDelegates'
 
 describe('PageDelegates', () => {
   let wrapper, store
+  let {mount} = setup()
 
   beforeEach(() => {
-    let test = setup()
-    let instance = test.mount(PageDelegates)
+    let instance = mount(PageDelegates)
     wrapper = instance.wrapper
     store = instance.store
 
@@ -78,11 +78,13 @@ describe('PageDelegates', () => {
   })
 
   it('should show an error if there are no delegates', () => {
-    let {mount} = setup({
-      delegates: () => []
-    })
     let {wrapper} = mount(PageDelegates, {
-      'data-error': '<data-error />'
+      getters: {
+        delegates: () => []
+      },
+      stubs: {
+        'data-error': '<data-error />'
+      }
     })
 
     expect(wrapper.contains('data-error')).toBe(true)

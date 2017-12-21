@@ -3,10 +3,10 @@ import PageBond from 'renderer/components/staking/PageBond'
 
 describe('PageBond', () => {
   let wrapper
+  let {mount} = setup()
 
   beforeEach(() => {
-    let test = setup()
-    let instance = test.mount(PageBond)
+    let instance = mount(PageBond)
     wrapper = instance.wrapper
   })
 

@@ -3,13 +3,13 @@ import PageTransactions from 'renderer/components/wallet/PageTransactions'
 
 describe('PageTransactions', () => {
   let wrapper, store
+  let {mount} = setup()
 
   beforeEach(() => {
-    let test = setup()
-    let instance = test.mount(PageTransactions, {
+    let instance = mount(PageTransactions, {stubs: {
       'li-transaction': '<li-transaction />',
       'data-empty-tx': '<data-empty-tx />'
-    })
+    }})
     wrapper = instance.wrapper
     store = instance.store
 

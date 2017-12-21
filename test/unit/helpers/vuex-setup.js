@@ -7,7 +7,7 @@ import routes from 'renderer/routes'
 const Modules = require('renderer/vuex/modules').default
 const Getters = require('renderer/vuex/getters')
 
-export default function vuexSetup (getters = {}, stubs = {}) {
+export default function vuexSetup () {
   const modules = Modules({
     node: require('../helpers/node_mock')
   })
@@ -16,7 +16,7 @@ export default function vuexSetup (getters = {}, stubs = {}) {
   localVue.use(Vuex)
   localVue.use(VueRouter)
 
-  function init (componentConstructor, testType = shallow, stubs) {
+  function init (componentConstructor, testType = shallow, {stubs, getters = {}}) {
     let store = new Vuex.Store({
       getters: Object.assign({}, Getters, getters),
       modules
@@ -39,7 +39,7 @@ export default function vuexSetup (getters = {}, stubs = {}) {
 
   return {
     localVue,
-    shallow: (componentConstructor) => init(componentConstructor, shallow),
-    mount: (componentConstructor, stubs) => init(componentConstructor, mount, stubs)
+    shallow: (componentConstructor, {stubs, getters} = {}) => init(componentConstructor, shallow, {stubs, getters}),
+    mount: (componentConstructor, {stubs, getters} = {}) => init(componentConstructor, mount, {stubs, getters})
   }
 }
