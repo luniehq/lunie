@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiDataEmptyTx has the expected html structure 1`] = `
+"<div class=\\"ni-data-msg\\">
+   <div class=\\"ni-data-msg__icon\\">
+      <i class=\\"material-icons\\">info_outline</i>
+   </div>
+<div class=\\"ni-data-msg__text\\">
+   <div class=\\"ni-data-msg__title\\">
+      <div>
+         No Transaction History
+      </div>
+</div>
+<div class=\\"ni-data-msg__subtitle\\">
+   <div>
+      Looks like you haven't sent or received any transactions yet. Head over to 
+      <router-link to=\\"[object Object]\\">
+         Send
+      </router-link>
+to make your first transaction!
+   </div>
+</div>
+</div>
+</div>"
+`;
