@@ -147,6 +147,7 @@ A list of all environment variables and their purpose:
 |PLATFORM_TARGET|'all', 'win32', 'darwin', 'linux', 'mas'|'all'|Which platform to build for|
 |COSMOS_DEVTOOLS|'true', 'false'|'false'|Open the debug panel in the electron view|
 |ELECTRON_ENABLE_LOGGING|'true', 'false'|'false'|Redirect the browser view console output to the console|
+|PREVIEW|'true', 'false'|'true' if NODE_ENV 'development'|Show/Hide features that are in development|
 
 
 ## FAQ
