@@ -24,7 +24,7 @@ export default {
   },
   mounted () {
     const container = this.$el.querySelector('.ni-page-main')
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-new
     new PerfectScrollbar(container)
   }
 }
