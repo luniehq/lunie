@@ -4,7 +4,7 @@ export default ({ commit, basecoin }) => {
   const state = {
     activeMenu: '',
     desktop: false,
-    devMode: true,
+    devMode: process.env.NODE_ENV === 'development',
     modals: {
       help: {
         active: false
