@@ -1,11 +1,13 @@
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, mount, createLocalVue } from 'vue-test-utils'
+
+import routes from 'renderer/routes'
 
 const Modules = require('renderer/vuex/modules').default
 const Getters = require('renderer/vuex/getters')
 
-export default function vuexSetup (getters = {}) {
+export default function vuexSetup (getters = {}, stubs = {}) {
   const modules = Modules({
     node: require('../helpers/node_mock')
   })
@@ -14,24 +16,30 @@ export default function vuexSetup (getters = {}) {
   localVue.use(Vuex)
   localVue.use(VueRouter)
 
-  let store = new Vuex.Store({
-    getters: Object.assign({}, Getters, getters),
-    modules
-  })
-  store.commit('setDevMode', true)
-  let router = new VueRouter({})
-  jest.spyOn(store, 'dispatch')
-  jest.spyOn(store, 'commit')
+  function init (componentConstructor, testType = shallow, stubs) {
+    let store = new Vuex.Store({
+      getters: Object.assign({}, Getters, getters),
+      modules
+    })
+    store.commit('setDevMode', true)
 
-  return {
-    localVue,
-    store,
-    router,
-    new: (componentConstructor, testType = shallow) => {
-      return testType(componentConstructor, {
-        localVue, store, router
+    jest.spyOn(store, 'dispatch')
+    jest.spyOn(store, 'commit')
+
+    let router = new VueRouter({routes})
+
+    return {
+      store,
+      router,
+      wrapper: testType(componentConstructor, {
+        localVue, store, router, stubs
       })
     }
   }
-}
 
+  return {
+    localVue,
+    shallow: (componentConstructor) => init(componentConstructor, shallow),
+    mount: (componentConstructor, stubs) => init(componentConstructor, mount, stubs)
+  }
+}
