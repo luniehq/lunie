@@ -1,5 +1,5 @@
 <template lang='pug'>
-.ni-modal-search(v-if="filters[type].search.visible"): .ni-modal-search-container
+.ni-modal-search(v-if="open"): .ni-modal-search-container
   field.mousetrap(type="text" placeholder="Search..." v-model="query")
   btn(icon="close" @click.native="close")
 </template>

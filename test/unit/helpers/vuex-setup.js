@@ -16,7 +16,7 @@ export default function vuexSetup () {
   localVue.use(Vuex)
   localVue.use(VueRouter)
 
-  function init (componentConstructor, testType = shallow, {stubs, getters = {}}) {
+  function init (componentConstructor, testType = shallow, {stubs, getters = {}, propsData}) {
     let store = new Vuex.Store({
       getters: Object.assign({}, Getters, getters),
       modules
@@ -32,14 +32,14 @@ export default function vuexSetup () {
       store,
       router,
       wrapper: testType(componentConstructor, {
-        localVue, store, router, stubs
+        localVue, store, router, stubs, propsData
       })
     }
   }
 
   return {
     localVue,
-    shallow: (componentConstructor, {stubs, getters} = {}) => init(componentConstructor, shallow, {stubs, getters}),
-    mount: (componentConstructor, {stubs, getters} = {}) => init(componentConstructor, mount, {stubs, getters})
+    shallow: (componentConstructor, {stubs, getters, propsData} = {}) => init(componentConstructor, shallow, {stubs, getters, propsData}),
+    mount: (componentConstructor, {stubs, getters, propsData} = {}) => init(componentConstructor, mount, {stubs, getters, propsData})
   }
 }

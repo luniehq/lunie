@@ -2,7 +2,7 @@
 
 exports[`NiUserPane has the expected html structure 1`] = `
 <a
-  class="ni-li ni-li-link ni-li-user"
+  class="ni-li ni-li-link ni-li-user proposal-enter proposal-enter-active"
   href="#/profile"
 >
   <div

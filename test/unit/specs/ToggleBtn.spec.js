@@ -32,6 +32,6 @@ describe('TogggleBtn', () => {
 
   it('should show an active state if active set', () => {
     wrapper.setProps({active: true})
-    expect(wrapper.hasClass('active')).toBe(true)
+    expect(wrapper.classes()).toContain('active')
   })
 })

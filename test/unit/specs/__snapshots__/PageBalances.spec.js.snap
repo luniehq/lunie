@@ -86,7 +86,9 @@ exports[`PageBalances has the expected html structure 1`] = `
   <main
     class="ni-page-main ps"
   >
-    <!---->
+    <modal-search
+      type="balances"
+    />
     <section
       class="ni-part"
     >
@@ -336,7 +338,9 @@ exports[`PageBalances should filter the balances 1`] = `
   <main
     class="ni-page-main ps"
   >
-    <!---->
+    <modal-search
+      type="balances"
+    />
     <section
       class="ni-part"
     >

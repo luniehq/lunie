@@ -1,14 +1,14 @@
-import { mount } from 'vue-test-utils'
 import setup from '../helpers/vuex-setup'
 import NiModalHelp from 'common/NiModalHelp'
 
 describe('NiModalHelp', () => {
   let wrapper, store
+  let {mount} = setup()
 
   beforeEach(() => {
-    let instance = setup()
+    let instance = mount(NiModalHelp)
+    wrapper = instance.wrapper
     store = instance.store
-    wrapper = instance.new(NiModalHelp, mount)
     store.commit('setModalHelp', true)
   })
 

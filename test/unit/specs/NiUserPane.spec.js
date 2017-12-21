@@ -1,17 +1,18 @@
-import { mount } from 'vue-test-utils'
 import NiUserPane from 'common/NiUserPane'
 import ListItem from 'common/NiListItem'
 import setup from '../helpers/vuex-setup'
 
 describe('NiUserPane', () => {
   let wrapper, router, store, instance
+  let {mount} = setup()
 
   beforeEach(async () => {
-    instance = setup()
+    instance = mount(NiUserPane)
     store = instance.store
     router = instance.router
+    wrapper = instance.wrapper
     await store.dispatch('signIn', {account: 'ACTIVE_ACCOUNT', password: '1234567890'})
-    wrapper = instance.new(NiUserPane, mount)
+    wrapper.update()
   })
 
   it('has the expected html structure', () => {

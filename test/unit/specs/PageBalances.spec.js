@@ -6,7 +6,11 @@ describe('PageBalances', () => {
   let {mount} = setup()
 
   beforeEach(() => {
-    let instance = mount(PageBalances)
+    let instance = mount(PageBalances, {
+      stubs: {
+        'modal-search': '<modal-search />'
+      }
+    })
     wrapper = instance.wrapper
     store = instance.store
 
@@ -44,8 +48,8 @@ describe('PageBalances', () => {
   })
 
   it('should show the search on click', () => {
-    wrapper.findAll('.ni-tool-bar i').at(1).trigger('click')
-    expect(wrapper.contains('.ni-modal-search')).toBe(true)
+    wrapper.vm.setSearch(true)
+    expect(store.commit).toHaveBeenCalledWith('setSearchVisible', ['balances', true])
   })
 
   it('should list the denoms that are available', () => {
