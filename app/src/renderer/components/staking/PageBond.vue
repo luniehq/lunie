@@ -188,7 +188,7 @@ export default {
     shortenLabel (label, maxLength) {
       if (label.length <= maxLength) {
         return label
-      } 
+      }
       return label.substr(0, maxLength - 3) + '...'
     }
   },
