@@ -1,28 +1,12 @@
 export default ({ commit, node }) => {
-  const emptyNomination = {
-    keybase: '',
-    country: '',
-    website: '',
-    startDate: '',
-    commission: '',
-    serverDetails: '',
-    description: '',
-    ownCoinsBonded: ''
-  }
-
-  const emptyUser = {
+  const state = {
     atoms: 2097152,
-    nominationActive: false,
-    nomination: JSON.parse(JSON.stringify(emptyNomination)),
-    delegationActive: false,
-    delegation: [],
-    pubkey: '',
-    privkey: null,
     signedIn: false,
-    accounts: []
+    accounts: [],
+    password: null,
+    account: null,
+    address: null
   }
-
-  const state = JSON.parse(JSON.stringify(emptyUser))
 
   const mutations = {
     activateDelegation (state) {
@@ -44,7 +28,7 @@ export default ({ commit, node }) => {
     async loadAccounts ({ commit }) {
       try {
         let keys = await node.listKeys()
-        commit('setAccounts', keys.map((key) => key.name))
+        commit('setAccounts', keys)
       } catch (err) {
         commit('notifyError', { title: `Couldn't read keys`, body: err.message })
       }
@@ -101,6 +85,7 @@ export default ({ commit, node }) => {
     async signIn ({ state, dispatch }, { password, account }) {
       state.password = password
       state.account = account
+      state.address = state.accounts.find(_account => _account.name === account).address
       state.signedIn = true
 
       let key = await node.getKey(account)
@@ -113,24 +98,6 @@ export default ({ commit, node }) => {
 
       commit('setModalSession', true)
       dispatch('showInitialScreen')
-    },
-    async submitDelegation (state, value) {
-      state.delegation = value
-      console.log('submitting delegation txs: ', JSON.stringify(state.delegation))
-
-      for (let delegate of value.delegates) {
-        let tx = await node.buildDelegate([ delegate.id, delegate.atoms ])
-        // TODO: use wallet key management
-        let signedTx = await node.sign({
-          name: state.name,
-          password: state.default,
-          tx
-        })
-        let res = await node.postTx(signedTx)
-        console.log(res)
-      }
-
-      commit('activateDelegation', true)
     }
   }
 
