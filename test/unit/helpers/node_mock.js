@@ -8,7 +8,7 @@ module.exports = {
     if (args.to.addr.indexOf('fail') !== -1) return Promise.reject('Failed on purpose')
     return Promise.resolve(null)
   },
-  coinTxs: () => Promise.resolve({}),
+  coinTxs: () => Promise.resolve([]),
   candidates: () => Promise.resolve({data: []}),
   postTx: () => Promise.resolve({
     check_tx: { code: 0 },
