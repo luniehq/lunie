@@ -1,14 +1,10 @@
 import NiUserPane from 'common/NiUserPane'
 import ListItem from 'common/NiListItem'
 import setup from '../helpers/vuex-setup'
-import {mockGenesis, unmockGenesis} from '../helpers/genesis_mock'
 
 describe('NiUserPane', () => {
   let wrapper, router, store, instance
   let {mount} = setup()
-
-  beforeAll(mockGenesis)
-  afterAll(unmockGenesis)
 
   beforeEach(async () => {
     instance = mount(NiUserPane)

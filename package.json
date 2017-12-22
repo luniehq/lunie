@@ -179,7 +179,8 @@
     "setupFiles": [
       "./test/unit/helpers/fixed_time.js",
       "./test/unit/helpers/setup.js",
-      "./test/unit/helpers/console_error_throw.js"
+      "./test/unit/helpers/console_error_throw.js",
+      "./test/unit/helpers/genesis_mock.js"
     ]
   },
   "optionalDependencies": {

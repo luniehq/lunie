@@ -2,8 +2,9 @@ import fs from 'fs-extra'
 
 let testRoot = './test/unit/tmp/test_root/'
 
-export function mockGenesis () {
+function mockGenesis () {
   process.env.COSMOS_HOME = testRoot
+  fs.ensureDirSync(testRoot)
   fs.writeFileSync(testRoot + 'genesis.json', JSON.stringify({
     'genesis_time': '2017-12-12T02:31:37Z',
     'chain_id': 'pure-test-net',
@@ -69,6 +70,4 @@ export function mockGenesis () {
   }))
 }
 
-export function unmockGeneis () {
-  fs.removeSync(testRoot + 'genesis.json')
-}
+mockGenesis()
