@@ -8,17 +8,18 @@ page(icon="storage" :title="delegate.keybaseID")
       a(v-if='inCart' @click.native='rm(delegate.id)')
         i.material-icons delete
         .label Remove
-      a(v-else @click.native='add(delegate.id)')
+      a(v-else-if="config.devMode" @click.native='add(delegate.id)')
         i.material-icons add
         .label Add
 
   part(title="Delegate Description")
-    text-block(:content="delegate.description")
+    list-item(dt='Name' :dd='delegate.description.moniker')
+    text-block(v-if="delegate.description.website" :content="delegate.description.details")
   part(title="Delegate Details")
     list-item(dt='Public Key' :dd='delegate.id')
-    list-item(dt='Country' :dd='delegate.country')
-    list-item(dt='Start Date' :dd='delegate.startDate')
-  part(title="Delegate Stake")
+    list-item(dt='Country' :dd='delegate.country || "n/a"')
+    list-item(dt='Start Date' :dd='delegate.startDate || "n/a"')
+  part(title="Delegate Stake" v-if="config.devMode")
     list-item(dt='Voting Power' :dd='delegate.voting_power + " ATOM"')
     list-item(dt='Shares' :dd='delegate.shares + " ATOM"')
     list-item(dt='Commission'
@@ -29,7 +30,7 @@ page(icon="storage" :title="delegate.keybaseID")
       :dd='(delegate.commissionMaxRate * 100).toFixed(2) + "%"')
 
   part(title="External")
-    list-item(dt="Website" :dd="delegate.url" :href="delegate.url")
+    list-item(dt="Website" :dd="delegate.description.website" :href="delegate.description.website")
 </template>
 
 <script>
@@ -52,7 +53,7 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['delegates', 'countries', 'shoppingCart', 'user']),
+    ...mapGetters(['delegates', 'countries', 'shoppingCart', 'user', 'config']),
     delegate () {
       let value = {}
       if (this.delegates) {

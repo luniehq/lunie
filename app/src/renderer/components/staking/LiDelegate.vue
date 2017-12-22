@@ -7,9 +7,8 @@ transition(name='ts-li-delegate'): div(:class='styles')
           template
             i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
             i.fa.fa-square-o(v-else @click='add(delegate)')
-          router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")
+          router-link(:to="{ name: 'delegate', params: { delegate: delegate.id }}")
             | {{ delegate.id }}
-          a(v-else) {{ delegate.id }}
       .value {{ delegate.country ? delegate.country : 'n/a' }}
       .value.voting_power.num.bar
         span {{ num.prettyInt(delegate.voting_power) }}
@@ -36,7 +35,7 @@ export default {
     Btn
   },
   computed: {
-    ...mapGetters(['shoppingCart', 'delegates', 'config']),
+    ...mapGetters(['shoppingCart', 'delegates']),
     styles () {
       let value = 'li-delegate'
       if (this.inCart) value += ' li-delegate-active '
