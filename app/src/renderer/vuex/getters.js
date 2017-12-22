@@ -1,6 +1,4 @@
-export const mainCounter = state => state.counters.main
 export const notifications = state => state.notifications
-export const logOutput = state => state.log.output
 
 export const nodeIP = state => state.node.nodeIP
 export const connected = state => state.node.connected
