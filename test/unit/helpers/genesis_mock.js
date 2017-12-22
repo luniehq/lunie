@@ -70,5 +70,5 @@ export function mockGenesis () {
 }
 
 export function unmockGeneis () {
-  jest.unmock(appRoot + 'src/root.js')
+  fs.removeSync(testRoot + 'genesis.json')
 }
