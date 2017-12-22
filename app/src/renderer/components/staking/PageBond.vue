@@ -167,8 +167,7 @@ export default {
       }
     },
     resetAlloc () {
-      this.fields.delegates = []
-      this.shoppingCart.map(c => this.fields.delegates.push(Object.assign({}, c)))
+      this.fields.delegates = this.shoppingCart.map(c => JSON.parse(JSON.stringify(c)))
     },
     leaveIfEmpty (count) {
       if (count === 0) {
@@ -196,9 +195,6 @@ export default {
   mounted () {
     this.resetAlloc()
     this.leaveIfEmpty(this.shoppingCart.length)
-    if (this.user.delegationActive) {
-      this.fields = JSON.parse(JSON.stringify(this.user.delegation))
-    }
   },
   watch: {
     shoppingCart (newVal) {
