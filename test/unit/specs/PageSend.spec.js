@@ -12,6 +12,11 @@ describe('PageSend', () => {
     let instance = mount(PageSend)
     wrapper = instance.wrapper
     store = instance.store
+    store.commit('setAccounts', [{
+      address: '1234567890123456789012345678901234567890',
+      name: 'default',
+      password: '1234567890'
+    }])
     await store.dispatch('signIn', {
       account: 'default',
       password: '1234567890'

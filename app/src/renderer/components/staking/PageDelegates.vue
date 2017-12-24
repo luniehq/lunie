@@ -14,7 +14,7 @@ page(:title='pageTitle')
   modal-search(type="delegates")
 
   data-error(v-if="delegates.length === 0")
-  data-empty-search(v-if="filteredDelegates.length === 0")
+  data-empty-search(v-else-if="filteredDelegates.length === 0")
   template(v-else)
     panel-sort(:sort='sort')
     li-delegate( v-for='i in filteredDelegates' key='i.id' :delegate='i')
@@ -47,7 +47,8 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['delegates', 'filters', 'shoppingCart', 'config']),
+    ...mapGetters(['delegates', 'filters', 'shoppingCart', 'config', 'user']),
+    address () { return this.user.address },
     pageTitle () {
       if (this.shoppingCart.length > 0) {
         return `Delegates (${this.shoppingCart.length} Selected)`
@@ -80,8 +81,16 @@ export default {
       ]
     }
   }),
+  watch: {
+    address: function (address) {
+      address && this.updateDelegates(address)
+    }
+  },
   methods: {
-    updateDelegates () { this.$store.dispatch('getDelegates') },
+    async updateDelegates (address) {
+      let candidates = await this.$store.dispatch('getDelegates')
+      this.$store.dispatch('getBondedDelegates', {candidates, address})
+    },
     setSearch (bool) { this.$store.commit('setSearchVisible', ['delegates', bool]) }
   },
   mounted () {
