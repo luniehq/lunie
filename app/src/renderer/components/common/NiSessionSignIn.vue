@@ -68,8 +68,8 @@ export default {
     ...mapGetters(['user']),
     accounts () {
       let accounts = this.user.accounts
-      accounts = accounts.filter((name) => name !== 'trunk')
-      return accounts.map((name) => ({ key: name, value: name }))
+      accounts = accounts.filter(({name}) => name !== 'trunk')
+      return accounts.map(({name}) => ({ key: name, value: name }))
     }
   },
   mounted () {
