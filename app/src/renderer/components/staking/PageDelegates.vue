@@ -4,7 +4,7 @@ page(:title='pageTitle')
     a(@click='setSearch(true)')
       i.material-icons search
       .label Search
-    a(@click='updateDelegates()')
+    a(@click='updateDelegates(address)')
       i.material-icons refresh
       .label Refresh
     router-link(v-if="config.devMode" to='/staking/bond')
@@ -96,6 +96,7 @@ export default {
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
     Mousetrap.bind('esc', () => this.setSearch(false))
+    this.$store.dispatch('updateDelegates', this.user.address)
   }
 }
 </script>
