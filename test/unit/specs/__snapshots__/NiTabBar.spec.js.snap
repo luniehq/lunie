@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiTabBar has the expected html structure 1`] = `
+<div
+  class="ni-tab-bar"
+>
+  <div
+    class="ni-tab-bar-container"
+  >
+    <main-slot />
+  </div>
+</div>
+`;
