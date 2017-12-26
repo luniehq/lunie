@@ -2,7 +2,7 @@ import { mount } from 'vue-test-utils'
 import NiTabBar from 'common/NiTabBar'
 
 describe('NiTabBar', () => {
-  let wrapper, close
+  let wrapper
 
   beforeEach(() => {
     wrapper = mount(NiTabBar, {

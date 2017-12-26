@@ -2,7 +2,7 @@ import { mount } from 'vue-test-utils'
 import NiPart from 'common/NiPart'
 
 describe('NiPart', () => {
-  let wrapper, close
+  let wrapper
 
   beforeEach(() => {
     wrapper = mount(NiPart, {

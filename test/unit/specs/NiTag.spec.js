@@ -2,7 +2,7 @@ import { mount } from 'vue-test-utils'
 import NiTag from 'common/NiTag'
 
 describe('NiTag', () => {
-  let wrapper, close
+  let wrapper
 
   it('has the expected html structure', () => {
     wrapper = mount(NiTag, {})
