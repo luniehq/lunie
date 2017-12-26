@@ -2,15 +2,16 @@
 transition(name='ts-li-delegate'): div(:class='styles')
   .li-delegate-container
     .values
-      .value.id
+      .value.name
         span
           template
             i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
             i.fa.fa-square-o(v-else @click='add(delegate)')
           router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")
-            | {{ delegate.id }}
-          a(v-else) {{ delegate.id }}
-      .value {{ delegate.country ? delegate.country : 'n/a' }}
+            | {{ ' ' + delegate.description.moniker }}
+          a(v-else) {{ ' ' + delegate.description.moniker }}
+      .value.id
+        span {{ delegate.id }}
       .value.voting_power.num.bar
         span {{ num.prettyInt(delegate.voting_power) }}
         .bar(:style='vpStyles')
@@ -48,13 +49,17 @@ export default {
         return richestDelegate.voting_power
       } else { return 0 }
     },
+    vpTotal () {
+      return this.delegates.reduce((a, b) => a.voting_power + b.voting_power)
+    },
     vpStyles () {
       let percentage =
         Math.round((this.delegate.voting_power / this.vpMax) * 100)
       return { width: percentage + '%' }
     },
     bondedPercent () {
-      return this.delegate.shares / this.delegate.voting_power
+      console.log(this.delegate, this.vpTotal)
+      return this.delegate.voting_power / this.vpTotal
     },
     inCart () {
       return this.shoppingCart.find(c => c.id === this.delegate.id)

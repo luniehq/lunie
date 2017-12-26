@@ -70,13 +70,12 @@ export default {
     query: '',
     sort: {
       property: 'id',
-      order: 'asc',
+      order: 'desc',
       properties: [
-        // { id: 1, title: 'Keybase ID', value: 'keybaseID', initial: true },
-        { id: 1, title: 'Public Key', value: 'id', initial: true },
-        { id: 2, title: 'Country', value: 'country' },
-        { id: 3, title: 'Voting Power', value: 'voting_power' },
-        { id: 4, title: 'Bonded Power', value: 'shares' },
+        { id: 1, title: 'Name', value: 'description.moniker' },
+        { id: 2, title: 'Public Key', value: 'id' },
+        { id: 3, title: 'Bonded Atoms', value: 'voting_power' },
+        { id: 4, title: 'Voting Power', value: 'shares', initial: true },
         { id: 5, title: 'Commission', value: 'commission' }
       ]
     }
@@ -96,7 +95,7 @@ export default {
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
     Mousetrap.bind('esc', () => this.setSearch(false))
-    this.$store.dispatch('updateDelegates', this.user.address)
+    this.updateDelegates(this.user.address)
   }
 }
 </script>
