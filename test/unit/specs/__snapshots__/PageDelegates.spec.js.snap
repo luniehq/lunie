@@ -66,8 +66,9 @@ exports[`PageDelegates has the expected html structure 1`] = `
                       Refresh
                     </div>
                   </a>
-                  <router-link
-                    to="/staking/bond"
+                  <a
+                    class=""
+                    href="#/staking/bond"
                   >
                     <i
                       class="material-icons"
@@ -79,7 +80,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
                     >
                       Bond Atoms
                     </div>
-                  </router-link>
+                  </a>
                 </div>
                 <a
                   class="help"
@@ -98,7 +99,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main"
+    class="ni-page-main ps"
   >
     <!---->
     <div
@@ -140,7 +141,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
           <div
             class="label"
           >
-            Delegated Power
+            Bonded Power
           </div>
         </div>
         <div
@@ -155,7 +156,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
       </div>
     </div>
     <div
-      class="li-delegate"
+      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
     >
       <div
         class="li-delegate-container"
@@ -170,11 +171,12 @@ exports[`PageDelegates has the expected html structure 1`] = `
               <i
                 class="fa fa-square-o"
               />
-              <router-link
-                to="[object Object]"
+              <a
+                class=""
+                href="#/staking/delegates/pubkeyX"
               >
                 pubkeyX
-              </router-link>
+              </a>
             </span>
           </div>
           <div
@@ -194,15 +196,11 @@ exports[`PageDelegates has the expected html structure 1`] = `
             />
           </div>
           <div
-            class="value delegated num bar delegated"
+            class="value delegated"
           >
             <span>
-              5,000
+              50%
             </span>
-            <div
-              class="bar"
-              style="width: 50%;"
-            />
           </div>
           <div
             class="value"
@@ -215,7 +213,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
             class="ni-btn"
           >
             <span
-              class="ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos"
+              class="ni-btn-container ni-btn-size-sm"
             >
               <i
                 aria-hidden="true"
@@ -234,7 +232,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
       </div>
     </div>
     <div
-      class="li-delegate"
+      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
     >
       <div
         class="li-delegate-container"
@@ -249,11 +247,12 @@ exports[`PageDelegates has the expected html structure 1`] = `
               <i
                 class="fa fa-square-o"
               />
-              <router-link
-                to="[object Object]"
+              <a
+                class=""
+                href="#/staking/delegates/pubkeyY"
               >
                 pubkeyY
-              </router-link>
+              </a>
             </span>
           </div>
           <div
@@ -273,15 +272,11 @@ exports[`PageDelegates has the expected html structure 1`] = `
             />
           </div>
           <div
-            class="value delegated num bar delegated"
+            class="value delegated"
           >
             <span>
-              10,000
+              33%
             </span>
-            <div
-              class="bar"
-              style="width: 100%;"
-            />
           </div>
           <div
             class="value"
@@ -294,7 +289,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
             class="ni-btn"
           >
             <span
-              class="ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos"
+              class="ni-btn-container ni-btn-size-sm"
             >
               <i
                 aria-hidden="true"
@@ -312,14 +307,27 @@ exports[`PageDelegates has the expected html structure 1`] = `
         </menu>
       </div>
     </div>
-  </main>
-  <footer
-    class="ni-page-footer"
-  >
     <div
-      class="container"
-    />
-  </footer>
+      class="ps__rail-x"
+      style="left: 0px; top: 0px;"
+    >
+      <div
+        class="ps__thumb-x"
+        style="left: 0px; width: 0px;"
+        tabindex="0"
+      />
+    </div>
+    <div
+      class="ps__rail-y"
+      style="top: 0px; left: 0px;"
+    >
+      <div
+        class="ps__thumb-y"
+        style="top: 0px; height: 0px;"
+        tabindex="0"
+      />
+    </div>
+  </main>
 </div>
 `;
 
@@ -389,8 +397,9 @@ exports[`PageDelegates should filter the delegates 1`] = `
                       Refresh
                     </div>
                   </a>
-                  <router-link
-                    to="/staking/bond"
+                  <a
+                    class=""
+                    href="#/staking/bond"
                   >
                     <i
                       class="material-icons"
@@ -402,7 +411,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
                     >
                       Bond Atoms
                     </div>
-                  </router-link>
+                  </a>
                 </div>
                 <a
                   class="help"
@@ -421,7 +430,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main"
+    class="ni-page-main ps"
   >
     <div
       class="ni-modal-search"
@@ -490,7 +499,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
           <div
             class="label"
           >
-            Delegated Power
+            Bonded Power
           </div>
         </div>
         <div
@@ -520,11 +529,12 @@ exports[`PageDelegates should filter the delegates 1`] = `
               <i
                 class="fa fa-square-o"
               />
-              <router-link
-                to="[object Object]"
+              <a
+                class=""
+                href="#/staking/delegates/pubkeyX"
               >
                 pubkeyX
-              </router-link>
+              </a>
             </span>
           </div>
           <div
@@ -544,15 +554,11 @@ exports[`PageDelegates should filter the delegates 1`] = `
             />
           </div>
           <div
-            class="value delegated num bar delegated"
+            class="value delegated"
           >
             <span>
-              5,000
+              50%
             </span>
-            <div
-              class="bar"
-              style="width: 50%;"
-            />
           </div>
           <div
             class="value"
@@ -565,7 +571,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             class="ni-btn"
           >
             <span
-              class="ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos"
+              class="ni-btn-container ni-btn-size-sm"
             >
               <i
                 aria-hidden="true"
@@ -599,11 +605,12 @@ exports[`PageDelegates should filter the delegates 1`] = `
               <i
                 class="fa fa-square-o"
               />
-              <router-link
-                to="[object Object]"
+              <a
+                class=""
+                href="#/staking/delegates/pubkeyY"
               >
                 pubkeyY
-              </router-link>
+              </a>
             </span>
           </div>
           <div
@@ -623,15 +630,11 @@ exports[`PageDelegates should filter the delegates 1`] = `
             />
           </div>
           <div
-            class="value delegated num bar delegated"
+            class="value delegated"
           >
             <span>
-              10,000
+              33%
             </span>
-            <div
-              class="bar"
-              style="width: 100%;"
-            />
           </div>
           <div
             class="value"
@@ -644,7 +647,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             class="ni-btn"
           >
             <span
-              class="ni-btn-container ni-btn-size-sm ni-btn-theme-cosmos"
+              class="ni-btn-container ni-btn-size-sm"
             >
               <i
                 aria-hidden="true"
@@ -662,13 +665,26 @@ exports[`PageDelegates should filter the delegates 1`] = `
         </menu>
       </div>
     </div>
-  </main>
-  <footer
-    class="ni-page-footer"
-  >
     <div
-      class="container"
-    />
-  </footer>
+      class="ps__rail-x"
+      style="left: 0px; top: 0px;"
+    >
+      <div
+        class="ps__thumb-x"
+        style="left: 0px; width: 0px;"
+        tabindex="0"
+      />
+    </div>
+    <div
+      class="ps__rail-y"
+      style="top: 0px; left: 0px;"
+    >
+      <div
+        class="ps__thumb-y"
+        style="top: 0px; height: 0px;"
+        tabindex="0"
+      />
+    </div>
+  </main>
 </div>
 `;

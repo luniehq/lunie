@@ -10,7 +10,8 @@ export default ({ commit, node }) => {
     history: [],
     denoms: [],
     sendQueue: [],
-    sending: false
+    sending: false,
+    blockMetas: []
   }
 
   let mutations = {
@@ -41,6 +42,14 @@ export default ({ commit, node }) => {
     },
     setSending (state, sending) {
       state.sending = sending
+    },
+    setTransactionTime (state, { blockHeight, blockMetaInfo }) {
+      state.history = state.history.map(t => {
+        if (t.height === blockHeight) {
+          t.time = blockMetaInfo.header.time
+        }
+        return t
+      })
     }
   }
 
@@ -71,10 +80,42 @@ export default ({ commit, node }) => {
       if (!res) return
       commit('setWalletSequence', res.data)
     },
-    async queryWalletHistory ({ state, commit }) {
+    async queryWalletHistory ({ state, commit, dispatch }) {
       let res = await node.coinTxs(state.key.address)
       if (!res) return
       commit('setWalletHistory', res)
+
+      let blockHeights = []
+      res.forEach(t => {
+        if (!blockHeights.find(h => h === t.height)) {
+          blockHeights.push(t.height)
+        }
+      })
+      return Promise.all(blockHeights.map(h =>
+        dispatch('queryTransactionTime', h)
+      ))
+    },
+    async queryTransactionTime ({ commit, dispatch }, blockHeight) {
+      let blockMetaInfo = await dispatch('queryBlockInfo', blockHeight)
+      commit('setTransactionTime', { blockHeight, blockMetaInfo })
+    },
+    async queryBlockInfo ({ state, commit }, height) {
+      let blockMetaInfo = state.blockMetas.find(b => b.header.height === height)
+      if (blockMetaInfo) {
+        return blockMetaInfo
+      }
+      blockMetaInfo = await new Promise((resolve, reject) => {
+        node.rpc.blockchain({ minHeight: height, maxHeight: height }, (err, {block_metas}) => {
+          if (err) {
+            commit('notifyError', {title: `Couldn't query block`, body: err.message})
+            reject()
+          } else {
+            resolve(block_metas[0])
+          }
+        })
+      })
+      blockMetaInfo && state.blockMetas.push(blockMetaInfo)
+      return blockMetaInfo
     },
     walletSend ({ dispatch }, args) {
       args.type = 'buildSend'
@@ -148,7 +189,7 @@ export default ({ commit, node }) => {
       done(null, args)
       dispatch('queryWalletBalances')
     },
-    async loadDenoms () {
+    async loadDenoms ({ state, commit }) {
       // read genesis.json to get default denoms
 
       // wait for genesis.json to exist

@@ -5,20 +5,23 @@ page(title='Transactions')
       i.material-icons search
       .label Search
 
-  modal-search(v-if="filters.transactions.search.visible" type="transactions")
+  modal-search(type="transactions")
 
+  data-empty-tx(v-if='transactions.length === 0')
+  data-empty-search(v-else-if="filteredTransactions.length === 0")
   li-transaction(
+    v-else
     v-for="i in filteredTransactions"
     :transaction-value="i"
     :address="wallet.key.address"
     :devMode="config.devMode")
-  data-empty-tx(v-if='filteredTransactions.length === 0')
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
+import DataEmptySearch from 'common/NiDataEmptySearch'
 import DataEmptyTx from 'common/NiDataEmptyTx'
 import LiTransaction from 'wallet/LiTransaction'
 import ModalSearch from 'common/NiModalSearch'
@@ -29,6 +32,7 @@ export default {
   name: 'page-transactions',
   components: {
     LiTransaction,
+    DataEmptySearch,
     DataEmptyTx,
     ModalSearch,
     Page,

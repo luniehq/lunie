@@ -6,7 +6,7 @@ div(:class='cssClass' @click="close()")
         i.material-icons {{ icon }}
       .ni-modal-title
         slot(name='title')
-      .ni-modal-icon.ni-modal-close(@click="close(data)")
+      .ni-modal-icon.ni-modal-close(@click="close()")
         i.material-icons close
     main.ni-modal-main
       slot

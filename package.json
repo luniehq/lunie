@@ -116,6 +116,7 @@
     "mousetrap": "^1.6.1",
     "nib": "^1.1.2",
     "no-scroll": "^2.1.0",
+    "perfect-scrollbar": "^1.3.0",
     "proxyquire": "^1.8.0",
     "request-interval": "^2.0.0",
     "shortid": "^2.2.8",
@@ -125,7 +126,7 @@
     "superagent": "^3.5.2",
     "tail": "^1.2.1",
     "tendermint-crypto": "github:mappum/js-crypto",
-    "vue-test-utils": "^1.0.0-beta.6",
+    "vue-test-utils": "^1.0.0-beta.8",
     "vuelidate": "^0.5.0",
     "xmlhttprequest": "^1.8.0"
   },
@@ -177,7 +178,9 @@
     "testURL": "http://localhost",
     "setupFiles": [
       "./test/unit/helpers/fixed_time.js",
-      "./test/unit/helpers/setup.js"
+      "./test/unit/helpers/setup.js",
+      "./test/unit/helpers/console_error_throw.js",
+      "./test/unit/helpers/genesis_mock.js"
     ]
   },
   "optionalDependencies": {

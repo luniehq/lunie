@@ -5,7 +5,7 @@ list-item.ni-li-user(
   to="/profile"
   @click.native="close"
   icon="face"
-  title="CosmosUser01")
+  :title="'Account ' + user.account")
 div(v-else-if="user.signedIn")
   list-item.ni-li-user(
     type="link"
@@ -35,10 +35,6 @@ export default {
     close () {
       this.$store.commit('setActiveMenu', '')
       noScroll.off()
-    },
-    openSettings () {
-      window.alert('TODO: open user settings')
-      this.close()
     },
     openSession () {
       this.$store.commit('setModalSession', true)

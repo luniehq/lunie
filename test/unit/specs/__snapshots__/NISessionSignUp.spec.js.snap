@@ -15,8 +15,8 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
    </div>
       <div class=\\"ni-session-main\\">
          <div class=\\"ni-form-group\\">
-            <label for=\\"sign-up-name\\">Account Name</label>
-            <div class=\\"ni-form-group-field\\">
+            <label for=\\"sign-up-name\\" class=\\"ni-form-group__label\\">Account Name</label>
+            <div class=\\"ni-form-group__field\\">
                <input type=\\"text\\" placeholder=\\"at least 5 characters\\" class=\\"ni-field\\" id=\\"sign-up-name\\">
                <div class=\\"ni-form-msg ni-form-msg-error\\">
                   Name is required
@@ -25,8 +25,8 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
    </div>
 </div>
       <div class=\\"ni-form-group\\">
-         <label for=\\"sign-up-seed\\">Seed (write it down)</label>
-         <div class=\\"ni-form-group-field\\">
+         <label for=\\"sign-up-seed\\" class=\\"ni-form-group__label\\">Seed (write it down)</label>
+         <div class=\\"ni-form-group__field\\">
             <textarea class=\\"ni-field-seed ni-field\\" id=\\"sign-up-seed\\" disabled=\\"disabled\\"></textarea>
             <div class=\\"ni-form-msg ni-form-msg-desc\\">
                Please back up the seed phrase for this account. These words cannot be recovered!
@@ -34,8 +34,8 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
 </div>
 </div>
       <div class=\\"ni-form-group\\">
-         <label for=\\"sign-in-password\\">Password</label>
-         <div class=\\"ni-form-group-field\\">
+         <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Password</label>
+         <div class=\\"ni-form-group__field\\">
             <input type=\\"password\\" placeholder=\\"at least 10 characters\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
             <div class=\\"ni-form-msg ni-form-msg-desc\\">
                Create a password to secure your new account
@@ -47,8 +47,8 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
    </div>
 </div>
       <div class=\\"ni-form-group\\">
-         <label for=\\"sign-up-warning\\"></label>
-         <div class=\\"ni-form-group-field\\">
+         <label for=\\"sign-up-warning\\" class=\\"ni-form-group__label\\"></label>
+         <div class=\\"ni-form-group__field\\">
             <div class=\\"ni-field-checkbox\\">
                <div class=\\"ni-field-checkbox-input\\">
                   <input id=\\"sign-up-warning\\" type=\\"checkbox\\">
@@ -61,8 +61,8 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
 </div>
 </div>
       <div class=\\"ni-form-group\\">
-         <label for=\\"sign-up-backup\\"></label>
-         <div class=\\"ni-form-group-field\\">
+         <label for=\\"sign-up-backup\\" class=\\"ni-form-group__label\\"></label>
+         <div class=\\"ni-form-group__field\\">
             <div for=\\"sign-up-backup\\" class=\\"ni-field-checkbox\\">
                <div class=\\"ni-field-checkbox-input\\">
                   <input id=\\"sign-up-backup\\" type=\\"checkbox\\">

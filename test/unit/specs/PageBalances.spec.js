@@ -1,42 +1,20 @@
-import Vuex from 'vuex'
-import { mount, createLocalVue } from 'vue-test-utils'
+import setup from '../helpers/vuex-setup'
 import PageBalances from 'renderer/components/wallet/PageBalances'
-
-const filters = require('renderer/vuex/modules/filters').default({})
-const wallet = require('renderer/vuex/modules/wallet').default({
-  node: require('../helpers/node_mock')
-})
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
 
 describe('PageBalances', () => {
   let wrapper, store
+  let {mount} = setup()
 
   beforeEach(() => {
-    store = new Vuex.Store({
-      getters: {
-        filters: () => filters.state,
-        wallet: () => wallet.state
-      },
-      modules: {
-        filters,
-        wallet
+    let instance = mount(PageBalances, {
+      stubs: {
+        'modal-search': '<modal-search />'
       }
     })
-    wrapper = mount(PageBalances, {
-      localVue,
-      store,
-      stub: {
-        AnchorCopy: true,
-        Btn: true,
-        ListItem: true,
-        ModalSearch: true,
-        Page: true,
-        Part: true,
-        ToolBar: true
-      }
-    })
+    wrapper = instance.wrapper
+    store = instance.store
+
+    store.commit('setWalletKey', '123abc456def')
     store.commit('setWalletBalances', [{
       denom: 'ATOM',
       amount: 123
@@ -45,14 +23,12 @@ describe('PageBalances', () => {
       amount: 456
     }])
     store.commit('setSearchQuery', ['balances', ''])
-    store.state.wallet.key.address = '123abc456def'
 
-    jest.spyOn(store, 'commit')
-    jest.spyOn(store, 'dispatch')
+    wrapper.update()
   })
 
   it('has the expected html structure', () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it('should sort the balances by denom', () => {
@@ -63,7 +39,7 @@ describe('PageBalances', () => {
     store.commit('setSearchVisible', ['balances', true])
     store.commit('setSearchQuery', ['balances', 'atom'])
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual(['ATOM'])
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it('should update balances by querying wallet state', () => {
@@ -72,8 +48,8 @@ describe('PageBalances', () => {
   })
 
   it('should show the search on click', () => {
-    wrapper.find('.ni-tool-bar i').trigger('click')
-    expect(wrapper.contains('.ni-modal-search')).toBe(true)
+    wrapper.vm.setSearch(true)
+    expect(store.commit).toHaveBeenCalledWith('setSearchVisible', ['balances', true])
   })
 
   it('should list the denoms that are available', () => {
@@ -81,17 +57,17 @@ describe('PageBalances', () => {
   })
 
   it('should show the n/a message if there are no denoms', () => {
+    let {store, wrapper} = mount(PageBalances, {
+      'data-empty': '<data-empty />'
+    })
     store.commit('setWalletBalances', [])
     wrapper.update()
-    expect(wrapper.findAll('.ni-li').length).toBe(1) // 1 n/a / 0 denoms
-    expect(wrapper.findAll('.ni-li').at(0).html()).toContain('N/A') // 1 address + 1 n/a
+    expect(wrapper.find('data-empty')).toBeDefined()
   })
 
-  it('should not show the n/a message if there denoms', () => {
+  it('should not show the n/a message if there are denoms', () => {
     wrapper.update()
-    expect(wrapper.findAll('.ni-li').length).toBe(2) // 2 denoms
-    expect(wrapper.findAll('.ni-li').at(0).html()).not.toContain('N/A')
-    expect(wrapper.findAll('.ni-li').at(1).html()).not.toContain('N/A')
+    expect(wrapper.vm.allDenomBalances.length).not.toBe(0)
+    expect(wrapper.vm.$el.querySelector('#no-balances')).toBe(null)
   })
-  // TODO do we test mousetrap stuff??
 })

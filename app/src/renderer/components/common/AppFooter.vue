@@ -26,12 +26,6 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.app-footer
-  position fixed
-  bottom 0
-  right 0
-  width 100vw
-
 .app-footer-container
   border-top px solid bc
   height 3rem + px
@@ -41,7 +35,6 @@ export default {
   background app-bg
 
   color dim
-  margin-left width-side
 
   .afi
     display flex

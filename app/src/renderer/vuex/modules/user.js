@@ -1,28 +1,12 @@
 export default ({ commit, node }) => {
-  const emptyNomination = {
-    keybase: '',
-    country: '',
-    website: '',
-    startDate: '',
-    commission: '',
-    serverDetails: '',
-    description: '',
-    ownCoinsBonded: ''
-  }
-
-  const emptyUser = {
-    atoms: 0, // balance of bonding token
-    nominationActive: false,
-    nomination: JSON.parse(JSON.stringify(emptyNomination)),
-    delegationActive: false,
-    delegation: [],
-    pubkey: '',
-    privkey: null,
+  const state = {
+    atoms: 0,
     signedIn: false,
-    accounts: []
+    accounts: [],
+    password: null,
+    account: null,
+    address: null
   }
-
-  const state = JSON.parse(JSON.stringify(emptyUser))
 
   const mutations = {
     activateDelegation (state) {
@@ -37,7 +21,7 @@ export default ({ commit, node }) => {
   }
 
   const actions = {
-    async showInitialScreen ({ dispatch }) {
+    async showInitialScreen ({ dispatch, commit }) {
       await dispatch('loadAccounts')
       let exists = state.accounts.length > 0
       let screen = exists ? 'sign-in' : 'welcome'
@@ -47,7 +31,7 @@ export default ({ commit, node }) => {
     async loadAccounts ({ commit }) {
       try {
         let keys = await node.listKeys()
-        commit('setAccounts', keys.map((key) => key.name))
+        commit('setAccounts', keys)
       } catch (err) {
         commit('notifyError', { title: `Couldn't read keys`, body: err.message })
       }
@@ -104,6 +88,7 @@ export default ({ commit, node }) => {
     async signIn ({ state, dispatch }, { password, account }) {
       state.password = password
       state.account = account
+      state.address = state.accounts.find(_account => _account.name === account).address
       state.signedIn = true
 
       let key = await node.getKey(account)

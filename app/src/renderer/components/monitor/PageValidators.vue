@@ -4,8 +4,12 @@ page(title='Validators')
     a(@click='setSearch(true)')
       i.material-icons search
       .label Search
-  modal-search(v-if="filters.validators.search.visible" type="validators")
+  modal-search(type="validators")
+
+  data-empty(v-if="validators.length === 0")
+  data-empty-search(v-else-if="filteredValidators.length === 0")
   list-item(
+    v-else
     v-for="i in filteredValidators"
     icon='storage'
     :key="i.pub_key.data"
@@ -19,6 +23,8 @@ import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import ListItem from 'common/NiListItem'
+import DataEmpty from 'common/NiDataEmpty'
+import DataEmptySearch from 'common/NiDataEmptySearch'
 import ModalSearch from 'common/NiModalSearch'
 import Page from 'common/NiPage'
 import TabBar from 'common/NiTabBar'
@@ -26,6 +32,8 @@ import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-validators',
   components: {
+    DataEmpty,
+    DataEmptySearch,
     ListItem,
     ModalSearch,
     Page,
@@ -36,9 +44,9 @@ export default {
     ...mapGetters(['validators', 'filters']),
     filteredValidators () {
       let query = this.filters.validators.search.query
-      let list = orderBy(this.validators, ['node_info.moniker', 'desc'])
+      let list = orderBy(this.validators, ['pub_key.data', 'desc'])
       if (this.filters.validators.search.visible) {
-        return list.filter(i => includes(i.node_info.moniker, query))
+        return list.filter(i => includes(i.pub_key.data, query))
       } else {
         return list
       }

@@ -10,14 +10,14 @@ page(:title='pageTitle')
     router-link(v-if="config.devMode" to='/staking/bond')
       i.material-icons check_circle
       .label Bond Atoms
-  modal-search(v-if="filters.delegates.search.visible" type="delegates")
-  template(v-if="delegates.length > 0")
+
+  modal-search(type="delegates")
+
+  data-error(v-if="delegates.length === 0")
+  data-empty-search(v-else-if="filteredDelegates.length === 0")
+  template(v-else)
     panel-sort(:sort='sort')
-    li-delegate(
-      v-for='i in filteredDelegates'
-      key='i.id'
-      :delegate='i')
-  data-error(v-else)
+    li-delegate( v-for='i in filteredDelegates' key='i.id' :delegate='i')
 </template>
 
 <script>
@@ -25,6 +25,7 @@ import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import LiDelegate from 'staking/LiDelegate'
+import DataEmptySearch from 'common/NiDataEmptySearch'
 import DataError from 'common/NiDataError'
 import Field from '@nylira/vue-field'
 import ModalSearch from 'common/NiModalSearch'
@@ -36,6 +37,7 @@ export default {
   name: 'page-delegates',
   components: {
     LiDelegate,
+    DataEmptySearch,
     DataError,
     Field,
     ModalSearch,
@@ -45,7 +47,8 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['delegates', 'filters', 'shoppingCart', 'config']),
+    ...mapGetters(['delegates', 'filters', 'shoppingCart', 'config', 'user']),
+    address () { return this.user.address },
     pageTitle () {
       if (this.shoppingCart.length > 0) {
         return `Delegates (${this.shoppingCart.length} Selected)`
@@ -73,13 +76,21 @@ export default {
         { id: 1, title: 'Public Key', value: 'id', initial: true },
         { id: 2, title: 'Country', value: 'country' },
         { id: 3, title: 'Voting Power', value: 'voting_power' },
-        { id: 4, title: 'Delegated Power', value: 'shares' },
+        { id: 4, title: 'Bonded Power', value: 'shares' },
         { id: 5, title: 'Commission', value: 'commission' }
       ]
     }
   }),
+  watch: {
+    address: function (address) {
+      address && this.updateDelegates(address)
+    }
+  },
   methods: {
-    updateDelegates () { this.$store.dispatch('getDelegates') },
+    async updateDelegates (address) {
+      let candidates = await this.$store.dispatch('getDelegates')
+      this.$store.dispatch('getBondedDelegates', {candidates, address})
+    },
     setSearch (bool) { this.$store.commit('setSearchVisible', ['delegates', bool]) }
   },
   mounted () {

@@ -4,7 +4,7 @@ export default ({ commit, basecoin }) => {
   const state = {
     activeMenu: '',
     desktop: false,
-    devMode: true,
+    devMode: process.env.PREVIEW !== undefined ? JSON.parse(process.env.PREVIEW) : process.env.NODE_ENV === 'development',
     // TODO: change to atom
     bondingDenom: 'fermion',
     modals: {
@@ -21,6 +21,9 @@ export default ({ commit, basecoin }) => {
     }
   }
   const mutations = {
+    setDevMode (state, value) {
+      state.devMode = value
+    },
     setModalHelp (state, value) {
       state.modals.help.active = value
     },

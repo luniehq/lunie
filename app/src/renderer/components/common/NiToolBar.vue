@@ -110,6 +110,9 @@ export default {
     height 3rem + px
     border-top px solid bc
 
+  .ni-page
+    padding-bottom 3rem
+
 @media screen and (min-width: 568px)
   .ni-tool-bar-container
     .main

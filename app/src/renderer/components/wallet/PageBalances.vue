@@ -8,24 +8,28 @@ page(title='Balance')
       i.material-icons search
       .label Search
 
-  modal-search(v-if="filters.balances.search.visible" type="balances")
+  modal-search(type="balances")
 
   part(title='Your Address')
     li-copy(:value="wallet.key.address")
 
   part(title="Denomination Balances")
-    list-item(
-      v-for="i in filteredBalances"
-      :key="i.denom"
-      :dt="i.denom.toUpperCase()"
-      :dd="i.amount")
-    list-item(v-if='wallet.denoms.length === 0 && wallet.balances.length === 0' dt="N/A" dd="None Available")
+  data-empty(v-if="wallet.balances.length === 0")
+  data-empty-search(v-else-if="filteredBalances.length === 0")
+  list-item(
+    v-else
+    v-for="i in filteredBalances"
+    :key="i.denom"
+    :dt="i.denom.toUpperCase()"
+    :dd="i.amount")
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
+import DataEmpty from 'common/NiDataEmpty'
+import DataEmptySearch from 'common/NiDataEmptySearch'
 import LiCopy from 'common/NiLiCopy'
 import ListItem from 'common/NiListItem'
 import ModalSearch from 'common/NiModalSearch'
@@ -35,6 +39,8 @@ import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-balances',
   components: {
+    DataEmpty,
+    DataEmptySearch,
     LiCopy,
     ListItem,
     ModalSearch,

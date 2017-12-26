@@ -1,30 +1,19 @@
-import Vuex from 'vuex'
-import { mount, createLocalVue } from 'vue-test-utils'
+import setup from '../helpers/vuex-setup'
 import PageTransactions from 'renderer/components/wallet/PageTransactions'
-
-const wallet = require('renderer/vuex/modules/wallet').default({})
-const filters = require('renderer/vuex/modules/filters').default({})
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
 
 describe('PageTransactions', () => {
   let wrapper, store
+  let {mount} = setup()
 
   beforeEach(() => {
-    store = new Vuex.Store({
-      getters: {
-        wallet: () => wallet.state,
-        transactions: () => wallet.state.history,
-        filters: () => filters.state,
-        config: () => ({devMode: true})
-      },
-      modules: {
-        wallet,
-        filters
-      }
-    })
+    let instance = mount(PageTransactions, {stubs: {
+      'li-transaction': '<li-transaction />',
+      'data-empty-tx': '<data-empty-tx />'
+    }})
+    wrapper = instance.wrapper
+    store = instance.store
 
+    store.commit('setWalletKey', {address: 'myAddress'})
     store.commit('setWalletHistory', [{
       tx: {
         hash: 'x',
@@ -73,15 +62,7 @@ describe('PageTransactions', () => {
       time: Date.now() + 10
     }])
 
-    wrapper = mount(PageTransactions, {
-      localVue,
-      store,
-      stubs: {
-        'data-empty-tx': '<data-empty-tx />'
-      }
-    })
-
-    jest.spyOn(store, 'commit')
+    wrapper.update()
   })
 
   it('has the expected html structure', () => {
@@ -93,6 +74,10 @@ describe('PageTransactions', () => {
     expect(wrapper.contains('.ni-modal-search')).toBe(true)
   })
 
+  it('should show transactions', () => {
+    expect(wrapper.findAll('li-transaction').length).toBe(2)
+  })
+
   it('should sort the transaction by time', () => {
     expect(wrapper.vm.filteredTransactions.map(x => x.tx.hash)).toEqual(['y', 'x'])
   })
@@ -100,6 +85,7 @@ describe('PageTransactions', () => {
   it('should filter the transactions', () => {
     store.commit('setSearchVisible', ['transactions', true])
     store.commit('setSearchQuery', ['transactions', 'fabo'])
+    wrapper.update()
     expect(wrapper.vm.filteredTransactions.map(x => x.tx.hash)).toEqual(['y'])
     // reflects the filter in the view
     expect(wrapper.vm.$el).toMatchSnapshot()

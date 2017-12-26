@@ -12,8 +12,7 @@ header.ni-page-header
 
 <script>
 export default {
-  name: 'ni-page-header',
-  props: ['icon']
+  name: 'ni-page-header'
 }
 </script>
 
@@ -21,7 +20,7 @@ export default {
 @require '~variables'
 
 .ni-page-header
-  -webkit-app-region: drag;
+  -webkit-app-region drag
 
 .ni-page-header-title
   font-size xl

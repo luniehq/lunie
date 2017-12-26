@@ -17,6 +17,7 @@ menu.app-menu
 </template>
 
 <script>
+import PerfectScrollbar from 'perfect-scrollbar'
 import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
 import noScroll from 'no-scroll'
@@ -44,6 +45,10 @@ export default {
       this.$store.commit('setActiveMenu', '')
       noScroll.off()
     }
+  },
+  mounted () {
+    // eslint-disable-next-line no-unused-vars
+    const ps = new PerfectScrollbar('.app-menu-main')
   }
 }
 </script>
@@ -61,7 +66,7 @@ export default {
 
   .app-menu-main
     flex 1
-    overflow-y auto
+    position relative // for perfect-scrollbar
 
   .ni-user
     border-top 1px solid bc

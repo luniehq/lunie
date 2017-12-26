@@ -15,8 +15,8 @@ exports[`NiSessionSignIn has the expected html structure 1`] = `
    </div>
       <div class=\\"ni-session-main\\">
          <div class=\\"ni-form-group\\">
-            <label for=\\"sign-in-name\\">Select Account</label>
-            <div class=\\"ni-form-group-field\\">
+            <label for=\\"sign-in-name\\" class=\\"ni-form-group__label\\">Select Account</label>
+            <div class=\\"ni-form-group__field\\">
                <div class=\\"ni-select\\" id=\\"sign-in-name\\">
                   <select class=\\"ni-field ni-field-select\\">
                   <option value=\\"\\" disabled=\\"disabled\\" selected=\\"selected\\" hidden=\\"hidden\\">
@@ -272,16 +272,16 @@ exports[`NiSessionSignIn has the expected html structure 1`] = `
                      <i class=\\"material-icons\\">arrow_drop_down</i>
                   </div>
 </div>
-      <div class=\\"ni-form-msg ni-form-msg-error\\">
+      <div class=\\"ni-form-msg sm ni-form-msg--error\\">
          Name is required
       </div>
 </div>
 </div>
       <div class=\\"ni-form-group\\">
-         <label for=\\"sign-in-password\\">Password</label>
-         <div class=\\"ni-form-group-field\\">
+         <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Password</label>
+         <div class=\\"ni-form-group__field\\">
             <input type=\\"password\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
-            <div class=\\"ni-form-msg ni-form-msg-error\\">
+            <div class=\\"ni-form-msg sm ni-form-msg--error\\">
                Password is required
             </div>
                <!---->
