@@ -5,6 +5,11 @@ export default ({ commit }) => {
 
   const mutations = {
     addToCart (state, delegate) {
+      // don't add to cart if already in cart
+      for (let existingDelegate of state.delegates) {
+        if (delegate.id === existingDelegate.id) return
+      }
+
       state.delegates.push({
         id: delegate.id,
         delegate: Object.assign({}, delegate),

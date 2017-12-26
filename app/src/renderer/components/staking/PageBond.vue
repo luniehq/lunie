@@ -17,7 +17,7 @@ page.page-bond(title="Bond Atoms")
   form-struct(:submit="onSubmit")
     form-group(v-for='(delegate, index) in fields.delegates' key='delegate.id'
       :error="$v.fields.delegates.$each[index].$error")
-      Label {{ shortenLabel(delegate.delegate.id, 20) }} ({{ percentAtoms(delegate.atoms) }})
+      Label {{ shortenLabel(delegate.delegate.description.moniker, 10) }} - {{ shortenLabel(delegate.delegate.id, 20) }} ({{ percentAtoms(delegate.atoms) }})
       field-group
         field(
           type="number"

@@ -58,7 +58,6 @@ export default {
       return { width: percentage + '%' }
     },
     bondedPercent () {
-      console.log(this.delegate, this.vpTotal)
       return this.delegate.voting_power / this.vpTotal
     },
     inCart () {

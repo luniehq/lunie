@@ -214,7 +214,7 @@ export default ({ commit, node }) => {
 
       commit('setDenoms', Object.keys(denoms))
     },
-    async submitDelegation ({ state, dispatch }, delegation) {
+    async submitDelegation ({ dispatch }, delegation) {
       console.log('submitting delegation txs: ', JSON.stringify(delegation))
 
       for (let delegate of delegation.delegates) {
