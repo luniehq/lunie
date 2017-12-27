@@ -28,7 +28,7 @@ export default {
     SessionAccountDelete
   },
   computed: {
-    ...mapGetters(['config', 'config']),
+    ...mapGetters(['config']),
     active () { return this.config.modals.session.active }
   },
   beforeDestroy () {
