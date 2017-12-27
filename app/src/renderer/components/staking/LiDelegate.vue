@@ -30,7 +30,7 @@ export default {
     Btn
   },
   computed: {
-    ...mapGetters(['shoppingCart', 'delegates']),
+    ...mapGetters(['shoppingCart', 'delegates', 'config']),
     styles () {
       let value = ''
       if (this.inCart) value += 'li-delegate-active '
