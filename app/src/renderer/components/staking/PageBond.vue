@@ -5,14 +5,18 @@ page.page-bond(title="Bond Atoms")
       i.material-icons arrow_back
       .label Back
 
-  .reserved-atoms(v-if="unbondedAtoms == this.user.atoms")
-    | You have #[.reserved-atoms__number {{ unbondedAtoms }}] unbonded atoms. Start by bonding some of your atoms to these delegates.
-  .reserved-atoms(v-else-if="unbondedAtoms === 0")
-    | You are bonding #[.reserved-atoms__number ALL {{ bondedAtoms }}] atoms to these delegates. We suggest reserving some atoms for personal use&mdash;are you sure you wish to proceed? #[a(@click="resetAlloc") (start over?)]
-  .reserved-atoms(v-else-if="unbondedAtoms < 0")
-    | #[.reserved-atoms__number.reserved-atoms__number--error You are bonding {{ unbondedAtoms * -1 }} more atoms than exist in your balance.] Please reduce the number of atoms you are bonding to these delegates. #[a(@click="resetAlloc") (start over?)]
-  .reserved-atoms(v-else)
-    | You are reserving  #[.reserved-atoms__number {{ unbondedAtoms }}] ({{ unbondedAtomsPct }}) atoms. You are bonding #[.reserved-atoms__number {{ bondedAtoms }}] ({{ bondedAtomsPct }}) atoms to these delegates. #[a(@click="resetAlloc") (start over?)]
+  .reserved-atoms
+    span(v-if="unbondedAtoms == totalAtoms")
+    span(v-else-if="unbondedAtoms === 0")
+      | You are bonding #[.reserved-atoms__number ALL {{ bondedAtoms }}] atoms to these delegates. We suggest reserving some atoms for personal use&mdash;are you sure you wish to proceed?
+    span(v-else-if="unbondedAtoms < 0")
+      | #[.reserved-atoms__number.reserved-atoms__number--error You are bonding {{ unbondedAtoms * -1 }} more atoms than exist in your balance.] Please reduce the number of atoms you are bonding to these delegates.
+    span(v-else)
+      | You will keep  #[.reserved-atoms__number {{ unbondedAtoms }}] ({{ unbondedAtomsPct }}) atoms in your wallet. You are bonding #[.reserved-atoms__number {{ bondedAtoms }}] ({{ bondedAtomsPct }}) atoms to these delegates.
+    span(v-if="willUnbondAtoms > 0")
+      | You will begin unbonding #[.reserved-atoms__number {{ willUnbondAtoms }}] atoms, which will be available in 1 month.
+    span
+      | #[a(@click="resetAlloc") (start over?)]
 
   form-struct(:submit="onSubmit")
     form-group(v-for='(delegate, index) in fields.delegates' key='delegate.id'
@@ -67,64 +71,59 @@ export default {
   },
   computed: {
     ...mapGetters(['shoppingCart', 'user', 'committedDelegations']),
-    reservedAtoms () {
-      return this.shoppingCart.reduce((sum, d) => sum + (d.reservedAtoms || 0), 0)
+    previouslyBondedAtoms () {
+      return Object.values(this.committedDelegations).reduce((sum, d) => sum + d)
     },
-    unreservedAtoms () {
-      return this.user.atoms - this.reservedAtoms
+    willUnbondAtoms () {
+      let sum = 0
+      for (let id of Object.keys(this.committedDelegations)) {
+        let committed = this.committedDelegations[id]
+        let delegate = this.fields.delegates.find(c => c.id === id)
+        let willBond = delegate ? delegate.atoms : 0
+        let unbondAmount = Math.max(committed - willBond, 0)
+        sum += unbondAmount
+      }
+      return sum
     },
     unbondedAtoms () {
-      let value = this.unreservedAtoms
-
-      // reduce unreserved atoms by bonded atoms
-      this.fields.delegates.forEach(f => (value -= f.atoms))
-
-      return value
+      let willBondSum = this.bondedAtoms
+      let bondedSum = this.previouslyBondedAtoms
+      let walletBalance = this.user.atoms
+      return this.user.atoms - willBondSum + bondedSum - this.willUnbondAtoms
     },
     unbondedAtomsPct () {
-      return Math.round(this.unbondedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
+      return Math.round(this.unbondedAtoms / this.totalAtoms * 100 * 10) / 10 + '%'
     },
     bondedAtoms () {
-      let value = 0
-      this.fields.delegates.forEach(f => (value += f.atoms))
-      return value
+      return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
     },
     bondedAtomsPct () {
-      return Math.round(this.bondedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
+      return Math.round(this.bondedAtoms / this.totalAtoms * 100 * 10) / 10 + '%'
+    },
+    totalAtoms () {
+      return this.bondedAtoms + this.unbondedAtoms
     }
   },
   data: () => ({
     equalize: false,
-    atomsMin: 1,
-    reservedAtomsMin: 0,
+    atomsMin: 0,
     fields: {
-      reservedAtoms: 0,
       delegates: []
     }
   }),
   methods: {
     fillAtoms (delegateId) {
-      if (delegateId === 'unreserved') {
-        this.fields.reservedAtoms += this.unbondedAtoms
-      } else {
-        let delegate = this.fields.delegates.find(c => c.id === delegateId)
-        delegate.atoms += this.unbondedAtoms
-      }
+      let delegate = this.fields.delegates.find(c => c.id === delegateId)
     },
     clearAtoms (delegateId) {
-      if (delegateId === 'unreserved') {
-        console.log('clearing reserved atoms')
-        this.fields.reservedAtoms = 0
-      } else {
-        console.log('clearing atoms for', delegateId)
-        let delegate = this.fields.delegates.find(c => c.delegateId === delegateId)
-        delegate.atoms = 0
-      }
+      console.log('clearing atoms for', delegateId)
+      let delegate = this.fields.delegates.find(c => c.delegateId === delegateId)
+      delegate.atoms = 0
     },
     equalAlloc () {
       this.equalize = true
       this.resetAlloc()
-      let atoms = this.unreservedAtoms
+      let atoms = this.unbondedAtoms
       let delegates = this.fields.delegates.length
       let remainderAtoms = atoms % delegates
 
@@ -144,11 +143,7 @@ export default {
       return Math.round(bondedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
     },
     async onSubmit () {
-      if (this.unbondedAtoms === this.user.atoms) {
-        this.$store.commit('notifyError', { title: 'Unbonded Delegates',
-          body: 'You either haven\'t bonded any atoms yet, or some delegates have 0 atoms bonded.' })
-        return
-      } else if (this.unbondedAtoms < 0) {
+      if (this.unbondedAtoms < 0) {
         this.$store.commit('notifyError', { title: 'Too Many Allocated Atoms',
           body: `You've bonded ${this.unbondedAtoms * -1} more atoms than you have.`})
         return
@@ -205,13 +200,6 @@ export default {
   },
   validations: () => ({
     fields: {
-      reservedAtoms: {
-        required,
-        numeric,
-        between (atoms) {
-          return between(this.reservedAtomsMin, this.user.atoms)(atoms)
-        }
-      },
       delegates: {
         $each: {
           atoms: {
