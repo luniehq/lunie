@@ -18,11 +18,12 @@ exports[`LiDelegate has the expected html structure 1`] = `
         <i
           class="fa fa-square-o"
         />
-        <router-link
-          to="[object Object]"
+        <a
+          class=""
+          href="#/staking/delegates/pubkeyX"
         >
           pubkeyX
-        </router-link>
+        </a>
       </span>
     </div>
     <div

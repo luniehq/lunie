@@ -1,30 +1,18 @@
-import Vuex from 'vuex'
-import { mount, createLocalVue } from 'vue-test-utils'
+import setup from '../helpers/vuex-setup'
 import LiDelegate from 'renderer/components/staking/LiDelegate'
-
-const shoppingCart = require('renderer/vuex/modules/shoppingCart').default({})
-const delegates = require('renderer/vuex/modules/delegates').default({})
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
 
 describe('LiDelegate', () => {
   let wrapper, store, delegate
+  let instance = setup()
 
   beforeEach(() => {
-    store = new Vuex.Store({
-      getters: {
-        shoppingCart: () => shoppingCart.state.delegates,
-        delegates: () => delegates.state,
-        config: () => ({
-          devMode: true
-        })
-      },
-      modules: {
-        shoppingCart,
-        delegates
+    let test = instance.mount(LiDelegate, {
+      propsData: {
+        delegate: {}
       }
     })
+    wrapper = test.wrapper
+    store = test.store
 
     store.commit('addDelegate', {
       pub_key: {
@@ -55,15 +43,9 @@ describe('LiDelegate', () => {
 
     delegate = store.state.delegates[0]
 
-    wrapper = mount(LiDelegate, {
-      localVue,
-      store,
-      propsData: {
-        delegate
-      }
+    wrapper.setData({
+      delegate
     })
-
-    jest.spyOn(store, 'commit')
   })
 
   it('has the expected html structure', () => {
