@@ -26,7 +26,7 @@ describe('NISessionWelcome', () => {
   })
 
   describe('without accounts', () => {
-    it('should open the help model on click', () => {
+    it('should open the help modal on click', () => {
       wrapper.findAll('.ni-session-header a').at(1).trigger('click')
       expect(store.commit.mock.calls[0]).toEqual(['setModalHelp', true])
     })
