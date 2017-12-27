@@ -6,7 +6,7 @@ export default ({ commit }) => {
     delegates: [],
 
     // our delegations which are already on the blockchain
-    committedDelegates: []
+    committedDelegates: {}
   }
 
   const mutations = {
@@ -58,21 +58,36 @@ export default ({ commit }) => {
     },
     walletDelegate ({ dispatch }, args) {
       args.type = 'buildDelegate'
-      args.to = {
-        chain: '',
-        app: 'sigs',
-        addr: args.to
-      }
       dispatch('walletTx', args)
     },
-    async submitDelegation ({ dispatch }, delegation) {
-      console.log('submitting delegation txs: ', JSON.stringify(delegation))
+    walletUnbond ({ dispatch }, args) {
+      args.type = 'buildUnbond'
+      dispatch('walletTx', args)
+    },
+    async submitDelegation ({ state, dispatch }, delegation) {
+      console.log('submitting delegate/unbond txs: ', JSON.stringify(delegation, null, '  '))
 
       for (let delegate of delegation.delegates) {
+        let candidateId = delegate.delegate.pub_key.data
+        let currentlyDelegated = state.committedDelegates[candidateId] || 0
+        let amountChange = delegate.atoms - currentlyDelegated
+        let action = amountChange > 0 ? 'walletDelegate': 'walletUnbond'
+
+        // skip if no change
+        if (amountChange === 0) continue
+
+        // bonding takes a 'coin' object, unbond just takes a number
+        let amount
+        if (amountChange > 0) {
+          // TODO: figure out which denom is bonding denom
+          amount = { denom: 'fermion', amount: Math.abs(amountChange) }
+        } else {
+          amount = Math.abs(amountChange)
+        }
+
         await new Promise((resolve, reject) => {
-          dispatch('walletDelegate', {
-            // TODO: figure out which denom is bonding denom
-            amount: { denom: 'fermion', amount: delegate.atoms },
+          dispatch(action, {
+            amount,
             pub_key: delegate.delegate.pub_key,
             cb: (err, res) => {
               if (err) return reject(err)
