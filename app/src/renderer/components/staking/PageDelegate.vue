@@ -66,7 +66,7 @@ export default {
       return this.shoppingCart.find(c => c.id === this.delegate.id) !== undefined
     },
     country () {
-      return this.delegate.country ? this.countryName(this.delegate.country) : "n/a"
+      return this.delegate.country ? this.countryName(this.delegate.country) : 'n/a'
     }
   },
   methods: {
