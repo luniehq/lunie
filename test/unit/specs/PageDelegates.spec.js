@@ -54,9 +54,9 @@ describe('PageDelegates', () => {
   })
 
   it('should sort the delegates by selected property', () => {
-    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['pubkeyX', 'pubkeyY'])
+    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['pubkeyY', 'pubkeyX'])
 
-    wrapper.vm.sort.property = 'voting_power'
+    wrapper.vm.sort.property = 'id'
     wrapper.vm.sort.order = 'desc'
     expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['pubkeyY', 'pubkeyX'])
   })

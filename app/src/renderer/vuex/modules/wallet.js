@@ -117,14 +117,14 @@ export default ({ commit, node }) => {
       blockMetaInfo && state.blockMetas.push(blockMetaInfo)
       return blockMetaInfo
     },
-    walletSend ({ dispatch }, args) {
+    async walletSend ({ dispatch }, args) {
       args.type = 'buildSend'
       args.to = {
         chain: '',
         app: 'sigs',
         addr: args.to
       }
-      dispatch('walletTx', args)
+      await dispatch('walletTx', args)
     },
     async walletTx ({ state, dispatch, commit, rootState }, args) {
       // wait until the current send operation is done

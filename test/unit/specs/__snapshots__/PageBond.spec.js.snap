@@ -84,7 +84,7 @@ exports[`PageBond has the expected html structure 1`] = `
       <div
         class="reserved-atoms__number"
       >
-        2097152
+        0
       </div>
        unbonded atoms. Start by bonding some of your atoms to these delegates.
     </div>

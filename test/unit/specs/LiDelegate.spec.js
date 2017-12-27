@@ -2,7 +2,7 @@ import Vuex from 'vuex'
 import { mount, createLocalVue } from 'vue-test-utils'
 import LiDelegate from 'renderer/components/staking/LiDelegate'
 
-const shoppingCart = require('renderer/vuex/modules/shoppingCart').default({})
+const delegation = require('renderer/vuex/modules/delegation').default({})
 const delegates = require('renderer/vuex/modules/delegates').default({})
 
 const localVue = createLocalVue()
@@ -14,14 +14,14 @@ describe('LiDelegate', () => {
   beforeEach(() => {
     store = new Vuex.Store({
       getters: {
-        shoppingCart: () => shoppingCart.state.delegates,
+        shoppingCart: () => delegation.state.delegates,
         delegates: () => delegates.state,
         config: () => ({
           devMode: true
         })
       },
       modules: {
-        shoppingCart,
+        delegation,
         delegates
       }
     })

@@ -24,7 +24,8 @@ describe('PageBond', () => {
       shares: 5000,
       description: {
         description: 'descriptionX',
-        country: 'USA'
+        country: 'USA',
+        moniker: 'someValidator'
       }
     })
     store.commit('addToCart', {
@@ -37,7 +38,8 @@ describe('PageBond', () => {
       shares: 10000,
       description: {
         description: 'descriptionY',
-        country: 'Canada'
+        country: 'Canada',
+        moniker: 'someOtherValidator'
       }
     })
 

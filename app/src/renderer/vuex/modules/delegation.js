@@ -56,13 +56,13 @@ export default ({ commit }) => {
       commit('setShares', {candidateId: bond.PubKey.data, value: bond.Shares})
       commit('setCommittedDelegation', {candidateId: bond.PubKey.data, value: bond.Shares})
     },
-    walletDelegate ({ dispatch }, args) {
+    async walletDelegate ({ dispatch }, args) {
       args.type = 'buildDelegate'
-      dispatch('walletTx', args)
+      await dispatch('walletTx', args)
     },
-    walletUnbond ({ dispatch }, args) {
+    async walletUnbond ({ dispatch }, args) {
       args.type = 'buildUnbond'
-      dispatch('walletTx', args)
+      await dispatch('walletTx', args)
     },
     async submitDelegation ({ state, dispatch }, delegation) {
       console.log('submitting delegate/unbond txs: ', JSON.stringify(delegation, null, '  '))
@@ -71,7 +71,7 @@ export default ({ commit }) => {
         let candidateId = delegate.delegate.pub_key.data
         let currentlyDelegated = state.committedDelegates[candidateId] || 0
         let amountChange = delegate.atoms - currentlyDelegated
-        let action = amountChange > 0 ? 'walletDelegate': 'walletUnbond'
+        let action = amountChange > 0 ? 'walletDelegate' : 'walletUnbond'
 
         // skip if no change
         if (amountChange === 0) continue
