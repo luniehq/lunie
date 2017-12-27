@@ -66,7 +66,7 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['shoppingCart', 'user']),
+    ...mapGetters(['shoppingCart', 'user', 'committedDelegations']),
     reservedAtoms () {
       return this.shoppingCart.reduce((sum, d) => sum + (d.reservedAtoms || 0), 0)
     },

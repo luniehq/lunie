@@ -6,6 +6,7 @@ export const lastHeader = state => state.node.lastHeader
 
 export const delegates = state => state.delegates
 export const shoppingCart = state => state.delegation.delegates
+export const committedDelegations = state => state.delegation.committedDelegates
 export const user = state => state.user
 export const config = state => state.config
 

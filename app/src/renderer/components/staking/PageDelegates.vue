@@ -69,14 +69,14 @@ export default {
   data: () => ({
     query: '',
     sort: {
-      property: 'id',
+      property: 'shares',
       order: 'desc',
       properties: [
         { id: 1, title: 'Name', value: 'description.moniker' },
         { id: 2, title: 'Public Key', value: 'id' },
-        { id: 3, title: 'Bonded Atoms', value: 'voting_power' },
-        { id: 4, title: 'Voting Power', value: 'shares', initial: true },
-        { id: 5, title: 'Commission', value: 'commission' }
+        { id: 3, title: 'Voting Power', value: 'shares', initial: true },
+        { id: 4, title: 'Bonded Atoms', value: 'voting_power' },
+        { id: 5, title: 'Bonded by You', value: 'bonded' }
       ]
     }
   }),

@@ -12,12 +12,12 @@ transition(name='ts-li-delegate'): div(:class='styles')
           a(v-else) {{ ' ' + delegate.description.moniker }}
       .value.id
         span {{ delegate.id }}
+      .value.delegated
+        span {{ num.percentInt(bondedPercent) }}
       .value.voting_power.num.bar
         span {{ num.prettyInt(delegate.voting_power) }}
         .bar(:style='vpStyles')
-      .value.delegated
-        span {{ num.percentInt(bondedPercent) }}
-      .value {{ delegate.commission ? num.percentInt(delegate.commission) : 'n/a' }}
+      .value {{ num.prettyInt(amountBonded(delegate.id)) }}
     menu
       btn(v-if='inCart'
         icon='delete' value='Remove' size='sm' @click.native='rm(delegate)')
@@ -37,7 +37,7 @@ export default {
     Btn
   },
   computed: {
-    ...mapGetters(['shoppingCart', 'delegates', 'config']),
+    ...mapGetters(['shoppingCart', 'delegates', 'config', 'committedDelegations']),
     styles () {
       let value = 'li-delegate'
       if (this.inCart) value += ' li-delegate-active '
@@ -69,7 +69,10 @@ export default {
   }),
   methods: {
     add (delegate) { this.$store.commit('addToCart', delegate) },
-    rm (delegate) { this.$store.commit('removeFromCart', delegate.id) }
+    rm (delegate) { this.$store.commit('removeFromCart', delegate.id) },
+    amountBonded (delegateId) {
+      return this.committedDelegations[delegateId]
+    }
   }
 }
 </script>
