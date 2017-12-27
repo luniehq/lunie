@@ -53,7 +53,7 @@ describe('LiDelegate', () => {
   it('has the expected html structure', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-  
+
   it('should show the voting power', () => {
     expect(wrapper.html()).toContain('10,000')
   })
