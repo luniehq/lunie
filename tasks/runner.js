@@ -1,8 +1,9 @@
 'use strict'
 
 const config = require('../config')
-const exec = require('child_process').exec
+const spawn = require('child_process').spawn
 const path = require('path')
+const killPort = require('kill-port')
 
 let YELLOW = '\x1b[33m'
 let BLUE = '\x1b[34m'
@@ -20,7 +21,7 @@ function format (command, data, color) {
 
 function run (command, color, name, env) {
   env = Object.assign({ PATH }, env)
-  let child = exec(command, { env })
+  let child = spawn(command, { env, shell: true })
   child.stdout.on('data', data => {
     console.log(format(name, data, color))
   })
@@ -41,7 +42,7 @@ function startRendererServer () {
     let waitForCompile = (data) => {
       if (!data.toString().includes('Compiled')) return
       child.stdout.removeListener('data', waitForCompile)
-      resolve()
+      resolve(child)
     }
     child.stdout.on('data', waitForCompile)
   })
@@ -55,5 +56,12 @@ module.exports = async function (networkPath) {
     NODE_ENV: 'development',
     COSMOS_NETWORK: networkPath
   }, process.env)
-  run('electron app/src/main/index.dev.js', BLUE, 'electron', env)
+  let mainProcess = run('electron app/src/main/index.dev.js', BLUE, 'electron', env)
+
+  // terminate running processes on exit of main process
+  mainProcess.on('exit', code => {
+    // webpack-dev-server spins up an own process we have no access to. so we kill all processes on our port
+    killPort(config.port)
+    process.exit(0)
+  })
 }

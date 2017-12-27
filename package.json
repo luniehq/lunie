@@ -112,6 +112,7 @@
     "electron": "^1.7.5",
     "flatpickr": "^4.1.2",
     "fs-extra": "^4.0.2",
+    "kill-port": "^1.0.0",
     "moment": "^2.17.1",
     "mousetrap": "^1.6.1",
     "nib": "^1.1.2",
