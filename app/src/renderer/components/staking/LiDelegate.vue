@@ -5,7 +5,7 @@ transition(name='ts-li-delegate'): .li-delegate(:class='styles'): .li-delegate__
     span
       i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
       i.fa.fa-square-o(v-else @click='add(delegate)')
-      router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}") {{ delegate.id }}
+      router-link(v-if="config.devMode && delegate.id" :to="{ name: 'delegate', params: { delegate: delegate.id }}") {{ delegate.id }}
       a(v-else) {{ delegate.id }}
   .li-delegate__value
     span {{ delegate.country ? delegate.country : 'n/a' }}
