@@ -19,24 +19,6 @@ a
   &:hover
     color hover
 
-.break-lines
-  /* These are technically the same, but use both */
-  overflow-wrap break-word
-  word-wrap break-word
-
-  -ms-word-break break-all
-  /* This is the dangerous one in WebKit, as it breaks things wherever */
-  word-break break-all
-  /* Instead use this non-standard one */
-  word-break break-word
-
-  /* Adds a hyphen where the word breaks, if supported (No Blink)
-  -ms-hyphens auto
-  -moz-hyphens auto
-  -webkit-hyphens auto
-  hyphens auto
-  */
-
 .desktop-only
   display none
 
@@ -49,6 +31,7 @@ a
 
   display flex
   flex-flow column nowrap
+  min-width 0
 
 .ni-field
   border-radius 2px!important
@@ -60,6 +43,7 @@ a
 
   #app-header, #app-content
     display flex
+    min-width 0
 
   #app-header
     flex 0 0 width-side

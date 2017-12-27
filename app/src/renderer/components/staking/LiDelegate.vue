@@ -1,26 +1,21 @@
 <template lang='pug'>
-transition(name='ts-li-delegate'): div(:class='styles')
-  .li-delegate-container
-    .values
-      .value.id
-        span
-          template
-            i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
-            i.fa.fa-square-o(v-else @click='add(delegate)')
-          router-link(:to="{ name: 'delegate', params: { delegate: delegate.id }}")
-            | {{ delegate.id }}
-      .value {{ delegate.country ? delegate.country : 'n/a' }}
-      .value.voting_power.num.bar
-        span {{ num.prettyInt(delegate.voting_power) }}
-        .bar(:style='vpStyles')
-      .value.delegated
-        span {{ num.percentInt(bondedPercent) }}
-      .value {{ delegate.commission ? num.percentInt(delegate.commission) : 'n/a' }}
-    menu
-      btn(v-if='inCart'
-        icon='delete' value='Remove' size='sm' @click.native='rm(delegate)')
-      btn(v-else
-        icon='check' value='Add' size='sm' @click.native='add(delegate)')
+transition(name='ts-li-delegate'): .li-delegate(:class='styles'): .li-delegate__values
+  .ni-delegate__value
+  .li-delegate__value.id
+    span
+      i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
+      i.fa.fa-square-o(v-else @click='add(delegate)')
+      router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}") {{ delegate.id }}
+      a(v-else) {{ delegate.id }}
+  .li-delegate__value
+    span {{ delegate.country ? delegate.country : 'n/a' }}
+  .li-delegate__value.voting_power.num.bar
+    span {{ num.prettyInt(delegate.voting_power) }}
+    .bar(:style='vpStyles')
+  .li-delegate__value.delegated
+    span {{ num.percentInt(bondedPercent) }}
+  .li-delegate__value
+    span {{ delegate.commission ? num.percentInt(delegate.commission) : 'n/a' }}
 </template>
 
 <script>
@@ -37,8 +32,8 @@ export default {
   computed: {
     ...mapGetters(['shoppingCart', 'delegates']),
     styles () {
-      let value = 'li-delegate'
-      if (this.inCart) value += ' li-delegate-active '
+      let value = ''
+      if (this.inCart) value += 'li-delegate-active '
       return value
     },
     vpMax () {
@@ -73,91 +68,46 @@ export default {
 @require '~variables'
 
 .li-delegate
-  &:nth-of-type(2n) .li-delegate-container
+  &:nth-of-type(2n-1)
     background app-fg
+  &.li-delegate-active 
+    .li-delegate__value i.fa
+      color accent
 
-  &.li-delegate-active .li-delegate-container
-    .value.id a, .icon
-      color link
+.li-delegate__values
+  display flex
+  height 3rem
+  padding 0 0.75rem
 
-.li-delegate-container
-  position relative
-  &:hover
-    menu
-      display block
+.li-delegate__value
+  flex 1
+  display flex
+  align-items center
+  min-width 0
 
-  .values
-    display flex
-    height 2rem
-    padding 0 0.75rem
+  &.id span
+    i.fa
+      margin-right 0.25rem
 
-  .value
-    flex 1
-    display flex
-    align-items center
-    justify-content space-between
-
-    padding 0 0.25rem
-
-    min-width 0
-
-    &.id
-      i.fa
-        margin-right 0.5rem
-      a
-        color link
-        &:hover
-          color hover
-
-    &.bar
-      position relative
-      span
-        display block
-        position absolute
-        top 0
-        left 0
-        z-index 10
-
-        line-height 2rem
-        padding 0 0.375rem
-        color txt
-
-      .bar
-        height 1.5rem
-        background alpha(link, 33.3%)
-
-      &.delegated .bar
-        background alpha(accent, 33.3%)
-
+  &.bar
+    position relative
     span
       display block
+      position absolute
+      top 0
+      left 0
+      z-index 10
 
-      white-space nowrap
-      text-overflow ellipsis
-      overflow hidden
-      i.fa
-        color dim
+      line-height 3rem
+      color txt
 
-  menu
-    position absolute
-    top 0
-    right 0
-    height 2rem
-    display flex
-    align-items center
-    justify-content center
-    display none
+    .bar
+      height 1.5rem
+      background alpha(link, 33.3%)
 
-@media screen and (max-width: 414px)
-  .li-delegate-container menu .ni-btn .ni-btn-value
-    display none
-
-@media screen and (max-width: 479px)
-  .li-delegate-container .value span i.fa
-    display none
-
-@media screen and (min-width: 768px)
-  .li-delegate-container
-    .value span
-      font-size x
+  span
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+    padding 0 0.25rem
 </style>

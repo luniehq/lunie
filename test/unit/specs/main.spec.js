@@ -53,6 +53,10 @@ describe('Startup Process', () => {
     version: '0.1.0'
   }))
 
+  beforeAll(() => {
+    fs.removeSync(testRoot + 'genesis.json')
+  })
+
   describe('Initialization', function () {
     beforeAll(async function () {
       await resetConfigs()

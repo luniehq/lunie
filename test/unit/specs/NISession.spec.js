@@ -23,7 +23,9 @@ describe('NiSessionWelcome', () => {
         'session-welcome': '<session-welcome />',
         'session-sign-up': '<session-sign-up />',
         'session-sign-in': '<session-sign-in />',
-        'session-hardware': '<session-hardware />'
+        'session-hardware': '<session-hardware />',
+        'session-restore': '<session-restore />',
+        'session-account-delete': '<session-account-delete />'
       }
     })
   })
@@ -58,4 +60,18 @@ describe('NiSessionWelcome', () => {
     wrapper.update()
     expect(wrapper.contains('session-hardware')).toBe(true)
   })
+
+  it('should show a account delete screen if selected', () => {
+    store.commit('setModalSession', true)
+    store.commit('setModalSessionState', 'delete')
+    wrapper.update()
+    expect(wrapper.contains('session-account-delete')).toBe(true)
+  })
+
+  // it('should show a restore screen if selected', () => {
+  //   store.commit('setModalSession', true)
+  //   store.commit('setModalSessionState', 'restore')
+  //   wrapper.update()
+  //   expect(wrapper.contains('session-restore')).toBe(true)
+  // })
 })

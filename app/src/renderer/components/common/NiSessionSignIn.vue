@@ -30,7 +30,7 @@ import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldGroup from 'common/NiFieldGroup'
 import FormGroup from 'common/NiFormGroup'
-import FormMsg from '@nylira/vue-form-msg'
+import FormMsg from 'common/NiFormMsg'
 import FormStruct from 'common/NiFormStruct'
 export default {
   name: 'ni-session-sign-in',
