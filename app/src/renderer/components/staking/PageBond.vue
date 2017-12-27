@@ -30,7 +30,7 @@ page.page-bond(title="Bond Atoms")
           v-model.number="delegate.atoms")
         field-addon Atoms
         // btn(type="button" value="Max"
-          @click.native="fillAtoms(delegate.id)")
+        // @click.native="fillAtoms(delegate.id)")
         btn(type="button" icon="clear" @click.native="rm(delegate.id)")
       form-msg(name="Atoms" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
@@ -72,7 +72,7 @@ export default {
   computed: {
     ...mapGetters(['shoppingCart', 'user', 'committedDelegations']),
     previouslyBondedAtoms () {
-      return Object.values(this.committedDelegations).reduce((sum, d) => sum + d)
+      return Object.values(this.committedDelegations).reduce((sum, d) => sum + d, 0)
     },
     willUnbondAtoms () {
       let sum = 0
@@ -88,7 +88,6 @@ export default {
     unbondedAtoms () {
       let willBondSum = this.bondedAtoms
       let bondedSum = this.previouslyBondedAtoms
-      let walletBalance = this.user.atoms
       return this.user.atoms - willBondSum + bondedSum - this.willUnbondAtoms
     },
     unbondedAtomsPct () {
@@ -113,7 +112,7 @@ export default {
   }),
   methods: {
     fillAtoms (delegateId) {
-      let delegate = this.fields.delegates.find(c => c.id === delegateId)
+      // let delegate = this.fields.delegates.find(c => c.id === delegateId)
     },
     clearAtoms (delegateId) {
       console.log('clearing atoms for', delegateId)
