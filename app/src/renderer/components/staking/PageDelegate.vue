@@ -4,21 +4,21 @@ page(icon="storage" :title="delegate.keybaseID")
     router-link(to="/staking" exact)
       i.material-icons arrow_back
       .label Back
-    template(v-if='isDelegator')
-      a(v-if='inCart' @click.native='rm(delegate.id)')
-        i.material-icons delete
-        .label Remove
-      a(v-else @click.native='add(delegate.id)')
-        i.material-icons add
-        .label Add
+    a(v-if='inCart' @click.native='rm(delegate.id)')
+      i.material-icons delete
+      .label Remove
+    a(v-else-if="config.devMode" @click.native='add(delegate)')
+      i.material-icons add
+      .label Add
 
   part(title="Delegate Description")
-    text-block(:content="delegate.description")
+    list-item(dt='Name' :dd='delegate.description.moniker')
+    text-block(v-if="delegate.description.website" :content="delegate.description.details")
   part(title="Delegate Details")
     list-item(dt='Public Key' :dd='delegate.id')
-    list-item(dt='Country' :dd='delegate.country')
-    list-item(dt='Start Date' :dd='delegate.startDate')
-  part(title="Delegate Stake")
+    list-item(dt='Country' :dd='country')
+    list-item(dt='Start Date' :dd='delegate.startDate || "n/a"')
+  part(title="Delegate Stake" v-if="config.devMode")
     list-item(dt='Voting Power' :dd='delegate.voting_power + " ATOM"')
     list-item(dt='Shares' :dd='delegate.shares + " ATOM"')
     list-item(dt='Commission'
@@ -29,7 +29,7 @@ page(icon="storage" :title="delegate.keybaseID")
       :dd='(delegate.commissionMaxRate * 100).toFixed(2) + "%"')
 
   part(title="External")
-    list-item(dt="Website" :dd="delegate.url" :href="delegate.url")
+    list-item(dt="Website" :dd="delegate.description.website" :href="delegate.description.website")
 </template>
 
 <script>
@@ -52,35 +52,37 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['delegates', 'countries', 'shoppingCart', 'user']),
+    ...mapGetters(['delegates', 'shoppingCart', 'user', 'config']),
     delegate () {
-      let value = {}
-      if (this.delegates) {
+      let value = {
+        description: {}
+      }
+      if (this.delegates && this.$route.params.delegate) {
         value = this.delegates.find(v => v.id === this.$route.params.delegate)
       }
       return value
     },
     inCart () {
-      return this.shoppingCart.find(c => c.delegateId === this.delegate.id)
+      return this.shoppingCart.find(c => c.id === this.delegate.id) !== undefined
     },
-    isDelegator () { return this.user.signedIn && !this.user.nominationActive },
-    isMe () {
-      return this.user.nominationActive && this.user.nomination.id === this.delegate.id
+    country () {
+      return this.delegate.country ? this.countryName(this.delegate.country) : 'n/a'
     }
   },
   methods: {
     countryName (code) {
-      return countries.find(c => c.value === code).key
+      let country = countries.find(c => c.value === code)
+      return country ? country.key : code
     },
-    add (delegateId) {
-      this.$store.commit('addToCart', delegateId)
+    add (delegate) {
+      this.$store.commit('addToCart', delegate)
     },
     rm (delegateId) {
       this.$store.commit('removeFromCart', delegateId)
     }
   },
   mounted () {
-    if (!this.delegate) { this.$router.push('/staking') }
+    if (!this.delegate.id) { this.$router.push('/staking') }
   }
 }
 </script>
