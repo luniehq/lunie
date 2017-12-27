@@ -1,30 +1,20 @@
-import Vuex from 'vuex'
-import { mount, createLocalVue } from 'vue-test-utils'
+import setup from '../helpers/vuex-setup'
 import LiDelegate from 'renderer/components/staking/LiDelegate'
-
-const delegation = require('renderer/vuex/modules/delegation').default({})
-const delegates = require('renderer/vuex/modules/delegates').default({})
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
 
 describe('LiDelegate', () => {
   let wrapper, store, delegate
+  let instance = setup()
 
   beforeEach(() => {
-    store = new Vuex.Store({
-      getters: {
-        shoppingCart: () => delegation.state.delegates,
-        delegates: () => delegates.state,
-        config: () => ({
-          devMode: true
-        })
-      },
-      modules: {
-        delegation,
-        delegates
+    let test = instance.mount(LiDelegate, {
+      propsData: {
+        delegate: {
+          description: {}
+        }
       }
     })
+    wrapper = test.wrapper
+    store = test.store
 
     store.commit('addDelegate', {
       pub_key: {
@@ -35,7 +25,7 @@ describe('LiDelegate', () => {
       shares: 5000,
       description: {
         description: 'descriptionX',
-        keybaseID: 'keybaseX',
+        moniker: 'candidateX',
         country: 'USA'
       }
     })
@@ -48,32 +38,22 @@ describe('LiDelegate', () => {
       shares: 10000,
       description: {
         description: 'descriptionY',
-        keybaseID: 'keybaseY',
+        moniker: 'candidateY',
         country: 'Canada'
       }
     })
 
     delegate = store.state.delegates[0]
 
-    wrapper = mount(LiDelegate, {
-      localVue,
-      store,
-      propsData: {
-        delegate
-      }
+    wrapper.setData({
+      delegate
     })
-
-    jest.spyOn(store, 'commit')
   })
 
   it('has the expected html structure', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-
-  it('should show the country', () => {
-    expect(wrapper.html()).toContain('USA')
-  })
-
+  
   it('should show the voting power', () => {
     expect(wrapper.html()).toContain('10,000')
   })

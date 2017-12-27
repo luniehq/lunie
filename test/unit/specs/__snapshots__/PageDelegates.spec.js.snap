@@ -190,7 +190,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
           class="li-delegate__value delegated"
         >
           <span>
-            75%
+            0%
           </span>
         </div>
         <div
@@ -248,7 +248,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
           class="li-delegate__value delegated"
         >
           <span>
-            25%
+            0%
           </span>
         </div>
         <div
@@ -512,7 +512,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
           class="li-delegate__value delegated"
         >
           <span>
-            75%
+            0%
           </span>
         </div>
         <div
@@ -570,7 +570,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
           class="li-delegate__value delegated"
         >
           <span>
-            25%
+            0%
           </span>
         </div>
         <div
