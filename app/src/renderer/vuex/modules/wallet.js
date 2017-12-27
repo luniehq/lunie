@@ -126,15 +126,6 @@ export default ({ commit, node }) => {
       }
       dispatch('walletTx', args)
     },
-    walletDelegate ({ dispatch }, args) {
-      args.type = 'buildDelegate'
-      args.to = {
-        chain: '',
-        app: 'sigs',
-        addr: args.to
-      }
-      dispatch('walletTx', args)
-    },
     async walletTx ({ state, dispatch, commit, rootState }, args) {
       // wait until the current send operation is done
       if (state.sending) {
@@ -213,25 +204,6 @@ export default ({ commit, node }) => {
       }
 
       commit('setDenoms', Object.keys(denoms))
-    },
-    async submitDelegation ({ dispatch }, delegation) {
-      console.log('submitting delegation txs: ', JSON.stringify(delegation))
-
-      for (let delegate of delegation.delegates) {
-        await new Promise((resolve, reject) => {
-          dispatch('walletDelegate', {
-            // TODO: figure out which denom is bonding denom
-            amount: { denom: 'fermion', amount: delegate.atoms },
-            pub_key: delegate.delegate.pub_key,
-            cb: (err, res) => {
-              if (err) return reject(err)
-              resolve(res)
-            }
-          })
-        })
-      }
-
-      commit('activateDelegation', true)
     }
   }
 
