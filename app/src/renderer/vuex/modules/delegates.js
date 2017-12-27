@@ -8,9 +8,12 @@ export default ({ dispatch, node }) => {
       delegate.id = delegate.pub_key.data
       Object.assign(delegate, delegate.description)
 
-      // return if we already have this delegate
+      // update if we already have this delegate
       for (let existingDelegate of state) {
-        if (existingDelegate.id === delegate.id) return
+        if (existingDelegate.id === delegate.id) {
+          Object.assign(existingDelegate, delegate)
+          return
+        }
       }
 
       state.push(delegate)
@@ -20,19 +23,18 @@ export default ({ dispatch, node }) => {
   const actions = {
     async getDelegates ({ dispatch }) {
       let delegatePubkeys = (await node.candidates()).data
-      for (let pubkey of delegatePubkeys) {
-        dispatch('getDelegate', pubkey)
-      }
+      return Promise.all(delegatePubkeys.map(pubkey => {
+        return dispatch('getDelegate', pubkey)
+      }))
     },
     async getDelegate ({ commit }, pubkey) {
       let delegate = (await axios.get('http://localhost:8998/query/stake/candidate/' + pubkey.data)).data.data
       // TODO move into cosmos-sdk
       // let delegate = (await node.candidate(pubkeyToString(pubkey))).data
       commit('addDelegate', delegate)
+      return delegate
     }
   }
-
-  setTimeout(() => dispatch('getDelegates'), 1000)
 
   return { state, mutations, actions }
 }

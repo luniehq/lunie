@@ -11,6 +11,11 @@ describe('NiUserPane', () => {
     store = instance.store
     router = instance.router
     wrapper = instance.wrapper
+    store.commit('setAccounts', [{
+      address: '1234567890123456789012345678901234567890',
+      name: 'ACTIVE_ACCOUNT',
+      password: '1234567890'
+    }])
     await store.dispatch('signIn', {account: 'ACTIVE_ACCOUNT', password: '1234567890'})
     wrapper.update()
   })
