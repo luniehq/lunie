@@ -6,75 +6,57 @@ exports[`LiDelegate has the expected html structure 1`] = `
   name="ts-li-delegate"
 >
   <div
-    class="li-delegate-container"
+    class="li-delegate__values"
   >
     <div
-      class="values"
+      class="ni-delegate__value"
+    />
+    <div
+      class="li-delegate__value id"
     >
-      <div
-        class="value id"
-      >
-        <span>
-          <i
-            class="fa fa-square-o"
-          />
-          <router-link
-            to="[object Object]"
-          >
-            pubkeyX
-          </router-link>
-        </span>
-      </div>
-      <div
-        class="value"
-      >
-        USA
-      </div>
-      <div
-        class="value voting_power num bar"
-      >
-        <span>
-          10,000
-        </span>
-        <div
-          class="bar"
-          style="width: 33%;"
+      <span>
+        <i
+          class="fa fa-square-o"
         />
-      </div>
-      <div
-        class="value delegated"
-      >
-        <span>
-          50%
-        </span>
-      </div>
-      <div
-        class="value"
-      >
-        n/a
-      </div>
-    </div>
-    <menu>
-      <button
-        class="ni-btn"
-      >
-        <span
-          class="ni-btn-container ni-btn-size-sm"
+        <router-link
+          to="[object Object]"
         >
-          <i
-            aria-hidden="true"
-            class="ni-btn-icon material-icons"
-          >
-            check
-          </i>
-          <span
-            class="ni-btn-value"
-          >
-            Add
-          </span>
-        </span>
-      </button>
-    </menu>
+          pubkeyX
+        </router-link>
+      </span>
+    </div>
+    <div
+      class="li-delegate__value"
+    >
+      <span>
+        USA
+      </span>
+    </div>
+    <div
+      class="li-delegate__value voting_power num bar"
+    >
+      <span>
+        10,000
+      </span>
+      <div
+        class="bar"
+        style="width: 33%;"
+      />
+    </div>
+    <div
+      class="li-delegate__value delegated"
+    >
+      <span>
+        50%
+      </span>
+    </div>
+    <div
+      class="li-delegate__value"
+    >
+      <span>
+        n/a
+      </span>
+    </div>
   </div>
 </div>
 `;

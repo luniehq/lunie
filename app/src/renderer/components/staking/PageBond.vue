@@ -153,7 +153,7 @@ export default {
         try {
           await this.$store.dispatch('submitDelegation', this.fields)
           this.$store.commit('notify', { title: 'Atoms Bonded',
-            body: 'You have successfully bonded your atoms. You can rebond after the  30 day unbonding period.' })
+            body: 'You have successfully updated your delegations.' })
         } catch (err) {
           this.$store.commit('notifyError', { title: 'Error While Bonding Atoms',
             body: err.message })
