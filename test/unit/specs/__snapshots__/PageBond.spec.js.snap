@@ -83,8 +83,10 @@ exports[`PageBond has the expected html structure 1`] = `
       <span />
       <!---->
       <span>
-        <a>
-          (start over?)
+        <a
+          class="reserved-atoms__restart"
+        >
+           (start over?)
         </a>
       </span>
     </div>
