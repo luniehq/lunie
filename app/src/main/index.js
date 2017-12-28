@@ -130,7 +130,11 @@ function createWindow () {
   webContents.on('will-navigate', handleRedirect)
   webContents.on('new-window', handleRedirect)
 
+  // removes menu bar on Windows and Linux but has no effect on macOS
   Menu.setApplicationMenu(null)
+
+  // remove the file menu bar on Windows
+  mainWindow.setMenu(null)
 }
 
 function startProcess (name, args, env) {
