@@ -47,9 +47,11 @@ export default function ({ node, commit, dispatch }) {
   }
 
   // TODO: get event from light-client websocket instead of RPC connection (once that exists)
-  rpc.on('error', (err) => {
+  rpc.on('error', async (err) => {
     console.log('rpc disconnected', err)
     commit('setConnected', false)
+
+    node.reconnect()
   })
   rpc.subscribe({ event: 'NewBlockHeader' }, (err, event) => {
     if (err) return console.error('error subscribing to headers', err)

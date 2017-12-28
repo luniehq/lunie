@@ -9,8 +9,9 @@ let semver = require('semver')
 // this dependency is wrapped in a file as it was not possible to mock the import with jest any other way
 let event = require('event-to-promise')
 let toml = require('toml')
+let axios = require('axios')
 let pkg = require('../../../package.json')
-let mockServer = require('./mockServer.js')
+let relayServer = require('./relayServer.js')
 
 let started = false
 let shuttingDown = false
@@ -18,7 +19,10 @@ let mainWindow
 let baseserverProcess
 let streams = []
 let nodeIP
+let connecting = false
 
+const root = require('../root.js')
+const baseserverHome = join(root, 'baseserver')
 const WIN = /^win/.test(process.platform)
 const DEV = process.env.NODE_ENV === 'development'
 const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
@@ -28,6 +32,7 @@ const MOCK = JSON.parse(process.env.MOCK || !TEST && DEV) !== false
 const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
   : `file://${__dirname}/index.html`
+const NODE = process.env.COSMOS_NODE
 
 // this network gets used if none is specified via the
 // COSMOS_NETWORK env var
@@ -179,22 +184,23 @@ app.on('activate', () => {
 app.on('ready', () => createWindow())
 
 // start baseserver REST API
-async function startBaseserver (home) {
+async function startBaseserver (home, nodeIP) {
   log('startBaseserver', home)
   let child = startProcess(SERVER_BINARY, [
     'rest-server',
-    '--home', home // ,
+    '--home', home,
+    '--node', nodeIP
     // '--trust-node'
   ])
   logProcess(child, join(home, 'baseserver.log'))
 
   // restore baseserver if it crashes
-  child.on('exit', async () => {
-    if (shuttingDown) return
-    log('baseserver crashed, restarting')
-    await sleep(1000)
-    await startBaseserver(home)
-  })
+  // child.on('exit', async () => {
+  //   if (shuttingDown) return
+  //   log('baseserver crashed, restarting')
+  //   await sleep(1000)
+  //   await startBaseserver(home)
+  // })
 
   while (true) {
     if (shuttingDown) break
@@ -311,6 +317,48 @@ function consistentConfigDir (versionPath, genesisPath, configPath) {
   return exists(genesisPath) && exists(versionPath) && exists(configPath)
 }
 
+function pickNode (seeds) {
+  nodeIP = NODE || seeds[Math.floor(Math.random() * seeds.length)]
+  log('Picked seed:', nodeIP, 'of', seeds)
+  // replace port with default RPC port
+  nodeIP = `${nodeIP.split(':')[0]}:46657`
+
+  return nodeIP
+}
+
+async function connect (seeds, nodeIP) {
+  log(`starting gaia server with nodeIP ${nodeIP}`)
+  baseserverProcess = await startBaseserver(baseserverHome, nodeIP)
+  log('gaia server ready')
+
+  return nodeIP
+}
+
+async function reconnect (seeds) {
+  if (connecting) return
+  connecting = true
+
+  let nodeAlive = false
+  while (!nodeAlive) {
+    let nodeIP = pickNode(seeds)
+    nodeAlive = await axios('http://' + nodeIP + '/status')
+      .then(() => true, () => false)
+    log(`${nodeIP} is ${nodeAlive ? 'alive' : 'down'}`)
+
+    if (!nodeAlive) await sleep(500)
+  }
+
+  log('quitting running baseserver')
+  baseserverProcess.kill('SIGKILL')
+
+  await connect(seeds, nodeIP)
+
+  log('restart vue application')
+  mainWindow.loadURL(winURL + '?node=' + nodeIP)
+
+  connecting = false
+}
+
 async function main () {
   // the windows installer opens the app once when installing
   // the package recommends, that we exit if this happens
@@ -323,7 +371,6 @@ async function main () {
     return
   }
 
-  let root = require('../root.js')
   let versionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
   let configPath = join(root, 'config.toml')
@@ -399,28 +446,21 @@ async function main () {
   }
   let config = toml.parse(configText)
   let seeds = config.p2p.seeds.split(',')
-  if (config.p2p.seeds === '' || seeds.length === 0) {
-    throw new Error('No seeds specified in config.toml')
-  }
-  nodeIP = seeds[Math.floor(Math.random() * seeds.length)]
-  log('Picked seed:', nodeIP, 'of', seeds)
-  // replace port with default RPC port
-  nodeIP = `${nodeIP.split(':')[0]}:46657`
-  log(`Initializing baseserver with remote node ${nodeIP}`)
+  nodeIP = pickNode(seeds)
 
-  let baseserverHome = join(root, 'baseserver')
   if (init) {
+    log(`Initializing baseserver with remote node ${nodeIP}`)
     await initBaseserver(chainId, baseserverHome, nodeIP)
   }
 
-  log('starting gaia server')
-  baseserverProcess = await startBaseserver(baseserverHome)
-  log('gaia server ready')
+  await connect(seeds, nodeIP)
 
-  if (MOCK) {
-    // start mock API server on port 8999
-    mockServer(8999)
-  }
+  // the view can communicate with the main process by sending requests to the relay server
+  // the relay server also proxies to the LCD
+  relayServer({
+    mock: MOCK,
+    onReconnectReq: reconnect.bind(this, seeds)
+  })
 
   started = true
   if (mainWindow) {
