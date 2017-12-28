@@ -1,5 +1,5 @@
 <template lang="pug">
-page(icon="storage" :title="delegate.keybaseID")
+page(icon="storage" :title="delegate.description.moniker")
   div(slot="menu"): tool-bar
     router-link(to="/staking" exact)
       i.material-icons arrow_back
@@ -11,16 +11,15 @@ page(icon="storage" :title="delegate.keybaseID")
       i.material-icons add
       .label Add
 
-  part(title="Delegate Description")
-    list-item(dt='Name' :dd='delegate.description.moniker')
-    text-block(v-if="delegate.description.website" :content="delegate.description.details")
+  part(title="Delegate Description" v-if="delegate.description.website")
+    text-block( :content="delegate.description.details")
   part(title="Delegate Details")
     list-item(dt='Public Key' :dd='delegate.id')
     list-item(dt='Country' :dd='country')
     list-item(dt='Start Date' :dd='delegate.startDate || "n/a"')
   part(title="Delegate Stake" v-if="config.devMode")
     list-item(dt='Voting Power' :dd='delegate.voting_power + " ATOM"')
-    list-item(dt='Shares' :dd='delegate.shares + " ATOM"')
+    list-item(dt='Bonded Atoms' :dd='delegate.shares + " ATOM"')
     list-item(dt='Commission'
       :dd='(delegate.commission * 100).toFixed(2) + "%"')
     list-item(dt='Max Commission'
