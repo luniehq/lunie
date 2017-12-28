@@ -29,7 +29,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
          <div class=\\"ni-form-group__field\\">
             <textarea class=\\"ni-field-seed ni-field\\" id=\\"sign-up-seed\\" disabled=\\"disabled\\"></textarea>
             <div class=\\"ni-form-msg ni-form-msg-desc\\">
-               Please back up the seed phrase for this account. These words cannot be recovered!
+               Please back up this seed phrase. These words cannot be recovered!
             </div>
 </div>
 </div>

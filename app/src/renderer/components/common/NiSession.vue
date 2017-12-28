@@ -1,12 +1,12 @@
 <template lang="pug">
 .ni-session-wrapper(v-if="active")
-  img.ni-session-backdrop(src="../../assets/images/cosmos-logo.png")
+  img.ni-session-backdrop(src="~assets/images/cosmos-logo.png")
   session-welcome(v-if="config.modals.session.state == 'welcome'")
   session-sign-up(v-if="config.modals.session.state == 'sign-up'")
   session-sign-in(v-if="config.modals.session.state == 'sign-in'")
   session-account-delete(v-if="config.modals.session.state == 'delete'")
   session-hardware(v-if="config.modals.session.state == 'hardware'")
-  session-restore(v-if="config.modals.session.state == 'restore'")
+  session-import(v-if="config.modals.session.state == 'import'")
 </template>
 
 <script>
@@ -15,7 +15,7 @@ import SessionWelcome from 'common/NiSessionWelcome'
 import SessionSignUp from 'common/NiSessionSignUp'
 import SessionSignIn from 'common/NiSessionSignIn'
 import SessionHardware from 'common/NiSessionHardware'
-import SessionRestore from 'common/NiSessionRestore'
+import SessionImport from 'common/NiSessionImport'
 import SessionAccountDelete from 'common/NiSessionAccountDelete'
 export default {
   name: 'ni-session',
@@ -24,7 +24,7 @@ export default {
     SessionSignUp,
     SessionSignIn,
     SessionHardware,
-    SessionRestore,
+    SessionImport,
     SessionAccountDelete
   },
   computed: {
