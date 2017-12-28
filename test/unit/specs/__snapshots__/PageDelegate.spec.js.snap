@@ -18,7 +18,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
           class="ni-page-header-title"
         >
           <div>
-            keybaseX
+            
           </div>
         </div>
         <div
@@ -90,62 +90,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
   <main
     class="ni-page-main ps"
   >
-    <section
-      class="ni-part"
-    >
-      <div
-        class="ni-part-container"
-      >
-        <header
-          class="ni-part-header"
-        >
-          <div
-            class="ni-part-header-container"
-          >
-            <div
-              class="ni-part-title h5"
-            >
-              Delegate Description
-            </div>
-            <menu
-              class="ni-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="ni-part-main"
-        >
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Name
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-          <!---->
-        </main>
-      </div>
-    </section>
+    <!---->
     <section
       class="ni-part"
     >
@@ -324,7 +269,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="ni-li-dt"
                 >
-                  Shares
+                  Bonded Atoms
                 </div>
                 <div
                   class="ni-li-dd"
