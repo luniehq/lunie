@@ -60,7 +60,7 @@ export default {
       padding 0 0.75rem
 
       color txt
-      z-index z(goku)
+      z-index z(modal)
 
       white-space nowrap
 
@@ -98,7 +98,7 @@ export default {
 
 @media screen and (max-width: 567px)
   .ni-tool-bar
-    z-index z(shoryuken)
+    z-index z(toolbar)
     position fixed
     bottom 0
     left 0
