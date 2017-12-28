@@ -17,10 +17,11 @@
       title="Create new account"
       subtitle="Generate a brand new seed and account")
     li-session(
-      @click.native="setState('restore')"
+      v-if="config.devMode"
+      @click.native="setState('import')"
       icon="settings_backup_restore"
-      title="Restore account from seed"
-      subtitle="If you have a seed, choose this option")
+      title="Import account"
+      subtitle="Generate an account with an existing seed")
     li-session(
       v-if="config.devMode"
       @click.native="setState('hardware')"

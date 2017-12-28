@@ -15,7 +15,7 @@
 
     form-group(field-id='sign-up-seed' field-label='Seed (write it down)')
       field-seed#sign-up-seed(v-model="fields.signUpSeed" disabled)
-      form-msg(body='Please back up the seed phrase for this account. These words cannot be recovered!')
+      form-msg(body='Please back up this seed phrase. These words cannot be recovered!')
 
     form-group(:error='$v.fields.signUpPassword.$error'
       field-id='sign-in-password' field-label='Password')

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NiSessionRestore has the expected html structure 1`] = `
+exports[`NiSessionImport has the expected html structure 1`] = `
 "<div class=\\"ni-session\\">
    <form class=\\"ni-session-container ni-form\\">
       <div class=\\"ni-form-container\\">
@@ -9,15 +9,15 @@ exports[`NiSessionRestore has the expected html structure 1`] = `
             <div class=\\"ni-session-header\\">
                <a><i class=\\"material-icons\\">arrow_back</i></a>
                <div class=\\"ni-session-title\\">
-                  Restore Account
+                  Import Account
                </div>
       <a><i class=\\"material-icons\\">help_outline</i></a>
    </div>
       <div class=\\"ni-session-main\\">
          <div class=\\"ni-form-group\\">
-            <label for=\\"restore-name\\" class=\\"ni-form-group__label\\">Account Name</label>
+            <label for=\\"import-name\\" class=\\"ni-form-group__label\\">Account Name</label>
             <div class=\\"ni-form-group__field\\">
-               <input type=\\"text\\" placeholder=\\"at least 5 characters\\" class=\\"ni-field\\" id=\\"restore-name\\">
+               <input type=\\"text\\" placeholder=\\"at least 5 characters\\" class=\\"ni-field\\" id=\\"import-name\\">
                <div class=\\"ni-form-msg ni-form-msg-error\\">
                   Name is required
                </div>
@@ -25,20 +25,20 @@ exports[`NiSessionRestore has the expected html structure 1`] = `
    </div>
 </div>
       <div class=\\"ni-form-group\\">
-         <label for=\\"restore-seed\\" class=\\"ni-form-group__label\\">Seed</label>
+         <label for=\\"import-seed\\" class=\\"ni-form-group__label\\">Seed</label>
          <div class=\\"ni-form-group__field\\">
-            <textarea class=\\"ni-field-seed ni-field\\" id=\\"restore-seed\\" placeholder=\\"must be exactly 12 words\\"></textarea>
+            <textarea class=\\"ni-field-seed ni-field\\" id=\\"import-seed\\" placeholder=\\"must be exactly 12 words\\"></textarea>
             <div class=\\"ni-form-msg ni-form-msg-error\\">
                Seed is required
             </div>
 </div>
 </div>
       <div class=\\"ni-form-group\\">
-         <label for=\\"restore-password\\" class=\\"ni-form-group__label\\">Password</label>
+         <label for=\\"import-password\\" class=\\"ni-form-group__label\\">Password</label>
          <div class=\\"ni-form-group__field\\">
-            <input type=\\"password\\" placeholder=\\"at least 10 characters\\" class=\\"ni-field\\" id=\\"restore-password\\">
+            <input type=\\"password\\" placeholder=\\"at least 10 characters\\" class=\\"ni-field\\" id=\\"import-password\\">
             <div class=\\"ni-form-msg ni-form-msg-desc\\">
-               Create a password to secure your restored account
+               Create a password to secure your imported account
             </div>
       <div class=\\"ni-form-msg ni-form-msg-error\\">
          Password is required
