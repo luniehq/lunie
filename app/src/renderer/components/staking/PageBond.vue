@@ -16,7 +16,7 @@ page.page-bond(title="Bond Atoms")
     span(v-if="willUnbondAtoms > 0")
       | You will begin unbonding #[.reserved-atoms__number {{ willUnbondAtoms }}] atoms, which will be available in 30 days.
     span
-      | #[a(@click="resetAlloc") (start over?)]
+      | #[a.reserved-atoms__restart(@click="resetAlloc") &nbsp;(start over?)]
 
   form-struct(:submit="onSubmit")
     form-group(v-for='(delegate, index) in fields.delegates' key='delegate.id'
@@ -214,11 +214,14 @@ export default {
   margin 0 0 1rem
   color dim
 
-.reserved-atoms__number
-  display inline
-  color bright
-  font-weight 500
+  &__number
+    display inline
+    color bright
+    font-weight 500
 
-.reserved-atoms__number--error
-  color danger
+  &__number--error
+    color danger
+
+  &__restart
+    cursor pointer
 </style>
