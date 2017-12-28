@@ -7,8 +7,8 @@ transition(name='ts-li-delegate'): .li-delegate(:class='styles'): .li-delegate__
         i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
         i.fa.fa-square-o(v-else @click='add(delegate)')
       router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")
-        | {{ ' ' + delegate.description.moniker }}
-      a(v-else) {{ ' ' + delegate.description.moniker }}
+        | {{ ' ' + delegate.moniker }}
+      a(v-else) {{ ' ' + delegate.moniker }}
   .li-delegate__value.id
     span {{ delegate.id }}
   .li-delegate__value.delegated

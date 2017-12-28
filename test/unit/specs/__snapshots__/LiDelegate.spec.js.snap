@@ -22,7 +22,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
           class=""
           href="#/staking/delegates/pubkeyX"
         >
-           undefined
+           candidateX
         </a>
       </span>
     </div>

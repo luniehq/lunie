@@ -45,9 +45,7 @@ describe('LiDelegate', () => {
 
     delegate = store.state.delegates[0]
 
-    wrapper.setData({
-      delegate
-    })
+    wrapper.setData({ delegate })
   })
 
   it('has the expected html structure', () => {

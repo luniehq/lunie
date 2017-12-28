@@ -19,7 +19,7 @@ describe('PageDelegates', () => {
       shares: 5000,
       description: {
         description: 'descriptionX',
-        keybaseID: 'keybaseX',
+        moniker: 'candidateX',
         country: 'USA'
       }
     })
@@ -32,7 +32,7 @@ describe('PageDelegates', () => {
       shares: 10000,
       description: {
         description: 'descriptionY',
-        keybaseID: 'keybaseY',
+        moniker: 'candidateY',
         country: 'Canada'
       }
     })
@@ -63,10 +63,10 @@ describe('PageDelegates', () => {
 
   it('should filter the delegates', () => {
     store.commit('setSearchVisible', ['delegates', true])
-    store.commit('setSearchQuery', ['delegates', 'baseX'])
+    store.commit('setSearchQuery', ['delegates', 'dateX'])
     expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['pubkeyX'])
     expect(wrapper.vm.$el).toMatchSnapshot()
-    store.commit('setSearchQuery', ['delegates', 'baseY'])
+    store.commit('setSearchQuery', ['delegates', 'dateY'])
     expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['pubkeyY'])
   })
 

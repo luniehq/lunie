@@ -10,11 +10,11 @@ page.page-bond(title="Bond Atoms")
     span(v-else-if="unbondedAtoms === 0")
       | You are bonding #[.reserved-atoms__number ALL {{ bondedAtoms }}] atoms to these delegates. We suggest reserving some atoms for personal use&mdash;are you sure you wish to proceed?
     span(v-else-if="unbondedAtoms < 0")
-      | #[.reserved-atoms__number.reserved-atoms__number--error You are bonding {{ unbondedAtoms * -1 }} more atoms than exist in your balance.] Please reduce the number of atoms you are bonding to these delegates.
+      | #[.reserved-atoms__number.reserved-atoms__number--error You've tried to bond {{ unbondedAtoms * -1 }} more atoms than you have.]
     span(v-else)
       | You will keep  #[.reserved-atoms__number {{ unbondedAtoms }}] ({{ unbondedAtomsPct }}) atoms in your wallet. You are bonding #[.reserved-atoms__number {{ bondedAtoms }}] ({{ bondedAtomsPct }}) atoms to these delegates.
     span(v-if="willUnbondAtoms > 0")
-      | You will begin unbonding #[.reserved-atoms__number {{ willUnbondAtoms }}] atoms, which will be available in 1 month.
+      | You will begin unbonding #[.reserved-atoms__number {{ willUnbondAtoms }}] atoms, which will be available in 30 days.
     span
       | #[a(@click="resetAlloc") (start over?)]
 
@@ -29,8 +29,6 @@ page.page-bond(title="Bond Atoms")
           placeholder="Atoms"
           v-model.number="delegate.atoms")
         field-addon Atoms
-        // btn(type="button" value="Max"
-        // @click.native="fillAtoms(delegate.id)")
         btn(type="button" icon="clear" @click.native="rm(delegate.id)")
       form-msg(name="Atoms" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
@@ -111,14 +109,6 @@ export default {
     }
   }),
   methods: {
-    fillAtoms (delegateId) {
-      // let delegate = this.fields.delegates.find(c => c.id === delegateId)
-    },
-    clearAtoms (delegateId) {
-      console.log('clearing atoms for', delegateId)
-      let delegate = this.fields.delegates.find(c => c.delegateId === delegateId)
-      delegate.atoms = 0
-    },
     equalAlloc () {
       this.equalize = true
       this.resetAlloc()

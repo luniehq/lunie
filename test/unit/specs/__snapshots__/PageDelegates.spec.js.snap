@@ -175,7 +175,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
               class=""
               href="#/staking/delegates/pubkeyY"
             >
-               undefined
+               candidateY
             </a>
           </span>
         </div>
@@ -233,7 +233,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
               class=""
               href="#/staking/delegates/pubkeyX"
             >
-               undefined
+               candidateX
             </a>
           </span>
         </div>
@@ -497,7 +497,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
               class=""
               href="#/staking/delegates/pubkeyY"
             >
-               undefined
+               candidateY
             </a>
           </span>
         </div>
@@ -555,7 +555,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
               class=""
               href="#/staking/delegates/pubkeyX"
             >
-               undefined
+               candidateX
             </a>
           </span>
         </div>
