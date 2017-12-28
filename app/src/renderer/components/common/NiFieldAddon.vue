@@ -16,7 +16,7 @@ export default {
 .ni-field-addon + .ni-field
   margin-left -1 * px
   position relative
-  z-index 1
+  z-index z(default)
 
 .ni-field-addon
   background app-bg
