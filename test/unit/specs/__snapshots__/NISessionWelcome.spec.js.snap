@@ -63,6 +63,14 @@ exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
 </div>
 </div>
 </div>
+<div class=\\"fundraiser-warning\\">
+   <div class=\\"fundraiser-warning__title\\">
+      WARNING – DO NOT ENTER YOUR FUNDRAISER SEED. THIS SOFTWARE HAS NOT BEEN AUDITED. NEVER ENTER YOUR FUNDRAISER SEED 12 WORDS ONTO AN ONLINE COMPUTER.
+   </div>
+<div class=\\"fundraiser-warning__subtitle\\">
+   Even when we do start supporting fundraiser seeds, don't use it except for testing or with small amounts. We will release a command-line cli to use for off-line signing of transactions, and we will also add hardware support for this UI.
+</div>
+</div>
 </div>
 <div class=\\"ni-session-footer\\"></div>
 </div>
@@ -118,6 +126,14 @@ exports[`NISessionWelcome without accounts has the expected html structure 1`] =
 <div class=\\"ni-li-session-subtitle\\">
    If you have a Ledger Wallet, choose this option
 </div>
+</div>
+</div>
+<div class=\\"fundraiser-warning\\">
+   <div class=\\"fundraiser-warning__title\\">
+      WARNING – DO NOT ENTER YOUR FUNDRAISER SEED. THIS SOFTWARE HAS NOT BEEN AUDITED. NEVER ENTER YOUR FUNDRAISER SEED 12 WORDS ONTO AN ONLINE COMPUTER.
+   </div>
+<div class=\\"fundraiser-warning__subtitle\\">
+   Even when we do start supporting fundraiser seeds, don't use it except for testing or with small amounts. We will release a command-line cli to use for off-line signing of transactions, and we will also add hardware support for this UI.
 </div>
 </div>
 </div>
