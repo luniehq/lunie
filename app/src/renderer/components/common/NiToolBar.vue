@@ -60,7 +60,7 @@ export default {
       padding 0 0.75rem
 
       color txt
-      z-index 101
+      z-index z(modal)
 
       white-space nowrap
 
@@ -69,7 +69,6 @@ export default {
         position absolute
         top -0.375rem
         right 1.125rem
-        z-index 102
 
         // arrow
         width 0
@@ -99,7 +98,7 @@ export default {
 
 @media screen and (max-width: 567px)
   .ni-tool-bar
-    z-index 90
+    z-index z(toolbar)
     position fixed
     bottom 0
     left 0

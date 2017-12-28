@@ -44,7 +44,7 @@ export default {
 
 .ni-session-wrapper
   position relative
-  z-index 1000
+  z-index z(modal)
 
   .ni-session-backdrop
     position absolute
@@ -81,7 +81,7 @@ export default {
   position fixed
   top 0
   left 0
-  z-index 900
+  z-index z(default)
   background app-bg
 
 .ni-session-container

@@ -28,16 +28,19 @@
       icon="usb"
       title="Sign in with hardware"
       subtitle="If you have a Ledger Wallet, choose this option")
+    fundraiser-warning
   .ni-session-footer
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
+import FundraiserWarning from 'common/FundraiserWarning'
 import ListItem from 'common/NiListItem'
 import LiSession from 'common/NiLiSession'
 export default {
   name: 'ni-session-welcome',
   components: {
+    FundraiserWarning,
     ListItem,
     LiSession
   },

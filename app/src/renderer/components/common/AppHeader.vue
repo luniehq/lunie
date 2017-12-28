@@ -58,7 +58,7 @@ export default {
 @require '~variables'
 
 #app-header
-  z-index 100
+  z-index z(appHeader)
   .container
     -webkit-app-region: drag
 
