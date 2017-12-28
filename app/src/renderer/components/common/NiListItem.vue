@@ -97,7 +97,7 @@ export default {
       height 3rem
       width bw
       background transparent
-      z-index 10
+      z-index z(listItem)
 
   &.router-link-exact-active
     .ni-li-title

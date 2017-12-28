@@ -13,7 +13,7 @@ export default {
 
 .ni-modal-menu
   background app-bg-alpha
-  z-index 99
+  z-index z(default)
   user-select none
   backdrop-filter blur(0.5rem)
   overflow-y scroll
