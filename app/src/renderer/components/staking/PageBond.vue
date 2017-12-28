@@ -7,12 +7,12 @@ page.page-bond(title="Bond Atoms")
 
   .reserved-atoms
     span(v-if="unbondedAtoms == totalAtoms")
-    span(v-else-if="unbondedAtoms === 0")
-      | You are bonding #[.reserved-atoms__number ALL {{ bondedAtoms }}] atoms to these delegates. We suggest reserving some atoms for personal use&mdash;are you sure you wish to proceed?
-    span(v-else-if="unbondedAtoms < 0")
-      | #[.reserved-atoms__number.reserved-atoms__number--error You've tried to bond {{ unbondedAtoms * -1 }} more atoms than you have.]
+    span.reserved-atoms--warning(v-else-if="unbondedAtoms === 0")
+      | You're trying to bond #[.reserved-atoms__number ALL {{ bondedAtoms }}] atoms to these delegates. We suggest reserving some atoms for personal use &mdash; are you sure you wish to proceed?
+    span.reserved-atoms--error(v-else-if="unbondedAtoms < 0")
+      | You're trying to bond #[.reserved-atoms__number {{ unbondedAtoms * -1 }}] more atoms than you have.
     span(v-else)
-      | You will keep  #[.reserved-atoms__number {{ unbondedAtoms }}] ({{ unbondedAtomsPct }}) atoms in your wallet. You are bonding #[.reserved-atoms__number {{ bondedAtoms }}] ({{ bondedAtomsPct }}) atoms to these delegates.
+      | You are bonding #[.reserved-atoms__number {{ bondedAtoms }}] ({{ bondedAtomsPct }}) atoms to these delegates. You will keep  #[.reserved-atoms__number {{ unbondedAtoms }}] ({{ unbondedAtomsPct }}) atoms in your wallet.
     span(v-if="willUnbondAtoms > 0")
       | You will begin unbonding #[.reserved-atoms__number {{ willUnbondAtoms }}] atoms, which will be available in 30 days.
     span
@@ -219,9 +219,12 @@ export default {
     color bright
     font-weight 500
 
-  &__number--error
-    color danger
-
   &__restart
     cursor pointer
+
+  &--error
+    color danger
+
+  &--warning
+    color warning
 </style>
