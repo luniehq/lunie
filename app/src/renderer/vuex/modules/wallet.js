@@ -1,6 +1,7 @@
 let fs = require('fs-extra')
 let { join } = require('path')
 let root = require('../../../root.js')
+const axios = require('axios')
 
 export default ({ commit, node }) => {
   let state = {
@@ -160,7 +161,17 @@ export default ({ commit, node }) => {
           app: 'sigs',
           addr: state.key.address
         }
-        let tx = await node[args.type](args)
+        // let tx = await node[args.type](args)
+        // TODO fix in cosmos-sdk-js
+        let tx = await (async function () {
+          switch (args.type) {
+            case 'buildDelegate': return axios.post('http://localhost:8998/build/stake/delegate', args)
+              .then(res => res.data)
+            case 'buildUnbond': return axios.post('http://localhost:8998/build/stake/unbond', args)
+              .then(res => res.data)
+            default: return node[args.type](args)
+          }
+        })()
         let signedTx = await node.sign({
           name: rootState.user.account,
           password: rootState.user.password,
