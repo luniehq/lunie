@@ -15,7 +15,8 @@
 
     form-group(field-id='sign-up-seed' field-label='Seed (write it down)')
       field-seed#sign-up-seed(v-model="fields.signUpSeed" disabled)
-      form-msg(body='Please back up the seed phrase for this account. These words cannot be recovered!')
+      form-msg
+        | Please back up the seed phrase for this account. These words cannot be recovered!
 
     form-group(:error='$v.fields.signUpPassword.$error'
       field-id='sign-in-password' field-label='Password')
@@ -23,7 +24,8 @@
         type="password"
         placeholder="at least 10 characters"
         v-model="fields.signUpPassword")
-      form-msg(body="Create a password to secure your new account")
+      form-msg
+        | Create a password to secure your new account
       form-msg(name='Password' type='required' v-if='!$v.fields.signUpPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signUpPassword.minLength')
 
@@ -55,7 +57,7 @@ import Field from '@nylira/vue-field'
 import FieldSeed from 'common/NiFieldSeed'
 import FieldGroup from 'common/NiFieldGroup'
 import FormGroup from 'common/NiFormGroup'
-import FormMsg from '@nylira/vue-form-msg'
+import FormMsg from 'common/NiFormMsg'
 import FormStruct from 'common/NiFormStruct'
 export default {
   name: 'ni-session-sign-up',

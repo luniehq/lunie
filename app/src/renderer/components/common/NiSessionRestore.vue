@@ -27,7 +27,8 @@
         type="password"
         placeholder="at least 10 characters"
         v-model="fields.restorePassword")
-      form-msg(body="Create a password to secure your restored account")
+      form-msg
+        | Create a password to secure your restored account
       form-msg(name='Password' type='required' v-if='!$v.fields.restorePassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.restorePassword.minLength')
   .ni-session-footer
@@ -41,7 +42,7 @@ import Field from '@nylira/vue-field'
 import FieldGroup from 'common/NiFieldGroup'
 import FieldSeed from 'common/NiFieldSeed'
 import FormGroup from 'common/NiFormGroup'
-import FormMsg from '@nylira/vue-form-msg'
+import FormMsg from 'common/NiFormMsg'
 import FormStruct from 'common/NiFormStruct'
 export default {
   name: 'ni-session-restore',
