@@ -20,7 +20,7 @@ describe('PageDelegate', () => {
       shares: 5000,
       description: {
         description: 'descriptionX',
-        keybaseID: 'keybaseX',
+        moniker: 'monikerX',
         country: 'US'
       }
     })
