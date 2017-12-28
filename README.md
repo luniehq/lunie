@@ -4,7 +4,7 @@
 
 👋 Welcome to the official user interface for the [Cosmos Network](https://cosmos.network/).
 
-💻 The Cosmos UI is a desktop application built with [Electron](https://github.com/electron/electron).
+💻 The Cosmos UI is a deskopp applcaation built with [Electron](https://github.com/electron/electron). Cosmos UI runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
 
 ⚠️ This is still alpha-level software. __DO NOT__ enter your Cosmos fundraiser seed into the UI.
 
@@ -12,7 +12,37 @@
 
 ---
 
-### Development
+### Prerequisites
+
+`gaia` is a prepackaged version of Cosmos SDK and Tendermint. You will need `gaia` installed.
+
+```bash
+# install go, set $GOPATH
+brew install go
+
+# install glide
+brew install glide
+
+# install gaia
+go get github.com/cosmos/gaia
+cd $GOPATH/src/github.com/cosmos/gaia
+git checkout develop
+glide install
+make install
+```
+
+You will also need `yarn` to install node modules:
+
+```bash
+brew install yarn
+
+# in the project folder, run
+yarn
+```
+
+---
+
+### Develop
 
 To run on the UI on the default testnet (`gaia-2-dev`):
 ```bash
@@ -33,31 +63,7 @@ $ yarn run uionly
 
 ### Production
 
-To create production builds of this UI you will need the prerequisite repositories installed.
-
-```bash
-# install go, set $GOPATH
-brew install go
-
-# install glide
-brew install glide
-
-# install basecoin/baseserver
-go get -d github.com/cosmos/cosmos-sdk
-cd $GOPATH/src/github.com/cosmos/cosmos-sdk // Windows: cd %GOPATH%/src/github.com/cosmos/cosmos-sdk
-git checkout develop
-make get_vendor_deps
-make install
-
-# install tendermint
-go get -d github.com/tendermint/tendermint/cmd/tendermint
-cd $GOPATH/src/github.com/tendermint/tendermint // Windows: cd %GOPATH%/src/github.com/tendermint/tendermint
-git checkout v0.11.0
-make get_vendor_deps
-make install
-```
-
-Then build and run the app.
+Build and run the app.
 ```bash
 npm run pack && npm run build:darwin
 open builds/Cosmos-darwin-x64/Cosmos.app
