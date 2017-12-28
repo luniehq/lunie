@@ -4,7 +4,7 @@
 
 👋 Welcome to the official user interface for the [Cosmos Network](https://cosmos.network/).
 
-💻 The Cosmos UI is a deskopp applcaation built with [Electron](https://github.com/electron/electron). Cosmos UI runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
+💻 The Cosmos UI is a desktop application built with [Electron](https://github.com/electron/electron). Cosmos UI runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
 
 ⚠️ This is still alpha-level software. __DO NOT__ enter your Cosmos fundraiser seed into the UI.
 
