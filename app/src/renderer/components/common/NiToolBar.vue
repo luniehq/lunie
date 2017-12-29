@@ -96,7 +96,7 @@ export default {
       i
         color dim
 
-@media screen and (max-width: 567px)
+@media screen and (max-width: 1023px)
   .ni-tool-bar
     z-index z(toolBar)
     position fixed
@@ -112,13 +112,10 @@ export default {
   .ni-page
     padding-bottom 3rem
 
-@media screen and (min-width: 568px)
+@media screen and (min-width: 1024px)
   .ni-tool-bar-container
     .main
       justify-content flex-end
-
-@media screen and (min-width: 1024px)
-  .ni-tool-bar-container
     a
       margin-top 0.7rem
 </style>

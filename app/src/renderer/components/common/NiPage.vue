@@ -23,18 +23,23 @@ export default {
     ...mapGetters(['config'])
   },
   data: () => ({
-    ps: {}
+    ps: ''
   }),
   methods: {
     handleResize () {
       if (this.config.desktop) {
-        this.ps = new PerfectScrollbar('.ni-page-main')
-      } else {
+        const container = this.$el.querySelector('.ni-page-main')
+        this.ps = new PerfectScrollbar(container)
+        // console.log('its desktop', this.ps)
+      } else if (this.ps.destroy) {
         this.ps.destroy()
+        this.ps = null
+        // console.log('its not desktop', this.ps)
       }
     }
   },
   mounted () {
+    this.handleResize()
     window.addEventListener('resize', this.handleResize)
   }
 }
