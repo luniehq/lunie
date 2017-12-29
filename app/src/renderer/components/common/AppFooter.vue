@@ -1,4 +1,4 @@
-<template lang='pug'>
+ <template lang='pug'>
 footer.app-footer
   connectivity
 </template>

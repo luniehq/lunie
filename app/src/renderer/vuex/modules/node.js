@@ -1,7 +1,7 @@
 'use strict'
 
 export default function ({ node, commit, dispatch }) {
-  // get tendermint RPC client from basecon client
+  // get tendermint RPC client from basecoin client
   const { rpc, nodeIP } = node
 
   const state = {
