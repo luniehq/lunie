@@ -75,7 +75,9 @@ export default ({ commit, node }) => {
       commit('setWalletSequence', res.data)
     },
     async queryWalletHistory ({ state, commit, dispatch }) {
-      let res = await node.coinTxs(state.key.address)
+      // TODO fix in cosmos-sdk-js
+      let res = await fetch('http://localhost:8999/tx/coin/' + state.key.address).then(res => res.json())
+      // let res = await node.coinTxs(state.key.address)
       if (!res) return
       commit('setWalletHistory', res)
 
