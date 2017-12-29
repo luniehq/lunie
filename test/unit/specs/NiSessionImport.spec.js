@@ -2,18 +2,18 @@ import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 import { mount, createLocalVue } from 'vue-test-utils'
 import htmlBeautify from 'html-beautify'
-import NiSessionRestore from 'common/NiSessionRestore'
+import NiSessionImport from 'common/NiSessionImport'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
 
-describe('NiSessionRestore', () => {
+describe('NiSessionImport', () => {
   let wrapper, store
 
   beforeEach(() => {
     store = new Vuex.Store()
-    wrapper = mount(NiSessionRestore, {
+    wrapper = mount(NiSessionImport, {
       localVue,
       store
     })
@@ -38,9 +38,9 @@ describe('NiSessionRestore', () => {
 
   it('should close the modal on successful login', async () => {
     wrapper.setData({ fields: {
-      restoreName: 'foo123',
-      restorePassword: '1234567890',
-      restoreSeed: 'bar' // <-- doesn#t check for correctness of seed
+      importName: 'foo123',
+      importPassword: '1234567890',
+      importSeed: 'bar' // <-- doesn#t check for correctness of seed
     }})
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toEqual(['setModalSession', false])
@@ -48,9 +48,9 @@ describe('NiSessionRestore', () => {
 
   it('should signal signed in state on successful login', async () => {
     wrapper.setData({ fields: {
-      restoreName: 'foo123',
-      restorePassword: '1234567890',
-      restoreSeed: 'bar' // <-- doesn#t check for correctness of seed
+      importName: 'foo123',
+      importPassword: '1234567890',
+      importSeed: 'bar' // <-- doesn#t check for correctness of seed
     }})
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[1][0]).toEqual('notify')
@@ -63,7 +63,7 @@ describe('NiSessionRestore', () => {
 
   it('should show error if seed is not filled in', async () => {
     wrapper.setData({ fields: {
-      restoreSeed: ''
+      importSeed: ''
     }})
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
@@ -73,9 +73,9 @@ describe('NiSessionRestore', () => {
   it('should not continue if creation failed', async () => {
     store.dispatch = jest.fn(() => Promise.resolve(null))
     wrapper.setData({ fields: {
-      restoreName: 'foo123',
-      restorePassword: '1234567890',
-      restoreSeed: 'bar' // <-- doesn#t check for correctness of seed
+      importName: 'foo123',
+      importPassword: '1234567890',
+      importSeed: 'bar' // <-- doesn#t check for correctness of seed
     }})
     await wrapper.vm.onSubmit()
     expect(store.commit).not.toHaveBeenCalled()
