@@ -99,7 +99,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main ps"
+    class="ni-page-main"
   >
     <!---->
     <div
@@ -271,26 +271,6 @@ exports[`PageDelegates has the expected html structure 1`] = `
         </div>
       </div>
     </div>
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
   </main>
 </div>
 `;
@@ -394,7 +374,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main ps"
+    class="ni-page-main"
   >
     <div
       class="ni-modal-search"
@@ -592,26 +572,6 @@ exports[`PageDelegates should filter the delegates 1`] = `
           </span>
         </div>
       </div>
-    </div>
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
     </div>
   </main>
 </div>

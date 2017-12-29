@@ -98,7 +98,7 @@ export default {
 
 @media screen and (max-width: 567px)
   .ni-tool-bar
-    z-index z(toolbar)
+    z-index z(toolBar)
     position fixed
     bottom 0
     left 0

@@ -22,10 +22,20 @@ export default {
   computed: {
     ...mapGetters(['config'])
   },
+  data: () => ({
+    ps: {}
+  }),
+  methods: {
+    handleResize () {
+      if (this.config.desktop) {
+        this.ps = new PerfectScrollbar('.ni-page-main')
+      } else {
+        this.ps.destroy()
+      }
+    }
+  },
   mounted () {
-    const container = this.$el.querySelector('.ni-page-main')
-    // eslint-disable-next-line no-new
-    new PerfectScrollbar(container)
+    window.addEventListener('resize', this.handleResize)
   }
 }
 </script>
