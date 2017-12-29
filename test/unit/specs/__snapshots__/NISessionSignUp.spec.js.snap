@@ -18,7 +18,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
             <label for=\\"sign-up-name\\" class=\\"ni-form-group__label\\">Account Name</label>
             <div class=\\"ni-form-group__field\\">
                <input type=\\"text\\" placeholder=\\"at least 5 characters\\" class=\\"ni-field\\" id=\\"sign-up-name\\">
-               <div class=\\"ni-form-msg ni-form-msg-error\\">
+               <div class=\\"ni-form-msg sm ni-form-msg--error\\">
                   Name is required
                </div>
                   <!---->
@@ -28,8 +28,8 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
          <label for=\\"sign-up-seed\\" class=\\"ni-form-group__label\\">Seed (write it down)</label>
          <div class=\\"ni-form-group__field\\">
             <textarea class=\\"ni-field-seed ni-field\\" id=\\"sign-up-seed\\" disabled=\\"disabled\\"></textarea>
-            <div class=\\"ni-form-msg ni-form-msg-desc\\">
-               Please back up this seed phrase. These words cannot be recovered!
+            <div class=\\"ni-form-msg sm ni-form-msg--desc\\">
+               Please back up the seed phrase for this account. These words cannot be recovered!
             </div>
 </div>
 </div>
@@ -37,10 +37,10 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
          <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Password</label>
          <div class=\\"ni-form-group__field\\">
             <input type=\\"password\\" placeholder=\\"at least 10 characters\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
-            <div class=\\"ni-form-msg ni-form-msg-desc\\">
+            <div class=\\"ni-form-msg sm ni-form-msg--desc\\">
                Create a password to secure your new account
             </div>
-      <div class=\\"ni-form-msg ni-form-msg-error\\">
+      <div class=\\"ni-form-msg sm ni-form-msg--error\\">
          Password is required
       </div>
          <!---->
@@ -55,7 +55,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
                </div>
       <label for=\\"sign-up-warning\\" class=\\"ni-field-checkbox-label\\">I understand that lost seeds cannot be recovered.</label>
    </div>
-      <div class=\\"ni-form-msg ni-form-msg-error\\">
+      <div class=\\"ni-form-msg sm ni-form-msg--error\\">
          Recovery confirmation is required
       </div>
 </div>
@@ -69,7 +69,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
                </div>
       <label for=\\"sign-up-backup\\" class=\\"ni-field-checkbox-label\\">I have securely written down my seed.</label>
    </div>
-      <div class=\\"ni-form-msg ni-form-msg-error\\">
+      <div class=\\"ni-form-msg sm ni-form-msg--error\\">
          Backup confirmation is required
       </div>
 </div>

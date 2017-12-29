@@ -390,7 +390,7 @@ exports[`PageSend has the expected html structure 1`] = `
                       </div>
                     </div>
                     <div
-                      class="ni-form-msg ni-form-msg-error"
+                      class="ni-form-msg sm ni-form-msg--error"
                     >
                       Denomination is required
                     </div>
@@ -447,7 +447,7 @@ exports[`PageSend has the expected html structure 1`] = `
                       />
                     </div>
                     <div
-                      class="ni-form-msg ni-form-msg-error"
+                      class="ni-form-msg sm ni-form-msg--error"
                     >
                       Address is required
                     </div>
@@ -478,7 +478,7 @@ exports[`PageSend has the expected html structure 1`] = `
                       />
                     </div>
                     <div
-                      class="ni-form-msg ni-form-msg-error"
+                      class="ni-form-msg sm ni-form-msg--error"
                     >
                       Amount is required
                     </div>
