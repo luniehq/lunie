@@ -18,7 +18,7 @@ exports[`NiSessionAccountDelete has the expected html structure 1`] = `
             <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Password</label>
             <div class=\\"ni-form-group__field\\">
                <input type=\\"password\\" placeholder=\\"Enter your password\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
-               <div class=\\"ni-form-msg ni-form-msg-error\\">
+               <div class=\\"ni-form-msg sm ni-form-msg--error\\">
                   Password is required
                </div>
                   <!---->
@@ -33,7 +33,7 @@ exports[`NiSessionAccountDelete has the expected html structure 1`] = `
                </div>
       <label for=\\"sign-up-warning\\" class=\\"ni-field-checkbox-label\\">I understand that Cosmos cannot recover deleted accounts without the passphrase.</label>
    </div>
-      <div class=\\"ni-form-msg ni-form-msg-error\\">
+      <div class=\\"ni-form-msg sm ni-form-msg--error\\">
          Deletion confirmation is required
       </div>
 </div>
