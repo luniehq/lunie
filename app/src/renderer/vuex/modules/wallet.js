@@ -1,4 +1,5 @@
 let fs = require('fs-extra')
+let axios = require('axios')
 let { join } = require('path')
 let root = require('../../../root.js')
 
@@ -76,7 +77,7 @@ export default ({ commit, node }) => {
     },
     async queryWalletHistory ({ state, commit, dispatch }) {
       // TODO fix in cosmos-sdk-js
-      let res = await fetch('http://localhost:8999/tx/coin/' + state.key.address).then(res => res.json())
+      let res = await axios.get('http://localhost:8999/tx/coin/' + state.key.address).then(res => res.data)
       // let res = await node.coinTxs(state.key.address)
       if (!res) return
       commit('setWalletHistory', res)
