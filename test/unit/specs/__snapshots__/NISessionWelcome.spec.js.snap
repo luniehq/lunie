@@ -43,10 +43,10 @@ exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
    </div>
 <div class=\\"ni-li-session-text\\">
    <div class=\\"ni-li-session-title\\">
-      Restore account from seed
+      Import account
    </div>
 <div class=\\"ni-li-session-subtitle\\">
-   If you have a seed, choose this option
+   Generate an account with an existing seed
 </div>
 </div>
 </div>
@@ -61,6 +61,14 @@ exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
 <div class=\\"ni-li-session-subtitle\\">
    If you have a Ledger Wallet, choose this option
 </div>
+</div>
+</div>
+<div class=\\"fundraiser-warning\\">
+   <div class=\\"fundraiser-warning__title\\">
+      Warning – Do not enter your fundraiser seed. This software has not been audited. Never enter your 12-word seed while your computer is connected to the internet.
+   </div>
+<div class=\\"fundraiser-warning__subtitle\\">
+   Even when we do start supporting fundraiser seeds, don't use it except for testing or with small amounts. Soon we will release a command line interface to use for the signing of transactions offline including support for certain hardware ledgers.
 </div>
 </div>
 </div>
@@ -100,10 +108,10 @@ exports[`NISessionWelcome without accounts has the expected html structure 1`] =
    </div>
 <div class=\\"ni-li-session-text\\">
    <div class=\\"ni-li-session-title\\">
-      Restore account from seed
+      Import account
    </div>
 <div class=\\"ni-li-session-subtitle\\">
-   If you have a seed, choose this option
+   Generate an account with an existing seed
 </div>
 </div>
 </div>
@@ -118,6 +126,14 @@ exports[`NISessionWelcome without accounts has the expected html structure 1`] =
 <div class=\\"ni-li-session-subtitle\\">
    If you have a Ledger Wallet, choose this option
 </div>
+</div>
+</div>
+<div class=\\"fundraiser-warning\\">
+   <div class=\\"fundraiser-warning__title\\">
+      Warning – Do not enter your fundraiser seed. This software has not been audited. Never enter your 12-word seed while your computer is connected to the internet.
+   </div>
+<div class=\\"fundraiser-warning__subtitle\\">
+   Even when we do start supporting fundraiser seeds, don't use it except for testing or with small amounts. Soon we will release a command line interface to use for the signing of transactions offline including support for certain hardware ledgers.
 </div>
 </div>
 </div>

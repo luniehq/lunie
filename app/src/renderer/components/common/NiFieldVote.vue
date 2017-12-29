@@ -64,7 +64,7 @@ export default {
 
 .ni-field-vote-dl
   position relative
-  z-index 1
+  z-index z(default)
 
   padding 0 1rem
 
@@ -76,7 +76,7 @@ export default {
 
 .ni-field-vote-bar-outer
   position absolute
-  z-index 0
+  z-index z(zero)
 
   width 100%
   top 0

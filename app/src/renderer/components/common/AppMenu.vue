@@ -58,7 +58,7 @@ export default {
 
 .app-menu
   background app-bg-alpha
-  z-index 99
+  z-index z(appMenu)
   user-select none
 
   display flex
