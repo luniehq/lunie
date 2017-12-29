@@ -116,10 +116,9 @@ module.exports = function ({port = 8999, mock = false, onReconnectReq} = {}) {
 
   app.get('/reconnect', async (req, res) => {
     console.log('requesting to reconnect')
-    if (onReconnectReq) {
-      await onReconnectReq()
-    }
-    res.sendStatus(200)
+    let nodeIP = await onReconnectReq()
+    console.log('reconnected to', nodeIP)
+    res.send(nodeIP)
   })
 
   // proxy everything else to light client

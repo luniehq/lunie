@@ -318,7 +318,8 @@ function consistentConfigDir (versionPath, genesisPath, configPath) {
 }
 
 function pickNode (seeds) {
-  nodeIP = NODE || seeds[Math.floor(Math.random() * seeds.length)]
+  let nodeIP = NODE || seeds[Math.floor(Math.random() * seeds.length)]
+  // let nodeRegex = /([http[s]:\/\/]())/g
   log('Picked seed:', nodeIP, 'of', seeds)
   // replace port with default RPC port
   nodeIP = `${nodeIP.split(':')[0]}:46657`
@@ -341,11 +342,11 @@ async function reconnect (seeds) {
   let nodeAlive = false
   while (!nodeAlive) {
     let nodeIP = pickNode(seeds)
-    nodeAlive = await axios('http://' + nodeIP + '/status')
+    nodeAlive = await axios('http://' + nodeIP)
       .then(() => true, () => false)
-    log(`${nodeIP} is ${nodeAlive ? 'alive' : 'down'}`)
+    log(`${new Date().toLocaleTimeString()} ${nodeIP} is ${nodeAlive ? 'alive' : 'down'}`)
 
-    if (!nodeAlive) await sleep(500)
+    if (!nodeAlive) await sleep(2000)
   }
 
   log('quitting running baseserver')
@@ -353,10 +354,9 @@ async function reconnect (seeds) {
 
   await connect(seeds, nodeIP)
 
-  log('restart vue application')
-  mainWindow.loadURL(winURL + '?node=' + nodeIP)
-
   connecting = false
+
+  return nodeIP
 }
 
 async function main () {

@@ -24,17 +24,27 @@ export default function ({ node, commit, dispatch }) {
   }
 
   const actions = {
-    async checkConnection ({ commit }) {
-      try {
-        await node.listKeys()
-        return true
-      } catch (err) {
-        commit('notifyError', {title: 'Critical Error', body: `Couldn't initialize blockchain connector`})
-        return false
-      }
+    async reconnect ({dispatch}) {
+      await node.rpcReconnect()
+      dispatch('nodeSubscribe')
     },
-    updateNodeStatus ({ commit }) {
-      rpc.status((err, res) => {
+    nodeSubscribe ({commit, dispatch}) {
+      // the rpc socket can be closed before we can even attach a listener
+      // so we remember if the connection is open
+      // we handle the reconnection here so we can attach all these listeners on reconnect
+      if (!node.rpcOpen) {
+        dispatch('reconnect')
+        return
+      }
+
+      // TODO: get event from light-client websocket instead of RPC connection (once that exists)
+      node.rpc.on('error', (err) => {
+        if (err.message.indexOf('disconnected') !== -1) {
+          commit('setConnected', false)
+          dispatch('reconnect')
+        }
+      })
+      node.rpc.status((err, res) => {
         if (err) return console.error(err)
         let status = res
         commit('setConnected', true)
@@ -43,21 +53,22 @@ export default function ({ node, commit, dispatch }) {
           chain_id: status.node_info.network
         })
       })
+      node.rpc.subscribe({ event: 'NewBlockHeader' }, (err, event) => {
+        if (err) return console.error('error subscribing to headers', err)
+        commit('setConnected', true)
+        commit('setLastHeader', event.data.data.header)
+      })
+    },
+    async checkConnection ({ commit }) {
+      try {
+        await node.listKeys()
+        return true
+      } catch (err) {
+        commit('notifyError', {title: 'Critical Error', body: `Couldn't initialize blockchain connector`})
+        return false
+      }
     }
   }
-
-  // TODO: get event from light-client websocket instead of RPC connection (once that exists)
-  rpc.on('error', async (err) => {
-    console.log('rpc disconnected', err)
-    commit('setConnected', false)
-
-    node.reconnect()
-  })
-  rpc.subscribe({ event: 'NewBlockHeader' }, (err, event) => {
-    if (err) return console.error('error subscribing to headers', err)
-    commit('setConnected', true)
-    commit('setLastHeader', event.data.data.header)
-  })
 
   return { state, mutations, actions }
 }

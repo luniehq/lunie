@@ -37,7 +37,7 @@ async function main () {
 
   let connected = await store.dispatch('checkConnection')
   if (connected) {
-    store.dispatch('updateNodeStatus')
+    store.dispatch('nodeSubscribe')
     store.dispatch('showInitialScreen')
   }
 
