@@ -1,7 +1,7 @@
 {
   "name": "Cosmos",
   "productName": "Cosmos",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "The electron wrapper for Cosmos UI.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
