@@ -29,7 +29,7 @@ page.page-bond(title="Bond Atoms")
           placeholder="Atoms"
           v-model.number="delegate.atoms")
         field-addon Atoms
-        btn(type="button" icon="clear" @click.native="rm(delegate.id)")
+        btn.remove(type="button" icon="clear" @click.native="rm(delegate.id)")
       form-msg(name="Atoms" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
       form-msg(name="Atoms" type="numeric"
@@ -38,8 +38,8 @@ page.page-bond(title="Bond Atoms")
         v-if="!$v.fields.delegates.$each[index].atoms.between")
 
     div(slot="footer")
-      btn(icon="drag_handle" value="Equalize" type="button" @click.native="equalAlloc")
-      btn(icon="check" value="Bond")
+      btn.equalize(icon="drag_handle" value="Equalize" type="button" @click.native="equalAlloc")
+      btn.bond(icon="check" value="Bond")
 </template>
 
 <script>
