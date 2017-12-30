@@ -32,11 +32,13 @@ export default ({ commit }) => {
       state.delegates.find(c => c.id === candidateId).atoms = value
     },
     setCommittedDelegation (state, {candidateId, value}) {
+      let committedDelegates = Object.assign({}, state.committedDelegates)
       if (value === 0) {
-        delete state.committedDelegates[candidateId]
+        delete committedDelegates[candidateId]
       } else {
-        state.committedDelegates[candidateId] = value
+        committedDelegates[candidateId] = value
       }
+      state.committedDelegates = committedDelegates
     }
   }
 
@@ -65,8 +67,6 @@ export default ({ commit }) => {
       await dispatch('walletTx', args)
     },
     async submitDelegation ({ state, dispatch }, delegation) {
-      console.log('submitting delegate/unbond txs: ', JSON.stringify(delegation, null, '  '))
-
       for (let delegate of delegation.delegates) {
         let candidateId = delegate.delegate.pub_key.data
         let currentlyDelegated = state.committedDelegates[candidateId] || 0

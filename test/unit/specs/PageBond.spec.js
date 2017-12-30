@@ -117,6 +117,40 @@ describe('PageBond', () => {
         ]
       }
     })
+    expect(htmlBeautify(wrapper.html())).not.toContain('You will begin unbonding')
+    wrapper.findAll('button.bond').trigger('click')
+    expect(store.dispatch.mock.calls[0][0]).toBe('submitDelegation')
+  })
+
+  it('should unbond atoms if bond amount is decreased', () => {
+    store.commit('setCommittedDelegation', {
+      candidateId: 'pubkeyX',
+      value: 51
+    })
+    store.commit('setCommittedDelegation', {
+      candidateId: 'pubkeyY',
+      value: 50
+    })
+    wrapper.update()
+    wrapper.setData({
+      fields: {
+        delegates: [
+          {
+            id: 'pubkeyX',
+            delegate: store.getters.shoppingCart[0].delegate,
+            atoms: 0
+          },
+          {
+            id: 'pubkeyY',
+            delegate: store.getters.shoppingCart[1].delegate,
+            atoms: 25
+          }
+        ]
+      }
+    })
+
+    expect(htmlBeautify(wrapper.html())).toContain('You will begin unbonding')
+
     wrapper.findAll('button.bond').trigger('click')
     expect(store.dispatch.mock.calls[0][0]).toBe('submitDelegation')
   })
