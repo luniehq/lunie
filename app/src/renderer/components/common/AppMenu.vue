@@ -13,6 +13,8 @@ menu.app-menu
       list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
       list-item(to="/validators" exact @click.native="close" title="Validators"
         v-bind:class="{ 'active': isValidatorPage }")
+    part(title='Connectivity')
+      connectivity
   user-pane
 </template>
 
@@ -21,6 +23,7 @@ import PerfectScrollbar from 'perfect-scrollbar'
 import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
 import noScroll from 'no-scroll'
+import Connectivity from 'common/NiConnectivity'
 import ListItem from 'common/NiListItem'
 import UserPane from 'common/NiUserPane'
 import Part from 'common/NiPart'
@@ -28,6 +31,7 @@ export default {
   name: 'app-menu',
   components: {
     Btn,
+    Connectivity,
     ListItem,
     Part,
     UserPane
@@ -117,4 +121,6 @@ export default {
 @media screen and (min-width:1024px)
   .app-menu
     flex 1
+    .ni-connectivity
+      display none
 </style>

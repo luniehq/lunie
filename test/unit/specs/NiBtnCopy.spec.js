@@ -1,18 +1,18 @@
 import Vuex from 'vuex'
 import { mount, createLocalVue } from 'vue-test-utils'
-import BtnCopy from 'renderer/components/common/NiBtnCopy'
+import NiBtnCopy from 'renderer/components/common/NiBtnCopy'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-describe('BtnCopy', () => {
+describe('NiBtnCopy', () => {
   let wrapper
   let store = new Vuex.Store()
   store.commit = jest.fn()
 
   beforeEach(() => {
     store.commit.mockReset()
-    wrapper = mount(BtnCopy, {
+    wrapper = mount(NiBtnCopy, {
       localVue,
       store,
       propsData: { value: 'this is a test' }
