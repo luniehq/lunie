@@ -4,7 +4,7 @@ let testRoot = './test/unit/tmp/test_root/'
 
 function mockGenesis () {
   process.env.COSMOS_HOME = testRoot
-  fs.ensureDirSync(testRoot)
+  fs.ensureFileSync(testRoot + 'genesis.json')
   fs.writeFileSync(testRoot + 'genesis.json', JSON.stringify({
     'genesis_time': '2017-12-12T02:31:37Z',
     'chain_id': 'pure-test-net',
