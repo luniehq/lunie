@@ -26,7 +26,7 @@ async function main () {
     return
   }
   console.log('Connecting to node:', nodeIP)
-  const node = await Node(nodeIP)
+  const node = Node(nodeIP)
 
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),

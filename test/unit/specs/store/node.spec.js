@@ -106,4 +106,14 @@ describe('Module: Node', () => {
     expect(await store.dispatch('checkConnection')).toBe(false)
     expect(store.state.notifications[0].body).toContain(`Couldn't initialize`)
   })
+
+  it('should trigger reconnection if it started disconnected', done => {
+    node.rpcOpen = false
+    node.rpcReconnect = () => {
+      done()
+      node.rpcOpen = true
+      return Promise.resolve('1.1.1.1')
+    }
+    store.dispatch('nodeSubscribe')
+  })
 })

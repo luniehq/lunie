@@ -4,7 +4,7 @@ const RestClient = require('cosmos-sdk')
 
 const RELAY_SERVER = 'http://localhost:8999'
 
-module.exports = async function (nodeIP) {
+module.exports = function (nodeIP) {
   if (JSON.parse(process.env.COSMOS_UI_ONLY || 'false')) {
     return mockClient()
   }
