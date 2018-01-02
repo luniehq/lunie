@@ -1,8 +1,8 @@
 'use strict'
 
-export default function ({ node, commit, dispatch }) {
-  // get tendermint RPC client from basecoin client
-  const { rpc, nodeIP } = node
+export default function ({ node }) {
+  // get tendermint RPC client from basecon client
+  const { nodeIP } = node
 
   const state = {
     nodeIP,
@@ -14,16 +14,16 @@ export default function ({ node, commit, dispatch }) {
   }
 
   const mutations = {
-    setLastHeader (state, header) {
-      state.lastHeader = header
-      dispatch('maybeUpdateValidators', header)
-    },
     setConnected (state, connected) {
       state.connected = connected
     }
   }
 
   const actions = {
+    setLastHeader ({state, dispatch}, header) {
+      state.lastHeader = header
+      dispatch('maybeUpdateValidators', header)
+    },
     async reconnect ({dispatch}) {
       await node.rpcReconnect()
       dispatch('nodeSubscribe')
@@ -48,7 +48,7 @@ export default function ({ node, commit, dispatch }) {
         if (err) return console.error(err)
         let status = res
         commit('setConnected', true)
-        commit('setLastHeader', {
+        dispatch('setLastHeader', {
           height: status.latest_block_height,
           chain_id: status.node_info.network
         })
@@ -56,12 +56,12 @@ export default function ({ node, commit, dispatch }) {
       node.rpc.subscribe({ event: 'NewBlockHeader' }, (err, event) => {
         if (err) return console.error('error subscribing to headers', err)
         commit('setConnected', true)
-        commit('setLastHeader', event.data.data.header)
+        dispatch('setLastHeader', event.data.data.header)
       })
     },
     async checkConnection ({ commit }) {
       try {
-        await node.listKeys()
+        await node.lcdConnected()
         return true
       } catch (err) {
         commit('notifyError', {title: 'Critical Error', body: `Couldn't initialize blockchain connector`})

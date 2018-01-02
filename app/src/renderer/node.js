@@ -12,6 +12,10 @@ module.exports = async function (nodeIP) {
   let node = new RestClient(RELAY_SERVER)
 
   Object.assign(node, {
+    lcdConnected: () => node.listKeys()
+      .then(() => true, () => false),
+
+    // RPC
     rpcConnecting: false,
     rpcOpen: true,
     initRPC (nodeIP) {
@@ -39,6 +43,7 @@ module.exports = async function (nodeIP) {
       console.log('trying to reconnect')
 
       let nodeIP = await fetch(RELAY_SERVER + '/reconnect').then(res => res.text())
+      console.log('Reconnected to', nodeIP)
       if (nodeIP) {
         node.initRPC(nodeIP)
       } else {

@@ -8,8 +8,9 @@ const Modules = require('renderer/vuex/modules').default
 const Getters = require('renderer/vuex/getters')
 
 export default function vuexSetup () {
+  const node = require('../helpers/node_mock')
   const modules = Modules({
-    node: require('../helpers/node_mock')
+    node
   })
 
   const localVue = createLocalVue()
@@ -29,9 +30,10 @@ export default function vuexSetup () {
     let router = new VueRouter({routes})
 
     return {
+      node,
       store,
       router,
-      wrapper: testType(componentConstructor, {
+      wrapper: componentConstructor && testType(componentConstructor, {
         localVue, store, router, stubs, propsData
       })
     }
