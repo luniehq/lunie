@@ -385,9 +385,9 @@ cosmos-fundraiser@^7.14.2:
     secp256k1 "^3.2.5"
     web3 "0.18.1"
 
-cosmos-sdk@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/cosmos-sdk/-/cosmos-sdk-1.5.0.tgz#ccda05c29c88c741a023e8e5196be21ed175d8c2"
+cosmos-sdk@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/cosmos-sdk/-/cosmos-sdk-1.5.1.tgz#4f648aa7eaa781883dfa1bef9ee78b4fba299cf3"
   dependencies:
     axios "^0.16.2"
     old "^0.2.0"
