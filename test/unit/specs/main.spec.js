@@ -52,6 +52,7 @@ describe('Startup Process', () => {
   jest.mock(root + 'package.json', () => ({
     version: '0.1.0'
   }))
+  jest.mock(appRoot + 'src/main/relayServer.js', () => () => {})
 
   beforeAll(() => {
     fs.removeSync(testRoot + 'genesis.json')
@@ -307,6 +308,7 @@ describe('Startup Process', () => {
 
       jest.resetModules()
       await require(appRoot + 'src/main/index.js')
+      .then(() => done.fail('Didnt fail'))
       .catch(err => {
         expect(err.message.toLowerCase()).toContain('seeds')
         done()

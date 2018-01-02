@@ -121,9 +121,10 @@ export default {
     },
     ...mapActions(['walletSend'])
   },
+  props: ['denom'],
   mounted () {
-    if (this.denominations.length === 1) {
-      this.fields.denom = this.denominations[0].value
+    if (this.denom) {
+      this.fields.denom = this.denom
     }
   },
   validations: () => ({

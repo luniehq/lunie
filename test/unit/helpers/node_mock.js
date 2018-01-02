@@ -1,7 +1,9 @@
 module.exports = {
-  // rest
+  // REST
+  lcdConnected: () => Promise.resolve(true),
   getKey: () => ({}),
   generateKey: () => ({key: '123'}),
+  listKeys: () => [],
   queryAccount: () => null,
   queryNonce: () => '123',
   buildSend: (args) => {
@@ -15,11 +17,21 @@ module.exports = {
     deliver_tx: { code: 0 }
   }),
   sign: () => Promise.resolve(null),
+
+  // RPC
   rpc: {
     on: () => {},
     subscribe: () => {},
     validators: () => [],
     block: (args, cb) => cb({}),
-    blockchain: (args, cb) => cb({})
-  }
+    blockchain: (args, cb) => cb({}),
+    status: (cb) => cb(null, {
+      latest_block_height: 42,
+      node_info: {
+        network: 'test-net'
+      }
+    })
+  },
+  initRPC: () => {},
+  rpcReconnect: () => Promise.resolve('1.1.1.1')
 }

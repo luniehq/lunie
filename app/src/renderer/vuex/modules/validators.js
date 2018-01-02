@@ -18,7 +18,7 @@ export default ({ commit, node }) => {
   }
 
   const actions = {
-    maybeUpdateValidators (state, header) {
+    maybeUpdateValidators ({state, commit}, header) {
       let validatorHash = header.validators_hash
       if (validatorHash === state.validatorHash) return
       commit('setValidatorHash', validatorHash)

@@ -1,7 +1,7 @@
 {
   "name": "Cosmos",
   "productName": "Cosmos",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "The human interface for Cosmos.",
   "main": "./dist/main.js",
   "author": "All In Bits, Inc <hello@tendermint.com>",
@@ -11,7 +11,7 @@
     "casual": "^1.5.17",
     "clipboard": "^1.6.0",
     "cosmos-delegation-game": "^0.1.0",
-    "cosmos-sdk": "^1.5.0",
+    "cosmos-sdk": "^1.5.1",
     "event-to-promise": "^0.8.0",
     "express": "^4.16.2",
     "express-http-proxy": "^1.1.0",
