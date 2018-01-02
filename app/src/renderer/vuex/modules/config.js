@@ -5,6 +5,8 @@ export default ({ commit, basecoin }) => {
     activeMenu: '',
     desktop: false,
     devMode: process.env.PREVIEW !== undefined ? JSON.parse(process.env.PREVIEW) : process.env.NODE_ENV === 'development',
+    // TODO: change to atom
+    bondingDenom: 'fermion',
     modals: {
       help: {
         active: false

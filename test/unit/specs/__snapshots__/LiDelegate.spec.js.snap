@@ -12,7 +12,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
       class="ni-delegate__value"
     />
     <div
-      class="li-delegate__value id"
+      class="li-delegate__value name"
     >
       <span>
         <i
@@ -22,15 +22,22 @@ exports[`LiDelegate has the expected html structure 1`] = `
           class=""
           href="#/staking/delegates/pubkeyX"
         >
-          pubkeyX
+           candidateX
         </a>
       </span>
     </div>
     <div
-      class="li-delegate__value"
+      class="li-delegate__value id"
     >
       <span>
-        USA
+        pubkeyX
+      </span>
+    </div>
+    <div
+      class="li-delegate__value delegated"
+    >
+      <span>
+        0%
       </span>
     </div>
     <div
@@ -45,17 +52,10 @@ exports[`LiDelegate has the expected html structure 1`] = `
       />
     </div>
     <div
-      class="li-delegate__value delegated"
-    >
-      <span>
-        50%
-      </span>
-    </div>
-    <div
       class="li-delegate__value"
     >
       <span>
-        n/a
+        0
       </span>
     </div>
   </div>
