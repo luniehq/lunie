@@ -1,7 +1,7 @@
 {
   "name": "Cosmos",
   "productName": "Cosmos",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "The human interface for Cosmos.",
   "main": "./dist/main.js",
   "author": "All In Bits, Inc <hello@tendermint.com>",

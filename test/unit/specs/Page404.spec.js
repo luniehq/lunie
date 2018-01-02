@@ -1,13 +1,13 @@
-import { mount } from 'vue-test-utils'
+import setup from '../helpers/vuex-setup'
 import Page404 from 'renderer/components/common/Page404'
 
 describe('Page404', () => {
+  let instance = setup()
   let wrapper
 
   beforeEach(() => {
-    wrapper = mount(Page404, {
-      propsData: { }
-    })
+    let test = instance.mount(Page404)
+    wrapper = test.wrapper
   })
 
   it('has the expected html structure', () => {

@@ -26,7 +26,7 @@ brew install glide
 # install gaia
 go get github.com/cosmos/gaia
 cd $GOPATH/src/github.com/cosmos/gaia
-git checkout develop
+git checkout v0.4.0
 glide install
 make install
 ```
@@ -52,6 +52,11 @@ $ yarn run testnet
 To run the UI on a specific a testnet from the [testnets](https://github.com/tendermint/testnets) repo:
 ```bash
 $ yarn run testnet <networkName>
+```
+
+To run the UI on a local node with `chain_id=local`:
+```bash
+$ yarn run testnet local
 ```
 
 To run the UI with a mocked backend (without connecting to a testnet):
