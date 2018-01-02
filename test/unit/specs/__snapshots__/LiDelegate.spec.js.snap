@@ -37,7 +37,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
       class="li-delegate__value delegated"
     >
       <span>
-        0%
+        25%
       </span>
     </div>
     <div
