@@ -9,6 +9,7 @@ describe('LiDelegate', () => {
     let test = instance.mount(LiDelegate, {
       propsData: {
         delegate: {
+          id: 'abc',
           description: {}
         }
       }
