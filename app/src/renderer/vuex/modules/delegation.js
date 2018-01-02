@@ -47,7 +47,6 @@ export default ({ commit }) => {
     async getBondedDelegates ({ state, dispatch }, {candidates, address}) {
       // TODO move into cosmos-sdk
       candidates.forEach(candidate => {
-        commit('addToCart', candidate)
         dispatch('getBondedDelegate', {address, pubkey: candidate.pub_key.data})
       })
     },
@@ -55,7 +54,6 @@ export default ({ commit }) => {
     async getBondedDelegate ({ commit }, {address, pubkey}) {
       // TODO move into cosmos-sdk
       let bond = (await axios.get('http://localhost:8998/query/stake/delegator/' + address + '/' + pubkey)).data.data
-      commit('setShares', {candidateId: bond.PubKey.data, value: bond.Shares})
       commit('setCommittedDelegation', {candidateId: bond.PubKey.data, value: bond.Shares})
     },
     async walletDelegate ({ dispatch }, args) {

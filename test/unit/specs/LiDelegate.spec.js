@@ -54,15 +54,15 @@ describe('LiDelegate', () => {
   })
 
   it('should show the voting power', () => {
-    expect(wrapper.html()).toContain('10,000')
+    expect(wrapper.html()).toContain('75%')
+  })
+
+  it('should show the number of bonded atoms', () => {
+    expect(wrapper.html()).toContain('30,000')
   })
 
   it('should show the relative voting power as a bar', () => {
-    expect(wrapper.vm.$el.querySelector('.voting_power .bar').style.width).toBe(Math.floor(10000 / 30000 * 100) + '%')
-  })
-
-  it('should show the relative shares hold as a bar', () => {
-    expect(wrapper.vm.$el.querySelector('.voting_power .bar').style.width).toBe(Math.floor(5000 / 15000 * 100) + '%')
+    expect(wrapper.vm.$el.querySelector('.voting_power .bar').style.width).toBe('100%')
   })
 
   it('should add to cart', () => {
