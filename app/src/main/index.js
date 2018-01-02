@@ -445,7 +445,10 @@ async function main () {
     throw new Error(`Can't open config.toml: ${e.message}`)
   }
   let config = toml.parse(configText)
-  let seeds = config.p2p.seeds.split(',')
+  let seeds = config.p2p.seeds.split(',').filter(x => x !== '')
+  if (seeds.length === 0) {
+    throw new Error('No seeds specified in config.toml')
+  }
   nodeIP = pickNode(seeds)
 
   if (init) {
