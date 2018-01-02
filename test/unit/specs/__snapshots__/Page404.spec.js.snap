@@ -63,9 +63,9 @@ exports[`Page404 has the expected html structure 1`] = `
         <main
           class="ni-part-main"
         >
-          <router-link
-            class="ni-li ni-li-link"
-            to="/"
+          <a
+            class="ni-li ni-li-link router-link-exact-active router-link-active"
+            href="#/"
           >
             <div
               class="ni-li-container"
@@ -104,10 +104,10 @@ exports[`Page404 has the expected html structure 1`] = `
                 </i>
               </div>
             </div>
-          </router-link>
-          <router-link
+          </a>
+          <a
             class="ni-li ni-li-link"
-            to="/staking"
+            href="#/staking"
           >
             <div
               class="ni-li-container"
@@ -146,7 +146,7 @@ exports[`Page404 has the expected html structure 1`] = `
                 </i>
               </div>
             </div>
-          </router-link>
+          </a>
         </main>
       </div>
     </section>
