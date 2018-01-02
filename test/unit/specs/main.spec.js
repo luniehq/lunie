@@ -294,7 +294,6 @@ describe('Startup Process', () => {
 
     it('should fail if config.toml has no seeds', async (done) => {
       await initMain()
-      console.log('inited main')
       let configText = fs.readFileSync(join(testRoot, 'config.toml'), 'utf8')
       configText = configText.split('\n')
       .map(line => {
@@ -304,7 +303,6 @@ describe('Startup Process', () => {
           return line
         }
       }).join('\n')
-      console.log('read toml')
       fs.writeFileSync(join(testRoot, 'config.toml'), configText, 'utf8')
 
       jest.resetModules()
