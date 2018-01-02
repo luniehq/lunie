@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`BtnCopy has the expected html structure 1`] = `"<button class=\\"ni-btn btn-copy\\" data-clipboard-text=\\"this is a test\\"><span class=\\"ni-btn-container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">content_copy</i><span class=\\"ni-btn-value\\">Copy</span></span></button>"`;

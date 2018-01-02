@@ -1,6 +1,7 @@
 let fs = require('fs-extra')
 let { join } = require('path')
 let root = require('../../../root.js')
+const axios = require('axios')
 
 export default ({ commit, node }) => {
   let state = {
@@ -64,10 +65,16 @@ export default ({ commit, node }) => {
       dispatch('queryWalletSequence')
       dispatch('queryWalletHistory')
     },
-    async queryWalletBalances ({ state, commit }) {
+    async queryWalletBalances ({ state, rootState, commit }) {
       let res = await node.queryAccount(state.key.address)
       if (!res) return
       commit('setWalletBalances', res.data.coins)
+      for (let coin of res.data.coins) {
+        if (coin.denom === rootState.config.bondingDenom) {
+          commit('setAtoms', coin.amount)
+          break
+        }
+      }
     },
     async queryWalletSequence ({ state, commit }) {
       let res = await node.queryNonce(state.key.address)
@@ -112,7 +119,16 @@ export default ({ commit, node }) => {
       blockMetaInfo && state.blockMetas.push(blockMetaInfo)
       return blockMetaInfo
     },
-    async walletSend ({ state, dispatch, commit, rootState }, args) {
+    async walletSend ({ dispatch }, args) {
+      args.type = 'buildSend'
+      args.to = {
+        chain: '',
+        app: 'sigs',
+        addr: args.to
+      }
+      await dispatch('walletTx', args)
+    },
+    async walletTx ({ state, dispatch, commit, rootState }, args) {
       // wait until the current send operation is done
       if (state.sending) {
         commit('queueSend', args)
@@ -141,17 +157,22 @@ export default ({ commit, node }) => {
         if (args.sequence == null) {
           args.sequence = state.sequence + 1
         }
-        args.to = {
-          chain: '',
-          app: 'sigs',
-          addr: args.to
-        }
         args.from = {
           chain: '',
           app: 'sigs',
           addr: state.key.address
         }
-        let tx = await node.buildSend(args)
+        // let tx = await node[args.type](args)
+        // TODO fix in cosmos-sdk-js
+        let tx = await (async function () {
+          switch (args.type) {
+            case 'buildDelegate': return axios.post('http://localhost:8998/build/stake/delegate', args)
+              .then(res => res.data)
+            case 'buildUnbond': return axios.post('http://localhost:8998/build/stake/unbond', args)
+              .then(res => res.data)
+            default: return node[args.type](args)
+          }
+        })()
         let signedTx = await node.sign({
           name: rootState.user.account,
           password: rootState.user.password,

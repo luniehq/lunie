@@ -1,21 +1,23 @@
 <template lang='pug'>
 transition(name='ts-li-delegate'): .li-delegate(:class='styles'): .li-delegate__values
   .ni-delegate__value
-  .li-delegate__value.id
+  .li-delegate__value.name
     span
-      i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
-      i.fa.fa-square-o(v-else @click='add(delegate)')
-      router-link(v-if="config.devMode && delegate.id" :to="{ name: 'delegate', params: { delegate: delegate.id }}") {{ delegate.id }}
-      a(v-else) {{ delegate.id }}
-  .li-delegate__value
-    span {{ delegate.country ? delegate.country : 'n/a' }}
+      template
+        i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
+        i.fa.fa-square-o(v-else @click='add(delegate)')
+      router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")
+        | {{ ' ' + delegate.moniker }}
+      a(v-else) {{ ' ' + delegate.moniker }}
+  .li-delegate__value.id
+    span {{ delegate.id }}
+  .li-delegate__value.delegated
+    span {{ num.percentInt(bondedPercent) }}
   .li-delegate__value.voting_power.num.bar
     span {{ num.prettyInt(delegate.voting_power) }}
     .bar(:style='vpStyles')
-  .li-delegate__value.delegated
-    span {{ num.percentInt(bondedPercent) }}
   .li-delegate__value
-    span {{ delegate.commission ? num.percentInt(delegate.commission) : 'n/a' }}
+    span {{ num.prettyInt(amountBonded(delegate.id)) }}
 </template>
 
 <script>
@@ -30,7 +32,7 @@ export default {
     Btn
   },
   computed: {
-    ...mapGetters(['shoppingCart', 'delegates', 'config']),
+    ...mapGetters(['shoppingCart', 'delegates', 'config', 'committedDelegations']),
     styles () {
       let value = ''
       if (this.inCart) value += 'li-delegate-active '
@@ -42,13 +44,16 @@ export default {
         return richestDelegate.voting_power
       } else { return 0 }
     },
+    vpTotal () {
+      return this.delegates.reduce((a, b) => a.voting_power + b.voting_power, 0)
+    },
     vpStyles () {
       let percentage =
         Math.round((this.delegate.voting_power / this.vpMax) * 100)
       return { width: percentage + '%' }
     },
     bondedPercent () {
-      return this.delegate.shares / this.delegate.voting_power
+      return this.delegate.voting_power / this.vpTotal
     },
     inCart () {
       return this.shoppingCart.find(c => c.id === this.delegate.id)
@@ -59,7 +64,10 @@ export default {
   }),
   methods: {
     add (delegate) { this.$store.commit('addToCart', delegate) },
-    rm (delegate) { this.$store.commit('removeFromCart', delegate.id) }
+    rm (delegate) { this.$store.commit('removeFromCart', delegate.id) },
+    amountBonded (delegateId) {
+      return this.committedDelegations[delegateId]
+    }
   }
 }
 </script>
@@ -70,7 +78,7 @@ export default {
 .li-delegate
   &:nth-of-type(2n-1)
     background app-fg
-  &.li-delegate-active 
+  &.li-delegate-active
     .li-delegate__value i.fa
       color accent
 

@@ -6,24 +6,21 @@ nav#app-header: .container
   router-link.header-item.header-item-logo(to="/")
     img(src="~@/assets/images/cosmos.png")
   app-menu(v-if="config.activeMenu === 'app' || config.desktop")
-  // app-menu-user(v-if="config.activeMenu === 'user' || config.desktop")
 
   template(v-if="!config.desktop")
     .header-item(v-if="config.activeMenu === 'app'" @click="close")
       i.material-icons close
-    .header-item(v-else @click="enableMenu('app')"): i.material-icons menu
+    .header-item(v-else @click="enableMenu()"): i.material-icons menu
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import noScroll from 'no-scroll'
 import AppMenu from 'common/AppMenu'
-import AppMenuUser from 'common/AppMenuUser'
 export default {
   name: 'app-header',
   components: {
-    AppMenu,
-    AppMenuUser
+    AppMenu
   },
   computed: {
     ...mapGetters(['config'])
@@ -33,8 +30,8 @@ export default {
       this.$store.commit('setActiveMenu', '')
       noScroll.off()
     },
-    enableMenu (menuName) {
-      this.$store.commit('setActiveMenu', menuName)
+    enableMenu () {
+      this.$store.commit('setActiveMenu', 'app')
       noScroll.on()
     },
     watchWindowSize () {
@@ -43,8 +40,9 @@ export default {
         this.close()
         this.$store.commit('setConfigDesktop', true)
         return
+      } else {
+        this.$store.commit('setConfigDesktop', false)
       }
-      this.$store.commit('setConfigDesktop', false)
     }
   },
   mounted () {

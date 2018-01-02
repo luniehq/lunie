@@ -8,7 +8,9 @@ describe('LiDelegate', () => {
   beforeEach(() => {
     let test = instance.mount(LiDelegate, {
       propsData: {
-        delegate: {}
+        delegate: {
+          description: {}
+        }
       }
     })
     wrapper = test.wrapper
@@ -23,7 +25,7 @@ describe('LiDelegate', () => {
       shares: 5000,
       description: {
         description: 'descriptionX',
-        keybaseID: 'keybaseX',
+        moniker: 'candidateX',
         country: 'USA'
       }
     })
@@ -36,24 +38,18 @@ describe('LiDelegate', () => {
       shares: 10000,
       description: {
         description: 'descriptionY',
-        keybaseID: 'keybaseY',
+        moniker: 'candidateY',
         country: 'Canada'
       }
     })
 
     delegate = store.state.delegates[0]
 
-    wrapper.setData({
-      delegate
-    })
+    wrapper.setData({ delegate })
   })
 
   it('has the expected html structure', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it('should show the country', () => {
-    expect(wrapper.html()).toContain('USA')
   })
 
   it('should show the voting power', () => {

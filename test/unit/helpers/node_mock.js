@@ -15,7 +15,6 @@ module.exports = {
     deliver_tx: { code: 0 }
   }),
   sign: () => Promise.resolve(null),
-
   rpc: {
     on: () => {},
     subscribe: () => {},
