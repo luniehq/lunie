@@ -36,7 +36,7 @@ const NODE = process.env.COSMOS_NODE
 
 // this network gets used if none is specified via the
 // COSMOS_NETWORK env var
-let DEFAULT_NETWORK = join(__dirname, '../networks/gaia-1')
+let DEFAULT_NETWORK = join(__dirname, '../networks/gaia-2-dev')
 let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')

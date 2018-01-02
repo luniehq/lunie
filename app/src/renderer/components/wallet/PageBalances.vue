@@ -14,14 +14,22 @@ page(title='Balance')
     li-copy(:value="wallet.key.address")
 
   part(title="Denomination Balances")
-  data-empty(v-if="wallet.balances.length === 0")
-  data-empty-search(v-else-if="filteredBalances.length === 0")
-  list-item(
-    v-else
-    v-for="i in filteredBalances"
-    :key="i.denom"
-    :dt="i.denom.toUpperCase()"
-    :dd="i.amount")
+    data-empty(v-if="wallet.balances.length === 0")
+    data-empty-search(v-else-if="filteredBalances.length === 0")
+    list-item(
+      v-for="i in filteredBalances"
+      v-if="wallet.balances.length > 0 && i.amount > 0"
+      :key="i.denom"
+      :dt="i.denom.toUpperCase()"
+      :dd="i.amount"
+      :to="{name: 'send', params: {denom: i.denom}}")
+
+  part(title="Network Denominations")
+    list-item(
+      v-for="i in filteredBalances"
+      v-if="i.amount === 0"
+      :key="i.denom"
+      :dt="i.denom.toUpperCase()")
 </template>
 
 <script>

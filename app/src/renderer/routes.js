@@ -68,7 +68,7 @@ export default [
 
   // WALLET
   { path: '/', name: 'balances', component: wallet('Balances') },
-  { path: '/wallet/send', name: 'send', component: wallet('Send') },
+  { path: '/wallet/send', name: 'send', props: true, component: wallet('Send') },
   { path: '/wallet/transactions', name: 'transactions', component: wallet('Transactions') },
 
   // 404
