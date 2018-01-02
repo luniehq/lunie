@@ -45,7 +45,10 @@ export default {
       } else { return 0 }
     },
     vpTotal () {
-      return this.delegates.reduce((a, b) => a.voting_power + b.voting_power, 0)
+      return this.delegates
+        .sort((a, b) => b.voting_power - a.voting_power)
+        .slice(0, 100)
+        .reduce((sum, v) => sum + v.voting_power, 0)
     },
     vpStyles () {
       let percentage =
