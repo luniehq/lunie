@@ -194,14 +194,6 @@ async function startBaseserver (home, nodeIP) {
   ])
   logProcess(child, join(home, 'baseserver.log'))
 
-  // restore baseserver if it crashes
-  // child.on('exit', async () => {
-  //   if (shuttingDown) return
-  //   log('baseserver crashed, restarting')
-  //   await sleep(1000)
-  //   await startBaseserver(home)
-  // })
-
   while (true) {
     if (shuttingDown) break
 
