@@ -72,7 +72,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main ps"
+    class="ni-page-main"
   >
     <!---->
     <li-transaction
@@ -85,26 +85,6 @@ exports[`PageTransactions has the expected html structure 1`] = `
       devmode="true"
       transaction-value="[object Object]"
     />
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
   </main>
 </div>
 `;
@@ -181,7 +161,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main ps"
+    class="ni-page-main"
   >
     <div
       class="ni-modal-search"
@@ -216,26 +196,6 @@ exports[`PageTransactions should filter the transactions 1`] = `
       devmode="true"
       transaction-value="[object Object]"
     />
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
   </main>
 </div>
 `;

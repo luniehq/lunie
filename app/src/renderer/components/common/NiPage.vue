@@ -22,10 +22,25 @@ export default {
   computed: {
     ...mapGetters(['config'])
   },
+  data: () => ({
+    ps: ''
+  }),
+  methods: {
+    handleResize () {
+      if (this.config.desktop) {
+        const container = this.$el.querySelector('.ni-page-main')
+        this.ps = new PerfectScrollbar(container)
+        // console.log('its desktop', this.ps)
+      } else if (this.ps.destroy) {
+        this.ps.destroy()
+        this.ps = null
+        // console.log('its not desktop', this.ps)
+      }
+    }
+  },
   mounted () {
-    const container = this.$el.querySelector('.ni-page-main')
-    // eslint-disable-next-line no-new
-    new PerfectScrollbar(container)
+    this.handleResize()
+    window.addEventListener('resize', this.handleResize)
   }
 }
 </script>

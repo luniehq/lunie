@@ -75,18 +75,20 @@ exports[`PageBond has the expected html structure 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main ps"
+    class="ni-page-main"
   >
     <div
       class="reserved-atoms"
     >
-      You have 
-      <div
-        class="reserved-atoms__number"
-      >
-        2097152
-      </div>
-       unbonded atoms. Start by bonding some of your atoms to these delegates.
+      <span />
+      <!---->
+      <span>
+        <a
+          class="reserved-atoms__restart"
+        >
+           (start over?)
+        </a>
+      </span>
     </div>
     <form
       class="ni-form"
@@ -103,7 +105,7 @@ exports[`PageBond has the expected html structure 1`] = `
         >
           <div>
             <button
-              class="ni-btn"
+              class="ni-btn equalize"
               type="button"
             >
               <span
@@ -123,7 +125,7 @@ exports[`PageBond has the expected html structure 1`] = `
               </span>
             </button>
             <button
-              class="ni-btn"
+              class="ni-btn bond"
             >
               <span
                 class="ni-btn-container"
@@ -145,26 +147,6 @@ exports[`PageBond has the expected html structure 1`] = `
         </footer>
       </div>
     </form>
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
   </main>
 </div>
 `;
