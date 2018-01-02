@@ -171,63 +171,122 @@ exports[`PageBalances has the expected html structure 1`] = `
         </header>
         <main
           class="ni-part-main"
+        >
+          <!---->
+          <a
+            class="ni-li ni-li-link proposal-enter proposal-enter-active"
+            href="#/wallet/send"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  FERMION
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  456
+                </div>
+              </div>
+              <div
+                class="ni-li-icon"
+              >
+                <i
+                  class="material-icons inactive"
+                >
+                  chevron_right
+                </i>
+                <i
+                  class="material-icons active"
+                >
+                  my_location
+                </i>
+              </div>
+            </div>
+          </a>
+          <a
+            class="ni-li ni-li-link proposal-enter proposal-enter-active"
+            href="#/wallet/send"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  ATOM
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  123
+                </div>
+              </div>
+              <div
+                class="ni-li-icon"
+              >
+                <i
+                  class="material-icons inactive"
+                >
+                  chevron_right
+                </i>
+                <i
+                  class="material-icons active"
+                >
+                  my_location
+                </i>
+              </div>
+            </div>
+          </a>
+        </main>
+      </div>
+    </section>
+    <section
+      class="ni-part"
+    >
+      <div
+        class="ni-part-container"
+      >
+        <header
+          class="ni-part-header"
+        >
+          <div
+            class="ni-part-header-container"
+          >
+            <div
+              class="ni-part-title h5"
+            >
+              Network Denominations
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
         />
       </div>
     </section>
-    <div
-      class="ni-li proposal-enter proposal-enter-active"
-    >
-      <div
-        class="ni-li-container"
-      >
-        <div
-          class="ni-li-thumb"
-        >
-          <!---->
-        </div>
-        <div
-          class="ni-li-dl"
-        >
-          <div
-            class="ni-li-dt"
-          >
-            FERMION
-          </div>
-          <div
-            class="ni-li-dd"
-          >
-            456
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="ni-li proposal-enter proposal-enter-active"
-    >
-      <div
-        class="ni-li-container"
-      >
-        <div
-          class="ni-li-thumb"
-        >
-          <!---->
-        </div>
-        <div
-          class="ni-li-dl"
-        >
-          <div
-            class="ni-li-dt"
-          >
-            ATOM
-          </div>
-          <div
-            class="ni-li-dd"
-          >
-            123
-          </div>
-        </div>
-      </div>
-    </div>
   </main>
 </div>
 `;
@@ -403,63 +462,122 @@ exports[`PageBalances should filter the balances 1`] = `
         </header>
         <main
           class="ni-part-main"
+        >
+          <!---->
+          <a
+            class="ni-li ni-li-link"
+            href="#/wallet/send"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  FERMION
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  456
+                </div>
+              </div>
+              <div
+                class="ni-li-icon"
+              >
+                <i
+                  class="material-icons inactive"
+                >
+                  chevron_right
+                </i>
+                <i
+                  class="material-icons active"
+                >
+                  my_location
+                </i>
+              </div>
+            </div>
+          </a>
+          <a
+            class="ni-li ni-li-link"
+            href="#/wallet/send"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  ATOM
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  123
+                </div>
+              </div>
+              <div
+                class="ni-li-icon"
+              >
+                <i
+                  class="material-icons inactive"
+                >
+                  chevron_right
+                </i>
+                <i
+                  class="material-icons active"
+                >
+                  my_location
+                </i>
+              </div>
+            </div>
+          </a>
+        </main>
+      </div>
+    </section>
+    <section
+      class="ni-part"
+    >
+      <div
+        class="ni-part-container"
+      >
+        <header
+          class="ni-part-header"
+        >
+          <div
+            class="ni-part-header-container"
+          >
+            <div
+              class="ni-part-title h5"
+            >
+              Network Denominations
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
         />
       </div>
     </section>
-    <div
-      class="ni-li"
-    >
-      <div
-        class="ni-li-container"
-      >
-        <div
-          class="ni-li-thumb"
-        >
-          <!---->
-        </div>
-        <div
-          class="ni-li-dl"
-        >
-          <div
-            class="ni-li-dt"
-          >
-            FERMION
-          </div>
-          <div
-            class="ni-li-dd"
-          >
-            456
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="ni-li"
-    >
-      <div
-        class="ni-li-container"
-      >
-        <div
-          class="ni-li-thumb"
-        >
-          <!---->
-        </div>
-        <div
-          class="ni-li-dl"
-        >
-          <div
-            class="ni-li-dt"
-          >
-            ATOM
-          </div>
-          <div
-            class="ni-li-dd"
-          >
-            123
-          </div>
-        </div>
-      </div>
-    </div>
   </main>
 </div>
 `;
