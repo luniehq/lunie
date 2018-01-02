@@ -8,7 +8,7 @@ page(title='Send')
         field-id='send-denomination' field-label='Denomination')
         field#send-denomination(
           type="select"
-          v-model="fields.denom || denom"
+          v-model="fields.denom"
           :options="denominations"
           placeholder="Select token...")
         form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
@@ -123,8 +123,8 @@ export default {
   },
   props: ['denom'],
   mounted () {
-    if (this.denominations.length === 1) {
-      this.fields.denom = this.denominations[0].value
+    if (this.denom) {
+      this.fields.denom = this.denom
     }
   },
   validations: () => ({
