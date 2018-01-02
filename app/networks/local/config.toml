@@ -31,4 +31,4 @@ create_empty_blocks_interval = 1
 #send_rate=51200000 # 50 MB/s
 #recv_rate=51200000 # 50 MB/s
 laddr = "tcp://127.0.0.1:46656"
-seeds = ""
+seeds = "0.0.0.0:46656"
