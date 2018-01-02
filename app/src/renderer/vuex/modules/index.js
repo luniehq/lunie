@@ -5,7 +5,7 @@ export default (opts) => ({
   node: require('./node.js').default(opts),
   notifications: require('./notifications.js').default(opts),
   proposals: require('./proposals.js').default(opts),
-  shoppingCart: require('./shoppingCart.js').default(opts),
+  delegation: require('./delegation.js').default(opts),
   user: require('./user.js').default(opts),
   validators: require('./validators.js').default(opts),
   wallet: require('./wallet.js').default(opts)
