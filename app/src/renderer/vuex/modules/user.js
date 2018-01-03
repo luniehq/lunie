@@ -88,10 +88,11 @@ export default ({ commit, node }) => {
     async signIn ({ state, dispatch }, { password, account }) {
       state.password = password
       state.account = account
-      state.address = state.accounts.find(_account => _account.name === account).address
       state.signedIn = true
 
       let key = await node.getKey(account)
+      state.address = key.address
+
       dispatch('initializeWallet', key)
     },
     signOut ({ state, commit, dispatch }) {
