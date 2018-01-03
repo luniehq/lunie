@@ -1,3 +1,5 @@
+import { setTimeout } from 'timers'
+
 'use strict'
 
 export default function ({ node }) {
@@ -24,9 +26,10 @@ export default function ({ node }) {
       state.lastHeader = header
       dispatch('maybeUpdateValidators', header)
     },
-    async reconnect ({dispatch}) {
-      await node.rpcReconnect()
-      dispatch('nodeSubscribe')
+    async reconnect ({commit, dispatch}) {
+      commit('setConnected', false)
+      let successfulReconnect = !!(await node.rpcReconnect())
+      successfulReconnect && dispatch('nodeSubscribe')
     },
     nodeSubscribe ({commit, dispatch}) {
       // the rpc socket can be closed before we can even attach a listener
@@ -58,6 +61,8 @@ export default function ({ node }) {
         commit('setConnected', true)
         dispatch('setLastHeader', event.data.data.header)
       })
+
+      dispatch('pollRPCConnection')
     },
     async checkConnection ({ commit }) {
       try {
@@ -67,6 +72,25 @@ export default function ({ node }) {
         commit('notifyError', {title: 'Critical Error', body: `Couldn't initialize blockchain connector`})
         return false
       }
+    },
+    pollRPCConnection ({state, commit, dispatch}, timeout = 3000) {
+      if (state.ping) return
+
+      state.ping = setTimeout(() => {
+        // clear timeout doesn't work
+        if (state.ping) {
+          state.ping = null
+          dispatch('reconnect')
+        }
+      }, timeout)
+      node.rpc.status((err, res) => {
+        if (!err) {
+          state.ping = null
+          setTimeout(() => {
+            dispatch('pollRPCConnection')
+          }, timeout)
+        }
+      })
     }
   }
 
