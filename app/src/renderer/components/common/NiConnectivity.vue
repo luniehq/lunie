@@ -33,6 +33,10 @@ export default {
 .ni-connectivity
   background app-bg
 
+  .ni-li-thumb
+    .material-icons
+      color success
+
 @media screen and (min-width: 1024px)
   .ni-connectivity
     border-top px solid bc

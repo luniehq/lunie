@@ -129,7 +129,6 @@ export default {
   width 3rem - px
   i.material-icons
     display block
-    background app-fg
     width 3rem - px
     height 3rem - px
     display flex
@@ -142,7 +141,7 @@ export default {
   display flex
   align-items flex-start
   justify-content center
-  padding 0 1rem
+  padding 0 1rem 0 0
   flex-flow column nowrap
 
   .ni-li-title

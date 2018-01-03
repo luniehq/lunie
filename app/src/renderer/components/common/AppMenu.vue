@@ -65,6 +65,9 @@ export default {
     flex 1
     position relative // for perfect-scrollbar
 
+    .ni-li-link
+      padding 0 0 0 1rem
+
   .ni-user
     border-top 1px solid bc
     padding 1rem
