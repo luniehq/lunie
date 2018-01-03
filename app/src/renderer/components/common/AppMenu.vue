@@ -1,20 +1,13 @@
 <template lang="pug">
 menu.app-menu
   .app-menu-main
-    part(title='Wallet')
-      list-item(to="/" exact @click.native="close" title="Balance")
-      list-item(to="/wallet/send" exact @click.native="close" title="Send")
-      list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions")
-    part(title='Governance' v-if="config.devMode")
-      list-item(to="/proposals" exact @click.native="close" title="Proposals")
-    part(title='Stake')
-      list-item(to="/staking" exact @click.native="close" title="Delegates")
-    part(title='Monitor' v-if="config.devMode")
-      list-item(to="/blockchain" exact @click.native="close" title="Blockchain")
-      list-item(to="/validators" exact @click.native="close" title="Validators"
-        v-bind:class="{ 'active': isValidatorPage }")
-    part(title='Connectivity')
-      connectivity
+    list-item(to="/" exact @click.native="close" title="Balances")
+    list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions")
+    list-item(to="/staking" exact @click.native="close" title="Delegates")
+    list-item(to="/validators" exact @click.native="close" title="Validators" v-bind:class="{ 'active': isValidatorPage }")
+    list-item(to="/proposals" exact @click.native="close" title="Proposals" v-if="config.devMode")
+    list-item(to="/blockchain" exact @click.native="close" title="Monitor" v-if="config.devMode")
+    connectivity
   user-pane
 </template>
 
