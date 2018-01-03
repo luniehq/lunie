@@ -52,7 +52,7 @@ describe('Module: Node', () => {
 
   it('reacts to rpc disconnection with reconnect', done => {
     let failed = false
-    node.rpc.status = () => done()
+    node.rpcReconnect = () => done()
     node.rpc.on = jest.fn((value, cb) => {
       if (value === 'error' && !failed) {
         failed = true
@@ -115,5 +115,17 @@ describe('Module: Node', () => {
       return Promise.resolve('1.1.1.1')
     }
     store.dispatch('nodeSubscribe')
+  })
+
+  it('should ping the node to check connection status', done => {
+    node.rpc.status = () => done()
+    store.dispatch('pollRPCConnection')
+    expect(store.state.node.nodeTimeout).toBeDefined()
+  })
+
+  it('should reconnect if pinging node fails', done => {
+    node.rpcReconnect = () => done()
+    node.rpc.status = (cb) => {}
+    store.dispatch('pollRPCConnection', 0)
   })
 })

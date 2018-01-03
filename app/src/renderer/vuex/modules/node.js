@@ -28,8 +28,8 @@ export default function ({ node }) {
     },
     async reconnect ({commit, dispatch}) {
       commit('setConnected', false)
-      let successfulReconnect = !!(await node.rpcReconnect())
-      successfulReconnect && dispatch('nodeSubscribe')
+      await node.rpcReconnect()
+      dispatch('nodeSubscribe')
     },
     nodeSubscribe ({commit, dispatch}) {
       // the rpc socket can be closed before we can even attach a listener
@@ -74,18 +74,18 @@ export default function ({ node }) {
       }
     },
     pollRPCConnection ({state, commit, dispatch}, timeout = 3000) {
-      if (state.ping) return
+      if (state.nodeTimeout) return
 
-      state.ping = setTimeout(() => {
+      state.nodeTimeout = setTimeout(() => {
         // clear timeout doesn't work
-        if (state.ping) {
-          state.ping = null
+        if (state.nodeTimeout) {
+          state.nodeTimeout = null
           dispatch('reconnect')
         }
       }, timeout)
       node.rpc.status((err, res) => {
         if (!err) {
-          state.ping = null
+          state.nodeTimeout = null
           setTimeout(() => {
             dispatch('pollRPCConnection')
           }, timeout)
