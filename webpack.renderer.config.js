@@ -19,7 +19,7 @@ let rendererConfig = {
   entry: {
     renderer: path.join(__dirname, 'app/src/renderer/main.js')
   },
-  externals: Object.keys(pkg.dependencies || {}),
+  externals: ['ws', 'request'],
   module: {
     rules: [
       {
@@ -91,7 +91,8 @@ let rendererConfig = {
         ? path.resolve(__dirname, 'app/node_modules')
         : false
     }),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.IgnorePlugin(/ajv/)
   ],
   output: {
     filename: '[name].js',

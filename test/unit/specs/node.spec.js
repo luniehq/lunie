@@ -28,7 +28,7 @@ describe('LCD Connector', () => {
   })
 
   it('should remember if it could not connect via rpc', () => {
-    jest.mock('../../../app/node_modules/tendermint', () => () => ({
+    jest.mock('tendermint', () => () => ({
       on (value, cb) {
         if (value === 'error') {
           cb({code: 'ECONNREFUSED'})

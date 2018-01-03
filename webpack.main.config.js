@@ -11,7 +11,6 @@ let mainConfig = {
   entry: {
     main: path.join(__dirname, 'app/src/main/index.js')
   },
-  externals: Object.keys(pkg.dependencies || {}),
   module: {
     rules: [
       {
@@ -52,7 +51,7 @@ let mainConfig = {
   resolve: {
     extensions: ['.js', '.json', '.node'],
     modules: [
-      path.join(__dirname, 'app/node_modules')
+      path.join(__dirname, 'node_modules')
     ]
   },
   target: 'electron-main'

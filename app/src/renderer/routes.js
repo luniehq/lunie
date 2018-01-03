@@ -5,7 +5,6 @@ let govern = r.bind(null, 'govern')
 let monitor = r.bind(null, 'monitor')
 let staking = r.bind(null, 'staking')
 let wallet = r.bind(null, 'wallet')
-// let basecoin = r.bind(null, 'basecoin')
 
 export default [
   // GOVERN
