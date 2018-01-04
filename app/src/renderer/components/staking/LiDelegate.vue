@@ -1,11 +1,10 @@
 <template lang='pug'>
-transition(name='ts-li-delegate'): .li-delegate(:class='styles'): .li-delegate__values
-  .ni-delegate__value
+.li-delegate(:class='styles'): .li-delegate__values
+  .li-delegate__value.checkbox
+    i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
+    i.fa.fa-square-o(v-else @click='add(delegate)')
   .li-delegate__value.name
     span
-      template
-        i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
-        i.fa.fa-square-o(v-else @click='add(delegate)')
       router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")
         | {{ ' ' + delegate.moniker }}
       a(v-else) {{ ' ' + delegate.moniker }}
@@ -15,7 +14,7 @@ transition(name='ts-li-delegate'): .li-delegate(:class='styles'): .li-delegate__
     span {{ num.percentInt(bondedPercent) }}
   .li-delegate__value.voting_power.num.bar
     span {{ num.prettyInt(delegate.voting_power) }}
-    .bar(:style='vpStyles')
+      .bar(:style='vpStyles')
   .li-delegate__value
     span {{ num.prettyInt(amountBonded(delegate.id)) }}
 </template>
@@ -52,8 +51,7 @@ export default {
         .reduce((sum, v) => sum + v.voting_power, 0)
     },
     vpStyles () {
-      let percentage =
-        Math.round((this.delegate.voting_power / this.vpMax) * 100)
+      let percentage = Math.round((this.delegate.voting_power / this.vpMax) * 100)
       return { width: percentage + '%' }
     },
     bondedPercent () {
@@ -89,13 +87,15 @@ export default {
 .li-delegate__values
   display flex
   height 3rem
-  padding 0 0.75rem
 
 .li-delegate__value
-  flex 1
+  flex 3
   display flex
   align-items center
   min-width 0
+
+  &:first-child
+    flex 1
 
   &.id span
     i.fa
@@ -116,6 +116,9 @@ export default {
     .bar
       height 1.5rem
       background alpha(link, 33.3%)
+
+  &.checkbox
+    justify-content center
 
   span
     white-space nowrap

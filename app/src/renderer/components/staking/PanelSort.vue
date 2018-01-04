@@ -43,10 +43,9 @@ export default {
   display flex
   height 2rem
   border-bottom px solid bc
-  padding 0 0.75rem
 
 .sort-by
-  flex 1
+  flex 3
   cursor pointer
   user-select none
 
@@ -57,6 +56,10 @@ export default {
   padding 0 0.25rem
 
   min-width 0
+
+  &:first-child
+    flex: 1
+    padding: 0
 
   .label
     font-size sm
