@@ -46,6 +46,7 @@ export default {
     },
     vpTotal () {
       return this.delegates
+        .slice()
         .sort((a, b) => b.voting_power - a.voting_power)
         .slice(0, 100)
         .reduce((sum, v) => sum + v.voting_power, 0)
