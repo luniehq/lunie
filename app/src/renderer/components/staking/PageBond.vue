@@ -5,6 +5,17 @@ page.page-bond(title="Bond Atoms")
       i.material-icons arrow_back
       .label Back
 
+  part(title="Your Atoms")
+    list-item(
+      dt="Total Atoms"
+      :dd="totalAtoms")
+    list-item(
+      dt="Bonded Atoms"
+      :dd="previouslyBondedAtoms || 0")
+    list-item(
+      dt="Unbonded Atoms"
+      :dd="unbondedAtoms || 0")
+
   form-struct(:submit="onSubmit")
     form-group(v-for='(delegate, index) in fields.delegates' :key='delegate.id'
       :error="$v.fields.delegates.$each[index].$error")
@@ -39,6 +50,7 @@ import FieldGroup from 'common/NiFieldGroup'
 import FormGroup from 'common/NiFormGroup'
 import FormMsg from 'common/NiFormMsg'
 import FormStruct from 'common/NiFormStruct'
+import ListItem from 'common/NiListItem'
 import Page from 'common/NiPage'
 import Part from 'common/NiPart'
 import ToolBar from 'common/NiToolBar'
@@ -52,6 +64,7 @@ export default {
     FormGroup,
     FormMsg,
     FormStruct,
+    ListItem,
     Page,
     Part,
     ToolBar
@@ -195,9 +208,9 @@ export default {
 
 .reserved-atoms
   padding 1rem
-  background app-fg
-  margin 0 0 1rem
-  color dim
+
+  span
+    display block
 
   &__number
     display inline
