@@ -23,7 +23,7 @@ exports[`NiUserPane has the expected html structure 1`] = `
       <div
         class="ni-li-title"
       >
-        Account ACTIVE_ACCOUNT
+        ACTIVE_ACCOUNT
       </div>
       <div
         class="ni-li-subtitle"
