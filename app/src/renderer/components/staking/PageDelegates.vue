@@ -15,6 +15,7 @@ page(:title='pageTitle')
 
   data-error(v-if="delegates.length === 0")
   data-empty-search(v-else-if="filteredDelegates.length === 0")
+
   template(v-else)
     panel-sort(:sort='sort')
     li-delegate( v-for='i in filteredDelegates' key='i.id' :delegate='i')
@@ -72,6 +73,7 @@ export default {
       property: 'shares',
       order: 'desc',
       properties: [
+        { id: 0, title: '', value: '' },
         { id: 1, title: 'Name', value: 'description.moniker' },
         { id: 2, title: 'Public Key', value: 'id' },
         { id: 3, title: 'Voting Power', value: 'shares', initial: true },
