@@ -5,20 +5,32 @@ page.page-bond(title="Bond Atoms")
       i.material-icons arrow_back
       .label Back
 
+  part(title="Your Atoms")
+    list-item(
+      dt="Total Atoms"
+      :dd="totalAtoms")
+    list-item(
+      dt="Bonded Atoms"
+      :dd="previouslyBondedAtoms || 0")
+    list-item(
+      dt="Unbonded Atoms"
+      :dd="unbondedAtoms || 0")
+
   form-struct(:submit="onSubmit")
     part(title='Selected Delegates')
-      //- .reserved-atoms
-      //-   span(v-if="unbondedAtoms == totalAtoms")
-      //-   span.reserved-atoms--warning(v-else-if="unbondedAtoms === 0")
+      //- ul.reserved-atoms
+      //-   li(v-if="bondedAtoms")
+      //-     | You have {{ bondedAtoms }} Atoms already bonded.
+      //-   li.reserved-atoms--warning(v-else-if="unbondedAtoms === 0")
       //-     | You're trying to bond #[.reserved-atoms__number ALL {{ bondedAtoms }}] atoms to these delegates. We suggest reserving some atoms for personal use &mdash; are you sure you wish to proceed?
-      //-   span.reserved-atoms--error(v-else-if="unbondedAtoms < 0")
+      //-   li.reserved-atoms--error(v-else-if="unbondedAtoms < 0")
       //-     | You're trying to bond #[.reserved-atoms__number {{ unbondedAtoms * -1 }}] more atoms than you have.
-      //-   span(v-else)
+      //-   li(v-else)
       //-     | You are bonding #[.reserved-atoms__number {{ bondedAtoms }}] ({{ bondedAtomsPct }}) atoms to these delegates. You will keep  #[.reserved-atoms__number {{ unbondedAtoms }}] ({{ unbondedAtomsPct }}) atoms in your wallet.
-      //-   span(v-if="willUnbondAtoms > 0")
+      //-   li(v-if="willUnbondAtoms > 0")
       //-     | You will begin unbonding #[.reserved-atoms__number {{ willUnbondAtoms }}] atoms, which will be available in 30 days.
-      //-   span
-      //-     | #[a.reserved-atoms__restart(@click="resetAlloc") &nbsp;(start over?)]
+      //-   li
+      //-     | #[a.reserved-atoms__restart(@click="resetAlloc") &nbsp;(Reset Allocations)]
 
       form-group(
         v-for='(delegate, index) in fields.delegates'
@@ -56,6 +68,7 @@ import FieldGroup from 'common/NiFieldGroup'
 import FormGroup from 'common/NiFormGroup'
 import FormMsg from 'common/NiFormMsg'
 import FormStruct from 'common/NiFormStruct'
+import ListItem from 'common/NiListItem'
 import Page from 'common/NiPage'
 import Part from 'common/NiPart'
 import ToolBar from 'common/NiToolBar'
@@ -69,6 +82,7 @@ export default {
     FormGroup,
     FormMsg,
     FormStruct,
+    ListItem,
     Page,
     Part,
     ToolBar
@@ -212,9 +226,9 @@ export default {
 
 .reserved-atoms
   padding 1rem
-  background app-fg
-  margin 0 0 1rem
-  color dim
+
+  span
+    display block
 
   &__number
     display inline
