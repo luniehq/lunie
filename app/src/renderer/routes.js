@@ -1,4 +1,4 @@
-function r (type, pageName) { return require(`./components/${type}/Page${pageName}`) }
+function r (type, pageName) { return require(`./components/${type}/Page${pageName}`).default }
 
 let common = r.bind(null, 'common')
 let govern = r.bind(null, 'govern')
