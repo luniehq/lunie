@@ -58,7 +58,6 @@ export default {
         await this.$store.dispatch('testLogin', { password: this.fields.signInPassword, account: this.fields.signInName })
         this.$store.dispatch('signIn', { password: this.fields.signInPassword, account: this.fields.signInName })
         this.$store.commit('setModalSession', false)
-        this.$store.commit('notify', { title: 'Signed In', body: `You are now signed in to your Cosmos account.` })
       } catch (err) {
         this.$store.commit('notifyError', { title: 'Signing In Failed', body: err.message })
       }
