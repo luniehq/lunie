@@ -29,7 +29,7 @@ export default {
     },
     click () {
       clipboard.writeText(this.value)
-      
+
       this.$store.commit('notify', {
         title: this.notifyTitle,
         body: this.notifyBody
