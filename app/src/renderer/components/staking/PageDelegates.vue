@@ -14,7 +14,8 @@ page(title='Delegates')
   data-empty-search(v-else-if="filteredDelegates.length === 0")
 
   template(v-else)
-    btn(value="Proceed to bonding page" type="link" to="/staking/bond" :disabled="!shoppingCart.length")
+    div.action-container
+      btn(value="Proceed to bonding page" type="link" to="/staking/bond" :disabled="!shoppingCart.length")
     panel-sort(:sort='sort')
     li-delegate(v-for='i in filteredDelegates' :key='i.id' :delegate='i')
 </template>
@@ -101,3 +102,9 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  .action-container
+    padding: 0 0 1rem
+    display flex
+    // justify-content flex-end
+</style>

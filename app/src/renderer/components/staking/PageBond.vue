@@ -5,19 +5,6 @@ page.page-bond(title="Bond Atoms")
       i.material-icons arrow_back
       .label Back
 
-  .reserved-atoms
-    span(v-if="unbondedAtoms == totalAtoms")
-    span.reserved-atoms--warning(v-else-if="unbondedAtoms === 0")
-      | You're trying to bond #[.reserved-atoms__number ALL {{ bondedAtoms }}] atoms to these delegates. We suggest reserving some atoms for personal use &mdash; are you sure you wish to proceed?
-    span.reserved-atoms--error(v-else-if="unbondedAtoms < 0")
-      | You're trying to bond #[.reserved-atoms__number {{ unbondedAtoms * -1 }}] more atoms than you have.
-    span(v-else)
-      | You are bonding #[.reserved-atoms__number {{ bondedAtoms }}] ({{ bondedAtomsPct }}) atoms to these delegates. You will keep  #[.reserved-atoms__number {{ unbondedAtoms }}] ({{ unbondedAtomsPct }}) atoms in your wallet.
-    span(v-if="willUnbondAtoms > 0")
-      | You will begin unbonding #[.reserved-atoms__number {{ willUnbondAtoms }}] atoms, which will be available in 30 days.
-    span
-      | #[a.reserved-atoms__restart(@click="resetAlloc") &nbsp;(start over?)]
-
   form-struct(:submit="onSubmit")
     form-group(v-for='(delegate, index) in fields.delegates' :key='delegate.id'
       :error="$v.fields.delegates.$each[index].$error")
@@ -38,8 +25,8 @@ page.page-bond(title="Bond Atoms")
         v-if="!$v.fields.delegates.$each[index].atoms.between")
 
     div(slot="footer")
-      btn.equalize(icon="drag_handle" value="Equalize" type="button" @click.native="equalAlloc")
-      btn.bond(icon="check" value="Bond")
+      btn.equalize(value="Allocate Atoms Equally" type="button" @click.native="equalAlloc")
+      btn.bond(value="Bond")
 </template>
 
 <script>
@@ -53,6 +40,7 @@ import FormGroup from 'common/NiFormGroup'
 import FormMsg from 'common/NiFormMsg'
 import FormStruct from 'common/NiFormStruct'
 import Page from 'common/NiPage'
+import Part from 'common/NiPart'
 import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-bond',
@@ -65,6 +53,7 @@ export default {
     FormMsg,
     FormStruct,
     Page,
+    Part,
     ToolBar
   },
   computed: {
@@ -123,10 +112,6 @@ export default {
       for (let i = 0; i < remainderAtoms; i++) {
         this.fields.delegates[i].atoms += 1
       }
-
-      this.$store.commit('notify', { title: 'Equal Allocation',
-        body: 'You have split your atoms equally among all of these delegates.'
-      })
     },
     percentAtoms (bondedAtoms) {
       return Math.round(bondedAtoms / this.user.atoms * 100 * 100) / 100 + '%'

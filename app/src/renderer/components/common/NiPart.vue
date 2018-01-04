@@ -38,6 +38,7 @@ export default {
 
 .ni-part-header
   padding 0.5rem 1rem
+  margin-bottom 0.5rem
   background app-fg
 
 .ni-part-header-container
