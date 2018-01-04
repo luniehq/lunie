@@ -69,8 +69,9 @@ describe('LCD Connector', () => {
     expect(nodeIP).toBe('1.2.3.4')
   })
 
-  it('should return if it is connected to the LCD', async () => {
+  it('should show the connection state to the LCD', async () => {
     let node = LCDConnector('1.1.1.1')
+    node.listKeys = () => Promise.reject()
     expect(await node.lcdConnected()).toBe(false)
     node.listKeys = () => Promise.resolve([''])
     expect(await node.lcdConnected()).toBe(true)

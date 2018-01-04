@@ -1,7 +1,8 @@
 <template lang="pug">
 btn.btn-copy(
   icon="content_copy"
-  @click.native="click")
+  @click.native="click"
+  value="Copy")
 </template>
 
 <script>
@@ -28,6 +29,7 @@ export default {
     },
     click () {
       clipboard.writeText(this.value)
+      
       this.$store.commit('notify', {
         title: this.notifyTitle,
         body: this.notifyBody

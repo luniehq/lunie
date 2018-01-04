@@ -17,7 +17,7 @@ page(:title='pageTitle')
   data-empty-search(v-else-if="filteredDelegates.length === 0")
   template(v-else)
     panel-sort(:sort='sort')
-    li-delegate( v-for='i in filteredDelegates' key='i.id' :delegate='i')
+    li-delegate( v-for='i in filteredDelegates' :key='i.id' :delegate='i')
 </template>
 
 <script>
