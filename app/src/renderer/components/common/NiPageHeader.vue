@@ -28,7 +28,7 @@ export default {
     display inline-block
 
 .ni-page-header-container
-  min-height 3rem
+  min-height 4.22rem
   border-bottom px solid bc
   display flex
 
@@ -36,7 +36,8 @@ export default {
   flex 1
   display flex
   min-width 0 // fix truncation
-  padding 1rem
+  padding 11px 0 0 1rem
+  align-items: center
 
   i.material-icons
     font-size 1.375 * x
@@ -47,8 +48,8 @@ export default {
     overflow hidden
     text-overflow ellipsis
 
+  h2
     font-size xl
-    line-height 1.5rem
     font-weight 500
     color bright
 
@@ -58,9 +59,6 @@ export default {
 
   .ni-page-header-container
     display flex
-
-  .ni-page-header-text
-    padding 1.66rem 1rem 1rem 2rem // 1.66 to match logo
 
   .ni-page-header-menu
     display flex
