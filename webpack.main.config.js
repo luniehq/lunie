@@ -3,8 +3,6 @@
 process.env.BABEL_ENV = 'main'
 
 const path = require('path')
-const pkg = require('./app/package.json')
-const settings = require('./config.js')
 const webpack = require('webpack')
 
 let mainConfig = {
@@ -41,12 +39,7 @@ let mainConfig = {
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
-    }) //,
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false
-    //   }
-    // })
+    })
   ],
   resolve: {
     extensions: ['.js', '.json', '.node'],

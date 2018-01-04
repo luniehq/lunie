@@ -3,7 +3,6 @@
 process.env.BABEL_ENV = 'renderer'
 
 const path = require('path')
-const pkg = require('./app/package.json')
 const settings = require('./config.js')
 const webpack = require('webpack')
 
@@ -23,9 +22,9 @@ let rendererConfig = {
     rules: [
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
+        use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          loader: 'css-loader'
+          use: 'css-loader'
         })
       },
       {
@@ -48,11 +47,13 @@ let rendererConfig = {
       },
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          loaders: {
-            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-            scss: 'vue-style-loader!css-loader!sass-loader'
+        use: {
+          loader: 'vue-loader',
+          options: {
+            loaders: {
+              sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
+              scss: 'vue-style-loader!css-loader!sass-loader'
+            }
           }
         }
       },
@@ -95,7 +96,12 @@ let rendererConfig = {
         : false
     }),
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/)
+    // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
+    new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),
+    // put all modules in node_modules in chunk
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor'
+    })
   ],
   output: {
     filename: '[name].js',
@@ -154,11 +160,6 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false
-    //   }
-    // })
   )
 }
 
