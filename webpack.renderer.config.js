@@ -19,7 +19,6 @@ let rendererConfig = {
   entry: {
     renderer: path.join(__dirname, 'app/src/renderer/main.js')
   },
-  externals: ['ws', 'request'],
   module: {
     rules: [
       {

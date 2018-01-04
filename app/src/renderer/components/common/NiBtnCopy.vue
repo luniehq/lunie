@@ -1,13 +1,11 @@
 <template lang="pug">
 btn.btn-copy(
   icon="content_copy"
-  @click.native="click"
-  :data-clipboard-text="value"
-  value="Copy")
+  @click.native="click")
 </template>
 
 <script>
-import Clipboard from 'clipboard'
+import {clipboard} from 'electron'
 import Btn from '@nylira/vue-button'
 export default {
   components: {
@@ -29,14 +27,12 @@ export default {
       return value
     },
     click () {
+      clipboard.writeText(this.value)
       this.$store.commit('notify', {
         title: this.notifyTitle,
         body: this.notifyBody
       })
     }
-  },
-  mounted () {
-    this.clipboard = new Clipboard('.btn-copy')
   },
   props: ['value', 'title', 'body']
 }
