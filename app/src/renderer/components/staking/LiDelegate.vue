@@ -1,8 +1,7 @@
 <template lang='pug'>
 .li-delegate(:class='styles'): .li-delegate__values
   .li-delegate__value.checkbox
-    i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
-    i.fa.fa-square-o(v-else @click='add(delegate)')
+    input(type="checkbox" @click="toggleSelected(delegate)")
   .li-delegate__value.name
     span
       router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")
@@ -65,8 +64,13 @@ export default {
     num: num
   }),
   methods: {
-    add (delegate) { this.$store.commit('addToCart', delegate) },
-    rm (delegate) { this.$store.commit('removeFromCart', delegate.id) },
+    toggleSelected (delegate) {
+      if (this.inCart) {
+        this.$store.commit('removeFromCart', delegate.id)
+      } else {
+        this.$store.commit('addToCart', delegate)
+      }
+    },
     amountBonded (delegateId) {
       return this.committedDelegations[delegateId]
     }

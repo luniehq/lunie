@@ -7,9 +7,6 @@ page(title='Delegates')
     a(@click='updateDelegates(address)')
       i.material-icons refresh
       .label Refresh
-    router-link(v-if="config.devMode" to='/staking/bond')
-      i.material-icons check_circle
-      .label Bond Atoms
 
   modal-search(type="delegates")
 
@@ -17,8 +14,9 @@ page(title='Delegates')
   data-empty-search(v-else-if="filteredDelegates.length === 0")
 
   template(v-else)
+    btn(value="Proceed to bonding page" type="link" to="/staking/bond" :disabled="!shoppingCart.length")
     panel-sort(:sort='sort')
-    li-delegate( v-for='i in filteredDelegates' key='i.id' :delegate='i')
+    li-delegate(v-for='i in filteredDelegates' key='i.id' :delegate='i')
 </template>
 
 <script>
@@ -26,6 +24,7 @@ import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import LiDelegate from 'staking/LiDelegate'
+import Btn from '@nylira/vue-button'
 import DataEmptySearch from 'common/NiDataEmptySearch'
 import DataError from 'common/NiDataError'
 import Field from '@nylira/vue-field'
@@ -38,6 +37,7 @@ export default {
   name: 'page-delegates',
   components: {
     LiDelegate,
+    Btn,
     DataEmptySearch,
     DataError,
     Field,
