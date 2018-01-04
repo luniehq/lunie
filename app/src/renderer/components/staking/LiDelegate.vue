@@ -1,7 +1,7 @@
 <template lang='pug'>
 .li-delegate(:class='styles'): .li-delegate__values
   .li-delegate__value.checkbox
-    input(type="checkbox" @click="toggleSelected(delegate)")
+    input(type="checkbox" v-model="inCart" @click="toggleSelected(delegate)")
   .li-delegate__value.name
     span
       router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")
@@ -13,7 +13,7 @@
     span {{ num.percentInt(bondedPercent) }}
   .li-delegate__value.voting_power.num.bar
     span {{ num.prettyInt(delegate.voting_power) }}
-      .bar(:style='vpStyles')
+    .bar(:style='vpStyles')
   .li-delegate__value
     span {{ num.prettyInt(amountBonded(delegate.id)) }}
 </template>
@@ -119,7 +119,7 @@ export default {
 
     .bar
       height 1.5rem
-      background alpha(link, 33.3%)
+      background alpha(accent, 33.3%)
 
   &.checkbox
     justify-content center
