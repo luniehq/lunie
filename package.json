@@ -37,7 +37,7 @@
     "vue:route": "node tasks/vue/route.js",
     "vuex:module": "node tasks/vuex/module.js",
     "rebuild": "electron-rebuild",
-    "postinstall": "cd app && yarn && cd .. && npm run rebuild"
+    "postinstall": "npm run rebuild"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
