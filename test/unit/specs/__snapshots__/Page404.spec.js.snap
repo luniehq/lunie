@@ -16,16 +16,16 @@ exports[`Page404 has the expected html structure 1`] = `
         <div
           class="ni-page-header-title"
         >
-          <div>
+          <h2>
             404 - Page Not Found
-          </div>
+          </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
-          <div>
+          <h3>
             
-          </div>
+          </h3>
         </div>
       </div>
       <menu
@@ -81,7 +81,7 @@ exports[`Page404 has the expected html structure 1`] = `
                 <div
                   class="ni-li-title"
                 >
-                  Balance
+                  Balances
                 </div>
                 <div
                   class="ni-li-subtitle"

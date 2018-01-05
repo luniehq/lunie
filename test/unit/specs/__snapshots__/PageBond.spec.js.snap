@@ -16,16 +16,16 @@ exports[`PageBond has the expected html structure 1`] = `
         <div
           class="ni-page-header-title"
         >
-          <div>
+          <h2>
             Bond Atoms
-          </div>
+          </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
-          <div>
-            
-          </div>
+          <h3>
+
+          </h3>
         </div>
       </div>
       <menu
@@ -77,26 +77,28 @@ exports[`PageBond has the expected html structure 1`] = `
   <main
     class="ni-page-main"
   >
-    <div
-      class="reserved-atoms"
-    >
-      <span />
-      <!---->
-      <span>
-        <a
-          class="reserved-atoms__restart"
-        >
-           (start over?)
-        </a>
-      </span>
-    </div>
-    <form
-      class="ni-form"
+    <section
+      class="ni-part"
     >
       <div
-        class="ni-form-container"
+        class="ni-part-container"
       >
-        <!---->
+        <header
+          class="ni-part-header"
+        >
+          <div
+            class="ni-part-header-container"
+          >
+            <div
+              class="ni-part-title h5"
+            >
+              Your Atoms
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
         <main
           class="ni-form-main"
         >
@@ -196,50 +198,198 @@ exports[`PageBond has the expected html structure 1`] = `
         <footer
           class="ni-form-footer"
         >
-          <div>
-            <button
-              class="ni-btn equalize"
-              type="button"
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
             >
-              <span
-                class="ni-btn-container"
+              <div
+                class="ni-li-thumb"
               >
-                <i
-                  aria-hidden="true"
-                  class="ni-btn-icon material-icons"
-                >
-                  drag_handle
-                </i>
-                <span
-                  class="ni-btn-value"
-                >
-                  Equalize
-                </span>
-              </span>
-            </button>
-            <button
-              class="ni-btn bond"
-            >
-              <span
-                class="ni-btn-container"
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
               >
-                <i
-                  aria-hidden="true"
-                  class="ni-btn-icon material-icons"
+                <div
+                  class="ni-li-dt"
                 >
-                  check
-                </i>
-                <span
-                  class="ni-btn-value"
+                  Total Atoms
+                </div>
+                <div
+                  class="ni-li-dd"
                 >
-                  Bond
-                </span>
-              </span>
-            </button>
+                  101
+                </div>
+              </div>
+            </div>
           </div>
-        </footer>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Total Bonded Atoms
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  0
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Total Unbonded Atoms
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  101
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
-    </form>
+    </section>
+    <section
+      class="ni-part"
+    >
+      <div
+        class="ni-part-container"
+      >
+        <header
+          class="ni-part-header"
+        >
+          <div
+            class="ni-part-header-container"
+          >
+            <div
+              class="ni-part-title h5"
+            >
+              Selected Delegates
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
+        >
+          <form
+            class="ni-form"
+          >
+            <div
+              class="ni-form-container"
+            >
+              <!---->
+              <main
+                class="ni-form-main"
+              >
+                <div
+                  class="alloc-action-container"
+                >
+                  <button
+                    class="ni-btn equalize"
+                    type="button"
+                  >
+                    <span
+                      class="ni-btn-container"
+                    >
+                      <!---->
+                      <span
+                        class="ni-btn-value"
+                      >
+                        Split Allocation Equally
+                      </span>
+                    </span>
+                  </button>
+                  <button
+                    class="ni-btn reserved-atoms__restart"
+                    type="button"
+                  >
+                    <span
+                      class="ni-btn-container"
+                    >
+                      <!---->
+                      <span
+                        class="ni-btn-value"
+                      >
+                        Reset Allocation
+                      </span>
+                    </span>
+                  </button>
+                </div>
+                <ul
+                  class="reserved-atoms"
+                >
+                  <!---->
+                  <!---->
+                  <!---->
+                  <!---->
+                  <li
+                    class="reserved-atoms--warning"
+                  >
+                    The unbonding period is 30 days.
+                  </li>
+                </ul>
+                <div
+                  class="submit-container"
+                >
+                  <span />
+                  <button
+                    class="ni-btn bond"
+                  >
+                    <span
+                      class="ni-btn-container"
+                    >
+                      <!---->
+                      <span
+                        class="ni-btn-value"
+                      >
+                        Submit
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </main>
+              <!---->
+            </div>
+          </form>
+        </main>
+      </div>
+    </section>
   </main>
 </div>
 `;
