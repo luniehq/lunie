@@ -145,6 +145,7 @@ A list of all environment variables and their purpose:
 |COSMOS_NETWORK|{path to network configuration folder}|'../networks/gaia-1'|Network to connect to|
 |COSMOS_UI_ONLY|'true', 'false'|'false'|Ignore spinning up the tendermint binaries|
 |COSMOS_HOME|{path to config persistence folder}|'$HOME/cosmos-ui[-dev]'||
+|COSMOS_NODE|{ip of a certain node}||Node to connect to|
 |PLATFORM_TARGET|'all', 'win32', 'darwin', 'linux', 'mas'|'all'|Which platform to build for|
 |COSMOS_DEVTOOLS|'true', 'false'|'false'|Open the debug panel in the electron view|
 |ELECTRON_ENABLE_LOGGING|'true', 'false'|'false'|Redirect the browser view console output to the console|
