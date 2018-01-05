@@ -36,8 +36,7 @@
     "test:e2e": "tape \"test/e2e/!(main)*.js\"",
     "vue:route": "node tasks/vue/route.js",
     "vuex:module": "node tasks/vuex/module.js",
-    "rebuild": "electron-rebuild --module-dir app",
-    "postinstall": "cd app && yarn && cd .. && npm run rebuild"
+    "postinstall": "cd app && yarn"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",

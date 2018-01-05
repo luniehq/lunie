@@ -64,9 +64,12 @@ function build (platform = process.platform, arch = process.arch) {
   // icons need to be available in the dist folder
   copyIcons()
 
-  config.afterPack = binaryPath
-    ? copyBinary('gaia', binaryPath)
-    : goBuild(`github.com/cosmos/gaia/cmd/gaia`)
+  config.afterPack = ({outDir, appOutDir}) => {
+    binaryPath
+    ? copyBinary('gaia', binaryPath, platform)({outDir, appOutDir})
+    : goBuild(`github.com/cosmos/gaia/cmd/gaia`, platform, arch)({outDir, appOutDir})
+    copyNetworks(appOutDir)
+  }
 
   console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')
   // Promise is returned
@@ -91,10 +94,9 @@ const GOARCH = {
   'x64': 'amd64',
   'ia32': '386'
 }
-function goBuild (pkg) {
-  return function ({outDir, appOutDir, packager, electronPlatformName, arch, targets}) {
-    let platform = electronPlatformName
-    if (electronPlatformName === 'win32') platform = 'windows'
+function goBuild (pkg, platform, arch) {
+  return function ({outDir, appOutDir}) {
+    if (platform === 'win32') platform = 'windows'
     if (platform === 'mas') platform = 'darwin'
     if (GOARCH[arch]) arch = GOARCH[arch]
 
@@ -113,7 +115,7 @@ function goBuild (pkg) {
 
     go.stdout.on('data', (data) => process.stdout.write(data))
     go.stderr.on('data', (data) => process.stderr.write(data))
-    return Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       go.once('exit', (code) => {
         if (code !== 0) return reject(Error('Build failed'))
         resolve()
@@ -125,10 +127,10 @@ function goBuild (pkg) {
 /*
 * copy the baseserver binary into the app directory
 */
-function copyBinary (name, binaryLocation) {
-  return function ({outDir, appOutDir, packager, electronPlatformName, arch, targets}) {
+function copyBinary (name, binaryLocation, platform) {
+  return function ({outDir, appOutDir}) {
     let binPath = path.join(appOutDir, 'resources/bin', name)
-    if (electronPlatformName === 'win32') {
+    if (platform === 'win32') {
       binPath = binPath + '.exe'
     }
     fs.copySync(binaryLocation, binPath)
@@ -146,4 +148,12 @@ function copyIcons () {
   fs.copyFileSync(path.join(iconsPath, 'icon.icns'), path.join(distPath, 'icon.icns'))
   fs.copyFileSync(path.join(iconsPath, 'icon.ico'), path.join(distPath, 'icon.ico'))
   fs.copySync(path.join(iconsPath, 'png'), path.join(distPath, 'png'))
+}
+
+function copyNetworks (appOutDir) {
+  console.log('Copying networks to folder')
+  let networksPath = path.join(__dirname, '../app/networks')
+  let networksOutPath = path.join(appOutDir, 'resources/networks')
+  fs.ensureDirSync(networksOutPath)
+  fs.copySync(networksPath, networksOutPath)
 }

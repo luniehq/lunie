@@ -23,6 +23,11 @@ let config = {
       buildResources: path.join(__dirname, 'builds/resources'),
       app: path.join(__dirname, 'app'),
       output: path.join(__dirname, 'builds')
+    },
+    nsis: {
+      oneClick: false,
+      allowElevation: false,
+      perMachine: true
     }
   }
 }
