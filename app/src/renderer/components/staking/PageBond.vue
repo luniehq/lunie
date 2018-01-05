@@ -87,9 +87,9 @@ export default {
     },
     willUnbondAtoms () {
       let sum = 0
-      for (let id of Object.keys(this.committedDelegations)) {
-        let committed = this.committedDelegations[id]
-        let delegate = this.fields.delegates.find(c => c.id === id)
+      for (let [i, selectedDelegates] of this.fields.delegates.entries()) {
+        let committed = this.committedDelegations[selectedDelegates.id]
+        let delegate = this.fields.delegates.find(c => c.id === selectedDelegates.id)
         let willBond = delegate ? delegate.atoms : 0
         let unbondAmount = Math.max(committed - willBond, 0)
         sum += unbondAmount
