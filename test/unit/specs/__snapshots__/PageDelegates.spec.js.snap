@@ -16,16 +16,16 @@ exports[`PageDelegates has the expected html structure 1`] = `
         <div
           class="ni-page-header-title"
         >
-          <div>
+          <h2>
             Delegates
-          </div>
+          </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
-          <div>
+          <h3>
             
-          </div>
+          </h3>
         </div>
       </div>
       <menu
@@ -66,21 +66,6 @@ exports[`PageDelegates has the expected html structure 1`] = `
                       Refresh
                     </div>
                   </a>
-                  <a
-                    class=""
-                    href="#/staking/bond"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      check_circle
-                    </i>
-                    <div
-                      class="label"
-                    >
-                      Bond Atoms
-                    </div>
-                  </a>
                 </div>
                 <a
                   class="help"
@@ -103,11 +88,28 @@ exports[`PageDelegates has the expected html structure 1`] = `
   >
     <!---->
     <div
+      class="action-container"
+    >
+      <h3>
+        You've selected 0 delegates.
+      </h3>
+      <!---->
+    </div>
+    <div
       class="panel-sort"
     >
       <div
         class="panel-sort-container"
       >
+        <div
+          class="sort-by"
+        >
+          <div
+            class="label"
+          >
+            
+          </div>
+        </div>
         <div
           class="sort-by"
         >
@@ -156,21 +158,22 @@ exports[`PageDelegates has the expected html structure 1`] = `
       </div>
     </div>
     <div
-      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
+      class="li-delegate"
     >
       <div
         class="li-delegate__values"
       >
         <div
-          class="ni-delegate__value"
-        />
+          class="li-delegate__value checkbox"
+        >
+          <input
+            type="checkbox"
+          />
+        </div>
         <div
           class="li-delegate__value name"
         >
           <span>
-            <i
-              class="fa fa-square-o"
-            />
             <a
               class=""
               href="#/staking/delegates/pubkeyY"
@@ -214,21 +217,22 @@ exports[`PageDelegates has the expected html structure 1`] = `
       </div>
     </div>
     <div
-      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
+      class="li-delegate"
     >
       <div
         class="li-delegate__values"
       >
         <div
-          class="ni-delegate__value"
-        />
+          class="li-delegate__value checkbox"
+        >
+          <input
+            type="checkbox"
+          />
+        </div>
         <div
           class="li-delegate__value name"
         >
           <span>
-            <i
-              class="fa fa-square-o"
-            />
             <a
               class=""
               href="#/staking/delegates/pubkeyX"
@@ -291,16 +295,16 @@ exports[`PageDelegates should filter the delegates 1`] = `
         <div
           class="ni-page-header-title"
         >
-          <div>
+          <h2>
             Delegates
-          </div>
+          </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
-          <div>
+          <h3>
             
-          </div>
+          </h3>
         </div>
       </div>
       <menu
@@ -339,21 +343,6 @@ exports[`PageDelegates should filter the delegates 1`] = `
                       class="label"
                     >
                       Refresh
-                    </div>
-                  </a>
-                  <a
-                    class=""
-                    href="#/staking/bond"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      check_circle
-                    </i>
-                    <div
-                      class="label"
-                    >
-                      Bond Atoms
                     </div>
                   </a>
                 </div>
@@ -405,11 +394,28 @@ exports[`PageDelegates should filter the delegates 1`] = `
       </div>
     </div>
     <div
+      class="action-container"
+    >
+      <h3>
+        You've selected 0 delegates.
+      </h3>
+      <!---->
+    </div>
+    <div
       class="panel-sort"
     >
       <div
         class="panel-sort-container"
       >
+        <div
+          class="sort-by"
+        >
+          <div
+            class="label"
+          >
+            
+          </div>
+        </div>
         <div
           class="sort-by"
         >
@@ -464,15 +470,16 @@ exports[`PageDelegates should filter the delegates 1`] = `
         class="li-delegate__values"
       >
         <div
-          class="ni-delegate__value"
-        />
+          class="li-delegate__value checkbox"
+        >
+          <input
+            type="checkbox"
+          />
+        </div>
         <div
           class="li-delegate__value name"
         >
           <span>
-            <i
-              class="fa fa-square-o"
-            />
             <a
               class=""
               href="#/staking/delegates/pubkeyY"
@@ -522,15 +529,16 @@ exports[`PageDelegates should filter the delegates 1`] = `
         class="li-delegate__values"
       >
         <div
-          class="ni-delegate__value"
-        />
+          class="li-delegate__value checkbox"
+        >
+          <input
+            type="checkbox"
+          />
+        </div>
         <div
           class="li-delegate__value name"
         >
           <span>
-            <i
-              class="fa fa-square-o"
-            />
             <a
               class=""
               href="#/staking/delegates/pubkeyX"

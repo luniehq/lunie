@@ -3,21 +3,21 @@
 exports[`LiDelegate has the expected html structure 1`] = `
 <div
   class="li-delegate"
-  name="ts-li-delegate"
 >
   <div
     class="li-delegate__values"
   >
     <div
-      class="ni-delegate__value"
-    />
+      class="li-delegate__value checkbox"
+    >
+      <input
+        type="checkbox"
+      />
+    </div>
     <div
       class="li-delegate__value name"
     >
       <span>
-        <i
-          class="fa fa-square-o"
-        />
         <a
           class=""
           href="#/staking/delegates/pubkeyX"
