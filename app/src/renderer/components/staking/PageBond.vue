@@ -27,7 +27,7 @@ page.page-bond(title="Bond Atoms")
         key='delegate.id'
         :error='$v.fields.delegates.$each[index].$error'
         :field-label='delegate.delegate.description.moniker'
-        :sub-label="'Previously Bonded: ' + (committedDelegations[delegate.delegate.id] || 0)"
+        :sub-label="'Previously bonded ' + (committedDelegations[delegate.delegate.id] || 0) + ' Atoms'"
         field-id='delegate-field')
         field-group
           field(
@@ -96,11 +96,20 @@ export default {
     },
     willUnbondAtoms () {
       let sum = 0
-      for (let [i, selectedDelegates] of this.fields.delegates.entries()) {
-        let committed = this.committedDelegations[selectedDelegates.id]
-        let delegate = this.fields.delegates.find(c => c.id === selectedDelegates.id)
-        let willBond = delegate ? delegate.atoms : 0
-        let unbondAmount = Math.max(committed - willBond, 0)
+      for (let [i, selectedDelegate] of this.fields.delegates.entries()) {
+        // set previously committed delegations for each delegate in cart
+        let previouslyCommitted = this.committedDelegations[selectedDelegate.id]
+
+        // check to see if user has allocated any atoms in cart
+        let currentlyAllocatedAtoms = selectedDelegate ? selectedDelegate.atoms : 0
+
+        // amount user intends to unbond from each delegate in cart
+        let unbondAmount = Math.max(previouslyCommitted - currentlyAllocatedAtoms, 0)
+
+        // set NaN's to 0
+        unbondAmount = unbondAmount ? unbondAmount : 0
+
+        // total amount user intends to unbond from all delegates in cart
         sum += unbondAmount
       }
       return sum
