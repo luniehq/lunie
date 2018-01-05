@@ -96,7 +96,8 @@ export default {
     },
     willUnbondAtoms () {
       let sum = 0
-      for (let [i, selectedDelegate] of this.fields.delegates.entries()) {
+      /* eslint-disable no-unused-vars */
+      for (let [k, selectedDelegate] of this.fields.delegates.entries()) {
         // set previously committed delegations for each delegate in cart
         let previouslyCommitted = this.committedDelegations[selectedDelegate.id]
 
@@ -107,7 +108,7 @@ export default {
         let unbondAmount = Math.max(previouslyCommitted - currentlyAllocatedAtoms, 0)
 
         // set NaN's to 0
-        unbondAmount = unbondAmount ? unbondAmount : 0
+        unbondAmount = unbondAmount || 0
 
         // total amount user intends to unbond from all delegates in cart
         sum += unbondAmount

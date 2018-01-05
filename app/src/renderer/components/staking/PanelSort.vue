@@ -66,7 +66,6 @@ export default {
   .label
     font-size sm
     color dim
-    text-transform uppercase
     padding-right 0.5rem
 
     white-space nowrap

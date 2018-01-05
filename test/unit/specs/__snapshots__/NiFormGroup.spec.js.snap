@@ -2,7 +2,8 @@
 
 exports[`NiFormGroup has the expected html structure 1`] = `
 "<div class=\\"label-container ni-form-group ni-form-group--error\\">
-   <span class=\\"ni-form-group__sub-label\\"></span><label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Sign In Password</label>
+   <!---->
+   <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Sign In Password</label>
    <div class=\\"ni-form-group__field\\">
       <input value=\\"fake\\" class=\\"fake-field\\">
    </div>
