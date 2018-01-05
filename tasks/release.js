@@ -61,6 +61,9 @@ function build (platform = process.platform, arch = process.arch) {
     [electronPlatform]: []
   }
 
+  // icons need to be available in the dist folder
+  copyIcons()
+
   config.afterPack = binaryPath
     ? copyBinary('gaia', binaryPath)
     : goBuild(`github.com/cosmos/gaia/cmd/gaia`)
@@ -130,4 +133,17 @@ function copyBinary (name, binaryLocation) {
     }
     fs.copySync(binaryLocation, binPath)
   }
+}
+
+/*
+* Electron builder copies the icons from the folder builds/resources
+*/
+function copyIcons () {
+  console.log('Copying icons to builds/resources')
+  let iconsPath = path.join(__dirname, '../app/icons')
+  let distPath = path.join(__dirname, '../builds/resources')
+  fs.ensureDirSync(distPath)
+  fs.copyFileSync(path.join(iconsPath, 'icon.icns'), path.join(distPath, 'icon.icns'))
+  fs.copyFileSync(path.join(iconsPath, 'icon.ico'), path.join(distPath, 'icon.ico'))
+  fs.copySync(path.join(iconsPath, 'png'), path.join(distPath, 'png'))
 }
