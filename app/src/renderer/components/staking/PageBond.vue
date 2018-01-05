@@ -8,10 +8,10 @@ page.page-bond(title="Bond Atoms")
   part(title="Your Atoms")
     list-item(
       dt="Total Atoms"
-      :dd="totalAtoms")
+      :dd="user.atoms")
     list-item(
-      dt="Bonded Atoms"
-      :dd="previouslyBondedAtoms || 0")
+      dt="Total Bonded Atoms"
+      :dd="committedBondedAtoms || 0")
     list-item(
       dt="Unbonded Atoms"
       :dd="unbondedAtoms || 0")
@@ -35,9 +35,20 @@ page.page-bond(title="Bond Atoms")
       form-msg(name="Atoms" type="between" :min="atomsMin" :max="user.atoms"
         v-if="!$v.fields.delegates.$each[index].atoms.between")
 
-    div(slot="footer")
-      btn.equalize(value="Allocate Atoms Equally" type="button" @click.native="equalAlloc")
-      btn.bond(value="Bond")
+      ul.reserved-atoms
+        li(v-if="uncommittedBondedAtoms > 0 && !(unbondedAtoms < 0)")
+          | This action will bond #[.reserved-atoms__number {{ uncommittedBondedAtoms }}] Atoms to the specified delegates.
+        li.reserved-atoms--error(v-if="unbondedAtoms === 0")
+          | This action will bond all of your #[.reserved-atoms__number {{ uncommittedBondedAtoms }}] Atoms to the specified delegates.
+        li(v-if="willUnbondAtoms > 0")
+          | This action will unbond #[.reserved-atoms__number {{ willUnbondAtoms }}] Atoms from the specified delegates.
+        li.reserved-atoms--error(v-if="unbondedAtoms < 0")
+          | You cannot bond #[.reserved-atoms__number {{ unbondedAtoms * -1 }}] more Atoms than you have.
+        li.reserved-atoms--warning The unbonding period is 30 days.
+
+      div.submit-container
+        span
+        btn.bond(value="Submit")
 </template>
 
 <script>
@@ -71,7 +82,7 @@ export default {
   },
   computed: {
     ...mapGetters(['shoppingCart', 'user', 'committedDelegations']),
-    previouslyBondedAtoms () {
+    committedBondedAtoms () {
       return Object.values(this.committedDelegations).reduce((sum, d) => sum + d, 0)
     },
     willUnbondAtoms () {
@@ -86,21 +97,24 @@ export default {
       return sum
     },
     unbondedAtoms () {
-      let willBondSum = this.bondedAtoms
-      let bondedSum = this.previouslyBondedAtoms
-      return this.user.atoms - willBondSum + bondedSum - this.willUnbondAtoms
+      let willBondSum = this.uncommittedBondedAtoms
+      let bondedSum = this.committedBondedAtoms
+      return this.totalAtoms - willBondSum + bondedSum - this.willUnbondAtoms
     },
     unbondedAtomsPct () {
       return Math.round(this.unbondedAtoms / this.totalAtoms * 100 * 10) / 10 + '%'
     },
-    bondedAtoms () {
+    uncommittedBondedAtoms () {
       return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
     },
     bondedAtomsPct () {
-      return Math.round(this.bondedAtoms / this.totalAtoms * 100 * 10) / 10 + '%'
+      return Math.round(this.committedBondedAtoms / this.totalAtoms * 100 * 10) / 10 + '%'
     },
     totalAtoms () {
-      return this.bondedAtoms + this.unbondedAtoms
+      return this.user.atoms
+    },
+    totalUnbondedAtoms () {
+      return this.totalAtoms - this.committedBondedAtoms
     }
   },
   data: () => ({
@@ -126,13 +140,13 @@ export default {
         this.fields.delegates[i].atoms += 1
       }
     },
-    percentAtoms (bondedAtoms) {
-      return Math.round(bondedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
+    percentAtoms (uncommittedBondedAtoms) {
+      return Math.round(uncommittedBondedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
     },
     async onSubmit () {
       if (this.unbondedAtoms < 0) {
         this.$store.commit('notifyError', { title: 'Too Many Allocated Atoms',
-          body: `You've bonded ${this.unbondedAtoms * -1} more atoms than you have.`})
+          body: `You've tried to bond ${this.unbondedAtoms * -1} more atoms than you have.`})
         return
       }
       this.$v.$touch()
@@ -206,8 +220,34 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.reserved-atoms
+.alloc-action-container
   padding 1rem
+  display flex
+  justify-content flex-end
+
+  .ni-btn-container
+    margin-left 0.5rem
+
+.submit-container
+  padding 1rem
+  display flex
+  justify-content flex-end
+
+.previously-bonded
+  font-size sm
+  padding-left 1rem
+
+.form-msg
+  color dim
+  font-size xs
+  line-height xs
+  position relative
+  top -0.25rem
+
+.reserved-atoms
+  height 4rem
+  padding 2rem
+  list-style-type circle
 
   span
     display block

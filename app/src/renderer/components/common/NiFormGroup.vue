@@ -1,5 +1,7 @@
 <template lang='pug'>
-div(:class='cssClass')
+div(:class='cssClass').label-container
+  span.ni-form-group__sub-label
+    | {{ subLabel }}
   label.ni-form-group__label(:for='fieldId' v-if="fieldId && fieldLabel")
     | {{ fieldLabel }}
   .ni-form-group__field: slot
@@ -15,7 +17,7 @@ export default {
       return value
     }
   },
-  props: ['error', 'field-id', 'field-label']
+  props: ['error', 'field-id', 'field-label', 'sub-label']
 }
 </script>
 
@@ -23,6 +25,9 @@ export default {
 @import '~variables'
 .ni-form
   max-width width-form
+
+.label-container
+  position relative
 
 .ni-form-group
   padding 0.5rem 1rem
@@ -35,6 +40,16 @@ export default {
 
   .ni-form-msg--error
     display none
+
+  &__sub-label
+    position absolute
+    bottom 0.5rem
+    left 1rem
+    font-size xs
+    color dim
+
+.ni-form-group__sub-label ~ .ni-form-group__label
+  line-height 1rem !important
 
 .ni-form-group--error
   .ni-field, .ni-select
