@@ -36,7 +36,7 @@ export default {
   flex 1
   display flex
   min-width 0 // fix truncation
-  padding 11px 0 0 1rem
+  padding 11px 0 0 2rem
   align-items: center
 
   i.material-icons
