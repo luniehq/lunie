@@ -5,18 +5,13 @@ list-item.ni-li-user(
   to="/profile"
   @click.native="close"
   icon="face"
-  :title="'Account ' + user.account")
+  :title="user.account")
 div(v-else-if="user.signedIn")
   list-item.ni-li-user(
     type="link"
     icon="exit_to_app"
     @click.native="signOut"
     title="Sign Out")
-list-item.ni-li-user(
-  v-else
-  @click.native="openSession"
-  icon="exit_to_app"
-  title="Sign In")
 </template>
 
 <script>

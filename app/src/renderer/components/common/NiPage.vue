@@ -30,11 +30,9 @@ export default {
       if (this.config.desktop) {
         const container = this.$el.querySelector('.ni-page-main')
         this.ps = new PerfectScrollbar(container)
-        // console.log('its desktop', this.ps)
-      } else if (this.ps.destroy) {
+      } else if (this.ps) {
         this.ps.destroy()
         this.ps = null
-        // console.log('its not desktop', this.ps)
       }
     }
   },
