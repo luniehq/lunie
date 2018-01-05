@@ -15,7 +15,8 @@ page(title='Delegates')
 
   template(v-else)
     div.action-container
-      btn(value="Proceed to bonding page" type="link" to="/staking/bond" :disabled="!shoppingCart.length")
+      h3 You've selected {{ shoppingCart.length }} delegates.
+      router-link(to="/staking/bond" v-if="shoppingCart.length") Proceed to the bonding page to allocate your Atoms.
     panel-sort(:sort='sort')
     li-delegate(v-for='i in filteredDelegates' key='i.id' :delegate='i')
 </template>
@@ -103,8 +104,9 @@ export default {
 }
 </script>
 <style lang="stylus">
-  .action-container
-    padding: 0 0 1rem
-    display flex
-    // justify-content flex-end
+@require '~variables'
+
+.action-container
+  padding 0 0 1rem 1rem
+  height 4rem
 </style>
