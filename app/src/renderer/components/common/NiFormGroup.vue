@@ -1,6 +1,6 @@
 <template lang='pug'>
 div(:class='cssClass').label-container
-  span.ni-form-group__sub-label
+  span.ni-form-group__sub-label(v-if="subLabel")
     | {{ subLabel }}
   label.ni-form-group__label(:for='fieldId' v-if="fieldId && fieldLabel")
     | {{ fieldLabel }}

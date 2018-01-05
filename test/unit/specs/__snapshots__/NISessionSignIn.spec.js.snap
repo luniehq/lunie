@@ -15,7 +15,8 @@ exports[`NiSessionSignIn has the expected html structure 1`] = `
    </div>
       <div class=\\"ni-session-main\\">
          <div class=\\"label-container ni-form-group\\">
-            <span class=\\"ni-form-group__sub-label\\"></span><label for=\\"sign-in-name\\" class=\\"ni-form-group__label\\">Select Account</label>
+            <!---->
+            <label for=\\"sign-in-name\\" class=\\"ni-form-group__label\\">Select Account</label>
             <div class=\\"ni-form-group__field\\">
                <div class=\\"ni-select\\" id=\\"sign-in-name\\">
                   <select class=\\"ni-field ni-field-select\\">
@@ -278,7 +279,8 @@ exports[`NiSessionSignIn has the expected html structure 1`] = `
 </div>
 </div>
       <div class=\\"label-container ni-form-group\\">
-         <span class=\\"ni-form-group__sub-label\\"></span><label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Password</label>
+         <!---->
+         <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Password</label>
          <div class=\\"ni-form-group__field\\">
             <input type=\\"password\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
             <div class=\\"ni-form-msg sm ni-form-msg--error\\">
