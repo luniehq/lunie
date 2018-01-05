@@ -14,21 +14,19 @@ let config = {
   // webpack-dev-server port
   port: 9080,
 
-  // electron-packager options
-  // Docs: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/building_your_app.html
+  // electron-builder options
+  // Docs: https://www.electron.build/configuration/configuration
   building: {
-    arch: 'x64',
-    asar: false,
-    dir: path.join(__dirname, 'app'),
-    icon: path.join(__dirname, 'app/icons/icon'),
-    ignore: /^\/(src|index\.ejs|icons)/,
-    out: path.join(__dirname, 'builds'),
-    overwrite: true,
-    platform: process.env.PLATFORM_TARGET || 'darwin,linux',
-    packageManager: 'yarn'
+    appId: 'com.electron.cosmosui',
+    copyright: 'Copyright © 2018 Allinbits',
+    directories: {
+      buildResources: path.join(__dirname, 'builds/resources'),
+      app: path.join(__dirname, 'app'),
+      output: path.join(__dirname, 'builds')
+    }
   }
 }
 
-config.building.name = config.name
+config.building.productName = config.name
 
 module.exports = config

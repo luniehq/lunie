@@ -147,7 +147,7 @@ function startProcess (name, args, env) {
     binPath = join(GOPATH, 'bin', name)
   } else {
     // in production mode, use binaries packaged with app
-    binPath = join(__dirname, '..', 'bin', name)
+    binPath = join(__dirname, '../..', 'bin', name)
   }
 
   let argString = args.map((arg) => JSON.stringify(arg)).join(' ')

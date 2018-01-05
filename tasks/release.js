@@ -2,10 +2,8 @@
 
 const { exec } = require('child_process')
 const path = require('path')
-const packager = require('electron-packager')
-const rebuild = require('electron-rebuild').default
-const mkdirp = require('mkdirp').sync
 const fs = require('fs-extra')
+const builder = require('electron-builder')
 
 let skipPack = false
 let binaryPath = null
@@ -25,7 +23,7 @@ if (process.env.PLATFORM_TARGET === 'clean') {
   console.log('\x1b[33m`builds` directory cleaned.\n\x1b[0m')
 } else {
   if (skipPack) {
-    build()
+    build(process.env.PLATFORM_TARGET, process.env.PLATFORM_ARCH)
   } else {
     pack()
   }
@@ -48,67 +46,61 @@ function pack () {
 }
 
 /**
- * Use electron-packager to build electron app
+ * Use electron-builder to build electron app
  */
-function build () {
-  let options = require('../config').building
+function build (platform = process.platform, arch = process.arch) {
+  let config = require('../config').building
 
-  options.afterCopy = [
-    binaryPath
-      ? copyBinary('gaia', binaryPath)
-      : goBuild(`github.com/cosmos/gaia/cmd/gaia`)
-  ]
-  // prune installs the packages
-  options.afterPrune = [
-    // we need to rebuild some native packages for the electron environment
-    function rebuildNodeModules (buildPath, electronVersion, platform, arch, callback) {
-      rebuild({ buildPath, electronVersion, arch })
-        .then(callback)
-        .catch(callback)
-    }
-  ]
+  // defined build target
+  let electronPlatform = platform
+  if (platform === 'win32') {
+    electronPlatform = 'win'
+  }
+  let targets = {
+    [arch]: true,
+    [electronPlatform]: []
+  }
+
+  config.afterPack = binaryPath
+    ? copyBinary('gaia', binaryPath)
+    : goBuild(`github.com/cosmos/gaia/cmd/gaia`)
 
   console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')
-  packager(options, (err, appPaths) => {
-    if (err) {
-      console.error('\x1b[31mError from `electron-packager` when building app...\x1b[0m')
-      console.error(err)
-    } else {
-      console.log('Build(s) successful!')
-      console.log(appPaths)
-
-      console.log('\n\x1b[34mDONE\n\x1b[0m')
-    }
+  // Promise is returned
+  return builder.build({
+    ...targets,
+    config
   })
+    .then(() => {
+      console.log('Build(s) successful!')
+      console.log('\n\x1b[34mDONE\n\x1b[0m')
+    })
+    .catch((error) => {
+      console.error('\x1b[31mError from `electron-packager` when building app...\x1b[0m')
+      console.error(error)
+    })
 }
 
-function copyBinary (name, binaryLocation) {
-  return function (buildPath, electronVersion, platform, arch, cb) {
-    let binPath = path.join(buildPath, 'bin', name)
-    if (platform === 'win32') {
-      binPath = binPath + '.exe'
-    }
-    fs.copySync(binaryLocation, binPath)
-    cb()
-  }
-}
-
+/*
+* Build the baseserver binary. Should only be done in development!
+*/
 const GOARCH = {
   'x64': 'amd64',
   'ia32': '386'
 }
-
 function goBuild (pkg) {
-  return function (buildPath, electronVersion, platform, arch, cb) {
-    if (platform === 'win32') platform = 'windows'
+  return function ({outDir, appOutDir, packager, electronPlatformName, arch, targets}) {
+    let platform = electronPlatformName
+    if (electronPlatformName === 'win32') platform = 'windows'
     if (platform === 'mas') platform = 'darwin'
     if (GOARCH[arch]) arch = GOARCH[arch]
 
     let name = path.basename(pkg)
     console.log(`\x1b[34mBuilding ${name} binary (${platform}/${arch})...\n\x1b[0m`)
 
-    mkdirp(path.join(buildPath, 'bin'))
-    let binPath = path.join(buildPath, 'bin', name)
+    let binaryDir = path.join(appOutDir, 'resources/bin')
+    fs.ensureDirSync(binaryDir)
+    let binPath = path.join(binaryDir, name)
     if (platform === 'windows') {
       binPath = binPath + '.exe'
     }
@@ -118,9 +110,24 @@ function goBuild (pkg) {
 
     go.stdout.on('data', (data) => process.stdout.write(data))
     go.stderr.on('data', (data) => process.stderr.write(data))
-    go.once('exit', (code) => {
-      if (code !== 0) return cb(Error('Build failed'))
-      cb()
+    return Promise((resolve, reject) => {
+      go.once('exit', (code) => {
+        if (code !== 0) return reject(Error('Build failed'))
+        resolve()
+      })
     })
+  }
+}
+
+/*
+* copy the baseserver binary into the app directory
+*/
+function copyBinary (name, binaryLocation) {
+  return function ({outDir, appOutDir, packager, electronPlatformName, arch, targets}) {
+    let binPath = path.join(appOutDir, 'resources/bin', name)
+    if (electronPlatformName === 'win32') {
+      binPath = binPath + '.exe'
+    }
+    fs.copySync(binaryLocation, binPath)
   }
 }
