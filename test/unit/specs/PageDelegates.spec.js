@@ -1,4 +1,5 @@
 import setup from '../helpers/vuex-setup'
+import htmlBeautify from 'html-beautify'
 import PageDelegates from 'renderer/components/staking/PageDelegates'
 
 describe('PageDelegates', () => {
@@ -76,7 +77,7 @@ describe('PageDelegates', () => {
     store.commit('addToCart', store.state.delegates[0])
     store.commit('addToCart', store.state.delegates[1])
     wrapper.update()
-    expect(wrapper.html()).toContain('2 Selected')
+    expect(htmlBeautify(wrapper.html())).toContain("selected 2 delegates")
   })
 
   it('should show an error if there are no delegates', () => {
