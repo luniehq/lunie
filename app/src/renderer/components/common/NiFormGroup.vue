@@ -49,7 +49,7 @@ export default {
     color dim
 
 .ni-form-group__sub-label ~ .ni-form-group__label
-  line-height 1rem !important
+  line-height 1rem
 
 .ni-form-group--error
   .ni-field, .ni-select

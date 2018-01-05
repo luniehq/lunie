@@ -16,24 +16,33 @@ page.page-bond(title="Bond Atoms")
       dt="Unbonded Atoms"
       :dd="unbondedAtoms || 0")
 
-  form-struct(:submit="onSubmit")
-    form-group(v-for='(delegate, index) in fields.delegates' :key='delegate.id'
-      :error="$v.fields.delegates.$each[index].$error")
-      Label {{ shortenLabel(delegate.delegate.description.moniker, 10) }} - {{ shortenLabel(delegate.delegate.id, 20) }} ({{ percentAtoms(delegate.atoms) }})
-      field-group
-        field(
-          type="number"
-          step="any"
-          placeholder="Atoms"
-          v-model.number="delegate.atoms")
-        field-addon Atoms
-        btn.remove(type="button" icon="clear" @click.native="rm(delegate.id)")
-      form-msg(name="Atoms" type="required"
-        v-if="!$v.fields.delegates.$each[index].atoms.required")
-      form-msg(name="Atoms" type="numeric"
-        v-if="!$v.fields.delegates.$each[index].atoms.numeric")
-      form-msg(name="Atoms" type="between" :min="atomsMin" :max="user.atoms"
-        v-if="!$v.fields.delegates.$each[index].atoms.between")
+  part(title='Selected Delegates')
+    form-struct(:submit="onSubmit")
+      div.alloc-action-container
+        btn.equalize(value="Split Allocation Equally" type="button" @click.native="equalAlloc")
+        btn.reserved-atoms__restart(value="Reset Allocation " type="button" @click.native="resetAlloc")
+
+      form-group(
+        v-for='(delegate, index) in fields.delegates'
+        key='delegate.id'
+        :error='$v.fields.delegates.$each[index].$error'
+        :field-label='delegate.delegate.description.moniker'
+        :sub-label="'Previously bonded ' + (committedDelegations[delegate.delegate.id] || 0) + ' Atoms'"
+        field-id='delegate-field')
+        field-group
+          field(
+            type="number"
+            step="any"
+            placeholder="Atoms"
+            v-model.number="delegate.atoms")
+          field-addon Atoms
+          btn.remove(type="button" icon="clear" @click.native="rm(delegate.id)")
+        form-msg(name="Atoms" type="required"
+          v-if="!$v.fields.delegates.$each[index].atoms.required")
+        form-msg(name="Atoms" type="numeric"
+          v-if="!$v.fields.delegates.$each[index].atoms.numeric")
+        form-msg(name="Atoms" type="between" :min="atomsMin" :max="user.atoms"
+          v-if="!$v.fields.delegates.$each[index].atoms.between")
 
       ul.reserved-atoms
         li(v-if="uncommittedBondedAtoms > 0 && !(unbondedAtoms < 0)")
@@ -87,11 +96,20 @@ export default {
     },
     willUnbondAtoms () {
       let sum = 0
-      for (let [i, selectedDelegates] of this.fields.delegates.entries()) {
-        let committed = this.committedDelegations[selectedDelegates.id]
-        let delegate = this.fields.delegates.find(c => c.id === selectedDelegates.id)
-        let willBond = delegate ? delegate.atoms : 0
-        let unbondAmount = Math.max(committed - willBond, 0)
+      for (let [i, selectedDelegate] of this.fields.delegates.entries()) {
+        // set previously committed delegations for each delegate in cart
+        let previouslyCommitted = this.committedDelegations[selectedDelegate.id]
+
+        // check to see if user has allocated any atoms in cart
+        let currentlyAllocatedAtoms = selectedDelegate ? selectedDelegate.atoms : 0
+
+        // amount user intends to unbond from each delegate in cart
+        let unbondAmount = Math.max(previouslyCommitted - currentlyAllocatedAtoms, 0)
+
+        // set NaN's to 0
+        unbondAmount = unbondAmount ? unbondAmount : 0
+
+        // total amount user intends to unbond from all delegates in cart
         sum += unbondAmount
       }
       return sum
