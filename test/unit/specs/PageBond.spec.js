@@ -58,8 +58,8 @@ describe('PageBond', () => {
   })
 
   it('shows selected candidates', () => {
-    expect(htmlBeautify(wrapper.html())).toContain('pubkeyX')
-    expect(htmlBeautify(wrapper.html())).toContain('pubkeyY')
+    expect(htmlBeautify(wrapper.html())).toContain('someValidator')
+    expect(htmlBeautify(wrapper.html())).toContain('someOtherValidator')
   })
 
   it('should allow removal of candidates', () => {
@@ -68,8 +68,8 @@ describe('PageBond', () => {
     wrapper.findAll('button.remove').at(0).trigger('click')
 
     expect(global.confirm).toHaveBeenCalled()
-    expect(htmlBeautify(wrapper.html())).not.toContain('pubkeyX')
-    expect(htmlBeautify(wrapper.html())).toContain('pubkeyY')
+    expect(htmlBeautify(wrapper.html())).not.toContain('someValidator')
+    expect(htmlBeautify(wrapper.html())).toContain('someOtherValidator')
   })
 
   it('should equally split atoms if desired', () => {
@@ -117,7 +117,7 @@ describe('PageBond', () => {
         ]
       }
     })
-    expect(htmlBeautify(wrapper.html())).not.toContain('You will begin unbonding')
+    expect(htmlBeautify(wrapper.html())).not.toContain('This action will unbond')
     wrapper.findAll('button.bond').trigger('click')
     expect(store.dispatch.mock.calls[0][0]).toBe('submitDelegation')
   })
@@ -149,7 +149,7 @@ describe('PageBond', () => {
       }
     })
 
-    expect(htmlBeautify(wrapper.html())).toContain('You will begin unbonding')
+    expect(htmlBeautify(wrapper.html())).toContain('This action will unbond')
 
     wrapper.findAll('button.bond').trigger('click')
     expect(store.dispatch.mock.calls[0][0]).toBe('submitDelegation')
