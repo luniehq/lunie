@@ -418,7 +418,7 @@ axios@^0.16.2:
     follow-redirects "^1.2.3"
     is-buffer "^1.1.5"
 
-axios@^0.17.0, axios@^0.17.1:
+axios@^0.17.0:
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.17.1.tgz#2d8e3e5d0bdbd7327f91bc814f5c57660f81824d"
   dependencies:
@@ -5500,6 +5500,12 @@ nested-error-stacks@^1.0.1:
   dependencies:
     inherits "~2.0.1"
 
+nib@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/nib/-/nib-1.1.2.tgz#6a69ede4081b95c0def8be024a4c8ae0c2cbb6c7"
+  dependencies:
+    stylus "0.54.5"
+
 no-case@^2.2.0:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.2.tgz#60b813396be39b3f1288a4c1ed5d1e7d28b464ac"
@@ -7738,7 +7744,7 @@ stylus-loader@^3.0.1:
     lodash.clonedeep "^4.5.0"
     when "~3.6.x"
 
-stylus@^0.54.5:
+stylus@0.54.5, stylus@^0.54.5:
   version "0.54.5"
   resolved "https://registry.yarnpkg.com/stylus/-/stylus-0.54.5.tgz#42b9560931ca7090ce8515a798ba9e6aa3d6dc79"
   dependencies:
@@ -7909,11 +7915,10 @@ temp@^0.8.3:
     supercop.js "^2.0.1"
     varstruct "^5.3.0"
 
-"tendermint@git+ssh://git@github.com/faboweb/js-tendermint.git#use_axios":
+tendermint@^2.0.3:
   version "2.0.3"
-  resolved "git+ssh://git@github.com/faboweb/js-tendermint.git#f72edc3c2c68519b47b5f246954ddb5ff43a5f28"
+  resolved "https://registry.yarnpkg.com/tendermint/-/tendermint-2.0.3.tgz#6afef653622b351455591115b43db8e845e95972"
   dependencies:
-    axios "^0.17.1"
     browser-request "^0.3.3"
     camelcase "^4.0.0"
     ndjson "^1.5.0"
