@@ -112,7 +112,7 @@ function buildGaiaBinary (platform, arch) {
         cd /go/src/github.com/cosmos/gaia && \
         git checkout develop && \
         make get_vendor_deps && \
-        GOOS=darwin GOARCH=amd64 go build \
+        GOOS=${platform} GOARCH=${arch} go build \
           -o /mnt/${output} \
           -ldflags '-s -w' \
           ./cmd/gaia
