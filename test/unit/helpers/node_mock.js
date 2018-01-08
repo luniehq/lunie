@@ -1,3 +1,5 @@
+let mockValidators = require('./json/validators.json')
+
 module.exports = {
   // REST
   lcdConnected: () => Promise.resolve(true),
@@ -22,7 +24,7 @@ module.exports = {
   rpc: {
     on: () => {},
     subscribe: () => {},
-    validators: () => [],
+    validators: () => mockValidators,
     block: (args, cb) => cb({}),
     blockchain: (args, cb) => cb({}),
     status: (cb) => cb(null, {
