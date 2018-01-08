@@ -14,7 +14,7 @@ process.argv.forEach(function (val) {
   }
   if (val.startsWith('--binary')) {
     binaryPath = val.replace('--binary=', '')
-    console.log('Using build binary', binaryPath)
+    console.log('Using prebuilt binary', binaryPath)
   }
 })
 
@@ -100,8 +100,7 @@ function goBuild (pkg, platform, arch) {
     if (platform === 'mas') platform = 'darwin'
     if (GOARCH[arch]) arch = GOARCH[arch]
 
-    let name = path.basename(pkg)
-    console.log(`\x1b[34mBuilding ${name} binary (${platform}/${arch})...\n\x1b[0m`)
+    console.log(`\x1b[34mBuilding gaia binary (${platform}/${arch})...\n\x1b[0m`)
 
     let binaryDir = path.join(appOutDir, 'resources/bin')
     fs.ensureDirSync(binaryDir)

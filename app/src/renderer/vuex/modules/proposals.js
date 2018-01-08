@@ -1,6 +1,6 @@
 import data from '../json/proposals.json'
 
-export default ({ commit, basecoin }) => {
+export default ({ commit }) => {
   const state = data
   const mutations = {
     ADD_PROPOSAL (state, proposal) {

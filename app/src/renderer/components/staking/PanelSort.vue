@@ -7,15 +7,13 @@
 </template>
 
 <script>
-// TODO do we need jquery for one usage?
-import $ from 'jquery'
 export default {
   name: 'panel-sort',
   methods: {
     orderBy (property, event) {
-      let sortBys = $(this.$el).find('.sort-by')
-      $(sortBys).removeClass('active desc asc')
-      let el = $(event.target).parent()
+      let sortBys = this.$el.querySelectorAll('.sort-by')
+      sortBys.forEach(el => el.classList.remove('active', 'desc', 'asc'))
+      let el = event.target.parentElement
 
       if (this.sort.property === property) {
         if (this.sort.order === 'asc') {
@@ -27,11 +25,11 @@ export default {
         this.sort.property = property
       }
       if (this.sort.order === 'asc') {
-        $(el).addClass('asc')
+        el.classList.add('asc')
       } else {
-        $(el).addClass('desc')
+        el.classList.add('desc')
       }
-      $(el).addClass('active')
+      el.classList.add('active')
     }
   },
   props: ['sort']

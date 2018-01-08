@@ -6,7 +6,7 @@ page(:title='proposal.title')
     a(@click="proposalIsSpam(proposal.id)"): i.material-icons error
 
   part(v-if="proposal.type === 'text'")
-    div(slot='title') Proposed by #[router-link(:to="{ name: 'delegator', params: { delegator: proposal.validatorId }}") {{ proposal.validatorId }}]
+    div(slot='title') Proposed by #[router-link(:to="{ name: 'delegate', params: { delegate: proposal.validatorId }}") {{ proposal.validatorId }}]
     text-block(:content="proposal.data.text")
 
   part(title='Time to vote: 13D 23H 27M'): form-struct(:submit='confirmVote')
