@@ -4,12 +4,6 @@ page(title='Blockchain')
     router-link(to="/search" exact)
       i.material-icons search
       .label Search
-    a(@click='toggleBlockchainSelect')
-      i.material-icons(v-if='!config.modals.blockchain.active') filter_list
-      i.material-icons(v-else='') close
-      .label Switch Blockchain
-
-  blockchain-select-modal
 
   template(v-if="bc")
     part(title='Metadata')
@@ -35,7 +29,6 @@ page(title='Blockchain')
 import moment from 'moment'
 import num from 'scripts/num'
 import { mapGetters } from 'vuex'
-import BlockchainSelectModal from 'monitor/BlockchainSelectModal'
 import ListItem from 'common/NiListItem'
 import DataError from 'common/NiDataError'
 import Page from 'common/NiPage'
@@ -44,7 +37,6 @@ import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-blockchain',
   components: {
-    BlockchainSelectModal,
     ListItem,
     DataError,
     Page,
@@ -53,18 +45,16 @@ export default {
   },
   computed: {
     ...mapGetters(['blockchain', 'config', 'validators']),
-    bc () { return this.blockchain },
+    bc () {
+      console.log(this.blockchain)
+      return this.blockchain
+    },
     version () {
-      let v
-      if (this.bc.blockchainName === 'venus') {
-        v = this.bc.abciInfo.data
-      } else {
-        v = this.bc.abciInfo.data.substring(10, this.bc.abciInfo.data.length)
-      }
-      return v
+      return this.bc.abciInfo.data.substring(10, this.bc.abciInfo.data.length)
     },
     avgTxThroughput () {
-      return Math.round(this.bc.network.avg_tx_throughput * 1000) / 1000
+      return 100
+      // return Math.round(this.bc.network.avg_tx_throughput * 1000) / 1000
     },
     currentRate () {
       let txs = 0
@@ -92,9 +82,6 @@ export default {
     readableDate (ms) {
       return moment(ms / 1000000).format('HH:mm:ss.SSS')
     },
-    toggleBlockchainSelect () {
-      this.$store.commit('setModalBlockchain', !this.config.modals.blockchain.active)
-    }
   }
 }
 </script>
