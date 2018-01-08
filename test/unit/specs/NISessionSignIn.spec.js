@@ -55,8 +55,6 @@ describe('NiSessionSignIn', () => {
       signInName: 'name'
     }})
     await wrapper.vm.onSubmit()
-    let commitCalls = store.commit.mock.calls.map(args => args[0])
-    expect(commitCalls).toContain('notify')
     expect(store.dispatch).toHaveBeenCalledWith('signIn', {
       password: '1234567890',
       account: 'name'

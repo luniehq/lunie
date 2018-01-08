@@ -31,19 +31,11 @@ describe('NiUserPane', () => {
   it('should not show the active account name if signed out', async () => {
     await store.dispatch('signOut')
     wrapper.update()
-    expect(wrapper.html()).not.toContain('ACTIVE_ACCOUNT')
+    expect(wrapper.html()).toBeUndefined()
   })
 
   it('should redirect to the profile page if signed in', () => {
     wrapper.find(ListItem).trigger('click')
     expect(router.currentRoute.path).toBe('/profile')
-  })
-
-  it('should show login page if clicked and signed out', async () => {
-    await store.dispatch('signOut')
-    wrapper.update()
-    wrapper.find(ListItem).trigger('click')
-    expect(store.commit).toHaveBeenCalledWith('setModalSession', true)
-    expect(store.commit).toHaveBeenCalledWith('setActiveMenu', '')
   })
 })
