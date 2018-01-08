@@ -4,12 +4,6 @@ page(title='Blockchain')
     router-link(to="/search" exact)
       i.material-icons search
       .label Search
-    a(@click='toggleBlockchainSelect')
-      i.material-icons(v-if='!config.modals.blockchain.active') filter_list
-      i.material-icons(v-else='') close
-      .label Switch Blockchain
-
-  blockchain-select-modal
 
   template(v-if="bc")
     part(title='Metadata')
@@ -35,7 +29,6 @@ page(title='Blockchain')
 import moment from 'moment'
 import num from 'scripts/num'
 import { mapGetters } from 'vuex'
-import BlockchainSelectModal from 'monitor/BlockchainSelectModal'
 import ListItem from 'common/NiListItem'
 import DataError from 'common/NiDataError'
 import Page from 'common/NiPage'
@@ -44,7 +37,6 @@ import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-blockchain',
   components: {
-    BlockchainSelectModal,
     ListItem,
     DataError,
     Page,
@@ -91,9 +83,6 @@ export default {
   methods: {
     readableDate (ms) {
       return moment(ms / 1000000).format('HH:mm:ss.SSS')
-    },
-    toggleBlockchainSelect () {
-      this.$store.commit('setModalBlockchain', !this.config.modals.blockchain.active)
     }
   }
 }

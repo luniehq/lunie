@@ -1,14 +1,10 @@
 export default ({ commit, node }) => {
   const state = {
-    blockchainName: '',
     validators: {},
     validatorHash: null
   }
 
   const mutations = {
-    setValidatorBlockchainName (state, name) {
-      state.blockchainName = name
-    },
     setValidators (state, validators) {
       state.validators = validators
     },
