@@ -36,8 +36,10 @@ export default {
   watch: {
     open (open) {
       if (open) {
-        let el = this.$el.querySelector('.ni-field')
-        el.select()
+        setTimeout(() => {
+          let el = this.$el.querySelector('.ni-field')
+          el.select()
+        })
       }
     }
   },

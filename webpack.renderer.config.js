@@ -3,7 +3,6 @@
 process.env.BABEL_ENV = 'renderer'
 
 const path = require('path')
-const pkg = require('./app/package.json')
 const settings = require('./config.js')
 const webpack = require('webpack')
 
@@ -19,59 +18,64 @@ let rendererConfig = {
   entry: {
     renderer: path.join(__dirname, 'app/src/renderer/main.js')
   },
-  externals: Object.keys(pkg.dependencies || {}),
   module: {
     rules: [
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
-          loader: 'css-loader'
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
         })
       },
       {
         test: /\.html$/,
-        loader: 'vue-html-loader'
+        use: 'vue-html-loader'
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        use: 'babel-loader',
         include: [ path.resolve(__dirname, 'app/src/renderer') ],
         exclude: /node_modules/
       },
       {
         test: /\.json$/,
-        loader: 'json-loader'
+        use: 'json-loader'
       },
       {
         test: /\.node$/,
-        loader: 'node-loader'
+        use: 'node-loader'
       },
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          loaders: {
-            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-            scss: 'vue-style-loader!css-loader!sass-loader'
+        use: {
+          loader: 'vue-loader',
+          options: {
+            loaders: {
+              sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
+              scss: 'vue-style-loader!css-loader!sass-loader'
+            }
           }
         }
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url-loader',
-        query: {
-          limit: 10000,
-          name: 'imgs/[name].[ext]'
-        }
+        use: [{
+          loader: 'url-loader',
+          query: {
+            limit: 10000,
+            name: 'imgs/[name].[ext]'
+          }
+        }]
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader',
-        query: {
-          limit: 10000,
-          name: 'fonts/[name].[ext]'
-        }
+        use: [{
+          loader: 'url-loader',
+          query: {
+            limit: 10000,
+            name: 'fonts/[name].[ext]'
+          }
+        }]
       }
     ]
   },
@@ -91,7 +95,13 @@ let rendererConfig = {
         ? path.resolve(__dirname, 'app/node_modules')
         : false
     }),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
+    new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),
+    // put all modules in node_modules in chunk
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor'
+    })
   ],
   output: {
     filename: '[name].js',
@@ -150,11 +160,6 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false
-    //   }
-    // })
   )
 }
 

@@ -1,6 +1,6 @@
 import noScroll from 'no-scroll'
 
-export default ({ commit, basecoin }) => {
+export default ({ commit }) => {
   const state = {
     activeMenu: '',
     desktop: false,
