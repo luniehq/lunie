@@ -28,6 +28,13 @@ let config = {
       oneClick: false,
       allowElevation: false,
       perMachine: true
+    },
+    linux: {
+      target: 'deb',
+      icon: 'png'
+    },
+    mac: {
+      target: 'dmg'
     }
   }
 }
