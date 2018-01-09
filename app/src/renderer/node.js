@@ -12,6 +12,7 @@ module.exports = function (nodeIP) {
   let node = new RestClient(RELAY_SERVER)
 
   Object.assign(node, {
+    nodeIP,
     lcdConnected: () => node.listKeys()
       .then(() => true, () => false),
 

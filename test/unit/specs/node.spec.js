@@ -15,6 +15,11 @@ describe('LCD Connector', () => {
     global.fetch = fetch
   })
 
+  it('should provide the nodeIP', () => {
+    let node = LCDConnector('1.1.1.1')
+    expect(node.nodeIP).toBe('1.1.1.1')
+  })
+
   it('should return a mockClient if setting COSMOS_UI_ONLY', () => {
     process.env.COSMOS_UI_ONLY = 'true'
     let node = LCDConnector('1.1.1.1')
