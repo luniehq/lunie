@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export default ({ commit }) => {
+export default ({ commit, node }) => {
   const state = {
     urlPrefix: 'https://',
     blockchainName: 'gaia-2-dev',
@@ -31,10 +31,18 @@ export default ({ commit }) => {
     }
   }
 
-  setTimeout(() => {
-    mutations.getStatus(state)
-    mutations.getAbciInfo(state)
-  }, 3000)
+  function getBlocks () {
+    node.rpc.subscribe({ event: 'NewBlockHeader' }, (err, event) => {
+      if (err) return console.error('error subscribing to new block headers', err)
+      console.log(event)
+    })
+  }
+  getBlocks()
+
+  // setTimeout(() => {
+  //   mutations.getStatus(state)
+  //   mutations.getAbciInfo(state)
+  // }, 3000)
 
   return { state, mutations }
 }

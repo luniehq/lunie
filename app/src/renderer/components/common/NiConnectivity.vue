@@ -16,10 +16,10 @@ export default {
     ListItem
   },
   computed: {
-    ...mapGetters(['lastHeader', 'nodeIP', 'connected', 'validators']),
+    ...mapGetters(['lastHeader', 'nodeIP', 'connected']),
     blockString () {
       //- TODO: calculate actual number of active nodes, not just validators
-      return `${this.lastHeader.chain_id} (#${num.prettyInt(this.lastHeader.height)}) (${this.validators.length} Nodes)`
+      return `${this.lastHeader.chain_id} (#${num.prettyInt(this.lastHeader.height)})`
     }
   },
   data: () => ({
