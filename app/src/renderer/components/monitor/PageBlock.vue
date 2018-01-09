@@ -39,7 +39,7 @@ page(:title="`Block ${block.header.height}`")
 
   part(title='Transactions')
     list-item(v-if="block.header.num_txs > 0" v-for="tx in block.data.txs" :key="tx.id" dt="Transaction" :dd="TODO")
-    data-empty(v-if="block.header.num_txs === 0")
+    data-empty(v-if="block.header.num_txs === 0" title="Empty Block" subtitle="No transaction data in this block.")
 </template>
 
 <script>
