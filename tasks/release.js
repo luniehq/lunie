@@ -1,7 +1,7 @@
 'use strict'
 
 const { exec } = require('child_process')
-const { join } = require('path')
+const path = require('path')
 const fs = require('fs-extra')
 const builder = require('electron-builder')
 
@@ -67,7 +67,7 @@ function build (platform = process.platform, arch = process.arch) {
   config.afterPack = ({outDir, appOutDir}) => {
     binaryPath
     ? copyBinary('gaia', binaryPath, platform)({outDir, appOutDir})
-    : buildGaiaBinary(platform, arch)({outDir, appOutDir})
+    : goBuild(`github.com/cosmos/gaia/cmd/gaia`, platform, arch)({outDir, appOutDir})
     copyNetworks(appOutDir)
   }
 
@@ -82,7 +82,7 @@ function build (platform = process.platform, arch = process.arch) {
       console.log('\n\x1b[34mDONE\n\x1b[0m')
     })
     .catch((error) => {
-      console.error('\x1b[31mError from `electron-builder` when building app...\x1b[0m')
+      console.error('\x1b[31mError from `electron-packager` when building app...\x1b[0m')
       console.error(error)
     })
 }
@@ -94,8 +94,7 @@ const GOARCH = {
   'x64': 'amd64',
   'ia32': '386'
 }
-
-function buildGaiaBinary (platform, arch) {
+function goBuild (pkg, platform, arch) {
   return function ({outDir, appOutDir}) {
     if (platform === 'win32') platform = 'windows'
     if (platform === 'mas') platform = 'darwin'
@@ -103,31 +102,21 @@ function buildGaiaBinary (platform, arch) {
 
     console.log(`\x1b[34mBuilding gaia binary (${platform}/${arch})...\n\x1b[0m`)
 
-    let output = 'gaia'
-    if (platform === 'windows') output += '.exe'
+    let binaryDir = path.join(appOutDir, 'resources/bin')
+    fs.ensureDirSync(binaryDir)
+    let binPath = path.join(binaryDir, name)
+    if (platform === 'windows') {
+      binPath = binPath + '.exe'
+    }
+    let cmd = `cross-env GOOS=${platform} GOARCH=${arch} go build -o ${binPath} ${pkg}`
+    console.log(`> ${cmd}\n`)
+    let go = exec(cmd)
 
-    let cmd = `
-      docker run -v "/tmp:/mnt" golang bash -c "
-        go get github.com/cosmos/gaia;
-        cd /go/src/github.com/cosmos/gaia && \
-        git checkout develop && \
-        make get_vendor_deps && \
-        GOOS=${platform} GOARCH=${arch} go build \
-          -o /mnt/${output} \
-          -ldflags '-s -w' \
-          ./cmd/gaia
-      "
-    `
-    let docker = exec(cmd)
-    docker.stdout.on('data', (data) => process.stdout.write(data))
-    docker.stderr.on('data', (data) => process.stderr.write(data))
+    go.stdout.on('data', (data) => process.stdout.write(data))
+    go.stderr.on('data', (data) => process.stderr.write(data))
     return new Promise((resolve, reject) => {
-      docker.once('exit', (code) => {
+      go.once('exit', (code) => {
         if (code !== 0) return reject(Error('Build failed'))
-
-        let binPath = join(outDir, 'bin')
-        fs.ensureDirSync(binPath)
-        fs.copySync(join('/tmp', output), join(binPath, output))
         resolve()
       })
     })
@@ -139,7 +128,7 @@ function buildGaiaBinary (platform, arch) {
 */
 function copyBinary (name, binaryLocation, platform) {
   return function ({outDir, appOutDir}) {
-    let binPath = join(appOutDir, 'resources/bin', name)
+    let binPath = path.join(appOutDir, 'resources/bin', name)
     if (platform === 'win32') {
       binPath = binPath + '.exe'
     }
@@ -152,18 +141,18 @@ function copyBinary (name, binaryLocation, platform) {
 */
 function copyIcons () {
   console.log('Copying icons to builds/resources')
-  let iconsPath = join(__dirname, '../app/icons')
-  let distPath = join(__dirname, '../builds/resources')
+  let iconsPath = path.join(__dirname, '../app/icons')
+  let distPath = path.join(__dirname, '../builds/resources')
   fs.ensureDirSync(distPath)
-  fs.copyFileSync(join(iconsPath, 'icon.icns'), join(distPath, 'icon.icns'))
-  fs.copyFileSync(join(iconsPath, 'icon.ico'), join(distPath, 'icon.ico'))
-  fs.copySync(join(iconsPath, 'png'), join(distPath, 'png'))
+  fs.copyFileSync(path.join(iconsPath, 'icon.icns'), path.join(distPath, 'icon.icns'))
+  fs.copyFileSync(path.join(iconsPath, 'icon.ico'), path.join(distPath, 'icon.ico'))
+  fs.copySync(path.join(iconsPath, 'png'), path.join(distPath, 'png'))
 }
 
 function copyNetworks (appOutDir) {
   console.log('Copying networks to folder')
-  let networksPath = join(__dirname, '../app/networks')
-  let networksOutPath = join(appOutDir, 'resources/networks')
+  let networksPath = path.join(__dirname, '../app/networks')
+  let networksOutPath = path.join(appOutDir, 'resources/networks')
   fs.ensureDirSync(networksOutPath)
   fs.copySync(networksPath, networksOutPath)
 }
