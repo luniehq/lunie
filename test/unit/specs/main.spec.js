@@ -35,7 +35,7 @@ describe('Startup Process', () => {
   })
 
   jest.mock(appRoot + 'src/root.js', () => './test/unit/tmp/test_root')
-  jest.mock(appRoot + 'node_modules/event-to-promise', () => {
+  jest.mock('event-to-promise', () => {
     let i = 0
     return () => Promise.resolve({
       toString: () => {

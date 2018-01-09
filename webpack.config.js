@@ -62,8 +62,6 @@ let config = {
     __dirname: false,
     __filename: false
   },
-  externals: {
-  },
   plugins: [
     new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({
