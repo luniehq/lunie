@@ -24,4 +24,31 @@ describe('Module: Notification', () => {
     expect(store.state.notifications.length).toBe(1)
     expect(store.state.notifications[0]).toMatchSnapshot()
   })
+
+  it('should add a warning object to the store', () => {
+    store.commit('notifyWarn', {
+      title: 'TitleA',
+      body: 'BodyB'
+    })
+    expect(store.state.notifications.length).toBe(1)
+    expect(store.state.notifications[0]).toMatchSnapshot()
+  })
+
+  it('should add an signup notification to the store', () => {
+    store.commit('notifySignUp')
+    expect(store.state.notifications.length).toBe(1)
+    expect(store.state.notifications[0]).toMatchSnapshot()
+  })
+
+  it('should add an signin notification to the store', () => {
+    store.commit('notifySignIn')
+    expect(store.state.notifications.length).toBe(1)
+    expect(store.state.notifications[0]).toMatchSnapshot()
+  })
+
+  it('should add an authentication required notification to the store', () => {
+    store.commit('notifyAuthRequired')
+    expect(store.state.notifications.length).toBe(1)
+    expect(store.state.notifications[0]).toMatchSnapshot()
+  })
 })

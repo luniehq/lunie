@@ -8,3 +8,40 @@ Object {
   "title": "TitleA",
 }
 `;
+
+exports[`Module: Notification should add a warning object to the store 1`] = `
+Object {
+  "body": "BodyB",
+  "icon": "warning",
+  "time": 1608,
+  "title": "TitleA",
+  "type": "warning",
+}
+`;
+
+exports[`Module: Notification should add an authentication required notification to the store 1`] = `
+Object {
+  "body": "You must sign up or sign in to view that page.",
+  "icon": "error",
+  "time": 1608,
+  "title": "Authentication Required",
+}
+`;
+
+exports[`Module: Notification should add an signin notification to the store 1`] = `
+Object {
+  "body": "Welcome back.",
+  "icon": "mood",
+  "time": 1608,
+  "title": "Signed In",
+}
+`;
+
+exports[`Module: Notification should add an signup notification to the store 1`] = `
+Object {
+  "body": "Thank you for signing up.",
+  "icon": "mood",
+  "time": 1608,
+  "title": "Welcome!",
+}
+`;
