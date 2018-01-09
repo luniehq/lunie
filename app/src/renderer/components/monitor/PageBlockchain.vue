@@ -1,26 +1,24 @@
 <template lang="pug">
 page(title='Blockchain')
   div(slot="menu"): tool-bar
-    router-link(to="/search" exact)
+    a(@click='setSearch(true)')
       i.material-icons search
       .label Search
 
-  template(v-if="bc")
+  template(v-if="blockchain")
     part(title='Metadata')
-      list-item(dt='Network' :dd='bc.status.node_info.network')
+      list-item(dt='Network Name' :dd='status.node_info.network')
       list-item(dt='App Version' :dd='version')
-      list-item(dt='Tendermint Version' :dd='bc.status.node_info.version')
+      list-item(dt='Tendermint Version' :dd='status.node_info.version')
 
     part(title='Block')
-      list-item(dt='Block Height' :dd='num.prettyInt(bc.status.latest_block_height)'
-        :to="{ name: 'block', params: { block: bc.status.latest_block_height} }")
-      list-item(dt='Latest Block Time' :dd='readableDate(bc.status.latest_block_time)')
-      list-item(dt='Latest Block Hash' :dd='bc.status.latest_block_hash')
+      list-item(dt='Block Height' :dd='num.prettyInt(status.latest_block_height)'
+        :to="{ name: 'block', params: { block: status.latest_block_height} }")
+      list-item(dt='Latest Block Time' :dd='latestBlockTime')
+      list-item(dt='Latest Block Hash' :dd='status.latest_block_hash')
 
     part(title='Nodes')
       list-item(dt='Active Nodes' :dd='validators.length')
-      list-item(dt='Current Rate' :dd="currentRate + ' bytes/s'")
-      list-item(dt='Average Rate' :dd="averageRate + ' bytes/s'")
 
   data-error(v-else)
 </template>
@@ -45,21 +43,19 @@ export default {
   },
   computed: {
     ...mapGetters(['blockchain', 'config', 'validators']),
-    bc () {
-      console.log(this.blockchain)
-      return this.blockchain
+    status () {
+      console.log(this.config)
+      console.log(this.validators)
+      return this.blockchain.status
     },
     version () {
-      return this.bc.abciInfo.data.substring(10, this.bc.abciInfo.data.length)
-    },
-    avgTxThroughput () {
-      return 100
-      // return Math.round(this.bc.network.avg_tx_throughput * 1000) / 1000
+      return this.blockchain.abciInfo.response.data.substring(10, this.blockchain.abciInfo.response.length)
     },
     currentRate () {
       let txs = 0
       // this.validators.reduce(txs, v => (txs += v.connection_status.SendMonitor.CurRate))
       for (let i = 0; i < this.validators.length; i++) {
+        console.log(this.validators[i])
         txs += this.validators[i].connection_status.SendMonitor.CurRate
       }
       let average = Math.round(txs / this.validators.length)
@@ -72,6 +68,9 @@ export default {
       }
       let average = Math.round(txs / this.validators.length)
       return average
+    },
+    latestBlockTime () {
+      return moment(this.status.latest_block_time).format('MMMM Do YYYY — hh:mm:ss')
     }
   },
   data: () => ({
@@ -79,8 +78,8 @@ export default {
     num: num
   }),
   methods: {
-    readableDate (ms) {
-      return moment(ms / 1000000).format('HH:mm:ss.SSS')
+    setSearch (bool) {
+      this.$store.commit('setSearchVisible', ['balances', bool])
     },
   }
 }
