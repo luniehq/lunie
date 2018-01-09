@@ -19,27 +19,22 @@ export default ({ commit }) => {
     },
     getStatus (state) {
       let url = state.urlPrefix + state.blockchainName + state.urlSuffix
-      console.log(url + '/status')
-      axios(url + '/status').then((err, res) => {
-        if (err) {
-          return console.error('err', err)
-        }
-        console.log('status', JSON.stringify(res.body.result, null, 2))
-        state.status = res.body.result
+      axios(url + '/status').then((res) => {
+        state.status = res.data.result
       })
     },
     getAbciInfo (state) {
       let url = state.urlPrefix + state.blockchainName + state.urlSuffix
-      console.log(url + '/abci_info')
-      axios(url + '/abci_info').then((err, res) => {
-        if (err) {
-          return console.error('err', err)
-        }
-        console.log('abci_info', JSON.stringify(res.body.result, null, 2))
-        state.abciInfo = res.body.result.response
+      axios(url + '/abci_info').then((res) => {
+        state.abciInfo = res.data.result
       })
     }
   }
+
+  setTimeout(() => {
+    mutations.getStatus(state)
+    mutations.getAbciInfo(state)
+  }, 3000)
 
   return { state, mutations }
 }

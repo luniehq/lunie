@@ -1,24 +1,17 @@
 <template lang="pug">
-page(title='Blockchain')
+page(title='Monitor')
   div(slot="menu"): tool-bar
-    a(@click='setSearch(true)')
-      i.material-icons search
-      .label Search
-
   template(v-if="blockchain")
-    part(title='Metadata')
-      list-item(dt='Network Name' :dd='status.node_info.network')
-      list-item(dt='App Version' :dd='version')
-      list-item(dt='Tendermint Version' :dd='status.node_info.version')
+    part(title='Versions')
+      list-item(dt='Network Name' :dd='lastHeader.chain_id')
+      list-item(dt='ABCI Version' :dd='abciVersion')
+      list-item(dt='Tendermint Version' :dd='tendermintVersion')
 
-    part(title='Block')
+    part(title='Latest Block')
       list-item(dt='Block Height' :dd='num.prettyInt(status.latest_block_height)'
         :to="{ name: 'block', params: { block: status.latest_block_height} }")
       list-item(dt='Latest Block Time' :dd='latestBlockTime')
       list-item(dt='Latest Block Hash' :dd='status.latest_block_hash')
-
-    part(title='Nodes')
-      list-item(dt='Active Nodes' :dd='validators.length')
 
   data-error(v-else)
 </template>
@@ -42,14 +35,15 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['blockchain', 'config', 'validators']),
+    ...mapGetters(['blockchain', 'validators', 'lastHeader']),
     status () {
-      console.log(this.config)
-      console.log(this.validators)
       return this.blockchain.status
     },
-    version () {
-      return this.blockchain.abciInfo.response.data.substring(10, this.blockchain.abciInfo.response.length)
+    abciVersion () {
+      return this.blockchain.abciInfo.response.data.substring(6, this.blockchain.abciInfo.response.length)
+    },
+    tendermintVersion () {
+      return this.status.node_info.version.substring(0, 6)
     },
     currentRate () {
       let txs = 0
@@ -76,11 +70,6 @@ export default {
   data: () => ({
     moment: moment,
     num: num
-  }),
-  methods: {
-    setSearch (bool) {
-      this.$store.commit('setSearchVisible', ['balances', bool])
-    },
-  }
+  })
 }
 </script>
