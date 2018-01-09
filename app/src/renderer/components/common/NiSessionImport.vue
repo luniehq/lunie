@@ -71,9 +71,10 @@ export default {
         seedPhrase: this.fields.importSeed,
         password: this.fields.importPassword,
         name: this.fields.importName
+      }).catch(err => {
+        commit('notifyError', { title: `Couldn't create a key`, body: err.message })
       })
       if (key) {
-        this.$store.commit('setModalSession', false)
         this.$store.commit('notify', { title: 'Welcome back!', body: 'Your account has been successfully imported.' })
         this.$store.dispatch('signIn', {
           account: this.fields.importName,

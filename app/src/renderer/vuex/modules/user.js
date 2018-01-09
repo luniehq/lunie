@@ -9,9 +9,6 @@ export default ({ commit, node }) => {
   }
 
   const mutations = {
-    activateDelegation (state) {
-      state.delegationActive = true
-    },
     setAccounts (state, accounts) {
       state.accounts = accounts
     },
@@ -51,41 +48,29 @@ export default ({ commit, node }) => {
     async createSeed ({ commit }) {
       let JUNK_ACCOUNT_NAME = 'trunk'
       let TRUNK_PASSWORD = '1234567890'
-      try {
-        // cleanup an existing junk account
-        let keys = await node.listKeys()
-        if (keys.find(key => key.name === JUNK_ACCOUNT_NAME)) {
-          await node.deleteKey(JUNK_ACCOUNT_NAME, {
-            password: TRUNK_PASSWORD,
-            name: JUNK_ACCOUNT_NAME
-          })
-        }
-
-        // generate seedPhrase with junk account
-        let temporaryKey = await node.generateKey({ name: JUNK_ACCOUNT_NAME, password: TRUNK_PASSWORD })
-        return temporaryKey.seed_phrase
-      } catch (err) {
-        commit('notifyError', { title: `Couldn't create a seed`, body: err.message })
+      // cleanup an existing junk account
+      let keys = await node.listKeys()
+      if (keys.find(key => key.name === JUNK_ACCOUNT_NAME)) {
+        await node.deleteKey(JUNK_ACCOUNT_NAME, {
+          password: TRUNK_PASSWORD,
+          name: JUNK_ACCOUNT_NAME
+        })
       }
+
+      // generate seedPhrase with junk account
+      let temporaryKey = await node.generateKey({ name: JUNK_ACCOUNT_NAME, password: TRUNK_PASSWORD })
+      return temporaryKey.seed_phrase
     },
     async createKey ({ commit, dispatch }, { seedPhrase, password, name }) {
-      try {
-        let {key} = await node.recoverKey({ name, password, seed_phrase: seedPhrase })
-        dispatch('initializeWallet', key)
-        return key
-      } catch (err) {
-        commit('notifyError', { title: `Couldn't create a key`, body: err.message })
-      }
+      let {key} = await node.recoverKey({ name, password, seed_phrase: seedPhrase })
+      dispatch('initializeWallet', key)
+      return key
     },
     async deleteKey ({ commit, dispatch }, { password, name }) {
-      try {
-        await node.deleteKey(name, { name, password })
-        return true
-      } catch (err) {
-        commit('notifyError', { title: `Couldn't delete account ${name}`, body: err.message })
-      }
+      await node.deleteKey(name, { name, password })
+      return true
     },
-    async signIn ({ state, dispatch }, { password, account }) {
+    async signIn ({ state, commit, dispatch }, { password, account }) {
       state.password = password
       state.account = account
       state.signedIn = true
@@ -93,6 +78,7 @@ export default ({ commit, node }) => {
       let key = await node.getKey(account)
       state.address = key.address
 
+      commit('setModalSession', false)
       dispatch('initializeWallet', key)
     },
     signOut ({ state, commit, dispatch }) {
