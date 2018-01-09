@@ -57,6 +57,7 @@ export default {
       try {
         await this.$store.dispatch('testLogin', { password: this.fields.signInPassword, account: this.fields.signInName })
         this.$store.dispatch('signIn', { password: this.fields.signInPassword, account: this.fields.signInName })
+        this.$store.commit('setModalSession', false)
       } catch (err) {
         this.$store.commit('notifyError', { title: 'Signing In Failed', body: err.message })
       }

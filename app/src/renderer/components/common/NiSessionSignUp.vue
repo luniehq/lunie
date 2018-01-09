@@ -87,10 +87,8 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       let key = await this.$store.dispatch('createKey', { seedPhrase: this.fields.signUpSeed, password: this.fields.signUpPassword, name: this.fields.signUpName })
-      .catch(err => {
-        commit('notifyError', { title: `Couldn't create a key`, body: err.message })
-      })
       if (key) {
+        this.$store.commit('setModalSession', false)
         this.$store.commit('notify', { title: 'Signed Up', body: 'Your account has been created.' })
         this.$store.dispatch('signIn', { password: this.fields.signUpPassword, account: this.fields.signUpName })
       }
@@ -102,8 +100,6 @@ export default {
       .then(seedPhrase => {
         this.creating = false
         this.fields.signUpSeed = seedPhrase
-      }, err => {
-        this.$store.commit('notifyError', { title: `Couldn't create a seed`, body: err.message })
       })
   },
   validations: () => ({
