@@ -1,5 +1,5 @@
 <template lang="pug">
-page(:title="`Block ${block.header.height}`")
+page(:title="pageBlockTitle")
   div(slot="menu"): tool-bar
     router-link(to="/blockchain")
       i.material-icons arrow_back
@@ -45,6 +45,7 @@ page(:title="`Block ${block.header.height}`")
 <script>
 import { mapGetters } from 'vuex'
 import moment from 'moment'
+import num from 'scripts/num'
 import axios from 'axios'
 import DataEmpty from 'common/NiDataEmpty'
 import ToolBar from 'common/NiToolBar'
@@ -64,9 +65,13 @@ export default {
     ...mapGetters(['blockchain']),
     blockHeaderTime () {
       return moment(this.block.header.time).format('MMMM Do YYYY — hh:mm:ss')
+    },
+    pageBlockTitle () {
+      return 'Block #' + num.prettyInt(this.block.header.height)
     }
   },
   data: () => ({
+    num: num,
     moment: moment,
     blockUrl: '',
     block_meta: {
