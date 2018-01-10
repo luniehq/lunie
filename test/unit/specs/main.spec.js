@@ -1,9 +1,24 @@
-const fs = require('fs-extra')
 const {join} = require('path')
+const mockFsExtra = require('../helpers/fs-mock').default
 
 function sleep (ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
+
+jest.mock('fs-extra', () => {
+  let fs = require('fs')
+  mockFsExtra({
+    app: {
+      networks: {
+        'gaia-1': {
+          'config.toml': fs.readFileSync('./app/networks/gaia-1/config.toml', 'utf8'),
+          'genesis.json': fs.readFileSync('./app/networks/gaia-1/genesis.json', 'utf8')
+        }
+      }
+    }
+  })
+})
+const fs = require('fs-extra')
 
 jest.mock('electron', () => {
   return {
