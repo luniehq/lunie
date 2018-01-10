@@ -65,6 +65,20 @@ describe('Module: Node', () => {
     store.dispatch('nodeSubscribe')
   })
 
+  it('doesnt reconnect on errors that do not mean discconection', done => {
+    node.rpcReconnect = () => done.fail()
+    node.rpc.on = jest.fn((value, cb) => {
+      if (value === 'error') {
+        cb({
+          message: 'some message'
+        })
+        expect(store.state.node.connected).toBe(false)
+      }
+    })
+    store.dispatch('nodeSubscribe')
+    setTimeout(() => done(), 200)
+  })
+
   it('should set the initial status', () => {
     node.rpc.status = (cb) => cb(null, {
       latest_block_height: 42,
@@ -144,6 +158,7 @@ describe('Module: Node', () => {
     node.rpcReconnect = () => done.fail()
     store.dispatch('pollRPCConnection', 50)
     setTimeout(() => {
+      node.rpcReconnect = () => {}
       done()
     }, 500)
   })

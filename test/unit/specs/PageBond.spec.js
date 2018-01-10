@@ -58,6 +58,7 @@ describe('PageBond', () => {
   })
 
   it('shows selected candidates', () => {
+    expect(wrapper.vm.fields.delegates.length).toBe(2)
     expect(htmlBeautify(wrapper.html())).toContain('pubkeyX')
     expect(htmlBeautify(wrapper.html())).toContain('pubkeyY')
   })
@@ -65,7 +66,9 @@ describe('PageBond', () => {
   it('should allow removal of candidates', () => {
     global.confirm = jest.fn()
     global.confirm.mockReturnValue(true)
+    expect(wrapper.vm.fields.delegates.length).toBe(2)
     wrapper.findAll('button.remove').at(0).trigger('click')
+    expect(wrapper.vm.fields.delegates.length).toBe(1)
 
     expect(global.confirm).toHaveBeenCalled()
     expect(htmlBeautify(wrapper.html())).not.toContain('pubkeyX')

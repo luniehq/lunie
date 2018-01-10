@@ -183,7 +183,7 @@ export default {
   watch: {
     shoppingCart (newVal) {
       this.leaveIfEmpty(newVal.length)
-      // this.resetAlloc()
+      this.resetAlloc()
       if (this.equalize) { this.equalAlloc }
     }
   },
