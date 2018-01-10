@@ -46,9 +46,20 @@ describe('Module: Notification', () => {
     expect(store.state.notifications[0]).toMatchSnapshot()
   })
 
+  it('should add an signout notification to the store', () => {
+    store.commit('notifySignOut')
+    expect(store.state.notifications.length).toBe(1)
+    expect(store.state.notifications[0]).toMatchSnapshot()
+  })
+
   it('should add an authentication required notification to the store', () => {
     store.commit('notifyAuthRequired')
     expect(store.state.notifications.length).toBe(1)
     expect(store.state.notifications[0]).toMatchSnapshot()
+
+    // allow body to be defined to give user source of auth decline
+    store.commit('notifyAuthRequired', 'Some text')
+    expect(store.state.notifications.length).toBe(2)
+    expect(store.state.notifications[1].body).toBe('Some text')
   })
 })
