@@ -26,7 +26,7 @@ module.exports = {
     subscribe: () => {},
     validators: () => mockValidators,
     block: (args, cb) => cb({}),
-    blockchain: (args, cb) => cb({}),
+    blockchain: (args, cb) => cb(null, {block_metas: {}}),
     status: (cb) => cb(null, {
       latest_block_height: 42,
       node_info: {
