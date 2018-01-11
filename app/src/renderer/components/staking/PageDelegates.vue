@@ -20,7 +20,7 @@ page(title='Delegates')
 
   div.fixed-button-bar
     h3 {{ shoppingCart.length }} selected
-    btn(to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next")
+    btn(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next")
 </template>
 
 <script>
