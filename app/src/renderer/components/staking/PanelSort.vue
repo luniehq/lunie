@@ -2,7 +2,7 @@
 .panel-sort: .panel-sort-container: .sort-by(
   v-for="property in sort.properties",
   @click="orderBy(property.value, $event)",
-  :class="[{ 'active': property.initial, 'asc': property.initial }, property.class ]")
+  :class="property.class")
   .label {{ property.title }}
 </template>
 
@@ -12,7 +12,6 @@ export default {
   methods: {
     orderBy (property, event) {
       let sortBys = this.$el.querySelectorAll('.sort-by')
-      sortBys.forEach(el => console.log(el.classList))
       sortBys.forEach(el => el.classList.remove('active', 'desc', 'asc'))
       let el = event.target.parentElement
 

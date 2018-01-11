@@ -80,7 +80,7 @@ export default {
         { id: 0, title: '', value: '' },
         { id: 1, title: 'Name', value: 'description.moniker', class: 'name' },
         { id: 2, title: 'Public Key', value: 'id', class: 'id' },
-        { id: 3, title: '% of Vote', value: 'shares', class: 'percent_of_vote', initial: true },
+        { id: 3, title: '% of Vote', value: 'shares', class: 'percent_of_vote' },
         { id: 4, title: '# of Votes', value: 'voting_power', class: 'number_of_votes' },
         { id: 5, title: 'Bonded by You', value: 'bonded', class: 'bonded_by_you' }
       ]
