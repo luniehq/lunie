@@ -2,7 +2,7 @@
 .panel-sort: .panel-sort-container: .sort-by(
   v-for="property in sort.properties",
   @click="orderBy(property.value, $event)",
-  :class="[{ 'active': property.initial, 'asc': property.initial }, property.value ]")
+  :class="[{ 'active': property.initial, 'asc': property.initial }, property.class ]")
   .label {{ property.title }}
 </template>
 
@@ -12,6 +12,7 @@ export default {
   methods: {
     orderBy (property, event) {
       let sortBys = this.$el.querySelectorAll('.sort-by')
+      sortBys.forEach(el => console.log(el.classList))
       sortBys.forEach(el => el.classList.remove('active', 'desc', 'asc'))
       let el = event.target.parentElement
 
@@ -48,23 +49,17 @@ export default {
   flex 3
   cursor pointer
   user-select none
-
   display flex
   align-items center
-
   position relative
-  padding 0 0.25rem
-
   min-width 0
 
   &:first-child
-    flex: 1
-    padding: 0
+    flex 0.5 1 0%;
 
   .label
     font-size sm
     color dim
-    padding-right 0.5rem
 
     white-space nowrap
     text-overflow ellipsis
@@ -74,6 +69,7 @@ export default {
     display block
     font-family FontAwesome
     color dim
+    padding-left 0.25rem
 
   &.asc:after
     content '\f0d8'
@@ -90,6 +86,17 @@ export default {
       color bright
     &:after
       color txt
+
+  &.name
+    flex 2
+
+  &.id
+    flex 2
+
+  &.percent_of_vote,
+  &.number_of_votes,
+  &.bonded_by_you
+    flex 1
 
 @media screen and (max-width: 768px)
   .sort-by

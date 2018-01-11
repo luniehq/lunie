@@ -10,12 +10,12 @@
       a(v-else) {{ ' ' + delegate.moniker }}
   .li-delegate__value.id
     span {{ delegate.id }}
-  .li-delegate__value.delegated
+  .li-delegate__value.percent_of_vote
     span {{ num.percentInt(bondedPercent) }}
-  .li-delegate__value.voting_power.num.bar
+  .li-delegate__value.number_of_votes.num.bar
     span {{ num.prettyInt(delegate.voting_power) }}
     .bar(:style='vpStyles')
-  .li-delegate__value
+  .li-delegate__value.bonded_by_you
     span {{ num.prettyInt(amountBonded(delegate.id)) }}
 </template>
 
@@ -82,7 +82,7 @@ export default {
     background app-fg
   &.li-delegate-active
     .li-delegate__value i.fa
-      color accent
+      color mc
 
 .li-delegate__values
   display flex
@@ -95,6 +95,17 @@ export default {
   min-width 0
 
   &:first-child
+    flex 0.5
+
+  &.name
+    flex 2
+
+  &.id
+    flex 2
+
+  &.percent_of_vote,
+  &.number_of_votes,
+  &.bonded_by_you
     flex 1
 
   &.id span
@@ -115,6 +126,8 @@ export default {
 
     .bar
       height 1.5rem
+      position relative
+      left -0.25rem
       background alpha(accent, 33.3%)
 
   &.checkbox
@@ -124,5 +137,5 @@ export default {
     white-space nowrap
     overflow hidden
     text-overflow ellipsis
-    padding 0 0.25rem
+    padding-right 1rem
 </style>
