@@ -1,22 +1,23 @@
-import Vuex from 'vuex'
-import { mount, createLocalVue } from 'vue-test-utils'
+import setup from '../helpers/vuex-setup'
+
+jest.mock('electron', () => ({
+  clipboard: {
+    writeText: jest.fn()
+  }
+}))
+
 import NiBtnCopy from 'renderer/components/common/NiBtnCopy'
 
-const localVue = createLocalVue()
-localVue.use(Vuex)
-
 describe('NiBtnCopy', () => {
-  let wrapper
-  let store = new Vuex.Store()
-  store.commit = jest.fn()
+  let wrapper, store
+  let instance = setup()
 
   beforeEach(() => {
-    store.commit.mockReset()
-    wrapper = mount(NiBtnCopy, {
-      localVue,
-      store,
+    let test = instance.mount(NiBtnCopy, {
       propsData: { value: 'this is a test' }
     })
+    wrapper = test.wrapper
+    store = test.store
   })
 
   it('has the expected html structure', () => {

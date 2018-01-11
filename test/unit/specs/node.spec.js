@@ -15,6 +15,11 @@ describe('LCD Connector', () => {
     global.fetch = fetch
   })
 
+  it('should provide the nodeIP', () => {
+    let node = LCDConnector('1.1.1.1')
+    expect(node.nodeIP).toBe('1.1.1.1')
+  })
+
   it('should return a mockClient if setting COSMOS_UI_ONLY', () => {
     process.env.COSMOS_UI_ONLY = 'true'
     let node = LCDConnector('1.1.1.1')
@@ -28,7 +33,7 @@ describe('LCD Connector', () => {
   })
 
   it('should remember if it could not connect via rpc', () => {
-    jest.mock('../../../app/node_modules/tendermint', () => () => ({
+    jest.mock('tendermint', () => () => ({
       on (value, cb) {
         if (value === 'error') {
           cb({code: 'ECONNREFUSED'})
@@ -69,8 +74,9 @@ describe('LCD Connector', () => {
     expect(nodeIP).toBe('1.2.3.4')
   })
 
-  it('should return if it is connected to the LCD', async () => {
+  it('should show the connection state to the LCD', async () => {
     let node = LCDConnector('1.1.1.1')
+    node.listKeys = () => Promise.reject()
     expect(await node.lcdConnected()).toBe(false)
     node.listKeys = () => Promise.resolve([''])
     expect(await node.lcdConnected()).toBe(true)

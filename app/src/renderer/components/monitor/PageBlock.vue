@@ -44,7 +44,7 @@ page(:title="`Block ${block.header.height}`")
 
 <script>
 import { mapGetters } from 'vuex'
-import request from 'superagent'
+import axios from 'axios'
 import ToolBar from 'common/NiToolBar'
 import ListItem from 'common/NiListItem'
 import Part from 'common/NiPart'
@@ -140,9 +140,12 @@ export default {
   methods: {
     fetchBlock () {
       this.blockUrl = `https://${this.blockchain.blockchainName}-node0.testnets.interblock.io/block?height=${this.$route.params.block}`
-      request.get(this.blockUrl).end((err, res) => {
-        if (err) console.log('err', err)
-        let blockData = res.body.result
+      axios(this.blockUrl).then(({data}) => {
+        if (data.err) {
+          console.log('err', data.err)
+          return
+        }
+        let blockData = data.result
         this.block_meta = blockData.block_meta
         this.block = blockData.block
       })
