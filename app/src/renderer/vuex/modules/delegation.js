@@ -30,9 +30,6 @@ export default ({ commit }) => {
     removeFromCart (state, delegate) {
       state.delegates = state.delegates.filter(c => c.id !== delegate)
     },
-    reserveAtoms (state, {delegateId, value}) {
-      state.delegates.find(d => d.id === delegateId).reservedAtoms = value
-    },
     setShares (state, {candidateId, value}) {
       state.delegates.find(c => c.id === candidateId).atoms = value
     },
@@ -50,7 +47,6 @@ export default ({ commit }) => {
   let actions = {
     // load committed delegations from LCD
     async getBondedDelegates ({ state, dispatch }, {candidates, address}) {
-      // TODO move into cosmos-sdk
       candidates.forEach(candidate => {
         dispatch('getBondedDelegate', {address, pubkey: candidate.pub_key.data})
       })
@@ -99,8 +95,6 @@ export default ({ commit }) => {
           })
         })
       }
-
-      commit('activateDelegation', true)
     }
   }
 
