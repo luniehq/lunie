@@ -62,14 +62,14 @@ describe('LiDelegate', () => {
   })
 
   it('should show the relative voting power as a bar', () => {
-    expect(wrapper.vm.$el.querySelector('.voting_power .bar').style.width).toBe('33%')
+    expect(wrapper.vm.$el.querySelector('.number_of_votes .bar').style.width).toBe('33%')
   })
 
   it('should add to cart', () => {
     expect(wrapper.vm.shoppingCart).toEqual([])
     expect(wrapper.vm.inCart).toBeFalsy()
     expect(wrapper.html()).not.toContain('li-delegate-active')
-    wrapper.find('.checkbox input').trigger('click')
+    wrapper.find('.fa-square-o').trigger('click')
     expect(wrapper.vm.inCart).toBeTruthy()
     expect(store.commit).toHaveBeenCalledWith('addToCart', store.state.delegates[0])
     expect(wrapper.html()).toContain('li-delegate-active')
@@ -79,7 +79,7 @@ describe('LiDelegate', () => {
     store.commit('addToCart', store.state.delegates[0])
     wrapper.update()
     expect(wrapper.vm.inCart).toBeTruthy()
-    wrapper.find('.checkbox input').trigger('click')
+    wrapper.find('.fa-check-square-o').trigger('click')
     expect(store.commit).toHaveBeenCalledWith('removeFromCart', delegate.id)
     expect(wrapper.vm.shoppingCart).toEqual([])
     expect(wrapper.vm.inCart).toBeFalsy()
