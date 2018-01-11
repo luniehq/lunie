@@ -1,4 +1,4 @@
-export default ({ commit, basecoin }) => {
+export default ({ commit }) => {
   const state = {
     balances: {
       search: {
