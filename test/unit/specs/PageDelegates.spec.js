@@ -66,6 +66,7 @@ describe('PageDelegates', () => {
     store.commit('setSearchVisible', ['delegates', true])
     store.commit('setSearchQuery', ['delegates', 'dateX'])
     expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['pubkeyX'])
+    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit('setSearchQuery', ['delegates', 'dateY'])
     expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['pubkeyY'])

@@ -2,6 +2,8 @@ import axios from 'axios'
 
 export default ({ commit }) => {
   let state = {
+    delegationActive: false,
+
     // our delegations, maybe not yet committed
     delegates: [],
 
@@ -10,6 +12,9 @@ export default ({ commit }) => {
   }
 
   const mutations = {
+    activateDelegation (state) {
+      state.delegationActive = true
+    },
     addToCart (state, delegate) {
       // don't add to cart if already in cart
       for (let existingDelegate of state.delegates) {

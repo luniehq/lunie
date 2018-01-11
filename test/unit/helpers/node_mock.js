@@ -2,8 +2,16 @@ module.exports = {
   // REST
   lcdConnected: () => Promise.resolve(true),
   getKey: () => ({}),
-  generateKey: () => ({key: '123'}),
+  generateKey: () => ({
+    key: '123',
+    seed_phrase: 'a b c d e f g h i j k l'
+  }),
+  updateKey: () => {},
   listKeys: () => [],
+  recoverKey: () => ({
+    key: '123',
+    seed_phrase: 'a b c d e f g h i j k l'
+  }),
   queryAccount: () => null,
   queryNonce: () => '123',
   buildSend: (args) => {

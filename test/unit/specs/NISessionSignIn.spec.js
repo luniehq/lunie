@@ -1,33 +1,18 @@
-import Vuex from 'vuex'
+import setup from '../helpers/vuex-setup'
 import Vuelidate from 'vuelidate'
-import { mount, createLocalVue } from 'vue-test-utils'
 import htmlBeautify from 'html-beautify'
 import NiSessionSignIn from 'common/NiSessionSignIn'
 
-const user = require('renderer/vuex/modules/user').default({})
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
-localVue.use(Vuelidate)
+let instance = setup()
+instance.localVue.use(Vuelidate)
 
 describe('NiSessionSignIn', () => {
   let wrapper, store
 
   beforeEach(() => {
-    store = new Vuex.Store({
-      modules: {
-        user
-      },
-      getters: {
-        user: () => user.state
-      }
-    })
-    wrapper = mount(NiSessionSignIn, {
-      localVue,
-      store
-    })
-    store.commit = jest.fn()
-    store.dispatch = jest.fn(async () => null)
+    let test = instance.mount(NiSessionSignIn)
+    store = test.store
+    wrapper = test.wrapper
   })
 
   it('has the expected html structure', () => {

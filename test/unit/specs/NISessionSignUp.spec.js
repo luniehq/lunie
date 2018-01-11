@@ -1,37 +1,18 @@
-import Vuex from 'vuex'
+import setup from '../helpers/vuex-setup'
 import Vuelidate from 'vuelidate'
-import { mount, createLocalVue } from 'vue-test-utils'
 import htmlBeautify from 'html-beautify'
 import NISessionSignUp from 'common/NiSessionSignUp'
 
-const user = require('renderer/vuex/modules/user').default({})
-const notifications = require('renderer/vuex/modules/notifications').default({})
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
-localVue.use(Vuelidate)
+let instance = setup()
+instance.localVue.use(Vuelidate)
 
 describe('NISessionSignUp', () => {
   let wrapper, store
 
   beforeEach(() => {
-    store = new Vuex.Store({
-      modules: {
-        user,
-        notifications
-      },
-      actions: {
-        async createKey () {
-          return {}
-        }
-      }
-    })
-    wrapper = mount(NISessionSignUp, {
-      localVue,
-      store
-    })
-    store.commit = jest.fn()
-    store.dispatch = jest.fn(() => Promise.resolve({}))
+    let test = instance.mount(NISessionSignUp)
+    store = test.store
+    wrapper = test.wrapper
   })
 
   it('has the expected html structure', () => {
@@ -58,7 +39,7 @@ describe('NISessionSignUp', () => {
       signUpBackup: true
     }})
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toEqual(['setModalSession', false])
+    expect(store.commit).toHaveBeenCalledWith('setModalSession', false)
   })
 
   it('should signal signedin state on successful login', async () => {

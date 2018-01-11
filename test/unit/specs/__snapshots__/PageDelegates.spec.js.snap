@@ -458,7 +458,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
       </div>
     </div>
     <div
-      class="li-delegate"
+      class="li-delegate ts-li-delegate-leave ts-li-delegate-leave-active"
     >
       <div
         class="li-delegate__values"
@@ -516,7 +516,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
       </div>
     </div>
     <div
-      class="li-delegate"
+      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
     >
       <div
         class="li-delegate__values"
