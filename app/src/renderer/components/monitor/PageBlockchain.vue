@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Monitor')
+page(title='Blocks')
   div(slot="menu"): tool-bar
   template
     part(title='Latest Block')

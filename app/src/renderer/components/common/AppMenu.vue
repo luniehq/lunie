@@ -6,7 +6,7 @@ menu.app-menu
     list-item(to="/staking" exact @click.native="close" title="Delegates")
     list-item(to="/validators" exact @click.native="close" title="Validators" v-bind:class="{ 'active': isValidatorPage }")
     list-item(to="/proposals" exact @click.native="close" title="Proposals" v-if="config.devMode")
-    list-item(to="/blockchain" exact @click.native="close" title="Monitor" v-if="config.devMode")
+    list-item(to="/blockchain" exact @click.native="close" title="Blocks" v-if="config.devMode")
     connectivity
   user-pane
 </template>
