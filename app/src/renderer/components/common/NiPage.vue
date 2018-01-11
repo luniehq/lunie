@@ -50,6 +50,7 @@ export default {
   flex 1
   display flex
   flex-flow column nowrap
+  position relative
 
 .ni-page-main
   flex 1

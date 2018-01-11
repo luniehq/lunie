@@ -2,7 +2,7 @@
 .panel-sort: .panel-sort-container: .sort-by(
   v-for="property in sort.properties",
   @click="orderBy(property.value, $event)",
-  :class="{ 'active': property.initial, 'asc': property.initial }")
+  :class="[{ 'active': property.initial, 'asc': property.initial }, property.value ]")
   .label {{ property.title }}
 </template>
 
@@ -92,4 +92,9 @@ export default {
       color bright
     &:after
       color txt
+
+@media screen and (max-width: 768px)
+  .sort-by
+    &.id
+      display none
 </style>
