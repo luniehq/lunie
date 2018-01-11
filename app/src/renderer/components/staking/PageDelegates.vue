@@ -25,7 +25,7 @@ page(title='Delegates')
 
 <script>
 import { mapGetters } from 'vuex'
-import { includes, orderBy } from 'lodash'
+import { includes, orderBy, shuffle } from 'lodash'
 import Mousetrap from 'mousetrap'
 import LiDelegate from 'staking/LiDelegate'
 import Btn from '@nylira/vue-button'
@@ -67,7 +67,7 @@ export default {
       if (this.filters.delegates.search.visible) {
         return list.filter(i => includes(JSON.stringify(i).toLowerCase(), query.toLowerCase()))
       } else {
-        return list
+        return shuffle(list)
       }
     }
   },
