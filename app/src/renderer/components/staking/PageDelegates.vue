@@ -14,11 +14,13 @@ page(title='Delegates')
   data-empty-search(v-else-if="filteredDelegates.length === 0")
 
   template(v-else)
-    div.action-container
-      h3 You've selected {{ shoppingCart.length }} delegates.
-      router-link(to="/staking/bond" v-if="shoppingCart.length") Proceed to the bonding page to allocate your Atoms.
-    panel-sort(:sort='sort')
-    li-delegate(v-for='i in filteredDelegates' :key='i.id' :delegate='i')
+    div.delegate-container
+      panel-sort(:sort='sort')
+      li-delegate(v-for='i in filteredDelegates' key='i.id' :delegate='i')
+
+  div.fixed-button-bar
+    h3 {{ shoppingCart.length }} selected
+    btn(to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next")
 </template>
 
 <script>
@@ -107,6 +109,26 @@ export default {
 @require '~variables'
 
 .action-container
-  padding 0 0 1rem 1rem
-  height 4rem
+  padding 1rem 0 1rem 1rem
+  min-height 5rem
+
+.fixed-button-bar
+  position absolute
+  width 100%
+  background app-bg
+  bottom calc(3rem + 1px)
+  left 0
+  bottom 0
+  padding 1rem
+  display flex
+  justify-content space-between
+  border-top 1px solid bc
+
+@media screen and (max-width: 768px)
+  .delegate-container
+    padding 0.5rem
+
+  .li-delegate__value
+    &.id
+      display none
 </style>

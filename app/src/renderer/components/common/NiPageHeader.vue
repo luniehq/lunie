@@ -36,7 +36,7 @@ export default {
   flex 1
   display flex
   min-width 0 // fix truncation
-  padding 11px 0 0 2rem
+  padding 11px 0 0 1rem
   align-items: center
 
   i.material-icons
@@ -52,6 +52,10 @@ export default {
     font-size xl
     font-weight 500
     color bright
+
+@media screen and (min-width: 768px)
+  .ni-page-header-text
+    padding 11px 0 0 2rem
 
 @media screen and (min-width: 1024px)
   .ni-page-header
