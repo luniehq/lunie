@@ -76,7 +76,7 @@ describe('PageDelegates', () => {
     store.commit('addToCart', store.state.delegates[0])
     store.commit('addToCart', store.state.delegates[1])
     wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toContain('selected 2 delegates')
+    expect(htmlBeautify(wrapper.html())).toContain('2 selected')
   })
 
   it('should show an error if there are no delegates', () => {
