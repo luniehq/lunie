@@ -1,8 +1,7 @@
 let axios = require('axios')
-let write = require('fs').writeFileSync
 let { tmpdir } = require('os')
 let { join } = require('path')
-let mkdirp = require('mkdirp').sync
+let fs = require('fs-extra')
 let runDev = require('./runner.js')
 
 async function get (url) {
@@ -32,9 +31,9 @@ async function main () {
       throw new Error(`Can't load config.toml: ${e.message}`)
     })
     let path = join(tmpdir(), Math.random().toString(36).slice(2))
-    mkdirp(path)
-    write(join(path, 'genesis.json'), genesisJson)
-    write(join(path, 'config.toml'), configToml)
+    fs.ensureDirSync(path)
+    fs.writeFileSync(join(path, 'genesis.json'), genesisJson)
+    fs.writeFileSync(join(path, 'config.toml'), configToml)
     runDev(path)
   }
 }

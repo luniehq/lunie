@@ -1,12 +1,9 @@
 'use strict'
 
 const { exec } = require('child_process')
-const { join } = require('path')
-const packager = require('electron-packager')
-const rebuild = require('electron-rebuild').default
-const mkdirp = require('mkdirp').sync
+const path = require('path')
 const fs = require('fs-extra')
-const { promisify } = require('util')
+const builder = require('electron-builder')
 
 let skipPack = false
 let binaryPath = null
@@ -26,7 +23,7 @@ if (process.env.PLATFORM_TARGET === 'clean') {
   console.log('\x1b[33m`builds` directory cleaned.\n\x1b[0m')
 } else {
   if (skipPack) {
-    build()
+    build(process.env.PLATFORM_TARGET, process.env.PLATFORM_ARCH)
   } else {
     pack()
   }
@@ -49,88 +46,113 @@ function pack () {
 }
 
 /**
- * Use electron-packager to build electron app
+ * Use electron-builder to build electron app
  */
-function build () {
-  let options = require('../config').building
+function build (platform = process.platform, arch = process.arch) {
+  let config = require('../config').building
 
-  options.afterCopy = [
+  // defined build target
+  let electronPlatform = platform
+  if (platform === 'win32') {
+    electronPlatform = 'win'
+  }
+  let targets = {
+    [arch]: true,
+    [electronPlatform]: []
+  }
+
+  // icons need to be available in the dist folder
+  copyIcons()
+
+  config.afterPack = ({outDir, appOutDir}) => {
     binaryPath
-      ? copyBinary('gaia', binaryPath)
-      : buildGaiaBinary()
-  ]
-  // prune installs the packages
-  options.afterPrune = [
-    // we need to rebuild some native packages for the electron environment
-    function rebuildNodeModules (buildPath, electronVersion, platform, arch, callback) {
-      rebuild({ buildPath, electronVersion, arch })
-        .then(callback)
-        .catch(callback)
-    }
-  ]
+    ? copyBinary('gaia', binaryPath, platform)({outDir, appOutDir})
+    : goBuild(`github.com/cosmos/gaia/cmd/gaia`, platform, arch)({outDir, appOutDir})
+    copyNetworks(appOutDir)
+  }
 
   console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')
-  packager(options, (err, appPaths) => {
-    if (err) {
-      console.error('\x1b[31mError from `electron-packager` when building app...\x1b[0m')
-      console.error(err)
-    } else {
-      console.log('Build(s) successful!')
-      console.log(appPaths)
-
-      console.log('\n\x1b[34mDONE\n\x1b[0m')
-    }
+  // Promise is returned
+  return builder.build({
+    ...targets,
+    config
   })
+    .then(() => {
+      console.log('Build(s) successful!')
+      console.log('\n\x1b[34mDONE\n\x1b[0m')
+    })
+    .catch((error) => {
+      console.error('\x1b[31mError from `electron-packager` when building app...\x1b[0m')
+      console.error(error)
+    })
 }
 
-function copyBinary (name, binaryLocation) {
-  return function (buildPath, electronVersion, platform, arch, cb) {
-    let binPath = join(buildPath, 'bin', name)
-    if (platform === 'win32') {
-      binPath = binPath + '.exe'
-    }
-    fs.copySync(binaryLocation, binPath)
-    cb()
-  }
-}
-
+/*
+* Build the baseserver binary. Should only be done in development!
+*/
 const GOARCH = {
   'x64': 'amd64',
   'ia32': '386'
 }
-
-function buildGaiaBinary () {
-  return function (buildPath, electronVersion, platform, arch, cb) {
+function goBuild (pkg, platform, arch) {
+  return function ({outDir, appOutDir}) {
     if (platform === 'win32') platform = 'windows'
     if (platform === 'mas') platform = 'darwin'
     if (GOARCH[arch]) arch = GOARCH[arch]
 
     console.log(`\x1b[34mBuilding gaia binary (${platform}/${arch})...\n\x1b[0m`)
 
-    let output = 'gaia'
-    if (platform === 'windows') output += '.exe'
+    let binaryDir = path.join(appOutDir, 'resources/bin')
+    fs.ensureDirSync(binaryDir)
+    let binPath = path.join(binaryDir, name)
+    if (platform === 'windows') {
+      binPath = binPath + '.exe'
+    }
+    let cmd = `cross-env GOOS=${platform} GOARCH=${arch} go build -o ${binPath} ${pkg}`
+    console.log(`> ${cmd}\n`)
+    let go = exec(cmd)
 
-    let cmd = `
-      docker run -v "/tmp:/mnt" golang bash -c "
-        go get github.com/cosmos/gaia;
-        cd /go/src/github.com/cosmos/gaia && \
-        git checkout develop && \
-        make get_vendor_deps && \
-        GOOS=${platform} GOARCH=${arch} go build \
-          -o /mnt/${output} \
-          -ldflags '-s -w' \
-          ./cmd/gaia
-      "
-    `
-    let docker = exec(cmd)
-    docker.stdout.on('data', (data) => process.stdout.write(data))
-    docker.stderr.on('data', (data) => process.stderr.write(data))
-    docker.once('exit', (code) => {
-      if (code !== 0) return cb(Error('Build failed'))
-
-      let binPath = join(buildPath, 'bin')
-      mkdirp(binPath)
-      fs.copy(join('/tmp', output), join(binPath, output), cb)
+    go.stdout.on('data', (data) => process.stdout.write(data))
+    go.stderr.on('data', (data) => process.stderr.write(data))
+    return new Promise((resolve, reject) => {
+      go.once('exit', (code) => {
+        if (code !== 0) return reject(Error('Build failed'))
+        resolve()
+      })
     })
   }
+}
+
+/*
+* copy the baseserver binary into the app directory
+*/
+function copyBinary (name, binaryLocation, platform) {
+  return function ({outDir, appOutDir}) {
+    let binPath = path.join(appOutDir, 'resources/bin', name)
+    if (platform === 'win32') {
+      binPath = binPath + '.exe'
+    }
+    fs.copySync(binaryLocation, binPath)
+  }
+}
+
+/*
+* Electron builder copies the icons from the folder builds/resources
+*/
+function copyIcons () {
+  console.log('Copying icons to builds/resources')
+  let iconsPath = path.join(__dirname, '../app/icons')
+  let distPath = path.join(__dirname, '../builds/resources')
+  fs.ensureDirSync(distPath)
+  fs.copyFileSync(path.join(iconsPath, 'icon.icns'), path.join(distPath, 'icon.icns'))
+  fs.copyFileSync(path.join(iconsPath, 'icon.ico'), path.join(distPath, 'icon.ico'))
+  fs.copySync(path.join(iconsPath, 'png'), path.join(distPath, 'png'))
+}
+
+function copyNetworks (appOutDir) {
+  console.log('Copying networks to folder')
+  let networksPath = path.join(__dirname, '../app/networks')
+  let networksOutPath = path.join(appOutDir, 'resources/networks')
+  fs.ensureDirSync(networksOutPath)
+  fs.copySync(networksPath, networksOutPath)
 }

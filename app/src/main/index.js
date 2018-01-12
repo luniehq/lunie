@@ -36,7 +36,7 @@ const NODE = process.env.COSMOS_NODE
 
 // this network gets used if none is specified via the
 // COSMOS_NETWORK env var
-let DEFAULT_NETWORK = join(__dirname, '../networks/gaia-2-dev')
+let DEFAULT_NETWORK = join(__dirname, DEV ? '../networks/gaia-2-dev' : '../../networks/gaia-2-dev')
 let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
@@ -147,7 +147,7 @@ function startProcess (name, args, env) {
     binPath = join(GOPATH, 'bin', name)
   } else {
     // in production mode, use binaries packaged with app
-    binPath = join(__dirname, '..', 'bin', name)
+    binPath = join(__dirname, '../..', 'bin', name)
   }
 
   let argString = args.map((arg) => JSON.stringify(arg)).join(' ')
@@ -352,13 +352,6 @@ async function reconnect (seeds) {
 }
 
 async function main () {
-  // the windows installer opens the app once when installing
-  // the package recommends, that we exit if this happens
-  // we can also react to installer events, but currently don't need to
-  if (require('electron-squirrel-startup')) {
-    return
-  }
-
   if (JSON.parse(process.env.COSMOS_UI_ONLY || 'false')) {
     return
   }
