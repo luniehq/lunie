@@ -105,16 +105,9 @@ export default {
       await this.walletSend({
         fees: { denom, amount: 0 },
         to: address,
-        amount: [{ denom, amount }],
-        cb: (err) => {
+        amount: [{ denom, amount }]
+      }).then(() => {
           this.sending = false
-          if (err) {
-            this.$store.commit('notifyError', {
-              title: 'Error Sending',
-              body: `An error occurred while trying to send: "${err.message}"`
-            })
-            return
-          }
           this.$store.commit('notify', {
             title: 'Successfully Sent',
             body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
@@ -125,7 +118,12 @@ export default {
 
           // refreshes user transaction history
           this.$store.dispatch('queryWalletHistory')
-        }
+      }, err => {
+          this.sending = false
+          this.$store.commit('notifyError', {
+            title: 'Error Sending',
+            body: `An error occurred while trying to send: "${err.message}"`
+          })
       })
     },
     ...mapActions(['walletSend'])

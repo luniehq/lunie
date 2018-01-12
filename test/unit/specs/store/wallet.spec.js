@@ -1,23 +1,14 @@
-import Vuex from 'vuex'
-import { createLocalVue } from 'vue-test-utils'
+import setup from '../../helpers/vuex-setup'
 
-const Wallet = require('renderer/vuex/modules/wallet').default
-const notifications = require('renderer/vuex/modules/notifications').default({})
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
+let instance = setup()
 
 describe('Module: Wallet', () => {
   let store, node
 
   beforeEach(() => {
-    node = require('../../helpers/node_mock')
-    store = new Vuex.Store({
-      modules: {
-        wallet: Wallet({node}),
-        notifications
-      }
-    })
+    let test = instance.shallow(null)
+    store = test.store
+    node = test.node
   })
 
   // DEFAULT
@@ -84,6 +75,16 @@ describe('Module: Wallet', () => {
     expect(store.state.wallet.sendQueue).toBe(txOne)
   })
 
+  it('should continue with the next tx in queue', async () => {
+    const txOne = { id: 'first-tx', denom: 'acoin', amount: '50' }
+    const txTwo = { id: 'second-tx', denom: 'acoin', amount: '125' }
+    store.commit('queueSend', txOne)
+    node.sendTx = () => Promise.resolve()
+
+    await store.dispatch('walletTx', txTwo)
+    expect(store.state.wallet.sendQueue.length).toBe(0)
+  })
+
   it('should set sending', () => {
     store.commit('setSending', true)
     expect(store.state.wallet.sending).toBe(true)
@@ -121,42 +122,112 @@ describe('Module: Wallet', () => {
   })
 
   it('should query wallet balances', async () => {
+    node.queryAccount = () => Promise.resolve({
+      data: {
+        coins: [{
+          denom: 'fermion',
+          amount: 42
+        }]
+      }
+    })
     await store.dispatch('queryWalletBalances')
-    expect(store.state.wallet.balances).toEqual([])
+    expect(store.state.wallet.balances).toEqual([{
+      'amount': 42,
+      'denom': 'fermion'
+    }])
   })
 
-  // TODO
   it('should query wallet sequence', async () => {
+    const key = { address: 'DC97A6E1A3E1FE868B55BA93C7FC626368261E09' }
+    const sequence = 42
+    await store.dispatch('initializeWallet', key)
+    node.queryNonce = async (addr) => {
+      expect(addr).toBe(key.address)
+      return { data: sequence }
+    }
     await store.dispatch('queryWalletSequence')
+    expect(store.state.wallet.sequence).toBe(sequence)
   })
 
-  // TODO
-  it('should query wallet history', async () => {
-    await store.dispatch('queryWalletHistory')
-  })
-
-  // TODO
-  it('should query transaction time', async () => {
+  describe('query meta info', () => {
     let height = 100
-    await store.dispatch('queryTransactionTime', height)
+    let blockMeta = {
+      header: {
+        height: 100,
+        time: 42
+      }
+    }
+
+    beforeEach(() => {
+      // prefill history
+      store.commit('setWalletHistory', [{
+        height
+      }])
+      // prefill block metas
+      store.state.wallet.blockMetas = [blockMeta]
+    })
+
+    it('should query transaction time', async () => {
+      await store.dispatch('queryTransactionTime', height)
+      expect(store.state.wallet.history[0].time).toBe(42)
+    })
+
+    it('should query block info', async () => {
+      store.state.wallet.blockMetas = []
+      node.rpc.blockchain = jest.fn(({ minHeight, maxHeight }, cb) => {
+        cb(null, {block_metas: [blockMeta]})
+      })
+
+      let output = await store.dispatch('queryBlockInfo', height)
+      expect(output).toBe(blockMeta)
+    })
+
+    it('should reuse queried block info', async () => {
+      store.state.wallet.blockMetas = [blockMeta]
+      node.rpc.blockchain = jest.fn()
+
+      let output = await store.dispatch('queryBlockInfo', height)
+      expect(output).toBe(blockMeta)
+      expect(node.rpc.blockchain).not.toHaveBeenCalled()
+    })
+
+    it('should show an info if block info is unavailable', async () => {
+      store.state.wallet.blockMetas = []
+      node.rpc.blockchain = (props, cb) => cb('Error')
+      // prefill history
+      let height = 100
+      let output = await store.dispatch('queryBlockInfo', height)
+      expect(output).toBe(null)
+      expect(store.state.notifications.length).toBe(1)
+      expect(store.state.notifications[0]).toMatchSnapshot()
+    })
   })
 
-  // TODO
-  it('should query block info', async () => {
-    let height = 100
-    await store.dispatch('queryBlockInfo', height)
-  })
+  describe('send transactions', () => {
+    beforeEach(async () => {
+      let account = 'abc'
+      let password = '123'
+      node.sendTx = jest.fn(() => Promise.resolve())
+      await store.dispatch('signIn', {account, password})
+    })
 
-  // TODO
-  it('should send from wallet', async () => {
-    const args = { cb: function () { return 'hello-world' } }
-    await store.dispatch('walletSend', args)
-  })
+    it('should send from wallet', async () => {
+      const args = { 'sequence': 42 }
+      await store.dispatch('walletSend', args)
+      expect(node.sendTx.mock.calls).toMatchSnapshot()
+    })
 
-  // TODO
-  it('should create a wallet tx ', async () => {
-    const args = { cb: function () { return 'hello-world' } }
-    await store.dispatch('walletTx', args)
+    it('should send a wallet tx ', async () => {
+      const args = { cb: function () { return 'hello-world' }, sequence: 42 }
+      await store.dispatch('walletTx', args)
+      expect(node.sendTx.mock.calls).toMatchSnapshot()
+    })
+
+    it('should fail sending a wallet tx ', async done => {
+      node.sendTx = () => Promise.reject()
+      const args = { cb: function () { return 'hello-world' }, sequence: 42 }
+      store.dispatch('walletTx', args).then(() => done.fail(), () => done())
+    })
   })
 
   it('should load denoms', async () => {

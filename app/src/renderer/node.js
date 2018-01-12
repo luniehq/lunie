@@ -1,6 +1,7 @@
 'use strict'
 const RpcClient = require('tendermint')
 const RestClient = require('cosmos-sdk')
+const axios = require('axios')
 
 const RELAY_SERVER = 'http://localhost:8999'
 
@@ -61,6 +62,28 @@ module.exports = function (nodeIP) {
 
       node.rpcConnecting = false
       return nodeIP
+    },
+    async sendTx (args, account, password) {
+      let tx = await (async function () {
+        switch (args.type) {
+          case 'buildDelegate': return axios.post('http://localhost:8998/build/stake/delegate', args)
+            .then(res => res.data)
+          case 'buildUnbond': return axios.post('http://localhost:8998/build/stake/unbond', args)
+            .then(res => res.data)
+          default: return node[args.type](args)
+        }
+      })()
+      let signedTx = await node.sign({
+        name: account,
+        password: password,
+        tx
+      })
+      let res = await node.postTx(signedTx)
+      // check response code
+      if (res.check_tx.code || res.deliver_tx.code) {
+        let message = res.check_tx.log || res.deliver_tx.log
+        throw new Error('Error sending transaction: ' + message)
+      }
     }
   })
   // TODO: eventually, get all data from light-client connection instead of RPC

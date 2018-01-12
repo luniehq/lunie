@@ -3,15 +3,16 @@ import Vuelidate from 'vuelidate'
 import PageSend from 'renderer/components/wallet/PageSend'
 
 describe('PageSend', () => {
-  let wrapper, store
+  let wrapper, store, node
 
   let {mount, localVue} = setup()
   localVue.use(Vuelidate)
 
   beforeEach(async () => {
-    let instance = mount(PageSend)
-    wrapper = instance.wrapper
-    store = instance.store
+    let test = mount(PageSend)
+    wrapper = test.wrapper
+    store = test.store
+    node = test.node
     store.commit('setAccounts', [{
       address: '1234567890123456789012345678901234567890',
       name: 'default',
@@ -61,7 +62,10 @@ describe('PageSend', () => {
         amount: 2
       }
     })
+    node.sendTx = () => Promise.reject()
     await wrapper.vm.onSubmit()
-    expect(store.commit).toHaveBeenCalledWith('notifyError', expect.any(Object))
+    expect(store.state.notifications.length).toBe(1)
+    expect(store.state.notifications[0].title).toBe('Error Sending')
+    expect(store.state.notifications[0]).toMatchSnapshot()
   })
 })

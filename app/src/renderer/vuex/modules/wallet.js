@@ -1,7 +1,6 @@
 let fs = require('fs-extra')
 let { join } = require('path')
 let root = require('../../../root.js')
-const axios = require('axios')
 
 export default ({ commit, node }) => {
   let state = {
@@ -39,7 +38,7 @@ export default ({ commit, node }) => {
       state.sendQueue.push(sendReq)
     },
     shiftSendQueue (state) {
-      state.sendQueue = state.sendQueue.shift(1)
+      state.sendQueue = state.sendQueue.length > 1 ? state.sendQueue.shift(1) : []
     },
     setSending (state, sending) {
       state.sending = sending
@@ -106,12 +105,12 @@ export default ({ commit, node }) => {
         return blockMetaInfo
       }
       blockMetaInfo = await new Promise((resolve, reject) => {
-        node.rpc.blockchain({ minHeight: height, maxHeight: height }, (err, {block_metas}) => {
+        node.rpc.blockchain({ minHeight: height, maxHeight: height }, (err, data) => {
           if (err) {
             commit('notifyError', {title: `Couldn't query block`, body: err.message})
-            reject()
+            resolve(null)
           } else {
-            resolve(block_metas[0])
+            resolve(data.block_metas[0])
           }
         })
       })
@@ -125,34 +124,35 @@ export default ({ commit, node }) => {
         app: 'sigs',
         addr: args.to
       }
-      await dispatch('walletTx', args)
+      return dispatch('walletTx', args)
     },
     async walletTx ({ state, dispatch, commit, rootState }, args) {
-      // wait until the current send operation is done
-      if (state.sending) {
-        commit('queueSend', args)
-        return
-      }
-      commit('setSending', true)
+      return new Promise(async (resolve, reject) => {
+        // wait until the current send operation is done
+        if (state.sending) {
+          commit('queueSend', args)
+          return
+        }
+        commit('setSending', true)
 
-      let cb = args.cb
-      delete args.cb
+        // once done, do next send in queue
+        function done (err, res) {
+          commit('setSending', false)
 
-      // once done, do next send in queue
-      function done (err, res) {
-        commit('setSending', false)
+          if (state.sendQueue.length > 0) {
+            // do next send
+            let send = state.sendQueue[0]
+            commit('shiftSendQueue')
+            dispatch('walletSend', send)
+          }
 
-        if (state.sendQueue.length > 0) {
-          // do next send
-          let send = state.sendQueue[0]
-          commit('shiftSendQueue')
-          dispatch('walletSend', send)
+          if (err) {
+            reject(err)
+          } else {
+            resolve(res)
+          }
         }
 
-        cb(err, res)
-      }
-
-      try {
         if (args.sequence == null) {
           args.sequence = state.sequence + 1
         }
@@ -161,35 +161,16 @@ export default ({ commit, node }) => {
           app: 'sigs',
           addr: state.key.address
         }
-        // let tx = await node[args.type](args)
-        // TODO fix in cosmos-sdk-js
-        let tx = await (async function () {
-          switch (args.type) {
-            case 'buildDelegate': return axios.post('http://localhost:8998/build/stake/delegate', args)
-              .then(res => res.data)
-            case 'buildUnbond': return axios.post('http://localhost:8998/build/stake/unbond', args)
-              .then(res => res.data)
-            default: return node[args.type](args)
-          }
-        })()
-        let signedTx = await node.sign({
-          name: rootState.user.account,
-          password: rootState.user.password,
-          tx
-        })
-        let res = await node.postTx(signedTx)
-        // check response code
-        if (res.check_tx.code || res.deliver_tx.code) {
-          let message = res.check_tx.log || res.deliver_tx.log
-          return done(new Error('Error sending transaction: ' + message))
-        }
 
-        commit('setWalletSequence', args.sequence)
-      } catch (err) {
-        return done(err)
-      }
-      done(null, args)
-      dispatch('queryWalletBalances')
+        node.sendTx(args, rootState.user.account, rootState.user.password)
+        .then(() => {
+          commit('setWalletSequence', args.sequence)
+          done(null, args)
+          dispatch('queryWalletBalances')
+        }, err => {
+          done(err || Error('Sending TX failed'))
+        })
+      })
     },
     async loadDenoms ({ state, commit }) {
       // read genesis.json to get default denoms

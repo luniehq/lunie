@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Module: Wallet query meta info should show an info if block info is unavailable 1`] = `
+Object {
+  "body": undefined,
+  "icon": "error",
+  "layout": "alert",
+  "time": 1608,
+  "title": "Couldn't query block",
+  "type": "error",
+}
+`;
+
+exports[`Module: Wallet send transactions should send a wallet tx  1`] = `
+Array [
+  Array [
+    Object {
+      "cb": [Function],
+      "from": Object {
+        "addr": undefined,
+        "app": "sigs",
+        "chain": "",
+      },
+      "sequence": 42,
+    },
+    "abc",
+    "123",
+  ],
+]
+`;
+
+exports[`Module: Wallet send transactions should send from wallet 1`] = `
+Array [
+  Array [
+    Object {
+      "from": Object {
+        "addr": undefined,
+        "app": "sigs",
+        "chain": "",
+      },
+      "sequence": 42,
+      "to": Object {
+        "addr": undefined,
+        "app": "sigs",
+        "chain": "",
+      },
+      "type": "buildSend",
+    },
+    "abc",
+    "123",
+  ],
+]
+`;

@@ -12,7 +12,7 @@ describe('Module: Delegations', () => {
 
   beforeEach(() => {
     let node = require('../../helpers/node_mock')
-    walletTx = jest.fn((_, { cb }) => cb(null, {}))
+    walletTx = jest.fn(() => Promise.resolve())
     store = new Vuex.Store({
       modules: {
         delegation: Delegation({ node }),
