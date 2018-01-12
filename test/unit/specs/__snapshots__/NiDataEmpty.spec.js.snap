@@ -7,14 +7,14 @@ exports[`NiDataEmpty has the expected html structure 1`] = `
    </div>
 <div class=\\"ni-data-msg__text\\">
    <div class=\\"ni-data-msg__title\\">
-      <div>
+      <h4>
          N/A
-      </div>
+      </h4>
 </div>
 <div class=\\"ni-data-msg__subtitle\\">
-   <div>
+   <h5>
       No data available yet.
-   </div>
+   </h5>
 </div>
 </div>
 </div>"
