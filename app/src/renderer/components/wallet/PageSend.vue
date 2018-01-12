@@ -119,7 +119,12 @@ export default {
             title: 'Successfully Sent',
             body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
           })
+
+          // resets send transaction form
           this.resetForm()
+
+          // refreshes user transaction history
+          this.$store.dispatch('queryWalletHistory')
         }
       })
     },
