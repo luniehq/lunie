@@ -173,7 +173,7 @@ exports[`PageBond has the expected html structure 1`] = `
                 <div
                   class="ni-li-dt"
                 >
-                  Unbonded Atoms
+                  Total Unbonded Atoms
                 </div>
                 <div
                   class="ni-li-dd"

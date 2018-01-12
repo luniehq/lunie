@@ -13,7 +13,7 @@ page.page-bond(title="Bond Atoms")
       dt="Total Bonded Atoms"
       :dd="committedBondedAtoms || 0")
     list-item(
-      dt="Unbonded Atoms"
+      dt="Total Unbonded Atoms"
       :dd="unbondedAtoms || 0")
 
   part(title='Selected Delegates')
