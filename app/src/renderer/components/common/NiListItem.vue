@@ -69,7 +69,7 @@ export default {
   props: ['type', 'title', 'subtitle', 'image', 'icon', 'to', 'dt', 'dd', 'href', 'btn'],
   components: {
     Btn
-  },
+  }
 }
 
 </script>
