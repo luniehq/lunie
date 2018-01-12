@@ -67,7 +67,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.filteredTransactions)
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
     Mousetrap.bind('esc', () => this.setSearch(false))
   }
