@@ -12,6 +12,7 @@ page(title='Transactions')
   li-transaction(
     v-else
     v-for="i in filteredTransactions"
+    :key="i.time"
     :transaction-value="i"
     :address="wallet.key.address"
     :devMode="config.devMode")
