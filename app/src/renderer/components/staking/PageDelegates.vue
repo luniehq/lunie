@@ -17,13 +17,13 @@ page(title='Delegates')
     li-delegate(v-for='i in filteredDelegates' :key='i.id' :delegate='i')
 
   div.fixed-button-bar
-    h3 {{ shoppingCart.length }} selected
+    h3 <b>{{ shoppingCart.length }}</b> selected
     btn(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next")
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { includes, orderBy, shuffle } from 'lodash'
+import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import LiDelegate from 'staking/LiDelegate'
 import Btn from '@nylira/vue-button'
@@ -65,7 +65,7 @@ export default {
       if (this.filters.delegates.search.visible) {
         return list.filter(i => includes(JSON.stringify(i).toLowerCase(), query.toLowerCase()))
       } else {
-        return shuffle(list)
+        return list
       }
     }
   },

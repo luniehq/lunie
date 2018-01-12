@@ -53,7 +53,7 @@ page.page-bond(title="Bond Atoms")
           | This action will unbond #[.reserved-atoms__number {{ willUnbondAtoms }}] Atoms from the specified delegates.
         li.reserved-atoms--error(v-if="unbondedAtoms < 0")
           | You cannot bond #[.reserved-atoms__number {{ unbondedAtoms * -1 }}] more Atoms than you have.
-        li.reserved-atoms--warning The unbonding period is 30 days.
+        li.reserved-atoms--warning The unbonding period is <b>30</b> days.
 
       div.submit-container
         span

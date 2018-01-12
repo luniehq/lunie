@@ -24,7 +24,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
           class="ni-page-header-subtitle"
         >
           <h3>
-
+            
           </h3>
         </div>
       </div>
@@ -102,7 +102,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
             <div
               class="label"
             >
-
+              
             </div>
           </div>
           <div
@@ -275,7 +275,10 @@ exports[`PageDelegates has the expected html structure 1`] = `
       class="fixed-button-bar"
     >
       <h3>
-        0 selected
+        <b>
+          0
+        </b>
+         selected
       </h3>
       <a
         class="ni-btn"
@@ -327,7 +330,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
           class="ni-page-header-subtitle"
         >
           <h3>
-
+            
           </h3>
         </div>
       </div>
@@ -432,7 +435,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             <div
               class="label"
             >
-
+              
             </div>
           </div>
           <div
@@ -501,65 +504,6 @@ exports[`PageDelegates should filter the delegates 1`] = `
             <span>
               <a
                 class=""
-                href="#/staking/delegates/pubkeyY"
-              >
-                 candidateY
-              </a>
-            </span>
-          </div>
-          <div
-            class="li-delegate__value id"
-          >
-            <span>
-              pubkeyY
-            </span>
-          </div>
-          <div
-            class="li-delegate__value percent_of_vote"
-          >
-            <span>
-              75%
-            </span>
-          </div>
-          <div
-            class="li-delegate__value number_of_votes num bar"
-          >
-            <span>
-              30,000
-            </span>
-            <div
-              class="bar"
-              style="width: 100%;"
-            />
-          </div>
-          <div
-            class="li-delegate__value bonded_by_you"
-          >
-            <span>
-              0
-            </span>
-          </div>
-        </div>
-      </div>
-      <div
-        class="li-delegate"
-      >
-        <div
-          class="li-delegate__values"
-        >
-          <div
-            class="li-delegate__value checkbox"
-          >
-            <i
-              class="fa fa-square-o"
-            />
-          </div>
-          <div
-            class="li-delegate__value name"
-          >
-            <span>
-              <a
-                class=""
                 href="#/staking/delegates/pubkeyX"
               >
                  candidateX
@@ -602,14 +546,13 @@ exports[`PageDelegates should filter the delegates 1`] = `
       </div>
     </div>
     <div
-<<<<<<< HEAD
-      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
-=======
       class="fixed-button-bar"
->>>>>>> fixed tests
     >
       <h3>
-        0 selected
+        <b>
+          0
+        </b>
+         selected
       </h3>
       <a
         class="ni-btn"
