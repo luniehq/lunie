@@ -119,6 +119,7 @@ export default {
             title: 'Successfully Sent',
             body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
           })
+          this.resetForm()
         }
       })
     },
