@@ -99,6 +99,10 @@ export default {
       background transparent
       z-index z(listItem)
 
+    .ni-li-dt
+    .ni-li-dd
+      color link
+
   &.router-link-exact-active
     .ni-li-title
       color bright
