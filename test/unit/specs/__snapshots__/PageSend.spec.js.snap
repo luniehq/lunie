@@ -41,7 +41,23 @@ exports[`PageSend has the expected html structure 1`] = `
               >
                 <div
                   class="main"
-                />
+                >
+                  <a
+                    class="router-link-exact-active router-link-active"
+                    href="#/"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                    <div
+                      class="label"
+                    >
+                      Back
+                    </div>
+                  </a>
+                </div>
                 <a
                   class="help"
                 >

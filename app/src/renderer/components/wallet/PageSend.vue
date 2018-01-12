@@ -1,6 +1,9 @@
 <template lang='pug'>
 page(title='Send')
   div(slot="menu"): tool-bar
+    router-link(:to="{ name: 'balances' }")
+      i.material-icons arrow_back
+      .label Back
 
   form-struct(:submit="onSubmit")
     part(title='Denomination Options')
@@ -116,6 +119,12 @@ export default {
             title: 'Successfully Sent',
             body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
           })
+
+          // resets send transaction form
+          this.resetForm()
+
+          // refreshes user transaction history
+          this.$store.dispatch('queryWalletHistory')
         }
       })
     },
