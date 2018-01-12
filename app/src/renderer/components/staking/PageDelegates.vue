@@ -18,7 +18,7 @@ page(title='Delegates')
 
   div.fixed-button-bar
     h3 <b>{{ shoppingCart.length }}</b> selected
-    btn(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next")
+    btn.btn__primary(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next")
 </template>
 
 <script>
