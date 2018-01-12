@@ -3,7 +3,6 @@
 const { exec } = require('child_process')
 const { join } = require('path')
 const packager = require('electron-packager')
-const rebuild = require('electron-rebuild').default
 const mkdirp = require('mkdirp').sync
 const fs = require('fs-extra')
 const { promisify } = require('util')
@@ -63,15 +62,6 @@ function build () {
 
   options.afterCopy = [
     copyBinary('gaia', binaryPath)
-  ]
-  // prune installs the packages
-  options.afterPrune = [
-    // we need to rebuild some native packages for the electron environment
-    function rebuildNodeModules (buildPath, electronVersion, platform, arch, callback) {
-      rebuild({ buildPath, electronVersion, arch })
-        .then(callback)
-        .catch(callback)
-    }
   ]
 
   console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')
