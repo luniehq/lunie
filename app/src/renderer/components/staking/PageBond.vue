@@ -24,7 +24,7 @@ page.page-bond(title="Bond Atoms")
 
       form-group(
         v-for='(delegate, index) in fields.delegates'
-        key='delegate.id'
+        :key='delegate.id'
         :error='$v.fields.delegates.$each[index].$error'
         :field-label='delegate.delegate.description.moniker'
         :sub-label="'Previously bonded ' + (committedDelegations[delegate.delegate.id] || 0) + ' Atoms'"
