@@ -123,6 +123,8 @@ export default {
     .ni-li-icon
       i.material-icons
         color mc
+  .ni-btn
+    padding 0 0.75em
 
 .ni-li-container
   display flex
