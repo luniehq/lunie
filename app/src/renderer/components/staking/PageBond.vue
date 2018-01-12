@@ -8,13 +8,13 @@ page.page-bond(title="Bond Atoms")
   part(title="Your Atoms")
     list-item(
       dt="Total Atoms"
-      :dd="user.atoms")
+      :dd="totalAtoms")
     list-item(
       dt="Total Bonded Atoms"
       :dd="committedBondedAtoms || 0")
     list-item(
       dt="Total Unbonded Atoms"
-      :dd="unbondedAtoms || 0")
+      :dd="totalUnbondedAtoms || 0")
 
   part(title='Selected Delegates')
     form-struct(:submit="onSubmit")
@@ -57,7 +57,7 @@ page.page-bond(title="Bond Atoms")
 
       div.submit-container
         span
-        btn.bond(value="Submit")
+        btn.bond.btn__primary(value="Submit")
 </template>
 
 <script>
