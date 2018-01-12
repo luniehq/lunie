@@ -12,11 +12,9 @@ page(title='Delegates')
 
   data-error(v-if="delegates.length === 0")
   data-empty-search(v-else-if="filteredDelegates.length === 0")
-
-  template(v-else)
-    div.delegate-container
-      panel-sort(:sort='sort')
-      li-delegate(v-for='i in filteredDelegates' key='i.id' :delegate='i')
+  div.delegate-container(v-else)
+    panel-sort(:sort='sort')
+    li-delegate(v-for='i in filteredDelegates' :key='i.id' :delegate='i')
 
   div.fixed-button-bar
     h3 {{ shoppingCart.length }} selected
