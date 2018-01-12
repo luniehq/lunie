@@ -57,9 +57,11 @@ export default function ({ node }) {
         })
       })
       node.rpc.subscribe({ event: 'NewBlockHeader' }, (err, event) => {
-        if (err) return console.error('error subscribing to headers', err)
-        commit('setConnected', true)
-        dispatch('setLastHeader', event.data.data.header)
+        console.log(err)
+        // if (err) return console.error('error subscribing to headers', err)
+        // commit('setConnected', true)
+        console.log(event)
+        // dispatch('setLastHeader', event.data.data.header)
       })
 
       dispatch('pollRPCConnection')

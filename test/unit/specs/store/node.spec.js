@@ -65,6 +65,20 @@ describe('Module: Node', () => {
     store.dispatch('nodeSubscribe')
   })
 
+  it('doesnt reconnect on errors that do not mean discconection', done => {
+    node.rpcReconnect = () => done.fail()
+    node.rpc.on = jest.fn((value, cb) => {
+      if (value === 'error') {
+        cb({
+          message: 'some message'
+        })
+        expect(store.state.node.connected).toBe(false)
+      }
+    })
+    store.dispatch('nodeSubscribe')
+    setTimeout(() => done(), 200)
+  })
+
   it('should set the initial status', () => {
     node.rpc.status = (cb) => cb(null, {
       latest_block_height: 42,
@@ -123,9 +137,29 @@ describe('Module: Node', () => {
     expect(store.state.node.nodeTimeout).toBeDefined()
   })
 
-  it('should reconnect if pinging node fails', done => {
+  it('should reconnect if pinging node timesout', done => {
     node.rpcReconnect = () => done()
     node.rpc.status = (cb) => {}
-    store.dispatch('pollRPCConnection', 0)
+    store.dispatch('pollRPCConnection', 10)
+  })
+
+  it('should reconnect if pinging node fails', done => {
+    node.rpcReconnect = () => {
+      // restore status hook as it crashes the rest if not
+      node.rpc.status = (cb) => {}
+      done()
+    }
+    node.rpc.status = (cb) => cb('Error')
+    store.dispatch('pollRPCConnection', 10)
+  })
+
+  it('should not reconnect if pinging node is successful', done => {
+    node.rpc.status = (cb) => cb(null, {node_info: {}})
+    node.rpcReconnect = () => done.fail()
+    store.dispatch('pollRPCConnection', 50)
+    setTimeout(() => {
+      node.rpcReconnect = () => {}
+      done()
+    }, 500)
   })
 })

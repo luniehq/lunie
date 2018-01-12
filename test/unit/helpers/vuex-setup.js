@@ -8,16 +8,15 @@ const Modules = require('renderer/vuex/modules').default
 const Getters = require('renderer/vuex/getters')
 
 export default function vuexSetup () {
-  const node = require('../helpers/node_mock')
-  const modules = Modules({
-    node
-  })
-
   const localVue = createLocalVue()
   localVue.use(Vuex)
   localVue.use(VueRouter)
 
   function init (componentConstructor, testType = shallow, {stubs, getters = {}, propsData}) {
+    const node = require('../helpers/node_mock')
+    const modules = Modules({
+      node
+    })
     let store = new Vuex.Store({
       getters: Object.assign({}, Getters, getters),
       modules

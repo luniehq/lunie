@@ -465,7 +465,7 @@ exports[`PageBalances should filter the balances 1`] = `
         >
           <!---->
           <a
-            class="ni-li ni-li-link"
+            class="ni-li ni-li-link proposal-leave proposal-leave-active"
             href="#/wallet/send"
           >
             <div
@@ -507,7 +507,7 @@ exports[`PageBalances should filter the balances 1`] = `
             </div>
           </a>
           <a
-            class="ni-li ni-li-link"
+            class="ni-li ni-li-link proposal-enter proposal-enter-active"
             href="#/wallet/send"
           >
             <div

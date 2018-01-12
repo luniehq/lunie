@@ -19,7 +19,7 @@ page.page-bond(title="Bond Atoms")
       | #[a.reserved-atoms__restart(@click="resetAlloc") &nbsp;(start over?)]
 
   form-struct(:submit="onSubmit")
-    form-group(v-for='(delegate, index) in fields.delegates' key='delegate.id'
+    form-group(v-for='(delegate, index) in fields.delegates' :key='delegate.id'
       :error="$v.fields.delegates.$each[index].$error")
       Label {{ shortenLabel(delegate.delegate.description.moniker, 10) }} - {{ shortenLabel(delegate.delegate.id, 20) }} ({{ percentAtoms(delegate.atoms) }})
       field-group
@@ -183,7 +183,7 @@ export default {
   watch: {
     shoppingCart (newVal) {
       this.leaveIfEmpty(newVal.length)
-      // this.resetAlloc()
+      this.resetAlloc()
       if (this.equalize) { this.equalAlloc }
     }
   },

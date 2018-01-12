@@ -99,7 +99,100 @@ exports[`PageBond has the expected html structure 1`] = `
         <!---->
         <main
           class="ni-form-main"
-        />
+        >
+          <div
+            class="ni-form-group"
+          >
+            <!---->
+            <div
+              class="ni-form-group__field"
+            >
+              <label>
+                someVal... - pubkeyX (0%)
+              </label>
+              <div
+                class="ni-field-group"
+              >
+                <input
+                  class="ni-field"
+                  placeholder="Atoms"
+                  step="any"
+                  type="number"
+                />
+                <div
+                  class="ni-field-addon"
+                >
+                  Atoms
+                </div>
+                <button
+                  class="ni-btn remove"
+                  type="button"
+                >
+                  <span
+                    class="ni-btn-container"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="ni-btn-icon material-icons"
+                    >
+                      clear
+                    </i>
+                    <!---->
+                  </span>
+                </button>
+              </div>
+              <!---->
+              <!---->
+              <!---->
+            </div>
+          </div>
+          <div
+            class="ni-form-group"
+          >
+            <!---->
+            <div
+              class="ni-form-group__field"
+            >
+              <label>
+                someOth... - pubkeyY (0%)
+              </label>
+              <div
+                class="ni-field-group"
+              >
+                <input
+                  class="ni-field"
+                  placeholder="Atoms"
+                  step="any"
+                  type="number"
+                />
+                <div
+                  class="ni-field-addon"
+                >
+                  Atoms
+                </div>
+                <button
+                  class="ni-btn remove"
+                  type="button"
+                >
+                  <span
+                    class="ni-btn-container"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="ni-btn-icon material-icons"
+                    >
+                      clear
+                    </i>
+                    <!---->
+                  </span>
+                </button>
+              </div>
+              <!---->
+              <!---->
+              <!---->
+            </div>
+          </div>
+        </main>
         <footer
           class="ni-form-footer"
         >
