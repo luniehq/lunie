@@ -18,12 +18,12 @@ describe('NiDataEmpty', () => {
   })
 
   it('has a title', () => {
-    expect(wrapper.find('.ni-data-msg__title div').text().trim())
+    expect(wrapper.find('.ni-data-msg__title h4').text().trim())
       .toBe('N/A')
   })
 
   it('has a subtitle', () => {
-    expect(wrapper.find('.ni-data-msg__subtitle div').text().trim())
+    expect(wrapper.find('.ni-data-msg__subtitle h5').text().trim())
       .toBe('No data available yet.')
   })
 })
