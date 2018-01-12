@@ -1,6 +1,9 @@
 <template lang='pug'>
 page(title='Send')
   div(slot="menu"): tool-bar
+    router-link(:to="{ name: 'balances' }")
+      i.material-icons arrow_back
+      .label Back
 
   form-struct(:submit="onSubmit")
     part(title='Denomination Options')
