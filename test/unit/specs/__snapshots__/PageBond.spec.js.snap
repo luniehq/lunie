@@ -383,7 +383,7 @@ exports[`PageBond has the expected html structure 1`] = `
                 >
                   <span />
                   <button
-                    class="ni-btn bond"
+                    class="ni-btn bond btn__primary"
                   >
                     <span
                       class="ni-btn-container"

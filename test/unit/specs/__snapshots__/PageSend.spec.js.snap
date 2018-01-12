@@ -514,7 +514,7 @@ exports[`PageSend has the expected html structure 1`] = `
           <div>
             <div />
             <button
-              class="ni-btn"
+              class="ni-btn btn__primary"
             >
               <span
                 class="ni-btn-container"

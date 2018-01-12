@@ -281,7 +281,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
          selected
       </h3>
       <a
-        class="ni-btn"
+        class="ni-btn btn__primary"
         disabled="disabled"
         href="#/staking/bond"
       >
@@ -555,7 +555,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
          selected
       </h3>
       <a
-        class="ni-btn"
+        class="ni-btn btn__primary"
         disabled="disabled"
         href="#/staking/bond"
       >
