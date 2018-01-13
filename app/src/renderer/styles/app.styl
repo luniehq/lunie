@@ -22,6 +22,15 @@ a
 .desktop-only
   display none
 
+.btn__primary
+  .ni-btn-container
+    background alpha(link, 50%)
+    border-color alpha(dim, 50%)
+    &:hover
+      border-color dim
+    .ni-btn-value
+      color bright
+
 #app
   df()
   color txt
@@ -29,6 +38,7 @@ a
   height 100vh
   width 100vw
   max-width 100%
+  font-weight 300
 
   display flex
   flex-flow column nowrap

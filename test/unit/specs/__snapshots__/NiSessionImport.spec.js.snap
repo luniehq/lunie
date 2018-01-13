@@ -14,7 +14,8 @@ exports[`NiSessionImport has the expected html structure 1`] = `
       <a><i class=\\"material-icons\\">help_outline</i></a>
    </div>
       <div class=\\"ni-session-main\\">
-         <div class=\\"ni-form-group\\">
+         <div class=\\"label-container ni-form-group\\">
+            <!---->
             <label for=\\"import-name\\" class=\\"ni-form-group__label\\">Account Name</label>
             <div class=\\"ni-form-group__field\\">
                <input type=\\"text\\" placeholder=\\"at least 5 characters\\" class=\\"ni-field\\" id=\\"import-name\\">
@@ -24,7 +25,8 @@ exports[`NiSessionImport has the expected html structure 1`] = `
                   <!---->
    </div>
 </div>
-      <div class=\\"ni-form-group\\">
+      <div class=\\"label-container ni-form-group\\">
+         <!---->
          <label for=\\"import-seed\\" class=\\"ni-form-group__label\\">Seed</label>
          <div class=\\"ni-form-group__field\\">
             <textarea class=\\"ni-field-seed ni-field\\" id=\\"import-seed\\" placeholder=\\"must be exactly 12 words\\"></textarea>
@@ -33,7 +35,8 @@ exports[`NiSessionImport has the expected html structure 1`] = `
             </div>
 </div>
 </div>
-      <div class=\\"ni-form-group\\">
+      <div class=\\"label-container ni-form-group\\">
+         <!---->
          <label for=\\"import-password\\" class=\\"ni-form-group__label\\">Password</label>
          <div class=\\"ni-form-group__field\\">
             <input type=\\"password\\" placeholder=\\"at least 10 characters\\" class=\\"ni-field\\" id=\\"import-password\\">
