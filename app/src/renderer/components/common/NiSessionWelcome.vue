@@ -10,24 +10,24 @@
       @click.native="setState('sign-in')"
       icon="lock"
       title="Sign in with password"
-      subtitle="If you have an account, choose this option")
+      subtitle="If you have an account, choose this option.")
     li-session(
       @click.native="setState('sign-up')"
       icon="create"
       title="Create new account"
-      subtitle="Generate a brand new seed and account")
+      subtitle="Generate a brand new seed and create a new account.")
     li-session(
       v-if="config.devMode"
       @click.native="setState('import')"
       icon="settings_backup_restore"
-      title="Import account"
-      subtitle="Generate an account with an existing seed")
+      title="Create account with seed"
+      subtitle="Use an existing seed phrase to create an account.")
     li-session(
       v-if="config.devMode"
       @click.native="setState('hardware')"
       icon="usb"
       title="Sign in with hardware"
-      subtitle="If you have a Ledger Wallet, choose this option")
+      subtitle="If you have a Ledger Wallet, choose this option.")
     fundraiser-warning
   .ni-session-footer
 </template>

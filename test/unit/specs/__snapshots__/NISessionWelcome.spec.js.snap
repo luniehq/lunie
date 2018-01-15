@@ -20,7 +20,7 @@ exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
       Sign in with password
    </div>
 <div class=\\"ni-li-session-subtitle\\">
-   If you have an account, choose this option
+   If you have an account, choose this option.
 </div>
 </div>
 </div>
@@ -33,7 +33,7 @@ exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
       Create new account
    </div>
 <div class=\\"ni-li-session-subtitle\\">
-   Generate a brand new seed and account
+   Generate a brand new seed and create a new account.
 </div>
 </div>
 </div>
@@ -43,10 +43,10 @@ exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
    </div>
 <div class=\\"ni-li-session-text\\">
    <div class=\\"ni-li-session-title\\">
-      Import account
+      Create account with seed
    </div>
 <div class=\\"ni-li-session-subtitle\\">
-   Generate an account with an existing seed
+   Use an existing seed phrase to create an account.
 </div>
 </div>
 </div>
@@ -59,7 +59,7 @@ exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
       Sign in with hardware
    </div>
 <div class=\\"ni-li-session-subtitle\\">
-   If you have a Ledger Wallet, choose this option
+   If you have a Ledger Wallet, choose this option.
 </div>
 </div>
 </div>
@@ -98,7 +98,7 @@ exports[`NISessionWelcome without accounts has the expected html structure 1`] =
       Create new account
    </div>
 <div class=\\"ni-li-session-subtitle\\">
-   Generate a brand new seed and account
+   Generate a brand new seed and create a new account.
 </div>
 </div>
 </div>
@@ -108,10 +108,10 @@ exports[`NISessionWelcome without accounts has the expected html structure 1`] =
    </div>
 <div class=\\"ni-li-session-text\\">
    <div class=\\"ni-li-session-title\\">
-      Import account
+      Create account with seed
    </div>
 <div class=\\"ni-li-session-subtitle\\">
-   Generate an account with an existing seed
+   Use an existing seed phrase to create an account.
 </div>
 </div>
 </div>
@@ -124,7 +124,7 @@ exports[`NISessionWelcome without accounts has the expected html structure 1`] =
       Sign in with hardware
    </div>
 <div class=\\"ni-li-session-subtitle\\">
-   If you have a Ledger Wallet, choose this option
+   If you have a Ledger Wallet, choose this option.
 </div>
 </div>
 </div>

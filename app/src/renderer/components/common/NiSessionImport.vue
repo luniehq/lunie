@@ -2,7 +2,7 @@
 .ni-session: form-struct(:submit='onSubmit').ni-session-container
   .ni-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
-    .ni-session-title Import Account
+    .ni-session-title Create Account with Seed
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
     form-group(field-id='import-name' field-label='Account Name' :error='$v.fields.importName.$error')
@@ -13,14 +13,6 @@
       form-msg(name='Name' type='required' v-if='!$v.fields.importName.required')
       form-msg(name='Name' type='minLength' min="5" v-if='!$v.fields.importName.minLength')
 
-    form-group(:error='$v.fields.importSeed.$error'
-      field-id='import-seed' field-label='Seed Phrase')
-      field-seed#import-seed(
-        :value="fields.importSeed"
-        @input="val => fields.importSeed = val"
-        placeholder="Must be exactly 12 words")
-      form-msg(name='Seed' type='required' v-if='!$v.fields.importSeed.required')
-
     form-group(:error='$v.fields.importPassword.$error'
       field-id='import-password' field-label='Password')
       field#import-password(
@@ -29,6 +21,15 @@
         v-model="fields.importPassword")
       form-msg(name='Password' type='required' v-if='!$v.fields.importPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.importPassword.minLength')
+
+    form-group(:error='$v.fields.importSeed.$error'
+      field-id='import-seed' field-label='Seed Phrase')
+      field-seed#import-seed(
+        :value="fields.importSeed"
+        @input="val => fields.importSeed = val"
+        placeholder="Must be exactly 12 words")
+      form-msg(name='Seed' type='required' v-if='!$v.fields.importSeed.required')
+
   .ni-session-footer
     btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
 </template>

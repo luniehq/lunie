@@ -13,11 +13,6 @@
       form-msg(name='Name' type='required' v-if='!$v.fields.signUpName.required')
       form-msg(name='Name' type='minLength' min="5" v-if='!$v.fields.signUpName.minLength')
 
-    form-group(field-id='sign-up-seed' field-label='Seed Phrase')
-      field-seed#sign-up-seed(v-model="fields.signUpSeed" disabled)
-      form-msg.sm
-        | Please back up the seed phrase for this account. This seed phrase cannot be recovered.
-
     form-group(:error='$v.fields.signUpPassword.$error'
       field-id='sign-in-password' field-label='Password')
       field#sign-in-password(
@@ -26,6 +21,11 @@
         v-model="fields.signUpPassword")
       form-msg(name='Password' type='required' v-if='!$v.fields.signUpPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signUpPassword.minLength')
+
+    form-group(field-id='sign-up-seed' field-label='Seed Phrase')
+      field-seed#sign-up-seed(v-model="fields.signUpSeed" disabled)
+      form-msg.sm
+        | Please back up the seed phrase for this account. This seed phrase cannot be recovered.
 
     form-group(field-id="sign-up-warning" field-label=' '
       :error='$v.fields.signUpWarning.$error')
