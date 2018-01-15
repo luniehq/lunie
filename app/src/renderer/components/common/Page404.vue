@@ -1,7 +1,7 @@
 <template lang="pug">
 page(title='404 - Page Not Found')
   part(title='Try another page...')
-    list-item(to='/' title='Balance')
+    list-item(to='/' title='Balances')
     list-item(to='/staking' title='Staking')
 </template>
 

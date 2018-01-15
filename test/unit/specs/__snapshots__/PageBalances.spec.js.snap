@@ -16,16 +16,16 @@ exports[`PageBalances has the expected html structure 1`] = `
         <div
           class="ni-page-header-title"
         >
-          <div>
-            Balance
-          </div>
+          <h2>
+            Balances
+          </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
-          <div>
+          <h3>
             
-          </div>
+          </h3>
         </div>
       </div>
       <menu
@@ -317,16 +317,16 @@ exports[`PageBalances should filter the balances 1`] = `
         <div
           class="ni-page-header-title"
         >
-          <div>
-            Balance
-          </div>
+          <h2>
+            Balances
+          </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
-          <div>
+          <h3>
             
-          </div>
+          </h3>
         </div>
       </div>
       <menu
