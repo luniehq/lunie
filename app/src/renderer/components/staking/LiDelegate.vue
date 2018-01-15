@@ -1,22 +1,21 @@
 <template lang='pug'>
-transition(name='ts-li-delegate'): .li-delegate(:class='styles'): .li-delegate__values
-  .ni-delegate__value
+.li-delegate(:class='styles'): .li-delegate__values
+  .li-delegate__value.checkbox
+    i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
+    i.fa.fa-square-o(v-else @click='add(delegate)')
   .li-delegate__value.name
     span
-      template
-        i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
-        i.fa.fa-square-o(v-else @click='add(delegate)')
       router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")
         | {{ ' ' + delegate.moniker }}
       a(v-else) {{ ' ' + delegate.moniker }}
   .li-delegate__value.id
     span {{ delegate.id }}
-  .li-delegate__value.delegated
+  .li-delegate__value.percent_of_vote
     span {{ num.percentInt(bondedPercent) }}
-  .li-delegate__value.voting_power.num.bar
+  .li-delegate__value.number_of_votes.num.bar
     span {{ num.prettyInt(delegate.voting_power) }}
     .bar(:style='vpStyles')
-  .li-delegate__value
+  .li-delegate__value.bonded_by_you
     span {{ num.prettyInt(amountBonded(delegate.id)) }}
 </template>
 
@@ -52,8 +51,7 @@ export default {
         .reduce((sum, v) => sum + v.voting_power, 0)
     },
     vpStyles () {
-      let percentage =
-        Math.round((this.delegate.voting_power / this.vpMax) * 100)
+      let percentage = Math.round((this.delegate.voting_power / this.vpMax) * 100)
       return { width: percentage + '%' }
     },
     bondedPercent () {
@@ -84,18 +82,31 @@ export default {
     background app-fg
   &.li-delegate-active
     .li-delegate__value i.fa
-      color accent
+      color mc
 
 .li-delegate__values
   display flex
   height 3rem
-  padding 0 0.75rem
 
 .li-delegate__value
-  flex 1
+  flex 3
   display flex
   align-items center
   min-width 0
+
+  &:first-child
+    flex 0.5
+
+  &.name
+    flex 2
+
+  &.id
+    flex 2
+
+  &.percent_of_vote,
+  &.number_of_votes,
+  &.bonded_by_you
+    flex 1
 
   &.id span
     i.fa
@@ -115,11 +126,16 @@ export default {
 
     .bar
       height 1.5rem
-      background alpha(link, 33.3%)
+      position relative
+      left -0.25rem
+      background alpha(accent, 33.3%)
+
+  &.checkbox
+    justify-content center
 
   span
     white-space nowrap
     overflow hidden
     text-overflow ellipsis
-    padding 0 0.25rem
+    padding-right 1rem
 </style>

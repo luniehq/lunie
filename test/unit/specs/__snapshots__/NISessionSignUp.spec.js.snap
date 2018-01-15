@@ -14,7 +14,8 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
       <a><i class=\\"material-icons\\">help_outline</i></a>
    </div>
       <div class=\\"ni-session-main\\">
-         <div class=\\"ni-form-group\\">
+         <div class=\\"label-container ni-form-group\\">
+            <!---->
             <label for=\\"sign-up-name\\" class=\\"ni-form-group__label\\">Account Name</label>
             <div class=\\"ni-form-group__field\\">
                <input type=\\"text\\" placeholder=\\"at least 5 characters\\" class=\\"ni-field\\" id=\\"sign-up-name\\">
@@ -24,7 +25,8 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
                   <!---->
    </div>
 </div>
-      <div class=\\"ni-form-group\\">
+      <div class=\\"label-container ni-form-group\\">
+         <!---->
          <label for=\\"sign-up-seed\\" class=\\"ni-form-group__label\\">Seed (write it down)</label>
          <div class=\\"ni-form-group__field\\">
             <textarea class=\\"ni-field-seed ni-field\\" id=\\"sign-up-seed\\" disabled=\\"disabled\\"></textarea>
@@ -33,7 +35,8 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
             </div>
 </div>
 </div>
-      <div class=\\"ni-form-group\\">
+      <div class=\\"label-container ni-form-group\\">
+         <!---->
          <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Password</label>
          <div class=\\"ni-form-group__field\\">
             <input type=\\"password\\" placeholder=\\"at least 10 characters\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
@@ -46,7 +49,8 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
          <!---->
    </div>
 </div>
-      <div class=\\"ni-form-group\\">
+      <div class=\\"label-container ni-form-group\\">
+         <!---->
          <label for=\\"sign-up-warning\\" class=\\"ni-form-group__label\\"></label>
          <div class=\\"ni-form-group__field\\">
             <div class=\\"ni-field-checkbox\\">
@@ -60,7 +64,8 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
       </div>
 </div>
 </div>
-      <div class=\\"ni-form-group\\">
+      <div class=\\"label-container ni-form-group\\">
+         <!---->
          <label for=\\"sign-up-backup\\" class=\\"ni-form-group__label\\"></label>
          <div class=\\"ni-form-group__field\\">
             <div for=\\"sign-up-backup\\" class=\\"ni-field-checkbox\\">

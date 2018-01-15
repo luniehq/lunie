@@ -16,16 +16,16 @@ exports[`PageTransactions has the expected html structure 1`] = `
         <div
           class="ni-page-header-title"
         >
-          <div>
+          <h2>
             Transactions
-          </div>
+          </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
-          <div>
+          <h3>
             
-          </div>
+          </h3>
         </div>
       </div>
       <menu
@@ -105,16 +105,16 @@ exports[`PageTransactions should filter the transactions 1`] = `
         <div
           class="ni-page-header-title"
         >
-          <div>
+          <h2>
             Transactions
-          </div>
+          </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
-          <div>
+          <h3>
             
-          </div>
+          </h3>
         </div>
       </div>
       <menu

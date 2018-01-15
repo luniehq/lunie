@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Balance')
+page(title='Balances')
   div(slot="menu"): tool-bar
     a(@click='updateBalances()')
       i.material-icons refresh

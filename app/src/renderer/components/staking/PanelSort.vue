@@ -2,7 +2,7 @@
 .panel-sort: .panel-sort-container: .sort-by(
   v-for="property in sort.properties",
   @click="orderBy(property.value, $event)",
-  :class="{ 'active': property.initial, 'asc': property.initial }")
+  :class="property.class")
   .label {{ property.title }}
 </template>
 
@@ -43,26 +43,22 @@ export default {
   display flex
   height 2rem
   border-bottom px solid bc
-  padding 0 0.75rem
 
 .sort-by
-  flex 1
+  flex 3
   cursor pointer
   user-select none
-
   display flex
   align-items center
-
   position relative
-  padding 0 0.25rem
-
   min-width 0
+
+  &:first-child
+    flex 0.5 1 0%;
 
   .label
     font-size sm
     color dim
-    text-transform uppercase
-    padding-right 0.5rem
 
     white-space nowrap
     text-overflow ellipsis
@@ -72,6 +68,7 @@ export default {
     display block
     font-family FontAwesome
     color dim
+    padding-left 0.25rem
 
   &.asc:after
     content '\f0d8'
@@ -88,4 +85,20 @@ export default {
       color bright
     &:after
       color txt
+
+  &.name
+    flex 2
+
+  &.id
+    flex 2
+
+  &.percent_of_vote,
+  &.number_of_votes,
+  &.bonded_by_you
+    flex 1
+
+@media screen and (max-width: 768px)
+  .sort-by
+    &.id
+      display none
 </style>
