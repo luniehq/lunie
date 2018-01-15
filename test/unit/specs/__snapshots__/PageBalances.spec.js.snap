@@ -199,20 +199,25 @@ exports[`PageBalances has the expected html structure 1`] = `
                   456
                 </div>
               </div>
-              <div
-                class="ni-li-icon"
+              <button
+                class="ni-btn btn__primary"
               >
-                <i
-                  class="material-icons inactive"
+                <span
+                  class="ni-btn-container ni-btn-icon-right"
                 >
-                  chevron_right
-                </i>
-                <i
-                  class="material-icons active"
-                >
-                  my_location
-                </i>
-              </div>
+                  <i
+                    aria-hidden="true"
+                    class="ni-btn-icon material-icons"
+                  >
+                    chevron_right
+                  </i>
+                  <span
+                    class="ni-btn-value"
+                  >
+                    Send
+                  </span>
+                </span>
+              </button>
             </div>
           </a>
           <a
@@ -241,20 +246,25 @@ exports[`PageBalances has the expected html structure 1`] = `
                   123
                 </div>
               </div>
-              <div
-                class="ni-li-icon"
+              <button
+                class="ni-btn btn__primary"
               >
-                <i
-                  class="material-icons inactive"
+                <span
+                  class="ni-btn-container ni-btn-icon-right"
                 >
-                  chevron_right
-                </i>
-                <i
-                  class="material-icons active"
-                >
-                  my_location
-                </i>
-              </div>
+                  <i
+                    aria-hidden="true"
+                    class="ni-btn-icon material-icons"
+                  >
+                    chevron_right
+                  </i>
+                  <span
+                    class="ni-btn-value"
+                  >
+                    Send
+                  </span>
+                </span>
+              </button>
             </div>
           </a>
         </main>
@@ -490,20 +500,25 @@ exports[`PageBalances should filter the balances 1`] = `
                   456
                 </div>
               </div>
-              <div
-                class="ni-li-icon"
+              <button
+                class="ni-btn btn__primary"
               >
-                <i
-                  class="material-icons inactive"
+                <span
+                  class="ni-btn-container ni-btn-icon-right"
                 >
-                  chevron_right
-                </i>
-                <i
-                  class="material-icons active"
-                >
-                  my_location
-                </i>
-              </div>
+                  <i
+                    aria-hidden="true"
+                    class="ni-btn-icon material-icons"
+                  >
+                    chevron_right
+                  </i>
+                  <span
+                    class="ni-btn-value"
+                  >
+                    Send
+                  </span>
+                </span>
+              </button>
             </div>
           </a>
           <a
@@ -532,20 +547,25 @@ exports[`PageBalances should filter the balances 1`] = `
                   123
                 </div>
               </div>
-              <div
-                class="ni-li-icon"
+              <button
+                class="ni-btn btn__primary"
               >
-                <i
-                  class="material-icons inactive"
+                <span
+                  class="ni-btn-container ni-btn-icon-right"
                 >
-                  chevron_right
-                </i>
-                <i
-                  class="material-icons active"
-                >
-                  my_location
-                </i>
-              </div>
+                  <i
+                    aria-hidden="true"
+                    class="ni-btn-icon material-icons"
+                  >
+                    chevron_right
+                  </i>
+                  <span
+                    class="ni-btn-value"
+                  >
+                    Send
+                  </span>
+                </span>
+              </button>
             </div>
           </a>
         </main>
