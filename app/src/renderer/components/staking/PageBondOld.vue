@@ -5,50 +5,59 @@ page.page-bond(title="Bond Atoms")
       i.material-icons arrow_back
       .label Back
 
-  part(title="Selected Delegates"): form-struct(:submit="onSubmit")
-    form-group.bond-group
-      field-label='Unbonded Atoms'
-      .bond-group__fields
-        .bond-bar__container
-          .bond-bar__outer
-            .bond-bar__inner &nbsp;
-              .bond-bar__scrubber: i.material-icons drag_handle
-        field.bond-group__percent(
-          disabled
-          placeholder="0%"
-          :value="Math.round(totalUnbondedAtoms / totalAtoms * 100) + '%'")
-        field.bond-group__value(
-          type="number"
-          placeholder="Atoms"
-          v-model.number="totalUnbondedAtoms")
-    form-group.bond-group(
-      v-for='(d, index) in fields.delegates'
-      :key='d.id'
-      :error='$v.fields.delegates.$each[index].$error'
-      :field-label='d.delegate.description.moniker'
-      field-id='delegate-field')
-      .bond-group__fields
-        .bond-bar__container
-          .bond-bar__outer
-            .bond-bar__inner &nbsp;
-              .bond-bar__scrubber: i.material-icons drag_handle
-        field.bond-group__percent(
-          disabled
-          placeholder="0%"
-          :value="Math.round(committedDelegations[d.delegate.id] / totalAtoms * 100) + '%'")
-        field.bond-group__value(
-          type="number"
-          placeholder="Atoms"
-          v-model.number="d.atoms")
-      form-msg(name="Atoms" type="required"
-        v-if="!$v.fields.delegates.$each[index].atoms.required")
-      form-msg(name="Atoms" type="numeric"
-        v-if="!$v.fields.delegates.$each[index].atoms.numeric")
-      form-msg(name="Atoms" type="between" :min="atomsMin" :max="user.atoms"
-        v-if="!$v.fields.delegates.$each[index].atoms.between")
+  part(title="Your Atoms")
+    list-item(
+      dt="Total Atoms"
+      :dd="totalAtoms")
+    list-item(
+      dt="Total Bonded Atoms"
+      :dd="committedBondedAtoms || 0")
+    list-item(
+      dt="Total Unbonded Atoms"
+      :dd="totalUnbondedAtoms || 0")
 
-    div.submit-container
-      span: btn.bond.btn__primary(value="Submit")
+  part(title='Selected Delegates')
+    form-struct(:submit="onSubmit")
+      div.alloc-action-container
+        btn.equalize(value="Split Allocation Equally" type="button" @click.native="equalAlloc")
+        btn.reserved-atoms__restart(value="Reset Allocation " type="button" @click.native="resetAlloc")
+
+      form-group(
+        v-for='(delegate, index) in fields.delegates'
+        :key='delegate.id'
+        :error='$v.fields.delegates.$each[index].$error'
+        :field-label='delegate.delegate.description.moniker'
+        :sub-label="'Previously bonded ' + (committedDelegations[delegate.delegate.id] || 0) + ' Atoms'"
+        field-id='delegate-field')
+        field-group
+          field(
+            type="number"
+            step="any"
+            placeholder="Atoms"
+            v-model.number="delegate.atoms")
+          field-addon Atoms
+          btn.remove(type="button" icon="clear" @click.native="rm(delegate.id)")
+        form-msg(name="Atoms" type="required"
+          v-if="!$v.fields.delegates.$each[index].atoms.required")
+        form-msg(name="Atoms" type="numeric"
+          v-if="!$v.fields.delegates.$each[index].atoms.numeric")
+        form-msg(name="Atoms" type="between" :min="atomsMin" :max="user.atoms"
+          v-if="!$v.fields.delegates.$each[index].atoms.between")
+
+      ul.reserved-atoms
+        li(v-if="uncommittedBondedAtoms > 0 && !(unbondedAtoms < 0)")
+          | This action will bond #[.reserved-atoms__number {{ uncommittedBondedAtoms }}] Atoms to the specified delegates.
+        li.reserved-atoms--error(v-if="unbondedAtoms === 0")
+          | This action will bond all of your #[.reserved-atoms__number {{ uncommittedBondedAtoms }}] Atoms to the specified delegates.
+        li(v-if="willUnbondAtoms > 0")
+          | This action will unbond #[.reserved-atoms__number {{ willUnbondAtoms }}] Atoms from the specified delegates.
+        li.reserved-atoms--error(v-if="unbondedAtoms < 0")
+          | You cannot bond #[.reserved-atoms__number {{ unbondedAtoms * -1 }}] more Atoms than you have.
+        li.reserved-atoms--warning The unbonding period is <b>30</b> days.
+
+      div.submit-container
+        span
+        btn.bond.btn__primary(value="Submit")
 </template>
 
 <script>
@@ -61,6 +70,7 @@ import FieldGroup from 'common/NiFieldGroup'
 import FormGroup from 'common/NiFormGroup'
 import FormMsg from 'common/NiFormMsg'
 import FormStruct from 'common/NiFormStruct'
+import ListItem from 'common/NiListItem'
 import Page from 'common/NiPage'
 import Part from 'common/NiPart'
 import ToolBar from 'common/NiToolBar'
@@ -74,6 +84,7 @@ export default {
     FormGroup,
     FormMsg,
     FormStruct,
+    ListItem,
     Page,
     Part,
     ToolBar
@@ -172,7 +183,6 @@ export default {
     },
     resetAlloc () {
       this.fields.delegates = this.shoppingCart.map(c => JSON.parse(JSON.stringify(c)))
-      this.fields.delegates.map(d => d.atoms = this.committedDelegations[d.delegate.id])
     },
     leaveIfEmpty (count) {
       if (count === 0) {
@@ -229,60 +239,49 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.ni-form-group.bond-group
-  max-width 32rem + 2rem
-  padding 0.5rem 1rem
-  display block
-
-.bond-group__label
-  line-height 2rem
-  color bright
-
-.bond-group__fields
+.alloc-action-container
+  padding 1rem
   display flex
-  flex-flow row nowrap
-  height 2rem
+  justify-content flex-end
 
-.bond-bar__container
-  margin-right 1rem
-  flex 6
-  height 2rem
-  min-width 10rem
+  .ni-btn-container
+    margin-left 0.5rem
 
-.bond-bar__outer
-  height 2rem
-  border-radius 1rem
-  background app-fg
-  border 1px solid bc
-  padding 1px
+.submit-container
+  padding 1rem
+  display flex
+  justify-content flex-end
 
-.bond-bar__inner
-  height 2rem - 0.25rem
-  border-radius 1rem
-  background dim
-  width 50%
+.previously-bonded
+  font-size sm
+  padding-left 1rem
+
+.form-msg
+  color dim
+  font-size xs
+  line-height xs
   position relative
+  top -0.25rem
 
-.bond-bar__scrubber
-  position absolute
-  top 0
-  right 0
-  width 2rem - 0.25rem - 0.125rem
-  height 2rem - 0.25rem - 0.125rem
-  background txt
-  border-radius 1rem
+.reserved-atoms
+  height 4rem
+  padding 2rem
+  list-style-type circle
 
-  display flex
-  align-items center
-  justify-content center
-  i.material-icons
-    color input-bc
-    transform rotate(90deg)
+  span
+    display block
 
-.bond-group__percent
-  flex 1
-  margin-right 1rem
+  &__number
+    display inline
+    color bright
+    font-weight 500
 
-.bond-group__value
-  flex 2
+  &__restart
+    cursor pointer
+
+  &--error
+    color danger
+
+  &--warning
+    color warning
 </style>
