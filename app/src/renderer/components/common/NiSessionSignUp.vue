@@ -8,24 +8,22 @@
     form-group(field-id='sign-up-name' field-label='Account Name' :error='$v.fields.signUpName.$error')
       field#sign-up-name(
         type="text"
-        placeholder="at least 5 characters"
+        placeholder="Must be at least 5 characters"
         v-model="fields.signUpName")
       form-msg(name='Name' type='required' v-if='!$v.fields.signUpName.required')
       form-msg(name='Name' type='minLength' min="5" v-if='!$v.fields.signUpName.minLength')
 
-    form-group(field-id='sign-up-seed' field-label='Seed (write it down)')
+    form-group(field-id='sign-up-seed' field-label='Seed Phrase')
       field-seed#sign-up-seed(v-model="fields.signUpSeed" disabled)
-      form-msg
-        | Please back up the seed phrase for this account. These words cannot be recovered!
+      form-msg.sm
+        | Please back up the seed phrase for this account. This seed phrase cannot be recovered.
 
     form-group(:error='$v.fields.signUpPassword.$error'
       field-id='sign-in-password' field-label='Password')
       field#sign-in-password(
         type="password"
-        placeholder="at least 10 characters"
+        placeholder="Must be at least 10 characters"
         v-model="fields.signUpPassword")
-      form-msg
-        | Create a password to secure your new account
       form-msg(name='Password' type='required' v-if='!$v.fields.signUpPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signUpPassword.minLength')
 

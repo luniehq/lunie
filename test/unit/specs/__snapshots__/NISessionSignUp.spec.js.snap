@@ -18,7 +18,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
             <!---->
             <label for=\\"sign-up-name\\" class=\\"ni-form-group__label\\">Account Name</label>
             <div class=\\"ni-form-group__field\\">
-               <input type=\\"text\\" placeholder=\\"at least 5 characters\\" class=\\"ni-field\\" id=\\"sign-up-name\\">
+               <input type=\\"text\\" placeholder=\\"Must be at least 5 characters\\" class=\\"ni-field\\" id=\\"sign-up-name\\">
                <div class=\\"ni-form-msg sm ni-form-msg--error\\">
                   Name is required
                </div>
@@ -27,11 +27,11 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
 </div>
       <div class=\\"label-container ni-form-group\\">
          <!---->
-         <label for=\\"sign-up-seed\\" class=\\"ni-form-group__label\\">Seed (write it down)</label>
+         <label for=\\"sign-up-seed\\" class=\\"ni-form-group__label\\">Seed Phrase</label>
          <div class=\\"ni-form-group__field\\">
             <textarea class=\\"ni-field-seed ni-field\\" id=\\"sign-up-seed\\" disabled=\\"disabled\\"></textarea>
-            <div class=\\"ni-form-msg sm ni-form-msg--desc\\">
-               Please back up the seed phrase for this account. These words cannot be recovered!
+            <div class=\\"small ni-form-msg sm ni-form-msg--desc\\">
+               Please back up the seed phrase for this account. This seed phrase cannot be recovered.
             </div>
 </div>
 </div>
@@ -39,14 +39,11 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
          <!---->
          <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Password</label>
          <div class=\\"ni-form-group__field\\">
-            <input type=\\"password\\" placeholder=\\"at least 10 characters\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
-            <div class=\\"ni-form-msg sm ni-form-msg--desc\\">
-               Create a password to secure your new account
+            <input type=\\"password\\" placeholder=\\"Must be at least 10 characters\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
+            <div class=\\"ni-form-msg sm ni-form-msg--error\\">
+               Password is required
             </div>
-      <div class=\\"ni-form-msg sm ni-form-msg--error\\">
-         Password is required
-      </div>
-         <!---->
+               <!---->
    </div>
 </div>
       <div class=\\"label-container ni-form-group\\">
