@@ -16,16 +16,16 @@ exports[`PageBond has the expected html structure 1`] = `
         <div
           class="ni-page-header-title"
         >
-          <div>
+          <h2>
             Bond Atoms
-          </div>
+          </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
-          <div>
+          <h3>
             
-          </div>
+          </h3>
         </div>
       </div>
       <menu
@@ -77,169 +77,333 @@ exports[`PageBond has the expected html structure 1`] = `
   <main
     class="ni-page-main"
   >
-    <div
-      class="reserved-atoms"
-    >
-      <span />
-      <!---->
-      <span>
-        <a
-          class="reserved-atoms__restart"
-        >
-           (start over?)
-        </a>
-      </span>
-    </div>
-    <form
-      class="ni-form"
+    <section
+      class="ni-part"
     >
       <div
-        class="ni-form-container"
+        class="ni-part-container"
       >
-        <!---->
-        <main
-          class="ni-form-main"
+        <header
+          class="ni-part-header"
         >
           <div
-            class="ni-form-group"
+            class="ni-part-header-container"
           >
-            <!---->
             <div
-              class="ni-form-group__field"
+              class="ni-part-title h5"
             >
-              <label>
-                someVal... - pubkeyX (0%)
-              </label>
+              Your Atoms
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
+        >
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
               <div
-                class="ni-field-group"
+                class="ni-li-thumb"
               >
-                <input
-                  class="ni-field"
-                  placeholder="Atoms"
-                  step="any"
-                  type="number"
-                />
-                <div
-                  class="ni-field-addon"
-                >
-                  Atoms
-                </div>
-                <button
-                  class="ni-btn remove"
-                  type="button"
-                >
-                  <span
-                    class="ni-btn-container"
-                  >
-                    <i
-                      aria-hidden="true"
-                      class="ni-btn-icon material-icons"
-                    >
-                      clear
-                    </i>
-                    <!---->
-                  </span>
-                </button>
+                <!---->
               </div>
-              <!---->
-              <!---->
-              <!---->
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Total Atoms
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  101
+                </div>
+              </div>
             </div>
           </div>
           <div
-            class="ni-form-group"
+            class="ni-li"
           >
-            <!---->
             <div
-              class="ni-form-group__field"
+              class="ni-li-container"
             >
-              <label>
-                someOth... - pubkeyY (0%)
-              </label>
               <div
-                class="ni-field-group"
+                class="ni-li-thumb"
               >
-                <input
-                  class="ni-field"
-                  placeholder="Atoms"
-                  step="any"
-                  type="number"
-                />
-                <div
-                  class="ni-field-addon"
-                >
-                  Atoms
-                </div>
-                <button
-                  class="ni-btn remove"
-                  type="button"
-                >
-                  <span
-                    class="ni-btn-container"
-                  >
-                    <i
-                      aria-hidden="true"
-                      class="ni-btn-icon material-icons"
-                    >
-                      clear
-                    </i>
-                    <!---->
-                  </span>
-                </button>
+                <!---->
               </div>
-              <!---->
-              <!---->
-              <!---->
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Total Bonded Atoms
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  0
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Total Unbonded Atoms
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  101
+                </div>
+              </div>
             </div>
           </div>
         </main>
-        <footer
-          class="ni-form-footer"
-        >
-          <div>
-            <button
-              class="ni-btn equalize"
-              type="button"
-            >
-              <span
-                class="ni-btn-container"
-              >
-                <i
-                  aria-hidden="true"
-                  class="ni-btn-icon material-icons"
-                >
-                  drag_handle
-                </i>
-                <span
-                  class="ni-btn-value"
-                >
-                  Equalize
-                </span>
-              </span>
-            </button>
-            <button
-              class="ni-btn bond"
-            >
-              <span
-                class="ni-btn-container"
-              >
-                <i
-                  aria-hidden="true"
-                  class="ni-btn-icon material-icons"
-                >
-                  check
-                </i>
-                <span
-                  class="ni-btn-value"
-                >
-                  Bond
-                </span>
-              </span>
-            </button>
-          </div>
-        </footer>
       </div>
-    </form>
+    </section>
+    <section
+      class="ni-part"
+    >
+      <div
+        class="ni-part-container"
+      >
+        <header
+          class="ni-part-header"
+        >
+          <div
+            class="ni-part-header-container"
+          >
+            <div
+              class="ni-part-title h5"
+            >
+              Selected Delegates
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
+        >
+          <form
+            class="ni-form"
+          >
+            <div
+              class="ni-form-container"
+            >
+              <!---->
+              <main
+                class="ni-form-main"
+              >
+                <div
+                  class="alloc-action-container"
+                >
+                  <button
+                    class="ni-btn equalize"
+                    type="button"
+                  >
+                    <span
+                      class="ni-btn-container"
+                    >
+                      <!---->
+                      <span
+                        class="ni-btn-value"
+                      >
+                        Split Allocation Equally
+                      </span>
+                    </span>
+                  </button>
+                  <button
+                    class="ni-btn reserved-atoms__restart"
+                    type="button"
+                  >
+                    <span
+                      class="ni-btn-container"
+                    >
+                      <!---->
+                      <span
+                        class="ni-btn-value"
+                      >
+                        Reset Allocation 
+                      </span>
+                    </span>
+                  </button>
+                </div>
+                <div
+                  class="label-container ni-form-group"
+                >
+                  <span
+                    class="ni-form-group__sub-label"
+                  >
+                    Previously bonded 0 Atoms
+                  </span>
+                  <label
+                    class="ni-form-group__label"
+                    for="delegate-field"
+                  >
+                    someValidator
+                  </label>
+                  <div
+                    class="ni-form-group__field"
+                  >
+                    <div
+                      class="ni-field-group"
+                    >
+                      <input
+                        class="ni-field"
+                        placeholder="Atoms"
+                        step="any"
+                        type="number"
+                      />
+                      <div
+                        class="ni-field-addon"
+                      >
+                        Atoms
+                      </div>
+                      <button
+                        class="ni-btn remove"
+                        type="button"
+                      >
+                        <span
+                          class="ni-btn-container"
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="ni-btn-icon material-icons"
+                          >
+                            clear
+                          </i>
+                          <!---->
+                        </span>
+                      </button>
+                    </div>
+                    <!---->
+                    <!---->
+                    <!---->
+                  </div>
+                </div>
+                <div
+                  class="label-container ni-form-group"
+                >
+                  <span
+                    class="ni-form-group__sub-label"
+                  >
+                    Previously bonded 0 Atoms
+                  </span>
+                  <label
+                    class="ni-form-group__label"
+                    for="delegate-field"
+                  >
+                    someOtherValidator
+                  </label>
+                  <div
+                    class="ni-form-group__field"
+                  >
+                    <div
+                      class="ni-field-group"
+                    >
+                      <input
+                        class="ni-field"
+                        placeholder="Atoms"
+                        step="any"
+                        type="number"
+                      />
+                      <div
+                        class="ni-field-addon"
+                      >
+                        Atoms
+                      </div>
+                      <button
+                        class="ni-btn remove"
+                        type="button"
+                      >
+                        <span
+                          class="ni-btn-container"
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="ni-btn-icon material-icons"
+                          >
+                            clear
+                          </i>
+                          <!---->
+                        </span>
+                      </button>
+                    </div>
+                    <!---->
+                    <!---->
+                    <!---->
+                  </div>
+                </div>
+                <ul
+                  class="reserved-atoms"
+                >
+                  <!---->
+                  <!---->
+                  <!---->
+                  <!---->
+                  <li
+                    class="reserved-atoms--warning"
+                  >
+                    The unbonding period is 
+                    <b>
+                      30
+                    </b>
+                     days.
+                  </li>
+                </ul>
+                <div
+                  class="submit-container"
+                >
+                  <span />
+                  <button
+                    class="ni-btn bond btn__primary"
+                  >
+                    <span
+                      class="ni-btn-container"
+                    >
+                      <!---->
+                      <span
+                        class="ni-btn-value"
+                      >
+                        Submit
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </main>
+              <!---->
+            </div>
+          </form>
+        </main>
+      </div>
+    </section>
   </main>
 </div>
 `;

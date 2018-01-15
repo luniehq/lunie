@@ -16,16 +16,16 @@ exports[`PageDelegates has the expected html structure 1`] = `
         <div
           class="ni-page-header-title"
         >
-          <div>
+          <h2>
             Delegates
-          </div>
+          </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
-          <div>
+          <h3>
             
-          </div>
+          </h3>
         </div>
       </div>
       <menu
@@ -64,21 +64,6 @@ exports[`PageDelegates has the expected html structure 1`] = `
                       class="label"
                     >
                       Refresh
-                    </div>
-                  </a>
-                  <a
-                    class=""
-                    href="#/staking/bond"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      check_circle
-                    </i>
-                    <div
-                      class="label"
-                    >
-                      Bond Atoms
                     </div>
                   </a>
                 </div>
@@ -103,173 +88,219 @@ exports[`PageDelegates has the expected html structure 1`] = `
   >
     <!---->
     <div
-      class="panel-sort"
+      class="delegate-container"
     >
       <div
-        class="panel-sort-container"
+        class="panel-sort"
       >
         <div
-          class="sort-by"
+          class="panel-sort-container"
         >
           <div
-            class="label"
+            class="sort-by"
           >
-            Name
+            <div
+              class="label"
+            >
+              
+            </div>
+          </div>
+          <div
+            class="sort-by name"
+          >
+            <div
+              class="label"
+            >
+              Name
+            </div>
+          </div>
+          <div
+            class="sort-by id"
+          >
+            <div
+              class="label"
+            >
+              Public Key
+            </div>
+          </div>
+          <div
+            class="sort-by percent_of_vote"
+          >
+            <div
+              class="label"
+            >
+              % of Vote
+            </div>
+          </div>
+          <div
+            class="sort-by number_of_votes"
+          >
+            <div
+              class="label"
+            >
+              # of Votes
+            </div>
+          </div>
+          <div
+            class="sort-by bonded_by_you"
+          >
+            <div
+              class="label"
+            >
+              Bonded by You
+            </div>
           </div>
         </div>
+      </div>
+      <div
+        class="li-delegate"
+      >
         <div
-          class="sort-by"
+          class="li-delegate__values"
         >
           <div
-            class="label"
+            class="li-delegate__value checkbox"
           >
-            Public Key
+            <i
+              class="fa fa-square-o"
+            />
+          </div>
+          <div
+            class="li-delegate__value name"
+          >
+            <span>
+              <a
+                class=""
+                href="#/staking/delegates/pubkeyY"
+              >
+                 candidateY
+              </a>
+            </span>
+          </div>
+          <div
+            class="li-delegate__value id"
+          >
+            <span>
+              pubkeyY
+            </span>
+          </div>
+          <div
+            class="li-delegate__value percent_of_vote"
+          >
+            <span>
+              75%
+            </span>
+          </div>
+          <div
+            class="li-delegate__value number_of_votes num bar"
+          >
+            <span>
+              30,000
+            </span>
+            <div
+              class="bar"
+              style="width: 100%;"
+            />
+          </div>
+          <div
+            class="li-delegate__value bonded_by_you"
+          >
+            <span>
+              0
+            </span>
           </div>
         </div>
+      </div>
+      <div
+        class="li-delegate"
+      >
         <div
-          class="sort-by active asc"
+          class="li-delegate__values"
         >
           <div
-            class="label"
+            class="li-delegate__value checkbox"
           >
-            Voting Power
+            <i
+              class="fa fa-square-o"
+            />
           </div>
-        </div>
-        <div
-          class="sort-by"
-        >
           <div
-            class="label"
+            class="li-delegate__value name"
           >
-            Bonded Atoms
+            <span>
+              <a
+                class=""
+                href="#/staking/delegates/pubkeyX"
+              >
+                 candidateX
+              </a>
+            </span>
           </div>
-        </div>
-        <div
-          class="sort-by"
-        >
           <div
-            class="label"
+            class="li-delegate__value id"
           >
-            Bonded by You
+            <span>
+              pubkeyX
+            </span>
+          </div>
+          <div
+            class="li-delegate__value percent_of_vote"
+          >
+            <span>
+              25%
+            </span>
+          </div>
+          <div
+            class="li-delegate__value number_of_votes num bar"
+          >
+            <span>
+              10,000
+            </span>
+            <div
+              class="bar"
+              style="width: 33%;"
+            />
+          </div>
+          <div
+            class="li-delegate__value bonded_by_you"
+          >
+            <span>
+              0
+            </span>
           </div>
         </div>
       </div>
     </div>
     <div
-      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
+      class="fixed-button-bar"
     >
-      <div
-        class="li-delegate__values"
+      <h3>
+        <b>
+          0
+        </b>
+         selected
+      </h3>
+      <a
+        class="ni-btn btn__primary"
+        disabled="disabled"
+        href="#/staking/bond"
       >
-        <div
-          class="ni-delegate__value"
-        />
-        <div
-          class="li-delegate__value name"
+        <span
+          class="ni-btn-container ni-btn-icon-right"
         >
-          <span>
-            <i
-              class="fa fa-square-o"
-            />
-            <a
-              class=""
-              href="#/staking/delegates/pubkeyY"
-            >
-               candidateY
-            </a>
+          <i
+            aria-hidden="true"
+            class="ni-btn-icon material-icons"
+          >
+            chevron_right
+          </i>
+          <span
+            class="ni-btn-value"
+          >
+            Next
           </span>
-        </div>
-        <div
-          class="li-delegate__value id"
-        >
-          <span>
-            pubkeyY
-          </span>
-        </div>
-        <div
-          class="li-delegate__value delegated"
-        >
-          <span>
-            75%
-          </span>
-        </div>
-        <div
-          class="li-delegate__value voting_power num bar"
-        >
-          <span>
-            30,000
-          </span>
-          <div
-            class="bar"
-            style="width: 100%;"
-          />
-        </div>
-        <div
-          class="li-delegate__value"
-        >
-          <span>
-            0
-          </span>
-        </div>
-      </div>
-    </div>
-    <div
-      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
-    >
-      <div
-        class="li-delegate__values"
-      >
-        <div
-          class="ni-delegate__value"
-        />
-        <div
-          class="li-delegate__value name"
-        >
-          <span>
-            <i
-              class="fa fa-square-o"
-            />
-            <a
-              class=""
-              href="#/staking/delegates/pubkeyX"
-            >
-               candidateX
-            </a>
-          </span>
-        </div>
-        <div
-          class="li-delegate__value id"
-        >
-          <span>
-            pubkeyX
-          </span>
-        </div>
-        <div
-          class="li-delegate__value delegated"
-        >
-          <span>
-            25%
-          </span>
-        </div>
-        <div
-          class="li-delegate__value voting_power num bar"
-        >
-          <span>
-            10,000
-          </span>
-          <div
-            class="bar"
-            style="width: 33%;"
-          />
-        </div>
-        <div
-          class="li-delegate__value"
-        >
-          <span>
-            0
-          </span>
-        </div>
-      </div>
+        </span>
+      </a>
     </div>
   </main>
 </div>
@@ -291,16 +322,16 @@ exports[`PageDelegates should filter the delegates 1`] = `
         <div
           class="ni-page-header-title"
         >
-          <div>
+          <h2>
             Delegates
-          </div>
+          </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
-          <div>
+          <h3>
             
-          </div>
+          </h3>
         </div>
       </div>
       <menu
@@ -339,21 +370,6 @@ exports[`PageDelegates should filter the delegates 1`] = `
                       class="label"
                     >
                       Refresh
-                    </div>
-                  </a>
-                  <a
-                    class=""
-                    href="#/staking/bond"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      check_circle
-                    </i>
-                    <div
-                      class="label"
-                    >
-                      Bond Atoms
                     </div>
                   </a>
                 </div>
@@ -405,173 +421,160 @@ exports[`PageDelegates should filter the delegates 1`] = `
       </div>
     </div>
     <div
-      class="panel-sort"
+      class="delegate-container"
     >
       <div
-        class="panel-sort-container"
+        class="panel-sort"
       >
         <div
-          class="sort-by"
+          class="panel-sort-container"
         >
           <div
-            class="label"
+            class="sort-by"
           >
-            Name
+            <div
+              class="label"
+            >
+              
+            </div>
+          </div>
+          <div
+            class="sort-by name"
+          >
+            <div
+              class="label"
+            >
+              Name
+            </div>
+          </div>
+          <div
+            class="sort-by id"
+          >
+            <div
+              class="label"
+            >
+              Public Key
+            </div>
+          </div>
+          <div
+            class="sort-by percent_of_vote"
+          >
+            <div
+              class="label"
+            >
+              % of Vote
+            </div>
+          </div>
+          <div
+            class="sort-by number_of_votes"
+          >
+            <div
+              class="label"
+            >
+              # of Votes
+            </div>
+          </div>
+          <div
+            class="sort-by bonded_by_you"
+          >
+            <div
+              class="label"
+            >
+              Bonded by You
+            </div>
           </div>
         </div>
+      </div>
+      <div
+        class="li-delegate"
+      >
         <div
-          class="sort-by"
+          class="li-delegate__values"
         >
           <div
-            class="label"
+            class="li-delegate__value checkbox"
           >
-            Public Key
+            <i
+              class="fa fa-square-o"
+            />
           </div>
-        </div>
-        <div
-          class="sort-by active asc"
-        >
           <div
-            class="label"
+            class="li-delegate__value name"
           >
-            Voting Power
+            <span>
+              <a
+                class=""
+                href="#/staking/delegates/pubkeyX"
+              >
+                 candidateX
+              </a>
+            </span>
           </div>
-        </div>
-        <div
-          class="sort-by"
-        >
           <div
-            class="label"
+            class="li-delegate__value id"
           >
-            Bonded Atoms
+            <span>
+              pubkeyX
+            </span>
           </div>
-        </div>
-        <div
-          class="sort-by"
-        >
           <div
-            class="label"
+            class="li-delegate__value percent_of_vote"
           >
-            Bonded by You
+            <span>
+              25%
+            </span>
+          </div>
+          <div
+            class="li-delegate__value number_of_votes num bar"
+          >
+            <span>
+              10,000
+            </span>
+            <div
+              class="bar"
+              style="width: 33%;"
+            />
+          </div>
+          <div
+            class="li-delegate__value bonded_by_you"
+          >
+            <span>
+              0
+            </span>
           </div>
         </div>
       </div>
     </div>
     <div
-      class="li-delegate ts-li-delegate-leave ts-li-delegate-leave-active"
+      class="fixed-button-bar"
     >
-      <div
-        class="li-delegate__values"
+      <h3>
+        <b>
+          0
+        </b>
+         selected
+      </h3>
+      <a
+        class="ni-btn btn__primary"
+        disabled="disabled"
+        href="#/staking/bond"
       >
-        <div
-          class="ni-delegate__value"
-        />
-        <div
-          class="li-delegate__value name"
+        <span
+          class="ni-btn-container ni-btn-icon-right"
         >
-          <span>
-            <i
-              class="fa fa-square-o"
-            />
-            <a
-              class=""
-              href="#/staking/delegates/pubkeyY"
-            >
-               candidateY
-            </a>
+          <i
+            aria-hidden="true"
+            class="ni-btn-icon material-icons"
+          >
+            chevron_right
+          </i>
+          <span
+            class="ni-btn-value"
+          >
+            Next
           </span>
-        </div>
-        <div
-          class="li-delegate__value id"
-        >
-          <span>
-            pubkeyY
-          </span>
-        </div>
-        <div
-          class="li-delegate__value delegated"
-        >
-          <span>
-            75%
-          </span>
-        </div>
-        <div
-          class="li-delegate__value voting_power num bar"
-        >
-          <span>
-            30,000
-          </span>
-          <div
-            class="bar"
-            style="width: 100%;"
-          />
-        </div>
-        <div
-          class="li-delegate__value"
-        >
-          <span>
-            0
-          </span>
-        </div>
-      </div>
-    </div>
-    <div
-      class="li-delegate ts-li-delegate-enter ts-li-delegate-enter-active"
-    >
-      <div
-        class="li-delegate__values"
-      >
-        <div
-          class="ni-delegate__value"
-        />
-        <div
-          class="li-delegate__value name"
-        >
-          <span>
-            <i
-              class="fa fa-square-o"
-            />
-            <a
-              class=""
-              href="#/staking/delegates/pubkeyX"
-            >
-               candidateX
-            </a>
-          </span>
-        </div>
-        <div
-          class="li-delegate__value id"
-        >
-          <span>
-            pubkeyX
-          </span>
-        </div>
-        <div
-          class="li-delegate__value delegated"
-        >
-          <span>
-            25%
-          </span>
-        </div>
-        <div
-          class="li-delegate__value voting_power num bar"
-        >
-          <span>
-            10,000
-          </span>
-          <div
-            class="bar"
-            style="width: 33%;"
-          />
-        </div>
-        <div
-          class="li-delegate__value"
-        >
-          <span>
-            0
-          </span>
-        </div>
-      </div>
+        </span>
+      </a>
     </div>
   </main>
 </div>
