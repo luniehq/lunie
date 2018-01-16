@@ -6,6 +6,12 @@ export default ({ commit }) => {
         query: ''
       }
     },
+    blockchain: {
+      search: {
+        visible: false,
+        query: ''
+      }
+    },
     delegates: {
       search: {
         visible: false,
