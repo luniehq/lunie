@@ -11,11 +11,11 @@ page.page-bond(title="Bond Atoms")
       .bond-group__fields
         .bond-bar__container
           .bond-bar__outer
-            .bond-bar__inner(:style="{ width: Math.round(totalUnbondedAtoms / totalAtoms * 100) + '%' }") &nbsp;
+            .bond-bar__inner(:style="initialStyle(totalUnbondedAtoms, totalAtoms)")
         field.bond-group__percent(
           disabled
           placeholder="0%"
-          :value="Math.round(totalUnbondedAtoms / totalAtoms * 100) + '%'")
+          :value="initialWidth(totalUnbondedAtoms, totalAtoms)")
         field.bond-group__value(
           type="number"
           placeholder="Atoms"
@@ -29,11 +29,11 @@ page.page-bond(title="Bond Atoms")
       .bond-group__fields
         .bond-bar__container
           .bond-bar__outer
-            .bond-bar__inner(:style="{ width: Math.round(committedDelegations[d.delegate.id] / totalAtoms * 100) + '%' }") &nbsp;
+            .bond-bar__inner(:style="initialStyle(committedDelegations[d.delegate.id], totalAtoms)")
         field.bond-group__percent(
           disabled
           placeholder="0%"
-          :value="Math.round(committedDelegations[d.delegate.id] / totalAtoms * 100) + '%'")
+          :value="initialWidth(committedDelegations[d.delegate.id], totalAtoms)")
         field.bond-group__value(
           type="number"
           placeholder="Atoms"
@@ -196,6 +196,16 @@ export default {
       }
       return label.substr(0, maxLength - 3) + '...'
     },
+    initialWidth (dividend, divisor) {
+      let value = 0
+      value = Math.round(dividend / divisor * 100)
+      return value + '%'
+    },
+    initialStyle (dividend, divisor) {
+      return {
+        width: this.initialWidth(dividend, divisor)
+      }
+    },
     setupBondBars () {
       let offset = 28
       interact('.bond-bar__inner')
@@ -214,8 +224,8 @@ export default {
 
           // target.textContent = Math.round(event.rect.width) + ', ' + parentWidth
           let parentWidth = event.currentTarget.parentElement.clientWidth
-          let pct = (event.rect.width - offset) / (parentWidth - offset) + '%'
-          target.textContent = pct
+          let ratio = (event.rect.width - offset) / (parentWidth - offset)
+          target.textContent = ratio
         })
     }
   },
