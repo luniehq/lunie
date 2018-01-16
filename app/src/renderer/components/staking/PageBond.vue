@@ -6,13 +6,12 @@ page.page-bond(title="Bond Atoms")
       .label Back
 
   part(title="Selected Delegates"): form-struct(:submit="onSubmit")
-    form-group.bond-group
-      field-label='Unbonded Atoms'
+    form-group.bond-group(
+      field-label='Unbonded Atoms')
       .bond-group__fields
         .bond-bar__container
           .bond-bar__outer
-            .bond-bar__inner &nbsp;
-              .bond-bar__scrubber: i.material-icons drag_handle
+            .bond-bar__inner(:style="{ width: Math.round(totalUnbondedAtoms / totalAtoms * 100) + '%' }") &nbsp;
         field.bond-group__percent(
           disabled
           placeholder="0%"
@@ -30,8 +29,7 @@ page.page-bond(title="Bond Atoms")
       .bond-group__fields
         .bond-bar__container
           .bond-bar__outer
-            .bond-bar__inner &nbsp;
-              .bond-bar__scrubber: i.material-icons drag_handle
+            .bond-bar__inner(:style="{ width: Math.round(committedDelegations[d.delegate.id] / totalAtoms * 100) + '%' }") &nbsp;
         field.bond-group__percent(
           disabled
           placeholder="0%"
@@ -54,6 +52,7 @@ page.page-bond(title="Bond Atoms")
 <script>
 import { between, numeric, required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
+import interact from 'interactjs'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldAddon from 'common/NiFieldAddon'
@@ -116,7 +115,8 @@ export default {
       return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
     },
     bondedAtomsPct () {
-      return Math.round(this.committedBondedAtoms / this.totalAtoms * 100 * 10) / 10 + '%'
+      return Math.round(
+        this.committedBondedAtoms / this.totalAtoms * 100 * 10) / 10 + '%'
     },
     totalAtoms () {
       return this.user.atoms
@@ -195,11 +195,33 @@ export default {
         return label
       }
       return label.substr(0, maxLength - 3) + '...'
+    },
+    setupBondBars () {
+      interact('.bond-bar__inner')
+        .resizable({
+          edges: { left: false, right: true, bottom: false, top: false },
+          restrictEdges: { outer: 'parent' },
+          restrictSize: { min: { width: 28 }, }
+        })
+        .on('resizemove', (event) => {
+          var target = event.target
+          let x = (parseFloat(target.getAttribute('data-x')) || 0)
+
+          // update the bar width
+          target.style.width = event.rect.width + 'px'
+
+          target.style.webkitTransform = target.style.transform =
+            `translate(${x}px, 0px)`
+
+          target.setAttribute('data-x', x)
+          target.textContent = Math.round(event.rect.width) + 'px'
+        })
     }
   },
   mounted () {
     this.resetAlloc()
     this.leaveIfEmpty(this.shoppingCart.length)
+    this.setupBondBars()
   },
   watch: {
     shoppingCart (newVal) {
@@ -248,13 +270,14 @@ export default {
   flex 6
   height 2rem
   min-width 10rem
-
-.bond-bar__outer
-  height 2rem
   border-radius 1rem
-  background app-fg
   border 1px solid bc
   padding 1px
+
+.bond-bar__outer
+  height 2rem - 4*px
+  border-radius 1rem
+  background app-fg
 
 .bond-bar__inner
   height 2rem - 0.25rem
@@ -263,21 +286,23 @@ export default {
   width 50%
   position relative
 
-.bond-bar__scrubber
-  position absolute
-  top 0
-  right 0
-  width 2rem - 0.25rem - 0.125rem
-  height 2rem - 0.25rem - 0.125rem
-  background txt
-  border-radius 1rem
+  &:after
+    position absolute
+    top 1px
+    right 1px
+    width 2rem - 0.25rem - 0.125rem
+    height 2rem - 0.25rem - 0.125rem
+    background txt
+    border-radius 1rem
 
-  display flex
-  align-items center
-  justify-content center
-  i.material-icons
-    color input-bc
+    display flex
+    align-items center
+    justify-content center
+
+    content 'drag_handle'
+    font-family 'Material Icons'
     transform rotate(90deg)
+    color app-fg
 
 .bond-group__percent
   flex 1
