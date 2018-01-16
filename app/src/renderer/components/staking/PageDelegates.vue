@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Delegates')
+page#page-delegates(title='Delegates')
   div(slot="menu"): tool-bar
     a(@click='setSearch(true)')
       i.material-icons search
@@ -10,14 +10,15 @@ page(title='Delegates')
 
   modal-search(type="delegates")
 
-  data-error(v-if="delegates.length === 0")
-  data-empty-search(v-else-if="filteredDelegates.length === 0")
-  div.delegate-container(v-else)
-    panel-sort(:sort='sort')
-    li-delegate(v-for='i in filteredDelegates' :key='i.id' :delegate='i')
+  .delegates-container
+    data-error(v-if="delegates.length === 0")
+    data-empty-search(v-else-if="filteredDelegates.length === 0")
+    template(v-else)
+      panel-sort(:sort='sort')
+      li-delegate(v-for='i in filteredDelegates' :key='i.id' :delegate='i')
 
-  div.fixed-button-bar
-    h3 <b>{{ shoppingCart.length }}</b> selected
+  .fixed-button-bar
+    .label #[strong {{ shoppingCart.length }}] delegates selected
     btn.btn__primary(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next")
 </template>
 
@@ -77,10 +78,9 @@ export default {
       properties: [
         { id: 0, title: '', value: '' },
         { id: 1, title: 'Name', value: 'description.moniker', class: 'name' },
-        { id: 2, title: 'Public Key', value: 'id', class: 'id' },
-        { id: 3, title: '% of Vote', value: 'shares', class: 'percent_of_vote' },
-        { id: 4, title: '# of Votes', value: 'voting_power', class: 'number_of_votes' },
-        { id: 5, title: 'Bonded by You', value: 'bonded', class: 'bonded_by_you' }
+        { id: 2, title: '% of Vote', value: 'shares', class: 'percent_of_vote' },
+        { id: 3, title: '# of Votes', value: 'voting_power', class: 'number_of_votes' },
+        { id: 4, title: 'Bonded by You', value: 'bonded', class: 'bonded_by_you' }
       ]
     }
   }),
@@ -106,27 +106,18 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.action-container
-  padding 1rem 0 1rem 1rem
-  min-height 5rem
+.delegates-container
+  flex 1
 
 .fixed-button-bar
-  position absolute
   width 100%
-  background app-bg
-  bottom calc(3rem + 1px)
-  left 0
-  bottom 0
   padding 1rem
+  background app-fg
   display flex
   justify-content space-between
-  border-top 1px solid bc
-
-@media screen and (max-width: 768px)
-  .delegate-container
-    padding 0.5rem
-
-  .li-delegate__value
-    &.id
-      display none
+  .label
+    color bright
+    line-height 2rem
+    strong
+      font-weight bold
 </style>

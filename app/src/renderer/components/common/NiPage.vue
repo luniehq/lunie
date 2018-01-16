@@ -55,6 +55,8 @@ export default {
 .ni-page-main
   flex 1
   position relative
+  display flex
+  flex-flow column nowrap
 
 .ni-page-title
   color bright
