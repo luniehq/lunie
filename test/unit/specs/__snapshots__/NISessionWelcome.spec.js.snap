@@ -43,7 +43,7 @@ exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
    </div>
 <div class=\\"ni-li-session-text\\">
    <div class=\\"ni-li-session-title\\">
-      Create account with seed
+      Import with seed
    </div>
 <div class=\\"ni-li-session-subtitle\\">
    Use an existing seed phrase to create an account.
@@ -108,7 +108,7 @@ exports[`NISessionWelcome without accounts has the expected html structure 1`] =
    </div>
 <div class=\\"ni-li-session-text\\">
    <div class=\\"ni-li-session-title\\">
-      Create account with seed
+      Import with seed
    </div>
 <div class=\\"ni-li-session-subtitle\\">
    Use an existing seed phrase to create an account.

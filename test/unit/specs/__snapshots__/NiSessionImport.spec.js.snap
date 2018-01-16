@@ -9,7 +9,7 @@ exports[`NiSessionImport has the expected html structure 1`] = `
             <div class=\\"ni-session-header\\">
                <a><i class=\\"material-icons\\">arrow_back</i></a>
                <div class=\\"ni-session-title\\">
-                  Create Account with Seed
+                  Import with Seed
                </div>
       <a><i class=\\"material-icons\\">help_outline</i></a>
    </div>

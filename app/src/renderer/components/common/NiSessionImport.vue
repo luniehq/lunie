@@ -2,7 +2,7 @@
 .ni-session: form-struct(:submit='onSubmit').ni-session-container
   .ni-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
-    .ni-session-title Create Account with Seed
+    .ni-session-title Import with Seed
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
     form-group(field-id='import-name' field-label='Account Name' :error='$v.fields.importName.$error')

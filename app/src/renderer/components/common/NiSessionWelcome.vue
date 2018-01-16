@@ -20,7 +20,7 @@
       v-if="config.devMode"
       @click.native="setState('import')"
       icon="settings_backup_restore"
-      title="Create account with seed"
+      title="Import with seed"
       subtitle="Use an existing seed phrase to create an account.")
     li-session(
       v-if="config.devMode"
