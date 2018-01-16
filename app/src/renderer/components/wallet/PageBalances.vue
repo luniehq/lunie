@@ -19,6 +19,7 @@ page(title='Balances')
     list-item(
       v-for="i in filteredBalances"
       v-if="wallet.balances.length > 0 && i.amount > 0"
+      :btn="'Send'"
       :key="i.denom"
       :dt="i.denom.toUpperCase()"
       :dd="i.amount"

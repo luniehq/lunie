@@ -45,7 +45,7 @@ export default {
   border-bottom px solid bc
 
 .sort-by
-  flex 3
+  flex 1
   cursor pointer
   user-select none
   display flex
@@ -54,7 +54,7 @@ export default {
   min-width 0
 
   &:first-child
-    flex 0.5 1 0%;
+    flex 0.5
 
   .label
     font-size sm
@@ -86,16 +86,8 @@ export default {
     &:after
       color txt
 
-  &.name
+  &.number_of_votes
     flex 2
-
-  &.id
-    flex 2
-
-  &.percent_of_vote,
-  &.number_of_votes,
-  &.bonded_by_you
-    flex 1
 
 @media screen and (max-width: 768px)
   .sort-by

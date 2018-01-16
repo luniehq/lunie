@@ -12,13 +12,14 @@ page(title='Transactions')
   li-transaction(
     v-else
     v-for="i in filteredTransactions"
-    :key="i.time"
+    :key="shortid.generate()"
     :transaction-value="i"
     :address="wallet.key.address"
     :devMode="config.devMode")
 </template>
 
 <script>
+import shortid from 'shortid'
 import { mapGetters } from 'vuex'
 import { includes, orderBy, uniqBy } from 'lodash'
 import Mousetrap from 'mousetrap'
@@ -57,6 +58,7 @@ export default {
     }
   },
   data: () => ({
+    shortid: shortid,
     sort: {
       property: 'time',
       order: 'desc'
@@ -68,6 +70,7 @@ export default {
     }
   },
   mounted () {
+    console.log(JSON.stringify(this.filteredTransactions))
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
     Mousetrap.bind('esc', () => this.setSearch(false))
   }
