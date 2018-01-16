@@ -14,7 +14,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
       <a><i class=\\"material-icons\\">help_outline</i></a>
    </div>
       <div class=\\"ni-session-main\\">
-         <div class=\\"label-container ni-form-group\\">
+         <div class=\\"ni-form-group\\">
             <!---->
             <label for=\\"sign-up-name\\" class=\\"ni-form-group__label\\">Account Name</label>
             <div class=\\"ni-form-group__field\\">
@@ -25,7 +25,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
                   <!---->
    </div>
 </div>
-      <div class=\\"label-container ni-form-group\\">
+      <div class=\\"ni-form-group\\">
          <!---->
          <label for=\\"sign-up-seed\\" class=\\"ni-form-group__label\\">Seed (write it down)</label>
          <div class=\\"ni-form-group__field\\">
@@ -35,7 +35,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
             </div>
 </div>
 </div>
-      <div class=\\"label-container ni-form-group\\">
+      <div class=\\"ni-form-group\\">
          <!---->
          <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Password</label>
          <div class=\\"ni-form-group__field\\">
@@ -49,7 +49,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
          <!---->
    </div>
 </div>
-      <div class=\\"label-container ni-form-group\\">
+      <div class=\\"ni-form-group\\">
          <!---->
          <label for=\\"sign-up-warning\\" class=\\"ni-form-group__label\\"></label>
          <div class=\\"ni-form-group__field\\">
@@ -64,7 +64,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
       </div>
 </div>
 </div>
-      <div class=\\"label-container ni-form-group\\">
+      <div class=\\"ni-form-group\\">
          <!---->
          <label for=\\"sign-up-backup\\" class=\\"ni-form-group__label\\"></label>
          <div class=\\"ni-form-group__field\\">

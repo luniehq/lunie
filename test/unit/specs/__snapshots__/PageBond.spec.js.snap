@@ -92,115 +92,6 @@ exports[`PageBond has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Your Atoms
-            </div>
-            <menu
-              class="ni-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="ni-part-main"
-        >
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Total Atoms
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  101
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Total Bonded Atoms
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  0
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Total Unbonded Atoms
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  101
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
-    </section>
-    <section
-      class="ni-part"
-    >
-      <div
-        class="ni-part-container"
-      >
-        <header
-          class="ni-part-header"
-        >
-          <div
-            class="ni-part-header-container"
-          >
-            <div
-              class="ni-part-title h5"
-            >
               Selected Delegates
             </div>
             <menu
@@ -222,47 +113,47 @@ exports[`PageBond has the expected html structure 1`] = `
                 class="ni-form-main"
               >
                 <div
-                  class="alloc-action-container"
+                  class="bond-group ni-form-group"
                 >
-                  <button
-                    class="ni-btn equalize"
-                    type="button"
+                  <!---->
+                  <!---->
+                  <div
+                    class="ni-form-group__field"
                   >
-                    <span
-                      class="ni-btn-container"
+                    <div
+                      class="bond-group__fields"
                     >
-                      <!---->
-                      <span
-                        class="ni-btn-value"
+                      <div
+                        class="bond-bar__container"
                       >
-                        Split Allocation Equally
-                      </span>
-                    </span>
-                  </button>
-                  <button
-                    class="ni-btn reserved-atoms__restart"
-                    type="button"
-                  >
-                    <span
-                      class="ni-btn-container"
-                    >
-                      <!---->
-                      <span
-                        class="ni-btn-value"
-                      >
-                        Reset Allocation 
-                      </span>
-                    </span>
-                  </button>
+                        <div
+                          class="bond-bar__outer"
+                        >
+                          <div
+                            class="bond-bar__inner"
+                            style="width: 100%;"
+                          >
+                             
+                          </div>
+                        </div>
+                      </div>
+                      <input
+                        class="bond-group__percent ni-field"
+                        disabled="disabled"
+                        placeholder="0%"
+                      />
+                      <input
+                        class="bond-group__value ni-field"
+                        placeholder="Atoms"
+                        type="number"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <div
-                  class="label-container ni-form-group"
+                  class="bond-group ni-form-group"
                 >
-                  <span
-                    class="ni-form-group__sub-label"
-                  >
-                    Previously bonded 0 Atoms
-                  </span>
+                  <!---->
                   <label
                     class="ni-form-group__label"
                     for="delegate-field"
@@ -273,49 +164,45 @@ exports[`PageBond has the expected html structure 1`] = `
                     class="ni-form-group__field"
                   >
                     <div
-                      class="ni-field-group"
+                      class="bond-group__fields"
                     >
+                      <div
+                        class="bond-bar__container"
+                      >
+                        <div
+                          class="bond-bar__outer"
+                        >
+                          <div
+                            class="bond-bar__inner"
+                          >
+                             
+                          </div>
+                        </div>
+                      </div>
                       <input
-                        class="ni-field"
+                        class="bond-group__percent ni-field"
+                        disabled="disabled"
+                        placeholder="0%"
+                      />
+                      <input
+                        class="bond-group__value ni-field"
                         placeholder="Atoms"
-                        step="any"
                         type="number"
                       />
-                      <div
-                        class="ni-field-addon"
-                      >
-                        Atoms
-                      </div>
-                      <button
-                        class="ni-btn remove"
-                        type="button"
-                      >
-                        <span
-                          class="ni-btn-container"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="ni-btn-icon material-icons"
-                          >
-                            clear
-                          </i>
-                          <!---->
-                        </span>
-                      </button>
                     </div>
-                    <!---->
+                    <div
+                      class="ni-form-msg sm ni-form-msg--error"
+                    >
+                      Atoms is required
+                    </div>
                     <!---->
                     <!---->
                   </div>
                 </div>
                 <div
-                  class="label-container ni-form-group"
+                  class="bond-group ni-form-group"
                 >
-                  <span
-                    class="ni-form-group__sub-label"
-                  >
-                    Previously bonded 0 Atoms
-                  </span>
+                  <!---->
                   <label
                     class="ni-form-group__label"
                     for="delegate-field"
@@ -326,76 +213,60 @@ exports[`PageBond has the expected html structure 1`] = `
                     class="ni-form-group__field"
                   >
                     <div
-                      class="ni-field-group"
+                      class="bond-group__fields"
                     >
+                      <div
+                        class="bond-bar__container"
+                      >
+                        <div
+                          class="bond-bar__outer"
+                        >
+                          <div
+                            class="bond-bar__inner"
+                          >
+                             
+                          </div>
+                        </div>
+                      </div>
                       <input
-                        class="ni-field"
+                        class="bond-group__percent ni-field"
+                        disabled="disabled"
+                        placeholder="0%"
+                      />
+                      <input
+                        class="bond-group__value ni-field"
                         placeholder="Atoms"
-                        step="any"
                         type="number"
                       />
-                      <div
-                        class="ni-field-addon"
-                      >
-                        Atoms
-                      </div>
-                      <button
-                        class="ni-btn remove"
-                        type="button"
-                      >
-                        <span
-                          class="ni-btn-container"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="ni-btn-icon material-icons"
-                          >
-                            clear
-                          </i>
-                          <!---->
-                        </span>
-                      </button>
                     </div>
-                    <!---->
+                    <div
+                      class="ni-form-msg sm ni-form-msg--error"
+                    >
+                      Atoms is required
+                    </div>
                     <!---->
                     <!---->
                   </div>
                 </div>
-                <ul
-                  class="reserved-atoms"
-                >
-                  <!---->
-                  <!---->
-                  <!---->
-                  <!---->
-                  <li
-                    class="reserved-atoms--warning"
-                  >
-                    The unbonding period is 
-                    <b>
-                      30
-                    </b>
-                     days.
-                  </li>
-                </ul>
                 <div
                   class="submit-container"
                 >
-                  <span />
-                  <button
-                    class="ni-btn bond btn__primary"
-                  >
-                    <span
-                      class="ni-btn-container"
+                  <span>
+                    <button
+                      class="ni-btn bond btn__primary"
                     >
-                      <!---->
                       <span
-                        class="ni-btn-value"
+                        class="ni-btn-container"
                       >
-                        Submit
+                        <!---->
+                        <span
+                          class="ni-btn-value"
+                        >
+                          Submit
+                        </span>
                       </span>
-                    </span>
-                  </button>
+                    </button>
+                  </span>
                 </div>
               </main>
               <!---->

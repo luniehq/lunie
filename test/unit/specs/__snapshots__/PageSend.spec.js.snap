@@ -113,7 +113,7 @@ exports[`PageSend has the expected html structure 1`] = `
                 class="ni-part-main"
               >
                 <div
-                  class="label-container ni-form-group"
+                  class="ni-form-group"
                 >
                   <!---->
                   <label
@@ -442,7 +442,7 @@ exports[`PageSend has the expected html structure 1`] = `
                 class="ni-part-main"
               >
                 <div
-                  class="label-container ni-form-group"
+                  class="ni-form-group"
                 >
                   <!---->
                   <label
@@ -474,7 +474,7 @@ exports[`PageSend has the expected html structure 1`] = `
                   </div>
                 </div>
                 <div
-                  class="label-container ni-form-group"
+                  class="ni-form-group"
                 >
                   <!---->
                   <label

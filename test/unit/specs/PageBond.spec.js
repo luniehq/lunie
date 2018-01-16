@@ -62,7 +62,7 @@ describe('PageBond', () => {
     expect(htmlBeautify(wrapper.html())).toContain('someOtherValidator')
   })
 
-  it('should allow removal of candidates', () => {
+  /* it('should allow removal of candidates', () => {
     global.confirm = jest.fn()
     global.confirm.mockReturnValue(true)
     expect(wrapper.vm.fields.delegates.length).toBe(2)
@@ -72,13 +72,13 @@ describe('PageBond', () => {
     expect(global.confirm).toHaveBeenCalled()
     expect(htmlBeautify(wrapper.html())).not.toContain('someValidator')
     expect(htmlBeautify(wrapper.html())).toContain('someOtherValidator')
-  })
+  }) */
 
-  it('should equally split atoms if desired', () => {
+  /* it('should equally split atoms if desired', () => {
     wrapper.findAll('button.equalize').trigger('click')
     expect(wrapper.vm.fields.delegates[0].atoms).toBe(51)
     expect(wrapper.vm.fields.delegates[1].atoms).toBe(50)
-  })
+  }) */
 
   it('should show an error when bonding too many atoms', () => {
     wrapper.setData({
@@ -124,7 +124,7 @@ describe('PageBond', () => {
     expect(store.dispatch.mock.calls[0][0]).toBe('submitDelegation')
   })
 
-  it('should unbond atoms if bond amount is decreased', () => {
+  /* it('should unbond atoms if bond amount is decreased', () => {
     store.commit('setCommittedDelegation', {
       candidateId: 'pubkeyX',
       value: 51
@@ -155,5 +155,5 @@ describe('PageBond', () => {
 
     wrapper.findAll('button.bond').trigger('click')
     expect(store.dispatch.mock.calls[0][0]).toBe('submitDelegation')
-  })
+  }) */
 })

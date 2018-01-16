@@ -197,11 +197,12 @@ export default {
       return label.substr(0, maxLength - 3) + '...'
     },
     setupBondBars () {
+      let offset = 28
       interact('.bond-bar__inner')
         .resizable({
           edges: { left: false, right: true, bottom: false, top: false },
           restrictEdges: { outer: 'parent' },
-          restrictSize: { min: { width: 28 }, }
+          restrictSize: { min: { width: offset }, }
         })
         .on('resizemove', (event) => {
           var target = event.target
@@ -209,12 +210,12 @@ export default {
 
           // update the bar width
           target.style.width = event.rect.width + 'px'
-
-          target.style.webkitTransform = target.style.transform =
-            `translate(${x}px, 0px)`
-
           target.setAttribute('data-x', x)
-          target.textContent = Math.round(event.rect.width) + 'px'
+
+          // target.textContent = Math.round(event.rect.width) + ', ' + parentWidth
+          let parentWidth = event.currentTarget.parentElement.clientWidth
+          let pct = (event.rect.width - offset) / (parentWidth - offset) + '%'
+          target.textContent = pct
         })
     }
   },
@@ -286,6 +287,13 @@ export default {
   width 50%
   position relative
 
+  // debug
+  color app-bg
+  font-size xs
+  padding 0 0.5rem
+  display flex
+  align-items center
+
   &:after
     position absolute
     top 1px
@@ -300,9 +308,10 @@ export default {
     justify-content center
 
     content 'drag_handle'
+    font-size x
     font-family 'Material Icons'
     transform rotate(90deg)
-    color app-fg
+    color bc
 
 .bond-group__percent
   flex 1
