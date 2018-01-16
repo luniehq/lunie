@@ -5,11 +5,8 @@
     i.fa.fa-square-o(v-else @click='add(delegate)')
   .li-delegate__value.name
     span
-      router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")
-        | {{ ' ' + delegate.moniker }}
+      router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")  {{ ' ' + delegate.moniker }}
       a(v-else) {{ ' ' + delegate.moniker }}
-  .li-delegate__value.id
-    span {{ delegate.id }}
   .li-delegate__value.percent_of_vote
     span {{ num.percentInt(bondedPercent) }}
   .li-delegate__value.number_of_votes.num.bar
@@ -89,7 +86,7 @@ export default {
   height 3rem
 
 .li-delegate__value
-  flex 3
+  flex 1
   display flex
   align-items center
   min-width 0
@@ -97,16 +94,8 @@ export default {
   &:first-child
     flex 0.5
 
-  &.name
+  &.number_of_votes
     flex 2
-
-  &.id
-    flex 2
-
-  &.percent_of_vote,
-  &.number_of_votes,
-  &.bonded_by_you
-    flex 1
 
   &.id span
     i.fa

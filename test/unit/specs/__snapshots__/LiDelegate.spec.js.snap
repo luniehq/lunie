@@ -22,15 +22,8 @@ exports[`LiDelegate has the expected html structure 1`] = `
           class=""
           href="#/staking/delegates/pubkeyX"
         >
-           candidateX
+            candidateX
         </a>
-      </span>
-    </div>
-    <div
-      class="li-delegate__value id"
-    >
-      <span>
-        pubkeyX
       </span>
     </div>
     <div
