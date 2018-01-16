@@ -42,7 +42,7 @@ describe('PageDelegates', () => {
   })
 
   it('has the expected html structure', () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
   it('should show the search on click', () => {
