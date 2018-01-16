@@ -3,6 +3,7 @@
 exports[`PageDelegates has the expected html structure 1`] = `
 <div
   class="ni-page"
+  id="page-delegates"
 >
   <header
     class="ni-page-header"
@@ -88,7 +89,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
   >
     <!---->
     <div
-      class="delegate-container"
+      class="delegates-container"
     >
       <div
         class="panel-sort"
@@ -112,15 +113,6 @@ exports[`PageDelegates has the expected html structure 1`] = `
               class="label"
             >
               Name
-            </div>
-          </div>
-          <div
-            class="sort-by id"
-          >
-            <div
-              class="label"
-            >
-              Public Key
             </div>
           </div>
           <div
@@ -173,15 +165,8 @@ exports[`PageDelegates has the expected html structure 1`] = `
                 class=""
                 href="#/staking/delegates/pubkeyY"
               >
-                 candidateY
+                  candidateY
               </a>
-            </span>
-          </div>
-          <div
-            class="li-delegate__value id"
-          >
-            <span>
-              pubkeyY
             </span>
           </div>
           <div
@@ -232,15 +217,8 @@ exports[`PageDelegates has the expected html structure 1`] = `
                 class=""
                 href="#/staking/delegates/pubkeyX"
               >
-                 candidateX
+                  candidateX
               </a>
-            </span>
-          </div>
-          <div
-            class="li-delegate__value id"
-          >
-            <span>
-              pubkeyX
             </span>
           </div>
           <div
@@ -274,12 +252,14 @@ exports[`PageDelegates has the expected html structure 1`] = `
     <div
       class="fixed-button-bar"
     >
-      <h3>
-        <b>
+      <div
+        class="label"
+      >
+        <strong>
           0
-        </b>
-         selected
-      </h3>
+        </strong>
+         delegates selected
+      </div>
       <a
         class="ni-btn btn__primary"
         disabled="disabled"
@@ -309,6 +289,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
 exports[`PageDelegates should filter the delegates 1`] = `
 <div
   class="ni-page"
+  id="page-delegates"
 >
   <header
     class="ni-page-header"
@@ -421,7 +402,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
       </div>
     </div>
     <div
-      class="delegate-container"
+      class="delegates-container"
     >
       <div
         class="panel-sort"
@@ -445,15 +426,6 @@ exports[`PageDelegates should filter the delegates 1`] = `
               class="label"
             >
               Name
-            </div>
-          </div>
-          <div
-            class="sort-by id"
-          >
-            <div
-              class="label"
-            >
-              Public Key
             </div>
           </div>
           <div
@@ -506,15 +478,8 @@ exports[`PageDelegates should filter the delegates 1`] = `
                 class=""
                 href="#/staking/delegates/pubkeyX"
               >
-                 candidateX
+                  candidateX
               </a>
-            </span>
-          </div>
-          <div
-            class="li-delegate__value id"
-          >
-            <span>
-              pubkeyX
             </span>
           </div>
           <div
@@ -548,12 +513,14 @@ exports[`PageDelegates should filter the delegates 1`] = `
     <div
       class="fixed-button-bar"
     >
-      <h3>
-        <b>
+      <div
+        class="label"
+      >
+        <strong>
           0
-        </b>
-         selected
-      </h3>
+        </strong>
+         delegates selected
+      </div>
       <a
         class="ni-btn btn__primary"
         disabled="disabled"
