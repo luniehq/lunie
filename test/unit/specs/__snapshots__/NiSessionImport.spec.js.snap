@@ -9,7 +9,7 @@ exports[`NiSessionImport has the expected html structure 1`] = `
             <div class=\\"ni-session-header\\">
                <a><i class=\\"material-icons\\">arrow_back</i></a>
                <div class=\\"ni-session-title\\">
-                  Import Account
+                  Import with Seed
                </div>
       <a><i class=\\"material-icons\\">help_outline</i></a>
    </div>
@@ -18,7 +18,7 @@ exports[`NiSessionImport has the expected html structure 1`] = `
             <!---->
             <label for=\\"import-name\\" class=\\"ni-form-group__label\\">Account Name</label>
             <div class=\\"ni-form-group__field\\">
-               <input type=\\"text\\" placeholder=\\"at least 5 characters\\" class=\\"ni-field\\" id=\\"import-name\\">
+               <input type=\\"text\\" placeholder=\\"Must have at least 5 characters\\" class=\\"ni-field\\" id=\\"import-name\\">
                <div class=\\"ni-form-msg sm ni-form-msg--error\\">
                   Name is required
                </div>
@@ -27,27 +27,24 @@ exports[`NiSessionImport has the expected html structure 1`] = `
 </div>
       <div class=\\"ni-form-group\\">
          <!---->
-         <label for=\\"import-seed\\" class=\\"ni-form-group__label\\">Seed</label>
+         <label for=\\"import-password\\" class=\\"ni-form-group__label\\">Password</label>
          <div class=\\"ni-form-group__field\\">
-            <textarea class=\\"ni-field-seed ni-field\\" id=\\"import-seed\\" placeholder=\\"must be exactly 12 words\\"></textarea>
+            <input type=\\"password\\" placeholder=\\"Must be at least 10 characters\\" class=\\"ni-field\\" id=\\"import-password\\">
+            <div class=\\"ni-form-msg sm ni-form-msg--error\\">
+               Password is required
+            </div>
+               <!---->
+   </div>
+</div>
+      <div class=\\"ni-form-group\\">
+         <!---->
+         <label for=\\"import-seed\\" class=\\"ni-form-group__label\\">Seed Phrase</label>
+         <div class=\\"ni-form-group__field\\">
+            <textarea class=\\"ni-field-seed ni-field\\" id=\\"import-seed\\" placeholder=\\"Must be exactly 12 words\\"></textarea>
             <div class=\\"ni-form-msg sm ni-form-msg--error\\">
                Seed is required
             </div>
 </div>
-</div>
-      <div class=\\"ni-form-group\\">
-         <!---->
-         <label for=\\"import-password\\" class=\\"ni-form-group__label\\">Password</label>
-         <div class=\\"ni-form-group__field\\">
-            <input type=\\"password\\" placeholder=\\"at least 10 characters\\" class=\\"ni-field\\" id=\\"import-password\\">
-            <div class=\\"ni-form-msg sm ni-form-msg--desc\\">
-               Create a password to secure your imported account
-            </div>
-      <div class=\\"ni-form-msg sm ni-form-msg--error\\">
-         Password is required
-      </div>
-         <!---->
-   </div>
 </div>
 </div>
       <div class=\\"ni-session-footer\\">

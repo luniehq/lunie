@@ -62,7 +62,10 @@ export default {
   padding 0.25rem 0 0
   display flex
   margin 0 !important
- 
+
+  &.sm
+    font-size sm
+
 .ni-form-msg:before
   content ''
   font-family 'Material Icons'
