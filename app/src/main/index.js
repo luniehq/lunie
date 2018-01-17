@@ -119,6 +119,8 @@ function createWindow () {
     mainWindow.webContents.openDevTools()
   }
 
+  mainWindow.maximize()
+
   mainWindow.on('closed', shutdown)
 
   // eslint-disable-next-line no-console

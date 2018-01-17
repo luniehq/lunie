@@ -7,15 +7,16 @@ page.page-bond(title="Bond Atoms")
 
   part(title="Selected Delegates"): form-struct(:submit="onSubmit")
     form-group.bond-group(
+      field-id='#unbonded-atoms'
       field-label='Unbonded Atoms')
       .bond-group__fields
         .bond-bar__container
           .bond-bar__outer
-            .bond-bar__inner(:style="initialStyle(totalUnbondedAtoms, totalAtoms)")
+            .bond-bar__inner(:style="bondBarInnerStyle(totalUnbondedAtoms)")
         field.bond-group__percent(
           disabled
           placeholder="0%"
-          :value="initialWidth(totalUnbondedAtoms, totalAtoms)")
+          :value="bondBarPercent(totalUnbondedAtoms)")
         field.bond-group__value(
           type="number"
           placeholder="Atoms"
@@ -29,11 +30,11 @@ page.page-bond(title="Bond Atoms")
       .bond-group__fields
         .bond-bar__container
           .bond-bar__outer
-            .bond-bar__inner(:style="initialStyle(committedDelegations[d.delegate.id], totalAtoms)")
+            .bond-bar__inner(:style="bondBarInnerStyle(committedDelegations[d.delegate.id])")
         field.bond-group__percent(
           disabled
           placeholder="0%"
-          :value="initialWidth(committedDelegations[d.delegate.id], totalAtoms)")
+          :value="bondBarPercent(committedDelegations[d.delegate.id])")
         field.bond-group__value(
           type="number"
           placeholder="Atoms"
@@ -108,9 +109,6 @@ export default {
       let bondedSum = this.committedBondedAtoms
       return this.totalAtoms - willBondSum + bondedSum - this.willUnbondAtoms
     },
-    unbondedAtomsPct () {
-      return Math.round(this.unbondedAtoms / this.totalAtoms * 100 * 10) / 10 + '%'
-    },
     uncommittedBondedAtoms () {
       return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
     },
@@ -126,6 +124,8 @@ export default {
     }
   },
   data: () => ({
+    bondBarScrubWidth: 28,
+    bondBarOuterWidth: 0,
     equalize: false,
     atomsMin: 0,
     fields: {
@@ -172,7 +172,10 @@ export default {
     },
     resetAlloc () {
       this.fields.delegates = this.shoppingCart.map(c => JSON.parse(JSON.stringify(c)))
-      this.fields.delegates.map(d => d.atoms = this.committedDelegations[d.delegate.id])
+      this.fields.delegates.map(function (d) {
+        d.atoms = this.committedDelegations[d.delegate.id]
+        d.oldAtoms = this.committedDelegations[d.delegate.id]
+      })
     },
     leaveIfEmpty (count) {
       if (count === 0) {
@@ -196,18 +199,26 @@ export default {
       }
       return label.substr(0, maxLength - 3) + '...'
     },
-    initialWidth (dividend, divisor) {
-      let value = 0
-      value = Math.round(dividend / divisor * 100)
-      return value + '%'
+    bondBarPercent (dividend) {
+      let divisor = this.totalAtoms
+      let ratio = Math.round(dividend / divisor * 100)
+      return ratio + '%'
     },
-    initialStyle (dividend, divisor) {
+    bondBarInnerWidth (dividend) {
+      let offset = this.bondBarScrubWidth
+      let maxWidth = this.bondBarOuterWidth
+      let divisor = this.totalAtoms
+      let ratio = Math.round(dividend / divisor * 100) / 100
+      let width = (ratio * (maxWidth - offset)) + offset
+      return width + 'px'
+    },
+    bondBarInnerStyle (dividend) {
       return {
-        width: this.initialWidth(dividend, divisor)
+        width: this.bondBarInnerWidth(dividend)
       }
     },
-    setupBondBars () {
-      let offset = 28
+    bondBarsInput () {
+      let offset = this.bondBarScrubWidth
       interact('.bond-bar__inner')
         .resizable({
           edges: { left: false, right: true, bottom: false, top: false },
@@ -227,12 +238,19 @@ export default {
           let ratio = (event.rect.width - offset) / (parentWidth - offset)
           target.textContent = ratio
         })
+    },
+    setBondBarOuterWidth () {
+      let outerBar = this.$el.querySelector('.bond-bar__outer')
+      this.bondBarOuterWidth = outerBar.clientWidth
     }
   },
-  mounted () {
+  async mounted () {
     this.resetAlloc()
     this.leaveIfEmpty(this.shoppingCart.length)
-    this.setupBondBars()
+    this.bondBarsInput()
+
+    await this.$nextTick()
+    this.setBondBarOuterWidth()
   },
   watch: {
     shoppingCart (newVal) {
