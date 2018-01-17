@@ -1,6 +1,5 @@
 <template lang='pug'>
-.ni-li-tx.ni-li-tx-sent(v-if="sent" @click="() => devMode && viewTransaction()")
-  .tx-icon: i.material-icons remove_circle
+mixin tx-container-sent
   .tx-container
     .tx-element.tx-coins
       .tx-coin(v-for='coin in coinsSent')
@@ -8,6 +7,14 @@
         .key {{ coin.denom }}
     .tx-element.tx-date(v-if="devMode") {{ date }}
     .tx-element.tx-address {{ receiver }}
+
+.ni-li-tx(v-if="sentSelf" @click="() => devMode && viewTransaction()")
+  .tx-icon: i.material-icons swap_horiz
+  +tx-container-sent
+
+.ni-li-tx.ni-li-tx-sent(v-else-if="sent" @click="() => devMode && viewTransaction()")
+  .tx-icon: i.material-icons remove_circle
+  +tx-container-sent
 
 .ni-li-tx.ni-li-tx-received(v-else @click="() => devMode && viewTransaction()")
   .tx-icon: i.material-icons add_circle
@@ -27,6 +34,9 @@ export default {
   name: 'ni-li-tx',
   computed: {
     // TODO: sum relevant inputs/outputs
+    sentSelf () {
+      return this.transactionValue.tx.inputs[0].sender === this.transactionValue.tx.outputs[0].receiver
+    },
     sent () {
       return this.transactionValue.tx.inputs[0].sender === this.address
     },
