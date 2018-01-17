@@ -60,14 +60,16 @@ export default {
       let list = this.blocks
 
       if (this.filters.blockchain.search.visible && query) {
-        return list.filter(i => includes(i.header.height, query))
+        return list.filter(i => includes(JSON.stringify(i.header.height), query))
       } else {
         return list
       }
     }
   },
   methods: {
-    setSearch (bool) { this.$store.commit('setSearchVisible', ['blockchain', bool]) }
+    setSearch (bool) {
+      this.$store.commit('setSearchVisible', ['blockchain', bool])
+    }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
