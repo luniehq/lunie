@@ -6,39 +6,47 @@ page.page-bond(title="Bond Atoms")
       .label Back
 
   part(title="Selected Delegates"): form-struct(:submit="onSubmit")
-    form-group.bond-group(
-      field-id='#unbonded-atoms'
-      field-label='Unbonded Atoms')
+    .bond-group
       .bond-group__fields
-        .bond-bar__container
-          .bond-bar__outer
-            .bond-bar__inner(:style="bondBarInnerStyle(totalUnbondedAtoms)")
-        field.bond-group__percent(
-          disabled
-          placeholder="0%"
-          :value="bondBarPercent(totalUnbondedAtoms)")
-        field.bond-group__value(
-          type="number"
-          placeholder="Atoms"
-          v-model.number="totalUnbondedAtoms")
-    form-group.bond-group(
+        .bond-bar
+          label.bond-group__label.bond-bar__label Unbonded Atoms
+          .bond-bar__input#unbonded-bar
+            .bond-bar__outer
+              .bond-bar__inner(:style="bondBarInnerStyle(totalUnbondedAtoms)")
+        .bond-percent
+          label.bond-group__label.bond-group__label + 0%
+          field.bond-percent__input(
+            disabled
+            placeholder="0%"
+            :value="bondBarPercent(totalUnbondedAtoms)")
+        .bond-value
+          label.bond-group__label.bond-value__label {{ deltaAtoms(totalUnbondedAtoms) }}
+          field.bond-value__input(
+            type="number"
+            placeholder="Atoms"
+            v-model.number="totalUnbondedAtoms")
+    .bond-group(
       v-for='(d, index) in fields.delegates'
       :key='d.id'
-      :error='$v.fields.delegates.$each[index].$error'
-      :field-label='d.delegate.description.moniker'
-      field-id='delegate-field')
+      :error='$v.fields.delegates.$each[index].$error')
       .bond-group__fields
-        .bond-bar__container
-          .bond-bar__outer
-            .bond-bar__inner(:style="bondBarInnerStyle(committedDelegations[d.delegate.id])")
-        field.bond-group__percent(
-          disabled
-          placeholder="0%"
-          :value="bondBarPercent(committedDelegations[d.delegate.id])")
-        field.bond-group__value(
-          type="number"
-          placeholder="Atoms"
-          v-model.number="d.atoms")
+        .bond-bar
+          label.bond-group__label.bond-bar__label {{ d.delegate.description.moniker }}
+          .bond-bar__input(:id="'delegate-' +d.id")
+            .bond-bar__outer
+              .bond-bar__inner(:style="bondBarInnerStyle(committedDelegations[d.delegate.id])")
+        .bond-percent
+          label.bond-group__label.bond-percent__label + 0%
+          field.bond-percent__input(
+            disabled
+            placeholder="0%"
+            :value="bondBarPercent(committedDelegations[d.delegate.id])")
+        .bond-value
+          label.bond-group__label.bond-value__label + 0
+          field.bond-value__input(
+            type="number"
+            placeholder="Atoms"
+            v-model.number="d.atoms")
       form-msg(name="Atoms" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
       form-msg(name="Atoms" type="numeric"
@@ -148,9 +156,6 @@ export default {
         this.fields.delegates[i].atoms += 1
       }
     },
-    percentAtoms (uncommittedBondedAtoms) {
-      return Math.round(uncommittedBondedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
-    },
     async onSubmit () {
       if (this.unbondedAtoms < 0) {
         this.$store.commit('notifyError', { title: 'Too Many Allocated Atoms',
@@ -172,10 +177,8 @@ export default {
     },
     resetAlloc () {
       this.fields.delegates = this.shoppingCart.map(c => JSON.parse(JSON.stringify(c)))
-      this.fields.delegates.map(function (d) {
-        d.atoms = this.committedDelegations[d.delegate.id]
-        d.oldAtoms = this.committedDelegations[d.delegate.id]
-      })
+      this.fields.delegates.map((d) => { (d.atoms = this.committedDelegations[d.delegate.id]) })
+      this.fields.delegates.map((d) => { (d.oldAtoms = this.committedDelegations[d.delegate.id]) })
     },
     leaveIfEmpty (count) {
       if (count === 0) {
@@ -192,12 +195,6 @@ export default {
         this.$store.commit('removeFromCart', delegateId)
         this.resetAlloc()
       }
-    },
-    shortenLabel (label, maxLength) {
-      if (label.length <= maxLength) {
-        return label
-      }
-      return label.substr(0, maxLength - 3) + '...'
     },
     bondBarPercent (dividend) {
       let divisor = this.totalAtoms
@@ -242,6 +239,12 @@ export default {
     setBondBarOuterWidth () {
       let outerBar = this.$el.querySelector('.bond-bar__outer')
       this.bondBarOuterWidth = outerBar.clientWidth
+    },
+    deltaAtoms (cur, prev) {
+      return (cur/ prev) - 1
+    },
+    deltaAtomsPercent (cur, prev) {
+      return this.deltaAtoms(cur, prev) * 100 + '%'
     }
   },
   async mounted () {
@@ -280,25 +283,34 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.ni-form-group.bond-group
+.bond-group
   max-width 32rem + 2rem
   padding 0.5rem 1rem
   display block
 
-.bond-group__label
-  line-height 2rem
-  color bright
-
 .bond-group__fields
   display flex
   flex-flow row nowrap
-  height 2rem
+  height 4rem
 
-.bond-bar__container
-  margin-right 1rem
+.bond-group__label
+  line-height 2rem
+  font-size sm
+  text-align right
+  display block
+
+.bond-bar
   flex 6
-  height 2rem
+  margin-right 1rem
   min-width 10rem
+
+.bond-bar__label
+  color bright
+  font-size x
+  text-align left
+
+.bond-bar__input
+  height 2rem
   border-radius 1rem
   border 1px solid bc
   padding 1px
@@ -341,10 +353,15 @@ export default {
     transform rotate(90deg)
     color bc
 
-.bond-group__percent
+.bond-percent
+.bond-value
+  input
+    text-align right
+
+.bond-percent
   flex 1
   margin-right 1rem
 
-.bond-group__value
+.bond-value
   flex 2
 </style>
