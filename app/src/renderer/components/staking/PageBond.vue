@@ -5,26 +5,31 @@ page.page-bond(title="Bond Atoms")
       i.material-icons arrow_back
       .label Back
 
-  part(title="Selected Delegates"): form-struct(:submit="onSubmit")
-    .bond-group
+  part(title="Delegation Form"): form-struct(:submit="onSubmit")
+    .bond-group(
+      :class="bondGroupClass(deltaAtoms(newUnbondedAtoms, oldUnbondedAtoms))")
       .bond-group__fields
         .bond-bar
           label.bond-group__label.bond-bar__label Unbonded Atoms
-          .bond-bar__input#unbonded-bar
-            .bond-bar__outer
-              .bond-bar__inner(:style="bondBarInnerStyle(totalUnbondedAtoms)")
+          .bond-bar__input: .bond-bar__outer
+            .bond-bar__inner#unbonded-bar-inner(
+              :style="styleBondBarInner(oldUnbondedAtoms)")
+                | {{ newUnbondedRatio }}
         .bond-percent
-          label.bond-group__label.bond-group__label + 0%
+          label.bond-group__label.bond-percent__label
+            | {{ deltaAtomsPercent(newUnbondedAtoms, oldUnbondedAtoms) }}
           field.bond-percent__input(
             disabled
             placeholder="0%"
-            :value="bondBarPercent(totalUnbondedAtoms)")
+            :value="bondBarPercent(newUnbondedAtoms)")
         .bond-value
-          label.bond-group__label.bond-value__label {{ deltaAtoms(totalUnbondedAtoms) }}
+          label.bond-group__label.bond-value__label
+            | {{ deltaAtoms(newUnbondedAtoms, oldUnbondedAtoms) }}
           field.bond-value__input(
             type="number"
             placeholder="Atoms"
-            v-model.number="totalUnbondedAtoms")
+            step="1"
+            v-model.number="Math.round(newUnbondedAtoms)")
     .bond-group(
       v-for='(d, index) in fields.delegates'
       :key='d.id'
@@ -32,9 +37,9 @@ page.page-bond(title="Bond Atoms")
       .bond-group__fields
         .bond-bar
           label.bond-group__label.bond-bar__label {{ d.delegate.description.moniker }}
-          .bond-bar__input(:id="'delegate-' +d.id")
-            .bond-bar__outer
-              .bond-bar__inner(:style="bondBarInnerStyle(committedDelegations[d.delegate.id])")
+          .bond-bar__input(:id="'delegate-' +d.id"): .bond-bar__outer
+            .bond-bar__inner(
+              :style="styleBondBarInner(committedDelegations[d.delegate.id])")
         .bond-percent
           label.bond-group__label.bond-percent__label + 0%
           field.bond-percent__input(
@@ -47,6 +52,7 @@ page.page-bond(title="Bond Atoms")
             type="number"
             placeholder="Atoms"
             v-model.number="d.atoms")
+
       form-msg(name="Atoms" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
       form-msg(name="Atoms" type="numeric"
@@ -113,26 +119,26 @@ export default {
       return sum
     },
     unbondedAtoms () {
-      let willBondSum = this.uncommittedBondedAtoms
+      let willBondSum = this.newBondedAtoms
       let bondedSum = this.committedBondedAtoms
-      return this.totalAtoms - willBondSum + bondedSum - this.willUnbondAtoms
+      return this.oldAtoms - willBondSum + bondedSum - this.willUnbondAtoms
     },
-    uncommittedBondedAtoms () {
+    newBondedAtoms () {
       return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
     },
-    bondedAtomsPct () {
-      return Math.round(
-        this.committedBondedAtoms / this.totalAtoms * 100 * 10) / 10 + '%'
-    },
-    totalAtoms () {
+    oldAtoms () {
       return this.user.atoms
     },
-    totalUnbondedAtoms () {
-      return this.totalAtoms - this.committedBondedAtoms
+    oldUnbondedAtoms () {
+      return this.oldAtoms - this.committedBondedAtoms
+    },
+    newUnbondedAtoms () {
+      return this.oldAtoms * this.newUnbondedRatio
     }
   },
   data: () => ({
     bondBarScrubWidth: 28,
+    newUnbondedRatio: 0,
     bondBarOuterWidth: 0,
     equalize: false,
     atomsMin: 0,
@@ -197,21 +203,30 @@ export default {
       }
     },
     bondBarPercent (dividend) {
-      let divisor = this.totalAtoms
+      let divisor = this.oldAtoms
       let ratio = Math.round(dividend / divisor * 100)
       return ratio + '%'
     },
     bondBarInnerWidth (dividend) {
       let offset = this.bondBarScrubWidth
       let maxWidth = this.bondBarOuterWidth
-      let divisor = this.totalAtoms
+      let divisor = this.oldAtoms
       let ratio = Math.round(dividend / divisor * 100) / 100
       let width = (ratio * (maxWidth - offset)) + offset
       return width + 'px'
     },
-    bondBarInnerStyle (dividend) {
+    styleBondBarInner (dividend) {
       return {
         width: this.bondBarInnerWidth(dividend)
+      }
+    },
+    bondGroupClass (deltaAtoms) {
+      if (deltaAtoms > 0) {
+        return 'bond-group--positive'
+      } else if (deltaAtoms < 0) {
+        return 'bond-group--negative'
+      } else {
+        return 'bond-group--neutral'
       }
     },
     bondBarsInput () {
@@ -224,16 +239,18 @@ export default {
         })
         .on('resizemove', (event) => {
           var target = event.target
-          let x = (parseFloat(target.getAttribute('data-x')) || 0)
 
           // update the bar width
           target.style.width = event.rect.width + 'px'
-          target.setAttribute('data-x', x)
 
-          // target.textContent = Math.round(event.rect.width) + ', ' + parentWidth
-          let parentWidth = event.currentTarget.parentElement.clientWidth
-          let ratio = (event.rect.width - offset) / (parentWidth - offset)
-          target.textContent = ratio
+          let ratio = (event.rect.width - offset) / (this.bondBarOuterWidth - offset)
+
+          if (target.id === 'unbonded-bar-inner') {
+            this.newUnbondedRatio = ratio
+          } else {
+            target.textContent = ratio
+          }
+
         })
     },
     setBondBarOuterWidth () {
@@ -241,10 +258,12 @@ export default {
       this.bondBarOuterWidth = outerBar.clientWidth
     },
     deltaAtoms (cur, prev) {
-      return (cur/ prev) - 1
+      return Math.round(cur - prev)
     },
     deltaAtomsPercent (cur, prev) {
-      return this.deltaAtoms(cur, prev) * 100 + '%'
+      let deltaAtoms = this.deltaAtoms(cur, prev)
+      let ratio = deltaAtoms / this.oldAtoms
+      return Math.round(ratio * 1000) / 10 + '%'
     }
   },
   async mounted () {
@@ -254,6 +273,7 @@ export default {
 
     await this.$nextTick()
     this.setBondBarOuterWidth()
+    this.newUnbondedRatio = this.oldUnbondedAtoms / this.oldAtoms
   },
   watch: {
     shoppingCart (newVal) {
@@ -288,6 +308,24 @@ export default {
   padding 0.5rem 1rem
   display block
 
+  .ni-field
+    &[disabled]
+      background app-fg
+      border-color app-fg
+
+.bond-group--positive
+  .bond-percent__label
+  .bond-value__label
+    color success
+    &:before
+      content '+'
+      display inline
+
+.bond-group--negative
+  .bond-percent__label
+  .bond-value__label
+    color danger
+
 .bond-group__fields
   display flex
   flex-flow row nowrap
@@ -300,7 +338,7 @@ export default {
   display block
 
 .bond-bar
-  flex 6
+  flex 16
   margin-right 1rem
   min-width 10rem
 
@@ -359,9 +397,9 @@ export default {
     text-align right
 
 .bond-percent
-  flex 1
+  flex 3
   margin-right 1rem
 
 .bond-value
-  flex 2
+  flex 6
 </style>
