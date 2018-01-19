@@ -97,7 +97,7 @@ page.page-bond(title="Bond Atoms")
             v-model.number="newUnbondingAtoms")
 
     div(slot='footer')
-      div
+      div Total Atoms {{ totalAtoms }}
       btn.bond.btn__primary(value="Submit")
 </template>
 
@@ -174,7 +174,7 @@ export default {
       return this.totalAtoms - this.newUnbondedAtoms - this.newBondedAtoms
     },
     totalAtoms () {
-      return this.user.atoms
+      return this.user.atoms + this.committedBondedAtoms
     },
   },
   data: () => ({
@@ -309,7 +309,7 @@ export default {
         d.atoms = Math.round(rawAtoms)
         d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, 'int')
         d.deltaAtomsPercent =
-          this.percent(this.delta(rawAtoms, d.oldAtoms), this.totalAtoms)
+          this.percent(this.delta(rawAtoms, d.oldAtoms), this.totalAtoms, 1)
       }
     },
     setBondBarOuterWidth () {
