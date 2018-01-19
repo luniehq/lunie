@@ -7,7 +7,7 @@ page.page-bond(title="Bond Atoms")
 
   part(title="Delegation Form"): form-struct(:submit="onSubmit")
     .bond-group(
-      :class="bondGroupClass(deltaAtoms(newUnbondedAtoms, oldUnbondedAtoms))")
+      :class="bondGroupClass(delta(newUnbondedAtoms, oldUnbondedAtoms))")
       .bond-group__fields
         .bond-bar
           label.bond-bar__label Unbonded Atoms
@@ -19,24 +19,25 @@ page.page-bond(title="Bond Atoms")
                 :style="styleBondBarInner(newUnbondedAtoms)")
         .bond-percent
           label.bond-delta
-            | {{ deltaAtomsPercent(newUnbondedAtoms, oldUnbondedAtoms) }}
+            | {{ percent(delta(newUnbondedAtoms, oldUnbondedAtoms), totalAtoms) }}
           field.bond-percent__input(
             disabled
             placeholder="0%"
             :value="bondBarPercent(newUnbondedAtoms)")
         .bond-value
           label.bond-delta
-            | {{ deltaAtoms(newUnbondedAtoms, oldUnbondedAtoms) }}
+            | {{ delta(newUnbondedAtoms, oldUnbondedAtoms) }}
           field.bond-value__input(
             type="number"
             placeholder="Atoms"
             step="1"
             v-model.number="newUnbondedAtoms")
+
     .bond-group(
       v-for='(d, index) in fields.delegates'
       :key='d.id'
       :error='$v.fields.delegates.$each[index].$error'
-      :class="bondGroupClass(deltaAtoms(d.atoms, d.oldAtoms))")
+      :class="bondGroupClass(delta(d.atoms, d.oldAtoms))")
       .bond-group__fields
         .bond-bar
           label.bond-bar__label {{ d.delegate.description.moniker }}
@@ -44,7 +45,7 @@ page.page-bond(title="Bond Atoms")
             .bond-bar-old__outer
               .bond-bar-old__inner(:style="styleBondBarInner(d.oldAtoms)")
             .bond-bar__outer
-              .bond-bar__inner(:id="'delegate-' + d.id"
+              .bond-bar__inner.bond-bar__inner--editable(:id="'delegate-' + d.id"
                 :style="styleBondBarInner(d.atoms)")
         .bond-percent
           label.bond-delta {{ d.deltaAtomsPercent }}
@@ -67,6 +68,34 @@ page.page-bond(title="Bond Atoms")
       form-msg(name="Atoms" type="between" :min="atomsMin" :max="user.atoms"
         v-if="!$v.fields.delegates.$each[index].atoms.between")
 
+    .bond-group(
+      :class="bondGroupClass(delta(newUnbondingAtoms, 0))")
+      .bond-group__fields
+        .bond-bar
+          label.bond-bar__label Unbonding... (30d)
+          .bond-bar__input
+            // TODO: different colors for unbonding atoms
+            // .bond-bar-old__outer
+              .bond-bar-old__inner(:style="styleBondBarInner(oldUnbondingAtoms)")
+            .bond-bar__outer
+              .bond-bar__inner#unbonding-atoms-bar(
+                :style="styleBondBarInner(newUnbondingAtoms)")
+        .bond-percent
+          label.bond-delta
+            | {{ percent(delta(newUnbondingAtoms, 0), totalAtoms) }}
+          field.bond-percent__input(
+            disabled
+            placeholder="0%"
+            :value="bondBarPercent(newUnbondingAtoms)")
+        .bond-value
+          label.bond-delta
+            | {{ delta(newUnbondingAtoms, 0) }}
+          field.bond-value__input(
+            type="number"
+            placeholder="Atoms"
+            step="1"
+            v-model.number="newUnbondingAtoms")
+
     div(slot='footer')
       div
       btn.bond.btn__primary(value="Submit")
@@ -75,6 +104,7 @@ page.page-bond(title="Bond Atoms")
 <script>
 import { between, numeric, required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
+import num from 'scripts/num'
 import interact from 'interactjs'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
@@ -131,18 +161,21 @@ export default {
       let bondedSum = this.committedBondedAtoms
       return this.totalAtoms - willBondSum + bondedSum - this.willUnbondAtoms
     },
-    newBondedAtoms () {
-      return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
-    },
-    totalAtoms () {
-      return this.user.atoms
-    },
     oldUnbondedAtoms () {
       return this.totalAtoms - this.committedBondedAtoms
     },
     newUnbondedRatio () {
       return this.newUnbondedAtoms / this.totalAtoms
-    }
+    },
+    newBondedAtoms () {
+      return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
+    },
+    newUnbondingAtoms () {
+      return this.totalAtoms - this.newUnbondedAtoms - this.newBondedAtoms
+    },
+    totalAtoms () {
+      return this.user.atoms
+    },
   },
   data: () => ({
     bondBarScrubWidth: 28,
@@ -152,7 +185,8 @@ export default {
     atomsMin: 0,
     fields: {
       delegates: []
-    }
+    },
+    num: num
   }),
   methods: {
     equalAlloc () {
@@ -237,10 +271,10 @@ export default {
         width: this.bondBarInnerWidth(dividend)
       }
     },
-    bondGroupClass (deltaAtoms) {
-      if (deltaAtoms > 0) {
+    bondGroupClass (delta) {
+      if (delta > 0) {
         return 'bond-group--positive'
-      } else if (deltaAtoms < 0) {
+      } else if (delta < 0) {
         return 'bond-group--negative'
       } else {
         return 'bond-group--neutral'
@@ -248,7 +282,7 @@ export default {
     },
     bondBarsInput () {
       let offset = this.bondBarScrubWidth
-      interact('.bond-bar__inner')
+      interact('.bond-bar__inner--editable')
         .resizable({
           edges: { left: false, right: true, bottom: false, top: false },
           restrictEdges: { outer: 'parent' },
@@ -269,27 +303,36 @@ export default {
         })
     },
     updateDelegateAtoms (delegateId, rawAtoms) {
-      let delegate = this.fields.delegates.find(d => d.id === delegateId)
-      let ratio = rawAtoms / this.totalAtoms
-      if (delegate) {
-        delegate.bondedRatio = ratio
-        delegate.atoms = Math.round(rawAtoms)
-        delegate.deltaAtoms = delegate.atoms - delegate.oldAtoms
-        delegate.deltaAtomsPercent =
-          Math.round(delegate.deltaAtoms / this.totalAtoms * 1000) / 10 + '%'
+      let d = this.fields.delegates.find(d => d.id === delegateId)
+      if (d) {
+        d.bondedRatio = rawAtoms / this.totalAtoms
+        d.atoms = Math.round(rawAtoms)
+        d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, 'int')
+        d.deltaAtomsPercent =
+          this.percent(this.delta(rawAtoms, d.oldAtoms), this.totalAtoms)
       }
     },
     setBondBarOuterWidth () {
       let outerBar = this.$el.querySelector('.bond-bar__outer')
       this.bondBarOuterWidth = outerBar.clientWidth
     },
-    deltaAtoms (cur, prev) {
-      return Math.round(cur - prev)
+    delta (current, previous, fmt) {
+      let x = current - previous
+      if (fmt === 'int') {
+        return Math.round(x)
+      } else {
+        return x
+      }
     },
-    deltaAtomsPercent (cur, prev) {
-      let deltaAtoms = this.deltaAtoms(cur, prev)
-      let ratio = deltaAtoms / this.totalAtoms
-      return Math.round(ratio * 1000) / 10 + '%'
+    percent (dividend, divisor, sigFigs) {
+      let ratio = dividend / divisor
+      let value
+      if (Number.isInteger(sigFigs)) {
+        value = Math.round(ratio * 100 * Math.pow(10, sigFigs)) / Math.pow(10, sigFigs)
+      } else {
+        value = Math.round(ratio * 100)
+      }
+      return value + '%'
     }
   },
   async mounted () {
@@ -403,6 +446,7 @@ export default {
   display flex
   align-items center
 
+.bond-bar__inner--editable
   &:after
     position absolute
     top 1px
