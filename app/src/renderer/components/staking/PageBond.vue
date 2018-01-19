@@ -11,10 +11,12 @@ page.page-bond(title="Bond Atoms")
       .bond-group__fields
         .bond-bar
           label.bond-bar__label Unbonded Atoms
-          .bond-bar__input: .bond-bar__outer
-            .bond-bar__inner#unbonded-atoms-bar(
-              :style="styleBondBarInner(newUnbondedAtoms)")
-                | {{ newUnbondedRatio }}
+          .bond-bar__input
+            .bond-bar-old__outer
+              .bond-bar-old__inner(:style="styleBondBarInner(oldUnbondedAtoms)")
+            .bond-bar__outer
+              .bond-bar__inner#unbonded-atoms-bar(
+                :style="styleBondBarInner(newUnbondedAtoms)")
         .bond-percent
           label.bond-delta
             | {{ deltaAtomsPercent(newUnbondedAtoms, oldUnbondedAtoms) }}
@@ -38,10 +40,12 @@ page.page-bond(title="Bond Atoms")
       .bond-group__fields
         .bond-bar
           label.bond-bar__label {{ d.delegate.description.moniker }}
-          .bond-bar__input: .bond-bar__outer
-            .bond-bar__inner(:id="'delegate-' + d.id"
-              :style="styleBondBarInner(d.atoms)")
-                | {{ d.bondedRatio }}
+          .bond-bar__input
+            .bond-bar-old__outer
+              .bond-bar-old__inner(:style="styleBondBarInner(d.oldAtoms)")
+            .bond-bar__outer
+              .bond-bar__inner(:id="'delegate-' + d.id"
+                :style="styleBondBarInner(d.atoms)")
         .bond-percent
           label.bond-delta {{ d.deltaAtomsPercent }}
           field.bond-percent__input(
@@ -330,6 +334,13 @@ export default {
   display block
 
 .bond-group--positive
+  .bond-bar-old__outer
+    z-index z(listItem)
+    pointer-events none
+
+  .bond-bar__inner
+    background success
+
   .bond-delta
     color success
     &:before
@@ -337,6 +348,8 @@ export default {
       display inline
 
 .bond-group--negative
+  .bond-bar-old__inner
+    background danger
   .bond-delta
     color danger
 
@@ -361,17 +374,26 @@ export default {
   border-radius 1rem
   border 1px solid input-bc
   padding 1px
+  position relative
 
 .bond-bar__outer
+.bond-bar-old__outer
   height 2rem - 4*px
   border-radius 1rem
-  background app-fg
+  position absolute
+  top 1px
+  left 1px
+  right 1px
+  bottom 1px
 
 .bond-bar__inner
+.bond-bar-old__inner
   height 2rem - 0.25rem
   border-radius 1rem
   background dim
   width 50%
+
+.bond-bar__inner
   position relative
 
   // debug
@@ -389,6 +411,7 @@ export default {
     height 2rem - 0.25rem - 0.125rem
     background txt
     border-radius 1rem
+    z-index z(toolBar)
 
     display flex
     align-items center
