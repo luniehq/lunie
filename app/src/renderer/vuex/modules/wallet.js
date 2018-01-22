@@ -5,12 +5,9 @@ let root = require('../../../root.js')
 export default ({ commit, node }) => {
   let state = {
     balances: [],
-    sequence: 0,
     key: { address: '' },
     history: [],
     denoms: [],
-    sendQueue: [],
-    sending: false,
     blockMetas: []
   }
 
@@ -23,25 +20,12 @@ export default ({ commit, node }) => {
       // clear previous account state
       state.balances = []
       state.history = []
-      state.sequence = 0
-    },
-    setWalletSequence (state, sequence) {
-      state.sequence = sequence
     },
     setWalletHistory (state, history) {
       state.history = history
     },
     setDenoms (state, denoms) {
       state.denoms = denoms
-    },
-    queueSend (state, sendReq) {
-      state.sendQueue.push(sendReq)
-    },
-    shiftSendQueue (state) {
-      state.sendQueue = state.sendQueue.length > 1 ? state.sendQueue.shift(1) : []
-    },
-    setSending (state, sending) {
-      state.sending = sending
     },
     setTransactionTime (state, { blockHeight, blockMetaInfo }) {
       state.history = state.history.map(t => {
@@ -61,7 +45,7 @@ export default ({ commit, node }) => {
     },
     queryWalletState ({ state, dispatch }) {
       dispatch('queryWalletBalances')
-      dispatch('queryWalletSequence')
+      dispatch('queryNonce', state.key.address)
       dispatch('queryWalletHistory')
     },
     async queryWalletBalances ({ state, rootState, commit }) {
@@ -74,11 +58,6 @@ export default ({ commit, node }) => {
           break
         }
       }
-    },
-    async queryWalletSequence ({ state, commit }) {
-      let res = await node.queryNonce(state.key.address)
-      if (!res) return
-      commit('setWalletSequence', res.data)
     },
     async queryWalletHistory ({ state, commit, dispatch }) {
       let res = await node.coinTxs(state.key.address)
@@ -124,53 +103,7 @@ export default ({ commit, node }) => {
         app: 'sigs',
         addr: args.to
       }
-      return dispatch('walletTx', args)
-    },
-    async walletTx ({ state, dispatch, commit, rootState }, args) {
-      return new Promise(async (resolve, reject) => {
-        // wait until the current send operation is done
-        if (state.sending) {
-          commit('queueSend', args)
-          return
-        }
-        commit('setSending', true)
-
-        // once done, do next send in queue
-        function done (err, res) {
-          commit('setSending', false)
-
-          if (state.sendQueue.length > 0) {
-            // do next send
-            let send = state.sendQueue[0]
-            commit('shiftSendQueue')
-            dispatch('walletSend', send)
-          }
-
-          if (err) {
-            reject(err)
-          } else {
-            resolve(res)
-          }
-        }
-
-        if (args.sequence == null) {
-          args.sequence = state.sequence + 1
-        }
-        args.from = {
-          chain: '',
-          app: 'sigs',
-          addr: state.key.address
-        }
-
-        node.sendTx(args, rootState.user.account, rootState.user.password)
-        .then(() => {
-          commit('setWalletSequence', args.sequence)
-          done(null, args)
-          dispatch('queryWalletBalances')
-        }, err => {
-          done(err || Error('Sending TX failed'))
-        })
-      })
+      return dispatch('sendTx', args)
     },
     async loadDenoms ({ state, commit }) {
       // read genesis.json to get default denoms

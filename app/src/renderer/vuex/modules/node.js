@@ -64,7 +64,7 @@ export default function ({ node }) {
           chain_id: status.node_info.network
         })
       })
-      node.rpc.subscribe({ event: 'NewBlockHeader' }, (err, event) => {
+      node.rpc.subscribe({ query: 'tm.event = \'NewBlockHeader\'' }, (err, event) => {
         console.log(err)
         // if (err) return console.error('error subscribing to headers', err)
         // commit('setConnected', true)

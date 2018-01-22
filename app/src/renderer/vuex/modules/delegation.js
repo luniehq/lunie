@@ -57,15 +57,15 @@ export default ({ commit }) => {
       let bond = (await axios.get('http://localhost:8998/query/stake/delegator/' + address + '/' + pubkey)).data.data
       commit('setCommittedDelegation', {candidateId: bond.PubKey.data, value: bond.Shares})
     },
-    async walletDelegate ({ dispatch }, args) {
+    walletDelegate ({ dispatch }, args) {
       args.type = 'buildDelegate'
-      await dispatch('walletTx', args)
+      return dispatch('sendTx', args)
     },
-    async walletUnbond ({ dispatch }, args) {
+    walletUnbond ({ dispatch }, args) {
       args.type = 'buildUnbond'
-      await dispatch('walletTx', args)
+      return dispatch('sendTx', args)
     },
-    async submitDelegation ({ state, dispatch }, delegation) {
+    submitDelegation ({ state, dispatch }, delegation) {
       return Promise.all(delegation.delegates.map(delegate => {
         let candidateId = delegate.delegate.pub_key.data
         let currentlyDelegated = state.committedDelegates[candidateId] || 0
