@@ -17,16 +17,16 @@ exports[`NiPage has the expected html structure 1`] = `
         <div
           class="ni-page-header-title"
         >
-          <div>
+          <h2>
             Title
-          </div>
+          </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
-          <div>
+          <h3>
             Subtitle
-          </div>
+          </h3>
         </div>
       </div>
       <menu

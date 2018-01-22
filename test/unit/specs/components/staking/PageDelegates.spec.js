@@ -1,4 +1,5 @@
 import setup from '../../../helpers/vuex-setup'
+import htmlBeautify from 'html-beautify'
 import PageDelegates from 'renderer/components/staking/PageDelegates'
 
 describe('PageDelegates', () => {
@@ -41,7 +42,7 @@ describe('PageDelegates', () => {
   })
 
   it('has the expected html structure', () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
   it('should show the search on click', () => {
@@ -66,6 +67,7 @@ describe('PageDelegates', () => {
     store.commit('setSearchVisible', ['delegates', true])
     store.commit('setSearchQuery', ['delegates', 'dateX'])
     expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['pubkeyX'])
+    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit('setSearchQuery', ['delegates', 'dateY'])
     expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(['pubkeyY'])
@@ -75,7 +77,7 @@ describe('PageDelegates', () => {
     store.commit('addToCart', store.state.delegates[0])
     store.commit('addToCart', store.state.delegates[1])
     wrapper.update()
-    expect(wrapper.html()).toContain('2 Selected')
+    expect(wrapper.find('.fixed-button-bar strong').text().trim()).toContain('2')
   })
 
   it('should show an error if there are no delegates', () => {

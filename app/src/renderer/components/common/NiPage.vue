@@ -1,8 +1,8 @@
 <template lang="pug">
 .ni-page
   page-header(:icon='icon')
-    div(slot='title') {{ title }}
-    div(slot='subtitle') {{ subtitle }}
+    h2(slot='title') {{ title }}
+    h3(slot='subtitle') {{ subtitle }}
     div(slot="menu"): slot(name="menu")
   main.ni-page-main: slot
 </template>
@@ -50,10 +50,13 @@ export default {
   flex 1
   display flex
   flex-flow column nowrap
+  position relative
 
 .ni-page-main
   flex 1
   position relative
+  display flex
+  flex-flow column nowrap
 
 .ni-page-title
   color bright

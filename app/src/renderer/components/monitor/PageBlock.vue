@@ -1,5 +1,5 @@
 <template lang="pug">
-page(:title="`Block ${block.header.height}`")
+page(:title="pageBlockTitle")
   div(slot="menu"): tool-bar
     router-link(to="/blockchain")
       i.material-icons arrow_back
@@ -16,7 +16,7 @@ page(:title="`Block ${block.header.height}`")
 
   part(title='Header')
     list-item(dt="Chain ID" :dd="block.header.chain_id")
-    list-item(dt="Time" :dd="block.header.time")
+    list-item(dt="Time" :dd="blockHeaderTime")
     list-item(dt="Transactions" :dd="block.header.num_txs")
     list-item(dt="Last Commit Hash" :dd="block.header.last_commit_hash")
     list-item(dt="Validators Hash" :dd="block.header.validators_hash")
@@ -38,13 +38,16 @@ page(:title="`Block ${block.header.height}`")
     :dd="p.signature.data")
 
   part(title='Transactions')
-    list-item(v-for="tx in block.data.txs" :key="tx.id"
-      dt="Transaction" :dd="TODO")
+    list-item(v-if="block.header.num_txs > 0" v-for="tx in block.data.txs" :key="tx.id" dt="Transaction" :dd="TODO")
+    data-empty(v-if="block.header.num_txs === 0" title="Empty Block" subtitle="There were no transactions in this block.")
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import moment from 'moment'
+import num from 'scripts/num'
 import axios from 'axios'
+import DataEmpty from 'common/NiDataEmpty'
 import ToolBar from 'common/NiToolBar'
 import ListItem from 'common/NiListItem'
 import Part from 'common/NiPart'
@@ -52,15 +55,24 @@ import Page from 'common/NiPage'
 export default {
   name: 'page-block',
   components: {
+    DataEmpty,
     ToolBar,
     ListItem,
     Part,
     Page
   },
   computed: {
-    ...mapGetters(['blockchain'])
+    ...mapGetters(['blockchain']),
+    blockHeaderTime () {
+      return moment(this.block.header.time).format('MMMM Do YYYY — hh:mm:ss')
+    },
+    pageBlockTitle () {
+      return 'Block #' + num.prettyInt(this.block.header.height)
+    }
   },
   data: () => ({
+    num: num,
+    moment: moment,
     blockUrl: '',
     block_meta: {
       block_id: {

@@ -5,41 +5,59 @@ page.page-bond(title="Bond Atoms")
       i.material-icons arrow_back
       .label Back
 
-  .reserved-atoms
-    span(v-if="unbondedAtoms == totalAtoms")
-    span.reserved-atoms--warning(v-else-if="unbondedAtoms === 0")
-      | You're trying to bond #[.reserved-atoms__number ALL {{ bondedAtoms }}] atoms to these delegates. We suggest reserving some atoms for personal use &mdash; are you sure you wish to proceed?
-    span.reserved-atoms--error(v-else-if="unbondedAtoms < 0")
-      | You're trying to bond #[.reserved-atoms__number {{ unbondedAtoms * -1 }}] more atoms than you have.
-    span(v-else)
-      | You are bonding #[.reserved-atoms__number {{ bondedAtoms }}] ({{ bondedAtomsPct }}) atoms to these delegates. You will keep  #[.reserved-atoms__number {{ unbondedAtoms }}] ({{ unbondedAtomsPct }}) atoms in your wallet.
-    span(v-if="willUnbondAtoms > 0")
-      | You will begin unbonding #[.reserved-atoms__number {{ willUnbondAtoms }}] atoms, which will be available in 30 days.
-    span
-      | #[a.reserved-atoms__restart(@click="resetAlloc") &nbsp;(start over?)]
+  part(title="Your Atoms")
+    list-item(
+      dt="Total Atoms"
+      :dd="totalAtoms")
+    list-item(
+      dt="Total Bonded Atoms"
+      :dd="committedBondedAtoms || 0")
+    list-item(
+      dt="Total Unbonded Atoms"
+      :dd="totalUnbondedAtoms || 0")
 
-  form-struct(:submit="onSubmit")
-    form-group(v-for='(delegate, index) in fields.delegates' key='delegate.id'
-      :error="$v.fields.delegates.$each[index].$error")
-      Label {{ shortenLabel(delegate.delegate.description.moniker, 10) }} - {{ shortenLabel(delegate.delegate.id, 20) }} ({{ percentAtoms(delegate.atoms) }})
-      field-group
-        field(
-          type="number"
-          step="any"
-          placeholder="Atoms"
-          v-model.number="delegate.atoms")
-        field-addon Atoms
-        btn.remove(type="button" icon="clear" @click.native="rm(delegate.id)")
-      form-msg(name="Atoms" type="required"
-        v-if="!$v.fields.delegates.$each[index].atoms.required")
-      form-msg(name="Atoms" type="numeric"
-        v-if="!$v.fields.delegates.$each[index].atoms.numeric")
-      form-msg(name="Atoms" type="between" :min="atomsMin" :max="user.atoms"
-        v-if="!$v.fields.delegates.$each[index].atoms.between")
+  part(title='Selected Delegates')
+    form-struct(:submit="onSubmit")
+      div.alloc-action-container
+        btn.equalize(value="Split Allocation Equally" type="button" @click.native="equalAlloc")
+        btn.reserved-atoms__restart(value="Reset Allocation " type="button" @click.native="resetAlloc")
 
-    div(slot="footer")
-      btn.equalize(icon="drag_handle" value="Equalize" type="button" @click.native="equalAlloc")
-      btn.bond(icon="check" value="Bond")
+      form-group(
+        v-for='(delegate, index) in fields.delegates'
+        :key='delegate.id'
+        :error='$v.fields.delegates.$each[index].$error'
+        :field-label='delegate.delegate.description.moniker'
+        :sub-label="'Previously bonded ' + (committedDelegations[delegate.delegate.id] || 0) + ' Atoms'"
+        field-id='delegate-field')
+        field-group
+          field(
+            type="number"
+            step="any"
+            placeholder="Atoms"
+            v-model.number="delegate.atoms")
+          field-addon Atoms
+          btn.remove(type="button" icon="clear" @click.native="rm(delegate.id)")
+        form-msg(name="Atoms" type="required"
+          v-if="!$v.fields.delegates.$each[index].atoms.required")
+        form-msg(name="Atoms" type="numeric"
+          v-if="!$v.fields.delegates.$each[index].atoms.numeric")
+        form-msg(name="Atoms" type="between" :min="atomsMin" :max="user.atoms"
+          v-if="!$v.fields.delegates.$each[index].atoms.between")
+
+      ul.reserved-atoms
+        li(v-if="uncommittedBondedAtoms > 0 && !(unbondedAtoms < 0)")
+          | This action will bond #[.reserved-atoms__number {{ uncommittedBondedAtoms }}] Atoms to the specified delegates.
+        li.reserved-atoms--error(v-if="unbondedAtoms === 0")
+          | This action will bond all of your #[.reserved-atoms__number {{ uncommittedBondedAtoms }}] Atoms to the specified delegates.
+        li(v-if="willUnbondAtoms > 0")
+          | This action will unbond #[.reserved-atoms__number {{ willUnbondAtoms }}] Atoms from the specified delegates.
+        li.reserved-atoms--error(v-if="unbondedAtoms < 0")
+          | You cannot bond #[.reserved-atoms__number {{ unbondedAtoms * -1 }}] more Atoms than you have.
+        li.reserved-atoms--warning The unbonding period is <b>30</b> days.
+
+      div.submit-container
+        span
+        btn.bond.btn__primary(value="Submit")
 </template>
 
 <script>
@@ -52,7 +70,9 @@ import FieldGroup from 'common/NiFieldGroup'
 import FormGroup from 'common/NiFormGroup'
 import FormMsg from 'common/NiFormMsg'
 import FormStruct from 'common/NiFormStruct'
+import ListItem from 'common/NiListItem'
 import Page from 'common/NiPage'
+import Part from 'common/NiPart'
 import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-bond',
@@ -64,41 +84,56 @@ export default {
     FormGroup,
     FormMsg,
     FormStruct,
+    ListItem,
     Page,
+    Part,
     ToolBar
   },
   computed: {
     ...mapGetters(['shoppingCart', 'user', 'committedDelegations']),
-    previouslyBondedAtoms () {
+    committedBondedAtoms () {
       return Object.values(this.committedDelegations).reduce((sum, d) => sum + d, 0)
     },
     willUnbondAtoms () {
       let sum = 0
-      for (let id of Object.keys(this.committedDelegations)) {
-        let committed = this.committedDelegations[id]
-        let delegate = this.fields.delegates.find(c => c.id === id)
-        let willBond = delegate ? delegate.atoms : 0
-        let unbondAmount = Math.max(committed - willBond, 0)
+      /* eslint-disable no-unused-vars */
+      for (let [k, selectedDelegate] of this.fields.delegates.entries()) {
+        // set previously committed delegations for each delegate in cart
+        let previouslyCommitted = this.committedDelegations[selectedDelegate.id]
+
+        // check to see if user has allocated any atoms in cart
+        let currentlyAllocatedAtoms = selectedDelegate ? selectedDelegate.atoms : 0
+
+        // amount user intends to unbond from each delegate in cart
+        let unbondAmount = Math.max(previouslyCommitted - currentlyAllocatedAtoms, 0)
+
+        // set NaN's to 0
+        unbondAmount = unbondAmount || 0
+
+        // total amount user intends to unbond from all delegates in cart
         sum += unbondAmount
       }
       return sum
     },
     unbondedAtoms () {
-      let willBondSum = this.bondedAtoms
-      let bondedSum = this.previouslyBondedAtoms
-      return this.user.atoms - willBondSum + bondedSum - this.willUnbondAtoms
+      let willBondSum = this.uncommittedBondedAtoms
+      let bondedSum = this.committedBondedAtoms
+      return this.totalAtoms - willBondSum + bondedSum - this.willUnbondAtoms
     },
     unbondedAtomsPct () {
       return Math.round(this.unbondedAtoms / this.totalAtoms * 100 * 10) / 10 + '%'
     },
-    bondedAtoms () {
+    uncommittedBondedAtoms () {
       return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
     },
     bondedAtomsPct () {
-      return Math.round(this.bondedAtoms / this.totalAtoms * 100 * 10) / 10 + '%'
+      return Math.round(this.committedBondedAtoms / this.totalAtoms * 100 * 10) / 10 + '%'
     },
     totalAtoms () {
-      return this.bondedAtoms + this.unbondedAtoms
+      return this.user.atoms
+    },
+    totalUnbondedAtoms () {
+      return this.totalAtoms - this.committedBondedAtoms
     }
   },
   data: () => ({
@@ -123,18 +158,14 @@ export default {
       for (let i = 0; i < remainderAtoms; i++) {
         this.fields.delegates[i].atoms += 1
       }
-
-      this.$store.commit('notify', { title: 'Equal Allocation',
-        body: 'You have split your atoms equally among all of these delegates.'
-      })
     },
-    percentAtoms (bondedAtoms) {
-      return Math.round(bondedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
+    percentAtoms (uncommittedBondedAtoms) {
+      return Math.round(uncommittedBondedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
     },
     async onSubmit () {
       if (this.unbondedAtoms < 0) {
         this.$store.commit('notifyError', { title: 'Too Many Allocated Atoms',
-          body: `You've bonded ${this.unbondedAtoms * -1} more atoms than you have.`})
+          body: `You've tried to bond ${this.unbondedAtoms * -1} more atoms than you have.`})
         return
       }
       this.$v.$touch()
@@ -183,7 +214,7 @@ export default {
   watch: {
     shoppingCart (newVal) {
       this.leaveIfEmpty(newVal.length)
-      // this.resetAlloc()
+      this.resetAlloc()
       if (this.equalize) { this.equalAlloc }
     }
   },
@@ -208,11 +239,37 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.reserved-atoms
+.alloc-action-container
   padding 1rem
-  background app-fg
-  margin 0 0 1rem
+  display flex
+  justify-content flex-end
+
+  .ni-btn-container
+    margin-left 0.5rem
+
+.submit-container
+  padding 1rem
+  display flex
+  justify-content flex-end
+
+.previously-bonded
+  font-size sm
+  padding-left 1rem
+
+.form-msg
   color dim
+  font-size xs
+  line-height xs
+  position relative
+  top -0.25rem
+
+.reserved-atoms
+  height 4rem
+  padding 2rem
+  list-style-type circle
+
+  span
+    display block
 
   &__number
     display inline

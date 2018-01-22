@@ -16,16 +16,16 @@ exports[`PageSend has the expected html structure 1`] = `
         <div
           class="ni-page-header-title"
         >
-          <div>
+          <h2>
             Send
-          </div>
+          </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
-          <div>
+          <h3>
             
-          </div>
+          </h3>
         </div>
       </div>
       <menu
@@ -41,7 +41,23 @@ exports[`PageSend has the expected html structure 1`] = `
               >
                 <div
                   class="main"
-                />
+                >
+                  <a
+                    class="router-link-exact-active router-link-active"
+                    href="#/"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                    <div
+                      class="label"
+                    >
+                      Back
+                    </div>
+                  </a>
+                </div>
                 <a
                   class="help"
                 >
@@ -97,8 +113,9 @@ exports[`PageSend has the expected html structure 1`] = `
                 class="ni-part-main"
               >
                 <div
-                  class="ni-form-group"
+                  class="label-container ni-form-group"
                 >
+                  <!---->
                   <label
                     class="ni-form-group__label"
                     for="send-denomination"
@@ -425,8 +442,9 @@ exports[`PageSend has the expected html structure 1`] = `
                 class="ni-part-main"
               >
                 <div
-                  class="ni-form-group"
+                  class="label-container ni-form-group"
                 >
+                  <!---->
                   <label
                     class="ni-form-group__label"
                     for="send-address"
@@ -456,8 +474,9 @@ exports[`PageSend has the expected html structure 1`] = `
                   </div>
                 </div>
                 <div
-                  class="ni-form-group"
+                  class="label-container ni-form-group"
                 >
+                  <!---->
                   <label
                     class="ni-form-group__label"
                     for="send-amount"
@@ -495,7 +514,7 @@ exports[`PageSend has the expected html structure 1`] = `
           <div>
             <div />
             <button
-              class="ni-btn"
+              class="ni-btn btn__primary"
             >
               <span
                 class="ni-btn-container"

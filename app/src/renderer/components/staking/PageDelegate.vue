@@ -1,9 +1,6 @@
 <template lang="pug">
-page(icon="storage" :title="delegate.description.moniker")
+page(icon="storage" title="Delegate")
   div(slot="menu"): tool-bar
-    router-link(to="/staking" exact)
-      i.material-icons arrow_back
-      .label Back
     a(v-if='inCart' @click.native='rm(delegate.id)')
       i.material-icons delete
       .label Remove
@@ -11,12 +8,13 @@ page(icon="storage" :title="delegate.description.moniker")
       i.material-icons add
       .label Add
 
-  part(title="Delegate Description" v-if="delegate.description.website")
-    text-block( :content="delegate.description.details")
+  h3 {{ delegate.description.moniker }}
   part(title="Delegate Details")
     list-item(dt='Public Key' :dd='delegate.id')
     list-item(dt='Country' :dd='country')
     list-item(dt='Start Date' :dd='delegate.startDate || "n/a"')
+  part(title="Delegate Description")
+    text-block( :content="delegate.description.details")
   part(title="Delegate Stake" v-if="config.devMode")
     list-item(dt='Voting Power' :dd='delegate.voting_power + " ATOM"')
     list-item(dt='Bonded Atoms' :dd='delegate.shares + " ATOM"')
@@ -27,7 +25,7 @@ page(icon="storage" :title="delegate.description.moniker")
     list-item(dt='Max Commission Increase'
       :dd='(delegate.commissionMaxRate * 100).toFixed(2) + "%"')
 
-  part(title="External")
+  part(title="External" v-if="delegate.description.website")
     list-item(dt="Website" :dd="delegate.description.website" :href="delegate.description.website")
 </template>
 
@@ -57,7 +55,7 @@ export default {
         description: {}
       }
       if (this.delegates && this.$route.params.delegate) {
-        value = this.delegates.find(v => v.id === this.$route.params.delegate)
+        value = this.delegates.find(v => v.id === this.$route.params.delegate) || value
       }
       return value
     },
@@ -85,3 +83,6 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+@require '~variables'
+</style>

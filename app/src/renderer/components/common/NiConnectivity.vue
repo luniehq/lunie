@@ -16,7 +16,7 @@ export default {
     ListItem
   },
   computed: {
-    ...mapGetters(['lastHeader', 'nodeIP', 'connected']),
+    ...mapGetters(['lastHeader', 'nodeIP', 'connected', 'validators']),
     blockString () {
       return `${this.lastHeader.chain_id} (#${num.prettyInt(this.lastHeader.height)})`
     }

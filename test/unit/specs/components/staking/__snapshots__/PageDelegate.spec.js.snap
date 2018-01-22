@@ -17,16 +17,16 @@ exports[`PageDelegate has the expected html structure 1`] = `
         <div
           class="ni-page-header-title"
         >
-          <div>
-            
-          </div>
+          <h2>
+            Delegate
+          </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
-          <div>
+          <h3>
             
-          </div>
+          </h3>
         </div>
       </div>
       <menu
@@ -43,21 +43,6 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="main"
                 >
-                  <a
-                    class=""
-                    href="#/staking"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                    <div
-                      class="label"
-                    >
-                      Back
-                    </div>
-                  </a>
                   <a>
                     <i
                       class="material-icons"
@@ -90,7 +75,9 @@ exports[`PageDelegate has the expected html structure 1`] = `
   <main
     class="ni-page-main"
   >
-    <!---->
+    <h3>
+      
+    </h3>
     <section
       class="ni-part"
     >
@@ -196,6 +183,41 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 </div>
               </div>
             </div>
+          </div>
+        </main>
+      </div>
+    </section>
+    <section
+      class="ni-part"
+    >
+      <div
+        class="ni-part-container"
+      >
+        <header
+          class="ni-part-header"
+        >
+          <div
+            class="ni-part-header-container"
+          >
+            <div
+              class="ni-part-title h5"
+            >
+              Delegate Description
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
+        >
+          <div
+            class="text-block"
+          >
+            <pre>
+              
+            </pre>
           </div>
         </main>
       </div>
@@ -363,61 +385,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
         </main>
       </div>
     </section>
-    <section
-      class="ni-part"
-    >
-      <div
-        class="ni-part-container"
-      >
-        <header
-          class="ni-part-header"
-        >
-          <div
-            class="ni-part-header-container"
-          >
-            <div
-              class="ni-part-title h5"
-            >
-              External
-            </div>
-            <menu
-              class="ni-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="ni-part-main"
-        >
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Website
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
-    </section>
+    <!---->
   </main>
 </div>
 `;

@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Balance')
+page(title='Balances')
   div(slot="menu"): tool-bar
     a(@click='updateBalances()')
       i.material-icons refresh
@@ -19,6 +19,7 @@ page(title='Balance')
     list-item(
       v-for="i in filteredBalances"
       v-if="wallet.balances.length > 0 && i.amount > 0"
+      :btn="'Send'"
       :key="i.denom"
       :dt="i.denom.toUpperCase()"
       :dd="i.amount"

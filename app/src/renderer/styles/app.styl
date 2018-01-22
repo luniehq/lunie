@@ -22,12 +22,23 @@ a
 .desktop-only
   display none
 
+.btn__primary
+  .ni-btn-container
+    background alpha(link, 50%)
+    border-color alpha(dim, 50%)
+    &:hover
+      border-color dim
+    .ni-btn-value
+      color bright
+
 #app
   df()
   color txt
   padding-top 3rem
   height 100vh
   width 100vw
+  max-width 100%
+  font-weight 300
 
   display flex
   flex-flow column nowrap
@@ -35,6 +46,11 @@ a
 
 .ni-field
   border-radius 2px!important
+
+#app-content
+  flex 1
+  display flex
+  flex-flow column no-wrap
 
 @media screen and (min-width: 1024px)
   #app
@@ -61,11 +77,6 @@ a
       line-height: normal
       img
         height 1.25rem
-
-  #app-content
-    flex 1
-    display flex
-    flex-flow column no-wrap
 
  .desktop-only
     display block

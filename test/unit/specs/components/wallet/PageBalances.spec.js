@@ -38,6 +38,7 @@ describe('PageBalances', () => {
   it('should filter the balances', () => {
     store.commit('setSearchVisible', ['balances', true])
     store.commit('setSearchQuery', ['balances', 'atom'])
+    wrapper.update()
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual(['ATOM'])
     expect(wrapper.vm.$el).toMatchSnapshot()
   })

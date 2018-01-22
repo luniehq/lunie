@@ -25,10 +25,16 @@ transition(name="proposal")
     +ni-li-icon
 
   // dt/dd router-link
-  router-link.ni-li.ni-li-link(v-else-if='dt && to' :to="to"): .ni-li-container
+  router-link.ni-li.ni-li-link(v-else-if="dt && to && !btn" :to="to"): .ni-li-container
     +ni-li-thumb
     +ni-li-dl
     +ni-li-icon
+
+  // button router-link
+  router-link.ni-li.ni-li-link(v-else-if="btn && to" :to="to"): .ni-li-container
+    +ni-li-thumb
+    +ni-li-dl
+    btn(:value="btn" icon="chevron_right" icon-pos="right").btn__primary
 
   // dt/dd text
   .ni-li(v-else-if='dt'): .ni-li-container
@@ -57,10 +63,15 @@ transition(name="proposal")
 </template>
 
 <script>
+import Btn from '@nylira/vue-button'
 export default {
   name: 'ni-list-item',
-  props: ['type', 'title', 'subtitle', 'image', 'icon', 'to', 'dt', 'dd', 'href']
+  props: ['type', 'title', 'subtitle', 'image', 'icon', 'to', 'dt', 'dd', 'href', 'btn'],
+  components: {
+    Btn
+  }
 }
+
 </script>
 
 <style lang="stylus">
@@ -99,6 +110,10 @@ export default {
       background transparent
       z-index z(listItem)
 
+    .ni-li-dt
+    .ni-li-dd
+      color link
+
   &.router-link-exact-active
     .ni-li-title
       color bright
@@ -108,6 +123,8 @@ export default {
     .ni-li-icon
       i.material-icons
         color mc
+  .ni-btn
+    padding 0 0.75em
 
 .ni-li-container
   display flex

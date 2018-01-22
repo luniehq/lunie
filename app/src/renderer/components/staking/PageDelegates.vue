@@ -1,5 +1,5 @@
 <template lang="pug">
-page(:title='pageTitle')
+page#page-delegates(title='Delegates')
   div(slot="menu"): tool-bar
     a(@click='setSearch(true)')
       i.material-icons search
@@ -7,17 +7,19 @@ page(:title='pageTitle')
     a(@click='updateDelegates(address)')
       i.material-icons refresh
       .label Refresh
-    router-link(v-if="config.devMode" to='/staking/bond')
-      i.material-icons check_circle
-      .label Bond Atoms
 
   modal-search(type="delegates")
 
-  data-error(v-if="delegates.length === 0")
-  data-empty-search(v-else-if="filteredDelegates.length === 0")
-  template(v-else)
-    panel-sort(:sort='sort')
-    li-delegate( v-for='i in filteredDelegates' :key='i.id' :delegate='i')
+  .delegates-container
+    data-error(v-if="delegates.length === 0")
+    data-empty-search(v-else-if="filteredDelegates.length === 0")
+    template(v-else)
+      panel-sort(:sort='sort')
+      li-delegate(v-for='i in filteredDelegates' :key='i.id' :delegate='i')
+
+  .fixed-button-bar
+    .label #[strong {{ shoppingCart.length }}] delegates selected
+    btn.btn__primary(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next")
 </template>
 
 <script>
@@ -25,6 +27,7 @@ import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import LiDelegate from 'staking/LiDelegate'
+import Btn from '@nylira/vue-button'
 import DataEmptySearch from 'common/NiDataEmptySearch'
 import DataError from 'common/NiDataError'
 import Field from '@nylira/vue-field'
@@ -37,6 +40,7 @@ export default {
   name: 'page-delegates',
   components: {
     LiDelegate,
+    Btn,
     DataEmptySearch,
     DataError,
     Field,
@@ -72,11 +76,11 @@ export default {
       property: 'shares',
       order: 'desc',
       properties: [
-        { id: 1, title: 'Name', value: 'description.moniker' },
-        { id: 2, title: 'Public Key', value: 'id' },
-        { id: 3, title: 'Voting Power', value: 'shares', initial: true },
-        { id: 4, title: 'Bonded Atoms', value: 'voting_power' },
-        { id: 5, title: 'Bonded by You', value: 'bonded' }
+        { id: 0, title: '', value: '' },
+        { id: 1, title: 'Name', value: 'description.moniker', class: 'name' },
+        { id: 2, title: '% of Vote', value: 'shares', class: 'percent_of_vote' },
+        { id: 3, title: '# of Votes', value: 'voting_power', class: 'number_of_votes' },
+        { id: 4, title: 'Bonded by You', value: 'bonded', class: 'bonded_by_you' }
       ]
     }
   }),
@@ -99,3 +103,21 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+@require '~variables'
+
+.delegates-container
+  flex 1
+
+.fixed-button-bar
+  width 100%
+  padding 1rem
+  background app-fg
+  display flex
+  justify-content space-between
+  .label
+    color bright
+    line-height 2rem
+    strong
+      font-weight bold
+</style>
