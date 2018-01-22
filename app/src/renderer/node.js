@@ -1,7 +1,6 @@
 'use strict'
 const RpcClient = require('tendermint')
 const RestClient = require('cosmos-sdk')
-const axios = require('axios')
 
 const RELAY_SERVER = 'http://localhost:8999'
 

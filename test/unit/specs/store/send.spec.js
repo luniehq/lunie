@@ -96,7 +96,7 @@ describe('Module: Send', () => {
     })
 
     it('should send a tx ', async () => {
-      node.queryNonce = async (addr) => { data: 88 }
+      node.queryNonce = async (addr) => ({ data: 88 })
       const key = { address: 'DC97A6E1A3E1FE868B55BA93C7FC626368261E09' }
       await store.dispatch('initializeWallet', key)
       const args = {
