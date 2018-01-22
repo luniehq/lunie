@@ -5,9 +5,9 @@ page.page-bond(title="Bond Atoms")
       i.material-icons arrow_back
       .label Back
 
-  part(title="Delegation Form"): form-struct(:submit="onSubmit")
+  part(:title="'Start bonding your '+ totalAtoms + ' ATOM'"): form-struct(:submit="onSubmit")
     .bond-group(
-      :class="bondGroupClass(delta(newUnbondedAtoms, oldUnbondedAtoms))")
+      :class="bondGroupClass(unbondedAtomsDelta)")
       .bond-group__fields
         .bond-bar
           label.bond-bar__label Unbonded Atoms
@@ -15,18 +15,18 @@ page.page-bond(title="Bond Atoms")
             .bond-bar-old__outer
               .bond-bar-old__inner(:style="styleBondBarInner(oldUnbondedAtoms)")
             .bond-bar__outer
-              .bond-bar__inner#unbonded-atoms-bar(
+              .bond-bar__inner(
                 :style="styleBondBarInner(newUnbondedAtoms)")
         .bond-percent
           label.bond-delta
-            | {{ percent(delta(newUnbondedAtoms, oldUnbondedAtoms), totalAtoms) }}
+            span(v-if="unbondedAtomsDeltaPct !== '0%'") {{ unbondedAtomsDeltaPct }}
           field.bond-percent__input(
             disabled
             placeholder="0%"
             :value="bondBarPercent(newUnbondedAtoms)")
         .bond-value
           label.bond-delta
-            | {{ delta(newUnbondedAtoms, oldUnbondedAtoms) }}
+            span(v-if="unbondedAtomsDelta !== 0") {{ unbondedAtomsDelta }}
           field.bond-value__input(
             type="number"
             placeholder="Atoms"
@@ -40,7 +40,7 @@ page.page-bond(title="Bond Atoms")
       :class="bondGroupClass(delta(d.atoms, d.oldAtoms))")
       .bond-group__fields
         .bond-bar
-          label.bond-bar__label {{ d.delegate.description.moniker }}
+          label.bond-bar__label Delegate &ndash; {{ d.delegate.description.moniker }}
           .bond-bar__input
             .bond-bar-old__outer
               .bond-bar-old__inner(:style="styleBondBarInner(d.oldAtoms)")
@@ -48,13 +48,15 @@ page.page-bond(title="Bond Atoms")
               .bond-bar__inner.bond-bar__inner--editable(:id="'delegate-' + d.id"
                 :style="styleBondBarInner(d.atoms)")
         .bond-percent
-          label.bond-delta {{ d.deltaAtomsPercent }}
+          label.bond-delta
+            span(v-if="d.deltaAtomsPercent !== '0%'") {{ d.deltaAtomsPercent }}
           field.bond-percent__input(
             disabled
             placeholder="0%"
             :value="bondBarPercent(d.atoms)")
         .bond-value
-          label.bond-delta {{ d.deltaAtoms }}
+          label.bond-delta
+            span(v-if="d.deltaAtoms !== 0") {{ d.deltaAtoms }}
           field.bond-value__input(
             type="number"
             placeholder="Atoms"
@@ -68,36 +70,46 @@ page.page-bond(title="Bond Atoms")
       form-msg(name="Atoms" type="between" :min="atomsMin" :max="user.atoms"
         v-if="!$v.fields.delegates.$each[index].atoms.between")
 
-    .bond-group(
-      :class="bondGroupClass(delta(newUnbondingAtoms, 0))")
+    .bond-group.bond-group--unbonding(
+      :class="bondGroupClass(newUnbondingAtomsDelta)")
       .bond-group__fields
         .bond-bar
-          label.bond-bar__label Unbonding... (30d)
+          label.bond-bar__label Unbonding&hellip;
           .bond-bar__input
-            // TODO: different colors for unbonding atoms
+            // TODO: different color for old unbonding atoms
             // .bond-bar-old__outer
               .bond-bar-old__inner(:style="styleBondBarInner(oldUnbondingAtoms)")
-            .bond-bar__outer
+            .bond-bar__outer(v-if="newUnbondingAtoms")
               .bond-bar__inner#unbonding-atoms-bar(
                 :style="styleBondBarInner(newUnbondingAtoms)")
         .bond-percent
           label.bond-delta
-            | {{ percent(delta(newUnbondingAtoms, 0), totalAtoms) }}
+            span(v-if="newUnbondingAtomsDeltaPct !== '0%'") {{ newUnbondingAtomsDeltaPct }}
           field.bond-percent__input(
             disabled
             placeholder="0%"
             :value="bondBarPercent(newUnbondingAtoms)")
         .bond-value
           label.bond-delta
-            | {{ delta(newUnbondingAtoms, 0) }}
+            span(v-if="newUnbondingAtomsDelta !== 0") {{ newUnbondingAtomsDelta }}
           field.bond-value__input(
             type="number"
             placeholder="Atoms"
             step="1"
             v-model.number="newUnbondingAtoms")
 
+    form-group(field-id="bond-confirm" field-label=''
+      :error='$v.fields.bondConfirm.$error')
+      .ni-field-checkbox
+        .ni-field-checkbox-input
+          input#bond-confirm(type="checkbox" v-model="fields.bondConfirm")
+        label.ni-field-checkbox-label(for="bond-confirm")
+          | Yes, update my bonds. I understand unbonding will take 30 days.
+      form-msg(name="Bonding Confirmation" type='required'
+        v-if='!$v.fields.bondConfirm.required')
+
     div(slot='footer')
-      div Total Atoms {{ totalAtoms }}
+      btn(type="button" @click.native="resetAlloc" value="Reset")
       btn.bond.btn__primary(value="Submit")
 </template>
 
@@ -170,20 +182,39 @@ export default {
     newBondedAtoms () {
       return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
     },
+    newUnbondedAtoms () {
+      if (this.newBondedAtoms > this.committedBondedAtoms) {
+        return this.totalAtoms - this.newBondedAtoms
+      } else {
+        return this.oldUnbondedAtoms
+      }
+    },
     newUnbondingAtoms () {
       return this.totalAtoms - this.newUnbondedAtoms - this.newBondedAtoms
+    },
+    newUnbondingAtomsDelta () {
+      return this.delta(this.newUnbondingAtoms, 0)
+    },
+    newUnbondingAtomsDeltaPct () {
+      return this.percent(this.newUnbondingAtomsDelta, this.totalAtoms)
     },
     totalAtoms () {
       return this.user.atoms + this.committedBondedAtoms
     },
+    unbondedAtomsDelta () {
+      return this.delta(this.newUnbondedAtoms, this.oldUnbondedAtoms)
+    },
+    unbondedAtomsDeltaPct () {
+      return this.percent(this.unbondedAtomsDelta, this.totalAtoms)
+    }
   },
   data: () => ({
     bondBarScrubWidth: 28,
     bondBarOuterWidth: 0,
-    newUnbondedAtoms: 0,
     equalize: false,
     atomsMin: 0,
     fields: {
+      bondConfirm: false,
       delegates: []
     },
     num: num
@@ -233,7 +264,7 @@ export default {
         d.oldAtoms = atoms
         d.bondedRatio = atoms / totalAtoms
         d.deltaAtoms = 0
-        d.deltaAtomsPercent = 0
+        d.deltaAtomsPercent = '0%'
         return d
       })
     },
@@ -295,11 +326,7 @@ export default {
 
           target.style.width = event.rect.width + 'px'
 
-          if (target.id === 'unbonded-atoms-bar') {
-            this.newUnbondedAtoms = Math.round(rawAtoms)
-          } else {
-            this.updateDelegateAtoms(target.id.split('-')[1], rawAtoms)
-          }
+          this.updateDelegateAtoms(target.id.split('-')[1], rawAtoms)
         })
     },
     updateDelegateAtoms (delegateId, rawAtoms) {
@@ -309,7 +336,7 @@ export default {
         d.atoms = Math.round(rawAtoms)
         d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, 'int')
         d.deltaAtomsPercent =
-          this.percent(this.delta(rawAtoms, d.oldAtoms), this.totalAtoms, 1)
+          this.percent(this.delta(rawAtoms, d.oldAtoms), this.totalAtoms)
       }
     },
     setBondBarOuterWidth () {
@@ -342,7 +369,6 @@ export default {
 
     await this.$nextTick()
     this.setBondBarOuterWidth()
-    this.newUnbondedAtoms = this.oldUnbondedAtoms
   },
   watch: {
     shoppingCart (newVal) {
@@ -353,6 +379,9 @@ export default {
   },
   validations: () => ({
     fields: {
+      bondConfirm: {
+        required,
+      },
       delegates: {
         $each: {
           atoms: {
@@ -376,6 +405,7 @@ export default {
   padding 0.5rem 1rem
   display block
 
+
 .bond-group--positive
   .bond-bar-old__outer
     z-index z(listItem)
@@ -386,9 +416,15 @@ export default {
 
   .bond-delta
     color success
-    &:before
+    span:before
       content '+'
       display inline
+
+  &.bond-group--unbonding
+    .bond-bar__inner
+      background warning
+    .bond-delta
+      color warning
 
 .bond-group--negative
   .bond-bar-old__inner
@@ -468,11 +504,14 @@ export default {
     color bc
 
 .bond-delta
-  line-height 2rem
-  font-size sm
-  text-align right
+  height 2rem
   display block
-  font-weight 500
+  display flex
+  align-items center
+  justify-content flex-end
+  span
+    font-size sm
+    font-weight 500
 
 .bond-percent
 .bond-value
