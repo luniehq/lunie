@@ -92,7 +92,7 @@ export default ({ commit, node }) => {
             throw new Error('Error sending transaction: ' + message)
           }
         })().then(() => {
-          commit('setNonce', args.sequence)
+          commit('setNonce', state.nonce + 1)
           done(null, args)
           dispatch('queryWalletBalances')
         }, (err) => {
