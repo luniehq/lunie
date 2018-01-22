@@ -57,10 +57,10 @@ describe('Module: Node', () => {
     store.dispatch('reconnect')
   })
 
-  it('shouldnt reconnect if stop reconnecting is set', () => {
+  it('should not reconnect if stop reconnecting is set', () => {
     store.commit('stopConnecting', true)
     node.rpcReconnect = () => {
-      throw Error('Shouldnt reconnect')
+      throw Error('Should not reconnect')
     }
     store.dispatch('reconnect')
   })

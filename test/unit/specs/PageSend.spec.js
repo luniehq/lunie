@@ -62,7 +62,7 @@ describe('PageSend', () => {
         amount: 2
       }
     })
-    node.sendTx = () => Promise.reject()
+    node.sign = () => Promise.reject()
     await wrapper.vm.onSubmit()
     expect(store.state.notifications.length).toBe(1)
     expect(store.state.notifications[0].title).toBe('Error Sending')

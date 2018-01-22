@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Module: Delegations submits delegation transaction 1`] = `
+Array [
+  Array [
+    Object {
+      "amount": Object {
+        "amount": 123,
+        "denom": "fermion",
+      },
+      "from": Object {
+        "addr": "address",
+        "app": "sigs",
+        "chain": "",
+      },
+      "pub_key": Object {
+        "data": "foo",
+      },
+      "sequence": 1,
+      "type": "buildDelegate",
+    },
+  ],
+  Array [
+    Object {
+      "amount": Object {
+        "amount": 333,
+        "denom": "fermion",
+      },
+      "done": Promise {},
+      "from": Object {
+        "addr": "address",
+        "app": "sigs",
+        "chain": "",
+      },
+      "pub_key": Object {
+        "data": "bar",
+      },
+      "reject": [Function],
+      "resolve": [Function],
+      "sequence": 2,
+      "type": "buildDelegate",
+    },
+  ],
+  Array [
+    Object {
+      "amount": 789,
+      "done": Promise {},
+      "from": Object {
+        "addr": "address",
+        "app": "sigs",
+        "chain": "",
+      },
+      "pub_key": Object {
+        "data": "baz",
+      },
+      "reject": [Function],
+      "resolve": [Function],
+      "sequence": 3,
+      "type": "buildUnbond",
+    },
+  ],
+  Array [
+    Object {
+      "amount": Object {
+        "amount": 333,
+        "denom": "fermion",
+      },
+      "done": Promise {},
+      "from": Object {
+        "addr": "address",
+        "app": "sigs",
+        "chain": "",
+      },
+      "pub_key": Object {
+        "data": "bar",
+      },
+      "reject": [Function],
+      "resolve": [Function],
+      "sequence": 2,
+      "type": "buildDelegate",
+    },
+  ],
+  Array [
+    Object {
+      "amount": 789,
+      "done": Promise {},
+      "from": Object {
+        "addr": "address",
+        "app": "sigs",
+        "chain": "",
+      },
+      "pub_key": Object {
+        "data": "baz",
+      },
+      "reject": [Function],
+      "resolve": [Function],
+      "sequence": 3,
+      "type": "buildUnbond",
+    },
+  ],
+]
+`;
+
+exports[`Module: Delegations submits delegation transaction 2`] = `
+Array [
+  Array [
+    Object {
+      "amount": Object {
+        "amount": 123,
+        "denom": "fermion",
+      },
+      "from": Object {
+        "addr": "address",
+        "app": "sigs",
+        "chain": "",
+      },
+      "pub_key": Object {
+        "data": "foo",
+      },
+      "sequence": 1,
+      "type": "buildDelegate",
+    },
+  ],
+  Array [
+    Object {
+      "amount": Object {
+        "amount": 333,
+        "denom": "fermion",
+      },
+      "done": Promise {},
+      "from": Object {
+        "addr": "address",
+        "app": "sigs",
+        "chain": "",
+      },
+      "pub_key": Object {
+        "data": "bar",
+      },
+      "reject": [Function],
+      "resolve": [Function],
+      "sequence": 2,
+      "type": "buildDelegate",
+    },
+  ],
+]
+`;
+
+exports[`Module: Delegations submits delegation transaction 3`] = `
+Array [
+  Array [
+    Object {
+      "amount": 789,
+      "done": Promise {},
+      "from": Object {
+        "addr": "address",
+        "app": "sigs",
+        "chain": "",
+      },
+      "pub_key": Object {
+        "data": "baz",
+      },
+      "reject": [Function],
+      "resolve": [Function],
+      "sequence": 3,
+      "type": "buildUnbond",
+    },
+  ],
+]
+`;
