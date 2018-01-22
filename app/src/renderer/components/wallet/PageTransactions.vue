@@ -21,7 +21,7 @@ page(title='Transactions')
 <script>
 import shortid from 'shortid'
 import { mapGetters } from 'vuex'
-import { includes, orderBy } from 'lodash'
+import { includes, orderBy, uniqBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import DataEmptySearch from 'common/NiDataEmptySearch'
 import DataEmptyTx from 'common/NiDataEmptyTx'
@@ -44,7 +44,8 @@ export default {
   computed: {
     ...mapGetters(['filters', 'transactions', 'wallet', 'config']),
     orderedTransactions () {
-      return orderBy(this.transactions, [this.sort.property], [this.sort.order])
+      let list = orderBy(this.transactions, [this.sort.property], [this.sort.order])
+      return uniqBy(list, 'time') // filter out duplicate tx to self
     },
     filteredTransactions () {
       let query = this.filters.transactions.search.query
