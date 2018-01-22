@@ -67,7 +67,7 @@ page.page-bond(title="Bond Atoms")
         v-if="!$v.fields.delegates.$each[index].atoms.required")
       form-msg(name="Atoms" type="numeric"
         v-if="!$v.fields.delegates.$each[index].atoms.numeric")
-      form-msg(name="Atoms" type="between" :min="atomsMin" :max="user.atoms"
+      form-msg(name="Atoms" type="between" :min="minimumAtoms" :max="$v.fields.delegates.$each[index].atoms.$params.between.max"
         v-if="!$v.fields.delegates.$each[index].atoms.between")
 
     .bond-group.bond-group--unbonding(
@@ -144,46 +144,20 @@ export default {
   },
   computed: {
     ...mapGetters(['shoppingCart', 'user', 'committedDelegations']),
-    committedBondedAtoms () {
+    totalAtoms () {
+      return this.user.atoms + this.oldBondedAtoms
+    },
+    oldBondedAtoms () {
       return Object.values(this.committedDelegations).reduce((sum, d) => sum + d, 0)
     },
-    willUnbondAtoms () {
-      let sum = 0
-      /* eslint-disable no-unused-vars */
-      for (let [k, selectedDelegate] of this.fields.delegates.entries()) {
-        // set previously committed delegations for each delegate in cart
-        let previouslyCommitted = this.committedDelegations[selectedDelegate.id]
-
-        // check to see if user has allocated any atoms in cart
-        let currentlyAllocatedAtoms = selectedDelegate ? selectedDelegate.atoms : 0
-
-        // amount user intends to unbond from each delegate in cart
-        let unbondAmount = Math.max(previouslyCommitted - currentlyAllocatedAtoms, 0)
-
-        // set NaN's to 0
-        unbondAmount = unbondAmount || 0
-
-        // total amount user intends to unbond from all delegates in cart
-        sum += unbondAmount
-      }
-      return sum
-    },
-    unbondedAtoms () {
-      let willBondSum = this.newBondedAtoms
-      let bondedSum = this.committedBondedAtoms
-      return this.totalAtoms - willBondSum + bondedSum - this.willUnbondAtoms
-    },
     oldUnbondedAtoms () {
-      return this.totalAtoms - this.committedBondedAtoms
-    },
-    newUnbondedRatio () {
-      return this.newUnbondedAtoms / this.totalAtoms
+      return this.totalAtoms - this.oldBondedAtoms
     },
     newBondedAtoms () {
       return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
     },
     newUnbondedAtoms () {
-      if (this.newBondedAtoms > this.committedBondedAtoms) {
+      if (this.newBondedAtoms > this.oldBondedAtoms) {
         return this.totalAtoms - this.newBondedAtoms
       } else {
         return this.oldUnbondedAtoms
@@ -198,9 +172,6 @@ export default {
     newUnbondingAtomsDeltaPct () {
       return this.percent(this.newUnbondingAtomsDelta, this.totalAtoms)
     },
-    totalAtoms () {
-      return this.user.atoms + this.committedBondedAtoms
-    },
     unbondedAtomsDelta () {
       return this.delta(this.newUnbondedAtoms, this.oldUnbondedAtoms)
     },
@@ -211,8 +182,7 @@ export default {
   data: () => ({
     bondBarScrubWidth: 28,
     bondBarOuterWidth: 0,
-    equalize: false,
-    atomsMin: 0,
+    minimumAtoms: 0,
     fields: {
       bondConfirm: false,
       delegates: []
@@ -220,25 +190,10 @@ export default {
     num: num
   }),
   methods: {
-    equalAlloc () {
-      this.equalize = true
-      this.resetAlloc()
-      let atoms = this.unbondedAtoms
-      let delegates = this.fields.delegates.length
-      let remainderAtoms = atoms % delegates
-
-      // give equal atoms to every delegate
-      this.fields.delegates.forEach(c => (c.atoms += Math.floor(atoms / delegates)))
-
-      // give remainder atoms
-      for (let i = 0; i < remainderAtoms; i++) {
-        this.fields.delegates[i].atoms += 1
-      }
-    },
     async onSubmit () {
-      if (this.unbondedAtoms < 0) {
+      if (this.newUnbondedAtoms < 0) {
         this.$store.commit('notifyError', { title: 'Too Many Allocated Atoms',
-          body: `You've tried to bond ${this.unbondedAtoms * -1} more atoms than you have.`})
+          body: `You've tried to bond ${this.newUnbondedAtoms * -1} more atoms than you have.`})
         return
       }
       this.$v.$touch()
@@ -374,7 +329,6 @@ export default {
     shoppingCart (newVal) {
       this.leaveIfEmpty(newVal.length)
       this.resetAlloc()
-      if (this.equalize) { this.equalAlloc }
     }
   },
   validations: () => ({
@@ -387,8 +341,13 @@ export default {
           atoms: {
             required,
             numeric,
-            between (atoms) {
-              return between(this.atomsMin, this.user.atoms)(atoms)
+            between (atoms, parentVm) {
+              let otherDelegates = this.fields.delegates.filter(
+                d => d.id !== parentVm.id)
+              let otherBondedAtoms = otherDelegates.reduce(
+                (sum, d) => sum + (d.atoms || 0), 0)
+              let maximumAtoms = this.totalAtoms - otherBondedAtoms
+              return between(this.minimumAtoms, maximumAtoms)(atoms)
             }
           }
         }
@@ -471,6 +430,7 @@ export default {
   border-radius 1rem
   background dim
   width 50%
+  min-width 2rem - 0.25rem
 
 .bond-bar__inner
   position relative
