@@ -1,4 +1,4 @@
-import setup from '../helpers/vuex-setup'
+import setup from '../../../helpers/vuex-setup'
 import Vuelidate from 'vuelidate'
 import PageSend from 'renderer/components/wallet/PageSend'
 

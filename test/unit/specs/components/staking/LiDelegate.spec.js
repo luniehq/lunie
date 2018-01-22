@@ -1,4 +1,4 @@
-import setup from '../helpers/vuex-setup'
+import setup from '../../../helpers/vuex-setup'
 import LiDelegate from 'renderer/components/staking/LiDelegate'
 
 describe('LiDelegate', () => {

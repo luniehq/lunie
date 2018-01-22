@@ -1,4 +1,4 @@
-import setup from '../helpers/vuex-setup'
+import setup from '../../../helpers/vuex-setup'
 import PageBalances from 'renderer/components/wallet/PageBalances'
 
 describe('PageBalances', () => {

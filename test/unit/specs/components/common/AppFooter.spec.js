@@ -1,4 +1,4 @@
-import setup from '../helpers/vuex-setup'
+import setup from '../../../helpers/vuex-setup'
 import AppFooter from 'renderer/components/common/AppFooter'
 
 describe('AppFooter', () => {
