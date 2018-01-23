@@ -28,6 +28,7 @@ page.page-bond(title="Bond Atoms")
           label.bond-delta
             span(v-if="unbondedAtomsDelta !== 0") {{ unbondedAtomsDelta }}
           field.bond-value__input(
+            disabled
             type="number"
             placeholder="Atoms"
             step="1"
@@ -93,6 +94,7 @@ page.page-bond(title="Bond Atoms")
           label.bond-delta
             span(v-if="newUnbondingAtomsDelta !== 0") {{ newUnbondingAtomsDelta }}
           field.bond-value__input(
+            disabled
             type="number"
             placeholder="Atoms"
             step="1"
@@ -157,14 +159,28 @@ export default {
       return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
     },
     newUnbondedAtoms () {
-      if (this.newBondedAtoms > this.oldBondedAtoms) {
-        return this.totalAtoms - this.newBondedAtoms
-      } else {
-        return this.oldUnbondedAtoms
+      let value = this.oldUnbondedAtoms
+      if (this.fields.delegates.length > 0) {
+        this.fields.delegates.map(d => {
+          let delta = d.oldAtoms - d.atoms
+          if (delta < 0) {
+            value += delta
+          }
+        })
       }
+      return value
     },
     newUnbondingAtoms () {
-      return this.totalAtoms - this.newUnbondedAtoms - this.newBondedAtoms
+      let value = 0
+      if (this.fields.delegates.length > 0) {
+        this.fields.delegates.map(d => {
+          let delta = d.oldAtoms - d.atoms
+          if (delta > 0) {
+            value += delta
+          }
+        })
+      }
+      return value
     },
     newUnbondingAtomsDelta () {
       return this.delta(this.newUnbondingAtoms, 0)
