@@ -93,7 +93,6 @@ export default {
     async updateDelegates (address) {
       let candidates = await this.$store.dispatch('getDelegates')
       this.$store.dispatch('getBondedDelegates', {candidates, address})
-      console.log('Updated Delegates')
     },
     setSearch (bool) { this.$store.commit('setSearchVisible', ['delegates', bool]) }
   },
