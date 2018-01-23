@@ -31,8 +31,7 @@ page.page-bond(title="Bond Atoms")
             disabled
             type="number"
             placeholder="Atoms"
-            step="1"
-            v-model.number="newUnbondedAtoms")
+            :value="newUnbondedAtoms")
 
     .bond-group(
       v-for='(d, index) in fields.delegates'
@@ -97,8 +96,7 @@ page.page-bond(title="Bond Atoms")
             disabled
             type="number"
             placeholder="Atoms"
-            step="1"
-            v-model.number="newUnbondingAtoms")
+            :value="newUnbondingAtoms")
 
     form-group(field-id="bond-confirm" field-label=''
       :error='$v.fields.bondConfirm.$error')
@@ -219,6 +217,9 @@ export default {
           await this.$store.dispatch('submitDelegation', this.fields)
           this.$store.commit('notify', { title: 'Atoms Bonded',
             body: 'You have successfully updated your delegations.' })
+
+          // reset the form after an successful bonding tx
+          this.resetAlloc()
         } catch (err) {
           this.$store.commit('notifyError', { title: 'Error While Bonding Atoms',
             body: err.message })
@@ -243,16 +244,9 @@ export default {
       if (count === 0) {
         this.$store.commit('notifyError', {
           title: 'No Delegates Selected',
-          body: 'Choose one or more delegates before proceeding to bond atoms.'
+          body: 'Select one or more delegates before proceeding to bond atoms.'
         })
         this.$router.push('/staking')
-      }
-    },
-    rm (delegateId) {
-      let confirm = window.confirm('Are you sure you want to remove this delegate?')
-      if (confirm) {
-        this.$store.commit('removeFromCart', delegateId)
-        this.resetAlloc()
       }
     },
     bondBarPercent (dividend) {
