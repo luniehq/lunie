@@ -1,5 +1,5 @@
 import NiModalSearch from 'common/NiModalSearch'
-import setup from '../helpers/vuex-setup'
+import setup from '../../../helpers/vuex-setup'
 
 describe('NiModalSearch', () => {
   let wrapper, store
