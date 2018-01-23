@@ -1,3 +1,5 @@
+let mockValidators = require('./json/validators.json')
+
 module.exports = {
   // REST
   lcdConnected: () => Promise.resolve(true),
@@ -13,13 +15,13 @@ module.exports = {
     seed_phrase: 'a b c d e f g h i j k l'
   }),
   queryAccount: () => null,
-  queryNonce: () => '123',
-  buildSend: (args) => {
-    if (args.to.addr.indexOf('fail') !== -1) return Promise.reject('Failed on purpose')
-    return Promise.resolve(null)
-  },
+  queryNonce: () => ({data: 123}),
+  buildSend: () => Promise.resolve(null),
+  buildDelegate: () => Promise.resolve(null),
+  buildUnbond: () => Promise.resolve(null),
   coinTxs: () => Promise.resolve([]),
   candidates: () => Promise.resolve({data: []}),
+  sendTx: () => Promise.resolve(),
   postTx: () => Promise.resolve({
     check_tx: { code: 0 },
     deliver_tx: { code: 0 }
@@ -30,9 +32,9 @@ module.exports = {
   rpc: {
     on: () => {},
     subscribe: () => {},
-    validators: () => [],
+    validators: () => mockValidators,
     block: (args, cb) => cb({}),
-    blockchain: (args, cb) => cb({}),
+    blockchain: (args, cb) => cb(null, {block_metas: {}}),
     status: (cb) => cb(null, {
       latest_block_height: 42,
       node_info: {

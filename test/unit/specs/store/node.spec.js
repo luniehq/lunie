@@ -10,10 +10,17 @@ describe('Module: Node', () => {
     store = test.store
     node = test.node
 
+    node.rpcOpen = true
     node.rpcReconnect = jest.fn(() => {
       node.rpcOpen = true
       return Promise.resolve()
     })
+  })
+
+  jest.useFakeTimers()
+
+  afterEach(() => {
+    jest.runAllTimers()
   })
 
   it('sets the header', () => {
@@ -50,9 +57,20 @@ describe('Module: Node', () => {
     store.dispatch('reconnect')
   })
 
+  it('should not reconnect if stop reconnecting is set', () => {
+    store.commit('stopConnecting', true)
+    node.rpcReconnect = () => {
+      throw Error('Should not reconnect')
+    }
+    store.dispatch('reconnect')
+  })
+
   it('reacts to rpc disconnection with reconnect', done => {
     let failed = false
-    node.rpcReconnect = () => done()
+    node.rpcReconnect = () => {
+      store.commit('stopConnecting', true)
+      done()
+    }
     node.rpc.on = jest.fn((value, cb) => {
       if (value === 'error' && !failed) {
         failed = true
@@ -65,8 +83,10 @@ describe('Module: Node', () => {
     store.dispatch('nodeSubscribe')
   })
 
-  it('doesnt reconnect on errors that do not mean discconection', done => {
-    node.rpcReconnect = () => done.fail()
+  it('doesnt reconnect on errors that do not mean disconnection', () => {
+    node.rpcReconnect = () => {
+      throw Error('Shouldnt reconnect')
+    }
     node.rpc.on = jest.fn((value, cb) => {
       if (value === 'error') {
         cb({
@@ -76,7 +96,6 @@ describe('Module: Node', () => {
       }
     })
     store.dispatch('nodeSubscribe')
-    setTimeout(() => done(), 200)
   })
 
   it('should set the initial status', () => {
@@ -153,13 +172,11 @@ describe('Module: Node', () => {
     store.dispatch('pollRPCConnection', 10)
   })
 
-  it('should not reconnect if pinging node is successful', done => {
+  it('should not reconnect if pinging node is successful', () => {
     node.rpc.status = (cb) => cb(null, {node_info: {}})
-    node.rpcReconnect = () => done.fail()
+    node.rpcReconnect = () => {
+      throw Error('Shouldnt reconnect')
+    }
     store.dispatch('pollRPCConnection', 50)
-    setTimeout(() => {
-      node.rpcReconnect = () => {}
-      done()
-    }, 500)
   })
 })
