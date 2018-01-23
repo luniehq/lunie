@@ -37,6 +37,15 @@ Object {
 }
 `;
 
+exports[`Module: Notification should add an signout notification to the store 1`] = `
+Object {
+  "body": "Come back again soon.",
+  "icon": "exit_to_app",
+  "time": 1608,
+  "title": "Signed Out",
+}
+`;
+
 exports[`Module: Notification should add an signup notification to the store 1`] = `
 Object {
   "body": "Thank you for signing up.",

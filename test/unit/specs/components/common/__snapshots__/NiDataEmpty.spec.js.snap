@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiDataEmpty has the expected html structure 1`] = `
+"<div class=\\"ni-data-msg\\">
+   <div class=\\"ni-data-msg__icon\\">
+      <i class=\\"material-icons\\">info_outline</i>
+   </div>
+<div class=\\"ni-data-msg__text\\">
+   <div class=\\"ni-data-msg__title\\">
+      <h4>
+         N/A
+      </h4>
+</div>
+<div class=\\"ni-data-msg__subtitle\\">
+   <h5>
+      No data available yet.
+   </h5>
+</div>
+</div>
+</div>"
+`;

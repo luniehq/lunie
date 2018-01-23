@@ -35,9 +35,7 @@
     "test:unit": "cross-env LOGGING=false MOCK=false jest --maxWorkers=2",
     "test:e2e": "tape \"test/e2e/!(main)*.js\"",
     "vue:route": "node tasks/vue/route.js",
-    "vuex:module": "node tasks/vuex/module.js",
-    "rebuild": "electron-rebuild",
-    "postinstall": "npm run rebuild"
+    "vuex:module": "node tasks/vuex/module.js"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
@@ -57,7 +55,6 @@
     "electron-debug": "^1.4.0",
     "electron-devtools-installer": "^2.1.0",
     "electron-packager": "^10.1.0",
-    "electron-rebuild": "^1.5.7",
     "eslint": "^3.13.1",
     "eslint-config-standard": "^6.2.1",
     "eslint-friendly-formatter": "^2.0.5",

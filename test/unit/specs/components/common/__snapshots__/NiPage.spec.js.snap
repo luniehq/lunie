@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiPage has the expected html structure 1`] = `
+<div
+  class="ni-page"
+>
+  <header
+    class="ni-page-header"
+    icon="hello_icon"
+  >
+    <div
+      class="ni-page-header-container"
+    >
+      <div
+        class="ni-page-header-text"
+      >
+        <div
+          class="ni-page-header-title"
+        >
+          <h2>
+            Title
+          </h2>
+        </div>
+        <div
+          class="ni-page-header-subtitle"
+        >
+          <h3>
+            Subtitle
+          </h3>
+        </div>
+      </div>
+      <menu
+        class="ni-page-header-menu"
+      >
+        <div />
+      </menu>
+    </div>
+  </header>
+  <main
+    class="ni-page-main"
+  />
+</div>
+`;

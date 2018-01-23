@@ -1,6 +1,9 @@
 <template lang='pug'>
 page(title='Send')
   div(slot="menu"): tool-bar
+    router-link(:to="{ name: 'balances' }")
+      i.material-icons arrow_back
+      .label Back
 
   form-struct(:submit="onSubmit")
     part(title='Denomination Options')
@@ -39,8 +42,8 @@ page(title='Send')
 
     div(slot='footer')
       div
-      btn(v-if='sending' value='Sending...' disabled)
-      btn(v-else @click='onSubmit' value="Send Tokens")
+      btn.btn__primary(v-if='sending' value='Sending...' disabled)
+      btn.btn__primary(v-else @click='onSubmit' value="Send Tokens")
 </template>
 
 <script>
@@ -102,21 +105,25 @@ export default {
       await this.walletSend({
         fees: { denom, amount: 0 },
         to: address,
-        amount: [{ denom, amount }],
-        cb: (err) => {
-          this.sending = false
-          if (err) {
-            this.$store.commit('notifyError', {
-              title: 'Error Sending',
-              body: `An error occurred while trying to send: "${err.message}"`
-            })
-            return
-          }
-          this.$store.commit('notify', {
-            title: 'Successfully Sent',
-            body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
-          })
-        }
+        amount: [{ denom, amount }]
+      }).then(() => {
+        this.sending = false
+        this.$store.commit('notify', {
+          title: 'Successfully Sent',
+          body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
+        })
+
+          // resets send transaction form
+        this.resetForm()
+
+          // refreshes user transaction history
+        this.$store.dispatch('queryWalletHistory')
+      }, err => {
+        this.sending = false
+        this.$store.commit('notifyError', {
+          title: 'Error Sending',
+          body: `An error occurred while trying to send: "${err.message}"`
+        })
       })
     },
     ...mapActions(['walletSend'])
@@ -131,7 +138,7 @@ export default {
     fields: {
       address: {
         required,
-        minLength: minLength(39),
+        minLength: minLength(40),
         maxLength: maxLength(42),
         alphaNum: alphaNum
       },

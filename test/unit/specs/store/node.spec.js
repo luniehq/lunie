@@ -10,10 +10,17 @@ describe('Module: Node', () => {
     store = test.store
     node = test.node
 
+    node.rpcOpen = true
     node.rpcReconnect = jest.fn(() => {
       node.rpcOpen = true
       return Promise.resolve()
     })
+  })
+
+  jest.useFakeTimers()
+
+  afterEach(() => {
+    jest.runAllTimers()
   })
 
   it('sets the header', () => {
@@ -50,14 +57,40 @@ describe('Module: Node', () => {
     store.dispatch('reconnect')
   })
 
+  it('should not reconnect if stop reconnecting is set', () => {
+    store.commit('stopConnecting', true)
+    node.rpcReconnect = () => {
+      throw Error('Should not reconnect')
+    }
+    store.dispatch('reconnect')
+  })
+
   it('reacts to rpc disconnection with reconnect', done => {
     let failed = false
-    node.rpcReconnect = () => done()
+    node.rpcReconnect = () => {
+      store.commit('stopConnecting', true)
+      done()
+    }
     node.rpc.on = jest.fn((value, cb) => {
       if (value === 'error' && !failed) {
         failed = true
         cb({
           message: 'disconnected'
+        })
+        expect(store.state.node.connected).toBe(false)
+      }
+    })
+    store.dispatch('nodeSubscribe')
+  })
+
+  it('doesnt reconnect on errors that do not mean disconnection', () => {
+    node.rpcReconnect = () => {
+      throw Error('Shouldnt reconnect')
+    }
+    node.rpc.on = jest.fn((value, cb) => {
+      if (value === 'error') {
+        cb({
+          message: 'some message'
         })
         expect(store.state.node.connected).toBe(false)
       }
@@ -123,9 +156,27 @@ describe('Module: Node', () => {
     expect(store.state.node.nodeTimeout).toBeDefined()
   })
 
-  it('should reconnect if pinging node fails', done => {
+  it('should reconnect if pinging node timesout', done => {
     node.rpcReconnect = () => done()
     node.rpc.status = (cb) => {}
-    store.dispatch('pollRPCConnection', 0)
+    store.dispatch('pollRPCConnection', 10)
+  })
+
+  it('should reconnect if pinging node fails', done => {
+    node.rpcReconnect = () => {
+      // restore status hook as it crashes the rest if not
+      node.rpc.status = (cb) => {}
+      done()
+    }
+    node.rpc.status = (cb) => cb('Error')
+    store.dispatch('pollRPCConnection', 10)
+  })
+
+  it('should not reconnect if pinging node is successful', () => {
+    node.rpc.status = (cb) => cb(null, {node_info: {}})
+    node.rpcReconnect = () => {
+      throw Error('Shouldnt reconnect')
+    }
+    store.dispatch('pollRPCConnection', 50)
   })
 })

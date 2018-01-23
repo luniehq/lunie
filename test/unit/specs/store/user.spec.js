@@ -146,11 +146,6 @@ describe('Module: User', () => {
     expect(store.state.user.password).toBe(null)
     expect(store.state.user.signedIn).toBe(false)
 
-    // initialize wallet
-    expect(store.state.wallet.key).toEqual({
-      address: 'some address'
-    })
-
     // hide login
     expect(store.state.config.modals.session.active).toBe(true)
   })

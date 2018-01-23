@@ -3,7 +3,6 @@
 const { exec } = require('child_process')
 const { join } = require('path')
 const packager = require('electron-packager')
-const rebuild = require('electron-rebuild').default
 const mkdirp = require('mkdirp').sync
 const fs = require('fs-extra')
 const { promisify } = require('util')
@@ -20,6 +19,13 @@ process.argv.forEach(function (val) {
     console.log('Using prebuilt binary', binaryPath)
   }
 })
+
+if (!binaryPath) {
+  console.error(`\x1b[31mPlease specify a gaia binary for this platform using the "--binary" flag
+    Example: npm run build:darwin -- --binary=./gaia
+    \x1b[0m`)
+  process.exit(1)
+}
 
 if (process.env.PLATFORM_TARGET === 'clean') {
   require('del').sync(['builds/*', '!.gitkeep'])
@@ -55,18 +61,7 @@ function build () {
   let options = require('../config').building
 
   options.afterCopy = [
-    binaryPath
-      ? copyBinary('gaia', binaryPath)
-      : buildGaiaBinary()
-  ]
-  // prune installs the packages
-  options.afterPrune = [
-    // we need to rebuild some native packages for the electron environment
-    function rebuildNodeModules (buildPath, electronVersion, platform, arch, callback) {
-      rebuild({ buildPath, electronVersion, arch })
-        .then(callback)
-        .catch(callback)
-    }
+    copyBinary('gaia', binaryPath)
   ]
 
   console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')
@@ -91,46 +86,5 @@ function copyBinary (name, binaryLocation) {
     }
     fs.copySync(binaryLocation, binPath)
     cb()
-  }
-}
-
-const GOARCH = {
-  'x64': 'amd64',
-  'ia32': '386'
-}
-
-function buildGaiaBinary () {
-  return function (buildPath, electronVersion, platform, arch, cb) {
-    if (platform === 'win32') platform = 'windows'
-    if (platform === 'mas') platform = 'darwin'
-    if (GOARCH[arch]) arch = GOARCH[arch]
-
-    console.log(`\x1b[34mBuilding gaia binary (${platform}/${arch})...\n\x1b[0m`)
-
-    let output = 'gaia'
-    if (platform === 'windows') output += '.exe'
-
-    let cmd = `
-      docker run -v "/tmp:/mnt" golang bash -c "
-        go get github.com/cosmos/gaia;
-        cd /go/src/github.com/cosmos/gaia && \
-        git checkout develop && \
-        make get_vendor_deps && \
-        GOOS=${platform} GOARCH=${arch} go build \
-          -o /mnt/${output} \
-          -ldflags '-s -w' \
-          ./cmd/gaia
-      "
-    `
-    let docker = exec(cmd)
-    docker.stdout.on('data', (data) => process.stdout.write(data))
-    docker.stderr.on('data', (data) => process.stderr.write(data))
-    docker.once('exit', (code) => {
-      if (code !== 0) return cb(Error('Build failed'))
-
-      let binPath = join(buildPath, 'bin')
-      mkdirp(binPath)
-      fs.copy(join('/tmp', output), join(binPath, output), cb)
-    })
   }
 }
