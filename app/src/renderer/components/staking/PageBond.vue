@@ -222,7 +222,6 @@ export default {
           this.$store.commit('notifyError', { title: 'Error While Bonding Atoms',
             body: err.message })
         }
-
       }
     },
     resetFields () {
@@ -282,7 +281,7 @@ export default {
         .resizable({
           edges: { left: false, right: true, bottom: false, top: false },
           restrictEdges: { outer: 'parent' },
-          restrictSize: { min: { width: offset }, }
+          restrictSize: { min: { width: offset } }
         })
         .on('resizemove', (event) => {
           let target = event.target
@@ -344,7 +343,7 @@ export default {
   validations: () => ({
     fields: {
       bondConfirm: {
-        required,
+        required
       },
       delegates: {
         $each: {
