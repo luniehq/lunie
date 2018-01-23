@@ -80,16 +80,16 @@ describe('PageDelegates', () => {
     expect(wrapper.find('.fixed-button-bar strong').text().trim()).toContain('2')
   })
 
-  it('should show an error if there are no delegates', () => {
+  it('should show placeholder if delegates are loading', () => {
     let {wrapper} = mount(PageDelegates, {
       getters: {
         delegates: () => []
       },
       stubs: {
-        'data-error': '<data-error />'
+        'data-loading': '<data-loading />'
       }
     })
 
-    expect(wrapper.contains('data-error')).toBe(true)
+    expect(wrapper.contains('data-loading')).toBe(true)
   })
 })
