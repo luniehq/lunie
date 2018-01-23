@@ -119,7 +119,9 @@ function createWindow () {
     mainWindow.webContents.openDevTools()
   }
 
-  mainWindow.maximize()
+  if (DEV) {
+    mainWindow.maximize()
+  }
 
   mainWindow.on('closed', shutdown)
 
