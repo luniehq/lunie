@@ -3,9 +3,8 @@
 const { exec } = require('child_process')
 const { join } = require('path')
 const packager = require('electron-packager')
-const mkdirp = require('mkdirp').sync
 const fs = require('fs-extra')
-const { promisify } = require('util')
+const zip = require('deterministic-zip')
 
 let skipPack = false
 let binaryPath = null
@@ -65,13 +64,15 @@ function build () {
   ]
 
   console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')
-  packager(options, (err, appPaths) => {
+  packager(options, async (err, appPaths) => {
     if (err) {
       console.error('\x1b[31mError from `electron-packager` when building app...\x1b[0m')
       console.error(err)
     } else {
       console.log('Build(s) successful!')
       console.log(appPaths)
+      console.log('\x1b[34mZipping files...\n\x1b[0m')
+      await Promise.all(appPaths.map(deterministicZip))
 
       console.log('\n\x1b[34mDONE\n\x1b[0m')
     }
@@ -87,4 +88,17 @@ function copyBinary (name, binaryLocation) {
     fs.copySync(binaryLocation, binPath)
     cb()
   }
+}
+
+function deterministicZip (folder) {
+  let outFile = 'builds/cosmos/cosmos.zip'
+  return new Promise((resolve, reject) => zip(folder, outFile, (err) => {
+    if (err) {
+      console.error('\x1b[31mError from `deterministic-zip` when zipping app...\x1b[0m')
+      reject(err)
+    } else {
+      console.log('Zip successful!', outFile)
+      resolve()
+    }
+  }))
 }

@@ -106,6 +106,7 @@
     "casual": "^1.5.19",
     "chart.js": "^2.6.0",
     "cosmos-sdk": "^1.5.1",
+    "deterministic-zip": "^1.0.5",
     "electron": "^1.7.5",
     "event-to-promise": "^0.8.0",
     "express": "^4.16.2",
