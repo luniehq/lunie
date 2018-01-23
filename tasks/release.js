@@ -1,11 +1,12 @@
 'use strict'
 
 const { exec } = require('child_process')
-const { join } = require('path')
+const { join, parse } = require('path')
 const packager = require('electron-packager')
 const fs = require('fs-extra')
 const zip = require('deterministic-zip')
 const md5File = require('md5-file')
+const packageJson = require('../package.json')
 
 let skipPack = false
 let binaryPath = null
@@ -72,8 +73,8 @@ function build () {
     } else {
       console.log('Build(s) successful!')
       console.log(appPaths)
-      console.log('\x1b[34mZipping files...\n\x1b[0m')
-      await Promise.all(appPaths.map(deterministicZip))
+      console.log('\n\x1b[34mZipping files...\n\x1b[0m')
+      await Promise.all(appPaths.map(appPath => deterministicZip(appPath, options.out, packageJson.version)))
 
       console.log('\n\x1b[34mDONE\n\x1b[0m')
     }
@@ -91,14 +92,14 @@ function copyBinary (name, binaryLocation) {
   }
 }
 
-function deterministicZip (folder) {
-  let outFile = 'builds/cosmos/cosmos.zip'
-  return new Promise((resolve, reject) => zip(folder, outFile, (err) => {
+function deterministicZip (inDir, outDir, version) {
+  let name = parse(inDir).name
+  let outFile = join(outDir, `${name}_${version}.zip`)
+  return new Promise((resolve, reject) => zip(inDir, outFile, {cwd: inDir}, (err) => {
     if (err) {
       console.error('\x1b[31mError from `deterministic-zip` when zipping app...\x1b[0m')
       reject(err)
     } else {
-      console.log('Zip successful!', outFile)
       console.log('Zip successful!', outFile, 'MD5:', md5File.sync(outFile))
       resolve()
     }
