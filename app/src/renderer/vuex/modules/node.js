@@ -57,10 +57,8 @@ export default function ({ node }) {
         })
       })
       node.rpc.subscribe({ event: 'NewBlockHeader' }, (err, event) => {
-        console.log(err)
         // if (err) return console.error('error subscribing to headers', err)
         // commit('setConnected', true)
-        console.log(event)
         // dispatch('setLastHeader', event.data.data.header)
       })
 
