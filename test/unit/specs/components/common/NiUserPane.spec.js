@@ -1,6 +1,6 @@
 import NiUserPane from 'common/NiUserPane'
 import ListItem from 'common/NiListItem'
-import setup from '../helpers/vuex-setup'
+import setup from '../../../helpers/vuex-setup'
 
 describe('NiUserPane', () => {
   let wrapper, router, store, instance

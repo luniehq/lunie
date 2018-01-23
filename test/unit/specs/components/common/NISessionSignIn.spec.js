@@ -1,4 +1,4 @@
-import setup from '../helpers/vuex-setup'
+import setup from '../../../helpers/vuex-setup'
 import Vuelidate from 'vuelidate'
 import htmlBeautify from 'html-beautify'
 import NiSessionSignIn from 'common/NiSessionSignIn'

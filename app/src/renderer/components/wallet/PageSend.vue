@@ -138,7 +138,7 @@ export default {
     fields: {
       address: {
         required,
-        minLength: minLength(39),
+        minLength: minLength(40),
         maxLength: maxLength(42),
         alphaNum: alphaNum
       },
