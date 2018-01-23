@@ -11,7 +11,7 @@ page#page-delegates(title='Delegates')
   modal-search(type="delegates")
 
   .delegates-container
-    data-error(v-if="delegates.length === 0")
+    data-loading(v-if="delegates.length === 0")
     data-empty-search(v-else-if="filteredDelegates.length === 0")
     template(v-else)
       panel-sort(:sort='sort')
@@ -29,7 +29,7 @@ import Mousetrap from 'mousetrap'
 import LiDelegate from 'staking/LiDelegate'
 import Btn from '@nylira/vue-button'
 import DataEmptySearch from 'common/NiDataEmptySearch'
-import DataError from 'common/NiDataError'
+import DataLoading from 'common/NiDataLoading'
 import Field from '@nylira/vue-field'
 import ModalSearch from 'common/NiModalSearch'
 import Page from 'common/NiPage'
@@ -42,7 +42,7 @@ export default {
     LiDelegate,
     Btn,
     DataEmptySearch,
-    DataError,
+    DataLoading,
     Field,
     ModalSearch,
     Page,
@@ -93,6 +93,7 @@ export default {
     async updateDelegates (address) {
       let candidates = await this.$store.dispatch('getDelegates')
       this.$store.dispatch('getBondedDelegates', {candidates, address})
+      console.log('Updated Delegates')
     },
     setSearch (bool) { this.$store.commit('setSearchVisible', ['delegates', bool]) }
   },

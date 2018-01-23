@@ -109,8 +109,8 @@ page.page-bond(title="Bond Atoms")
         v-if='!$v.fields.bondConfirm.required')
 
     div(slot='footer')
-      btn(type="button" @click.native="resetAlloc" value="Reset")
-      btn.bond.btn__primary(value="Submit")
+      btn(type="button" @click.native="resetFields" value="Reset")
+      btn#btn-bond.btn__primary(value="Submit")
 </template>
 
 <script>
@@ -217,20 +217,20 @@ export default {
           await this.$store.dispatch('submitDelegation', this.fields)
           this.$store.commit('notify', { title: 'Atoms Bonded',
             body: 'You have successfully updated your delegations.' })
-
-          // reset the form after an successful bonding tx
-          this.resetAlloc()
+          this.$router.push('/staking')
         } catch (err) {
           this.$store.commit('notifyError', { title: 'Error While Bonding Atoms',
             body: err.message })
         }
+
       }
     },
-    resetAlloc () {
+    resetFields () {
       let committedDelegations = this.committedDelegations
       let totalAtoms = this.totalAtoms
+      this.fields.bondConfirm = false
       this.fields.delegates = this.shoppingCart.map(c => JSON.parse(JSON.stringify(c)))
-      this.fields.delegates = this.fields.delegates.map(function (d) {
+      this.fields.delegates = this.fields.delegates.map(d => {
         let atoms = committedDelegations[d.delegate.id]
         d.atoms = atoms
         d.oldAtoms = atoms
@@ -328,8 +328,8 @@ export default {
     }
   },
   async mounted () {
-    this.resetAlloc()
     this.leaveIfEmpty(this.shoppingCart.length)
+    this.resetFields()
     this.bondBarsInput()
 
     await this.$nextTick()
@@ -338,7 +338,7 @@ export default {
   watch: {
     shoppingCart (newVal) {
       this.leaveIfEmpty(newVal.length)
-      this.resetAlloc()
+      this.resetFields()
     }
   },
   validations: () => ({
@@ -373,7 +373,6 @@ export default {
 .bond-group
   padding 0.5rem 1rem
   display block
-
 
 .bond-group--positive
   .bond-bar-old__outer

@@ -62,24 +62,6 @@ describe('PageBond', () => {
     expect(htmlBeautify(wrapper.html())).toContain('someOtherValidator')
   })
 
-  /* it('should allow removal of candidates', () => {
-    global.confirm = jest.fn()
-    global.confirm.mockReturnValue(true)
-    expect(wrapper.vm.fields.delegates.length).toBe(2)
-    wrapper.findAll('button.remove').at(0).trigger('click')
-    expect(wrapper.vm.fields.delegates.length).toBe(1)
-
-    expect(global.confirm).toHaveBeenCalled()
-    expect(htmlBeautify(wrapper.html())).not.toContain('someValidator')
-    expect(htmlBeautify(wrapper.html())).toContain('someOtherValidator')
-  }) */
-
-  /* it('should equally split atoms if desired', () => {
-    wrapper.findAll('button.equalize').trigger('click')
-    expect(wrapper.vm.fields.delegates[0].atoms).toBe(51)
-    expect(wrapper.vm.fields.delegates[1].atoms).toBe(50)
-  }) */
-
   it('should show an error when bonding too many atoms', () => {
     wrapper.setData({
       fields: {
@@ -97,14 +79,15 @@ describe('PageBond', () => {
         ]
       }
     })
-    wrapper.findAll('button.bond').trigger('click')
+    wrapper.findAll('#btn-bond').trigger('click')
     expect(store.dispatch.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
-  it('should bond atoms on submit', () => {
+  it('should show an error if confirmation is not checked', () => {
     wrapper.setData({
       fields: {
+        bondConfirm: false,
         delegates: [
           {
             id: 'pubkeyX',
@@ -119,12 +102,34 @@ describe('PageBond', () => {
         ]
       }
     })
-    expect(htmlBeautify(wrapper.html())).not.toContain('This action will unbond')
-    wrapper.findAll('button.bond').trigger('click')
+    wrapper.findAll('#btn-bond').trigger('click')
+    expect(store.dispatch.mock.calls[0]).toBeUndefined()
+    expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
+  })
+
+  it('should bond atoms on submit', () => {
+    wrapper.setData({
+      fields: {
+        bondConfirm: true,
+        delegates: [
+          {
+            id: 'pubkeyX',
+            delegate: store.getters.shoppingCart[0].delegate,
+            atoms: 51
+          },
+          {
+            id: 'pubkeyY',
+            delegate: store.getters.shoppingCart[1].delegate,
+            atoms: 50
+          }
+        ]
+      }
+    })
+    wrapper.findAll('#btn-bond').trigger('click')
     expect(store.dispatch.mock.calls[0][0]).toBe('submitDelegation')
   })
 
-  /* it('should unbond atoms if bond amount is decreased', () => {
+  it('should unbond atoms if bond amount is decreased', () => {
     store.commit('setCommittedDelegation', {
       candidateId: 'pubkeyX',
       value: 51
@@ -136,6 +141,7 @@ describe('PageBond', () => {
     wrapper.update()
     wrapper.setData({
       fields: {
+        bondConfirm: true,
         delegates: [
           {
             id: 'pubkeyX',
@@ -150,10 +156,7 @@ describe('PageBond', () => {
         ]
       }
     })
-
-    expect(htmlBeautify(wrapper.html())).toContain('This action will unbond')
-
-    wrapper.findAll('button.bond').trigger('click')
+    wrapper.findAll('#btn-bond').trigger('click')
     expect(store.dispatch.mock.calls[0][0]).toBe('submitDelegation')
-  }) */
+  })
 })

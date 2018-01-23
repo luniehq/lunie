@@ -92,7 +92,7 @@ exports[`PageBond has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Selected Delegates
+              Start bonding your 101 ATOM
             </div>
             <menu
               class="ni-part-menu"
@@ -113,163 +113,336 @@ exports[`PageBond has the expected html structure 1`] = `
                 class="ni-form-main"
               >
                 <div
-                  class="bond-group ni-form-group"
+                  class="bond-group bond-group--neutral"
                 >
-                  <!---->
-                  <!---->
                   <div
-                    class="ni-form-group__field"
+                    class="bond-group__fields"
                   >
                     <div
-                      class="bond-group__fields"
+                      class="bond-bar"
                     >
-                      <div
-                        class="bond-bar__container"
+                      <label
+                        class="bond-bar__label"
                       >
+                        Unbonded Atoms
+                      </label>
+                      <div
+                        class="bond-bar__input"
+                      >
+                        <div
+                          class="bond-bar-old__outer"
+                        >
+                          <div
+                            class="bond-bar-old__inner"
+                            style="width: 0px;"
+                          />
+                        </div>
                         <div
                           class="bond-bar__outer"
                         >
                           <div
                             class="bond-bar__inner"
-                            style="width: 100%;"
-                          >
-                             
-                          </div>
+                            style="width: 0px;"
+                          />
                         </div>
                       </div>
-                      <input
-                        class="bond-group__percent ni-field"
-                        disabled="disabled"
-                        placeholder="0%"
-                      />
-                      <input
-                        class="bond-group__value ni-field"
-                        placeholder="Atoms"
-                        type="number"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="bond-group ni-form-group"
-                >
-                  <!---->
-                  <label
-                    class="ni-form-group__label"
-                    for="delegate-field"
-                  >
-                    someValidator
-                  </label>
-                  <div
-                    class="ni-form-group__field"
-                  >
-                    <div
-                      class="bond-group__fields"
-                    >
-                      <div
-                        class="bond-bar__container"
-                      >
-                        <div
-                          class="bond-bar__outer"
-                        >
-                          <div
-                            class="bond-bar__inner"
-                          >
-                             
-                          </div>
-                        </div>
-                      </div>
-                      <input
-                        class="bond-group__percent ni-field"
-                        disabled="disabled"
-                        placeholder="0%"
-                      />
-                      <input
-                        class="bond-group__value ni-field"
-                        placeholder="Atoms"
-                        type="number"
-                      />
                     </div>
                     <div
-                      class="ni-form-msg sm ni-form-msg--error"
+                      class="bond-percent"
                     >
-                      Atoms is required
-                    </div>
-                    <!---->
-                    <!---->
-                  </div>
-                </div>
-                <div
-                  class="bond-group ni-form-group"
-                >
-                  <!---->
-                  <label
-                    class="ni-form-group__label"
-                    for="delegate-field"
-                  >
-                    someOtherValidator
-                  </label>
-                  <div
-                    class="ni-form-group__field"
-                  >
-                    <div
-                      class="bond-group__fields"
-                    >
-                      <div
-                        class="bond-bar__container"
-                      >
-                        <div
-                          class="bond-bar__outer"
-                        >
-                          <div
-                            class="bond-bar__inner"
-                          >
-                             
-                          </div>
-                        </div>
-                      </div>
-                      <input
-                        class="bond-group__percent ni-field"
-                        disabled="disabled"
-                        placeholder="0%"
-                      />
-                      <input
-                        class="bond-group__value ni-field"
-                        placeholder="Atoms"
-                        type="number"
-                      />
-                    </div>
-                    <div
-                      class="ni-form-msg sm ni-form-msg--error"
-                    >
-                      Atoms is required
-                    </div>
-                    <!---->
-                    <!---->
-                  </div>
-                </div>
-                <div
-                  class="submit-container"
-                >
-                  <span>
-                    <button
-                      class="ni-btn bond btn__primary"
-                    >
-                      <span
-                        class="ni-btn-container"
+                      <label
+                        class="bond-delta"
                       >
                         <!---->
-                        <span
-                          class="ni-btn-value"
+                      </label>
+                      <input
+                        class="bond-percent__input ni-field"
+                        disabled="disabled"
+                        placeholder="0%"
+                      />
+                    </div>
+                    <div
+                      class="bond-value"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <!---->
+                      </label>
+                      <input
+                        class="bond-value__input ni-field"
+                        disabled="disabled"
+                        placeholder="Atoms"
+                        type="number"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="bond-group bond-group--neutral"
+                >
+                  <div
+                    class="bond-group__fields"
+                  >
+                    <div
+                      class="bond-bar"
+                    >
+                      <label
+                        class="bond-bar__label"
+                      >
+                        Delegate – someValidator
+                      </label>
+                      <div
+                        class="bond-bar__input"
+                      >
+                        <div
+                          class="bond-bar-old__outer"
                         >
-                          Submit
-                        </span>
-                      </span>
-                    </button>
-                  </span>
+                          <div
+                            class="bond-bar-old__inner"
+                          />
+                        </div>
+                        <div
+                          class="bond-bar__outer"
+                        >
+                          <div
+                            class="bond-bar__inner bond-bar__inner--editable"
+                            id="delegate-pubkeyX"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="bond-percent"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <!---->
+                      </label>
+                      <input
+                        class="bond-percent__input ni-field"
+                        disabled="disabled"
+                        placeholder="0%"
+                      />
+                    </div>
+                    <div
+                      class="bond-value"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <!---->
+                      </label>
+                      <input
+                        class="bond-value__input ni-field"
+                        placeholder="Atoms"
+                        step="1"
+                        type="number"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="ni-form-msg sm ni-form-msg--error"
+                  >
+                    Atoms is required
+                  </div>
+                  <!---->
+                  <!---->
+                </div>
+                <div
+                  class="bond-group bond-group--neutral"
+                >
+                  <div
+                    class="bond-group__fields"
+                  >
+                    <div
+                      class="bond-bar"
+                    >
+                      <label
+                        class="bond-bar__label"
+                      >
+                        Delegate – someOtherValidator
+                      </label>
+                      <div
+                        class="bond-bar__input"
+                      >
+                        <div
+                          class="bond-bar-old__outer"
+                        >
+                          <div
+                            class="bond-bar-old__inner"
+                          />
+                        </div>
+                        <div
+                          class="bond-bar__outer"
+                        >
+                          <div
+                            class="bond-bar__inner bond-bar__inner--editable"
+                            id="delegate-pubkeyY"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="bond-percent"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <!---->
+                      </label>
+                      <input
+                        class="bond-percent__input ni-field"
+                        disabled="disabled"
+                        placeholder="0%"
+                      />
+                    </div>
+                    <div
+                      class="bond-value"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <!---->
+                      </label>
+                      <input
+                        class="bond-value__input ni-field"
+                        placeholder="Atoms"
+                        step="1"
+                        type="number"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="ni-form-msg sm ni-form-msg--error"
+                  >
+                    Atoms is required
+                  </div>
+                  <!---->
+                  <!---->
+                </div>
+                <div
+                  class="bond-group bond-group--unbonding bond-group--neutral"
+                >
+                  <div
+                    class="bond-group__fields"
+                  >
+                    <div
+                      class="bond-bar"
+                    >
+                      <label
+                        class="bond-bar__label"
+                      >
+                        Unbonding…
+                      </label>
+                      <div
+                        class="bond-bar__input"
+                      >
+                        <!---->
+                      </div>
+                    </div>
+                    <div
+                      class="bond-percent"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <!---->
+                      </label>
+                      <input
+                        class="bond-percent__input ni-field"
+                        disabled="disabled"
+                        placeholder="0%"
+                      />
+                    </div>
+                    <div
+                      class="bond-value"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <!---->
+                      </label>
+                      <input
+                        class="bond-value__input ni-field"
+                        disabled="disabled"
+                        placeholder="Atoms"
+                        type="number"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ni-form-group"
+                >
+                  <!---->
+                  <!---->
+                  <div
+                    class="ni-form-group__field"
+                  >
+                    <div
+                      class="ni-field-checkbox"
+                    >
+                      <div
+                        class="ni-field-checkbox-input"
+                      >
+                        <input
+                          id="bond-confirm"
+                          type="checkbox"
+                        />
+                      </div>
+                      <label
+                        class="ni-field-checkbox-label"
+                        for="bond-confirm"
+                      >
+                        Yes, update my bonds. I understand unbonding will take 30 days.
+                      </label>
+                    </div>
+                    <div
+                      class="ni-form-msg sm ni-form-msg--error"
+                    >
+                      Bonding Confirmation is required
+                    </div>
+                  </div>
                 </div>
               </main>
-              <!---->
+              <footer
+                class="ni-form-footer"
+              >
+                <div>
+                  <button
+                    class="ni-btn"
+                    type="button"
+                  >
+                    <span
+                      class="ni-btn-container"
+                    >
+                      <!---->
+                      <span
+                        class="ni-btn-value"
+                      >
+                        Reset
+                      </span>
+                    </span>
+                  </button>
+                  <button
+                    class="ni-btn btn__primary"
+                    id="btn-bond"
+                  >
+                    <span
+                      class="ni-btn-container"
+                    >
+                      <!---->
+                      <span
+                        class="ni-btn-value"
+                      >
+                        Submit
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </footer>
             </div>
           </form>
         </main>
