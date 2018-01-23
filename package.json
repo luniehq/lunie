@@ -20,9 +20,6 @@
     "build:linux": "cross-env PLATFORM_TARGET=linux node tasks/release.js",
     "build:mas": "cross-env PLATFORM_TARGET=mas node tasks/release.js",
     "build:win32": "cross-env PLATFORM_TARGET=win32 node tasks/release.js",
-    "release:darwin": "electron-installer-dmg --overwrite builds/Cosmos-darwin-x64/Cosmos.app builds/cosmos",
-    "release:linux": "electron-installer-debian --src builds/Cosmos-linux-x64/ --dest builds/cosmos --arch amd64",
-    "release:win32": "node tasks/windows-installer.js",
     "uionly": "cross-env COSMOS_UI_ONLY='true' yarn run testnet",
     "local": "npm run testnet local",
     "testnet": "node tasks/testnet.js",
@@ -187,11 +184,5 @@
       "./test/unit/helpers/console_error_throw.js",
       "./test/unit/helpers/genesis_mock.js"
     ]
-  },
-  "optionalDependencies": {
-    "electron-installer-debian": "^0.7.1",
-    "electron-installer-dmg": "^0.2.1",
-    "electron-squirrel-startup": "^1.0.0",
-    "electron-winstaller": "^2.6.3"
   }
 }
