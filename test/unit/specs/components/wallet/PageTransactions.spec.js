@@ -1,4 +1,4 @@
-import setup from '../helpers/vuex-setup'
+import setup from '../../../helpers/vuex-setup'
 import PageTransactions from 'renderer/components/wallet/PageTransactions'
 
 describe('PageTransactions', () => {

@@ -1,4 +1,4 @@
-import setup from '../helpers/vuex-setup'
+import setup from '../../../helpers/vuex-setup'
 import htmlBeautify from 'html-beautify'
 import Vuelidate from 'vuelidate'
 import PageBond from 'renderer/components/staking/PageBond'

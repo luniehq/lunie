@@ -1,4 +1,4 @@
-import setup from '../helpers/vuex-setup'
+import setup from '../../../helpers/vuex-setup'
 import Page404 from 'renderer/components/common/Page404'
 
 describe('Page404', () => {

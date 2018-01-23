@@ -1,6 +1,6 @@
 import AppHeader from 'common/AppHeader'
 import htmlBeautify from 'html-beautify'
-import setup from '../helpers/vuex-setup'
+import setup from '../../../helpers/vuex-setup'
 
 describe('AppHeader', () => {
   let wrapper, store, instance
