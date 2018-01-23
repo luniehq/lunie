@@ -1,11 +1,11 @@
 'use strict'
 
 const { exec } = require('child_process')
+const { createHash } = require('crypto')
 const { join, parse } = require('path')
 const packager = require('electron-packager')
 const fs = require('fs-extra')
 const zip = require('deterministic-zip')
-const md5File = require('md5-file')
 const packageJson = require('../package.json')
 
 let skipPack = false
@@ -92,6 +92,15 @@ function copyBinary (name, binaryLocation) {
   }
 }
 
+function sha256File (path) {
+  let hash = createHash('sha256')
+  fs.createReadStream(path).pipe(hash)
+  return new Promise((resolve, reject) => {
+    hash.on('data', (hash) =>
+      resolve(hash.toString('hex')))
+  })
+}
+
 function deterministicZip (inDir, outDir, version) {
   let name = parse(inDir).name
   let outFile = join(outDir, `${name}_${version}.zip`)
@@ -100,8 +109,10 @@ function deterministicZip (inDir, outDir, version) {
       console.error('\x1b[31mError from `deterministic-zip` when zipping app...\x1b[0m')
       reject(err)
     } else {
-      console.log('Zip successful!', outFile, 'MD5:', md5File.sync(outFile))
-      resolve()
+      sha256File(outFile).then((hash) => {
+        console.log('Zip successful!', outFile, 'SHA256:', hash)
+        resolve()
+      })
     }
   }))
 }
