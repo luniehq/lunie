@@ -111,6 +111,7 @@
     "flatpickr": "^4.1.2",
     "fs-extra": "^5.0.0",
     "kill-port": "^1.0.0",
+    "md5-file": "^3.2.3",
     "moment": "^2.17.1",
     "mousetrap": "^1.6.1",
     "nib": "^1.1.2",

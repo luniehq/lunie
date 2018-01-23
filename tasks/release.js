@@ -5,6 +5,7 @@ const { join } = require('path')
 const packager = require('electron-packager')
 const fs = require('fs-extra')
 const zip = require('deterministic-zip')
+const md5File = require('md5-file')
 
 let skipPack = false
 let binaryPath = null
@@ -98,6 +99,7 @@ function deterministicZip (folder) {
       reject(err)
     } else {
       console.log('Zip successful!', outFile)
+      console.log('Zip successful!', outFile, 'MD5:', md5File.sync(outFile))
       resolve()
     }
   }))
