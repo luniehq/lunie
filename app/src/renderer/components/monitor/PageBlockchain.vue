@@ -16,7 +16,7 @@ page(title='Blocks')
     part(title='Block Explorer')
       list-item.column-header(dt="Block Height" dd="# of Transactions")
       list-item(
-        v-for="block in filteredBlocks()"
+        v-for="block in blocks"
         :key="block.header.height"
         :dt="block.header.height"
         :dd="block.data.txs.length"
@@ -47,7 +47,7 @@ export default {
     ModalSearch
   },
   computed: {
-    ...mapGetters(['blockchain', 'validators', 'lastHeader', 'filters']),
+    ...mapGetters(['blockchain', 'lastHeader', 'filters']),
     status () {
       return this.blockchain.status
     },
@@ -61,24 +61,6 @@ export default {
   methods: {
     setSearch (bool) {
       this.$store.commit('setSearchVisible', ['blockchain', bool])
-    },
-    filteredBlocks () {
-      let query = this.filters.blockchain.search.query
-      let blockUrl = `https://${this.blockchain.blockchainName}-node0.testnets.interblock.io/block?height=${query}`
-      let list = this.blocks
-      let searchResult = []
-
-      if (this.filters.blockchain.search.visible && query) {
-        axios(blockUrl).then(({data}) => {
-          if (data.err) {
-            console.log('err', data.err)
-            return
-          }
-          return searchResult = [data.result.block]
-        })
-      } else {
-        return list
-      }
     }
   },
   mounted () {
