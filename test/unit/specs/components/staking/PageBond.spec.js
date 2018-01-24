@@ -84,6 +84,55 @@ describe('PageBond', () => {
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
+  it('should show an appropriate amount of unbonded atoms', () => {
+    wrapper.setData({
+      fields: {
+        bondConfirm: false,
+        delegates: [
+          {
+            id: 'pubkeyX',
+            delegate: store.getters.shoppingCart[0].delegate,
+            atoms: 30,
+            oldAtoms: 20
+          },
+          {
+            id: 'pubkeyY',
+            delegate: store.getters.shoppingCart[1].delegate,
+            atoms: 30,
+            oldAtoms: 20
+          }
+        ]
+      }
+    })
+    expect(wrapper.vm.newUnbondedAtoms).toBe(81)
+    expect(wrapper.find('#new-unbonded-atoms').vnode.elm._value).toBe(81)
+  })
+
+
+  it('should show an appropriate amount of unbonding atoms', () => {
+    wrapper.setData({
+      fields: {
+        bondConfirm: false,
+        delegates: [
+          {
+            id: 'pubkeyX',
+            delegate: store.getters.shoppingCart[0].delegate,
+            atoms: 31,
+            oldAtoms: 41
+          },
+          {
+            id: 'pubkeyY',
+            delegate: store.getters.shoppingCart[1].delegate,
+            atoms: 30,
+            oldAtoms: 40
+          }
+        ]
+      }
+    })
+    expect(wrapper.vm.newUnbondingAtoms).toBe(20)
+    expect(wrapper.find('#new-unbonding-atoms').vnode.elm._value).toBe(20)
+  })
+
   it('should show an error if confirmation is not checked', () => {
     wrapper.setData({
       fields: {

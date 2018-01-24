@@ -172,6 +172,7 @@ exports[`PageBond has the expected html structure 1`] = `
                       <input
                         class="bond-value__input ni-field"
                         disabled="disabled"
+                        id="new-unbonded-atoms"
                         placeholder="Atoms"
                         type="number"
                       />
@@ -363,6 +364,7 @@ exports[`PageBond has the expected html structure 1`] = `
                       <input
                         class="bond-value__input ni-field"
                         disabled="disabled"
+                        id="new-unbonding-atoms"
                         placeholder="Atoms"
                         type="number"
                       />

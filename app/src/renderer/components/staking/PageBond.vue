@@ -27,7 +27,7 @@ page.page-bond(title="Bond Atoms")
         .bond-value
           label.bond-delta
             span(v-if="unbondedAtomsDelta !== 0") {{ unbondedAtomsDelta }}
-          field.bond-value__input(
+          field.bond-value__input#new-unbonded-atoms(
             disabled
             type="number"
             placeholder="Atoms"
@@ -80,7 +80,7 @@ page.page-bond(title="Bond Atoms")
             // .bond-bar-old__outer
               .bond-bar-old__inner(:style="styleBondBarInner(oldUnbondingAtoms)")
             .bond-bar__outer(v-if="newUnbondingAtoms")
-              .bond-bar__inner#unbonding-atoms-bar(
+              .bond-bar__inner(
                 :style="styleBondBarInner(newUnbondingAtoms)")
         .bond-percent
           label.bond-delta
@@ -92,7 +92,7 @@ page.page-bond(title="Bond Atoms")
         .bond-value
           label.bond-delta
             span(v-if="newUnbondingAtomsDelta !== 0") {{ newUnbondingAtomsDelta }}
-          field.bond-value__input(
+          field.bond-value__input#new-unbonding-atoms(
             disabled
             type="number"
             placeholder="Atoms"
