@@ -64,6 +64,12 @@ To run the UI with a mocked backend (without connecting to a testnet):
 $ yarn run uionly
 ```
 
+To check Jest unit test coverage:
+```bash
+$ jest
+$ http-server test/unit/coverage/lcov-report
+```
+
 ---
 
 ### Production
