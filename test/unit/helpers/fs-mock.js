@@ -1,38 +1,54 @@
 const { Writable } = require('stream')
+const { normalize, sep } = require('path')
 
 export default function mockFsExtra (fileSystem = {}) {
   const fsExtraMock = {
-    ensureFile: (path) => create(path, fileSystem),
-    createWriteStream: () => new Writable(),
-    access: (path) => {
-      let {file} = get(path, fileSystem)
-      if (!file) {
-        throwENOENT()
-      }
-      !!get(path, fileSystem).file
-    },
     copy: (from, to) => {
-      let {file} = get(from, fileSystem)
-      if (!file) {
-        throwENOENT()
+      let {file} = get(from, fsExtraMock.fs)
+      if (file === null) {
+        throwENOENT(from)
       }
-      create(to, fileSystem, file)
+      create(to, fsExtraMock.fs, file)
+    },
+    ensureFile: (path) => {
+      let {file} = get(path, fsExtraMock.fs)
+      if (file === null) {
+        create(path, fsExtraMock.fs)
+      }
+    },
+    ensureDir: (path) => {
+      let {file} = get(path, fsExtraMock.fs)
+      if (file === null) {
+        create(path, fsExtraMock.fs)
+      }
+    },
+    createWriteStream: () => new Writable(),
+    // for simplicity we say if there is a file we can access it
+    access: (path) => {
+      let {file} = get(path, fsExtraMock.fs)
+      if (file === null) {
+        throwENOENT(path)
+        return false
+      }
+      return !!get(path, fsExtraMock.fs).file
     },
     remove: (path) => {
-      let {parent, name} = get(path, fileSystem)
+      let {parent, name} = get(path, fsExtraMock.fs)
       delete parent[name]
     },
-    ensureDir: (path) => create(path, fileSystem),
     readFile: (path) => {
-      let {file} = get(path, fileSystem)
+      let {file} = get(path, fsExtraMock.fs)
       if (!file) {
-        throwENOENT()
+        throwENOENT(path)
       }
       return file
     },
-    writeFile: (path, file) => create(path, fileSystem, file),
-    pathExists: (path) => !!get(path, fileSystem).file,
-    exists: (path) => !!get(path, fileSystem).file
+    writeFile: (path, file) => create(path, fsExtraMock.fs, file),
+    pathExists: (path) => !!get(path, fsExtraMock.fs).file,
+    exists: (path) => {
+      let {file} = get(path, fsExtraMock.fs)
+      return file !== null
+    }
   }
 
   // all methods are synchronous in tests
@@ -40,19 +56,34 @@ export default function mockFsExtra (fileSystem = {}) {
     fsExtraMock[key + 'Sync'] = fsExtraMock[key]
   })
 
-  function throwENOENT () {
-    let error = new Error('File doesnt exist. FS: ' + JSON.stringify(fileSystem))
+  // for debugging
+  fsExtraMock.MOCKED = true
+  fsExtraMock.fs = fileSystem
+
+  // strip long content from fs
+  function fsToString (fs) {
+    // clone
+    fs = JSON.parse(JSON.stringify(fs))
+    Object.keys(fs).forEach(key => {
+      if (typeof fs[key] === 'object') {
+        fs[key] = fsToString(fs[key])
+      } else {
+        fs[key] = '#CONTENT#'
+      }
+    })
+    return fs
+  }
+
+  function throwENOENT (path) {
+    let error = new Error('Path ' + path + ' doesnt exist.\nFS:' + JSON.stringify(fsToString(fileSystem), null, 2))
     error.code = 'ENOENT'
     throw error
   }
 
   function get (path, fs) {
-    let pathArr = path.split('/')
+    path = normalize(path)
+    let pathArr = path.split(sep).filter(x => x !== '')
     let current = pathArr.shift()
-
-    if (current === '.') {
-      return get(pathArr.join('/'), fs)
-    }
 
     if (fs[current]) {
       if (pathArr.length === 0) {
@@ -72,14 +103,20 @@ export default function mockFsExtra (fileSystem = {}) {
   }
 
   function create (path, fs, file = {}) {
-    let pathArr = path.split('/')
+    path = normalize(path)
+    let pathArr = path.split(sep).filter(x => x !== '')
     let current = pathArr.shift()
 
     if (!fs[current]) {
       fs[current] = {}
     }
     if (pathArr.length === 0) {
-      fs[current] = file
+      if (typeof file === 'object') {
+        // clone object
+        fs[current] = JSON.parse(JSON.stringify(file))
+      } else {
+        fs[current] = file
+      }
       return true
     }
     return create(pathArr.join('/'), fs[current], file)

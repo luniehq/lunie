@@ -7,18 +7,12 @@ function sleep (ms) {
 
 jest.mock('fs-extra', () => {
   let fs = require('fs')
-  mockFsExtra({
-    app: {
-      networks: {
-        'gaia-1': {
-          'config.toml': fs.readFileSync('./app/networks/gaia-1/config.toml', 'utf8'),
-          'genesis.json': fs.readFileSync('./app/networks/gaia-1/genesis.json', 'utf8')
-        }
-      }
-    }
-  })
+  let mockFs = mockFsExtra()
+  mockFs.writeFile('./app/networks/gaia-1/config.toml', fs.readFileSync('./app/networks/gaia-1/config.toml', 'utf8'))
+  mockFs.writeFile('./app/networks/gaia-1/genesis.json', fs.readFileSync('./app/networks/gaia-1/genesis.json', 'utf8'))
+  return mockFs
 })
-const fs = require('fs-extra')
+let fs = require('fs-extra')
 
 jest.mock('electron', () => {
   return {
@@ -74,9 +68,6 @@ describe('Startup Process', () => {
   })
 
   describe('Initialization', function () {
-    beforeAll(async function () {
-      await resetConfigs()
-    })
     mainSetup()
 
     it('should create the config dir', async function () {
@@ -112,7 +103,7 @@ describe('Startup Process', () => {
 
     // TODO the stdout.on('data') trick doesn't work
     xit('should init gaia server accepting the new app hash', async function () {
-      await resetConfigs()
+      jest.resetModules()
       let mockWrite = jest.fn()
       childProcessMock((path, args) => ({
         stdin: {
@@ -134,7 +125,7 @@ describe('Startup Process', () => {
 
   describe('Initialization in dev mode', function () {
     beforeAll(async function () {
-      await resetConfigs()
+      jest.resetModules()
 
       Object.assign(process.env, {
         NODE_ENV: 'development',
@@ -155,7 +146,7 @@ describe('Startup Process', () => {
 
     // TODO the stdout.on('data') trick doesn't work
     xit('should init gaia accepting the new app hash', async function () {
-      await resetConfigs()
+      jest.resetModules()
       let mockWrite = jest.fn()
       childProcessMock((path, args) => ({
         stdin: {
@@ -177,7 +168,7 @@ describe('Startup Process', () => {
 
   describe('Initialization in dev mode', function () {
     beforeAll(async function () {
-      await resetConfigs()
+      jest.resetModules()
 
       Object.assign(process.env, {
         NODE_ENV: 'development',
@@ -224,7 +215,7 @@ describe('Startup Process', () => {
     })
 
     xit('should have set the own node as a validator with 100% voting power', async () => {
-      await resetConfigs()
+      jest.resetModules()
 
       await fs.writeFile(join(testRoot, 'priv_validator.json'), {
         pub_key: '123'
@@ -265,27 +256,30 @@ describe('Startup Process', () => {
   })
 
   describe('Update app version', function () {
-    beforeAll(() => {
-      jest.mock(root + 'package.json', () => ({
-        version: '1.1.1'
-      }))
-    })
     mainSetup()
 
     it('should backup the genesis.json', async function () {
+      resetModulesKeepingFS()
+      jest.mock(root + 'package.json', () => ({
+        version: '1.1.1'
+      }))
+      await require(appRoot + 'src/main/index.js')
+
       expect(fs.existsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
     })
   })
 
   describe('Update genesis.json', function () {
-    beforeAll(async function () {
-      let existingGenesis = JSON.parse(fs.readFileSync(testRoot + 'genesis.json', 'utf8'))
-      existingGenesis.genesis_time = (new Date()).toString()
-      fs.writeFileSync(testRoot + 'genesis.json', JSON.stringify(existingGenesis))
-    })
     mainSetup()
 
     it('should backup the genesis.json', async function () {
+      resetModulesKeepingFS()
+      let existingGenesis = JSON.parse(fs.readFileSync(testRoot + 'genesis.json', 'utf8'))
+      existingGenesis.genesis_time = (new Date()).toString()
+      fs.writeFileSync(testRoot + 'genesis.json', JSON.stringify(existingGenesis))
+      let updatedGenesis = JSON.parse(fs.readFileSync(testRoot + 'genesis.json', 'utf8'))
+      await require(appRoot + 'src/main/index.js')
+
       expect(fs.existsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
     })
   })
@@ -321,7 +315,7 @@ describe('Startup Process', () => {
       }).join('\n')
       fs.writeFileSync(join(testRoot, 'config.toml'), configText, 'utf8')
 
-      jest.resetModules()
+      resetModulesKeepingFS()
       await require(appRoot + 'src/main/index.js')
       .then(() => done.fail('Didnt fail'))
       .catch(err => {
@@ -333,13 +327,13 @@ describe('Startup Process', () => {
     describe('missing files', () => {
       beforeEach(async () => {
         // make sure it is initialized
-        await resetConfigs()
+        jest.resetModules()
         await initMain()
         main.shutdown()
       })
       afterEach(async () => {
         await main.shutdown()
-        await resetConfigs()
+        jest.resetModules()
       })
       it('should survive the genesis.json being removed', async () => {
         fs.removeSync(join(testRoot, 'genesis.json'))
@@ -362,7 +356,7 @@ describe('Startup Process', () => {
 
   describe('Error handling on init', () => {
     beforeEach(async function () {
-      await resetConfigs()
+      jest.resetModules()
     })
     testFailingChildProcess('gaia', 'init')
   })
@@ -385,6 +379,9 @@ async function initMain () {
   // restart main with a now initialized state
   jest.resetModules()
   childProcess = require('child_process')
+  // have the same mocked fs as main uses
+  // this is reset with jest.resetModules
+  fs = require('fs-extra')
   main = await require(appRoot + 'src/main/index.js')
   expect(main).toBeDefined()
 }
@@ -433,12 +430,9 @@ function failingChildProcess (mockName, mockCmd) {
   }))
 }
 
-async function resetConfigs () {
-  if (fs.existsSync('./test/unit/tmp')) {
-    // fs.removeSync did produce an ENOTEMPTY error under windows
-    await fs.removeSync('./test/unit/tmp')
-    expect(fs.existsSync('./test/unit/tmp')).toBe(false)
-  } else {
-    fs.ensureDirSync('./test/unit/tmp')
-  }
+function resetModulesKeepingFS () {
+  let fileSystem = fs.fs
+  jest.resetModules()
+  fs = require('fs-extra')
+  fs.fs = fileSystem
 }
