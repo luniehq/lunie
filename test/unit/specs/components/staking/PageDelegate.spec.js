@@ -1,4 +1,4 @@
-import setup from '../helpers/vuex-setup'
+import setup from '../../../helpers/vuex-setup'
 import PageDelegate from 'renderer/components/staking/PageDelegate'
 
 describe('PageDelegate', () => {

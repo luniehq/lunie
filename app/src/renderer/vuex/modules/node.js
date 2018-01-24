@@ -56,13 +56,12 @@ export default function ({ node }) {
           chain_id: status.node_info.network
         })
       })
-      node.rpc.subscribe({ event: 'NewBlockHeader' }, (err, event) => {
-        console.log(err)
-        // if (err) return console.error('error subscribing to headers', err)
-        // commit('setConnected', true)
-        console.log(event)
-        // dispatch('setLastHeader', event.data.data.header)
-      })
+      // currently not implemented
+      // node.rpc.subscribe({ event: 'NewBlockHeader' }, (err, event) => {
+      //   if (err) return console.error('error subscribing to headers', err)
+      //   commit('setConnected', true)
+      //   dispatch('setLastHeader', event.data.data.header)
+      // })
 
       dispatch('pollRPCConnection')
     },

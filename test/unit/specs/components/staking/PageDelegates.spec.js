@@ -1,4 +1,4 @@
-import setup from '../helpers/vuex-setup'
+import setup from '../../../helpers/vuex-setup'
 import htmlBeautify from 'html-beautify'
 import PageDelegates from 'renderer/components/staking/PageDelegates'
 
