@@ -109,7 +109,7 @@ page.page-bond(title="Bond Atoms")
         v-if='!$v.fields.bondConfirm.required')
 
     div(slot='footer')
-      btn(type="button" @click.native="resetFields" value="Reset")
+      btn#btn-reset(type="button" @click.native="resetFields" value="Reset")
       btn#btn-bond.btn__primary(value="Submit")
 </template>
 

@@ -411,6 +411,7 @@ exports[`PageBond has the expected html structure 1`] = `
                 <div>
                   <button
                     class="ni-btn"
+                    id="btn-reset"
                     type="button"
                   >
                     <span

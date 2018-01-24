@@ -52,6 +52,11 @@ describe('PageBond', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it('should show the correct number of total atoms', () => {
+    store.commit('setAtoms', 1337)
+    expect(wrapper.vm.totalAtoms).toBe(1337)
+  })
+
   it('should return to the candidates if desired', () => {
     wrapper.find('.ni-tool-bar a').trigger('click')
     expect(router.currentRoute.fullPath).toBe('/staking')
@@ -60,6 +65,30 @@ describe('PageBond', () => {
   it('shows selected candidates', () => {
     expect(htmlBeautify(wrapper.html())).toContain('someValidator')
     expect(htmlBeautify(wrapper.html())).toContain('someOtherValidator')
+  })
+
+  it('should reset fields properly', () => {
+    wrapper.setData({
+      fields: {
+        delegates: [
+          {
+            id: 'pubkeyX',
+            delegate: store.getters.shoppingCart[0].delegate,
+            atoms: 50,
+            oldAtoms: 40
+          },
+          {
+            id: 'pubkeyY',
+            delegate: store.getters.shoppingCart[1].delegate,
+            atoms: 50,
+            oldAtoms: 40
+          }
+        ]
+      }
+    })
+    expect(wrapper.find('#new-unbonded-atoms').vnode.elm._value).toBe(81)
+    wrapper.find('#btn-reset').trigger('click')
+    expect(wrapper.find('#new-unbonded-atoms').vnode.elm._value).toBe(101)
   })
 
   it('should show an error when bonding too many atoms', () => {
