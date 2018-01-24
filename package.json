@@ -110,6 +110,8 @@
     "express-http-proxy": "^1.1.0",
     "flatpickr": "^4.1.2",
     "fs-extra": "^5.0.0",
+    "glob": "^7.1.2",
+    "jszip": "^3.1.5",
     "kill-port": "^1.0.0",
     "moment": "^2.17.1",
     "mousetrap": "^1.6.1",

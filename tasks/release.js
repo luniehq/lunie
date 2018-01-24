@@ -2,10 +2,11 @@
 
 const { exec } = require('child_process')
 const { createHash } = require('crypto')
-const { join, parse } = require('path')
+const path = require('path')
 const packager = require('electron-packager')
 const fs = require('fs-extra')
-const zip = require('deterministic-zip')
+var JSZip = require('jszip')
+var glob = require('glob')
 const packageJson = require('../package.json')
 
 let skipPack = false
@@ -74,7 +75,9 @@ function build () {
       console.log('Build(s) successful!')
       console.log(appPaths)
       console.log('\n\x1b[34mZipping files...\n\x1b[0m')
-      await Promise.all(appPaths.map(appPath => deterministicZip(appPath, options.out, packageJson.version)))
+      await Promise.all(appPaths.map(async appPath => {
+        await zipFolder(appPath, options.out, packageJson.version)
+      }))
 
       console.log('\n\x1b[34mDONE\n\x1b[0m')
     }
@@ -83,7 +86,7 @@ function build () {
 
 function copyBinary (name, binaryLocation) {
   return function (buildPath, electronVersion, platform, arch, cb) {
-    let binPath = join(buildPath, 'bin', name)
+    let binPath = path.join(buildPath, 'bin', name)
     if (platform === 'win32') {
       binPath = binPath + '.exe'
     }
@@ -101,18 +104,31 @@ function sha256File (path) {
   })
 }
 
-function deterministicZip (inDir, outDir, version) {
-  let name = parse(inDir).name
-  let outFile = join(outDir, `${name}_${version}.zip`)
-  return new Promise((resolve, reject) => zip(inDir, outFile, {cwd: inDir}, (err) => {
-    if (err) {
-      console.error('\x1b[31mError from `deterministic-zip` when zipping app...\x1b[0m')
-      reject(err)
-    } else {
+function zipFolder (inDir, outDir, version) {
+  return new Promise(async (resolve, reject) => {
+    let name = path.parse(inDir).name
+    let outFile = path.join(outDir, `${name}_${version}.zip`)
+    var zip = new JSZip()
+    await new Promise((resolve) => {
+      glob(inDir + '/**/*', (err, files) => {
+        if (err) {
+          return reject(err)
+        }
+        files
+        .filter(file => !fs.lstatSync(file).isDirectory())
+        .forEach(file => {
+          zip.file(path.relative(inDir, file), fs.readFileSync(file), {date: new Date('1987-08-16')}) // make the zip deterministic by changing all file times
+        })
+        resolve()
+      })
+    })
+    zip.generateNodeStream({type: 'nodebuffer', streamFiles: true})
+    .pipe(fs.createWriteStream(outFile))
+    .on('finish', function () {
       sha256File(outFile).then((hash) => {
         console.log('Zip successful!', outFile, 'SHA256:', hash)
         resolve()
       })
-    }
-  }))
+    })
+  })
 }
