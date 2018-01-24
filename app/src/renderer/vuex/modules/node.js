@@ -8,6 +8,7 @@ export default function ({ node }) {
 
   const state = {
     nodeIP,
+    stopConnecting: false,
     connected: false,
     lastHeader: {
       height: 0,
@@ -16,6 +17,9 @@ export default function ({ node }) {
   }
 
   const mutations = {
+    stopConnecting (state, stop) {
+      state.stopConnecting = stop
+    },
     setConnected (state, connected) {
       state.connected = connected
     }
@@ -27,11 +31,15 @@ export default function ({ node }) {
       dispatch('maybeUpdateValidators', header)
     },
     async reconnect ({commit, dispatch}) {
+      if (state.stopConnecting) return
+
       commit('setConnected', false)
       await node.rpcReconnect()
       dispatch('nodeSubscribe')
     },
     nodeSubscribe ({commit, dispatch}) {
+      if (state.stopConnecting) return
+
       // the rpc socket can be closed before we can even attach a listener
       // so we remember if the connection is open
       // we handle the reconnection here so we can attach all these listeners on reconnect
@@ -56,12 +64,13 @@ export default function ({ node }) {
           chain_id: status.node_info.network
         })
       })
-      // currently not implemented
-      // node.rpc.subscribe({ event: 'NewBlockHeader' }, (err, event) => {
-      //   if (err) return console.error('error subscribing to headers', err)
-      //   commit('setConnected', true)
-      //   dispatch('setLastHeader', event.data.data.header)
-      // })
+
+      currently not implemented
+      node.rpc.subscribe({ query: "tm.event = 'NewBlockHeader'" }, (err, event) => {
+        if (err) return console.error('error subscribing to headers', err)
+        commit('setConnected', true)
+        dispatch('setLastHeader', event.data.data.header)
+      })
 
       dispatch('pollRPCConnection')
     },

@@ -3,22 +3,30 @@ import { createLocalVue } from 'vue-test-utils'
 
 let axios = require('axios')
 const Delegation = require('renderer/vuex/modules/delegation').default
+const Send = require('renderer/vuex/modules/send').default
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
 describe('Module: Delegations', () => {
-  let store, walletTx
+  let store, node
 
   beforeEach(() => {
-    let node = require('../../helpers/node_mock')
-    walletTx = jest.fn((_, { cb }) => cb(null, {}))
+    node = require('../../helpers/node_mock')
     store = new Vuex.Store({
       modules: {
         delegation: Delegation({ node }),
+        send: Send({ node }),
         wallet: {
           actions: {
-            walletTx
+            queryWalletBalances: () => Promise.resolve()
+          },
+          state: { key: { address: 'address' } }
+        },
+        user: {
+          state: {
+            account: 'foo',
+            password: 'bar'
           }
         }
       }
@@ -114,6 +122,9 @@ describe('Module: Delegations', () => {
   it('submits delegation transaction', async () => {
     store.commit('setCommittedDelegation', { candidateId: 'bar', value: 123 })
     store.commit('setCommittedDelegation', { candidateId: 'baz', value: 789 })
+    jest.spyOn(store._actions.sendTx, '0')
+    jest.spyOn(node, 'buildDelegate')
+    jest.spyOn(node, 'buildUnbond')
 
     await store.dispatch('submitDelegation', {
       delegates: [
@@ -131,21 +142,8 @@ describe('Module: Delegations', () => {
         }
       ]
     })
-    expect(walletTx.mock.calls.length).toBe(3)
-
-    // bonding to a validator we were not previously bonded to
-    expect(walletTx.mock.calls[0][1].amount).toEqual({ amount: 123, denom: 'fermion' })
-    expect(walletTx.mock.calls[0][1].pub_key).toEqual({ data: 'foo' })
-    expect(walletTx.mock.calls[0][1].type).toBe('buildDelegate')
-
-    // bonding to a validator we were previously bonded to
-    expect(walletTx.mock.calls[1][1].amount).toEqual({ amount: 333, denom: 'fermion' })
-    expect(walletTx.mock.calls[1][1].pub_key).toEqual({ data: 'bar' })
-    expect(walletTx.mock.calls[1][1].type).toBe('buildDelegate')
-
-    // unbonding
-    expect(walletTx.mock.calls[2][1].amount).toEqual(789)
-    expect(walletTx.mock.calls[2][1].pub_key).toEqual({ data: 'baz' })
-    expect(walletTx.mock.calls[2][1].type).toBe('buildUnbond')
+    expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
+    expect(node.buildDelegate.mock.calls).toMatchSnapshot()
+    expect(node.buildUnbond.mock.calls).toMatchSnapshot()
   })
 })
