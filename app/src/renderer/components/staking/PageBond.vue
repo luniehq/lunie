@@ -5,9 +5,9 @@ page.page-bond(title="Bond Atoms")
       i.material-icons arrow_back
       .label Back
 
-  part(:title="'Start bonding your '+ totalAtoms + ' ATOM'"): form-struct(:submit="onSubmit")
-    .bond-group(
-      :class="bondGroupClass(unbondedAtomsDelta)")
+  part(:title="'Start bonding your '+ totalAtoms + ' ATOM'"): form-struct(
+    :submit="onSubmit")
+    .bond-group(:class="bondGroupClass(unbondedAtomsDelta)")
       .bond-group__fields
         .bond-bar
           label.bond-bar__label Unbonded Atoms
@@ -157,28 +157,22 @@ export default {
       return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
     },
     newUnbondedAtoms () {
-      let value = this.oldUnbondedAtoms
-      if (this.fields.delegates.length > 0) {
-        this.fields.delegates.map(d => {
-          let delta = d.oldAtoms - d.atoms
-          if (delta < 0) {
-            value += delta
-          }
-        })
-      }
-      return value
+      return this.fields.delegates.reduce((atoms, d) => {
+        let delta = d.oldAtoms - d.atoms
+        if (delta < 0) {
+          return atoms + delta
+        }
+        return atoms
+      }, this.oldUnbondedAtoms)
     },
     newUnbondingAtoms () {
-      let value = 0
-      if (this.fields.delegates.length > 0) {
-        this.fields.delegates.map(d => {
-          let delta = d.oldAtoms - d.atoms
-          if (delta > 0) {
-            value += delta
-          }
-        })
-      }
-      return value
+      return this.fields.delegates.reduce((atoms, d) => {
+        let delta = d.oldAtoms - d.atoms
+        if (delta > 0) {
+          return atoms + delta
+        }
+        return atoms
+      }, 0)
     },
     newUnbondingAtomsDelta () {
       return this.delta(this.newUnbondingAtoms, 0)
