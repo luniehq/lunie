@@ -26,10 +26,8 @@ page(title='Blocks')
 <script>
 import moment from 'moment'
 import num from 'scripts/num'
-import axios from 'axios'
 import Mousetrap from 'mousetrap'
 import { mapGetters } from 'vuex'
-import { includes } from 'lodash'
 import ListItem from 'common/NiListItem'
 import DataError from 'common/NiDataError'
 import Page from 'common/NiPage'
