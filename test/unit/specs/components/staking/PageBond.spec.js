@@ -104,13 +104,13 @@ describe('PageBond', () => {
     expect(wrapper.vm.percent(40, 60, 4)).toBe('66.6667%')
   })
 
-  it('should leave if there are no candidates selected', () => {
+  it('leaves if there are no candidates selected', () => {
     store.commit('removeFromCart', 'pubkeyX')
     store.commit('removeFromCart', 'pubkeyY')
     expect(router.currentRoute.fullPath).toBe('/staking')
   })
 
-  it('should return to the candidates if desired', () => {
+  it('returns to the candidates if desired', () => {
     wrapper.find('.ni-tool-bar a').trigger('click')
     expect(router.currentRoute.fullPath).toBe('/staking')
   })
@@ -120,7 +120,7 @@ describe('PageBond', () => {
     expect(htmlBeautify(wrapper.html())).toContain('someOtherValidator')
   })
 
-  it('should reset fields properly', () => {
+  it('resets fields properly', () => {
     wrapper.setData({
       fields: {
         delegates: [
@@ -139,12 +139,12 @@ describe('PageBond', () => {
         ]
       }
     })
-    expect(wrapper.find('#new-unbonded-atoms').element.value).toBe("81")
+    expect(wrapper.find('#new-unbonded-atoms').element.value).toBe('81')
     wrapper.find('#btn-reset').trigger('click')
-    expect(wrapper.find('#new-unbonded-atoms').element.value).toBe("101")
+    expect(wrapper.find('#new-unbonded-atoms').element.value).toBe('101')
   })
 
-  it('should show an error when bonding too many atoms', () => {
+  it('shows an error when bonding too many atoms', () => {
     wrapper.setData({
       fields: {
         delegates: [
@@ -166,7 +166,7 @@ describe('PageBond', () => {
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
-  it('should show an appropriate amount of unbonded atoms', () => {
+  it('shows an appropriate amount of unbonded atoms', () => {
     wrapper.setData({
       fields: {
         bondConfirm: false,
@@ -190,7 +190,7 @@ describe('PageBond', () => {
     expect(wrapper.find('#new-unbonded-atoms').vnode.elm._value).toBe(81)
   })
 
-  it('should show an appropriate amount of unbonding atoms', () => {
+  it('shows an appropriate amount of unbonding atoms', () => {
     wrapper.setData({
       fields: {
         bondConfirm: false,
@@ -214,7 +214,7 @@ describe('PageBond', () => {
     expect(wrapper.find('#new-unbonding-atoms').vnode.elm._value).toBe(20)
   })
 
-  it('should show an error if confirmation is not checked', () => {
+  it('shows an error if confirmation is not checked', () => {
     wrapper.setData({
       fields: {
         bondConfirm: false,
@@ -237,7 +237,7 @@ describe('PageBond', () => {
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
-  it('should bond atoms on submit', () => {
+  it('bonds atoms on submit', () => {
     wrapper.setData({
       fields: {
         bondConfirm: true,
@@ -259,7 +259,7 @@ describe('PageBond', () => {
     expect(store.dispatch.mock.calls[0][0]).toBe('submitDelegation')
   })
 
-  it('should unbond atoms if bond amount is decreased', () => {
+  it('unbonds atoms if bond amount is decreased', () => {
     store.commit('setCommittedDelegation', {
       candidateId: 'pubkeyX',
       value: 51
