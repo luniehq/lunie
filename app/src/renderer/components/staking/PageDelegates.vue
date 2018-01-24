@@ -53,13 +53,6 @@ export default {
   computed: {
     ...mapGetters(['delegates', 'filters', 'shoppingCart', 'config', 'user']),
     address () { return this.user.address },
-    pageTitle () {
-      if (this.shoppingCart.length > 0) {
-        return `Delegates (${this.shoppingCart.length} Selected)`
-      } else {
-        return 'Delegates'
-      }
-    },
     filteredDelegates () {
       let query = this.filters.delegates.search.query
       let list = orderBy(this.delegates, [this.sort.property], [this.sort.order])

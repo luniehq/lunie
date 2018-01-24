@@ -153,9 +153,10 @@ export default {
     oldUnbondedAtoms () {
       return this.totalAtoms - this.oldBondedAtoms
     },
-    newBondedAtoms () {
-      return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
-    },
+    // not used
+    // newBondedAtoms () {
+    //   return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
+    // },
     newUnbondedAtoms () {
       return this.fields.delegates.reduce((atoms, d) => {
         let delta = d.oldAtoms - d.atoms
