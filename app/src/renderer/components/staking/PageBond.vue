@@ -296,6 +296,7 @@ export default {
         d.deltaAtomsPercent =
           this.percent(this.delta(rawAtoms, d.oldAtoms), this.totalAtoms)
       }
+      return d.atoms
     },
     setBondBarOuterWidth () {
       let outerBar = this.$el.querySelector('.bond-bar__outer')

@@ -2,6 +2,7 @@ import setup from '../../../helpers/vuex-setup'
 import htmlBeautify from 'html-beautify'
 import Vuelidate from 'vuelidate'
 import PageBond from 'renderer/components/staking/PageBond'
+import interact from 'interactjs'
 
 describe('PageBond', () => {
   let wrapper, store, router
@@ -57,6 +58,50 @@ describe('PageBond', () => {
     expect(wrapper.vm.totalAtoms).toBe(1337)
   })
 
+  it('shows the correct bond bar percent', () => {
+    store.commit('setAtoms', 120)
+    expect(wrapper.vm.bondBarPercent(30)).toBe('25%')
+  })
+
+  it('sets the correct bond bar inner width and style', () => {
+    store.commit('setAtoms', 120)
+    wrapper.setData({ bondBarOuterWidth: 128 })
+    expect(wrapper.vm.bondBarInnerWidth(80)).toBe('95px')
+    expect(wrapper.vm.styleBondBarInner(80)).toEqual({width: '95px'})
+  })
+
+  it('sets the correct bond group class', () => {
+    expect(wrapper.vm.bondGroupClass(1337)).toBe('bond-group--positive')
+    expect(wrapper.vm.bondGroupClass(-1337)).toBe('bond-group--negative')
+    expect(wrapper.vm.bondGroupClass(0)).toBe('bond-group--neutral')
+  })
+
+  it('has bond bars the user can interact with', () => {
+    expect(interact.isSet('.bond-bar__inner--editable')).toBe(true)
+  })
+
+  it('updates delegate atoms', () => {
+    wrapper.vm.updateDelegateAtoms('pubkeyX', 88)
+    let delegate = wrapper.vm.fields.delegates.find(d => d.id === 'pubkeyX')
+    expect(delegate.atoms).toBe(88)
+  })
+
+  it('calculates delta', () => {
+    expect(wrapper.vm.delta(100.23293423, 90.5304934)).toBe(9.70244083)
+    expect(wrapper.vm.delta(100, 90, 'int')).toBe(10)
+  })
+
+  it('calculates percentages', () => {
+    expect(wrapper.vm.percent(45, 60)).toBe('75%')
+    expect(wrapper.vm.percent(40, 60, 4)).toBe('66.6667%')
+  })
+
+  it('should leave if there are no candidates selected', () => {
+    store.commit('removeFromCart', 'pubkeyX')
+    store.commit('removeFromCart', 'pubkeyY')
+    expect(router.currentRoute.fullPath).toBe('/staking')
+  })
+
   it('should return to the candidates if desired', () => {
     wrapper.find('.ni-tool-bar a').trigger('click')
     expect(router.currentRoute.fullPath).toBe('/staking')
@@ -86,9 +131,9 @@ describe('PageBond', () => {
         ]
       }
     })
-    expect(wrapper.find('#new-unbonded-atoms').vnode.elm._value).toBe(81)
+    expect(wrapper.find('#new-unbonded-atoms').element.value).toBe("81")
     wrapper.find('#btn-reset').trigger('click')
-    expect(wrapper.find('#new-unbonded-atoms').vnode.elm._value).toBe(101)
+    expect(wrapper.find('#new-unbonded-atoms').element.value).toBe("101")
   })
 
   it('should show an error when bonding too many atoms', () => {
