@@ -16,7 +16,7 @@ page(title='Blocks')
     part(title='Block Explorer')
       list-item.column-header(dt="Block Height" dd="# of Transactions")
       list-item(
-        v-for="block in filteredBlocks"
+        v-for="block in filteredBlocks()"
         :key="block.header.height"
         :dt="block.header.height"
         :dd="block.data.txs.length"
@@ -56,6 +56,11 @@ export default {
     },
     blocks () {
       return this.blockchain.blocks
+    }
+  },
+  methods: {
+    setSearch (bool) {
+      this.$store.commit('setSearchVisible', ['blockchain', bool])
     },
     filteredBlocks () {
       let query = this.filters.blockchain.search.query
@@ -69,17 +74,11 @@ export default {
             console.log('err', data.err)
             return
           }
-          searchResult = data.result
-          return searchResult
+          return searchResult = [data.result.block]
         })
       } else {
         return list
       }
-    }
-  },
-  methods: {
-    setSearch (bool) {
-      this.$store.commit('setSearchVisible', ['blockchain', bool])
     }
   },
   mounted () {
