@@ -5,64 +5,119 @@ page.page-bond(title="Bond Atoms")
       i.material-icons arrow_back
       .label Back
 
-  part(title="Your Atoms")
-    list-item(
-      dt="Total Atoms"
-      :dd="totalAtoms")
-    list-item(
-      dt="Total Bonded Atoms"
-      :dd="committedBondedAtoms || 0")
-    list-item(
-      dt="Total Unbonded Atoms"
-      :dd="totalUnbondedAtoms || 0")
-
-  part(title='Selected Delegates')
-    form-struct(:submit="onSubmit")
-      div.alloc-action-container
-        btn.equalize(value="Split Allocation Equally" type="button" @click.native="equalAlloc")
-        btn.reserved-atoms__restart(value="Reset Allocation " type="button" @click.native="resetAlloc")
-
-      form-group(
-        v-for='(delegate, index) in fields.delegates'
-        :key='delegate.id'
-        :error='$v.fields.delegates.$each[index].$error'
-        :field-label='delegate.delegate.description.moniker'
-        :sub-label="'Previously bonded ' + (committedDelegations[delegate.delegate.id] || 0) + ' Atoms'"
-        field-id='delegate-field')
-        field-group
-          field(
+  part(:title="'Start bonding your '+ totalAtoms + ' ATOM'"): form-struct(
+    :submit="onSubmit")
+    .bond-group(:class="bondGroupClass(unbondedAtomsDelta)")
+      .bond-group__fields
+        .bond-bar
+          label.bond-bar__label Unbonded Atoms
+          .bond-bar__input
+            .bond-bar-old__outer
+              .bond-bar-old__inner(:style="styleBondBarInner(oldUnbondedAtoms)")
+            .bond-bar__outer
+              .bond-bar__inner(
+                :style="styleBondBarInner(newUnbondedAtoms)")
+        .bond-percent
+          label.bond-delta
+            span(v-if="unbondedAtomsDeltaPct !== '0%'") {{ unbondedAtomsDeltaPct }}
+          field.bond-percent__input(
+            disabled
+            placeholder="0%"
+            :value="bondBarPercent(newUnbondedAtoms)")
+        .bond-value
+          label.bond-delta
+            span(v-if="unbondedAtomsDelta !== 0") {{ unbondedAtomsDelta }}
+          field.bond-value__input#new-unbonded-atoms(
+            disabled
             type="number"
-            step="any"
             placeholder="Atoms"
-            v-model.number="delegate.atoms")
-          field-addon Atoms
-          btn.remove(type="button" icon="clear" @click.native="rm(delegate.id)")
-        form-msg(name="Atoms" type="required"
-          v-if="!$v.fields.delegates.$each[index].atoms.required")
-        form-msg(name="Atoms" type="numeric"
-          v-if="!$v.fields.delegates.$each[index].atoms.numeric")
-        form-msg(name="Atoms" type="between" :min="atomsMin" :max="user.atoms"
-          v-if="!$v.fields.delegates.$each[index].atoms.between")
+            :value="newUnbondedAtoms")
 
-      ul.reserved-atoms
-        li(v-if="uncommittedBondedAtoms > 0 && !(unbondedAtoms < 0)")
-          | This action will bond #[.reserved-atoms__number {{ uncommittedBondedAtoms }}] Atoms to the specified delegates.
-        li.reserved-atoms--error(v-if="unbondedAtoms === 0")
-          | This action will bond all of your #[.reserved-atoms__number {{ uncommittedBondedAtoms }}] Atoms to the specified delegates.
-        li(v-if="willUnbondAtoms > 0")
-          | This action will unbond #[.reserved-atoms__number {{ willUnbondAtoms }}] Atoms from the specified delegates.
-        li.reserved-atoms--error(v-if="unbondedAtoms < 0")
-          | You cannot bond #[.reserved-atoms__number {{ unbondedAtoms * -1 }}] more Atoms than you have.
-        li.reserved-atoms--warning The unbonding period is <b>30</b> days.
+    .bond-group(
+      v-for='(d, index) in fields.delegates'
+      :key='d.id'
+      :error='$v.fields.delegates.$each[index].$error'
+      :class="bondGroupClass(delta(d.atoms, d.oldAtoms))")
+      .bond-group__fields
+        .bond-bar
+          label.bond-bar__label Delegate &ndash; {{ d.delegate.description.moniker }}
+          .bond-bar__input
+            .bond-bar-old__outer
+              .bond-bar-old__inner(:style="styleBondBarInner(d.oldAtoms)")
+            .bond-bar__outer
+              .bond-bar__inner.bond-bar__inner--editable(:id="'delegate-' + d.id"
+                :style="styleBondBarInner(d.atoms)")
+        .bond-percent
+          label.bond-delta
+            span(v-if="d.deltaAtomsPercent !== '0%'") {{ d.deltaAtomsPercent }}
+          field.bond-percent__input(
+            disabled
+            placeholder="0%"
+            :value="bondBarPercent(d.atoms)")
+        .bond-value
+          label.bond-delta
+            span(v-if="d.deltaAtoms !== 0") {{ d.deltaAtoms }}
+          field.bond-value__input(
+            type="number"
+            placeholder="Atoms"
+            step="1"
+            v-model.number="d.atoms")
 
-      div.submit-container
-        span
-        btn.bond.btn__primary(value="Submit")
+      form-msg(name="Atoms" type="required"
+        v-if="!$v.fields.delegates.$each[index].atoms.required")
+      form-msg(name="Atoms" type="numeric"
+        v-if="!$v.fields.delegates.$each[index].atoms.numeric")
+      form-msg(name="Atoms" type="between" :min="minimumAtoms" :max="$v.fields.delegates.$each[index].atoms.$params.between.max"
+        v-if="!$v.fields.delegates.$each[index].atoms.between")
+
+    .bond-group.bond-group--unbonding(
+      :class="bondGroupClass(newUnbondingAtomsDelta)")
+      .bond-group__fields
+        .bond-bar
+          label.bond-bar__label Unbonding&hellip;
+          .bond-bar__input
+            // TODO: different color for old unbonding atoms
+            // .bond-bar-old__outer
+              .bond-bar-old__inner(:style="styleBondBarInner(oldUnbondingAtoms)")
+            .bond-bar__outer(v-if="newUnbondingAtoms")
+              .bond-bar__inner(
+                :style="styleBondBarInner(newUnbondingAtoms)")
+        .bond-percent
+          label.bond-delta
+            span(v-if="newUnbondingAtomsDeltaPct !== '0%'") {{ newUnbondingAtomsDeltaPct }}
+          field.bond-percent__input(
+            disabled
+            placeholder="0%"
+            :value="bondBarPercent(newUnbondingAtoms)")
+        .bond-value
+          label.bond-delta
+            span(v-if="newUnbondingAtomsDelta !== 0") {{ newUnbondingAtomsDelta }}
+          field.bond-value__input#new-unbonding-atoms(
+            disabled
+            type="number"
+            placeholder="Atoms"
+            :value="newUnbondingAtoms")
+
+    form-group(field-id="bond-confirm" field-label=''
+      :error='$v.fields.bondConfirm.$error')
+      .ni-field-checkbox
+        .ni-field-checkbox-input
+          input#bond-confirm(type="checkbox" v-model="fields.bondConfirm")
+        label.ni-field-checkbox-label(for="bond-confirm")
+          | Yes, update my bonds. I understand unbonding will take 30 days.
+      form-msg(name="Bonding Confirmation" type='required'
+        v-if='!$v.fields.bondConfirm.required')
+
+    div(slot='footer')
+      btn#btn-reset(type="button" @click.native="resetFields" value="Reset")
+      btn#btn-bond.btn__primary(value="Submit")
 </template>
 
 <script>
 import { between, numeric, required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
+import num from 'scripts/num'
+import interact from 'interactjs'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldAddon from 'common/NiFieldAddon'
@@ -70,7 +125,6 @@ import FieldGroup from 'common/NiFieldGroup'
 import FormGroup from 'common/NiFormGroup'
 import FormMsg from 'common/NiFormMsg'
 import FormStruct from 'common/NiFormStruct'
-import ListItem from 'common/NiListItem'
 import Page from 'common/NiPage'
 import Part from 'common/NiPart'
 import ToolBar from 'common/NiToolBar'
@@ -84,88 +138,71 @@ export default {
     FormGroup,
     FormMsg,
     FormStruct,
-    ListItem,
     Page,
     Part,
     ToolBar
   },
   computed: {
     ...mapGetters(['shoppingCart', 'user', 'committedDelegations']),
-    committedBondedAtoms () {
+    totalAtoms () {
+      return this.user.atoms + this.oldBondedAtoms
+    },
+    oldBondedAtoms () {
       return Object.values(this.committedDelegations).reduce((sum, d) => sum + d, 0)
     },
-    willUnbondAtoms () {
-      let sum = 0
-      /* eslint-disable no-unused-vars */
-      for (let [k, selectedDelegate] of this.fields.delegates.entries()) {
-        // set previously committed delegations for each delegate in cart
-        let previouslyCommitted = this.committedDelegations[selectedDelegate.id]
-
-        // check to see if user has allocated any atoms in cart
-        let currentlyAllocatedAtoms = selectedDelegate ? selectedDelegate.atoms : 0
-
-        // amount user intends to unbond from each delegate in cart
-        let unbondAmount = Math.max(previouslyCommitted - currentlyAllocatedAtoms, 0)
-
-        // set NaN's to 0
-        unbondAmount = unbondAmount || 0
-
-        // total amount user intends to unbond from all delegates in cart
-        sum += unbondAmount
-      }
-      return sum
+    oldUnbondedAtoms () {
+      return this.totalAtoms - this.oldBondedAtoms
     },
-    unbondedAtoms () {
-      let willBondSum = this.uncommittedBondedAtoms
-      let bondedSum = this.committedBondedAtoms
-      return this.totalAtoms - willBondSum + bondedSum - this.willUnbondAtoms
+    // not used
+    // newBondedAtoms () {
+    //   return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
+    // },
+    newUnbondedAtoms () {
+      return this.fields.delegates.reduce((atoms, d) => {
+        let delta = d.oldAtoms - d.atoms
+        if (delta < 0) {
+          return atoms + delta
+        }
+        return atoms
+      }, this.oldUnbondedAtoms)
     },
-    unbondedAtomsPct () {
-      return Math.round(this.unbondedAtoms / this.totalAtoms * 100 * 10) / 10 + '%'
+    newUnbondingAtoms () {
+      return this.fields.delegates.reduce((atoms, d) => {
+        let delta = d.oldAtoms - d.atoms
+        if (delta > 0) {
+          return atoms + delta
+        }
+        return atoms
+      }, 0)
     },
-    uncommittedBondedAtoms () {
-      return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
+    newUnbondingAtomsDelta () {
+      return this.delta(this.newUnbondingAtoms, 0)
     },
-    bondedAtomsPct () {
-      return Math.round(this.committedBondedAtoms / this.totalAtoms * 100 * 10) / 10 + '%'
+    newUnbondingAtomsDeltaPct () {
+      return this.percent(this.newUnbondingAtomsDelta, this.totalAtoms)
     },
-    totalAtoms () {
-      return this.user.atoms
+    unbondedAtomsDelta () {
+      return this.delta(this.newUnbondedAtoms, this.oldUnbondedAtoms)
     },
-    totalUnbondedAtoms () {
-      return this.totalAtoms - this.committedBondedAtoms
+    unbondedAtomsDeltaPct () {
+      return this.percent(this.unbondedAtomsDelta, this.totalAtoms)
     }
   },
   data: () => ({
-    equalize: false,
-    atomsMin: 0,
+    bondBarScrubWidth: 28,
+    bondBarOuterWidth: 0,
+    minimumAtoms: 0,
     fields: {
+      bondConfirm: false,
       delegates: []
-    }
+    },
+    num: num
   }),
   methods: {
-    equalAlloc () {
-      this.equalize = true
-      this.resetAlloc()
-      let atoms = this.unbondedAtoms
-      let delegates = this.fields.delegates.length
-      let remainderAtoms = atoms % delegates
-
-      // give equal atoms to every delegate
-      this.fields.delegates.forEach(c => (c.atoms += Math.floor(atoms / delegates)))
-
-      // give remainder atoms
-      for (let i = 0; i < remainderAtoms; i++) {
-        this.fields.delegates[i].atoms += 1
-      }
-    },
-    percentAtoms (uncommittedBondedAtoms) {
-      return Math.round(uncommittedBondedAtoms / this.user.atoms * 100 * 100) / 100 + '%'
-    },
     async onSubmit () {
-      if (this.unbondedAtoms < 0) {
+      if (this.newUnbondedAtoms < 0) {
         this.$store.commit('notifyError', { title: 'Too Many Allocated Atoms',
-          body: `You've tried to bond ${this.unbondedAtoms * -1} more atoms than you have.`})
+          body: `You've tried to bond ${this.newUnbondedAtoms * -1} more atoms than you have.`})
         return
       }
       this.$v.$touch()
@@ -175,58 +212,147 @@ export default {
           await this.$store.dispatch('submitDelegation', this.fields)
           this.$store.commit('notify', { title: 'Atoms Bonded',
             body: 'You have successfully updated your delegations.' })
+          this.$router.push('/staking')
         } catch (err) {
           this.$store.commit('notifyError', { title: 'Error While Bonding Atoms',
             body: err.message })
         }
       }
     },
-    resetAlloc () {
+    resetFields () {
+      let committedDelegations = this.committedDelegations
+      let totalAtoms = this.totalAtoms
+      this.fields.bondConfirm = false
       this.fields.delegates = this.shoppingCart.map(c => JSON.parse(JSON.stringify(c)))
+      this.fields.delegates = this.fields.delegates.map(d => {
+        let atoms = committedDelegations[d.delegate.id] || 0
+        d.atoms = atoms
+        d.oldAtoms = atoms
+        d.bondedRatio = atoms / totalAtoms
+        d.deltaAtoms = 0
+        d.deltaAtomsPercent = '0%'
+        return d
+      })
     },
     leaveIfEmpty (count) {
       if (count === 0) {
         this.$store.commit('notifyError', {
           title: 'No Delegates Selected',
-          body: 'Choose one or more delegates before proceeding to bond atoms.'
+          body: 'Select one or more delegates before proceeding to bond atoms.'
         })
         this.$router.push('/staking')
       }
     },
-    rm (delegateId) {
-      let confirm = window.confirm('Are you sure you want to remove this delegate?')
-      if (confirm) {
-        this.$store.commit('removeFromCart', delegateId)
-        this.resetAlloc()
+    bondBarPercent (dividend) {
+      let divisor = this.totalAtoms
+      let ratio = Math.round(dividend / divisor * 100)
+      return ratio + '%'
+    },
+    bondBarInnerWidth (dividend) {
+      let offset = this.bondBarScrubWidth
+      let maxWidth = this.bondBarOuterWidth
+      let divisor = this.totalAtoms
+      let ratio = Math.round(dividend / divisor * 100) / 100
+      let width = (ratio * (maxWidth - offset)) + offset
+      return width + 'px'
+    },
+    styleBondBarInner (dividend) {
+      return {
+        width: this.bondBarInnerWidth(dividend)
       }
     },
-    shortenLabel (label, maxLength) {
-      if (label.length <= maxLength) {
-        return label
+    bondGroupClass (delta) {
+      if (delta > 0) {
+        return 'bond-group--positive'
+      } else if (delta < 0) {
+        return 'bond-group--negative'
+      } else {
+        return 'bond-group--neutral'
       }
-      return label.substr(0, maxLength - 3) + '...'
+    },
+    bondBarsInput () {
+      let offset = this.bondBarScrubWidth
+      interact('.bond-bar__inner--editable')
+        .resizable({
+          edges: { left: false, right: true, bottom: false, top: false },
+          restrictEdges: { outer: 'parent' },
+          restrictSize: { min: { width: offset } }
+        })
+        .on('resizemove', (event) => {
+          let target = event.target
+          let ratio = (event.rect.width - offset) / (this.bondBarOuterWidth - offset)
+          let rawAtoms = ratio * this.totalAtoms
+
+          target.style.width = event.rect.width + 'px'
+
+          this.updateDelegateAtoms(target.id.split('-')[1], rawAtoms)
+        })
+    },
+    updateDelegateAtoms (delegateId, rawAtoms) {
+      let d = this.fields.delegates.find(d => d.id === delegateId)
+      if (d) {
+        d.bondedRatio = rawAtoms / this.totalAtoms
+        d.atoms = Math.round(rawAtoms)
+        d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, 'int')
+        d.deltaAtomsPercent =
+          this.percent(this.delta(rawAtoms, d.oldAtoms), this.totalAtoms)
+      }
+      return d.atoms
+    },
+    setBondBarOuterWidth () {
+      let outerBar = this.$el.querySelector('.bond-bar__outer')
+      this.bondBarOuterWidth = outerBar.clientWidth
+    },
+    delta (current, previous, fmt) {
+      let x = current - previous
+      if (fmt === 'int') {
+        return Math.round(x)
+      } else {
+        return x
+      }
+    },
+    percent (dividend, divisor, sigFigs) {
+      let ratio = dividend / divisor
+      let value
+      if (Number.isInteger(sigFigs)) {
+        value = Math.round(ratio * 100 * Math.pow(10, sigFigs)) / Math.pow(10, sigFigs)
+      } else {
+        value = Math.round(ratio * 100)
+      }
+      return value + '%'
     }
   },
-  mounted () {
-    this.resetAlloc()
+  async mounted () {
     this.leaveIfEmpty(this.shoppingCart.length)
+    this.resetFields()
+    this.bondBarsInput()
+
+    await this.$nextTick()
+    this.setBondBarOuterWidth()
   },
   watch: {
     shoppingCart (newVal) {
       this.leaveIfEmpty(newVal.length)
-      this.resetAlloc()
-      if (this.equalize) { this.equalAlloc }
+      this.resetFields()
     }
   },
   validations: () => ({
     fields: {
+      bondConfirm: {
+        required
+      },
       delegates: {
         $each: {
           atoms: {
             required,
             numeric,
-            between (atoms) {
-              return between(this.atomsMin, this.user.atoms)(atoms)
+            between (atoms, parentVm) {
+              let otherDelegates = this.fields.delegates.filter(
+                d => d.id !== parentVm.id)
+              let otherBondedAtoms = otherDelegates.reduce(
+                (sum, d) => sum + (d.atoms || 0), 0)
+              let maximumAtoms = this.totalAtoms - otherBondedAtoms
+              return between(this.minimumAtoms, maximumAtoms)(atoms)
             }
           }
         }
@@ -239,49 +365,129 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.alloc-action-container
-  padding 1rem
-  display flex
-  justify-content flex-end
+.bond-group
+  padding 0.5rem 1rem
+  display block
 
-  .ni-btn-container
-    margin-left 0.5rem
+.bond-group--positive
+  .bond-bar-old__outer
+    z-index z(listItem)
+    pointer-events none
 
-.submit-container
-  padding 1rem
-  display flex
-  justify-content flex-end
+  .bond-bar__inner
+    background success
 
-.previously-bonded
-  font-size sm
-  padding-left 1rem
+  .bond-delta
+    color success
+    span:before
+      content '+'
+      display inline
 
-.form-msg
-  color dim
-  font-size xs
-  line-height xs
-  position relative
-  top -0.25rem
+  &.bond-group--unbonding
+    .bond-bar__inner
+      background warning
+    .bond-delta
+      color warning
 
-.reserved-atoms
-  height 4rem
-  padding 2rem
-  list-style-type circle
-
-  span
-    display block
-
-  &__number
-    display inline
-    color bright
-    font-weight 500
-
-  &__restart
-    cursor pointer
-
-  &--error
+.bond-group--negative
+  .bond-bar-old__inner
+    background danger
+  .bond-delta
     color danger
 
-  &--warning
-    color warning
+.bond-group__fields
+  display flex
+  flex-flow row nowrap
+  height 4rem
+
+.bond-bar
+  flex 16
+  margin-right 1rem
+  min-width 10rem
+
+.bond-bar__label
+  line-height 2rem
+  color bright
+  font-size x
+  text-align left
+
+.bond-bar__input
+  height 2rem
+  border-radius 1rem
+  border 1px solid input-bc
+  padding 1px
+  position relative
+
+.bond-bar__outer
+.bond-bar-old__outer
+  height 2rem - 4*px
+  border-radius 1rem
+  position absolute
+  top 1px
+  left 1px
+  right 1px
+  bottom 1px
+
+.bond-bar__inner
+.bond-bar-old__inner
+  height 2rem - 0.25rem
+  border-radius 1rem
+  background dim
+  width 50%
+  min-width 2rem - 0.25rem
+
+.bond-bar__inner
+  position relative
+
+  // debug
+  color app-bg
+  font-size xs
+  padding 0 0.5rem
+  display flex
+  align-items center
+
+.bond-bar__inner--editable
+  &:after
+    position absolute
+    top 1px
+    right 1px
+    width 2rem - 0.25rem - 0.125rem
+    height 2rem - 0.25rem - 0.125rem
+    background txt
+    border-radius 1rem
+    z-index z(toolBar)
+
+    display flex
+    align-items center
+    justify-content center
+
+    content 'drag_handle'
+    font-size x
+    font-family 'Material Icons'
+    transform rotate(90deg)
+    color bc
+
+.bond-delta
+  height 2rem
+  display block
+  display flex
+  align-items center
+  justify-content flex-end
+  span
+    font-size sm
+    font-weight 500
+
+.bond-percent
+.bond-value
+  input
+    text-align right
+
+.bond-percent
+  flex 3
+  max-width 3.75rem
+  margin-right 1rem
+
+.bond-value
+  flex 6
+  max-width 8rem
 </style>
