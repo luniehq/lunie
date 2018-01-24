@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiSessionAccountDelete has the expected html structure 1`] = `
+"<div class=\\"ni-session\\">
+   <form class=\\"ni-session-container ni-form\\">
+      <div class=\\"ni-form-container\\">
+         <!---->
+         <main class=\\"ni-form-main\\">
+            <div class=\\"ni-session-header\\">
+               <a><i class=\\"material-icons\\">arrow_back</i></a>
+               <div class=\\"ni-session-title\\">
+                  Remove Account
+               </div>
+      <a><i class=\\"material-icons\\">help_outline</i></a>
+   </div>
+      <div class=\\"ni-session-main\\">
+         <div class=\\"ni-form-group\\">
+            <!---->
+            <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Password</label>
+            <div class=\\"ni-form-group__field\\">
+               <input type=\\"password\\" placeholder=\\"Enter your password\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
+               <div class=\\"ni-form-msg sm ni-form-msg--error\\">
+                  Password is required
+               </div>
+                  <!---->
+   </div>
+</div>
+      <div class=\\"ni-form-group\\">
+         <!---->
+         <label for=\\"sign-up-warning\\" class=\\"ni-form-group__label\\"></label>
+         <div class=\\"ni-form-group__field\\">
+            <div class=\\"ni-field-checkbox\\">
+               <div class=\\"ni-field-checkbox-input\\">
+                  <input id=\\"sign-up-warning\\" type=\\"checkbox\\">
+               </div>
+      <label for=\\"sign-up-warning\\" class=\\"ni-field-checkbox-label\\">I understand that Cosmos cannot recover deleted accounts without the passphrase.</label>
+   </div>
+      <div class=\\"ni-form-msg sm ni-form-msg--error\\">
+         Deletion confirmation is required
+      </div>
+</div>
+</div>
+</div>
+      <div class=\\"ni-session-footer\\">
+         <button class=\\"ni-btn\\"><span class=\\"ni-btn-container ni-btn-size-lg\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">exit_to_app</i><span class=\\"ni-btn-value\\">Sign Out and Remove Account</span></span></button>
+      </div>
+</main>
+      <!---->
+</div>
+</form>
+</div>"
+`;
