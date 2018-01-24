@@ -230,7 +230,7 @@ export default {
       this.fields.bondConfirm = false
       this.fields.delegates = this.shoppingCart.map(c => JSON.parse(JSON.stringify(c)))
       this.fields.delegates = this.fields.delegates.map(d => {
-        let atoms = committedDelegations[d.delegate.id]
+        let atoms = committedDelegations[d.delegate.id] || 0
         d.atoms = atoms
         d.oldAtoms = atoms
         d.bondedRatio = atoms / totalAtoms
