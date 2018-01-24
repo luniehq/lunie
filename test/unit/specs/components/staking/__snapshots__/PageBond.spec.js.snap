@@ -200,6 +200,7 @@ exports[`PageBond has the expected html structure 1`] = `
                         >
                           <div
                             class="bond-bar-old__inner"
+                            style="width: 28px;"
                           />
                         </div>
                         <div
@@ -208,6 +209,7 @@ exports[`PageBond has the expected html structure 1`] = `
                           <div
                             class="bond-bar__inner bond-bar__inner--editable"
                             id="delegate-pubkeyX"
+                            style="width: 28px;"
                           />
                         </div>
                       </div>
@@ -242,11 +244,7 @@ exports[`PageBond has the expected html structure 1`] = `
                       />
                     </div>
                   </div>
-                  <div
-                    class="ni-form-msg sm ni-form-msg--error"
-                  >
-                    Atoms is required
-                  </div>
+                  <!---->
                   <!---->
                   <!---->
                 </div>
@@ -272,6 +270,7 @@ exports[`PageBond has the expected html structure 1`] = `
                         >
                           <div
                             class="bond-bar-old__inner"
+                            style="width: 28px;"
                           />
                         </div>
                         <div
@@ -280,6 +279,7 @@ exports[`PageBond has the expected html structure 1`] = `
                           <div
                             class="bond-bar__inner bond-bar__inner--editable"
                             id="delegate-pubkeyY"
+                            style="width: 28px;"
                           />
                         </div>
                       </div>
@@ -314,11 +314,7 @@ exports[`PageBond has the expected html structure 1`] = `
                       />
                     </div>
                   </div>
-                  <div
-                    class="ni-form-msg sm ni-form-msg--error"
-                  >
-                    Atoms is required
-                  </div>
+                  <!---->
                   <!---->
                   <!---->
                 </div>
