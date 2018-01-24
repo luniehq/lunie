@@ -65,7 +65,6 @@ export default function ({ node }) {
         })
       })
 
-      currently not implemented
       node.rpc.subscribe({ query: "tm.event = 'NewBlockHeader'" }, (err, event) => {
         if (err) return console.error('error subscribing to headers', err)
         commit('setConnected', true)
