@@ -53,24 +53,32 @@ describe('PageBond', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it('should show the correct number of total atoms', () => {
+  it('shows number of total atoms', () => {
     store.commit('setAtoms', 1337)
     expect(wrapper.vm.totalAtoms).toBe(1337)
   })
 
-  it('shows the correct bond bar percent', () => {
+  it('shows old bonded atoms ', () => {
+    store.commit('setCommittedDelegation', {
+      candidateId: 'pubkeyX', value: 13 })
+    store.commit('setCommittedDelegation', {
+      candidateId: 'pubkeyY', value: 26 })
+    expect(wrapper.vm.oldBondedAtoms).toBe(39)
+  })
+
+  it('shows bond bar percent', () => {
     store.commit('setAtoms', 120)
     expect(wrapper.vm.bondBarPercent(30)).toBe('25%')
   })
 
-  it('sets the correct bond bar inner width and style', () => {
+  it('sets bond bar inner width and style', () => {
     store.commit('setAtoms', 120)
     wrapper.setData({ bondBarOuterWidth: 128 })
     expect(wrapper.vm.bondBarInnerWidth(80)).toBe('95px')
     expect(wrapper.vm.styleBondBarInner(80)).toEqual({width: '95px'})
   })
 
-  it('sets the correct bond group class', () => {
+  it('sets bond group class', () => {
     expect(wrapper.vm.bondGroupClass(1337)).toBe('bond-group--positive')
     expect(wrapper.vm.bondGroupClass(-1337)).toBe('bond-group--negative')
     expect(wrapper.vm.bondGroupClass(0)).toBe('bond-group--neutral')
