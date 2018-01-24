@@ -26,6 +26,7 @@ page(title='Blocks')
 <script>
 import moment from 'moment'
 import num from 'scripts/num'
+import axios from 'axios'
 import Mousetrap from 'mousetrap'
 import { mapGetters } from 'vuex'
 import { includes } from 'lodash'
@@ -58,10 +59,19 @@ export default {
     },
     filteredBlocks () {
       let query = this.filters.blockchain.search.query
+      let blockUrl = `https://${this.blockchain.blockchainName}-node0.testnets.interblock.io/block?height=${query}`
       let list = this.blocks
+      let searchResult = []
 
       if (this.filters.blockchain.search.visible && query) {
-        return list.filter(i => includes(JSON.stringify(i.header.height), query))
+        axios(blockUrl).then(({data}) => {
+          if (data.err) {
+            console.log('err', data.err)
+            return
+          }
+          searchResult = data.result
+          return searchResult
+        })
       } else {
         return list
       }
