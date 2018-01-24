@@ -260,6 +260,8 @@ describe('Startup Process', () => {
 
     it('should backup the genesis.json', async function () {
       resetModulesKeepingFS()
+
+      // alter the version so the main thread assumes an update
       jest.mock(root + 'package.json', () => ({
         version: '1.1.1'
       }))
@@ -274,10 +276,11 @@ describe('Startup Process', () => {
 
     it('should backup the genesis.json', async function () {
       resetModulesKeepingFS()
+
+      // alter the genesis so the main thread assumes a change
       let existingGenesis = JSON.parse(fs.readFileSync(testRoot + 'genesis.json', 'utf8'))
       existingGenesis.genesis_time = (new Date()).toString()
       fs.writeFileSync(testRoot + 'genesis.json', JSON.stringify(existingGenesis))
-      let updatedGenesis = JSON.parse(fs.readFileSync(testRoot + 'genesis.json', 'utf8'))
       await require(appRoot + 'src/main/index.js')
 
       expect(fs.existsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
@@ -430,6 +433,8 @@ function failingChildProcess (mockName, mockCmd) {
   }))
 }
 
+// sometime we want to simulate a sequential run of the UI
+// usualy we want to clean up all the modules after each run but in this case, we want to persist the mocked filesystem
 function resetModulesKeepingFS () {
   let fileSystem = fs.fs
   jest.resetModules()
