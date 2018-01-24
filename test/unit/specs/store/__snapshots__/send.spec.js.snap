@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Module: Send send transactions should send a tx  1`] = `Array []`;
+
+exports[`Module: Send send transactions should send from wallet 1`] = `Array []`;

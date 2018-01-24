@@ -13,7 +13,7 @@ export default function vuexSetup () {
   localVue.use(VueRouter)
 
   function init (componentConstructor, testType = shallow, {stubs, getters = {}, propsData}) {
-    const node = require('../helpers/node_mock')
+    const node = Object.assign({}, require('../helpers/node_mock'))
     const modules = Modules({
       node
     })
