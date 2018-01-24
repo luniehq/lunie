@@ -6,6 +6,7 @@ describe('Module: Node', () => {
   let store, node
 
   beforeEach(() => {
+    jest.resetModules()
     let test = instance.shallow()
     store = test.store
     node = test.node
