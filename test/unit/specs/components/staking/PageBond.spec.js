@@ -108,7 +108,6 @@ describe('PageBond', () => {
     expect(wrapper.find('#new-unbonded-atoms').vnode.elm._value).toBe(81)
   })
 
-
   it('should show an appropriate amount of unbonding atoms', () => {
     wrapper.setData({
       fields: {
