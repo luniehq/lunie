@@ -1,5 +1,5 @@
 <template lang='pug'>
-div(:class='cssClass').label-container
+div(:class='cssClass')
   span.ni-form-group__sub-label(v-if="subLabel")
     | {{ subLabel }}
   label.ni-form-group__label(:for='fieldId' v-if="fieldId && fieldLabel")
@@ -26,11 +26,9 @@ export default {
 .ni-form
   max-width width-form
 
-.label-container
-  position relative
-
 .ni-form-group
   padding 0.5rem 1rem
+  position relative
 
   &:last-child
     border-bottom none
