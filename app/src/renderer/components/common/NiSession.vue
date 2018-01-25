@@ -1,6 +1,7 @@
 <template lang="pug">
-.ni-session-wrapper(v-if="active")
+.ni-session-wrapper
   img.ni-session-backdrop(src="~assets/images/cosmos-logo.png")
+  session-loading(v-if="config.modals.session.state == 'loading'")
   session-welcome(v-if="config.modals.session.state == 'welcome'")
   session-sign-up(v-if="config.modals.session.state == 'sign-up'")
   session-sign-in(v-if="config.modals.session.state == 'sign-in'")
@@ -11,6 +12,7 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import SessionLoading from 'common/NiSessionLoading'
 import SessionWelcome from 'common/NiSessionWelcome'
 import SessionSignUp from 'common/NiSessionSignUp'
 import SessionSignIn from 'common/NiSessionSignIn'
@@ -20,6 +22,7 @@ import SessionAccountDelete from 'common/NiSessionAccountDelete'
 export default {
   name: 'ni-session',
   components: {
+    SessionLoading,
     SessionWelcome,
     SessionSignUp,
     SessionSignIn,
@@ -28,8 +31,7 @@ export default {
     SessionAccountDelete
   },
   computed: {
-    ...mapGetters(['config']),
-    active () { return this.config.modals.session.active }
+    ...mapGetters(['config'])
   },
   beforeDestroy () {
     if (!this.config.devMode) {
