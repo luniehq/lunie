@@ -56,6 +56,10 @@ export default {
       return this.blockchain.blocks
     }
   },
+  data: () => ({
+    moment: moment,
+    num: num
+  }),
   methods: {
     setSearch (bool) {
       this.$store.commit('setSearchVisible', ['blocks', bool])
@@ -65,10 +69,9 @@ export default {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
     Mousetrap.bind('esc', () => this.setSearch(false))
   },
-  data: () => ({
-    moment: moment,
-    num: num
-  })
+  beforeDestroy () {
+    this.$store.commit('resetSearch', 'blocks')
+  }
 }
 </script>
 <style lang="stylus">
