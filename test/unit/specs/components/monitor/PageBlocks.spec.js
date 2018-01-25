@@ -7,11 +7,15 @@ describe('PageBlocks', () => {
   let {mount} = setup()
 
   beforeEach(() => {
-    let instance = mount(PageBlocks)
+    let instance = mount(PageBlocks, {
+      stubs: {
+        'modal-search': '<modal-search />'
+      }
+    })
     wrapper = instance.wrapper
     store = instance.store
 
-    store.commit('setSearchVisible', ['blocks', false])
+    store.commit('setSearchQuery', ['blocks', ''])
 
     wrapper.update()
   })
@@ -21,7 +25,7 @@ describe('PageBlocks', () => {
   })
 
   it('should show the search on click', () => {
-    wrapper.find('.ni-tool-bar i').trigger('click')
-    expect(wrapper.contains('.ni-modal-search')).toBe(true)
+    wrapper.vm.setSearch(true)
+    expect(store.commit).toHaveBeenCalledWith('setSearchVisible', ['blocks', true])
   })
 })

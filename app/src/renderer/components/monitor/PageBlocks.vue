@@ -9,8 +9,8 @@ page(title='Block Explorer')
 
   part(title='Current Block')
     list-item(dt='Block Height' :dd='num.prettyInt(lastHeader.height)' :to="{ name: 'block', params: { block: lastHeader.height} }")
-    list-item(dt='Latest Block Time' :dd='latestBlockTime')
-    list-item(dt='Latest Block Hash' :dd='status.latest_block_hash')
+    list-item(dt='Block Time' :dd='latestBlockTime')
+    list-item(dt='Block Hash' :dd='status.latest_block_hash')
 
   part(title='Latest Blocks')
     list-item.column-header(dt="Block Height" dd="# of Transactions")
