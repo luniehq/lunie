@@ -23,9 +23,6 @@ export default {
 
 <style lang="stylus">
 @import '~variables'
-.ni-form
-  max-width width-form
-
 .ni-form-group
   padding 0.5rem 1rem
   position relative
