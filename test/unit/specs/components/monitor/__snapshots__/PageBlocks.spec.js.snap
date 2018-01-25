@@ -7,7 +7,7 @@ exports[`PageBlocks has the expected html structure 1`] = `
          <div class=\\"ni-page-header-text\\">
             <div class=\\"ni-page-header-title\\">
                <h2>
-                  Blocks
+                  Block Explorer
                </h2>
 </div>
    <div class=\\"ni-page-header-subtitle\\">
@@ -41,7 +41,7 @@ exports[`PageBlocks has the expected html structure 1`] = `
          <header class=\\"ni-part-header\\">
             <div class=\\"ni-part-header-container\\">
                <div class=\\"ni-part-title h5\\">
-                  Latest Block
+                  Current Block
                </div>
          <menu class=\\"ni-part-menu\\"></menu>
 </div>
@@ -101,7 +101,7 @@ exports[`PageBlocks has the expected html structure 1`] = `
       <header class=\\"ni-part-header\\">
          <div class=\\"ni-part-header-container\\">
             <div class=\\"ni-part-title h5\\">
-               Block Explorer
+               Latest Blocks
             </div>
       <menu class=\\"ni-part-menu\\"></menu>
 </div>

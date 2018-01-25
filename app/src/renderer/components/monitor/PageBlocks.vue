@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Blocks')
+page(title='Block Explorer')
   div(slot="menu"): tool-bar
     a(@click='setSearch(true)')
       i.material-icons search
@@ -7,26 +7,25 @@ page(title='Blocks')
 
   modal-search(type="blocks")
 
-  template
-    part(title='Latest Block')
-      list-item(dt='Block Height' :dd='num.prettyInt(lastHeader.height)' :to="{ name: 'block', params: { block: lastHeader.height} }")
-      list-item(dt='Latest Block Time' :dd='latestBlockTime')
-      list-item(dt='Latest Block Hash' :dd='status.latest_block_hash')
+  part(title='Current Block')
+    list-item(dt='Block Height' :dd='num.prettyInt(lastHeader.height)' :to="{ name: 'block', params: { block: lastHeader.height} }")
+    list-item(dt='Latest Block Time' :dd='latestBlockTime')
+    list-item(dt='Latest Block Hash' :dd='status.latest_block_hash')
 
-    part(title='Block Explorer')
-      list-item.column-header(dt="Block Height" dd="# of Transactions")
-      list-item(
-        v-for="block in blocks"
-        :key="block.header.height"
-        :dt="num.prettyInt(block.header.height)"
-        :dd="block.data.txs.length"
-        :to="{ name: 'block', params: { block: block.header.height} }")
+  part(title='Latest Blocks')
+    list-item.column-header(dt="Block Height" dd="# of Transactions")
+    list-item(
+      v-for="block in blocks"
+      :key="block.header.height"
+      :dt="num.prettyInt(block.header.height)"
+      :dd="block.data.txs.length"
+      :to="{ name: 'block', params: { block: block.header.height} }")
 </template>
 
 <script>
 import moment from 'moment'
-import num from 'scripts/num'
 import Mousetrap from 'mousetrap'
+import num from 'scripts/num'
 import { mapGetters } from 'vuex'
 import ListItem from 'common/NiListItem'
 import DataError from 'common/NiDataError'
@@ -45,7 +44,7 @@ export default {
     ModalSearch
   },
   computed: {
-    ...mapGetters(['blockchain', 'lastHeader', 'filters']),
+    ...mapGetters(['blockchain', 'lastHeader']),
     status () {
       return this.blockchain.status
     },
@@ -74,6 +73,7 @@ export default {
   }
 }
 </script>
+
 <style lang="stylus">
 @require '~variables'
 
