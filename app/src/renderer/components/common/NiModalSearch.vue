@@ -1,7 +1,18 @@
 <template lang='pug'>
-.ni-modal-search(v-if="open"): .ni-modal-search-container
-  field.mousetrap(type="text" placeholder="Search..." v-model="query")
-  btn(icon="close" @click.native="close")
+.ni-modal-search(v-if="open")
+  form.ni-modal-search-container(
+    v-if="type === 'blocks'"
+    v-on:submit.prevent.default="gotoBlock")
+    field.mousetrap(
+      type="number"
+      step="1"
+      placeholder="Search for block height..."
+      v-model="query")
+    btn(value="Search")
+    btn(type="button" icon="close" @click.native="close")
+  .ni-modal-search-container(v-else)
+    field.mousetrap(type="text" placeholder="Search..." v-model="query")
+    btn(icon="close" @click.native="close")
 </template>
 
 <script>
@@ -31,6 +42,12 @@ export default {
   methods: {
     close () {
       this.$store.commit('setSearchVisible', [this.type, false])
+    },
+    gotoBlock () {
+      this.$router.push({
+        name: 'block',
+        params: { block: this.filters.blocks.search.query }
+      })
     }
   },
   watch: {
@@ -54,10 +71,6 @@ export default {
   display flex
   padding 0 1rem 1rem
 
-  .ni-field
-    margin-right 0.5rem
-
-@media screen and (min-width 1024)
-  .ni-modal-search-container
-    margin-left width-side
+  .ni-btn
+    margin-left 0.5rem
 </style>

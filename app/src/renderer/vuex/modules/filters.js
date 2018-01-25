@@ -6,7 +6,7 @@ export default ({ commit }) => {
         query: ''
       }
     },
-    blockchain: {
+    blocks: {
       search: {
         visible: false,
         query: ''

@@ -5,7 +5,7 @@ page(title='Blocks')
       i.material-icons search
       .label Search
 
-  modal-search(type="blockchain")
+  modal-search(type="blocks")
 
   template
     part(title='Latest Block')
@@ -18,7 +18,7 @@ page(title='Blocks')
       list-item(
         v-for="block in blocks"
         :key="block.header.height"
-        :dt="block.header.height"
+        :dt="num.prettyInt(block.header.height)"
         :dd="block.data.txs.length"
         :to="{ name: 'block', params: { block: block.header.height} }")
 </template>
@@ -35,7 +35,7 @@ import Part from 'common/NiPart'
 import ToolBar from 'common/NiToolBar'
 import ModalSearch from 'common/NiModalSearch'
 export default {
-  name: 'page-blockchain',
+  name: 'page-blocks',
   components: {
     ListItem,
     DataError,
@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     setSearch (bool) {
-      this.$store.commit('setSearchVisible', ['blockchain', bool])
+      this.$store.commit('setSearchVisible', ['blocks', bool])
     }
   },
   mounted () {

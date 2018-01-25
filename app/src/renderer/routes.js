@@ -27,8 +27,8 @@ export default [
   },
 
   // MONITOR
-  { path: '/block/:block', name: 'block', component: monitor('Block') },
-  { path: '/blockchain', name: 'blockchain', component: monitor('Blockchain') },
+  { path: '/blocks', name: 'blocks', component: monitor('Blocks') },
+  { path: '/blocks/:block', name: 'block', component: monitor('Block') },
   { path: '/validators', name: 'validators', component: monitor('Validators') },
   {
     path: '/validators/:validator',
