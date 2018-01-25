@@ -1,6 +1,6 @@
 'use strict'
 
-let { app, BrowserWindow, Menu } = require('electron')
+let { app, BrowserWindow } = require('electron')
 let fs = require('fs-extra')
 let { join } = require('path')
 let { spawn } = require('child_process')
@@ -12,6 +12,7 @@ let toml = require('toml')
 let axios = require('axios')
 let pkg = require('../../../package.json')
 let relayServer = require('./relayServer.js')
+let addMenu = require('./menu.js')
 
 let started = false
 let shuttingDown = false
@@ -139,7 +140,7 @@ function createWindow () {
   webContents.on('will-navigate', handleRedirect)
   webContents.on('new-window', handleRedirect)
 
-  Menu.setApplicationMenu(null)
+  if (!WIN) addMenu()
 }
 
 function startProcess (name, args, env) {
