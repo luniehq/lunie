@@ -23,7 +23,6 @@ export default ({ commit, node }) => {
       let exists = state.accounts.length > 0
       let screen = exists ? 'sign-in' : 'welcome'
       commit('setModalSessionState', screen)
-      commit('setModalSession', true)
     },
     async loadAccounts ({ commit }) {
       try {

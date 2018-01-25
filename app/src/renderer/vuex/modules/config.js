@@ -12,8 +12,8 @@ export default ({ commit }) => {
         active: false
       },
       session: {
-        active: false,
-        state: 'welcome'
+        active: true,
+        state: 'loading'
       },
       blockchain: {
         active: false
