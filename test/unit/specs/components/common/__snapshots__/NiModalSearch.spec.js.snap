@@ -7,26 +7,41 @@ exports[`NiModalSearch has the expected html structure 1`] = `
   <div
     class="ni-modal-search-container"
   >
-    <input
-      class="mousetrap ni-field"
-      placeholder="Search..."
-      type="text"
-    />
-    <button
-      class="ni-btn"
+    <div
+      class="ni-form-group"
     >
-      <span
-        class="ni-btn-container"
+      <!---->
+      <!---->
+      <div
+        class="ni-form-group__field"
       >
-        <i
-          aria-hidden="true"
-          class="ni-btn-icon material-icons"
+        <div
+          class="ni-modal-search-field"
         >
-          close
-        </i>
-        <!---->
-      </span>
-    </button>
+          <input
+            class="mousetrap ni-field"
+            id="search-input"
+            placeholder="Search..."
+            type="text"
+          />
+          <button
+            class="ni-btn"
+          >
+            <span
+              class="ni-btn-container"
+            >
+              <i
+                aria-hidden="true"
+                class="ni-btn-icon material-icons"
+              >
+                close
+              </i>
+              <!---->
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;

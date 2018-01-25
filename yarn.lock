@@ -10,9 +10,9 @@
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@nylira/vue-button/-/vue-button-4.1.5.tgz#3cb0cc38535910e34bae11f206b6874d292cec89"
 
-"@nylira/vue-field@1.1.12":
-  version "1.1.12"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-field/-/vue-field-1.1.12.tgz#dc097c990c3723cb907132bf4ebbd1132f2f4531"
+"@nylira/vue-field@^1.1.17":
+  version "1.1.17"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-field/-/vue-field-1.1.17.tgz#a873c2d5e01b7ec664df0de71611b0fd9e066b97"
 
 "@nylira/vue-form-msg@^1.0.3":
   version "1.0.3"
@@ -3813,6 +3813,10 @@ inquirer@~3.3.0:
 int53@^0.2.4:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/int53/-/int53-0.2.4.tgz#5ed8d7aad6c5c6567cae69aa7ffc4a109ee80f86"
+
+interactjs@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/interactjs/-/interactjs-1.3.3.tgz#863dbb04b3867a02ef8f6509dc422873d75840aa"
 
 internal-ip@1.2.0:
   version "1.2.0"

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NiFormGroup has the expected html structure 1`] = `
-"<div class=\\"label-container ni-form-group ni-form-group--error\\">
+"<div class=\\"ni-form-group ni-form-group--error\\">
    <!---->
    <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Sign In Password</label>
    <div class=\\"ni-form-group__field\\">

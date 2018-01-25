@@ -12,8 +12,8 @@ export default ({ commit }) => {
         active: false
       },
       session: {
-        active: false,
-        state: 'welcome'
+        active: true,
+        state: 'loading'
       },
       blockchain: {
         active: false
@@ -32,7 +32,7 @@ export default ({ commit }) => {
       if (value) {
         noScroll.on()
       } else {
-        state.modals.session.state = 'welcome'
+        state.modals.session.state = 'loading'
         noScroll.off()
       }
       state.modals.session.active = value
