@@ -75,7 +75,7 @@ exports[`PageBlockchain has the expected html structure 1`] = `
                Latest Block Time
             </div>
          <div class=\\"ni-li-dd\\">
-            December 31st 1969 — 07:00:01
+            January 1st 1970 — 08:00:01
          </div>
 </div>
 </div>
