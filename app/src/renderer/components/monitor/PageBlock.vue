@@ -14,6 +14,9 @@ page(:title="pageBlockTitle")
       i.material-icons chevron_right
       .label Next Block
 
+  part(title='')
+    list-item(dt="Block Hash" :dd="block_meta.block_id.hash")
+
   part(title='Header')
     list-item(dt="Chain ID" :dd="block.header.chain_id")
     list-item(dt="Time" :dd="blockHeaderTime")
