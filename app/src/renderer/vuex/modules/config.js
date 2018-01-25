@@ -29,7 +29,7 @@ export default ({ commit }) => {
     },
     setModalSession (state, value) {
       // reset modal session state if we're closing the modal
-      if (value === true) {
+      if (value) {
         noScroll.on()
       } else {
         state.modals.session.state = 'loading'
