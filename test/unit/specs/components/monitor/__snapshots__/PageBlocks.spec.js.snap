@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageBlockchain has the expected html structure 1`] = `
+exports[`PageBlocks has the expected html structure 1`] = `
 "<div class=\\"ni-page\\">
    <header class=\\"ni-page-header\\">
       <div class=\\"ni-page-header-container\\">
@@ -47,7 +47,7 @@ exports[`PageBlockchain has the expected html structure 1`] = `
 </div>
 </header>
       <main class=\\"ni-part-main\\">
-         <a href=\\"#/block/0\\" class=\\"ni-li ni-li-link\\">
+         <a href=\\"#/blocks/0\\" class=\\"ni-li ni-li-link\\">
          <div class=\\"ni-li-container\\">
             <div class=\\"ni-li-thumb\\">
                <!---->

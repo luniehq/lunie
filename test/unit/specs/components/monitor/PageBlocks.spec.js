@@ -1,17 +1,17 @@
 import setup from '../../../helpers/vuex-setup'
 import htmlBeautify from 'html-beautify'
-import PageBlockchain from 'renderer/components/monitor/PageBlockchain'
+import PageBlocks from 'renderer/components/monitor/PageBlocks'
 
-describe('PageBlockchain', () => {
+describe('PageBlocks', () => {
   let wrapper, store
   let {mount} = setup()
 
   beforeEach(() => {
-    let instance = mount(PageBlockchain)
+    let instance = mount(PageBlocks)
     wrapper = instance.wrapper
     store = instance.store
 
-    store.commit('setSearchVisible', ['blockchain', false])
+    store.commit('setSearchVisible', ['blocks', false])
 
     wrapper.update()
   })
