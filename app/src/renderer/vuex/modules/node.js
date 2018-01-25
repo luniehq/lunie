@@ -74,11 +74,19 @@ export default function ({ node }) {
       dispatch('pollRPCConnection')
     },
     async checkConnection ({ commit }) {
+      let error = () => commit('notifyError', {
+        title: 'Critical Error',
+        body: `Couldn't initialize the blockchain client. If the problem persists, please contact Cosmos support.`
+      })
       try {
-        await node.lcdConnected()
-        return true
+        if (await node.lcdConnected()) {
+          return true
+        } else {
+          error()
+          return false
+        }
       } catch (err) {
-        commit('notifyError', {title: 'Critical Error', body: `Couldn't initialize blockchain connector`})
+        error()
         return false
       }
     },
