@@ -11,7 +11,7 @@
     "url": "git+https://github.com/cosmos/cosmos-ui.git"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=9.4.0"
   },
   "scripts": {
     "build": "node tasks/release.js",
@@ -103,6 +103,7 @@
     "casual": "^1.5.19",
     "chart.js": "^2.6.0",
     "cosmos-sdk": "^1.5.1",
+    "deterministic-tar": "^0.1.2",
     "deterministic-zip": "^1.0.5",
     "electron": "^1.7.5",
     "event-to-promise": "^0.8.0",

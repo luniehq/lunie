@@ -5,8 +5,11 @@ const { createHash } = require('crypto')
 const path = require('path')
 const packager = require('electron-packager')
 const fs = require('fs-extra')
-var JSZip = require('jszip')
 var glob = require('glob')
+var JSZip = require('jszip')
+const zlib = require('zlib')
+var deterministic = require('deterministic-tar')
+var tar = require('tar-stream')
 const packageJson = require('../package.json')
 
 let skipPack = false
@@ -34,7 +37,7 @@ if (process.env.PLATFORM_TARGET === 'clean') {
   console.log('\x1b[33m`builds` directory cleaned.\n\x1b[0m')
 } else {
   if (skipPack) {
-    build()
+    build(process.env.PLATFORM_TARGET)
   } else {
     pack()
   }
@@ -59,7 +62,7 @@ function pack () {
 /**
  * Use electron-packager to build electron app
  */
-function build () {
+function build (platform) {
   let options = require('../config').building
 
   options.afterCopy = [
@@ -76,7 +79,12 @@ function build () {
       console.log(appPaths)
       console.log('\n\x1b[34mZipping files...\n\x1b[0m')
       await Promise.all(appPaths.map(async appPath => {
-        await zipFolder(appPath, options.out, packageJson.version)
+        if (platform === 'win32') {
+          await zipFolder(appPath, options.out, packageJson.version)
+        } else {
+          await tarFolder(appPath, options.out, packageJson.version)
+          .catch(err => console.error(err))
+        }
       }))
 
       console.log('\n\x1b[34mDONE\n\x1b[0m')
@@ -125,6 +133,44 @@ function zipFolder (inDir, outDir, version) {
     zip.generateNodeStream({type: 'nodebuffer', streamFiles: true})
     .pipe(fs.createWriteStream(outFile))
     .on('finish', function () {
+      sha256File(outFile).then((hash) => {
+        console.log('Zip successful!', outFile, 'SHA256:', hash)
+        resolve()
+      })
+    })
+  })
+}
+
+function tarFolder (inDir, outDir, version) {
+  return new Promise(async (resolve, reject) => {
+    let name = path.parse(inDir).name
+    let outFile = path.join(outDir, `${name}_${version}.tar.gz`)
+    var pack = tar.pack()
+
+    await new Promise((resolve) => {
+      glob(inDir + '/**/*', (err, files) => {
+        if (err) {
+          return reject(err)
+        }
+        // add files to tar
+        files
+        .filter(file => !fs.lstatSync(file).isDirectory())
+        .forEach(file => {
+          pack.entry({ name: path.relative(inDir, file) }, fs.readFileSync(file))
+        })
+        pack.finalize()
+        resolve()
+      })
+    })
+
+    // make tar deterministic
+    pack
+    .pipe(deterministic())
+    .pipe(zlib.createGzip())
+    // save tar to disc
+    .pipe(fs.createWriteStream(outFile))
+    .on('finish', function () {
+      console.log('write finished')
       sha256File(outFile).then((hash) => {
         console.log('Zip successful!', outFile, 'SHA256:', hash)
         resolve()

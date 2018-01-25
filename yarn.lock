@@ -1107,6 +1107,12 @@ bl@^1.0.0:
   dependencies:
     readable-stream "^2.0.5"
 
+bl@~0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/bl/-/bl-0.6.0.tgz#30910299937294133844ee34aa479a5344b4cd29"
+  dependencies:
+    readable-stream "~1.0.2"
+
 block-stream@*:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/block-stream/-/block-stream-0.0.9.tgz#13ebfe778a03205cfe03751481ebb4b3300c126a"
@@ -2150,6 +2156,13 @@ detect-node@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.3.tgz#a2033c09cc8e158d37748fbde7507832bd6ce127"
 
+deterministic-tar@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/deterministic-tar/-/deterministic-tar-0.1.2.tgz#60674b2ec0ae5136e1fb0a17258e59cf05d7e601"
+  dependencies:
+    duplexer "~0.1.1"
+    tar-stream "~0.3.3"
+
 deterministic-zip@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/deterministic-zip/-/deterministic-zip-1.0.5.tgz#7b7c83813d94b807cf55dbc3f102599853b88c24"
@@ -2283,6 +2296,10 @@ drbg.js@^1.0.1:
 duplexer3@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
+
+duplexer@~0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
 
 duplexify@^3.1.2, duplexify@^3.2.0:
   version "3.5.1"
@@ -2452,6 +2469,12 @@ end-of-stream@^1.0.0, end-of-stream@^1.1.0:
   resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.4.0.tgz#7a90d833efda6cfa6eac0f4949dbb0fad3a63206"
   dependencies:
     once "^1.4.0"
+
+end-of-stream@~0.1.3:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-0.1.5.tgz#8e177206c3c80837d85632e8b9359dfe8b2f6eaf"
+  dependencies:
+    once "~1.3.0"
 
 enhanced-resolve@^3.4.0:
   version "3.4.1"
@@ -5481,6 +5504,12 @@ once@^1.3.0, once@^1.3.1, once@^1.3.3, once@^1.4.0:
   dependencies:
     wrappy "1"
 
+once@~1.3.0:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/once/-/once-1.3.3.tgz#b2e261557ce4c314ec8304f3fa82663e4297ca20"
+  dependencies:
+    wrappy "1"
+
 onetime@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/onetime/-/onetime-1.1.0.tgz#a1f7838f8314c516f05ecefcbc4ccfe04b4ed789"
@@ -6391,7 +6420,7 @@ read-pkg@^2.0.0:
     normalize-package-data "^2.3.2"
     path-type "^2.0.0"
 
-readable-stream@1.0:
+readable-stream@1.0, readable-stream@~1.0.2, readable-stream@~1.0.26-4:
   version "1.0.34"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.0.34.tgz#125820e34bc842d2f2aaafafe4c2916ee32c157c"
   dependencies:
@@ -7464,6 +7493,14 @@ tar-stream@^1.5.0:
     end-of-stream "^1.0.0"
     readable-stream "^2.0.0"
     xtend "^4.0.0"
+
+tar-stream@~0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/tar-stream/-/tar-stream-0.3.3.tgz#23ca53bd738b8702272a80e26cc938bc4b84b87b"
+  dependencies:
+    bl "~0.6.0"
+    end-of-stream "~0.1.3"
+    readable-stream "~1.0.26-4"
 
 tar@^2.0.0, tar@^2.2.1:
   version "2.2.1"
