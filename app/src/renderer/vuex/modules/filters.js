@@ -6,6 +6,12 @@ export default ({ commit }) => {
         query: ''
       }
     },
+    blocks: {
+      search: {
+        visible: false,
+        query: ''
+      }
+    },
     delegates: {
       search: {
         visible: false,
@@ -32,6 +38,10 @@ export default ({ commit }) => {
     }
   }
   const mutations = {
+    resetSearch (state, type) {
+      state[type].search.visible = false
+      state[type].search.query = ''
+    },
     setSearchVisible (state, [type, bool]) {
       state[type].search.visible = bool
     },

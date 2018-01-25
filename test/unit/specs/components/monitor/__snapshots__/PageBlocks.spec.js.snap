@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageBlocks has the expected html structure 1`] = `
+"<div class=\\"ni-page\\">
+   <header class=\\"ni-page-header\\">
+      <div class=\\"ni-page-header-container\\">
+         <div class=\\"ni-page-header-text\\">
+            <div class=\\"ni-page-header-title\\">
+               <h2>
+                  Block Explorer
+               </h2>
+</div>
+   <div class=\\"ni-page-header-subtitle\\">
+      <h3></h3>
+</div>
+</div>
+   <menu class=\\"ni-page-header-menu\\">
+      <div>
+         <div>
+            <div class=\\"ni-tool-bar\\">
+               <div class=\\"ni-tool-bar-container\\">
+                  <div class=\\"main\\">
+                     <a><i class=\\"material-icons\\">search</i>
+                     <div class=\\"label\\">
+                        Search
+                     </div>
+      </a>
+   </div>
+      <a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a>
+   </div>
+</div>
+</div>
+</div>
+</menu>
+</div>
+</header>
+<main class=\\"ni-page-main\\">
+   <modal-search type=\\"blocks\\"></modal-search>
+   <section class=\\"ni-part\\">
+      <div class=\\"ni-part-container\\">
+         <header class=\\"ni-part-header\\">
+            <div class=\\"ni-part-header-container\\">
+               <div class=\\"ni-part-title h5\\">
+                  Current Block
+               </div>
+         <menu class=\\"ni-part-menu\\"></menu>
+</div>
+</header>
+      <main class=\\"ni-part-main\\">
+         <a href=\\"#/blocks/0\\" class=\\"ni-li ni-li-link\\">
+         <div class=\\"ni-li-container\\">
+            <div class=\\"ni-li-thumb\\">
+               <!---->
+            </div>
+         <div class=\\"ni-li-dl\\">
+            <div class=\\"ni-li-dt\\">
+               Block Height
+            </div>
+         <div class=\\"ni-li-dd\\">
+            0
+         </div>
+</div>
+         <div class=\\"ni-li-icon\\">
+            <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
+         </div>
+</div>
+         </a>
+         <div class=\\"ni-li\\">
+            <div class=\\"ni-li-container\\">
+               <div class=\\"ni-li-thumb\\">
+                  <!---->
+               </div>
+         <div class=\\"ni-li-dl\\">
+            <div class=\\"ni-li-dt\\">
+               Block Time
+            </div>
+         <div class=\\"ni-li-dd\\">
+            Loading…
+         </div>
+</div>
+</div>
+</div>
+         <div class=\\"ni-li\\">
+            <div class=\\"ni-li-container\\">
+               <div class=\\"ni-li-thumb\\">
+                  <!---->
+               </div>
+         <div class=\\"ni-li-dl\\">
+            <div class=\\"ni-li-dt\\">
+               Block Hash
+            </div>
+         <div class=\\"ni-li-dd\\"></div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</section>
+<section class=\\"ni-part\\">
+   <div class=\\"ni-part-container\\">
+      <header class=\\"ni-part-header\\">
+         <div class=\\"ni-part-header-container\\">
+            <div class=\\"ni-part-title h5\\">
+               Latest Blocks
+            </div>
+      <menu class=\\"ni-part-menu\\"></menu>
+</div>
+</header>
+   <main class=\\"ni-part-main\\">
+      <div class=\\"ni-li column-header\\">
+         <div class=\\"ni-li-container\\">
+            <div class=\\"ni-li-thumb\\">
+               <!---->
+            </div>
+      <div class=\\"ni-li-dl\\">
+         <div class=\\"ni-li-dt\\">
+            Block Height
+         </div>
+      <div class=\\"ni-li-dd\\">
+         # of Transactions
+      </div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</section>
+</main>
+</div>"
+`;
