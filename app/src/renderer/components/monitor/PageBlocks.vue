@@ -49,7 +49,12 @@ export default {
       return this.blockchain.status
     },
     latestBlockTime () {
-      return moment(this.status.latest_block_time).format('MMMM Do YYYY — hh:mm:ss')
+      let blockTime = this.status.latest_block_time
+      if (blockTime) {
+        return moment(blockTime).format('MMMM Do YYYY — hh:mm:ss')
+      } else {
+        return 'Loading…'
+      }
     },
     blocks () {
       return this.blockchain.blocks
