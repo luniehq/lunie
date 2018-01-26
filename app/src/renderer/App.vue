@@ -5,9 +5,9 @@
     #app-content
       router-view
       app-footer
-    notifications(:notifications='notifications' theme='cosmos')
     modal-help
   session(v-else)
+  notifications(:notifications='notifications' theme='cosmos')
 </template>
 
 <script>
