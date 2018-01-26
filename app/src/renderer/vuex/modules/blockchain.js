@@ -3,7 +3,7 @@ import axios from 'axios'
 export default ({ commit, node }) => {
   const state = {
     urlPrefix: 'https://',
-    blockchainName: 'gaia-2-dev',
+    blockchainName: 'gaia-2',
     urlSuffix: '-node0.testnets.interblock.io',
     status: {},
     abciInfo: {},
