@@ -169,8 +169,10 @@ function startProcess (name, args, env) {
   child.on('exit', (code) => !shuttingDown && log(`${name} exited with code ${code}`))
   child.on('error', function (err) {
     if (!(shuttingDown && err.code === 'ECONNRESET')) {
-      // Ignore ECONNRESET and re throw anything else
-      throw err
+      // if we throw errors here, they are not handled by the main process
+      console.error('[Uncaught Exception] Child', name, 'produced an unhandled exception:', err)
+      console.log('Shutting down UI')
+      shutdown()
     }
   })
   return child
