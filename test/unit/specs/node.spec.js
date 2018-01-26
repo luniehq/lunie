@@ -1,11 +1,23 @@
-const LCDConnector = require('renderer/node')
-
 let fetch = global.fetch
 
 describe('LCD Connector', () => {
+  let LCDConnector
+
   beforeEach(() => {
+    jest.resetModules()
+    LCDConnector = require('renderer/node')
+
+    jest.mock('tendermint', () => () => ({
+      on (value, cb) {},
+      removeAllListeners () {},
+      ws: {
+        destroy () {}
+      }
+    }))
+
     process.env.COSMOS_UI_ONLY = 'false'
   })
+
   beforeAll(() => {
     global.fetch = () => Promise.resolve({
       text: () => '1.2.3.4'
@@ -41,7 +53,7 @@ describe('LCD Connector', () => {
       }
     }))
     jest.resetModules()
-    let LCDConnector = require('renderer/node')
+    LCDConnector = require('renderer/node')
     let node = LCDConnector('1.1.1.1')
     expect(node.rpc).toBeDefined()
     expect(node.rpcOpen).toBe(false)

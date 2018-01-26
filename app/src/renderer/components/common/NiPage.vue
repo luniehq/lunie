@@ -57,6 +57,7 @@ export default {
   position relative
   display flex
   flex-flow column nowrap
+  max-width width-main-max
 
 .ni-page-title
   color bright

@@ -64,27 +64,34 @@ export default function ({ node }) {
           chain_id: status.node_info.network
         })
       })
-      node.rpc.subscribe({ query: 'tm.event = \'NewBlockHeader\'' }, (err, event) => {
-        console.log(err)
-        // if (err) return console.error('error subscribing to headers', err)
-        // commit('setConnected', true)
-        console.log(event)
-        // dispatch('setLastHeader', event.data.data.header)
+
+      node.rpc.subscribe({ query: "tm.event = 'NewBlockHeader'" }, (err, event) => {
+        if (err) return console.error('error subscribing to headers', err)
+        commit('setConnected', true)
+        dispatch('setLastHeader', event.data.data.header)
       })
 
       dispatch('pollRPCConnection')
     },
     async checkConnection ({ commit }) {
+      let error = () => commit('notifyError', {
+        title: 'Critical Error',
+        body: `Couldn't initialize the blockchain client. If the problem persists, please make an issue on GitHub.`
+      })
       try {
-        await node.lcdConnected()
-        return true
+        if (await node.lcdConnected()) {
+          return true
+        } else {
+          error()
+          return false
+        }
       } catch (err) {
-        commit('notifyError', {title: 'Critical Error', body: `Couldn't initialize blockchain connector`})
+        error()
         return false
       }
     },
     pollRPCConnection ({state, commit, dispatch}, timeout = 3000) {
-      if (state.nodeTimeout) return
+      if (state.nodeTimeout || state.stopConnecting) return
 
       state.nodeTimeout = setTimeout(() => {
         // clear timeout doesn't work

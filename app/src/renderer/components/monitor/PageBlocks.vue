@@ -1,0 +1,90 @@
+<template lang="pug">
+page(title='Block Explorer')
+  div(slot="menu"): tool-bar
+    a(@click='setSearch(true)')
+      i.material-icons search
+      .label Search
+
+  modal-search(type="blocks")
+
+  part(title='Current Block')
+    list-item(dt='Block Height' :dd='num.prettyInt(lastHeader.height)' :to="{ name: 'block', params: { block: lastHeader.height} }")
+    list-item(dt='Block Time' :dd='latestBlockTime')
+    list-item(dt='Block Hash' :dd='status.latest_block_hash')
+
+  part(title='Latest Blocks')
+    list-item.column-header(dt="Block Height" dd="# of Transactions")
+    list-item(
+      v-for="block in blocks"
+      :key="block.header.height"
+      :dt="num.prettyInt(block.header.height)"
+      :dd="block.data.txs.length"
+      :to="{ name: 'block', params: { block: block.header.height} }")
+</template>
+
+<script>
+import moment from 'moment'
+import Mousetrap from 'mousetrap'
+import num from 'scripts/num'
+import { mapGetters } from 'vuex'
+import ListItem from 'common/NiListItem'
+import DataError from 'common/NiDataError'
+import Page from 'common/NiPage'
+import Part from 'common/NiPart'
+import ToolBar from 'common/NiToolBar'
+import ModalSearch from 'common/NiModalSearch'
+export default {
+  name: 'page-blocks',
+  components: {
+    ListItem,
+    DataError,
+    Page,
+    Part,
+    ToolBar,
+    ModalSearch
+  },
+  computed: {
+    ...mapGetters(['blockchain', 'lastHeader']),
+    status () {
+      return this.blockchain.status
+    },
+    latestBlockTime () {
+      let blockTime = this.status.latest_block_time
+      if (blockTime) {
+        return moment(blockTime).format('MMMM Do YYYY — hh:mm:ss')
+      } else {
+        return 'Loading…'
+      }
+    },
+    blocks () {
+      return this.blockchain.blocks
+    }
+  },
+  data: () => ({
+    moment: moment,
+    num: num
+  }),
+  methods: {
+    setSearch (bool) {
+      this.$store.commit('setSearchVisible', ['blocks', bool])
+    }
+  },
+  mounted () {
+    Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
+    Mousetrap.bind('esc', () => this.setSearch(false))
+  },
+  beforeDestroy () {
+    this.$store.commit('resetSearch', 'blocks')
+  }
+}
+</script>
+
+<style lang="stylus">
+@require '~variables'
+
+.column-header
+  .ni-li-dd,
+  .ni-li-dt
+    font-size sm
+    color dim
+</style>
