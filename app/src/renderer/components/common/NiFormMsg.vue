@@ -70,17 +70,17 @@ export default {
   content ''
   font-family 'Material Icons'
   padding-right 0.35rem
- 
+
 .ni-form-msg.ni-form-msg--error
   color danger
- 
+
 .ni-form-msg.ni-form-msg--error:before
   content 'error'
   color danger
- 
+
 .ni-form-msg.ni-form-msg--desc
   color warning
- 
+
 .ni-form-msg.ni-form-msg--desc:before
   content 'priority_high'
   color warning

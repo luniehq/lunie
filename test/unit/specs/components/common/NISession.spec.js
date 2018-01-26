@@ -20,6 +20,7 @@ describe('NiSessionWelcome', () => {
       localVue,
       store,
       stubs: {
+        'session-loading': '<session-loading />',
         'session-welcome': '<session-welcome />',
         'session-sign-up': '<session-sign-up />',
         'session-sign-in': '<session-sign-in />',
@@ -30,12 +31,19 @@ describe('NiSessionWelcome', () => {
     })
   })
 
-  it('should not show by default', () => {
-    expect(wrapper.isEmpty()).toBe(true)
+  it('should show by default', () => {
+    expect(wrapper.isEmpty()).toBe(false)
   })
 
-  it('should show a welcome screen if activated', () => {
+  it('should show a loading screen if activated', () => {
     store.commit('setModalSession', true)
+    wrapper.update()
+    expect(wrapper.contains('session-loading')).toBe(true)
+  })
+
+  it('should show a welcome screen if selected', () => {
+    store.commit('setModalSession', true)
+    store.commit('setModalSessionState', 'welcome')
     wrapper.update()
     expect(wrapper.contains('session-welcome')).toBe(true)
   })
