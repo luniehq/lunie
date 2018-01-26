@@ -69,11 +69,11 @@ export default {
       property: 'shares',
       order: 'desc',
       properties: [
-        { id: 0, title: '', value: '' },
-        { id: 1, title: 'Name', value: 'description.moniker', class: 'name' },
-        { id: 2, title: '% of Vote', value: 'shares', class: 'percent_of_vote' },
-        { id: 3, title: '# of Votes', value: 'voting_power', class: 'number_of_votes' },
-        { id: 4, title: 'Bonded by You', value: 'bonded', class: 'bonded_by_you' }
+        { id: 0, title: 'Name', value: 'description.moniker', class: 'name' },
+        { id: 1, title: 'Vote %', value: 'shares', class: 'percent_of_vote' },
+        { id: 2, title: 'Votes', value: 'voting_power', class: 'number_of_votes' },
+        { id: 3, title: 'Your Votes', value: 'bonded', class: 'bonded_by_you' },
+        { id: 4, title: '', value: '', class: 'action' }
       ]
     }
   }),
@@ -100,17 +100,31 @@ export default {
 @require '~variables'
 
 .delegates-container
-  flex 1
+  padding-bottom 6rem
 
 .fixed-button-bar
-  width 100%
-  padding 1rem
-  background app-fg
+  padding 0.5rem 1rem
+  background alpha(app-bg, 85%)
   display flex
   justify-content space-between
+  position fixed
+  bottom 3rem + px
+  left 0
+  right 0
   .label
     color bright
     line-height 2rem
     strong
       font-weight bold
+
+@media screen and (min-width: 768px)
+  .delegates-container
+    padding-bottom 7rem
+
+  .fixed-button-bar
+    padding 1rem
+
+@media screen and (min-width: 1024px)
+  .fixed-button-bar
+    margin-left width-side
 </style>

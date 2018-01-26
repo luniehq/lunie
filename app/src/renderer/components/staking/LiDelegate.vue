@@ -1,8 +1,5 @@
 <template lang='pug'>
 .li-delegate(:class='styles'): .li-delegate__values
-  .li-delegate__value.checkbox
-    i.fa.fa-check-square-o(v-if='inCart' @click='rm(delegate)')
-    i.fa.fa-square-o(v-else @click='add(delegate)')
   .li-delegate__value.name
     span
       router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")  {{ ' ' + delegate.moniker }}
@@ -14,6 +11,10 @@
     .bar(:style='vpStyles')
   .li-delegate__value.bonded_by_you
     span {{ num.prettyInt(amountBonded(delegate.id)) }}
+  .li-delegate__value.checkbox(v-if="inCart" @click='rm(delegate)')
+    i.material-icons check_box
+  .li-delegate__value.checkbox(v-else @click='add(delegate)')
+    i.material-icons check_box_outline_blank
 </template>
 
 <script>
@@ -78,8 +79,9 @@ export default {
   &:nth-of-type(2n-1)
     background app-fg
   &.li-delegate-active
-    .li-delegate__value i.fa
-      color mc
+    background alpha(hover, 17.5%)
+    .li-delegate__value i
+      color link
 
 .li-delegate__values
   display flex
@@ -91,15 +93,11 @@ export default {
   align-items center
   min-width 0
 
-  &:first-child
+  &:last-child
     flex 0.5
 
-  &.number_of_votes
+  &.name
     flex 2
-
-  &.id span
-    i.fa
-      margin-right 0.25rem
 
   &.bar
     position relative
