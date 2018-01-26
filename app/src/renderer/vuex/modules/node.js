@@ -83,7 +83,7 @@ export default function ({ node }) {
       }
     },
     pollRPCConnection ({state, commit, dispatch}, timeout = 3000) {
-      if (state.nodeTimeout) return
+      if (state.nodeTimeout || state.stopConnecting) return
 
       state.nodeTimeout = setTimeout(() => {
         // clear timeout doesn't work

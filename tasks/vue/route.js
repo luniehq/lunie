@@ -31,7 +31,7 @@ fs.writeFileSync(
   routeTemplate
 )
 
-fs.mkdirSync(path.join(__dirname, `../../app/src/components/${routeName}View`))
+fs.ensureDirSync(path.join(__dirname, `../../app/src/components/${routeName}View`))
 
 fs.writeFileSync(
   path.join(__dirname, '../../app/src/routes.js'),
