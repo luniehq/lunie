@@ -67,6 +67,7 @@
     "html-beautify": "^1.0.4",
     "html-webpack-plugin": "^2.16.1",
     "jest": "^21.2.1",
+    "jest-localstorage-mock": "^2.2.0",
     "jest-vue-preprocessor": "^1.3.1",
     "json-loader": "^0.5.4",
     "lodash": "^4.17.4",
@@ -185,7 +186,8 @@
       "./test/unit/helpers/fixed_time.js",
       "./test/unit/helpers/setup.js",
       "./test/unit/helpers/console_error_throw.js",
-      "./test/unit/helpers/genesis_mock.js"
+      "./test/unit/helpers/genesis_mock.js",
+      "jest-localstorage-mock"
     ]
   },
   "optionalDependencies": {
