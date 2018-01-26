@@ -3,7 +3,7 @@
   .ni-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
     .ni-session-title Sign In
-    a(@click="help"): i.material-icons help_outline
+    a(@click="help()"): i.material-icons help_outline
   .ni-session-main
     form-group(field-id='sign-in-name' field-label='Select Account')
       field#sign-in-name(
@@ -71,8 +71,18 @@ export default {
       return accounts.map(({name}) => ({ key: name, value: name }))
     }
   },
+  methods: {
+    setDefaultAccount (accounts) {
+      if (accounts.length === 1) {
+        this.fields.signInName = accounts[0].key
+        this.$el.querySelector('#sign-in-password').focus()
+      } else {
+        this.$el.querySelector('#sign-in-name').focus()
+      }
+    }
+  },
   mounted () {
-    this.$el.querySelector('#sign-in-name').focus()
+    this.setDefaultAccount(this.accounts)
   },
   validations: () => ({
     fields: {
