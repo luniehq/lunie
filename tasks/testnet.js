@@ -39,4 +39,6 @@ async function main () {
   }
 }
 
-main().catch(function (err) { throw err })
+main().catch(function (err) {
+  console.error('Starting the application failed', err)
+})
