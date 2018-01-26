@@ -76,7 +76,7 @@ export default function ({ node }) {
     async checkConnection ({ commit }) {
       let error = () => commit('notifyError', {
         title: 'Critical Error',
-        body: `Couldn't initialize the blockchain client. If the problem persists, please contact Cosmos support.`
+        body: `Couldn't initialize the blockchain client. If the problem persists, please make an issue on GitHub.`
       })
       try {
         if (await node.lcdConnected()) {
