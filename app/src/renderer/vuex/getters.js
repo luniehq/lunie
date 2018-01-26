@@ -2,7 +2,6 @@
 export const config = state => state.config
 export const filters = state => state.filters
 export const notifications = state => state.notifications
-export const preferences = state => state.preferences
 export const user = state => state.user
 
 // wallet

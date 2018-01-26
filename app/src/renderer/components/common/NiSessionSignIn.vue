@@ -1,9 +1,9 @@
 <template lang="pug">
-.ni-session: form-struct(:submit='onSubmit').ni-session-container
+.ni-session: form-struct(:submit="onSubmit").ni-session-container
   .ni-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
     .ni-session-title Sign In
-    a(@click="help()"): i.material-icons help_outline
+    a(@click="help"): i.material-icons help_outline
   .ni-session-main
     form-group(field-id='sign-in-name' field-label='Select Account')
       field#sign-in-name(
@@ -48,6 +48,14 @@ export default {
       signInPassword: ''
     }
   }),
+  computed: {
+    ...mapGetters(['user']),
+    accounts () {
+      let accounts = this.user.accounts
+      accounts = accounts.filter(({name}) => name !== 'trunk')
+      return accounts.map(({name}) => ({ key: name, value: name }))
+    }
+  },
   methods: {
     help () { this.$store.commit('setModalHelp', true) },
     setState (value) { this.$store.commit('setModalSessionState', value) },
@@ -61,20 +69,10 @@ export default {
       } catch (err) {
         this.$store.commit('notifyError', { title: 'Signing In Failed', body: err.message })
       }
-    }
-  },
-  computed: {
-    ...mapGetters(['user']),
-    accounts () {
-      let accounts = this.user.accounts
-      accounts = accounts.filter(({name}) => name !== 'trunk')
-      return accounts.map(({name}) => ({ key: name, value: name }))
-    }
-  },
-  methods: {
-    setDefaultAccount (accounts) {
-      if (accounts.length === 1) {
-        this.fields.signInName = accounts[0].key
+    },
+    setDefaultAccount () {
+      if (this.accounts.length === 1) {
+        this.fields.signInName = this.accounts[0].key
         this.$el.querySelector('#sign-in-password').focus()
       } else {
         this.$el.querySelector('#sign-in-name').focus()
