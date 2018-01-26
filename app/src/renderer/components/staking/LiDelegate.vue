@@ -11,9 +11,9 @@
     .bar(:style='vpStyles')
   .li-delegate__value.bonded_by_you
     span {{ num.prettyInt(amountBonded(delegate.id)) }}
-  .li-delegate__value.checkbox(v-if="inCart" @click='rm(delegate)')
+  .li-delegate__value.checkbox#remove-from-cart(v-if="inCart" @click='rm(delegate)')
     i.material-icons check_box
-  .li-delegate__value.checkbox(v-else @click='add(delegate)')
+  .li-delegate__value.checkbox#add-to-cart(v-else @click='add(delegate)')
     i.material-icons check_box_outline_blank
 </template>
 
