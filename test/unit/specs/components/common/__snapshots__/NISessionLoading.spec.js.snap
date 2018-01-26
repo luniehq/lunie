@@ -14,6 +14,7 @@ exports[`NiSessionLoading has the expected html structure 1`] = `
 <div class=\\"ni-session-footer\\">
    &nbsp;
 </div>
+<notifications theme=\\"cosmos\\"></notifications>
 </div>
 </div>"
 `;

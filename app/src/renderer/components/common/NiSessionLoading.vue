@@ -8,11 +8,8 @@
 </template>
 
 <script>
-import Notifications from '@nylira/vue-notifications'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'ni-session-loading',
-  components: { Notifications },
-  computed: mapGetters(['notifications'])
+  name: 'ni-session-loading'
 }
 </script>
