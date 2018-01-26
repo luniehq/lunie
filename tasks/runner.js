@@ -3,7 +3,6 @@
 const config = require('../config')
 const spawn = require('child_process').spawn
 const path = require('path')
-const killPort = require('kill-port')
 
 let YELLOW = '\x1b[33m'
 let BLUE = '\x1b[34m'
@@ -11,6 +10,24 @@ let END = '\x1b[0m'
 
 let NPM_BIN = path.join(path.dirname(__dirname), 'node_modules', '.bin')
 let PATH = `${NPM_BIN}:${process.env.PATH}`
+
+// on windows some processes are not exiting when using child.kill so we use a windows specific comand
+function cleanExitChild (child) {
+  return new Promise((resolve, reject) => {
+    var isWin = /^win/.test(process.platform)
+    if (!isWin) {
+      child.kill('SIGTERM')
+    } else {
+      var cp = require('child_process')
+      cp.exec('taskkill /PID ' + child.pid + ' /T /F', function (error, stdout, stderr) {
+        if (error !== null) {
+          console.log('exec error: ' + error)
+        }
+      })
+    }
+    child.on('exit', resolve)
+  })
+}
 
 function format (command, data, color) {
   return color + command + END +
@@ -31,7 +48,6 @@ function run (command, color, name, env) {
   child.on('exit', code => {
     console.log('exited', command, code)
   })
-  process.on('exit', () => child.kill('SIGKILL'))
   return child
 }
 
@@ -49,7 +65,7 @@ function startRendererServer () {
 }
 
 module.exports = async function (networkPath) {
-  await startRendererServer()
+  let renderProcess = await startRendererServer()
 
   console.log(`${BLUE}Starting electron...\n  (network path: ${networkPath})\n${END}`)
   let env = Object.assign({}, {
@@ -59,9 +75,9 @@ module.exports = async function (networkPath) {
   let mainProcess = run('electron app/src/main/index.dev.js', BLUE, 'electron', env)
 
   // terminate running processes on exit of main process
-  mainProcess.on('exit', code => {
+  mainProcess.on('exit', async code => {
+    await cleanExitChild(renderProcess)
     // webpack-dev-server spins up an own process we have no access to. so we kill all processes on our port
-    killPort(config.port)
     process.exit(0)
   })
 }
