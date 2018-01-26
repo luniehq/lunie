@@ -10,7 +10,6 @@
 <script>
 import Notifications from '@nylira/vue-notifications'
 import { mapGetters } from 'vuex'
-import store from '../../vuex/store'
 export default {
   name: 'ni-session-loading',
   components: { Notifications },
