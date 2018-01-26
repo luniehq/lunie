@@ -26,7 +26,7 @@ brew install glide
 # install gaia
 go get github.com/cosmos/gaia
 cd $GOPATH/src/github.com/cosmos/gaia
-git checkout v0.4.0
+git checkout v0.5.0
 glide install
 make install
 ```
@@ -44,7 +44,7 @@ yarn
 
 ### Develop
 
-To run on the UI on the default testnet (`gaia-2-dev`):
+To run on the UI on the default testnet (`gaia-2`):
 ```bash
 $ yarn run testnet
 ```
