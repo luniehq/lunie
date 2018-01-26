@@ -191,7 +191,7 @@ exports[`PageBond has the expected html structure 1`] = `
                       <label
                         class="bond-bar__label"
                       >
-                        Delegate – someValidator
+                        someValidator
                       </label>
                       <div
                         class="bond-bar__input"
@@ -261,7 +261,7 @@ exports[`PageBond has the expected html structure 1`] = `
                       <label
                         class="bond-bar__label"
                       >
-                        Delegate – someOtherValidator
+                        someOtherValidator
                       </label>
                       <div
                         class="bond-bar__input"
