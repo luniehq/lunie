@@ -65,14 +65,22 @@ export default {
       try {
         await this.$store.dispatch('testLogin', { password: this.fields.signInPassword, account: this.fields.signInName })
         this.$store.dispatch('signIn', { password: this.fields.signInPassword, account: this.fields.signInName })
+        localStorage.setItem('prevAccountKey', this.fields.signInName)
         this.$store.commit('setModalSession', false)
       } catch (err) {
         this.$store.commit('notifyError', { title: 'Signing In Failed', body: err.message })
       }
     },
     setDefaultAccount () {
+      let prevAccountKey = localStorage.getItem('prevAccountKey')
+
       if (this.accounts.length === 1) {
         this.fields.signInName = this.accounts[0].key
+      } else if (prevAccountKey) {
+        this.fields.signInName = prevAccountKey
+      }
+
+      if (this.fields.signInName) {
         this.$el.querySelector('#sign-in-password').focus()
       } else {
         this.$el.querySelector('#sign-in-name').focus()
