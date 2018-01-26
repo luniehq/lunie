@@ -24,7 +24,7 @@ let config = {
     ignore: /^\/(src|index\.ejs|icons)/,
     out: path.join(__dirname, 'builds'),
     overwrite: true,
-    platform: process.env.PLATFORM_TARGET || 'darwin,linux,windows',
+    platform: process.env.PLATFORM_TARGET || 'darwin,linux,win32',
     packageManager: 'yarn'
   }
 }
