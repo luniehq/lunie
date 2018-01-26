@@ -40,7 +40,7 @@ page.page-bond(title="Bond Atoms")
       :class="bondGroupClass(delta(d.atoms, d.oldAtoms))")
       .bond-group__fields
         .bond-bar
-          label.bond-bar__label Delegate &ndash; {{ d.delegate.description.moniker }}
+          label.bond-bar__label {{ d.delegate.description.moniker }}
           .bond-bar__input
             .bond-bar-old__outer
               .bond-bar-old__inner(:style="styleBondBarInner(d.oldAtoms)")
@@ -455,7 +455,7 @@ export default {
     height 2rem - 0.25rem - 0.125rem
     background txt
     border-radius 1rem
-    z-index z(toolBar)
+    z-index z(listItem)
 
     display flex
     align-items center
