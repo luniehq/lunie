@@ -222,6 +222,12 @@ async function startBaseserver (home, nodeIP) {
   return child
 }
 
+async function getGaiaVersion () {
+  let child = startProcess(SERVER_BINARY, ['version'])
+  let data = await event(child.stdout, 'data')
+  return data.toString('utf8').trim()
+}
+
 function exists (path) {
   try {
     fs.accessSync(path)
@@ -323,8 +329,11 @@ if (!TEST) {
   })
 }
 
-function consistentConfigDir (versionPath, genesisPath, configPath) {
-  return exists(genesisPath) && exists(versionPath) && exists(configPath)
+function consistentConfigDir (appVersionPath, genesisPath, configPath, gaiaVersionPath) {
+  return exists(genesisPath) &&
+    exists(appVersionPath) &&
+    exists(configPath) &&
+    exists(gaiaVersionPath)
 }
 
 function pickNode (seeds) {
@@ -374,9 +383,10 @@ async function main () {
     return
   }
 
-  let versionPath = join(root, 'app_version')
+  let appVersionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
   let configPath = join(root, 'config.toml')
+  let gaiaVersionPath = join(root, 'gaiaversion.txt')
 
   let rootExists = exists(root)
   await fs.ensureDir(root)
@@ -389,8 +399,8 @@ async function main () {
 
     // check if the existing data came from a compatible app version
     // if not, backup the data and re-initialize
-    if (consistentConfigDir(versionPath, genesisPath, configPath)) {
-      let existingVersion = fs.readFileSync(versionPath, 'utf8')
+    if (consistentConfigDir(appVersionPath, genesisPath, configPath, gaiaVersionPath)) {
+      let existingVersion = fs.readFileSync(appVersionPath, 'utf8')
       let compatible = semver.diff(existingVersion, pkg.version) !== 'major'
       if (compatible) {
         log('configs are compatible with current app version')
@@ -427,12 +437,22 @@ async function main () {
     fs.accessSync(networkPath) // crash if invalid path
     fs.copySync(networkPath, root)
 
-    fs.writeFileSync(versionPath, pkg.version)
+    fs.writeFileSync(appVersionPath, pkg.version)
   }
 
   log('starting app')
   log(`dev mode: ${DEV}`)
   log(`winURL: ${winURL}`)
+
+
+  let gaiaVersion = await getGaiaVersion()
+  let expectedGaiaVersion = fs.readFileSync(gaiaVersionPath, 'utf8').trim()
+  log(`gaia version: "${gaiaVersion}", expected: "${expectedGaiaVersion}"`)
+  // TODO: semver check, or exact match?
+  if (gaiaVersion !== expectedGaiaVersion) {
+    throw Error(`Requires gaia ${expectedGaiaVersion}, but got ${gaiaVersion}.
+      Please update your gaia installation or build with a newer binary.`)
+  }
 
   // read chainId from genesis.json
   let genesisText = fs.readFileSync(genesisPath, 'utf8')
