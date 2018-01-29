@@ -10,6 +10,15 @@ describe('PageBlocks', () => {
     let instance = mount(PageBlocks, {
       stubs: {
         'modal-search': '<modal-search />'
+      },
+      getters: {
+        lastHeader: () => ({
+          time: Date.now(),
+          last_block_id: {
+            hash: '123'
+          },
+          height: 12345
+        })
       }
     })
     wrapper = instance.wrapper
