@@ -53,8 +53,6 @@ export default {
   position relative
   min-width 0
 
-  &:first-child
-    flex 0.5
 
   .label
     font-size sm
@@ -86,8 +84,11 @@ export default {
     &:after
       color txt
 
-  &.number_of_votes
+  &.name
     flex 2
+
+  &.action
+    flex 0.5
 
 @media screen and (max-width: 768px)
   .sort-by
