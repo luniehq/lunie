@@ -7,9 +7,19 @@ describe('PageBlock', () => {
   let {mount} = setup()
 
   beforeEach(() => {
-    instance = mount(PageBlock)
-    wrapper = instance.wrapper
+    instance = mount(PageBlock, {
+      getters: {
+        lastHeader: () => ({
+          time: Date.now(),
+          last_block_id: {
+            hash: '123'
+          },
+          height: 12345
+        })
+      }
+    })
 
+    wrapper = instance.wrapper
     wrapper.update()
   })
 
