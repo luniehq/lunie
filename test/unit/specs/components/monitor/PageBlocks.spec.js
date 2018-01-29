@@ -13,7 +13,7 @@ describe('PageBlocks', () => {
       },
       getters: {
         lastHeader: () => ({
-          time: 0,
+          time: Date.now(),
           last_block_id: {
             hash: '123'
           },
