@@ -2,17 +2,19 @@
 const RpcClient = require('tendermint')
 const RestClient = require('cosmos-sdk')
 
-const RELAY_SERVER = 'http://localhost:8999'
-
-module.exports = function (nodeIP) {
+module.exports = function (nodeIP, relayPort, lcdPort) {
   if (JSON.parse(process.env.COSMOS_UI_ONLY || 'false')) {
     return mockClient()
   }
+
+  const RELAY_SERVER = 'http://localhost:' + relayPort
 
   let node = new RestClient(RELAY_SERVER)
 
   Object.assign(node, {
     nodeIP,
+    relayPort,
+    lcdPort,
     lcdConnected: () => node.listKeys()
       .then(() => true, () => false),
 

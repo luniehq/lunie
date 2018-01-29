@@ -11,7 +11,7 @@
     "url": "git+https://github.com/cosmos/cosmos-ui.git"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=9.4.0"
   },
   "scripts": {
     "build": "node tasks/release.js",
@@ -20,9 +20,6 @@
     "build:linux": "cross-env PLATFORM_TARGET=linux node tasks/release.js",
     "build:mas": "cross-env PLATFORM_TARGET=mas node tasks/release.js",
     "build:win32": "cross-env PLATFORM_TARGET=win32 node tasks/release.js",
-    "release:darwin": "electron-installer-dmg --overwrite builds/Cosmos-darwin-x64/Cosmos.app builds/cosmos",
-    "release:linux": "electron-installer-debian --src builds/Cosmos-linux-x64/ --dest builds/cosmos --arch amd64",
-    "release:win32": "node tasks/windows-installer.js",
     "uionly": "cross-env COSMOS_UI_ONLY='true' yarn run testnet",
     "local": "npm run testnet local",
     "testnet": "node tasks/testnet.js",
@@ -67,6 +64,7 @@
     "html-beautify": "^1.0.4",
     "html-webpack-plugin": "^2.16.1",
     "jest": "^21.2.1",
+    "jest-localstorage-mock": "^2.2.0",
     "jest-vue-preprocessor": "^1.3.1",
     "json-loader": "^0.5.4",
     "lodash": "^4.17.4",
@@ -106,14 +104,17 @@
     "casual": "^1.5.19",
     "chart.js": "^2.6.0",
     "cosmos-sdk": "^1.5.1",
+    "deterministic-tar": "^0.1.2",
+    "deterministic-zip": "^1.0.5",
     "electron": "^1.7.5",
     "event-to-promise": "^0.8.0",
     "express": "^4.16.2",
     "express-http-proxy": "^1.1.0",
     "flatpickr": "^4.1.2",
     "fs-extra": "^5.0.0",
+    "glob": "^7.1.2",
     "interactjs": "^1.3.3",
-    "kill-port": "^1.0.0",
+    "jszip": "^3.1.5",
     "moment": "^2.17.1",
     "mousetrap": "^1.6.1",
     "nib": "^1.1.2",
@@ -185,13 +186,8 @@
       "./test/unit/helpers/fixed_time.js",
       "./test/unit/helpers/setup.js",
       "./test/unit/helpers/console_error_throw.js",
-      "./test/unit/helpers/genesis_mock.js"
+      "./test/unit/helpers/genesis_mock.js",
+      "jest-localstorage-mock"
     ]
-  },
-  "optionalDependencies": {
-    "electron-installer-debian": "^0.7.1",
-    "electron-installer-dmg": "^0.2.1",
-    "electron-squirrel-startup": "^1.0.0",
-    "electron-winstaller": "^2.6.3"
   }
 }

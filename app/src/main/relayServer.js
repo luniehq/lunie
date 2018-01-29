@@ -18,7 +18,7 @@ let randomBondTx = (address, delegator) => ({
   height: 1000
 })
 
-module.exports = function ({port = 8999, mock = false, onReconnectReq} = {}) {
+module.exports = function ({relayServerPort, lcdPort, mock = false, onReconnectReq} = {}) {
   let app = express()
 
   // TODO this lets the server timeout until there is an external request
@@ -122,7 +122,7 @@ module.exports = function ({port = 8999, mock = false, onReconnectReq} = {}) {
   })
 
   // proxy everything else to light client
-  app.use(proxy('http://localhost:8998'))
+  app.use(proxy('http://localhost:' + lcdPort))
 
-  app.listen(port)
+  app.listen(relayServerPort)
 }

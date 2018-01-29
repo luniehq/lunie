@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export default ({ commit }) => {
+export default ({ commit, node }) => {
   let state = {
     delegationActive: false,
 
@@ -54,7 +54,7 @@ export default ({ commit }) => {
     // load committed delegation from LCD
     async getBondedDelegate ({ commit }, {address, pubkey}) {
       // TODO move into cosmos-sdk
-      let bond = (await axios.get('http://localhost:8998/query/stake/delegator/' + address + '/' + pubkey)).data.data
+      let bond = (await axios.get(`http://localhost:${node.relayPort}/query/stake/delegator/${address}/${pubkey}`)).data.data
       commit('setCommittedDelegation', {candidateId: bond.PubKey.data, value: bond.Shares})
     },
     walletDelegate ({ dispatch }, args) {

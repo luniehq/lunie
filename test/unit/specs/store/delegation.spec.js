@@ -110,8 +110,8 @@ describe('Module: Delegations', () => {
       ],
       address: '1234'
     })
-    expect(axios.get.mock.calls[0][0]).toEqual('http://localhost:8998/query/stake/delegator/1234/foo')
-    expect(axios.get.mock.calls[1][0]).toEqual('http://localhost:8998/query/stake/delegator/1234/bar')
+    expect(axios.get.mock.calls[0][0]).toEqual('http://localhost:9060/query/stake/delegator/1234/foo')
+    expect(axios.get.mock.calls[1][0]).toEqual('http://localhost:9060/query/stake/delegator/1234/bar')
 
     expect(store.state.delegation.committedDelegates).toEqual({
       foo: 123,

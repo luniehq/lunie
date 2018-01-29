@@ -15,7 +15,7 @@ async function get (url) {
 }
 
 async function main () {
-  let network = process.argv[2] || 'gaia-2-dev'
+  let network = process.argv[2] || 'gaia-2'
 
   if (network === 'local') {
     runDev('./app/networks/local')
@@ -39,4 +39,6 @@ async function main () {
   }
 }
 
-main().catch(function (err) { throw err })
+main().catch(function (err) {
+  console.error('Starting the application failed', err)
+})

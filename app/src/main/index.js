@@ -1,6 +1,6 @@
 'use strict'
 
-let { app, BrowserWindow, Menu } = require('electron')
+let { app, BrowserWindow } = require('electron')
 let fs = require('fs-extra')
 let { join } = require('path')
 let { spawn } = require('child_process')
@@ -12,6 +12,8 @@ let toml = require('toml')
 let axios = require('axios')
 let pkg = require('../../../package.json')
 let relayServer = require('./relayServer.js')
+let addMenu = require('./menu.js')
+let config = require('../../../config.js')
 
 let started = false
 let shuttingDown = false
@@ -30,13 +32,15 @@ const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 const LOGGING = JSON.parse(process.env.LOGGING || 'true') !== false
 const MOCK = JSON.parse(process.env.MOCK || !TEST && DEV) !== false
 const winURL = DEV
-  ? `http://localhost:${require('../../../config').port}`
+  ? `http://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
+const RELAY_PORT = DEV ? config.relay_port : config.relay_port_prod
+const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
 
 // this network gets used if none is specified via the
 // COSMOS_NETWORK env var
-let DEFAULT_NETWORK = join(__dirname, '../networks/gaia-2-dev')
+let DEFAULT_NETWORK = join(__dirname, '../networks/gaia-2')
 let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
@@ -97,6 +101,10 @@ function shutdown () {
   )
 }
 
+function startVueApp () {
+  mainWindow.loadURL(winURL + '?node=' + nodeIP + '&relay_port=' + RELAY_PORT)
+}
+
 function createWindow () {
   mainWindow = new BrowserWindow({
     minWidth: 320,
@@ -113,7 +121,7 @@ function createWindow () {
   if (!started) {
     mainWindow.loadURL(winURL)
   } else {
-    mainWindow.loadURL(winURL + '?node=' + nodeIP)
+    startVueApp()
   }
   if (DEV || process.env.COSMOS_DEVTOOLS) {
     mainWindow.webContents.openDevTools()
@@ -139,7 +147,7 @@ function createWindow () {
   webContents.on('will-navigate', handleRedirect)
   webContents.on('new-window', handleRedirect)
 
-  Menu.setApplicationMenu(null)
+  if (!WIN) addMenu()
 }
 
 function startProcess (name, args, env) {
@@ -168,8 +176,10 @@ function startProcess (name, args, env) {
   child.on('exit', (code) => !shuttingDown && log(`${name} exited with code ${code}`))
   child.on('error', function (err) {
     if (!(shuttingDown && err.code === 'ECONNRESET')) {
-      // Ignore ECONNRESET and re throw anything else
-      throw err
+      // if we throw errors here, they are not handled by the main process
+      console.error('[Uncaught Exception] Child', name, 'produced an unhandled exception:', err)
+      console.log('Shutting down UI')
+      shutdown()
     }
   })
   return child
@@ -192,6 +202,7 @@ async function startBaseserver (home, nodeIP) {
   log('startBaseserver', home)
   let child = startProcess(SERVER_BINARY, [
     'rest-server',
+    '--port', LCD_PORT,
     '--home', home,
     '--node', nodeIP
     // '--trust-node'
@@ -356,13 +367,6 @@ async function reconnect (seeds) {
 }
 
 async function main () {
-  // the windows installer opens the app once when installing
-  // the package recommends, that we exit if this happens
-  // we can also react to installer events, but currently don't need to
-  if (require('electron-squirrel-startup')) {
-    return
-  }
-
   if (JSON.parse(process.env.COSMOS_UI_ONLY || 'false')) {
     return
   }
@@ -457,13 +461,15 @@ async function main () {
   // the view can communicate with the main process by sending requests to the relay server
   // the relay server also proxies to the LCD
   relayServer({
+    lcdPort: LCD_PORT,
+    relayServerPort: RELAY_PORT,
     mock: MOCK,
     onReconnectReq: reconnect.bind(this, seeds)
   })
 
   started = true
   if (mainWindow) {
-    mainWindow.loadURL(winURL + '?node=' + nodeIP)
+    startVueApp()
   }
 }
 module.exports = Object.assign(
