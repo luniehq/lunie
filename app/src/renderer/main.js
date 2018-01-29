@@ -26,8 +26,12 @@ async function main () {
     console.log('Did not receive a node to connect to')
     return
   }
+
+  let relayPort = getQueryParameter('relay_port')
+  console.log('Expecting relay-server on port:', relayPort)
+
   console.log('Connecting to node:', nodeIP)
-  const node = Node(nodeIP)
+  const node = Node(nodeIP, relayPort)
 
   node.lcdConnected()
   .then(connected => {
