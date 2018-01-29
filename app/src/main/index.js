@@ -13,6 +13,7 @@ let axios = require('axios')
 let pkg = require('../../../package.json')
 let relayServer = require('./relayServer.js')
 let addMenu = require('./menu.js')
+let config = require('../../../config.js')
 
 let started = false
 let shuttingDown = false
@@ -31,8 +32,10 @@ const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 const LOGGING = JSON.parse(process.env.LOGGING || 'true') !== false
 const MOCK = JSON.parse(process.env.MOCK || !TEST && DEV) !== false
 const winURL = DEV
-  ? `http://localhost:${require('../../../config').port}`
+  ? `http://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
+const RELAY_PORT = DEV ? config.relay_port : config.relay_port_prod
+const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
 
 // this network gets used if none is specified via the
@@ -98,6 +101,10 @@ function shutdown () {
   )
 }
 
+function startVueApp () {
+  mainWindow.loadURL(winURL + '?node=' + nodeIP + '&relay_port=' + RELAY_PORT)
+}
+
 function createWindow () {
   mainWindow = new BrowserWindow({
     minWidth: 320,
@@ -114,7 +121,7 @@ function createWindow () {
   if (!started) {
     mainWindow.loadURL(winURL)
   } else {
-    mainWindow.loadURL(winURL + '?node=' + nodeIP)
+    startVueApp()
   }
   if (DEV || process.env.COSMOS_DEVTOOLS) {
     mainWindow.webContents.openDevTools()
@@ -195,6 +202,7 @@ async function startBaseserver (home, nodeIP) {
   log('startBaseserver', home)
   let child = startProcess(SERVER_BINARY, [
     'rest-server',
+    '--port', LCD_PORT,
     '--home', home,
     '--node', nodeIP
     // '--trust-node'
@@ -453,13 +461,15 @@ async function main () {
   // the view can communicate with the main process by sending requests to the relay server
   // the relay server also proxies to the LCD
   relayServer({
+    lcdPort: LCD_PORT,
+    relayServerPort: RELAY_PORT,
     mock: MOCK,
     onReconnectReq: reconnect.bind(this, seeds)
   })
 
   started = true
   if (mainWindow) {
-    mainWindow.loadURL(winURL + '?node=' + nodeIP)
+    startVueApp()
   }
 }
 module.exports = Object.assign(

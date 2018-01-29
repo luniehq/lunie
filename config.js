@@ -12,7 +12,11 @@ let config = {
   eslint: false,
 
   // webpack-dev-server port
-  port: 9080,
+  wds_port: 9080,
+  lcd_port: 9070,
+  lcd_port_prod: 9071,
+  relay_port: 9060,
+  relay_port_prod: 9061,
 
   // electron-packager options
   // Docs: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/building_your_app.html
