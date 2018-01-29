@@ -123,7 +123,7 @@ module.exports = function ({port = 8999, mock = false, onReconnectReq, onSuccesf
 
   app.get('/startsuccess', async (req, res) => {
     onSuccesfulStart()
-    res.send(200)
+    res.sendStatus(200)
   })
 
   // proxy everything else to light client
