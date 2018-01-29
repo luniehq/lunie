@@ -25,6 +25,7 @@ module.exports = async function launch (t) {
     startTimeout: 10000,
     waitTimeout: 10000,
     env: {
+      COSMOS_UI_ONLY: 'true',
       COSMOS_TEST: 'true',
       COSMOS_HOME: home,
       COSMOS_NETWORK: join(__dirname, 'gaia-1')
