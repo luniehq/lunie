@@ -67,36 +67,23 @@ $ yarn run uionly
 ---
 
 ### Production
+Get the Gaia binary from [GitHub](`https://github.com/cosmos/gaia/releases`).
 
 Build and run the app.
 ```bash
-npm run pack && npm run build:darwin
-open builds/Cosmos-darwin-x64/Cosmos.app
+yarn run build:{darwin|win32|linux} -- --binary={path to the gaia binary}
+open builds/Cosmos-{platform}-x64/Cosmos.app
 ```
 
 When you are testing the build system you can skip the repackaging of the JS files.
 ```bash
-$ npm run build -- --skip-pack
+$ yarn run build:darwin -- --skip-pack --binary=...
 ```
 
----
-
-### Build on Windows
-
-- Install [golang](`https://golang.org/dl/`)
-- Install [glide](`https://github.com/Masterminds/glide/releases`)
-- Install [node](`https://nodejs.org/en/download/`)
-- Install Yarn: `$ npm i -g yarn`
-- Install Microsoft build tools: `$ npm install --global --production windows-build-tools`
-- Set build tools to needed version `yarn config set msvs_version 2015 --global`
-- Install [GNU MAKE](`http://gnuwin32.sourceforge.net/packages/make.htm`)
-- Install [MinGW64](`https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download`)
-- Add MAKE and MinGW64 to the PATH environment variable ([HOW TO](https://msdn.microsoft.com/de-de/library/windows/desktop/bb776899(v=vs.85).aspx))
-    - MAKE should be at `C:\Program Files (x86)\GnuWin32\bin`
-    - MinGW64 you have to look up at `C:\Program Files\mingw-w64\{{version}}\mingw64\bin`
-- Pack the electron application: `$ npm run build:win32`
-- Build the Setup: `$ npm run release:win32`
-- The installer will be under `./builds/cosmos/Cosmos-win32`
+To test if your build worked run:
+```bash
+$ yarn run test:exe {path to the build executable}
+```
 
 ---
 
