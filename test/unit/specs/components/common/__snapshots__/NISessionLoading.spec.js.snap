@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiSessionLoading has the expected html structure 1`] = `
+"<div class=\\"ni-session\\">
+   <div class=\\"ni-session-container\\">
+      <div class=\\"ni-session-header\\">
+         <div class=\\"ni-session-title\\">
+            Loading…
+         </div>
+</div>
+<div class=\\"ni-session-main\\">
+   &nbsp;
+</div>
+<div class=\\"ni-session-footer\\">
+   &nbsp;
+</div>
+<notifications theme=\\"cosmos\\"></notifications>
+</div>
+</div>"
+`;

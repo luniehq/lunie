@@ -1,7 +1,7 @@
 <template lang="pug">
 page(:title="pageBlockTitle")
   div(slot="menu"): tool-bar
-    router-link(to="/blockchain")
+    router-link(to="/blocks")
       i.material-icons arrow_back
       .label Back
     a(:href="blockUrl" target="_blank")
@@ -67,7 +67,11 @@ export default {
       return moment(this.block.header.time).format('MMMM Do YYYY — hh:mm:ss')
     },
     pageBlockTitle () {
-      return 'Block #' + num.prettyInt(this.block.header.height)
+      if (this.block.header.height) {
+        return 'Block #' + num.prettyInt(this.block.header.height)
+      } else {
+        return 'Loading Block…'
+      }
     }
   },
   data: () => ({

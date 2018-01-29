@@ -8,13 +8,6 @@ exports[`LiDelegate has the expected html structure 1`] = `
     class="li-delegate__values"
   >
     <div
-      class="li-delegate__value checkbox"
-    >
-      <i
-        class="fa fa-square-o"
-      />
-    </div>
-    <div
       class="li-delegate__value name"
     >
       <span>
@@ -50,6 +43,16 @@ exports[`LiDelegate has the expected html structure 1`] = `
       <span>
         0
       </span>
+    </div>
+    <div
+      class="li-delegate__value checkbox"
+      id="add-to-cart"
+    >
+      <i
+        class="material-icons"
+      >
+        check_box_outline_blank
+      </i>
     </div>
   </div>
 </div>

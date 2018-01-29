@@ -3,11 +3,12 @@ import axios from 'axios'
 export default ({ commit, node }) => {
   const state = {
     urlPrefix: 'https://',
-    blockchainName: 'gaia-2-dev',
+    blockchainName: 'gaia-2',
     urlSuffix: '-node0.testnets.interblock.io',
     status: {},
     abciInfo: {},
-    topAvgTxRate: 0
+    topAvgTxRate: 0,
+    blocks: []
   }
 
   const mutations = {
@@ -31,13 +32,18 @@ export default ({ commit, node }) => {
     }
   }
 
-  // function getBlocks () {
-  //   node.rpc.subscribe({ event: 'NewBlockHeader' }, (err, event) => {
-  //     if (err) return console.error('error subscribing to new block headers', err)
-  //     console.log(event)
-  //   })
-  // }
-  // getBlocks()
+  function subscribe () {
+    node.rpc.subscribe({ query: "tm.event = 'NewBlock'" }, (err, event) => {
+      if (err) return console.error('error subscribing to new block headers', err)
+
+      state.blocks.unshift(event.data.data.block)
+
+      if (state.blocks.length === 20) {
+        state.blocks.pop()
+      }
+    })
+  }
+  subscribe()
 
   setTimeout(() => {
     mutations.getStatus(state)

@@ -6,6 +6,7 @@ describe('Module: Node', () => {
   let store, node
 
   beforeEach(() => {
+    jest.resetModules()
     let test = instance.shallow()
     store = test.store
     node = test.node
@@ -173,7 +174,10 @@ describe('Module: Node', () => {
   })
 
   it('should not reconnect if pinging node is successful', () => {
-    node.rpc.status = (cb) => cb(null, {node_info: {}})
+    node.rpc.status = (cb) => {
+      store.commit('stopConnecting', true)
+      cb(null, {node_info: {}})
+    }
     node.rpcReconnect = () => {
       throw Error('Shouldnt reconnect')
     }

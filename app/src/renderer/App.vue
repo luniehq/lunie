@@ -1,12 +1,13 @@
 <template lang="pug">
 #app
-  app-header
-  #app-content
-    router-view
-    app-footer
+  template(v-if="!config.modals.session.active")
+    app-header
+    #app-content
+      router-view
+      app-footer
+    modal-help
+  session(v-else)
   notifications(:notifications='notifications' theme='cosmos')
-  modal-help
-  session
 </template>
 
 <script>
@@ -27,7 +28,7 @@ export default {
     Session
   },
   computed: {
-    ...mapGetters(['notifications'])
+    ...mapGetters(['notifications', 'config'])
   },
   store
 }

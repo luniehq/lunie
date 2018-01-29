@@ -43,39 +43,36 @@ exports[`PageDelegates has the expected html structure 1`] = `
    <div class=\\"delegates-container\\">
       <div class=\\"panel-sort\\">
          <div class=\\"panel-sort-container\\">
-            <div class=\\"sort-by\\">
-               <div class=\\"label\\"></div>
-</div>
-   <div class=\\"sort-by name\\">
-      <div class=\\"label\\">
-         Name
-      </div>
+            <div class=\\"sort-by name\\">
+               <div class=\\"label\\">
+                  Name
+               </div>
 </div>
    <div class=\\"sort-by percent_of_vote\\">
       <div class=\\"label\\">
-         % of Vote
+         Vote %
       </div>
 </div>
    <div class=\\"sort-by number_of_votes\\">
       <div class=\\"label\\">
-         # of Votes
+         Votes
       </div>
 </div>
    <div class=\\"sort-by bonded_by_you\\">
       <div class=\\"label\\">
-         Bonded by You
+         Your Votes
       </div>
+</div>
+   <div class=\\"sort-by action\\">
+      <div class=\\"label\\"></div>
 </div>
 </div>
 </div>
    <div class=\\"li-delegate\\">
       <div class=\\"li-delegate__values\\">
-         <div class=\\"li-delegate__value checkbox\\">
-            <i class=\\"fa fa-square-o\\"></i>
+         <div class=\\"li-delegate__value name\\">
+            <span><a href=\\"#/staking/delegates/pubkeyY\\" class=\\"\\">  candidateY</a></span>
          </div>
-   <div class=\\"li-delegate__value name\\">
-      <span><a href=\\"#/staking/delegates/pubkeyY\\" class=\\"\\">  candidateY</a></span>
-   </div>
    <div class=\\"li-delegate__value percent_of_vote\\">
       <span>75%</span>
    </div>
@@ -86,16 +83,16 @@ exports[`PageDelegates has the expected html structure 1`] = `
    <div class=\\"li-delegate__value bonded_by_you\\">
       <span>0</span>
    </div>
+   <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
+      <i class=\\"material-icons\\">check_box_outline_blank</i>
+   </div>
 </div>
 </div>
    <div class=\\"li-delegate\\">
       <div class=\\"li-delegate__values\\">
-         <div class=\\"li-delegate__value checkbox\\">
-            <i class=\\"fa fa-square-o\\"></i>
+         <div class=\\"li-delegate__value name\\">
+            <span><a href=\\"#/staking/delegates/pubkeyX\\" class=\\"\\">  candidateX</a></span>
          </div>
-   <div class=\\"li-delegate__value name\\">
-      <span><a href=\\"#/staking/delegates/pubkeyX\\" class=\\"\\">  candidateX</a></span>
-   </div>
    <div class=\\"li-delegate__value percent_of_vote\\">
       <span>25%</span>
    </div>
@@ -105,6 +102,9 @@ exports[`PageDelegates has the expected html structure 1`] = `
 </div>
    <div class=\\"li-delegate__value bonded_by_you\\">
       <span>0</span>
+   </div>
+   <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
+      <i class=\\"material-icons\\">check_box_outline_blank</i>
    </div>
 </div>
 </div>
@@ -212,26 +212,41 @@ exports[`PageDelegates should filter the delegates 1`] = `
       <div
         class="ni-modal-search-container"
       >
-        <input
-          class="mousetrap ni-field"
-          placeholder="Search..."
-          type="text"
-        />
-        <button
-          class="ni-btn"
+        <div
+          class="ni-form-group"
         >
-          <span
-            class="ni-btn-container"
+          <!---->
+          <!---->
+          <div
+            class="ni-form-group__field"
           >
-            <i
-              aria-hidden="true"
-              class="ni-btn-icon material-icons"
+            <div
+              class="ni-modal-search-field"
             >
-              close
-            </i>
-            <!---->
-          </span>
-        </button>
+              <input
+                class="mousetrap ni-field"
+                id="search-input"
+                placeholder="Search..."
+                type="text"
+              />
+              <button
+                class="ni-btn"
+              >
+                <span
+                  class="ni-btn-container"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="ni-btn-icon material-icons"
+                  >
+                    close
+                  </i>
+                  <!---->
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -243,15 +258,6 @@ exports[`PageDelegates should filter the delegates 1`] = `
         <div
           class="panel-sort-container"
         >
-          <div
-            class="sort-by"
-          >
-            <div
-              class="label"
-            >
-              
-            </div>
-          </div>
           <div
             class="sort-by name"
           >
@@ -267,7 +273,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             <div
               class="label"
             >
-              % of Vote
+              Vote %
             </div>
           </div>
           <div
@@ -276,7 +282,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             <div
               class="label"
             >
-              # of Votes
+              Votes
             </div>
           </div>
           <div
@@ -285,7 +291,16 @@ exports[`PageDelegates should filter the delegates 1`] = `
             <div
               class="label"
             >
-              Bonded by You
+              Your Votes
+            </div>
+          </div>
+          <div
+            class="sort-by action"
+          >
+            <div
+              class="label"
+            >
+              
             </div>
           </div>
         </div>
@@ -296,13 +311,6 @@ exports[`PageDelegates should filter the delegates 1`] = `
         <div
           class="li-delegate__values"
         >
-          <div
-            class="li-delegate__value checkbox"
-          >
-            <i
-              class="fa fa-square-o"
-            />
-          </div>
           <div
             class="li-delegate__value name"
           >
@@ -339,6 +347,16 @@ exports[`PageDelegates should filter the delegates 1`] = `
             <span>
               0
             </span>
+          </div>
+          <div
+            class="li-delegate__value checkbox"
+            id="add-to-cart"
+          >
+            <i
+              class="material-icons"
+            >
+              check_box_outline_blank
+            </i>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@
 const config = require('../config')
 const spawn = require('child_process').spawn
 const path = require('path')
-const killPort = require('kill-port')
+const {cleanExitChild} = require('./common.js')
 
 let YELLOW = '\x1b[33m'
 let BLUE = '\x1b[34m'
@@ -31,7 +31,6 @@ function run (command, color, name, env) {
   child.on('exit', code => {
     console.log('exited', command, code)
   })
-  process.on('exit', () => child.kill('SIGKILL'))
   return child
 }
 
@@ -49,7 +48,7 @@ function startRendererServer () {
 }
 
 module.exports = async function (networkPath) {
-  await startRendererServer()
+  let renderProcess = await startRendererServer()
 
   console.log(`${BLUE}Starting electron...\n  (network path: ${networkPath})\n${END}`)
   let env = Object.assign({}, {
@@ -59,9 +58,9 @@ module.exports = async function (networkPath) {
   let mainProcess = run('electron app/src/main/index.dev.js', BLUE, 'electron', env)
 
   // terminate running processes on exit of main process
-  mainProcess.on('exit', code => {
+  mainProcess.on('exit', async code => {
+    await cleanExitChild(renderProcess)
     // webpack-dev-server spins up an own process we have no access to. so we kill all processes on our port
-    killPort(config.port)
     process.exit(0)
   })
 }
