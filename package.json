@@ -126,7 +126,7 @@
     "stacktrace-js": "^2.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
-    "tendermint": "^2.0.3",
+    "tendermint": "2.0.3",
     "tendermint-crypto": "github:mappum/js-crypto",
     "toml": "^2.3.3",
     "user-home": "^2.0.0",
