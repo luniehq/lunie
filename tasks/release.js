@@ -54,7 +54,7 @@ function pack () {
   pack.stderr.on('data', data => console.error(data))
   pack.on('exit', code => {
     if (code === null || code <= 0) {
-      build()
+      build(process.env.PLATFORM_TARGET)
     }
   })
 }
