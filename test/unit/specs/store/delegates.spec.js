@@ -44,7 +44,7 @@ describe('Module: Delegates', () => {
       }))
 
     await store.dispatch('getDelegate', { data: 'foo' })
-    expect(axios.get.mock.calls[0][0]).toBe('http://localhost:8998/query/stake/candidate/foo')
+    expect(axios.get.mock.calls[0][0]).toBe('http://localhost:9060/query/stake/candidate/foo')
     expect(store.state.delegates[0].test).toBe(123)
   })
 
@@ -76,8 +76,8 @@ describe('Module: Delegates', () => {
       })
 
     await store.dispatch('getDelegates')
-    expect(axios.get.mock.calls[0][0]).toBe('http://localhost:8998/query/stake/candidate/foo')
-    expect(axios.get.mock.calls[1][0]).toBe('http://localhost:8998/query/stake/candidate/bar')
+    expect(axios.get.mock.calls[0][0]).toBe('http://localhost:9060/query/stake/candidate/foo')
+    expect(axios.get.mock.calls[1][0]).toBe('http://localhost:9060/query/stake/candidate/bar')
     expect(store.state.delegates[0].test).toBe(123)
     expect(store.state.delegates[1].test).toBe(456)
   })

@@ -28,7 +28,7 @@ export default ({ dispatch, node }) => {
       }))
     },
     async getDelegate ({ commit }, pubkey) {
-      let delegate = (await axios.get('http://localhost:8998/query/stake/candidate/' + pubkey.data)).data.data
+      let delegate = (await axios.get(`http://localhost:${node.relayPort}/query/stake/candidate/${pubkey.data}`)).data.data
       // TODO move into cosmos-sdk
       // let delegate = (await node.candidate(pubkeyToString(pubkey))).data
       commit('addDelegate', delegate)

@@ -2,6 +2,9 @@ let mockValidators = require('./json/validators.json')
 
 module.exports = {
   // REST
+  nodeIp: '127.0.0.1',
+  relayPort: '9060',
+  lcdPort: '9070',
   lcdConnected: () => Promise.resolve(true),
   getKey: () => ({}),
   generateKey: () => ({
