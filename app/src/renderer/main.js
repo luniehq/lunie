@@ -4,6 +4,7 @@ import Resource from 'vue-resource'
 import Router from 'vue-router'
 import Vuelidate from 'vuelidate'
 import shrinkStacktrace from '../helpers/shrink-stacktrace.js'
+import axios from 'axios'
 
 import App from './App'
 import routes from './routes'
@@ -27,6 +28,13 @@ async function main () {
   }
   console.log('Connecting to node:', nodeIP)
   const node = Node(nodeIP)
+
+  node.lcdConnected()
+  .then(connected => {
+    if (connected) {
+      axios.get('http://localhost:8999/startsuccess')
+    }
+  })
 
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),

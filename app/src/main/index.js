@@ -30,6 +30,7 @@ const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 // TODO default logging or default disable logging?
 const LOGGING = JSON.parse(process.env.LOGGING || 'true') !== false
 const MOCK = JSON.parse(process.env.MOCK || !TEST && DEV) !== false
+const UI_ONLY = JSON.parse(TEST || process.env.COSMOS_UI_ONLY || 'false')
 const winURL = DEV
   ? `http://localhost:${require('../../../config').port}`
   : `file://${__dirname}/index.html`
@@ -111,7 +112,9 @@ function createWindow () {
     webPreferences: { webSecurity: false }
   })
 
-  if (!started) {
+  if (UI_ONLY) {
+    mainWindow.loadURL(winURL + '?node=localhost')
+  } else if (!started) {
     mainWindow.loadURL(winURL)
   } else {
     mainWindow.loadURL(winURL + '?node=' + nodeIP)
@@ -359,7 +362,7 @@ async function reconnect (seeds) {
 }
 
 async function main () {
-  if (JSON.parse(process.env.COSMOS_UI_ONLY || 'false')) {
+  if (UI_ONLY) {
     return
   }
 
@@ -454,6 +457,9 @@ async function main () {
   // the relay server also proxies to the LCD
   relayServer({
     mock: MOCK,
+    onSuccesfulStart: () => {
+      console.log('[START SUCCESS] Vue app successfuly started')
+    },
     onReconnectReq: reconnect.bind(this, seeds)
   })
 
