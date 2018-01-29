@@ -24,7 +24,7 @@ exports[`PageBlock has the expected html structure 1`] = `
                      <div class=\\"label\\">
                         Back
                      </div>
-      </a><a href=\\"https://gaia-2-dev-node0.testnets.interblock.io/block?height=undefined\\" target=\\"_blank\\"><i class=\\"material-icons\\">code</i>
+      </a><a href=\\"https://gaia-2-node0.testnets.interblock.io/block?height=undefined\\" target=\\"_blank\\"><i class=\\"material-icons\\">code</i>
       <div class=\\"label\\">
          JSON
       </div>
