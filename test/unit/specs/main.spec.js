@@ -8,8 +8,8 @@ function sleep (ms) {
 jest.mock('fs-extra', () => {
   let fs = require('fs')
   let mockFs = mockFsExtra()
-  mockFs.writeFile('./app/networks/gaia-1/config.toml', fs.readFileSync('./app/networks/gaia-1/config.toml', 'utf8'))
-  mockFs.writeFile('./app/networks/gaia-1/genesis.json', fs.readFileSync('./app/networks/gaia-1/genesis.json', 'utf8'))
+  mockFs.writeFile('./app/networks/gaia-2/config.toml', fs.readFileSync('./app/networks/gaia-2/config.toml', 'utf8'))
+  mockFs.writeFile('./app/networks/gaia-2/genesis.json', fs.readFileSync('./app/networks/gaia-2/genesis.json', 'utf8'))
   return mockFs
 })
 let fs = require('fs-extra')
@@ -39,7 +39,7 @@ let childProcess
 describe('Startup Process', () => {
   Object.assign(process.env, {
     COSMOS_TEST: true,
-    COSMOS_NETWORK: 'app/networks/gaia-1',
+    COSMOS_NETWORK: 'app/networks/gaia-2',
     COSMOS_HOME: testRoot
   })
 
@@ -80,7 +80,7 @@ describe('Startup Process', () => {
           path.includes('gaia') &&
           args.includes('client') &&
           args.includes('init') &&
-          args.join('=').includes('--chain-id=gaia-1')
+          args.join('=').includes('--chain-id=gaia-2')
         )
       ).toBeDefined()
     })
@@ -193,7 +193,7 @@ describe('Startup Process', () => {
           path.includes('gaia') &&
           args.includes('client') &&
           args.includes('init') &&
-          args.join('=').includes('--chain-id=gaia-1')
+          args.join('=').includes('--chain-id=gaia-2')
         )
       ).toBeDefined()
     })
