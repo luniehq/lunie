@@ -224,7 +224,9 @@ async function startBaseserver (home, nodeIP) {
 
 async function getGaiaVersion () {
   let child = startProcess(SERVER_BINARY, ['version'])
-  let data = await event(child.stdout, 'data')
+  let data = await new Promise((resolve) => {
+    child.stdout.on('data', resolve)
+  })
   return data.toString('utf8').trim()
 }
 
@@ -443,7 +445,6 @@ async function main () {
   log('starting app')
   log(`dev mode: ${DEV}`)
   log(`winURL: ${winURL}`)
-
 
   let gaiaVersion = await getGaiaVersion()
   let expectedGaiaVersion = fs.readFileSync(gaiaVersionPath, 'utf8').trim()
