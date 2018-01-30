@@ -18,8 +18,12 @@ page#page-delegates(title='Delegates')
       li-delegate(v-for='i in filteredDelegates' :key='i.id' :delegate='i')
 
   .fixed-button-bar
-    .label #[strong {{ shoppingCart.length }}] delegates selected
-    btn.btn__primary(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next")
+    template(v-if="userCanDelegate")
+      .label #[strong {{ shoppingCart.length }}] delegates selected
+      btn.btn__primary(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next")
+    template(v-else)
+      .label You do not have any ATOMs to delegate.
+      btn.btn__primary(disabled icon="chevron_right" icon-pos="right" value="Next")
 </template>
 
 <script>
@@ -61,7 +65,8 @@ export default {
       } else {
         return list
       }
-    }
+    },
+    userCanDelegate () { return this.user.atoms > 0 }
   },
   data: () => ({
     query: '',
