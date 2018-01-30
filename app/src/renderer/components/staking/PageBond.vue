@@ -234,6 +234,15 @@ export default {
         return d
       })
     },
+    leaveIfBroke (count) {
+      if (count === 0) {
+        this.$store.commit('notifyError', {
+          title: 'Cannot Bond Without Atoms',
+          body: 'You do not have any atoms to bond to delegates.'
+        })
+        this.$router.push('/staking')
+      }
+    },
     leaveIfEmpty (count) {
       if (count === 0) {
         this.$store.commit('notifyError', {
@@ -323,6 +332,7 @@ export default {
     }
   },
   async mounted () {
+    this.leaveIfBroke(this.user.atoms)
     this.leaveIfEmpty(this.shoppingCart.length)
     this.resetFields()
     this.bondBarsInput()
