@@ -9,6 +9,7 @@
       field#sign-in-name(
         type="select"
         v-model="fields.signInName"
+        placeholder="Select account…"
         :options="accounts")
       form-msg(name='Name' type='required' v-if='!$v.fields.signInName.required')
 
@@ -73,10 +74,11 @@ export default {
     },
     setDefaultAccount () {
       let prevAccountKey = localStorage.getItem('prevAccountKey')
+      let prevAccountExists = this.accounts.find(a => a.key === prevAccountKey)
 
       if (this.accounts.length === 1) {
         this.fields.signInName = this.accounts[0].key
-      } else if (prevAccountKey) {
+      } else if (prevAccountExists) {
         this.fields.signInName = prevAccountKey
       }
 
