@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import { shallow, mount, createLocalVue } from 'vue-test-utils'
+import { shallow, mount, createLocalVue } from '@vue/test-utils'
 
 import routes from 'renderer/routes'
 

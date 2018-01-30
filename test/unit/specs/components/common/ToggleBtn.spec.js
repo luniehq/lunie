@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
-import { mount, createLocalVue } from 'vue-test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import TogggleBtn from 'renderer/components/common/ToggleBtn'
 
 const localVue = createLocalVue()
