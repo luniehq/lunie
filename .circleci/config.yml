@@ -32,4 +32,4 @@ jobs:
       - run: yarn lint
       - run: yarn run test
     post:
-      - bash <(curl -s https://codecov.io/bash)
+      - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
