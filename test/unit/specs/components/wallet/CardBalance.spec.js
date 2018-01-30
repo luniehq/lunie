@@ -1,4 +1,4 @@
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import CardBalance from 'renderer/components/wallet/CardBalance'
 
 describe('CardBalance', () => {
