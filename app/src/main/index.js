@@ -311,24 +311,17 @@ function setupLogging (root) {
   }
 }
 
-// TODO if needed to give time
-function giveTimetoShutdown () {
-  setTimeout(async () => {
-    await shutdown()
-    process.exit(1)
-  }, 200)
-  setTimeout(shutdown, 200)
-}
-
 if (!TEST) {
   process.on('exit', shutdown)
-  process.on('uncaughtException', function (err) {
+  process.on('uncaughtException', async function (err) {
     logError('[Uncaught Exception]', err)
-    giveTimetoShutdown()
+    await shutdown()
+    process.exit(1)
   })
-  process.on('unhandledRejection', function (err) {
+  process.on('unhandledRejection', async function (err) {
     logError('[Unhandled Promise Rejection]', err)
-    giveTimetoShutdown()
+    await shutdown()
+    process.exit(1)
   })
 }
 
