@@ -83,9 +83,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
    <div class=\\"li-delegate__value bonded_by_you\\">
       <span>0</span>
    </div>
-   <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
-      <i class=\\"material-icons\\">check_box_outline_blank</i>
-   </div>
+   <div class=\\"li-delegate__value\\"></div>
 </div>
 </div>
    <div class=\\"li-delegate\\">
@@ -103,17 +101,15 @@ exports[`PageDelegates has the expected html structure 1`] = `
    <div class=\\"li-delegate__value bonded_by_you\\">
       <span>0</span>
    </div>
-   <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
-      <i class=\\"material-icons\\">check_box_outline_blank</i>
-   </div>
+   <div class=\\"li-delegate__value\\"></div>
 </div>
 </div>
 </div>
    <div class=\\"fixed-button-bar\\">
       <div class=\\"label\\">
-         <strong>0</strong> delegates selected
+         You do not have any ATOMs to delegate.
       </div>
-   <a href=\\"#/staking/bond\\" class=\\"ni-btn btn__primary\\" disabled=\\"disabled\\"><span class=\\"ni-btn-container ni-btn-icon-right\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">chevron_right</i><span class=\\"ni-btn-value\\">Next</span></span></a>
+   <button class=\\"ni-btn btn__primary\\" disabled=\\"disabled\\"><span class=\\"ni-btn-container ni-btn-icon-right\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">chevron_right</i><span class=\\"ni-btn-value\\">Next</span></span></button>
 </div>
 </main>
 </div>"
@@ -349,15 +345,8 @@ exports[`PageDelegates should filter the delegates 1`] = `
             </span>
           </div>
           <div
-            class="li-delegate__value checkbox"
-            id="add-to-cart"
-          >
-            <i
-              class="material-icons"
-            >
-              check_box_outline_blank
-            </i>
-          </div>
+            class="li-delegate__value"
+          />
         </div>
       </div>
     </div>
@@ -367,15 +356,11 @@ exports[`PageDelegates should filter the delegates 1`] = `
       <div
         class="label"
       >
-        <strong>
-          0
-        </strong>
-         delegates selected
+        You do not have any ATOMs to delegate.
       </div>
-      <a
+      <button
         class="ni-btn btn__primary"
         disabled="disabled"
-        href="#/staking/bond"
       >
         <span
           class="ni-btn-container ni-btn-icon-right"
@@ -392,7 +377,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             Next
           </span>
         </span>
-      </a>
+      </button>
     </div>
   </main>
 </div>
