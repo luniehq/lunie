@@ -11,6 +11,9 @@ describe('LiDelegate', () => {
         delegate: {
           id: 'abc',
           description: {}
+        },
+        user: {
+          atoms: 1337
         }
       }
     })
