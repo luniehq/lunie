@@ -37,7 +37,7 @@ GOOS=linux GOARCH=386 go build \
   ./cmd/gaia
 
 # 32-bit windows
-GOOS=win32 GOARCH=386 go build \
+GOOS=windows GOARCH=386 go build \
   -ldflags "-s -w" \
   -o gaia-windows-32.exe \
   ./cmd/gaia
