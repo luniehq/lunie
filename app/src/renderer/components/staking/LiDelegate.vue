@@ -10,11 +10,14 @@
     span {{ num.prettyInt(delegate.voting_power) }}
     .bar(:style='vpStyles')
   .li-delegate__value.bonded_by_you
-    span {{ num.prettyInt(amountBonded(delegate.id)) }}
-  .li-delegate__value.checkbox#remove-from-cart(v-if="inCart" @click='rm(delegate)')
-    i.material-icons check_box
-  .li-delegate__value.checkbox#add-to-cart(v-else @click='add(delegate)')
-    i.material-icons check_box_outline_blank
+    span {{ amountBonded }}
+  template(v-if="userCanDelegate")
+    .li-delegate__value.checkbox#remove-from-cart(v-if="inCart" @click='rm(delegate)')
+      i.material-icons check_box
+    .li-delegate__value.checkbox#add-to-cart(v-else @click='add(delegate)')
+      i.material-icons check_box_outline_blank
+  template(v-else)
+    .li-delegate__value
 </template>
 
 <script>
@@ -29,7 +32,10 @@ export default {
     Btn
   },
   computed: {
-    ...mapGetters(['shoppingCart', 'delegates', 'config', 'committedDelegations']),
+    ...mapGetters(['shoppingCart', 'delegates', 'config', 'committedDelegations', 'user']),
+    amountBonded () {
+      return this.num.prettyInt(this.committedDelegations[this.delegate.id])
+    },
     styles () {
       let value = ''
       if (this.inCart) value += 'li-delegate-active '
@@ -57,17 +63,15 @@ export default {
     },
     inCart () {
       return this.shoppingCart.find(c => c.id === this.delegate.id)
-    }
+    },
+    userCanDelegate () { return this.user.atoms > 0 }
   },
   data: () => ({
     num: num
   }),
   methods: {
     add (delegate) { this.$store.commit('addToCart', delegate) },
-    rm (delegate) { this.$store.commit('removeFromCart', delegate.id) },
-    amountBonded (delegateId) {
-      return this.committedDelegations[delegateId]
-    }
+    rm (delegate) { this.$store.commit('removeFromCart', delegate.id) }
   }
 }
 </script>
