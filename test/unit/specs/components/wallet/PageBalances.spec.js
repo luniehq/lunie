@@ -14,7 +14,9 @@ describe('PageBalances', () => {
     wrapper = instance.wrapper
     store = instance.store
 
-    store.commit('setWalletKey', '123abc456def')
+    store.commit('setWalletKey', {
+      address: '123abc456def'
+    })
     store.commit('setWalletBalances', [{
       denom: 'ATOM',
       amount: 123

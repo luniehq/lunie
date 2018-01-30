@@ -1,4 +1,4 @@
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import htmlBeautify from 'html-beautify'
 import NiFormGroup from 'common/NiFormGroup'
 

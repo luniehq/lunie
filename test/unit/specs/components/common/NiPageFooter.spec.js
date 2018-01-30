@@ -1,4 +1,4 @@
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import NiPageFooter from 'common/NiPageFooter'
 
 describe('NiPageFooter', () => {
