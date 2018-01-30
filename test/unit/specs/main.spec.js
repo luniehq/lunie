@@ -28,6 +28,13 @@ childProcessMock((path, args) => ({
     if (type === 'exit' && args[1] === 'init') {
       cb(0)
     }
+  },
+  stdout: {
+    on: (type, cb) => {
+      if (args[0] === 'version' && type === 'data') {
+        cb({toString: () => 'v0.5.0'})
+      }
+    }
   }
 }))
 
@@ -428,6 +435,13 @@ function failingChildProcess (mockName, mockCmd) {
           // init processes always should return with 0
         } else if (args[1] === 'init') {
           cb(0)
+        }
+      }
+    },
+    stdout: {
+      on: (type, cb) => {
+        if (args[0] === 'version' && type === 'data') {
+          cb({toString: () => 'v0.5.0'})
         }
       }
     }
