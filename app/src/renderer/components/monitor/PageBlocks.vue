@@ -50,8 +50,9 @@ export default {
     },
     latestBlockTime () {
       let blockTime = this.lastHeader.time
+      let formattedTime = moment(blockTime).format('MMMM Do YYYY — hh:mm:ss')
       if (blockTime) {
-        return moment(blockTime).format('MMMM Do YYYY — hh:mm:ss')
+        return formattedTime
       } else {
         return 'Loading…'
       }
