@@ -311,15 +311,16 @@ function setupLogging (root) {
   }
 }
 
+// TODO if needed to give time
+function giveTimetoShutdown () {
+  setTimeout(async () => {
+    await shutdown()
+    process.exit(1)
+  }, 200)
+  setTimeout(shutdown, 200)
+}
+
 if (!TEST) {
-  // TODO if needed to give time
-  function giveTimetoShutdown() {
-    setTimeout(async () => {
-      await shutdown()
-      process.exit(1)
-    }, 200)
-    setTimeout(shutdown, 200)
-  }
   process.on('exit', shutdown)
   process.on('uncaughtException', function (err) {
     logError('[Uncaught Exception]', err)
