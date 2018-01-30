@@ -45,8 +45,15 @@ exports[`LiDelegate has the expected html structure 1`] = `
       </span>
     </div>
     <div
-      class="li-delegate__value"
-    />
+      class="li-delegate__value checkbox"
+      id="add-to-cart"
+    >
+      <i
+        class="material-icons"
+      >
+        check_box_outline_blank
+      </i>
+    </div>
   </div>
 </div>
 `;
