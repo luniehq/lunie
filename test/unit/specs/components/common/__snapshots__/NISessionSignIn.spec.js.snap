@@ -21,7 +21,7 @@ exports[`NiSessionSignIn has the expected html structure 1`] = `
                <div class=\\"ni-select\\" id=\\"sign-in-name\\">
                   <select class=\\"ni-field ni-field-select\\">
                   <option value=\\"\\" disabled=\\"disabled\\" selected=\\"selected\\" hidden=\\"hidden\\">
-                     Select option...
+                     Select account…
                   </option>
                      <!---->
                      <!---->
