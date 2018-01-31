@@ -13,7 +13,8 @@ export default {
     orderBy (property, event) {
       let sortBys = this.$el.querySelectorAll('.sort-by')
       sortBys.forEach(el => el.classList.remove('active', 'desc', 'asc'))
-      let el = event.target.parentElement
+      let index = this.sort.properties.findIndex(p => p.value === property)
+      let el = sortBys[index]
 
       if (this.sort.property === property) {
         if (this.sort.order === 'asc') {

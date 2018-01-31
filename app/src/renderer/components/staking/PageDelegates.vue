@@ -74,11 +74,11 @@ export default {
       property: 'shares',
       order: 'desc',
       properties: [
-        { id: 0, title: 'Name', value: 'description.moniker', class: 'name' },
-        { id: 1, title: 'Vote %', value: 'shares', class: 'percent_of_vote' },
-        { id: 2, title: 'Votes', value: 'voting_power', class: 'number_of_votes' },
-        { id: 3, title: 'Your Votes', value: 'bonded', class: 'bonded_by_you' },
-        { id: 4, title: '', value: '', class: 'action' }
+        { title: 'Name', value: 'description.moniker', class: 'name' },
+        { title: 'Vote %', value: 'shares', class: 'percent_of_vote' },
+        { title: 'Votes', value: 'voting_power', class: 'number_of_votes' },
+        { title: 'Your Votes', value: 'bonded', class: 'bonded_by_you' },
+        { title: '', value: '', class: 'action' }
       ]
     }
   }),
