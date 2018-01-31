@@ -24,13 +24,16 @@ describe('PageBlocks', () => {
     wrapper = instance.wrapper
     store = instance.store
 
-    store.commit('setSearchQuery', ['blocks', ''])
-
     wrapper.update()
   })
 
   it('has the expected html structure', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+  })
+
+  it('should call resetSearch on beforeDestroy', () => {
+    wrapper.destroy()
+    expect(store.commit).toHaveBeenCalledWith('resetSearch', 'blocks')
   })
 
   it('should show the search on click', () => {

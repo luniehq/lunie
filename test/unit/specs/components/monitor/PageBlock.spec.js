@@ -7,23 +7,18 @@ describe('PageBlock', () => {
   let {mount} = setup()
 
   beforeEach(() => {
-    instance = mount(PageBlock, {
-      getters: {
-        lastHeader: () => ({
-          time: Date.now(),
-          last_block_id: {
-            hash: '123'
-          },
-          height: 12345
-        })
-      }
-    })
-
+    instance = mount(PageBlock)
     wrapper = instance.wrapper
+
     wrapper.update()
   })
 
   it('has the expected html structure', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+  })
+
+  xit('fetches a block', async () => {
+    expect(wrapper.vm.block_meta).toEqual('sth')
+    expect(wrapper.vm.block).toEqual('sth-else')
   })
 })
