@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added a changelog @jolesbi.
 
 ## [0.3.1] - 2018-01-30
+### 
+* Check to ensure gaia version is correct for the current network @mappum
+
 ### Changed
 * Resolved notifications error on NiSessionLoading.vue @nylira.
 * Resolved old saved prevAccountKey being used in NiSessionSignIn.vue @nylira.
