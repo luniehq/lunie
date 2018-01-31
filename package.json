@@ -1,8 +1,8 @@
 {
   "name": "Cosmos",
   "productName": "Cosmos",
-  "version": "0.3.0",
-  "description": "The electron wrapper for Cosmos UI.",
+  "version": "0.4.0",
+  "description": "The electron-based user interface for Cosmos Network.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
   "homepage": "https://cosmos.network",
@@ -75,7 +75,6 @@
     "numeral": "^2.0.6",
     "proxyquire": "^1.8.0",
     "pug": "^2.0.0-rc.1",
-    "sass-loader": "^6.0.6",
     "spectron": "^3.7.2",
     "style-loader": "^0.19.1",
     "tape": "^4.8.0",
