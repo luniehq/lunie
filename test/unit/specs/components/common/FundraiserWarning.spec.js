@@ -1,4 +1,4 @@
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import htmlBeautify from 'html-beautify'
 import FundraiserWarning from 'renderer/components/common/FundraiserWarning'
 
