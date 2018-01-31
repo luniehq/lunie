@@ -69,24 +69,22 @@ There are a few miscellaneous tasks to do before making a new release:
 let DEFAULT_NETWORK = join(__dirname, '../networks/gaia-2')
 ```
 - Ensure the network params you wish to use are in a folder at `app/networks/<networkname>`. It requires the `genesis.json`, `config.toml`, and `gaiaversion.txt` files. You can get them from the testnets repo (https://github.com/tendermint/testnets).
-- Increment the version for this release in `package.json` and `app/package.json`.
+- Increment the version for this release in `package.json`.
 - Commit and PR the above changes if necessary.
 
 ### Building the App
 
 ```bash
-# (note the extra -- in the commands)
-
 # macOS
-npm run build:darwin -- \
+yarn build:darwin \
   --binary=$GOPATH/src/github.com/cosmos/gaia/gaia-mac
 
 # linux (32-bit)
-npm run build:linux -- \
+yarn build:linux \
   --binary=$GOPATH/src/github.com/cosmos/gaia/gaia-linux-32
 
 # windows (32-bit)
-npm run build:win32 -- \
+yarn build:win32 \
   --binary=$GOPATH/src/github.com/cosmos/gaia/gaia-windows-32.exe
 ```
 
