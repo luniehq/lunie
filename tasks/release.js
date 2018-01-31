@@ -9,7 +9,7 @@ var glob = require('glob')
 var JSZip = require('jszip')
 const zlib = require('zlib')
 var deterministic = require('deterministic-tar')
-var tar = require('tar-stream')
+var tar = require('tar-fs')
 const packageJson = require('../package.json')
 
 let skipPack = false
@@ -145,26 +145,9 @@ function tarFolder (inDir, outDir, version) {
   return new Promise(async (resolve, reject) => {
     let name = path.parse(inDir).name
     let outFile = path.join(outDir, `${name}_${version}.tar.gz`)
-    var pack = tar.pack()
-
-    await new Promise((resolve) => {
-      glob(inDir + '/**/*', (err, files) => {
-        if (err) {
-          return reject(err)
-        }
-        // add files to tar
-        files
-        .filter(file => !fs.lstatSync(file).isDirectory())
-        .forEach(file => {
-          pack.entry({ name: path.relative(inDir, file) }, fs.readFileSync(file))
-        })
-        pack.finalize()
-        resolve()
-      })
-    })
 
     // make tar deterministic
-    pack
+    tar.pack(inDir)
     .pipe(deterministic())
     .pipe(zlib.createGzip())
     // save tar to disc
