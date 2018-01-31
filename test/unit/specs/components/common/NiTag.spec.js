@@ -1,4 +1,4 @@
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import NiTag from 'common/NiTag'
 
 describe('NiTag', () => {

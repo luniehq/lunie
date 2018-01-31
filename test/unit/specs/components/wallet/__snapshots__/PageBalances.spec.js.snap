@@ -120,7 +120,7 @@ exports[`PageBalances has the expected html structure 1`] = `
             <div
               class="value"
             >
-              
+              123abc456def
             </div>
             <menu>
               <button
@@ -421,7 +421,7 @@ exports[`PageBalances should filter the balances 1`] = `
             <div
               class="value"
             >
-              
+              123abc456def
             </div>
             <menu>
               <button

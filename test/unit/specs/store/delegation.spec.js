@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
-import { createLocalVue } from 'vue-test-utils'
+import { createLocalVue } from '@vue/test-utils'
 
 let axios = require('axios')
 const Delegation = require('renderer/vuex/modules/delegation').default
