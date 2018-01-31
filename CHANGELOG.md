@@ -9,10 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added a changelog @jolesbi.
 
 ## [0.3.1] - 2018-01-30
-### 
+### Added
 * Check to ensure gaia version is correct for the current network @mappum
 
 ### Changed
+* Added a callback and console output when Vue app has finished loading to test build apps on successful startup. @faboweb
 * Resolved notifications error on NiSessionLoading.vue @nylira.
 * Resolved old saved prevAccountKey being used in NiSessionSignIn.vue @nylira.
 * Improved performance of amountBonded in LiDelegate.vue @nylira.

@@ -36,7 +36,7 @@ async function main () {
   node.lcdConnected()
   .then(connected => {
     if (connected) {
-      axios.get('http://localhost:8999/startsuccess')
+      axios.get(`http://localhost:${relayPort}/startsuccess`)
     }
   })
 
