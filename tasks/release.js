@@ -159,7 +159,7 @@ function tarFolder (inDir, outDir, version) {
           try {
             pack.entry({ name: path.relative(inDir, file) }, fs.readFileSync(file))
           } catch (err) {
-            console.warning(`Couldn't pack file`, file)
+            console.warning(`Couldn't pack file`, file, err)
             // skip this file
           }
         })
