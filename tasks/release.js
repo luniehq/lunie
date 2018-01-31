@@ -156,7 +156,12 @@ function tarFolder (inDir, outDir, version) {
         files
         .filter(file => !fs.lstatSync(file).isDirectory())
         .forEach(file => {
-          pack.entry({ name: path.relative(inDir, file) }, fs.readFileSync(file))
+          try {
+            pack.entry({ name: path.relative(inDir, file) }, fs.readFileSync(file))
+          } catch (err) {
+            console.warning(`Couldn't pack file`, file)
+            // skip this file
+          }
         })
         pack.finalize()
         resolve()
