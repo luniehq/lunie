@@ -17,47 +17,41 @@ export default [
   { path: '/proposals/new/upgrade', component: govern('ProposalsNewUpgrade') },
   { path: '/proposals/:proposal', name: 'proposal', component: govern('Proposal') },
 
-  // STAKE
-  { path: '/staking', name: 'delegates', component: staking('Delegates') },
-  { path: '/staking/bond', name: 'bond', component: staking('Bond') },
-  {
-    path: '/staking/delegates/:delegate',
-    name: 'delegate',
-    component: staking('Delegate')
-  },
-
   // MONITOR
   { path: '/blocks', name: 'blocks', component: monitor('Blocks') },
   { path: '/blocks/:block', name: 'block', component: monitor('Block') },
-  { path: '/validators', name: 'validators', component: monitor('Validators') },
+
+  // STAKE
+  { path: '/staking/bond', name: 'bond', component: staking('Bond') },
+  { path: '/delegates', name: 'delegates', component: staking('Delegates') },
   {
-    path: '/validators/:validator',
-    component: monitor('Validator'),
+    path: '/delegates/:delegate',
+    component: staking('Delegate'),
     children: [
       {
         path: '/',
-        name: 'validator-index',
-        component: monitor('ValidatorIndex')
+        name: 'delegate-index',
+        component: staking('DelegateIndex')
       },
       {
         path: 'power',
-        name: 'validator-power',
-        component: monitor('ValidatorPower')
+        name: 'delegate-power',
+        component: staking('DelegatePower')
       },
       {
         path: 'proposals',
-        name: 'validator-proposals',
-        component: monitor('ValidatorProposals')
+        name: 'delegate-proposals',
+        component: staking('DelegateProposals')
       },
       {
         path: 'slashes',
-        name: 'validator-slashes',
-        component: monitor('ValidatorSlashes')
+        name: 'delegate-slashes',
+        component: staking('DelegateSlashes')
       },
       {
         path: 'votes',
-        name: 'validator-votes',
-        component: monitor('ValidatorVotes')
+        name: 'delegate-votes',
+        component: staking('DelegateVotes')
       }
     ]
   },

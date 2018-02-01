@@ -1,8 +1,8 @@
 <template lang="pug">
-page(icon="storage" :title="`${validatorId} Vote Power`")
+page(icon="storage" :title="`${delegateId} Vote Power`")
   div(slot="menu"): tool-bar
     router-link(
-      :to="{ name: 'validator-index', params: { validator: $route.params.validator }}")
+      :to="{ name: 'delegate-index', params: { delegate: $route.params.delegate }}")
       i.material-icons arrow_back
       .label Back
 
@@ -23,7 +23,7 @@ import ToolBar from 'common/NiToolBar'
 import Page from 'common/NiPage'
 import Part from 'common/NiPart'
 export default {
-  name: 'page-validator-power',
+  name: 'page-delegate-power',
   components: {
     ChartVotePower,
     ListItem,
@@ -32,7 +32,7 @@ export default {
     ToolBar
   },
   computed: {
-    validatorId () { return this.slugToIp(this.$route.params.validator) }
+    delegateId () { return this.slugToIp(this.$route.params.delegate) }
   },
   data: () => ({
     chartData: {
