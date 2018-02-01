@@ -48,9 +48,7 @@ exports[`NiSessionImport has the expected html structure 1`] = `
 </div>
 </div>
       <div class=\\"ni-session-footer\\">
-         <button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--size-lg\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">arrow_forward</i>
-         <!---->
-         <span class=\\"ni-btn__value\\">Next</span></span></button>
+         <button class=\\"ni-btn\\"><span class=\\"ni-btn-container ni-btn-icon-right ni-btn-size-lg\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">arrow_forward</i><span class=\\"ni-btn-value\\">Next</span></span></button>
       </div>
 </main>
       <!---->

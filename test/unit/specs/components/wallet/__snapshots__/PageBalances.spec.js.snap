@@ -127,17 +127,16 @@ exports[`PageBalances has the expected html structure 1`] = `
                 class="ni-btn btn-copy"
               >
                 <span
-                  class="ni-btn__container"
+                  class="ni-btn-container"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="ni-btn-icon material-icons"
                   >
                     content_copy
                   </i>
-                  <!---->
                   <span
-                    class="ni-btn__value"
+                    class="ni-btn-value"
                   >
                     Copy
                   </span>
@@ -202,19 +201,19 @@ exports[`PageBalances has the expected html structure 1`] = `
               </div>
               <button
                 class="ni-btn"
+                color="primary"
               >
                 <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                  class="ni-btn-container ni-btn-icon-right"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="ni-btn-icon material-icons"
                   >
                     chevron_right
                   </i>
-                  <!---->
                   <span
-                    class="ni-btn__value"
+                    class="ni-btn-value"
                   >
                     Send
                   </span>
@@ -250,19 +249,19 @@ exports[`PageBalances has the expected html structure 1`] = `
               </div>
               <button
                 class="ni-btn"
+                color="primary"
               >
                 <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                  class="ni-btn-container ni-btn-icon-right"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="ni-btn-icon material-icons"
                   >
                     chevron_right
                   </i>
-                  <!---->
                   <span
-                    class="ni-btn__value"
+                    class="ni-btn-value"
                   >
                     Send
                   </span>
@@ -431,17 +430,16 @@ exports[`PageBalances should filter the balances 1`] = `
                 class="ni-btn btn-copy"
               >
                 <span
-                  class="ni-btn__container"
+                  class="ni-btn-container"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="ni-btn-icon material-icons"
                   >
                     content_copy
                   </i>
-                  <!---->
                   <span
-                    class="ni-btn__value"
+                    class="ni-btn-value"
                   >
                     Copy
                   </span>
@@ -506,19 +504,19 @@ exports[`PageBalances should filter the balances 1`] = `
               </div>
               <button
                 class="ni-btn"
+                color="primary"
               >
                 <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                  class="ni-btn-container ni-btn-icon-right"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="ni-btn-icon material-icons"
                   >
                     chevron_right
                   </i>
-                  <!---->
                   <span
-                    class="ni-btn__value"
+                    class="ni-btn-value"
                   >
                     Send
                   </span>
@@ -554,19 +552,19 @@ exports[`PageBalances should filter the balances 1`] = `
               </div>
               <button
                 class="ni-btn"
+                color="primary"
               >
                 <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                  class="ni-btn-container ni-btn-icon-right"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="ni-btn-icon material-icons"
                   >
                     chevron_right
                   </i>
-                  <!---->
                   <span
-                    class="ni-btn__value"
+                    class="ni-btn-value"
                   >
                     Send
                   </span>
