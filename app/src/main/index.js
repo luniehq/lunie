@@ -13,6 +13,7 @@ let axios = require('axios')
 let pkg = require('../../../package.json')
 let relayServer = require('./relayServer.js')
 let addMenu = require('./menu.js')
+let config = require('../../../config.js')
 
 let started = false
 let shuttingDown = false
@@ -32,8 +33,10 @@ const LOGGING = JSON.parse(process.env.LOGGING || 'true') !== false
 const MOCK = JSON.parse(process.env.MOCK || !TEST && DEV) !== false
 const UI_ONLY = JSON.parse(process.env.COSMOS_UI_ONLY || 'false')
 const winURL = DEV
-  ? `http://localhost:${require('../../../config').port}`
+  ? `http://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
+const RELAY_PORT = DEV ? config.relay_port : config.relay_port_prod
+const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
 
 // this network gets used if none is specified via the
@@ -99,6 +102,10 @@ function shutdown () {
   )
 }
 
+function startVueApp () {
+  mainWindow.loadURL(winURL + '?node=' + nodeIP + '&relay_port=' + RELAY_PORT)
+}
+
 function createWindow () {
   mainWindow = new BrowserWindow({
     minWidth: 320,
@@ -117,7 +124,7 @@ function createWindow () {
   } else if (!started) {
     mainWindow.loadURL(winURL)
   } else {
-    mainWindow.loadURL(winURL + '?node=' + nodeIP)
+    startVueApp()
   }
   if (DEV || process.env.COSMOS_DEVTOOLS) {
     mainWindow.webContents.openDevTools()
@@ -198,6 +205,7 @@ async function startBaseserver (home, nodeIP) {
   log('startBaseserver', home)
   let child = startProcess(SERVER_BINARY, [
     'rest-server',
+    '--port', LCD_PORT,
     '--home', home,
     '--node', nodeIP
     // '--trust-node'
@@ -212,6 +220,14 @@ async function startBaseserver (home, nodeIP) {
   }
 
   return child
+}
+
+async function getGaiaVersion () {
+  let child = startProcess(SERVER_BINARY, ['version'])
+  let data = await new Promise((resolve) => {
+    child.stdout.on('data', resolve)
+  })
+  return data.toString('utf8').trim()
 }
 
 function exists (path) {
@@ -305,18 +321,23 @@ function setupLogging (root) {
 
 if (!TEST) {
   process.on('exit', shutdown)
-  process.on('uncaughtException', function (err) {
+  process.on('uncaughtException', async function (err) {
     logError('[Uncaught Exception]', err)
-    setTimeout(async () => {
-      await shutdown()
-      process.exit(1)
-    }, 200)
-    setTimeout(shutdown, 200)
+    await shutdown()
+    process.exit(1)
+  })
+  process.on('unhandledRejection', async function (err) {
+    logError('[Unhandled Promise Rejection]', err)
+    await shutdown()
+    process.exit(1)
   })
 }
 
-function consistentConfigDir (versionPath, genesisPath, configPath) {
-  return exists(genesisPath) && exists(versionPath) && exists(configPath)
+function consistentConfigDir (appVersionPath, genesisPath, configPath, gaiaVersionPath) {
+  return exists(genesisPath) &&
+    exists(appVersionPath) &&
+    exists(configPath) &&
+    exists(gaiaVersionPath)
 }
 
 function pickNode (seeds) {
@@ -366,9 +387,10 @@ async function main () {
     return
   }
 
-  let versionPath = join(root, 'app_version')
+  let appVersionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
   let configPath = join(root, 'config.toml')
+  let gaiaVersionPath = join(root, 'gaiaversion.txt')
 
   let rootExists = exists(root)
   await fs.ensureDir(root)
@@ -381,8 +403,8 @@ async function main () {
 
     // check if the existing data came from a compatible app version
     // if not, backup the data and re-initialize
-    if (consistentConfigDir(versionPath, genesisPath, configPath)) {
-      let existingVersion = fs.readFileSync(versionPath, 'utf8')
+    if (consistentConfigDir(appVersionPath, genesisPath, configPath, gaiaVersionPath)) {
+      let existingVersion = fs.readFileSync(appVersionPath, 'utf8')
       let compatible = semver.diff(existingVersion, pkg.version) !== 'major'
       if (compatible) {
         log('configs are compatible with current app version')
@@ -419,12 +441,21 @@ async function main () {
     fs.accessSync(networkPath) // crash if invalid path
     fs.copySync(networkPath, root)
 
-    fs.writeFileSync(versionPath, pkg.version)
+    fs.writeFileSync(appVersionPath, pkg.version)
   }
 
   log('starting app')
   log(`dev mode: ${DEV}`)
   log(`winURL: ${winURL}`)
+
+  let gaiaVersion = await getGaiaVersion()
+  let expectedGaiaVersion = fs.readFileSync(gaiaVersionPath, 'utf8').trim()
+  log(`gaia version: "${gaiaVersion}", expected: "${expectedGaiaVersion}"`)
+  // TODO: semver check, or exact match?
+  if (gaiaVersion !== expectedGaiaVersion) {
+    throw Error(`Requires gaia ${expectedGaiaVersion}, but got ${gaiaVersion}.
+      Please update your gaia installation or build with a newer binary.`)
+  }
 
   // read chainId from genesis.json
   let genesisText = fs.readFileSync(genesisPath, 'utf8')
@@ -456,6 +487,8 @@ async function main () {
   // the view can communicate with the main process by sending requests to the relay server
   // the relay server also proxies to the LCD
   relayServer({
+    lcdPort: LCD_PORT,
+    relayServerPort: RELAY_PORT,
     mock: MOCK,
     onSuccesfulStart: () => {
       console.log('[START SUCCESS] Vue app successfuly started')
@@ -465,7 +498,7 @@ async function main () {
 
   started = true
   if (mainWindow) {
-    mainWindow.loadURL(winURL + '?node=' + nodeIP)
+    startVueApp()
   }
 }
 module.exports = Object.assign(

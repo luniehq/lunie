@@ -12,6 +12,7 @@ describe('PageDelegates', () => {
     store = instance.store
 
     store.state.user.address = 'abc'
+    store.commit('setAtoms', 1337)
     store.commit('addDelegate', {
       pub_key: {
         type: 'ed25519',

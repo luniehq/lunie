@@ -17,6 +17,7 @@ describe('LiDelegate', () => {
     wrapper = test.wrapper
     store = test.store
 
+    store.commit('setAtoms', 1337)
     store.commit('addDelegate', {
       pub_key: {
         type: 'ed25519',
@@ -62,7 +63,8 @@ describe('LiDelegate', () => {
   })
 
   it('should show the relative voting power as a bar', () => {
-    expect(wrapper.vm.$el.querySelector('.number_of_votes .bar').style.width).toBe('33%')
+    expect(wrapper.vm.$el.querySelector('.number_of_votes .bar')
+      .style.width).toBe('33%')
   })
 
   it('should add to cart', () => {

@@ -86,13 +86,7 @@ let config = {
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
   },
-  target: 'electron-renderer',
-  vue: {
-    loaders: {
-      sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-      scss: 'vue-style-loader!css-loader!sass-loader'
-    }
-  }
+  target: 'electron-renderer'
 }
 
 if (process.env.NODE_ENV !== 'production') {

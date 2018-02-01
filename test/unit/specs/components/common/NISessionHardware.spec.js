@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
-import { mount, createLocalVue } from 'vue-test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import htmlBeautify from 'html-beautify'
 import NISessionHardware from 'common/NiSessionHardware'
 

@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
-import { createLocalVue } from 'vue-test-utils'
+import { createLocalVue } from '@vue/test-utils'
 import mockValidators from './json/validators.json'
 const mockValidatorHash = '1234567890123456789012345678901234567890'
 const mockValidatorHashTwo = '0123456789012345678901234567890123456789'
