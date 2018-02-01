@@ -415,26 +415,28 @@ exports[`PageBond has the expected html structure 1`] = `
                     type="button"
                   >
                     <span
-                      class="ni-btn-container"
+                      class="ni-btn__container ni-btn--danger"
                     >
                       <!---->
+                      <!---->
                       <span
-                        class="ni-btn-value"
+                        class="ni-btn__value"
                       >
                         Reset
                       </span>
                     </span>
                   </button>
                   <button
-                    class="ni-btn btn__primary"
+                    class="ni-btn"
                     id="btn-bond"
                   >
                     <span
-                      class="ni-btn-container"
+                      class="ni-btn__container ni-btn--primary"
                     >
                       <!---->
+                      <!---->
                       <span
-                        class="ni-btn-value"
+                        class="ni-btn__value"
                       >
                         Submit
                       </span>
