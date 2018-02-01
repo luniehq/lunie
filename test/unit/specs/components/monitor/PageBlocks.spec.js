@@ -10,18 +10,30 @@ describe('PageBlocks', () => {
     let instance = mount(PageBlocks, {
       stubs: {
         'modal-search': '<modal-search />'
+      },
+      getters: {
+        lastHeader: () => ({
+          time: 0,
+          last_block_id: {
+            hash: '123'
+          },
+          height: 12345
+        })
       }
     })
     wrapper = instance.wrapper
     store = instance.store
-
-    store.commit('setSearchQuery', ['blocks', ''])
 
     wrapper.update()
   })
 
   it('has the expected html structure', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+  })
+
+  it('should call resetSearch on beforeDestroy', () => {
+    wrapper.destroy()
+    expect(store.commit).toHaveBeenCalledWith('resetSearch', 'blocks')
   })
 
   it('should show the search on click', () => {

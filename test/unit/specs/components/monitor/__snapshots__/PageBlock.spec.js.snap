@@ -1,0 +1,258 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageBlock has the expected html structure 1`] = `
+"<div class=\\"ni-page\\">
+   <header class=\\"ni-page-header\\">
+      <div class=\\"ni-page-header-container\\">
+         <div class=\\"ni-page-header-text\\">
+            <div class=\\"ni-page-header-title\\">
+               <h2>
+                  Block #10
+               </h2>
+</div>
+   <div class=\\"ni-page-header-subtitle\\">
+      <h3></h3>
+</div>
+</div>
+   <menu class=\\"ni-page-header-menu\\">
+      <div>
+         <div>
+            <div class=\\"ni-tool-bar\\">
+               <div class=\\"ni-tool-bar-container\\">
+                  <div class=\\"main\\">
+                     <a href=\\"#/blocks\\" class=\\"\\"><i class=\\"material-icons\\">arrow_back</i>
+                     <div class=\\"label\\">
+                        Back
+                     </div>
+      </a><a href=\\"https://the-url\\" target=\\"_blank\\"><i class=\\"material-icons\\">code</i>
+      <div class=\\"label\\">
+         JSON
+      </div>
+      </a><a href=\\"#/blocks/9\\" class=\\"\\"><i class=\\"material-icons\\">chevron_left</i>
+      <div class=\\"label\\">
+         Previous Block
+      </div>
+      </a><a href=\\"#/blocks/11\\" class=\\"\\"><i class=\\"material-icons\\">chevron_right</i>
+      <div class=\\"label\\">
+         Next Block
+      </div>
+      </a>
+   </div>
+      <a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a>
+   </div>
+</div>
+</div>
+</div>
+</menu>
+</div>
+</header>
+<main class=\\"ni-page-main\\">
+   <section class=\\"ni-part\\">
+      <div class=\\"ni-part-container\\">
+         <!---->
+         <main class=\\"ni-part-main\\">
+            <div class=\\"ni-li\\">
+               <div class=\\"ni-li-container\\">
+                  <div class=\\"ni-li-thumb\\">
+                     <!---->
+                  </div>
+         <div class=\\"ni-li-dl\\">
+            <div class=\\"ni-li-dt\\">
+               Block Hash
+            </div>
+         <div class=\\"ni-li-dd\\">
+            hash
+         </div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</section>
+<section class=\\"ni-part\\">
+   <div class=\\"ni-part-container\\">
+      <header class=\\"ni-part-header\\">
+         <div class=\\"ni-part-header-container\\">
+            <div class=\\"ni-part-title h5\\">
+               Header
+            </div>
+      <menu class=\\"ni-part-menu\\"></menu>
+</div>
+</header>
+   <main class=\\"ni-part-main\\">
+      <div class=\\"ni-li\\">
+         <div class=\\"ni-li-container\\">
+            <div class=\\"ni-li-thumb\\">
+               <!---->
+            </div>
+      <div class=\\"ni-li-dl\\">
+         <div class=\\"ni-li-dt\\">
+            Chain ID
+         </div>
+      <div class=\\"ni-li-dd\\"></div>
+</div>
+</div>
+</div>
+      <div class=\\"ni-li\\">
+         <div class=\\"ni-li-container\\">
+            <div class=\\"ni-li-thumb\\">
+               <!---->
+            </div>
+      <div class=\\"ni-li-dl\\">
+         <div class=\\"ni-li-dt\\">
+            Time
+         </div>
+      <div class=\\"ni-li-dd\\">
+         December 31st 1969 — 07:00:01
+      </div>
+</div>
+</div>
+</div>
+      <div class=\\"ni-li\\">
+         <div class=\\"ni-li-container\\">
+            <div class=\\"ni-li-thumb\\">
+               <!---->
+            </div>
+      <div class=\\"ni-li-dl\\">
+         <div class=\\"ni-li-dt\\">
+            Transactions
+         </div>
+      <div class=\\"ni-li-dd\\">
+         0
+      </div>
+</div>
+</div>
+</div>
+      <div class=\\"ni-li\\">
+         <div class=\\"ni-li-container\\">
+            <div class=\\"ni-li-thumb\\">
+               <!---->
+            </div>
+      <div class=\\"ni-li-dl\\">
+         <div class=\\"ni-li-dt\\">
+            Last Commit Hash
+         </div>
+      <div class=\\"ni-li-dd\\"></div>
+</div>
+</div>
+</div>
+      <div class=\\"ni-li\\">
+         <div class=\\"ni-li-container\\">
+            <div class=\\"ni-li-thumb\\">
+               <!---->
+            </div>
+      <div class=\\"ni-li-dl\\">
+         <div class=\\"ni-li-dt\\">
+            Validators Hash
+         </div>
+      <div class=\\"ni-li-dd\\"></div>
+</div>
+</div>
+</div>
+      <div class=\\"ni-li\\">
+         <div class=\\"ni-li-container\\">
+            <div class=\\"ni-li-thumb\\">
+               <!---->
+            </div>
+      <div class=\\"ni-li-dl\\">
+         <div class=\\"ni-li-dt\\">
+            App Hash
+         </div>
+      <div class=\\"ni-li-dd\\"></div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</section>
+<section class=\\"ni-part\\">
+   <div class=\\"ni-part-container\\">
+      <header class=\\"ni-part-header\\">
+         <div class=\\"ni-part-header-container\\">
+            <div class=\\"ni-part-title h5\\">
+               Last Block
+            </div>
+      <menu class=\\"ni-part-menu\\"></menu>
+</div>
+</header>
+   <main class=\\"ni-part-main\\">
+      <div class=\\"ni-li\\">
+         <div class=\\"ni-li-container\\">
+            <div class=\\"ni-li-thumb\\">
+               <!---->
+            </div>
+      <div class=\\"ni-li-dl\\">
+         <div class=\\"ni-li-dt\\">
+            Hash
+         </div>
+      <div class=\\"ni-li-dd\\">
+         last-hash
+      </div>
+</div>
+</div>
+</div>
+      <div class=\\"ni-li\\">
+         <div class=\\"ni-li-container\\">
+            <div class=\\"ni-li-thumb\\">
+               <!---->
+            </div>
+      <div class=\\"ni-li-dl\\">
+         <div class=\\"ni-li-dt\\">
+            Parts Total
+         </div>
+      <div class=\\"ni-li-dd\\">
+         0
+      </div>
+</div>
+</div>
+</div>
+      <div class=\\"ni-li\\">
+         <div class=\\"ni-li-container\\">
+            <div class=\\"ni-li-thumb\\">
+               <!---->
+            </div>
+      <div class=\\"ni-li-dl\\">
+         <div class=\\"ni-li-dt\\">
+            Parts Hash
+         </div>
+      <div class=\\"ni-li-dd\\"></div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</section>
+<section class=\\"ni-part\\">
+   <div class=\\"ni-part-container\\">
+      <header class=\\"ni-part-header\\">
+         <div class=\\"ni-part-header-container\\">
+            <div class=\\"ni-part-title h5\\">
+               Transactions
+            </div>
+      <menu class=\\"ni-part-menu\\"></menu>
+</div>
+</header>
+   <main class=\\"ni-part-main\\">
+      <div class=\\"ni-data-msg\\">
+         <div class=\\"ni-data-msg__icon\\">
+            <i class=\\"material-icons\\">info_outline</i>
+         </div>
+      <div class=\\"ni-data-msg__text\\">
+         <div class=\\"ni-data-msg__title\\">
+            <h4>
+               Empty Block
+            </h4>
+</div>
+      <div class=\\"ni-data-msg__subtitle\\">
+         <h5>
+            There were no transactions in this block.
+         </h5>
+</div>
+</div>
+</div>
+</main>
+</div>
+</section>
+</main>
+</div>"
+`;
