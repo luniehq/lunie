@@ -1,13 +1,14 @@
 import setup from '../../../helpers/vuex-setup'
 import htmlBeautify from 'html-beautify'
 import PageBlocks from 'renderer/components/monitor/PageBlocks'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 describe('PageBlocks', () => {
   let wrapper, store
   let {mount} = setup()
 
   beforeEach(() => {
+    moment.tz.setDefault('EST')
     let instance = mount(PageBlocks, {
       stubs: {
         'modal-search': '<modal-search />'
