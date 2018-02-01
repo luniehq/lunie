@@ -42,8 +42,8 @@ page(title='Send')
 
     div(slot='footer')
       div
-      btn.btn__primary(v-if='sending' value='Sending...' disabled)
-      btn.btn__primary(v-else @click='onSubmit' value="Send Tokens")
+      btn(v-if='sending' value='Sending...' disabled color="primary")
+      btn(v-else @click='onSubmit' value="Send Tokens" color="primary")
 </template>
 
 <script>
