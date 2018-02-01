@@ -55,9 +55,9 @@ export default ({ commit, node }) => {
   subscribe()
 
   setTimeout(() => {
-    mutations.setUrl(state)
     mutations.getStatus(state)
     mutations.getAbciInfo(state)
+    mutations.setUrl(state)
   }, 3000)
 
   return { state, mutations, actions }
