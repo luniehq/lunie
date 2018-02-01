@@ -83,7 +83,7 @@ export default {
   &:nth-of-type(2n-1)
     background app-fg
   &.li-delegate-active
-    background alpha(hover, 17.5%)
+    background hover-bg
     .li-delegate__value i
       color link
 

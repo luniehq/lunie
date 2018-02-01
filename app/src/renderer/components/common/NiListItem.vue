@@ -34,7 +34,7 @@ transition(name="proposal")
   router-link.ni-li.ni-li-link(v-else-if="btn && to" :to="to"): .ni-li-container
     +ni-li-thumb
     +ni-li-dl
-    btn(:value="btn" icon="chevron_right" icon-pos="right" type="primary")
+    btn(:value="btn" icon="chevron_right" icon-pos="right" color="primary")
 
   // dt/dd text
   .ni-li(v-else-if='dt'): .ni-li-container
