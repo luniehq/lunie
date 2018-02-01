@@ -32,11 +32,6 @@ export default {
   },
   computed: {
     ...mapGetters(['config'])
-  },
-  beforeDestroy () {
-    if (!this.config.devMode) {
-      this.$store.commit('setModalSession', true)
-    }
   }
 }
 </script>

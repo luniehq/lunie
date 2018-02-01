@@ -10,6 +10,7 @@ jest.mock('fs-extra', () => {
   let mockFs = mockFsExtra()
   mockFs.writeFile('./app/networks/gaia-2/config.toml', fs.readFileSync('./app/networks/gaia-2/config.toml', 'utf8'))
   mockFs.writeFile('./app/networks/gaia-2/genesis.json', fs.readFileSync('./app/networks/gaia-2/genesis.json', 'utf8'))
+  mockFs.writeFile('./app/networks/gaia-2/gaiaversion.txt', fs.readFileSync('./app/networks/gaia-2/gaiaversion.txt', 'utf8'))
   return mockFs
 })
 let fs = require('fs-extra')
@@ -26,6 +27,13 @@ childProcessMock((path, args) => ({
     // init processes always should return with 0
     if (type === 'exit' && args[1] === 'init') {
       cb(0)
+    }
+  },
+  stdout: {
+    on: (type, cb) => {
+      if (args[0] === 'version' && type === 'data') {
+        cb({toString: () => 'v0.5.0'})
+      }
     }
   }
 }))
@@ -427,6 +435,13 @@ function failingChildProcess (mockName, mockCmd) {
           // init processes always should return with 0
         } else if (args[1] === 'init') {
           cb(0)
+        }
+      }
+    },
+    stdout: {
+      on: (type, cb) => {
+        if (args[0] === 'version' && type === 'data') {
+          cb({toString: () => 'v0.5.0'})
         }
       }
     }
