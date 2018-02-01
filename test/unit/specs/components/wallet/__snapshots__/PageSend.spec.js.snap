@@ -515,14 +515,14 @@ exports[`PageSend has the expected html structure 1`] = `
             <div />
             <button
               class="ni-btn"
-              color="primary"
             >
               <span
-                class="ni-btn-container"
+                class="ni-btn__container ni-btn--primary"
               >
                 <!---->
+                <!---->
                 <span
-                  class="ni-btn-value"
+                  class="ni-btn__value"
                 >
                   Send Tokens
                 </span>
