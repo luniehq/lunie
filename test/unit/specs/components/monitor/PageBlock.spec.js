@@ -16,6 +16,36 @@ describe('PageBlock', () => {
     let instance = mount(PageBlock, {
       mocks: {
         $route
+      },
+      getters: {
+        blockchain: () => ({
+          url: 'https://the-url',
+          block: {
+            block: {
+              header: {
+                last_block_id: {
+                  hash: 'last-hash',
+                  parts: {
+                    total: 0
+                  }
+                },
+                num_txs: 0,
+                height: 10
+              },
+              last_commit: {
+                precommits: []
+              },
+              data: {
+                txs: 0
+              }
+            },
+            block_meta: {
+              block_id: {
+                hash: 'hash'
+              }
+            }
+          }
+        })
       }
     })
     wrapper = instance.wrapper

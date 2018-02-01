@@ -7,7 +7,7 @@ exports[`PageBlock has the expected html structure 1`] = `
          <div class=\\"ni-page-header-text\\">
             <div class=\\"ni-page-header-title\\">
                <h2>
-                  Loading Block…
+                  Block #10
                </h2>
 </div>
    <div class=\\"ni-page-header-subtitle\\">
@@ -24,15 +24,15 @@ exports[`PageBlock has the expected html structure 1`] = `
                      <div class=\\"label\\">
                         Back
                      </div>
-      </a><a href=\\"https://gaia-2-node0.testnets.interblock.io/block?height=undefined\\" target=\\"_blank\\"><i class=\\"material-icons\\">code</i>
+      </a><a href=\\"https://the-url\\" target=\\"_blank\\"><i class=\\"material-icons\\">code</i>
       <div class=\\"label\\">
          JSON
       </div>
-      </a><a href=\\"#/blocks/-1\\" class=\\"\\"><i class=\\"material-icons\\">chevron_left</i>
+      </a><a href=\\"#/blocks/9\\" class=\\"\\"><i class=\\"material-icons\\">chevron_left</i>
       <div class=\\"label\\">
          Previous Block
       </div>
-      </a><a href=\\"#/blocks/1\\" class=\\"\\"><i class=\\"material-icons\\">chevron_right</i>
+      </a><a href=\\"#/blocks/11\\" class=\\"\\"><i class=\\"material-icons\\">chevron_right</i>
       <div class=\\"label\\">
          Next Block
       </div>
@@ -49,18 +49,27 @@ exports[`PageBlock has the expected html structure 1`] = `
 <main class=\\"ni-page-main\\">
    <section class=\\"ni-part\\">
       <div class=\\"ni-part-container\\">
-         <!---->
-         <main class=\\"ni-part-main\\">
-            <div class=\\"ni-li\\">
-               <div class=\\"ni-li-container\\">
-                  <div class=\\"ni-li-thumb\\">
-                     <!---->
-                  </div>
+         <header class=\\"ni-part-header\\">
+            <div class=\\"ni-part-header-container\\">
+               <div class=\\"ni-part-title h5\\">
+                  Block Hash
+               </div>
+         <menu class=\\"ni-part-menu\\"></menu>
+</div>
+</header>
+      <main class=\\"ni-part-main\\">
+         <div class=\\"ni-li\\">
+            <div class=\\"ni-li-container\\">
+               <div class=\\"ni-li-thumb\\">
+                  <!---->
+               </div>
          <div class=\\"ni-li-dl\\">
             <div class=\\"ni-li-dt\\">
                Block Hash
             </div>
-         <div class=\\"ni-li-dd\\"></div>
+         <div class=\\"ni-li-dd\\">
+            hash
+         </div>
 </div>
 </div>
 </div>
@@ -101,7 +110,7 @@ exports[`PageBlock has the expected html structure 1`] = `
             Time
          </div>
       <div class=\\"ni-li-dd\\">
-         Invalid date
+         December 31st 1969 — 07:00:01
       </div>
 </div>
 </div>
@@ -183,7 +192,9 @@ exports[`PageBlock has the expected html structure 1`] = `
          <div class=\\"ni-li-dt\\">
             Hash
          </div>
-      <div class=\\"ni-li-dd\\"></div>
+      <div class=\\"ni-li-dd\\">
+         last-hash
+      </div>
 </div>
 </div>
 </div>
@@ -210,76 +221,6 @@ exports[`PageBlock has the expected html structure 1`] = `
       <div class=\\"ni-li-dl\\">
          <div class=\\"ni-li-dt\\">
             Parts Hash
-         </div>
-      <div class=\\"ni-li-dd\\"></div>
-</div>
-</div>
-</div>
-</main>
-</div>
-</section>
-<section class=\\"ni-part\\">
-   <div class=\\"ni-part-container\\">
-      <header class=\\"ni-part-header\\">
-         <div class=\\"ni-part-header-container\\">
-            <div class=\\"ni-part-title h5\\">
-               Precommit
-            </div>
-      <menu class=\\"ni-part-menu\\"></menu>
-</div>
-</header>
-   <main class=\\"ni-part-main\\">
-      <div class=\\"ni-li\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
-               <!---->
-            </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
-            Address
-         </div>
-      <div class=\\"ni-li-dd\\"></div>
-</div>
-</div>
-</div>
-      <div class=\\"ni-li\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
-               <!---->
-            </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
-            Index
-         </div>
-      <div class=\\"ni-li-dd\\">
-         0
-      </div>
-</div>
-</div>
-</div>
-      <div class=\\"ni-li\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
-               <!---->
-            </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
-            Round
-         </div>
-      <div class=\\"ni-li-dd\\">
-         0
-      </div>
-</div>
-</div>
-</div>
-      <div class=\\"ni-li\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
-               <!---->
-            </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
-            Sig (undefined)
          </div>
       <div class=\\"ni-li-dd\\"></div>
 </div>
