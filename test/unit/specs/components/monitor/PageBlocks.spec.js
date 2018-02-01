@@ -1,7 +1,6 @@
 import setup from '../../../helpers/vuex-setup'
 import htmlBeautify from 'html-beautify'
 import PageBlocks from 'renderer/components/monitor/PageBlocks'
-import moment from 'moment'
 
 describe('PageBlocks', () => {
   let wrapper, store
@@ -14,7 +13,7 @@ describe('PageBlocks', () => {
       },
       getters: {
         lastHeader: () => ({
-          time: moment('2017-09-15 09:30:00').valueOf(),
+          time: 0,
           last_block_id: {
             hash: '123'
           },
