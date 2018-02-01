@@ -94,7 +94,7 @@
     "xmlhttprequest": "^1.8.0"
   },
   "dependencies": {
-    "@nylira/vue-button": "^4.2.2",
+    "@nylira/vue-button": "^4.3.1",
     "@nylira/vue-field": "^1.1.17",
     "@nylira/vue-form-msg": "^1.0.3",
     "@nylira/vue-input": "^3.2.0",

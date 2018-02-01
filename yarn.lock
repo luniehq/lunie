@@ -6,9 +6,9 @@
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/7zip/-/7zip-0.0.6.tgz#9cafb171af82329490353b4816f03347aa150a30"
 
-"@nylira/vue-button@^4.2.2":
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-button/-/vue-button-4.2.2.tgz#d9007a11647a92d536b8756d3bd8ef661307b42b"
+"@nylira/vue-button@^4.3.1":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-button/-/vue-button-4.3.1.tgz#9979203ac1a6c5b10574c2eb32823b01c4dc67a4"
 
 "@nylira/vue-field@^1.1.17":
   version "1.1.17"
