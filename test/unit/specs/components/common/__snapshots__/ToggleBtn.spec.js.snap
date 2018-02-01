@@ -8,12 +8,11 @@ exports[`TogggleBtn has the expected html structure 1`] = `
     class="ni-btn"
   >
     <span
-      class="ni-btn__container"
+      class="ni-btn-container"
     >
       <!---->
-      <!---->
       <span
-        class="ni-btn__value"
+        class="ni-btn-value"
       >
         HALLO
       </span>
