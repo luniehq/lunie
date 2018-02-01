@@ -1,5 +1,5 @@
 <template lang="pug">
-page(:title="pageBlockTitle")
+page(:title="pageBlockTitle" v-if="block.header")
   div(slot="menu"): tool-bar
     router-link(to="/blocks")
       i.material-icons arrow_back
@@ -14,7 +14,7 @@ page(:title="pageBlockTitle")
       i.material-icons chevron_right
       .label Next Block
 
-  part(title='')
+  part(title='Block Hash')
     list-item(dt="Block Hash" :dd="blockMeta.block_id.hash")
 
   part(title='Header')
@@ -67,28 +67,41 @@ export default {
   computed: {
     ...mapGetters(['blockchain']),
     block () {
-      return this.blockchain.block.block
+      if (this.blockchain.block.block) {
+        console.log(this.blockchain.block.block)
+        return this.blockchain.block.block
+      } else {
+        return {}
+      }
     },
     blockUrl () {
       return this.blockchain.url
     },
     blockHeaderTime () {
-      return moment(this.block.header.time).format('MMMM Do YYYY — hh:mm:ss')
+      if (this.block.header) {
+        return moment(this.block.header.time).format('MMMM Do YYYY — hh:mm:ss')
+      } else {
+        return 'Loading...'
+      }
     },
     blockMeta () {
-      return this.block_meta = this.blockchain.block.block_meta
+      if (this.block) {
+        return this.blockchain.block.block_meta
+      } else {
+        return {}
+      }
     },
     pageBlockTitle () {
-      if (this.block.header.height) {
+      if (this.block.header) {
         return 'Block #' + num.prettyInt(this.block.header.height)
       } else {
-        return 'Loading Block…'
+        return 'Loading...'
       }
     }
   },
   methods: {
     fetchBlock () {
-      this.$store.dispatch('fetchBlock', this.$route.params.block)
+      this.$store.dispatch('getBlock', this.$route.params.block)
     }
   },
   mounted () {
