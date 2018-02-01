@@ -49,10 +49,8 @@ export default {
       return this.blockchain.status
     },
     latestBlockTime () {
-      let blockTime = this.lastHeader.time
-      let formattedTime = moment(blockTime).format('MMMM Do YYYY — hh:mm:ss')
-      if (blockTime) {
-        return formattedTime
+      if (this.lastHeader.time) {
+        return moment(this.lastHeader.time).format('MMMM Do YYYY — hh:mm:ss')
       } else {
         return 'Loading…'
       }

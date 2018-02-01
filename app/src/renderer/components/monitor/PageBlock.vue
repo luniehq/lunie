@@ -76,7 +76,7 @@ export default {
       return this.blockchain.url
     },
     blockHeaderTime () {
-      if (this.block.header) {
+      if (this.block.header.time) {
         return moment(this.block.header.time).format('MMMM Do YYYY — hh:mm:ss')
       } else {
         return 'Loading...'

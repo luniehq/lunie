@@ -30,7 +30,8 @@ describe('PageBlock', () => {
                   }
                 },
                 num_txs: 0,
-                height: 10
+                height: 10,
+                time: null
               },
               last_commit: {
                 precommits: []
