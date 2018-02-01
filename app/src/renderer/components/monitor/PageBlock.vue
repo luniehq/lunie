@@ -14,7 +14,7 @@ page(:title="pageBlockTitle" v-if="block.header")
       i.material-icons chevron_right
       .label Next Block
 
-  part(title='Block Hash')
+  part(title='')
     list-item(dt="Block Hash" :dd="blockMeta.block_id.hash")
 
   part(title='Header')
@@ -80,6 +80,13 @@ export default {
         return moment(this.block.header.time).format('MMMM Do YYYY — hh:mm:ss')
       } else {
         return 'Loading...'
+      }
+    },
+    blockMeta () {
+      if (this.block) {
+        return this.blockchain.block.block_meta
+      } else {
+        return {}
       }
     },
     blockMeta () {
