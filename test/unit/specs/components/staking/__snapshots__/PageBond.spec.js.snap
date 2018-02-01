@@ -411,16 +411,16 @@ exports[`PageBond has the expected html structure 1`] = `
                 <div>
                   <button
                     class="ni-btn"
+                    color="danger"
                     id="btn-reset"
                     type="button"
                   >
                     <span
-                      class="ni-btn__container ni-btn--danger"
+                      class="ni-btn-container"
                     >
                       <!---->
-                      <!---->
                       <span
-                        class="ni-btn__value"
+                        class="ni-btn-value"
                       >
                         Reset
                       </span>
@@ -428,15 +428,15 @@ exports[`PageBond has the expected html structure 1`] = `
                   </button>
                   <button
                     class="ni-btn"
+                    color="primary"
                     id="btn-bond"
                   >
                     <span
-                      class="ni-btn__container ni-btn--primary"
+                      class="ni-btn-container"
                     >
                       <!---->
-                      <!---->
                       <span
-                        class="ni-btn__value"
+                        class="ni-btn-value"
                       >
                         Submit
                       </span>

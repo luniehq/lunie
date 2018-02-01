@@ -113,7 +113,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
       <div class=\\"label\\">
          <strong>0</strong> delegates selected
       </div>
-   <a href=\\"#/staking/bond\\" class=\\"ni-btn\\" disabled=\\"disabled\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">chevron_right</i><span class=\\"ni-btn__value\\">Next</span></span></a>
+   <a href=\\"#/staking/bond\\" class=\\"ni-btn\\" disabled=\\"disabled\\" color=\\"primary\\"><span class=\\"ni-btn-container ni-btn-icon-right\\"><i aria-hidden=\\"true\\" class=\\"ni-btn-icon material-icons\\">chevron_right</i><span class=\\"ni-btn-value\\">Next</span></span></a>
 </div>
 </main>
 </div>"
@@ -233,15 +233,14 @@ exports[`PageDelegates should filter the delegates 1`] = `
                 class="ni-btn"
               >
                 <span
-                  class="ni-btn__container"
+                  class="ni-btn-container"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="ni-btn-icon material-icons"
                   >
                     close
                   </i>
-                  <!---->
                   <!---->
                 </span>
               </button>
@@ -375,20 +374,21 @@ exports[`PageDelegates should filter the delegates 1`] = `
       </div>
       <a
         class="ni-btn"
+        color="primary"
         disabled="disabled"
         href="#/staking/bond"
       >
         <span
-          class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+          class="ni-btn-container ni-btn-icon-right"
         >
           <i
             aria-hidden="true"
-            class="ni-btn__icon material-icons"
+            class="ni-btn-icon material-icons"
           >
             chevron_right
           </i>
           <span
-            class="ni-btn__value"
+            class="ni-btn-value"
           >
             Next
           </span>
