@@ -14,16 +14,17 @@ exports[`NiLiCopy has the expected html structure 1`] = `
       class="ni-btn btn-copy"
     >
       <span
-        class="ni-btn-container"
+        class="ni-btn__container"
       >
         <i
           aria-hidden="true"
-          class="ni-btn-icon material-icons"
+          class="ni-btn__icon material-icons"
         >
           content_copy
         </i>
+        <!---->
         <span
-          class="ni-btn-value"
+          class="ni-btn__value"
         >
           Copy
         </span>
