@@ -59,6 +59,7 @@ export default {
     address () { return this.user.address },
     filteredDelegates () {
       let query = this.filters.delegates.search.query
+      query = query.trim()
       let list = orderBy(this.delegates, [this.sort.property], [this.sort.order])
       if (this.filters.delegates.search.visible) {
         return list.filter(i => includes(JSON.stringify(i).toLowerCase(), query.toLowerCase()))
