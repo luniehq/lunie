@@ -89,13 +89,6 @@ export default {
         return {}
       }
     },
-    blockMeta () {
-      if (this.block) {
-        return this.blockchain.block.block_meta
-      } else {
-        return {}
-      }
-    },
     pageBlockTitle () {
       if (this.block.header) {
         return 'Block #' + num.prettyInt(this.block.header.height)
