@@ -8,8 +8,8 @@ const fs = require('fs-extra')
 var glob = require('glob')
 var JSZip = require('jszip')
 const zlib = require('zlib')
-var deterministic = require('deterministic-tar')
 var tar = require('tar-stream')
+var duplexer = require('duplexer')
 const packageJson = require('../package.json')
 
 let skipPack = false
@@ -156,7 +156,12 @@ function tarFolder (inDir, outDir, version) {
         files
         .filter(file => !fs.lstatSync(file).isDirectory())
         .forEach(file => {
-          pack.entry({ name: path.relative(inDir, file) }, fs.readFileSync(file))
+          try {
+            pack.entry({ name: path.relative(inDir, file) }, fs.readFileSync(file))
+          } catch (err) {
+            console.error(`Couldn't pack file`, file, err)
+            // skip this file
+          }
         })
         pack.finalize()
         resolve()
@@ -165,9 +170,9 @@ function tarFolder (inDir, outDir, version) {
 
     // make tar deterministic
     pack
-    .pipe(deterministic())
-    .pipe(zlib.createGzip())
+    .pipe(deterministicTar())
     // save tar to disc
+    .pipe(zlib.createGzip())
     .pipe(fs.createWriteStream(outFile))
     .on('finish', function () {
       console.log('write finished')
@@ -177,4 +182,31 @@ function tarFolder (inDir, outDir, version) {
       })
     })
   })
+}
+
+function deterministicTar () {
+  var UNIXZERO = new Date(new Date().getTimezoneOffset() * -1)
+
+  var pack = tar.pack()
+
+  var extract =
+    tar.extract()
+      .on('entry', function (header, stream, cb) {
+        if (header.type !== 'file') return cb()
+
+        header.mtime = header.atime = header.ctime = UNIXZERO
+        header.uid = header.gid = 0
+
+        delete header.uname
+        delete header.gname
+
+        header.mode = 0o777
+
+        stream.pipe(pack.entry(header, cb))
+      })
+      .on('finish', function () {
+        pack.finalize()
+      })
+
+  return duplexer(extract, pack)
 }
