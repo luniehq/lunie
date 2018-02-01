@@ -67,7 +67,6 @@ export default {
     ...mapGetters(['blockchain']),
     block () {
       if (this.blockchain.block.block) {
-        console.log(this.blockchain.block.block)
         return this.blockchain.block.block
       } else {
         return {}
