@@ -37,10 +37,7 @@ export default ({ commit, node }) => {
   }
 
   const actions = {
-    fetchBlock ({ state, commit, dispatch }, height) {
-      dispatch('getBlock', height)
-    },
-    async getBlock (state, height) {
+    async getBlock ({ state, commit }, height) {
       const blockUrl = url + '/block?height=' + height
       let block = (await axios.get(blockUrl)).data.result
       commit('setBlock', block)

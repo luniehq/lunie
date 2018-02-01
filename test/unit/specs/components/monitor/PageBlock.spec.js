@@ -16,9 +16,4 @@ describe('PageBlock', () => {
   it('has the expected html structure', () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
-
-  xit('fetches a block', async () => {
-    expect(wrapper.vm.block_meta).toEqual('sth')
-    expect(wrapper.vm.block).toEqual('sth-else')
-  })
 })
