@@ -7,19 +7,16 @@ export default ({ commit, node }) => {
     urlSuffix: '-node0.testnets.interblock.io',
     status: {},
     abciInfo: {},
-    topAvgTxRate: 0,
     blocks: [],
     block: {},
-    url: url
+    url: ''
   }
 
   let url = state.urlPrefix + state.blockchainName + state.urlSuffix
   const mutations = {
-    setBlockchainName (state, name) {
-      state.blockchainName = name
-    },
-    setTopAvgTxRate (state, value) {
-      state.topAvgTxRate = value
+    setUrl (state) {
+      console.log(url)
+      state.url = url
     },
     getStatus (state) {
       axios(url + '/status').then((res) => {
@@ -58,6 +55,7 @@ export default ({ commit, node }) => {
   subscribe()
 
   setTimeout(() => {
+    mutations.setUrl(state)
     mutations.getStatus(state)
     mutations.getAbciInfo(state)
   }, 3000)
