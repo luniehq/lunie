@@ -49,7 +49,6 @@ page(:title="pageBlockTitle" v-if="block.header")
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 import num from 'scripts/num'
-import axios from 'axios'
 import DataEmpty from 'common/NiDataEmpty'
 import ToolBar from 'common/NiToolBar'
 import ListItem from 'common/NiListItem'
