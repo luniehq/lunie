@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
-import { mount, createLocalVue } from 'vue-test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import htmlBeautify from 'html-beautify'
 import NISessionWelcome from 'common/NiSessionWelcome'
 import LiSession from 'common/NiLiSession'

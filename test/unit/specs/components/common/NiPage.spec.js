@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
-import { mount, createLocalVue } from 'vue-test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import NiPage from 'common/NiPage'
 
 const config = require('renderer/vuex/modules/config').default({})
