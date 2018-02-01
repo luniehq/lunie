@@ -49,20 +49,13 @@ exports[`PageBlock has the expected html structure 1`] = `
 <main class=\\"ni-page-main\\">
    <section class=\\"ni-part\\">
       <div class=\\"ni-part-container\\">
-         <header class=\\"ni-part-header\\">
-            <div class=\\"ni-part-header-container\\">
-               <div class=\\"ni-part-title h5\\">
-                  Block Hash
-               </div>
-         <menu class=\\"ni-part-menu\\"></menu>
-</div>
-</header>
-      <main class=\\"ni-part-main\\">
-         <div class=\\"ni-li\\">
-            <div class=\\"ni-li-container\\">
-               <div class=\\"ni-li-thumb\\">
-                  <!---->
-               </div>
+         <!---->
+         <main class=\\"ni-part-main\\">
+            <div class=\\"ni-li\\">
+               <div class=\\"ni-li-container\\">
+                  <div class=\\"ni-li-thumb\\">
+                     <!---->
+                  </div>
          <div class=\\"ni-li-dl\\">
             <div class=\\"ni-li-dt\\">
                Block Hash

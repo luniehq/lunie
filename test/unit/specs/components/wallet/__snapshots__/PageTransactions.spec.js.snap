@@ -190,15 +190,14 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 class="ni-btn"
               >
                 <span
-                  class="ni-btn__container"
+                  class="ni-btn-container"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="ni-btn-icon material-icons"
                   >
                     close
                   </i>
-                  <!---->
                   <!---->
                 </span>
               </button>
