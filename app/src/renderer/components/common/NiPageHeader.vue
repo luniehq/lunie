@@ -53,10 +53,6 @@ export default {
     font-weight 500
     color bright
 
-@media screen and (min-width: 768px)
-  .ni-page-header-text
-    padding 11px 0 0 2rem
-
 @media screen and (min-width: 1024px)
   .ni-page-header
     border-bottom-color bc

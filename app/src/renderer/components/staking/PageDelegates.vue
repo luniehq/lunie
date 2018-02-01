@@ -1,5 +1,5 @@
 <template lang="pug">
-page#page-delegates(title='Delegates')
+page(title='Validators')
   div(slot="menu"): tool-bar
     a(@click='setSearch(true)')
       i.material-icons search

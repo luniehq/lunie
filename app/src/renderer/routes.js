@@ -16,41 +16,14 @@ export default [
   { path: '/proposals/new/upgrade', component: govern('ProposalsNewUpgrade') },
   { path: '/proposals/:proposal', name: 'proposal', component: govern('Proposal') },
 
-  { path: '/staking', name: 'delegates', component: staking('Delegates') },
-  { path: '/staking/bond', name: 'bond', component: staking('Bond') },
-  { path: '/staking/delegates/:delegate', name: 'delegate', component: staking('Delegate') },
-
+  // MONITOR
   { path: '/blocks', name: 'blocks', component: monitor('Blocks') },
   { path: '/blocks/:block', name: 'block', component: monitor('Block') },
 
-  { path: '/validators', name: 'validators', component: monitor('Validators') },
-  {
-    path: '/validators/:validator',
-    component: monitor('Validator'),
-    children: [
-      {
-        path: 'power',
-        name: 'validator-power',
-        component: monitor('ValidatorPower'),
-        props: true
-      },
-      {
-        path: 'proposals',
-        name: 'validator-proposals',
-        component: monitor('ValidatorProposals')
-      },
-      {
-        path: 'slashes',
-        name: 'validator-slashes',
-        component: monitor('ValidatorSlashes')
-      },
-      {
-        path: 'votes',
-        name: 'validator-votes',
-        component: monitor('ValidatorVotes')
-      }
-    ]
-  },
+  // STAKE
+  { path: '/staking/bond', name: 'bond', component: staking('Bond') },
+  { path: '/delegates', name: 'delegates', component: staking('Delegates') },
+  { path: '/delegates/:delegate', component: staking('Delegate') },
 
   { path: '/profile', name: 'profile', component: common('Profile') },
 

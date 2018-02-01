@@ -1,8 +1,9 @@
 <template lang='pug'>
 .li-delegate(:class='styles'): .li-delegate__values
-  .li-delegate__value.name
-    span
-      router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")  {{ ' ' + delegate.moniker }}
+  .li-delegate__value.name: span
+      router-link(v-if="config.devMode"
+        :to="{ name: 'delegate-index', params: { delegate: delegate.id }}")
+        | {{ ' ' + delegate.moniker }}
       a(v-else) {{ ' ' + delegate.moniker }}
   .li-delegate__value.percent_of_vote
     span {{ num.percentInt(bondedPercent) }}
