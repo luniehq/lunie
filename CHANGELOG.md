@@ -31,3 +31,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 * Removed unused `sass-loader` node dependency. @nylira
+
+## [0.4.0] - 2018-02-01
+### Added
+* Added button styles for Success, Warning, and Danger states. @nylira
+* Added support for image icons. @faboweb 
+
+### Changed
+* Improved primary button style. @nylira
+* Fixed the cut-off text bug in buttons. @nylira
+* Improves the `hover-bg` app variable color. @nylira 

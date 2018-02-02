@@ -1,5 +1,5 @@
 <template lang="pug">
-page(:title="pageBlockTitle")
+page(:title="pageBlockTitle" v-if="block.header")
   div(slot="menu"): tool-bar
     router-link(to="/blocks")
       i.material-icons arrow_back
@@ -13,6 +13,9 @@ page(:title="pageBlockTitle")
     router-link(:to="{ name: 'block', params: { block: block.header.height + 1 }}")
       i.material-icons chevron_right
       .label Next Block
+
+  part(title='')
+    list-item(dt="Block Hash" :dd="blockMeta.block_id.hash")
 
   part(title='Header')
     list-item(dt="Chain ID" :dd="block.header.chain_id")
@@ -46,7 +49,6 @@ page(:title="pageBlockTitle")
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 import num from 'scripts/num'
-import axios from 'axios'
 import DataEmpty from 'common/NiDataEmpty'
 import ToolBar from 'common/NiToolBar'
 import ListItem from 'common/NiListItem'
@@ -63,108 +65,41 @@ export default {
   },
   computed: {
     ...mapGetters(['blockchain']),
+    block () {
+      if (this.blockchain.block.block) {
+        return this.blockchain.block.block
+      } else {
+        return {}
+      }
+    },
+    blockUrl () {
+      return this.blockchain.url
+    },
     blockHeaderTime () {
-      return moment(this.block.header.time).format('MMMM Do YYYY — hh:mm:ss')
+      if (this.block.header.time) {
+        return moment(this.block.header.time).format('MMMM Do YYYY — hh:mm:ss')
+      } else {
+        return 'Loading...'
+      }
+    },
+    blockMeta () {
+      if (this.block) {
+        return this.blockchain.block.block_meta
+      } else {
+        return {}
+      }
     },
     pageBlockTitle () {
-      if (this.block.header.height) {
+      if (this.block.header) {
         return 'Block #' + num.prettyInt(this.block.header.height)
       } else {
-        return 'Loading Block…'
+        return 'Loading...'
       }
     }
   },
-  data: () => ({
-    num: num,
-    moment: moment,
-    blockUrl: '',
-    block_meta: {
-      block_id: {
-        hash: '',
-        parts: {
-          total: 0,
-          hash: ''
-        }
-      },
-      header: {
-        chain_id: '',
-        height: 0,
-        time: '',
-        num_txs: 0,
-        last_block_id: {
-          hash: '',
-          parts: {
-            total: 0,
-            hash: ''
-          }
-        },
-        last_commit_hash: '',
-        data_hash: '',
-        validators_hash: '',
-        app_hash: ''
-      }
-    },
-    block: {
-      header: {
-        chain_id: '',
-        height: 0,
-        time: '',
-        num_txs: 0,
-        last_block_id: {
-          hash: '',
-          parts: {
-            total: 0,
-            hash: ''
-          }
-        },
-        last_commit_hash: '',
-        data_hash: '',
-        validators_hash: '',
-        app_hash: ''
-      },
-      data: {
-        txs: []
-      },
-      last_commit: {
-        blockID: {
-          hash: '',
-          parts: {
-            total: 0,
-            hash: ''
-          }
-        },
-        precommits: [
-          {
-            validator_address: '',
-            validator_index: 0,
-            height: 0,
-            round: 0,
-            type: 0,
-            block_id: {
-              hash: '',
-              parts: {
-                total: 0,
-                hash: ''
-              }
-            },
-            signature: [0, '']
-          }
-        ]
-      }
-    }
-  }),
   methods: {
     fetchBlock () {
-      this.blockUrl = `https://${this.blockchain.blockchainName}-node0.testnets.interblock.io/block?height=${this.$route.params.block}`
-      axios(this.blockUrl).then(({data}) => {
-        if (data.err) {
-          console.log('err', data.err)
-          return
-        }
-        let blockData = data.result
-        this.block_meta = blockData.block_meta
-        this.block = blockData.block
-      })
+      this.$store.dispatch('getBlock', this.$route.params.block)
     }
   },
   mounted () {

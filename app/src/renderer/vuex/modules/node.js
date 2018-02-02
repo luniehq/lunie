@@ -3,7 +3,7 @@ import { setTimeout } from 'timers'
 'use strict'
 
 export default function ({ node }) {
-  // get tendermint RPC client from basecon client
+  // get tendermint RPC client from basecoin client
   const { nodeIP } = node
 
   const state = {

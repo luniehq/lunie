@@ -47,7 +47,7 @@ exports[`PageBlocks has the expected html structure 1`] = `
 </div>
 </header>
       <main class=\\"ni-part-main\\">
-         <a href=\\"#/blocks/0\\" class=\\"ni-li ni-li-link\\">
+         <a href=\\"#/blocks/12345\\" class=\\"ni-li ni-li-link\\">
          <div class=\\"ni-li-container\\">
             <div class=\\"ni-li-thumb\\">
                <!---->
@@ -57,7 +57,7 @@ exports[`PageBlocks has the expected html structure 1`] = `
                Block Height
             </div>
          <div class=\\"ni-li-dd\\">
-            0
+            12,345
          </div>
 </div>
          <div class=\\"ni-li-icon\\">
@@ -89,7 +89,9 @@ exports[`PageBlocks has the expected html structure 1`] = `
             <div class=\\"ni-li-dt\\">
                Block Hash
             </div>
-         <div class=\\"ni-li-dd\\"></div>
+         <div class=\\"ni-li-dd\\">
+            123
+         </div>
 </div>
 </div>
 </div>
