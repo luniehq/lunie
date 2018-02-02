@@ -20,10 +20,10 @@ page(title='Validators')
   .fixed-button-bar
     template(v-if="userCanDelegate")
       .label #[strong {{ shoppingCart.length }}] delegates selected
-      btn.btn__primary(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next")
+      btn(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next" color="primary")
     template(v-else)
       .label You do not have any ATOMs to delegate.
-      btn.btn__primary(disabled icon="chevron_right" icon-pos="right" value="Next")
+      btn(disabled icon="chevron_right" icon-pos="right" value="Next" color="primary")
 </template>
 
 <script>
