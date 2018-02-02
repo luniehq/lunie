@@ -53,7 +53,16 @@ export default {
       return this.transactionValue.tx.inputs[0].coins
     },
     date () {
-      return this.transactionValue.time ? moment(this.transactionValue.time).fromNow() : 'N/A'
+      if (this.sent && !this.sentSelf) {
+        let msg = this.transactionValue.time ? moment(this.transactionValue.time).fromNow() : 'N/A'
+        return 'Sent ' + msg
+      } else if (this.sentSelf) {
+        let msg = this.transactionValue.time ? moment(this.transactionValue.time).fromNow() : 'N/A'
+        return 'Sent to self ' + msg
+      } else {
+        let msg = this.transactionValue.time ? moment(this.transactionValue.time).fromNow() : 'N/A'
+        return 'Received ' + msg
+      }
     }
   },
   data: () => ({
@@ -79,6 +88,8 @@ export default {
   font-size sm
   border-bottom 1px solid bc-dim
   min-height 3rem
+  &:nth-of-type(2n-1)
+    background app-fg
 
   .tx-icon
     flex 0 0 2rem
@@ -132,17 +143,17 @@ export default {
 
   &.ni-li-tx-sent
     .tx-icon
-      background alpha(mc, 5%)
+      background alpha(dim, 5%)
       i
-        color danger
+        color dim
     .tx-coin .value
-      color danger
+      color dim
       &:before
         content '-'
 
   &.ni-li-tx-received
     .tx-icon
-      background alpha(link, 5%)
+      background alpha(success, 5%)
       i
         color success
     .tx-coin .value
@@ -182,7 +193,7 @@ export default {
       flex 3
 
     .tx-date
-      flex 2
+      flex 4
 
     .tx-address
       flex 6
