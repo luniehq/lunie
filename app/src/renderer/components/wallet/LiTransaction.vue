@@ -101,6 +101,7 @@ export default {
 
   .tx-container
     flex-direction column
+    flex-wrap nowrap
     padding 0.5rem 0
     margin 0.5rem 0
     display flex
