@@ -10,7 +10,7 @@ page(title='Block Explorer')
   part(title='Current Block')
     list-item(dt='Block Height' :dd='num.prettyInt(lastHeader.height)' :to="{ name: 'block', params: { block: lastHeader.height} }")
     list-item(dt='Block Time' :dd='latestBlockTime')
-    list-item(dt='Block Hash' :dd='status.latest_block_hash')
+    list-item(dt='Block Hash' :dd='latestBlockHash')
 
   part(title='Latest Blocks')
     list-item.column-header(dt="Block Height" dd="# of Transactions")
@@ -49,12 +49,14 @@ export default {
       return this.blockchain.status
     },
     latestBlockTime () {
-      let blockTime = this.status.latest_block_time
-      if (blockTime) {
-        return moment(blockTime).format('MMMM Do YYYY — hh:mm:ss')
+      if (this.lastHeader.time) {
+        return moment(this.lastHeader.time).format('MMMM Do YYYY — hh:mm:ss')
       } else {
         return 'Loading…'
       }
+    },
+    latestBlockHash () {
+      return this.lastHeader.last_block_id.hash
     },
     blocks () {
       return this.blockchain.blocks
