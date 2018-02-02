@@ -11,7 +11,8 @@ page#page-delegates(title='Delegates')
   modal-search(type="delegates")
 
   .delegates-container
-    data-loading(v-if="delegates.length === 0")
+    data-loading(v-if="delegates.loading")
+    data-empty(v-else-if="delegates.delegates.length === 0")
     data-empty-search(v-else-if="filteredDelegates.length === 0")
     template(v-else)
       panel-sort(:sort='sort')
@@ -32,6 +33,7 @@ import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import LiDelegate from 'staking/LiDelegate'
 import Btn from '@nylira/vue-button'
+import DataEmpty from 'common/NiDataEmpty'
 import DataEmptySearch from 'common/NiDataEmptySearch'
 import DataLoading from 'common/NiDataLoading'
 import Field from '@nylira/vue-field'
@@ -45,6 +47,7 @@ export default {
   components: {
     LiDelegate,
     Btn,
+    DataEmpty,
     DataEmptySearch,
     DataLoading,
     Field,
@@ -59,7 +62,7 @@ export default {
     address () { return this.user.address },
     filteredDelegates () {
       let query = this.filters.delegates.search.query
-      let list = orderBy(this.delegates, [this.sort.property], [this.sort.order])
+      let list = orderBy(this.delegates.delegates, [this.sort.property], [this.sort.order])
       if (this.filters.delegates.search.visible) {
         return list.filter(i => includes(JSON.stringify(i).toLowerCase(), query.toLowerCase()))
       } else {

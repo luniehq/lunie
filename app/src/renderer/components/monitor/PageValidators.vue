@@ -6,7 +6,8 @@ page(title='Validators')
       .label Search
   modal-search(type="validators")
 
-  data-empty(v-if="validators.length === 0")
+  data-loading(v-if="validators.loading")
+  data-empty(v-else-if="validators.length === 0")
   data-empty-search(v-else-if="filteredValidators.length === 0")
   list-item(
     v-else
@@ -23,6 +24,7 @@ import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
 import ListItem from 'common/NiListItem'
+import DataLoading from 'common/NiDataLoading'
 import DataEmpty from 'common/NiDataEmpty'
 import DataEmptySearch from 'common/NiDataEmptySearch'
 import ModalSearch from 'common/NiModalSearch'
@@ -32,6 +34,7 @@ import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-validators',
   components: {
+    DataLoading,
     DataEmpty,
     DataEmptySearch,
     ListItem,
@@ -60,6 +63,7 @@ export default {
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
     Mousetrap.bind('esc', () => this.setSearch(false))
+    this.$store.dispatch('getValidators')
   }
 }
 </script>
