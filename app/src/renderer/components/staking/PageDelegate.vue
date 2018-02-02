@@ -54,8 +54,8 @@ export default {
       let value = {
         description: {}
       }
-      if (this.delegates && this.$route.params.delegate) {
-        value = this.delegates.find(v => v.id === this.$route.params.delegate) || value
+      if (this.delegates.delegates && this.$route.params.delegate) {
+        value = this.delegates.delegates.find(v => v.id === this.$route.params.delegate) || value
       }
       return value
     },
