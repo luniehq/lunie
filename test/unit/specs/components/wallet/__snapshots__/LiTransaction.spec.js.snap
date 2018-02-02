@@ -38,7 +38,7 @@ exports[`LiTransaction has the expected html structure 1`] = `
       <div
         class="tx-element tx-date"
       >
-        December 31st 1969, 7:00:01 pm
+        Invalid date
       </div>
       <div
         class="tx-element tx-address"

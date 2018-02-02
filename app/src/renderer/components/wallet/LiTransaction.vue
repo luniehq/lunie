@@ -7,7 +7,8 @@ mixin tx-container-sent
         .value {{ num.pretty(coin.amount) }}
     div
       .tx-element.tx-date(v-if="devMode") {{ date }}
-      .tx-element.tx-address Sent to {{ receiver }}
+      .tx-element.tx-address(v-if="!sentSelf") Sent to {{ receiver }}
+      .tx-element.tx-address(v-if="sentSelf") You sent this amount to yourself.
 
 .ni-li-tx(v-if="sentSelf" @click="() => devMode && viewTransaction()")
   .tx-icon: i.material-icons swap_horiz
@@ -55,15 +56,12 @@ export default {
       return this.transactionValue.tx.inputs[0].coins
     },
     date () {
-      if (this.sent && !this.sentSelf) {
-        let msg = this.transactionValue.time ? moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a') : 'N/A'
-        return msg
+      if (this.transactionValue.time && this.sent && !this.sentSelf) {
+        return moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a')
       } else if (this.sentSelf) {
-        let msg = this.transactionValue.time ? moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a') : 'N/A'
-        return msg
+        return moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a')
       } else {
-        let msg = this.transactionValue.time ? moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a') : 'N/A'
-        return msg
+        return moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a')
       }
     }
   },
