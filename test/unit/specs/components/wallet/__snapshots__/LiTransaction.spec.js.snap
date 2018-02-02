@@ -23,26 +23,28 @@ exports[`LiTransaction has the expected html structure 1`] = `
         class="tx-coin"
       >
         <div
+          class="key"
+        >
+          JBCOINS
+        </div>
+        <div
           class="value"
         >
           1,234.00
         </div>
-        <div
-          class="key"
-        >
-          jbcoins
-        </div>
       </div>
     </div>
-    <div
-      class="tx-element tx-date"
-    >
-      a few seconds ago
-    </div>
-    <div
-      class="tx-element tx-address"
-    >
-      otherAddress
+    <div>
+      <div
+        class="tx-element tx-date"
+      >
+        December 31st 1969, 7:00:01 pm
+      </div>
+      <div
+        class="tx-element tx-address"
+      >
+        Received from otherAddress
+      </div>
     </div>
   </div>
 </div>
