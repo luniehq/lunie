@@ -3,10 +3,11 @@ mixin tx-container-sent
   .tx-container
     .tx-element.tx-coins
       .tx-coin(v-for='coin in coinsSent')
+        .key {{ coin.denom.toUpperCase() }}
         .value {{ num.pretty(coin.amount) }}
-        .key {{ coin.denom }}
-    .tx-element.tx-date(v-if="devMode") {{ date }}
-    .tx-element.tx-address {{ receiver }}
+    div
+      .tx-element.tx-date(v-if="devMode") {{ date }}
+      .tx-element.tx-address Sent to {{ receiver }}
 
 .ni-li-tx(v-if="sentSelf" @click="() => devMode && viewTransaction()")
   .tx-icon: i.material-icons swap_horiz
@@ -21,10 +22,11 @@ mixin tx-container-sent
   .tx-container
     .tx-element.tx-coins
       .tx-coin(v-for='coin in coinsReceived')
+        .key {{ coin.denom.toUpperCase() }}
         .value {{ num.pretty(coin.amount) }}
-        .key {{ coin.denom }}
-    .tx-element.tx-date(v-if="devMode") {{ date }}
-    .tx-element.tx-address {{ sender }}
+    div
+      .tx-element.tx-date(v-if="devMode") {{ date }}
+      .tx-element.tx-address Received from {{ sender }}
 </template>
 
 <script>
@@ -54,14 +56,14 @@ export default {
     },
     date () {
       if (this.sent && !this.sentSelf) {
-        let msg = this.transactionValue.time ? moment(this.transactionValue.time).fromNow() : 'N/A'
-        return 'Sent ' + msg
+        let msg = this.transactionValue.time ? moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a') : 'N/A'
+        return msg
       } else if (this.sentSelf) {
-        let msg = this.transactionValue.time ? moment(this.transactionValue.time).fromNow() : 'N/A'
-        return 'Sent to self ' + msg
+        let msg = this.transactionValue.time ? moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a') : 'N/A'
+        return msg
       } else {
-        let msg = this.transactionValue.time ? moment(this.transactionValue.time).fromNow() : 'N/A'
-        return 'Received ' + msg
+        let msg = this.transactionValue.time ? moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a') : 'N/A'
+        return msg
       }
     }
   },
@@ -87,75 +89,61 @@ export default {
   display flex
   font-size sm
   border-bottom 1px solid bc-dim
-  min-height 3rem
   &:nth-of-type(2n-1)
     background app-fg
 
   .tx-icon
-    flex 0 0 2rem
+    padding 0 0.5rem
     background app-fg
     display flex
     align-items center
     justify-content center
 
   .tx-container
-    flex 1
+    flex-direction column
     padding 0.5rem 0
+    margin 0.5rem 0
     display flex
-    flex-flow row wrap
-    align-items flex-start
-    justify-content center
 
     min-width 0 // fix text-overflow
 
   .tx-element
-    padding 0 0.5rem
+    padding 0 2rem 0 1.5rem
     line-height 1.5rem
 
-  .tx-coins
-    flex 0 0 60%
-
   .tx-coin
-    display flex
-    flow-flow row nowrap
     .value
-      flex 3
-      text-align right
+      flex 0 0 100%
+      font-size sm
+      color dim
       &:before
         content ''
         display inline
     .key
-      flex 2
-      padding-left 0.5rem
-
-  .tx-date
-    flex 0 0 40%
-    color dim
+      font-weight 500
+      font-size m
+    .value,
+    .key
+      line-height 1.5rem
 
   .tx-address
-    flex 100%
-
     white-space nowrap
     overflow hidden
     text-overflow ellipsis
 
     color dim
+    font-size sm
 
   &.ni-li-tx-sent
     .tx-icon
       background alpha(dim, 5%)
-      i
-        color dim
     .tx-coin .value
-      color dim
       &:before
         content '-'
 
   &.ni-li-tx-received
     .tx-icon
       background alpha(success, 5%)
-      i
-        color success
     .tx-coin .value
       color success
       &:before
@@ -163,38 +151,13 @@ export default {
 
   &:hover
     cursor pointer
-    background app-fg
-    .tx-coin
-      .key
-        color txt
-    .tx-date, .tx-address
-      color txt
+    background hover-bg
 
-@media screen and (min-width: 375px)
+@media screen and (min-width: 700px)
   .ni-li-tx
     font-size 0.875rem
-@media screen and (min-width: 414px)
-  .ni-li-tx
-    .tx-container
-      padding 0.5rem
-
-@media screen and (min-width: 768px)
-  .ni-li-tx
-    .tx-icon
-      flex 0 0 3rem
 
     .tx-container
-      flex-flow row nowrap
+      flex-direction row
 
-    .tx-element
-      line-height 2rem
-
-    .tx-coins
-      flex 3
-
-    .tx-date
-      flex 4
-
-    .tx-address
-      flex 6
 </style>
