@@ -277,6 +277,28 @@ describe('Startup Process', () => {
 
       expect(fs.existsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
     })
+
+    it('should not backup main log', async function () {
+      expect(fs.existsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
+    })
+  })
+
+  describe('Keep main log on update', function () {
+    mainSetup()
+
+    it('should not backup main log', async function () {
+      resetModulesKeepingFS()
+      fs.writeFile(testRoot + 'main.log', 'I AM A LOGFILE')
+
+      // alter the version so the main thread assumes an update
+      jest.mock(root + 'package.json', () => ({
+        version: '1.1.1'
+      }))
+      await require(appRoot + 'src/main/index.js')
+
+      expect(fs.existsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/main.log')).toBe(false)
+      expect(fs.readFileSync(testRoot + 'main.log')).toContain('I AM A LOGFILE')
+    })
   })
 
   describe('Update genesis.json', function () {
