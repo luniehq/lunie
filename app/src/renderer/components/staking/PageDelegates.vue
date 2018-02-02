@@ -58,7 +58,7 @@ export default {
     ...mapGetters(['delegates', 'filters', 'shoppingCart', 'config', 'user']),
     address () { return this.user.address },
     filteredDelegates () {
-      let query = this.filters.delegates.search.query
+      let query = this.filters.delegates.search.query.trim()
       let list = orderBy(this.delegates, [this.sort.property], [this.sort.order])
       if (this.filters.delegates.search.visible) {
         return list.filter(i => includes(JSON.stringify(i).toLowerCase(), query.toLowerCase()))
