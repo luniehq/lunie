@@ -5,6 +5,8 @@ process.env.BABEL_ENV = 'renderer'
 const path = require('path')
 const settings = require('./config.js')
 const webpack = require('webpack')
+const stylus = require('stylus')
+const fs = require('fs-extra')
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -87,7 +89,8 @@ let rendererConfig = {
       template: './app/index.ejs',
       appModules: process.env.NODE_ENV !== 'production'
         ? path.resolve(__dirname, 'app/node_modules')
-        : false
+        : false,
+      styles: stylus(fs.readFileSync('./app/src/renderer/styles/index.styl', 'utf8')).import('./app/src/renderer/styles/variables.styl').render()
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
