@@ -41,14 +41,16 @@ page(:title="pageBlockTitle" v-if="block.header")
     :dd="p.signature.data")
 
   part(title='Transactions')
-    list-item(v-if="block.header.num_txs > 0" v-for="tx in block.data.txs" :key="tx.id" dt="Transaction" :dd="TODO")
-    data-empty(v-if="block.header.num_txs === 0" title="Empty Block" subtitle="There were no transactions in this block.")
+    data-loading(v-if="blockchain.blockLoading")
+    data-empty(v-else-if="block.header.num_txs === 0" title="Empty Block" subtitle="There were no transactions in this block.")
+    list-item(v-else v-for="tx in block.data.txs" :key="tx.id" dt="Transaction" :dd="TODO")
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 import num from 'scripts/num'
+import DataLoading from 'common/NiDataLoading'
 import DataEmpty from 'common/NiDataEmpty'
 import ToolBar from 'common/NiToolBar'
 import ListItem from 'common/NiListItem'
@@ -57,6 +59,7 @@ import Page from 'common/NiPage'
 export default {
   name: 'page-block',
   components: {
+    DataLoading,
     DataEmpty,
     ToolBar,
     ListItem,

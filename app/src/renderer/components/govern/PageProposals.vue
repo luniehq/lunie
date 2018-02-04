@@ -9,7 +9,8 @@ page(title='Proposals')
       .label Search
   modal-search(type="proposals")
 
-  data-empty(v-if="proposals.length === 0")
+  data-loading(v-if="proposals.loading")
+  data-empty(v-else-if="proposals.length === 0")
   data-empty-search(v-else-if="filteredProposals.length === 0")
   li-proposal(
     v-else
@@ -22,6 +23,7 @@ page(title='Proposals')
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
+import DataLoading from 'common/NiDataLoading'
 import DataEmpty from 'common/NiDataEmpty'
 import DataEmptySearch from 'common/NiDataEmptySearch'
 import LiProposal from 'govern/LiProposal'
@@ -33,6 +35,7 @@ import Part from 'common/NiPart'
 export default {
   name: 'page-proposals',
   components: {
+    DataLoading,
     DataEmpty,
     DataEmptySearch,
     LiProposal,
@@ -45,9 +48,9 @@ export default {
   computed: {
     ...mapGetters(['proposals', 'filters']),
     filteredProposals () {
-      if (this.proposals && this.filters) {
+      if (this.proposals.items && this.filters) {
         let query = this.filters.proposals.search.query
-        let proposals = orderBy(this.proposals, [this.sort.property], [this.sort.order])
+        let proposals = orderBy(this.proposals.items, [this.sort.property], [this.sort.order])
         if (this.filters.proposals.search.visible) {
           return proposals.filter(p => includes(p.title.toLowerCase(), query))
         } else {
