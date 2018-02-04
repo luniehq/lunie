@@ -7,7 +7,8 @@ page(title='Transactions')
 
   modal-search(type="transactions")
 
-  data-empty-tx(v-if='transactions.length === 0')
+  data-loading(v-if="wallet.historyLoading")
+  data-empty-tx(v-else-if='transactions.length === 0')
   data-empty-search(v-else-if="filteredTransactions.length === 0")
   li-transaction(
     v-else
@@ -23,6 +24,7 @@ import shortid from 'shortid'
 import { mapGetters } from 'vuex'
 import { includes, orderBy, uniqBy } from 'lodash'
 import Mousetrap from 'mousetrap'
+import DataLoading from 'common/NiDataLoading'
 import DataEmptySearch from 'common/NiDataEmptySearch'
 import DataEmptyTx from 'common/NiDataEmptyTx'
 import LiTransaction from 'wallet/LiTransaction'
@@ -34,6 +36,7 @@ export default {
   name: 'page-transactions',
   components: {
     LiTransaction,
+    DataLoading,
     DataEmptySearch,
     DataEmptyTx,
     ModalSearch,

@@ -9,6 +9,7 @@ export default ({ commit, node }) => {
     abciInfo: {},
     blocks: [],
     block: {},
+    blockLoading: false,
     url: ''
   }
 
@@ -35,9 +36,11 @@ export default ({ commit, node }) => {
 
   const actions = {
     async getBlock ({ state, commit }, height) {
+      state.blockLoading = true
       const blockUrl = url + '/block?height=' + height
       let block = (await axios.get(blockUrl)).data.result
       commit('setBlock', block)
+      state.blockLoading = false
     }
   }
 

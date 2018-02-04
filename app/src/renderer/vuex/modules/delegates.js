@@ -1,7 +1,10 @@
 import axios from 'axios'
 
 export default ({ dispatch, node }) => {
-  const state = []
+  const state = {
+    delegates: [],
+    loading: false
+  }
 
   const mutations = {
     addDelegate (state, delegate) {
@@ -9,23 +12,26 @@ export default ({ dispatch, node }) => {
       Object.assign(delegate, delegate.description)
 
       // update if we already have this delegate
-      for (let existingDelegate of state) {
+      for (let existingDelegate of state.delegates) {
         if (existingDelegate.id === delegate.id) {
           Object.assign(existingDelegate, delegate)
           return
         }
       }
 
-      state.push(delegate)
+      state.delegates.push(delegate)
     }
   }
 
   const actions = {
-    async getDelegates ({ dispatch }) {
+    async getDelegates ({ state, dispatch }) {
+      state.loading = true
       let delegatePubkeys = (await node.candidates()).data
-      return Promise.all(delegatePubkeys.map(pubkey => {
+      let delegates = await Promise.all(delegatePubkeys.map(pubkey => {
         return dispatch('getDelegate', pubkey)
       }))
+      state.loading = false
+      return delegates
     },
     async getDelegate ({ commit }, pubkey) {
       let delegate = (await axios.get(`http://localhost:${node.relayPort}/query/stake/candidate/${pubkey.data}`)).data.data

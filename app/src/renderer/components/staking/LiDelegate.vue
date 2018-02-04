@@ -42,13 +42,13 @@ export default {
       return value
     },
     vpMax () {
-      if (this.delegates.length > 0) {
-        let richestDelegate = maxBy(this.delegates, 'voting_power')
+      if (this.delegates.delegates.length > 0) {
+        let richestDelegate = maxBy(this.delegates.delegates, 'voting_power')
         return richestDelegate.voting_power
       } else { return 0 }
     },
     vpTotal () {
-      return this.delegates
+      return this.delegates.delegates
         .slice()
         .sort((a, b) => b.voting_power - a.voting_power)
         .slice(0, 100)
