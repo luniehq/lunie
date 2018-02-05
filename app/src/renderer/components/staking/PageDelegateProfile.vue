@@ -15,14 +15,12 @@ page(:title="delegateType + ' Profile'")
     text-block(:content="delegate.details || 'No description available.'")
 
   part(:title="delegateType + ' Details'" v-if="isValidator")
-    list-item(dt="Total Vote Power" :dd="delegate.voting_power"
-      :to="{ name: 'validator-power', params: { validator: this.$route.params.delegate }}")
+    list-item(dt="Total Vote Power" :dd="delegate.voting_power")
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
-import LiCopy from 'common/NiLiCopy'
 import ListItem from 'common/NiListItem'
 import Page from 'common/NiPage'
 import Part from 'common/NiPart'
@@ -32,7 +30,6 @@ export default {
   name: 'page-delegate',
   components: {
     Btn,
-    LiCopy,
     ListItem,
     Page,
     Part,
