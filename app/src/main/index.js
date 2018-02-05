@@ -400,13 +400,11 @@ async function main () {
       } else {
         // TODO: versions of the app with different data formats will need to learn how to
         // migrate old data
-        logError(`Data was created with an incompatible app version
+        throw Error(`Data was created with an incompatible app version
           data=${existingVersion} app=${pkg.version}`)
-        return process.exit(1)
       }
     } else {
-      logError(`The data directory (${root}) has missing files`)
-      return process.exit(1)
+      throw Error(`The data directory (${root}) has missing files`)
     }
 
     // check to make sure the genesis.json we want to use matches the one
@@ -418,8 +416,7 @@ async function main () {
       if (genesisJSON.chain_id !== 'local') {
         let specifiedGenesis = fs.readFileSync(join(networkPath, 'genesis.json'), 'utf8')
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
-          logError('Genesis has changed')
-          return process.exit(1)
+          throw Error('Genesis has changed')
         }
       }
     }
