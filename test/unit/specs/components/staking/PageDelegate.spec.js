@@ -1,5 +1,5 @@
 import setup from '../../../helpers/vuex-setup'
-import PageDelegate from 'renderer/components/staking/PageDelegate'
+import PageDelegate from 'renderer/components/staking/PageDelegateProfile'
 
 describe('PageDelegate', () => {
   let wrapper, store, router
