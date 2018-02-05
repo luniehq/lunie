@@ -1,26 +1,9 @@
 <template lang="pug">
-page(icon="storage" :title="validator.pub_key.data")
+page(title="Validator Profile")
   div(slot="menu"): tool-bar
     router-link(to="/validators" exact)
       i.material-icons arrow_back
       .label Back
-
-  part(title="Validator Profile")
-    list-item(dt="Total Vote Power" :dd="validator.voting_power"
-      :to="{ name: 'validator-power', params: { validator: validatorSlug }}")
-    list-item(dt="Vote History" dd="37 Votes"
-      :to="{ name: 'validator-votes', params: { validator: validatorSlug }}")
-    list-item(dt="Proposals" dd="13"
-      :to="{ name: 'validator-proposals', params: { validator: validatorSlug }}")
-    list-item(dt="Slashes" dd="6"
-      :to="{ name: 'validator-slashes', params: { validator: validatorSlug }}")
-
-  part(title="Staking")
-    list-item(dt="Earn Rate" dd="8.1K ATOM / day")
-    list-item(dt="Total Earnings" dd="301.8K ATOM")
-
-  part(title="Public Key")
-    li-copy(:value="tmpValidator.pub_key")
 </template>
 
 <script>

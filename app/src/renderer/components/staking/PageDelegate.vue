@@ -1,5 +1,5 @@
 <template lang="pug">
-page(icon="storage" title="Delegate")
+page(title="Delegate Profile")
   div(slot="menu"): tool-bar
     a(v-if='inCart' @click.native='rm(delegate.id)')
       i.material-icons delete
@@ -8,13 +8,27 @@ page(icon="storage" title="Delegate")
       i.material-icons add
       .label Add
 
-  h3 {{ delegate.description.moniker }}
   part(title="Delegate Details")
-    list-item(dt='Public Key' :dd='delegate.id')
-    list-item(dt='Country' :dd='country')
-    list-item(dt='Start Date' :dd='delegate.startDate || "n/a"')
-  part(title="Delegate Description")
-    text-block( :content="delegate.description.details")
+    list-item(dt='Moniker' :dd='delegate.description.moniker')
+    list-item(dt='Address' :dd='validator.address')
+    list-item(dt='Public Key' :dd='validator.pub_key.data')
+    list-item(dt='Country' :dd='country' v-if="country")
+    list-item(dt='Start Date' :dd='delegate.startDate' v-if="delegate.startDate")
+    list-item(dt='Current Status' :dd='status')
+
+  part(title="Delegate Description" v-if="delegate.description.details")
+    text-block(:content="delegate.description.details")
+
+  part(title="Validator Details")
+    list-item(dt="Total Vote Power" :dd="validator.voting_power"
+      :to="{ name: 'validator-power', params: { validator: validatorSlug }}")
+    list-item(dt="Vote History" dd="37 Votes"
+      :to="{ name: 'validator-votes', params: { validator: validatorSlug }}")
+    list-item(dt="Proposals" dd="13"
+      :to="{ name: 'validator-proposals', params: { validator: validatorSlug }}")
+    list-item(dt="Slashes" dd="6"
+      :to="{ name: 'validator-slashes', params: { validator: validatorSlug }}")
+
   part(title="Delegate Stake" v-if="config.devMode")
     list-item(dt='Voting Power' :dd='delegate.voting_power + " ATOM"')
     list-item(dt='Bonded Atoms' :dd='delegate.shares + " ATOM"')
@@ -33,6 +47,7 @@ page(icon="storage" title="Delegate")
 import { mapGetters } from 'vuex'
 import countries from 'scripts/countries.json'
 import Btn from '@nylira/vue-button'
+import LiCopy from 'common/NiLiCopy'
 import ListItem from 'common/NiListItem'
 import Page from 'common/NiPage'
 import Part from 'common/NiPart'
@@ -42,6 +57,7 @@ export default {
   name: 'page-delegate',
   components: {
     Btn,
+    LiCopy,
     ListItem,
     Page,
     Part,
@@ -49,7 +65,7 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['delegates', 'shoppingCart', 'user', 'config']),
+    ...mapGetters(['delegates', 'validators', 'shoppingCart', 'user', 'config']),
     delegate () {
       let value = {
         description: {}
@@ -59,11 +75,28 @@ export default {
       }
       return value
     },
+    validator () {
+      if (this.validators && this.validators.length > 0) {
+        return this.validators.find(d => this.urlsafeIp(d.pub_key.data) === this.$route.params.delegate)
+      } else {
+        return null
+      }
+    },
     inCart () {
       return this.shoppingCart.find(c => c.id === this.delegate.id) !== undefined
     },
     country () {
-      return this.delegate.country ? this.countryName(this.delegate.country) : 'n/a'
+      if (this.delegate.country) {
+        return this.countryName(this.delegate.country)
+      }
+    },
+    validatorSlug () {
+      return this.urlsafeIp(this.validator.pub_key.data)
+    },
+    status () {
+      console.log(this.validator)
+      let validator = this.validator.voting_power > 0
+      return validator ? 'Validator' : 'Candidate'
     }
   },
   methods: {
@@ -76,6 +109,9 @@ export default {
     },
     rm (delegateId) {
       this.$store.commit('removeFromCart', delegateId)
+    },
+    urlsafeIp (ip) {
+      return ip.split('.').join('-')
     }
   },
   mounted () {
