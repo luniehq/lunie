@@ -7,7 +7,6 @@ let staking = r.bind(null, 'staking')
 let wallet = r.bind(null, 'wallet')
 
 export default [
-  // GOVERN
   { path: '/proposals', name: 'proposals', component: govern('Proposals') },
   { path: '/proposals/new', component: govern('ProposalsNew') },
   { path: '/proposals/new/adjust', component: govern('ProposalsNewAdjust') },
@@ -17,15 +16,13 @@ export default [
   { path: '/proposals/new/upgrade', component: govern('ProposalsNewUpgrade') },
   { path: '/proposals/:proposal', name: 'proposal', component: govern('Proposal') },
 
-  // STAKE
   { path: '/staking', name: 'delegates', component: staking('Delegates') },
   { path: '/staking/bond', name: 'bond', component: staking('Bond') },
-  { path: '/staking/delegates/:delegate', name: 'delegate', component: staking('DelegateProfile')
-  },
+  { path: '/staking/delegates/:delegate', name: 'delegate', component: staking('DelegateProfile') },
 
-  // MONITOR
   { path: '/blocks', name: 'blocks', component: monitor('Blocks') },
   { path: '/blocks/:block', name: 'block', component: monitor('Block') },
+
   { path: '/validators', name: 'validators', component: monitor('Validators') },
   {
     path: '/validators/:validator',
@@ -39,7 +36,8 @@ export default [
       {
         path: 'power',
         name: 'validator-power',
-        component: monitor('ValidatorPower')
+        component: monitor('ValidatorPower'),
+        props: true
       },
       {
         path: 'proposals',
@@ -59,15 +57,12 @@ export default [
     ]
   },
 
-  // USER
   { path: '/profile', name: 'profile', component: common('Profile') },
 
-  // WALLET
   { path: '/', name: 'balances', component: wallet('Balances') },
   { path: '/wallet/send', name: 'send', props: true, component: wallet('Send') },
   { path: '/wallet/transactions', name: 'transactions', component: wallet('Transactions') },
 
-  // 404
   { path: '/404', component: common('404') },
   { path: '*', component: common('404') }
 ]
