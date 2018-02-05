@@ -56,13 +56,7 @@ export default {
       return this.transactionValue.tx.inputs[0].coins
     },
     date () {
-      if (this.transactionValue.time && this.sent && !this.sentSelf) {
-        return moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a')
-      } else if (this.sentSelf) {
-        return moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a')
-      } else {
-        return moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a')
-      }
+      return moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a')
     }
   },
   data: () => ({
@@ -70,10 +64,7 @@ export default {
   }),
   methods: {
     viewTransaction () {
-      this.$store.commit('notify', {
-        title: 'TODO: View Transaction',
-        body: 'tx details page not implemented yet'
-      })
+      console.log("TODO: implement tx viewer")
     }
   },
   props: ['transaction-value', 'address', 'devMode']
