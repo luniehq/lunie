@@ -64,7 +64,7 @@ export default {
   }),
   methods: {
     viewTransaction () {
-      console.log("TODO: implement tx viewer")
+      console.log('TODO: implement tx viewer')
     }
   },
   props: ['transaction-value', 'address', 'devMode']
