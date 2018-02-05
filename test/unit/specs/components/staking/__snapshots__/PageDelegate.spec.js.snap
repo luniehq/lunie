@@ -57,6 +57,20 @@ exports[`PageDelegate has the expected html structure 1`] = `
                   </a>
                 </div>
                 <a
+                  class="back"
+                >
+                  <i
+                    class="material-icons"
+                  >
+                    arrow_back
+                  </i>
+                  <div
+                    class="label"
+                  >
+                    Back
+                  </div>
+                </a>
+                <a
                   class="help"
                 >
                   <i
@@ -64,6 +78,11 @@ exports[`PageDelegate has the expected html structure 1`] = `
                   >
                     help_outline
                   </i>
+                  <div
+                    class="label"
+                  >
+                    Help
+                  </div>
                 </a>
               </div>
             </div>
