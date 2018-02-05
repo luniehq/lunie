@@ -1,6 +1,6 @@
 import setup from '../../../helpers/vuex-setup'
 import htmlBeautify from 'html-beautify'
-import PageDelegates from 'renderer/components/staking/PageDelegatesProfile'
+import PageDelegates from 'renderer/components/staking/PageDelegates'
 
 describe('PageDelegates', () => {
   let wrapper, store

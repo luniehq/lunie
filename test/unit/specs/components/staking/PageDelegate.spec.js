@@ -1,45 +1,53 @@
-import setup from '../../../helpers/vuex-setup'
-import PageDelegate from 'renderer/components/staking/PageDelegateProfile'
+import Vuex from 'vuex'
+import { mount, createLocalVue } from '@vue/test-utils'
+import PageDelegate from 'renderer/components/staking/PageDelegate'
+
+const localVue = createLocalVue()
+localVue.use(Vuex)
+
+const $route = {
+  params: {
+    delegate: '1a2b3c'
+  }
+}
 
 describe('PageDelegate', () => {
-  let wrapper, store, router
-  let {mount} = setup()
+  let wrapper
+  let store = new Vuex.Store({
+    getters: {
+      config: () => ({ desktop: false }),
+      delegates: () => ({
+        delegates: [
+          {
+            id: '1a2b3c',
+            moniker: 'JB',
+            website: 'https://the.zone',
+            voting_power: 1000,
+            owner: {
+              addr: 'helloaddr'
+            },
+            pub_key: {
+              data: '123pubkeyforme'
+            }
+          }
+        ]
+      })
+    }
+  })
 
   beforeEach(() => {
-    let instance = mount(PageDelegate)
-    wrapper = instance.wrapper
-    store = instance.store
-    router = instance.router
-
-    store.commit('addDelegate', {
-      pub_key: {
-        type: 'ed25519',
-        data: 'pubkeyX'
-      },
-      voting_power: 10000,
-      shares: 5000,
-      description: {
-        description: 'descriptionX',
-        moniker: 'monikerX',
-        country: 'US'
+    wrapper = mount(PageDelegate, {
+      localVue,
+      store,
+      mocks: {
+        $route
       }
     })
-    router.push('/staking/delegates/pubkeyX')
+
+    wrapper.update()
   })
 
   it('has the expected html structure', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it('should add/remove candidate to cart', () => {
-    expect(wrapper.vm.inCart).toBe(false)
-    wrapper.vm.add(wrapper.vm.delegate)
-    expect(wrapper.vm.inCart).toBe(true)
-    wrapper.vm.rm('pubkeyX')
-    expect(wrapper.vm.inCart).toBe(false)
-  })
-
-  it('should show the correct country name', () => {
-    expect(wrapper.html()).toContain('United States')
   })
 })
