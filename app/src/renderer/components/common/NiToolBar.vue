@@ -1,8 +1,13 @@
 <template lang="pug">
 .ni-tool-bar
   .ni-tool-bar-container
+    a.back(@click="$router.go(-1)")
+      i.material-icons arrow_back
+      .label Back
     .main: slot
-    a.help(@click="enableModalHelp"): i.material-icons help_outline
+    a.help(@click="enableModalHelp")
+      i.material-icons help_outline
+      .label Help
 </template>
 
 <script>
