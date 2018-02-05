@@ -21,6 +21,7 @@ process.argv.forEach(function (val) {
   }
   if (val.startsWith('--binary')) {
     binaryPath = val.replace('--binary=', '')
+    fs.accessSync(binaryPath)
     console.log('Using prebuilt binary', binaryPath)
   }
 })
