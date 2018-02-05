@@ -26,6 +26,8 @@ let nodeIP
 let connecting = false
 
 const root = require('../root.js')
+const networkPath = require('../network.js').path
+
 const baseserverHome = join(root, 'baseserver')
 const WIN = /^win/.test(process.platform)
 const DEV = process.env.NODE_ENV === 'development'
@@ -40,11 +42,6 @@ const winURL = DEV
 const RELAY_PORT = DEV ? config.relay_port : config.relay_port_prod
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
-
-// this network gets used if none is specified via the
-// COSMOS_NETWORK env var
-let DEFAULT_NETWORK = join(__dirname, '../networks/gaia-2')
-let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
 
