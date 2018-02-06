@@ -91,16 +91,22 @@ export default {
     }
   },
   methods: {
+    indicateValidators () {
+      orderBy(this.delegates.delegates, 'shares', 'desc')
+        .slice(0, this.config.maxValidators)
+        .map(d => d.isValidator = true)
+    },
     async updateDelegates (address) {
       let candidates = await this.$store.dispatch('getDelegates')
       this.$store.dispatch('getBondedDelegates', {candidates, address})
     },
     setSearch (bool) { this.$store.commit('setSearchVisible', ['delegates', bool]) }
   },
-  mounted () {
+  async mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
     Mousetrap.bind('esc', () => this.setSearch(false))
-    this.updateDelegates(this.user.address)
+    await this.updateDelegates(this.user.address)
+    this.indicateValidators()
   }
 }
 </script>

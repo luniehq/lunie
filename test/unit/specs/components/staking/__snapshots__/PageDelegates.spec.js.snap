@@ -71,8 +71,12 @@ exports[`PageDelegates has the expected html structure 1`] = `
    <div class=\\"li-delegate\\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
-            <span><a href=\\"#/delegates/pubkeyY/\\" class=\\"\\"> candidateY</a></span>
-         </div>
+            <span><a href=\\"#/delegates/pubkeyY/\\" class=\\"\\">
+            <div class=\\"li-delegate__icon\\">
+               <span></span>
+            </div>
+candidateY</a></span>
+</div>
    <div class=\\"li-delegate__value percent_of_vote\\">
       <span>75%</span>
    </div>
@@ -91,8 +95,12 @@ exports[`PageDelegates has the expected html structure 1`] = `
    <div class=\\"li-delegate\\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
-            <span><a href=\\"#/delegates/pubkeyX/\\" class=\\"\\"> candidateX</a></span>
-         </div>
+            <span><a href=\\"#/delegates/pubkeyX/\\" class=\\"\\">
+            <div class=\\"li-delegate__icon\\">
+               <span></span>
+            </div>
+candidateX</a></span>
+</div>
    <div class=\\"li-delegate__value percent_of_vote\\">
       <span>25%</span>
    </div>
@@ -319,7 +327,14 @@ exports[`PageDelegates should filter the delegates 1`] = `
                 class=""
                 href="#/delegates/pubkeyX/"
               >
-                 candidateX
+                <div
+                  class="li-delegate__icon"
+                >
+                  <img
+                    src="~assets/images/cosmos-validator.png"
+                  />
+                </div>
+                candidateX
               </a>
             </span>
           </div>

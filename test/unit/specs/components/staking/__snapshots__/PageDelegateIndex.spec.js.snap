@@ -18,7 +18,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-            
+            Validator - undefined
           </h2>
         </div>
         <div
@@ -105,7 +105,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Delegate Details
+              Validator - Details
             </div>
             <menu
               class="ni-part-menu"
@@ -216,7 +216,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Delegate Stake
+              Validator - Stake
             </div>
             <menu
               class="ni-part-menu"
@@ -379,7 +379,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Historical Stats
+              Validator - History
             </div>
             <menu
               class="ni-part-menu"
