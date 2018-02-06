@@ -114,7 +114,7 @@ export default {
 @require '~variables'
 
 .delegates-container
-  padding-bottom 6rem
+  padding-bottom 3rem
 
 .fixed-button-bar
   padding 0.5rem 1rem
@@ -133,8 +133,7 @@ export default {
       font-weight bold
 
 @media screen and (min-width: 768px)
-  .delegates-container
-    padding-bottom 7rem
+    padding-bottom 4rem
 
   .fixed-button-bar
     padding 1rem

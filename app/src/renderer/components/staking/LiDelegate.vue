@@ -43,6 +43,7 @@ export default {
     styles () {
       let value = ''
       if (this.inCart) value += 'li-delegate-active '
+      if (this.delegate.isValidator) value += 'li-delegate-validator '
       return value
     },
     vpMax () {
@@ -84,7 +85,7 @@ export default {
 @require '~variables'
 
 .li-delegate
-  &:nth-of-type(2n-1)
+  &.li-delegate-validator
     background app-fg
   &.li-delegate-active
     background hover-bg
