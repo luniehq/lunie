@@ -149,5 +149,14 @@ export default {
 
     .tx-container
       flex-direction row
-
+      .tx-coins
+        flex 0 0 9rem
+        padding 0
+        min-width 0
+        .tx-coin
+          padding 0 1.5rem 0
+          .key
+            white-space nowrap
+            overflow hidden
+            text-overflow ellipsis
 </style>
