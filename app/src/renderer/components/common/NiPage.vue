@@ -55,8 +55,6 @@ export default {
 .ni-page-main
   flex 1
   position relative
-  display flex
-  flex-flow column nowrap
   max-width width-main-max
 
 .ni-page-title

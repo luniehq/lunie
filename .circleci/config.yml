@@ -29,6 +29,5 @@ jobs:
             - node_modules
           key: v1-dependencies-root-{{ checksum "package.json" }}
         
-      - run: yarn lint
       - run: yarn run test
       - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
