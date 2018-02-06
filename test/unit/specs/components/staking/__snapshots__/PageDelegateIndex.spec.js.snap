@@ -1,0 +1,652 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageDelegateIndex has the expected html structure 1`] = `
+<div
+  class="ni-page"
+>
+  <header
+    class="ni-page-header"
+  >
+    <div
+      class="ni-page-header-container"
+    >
+      <div
+        class="ni-page-header-text"
+      >
+        <div
+          class="ni-page-header-title"
+        >
+          <h2>
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
+            Validator Profile
+=======
+            
+>>>>>>> update tests:test/unit/specs/components/staking/__snapshots__/PageDelegateIndex.spec.js.snap
+          </h2>
+        </div>
+        <div
+          class="ni-page-header-subtitle"
+        >
+          <h3>
+            
+          </h3>
+        </div>
+      </div>
+      <menu
+        class="ni-page-header-menu"
+      >
+        <div>
+          <div>
+            <div
+              class="ni-tool-bar"
+            >
+              <div
+                class="ni-tool-bar-container"
+              >
+                <div
+                  class="main"
+                >
+                  <a
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
+                    class="router-link-active"
+                    href="#/staking"
+                  >
+=======
+                    class=""
+                    href="#/delegates"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                    <div
+                      class="label"
+                    >
+                      Back
+                    </div>
+                  </a>
+                  <a>
+>>>>>>> update tests:test/unit/specs/components/staking/__snapshots__/PageDelegateIndex.spec.js.snap
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                    <div
+                      class="label"
+                    >
+                      Back
+                    </div>
+                  </a>
+                </div>
+                <a
+                  class="help"
+                >
+                  <i
+                    class="material-icons"
+                  >
+                    help_outline
+                  </i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </menu>
+    </div>
+  </header>
+  <main
+    class="ni-page-main"
+  >
+    <section
+      class="ni-part"
+    >
+      <div
+        class="ni-part-container"
+      >
+        <header
+          class="ni-part-header"
+        >
+          <div
+            class="ni-part-header-container"
+          >
+            <div
+              class="ni-part-title h5"
+            >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
+              Validator Info
+=======
+              Delegate Information
+>>>>>>> update tests:test/unit/specs/components/staking/__snapshots__/PageDelegateIndex.spec.js.snap
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
+        >
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Moniker
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
+                  JB
+=======
+                  
+>>>>>>> update tests:test/unit/specs/components/staking/__snapshots__/PageDelegateIndex.spec.js.snap
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+            id="delegate-country"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Website
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
+                  https://the.zone
+=======
+                  n/a
+>>>>>>> update tests:test/unit/specs/components/staking/__snapshots__/PageDelegateIndex.spec.js.snap
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Address
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  helloaddr
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Public Key
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  123pubkeyforme
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
+    <!---->
+    <section
+      class="ni-part"
+    >
+      <div
+        class="ni-part-container"
+      >
+        <header
+          class="ni-part-header"
+        >
+          <div
+            class="ni-part-header-container"
+          >
+            <div
+              class="ni-part-title h5"
+            >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
+              Validator Description
+=======
+              Delegate Stake
+>>>>>>> update tests:test/unit/specs/components/staking/__snapshots__/PageDelegateIndex.spec.js.snap
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
+        >
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Voting Power
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  undefined ATOM
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Bonded Atoms
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  undefined ATOM
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Commission
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  NaN%
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+          >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
+            <pre>
+              No description available.
+            </pre>
+=======
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Max Commission
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  NaN%
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Max Commission Increase
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  NaN%
+                </div>
+              </div>
+            </div>
+>>>>>>> update tests:test/unit/specs/components/staking/__snapshots__/PageDelegateIndex.spec.js.snap
+          </div>
+        </main>
+      </div>
+    </section>
+    <section
+      class="ni-part"
+    >
+      <div
+        class="ni-part-container"
+      >
+        <header
+          class="ni-part-header"
+        >
+          <div
+            class="ni-part-header-container"
+          >
+            <div
+              class="ni-part-title h5"
+            >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
+              Validator Details
+=======
+              Delegate History
+>>>>>>> update tests:test/unit/specs/components/staking/__snapshots__/PageDelegateIndex.spec.js.snap
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
+        >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
+          <div
+            class="ni-li proposal-enter proposal-enter-active"
+=======
+          <a
+            class="ni-li ni-li-link router-link-active"
+            href="#/"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Vote History
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  37 Votes
+                </div>
+              </div>
+              <div
+                class="ni-li-icon"
+              >
+                <i
+                  class="material-icons inactive"
+                >
+                  chevron_right
+                </i>
+                <i
+                  class="material-icons active"
+                >
+                  my_location
+                </i>
+              </div>
+            </div>
+          </a>
+          <a
+            class="ni-li ni-li-link router-link-active"
+            href="#/"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Proposals
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  13
+                </div>
+              </div>
+              <div
+                class="ni-li-icon"
+              >
+                <i
+                  class="material-icons inactive"
+                >
+                  chevron_right
+                </i>
+                <i
+                  class="material-icons active"
+                >
+                  my_location
+                </i>
+              </div>
+            </div>
+          </a>
+          <a
+            class="ni-li ni-li-link router-link-active"
+            href="#/"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Slashes
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  6
+                </div>
+              </div>
+              <div
+                class="ni-li-icon"
+              >
+                <i
+                  class="material-icons inactive"
+                >
+                  chevron_right
+                </i>
+                <i
+                  class="material-icons active"
+                >
+                  my_location
+                </i>
+              </div>
+            </div>
+          </a>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Earn Rate
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  8.1K ATOM / day
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+>>>>>>> update tests:test/unit/specs/components/staking/__snapshots__/PageDelegateIndex.spec.js.snap
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
+                  Total Vote Power
+=======
+                  Total Earnings
+>>>>>>> update tests:test/unit/specs/components/staking/__snapshots__/PageDelegateIndex.spec.js.snap
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
+                  1000
+=======
+                  301.8K ATOM
+>>>>>>> update tests:test/unit/specs/components/staking/__snapshots__/PageDelegateIndex.spec.js.snap
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
+  </main>
+</div>
+`;

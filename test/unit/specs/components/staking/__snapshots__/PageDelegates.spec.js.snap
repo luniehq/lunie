@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageDelegates has the expected html structure 1`] = `
-"<div class=\\"ni-page\\" id=\\"page-delegates\\">
+"<div class=\\"ni-page\\">
    <header class=\\"ni-page-header\\">
       <div class=\\"ni-page-header-container\\">
          <div class=\\"ni-page-header-text\\">
             <div class=\\"ni-page-header-title\\">
                <h2>
-                  Delegates
+                  Validators
                </h2>
 </div>
    <div class=\\"ni-page-header-subtitle\\">
@@ -71,7 +71,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
    <div class=\\"li-delegate\\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
-            <span><a href=\\"#/staking/delegates/pubkeyY\\" class=\\"\\">  candidateY</a></span>
+            <span><a href=\\"#/delegates/pubkeyY/\\" class=\\"\\"> candidateY</a></span>
          </div>
    <div class=\\"li-delegate__value percent_of_vote\\">
       <span>75%</span>
@@ -91,7 +91,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
    <div class=\\"li-delegate\\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
-            <span><a href=\\"#/staking/delegates/pubkeyX\\" class=\\"\\">  candidateX</a></span>
+            <span><a href=\\"#/delegates/pubkeyX/\\" class=\\"\\"> candidateX</a></span>
          </div>
    <div class=\\"li-delegate__value percent_of_vote\\">
       <span>25%</span>
@@ -122,7 +122,6 @@ exports[`PageDelegates has the expected html structure 1`] = `
 exports[`PageDelegates should filter the delegates 1`] = `
 <div
   class="ni-page"
-  id="page-delegates"
 >
   <header
     class="ni-page-header"
@@ -137,7 +136,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-            Delegates
+            Validators
           </h2>
         </div>
         <div
@@ -318,9 +317,9 @@ exports[`PageDelegates should filter the delegates 1`] = `
             <span>
               <a
                 class=""
-                href="#/staking/delegates/pubkeyX"
+                href="#/delegates/pubkeyX/"
               >
-                  candidateX
+                 candidateX
               </a>
             </span>
           </div>
