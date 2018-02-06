@@ -18,7 +18,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-            Validator - undefined
+            Validator - Loading…
           </h2>
         </div>
         <div
