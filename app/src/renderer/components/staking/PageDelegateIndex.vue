@@ -44,7 +44,6 @@ page(icon="storage" :title="`${delegateType} - ${delegate.description.moniker}`"
 </template>
 
 <script>
-import { orderBy } from 'lodash'
 import { mapGetters } from 'vuex'
 import countries from 'scripts/countries.json'
 import indicateValidators from 'scripts/indicateValidators'
