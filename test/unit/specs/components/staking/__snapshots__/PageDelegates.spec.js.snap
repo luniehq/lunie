@@ -314,7 +314,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
         </div>
       </div>
       <div
-        class="li-delegate"
+        class="li-delegate li-delegate-validator "
       >
         <div
           class="li-delegate__values"
