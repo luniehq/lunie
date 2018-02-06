@@ -107,6 +107,7 @@ export default {
 
   &.name
     flex 2
+    padding-left 1rem
 
     span a
       display flex
@@ -145,4 +146,7 @@ export default {
     overflow hidden
     text-overflow ellipsis
     padding-right 1rem
+
+.sort-by.name
+  padding-left 1rem
 </style>

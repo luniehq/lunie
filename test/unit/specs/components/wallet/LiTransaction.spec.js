@@ -26,7 +26,7 @@ describe('LiTransaction', () => {
           }
         ]
       },
-      time: Date.now()
+      time: null
     },
     address: 'myAddress'
   }
