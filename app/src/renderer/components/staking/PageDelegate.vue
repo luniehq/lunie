@@ -5,4 +5,5 @@ router-view
 <script>
 export default {
   name: 'page-delegate'
+}
 </script>

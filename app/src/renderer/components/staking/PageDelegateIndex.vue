@@ -1,8 +1,7 @@
 <template lang="pug">
 page(icon="storage" :title="delegate.description.moniker")
   div(slot="menu"): tool-bar
-    router-link(
-      :to="{name: 'delegates'}")
+    router-link(:to="{ name: 'delegates' }")
       i.material-icons arrow_back
       .label Back
     a(v-if='inCart' @click.native='rm(delegate.id)')
@@ -12,9 +11,9 @@ page(icon="storage" :title="delegate.description.moniker")
       i.material-icons add
       .label Add
 
-  part(title="Delegate Details")
+  part(title="Delegate Information")
     list-item(dt='Public Key' :dd='delegate.id')
-    list-item(dt='Country' :dd='country')
+    list-item#delegate-country(dt='Country' :dd='country')
     list-item(dt='Start Date' :dd='delegate.startDate || "n/a"')
       list-item(dt="Website" :dd="delegate.description.website || 'N/A'"
       :href="delegate.description.website || 'N/A'")
@@ -32,7 +31,7 @@ page(icon="storage" :title="delegate.description.moniker")
     list-item(dt='Max Commission Increase'
       :dd='(delegate.commissionMaxRate * 100).toFixed(2) + "%"')
 
-  part(title="Historical Stats")
+  part(title="Delegate History" v-if="config.devMode")
     list-item(dt="Vote History" dd="37 Votes"
       :to="{ name: 'delegate-votes', params: { delegate: delegate.id }}")
     list-item(dt="Proposals" dd="13"
@@ -68,8 +67,10 @@ export default {
       let value = {
         description: {}
       }
-      if (this.delegates && this.$route.params.delegate) {
-        value = this.delegates.find(v => v.id === this.$route.params.delegate) || value
+      if (this.delegates.delegates) {
+        value = this.delegates.delegates.find(
+          v => v.id === this.$route.params.delegate
+        ) || value
       }
       return value
     },
@@ -77,7 +78,9 @@ export default {
       return this.shoppingCart.find(c => c.id === this.delegate.id) !== undefined
     },
     country () {
-      return this.delegate.country ? this.countryName(this.delegate.country) : 'n/a'
+      let country = this.delegate.description.country
+      console.log('COUNTRY', country)
+      return country ? this.countryName(country) : 'n/a'
     }
   },
   methods: {
@@ -91,12 +94,6 @@ export default {
     rm (delegateId) {
       this.$store.commit('removeFromCart', delegateId)
     }
-  },
-  mounted () {
-    if (!this.delegate.id) { this.$router.push('/staking') }
   }
 }
 </script>
-<style lang="stylus">
-@require '~variables'
-</style>

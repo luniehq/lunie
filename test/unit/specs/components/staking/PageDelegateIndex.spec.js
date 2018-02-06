@@ -1,12 +1,12 @@
 import setup from '../../../helpers/vuex-setup'
-import PageDelegate from 'renderer/components/staking/PageDelegate'
+import PageDelegateIndex from 'renderer/components/staking/PageDelegateIndex'
 
-describe('PageDelegate', () => {
+describe('PageDelegateIndex', () => {
   let wrapper, store, router
   let {mount} = setup()
 
   beforeEach(() => {
-    let instance = mount(PageDelegate)
+    let instance = mount(PageDelegateIndex)
     wrapper = instance.wrapper
     store = instance.store
     router = instance.router
@@ -40,6 +40,7 @@ describe('PageDelegate', () => {
   })
 
   it('should show the correct country name', () => {
-    expect(wrapper.html()).toContain('United States')
+    expect(wrapper.find('#delegate-country .ni-li-dd').text().trim())
+      .toEqual('United States')
   })
 })

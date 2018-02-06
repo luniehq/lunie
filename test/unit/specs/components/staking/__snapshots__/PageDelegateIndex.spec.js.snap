@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageDelegate has the expected html structure 1`] = `
+exports[`PageDelegateIndex has the expected html structure 1`] = `
 <div
   class="ni-page"
 >
@@ -18,7 +18,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-            Delegate
+            
           </h2>
         </div>
         <div
@@ -43,6 +43,21 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="main"
                 >
+                  <a
+                    class=""
+                    href="#/delegates"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                    <div
+                      class="label"
+                    >
+                      Back
+                    </div>
+                  </a>
                   <a>
                     <i
                       class="material-icons"
@@ -75,9 +90,6 @@ exports[`PageDelegate has the expected html structure 1`] = `
   <main
     class="ni-page-main"
   >
-    <h3>
-      
-    </h3>
     <section
       class="ni-part"
     >
@@ -93,7 +105,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Delegate Details
+              Delegate Information
             </div>
             <menu
               class="ni-part-menu"
@@ -125,13 +137,14 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  pubkeyX
+                  
                 </div>
               </div>
             </div>
           </div>
           <div
             class="ni-li"
+            id="delegate-country"
           >
             <div
               class="ni-li-container"
@@ -152,7 +165,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  United States
+                  n/a
                 </div>
               </div>
             </div>
@@ -187,41 +200,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
         </main>
       </div>
     </section>
-    <section
-      class="ni-part"
-    >
-      <div
-        class="ni-part-container"
-      >
-        <header
-          class="ni-part-header"
-        >
-          <div
-            class="ni-part-header-container"
-          >
-            <div
-              class="ni-part-title h5"
-            >
-              Delegate Description
-            </div>
-            <menu
-              class="ni-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="ni-part-main"
-        >
-          <div
-            class="text-block"
-          >
-            <pre>
-              
-            </pre>
-          </div>
-        </main>
-      </div>
-    </section>
+    <!---->
     <section
       class="ni-part"
     >
@@ -269,7 +248,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  10000 ATOM
+                  undefined ATOM
                 </div>
               </div>
             </div>
@@ -296,7 +275,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  5000 ATOM
+                  undefined ATOM
                 </div>
               </div>
             </div>
@@ -385,7 +364,214 @@ exports[`PageDelegate has the expected html structure 1`] = `
         </main>
       </div>
     </section>
-    <!---->
+    <section
+      class="ni-part"
+    >
+      <div
+        class="ni-part-container"
+      >
+        <header
+          class="ni-part-header"
+        >
+          <div
+            class="ni-part-header-container"
+          >
+            <div
+              class="ni-part-title h5"
+            >
+              Delegate History
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
+        >
+          <a
+            class="ni-li ni-li-link router-link-active"
+            href="#/"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Vote History
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  37 Votes
+                </div>
+              </div>
+              <div
+                class="ni-li-icon"
+              >
+                <i
+                  class="material-icons inactive"
+                >
+                  chevron_right
+                </i>
+                <i
+                  class="material-icons active"
+                >
+                  my_location
+                </i>
+              </div>
+            </div>
+          </a>
+          <a
+            class="ni-li ni-li-link router-link-active"
+            href="#/"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Proposals
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  13
+                </div>
+              </div>
+              <div
+                class="ni-li-icon"
+              >
+                <i
+                  class="material-icons inactive"
+                >
+                  chevron_right
+                </i>
+                <i
+                  class="material-icons active"
+                >
+                  my_location
+                </i>
+              </div>
+            </div>
+          </a>
+          <a
+            class="ni-li ni-li-link router-link-active"
+            href="#/"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Slashes
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  6
+                </div>
+              </div>
+              <div
+                class="ni-li-icon"
+              >
+                <i
+                  class="material-icons inactive"
+                >
+                  chevron_right
+                </i>
+                <i
+                  class="material-icons active"
+                >
+                  my_location
+                </i>
+              </div>
+            </div>
+          </a>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Earn Rate
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  8.1K ATOM / day
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Total Earnings
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  301.8K ATOM
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
   </main>
 </div>
 `;

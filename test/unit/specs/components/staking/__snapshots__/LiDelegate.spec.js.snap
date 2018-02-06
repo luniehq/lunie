@@ -13,9 +13,9 @@ exports[`LiDelegate has the expected html structure 1`] = `
       <span>
         <a
           class=""
-          href="#/staking/delegates/pubkeyX"
+          href="#/delegates/pubkeyX/"
         >
-            candidateX
+           candidateX
         </a>
       </span>
     </div>
