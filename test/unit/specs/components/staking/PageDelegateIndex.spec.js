@@ -31,13 +31,20 @@ describe('PageDelegateIndex', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it('should add/remove candidate to cart', () => {
+  it('should add/remove delegate to/from cart', () => {
     expect(wrapper.vm.inCart).toBe(false)
     wrapper.vm.add(wrapper.vm.delegate)
     expect(wrapper.vm.inCart).toBe(true)
     wrapper.vm.rm('pubkeyX')
     expect(wrapper.vm.inCart).toBe(false)
   })
+
+  /*
+  it('should show indicate validator/candidate', () => {
+    expect(wrapper.find('#delegate-country .ni-li-dd').text().trim())
+      .toEqual('United States')
+  })
+  */
 
   it('should show the correct country name', () => {
     expect(wrapper.find('#delegate-country .ni-li-dd').text().trim())
