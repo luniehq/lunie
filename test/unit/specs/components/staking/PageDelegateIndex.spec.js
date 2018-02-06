@@ -39,12 +39,10 @@ describe('PageDelegateIndex', () => {
     expect(wrapper.vm.inCart).toBe(false)
   })
 
-  /*
   it('should show indicate validator/candidate', () => {
     expect(wrapper.find('#delegate-country .ni-li-dd').text().trim())
       .toEqual('United States')
   })
-  */
 
   it('should show the correct country name', () => {
     expect(wrapper.find('#delegate-country .ni-li-dd').text().trim())
