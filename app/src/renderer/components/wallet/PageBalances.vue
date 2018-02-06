@@ -14,7 +14,8 @@ page(title='Balances')
     li-copy(:value="wallet.key.address")
 
   part(title="Denomination Balances")
-    data-empty(v-if="wallet.balances.length === 0")
+    data-loading(v-if="wallet.balancesLoading")
+    data-empty(v-else-if="wallet.balances.length === 0")
     data-empty-search(v-else-if="filteredBalances.length === 0")
     list-item(
       v-for="i in filteredBalances"
@@ -37,6 +38,7 @@ page(title='Balances')
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
 import Mousetrap from 'mousetrap'
+import DataLoading from 'common/NiDataLoading'
 import DataEmpty from 'common/NiDataEmpty'
 import DataEmptySearch from 'common/NiDataEmptySearch'
 import LiCopy from 'common/NiLiCopy'
@@ -48,6 +50,7 @@ import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-balances',
   components: {
+    DataLoading,
     DataEmpty,
     DataEmptySearch,
     LiCopy,
