@@ -44,7 +44,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
                   class="main"
                 >
                   <a
-                    class=""
+                    class="router-link-active"
                     href="#/delegates"
                   >
                     <i
@@ -105,7 +105,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Delegate Information
+              Delegate Details
             </div>
             <menu
               class="ni-part-menu"
@@ -137,7 +137,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  
+                  pubkeyX
                 </div>
               </div>
             </div>
@@ -165,7 +165,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  n/a
+                  United States
                 </div>
               </div>
             </div>
@@ -248,7 +248,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  undefined ATOM
+                  10000 ATOM
                 </div>
               </div>
             </div>
@@ -275,7 +275,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  undefined ATOM
+                  5000 ATOM
                 </div>
               </div>
             </div>
@@ -379,7 +379,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Delegate History
+              Historical Stats
             </div>
             <menu
               class="ni-part-menu"
@@ -390,8 +390,8 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
           class="ni-part-main"
         >
           <a
-            class="ni-li ni-li-link router-link-active"
-            href="#/"
+            class="ni-li ni-li-link"
+            href="#/delegates/pubkeyX/votes"
           >
             <div
               class="ni-li-container"
@@ -432,8 +432,8 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
             </div>
           </a>
           <a
-            class="ni-li ni-li-link router-link-active"
-            href="#/"
+            class="ni-li ni-li-link"
+            href="#/delegates/pubkeyX/proposals"
           >
             <div
               class="ni-li-container"
@@ -474,8 +474,8 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
             </div>
           </a>
           <a
-            class="ni-li ni-li-link router-link-active"
-            href="#/"
+            class="ni-li ni-li-link"
+            href="#/delegates/pubkeyX/slashes"
           >
             <div
               class="ni-li-container"

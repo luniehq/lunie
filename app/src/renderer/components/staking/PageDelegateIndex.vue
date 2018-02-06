@@ -11,7 +11,7 @@ page(icon="storage" :title="delegate.description.moniker")
       i.material-icons add
       .label Add
 
-  part(title="Delegate Information")
+  part(title="Delegate Details")
     list-item(dt='Public Key' :dd='delegate.id')
     list-item#delegate-country(dt='Country' :dd='country')
     list-item(dt='Start Date' :dd='delegate.startDate || "n/a"')
@@ -31,7 +31,7 @@ page(icon="storage" :title="delegate.description.moniker")
     list-item(dt='Max Commission Increase'
       :dd='(delegate.commissionMaxRate * 100).toFixed(2) + "%"')
 
-  part(title="Delegate History" v-if="config.devMode")
+  part(title="Historical Stats")
     list-item(dt="Vote History" dd="37 Votes"
       :to="{ name: 'delegate-votes', params: { delegate: delegate.id }}")
     list-item(dt="Proposals" dd="13"
@@ -65,12 +65,12 @@ export default {
     ...mapGetters(['delegates', 'shoppingCart', 'user', 'config']),
     delegate () {
       let value = {
-        description: {}
+        id: 'loading',
+        description: { moniker: 'Loading...' }
       }
       if (this.delegates.delegates) {
         value = this.delegates.delegates.find(
-          v => v.id === this.$route.params.delegate
-        ) || value
+          v => v.id === this.$route.params.delegate) || value
       }
       return value
     },
@@ -78,9 +78,7 @@ export default {
       return this.shoppingCart.find(c => c.id === this.delegate.id) !== undefined
     },
     country () {
-      let country = this.delegate.description.country
-      console.log('COUNTRY', country)
-      return country ? this.countryName(country) : 'n/a'
+      return this.delegate.country ? this.countryName(this.delegate.country) : 'n/a'
     }
   },
   methods: {
@@ -94,6 +92,9 @@ export default {
     rm (delegateId) {
       this.$store.commit('removeFromCart', delegateId)
     }
+  },
+  mounted () {
+    if (!this.delegate.id) { this.$router.push('/staking') }
   }
 }
 </script>

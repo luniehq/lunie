@@ -24,7 +24,7 @@ describe('PageDelegateIndex', () => {
         country: 'US'
       }
     })
-    router.push('/staking/delegates/pubkeyX')
+    router.push('/delegates/pubkeyX')
   })
 
   it('has the expected html structure', () => {
