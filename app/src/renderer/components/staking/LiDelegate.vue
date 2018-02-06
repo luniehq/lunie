@@ -133,5 +133,4 @@ export default {
 
 .sort-by.name
   padding-left 1rem
-
 </style>
