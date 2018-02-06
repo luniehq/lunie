@@ -18,10 +18,14 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
         >
           <h2>
 <<<<<<< HEAD
+<<<<<<< HEAD
             Validator Profile
 =======
             Validator - undefined
 >>>>>>> fix test
+=======
+            Validator - Loading…
+>>>>>>> set Loading value for PageDelegateIndex
           </h2>
         </div>
         <div

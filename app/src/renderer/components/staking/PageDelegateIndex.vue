@@ -1,5 +1,5 @@
 <template lang="pug">
-page(icon="storage" :title="`${delegateType} - ${delegate.description.moniker}`")
+page(icon="storage" :title="pageTitle")
   div(slot="menu"): tool-bar
     router-link(:to="{ name: 'delegates' }")
       i.material-icons arrow_back
@@ -69,10 +69,19 @@ export default {
       if (this.isValidator) return 'Validator'
       else return 'Candidate'
     },
+    pageTitle () {
+      let value = this.delegateType + ' - '
+      if (this.delegate.description.moniker) {
+        value += this.delegate.description.moniker
+      } else {
+        value += 'Loading…'
+      }
+      return value
+    },
     delegate () {
       let value = {
         id: 'loading',
-        description: { moniker: 'Loading...' }
+        description: { moniker: 'Loading…' }
       }
       if (this.delegates.delegates) {
         value = this.delegates.delegates.find(
