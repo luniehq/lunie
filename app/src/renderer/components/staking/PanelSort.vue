@@ -54,11 +54,9 @@ export default {
   position relative
   min-width 0
 
-
   .label
     font-size sm
     color dim
-
     white-space nowrap
     text-overflow ellipsis
     overflow hidden
