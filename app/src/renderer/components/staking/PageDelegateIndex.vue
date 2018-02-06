@@ -1,5 +1,5 @@
 <template lang="pug">
-page(icon="storage" :title="delegate.description.moniker")
+page(icon="storage" :title="`${delegateType} - ${delegate.description.moniker}`")
   div(slot="menu"): tool-bar
     router-link(:to="{ name: 'delegates' }")
       i.material-icons arrow_back
@@ -11,17 +11,18 @@ page(icon="storage" :title="delegate.description.moniker")
       i.material-icons add
       .label Add
 
-  part(title="Delegate Details")
+  part(:title="`${delegateType} - Details`")
     list-item(dt='Public Key' :dd='delegate.id')
     list-item#delegate-country(dt='Country' :dd='country')
     list-item(dt='Start Date' :dd='delegate.startDate || "n/a"')
       list-item(dt="Website" :dd="delegate.description.website || 'N/A'"
       :href="delegate.description.website || 'N/A'")
 
-  part(title="Delegate Description" v-if="delegate.description.details")
+  part(:title="`${delegateType} - Description`"
+    v-if="delegate.description.details")
     text-block(:content="delegate.description.details")
 
-  part(title="Delegate Stake" v-if="config.devMode")
+  part(:title="`${delegateType} - Stake`" v-if="config.devMode")
     list-item(dt='Voting Power' :dd='delegate.voting_power + " ATOM"')
     list-item(dt='Bonded Atoms' :dd='delegate.shares + " ATOM"')
     list-item(dt='Commission'
@@ -31,7 +32,7 @@ page(icon="storage" :title="delegate.description.moniker")
     list-item(dt='Max Commission Increase'
       :dd='(delegate.commissionMaxRate * 100).toFixed(2) + "%"')
 
-  part(title="Historical Stats")
+  part(:title="`${delegateType} - History`" v-if="config.devMode")
     list-item(dt="Vote History" dd="37 Votes"
       :to="{ name: 'delegate-votes', params: { delegate: delegate.id }}")
     list-item(dt="Proposals" dd="13"
@@ -43,6 +44,7 @@ page(icon="storage" :title="delegate.description.moniker")
 </template>
 
 <script>
+import { orderBy } from 'lodash'
 import { mapGetters } from 'vuex'
 import countries from 'scripts/countries.json'
 import Btn from '@nylira/vue-button'
@@ -63,6 +65,10 @@ export default {
   },
   computed: {
     ...mapGetters(['delegates', 'shoppingCart', 'user', 'config']),
+    delegateType () {
+      if (this.isValidator) return 'Validator'
+      else return 'Delegate'
+    },
     delegate () {
       let value = {
         id: 'loading',
@@ -81,6 +87,10 @@ export default {
       return this.delegate.country ? this.countryName(this.delegate.country) : 'n/a'
     }
   },
+  data: () => ({
+    validators: [],
+    isValidator: false
+  }),
   methods: {
     countryName (code) {
       let country = countries.find(c => c.value === code)
@@ -91,10 +101,23 @@ export default {
     },
     rm (delegateId) {
       this.$store.commit('removeFromCart', delegateId)
+    },
+    indicateValidators () {
+      this.validators = orderBy(this.delegates.delegates, 'shares', 'desc')
+        .slice(0, this.config.maxValidators)
+        .map(d => {
+          d.validator = true
+          return d
+        })
+    },
+    indicateValidator () {
+      return this.validators.find(d => d.id === this.delegate.id)
     }
   },
-  mounted () {
-    if (!this.delegate.id) { this.$router.push('/staking') }
+  async mounted () {
+    await this.$nextTick()
+    this.indicateValidators()
+    this.isValidator = this.indicateValidator()
   }
 }
 </script>

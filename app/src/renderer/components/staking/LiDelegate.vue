@@ -1,10 +1,13 @@
 <template lang='pug'>
 .li-delegate(:class='styles'): .li-delegate__values
   .li-delegate__value.name: span
-      router-link(v-if="config.devMode"
-        :to="{ name: 'delegate-index', params: { delegate: delegate.id }}")
-        | {{ ' ' + delegate.moniker }}
-      a(v-else) {{ ' ' + delegate.moniker }}
+    router-link(v-if="config.devMode"
+      :to="{ name: 'delegate-index', params: { delegate: delegate.id }}")
+      .li-delegate__icon(v-if="delegate.isValidator")
+        img(src="~assets/images/cosmos-validator.png")
+      .li-delegate__icon(v-else): span
+      | {{ delegate.moniker }}
+    template(v-else) {{ delegate.moniker }}
   .li-delegate__value.percent_of_vote
     span {{ num.percentInt(bondedPercent) }}
   .li-delegate__value.number_of_votes.num.bar
@@ -104,6 +107,17 @@ export default {
   &.name
     flex 2
     padding-left 1rem
+
+    span a
+      display flex
+    .li-delegate__icon
+      width 1.5rem
+      display flex
+      align-items center
+      justify-content center
+      img, span
+        height 1rem
+        width 1rem
 
   &.bar
     position relative

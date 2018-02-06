@@ -17,7 +17,11 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
           class="ni-page-header-title"
         >
           <h2>
+<<<<<<< HEAD
             Validator Profile
+=======
+            Validator - undefined
+>>>>>>> fix test
           </h2>
         </div>
         <div
@@ -108,10 +112,14 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
+<<<<<<< HEAD
 <<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
               Validator Info
 =======
               Delegate Details
+>>>>>>> fix test
+=======
+              Validator - Details
 >>>>>>> fix test
             </div>
             <menu
@@ -258,7 +266,11 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
+<<<<<<< HEAD
               Validator Description
+=======
+              Validator - Stake
+>>>>>>> fix test
             </div>
             <menu
               class="ni-part-menu"
@@ -374,10 +386,14 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
+<<<<<<< HEAD
 <<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
               Validator Details
 =======
               Historical Stats
+>>>>>>> fix test
+=======
+              Validator - History
 >>>>>>> fix test
             </div>
             <menu
