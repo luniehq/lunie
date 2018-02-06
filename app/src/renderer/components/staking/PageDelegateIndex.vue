@@ -47,6 +47,7 @@ page(icon="storage" :title="`${delegateType} - ${delegate.description.moniker}`"
 import { orderBy } from 'lodash'
 import { mapGetters } from 'vuex'
 import countries from 'scripts/countries.json'
+import indicateValidators from 'scripts/indicateValidators'
 import Btn from '@nylira/vue-button'
 import ListItem from 'common/NiListItem'
 import Page from 'common/NiPage'
@@ -67,7 +68,7 @@ export default {
     ...mapGetters(['delegates', 'shoppingCart', 'user', 'config']),
     delegateType () {
       if (this.isValidator) return 'Validator'
-      else return 'Delegate'
+      else return 'Candidate'
     },
     delegate () {
       let value = {
@@ -102,21 +103,13 @@ export default {
     rm (delegateId) {
       this.$store.commit('removeFromCart', delegateId)
     },
-    indicateValidators () {
-      this.validators = orderBy(this.delegates.delegates, 'shares', 'desc')
-        .slice(0, this.config.maxValidators)
-        .map(d => {
-          d.validator = true
-          return d
-        })
-    },
     indicateValidator () {
       return this.validators.find(d => d.id === this.delegate.id)
     }
   },
   async mounted () {
     await this.$nextTick()
-    this.indicateValidators()
+    this.validators = indicateValidators(this.delegates.delegates, this.config.maxValidators)
     this.isValidator = this.indicateValidator()
   }
 }
