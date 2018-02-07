@@ -42,8 +42,9 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="main"
                 >
-                  <router-link
-                    to="/staking"
+                  <a
+                    class="router-link-active"
+                    href="#/staking"
                   >
                     <i
                       class="material-icons"
@@ -55,7 +56,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
                     >
                       Back
                     </div>
-                  </router-link>
+                  </a>
                 </div>
                 <a
                   class="help"
@@ -273,7 +274,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
           class="ni-part-main"
         >
           <div
-            class="ni-li"
+            class="ni-li proposal-enter proposal-enter-active"
           >
             <div
               class="ni-li-container"

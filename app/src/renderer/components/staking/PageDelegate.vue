@@ -41,6 +41,12 @@ export default {
     delegate () {
       if (this.delegates.delegates && this.$route.params.delegate) {
         return this.delegates.delegates.find(v => v.id === this.$route.params.delegate)
+      } else {
+        return {
+          pub_key: {},
+          voting_power: 0,
+          owner: {}
+        }
       }
     },
     isValidator () {
