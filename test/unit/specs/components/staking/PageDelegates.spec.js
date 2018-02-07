@@ -75,8 +75,8 @@ describe('PageDelegates', () => {
   })
 
   it('should show the amount of selected delegates', () => {
-    store.commit('addToCart', store.state.delegates[0])
-    store.commit('addToCart', store.state.delegates[1])
+    store.commit('addToCart', store.state.delegates.delegates[0])
+    store.commit('addToCart', store.state.delegates.delegates[1])
     wrapper.update()
     expect(wrapper.find('.fixed-button-bar strong').text().trim()).toContain('2')
   })
@@ -84,7 +84,10 @@ describe('PageDelegates', () => {
   it('should show placeholder if delegates are loading', () => {
     let {wrapper} = mount(PageDelegates, {
       getters: {
-        delegates: () => []
+        delegates: () => ({
+          delegates: [],
+          loading: true
+        })
       },
       stubs: {
         'data-loading': '<data-loading />'

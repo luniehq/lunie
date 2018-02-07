@@ -10,6 +10,8 @@ let semver = require('semver')
 let event = require('event-to-promise')
 let toml = require('toml')
 let axios = require('axios')
+var glob = require('glob')
+
 let pkg = require('../../../package.json')
 let relayServer = require('./relayServer.js')
 let addMenu = require('./menu.js')
@@ -276,11 +278,25 @@ async function backupData (root) {
   } while (exists(path))
 
   log(`backing up data to "${path}"`)
+
+  // ATTENTION: mainLog stream is still open at this point, so we can't move it arround (at least on windows)
   fs.copySync(root, path, {
     overwrite: false,
-    errorOnExist: true
+    errorOnExist: true,
+    filter: file => file.indexOf('main.log') === -1
   })
-  await fs.remove(root)
+  await new Promise((resolve, reject) => {
+    glob(root + '/**/*', (err, files) => {
+      if (err) {
+        return reject(err)
+      }
+
+      files
+      .filter(file => file.indexOf('main.log') === -1)
+      .forEach(file => fs.removeSync(file))
+      resolve()
+    })
+  })
 }
 
 /*

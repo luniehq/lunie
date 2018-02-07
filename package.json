@@ -1,7 +1,7 @@
 {
   "name": "Cosmos",
   "productName": "Cosmos",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "The electron-based user interface for Cosmos Network.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
@@ -27,7 +27,7 @@
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --colors --config webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js",
-    "test": "npm run test:unit",
+    "test": "npm run lint && npm run test:unit",
     "test:unit": "cross-env LOGGING=false MOCK=false jest --maxWorkers=2",
     "test:e2e": "tape \"test/e2e/!(main)*.js\"",
     "test:exe": "node tasks/test-build.js",
@@ -94,7 +94,7 @@
     "xmlhttprequest": "^1.8.0"
   },
   "dependencies": {
-    "@nylira/vue-button": "^4.1.5",
+    "@nylira/vue-button": "^4.3.2",
     "@nylira/vue-field": "^1.1.17",
     "@nylira/vue-form-msg": "^1.0.3",
     "@nylira/vue-input": "^3.2.0",
@@ -126,7 +126,7 @@
     "stacktrace-js": "^2.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
-    "tendermint": "2.0.3",
+    "tendermint": "^2.0.5",
     "tendermint-crypto": "github:mappum/js-crypto",
     "toml": "^2.3.3",
     "user-home": "^2.0.0",

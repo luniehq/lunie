@@ -42,13 +42,13 @@ export default {
       return value
     },
     vpMax () {
-      if (this.delegates.length > 0) {
-        let richestDelegate = maxBy(this.delegates, 'voting_power')
+      if (this.delegates.delegates.length > 0) {
+        let richestDelegate = maxBy(this.delegates.delegates, 'voting_power')
         return richestDelegate.voting_power
       } else { return 0 }
     },
     vpTotal () {
-      return this.delegates
+      return this.delegates.delegates
         .slice()
         .sort((a, b) => b.voting_power - a.voting_power)
         .slice(0, 100)
@@ -83,7 +83,7 @@ export default {
   &:nth-of-type(2n-1)
     background app-fg
   &.li-delegate-active
-    background alpha(hover, 17.5%)
+    background hover-bg
     .li-delegate__value i
       color link
 
@@ -102,6 +102,7 @@ export default {
 
   &.name
     flex 2
+    padding-left 1rem
 
   &.bar
     position relative
@@ -129,4 +130,7 @@ export default {
     overflow hidden
     text-overflow ellipsis
     padding-right 1rem
+
+.sort-by.name
+  padding-left 1rem
 </style>

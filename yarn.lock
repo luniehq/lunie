@@ -6,9 +6,9 @@
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/7zip/-/7zip-0.0.6.tgz#9cafb171af82329490353b4816f03347aa150a30"
 
-"@nylira/vue-button@^4.1.5":
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-button/-/vue-button-4.1.5.tgz#3cb0cc38535910e34bae11f206b6874d292cec89"
+"@nylira/vue-button@^4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-button/-/vue-button-4.3.2.tgz#f27b90a931a1a3b5e27736dba11dfcaa305d6ddb"
 
 "@nylira/vue-field@^1.1.17":
   version "1.1.17"
@@ -406,7 +406,7 @@ axios@^0.16.2:
     follow-redirects "^1.2.3"
     is-buffer "^1.1.5"
 
-axios@^0.17.0:
+axios@^0.17.0, axios@^0.17.1:
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.17.1.tgz#2d8e3e5d0bdbd7327f91bc814f5c57660f81824d"
   dependencies:
@@ -7889,10 +7889,11 @@ tar@^2.0.0, tar@^2.2.1:
     supercop.js "^2.0.1"
     varstruct "^5.3.0"
 
-tendermint@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/tendermint/-/tendermint-2.0.3.tgz#6afef653622b351455591115b43db8e845e95972"
+tendermint@2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/tendermint/-/tendermint-2.0.5.tgz#681014ea04c77f36b8dbaed2e3c430e4a24d6cbc"
   dependencies:
+    axios "^0.17.1"
     browser-request "^0.3.3"
     camelcase "^4.0.0"
     ndjson "^1.5.0"

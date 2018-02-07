@@ -7,28 +7,40 @@ export default ({ commit, node }) => {
     urlSuffix: '-node0.testnets.interblock.io',
     status: {},
     abciInfo: {},
-    topAvgTxRate: 0,
-    blocks: []
+    blocks: [],
+    block: {},
+    blockLoading: false,
+    url: ''
   }
 
+  let url = state.urlPrefix + state.blockchainName + state.urlSuffix
   const mutations = {
-    setBlockchainName (state, name) {
-      state.blockchainName = name
-    },
-    setTopAvgTxRate (state, value) {
-      state.topAvgTxRate = value
+    setUrl (state) {
+      console.log(url)
+      state.url = url
     },
     getStatus (state) {
-      let url = state.urlPrefix + state.blockchainName + state.urlSuffix
       axios(url + '/status').then((res) => {
         state.status = res.data.result
       })
     },
     getAbciInfo (state) {
-      let url = state.urlPrefix + state.blockchainName + state.urlSuffix
       axios(url + '/abci_info').then((res) => {
         state.abciInfo = res.data.result
       })
+    },
+    setBlock (state, block) {
+      state.block = block
+    }
+  }
+
+  const actions = {
+    async getBlock ({ state, commit }, height) {
+      state.blockLoading = true
+      const blockUrl = url + '/block?height=' + height
+      let block = (await axios.get(blockUrl)).data.result
+      commit('setBlock', block)
+      state.blockLoading = false
     }
   }
 
@@ -48,7 +60,8 @@ export default ({ commit, node }) => {
   setTimeout(() => {
     mutations.getStatus(state)
     mutations.getAbciInfo(state)
+    mutations.setUrl(state)
   }, 3000)
 
-  return { state, mutations }
+  return { state, mutations, actions }
 }

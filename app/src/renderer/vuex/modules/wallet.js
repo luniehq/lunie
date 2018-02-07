@@ -5,8 +5,10 @@ let root = require('../../../root.js')
 export default ({ commit, node }) => {
   let state = {
     balances: [],
+    balancesLoading: false,
     key: { address: '' },
     history: [],
+    historyLoading: false,
     denoms: [],
     blockMetas: []
   }
@@ -49,8 +51,12 @@ export default ({ commit, node }) => {
       dispatch('queryWalletHistory')
     },
     async queryWalletBalances ({ state, rootState, commit }) {
+      state.balancesLoading = true
       let res = await node.queryAccount(state.key.address)
-      if (!res) return
+      if (!res) {
+        state.balancesLoading = false
+        return
+      }
       commit('setWalletBalances', res.data.coins)
       for (let coin of res.data.coins) {
         if (coin.denom === rootState.config.bondingDenom) {
@@ -58,8 +64,10 @@ export default ({ commit, node }) => {
           break
         }
       }
+      state.balancesLoading = false
     },
     async queryWalletHistory ({ state, commit, dispatch }) {
+      state.historyLoading = true
       let res = await node.coinTxs(state.key.address)
       if (!res) return
       commit('setWalletHistory', res)
@@ -70,9 +78,10 @@ export default ({ commit, node }) => {
           blockHeights.push(t.height)
         }
       })
-      return Promise.all(blockHeights.map(h =>
+      await Promise.all(blockHeights.map(h =>
         dispatch('queryTransactionTime', h)
       ))
+      state.historyLoading = false
     },
     async queryTransactionTime ({ commit, dispatch }, blockHeight) {
       let blockMetaInfo = await dispatch('queryBlockInfo', blockHeight)

@@ -15,21 +15,21 @@ describe('Module: Delegates', () => {
 
   it('adds delegate to state', () => {
     store.commit('addDelegate', { pub_key: { data: 'foo' } })
-    expect(store.state.delegates[0]).toEqual({
+    expect(store.state.delegates.delegates[0]).toEqual({
       id: 'foo',
       pub_key: { data: 'foo' }
     })
-    expect(store.state.delegates.length).toBe(1)
+    expect(store.state.delegates.delegates.length).toBe(1)
   })
 
   it('replaces existing delegate with same id', () => {
     store.commit('addDelegate', { pub_key: { data: 'foo' }, updated: true })
-    expect(store.state.delegates[0]).toEqual({
+    expect(store.state.delegates.delegates[0]).toEqual({
       id: 'foo',
       pub_key: { data: 'foo' },
       updated: true
     })
-    expect(store.state.delegates.length).toBe(1)
+    expect(store.state.delegates.delegates.length).toBe(1)
   })
 
   it('fetches a candidate', async () => {
@@ -45,7 +45,7 @@ describe('Module: Delegates', () => {
 
     await store.dispatch('getDelegate', { data: 'foo' })
     expect(axios.get.mock.calls[0][0]).toBe('http://localhost:9060/query/stake/candidate/foo')
-    expect(store.state.delegates[0].test).toBe(123)
+    expect(store.state.delegates.delegates[0].test).toBe(123)
   })
 
   it('fetches all candidates', async () => {
@@ -78,7 +78,7 @@ describe('Module: Delegates', () => {
     await store.dispatch('getDelegates')
     expect(axios.get.mock.calls[0][0]).toBe('http://localhost:9060/query/stake/candidate/foo')
     expect(axios.get.mock.calls[1][0]).toBe('http://localhost:9060/query/stake/candidate/bar')
-    expect(store.state.delegates[0].test).toBe(123)
-    expect(store.state.delegates[1].test).toBe(456)
+    expect(store.state.delegates.delegates[0].test).toBe(123)
+    expect(store.state.delegates.delegates[1].test).toBe(456)
   })
 })
