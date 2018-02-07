@@ -29,6 +29,9 @@ describe('PageDelegate', () => {
             pub_key: {
               data: '123pubkeyforme'
             }
+          },
+          {
+            id: 'd4e5f6'
           }
         ]
       })
@@ -49,5 +52,9 @@ describe('PageDelegate', () => {
 
   it('has the expected html structure', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it('should return one delegate based on route params', () => {
+    expect(wrapper.vm.delegate.id).toEqual('1a2b3c')
   })
 })
