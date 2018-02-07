@@ -134,6 +134,10 @@ test('wallet', async function (t) {
     t.test('own balance updated', async function (t) {
       await navigate(t, client, 'Balances')
 
+      // TODO should not be necessary
+      await sleep(1000)
+      await client.$('.material-icons=refresh').click()
+
       let mycoinEl = () => balanceEl('fermion')
       await waitForText(mycoinEl, '9007199254740892')
       t.pass('balance is reduced by 100')
