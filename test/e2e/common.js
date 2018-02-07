@@ -6,7 +6,15 @@ function sleep (ms) {
 }
 
 module.exports = {
-  navigate (t, client, linkText, titleText = linkText) {
+  async navigate (t, client, linkText, titleText = linkText) {
+    // close notifications as they overlay the menu button 
+    while (await client.isExisting(`.ni-notification`)) { 
+      await client.$(`.ni-notification`).click() 
+    } 
+    // open menu 
+    await client.$('#app-menu-button').click() 
+    t.test(await client.$('.app-menu').isVisible(), 'menu opened') 
+    // click link 
     t.test(`navigate to "${linkText}"`, async function (t) {
       await client.$(`a*=${linkText}`).click()
       await client.waitUntilTextExists('.ni-page-header-title', titleText)
