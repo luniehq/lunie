@@ -29,11 +29,6 @@ export default [
     component: monitor('Validator'),
     children: [
       {
-        path: '/',
-        name: 'validator-index',
-        component: monitor('ValidatorIndex')
-      },
-      {
         path: 'power',
         name: 'validator-power',
         component: monitor('ValidatorPower'),

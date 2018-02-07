@@ -26,10 +26,7 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['user']),
-    userInfo () {
-      console.log(this.user)
-    }
+    ...mapGetters(['user'])
   },
   methods: {
     signOut () {
