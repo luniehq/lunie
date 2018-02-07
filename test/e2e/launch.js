@@ -71,7 +71,7 @@ module.exports = function launch (t) {
 
       await login(app)
 
-      resolve(app)
+      resolve({app, home})
     })
   }
   
@@ -115,7 +115,7 @@ async function startLocalNode () {
   await new Promise((resolve, reject) => {
     let child = spawn(binary, [ 
       'node', 'init', 
-      '3F52AFC4FB737A0296EFE331885FCC476980B3BD', 
+      'D0718DDFF62D301626B428A182F830CBB0AD21FC', 
       '--home', cliHome, 
       '--chain-id'  , 'localtestnet' 
     ]) 
