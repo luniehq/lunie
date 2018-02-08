@@ -1,6 +1,6 @@
 'use strict'
 const RpcClient = require('tendermint')
-const RestClient = require('cosmos-sdk')
+const RestClient = require('./lcdClient.js')
 
 module.exports = function (nodeIP, relayPort, lcdPort) {
   if (JSON.parse(process.env.COSMOS_UI_ONLY || 'false')) {
