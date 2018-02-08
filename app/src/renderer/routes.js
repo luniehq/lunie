@@ -21,9 +21,9 @@ export default [
   { path: '/blocks/:block', name: 'block', component: monitor('Block') },
 
   // STAKE
+  { path: '/staking', name: 'delegates', component: staking('Delegates') },
   { path: '/staking/bond', name: 'bond', component: staking('Bond') },
-  { path: '/delegates', name: 'delegates', component: staking('Delegates') },
-  { path: '/staking/:delegate', name: 'delegate', props: true, component: staking('Delegate') },
+  { path: '/staking/delegates/:delegate', name: 'delegate', component: staking('Delegate') },
 
   { path: '/profile', name: 'profile', component: common('Profile') },
 
