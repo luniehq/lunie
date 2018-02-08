@@ -28,7 +28,6 @@ import TextBlock from 'common/TextBlock'
 import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-delegate',
-  props: ['delegate'],
   components: {
     Btn,
     ListItem,
