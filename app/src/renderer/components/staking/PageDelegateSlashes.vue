@@ -2,7 +2,7 @@
 page(icon="storage" :title="`${delegateId} Slashes`")
   div(slot="menu"): tool-bar
     router-link(
-      :to="{ name: 'delegate-index', params: { delegate: $route.params.delegate }}")
+      :to="{ name: 'delegate', params: { delegate: $route.params.delegate }}")
       i.material-icons arrow_back
       .label Back
     a(@click='toggleSearch')

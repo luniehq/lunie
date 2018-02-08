@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageDelegateIndex has the expected html structure 1`] = `
+exports[`PageDelegate has the expected html structure 1`] = `
 <div
   class="ni-page"
 >
@@ -17,22 +17,14 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-<<<<<<< HEAD
-<<<<<<< HEAD
-            Validator Profile
-=======
-            Validator - undefined
->>>>>>> fix test
-=======
-            Validator - Loading…
->>>>>>> set Loading value for PageDelegateIndex
+            Candidate Profile
           </h2>
         </div>
         <div
           class="ni-page-header-subtitle"
         >
           <h3>
-
+            
           </h3>
         </div>
       </div>
@@ -51,25 +43,9 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
                   class="main"
                 >
                   <a
-<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
-                    class="router-link-active"
-                    href="#/staking"
-                  >
+                    class=""
                     href="#/delegates"
                   >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                    <div
-                      class="label"
-                    >
-                      Back
-                    </div>
-                  </a>
-                  <a>
->>>>>>> update tests:test/unit/specs/components/staking/__snapshots__/PageDelegateIndex.spec.js.snap
                     <i
                       class="material-icons"
                     >
@@ -116,15 +92,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-<<<<<<< HEAD
-<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
-              Validator Info
-=======
-              Delegate Details
->>>>>>> fix test
-=======
-              Validator - Details
->>>>>>> fix test
+              Candidate Info
             </div>
             <menu
               class="ni-part-menu"
@@ -156,18 +124,13 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
-                  JB
-=======
-                  pubkeyX
->>>>>>> fix test
+                  
                 </div>
               </div>
             </div>
           </div>
           <div
             class="ni-li"
-            id="delegate-country"
           >
             <div
               class="ni-li-container"
@@ -188,11 +151,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
-                  https://the.zone
-=======
-                  United States
->>>>>>> fix test
+                  
                 </div>
               </div>
             </div>
@@ -219,7 +178,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  helloaddr
+                  
                 </div>
               </div>
             </div>
@@ -246,7 +205,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  123pubkeyforme
+                  
                 </div>
               </div>
             </div>
@@ -254,7 +213,6 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
         </main>
       </div>
     </section>
-    <!---->
     <section
       class="ni-part"
     >
@@ -270,11 +228,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-<<<<<<< HEAD
-              Validator Description
-=======
-              Validator - Stake
->>>>>>> fix test
+              Candidate Description
             </div>
             <menu
               class="ni-part-menu"
@@ -285,88 +239,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
           class="ni-part-main"
         >
           <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Voting Power
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  10000 ATOM
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Bonded Atoms
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  5000 ATOM
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Commission
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  NaN%
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li"
+            class="text-block"
           >
             <pre>
               No description available.
@@ -375,69 +248,7 @@ exports[`PageDelegateIndex has the expected html structure 1`] = `
         </main>
       </div>
     </section>
-    <section
-      class="ni-part"
-    >
-      <div
-        class="ni-part-container"
-      >
-        <header
-          class="ni-part-header"
-        >
-          <div
-            class="ni-part-header-container"
-          >
-            <div
-              class="ni-part-title h5"
-            >
-<<<<<<< HEAD
-<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageDelegate.spec.js.snap
-              Validator Details
-=======
-              Historical Stats
->>>>>>> fix test
-=======
-              Validator - History
->>>>>>> fix test
-            </div>
-            <menu
-              class="ni-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="ni-part-main"
-        >
-          <div
-            class="ni-li proposal-enter proposal-enter-active"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Total Vote Power
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  1000
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
-    </section>
+    <!---->
   </main>
 </div>
 `;

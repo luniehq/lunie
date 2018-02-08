@@ -13,7 +13,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
       <span>
         <a
           class=""
-          href="#/delegates/pubkeyX/"
+          href="#/delegates/pubkeyX"
         >
           <div
             class="li-delegate__icon"

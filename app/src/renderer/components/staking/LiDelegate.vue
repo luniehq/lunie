@@ -2,7 +2,7 @@
 .li-delegate(:class='styles'): .li-delegate__values
   .li-delegate__value.name: span
     router-link(v-if="config.devMode"
-      :to="{ name: 'delegate-index', params: { delegate: delegate.id }}")
+      :to="{ name: 'delegate', params: { delegate: delegate.id }}")
       .li-delegate__icon(v-if="delegate.isValidator")
         img(src="~assets/images/cosmos-validator.png")
       .li-delegate__icon(v-else): span

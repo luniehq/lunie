@@ -71,7 +71,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
    <div class=\\"li-delegate\\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
-            <span><a href=\\"#/delegates/pubkeyY/\\" class=\\"\\">
+            <span><a href=\\"#/staking/pubkeyY\\" class=\\"\\">
             <div class=\\"li-delegate__icon\\">
                <span></span>
             </div>
@@ -95,7 +95,7 @@ candidateY</a></span>
    <div class=\\"li-delegate\\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
-            <span><a href=\\"#/delegates/pubkeyX/\\" class=\\"\\">
+            <span><a href=\\"#/staking/pubkeyX\\" class=\\"\\">
             <div class=\\"li-delegate__icon\\">
                <span></span>
             </div>
@@ -325,7 +325,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             <span>
               <a
                 class=""
-                href="#/delegates/pubkeyX/"
+                href="#/staking/pubkeyX"
               >
                 <div
                   class="li-delegate__icon"

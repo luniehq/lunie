@@ -23,7 +23,7 @@ export default [
   // STAKE
   { path: '/staking/bond', name: 'bond', component: staking('Bond') },
   { path: '/delegates', name: 'delegates', component: staking('Delegates') },
-  { path: '/delegates/:delegate', component: staking('Delegate') },
+  { path: '/staking/:delegate', name: 'delegate', props: true, component: staking('Delegate') },
 
   { path: '/profile', name: 'profile', component: common('Profile') },
 

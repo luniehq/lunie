@@ -1,7 +1,7 @@
 <template lang="pug">
 page(:title="delegateType + ' Profile'")
   div(slot="menu"): tool-bar
-    router-link(to='/staking')
+    router-link(to='/delegates')
       i.material-icons arrow_back
       .label Back
 
@@ -28,6 +28,7 @@ import TextBlock from 'common/TextBlock'
 import ToolBar from 'common/NiToolBar'
 export default {
   name: 'page-delegate',
+  props: ['delegate'],
   components: {
     Btn,
     ListItem,
@@ -39,6 +40,8 @@ export default {
   computed: {
     ...mapGetters(['delegates']),
     delegate () {
+      console.log(this.delegates.delegates)
+      console.log(this.$route.params.delegate)
       if (this.delegates.delegates && this.$route.params.delegate) {
         return this.delegates.delegates.find(v => v.id === this.$route.params.delegate)
       } else {
@@ -50,7 +53,11 @@ export default {
       }
     },
     isValidator () {
-      return this.delegate.voting_power > 0
+      if (this.delegate) {
+        return this.delegate.voting_power > 0
+      } else {
+        return false
+      }
     },
     delegateType () {
       return this.isValidator ? 'Validator' : 'Candidate'
