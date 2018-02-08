@@ -399,13 +399,6 @@ aws4@^1.2.1, aws4@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
 
-axios@^0.16.2:
-  version "0.16.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.16.2.tgz#ba4f92f17167dfbab40983785454b9ac149c3c6d"
-  dependencies:
-    follow-redirects "^1.2.3"
-    is-buffer "^1.1.5"
-
 axios@^0.17.0, axios@^0.17.1:
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.17.1.tgz#2d8e3e5d0bdbd7327f91bc814f5c57660f81824d"
@@ -1870,13 +1863,6 @@ cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
     parse-json "^2.2.0"
     require-from-string "^1.1.0"
 
-cosmos-sdk@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/cosmos-sdk/-/cosmos-sdk-1.5.1.tgz#4f648aa7eaa781883dfa1bef9ee78b4fba299cf3"
-  dependencies:
-    axios "^0.16.2"
-    old "^0.2.0"
-
 crc32-stream@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/crc32-stream/-/crc32-stream-1.0.1.tgz#ce2c5dc3bd8ffb3830f9cb47f540222c63c90fab"
@@ -3237,7 +3223,7 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-follow-redirects@^1.2.3, follow-redirects@^1.2.5:
+follow-redirects@^1.2.5:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.4.1.tgz#d8120f4518190f55aac65bb6fc7b85fcd666d6aa"
   dependencies:
@@ -5775,12 +5761,6 @@ old@^0.1.3:
   dependencies:
     object-assign "^4.1.0"
 
-old@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/old/-/old-0.2.0.tgz#ae75a9f33bae7cb3fe06312899b7ae5a73ba24ef"
-  dependencies:
-    object-assign "^4.1.0"
-
 on-finished@~2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/on-finished/-/on-finished-2.3.0.tgz#20f1336481b083cd75337992a16971aa2d906947"
@@ -7889,7 +7869,7 @@ tar@^2.0.0, tar@^2.2.1:
     supercop.js "^2.0.1"
     varstruct "^5.3.0"
 
-tendermint@2.0.5:
+tendermint@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/tendermint/-/tendermint-2.0.5.tgz#681014ea04c77f36b8dbaed2e3c430e4a24d6cbc"
   dependencies:
