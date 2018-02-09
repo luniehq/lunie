@@ -7,14 +7,17 @@ function sleep (ms) {
 
 module.exports = {
   async openMenu (client) {
+    if (await client.isExisting('.app-menu')) {
+      return
+    }
     // close notifications as they overlay the menu button 
     while (await client.isExisting(`.ni-notification`)) { 
       await client.$(`.ni-notification`).click() 
     } 
     await client.$('#app-menu-button').click() 
-    await client.$('.app-menu').isVisible()
+    await client.waitForExist('.app-menu', 1000)
   },
-  async navigate (t, client, linkText, titleText = linkText) {
+  async navigate (client, linkText, titleText = linkText) {
     await module.exports.openMenu(client)
     // click link 
     await client.$(`a*=${linkText}`).click()
