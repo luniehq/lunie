@@ -25,6 +25,9 @@ test('wallet', async function (t) {
   let client = app.client
   let $ = (...args) => client.$(...args)
   
+  await logout(client)
+  await login(client, 'testkey')
+
   let balanceEl = (denom) =>
     $(`//div[contains(text(), "${denom.toUpperCase()}")]`)
       .$('..')
