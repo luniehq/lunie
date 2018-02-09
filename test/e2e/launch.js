@@ -68,6 +68,12 @@ module.exports = function launch (t) {
 }
 
 test.onFinish(() => app ? app.stop() : null)
+test.onFinish(async () => {
+  console.log('DONE: cleaning up')
+  await app ? app.stop() : null
+  // tape doesn't finish properly because of open processes like gaia
+  process.exit(0)
+})
 
 function printAppLog (app) {
   app.client.getMainProcessLogs().then(function (logs) {
