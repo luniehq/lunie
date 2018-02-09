@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Validators')
+page(title='Validators and Candidates')
   div(slot="menu"): tool-bar
     a(@click='setSearch(true)')
       i.material-icons search
@@ -79,9 +79,10 @@ export default {
       order: 'desc',
       properties: [
         { title: 'Name', value: 'description.moniker', class: 'name' },
-        { title: 'Vote %', value: 'shares', class: 'percent_of_vote' },
-        { title: 'Votes', value: 'voting_power', class: 'number_of_votes' },
+        { title: '% of Vote', value: 'shares', class: 'percent_of_vote' },
+        { title: 'Total Votes', value: 'voting_power', class: 'number_of_votes' },
         { title: 'Your Votes', value: 'bonded', class: 'bonded_by_you' },
+        { title: 'Status', value: 'status', class: 'status' },
         { title: '', value: '', class: 'action' }
       ]
     }

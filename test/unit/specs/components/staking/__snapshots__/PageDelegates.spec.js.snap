@@ -7,7 +7,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
          <div class=\\"ni-page-header-text\\">
             <div class=\\"ni-page-header-title\\">
                <h2>
-                  Validators
+                  Validators and Candidates
                </h2>
 </div>
    <div class=\\"ni-page-header-subtitle\\">
@@ -50,17 +50,22 @@ exports[`PageDelegates has the expected html structure 1`] = `
 </div>
    <div class=\\"sort-by percent_of_vote\\">
       <div class=\\"label\\">
-         Vote %
+         % of Vote
       </div>
 </div>
    <div class=\\"sort-by number_of_votes\\">
       <div class=\\"label\\">
-         Votes
+         Total Votes
       </div>
 </div>
    <div class=\\"sort-by bonded_by_you\\">
       <div class=\\"label\\">
          Your Votes
+      </div>
+</div>
+   <div class=\\"sort-by status\\">
+      <div class=\\"label\\">
+         Status
       </div>
 </div>
    <div class=\\"sort-by action\\">
@@ -71,12 +76,8 @@ exports[`PageDelegates has the expected html structure 1`] = `
    <div class=\\"li-delegate\\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
-            <span><a href=\\"#/staking/pubkeyY\\" class=\\"\\">
-            <div class=\\"li-delegate__icon\\">
-               <span></span>
-            </div>
-candidateY</a></span>
-</div>
+            <a href=\\"#/staking/delegates/pubkeyY\\" class=\\"\\">candidateY</a>
+         </div>
    <div class=\\"li-delegate__value percent_of_vote\\">
       <span>75%</span>
    </div>
@@ -87,6 +88,9 @@ candidateY</a></span>
    <div class=\\"li-delegate__value bonded_by_you\\">
       <span>0</span>
    </div>
+   <div class=\\"li-delegate__value status\\">
+      <span>Candidate</span>
+   </div>
    <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
       <i class=\\"material-icons\\">check_box_outline_blank</i>
    </div>
@@ -95,12 +99,8 @@ candidateY</a></span>
    <div class=\\"li-delegate\\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
-            <span><a href=\\"#/staking/pubkeyX\\" class=\\"\\">
-            <div class=\\"li-delegate__icon\\">
-               <span></span>
-            </div>
-candidateX</a></span>
-</div>
+            <a href=\\"#/staking/delegates/pubkeyX\\" class=\\"\\">candidateX</a>
+         </div>
    <div class=\\"li-delegate__value percent_of_vote\\">
       <span>25%</span>
    </div>
@@ -110,6 +110,9 @@ candidateX</a></span>
 </div>
    <div class=\\"li-delegate__value bonded_by_you\\">
       <span>0</span>
+   </div>
+   <div class=\\"li-delegate__value status\\">
+      <span>Candidate</span>
    </div>
    <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
       <i class=\\"material-icons\\">check_box_outline_blank</i>
@@ -144,7 +147,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-            Validators
+            Validators and Candidates
           </h2>
         </div>
         <div
@@ -281,7 +284,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             <div
               class="label"
             >
-              Vote %
+              % of Vote
             </div>
           </div>
           <div
@@ -290,7 +293,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             <div
               class="label"
             >
-              Votes
+              Total Votes
             </div>
           </div>
           <div
@@ -300,6 +303,15 @@ exports[`PageDelegates should filter the delegates 1`] = `
               class="label"
             >
               Your Votes
+            </div>
+          </div>
+          <div
+            class="sort-by status"
+          >
+            <div
+              class="label"
+            >
+              Status
             </div>
           </div>
           <div
@@ -322,21 +334,12 @@ exports[`PageDelegates should filter the delegates 1`] = `
           <div
             class="li-delegate__value name"
           >
-            <span>
-              <a
-                class=""
-                href="#/staking/pubkeyX"
-              >
-                <div
-                  class="li-delegate__icon"
-                >
-                  <img
-                    src="~assets/images/cosmos-validator.png"
-                  />
-                </div>
-                candidateX
-              </a>
-            </span>
+            <a
+              class=""
+              href="#/staking/delegates/pubkeyX"
+            >
+              candidateX
+            </a>
           </div>
           <div
             class="li-delegate__value percent_of_vote"
@@ -361,6 +364,13 @@ exports[`PageDelegates should filter the delegates 1`] = `
           >
             <span>
               0
+            </span>
+          </div>
+          <div
+            class="li-delegate__value status"
+          >
+            <span>
+              Validator
             </span>
           </div>
           <div

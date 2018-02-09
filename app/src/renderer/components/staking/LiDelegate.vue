@@ -1,13 +1,7 @@
 <template lang='pug'>
 .li-delegate(:class='styles'): .li-delegate__values
-  .li-delegate__value.name: span
-    router-link(v-if="config.devMode"
-      :to="{ name: 'delegate', params: { delegate: delegate.id }}")
-      .li-delegate__icon(v-if="delegate.isValidator")
-        img(src="~assets/images/cosmos-validator.png")
-      .li-delegate__icon(v-else): span
-      | {{ delegate.moniker }}
-    template(v-else) {{ delegate.moniker }}
+  .li-delegate__value.name
+    router-link(:to="{ name: 'delegate', params: { delegate: delegate.id }}") {{ delegate.moniker }}
   .li-delegate__value.percent_of_vote
     span {{ num.percentInt(bondedPercent) }}
   .li-delegate__value.number_of_votes.num.bar
@@ -15,6 +9,8 @@
     .bar(:style='vpStyles')
   .li-delegate__value.bonded_by_you
     span {{ amountBonded }}
+  .li-delegate__value.status
+    span {{ delegateType }}
   template(v-if="userCanDelegate")
     .li-delegate__value.checkbox#remove-from-cart(v-if="inCart" @click='rm(delegate)')
       i.material-icons check_box
@@ -69,7 +65,12 @@ export default {
     inCart () {
       return this.shoppingCart.find(c => c.id === this.delegate.id)
     },
-    userCanDelegate () { return this.user.atoms > 0 }
+    userCanDelegate () {
+      return this.user.atoms > 0
+    },
+    delegateType () {
+      return this.delegate.isValidator ? 'Validator' : 'Candidate'
+    }
   },
   data: () => ({
     num: num
@@ -85,10 +86,10 @@ export default {
 @require '~variables'
 
 .li-delegate
-  &.li-delegate-validator
+  &:nth-of-type(2n-1)
     background app-fg
   &.li-delegate-active
-    background hover-bg
+    background alpha(mc, 8%)
     .li-delegate__value i
       color link
 
