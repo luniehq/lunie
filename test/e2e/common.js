@@ -44,8 +44,12 @@ module.exports = {
     await client.$('.ni-session-footer button').click()
     await client.waitForExist('#app-content', 5000)
 
-    // let address = await client.$('.ni-li-copy .value').getText()
-    // TODO check if correct account logged in
+    // checking if user is logged in
+    await module.exports.openMenu(client)
+    let activeUser = await client.$('.ni-li-user .ni-li-title').getText()
+    if (account !== activeUser) {
+      throw new Error('Incorrect user logged in')
+    }
   },
   async logout (client) {
     console.log('logging out')
@@ -56,19 +60,7 @@ module.exports = {
   }
 }
 
-// only sending keyboard arrows worked for selecting options
 async function selectOption (client, selectSelector, text) {
-  // go up to the first option
   await client.$(selectSelector).click()
-  await client.keys(['\uE013', '\uE013', '\uE013', '\uE013', '\uE013', '\uE013']) // TODO calc options length
-  // then go down until we have the option we want
-  let found = false
-  while (!found) {
-    let value = (await client.$(selectSelector).getValue()).trim()
-    found = text === value
-    if (!found) {
-      await client.$(selectSelector).click()
-      await client.keys(['\uE015'])
-    }
-  }
+  await client.keys(text.split())
 }

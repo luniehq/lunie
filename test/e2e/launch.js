@@ -58,7 +58,7 @@ module.exports = function launch (t) {
       await startApp(app)
       t.ok(app.isRunning(), 'app is running')
 
-      await login(app.client)
+      await login(app.client, 'testkey')
 
       resolve({app, home})
     })
