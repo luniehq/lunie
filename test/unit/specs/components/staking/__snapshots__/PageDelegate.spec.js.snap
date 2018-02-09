@@ -6,7 +6,6 @@ exports[`PageDelegate has the expected html structure 1`] = `
 >
   <header
     class="ni-page-header"
-    icon="storage"
   >
     <div
       class="ni-page-header-container"
@@ -18,7 +17,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-            Delegate
+            Validator Profile
           </h2>
         </div>
         <div
@@ -43,19 +42,36 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="main"
                 >
-                  <a>
+                  <a
+                    class="router-link-active"
+                    href="#/staking"
+                  >
                     <i
                       class="material-icons"
                     >
-                      add
+                      arrow_back
                     </i>
                     <div
                       class="label"
                     >
-                      Add
+                      Back
                     </div>
                   </a>
                 </div>
+                <a
+                  class="back"
+                >
+                  <i
+                    class="material-icons"
+                  >
+                    arrow_back
+                  </i>
+                  <div
+                    class="label"
+                  >
+                    Back
+                  </div>
+                </a>
                 <a
                   class="help"
                 >
@@ -64,6 +80,11 @@ exports[`PageDelegate has the expected html structure 1`] = `
                   >
                     help_outline
                   </i>
+                  <div
+                    class="label"
+                  >
+                    Help
+                  </div>
                 </a>
               </div>
             </div>
@@ -75,9 +96,6 @@ exports[`PageDelegate has the expected html structure 1`] = `
   <main
     class="ni-page-main"
   >
-    <h3>
-      
-    </h3>
     <section
       class="ni-part"
     >
@@ -93,7 +111,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Delegate Details
+              Validator Info
             </div>
             <menu
               class="ni-part-menu"
@@ -103,6 +121,87 @@ exports[`PageDelegate has the expected html structure 1`] = `
         <main
           class="ni-part-main"
         >
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Moniker
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  JB
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Website
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  https://the.zone
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Address
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  helloaddr
+                </div>
+              </div>
+            </div>
+          </div>
           <div
             class="ni-li"
           >
@@ -125,61 +224,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  pubkeyX
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Country
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  United States
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Start Date
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  n/a
+                  123pubkeyforme
                 </div>
               </div>
             </div>
@@ -202,7 +247,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Delegate Description
+              Validator Description
             </div>
             <menu
               class="ni-part-menu"
@@ -216,7 +261,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
             class="text-block"
           >
             <pre>
-              
+              No description available.
             </pre>
           </div>
         </main>
@@ -237,7 +282,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Delegate Stake
+              Validator Details
             </div>
             <menu
               class="ni-part-menu"
@@ -248,7 +293,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
           class="ni-part-main"
         >
           <div
-            class="ni-li"
+            class="ni-li proposal-enter proposal-enter-active"
           >
             <div
               class="ni-li-container"
@@ -264,120 +309,12 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="ni-li-dt"
                 >
-                  Voting Power
+                  Total Vote Power
                 </div>
                 <div
                   class="ni-li-dd"
                 >
-                  10000 ATOM
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Bonded Atoms
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  5000 ATOM
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Commission
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  NaN%
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Max Commission
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  NaN%
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Max Commission Increase
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  NaN%
+                  1000
                 </div>
               </div>
             </div>
@@ -385,7 +322,6 @@ exports[`PageDelegate has the expected html structure 1`] = `
         </main>
       </div>
     </section>
-    <!---->
   </main>
 </div>
 `;

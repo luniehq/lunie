@@ -1,10 +1,6 @@
 <template lang="pug">
 page.page-bond(title="Bond Atoms")
   div(slot="menu"): tool-bar
-    router-link(to='/staking')
-      i.material-icons arrow_back
-      .label Back
-
   part(:title="'Start bonding your '+ totalAtoms + ' ATOM'"): form-struct(
     :submit="onSubmit")
     .bond-group(:class="bondGroupClass(unbondedAtomsDelta)")

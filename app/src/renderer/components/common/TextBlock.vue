@@ -22,7 +22,6 @@ export default {
 
 .text-block
   padding 1rem
-  border-bottom px solid bc
 
   pre
     white-space: pre-wrap;       /* Since CSS 2.1 */
