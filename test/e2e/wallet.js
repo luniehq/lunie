@@ -1,7 +1,7 @@
 let { spawn } = require('child_process')
 let test = require('tape-promise/tape')
 let launchApp = require('./launch.js')
-let { navigate, newTempDir, waitForText, sleep } = require('./common.js')
+let { navigate, newTempDir, waitForText, sleep, login, logout } = require('./common.js')
 
 let binary = process.env.BINARY_PATH
 
@@ -29,40 +29,6 @@ test('wallet', async function (t) {
     $(`//div[contains(text(), "${denom.toUpperCase()}")]`)
       .$('..')
       .$('div.ni-li-dd')
-
-  // t.test('receive', async function (t) {
-  //   await navigate(t, client, 'Balances')
-
-  //   let address
-  //   t.test('address', async function (t) {
-  //     let addressEl = $('//div[contains(text(), "Your Address")]').$('..').$('..').$('..').$('.ni-li-copy .value') 
-  //     address = await addressEl.getText()
-  //     t.ok(address, `address: ${address}`)
-  //     t.equal(address.length, 40, 'address is correct length')
-  //     t.end()
-  //   })
-
-  //   t.test('fermion balance before receiving', async function (t) {
-  //     let mycoinEl = balanceEl('fermion')
-  //     let balance = await mycoinEl.getText()
-  //     t.equal(balance, '9007199254740992', 'fermion balance is greater 0') 
-  //     t.end()
-  //   })
-
-  //   t.test('receive mycoin', async function (t) {
-  //     await cliSendCoins(home, address, '1000mycoin') 
-  //     t.end()
-  //   })
-
-  //   t.test('mycoin balance after receiving', async function (t) {
-  //     let mycoinEl = () => balanceEl('mycoin')
-  //     await waitForText(mycoinEl, '1000', 8000)
-  //     t.pass('received mycoin transaction')
-  //     t.end()
-  //   })
-
-  //   t.end()
-  // })
 
   t.test('send', async function (t) {
     async function goToSendPage () {
@@ -141,6 +107,21 @@ test('wallet', async function (t) {
       let mycoinEl = () => balanceEl('fermion')
       await waitForText(mycoinEl, '9007199254740892')
       t.pass('balance is reduced by 100')
+      t.end()
+    })
+
+    t.end()
+  })
+
+  t.test('receive', async function (t) {
+    t.test('fermion balance after receiving', async function (t) {
+      await logout(client)
+      await login(client, 'testreceiver')
+      await navigate(t, client, 'Balances')
+
+      let fermionEl = () => balanceEl('fermion')
+      await waitForText(fermionEl, '100', 5000)
+      t.pass('received mycoin transaction')
       t.end()
     })
 

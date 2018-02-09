@@ -5,7 +5,7 @@ let test = require('tape-promise/tape')
 let electron = require('electron')
 let { join } = require('path')
 let { spawn } = require('child_process')
-let { newTempDir } = require('./common.js')
+let { newTempDir, login } = require('./common.js')
 
 // re-use app instance
 let app, home, cliHome, started
@@ -51,25 +51,14 @@ module.exports = function launch (t) {
       console.log('stopping app to test consecutive run')
       await app.stop()
 
-      await new Promise((resolve, reject) => {
-        let child = spawn(binary, [
-          'client', 'keys', 'recover', 'testkey',
-          '--home', join(home, 'baseserver')
-        ])
-        child.stdin.write('1234567890\n')
-        child.stdin.write('chair govern physical divorce tape movie slam field gloom process pen universe allow pyramid private ability\n')
-        child.stderr.pipe(process.stdout)
-        child.once('exit', (code) => {
-          if (code === 0) resolve()
-          reject()
-        })
-      })
-      console.log('restored test account')
+      await createAccount('testkey', 'chair govern physical divorce tape movie slam field gloom process pen universe allow pyramid private ability')
+      await createAccount('testreceiver', 'crash ten rug mosquito cart south allow pluck shine island broom deputy hungry photo drift absorb')
+      console.log('restored test accounts')
 
       await startApp(app)
       t.ok(app.isRunning(), 'app is running')
 
-      await login(app)
+      await login(app.client)
 
       resolve({app, home})
     })
@@ -93,12 +82,6 @@ function printAppLog (app) {
       console.log(log.level)
     })
   })
-}
-
-async function login (app) {
-  await app.client.$('#sign-in-password').setValue('1234567890')
-  await app.client.$('.ni-session-footer button').click()
-  await app.client.waitForExist('#app-content', 5000)
 }
 
 async function startApp (app) {
@@ -145,4 +128,20 @@ async function startLocalNode () {
     })
   })
   console.log('started local node')
+}
+
+async function createAccount (name, seed) {
+  await new Promise((resolve, reject) => {
+    let child = spawn(binary, [
+      'client', 'keys', 'recover', name,
+      '--home', join(home, 'baseserver')
+    ])
+    child.stdin.write('1234567890\n')
+    child.stdin.write(seed + '\n')
+    child.stderr.pipe(process.stdout)
+    child.once('exit', (code) => {
+      if (code === 0) resolve()
+      reject()
+    })
+  })
 }
