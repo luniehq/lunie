@@ -30,4 +30,5 @@ jobs:
           key: v1-dependencies-root-{{ checksum "package.json" }}
         
       - run: yarn run test
+      - run: yarn run test:e2e
       - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
