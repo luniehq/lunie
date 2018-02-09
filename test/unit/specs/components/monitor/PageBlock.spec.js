@@ -62,4 +62,16 @@ describe('PageBlock', () => {
   it('should dispatch getBlock when mounted', () => {
     expect(store.dispatch).toHaveBeenCalledWith('getBlock', wrapper.vm.$route.params.block)
   })
+
+  it('should return an empty object if there is no block', () => {
+    let {wrapper} = mount(PageBlock, {
+      getters: {
+        blockchain: () => ({
+          block: {}
+        })
+      }
+    })
+
+    expect(wrapper.vm.block).toEqual({})
+  })
 })

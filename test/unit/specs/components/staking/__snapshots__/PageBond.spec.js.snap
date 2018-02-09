@@ -41,23 +41,21 @@ exports[`PageBond has the expected html structure 1`] = `
               >
                 <div
                   class="main"
+                />
+                <a
+                  class="back"
                 >
-                  <a
-                    class="router-link-exact-active router-link-active"
-                    href="#/staking"
+                  <i
+                    class="material-icons"
                   >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                    <div
-                      class="label"
-                    >
-                      Back
-                    </div>
-                  </a>
-                </div>
+                    arrow_back
+                  </i>
+                  <div
+                    class="label"
+                  >
+                    Back
+                  </div>
+                </a>
                 <a
                   class="help"
                 >
@@ -66,6 +64,11 @@ exports[`PageBond has the expected html structure 1`] = `
                   >
                     help_outline
                   </i>
+                  <div
+                    class="label"
+                  >
+                    Help
+                  </div>
                 </a>
               </div>
             </div>

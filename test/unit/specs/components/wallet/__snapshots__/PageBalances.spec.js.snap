@@ -68,6 +68,20 @@ exports[`PageBalances has the expected html structure 1`] = `
                   </a>
                 </div>
                 <a
+                  class="back"
+                >
+                  <i
+                    class="material-icons"
+                  >
+                    arrow_back
+                  </i>
+                  <div
+                    class="label"
+                  >
+                    Back
+                  </div>
+                </a>
+                <a
                   class="help"
                 >
                   <i
@@ -75,6 +89,11 @@ exports[`PageBalances has the expected html structure 1`] = `
                   >
                     help_outline
                   </i>
+                  <div
+                    class="label"
+                  >
+                    Help
+                  </div>
                 </a>
               </div>
             </div>
@@ -372,6 +391,20 @@ exports[`PageBalances should filter the balances 1`] = `
                   </a>
                 </div>
                 <a
+                  class="back"
+                >
+                  <i
+                    class="material-icons"
+                  >
+                    arrow_back
+                  </i>
+                  <div
+                    class="label"
+                  >
+                    Back
+                  </div>
+                </a>
+                <a
                   class="help"
                 >
                   <i
@@ -379,6 +412,11 @@ exports[`PageBalances should filter the balances 1`] = `
                   >
                     help_outline
                   </i>
+                  <div
+                    class="label"
+                  >
+                    Help
+                  </div>
                 </a>
               </div>
             </div>
