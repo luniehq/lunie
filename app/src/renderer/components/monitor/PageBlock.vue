@@ -1,9 +1,6 @@
 <template lang="pug">
 page(:title="pageBlockTitle" v-if="block.header")
   div(slot="menu"): tool-bar
-    router-link(to="/blocks")
-      i.material-icons arrow_back
-      .label Back
     a(:href="blockUrl" target="_blank")
       i.material-icons code
       .label JSON
