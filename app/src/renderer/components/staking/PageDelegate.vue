@@ -39,8 +39,6 @@ export default {
   computed: {
     ...mapGetters(['delegates']),
     delegate () {
-      console.log(this.delegates.delegates)
-      console.log(this.$route.params.delegate)
       if (this.delegates.delegates && this.$route.params.delegate) {
         return this.delegates.delegates.find(v => v.id === this.$route.params.delegate)
       } else {
