@@ -17,7 +17,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-            Candidate Profile
+            Validator Profile
           </h2>
         </div>
         <div
@@ -92,7 +92,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Candidate Info
+              Validator Info
             </div>
             <menu
               class="ni-part-menu"
@@ -124,7 +124,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  
+                  JB
                 </div>
               </div>
             </div>
@@ -151,7 +151,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  
+                  https://the.zone
                 </div>
               </div>
             </div>
@@ -178,7 +178,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  
+                  helloaddr
                 </div>
               </div>
             </div>
@@ -205,7 +205,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  
+                  123pubkeyforme
                 </div>
               </div>
             </div>
@@ -228,7 +228,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Candidate Description
+              Validator Description
             </div>
             <menu
               class="ni-part-menu"
@@ -248,7 +248,61 @@ exports[`PageDelegate has the expected html structure 1`] = `
         </main>
       </div>
     </section>
-    <!---->
+    <section
+      class="ni-part"
+    >
+      <div
+        class="ni-part-container"
+      >
+        <header
+          class="ni-part-header"
+        >
+          <div
+            class="ni-part-header-container"
+          >
+            <div
+              class="ni-part-title h5"
+            >
+              Validator Details
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
+        >
+          <div
+            class="ni-li proposal-enter proposal-enter-active"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Total Vote Power
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  1000
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
   </main>
 </div>
 `;

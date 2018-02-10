@@ -33,7 +33,7 @@ describe('PageDelegate', () => {
     wrapper = instance.wrapper
     router = instance.router
 
-    router.push('/staking/delegate/1a2b3c')
+    router.push('/staking/delegates/1a2b3c')
   })
 
   it('has the expected html structure', () => {
