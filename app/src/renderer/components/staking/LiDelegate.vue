@@ -86,7 +86,7 @@ export default {
 @require '~variables'
 
 .li-delegate
-  &.li-delegate-validator
+  &:nth-of-type(2n-1)
     background app-fg
   &.li-delegate-active
     background alpha(mc, 8%)
