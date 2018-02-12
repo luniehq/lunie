@@ -31,10 +31,13 @@ jobs:
             - node_modules
           key: v1-dependencies-root-{{ checksum "package.json" }}
 
+      # add gaia
       - run: 
           command: |
             sudo wget -O - https://tendermint-packages.interblock.io/centos/7/os/x86_64/RPM-GPG-KEY-Tendermint | sudo apt-key add -
             sudo wget -O /etc/apt/sources.list.d/tendermint.list https://tendermint-packages.interblock.io/debian/tendermint.list
+            sudo apt-key update
+            sudo apt-get update
             apt-get download gaia
             sudo dpkg --unpack gaia*.deb
             sudo rm /var/lib/dpkg/info/gaia.postinst -f
