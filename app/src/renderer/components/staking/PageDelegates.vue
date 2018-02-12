@@ -1,5 +1,5 @@
 <template lang="pug">
-page#page-delegates(title='Delegates')
+page(title='Validators and Candidates')
   div(slot="menu"): tool-bar
     a(@click='setSearch(true)')
       i.material-icons search
@@ -30,6 +30,7 @@ page#page-delegates(title='Delegates')
 <script>
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
+import indicateValidators from 'scripts/indicateValidators'
 import Mousetrap from 'mousetrap'
 import LiDelegate from 'staking/LiDelegate'
 import Btn from '@nylira/vue-button'
@@ -78,9 +79,10 @@ export default {
       order: 'desc',
       properties: [
         { title: 'Name', value: 'description.moniker', class: 'name' },
-        { title: 'Vote %', value: 'shares', class: 'percent_of_vote' },
-        { title: 'Votes', value: 'voting_power', class: 'number_of_votes' },
+        { title: '% of Vote', value: 'shares', class: 'percent_of_vote' },
+        { title: 'Total Votes', value: 'voting_power', class: 'number_of_votes' },
         { title: 'Your Votes', value: 'bonded', class: 'bonded_by_you' },
+        { title: 'Status', value: 'status', class: 'status' },
         { title: '', value: '', class: 'action' }
       ]
     }
@@ -97,10 +99,11 @@ export default {
     },
     setSearch (bool) { this.$store.commit('setSearchVisible', ['delegates', bool]) }
   },
-  mounted () {
+  async mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
     Mousetrap.bind('esc', () => this.setSearch(false))
-    this.updateDelegates(this.user.address)
+    await this.updateDelegates(this.user.address)
+    indicateValidators(this.delegates.delegates, this.config.maxValidators)
   }
 }
 </script>
@@ -108,7 +111,7 @@ export default {
 @require '~variables'
 
 .delegates-container
-  padding-bottom 6rem
+  padding-bottom 3rem
 
 .fixed-button-bar
   padding 0.5rem 1rem
@@ -127,8 +130,7 @@ export default {
       font-weight bold
 
 @media screen and (min-width: 768px)
-  .delegates-container
-    padding-bottom 7rem
+    padding-bottom 4rem
 
   .fixed-button-bar
     padding 1rem
