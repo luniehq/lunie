@@ -7889,7 +7889,7 @@ tar@^2.0.0, tar@^2.2.1:
     supercop.js "^2.0.1"
     varstruct "^5.3.0"
 
-tendermint@2.0.5:
+tendermint@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/tendermint/-/tendermint-2.0.5.tgz#681014ea04c77f36b8dbaed2e3c430e4a24d6cbc"
   dependencies:
