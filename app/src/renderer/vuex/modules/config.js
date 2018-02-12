@@ -2,6 +2,7 @@ import noScroll from 'no-scroll'
 
 export default ({ commit }) => {
   const state = {
+    maxValidators: 100,
     activeMenu: '',
     desktop: false,
     devMode: process.env.PREVIEW !== undefined ? JSON.parse(process.env.PREVIEW) : process.env.NODE_ENV === 'development',

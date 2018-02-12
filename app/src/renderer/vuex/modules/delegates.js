@@ -37,6 +37,7 @@ export default ({ dispatch, node }) => {
       let delegate = (await axios.get(`http://localhost:${node.relayPort}/query/stake/candidate/${pubkey.data}`)).data.data
       // TODO move into cosmos-sdk
       // let delegate = (await node.candidate(pubkeyToString(pubkey))).data
+      delegate.isValidator = false
       commit('addDelegate', delegate)
       return delegate
     }
