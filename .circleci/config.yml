@@ -31,9 +31,15 @@ jobs:
             - node_modules
           key: v1-dependencies-root-{{ checksum "package.json" }}
 
-      - run: sudo wget -O - https://tendermint-packages.interblock.io/centos/7/os/x86_64/RPM-GPG-KEY-Tendermint | sudo apt-key add -
-      - run: sudo wget -O /etc/apt/sources.list.d/tendermint.list https://tendermint-packages.interblock.io/debian/tendermint.list
-      - run: sudo apt-get update && sudo apt-get install gaia
+      - run: 
+          command: |
+            sudo wget -O - https://tendermint-packages.interblock.io/centos/7/os/x86_64/RPM-GPG-KEY-Tendermint | sudo apt-key add -
+            sudo wget -O /etc/apt/sources.list.d/tendermint.list https://tendermint-packages.interblock.io/debian/tendermint.list
+            apt-get download gaia
+            sudo dpkg --unpack gaia*.deb
+            sudo rm /var/lib/dpkg/info/gaia.postinst -f
+            sudo dpkg --configure gaia
+            sudo apt-get install -yf
         
       - run: yarn run test
       - run: yarn run test:e2e
