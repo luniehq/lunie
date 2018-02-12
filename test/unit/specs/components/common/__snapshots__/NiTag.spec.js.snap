@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`NiTag has the expected html structure 1`] = `
-<div
-  class="ni-tag ni-tag ni-tag-df"
->
-  
-</div>
-`;
