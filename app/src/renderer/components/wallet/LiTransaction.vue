@@ -94,6 +94,7 @@ export default {
     padding 0.5rem 0
     margin 0.5rem 0
     display flex
+    width 100%
 
     min-width 0 // fix text-overflow
 
