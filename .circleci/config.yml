@@ -39,6 +39,7 @@ jobs:
             sudo apt-key update
             sudo apt-get update
             apt-get download gaia
+            sudo apt-get -f install
             sudo dpkg --unpack gaia*.deb
             sudo rm /var/lib/dpkg/info/gaia.postinst -f
             sudo dpkg --configure gaia
