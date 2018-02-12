@@ -59,11 +59,6 @@ To run the UI on a local node with `chain_id=local`:
 $ yarn run testnet local
 ```
 
-To run the UI with a mocked backend (without connecting to a testnet):
-```bash
-$ yarn run uionly
-```
-
 ---
 
 ### Production
@@ -130,7 +125,6 @@ A list of all environment variables and their purpose:
 |MOCK|'true', 'false'|'true' in development|Mock data to receive from the chain|
 |COSMOS_TEST|'true', 'false'|'false'|Disable code that influences unit tests, like logging to files|
 |COSMOS_NETWORK|{path to network configuration folder}|'../networks/gaia-1'|Network to connect to|
-|COSMOS_UI_ONLY|'true', 'false'|'false'|Ignore spinning up the tendermint binaries|
 |COSMOS_HOME|{path to config persistence folder}|'$HOME/cosmos-ui[-dev]'||
 |COSMOS_NODE|{ip of a certain node}||Node to connect to|
 |PLATFORM_TARGET|'all', 'win32', 'darwin', 'linux', 'mas'|'all'|Which platform to build for|
