@@ -1,37 +1,25 @@
 <template lang="pug">
-page(icon="storage" title="Delegate")
+page(:title="delegateType + ' Profile'")
   div(slot="menu"): tool-bar
-    a(v-if='inCart' @click.native='rm(delegate.id)')
-      i.material-icons delete
-      .label Remove
-    a(v-else-if="config.devMode" @click.native='add(delegate)')
-      i.material-icons add
-      .label Add
+    router-link(to='/delegates')
+      i.material-icons arrow_back
+      .label Back
 
-  h3 {{ delegate.description.moniker }}
-  part(title="Delegate Details")
-    list-item(dt='Public Key' :dd='delegate.id')
-    list-item(dt='Country' :dd='country')
-    list-item(dt='Start Date' :dd='delegate.startDate || "n/a"')
-  part(title="Delegate Description")
-    text-block( :content="delegate.description.details")
-  part(title="Delegate Stake" v-if="config.devMode")
-    list-item(dt='Voting Power' :dd='delegate.voting_power + " ATOM"')
-    list-item(dt='Bonded Atoms' :dd='delegate.shares + " ATOM"')
-    list-item(dt='Commission'
-      :dd='(delegate.commission * 100).toFixed(2) + "%"')
-    list-item(dt='Max Commission'
-      :dd='(delegate.commissionMax * 100).toFixed(2) + "%"')
-    list-item(dt='Max Commission Increase'
-      :dd='(delegate.commissionMaxRate * 100).toFixed(2) + "%"')
+  part(:title="delegateType + ' Info'")
+    list-item(dt='Moniker' :dd='delegate.moniker')
+    list-item(dt='Website' :dd='delegate.website')
+    list-item(dt='Address' :dd='delegate.owner.addr')
+    list-item(dt='Public Key' :dd='delegate.pub_key.data')
 
-  part(title="External" v-if="delegate.description.website")
-    list-item(dt="Website" :dd="delegate.description.website" :href="delegate.description.website")
+  part(:title="delegateType + ' Description'")
+    text-block(:content="delegate.details || 'No description available.'")
+
+  part(:title="delegateType + ' Details'" v-if="isValidator")
+    list-item(dt="Total Vote Power" :dd="delegate.voting_power")
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import countries from 'scripts/countries.json'
 import Btn from '@nylira/vue-button'
 import ListItem from 'common/NiListItem'
 import Page from 'common/NiPage'
@@ -49,40 +37,28 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['delegates', 'shoppingCart', 'user', 'config']),
+    ...mapGetters(['delegates']),
     delegate () {
-      let value = {
-        description: {}
-      }
       if (this.delegates.delegates && this.$route.params.delegate) {
-        value = this.delegates.delegates.find(v => v.id === this.$route.params.delegate) || value
+        return this.delegates.delegates.find(v => v.id === this.$route.params.delegate)
+      } else {
+        return {
+          pub_key: {},
+          voting_power: 0,
+          owner: {}
+        }
       }
-      return value
     },
-    inCart () {
-      return this.shoppingCart.find(c => c.id === this.delegate.id) !== undefined
+    isValidator () {
+      if (this.delegate) {
+        return this.delegate.voting_power > 0
+      } else {
+        return false
+      }
     },
-    country () {
-      return this.delegate.country ? this.countryName(this.delegate.country) : 'n/a'
+    delegateType () {
+      return this.isValidator ? 'Validator' : 'Candidate'
     }
-  },
-  methods: {
-    countryName (code) {
-      let country = countries.find(c => c.value === code)
-      return country ? country.key : code
-    },
-    add (delegate) {
-      this.$store.commit('addToCart', delegate)
-    },
-    rm (delegateId) {
-      this.$store.commit('removeFromCart', delegateId)
-    }
-  },
-  mounted () {
-    if (!this.delegate.id) { this.$router.push('/staking') }
   }
 }
 </script>
-<style lang="stylus">
-@require '~variables'
-</style>

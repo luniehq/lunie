@@ -3,10 +3,12 @@ mixin tx-container-sent
   .tx-container
     .tx-element.tx-coins
       .tx-coin(v-for='coin in coinsSent')
+        .key {{ coin.denom.toUpperCase() }}
         .value {{ num.pretty(coin.amount) }}
-        .key {{ coin.denom }}
-    .tx-element.tx-date(v-if="devMode") {{ date }}
-    .tx-element.tx-address {{ receiver }}
+    div
+      .tx-element.tx-date(v-if="devMode") {{ date }}
+      .tx-element.tx-address(v-if="!sentSelf") Sent to {{ receiver }}
+      .tx-element.tx-address(v-if="sentSelf") You sent this amount to yourself.
 
 .ni-li-tx(v-if="sentSelf" @click="() => devMode && viewTransaction()")
   .tx-icon: i.material-icons swap_horiz
@@ -21,10 +23,11 @@ mixin tx-container-sent
   .tx-container
     .tx-element.tx-coins
       .tx-coin(v-for='coin in coinsReceived')
+        .key {{ coin.denom.toUpperCase() }}
         .value {{ num.pretty(coin.amount) }}
-        .key {{ coin.denom }}
-    .tx-element.tx-date(v-if="devMode") {{ date }}
-    .tx-element.tx-address {{ sender }}
+    div
+      .tx-element.tx-date(v-if="devMode") {{ date }}
+      .tx-element.tx-address Received from {{ sender }}
 </template>
 
 <script>
@@ -53,7 +56,7 @@ export default {
       return this.transactionValue.tx.inputs[0].coins
     },
     date () {
-      return this.transactionValue.time ? moment(this.transactionValue.time).fromNow() : 'N/A'
+      return moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a')
     }
   },
   data: () => ({
@@ -61,10 +64,7 @@ export default {
   }),
   methods: {
     viewTransaction () {
-      this.$store.commit('notify', {
-        title: 'TODO: View Transaction',
-        body: 'tx details page not implemented yet'
-      })
+      console.log('TODO: implement tx viewer')
     }
   },
   props: ['transaction-value', 'address', 'devMode']
@@ -78,73 +78,63 @@ export default {
   display flex
   font-size sm
   border-bottom 1px solid bc-dim
-  min-height 3rem
+  &:nth-of-type(2n-1)
+    background app-fg
 
   .tx-icon
-    flex 0 0 2rem
+    padding 0 0.5rem
     background app-fg
     display flex
     align-items center
     justify-content center
 
   .tx-container
-    flex 1
+    flex-direction column
+    flex-wrap nowrap
     padding 0.5rem 0
+    margin 0.5rem 0
     display flex
-    flex-flow row wrap
-    align-items flex-start
-    justify-content center
+    width 100%
 
     min-width 0 // fix text-overflow
 
   .tx-element
-    padding 0 0.5rem
+    padding 0 2rem 0 1.5rem
     line-height 1.5rem
 
-  .tx-coins
-    flex 0 0 60%
-
   .tx-coin
-    display flex
-    flow-flow row nowrap
     .value
-      flex 3
-      text-align right
+      flex 0 0 100%
+      font-size sm
+      color dim
       &:before
         content ''
         display inline
     .key
-      flex 2
-      padding-left 0.5rem
-
-  .tx-date
-    flex 0 0 40%
-    color dim
+      font-weight 500
+      font-size m
+    .value,
+    .key
+      line-height 1.5rem
 
   .tx-address
-    flex 100%
-
     white-space nowrap
     overflow hidden
     text-overflow ellipsis
 
     color dim
+    font-size sm
 
   &.ni-li-tx-sent
     .tx-icon
-      background alpha(mc, 5%)
-      i
-        color danger
+      background alpha(dim, 5%)
     .tx-coin .value
-      color danger
       &:before
         content '-'
 
   &.ni-li-tx-received
     .tx-icon
-      background alpha(link, 5%)
-      i
-        color success
+      background alpha(success, 5%)
     .tx-coin .value
       color success
       &:before
@@ -152,38 +142,22 @@ export default {
 
   &:hover
     cursor pointer
-    background app-fg
-    .tx-coin
-      .key
-        color txt
-    .tx-date, .tx-address
-      color txt
+    background hover-bg
 
-@media screen and (min-width: 375px)
+@media screen and (min-width: 700px)
   .ni-li-tx
     font-size 0.875rem
-@media screen and (min-width: 414px)
-  .ni-li-tx
-    .tx-container
-      padding 0.5rem
-
-@media screen and (min-width: 768px)
-  .ni-li-tx
-    .tx-icon
-      flex 0 0 3rem
 
     .tx-container
-      flex-flow row nowrap
-
-    .tx-element
-      line-height 2rem
-
-    .tx-coins
-      flex 3
-
-    .tx-date
-      flex 2
-
-    .tx-address
-      flex 6
+      flex-direction row
+      .tx-coins
+        flex 0 0 9rem
+        padding 0
+        min-width 0
+        .tx-coin
+          padding 0 1.5rem 0
+          .key
+            white-space nowrap
+            overflow hidden
+            text-overflow ellipsis
 </style>
