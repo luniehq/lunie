@@ -4,11 +4,11 @@
 
 👋 Welcome to Voyager, the official user interface for the [Cosmos Network](https://cosmos.network/).
 
-💻VoyagerVoyager is a desktop application built with [Electron](https://github.com/electron/electron). Voyager runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
+💻 Voyager is a desktop application built with [Electron](https://github.com/electron/electron). Voyager runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
 
-⚠️ This is still alpha-level software. __DO NOT__ enter your Cosmos fundraiser seed into the UI.
+⚠️ This is still alpha-level software. __DO NOT__ enter your Cosmos fundraiser seed into Voyager.
 
-🎉 Releases can be found [here](https://github.com/cosmos/voyager/releases).
+🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases).
 
 ---
 
