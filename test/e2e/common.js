@@ -6,25 +6,64 @@ function sleep (ms) {
 }
 
 module.exports = {
-  navigate (t, client, linkText, titleText = linkText) {
-    t.test(`navigate to "${linkText}"`, async function (t) {
-      await client.$(`a*=${linkText}`).click()
-      await client.waitUntilTextExists('.ni-page-header-title', titleText)
-      t.pass(`navigated to "${linkText}"`)
-      t.end()
-    })
+  async openMenu (client) {
+    if (await client.isExisting('.app-menu')) {
+      return
+    }
+    // close notifications as they overlay the menu button 
+    while (await client.isExisting(`.ni-notification`)) { 
+      await client.$(`.ni-notification`).click() 
+    } 
+    await client.$('#app-menu-button').click() 
+    await client.waitForExist('.app-menu', 1000)
+  },
+  async navigate (client, linkText, titleText = linkText) {
+    await module.exports.openMenu(client)
+    // click link 
+    await client.$(`a*=${linkText}`).click()
+    await client.waitUntilTextExists('.ni-page-header-title', titleText)
+    console.log(`navigated to "${linkText}"`)
   },
   newTempDir () {
     return join(tmpdir(), Math.random().toString(36).slice(2))
   },
   sleep,
-  async waitForText (el, text, timeout = 5000) {
+  async waitForText (elGetterFn, text, timeout = 5000) {
     let start = Date.now()
-    while (await el().getText() !== text) {
+    while (await elGetterFn().getText() !== text) {
       if (Date.now() - start >= timeout) {
         throw Error('Timed out waiting for text')
       }
       await sleep(100)
     }
+  },
+  async login (client, account = 'testkey') {
+    console.log('logging into ' + account)
+    let accountsSelect = '#sign-in-name select'
+
+    await selectOption(client, accountsSelect, account)
+
+    await client.$('#sign-in-password').setValue('1234567890')
+    await client.$('.ni-session-footer button').click()
+    await client.waitForExist('#app-content', 5000)
+
+    // checking if user is logged in
+    await module.exports.openMenu(client)
+    let activeUser = await client.$('.ni-li-user .ni-li-title').getText()
+    if (account !== activeUser) {
+      throw new Error('Incorrect user logged in')
+    }
+  },
+  async logout (client) {
+    console.log('logging out')
+    await module.exports.openMenu(client)
+
+    await client.$('.ni-li-user').click()
+    await client.$('.material-icons=exit_to_app').$('..').click()
   }
+}
+
+async function selectOption (client, selectSelector, text) {
+  await client.$(selectSelector).click()
+  await client.keys(text.split())
 }

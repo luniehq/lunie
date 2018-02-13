@@ -121,7 +121,7 @@ function createWindow () {
   } else {
     startVueApp()
   }
-  if (DEV || process.env.COSMOS_DEVTOOLS) {
+  if (DEV || JSON.parse(process.env.COSMOS_DEVTOOLS || 'false')) {
     mainWindow.webContents.openDevTools()
   }
 
@@ -150,6 +150,9 @@ function createWindow () {
 
 function startProcess (name, args, env) {
   let binPath
+  if (process.env.BINARY_PATH) {
+    binPath = process.env.BINARY_PATH
+  } else
   if (DEV || TEST) {
     // in dev mode or tests, use binaries installed in GOPATH
     let GOPATH = process.env.GOPATH
@@ -302,11 +305,13 @@ if (!TEST) {
   process.on('exit', shutdown)
   process.on('uncaughtException', async function (err) {
     logError('[Uncaught Exception]', err)
+    console.error('[Uncaught Exception]', err)
     await shutdown()
     process.exit(1)
   })
   process.on('unhandledRejection', async function (err) {
     logError('[Unhandled Promise Rejection]', err)
+    console.error('[Unhandled Promise Rejection]', err)
     await shutdown()
     process.exit(1)
   })
