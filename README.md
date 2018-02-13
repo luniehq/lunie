@@ -59,11 +59,6 @@ To run the UI on a local node with `chain_id=local`:
 $ yarn run testnet local
 ```
 
-To run the UI with a mocked backend (without connecting to a testnet):
-```bash
-$ yarn run uionly
-```
-
 ---
 
 ### Production
