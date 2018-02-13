@@ -28,7 +28,7 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js",
     "test": "npm run lint && npm run test:unit",
     "test:unit": "cross-env LOGGING=false MOCK=false jest --maxWorkers=2",
-    "test:e2e": "tape \"test/e2e/!(main)*.js\"",
+    "test:e2e": "tape \"test/e2e/*.js\"",
     "test:exe": "node tasks/test-build.js",
     "test:coverage": "http-server test/unit/coverage/lcov-report",
     "vue:route": "node tasks/vue/route.js",
