@@ -6,7 +6,7 @@ exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
       <div class=\\"ni-session-header\\">
          <a>&nbsp;</a>
          <div class=\\"ni-session-title\\">
-            Welcome to Cosmos Voyager!
+            Welcome to Cosmos Voyager
          </div>
 <a><i class=\\"material-icons\\">help_outline</i></a>
 </div>
@@ -83,7 +83,7 @@ exports[`NISessionWelcome without accounts has the expected html structure 1`] =
       <div class=\\"ni-session-header\\">
          <a>&nbsp;</a>
          <div class=\\"ni-session-title\\">
-            Welcome to Cosmos Voyager!
+            Welcome to Cosmos Voyager
          </div>
 <a><i class=\\"material-icons\\">help_outline</i></a>
 </div>
