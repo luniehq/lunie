@@ -2,7 +2,7 @@
 .ni-session: .ni-session-container
   .ni-session-header
     a &nbsp;
-    .ni-session-title Welcome to Cosmos!
+    .ni-session-title Welcome to Cosmos Voyager
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
     li-session(

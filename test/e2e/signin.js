@@ -21,6 +21,7 @@ test('sign in', async function (t) {
     let warning = () => el('#sign-up-warning')
     let backedup = () => el('#sign-up-backup')
 
+  navigate(t, client, 'Sign In', 'Welcome to Cosmos Voyager')
     t.test('did check warning', async function (t) {
       await continueButton().click()
       t.ok(await warning().$('..').$('..').$('..').isExisting('.ni-form-msg--error'), 'shows error')

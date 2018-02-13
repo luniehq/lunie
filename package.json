@@ -1,14 +1,14 @@
 {
-  "name": "Cosmos",
-  "productName": "Cosmos",
-  "version": "0.4.1",
-  "description": "The electron-based user interface for Cosmos Network.",
+  "name": "cosmos-voyager",
+  "productName": "Cosmos Voyager",
+  "version": "0.4.3",
+  "description": "Voyager is an electron-based user interface for the Cosmos Network.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
   "homepage": "https://cosmos.network",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cosmos/cosmos-ui.git"
+    "url": "git+https://github.com/cosmos/voyager.git"
   },
   "engines": {
     "node": ">=9.4.0"
