@@ -53,3 +53,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ###Changed
 * Updated transaction history to be more clear and descriptive. @jolesbi
 * Improved delegate profile page to accommodate candidates and validators. @jolesbi
+
+## [0.4.3] - 2018-02-05
+### Changed
+* Renamed Cosmos UI to Cosmos Voyager. @nylira
