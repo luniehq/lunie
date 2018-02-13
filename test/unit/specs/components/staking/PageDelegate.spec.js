@@ -2,44 +2,45 @@ import setup from '../../../helpers/vuex-setup'
 import PageDelegate from 'renderer/components/staking/PageDelegate'
 
 describe('PageDelegate', () => {
-  let wrapper, store, router
+  let wrapper, router
   let {mount} = setup()
 
   beforeEach(() => {
-    let instance = mount(PageDelegate)
-    wrapper = instance.wrapper
-    store = instance.store
-    router = instance.router
-
-    store.commit('addDelegate', {
-      pub_key: {
-        type: 'ed25519',
-        data: 'pubkeyX'
-      },
-      voting_power: 10000,
-      shares: 5000,
-      description: {
-        description: 'descriptionX',
-        moniker: 'monikerX',
-        country: 'US'
+    let instance = mount(PageDelegate, {
+      getters: {
+        config: () => ({ desktop: false }),
+        delegates: () => ({
+          delegates: [
+            {
+              id: '1a2b3c',
+              moniker: 'JB',
+              website: 'https://the.zone',
+              voting_power: 1000,
+              owner: {
+                addr: 'helloaddr'
+              },
+              pub_key: {
+                data: '123pubkeyforme'
+              }
+            },
+            {
+              id: 'd4e5f6'
+            }
+          ]
+        })
       }
     })
-    router.push('/staking/delegates/pubkeyX')
+    wrapper = instance.wrapper
+    router = instance.router
+
+    router.push('/staking/delegates/1a2b3c')
   })
 
   it('has the expected html structure', () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it('should add/remove candidate to cart', () => {
-    expect(wrapper.vm.inCart).toBe(false)
-    wrapper.vm.add(wrapper.vm.delegate)
-    expect(wrapper.vm.inCart).toBe(true)
-    wrapper.vm.rm('pubkeyX')
-    expect(wrapper.vm.inCart).toBe(false)
-  })
-
-  it('should show the correct country name', () => {
-    expect(wrapper.html()).toContain('United States')
+  it('should return one delegate based on route params', () => {
+    expect(wrapper.vm.delegate.id).toEqual('1a2b3c')
   })
 })

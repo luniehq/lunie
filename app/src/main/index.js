@@ -10,7 +10,6 @@ let semver = require('semver')
 let event = require('event-to-promise')
 let toml = require('toml')
 let axios = require('axios')
-var glob = require('glob')
 
 let pkg = require('../../../package.json')
 let relayServer = require('./relayServer.js')
@@ -26,6 +25,8 @@ let nodeIP
 let connecting = false
 
 const root = require('../root.js')
+const networkPath = require('../network.js').path
+
 const baseserverHome = join(root, 'baseserver')
 const WIN = /^win/.test(process.platform)
 const DEV = process.env.NODE_ENV === 'development'
@@ -40,11 +41,6 @@ const winURL = DEV
 const RELAY_PORT = DEV ? config.relay_port : config.relay_port_prod
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
-
-// this network gets used if none is specified via the
-// COSMOS_NETWORK env var
-let DEFAULT_NETWORK = join(__dirname, '../networks/gaia-2')
-let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
 
@@ -266,36 +262,6 @@ async function initBaseserver (chainId, home, node) {
   await expectCleanExit(child, 'gaia init exited unplanned')
 }
 
-async function backupData (root) {
-  let i = 1
-  let path
-  do {
-    path = `${root}_backup_${i}`
-    i++
-  } while (exists(path))
-
-  log(`backing up data to "${path}"`)
-
-  // ATTENTION: mainLog stream is still open at this point, so we can't move it arround (at least on windows)
-  fs.copySync(root, path, {
-    overwrite: false,
-    errorOnExist: true,
-    filter: file => file.indexOf('main.log') === -1
-  })
-  await new Promise((resolve, reject) => {
-    glob(root + '/**/*', (err, files) => {
-      if (err) {
-        return reject(err)
-      }
-
-      files
-      .filter(file => file.indexOf('main.log') === -1)
-      .forEach(file => fs.removeSync(file))
-      resolve()
-    })
-  })
-}
-
 /*
 * log to file
 */
@@ -417,23 +383,32 @@ async function main () {
   if (rootExists) {
     log(`root exists (${root})`)
 
+    // NOTE: when changing this code, always make sure the app can never
+    // overwrite/delete existing data without at least backing it up,
+    // since it may contain the user's private keys and they might not
+    // have written down their seed words.
+    // they might get pretty mad if the app deletes their money!
+
     // check if the existing data came from a compatible app version
-    // if not, backup the data and re-initialize
+    // if not, fail with an error
     if (consistentConfigDir(appVersionPath, genesisPath, configPath, gaiaVersionPath)) {
-      let existingVersion = fs.readFileSync(appVersionPath, 'utf8')
+      let existingVersion = fs.readFileSync(appVersionPath, 'utf8').trim()
       let compatible = semver.diff(existingVersion, pkg.version) !== 'major'
       if (compatible) {
         log('configs are compatible with current app version')
         init = false
       } else {
-        await backupData(root)
+        // TODO: versions of the app with different data formats will need to learn how to
+        // migrate old data
+        throw Error(`Data was created with an incompatible app version
+          data=${existingVersion} app=${pkg.version}`)
       }
     } else {
-      await backupData(root)
+      throw Error(`The data directory (${root}) has missing files`)
     }
 
     // check to make sure the genesis.json we want to use matches the one
-    // we already have. if it has changed, back up the old data
+    // we already have. if it has changed, exit with an error
     if (!init) {
       let existingGenesis = fs.readFileSync(genesisPath, 'utf8')
       let genesisJSON = JSON.parse(existingGenesis)
@@ -441,9 +416,7 @@ async function main () {
       if (genesisJSON.chain_id !== 'local') {
         let specifiedGenesis = fs.readFileSync(join(networkPath, 'genesis.json'), 'utf8')
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
-          log('genesis has changed')
-          await backupData(root)
-          init = true
+          throw Error('Genesis has changed')
         }
       }
     }

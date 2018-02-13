@@ -1,10 +1,6 @@
 <template lang='pug'>
 page(title='Send')
   div(slot="menu"): tool-bar
-    router-link(:to="{ name: 'balances' }")
-      i.material-icons arrow_back
-      .label Back
-
   form-struct(:submit="onSubmit")
     part(title='Denomination Options')
       form-group(:error='$v.fields.denom.$error'
@@ -76,7 +72,8 @@ export default {
     ...mapGetters(['wallet']),
     denominations () {
       return this.wallet.balances.map(i =>
-        ({ key: i.denom.toUpperCase(), value: i.denom }))
+        ({ key: i.denom.toUpperCase(), value: i.denom })
+      )
     }
   },
   data: () => ({

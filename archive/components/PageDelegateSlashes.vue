@@ -1,8 +1,8 @@
 <template lang="pug">
-page(icon="storage" :title="`${validatorId} Slashes`")
+page(icon="storage" :title="`${delegateId} Slashes`")
   div(slot="menu"): tool-bar
     router-link(
-      :to="{ name: 'validator-index', params: { validator: $route.params.validator }}")
+      :to="{ name: 'delegate', params: { delegate: $route.params.delegate }}")
       i.material-icons arrow_back
       .label Back
     a(@click='toggleSearch')
@@ -28,7 +28,7 @@ import ToolBar from 'common/NiToolBar'
 import Page from 'common/NiPage'
 import Part from 'common/NiPart'
 export default {
-  name: 'page-validator-slashes',
+  name: 'page-delegate-slashes',
   components: {
     ListItem,
     Page,
@@ -36,7 +36,7 @@ export default {
     ToolBar
   },
   computed: {
-    validatorId () { return this.slugToIp(this.$route.params.validator) }
+    delegateId () { return this.slugToIp(this.$route.params.delegate) }
   },
   methods: {
     toggleSearch () {
