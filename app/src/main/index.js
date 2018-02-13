@@ -34,7 +34,6 @@ const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 // TODO default logging or default disable logging?
 const LOGGING = JSON.parse(process.env.LOGGING || 'true') !== false
 const MOCK = JSON.parse(process.env.MOCK || !TEST && DEV) !== false
-const UI_ONLY = JSON.parse(process.env.COSMOS_UI_ONLY || 'false')
 const winURL = DEV
   ? `http://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
@@ -117,9 +116,7 @@ function createWindow () {
     webPreferences: { webSecurity: false }
   })
 
-  if (UI_ONLY) {
-    mainWindow.loadURL(winURL + '?node=localhost')
-  } else if (!started) {
+  if (!started) {
     mainWindow.loadURL(winURL)
   } else {
     startVueApp()
@@ -370,10 +367,6 @@ async function reconnect (seeds) {
 }
 
 async function main () {
-  if (UI_ONLY) {
-    return
-  }
-
   let appVersionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
   let configPath = join(root, 'config.toml')
