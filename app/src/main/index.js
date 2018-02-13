@@ -115,7 +115,7 @@ function createWindow () {
     width: 1024,
     height: 768,
     center: true,
-    title: 'Cosmos',
+    title: 'Cosmos Voyager',
     darkTheme: true,
     titleBarStyle: 'hidden',
     webPreferences: { webSecurity: false }

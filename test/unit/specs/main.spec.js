@@ -65,7 +65,7 @@ describe('Startup Process', () => {
     })
   })
 
-  // uses package.json from cosmos-ui/ root.
+  // uses package.json from voyager/ root.
   jest.mock(root + 'package.json', () => ({
     version: '0.1.0'
   }))

@@ -38,7 +38,7 @@ async function main () {
   let executablePath = process.argv[2]
 
   if (!executablePath) {
-    console.error('\nPlease define the executable you want to test like "yarn run test:exe ./Cosmos.exe"\n')
+    console.error('\nPlease define the executable you want to test like "yarn run test:exe ./Cosmos Voyager.exe"\n')
     process.exit(-1)
   }
   await test(executablePath)

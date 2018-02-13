@@ -10,7 +10,7 @@ test('sign in', async function (t) {
   console.log('app launched')
   client = app.client
 
-  navigate(t, client, 'Sign In', 'Welcome to Cosmos')
+  navigate(t, client, 'Sign In', 'Welcome to Cosmos Voyager')
 
   t.test('agreement', async function (t) {
     let input = 'input[placeholder="Enter here"]'

@@ -1,4 +1,4 @@
-# Creating a Cosmos UI Release
+# Creating a Cosmos Voyager Release
 
 ## Gaia
 
@@ -8,7 +8,7 @@ First, you'll need to either download trusted `gaia` binaries for each platform,
 
 **TODO:** *Use Docker for this step*
 
-If you build the binaries yourself, you'll need to have Golang 1.9 installed, and be on the correct version of `gaia` for the network you are building the UI for:
+If you build the binaries yourself, you'll need to have Golang 1.9 installed, and be on the correct version of `gaia` for the network you are building Voyager for:
 
 ```bash
 go version # should be at least 1.9
@@ -45,7 +45,7 @@ GOOS=windows GOARCH=386 go build \
 # (if you want 64-bit, change `GOARCH=386` to `GOARCH=amd64`)
 ```
 
-## Cosmos UI
+## Cosmos Voyager
 
 Now that we have `gaia`, we can build the app.
 
@@ -107,8 +107,8 @@ We will also have a company key for macOS signatures, for extra security and so 
 
 Now this release is ready to go out to the world!
 
-- Visit https://github.com/cosmos/cosmos-ui/releases/new to create the Github release
-- Fill in the release text based on the format of past releases (https://github.com/cosmos/cosmos-ui/releases)
+- Visit https://github.com/cosmos/voyager/releases/new to create the Github release
+- Fill in the release text based on the format of past releases (https://github.com/cosmos/voyager/releases)
 - Add changes from `CHANGELOG.md`
 - Upload the build files from the `builds` folder (Windows `.zip`, Linux and Mac `.tar.gz`)
 - Hit the big green button and enjoy the dopamine and serotonin flooding your brain
