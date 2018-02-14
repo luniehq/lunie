@@ -283,7 +283,7 @@ export default {
           restrictSize: { min: { width: offset } }
         })
         .on('resizemove', (event) => {
-          this.handleResize (event.target, event.rect.width)
+          this.handleResize(event.target, event.rect.width)
         })
     },
     handleResize (element, width) {
