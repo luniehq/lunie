@@ -242,6 +242,9 @@ exports[`PageBond has the expected html structure 1`] = `
                       </label>
                       <input
                         class="bond-value__input ni-field"
+                        id="pubkeyX-atoms"
+                        max="101"
+                        min="0"
                         placeholder="Atoms"
                         step="1"
                         type="number"
@@ -312,6 +315,9 @@ exports[`PageBond has the expected html structure 1`] = `
                       </label>
                       <input
                         class="bond-value__input ni-field"
+                        id="pubkeyY-atoms"
+                        max="101"
+                        min="0"
                         placeholder="Atoms"
                         step="1"
                         type="number"
