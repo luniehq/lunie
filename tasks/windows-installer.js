@@ -3,13 +3,13 @@ var package = require('../package.json')
 
 // Installer is customizable: https://github.com/electron/windows-installer
 let resultPromise = electronInstaller.createWindowsInstaller({
-    appDirectory: './builds/Cosmos-win32-x64',
-    outputDirectory: './builds/cosmos/Cosmos-win32',
-    title: 'Cosmos',
+    appDirectory: './builds/cosmos-voyager-win32-x64',
+    outputDirectory: './builds/cosmos/cosmos-voyager-win32',
+    title: 'Cosmos Voyager',
     authors: package.author,
-    exe: 'Cosmos.exe',
-    setupExe: `Cosmos-Setup-v${package.version}.exe`,
-    iconUrl: 'https://github.com/cosmos/cosmos-ui/raw/develop/app/icons/icon.ico',
+    exe: 'Cosmos Voyager.exe',
+    setupExe: `Cosmos-Voyager-Setup-v${package.version}.exe`,
+    iconUrl: 'https://github.com/cosmos/voyager/raw/develop/app/icons/icon.ico',
     setupIcon: './app/icons/icon.ico',
     noMsi: true
   });

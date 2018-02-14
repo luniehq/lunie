@@ -1,14 +1,14 @@
 ![the cosmos network](cosmos-github.jpg)
 
-# Cosmos UI
+# Cosmos Voyager
 
-👋 Welcome to the official user interface for the [Cosmos Network](https://cosmos.network/).
+👋 Welcome to Voyager, the official user interface for the [Cosmos Network](https://cosmos.network/).
 
-💻 The Cosmos UI is a desktop application built with [Electron](https://github.com/electron/electron). Cosmos UI runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
+💻 Voyager is a desktop application built with [Electron](https://github.com/electron/electron). Voyager runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
 
-⚠️ This is still alpha-level software. __DO NOT__ enter your Cosmos fundraiser seed into the UI.
+⚠️ This is still alpha-level software. __DO NOT__ enter your Cosmos fundraiser seed into Voyager.
 
-🎉 Releases can be found [here](https://github.com/cosmos/cosmos-ui/releases).
+🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases).
 
 ---
 
@@ -125,7 +125,7 @@ A list of all environment variables and their purpose:
 |MOCK|'true', 'false'|'true' in development|Mock data to receive from the chain|
 |COSMOS_TEST|'true', 'false'|'false'|Disable code that influences unit tests, like logging to files|
 |COSMOS_NETWORK|{path to network configuration folder}|'../networks/gaia-1'|Network to connect to|
-|COSMOS_HOME|{path to config persistence folder}|'$HOME/cosmos-ui[-dev]'||
+|COSMOS_HOME|{path to config persistence folder}|'$HOME/voyager[-dev]'||
 |COSMOS_NODE|{ip of a certain node}||Node to connect to|
 |PLATFORM_TARGET|'all', 'win32', 'darwin', 'linux', 'mas'|'all'|Which platform to build for|
 |COSMOS_DEVTOOLS|'true', 'false'|'false'|Open the debug panel in the electron view|
@@ -135,7 +135,7 @@ A list of all environment variables and their purpose:
 
 ### FAQ
 
-- If tendermint crashes and the log shows `Tendermint state.AppHash does not match AppHash after replay.` delete the config folders at `$HOME/.cosmos-ui[-dev]`.
+- If tendermint crashes and the log shows `Tendermint state.AppHash does not match AppHash after replay.` delete the config folders at `$HOME/.voyager[-dev]`.
 
 - If you use yarn, the post-install hook may not execute. If this happens you'll have to execute the script manually:
 ```bash
