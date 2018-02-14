@@ -54,10 +54,14 @@ page.page-bond(title="Bond Atoms")
           label.bond-delta
             span(v-if="d.deltaAtoms !== 0") {{ d.deltaAtoms }}
           field.bond-value__input(
+            :id="`${d.id}-atoms`"
             type="number"
             placeholder="Atoms"
             step="1"
-            v-model.number="d.atoms")
+            min="0"
+            :max="$v.fields.delegates.$each[index].atoms.$params.between.max"
+            v-model.number="d.atoms"
+            @change.native="limitMax(d, $event)")
 
       form-msg(name="Atoms" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
@@ -149,10 +153,6 @@ export default {
     oldUnbondedAtoms () {
       return this.totalAtoms - this.oldBondedAtoms
     },
-    // not used
-    // newBondedAtoms () {
-    //   return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
-    // },
     newUnbondedAtoms () {
       return this.fields.delegates.reduce((atoms, d) => {
         let delta = d.oldAtoms - d.atoms
@@ -325,6 +325,14 @@ export default {
         value = Math.round(ratio * 100)
       }
       return value + '%'
+    },
+    limitMax (delegate, event) {
+      let max = parseInt(event.target.max)
+      if (delegate.atoms >= max) {
+        console.log(`${delegate.atoms} <= ${max}`)
+        delegate.atoms = max
+        return
+      }
     }
   },
   async mounted () {
