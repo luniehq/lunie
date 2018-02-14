@@ -54,7 +54,6 @@ page.page-bond(title="Bond Atoms")
           label.bond-delta
             span(v-if="d.deltaAtoms !== 0") {{ d.deltaAtoms }}
           field.bond-value__input(
-            :id="`${d.id}-atoms`"
             type="number"
             placeholder="Atoms"
             step="1"
