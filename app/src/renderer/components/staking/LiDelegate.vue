@@ -12,7 +12,9 @@
   .li-delegate__value.status
     span {{ delegateType }}
   template(v-if="userCanDelegate")
-    .li-delegate__value.checkbox#remove-from-cart(v-if="inCart" @click='rm(delegate)')
+    .li-delegate__value.checkbox(v-if="amountBonded > 0")
+      i.material-icons check_box
+    .li-delegate__value.checkbox#remove-from-cart(v-else-if="inCart" @click='rm(delegate)')
       i.material-icons check_box
     .li-delegate__value.checkbox#add-to-cart(v-else @click='add(delegate)')
       i.material-icons check_box_outline_blank
@@ -38,7 +40,7 @@ export default {
     },
     styles () {
       let value = ''
-      if (this.inCart) value += 'li-delegate-active '
+      if (this.inCart || this.amountBonded > 0) value += 'li-delegate-active '
       if (this.delegate.isValidator) value += 'li-delegate-validator '
       return value
     },
