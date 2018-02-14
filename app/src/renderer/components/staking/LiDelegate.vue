@@ -150,6 +150,7 @@ export default {
 
   &.checkbox
     justify-content center
+    cursor pointer
 
   span
     white-space nowrap
