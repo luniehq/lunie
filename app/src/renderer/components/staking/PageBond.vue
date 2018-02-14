@@ -283,14 +283,17 @@ export default {
           restrictSize: { min: { width: offset } }
         })
         .on('resizemove', (event) => {
-          let target = event.target
-          let ratio = (event.rect.width - offset) / (this.bondBarOuterWidth - offset)
-          let rawAtoms = ratio * this.totalAtoms
-
-          target.style.width = event.rect.width + 'px'
-
-          this.updateDelegateAtoms(target.id.split('-')[1], rawAtoms)
+          this.handleResize (event.target, event.rect.width)
         })
+    },
+    handleResize (element, width) {
+      let offset = this.bondBarScrubWidth
+      let ratio = Math.round((width - offset) / (this.bondBarOuterWidth - offset) * 100) / 100
+      let rawAtoms = ratio * this.totalAtoms
+
+      element.style.width = width + 'px'
+
+      return this.updateDelegateAtoms(element.id.split('-')[1], rawAtoms)
     },
     updateDelegateAtoms (delegateId, rawAtoms) {
       let d = this.fields.delegates.find(d => d.id === delegateId)
@@ -300,6 +303,7 @@ export default {
         d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, 'int')
         d.deltaAtomsPercent =
           this.percent(this.delta(rawAtoms, d.oldAtoms), this.totalAtoms)
+        return d
       }
     },
     setBondBarOuterWidth () {
