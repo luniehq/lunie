@@ -30,7 +30,6 @@ page(title='Validators and Candidates')
 <script>
 import { mapGetters } from 'vuex'
 import { includes, orderBy } from 'lodash'
-import indicateValidators from 'scripts/indicateValidators'
 import Mousetrap from 'mousetrap'
 import LiDelegate from 'staking/LiDelegate'
 import Btn from '@nylira/vue-button'
@@ -103,7 +102,6 @@ export default {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
     Mousetrap.bind('esc', () => this.setSearch(false))
     await this.updateDelegates(this.user.address)
-    indicateValidators(this.delegates.delegates, this.config.maxValidators)
   }
 }
 </script>
