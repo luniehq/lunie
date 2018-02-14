@@ -121,6 +121,7 @@ export default {
   left 0
   right 0
   z-index z(toolBar)
+  
   .label
     color bright
     line-height 2rem
