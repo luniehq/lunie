@@ -53,7 +53,6 @@ async function main () {
 
   node.lcdConnected()
   .then(connected => {
-    throw new Error('Expected')
     if (connected) {
       axios.get(`http://localhost:${relayPort}/startsuccess`)
     }
