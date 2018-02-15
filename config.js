@@ -34,6 +34,8 @@ let config = {
   },
 
   default_network: 'gaia-2',
+  analytics_networks: ['gaia-2', 'gaia-3-dev', 'gaia-3'],
+  google_analytics: 'UA-51029217-3',
 }
 
 config.building.name = config.name
