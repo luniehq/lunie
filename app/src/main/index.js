@@ -40,7 +40,7 @@ const winURL = DEV
   : `file://${__dirname}/index.html`
 const RELAY_PORT = DEV ? settings.relay_port : settings.relay_port_prod
 const LCD_PORT = DEV ? settings.lcd_port : settings.lcd_port_prod
-const NODE = process.env.COSMOS_NODEß
+const NODE = process.env.COSMOS_NODE
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
 
