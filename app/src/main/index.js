@@ -10,11 +10,12 @@ let semver = require('semver')
 let event = require('event-to-promise')
 let toml = require('toml')
 let axios = require('axios')
+let Raven = require('raven')
 
 let pkg = require('../../../package.json')
 let relayServer = require('./relayServer.js')
 let addMenu = require('./menu.js')
-let config = require('../../../config.js')
+let settings = require('../../../config.js')
 
 let started = false
 let shuttingDown = false
@@ -35,11 +36,11 @@ const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 const LOGGING = JSON.parse(process.env.LOGGING || 'true') !== false
 const MOCK = JSON.parse(process.env.MOCK || !TEST && DEV) !== false
 const winURL = DEV
-  ? `http://localhost:${config.wds_port}`
+  ? `http://localhost:${settings.wds_port}`
   : `file://${__dirname}/index.html`
-const RELAY_PORT = DEV ? config.relay_port : config.relay_port_prod
-const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
-const NODE = process.env.COSMOS_NODE
+const RELAY_PORT = DEV ? settings.relay_port : settings.relay_port_prod
+const LCD_PORT = DEV ? settings.lcd_port : settings.lcd_port_prod
+const NODE = process.env.COSMOS_NODEß
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
 
@@ -177,6 +178,8 @@ function startProcess (name, args, env) {
   child.on('exit', (code) => !shuttingDown && log(`${name} exited with code ${code}`))
   child.on('error', function (err) {
     if (!(shuttingDown && err.code === 'ECONNRESET')) {
+      // TODO test
+      Raven.captureException(err)
       // if we throw errors here, they are not handled by the main process
       console.error('[Uncaught Exception] Child', name, 'produced an unhandled exception:', err)
       console.log('Shutting down UI')
@@ -303,15 +306,16 @@ function setupLogging (root) {
 
 if (!TEST) {
   process.on('exit', shutdown)
+  // on uncaught exceptions we wait so the sentry event can be sent
   process.on('uncaughtException', async function (err) {
+    await sleep(1000)
     logError('[Uncaught Exception]', err)
-    console.error('[Uncaught Exception]', err)
     await shutdown()
     process.exit(1)
   })
   process.on('unhandledRejection', async function (err) {
+    await sleep(1000)
     logError('[Unhandled Promise Rejection]', err)
-    console.error('[Unhandled Promise Rejection]', err)
     await shutdown()
     process.exit(1)
   })
@@ -366,7 +370,21 @@ async function reconnect (seeds) {
   return nodeIP
 }
 
+function setupAnalytics () {
+  let networkIsWhitelisted = settings.analytics_networks.indexOf(settings.default_network) !== -1
+  if (networkIsWhitelisted) {
+    log('Adding analytics')
+  }
+
+  // only enable sending of error events in production setups and if the network is a testnet
+  Raven.config(networkIsWhitelisted && process.env.NODE_ENV === 'production' ? settings.sentry_dsn : '', {
+    captureUnhandledRejections: true
+  }).install()
+}
+
 async function main () {
+  setupAnalytics()
+
   let appVersionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
   let configPath = join(root, 'config.toml')
@@ -399,7 +417,7 @@ async function main () {
         // TODO: versions of the app with different data formats will need to learn how to
         // migrate old data
         throw Error(`Data was created with an incompatible app version
-          data=${existingVersion} app=${pkg.version}`)
+        data=${existingVersion} app=${pkg.version}`)
       }
     } else {
       throw Error(`The data directory (${root}) has missing files`)
@@ -441,7 +459,7 @@ async function main () {
   // TODO: semver check, or exact match?
   if (gaiaVersion !== expectedGaiaVersion) {
     throw Error(`Requires gaia ${expectedGaiaVersion}, but got ${gaiaVersion}.
-      Please update your gaia installation or build with a newer binary.`)
+    Please update your gaia installation or build with a newer binary.`)
   }
 
   // read chainId from genesis.json
