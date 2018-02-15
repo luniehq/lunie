@@ -31,6 +31,9 @@ let config = {
     platform: process.env.PLATFORM_TARGET || 'darwin,linux,win32',
     packageManager: 'yarn'
   }
+  },
+
+  default_network: 'gaia-2',
 }
 
 config.building.name = config.name
