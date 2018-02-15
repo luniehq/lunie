@@ -205,8 +205,8 @@ export default {
         this.$store.commit('activateDelegation')
         try {
           await this.$store.dispatch('submitDelegation', this.fields)
-          this.$store.commit('notify', { title: 'Atoms Bonded',
-            body: 'You have successfully updated your delegations.' })
+          this.$store.commit('notify', { title: 'Successful Delegation',
+            body: 'You have successfully bonded / unbonded.' })
           this.$router.push('/staking')
         } catch (err) {
           this.$store.commit('notifyError', { title: 'Error While Bonding Atoms',
