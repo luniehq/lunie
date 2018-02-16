@@ -75,7 +75,7 @@
     "node-sass": "^4.7.2",
     "proxyquire": "^1.8.0",
     "pug": "^2.0.0-rc.1",
-    "spectron": "^3.7.2",
+    "spectron": "^3.8.0",
     "style-loader": "^0.19.1",
     "tape": "^4.8.0",
     "tape-promise": "^2.0.1",

@@ -57,6 +57,9 @@ module.exports = {
   },
   async logout (client) {
     console.log('logging out')
+    if (await client.isExisting('.ni-li-session')) {
+      return
+    }
     await module.exports.openMenu(client)
 
     await client.$('.ni-li-user').click()

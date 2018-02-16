@@ -21,8 +21,6 @@ function cliSendCoins (home, to, amount) {
 }
 
 test('wallet', async function (t) {
-  await sleep(500)
-
   let {app, home} = await launchApp(t)
   let client = app.client
   let $ = (...args) => client.$(...args)
