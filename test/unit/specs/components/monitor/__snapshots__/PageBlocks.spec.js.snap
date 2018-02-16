@@ -83,7 +83,7 @@ exports[`PageBlocks has the expected html structure 1`] = `
                Block Time
             </div>
          <div class=\\"ni-li-dd\\">
-            Loading…
+            January 1st 1970 — 02:00:01
          </div>
 </div>
 </div>

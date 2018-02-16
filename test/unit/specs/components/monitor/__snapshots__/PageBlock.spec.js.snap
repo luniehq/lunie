@@ -107,7 +107,7 @@ exports[`PageBlock has the expected html structure 1`] = `
             Time
          </div>
       <div class=\\"ni-li-dd\\">
-         Loading...
+         January 1st 1970 — 02:00:01
       </div>
 </div>
 </div>
@@ -257,6 +257,31 @@ exports[`PageBlock has the expected html structure 1`] = `
 </main>
 </div>
 </section>
+</main>
+</div>"
+`;
+
+exports[`PageBlock should show a loading state if no block loaded yet 1`] = `
+"<div class=\\"ni-page\\">
+   <header class=\\"ni-page-header\\">
+      <div class=\\"ni-page-header-container\\">
+         <div class=\\"ni-page-header-text\\">
+            <div class=\\"ni-page-header-title\\">
+               <h2>
+                  Loading...
+               </h2>
+</div>
+   <div class=\\"ni-page-header-subtitle\\">
+      <h3></h3>
+</div>
+</div>
+   <menu class=\\"ni-page-header-menu\\">
+      <div></div>
+</menu>
+</div>
+</header>
+<main class=\\"ni-page-main\\">
+   <data-loading></data-loading>
 </main>
 </div>"
 `;
