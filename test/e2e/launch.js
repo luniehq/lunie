@@ -12,6 +12,12 @@ let binary = process.env.BINARY_PATH
 
 module.exports = function launch (t) {
   if (!started) {
+    // tape doesn't exit properly on uncaught promise rejections
+    process.on('unhandledRejection', error => {
+      console.error('unhandledRejection', error)
+      process.exit(1)
+    });
+
     started = new Promise(async (resolve, reject) => {
       console.log('using binary', binary) 
     
