@@ -3,6 +3,12 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+dependencies:
+  pre:
+    - curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    - sudo dpkg -i google-chrome.deb
+    - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
+    - rm google-chrome.deb
 jobs:
   build:
     docker:
@@ -30,16 +36,6 @@ jobs:
             - yarn.lock
             - node_modules
           key: v1-dependencies-root-{{ checksum "package.json" }}
-
-      - run:
-          name: Install Chromedriver latest version
-          command: |
-            sudo apt-get update
-            sudo apt-get install lsb-release
-            curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb12
-            sudo dpkg -i google-chrome.deb
-            sudo sed -i ‘s|HERE/chrome"|HERE/chrome" --disable-setuid-sandbox|g’ /opt/google/chrome/google-chrome
-            rm google-chrome.deb
 
       - run: 
           name: Add Gaia
