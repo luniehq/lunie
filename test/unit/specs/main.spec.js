@@ -25,7 +25,7 @@ jest.mock('electron', () => {
 childProcessMock((path, args) => ({
   on: (type, cb) => {
     // init processes always should return with 0
-    if (type === 'exit' && args[1] === 'init') {
+    if (type === 'exit' && args[1] === 'init' && args.length > 4) {
       cb(0)
     }
   },
@@ -33,6 +33,14 @@ childProcessMock((path, args) => ({
     on: (type, cb) => {
       if (args[0] === 'version' && type === 'data') {
         cb({toString: () => 'v0.5.0'})
+      }
+    }
+  },
+  stderr: {
+    on: (type, cb) => {
+      // test for init of gaia
+      if (type === 'data' && args[1] === 'init' && args.length === 4) {
+        cb({ toString: () => 'already is initialized' })
       }
     }
   }
@@ -374,6 +382,12 @@ describe('Startup Process', () => {
       it('should survive the baseserver folder being removed', async () => {
         fs.removeSync(join(testRoot, 'baseserver'))
         await initMain()
+        expect(childProcess.spawn.mock.calls
+          .find(([path, args]) =>
+          path.includes('gaia') &&
+          args.includes('init')
+        ).length
+        ).toBe(3) // one to check in first round, one to check + one to init in the second round
       })
     })
   })
@@ -455,6 +469,14 @@ function failingChildProcess (mockName, mockCmd) {
       on: (type, cb) => {
         if (args[0] === 'version' && type === 'data') {
           cb({toString: () => 'v0.5.0'})
+        }
+      }
+    },
+    stderr: {
+      on: (type, cb) => {
+        // test for init of gaia
+        if (type === 'data' && args[1] === 'init' && args.length === 4) {
+          cb({ toString: () => 'already is initialized' })
         }
       }
     }
