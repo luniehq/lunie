@@ -47,14 +47,6 @@ jobs:
           command: |
             sudo wget https://www.dropbox.com/s/vkyuut8hnzse614/gaia-0.5.0-linux-32?dl=1 -O ~/repo/gaia
             sudo chmod o+wx /home/circleci/repo/gaia
-
-      - run: 
-          name: Update Chrome
-          command: |
-            - curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-            - sudo dpkg -i google-chrome.deb
-            - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
-            - rm google-chrome.deb    
       - run: 
           name: Update ChromeDriver
           command: |
