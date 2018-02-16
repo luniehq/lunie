@@ -63,6 +63,7 @@ module.exports = {
     await module.exports.openMenu(client)
 
     await client.$('.ni-li-user').click()
+    await sleep(300)
     await client.$('.material-icons=exit_to_app').$('..').click()
   }
 }
