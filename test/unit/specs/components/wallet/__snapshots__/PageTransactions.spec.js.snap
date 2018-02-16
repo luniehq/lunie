@@ -56,6 +56,20 @@ exports[`PageTransactions has the expected html structure 1`] = `
                   </a>
                 </div>
                 <a
+                  class="back"
+                >
+                  <i
+                    class="material-icons"
+                  >
+                    arrow_back
+                  </i>
+                  <div
+                    class="label"
+                  >
+                    Back
+                  </div>
+                </a>
+                <a
                   class="help"
                 >
                   <i
@@ -63,6 +77,11 @@ exports[`PageTransactions has the expected html structure 1`] = `
                   >
                     help_outline
                   </i>
+                  <div
+                    class="label"
+                  >
+                    Help
+                  </div>
                 </a>
               </div>
             </div>
@@ -145,6 +164,20 @@ exports[`PageTransactions should filter the transactions 1`] = `
                   </a>
                 </div>
                 <a
+                  class="back"
+                >
+                  <i
+                    class="material-icons"
+                  >
+                    arrow_back
+                  </i>
+                  <div
+                    class="label"
+                  >
+                    Back
+                  </div>
+                </a>
+                <a
                   class="help"
                 >
                   <i
@@ -152,6 +185,11 @@ exports[`PageTransactions should filter the transactions 1`] = `
                   >
                     help_outline
                   </i>
+                  <div
+                    class="label"
+                  >
+                    Help
+                  </div>
                 </a>
               </div>
             </div>

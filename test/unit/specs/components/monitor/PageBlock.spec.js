@@ -31,7 +31,7 @@ describe('PageBlock', () => {
                 },
                 num_txs: 0,
                 height: 10,
-                time: null
+                time: 1608
               },
               last_commit: {
                 precommits: []
@@ -61,5 +61,23 @@ describe('PageBlock', () => {
 
   it('should dispatch getBlock when mounted', () => {
     expect(store.dispatch).toHaveBeenCalledWith('getBlock', wrapper.vm.$route.params.block)
+  })
+
+  it('should show a loading state if no block loaded yet', () => {
+    let {wrapper} = mount(PageBlock, {
+      getters: {
+        blockchain: () => ({
+          block: {}
+        })
+      },
+      stubs: {
+        'data-loading': '<data-loading />'
+      }
+    })
+    wrapper.update()
+
+    expect(wrapper.vm.block).toEqual({})
+    expect(wrapper.contains('data-loading')).toBe(true)
+    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 })

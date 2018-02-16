@@ -16,7 +16,6 @@ export default ({ commit, node }) => {
   let url = state.urlPrefix + state.blockchainName + state.urlSuffix
   const mutations = {
     setUrl (state) {
-      console.log(url)
       state.url = url
     },
     getStatus (state) {

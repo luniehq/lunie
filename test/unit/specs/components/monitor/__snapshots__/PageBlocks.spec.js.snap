@@ -26,7 +26,15 @@ exports[`PageBlocks has the expected html structure 1`] = `
                      </div>
       </a>
    </div>
-      <a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a>
+      <a class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i>
+      <div class=\\"label\\">
+         Back
+      </div>
+      </a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i>
+      <div class=\\"label\\">
+         Help
+      </div>
+      </a>
    </div>
 </div>
 </div>
@@ -75,7 +83,7 @@ exports[`PageBlocks has the expected html structure 1`] = `
                Block Time
             </div>
          <div class=\\"ni-li-dd\\">
-            Loading…
+            January 1st 1970 — 02:00:01
          </div>
 </div>
 </div>

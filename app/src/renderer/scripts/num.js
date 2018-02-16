@@ -16,34 +16,22 @@ function prettyInt (num) {
   return numeral(num).format('0,0')
 }
 function short (num) {
-  if (num > 1000000000) {
+  if (num >= 1000000000) {
     return pretty(num / 1000000000) + 'B'
   }
-  if (num > 1000000) {
+  if (num >= 1000000) {
     return pretty(num / 1000000) + 'M'
   }
-  if (num > 1000) {
+  if (num >= 1000) {
     return pretty(num / 1000) + 'K'
   }
-  return numeral(num).format('0,0.00')
+  return numeral(num).format('0.00')
 }
 function shortInt (num) {
-  if (num > 1000000000) {
-    return integerize(num / 1000000000) + 'B'
-  }
-  if (num > 1000000) {
-    return integerize(num / 1000000) + 'MM'
-  }
   if (num > 1000) {
-    return integerize(num / 1000) + 'K'
+    return short(num)
   }
-  return integerize(num)
-}
-function integerize (num) {
-  return numeral(num).format('0,0')
-}
-function fractionize (num) {
-  return numeral(num).format('.00')
+  return prettyInt(num)
 }
 function percentInt (x) { return numeral(x).format('0%') }
 function percent (x) { return numeral(x).format('0.00%') }
@@ -51,13 +39,11 @@ function percent (x) { return numeral(x).format('0.00%') }
 export default {
   usd,
   usdInt,
-  full: full,
-  pretty: pretty,
-  prettyInt: prettyInt,
-  int: integerize,
-  frac: fractionize,
-  short: short,
+  full,
+  pretty,
+  prettyInt,
+  short,
   shortInt,
-  percent: percent,
-  percentInt: percentInt
+  percent,
+  percentInt
 }

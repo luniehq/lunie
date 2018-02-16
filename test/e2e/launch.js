@@ -7,7 +7,6 @@ let { join } = require('path')
 let { spawn } = require('child_process')
 let { newTempDir, login } = require('./common.js')
 
-// re-use app instance
 let app, home, cliHome, started
 let binary = process.env.BINARY_PATH 
 
