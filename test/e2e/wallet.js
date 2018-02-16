@@ -24,7 +24,8 @@ test('wallet', async function (t) {
   let {app, home} = await launchApp(t)
   let client = app.client
   let $ = (...args) => client.$(...args)
-  
+
+  await sleep(500)  
   await logout(client)
   await login(client, 'testkey')
 
