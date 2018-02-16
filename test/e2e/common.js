@@ -13,7 +13,7 @@ module.exports = {
     // close notifications as they overlay the menu button 
     while (await client.isExisting(`.ni-notification`)) { 
       await client.$(`.ni-notification`).click() 
-    }
+    } 
     await client.waitForExist('.material-icons=menu', 1000)
     await client.$('.material-icons=menu').click() 
     await client.waitForExist('.app-menu', 1000)
@@ -60,12 +60,10 @@ module.exports = {
     if (await client.isExisting('.ni-li-session')) {
       return
     }
-    console.log('open menu')
     await module.exports.openMenu(client)
 
     await client.$('.ni-li-user').click()
     await sleep(300)
-    console.log('clicking logout')
     await client.$('.material-icons=exit_to_app').$('..').click()
   }
 }
