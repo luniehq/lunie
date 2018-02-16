@@ -279,8 +279,7 @@ describe('Startup Process', () => {
       } catch (_err) {
         err = _err
       }
-      expect(err.message).toBe(`Data was created with an incompatible app version
-          data=0.1.0 app=1.1.1`)
+      expect(err.message).toContain(`incompatible app version`)
 
       let appVersion = fs.readFileSync(testRoot + 'app_version', 'utf8')
       expect(appVersion).toBe('0.1.0')
