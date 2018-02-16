@@ -11,10 +11,13 @@ module.exports = {
       return
     }
     // close notifications as they overlay the menu button 
+    await sleep(100)
     while (await client.isExisting(`.ni-notification`)) { 
       await client.$(`.ni-notification`).click() 
+      await sleep(100)
     } 
     await client.waitForExist('.material-icons=menu', 1000)
+    await sleep(100)
     await client.$('.material-icons=menu').click() 
     await client.waitForExist('.app-menu', 1000)
   },
