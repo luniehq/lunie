@@ -14,7 +14,8 @@ module.exports = {
     while (await client.isExisting(`.ni-notification`)) { 
       await client.$(`.ni-notification`).click() 
     } 
-    await client.$('#app-menu-button').click() 
+    await client.waitForExist('.material-icons=menu', 1000)
+    await client.$('.material-icons=menu').click() 
     await client.waitForExist('.app-menu', 1000)
   },
   async navigate (client, linkText, titleText = linkText) {

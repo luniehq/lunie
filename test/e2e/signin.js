@@ -1,6 +1,6 @@
 let test = require('tape-promise/tape')
 let launchApp = require('./launch.js')
-let { navigate, logout, openMenu } = require('./common.js')
+let { logout, openMenu } = require('./common.js')
 
 test('sign in', async function (t) {
   let {app, home} = await launchApp(t)
@@ -21,7 +21,6 @@ test('sign in', async function (t) {
     let warning = () => el('#sign-up-warning')
     let backedup = () => el('#sign-up-backup')
 
-  navigate(t, client, 'Sign In', 'Welcome to Cosmos Voyager')
     t.test('did check warning', async function (t) {
       await continueButton().click()
       t.ok(await warning().$('..').$('..').$('..').isExisting('.ni-form-msg--error'), 'shows error')

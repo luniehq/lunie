@@ -5,6 +5,7 @@ let test = require('tape-promise/tape')
 let electron = require('electron')
 let { join } = require('path')
 let { spawn } = require('child_process')
+let fs = require('fs-extra')
 let { newTempDir, login } = require('./common.js')
 
 let app, home, cliHome, started
@@ -12,6 +13,12 @@ let binary = process.env.BINARY_PATH
 
 module.exports = function launch (t) {
   if (!started) {
+    // tape doesn't exit properly on uncaught promise rejections
+    process.on('unhandledRejection', error => {
+      console.error('unhandledRejection', error)
+      process.exit(1)
+    });
+
     started = new Promise(async (resolve, reject) => {
       console.log('using binary', binary) 
     
@@ -47,13 +54,17 @@ module.exports = function launch (t) {
       await startApp(app)
       t.ok(app.isRunning(), 'app is running')
 
-      console.log('stopping app to test consecutive run')
+      // test if app restores from unitialized gaia folder
       await app.stop()
+      fs.removeSync(join(home, 'baseserver'))
+      fs.mkdirpSync(join(home, 'baseserver'))
+      await startApp(app)
+      t.ok(app.isRunning(), 'app recovers from uninitialized gaia')
 
+      await app.stop()
       await createAccount('testkey', 'chair govern physical divorce tape movie slam field gloom process pen universe allow pyramid private ability')
       await createAccount('testreceiver', 'crash ten rug mosquito cart south allow pluck shine island broom deputy hungry photo drift absorb')
       console.log('restored test accounts')
-
       await startApp(app)
       t.ok(app.isRunning(), 'app is running')
 
