@@ -11,16 +11,12 @@
   resolved "https://registry.yarnpkg.com/@nylira/vue-button/-/vue-button-4.3.2.tgz#f27b90a931a1a3b5e27736dba11dfcaa305d6ddb"
 
 "@nylira/vue-field@^1.1.17":
-  version "1.1.17"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-field/-/vue-field-1.1.17.tgz#a873c2d5e01b7ec664df0de71611b0fd9e066b97"
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-field/-/vue-field-1.2.3.tgz#47b5cde79bbb9d2993b4f5734304e0424734dab1"
 
 "@nylira/vue-form-msg@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@nylira/vue-form-msg/-/vue-form-msg-1.0.3.tgz#257e3fcb1da345690f4fba959372b70e8abc9c20"
-
-"@nylira/vue-input@^3.2.0":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-input/-/vue-input-3.4.0.tgz#741346ce0613b831b756fccb253731015fa5c246"
 
 "@nylira/vue-notifications@^1.4.4":
   version "1.4.4"
