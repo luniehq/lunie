@@ -9,7 +9,7 @@ jobs:
       # specify the version you desire here
       - image: circleci/node:9.4.0-browsers
     environment:
-      - BINARY_PATH: "usr/bin/gaia"
+      - BINARY_PATH: "~/repo/gaia"
 
     working_directory: ~/repo
 
@@ -34,16 +34,7 @@ jobs:
       # add gaia
       - run: 
           command: |
-            sudo wget -O - https://tendermint-packages.interblock.io/centos/7/os/x86_64/RPM-GPG-KEY-Tendermint | sudo apt-key add -
-            sudo wget -O /etc/apt/sources.list.d/tendermint.list https://tendermint-packages.interblock.io/debian/tendermint.list
-            sudo apt-key update
-            sudo apt-get update
-            apt-get download gaia
-            sudo apt-get -f install
-            sudo dpkg --unpack gaia*.deb
-            sudo rm /var/lib/dpkg/info/gaia.postinst -f
-            sudo dpkg --configure gaia
-            sudo apt-get install -yf
+            sudo wget https://www.dropbox.com/s/vkyuut8hnzse614/gaia-0.5.0-linux-32?dl=1 -O ~/repo/gaia
         
       - run: yarn run test
       - run: yarn run test:e2e
