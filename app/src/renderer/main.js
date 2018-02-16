@@ -6,9 +6,8 @@ import Vuelidate from 'vuelidate'
 import shrinkStacktrace from '../helpers/shrink-stacktrace.js'
 import axios from 'axios'
 import Raven from 'raven-js'
+import {remote} from 'electron'
 
-const electron = window.require('electron')
-const remote = electron.remote
 const config = require('../../../config')
 
 import App from './App'
