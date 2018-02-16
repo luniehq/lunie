@@ -34,6 +34,7 @@ module.exports = function launch (t) {
         path: electron,
         args: [
           join(__dirname, '../../app/dist/main.js'),
+          '--headless',
           '--disable-gpu',
           '--no-sandbox'
         ],
@@ -116,7 +117,7 @@ async function startLocalNode () {
       'node', 'init', 
       'D0718DDFF62D301626B428A182F830CBB0AD21FC', 
       '--home', cliHome, 
-      '--chain-id'  , 'localtestnet' 
+      '--chain-id'  , 'localtestnet'
     ]) 
     child.once('exit', (code) => { 
       if (code === 0) resolve()
