@@ -15,7 +15,7 @@ let Raven = require('raven')
 let pkg = require('../../../package.json')
 let relayServer = require('./relayServer.js')
 let addMenu = require('./menu.js')
-let settings = require('../../../config.js')
+let config = require('../../../config.js')
 
 let started = false
 let shuttingDown = false
@@ -36,10 +36,10 @@ const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 const LOGGING = JSON.parse(process.env.LOGGING || 'true') !== false
 const MOCK = JSON.parse(process.env.MOCK || !TEST && DEV) !== false
 const winURL = DEV
-  ? `http://localhost:${settings.wds_port}`
+  ? `http://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
-const RELAY_PORT = DEV ? settings.relay_port : settings.relay_port_prod
-const LCD_PORT = DEV ? settings.lcd_port : settings.lcd_port_prod
+const RELAY_PORT = DEV ? config.relay_port : config.relay_port_prod
+const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
@@ -371,13 +371,13 @@ async function reconnect (seeds) {
 }
 
 function setupAnalytics () {
-  let networkIsWhitelisted = settings.analytics_networks.indexOf(settings.default_network) !== -1
+  let networkIsWhitelisted = config.analytics_networks.indexOf(config.default_network) !== -1
   if (networkIsWhitelisted) {
     log('Adding analytics')
   }
 
   // only enable sending of error events in production setups and if the network is a testnet
-  Raven.config(networkIsWhitelisted && process.env.NODE_ENV === 'production' ? settings.sentry_dsn : '', {
+  Raven.config(networkIsWhitelisted && process.env.NODE_ENV === 'production' ? config.sentry_dsn : '', {
     captureUnhandledRejections: true
   }).install()
 }
@@ -475,8 +475,8 @@ async function main () {
   } catch (e) {
     throw new Error(`Can't open config.toml: ${e.message}`)
   }
-  let config = toml.parse(configText)
-  let seeds = config.p2p.seeds.split(',').filter(x => x !== '')
+  let configTOML = toml.parse(configText)
+  let seeds = configTOML.p2p.seeds.split(',').filter(x => x !== '')
   if (seeds.length === 0) {
     throw new Error('No seeds specified in config.toml')
   }
