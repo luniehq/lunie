@@ -328,6 +328,28 @@ function consistentConfigDir (appVersionPath, genesisPath, configPath, gaiaVersi
     exists(gaiaVersionPath)
 }
 
+// check if baseserver is initialized as the configs could be corrupted
+// we need to parse the error on initialization as there is no way to just get this status programmatically
+function baseserverInitialized (home) {
+  return new Promise((resolve, reject) => {
+    let child = startProcess(SERVER_BINARY, [
+      'client',
+      'init',
+      '--home', home
+      // '--trust-node'
+    ])
+    child.stderr.on('data', data => {
+      if (data.toString().includes('already is initialized')) {
+        return resolve(true)
+      }
+      if (data.toString().includes('"--chain-id" required')) {
+        return resolve(false)
+      }
+      reject('Unknown state for Gaia initialization: ' + data.toString())
+    })
+  })
+}
+
 function pickNode (seeds) {
   let nodeIP = NODE || seeds[Math.floor(Math.random() * seeds.length)]
   // let nodeRegex = /([http[s]:\/\/]())/g
@@ -482,8 +504,10 @@ async function main () {
   }
   nodeIP = pickNode(seeds)
 
-  if (init) {
-    log(`Initializing baseserver with remote node ${nodeIP}`)
+  let _baseserverInitialized = await baseserverInitialized(join(root, 'baseserver'))
+  console.log('Baseserver is', _baseserverInitialized ? '' : 'not', 'initialized')
+  if (init || !_baseserverInitialized) {
+    log(`Trying to initialize baseserver with remote node ${nodeIP}`)
     await initBaseserver(chainId, baseserverHome, nodeIP)
   }
 
