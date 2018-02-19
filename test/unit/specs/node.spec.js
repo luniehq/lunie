@@ -61,6 +61,7 @@ describe('LCD Connector', () => {
   })
 
   it('should try to reconnect until it gets a valid ip', async () => {
+    // we have to reset the axios module to the new implementation. sadly we have to define the mocks all over.
     jest.resetModules()
     LCDConnector = require('renderer/node')
 
