@@ -82,10 +82,16 @@ describe('Module: Delegates', () => {
     expect(store.state.delegates.delegates[1].test).toBe(456)
   })
 
+  it('updates existing candidates', async () => {
+    store.commit('addDelegate', { pub_key: { data: 'foo' }, description: { country: 'USA' } })
+    store.commit('addDelegate', { pub_key: { data: 'foo' }, description: { country: 'DE' } })
+    expect(store.state.delegates.delegates[0].country).toBe('DE')
+  })
+
   it('should query for delegates on reconnection', () => {
     let axios = require('axios')
     store.state.node.stopConnecting = true
-    store.state.delegation.loading = true
+    store.state.delegates.loading = true
     jest.spyOn(axios, 'get')
     store.dispatch('reconnected')
     expect(axios.get.mock.calls).toMatchSnapshot()

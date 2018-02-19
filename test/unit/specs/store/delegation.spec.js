@@ -14,28 +14,6 @@ describe('Module: Delegations', () => {
 
     store.dispatch('signIn', {password: 'bar', account: 'bar'})
   })
-  // beforeEach(() => {
-  //   node = require('../../helpers/node_mock')
-  //   store = new Vuex.Store({
-  //     modules: {
-  //       delegation: Delegation({ node }),
-  //       send: Send({ node }),
-  //       wallet: {
-  //         actions: {
-  //           queryWalletBalances: () => Promise.resolve()
-  //         },
-  //         state: { key: { address: 'address' } }
-  //       },
-  //       user: {
-  //         state: {
-  //           account: 'foo',
-  //           password: 'bar',
-  //           address: 'someaddress'
-  //         }
-  //       }
-  //     }
-  //   })
-  // })
 
   it('adds delegate to cart', () => {
     store.commit('addToCart', { id: 'foo', x: 1 })
