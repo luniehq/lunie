@@ -124,9 +124,18 @@ function zipFolder (inDir, outDir, version) {
           return reject(err)
         }
         files
-        .filter(file => !fs.lstatSync(file).isDirectory())
         .forEach(file => {
-          zip.file(path.relative(inDir, file), fs.readFileSync(file), {date: new Date('1987-08-16')}) // make the zip deterministic by changing all file times
+          // make the zip deterministic by changing all file times
+          if (fs.lstatSync(file).isDirectory()) {
+            zip.file(path.relative(inDir, file), null, {
+              dir: true,
+              date: new Date('1993-06-16')
+            })
+          } else {
+            zip.file(path.relative(inDir, file), fs.readFileSync(file), {
+              date: new Date('1987-08-16')
+            })
+          }
         })
         resolve()
       })
