@@ -85,7 +85,7 @@ describe('Module: Node', () => {
     store.dispatch('nodeSubscribe')
   })
 
-  it('should not reconnect on errors that do not mean disconnection', () => {
+  it('should not reconnect on errors that do not mean disconnection', done => {
     node.rpcReconnect = () => {
       throw Error('Shouldnt reconnect')
     }
@@ -95,6 +95,7 @@ describe('Module: Node', () => {
           message: 'some message'
         })
         expect(store.state.node.connected).toBe(true)
+        done()
       }
     })
     store.dispatch('nodeSubscribe')

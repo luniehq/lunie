@@ -52,6 +52,21 @@ describe('LCD Connector', () => {
     expect(node.rpcOpen).toBe(false)
   })
 
+  it('should not react to error codes not meaning connection failed', () => {
+    jest.mock('tendermint', () => () => ({
+      on (value, cb) {
+        if (value === 'error') {
+          cb({code: 'ABCD'})
+        }
+      }
+    }))
+    jest.resetModules()
+    LCDConnector = require('renderer/node')
+    let node = newNode()
+    expect(node.rpc).toBeDefined()
+    expect(node.rpcOpen).toBe(true)
+  })
+
   it('should notify the main process to reconnect', async () => {
     let node = newNode()
     expect(node.rpcConnecting).toBe(false)
@@ -60,31 +75,41 @@ describe('LCD Connector', () => {
     expect(nodeIP).toBe('1.2.3.4')
   })
 
-  it('should try to reconnect until it gets a valid ip', async () => {
-    // we have to reset the axios module to the new implementation. sadly we have to define the mocks all over.
-    jest.resetModules()
-    LCDConnector = require('renderer/node')
+  describe('reconnect', () => {
+    let axios, node
 
-    jest.mock('tendermint', () => () => ({
-      on (value, cb) {},
-      removeAllListeners () {},
-      ws: {
-        destroy () {}
-      }
-    }))
+    beforeEach(() => {
+      jest.resetModules()
+      LCDConnector = require('renderer/node')
 
-    jest.mock('axios', (url) => jest.fn()
-      .mockReturnValueOnce({data: null})
-      .mockReturnValueOnce({data: '1.2.3.5'}))
+      jest.mock('tendermint', () => () => ({
+        on (value, cb) {},
+        removeAllListeners () {},
+        ws: {
+          destroy () {}
+        }
+      }))
 
-    let axios = require('axios')
+      jest.mock('axios', (url) => jest.fn()
+        .mockReturnValueOnce({data: null})
+        .mockReturnValueOnce({data: '1.2.3.5'}))
 
-    let node = newNode()
-    node.relayPort = '1235'
+      axios = require('axios')
+      node = newNode()
+    })
 
-    let nodeIP = await node.rpcReconnect()
-    expect(axios.mock.calls.length).toBe(2)
-    expect(nodeIP).toBe('1.2.3.5')
+    it('should try to reconnect until it gets a valid ip', async () => {
+      let nodeIP = await node.rpcReconnect()
+      expect(axios.mock.calls.length).toBe(2)
+      expect(nodeIP).toBe('1.2.3.5')
+    })
+
+    it('should not reconnect again if already reconnecting', async () => {
+      node.rpcReconnect()
+      let nodeIP = await node.rpcReconnect()
+      expect(axios.mock.calls.length).toBe(1)
+      expect(nodeIP).toBe(null)
+    })
   })
 
   it('should show the connection state to the LCD', async () => {
