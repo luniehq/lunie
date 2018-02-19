@@ -15,6 +15,11 @@ export default ({ node }) => {
   }
 
   const actions = {
+    reconnected ({ state, dispatch }) {
+      if (state.loading) {
+        dispatch('getValidators')
+      }
+    },
     getValidators ({state, commit}) {
       state.loading = true
       node.rpc.validators((err, { validators } = {}) => {

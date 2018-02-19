@@ -2,6 +2,7 @@ import axios from 'axios'
 
 export default ({ commit, node }) => {
   let state = {
+    loading: false,
     delegationActive: false,
 
     // our delegations, maybe not yet committed
@@ -45,11 +46,20 @@ export default ({ commit, node }) => {
   }
 
   let actions = {
+    reconnected ({ state, dispatch }) {
+      if (state.loading) {
+        dispatch('getBondedDelegates')
+      }
+    },
     // load committed delegations from LCD
-    async getBondedDelegates ({ state, dispatch }, {candidates, address}) {
-      candidates.forEach(candidate => {
+    async getBondedDelegates ({ state, rootState, dispatch }) {
+      state.loading = true
+      let address = rootState.user.address
+      let candidates = await dispatch('getDelegates')
+      await Promise.all(candidates.map(candidate =>
         dispatch('getBondedDelegate', {address, pubkey: candidate.pub_key.data})
-      })
+      ))
+      state.loading = false
     },
     // load committed delegation from LCD
     async getBondedDelegate ({ commit }, {address, pubkey}) {

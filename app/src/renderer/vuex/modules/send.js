@@ -4,7 +4,8 @@ export default ({ commit, node }) => {
     nonce: 0,
     // queue of transactions to be sent
     queue: [],
-    sending: false
+    sending: false,
+    loading: false
   }
 
   const mutations = {
@@ -23,11 +24,18 @@ export default ({ commit, node }) => {
   }
 
   let actions = {
+    reconnected ({ state, dispatch, rootState }) {
+      if (state.loading) {
+        dispatch('queryNonce', rootState.user.address)
+      }
+    },
     // queries for our account's nonce
-    async queryNonce ({ commit }, address) {
+    async queryNonce ({ state, commit }, address) {
+      state.loading = true
       let res = await node.queryNonce(address)
       if (!res) return
       commit('setNonce', res.data)
+      state.loading = false
     },
 
     // builds, signs, and broadcasts a tx of any type

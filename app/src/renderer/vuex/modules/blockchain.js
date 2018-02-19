@@ -9,6 +9,7 @@ export default ({ commit, node }) => {
     abciInfo: {},
     blocks: [],
     block: {},
+    blockHeight: null, // we remember the height so we can requery the block, if querying failed
     blockLoading: false,
     url: ''
   }
@@ -34,8 +35,14 @@ export default ({ commit, node }) => {
   }
 
   const actions = {
+    reconnected ({ state, dispatch }) {
+      if (state.blockLoading) {
+        dispatch('getBlock', state.blockHeight)
+      }
+    },
     async getBlock ({ state, commit }, height) {
       state.blockLoading = true
+      state.blockHeight = height
       const blockUrl = url + '/block?height=' + height
       let block = (await axios.get(blockUrl)).data.result
       commit('setBlock', block)

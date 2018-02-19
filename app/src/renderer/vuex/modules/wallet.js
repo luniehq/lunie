@@ -40,6 +40,14 @@ export default ({ commit, node }) => {
   }
 
   let actions = {
+    reconnected ({ state, dispatch }) {
+      if (state.balancesLoading) {
+        dispatch('queryWalletBalances')
+      }
+      if (state.historyLoading) {
+        dispatch('queryWalletHistory')
+      }
+    },
     initializeWallet ({ commit, dispatch }, key) {
       commit('setWalletKey', key)
       dispatch('loadDenoms')

@@ -24,6 +24,11 @@ export default ({ dispatch, node }) => {
   }
 
   const actions = {
+    reconnected ({ state, dispatch }) {
+      if (state.loading) {
+        dispatch('getDelegates')
+      }
+    },
     async getDelegates ({ state, dispatch }) {
       state.loading = true
       let delegatePubkeys = (await node.candidates()).data

@@ -26,6 +26,10 @@ export default function ({ node }) {
   }
 
   const actions = {
+    reconnected ({commit, dispatch}) {
+      dispatch('nodeSubscribe')
+      commit('setConnected', true)
+    },
     setLastHeader ({state, dispatch}, header) {
       state.lastHeader = header
       dispatch('maybeUpdateValidators', header)
@@ -37,7 +41,7 @@ export default function ({ node }) {
       // rpcReconnect returns true if it actually reconnected
       // it returns false if it already is reconnecting, this is to prevent loops of connection intents
       if (await node.rpcReconnect()) {
-        dispatch('nodeSubscribe')
+        dispatch('reconnected')
       }
     },
     nodeSubscribe ({commit, dispatch}) {
@@ -61,7 +65,6 @@ export default function ({ node }) {
       node.rpc.status((err, res) => {
         if (err) return console.error(err)
         let status = res
-        commit('setConnected', true)
         dispatch('setLastHeader', {
           height: status.latest_block_height,
           chain_id: status.node_info.network
@@ -70,7 +73,6 @@ export default function ({ node }) {
 
       node.rpc.subscribe({ query: "tm.event = 'NewBlockHeader'" }, (err, event) => {
         if (err) return console.error('error subscribing to headers', err)
-        commit('setConnected', true)
         dispatch('setLastHeader', event.data.data.header)
       })
 

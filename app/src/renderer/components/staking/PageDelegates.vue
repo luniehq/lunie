@@ -89,13 +89,12 @@ export default {
   }),
   watch: {
     address: function (address) {
-      address && this.updateDelegates(address)
+      address && this.updateDelegates()
     }
   },
   methods: {
-    async updateDelegates (address) {
-      let candidates = await this.$store.dispatch('getDelegates')
-      this.$store.dispatch('getBondedDelegates', {candidates, address})
+    async updateDelegates () {
+      this.$store.dispatch('getBondedDelegates')
     },
     setSearch (bool) { this.$store.commit('setSearchVisible', ['delegates', bool]) }
   },
