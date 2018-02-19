@@ -49,11 +49,7 @@ export default {
       return this.blockchain.status
     },
     latestBlockTime () {
-      if (this.lastHeader.time) {
-        return moment(this.lastHeader.time).format('MMMM Do YYYY — hh:mm:ss')
-      } else {
-        return 'Loading…'
-      }
+      return moment(this.lastHeader.time).format('MMMM Do YYYY — hh:mm:ss')
     },
     latestBlockHash () {
       return this.lastHeader.last_block_id.hash
