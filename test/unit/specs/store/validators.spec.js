@@ -1,5 +1,7 @@
-import Vuex from 'vuex'
-import { createLocalVue } from '@vue/test-utils'
+import setup from '../../helpers/vuex-setup'
+
+let instance = setup()
+
 import mockValidators from './json/validators.json'
 const mockValidatorHash = '1234567890123456789012345678901234567890'
 const mockValidatorHashTwo = '0123456789012345678901234567890123456789'
@@ -9,21 +11,13 @@ const mockValidatorHeaderTwo = {
   validators_hash: mockValidatorHashTwo
 }
 
-const Validators = require('renderer/vuex/modules/validators').default
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
-
 describe('Module: Validators', () => {
   let node, store
 
   beforeEach(() => {
-    node = require('../../helpers/node_mock')
-    store = new Vuex.Store({
-      modules: {
-        validators: Validators({node})
-      }
-    })
+    let test = instance.shallow(null)
+    store = test.store
+    node = test.node
   })
 
   it('should have no validators by default', () => {
@@ -50,9 +44,20 @@ describe('Module: Validators', () => {
   })
 
   it('should query the validators on reconnection', () => {
+    jest.resetModules()
+    store.state.node.stopConnecting = true
     store.state.validators.loading = true
     jest.spyOn(node.rpc, 'validators')
     store.dispatch('reconnected')
     expect(node.rpc.validators).toHaveBeenCalled()
+  })
+
+  it('should not query validators on reconnection if not stuck in loading', () => {
+    jest.resetModules()
+    store.state.node.stopConnecting = true
+    store.state.validators.loading = false
+    jest.spyOn(node.rpc, 'validators')
+    store.dispatch('reconnected')
+    expect(node.rpc.validators).not.toHaveBeenCalled()
   })
 })

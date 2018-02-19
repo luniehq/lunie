@@ -1,15 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Module: Delegations should query delegated atoms on reconnection 1`] = `
-Array [
-  Array [
-    "http://localhost:9060/query/stake/delegator/someaddress/foo",
-  ],
-  Array [
-    "http://localhost:9060/query/stake/delegator/someaddress/bar",
-  ],
-]
-`;
+exports[`Module: Delegations should query delegated atoms on reconnection 1`] = `Array []`;
 
 exports[`Module: Delegations submits delegation transaction 1`] = `
 Array [

@@ -195,11 +195,27 @@ describe('Module: Wallet', () => {
     expect(node.queryAccount).toHaveBeenCalled()
   })
 
+  it('should not query the balances on reconnection if not stuck in loading', () => {
+    store.state.node.stopConnecting = true
+    store.state.wallet.balancesLoading = false
+    jest.spyOn(node, 'queryAccount')
+    store.dispatch('reconnected')
+    expect(node.queryAccount).not.toHaveBeenCalled()
+  })
+
   it('should query the history on reconnection', () => {
     store.state.node.stopConnecting = true
     store.state.wallet.historyLoading = true
     jest.spyOn(node, 'coinTxs')
     store.dispatch('reconnected')
     expect(node.coinTxs).toHaveBeenCalled()
+  })
+
+  it('should not query the history on reconnection if not stuck in loading', () => {
+    store.state.node.stopConnecting = true
+    store.state.wallet.historyLoading = false
+    jest.spyOn(node, 'coinTxs')
+    store.dispatch('reconnected')
+    expect(node.coinTxs).not.toHaveBeenCalled()
   })
 })
