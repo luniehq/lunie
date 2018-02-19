@@ -48,4 +48,11 @@ describe('Module: Validators', () => {
     store.dispatch('maybeUpdateValidators', mockValidatorHeaderTwo)
     expect(store.state.validators.validatorHash).toBe(mockValidatorHashTwo)
   })
+
+  it('should query the validators on reconnection', () => {
+    store.state.validators.loading = true
+    jest.spyOn(node.rpc, 'validators')
+    store.dispatch('reconnected')
+    expect(node.rpc.validators).toHaveBeenCalled()
+  })
 })

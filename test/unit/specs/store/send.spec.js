@@ -115,5 +115,13 @@ describe('Module: Send', () => {
       store.dispatch('walletSend', args)
         .then(done.fail, () => done())
     })
+
+    it('should query the nonce on reconnection', () => {
+      store.state.node.stopConnecting = true
+      store.state.send.loading = true
+      jest.spyOn(node, 'queryNonce')
+      store.dispatch('reconnected')
+      expect(node.queryNonce).toHaveBeenCalled()
+    })
   })
 })

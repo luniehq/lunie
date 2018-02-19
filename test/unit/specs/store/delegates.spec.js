@@ -81,4 +81,13 @@ describe('Module: Delegates', () => {
     expect(store.state.delegates.delegates[0].test).toBe(123)
     expect(store.state.delegates.delegates[1].test).toBe(456)
   })
+
+  it('should query for delegates on reconnection', () => {
+    let axios = require('axios')
+    store.state.node.stopConnecting = true
+    store.state.delegation.loading = true
+    jest.spyOn(axios, 'get')
+    store.dispatch('reconnected')
+    expect(axios.get.mock.calls).toMatchSnapshot()
+  })
 })

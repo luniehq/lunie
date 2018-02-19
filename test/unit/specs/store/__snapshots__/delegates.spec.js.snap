@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Module: Delegates should query for delegates on reconnection 1`] = `
+Array [
+  Array [
+    "http://localhost:9060/query/stake/candidate/foo",
+  ],
+  Array [
+    "http://localhost:9060/query/stake/candidate/bar",
+  ],
+]
+`;
