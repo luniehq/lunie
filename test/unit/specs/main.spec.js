@@ -25,7 +25,7 @@ jest.mock('electron', () => {
 childProcessMock((path, args) => ({
   on: (type, cb) => {
     // init processes always should return with 0
-    if (type === 'exit' && args[1] === 'init') {
+    if (type === 'exit' && args[1] === 'init' && args.length > 4) {
       cb(0)
     }
   },
@@ -33,6 +33,14 @@ childProcessMock((path, args) => ({
     on: (type, cb) => {
       if (args[0] === 'version' && type === 'data') {
         cb({toString: () => 'v0.5.0'})
+      }
+    }
+  },
+  stderr: {
+    on: (type, cb) => {
+      // test for init of gaia
+      if (type === 'data' && args[1] === 'init' && args.length === 4) {
+        cb({ toString: () => 'already is initialized' })
       }
     }
   }
@@ -65,7 +73,7 @@ describe('Startup Process', () => {
     })
   })
 
-  // uses package.json from cosmos-ui/ root.
+  // uses package.json from voyager/ root.
   jest.mock(root + 'package.json', () => ({
     version: '0.1.0'
   }))
@@ -266,54 +274,44 @@ describe('Startup Process', () => {
   describe('Update app version', function () {
     mainSetup()
 
-    it('should backup the genesis.json', async function () {
+    it('should not replace the existing data', async function () {
       resetModulesKeepingFS()
 
       // alter the version so the main thread assumes an update
       jest.mock(root + 'package.json', () => ({
         version: '1.1.1'
       }))
-      await require(appRoot + 'src/main/index.js')
+      let err
+      try {
+        await require(appRoot + 'src/main/index.js')
+      } catch (_err) {
+        err = _err
+      }
+      expect(err.message).toContain(`incompatible app version`)
 
-      expect(fs.existsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
-    })
-
-    it('should not backup main log', async function () {
-      expect(fs.existsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
-    })
-  })
-
-  describe('Keep main log on update', function () {
-    mainSetup()
-
-    it('should not backup main log', async function () {
-      resetModulesKeepingFS()
-      fs.writeFile(testRoot + 'main.log', 'I AM A LOGFILE')
-
-      // alter the version so the main thread assumes an update
-      jest.mock(root + 'package.json', () => ({
-        version: '1.1.1'
-      }))
-      await require(appRoot + 'src/main/index.js')
-
-      expect(fs.existsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/main.log')).toBe(false)
-      expect(fs.readFileSync(testRoot + 'main.log')).toContain('I AM A LOGFILE')
+      let appVersion = fs.readFileSync(testRoot + 'app_version', 'utf8')
+      expect(appVersion).toBe('0.1.0')
     })
   })
 
   describe('Update genesis.json', function () {
     mainSetup()
 
-    it('should backup the genesis.json', async function () {
+    it('should error on changed genesis.json', async function () {
       resetModulesKeepingFS()
 
       // alter the genesis so the main thread assumes a change
       let existingGenesis = JSON.parse(fs.readFileSync(testRoot + 'genesis.json', 'utf8'))
       existingGenesis.genesis_time = (new Date()).toString()
       fs.writeFileSync(testRoot + 'genesis.json', JSON.stringify(existingGenesis))
-      await require(appRoot + 'src/main/index.js')
 
-      expect(fs.existsSync(testRoot.substr(0, testRoot.length - 1) + '_backup_1/genesis.json')).toBe(true)
+      let err
+      try {
+        await require(appRoot + 'src/main/index.js')
+      } catch (_err) {
+        err = _err
+      }
+      expect(err.message).toBe('Genesis has changed')
     })
   })
 
@@ -383,6 +381,12 @@ describe('Startup Process', () => {
       it('should survive the baseserver folder being removed', async () => {
         fs.removeSync(join(testRoot, 'baseserver'))
         await initMain()
+        expect(childProcess.spawn.mock.calls
+          .find(([path, args]) =>
+          path.includes('gaia') &&
+          args.includes('init')
+        ).length
+        ).toBe(3) // one to check in first round, one to check + one to init in the second round
       })
     })
   })
@@ -464,6 +468,14 @@ function failingChildProcess (mockName, mockCmd) {
       on: (type, cb) => {
         if (args[0] === 'version' && type === 'data') {
           cb({toString: () => 'v0.5.0'})
+        }
+      }
+    },
+    stderr: {
+      on: (type, cb) => {
+        // test for init of gaia
+        if (type === 'data' && args[1] === 'init' && args.length === 4) {
+          cb({ toString: () => 'already is initialized' })
         }
       }
     }

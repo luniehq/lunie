@@ -5,7 +5,7 @@ const path = require('path')
 let config = {
   // Name of electron app
   // Will be used in production builds
-  name: 'Cosmos',
+  name: 'Cosmos Voyager',
 
   // Use ESLint (extends `standard`)
   // Further changes can be made in `.eslintrc.js`
@@ -30,7 +30,12 @@ let config = {
     overwrite: true,
     platform: process.env.PLATFORM_TARGET || 'darwin,linux,win32',
     packageManager: 'yarn'
-  }
+  },
+
+  default_network: 'gaia-2',
+  analytics_networks: ['gaia-2', 'gaia-3-dev', 'gaia-3'],
+  google_analytics: 'UA-51029217-3',
+  sentry_dsn: 'https://4dee9f70a7d94cc0959a265c45902d84:cbf160384aab4cdeafbe9a08dee3b961@sentry.io/288169'
 }
 
 config.building.name = config.name

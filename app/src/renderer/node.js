@@ -3,10 +3,6 @@ const RpcClient = require('tendermint')
 const RestClient = require('./lcdClient.js')
 
 module.exports = function (nodeIP, relayPort, lcdPort) {
-  if (JSON.parse(process.env.COSMOS_UI_ONLY || 'false')) {
-    return mockClient()
-  }
-
   const RELAY_SERVER = 'http://localhost:' + relayPort
 
   let node = new RestClient(RELAY_SERVER)
@@ -69,24 +65,6 @@ module.exports = function (nodeIP, relayPort, lcdPort) {
 
   node.initRPC(nodeIP)
   return node
-}
-
-function mockClient () {
-  return {
-    rpc: {
-      on: () => {},
-      subscribe: () => {},
-      validators: () => {},
-      status: () => {}
-    },
-    generateKey: () => ({
-      key: {
-        address: 'UI_ONLY_MODE'
-      }
-    }),
-    queryAccount: () => {},
-    queryNonce: () => {}
-  }
 }
 
 function sleep (ms = 0) {

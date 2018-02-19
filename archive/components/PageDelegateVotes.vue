@@ -1,8 +1,8 @@
 <template lang="pug">
-page(icon="storage" :title="`${validatorId}`" subtitle="Votes")
+page(icon="storage" :title="delegate.description.moniker" subtitle="Votes")
   div(slot="menu"): tool-bar
     router-link(
-      :to="{ name: 'validator-index', params: { validator: $route.params.validator }}")
+      :to="{ name: 'delegate', params: { delegate: $route.params.delegate }}")
       i.material-icons arrow_back
       .label Back
     a(@click='toggleSearch')
@@ -26,12 +26,13 @@ page(icon="storage" :title="`${validatorId}`" subtitle="Votes")
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ListItem from 'common/NiListItem'
 import ToolBar from 'common/NiToolBar'
 import Page from 'common/NiPage'
 import Part from 'common/NiPart'
 export default {
-  name: 'page-validator-votes',
+  name: 'page-delegate-votes',
   components: {
     ListItem,
     Page,
@@ -39,13 +40,24 @@ export default {
     ToolBar
   },
   computed: {
-    validatorId () { return this.slugToIp(this.$route.params.validator) }
+    ...mapGetters(['delegates']),
+    delegate () {
+      let value = { description: { moniker: 'Loading...' } }
+      if (this.delegates && this.$route.params.delegate) {
+        value = this.delegates.find(v => v.id === this.$route.params.delegate) || value
+      }
+      return value
+    }
   },
   methods: {
     toggleSearch () {
       this.$store.commit('notify', { title: 'Searching...', body: 'TODO' })
-    },
-    slugToIp (slug) { return slug.split('-').join('.') }
+    }
+  },
+  async mounted () {
+    console.log(this.$route.params.delegate)
+    await this.$nextTick
+    console.log(this.delegate)
   }
 }
 </script>

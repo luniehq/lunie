@@ -13,7 +13,7 @@ exports[`NiDataError has the expected html structure 1`] = `
 </div>
 <div class=\\"ni-data-msg__subtitle\\">
    <div>
-      Even though you're connected a full node, we can't display this data for you right now. Please try again later or <a href=\\"https://github.com/cosmos/cosmos-ui/issues\\">file a bug report</a>. Apologies!
+      Even though you're connected a full node, we can't display this data for you right now. Please try again later or <a href=\\"https://github.com/cosmos/voyager/issues\\">file a bug report</a>. Apologies!
    </div>
 </div>
 </div>

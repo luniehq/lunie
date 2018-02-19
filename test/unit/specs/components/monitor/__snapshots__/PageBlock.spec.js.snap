@@ -20,14 +20,10 @@ exports[`PageBlock has the expected html structure 1`] = `
             <div class=\\"ni-tool-bar\\">
                <div class=\\"ni-tool-bar-container\\">
                   <div class=\\"main\\">
-                     <a href=\\"#/blocks\\" class=\\"\\"><i class=\\"material-icons\\">arrow_back</i>
+                     <a href=\\"https://the-url\\" target=\\"_blank\\"><i class=\\"material-icons\\">code</i>
                      <div class=\\"label\\">
-                        Back
+                        JSON
                      </div>
-      </a><a href=\\"https://the-url\\" target=\\"_blank\\"><i class=\\"material-icons\\">code</i>
-      <div class=\\"label\\">
-         JSON
-      </div>
       </a><a href=\\"#/blocks/9\\" class=\\"\\"><i class=\\"material-icons\\">chevron_left</i>
       <div class=\\"label\\">
          Previous Block
@@ -38,7 +34,15 @@ exports[`PageBlock has the expected html structure 1`] = `
       </div>
       </a>
    </div>
-      <a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a>
+      <a class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i>
+      <div class=\\"label\\">
+         Back
+      </div>
+      </a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i>
+      <div class=\\"label\\">
+         Help
+      </div>
+      </a>
    </div>
 </div>
 </div>
@@ -103,7 +107,7 @@ exports[`PageBlock has the expected html structure 1`] = `
             Time
          </div>
       <div class=\\"ni-li-dd\\">
-         Loading...
+         January 1st 1970 — 02:00:01
       </div>
 </div>
 </div>
@@ -253,6 +257,31 @@ exports[`PageBlock has the expected html structure 1`] = `
 </main>
 </div>
 </section>
+</main>
+</div>"
+`;
+
+exports[`PageBlock should show a loading state if no block loaded yet 1`] = `
+"<div class=\\"ni-page\\">
+   <header class=\\"ni-page-header\\">
+      <div class=\\"ni-page-header-container\\">
+         <div class=\\"ni-page-header-text\\">
+            <div class=\\"ni-page-header-title\\">
+               <h2>
+                  Loading...
+               </h2>
+</div>
+   <div class=\\"ni-page-header-subtitle\\">
+      <h3></h3>
+</div>
+</div>
+   <menu class=\\"ni-page-header-menu\\">
+      <div></div>
+</menu>
+</div>
+</header>
+<main class=\\"ni-page-main\\">
+   <data-loading></data-loading>
 </main>
 </div>"
 `;

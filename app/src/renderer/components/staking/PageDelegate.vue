@@ -1,7 +1,7 @@
 <template lang="pug">
 page(:title="delegateType + ' Profile'")
   div(slot="menu"): tool-bar
-    router-link(to='/staking')
+    router-link(to='/delegates')
       i.material-icons arrow_back
       .label Back
 
@@ -50,7 +50,11 @@ export default {
       }
     },
     isValidator () {
-      return this.delegate.voting_power > 0
+      if (this.delegate) {
+        return this.delegate.voting_power > 0
+      } else {
+        return false
+      }
     },
     delegateType () {
       return this.isValidator ? 'Validator' : 'Candidate'

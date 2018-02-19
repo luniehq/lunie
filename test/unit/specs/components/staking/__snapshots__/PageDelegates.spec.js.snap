@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageDelegates has the expected html structure 1`] = `
-"<div class=\\"ni-page\\" id=\\"page-delegates\\">
+"<div class=\\"ni-page\\">
    <header class=\\"ni-page-header\\">
       <div class=\\"ni-page-header-container\\">
          <div class=\\"ni-page-header-text\\">
             <div class=\\"ni-page-header-title\\">
                <h2>
-                  Delegates
+                  Validators and Candidates
                </h2>
 </div>
    <div class=\\"ni-page-header-subtitle\\">
@@ -30,7 +30,15 @@ exports[`PageDelegates has the expected html structure 1`] = `
       </div>
       </a>
    </div>
-      <a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a>
+      <a class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i>
+      <div class=\\"label\\">
+         Back
+      </div>
+      </a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i>
+      <div class=\\"label\\">
+         Help
+      </div>
+      </a>
    </div>
 </div>
 </div>
@@ -50,12 +58,12 @@ exports[`PageDelegates has the expected html structure 1`] = `
 </div>
    <div class=\\"sort-by percent_of_vote\\">
       <div class=\\"label\\">
-         Vote %
+         % of Vote
       </div>
 </div>
    <div class=\\"sort-by number_of_votes\\">
       <div class=\\"label\\">
-         Votes
+         Total Votes
       </div>
 </div>
    <div class=\\"sort-by bonded_by_you\\">
@@ -63,15 +71,20 @@ exports[`PageDelegates has the expected html structure 1`] = `
          Your Votes
       </div>
 </div>
+   <div class=\\"sort-by status\\">
+      <div class=\\"label\\">
+         Status
+      </div>
+</div>
    <div class=\\"sort-by action\\">
       <div class=\\"label\\"></div>
 </div>
 </div>
 </div>
-   <div class=\\"li-delegate\\">
+   <div class=\\"li-delegate li-delegate-validator \\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
-            <span><a href=\\"#/staking/delegates/pubkeyY\\" class=\\"\\">  candidateY</a></span>
+            <a href=\\"#/staking/delegates/pubkeyY\\" class=\\"\\">candidateY</a>
          </div>
    <div class=\\"li-delegate__value percent_of_vote\\">
       <span>75%</span>
@@ -83,15 +96,18 @@ exports[`PageDelegates has the expected html structure 1`] = `
    <div class=\\"li-delegate__value bonded_by_you\\">
       <span>0</span>
    </div>
+   <div class=\\"li-delegate__value status\\">
+      <span>Validator</span>
+   </div>
    <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
       <i class=\\"material-icons\\">check_box_outline_blank</i>
    </div>
 </div>
 </div>
-   <div class=\\"li-delegate\\">
+   <div class=\\"li-delegate li-delegate-validator \\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
-            <span><a href=\\"#/staking/delegates/pubkeyX\\" class=\\"\\">  candidateX</a></span>
+            <a href=\\"#/staking/delegates/pubkeyX\\" class=\\"\\">candidateX</a>
          </div>
    <div class=\\"li-delegate__value percent_of_vote\\">
       <span>25%</span>
@@ -102,6 +118,9 @@ exports[`PageDelegates has the expected html structure 1`] = `
 </div>
    <div class=\\"li-delegate__value bonded_by_you\\">
       <span>0</span>
+   </div>
+   <div class=\\"li-delegate__value status\\">
+      <span>Validator</span>
    </div>
    <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
       <i class=\\"material-icons\\">check_box_outline_blank</i>
@@ -122,7 +141,6 @@ exports[`PageDelegates has the expected html structure 1`] = `
 exports[`PageDelegates should filter the delegates 1`] = `
 <div
   class="ni-page"
-  id="page-delegates"
 >
   <header
     class="ni-page-header"
@@ -137,7 +155,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-            Delegates
+            Validators and Candidates
           </h2>
         </div>
         <div
@@ -188,6 +206,20 @@ exports[`PageDelegates should filter the delegates 1`] = `
                   </a>
                 </div>
                 <a
+                  class="back"
+                >
+                  <i
+                    class="material-icons"
+                  >
+                    arrow_back
+                  </i>
+                  <div
+                    class="label"
+                  >
+                    Back
+                  </div>
+                </a>
+                <a
                   class="help"
                 >
                   <i
@@ -195,6 +227,11 @@ exports[`PageDelegates should filter the delegates 1`] = `
                   >
                     help_outline
                   </i>
+                  <div
+                    class="label"
+                  >
+                    Help
+                  </div>
                 </a>
               </div>
             </div>
@@ -274,7 +311,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             <div
               class="label"
             >
-              Vote %
+              % of Vote
             </div>
           </div>
           <div
@@ -283,7 +320,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             <div
               class="label"
             >
-              Votes
+              Total Votes
             </div>
           </div>
           <div
@@ -293,6 +330,15 @@ exports[`PageDelegates should filter the delegates 1`] = `
               class="label"
             >
               Your Votes
+            </div>
+          </div>
+          <div
+            class="sort-by status"
+          >
+            <div
+              class="label"
+            >
+              Status
             </div>
           </div>
           <div
@@ -307,7 +353,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
         </div>
       </div>
       <div
-        class="li-delegate"
+        class="li-delegate li-delegate-validator "
       >
         <div
           class="li-delegate__values"
@@ -315,14 +361,12 @@ exports[`PageDelegates should filter the delegates 1`] = `
           <div
             class="li-delegate__value name"
           >
-            <span>
-              <a
-                class=""
-                href="#/staking/delegates/pubkeyX"
-              >
-                  candidateX
-              </a>
-            </span>
+            <a
+              class=""
+              href="#/staking/delegates/pubkeyX"
+            >
+              candidateX
+            </a>
           </div>
           <div
             class="li-delegate__value percent_of_vote"
@@ -347,6 +391,13 @@ exports[`PageDelegates should filter the delegates 1`] = `
           >
             <span>
               0
+            </span>
+          </div>
+          <div
+            class="li-delegate__value status"
+          >
+            <span>
+              Validator
             </span>
           </div>
           <div

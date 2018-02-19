@@ -32,7 +32,7 @@ exports[`NiModalHelp has the expected html structure 1`] = `
       class="ni-modal-main"
     >
       <p>
-        Something in the app not working correctly? Tell us what went wrong in developer chat or create an issue on our GitHub. Thanks for improving Cosmos!
+        Something in the app not working correctly? Tell us what went wrong in developer chat or create an issue on our GitHub. Thanks for improving Cosmos Voyager!
       </p>
       <a
         class="ni-li ni-li-link proposal-enter proposal-enter-active"
@@ -78,7 +78,7 @@ exports[`NiModalHelp has the expected html structure 1`] = `
       </a>
       <a
         class="ni-li ni-li-link proposal-enter proposal-enter-active"
-        href="https://github.com/cosmos/cosmos-ui/issues"
+        href="https://github.com/cosmos/voyager/issues"
       >
         <div
           class="ni-li-container"

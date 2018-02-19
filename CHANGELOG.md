@@ -35,9 +35,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.4.0] - 2018-02-01
 ### Added
 * Added button styles for Success, Warning, and Danger states. @nylira
-* Added support for image icons. @faboweb 
+* Added support for image icons. @faboweb
 
 ### Changed
 * Improved primary button style. @nylira
 * Fixed the cut-off text bug in buttons. @nylira
-* Improves the `hover-bg` app variable color. @nylira 
+* Improves the `hover-bg` app variable color. @nylira
+
+## [0.4.1] - 2018-02-01
+###Fixed
+* Fix for Windows build crashing on startup. @faboweb
+
+## [0.4.2] - 2018-02-05
+###Added
+* Added back button to every page. @jolesbi
+
+###Changed
+* Updated transaction history to be more clear and descriptive. @jolesbi
+* Improved delegate profile page to accommodate candidates and validators. @jolesbi
+
+## [0.4.3] - 2018-02-05
+### Changed
+* Renamed Cosmos UI to Cosmos Voyager. @nylira
+* Added Google Analytics for testnet versions
+* Added Sentry error reporting for testnet versions

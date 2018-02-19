@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>Cosmos - Internet of Blockchains</title>
+<title>Cosmos Voyager</title>
 <% if (htmlWebpackPlugin.options.appModules) { %>
   <!-- Add `app/node_modules` to global paths so `require` works properly in development -->
   <script>
@@ -11,7 +11,7 @@
 <div id="app">
   <div id="load">
     <div id="load-container">
-      <div id="load-title">Cosmos</div>
+      <div id="load-title">Cosmos Voyager</div>
       <div id="load-main">
         <p>app is loading&hellip;</p>
         <p>need help? <a href="mailto:hello@tendermint.com">email us</a></p>
@@ -23,3 +23,16 @@
 <style>
 <%= htmlWebpackPlugin.options.styles %>
 </style>
+
+
+<% if (htmlWebpackPlugin.options.enableAnalytics) { %>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-51029217-3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-51029217-3');
+  </script>
+<% } %>

@@ -1,18 +1,20 @@
 <template lang='pug'>
 .li-delegate(:class='styles'): .li-delegate__values
   .li-delegate__value.name
-    span
-      router-link(v-if="config.devMode" :to="{ name: 'delegate', params: { delegate: delegate.id }}")  {{ ' ' + delegate.moniker }}
-      a(v-else) {{ ' ' + delegate.moniker }}
+    router-link(:to="{ name: 'delegate', params: { delegate: delegate.id }}") {{ delegate.moniker }}
   .li-delegate__value.percent_of_vote
     span {{ num.percentInt(bondedPercent) }}
   .li-delegate__value.number_of_votes.num.bar
     span {{ num.prettyInt(delegate.voting_power) }}
     .bar(:style='vpStyles')
   .li-delegate__value.bonded_by_you
-    span {{ amountBonded }}
+    span {{ bondedByYou }}
+  .li-delegate__value.status
+    span {{ delegateType }}
   template(v-if="userCanDelegate")
-    .li-delegate__value.checkbox#remove-from-cart(v-if="inCart" @click='rm(delegate)')
+    .li-delegate__value.checkbox(v-if="bondedByYou > 0")
+      i.material-icons lock
+    .li-delegate__value.checkbox#remove-from-cart(v-else-if="inCart" @click='rm(delegate)')
       i.material-icons check_box
     .li-delegate__value.checkbox#add-to-cart(v-else @click='add(delegate)')
       i.material-icons check_box_outline_blank
@@ -33,12 +35,13 @@ export default {
   },
   computed: {
     ...mapGetters(['shoppingCart', 'delegates', 'config', 'committedDelegations', 'user']),
-    amountBonded () {
+    bondedByYou () {
       return this.num.prettyInt(this.committedDelegations[this.delegate.id])
     },
     styles () {
       let value = ''
-      if (this.inCart) value += 'li-delegate-active '
+      if (this.inCart || this.bondedByYou > 0) value += 'li-delegate-active '
+      if (this.delegate.isValidator) value += 'li-delegate-validator '
       return value
     },
     vpMax () {
@@ -64,7 +67,12 @@ export default {
     inCart () {
       return this.shoppingCart.find(c => c.id === this.delegate.id)
     },
-    userCanDelegate () { return this.user.atoms > 0 }
+    userCanDelegate () {
+      return this.user.atoms > 0
+    },
+    delegateType () {
+      return this.delegate.isValidator ? 'Validator' : 'Candidate'
+    }
   },
   data: () => ({
     num: num
@@ -72,6 +80,13 @@ export default {
   methods: {
     add (delegate) { this.$store.commit('addToCart', delegate) },
     rm (delegate) { this.$store.commit('removeFromCart', delegate.id) }
+  },
+  watch: {
+    bondedByYou (newVal, oldVal) {
+      if (newVal > 0) {
+        this.$store.commit('addToCart', this.delegate)
+      }
+    }
   }
 }
 </script>
@@ -83,7 +98,7 @@ export default {
   &:nth-of-type(2n-1)
     background app-fg
   &.li-delegate-active
-    background hover-bg
+    background alpha(mc, 8%)
     .li-delegate__value i
       color link
 
@@ -103,6 +118,17 @@ export default {
   &.name
     flex 2
     padding-left 1rem
+
+    span a
+      display flex
+    .li-delegate__icon
+      width 1.5rem
+      display flex
+      align-items center
+      justify-content center
+      img, span
+        height 1rem
+        width 1rem
 
   &.bar
     position relative
@@ -124,6 +150,7 @@ export default {
 
   &.checkbox
     justify-content center
+    cursor pointer
 
   span
     white-space nowrap

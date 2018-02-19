@@ -1,13 +1,13 @@
 <template lang="pug">
 modal.ni-modal-help(v-if="active" :close="close")
   div(slot='title') Need Help?
-  p Something in the app not working correctly? Tell us what went wrong in developer chat or create an issue on our GitHub. Thanks for improving Cosmos!
+  p Something in the app not working correctly? Tell us what went wrong in developer chat or create an issue on our GitHub. Thanks for improving Cosmos Voyager!
   list-item(
     title="Developer Chat"
     href="https://riot.im/app/#/room/#cosmos:matrix.org")
   list-item(
     title="GitHub Issues"
-    href="https://github.com/cosmos/cosmos-ui/issues")
+    href="https://github.com/cosmos/voyager/issues")
 </template>
 
 <script>

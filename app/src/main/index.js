@@ -10,7 +10,7 @@ let semver = require('semver')
 let event = require('event-to-promise')
 let toml = require('toml')
 let axios = require('axios')
-var glob = require('glob')
+let Raven = require('raven')
 
 let pkg = require('../../../package.json')
 let relayServer = require('./relayServer.js')
@@ -26,6 +26,8 @@ let nodeIP
 let connecting = false
 
 const root = require('../root.js')
+const networkPath = require('../network.js').path
+
 const baseserverHome = join(root, 'baseserver')
 const WIN = /^win/.test(process.platform)
 const DEV = process.env.NODE_ENV === 'development'
@@ -33,18 +35,12 @@ const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
 // TODO default logging or default disable logging?
 const LOGGING = JSON.parse(process.env.LOGGING || 'true') !== false
 const MOCK = JSON.parse(process.env.MOCK || !TEST && DEV) !== false
-const UI_ONLY = JSON.parse(process.env.COSMOS_UI_ONLY || 'false')
 const winURL = DEV
   ? `http://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
 const RELAY_PORT = DEV ? config.relay_port : config.relay_port_prod
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
-
-// this network gets used if none is specified via the
-// COSMOS_NETWORK env var
-let DEFAULT_NETWORK = join(__dirname, '../networks/gaia-2')
-let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
 
@@ -115,20 +111,18 @@ function createWindow () {
     width: 1024,
     height: 768,
     center: true,
-    title: 'Cosmos',
+    title: 'Cosmos Voyager',
     darkTheme: true,
     titleBarStyle: 'hidden',
     webPreferences: { webSecurity: false }
   })
 
-  if (UI_ONLY) {
-    mainWindow.loadURL(winURL + '?node=localhost')
-  } else if (!started) {
+  if (!started) {
     mainWindow.loadURL(winURL)
   } else {
     startVueApp()
   }
-  if (DEV || process.env.COSMOS_DEVTOOLS) {
+  if (DEV || JSON.parse(process.env.COSMOS_DEVTOOLS || 'false')) {
     mainWindow.webContents.openDevTools()
   }
 
@@ -157,6 +151,9 @@ function createWindow () {
 
 function startProcess (name, args, env) {
   let binPath
+  if (process.env.BINARY_PATH) {
+    binPath = process.env.BINARY_PATH
+  } else
   if (DEV || TEST) {
     // in dev mode or tests, use binaries installed in GOPATH
     let GOPATH = process.env.GOPATH
@@ -181,6 +178,8 @@ function startProcess (name, args, env) {
   child.on('exit', (code) => !shuttingDown && log(`${name} exited with code ${code}`))
   child.on('error', function (err) {
     if (!(shuttingDown && err.code === 'ECONNRESET')) {
+      // TODO test
+      Raven.captureException(err)
       // if we throw errors here, they are not handled by the main process
       console.error('[Uncaught Exception] Child', name, 'produced an unhandled exception:', err)
       console.log('Shutting down UI')
@@ -266,36 +265,6 @@ async function initBaseserver (chainId, home, node) {
   await expectCleanExit(child, 'gaia init exited unplanned')
 }
 
-async function backupData (root) {
-  let i = 1
-  let path
-  do {
-    path = `${root}_backup_${i}`
-    i++
-  } while (exists(path))
-
-  log(`backing up data to "${path}"`)
-
-  // ATTENTION: mainLog stream is still open at this point, so we can't move it arround (at least on windows)
-  fs.copySync(root, path, {
-    overwrite: false,
-    errorOnExist: true,
-    filter: file => file.indexOf('main.log') === -1
-  })
-  await new Promise((resolve, reject) => {
-    glob(root + '/**/*', (err, files) => {
-      if (err) {
-        return reject(err)
-      }
-
-      files
-      .filter(file => file.indexOf('main.log') === -1)
-      .forEach(file => fs.removeSync(file))
-      resolve()
-    })
-  })
-}
-
 /*
 * log to file
 */
@@ -337,12 +306,15 @@ function setupLogging (root) {
 
 if (!TEST) {
   process.on('exit', shutdown)
+  // on uncaught exceptions we wait so the sentry event can be sent
   process.on('uncaughtException', async function (err) {
+    await sleep(1000)
     logError('[Uncaught Exception]', err)
     await shutdown()
     process.exit(1)
   })
   process.on('unhandledRejection', async function (err) {
+    await sleep(1000)
     logError('[Unhandled Promise Rejection]', err)
     await shutdown()
     process.exit(1)
@@ -354,6 +326,28 @@ function consistentConfigDir (appVersionPath, genesisPath, configPath, gaiaVersi
     exists(appVersionPath) &&
     exists(configPath) &&
     exists(gaiaVersionPath)
+}
+
+// check if baseserver is initialized as the configs could be corrupted
+// we need to parse the error on initialization as there is no way to just get this status programmatically
+function baseserverInitialized (home) {
+  return new Promise((resolve, reject) => {
+    let child = startProcess(SERVER_BINARY, [
+      'client',
+      'init',
+      '--home', home
+      // '--trust-node'
+    ])
+    child.stderr.on('data', data => {
+      if (data.toString().includes('already is initialized')) {
+        return resolve(true)
+      }
+      if (data.toString().includes('"--chain-id" required')) {
+        return resolve(false)
+      }
+      reject('Unknown state for Gaia initialization: ' + data.toString())
+    })
+  })
 }
 
 function pickNode (seeds) {
@@ -398,10 +392,20 @@ async function reconnect (seeds) {
   return nodeIP
 }
 
-async function main () {
-  if (UI_ONLY) {
-    return
+function setupAnalytics () {
+  let networkIsWhitelisted = config.analytics_networks.indexOf(config.default_network) !== -1
+  if (networkIsWhitelisted) {
+    log('Adding analytics')
   }
+
+  // only enable sending of error events in production setups and if the network is a testnet
+  Raven.config(networkIsWhitelisted && process.env.NODE_ENV === 'production' ? config.sentry_dsn : '', {
+    captureUnhandledRejections: true
+  }).install()
+}
+
+async function main () {
+  setupAnalytics()
 
   let appVersionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
@@ -417,23 +421,32 @@ async function main () {
   if (rootExists) {
     log(`root exists (${root})`)
 
+    // NOTE: when changing this code, always make sure the app can never
+    // overwrite/delete existing data without at least backing it up,
+    // since it may contain the user's private keys and they might not
+    // have written down their seed words.
+    // they might get pretty mad if the app deletes their money!
+
     // check if the existing data came from a compatible app version
-    // if not, backup the data and re-initialize
+    // if not, fail with an error
     if (consistentConfigDir(appVersionPath, genesisPath, configPath, gaiaVersionPath)) {
-      let existingVersion = fs.readFileSync(appVersionPath, 'utf8')
+      let existingVersion = fs.readFileSync(appVersionPath, 'utf8').trim()
       let compatible = semver.diff(existingVersion, pkg.version) !== 'major'
       if (compatible) {
         log('configs are compatible with current app version')
         init = false
       } else {
-        await backupData(root)
+        // TODO: versions of the app with different data formats will need to learn how to
+        // migrate old data
+        throw Error(`Data was created with an incompatible app version
+        data=${existingVersion} app=${pkg.version}`)
       }
     } else {
-      await backupData(root)
+      throw Error(`The data directory (${root}) has missing files`)
     }
 
     // check to make sure the genesis.json we want to use matches the one
-    // we already have. if it has changed, back up the old data
+    // we already have. if it has changed, exit with an error
     if (!init) {
       let existingGenesis = fs.readFileSync(genesisPath, 'utf8')
       let genesisJSON = JSON.parse(existingGenesis)
@@ -441,9 +454,7 @@ async function main () {
       if (genesisJSON.chain_id !== 'local') {
         let specifiedGenesis = fs.readFileSync(join(networkPath, 'genesis.json'), 'utf8')
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
-          log('genesis has changed')
-          await backupData(root)
-          init = true
+          throw Error('Genesis has changed')
         }
       }
     }
@@ -470,7 +481,7 @@ async function main () {
   // TODO: semver check, or exact match?
   if (gaiaVersion !== expectedGaiaVersion) {
     throw Error(`Requires gaia ${expectedGaiaVersion}, but got ${gaiaVersion}.
-      Please update your gaia installation or build with a newer binary.`)
+    Please update your gaia installation or build with a newer binary.`)
   }
 
   // read chainId from genesis.json
@@ -486,15 +497,17 @@ async function main () {
   } catch (e) {
     throw new Error(`Can't open config.toml: ${e.message}`)
   }
-  let config = toml.parse(configText)
-  let seeds = config.p2p.seeds.split(',').filter(x => x !== '')
+  let configTOML = toml.parse(configText)
+  let seeds = configTOML.p2p.seeds.split(',').filter(x => x !== '')
   if (seeds.length === 0) {
     throw new Error('No seeds specified in config.toml')
   }
   nodeIP = pickNode(seeds)
 
-  if (init) {
-    log(`Initializing baseserver with remote node ${nodeIP}`)
+  let _baseserverInitialized = await baseserverInitialized(join(root, 'baseserver'))
+  console.log('Baseserver is', _baseserverInitialized ? '' : 'not', 'initialized')
+  if (init || !_baseserverInitialized) {
+    log(`Trying to initialize baseserver with remote node ${nodeIP}`)
     await initBaseserver(chainId, baseserverHome, nodeIP)
   }
 
