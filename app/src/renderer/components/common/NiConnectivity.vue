@@ -2,7 +2,7 @@
 .ni-connectivity(v-if='connected')
   list-item(icon="done" :title="blockString")
   list-item(icon="settings_ethernet" :title="nodeIP")
-.ni-connectivity(v-else)
+.ni-connectivity.connecting(v-else)
   list-item(icon="rotate_right" title="Connecting...")
 </template>
 
@@ -36,6 +36,10 @@ export default {
   .ni-li-thumb
     .material-icons
       color success
+
+  &.connecting
+    .material-icons
+      animation: fa-spin 2s infinite linear
 
 @media screen and (min-width: 1024px)
   .ni-connectivity
