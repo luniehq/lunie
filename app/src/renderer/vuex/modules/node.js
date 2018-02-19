@@ -34,8 +34,11 @@ export default function ({ node }) {
       if (state.stopConnecting) return
 
       commit('setConnected', false)
-      await node.rpcReconnect()
-      dispatch('nodeSubscribe')
+      // rpcReconnect returns true if it actually reconnected
+      // it returns false if it already is reconnecting, this is to prevent loops of connection intents
+      if (await node.rpcReconnect()) {
+        dispatch('nodeSubscribe')
+      }
     },
     nodeSubscribe ({commit, dispatch}) {
       if (state.stopConnecting) return
