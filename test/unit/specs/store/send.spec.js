@@ -15,6 +15,7 @@ describe('Module: Send', () => {
 
   it('should have an empty state by default', () => {
     const state = {
+      loading: false,
       nonce: 0,
       sending: false,
       queue: []

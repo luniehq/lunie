@@ -54,6 +54,7 @@ describe('Module: Node', () => {
   })
 
   it('subscribes again on reconnect', done => {
+    node.rpcReconnect = () => Promise.resolve('1.2.3.4')
     node.rpc.status = () => done()
     store.dispatch('reconnect')
   })
@@ -84,7 +85,7 @@ describe('Module: Node', () => {
     store.dispatch('nodeSubscribe')
   })
 
-  it('doesnt reconnect on errors that do not mean disconnection', () => {
+  it('should not reconnect on errors that do not mean disconnection', () => {
     node.rpcReconnect = () => {
       throw Error('Shouldnt reconnect')
     }
@@ -93,7 +94,7 @@ describe('Module: Node', () => {
         cb({
           message: 'some message'
         })
-        expect(store.state.node.connected).toBe(false)
+        expect(store.state.node.connected).toBe(true)
       }
     })
     store.dispatch('nodeSubscribe')

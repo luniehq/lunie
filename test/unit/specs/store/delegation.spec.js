@@ -26,7 +26,8 @@ describe('Module: Delegations', () => {
         user: {
           state: {
             account: 'foo',
-            password: 'bar'
+            password: 'bar',
+            address: 'someaddress'
           }
         }
       }
@@ -103,15 +104,12 @@ describe('Module: Delegations', () => {
         }
       })
 
-    await store.dispatch('getBondedDelegates', {
-      candidates: [
+    await store.dispatch('getBondedDelegates', [
         { pub_key: { data: 'foo' } },
         { pub_key: { data: 'bar' } }
-      ],
-      address: '1234'
-    })
-    expect(axios.get.mock.calls[0][0]).toEqual('http://localhost:9060/query/stake/delegator/1234/foo')
-    expect(axios.get.mock.calls[1][0]).toEqual('http://localhost:9060/query/stake/delegator/1234/bar')
+    ])
+    expect(axios.get.mock.calls[0][0]).toEqual('http://localhost:9060/query/stake/delegator/someaddress/foo')
+    expect(axios.get.mock.calls[1][0]).toEqual('http://localhost:9060/query/stake/delegator/someaddress/bar')
 
     expect(store.state.delegation.committedDelegates).toEqual({
       foo: 123,

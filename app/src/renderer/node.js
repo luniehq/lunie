@@ -51,6 +51,7 @@ module.exports = function (nodeIP, relayPort, lcdPort) {
       let nodeIP = (await axios(RELAY_SERVER + '/reconnect')).data
       if (nodeIP) {
         console.log('Reconnected to', nodeIP)
+        node.nodeIP = nodeIP
         node.initRPC(nodeIP)
       } else {
         console.log('Reconnection failed, trying again')

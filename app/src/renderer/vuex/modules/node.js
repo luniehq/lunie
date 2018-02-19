@@ -28,7 +28,6 @@ export default function ({ node }) {
   const actions = {
     reconnected ({commit, dispatch}) {
       dispatch('nodeSubscribe')
-      commit('setConnected', true)
     },
     setLastHeader ({state, dispatch}, header) {
       state.lastHeader = header
@@ -54,6 +53,8 @@ export default function ({ node }) {
         dispatch('reconnect')
         return
       }
+
+      commit('setConnected', true)
 
       // TODO: get event from light-client websocket instead of RPC connection (once that exists)
       node.rpc.on('error', (err) => {

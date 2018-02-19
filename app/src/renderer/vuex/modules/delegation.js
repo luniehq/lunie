@@ -52,10 +52,10 @@ export default ({ commit, node }) => {
       }
     },
     // load committed delegations from LCD
-    async getBondedDelegates ({ state, rootState, dispatch }) {
+    async getBondedDelegates ({ state, rootState, dispatch }, candidates) {
       state.loading = true
       let address = rootState.user.address
-      let candidates = await dispatch('getDelegates')
+      candidates = candidates || await dispatch('getDelegates')
       await Promise.all(candidates.map(candidate =>
         dispatch('getBondedDelegate', {address, pubkey: candidate.pub_key.data})
       ))
