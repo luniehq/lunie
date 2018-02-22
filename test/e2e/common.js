@@ -6,16 +6,19 @@ function sleep (ms) {
 }
 
 module.exports = {
-  async openMenu (client) {
-    if (await client.isExisting('.app-menu')) {
-      return
-    }
+  async closeNotifications (client) {
     // close notifications as they overlay the menu button 
     await sleep(100)
     while (await client.isExisting(`.ni-notification`)) { 
       await client.$(`.ni-notification`).click() 
       await sleep(100)
     } 
+  },
+  async openMenu (client) {
+    if (await client.isExisting('.app-menu')) {
+      return
+    }
+    await module.exports.closeNotifications(client)
     await client.waitForExist('.material-icons=menu', 1000)
     await sleep(100)
     await client.$('.material-icons=menu').click() 
