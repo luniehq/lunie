@@ -3,17 +3,6 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
-dependencies:
-  pre:
-    - curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    - sudo dpkg -i google-chrome.deb
-    - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
-    - rm google-chrome.deb    
-  override:
-    #new chromedriver
-    - wget https://chromedriver.storage.googleapis.com/2.9/chromedriver_linux64.zip
-    - unzip chromedriver_linux64.zip
-    - sudo cp chromedriver /usr/local/bin/chromedriver
 jobs:
   build:
     docker:
@@ -49,18 +38,12 @@ jobs:
             sudo chmod o+wx /home/circleci/repo/gaia
 
       - run: 
-          name: Update Chrome
-          command: |
-            curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-            sudo dpkg -i google-chrome.deb
-            sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
-            rm google-chrome.deb    
-      - run: 
           name: Update ChromeDriver
           command: |
             wget https://chromedriver.storage.googleapis.com/2.9/chromedriver_linux64.zip
             unzip chromedriver_linux64.zip
-            sudo cp chromedriver /usr/local/bin/chromedriver
+            sudo cp chromedriver /home/circleci/repo/node_modules/electron-chromedriver/bin/chromedriver
+            sudo chmod o+wx /home/circleci/repo/node_modules/electron-chromedriver/bin/chromedriver
         
       - run: yarn run test
       - run: yarn run test:e2e
