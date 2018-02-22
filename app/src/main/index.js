@@ -10,6 +10,7 @@ let semver = require('semver')
 let event = require('event-to-promise')
 let toml = require('toml')
 let axios = require('axios')
+let Raven = require('raven')
 
 let pkg = require('../../../package.json')
 let relayServer = require('./relayServer.js')
@@ -177,6 +178,8 @@ function startProcess (name, args, env) {
   child.on('exit', (code) => !shuttingDown && log(`${name} exited with code ${code}`))
   child.on('error', function (err) {
     if (!(shuttingDown && err.code === 'ECONNRESET')) {
+      // TODO test
+      Raven.captureException(err)
       // if we throw errors here, they are not handled by the main process
       console.error('[Uncaught Exception] Child', name, 'produced an unhandled exception:', err)
       console.log('Shutting down UI')
@@ -303,15 +306,16 @@ function setupLogging (root) {
 
 if (!TEST) {
   process.on('exit', shutdown)
+  // on uncaught exceptions we wait so the sentry event can be sent
   process.on('uncaughtException', async function (err) {
+    await sleep(1000)
     logError('[Uncaught Exception]', err)
-    console.error('[Uncaught Exception]', err)
     await shutdown()
     process.exit(1)
   })
   process.on('unhandledRejection', async function (err) {
+    await sleep(1000)
     logError('[Unhandled Promise Rejection]', err)
-    console.error('[Unhandled Promise Rejection]', err)
     await shutdown()
     process.exit(1)
   })
@@ -388,7 +392,21 @@ async function reconnect (seeds) {
   return nodeIP
 }
 
+function setupAnalytics () {
+  let networkIsWhitelisted = config.analytics_networks.indexOf(config.default_network) !== -1
+  if (networkIsWhitelisted) {
+    log('Adding analytics')
+  }
+
+  // only enable sending of error events in production setups and if the network is a testnet
+  Raven.config(networkIsWhitelisted && process.env.NODE_ENV === 'production' ? config.sentry_dsn : '', {
+    captureUnhandledRejections: true
+  }).install()
+}
+
 async function main () {
+  setupAnalytics()
+
   let appVersionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
   let configPath = join(root, 'config.toml')
@@ -421,7 +439,7 @@ async function main () {
         // TODO: versions of the app with different data formats will need to learn how to
         // migrate old data
         throw Error(`Data was created with an incompatible app version
-          data=${existingVersion} app=${pkg.version}`)
+        data=${existingVersion} app=${pkg.version}`)
       }
     } else {
       throw Error(`The data directory (${root}) has missing files`)
@@ -463,7 +481,7 @@ async function main () {
   // TODO: semver check, or exact match?
   if (gaiaVersion !== expectedGaiaVersion) {
     throw Error(`Requires gaia ${expectedGaiaVersion}, but got ${gaiaVersion}.
-      Please update your gaia installation or build with a newer binary.`)
+    Please update your gaia installation or build with a newer binary.`)
   }
 
   // read chainId from genesis.json
@@ -479,8 +497,8 @@ async function main () {
   } catch (e) {
     throw new Error(`Can't open config.toml: ${e.message}`)
   }
-  let config = toml.parse(configText)
-  let seeds = config.p2p.seeds.split(',').filter(x => x !== '')
+  let configTOML = toml.parse(configText)
+  let seeds = configTOML.p2p.seeds.split(',').filter(x => x !== '')
   if (seeds.length === 0) {
     throw new Error('No seeds specified in config.toml')
   }

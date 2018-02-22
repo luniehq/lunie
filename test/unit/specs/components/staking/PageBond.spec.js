@@ -94,6 +94,11 @@ describe('PageBond', () => {
     expect(delegate.atoms).toBe(88)
   })
 
+  it('only shows percent based on showing atoms', () => {
+    let updatedDelegate = wrapper.vm.handleResize(wrapper.vm.$el.querySelector('#delegate-pubkeyX'), 0.12)
+    expect(updatedDelegate.deltaAtomsPercent).toBe('100%')
+  })
+
   it('calculates delta', () => {
     expect(wrapper.vm.delta(100.23293423, 90.5304934)).toBe(9.70244083)
     expect(wrapper.vm.delta(100, 90, 'int')).toBe(10)
