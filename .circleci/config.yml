@@ -45,6 +45,6 @@ jobs:
             sudo cp chromedriver /home/circleci/repo/node_modules/electron-chromedriver/bin/chromedriver
             sudo chmod o+wx /home/circleci/repo/node_modules/electron-chromedriver/bin/chromedriver
         
-      # - run: yarn run test
+      - run: yarn run test
       - run: yarn run test:e2e
       - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
