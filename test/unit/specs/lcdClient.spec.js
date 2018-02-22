@@ -73,4 +73,53 @@ describe('LCD Client', () => {
       { abc: 123 }
     ])
   })
+
+  it('makes a GET request with an error', async () => {
+    axios.get = jest.fn()
+      .mockReturnValueOnce(Promise.reject({
+        response: {
+          data: {
+            error: 'foo',
+            code: 123
+          }
+        }
+      }))
+
+    try {
+      await client.status()
+    } catch (err) {
+      expect(err.message).toBe('foo')
+      expect(err.code).toBe(123)
+    }
+    expect(axios.get.mock.calls[0]).toEqual([
+      'http://localhost:8998/tendermint/status',
+      undefined
+    ])
+  })
+
+  it('does not throw error for empty results', async () => {
+    axios.get = jest.fn()
+      .mockReturnValueOnce(Promise.reject({
+        response: {
+          data: {
+            error: 'account bytes are empty',
+            code: 1
+          }
+        }
+      }))
+    let res = await client.queryAccount('address')
+    expect(res).toBe(null)
+
+    axios.get = jest.fn()
+      .mockReturnValueOnce(Promise.reject({
+        response: {
+          data: {
+            error: 'nonce empty',
+            code: 2
+          }
+        }
+      }))
+    res = await client.queryNonce('address')
+    expect(res).toBe(0)
+  })
 })

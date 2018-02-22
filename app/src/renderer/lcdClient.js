@@ -33,9 +33,10 @@ class Client {
       let res = await axios[method.toLowerCase()](this.server + path, data)
       return res.data
     } catch (resError) {
-      if (!resError.response) throw resError
+      if (!resError.response || !resError.response.data) {
+        throw resError
+      }
       let data = resError.response.data
-      if (!data) throw resError
       // server responded with error message, create an Error from that
       let error = Error(data.error)
       error.code = data.code
