@@ -40,7 +40,7 @@ jobs:
       - run: 
           name: Update ChromeDriver
           command: |
-            wget https://chromedriver.storage.googleapis.com/2.9/chromedriver_linux64.zip
+            wget https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
             unzip chromedriver_linux64.zip
             sudo cp chromedriver /home/circleci/repo/node_modules/electron-chromedriver/bin/chromedriver
             sudo chmod o+wx /home/circleci/repo/node_modules/electron-chromedriver/bin/chromedriver
