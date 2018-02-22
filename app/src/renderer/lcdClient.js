@@ -1,6 +1,6 @@
 'use strict'
 
-const request = require('axios')
+const axios = require('axios')
 
 // returns an async function which makes a request for the given
 // HTTP method (GET/POST/DELETE/etc) and path (/foo/bar)
@@ -30,13 +30,10 @@ class Client {
 
   async request (method, path, data) {
     try {
-      let res = await request({
-        method,
-        url: this.server + path,
-        data
-      })
+      let res = await axios[method.toLowerCase()](this.server + path, data)
       return res.data
     } catch (resError) {
+      if (!resError.response) throw resError
       let data = resError.response.data
       if (!data) throw resError
       // server responded with error message, create an Error from that
