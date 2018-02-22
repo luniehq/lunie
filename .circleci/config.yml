@@ -36,14 +36,6 @@ jobs:
           command: |
             sudo wget https://www.dropbox.com/s/vkyuut8hnzse614/gaia-0.5.0-linux-32?dl=1 -O ~/repo/gaia
             sudo chmod o+wx /home/circleci/repo/gaia
-
-      - run: 
-          name: Update ChromeDriver
-          command: |
-            wget https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
-            unzip chromedriver_linux64.zip
-            sudo cp chromedriver /home/circleci/repo/node_modules/electron-chromedriver/bin/chromedriver
-            sudo chmod o+wx /home/circleci/repo/node_modules/electron-chromedriver/bin/chromedriver
         
       - run: yarn run test
       - run: yarn run test:e2e
