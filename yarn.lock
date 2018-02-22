@@ -11,16 +11,12 @@
   resolved "https://registry.yarnpkg.com/@nylira/vue-button/-/vue-button-4.3.2.tgz#f27b90a931a1a3b5e27736dba11dfcaa305d6ddb"
 
 "@nylira/vue-field@^1.1.17":
-  version "1.1.17"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-field/-/vue-field-1.1.17.tgz#a873c2d5e01b7ec664df0de71611b0fd9e066b97"
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-field/-/vue-field-1.2.3.tgz#47b5cde79bbb9d2993b4f5734304e0424734dab1"
 
 "@nylira/vue-form-msg@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@nylira/vue-form-msg/-/vue-form-msg-1.0.3.tgz#257e3fcb1da345690f4fba959372b70e8abc9c20"
-
-"@nylira/vue-input@^3.2.0":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-input/-/vue-input-3.4.0.tgz#741346ce0613b831b756fccb253731015fa5c246"
 
 "@nylira/vue-notifications@^1.4.4":
   version "1.4.4"
@@ -394,13 +390,6 @@ aws-sign2@~0.7.0:
 aws4@^1.2.1, aws4@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
-
-axios@^0.16.2:
-  version "0.16.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.16.2.tgz#ba4f92f17167dfbab40983785454b9ac149c3c6d"
-  dependencies:
-    follow-redirects "^1.2.3"
-    is-buffer "^1.1.5"
 
 axios@^0.17.0, axios@^0.17.1:
   version "0.17.1"
@@ -1503,6 +1492,10 @@ chardet@^0.4.0:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.4.2.tgz#b5473b33dc97c424e5d98dc87d55d4d8a29c8bf2"
 
+charenc@~0.0.1:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
+
 chart.js@^2.6.0:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.7.1.tgz#ae90b4aa4ff1f02decd6b1a2a8dabfd73c9f9886"
@@ -1874,13 +1867,6 @@ cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
     parse-json "^2.2.0"
     require-from-string "^1.1.0"
 
-cosmos-sdk@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/cosmos-sdk/-/cosmos-sdk-1.5.1.tgz#4f648aa7eaa781883dfa1bef9ee78b4fba299cf3"
-  dependencies:
-    axios "^0.16.2"
-    old "^0.2.0"
-
 crc32-stream@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/crc32-stream/-/crc32-stream-1.0.1.tgz#ce2c5dc3bd8ffb3830f9cb47f540222c63c90fab"
@@ -1951,6 +1937,10 @@ cross-spawn@^5.0.1, cross-spawn@^5.1.0:
 cross-unzip@0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/cross-unzip/-/cross-unzip-0.0.2.tgz#5183bc47a09559befcf98cc4657964999359372f"
+
+crypt@~0.0.1:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
 
 cryptiles@2.x.x:
   version "2.0.5"
@@ -3242,7 +3232,7 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-follow-redirects@^1.2.3, follow-redirects@^1.2.5:
+follow-redirects@^1.2.5:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.4.1.tgz#d8120f4518190f55aac65bb6fc7b85fcd666d6aa"
   dependencies:
@@ -4065,7 +4055,7 @@ is-binary-path@^1.0.0:
   dependencies:
     binary-extensions "^1.0.0"
 
-is-buffer@^1.1.5:
+is-buffer@^1.1.5, is-buffer@~1.1.1:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
 
@@ -5222,6 +5212,14 @@ md5.js@^1.3.4:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
+md5@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/md5/-/md5-2.2.1.tgz#53ab38d5fe3c8891ba465329ea23fac0540126f9"
+  dependencies:
+    charenc "~0.0.1"
+    crypt "~0.0.1"
+    is-buffer "~1.1.1"
+
 mdurl@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
@@ -5788,12 +5786,6 @@ obuf@^1.0.0, obuf@^1.1.1:
 old@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/old/-/old-0.1.3.tgz#5824d99ffc4ec6e8c52b3f3ce955a17a5f814ad1"
-  dependencies:
-    object-assign "^4.1.0"
-
-old@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/old/-/old-0.2.0.tgz#ae75a9f33bae7cb3fe06312899b7ae5a73ba24ef"
   dependencies:
     object-assign "^4.1.0"
 
@@ -6695,6 +6687,20 @@ range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
 
+raven-js@^3.22.3:
+  version "3.22.3"
+  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.22.3.tgz#8330dcc102b699ffbc2f48790978b997bf4d8f75"
+
+raven@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/raven/-/raven-2.4.1.tgz#7a6a6ff1c42d0a3892308f44c94273e7f88677fd"
+  dependencies:
+    cookie "0.3.1"
+    md5 "^2.2.1"
+    stack-trace "0.0.9"
+    timed-out "4.0.1"
+    uuid "3.0.0"
+
 raw-body@2.3.2, raw-body@^2.3.0:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/raw-body/-/raw-body-2.3.2.tgz#bcd60c77d3eb93cde0050295c3f379389bc88f89"
@@ -7585,6 +7591,10 @@ stack-generator@^2.0.1:
   dependencies:
     stackframe "^1.0.4"
 
+stack-trace@0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/stack-trace/-/stack-trace-0.0.9.tgz#a8f6eaeca90674c333e7c43953f275b451510695"
+
 stackframe@^1.0.3, stackframe@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/stackframe/-/stackframe-1.0.4.tgz#357b24a992f9427cba6b545d96a14ed2cbca187b"
@@ -7996,7 +8006,7 @@ time-stamp@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/time-stamp/-/time-stamp-2.0.0.tgz#95c6a44530e15ba8d6f4a3ecb8c3a3fac46da357"
 
-timed-out@^4.0.0:
+timed-out@4.0.1, timed-out@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-4.0.1.tgz#f32eacac5a175bea25d7fab565ab3ed8741ef56f"
 
@@ -8338,6 +8348,10 @@ utila@~0.4:
 utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
+
+uuid@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.0.tgz#6728fc0459c450d796a99c31837569bdf672d728"
 
 uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0:
   version "3.2.1"

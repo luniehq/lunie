@@ -8,11 +8,13 @@
     span {{ num.prettyInt(delegate.voting_power) }}
     .bar(:style='vpStyles')
   .li-delegate__value.bonded_by_you
-    span {{ amountBonded }}
+    span {{ bondedByYou }}
   .li-delegate__value.status
     span {{ delegateType }}
   template(v-if="userCanDelegate")
-    .li-delegate__value.checkbox#remove-from-cart(v-if="inCart" @click='rm(delegate)')
+    .li-delegate__value.checkbox(v-if="bondedByYou > 0")
+      i.material-icons lock
+    .li-delegate__value.checkbox#remove-from-cart(v-else-if="inCart" @click='rm(delegate)')
       i.material-icons check_box
     .li-delegate__value.checkbox#add-to-cart(v-else @click='add(delegate)')
       i.material-icons check_box_outline_blank
@@ -33,12 +35,12 @@ export default {
   },
   computed: {
     ...mapGetters(['shoppingCart', 'delegates', 'config', 'committedDelegations', 'user']),
-    amountBonded () {
+    bondedByYou () {
       return this.num.prettyInt(this.committedDelegations[this.delegate.id])
     },
     styles () {
       let value = ''
-      if (this.inCart) value += 'li-delegate-active '
+      if (this.inCart || this.bondedByYou > 0) value += 'li-delegate-active '
       if (this.delegate.isValidator) value += 'li-delegate-validator '
       return value
     },
@@ -78,6 +80,13 @@ export default {
   methods: {
     add (delegate) { this.$store.commit('addToCart', delegate) },
     rm (delegate) { this.$store.commit('removeFromCart', delegate.id) }
+  },
+  watch: {
+    bondedByYou (newVal, oldVal) {
+      if (newVal > 0) {
+        this.$store.commit('addToCart', this.delegate)
+      }
+    }
   }
 }
 </script>
@@ -141,6 +150,7 @@ export default {
 
   &.checkbox
     justify-content center
+    cursor pointer
 
   span
     white-space nowrap

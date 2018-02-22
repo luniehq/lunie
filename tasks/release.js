@@ -124,9 +124,18 @@ function zipFolder (inDir, outDir, version) {
           return reject(err)
         }
         files
-        .filter(file => !fs.lstatSync(file).isDirectory())
         .forEach(file => {
-          zip.file(path.relative(inDir, file), fs.readFileSync(file), {date: new Date('1987-08-16')}) // make the zip deterministic by changing all file times
+          // make the zip deterministic by changing all file times
+          if (fs.lstatSync(file).isDirectory()) {
+            zip.file(path.relative(inDir, file), null, {
+              dir: true,
+              date: new Date('1993-06-16')
+            })
+          } else {
+            zip.file(path.relative(inDir, file), fs.readFileSync(file), {
+              date: new Date('1987-08-16')
+            })
+          }
         })
         resolve()
       })
@@ -142,34 +151,44 @@ function zipFolder (inDir, outDir, version) {
   })
 }
 
-function tarFolder (inDir, outDir, version) {
-  return new Promise(async (resolve, reject) => {
-    let name = path.parse(inDir).name
-    let outFile = path.join(outDir, `${name}_${version}.tar.gz`)
-    var pack = tar.pack()
+async function tarFolder (inDir, outDir, version) {
+  let name = path.parse(inDir).name
+  let outFile = path.join(outDir, `${name}_${version}.tar.gz`)
+  var pack = tar.pack()
 
-    await new Promise((resolve) => {
-      glob(inDir + '/**/*', (err, files) => {
-        if (err) {
-          return reject(err)
-        }
-        // add files to tar
-        files
-        .filter(file => !fs.lstatSync(file).isDirectory())
-        .forEach(file => {
-          try {
-            pack.entry({ name: path.relative(inDir, file) }, fs.readFileSync(file))
-          } catch (err) {
-            console.error(`Couldn't pack file`, file, err)
-            // skip this file
-          }
-        })
-        pack.finalize()
-        resolve()
+  let files = glob(inDir + '/**', { sync: true })
+
+  // add files to tar
+  for (let file of files) {
+    try {
+      let stats = fs.lstatSync(file)
+
+      let contents, linkname, type
+      if (stats.isDirectory()) {
+        continue
+      } else if (stats.isSymbolicLink()) {
+        linkname = fs.readlinkSync(file)
+        type = 'symlink'
+      } else {
+        contents = fs.readFileSync(file)
+        type = 'file'
+      }
+      await new Promise((resolve) => {
+        pack.entry(Object.assign({}, stats, {
+          name: path.relative(inDir, file),
+          type,
+          linkname
+        }), contents, resolve)
       })
-    })
+    } catch (err) {
+      console.error(`Couldn't pack file`, file, err)
+      // skip this file
+    }
+  }
+  pack.finalize()
 
-    // make tar deterministic
+  // make tar deterministic
+  await new Promise((resolve) => {
     pack
     .pipe(deterministicTar())
     // save tar to disc
@@ -193,17 +212,17 @@ function deterministicTar () {
   var extract =
     tar.extract()
       .on('entry', function (header, stream, cb) {
-        if (header.type !== 'file') return cb()
-
         header.mtime = header.atime = header.ctime = UNIXZERO
         header.uid = header.gid = 0
 
         delete header.uname
         delete header.gname
 
-        header.mode = 0o777
-
-        stream.pipe(pack.entry(header, cb))
+        if (header.type === 'file') {
+          stream.pipe(pack.entry(header, cb))
+        } else {
+          pack.entry(header, cb)
+        }
       })
       .on('finish', function () {
         pack.finalize()
