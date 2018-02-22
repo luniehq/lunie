@@ -1,6 +1,6 @@
 let { spawn } = require('child_process')
 let test = require('tape-promise/tape')
-let launchApp = require('./launch.js')
+let { getApp, restart } = require('./launch.js')
 let { navigate, newTempDir, waitForText, sleep, login, logout } = require('./common.js')
 
 let binary = process.env.BINARY_PATH
@@ -21,12 +21,12 @@ function cliSendCoins (home, to, amount) {
 }
 
 test('wallet', async function (t) {
-  let {app, home} = await launchApp(t)
+  let {app, home} = await getApp(t)
+  await restart(app)
+
   let client = app.client
   let $ = (...args) => client.$(...args)
-
-  await sleep(500)  
-  await logout(client)
+  
   await login(client, 'testkey')
 
   let balanceEl = (denom) =>

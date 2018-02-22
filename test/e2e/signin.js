@@ -1,15 +1,15 @@
 let test = require('tape-promise/tape')
-let launchApp = require('./launch.js')
+let { getApp, restart } = require('./launch.js')
 let { logout, openMenu } = require('./common.js')
 
 test('sign in', async function (t) {
-  let {app, home} = await launchApp(t)
+  let {app, home} = await getApp(t)
+  await restart(app)
   let client = app.client
   let el = (...args) => client.$(...args)
   let continueButton = () => el('.ni-btn__value=Next').$('..')
   
   t.test('agreement', async function (t) {
-    await logout(client)
     // go to login selection
     await client.$('i=arrow_back').$('..').click()
     await client.waitForExist('.ni-li-session', 1000)

@@ -11,7 +11,7 @@ let { newTempDir, login } = require('./common.js')
 let app, home, cliHome, started
 let binary = process.env.BINARY_PATH 
 
-module.exports = function launch (t) {
+function launch (t) {
   if (!started) {
     // tape doesn't exit properly on uncaught promise rejections
     process.on('unhandledRejection', error => {
@@ -68,8 +68,6 @@ module.exports = function launch (t) {
       console.log('restored test accounts')
       await startApp(app)
       t.ok(app.isRunning(), 'app is running')
-
-      await login(app.client, 'testkey')
 
       resolve({app, home})
     })
@@ -161,4 +159,13 @@ async function createAccount (name, seed) {
       reject()
     })
   })
+}
+
+module.exports = {
+  getApp: launch,
+  restart: async function(app) {
+    console.log('restarting app')
+    await app.stop()
+    await startApp(app)
+  }
 }
