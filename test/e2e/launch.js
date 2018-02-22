@@ -41,8 +41,7 @@ function launch (t) {
         startTimeout: 10000,
         waitTimeout: 10000,
         env: {
-            // COSMOS_UI_ONLY: 'true', 
-            // COSMOS_TEST: 'true', 
+            ANALYTICS: 'false', 
             COSMOS_NODE: 'localhost', 
             NODE_ENV: 'production', 
             PREVIEW: 'true', 
