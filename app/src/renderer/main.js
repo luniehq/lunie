@@ -5,33 +5,16 @@ import Router from 'vue-router'
 import Vuelidate from 'vuelidate'
 import shrinkStacktrace from '../helpers/shrink-stacktrace.js'
 import axios from 'axios'
-import Raven from 'raven-js'
-import {remote} from 'electron'
-
-const config = require('../../../config')
 
 import App from './App'
 import routes from './routes'
 import Node from './node'
 import Store from './vuex/store'
 
-// setup sentry remote error reporting on testnets
-const networkIsWhitelisted = config.analytics_networks.indexOf(config.default_network) !== -1
-Raven.config(networkIsWhitelisted && remote.getGlobal('process').env.NODE_ENV === 'production' ? config.sentry_dsn : '').install()
-
-// handle uncaught errors
-window.addEventListener('unhandledrejection', function (event) {
-  Raven.captureException(event.reason)
-})
-window.addEventListener('error', function (event) {
-  Raven.captureException(event.reason)
-})
 Vue.config.errorHandler = (error, vm, info) => {
-  Raven.captureException(error)
   shrinkStacktrace(error)
   return true
 }
-
 Vue.use(Electron)
 Vue.use(Resource)
 Vue.use(Router)

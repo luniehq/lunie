@@ -57,10 +57,7 @@ page.page-bond(title="Bond Atoms")
             type="number"
             placeholder="Atoms"
             step="1"
-            min="0"
-            :max="$v.fields.delegates.$each[index].atoms.$params.between.max"
-            v-model.number="d.atoms"
-            @change.native="limitMax(d, $event)")
+            v-model.number="d.atoms")
 
       form-msg(name="Atoms" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
@@ -152,6 +149,10 @@ export default {
     oldUnbondedAtoms () {
       return this.totalAtoms - this.oldBondedAtoms
     },
+    // not used
+    // newBondedAtoms () {
+    //   return this.fields.delegates.reduce((sum, d) => sum + (d.atoms || 0), 0)
+    // },
     newUnbondedAtoms () {
       return this.fields.delegates.reduce((atoms, d) => {
         let delta = d.oldAtoms - d.atoms
@@ -205,8 +206,8 @@ export default {
         this.$store.commit('activateDelegation')
         try {
           await this.$store.dispatch('submitDelegation', this.fields)
-          this.$store.commit('notify', { title: 'Successful Delegation',
-            body: 'You have successfully bonded / unbonded.' })
+          this.$store.commit('notify', { title: 'Atoms Bonded',
+            body: 'You have successfully updated your delegations.' })
           this.$router.push('/staking')
         } catch (err) {
           this.$store.commit('notifyError', { title: 'Error While Bonding Atoms',
@@ -283,17 +284,14 @@ export default {
           restrictSize: { min: { width: offset } }
         })
         .on('resizemove', (event) => {
-          this.handleResize(event.target, event.rect.width)
+          let target = event.target
+          let ratio = (event.rect.width - offset) / (this.bondBarOuterWidth - offset)
+          let rawAtoms = ratio * this.totalAtoms
+
+          target.style.width = event.rect.width + 'px'
+
+          this.updateDelegateAtoms(target.id.split('-')[1], rawAtoms)
         })
-    },
-    handleResize (element, width) {
-      let offset = this.bondBarScrubWidth
-      let ratio = Math.round((width - offset) / (this.bondBarOuterWidth - offset) * 100) / 100
-      let rawAtoms = ratio * this.totalAtoms
-
-      element.style.width = width + 'px'
-
-      return this.updateDelegateAtoms(element.id.split('-')[1], rawAtoms)
     },
     updateDelegateAtoms (delegateId, rawAtoms) {
       let d = this.fields.delegates.find(d => d.id === delegateId)
@@ -303,8 +301,8 @@ export default {
         d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, 'int')
         d.deltaAtomsPercent =
           this.percent(this.delta(rawAtoms, d.oldAtoms), this.totalAtoms)
-        return d
       }
+      return d.atoms
     },
     setBondBarOuterWidth () {
       let outerBar = this.$el.querySelector('.bond-bar__outer')
@@ -327,14 +325,6 @@ export default {
         value = Math.round(ratio * 100)
       }
       return value + '%'
-    },
-    limitMax (delegate, event) {
-      let max = parseInt(event.target.max)
-      if (delegate.atoms >= max) {
-        console.log(`${delegate.atoms} <= ${max}`)
-        delegate.atoms = max
-        return
-      }
     }
   },
   async mounted () {

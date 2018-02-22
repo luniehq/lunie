@@ -1,5 +1,4 @@
 import axios from 'axios'
-import indicateValidators from 'scripts/indicateValidators'
 
 export default ({ dispatch, node }) => {
   const state = {
@@ -25,15 +24,14 @@ export default ({ dispatch, node }) => {
   }
 
   const actions = {
-    async getDelegates ({ state, dispatch, rootState }) {
+    async getDelegates ({ state, dispatch }) {
       state.loading = true
       let delegatePubkeys = (await node.candidates()).data
-      await Promise.all(delegatePubkeys.map(pubkey => {
+      let delegates = await Promise.all(delegatePubkeys.map(pubkey => {
         return dispatch('getDelegate', pubkey)
       }))
-      state.delegates = indicateValidators(state.delegates, rootState.config.maxValidators)
       state.loading = false
-      return state.delegates
+      return delegates
     },
     async getDelegate ({ commit }, pubkey) {
       let delegate = (await axios.get(`http://localhost:${node.relayPort}/query/stake/candidate/${pubkey.data}`)).data.data

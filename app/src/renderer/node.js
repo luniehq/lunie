@@ -1,6 +1,6 @@
 'use strict'
 const RpcClient = require('tendermint')
-const RestClient = require('./lcdClient.js')
+const RestClient = require('cosmos-sdk')
 
 module.exports = function (nodeIP, relayPort, lcdPort) {
   const RELAY_SERVER = 'http://localhost:' + relayPort

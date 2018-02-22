@@ -3,8 +3,8 @@
 <!-- Please make sure your code is properly tested, so that the code coverage is not decreasing. -->
 
 ### Issue
-<!-- Please provide the `#123` of the issue you created in advance, that describes the bug/proposed change. This will automatically close the issue. -->
-closes: ISSUE
+<!-- Please provide the `#123` of the issue you created in advance, that describes the bug/proposed change. -->
+
 
 ### Screenshots
 <!-- If this PR produces a visible change, please provide screenshots showing these changes. -->

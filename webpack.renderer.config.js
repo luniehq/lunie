@@ -90,8 +90,7 @@ let rendererConfig = {
       appModules: process.env.NODE_ENV !== 'production'
         ? path.resolve(__dirname, 'app/node_modules')
         : false,
-      styles: stylus(fs.readFileSync('./app/src/renderer/styles/index.styl', 'utf8')).import('./app/src/renderer/styles/variables.styl').render(),
-      enableAnalytics: process.env.NODE_ENV === 'production' && settings.analytics_networks.indexOf(settings.default_network) !== -1
+      styles: stylus(fs.readFileSync('./app/src/renderer/styles/index.styl', 'utf8')).import('./app/src/renderer/styles/variables.styl').render()
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client

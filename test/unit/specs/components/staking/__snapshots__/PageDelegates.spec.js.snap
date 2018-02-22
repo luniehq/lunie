@@ -81,7 +81,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
 </div>
 </div>
 </div>
-   <div class=\\"li-delegate li-delegate-validator \\">
+   <div class=\\"li-delegate\\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
             <a href=\\"#/staking/delegates/pubkeyY\\" class=\\"\\">candidateY</a>
@@ -97,14 +97,14 @@ exports[`PageDelegates has the expected html structure 1`] = `
       <span>0</span>
    </div>
    <div class=\\"li-delegate__value status\\">
-      <span>Validator</span>
+      <span>Candidate</span>
    </div>
    <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
       <i class=\\"material-icons\\">check_box_outline_blank</i>
    </div>
 </div>
 </div>
-   <div class=\\"li-delegate li-delegate-validator \\">
+   <div class=\\"li-delegate\\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
             <a href=\\"#/staking/delegates/pubkeyX\\" class=\\"\\">candidateX</a>
@@ -120,7 +120,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
       <span>0</span>
    </div>
    <div class=\\"li-delegate__value status\\">
-      <span>Validator</span>
+      <span>Candidate</span>
    </div>
    <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
       <i class=\\"material-icons\\">check_box_outline_blank</i>
