@@ -28,14 +28,14 @@ export default ({ commit, node }) => {
     async getBlock ({ state, commit, dispatch }, height) {
       state.blockLoading = true
       state.blockHeight = height
-      return Promise.all(
+      return Promise.all([
         dispatch('queryBlock', height)
         .then(block => commit('setBlock', block)),
         dispatch('queryBlockInfo', height)
         .then(blockMetaInfo => commit('setBlockMetaInfo', blockMetaInfo))
-      ).then(() => {
+      ]).then(() => {
         state.blockLoading = false
-      }, () => {
+      }, err => {
         state.blockLoading = false
       })
     },

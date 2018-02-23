@@ -106,6 +106,22 @@ describe('Module: Blockchain', () => {
     expect(store.state.blockchain.blockLoading).toBe(false)
   })
 
+  it('should hide loading on an error', async () => {
+    node.rpc.block = (query, cb) => {
+      cb({message: 'expected'}, {
+        block: { test: 'test' }
+      })
+    }
+    node.rpc.blockchain = (query, cb) => {
+      cb(null, {
+        block_metas: [{ test: 'test2' }]
+      })
+    }
+    store.state.blockchain.blockLoading = true
+    await store.dispatch('getBlock', 42)
+    expect(store.state.blockchain.blockLoading).toBe(false)
+  })
+
   it('should query for blocks on reconnection', () => {
     store.state.node.stopConnecting = true
     store.state.blockchain.blockLoading = true
@@ -130,6 +146,23 @@ describe('Module: Blockchain', () => {
     }
     store.dispatch('subscribeToBlocks')
     expect(store.state.blockchain.blocks[0]).toEqual({ test: 'test' })
+  })
+
+  it('should subscribe to new blocks', () => {
+    node.rpc.subscribe = (query, cb) => {
+      for(let i = 0; i < 25; i++) {
+        cb(null, {
+          data: {
+            data: {
+              block: { test: 'test' }
+            }
+          }
+        })
+      }
+    }
+    store.dispatch('subscribeToBlocks')
+    expect(store.state.blockchain.blocks[0]).toEqual({ test: 'test' })
+    expect(store.state.blockchain.blocks.length).toBe(19)
   })
 
   it('should handle errors', () => {
