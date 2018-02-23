@@ -2,6 +2,9 @@
 
 # Cosmos Voyager
 
+[![CircleCI](https://circleci.com/gh/cosmos/voyager.svg?style=svg)](https://circleci.com/gh/cosmos/voyager)
+[![codecov](https://codecov.io/gh/cosmos/voyager/branch/develop/graph/badge.svg)](https://codecov.io/gh/cosmos/voyager)
+
 👋 Welcome to Voyager, the official user interface for the [Cosmos Network](https://cosmos.network/).
 
 💻 Voyager is a desktop application built with [Electron](https://github.com/electron/electron). Voyager runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
