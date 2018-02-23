@@ -35,7 +35,7 @@ export default ({ commit, node }) => {
         .then(blockMetaInfo => commit('setBlockMetaInfo', blockMetaInfo))
       ]).then(() => {
         state.blockLoading = false
-      }, err => {
+      }, () => {
         state.blockLoading = false
       })
     },
@@ -75,9 +75,9 @@ export default ({ commit, node }) => {
           commit('notifyError', {title: `Error subscribing to new blocks`, body: err.message})
           return
         }
-  
+
         state.blocks.unshift(event.data.data.block)
-  
+
         if (state.blocks.length === 20) {
           state.blocks.pop()
         }

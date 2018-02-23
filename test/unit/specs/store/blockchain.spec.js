@@ -150,7 +150,7 @@ describe('Module: Blockchain', () => {
 
   it('should subscribe to new blocks', () => {
     node.rpc.subscribe = (query, cb) => {
-      for(let i = 0; i < 25; i++) {
+      for (let i = 0; i < 25; i++) {
         cb(null, {
           data: {
             data: {
