@@ -20,14 +20,10 @@ exports[`PageBlock has the expected html structure 1`] = `
             <div class=\\"ni-tool-bar\\">
                <div class=\\"ni-tool-bar-container\\">
                   <div class=\\"main\\">
-                     <a href=\\"https://the-url\\" target=\\"_blank\\"><i class=\\"material-icons\\">code</i>
+                     <a href=\\"#/blocks/9\\" class=\\"\\"><i class=\\"material-icons\\">chevron_left</i>
                      <div class=\\"label\\">
-                        JSON
+                        Previous Block
                      </div>
-      </a><a href=\\"#/blocks/9\\" class=\\"\\"><i class=\\"material-icons\\">chevron_left</i>
-      <div class=\\"label\\">
-         Previous Block
-      </div>
       </a><a href=\\"#/blocks/11\\" class=\\"\\"><i class=\\"material-icons\\">chevron_right</i>
       <div class=\\"label\\">
          Next Block
@@ -261,7 +257,7 @@ exports[`PageBlock has the expected html structure 1`] = `
 </div>"
 `;
 
-exports[`PageBlock should show a loading state if no block loaded yet 1`] = `
+exports[`PageBlock should show a loading state if loading 1`] = `
 "<div class=\\"ni-page\\">
    <header class=\\"ni-page-header\\">
       <div class=\\"ni-page-header-container\\">
