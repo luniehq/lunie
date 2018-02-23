@@ -1,7 +1,7 @@
 <template lang="pug">
 mixin ni-li-thumb
   .ni-li-thumb
-    template(v-if='icon'): i.material-icons {{ icon }}
+    template(v-if='icon'): i.material-icons(:class="spinClass") {{ icon }}
     template(v-else-if='image'): img(:src='image')
     template(v-else-if="$slots['graphic']"): slot(name='graphic')
 mixin ni-li-dl
@@ -66,10 +66,15 @@ transition(name="proposal")
 import Btn from '@nylira/vue-button'
 export default {
   name: 'ni-list-item',
-  props: ['type', 'title', 'subtitle', 'image', 'icon', 'to', 'dt', 'dd', 'href', 'btn'],
+  props: ['type', 'title', 'subtitle', 'image', 'icon', 'to', 'dt', 'dd', 'href', 'btn', 'spin'],
   components: {
     Btn
-  }
+  },
+  computed: {
+    spinClass () {
+      if (this.spin) { return 'fa-spin' }
+    }
+  },
 }
 
 </script>

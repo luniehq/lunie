@@ -7,12 +7,14 @@ page(title='Block Explorer')
 
   modal-search(type="blocks")
 
-  part(title='Current Block')
+  data-loading(v-if="!blockchain.blocks.length")
+
+  part(title='Current Block' v-if="blockchain.blocks.length")
     list-item(dt='Block Height' :dd='num.prettyInt(lastHeader.height)' :to="{ name: 'block', params: { block: lastHeader.height} }")
     list-item(dt='Block Time' :dd='latestBlockTime')
     list-item(dt='Block Hash' :dd='latestBlockHash')
 
-  part(title='Latest Blocks')
+  part(title='Latest Blocks' v-if="blockchain.blocks.length")
     list-item.column-header(dt="Block Height" dd="# of Transactions")
     list-item(
       v-for="block in blocks"
@@ -29,6 +31,7 @@ import num from 'scripts/num'
 import { mapGetters } from 'vuex'
 import ListItem from 'common/NiListItem'
 import DataError from 'common/NiDataError'
+import DataLoading from 'common/NiDataLoading'
 import Page from 'common/NiPage'
 import Part from 'common/NiPart'
 import ToolBar from 'common/NiToolBar'
@@ -38,6 +41,7 @@ export default {
   components: {
     ListItem,
     DataError,
+    DataLoading,
     Page,
     Part,
     ToolBar,
