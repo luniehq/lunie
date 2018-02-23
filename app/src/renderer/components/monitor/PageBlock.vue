@@ -1,6 +1,7 @@
 <template lang="pug">
 page(:title="pageBlockTitle")
-  data-loading(v-if="!block.header")
+  data-loading(v-if="blockchain.blockLoading")
+  data-empty(v-else-if="!block.header")
   template(v-else)
     div(slot="menu"): tool-bar
       a(:href="blockUrl" target="_blank")
@@ -85,11 +86,7 @@ export default {
       }
     },
     blockMeta () {
-      if (this.block.header) {
-        return this.blockchain.block.block_meta
-      } else {
-        return {}
-      }
+      return this.blockchain.blockMetaInfo
     },
     pageBlockTitle () {
       if (this.block.header) {

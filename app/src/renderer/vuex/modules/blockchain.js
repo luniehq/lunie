@@ -1,14 +1,13 @@
-import axios from 'axios'
-
 export default ({ commit, node }) => {
   const state = {
     urlPrefix: 'https://',
     blockchainName: 'gaia-2',
     urlSuffix: '-node0.testnets.interblock.io',
-    status: {},
-    abciInfo: {},
     blocks: [],
     block: {},
+    blockMetaInfo: {
+      block_id: {}
+    },
     blockHeight: null, // we remember the height so we can requery the block, if querying failed
     blockLoading: false,
     url: ''
@@ -18,19 +17,11 @@ export default ({ commit, node }) => {
   const mutations = {
     setUrl (state) {
       state.url = url
-    },
-    getStatus (state) {
-      axios(url + '/status').then((res) => {
-        state.status = res.data.result
-      })
-    },
-    getAbciInfo (state) {
-      axios(url + '/abci_info').then((res) => {
-        state.abciInfo = res.data.result
-      })
-    },
     setBlock (state, block) {
       state.block = block
+    },
+    setBlockMetaInfo (state, blockMetaInfo) {
+      state.blockMetaInfo = blockMetaInfo
     }
   }
 
@@ -43,10 +34,32 @@ export default ({ commit, node }) => {
     async getBlock ({ state, commit }, height) {
       state.blockLoading = true
       state.blockHeight = height
-      const blockUrl = url + '/block?height=' + height
-      let block = (await axios.get(blockUrl)).data.result
-      commit('setBlock', block)
-      state.blockLoading = false
+      Promise.all(
+        new Promise(resolve => {
+          node.rpc.block({ minHeight: height, maxHeight: height }, (err, data) => {
+            if (err) {
+              commit('notifyError', {title: `Couldn't query block`, body: err.message})
+              resolve({})
+            } else {
+              resolve(data.block)
+            }
+          })
+        }).then(block => commit('setBlock', block)),
+        new Promise((resolve, reject) => {
+          node.rpc.blockchain({ minHeight: height, maxHeight: height }, (err, data) => {
+            if (err) {
+              commit('notifyError', {title: `Couldn't query block`, body: err.message})
+              reject({block_id: {}})
+            } else {
+              resolve(data.block_metas[0])
+            }
+          })
+        }).then(blockMetaInfo => commit('setBlockMetaInfo', blockMetaInfo))
+      ).then(() => {
+        state.blockLoading = false
+      }, () => {
+        state.blockLoading = false
+      })
     }
   }
 
