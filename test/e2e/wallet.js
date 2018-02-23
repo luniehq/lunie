@@ -1,7 +1,7 @@
 let { spawn } = require('child_process')
 let test = require('tape-promise/tape')
-let launchApp = require('./launch.js')
-let { navigate, newTempDir, waitForText, sleep, login, logout } = require('./common.js')
+let { getApp, restart } = require('./launch.js')
+let { navigate, newTempDir, waitForText, sleep, login, logout, closeNotifications } = require('./common.js')
 
 let binary = process.env.BINARY_PATH
 
@@ -21,11 +21,12 @@ function cliSendCoins (home, to, amount) {
 }
 
 test('wallet', async function (t) {
-  let {app, home} = await launchApp(t)
+  let {app, home} = await getApp(t)
+  await restart(app)
+
   let client = app.client
   let $ = (...args) => client.$(...args)
-  
-  await logout(client)
+
   await login(client, 'testkey')
 
   let balanceEl = (denom) =>
@@ -96,6 +97,8 @@ test('wallet', async function (t) {
       await client.waitForExist('.ni-notification', 5000)
       let msg = await client.$('.ni-notification .body').getText()
       t.ok(msg.includes('Success'), 'Send successful')
+      // close the notifications to have a clean setup for the next tests
+      await closeNotifications(client)
       
       t.end()
     })

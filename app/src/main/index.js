@@ -31,10 +31,10 @@ const networkPath = require('../network.js').path
 const baseserverHome = join(root, 'baseserver')
 const WIN = /^win/.test(process.platform)
 const DEV = process.env.NODE_ENV === 'development'
-const TEST = JSON.parse(process.env.COSMOS_TEST || 'false') !== false
+const TEST = process.env.NODE_ENV === 'testing'
 // TODO default logging or default disable logging?
 const LOGGING = JSON.parse(process.env.LOGGING || 'true') !== false
-const MOCK = JSON.parse(process.env.MOCK || !TEST && DEV) !== false
+const MOCK = JSON.parse(process.env.MOCK || DEV) !== false
 const winURL = DEV
   ? `http://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
@@ -58,7 +58,7 @@ function logError (...args) {
 function logProcess (process, logPath) {
   fs.ensureFileSync(logPath)
   // Writestreams are blocking fs cleanup in tests, if you get errors, disable logging
-  if (LOGGING && !TEST) {
+  if (LOGGING) {
     let logStream = fs.createWriteStream(logPath, {
       flags: 'a' // 'a' means appending (old data will be preserved)
     })
@@ -154,7 +154,7 @@ function startProcess (name, args, env) {
   if (process.env.BINARY_PATH) {
     binPath = process.env.BINARY_PATH
   } else
-  if (DEV || TEST) {
+  if (DEV) {
     // in dev mode or tests, use binaries installed in GOPATH
     let GOPATH = process.env.GOPATH
     if (!GOPATH) GOPATH = join(home, 'go')
@@ -269,7 +269,7 @@ async function initBaseserver (chainId, home, node) {
 * log to file
 */
 function setupLogging (root) {
-  if (TEST) return
+  if (!LOGGING) return
 
   // initialize log file
   let logFilePath = join(root, 'main.log')
@@ -286,21 +286,17 @@ function setupLogging (root) {
   // TODO overwriting console.log sounds like a bad idea, can we find an alternative?
   // eslint-disable-next-line no-func-assign
   log = function (...args) {
-    if (LOGGING) {
-      if (DEV) {
-        console.log(...args)
-      }
-      mainLog.write(`main-process: ${args.join(' ')}\r\n`)
+    if (DEV) {
+      console.log(...args)
     }
+    mainLog.write(`main-process: ${args.join(' ')}\r\n`)
   }
   // eslint-disable-next-line no-func-assign
   logError = function (...args) {
-    if (LOGGING) {
-      if (DEV) {
-        console.error(...args)
-      }
-      mainLog.write(`main-process: ${args.join(' ')}\r\n`)
+    if (DEV) {
+      console.error(...args)
     }
+    mainLog.write(`main-process: ${args.join(' ')}\r\n`)
   }
 }
 
@@ -393,13 +389,13 @@ async function reconnect (seeds) {
 }
 
 function setupAnalytics () {
-  let networkIsWhitelisted = config.analytics_networks.indexOf(config.default_network) !== -1
-  if (networkIsWhitelisted) {
+  let analyticsEnabled = JSON.parse(process.env.COSMOS_ANALYTICS || 'false')
+  if (analyticsEnabled) {
     log('Adding analytics')
   }
 
   // only enable sending of error events in production setups and if the network is a testnet
-  Raven.config(networkIsWhitelisted && process.env.NODE_ENV === 'production' ? config.sentry_dsn : '', {
+  Raven.config(analyticsEnabled ? config.sentry_dsn : '', {
     captureUnhandledRejections: true
   }).install()
 }

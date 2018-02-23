@@ -123,7 +123,7 @@ A list of all environment variables and their purpose:
 |NODE_ENV|'production', 'development'|||
 |LOGGING|'true', 'false'|'true'|Disable logging|
 |MOCK|'true', 'false'|'true' in development|Mock data to receive from the chain|
-|COSMOS_TEST|'true', 'false'|'false'|Disable code that influences unit tests, like logging to files|
+|COSMOS_ANALYTICS|'true', 'false'|'false'|Disable code that should not run in e2e tests, like crash reporting|
 |COSMOS_NETWORK|{path to network configuration folder}|'../networks/gaia-1'|Network to connect to|
 |COSMOS_HOME|{path to config persistence folder}|'$HOME/voyager[-dev]'||
 |COSMOS_NODE|{ip of a certain node}||Node to connect to|
