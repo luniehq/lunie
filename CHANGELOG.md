@@ -57,5 +57,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.4.3] - 2018-02-05
 ### Changed
 * Renamed Cosmos UI to Cosmos Voyager. @nylira
-* Added Google Analytics for testnet versions
-* Added Sentry error reporting for testnet versions
+* Added Google Analytics for testnet versions @faboweb
+* Added Sentry error reporting for testnet versions @faboweb
+* Fixed reconnection issues @faboweb
+* Made Windows builds deterministic @mappum
+* Reduced size of OSX builds @mappum
