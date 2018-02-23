@@ -7,14 +7,14 @@ page(title='Block Explorer')
 
   modal-search(type="blocks")
 
-  data-loading(v-if="!blockchain.blocks.length")
+  data-loading(v-if="!blockchain.subscription")
 
   part(title='Current Block' v-if="blockchain.blocks.length")
     list-item(dt='Block Height' :dd='num.prettyInt(lastHeader.height)' :to="{ name: 'block', params: { block: lastHeader.height} }")
     list-item(dt='Block Time' :dd='latestBlockTime')
     list-item(dt='Block Hash' :dd='latestBlockHash')
 
-  part(title='Latest Blocks' v-if="blockchain.blocks.length")
+  part(title='Latest Blocks' v-if="blockchain.subscription")
     list-item.column-header(dt="Block Height" dd="# of Transactions")
     list-item(
       v-for="block in blocks"

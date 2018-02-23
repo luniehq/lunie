@@ -7,6 +7,7 @@ export default ({ commit, node }) => {
     },
     blockHeight: null, // we remember the height so we can requery the block, if querying failed
     blockLoading: false,
+    subscription: false,
     blockMetas: []
   }
 
@@ -24,6 +25,7 @@ export default ({ commit, node }) => {
       if (state.blockLoading) {
         dispatch('getBlock', state.blockHeight)
       }
+      dispatch('subscribeToBlocks')
     },
     async getBlock ({ state, commit, dispatch }, height) {
       state.blockLoading = true
@@ -71,7 +73,10 @@ export default ({ commit, node }) => {
     },
     subscribeToBlocks ({commit}) {
       node.rpc.subscribe({ query: "tm.event = 'NewBlock'" }, (err, event) => {
+        state.subscription = true
+
         if (err) {
+          state.subscription = false
           commit('notifyError', {title: `Error subscribing to new blocks`, body: err.message})
           return
         }
