@@ -26,6 +26,9 @@ export default function ({ node }) {
   }
 
   const actions = {
+    reconnected ({commit, dispatch}) {
+      dispatch('nodeSubscribe')
+    },
     setLastHeader ({state, dispatch}, header) {
       state.lastHeader = header
       dispatch('maybeUpdateValidators', header)
@@ -34,8 +37,11 @@ export default function ({ node }) {
       if (state.stopConnecting) return
 
       commit('setConnected', false)
-      await node.rpcReconnect()
-      dispatch('nodeSubscribe')
+      // rpcReconnect returns true if it actually reconnected
+      // it returns false if it already is reconnecting, this is to prevent loops of connection intents
+      if (await node.rpcReconnect()) {
+        dispatch('reconnected')
+      }
     },
     nodeSubscribe ({commit, dispatch}) {
       if (state.stopConnecting) return
@@ -48,6 +54,8 @@ export default function ({ node }) {
         return
       }
 
+      commit('setConnected', true)
+
       // TODO: get event from light-client websocket instead of RPC connection (once that exists)
       node.rpc.on('error', (err) => {
         if (err.message.indexOf('disconnected') !== -1) {
@@ -58,7 +66,6 @@ export default function ({ node }) {
       node.rpc.status((err, res) => {
         if (err) return console.error(err)
         let status = res
-        commit('setConnected', true)
         dispatch('setLastHeader', {
           height: status.latest_block_height,
           chain_id: status.node_info.network
@@ -67,7 +74,6 @@ export default function ({ node }) {
 
       node.rpc.subscribe({ query: "tm.event = 'NewBlockHeader'" }, (err, event) => {
         if (err) return console.error('error subscribing to headers', err)
-        commit('setConnected', true)
         dispatch('setLastHeader', event.data.data.header)
       })
 

@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Module: Delegations should query delegated atoms on reconnection 1`] = `Array []`;
+
 exports[`Module: Delegations submits delegation transaction 1`] = `
 Array [
   Array [
@@ -9,14 +11,14 @@ Array [
         "denom": "fermion",
       },
       "from": Object {
-        "addr": "address",
+        "addr": "someaddress",
         "app": "sigs",
         "chain": "",
       },
       "pub_key": Object {
         "data": "foo",
       },
-      "sequence": 1,
+      "sequence": 124,
       "type": "buildDelegate",
     },
   ],
@@ -28,7 +30,7 @@ Array [
       },
       "done": Promise {},
       "from": Object {
-        "addr": "address",
+        "addr": "someaddress",
         "app": "sigs",
         "chain": "",
       },
@@ -37,7 +39,7 @@ Array [
       },
       "reject": [Function],
       "resolve": [Function],
-      "sequence": 2,
+      "sequence": 125,
       "type": "buildDelegate",
     },
   ],
@@ -46,7 +48,7 @@ Array [
       "amount": 789,
       "done": Promise {},
       "from": Object {
-        "addr": "address",
+        "addr": "someaddress",
         "app": "sigs",
         "chain": "",
       },
@@ -55,7 +57,7 @@ Array [
       },
       "reject": [Function],
       "resolve": [Function],
-      "sequence": 3,
+      "sequence": 126,
       "type": "buildUnbond",
     },
   ],
@@ -67,7 +69,7 @@ Array [
       },
       "done": Promise {},
       "from": Object {
-        "addr": "address",
+        "addr": "someaddress",
         "app": "sigs",
         "chain": "",
       },
@@ -76,7 +78,7 @@ Array [
       },
       "reject": [Function],
       "resolve": [Function],
-      "sequence": 2,
+      "sequence": 125,
       "type": "buildDelegate",
     },
   ],
@@ -85,7 +87,7 @@ Array [
       "amount": 789,
       "done": Promise {},
       "from": Object {
-        "addr": "address",
+        "addr": "someaddress",
         "app": "sigs",
         "chain": "",
       },
@@ -94,7 +96,7 @@ Array [
       },
       "reject": [Function],
       "resolve": [Function],
-      "sequence": 3,
+      "sequence": 126,
       "type": "buildUnbond",
     },
   ],
@@ -110,14 +112,14 @@ Array [
         "denom": "fermion",
       },
       "from": Object {
-        "addr": "address",
+        "addr": "someaddress",
         "app": "sigs",
         "chain": "",
       },
       "pub_key": Object {
         "data": "foo",
       },
-      "sequence": 1,
+      "sequence": 124,
       "type": "buildDelegate",
     },
   ],
@@ -129,7 +131,7 @@ Array [
       },
       "done": Promise {},
       "from": Object {
-        "addr": "address",
+        "addr": "someaddress",
         "app": "sigs",
         "chain": "",
       },
@@ -138,7 +140,7 @@ Array [
       },
       "reject": [Function],
       "resolve": [Function],
-      "sequence": 2,
+      "sequence": 125,
       "type": "buildDelegate",
     },
   ],
@@ -152,7 +154,7 @@ Array [
       "amount": 789,
       "done": Promise {},
       "from": Object {
-        "addr": "address",
+        "addr": "someaddress",
         "app": "sigs",
         "chain": "",
       },
@@ -161,7 +163,7 @@ Array [
       },
       "reject": [Function],
       "resolve": [Function],
-      "sequence": 3,
+      "sequence": 126,
       "type": "buildUnbond",
     },
   ],

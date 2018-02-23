@@ -94,7 +94,7 @@ export default {
   methods: {
     async updateDelegates (address) {
       let candidates = await this.$store.dispatch('getDelegates')
-      this.$store.dispatch('getBondedDelegates', {candidates, address})
+      this.$store.dispatch('getBondedDelegates', candidates)
     },
     setSearch (bool) { this.$store.commit('setSearchVisible', ['delegates', bool]) }
   },

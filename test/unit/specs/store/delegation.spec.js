@@ -1,36 +1,18 @@
-import Vuex from 'vuex'
-import { createLocalVue } from '@vue/test-utils'
+import setup from '../../helpers/vuex-setup'
 
 let axios = require('axios')
-const Delegation = require('renderer/vuex/modules/delegation').default
-const Send = require('renderer/vuex/modules/send').default
 
-const localVue = createLocalVue()
-localVue.use(Vuex)
+let instance = setup()
 
 describe('Module: Delegations', () => {
   let store, node
 
   beforeEach(() => {
-    node = require('../../helpers/node_mock')
-    store = new Vuex.Store({
-      modules: {
-        delegation: Delegation({ node }),
-        send: Send({ node }),
-        wallet: {
-          actions: {
-            queryWalletBalances: () => Promise.resolve()
-          },
-          state: { key: { address: 'address' } }
-        },
-        user: {
-          state: {
-            account: 'foo',
-            password: 'bar'
-          }
-        }
-      }
-    })
+    let test = instance.shallow()
+    store = test.store
+    node = test.node
+
+    store.dispatch('signIn', {password: 'bar', account: 'bar'})
   })
 
   it('adds delegate to cart', () => {
@@ -103,15 +85,12 @@ describe('Module: Delegations', () => {
         }
       })
 
-    await store.dispatch('getBondedDelegates', {
-      candidates: [
+    await store.dispatch('getBondedDelegates', [
         { pub_key: { data: 'foo' } },
         { pub_key: { data: 'bar' } }
-      ],
-      address: '1234'
-    })
-    expect(axios.get.mock.calls[0][0]).toEqual('http://localhost:9060/query/stake/delegator/1234/foo')
-    expect(axios.get.mock.calls[1][0]).toEqual('http://localhost:9060/query/stake/delegator/1234/bar')
+    ])
+    expect(axios.get.mock.calls[0][0]).toEqual('http://localhost:9060/query/stake/delegator/someaddress/foo')
+    expect(axios.get.mock.calls[1][0]).toEqual('http://localhost:9060/query/stake/delegator/someaddress/bar')
 
     expect(store.state.delegation.committedDelegates).toEqual({
       foo: 123,
@@ -145,5 +124,25 @@ describe('Module: Delegations', () => {
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
     expect(node.buildDelegate.mock.calls).toMatchSnapshot()
     expect(node.buildUnbond.mock.calls).toMatchSnapshot()
+  })
+
+  it('should query delegated atoms on reconnection', () => {
+    jest.resetModules()
+    let axios = require('axios')
+    store.state.node.stopConnecting = true
+    store.state.delegation.loading = true
+    jest.spyOn(axios, 'get')
+    store.dispatch('reconnected')
+    expect(axios.get.mock.calls).toMatchSnapshot()
+  })
+
+  it('should not query delegated atoms on reconnection if not stuck in loading', () => {
+    jest.resetModules()
+    let axios = require('axios')
+    store.state.node.stopConnecting = true
+    store.state.delegation.loading = false
+    jest.spyOn(axios, 'get')
+    store.dispatch('reconnected')
+    expect(axios.get.mock.calls.length).toBe(0)
   })
 })

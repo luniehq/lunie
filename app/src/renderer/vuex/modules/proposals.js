@@ -8,5 +8,12 @@ export default ({ commit }) => {
 
   const mutations = {
   }
-  return { state, mutations }
+  const actions = {
+    reconnected ({ state, dispatch }) {
+      if (state.loading) {
+        // dispatch('queryProposals')
+      }
+    }
+  }
+  return { state, actions, mutations }
 }

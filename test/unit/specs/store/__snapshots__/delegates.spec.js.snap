@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Module: Delegates should query for delegates on reconnection 1`] = `Array []`;

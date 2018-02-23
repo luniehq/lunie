@@ -1,4 +1,5 @@
 'use strict'
+const axios = require('axios')
 const RpcClient = require('tendermint')
 const RestClient = require('./lcdClient.js')
 
@@ -47,11 +48,13 @@ module.exports = function (nodeIP, relayPort, lcdPort) {
 
       console.log('trying to reconnect')
 
-      let nodeIP = await fetch(RELAY_SERVER + '/reconnect').then(res => res.text())
-      console.log('Reconnected to', nodeIP)
+      let nodeIP = (await axios(RELAY_SERVER + '/reconnect')).data
       if (nodeIP) {
+        console.log('Reconnected to', nodeIP)
+        node.nodeIP = nodeIP
         node.initRPC(nodeIP)
       } else {
+        console.log('Reconnection failed, trying again')
         // try again in 3s
         await sleep(3000)
         return node.rpcReconnect(false)

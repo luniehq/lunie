@@ -6,7 +6,9 @@ module.exports = {
   relayPort: '9060',
   lcdPort: '9070',
   lcdConnected: () => Promise.resolve(true),
-  getKey: () => ({}),
+  getKey: () => ({
+    address: 'someaddress'
+  }),
   generateKey: () => ({
     key: '123',
     seed_phrase: 'a b c d e f g h i j k l'
