@@ -11,7 +11,7 @@ let { newTempDir, login } = require('./common.js')
 let app, home, cliHome, started
 let binary = process.env.BINARY_PATH 
 
-module.exports = function launch (t) {
+function launch (t) {
   if (!started) {
     // tape doesn't exit properly on uncaught promise rejections
     process.on('unhandledRejection', error => {
@@ -34,14 +34,14 @@ module.exports = function launch (t) {
         path: electron,
         args: [
           join(__dirname, '../../app/dist/main.js'),
+          '--headless',
           '--disable-gpu',
           '--no-sandbox'
         ],
         startTimeout: 10000,
         waitTimeout: 10000,
         env: {
-            // COSMOS_UI_ONLY: 'true', 
-            // COSMOS_TEST: 'true', 
+            ANALYTICS: 'false', 
             COSMOS_NODE: 'localhost', 
             NODE_ENV: 'production', 
             PREVIEW: 'true', 
@@ -67,8 +67,6 @@ module.exports = function launch (t) {
       console.log('restored test accounts')
       await startApp(app)
       t.ok(app.isRunning(), 'app is running')
-
-      await login(app.client, 'testkey')
 
       resolve({app, home})
     })
@@ -116,7 +114,7 @@ async function startLocalNode () {
       'node', 'init', 
       'D0718DDFF62D301626B428A182F830CBB0AD21FC', 
       '--home', cliHome, 
-      '--chain-id'  , 'localtestnet' 
+      '--chain-id'  , 'localtestnet'
     ]) 
     child.once('exit', (code) => { 
       if (code === 0) resolve()
@@ -160,4 +158,13 @@ async function createAccount (name, seed) {
       reject()
     })
   })
+}
+
+module.exports = {
+  getApp: launch,
+  restart: async function(app) {
+    console.log('restarting app')
+    await app.stop()
+    await startApp(app)
+  }
 }

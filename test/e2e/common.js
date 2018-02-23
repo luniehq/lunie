@@ -6,15 +6,21 @@ function sleep (ms) {
 }
 
 module.exports = {
+  async closeNotifications (client) {
+    // close notifications as they overlay the menu button 
+    await sleep(100)
+    while (await client.isExisting(`.ni-notification`)) { 
+      await client.$(`.ni-notification`).click() 
+      await sleep(100)
+    } 
+  },
   async openMenu (client) {
     if (await client.isExisting('.app-menu')) {
       return
     }
-    // close notifications as they overlay the menu button 
-    while (await client.isExisting(`.ni-notification`)) { 
-      await client.$(`.ni-notification`).click() 
-    } 
+    await module.exports.closeNotifications(client)
     await client.waitForExist('.material-icons=menu', 1000)
+    await sleep(100)
     await client.$('.material-icons=menu').click() 
     await client.waitForExist('.app-menu', 1000)
   },
@@ -57,9 +63,13 @@ module.exports = {
   },
   async logout (client) {
     console.log('logging out')
+    if (await client.isExisting('.ni-li-session')) {
+      return
+    }
     await module.exports.openMenu(client)
 
     await client.$('.ni-li-user').click()
+    await sleep(300)
     await client.$('.material-icons=exit_to_app').$('..').click()
   }
 }

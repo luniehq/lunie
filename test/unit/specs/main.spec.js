@@ -54,7 +54,8 @@ let childProcess
 
 describe('Startup Process', () => {
   Object.assign(process.env, {
-    COSMOS_TEST: true,
+    ANALYTICS: false,
+    LOGGING: false,
     COSMOS_NETWORK: 'app/networks/gaia-2',
     COSMOS_HOME: testRoot
   })

@@ -4,6 +4,7 @@ process.env.BABEL_ENV = 'main'
 
 const path = require('path')
 const webpack = require('webpack')
+const settings = require('./config.js')
 
 let mainConfig = {
   entry: {
@@ -38,7 +39,8 @@ let mainConfig = {
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
+      'process.env.NODE_ENV': '"production"',
+      'process.env.COSMOS_ANALYTICS': '"' + (process.env.COSMOS_ANALYTICS || process.env.NODE_ENV === 'production' && settings.analytics_networks.indexOf(settings.default_network) !== -1) + '"'
     })
   ],
   resolve: {
