@@ -4,9 +4,6 @@ page(:title="pageBlockTitle")
   data-empty(v-else-if="!block.header")
   template(v-else)
     div(slot="menu"): tool-bar
-      a(:href="blockUrl" target="_blank")
-        i.material-icons code
-        .label JSON
       router-link(:to="{ name: 'block', params: { block: block.header.height - 1 }}")
         i.material-icons chevron_left
         .label Previous Block
@@ -69,14 +66,7 @@ export default {
   computed: {
     ...mapGetters(['blockchain']),
     block () {
-      if (this.blockchain.block.block) {
-        return this.blockchain.block.block
-      } else {
-        return {}
-      }
-    },
-    blockUrl () {
-      return this.blockchain.url
+      return this.blockchain.block
     },
     blockHeaderTime () {
       if (this.block.header) {

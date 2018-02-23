@@ -1,22 +1,15 @@
 export default ({ commit, node }) => {
   const state = {
-    urlPrefix: 'https://',
-    blockchainName: 'gaia-2',
-    urlSuffix: '-node0.testnets.interblock.io',
     blocks: [],
     block: {},
     blockMetaInfo: {
       block_id: {}
     },
     blockHeight: null, // we remember the height so we can requery the block, if querying failed
-    blockLoading: false,
-    url: ''
+    blockLoading: false
   }
 
-  let url = state.urlPrefix + state.blockchainName + state.urlSuffix
   const mutations = {
-    setUrl (state) {
-      state.url = url
     setBlock (state, block) {
       state.block = block
     },
@@ -75,12 +68,6 @@ export default ({ commit, node }) => {
     })
   }
   subscribe()
-
-  setTimeout(() => {
-    mutations.getStatus(state)
-    mutations.getAbciInfo(state)
-    mutations.setUrl(state)
-  }, 3000)
 
   return { state, mutations, actions }
 }

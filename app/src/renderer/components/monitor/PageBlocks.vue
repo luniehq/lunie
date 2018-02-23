@@ -45,9 +45,6 @@ export default {
   },
   computed: {
     ...mapGetters(['blockchain', 'lastHeader']),
-    status () {
-      return this.blockchain.status
-    },
     latestBlockTime () {
       return moment(this.lastHeader.time).format('MMMM Do YYYY — hh:mm:ss')
     },
