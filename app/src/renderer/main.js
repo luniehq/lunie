@@ -68,6 +68,7 @@ async function main () {
   if (connected) {
     store.dispatch('nodeSubscribe')
     store.dispatch('showInitialScreen')
+    store.dispatch('subscribeToBlocks')
   }
 
   return new Vue({

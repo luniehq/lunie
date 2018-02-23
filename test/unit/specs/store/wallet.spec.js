@@ -20,8 +20,7 @@ describe('Module: Wallet', () => {
       key: { address: '' },
       history: [],
       historyLoading: false,
-      denoms: [],
-      blockMetas: []
+      denoms: []
     }
     expect(store.state.wallet).toEqual(state)
   })
@@ -115,42 +114,12 @@ describe('Module: Wallet', () => {
         height
       }])
       // prefill block metas
-      store.state.wallet.blockMetas = [blockMeta]
+      store.state.blockchain.blockMetas = [blockMeta]
     })
 
     it('should query transaction time', async () => {
       await store.dispatch('queryTransactionTime', height)
       expect(store.state.wallet.history[0].time).toBe(42)
-    })
-
-    it('should query block info', async () => {
-      store.state.wallet.blockMetas = []
-      node.rpc.blockchain = jest.fn(({ minHeight, maxHeight }, cb) => {
-        cb(null, {block_metas: [blockMeta]})
-      })
-
-      let output = await store.dispatch('queryBlockInfo', height)
-      expect(output).toBe(blockMeta)
-    })
-
-    it('should reuse queried block info', async () => {
-      store.state.wallet.blockMetas = [blockMeta]
-      node.rpc.blockchain = jest.fn()
-
-      let output = await store.dispatch('queryBlockInfo', height)
-      expect(output).toBe(blockMeta)
-      expect(node.rpc.blockchain).not.toHaveBeenCalled()
-    })
-
-    it('should show an info if block info is unavailable', async () => {
-      store.state.wallet.blockMetas = []
-      node.rpc.blockchain = (props, cb) => cb('Error')
-      // prefill history
-      let height = 100
-      let output = await store.dispatch('queryBlockInfo', height)
-      expect(output).toBe(null)
-      expect(store.state.notifications.length).toBe(1)
-      expect(store.state.notifications[0]).toMatchSnapshot()
     })
   })
 

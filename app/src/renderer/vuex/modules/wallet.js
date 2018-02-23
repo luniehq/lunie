@@ -9,8 +9,7 @@ export default ({ commit, node }) => {
     key: { address: '' },
     history: [],
     historyLoading: false,
-    denoms: [],
-    blockMetas: []
+    denoms: []
   }
 
   let mutations = {
@@ -94,24 +93,6 @@ export default ({ commit, node }) => {
     async queryTransactionTime ({ commit, dispatch }, blockHeight) {
       let blockMetaInfo = await dispatch('queryBlockInfo', blockHeight)
       commit('setTransactionTime', { blockHeight, blockMetaInfo })
-    },
-    async queryBlockInfo ({ state, commit }, height) {
-      let blockMetaInfo = state.blockMetas.find(b => b.header.height === height)
-      if (blockMetaInfo) {
-        return blockMetaInfo
-      }
-      blockMetaInfo = await new Promise((resolve, reject) => {
-        node.rpc.blockchain({ minHeight: height, maxHeight: height }, (err, data) => {
-          if (err) {
-            commit('notifyError', {title: `Couldn't query block`, body: err.message})
-            resolve(null)
-          } else {
-            resolve(data.block_metas[0])
-          }
-        })
-      })
-      blockMetaInfo && state.blockMetas.push(blockMetaInfo)
-      return blockMetaInfo
     },
     async walletSend ({ dispatch }, args) {
       args.type = 'buildSend'

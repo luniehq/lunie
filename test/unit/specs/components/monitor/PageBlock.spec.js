@@ -19,31 +19,28 @@ describe('PageBlock', () => {
       },
       getters: {
         blockchain: () => ({
-          url: 'https://the-url',
           block: {
-            block: {
-              header: {
-                last_block_id: {
-                  hash: 'last-hash',
-                  parts: {
-                    total: 0
-                  }
-                },
-                num_txs: 0,
-                height: 10,
-                time: 1608
+            header: {
+              last_block_id: {
+                hash: 'last-hash',
+                parts: {
+                  total: 0
+                }
               },
-              last_commit: {
-                precommits: []
-              },
-              data: {
-                txs: 0
-              }
+              num_txs: 0,
+              height: 10,
+              time: 1608
             },
-            block_meta: {
-              block_id: {
-                hash: 'hash'
-              }
+            last_commit: {
+              precommits: []
+            },
+            data: {
+              txs: 0
+            }
+          },
+          blockMetaInfo: {
+            block_id: {
+              hash: 'hash'
             }
           }
         })
@@ -63,11 +60,15 @@ describe('PageBlock', () => {
     expect(store.dispatch).toHaveBeenCalledWith('getBlock', wrapper.vm.$route.params.block)
   })
 
-  it('should show a loading state if no block loaded yet', () => {
+  it('should show a loading state if loading', () => {
     let {wrapper} = mount(PageBlock, {
       getters: {
         blockchain: () => ({
-          block: {}
+          block: {},
+          blockMetaInfo: {
+            block_id: {}
+          },
+          blockLoading: true
         })
       },
       stubs: {
