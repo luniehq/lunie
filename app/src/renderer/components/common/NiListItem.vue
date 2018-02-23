@@ -74,7 +74,7 @@ export default {
     spinClass () {
       if (this.spin) { return 'fa-spin' }
     }
-  },
+  }
 }
 
 </script>
