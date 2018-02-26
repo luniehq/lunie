@@ -2,8 +2,8 @@
 .ni-connectivity(v-if='connected')
   list-item(icon="done" :title="blockString")
   list-item(icon="settings_ethernet" :title="nodeIP")
-.ni-connectivity.connecting(v-else)
-  list-item(icon="rotate_right" title="Connecting...")
+.ni-connectivity(v-else)
+  list-item(icon="rotate_right" spin="true" title="Connecting...")
 </template>
 
 <script>

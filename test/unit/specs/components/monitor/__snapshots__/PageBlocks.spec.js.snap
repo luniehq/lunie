@@ -44,6 +44,7 @@ exports[`PageBlocks has the expected html structure 1`] = `
 </header>
 <main class=\\"ni-page-main\\">
    <modal-search type=\\"blocks\\"></modal-search>
+      <!---->
    <section class=\\"ni-part\\">
       <div class=\\"ni-part-container\\">
          <header class=\\"ni-part-header\\">
@@ -132,7 +133,23 @@ exports[`PageBlocks has the expected html structure 1`] = `
 </div>
 </div>
 </div>
-</main>
+      <a href=\\"#/blocks/10\\" class=\\"ni-li ni-li-link\\">
+      <div class=\\"ni-li-container\\">
+         <div class=\\"ni-li-thumb\\">
+            <!---->
+         </div>
+      <div class=\\"ni-li-dl\\">
+         <div class=\\"ni-li-dt\\">
+            10
+         </div>
+      <div class=\\"ni-li-dd\\"></div>
+</div>
+      <div class=\\"ni-li-icon\\">
+         <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
+      </div>
+</div>
+      </a>
+   </main>
 </div>
 </section>
 </main>
