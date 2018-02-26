@@ -108,4 +108,14 @@ describe('NiListItem', () => {
     })
     expect(wrapper.find('img')).toBeDefined()
   })
+
+  it('should append the fa-spin class', () => {
+    wrapper.setProps({
+      title: 'Connecting...',
+      spin: 'true',
+      icon: 'rotate_right'
+    })
+    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.html()).toContain('fa-spin')
+  })
 })

@@ -2,6 +2,41 @@
 
 exports[`NiListItem has the expected html structure 1`] = `<!---->`;
 
+exports[`NiListItem should append the fa-spin class 1`] = `
+<div
+  class="ni-li v-enter v-enter-active"
+  name="proposal"
+>
+  <div
+    class="ni-li-container"
+  >
+    <div
+      class="ni-li-thumb"
+    >
+      <i
+        class="material-icons fa-spin"
+      >
+        rotate_right
+      </i>
+    </div>
+    <div
+      class="ni-li-label"
+    >
+      <div
+        class="ni-li-title"
+      >
+        Connecting...
+      </div>
+      <div
+        class="ni-li-subtitle"
+      >
+        
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`NiListItem should show a dd link 1`] = `
 <a
   class="ni-li ni-li-link v-enter v-enter-active"
