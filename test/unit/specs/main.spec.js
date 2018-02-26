@@ -54,7 +54,7 @@ let childProcess
 
 describe('Startup Process', () => {
   Object.assign(process.env, {
-    ANALYTICS: false,
+    COSMOS_ANALYTICS: false,
     LOGGING: false,
     COSMOS_NETWORK: 'app/networks/gaia-2',
     COSMOS_HOME: testRoot
@@ -316,6 +316,62 @@ describe('Startup Process', () => {
     })
   })
 
+  describe('Enable analytics', () => {
+    let main
+    beforeEach(() => {
+      jest.resetModules()
+    })
+
+    afterEach(() => {
+      main.shutdown()
+    })
+    
+    it('should enable analytics with analytics flag', async () => {
+      Object.assign(process.env, {
+        COSMOS_ANALYTICS: true
+      })
+      main = await initMain()
+      expect(main.analytics).toBe(true)
+    })
+    
+    it('should enable analytics if production and testnet', async () => {
+      jest.mock('../../../config.js', () => ({
+        default_network: 'test-network',
+        analytics_networks: ['test-network']
+      }))
+      Object.assign(process.env, {
+        NODE_ENV: 'production'
+      })
+      main = await initMain()
+      expect(main.analytics).toBe(true)
+    })
+    
+    it('should prefer env variable over config', async () => {
+      jest.mock('../../../config.js', () => ({
+        default_network: 'test-network',
+        analytics_networks: ['test-network']
+      }))
+      Object.assign(process.env, {
+        COSMOS_ANALYTICS: false,
+        NODE_ENV: 'production'
+      })
+      main = await initMain()
+      expect(main.analytics).toBe(false)
+    })
+    
+    it('should disable analytics if production and not a testnet', async () => {
+      jest.mock('../../../config.js', () => ({
+        default_network: 'production-network',
+        analytics_networks: ['test-network']
+      }))
+      Object.assign(process.env, {
+        NODE_ENV: 'production'
+      })
+      main = await initMain()
+      expect(main.analytics).toBe(false)
+    })
+  })
+
   describe('Error handling', function () {
     afterEach(function () {
       main.shutdown()
@@ -422,6 +478,7 @@ async function initMain () {
   fs = require('fs-extra')
   main = await require(appRoot + 'src/main/index.js')
   expect(main).toBeDefined()
+  return main
 }
 
 function testFailingChildProcess (name, cmd) {
