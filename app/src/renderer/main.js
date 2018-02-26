@@ -7,6 +7,7 @@ import shrinkStacktrace from '../helpers/shrink-stacktrace.js'
 import axios from 'axios'
 import Raven from 'raven-js'
 import {remote} from 'electron'
+import enableGoogleAnalytics from './google-analytics.js'
 
 const config = require('../../../config')
 
@@ -15,8 +16,12 @@ import routes from './routes'
 import Node from './node'
 import Store from './vuex/store'
 
-// setup sentry remote error reporting
-const analyticsEnabled = JSON.parse(remote.getGlobal('process').env.COSMOS_ANALYTICS || 'false')
+// setup sentry remote error reporting and google analytics
+const analyticsEnabled = JSON.parse(remote.getGlobal('process').env.COSMOS_ANALYTICS)
+if (analyticsEnabled) {
+  console.log('Analytics enabled in browser')
+  enableGoogleAnalytics(config.google_analytics_uid)
+}
 Raven.config(analyticsEnabled ? config.sentry_dsn_public : '').install()
 
 // handle uncaught errors

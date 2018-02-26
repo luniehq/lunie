@@ -15,8 +15,6 @@ function resolve (dir) {
   return path.join(__dirname, dir)
 }
 
-process.env.COSMOS_ANALYTICS = (process.env.COSMOS_ANALYTICS || process.env.NODE_ENV === 'production' && settings.analytics_networks.indexOf(settings.default_network) !== -1) + ''
-
 let rendererConfig = {
   devtool: '#eval-source-map',
   entry: {
