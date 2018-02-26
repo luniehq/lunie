@@ -41,7 +41,7 @@ const winURL = DEV
 const RELAY_PORT = DEV ? config.relay_port : config.relay_port_prod
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
-const ANALYTICS = process.env.COSMOS_ANALYTICS ? JSON.parse(process.env.COSMOS_ANALYTICS) : process.env.NODE_ENV === 'production' && settings.analytics_networks.indexOf(settings.default_network) !== -1
+const ANALYTICS = process.env.COSMOS_ANALYTICS ? JSON.parse(process.env.COSMOS_ANALYTICS) : (process.env.NODE_ENV === 'production' && config.analytics_networks.indexOf(config.default_network) !== -1)
 // set analytics for renderer
 process.env.COSMOS_ANALYTICS = ANALYTICS
 

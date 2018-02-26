@@ -41,22 +41,22 @@ describe('App without analytics', () => {
     }
     done()
   })
-  
-  it('does not activate google analytics if analytics is disabled', async mock_done => {
+
+  it('does not activate google analytics if analytics is disabled', async mockDone => {
     jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => {
-      mock_done.fail()
+      mockDone.fail()
     })
     await require('renderer/main.js')
-    mock_done()
+    mockDone()
   })
 
-  it('does not set Raven dsn if analytics is disabled', mock_done => {
+  it('does not set Raven dsn if analytics is disabled', mockDone => {
     jest.mock('raven-js', () => ({
       config: (dsn) => {
         expect(dsn).toBe('')
         return ({
           install: () => {
-            mock_done()
+            mockDone()
           }
         })
       }

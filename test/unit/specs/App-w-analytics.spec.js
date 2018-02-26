@@ -32,21 +32,21 @@ describe('App with analytics', () => {
     jest.resetModules()
   })
 
-  it('activates google analytics if flag is enabled', async mock_done => {
+  it('activates google analytics if flag is enabled', async mockDone => {
     jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => {
       expect(uid).toBe('123')
-      mock_done()
+      mockDone()
     })
     require('renderer/main.js')
   })
 
-  it('sets Raven dsn if analytics is enabled', mock_done => {
+  it('sets Raven dsn if analytics is enabled', mockDone => {
     jest.mock('raven-js', () => ({
       config: (dsn) => {
         expect(dsn).toBe('456')
         return ({
           install: () => {
-            mock_done()
+            mockDone()
           }
         })
       }
