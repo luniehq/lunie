@@ -15,7 +15,8 @@ describe('NiListItem', () => {
         to: null,
         dt: null,
         dd: null,
-        href: null
+        href: null,
+        spin: null
       }
     })
   })
