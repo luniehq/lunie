@@ -9,7 +9,7 @@ page(title='Block Explorer')
 
   data-loading(v-if="!blockchain.subscription")
 
-  part(title='Current Block' v-if="blockchain.blocks.length")
+  part(title='Current Block' v-if="blockchain.subscription")
     list-item(dt='Block Height' :dd='num.prettyInt(lastHeader.height)' :to="{ name: 'block', params: { block: lastHeader.height} }")
     list-item(dt='Block Time' :dd='latestBlockTime')
     list-item(dt='Block Hash' :dd='latestBlockHash')
