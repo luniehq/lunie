@@ -2498,6 +2498,12 @@ electron-download@^4.0.0, electron-download@^4.1.0:
     semver "^5.3.0"
     sumchecker "^2.0.1"
 
+electron-ga@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/electron-ga/-/electron-ga-1.0.5.tgz#3e42c2e09b7d877edd3bcf5141fd8f2e720747f4"
+  dependencies:
+    node-machine-id "^1.1.9"
+
 electron-is-accelerator@^0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/electron-is-accelerator/-/electron-is-accelerator-0.1.2.tgz#509e510c26a56b55e17f863a4b04e111846ab27b"
@@ -5571,6 +5577,10 @@ node-libs-browser@^2.0.0:
 node-loader@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/node-loader/-/node-loader-0.6.0.tgz#c797ef51095ed5859902b157f6384f6361e05ae8"
+
+node-machine-id@^1.1.9:
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/node-machine-id/-/node-machine-id-1.1.10.tgz#b4cb8f01b25b90d4e0675be00df30e61ee75179b"
 
 node-notifier@^5.0.2:
   version "5.2.1"

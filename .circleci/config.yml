@@ -38,5 +38,4 @@ jobs:
             sudo chmod o+wx /home/circleci/repo/gaia
         
       - run: yarn run test
-      - run: yarn run test:e2e
       - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN

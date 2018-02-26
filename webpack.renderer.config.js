@@ -15,8 +15,6 @@ function resolve (dir) {
   return path.join(__dirname, dir)
 }
 
-process.env.COSMOS_ANALYTICS = (process.env.COSMOS_ANALYTICS || process.env.NODE_ENV === 'production' && settings.analytics_networks.indexOf(settings.default_network) !== -1) + ''
-
 let rendererConfig = {
   devtool: '#eval-source-map',
   entry: {
@@ -92,8 +90,7 @@ let rendererConfig = {
       appModules: process.env.NODE_ENV !== 'production'
         ? path.resolve(__dirname, 'app/node_modules')
         : false,
-      styles: stylus(fs.readFileSync('./app/src/renderer/styles/index.styl', 'utf8')).import('./app/src/renderer/styles/variables.styl').render(),
-      enableAnalytics: JSON.parse(process.env.COSMOS_ANALYTICS || 'false')
+      styles: stylus(fs.readFileSync('./app/src/renderer/styles/index.styl', 'utf8')).import('./app/src/renderer/styles/variables.styl').render()
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
