@@ -111,7 +111,7 @@ test('wallet', async function (t) {
       await client.$('.material-icons=refresh').click()
 
       let mycoinEl = () => balanceEl('fermion')
-      await waitForText(mycoinEl, '9007199254740892')
+      await waitForText(mycoinEl, '9007199254740892', 10000)
       t.pass('balance is reduced by 100')
       t.end()
     })
