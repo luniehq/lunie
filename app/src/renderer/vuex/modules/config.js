@@ -10,7 +10,7 @@ export default ({ commit }) => {
     bondingDenom: 'fermion',
     modals: {
       error: {
-        active: true
+        active: false
       },
       help: {
         active: false
