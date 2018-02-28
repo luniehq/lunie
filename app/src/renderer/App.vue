@@ -8,10 +8,7 @@
     modal-help
   session(v-else)
   notifications(:notifications='notifications' theme='cosmos')
-  modal-error(
-    v-if="config.modals.error"
-    title="Voyager cannot connect."
-    body="Oh no! Something seems to be wrong with Voyager's connection to the Cosmos Hub.")
+  modal-error(v-if="config.modals.error")
 </template>
 
 <script>

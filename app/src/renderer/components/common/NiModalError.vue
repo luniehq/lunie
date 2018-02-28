@@ -26,11 +26,11 @@ export default {
     },
     errorTitle () {
       if (this.title) return this.title
-      else return 'Cosmos Voyager Error'
+      else return 'Voyager could not connect'
     },
     errorBody () {
       if (this.body) return this.body
-      else return 'Voyager ran into an error of some sort.'
+      else return 'Voyager has encountered a critical error that blocks the app from running. Please create an issue and include a copy of the app logs.'
     }
   },
   data: () => ({
