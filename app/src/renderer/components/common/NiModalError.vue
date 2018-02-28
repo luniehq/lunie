@@ -5,8 +5,18 @@
     .ni-modal-error__title {{ errorTitle }}
     .ni-modal-error__body {{ errorBody }}
     .ni-modal-error__footer
-      btn(size="lg" icon="bug_report" color="primary" value="Create an issue" type="anchor" :href="issueUrl")
-      btn(size="lg" icon="info_outline" value="View app logs" @click.native="openLog")
+      btn(
+        size="lg"
+        icon="bug_report"
+        color="primary"
+        value="Create an issue"
+        type="anchor"
+        :href="issueUrl")
+      btn(
+        size="lg"
+        icon="info_outline"
+        value="View app logs"
+        @click.native="openLog")
 </template>
 
 <script>
@@ -26,7 +36,7 @@ export default {
     },
     errorTitle () {
       if (this.title) return this.title
-      else return 'Voyager could not connect'
+      else return 'Voyager ran into an error'
     },
     errorBody () {
       if (this.body) return this.body
