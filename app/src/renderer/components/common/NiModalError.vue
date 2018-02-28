@@ -11,7 +11,6 @@
 
 <script>
 import { remote, shell } from 'electron'
-console.log(app)
 import Btn from '@nylira/vue-button'
 import {mapGetters} from 'vuex'
 export default {
