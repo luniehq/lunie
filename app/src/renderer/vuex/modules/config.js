@@ -9,6 +9,9 @@ export default ({ commit }) => {
     // TODO: change to atom
     bondingDenom: 'fermion',
     modals: {
+      error: {
+        active: true
+      },
       help: {
         active: false
       },
@@ -24,6 +27,9 @@ export default ({ commit }) => {
   const mutations = {
     setDevMode (state, value) {
       state.devMode = value
+    },
+    setModalError (state, value) {
+      state.modals.error.active = value
     },
     setModalHelp (state, value) {
       state.modals.help.active = value

@@ -8,6 +8,10 @@
     modal-help
   session(v-else)
   notifications(:notifications='notifications' theme='cosmos')
+  modal-error(
+    v-if="config.modals.error"
+    title="Voyager cannot connect."
+    body="Oh no! Something seems to be wrong with Voyager's connection to the Cosmos Hub.")
 </template>
 
 <script>
@@ -15,6 +19,7 @@ import { mapGetters } from 'vuex'
 import AppHeader from 'common/AppHeader'
 import AppFooter from 'common/AppFooter'
 import Notifications from '@nylira/vue-notifications'
+import ModalError from  'common/NiModalError'
 import ModalHelp from 'common/NiModalHelp'
 import Session from 'common/NiSession'
 import store from './vuex/store'
@@ -23,6 +28,7 @@ export default {
   components: {
     AppHeader,
     AppFooter,
+    ModalError,
     ModalHelp,
     Notifications,
     Session

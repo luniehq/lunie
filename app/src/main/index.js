@@ -141,6 +141,7 @@ function createWindow () {
   // handle opening external links in OS's browser
   let webContents = mainWindow.webContents
   let handleRedirect = (e, url) => {
+    console.log(url)
     if (url !== webContents.getURL()) {
       e.preventDefault()
       require('electron').shell.openExternal(url)
