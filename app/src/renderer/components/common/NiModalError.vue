@@ -109,7 +109,7 @@ export default {
     margin-right 1.5rem
     margin-bottom 1rem
     max-width 14rem
-    &:last-of-type
+    &:last-child
       margin-bottom 0
 
 @media screen and (min-width: 768px)
