@@ -5,31 +5,29 @@
     .ni-modal-error__title {{ errorTitle }}
     .ni-modal-error__body {{ errorBody }}
     .ni-modal-error__footer
-      btn(
+      btn#ni-modal-error__btn-issue(
         size="lg"
         icon="bug_report"
         color="primary"
         value="Create an issue"
         type="anchor"
         :href="issueUrl")
-      btn(
+      btn#ni-modal-error__btn-logs(
         size="lg"
         icon="info_outline"
         value="View app logs"
-        @click.native="openLog")
+        @click.native="viewLogs")
 </template>
 
 <script>
 import { remote, shell } from 'electron'
 import Btn from '@nylira/vue-button'
-import {mapGetters} from 'vuex'
 export default {
   name: 'ni-modal-error',
   components: {
     Btn
   },
   computed: {
-    ...mapGetters(['config']),
     errorIcon () {
       if (this.icon) return this.icon
       else return 'error_outline'
@@ -49,7 +47,7 @@ export default {
     issueUrl: 'https://github.com/cosmos/voyager/issues'
   }),
   methods: {
-    openLog () {
+    viewLogs () {
       shell.openItem(this.logPath)
     }
   },
