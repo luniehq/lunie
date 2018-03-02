@@ -12,16 +12,16 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import AppHeader from "common/AppHeader";
-import AppFooter from "common/AppFooter";
-import Notifications from "@nylira/vue-notifications";
-import ModalError from "common/NiModalError";
-import ModalHelp from "common/NiModalHelp";
-import Session from "common/NiSession";
-import store from "./vuex/store";
+import { mapGetters } from 'vuex'
+import AppHeader from 'common/AppHeader'
+import AppFooter from 'common/AppFooter'
+import Notifications from '@nylira/vue-notifications'
+import ModalError from 'common/NiModalError'
+import ModalHelp from 'common/NiModalHelp'
+import Session from 'common/NiSession'
+import store from './vuex/store'
 export default {
-  name: "app",
+  name: 'app',
   components: {
     AppHeader,
     AppFooter,
@@ -31,10 +31,10 @@ export default {
     Session
   },
   computed: {
-    ...mapGetters(["notifications", "config"])
+    ...mapGetters(['notifications', 'config'])
   },
   store
-};
+}
 </script>
 
 <style lang="stylus" src="./styles/app.styl"></style>
