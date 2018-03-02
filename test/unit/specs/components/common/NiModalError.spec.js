@@ -26,14 +26,44 @@ describe('NiModalError', () => {
       .toBe('error_outline')
   })
 
+  it('shows an icon if specified', () => {
+    wrapper = mount(NiModalError, {
+      propsData: {
+        icon: 'icon-x'
+      }
+    })
+    expect(wrapper.find('.ni-modal-error__icon i.material-icons').text().trim())
+      .toBe('icon-x')
+  })
+
   it('has a title', () => {
     expect(wrapper.find('.ni-modal-error__title').text().trim())
       .toBe('Voyager ran into an error')
   })
 
+  it('shows a title if specified', () => {
+    wrapper = mount(NiModalError, {
+      propsData: {
+        title: 'title-x'
+      }
+    })
+    expect(wrapper.find('.ni-modal-error__title').text().trim())
+      .toBe('title-x')
+  })
+
   it('has a body', () => {
     expect(wrapper.find('.ni-modal-error__body').text().trim())
       .toContain('Voyager has encountered a critical error that blocks the app from running. Please create an issue and include a copy of the app logs.')
+  })
+
+  it('shows a body if specified', () => {
+    wrapper = mount(NiModalError, {
+      propsData: {
+        body: 'body-x'
+      }
+    })
+    expect(wrapper.find('.ni-modal-error__body').text().trim())
+      .toBe('body-x')
   })
 
   it('knows the path to the app log', () => {
