@@ -42,7 +42,7 @@ Vue.use(Resource)
 Vue.use(Router)
 Vue.use(Vuelidate)
 
-async function main() {
+async function main () {
   let nodeIP = getQueryParameter('node')
   if (!nodeIP) {
     console.log('Did not receive a node to connect to')
@@ -90,7 +90,7 @@ async function main() {
 
 main().catch(function (err) { throw err })
 
-function getQueryParameter(name) {
+function getQueryParameter (name) {
   let queryString = window.location.search.substring(1)
   let pairs = queryString.split('&')
     .map(pair => pair.split('='))

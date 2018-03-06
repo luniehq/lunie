@@ -25,19 +25,19 @@ export default ({ commit }) => {
     }
   }
   const mutations = {
-    setDevMode(state, value) {
+    setDevMode (state, value) {
       state.devMode = value
     },
-    setModalError(state, value) {
+    setModalError (state, value) {
       state.modals.error.active = value
     },
-    setModalErrorMessage(state, message) {
+    setModalErrorMessage (state, message) {
       state.modals.error.message = message
     },
-    setModalHelp(state, value) {
+    setModalHelp (state, value) {
       state.modals.help.active = value
     },
-    setModalSession(state, value) {
+    setModalSession (state, value) {
       // reset modal session state if we're closing the modal
       if (value) {
         noScroll.on()
@@ -47,16 +47,16 @@ export default ({ commit }) => {
       }
       state.modals.session.active = value
     },
-    setModalSessionState(state, value) {
+    setModalSessionState (state, value) {
       state.modals.session.state = value
     },
-    setModalBlockchain(state, value) {
+    setModalBlockchain (state, value) {
       state.modals.blockchain.active = value
     },
-    setActiveMenu(state, value) {
+    setActiveMenu (state, value) {
       state.activeMenu = value
     },
-    setConfigDesktop(state, value) {
+    setConfigDesktop (state, value) {
       state.desktop = value
     }
   }

@@ -24,17 +24,17 @@ jest.mock('electron', () => {
       }
     },
     BrowserWindow: class MockBrowserWindow {
-      constructor() {
+      constructor () {
         this.webContents = {
           openDevTools: () => {},
           on: () => {}
         }
       }
-      loadURL(url) {
+      loadURL (url) {
         electron.url = url
       }
-      on() {}
-      maximize() {}
+      on () {}
+      maximize () {}
     }
   }
   return electron
