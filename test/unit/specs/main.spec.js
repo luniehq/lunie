@@ -1,4 +1,6 @@
-const {join} = require('path')
+const {
+  join
+} = require('path')
 const mockFsExtra = require('../helpers/fs-mock').default
 
 function sleep (ms) {
@@ -35,6 +37,10 @@ jest.mock('electron', () => {
       }
       on () {}
       maximize () {}
+    },
+    Menu: class MockMenu {
+      buildFromTemplate () {}
+      setApplicationMenu () {}
     }
   }
   return electron
@@ -49,7 +55,9 @@ childProcessMock((path, args) => ({
   stdout: {
     on: (type, cb) => {
       if (args[0] === 'version' && type === 'data') {
-        cb({toString: () => 'v0.5.0'})
+        cb({
+          toString: () => 'v0.5.0'
+        })
       }
     }
   },
@@ -57,7 +65,9 @@ childProcessMock((path, args) => ({
     on: (type, cb) => {
       // test for init of gaia
       if (type === 'data' && args[1] === 'init' && args.length === 4) {
-        cb({ toString: () => 'already is initialized' })
+        cb({
+          toString: () => 'already is initialized'
+        })
       }
     }
   }
@@ -397,9 +407,9 @@ describe('Startup Process', () => {
 
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-        path.includes('gaia') &&
-        args.includes('rest-server')
-      ).length
+          path.includes('gaia') &&
+          args.includes('rest-server')
+        ).length
       ).toBeGreaterThan(1)
     })
 
@@ -408,13 +418,13 @@ describe('Startup Process', () => {
       await initMain()
       let configText = fs.readFileSync(join(testRoot, 'config.toml'), 'utf8')
       configText = configText.split('\n')
-      .map(line => {
-        if (line.startsWith('seeds')) {
-          return 'seeds = ""'
-        } else {
-          return line
-        }
-      }).join('\n')
+        .map(line => {
+          if (line.startsWith('seeds')) {
+            return 'seeds = ""'
+          } else {
+            return line
+          }
+        }).join('\n')
       fs.writeFileSync(join(testRoot, 'config.toml'), configText, 'utf8')
 
       resetModulesKeepingFS()
@@ -453,9 +463,9 @@ describe('Startup Process', () => {
         await initMain()
         expect(childProcess.spawn.mock.calls
           .find(([path, args]) =>
-          path.includes('gaia') &&
-          args.includes('init')
-        ).length
+            path.includes('gaia') &&
+            args.includes('init')
+          ).length
         ).toBe(3) // one to check in first round, one to check + one to init in the second round
       })
     })
@@ -468,8 +478,7 @@ describe('Startup Process', () => {
     testFailingChildProcess('gaia', 'init')
   })
 
-  describe('Electron startup', () => {
-  })
+  describe('Electron startup', () => {})
 })
 
 function mainSetup () {
@@ -510,15 +519,15 @@ function childProcessMock (mockExtend = () => ({})) {
   jest.mock('child_process', () => ({
     spawn: jest.fn((path, args) => Object.assign({}, {
       stdout: {
-        on: () => { },
-        pipe: () => { }
+        on: () => {},
+        pipe: () => {}
       },
       stderr: {
-        on: () => { },
-        pipe: () => { }
+        on: () => {},
+        pipe: () => {}
       },
-      on: () => { },
-      kill: () => { }
+      on: () => {},
+      kill: () => {}
     }, mockExtend(path, args)))
   }))
 }
@@ -538,7 +547,9 @@ function failingChildProcess (mockName, mockCmd) {
     stdout: {
       on: (type, cb) => {
         if (args[0] === 'version' && type === 'data') {
-          cb({toString: () => 'v0.5.0'})
+          cb({
+            toString: () => 'v0.5.0'
+          })
         }
       }
     },
@@ -546,7 +557,9 @@ function failingChildProcess (mockName, mockCmd) {
       on: (type, cb) => {
         // test for init of gaia
         if (type === 'data' && args[1] === 'init' && args.length === 4) {
-          cb({ toString: () => 'already is initialized' })
+          cb({
+            toString: () => 'already is initialized'
+          })
         }
       }
     }
