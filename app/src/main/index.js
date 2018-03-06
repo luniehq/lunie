@@ -535,7 +535,7 @@ module.exports = Object.assign(
   main()
     .catch(err => {
       logError(err)
-      throw err
+      handleCrash(err)
     })
     .then(() => ({
       shutdown,
