@@ -38,8 +38,8 @@ jest.mock('electron', () => {
       on () {}
       maximize () {}
     },
-    Menu: class MockMenu {
-      buildFromTemplate () {}
+    Menu: {
+      buildFromTemplate () {},
       setApplicationMenu () {}
     }
   }
