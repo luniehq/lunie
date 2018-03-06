@@ -22,6 +22,14 @@
       form-msg(name='Password' type='required' v-if='!$v.fields.signUpPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signUpPassword.minLength')
 
+    form-group(:error='$v.fields.signUpPasswordConfirm.$error'
+      field-id='sign-in-password' field-label='Confirm Password')
+      field#sign-in-password-confirm(
+        type="password"
+        placeholder="Enter password again"
+        v-model="fields.signUpPasswordConfirm")
+      form-msg(name='Password confirmation' type='match' v-if='!$v.fields.signUpPasswordConfirm.sameAsPassword')
+
     form-group(field-id='sign-up-seed' field-label='Seed Phrase')
       field-seed#sign-up-seed(v-model="fields.signUpSeed" disabled)
       form-msg.sm
@@ -49,7 +57,7 @@
 </template>
 
 <script>
-import {required, minLength} from 'vuelidate/lib/validators'
+import {required, minLength, sameAs} from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldSeed from 'common/NiFieldSeed'
@@ -74,6 +82,7 @@ export default {
       signUpName: '',
       signUpSeed: 'Creating seed...',
       signUpPassword: '',
+      signUpPasswordConfirm: '',
       signUpWarning: false,
       signUpBackup: false
     }
@@ -104,6 +113,7 @@ export default {
     fields: {
       signUpName: { required, minLength: minLength(5) },
       signUpPassword: { required, minLength: minLength(10) },
+      signUpPasswordConfirm: { sameAsPassword: sameAs('signUpPassword') },
       signUpWarning: { required },
       signUpBackup: { required }
     }

@@ -22,6 +22,14 @@
       form-msg(name='Password' type='required' v-if='!$v.fields.importPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.importPassword.minLength')
 
+    form-group(:error='$v.fields.importPasswordConfirm.$error'
+      field-id='sign-in-password' field-label='Confirm Password')
+      field#sign-in-password-confirm(
+        type="password"
+        placeholder="Enter password again"
+        v-model="fields.importPasswordConfirm")
+      form-msg(name='Password confirmation' type='match' v-if='!$v.fields.importPasswordConfirm.sameAsPassword')
+
     form-group(:error='$v.fields.importSeed.$error'
       field-id='import-seed' field-label='Seed Phrase')
       field-seed#import-seed(
@@ -35,7 +43,7 @@
 </template>
 
 <script>
-import {required, minLength} from 'vuelidate/lib/validators'
+import {required, minLength, sameAs} from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldGroup from 'common/NiFieldGroup'
@@ -58,6 +66,7 @@ export default {
     fields: {
       importName: '',
       importPassword: '',
+      importPasswordConfirm: '',
       importSeed: ''
     }
   }),
@@ -89,6 +98,7 @@ export default {
     fields: {
       importName: { required, minLength: minLength(5) },
       importPassword: { required, minLength: minLength(10) },
+      importPasswordConfirm: { sameAsPassword: sameAs('importPassword') },
       importSeed: { required }
     }
   })

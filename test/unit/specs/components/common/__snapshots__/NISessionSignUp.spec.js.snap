@@ -38,6 +38,14 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
 </div>
       <div class=\\"ni-form-group\\">
          <!---->
+         <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Confirm Password</label>
+         <div class=\\"ni-form-group__field\\">
+            <input type=\\"password\\" placeholder=\\"Enter password again\\" class=\\"ni-field\\" id=\\"sign-in-password-confirm\\">
+            <!---->
+         </div>
+</div>
+      <div class=\\"ni-form-group\\">
+         <!---->
          <label for=\\"sign-up-seed\\" class=\\"ni-form-group__label\\">Seed Phrase</label>
          <div class=\\"ni-form-group__field\\">
             <textarea class=\\"ni-field-seed ni-field\\" id=\\"sign-up-seed\\" disabled=\\"disabled\\"></textarea>
