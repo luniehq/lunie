@@ -25,20 +25,10 @@ export default {
   data: () => ({
     ps: ''
   }),
-  methods: {
-    handleResize () {
-      if (this.config.desktop) {
-        const container = this.$el.querySelector('.ni-page-main')
-        this.ps = new PerfectScrollbar(container)
-      } else if (this.ps) {
-        this.ps.destroy()
-        this.ps = null
-      }
-    }
-  },
-  mounted () {
-    this.handleResize()
-    window.addEventListener('resize', this.handleResize)
+  async mounted () {
+    await this.$nextTick()
+    const container = this.$el.querySelector('.ni-page-main')
+    this.ps = new PerfectScrollbar(container)
   }
 }
 </script>
@@ -55,7 +45,6 @@ export default {
 .ni-page-main
   flex 1
   position relative
-  max-width width-main-max
 
 .ni-page-title
   color bright

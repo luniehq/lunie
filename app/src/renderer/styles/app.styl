@@ -12,6 +12,9 @@ reset-html5()
 html, body, #app
   background app-bg
 
+html
+  overflow hidden
+
 a
   color link
   text-decoration none
@@ -28,7 +31,7 @@ a
   padding-top 3rem
   height 100vh
   width 100vw
-  max-width 100%
+  max-width 100% // fixes bug where horizontal scrollbar appears
   font-weight 300
 
   display flex

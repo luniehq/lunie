@@ -41,6 +41,9 @@ const winURL = DEV
 const RELAY_PORT = DEV ? config.relay_port : config.relay_port_prod
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
+const ANALYTICS = process.env.COSMOS_ANALYTICS ? JSON.parse(process.env.COSMOS_ANALYTICS) : (process.env.NODE_ENV === 'production' && config.analytics_networks.indexOf(config.default_network) !== -1)
+// set analytics for renderer
+process.env.COSMOS_ANALYTICS = ANALYTICS
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
 
@@ -176,10 +179,9 @@ function startProcess (name, args, env) {
   child.stdout.on('data', (data) => !shuttingDown && log(`${name}: ${data}`))
   child.stderr.on('data', (data) => !shuttingDown && log(`${name}: ${data}`))
   child.on('exit', (code) => !shuttingDown && log(`${name} exited with code ${code}`))
-  child.on('error', function (err) {
+  child.on('error', async function (err) {
     if (!(shuttingDown && err.code === 'ECONNRESET')) {
-      // TODO test
-      Raven.captureException(err)
+      await new Promise(resolve => Raven.captureException(err, resolve))
       // if we throw errors here, they are not handled by the main process
       console.error('[Uncaught Exception] Child', name, 'produced an unhandled exception:', err)
       console.log('Shutting down UI')
@@ -306,12 +308,14 @@ if (!TEST) {
   process.on('uncaughtException', async function (err) {
     await sleep(1000)
     logError('[Uncaught Exception]', err)
+    await new Promise(resolve => Raven.captureException(err, resolve))
     await shutdown()
     process.exit(1)
   })
   process.on('unhandledRejection', async function (err) {
     await sleep(1000)
     logError('[Unhandled Promise Rejection]', err)
+    await new Promise(resolve => Raven.captureException(err, resolve))
     await shutdown()
     process.exit(1)
   })
@@ -327,6 +331,7 @@ function consistentConfigDir (appVersionPath, genesisPath, configPath, gaiaVersi
 // check if baseserver is initialized as the configs could be corrupted
 // we need to parse the error on initialization as there is no way to just get this status programmatically
 function baseserverInitialized (home) {
+  log('Testing if baseserver is already initialized')
   return new Promise((resolve, reject) => {
     let child = startProcess(SERVER_BINARY, [
       'client',
@@ -389,14 +394,13 @@ async function reconnect (seeds) {
 }
 
 function setupAnalytics () {
-  let analyticsEnabled = JSON.parse(process.env.COSMOS_ANALYTICS || 'false')
-  if (analyticsEnabled) {
+  if (ANALYTICS) {
     log('Adding analytics')
   }
 
   // only enable sending of error events in production setups and if the network is a testnet
-  Raven.config(analyticsEnabled ? config.sentry_dsn : '', {
-    captureUnhandledRejections: true
+  Raven.config(ANALYTICS ? config.sentry_dsn : '', {
+    captureUnhandledRejections: false
   }).install()
 }
 
@@ -534,6 +538,7 @@ module.exports = Object.assign(
   })
   .then(() => ({
     shutdown,
-    processes: {baseserverProcess}
+    processes: {baseserverProcess},
+    analytics: ANALYTICS
   }))
 )

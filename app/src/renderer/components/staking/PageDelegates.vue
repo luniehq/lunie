@@ -18,7 +18,7 @@ page(title='Validators and Candidates')
       panel-sort(:sort='sort')
       li-delegate(v-for='i in filteredDelegates' :key='i.id' :delegate='i')
 
-  .fixed-button-bar
+  .fixed-button-bar(v-if="!delegates.loading")
     template(v-if="userCanDelegate")
       .label #[strong {{ shoppingCart.length }}] delegates selected
       btn(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next" color="primary")
@@ -121,7 +121,7 @@ export default {
   left 0
   right 0
   z-index z(toolBar)
-  
+
   .label
     color bright
     line-height 2rem

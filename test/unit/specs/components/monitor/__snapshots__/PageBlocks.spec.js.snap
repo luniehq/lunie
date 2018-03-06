@@ -42,8 +42,9 @@ exports[`PageBlocks has the expected html structure 1`] = `
 </menu>
 </div>
 </header>
-<main class=\\"ni-page-main\\">
+<main class=\\"ni-page-main ps\\">
    <modal-search type=\\"blocks\\"></modal-search>
+      <!---->
    <section class=\\"ni-part\\">
       <div class=\\"ni-part-container\\">
          <header class=\\"ni-part-header\\">
@@ -132,9 +133,31 @@ exports[`PageBlocks has the expected html structure 1`] = `
 </div>
 </div>
 </div>
-</main>
+      <a href=\\"#/blocks/10\\" class=\\"ni-li ni-li-link\\">
+      <div class=\\"ni-li-container\\">
+         <div class=\\"ni-li-thumb\\">
+            <!---->
+         </div>
+      <div class=\\"ni-li-dl\\">
+         <div class=\\"ni-li-dt\\">
+            10
+         </div>
+      <div class=\\"ni-li-dd\\"></div>
+</div>
+      <div class=\\"ni-li-icon\\">
+         <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
+      </div>
+</div>
+      </a>
+   </main>
 </div>
 </section>
+<div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
+   <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
+</div>
+<div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
+   <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
+</div>
 </main>
 </div>"
 `;
