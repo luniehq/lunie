@@ -16,6 +16,9 @@ import routes from './routes'
 import Node from './node'
 import Store from './vuex/store'
 
+// exporting this for testing
+let store
+
 // setup sentry remote error reporting and google analytics
 const analyticsEnabled = JSON.parse(remote.getGlobal('process').env.COSMOS_ANALYTICS)
 if (analyticsEnabled) {
@@ -81,7 +84,7 @@ async function main () {
     }
   }
 
-  return new Vue({
+  new Vue({
     router,
     ...App,
     store
@@ -89,6 +92,9 @@ async function main () {
 }
 
 main().catch(function (err) { throw err })
+
+// exporting this for testing
+module.exports.store = store
 
 function getQueryParameter (name) {
   let queryString = window.location.search.substring(1)

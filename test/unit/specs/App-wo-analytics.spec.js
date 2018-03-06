@@ -10,13 +10,15 @@ describe('App without analytics', () => {
   jest.mock('raven-js', () => ({
     config: (dsn) => {
       return ({
-        install: () => {
-        }
+        install: () => {}
       })
-    }
+    },
+    captureException: err => console.error(err)
   }))
-  jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => {
-  })
+  jest.mock('axios', () => ({
+    get () {}
+  }))
+  jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => {})
   jest.mock('electron', () => ({
     remote: {
       getGlobal: () => ({
@@ -24,22 +26,24 @@ describe('App without analytics', () => {
           NODE_ENV: 'test',
           COSMOS_ANALYTICS: 'false'
         }
-      })
+      }),
+      app: {
+        getPath: () => { return '$HOME' }
+      }
     }
   }))
 
   beforeEach(() => {
+    Object.defineProperty(window.location, 'search', {
+      writable: true,
+      value: '?node=localhost&relay_port=8080'
+    })
+    document.body.innerHTML = '<div id="app"></div>'
     jest.resetModules()
   })
 
-  it('has all dependencies', async done => {
-    document.body.innerHTML = '<div id="app"></div>'
-    try {
-      await require('renderer/main.js')
-    } catch (e) {
-      done.fail(e)
-    }
-    done()
+  it('has all dependencies', async () => {
+    await require('renderer/main.js')
   })
 
   it('does not activate google analytics if analytics is disabled', async mockDone => {
@@ -59,8 +63,20 @@ describe('App without analytics', () => {
             mockDone()
           }
         })
-      }
+      },
+      captureException: err => console.error(err)
     }))
     require('renderer/main.js')
+  })
+
+  it('opens error modal', () => {
+    jest.resetModules()
+    Object.defineProperty(window.location, 'search', {
+      writable: true,
+      value: '?node=localhost&relay_port=8080&error=Expected'
+    })
+    let { store } = require('renderer/main.js')
+    expect(store.state.config.modals.error.active).toBe(true)
+    expect(store.state.config.modals.error.message).toBe('Expected')
   })
 })
