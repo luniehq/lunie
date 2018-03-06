@@ -6,7 +6,7 @@ import Vuelidate from 'vuelidate'
 import shrinkStacktrace from '../helpers/shrink-stacktrace.js'
 import axios from 'axios'
 import Raven from 'raven-js'
-import {remote} from 'electron'
+import { remote } from 'electron'
 import enableGoogleAnalytics from './google-analytics.js'
 
 const config = require('../../../config')
@@ -42,7 +42,7 @@ Vue.use(Resource)
 Vue.use(Router)
 Vue.use(Vuelidate)
 
-async function main () {
+async function main() {
   let nodeIP = getQueryParameter('node')
   if (!nodeIP) {
     console.log('Did not receive a node to connect to')
@@ -51,16 +51,15 @@ async function main () {
 
   let relayPort = getQueryParameter('relay_port')
   console.log('Expecting relay-server on port:', relayPort)
-
   console.log('Connecting to node:', nodeIP)
   const node = Node(nodeIP, relayPort)
 
   node.lcdConnected()
-  .then(connected => {
-    if (connected) {
-      axios.get(`http://localhost:${relayPort}/startsuccess`)
-    }
-  })
+    .then(connected => {
+      if (connected) {
+        axios.get(`http://localhost:${relayPort}/startsuccess`)
+      }
+    })
 
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
@@ -69,11 +68,17 @@ async function main () {
 
   const store = Store({ node })
 
-  let connected = await store.dispatch('checkConnection')
-  if (connected) {
-    store.dispatch('nodeSubscribe')
-    store.dispatch('showInitialScreen')
-    store.dispatch('subscribeToBlocks')
+  let error = getQueryParameter('error')
+  if (error) {
+    store.commit('setModalError', true)
+    store.commit('setModalErrorMessage', error)
+  } else {
+    let connected = await store.dispatch('checkConnection')
+    if (connected) {
+      store.dispatch('nodeSubscribe')
+      store.dispatch('showInitialScreen')
+      store.dispatch('subscribeToBlocks')
+    }
   }
 
   return new Vue({
@@ -85,7 +90,7 @@ async function main () {
 
 main().catch(function (err) { throw err })
 
-function getQueryParameter (name) {
+function getQueryParameter(name) {
   let queryString = window.location.search.substring(1)
   let pairs = queryString.split('&')
     .map(pair => pair.split('='))

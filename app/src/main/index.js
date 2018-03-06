@@ -47,18 +47,18 @@ process.env.COSMOS_ANALYTICS = ANALYTICS
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
 
-function log (...args) {
+function log(...args) {
   if (LOGGING) {
     console.log(...args)
   }
 }
-function logError (...args) {
+function logError(...args) {
   if (LOGGING) {
     console.log(...args)
   }
 }
 
-function logProcess (process, logPath) {
+function logProcess(process, logPath) {
   fs.ensureFileSync(logPath)
   // Writestreams are blocking fs cleanup in tests, if you get errors, disable logging
   if (LOGGING) {
@@ -71,11 +71,11 @@ function logProcess (process, logPath) {
   }
 }
 
-function sleep (ms) {
+function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-function expectCleanExit (process, errorMessage = 'Process exited unplanned') {
+function expectCleanExit(process, errorMessage = 'Process exited unplanned') {
   return new Promise((resolve, reject) => {
     process.on('exit', code => {
       if (code !== 0 && !shuttingDown) {
@@ -86,7 +86,11 @@ function expectCleanExit (process, errorMessage = 'Process exited unplanned') {
   })
 }
 
-function shutdown () {
+function handleCrash(error) {
+  mainWindow.loadURL(winURL + '?node=' + nodeIP + '&error=' + error.message)
+}
+
+function shutdown() {
   if (shuttingDown) return
 
   mainWindow = null
@@ -103,11 +107,11 @@ function shutdown () {
   )
 }
 
-function startVueApp () {
+function startVueApp() {
   mainWindow.loadURL(winURL + '?node=' + nodeIP + '&relay_port=' + RELAY_PORT)
 }
 
-function createWindow () {
+function createWindow() {
   mainWindow = new BrowserWindow({
     minWidth: 320,
     minHeight: 480,
@@ -152,20 +156,20 @@ function createWindow () {
   if (!WIN) addMenu()
 }
 
-function startProcess (name, args, env) {
+function startProcess(name, args, env) {
   let binPath
   if (process.env.BINARY_PATH) {
     binPath = process.env.BINARY_PATH
   } else
-  if (DEV) {
-    // in dev mode or tests, use binaries installed in GOPATH
-    let GOPATH = process.env.GOPATH
-    if (!GOPATH) GOPATH = join(home, 'go')
-    binPath = join(GOPATH, 'bin', name)
-  } else {
-    // in production mode, use binaries packaged with app
-    binPath = join(__dirname, '..', 'bin', name)
-  }
+    if (DEV) {
+      // in dev mode or tests, use binaries installed in GOPATH
+      let GOPATH = process.env.GOPATH
+      if (!GOPATH) GOPATH = join(home, 'go')
+      binPath = join(GOPATH, 'bin', name)
+    } else {
+      // in production mode, use binaries packaged with app
+      binPath = join(__dirname, '..', 'bin', name)
+    }
 
   let argString = args.map((arg) => JSON.stringify(arg)).join(' ')
   log(`spawning ${binPath} with args "${argString}"`)
@@ -184,8 +188,7 @@ function startProcess (name, args, env) {
       await new Promise(resolve => Raven.captureException(err, resolve))
       // if we throw errors here, they are not handled by the main process
       console.error('[Uncaught Exception] Child', name, 'produced an unhandled exception:', err)
-      console.log('Shutting down UI')
-      shutdown()
+      handleCrash(err)
     }
   })
   return child
@@ -204,7 +207,7 @@ app.on('activate', () => {
 app.on('ready', () => createWindow())
 
 // start baseserver REST API
-async function startBaseserver (home, nodeIP) {
+async function startBaseserver(home, nodeIP) {
   log('startBaseserver', home)
   let child = startProcess(SERVER_BINARY, [
     'rest-server',
@@ -225,7 +228,7 @@ async function startBaseserver (home, nodeIP) {
   return child
 }
 
-async function getGaiaVersion () {
+async function getGaiaVersion() {
   let child = startProcess(SERVER_BINARY, ['version'])
   let data = await new Promise((resolve) => {
     child.stdout.on('data', resolve)
@@ -233,7 +236,7 @@ async function getGaiaVersion () {
   return data.toString('utf8').trim()
 }
 
-function exists (path) {
+function exists(path) {
   try {
     fs.accessSync(path)
     return true
@@ -243,7 +246,7 @@ function exists (path) {
   }
 }
 
-async function initBaseserver (chainId, home, node) {
+async function initBaseserver(chainId, home, node) {
   // fs.ensureDirSync(home)
   // `baseserver init` to generate config, trust seed
   let child = startProcess(SERVER_BINARY, [
@@ -270,7 +273,7 @@ async function initBaseserver (chainId, home, node) {
 /*
 * log to file
 */
-function setupLogging (root) {
+function setupLogging(root) {
   if (!LOGGING) return
 
   // initialize log file
@@ -309,19 +312,17 @@ if (!TEST) {
     await sleep(1000)
     logError('[Uncaught Exception]', err)
     await new Promise(resolve => Raven.captureException(err, resolve))
-    await shutdown()
-    process.exit(1)
+    handleCrash(err)
   })
   process.on('unhandledRejection', async function (err) {
     await sleep(1000)
     logError('[Unhandled Promise Rejection]', err)
     await new Promise(resolve => Raven.captureException(err, resolve))
-    await shutdown()
-    process.exit(1)
+    handleCrash(err)
   })
 }
 
-function consistentConfigDir (appVersionPath, genesisPath, configPath, gaiaVersionPath) {
+function consistentConfigDir(appVersionPath, genesisPath, configPath, gaiaVersionPath) {
   return exists(genesisPath) &&
     exists(appVersionPath) &&
     exists(configPath) &&
@@ -330,7 +331,7 @@ function consistentConfigDir (appVersionPath, genesisPath, configPath, gaiaVersi
 
 // check if baseserver is initialized as the configs could be corrupted
 // we need to parse the error on initialization as there is no way to just get this status programmatically
-function baseserverInitialized (home) {
+function baseserverInitialized(home) {
   log('Testing if baseserver is already initialized')
   return new Promise((resolve, reject) => {
     let child = startProcess(SERVER_BINARY, [
@@ -351,7 +352,7 @@ function baseserverInitialized (home) {
   })
 }
 
-function pickNode (seeds) {
+function pickNode(seeds) {
   let nodeIP = NODE || seeds[Math.floor(Math.random() * seeds.length)]
   // let nodeRegex = /([http[s]:\/\/]())/g
   log('Picked seed:', nodeIP, 'of', seeds)
@@ -361,7 +362,7 @@ function pickNode (seeds) {
   return nodeIP
 }
 
-async function connect (seeds, nodeIP) {
+async function connect(seeds, nodeIP) {
   log(`starting gaia server with nodeIP ${nodeIP}`)
   baseserverProcess = await startBaseserver(baseserverHome, nodeIP)
   log('gaia server ready')
@@ -369,14 +370,14 @@ async function connect (seeds, nodeIP) {
   return nodeIP
 }
 
-async function reconnect (seeds) {
+async function reconnect(seeds) {
   if (connecting) return
   connecting = true
 
   let nodeAlive = false
   while (!nodeAlive) {
     let nodeIP = pickNode(seeds)
-    nodeAlive = await axios('http://' + nodeIP, {timeout: 3000})
+    nodeAlive = await axios('http://' + nodeIP, { timeout: 3000 })
       .then(() => true, () => false)
     log(`${new Date().toLocaleTimeString()} ${nodeIP} is ${nodeAlive ? 'alive' : 'down'}`)
 
@@ -393,7 +394,7 @@ async function reconnect (seeds) {
   return nodeIP
 }
 
-function setupAnalytics () {
+function setupAnalytics() {
   if (ANALYTICS) {
     log('Adding analytics')
   }
@@ -404,7 +405,7 @@ function setupAnalytics () {
   }).install()
 }
 
-async function main () {
+async function main() {
   setupAnalytics()
 
   let appVersionPath = join(root, 'app_version')
@@ -532,13 +533,13 @@ async function main () {
 }
 module.exports = Object.assign(
   main()
-  .catch(err => {
-    logError(err)
-    throw err
-  })
-  .then(() => ({
-    shutdown,
-    processes: {baseserverProcess},
-    analytics: ANALYTICS
-  }))
+    .catch(err => {
+      logError(err)
+      throw err
+    })
+    .then(() => ({
+      shutdown,
+      processes: { baseserverProcess },
+      analytics: ANALYTICS
+    }))
 )
