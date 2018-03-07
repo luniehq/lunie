@@ -38,9 +38,9 @@ exports[`NiSessionImport has the expected html structure 1`] = `
 </div>
       <div class=\\"ni-form-group\\">
          <!---->
-         <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Confirm Password</label>
+         <label for=\\"import-password-confirmation\\" class=\\"ni-form-group__label\\">Confirm Password</label>
          <div class=\\"ni-form-group__field\\">
-            <input type=\\"password\\" placeholder=\\"Enter password again\\" class=\\"ni-field\\" id=\\"sign-in-password-confirm\\">
+            <input type=\\"password\\" placeholder=\\"Enter password again\\" class=\\"ni-field\\" id=\\"import-password-confirmation\\">
             <!---->
          </div>
 </div>
