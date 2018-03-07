@@ -14,13 +14,21 @@
       form-msg(name='Name' type='minLength' min="5" v-if='!$v.fields.signUpName.minLength')
 
     form-group(:error='$v.fields.signUpPassword.$error'
-      field-id='sign-in-password' field-label='Password')
-      field#sign-in-password(
+      field-id='sign-up-password' field-label='Password')
+      field#sign-up-password(
         type="password"
         placeholder="Must be at least 10 characters"
         v-model="fields.signUpPassword")
       form-msg(name='Password' type='required' v-if='!$v.fields.signUpPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signUpPassword.minLength')
+
+    form-group(:error='$v.fields.signUpPasswordConfirm.$error'
+      field-id='sign-up-password-confirm' field-label='Confirm Password')
+      field#sign-up-password-confirm(
+        type="password"
+        placeholder="Enter password again"
+        v-model="fields.signUpPasswordConfirm")
+      form-msg(name='Password confirmation' type='match' v-if='!$v.fields.signUpPasswordConfirm.sameAsPassword')
 
     form-group(field-id='sign-up-seed' field-label='Seed Phrase')
       field-seed#sign-up-seed(v-model="fields.signUpSeed" disabled)
@@ -49,7 +57,7 @@
 </template>
 
 <script>
-import {required, minLength} from 'vuelidate/lib/validators'
+import {required, minLength, sameAs} from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldSeed from 'common/NiFieldSeed'
@@ -74,6 +82,7 @@ export default {
       signUpName: '',
       signUpSeed: 'Creating seed...',
       signUpPassword: '',
+      signUpPasswordConfirm: '',
       signUpWarning: false,
       signUpBackup: false
     }
@@ -84,11 +93,15 @@ export default {
     async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return
-      let key = await this.$store.dispatch('createKey', { seedPhrase: this.fields.signUpSeed, password: this.fields.signUpPassword, name: this.fields.signUpName })
-      if (key) {
-        this.$store.commit('setModalSession', false)
-        this.$store.commit('notify', { title: 'Signed Up', body: 'Your account has been created.' })
-        this.$store.dispatch('signIn', { password: this.fields.signUpPassword, account: this.fields.signUpName })
+      try {
+        let key = await this.$store.dispatch('createKey', { seedPhrase: this.fields.signUpSeed, password: this.fields.signUpPassword, name: this.fields.signUpName })
+        if (key) {
+          this.$store.commit('setModalSession', false)
+          this.$store.commit('notify', { title: 'Signed Up', body: 'Your account has been created.' })
+          this.$store.dispatch('signIn', { password: this.fields.signUpPassword, account: this.fields.signUpName })
+        }
+      } catch (err) {
+        this.$store.commit('notifyError', { title: `Couldn't create account`, body: err.message })
       }
     }
   },
@@ -104,6 +117,7 @@ export default {
     fields: {
       signUpName: { required, minLength: minLength(5) },
       signUpPassword: { required, minLength: minLength(10) },
+      signUpPasswordConfirm: { sameAsPassword: sameAs('signUpPassword') },
       signUpWarning: { required },
       signUpBackup: { required }
     }

@@ -29,10 +29,15 @@ test('wallet', async function (t) {
 
   await login(client, 'testkey')
 
-  let balanceEl = (denom) =>
-    $(`//div[contains(text(), "${denom.toUpperCase()}")]`)
-      .$('..')
-      .$('div.ni-li-dd')
+  let balanceEl = (denom) => {
+    let balanceElemSlector = `//div[contains(text(), "${denom.toUpperCase()}")]`
+    return client.waitForExist(balanceElemSlector, 10000)
+    .then(() =>
+      $(balanceElemSlector)
+        .$('..')
+        .$('div.ni-li-dd')
+    )
+  }
 
   t.test('send', async function (t) {
     async function goToSendPage () {
