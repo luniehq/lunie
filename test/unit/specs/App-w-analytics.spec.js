@@ -34,6 +34,7 @@ describe('App with analytics', () => {
       writable: true,
       value: '?node=localhost&relay_port=8080'
     })
+    document.body.innerHTML = '<div id="app"></div>'
     jest.resetModules()
   })
 

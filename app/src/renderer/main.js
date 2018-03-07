@@ -69,7 +69,7 @@ async function main () {
     routes
   })
 
-  const store = Store({ node })
+  store = Store({ node })
 
   let error = getQueryParameter('error')
   if (error) {
