@@ -62,3 +62,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed reconnection issues @faboweb
 * Made Windows builds deterministic @mappum
 * Reduced size of OSX builds @mappum
+
+## [0.4.4]
+###Added
+* Full page error @nylira
+
+### Changed
+* If app crashes, a full page error is shown @faboweb
