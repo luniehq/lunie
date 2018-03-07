@@ -23,8 +23,8 @@
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.importPassword.minLength')
 
     form-group(:error='$v.fields.importPasswordConfirm.$error'
-      field-id='sign-in-password' field-label='Confirm Password')
-      field#sign-in-password-confirm(
+      field-id='import-password-confirmation' field-label='Confirm Password')
+      field#import-password-confirmation(
         type="password"
         placeholder="Enter password again"
         v-model="fields.importPasswordConfirm")
@@ -76,18 +76,22 @@ export default {
     async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return
-      let key = await this.$store.dispatch('createKey', {
-        seedPhrase: this.fields.importSeed,
-        password: this.fields.importPassword,
-        name: this.fields.importName
-      })
-      if (key) {
-        this.$store.commit('setModalSession', false)
-        this.$store.commit('notify', { title: 'Welcome back!', body: 'Your account has been successfully imported.' })
-        this.$store.dispatch('signIn', {
-          account: this.fields.importName,
-          password: this.fields.importPassword
+      try {
+        let key = await this.$store.dispatch('createKey', {
+          seedPhrase: this.fields.importSeed,
+          password: this.fields.importPassword,
+          name: this.fields.importName
         })
+        if (key) {
+          this.$store.commit('setModalSession', false)
+          this.$store.commit('notify', { title: 'Welcome back!', body: 'Your account has been successfully imported.' })
+          this.$store.dispatch('signIn', {
+            account: this.fields.importName,
+            password: this.fields.importPassword
+          })
+        }
+      } catch (err) {
+        this.$store.commit('notifyError', { title: `Couldn't create account`, body: err.message })
       }
     }
   },

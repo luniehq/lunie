@@ -14,8 +14,8 @@
       form-msg(name='Name' type='minLength' min="5" v-if='!$v.fields.signUpName.minLength')
 
     form-group(:error='$v.fields.signUpPassword.$error'
-      field-id='sign-in-password' field-label='Password')
-      field#sign-in-password(
+      field-id='sign-up-password' field-label='Password')
+      field#sign-up-password(
         type="password"
         placeholder="Must be at least 10 characters"
         v-model="fields.signUpPassword")
@@ -23,8 +23,8 @@
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signUpPassword.minLength')
 
     form-group(:error='$v.fields.signUpPasswordConfirm.$error'
-      field-id='sign-in-password' field-label='Confirm Password')
-      field#sign-in-password-confirm(
+      field-id='sign-up-password-confirm' field-label='Confirm Password')
+      field#sign-up-password-confirm(
         type="password"
         placeholder="Enter password again"
         v-model="fields.signUpPasswordConfirm")
@@ -93,11 +93,15 @@ export default {
     async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return
-      let key = await this.$store.dispatch('createKey', { seedPhrase: this.fields.signUpSeed, password: this.fields.signUpPassword, name: this.fields.signUpName })
-      if (key) {
-        this.$store.commit('setModalSession', false)
-        this.$store.commit('notify', { title: 'Signed Up', body: 'Your account has been created.' })
-        this.$store.dispatch('signIn', { password: this.fields.signUpPassword, account: this.fields.signUpName })
+      try {
+        let key = await this.$store.dispatch('createKey', { seedPhrase: this.fields.signUpSeed, password: this.fields.signUpPassword, name: this.fields.signUpName })
+        if (key) {
+          this.$store.commit('setModalSession', false)
+          this.$store.commit('notify', { title: 'Signed Up', body: 'Your account has been created.' })
+          this.$store.dispatch('signIn', { password: this.fields.signUpPassword, account: this.fields.signUpName })
+        }
+      } catch (err) {
+        this.$store.commit('notifyError', { title: `Couldn't create account`, body: err.message })
       }
     }
   },
