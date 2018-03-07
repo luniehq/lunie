@@ -6,7 +6,7 @@ import Vuelidate from 'vuelidate'
 import shrinkStacktrace from '../helpers/shrink-stacktrace.js'
 import axios from 'axios'
 import Raven from 'raven-js'
-import {remote} from 'electron'
+import { remote } from 'electron'
 import enableGoogleAnalytics from './google-analytics.js'
 
 const config = require('../../../config')
@@ -15,6 +15,9 @@ import App from './App'
 import routes from './routes'
 import Node from './node'
 import Store from './vuex/store'
+
+// exporting this for testing
+let store
 
 // setup sentry remote error reporting and google analytics
 const analyticsEnabled = JSON.parse(remote.getGlobal('process').env.COSMOS_ANALYTICS)
@@ -51,32 +54,37 @@ async function main () {
 
   let relayPort = getQueryParameter('relay_port')
   console.log('Expecting relay-server on port:', relayPort)
-
   console.log('Connecting to node:', nodeIP)
   const node = Node(nodeIP, relayPort)
 
   node.lcdConnected()
-  .then(connected => {
-    if (connected) {
-      axios.get(`http://localhost:${relayPort}/startsuccess`)
-    }
-  })
+    .then(connected => {
+      if (connected) {
+        axios.get(`http://localhost:${relayPort}/startsuccess`)
+      }
+    })
 
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
     routes
   })
 
-  const store = Store({ node })
+  store = Store({ node })
 
-  let connected = await store.dispatch('checkConnection')
-  if (connected) {
-    store.dispatch('nodeSubscribe')
-    store.dispatch('showInitialScreen')
-    store.dispatch('subscribeToBlocks')
+  let error = getQueryParameter('error')
+  if (error) {
+    store.commit('setModalError', true)
+    store.commit('setModalErrorMessage', error)
+  } else {
+    let connected = await store.dispatch('checkConnection')
+    if (connected) {
+      store.dispatch('nodeSubscribe')
+      store.dispatch('showInitialScreen')
+      store.dispatch('subscribeToBlocks')
+    }
   }
 
-  return new Vue({
+  new Vue({
     router,
     ...App,
     store
@@ -84,6 +92,9 @@ async function main () {
 }
 
 main().catch(function (err) { throw err })
+
+// exporting this for testing
+module.exports.store = store
 
 function getQueryParameter (name) {
   let queryString = window.location.search.substring(1)

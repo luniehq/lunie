@@ -86,6 +86,10 @@ function expectCleanExit (process, errorMessage = 'Process exited unplanned') {
   })
 }
 
+function handleCrash (error) {
+  mainWindow.loadURL(winURL + '?node=' + nodeIP + '&error=' + error.message)
+}
+
 function shutdown () {
   if (shuttingDown) return
 
@@ -157,15 +161,15 @@ function startProcess (name, args, env) {
   if (process.env.BINARY_PATH) {
     binPath = process.env.BINARY_PATH
   } else
-  if (DEV) {
-    // in dev mode or tests, use binaries installed in GOPATH
-    let GOPATH = process.env.GOPATH
-    if (!GOPATH) GOPATH = join(home, 'go')
-    binPath = join(GOPATH, 'bin', name)
-  } else {
-    // in production mode, use binaries packaged with app
-    binPath = join(__dirname, '..', 'bin', name)
-  }
+    if (DEV) {
+      // in dev mode or tests, use binaries installed in GOPATH
+      let GOPATH = process.env.GOPATH
+      if (!GOPATH) GOPATH = join(home, 'go')
+      binPath = join(GOPATH, 'bin', name)
+    } else {
+      // in production mode, use binaries packaged with app
+      binPath = join(__dirname, '..', 'bin', name)
+    }
 
   let argString = args.map((arg) => JSON.stringify(arg)).join(' ')
   log(`spawning ${binPath} with args "${argString}"`)
@@ -184,8 +188,7 @@ function startProcess (name, args, env) {
       await new Promise(resolve => Raven.captureException(err, resolve))
       // if we throw errors here, they are not handled by the main process
       console.error('[Uncaught Exception] Child', name, 'produced an unhandled exception:', err)
-      console.log('Shutting down UI')
-      shutdown()
+      handleCrash(err)
     }
   })
   return child
@@ -309,15 +312,13 @@ if (!TEST) {
     await sleep(1000)
     logError('[Uncaught Exception]', err)
     await new Promise(resolve => Raven.captureException(err, resolve))
-    await shutdown()
-    process.exit(1)
+    handleCrash(err)
   })
   process.on('unhandledRejection', async function (err) {
     await sleep(1000)
     logError('[Unhandled Promise Rejection]', err)
     await new Promise(resolve => Raven.captureException(err, resolve))
-    await shutdown()
-    process.exit(1)
+    handleCrash(err)
   })
 }
 
@@ -376,7 +377,7 @@ async function reconnect (seeds) {
   let nodeAlive = false
   while (!nodeAlive) {
     let nodeIP = pickNode(seeds)
-    nodeAlive = await axios('http://' + nodeIP, {timeout: 3000})
+    nodeAlive = await axios('http://' + nodeIP, { timeout: 3000 })
       .then(() => true, () => false)
     log(`${new Date().toLocaleTimeString()} ${nodeIP} is ${nodeAlive ? 'alive' : 'down'}`)
 
@@ -532,13 +533,13 @@ async function main () {
 }
 module.exports = Object.assign(
   main()
-  .catch(err => {
-    logError(err)
-    throw err
-  })
-  .then(() => ({
-    shutdown,
-    processes: {baseserverProcess},
-    analytics: ANALYTICS
-  }))
+    .catch(err => {
+      logError(err)
+      handleCrash(err)
+    })
+    .then(() => ({
+      shutdown,
+      processes: { baseserverProcess },
+      analytics: ANALYTICS
+    }))
 )
