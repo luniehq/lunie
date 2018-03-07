@@ -1,20 +1,7 @@
-let {
-  spawn
-} = require('child_process')
+let { spawn} = require('child_process')
 let test = require('tape-promise/tape')
-let {
-  getApp,
-  restart
-} = require('./launch.js')
-let {
-  navigate,
-  newTempDir,
-  waitForText,
-  sleep,
-  login,
-  logout,
-  closeNotifications
-} = require('./common.js')
+let { getApp, restart } = require('./launch.js')
+let { navigate, newTempDir, waitForText, sleep, login, logout, closeNotifications } = require('./common.js')
 
 let binary = process.env.BINARY_PATH
 
@@ -34,10 +21,7 @@ function cliSendCoins(home, to, amount) {
 }
 
 test('wallet', async function (t) {
-  let {
-    app,
-    home
-  } = await getApp(t)
+  let { app, home } = await getApp(t)
   await restart(app)
 
   let client = app.client
