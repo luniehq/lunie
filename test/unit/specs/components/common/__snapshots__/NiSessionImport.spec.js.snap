@@ -38,6 +38,14 @@ exports[`NiSessionImport has the expected html structure 1`] = `
 </div>
       <div class=\\"ni-form-group\\">
          <!---->
+         <label for=\\"import-password-confirmation\\" class=\\"ni-form-group__label\\">Confirm Password</label>
+         <div class=\\"ni-form-group__field\\">
+            <input type=\\"password\\" placeholder=\\"Enter password again\\" class=\\"ni-field\\" id=\\"import-password-confirmation\\">
+            <!---->
+         </div>
+</div>
+      <div class=\\"ni-form-group\\">
+         <!---->
          <label for=\\"import-seed\\" class=\\"ni-form-group__label\\">Seed Phrase</label>
          <div class=\\"ni-form-group__field\\">
             <textarea class=\\"ni-field-seed ni-field\\" id=\\"import-seed\\" placeholder=\\"Must be exactly 12 words\\"></textarea>
