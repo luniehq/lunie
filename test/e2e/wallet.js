@@ -36,6 +36,7 @@ test('wallet', async function (t) {
       $(balanceElemSlector)
         .$('..')
         .$('div.ni-li-dd')
+    )
   }
 
   t.test('send', async function (t) {
