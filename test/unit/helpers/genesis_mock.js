@@ -66,7 +66,8 @@ function mockGenesis () {
       ],
       'plugin_options': [
         'coin/issuer', { 'app': 'sigs', 'addr': 'B01C264BFE9CBD45458256E613A6F07061A3A6B6' }
-      ] }
+      ]
+    }
   }))
 }
 

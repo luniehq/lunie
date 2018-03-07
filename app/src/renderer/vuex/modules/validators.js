@@ -36,5 +36,7 @@ export default ({ node }) => {
     }
   }
 
-  return { state, mutations, actions }
+  return {
+    state, mutations, actions
+  }
 }

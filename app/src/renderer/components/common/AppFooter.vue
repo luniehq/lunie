@@ -7,9 +7,7 @@ footer.app-footer
 import Connectivity from 'common/NiConnectivity'
 export default {
   name: 'app-footer',
-  components: {
-    Connectivity
-  }
+  components: { Connectivity }
 }
 </script>
 

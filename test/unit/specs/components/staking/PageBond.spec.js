@@ -59,10 +59,8 @@ describe('PageBond', () => {
   })
 
   it('shows old bonded atoms ', () => {
-    store.commit('setCommittedDelegation', {
-      candidateId: 'pubkeyX', value: 13 })
-    store.commit('setCommittedDelegation', {
-      candidateId: 'pubkeyY', value: 26 })
+    store.commit('setCommittedDelegation', { candidateId: 'pubkeyX', value: 13 })
+    store.commit('setCommittedDelegation', { candidateId: 'pubkeyY', value: 26 })
     expect(wrapper.vm.oldBondedAtoms).toBe(39)
   })
 

@@ -61,7 +61,9 @@ export default ({ commit, node }) => {
       return temporaryKey.seed_phrase
     },
     async createKey ({ commit, dispatch }, { seedPhrase, password, name }) {
-      let { key } = await node.recoverKey({ name, password, seed_phrase: seedPhrase })
+      let { key } = await node.recoverKey({
+        name, password, seed_phrase: seedPhrase
+      })
       dispatch('initializeWallet', key)
       return key
     },
@@ -90,5 +92,7 @@ export default ({ commit, node }) => {
     }
   }
 
-  return { state, mutations, actions }
+  return {
+    state, mutations, actions
+  }
 }

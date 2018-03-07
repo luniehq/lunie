@@ -3,9 +3,7 @@
 </template>
 
 <script>
-export default {
-  name: 'ni-field-addon'
-}
+export default { name: 'ni-field-addon' }
 </script>
 
 <style lang="stylus">

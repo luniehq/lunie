@@ -117,5 +117,7 @@ export default function ({ node }) {
     }
   }
 
-  return { state, mutations, actions }
+  return {
+    state, mutations, actions
+  }
 }

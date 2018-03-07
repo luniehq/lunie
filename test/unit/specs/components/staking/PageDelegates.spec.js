@@ -89,9 +89,7 @@ describe('PageDelegates', () => {
           loading: true
         })
       },
-      stubs: {
-        'data-loading': '<data-loading />'
-      }
+      stubs: { 'data-loading': '<data-loading />' }
     })
 
     expect(wrapper.contains('data-loading')).toBe(true)

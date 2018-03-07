@@ -5,9 +5,7 @@ import NiFieldSeed from 'common/NiFieldSeed'
 describe('NiFieldSeed', () => {
   let wrapper
 
-  let propsData = {
-    value: 'one two three four five six seven eight nine ten eleven twelve'
-  }
+  let propsData = { value: 'one two three four five six seven eight nine ten eleven twelve' }
 
   beforeEach(() => {
     wrapper = mount(NiFieldSeed, { propsData })

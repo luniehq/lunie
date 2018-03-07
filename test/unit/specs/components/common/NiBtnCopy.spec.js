@@ -1,10 +1,6 @@
 import setup from '../../../helpers/vuex-setup'
 
-jest.mock('electron', () => ({
-  clipboard: {
-    writeText: jest.fn()
-  }
-}))
+jest.mock('electron', () => ({ clipboard: { writeText: jest.fn() } }))
 
 import NiBtnCopy from 'renderer/components/common/NiBtnCopy'
 
@@ -13,9 +9,7 @@ describe('NiBtnCopy', () => {
   let instance = setup()
 
   beforeEach(() => {
-    let test = instance.mount(NiBtnCopy, {
-      propsData: { value: 'this is a test' }
-    })
+    let test = instance.mount(NiBtnCopy, { propsData: { value: 'this is a test' } })
     wrapper = test.wrapper
     store = test.store
   })

@@ -46,11 +46,17 @@ export default {
   },
   computed: {
     ...mapGetters(['config', 'user']),
-    accountExists () { return this.user.accounts.length > 0 }
+    accountExists () {
+      return this.user.accounts.length > 0
+    }
   },
   methods: {
-    help () { this.$store.commit('setModalHelp', true) },
-    setState (value) { this.$store.commit('setModalSessionState', value) }
+    help () {
+      this.$store.commit('setModalHelp', true)
+    },
+    setState (value) {
+      this.$store.commit('setModalSessionState', value)
+    }
   }
 }
 </script>

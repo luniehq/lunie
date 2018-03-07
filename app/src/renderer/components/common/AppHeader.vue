@@ -19,12 +19,8 @@ import noScroll from 'no-scroll'
 import AppMenu from 'common/AppMenu'
 export default {
   name: 'app-header',
-  components: {
-    AppMenu
-  },
-  computed: {
-    ...mapGetters(['config'])
-  },
+  components: { AppMenu },
+  computed: { ...mapGetters(['config']) },
   methods: {
     close () {
       this.$store.commit('setActiveMenu', '')

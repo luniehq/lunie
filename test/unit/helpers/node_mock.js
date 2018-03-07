@@ -6,9 +6,7 @@ module.exports = {
   relayPort: '9060',
   lcdPort: '9070',
   lcdConnected: () => Promise.resolve(true),
-  getKey: () => ({
-    address: 'someaddress'
-  }),
+  getKey: () => ({ address: 'someaddress' }),
   generateKey: () => ({
     key: '123',
     seed_phrase: 'a b c d e f g h i j k l'
@@ -42,9 +40,7 @@ module.exports = {
     blockchain: (args, cb) => cb(null, { block_metas: {} }),
     status: (cb) => cb(null, {
       latest_block_height: 42,
-      node_info: {
-        network: 'test-net'
-      }
+      node_info: { network: 'test-net' }
     })
   },
   initRPC: () => {},

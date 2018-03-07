@@ -11,7 +11,9 @@ export default {
   name: 'ni-data-msg',
   computed: {
     iconCssClass () {
-      if (this.spin) { return 'fa-spin' }
+      if (this.spin) {
+        return 'fa-spin'
+      }
     }
   },
   props: ['title', 'subtitle', 'icon', 'spin']

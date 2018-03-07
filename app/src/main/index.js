@@ -62,9 +62,7 @@ function logProcess (process, logPath) {
   fs.ensureFileSync(logPath)
   // Writestreams are blocking fs cleanup in tests, if you get errors, disable logging
   if (LOGGING) {
-    let logStream = fs.createWriteStream(logPath, {
-      flags: 'a' // 'a' means appending (old data will be preserved)
-    })
+    let logStream = fs.createWriteStream(logPath, { flags: 'a' }) // 'a' means appending (old data will be preserved)
     streams.push(logStream)
     process.stdout.pipe(logStream)
     process.stderr.pipe(logStream)
@@ -276,9 +274,7 @@ function setupLogging (root) {
   // initialize log file
   let logFilePath = join(root, 'main.log')
   fs.ensureFileSync(logFilePath)
-  let mainLog = fs.createWriteStream(logFilePath, {
-    flags: 'a' // 'a' means appending (old data will be preserved)
-  })
+  let mainLog = fs.createWriteStream(logFilePath, { flags: 'a' }) // 'a' means appending (old data will be preserved)
   mainLog.write(`${new Date()} Running Cosmos-UI\r\n`)
   // mainLog.write(`${new Date()} Environment: ${JSON.stringify(process.env)}\r\n`) // TODO should be filtered before adding it to the log
   streams.push(mainLog)
@@ -399,9 +395,7 @@ function setupAnalytics () {
   }
 
   // only enable sending of error events in production setups and if the network is a testnet
-  Raven.config(ANALYTICS ? config.sentry_dsn : '', {
-    captureUnhandledRejections: false
-  }).install()
+  Raven.config(ANALYTICS ? config.sentry_dsn : '', { captureUnhandledRejections: false }).install()
 }
 
 async function main () {
@@ -532,13 +526,13 @@ async function main () {
 }
 module.exports = Object.assign(
   main()
-  .catch(err => {
-    logError(err)
-    throw err
-  })
-  .then(() => ({
-    shutdown,
-    processes: { baseserverProcess },
-    analytics: ANALYTICS
-  }))
+    .catch(err => {
+      logError(err)
+      throw err
+    })
+    .then(() => ({
+      shutdown,
+      processes: { baseserverProcess },
+      analytics: ANALYTICS
+    }))
 )

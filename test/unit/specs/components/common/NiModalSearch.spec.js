@@ -6,11 +6,7 @@ describe('NiModalSearch', () => {
   let { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(NiModalSearch, {
-      propsData: {
-        type: 'transactions'
-      }
-    })
+    let instance = mount(NiModalSearch, { propsData: { type: 'transactions' } })
     store = instance.store
     wrapper = instance.wrapper
     store.commit('setSearchVisible', ['transactions', true])

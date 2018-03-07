@@ -24,10 +24,14 @@ export default {
   },
   computed: {
     ...mapGetters(['config']),
-    active () { return this.config.modals.help.active }
+    active () {
+      return this.config.modals.help.active
+    }
   },
   methods: {
-    close () { this.$store.commit('setModalHelp', false) }
+    close () {
+      this.$store.commit('setModalHelp', false)
+    }
   }
 }
 </script>

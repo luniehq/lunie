@@ -30,9 +30,7 @@ export default {
     Notifications,
     Session
   },
-  computed: {
-    ...mapGetters(['notifications', 'config'])
-  },
+  computed: { ...mapGetters(['notifications', 'config']) },
   store
 }
 </script>

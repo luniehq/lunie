@@ -11,9 +11,7 @@ header.ni-page-header
 </template>
 
 <script>
-export default {
-  name: 'ni-page-header'
-}
+export default { name: 'ni-page-header' }
 </script>
 
 <style lang="stylus">

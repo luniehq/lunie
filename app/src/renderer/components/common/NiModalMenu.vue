@@ -3,9 +3,7 @@
 </template>
 
 <script>
-export default {
-  name: 'ni-modal-menu'
-}
+export default { name: 'ni-modal-menu' }
 </script>
 
 <style lang="stylus">

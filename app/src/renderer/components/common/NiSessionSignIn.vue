@@ -58,8 +58,12 @@ export default {
     }
   },
   methods: {
-    help () { this.$store.commit('setModalHelp', true) },
-    setState (value) { this.$store.commit('setModalSessionState', value) },
+    help () {
+      this.$store.commit('setModalHelp', true)
+    },
+    setState (value) {
+      this.$store.commit('setModalSessionState', value)
+    },
     async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return

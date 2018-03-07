@@ -62,10 +62,18 @@ export default {
         this.proposal.votes.reject +
         this.proposal.votes.abstain
     },
-    yesPct () { return this.proposal.votes.yes / this.totalVotes },
-    noPct () { return this.proposal.votes.no / this.totalVotes },
-    rejectPct () { return this.proposal.votes.reject / this.totalVotes },
-    abstainPct () { return this.proposal.votes.abstain / this.totalVotes }
+    yesPct () {
+      return this.proposal.votes.yes / this.totalVotes
+    },
+    noPct () {
+      return this.proposal.votes.no / this.totalVotes
+    },
+    rejectPct () {
+      return this.proposal.votes.reject / this.totalVotes
+    },
+    abstainPct () {
+      return this.proposal.votes.abstain / this.totalVotes
+    }
   },
   created () {
     this.$watch('$route.params', this.refreshProposal)
@@ -78,9 +86,7 @@ export default {
       entity_id: '',
       title: 'Loading...',
       type: '',
-      flags: {
-        passed: false
-      },
+      flags: { passed: false },
       data: {
         body: '',
         old_members: '',
@@ -96,8 +102,10 @@ export default {
       this.votePick = choice
     },
     confirmVote () {
-      this.$store.commit('notify', { title: `Voted '${this.votePick}'`,
-        body: 'Your vote has been submitted.' })
+      this.$store.commit('notify', {
+        title: `Voted '${this.votePick}'`,
+        body: 'Your vote has been submitted.'
+      })
     },
     refreshProposal () {
       if (this.rawProposal) {
@@ -107,12 +115,16 @@ export default {
       }
     },
     commentOnProposal (proposalId) {
-      this.$store.commit('notify', { title: 'View Discussion Thread',
-        body: `TODO: Discuss ${proposalId} proposal on the forum.` })
+      this.$store.commit('notify', {
+        title: 'View Discussion Thread',
+        body: `TODO: Discuss ${proposalId} proposal on the forum.`
+      })
     },
     proposalIsSpam (proposalId) {
-      this.$store.commit('notify', { title: 'Mark Proposal As Spam',
-        body: `TODO: Mark ${proposalId} proposal as a spam attack.` })
+      this.$store.commit('notify', {
+        title: 'Mark Proposal As Spam',
+        body: `TODO: Mark ${proposalId} proposal as a spam attack.`
+      })
     },
     toggleVoteVisible () {
       this.voteVisible = !this.voteVisible

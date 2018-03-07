@@ -2,11 +2,7 @@ import setup from '../../../helpers/vuex-setup'
 import htmlBeautify from 'html-beautify'
 import PageBlock from 'renderer/components/monitor/PageBlock'
 
-const $route = {
-  params: {
-    block: 1234
-  }
-}
+const $route = { params: { block: 1234 } }
 
 describe('PageBlock', () => {
   let wrapper, store
@@ -14,35 +10,23 @@ describe('PageBlock', () => {
 
   beforeEach(() => {
     let instance = mount(PageBlock, {
-      mocks: {
-        $route
-      },
+      mocks: { $route },
       getters: {
         blockchain: () => ({
           block: {
             header: {
               last_block_id: {
                 hash: 'last-hash',
-                parts: {
-                  total: 0
-                }
+                parts: { total: 0 }
               },
               num_txs: 0,
               height: 10,
               time: 1608
             },
-            last_commit: {
-              precommits: []
-            },
-            data: {
-              txs: 0
-            }
+            last_commit: { precommits: [] },
+            data: { txs: 0 }
           },
-          blockMetaInfo: {
-            block_id: {
-              hash: 'hash'
-            }
-          }
+          blockMetaInfo: { block_id: { hash: 'hash' } }
         })
       }
     })
@@ -65,15 +49,11 @@ describe('PageBlock', () => {
       getters: {
         blockchain: () => ({
           block: {},
-          blockMetaInfo: {
-            block_id: {}
-          },
+          blockMetaInfo: { block_id: {} },
           blockLoading: true
         })
       },
-      stubs: {
-        'data-loading': '<data-loading />'
-      }
+      stubs: { 'data-loading': '<data-loading />' }
     })
     wrapper.update()
 

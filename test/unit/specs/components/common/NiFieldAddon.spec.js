@@ -6,11 +6,7 @@ describe('NiFieldAddon', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = mount(NiFieldAddon, {
-      slots: {
-        default: '<div class="fake-addon">ATOM</div>'
-      }
-    })
+    wrapper = mount(NiFieldAddon, { slots: { default: '<div class="fake-addon">ATOM</div>' } })
   })
 
   it('has the expected html structure', () => {

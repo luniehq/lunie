@@ -56,11 +56,11 @@ async function main () {
   const node = Node(nodeIP, relayPort)
 
   node.lcdConnected()
-  .then(connected => {
-    if (connected) {
-      axios.get(`http://localhost:${relayPort}/startsuccess`)
-    }
-  })
+    .then(connected => {
+      if (connected) {
+        axios.get(`http://localhost:${relayPort}/startsuccess`)
+      }
+    })
 
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
@@ -83,7 +83,9 @@ async function main () {
   }).$mount('#app')
 }
 
-main().catch(function (err) { throw err })
+main().catch(function (err) {
+  throw err
+})
 
 function getQueryParameter (name) {
   let queryString = window.location.search.substring(1)

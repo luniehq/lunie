@@ -37,9 +37,7 @@ describe('NiListItem', () => {
   it('should use a slot for a thumb', () => {
     wrapper = mount(NiListItem, {
       propsData: { dt: 'Link', href: '/location' },
-      slots: {
-        graphic: '<graphic-elem />'
-      }
+      slots: { graphic: '<graphic-elem />' }
     })
     expect(wrapper.contains('graphic-elem')).toBe(true)
   })
@@ -55,9 +53,7 @@ describe('NiListItem', () => {
   it('should use a slot for a description', () => {
     wrapper = mount(NiListItem, {
       propsData: { dt: 'Link', to: '/location' },
-      slots: {
-        dd: 'Some description here'
-      }
+      slots: { dd: 'Some description here' }
     })
     expect(wrapper.html()).toContain('Some description here')
   })
@@ -102,9 +98,7 @@ describe('NiListItem', () => {
   it('should show as image', () => {
     wrapper = mount(NiListItem, {
       propsData: { type: 'image' },
-      slots: {
-        image: '<img src="route/to/image" />'
-      }
+      slots: { image: '<img src="route/to/image" />' }
     })
     expect(wrapper.find('img')).toBeDefined()
   })

@@ -38,8 +38,12 @@ describe('Module: Send', () => {
   })
 
   it('should shift the queue', () => {
-    const txOne = { id: 'first-tx', denom: 'acoin', amount: '50' }
-    const txTwo = { id: 'second-tx', denom: 'acoin', amount: '125' }
+    const txOne = {
+      id: 'first-tx', denom: 'acoin', amount: '50'
+    }
+    const txTwo = {
+      id: 'second-tx', denom: 'acoin', amount: '125'
+    }
     store.commit('queueSend', txOne)
     store.commit('queueSend', txTwo)
     store.commit('shiftSendQueue')
@@ -47,12 +51,17 @@ describe('Module: Send', () => {
   })
 
   it('should continue with the next tx in queue', async () => {
-    const txOne = { type: 'test', id: 'first-tx', denom: 'acoin', amount: 50 }
-    const txTwo = { type: 'test', id: 'second-tx', denom: 'acoin', amount: 125 }
+    const txOne = {
+      type: 'test', id: 'first-tx', denom: 'acoin', amount: 50
+    }
+    const txTwo = {
+      type: 'test', id: 'second-tx', denom: 'acoin', amount: 125
+    }
     node.test = (v) => Promise.resolve(v)
     node.sign = (v) => Promise.resolve(v)
     node.postTx = jest.fn(() => Promise.resolve({
-      check_tx: {}, deliver_tx: {}
+      check_tx: {},
+      deliver_tx: {}
     }))
 
     await store.dispatch('sendTx', txOne)

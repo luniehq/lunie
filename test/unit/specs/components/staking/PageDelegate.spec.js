@@ -16,16 +16,10 @@ describe('PageDelegate', () => {
               moniker: 'JB',
               website: 'https://the.zone',
               voting_power: 1000,
-              owner: {
-                addr: 'helloaddr'
-              },
-              pub_key: {
-                data: '123pubkeyforme'
-              }
+              owner: { addr: 'helloaddr' },
+              pub_key: { data: '123pubkeyforme' }
             },
-            {
-              id: 'd4e5f6'
-            }
+            { id: 'd4e5f6' }
           ]
         })
       }

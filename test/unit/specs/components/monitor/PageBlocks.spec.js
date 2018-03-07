@@ -10,43 +10,29 @@ describe('PageBlocks', () => {
     header: {
       last_block_id: {
         hash: 'last-hash',
-        parts: {
-          total: 0
-        }
+        parts: { total: 0 }
       },
       num_txs: 0,
       height: 10,
       time: 1608
     },
-    last_commit: {
-      precommits: []
-    },
-    data: {
-      txs: 0
-    }
+    last_commit: { precommits: [] },
+    data: { txs: 0 }
   }
 
   beforeEach(() => {
     let instance = mount(PageBlocks, {
-      stubs: {
-        'modal-search': '<modal-search />'
-      },
+      stubs: { 'modal-search': '<modal-search />' },
       getters: {
         lastHeader: () => ({
           time: 1608,
-          last_block_id: {
-            hash: '123'
-          },
+          last_block_id: { hash: '123' },
           height: 12345
         }),
         blockchain: () => ({
           blocks: [block],
           block,
-          blockMetaInfo: {
-            block_id: {
-              hash: 'hash'
-            }
-          },
+          blockMetaInfo: { block_id: { hash: 'hash' } },
           blockHeight: null,
           blockLoading: false,
           subscription: true,

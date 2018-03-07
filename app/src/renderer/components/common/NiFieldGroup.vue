@@ -3,9 +3,7 @@
 </template>
 
 <script>
-export default {
-  name: 'ni-field-group'
-}
+export default { name: 'ni-field-group' }
 </script>
 
 <style lang="stylus">

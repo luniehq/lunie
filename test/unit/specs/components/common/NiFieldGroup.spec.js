@@ -6,11 +6,7 @@ describe('NiFieldGroup', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = mount(NiFieldGroup, {
-      slots: {
-        default: '<input class="fake-field" placeholder="Fake">'
-      }
-    })
+    wrapper = mount(NiFieldGroup, { slots: { default: '<input class="fake-field" placeholder="Fake">' } })
   })
 
   it('has the expected html structure', () => {

@@ -36,29 +36,35 @@ describe('NiSessionAccountDelete', () => {
   })
 
   it('should go back on successful deletion', async () => {
-    wrapper.setData({ fields: {
-      deletionPassword: '1234567890',
-      deletionWarning: true
-    } })
+    wrapper.setData({
+      fields: {
+        deletionPassword: '1234567890',
+        deletionWarning: true
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toEqual(['setModalSessionState', 'welcome'])
   })
 
   it('should show error if password not 10 long', async () => {
-    wrapper.setData({ fields: {
-      deletionPassword: '123',
-      deletionWarning: true
-    } })
+    wrapper.setData({
+      fields: {
+        deletionPassword: '123',
+        deletionWarning: true
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
   it('should show error if deletionWarning is not acknowledged', async () => {
-    wrapper.setData({ fields: {
-      deletionPassword: '1234567890',
-      deletionWarning: false
-    } })
+    wrapper.setData({
+      fields: {
+        deletionPassword: '1234567890',
+        deletionWarning: false
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
@@ -66,10 +72,12 @@ describe('NiSessionAccountDelete', () => {
 
   it('should show a notification if deletion failed', async () => {
     store.dispatch = jest.fn(() => Promise.reject('Planned rejection'))
-    wrapper.setData({ fields: {
-      deletionPassword: '1234567890',
-      deletionWarning: true
-    } })
+    wrapper.setData({
+      fields: {
+        deletionPassword: '1234567890',
+        deletionWarning: true
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit).toHaveBeenCalled()
     expect(store.commit.mock.calls[0][0]).toBe('notifyError')

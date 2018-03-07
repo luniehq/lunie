@@ -30,9 +30,7 @@ export default {
     SessionImport,
     SessionAccountDelete
   },
-  computed: {
-    ...mapGetters(['config'])
-  }
+  computed: { ...mapGetters(['config']) }
 }
 </script>
 

@@ -2,9 +2,7 @@ export default ({ commit, node }) => {
   const state = {
     blocks: [],
     block: {},
-    blockMetaInfo: {
-      block_id: {}
-    },
+    blockMetaInfo: { block_id: {} },
     blockHeight: null, // we remember the height so we can requery the block, if querying failed
     blockLoading: false,
     subscription: false,
@@ -32,9 +30,9 @@ export default ({ commit, node }) => {
       state.blockHeight = height
       return Promise.all([
         dispatch('queryBlock', height)
-        .then(block => commit('setBlock', block)),
+          .then(block => commit('setBlock', block)),
         dispatch('queryBlockInfo', height)
-        .then(blockMetaInfo => commit('setBlockMetaInfo', blockMetaInfo))
+          .then(blockMetaInfo => commit('setBlockMetaInfo', blockMetaInfo))
       ]).then(() => {
         state.blockLoading = false
       }, () => {
@@ -90,5 +88,7 @@ export default ({ commit, node }) => {
     }
   }
 
-  return { state, mutations, actions }
+  return {
+    state, mutations, actions
+  }
 }

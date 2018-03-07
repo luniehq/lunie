@@ -16,11 +16,7 @@ jest.mock('fs-extra', () => {
 let fs = require('fs-extra')
 
 jest.mock('electron', () => {
-  return {
-    app: {
-      on: () => { }
-    }
-  }
+  return { app: { on: () => { } } }
 })
 childProcessMock((path, args) => ({
   on: (type, cb) => {
@@ -75,9 +71,7 @@ describe('Startup Process', () => {
   })
 
   // uses package.json from voyager/ root.
-  jest.mock(root + 'package.json', () => ({
-    version: '0.1.0'
-  }))
+  jest.mock(root + 'package.json', () => ({ version: '0.1.0' }))
   jest.mock(appRoot + 'src/main/relayServer.js', () => () => {})
 
   beforeAll(() => {
@@ -123,9 +117,7 @@ describe('Startup Process', () => {
       jest.resetModules()
       let mockWrite = jest.fn()
       childProcessMock((path, args) => ({
-        stdin: {
-          write: mockWrite
-        },
+        stdin: { write: mockWrite },
         stdout: {
           on: (type, cb) => {
             if (type === 'data' && path.includes('gaia') && args[0] === 'server' && args[1] === 'init') {
@@ -151,9 +143,7 @@ describe('Startup Process', () => {
     })
 
     afterAll(() => {
-      Object.assign(process.env, {
-        NODE_ENV: null
-      })
+      Object.assign(process.env, { NODE_ENV: null })
     })
     mainSetup()
 
@@ -166,9 +156,7 @@ describe('Startup Process', () => {
       jest.resetModules()
       let mockWrite = jest.fn()
       childProcessMock((path, args) => ({
-        stdin: {
-          write: mockWrite
-        },
+        stdin: { write: mockWrite },
         stdout: {
           on: (type, cb) => {
             if (type === 'data' && path.includes('gaia') && args[0] === 'server' && args[1] === 'init') {
@@ -194,9 +182,7 @@ describe('Startup Process', () => {
     })
 
     afterAll(() => {
-      Object.assign(process.env, {
-        NODE_ENV: null
-      })
+      Object.assign(process.env, { NODE_ENV: null })
     })
     mainSetup()
 
@@ -234,9 +220,7 @@ describe('Startup Process', () => {
     xit('should have set the own node as a validator with 100% voting power', async () => {
       jest.resetModules()
 
-      await fs.writeFile(join(testRoot, 'priv_validator.json'), {
-        pub_key: '123'
-      }, 'utf8')
+      await fs.writeFile(join(testRoot, 'priv_validator.json'), { pub_key: '123' }, 'utf8')
 
       await initMain()
 
@@ -279,9 +263,7 @@ describe('Startup Process', () => {
       resetModulesKeepingFS()
 
       // alter the version so the main thread assumes an update
-      jest.mock(root + 'package.json', () => ({
-        version: '1.1.1'
-      }))
+      jest.mock(root + 'package.json', () => ({ version: '1.1.1' }))
       let err
       try {
         await require(appRoot + 'src/main/index.js')
@@ -327,9 +309,7 @@ describe('Startup Process', () => {
     })
 
     it('should enable analytics with analytics flag', async () => {
-      Object.assign(process.env, {
-        COSMOS_ANALYTICS: true
-      })
+      Object.assign(process.env, { COSMOS_ANALYTICS: true })
       main = await initMain()
       expect(main.analytics).toBe(true)
     })
@@ -339,9 +319,7 @@ describe('Startup Process', () => {
         default_network: 'test-network',
         analytics_networks: ['test-network']
       }))
-      Object.assign(process.env, {
-        NODE_ENV: 'production'
-      })
+      Object.assign(process.env, { NODE_ENV: 'production' })
       main = await initMain()
       expect(main.analytics).toBe(true)
     })
@@ -364,9 +342,7 @@ describe('Startup Process', () => {
         default_network: 'production-network',
         analytics_networks: ['test-network']
       }))
-      Object.assign(process.env, {
-        NODE_ENV: 'production'
-      })
+      Object.assign(process.env, { NODE_ENV: 'production' })
       main = await initMain()
       expect(main.analytics).toBe(false)
     })
@@ -384,9 +360,9 @@ describe('Startup Process', () => {
 
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-        path.includes('gaia') &&
+          path.includes('gaia') &&
         args.includes('rest-server')
-      ).length
+        ).length
       ).toBeGreaterThan(1)
     })
 
@@ -394,22 +370,22 @@ describe('Startup Process', () => {
       await initMain()
       let configText = fs.readFileSync(join(testRoot, 'config.toml'), 'utf8')
       configText = configText.split('\n')
-      .map(line => {
-        if (line.startsWith('seeds')) {
-          return 'seeds = ""'
-        } else {
-          return line
-        }
-      }).join('\n')
+        .map(line => {
+          if (line.startsWith('seeds')) {
+            return 'seeds = ""'
+          } else {
+            return line
+          }
+        }).join('\n')
       fs.writeFileSync(join(testRoot, 'config.toml'), configText, 'utf8')
 
       resetModulesKeepingFS()
       await require(appRoot + 'src/main/index.js')
-      .then(() => done.fail('Didnt fail'))
-      .catch(err => {
-        expect(err.message.toLowerCase()).toContain('seeds')
-        done()
-      })
+        .then(() => done.fail('Didnt fail'))
+        .catch(err => {
+          expect(err.message.toLowerCase()).toContain('seeds')
+          done()
+        })
     })
 
     describe('missing files', () => {
@@ -440,9 +416,9 @@ describe('Startup Process', () => {
         await initMain()
         expect(childProcess.spawn.mock.calls
           .find(([path, args]) =>
-          path.includes('gaia') &&
+            path.includes('gaia') &&
           args.includes('init')
-        ).length
+          ).length
         ).toBe(3) // one to check in first round, one to check + one to init in the second round
       })
     })

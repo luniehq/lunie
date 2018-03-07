@@ -37,23 +37,27 @@ describe('NiSessionImport', () => {
   })
 
   it('should close the modal on successful login', async () => {
-    wrapper.setData({ fields: {
-      importName: 'foo123',
-      importPassword: '1234567890',
-      importPasswordConfirm: '1234567890',
-      importSeed: 'bar' // <-- doesn#t check for correctness of seed
-    } })
+    wrapper.setData({
+      fields: {
+        importName: 'foo123',
+        importPassword: '1234567890',
+        importPasswordConfirm: '1234567890',
+        importSeed: 'bar' // <-- doesn#t check for correctness of seed
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toEqual(['setModalSession', false])
   })
 
   it('should signal signed in state on successful login', async () => {
-    wrapper.setData({ fields: {
-      importName: 'foo123',
-      importPassword: '1234567890',
-      importPasswordConfirm: '1234567890',
-      importSeed: 'bar' // <-- doesn#t check for correctness of seed
-    } })
+    wrapper.setData({
+      fields: {
+        importName: 'foo123',
+        importPassword: '1234567890',
+        importPasswordConfirm: '1234567890',
+        importSeed: 'bar' // <-- doesn#t check for correctness of seed
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[1][0]).toEqual('notify')
     expect(store.commit.mock.calls[1][1].title.toLowerCase()).toContain('welcome back!')
@@ -64,21 +68,21 @@ describe('NiSessionImport', () => {
   })
 
   it('should show error if seed is not filled in', async () => {
-    wrapper.setData({ fields: {
-      importSeed: ''
-    } })
+    wrapper.setData({ fields: { importSeed: '' } })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
   it('should show error if password is not confirmed', async () => {
-    wrapper.setData({ fields: {
-      importName: 'foo123',
-      importPassword: '1234567890',
-      importPasswordConfirm: 'notthesame',
-      importSeed: 'bar' // <-- doesn#t check for correctness of seed
-    } })
+    wrapper.setData({
+      fields: {
+        importName: 'foo123',
+        importPassword: '1234567890',
+        importPasswordConfirm: 'notthesame',
+        importSeed: 'bar' // <-- doesn#t check for correctness of seed
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
@@ -86,24 +90,28 @@ describe('NiSessionImport', () => {
 
   it('should not continue if creation failed', async () => {
     store.dispatch = jest.fn(() => Promise.resolve(null))
-    wrapper.setData({ fields: {
-      importName: 'foo123',
-      importPassword: '1234567890',
-      importPasswordConfirm: '1234567890',
-      importSeed: 'bar' // <-- doesn#t check for correctness of seed
-    } })
+    wrapper.setData({
+      fields: {
+        importName: 'foo123',
+        importPassword: '1234567890',
+        importPasswordConfirm: '1234567890',
+        importSeed: 'bar' // <-- doesn#t check for correctness of seed
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit).not.toHaveBeenCalled()
   })
 
   it('should show a notification if creation failed', async () => {
     store.dispatch = jest.fn(() => Promise.reject({ message: 'test' }))
-    wrapper.setData({ fields: {
-      importName: 'foo123',
-      importPassword: '1234567890',
-      importPasswordConfirm: '1234567890',
-      importSeed: 'bar' // <-- doesn#t check for correctness of seed
-    } })
+    wrapper.setData({
+      fields: {
+        importName: 'foo123',
+        importPassword: '1234567890',
+        importPasswordConfirm: '1234567890',
+        importSeed: 'bar' // <-- doesn#t check for correctness of seed
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0][0]).toEqual('notifyError')
     expect(store.commit.mock.calls[0][1].body).toEqual('test')

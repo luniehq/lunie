@@ -15,9 +15,7 @@ describe('LCD Connector', () => {
     jest.mock('tendermint', () => () => ({
       on (value, cb) {},
       removeAllListeners () {},
-      ws: {
-        destroy () {}
-      }
+      ws: { destroy () {} }
     }))
 
     jest.mock('axios', (url) => jest.fn()
@@ -85,9 +83,7 @@ describe('LCD Connector', () => {
       jest.mock('tendermint', () => () => ({
         on (value, cb) {},
         removeAllListeners () {},
-        ws: {
-          destroy () {}
-        }
+        ws: { destroy () {} }
       }))
 
       jest.mock('axios', (url) => jest.fn()

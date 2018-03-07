@@ -18,16 +18,18 @@
 import HardwareState from 'common/NiHardwareState'
 export default {
   name: 'ni-session-hardware',
-  components: {
-    HardwareState
-  },
-  data: () => ({
-    status: 'connect'
-  }),
+  components: { HardwareState },
+  data: () => ({ status: 'connect' }),
   methods: {
-    help () { this.$store.commit('setModalHelp', true) },
-    setState (value) { this.$store.commit('setModalSessionState', value) },
-    setStatus (value) { this.status = value },
+    help () {
+      this.$store.commit('setModalHelp', true)
+    },
+    setState (value) {
+      this.$store.commit('setModalSessionState', value)
+    },
+    setStatus (value) {
+      this.status = value
+    },
     onSubmit () {
       this.$store.commit('setModalSession', false)
       this.$store.commit('notify', { title: 'Welcome back!', body: 'You are now signed in to your Cosmos account.' })

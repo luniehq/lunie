@@ -20,12 +20,8 @@ import noScroll from 'no-scroll'
 import ListItem from 'common/NiListItem'
 export default {
   name: 'ni-user-pane',
-  components: {
-    ListItem
-  },
-  computed: {
-    ...mapGetters(['user', 'config'])
-  },
+  components: { ListItem },
+  computed: { ...mapGetters(['user', 'config']) },
   methods: {
     close () {
       this.$store.commit('setActiveMenu', '')

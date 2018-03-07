@@ -6,10 +6,12 @@ describe('PageTransactions', () => {
   let { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(PageTransactions, { stubs: {
-      'li-transaction': '<li-transaction />',
-      'data-empty-tx': '<data-empty-tx />'
-    } })
+    let instance = mount(PageTransactions, {
+      stubs: {
+        'li-transaction': '<li-transaction />',
+        'data-empty-tx': '<data-empty-tx />'
+      }
+    })
     wrapper = instance.wrapper
     store = instance.store
 

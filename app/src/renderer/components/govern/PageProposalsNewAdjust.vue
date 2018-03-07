@@ -84,13 +84,21 @@ export default {
     fields: {
       title: {
         required,
-        minLength (x) { return minLength(this.titleMinLength)(x) },
-        maxLength (x) { return maxLength(this.titleMaxLength)(x) }
+        minLength (x) {
+          return minLength(this.titleMinLength)(x)
+        },
+        maxLength (x) {
+          return maxLength(this.titleMaxLength)(x)
+        }
       },
       body: {
         required,
-        minLength (x) { return minLength(this.bodyMinLength)(x) },
-        maxLength (x) { return maxLength(this.bodyMaxLength)(x) }
+        minLength (x) {
+          return minLength(this.bodyMinLength)(x)
+        },
+        maxLength (x) {
+          return maxLength(this.bodyMaxLength)(x)
+        }
       }
     }
   })
