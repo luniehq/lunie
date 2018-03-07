@@ -10,7 +10,7 @@ const $route = {
 
 describe('PageBlock', () => {
   let wrapper, store
-  let {mount} = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
     let instance = mount(PageBlock, {
@@ -61,7 +61,7 @@ describe('PageBlock', () => {
   })
 
   it('should show a loading state if loading', () => {
-    let {wrapper} = mount(PageBlock, {
+    let { wrapper } = mount(PageBlock, {
       getters: {
         blockchain: () => ({
           block: {},

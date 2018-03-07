@@ -18,7 +18,7 @@ let randomBondTx = (address, delegator) => ({
   height: 1000
 })
 
-module.exports = function ({relayServerPort, lcdPort, mock = false, onReconnectReq, onSuccesfulStart} = {}) {
+module.exports = function ({ relayServerPort, lcdPort, mock = false, onReconnectReq, onSuccesfulStart } = {}) {
   let app = express()
 
   // TODO this lets the server timeout until there is an external request

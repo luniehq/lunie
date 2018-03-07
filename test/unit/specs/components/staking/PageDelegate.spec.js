@@ -3,7 +3,7 @@ import PageDelegate from 'renderer/components/staking/PageDelegate'
 
 describe('PageDelegate', () => {
   let wrapper, router
-  let {mount} = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
     let instance = mount(PageDelegate, {

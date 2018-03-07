@@ -87,7 +87,7 @@ describe('Module: Send', () => {
       let account = 'abc'
       let password = '123'
       node.sendTx = jest.fn(() => Promise.resolve())
-      await store.dispatch('signIn', {account, password})
+      await store.dispatch('signIn', { account, password })
     })
 
     it('should send from wallet', async () => {

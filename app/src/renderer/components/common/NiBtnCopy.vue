@@ -6,7 +6,7 @@ btn.btn-copy(
 </template>
 
 <script>
-import {clipboard} from 'electron'
+import { clipboard } from 'electron'
 import Btn from '@nylira/vue-button'
 export default {
   components: {

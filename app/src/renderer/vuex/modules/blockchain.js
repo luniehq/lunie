@@ -45,7 +45,7 @@ export default ({ commit, node }) => {
       return new Promise(resolve => {
         node.rpc.block({ minHeight: height, maxHeight: height }, (err, data) => {
           if (err) {
-            commit('notifyError', {title: `Couldn't query block`, body: err.message})
+            commit('notifyError', { title: `Couldn't query block`, body: err.message })
             resolve({})
           } else {
             resolve(data.block)
@@ -61,7 +61,7 @@ export default ({ commit, node }) => {
       blockMetaInfo = await new Promise((resolve, reject) => {
         node.rpc.blockchain({ minHeight: height, maxHeight: height }, (err, data) => {
           if (err) {
-            commit('notifyError', {title: `Couldn't query block`, body: err.message})
+            commit('notifyError', { title: `Couldn't query block`, body: err.message })
             resolve(null)
           } else {
             resolve(data.block_metas[0])
@@ -71,13 +71,13 @@ export default ({ commit, node }) => {
       blockMetaInfo && state.blockMetas.push(blockMetaInfo)
       return blockMetaInfo
     },
-    subscribeToBlocks ({commit}) {
+    subscribeToBlocks ({ commit }) {
       node.rpc.subscribe({ query: "tm.event = 'NewBlock'" }, (err, event) => {
         state.subscription = true
 
         if (err) {
           state.subscription = false
-          commit('notifyError', {title: `Error subscribing to new blocks`, body: err.message})
+          commit('notifyError', { title: `Error subscribing to new blocks`, body: err.message })
           return
         }
 

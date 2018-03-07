@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import SessionLoading from 'common/NiSessionLoading'
 import SessionWelcome from 'common/NiSessionWelcome'
 import SessionSignUp from 'common/NiSessionSignUp'

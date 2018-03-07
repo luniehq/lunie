@@ -4,7 +4,7 @@ import PageBlocks from 'renderer/components/monitor/PageBlocks'
 
 describe('PageBlocks', () => {
   let wrapper, store
-  let {mount} = setup()
+  let { mount } = setup()
 
   let block = {
     header: {

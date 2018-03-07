@@ -4,7 +4,7 @@ import setup from '../../../helpers/vuex-setup'
 
 describe('AppHeader', () => {
   let wrapper, store, instance
-  let {mount} = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
     instance = mount(AppHeader, {

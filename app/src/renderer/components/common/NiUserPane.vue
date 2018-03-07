@@ -15,7 +15,7 @@ div(v-else-if="user.signedIn")
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import noScroll from 'no-scroll'
 import ListItem from 'common/NiListItem'
 export default {

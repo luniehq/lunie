@@ -3,7 +3,7 @@ import PageBalances from 'renderer/components/wallet/PageBalances'
 
 describe('PageBalances', () => {
   let wrapper, store
-  let {mount} = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
     let instance = mount(PageBalances, {
@@ -60,7 +60,7 @@ describe('PageBalances', () => {
   })
 
   it('should show the n/a message if there are no denoms', () => {
-    let {store, wrapper} = mount(PageBalances, {
+    let { store, wrapper } = mount(PageBalances, {
       'data-empty': '<data-empty />'
     })
     store.commit('setWalletBalances', [])

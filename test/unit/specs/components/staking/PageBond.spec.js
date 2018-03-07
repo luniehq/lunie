@@ -6,7 +6,7 @@ import interact from 'interactjs'
 
 describe('PageBond', () => {
   let wrapper, store, router
-  let {mount, localVue} = setup()
+  let { mount, localVue } = setup()
   localVue.use(Vuelidate)
 
   beforeEach(() => {
@@ -75,7 +75,7 @@ describe('PageBond', () => {
     store.commit('setAtoms', 120)
     wrapper.setData({ bondBarOuterWidth: 128 })
     expect(wrapper.vm.bondBarInnerWidth(80)).toBe('95px')
-    expect(wrapper.vm.styleBondBarInner(80)).toEqual({width: '95px'})
+    expect(wrapper.vm.styleBondBarInner(80)).toEqual({ width: '95px' })
   })
 
   it('sets bond group class', () => {

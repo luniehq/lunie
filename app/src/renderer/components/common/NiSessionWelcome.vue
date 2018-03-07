@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import FundraiserWarning from 'common/FundraiserWarning'
 import ListItem from 'common/NiListItem'
 import LiSession from 'common/NiLiSession'

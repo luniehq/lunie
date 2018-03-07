@@ -1,4 +1,4 @@
-const {join} = require('path')
+const { join } = require('path')
 const mockFsExtra = require('../helpers/fs-mock').default
 
 function sleep (ms) {
@@ -32,7 +32,7 @@ childProcessMock((path, args) => ({
   stdout: {
     on: (type, cb) => {
       if (args[0] === 'version' && type === 'data') {
-        cb({toString: () => 'v0.5.0'})
+        cb({ toString: () => 'v0.5.0' })
       }
     }
   },
@@ -525,7 +525,7 @@ function failingChildProcess (mockName, mockCmd) {
     stdout: {
       on: (type, cb) => {
         if (args[0] === 'version' && type === 'data') {
-          cb({toString: () => 'v0.5.0'})
+          cb({ toString: () => 'v0.5.0' })
         }
       }
     },

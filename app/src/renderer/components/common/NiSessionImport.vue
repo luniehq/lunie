@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import {required, minLength} from 'vuelidate/lib/validators'
+import { required, minLength } from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldGroup from 'common/NiFieldGroup'

@@ -37,7 +37,7 @@ describe('NISessionSignUp', () => {
       signUpName: 'testaccount',
       signUpWarning: true,
       signUpBackup: true
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit).toHaveBeenCalledWith('setModalSession', false)
   })
@@ -49,7 +49,7 @@ describe('NISessionSignUp', () => {
       signUpName: 'testaccount',
       signUpWarning: true,
       signUpBackup: true
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[1][0]).toEqual('notify')
     expect(store.commit.mock.calls[1][1].title.toLowerCase()).toContain('signed up')
@@ -66,7 +66,7 @@ describe('NISessionSignUp', () => {
       signUpName: 'testaccount',
       signUpWarning: false,
       signUpBackup: true
-    }})
+    } })
     wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
@@ -79,7 +79,7 @@ describe('NISessionSignUp', () => {
       signUpName: 'testaccount',
       signUpWarning: true,
       signUpBackup: false
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
@@ -92,7 +92,7 @@ describe('NISessionSignUp', () => {
       signUpName: 'testaccount',
       signUpWarning: true,
       signUpBackup: true
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
@@ -105,7 +105,7 @@ describe('NISessionSignUp', () => {
       signUpName: 'test',
       signUpWarning: true,
       signUpBackup: true
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
@@ -119,7 +119,7 @@ describe('NISessionSignUp', () => {
       signUpName: 'testaccount',
       signUpWarning: true,
       signUpBackup: true
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit).not.toHaveBeenCalled()
   })

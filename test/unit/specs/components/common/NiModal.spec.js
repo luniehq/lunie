@@ -30,12 +30,12 @@ describe('NiModal', () => {
   })
 
   it('should set size', () => {
-    wrapper.setProps({size: 'fs'})
+    wrapper.setProps({ size: 'fs' })
     expect(wrapper.classes()).toContain('ni-modal-fullscreen')
   })
 
   it('should show icon', () => {
-    wrapper.setProps({icon: 'hallo_icon'})
+    wrapper.setProps({ icon: 'hallo_icon' })
     expect(wrapper.find('.material-icons')).toBeDefined()
     expect(wrapper.html()).toContain('hallo_icon')
   })

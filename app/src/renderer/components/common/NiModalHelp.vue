@@ -11,7 +11,7 @@ modal.ni-modal-help(v-if="active" :close="close")
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
 import Modal from 'common/NiModal'
 import ListItem from 'common/NiListItem'

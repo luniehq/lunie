@@ -178,7 +178,7 @@ describe('Module: Node', () => {
   it('should not reconnect if pinging node is successful', () => {
     node.rpc.status = (cb) => {
       store.commit('stopConnecting', true)
-      cb(null, {node_info: {}})
+      cb(null, { node_info: {} })
     }
     node.rpcReconnect = () => {
       throw Error('Shouldnt reconnect')

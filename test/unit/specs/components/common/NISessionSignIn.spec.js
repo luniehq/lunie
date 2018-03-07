@@ -28,7 +28,7 @@ describe('NiSessionSignIn', () => {
     wrapper.setData({ fields: {
       signInPassword: '1234567890',
       signInName: 'name'
-    }})
+    } })
     await wrapper.vm.onSubmit()
     let calls = store.commit.mock.calls.map(args => args[0])
     expect(calls).toContain('setModalSession')
@@ -38,7 +38,7 @@ describe('NiSessionSignIn', () => {
     wrapper.setData({ fields: {
       signInPassword: '1234567890',
       signInName: 'name'
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.dispatch).toHaveBeenCalledWith('signIn', {
       password: '1234567890',
@@ -49,7 +49,7 @@ describe('NiSessionSignIn', () => {
   it('should show error if password not 10 long', () => {
     wrapper.setData({ fields: {
       signInPassword: '123'
-    }})
+    } })
     wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
@@ -60,7 +60,7 @@ describe('NiSessionSignIn', () => {
     wrapper.setData({ fields: {
       signInPassword: '1234567890',
       signInName: 'name'
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit).toHaveBeenCalled()
     expect(store.commit.mock.calls[0][0]).toBe('notifyError')

@@ -4,7 +4,7 @@ import PageDelegates from 'renderer/components/staking/PageDelegates'
 
 describe('PageDelegates', () => {
   let wrapper, store
-  let {mount} = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
     let instance = mount(PageDelegates)
@@ -82,7 +82,7 @@ describe('PageDelegates', () => {
   })
 
   it('should show placeholder if delegates are loading', () => {
-    let {wrapper} = mount(PageDelegates, {
+    let { wrapper } = mount(PageDelegates, {
       getters: {
         delegates: () => ({
           delegates: [],

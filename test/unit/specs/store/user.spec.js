@@ -54,7 +54,7 @@ describe('Module: User', () => {
   })
 
   it('should test if the login works', async () => {
-    node.updateKey = (account, {name, password, new_passphrase}) => {
+    node.updateKey = (account, { name, password, new_passphrase }) => {
       expect(account).toBe(name)
       expect(password).toBe(new_passphrase)
       return true
@@ -82,7 +82,7 @@ describe('Module: User', () => {
   })
 
   it('should delete an existing trunc when generating a seed phrase', done => {
-    node.listKeys = () => Promise.resolve([{name: 'trunk'}])
+    node.listKeys = () => Promise.resolve([{ name: 'trunk' }])
     node.deleteKey = (account) => {
       expect(account).toBe('trunk')
       done()
@@ -94,9 +94,9 @@ describe('Module: User', () => {
     let seedPhrase = 'abc'
     let password = '123'
     let name = 'def'
-    node.recoverKey = jest.fn(() => ({key: {
+    node.recoverKey = jest.fn(() => ({ key: {
       address: 'some address'
-    }}))
+    } }))
     let key = await store.dispatch('createKey', { seedPhrase, password, name })
     expect(node.recoverKey).toHaveBeenCalledWith({
       seed_phrase: seedPhrase,

@@ -197,7 +197,7 @@ export default {
     async onSubmit () {
       if (this.newUnbondedAtoms < 0) {
         this.$store.commit('notifyError', { title: 'Too Many Allocated Atoms',
-          body: `You've tried to bond ${this.newUnbondedAtoms * -1} more atoms than you have.`})
+          body: `You've tried to bond ${this.newUnbondedAtoms * -1} more atoms than you have.` })
         return
       }
       this.$v.$touch()

@@ -376,7 +376,7 @@ async function reconnect (seeds) {
   let nodeAlive = false
   while (!nodeAlive) {
     let nodeIP = pickNode(seeds)
-    nodeAlive = await axios('http://' + nodeIP, {timeout: 3000})
+    nodeAlive = await axios('http://' + nodeIP, { timeout: 3000 })
       .then(() => true, () => false)
     log(`${new Date().toLocaleTimeString()} ${nodeIP} is ${nodeAlive ? 'alive' : 'down'}`)
 
@@ -538,7 +538,7 @@ module.exports = Object.assign(
   })
   .then(() => ({
     shutdown,
-    processes: {baseserverProcess},
+    processes: { baseserverProcess },
     analytics: ANALYTICS
   }))
 )

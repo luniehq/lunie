@@ -41,7 +41,7 @@ describe('NiSessionImport', () => {
       importName: 'foo123',
       importPassword: '1234567890',
       importSeed: 'bar' // <-- doesn#t check for correctness of seed
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toEqual(['setModalSession', false])
   })
@@ -51,7 +51,7 @@ describe('NiSessionImport', () => {
       importName: 'foo123',
       importPassword: '1234567890',
       importSeed: 'bar' // <-- doesn#t check for correctness of seed
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[1][0]).toEqual('notify')
     expect(store.commit.mock.calls[1][1].title.toLowerCase()).toContain('welcome back!')
@@ -64,7 +64,7 @@ describe('NiSessionImport', () => {
   it('should show error if seed is not filled in', async () => {
     wrapper.setData({ fields: {
       importSeed: ''
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
@@ -76,7 +76,7 @@ describe('NiSessionImport', () => {
       importName: 'foo123',
       importPassword: '1234567890',
       importSeed: 'bar' // <-- doesn#t check for correctness of seed
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit).not.toHaveBeenCalled()
   })

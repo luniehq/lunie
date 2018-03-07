@@ -12,7 +12,7 @@ describe('Module: Delegations', () => {
     store = test.store
     node = test.node
 
-    store.dispatch('signIn', {password: 'bar', account: 'bar'})
+    store.dispatch('signIn', { password: 'bar', account: 'bar' })
   })
 
   it('adds delegate to cart', () => {

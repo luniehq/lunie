@@ -5,7 +5,7 @@ import PageSend from 'renderer/components/wallet/PageSend'
 describe('PageSend', () => {
   let wrapper, store, node
 
-  let {mount, localVue} = setup()
+  let { mount, localVue } = setup()
   localVue.use(Vuelidate)
 
   beforeEach(async () => {

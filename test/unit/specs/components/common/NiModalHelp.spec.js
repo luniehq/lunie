@@ -3,7 +3,7 @@ import NiModalHelp from 'common/NiModalHelp'
 
 describe('NiModalHelp', () => {
   let wrapper, store
-  let {mount} = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
     let instance = mount(NiModalHelp)

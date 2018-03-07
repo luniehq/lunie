@@ -13,7 +13,7 @@ describe('NiLiCopy', () => {
   })
 
   it('should show the provided value', () => {
-    wrapper.setProps({value: 'HALLO'})
+    wrapper.setProps({ value: 'HALLO' })
     expect(wrapper.html()).toContain('HALLO')
   })
 })

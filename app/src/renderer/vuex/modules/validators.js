@@ -20,7 +20,7 @@ export default ({ node }) => {
         dispatch('getValidators')
       }
     },
-    getValidators ({state, commit}) {
+    getValidators ({ state, commit }) {
       state.loading = true
       node.rpc.validators((err, { validators } = {}) => {
         if (err) return console.error('error fetching validator set')
@@ -28,7 +28,7 @@ export default ({ node }) => {
         state.loading = false
       })
     },
-    maybeUpdateValidators ({state, commit, dispatch}, header) {
+    maybeUpdateValidators ({ state, commit, dispatch }, header) {
       let validatorHash = header.validators_hash
       if (validatorHash === state.validatorHash) return
       commit('setValidatorHash', validatorHash)

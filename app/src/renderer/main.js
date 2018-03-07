@@ -6,7 +6,7 @@ import Vuelidate from 'vuelidate'
 import shrinkStacktrace from '../helpers/shrink-stacktrace.js'
 import axios from 'axios'
 import Raven from 'raven-js'
-import {remote} from 'electron'
+import { remote } from 'electron'
 import enableGoogleAnalytics from './google-analytics.js'
 
 const config = require('../../../config')

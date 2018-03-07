@@ -3,7 +3,7 @@ import setup from '../../../helpers/vuex-setup'
 
 describe('NiModalSearch', () => {
   let wrapper, store
-  let {mount} = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
     let instance = mount(NiModalSearch, {

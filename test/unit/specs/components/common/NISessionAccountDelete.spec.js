@@ -39,7 +39,7 @@ describe('NiSessionAccountDelete', () => {
     wrapper.setData({ fields: {
       deletionPassword: '1234567890',
       deletionWarning: true
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toEqual(['setModalSessionState', 'welcome'])
   })
@@ -48,7 +48,7 @@ describe('NiSessionAccountDelete', () => {
     wrapper.setData({ fields: {
       deletionPassword: '123',
       deletionWarning: true
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
@@ -58,7 +58,7 @@ describe('NiSessionAccountDelete', () => {
     wrapper.setData({ fields: {
       deletionPassword: '1234567890',
       deletionWarning: false
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
@@ -69,7 +69,7 @@ describe('NiSessionAccountDelete', () => {
     wrapper.setData({ fields: {
       deletionPassword: '1234567890',
       deletionWarning: true
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit).toHaveBeenCalled()
     expect(store.commit.mock.calls[0][0]).toBe('notifyError')

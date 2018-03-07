@@ -97,7 +97,7 @@ export default {
     },
     confirmVote () {
       this.$store.commit('notify', { title: `Voted '${this.votePick}'`,
-        body: 'Your vote has been submitted.'})
+        body: 'Your vote has been submitted.' })
     },
     refreshProposal () {
       if (this.rawProposal) {
@@ -108,11 +108,11 @@ export default {
     },
     commentOnProposal (proposalId) {
       this.$store.commit('notify', { title: 'View Discussion Thread',
-        body: `TODO: Discuss ${proposalId} proposal on the forum.`})
+        body: `TODO: Discuss ${proposalId} proposal on the forum.` })
     },
     proposalIsSpam (proposalId) {
       this.$store.commit('notify', { title: 'Mark Proposal As Spam',
-        body: `TODO: Mark ${proposalId} proposal as a spam attack.`})
+        body: `TODO: Mark ${proposalId} proposal as a spam attack.` })
     },
     toggleVoteVisible () {
       this.voteVisible = !this.voteVisible

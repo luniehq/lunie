@@ -31,7 +31,7 @@ export default {
     onSubmit () {
       this.$store.commit('setModalSession', false)
       this.$store.commit('notify', { title: 'Welcome back!', body: 'You are now signed in to your Cosmos account.' })
-      this.$store.dispatch('signIn', {password: this.fields.signInPassword})
+      this.$store.dispatch('signIn', { password: this.fields.signInPassword })
     }
   }
 }

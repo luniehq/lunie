@@ -33,7 +33,7 @@ describe('Module: Blockchain', () => {
   it('should query block info', async () => {
     store.state.blockchain.blockMetas = []
     node.rpc.blockchain = jest.fn(({ minHeight, maxHeight }, cb) => {
-      cb(null, {block_metas: [blockMeta]})
+      cb(null, { block_metas: [blockMeta] })
     })
 
     let output = await store.dispatch('queryBlockInfo', 42)
@@ -108,7 +108,7 @@ describe('Module: Blockchain', () => {
 
   it('should hide loading on an error', async () => {
     node.rpc.block = (query, cb) => {
-      cb({message: 'expected'}, {
+      cb({ message: 'expected' }, {
         block: { test: 'test' }
       })
     }

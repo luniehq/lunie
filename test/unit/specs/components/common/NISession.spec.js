@@ -14,7 +14,7 @@ describe('NiSessionWelcome', () => {
       getters: {
         config: () => config.state
       },
-      modules: {config}
+      modules: { config }
     })
     wrapper = mount(NiSession, {
       localVue,
