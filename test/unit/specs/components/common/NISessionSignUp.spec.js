@@ -144,4 +144,19 @@ describe('NISessionSignUp', () => {
     await wrapper.vm.onSubmit()
     expect(store.commit).not.toHaveBeenCalled()
   })
+
+  it('should show a notification if creation failed', async () => {
+    store.dispatch = jest.fn(() => Promise.reject({message: 'test'}))
+    wrapper.setData({ fields: {
+      signUpPassword: '1234567890',
+      signUpPasswordConfirm: '1234567890',
+      signUpSeed: 'bar',
+      signUpName: 'testaccount',
+      signUpWarning: true,
+      signUpBackup: true
+    }})
+    await wrapper.vm.onSubmit()
+    expect(store.commit.mock.calls[0][0]).toEqual('notifyError')
+    expect(store.commit.mock.calls[0][1].body).toEqual('test')
+  })
 })
