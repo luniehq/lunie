@@ -3,12 +3,12 @@ let { getApp, restart } = require('./launch.js')
 let { logout, openMenu } = require('./common.js')
 
 test('sign in', async function (t) {
-  let {app, home} = await getApp(t)
+  let {app} = await getApp(t)
   await restart(app)
   let client = app.client
   let el = (...args) => client.$(...args)
   let continueButton = () => el('.ni-btn__value=Next').$('..')
-  
+
   t.test('agreement', async function (t) {
     // go to login selection
     await client.$('i=arrow_back').$('..').click()
@@ -68,10 +68,10 @@ test('sign in', async function (t) {
       await client.waitForExist('#app-content', 5000)
       await openMenu(client)
       let activeUser = await client.$('.ni-li-user .ni-li-title').getText()
-      t.ok('signin_test' === activeUser, 'user is logged in')
+      t.ok(activeUser === 'signin_test', 'user is logged in')
 
       t.end()
-    }) 
+    })
     t.end()
   })
 
@@ -127,10 +127,10 @@ test('sign in', async function (t) {
       await client.waitForExist('#app-content', 5000)
       await openMenu(client)
       let activeUser = await client.$('.ni-li-user .ni-li-title').getText()
-      t.ok('seed_test' === activeUser, 'user is logged in')
+      t.ok(activeUser === 'seed_test', 'user is logged in')
 
       t.end()
-    }) 
+    })
 
     t.end()
   })
