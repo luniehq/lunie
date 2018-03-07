@@ -97,7 +97,7 @@ describe('NISessionSignUp', () => {
       signUpName: 'testaccount',
       signUpWarning: true,
       signUpBackup: true
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
@@ -146,7 +146,7 @@ describe('NISessionSignUp', () => {
   })
 
   it('should show a notification if creation failed', async () => {
-    store.dispatch = jest.fn(() => Promise.reject({message: 'test'}))
+    store.dispatch = jest.fn(() => Promise.reject({ message: 'test' }))
     wrapper.setData({ fields: {
       signUpPassword: '1234567890',
       signUpPasswordConfirm: '1234567890',
@@ -154,7 +154,7 @@ describe('NISessionSignUp', () => {
       signUpName: 'testaccount',
       signUpWarning: true,
       signUpBackup: true
-    }})
+    } })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0][0]).toEqual('notifyError')
     expect(store.commit.mock.calls[0][1].body).toEqual('test')
