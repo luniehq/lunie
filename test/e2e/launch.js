@@ -14,8 +14,14 @@ let binary = process.env.BINARY_PATH
 function launch (t) {
   if (!started) {
     // tape doesn't exit properly on uncaught promise rejections
-    process.on('unhandledRejection', error => {
+    process.on('unhandledRejection', async error => {
       console.error('unhandledRejection', error)
+      if (app && app.client) {
+        console.log('saving screenshot to ', join(__dirname, 'snapshot.png'))
+        await app.browserWindow.capturePage().then(function (imageBuffer) {
+          fs.writeFileSync(join(__dirname, 'snapshot.png'), imageBuffer)
+        })
+      }
       process.exit(1)
     });
 

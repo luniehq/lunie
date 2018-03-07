@@ -22,6 +22,14 @@
       form-msg(name='Password' type='required' v-if='!$v.fields.importPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.importPassword.minLength')
 
+    form-group(:error='$v.fields.importPasswordConfirm.$error'
+      field-id='import-password-confirmation' field-label='Confirm Password')
+      field#import-password-confirmation(
+        type="password"
+        placeholder="Enter password again"
+        v-model="fields.importPasswordConfirm")
+      form-msg(name='Password confirmation' type='match' v-if='!$v.fields.importPasswordConfirm.sameAsPassword')
+
     form-group(:error='$v.fields.importSeed.$error'
       field-id='import-seed' field-label='Seed Phrase')
       field-seed#import-seed(
@@ -35,7 +43,7 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators'
+import { required, minLength, sameAs } from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldGroup from 'common/NiFieldGroup'
@@ -58,6 +66,7 @@ export default {
     fields: {
       importName: '',
       importPassword: '',
+      importPasswordConfirm: '',
       importSeed: ''
     }
   }),
@@ -67,18 +76,22 @@ export default {
     async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return
-      let key = await this.$store.dispatch('createKey', {
-        seedPhrase: this.fields.importSeed,
-        password: this.fields.importPassword,
-        name: this.fields.importName
-      })
-      if (key) {
-        this.$store.commit('setModalSession', false)
-        this.$store.commit('notify', { title: 'Welcome back!', body: 'Your account has been successfully imported.' })
-        this.$store.dispatch('signIn', {
-          account: this.fields.importName,
-          password: this.fields.importPassword
+      try {
+        let key = await this.$store.dispatch('createKey', {
+          seedPhrase: this.fields.importSeed,
+          password: this.fields.importPassword,
+          name: this.fields.importName
         })
+        if (key) {
+          this.$store.commit('setModalSession', false)
+          this.$store.commit('notify', { title: 'Welcome back!', body: 'Your account has been successfully imported.' })
+          this.$store.dispatch('signIn', {
+            account: this.fields.importName,
+            password: this.fields.importPassword
+          })
+        }
+      } catch (err) {
+        this.$store.commit('notifyError', { title: `Couldn't create account`, body: err.message })
       }
     }
   },
@@ -89,6 +102,7 @@ export default {
     fields: {
       importName: { required, minLength: minLength(5) },
       importPassword: { required, minLength: minLength(10) },
+      importPasswordConfirm: { sameAsPassword: sameAs('importPassword') },
       importSeed: { required }
     }
   })
