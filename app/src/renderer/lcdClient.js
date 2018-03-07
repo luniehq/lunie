@@ -57,7 +57,7 @@ Object.assign(Client.prototype, {
   listKeys: req('GET', '/keys'),
   getKey: argReq('GET', '/keys'),
   updateKey: argReq('PUT', '/keys'),
-  // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prob data
+  // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prop data
   deleteKey: function (name, body) { return argReq('DELETE', '/keys').call(this, name, {data: body}) },
   recoverKey: req('POST', '/keys/recover'),
 
