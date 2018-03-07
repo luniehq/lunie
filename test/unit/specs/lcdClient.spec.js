@@ -97,6 +97,17 @@ describe('LCD Client', () => {
     ])
   })
 
+  it('delete requests have the correct format for data', async () => {
+    axios.delete = (path, config) => {
+      expect(config).toEqual({data: {password: 'abc'}})
+      return Promise.resolve({data: {
+        foo: 'bar'
+      }})
+    }
+
+    await client.deleteKey('test', {password: 'abc'})
+  })
+
   it('does not throw error for empty results', async () => {
     axios.get = jest.fn()
       .mockReturnValueOnce(Promise.reject({

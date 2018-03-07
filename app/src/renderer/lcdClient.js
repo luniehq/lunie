@@ -19,6 +19,11 @@ function argReq (method, path) {
     if (Array.isArray(args)) {
       args = args.join('/')
     }
+    if (method === 'DELETE') {
+      data = {
+        data
+      }
+    }
     return await this.request(method, `${path}/${args}`, data)
   }
 }
@@ -57,8 +62,8 @@ Object.assign(Client.prototype, {
   listKeys: req('GET', '/keys'),
   getKey: argReq('GET', '/keys'),
   updateKey: argReq('PUT', '/keys'),
-  // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prob data
-  deleteKey: function (name, body) { return argReq('DELETE', '/keys').call(this, name, {data: body}) },
+  // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prop data
+  deleteKey: argReq('DELETE', '/keys'),
   recoverKey: req('POST', '/keys/recover'),
 
   // coins
