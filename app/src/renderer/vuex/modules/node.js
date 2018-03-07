@@ -43,13 +43,14 @@ export default function ({ node }) {
         dispatch('reconnected')
       }
     },
-    nodeSubscribe ({ commit, dispatch }) {
+    async nodeSubscribe ({ commit, dispatch }) {
       if (state.stopConnecting) return
 
       // the rpc socket can be closed before we can even attach a listener
       // so we remember if the connection is open
       // we handle the reconnection here so we can attach all these listeners on reconnect
       if (!node.rpcOpen) {
+        await sleep(500)
         dispatch('reconnect')
         return
       }
@@ -120,4 +121,8 @@ export default function ({ node }) {
   return {
     state, mutations, actions
   }
+}
+
+function sleep (ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
