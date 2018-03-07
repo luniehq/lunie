@@ -159,15 +159,15 @@ function startProcess (name, args, env) {
   if (process.env.BINARY_PATH) {
     binPath = process.env.BINARY_PATH
   } else
-    if (DEV) {
-      // in dev mode or tests, use binaries installed in GOPATH
-      let GOPATH = process.env.GOPATH
-      if (!GOPATH) GOPATH = join(home, 'go')
-      binPath = join(GOPATH, 'bin', name)
-    } else {
-      // in production mode, use binaries packaged with app
-      binPath = join(__dirname, '..', 'bin', name)
-    }
+  if (DEV) {
+    // in dev mode or tests, use binaries installed in GOPATH
+    let GOPATH = process.env.GOPATH
+    if (!GOPATH) GOPATH = join(home, 'go')
+    binPath = join(GOPATH, 'bin', name)
+  } else {
+    // in production mode, use binaries packaged with app
+    binPath = join(__dirname, '..', 'bin', name)
+  }
 
   let argString = args.map((arg) => JSON.stringify(arg)).join(' ')
   log(`spawning ${binPath} with args "${argString}"`)

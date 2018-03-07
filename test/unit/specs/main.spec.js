@@ -61,9 +61,7 @@ childProcessMock((path, args) => ({
     on: (type, cb) => {
       // test for init of gaia
       if (type === 'data' && args[1] === 'init' && args.length === 4) {
-        cb({
-          toString: () => 'already is initialized'
-        })
+        cb({ toString: () => 'already is initialized' })
       }
     }
   }
@@ -531,9 +529,7 @@ function failingChildProcess (mockName, mockCmd) {
       on: (type, cb) => {
         // test for init of gaia
         if (type === 'data' && args[1] === 'init' && args.length === 4) {
-          cb({
-            toString: () => 'already is initialized'
-          })
+          cb({ toString: () => 'already is initialized' })
         }
       }
     }

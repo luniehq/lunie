@@ -9,14 +9,10 @@ describe('App with analytics', () => {
   }))
   jest.mock('raven-js', () => ({
     config: (dsn) => {
-      return ({
-        install: () => {}
-      })
+      return ({ install: () => {} })
     }
   }))
-  jest.mock('axios', () => ({
-    get () {}
-  }))
+  jest.mock('axios', () => ({ get () {} }))
   jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => {})
   jest.mock('electron', () => ({
     remote: {

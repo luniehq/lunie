@@ -26,12 +26,8 @@ module.exports = {
   candidates: () => Promise.resolve({ data: [] }),
   sendTx: () => Promise.resolve(),
   postTx: () => Promise.resolve({
-    check_tx: {
-      code: 0
-    },
-    deliver_tx: {
-      code: 0
-    }
+    check_tx: { code: 0 },
+    deliver_tx: { code: 0 }
   }),
   sign: () => Promise.resolve(null),
 
