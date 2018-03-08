@@ -86,12 +86,24 @@ export default {
       property: 'shares',
       order: 'desc',
       properties: [
-        { title: 'Name', value: 'small_moniker', class: 'name' },
-        { title: '% of Vote', value: 'shares', class: 'percent_of_vote' },
-        { title: 'Total Votes', value: 'voting_power', class: 'voting_power' },
-        { title: 'Your Votes', value: 'your_votes', class: 'your-votes' },
-        { title: 'Status', value: 'isValidator', class: 'status' },
-        { title: '', value: '', class: 'action hidden' }
+        {
+          title: 'Name', value: 'small_moniker', class: 'name'
+        },
+        {
+          title: '% of Vote', value: 'shares', class: 'percent_of_vote'
+        },
+        {
+          title: 'Total Votes', value: 'voting_power', class: 'voting_power'
+        },
+        {
+          title: 'Your Votes', value: 'your_votes', class: 'your-votes'
+        },
+        {
+          title: 'Status', value: 'isValidator', class: 'status'
+        },
+        {
+          title: '', value: '', class: 'action hidden'
+        }
       ]
     }
   }),
