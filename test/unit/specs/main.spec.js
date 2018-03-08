@@ -1,4 +1,6 @@
-const {join} = require('path')
+const {
+  join
+} = require('path')
 const mockFsExtra = require('../helpers/fs-mock').default
 
 function sleep (ms) {
@@ -16,11 +18,32 @@ jest.mock('fs-extra', () => {
 let fs = require('fs-extra')
 
 jest.mock('electron', () => {
-  return {
+  let electron = {
+    url: undefined,
     app: {
-      on: () => { }
+      on: (event, cb) => {
+        if (event === 'ready') cb()
+      }
+    },
+    BrowserWindow: class MockBrowserWindow {
+      constructor () {
+        this.webContents = {
+          openDevTools: () => {},
+          on: () => {}
+        }
+      }
+      loadURL (url) {
+        electron.url = url
+      }
+      on () {}
+      maximize () {}
+    },
+    Menu: {
+      buildFromTemplate () {},
+      setApplicationMenu () {}
     }
   }
+  return electron
 })
 childProcessMock((path, args) => ({
   on: (type, cb) => {
@@ -32,7 +55,9 @@ childProcessMock((path, args) => ({
   stdout: {
     on: (type, cb) => {
       if (args[0] === 'version' && type === 'data') {
-        cb({toString: () => 'v0.5.0'})
+        cb({
+          toString: () => 'v0.5.0'
+        })
       }
     }
   },
@@ -40,7 +65,9 @@ childProcessMock((path, args) => ({
     on: (type, cb) => {
       // test for init of gaia
       if (type === 'data' && args[1] === 'init' && args.length === 4) {
-        cb({ toString: () => 'already is initialized' })
+        cb({
+          toString: () => 'already is initialized'
+        })
       }
     }
   }
@@ -277,18 +304,16 @@ describe('Startup Process', () => {
 
     it('should not replace the existing data', async function () {
       resetModulesKeepingFS()
+      let electron = require('electron')
 
       // alter the version so the main thread assumes an update
       jest.mock(root + 'package.json', () => ({
         version: '1.1.1'
       }))
-      let err
-      try {
-        await require(appRoot + 'src/main/index.js')
-      } catch (_err) {
-        err = _err
-      }
-      expect(err.message).toContain(`incompatible app version`)
+      await require(appRoot + 'src/main/index.js')
+      // Errors get reported to the web view as a url parameter
+      expect(electron.url).toContain('&error')
+      expect(electron.url).toContain(`incompatible app version`)
 
       let appVersion = fs.readFileSync(testRoot + 'app_version', 'utf8')
       expect(appVersion).toBe('0.1.0')
@@ -300,19 +325,17 @@ describe('Startup Process', () => {
 
     it('should error on changed genesis.json', async function () {
       resetModulesKeepingFS()
+      let electron = require('electron')
 
       // alter the genesis so the main thread assumes a change
       let existingGenesis = JSON.parse(fs.readFileSync(testRoot + 'genesis.json', 'utf8'))
       existingGenesis.genesis_time = (new Date()).toString()
       fs.writeFileSync(testRoot + 'genesis.json', JSON.stringify(existingGenesis))
 
-      let err
-      try {
-        await require(appRoot + 'src/main/index.js')
-      } catch (_err) {
-        err = _err
-      }
-      expect(err.message).toBe('Genesis has changed')
+      await require(appRoot + 'src/main/index.js')
+      // Errors get reported to the web view as a url parameter
+      expect(electron.url).toContain('&error')
+      expect(electron.url).toContain(`Genesis has changed`)
     })
   })
 
@@ -384,32 +407,32 @@ describe('Startup Process', () => {
 
       expect(childProcess.spawn.mock.calls
         .find(([path, args]) =>
-        path.includes('gaia') &&
-        args.includes('rest-server')
-      ).length
+          path.includes('gaia') &&
+          args.includes('rest-server')
+        ).length
       ).toBeGreaterThan(1)
     })
 
-    it('should fail if config.toml has no seeds', async (done) => {
+    it('should fail if config.toml has no seeds', async () => {
+      jest.resetModules()
       await initMain()
       let configText = fs.readFileSync(join(testRoot, 'config.toml'), 'utf8')
       configText = configText.split('\n')
-      .map(line => {
-        if (line.startsWith('seeds')) {
-          return 'seeds = ""'
-        } else {
-          return line
-        }
-      }).join('\n')
+        .map(line => {
+          if (line.startsWith('seeds')) {
+            return 'seeds = ""'
+          } else {
+            return line
+          }
+        }).join('\n')
       fs.writeFileSync(join(testRoot, 'config.toml'), configText, 'utf8')
 
       resetModulesKeepingFS()
+      let electron = require('electron')
       await require(appRoot + 'src/main/index.js')
-      .then(() => done.fail('Didnt fail'))
-      .catch(err => {
-        expect(err.message.toLowerCase()).toContain('seeds')
-        done()
-      })
+      // Errors get reported to the web view as a url parameter
+      expect(electron.url).toContain('&error')
+      expect(electron.url).toContain('seeds')
     })
 
     describe('missing files', () => {
@@ -440,9 +463,9 @@ describe('Startup Process', () => {
         await initMain()
         expect(childProcess.spawn.mock.calls
           .find(([path, args]) =>
-          path.includes('gaia') &&
-          args.includes('init')
-        ).length
+            path.includes('gaia') &&
+            args.includes('init')
+          ).length
         ).toBe(3) // one to check in first round, one to check + one to init in the second round
       })
     })
@@ -455,8 +478,7 @@ describe('Startup Process', () => {
     testFailingChildProcess('gaia', 'init')
   })
 
-  describe('Electron startup', () => {
-  })
+  describe('Electron startup', () => {})
 })
 
 function mainSetup () {
@@ -482,14 +504,14 @@ async function initMain () {
 }
 
 function testFailingChildProcess (name, cmd) {
-  return it(`should fail if there is a not handled error in the ${name} ${cmd || ''} process`, async function (done) {
+  return it(`should fail if there is a not handled error in the ${name} ${cmd || ''} process`, async function () {
     failingChildProcess(name, cmd)
     jest.resetModules()
+    let electron = require('electron')
     await require(appRoot + 'src/main/index.js')
-      .catch(err => {
-        expect(err.message.toLowerCase()).toContain(name)
-        done()
-      })
+    // Errors get reported to the web view as a url parameter
+    expect(electron.url).toContain('&error')
+    expect(electron.url).toContain(name)
   })
 }
 
@@ -497,15 +519,15 @@ function childProcessMock (mockExtend = () => ({})) {
   jest.mock('child_process', () => ({
     spawn: jest.fn((path, args) => Object.assign({}, {
       stdout: {
-        on: () => { },
-        pipe: () => { }
+        on: () => {},
+        pipe: () => {}
       },
       stderr: {
-        on: () => { },
-        pipe: () => { }
+        on: () => {},
+        pipe: () => {}
       },
-      on: () => { },
-      kill: () => { }
+      on: () => {},
+      kill: () => {}
     }, mockExtend(path, args)))
   }))
 }
@@ -525,7 +547,9 @@ function failingChildProcess (mockName, mockCmd) {
     stdout: {
       on: (type, cb) => {
         if (args[0] === 'version' && type === 'data') {
-          cb({toString: () => 'v0.5.0'})
+          cb({
+            toString: () => 'v0.5.0'
+          })
         }
       }
     },
@@ -533,7 +557,9 @@ function failingChildProcess (mockName, mockCmd) {
       on: (type, cb) => {
         // test for init of gaia
         if (type === 'data' && args[1] === 'init' && args.length === 4) {
-          cb({ toString: () => 'already is initialized' })
+          cb({
+            toString: () => 'already is initialized'
+          })
         }
       }
     }

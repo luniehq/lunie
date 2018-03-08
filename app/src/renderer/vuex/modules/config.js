@@ -31,6 +31,9 @@ export default ({ commit }) => {
     setModalError (state, value) {
       state.modals.error.active = value
     },
+    setModalErrorMessage (state, message) {
+      state.modals.error.message = message
+    },
     setModalHelp (state, value) {
       state.modals.help.active = value
     },
