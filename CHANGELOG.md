@@ -62,3 +62,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed reconnection issues @faboweb
 * Made Windows builds deterministic @mappum
 * Reduced size of OSX builds @mappum
+
+## [0.4.4] - 2018-03-08
+* Added `mvp-features.md` to documentation. @nylira
