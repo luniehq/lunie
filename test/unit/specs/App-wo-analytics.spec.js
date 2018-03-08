@@ -9,15 +9,11 @@ describe('App without analytics', () => {
   }))
   jest.mock('raven-js', () => ({
     config: (dsn) => {
-      return ({
-        install: () => {}
-      })
+      return ({ install: () => {} })
     },
     captureException: err => console.error(err)
   }))
-  jest.mock('axios', () => ({
-    get () {}
-  }))
+  jest.mock('axios', () => ({ get () {} }))
   jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => {})
   jest.mock('electron', () => ({
     remote: {
@@ -27,9 +23,7 @@ describe('App without analytics', () => {
           COSMOS_ANALYTICS: 'false'
         }
       }),
-      app: {
-        getPath: () => { return '$HOME' }
-      }
+      app: { getPath: () => { return '$HOME' } }
     }
   }))
 

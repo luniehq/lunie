@@ -8,8 +8,6 @@ data-msg(icon="search")
 import DataMsg from 'common/NiDataMsg'
 export default {
   name: 'ni-data-empty-search',
-  components: {
-    DataMsg
-  }
+  components: { DataMsg }
 }
 </script>

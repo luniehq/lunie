@@ -196,8 +196,10 @@ export default {
   methods: {
     async onSubmit () {
       if (this.newUnbondedAtoms < 0) {
-        this.$store.commit('notifyError', { title: 'Too Many Allocated Atoms',
-          body: `You've tried to bond ${this.newUnbondedAtoms * -1} more atoms than you have.`})
+        this.$store.commit('notifyError', {
+          title: 'Too Many Allocated Atoms',
+          body: `You've tried to bond ${this.newUnbondedAtoms * -1} more atoms than you have.`
+        })
         return
       }
       this.$v.$touch()
@@ -205,12 +207,16 @@ export default {
         this.$store.commit('activateDelegation')
         try {
           await this.$store.dispatch('submitDelegation', this.fields)
-          this.$store.commit('notify', { title: 'Successful Delegation',
-            body: 'You have successfully bonded / unbonded.' })
+          this.$store.commit('notify', {
+            title: 'Successful Delegation',
+            body: 'You have successfully bonded / unbonded.'
+          })
           this.$router.push('/staking')
         } catch (err) {
-          this.$store.commit('notifyError', { title: 'Error While Bonding Atoms',
-            body: err.message })
+          this.$store.commit('notifyError', {
+            title: 'Error While Bonding Atoms',
+            body: err.message
+          })
         }
       }
     },
@@ -261,9 +267,7 @@ export default {
       return width + 'px'
     },
     styleBondBarInner (dividend) {
-      return {
-        width: this.bondBarInnerWidth(dividend)
-      }
+      return { width: this.bondBarInnerWidth(dividend) }
     },
     bondGroupClass (delta) {
       if (delta > 0) {
@@ -278,7 +282,9 @@ export default {
       let offset = this.bondBarScrubWidth
       interact('.bond-bar__inner--editable')
         .resizable({
-          edges: { left: false, right: true, bottom: false, top: false },
+          edges: {
+            left: false, right: true, bottom: false, top: false
+          },
           restrictEdges: { outer: 'parent' },
           restrictSize: { min: { width: offset } }
         })
@@ -354,9 +360,7 @@ export default {
   },
   validations: () => ({
     fields: {
-      bondConfirm: {
-        required
-      },
+      bondConfirm: { required },
       delegates: {
         $each: {
           atoms: {

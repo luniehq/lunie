@@ -6,7 +6,7 @@ import interact from 'interactjs'
 
 describe('PageBond', () => {
   let wrapper, store, router
-  let {mount, localVue} = setup()
+  let { mount, localVue } = setup()
   localVue.use(Vuelidate)
 
   beforeEach(() => {
@@ -59,10 +59,8 @@ describe('PageBond', () => {
   })
 
   it('shows old bonded atoms ', () => {
-    store.commit('setCommittedDelegation', {
-      candidateId: 'pubkeyX', value: 13 })
-    store.commit('setCommittedDelegation', {
-      candidateId: 'pubkeyY', value: 26 })
+    store.commit('setCommittedDelegation', { candidateId: 'pubkeyX', value: 13 })
+    store.commit('setCommittedDelegation', { candidateId: 'pubkeyY', value: 26 })
     expect(wrapper.vm.oldBondedAtoms).toBe(39)
   })
 
@@ -75,7 +73,7 @@ describe('PageBond', () => {
     store.commit('setAtoms', 120)
     wrapper.setData({ bondBarOuterWidth: 128 })
     expect(wrapper.vm.bondBarInnerWidth(80)).toBe('95px')
-    expect(wrapper.vm.styleBondBarInner(80)).toEqual({width: '95px'})
+    expect(wrapper.vm.styleBondBarInner(80)).toEqual({ width: '95px' })
   })
 
   it('sets bond group class', () => {

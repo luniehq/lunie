@@ -58,11 +58,7 @@ describe('Module: Wallet', () => {
     const history = [
       { height: blockHeight }
     ]
-    const blockMetaInfo = {
-      header: {
-        time: time
-      }
-    }
+    const blockMetaInfo = { header: { time: time } }
     store.commit('setWalletHistory', history)
     store.commit('setTransactionTime', { blockHeight, blockMetaInfo })
     expect(store.state.wallet.history[0].time).toBe(time)
@@ -110,9 +106,7 @@ describe('Module: Wallet', () => {
 
     beforeEach(() => {
       // prefill history
-      store.commit('setWalletHistory', [{
-        height
-      }])
+      store.commit('setWalletHistory', [{ height }])
       // prefill block metas
       store.state.blockchain.blockMetas = [blockMeta]
     })
@@ -139,7 +133,7 @@ describe('Module: Wallet', () => {
       tx: {},
       height: 2
     }])
-    node.rpc.blockchain = ({minHeight, maxHeight}, cb) => {
+    node.rpc.blockchain = ({ minHeight, maxHeight }, cb) => {
       cb(null, {
         block_metas: [{
           header: {

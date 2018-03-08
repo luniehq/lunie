@@ -1,6 +1,4 @@
-const {
-  join
-} = require('path')
+const { join } = require('path')
 const mockFsExtra = require('../helpers/fs-mock').default
 
 function sleep (ms) {
@@ -55,9 +53,7 @@ childProcessMock((path, args) => ({
   stdout: {
     on: (type, cb) => {
       if (args[0] === 'version' && type === 'data') {
-        cb({
-          toString: () => 'v0.5.0'
-        })
+        cb({ toString: () => 'v0.5.0' })
       }
     }
   },
@@ -65,9 +61,7 @@ childProcessMock((path, args) => ({
     on: (type, cb) => {
       // test for init of gaia
       if (type === 'data' && args[1] === 'init' && args.length === 4) {
-        cb({
-          toString: () => 'already is initialized'
-        })
+        cb({ toString: () => 'already is initialized' })
       }
     }
   }
@@ -102,9 +96,7 @@ describe('Startup Process', () => {
   })
 
   // uses package.json from voyager/ root.
-  jest.mock(root + 'package.json', () => ({
-    version: '0.1.0'
-  }))
+  jest.mock(root + 'package.json', () => ({ version: '0.1.0' }))
   jest.mock(appRoot + 'src/main/relayServer.js', () => () => {})
 
   beforeAll(() => {
@@ -150,9 +142,7 @@ describe('Startup Process', () => {
       jest.resetModules()
       let mockWrite = jest.fn()
       childProcessMock((path, args) => ({
-        stdin: {
-          write: mockWrite
-        },
+        stdin: { write: mockWrite },
         stdout: {
           on: (type, cb) => {
             if (type === 'data' && path.includes('gaia') && args[0] === 'server' && args[1] === 'init') {
@@ -178,9 +168,7 @@ describe('Startup Process', () => {
     })
 
     afterAll(() => {
-      Object.assign(process.env, {
-        NODE_ENV: null
-      })
+      Object.assign(process.env, { NODE_ENV: null })
     })
     mainSetup()
 
@@ -193,9 +181,7 @@ describe('Startup Process', () => {
       jest.resetModules()
       let mockWrite = jest.fn()
       childProcessMock((path, args) => ({
-        stdin: {
-          write: mockWrite
-        },
+        stdin: { write: mockWrite },
         stdout: {
           on: (type, cb) => {
             if (type === 'data' && path.includes('gaia') && args[0] === 'server' && args[1] === 'init') {
@@ -221,9 +207,7 @@ describe('Startup Process', () => {
     })
 
     afterAll(() => {
-      Object.assign(process.env, {
-        NODE_ENV: null
-      })
+      Object.assign(process.env, { NODE_ENV: null })
     })
     mainSetup()
 
@@ -261,9 +245,7 @@ describe('Startup Process', () => {
     xit('should have set the own node as a validator with 100% voting power', async () => {
       jest.resetModules()
 
-      await fs.writeFile(join(testRoot, 'priv_validator.json'), {
-        pub_key: '123'
-      }, 'utf8')
+      await fs.writeFile(join(testRoot, 'priv_validator.json'), { pub_key: '123' }, 'utf8')
 
       await initMain()
 
@@ -307,9 +289,7 @@ describe('Startup Process', () => {
       let electron = require('electron')
 
       // alter the version so the main thread assumes an update
-      jest.mock(root + 'package.json', () => ({
-        version: '1.1.1'
-      }))
+      jest.mock(root + 'package.json', () => ({ version: '1.1.1' }))
       await require(appRoot + 'src/main/index.js')
       // Errors get reported to the web view as a url parameter
       expect(electron.url).toContain('&error')
@@ -350,9 +330,7 @@ describe('Startup Process', () => {
     })
 
     it('should enable analytics with analytics flag', async () => {
-      Object.assign(process.env, {
-        COSMOS_ANALYTICS: true
-      })
+      Object.assign(process.env, { COSMOS_ANALYTICS: true })
       main = await initMain()
       expect(main.analytics).toBe(true)
     })
@@ -362,9 +340,7 @@ describe('Startup Process', () => {
         default_network: 'test-network',
         analytics_networks: ['test-network']
       }))
-      Object.assign(process.env, {
-        NODE_ENV: 'production'
-      })
+      Object.assign(process.env, { NODE_ENV: 'production' })
       main = await initMain()
       expect(main.analytics).toBe(true)
     })
@@ -387,9 +363,7 @@ describe('Startup Process', () => {
         default_network: 'production-network',
         analytics_networks: ['test-network']
       }))
-      Object.assign(process.env, {
-        NODE_ENV: 'production'
-      })
+      Object.assign(process.env, { NODE_ENV: 'production' })
       main = await initMain()
       expect(main.analytics).toBe(false)
     })
@@ -547,9 +521,7 @@ function failingChildProcess (mockName, mockCmd) {
     stdout: {
       on: (type, cb) => {
         if (args[0] === 'version' && type === 'data') {
-          cb({
-            toString: () => 'v0.5.0'
-          })
+          cb({ toString: () => 'v0.5.0' })
         }
       }
     },
@@ -557,9 +529,7 @@ function failingChildProcess (mockName, mockCmd) {
       on: (type, cb) => {
         // test for init of gaia
         if (type === 'data' && args[1] === 'init' && args.length === 4) {
-          cb({
-            toString: () => 'already is initialized'
-          })
+          cb({ toString: () => 'already is initialized' })
         }
       }
     }

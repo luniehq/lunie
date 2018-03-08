@@ -45,7 +45,9 @@ export default {
       responsive: true,
       maintainAspectRatio: false,
       layout: {
-        padding: { left: 16, right: 16, top: 16, bottom: 16 }
+        padding: {
+          left: 16, right: 16, top: 16, bottom: 16
+        }
       },
       legend: {
         display: false,
@@ -57,18 +59,14 @@ export default {
       },
       scales: {
         xAxes: [{
-          gridLines: {
-            color: 'hsl(210, 18%, 12%)'
-          },
+          gridLines: { color: 'hsl(210, 18%, 12%)' },
           ticks: {
             fontColor: 'hsl(210, 32%, 50%)',
             fontFamily: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif'
           }
         }],
         yAxes: [{
-          gridLines: {
-            color: 'hsl(210, 18%, 12%)'
-          },
+          gridLines: { color: 'hsl(210, 18%, 12%)' },
           ticks: {
             fontColor: 'hsl(210, 32%, 50%)',
             fontFamily: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif'

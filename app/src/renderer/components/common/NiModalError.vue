@@ -24,9 +24,7 @@ import { remote, shell } from 'electron'
 import Btn from '@nylira/vue-button'
 export default {
   name: 'ni-modal-error',
-  components: {
-    Btn
-  },
+  components: { Btn },
   computed: {
     errorIcon () {
       if (this.icon) return this.icon

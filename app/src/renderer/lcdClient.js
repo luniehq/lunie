@@ -20,9 +20,7 @@ function argReq (method, path) {
       args = args.join('/')
     }
     if (method === 'DELETE') {
-      data = {
-        data
-      }
+      data = { data }
     }
     return await this.request(method, `${path}/${args}`, data)
   }

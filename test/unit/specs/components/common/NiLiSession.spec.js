@@ -9,9 +9,7 @@ describe('NiLiSession', () => {
     subtitle: 'useful subtitle'
   }
   beforeEach(() => {
-    wrapper = shallow(NiLiSession, {
-      propsData
-    })
+    wrapper = shallow(NiLiSession, { propsData })
   })
 
   it('has the expected html structure', () => {

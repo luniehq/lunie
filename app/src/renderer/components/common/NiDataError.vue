@@ -8,8 +8,6 @@ data-msg(icon="sentiment_very_dissatisfied")
 import DataMsg from 'common/NiDataMsg'
 export default {
   name: 'ni-data-error',
-  components: {
-    DataMsg
-  }
+  components: { DataMsg }
 }
 </script>

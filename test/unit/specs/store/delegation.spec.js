@@ -12,7 +12,7 @@ describe('Module: Delegations', () => {
     store = test.store
     node = test.node
 
-    store.dispatch('signIn', {password: 'bar', account: 'bar'})
+    store.dispatch('signIn', { password: 'bar', account: 'bar' })
   })
 
   it('adds delegate to cart', () => {
@@ -54,9 +54,7 @@ describe('Module: Delegations', () => {
   it('sets committed atoms for delegate', () => {
     store.commit('addToCart', { id: 'foo' })
     store.commit('setCommittedDelegation', { candidateId: 'foo', value: 123 })
-    expect(store.state.delegation.committedDelegates).toEqual({
-      foo: 123
-    })
+    expect(store.state.delegation.committedDelegates).toEqual({ foo: 123 })
   })
 
   it('sets committed atoms for delegate to 0', () => {
@@ -86,8 +84,8 @@ describe('Module: Delegations', () => {
       })
 
     await store.dispatch('getBondedDelegates', [
-        { pub_key: { data: 'foo' } },
-        { pub_key: { data: 'bar' } }
+      { pub_key: { data: 'foo' } },
+      { pub_key: { data: 'bar' } }
     ])
     expect(axios.get.mock.calls[0][0]).toEqual('http://localhost:9060/query/stake/delegator/someaddress/foo')
     expect(axios.get.mock.calls[1][0]).toEqual('http://localhost:9060/query/stake/delegator/someaddress/bar')

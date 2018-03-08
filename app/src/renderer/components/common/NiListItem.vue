@@ -67,12 +67,12 @@ import Btn from '@nylira/vue-button'
 export default {
   name: 'ni-list-item',
   props: ['type', 'title', 'subtitle', 'image', 'icon', 'to', 'dt', 'dd', 'href', 'btn', 'spin'],
-  components: {
-    Btn
-  },
+  components: { Btn },
   computed: {
     spinClass () {
-      if (this.spin) { return 'fa-spin' }
+      if (this.spin) {
+        return 'fa-spin'
+      }
     }
   }
 }

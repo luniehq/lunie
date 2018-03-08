@@ -31,10 +31,10 @@ export default ({ commit, node }) => {
     removeFromCart (state, delegate) {
       state.delegates = state.delegates.filter(c => c.id !== delegate)
     },
-    setShares (state, {candidateId, value}) {
+    setShares (state, { candidateId, value }) {
       state.delegates.find(c => c.id === candidateId).atoms = value
     },
-    setCommittedDelegation (state, {candidateId, value}) {
+    setCommittedDelegation (state, { candidateId, value }) {
       let committedDelegates = Object.assign({}, state.committedDelegates)
       if (value === 0) {
         delete committedDelegates[candidateId]
@@ -57,15 +57,15 @@ export default ({ commit, node }) => {
       let address = rootState.user.address
       candidates = candidates || await dispatch('getDelegates')
       await Promise.all(candidates.map(candidate =>
-        dispatch('getBondedDelegate', {address, pubkey: candidate.pub_key.data})
+        dispatch('getBondedDelegate', { address, pubkey: candidate.pub_key.data })
       ))
       state.loading = false
     },
     // load committed delegation from LCD
-    async getBondedDelegate ({ commit }, {address, pubkey}) {
+    async getBondedDelegate ({ commit }, { address, pubkey }) {
       // TODO move into cosmos-sdk
       let bond = (await axios.get(`http://localhost:${node.relayPort}/query/stake/delegator/${address}/${pubkey}`)).data.data
-      commit('setCommittedDelegation', {candidateId: bond.PubKey.data, value: bond.Shares})
+      commit('setCommittedDelegation', { candidateId: bond.PubKey.data, value: bond.Shares })
     },
     walletDelegate ({ dispatch }, args) {
       args.type = 'buildDelegate'
@@ -102,5 +102,7 @@ export default ({ commit, node }) => {
     }
   }
 
-  return { state, mutations, actions }
+  return {
+    state, mutations, actions
+  }
 }

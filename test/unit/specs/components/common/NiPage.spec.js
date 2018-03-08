@@ -10,12 +10,8 @@ localVue.use(Vuex)
 describe('NiPage', () => {
   let wrapper
   let store = new Vuex.Store({
-    getters: {
-      config: () => config.state
-    },
-    modules: {
-      config
-    }
+    getters: { config: () => config.state },
+    modules: { config }
   })
   store.commit = jest.fn()
 
@@ -29,9 +25,7 @@ describe('NiPage', () => {
         subtitle: 'Subtitle',
         icon: 'hello_icon'
       },
-      stubs: {
-        'app-footer': '<app-footer />'
-      }
+      stubs: { 'app-footer': '<app-footer />' }
     })
   })
 

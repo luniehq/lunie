@@ -87,13 +87,9 @@ export default {
   data: () => ({
     id: 'chart-votes-' + shortid.generate(),
     chartOptions: {
-      animation: {
-        duration: 0
-      },
+      animation: { duration: 0 },
       cutoutPercentage: 92,
-      legend: {
-        display: false
-      },
+      legend: { display: false },
       responsive: true,
       maintainAspectRatio: false
     }

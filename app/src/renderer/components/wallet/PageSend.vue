@@ -110,10 +110,10 @@ export default {
           body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
         })
 
-          // resets send transaction form
+        // resets send transaction form
         this.resetForm()
 
-          // refreshes user transaction history
+        // refreshes user transaction history
         this.$store.dispatch('queryWalletHistory')
       }, err => {
         this.sending = false
@@ -143,9 +143,7 @@ export default {
         required,
         between: between(1, 1000000)
       },
-      denom: {
-        required
-      }
+      denom: { required }
     }
   })
 }

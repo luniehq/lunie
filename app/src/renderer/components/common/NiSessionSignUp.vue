@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import {required, minLength, sameAs} from 'vuelidate/lib/validators'
+import { required, minLength, sameAs } from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldSeed from 'common/NiFieldSeed'
@@ -88,13 +88,19 @@ export default {
     }
   }),
   methods: {
-    help () { this.$store.commit('setModalHelp', true) },
-    setState (value) { this.$store.commit('setModalSessionState', value) },
+    help () {
+      this.$store.commit('setModalHelp', true)
+    },
+    setState (value) {
+      this.$store.commit('setModalSessionState', value)
+    },
     async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        let key = await this.$store.dispatch('createKey', { seedPhrase: this.fields.signUpSeed, password: this.fields.signUpPassword, name: this.fields.signUpName })
+        let key = await this.$store.dispatch('createKey', {
+          seedPhrase: this.fields.signUpSeed, password: this.fields.signUpPassword, name: this.fields.signUpName
+        })
         if (key) {
           this.$store.commit('setModalSession', false)
           this.$store.commit('notify', { title: 'Signed Up', body: 'Your account has been created.' })

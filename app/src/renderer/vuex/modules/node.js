@@ -26,14 +26,14 @@ export default function ({ node }) {
   }
 
   const actions = {
-    reconnected ({commit, dispatch}) {
+    reconnected ({ commit, dispatch }) {
       dispatch('nodeSubscribe')
     },
-    setLastHeader ({state, dispatch}, header) {
+    setLastHeader ({ state, dispatch }, header) {
       state.lastHeader = header
       dispatch('maybeUpdateValidators', header)
     },
-    async reconnect ({commit, dispatch}) {
+    async reconnect ({ commit, dispatch }) {
       if (state.stopConnecting) return
 
       commit('setConnected', false)
@@ -43,7 +43,7 @@ export default function ({ node }) {
         dispatch('reconnected')
       }
     },
-    async nodeSubscribe ({commit, dispatch}) {
+    async nodeSubscribe ({ commit, dispatch }) {
       if (state.stopConnecting) return
 
       // the rpc socket can be closed before we can even attach a listener
@@ -97,7 +97,7 @@ export default function ({ node }) {
         return false
       }
     },
-    pollRPCConnection ({state, commit, dispatch}, timeout = 3000) {
+    pollRPCConnection ({ state, commit, dispatch }, timeout = 3000) {
       if (state.nodeTimeout || state.stopConnecting) return
 
       state.nodeTimeout = setTimeout(() => {
@@ -118,7 +118,9 @@ export default function ({ node }) {
     }
   }
 
-  return { state, mutations, actions }
+  return {
+    state, mutations, actions
+  }
 }
 
 function sleep (ms) {

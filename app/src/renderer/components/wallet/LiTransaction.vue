@@ -59,9 +59,7 @@ export default {
       return moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a')
     }
   },
-  data: () => ({
-    num: num
-  }),
+  data: () => ({ num: num }),
   methods: {
     viewTransaction () {
       console.log('TODO: implement tx viewer')

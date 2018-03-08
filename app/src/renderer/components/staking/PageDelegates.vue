@@ -59,7 +59,9 @@ export default {
   },
   computed: {
     ...mapGetters(['delegates', 'filters', 'shoppingCart', 'config', 'user']),
-    address () { return this.user.address },
+    address () {
+      return this.user.address
+    },
     filteredDelegates () {
       let query = this.filters.delegates.search.query
       let list = orderBy(this.delegates.delegates, [this.sort.property], [this.sort.order])
@@ -69,7 +71,9 @@ export default {
         return list
       }
     },
-    userCanDelegate () { return this.user.atoms > 0 }
+    userCanDelegate () {
+      return this.user.atoms > 0
+    }
   },
   data: () => ({
     query: '',
@@ -77,12 +81,24 @@ export default {
       property: 'shares',
       order: 'desc',
       properties: [
-        { title: 'Name', value: 'description.moniker', class: 'name' },
-        { title: '% of Vote', value: 'shares', class: 'percent_of_vote' },
-        { title: 'Total Votes', value: 'voting_power', class: 'number_of_votes' },
-        { title: 'Your Votes', value: 'bonded', class: 'bonded_by_you' },
-        { title: 'Status', value: 'status', class: 'status' },
-        { title: '', value: '', class: 'action' }
+        {
+          title: 'Name', value: 'description.moniker', class: 'name'
+        },
+        {
+          title: '% of Vote', value: 'shares', class: 'percent_of_vote'
+        },
+        {
+          title: 'Total Votes', value: 'voting_power', class: 'number_of_votes'
+        },
+        {
+          title: 'Your Votes', value: 'bonded', class: 'bonded_by_you'
+        },
+        {
+          title: 'Status', value: 'status', class: 'status'
+        },
+        {
+          title: '', value: '', class: 'action'
+        }
       ]
     }
   }),
@@ -96,7 +112,9 @@ export default {
       let candidates = await this.$store.dispatch('getDelegates')
       this.$store.dispatch('getBondedDelegates', candidates)
     },
-    setSearch (bool) { this.$store.commit('setSearchVisible', ['delegates', bool]) }
+    setSearch (bool) {
+      this.$store.commit('setSearchVisible', ['delegates', bool])
+    }
   },
   async mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
