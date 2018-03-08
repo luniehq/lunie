@@ -65,7 +65,7 @@ export default {
     filteredDelegates () {
       let query = this.filters.delegates.search.query
 
-      let smallMonikerDelegates = _.forEach(this.delegates.delegates, function(v) {
+      forEach(this.delegates.delegates, function (v) {
         v.small_moniker = v.moniker.toLowerCase()
       })
       let delegates = orderBy(this.delegates.delegates, [this.sort.property], [this.sort.order])
