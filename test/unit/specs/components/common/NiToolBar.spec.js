@@ -3,7 +3,7 @@ import NiToolBar from 'common/NiToolBar'
 
 describe('NiToolBar', () => {
   let wrapper, store, instance
-  let {mount} = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
     instance = mount(NiToolBar)

@@ -30,9 +30,7 @@ import { maxBy } from 'lodash'
 export default {
   name: 'li-delegate',
   props: ['delegate'],
-  components: {
-    Btn
-  },
+  components: { Btn },
   computed: {
     ...mapGetters(['shoppingCart', 'delegates', 'config', 'committedDelegations', 'user']),
     bondedByYou () {
@@ -48,7 +46,9 @@ export default {
       if (this.delegates.delegates.length > 0) {
         let richestDelegate = maxBy(this.delegates.delegates, 'voting_power')
         return richestDelegate.voting_power
-      } else { return 0 }
+      } else {
+        return 0
+      }
     },
     vpTotal () {
       return this.delegates.delegates
@@ -74,12 +74,14 @@ export default {
       return this.delegate.isValidator ? 'Validator' : 'Candidate'
     }
   },
-  data: () => ({
-    num: num
-  }),
+  data: () => ({ num: num }),
   methods: {
-    add (delegate) { this.$store.commit('addToCart', delegate) },
-    rm (delegate) { this.$store.commit('removeFromCart', delegate.id) }
+    add (delegate) {
+      this.$store.commit('addToCart', delegate)
+    },
+    rm (delegate) {
+      this.$store.commit('removeFromCart', delegate.id)
+    }
   },
   watch: {
     bondedByYou (newVal, oldVal) {

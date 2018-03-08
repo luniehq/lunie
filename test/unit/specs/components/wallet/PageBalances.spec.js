@@ -3,20 +3,14 @@ import PageBalances from 'renderer/components/wallet/PageBalances'
 
 describe('PageBalances', () => {
   let wrapper, store
-  let {mount} = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(PageBalances, {
-      stubs: {
-        'modal-search': '<modal-search />'
-      }
-    })
+    let instance = mount(PageBalances, { stubs: { 'modal-search': '<modal-search />' } })
     wrapper = instance.wrapper
     store = instance.store
 
-    store.commit('setWalletKey', {
-      address: '123abc456def'
-    })
+    store.commit('setWalletKey', { address: '123abc456def' })
     store.commit('setWalletBalances', [{
       denom: 'ATOM',
       amount: 123
@@ -60,9 +54,7 @@ describe('PageBalances', () => {
   })
 
   it('should show the n/a message if there are no denoms', () => {
-    let {store, wrapper} = mount(PageBalances, {
-      'data-empty': '<data-empty />'
-    })
+    let { store, wrapper } = mount(PageBalances, { 'data-empty': '<data-empty />' })
     store.commit('setWalletBalances', [])
     wrapper.update()
     expect(wrapper.find('data-empty')).toBeDefined()

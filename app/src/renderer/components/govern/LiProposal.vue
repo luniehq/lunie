@@ -15,9 +15,7 @@ import dateUnix from 'scripts/dateUnix'
 import dateUnixAgo from 'scripts/dateUnixAgo'
 export default {
   name: 'li-proposal',
-  components: {
-    ChartVotes
-  },
+  components: { ChartVotes },
   computed: {
     proposalCreatedAt () {
       return dateUnix(this.proposal.createdAt)

@@ -9,18 +9,16 @@ export default function shrinkStacktrace (error,
   whiteList = /.*/
 ) {
   // stacktrace.js gives us the sourcemappes filenames
-  StackTrace.fromError(error, {
-    offline: true
-  })
-  .then(frames => {
-    let filteredFrames = frames.filter(frame => {
+  StackTrace.fromError(error, { offline: true })
+    .then(frames => {
+      let filteredFrames = frames.filter(frame => {
         // we check the sourcemapped frames for filenames blacklisted / whitelisted
-      return blackList.test(frame.fileName) ? false
-            : whiteList.test(frame.fileName)
-    })
-    .map(frame => frame.source)
+        return blackList.test(frame.fileName) ? false
+          : whiteList.test(frame.fileName)
+      })
+        .map(frame => frame.source)
 
-    console.error(error.message + '\n' + filteredFrames.join('\n'))
-  })
-  .catch(console.error)
+      console.error(error.message + '\n' + filteredFrames.join('\n'))
+    })
+    .catch(console.error)
 }

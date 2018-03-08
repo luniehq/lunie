@@ -8,8 +8,6 @@ data-msg(icon="info_outline")
 import DataMsg from 'common/NiDataMsg'
 export default {
   name: 'ni-data-empty-tx',
-  components: {
-    DataMsg
-  }
+  components: { DataMsg }
 }
 </script>

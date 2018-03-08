@@ -7,7 +7,5 @@
 </template>
 
 <script>
-export default {
-  name: 'ni-session-loading'
-}
+export default { name: 'ni-session-loading' }
 </script>

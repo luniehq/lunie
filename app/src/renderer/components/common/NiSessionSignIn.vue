@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import {required, minLength} from 'vuelidate/lib/validators'
+import { mapGetters } from 'vuex'
+import { required, minLength } from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldGroup from 'common/NiFieldGroup'
@@ -53,13 +53,17 @@ export default {
     ...mapGetters(['user']),
     accounts () {
       let accounts = this.user.accounts
-      accounts = accounts.filter(({name}) => name !== 'trunk')
-      return accounts.map(({name}) => ({ key: name, value: name }))
+      accounts = accounts.filter(({ name }) => name !== 'trunk')
+      return accounts.map(({ name }) => ({ key: name, value: name }))
     }
   },
   methods: {
-    help () { this.$store.commit('setModalHelp', true) },
-    setState (value) { this.$store.commit('setModalSessionState', value) },
+    help () {
+      this.$store.commit('setModalHelp', true)
+    },
+    setState (value) {
+      this.$store.commit('setModalSessionState', value)
+    },
     async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return

@@ -8,7 +8,9 @@
 export default {
   computed: {
     iconClass () {
-      if (this.spin) { return 'fa-spin' }
+      if (this.spin) {
+        return 'fa-spin'
+      }
     }
   },
   props: ['icon', 'value', 'spin']

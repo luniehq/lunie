@@ -25,9 +25,7 @@ export default {
     Part,
     ToolBar
   },
-  computed: {
-    ...mapGetters(['user'])
-  },
+  computed: { ...mapGetters(['user']) },
   methods: {
     signOut () {
       this.$store.dispatch('signOut')

@@ -4,7 +4,7 @@ import setup from '../../../helpers/vuex-setup'
 
 describe('NiUserPane', () => {
   let wrapper, router, store, instance
-  let {mount} = setup()
+  let { mount } = setup()
 
   beforeEach(async () => {
     instance = mount(NiUserPane)
@@ -16,7 +16,7 @@ describe('NiUserPane', () => {
       name: 'ACTIVE_ACCOUNT',
       password: '1234567890'
     }])
-    await store.dispatch('signIn', {account: 'ACTIVE_ACCOUNT', password: '1234567890'})
+    await store.dispatch('signIn', { account: 'ACTIVE_ACCOUNT', password: '1234567890' })
     wrapper.update()
   })
 

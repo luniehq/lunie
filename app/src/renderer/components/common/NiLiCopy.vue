@@ -9,9 +9,7 @@
 import BtnCopy from 'common/NiBtnCopy'
 export default {
   name: 'ni-li-copy',
-  components: {
-    BtnCopy
-  },
+  components: { BtnCopy },
   props: ['value']
 }
 </script>

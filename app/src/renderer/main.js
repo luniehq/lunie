@@ -91,7 +91,9 @@ async function main () {
   }).$mount('#app')
 }
 
-main().catch(function (err) { throw err })
+main().catch(function (err) {
+  throw err
+})
 
 // exporting this for testing
 module.exports.store = store

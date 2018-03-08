@@ -6,8 +6,7 @@ export default ({ commit }) => {
     loading: false
   }
 
-  const mutations = {
-  }
+  const mutations = {}
   const actions = {
     reconnected ({ state, dispatch }) {
       if (state.loading) {
@@ -15,5 +14,7 @@ export default ({ commit }) => {
       }
     }
   }
-  return { state, actions, mutations }
+  return {
+    state, actions, mutations
+  }
 }

@@ -9,9 +9,7 @@ field.ni-field-seed(
 import Field from '@nylira/vue-field'
 export default {
   name: 'ni-field-seed',
-  components: {
-    Field
-  },
+  components: { Field },
   methods: {
     update (value) {
       this.$emit('input', value)

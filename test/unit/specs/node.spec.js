@@ -15,13 +15,11 @@ describe('LCD Connector', () => {
     jest.mock('tendermint', () => () => ({
       on (value, cb) {},
       removeAllListeners () {},
-      ws: {
-        destroy () {}
-      }
+      ws: { destroy () {} }
     }))
 
     jest.mock('axios', (url) => jest.fn()
-      .mockReturnValueOnce({data: '1.2.3.4'}))
+      .mockReturnValueOnce({ data: '1.2.3.4' }))
   })
 
   it('should provide the nodeIP', () => {
@@ -41,7 +39,7 @@ describe('LCD Connector', () => {
     jest.mock('tendermint', () => () => ({
       on (value, cb) {
         if (value === 'error') {
-          cb({code: 'ECONNREFUSED'})
+          cb({ code: 'ECONNREFUSED' })
         }
       }
     }))
@@ -56,7 +54,7 @@ describe('LCD Connector', () => {
     jest.mock('tendermint', () => () => ({
       on (value, cb) {
         if (value === 'error') {
-          cb({code: 'ABCD'})
+          cb({ code: 'ABCD' })
         }
       }
     }))
@@ -85,14 +83,12 @@ describe('LCD Connector', () => {
       jest.mock('tendermint', () => () => ({
         on (value, cb) {},
         removeAllListeners () {},
-        ws: {
-          destroy () {}
-        }
+        ws: { destroy () {} }
       }))
 
       jest.mock('axios', (url) => jest.fn()
-        .mockReturnValueOnce({data: null})
-        .mockReturnValueOnce({data: '1.2.3.5'}))
+        .mockReturnValueOnce({ data: null })
+        .mockReturnValueOnce({ data: '1.2.3.5' }))
 
       axios = require('axios')
       node = newNode()

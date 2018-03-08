@@ -12,8 +12,6 @@ import DataMsg from 'common/NiDataMsg'
 export default {
   name: 'ni-data-empty',
   props: ['title', 'subtitle'],
-  components: {
-    DataMsg
-  }
+  components: { DataMsg }
 }
 </script>

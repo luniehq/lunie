@@ -5,7 +5,9 @@ import NiModalError from 'common/NiModalError'
 jest.mock('electron', () => ({
   remote: {
     app: {
-      getPath: () => { return '$HOME' }
+      getPath: () => {
+        return '$HOME'
+      }
     }
   }
 }))
@@ -27,11 +29,7 @@ describe('NiModalError', () => {
   })
 
   it('shows an icon if specified', () => {
-    wrapper = mount(NiModalError, {
-      propsData: {
-        icon: 'icon-x'
-      }
-    })
+    wrapper = mount(NiModalError, { propsData: { icon: 'icon-x' } })
     expect(wrapper.find('.ni-modal-error__icon i.material-icons').text().trim())
       .toBe('icon-x')
   })
@@ -42,11 +40,7 @@ describe('NiModalError', () => {
   })
 
   it('shows a title if specified', () => {
-    wrapper = mount(NiModalError, {
-      propsData: {
-        title: 'title-x'
-      }
-    })
+    wrapper = mount(NiModalError, { propsData: { title: 'title-x' } })
     expect(wrapper.find('.ni-modal-error__title').text().trim())
       .toBe('title-x')
   })
@@ -57,11 +51,7 @@ describe('NiModalError', () => {
   })
 
   it('shows a body if specified', () => {
-    wrapper = mount(NiModalError, {
-      propsData: {
-        body: 'body-x'
-      }
-    })
+    wrapper = mount(NiModalError, { propsData: { body: 'body-x' } })
     expect(wrapper.find('.ni-modal-error__body').text().trim())
       .toBe('body-x')
   })

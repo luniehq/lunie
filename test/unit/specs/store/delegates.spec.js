@@ -23,7 +23,10 @@ describe('Module: Delegates', () => {
   })
 
   it('replaces existing delegate with same id', () => {
-    store.commit('addDelegate', { pub_key: { data: 'foo' }, updated: true })
+    store.commit('addDelegate', {
+      pub_key: { data: 'foo' },
+      updated: true
+    })
     expect(store.state.delegates.delegates[0]).toEqual({
       id: 'foo',
       pub_key: { data: 'foo' },
@@ -83,8 +86,14 @@ describe('Module: Delegates', () => {
   })
 
   it('updates existing candidates', async () => {
-    store.commit('addDelegate', { pub_key: { data: 'foo' }, description: { country: 'USA' } })
-    store.commit('addDelegate', { pub_key: { data: 'foo' }, description: { country: 'DE' } })
+    store.commit('addDelegate', {
+      pub_key: { data: 'foo' },
+      description: { country: 'USA' }
+    })
+    store.commit('addDelegate', {
+      pub_key: { data: 'foo' },
+      description: { country: 'DE' }
+    })
     expect(store.state.delegates.delegates[0].country).toBe('DE')
   })
 

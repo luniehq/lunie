@@ -6,9 +6,7 @@ describe('LCD Client', () => {
 
   it('makes a GET request with no args', async () => {
     axios.get = jest.fn()
-      .mockReturnValueOnce(Promise.resolve({
-        data: { foo: 'bar' }
-      }))
+      .mockReturnValueOnce(Promise.resolve({ data: { foo: 'bar' } }))
 
     let res = await client.status()
     expect(res).toEqual({ foo: 'bar' })
@@ -20,9 +18,7 @@ describe('LCD Client', () => {
 
   it('makes a GET request with one arg', async () => {
     axios.get = jest.fn()
-      .mockReturnValueOnce(Promise.resolve({
-        data: { foo: 'bar' }
-      }))
+      .mockReturnValueOnce(Promise.resolve({ data: { foo: 'bar' } }))
 
     let res = await client.getKey('myKey')
     expect(res).toEqual({ foo: 'bar' })
@@ -34,9 +30,7 @@ describe('LCD Client', () => {
 
   it('makes a GET request with multiple args', async () => {
     axios.get = jest.fn()
-      .mockReturnValueOnce(Promise.resolve({
-        data: { foo: 'bar' }
-      }))
+      .mockReturnValueOnce(Promise.resolve({ data: { foo: 'bar' } }))
 
     let res = await client.bondingsByDelegator([ 'foo', 'bar' ])
     expect(res).toEqual({ foo: 'bar' })
@@ -48,9 +42,7 @@ describe('LCD Client', () => {
 
   it('makes a POST request', async () => {
     axios.post = jest.fn()
-      .mockReturnValueOnce(Promise.resolve({
-        data: { foo: 'bar' }
-      }))
+      .mockReturnValueOnce(Promise.resolve({ data: { foo: 'bar' } }))
 
     let res = await client.generateKey()
     expect(res).toEqual({ foo: 'bar' })
@@ -62,9 +54,7 @@ describe('LCD Client', () => {
 
   it('makes a POST request with args and data', async () => {
     axios.put = jest.fn()
-      .mockReturnValueOnce(Promise.resolve({
-        data: { foo: 'bar' }
-      }))
+      .mockReturnValueOnce(Promise.resolve({ data: { foo: 'bar' } }))
 
     let res = await client.updateKey('myKey', { abc: 123 })
     expect(res).toEqual({ foo: 'bar' })
@@ -99,13 +89,11 @@ describe('LCD Client', () => {
 
   it('delete requests have the correct format for data', async () => {
     axios.delete = (path, config) => {
-      expect(config).toEqual({data: {password: 'abc'}})
-      return Promise.resolve({data: {
-        foo: 'bar'
-      }})
+      expect(config).toEqual({ data: { password: 'abc' } })
+      return Promise.resolve({ data: { foo: 'bar' } })
     }
 
-    await client.deleteKey('test', {password: 'abc'})
+    await client.deleteKey('test', { password: 'abc' })
   })
 
   it('does not throw error for empty results', async () => {

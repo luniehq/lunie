@@ -12,11 +12,9 @@ export default function vuexSetup () {
   localVue.use(Vuex)
   localVue.use(VueRouter)
 
-  function init (componentConstructor, testType = shallow, {stubs, getters = {}, propsData}) {
+  function init (componentConstructor, testType = shallow, { stubs, getters = {}, propsData }) {
     const node = Object.assign({}, require('../helpers/node_mock'))
-    const modules = Modules({
-      node
-    })
+    const modules = Modules({ node })
     let store = new Vuex.Store({
       getters: Object.assign({}, Getters, getters),
       modules
@@ -26,7 +24,7 @@ export default function vuexSetup () {
     jest.spyOn(store, 'dispatch')
     jest.spyOn(store, 'commit')
 
-    let router = new VueRouter({routes})
+    let router = new VueRouter({ routes })
 
     return {
       node,
@@ -40,7 +38,11 @@ export default function vuexSetup () {
 
   return {
     localVue,
-    shallow: (componentConstructor, {stubs, getters, propsData} = {}) => init(componentConstructor, shallow, {stubs, getters, propsData}),
-    mount: (componentConstructor, {stubs, getters, propsData} = {}) => init(componentConstructor, mount, {stubs, getters, propsData})
+    shallow: (componentConstructor, { stubs, getters, propsData } = {}) => init(componentConstructor, shallow, {
+      stubs, getters, propsData
+    }),
+    mount: (componentConstructor, { stubs, getters, propsData } = {}) => init(componentConstructor, mount, {
+      stubs, getters, propsData
+    })
   }
 }

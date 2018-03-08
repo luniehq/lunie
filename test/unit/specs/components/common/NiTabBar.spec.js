@@ -5,11 +5,7 @@ describe('NiTabBar', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = mount(NiTabBar, {
-      slots: {
-        default: '<main-slot />'
-      }
-    })
+    wrapper = mount(NiTabBar, { slots: { default: '<main-slot />' } })
   })
 
   it('has the expected html structure', () => {

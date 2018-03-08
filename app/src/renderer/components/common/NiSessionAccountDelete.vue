@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import {required, minLength} from 'vuelidate/lib/validators'
+import { required, minLength } from 'vuelidate/lib/validators'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FieldGroup from 'common/NiFieldGroup'
@@ -44,19 +44,19 @@ export default {
     FormMsg,
     FormStruct
   },
-  data: () => ({
-    fields: {
-      deletionPassword: ''
-    }
-  }),
+  data: () => ({ fields: { deletionPassword: '' } }),
   methods: {
-    help () { this.$store.commit('setModalHelp', true) },
-    setState (value) { this.$store.commit('setModalSessionState', value) },
+    help () {
+      this.$store.commit('setModalHelp', true)
+    },
+    setState (value) {
+      this.$store.commit('setModalSessionState', value)
+    },
     async onSubmit () {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        let success = await this.$store.dispatch('deleteKey', {password: this.fields.deletionPassword})
+        let success = await this.$store.dispatch('deleteKey', { password: this.fields.deletionPassword })
         if (success) {
           this.setState('welcome')
           this.$store.commit('notify', { title: 'Account Deleted', body: `You have successfully deleted the account 'default'` })
