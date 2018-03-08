@@ -66,9 +66,9 @@ export default {
       let query = this.filters.delegates.search.query
 
       let smallMonikerDelegates = _.forEach(this.delegates.delegates, function(v) {
-        v.moniker = v.moniker.toLowerCase()
+        v.small_moniker = v.moniker.toLowerCase()
       })
-      let delegates = orderBy(smallMonikerDelegates, [this.sort.property], [this.sort.order])
+      let delegates = orderBy(this.delegates.delegates, [this.sort.property], [this.sort.order])
 
       if (this.filters.delegates.search.visible) {
         return delegates.filter(i => includes(JSON.stringify(i).toLowerCase(), query.toLowerCase()))
@@ -86,7 +86,7 @@ export default {
       property: 'shares',
       order: 'desc',
       properties: [
-        { title: 'Name', value: 'moniker', class: 'name' },
+        { title: 'Name', value: 'small_moniker', class: 'name' },
         { title: '% of Vote', value: 'shares', class: 'percent_of_vote' },
         { title: 'Total Votes', value: 'voting_power', class: 'voting_power' },
         { title: 'Your Votes', value: 'your_votes', class: 'your-votes' },
