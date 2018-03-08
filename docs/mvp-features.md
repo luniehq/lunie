@@ -7,7 +7,7 @@ The user should be able to:
 
 * Create an account with a new seed and address
 * Import an account with a Cosmos seed
-* Import an account with the seed contained in hardware (i.e. Ledger)
+* Register a private key stored on hardware (i.e. Ledger)
 * Select which account they wish to sign into
 
 ## Sending & Receiving
@@ -35,11 +35,11 @@ The user should be able to:
 
 The user should be able to:
 
-* View a list of current, pending, and closed proposals.
-* View the details of a proposal like title, body, type, current votes, minDeposit, and time remaining until the proposal is closed.
+* View a list of current, pending, and closed proposals
+* View the details of a proposal like title, body, type, current votes, minDeposit, and time remaining until the proposal is closed
 * Have four vote options per proposal: Yes, No, No (With Force), Abstain
-* Be able to create a new proposal with a title, body, and type (general or software upgrade). They will also be able to input a portion of a minDeposit to meet the activation threshold.
-* Be able to help convert a pending proposal to an active proposal by adding to the minDeposit
+* Be able to create a new proposal with a title, body, and type (general or software upgrade)
+* Be able to convert a pending proposal (whether its their proposal or someone else's) to an active proposal by depositing atoms via the proposal's minDeposit field
 
 ## Exploring blocks
 
