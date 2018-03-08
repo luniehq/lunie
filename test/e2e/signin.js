@@ -2,14 +2,18 @@ let test = require('tape-promise/tape')
 let { getApp, restart } = require('./launch.js')
 let { logout, openMenu } = require('./common.js')
 
+/*
+* NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
+*/
+
 test('sign in', async function (t) {
-  let {app, home} = await getApp(t)
+  let {app} = await getApp(t)
   await restart(app)
   let client = app.client
   let el = (...args) => client.$(...args)
   let continueButton = () => el('.ni-btn__value=Next').$('..')
-  
-  t.test('agreement', async function (t) {
+
+  t.test('signup', async function (t) {
     // go to login selection
     await client.$('i=arrow_back').$('..').click()
     await client.waitForExist('.ni-li-session', 1000)
@@ -17,7 +21,8 @@ test('sign in', async function (t) {
     await client.$('.ni-li-session-title=Create new account').$('..').$('..').click()
 
     let accountName = () => el('#sign-up-name')
-    let password = () => el('#sign-in-password')
+    let password = () => el('#sign-up-password')
+    let passwordConfirm = () => el('#sign-up-password-confirm')
     let warning = () => el('#sign-up-warning')
     let backedup = () => el('#sign-up-backup')
 
@@ -40,10 +45,10 @@ test('sign in', async function (t) {
     t.test('set account name', async function (t) {
       await continueButton().click()
       t.ok(await accountName().$('..').isExisting('.ni-form-msg--error'), 'shows error')
-      await accountName().click()
+      await client.leftClick('#sign-up-name')
       await client.keys('sign'.split())
       t.ok(await accountName().$('..').isExisting('.ni-form-msg--error'), 'shows error for too few letters')
-      await accountName().click()
+      await client.leftClick('#sign-up-name')
       await client.keys('in_test'.split())
       t.ok(!(await accountName().$('..').isExisting('.ni-form-msg--error')), 'hides error')
       t.end()
@@ -61,17 +66,29 @@ test('sign in', async function (t) {
       t.end()
     })
 
-    t.test('logs in', async function (t) {
+    t.test('confirm password', async function (t) {
       await continueButton().click()
+      t.ok(await passwordConfirm().$('..').isExisting('.ni-form-msg--error'), 'shows error')
+      await passwordConfirm().click()
+      await client.keys('1234'.split())
+      t.ok(await passwordConfirm().$('..').isExisting('.ni-form-msg--error'), 'shows error for not matching passwords')
+      await passwordConfirm().click()
+      await client.keys('567890'.split())
+      t.ok(!(await passwordConfirm().$('..').isExisting('.ni-form-msg--error')), 'hides error')
+      t.end()
+    })
+
+    t.test('logs in', async function (t) {
+      await client.leftClick('.ni-btn__value=Next')
 
       // checking if user is logged in
       await client.waitForExist('#app-content', 5000)
       await openMenu(client)
       let activeUser = await client.$('.ni-li-user .ni-li-title').getText()
-      t.ok('signin_test' === activeUser, 'user is logged in')
+      t.ok(activeUser === 'signin_test', 'user is logged in')
 
       t.end()
-    }) 
+    })
     t.end()
   })
 
@@ -85,6 +102,7 @@ test('sign in', async function (t) {
 
     let accountName = () => el('#import-name')
     let password = () => el('#import-password')
+    let passwordConfirm = () => el('#import-password-confirmation')
     let seed = () => el('#import-seed')
 
     t.test('set account name', async function (t) {
@@ -111,6 +129,18 @@ test('sign in', async function (t) {
       t.end()
     })
 
+    t.test('confirm password', async function (t) {
+      await continueButton().click()
+      t.ok(await passwordConfirm().$('..').isExisting('.ni-form-msg--error'), 'shows error')
+      await passwordConfirm().click()
+      await client.keys('1234'.split())
+      t.ok(await passwordConfirm().$('..').isExisting('.ni-form-msg--error'), 'shows error for not matching passwords')
+      await passwordConfirm().click()
+      await client.keys('567890'.split())
+      t.ok(!(await passwordConfirm().$('..').isExisting('.ni-form-msg--error')), 'hides error')
+      t.end()
+    })
+
     t.test('input correct seed text', async function (t) {
       await continueButton().click()
       t.ok(await seed().$('..').isExisting('.ni-form-msg--error'), 'shows error')
@@ -127,10 +157,10 @@ test('sign in', async function (t) {
       await client.waitForExist('#app-content', 5000)
       await openMenu(client)
       let activeUser = await client.$('.ni-li-user .ni-li-title').getText()
-      t.ok('seed_test' === activeUser, 'user is logged in')
+      t.ok(activeUser === 'seed_test', 'user is logged in')
 
       t.end()
-    }) 
+    })
 
     t.end()
   })

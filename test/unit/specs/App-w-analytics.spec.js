@@ -10,13 +10,14 @@ describe('App with analytics', () => {
   jest.mock('raven-js', () => ({
     config: (dsn) => {
       return ({
-        install: () => {
-        }
+        install: () => {}
       })
     }
   }))
-  jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => {
-  })
+  jest.mock('axios', () => ({
+    get () {}
+  }))
+  jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => {})
   jest.mock('electron', () => ({
     remote: {
       getGlobal: () => ({
@@ -29,6 +30,11 @@ describe('App with analytics', () => {
   }))
 
   beforeEach(() => {
+    Object.defineProperty(window.location, 'search', {
+      writable: true,
+      value: '?node=localhost&relay_port=8080'
+    })
+    document.body.innerHTML = '<div id="app"></div>'
     jest.resetModules()
   })
 
@@ -54,4 +60,3 @@ describe('App with analytics', () => {
     require('renderer/main.js')
   })
 })
-

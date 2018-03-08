@@ -117,6 +117,9 @@ export default {
   .ni-modal-error__body
     margin-bottom 4.5rem
 
+  .ni-modal-error__footer
+    min-width: 31rem
+
   .ni-modal-error__footer .ni-btn
       margin-bottom 0
 </style>

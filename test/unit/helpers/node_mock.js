@@ -20,16 +20,24 @@ module.exports = {
     seed_phrase: 'a b c d e f g h i j k l'
   }),
   queryAccount: () => null,
-  queryNonce: () => ({data: 123}),
+  queryNonce: () => ({
+    data: 123
+  }),
   buildSend: () => Promise.resolve(null),
   buildDelegate: () => Promise.resolve(null),
   buildUnbond: () => Promise.resolve(null),
   coinTxs: () => Promise.resolve([]),
-  candidates: () => Promise.resolve({data: []}),
+  candidates: () => Promise.resolve({
+    data: []
+  }),
   sendTx: () => Promise.resolve(),
   postTx: () => Promise.resolve({
-    check_tx: { code: 0 },
-    deliver_tx: { code: 0 }
+    check_tx: {
+      code: 0
+    },
+    deliver_tx: {
+      code: 0
+    }
   }),
   sign: () => Promise.resolve(null),
 
@@ -39,7 +47,9 @@ module.exports = {
     subscribe: () => {},
     validators: () => mockValidators,
     block: (args, cb) => cb({}),
-    blockchain: (args, cb) => cb(null, {block_metas: {}}),
+    blockchain: (args, cb) => cb(null, {
+      block_metas: {}
+    }),
     status: (cb) => cb(null, {
       latest_block_height: 42,
       node_info: {

@@ -1,11 +1,11 @@
-let { spawn } = require('child_process')
+let { spawn} = require('child_process')
 let test = require('tape-promise/tape')
 let { getApp, restart } = require('./launch.js')
 let { navigate, newTempDir, waitForText, sleep, login, logout, closeNotifications } = require('./common.js')
 
 let binary = process.env.BINARY_PATH
 
-function cliSendCoins (home, to, amount) {
+function cliSendCoins(home, to, amount) {
   let child = spawn(binary, [
     'client', 'tx', 'send',
     '--name', 'testkey',
@@ -21,7 +21,7 @@ function cliSendCoins (home, to, amount) {
 }
 
 test('wallet', async function (t) {
-  let {app, home} = await getApp(t)
+  let { app, home } = await getApp(t)
   await restart(app)
 
   let client = app.client
@@ -29,13 +29,18 @@ test('wallet', async function (t) {
 
   await login(client, 'testkey')
 
-  let balanceEl = (denom) =>
-    $(`//div[contains(text(), "${denom.toUpperCase()}")]`)
-      .$('..')
-      .$('div.ni-li-dd')
+  let balanceEl = (denom) => {
+    let balanceElemSlector = `//div[contains(text(), "${denom.toUpperCase()}")]`
+    return client.waitForExist(balanceElemSlector, 10000)
+    .then(() =>
+      $(balanceElemSlector)
+        .$('..')
+        .$('div.ni-li-dd')
+    )
+  }
 
   t.test('send', async function (t) {
-    async function goToSendPage () {
+    async function goToSendPage() {
       await navigate(client, 'Balances')
       await $('.ni-li-dt=FERMION').$('..').$('..').click()
     }
@@ -48,9 +53,10 @@ test('wallet', async function (t) {
     let denomBtn = (denom) => $(`option=${denom.toUpperCase()}`)
 
     t.test('fermion balance before sending', async function (t) {
+      await client.waitForExist(`//div[contains(text(), "FERMION")]`, 5000)
       let fermionEl = balanceEl('fermion')
       let balance = await fermionEl.getText()
-      t.equal(balance, '9007199254740992', 'fermion balance is correct') 
+      t.equal(balance, '9007199254740992', 'fermion balance is correct')
       t.end()
     })
 
@@ -99,7 +105,7 @@ test('wallet', async function (t) {
       t.ok(msg.includes('Success'), 'Send successful')
       // close the notifications to have a clean setup for the next tests
       await closeNotifications(client)
-      
+
       t.end()
     })
 
@@ -126,6 +132,7 @@ test('wallet', async function (t) {
       await navigate(client, 'Balances')
 
       let fermionEl = () => balanceEl('fermion')
+      await client.waitForExist(`//div[contains(text(), "FERMION")]`, 5000)
       await waitForText(fermionEl, '100', 5000)
       t.pass('received mycoin transaction')
       t.end()
