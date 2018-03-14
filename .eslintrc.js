@@ -21,7 +21,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     // unify spacing in objects
     'object-curly-spacing': ["error", "always"],
-    'object-curly-newline': ["error", { 
+    'object-curly-newline': ["error", {
       "ObjectExpression": { "multiline": true, "minProperties": 3 },
       "ImportDeclaration": "never"
     }]

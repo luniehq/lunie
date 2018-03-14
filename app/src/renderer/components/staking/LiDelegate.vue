@@ -7,12 +7,12 @@
   .li-delegate__value.number_of_votes.num.bar
     span {{ num.prettyInt(delegate.voting_power) }}
     .bar(:style='vpStyles')
-  .li-delegate__value.bonded_by_you
-    span {{ bondedByYou }}
+  .li-delegate__value.your-votes
+    span {{ yourVotes }}
   .li-delegate__value.status
     span {{ delegateType }}
   template(v-if="userCanDelegate")
-    .li-delegate__value.checkbox(v-if="bondedByYou > 0")
+    .li-delegate__value.checkbox(v-if="yourVotes > 0")
       i.material-icons lock
     .li-delegate__value.checkbox#remove-from-cart(v-else-if="inCart" @click='rm(delegate)')
       i.material-icons check_box
@@ -33,12 +33,15 @@ export default {
   components: { Btn },
   computed: {
     ...mapGetters(['shoppingCart', 'delegates', 'config', 'committedDelegations', 'user']),
-    bondedByYou () {
-      return this.num.prettyInt(this.committedDelegations[this.delegate.id])
+    yourVotes () {
+      let yourVotes = this.num.prettyInt(this.committedDelegations[this.delegate.id])
+      this.delegate.your_votes = yourVotes
+
+      return yourVotes
     },
     styles () {
       let value = ''
-      if (this.inCart || this.bondedByYou > 0) value += 'li-delegate-active '
+      if (this.inCart || this.yourVotes > 0) value += 'li-delegate-active '
       if (this.delegate.isValidator) value += 'li-delegate-validator '
       return value
     },
@@ -84,7 +87,7 @@ export default {
     }
   },
   watch: {
-    bondedByYou (newVal, oldVal) {
+    yourVotes (newVal, oldVal) {
       if (newVal > 0) {
         this.$store.commit('addToCart', this.delegate)
       }

@@ -89,6 +89,9 @@ export default {
   &.action
     flex 0.5
 
+  &.hidden
+    visibility hidden
+
 @media screen and (max-width: 768px)
   .sort-by
     &.id
