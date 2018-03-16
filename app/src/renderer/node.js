@@ -2,16 +2,21 @@
 const axios = require('axios')
 const RpcClient = require('tendermint')
 const RestClient = require('./lcdClient.js')
+const mockedRestClient = require('./lcdClientMock.js')
 
-module.exports = function (nodeIP, relayPort, lcdPort) {
+module.exports = function (nodeIP, relayPort, mocked = false) {
   const RELAY_SERVER = 'http://localhost:' + relayPort
 
   let node = new RestClient(RELAY_SERVER)
 
   Object.assign(node, {
+    // activate or deactivate the mocked lcdClient
+    setMocked: (mocked) => {
+      let newNode = mocked ? mockedRestClient : new RestClient(RELAY_SERVER)
+      Object.assign(node, newNode)
+    },
     nodeIP,
     relayPort,
-    lcdPort,
     lcdConnected: () => node.listKeys()
       .then(() => true, () => false),
 
@@ -66,6 +71,7 @@ module.exports = function (nodeIP, relayPort, lcdPort) {
   })
   // TODO: eventually, get all data from light-client connection instead of RPC
 
+  node.setMocked(mocked)
   node.initRPC(nodeIP)
   return node
 }
