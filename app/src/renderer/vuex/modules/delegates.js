@@ -1,4 +1,3 @@
-import axios from 'axios'
 import indicateValidators from 'scripts/indicateValidators'
 
 export default ({ dispatch, node }) => {
@@ -41,9 +40,7 @@ export default ({ dispatch, node }) => {
       return state.delegates
     },
     async getDelegate ({ commit }, pubkey) {
-      let delegate = (await axios.get(`http://localhost:${node.relayPort}/query/stake/candidate/${pubkey.data}`)).data.data
-      // TODO move into cosmos-sdk
-      // let delegate = (await node.candidate(pubkeyToString(pubkey))).data
+      let delegate = (await node.candidate(pubkey.data)).data
       delegate.isValidator = false
       commit('addDelegate', delegate)
       return delegate

@@ -1,7 +1,5 @@
 import setup from '../../helpers/vuex-setup'
 
-let axios = require('axios')
-
 let instance = setup()
 
 describe('Module: Delegations', () => {
@@ -65,21 +63,17 @@ describe('Module: Delegations', () => {
   })
 
   it('fetches bonded delegates', async () => {
-    axios.get = jest.fn()
+    node.bondingsByDelegator = jest.fn()
       .mockReturnValueOnce({
         data: {
-          data: {
-            PubKey: { data: 'foo' },
-            Shares: 123
-          }
+          PubKey: { data: 'foo' },
+          Shares: 123
         }
       })
       .mockReturnValueOnce({
         data: {
-          data: {
-            PubKey: { data: 'bar' },
-            Shares: 456
-          }
+          PubKey: { data: 'bar' },
+          Shares: 456
         }
       })
 
@@ -87,8 +81,8 @@ describe('Module: Delegations', () => {
       { pub_key: { data: 'foo' } },
       { pub_key: { data: 'bar' } }
     ])
-    expect(axios.get.mock.calls[0][0]).toEqual('http://localhost:9060/query/stake/delegator/someaddress/foo')
-    expect(axios.get.mock.calls[1][0]).toEqual('http://localhost:9060/query/stake/delegator/someaddress/bar')
+    expect(node.bondingsByDelegator.mock.calls[0][0]).toEqual(['someaddress', 'foo'])
+    expect(node.bondingsByDelegator.mock.calls[1][0]).toEqual(['someaddress', 'bar'])
 
     expect(store.state.delegation.committedDelegates).toEqual({
       foo: 123,
