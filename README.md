@@ -20,7 +20,7 @@
 `gaia` is a prepackaged version of Cosmos SDK and Tendermint. You will need `gaia` installed.
 
 ```bash
-# install go, set $GOPATH
+# install go, set $GOPATHcsdfsdf
 brew install go
 
 # install glide
