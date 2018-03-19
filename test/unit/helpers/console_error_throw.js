@@ -1,3 +1,7 @@
+// disable log output in tests
+console.log = () => {}
+console.info = () => {}
+
 if (!process.env.LISTENING_TO_UNHANDLED_REJECTION) {
   process.on('unhandledRejection', reason => {
     throw reason
