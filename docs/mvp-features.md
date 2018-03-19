@@ -7,7 +7,7 @@ The user should be able to:
 
 * Create an account with a new seed and address
 * Import an account with a Cosmos seed
-* Register a private key stored on hardware (i.e. Ledger)
+* (May be deferred) Register a private key stored on hardware (i.e. Ledger)
 * Select which account they wish to sign into
 
 ## Sending & Receiving
@@ -17,7 +17,7 @@ The user should be able to:
 * Receive atoms, photons, and other Cosmos tokens to their Cosmos address
 * Send atoms, photons, and other Cosmos tokens (for a fee) to other Cosmos addresses
 * View historical transactions sent to and from their Cosmos address
-* Filter and search through past transactions
+* (May be deferred) Filter and search through past transactions
 
 ## Staking
 
