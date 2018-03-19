@@ -28,7 +28,7 @@
 
 <script>
 import { between, numeric } from 'vuelidate/lib/validators'
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
 import FormGroup from 'common/NiFormGroup'

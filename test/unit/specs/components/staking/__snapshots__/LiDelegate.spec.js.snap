@@ -36,7 +36,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
       />
     </div>
     <div
-      class="li-delegate__value bonded_by_you"
+      class="li-delegate__value your-votes"
     >
       <span>
         0

@@ -62,9 +62,7 @@ function logProcess (process, logPath) {
   fs.ensureFileSync(logPath)
   // Writestreams are blocking fs cleanup in tests, if you get errors, disable logging
   if (LOGGING) {
-    let logStream = fs.createWriteStream(logPath, {
-      flags: 'a' // 'a' means appending (old data will be preserved)
-    })
+    let logStream = fs.createWriteStream(logPath, { flags: 'a' }) // 'a' means appending (old data will be preserved)
     streams.push(logStream)
     process.stdout.pipe(logStream)
     process.stderr.pipe(logStream)
@@ -161,15 +159,15 @@ function startProcess (name, args, env) {
   if (process.env.BINARY_PATH) {
     binPath = process.env.BINARY_PATH
   } else
-    if (DEV) {
-      // in dev mode or tests, use binaries installed in GOPATH
-      let GOPATH = process.env.GOPATH
-      if (!GOPATH) GOPATH = join(home, 'go')
-      binPath = join(GOPATH, 'bin', name)
-    } else {
-      // in production mode, use binaries packaged with app
-      binPath = join(__dirname, '..', 'bin', name)
-    }
+  if (DEV) {
+    // in dev mode or tests, use binaries installed in GOPATH
+    let GOPATH = process.env.GOPATH
+    if (!GOPATH) GOPATH = join(home, 'go')
+    binPath = join(GOPATH, 'bin', name)
+  } else {
+    // in production mode, use binaries packaged with app
+    binPath = join(__dirname, '..', 'bin', name)
+  }
 
   let argString = args.map((arg) => JSON.stringify(arg)).join(' ')
   log(`spawning ${binPath} with args "${argString}"`)
@@ -279,9 +277,7 @@ function setupLogging (root) {
   // initialize log file
   let logFilePath = join(root, 'main.log')
   fs.ensureFileSync(logFilePath)
-  let mainLog = fs.createWriteStream(logFilePath, {
-    flags: 'a' // 'a' means appending (old data will be preserved)
-  })
+  let mainLog = fs.createWriteStream(logFilePath, { flags: 'a' }) // 'a' means appending (old data will be preserved)
   mainLog.write(`${new Date()} Running Cosmos-UI\r\n`)
   // mainLog.write(`${new Date()} Environment: ${JSON.stringify(process.env)}\r\n`) // TODO should be filtered before adding it to the log
   streams.push(mainLog)
@@ -400,9 +396,7 @@ function setupAnalytics () {
   }
 
   // only enable sending of error events in production setups and if the network is a testnet
-  Raven.config(ANALYTICS ? config.sentry_dsn : '', {
-    captureUnhandledRejections: false
-  }).install()
+  Raven.config(ANALYTICS ? config.sentry_dsn : '', { captureUnhandledRejections: false }).install()
 }
 
 async function main () {

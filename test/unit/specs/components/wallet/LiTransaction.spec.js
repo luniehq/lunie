@@ -32,9 +32,7 @@ describe('LiTransaction', () => {
   }
 
   beforeEach(() => {
-    wrapper = shallow(LiTransaction, {
-      propsData
-    })
+    wrapper = shallow(LiTransaction, { propsData })
   })
 
   it('has the expected html structure', () => {

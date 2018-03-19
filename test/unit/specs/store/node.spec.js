@@ -76,9 +76,7 @@ describe('Module: Node', () => {
     node.rpc.on = jest.fn((value, cb) => {
       if (value === 'error' && !failed) {
         failed = true
-        cb({
-          message: 'disconnected'
-        })
+        cb({ message: 'disconnected' })
         expect(store.state.node.connected).toBe(false)
       }
     })
@@ -91,9 +89,7 @@ describe('Module: Node', () => {
     }
     node.rpc.on = jest.fn((value, cb) => {
       if (value === 'error') {
-        cb({
-          message: 'some message'
-        })
+        cb({ message: 'some message' })
         expect(store.state.node.connected).toBe(true)
         done()
       }
@@ -104,9 +100,7 @@ describe('Module: Node', () => {
   it('should set the initial status', () => {
     node.rpc.status = (cb) => cb(null, {
       latest_block_height: 42,
-      node_info: {
-        network: 'test-net'
-      }
+      node_info: { network: 'test-net' }
     })
     store.dispatch('nodeSubscribe')
     expect(store.state.node.connected).toBe(true)
@@ -178,7 +172,7 @@ describe('Module: Node', () => {
   it('should not reconnect if pinging node is successful', () => {
     node.rpc.status = (cb) => {
       store.commit('stopConnecting', true)
-      cb(null, {node_info: {}})
+      cb(null, { node_info: {} })
     }
     node.rpcReconnect = () => {
       throw Error('Shouldnt reconnect')

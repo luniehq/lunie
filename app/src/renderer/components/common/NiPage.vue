@@ -19,12 +19,8 @@ export default {
     PageHeader,
     PageFooter
   },
-  computed: {
-    ...mapGetters(['config'])
-  },
-  data: () => ({
-    ps: ''
-  }),
+  computed: { ...mapGetters(['config']) },
+  data: () => ({ ps: '' }),
   async mounted () {
     await this.$nextTick()
     const container = this.$el.querySelector('.ni-page-main')

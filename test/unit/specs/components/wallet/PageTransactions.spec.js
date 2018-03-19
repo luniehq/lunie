@@ -3,17 +3,19 @@ import PageTransactions from 'renderer/components/wallet/PageTransactions'
 
 describe('PageTransactions', () => {
   let wrapper, store
-  let {mount} = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(PageTransactions, {stubs: {
-      'li-transaction': '<li-transaction />',
-      'data-empty-tx': '<data-empty-tx />'
-    }})
+    let instance = mount(PageTransactions, {
+      stubs: {
+        'li-transaction': '<li-transaction />',
+        'data-empty-tx': '<data-empty-tx />'
+      }
+    })
     wrapper = instance.wrapper
     store = instance.store
 
-    store.commit('setWalletKey', {address: 'myAddress'})
+    store.commit('setWalletKey', { address: 'myAddress' })
     store.commit('setWalletHistory', [{
       tx: {
         hash: 'x',

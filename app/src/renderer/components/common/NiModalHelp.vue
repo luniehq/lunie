@@ -11,7 +11,7 @@ modal.ni-modal-help(v-if="active" :close="close")
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
 import Modal from 'common/NiModal'
 import ListItem from 'common/NiListItem'
@@ -24,10 +24,14 @@ export default {
   },
   computed: {
     ...mapGetters(['config']),
-    active () { return this.config.modals.help.active }
+    active () {
+      return this.config.modals.help.active
+    }
   },
   methods: {
-    close () { this.$store.commit('setModalHelp', false) }
+    close () {
+      this.$store.commit('setModalHelp', false)
+    }
   }
 }
 </script>

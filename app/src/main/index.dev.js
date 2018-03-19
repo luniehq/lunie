@@ -10,9 +10,7 @@
 // Set babel `env` and install `babel-register`
 process.env.BABEL_ENV = 'main'
 
-require('babel-register')({
-  ignore: /node_modules/
-})
+require('babel-register')({ ignore: /node_modules/ })
 
 // Install `vue-devtools`
 require('electron').app.on('ready', () => {

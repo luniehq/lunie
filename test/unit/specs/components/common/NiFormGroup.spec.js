@@ -14,9 +14,7 @@ describe('NiFormGroup', () => {
   beforeEach(() => {
     wrapper = mount(NiFormGroup, {
       propsData,
-      slots: {
-        default: '<input class="fake-field" value="fake"></div>'
-      }
+      slots: { default: '<input class="fake-field" value="fake"></div>' }
     })
   })
 

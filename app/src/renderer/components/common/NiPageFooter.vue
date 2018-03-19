@@ -5,9 +5,7 @@ footer.ni-page-footer
 </template>
 
 <script>
-export default {
-  name: 'ni-page-footer'
-}
+export default { name: 'ni-page-footer' }
 </script>
 
 <style lang="stylus">

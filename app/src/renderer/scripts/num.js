@@ -33,8 +33,12 @@ function shortInt (num) {
   }
   return prettyInt(num)
 }
-function percentInt (x) { return numeral(x).format('0%') }
-function percent (x) { return numeral(x).format('0.00%') }
+function percentInt (x) {
+  return numeral(x).format('0%')
+}
+function percent (x) {
+  return numeral(x).format('0.00%')
+}
 
 export default {
   usd,

@@ -29,7 +29,7 @@ page(title='Validators and Candidates')
 
 <script>
 import { mapGetters } from 'vuex'
-import { includes, orderBy } from 'lodash'
+import { includes, orderBy, forEach } from 'lodash'
 import Mousetrap from 'mousetrap'
 import LiDelegate from 'staking/LiDelegate'
 import Btn from '@nylira/vue-button'
@@ -59,17 +59,26 @@ export default {
   },
   computed: {
     ...mapGetters(['delegates', 'filters', 'shoppingCart', 'config', 'user']),
-    address () { return this.user.address },
+    address () {
+      return this.user.address
+    },
     filteredDelegates () {
       let query = this.filters.delegates.search.query
-      let list = orderBy(this.delegates.delegates, [this.sort.property], [this.sort.order])
+
+      forEach(this.delegates.delegates, function (v) {
+        v.small_moniker = v.moniker.toLowerCase()
+      })
+      let delegates = orderBy(this.delegates.delegates, [this.sort.property], [this.sort.order])
+
       if (this.filters.delegates.search.visible) {
-        return list.filter(i => includes(JSON.stringify(i).toLowerCase(), query.toLowerCase()))
+        return delegates.filter(i => includes(JSON.stringify(i).toLowerCase(), query.toLowerCase()))
       } else {
-        return list
+        return delegates
       }
     },
-    userCanDelegate () { return this.user.atoms > 0 }
+    userCanDelegate () {
+      return this.user.atoms > 0
+    }
   },
   data: () => ({
     query: '',
@@ -77,12 +86,24 @@ export default {
       property: 'shares',
       order: 'desc',
       properties: [
-        { title: 'Name', value: 'description.moniker', class: 'name' },
-        { title: '% of Vote', value: 'shares', class: 'percent_of_vote' },
-        { title: 'Total Votes', value: 'voting_power', class: 'number_of_votes' },
-        { title: 'Your Votes', value: 'bonded', class: 'bonded_by_you' },
-        { title: 'Status', value: 'status', class: 'status' },
-        { title: '', value: '', class: 'action' }
+        {
+          title: 'Name', value: 'small_moniker', class: 'name'
+        },
+        {
+          title: '% of Vote', value: 'shares', class: 'percent_of_vote'
+        },
+        {
+          title: 'Total Votes', value: 'voting_power', class: 'voting_power'
+        },
+        {
+          title: 'Your Votes', value: 'your_votes', class: 'your-votes'
+        },
+        {
+          title: 'Status', value: 'isValidator', class: 'status'
+        },
+        {
+          title: '', value: '', class: 'action hidden'
+        }
       ]
     }
   }),
@@ -96,7 +117,9 @@ export default {
       let candidates = await this.$store.dispatch('getDelegates')
       this.$store.dispatch('getBondedDelegates', candidates)
     },
-    setSearch (bool) { this.$store.commit('setSearchVisible', ['delegates', bool]) }
+    setSearch (bool) {
+      this.$store.commit('setSearchVisible', ['delegates', bool])
+    }
   },
   async mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))

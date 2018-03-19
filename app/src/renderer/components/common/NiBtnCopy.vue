@@ -6,12 +6,10 @@ btn.btn-copy(
 </template>
 
 <script>
-import {clipboard} from 'electron'
+import { clipboard } from 'electron'
 import Btn from '@nylira/vue-button'
 export default {
-  components: {
-    Btn
-  },
+  components: { Btn },
   computed: {
     notifyTitle () {
       if (this.title) return this.title

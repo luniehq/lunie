@@ -12,18 +12,14 @@ import ListItem from 'common/NiListItem'
 import num from 'scripts/num'
 export default {
   name: 'ni-connectivity',
-  components: {
-    ListItem
-  },
+  components: { ListItem },
   computed: {
     ...mapGetters(['lastHeader', 'nodeIP', 'connected', 'validators']),
     blockString () {
       return `${this.lastHeader.chain_id} (#${num.prettyInt(this.lastHeader.height)})`
     }
   },
-  data: () => ({
-    num: num
-  })
+  data: () => ({ num: num })
 }
 </script>
 

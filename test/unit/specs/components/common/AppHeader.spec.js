@@ -4,16 +4,12 @@ import setup from '../../../helpers/vuex-setup'
 
 describe('AppHeader', () => {
   let wrapper, store, instance
-  let {mount} = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
     instance = mount(AppHeader, {
-      stubs: {
-        'app-menu': '<app-menu />'
-      },
-      methods: {
-        watchWindowSize: () => {}
-      }
+      stubs: { 'app-menu': '<app-menu />' },
+      methods: { watchWindowSize: () => {} }
     })
     wrapper = instance.wrapper
     store = instance.store

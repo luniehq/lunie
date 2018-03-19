@@ -31,27 +31,31 @@ describe('NISessionSignUp', () => {
   })
 
   it('should close the modal on successful login', async () => {
-    wrapper.setData({ fields: {
-      signUpPassword: '1234567890',
-      signUpPasswordConfirm: '1234567890',
-      signUpSeed: 'bar', // <-- doesn#t check for correctness of seed
-      signUpName: 'testaccount',
-      signUpWarning: true,
-      signUpBackup: true
-    }})
+    wrapper.setData({
+      fields: {
+        signUpPassword: '1234567890',
+        signUpPasswordConfirm: '1234567890',
+        signUpSeed: 'bar', // <-- doesn#t check for correctness of seed
+        signUpName: 'testaccount',
+        signUpWarning: true,
+        signUpBackup: true
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit).toHaveBeenCalledWith('setModalSession', false)
   })
 
   it('should signal signedin state on successful login', async () => {
-    wrapper.setData({ fields: {
-      signUpPassword: '1234567890',
-      signUpPasswordConfirm: '1234567890',
-      signUpSeed: 'bar', // <-- doesn#t check for correctness of seed
-      signUpName: 'testaccount',
-      signUpWarning: true,
-      signUpBackup: true
-    }})
+    wrapper.setData({
+      fields: {
+        signUpPassword: '1234567890',
+        signUpPasswordConfirm: '1234567890',
+        signUpSeed: 'bar', // <-- doesn#t check for correctness of seed
+        signUpName: 'testaccount',
+        signUpWarning: true,
+        signUpBackup: true
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[1][0]).toEqual('notify')
     expect(store.commit.mock.calls[1][1].title.toLowerCase()).toContain('signed up')
@@ -62,70 +66,80 @@ describe('NISessionSignUp', () => {
   })
 
   it('should show error if warnings not acknowledged', () => {
-    wrapper.setData({ fields: {
-      signUpPassword: '1234567890',
-      signUpPasswordConfirm: '1234567890',
-      signUpSeed: 'bar',
-      signUpName: 'testaccount',
-      signUpWarning: false,
-      signUpBackup: true
-    }})
+    wrapper.setData({
+      fields: {
+        signUpPassword: '1234567890',
+        signUpPasswordConfirm: '1234567890',
+        signUpSeed: 'bar',
+        signUpName: 'testaccount',
+        signUpWarning: false,
+        signUpBackup: true
+      }
+    })
     wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
   it('should show error if backup info not acknowledged', async () => {
-    wrapper.setData({ fields: {
-      signUpPassword: '1234567890',
-      signUpPasswordConfirm: '1234567890',
-      signUpSeed: 'bar',
-      signUpName: 'testaccount',
-      signUpWarning: true,
-      signUpBackup: false
-    }})
+    wrapper.setData({
+      fields: {
+        signUpPassword: '1234567890',
+        signUpPasswordConfirm: '1234567890',
+        signUpSeed: 'bar',
+        signUpName: 'testaccount',
+        signUpWarning: true,
+        signUpBackup: false
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
   it('should show error if password is not 10 long', async () => {
-    wrapper.setData({ fields: {
-      signUpPassword: '123456789',
-      signUpPasswordConfirm: '1234567890',
-      signUpSeed: 'bar',
-      signUpName: 'testaccount',
-      signUpWarning: true,
-      signUpBackup: true
-    }})
+    wrapper.setData({
+      fields: {
+        signUpPassword: '123456789',
+        signUpPasswordConfirm: '1234567890',
+        signUpSeed: 'bar',
+        signUpName: 'testaccount',
+        signUpWarning: true,
+        signUpBackup: true
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
   it('should show error if password is not confirmed', async () => {
-    wrapper.setData({ fields: {
-      signUpPassword: '1234567890',
-      signUpPasswordConfirm: 'notthesame',
-      signUpSeed: 'bar',
-      signUpName: 'testaccount',
-      signUpWarning: true,
-      signUpBackup: true
-    }})
+    wrapper.setData({
+      fields: {
+        signUpPassword: '1234567890',
+        signUpPasswordConfirm: 'notthesame',
+        signUpSeed: 'bar',
+        signUpName: 'testaccount',
+        signUpWarning: true,
+        signUpBackup: true
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
   it('should show error if account name is not 5 long', async () => {
-    wrapper.setData({ fields: {
-      signUpPassword: '1234567890',
-      signUpPasswordConfirm: '1234567890',
-      signUpSeed: 'bar',
-      signUpName: 'test',
-      signUpWarning: true,
-      signUpBackup: true
-    }})
+    wrapper.setData({
+      fields: {
+        signUpPassword: '1234567890',
+        signUpPasswordConfirm: '1234567890',
+        signUpSeed: 'bar',
+        signUpName: 'test',
+        signUpWarning: true,
+        signUpBackup: true
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
@@ -133,28 +147,32 @@ describe('NISessionSignUp', () => {
 
   it('should not continue if creation failed', async () => {
     store.dispatch = jest.fn(() => Promise.resolve(null))
-    wrapper.setData({ fields: {
-      signUpPassword: '1234567890',
-      signUpPasswordConfirm: '1234567890',
-      signUpSeed: 'bar',
-      signUpName: 'testaccount',
-      signUpWarning: true,
-      signUpBackup: true
-    }})
+    wrapper.setData({
+      fields: {
+        signUpPassword: '1234567890',
+        signUpPasswordConfirm: '1234567890',
+        signUpSeed: 'bar',
+        signUpName: 'testaccount',
+        signUpWarning: true,
+        signUpBackup: true
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit).not.toHaveBeenCalled()
   })
 
   it('should show a notification if creation failed', async () => {
-    store.dispatch = jest.fn(() => Promise.reject({message: 'test'}))
-    wrapper.setData({ fields: {
-      signUpPassword: '1234567890',
-      signUpPasswordConfirm: '1234567890',
-      signUpSeed: 'bar',
-      signUpName: 'testaccount',
-      signUpWarning: true,
-      signUpBackup: true
-    }})
+    store.dispatch = jest.fn(() => Promise.reject({ message: 'test' }))
+    wrapper.setData({
+      fields: {
+        signUpPassword: '1234567890',
+        signUpPasswordConfirm: '1234567890',
+        signUpSeed: 'bar',
+        signUpName: 'testaccount',
+        signUpWarning: true,
+        signUpBackup: true
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0][0]).toEqual('notifyError')
     expect(store.commit.mock.calls[0][1].body).toEqual('test')

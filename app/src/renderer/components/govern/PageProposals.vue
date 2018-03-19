@@ -66,11 +66,21 @@ export default {
       property: 'created_at',
       order: 'desc',
       properties: [
-        { id: 1, title: 'Title', value: 'title' },
-        { id: 2, title: 'Type', value: 'type' },
-        { id: 3, title: 'Created At', value: 'created_at', initial: true },
-        { id: 4, title: 'Activated At', value: 'active_at' },
-        { id: 5, title: 'Proposer', value: 'entity_id' }
+        {
+          id: 1, title: 'Title', value: 'title'
+        },
+        {
+          id: 2, title: 'Type', value: 'type'
+        },
+        {
+          id: 3, title: 'Created At', value: 'created_at', initial: true
+        },
+        {
+          id: 4, title: 'Activated At', value: 'active_at'
+        },
+        {
+          id: 5, title: 'Proposer', value: 'entity_id'
+        }
       ]
     }
   }),
@@ -81,8 +91,12 @@ export default {
     gotoArchive () {
       this.$store.commit('notify', { title: 'TODO: Archive Proposals', body: 'Work in progress.' })
     },
-    gotoNewProposal () { this.$router.push('/proposals/new') },
-    setSearch (bool) { this.$store.commit('setSearchVisible', ['proposals', bool]) }
+    gotoNewProposal () {
+      this.$router.push('/proposals/new')
+    },
+    setSearch (bool) {
+      this.$store.commit('setSearchVisible', ['proposals', bool])
+    }
   },
   mounted () {
     Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))

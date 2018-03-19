@@ -11,10 +11,8 @@ describe('NiSessionWelcome', () => {
 
   beforeEach(() => {
     store = new Vuex.Store({
-      getters: {
-        config: () => config.state
-      },
-      modules: {config}
+      getters: { config: () => config.state },
+      modules: { config }
     })
     wrapper = mount(NiSession, {
       localVue,

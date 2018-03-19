@@ -34,7 +34,9 @@ export default {
       return this.proposals
         .filter(p => p.flags.read === false).length
     },
-    isValidatorPage () { return this.$route.params.validator }
+    isValidatorPage () {
+      return this.$route.params.validator
+    }
   },
   methods: {
     close () {

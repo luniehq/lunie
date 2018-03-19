@@ -9,19 +9,13 @@ export default ({ commit }) => {
     // TODO: change to atom
     bondingDenom: 'fermion',
     modals: {
-      error: {
-        active: false
-      },
-      help: {
-        active: false
-      },
+      error: { active: false },
+      help: { active: false },
       session: {
         active: true,
         state: 'loading'
       },
-      blockchain: {
-        active: false
-      }
+      blockchain: { active: false }
     }
   }
   const mutations = {

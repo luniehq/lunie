@@ -9,3 +9,4 @@ thumbs.db
 !.gitkeep
 .vscode/*
 app/networks
+yarn-error.log
