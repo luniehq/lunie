@@ -1,5 +1,6 @@
 let mockValidators = require('./json/validators.json')
 
+// XXX use lcdclientmock instead of this dup?
 module.exports = {
   // REST
   nodeIp: '127.0.0.1',
@@ -19,7 +20,6 @@ module.exports = {
   }),
   queryAccount: () => null,
   queryNonce: () => ({ data: 123 }),
-  buildSend: () => Promise.resolve(null),
   buildDelegate: () => Promise.resolve(null),
   buildUnbond: () => Promise.resolve(null),
   coinTxs: () => Promise.resolve([]),

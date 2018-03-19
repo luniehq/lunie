@@ -60,7 +60,7 @@ let state = {
         }
       ]
     },
-    height: 500
+    height: 150
   }],
   stake: {
     DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B: {
@@ -117,6 +117,7 @@ let state = {
 }
 
 module.exports = {
+  async lcdConnected () { return true },
   async sign ({ name, password, tx }) {
     return {
       'type': 'sigs/one',

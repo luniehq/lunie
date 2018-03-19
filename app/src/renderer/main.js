@@ -13,7 +13,7 @@ const config = require('../../../config')
 
 import App from './App'
 import routes from './routes'
-import Node from './node'
+import Node from './connectors/node'
 import Store from './vuex/store'
 
 // exporting this for testing
@@ -55,7 +55,7 @@ async function main () {
   let relayPort = getQueryParameter('relay_port')
   console.log('Expecting relay-server on port:', relayPort)
   console.log('Connecting to node:', nodeIP)
-  const node = Node(nodeIP, relayPort)
+  const node = Node(nodeIP, relayPort, true)
 
   node.lcdConnected()
     .then(connected => {

@@ -49,7 +49,7 @@ export default function ({ node }) {
       // the rpc socket can be closed before we can even attach a listener
       // so we remember if the connection is open
       // we handle the reconnection here so we can attach all these listeners on reconnect
-      if (!node.rpcOpen) {
+      if (!node.rpcInfo.connected) {
         await sleep(500)
         dispatch('reconnect')
         return

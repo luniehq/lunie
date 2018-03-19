@@ -32,7 +32,7 @@ describe('LCD Connector', () => {
   it('should init the rpc connection on initialization', () => {
     let node = newNode()
     expect(node.rpc).toBeDefined()
-    expect(node.rpcOpen).toBe(true)
+    expect(node.rpcInfo.connected).toBe(true)
   })
 
   it('should remember if it could not connect via rpc', () => {
@@ -47,7 +47,7 @@ describe('LCD Connector', () => {
     LCDConnector = require('renderer/node')
     let node = newNode()
     expect(node.rpc).toBeDefined()
-    expect(node.rpcOpen).toBe(false)
+    expect(node.rpcInfo.connected).toBe(false)
   })
 
   it('should not react to error codes not meaning connection failed', () => {
@@ -62,12 +62,12 @@ describe('LCD Connector', () => {
     LCDConnector = require('renderer/node')
     let node = newNode()
     expect(node.rpc).toBeDefined()
-    expect(node.rpcOpen).toBe(true)
+    expect(node.rpcInfo.connected).toBe(true)
   })
 
   it('should notify the main process to reconnect', async () => {
     let node = newNode()
-    expect(node.rpcConnecting).toBe(false)
+    expect(node.rpcInfo.connecting).toBe(false)
     node.initRPC = jest.fn()
     let nodeIP = await node.rpcReconnect()
     expect(nodeIP).toBe('1.2.3.4')
