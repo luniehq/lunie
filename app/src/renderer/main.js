@@ -55,7 +55,7 @@ async function main () {
   let relayPort = getQueryParameter('relay_port')
   console.log('Expecting relay-server on port:', relayPort)
   console.log('Connecting to node:', nodeIP)
-  const node = Node(nodeIP, relayPort, true)
+  const node = Node(nodeIP, relayPort)
 
   node.lcdConnected()
     .then(connected => {

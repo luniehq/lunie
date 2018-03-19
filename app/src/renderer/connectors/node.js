@@ -14,6 +14,12 @@ module.exports = function (nodeIP, relayPort, mocked = false) {
       let newRestClient = mocked ? mockedRestClient : new RestClient(RELAY_SERVER)
       let newRpcClient = mocked ? mockedRpcWrapper(connector) : RpcWrapper(connector, nodeIP, RELAY_SERVER)
       Object.assign(connector, newRestClient, newRpcClient)
+      // we can't assign class functions to an object so we need to iterate over the prototype
+      if (!mocked) {
+        Object.getOwnPropertyNames(Object.getPrototypeOf(newRestClient)).forEach(prop => {
+          connector[prop] = newRestClient[prop]
+        })
+      }
     }
   }
   // TODO: eventually, get all data from light-client connection instead of RPC

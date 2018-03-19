@@ -55,6 +55,8 @@ module.exports = function setRpcWrapper (container, nodeIP, relayServerAddress) 
       return nodeIP
     }
   }
+
+  return rpcWrapper
 }
 
 function sleep (ms = 0) {
