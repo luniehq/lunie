@@ -61,12 +61,12 @@ exports[`PageDelegates has the expected html structure 1`] = `
          % of Vote
       </div>
 </div>
-   <div class=\\"sort-by number_of_votes\\">
+   <div class=\\"sort-by voting_power\\">
       <div class=\\"label\\">
          Total Votes
       </div>
 </div>
-   <div class=\\"sort-by bonded_by_you\\">
+   <div class=\\"sort-by your-votes\\">
       <div class=\\"label\\">
          Your Votes
       </div>
@@ -76,7 +76,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
          Status
       </div>
 </div>
-   <div class=\\"sort-by action\\">
+   <div class=\\"sort-by action hidden\\">
       <div class=\\"label\\"></div>
 </div>
 </div>
@@ -93,7 +93,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
       <span>30,000</span>
       <div class=\\"bar\\" style=\\"width: 100%;\\"></div>
 </div>
-   <div class=\\"li-delegate__value bonded_by_you\\">
+   <div class=\\"li-delegate__value your-votes\\">
       <span>0</span>
    </div>
    <div class=\\"li-delegate__value status\\">
@@ -116,7 +116,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
       <span>10,000</span>
       <div class=\\"bar\\" style=\\"width: 33%;\\"></div>
 </div>
-   <div class=\\"li-delegate__value bonded_by_you\\">
+   <div class=\\"li-delegate__value your-votes\\">
       <span>0</span>
    </div>
    <div class=\\"li-delegate__value status\\">
@@ -321,7 +321,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             </div>
           </div>
           <div
-            class="sort-by number_of_votes"
+            class="sort-by voting_power"
           >
             <div
               class="label"
@@ -330,7 +330,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             </div>
           </div>
           <div
-            class="sort-by bonded_by_you"
+            class="sort-by your-votes"
           >
             <div
               class="label"
@@ -348,7 +348,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             </div>
           </div>
           <div
-            class="sort-by action"
+            class="sort-by action hidden"
           >
             <div
               class="label"
@@ -393,7 +393,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
             />
           </div>
           <div
-            class="li-delegate__value bonded_by_you"
+            class="li-delegate__value your-votes"
           >
             <span>
               0
