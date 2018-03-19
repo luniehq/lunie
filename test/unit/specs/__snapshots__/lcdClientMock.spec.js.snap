@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LCD Client deletes keys 1`] = `"received is not a function"`;
+
+exports[`LCD Client updates keys 1`] = `"received is not a function"`;

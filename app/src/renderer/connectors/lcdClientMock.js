@@ -139,7 +139,7 @@ module.exports = {
   async postTx (signedTx) {
     let outerTx = signedTx.data.tx.data.tx.data.tx
     let address = outerTx.data.signers[0].addr
-    state.txs.push(outerTx.data.tx)
+    state.txs.push(outerTx.data.tx.data)
     state.nonces[address]++
 
     return {
@@ -188,11 +188,10 @@ module.exports = {
   // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prop data
   async deleteKey (account, { name, password }) {
     let key = state.keys.find(k => k.name === name)
-    key
     if (key.password !== password) {
       throw new Error('Passwords do not match')
     }
-    state.keys = state.keys.filter(k => k.name === name)
+    state.keys = state.keys.filter(k => k.name !== name)
   },
   async recoverKey ({ name, password, seed_phrase }) { // eslint-disable-line camelcase
     let key = {
@@ -264,7 +263,7 @@ module.exports = {
     if (account) {
       return { data: state.accounts[address] }
     }
-    return { data: { coins: [] } }
+    return null
   },
   async coinTxs (address) {
     return state.txs.filter(tx => {
