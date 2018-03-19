@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.3.1] - 2018-01-30
 ### Added
-* Check to ensure gaia version is correct for the current network @mappum
+* Check to ensure gai dasdsafa version is correct for the current network @mappum
 
 ### Changed
 * Added a callback and console output when Vue app has finished loading to test build apps on successful startup. @faboweb
