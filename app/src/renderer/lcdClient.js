@@ -92,18 +92,12 @@ Object.assign(Client.prototype, {
     }
   },
 
-  // Tendermint RPC
-  status: req('GET', '/tendermint/status'),
-
   // staking
-  candidate: argReq('GET', '/query/stake/candidates'),
+  candidate: argReq('GET', '/query/stake/candidate'),
   candidates: req('GET', '/query/stake/candidates'),
   buildDelegate: req('POST', '/build/stake/delegate'),
   buildUnbond: req('POST', '/build/stake/unbond'),
-  bondingsByDelegator: argReq('GET', '/tx/bondings/delegator'),
-  bondingsByValidator: argReq('GET', '/tx/bondings/validator')
-
-  // TODO: separate API registration for different modules
+  bondingsByDelegator: argReq('GET', '/query/stake/delegator')
 })
 
 module.exports = Client

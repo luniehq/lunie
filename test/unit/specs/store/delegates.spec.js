@@ -1,7 +1,5 @@
 import setup from '../../helpers/vuex-setup'
 
-let axios = require('axios')
-
 let instance = setup()
 
 describe('Module: Delegates', () => {
@@ -36,37 +34,29 @@ describe('Module: Delegates', () => {
   })
 
   it('fetches a candidate', async () => {
-    axios.get = jest.fn()
+    node.candidate = jest.fn()
       .mockReturnValueOnce(Promise.resolve({
         data: {
-          data: {
-            pub_key: { data: 'foo' },
-            test: 123
-          }
+          pub_key: { data: 'foo' },
+          test: 123
         }
       }))
-
     await store.dispatch('getDelegate', { data: 'foo' })
-    expect(axios.get.mock.calls[0][0]).toBe('http://localhost:9060/query/stake/candidate/foo')
     expect(store.state.delegates.delegates[0].test).toBe(123)
   })
 
   it('fetches all candidates', async () => {
-    axios.get = jest.fn()
+    node.candidate = jest.fn()
       .mockReturnValueOnce(Promise.resolve({
         data: {
-          data: {
-            pub_key: { data: 'foo' },
-            test: 123
-          }
+          pub_key: { data: 'foo' },
+          test: 123
         }
       }))
       .mockReturnValueOnce(Promise.resolve({
         data: {
-          data: {
-            pub_key: { data: 'bar' },
-            test: 456
-          }
+          pub_key: { data: 'bar' },
+          test: 456
         }
       }))
 
@@ -79,8 +69,6 @@ describe('Module: Delegates', () => {
       })
 
     await store.dispatch('getDelegates')
-    expect(axios.get.mock.calls[0][0]).toBe('http://localhost:9060/query/stake/candidate/foo')
-    expect(axios.get.mock.calls[1][0]).toBe('http://localhost:9060/query/stake/candidate/bar')
     expect(store.state.delegates.delegates[0].test).toBe(123)
     expect(store.state.delegates.delegates[1].test).toBe(456)
   })

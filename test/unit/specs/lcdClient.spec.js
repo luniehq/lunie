@@ -8,10 +8,10 @@ describe('LCD Client', () => {
     axios.get = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ data: { foo: 'bar' } }))
 
-    let res = await client.status()
+    let res = await client.listKeys()
     expect(res).toEqual({ foo: 'bar' })
     expect(axios.get.mock.calls[0]).toEqual([
-      'http://localhost:8998/tendermint/status',
+      'http://localhost:8998/keys',
       undefined
     ])
   })
@@ -35,7 +35,7 @@ describe('LCD Client', () => {
     let res = await client.bondingsByDelegator([ 'foo', 'bar' ])
     expect(res).toEqual({ foo: 'bar' })
     expect(axios.get.mock.calls[0]).toEqual([
-      'http://localhost:8998/tx/bondings/delegator/foo/bar',
+      'http://localhost:8998/query/stake/delegator/foo/bar',
       undefined
     ])
   })
@@ -76,13 +76,13 @@ describe('LCD Client', () => {
       }))
 
     try {
-      await client.status()
+      await await client.listKeys()
     } catch (err) {
       expect(err.message).toBe('foo')
       expect(err.code).toBe(123)
     }
     expect(axios.get.mock.calls[0]).toEqual([
-      'http://localhost:8998/tendermint/status',
+      'http://localhost:8998/keys',
       undefined
     ])
   })

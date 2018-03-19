@@ -30,6 +30,18 @@ module.exports = {
     deliver_tx: { code: 0 }
   }),
   sign: () => Promise.resolve(null),
+  candidate: () => Promise.resolve({
+    data: {
+      pub_key: { data: '' },
+      description: { name: 'test' }
+    }
+  }),
+  bondingsByDelegator: () => Promise.resolve({
+    data: {
+      PubKey: { data: '' },
+      Shares: 0
+    }
+  }),
 
   // RPC
   rpc: {
