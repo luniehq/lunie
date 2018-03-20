@@ -1,4 +1,4 @@
-describe('LCD Client', () => {
+describe('LCD Client Mock', () => {
   let client
 
   beforeEach(() => {
