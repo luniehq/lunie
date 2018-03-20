@@ -11,6 +11,9 @@ let state = {
       coins: [{
         denom: 'mycoin',
         amount: 1000
+      }, {
+        denom: 'fermion',
+        amount: 2300
       }]
     }
   },
@@ -139,26 +142,15 @@ module.exports = {
   async postTx (signedTx) {
     let outerTx = signedTx.data.tx.data.tx.data.tx
     let address = outerTx.data.signers[0].addr
-    state.txs.push(outerTx.data.tx.data)
     state.nonces[address]++
 
-    return {
-      'check_tx': {
-        'code': 0,
-        'data': '',
-        'log': '',
-        'gas': '0',
-        'fee': '0'
-      },
-      'deliver_tx': {
-        'code': 0,
-        'data': '',
-        'log': '',
-        'tags': []
-      },
-      'hash': '999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A',
-      'height': 0
+    switch (outerTx.data.tx.type) {
+      case 'coin/send':
+        return sendCoins(outerTx.data.tx.data)
+      case 'stake/delegate':
+        return delegate(address, outerTx.data.tx.data)
     }
+    throw Error('tx type not defined')
   },
 
   // keys
@@ -222,7 +214,7 @@ module.exports = {
                     'addr': fromAddr
                   }
                 ],
-                'tx': {
+                'tx': { // outer tx
                   'type': 'coin/send',
                   'data': {
                     'inputs': [
@@ -345,4 +337,91 @@ function makeAddress () {
   for (var i = 0; i < 40; i++) { text += possible.charAt(Math.floor(Math.random() * possible.length)) }
 
   return text
+}
+
+function sendCoins ({ inputs, outputs }) {
+  if (state.accounts[inputs[0].address.addr].coins.find(c => c.denom === 'mycoin').amount < inputs[0].coins[0].amount) {
+    return txResult(1, 'Not enought coins in your account')
+  }
+
+  // update balances
+  state.accounts[inputs[0].address.addr].coins[0].amount -= inputs[0].coins[0].amount
+  let receiver = state.accounts[outputs[0].address.addr]
+  if (!receiver) {
+    state.accounts[outputs[0].address.addr] = { coins: [] }
+    receiver = state.accounts[outputs[0].address.addr]
+  }
+  let receiverCoins = receiver.coins[0]
+  if (!receiverCoins) {
+    receiver.coins.push({
+      denom: 'mycoin',
+      amount: 0
+    })
+    receiverCoins = receiver.coins[0]
+  }
+  receiverCoins.amount += inputs[0].coins[0].amount
+
+  // persist tx
+  state.txs.push({
+    tx: {
+      inputs: inputs.map(i => ({
+        sender: i.address.addr,
+        coins: i.coins
+      })),
+      outputs: outputs.map(i => ({
+        receiver: i.address.addr,
+        coins: i.coins
+      }))
+    },
+    height: 1 // XXX set height?
+  })
+
+  return txResult()
+}
+
+function delegate (sender, { pub_key: pubKey, amount }) {
+  let delegate = state.delegates.find(d => d.pub_key.data === pubKey)
+  if (!delegate) {
+    return txResult(1, 'Delegator does not exist')
+  }
+
+  let fermions = state.accounts[sender].coins.find(c => c.denom === 'fermion')
+  if (!fermions) {
+    state.accounts[sender].coins.push({ denom: 'fermion', amount: 0 })
+    fermions = state.accounts[sender].coins.find(c => c.denom === 'fermion')
+  }
+  if (fermions.amount < amount) {
+    return txResult(1, 'Not enought fermions to stake')
+  }
+
+  // execute
+  fermions.amount -= amount
+  delegate.voting_power += amount
+  state.stake[sender][pubKey] = state.stake[sender][pubKey] || {
+    PubKey: { data: pubKey },
+    Shares: 0
+  }
+  state.stake[sender][pubKey].Shares += amount
+
+  return txResult()
+}
+
+function txResult (code = 0, message = '') {
+  return {
+    'check_tx': {
+      'code': code,
+      'data': message,
+      'log': '',
+      'gas': '0',
+      'fee': '0'
+    },
+    'deliver_tx': {
+      'code': 0,
+      'data': '',
+      'log': '',
+      'tags': []
+    },
+    'hash': '999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A',
+    'height': 0
+  }
 }

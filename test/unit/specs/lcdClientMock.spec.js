@@ -1,22 +1,3 @@
-let signedTx = {
-  data: {
-    tx: {
-      data: {
-        tx: {
-          data: {
-            tx: { // outer tx
-              data: {
-                signers: [{ addr: 'DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B' }],
-                tx: { data: { tx: { inputs: [{ sender: 'DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B' }], outputs: [] } } }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
 describe('LCD Client', () => {
   let client
 
@@ -28,30 +9,6 @@ describe('LCD Client', () => {
 
   it('shows a connected state', async () => {
     expect(await client.lcdConnected()).toBe(true)
-  })
-
-  it('signes a tx', async () => {
-    let res = await client.sign('test', '1234567890', {})
-    expect(res.type).toBe('sigs/one')
-  })
-
-  it('persists a posted tx', async () => {
-    let res = await client.coinTxs('DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B')
-    expect(res.length).toBe(2) // predefined txs
-
-    res = await client.postTx(signedTx)
-    expect(res.height).toBeDefined()
-
-    res = await client.coinTxs('DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B')
-    expect(res.length).toBe(3)
-  })
-
-  it('query and update the nonce', async () => {
-    let nonce = await client.queryNonce('DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B')
-    expect(nonce).toBe(0)
-    await client.postTx(signedTx)
-    nonce = await client.queryNonce('DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B')
-    expect(nonce).toBe(1)
   })
 
   it('generates and persists keys', async () => {
@@ -90,12 +47,87 @@ describe('LCD Client', () => {
     expect(res).toBeUndefined()
   })
 
-  it('buils a send tx', async () => {
+  it('builds a tx', async () => {
     let { address: fromAddr } = await client.generateKey({ name: 'foo', password: '1234567890' })
     let { address: toAddr } = await client.generateKey({ name: 'bar', password: '1234567890' })
-    client.buildSend({
-      sequence: 0, from: { addr: fromAddr }, to: { addr: toAddr }, fees: [], amount: []
+    let tx = await client.buildSend({
+      sequence: 0,
+      from: { addr: fromAddr },
+      to: { addr: toAddr },
+      fees: [],
+      amount: [{
+        denom: 'mycoin',
+        amount: 50
+      }]
     })
+    expect(tx.type).toBe('sigs/one')
+  })
+
+  it('signes a tx', async () => {
+    let { address: fromAddr } = await client.generateKey({ name: 'foo', password: '1234567890' })
+    let { address: toAddr } = await client.generateKey({ name: 'bar', password: '1234567890' })
+    let tx = await client.buildSend({
+      sequence: 0,
+      from: { addr: fromAddr },
+      to: { addr: toAddr },
+      fees: [],
+      amount: [{
+        denom: 'mycoin',
+        amount: 50
+      }]
+    })
+    let signedTx = await client.sign({
+      name: 'foo', password: '1234567890', tx
+    })
+    expect(signedTx.data.signature).toBeDefined()
+  })
+
+  it('persists a posted tx', async () => {
+    let res = await client.coinTxs('DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B')
+    expect(res.length).toBe(2) // predefined txs
+
+    let { address: toAddr } = await client.generateKey({ name: 'bar', password: '1234567890' })
+    let tx = await client.buildSend({
+      sequence: 0,
+      from: { addr: 'DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B' },
+      to: { addr: toAddr },
+      fees: [],
+      amount: [{
+        denom: 'mycoin',
+        amount: 50
+      }]
+    })
+    let signedTx = await client.sign({
+      name: 'foo', password: '1234567890', tx
+    })
+    res = await client.postTx(signedTx)
+    expect(res.height).toBeDefined()
+
+    res = await client.coinTxs('DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B')
+    expect(res.length).toBe(3)
+  })
+
+  it('query and update the nonce', async () => {
+    let nonce = await client.queryNonce('DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B')
+    expect(nonce).toBe(0)
+
+    let { address: toAddr } = await client.generateKey({ name: 'bar', password: '1234567890' })
+    let tx = await client.buildSend({
+      sequence: 0,
+      from: { addr: 'DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B' },
+      to: { addr: toAddr },
+      fees: [],
+      amount: [{
+        denom: 'mycoin',
+        amount: 50
+      }]
+    })
+    let signedTx = await client.sign({
+      name: 'foo', password: '1234567890', tx
+    })
+    await client.postTx(signedTx)
+    nonce = await client.queryNonce('DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B')
+    expect(nonce).toBe(1)
   })
 
   it('queries an account', async () => {
@@ -104,6 +136,50 @@ describe('LCD Client', () => {
 
     let res = await client.queryAccount('address_doesnt_exist')
     expect(res).toBe(null)
+  })
+
+  it('sends coins', async () => {
+    let { address: toAddr } = await client.generateKey({ name: 'bar', password: '1234567890' })
+    let tx = await client.buildSend({
+      sequence: 0,
+      from: { addr: 'DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B' },
+      to: { addr: toAddr },
+      fees: [],
+      amount: [{
+        denom: 'mycoin',
+        amount: 50
+      }]
+    })
+    let signedTx = await client.sign({
+      name: 'foo', password: '1234567890', tx
+    })
+    let res = await client.postTx(signedTx)
+    expect(res.check_tx.code).toBe(0)
+
+    let { data: account } = await client.queryAccount('DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B')
+    expect(account.coins.find(c => c.denom === 'mycoin').amount).toBe(950)
+
+    let { data: receiveAccount } = await client.queryAccount(toAddr)
+    expect(receiveAccount.coins.find(c => c.denom === 'mycoin').amount).toBe(50)
+  })
+
+  it('fails to send coins you dont have', async () => {
+    let { address: toAddr } = await client.generateKey({ name: 'bar', password: '1234567890' })
+    let tx = await client.buildSend({
+      sequence: 0,
+      from: { addr: 'DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B' },
+      to: { addr: toAddr },
+      fees: [],
+      amount: [{
+        denom: 'mycoin',
+        amount: 100000
+      }]
+    })
+    let signedTx = await client.sign({
+      name: 'foo', password: '1234567890', tx
+    })
+    let res = await client.postTx(signedTx)
+    expect(res.check_tx.code).toBe(1)
   })
 
   it('queries for a candidate', async () => {
@@ -131,6 +207,37 @@ describe('LCD Client', () => {
     expect(res.data.Shares).toBe(5)
   })
 
-  // TODO updates an account
-  // TODO updates stake
+  it('executes a delegate tx', async () => {
+    let { data: stake } = await client.bondingsByDelegator(['DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B', '88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4'])
+    expect(stake.Shares).toBe(0)
+
+    let tx = await client.buildDelegate({
+      sequence: 0,
+      from: { addr: 'DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B' },
+      amount: 10,
+      pubkey: '88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4'
+    })
+    let signedTx = await client.sign({
+      name: 'foo', password: '1234567890', tx
+    })
+    let res = await client.postTx(signedTx)
+    expect(res.check_tx.code).toBe(0)
+
+    let { data: updatedStake } = await client.bondingsByDelegator(['DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B', '88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4'])
+    expect(updatedStake.Shares).toBe(10)
+  })
+
+  it('can not stake fermions you dont have', async () => {
+    let tx = await client.buildDelegate({
+      sequence: 0,
+      from: { addr: 'DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B' },
+      amount: 100000000,
+      pubkey: '88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4'
+    })
+    let signedTx = await client.sign({
+      name: 'foo', password: '1234567890', tx
+    })
+    let res = await client.postTx(signedTx)
+    expect(res.check_tx.code).toBe(1)
+  })
 })
