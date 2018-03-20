@@ -32,7 +32,7 @@ describe('LCD Client Mock', () => {
     })
     await expect(client.updateKey('foo', {
       name: 'foo', password: '1234567890', new_passphrase: '12345678901'
-    })).rejects.toThrowErrorMatchingSnapshot()
+    })).rejects.toMatchSnapshot()
 
     res = await client.getKey('foo')
     expect(res.name).toBe('foo')
@@ -41,7 +41,7 @@ describe('LCD Client Mock', () => {
   it('deletes keys', async () => {
     let res = await client.generateKey({ name: 'foo', password: '1234567890' })
 
-    await expect(client.deleteKey('foo', { name: 'foo', password: '___' })).rejects.toThrowErrorMatchingSnapshot()
+    await expect(client.deleteKey('foo', { name: 'foo', password: '___' })).rejects.toMatchSnapshot()
     await client.deleteKey('foo', { name: 'foo', password: '1234567890' })
     res = await client.getKey('foo')
     expect(res).toBeUndefined()
