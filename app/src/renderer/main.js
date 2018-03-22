@@ -4,9 +4,8 @@ import Resource from 'vue-resource'
 import Router from 'vue-router'
 import Vuelidate from 'vuelidate'
 import shrinkStacktrace from '../helpers/shrink-stacktrace.js'
-import axios from 'axios'
 import Raven from 'raven-js'
-import { remote } from 'electron'
+import { remote, ipcRenderer } from 'electron'
 import enableGoogleAnalytics from './google-analytics.js'
 
 const config = require('../../../config')
@@ -46,23 +45,10 @@ Vue.use(Router)
 Vue.use(Vuelidate)
 
 async function main () {
-  let nodeIP = getQueryParameter('node')
-  if (!nodeIP) {
-    console.log('Did not receive a node to connect to')
-    return
-  }
+  let lcdPort = getQueryParameter('lcd_port')
+  console.log('Expecting lcd-server on port:', lcdPort)
 
-  let relayPort = getQueryParameter('relay_port')
-  console.log('Expecting relay-server on port:', relayPort)
-  console.log('Connecting to node:', nodeIP)
-  const node = Node(nodeIP, relayPort)
-
-  node.lcdConnected()
-    .then(connected => {
-      if (connected) {
-        axios.get(`http://localhost:${relayPort}/startsuccess`)
-      }
-    })
+  const node = Node('localhost:45667', lcdPort)
 
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
@@ -71,18 +57,31 @@ async function main () {
 
   store = Store({ node })
 
-  let error = getQueryParameter('error')
-  if (error) {
+  ipcRenderer.on('error', (event, error) => {
     store.commit('setModalError', true)
-    store.commit('setModalErrorMessage', error)
-  } else {
-    let connected = await store.dispatch('checkConnection')
-    if (connected) {
-      store.dispatch('nodeSubscribe')
+    store.commit('setModalErrorMessage', error.message)
+  })
+  let firstStart = true
+  ipcRenderer.on('connected', (event, nodeIP) => {
+    node.rpc.rpcConnect(nodeIP)
+    store.dispatch('rpcSubscribe')
+    store.dispatch('subscribeToBlocks')
+
+    if (firstStart) {
+      // test connection
+      node.lcdConnected()
+        .then(connected => {
+          if (connected) {
+            ipcRenderer.send('successful-launch')
+          }
+        })
+
       store.dispatch('showInitialScreen')
-      store.dispatch('subscribeToBlocks')
+      firstStart = false
     }
-  }
+  })
+
+  ipcRenderer.send('booted')
 
   new Vue({
     router,

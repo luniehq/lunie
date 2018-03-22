@@ -11,7 +11,7 @@ module.exports = {
     key: '123',
     seed_phrase: 'a b c d e f g h i j k l'
   }),
-  updateKey: () => {},
+  updateKey: () => { },
   listKeys: () => [],
   recoverKey: () => ({
     key: '123',
@@ -45,8 +45,8 @@ module.exports = {
 
   // RPC
   rpc: {
-    on: () => {},
-    subscribe: () => {},
+    on: () => { },
+    subscribe: () => { },
     validators: () => mockValidators,
     block: (args, cb) => cb({}),
     blockchain: (args, cb) => cb(null, { block_metas: {} }),
@@ -55,6 +55,5 @@ module.exports = {
       node_info: { network: 'test-net' }
     })
   },
-  initRPC: () => {},
-  rpcReconnect: () => Promise.resolve('1.1.1.1')
+  initRPC: () => { }
 }

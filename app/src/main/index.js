@@ -13,11 +13,9 @@ let axios = require('axios')
 let Raven = require('raven')
 
 let pkg = require('../../../package.json')
-let relayServer = require('./relayServer.js')
 let addMenu = require('./menu.js')
 let config = require('../../../config.js')
 
-let started = false
 let shuttingDown = false
 let mainWindow
 let baseserverProcess
@@ -34,11 +32,9 @@ const DEV = process.env.NODE_ENV === 'development'
 const TEST = process.env.NODE_ENV === 'testing'
 // TODO default logging or default disable logging?
 const LOGGING = JSON.parse(process.env.LOGGING || 'true') !== false
-const MOCK = JSON.parse(process.env.MOCK || DEV) !== false
 const winURL = DEV
   ? `http://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
-const RELAY_PORT = DEV ? config.relay_port : config.relay_port_prod
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
 const ANALYTICS = process.env.COSMOS_ANALYTICS ? JSON.parse(process.env.COSMOS_ANALYTICS) : (process.env.NODE_ENV === 'production' && config.analytics_networks.indexOf(config.default_network) !== -1)
@@ -47,18 +43,18 @@ process.env.COSMOS_ANALYTICS = ANALYTICS
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
 
-function log (...args) {
+function log(...args) {
   if (LOGGING) {
     console.log(...args)
   }
 }
-function logError (...args) {
+function logError(...args) {
   if (LOGGING) {
     console.log(...args)
   }
 }
 
-function logProcess (process, logPath) {
+function logProcess(process, logPath) {
   fs.ensureFileSync(logPath)
   // Writestreams are blocking fs cleanup in tests, if you get errors, disable logging
   if (LOGGING) {
@@ -69,11 +65,11 @@ function logProcess (process, logPath) {
   }
 }
 
-function sleep (ms) {
+function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-function expectCleanExit (process, errorMessage = 'Process exited unplanned') {
+function expectCleanExit(process, errorMessage = 'Process exited unplanned') {
   return new Promise((resolve, reject) => {
     process.on('exit', code => {
       if (code !== 0 && !shuttingDown) {
@@ -84,11 +80,11 @@ function expectCleanExit (process, errorMessage = 'Process exited unplanned') {
   })
 }
 
-function handleCrash (error) {
-  mainWindow.loadURL(winURL + '?node=' + nodeIP + '&error=' + error.message)
+function handleCrash(error) {
+  mainWindow.webContents.send('error', error)
 }
 
-function shutdown () {
+function shutdown() {
   if (shuttingDown) return
 
   mainWindow = null
@@ -105,11 +101,7 @@ function shutdown () {
   )
 }
 
-function startVueApp () {
-  mainWindow.loadURL(winURL + '?node=' + nodeIP + '&relay_port=' + RELAY_PORT)
-}
-
-function createWindow () {
+function createWindow() {
   mainWindow = new BrowserWindow({
     minWidth: 320,
     minHeight: 480,
@@ -122,11 +114,9 @@ function createWindow () {
     webPreferences: { webSecurity: false }
   })
 
-  if (!started) {
-    mainWindow.loadURL(winURL)
-  } else {
-    startVueApp()
-  }
+  // start vue app
+  mainWindow.loadURL(winURL + '?lcd_port=' + LCD_PORT)
+
   if (DEV || JSON.parse(process.env.COSMOS_DEVTOOLS || 'false')) {
     mainWindow.webContents.openDevTools()
   }
@@ -154,20 +144,20 @@ function createWindow () {
   if (!WIN) addMenu()
 }
 
-function startProcess (name, args, env) {
+function startProcess(name, args, env) {
   let binPath
   if (process.env.BINARY_PATH) {
     binPath = process.env.BINARY_PATH
   } else
-  if (DEV) {
-    // in dev mode or tests, use binaries installed in GOPATH
-    let GOPATH = process.env.GOPATH
-    if (!GOPATH) GOPATH = join(home, 'go')
-    binPath = join(GOPATH, 'bin', name)
-  } else {
-    // in production mode, use binaries packaged with app
-    binPath = join(__dirname, '..', 'bin', name)
-  }
+    if (DEV) {
+      // in dev mode or tests, use binaries installed in GOPATH
+      let GOPATH = process.env.GOPATH
+      if (!GOPATH) GOPATH = join(home, 'go')
+      binPath = join(GOPATH, 'bin', name)
+    } else {
+      // in production mode, use binaries packaged with app
+      binPath = join(__dirname, '..', 'bin', name)
+    }
 
   let argString = args.map((arg) => JSON.stringify(arg)).join(' ')
   log(`spawning ${binPath} with args "${argString}"`)
@@ -205,7 +195,7 @@ app.on('activate', () => {
 app.on('ready', () => createWindow())
 
 // start baseserver REST API
-async function startBaseserver (home, nodeIP) {
+async function startBaseserver(home, nodeIP) {
   log('startBaseserver', home)
   let child = startProcess(SERVER_BINARY, [
     'rest-server',
@@ -226,7 +216,7 @@ async function startBaseserver (home, nodeIP) {
   return child
 }
 
-async function getGaiaVersion () {
+async function getGaiaVersion() {
   let child = startProcess(SERVER_BINARY, ['version'])
   let data = await new Promise((resolve) => {
     child.stdout.on('data', resolve)
@@ -234,7 +224,7 @@ async function getGaiaVersion () {
   return data.toString('utf8').trim()
 }
 
-function exists (path) {
+function exists(path) {
   try {
     fs.accessSync(path)
     return true
@@ -244,7 +234,7 @@ function exists (path) {
   }
 }
 
-async function initBaseserver (chainId, home, node) {
+async function initBaseserver(chainId, home, node) {
   // fs.ensureDirSync(home)
   // `baseserver init` to generate config, trust seed
   let child = startProcess(SERVER_BINARY, [
@@ -255,23 +245,35 @@ async function initBaseserver (chainId, home, node) {
     '--node', node
     // '--trust-node'
   ])
-  child.stdout.on('data', (data) => {
+  // let the user in the view approve the hash we get from the node
+  child.stdout.on('data', async (data) => {
     let hashMatch = /\w{40}/g.exec(data)
     if (hashMatch) {
-      log('approving hash', hashMatch[0])
+      mainWindow.webContents.send('approve-hash', hashMatch[0])
+
+      await new Promise((resolve, reject) => {
+        ipcMain.once('hash-approved', (event, hash) => {
+          if (hash === hashMatch[0]) {
+            resolve()
+          } else {
+            reject()
+          }
+        })
+      })
+      log('approved hash', hashMatch[0])
       if (shuttingDown) return
       // answer 'y' to the prompt about trust seed. we can trust this is correct
       // since the baseserver is talking to our own full node
       child.stdin.write('y\n')
+      await expectCleanExit(child, 'gaia init exited unplanned')
     }
   })
-  await expectCleanExit(child, 'gaia init exited unplanned')
 }
 
 /*
 * log to file
 */
-function setupLogging (root) {
+function setupLogging(root) {
   if (!LOGGING) return
 
   // initialize log file
@@ -318,16 +320,40 @@ if (!TEST) {
   })
 }
 
-function consistentConfigDir (appVersionPath, genesisPath, configPath, gaiaVersionPath) {
+function consistentConfigDir(appVersionPath, genesisPath, configPath, gaiaVersionPath) {
   return exists(genesisPath) &&
     exists(appVersionPath) &&
     exists(configPath) &&
     exists(gaiaVersionPath)
 }
 
+const { ipcMain } = require('electron')
+function handleIPC(seeds) {
+  ipcMain.on('booted', () => {
+    nodeIP = pickNode(seeds)
+
+    // check if the lcd is initialized and if not intitialize it
+    let _baseserverInitialized = await baseserverInitialized(join(root, 'baseserver'))
+    console.log('Baseserver is', _baseserverInitialized ? '' : 'not', 'initialized')
+    if (init || !_baseserverInitialized) {
+      log(`Trying to initialize baseserver with remote node ${nodeIP}`)
+      await initBaseserver(chainId, baseserverHome, nodeIP)
+    }
+
+    // connect to the node
+    await connect(seeds, nodeIP)
+  })
+  ipcMain.on('successful-launch', () => {
+    console.log('[START SUCCESS] Vue app successfuly started')
+  })
+  ipcMain.on('reconnect', (event) => {
+    reconnect(seeds)
+  })
+}
+
 // check if baseserver is initialized as the configs could be corrupted
 // we need to parse the error on initialization as there is no way to just get this status programmatically
-function baseserverInitialized (home) {
+function baseserverInitialized(home) {
   log('Testing if baseserver is already initialized')
   return new Promise((resolve, reject) => {
     let child = startProcess(SERVER_BINARY, [
@@ -348,7 +374,7 @@ function baseserverInitialized (home) {
   })
 }
 
-function pickNode (seeds) {
+function pickNode(seeds) {
   let nodeIP = NODE || seeds[Math.floor(Math.random() * seeds.length)]
   // let nodeRegex = /([http[s]:\/\/]())/g
   log('Picked seed:', nodeIP, 'of', seeds)
@@ -358,15 +384,18 @@ function pickNode (seeds) {
   return nodeIP
 }
 
-async function connect (seeds, nodeIP) {
+async function connect(seeds, nodeIP) {
   log(`starting gaia server with nodeIP ${nodeIP}`)
   baseserverProcess = await startBaseserver(baseserverHome, nodeIP)
   log('gaia server ready')
 
+  // signal new node to view
+  mainWindow.webContents.send('connected', nodeIP)
+
   return nodeIP
 }
 
-async function reconnect (seeds) {
+async function reconnect(seeds) {
   if (connecting) return
   connecting = true
 
@@ -390,7 +419,7 @@ async function reconnect (seeds) {
   return nodeIP
 }
 
-function setupAnalytics () {
+function setupAnalytics() {
   if (ANALYTICS) {
     log('Adding analytics')
   }
@@ -399,7 +428,7 @@ function setupAnalytics () {
   Raven.config(ANALYTICS ? config.sentry_dsn : '', { captureUnhandledRejections: false }).install()
 }
 
-async function main () {
+async function main() {
   setupAnalytics()
 
   let appVersionPath = join(root, 'app_version')
@@ -493,37 +522,13 @@ async function main () {
     throw new Error(`Can't open config.toml: ${e.message}`)
   }
   let configTOML = toml.parse(configText)
-  let seeds = configTOML.p2p.seeds.split(',').filter(x => x !== '')
+  seeds = configTOML.p2p.seeds.split(',').filter(x => x !== '')
   if (seeds.length === 0) {
     throw new Error('No seeds specified in config.toml')
   }
-  nodeIP = pickNode(seeds)
 
-  let _baseserverInitialized = await baseserverInitialized(join(root, 'baseserver'))
-  console.log('Baseserver is', _baseserverInitialized ? '' : 'not', 'initialized')
-  if (init || !_baseserverInitialized) {
-    log(`Trying to initialize baseserver with remote node ${nodeIP}`)
-    await initBaseserver(chainId, baseserverHome, nodeIP)
-  }
-
-  await connect(seeds, nodeIP)
-
-  // the view can communicate with the main process by sending requests to the relay server
-  // the relay server also proxies to the LCD
-  relayServer({
-    lcdPort: LCD_PORT,
-    relayServerPort: RELAY_PORT,
-    mock: MOCK,
-    onSuccesfulStart: () => {
-      console.log('[START SUCCESS] Vue app successfuly started')
-    },
-    onReconnectReq: reconnect.bind(this, seeds)
-  })
-
-  started = true
-  if (mainWindow) {
-    startVueApp()
-  }
+  // handle ipc messages from the renderer process
+  handleIPC(seeds)
 }
 module.exports = Object.assign(
   main()
