@@ -196,7 +196,9 @@ describe('LCD Client Mock', () => {
     let res = await client.buildDelegate({
       sequence: 0,
       from: { addr: 'foo' },
-      amount: 10,
+      amount: {
+        amount: 10
+      },
       pubkey: 'abc'
     })
     expect(res.type).toBe('sigs/one')
@@ -214,8 +216,12 @@ describe('LCD Client Mock', () => {
     let tx = await client.buildDelegate({
       sequence: 0,
       from: { addr: 'DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B' },
-      amount: 10,
-      pubkey: '88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4'
+      amount: {
+        amount: 10
+      },
+      pub_key: {
+        data: '88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4'
+      }
     })
     let signedTx = await client.sign({
       name: 'foo', password: '1234567890', tx
@@ -231,8 +237,12 @@ describe('LCD Client Mock', () => {
     let tx = await client.buildDelegate({
       sequence: 0,
       from: { addr: 'DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B' },
-      amount: 100000000,
-      pubkey: '88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4'
+      amount: {
+        amount: 100000
+      },
+      pub_key: {
+        data: '88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4'
+      }
     })
     let signedTx = await client.sign({
       name: 'foo', password: '1234567890', tx

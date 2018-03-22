@@ -156,7 +156,7 @@ module.exports = {
     }
 
     // only increment nonce if transaction was successful
-    if (res.check_tx === 0) {
+    if (res.check_tx.code === 0) {
       state.nonces[address]++
     }
 
