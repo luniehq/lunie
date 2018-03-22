@@ -25,11 +25,9 @@ describe('PageBond', () => {
       },
       voting_power: 10000,
       shares: 5000,
-      description: {
-        description: 'descriptionX',
-        country: 'USA',
-        moniker: 'someValidator'
-      }
+      description: 'descriptionX',
+      country: 'USA',
+      moniker: 'someValidator'
     })
     store.commit('addToCart', {
       id: 'pubkeyY',
@@ -39,11 +37,9 @@ describe('PageBond', () => {
       },
       voting_power: 30000,
       shares: 10000,
-      description: {
-        description: 'descriptionY',
-        country: 'Canada',
-        moniker: 'someOtherValidator'
-      }
+      description: 'descriptionY',
+      country: 'Canada',
+      moniker: 'someOtherValidator'
     })
 
     wrapper.update()
@@ -194,6 +190,10 @@ describe('PageBond', () => {
   })
 
   it('shows an appropriate amount of unbonding atoms', () => {
+    // give some stake so unbinding bar shows
+    store.commit('setCommittedDelegation', { candidateId: 'pubkeyX', value: 5 })
+    wrapper.update()
+
     wrapper.setData({
       fields: {
         bondConfirm: false,
@@ -291,5 +291,10 @@ describe('PageBond', () => {
     })
     wrapper.findAll('#btn-bond').trigger('click')
     expect(store.dispatch.mock.calls[0][0]).toBe('submitDelegation')
+  })
+
+  it('does not show the unbonding bar if user has no atoms', () => {
+    expect(wrapper.vm.oldBondedAtoms).toBe(0)
+    expect(wrapper.vm.$el.querySelector('.bond-group.bond-group--unbonding')).toBeNull()
   })
 })
