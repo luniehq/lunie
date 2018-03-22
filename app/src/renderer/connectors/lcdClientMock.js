@@ -142,15 +142,25 @@ module.exports = {
   async postTx (signedTx) {
     let outerTx = signedTx.data.tx.data.tx.data.tx
     let address = outerTx.data.signers[0].addr
-    state.nonces[address]++
 
+    let res
     switch (outerTx.data.tx.type) {
       case 'coin/send':
-        return sendCoins(outerTx.data.tx.data)
+        res = sendCoins(outerTx.data.tx.data)
+        break
       case 'stake/delegate':
-        return delegate(address, outerTx.data.tx.data)
+        res = delegate(address, outerTx.data.tx.data)
+        break
+      default:
+        throw Error('tx type not defined')
     }
-    throw Error('tx type not defined')
+
+    // only increment nonce if transaction was successful
+    if (res.check_tx === 0) {
+      state.nonces[address]++
+    }
+
+    return res
   },
 
   // keys
@@ -275,7 +285,7 @@ module.exports = {
   async candidates () {
     return { data: state.delegates.map(({ pub_key }) => pub_key) } // eslint-disable-line camelcase
   },
-  async buildDelegate ({ sequence, from, amount, pubkey }) {
+  async buildDelegate ({ sequence, from, amount, pub_key }) { // eslint-disable-line camelcase
     return {
       'type': 'sigs/one',
       'data': {
@@ -298,7 +308,7 @@ module.exports = {
                 'tx': {
                   'type': 'stake/delegate',
                   'data': {
-                    'pub_key': pubkey,
+                    'pub_key': pub_key,
                     'amount': amount
                   }
                 }
@@ -379,7 +389,7 @@ function sendCoins ({ inputs, outputs }) {
   return txResult()
 }
 
-function delegate (sender, { pub_key: pubKey, amount }) {
+function delegate (sender, { pub_key: { data: pubKey }, amount: delegation }) {
   let delegate = state.delegates.find(d => d.pub_key.data === pubKey)
   if (!delegate) {
     return txResult(1, 'Delegator does not exist')
@@ -390,18 +400,18 @@ function delegate (sender, { pub_key: pubKey, amount }) {
     state.accounts[sender].coins.push({ denom: 'fermion', amount: 0 })
     fermions = state.accounts[sender].coins.find(c => c.denom === 'fermion')
   }
-  if (fermions.amount < amount) {
+  if (fermions.amount < delegation.amount) {
     return txResult(1, 'Not enought fermions to stake')
   }
 
   // execute
-  fermions.amount -= amount
-  delegate.voting_power += amount
+  fermions.amount -= delegation.amount
+  delegate.voting_power += delegation.amount
   state.stake[sender][pubKey] = state.stake[sender][pubKey] || {
     PubKey: { data: pubKey },
     Shares: 0
   }
-  state.stake[sender][pubKey].Shares += amount
+  state.stake[sender][pubKey].Shares += delegation.amount
 
   return txResult()
 }
@@ -410,8 +420,8 @@ function txResult (code = 0, message = '') {
   return {
     'check_tx': {
       'code': code,
-      'data': message,
-      'log': '',
+      'data': '',
+      'log': message,
       'gas': '0',
       'fee': '0'
     },
