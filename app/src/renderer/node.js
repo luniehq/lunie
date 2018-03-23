@@ -1,5 +1,5 @@
 'use strict'
-const axios = require('axios')
+const { ipcRenderer } = require('electron')
 const RpcClient = require('tendermint')
 const RestClient = require('./lcdClient.js')
 
@@ -18,13 +18,15 @@ module.exports = function (nodeIP, relayPort, lcdPort) {
     // RPC
     rpcConnecting: false,
     rpcOpen: true,
-    initRPC (nodeIP) {
+    rpcConnect (nodeIP) {
+      node.nodeIP = nodeIP
+
       if (node.rpc) {
         console.log('removing old websocket')
 
         // ignore disconnect error
         node.rpc.removeAllListeners('error')
-        node.rpc.on('error', () => {})
+        node.rpc.on('error', () => { })
 
         node.rpc.ws.destroy()
       }
@@ -42,34 +44,12 @@ module.exports = function (nodeIP, relayPort, lcdPort) {
 
       node.rpc = newRpc
     },
-    rpcReconnect: async (alreadyConnecting = node.rpcConnecting) => {
-      if (alreadyConnecting) return null
-      node.rpcConnecting = true
-
-      console.log('trying to reconnect')
-
-      let nodeIP = (await axios(RELAY_SERVER + '/reconnect')).data
-      if (nodeIP) {
-        console.log('Reconnected to', nodeIP)
-        node.nodeIP = nodeIP
-        node.initRPC(nodeIP)
-      } else {
-        console.log('Reconnection failed, trying again')
-        // try again in 3s
-        await sleep(3000)
-        return node.rpcReconnect(false)
-      }
-
-      node.rpcConnecting = false
-      return nodeIP
+    rpcReconnect: () => {
+      ipcRenderer.send('reconnect')
     }
   })
   // TODO: eventually, get all data from light-client connection instead of RPC
 
-  node.initRPC(nodeIP)
+  // node.rpcConnect(nodeIP)
   return node
-}
-
-function sleep (ms = 0) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
 }
