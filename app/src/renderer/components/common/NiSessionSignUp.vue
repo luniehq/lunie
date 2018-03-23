@@ -58,7 +58,7 @@
         .ni-field-checkbox-input
           input#sign-up-warning(type="checkbox" v-model="fields.errorCollection")
         label.ni-field-checkbox-label(for="error-collection")
-          | I help development of Voyager by sending automatic error reports. This can be turned off at any time.
+          | I'd like to opt in for remote error tracking to help improve Voyager
           
   .ni-session-footer
     btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg" :disabled="creating")
