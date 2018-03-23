@@ -50,16 +50,16 @@
 </template>
 
 <script>
-import { required, minLength, sameAs } from 'vuelidate/lib/validators'
-import Btn from '@nylira/vue-button'
-import Field from '@nylira/vue-field'
-import FieldGroup from 'common/NiFieldGroup'
-import FieldSeed from 'common/NiFieldSeed'
-import FormGroup from 'common/NiFormGroup'
-import FormMsg from 'common/NiFormMsg'
-import FormStruct from 'common/NiFormStruct'
+import { required, minLength, sameAs } from "vuelidate/lib/validators";
+import Btn from "@nylira/vue-button";
+import Field from "@nylira/vue-field";
+import FieldGroup from "common/NiFieldGroup";
+import FieldSeed from "common/NiFieldSeed";
+import FormGroup from "common/NiFormGroup";
+import FormMsg from "common/NiFormMsg";
+import FormStruct from "common/NiFormStruct";
 export default {
-  name: 'ni-session-import',
+  name: "ni-session-import",
   components: {
     Btn,
     Field,
@@ -71,62 +71,62 @@ export default {
   },
   data: () => ({
     fields: {
-      importName: '',
-      importPassword: '',
-      importPasswordConfirm: '',
-      importSeed: ''
+      importName: "",
+      importPassword: "",
+      importPasswordConfirm: "",
+      importSeed: ""
     }
   }),
   methods: {
-    help () {
-      this.$store.commit('setModalHelp', true)
+    help() {
+      this.$store.commit("setModalHelp", true);
     },
-    setState (value) {
-      this.$store.commit('setModalSessionState', value)
+    setState(value) {
+      this.$store.commit("setModalSessionState", value);
     },
-    async onSubmit () {
-      this.$v.$touch()
-      if (this.$v.$error) return
+    async onSubmit() {
+      this.$v.$touch();
+      if (this.$v.$error) return;
       try {
-        let key = await this.$store.dispatch('createKey', {
+        let key = await this.$store.dispatch("createKey", {
           seedPhrase: this.fields.importSeed,
           password: this.fields.importPassword,
           name: this.fields.importName
-        })
+        });
         if (key) {
-          this.$store.commit('setErrorCollection', {
-            account: this.fields.signUpName,
+          this.$store.commit("setErrorCollection", {
+            account: this.fields.importName,
             optin: this.fields.errorCollection
-          })
-          this.$store.commit('setModalSession', false)
-          this.$store.commit('notify', {
-            title: 'Welcome back!',
-            body: 'Your account has been successfully imported.'
-          })
-          this.$store.dispatch('signIn', {
+          });
+          this.$store.commit("setModalSession", false);
+          this.$store.commit("notify", {
+            title: "Welcome back!",
+            body: "Your account has been successfully imported."
+          });
+          this.$store.dispatch("signIn", {
             account: this.fields.importName,
             password: this.fields.importPassword
-          })
+          });
         }
       } catch (err) {
-        this.$store.commit('notifyError', {
+        this.$store.commit("notifyError", {
           title: `Couldn't create account`,
           body: err.message
-        })
+        });
       }
     }
   },
-  mounted () {
-    this.$el.querySelector('#import-seed').focus()
+  mounted() {
+    this.$el.querySelector("#import-seed").focus();
   },
   validations: () => ({
     fields: {
       importName: { required, minLength: minLength(5) },
       importPassword: { required, minLength: minLength(10) },
-      importPasswordConfirm: { sameAsPassword: sameAs('importPassword') },
+      importPasswordConfirm: { sameAsPassword: sameAs("importPassword") },
       importSeed: { required },
       errorCollection: false
     }
   })
-}
+};
 </script>

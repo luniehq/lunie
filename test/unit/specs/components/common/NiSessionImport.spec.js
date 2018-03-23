@@ -3,6 +3,7 @@ import Vuelidate from 'vuelidate'
 import { mount, createLocalVue } from '@vue/test-utils'
 import htmlBeautify from 'html-beautify'
 import NiSessionImport from 'common/NiSessionImport'
+jest.mock('../../../../../app/src/renderer/google-analytics.js', () => (uid) => { })
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -46,7 +47,7 @@ describe('NiSessionImport', () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toEqual(['setModalSession', false])
+    expect(store.commit.mock.calls.find(([action, _]) => action === 'setModalSession')[1]).toBe(false)
   })
 
   it('should signal signed in state on successful login', async () => {
@@ -59,11 +60,43 @@ describe('NiSessionImport', () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[1][0]).toEqual('notify')
-    expect(store.commit.mock.calls[1][1].title.toLowerCase()).toContain('welcome back!')
+    expect(store.commit.mock.calls.find(([action, _]) => action === 'notify')[1].title.toLowerCase()).toContain('welcome back!')
     expect(store.dispatch).toHaveBeenCalledWith('signIn', {
       account: 'foo123',
       password: '1234567890'
+    })
+  })
+
+  it('should set error collection opt in state', async () => {
+    wrapper.setData({
+      fields: {
+        importName: 'foo123',
+        importPassword: '1234567890',
+        importPasswordConfirm: '1234567890',
+        importSeed: 'bar', // <-- doesn#t check for correctness of seed
+        errorCollection: true
+      }
+    })
+    await wrapper.vm.onSubmit()
+    expect(store.commit.mock.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
+      account: 'foo123',
+      optin: true
+    })
+
+    wrapper.setData({
+      fields: {
+        importName: 'foo123',
+        importPassword: '1234567890',
+        importPasswordConfirm: '1234567890',
+        importSeed: 'bar', // <-- doesn#t check for correctness of seed
+        errorCollection: false
+      }
+    })
+    store.commit.mockReset()
+    await wrapper.vm.onSubmit()
+    expect(store.commit.mock.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
+      account: 'foo123',
+      optin: false
     })
   })
 
