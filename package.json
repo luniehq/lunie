@@ -21,8 +21,8 @@
     "build:win32": "cross-env PLATFORM_TARGET=win32 node tasks/release.js",
     "local": "yarn run testnet local",
     "testnet": "node tasks/testnet.js",
-    "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter app test",
-    "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix app test",
+    "lint": "eslint -f ./node_modules/eslint-friendly-formatter '{,**/}*.{js,vue}' && prettier --list-different '{,**/}*.{css,js,json,md,vue}'",
+    "lint:fix": "prettier --write '{,**/}*.{css,js,json,md,vue}'",
     "pack": "yarn run pack:main && yarn run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --colors --config webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js",
@@ -73,6 +73,7 @@
     "moment-timezone": "0.5.13",
     "node-loader": "0.6.0",
     "node-sass": "4.7.2",
+    "prettier": "1.11.1",
     "proxyquire": "1.8.0",
     "pug": "2.0.0-rc.1",
     "spectron": "3.8.0",
@@ -192,5 +193,8 @@
       "./test/unit/helpers/ipc_mock.js",
       "jest-localstorage-mock"
     ]
+  },
+  "prettier": {
+    "semi": false
   }
 }
