@@ -326,58 +326,7 @@ exports[`PageBond has the expected html structure 1`] = `
                   <!---->
                   <!---->
                 </div>
-                <div
-                  class="bond-group bond-group--unbonding bond-group--neutral"
-                >
-                  <div
-                    class="bond-group__fields"
-                  >
-                    <div
-                      class="bond-bar"
-                    >
-                      <label
-                        class="bond-bar__label"
-                      >
-                        Unbonding…
-                      </label>
-                      <div
-                        class="bond-bar__input"
-                      >
-                        <!---->
-                      </div>
-                    </div>
-                    <div
-                      class="bond-percent"
-                    >
-                      <label
-                        class="bond-delta"
-                      >
-                        <!---->
-                      </label>
-                      <input
-                        class="bond-percent__input ni-field"
-                        disabled="disabled"
-                        placeholder="0%"
-                      />
-                    </div>
-                    <div
-                      class="bond-value"
-                    >
-                      <label
-                        class="bond-delta"
-                      >
-                        <!---->
-                      </label>
-                      <input
-                        class="bond-value__input ni-field"
-                        disabled="disabled"
-                        id="new-unbonding-atoms"
-                        placeholder="Atoms"
-                        type="number"
-                      />
-                    </div>
-                  </div>
-                </div>
+                <!---->
                 <div
                   class="ni-form-group"
                 >

@@ -16,16 +16,32 @@
 ---
 
 ### Prerequisites
-
-`gaia` is a prepackaged version of Cosmos SDK and Tendermint. You will need `gaia` installed.
-
+#### Install dependencies
+##### On Mac
 ```bash
 # install go, set $GOPATH
 brew install go
 
-# install glide
+# install glide for go dependencies
 brew install glide
 
+# install yarn for js dependencies
+brew install yarn
+```
+
+##### On Windows
+
+Install [Go](https://golang.org/dl/)
+
+Install [Glide](https://github.com/Masterminds/glide/releases)
+
+Install [Yarn](https://yarnpkg.com/lang/en/docs/install/#windows)
+
+#### Install Gaia
+
+`gaia` is a prepackaged version of Cosmos SDK and Tendermint. You will need `gaia` installed.
+
+```bash
 # install gaia
 go get github.com/cosmos/gaia
 cd $GOPATH/src/github.com/cosmos/gaia
@@ -34,12 +50,15 @@ glide install
 make install
 ```
 
-You will also need `yarn` to install node modules:
+#### Prepare Voyager
 
 ```bash
-brew install yarn
+# checkout voyager
+cd ~ # or wherever you like to keep your project files
+git checkout https://github.com/cosmos/voyager.git
+cd voyager
 
-# in the project folder, run
+# install js dependencies
 yarn
 ```
 
@@ -47,19 +66,28 @@ yarn
 
 ### Develop
 
-To run on the UI on the default testnet (`gaia-2`):
+To run Voyager on the default testnet (`gaia-2`):
 ```bash
-$ yarn run testnet
+$ yarn testnet
 ```
 
-To run the UI on a specific a testnet from the [testnets](https://github.com/tendermint/testnets) repo:
+To run Voyager on a specific testnet from the [testnets](https://github.com/tendermint/testnets) repo:
 ```bash
-$ yarn run testnet <networkName>
+$ yarn testnet <networkName>
 ```
 
-To run the UI on a local node with `chain_id=local`:
+To run Voyager on a local node:
+<!-- This way would be desired but local nodes apparently do not work (do not produce blocks)```bash
+# First start a local node using the the configuration provided in Voyager.
+$ gaia node start --home=./app/networks/local
+# Then start Voyager connecting to your local node.
+$ yarn testnet local
+``` -->
+First start a local node following the Gaia [readme](https://github.com/cosmos/gaia).
+
+Then start Voyager pointing at your local node.
 ```bash
-$ yarn run testnet local
+$ COSMOS_NODE=localhost yarn testnet
 ```
 
 ---
@@ -67,38 +95,38 @@ $ yarn run testnet local
 ### Production
 Get the Gaia binary from [GitHub](`https://github.com/cosmos/gaia/releases`).
 
+Install [Docker](https://docs.docker.com/get-started/).
+
 Build and run the app.
 ```bash
-yarn run build:{darwin|win32|linux} -- --binary={path to the gaia binary}
+yarn run build --platform={darwin|win32|linux} -- --binary={path to the gaia binary}
 open builds/Cosmos-{platform}-x64/Cosmos.app
 ```
 
 When you are testing the build system you can skip the repackaging of the JS files.
 ```bash
-$ yarn run build:darwin -- --skip-pack --binary=...
+$ yarn run build --platform={darwin|win32|linux} --skip-pack --binary=...
 ```
 
 To test if your build worked run:
 ```bash
-$ yarn run test:exe {path to the build executable}
+$ yarn test:exe {path to the build executable}
 ```
 
 ---
 
 ### Testing
 
-The UI is using [Jest](https://facebook.github.io/jest) to run unit tests.
+Voyager is using [Jest](https://facebook.github.io/jest) to run unit tests.
 
 ```bash
-$ yarn run test
+$ yarn test
 ```
 
-To check test coverage, run the command above and then open an http-server at `test/unit/coverage/lcov-report` to see details for the coverage.
-i.e.:
+To check test coverage locally run following. It will spin up a webserver and provide you with a link to the coverage report web page.
 
 ```bash
-$ npm i -g http-server
-$ http-server test/unit/coverage/lcov-report
+$ yarn test:coverage
 ```
 
 ---
@@ -113,7 +141,7 @@ $ electron --inspect-brk builds/{{your build}}/resources/app/dist/main.js
 
 Then attach to the debugger via the posted url in Chrome.
 
-To debug the electron view, set the environment variable `COSMOS_DEVTOOLS` to something truthy like `"true"`.
+To debug the electron view, set the environment variable `COSMOS_DEVTOOLS` to something truthy like `"true"`. The Chrome DevTools will appear when you start Voyager.
 
 To see the console output of the view in your terminal, set the environment variable `ELECTRON_ENABLE_LOGGING` to something truthy like `1`.
 
@@ -137,7 +165,7 @@ A list of all environment variables and their purpose:
 
 ### FAQ
 
-- If tendermint crashes and the log shows `Tendermint state.AppHash does not match AppHash after replay.` delete the config folders at `$HOME/.voyager[-dev]`.
+- If tendermint crashes and the log shows `Tendermint state.AppHash does not match AppHash after replay.` delete the config folders at `$HOME/.cosmos-voyager[-dev]`.
 
 - If you use yarn, the post-install hook may not execute. If this happens you'll have to execute the script manually:
 ```bash
