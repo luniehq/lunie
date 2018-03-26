@@ -13,13 +13,11 @@ describe('LCD Connector', () => {
     LCDConnector = require('renderer/node')
 
     jest.mock('tendermint', () => () => ({
-      on (value, cb) {},
-      removeAllListeners () {},
-      ws: { destroy () {} }
+      on (value, cb) { },
+      removeAllListeners () { },
+      ws: { destroy () { } }
     }))
-
-    jest.mock('axios', (url) => jest.fn()
-      .mockReturnValueOnce({ data: '1.2.3.4' }))
+    jest.mock('electron', () => ({ ipcRenderer: { send: () => jest.fn() } }))
   })
 
   it('should provide the nodeIP', () => {
@@ -31,6 +29,7 @@ describe('LCD Connector', () => {
 
   it('should init the rpc connection on initialization', () => {
     let node = newNode()
+    node.rpcConnect('localhost')
     expect(node.rpc).toBeDefined()
     expect(node.rpcOpen).toBe(true)
   })
@@ -46,6 +45,7 @@ describe('LCD Connector', () => {
     jest.resetModules()
     LCDConnector = require('renderer/node')
     let node = newNode()
+    node.rpcConnect('localhost')
     expect(node.rpc).toBeDefined()
     expect(node.rpcOpen).toBe(false)
   })
@@ -61,50 +61,44 @@ describe('LCD Connector', () => {
     jest.resetModules()
     LCDConnector = require('renderer/node')
     let node = newNode()
+    node.rpcConnect('localhost')
     expect(node.rpc).toBeDefined()
     expect(node.rpcOpen).toBe(true)
   })
 
-  it('should notify the main process to reconnect', async () => {
-    let node = newNode()
-    expect(node.rpcConnecting).toBe(false)
-    node.initRPC = jest.fn()
-    let nodeIP = await node.rpcReconnect()
-    expect(nodeIP).toBe('1.2.3.4')
-  })
-
   describe('reconnect', () => {
-    let axios, node
+    let node
 
     beforeEach(() => {
       jest.resetModules()
       LCDConnector = require('renderer/node')
 
       jest.mock('tendermint', () => () => ({
-        on (value, cb) {},
-        removeAllListeners () {},
-        ws: { destroy () {} }
+        on (value, cb) { },
+        removeAllListeners () { },
+        ws: { destroy () { } }
       }))
 
       jest.mock('axios', (url) => jest.fn()
         .mockReturnValueOnce({ data: null })
         .mockReturnValueOnce({ data: '1.2.3.5' }))
 
-      axios = require('axios')
       node = newNode()
     })
 
-    it('should try to reconnect until it gets a valid ip', async () => {
-      let nodeIP = await node.rpcReconnect()
-      expect(axios.mock.calls.length).toBe(2)
-      expect(nodeIP).toBe('1.2.3.5')
+    it('should signal a reconnect intent to the main thread', async () => {
+      const { ipcRenderer } = require('electron')
+      ipcRenderer.send = jest.fn()
+      node.rpcReconnect()
+      expect(ipcRenderer.send).toHaveBeenCalledWith('reconnect')
     })
 
     it('should not reconnect again if already reconnecting', async () => {
+      const { ipcRenderer } = require('electron')
+      ipcRenderer.send = jest.fn()
       node.rpcReconnect()
-      let nodeIP = await node.rpcReconnect()
-      expect(axios.mock.calls.length).toBe(1)
-      expect(nodeIP).toBe(null)
+      node.rpcReconnect()
+      expect(ipcRenderer.send.mock.calls.length).toBe(1)
     })
   })
 

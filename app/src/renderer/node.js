@@ -34,6 +34,7 @@ module.exports = function (nodeIP, relayPort, lcdPort) {
       console.log('init rpc with', nodeIP)
       let newRpc = new RpcClient(`ws://${nodeIP}`)
       node.rpcOpen = true
+      node.rpcConnecting = false
       // we need to check immediately if he connection fails. later we will not be able to check this error
       newRpc.on('error', err => {
         console.log('rpc error', err)
@@ -45,7 +46,10 @@ module.exports = function (nodeIP, relayPort, lcdPort) {
       node.rpc = newRpc
     },
     rpcReconnect: () => {
-      ipcRenderer.send('reconnect')
+      if (!node.rpcConnecting) {
+        node.rpcConnecting = true
+        ipcRenderer.send('reconnect')
+      }
     }
   })
   // TODO: eventually, get all data from light-client connection instead of RPC

@@ -54,9 +54,8 @@ describe('Module: Node', () => {
   })
 
   it('subscribes again on reconnect', done => {
-    node.rpcReconnect = () => Promise.resolve('1.2.3.4')
     node.rpc.status = () => done()
-    store.dispatch('reconnect')
+    store.dispatch('reconnected')
   })
 
   it('should not reconnect if stop reconnecting is set', () => {
@@ -80,7 +79,7 @@ describe('Module: Node', () => {
         expect(store.state.node.connected).toBe(false)
       }
     })
-    store.dispatch('nodeSubscribe')
+    store.dispatch('rpcSubscribe')
   })
 
   it('should not reconnect on errors that do not mean disconnection', done => {
@@ -94,7 +93,7 @@ describe('Module: Node', () => {
         done()
       }
     })
-    store.dispatch('nodeSubscribe')
+    store.dispatch('rpcSubscribe')
   })
 
   it('should set the initial status', () => {
@@ -102,7 +101,7 @@ describe('Module: Node', () => {
       latest_block_height: 42,
       node_info: { network: 'test-net' }
     })
-    store.dispatch('nodeSubscribe')
+    store.dispatch('rpcSubscribe')
     expect(store.state.node.connected).toBe(true)
     expect(store.state.node.lastHeader.height).toBe(42)
     expect(store.state.node.lastHeader.chain_id).toBe('test-net')
@@ -124,7 +123,7 @@ describe('Module: Node', () => {
         })
       }
     }
-    store.dispatch('nodeSubscribe')
+    store.dispatch('rpcSubscribe')
     expect(store.state.node.connected).toBe(true)
     expect(store.state.node.lastHeader.height).toBe(42)
     expect(store.state.node.lastHeader.chain_id).toBe('test-net')
@@ -144,7 +143,7 @@ describe('Module: Node', () => {
       node.rpcOpen = true
       return Promise.resolve('1.1.1.1')
     }
-    store.dispatch('nodeSubscribe')
+    store.dispatch('rpcSubscribe')
   })
 
   it('should ping the node to check connection status', done => {
@@ -155,14 +154,14 @@ describe('Module: Node', () => {
 
   it('should reconnect if pinging node timesout', done => {
     node.rpcReconnect = () => done()
-    node.rpc.status = (cb) => {}
+    node.rpc.status = (cb) => { }
     store.dispatch('pollRPCConnection', 10)
   })
 
   it('should reconnect if pinging node fails', done => {
     node.rpcReconnect = () => {
       // restore status hook as it crashes the rest if not
-      node.rpc.status = (cb) => {}
+      node.rpc.status = (cb) => { }
       done()
     }
     node.rpc.status = (cb) => cb('Error')
