@@ -17,29 +17,29 @@ let fs = require('fs-extra')
 
 jest.mock('electron', () => {
   let electron = {
-    url: undefined,
     app: {
       on: (event, cb) => {
         if (event === 'ready') cb()
       }
     },
+    send: jest.fn(), // NOT ELECTRON, used to test ipc calls to mainWindow.webContents.send
     BrowserWindow: class MockBrowserWindow {
       constructor () {
         this.webContents = {
-          openDevTools: () => {},
-          on: () => {}
+          openDevTools: () => { },
+          on: () => { },
+          send: electron.send
         }
       }
-      loadURL (url) {
-        electron.url = url
-      }
-      on () {}
-      maximize () {}
+      loadURL () { }
+      on () { }
+      maximize () { }
     },
     Menu: {
-      buildFromTemplate () {},
-      setApplicationMenu () {}
-    }
+      buildFromTemplate () { },
+      setApplicationMenu () { }
+    },
+    ipcMain: { on: () => { } }
   }
   return electron
 })
@@ -97,7 +97,6 @@ describe('Startup Process', () => {
 
   // uses package.json from voyager/ root.
   jest.mock(root + 'package.json', () => ({ version: '0.1.0' }))
-  jest.mock(appRoot + 'src/main/relayServer.js', () => () => {})
 
   beforeAll(() => {
     fs.removeSync(testRoot + 'genesis.json')
@@ -241,20 +240,6 @@ describe('Startup Process', () => {
       let appVersion = fs.readFileSync(testRoot + 'app_version', 'utf8')
       expect(appVersion).toBe('0.1.0')
     })
-
-    xit('should have set the own node as a validator with 100% voting power', async () => {
-      jest.resetModules()
-
-      await fs.writeFile(join(testRoot, 'priv_validator.json'), { pub_key: '123' }, 'utf8')
-
-      await initMain()
-
-      let genesis = await fs.readFile(join(testRoot, 'genesis.json'))
-      let validators = JSON.parse(genesis).validators
-      expect(validators.length).toBe(1)
-      expect(validators[0].power).toBe(100)
-      expect(validators[0].pub_key).toBe('123')
-    })
   })
 
   describe('Start initialized', function () {
@@ -290,10 +275,11 @@ describe('Startup Process', () => {
 
       // alter the version so the main thread assumes an update
       jest.mock(root + 'package.json', () => ({ version: '1.1.1' }))
+      let { send } = require('electron')
       await require(appRoot + 'src/main/index.js')
-      // Errors get reported to the web view as a url parameter
-      expect(electron.url).toContain('&error')
-      expect(electron.url).toContain(`incompatible app version`)
+
+      expect(send.mock.calls[0][0]).toBe('error')
+      expect(send.mock.calls[0][1].message).toContain('incompatible app version')
 
       let appVersion = fs.readFileSync(testRoot + 'app_version', 'utf8')
       expect(appVersion).toBe('0.1.0')
@@ -312,10 +298,11 @@ describe('Startup Process', () => {
       existingGenesis.genesis_time = (new Date()).toString()
       fs.writeFileSync(testRoot + 'genesis.json', JSON.stringify(existingGenesis))
 
+      let { send } = require('electron')
       await require(appRoot + 'src/main/index.js')
-      // Errors get reported to the web view as a url parameter
-      expect(electron.url).toContain('&error')
-      expect(electron.url).toContain(`Genesis has changed`)
+
+      expect(send.mock.calls[0][0]).toBe('error')
+      expect(send.mock.calls[0][1].message).toContain('Genesis has changed')
     })
   })
 
@@ -374,7 +361,7 @@ describe('Startup Process', () => {
       main.shutdown()
     })
     it('should rerun gaia server if gaia server fails', async function () {
-      failingChildProcess('gaia', 'serve')
+      failingChildProcess('gaia', 'rest-server')
       await initMain()
 
       await sleep(1000)
@@ -402,11 +389,11 @@ describe('Startup Process', () => {
       fs.writeFileSync(join(testRoot, 'config.toml'), configText, 'utf8')
 
       resetModulesKeepingFS()
-      let electron = require('electron')
+      let { send } = require('electron')
       await require(appRoot + 'src/main/index.js')
-      // Errors get reported to the web view as a url parameter
-      expect(electron.url).toContain('&error')
-      expect(electron.url).toContain('seeds')
+
+      expect(send.mock.calls[0][0]).toBe('error')
+      expect(send.mock.calls[0][1].message).toContain('seeds')
     })
 
     describe('missing files', () => {
@@ -452,7 +439,7 @@ describe('Startup Process', () => {
     testFailingChildProcess('gaia', 'init')
   })
 
-  describe('Electron startup', () => {})
+  describe('Electron startup', () => { })
 })
 
 function mainSetup () {
@@ -481,11 +468,11 @@ function testFailingChildProcess (name, cmd) {
   return it(`should fail if there is a not handled error in the ${name} ${cmd || ''} process`, async function () {
     failingChildProcess(name, cmd)
     jest.resetModules()
-    let electron = require('electron')
+    let { send } = require('electron')
     await require(appRoot + 'src/main/index.js')
-    // Errors get reported to the web view as a url parameter
-    expect(electron.url).toContain('&error')
-    expect(electron.url).toContain(name)
+
+    expect(send.mock.calls[0][0]).toBe('error')
+    expect(send.mock.calls[0][1].message).toContain(name)
   })
 }
 
@@ -493,15 +480,15 @@ function childProcessMock (mockExtend = () => ({})) {
   jest.mock('child_process', () => ({
     spawn: jest.fn((path, args) => Object.assign({}, {
       stdout: {
-        on: () => {},
-        pipe: () => {}
+        on: () => { },
+        pipe: () => { }
       },
       stderr: {
-        on: () => {},
-        pipe: () => {}
+        on: () => { },
+        pipe: () => { }
       },
-      on: () => {},
-      kill: () => {}
+      on: () => { },
+      kill: () => { }
     }, mockExtend(path, args)))
   }))
 }
