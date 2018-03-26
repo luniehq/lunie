@@ -30,9 +30,7 @@
     "test:unit": "cross-env LOGGING=false MOCK=false ANALYTICS=false NODE_ENV=testing jest --maxWorkers=2",
     "test:e2e": "cross-env ANALYTICS=false yarn run pack && tape \"test/e2e/*.js\"",
     "test:exe": "node tasks/test-build.js",
-    "test:coverage": "http-server test/unit/coverage/lcov-report",
-    "vue:route": "node tasks/vue/route.js",
-    "vuex:module": "node tasks/vuex/module.js"
+    "test:coverage": "http-server test/unit/coverage/lcov-report"
   },
   "devDependencies": {
     "babel-core": "6.8.0",
