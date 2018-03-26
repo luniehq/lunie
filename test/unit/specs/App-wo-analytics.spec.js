@@ -9,12 +9,12 @@ describe('App without analytics', () => {
   }))
   jest.mock('raven-js', () => ({
     config: (dsn) => {
-      return ({ install: () => {} })
+      return ({ install: () => { } })
     },
     captureException: err => console.error(err)
   }))
-  jest.mock('axios', () => ({ get () {} }))
-  jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => {})
+  jest.mock('axios', () => ({ get () { } }))
+  jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => { })
   jest.mock('electron', () => ({
     remote: {
       getGlobal: () => ({
@@ -24,6 +24,14 @@ describe('App without analytics', () => {
         }
       }),
       app: { getPath: () => { return '$HOME' } }
+    },
+    ipcRenderer: {
+      on: (type, cb) => {
+        if (type === 'connected') {
+          cb(null, 'localhost')
+        }
+      },
+      send: () => { }
     }
   }))
 
@@ -63,13 +71,16 @@ describe('App without analytics', () => {
     require('renderer/main.js')
   })
 
-  it('opens error modal', () => {
+  it('opens error modal', async () => {
     jest.resetModules()
-    Object.defineProperty(window.location, 'search', {
-      writable: true,
-      value: '?node=localhost&relay_port=8080&error=Expected'
-    })
-    let { store } = require('renderer/main.js')
+    const { ipcRenderer } = require('electron')
+    ipcRenderer.on = (type, cb) => {
+      if (type === 'error') {
+        cb(null, new Error('Expected'))
+      }
+    }
+    
+    const { store } = require('renderer/main.js')
     expect(store.state.config.modals.error.active).toBe(true)
     expect(store.state.config.modals.error.message).toBe('Expected')
   })
