@@ -23,6 +23,7 @@ let streams = []
 let nodeIP
 let connecting = true
 let crashingError = null
+let seeds = null
 
 const root = require('../root.js')
 const networkPath = require('../network.js').path
@@ -315,19 +316,16 @@ function consistentConfigDir (appVersionPath, genesisPath, configPath, gaiaVersi
     exists(gaiaVersionPath)
 }
 
-function handleIPC (seeds) {
+function handleIPC () {
   ipcMain.on('successful-launch', () => {
     console.log('[START SUCCESS] Vue app successfuly started')
   })
-  ipcMain.on('reconnect', (event) => {
-    reconnect(seeds)
-  })
+  ipcMain.on('reconnect', function (event) { return reconnect(seeds) })
   ipcMain.on('booted', (event) => {
     // if the webcontent shows after we have connected to a node or produced, we need to send those events again
     if (crashingError) {
       event.sender.send('error', crashingError)
-    }
-    if (!connecting && nodeIP) {
+    } else if (!connecting && nodeIP) {
       event.sender.send('connected', nodeIP)
     }
   })
@@ -385,7 +383,7 @@ async function reconnect (seeds) {
   let nodeAlive = false
   while (!nodeAlive) {
     let nodeIP = pickNode(seeds)
-    nodeAlive = await axios('http://' + nodeIP, { timeout: 3000 })
+    nodeAlive = await axios.get('http://' + nodeIP, { timeout: 3000 })
       .then(() => true, () => false)
     log(`${new Date().toLocaleTimeString()} ${nodeIP} is ${nodeAlive ? 'alive' : 'down'}`)
 
@@ -421,6 +419,9 @@ async function main () {
   await fs.ensureDir(root)
 
   setupLogging(root)
+
+  // handle ipc messages from the renderer process
+  handleIPC()
 
   let init = true
   if (rootExists) {
@@ -503,33 +504,28 @@ async function main () {
     throw new Error(`Can't open config.toml: ${e.message}`)
   }
   let configTOML = toml.parse(configText)
-  let seeds = configTOML.p2p.seeds.split(',').filter(x => x !== '')
+  seeds = configTOML.p2p.seeds.split(',').filter(x => x !== '')
   if (seeds.length === 0) {
     throw new Error('No seeds specified in config.toml')
   }
   nodeIP = pickNode(seeds)
 
   let _baseserverInitialized = await baseserverInitialized(join(root, 'baseserver'))
-  console.log('Baseserver is', _baseserverInitialized ? '' : 'not', 'initialized')
+  log('Baseserver is', _baseserverInitialized ? '' : 'not', 'initialized')
   if (init || !_baseserverInitialized) {
     log(`Trying to initialize baseserver with remote node ${nodeIP}`)
     await initBaseserver(chainId, baseserverHome, nodeIP)
   }
 
-  // handle ipc messages from the renderer process
-  handleIPC(seeds)
-
   await connect(seeds, nodeIP)
 }
-module.exports = Object.assign(
-  main()
-    .catch(err => {
-      logError(err)
-      handleCrash(err)
-    })
-    .then(() => ({
-      shutdown,
-      processes: { baseserverProcess },
-      analytics: ANALYTICS
-    }))
-)
+module.exports = main()
+  .catch(err => {
+    logError(err)
+    handleCrash(err)
+  })
+  .then(() => ({
+    shutdown,
+    processes: { baseserverProcess },
+    analytics: ANALYTICS
+  }))

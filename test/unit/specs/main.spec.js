@@ -78,7 +78,8 @@ describe('Startup Process', () => {
     COSMOS_ANALYTICS: false,
     LOGGING: false,
     COSMOS_NETWORK: 'app/networks/gaia-2',
-    COSMOS_HOME: testRoot
+    COSMOS_HOME: testRoot,
+    NODE_ENV: 'testing'
   })
 
   jest.mock(appRoot + 'src/root.js', () => './test/unit/tmp/test_root')
@@ -86,7 +87,7 @@ describe('Startup Process', () => {
     let i = 0
     return () => Promise.resolve({
       toString: () => {
-        if (i++ === 1) {
+        if (i++ >= 1) {
           return 'Serving on'
         } else {
           return 'Test'
@@ -98,6 +99,7 @@ describe('Startup Process', () => {
   // uses package.json from voyager/ root.
   jest.mock(root + 'package.json', () => ({ version: '0.1.0' }))
 
+  // removed mocked genesis.json for these tests to check if starting up works
   beforeAll(() => {
     fs.removeSync(testRoot + 'genesis.json')
   })
@@ -271,8 +273,6 @@ describe('Startup Process', () => {
 
     it('should not replace the existing data', async function () {
       resetModulesKeepingFS()
-      let electron = require('electron')
-
       // alter the version so the main thread assumes an update
       jest.mock(root + 'package.json', () => ({ version: '1.1.1' }))
       let { send } = require('electron')
@@ -291,8 +291,6 @@ describe('Startup Process', () => {
 
     it('should error on changed genesis.json', async function () {
       resetModulesKeepingFS()
-      let electron = require('electron')
-
       // alter the genesis so the main thread assumes a change
       let existingGenesis = JSON.parse(fs.readFileSync(testRoot + 'genesis.json', 'utf8'))
       existingGenesis.genesis_time = (new Date()).toString()
@@ -356,13 +354,80 @@ describe('Startup Process', () => {
     })
   })
 
+  describe('IPC', () => {
+    let registeredIPCListeners = {}
+
+    beforeEach(async function () {
+      prepareMain()
+      // register ipc listeners
+      const { ipcMain } = require('electron')
+      ipcMain.on = (type, cb) => {
+        registeredIPCListeners[type] = cb
+      }
+      // axios is used to ping nodes for the reconnection intent
+      let axios = require('axios')
+      axios.get = () => Promise.resolve()
+      main = await require(appRoot + 'src/main/index.js')
+    })
+
+    afterEach(function () {
+      main.shutdown()
+      registeredIPCListeners = {}
+    })
+
+    it('should reconnect on IPC call', async () => {
+      // register listeners again
+      const { send } = require('electron')
+      await registeredIPCListeners['reconnect']()
+
+      expect(send.mock.calls[1][0]).toBe('connected')
+    })
+
+    it('should print a success message if connected to node', async () => {
+      let consoleSpy = jest.spyOn(console, 'log')
+      registeredIPCListeners['successful-launch']()
+      expect(consoleSpy.mock.calls[0][0]).toContain('[START SUCCESS]')
+
+      consoleSpy.mockRestore()
+    })
+
+    it('should provide the connected node when the view has booted', async () => {
+      let event = { sender: { send: jest.fn() } }
+      registeredIPCListeners['booted'](event)
+      expect(event.sender.send.mock.calls[0][0]).toEqual('connected')
+      expect(event.sender.send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
+    })
+
+    it('should provide the error if the main process failed before the view has booted', async () => {
+      main.shutdown()
+
+      // simulate error by deleting a file
+      resetModulesKeepingFS()
+      fs.removeSync(join(testRoot, 'genesis.json'))
+
+      // register listeners again
+      const { ipcMain } = require('electron')
+      ipcMain.on = (type, cb) => {
+        registeredIPCListeners[type] = (...args) => cb(...args)
+      }
+
+      // run main
+      main = await require(appRoot + 'src/main/index.js')
+
+      let event = { sender: { send: jest.fn() } }
+      registeredIPCListeners['booted'](event)
+      expect(event.sender.send.mock.calls[0][0]).toEqual('error')
+      expect(event.sender.send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
+    })
+  })
+
   describe('Error handling', function () {
     afterEach(function () {
       main.shutdown()
     })
     it('should rerun gaia server if gaia server fails', async function () {
       failingChildProcess('gaia', 'rest-server')
-      await initMain()
+      main = await initMain()
 
       await sleep(1000)
 
@@ -376,7 +441,8 @@ describe('Startup Process', () => {
 
     it('should fail if config.toml has no seeds', async () => {
       jest.resetModules()
-      await initMain()
+      main = await initMain()
+      main.shutdown()
       let configText = fs.readFileSync(join(testRoot, 'config.toml'), 'utf8')
       configText = configText.split('\n')
         .map(line => {
@@ -438,13 +504,11 @@ describe('Startup Process', () => {
     })
     testFailingChildProcess('gaia', 'init')
   })
-
-  describe('Electron startup', () => { })
 })
 
 function mainSetup () {
   beforeAll(async function () {
-    await initMain()
+    main = await initMain()
   })
 
   afterAll(function () {
@@ -452,13 +516,19 @@ function mainSetup () {
   })
 }
 
-async function initMain () {
+// prepare mocks before we start the main process
+function prepareMain () {
   // restart main with a now initialized state
   jest.resetModules()
   childProcess = require('child_process')
   // have the same mocked fs as main uses
   // this is reset with jest.resetModules
   fs = require('fs-extra')
+}
+
+async function initMain () {
+  prepareMain()
+
   main = await require(appRoot + 'src/main/index.js')
   expect(main).toBeDefined()
   return main
