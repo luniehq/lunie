@@ -13,7 +13,7 @@ const config = require('../../../config')
 
 import App from './App'
 import routes from './routes'
-import Node from './node'
+import Node from './connectors/node'
 import Store from './vuex/store'
 
 // exporting this for testing

@@ -2,15 +2,14 @@ describe('LCD Connector', () => {
   let LCDConnector
   let initialNodeIP = '1.1.1.1'
   let relayServerPort = '1234'
-  let lcdPort = '5678'
 
   function newNode () {
-    return LCDConnector(initialNodeIP, relayServerPort, lcdPort)
+    return LCDConnector(initialNodeIP, relayServerPort, false)
   }
 
   beforeEach(() => {
     jest.resetModules()
-    LCDConnector = require('renderer/node')
+    LCDConnector = require('renderer/connectors/node')
 
     jest.mock('tendermint', () => () => ({
       on (value, cb) {},
@@ -24,15 +23,14 @@ describe('LCD Connector', () => {
 
   it('should provide the nodeIP', () => {
     let node = newNode()
-    expect(node.nodeIP).toBe(initialNodeIP)
+    expect(node.rpcInfo.nodeIP).toBe(initialNodeIP)
     expect(node.relayPort).toBe(relayServerPort)
-    expect(node.lcdPort).toBe(lcdPort)
   })
 
   it('should init the rpc connection on initialization', () => {
     let node = newNode()
     expect(node.rpc).toBeDefined()
-    expect(node.rpcOpen).toBe(true)
+    expect(node.rpcInfo.connected).toBe(true)
   })
 
   it('should remember if it could not connect via rpc', () => {
@@ -44,10 +42,10 @@ describe('LCD Connector', () => {
       }
     }))
     jest.resetModules()
-    LCDConnector = require('renderer/node')
+    LCDConnector = require('renderer/connectors/node')
     let node = newNode()
     expect(node.rpc).toBeDefined()
-    expect(node.rpcOpen).toBe(false)
+    expect(node.rpcInfo.connected).toBe(false)
   })
 
   it('should not react to error codes not meaning connection failed', () => {
@@ -59,15 +57,15 @@ describe('LCD Connector', () => {
       }
     }))
     jest.resetModules()
-    LCDConnector = require('renderer/node')
+    LCDConnector = require('renderer/connectors/node')
     let node = newNode()
     expect(node.rpc).toBeDefined()
-    expect(node.rpcOpen).toBe(true)
+    expect(node.rpcInfo.connected).toBe(true)
   })
 
   it('should notify the main process to reconnect', async () => {
     let node = newNode()
-    expect(node.rpcConnecting).toBe(false)
+    expect(node.rpcInfo.connecting).toBe(false)
     node.initRPC = jest.fn()
     let nodeIP = await node.rpcReconnect()
     expect(nodeIP).toBe('1.2.3.4')
@@ -78,7 +76,7 @@ describe('LCD Connector', () => {
 
     beforeEach(() => {
       jest.resetModules()
-      LCDConnector = require('renderer/node')
+      LCDConnector = require('renderer/connectors/node')
 
       jest.mock('tendermint', () => () => ({
         on (value, cb) {},
