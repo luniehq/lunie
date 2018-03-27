@@ -1,5 +1,5 @@
 let axios = require('axios')
-let LcdClient = require('../../../app/src/renderer/lcdClient.js')
+let LcdClient = require('renderer/connectors/lcdClient.js')
 
 describe('LCD Client', () => {
   let client = new LcdClient()
