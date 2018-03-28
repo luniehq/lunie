@@ -489,12 +489,7 @@ async function main () {
 
   // pick a random seed node from config.toml
   // TODO: user-specified nodes, support switching?
-  let configText
-  try {
-    configText = fs.readFileSync(configPath, 'utf8')
-  } catch (e) {
-    throw new Error(`Can't open config.toml: ${e.message}`)
-  }
+  let configText = fs.readFileSync(configPath, 'utf8') // checked before if the file exists
   let configTOML = toml.parse(configText)
   seeds = configTOML.p2p.seeds.split(',').filter(x => x !== '')
   if (seeds.length === 0) {
