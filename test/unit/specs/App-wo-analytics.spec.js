@@ -16,12 +16,7 @@ describe('App without analytics', () => {
   jest.mock('renderer/google-analytics.js', () => (uid) => { })
   jest.mock('electron', () => ({
     remote: {
-      getGlobal: () => ({
-        env: {
-          NODE_ENV: 'test',
-          COSMOS_ANALYTICS: 'false'
-        }
-      }),
+      getGlobal: () => ({ env: { NODE_ENV: 'test' } }),
       app: { getPath: () => { return '$HOME' } }
     },
     ipcRenderer: {

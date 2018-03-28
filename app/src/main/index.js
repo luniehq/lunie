@@ -39,9 +39,6 @@ const winURL = DEV
   : `file://${__dirname}/index.html`
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
-const ANALYTICS = process.env.COSMOS_ANALYTICS ? JSON.parse(process.env.COSMOS_ANALYTICS) : (process.env.NODE_ENV === 'production' && config.analytics_networks.indexOf(config.default_network) !== -1)
-// set analytics for renderer
-process.env.COSMOS_ANALYTICS = ANALYTICS
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
 
@@ -330,8 +327,7 @@ function handleIPC () {
     }
   })
   ipcMain.on('error-collection', (event, optin) => {
-    console.log('called')
-    Raven.uninstall().config(ANALYTICS && optin ? config.sentry_dsn : '', { captureUnhandledRejections: false }).install()
+    Raven.uninstall().config(optin ? config.sentry_dsn : '', { captureUnhandledRejections: false }).install()
   })
 }
 
@@ -402,17 +398,9 @@ async function reconnect (seeds) {
   return nodeIP
 }
 
-function setupAnalytics () {
-  if (ANALYTICS) {
-    log('Adding analytics')
-  }
-
-  // only enable sending of error events in production setups and if the network is a testnet
-  Raven.config(ANALYTICS ? config.sentry_dsn : '', { captureUnhandledRejections: false }).install()
-}
-
 async function main () {
-  setupAnalytics()
+  // we only enable error collection after users opted in
+  Raven.config('', { captureUnhandledRejections: false }).install()
 
   let appVersionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
@@ -530,6 +518,5 @@ module.exports = main()
   })
   .then(() => ({
     shutdown,
-    processes: { baseserverProcess },
-    analytics: ANALYTICS
+    processes: { baseserverProcess }
   }))

@@ -15,14 +15,7 @@ describe('App with analytics', () => {
   jest.mock('axios', () => ({ get () { } }))
   jest.mock('renderer/google-analytics.js', () => (uid) => { })
   jest.mock('electron', () => ({
-    remote: {
-      getGlobal: () => ({
-        env: {
-          NODE_ENV: 'test',
-          COSMOS_ANALYTICS: 'true'
-        }
-      })
-    },
+    remote: { getGlobal: () => ({ env: { NODE_ENV: 'test' } }) },
     ipcRenderer: {
       on: (type, cb) => {
         if (type === 'connected') {
