@@ -66,6 +66,19 @@ describe('LCD Connector', () => {
     expect(node.rpcOpen).toBe(true)
   })
 
+  it('should cleanup the old websocket when connecting again', () => {
+    let node = newNode()
+    node.rpcConnect('localhost')
+
+    let spyListeners = jest.spyOn(node.rpc, 'removeAllListeners')
+    let spyDestroy = jest.spyOn(node.rpc.ws, 'destroy')
+
+    node.rpcConnect('localhost')
+
+    expect(spyListeners).toHaveBeenCalledWith('error')
+    expect(spyDestroy).toHaveBeenCalled()
+  })
+
   describe('reconnect', () => {
     let node
 
