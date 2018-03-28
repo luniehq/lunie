@@ -1,6 +1,6 @@
 /* mocking electron differently in one file apparently didn't work so I had to split the App tests in 2 files */
 
-jest.mock('renderer/node.js', () => () => require('../helpers/node_mock'))
+jest.mock('renderer/connectors/node.js', () => () => require('../helpers/node_mock'))
 
 describe('App without analytics', () => {
   jest.mock('../../../config', () => ({
