@@ -65,7 +65,7 @@ describe('NISessionSignUp', () => {
     })
   })
 
-  it.only('should set error collection opt in state', async () => {
+  it('should set error collection opt in state', async () => {
     wrapper.setData({
       fields: {
         signUpPassword: '1234567890',
@@ -96,7 +96,6 @@ describe('NISessionSignUp', () => {
     })
     store.dispatch.mockClear()
     await wrapper.vm.onSubmit()
-    console.log(store.dispatch.mock.calls)
     expect(store.dispatch.mock.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
       account: 'testaccount',
       optin: false
@@ -115,7 +114,7 @@ describe('NISessionSignUp', () => {
       }
     })
     wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect(store.commit).not.toHaveBeenCalled()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
@@ -167,7 +166,7 @@ describe('NISessionSignUp', () => {
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
-  it('should show error if account name is not 5 long', async () => {
+  it('should show an error if account name is not 5 long', async () => {
     wrapper.setData({
       fields: {
         signUpPassword: '1234567890',
