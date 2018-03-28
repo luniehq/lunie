@@ -329,6 +329,10 @@ function handleIPC () {
       event.sender.send('connected', nodeIP)
     }
   })
+  ipcMain.on('error-collection', (event, optin) => {
+    console.log('called')
+    Raven.uninstall().config(ANALYTICS && optin ? config.sentry_dsn : '', { captureUnhandledRejections: false }).install()
+  })
 }
 
 // check if baseserver is initialized as the configs could be corrupted

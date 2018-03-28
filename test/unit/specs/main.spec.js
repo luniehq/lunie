@@ -354,7 +354,7 @@ describe('Startup Process', () => {
     })
   })
 
-  describe('IPC', () => {
+  describe.only('IPC', () => {
     let registeredIPCListeners = {}
 
     beforeEach(async function () {
@@ -428,7 +428,7 @@ describe('Startup Process', () => {
       // register listeners again
       const { ipcMain } = require('electron')
       ipcMain.on = (type, cb) => {
-        registeredIPCListeners[type] = (...args) => cb(...args)
+        registeredIPCListeners[type] = cb
       }
 
       // run main
@@ -438,6 +438,33 @@ describe('Startup Process', () => {
       registeredIPCListeners['booted'](event)
       expect(event.sender.send.mock.calls[0][0]).toEqual('error')
       expect(event.sender.send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
+    })
+
+    it.only('should set error collection according to the error collection opt in state', async () => {
+      main.shutdown()
+
+      Object.assign(process.env, { COSMOS_ANALYTICS: true })
+      prepareMain()
+      // register listeners again
+      const { ipcMain } = require('electron')
+      ipcMain.on = (type, cb) => {
+        registeredIPCListeners[type] = cb
+      }
+
+      // run main
+      main = await require(appRoot + 'src/main/index.js')
+
+      const Raven = require('raven')
+      const ravenSpy = jest.spyOn(Raven, 'config')
+
+      registeredIPCListeners['error-collection'](null, true)
+      expect(ravenSpy).toHaveBeenCalled()
+      expect(ravenSpy.mock.calls[0]).not.toBe('')
+      expect(ravenSpy.mock.calls).toMatchSnapshot()
+
+      ravenSpy.mockReset()
+      registeredIPCListeners['error-collection'](null, false)
+      expect(ravenSpy).toHaveBeenCalledWith('')
     })
   })
 
