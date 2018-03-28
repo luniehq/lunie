@@ -2,7 +2,7 @@ import setup from '../../../helpers/vuex-setup'
 import Vuelidate from 'vuelidate'
 import htmlBeautify from 'html-beautify'
 import NISessionSignUp from 'common/NiSessionSignUp'
-jest.mock('../../../../../app/src/renderer/google-analytics.js', () => (uid) => { })
+jest.mock('renderer/google-analytics.js', () => (uid) => { })
 
 let instance = setup()
 instance.localVue.use(Vuelidate)
@@ -78,7 +78,7 @@ describe('NISessionSignUp', () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
+    expect(store.dispatch.mock.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
       account: 'testaccount',
       optin: true
     })
@@ -94,9 +94,9 @@ describe('NISessionSignUp', () => {
         errorCollection: false
       }
     })
-    store.commit.mockReset()
+    store.dispatch.mockReset()
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
+    expect(store.dispatch.mock.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
       account: 'testaccount',
       optin: false
     })

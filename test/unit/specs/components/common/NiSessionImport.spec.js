@@ -3,7 +3,7 @@ import Vuelidate from 'vuelidate'
 import { mount, createLocalVue } from '@vue/test-utils'
 import htmlBeautify from 'html-beautify'
 import NiSessionImport from 'common/NiSessionImport'
-jest.mock('../../../../../app/src/renderer/google-analytics.js', () => (uid) => { })
+jest.mock('renderer/google-analytics.js', () => (uid) => { })
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -78,7 +78,7 @@ describe('NiSessionImport', () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
+    expect(store.dispatch.mock.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
       account: 'foo123',
       optin: true
     })
@@ -92,9 +92,9 @@ describe('NiSessionImport', () => {
         errorCollection: false
       }
     })
-    store.commit.mockReset()
+    store.dispatch.mockReset()
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
+    expect(store.dispatch.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
       account: 'foo123',
       optin: false
     })

@@ -94,7 +94,7 @@ export default {
           name: this.fields.importName
         });
         if (key) {
-          this.$store.commit("setErrorCollection", {
+          this.$store.dispatch("setErrorCollection", {
             account: this.fields.importName,
             optin: this.fields.errorCollection
           });

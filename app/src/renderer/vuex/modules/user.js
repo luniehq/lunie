@@ -1,11 +1,12 @@
 import enableGoogleAnalytics from '../../google-analytics.js'
 import Raven from 'raven-js'
+const { ipcRenderer } = require('electron')
 const config = require('../../../../../config')
 
 export default ({ commit, node }) => {
   const ERROR_COLLECTION_KEY = 'voyager_error_collection'
 
-  const state = {
+  let state = {
     atoms: 0,
     signedIn: false,
     accounts: [],
@@ -21,18 +22,6 @@ export default ({ commit, node }) => {
     },
     setAtoms (state, atoms) {
       state.atoms = atoms
-    },
-    setErrorCollection (state, { account, optin }) {
-      localStorage.setItem(`${ERROR_COLLECTION_KEY}_${account}`, optin)
-      state.errorCollection = optin
-
-      Raven.uninstall().config(optin ? config.sentry_dsn_public : '').install()
-      if (optin) {
-        console.log('Analytics enabled in browser')
-        enableGoogleAnalytics(config.google_analytics_uid)
-      } else {
-        console.log('Analytics disabled in browser')
-      }
     }
   }
 
@@ -110,9 +99,24 @@ export default ({ commit, node }) => {
       commit('setModalSession', true)
       dispatch('showInitialScreen')
     },
-    loadErrorCollection ({ state, commit }, account) {
+    loadErrorCollection ({ state, dispatch }, account) {
       let errorCollection = localStorage.getItem(`${ERROR_COLLECTION_KEY}_${account}`) === 'true'
-      commit('setErrorCollection', { account, optin: errorCollection })
+      dispatch('setErrorCollection', { account, optin: errorCollection })
+    },
+    setErrorCollection ({ state }, { account, optin }) {
+      localStorage.setItem(`${ERROR_COLLECTION_KEY}_${account}`, optin)
+      state.errorCollection = optin
+
+      Raven.uninstall().config(optin ? config.sentry_dsn_public : '').install()
+      if (optin) {
+        console.log('Analytics enabled in browser')
+        enableGoogleAnalytics(config.google_analytics_uid)
+      } else {
+        console.log('Analytics disabled in browser')
+        window.analytics = null
+      }
+
+      ipcRenderer.send('error-collection', optin)
     }
   }
 

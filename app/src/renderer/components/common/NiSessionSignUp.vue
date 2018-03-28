@@ -65,16 +65,16 @@
 </template>
 
 <script>
-import { required, minLength, sameAs } from 'vuelidate/lib/validators'
-import Btn from '@nylira/vue-button'
-import Field from '@nylira/vue-field'
-import FieldSeed from 'common/NiFieldSeed'
-import FieldGroup from 'common/NiFieldGroup'
-import FormGroup from 'common/NiFormGroup'
-import FormMsg from 'common/NiFormMsg'
-import FormStruct from 'common/NiFormStruct'
+import { required, minLength, sameAs } from "vuelidate/lib/validators";
+import Btn from "@nylira/vue-button";
+import Field from "@nylira/vue-field";
+import FieldSeed from "common/NiFieldSeed";
+import FieldGroup from "common/NiFieldGroup";
+import FormGroup from "common/NiFormGroup";
+import FormMsg from "common/NiFormMsg";
+import FormStruct from "common/NiFormStruct";
 export default {
-  name: 'ni-session-sign-up',
+  name: "ni-session-sign-up",
   components: {
     Btn,
     Field,
@@ -87,69 +87,69 @@ export default {
   data: () => ({
     creating: true,
     fields: {
-      signUpName: '',
-      signUpSeed: 'Creating seed...',
-      signUpPassword: '',
-      signUpPasswordConfirm: '',
+      signUpName: "",
+      signUpSeed: "Creating seed...",
+      signUpPassword: "",
+      signUpPasswordConfirm: "",
       signUpWarning: false,
       signUpBackup: false
     }
   }),
   methods: {
-    help () {
-      this.$store.commit('setModalHelp', true)
+    help() {
+      this.$store.commit("setModalHelp", true);
     },
-    setState (value) {
-      this.$store.commit('setModalSessionState', value)
+    setState(value) {
+      this.$store.commit("setModalSessionState", value);
     },
-    async onSubmit () {
-      this.$v.$touch()
-      if (this.$v.$error) return
+    async onSubmit() {
+      this.$v.$touch();
+      if (this.$v.$error) return;
       try {
-        let key = await this.$store.dispatch('createKey', {
+        let key = await this.$store.dispatch("createKey", {
           seedPhrase: this.fields.signUpSeed,
           password: this.fields.signUpPassword,
           name: this.fields.signUpName
-        })
+        });
         if (key) {
-          this.$store.commit('setErrorCollection', {
+          this.$store.dispatch("setErrorCollection", {
             account: this.fields.signUpName,
             optin: this.fields.errorCollection
-          })
-          this.$store.commit('setModalSession', false)
-          this.$store.commit('notify', {
-            title: 'Signed Up',
-            body: 'Your account has been created.'
-          })
-          this.$store.dispatch('signIn', {
+          });
+          this.$store.commit("setModalSession", false);
+          this.$store.commit("notify", {
+            title: "Signed Up",
+            body: "Your account has been created."
+          });
+          this.$store.dispatch("signIn", {
             password: this.fields.signUpPassword,
             account: this.fields.signUpName
-          })
+          });
         }
       } catch (err) {
-        this.$store.commit('notifyError', {
+        this.$store.commit("notifyError", {
           title: `Couldn't create account`,
           body: err.message
-        })
+        });
       }
     }
   },
-  mounted () {
-    this.$el.querySelector('#sign-up-name').focus()
-    this.$store.dispatch('createSeed').then(seedPhrase => {
-      this.creating = false
-      this.fields.signUpSeed = seedPhrase
-    })
+  mounted() {
+    this.$el.querySelector("#sign-up-name").focus();
+    this.$store.dispatch("createSeed").then(seedPhrase => {
+      this.creating = false;
+      this.fields.signUpSeed = seedPhrase;
+    });
   },
   validations: () => ({
     fields: {
       signUpName: { required, minLength: minLength(5) },
       signUpPassword: { required, minLength: minLength(10) },
-      signUpPasswordConfirm: { sameAsPassword: sameAs('signUpPassword') },
+      signUpPasswordConfirm: { sameAsPassword: sameAs("signUpPassword") },
       signUpWarning: { required },
       signUpBackup: { required },
       errorCollection: false
     }
   })
-}
+};
 </script>

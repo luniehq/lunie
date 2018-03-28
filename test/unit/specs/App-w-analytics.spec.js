@@ -13,7 +13,7 @@ describe('App with analytics', () => {
     }
   }))
   jest.mock('axios', () => ({ get () { } }))
-  jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => { })
+  jest.mock('renderer/google-analytics.js', () => (uid) => { })
   jest.mock('electron', () => ({
     remote: {
       getGlobal: () => ({
@@ -43,7 +43,7 @@ describe('App with analytics', () => {
   })
 
   it('activates google analytics if flag is enabled', async mockDone => {
-    jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => {
+    jest.mock('renderer/google-analytics.js', () => (uid) => {
       expect(uid).toBe('123')
       mockDone()
     })
