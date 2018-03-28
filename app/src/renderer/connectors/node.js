@@ -2,17 +2,17 @@
 const RestClient = require('./lcdClient.js')
 const mockedRestClient = require('./lcdClientMock.js')
 const RpcWrapper = require('./rpcWrapper.js')
-const mockedRpcWrapper = require('./rpcWrapperMock.js')
+const MockedRpcWrapper = require('./rpcWrapperMock.js')
 
-module.exports = function (nodeIP, relayPort, mocked = false) {
-  const RELAY_SERVER = 'http://localhost:' + relayPort
+module.exports = function (nodeIP, lcdPort, mocked = false) {
+  const LCD_SERVER = 'http://localhost:' + lcdPort
 
   let connector = {
-    relayPort,
+    lcdPort,
     // activate or deactivate the mocked lcdClient
-    setMocked: (mocked) => {
-      let newRestClient = mocked ? mockedRestClient : new RestClient(RELAY_SERVER)
-      let newRpcClient = mocked ? mockedRpcWrapper(connector) : RpcWrapper(connector, nodeIP, RELAY_SERVER)
+    setup: (mocked) => {
+      let newRestClient = mocked ? mockedRestClient : new RestClient(LCD_SERVER)
+      let newRpcClient = mocked ? MockedRpcWrapper(connector) : RpcWrapper(connector, nodeIP)
       Object.assign(connector, newRestClient, newRpcClient)
       // we can't assign class functions to an object so we need to iterate over the prototype
       if (!mocked) {
@@ -24,7 +24,6 @@ module.exports = function (nodeIP, relayPort, mocked = false) {
   }
   // TODO: eventually, get all data from light-client connection instead of RPC
 
-  connector.setMocked(mocked)
-  connector.initRPC(nodeIP)
+  connector.setup(mocked)
   return connector
 }

@@ -127,7 +127,7 @@ describe('App without analytics', () => {
   it('does not send a successful-launch if can not connect to node', async () => {
     jest.resetModules()
     const { ipcRenderer } = require('electron')
-    jest.doMock('renderer/node.js', () => () => ({
+    jest.doMock('renderer/connectors/node', () => () => ({
       rpc: { subscribe: () => { } },
       rpcConnect: () => { },
       rpcReconnect: () => { },

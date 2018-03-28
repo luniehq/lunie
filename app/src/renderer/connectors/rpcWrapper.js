@@ -1,7 +1,7 @@
 const RpcClient = require('tendermint')
-const axios = require('axios')
+const { ipcRenderer } = require('electron')
 
-module.exports = function setRpcWrapper (container, nodeIP, relayServerAddress) {
+module.exports = function setRpcWrapper (container, nodeIP) {
   let rpcWrapper = {
     // RPC
     rpcInfo: {
@@ -9,13 +9,15 @@ module.exports = function setRpcWrapper (container, nodeIP, relayServerAddress) 
       connecting: false,
       connected: true
     },
-    initRPC (nodeIP) {
+    rpcConnect (nodeIP) {
+      rpcWrapper.rpcInfo.nodeIP = nodeIP
+
       if (container.rpc) {
         console.log('removing old websocket')
 
         // ignore disconnect error
         container.rpc.removeAllListeners('error')
-        container.rpc.on('error', () => {})
+        container.rpc.on('error', () => { })
 
         container.rpc.ws.destroy()
       }
@@ -33,32 +35,15 @@ module.exports = function setRpcWrapper (container, nodeIP, relayServerAddress) 
 
       container.rpc = newRpc
     },
-    rpcReconnect: async (alreadyConnecting = rpcWrapper.rpcInfo.connecting) => {
-      if (alreadyConnecting) return null
+    rpcReconnect: (alreadyConnecting = rpcWrapper.rpcInfo.connecting) => {
+      if (alreadyConnecting) return
       rpcWrapper.rpcInfo.connecting = true
 
       console.log('trying to reconnect')
 
-      let nodeIP = (await axios(relayServerAddress + '/reconnect')).data
-      if (nodeIP) {
-        console.log('Reconnected to', nodeIP)
-        rpcWrapper.rpcInfo.nodeIP = nodeIP
-        rpcWrapper.initRPC(nodeIP)
-      } else {
-        console.log('Reconnection failed, trying again')
-        // try again in 3s
-        await sleep(3000)
-        return rpcWrapper.rpcReconnect(false)
-      }
-
-      rpcWrapper.rpcInfo.connecting = false
-      return nodeIP
+      ipcRenderer.send('reconnect')
     }
   }
 
   return rpcWrapper
-}
-
-function sleep (ms = 0) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
 }
