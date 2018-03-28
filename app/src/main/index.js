@@ -45,6 +45,9 @@ const ANALYTICS = process.env.COSMOS_ANALYTICS ? JSON.parse(process.env.COSMOS_A
 // set analytics for renderer
 process.env.COSMOS_ANALYTICS = ANALYTICS
 
+// prevents warnings in tests
+process.setMaxListeners(1000)
+
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
 
 function log (...args) {
