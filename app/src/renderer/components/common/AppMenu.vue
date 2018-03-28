@@ -1,7 +1,7 @@
 <template lang="pug">
 menu.app-menu
   .app-menu-main
-    list-item(to="/" exact @click.native="close" title="Balances")
+    list-item(to="/" exact @click.native="close" title="Wallet")
     list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions")
     list-item(to="/staking" exact @click.native="close" title="Validators" v-bind:class="{ 'active': isValidatorPage }")
     list-item(to="/proposals" exact @click.native="close" title="Proposals" v-if="config.devMode")
