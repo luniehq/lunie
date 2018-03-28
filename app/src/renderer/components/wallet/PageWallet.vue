@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Balances')
+page(title='Wallet')
   div(slot="menu"): tool-bar
     a(@click='updateBalances()')
       i.material-icons refresh
@@ -48,7 +48,7 @@ import Page from 'common/NiPage'
 import Part from 'common/NiPart'
 import ToolBar from 'common/NiToolBar'
 export default {
-  name: 'page-balances',
+  name: 'page-wallet',
   components: {
     DataLoading,
     DataEmpty,
