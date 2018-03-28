@@ -128,7 +128,10 @@ describe('App without analytics', () => {
     jest.resetModules()
     const { ipcRenderer } = require('electron')
     jest.doMock('renderer/connectors/node', () => () => ({
-      rpc: { subscribe: () => { } },
+      rpcInfo: { connected: true },
+      rpc: {
+        subscribe: () => { }, on: () => { }, status: () => { }
+      },
       rpcConnect: () => { },
       rpcReconnect: () => { },
       lcdConnected: () => Promise.resolve(false)
@@ -142,7 +145,7 @@ describe('App without analytics', () => {
       }
     }
 
-    require('renderer/main.js')
+    await require('renderer/main.js')
     await connectedCB(null, 'localhost')
 
     expect(ipcRenderer.send.mock.calls).toEqual([['booted']])
