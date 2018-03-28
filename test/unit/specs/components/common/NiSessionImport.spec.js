@@ -92,9 +92,9 @@ describe('NiSessionImport', () => {
         errorCollection: false
       }
     })
-    store.dispatch.mockReset()
+    store.dispatch.mockClear()
     await wrapper.vm.onSubmit()
-    expect(store.dispatch.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
+    expect(store.dispatch.mock.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
       account: 'foo123',
       optin: false
     })

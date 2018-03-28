@@ -16,7 +16,7 @@ describe('NiPage', () => {
   store.commit = jest.fn()
 
   beforeEach(() => {
-    store.commit.mockReset()
+    store.commit.mockClear()
     wrapper = mount(NiPage, {
       localVue,
       store,

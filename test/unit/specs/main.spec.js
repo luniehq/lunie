@@ -462,9 +462,9 @@ describe('Startup Process', () => {
       expect(ravenSpy.mock.calls[0]).not.toBe('')
       expect(ravenSpy.mock.calls).toMatchSnapshot()
 
-      ravenSpy.mockReset()
+      ravenSpy.mockClear()
       registeredIPCListeners['error-collection'](null, false)
-      expect(ravenSpy).toHaveBeenCalledWith('')
+      expect(ravenSpy).toHaveBeenCalledWith('', { 'captureUnhandledRejections': false })
     })
   })
 

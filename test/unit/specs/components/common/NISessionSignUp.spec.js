@@ -65,7 +65,7 @@ describe('NISessionSignUp', () => {
     })
   })
 
-  it('should set error collection opt in state', async () => {
+  it.only('should set error collection opt in state', async () => {
     wrapper.setData({
       fields: {
         signUpPassword: '1234567890',
@@ -94,8 +94,9 @@ describe('NISessionSignUp', () => {
         errorCollection: false
       }
     })
-    store.dispatch.mockReset()
+    store.dispatch.mockClear()
     await wrapper.vm.onSubmit()
+    console.log(store.dispatch.mock.calls)
     expect(store.dispatch.mock.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
       account: 'testaccount',
       optin: false

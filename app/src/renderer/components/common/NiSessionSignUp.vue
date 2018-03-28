@@ -111,6 +111,7 @@ export default {
           password: this.fields.signUpPassword,
           name: this.fields.signUpName
         });
+        console.log("KEY", key);
         if (key) {
           this.$store.dispatch("setErrorCollection", {
             account: this.fields.signUpName,
