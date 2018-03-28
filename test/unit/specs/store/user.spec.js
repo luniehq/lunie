@@ -158,12 +158,14 @@ describe('Module: User', () => {
     store.dispatch('setErrorCollection', { account: 'abc', optin: true })
     expect(store.state.user.errorCollection).toBe(true)
     expect(window.analytics).toBeTruthy()
+    expect(ravenSpy).toHaveBeenCalled()
+    expect(ravenSpy).not.toHaveBeenCalled('')
     expect(ravenSpy.mock.calls).toMatchSnapshot()
 
     store.dispatch('setErrorCollection', { account: 'abc', optin: false })
     expect(store.state.user.errorCollection).toBe(false)
     expect(window.analytics).toBeFalsy()
-    expect(ravenSpy).toBeCalledWith('')
+    expect(ravenSpy).toHaveBeenCalledWith('')
   })
 
   it('should persist the error collection opt in', () => {
