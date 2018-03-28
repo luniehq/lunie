@@ -389,7 +389,7 @@ describe('Startup Process', () => {
       expect(event.sender.send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
     })
 
-    it.only('should set error collection according to the error collection opt in state', async () => {
+    it('should set error collection according to the error collection opt in state', async () => {
       main.shutdown()
 
       prepareMain()
