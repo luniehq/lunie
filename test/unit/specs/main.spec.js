@@ -376,8 +376,28 @@ describe('Startup Process', () => {
     })
 
     it('should reconnect on IPC call', async () => {
-      // register listeners again
       const { send } = require('electron')
+      await registeredIPCListeners['reconnect']()
+
+      expect(send.mock.calls[1][0]).toBe('connected')
+    })
+
+    it('should not start reconnecting again if already trying to reconnect', async () => {
+      let axios = require('axios')
+      let spy = jest.spyOn(axios, 'get')
+
+      registeredIPCListeners['reconnect']()
+      await registeredIPCListeners['reconnect']()
+      expect(spy).toHaveBeenCalledTimes(1) // a node has only be pinged once
+    })
+
+    it('should search through nodes until it finds one', async () => {
+      const { send } = require('electron')
+      let axios = require('axios')
+      axios.get = jest.fn()
+        .mockReturnValueOnce(Promise.reject())
+        .mockReturnValueOnce(Promise.resolve())
+
       await registeredIPCListeners['reconnect']()
 
       expect(send.mock.calls[1][0]).toBe('connected')
@@ -456,44 +476,57 @@ describe('Startup Process', () => {
 
       resetModulesKeepingFS()
       let { send } = require('electron')
-      await require(appRoot + 'src/main/index.js')
+      main = await require(appRoot + 'src/main/index.js')
 
       expect(send.mock.calls[0][0]).toBe('error')
       expect(send.mock.calls[0][1].message).toContain('seeds')
     })
 
     describe('missing files', () => {
+      let send
+
       beforeEach(async () => {
         // make sure it is initialized
         jest.resetModules()
-        await initMain()
+        main = await initMain()
         main.shutdown()
+
+        resetModulesKeepingFS()
+        let { send: _send } = require('electron')
+        send = _send
       })
       afterEach(async () => {
-        await main.shutdown()
-        jest.resetModules()
+        main.shutdown()
       })
-      it('should survive the genesis.json being removed', async () => {
+      it('should error if the genesis.json being removed', async () => {
         fs.removeSync(join(testRoot, 'genesis.json'))
-        await initMain()
+        main = await require(appRoot + 'src/main/index.js')
+
+        expect(send.mock.calls[0][0]).toBe('error')
       })
-      it('should survive the config.toml being removed', async () => {
+      it('should error if the config.toml being removed', async () => {
         fs.removeSync(join(testRoot, 'config.toml'))
-        await initMain()
+        main = await require(appRoot + 'src/main/index.js')
+
+        expect(send.mock.calls[0][0]).toBe('error')
       })
-      it('should survive the app_version being removed', async () => {
+      it('should error if the app_version being removed', async () => {
         fs.removeSync(join(testRoot, 'app_version'))
-        await initMain()
+        main = await require(appRoot + 'src/main/index.js')
+
+        expect(send.mock.calls[0][0]).toBe('error')
       })
       it('should survive the baseserver folder being removed', async () => {
         fs.removeSync(join(testRoot, 'baseserver'))
-        await initMain()
+        main = await require(appRoot + 'src/main/index.js')
         expect(childProcess.spawn.mock.calls
           .find(([path, args]) =>
             path.includes('gaia') &&
             args.includes('init')
           ).length
         ).toBe(3) // one to check in first round, one to check + one to init in the second round
+
+        expect(send.mock.calls[0][0]).toBe('connected')
       })
     })
   })
@@ -524,6 +557,8 @@ function prepareMain () {
   // have the same mocked fs as main uses
   // this is reset with jest.resetModules
   fs = require('fs-extra')
+  const Raven = require('raven')
+  Raven.disableConsoleAlerts()
 }
 
 async function initMain () {
