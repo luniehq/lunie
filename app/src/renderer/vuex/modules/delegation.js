@@ -73,10 +73,10 @@ export default ({ commit, node }) => {
       return dispatch('sendTx', args)
     },
     submitDelegation ({ state, dispatch }, delegation) {
-      return Promise.all(delegation.delegates.map(delegate => {
-        let candidateId = delegate.delegate.pub_key.data
+      return Promise.all(delegation.delegates.map(delegation => {
+        let candidateId = delegation.delegate.pub_key.data
         let currentlyDelegated = state.committedDelegates[candidateId] || 0
-        let amountChange = delegate.atoms - currentlyDelegated
+        let amountChange = delegation.atoms - currentlyDelegated
         let action = amountChange > 0 ? 'walletDelegate' : 'walletUnbond'
 
         // skip if no change
@@ -93,7 +93,7 @@ export default ({ commit, node }) => {
 
         return dispatch(action, {
           amount,
-          pub_key: delegate.delegate.pub_key
+          pub_key: delegation.delegate.pub_key
         })
       }).filter(x => x !== null))
     }

@@ -105,7 +105,7 @@ open builds/Cosmos-{platform}-x64/Cosmos.app
 
 When you are testing the build system you can skip the repackaging of the JS files.
 ```bash
-$ yarn run build --platform= --{darwin|win32|linux} --skip-pack --binary=...
+$ yarn run build --platform={darwin|win32|linux} --skip-pack --binary=...
 ```
 
 To test if your build worked run:
@@ -153,7 +153,6 @@ A list of all environment variables and their purpose:
 |--|--|--|--|
 |NODE_ENV|'production', 'development'|||
 |LOGGING|'true', 'false'|'true'|Disable logging|
-|MOCK|'true', 'false'|'true' in development|Mock data to receive from the chain|
 |COSMOS_ANALYTICS|'true', 'false'|'false'|Disable code that should not run in e2e tests, like crash reporting|
 |COSMOS_NETWORK|{path to network configuration folder}|'../networks/gaia-1'|Network to connect to|
 |COSMOS_HOME|{path to config persistence folder}|'$HOME/voyager[-dev]'||

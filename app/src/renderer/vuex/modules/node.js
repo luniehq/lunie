@@ -27,7 +27,7 @@ export default function ({ node }) {
 
   const actions = {
     reconnected ({ commit, dispatch }) {
-      dispatch('nodeSubscribe')
+      dispatch('rpcSubscribe')
     },
     setLastHeader ({ state, dispatch }, header) {
       state.lastHeader = header
@@ -37,19 +37,15 @@ export default function ({ node }) {
       if (state.stopConnecting) return
 
       commit('setConnected', false)
-      // rpcReconnect returns true if it actually reconnected
-      // it returns false if it already is reconnecting, this is to prevent loops of connection intents
-      if (await node.rpcReconnect()) {
-        dispatch('reconnected')
-      }
+      node.rpcReconnect()
     },
-    async nodeSubscribe ({ commit, dispatch }) {
+    async rpcSubscribe ({ commit, dispatch }) {
       if (state.stopConnecting) return
 
       // the rpc socket can be closed before we can even attach a listener
       // so we remember if the connection is open
       // we handle the reconnection here so we can attach all these listeners on reconnect
-      if (!node.rpcOpen) {
+      if (!node.rpcInfo.connected) {
         await sleep(500)
         dispatch('reconnect')
         return
