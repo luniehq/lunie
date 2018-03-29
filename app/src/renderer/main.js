@@ -61,13 +61,16 @@ async function main () {
     store.commit('setModalError', true)
     store.commit('setModalErrorMessage', error.message)
   })
+
   let firstStart = true
   ipcRenderer.on('connected', (event, nodeIP) => {
-    node.rpc.rpcConnect(nodeIP)
+    node.rpcConnect(nodeIP)
     store.dispatch('rpcSubscribe')
     store.dispatch('subscribeToBlocks')
 
     if (firstStart) {
+      store.dispatch('showInitialScreen')
+
       // test connection
       node.lcdConnected()
         .then(connected => {
@@ -76,7 +79,6 @@ async function main () {
           }
         })
 
-      store.dispatch('showInitialScreen')
       firstStart = false
     }
   })

@@ -60,6 +60,6 @@ module.exports = {
     connecting: false,
     nodeIP: '127.0.0.1'
   },
-  initRPC: () => {},
+  rpcConnect: () => { },
   rpcReconnect: () => Promise.resolve('1.1.1.1')
 }

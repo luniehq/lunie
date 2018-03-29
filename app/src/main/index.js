@@ -1,6 +1,6 @@
 'use strict'
 
-let { app, BrowserWindow } = require('electron')
+let { app, BrowserWindow, ipcMain } = require('electron')
 let fs = require('fs-extra')
 let { join } = require('path')
 let { spawn } = require('child_process')
@@ -21,7 +21,9 @@ let mainWindow
 let lcdProcess
 let streams = []
 let nodeIP
-let connecting = false
+let connecting = true
+let crashingError = null
+let seeds = null
 
 const root = require('../root.js')
 const networkPath = require('../network.js').path
@@ -80,7 +82,8 @@ function expectCleanExit(process, errorMessage = 'Process exited unplanned') {
   })
 }
 
-function handleCrash(error) {
+function handleCrash (error) {
+  crashingError = error
   mainWindow.webContents.send('error', error)
 }
 
@@ -101,7 +104,7 @@ function shutdown() {
   )
 }
 
-function createWindow() {
+function createWindow () {
   mainWindow = new BrowserWindow({
     minWidth: 320,
     minHeight: 480,
@@ -120,7 +123,6 @@ function createWindow() {
   if (DEV || JSON.parse(process.env.COSMOS_DEVTOOLS || 'false')) {
     mainWindow.webContents.openDevTools()
   }
-
   if (DEV) {
     mainWindow.maximize()
   }
@@ -327,31 +329,22 @@ function consistentConfigDir(appVersionPath, genesisPath, configPath, gaiaVersio
     exists(gaiaVersionPath)
 }
 
-const { ipcMain } = require('electron')
-function handleIPC(seeds) {
-  ipcMain.on('booted', () => {
-    nodeIP = pickNode(seeds)
-
-    // check if the lcd is initialized and if not intitialize it
-    let _baseserverInitialized = await baseserverInitialized(join(root, 'baseserver'))
-    console.log('Baseserver is', _baseserverInitialized ? '' : 'not', 'initialized')
-    if (init || !_baseserverInitialized) {
-      log(`Trying to initialize baseserver with remote node ${nodeIP}`)
-      await initBaseserver(chainId, baseserverHome, nodeIP)
-    }
-
-    // connect to the node
-    await connect(seeds, nodeIP)
-  })
+function handleIPC () {
   ipcMain.on('successful-launch', () => {
     console.log('[START SUCCESS] Vue app successfuly started')
   })
-  ipcMain.on('reconnect', (event) => {
-    reconnect(seeds)
+  ipcMain.on('reconnect', function (event) { return reconnect(seeds) })
+  ipcMain.on('booted', (event) => {
+    // if the webcontent shows after we have connected to a node or produced, we need to send those events again
+    if (crashingError) {
+      event.sender.send('error', crashingError)
+    } else if (!connecting && nodeIP) {
+      event.sender.send('connected', nodeIP)
+    }
   })
 }
 
-// check if LCD is initialized as the configs could be corrupted
+// check if baseserver is initialized as the configs could be corrupted
 // we need to parse the error on initialization as there is no way to just get this status programmatically
 function lcdInitialized (home) {
   log('Testing if LCD is already initialized')
@@ -389,9 +382,11 @@ async function connect(seeds, nodeIP) {
   lcdProcess = await startLCD(lcdHome, nodeIP)
   log('gaia server ready')
 
-  // signal new node to view
   mainWindow.webContents.send('connected', nodeIP)
 
+  connecting = false
+
+  // signal new node to view
   return nodeIP
 }
 
@@ -402,7 +397,7 @@ async function reconnect(seeds) {
   let nodeAlive = false
   while (!nodeAlive) {
     let nodeIP = pickNode(seeds)
-    nodeAlive = await axios('http://' + nodeIP, { timeout: 3000 })
+    nodeAlive = await axios.get('http://' + nodeIP, { timeout: 3000 })
       .then(() => true, () => false)
     log(`${new Date().toLocaleTimeString()} ${nodeIP} is ${nodeAlive ? 'alive' : 'down'}`)
 
@@ -413,8 +408,6 @@ async function reconnect(seeds) {
   lcdProcess.kill('SIGKILL')
 
   await connect(seeds, nodeIP)
-
-  connecting = false
 
   return nodeIP
 }
@@ -440,6 +433,9 @@ async function main() {
   await fs.ensureDir(root)
 
   setupLogging(root)
+
+  // handle ipc messages from the renderer process
+  handleIPC()
 
   let init = true
   if (rootExists) {
@@ -535,9 +531,6 @@ async function main() {
   }
 
   await connect(seeds, nodeIP)
-  // handle ipc messages from the renderer process
-  handleIPC(seeds)
-
 }
 module.exports = Object.assign(
   main()

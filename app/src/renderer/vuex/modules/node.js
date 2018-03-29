@@ -38,8 +38,7 @@ export default function ({ node }) {
       if (state.stopConnecting) return
 
       commit('setConnected', false)
-
-      ipcRenderer.send('reconnect')
+      node.rpcReconnect()
     },
     async rpcSubscribe ({ commit, dispatch }) {
       if (state.stopConnecting) return
