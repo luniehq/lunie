@@ -11,9 +11,9 @@ describe('Module: Node', () => {
     store = test.store
     node = test.node
 
-    node.rpcOpen = true
+    node.rpcInfo.connected = true
     node.rpcReconnect = jest.fn(() => {
-      node.rpcOpen = true
+      node.rpcInfo.connected = true
       return Promise.resolve()
     })
   })
@@ -138,10 +138,10 @@ describe('Module: Node', () => {
   })
 
   it('should trigger reconnection if it started disconnected', done => {
-    node.rpcOpen = false
+    node.rpcInfo.connected = false
     node.rpcReconnect = () => {
       done()
-      node.rpcOpen = true
+      node.rpcInfo.connected = true
       return Promise.resolve('1.1.1.1')
     }
     store.dispatch('nodeSubscribe')

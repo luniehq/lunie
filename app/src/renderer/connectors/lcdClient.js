@@ -52,6 +52,13 @@ let fetchAccount = argReq('GET', '/query/account')
 let fetchNonce = argReq('GET', '/query/nonce')
 
 Object.assign(Client.prototype, {
+  // meta
+  lcdConnected: function () {
+    return this.listKeys()
+      .then(() => true, () => false)
+  },
+
+  // tx
   sign: req('POST', '/sign'),
   postTx: req('POST', '/tx'),
 
