@@ -128,7 +128,7 @@ describe('Startup Process', () => {
           args.includes('rest-server')
         )
       ).toBeDefined()
-      expect(main.processes.baseserverProcess).toBeDefined()
+      expect(main.processes.lcdProcess).toBeDefined()
     })
 
     it('should persist the app_version', async function () {
@@ -233,7 +233,7 @@ describe('Startup Process', () => {
           args.includes('rest-server')
         )
       ).toBeDefined()
-      expect(main.processes.baseserverProcess).toBeDefined()
+      expect(main.processes.lcdProcess).toBeDefined()
     })
 
     it('should persist the app_version', async function () {
@@ -277,7 +277,7 @@ describe('Startup Process', () => {
           args.includes('rest-server')
         )
       ).toBeDefined()
-      expect(main.processes.baseserverProcess).toBeDefined()
+      expect(main.processes.lcdProcess).toBeDefined()
     })
   })
 
@@ -432,8 +432,8 @@ describe('Startup Process', () => {
         fs.removeSync(join(testRoot, 'app_version'))
         await initMain()
       })
-      it('should survive the baseserver folder being removed', async () => {
-        fs.removeSync(join(testRoot, 'baseserver'))
+      it('should survive the lcd folder being removed', async () => {
+        fs.removeSync(join(testRoot, 'lcd'))
         await initMain()
         expect(childProcess.spawn.mock.calls
           .find(([path, args]) =>

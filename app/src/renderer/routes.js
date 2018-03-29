@@ -46,7 +46,7 @@ export default [
   },
 
   {
-    path: '/', name: 'balances', component: wallet('Balances')
+    path: '/', name: 'balances', component: wallet('Wallet')
   },
   {
     path: '/wallet/send', name: 'send', props: true, component: wallet('Send')
