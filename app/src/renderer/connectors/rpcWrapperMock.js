@@ -4,7 +4,7 @@ let state = { blockMetas: [], blocks: [] }
 createBlockMetas(state)
 
 const RpcClientMock = {
-  on: () => {},
+  on: () => { },
   subscribe: (args, cb) => {
     if (args.query === "tm.event = 'NewBlock'") {
       produceBlocks(cb)
@@ -31,7 +31,7 @@ module.exports = function setRPCWrapperMock (container) {
       connecting: false,
       connected: true
     },
-    initRPC () {
+    rpcConnect () {
       container.rpc = RpcClientMock
     },
     rpcReconnect: async () => {

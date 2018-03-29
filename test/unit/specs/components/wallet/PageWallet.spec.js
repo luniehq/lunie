@@ -1,12 +1,12 @@
 import setup from '../../../helpers/vuex-setup'
-import PageBalances from 'renderer/components/wallet/PageBalances'
+import PageWallet from 'renderer/components/wallet/PageWallet'
 
-describe('PageBalances', () => {
+describe('PageWallet', () => {
   let wrapper, store
   let { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(PageBalances, { stubs: { 'modal-search': '<modal-search />' } })
+    let instance = mount(PageWallet, { stubs: { 'modal-search': '<modal-search />' } })
     wrapper = instance.wrapper
     store = instance.store
 
@@ -54,7 +54,7 @@ describe('PageBalances', () => {
   })
 
   it('should show the n/a message if there are no denoms', () => {
-    let { store, wrapper } = mount(PageBalances, { 'data-empty': '<data-empty />' })
+    let { store, wrapper } = mount(PageWallet, { 'data-empty': '<data-empty />' })
     store.commit('setWalletBalances', [])
     wrapper.update()
     expect(wrapper.find('data-empty')).toBeDefined()
