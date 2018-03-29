@@ -1,11 +1,11 @@
 const RpcClient = require('tendermint')
 const { ipcRenderer } = require('electron')
 
-module.exports = function setRpcWrapper (container, nodeIP) {
+module.exports = function setRpcWrapper (container) {
   let rpcWrapper = {
     // RPC
     rpcInfo: {
-      nodeIP,
+      nodeIP: undefined,
       connecting: false,
       connected: true
     },
