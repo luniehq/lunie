@@ -75,8 +75,8 @@ let childProcess
 
 describe('Startup Process', () => {
   Object.assign(process.env, {
-    COSMOS_ANALYTICS: false,
-    LOGGING: false,
+    COSMOS_ANALYTICS: 'false',
+    LOGGING: 'false',
     COSMOS_NETWORK: 'app/networks/gaia-2',
     COSMOS_HOME: testRoot,
     NODE_ENV: 'testing'
@@ -164,7 +164,7 @@ describe('Startup Process', () => {
 
       Object.assign(process.env, {
         NODE_ENV: 'development',
-        LOGGING: false
+        LOGGING: 'false'
       })
     })
 
@@ -203,7 +203,7 @@ describe('Startup Process', () => {
 
       Object.assign(process.env, {
         NODE_ENV: 'development',
-        LOGGING: false
+        LOGGING: 'false'
       })
     })
 
@@ -414,6 +414,7 @@ describe('Startup Process', () => {
     it('should provide the connected node when the view has booted', async () => {
       let event = { sender: { send: jest.fn() } }
       registeredIPCListeners['booted'](event)
+      expect(event.sender.send).toHaveBeenCalled()
       expect(event.sender.send.mock.calls[0][0]).toEqual('connected')
       expect(event.sender.send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
     })
@@ -532,9 +533,6 @@ describe('Startup Process', () => {
   })
 
   describe('Error handling on init', () => {
-    beforeEach(async function () {
-      jest.resetModules()
-    })
     testFailingChildProcess('gaia', 'init')
   })
 })
@@ -572,7 +570,7 @@ async function initMain () {
 function testFailingChildProcess (name, cmd) {
   return it(`should fail if there is a not handled error in the ${name} ${cmd || ''} process`, async function () {
     failingChildProcess(name, cmd)
-    jest.resetModules()
+    prepareMain()
     let { send } = require('electron')
     await require(appRoot + 'src/main/index.js')
 
@@ -582,7 +580,7 @@ function testFailingChildProcess (name, cmd) {
 }
 
 function childProcessMock (mockExtend = () => ({})) {
-  jest.mock('child_process', () => ({
+  jest.doMock('child_process', () => ({
     spawn: jest.fn((path, args) => Object.assign({}, {
       stdout: {
         on: () => { },

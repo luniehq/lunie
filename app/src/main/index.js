@@ -45,18 +45,18 @@ process.env.COSMOS_ANALYTICS = ANALYTICS
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
 
-function log(...args) {
+function log (...args) {
   if (LOGGING) {
     console.log(...args)
   }
 }
-function logError(...args) {
+function logError (...args) {
   if (LOGGING) {
     console.log(...args)
   }
 }
 
-function logProcess(process, logPath) {
+function logProcess (process, logPath) {
   fs.ensureFileSync(logPath)
   // Writestreams are blocking fs cleanup in tests, if you get errors, disable logging
   if (LOGGING) {
@@ -67,15 +67,15 @@ function logProcess(process, logPath) {
   }
 }
 
-function sleep(ms) {
+function sleep (ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-function expectCleanExit(process, errorMessage = 'Process exited unplanned') {
+function expectCleanExit (process, errorMessage = 'Process exited unplanned') {
   return new Promise((resolve, reject) => {
     process.on('exit', code => {
       if (code !== 0 && !shuttingDown) {
-        throw new Error(errorMessage)
+        reject(Error(errorMessage))
       }
       resolve()
     })
@@ -87,7 +87,7 @@ function handleCrash (error) {
   mainWindow.webContents.send('error', error)
 }
 
-function shutdown() {
+function shutdown () {
   if (shuttingDown) return
 
   mainWindow = null
@@ -146,20 +146,20 @@ function createWindow () {
   if (!WIN) addMenu()
 }
 
-function startProcess(name, args, env) {
+function startProcess (name, args, env) {
   let binPath
   if (process.env.BINARY_PATH) {
     binPath = process.env.BINARY_PATH
   } else
-    if (DEV) {
-      // in dev mode or tests, use binaries installed in GOPATH
-      let GOPATH = process.env.GOPATH
-      if (!GOPATH) GOPATH = join(home, 'go')
-      binPath = join(GOPATH, 'bin', name)
-    } else {
-      // in production mode, use binaries packaged with app
-      binPath = join(__dirname, '..', 'bin', name)
-    }
+  if (DEV) {
+    // in dev mode or tests, use binaries installed in GOPATH
+    let GOPATH = process.env.GOPATH
+    if (!GOPATH) GOPATH = join(home, 'go')
+    binPath = join(GOPATH, 'bin', name)
+  } else {
+    // in production mode, use binaries packaged with app
+    binPath = join(__dirname, '..', 'bin', name)
+  }
 
   let argString = args.map((arg) => JSON.stringify(arg)).join(' ')
   log(`spawning ${binPath} with args "${argString}"`)
@@ -175,10 +175,11 @@ function startProcess(name, args, env) {
   child.on('exit', (code) => !shuttingDown && log(`${name} exited with code ${code}`))
   child.on('error', async function (err) {
     if (!(shuttingDown && err.code === 'ECONNRESET')) {
-      await new Promise(resolve => Raven.captureException(err, resolve))
       // if we throw errors here, they are not handled by the main process
       console.error('[Uncaught Exception] Child', name, 'produced an unhandled exception:', err)
       handleCrash(err)
+
+      Raven.captureException(err)
     }
   })
   return child
@@ -218,7 +219,7 @@ async function startLCD (home, nodeIP) {
   return child
 }
 
-async function getGaiaVersion() {
+async function getGaiaVersion () {
   let child = startProcess(SERVER_BINARY, ['version'])
   let data = await new Promise((resolve) => {
     child.stdout.on('data', resolve)
@@ -226,7 +227,7 @@ async function getGaiaVersion() {
   return data.toString('utf8').trim()
 }
 
-function exists(path) {
+function exists (path) {
   try {
     fs.accessSync(path)
     return true
@@ -267,15 +268,15 @@ async function initLCD (chainId, home, node) {
       // answer 'y' to the prompt about trust seed. we can trust this is correct
       // since the LCD is talking to our own full node
       child.stdin.write('y\n')
-      await expectCleanExit(child, 'gaia init exited unplanned')
     }
   })
+  await expectCleanExit(child, 'gaia init exited unplanned')
 }
 
 /*
 * log to file
 */
-function setupLogging(root) {
+function setupLogging (root) {
   if (!LOGGING) return
 
   // initialize log file
@@ -309,20 +310,18 @@ if (!TEST) {
   process.on('exit', shutdown)
   // on uncaught exceptions we wait so the sentry event can be sent
   process.on('uncaughtException', async function (err) {
-    await sleep(1000)
     logError('[Uncaught Exception]', err)
-    await new Promise(resolve => Raven.captureException(err, resolve))
+    Raven.captureException(err)
     handleCrash(err)
   })
   process.on('unhandledRejection', async function (err) {
-    await sleep(1000)
     logError('[Unhandled Promise Rejection]', err)
-    await new Promise(resolve => Raven.captureException(err, resolve))
+    Raven.captureException(err)
     handleCrash(err)
   })
 }
 
-function consistentConfigDir(appVersionPath, genesisPath, configPath, gaiaVersionPath) {
+function consistentConfigDir (appVersionPath, genesisPath, configPath, gaiaVersionPath) {
   return exists(genesisPath) &&
     exists(appVersionPath) &&
     exists(configPath) &&
@@ -367,7 +366,7 @@ function lcdInitialized (home) {
   })
 }
 
-function pickNode(seeds) {
+function pickNode (seeds) {
   let nodeIP = NODE || seeds[Math.floor(Math.random() * seeds.length)]
   // let nodeRegex = /([http[s]:\/\/]())/g
   log('Picked seed:', nodeIP, 'of', seeds)
@@ -377,7 +376,7 @@ function pickNode(seeds) {
   return nodeIP
 }
 
-async function connect(seeds, nodeIP) {
+async function connect (seeds, nodeIP) {
   log(`starting gaia server with nodeIP ${nodeIP}`)
   lcdProcess = await startLCD(lcdHome, nodeIP)
   log('gaia server ready')
@@ -390,7 +389,7 @@ async function connect(seeds, nodeIP) {
   return nodeIP
 }
 
-async function reconnect(seeds) {
+async function reconnect (seeds) {
   if (connecting) return
   connecting = true
 
@@ -412,7 +411,7 @@ async function reconnect(seeds) {
   return nodeIP
 }
 
-function setupAnalytics() {
+function setupAnalytics () {
   if (ANALYTICS) {
     log('Adding analytics')
   }
@@ -421,7 +420,7 @@ function setupAnalytics() {
   Raven.config(ANALYTICS ? config.sentry_dsn : '', { captureUnhandledRejections: false }).install()
 }
 
-async function main() {
+async function main () {
   setupAnalytics()
 
   let appVersionPath = join(root, 'app_version')
@@ -523,8 +522,11 @@ async function main() {
     throw new Error('No seeds specified in config.toml')
   }
 
+  // choose one random node to start from
+  nodeIP = pickNode(seeds)
+
   let _lcdInitialized = await lcdInitialized(join(root, 'lcd'))
-  console.log('LCD is', _lcdInitialized ? '' : 'not', 'initialized')
+  log('LCD is' + (_lcdInitialized ? '' : ' not') + ' initialized')
   if (init || !_lcdInitialized) {
     log(`Trying to initialize lcd with remote node ${nodeIP}`)
     await initLCD(chainId, lcdHome, nodeIP)
@@ -532,15 +534,13 @@ async function main() {
 
   await connect(seeds, nodeIP)
 }
-module.exports = Object.assign(
-  main()
-    .catch(err => {
-      logError(err)
-      handleCrash(err)
-    })
-    .then(() => ({
-      shutdown,
-      processes: { lcdProcess },
-      analytics: ANALYTICS
-    }))
-)
+module.exports = main()
+  .catch(err => {
+    logError(err)
+    handleCrash(err)
+  })
+  .then(() => ({
+    shutdown,
+    processes: { lcdProcess },
+    analytics: ANALYTICS
+  }))
