@@ -152,7 +152,7 @@ describe('Startup Process', () => {
           }
         }
       }))
-      jest.resetModules()
+      prepareMain()
       main = await require(appRoot + 'src/main/index.js')
       expect(mockWrite).toHaveBeenCalledWith('y\n')
     })
@@ -191,7 +191,7 @@ describe('Startup Process', () => {
           }
         }
       }))
-      jest.resetModules()
+      prepareMain()
       main = await require(appRoot + 'src/main/index.js')
       expect(mockWrite).toHaveBeenCalledWith('y\n')
     })
@@ -633,4 +633,8 @@ function resetModulesKeepingFS () {
   jest.resetModules()
   fs = require('fs-extra')
   fs.fs = fileSystem
+
+  // we want to keep Raven quiet
+  const Raven = require('raven')
+  Raven.disableConsoleAlerts()
 }
