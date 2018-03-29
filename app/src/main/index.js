@@ -22,8 +22,8 @@ let lcdProcess
 let streams = []
 let nodeIP
 let connecting = true
-let crashingError = null
 let seeds = null
+let booted = false
 
 const root = require('../root.js')
 const networkPath = require('../network.js').path
@@ -83,8 +83,9 @@ function expectCleanExit (process, errorMessage = 'Process exited unplanned') {
 }
 
 function handleCrash (error) {
-  crashingError = error
-  mainWindow.webContents.send('error', error)
+  afterBooted(() => {
+    mainWindow.webContents.send('error', error)
+  })
 }
 
 function shutdown () {
@@ -237,40 +238,69 @@ function exists (path) {
   }
 }
 
-async function initLCD (chainId, home, node) {
-  // fs.ensureDirSync(home)
-  // `gaia client init` to generate config, trust seed
-  let child = startProcess(SERVER_BINARY, [
-    'client',
-    'init',
-    '--home', home,
-    '--chain-id', chainId,
-    '--node', node
-    // '--trust-node'
-  ])
-  // let the user in the view approve the hash we get from the node
-  child.stdout.on('data', async (data) => {
-    let hashMatch = /\w{40}/g.exec(data)
-    if (hashMatch) {
-      mainWindow.webContents.send('approve-hash', hashMatch[0])
+async function handleHashVerification (nodeHash) {
+  return new Promise((resolve, reject) => {
+    ipcMain.once('hash-approved', (event, hash) => {
+      ipcMain.removeAllListeners('hash-disapproved')
 
-      await new Promise((resolve, reject) => {
-        ipcMain.once('hash-approved', (event, hash) => {
-          if (hash === hashMatch[0]) {
-            resolve()
-          } else {
-            reject()
-          }
-        })
-      })
-      log('approved hash', hashMatch[0])
-      if (shuttingDown) return
-      // answer 'y' to the prompt about trust seed. we can trust this is correct
-      // since the LCD is talking to our own full node
-      child.stdin.write('y\n')
-    }
+      if (hash === nodeHash) {
+        resolve()
+      } else {
+        reject()
+      }
+    })
+    ipcMain.once('hash-disapproved', (event, hash) => {
+      ipcMain.removeAllListeners('hash-approved')
+
+      reject()
+    })
   })
-  await expectCleanExit(child, 'gaia init exited unplanned')
+}
+
+async function initLCD (chainId, home, node) {
+  // let the user in the view approve the hash we get from the node
+  return new Promise((resolve, reject) => {
+    // `gaia client init` to generate config
+    let child = startProcess(SERVER_BINARY, [
+      'client',
+      'init',
+      '--home', home,
+      '--chain-id', chainId,
+      '--node', node
+    ])
+
+    child.stdout.on('data', async (data) => {
+      let hashMatch = /\w{40}/g.exec(data)
+      if (hashMatch) {
+        afterBooted(() => {
+          mainWindow.webContents.send('approve-hash', hashMatch[0])
+        })
+
+        handleHashVerification(hashMatch[0])
+          .then(async () => {
+            log('approved hash', hashMatch[0])
+            if (shuttingDown) return
+            // answer 'y' to the prompt about trust seed. we can trust this is correct
+            // since the LCD is talking to our own full node
+            child.stdin.write('y\n')
+
+            await expectCleanExit(child, 'gaia init exited unplanned')
+            resolve()
+          }, () => {
+            // kill process as we will spin up a new init process
+            child.kill('SIGTERM')
+
+            if (shuttingDown) return
+
+            // select a new node to try out
+            nodeIP = pickNode(seeds)
+
+            initLCD(chainId, home, nodeIP)
+              .then(resolve, reject)
+          })
+      }
+    })
+  })
 }
 
 /*
@@ -332,15 +362,8 @@ function handleIPC () {
   ipcMain.on('successful-launch', () => {
     console.log('[START SUCCESS] Vue app successfuly started')
   })
-  ipcMain.on('reconnect', function (event) { return reconnect(seeds) })
-  ipcMain.on('booted', (event) => {
-    // if the webcontent shows after we have connected to a node or produced, we need to send those events again
-    if (crashingError) {
-      event.sender.send('error', crashingError)
-    } else if (!connecting && nodeIP) {
-      event.sender.send('connected', nodeIP)
-    }
-  })
+  ipcMain.on('reconnect', (event) => reconnect(seeds))
+  ipcMain.on('booted', () => { booted = true })
 }
 
 // check if baseserver is initialized as the configs could be corrupted
@@ -381,7 +404,9 @@ async function connect (seeds, nodeIP) {
   lcdProcess = await startLCD(lcdHome, nodeIP)
   log('gaia server ready')
 
-  mainWindow.webContents.send('connected', nodeIP)
+  afterBooted(() => {
+    mainWindow.webContents.send('connected', nodeIP)
+  })
 
   connecting = false
 
@@ -544,3 +569,13 @@ module.exports = main()
     processes: { lcdProcess },
     analytics: ANALYTICS
   }))
+
+function afterBooted (cb) {
+  if (booted) {
+    cb()
+  } else {
+    ipcMain.once('booted', (event) => {
+      cb()
+    })
+  }
+}

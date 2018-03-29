@@ -21,6 +21,7 @@ export const blockchain = state => state.blockchain
 export const validators = state => state.validators.validators
 
 // status
+export const approvalRequired = state => state.node.approvalRequired
 export const connected = state => state.node.connected
 export const lastHeader = state => state.node.lastHeader
 export const nodeIP = state => state.node.nodeIP

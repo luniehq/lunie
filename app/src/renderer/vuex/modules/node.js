@@ -14,7 +14,8 @@ export default function ({ node }) {
     lastHeader: {
       height: 0,
       chain_id: ''
-    }
+    },
+    approvalRequired: null
   }
 
   const mutations = {
@@ -23,6 +24,9 @@ export default function ({ node }) {
     },
     setConnected (state, connected) {
       state.connected = connected
+    },
+    setNodeApprovalRequired (state, hash) {
+      state.approvalRequired = hash
     }
   }
 
@@ -112,6 +116,14 @@ export default function ({ node }) {
           }, timeout)
         }
       })
+    },
+    approveNodeHash ({ state }, hash) {
+      state.approvalRequired = null
+      ipcRenderer.send('hash-approved', hash)
+    },
+    disapproveNodeHash ({ state }, hash) {
+      state.approvalRequired = null
+      ipcRenderer.send('hash-disapproved', hash)
     }
   }
 

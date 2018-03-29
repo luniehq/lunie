@@ -61,6 +61,10 @@ async function main () {
     store.commit('setModalError', true)
     store.commit('setModalErrorMessage', error.message)
   })
+  ipcRenderer.on('approve-hash', (event, hash) => {
+    console.log(hash)
+    store.commit('setNodeApprovalRequired', hash)
+  })
 
   let firstStart = true
   ipcRenderer.on('connected', (event, nodeIP) => {
@@ -69,12 +73,11 @@ async function main () {
     store.dispatch('subscribeToBlocks')
 
     if (firstStart) {
-      store.dispatch('showInitialScreen')
-
       // test connection
       node.lcdConnected()
         .then(connected => {
           if (connected) {
+            store.dispatch('showInitialScreen')
             ipcRenderer.send('successful-launch')
           }
         })
