@@ -43,8 +43,8 @@ exports[`PageDelegate has the expected html structure 1`] = `
                   class="main"
                 >
                   <a
-                    class=""
-                    href="#/delegates"
+                    class="router-link-active"
+                    href="#/staking"
                   >
                     <i
                       class="material-icons"
