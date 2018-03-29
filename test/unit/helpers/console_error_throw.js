@@ -6,10 +6,14 @@ if (!process.env.LISTENING_TO_UNHANDLED_REJECTION) {
   process.env.LISTENING_TO_UNHANDLED_REJECTION = true
 }
 
+const consoleError = console.error
 console.error = (...args) => {
-  throw Error(args.join(' '))
+  consoleError(...args)
+  throw Error('There was an error printed so there is probably a bug in your code.')
 }
 
+const consoleWarn = console.warn
 console.warn = (...args) => {
-  throw Error(args.join(' '))
+  consoleWarn(...args)
+  throw Error('There was a warning printed so there is probably a bug in your code.')
 }

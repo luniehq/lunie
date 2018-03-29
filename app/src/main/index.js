@@ -1,6 +1,6 @@
 'use strict'
 
-let { app, BrowserWindow } = require('electron')
+let { app, BrowserWindow, ipcMain } = require('electron')
 let fs = require('fs-extra')
 let { join } = require('path')
 let { spawn } = require('child_process')
@@ -13,17 +13,17 @@ let axios = require('axios')
 let Raven = require('raven')
 
 let pkg = require('../../../package.json')
-let relayServer = require('./relayServer.js')
 let addMenu = require('./menu.js')
 let config = require('../../../config.js')
 
-let started = false
 let shuttingDown = false
 let mainWindow
 let lcdProcess
 let streams = []
 let nodeIP
-let connecting = false
+let connecting = true
+let crashingError = null
+let seeds = null
 
 const root = require('../root.js')
 const networkPath = require('../network.js').path
@@ -34,11 +34,9 @@ const DEV = process.env.NODE_ENV === 'development'
 const TEST = process.env.NODE_ENV === 'testing'
 // TODO default logging or default disable logging?
 const LOGGING = JSON.parse(process.env.LOGGING || 'true') !== false
-const MOCK = JSON.parse(process.env.MOCK || DEV) !== false
 const winURL = DEV
   ? `http://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
-const RELAY_PORT = DEV ? config.relay_port : config.relay_port_prod
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
 const ANALYTICS = process.env.COSMOS_ANALYTICS ? JSON.parse(process.env.COSMOS_ANALYTICS) : (process.env.NODE_ENV === 'production' && config.analytics_networks.indexOf(config.default_network) !== -1)
@@ -85,7 +83,8 @@ function expectCleanExit (process, errorMessage = 'Process exited unplanned') {
 }
 
 function handleCrash (error) {
-  mainWindow.loadURL(winURL + '?node=' + nodeIP + '&error=' + error.message)
+  crashingError = error
+  mainWindow.webContents.send('error', error)
 }
 
 function shutdown () {
@@ -105,10 +104,6 @@ function shutdown () {
   )
 }
 
-function startVueApp () {
-  mainWindow.loadURL(winURL + '?node=' + nodeIP + '&relay_port=' + RELAY_PORT)
-}
-
 function createWindow () {
   mainWindow = new BrowserWindow({
     minWidth: 320,
@@ -122,15 +117,11 @@ function createWindow () {
     webPreferences: { webSecurity: false }
   })
 
-  if (!started) {
-    mainWindow.loadURL(winURL)
-  } else {
-    startVueApp()
-  }
+  mainWindow.loadURL(winURL + '?node=' + nodeIP + '&lcd_port=' + LCD_PORT)
+
   if (DEV || JSON.parse(process.env.COSMOS_DEVTOOLS || 'false')) {
     mainWindow.webContents.openDevTools()
   }
-
   if (DEV) {
     mainWindow.maximize()
   }
@@ -325,6 +316,21 @@ function consistentConfigDir (appVersionPath, genesisPath, configPath, gaiaVersi
     exists(gaiaVersionPath)
 }
 
+function handleIPC () {
+  ipcMain.on('successful-launch', () => {
+    console.log('[START SUCCESS] Vue app successfuly started')
+  })
+  ipcMain.on('reconnect', function (event) { return reconnect(seeds) })
+  ipcMain.on('booted', (event) => {
+    // if the webcontent shows after we have connected to a node or produced, we need to send those events again
+    if (crashingError) {
+      event.sender.send('error', crashingError)
+    } else if (!connecting && nodeIP) {
+      event.sender.send('connected', nodeIP)
+    }
+  })
+}
+
 // check if LCD is initialized as the configs could be corrupted
 // we need to parse the error on initialization as there is no way to just get this status programmatically
 function lcdInitialized (home) {
@@ -363,6 +369,12 @@ async function connect (seeds, nodeIP) {
   lcdProcess = await startLCD(lcdHome, nodeIP)
   log('gaia server ready')
 
+  console.log('connected')
+
+  mainWindow.webContents.send('connected', nodeIP)
+
+  connecting = false
+
   return nodeIP
 }
 
@@ -373,7 +385,7 @@ async function reconnect (seeds) {
   let nodeAlive = false
   while (!nodeAlive) {
     let nodeIP = pickNode(seeds)
-    nodeAlive = await axios('http://' + nodeIP, { timeout: 3000 })
+    nodeAlive = await axios.get('http://' + nodeIP, { timeout: 3000 })
       .then(() => true, () => false)
     log(`${new Date().toLocaleTimeString()} ${nodeIP} is ${nodeAlive ? 'alive' : 'down'}`)
 
@@ -384,8 +396,6 @@ async function reconnect (seeds) {
   lcdProcess.kill('SIGKILL')
 
   await connect(seeds, nodeIP)
-
-  connecting = false
 
   return nodeIP
 }
@@ -411,6 +421,9 @@ async function main () {
   await fs.ensureDir(root)
 
   setupLogging(root)
+
+  // handle ipc messages from the renderer process
+  handleIPC()
 
   let init = true
   if (rootExists) {
@@ -493,7 +506,7 @@ async function main () {
     throw new Error(`Can't open config.toml: ${e.message}`)
   }
   let configTOML = toml.parse(configText)
-  let seeds = configTOML.p2p.seeds.split(',').filter(x => x !== '')
+  seeds = configTOML.p2p.seeds.split(',').filter(x => x !== '')
   if (seeds.length === 0) {
     throw new Error('No seeds specified in config.toml')
   }
@@ -506,34 +519,17 @@ async function main () {
     await initLCD(chainId, lcdHome, nodeIP)
   }
 
+  console.log('connecting')
+
   await connect(seeds, nodeIP)
-
-  // the view can communicate with the main process by sending requests to the relay server
-  // the relay server also proxies to the LCD
-  relayServer({
-    lcdPort: LCD_PORT,
-    relayServerPort: RELAY_PORT,
-    mock: MOCK,
-    onSuccesfulStart: () => {
-      console.log('[START SUCCESS] Vue app successfuly started')
-    },
-    onReconnectReq: reconnect.bind(this, seeds)
-  })
-
-  started = true
-  if (mainWindow) {
-    startVueApp()
-  }
 }
-module.exports = Object.assign(
-  main()
-    .catch(err => {
-      logError(err)
-      handleCrash(err)
-    })
-    .then(() => ({
-      shutdown,
-      processes: { lcdProcess },
-      analytics: ANALYTICS
-    }))
-)
+module.exports = main()
+  .catch(err => {
+    logError(err)
+    handleCrash(err)
+  })
+  .then(() => ({
+    shutdown,
+    processes: { lcdProcess },
+    analytics: ANALYTICS
+  }))

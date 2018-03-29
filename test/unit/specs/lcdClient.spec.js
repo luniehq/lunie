@@ -32,7 +32,7 @@ describe('LCD Client', () => {
     axios.get = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ data: { foo: 'bar' } }))
 
-    let res = await client.bondingsByDelegator([ 'foo', 'bar' ])
+    let res = await client.bondingsByDelegator(['foo', 'bar'])
     expect(res).toEqual({ foo: 'bar' })
     expect(axios.get.mock.calls[0]).toEqual([
       'http://localhost:8998/query/stake/delegator/foo/bar',
@@ -120,5 +120,13 @@ describe('LCD Client', () => {
       }))
     res = await client.queryNonce('address')
     expect(res).toBe(0)
+  })
+
+  it('checks for the connection with the lcd by performing a simple request', async () => {
+    client.listKeys = () => Promise.resolve()
+    expect(await client.lcdConnected()).toBeTruthy()
+
+    client.listKeys = () => Promise.reject()
+    expect(await client.lcdConnected()).toBeFalsy()
   })
 })
