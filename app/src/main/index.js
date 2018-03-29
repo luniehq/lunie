@@ -20,7 +20,7 @@ let config = require('../../../config.js')
 let started = false
 let shuttingDown = false
 let mainWindow
-let baseserverProcess
+let lcdProcess
 let streams = []
 let nodeIP
 let connecting = false
@@ -28,7 +28,7 @@ let connecting = false
 const root = require('../root.js')
 const networkPath = require('../network.js').path
 
-const baseserverHome = join(root, 'baseserver')
+const lcdHome = join(root, 'lcd')
 const WIN = /^win/.test(process.platform)
 const DEV = process.env.NODE_ENV === 'development'
 const TEST = process.env.NODE_ENV === 'testing'
@@ -94,10 +94,10 @@ function shutdown () {
   mainWindow = null
   shuttingDown = true
 
-  if (baseserverProcess) {
-    log('killing baseserver')
-    baseserverProcess.kill('SIGKILL')
-    baseserverProcess = null
+  if (lcdProcess) {
+    log('killing lcd')
+    lcdProcess.kill('SIGKILL')
+    lcdProcess = null
   }
 
   return Promise.all(
@@ -204,9 +204,9 @@ app.on('activate', () => {
 
 app.on('ready', () => createWindow())
 
-// start baseserver REST API
-async function startBaseserver (home, nodeIP) {
-  log('startBaseserver', home)
+// start lcd REST API
+async function startLCD (home, nodeIP) {
+  log('startLCD', home)
   let child = startProcess(SERVER_BINARY, [
     'rest-server',
     '--port', LCD_PORT,
@@ -214,7 +214,7 @@ async function startBaseserver (home, nodeIP) {
     '--node', nodeIP
     // '--trust-node'
   ])
-  logProcess(child, join(home, 'baseserver.log'))
+  logProcess(child, join(home, 'lcd.log'))
 
   while (true) {
     if (shuttingDown) break
@@ -244,9 +244,9 @@ function exists (path) {
   }
 }
 
-async function initBaseserver (chainId, home, node) {
+async function initLCD (chainId, home, node) {
   // fs.ensureDirSync(home)
-  // `baseserver init` to generate config, trust seed
+  // `gaia client init` to generate config, trust seed
   let child = startProcess(SERVER_BINARY, [
     'client',
     'init',
@@ -261,7 +261,7 @@ async function initBaseserver (chainId, home, node) {
       log('approving hash', hashMatch[0])
       if (shuttingDown) return
       // answer 'y' to the prompt about trust seed. we can trust this is correct
-      // since the baseserver is talking to our own full node
+      // since the LCD is talking to our own full node
       child.stdin.write('y\n')
     }
   })
@@ -325,10 +325,10 @@ function consistentConfigDir (appVersionPath, genesisPath, configPath, gaiaVersi
     exists(gaiaVersionPath)
 }
 
-// check if baseserver is initialized as the configs could be corrupted
+// check if LCD is initialized as the configs could be corrupted
 // we need to parse the error on initialization as there is no way to just get this status programmatically
-function baseserverInitialized (home) {
-  log('Testing if baseserver is already initialized')
+function lcdInitialized (home) {
+  log('Testing if LCD is already initialized')
   return new Promise((resolve, reject) => {
     let child = startProcess(SERVER_BINARY, [
       'client',
@@ -360,7 +360,7 @@ function pickNode (seeds) {
 
 async function connect (seeds, nodeIP) {
   log(`starting gaia server with nodeIP ${nodeIP}`)
-  baseserverProcess = await startBaseserver(baseserverHome, nodeIP)
+  lcdProcess = await startLCD(lcdHome, nodeIP)
   log('gaia server ready')
 
   return nodeIP
@@ -380,8 +380,8 @@ async function reconnect (seeds) {
     if (!nodeAlive) await sleep(2000)
   }
 
-  log('quitting running baseserver')
-  baseserverProcess.kill('SIGKILL')
+  log('quitting running LCD')
+  lcdProcess.kill('SIGKILL')
 
   await connect(seeds, nodeIP)
 
@@ -499,11 +499,11 @@ async function main () {
   }
   nodeIP = pickNode(seeds)
 
-  let _baseserverInitialized = await baseserverInitialized(join(root, 'baseserver'))
-  console.log('Baseserver is', _baseserverInitialized ? '' : 'not', 'initialized')
-  if (init || !_baseserverInitialized) {
-    log(`Trying to initialize baseserver with remote node ${nodeIP}`)
-    await initBaseserver(chainId, baseserverHome, nodeIP)
+  let _lcdInitialized = await lcdInitialized(join(root, 'lcd'))
+  console.log('LCD is', _lcdInitialized ? '' : 'not', 'initialized')
+  if (init || !_lcdInitialized) {
+    log(`Trying to initialize lcd with remote node ${nodeIP}`)
+    await initLCD(chainId, lcdHome, nodeIP)
   }
 
   await connect(seeds, nodeIP)
@@ -533,7 +533,7 @@ module.exports = Object.assign(
     })
     .then(() => ({
       shutdown,
-      processes: { baseserverProcess },
+      processes: { lcdProcess },
       analytics: ANALYTICS
     }))
 )
