@@ -518,7 +518,10 @@ describe('Startup Process', () => {
       })
       it('should survive the lcd folder being removed', async () => {
         fs.removeSync(join(testRoot, 'lcd'))
-        await initMain()
+        resetModulesKeepingFS()
+        let { send } = require('electron')
+        main = await require(appRoot + 'src/main/index.js')
+
         expect(childProcess.spawn.mock.calls
           .find(([path, args]) =>
             path.includes('gaia') &&

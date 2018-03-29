@@ -369,6 +369,8 @@ async function connect (seeds, nodeIP) {
   lcdProcess = await startLCD(lcdHome, nodeIP)
   log('gaia server ready')
 
+  console.log('connected')
+
   mainWindow.webContents.send('connected', nodeIP)
 
   connecting = false
@@ -517,6 +519,8 @@ async function main () {
     await initLCD(chainId, lcdHome, nodeIP)
   }
 
+  console.log('connecting')
+
   await connect(seeds, nodeIP)
 }
 module.exports = main()
@@ -526,6 +530,6 @@ module.exports = main()
   })
   .then(() => ({
     shutdown,
-    processes: { baseserverProcess },
+    processes: { lcdProcess },
     analytics: ANALYTICS
   }))
