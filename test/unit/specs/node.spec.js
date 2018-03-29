@@ -1,7 +1,6 @@
 let Node
 
 describe('Connector', () => {
-  let initialNodeIP = '1.1.1.1'
   let lcdServerPort = '1234'
 
   beforeAll(() => {
