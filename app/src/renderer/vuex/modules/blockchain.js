@@ -74,13 +74,13 @@ export default ({ commit, node }) => {
       // ensure we never subscribe twice
       if (state.subscription) return
 
-      function error () {
+      function error (err) {
         state.subscription = false
         commit('notifyError', { title: `Error subscribing to new blocks`, body: err.message })
       }
 
       node.rpc.status((err, status) => {
-        if (err) return error()
+        if (err) return error(err)
 
         if (status.syncing) {
           // still syncing, let's try subscribing again in 30 seconds
@@ -95,7 +95,7 @@ export default ({ commit, node }) => {
         node.rpc.subscribe({ query: "tm.event = 'NewBlock'" }, (err, event) => {
           state.subscription = true
 
-          if (err) return error()
+          if (err) return error(err)
 
           state.blocks.unshift(event.data.data.block)
 

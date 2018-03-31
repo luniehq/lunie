@@ -45,6 +45,7 @@ exports[`PageBlocks has the expected html structure 1`] = `
 <main class=\\"ni-page-main ps\\">
    <modal-search type=\\"blocks\\"></modal-search>
       <!---->
+      <!---->
    <section class=\\"ni-part\\">
       <div class=\\"ni-part-container\\">
          <header class=\\"ni-part-header\\">

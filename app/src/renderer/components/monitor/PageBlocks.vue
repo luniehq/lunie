@@ -7,7 +7,7 @@ page(title='Block Explorer')
 
   modal-search(type="blocks")
 
-  data-loading(v-if="blockchain.syncing" title="Node is syncing blockchain...")
+  data-loading(v-if="blockchain.syncing" title="Node is syncing blockchain…")
   data-loading(v-if="!blockchain.syncing && !blockchain.subscription")
 
   part(title='Current Block' v-if="blockchain.subscription")
