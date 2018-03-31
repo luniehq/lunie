@@ -30,7 +30,7 @@ function launch (t) {
     
       // TODO cleanup 
       home = newTempDir() 
-      cliHome = join(newTempDir(), 'baseserver') 
+      cliHome = join(newTempDir(), 'lcd') 
       console.error(`ui home: ${home}`) 
       console.error(`node home: ${cliHome}`) 
     
@@ -62,8 +62,8 @@ function launch (t) {
 
       // test if app restores from unitialized gaia folder
       await app.stop()
-      fs.removeSync(join(home, 'baseserver'))
-      fs.mkdirpSync(join(home, 'baseserver'))
+      fs.removeSync(join(home, 'lcd'))
+      fs.mkdirpSync(join(home, 'lcd'))
       await startApp(app)
       t.ok(app.isRunning(), 'app recovers from uninitialized gaia')
 
@@ -154,7 +154,7 @@ async function createAccount (name, seed) {
   await new Promise((resolve, reject) => {
     let child = spawn(binary, [
       'client', 'keys', 'recover', name,
-      '--home', join(home, 'baseserver')
+      '--home', join(home, 'lcd')
     ])
     child.stdin.write('1234567890\n')
     child.stdin.write(seed + '\n')

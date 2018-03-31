@@ -9,11 +9,11 @@ describe('App with analytics', () => {
   }))
   jest.mock('raven-js', () => ({
     config: (dsn) => {
-      return ({ install: () => {} })
+      return ({ install: () => { } })
     }
   }))
-  jest.mock('axios', () => ({ get () {} }))
-  jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => {})
+  jest.mock('axios', () => ({ get () { } }))
+  jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => { })
   jest.mock('electron', () => ({
     remote: {
       getGlobal: () => ({
@@ -22,6 +22,14 @@ describe('App with analytics', () => {
           COSMOS_ANALYTICS: 'true'
         }
       })
+    },
+    ipcRenderer: {
+      on: (type, cb) => {
+        if (type === 'connected') {
+          cb(null, 'localhost')
+        }
+      },
+      send: () => { }
     }
   }))
 
