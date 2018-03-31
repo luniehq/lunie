@@ -1,6 +1,9 @@
 const { join } = require('path')
 const mockFsExtra = require('../helpers/fs-mock').default
 
+// prevents warnings from repeated event handling
+process.setMaxListeners(1000)
+
 function sleep (ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
