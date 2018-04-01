@@ -1,11 +1,11 @@
 const RpcClient = require('tendermint')
 const { ipcRenderer } = require('electron')
 
-module.exports = function setRpcWrapper (container, nodeIP) {
+module.exports = function setRpcWrapper (container) {
   let rpcWrapper = {
     // RPC
     rpcInfo: {
-      nodeIP,
+      nodeIP: undefined,
       connecting: false,
       connected: true
     },
@@ -25,7 +25,7 @@ module.exports = function setRpcWrapper (container, nodeIP) {
       console.log('init rpc with', nodeIP)
       let newRpc = new RpcClient(`ws://${nodeIP}`)
       rpcWrapper.rpcInfo.connected = true
-      // we need to check immediately if he connection fails. later we will not be able to check this error
+      // we need to check immediately if the connection fails. later we will not be able to check this error
       newRpc.on('error', err => {
         console.log('rpc error', err)
         if (err.code === 'ECONNREFUSED' || err.code === 'ENETUNREACH') {

@@ -1,6 +1,9 @@
 const { join } = require('path')
 const mockFsExtra = require('../helpers/fs-mock').default
 
+// prevents warnings from repeated event handling
+process.setMaxListeners(1000)
+
 function sleep (ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
@@ -128,7 +131,7 @@ describe('Startup Process', () => {
           args.includes('rest-server')
         )
       ).toBeDefined()
-      expect(main.processes.baseserverProcess).toBeDefined()
+      expect(main.processes.lcdProcess).toBeDefined()
     })
 
     it('should persist the app_version', async function () {
@@ -233,7 +236,7 @@ describe('Startup Process', () => {
           args.includes('rest-server')
         )
       ).toBeDefined()
-      expect(main.processes.baseserverProcess).toBeDefined()
+      expect(main.processes.lcdProcess).toBeDefined()
     })
 
     it('should persist the app_version', async function () {
@@ -263,7 +266,7 @@ describe('Startup Process', () => {
           args.includes('rest-server')
         )
       ).toBeDefined()
-      expect(main.processes.baseserverProcess).toBeDefined()
+      expect(main.processes.lcdProcess).toBeDefined()
     })
   })
 
@@ -491,9 +494,12 @@ describe('Startup Process', () => {
 
         expect(send.mock.calls[0][0]).toBe('error')
       })
-      it('should survive the baseserver folder being removed', async () => {
-        fs.removeSync(join(testRoot, 'baseserver'))
+      it('should survive the lcd folder being removed', async () => {
+        fs.removeSync(join(testRoot, 'lcd'))
+        resetModulesKeepingFS()
+        let { send } = require('electron')
         main = await require(appRoot + 'src/main/index.js')
+
         expect(childProcess.spawn.mock.calls
           .find(([path, args]) =>
             path.includes('gaia') &&

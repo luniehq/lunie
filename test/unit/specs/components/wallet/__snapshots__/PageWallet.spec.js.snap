@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageBalances has the expected html structure 1`] = `
+exports[`PageWallet has the expected html structure 1`] = `
 <div
   class="ni-page"
 >
@@ -17,7 +17,7 @@ exports[`PageBalances has the expected html structure 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-            Balances
+            Wallet
           </h2>
         </div>
         <div
@@ -343,7 +343,7 @@ exports[`PageBalances has the expected html structure 1`] = `
 </div>
 `;
 
-exports[`PageBalances should filter the balances 1`] = `
+exports[`PageWallet should filter the balances 1`] = `
 <div
   class="ni-page"
 >
@@ -360,7 +360,7 @@ exports[`PageBalances should filter the balances 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-            Balances
+            Wallet
           </h2>
         </div>
         <div
