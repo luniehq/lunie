@@ -2,6 +2,7 @@ import setup from '../../../helpers/vuex-setup'
 import Vuelidate from 'vuelidate'
 import htmlBeautify from 'html-beautify'
 import NISessionSignUp from 'common/NiSessionSignUp'
+jest.mock('renderer/google-analytics.js', () => (uid) => { })
 
 let instance = setup()
 instance.localVue.use(Vuelidate)
@@ -57,11 +58,47 @@ describe('NISessionSignUp', () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[1][0]).toEqual('notify')
-    expect(store.commit.mock.calls[1][1].title.toLowerCase()).toContain('signed up')
+    expect(store.commit.mock.calls.find(([action, _]) => action === 'notify')[1]).toMatchSnapshot()
     expect(store.dispatch).toHaveBeenCalledWith('signIn', {
       password: '1234567890',
       account: 'testaccount'
+    })
+  })
+
+  it('should set error collection opt in state', async () => {
+    wrapper.setData({
+      fields: {
+        signUpPassword: '1234567890',
+        signUpPasswordConfirm: '1234567890',
+        signUpSeed: 'bar', // <-- doesn#t check for correctness of seed
+        signUpName: 'testaccount',
+        signUpWarning: true,
+        signUpBackup: true,
+        errorCollection: true
+      }
+    })
+    await wrapper.vm.onSubmit()
+    expect(store.dispatch.mock.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
+      account: 'testaccount',
+      optin: true
+    })
+
+    wrapper.setData({
+      fields: {
+        signUpPassword: '1234567890',
+        signUpPasswordConfirm: '1234567890',
+        signUpSeed: 'bar', // <-- doesn#t check for correctness of seed
+        signUpName: 'testaccount',
+        signUpWarning: true,
+        signUpBackup: true,
+        errorCollection: false
+      }
+    })
+    store.dispatch.mockClear()
+    await wrapper.vm.onSubmit()
+    expect(store.dispatch.mock.calls.find(([action, _]) => action === 'setErrorCollection')[1]).toMatchObject({
+      account: 'testaccount',
+      optin: false
     })
   })
 
@@ -77,7 +114,7 @@ describe('NISessionSignUp', () => {
       }
     })
     wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect(store.commit).not.toHaveBeenCalled()
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
@@ -129,7 +166,7 @@ describe('NISessionSignUp', () => {
     expect(wrapper.find('.ni-form-msg-error')).toBeDefined()
   })
 
-  it('should show error if account name is not 5 long', async () => {
+  it('should show an error if account name is not 5 long', async () => {
     wrapper.setData({
       fields: {
         signUpPassword: '1234567890',
