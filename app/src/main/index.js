@@ -40,7 +40,7 @@ const winURL = DEV
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
 
-let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
+let SERVER_BINARY = 'basecoind' + (WIN ? '.exe' : '')
 
 function log (...args) {
   if (LOGGING) {
@@ -214,7 +214,7 @@ async function startLCD (home, nodeIP) {
   return child
 }
 
-async function getGaiaVersion () {
+async function getBasecoindVersion () {
   let child = startProcess(SERVER_BINARY, ['version'])
   let data = await new Promise((resolve) => {
     child.stdout.on('data', resolve)
@@ -234,7 +234,7 @@ function exists (path) {
 
 async function initLCD (chainId, home, node) {
   // fs.ensureDirSync(home)
-  // `gaia client init` to generate config, trust seed
+  // `basecoind client init` to generate config, trust seed
   let child = startProcess(SERVER_BINARY, [
     'client',
     'init',
@@ -253,7 +253,7 @@ async function initLCD (chainId, home, node) {
       child.stdin.write('y\n')
     }
   })
-  await expectCleanExit(child, 'gaia init exited unplanned')
+  await expectCleanExit(child, 'basecoind init exited unplanned')
 }
 
 /*
@@ -306,11 +306,11 @@ if (!TEST) {
   })
 }
 
-function consistentConfigDir (appVersionPath, genesisPath, configPath, gaiaVersionPath) {
+function consistentConfigDir (appVersionPath, genesisPath, configPath, basecoindVersionPath) {
   return exists(genesisPath) &&
     exists(appVersionPath) &&
     exists(configPath) &&
-    exists(gaiaVersionPath)
+    exists(basecoindVersionPath)
 }
 
 function handleIPC () {
@@ -365,9 +365,9 @@ function pickNode (seeds) {
 }
 
 async function connect (seeds, nodeIP) {
-  log(`starting gaia server with nodeIP ${nodeIP}`)
+  log(`starting basecoind server with nodeIP ${nodeIP}`)
   lcdProcess = await startLCD(lcdHome, nodeIP)
-  log('gaia server ready')
+  log('basecoind server ready')
 
   console.log('connected')
 
@@ -407,7 +407,8 @@ async function main () {
   let appVersionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
   let configPath = join(root, 'config.toml')
-  let gaiaVersionPath = join(root, 'gaiaversion.txt')
+  let basecoindVersionPath = join(root, 'basecoindversion.txt')
+  console.log(appVersionPath, genesisPath, configPath, basecoindVersionPath)
 
   let rootExists = exists(root)
   await fs.ensureDir(root)
@@ -429,7 +430,7 @@ async function main () {
 
     // check if the existing data came from a compatible app version
     // if not, fail with an error
-    if (consistentConfigDir(appVersionPath, genesisPath, configPath, gaiaVersionPath)) {
+    if (consistentConfigDir(appVersionPath, genesisPath, configPath, basecoindVersionPath)) {
       let existingVersion = fs.readFileSync(appVersionPath, 'utf8').trim()
       let compatible = semver.diff(existingVersion, pkg.version) !== 'major'
       if (compatible) {
@@ -475,13 +476,14 @@ async function main () {
   log(`dev mode: ${DEV}`)
   log(`winURL: ${winURL}`)
 
-  let gaiaVersion = await getGaiaVersion()
-  let expectedGaiaVersion = fs.readFileSync(gaiaVersionPath, 'utf8').trim()
-  log(`gaia version: "${gaiaVersion}", expected: "${expectedGaiaVersion}"`)
+  // XXX: currently ignores commit hash
+  let basecoindVersion = (await getBasecoindVersion()).split(' ')[0]
+  let expectedBasecoindVersion = fs.readFileSync(basecoindVersionPath, 'utf8').trim().split(' ')[0]
+  log(`basecoind version: "${basecoindVersion}", expected: "${expectedBasecoindVersion}"`)
   // TODO: semver check, or exact match?
-  if (gaiaVersion !== expectedGaiaVersion) {
-    throw Error(`Requires gaia ${expectedGaiaVersion}, but got ${gaiaVersion}.
-    Please update your gaia installation or build with a newer binary.`)
+  if (basecoindVersion !== expectedBasecoindVersion) {
+    throw Error(`Requires basecoind ${expectedBasecoindVersion}, but got ${basecoindVersion}.
+    Please update your basecoind installation or build with a newer binary.`)
   }
 
   // read chainId from genesis.json
