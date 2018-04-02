@@ -1,24 +1,22 @@
 # Onboarding Outline
 
-Three main tasks:
-
 Step 1
-  * Welcome to Cosmos Voyager!
+  * Welcome aboard! Here's a brief overview of what you can do in Voyager.
   * Graphic: large voyager logo
   * Actions: Skip/Next
 Slide 2
-  * You can send and receive Atoms and all other Cosmos tokens.
+  * You can send and receive Atoms (and other Cosmos tokens) to your wallet.
   * Graphic:
   * Actions: Skip/Next
 Staking
-  * You can stake your Atoms to Validators to earn steady income.
-  * Graphic:
+  * You can stake your Atoms to Validators to earn even more Atoms!
+  * Graphic: Atoms moving towards a validator.
   * Actions: Skip/Next
 Governance
-  * You can vote on on the future of the Cosmos Hub
-  * Graphic:
+  * You can change the future of the Cosmos by voting on proposals.
+  * Graphic: Pie chart showing votes
   * Actions: Skip/Next
 Get Started
-  * Now you know the basics of Voyager, please try it out yourself!
-  * Graphic:
+  * Now you know the basics of Voyager--have fun exploring the Cosmos!
+  * Graphic: Some sort of endless starfield
   * Actions: Let's Go!
