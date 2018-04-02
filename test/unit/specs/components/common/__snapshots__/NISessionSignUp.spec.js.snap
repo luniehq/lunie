@@ -92,7 +92,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
                <div class=\\"ni-field-checkbox-input\\">
                   <input id=\\"sign-up-warning\\" type=\\"checkbox\\">
                </div>
-      <label for=\\"error-collection\\" class=\\"ni-field-checkbox-label\\">I'd like to opt in for remote error tracking to help improve Voyager</label>
+      <label for=\\"error-collection\\" class=\\"ni-field-checkbox-label\\">I'd like to opt in for remote error tracking to help improve Voyager.</label>
    </div>
 </div>
 </div>
