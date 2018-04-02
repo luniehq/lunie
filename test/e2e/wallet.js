@@ -41,11 +41,11 @@ test('wallet', async function (t) {
 
   t.test('send', async function (t) {
     async function goToSendPage() {
-      await navigate(client, 'Balances')
+      await navigate(client, 'Wallet')
       await $('.ni-li-dt=FERMION').$('..').$('..').click()
     }
 
-    await navigate(client, 'Balances')
+    await navigate(client, 'Wallet')
 
     let sendBtn = () => $('.ni-form-footer button')
     let addressInput = () => $('#send-address')
@@ -110,7 +110,7 @@ test('wallet', async function (t) {
     })
 
     t.test('own balance updated', async function (t) {
-      await navigate(client, 'Balances')
+      await navigate(client, 'Wallet')
 
       // TODO should not be necessary
       await sleep(1000)
@@ -129,7 +129,7 @@ test('wallet', async function (t) {
     t.test('fermion balance after receiving', async function (t) {
       await logout(client)
       await login(client, 'testreceiver')
-      await navigate(client, 'Balances')
+      await navigate(client, 'Wallet')
 
       let fermionEl = () => balanceEl('fermion')
       await client.waitForExist(`//div[contains(text(), "FERMION")]`, 5000)

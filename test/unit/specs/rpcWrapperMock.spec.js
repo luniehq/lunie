@@ -6,7 +6,7 @@ describe('RPC Wrapper Mock', () => {
     jest.resetModules()
     let mockedRpcWrapper = require('renderer/connectors/rpcWrapperMock.js')
     wrapper = mockedRpcWrapper(node)
-    wrapper.initRPC()
+    wrapper.rpcConnect('localhost')
   })
 
   it('outputs validators', (done) => {
