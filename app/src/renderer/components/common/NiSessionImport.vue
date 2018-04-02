@@ -38,6 +38,13 @@
         placeholder="Must be exactly 12 words")
       form-msg(name='Seed' type='required' v-if='!$v.fields.importSeed.required')
 
+    form-group(field-id="error-collection" field-label=' ')
+      .ni-field-checkbox
+        .ni-field-checkbox-input
+          input#sign-up-warning(type="checkbox" v-model="fields.errorCollection")
+        label.ni-field-checkbox-label(for="error-collection")
+          | I'd like to opt in for remote error tracking to help improve Voyager.
+
   .ni-session-footer
     btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
 </template>
@@ -87,15 +94,25 @@ export default {
           name: this.fields.importName
         })
         if (key) {
+          this.$store.dispatch('setErrorCollection', {
+            account: this.fields.importName,
+            optin: this.fields.errorCollection
+          })
           this.$store.commit('setModalSession', false)
-          this.$store.commit('notify', { title: 'Welcome back!', body: 'Your account has been successfully imported.' })
+          this.$store.commit('notify', {
+            title: 'Welcome back!',
+            body: 'Your account has been successfully imported.'
+          })
           this.$store.dispatch('signIn', {
             account: this.fields.importName,
             password: this.fields.importPassword
           })
         }
       } catch (err) {
-        this.$store.commit('notifyError', { title: `Couldn't create account`, body: err.message })
+        this.$store.commit('notifyError', {
+          title: `Couldn't create account`,
+          body: err.message
+        })
       }
     }
   },
@@ -107,7 +124,8 @@ export default {
       importName: { required, minLength: minLength(5) },
       importPassword: { required, minLength: minLength(10) },
       importPasswordConfirm: { sameAsPassword: sameAs('importPassword') },
-      importSeed: { required }
+      importSeed: { required },
+      errorCollection: false
     }
   })
 }

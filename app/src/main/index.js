@@ -39,9 +39,6 @@ const winURL = DEV
   : `file://${__dirname}/index.html`
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
-const ANALYTICS = process.env.COSMOS_ANALYTICS ? JSON.parse(process.env.COSMOS_ANALYTICS) : (process.env.NODE_ENV === 'production' && config.analytics_networks.indexOf(config.default_network) !== -1)
-// set analytics for renderer
-process.env.COSMOS_ANALYTICS = ANALYTICS
 
 let SERVER_BINARY = 'gaia' + (WIN ? '.exe' : '')
 
@@ -329,6 +326,9 @@ function handleIPC () {
       event.sender.send('connected', nodeIP)
     }
   })
+  ipcMain.on('error-collection', (event, optin) => {
+    Raven.uninstall().config(optin ? config.sentry_dsn : '', { captureUnhandledRejections: false }).install()
+  })
 }
 
 // check if LCD is initialized as the configs could be corrupted
@@ -400,17 +400,9 @@ async function reconnect (seeds) {
   return nodeIP
 }
 
-function setupAnalytics () {
-  if (ANALYTICS) {
-    log('Adding analytics')
-  }
-
-  // only enable sending of error events in production setups and if the network is a testnet
-  Raven.config(ANALYTICS ? config.sentry_dsn : '', { captureUnhandledRejections: false }).install()
-}
-
 async function main () {
-  setupAnalytics()
+  // we only enable error collection after users opted in
+  Raven.config('', { captureUnhandledRejections: false }).install()
 
   let appVersionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
@@ -499,12 +491,7 @@ async function main () {
 
   // pick a random seed node from config.toml
   // TODO: user-specified nodes, support switching?
-  let configText
-  try {
-    configText = fs.readFileSync(configPath, 'utf8')
-  } catch (e) {
-    throw new Error(`Can't open config.toml: ${e.message}`)
-  }
+  let configText = fs.readFileSync(configPath, 'utf8') // checked before if the file exists
   let configTOML = toml.parse(configText)
   seeds = configTOML.p2p.seeds.split(',').filter(x => x !== '')
   if (seeds.length === 0) {
@@ -530,6 +517,5 @@ module.exports = main()
   })
   .then(() => ({
     shutdown,
-    processes: { lcdProcess },
-    analytics: ANALYTICS
+    processes: { lcdProcess }
   }))
