@@ -40,7 +40,7 @@ const winURL = DEV
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
 
-let SERVER_BINARY = 'basecoind' + (WIN ? '.exe' : '')
+let SERVER_BINARY = 'basecli' + (WIN ? '.exe' : '')
 
 function log (...args) {
   if (LOGGING) {
@@ -197,7 +197,7 @@ async function startLCD (home, nodeIP) {
   log('startLCD', home)
   let child = startProcess(SERVER_BINARY, [
     'rest-server',
-    '--port', LCD_PORT,
+    '--laddr', `tcp://localhost:${LCD_PORT}`,
     '--home', home,
     '--node', nodeIP
     // '--trust-node'
@@ -207,8 +207,8 @@ async function startLCD (home, nodeIP) {
   while (true) {
     if (shuttingDown) break
 
-    let data = await event(child.stderr, 'data')
-    if (data.toString().includes('Serving on')) break
+    let data = await event(child.stdout, 'data')
+    if (data.toString().includes('Starting RPC HTTP server')) break
   }
 
   return child
@@ -234,9 +234,8 @@ function exists (path) {
 
 async function initLCD (chainId, home, node) {
   // fs.ensureDirSync(home)
-  // `basecoind client init` to generate config, trust seed
+  // `basecli client init` to generate config, trust seed
   let child = startProcess(SERVER_BINARY, [
-    'client',
     'init',
     '--home', home,
     '--chain-id', chainId,
@@ -253,7 +252,7 @@ async function initLCD (chainId, home, node) {
       child.stdin.write('y\n')
     }
   })
-  await expectCleanExit(child, 'basecoind init exited unplanned')
+  await expectCleanExit(child, 'basecli init exited unplanned')
 }
 
 /*
@@ -306,11 +305,11 @@ if (!TEST) {
   })
 }
 
-function consistentConfigDir (appVersionPath, genesisPath, configPath, basecoindVersionPath) {
+function consistentConfigDir (appVersionPath, genesisPath, configPath, basecliVersionPath) {
   return exists(genesisPath) &&
     exists(appVersionPath) &&
     exists(configPath) &&
-    exists(basecoindVersionPath)
+    exists(basecliVersionPath)
 }
 
 function handleIPC () {
@@ -337,7 +336,6 @@ function lcdInitialized (home) {
   log('Testing if LCD is already initialized')
   return new Promise((resolve, reject) => {
     let child = startProcess(SERVER_BINARY, [
-      'client',
       'init',
       '--home', home
       // '--trust-node'
@@ -365,9 +363,9 @@ function pickNode (seeds) {
 }
 
 async function connect (seeds, nodeIP) {
-  log(`starting basecoind server with nodeIP ${nodeIP}`)
+  log(`starting basecli server with nodeIP ${nodeIP}`)
   lcdProcess = await startLCD(lcdHome, nodeIP)
-  log('basecoind server ready')
+  log('basecli server ready')
 
   console.log('connected')
 
@@ -407,8 +405,8 @@ async function main () {
   let appVersionPath = join(root, 'app_version')
   let genesisPath = join(root, 'genesis.json')
   let configPath = join(root, 'config.toml')
-  let basecoindVersionPath = join(root, 'basecoindversion.txt')
-  console.log(appVersionPath, genesisPath, configPath, basecoindVersionPath)
+  let basecliVersionPath = join(root, 'basecoindversion.txt')
+  console.log(appVersionPath, genesisPath, configPath, basecliVersionPath)
 
   let rootExists = exists(root)
   await fs.ensureDir(root)
@@ -430,7 +428,7 @@ async function main () {
 
     // check if the existing data came from a compatible app version
     // if not, fail with an error
-    if (consistentConfigDir(appVersionPath, genesisPath, configPath, basecoindVersionPath)) {
+    if (consistentConfigDir(appVersionPath, genesisPath, configPath, basecliVersionPath)) {
       let existingVersion = fs.readFileSync(appVersionPath, 'utf8').trim()
       let compatible = semver.diff(existingVersion, pkg.version) !== 'major'
       if (compatible) {
@@ -477,13 +475,13 @@ async function main () {
   log(`winURL: ${winURL}`)
 
   // XXX: currently ignores commit hash
-  let basecoindVersion = (await getBasecoindVersion()).split(' ')[0]
-  let expectedBasecoindVersion = fs.readFileSync(basecoindVersionPath, 'utf8').trim().split(' ')[0]
-  log(`basecoind version: "${basecoindVersion}", expected: "${expectedBasecoindVersion}"`)
+  let basecliVersion = (await getBasecoindVersion()).split(' ')[0]
+  let expectedBasecoindVersion = fs.readFileSync(basecliVersionPath, 'utf8').trim().split(' ')[0]
+  log(`basecli version: "${basecliVersion}", expected: "${expectedBasecoindVersion}"`)
   // TODO: semver check, or exact match?
-  if (basecoindVersion !== expectedBasecoindVersion) {
-    throw Error(`Requires basecoind ${expectedBasecoindVersion}, but got ${basecoindVersion}.
-    Please update your basecoind installation or build with a newer binary.`)
+  if (basecliVersion !== expectedBasecoindVersion) {
+    throw Error(`Requires basecli ${expectedBasecoindVersion}, but got ${basecliVersion}.
+    Please update your basecli installation or build with a newer binary.`)
   }
 
   // read chainId from genesis.json
@@ -493,15 +491,21 @@ async function main () {
 
   // pick a random seed node from config.toml
   // TODO: user-specified nodes, support switching?
+  // TODO: get addresses from 'seeds' as well as 'persistent_peers'
+  // TODO: use address to prevent MITM if specified
   let configText = fs.readFileSync(configPath, 'utf8') // checked before if the file exists
   let configTOML = toml.parse(configText)
-  seeds = configTOML.p2p.seeds.split(',').filter(x => x !== '')
+  seeds = configTOML.p2p.persistent_peers
+    .split(',')
+    .filter(x => x !== '')
+    .map(x => x.split('@')[1])
   if (seeds.length === 0) {
     throw new Error('No seeds specified in config.toml')
   }
   nodeIP = pickNode(seeds)
 
-  let _lcdInitialized = await lcdInitialized(join(root, 'lcd'))
+  // TODO: re-enable init once implemented in basecli
+  let _lcdInitialized = true //await lcdInitialized(join(root, 'lcd'))
   console.log('LCD is', _lcdInitialized ? '' : 'not', 'initialized')
   if (init || !_lcdInitialized) {
     log(`Trying to initialize lcd with remote node ${nodeIP}`)
