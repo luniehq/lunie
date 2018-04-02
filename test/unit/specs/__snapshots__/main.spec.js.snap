@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Startup Process IPC should set error collection according to the error collection opt in state 1`] = `
+Array [
+  Array [
+    "https://4dee9f70a7d94cc0959a265c45902d84:cbf160384aab4cdeafbe9a08dee3b961@sentry.io/288169",
+    Object {
+      "captureUnhandledRejections": false,
+    },
+  ],
+]
+`;

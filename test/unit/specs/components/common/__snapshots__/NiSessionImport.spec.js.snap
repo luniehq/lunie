@@ -54,6 +54,18 @@ exports[`NiSessionImport has the expected html structure 1`] = `
             </div>
 </div>
 </div>
+      <div class=\\"ni-form-group\\">
+         <!---->
+         <label for=\\"error-collection\\" class=\\"ni-form-group__label\\"></label>
+         <div class=\\"ni-form-group__field\\">
+            <div class=\\"ni-field-checkbox\\">
+               <div class=\\"ni-field-checkbox-input\\">
+                  <input id=\\"sign-up-warning\\" type=\\"checkbox\\">
+               </div>
+      <label for=\\"error-collection\\" class=\\"ni-field-checkbox-label\\">I'd like to opt in for remote error tracking to help improve Voyager.</label>
+   </div>
+</div>
+</div>
 </div>
       <div class=\\"ni-session-footer\\">
          <button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--size-lg\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">arrow_forward</i>
