@@ -15,20 +15,20 @@ async function get (url) {
 }
 
 async function main () {
-  const network = process.argv[2] || 'gaia-2'
+  const network = process.argv[2] || 'basecoind-2'
 
   // fetch genesis.json and config.toml from github testnets repo,
   // save to tmp dir and pass to app dev runner
   console.log(`fetching genesis for network "${network}"`)
-  const genesisJson = await get(`https://github.com/tendermint/testnets/raw/master/${network}/gaia/genesis.json`)
+  const genesisJson = await get(`https://github.com/tendermint/testnets/raw/master/${network}/config/genesis.json`)
     .catch(e => {
       throw new Error(`Can't load genesis.json: ${e.message}`)
     })
-  const configToml = await get(`https://github.com/tendermint/testnets/raw/master/${network}/gaia/config.toml`)
+  const configToml = await get(`https://github.com/tendermint/testnets/raw/master/${network}/config/config.toml`)
     .catch(e => {
       throw new Error(`Can't load config.toml: ${e.message}`)
     })
-  const gaiaVersionTxt = await get(`https://github.com/tendermint/testnets/raw/master/${network}/gaia/gaiaversion.txt`)
+  const gaiaVersionTxt = await get(`https://github.com/tendermint/testnets/raw/master/${network}/basecoindversion.txt`)
     .catch(e => {
       throw new Error(`Can't load config.toml: ${e.message}`)
     })
@@ -36,7 +36,7 @@ async function main () {
   mkdirp(path)
   write(join(path, 'genesis.json'), genesisJson)
   write(join(path, 'config.toml'), configToml)
-  write(join(path, 'gaiaversion.txt'), gaiaVersionTxt)
+  write(join(path, 'basecoindversion.txt'), gaiaVersionTxt)
 
   // run Voyager in a development environment
   runDev(path)
