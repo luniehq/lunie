@@ -1,11 +1,19 @@
+import enableGoogleAnalytics from '../../google-analytics.js'
+import Raven from 'raven-js'
+const { ipcRenderer } = require('electron')
+const config = require('../../../../../config')
+
 export default ({ commit, node }) => {
-  const state = {
+  const ERROR_COLLECTION_KEY = 'voyager_error_collection'
+
+  let state = {
     atoms: 0,
     signedIn: false,
     accounts: [],
     password: null,
     account: null,
-    address: null
+    address: null,
+    errorCollection: false
   }
 
   const mutations = {
@@ -81,6 +89,7 @@ export default ({ commit, node }) => {
 
       commit('setModalSession', false)
       dispatch('initializeWallet', key)
+      dispatch('loadErrorCollection', account)
     },
     signOut ({ state, commit, dispatch }) {
       state.password = null
@@ -89,6 +98,25 @@ export default ({ commit, node }) => {
 
       commit('setModalSession', true)
       dispatch('showInitialScreen')
+    },
+    loadErrorCollection ({ state, dispatch }, account) {
+      let errorCollection = localStorage.getItem(`${ERROR_COLLECTION_KEY}_${account}`) === 'true'
+      dispatch('setErrorCollection', { account, optin: errorCollection })
+    },
+    setErrorCollection ({ state }, { account, optin }) {
+      localStorage.setItem(`${ERROR_COLLECTION_KEY}_${account}`, optin)
+      state.errorCollection = optin
+
+      Raven.uninstall().config(optin ? config.sentry_dsn_public : '').install()
+      if (optin) {
+        console.log('Analytics enabled in browser')
+        enableGoogleAnalytics(config.google_analytics_uid)
+      } else {
+        console.log('Analytics disabled in browser')
+        window.analytics = null
+      }
+
+      ipcRenderer.send('error-collection', optin)
     }
   }
 

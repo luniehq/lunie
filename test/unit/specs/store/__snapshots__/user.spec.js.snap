@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Module: User should set the error collection opt in 1`] = `
+Array [
+  Array [
+    "https://4dee9f70a7d94cc0959a265c45902d84@sentry.io/288169",
+  ],
+]
+`;
