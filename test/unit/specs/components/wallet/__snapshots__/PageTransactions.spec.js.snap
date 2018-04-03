@@ -83,6 +83,20 @@ exports[`PageTransactions has the expected html structure 1`] = `
                     Help
                   </div>
                 </a>
+                <a
+                  class="help"
+                >
+                  <i
+                    class="material-icons"
+                  >
+                    exit_to_app
+                  </i>
+                  <div
+                    class="label"
+                  >
+                    Sign Out
+                  </div>
+                </a>
               </div>
             </div>
           </div>
@@ -209,6 +223,20 @@ exports[`PageTransactions should filter the transactions 1`] = `
                     class="label"
                   >
                     Help
+                  </div>
+                </a>
+                <a
+                  class="help"
+                >
+                  <i
+                    class="material-icons"
+                  >
+                    exit_to_app
+                  </i>
+                  <div
+                    class="label"
+                  >
+                    Sign Out
                   </div>
                 </a>
               </div>
