@@ -13,8 +13,8 @@ function req (method, path) {
 // returns an async function which makes a request for the given
 // HTTP method and path, which accepts arguments to be appended
 // to the path (/foo/{arg}/...)
-function argReq (method, path) {
-  return async function (args, data) {
+function argReq (method, prefix, suffix = '') {
+  return function (args, data) {
     // `args` can either be a single value or an array
     if (Array.isArray(args)) {
       args = args.join('/')
@@ -22,7 +22,8 @@ function argReq (method, path) {
     if (method === 'DELETE') {
       data = { data }
     }
-    return await this.request(method, `${path}/${args}`, data)
+    console.log('args', args)
+    return this.request(method, `${prefix}/${args}${suffix}`, data)
   }
 }
 
@@ -48,8 +49,8 @@ class Client {
   }
 }
 
-let fetchAccount = argReq('GET', '/query/account')
-let fetchNonce = argReq('GET', '/query/nonce')
+let fetchAccount = argReq('GET', '/accounts')
+let fetchNonce = argReq('GET', '/accounts', '/nonce')
 
 Object.assign(Client.prototype, {
   // meta
@@ -63,19 +64,19 @@ Object.assign(Client.prototype, {
   postTx: req('POST', '/tx'),
 
   // keys
-  generateKey: req('POST', '/keys'),
+  generateSeed: req('GET', '/keys/seed'),
   listKeys: req('GET', '/keys'),
+  storeKey: req('POST', '/keys'),
   getKey: argReq('GET', '/keys'),
   updateKey: argReq('PUT', '/keys'),
   // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prop data
   deleteKey: argReq('DELETE', '/keys'),
-  recoverKey: req('POST', '/keys/recover'),
 
   // coins
   buildSend: req('POST', '/build/send'),
-  async queryAccount (address) {
+  queryAccount (address) {
     try {
-      return await fetchAccount.call(this, address)
+      return fetchAccount.call(this, address)
     } catch (err) {
       // if account not found, return null instead of throwing
       if (err.message.includes('account bytes are empty')) {
@@ -87,16 +88,18 @@ Object.assign(Client.prototype, {
   coinTxs: argReq('GET', '/tx/coin'),
 
   // nonce
-  async queryNonce (address) {
-    try {
-      return await fetchNonce.call(this, address)
-    } catch (err) {
-      // if nonce not found, return 0 instead of throwing
-      if (err.message.includes('nonce empty')) {
-        return 0
-      }
-      throw err
-    }
+  queryNonce (address) {
+    return 0
+    // XXX
+    // try {
+    //   return fetchNonce.call(this, address)
+    // } catch (err) {
+    //   // if nonce not found, return 0 instead of throwing
+    //   if (err.message.includes('nonce empty')) {
+    //     return 0
+    //   }
+    //   throw err
+    // }
   },
 
   // staking

@@ -6,7 +6,7 @@ export default ({ commit, node }) => {
   let state = {
     balances: [],
     balancesLoading: false,
-    key: { address: '' },
+    address: '',
     history: [],
     historyLoading: false,
     denoms: []
@@ -16,8 +16,8 @@ export default ({ commit, node }) => {
     setWalletBalances (state, balances) {
       state.balances = balances
     },
-    setWalletKey (state, key) {
-      state.key = key
+    setWalletAddress (state, address) {
+      state.address = address
       // clear previous account state
       state.balances = []
       state.history = []
@@ -47,19 +47,19 @@ export default ({ commit, node }) => {
         dispatch('queryWalletHistory')
       }
     },
-    initializeWallet ({ commit, dispatch }, key) {
-      commit('setWalletKey', key)
+    initializeWallet ({ commit, dispatch }, address) {
+      commit('setWalletAddress', address)
       dispatch('loadDenoms')
       dispatch('queryWalletState')
     },
     queryWalletState ({ state, dispatch }) {
       dispatch('queryWalletBalances')
-      dispatch('queryNonce', state.key.address)
+      dispatch('queryNonce', state.address)
       dispatch('queryWalletHistory')
     },
     async queryWalletBalances ({ state, rootState, commit }) {
       state.balancesLoading = true
-      let res = await node.queryAccount(state.key.address)
+      let res = await node.queryAccount(state.address)
       if (!res) {
         state.balancesLoading = false
         return
@@ -75,7 +75,9 @@ export default ({ commit, node }) => {
     },
     async queryWalletHistory ({ state, commit, dispatch }) {
       state.historyLoading = true
-      let res = await node.coinTxs(state.key.address)
+      // let res = await node.coinTxs(state.address)
+      // XXX
+      let res = []
       if (!res) return
       commit('setWalletHistory', res)
 

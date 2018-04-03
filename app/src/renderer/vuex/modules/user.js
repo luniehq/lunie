@@ -44,36 +44,23 @@ export default ({ commit, node }) => {
       try {
         return await node.updateKey(account, {
           name: account,
-          password: password,
-          new_passphrase: password
+          new_password: password,
+          old_password: password
         })
       } catch (err) {
         throw Error('Incorrect passphrase')
       }
     },
-    // to create a temporary seed phrase, we create a junk account with name 'trunk' for now
-    async createSeed ({ commit }) {
-      let JUNK_ACCOUNT_NAME = 'trunk'
-      let TRUNK_PASSWORD = '1234567890'
-      // cleanup an existing junk account
-      let keys = await node.listKeys()
-      if (keys.find(key => key.name === JUNK_ACCOUNT_NAME)) {
-        await node.deleteKey(JUNK_ACCOUNT_NAME, {
-          password: TRUNK_PASSWORD,
-          name: JUNK_ACCOUNT_NAME
-        })
-      }
-
-      // generate seedPhrase with junk account
-      let temporaryKey = await node.generateKey({ name: JUNK_ACCOUNT_NAME, password: TRUNK_PASSWORD })
-      return temporaryKey.seed_phrase
+    createSeed ({ commit }) {
+      // generate seed phrase
+      return node.generateSeed()
     },
     async createKey ({ commit, dispatch }, { seedPhrase, password, name }) {
-      let { key } = await node.recoverKey({
-        name, password, seed_phrase: seedPhrase
+      let address = await node.storeKey({
+        name, password, seed: seedPhrase
       })
-      dispatch('initializeWallet', key)
-      return key
+      dispatch('initializeWallet', address)
+      return address
     },
     async deleteKey ({ commit, dispatch }, { password, name }) {
       await node.deleteKey(name, { name, password })
@@ -84,11 +71,11 @@ export default ({ commit, node }) => {
       state.account = account
       state.signedIn = true
 
-      let key = await node.getKey(account)
-      state.address = key.address
+      let { address } = await node.getKey(account)
+      state.address = address
 
       commit('setModalSession', false)
-      dispatch('initializeWallet', key)
+      dispatch('initializeWallet', address)
       dispatch('loadErrorCollection', account)
     },
     signOut ({ state, commit, dispatch }) {
