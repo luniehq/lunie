@@ -11,6 +11,7 @@ export default ({ commit }) => {
     modals: {
       error: { active: false },
       help: { active: false },
+      receive: { active: false },
       session: {
         active: true,
         state: 'loading'
@@ -30,6 +31,9 @@ export default ({ commit }) => {
     },
     setModalHelp (state, value) {
       state.modals.help.active = value
+    },
+    setModalReceive (state, value) {
+      state.modals.receive.active = value
     },
     setModalSession (state, value) {
       // reset modal session state if we're closing the modal
