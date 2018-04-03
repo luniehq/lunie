@@ -71,7 +71,7 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
                   </div>
                 </a>
                 <a
-                  class="help"
+                  class="sign-out"
                 >
                   <i
                     class="material-icons"

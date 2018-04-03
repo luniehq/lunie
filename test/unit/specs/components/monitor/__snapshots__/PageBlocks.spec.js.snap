@@ -34,7 +34,7 @@ exports[`PageBlocks has the expected html structure 1`] = `
       <div class=\\"label\\">
          Help
       </div>
-      </a><a class=\\"help\\"><i class=\\"material-icons\\">exit_to_app</i>
+      </a><a class=\\"sign-out\\"><i class=\\"material-icons\\">exit_to_app</i>
       <div class=\\"label\\">
          Sign Out
       </div>

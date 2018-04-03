@@ -84,7 +84,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
                   </div>
                 </a>
                 <a
-                  class="help"
+                  class="sign-out"
                 >
                   <i
                     class="material-icons"
@@ -226,7 +226,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                   </div>
                 </a>
                 <a
-                  class="help"
+                  class="sign-out"
                 >
                   <i
                     class="material-icons"

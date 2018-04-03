@@ -8,7 +8,7 @@
     a.help(@click="enableModalHelp")
       i.material-icons help_outline
       .label Help
-    a.help(@click="signOut")
+    a.sign-out(@click="signOut")
       i.material-icons exit_to_app
       .label Sign Out
 </template>

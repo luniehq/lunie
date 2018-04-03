@@ -96,7 +96,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                   </div>
                 </a>
                 <a
-                  class="help"
+                  class="sign-out"
                 >
                   <i
                     class="material-icons"
@@ -453,7 +453,7 @@ exports[`PageWallet should filter the balances 1`] = `
                   </div>
                 </a>
                 <a
-                  class="help"
+                  class="sign-out"
                 >
                   <i
                     class="material-icons"
