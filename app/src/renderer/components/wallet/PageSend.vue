@@ -99,11 +99,21 @@ export default {
       let amount = +this.fields.amount
       let address = this.fields.address
       let denom = this.fields.denom
-      await this.walletSend({
-        fees: { denom, amount: 0 },
-        to: address,
-        amount: [{ denom, amount }]
-      }).then(() => {
+      try {
+        // if address has a slash, it is IBC address format
+        let type
+        if (address.includes('/')) {
+          type = 'ibcSend'
+        } else {
+          type = 'send'
+        }
+
+        await this.sendTx({
+          type,
+          to: address,
+          amount: [{ denom, amount }]
+        })
+
         this.sending = false
         this.$store.commit('notify', {
           title: 'Successfully Sent',
@@ -115,15 +125,15 @@ export default {
 
         // refreshes user transaction history
         this.$store.dispatch('queryWalletHistory')
-      }, err => {
+      } catch (err) {
         this.sending = false
         this.$store.commit('notifyError', {
           title: 'Error Sending',
           body: `An error occurred while trying to send: "${err.message}"`
         })
-      })
+      }
     },
-    ...mapActions(['walletSend'])
+    ...mapActions(['sendTx'])
   },
   props: ['denom'],
   mounted () {

@@ -54,7 +54,6 @@ export default ({ commit, node }) => {
     },
     queryWalletState ({ state, dispatch }) {
       dispatch('queryWalletBalances')
-      dispatch('queryNonce', state.address)
       dispatch('queryWalletHistory')
     },
     async queryWalletBalances ({ state, rootState, commit }) {
@@ -64,6 +63,7 @@ export default ({ commit, node }) => {
         state.balancesLoading = false
         return
       }
+      commit('setNonce', res.data.sequence)
       commit('setWalletBalances', res.data.coins)
       for (let coin of res.data.coins) {
         if (coin.denom === rootState.config.bondingDenom) {
@@ -95,15 +95,6 @@ export default ({ commit, node }) => {
     async queryTransactionTime ({ commit, dispatch }, blockHeight) {
       let blockMetaInfo = await dispatch('queryBlockInfo', blockHeight)
       commit('setTransactionTime', { blockHeight, blockMetaInfo })
-    },
-    async walletSend ({ dispatch }, args) {
-      args.type = 'buildSend'
-      args.to = {
-        chain: '',
-        app: 'sigs',
-        addr: args.to
-      }
-      return dispatch('sendTx', args)
     },
     async loadDenoms ({ state, commit }) {
       // read genesis.json to get default denoms

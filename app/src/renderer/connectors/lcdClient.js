@@ -50,7 +50,6 @@ class Client {
 }
 
 let fetchAccount = argReq('GET', '/accounts')
-let fetchNonce = argReq('GET', '/accounts', '/nonce')
 
 Object.assign(Client.prototype, {
   // meta
@@ -73,7 +72,8 @@ Object.assign(Client.prototype, {
   deleteKey: argReq('DELETE', '/keys'),
 
   // coins
-  buildSend: req('POST', '/build/send'),
+  send: argReq('POST', '/accounts/', '/send'),
+  ibcSend: argReq('POST', '/ibc/', '/send'),
   queryAccount (address) {
     try {
       return fetchAccount.call(this, address)
@@ -86,21 +86,6 @@ Object.assign(Client.prototype, {
     }
   },
   coinTxs: argReq('GET', '/tx/coin'),
-
-  // nonce
-  queryNonce (address) {
-    return 0
-    // XXX
-    // try {
-    //   return fetchNonce.call(this, address)
-    // } catch (err) {
-    //   // if nonce not found, return 0 instead of throwing
-    //   if (err.message.includes('nonce empty')) {
-    //     return 0
-    //   }
-    //   throw err
-    // }
-  },
 
   // staking
   candidate: argReq('GET', '/query/stake/candidate'),

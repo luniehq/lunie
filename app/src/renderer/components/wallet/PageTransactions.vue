@@ -15,7 +15,7 @@ page(title='Transactions')
     v-for="i in filteredTransactions"
     :key="shortid.generate()"
     :transaction-value="i"
-    :address="wallet.key.address"
+    :address="wallet.address"
     :devMode="config.devMode")
 </template>
 
