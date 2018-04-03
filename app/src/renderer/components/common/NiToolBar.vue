@@ -8,6 +8,9 @@
     a.help(@click="enableModalHelp")
       i.material-icons help_outline
       .label Help
+    a.help(@click="signOut")
+      i.material-icons exit_to_app
+      .label Sign Out
 </template>
 
 <script>
@@ -16,6 +19,10 @@ export default {
   methods: {
     enableModalHelp () {
       this.$store.commit('setModalHelp', true)
+    },
+    signOut () {
+      this.$store.dispatch('signOut')
+      this.openSession()
     }
   }
 }

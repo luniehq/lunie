@@ -1,17 +1,11 @@
 <template lang="pug">
 list-item.ni-li-user(
-  v-if="user.signedIn && config.devMode"
+  v-if="user.signedIn"
   type="link"
   to="/profile"
   @click.native="close"
   icon="face"
   :title="user.account")
-div(v-else-if="user.signedIn")
-  list-item.ni-li-user(
-    type="link"
-    icon="exit_to_app"
-    @click.native="signOut"
-    title="Sign Out")
 </template>
 
 <script>
@@ -30,10 +24,6 @@ export default {
     openSession () {
       this.$store.commit('setModalSession', true)
       this.close()
-    },
-    signOut () {
-      this.$store.dispatch('signOut')
-      this.openSession()
     }
   }
 }
