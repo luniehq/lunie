@@ -22,12 +22,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Chart from 'chart.js'
 import shortid from 'shortid'
 export default {
   name: 'chart-votes',
   props: ['votes', 'size'],
   computed: {
+    ...mapGetters(['config']),
     cssClass () {
       if (this.size === 'lg') {
         return 'chart-votes-size-lg'
@@ -49,6 +51,12 @@ export default {
       }
     },
     chartData () {
+      let abstainBgColor
+      if (this.config.theme === 'dark') {
+        abstainBgColor = '#FFFFFF'
+      } else {
+        abstainBgColor = '#000000'
+      }
       return {
         labels: [
           'Yes',
@@ -61,7 +69,7 @@ export default {
             borderWidth: 0,
             data: this.chartValues,
             backgroundColor: [
-              'hsl(0,0%,0%)',
+              abstainBgColor,
               'hsl(233,96%,60%)',
               'hsl(326,96%,59%)',
               'hsl(233,13%,50%)'
