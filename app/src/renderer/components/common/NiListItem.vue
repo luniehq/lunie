@@ -84,12 +84,12 @@ export default {
 
 .ni-li
   display block
-  border-bottom 2px solid var(--bc-dim)
   height 3rem
   position relative
+  border-bottom 2px solid var(--bc-dim)
 
   &:last-child
-    border-bottom: none
+    border-bottom none
 
   &:first-child
     height 3rem + px
@@ -138,7 +138,6 @@ export default {
   position relative
 
 // type: anchor & link
-
 .ni-li-thumb
 .ni-li-label
 .ni-li-icon
