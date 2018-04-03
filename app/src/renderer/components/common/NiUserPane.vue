@@ -20,10 +20,6 @@ export default {
     close () {
       this.$store.commit('setActiveMenu', '')
       noScroll.off()
-    },
-    openSession () {
-      this.$store.commit('setModalSession', true)
-      this.close()
     }
   }
 }
