@@ -176,6 +176,27 @@ exports[`PageWallet has the expected html structure 1`] = `
                   </span>
                 </span>
               </button>
+              <button
+                address="value"
+                class="ni-btn receive"
+              >
+                <span
+                  class="ni-btn__container"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="ni-btn__icon material-icons"
+                  >
+                    file_download
+                  </i>
+                  <!---->
+                  <span
+                    class="ni-btn__value"
+                  >
+                    Receive
+                  </span>
+                </span>
+              </button>
             </menu>
           </div>
         </main>
@@ -466,6 +487,27 @@ exports[`PageWallet should filter the balances 1`] = `
                     class="ni-btn__value"
                   >
                     Copy
+                  </span>
+                </span>
+              </button>
+              <button
+                address="value"
+                class="ni-btn receive"
+              >
+                <span
+                  class="ni-btn__container"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="ni-btn__icon material-icons"
+                  >
+                    file_download
+                  </i>
+                  <!---->
+                  <span
+                    class="ni-btn__value"
+                  >
+                    Receive
                   </span>
                 </span>
               </button>

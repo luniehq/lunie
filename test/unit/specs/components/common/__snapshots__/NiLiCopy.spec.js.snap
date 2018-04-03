@@ -30,6 +30,7 @@ exports[`NiLiCopy has the expected html structure 1`] = `
         </span>
       </span>
     </button>
+    <!---->
   </menu>
 </div>
 `;
