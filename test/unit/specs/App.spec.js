@@ -13,15 +13,10 @@ describe('App without analytics', () => {
     },
     captureException: err => console.error(err)
   }))
-  jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => { })
+  jest.mock('renderer/google-analytics.js', () => (uid) => { })
   jest.mock('electron', () => ({
     remote: {
-      getGlobal: () => ({
-        env: {
-          NODE_ENV: 'test',
-          COSMOS_ANALYTICS: 'false'
-        }
-      }),
+      getGlobal: () => ({ env: { NODE_ENV: 'test' } }),
       app: { getPath: () => { return '$HOME' } }
     },
     ipcRenderer: {
@@ -44,7 +39,7 @@ describe('App without analytics', () => {
   })
 
   it('does not activate google analytics if analytics is disabled', async mockDone => {
-    jest.mock('../../../app/src/renderer/google-analytics.js', () => (uid) => {
+    jest.mock('renderer/google-analytics.js', () => (uid) => {
       mockDone.fail()
     })
     await require('renderer/main.js')

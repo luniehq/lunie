@@ -11,7 +11,7 @@ describe('TogggleBtn', () => {
   store.commit = jest.fn()
 
   beforeEach(() => {
-    store.commit.mockReset()
+    store.commit.mockClear()
     wrapper = mount(TogggleBtn, {
       localVue,
       store,
@@ -31,7 +31,7 @@ describe('TogggleBtn', () => {
   })
 
   it('should show an active state if active set', () => {
-    wrapper.setProps({active: true})
+    wrapper.setProps({ active: true })
     expect(wrapper.classes()).toContain('active')
   })
 })

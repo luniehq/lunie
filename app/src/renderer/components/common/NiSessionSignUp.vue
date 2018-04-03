@@ -52,6 +52,14 @@
         label.ni-field-checkbox-label(for="sign-up-backup")
           | I have securely written down my seed.
       form-msg(name='Backup confirmation' type='required' v-if='!$v.fields.signUpBackup.required')
+
+    form-group(field-id="error-collection" field-label=' ')
+      .ni-field-checkbox
+        .ni-field-checkbox-input
+          input#sign-up-warning(type="checkbox" v-model="fields.errorCollection")
+        label.ni-field-checkbox-label(for="error-collection")
+          | I'd like to opt in for remote error tracking to help improve Voyager.
+          
   .ni-session-footer
     btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg" :disabled="creating")
 </template>
@@ -99,25 +107,39 @@ export default {
       if (this.$v.$error) return
       try {
         let key = await this.$store.dispatch('createKey', {
-          seedPhrase: this.fields.signUpSeed, password: this.fields.signUpPassword, name: this.fields.signUpName
+          seedPhrase: this.fields.signUpSeed,
+          password: this.fields.signUpPassword,
+          name: this.fields.signUpName
         })
         if (key) {
+          this.$store.dispatch('setErrorCollection', {
+            account: this.fields.signUpName,
+            optin: this.fields.errorCollection
+          })
           this.$store.commit('setModalSession', false)
-          this.$store.commit('notify', { title: 'Signed Up', body: 'Your account has been created.' })
-          this.$store.dispatch('signIn', { password: this.fields.signUpPassword, account: this.fields.signUpName })
+          this.$store.commit('notify', {
+            title: 'Signed Up',
+            body: 'Your account has been created.'
+          })
+          this.$store.dispatch('signIn', {
+            password: this.fields.signUpPassword,
+            account: this.fields.signUpName
+          })
         }
       } catch (err) {
-        this.$store.commit('notifyError', { title: `Couldn't create account`, body: err.message })
+        this.$store.commit('notifyError', {
+          title: `Couldn't create account`,
+          body: err.message
+        })
       }
     }
   },
   mounted () {
     this.$el.querySelector('#sign-up-name').focus()
-    this.$store.dispatch('createSeed')
-      .then(seedPhrase => {
-        this.creating = false
-        this.fields.signUpSeed = seedPhrase
-      })
+    this.$store.dispatch('createSeed').then(seedPhrase => {
+      this.creating = false
+      this.fields.signUpSeed = seedPhrase
+    })
   },
   validations: () => ({
     fields: {
@@ -125,7 +147,8 @@ export default {
       signUpPassword: { required, minLength: minLength(10) },
       signUpPasswordConfirm: { sameAsPassword: sameAs('signUpPassword') },
       signUpWarning: { required },
-      signUpBackup: { required }
+      signUpBackup: { required },
+      errorCollection: false
     }
   })
 }

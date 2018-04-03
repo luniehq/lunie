@@ -32,7 +32,7 @@ export default [
 
   // STAKE
   {
-    path: '/staking', name: 'delegates', component: staking('Delegates')
+    path: '/staking', name: 'staking', component: staking('Staking')
   },
   {
     path: '/staking/bond', name: 'bond', component: staking('Bond')

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageDelegate has the expected html structure 1`] = `
+exports[`PageProfile has the expected html structure if connected 1`] = `
 <div
   class="ni-page"
 >
@@ -17,7 +17,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-            Validator Profile
+            My Profile
           </h2>
         </div>
         <div
@@ -41,23 +41,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
               >
                 <div
                   class="main"
-                >
-                  <a
-                    class="router-link-active"
-                    href="#/staking"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                    <div
-                      class="label"
-                    >
-                      Back
-                    </div>
-                  </a>
-                </div>
+                />
                 <a
                   class="back"
                 >
@@ -111,7 +95,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Validator Info
+              My Profile
             </div>
             <menu
               class="ni-part-menu"
@@ -138,39 +122,12 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="ni-li-dt"
                 >
-                  Moniker
+                  Account Name
                 </div>
                 <div
                   class="ni-li-dd"
                 >
-                  JB
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Website
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  https://the.zone
+                  default
                 </div>
               </div>
             </div>
@@ -197,7 +154,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  helloaddr
+                  someaddress
                 </div>
               </div>
             </div>
@@ -209,22 +166,27 @@ exports[`PageDelegate has the expected html structure 1`] = `
               class="ni-li-container"
             >
               <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
                 class="ni-li-dl"
               >
                 <div
                   class="ni-li-dt"
                 >
-                  Public Key
+                  Automatic error reports
                 </div>
                 <div
                   class="ni-li-dd"
                 >
-                  123pubkeyforme
+                  <div
+                    class="ni-field-checkbox"
+                  >
+                    <div
+                      class="ni-field-checkbox-input"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -232,96 +194,31 @@ exports[`PageDelegate has the expected html structure 1`] = `
         </main>
       </div>
     </section>
-    <section
-      class="ni-part"
+    <div
+      class="ni-session-footer"
     >
-      <div
-        class="ni-part-container"
+      <button
+        class="ni-btn"
+        type="button"
       >
-        <header
-          class="ni-part-header"
+        <span
+          class="ni-btn__container"
         >
-          <div
-            class="ni-part-header-container"
+          <i
+            aria-hidden="true"
+            class="ni-btn__icon material-icons"
           >
-            <div
-              class="ni-part-title h5"
-            >
-              Validator Description
-            </div>
-            <menu
-              class="ni-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="ni-part-main"
-        >
-          <div
-            class="text-block"
+            exit_to_app
+          </i>
+          <!---->
+          <span
+            class="ni-btn__value"
           >
-            <pre>
-              No description available.
-            </pre>
-          </div>
-        </main>
-      </div>
-    </section>
-    <section
-      class="ni-part"
-    >
-      <div
-        class="ni-part-container"
-      >
-        <header
-          class="ni-part-header"
-        >
-          <div
-            class="ni-part-header-container"
-          >
-            <div
-              class="ni-part-title h5"
-            >
-              Validator Details
-            </div>
-            <menu
-              class="ni-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="ni-part-main"
-        >
-          <div
-            class="ni-li proposal-enter proposal-enter-active"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Total Vote Power
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  1000
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
-    </section>
+            Sign Out
+          </span>
+        </span>
+      </button>
+    </div>
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
