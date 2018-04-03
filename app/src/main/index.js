@@ -332,25 +332,25 @@ function handleIPC () {
 
 // check if LCD is initialized as the configs could be corrupted
 // we need to parse the error on initialization as there is no way to just get this status programmatically
-function lcdInitialized (home) {
-  log('Testing if LCD is already initialized')
-  return new Promise((resolve, reject) => {
-    let child = startProcess(SERVER_BINARY, [
-      'init',
-      '--home', home
-      // '--trust-node'
-    ])
-    child.stderr.on('data', data => {
-      if (data.toString().includes('already is initialized')) {
-        return resolve(true)
-      }
-      if (data.toString().includes('"--chain-id" required')) {
-        return resolve(false)
-      }
-      reject('Unknown state for Gaia initialization: ' + data.toString())
-    })
-  })
-}
+// function lcdInitialized (home) {
+//   log('Testing if LCD is already initialized')
+//   return new Promise((resolve, reject) => {
+//     let child = startProcess(SERVER_BINARY, [
+//       'init',
+//       '--home', home
+//       // '--trust-node'
+//     ])
+//     child.stderr.on('data', data => {
+//       if (data.toString().includes('already is initialized')) {
+//         return resolve(true)
+//       }
+//       if (data.toString().includes('"--chain-id" required')) {
+//         return resolve(false)
+//       }
+//       reject('Unknown state for Gaia initialization: ' + data.toString())
+//     })
+//   })
+// }
 
 function pickNode (seeds) {
   let nodeIP = NODE || seeds[Math.floor(Math.random() * seeds.length)]
@@ -505,7 +505,7 @@ async function main () {
   nodeIP = pickNode(seeds)
 
   // TODO: re-enable init once implemented in basecli
-  let _lcdInitialized = true //await lcdInitialized(join(root, 'lcd'))
+  let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))
   console.log('LCD is', _lcdInitialized ? '' : 'not', 'initialized')
   if (init || !_lcdInitialized) {
     log(`Trying to initialize lcd with remote node ${nodeIP}`)

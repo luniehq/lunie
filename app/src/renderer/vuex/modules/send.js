@@ -1,5 +1,3 @@
-let EventEmitter = require('events')
-
 export default ({ commit, node }) => {
   let lock = null
 
@@ -48,7 +46,7 @@ export default ({ commit, node }) => {
   let actions = {
     async sendTx (...args) {
       // wait to acquire lock
-      while (lock != null) {
+      while (lock != null) { // eslint-disable-line no-unmodified-loop-condition
         await lock
       }
 
