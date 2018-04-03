@@ -1,7 +1,7 @@
 <template lang="pug">
 page(:title="delegateType + ' Profile'")
   div(slot="menu"): tool-bar
-    router-link(to='/delegates')
+    router-link(to='/staking')
       i.material-icons arrow_back
       .label Back
 
