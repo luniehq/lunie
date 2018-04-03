@@ -4,9 +4,11 @@
   menu
     btn-copy(:value='value')
     btn.receive(
-      value='Receive'
+      v-if="receive"
+      value="Receive"
       @click.native="enableModalReceive"
-      icon="file_download")
+      icon="file_download"
+      address="value")
 </template>
 
 <script>
@@ -15,7 +17,7 @@ import Btn from '@nylira/vue-button'
 export default {
   name: 'ni-li-copy',
   components: { BtnCopy, Btn },
-  props: ['value'],
+  props: ['value', 'receive'],
   methods: {
     enableModalReceive () {
       this.$store.commit('setModalReceive', true)
