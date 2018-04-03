@@ -8,7 +8,7 @@
  
       field#node-hash(type="textarea" :value="hash" disabled)
 
-    .ni-modal-lcd-approval__footer.ni-session-main
+    .ni-modal-lcd-approval__footer
 
       btn#ni-modal-lcd-approval__btn-approve(
         size="lg"
@@ -91,10 +91,13 @@ export default {
   &__body {
     font-size: lg;
     color: dim;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
   }
 
   &__footer {
+    flex-direction: row;
+    justify-content: flex-start;
+
     .ni-btn {
       width: 100%;
       margin-right: 1.5rem;
@@ -118,13 +121,8 @@ export default {
       font-size: 20vw + 20vh;
     }
 
-    &__body {
-      margin-bottom: 4.5rem;
-    }
-
     &__footer {
       min-width: 31rem;
-      flex-direction: row;
     }
 
     &__footer .ni-btn {
