@@ -11,7 +11,7 @@ page(title='Wallet')
   modal-search(type="balances")
 
   part(title='Your Address')
-    li-copy(:value="wallet.key.address")
+    li-copy(:value="wallet.address")
 
   part(title="Denomination Balances")
     data-loading(v-if="wallet.balancesLoading")
