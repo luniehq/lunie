@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageDelegates has the expected html structure 1`] = `
+exports[`PageStaking has the expected html structure 1`] = `
 "<div class=\\"ni-page\\">
    <header class=\\"ni-page-header\\">
       <div class=\\"ni-page-header-container\\">
          <div class=\\"ni-page-header-text\\">
             <div class=\\"ni-page-header-title\\">
                <h2>
-                  Validators and Candidates
+                  Staking
                </h2>
 </div>
    <div class=\\"ni-page-header-subtitle\\">
@@ -144,7 +144,7 @@ exports[`PageDelegates has the expected html structure 1`] = `
 </div>"
 `;
 
-exports[`PageDelegates should filter the delegates 1`] = `
+exports[`PageStaking should filter the delegates 1`] = `
 <div
   class="ni-page"
 >
@@ -161,7 +161,7 @@ exports[`PageDelegates should filter the delegates 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-            Validators and Candidates
+            Staking
           </h2>
         </div>
         <div

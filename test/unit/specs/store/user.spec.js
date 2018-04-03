@@ -1,5 +1,10 @@
 import setup from '../../helpers/vuex-setup'
 
+function mockGA (uid) {
+  window.analytics = { foo: 'bar' }
+}
+jest.mock('renderer/google-analytics.js', () => mockGA)
+
 let instance = setup()
 
 describe('Module: User', () => {
@@ -11,6 +16,8 @@ describe('Module: User', () => {
   }]
 
   beforeEach(() => {
+    jest.mock('electron', () => ({ ipcRenderer: { send: jest.fn() } }))
+
     let test = instance.shallow()
     store = test.store
     node = test.node
@@ -132,7 +139,10 @@ describe('Module: User', () => {
     expect(store.state.config.modals.session.active).toBe(false)
   })
 
-  it('should sign out', () => {
+  it('should sign out', async () => {
+    let password = '123'
+    let account = 'def'
+    await store.dispatch('signIn', { password, account })
     store.dispatch('signOut')
     expect(store.state.user.account).toBe(null)
     expect(store.state.user.password).toBe(null)
@@ -140,5 +150,42 @@ describe('Module: User', () => {
 
     // hide login
     expect(store.state.config.modals.session.active).toBe(true)
+  })
+
+  it('should set the error collection opt in', async () => {
+    const Raven = require('raven-js')
+    const ravenSpy = jest.spyOn(Raven, 'config')
+    store.dispatch('setErrorCollection', { account: 'abc', optin: true })
+    expect(store.state.user.errorCollection).toBe(true)
+    expect(window.analytics).toBeTruthy()
+    expect(ravenSpy).toHaveBeenCalled()
+    expect(ravenSpy).not.toHaveBeenCalledWith('')
+    expect(ravenSpy.mock.calls).toMatchSnapshot()
+
+    store.dispatch('setErrorCollection', { account: 'abc', optin: false })
+    expect(store.state.user.errorCollection).toBe(false)
+    expect(window.analytics).toBeFalsy()
+    expect(ravenSpy).toHaveBeenCalledWith('')
+  })
+
+  it('should persist the error collection opt in', () => {
+    let localStorageSpy = jest.spyOn(localStorage, 'setItem')
+    store.dispatch('setErrorCollection', { account: 'abc', optin: true })
+
+    expect(localStorageSpy).toHaveBeenCalledWith('voyager_error_collection_abc', true)
+  })
+
+  it('should load the persistet error collection opt in', () => {
+    let localStorageSpy = jest.spyOn(localStorage, 'getItem')
+    store.dispatch('setErrorCollection', { account: 'abc', optin: true })
+    store.state.user.errorCollection = false
+    store.dispatch('loadErrorCollection', 'abc')
+    expect(store.state.user.errorCollection).toBe(true)
+    expect(localStorageSpy).toHaveBeenCalledWith('voyager_error_collection_abc')
+
+    store.dispatch('setErrorCollection', { account: 'abc', optin: false })
+    store.state.user.errorCollection = true
+    store.dispatch('loadErrorCollection', 'abc')
+    expect(store.state.user.errorCollection).toBe(false)
   })
 })

@@ -4,7 +4,7 @@ const mockedRestClient = require('./lcdClientMock.js')
 const RpcWrapper = require('./rpcWrapper.js')
 const MockedRpcWrapper = require('./rpcWrapperMock.js')
 
-module.exports = function (nodeIP, lcdPort, mocked = false) {
+module.exports = function (lcdPort, mocked = false) {
   const LCD_SERVER = 'http://localhost:' + lcdPort
 
   let connector = {
@@ -12,7 +12,7 @@ module.exports = function (nodeIP, lcdPort, mocked = false) {
     // activate or deactivate the mocked lcdClient
     setup: (mocked) => {
       let newRestClient = mocked ? mockedRestClient : new RestClient(LCD_SERVER)
-      let newRpcClient = mocked ? MockedRpcWrapper(connector) : RpcWrapper(connector, nodeIP)
+      let newRpcClient = mocked ? MockedRpcWrapper(connector) : RpcWrapper(connector)
       Object.assign(connector, newRestClient, newRpcClient)
       // we can't assign class functions to an object so we need to iterate over the prototype
       if (!mocked) {

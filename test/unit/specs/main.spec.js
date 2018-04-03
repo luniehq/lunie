@@ -1,6 +1,9 @@
 const { join } = require('path')
 const mockFsExtra = require('../helpers/fs-mock').default
 
+// prevents warnings from repeated event handling
+process.setMaxListeners(1000)
+
 function sleep (ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
@@ -75,7 +78,6 @@ let childProcess
 
 describe('Startup Process', () => {
   Object.assign(process.env, {
-    COSMOS_ANALYTICS: 'false',
     LOGGING: 'false',
     COSMOS_NETWORK: 'app/networks/gaia-2',
     COSMOS_HOME: testRoot,
@@ -304,56 +306,6 @@ describe('Startup Process', () => {
     })
   })
 
-  describe('Enable analytics', () => {
-    let main
-    beforeEach(() => {
-      jest.resetModules()
-    })
-
-    afterEach(() => {
-      main.shutdown()
-    })
-
-    it('should enable analytics with analytics flag', async () => {
-      Object.assign(process.env, { COSMOS_ANALYTICS: true })
-      main = await initMain()
-      expect(main.analytics).toBe(true)
-    })
-
-    it('should enable analytics if production and testnet', async () => {
-      jest.mock('../../../config.js', () => ({
-        default_network: 'test-network',
-        analytics_networks: ['test-network']
-      }))
-      Object.assign(process.env, { NODE_ENV: 'production' })
-      main = await initMain()
-      expect(main.analytics).toBe(true)
-    })
-
-    it('should prefer env variable over config', async () => {
-      jest.mock('../../../config.js', () => ({
-        default_network: 'test-network',
-        analytics_networks: ['test-network']
-      }))
-      Object.assign(process.env, {
-        COSMOS_ANALYTICS: false,
-        NODE_ENV: 'production'
-      })
-      main = await initMain()
-      expect(main.analytics).toBe(false)
-    })
-
-    it('should disable analytics if production and not a testnet', async () => {
-      jest.mock('../../../config.js', () => ({
-        default_network: 'production-network',
-        analytics_networks: ['test-network']
-      }))
-      Object.assign(process.env, { NODE_ENV: 'production' })
-      main = await initMain()
-      expect(main.analytics).toBe(false)
-    })
-  })
-
   describe('IPC', () => {
     let registeredIPCListeners = {}
 
@@ -429,7 +381,7 @@ describe('Startup Process', () => {
       // register listeners again
       const { ipcMain } = require('electron')
       ipcMain.on = (type, cb) => {
-        registeredIPCListeners[type] = (...args) => cb(...args)
+        registeredIPCListeners[type] = cb
       }
 
       // run main
@@ -439,6 +391,32 @@ describe('Startup Process', () => {
       registeredIPCListeners['booted'](event)
       expect(event.sender.send.mock.calls[0][0]).toEqual('error')
       expect(event.sender.send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
+    })
+
+    it('should set error collection according to the error collection opt in state', async () => {
+      main.shutdown()
+
+      prepareMain()
+      // register listeners again
+      const { ipcMain } = require('electron')
+      ipcMain.on = (type, cb) => {
+        registeredIPCListeners[type] = cb
+      }
+
+      // run main
+      main = await require(appRoot + 'src/main/index.js')
+
+      const Raven = require('raven')
+      const ravenSpy = jest.spyOn(Raven, 'config')
+
+      registeredIPCListeners['error-collection'](null, true)
+      expect(ravenSpy).toHaveBeenCalled()
+      expect(ravenSpy.mock.calls[0]).not.toBe('')
+      expect(ravenSpy.mock.calls).toMatchSnapshot()
+
+      ravenSpy.mockClear()
+      registeredIPCListeners['error-collection'](null, false)
+      expect(ravenSpy).toHaveBeenCalledWith('', { 'captureUnhandledRejections': false })
     })
   })
 
@@ -519,7 +497,10 @@ describe('Startup Process', () => {
       })
       it('should survive the lcd folder being removed', async () => {
         fs.removeSync(join(testRoot, 'lcd'))
+        resetModulesKeepingFS()
+        let { send } = require('electron')
         main = await require(appRoot + 'src/main/index.js')
+
         expect(childProcess.spawn.mock.calls
           .find(([path, args]) =>
             path.includes('gaia') &&

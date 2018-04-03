@@ -1,13 +1,13 @@
 import setup from '../../../helpers/vuex-setup'
 import htmlBeautify from 'html-beautify'
-import PageDelegates from 'renderer/components/staking/PageDelegates'
+import PageStaking from 'renderer/components/staking/PageStaking'
 
-describe('PageDelegates', () => {
+describe('PageStaking', () => {
   let wrapper, store
   let { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(PageDelegates)
+    let instance = mount(PageStaking)
     wrapper = instance.wrapper
     store = instance.store
 
@@ -82,7 +82,7 @@ describe('PageDelegates', () => {
   })
 
   it('should show placeholder if delegates are loading', () => {
-    let { wrapper } = mount(PageDelegates, {
+    let { wrapper } = mount(PageStaking, {
       getters: {
         delegates: () => ({
           delegates: [],

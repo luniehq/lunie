@@ -1,13 +1,12 @@
 describe('RPC Connector', () => {
   let connector = {}
-  let initialNodeIP = '1.1.1.1'
 
   function newConnector () {
     jest.resetModules()
     const RpcWrapper = require('renderer/connectors/rpcWrapper')
 
     connector = {}
-    let newRpcClient = RpcWrapper(connector, initialNodeIP)
+    let newRpcClient = RpcWrapper(connector)
 
     Object.assign(connector, newRpcClient)
   }
@@ -24,7 +23,8 @@ describe('RPC Connector', () => {
   })
 
   it('should provide the nodeIP', () => {
-    expect(connector.rpcInfo.nodeIP).toBe(initialNodeIP)
+    connector.rpcConnect('1.1.1.1')
+    expect(connector.rpcInfo.nodeIP).toBe('1.1.1.1')
   })
 
   it('should init the rpc connection', () => {

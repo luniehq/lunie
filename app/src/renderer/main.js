@@ -5,10 +5,7 @@ import Router from 'vue-router'
 import Vuelidate from 'vuelidate'
 import shrinkStacktrace from '../helpers/shrink-stacktrace.js'
 import Raven from 'raven-js'
-import { remote, ipcRenderer } from 'electron'
-import enableGoogleAnalytics from './google-analytics.js'
-
-const config = require('../../../config')
+import { ipcRenderer } from 'electron'
 
 import App from './App'
 import routes from './routes'
@@ -18,13 +15,8 @@ import Store from './vuex/store'
 // exporting this for testing
 let store
 
-// setup sentry remote error reporting and google analytics
-const analyticsEnabled = JSON.parse(remote.getGlobal('process').env.COSMOS_ANALYTICS)
-if (analyticsEnabled) {
-  console.log('Analytics enabled in browser')
-  enableGoogleAnalytics(config.google_analytics_uid)
-}
-Raven.config(analyticsEnabled ? config.sentry_dsn_public : '').install()
+// Raven serves automatic error reporting. It is turned off by default
+Raven.config('').install()
 
 // handle uncaught errors
 window.addEventListener('unhandledrejection', function (event) {
@@ -47,8 +39,7 @@ Vue.use(Vuelidate)
 async function main () {
   let lcdPort = getQueryParameter('lcd_port')
   console.log('Expecting lcd-server on port:', lcdPort)
-
-  const node = Node('localhost:45667', lcdPort)
+  const node = Node(lcdPort)
 
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),

@@ -189,6 +189,7 @@
       "./test/unit/helpers/setup.js",
       "./test/unit/helpers/console_error_throw.js",
       "./test/unit/helpers/genesis_mock.js",
+      "./test/unit/helpers/ipc_mock.js",
       "jest-localstorage-mock"
     ]
   }
