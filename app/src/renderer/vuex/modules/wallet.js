@@ -122,7 +122,7 @@ export default ({ commit, node }) => {
 
       let genesis = await fs.readJson(genesisPath)
       let denoms = {}
-      for (let account of genesis.app_options.accounts) {
+      for (let account of genesis.app_state.accounts) {
         for (let { denom } of account.coins) {
           denoms[denom] = true
         }
