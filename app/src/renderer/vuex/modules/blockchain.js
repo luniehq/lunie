@@ -6,6 +6,7 @@ export default ({ commit, node }) => {
     blockHeight: null, // we remember the height so we can requery the block, if querying failed
     blockLoading: false,
     subscription: false,
+    syncing: true,
     blockMetas: []
   }
 
@@ -69,21 +70,39 @@ export default ({ commit, node }) => {
       blockMetaInfo && state.blockMetas.push(blockMetaInfo)
       return blockMetaInfo
     },
-    subscribeToBlocks ({ commit }) {
-      node.rpc.subscribe({ query: "tm.event = 'NewBlock'" }, (err, event) => {
-        state.subscription = true
+    subscribeToBlocks ({ state, commit, dispatch }) {
+      // ensure we never subscribe twice
+      if (state.subscription) return
 
-        if (err) {
+      function error (err) {
+        state.subscription = false
+        commit('notifyError', { title: `Error subscribing to new blocks`, body: err.message })
+      }
+
+      node.rpc.status((err, status) => {
+        if (err) return error(err)
+
+        if (status.syncing) {
+          // still syncing, let's try subscribing again in 30 seconds
+          state.syncing = true
           state.subscription = false
-          commit('notifyError', { title: `Error subscribing to new blocks`, body: err.message })
+          setTimeout(() => dispatch('subscribeToBlocks'), 30e3)
           return
         }
 
-        state.blocks.unshift(event.data.data.block)
+        state.syncing = false
 
-        if (state.blocks.length === 20) {
-          state.blocks.pop()
-        }
+        node.rpc.subscribe({ query: "tm.event = 'NewBlock'" }, (err, event) => {
+          state.subscription = true
+
+          if (err) return error(err)
+
+          state.blocks.unshift(event.data.data.block)
+
+          if (state.blocks.length === 20) {
+            state.blocks.pop()
+          }
+        })
       })
     }
   }

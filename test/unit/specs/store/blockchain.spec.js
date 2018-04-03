@@ -149,4 +149,22 @@ describe('Module: Blockchain', () => {
     expect(store.state.blockchain.blocks.length).toBe(0)
     expect(store.state.notifications[0].title).toContain(`Error subscribing to new blocks`)
   })
+
+  it('should not subscribe if still syncing', async () => {
+    node.rpc.status = (cb) => {
+      cb(null, { syncing: true })
+    }
+    node.rpc.subscribe = jest.fn()
+    store.dispatch('subscribeToBlocks')
+    expect(node.rpc.subscribe.mock.calls.length).toBe(0)
+  })
+
+  it('should subscribe if not syncing', async () => {
+    node.rpc.status = (cb) => {
+      cb(null, { syncing: false })
+    }
+    node.rpc.subscribe = jest.fn()
+    store.dispatch('subscribeToBlocks')
+    expect(node.rpc.subscribe.mock.calls.length).toBe(1)
+  })
 })
