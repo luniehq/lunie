@@ -112,7 +112,7 @@ export default {
     bottom 0
     width 100vw
 
-    background var(--bg-menu)
+    background var(--app-bg)
     user-select none
 
 @media screen and (min-width:1024px)
