@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiModalLCDApproval has the expected html structure 1`] = `
+<div
+  class="ni-modal-lcd-approval__wrapper"
+>
+  <div
+    class="ni-modal-lcd-approval"
+  >
+    <div
+      class="ni-modal-lcd-approval__icon"
+    >
+      <i
+        class="material-icons"
+      >
+        sync problem
+      </i>
+    </div>
+    <div
+      class="ni-modal-lcd-approval__title"
+    >
+      Node approval required
+    </div>
+    <div
+      class="ni-modal-lcd-approval__body"
+    >
+      Voyager needs to approve the connected node. Please check the showing hash against a trusted source. Only approve if you are 100% sure the hash matches.
+      <textarea
+        class="ni-field"
+        disabled="disabled"
+        id="node-hash"
+      />
+    </div>
+    <div
+      class="ni-modal-lcd-approval__footer"
+    >
+      <button
+        class="ni-btn"
+        id="ni-modal-lcd-approval__btn-approve"
+      >
+        <span
+          class="ni-btn__container ni-btn--size-lg ni-btn--primary"
+        >
+          <i
+            aria-hidden="true"
+            class="ni-btn__icon material-icons"
+          >
+            check
+          </i>
+          <!---->
+          <span
+            class="ni-btn__value"
+          >
+            Approve Node
+          </span>
+        </span>
+      </button>
+      <button
+        class="ni-btn"
+        id="ni-modal-lcd-approval__btn-disapprove"
+      >
+        <span
+          class="ni-btn__container ni-btn--size-lg"
+        >
+          <i
+            aria-hidden="true"
+            class="ni-btn__icon material-icons"
+          >
+            skip_next
+          </i>
+          <!---->
+          <span
+            class="ni-btn__value"
+          >
+            Switch Node
+          </span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
