@@ -41,7 +41,7 @@ export default {
     bottom 0.5rem
     left 1rem
     font-size xs
-    color dim
+    color var(--dim)
 
 .ni-form-group__sub-label ~ .ni-form-group__label
   line-height 1rem

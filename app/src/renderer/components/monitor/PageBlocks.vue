@@ -86,5 +86,5 @@ export default {
   .ni-li-dd,
   .ni-li-dt
     font-size sm
-    color dim
+    color var(--dim)
 </style>

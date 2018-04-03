@@ -61,16 +61,10 @@ export default {
             borderWidth: 0,
             data: this.chartValues,
             backgroundColor: [
-              'hsl(0,0%,100%)',
+              'hsl(0,0%,0%)',
               'hsl(233,96%,60%)',
               'hsl(326,96%,59%)',
               'hsl(233,13%,50%)'
-              /*
-              'hsl(326,96%,59%)',
-              'hsl(279,96%,62%)',
-              'hsl(233,96%,65%)',
-              'hsl(0,0%,50%)'
-              */
             ]
           }
         ]
@@ -146,13 +140,13 @@ export default {
         text-align center
 
         &.abstain
-          color dim
+          color var(--dim)
         &.yes
-          color bright
+          color var(--bright)
         &.no
-          color link
+          color var(--link)
         &.reject
-          color mc
+          color var(--mc)
 
   &.chart-votes-size-lg
 
@@ -176,11 +170,11 @@ export default {
         padding 0 0.5rem
 
         &.yes .value
-          color success
+          color var(--success)
         &.no .value
-          color warning
+          color var(--warning)
         &.reject .value
-          color danger
+          color var(--danger)
 
         .container
           flex 1
@@ -188,10 +182,10 @@ export default {
           flex-flow column nowrap
           align-items center
           justify-content center
-          border-top 0.25rem solid bc
+          border-top 0.25rem solid var(--bc)
 
         .key
-          border-bottom px dotted bc
+          border-bottom px dotted var(--bc)
           height 2rem - 4*px
           width 100%
 
@@ -200,12 +194,12 @@ export default {
           justify-content center
 
           font-size xs
-          color dim
+          color var(--dim)
           text-transform uppercase
 
         .value
           flex 1
-          color bright
+          color var(--bright)
           font-size xl
 
           display flex

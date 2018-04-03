@@ -6,21 +6,17 @@
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/7zip/-/7zip-0.0.6.tgz#9cafb171af82329490353b4816f03347aa150a30"
 
-"@nylira/vue-button@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-button/-/vue-button-4.3.2.tgz#f27b90a931a1a3b5e27736dba11dfcaa305d6ddb"
+"@nylira/vue-button@4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-button/-/vue-button-4.4.0.tgz#2bcd22f3d7f337addc0a123a351122c93b21ea87"
 
-"@nylira/vue-field@1.1.17":
-  version "1.1.17"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-field/-/vue-field-1.1.17.tgz#a873c2d5e01b7ec664df0de71611b0fd9e066b97"
+"@nylira/vue-field@1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-field/-/vue-field-1.3.1.tgz#0dc310d0c6291f0a5be964b2426f1fc502e95dbe"
 
-"@nylira/vue-form-msg@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-form-msg/-/vue-form-msg-1.0.3.tgz#257e3fcb1da345690f4fba959372b70e8abc9c20"
-
-"@nylira/vue-notifications@1.4.4":
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-notifications/-/vue-notifications-1.4.4.tgz#8ef4d3bbdbcbdf5570feaf17afd45c83c43d5496"
+"@nylira/vue-notifications@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@nylira/vue-notifications/-/vue-notifications-1.5.0.tgz#a6f027c4ecd8ca99ed7dbbcc04d5b67288d8d0f6"
 
 "@types/node@^7.0.18":
   version "7.0.57"

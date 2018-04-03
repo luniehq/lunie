@@ -10,7 +10,7 @@ reset-html5()
   box-sizing border-box
 
 html, body, #app
-  background app-bg
+  background var(--app-bg)
 
 html
   overflow hidden
@@ -51,26 +51,9 @@ a
     padding-top 0
     flex-flow row nowrap
 
-  #app-header, #app-content
+  #app-content
     display flex
     min-width 0
-
-  #app-header
-    flex 0 0 width-side
-    border-right px solid bc
-    display flex
-
-    > .container
-      flex 1
-      display flex
-      flex-flow column nowrap
-
-    .header-item-logo
-      border-bottom px solid bc
-      padding 2rem 1rem .75rem
-      line-height: normal
-      img
-        height 1.25rem
 
  .desktop-only
     display block

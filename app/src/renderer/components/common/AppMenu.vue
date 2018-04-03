@@ -55,7 +55,7 @@ export default {
 @require '~variables'
 
 .app-menu
-  background app-bg-alpha
+  background var(--app-bg-alpha)
   z-index z(appMenu)
   user-select none
 
@@ -70,7 +70,7 @@ export default {
       padding 0 0 0 1rem
 
   .ni-user
-    border-top 1px solid bc
+    border-top 1px solid var(--bc)
     padding 1rem
 
     display flex
@@ -80,7 +80,7 @@ export default {
       display flex
 
     .avatar
-      background link
+      background var(--link)
       width 2rem
       height 2rem
       border-radius 1rem
@@ -89,17 +89,17 @@ export default {
       align-items center
       justify-content center
       i
-        color bright
+        color var(--bright)
 
     .text
       padding 0 0.5rem
 
     .title
-      color bright
+      color var(--bright)
 
     .subtitle
       font-size xs
-      color dim
+      color var(--dim)
 
     .ni-btn
       margin-right 0.5rem
@@ -112,7 +112,7 @@ export default {
     bottom 0
     width 100vw
 
-    background bg-menu
+    background var(--bg-menu)
     user-select none
 
 @media screen and (min-width:1024px)

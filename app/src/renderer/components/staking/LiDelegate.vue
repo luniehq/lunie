@@ -101,11 +101,11 @@ export default {
 
 .li-delegate
   &:nth-of-type(2n-1)
-    background app-fg
+    background var(--app-fg)
   &.li-delegate-active
-    background alpha(mc, 8%)
+    background var(--app-bg-alpha)
     .li-delegate__value i
-      color link
+      color var(--link)
 
 .li-delegate__values
   display flex
@@ -145,13 +145,13 @@ export default {
       z-index z(listItem)
 
       line-height 3rem
-      color txt
+      color var(--txt)
 
     .bar
       height 1.5rem
       position relative
       left -0.25rem
-      background alpha(accent, 33.3%)
+      background var(--accent)
 
   &.checkbox
     justify-content center

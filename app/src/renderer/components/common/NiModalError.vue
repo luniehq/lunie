@@ -65,7 +65,7 @@ export default {
   left 0
 
   z-index z(modalError)
-  background app-bg
+  background var(--app-bg)
   width 100vw
   height 100vh
   max-width 100%
@@ -86,7 +86,7 @@ export default {
   i.material-icons
     font-size 25vw + 25vh
     line-height 1
-    color bc-dim
+    color var(--bc-dim)
 
 .ni-modal-error__title
   font-size h1
@@ -96,7 +96,7 @@ export default {
 
 .ni-modal-error__body
   font-size lg
-  color dim
+  color var(--dim)
   margin-bottom 3rem
 
 .ni-modal-error__footer

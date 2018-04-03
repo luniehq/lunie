@@ -84,7 +84,7 @@ export default {
 
 .ni-li
   display block
-  border-bottom 2px solid bc-dim
+  border-bottom 2px solid var(--bc-dim)
   height 3rem
   position relative
 
@@ -96,13 +96,13 @@ export default {
 
   &.ni-li-link
     &:hover
-      background hover-bg
+      background var(--hover-bg)
 
       .ni-li-label
         cursor pointer
 
       .ni-li-title
-        color bright
+        color var(--bright)
 
     &:before
       content ''
@@ -117,11 +117,11 @@ export default {
 
     .ni-li-dt
     .ni-li-dd
-      color link
+      color var(--link)
 
   &.router-link-exact-active
     .ni-li-title
-      color bright
+      color var(--bright)
     &:before
       background mc
 
@@ -156,7 +156,7 @@ export default {
     display flex
     align-items center
     justify-content center
-    color txt
+    color var(--txt)
 
 .ni-li-label
   flex 1
@@ -167,10 +167,10 @@ export default {
   flex-flow column nowrap
 
   .ni-li-title
-    color txt
+    color var(--txt)
     line-height 1.25
   .ni-li-subtitle
-    color dim
+    color var(--dim)
     font-size xs
     line-height 1.25
 
@@ -192,7 +192,7 @@ export default {
   white-space nowrap
   text-overflow ellipsis
   overflow hidden
-  color txt
+  color var(--txt)
 
 .ni-li-dt
   padding-left 0.5rem
@@ -215,7 +215,7 @@ export default {
     height 3rem - px
 
 a.ni-li-dd
-  color mc
+  color var(--mc)
   cursor pointer
 
 .ni-li-icon

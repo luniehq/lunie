@@ -14,8 +14,8 @@ export default { name: 'ni-tab-bar' }
   display flex
   align-items center
 
-  background app-fg
-  border-bottom px solid bc
+  background var(--app-fg)
+  border-bottom px solid var(--bc)
 
   a
     height 2rem - px
@@ -26,17 +26,17 @@ export default { name: 'ni-tab-bar' }
     align-items center
     justify-content center
 
-    border-right px solid bc
+    border-right px solid var(--bc)
 
     font-size sm
-    color link
+    color var(--link)
 
     &:last-of-type
       border-right none
 
     &.router-link-active
-      color bright
-      background app-bg
+      color var(--bright)
+      background var(--app-bg)
 
     i.material-icons
       font-size xl

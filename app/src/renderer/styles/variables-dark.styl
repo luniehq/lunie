@@ -1,0 +1,104 @@
+//==============================================================================
+// variables
+
+// main colors
+mhue = 325
+msat = 96%
+mlit = 59%
+mc = hsl(mhue, msat, mlit)
+
+app-hue = 233
+
+accent = hsl((mhue + app-hue)/2, 96%, 62%)
+
+// backgrounds
+app-fg = hsl(app-hue, 33%, 16%)
+
+app-bg = hsl(app-hue, 36%, 13%)
+app-bg-alpha = alpha(app-bg, 95%)
+
+// text
+bright = #fff
+txt = hsl(app-hue, 13%, 85%)
+dim = hsl(app-hue, 13%, 60%)
+
+// borders
+bc = hsl(app-hue, 22%, 23%)
+bc-dim = app-fg
+
+// anchor
+link = hsl(app-hue, 88%, 67%)
+hover = hsl(app-hue, 88%, 73%)
+hover-bg = hsl(app-hue, 43%, 10%)
+
+// input
+input-bg = transparent
+input-bc = hsl(app-hue, 22%, 33%)
+input-bc-hover = hsl(app-hue, 22%, 40%)
+
+// typography
+x = 16px
+px = 0.0625rem
+sans = -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
+mono = Consolas, Monaco, monospace
+
+// alerts
+success = hsl(120,58%,55%)
+warning = hsl(52,73%,50%)
+danger = hsl(0,100%,55%)
+
+// sizes
+aw = 64rem
+width-main = 100%
+width-main-max = 48rem
+width-side = 16rem
+bw = 3*px
+
+//==============================================================================
+// methods
+
+df()
+  font-size x
+  line-height 1.5
+  font-family sans
+  color txt
+
+mono()
+  font-family Consolas, Monaco, monospace
+  font-weight normal
+
+shadow()
+  box-shadow hsla(0,0,0,0.5) 0 3px 5px
+
+xl = x * 1.5
+lg = x * 1.25
+m = x
+sm = x * 0.75
+xs = x * 0.625
+
+h1 = 2rem
+h2 = 1.5rem
+h3 = 1.25rem
+h4 = 1.125rem
+h5 = 1rem
+h6 = 0.75rem
+
+//==============================================================================
+// z-index
+
+z-layers = {
+  modalError: 1002,
+  modalHelp: 1001,
+  modal: 1000,
+  appHeader: 100,
+  appMenu: 99,
+  toolBar: 98,
+  listItem: 10,
+  default: 1,
+  zero: 0,
+  below: -1
+}
+
+z(layer)
+  z-layers[layer]
+
