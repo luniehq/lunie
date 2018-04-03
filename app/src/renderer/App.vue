@@ -6,6 +6,7 @@
       router-view
       app-footer
     modal-help
+    modal-receive
   session(v-else)
   notifications(:notifications='notifications' theme='cosmos')
   modal-error(v-if='config.modals.error.active' :body='config.modals.error.message')
