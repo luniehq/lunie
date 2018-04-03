@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Validators and Candidates')
+page(title='Staking')
   div(slot="menu"): tool-bar
     a(@click='setSearch(true)')
       i.material-icons search
