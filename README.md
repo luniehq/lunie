@@ -172,7 +172,7 @@ A list of all environment variables and their purpose:
 | NODE_ENV                | 'production', 'development'            |                                  |                                                         |
 | LOGGING                 | 'true', 'false'                        | 'true'                           | Disable logging                                         |
 | COSMOS_NETWORK          | {path to network configuration folder} | '../networks/gaia-1'             | Network to connect to                                   |
-| COSMOS_HOME             | {path to config persistence folder}    | '$HOME/voyager[-dev]'            |                                                         |
+| COSMOS_HOME             | {path to config persistence folder}    | '$HOME/.cosmos-voyager[-dev]'    |                                                         |
 | COSMOS_NODE             | {ip of a certain node}                 |                                  | Node to connect to                                      |
 | COSMOS_DEVTOOLS         | 'true', 'false'                        | 'false'                          | Open the debug panel in the electron view               |
 | ELECTRON_ENABLE_LOGGING | 'true', 'false'                        | 'false'                          | Redirect the browser view console output to the console |
