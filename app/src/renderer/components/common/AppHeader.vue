@@ -3,8 +3,10 @@ nav#app-header: .container
   template(v-if="!config.desktop"): .header-item
 
   router-link.header-item.header-item-logo(to="/")
-    img(v-if="config.theme == 'light'" src="~@/assets/images/cosmos-wordmark-black.svg")
-    img(v-else src="~@/assets/images/cosmos-wordmark-white.svg")
+    img#logo-black(v-if="config.theme == 'light'"
+      src="~@/assets/images/cosmos-wordmark-black.svg")
+    img#logo-white(v-else
+      src="~@/assets/images/cosmos-wordmark-white.svg")
 
   app-menu(v-if="config.activeMenu === 'app' || config.desktop")
 
