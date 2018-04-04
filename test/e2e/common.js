@@ -25,15 +25,6 @@ module.exports = {
     await client.$('.material-icons=menu').click()
     await client.waitForExist('.app-menu', 1000)
   },
-  async closeMenu(client) {
-    console.log('closing menu')
-    if (!(await client.isExisting('.app-menu', ))) {
-      return
-    }
-    await client.waitForExist('.material-icons=close', 1000)
-    await client.$('.material-icons=close').click()
-    await client.waitForExist('.app-menu', 1000, true)
-  },
   async navigate(client, linkText, titleText = linkText) {
     await module.exports.openMenu(client)
     // click link
@@ -71,16 +62,6 @@ module.exports = {
     if (account !== activeUser) {
       throw new Error('Incorrect user logged in')
     }
-  },
-  async logout(client) {
-    console.log('logging out')
-    if (await client.isExisting('.ni-li-session')) {
-      return
-    }
-    if (!(await client.isExisting('.material-icons=exit_to_app'))) {
-      await module.exports.closeMenu(client)
-    }
-    await client.$('.material-icons=exit_to_app').$('..').click()
   }
 }
 

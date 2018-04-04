@@ -1,7 +1,7 @@
 let { spawn} = require('child_process')
 let test = require('tape-promise/tape')
 let { getApp, restart } = require('./launch.js')
-let { navigate, newTempDir, waitForText, sleep, login, logout, closeNotifications } = require('./common.js')
+let { navigate, newTempDir, waitForText, sleep, login, closeNotifications } = require('./common.js')
 
 let binary = process.env.BINARY_PATH
 
@@ -127,7 +127,7 @@ test('wallet', async function (t) {
 
   t.test('receive', async function (t) {
     t.test('fermion balance after receiving', async function (t) {
-      await logout(client)
+      await client.refresh()
       await login(client, 'testreceiver')
       await navigate(client, 'Wallet')
 
