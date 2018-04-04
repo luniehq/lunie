@@ -64,16 +64,10 @@ describe("PageSend", () => {
   it("should show notification for successful send", async () => {
     wrapper.setData({
       fields: {
-<<<<<<< HEAD
-        denom: 'ATOM',
-        address: 'CE456B8BA9AFD1CBDF4ED14558E8C30691E549EA',
-        amount: 2,
-        zoneId: 'cosmos-hub-1'
-=======
         denom: "ATOM",
         address: "CE456B8BA9AFD1CBDF4ED14558E8C30691E549EA",
-        amount: 2
->>>>>>> develop
+        amount: 2,
+        zoneId: "cosmos-hub-1"
       }
     })
     await wrapper.vm.onSubmit()
@@ -84,16 +78,10 @@ describe("PageSend", () => {
   it("should show notification for unsuccessful send", async () => {
     wrapper.setData({
       fields: {
-<<<<<<< HEAD
-        denom: 'ATOM',
-        address: 'CE456B8BA9AFD1CBDF4ED14558E8C30691E5fail',
-        amount: 2,
-        zoneId: 'cosmos-hub-1'
-=======
         denom: "ATOM",
         address: "CE456B8BA9AFD1CBDF4ED14558E8C30691E5fail",
-        amount: 2
->>>>>>> develop
+        amount: 2,
+        zoneId: "cosmos-hub-1"
       }
     })
     node.sign = () => Promise.reject()
