@@ -16,6 +16,7 @@
 import { mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
 import AppFooter from "common/AppFooter"
+import AppTheme from "common/AppTheme"
 import Notifications from "@nylira/vue-notifications"
 import ModalError from "common/NiModalError"
 import ModalHelp from "common/NiModalHelp"
