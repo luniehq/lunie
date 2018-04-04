@@ -15,6 +15,7 @@ module.exports = {
     }
   },
   async openMenu(client) {
+    console.log('opening menu')
     if (await client.isExisting('.app-menu')) {
       return
     }
@@ -25,6 +26,7 @@ module.exports = {
     await client.waitForExist('.app-menu', 1000)
   },
   async closeMenu(client) {
+    console.log('closing menu')
     if (!(await client.isExisting('.app-menu', ))) {
       return
     }
