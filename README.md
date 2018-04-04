@@ -104,19 +104,25 @@ $ COSMOS_NODE=localhost yarn testnet
 
 Get the Gaia binary from [GitHub](`https://github.com/cosmos/gaia/releases`).
 
-Install [Docker](https://docs.docker.com/get-started/).
+Building requires that [Docker](https://www.docker.com/get-docker) is installed
+on your system.
 
-Build and run the app.
+Execute the following command to see building options.
+
+```shell
+yarn run build --help
+```
+
+Run the app.
 
 ```bash
-yarn run build --platform={darwin|win32|linux} -- --binary={path to the gaia binary}
 open builds/Cosmos-{platform}-x64/Cosmos.app
 ```
 
 When you are testing the build system you can skip the repackaging of the JS files.
 
 ```bash
-$ yarn run build --platform={darwin|win32|linux} --skip-pack --binary=...
+$ yarn run build --platform=darwin --skip-pack
 ```
 
 To test if your build worked run:
@@ -161,17 +167,16 @@ To see the console output of the view in your terminal, set the environment vari
 
 A list of all environment variables and their purpose:
 
-| Variable                | Values                                   | default                          | Purpose                                                 |
-| ----------------------- | ---------------------------------------- | -------------------------------- | ------------------------------------------------------- |
-| NODE_ENV                | 'production', 'development'              |                                  |                                                         |
-| LOGGING                 | 'true', 'false'                          | 'true'                           | Disable logging                                         |
-| COSMOS_NETWORK          | {path to network configuration folder}   | '../networks/gaia-1'             | Network to connect to                                   |
-| COSMOS_HOME             | {path to config persistence folder}      | '$HOME/voyager[-dev]'            |                                                         |
-| COSMOS_NODE             | {ip of a certain node}                   |                                  | Node to connect to                                      |
-| PLATFORM_TARGET         | 'all', 'win32', 'darwin', 'linux', 'mas' | 'all'                            | Which platform to build for                             |
-| COSMOS_DEVTOOLS         | 'true', 'false'                          | 'false'                          | Open the debug panel in the electron view               |
-| ELECTRON_ENABLE_LOGGING | 'true', 'false'                          | 'false'                          | Redirect the browser view console output to the console |
-| PREVIEW                 | 'true', 'false'                          | 'true' if NODE_ENV 'development' | Show/Hide features that are in development              |
+| Variable                | Values                                 | default                          | Purpose                                                 |
+| ----------------------- | -------------------------------------- | -------------------------------- | ------------------------------------------------------- |
+| NODE_ENV                | 'production', 'development'            |                                  |                                                         |
+| LOGGING                 | 'true', 'false'                        | 'true'                           | Disable logging                                         |
+| COSMOS_NETWORK          | {path to network configuration folder} | '../networks/gaia-1'             | Network to connect to                                   |
+| COSMOS_HOME             | {path to config persistence folder}    | '$HOME/voyager[-dev]'            |                                                         |
+| COSMOS_NODE             | {ip of a certain node}                 |                                  | Node to connect to                                      |
+| COSMOS_DEVTOOLS         | 'true', 'false'                        | 'false'                          | Open the debug panel in the electron view               |
+| ELECTRON_ENABLE_LOGGING | 'true', 'false'                        | 'false'                          | Redirect the browser view console output to the console |
+| PREVIEW                 | 'true', 'false'                        | 'true' if NODE_ENV 'development' | Show/Hide features that are in development              |
 
 ### FAQ
 

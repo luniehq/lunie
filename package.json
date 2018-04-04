@@ -15,11 +15,7 @@
     "node": ">=9.4.0"
   },
   "scripts": {
-    "build:clean": "cross-env PLATFORM_TARGET=clean node tasks/release.js",
-    "build:darwin": "cross-env PLATFORM_TARGET=darwin node tasks/release.js",
-    "build:linux": "cross-env PLATFORM_TARGET=linux node tasks/release.js",
-    "build:mas": "cross-env PLATFORM_TARGET=mas node tasks/release.js",
-    "build:win32": "cross-env PLATFORM_TARGET=win32 node tasks/release.js",
+    "build": "node tasks/build",
     "local": "yarn run testnet local",
     "testnet": "node tasks/testnet.js",
     "lint":
@@ -39,6 +35,7 @@
     "test:coverage": "http-server test/unit/coverage/lcov-report"
   },
   "devDependencies": {
+    "@nodeguy/cli": "0.2.0",
     "babel-core": "6.8.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "21.2.0",
@@ -80,11 +77,13 @@
     "prettier": "1.11.1",
     "proxyquire": "1.8.0",
     "pug": "2.0.0-rc.1",
+    "shelljs": "0.8.1",
     "spectron": "3.8.0",
     "style-loader": "0.19.1",
     "tape": "4.8.0",
     "tape-promise": "2.0.1",
     "tar-stream": "1.5.5",
+    "untildify": "3.0.2",
     "url-loader": "0.6.2",
     "vue-hot-reload-api": "2.0.7",
     "vue-html-loader": "1.2.4",

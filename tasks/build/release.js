@@ -1,72 +1,39 @@
 "use strict"
 
-const { exec } = require("child_process")
+const { cli } = require(`@nodeguy/cli`)
+const config = require(`../../config`)
 const { createHash } = require("crypto")
+const optionsSpecification = require(`./options.json`)
 const path = require("path")
 const packager = require("electron-packager")
+const shell = require(`shelljs`)
 const fs = require("fs-extra")
 var glob = require("glob")
 var JSZip = require("jszip")
 const zlib = require("zlib")
 var tar = require("tar-stream")
 var duplexer = require("duplexer")
-const packageJson = require("../package.json")
-
-let skipPack = false
-let binaryPath = null
-process.argv.forEach(function(val) {
-  if (val === "--skip-pack") {
-    console.log("Skipping packaging")
-    skipPack = true
-  }
-  if (val.startsWith("--binary")) {
-    binaryPath = val.replace("--binary=", "")
-    fs.accessSync(binaryPath)
-    console.log("Using prebuilt binary", binaryPath)
-  }
-})
-
-if (!binaryPath) {
-  console.error(`\x1b[31mPlease specify a gaia binary for this platform using the "--binary" flag
-    Example: npm run build:darwin -- --binary=./gaia
-    \x1b[0m`)
-  process.exit(1)
-}
-
-if (process.env.PLATFORM_TARGET === "clean") {
-  require("del").sync(["builds/*", "!.gitkeep"])
-  console.log("\x1b[33m`builds` directory cleaned.\n\x1b[0m")
-} else {
-  if (skipPack) {
-    build(process.env.PLATFORM_TARGET)
-  } else {
-    pack()
-  }
-}
+const packageJson = require("../../package.json")
 
 /**
  * Build webpack in production
  */
-function pack() {
+const pack = async options => {
   console.log("\x1b[33mBuilding webpack in production mode...\n\x1b[0m")
-  let pack = exec("npm run pack")
-
-  pack.stdout.on("data", data => console.log(data))
-  pack.stderr.on("data", data => console.error(data))
-  pack.on("exit", code => {
-    if (code === null || code <= 0) {
-      build(process.env.PLATFORM_TARGET)
-    }
-  })
+  shell.exec("npm run pack")
+  build(options)
 }
 
 /**
  * Use electron-packager to build electron app
  */
-function build(platform) {
-  let options = require("../config").building
+function build({ platform, gaia }) {
+  console.log("Using prebuilt binary", gaia)
 
-  options.afterCopy = [copyBinary("gaia", binaryPath)]
+  const options = Object.assign({}, config.building, {
+    afterCopy: [copyBinary("gaia", gaia)],
+    platform
+  })
 
   console.log("\x1b[34mBuilding electron app(s)...\n\x1b[0m")
   packager(options, async (err, appPaths) => {
@@ -236,3 +203,21 @@ function deterministicTar() {
 
   return duplexer(extract, pack)
 }
+
+cli(optionsSpecification, async options => {
+  const { platform, "skip-pack": skipPack } = options
+
+  if (platform === "clean") {
+    require("del").sync(["builds/*", "!.gitkeep"])
+    console.log("\x1b[33m`builds` directory cleaned.\n\x1b[0m")
+  } else {
+    console.log(`Building for platform "${platform}".`)
+
+    if (skipPack) {
+      console.log("Skipping packaging")
+      build(options)
+    } else {
+      await pack(options)
+    }
+  }
+})
