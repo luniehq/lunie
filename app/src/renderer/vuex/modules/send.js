@@ -40,7 +40,10 @@ export default ({ commit, node }) => {
     }
 
     commit('setNonce', state.nonce + 1)
-    dispatch('queryWalletBalances')
+
+    // wait to ensure tx is committed before we query
+    // XXX
+    setTimeout(() => dispatch('queryWalletBalances'), 3 * 1000)
   }
 
   let actions = {
@@ -53,8 +56,11 @@ export default ({ commit, node }) => {
       // send and unlock when done
       lock = doSend(...args)
 
-      // sendTx waits for doSend to finish
-      return await lock
+      // wait for doSend to finish
+      let res = await lock
+      lock = null
+
+      return res
     }
   }
 
