@@ -1,6 +1,6 @@
 let test = require('tape-promise/tape')
 let { getApp, restart } = require('./launch.js')
-let { logout, openMenu } = require('./common.js')
+let { logout, openMenu, closeMenu } = require('./common.js')
 
 /*
 * NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
@@ -81,13 +81,14 @@ test('sign in', async function (t) {
     })
 
     t.test('logs in', async function (t) {
-      await client.leftClick('.ni-btn__value=Next')
+      await continueButton().click()
 
       // checking if user is logged in
-      await client.waitForExist('#app-content', 5000)
+      await client.waitForExist('#app-content', 10000)
       await openMenu(client)
       let activeUser = await client.$('.ni-li-user .ni-li-title').getText()
       t.ok(activeUser === 'signin_test', 'user is logged in')
+      await closeMenu(client)
 
       t.end()
     })
@@ -110,6 +111,7 @@ test('sign in', async function (t) {
     t.test('set account name', async function (t) {
       await continueButton().click()
       t.ok(await accountName().$('..').isExisting('.ni-form-msg--error'), 'shows error')
+      await accountName().scroll()
       await accountName().click()
       await client.keys('seed'.split())
       t.ok(await accountName().$('..').isExisting('.ni-form-msg--error'), 'shows error for too few letters')
@@ -160,6 +162,7 @@ test('sign in', async function (t) {
       await openMenu(client)
       let activeUser = await client.$('.ni-li-user .ni-li-title').getText()
       t.ok(activeUser === 'seed_test', 'user is logged in')
+      await closeMenu(client)
 
       t.end()
     })

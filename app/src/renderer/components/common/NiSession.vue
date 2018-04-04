@@ -124,10 +124,6 @@ export default {
     color bright
 
 .ni-session-main
-  flex 1
-  display flex
-  flex-flow column
-  justify-content center
   min-height 0
 
   overflow-y auto
