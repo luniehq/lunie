@@ -75,6 +75,7 @@ module.exports = {
     if (await client.isExisting('.ni-li-session')) {
       return
     }
+    await client.waitForExist('.material-icons=exit_to_app', 1000)
     await client.$('.material-icons=exit_to_app').click()
   }
 }
