@@ -183,6 +183,7 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
                       class="ni-field-checkbox-input"
                     >
                       <input
+                        id="toggle-error-reports"
                         type="checkbox"
                       />
                     </div>
@@ -215,6 +216,7 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
                       class="ni-field-checkbox-input"
                     >
                       <input
+                        id="toggle-light-theme"
                         type="checkbox"
                       />
                     </div>

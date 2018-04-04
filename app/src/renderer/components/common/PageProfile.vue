@@ -12,7 +12,10 @@ page(title="My Profile")
           .ni-li-dd
             .ni-field-checkbox
               .ni-field-checkbox-input
-                input(type="checkbox" :checked="user.errorCollection || undefined" @change="setErrorCollection")
+                input#toggle-error-reports(
+                  type="checkbox"
+                  :checked="user.errorCollection || undefined"
+                  @change="setErrorCollection")
     .ni-li
       .ni-li-container
         .ni-li-dl
@@ -20,7 +23,10 @@ page(title="My Profile")
           .ni-li-dd
             .ni-field-checkbox
               .ni-field-checkbox-input
-                input(type="checkbox" :checked="config.theme === 'light'" @change="toggleAppTheme")
+                input#toggle-light-theme(
+                  type="checkbox"
+                  :checked="config.theme === 'light'"
+                  @change="toggleAppTheme")
   .ni-session-footer
     btn(icon='exit_to_app' type='button' @click.native="signOut" value='Sign Out')
 </template>
