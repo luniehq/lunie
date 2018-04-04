@@ -43,7 +43,7 @@ page(title='Send')
 </template>
 
 <script>
-import { required, between, minLength, maxLength, alphaNum } from 'vuelidate/lib/validators'
+import { required, between, minLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
 import Btn from '@nylira/vue-button'
 import Field from '@nylira/vue-field'
