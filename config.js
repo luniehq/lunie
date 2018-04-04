@@ -1,11 +1,11 @@
-'use strict'
+"use strict"
 
-const path = require('path')
+const path = require("path")
 
 let config = {
   // Name of electron app
   // Will be used in production builds
-  name: 'Cosmos Voyager',
+  name: "Cosmos Voyager",
 
   // Use ESLint (extends `standard`)
   // Further changes can be made in `.eslintrc.js`
@@ -21,22 +21,23 @@ let config = {
   // electron-packager options
   // Docs: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/building_your_app.html
   building: {
-    arch: 'x64',
+    arch: "x64",
     asar: false,
-    dir: path.join(__dirname, 'app'),
-    icon: path.join(__dirname, 'app/icons/icon'),
+    dir: path.join(__dirname, "app"),
+    icon: path.join(__dirname, "app/icons/icon"),
     ignore: /^\/(src|index\.ejs|icons)/,
-    out: path.join(__dirname, 'builds'),
+    out: path.join(__dirname, "builds"),
     overwrite: true,
-    platform: process.env.PLATFORM_TARGET || 'darwin,linux,win32',
-    packageManager: 'yarn'
+    platform: process.env.PLATFORM_TARGET || "darwin,linux,win32",
+    packageManager: "yarn"
   },
 
-  default_network: 'gaia-2',
-  analytics_networks: ['gaia-2', 'gaia-3-dev', 'gaia-3'],
-  google_analytics_uid: 'UA-51029217-3',
-  sentry_dsn: 'https://4dee9f70a7d94cc0959a265c45902d84:cbf160384aab4cdeafbe9a08dee3b961@sentry.io/288169',
-  sentry_dsn_public: 'https://4dee9f70a7d94cc0959a265c45902d84@sentry.io/288169'
+  default_network: "gaia-2",
+  analytics_networks: ["gaia-2", "gaia-3-dev", "gaia-3"],
+  google_analytics_uid: "UA-51029217-3",
+  sentry_dsn:
+    "https://4dee9f70a7d94cc0959a265c45902d84:cbf160384aab4cdeafbe9a08dee3b961@sentry.io/288169",
+  sentry_dsn_public: "https://4dee9f70a7d94cc0959a265c45902d84@sentry.io/288169"
 }
 
 config.building.name = config.name

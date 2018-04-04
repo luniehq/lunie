@@ -1,8 +1,7 @@
-import { setTimeout } from 'timers'
+import { setTimeout } from "timers"
+;("use strict")
 
-'use strict'
-
-export default function ({ node }) {
+export default function({ node }) {
   // get tendermint RPC client from basecoin client
   const { nodeIP } = node
 
@@ -12,34 +11,34 @@ export default function ({ node }) {
     connected: false,
     lastHeader: {
       height: 0,
-      chain_id: ''
+      chain_id: ""
     }
   }
 
   const mutations = {
-    stopConnecting (state, stop) {
+    stopConnecting(state, stop) {
       state.stopConnecting = stop
     },
-    setConnected (state, connected) {
+    setConnected(state, connected) {
       state.connected = connected
     }
   }
 
   const actions = {
-    reconnected ({ commit, dispatch }) {
-      dispatch('rpcSubscribe')
+    reconnected({ commit, dispatch }) {
+      dispatch("rpcSubscribe")
     },
-    setLastHeader ({ state, dispatch }, header) {
+    setLastHeader({ state, dispatch }, header) {
       state.lastHeader = header
-      dispatch('maybeUpdateValidators', header)
+      dispatch("maybeUpdateValidators", header)
     },
-    async reconnect ({ commit, dispatch }) {
+    async reconnect({ commit, dispatch }) {
       if (state.stopConnecting) return
 
-      commit('setConnected', false)
+      commit("setConnected", false)
       node.rpcReconnect()
     },
-    async rpcSubscribe ({ commit, dispatch }) {
+    async rpcSubscribe({ commit, dispatch }) {
       if (state.stopConnecting) return
 
       // the rpc socket can be closed before we can even attach a listener
@@ -47,40 +46,44 @@ export default function ({ node }) {
       // we handle the reconnection here so we can attach all these listeners on reconnect
       if (!node.rpcInfo.connected) {
         await sleep(500)
-        dispatch('reconnect')
+        dispatch("reconnect")
         return
       }
 
-      commit('setConnected', true)
+      commit("setConnected", true)
 
       // TODO: get event from light-client websocket instead of RPC connection (once that exists)
-      node.rpc.on('error', (err) => {
-        if (err.message.indexOf('disconnected') !== -1) {
-          commit('setConnected', false)
-          dispatch('reconnect')
+      node.rpc.on("error", err => {
+        if (err.message.indexOf("disconnected") !== -1) {
+          commit("setConnected", false)
+          dispatch("reconnect")
         }
       })
       node.rpc.status((err, res) => {
         if (err) return console.error(err)
         let status = res
-        dispatch('setLastHeader', {
+        dispatch("setLastHeader", {
           height: status.latest_block_height,
           chain_id: status.node_info.network
         })
       })
 
-      node.rpc.subscribe({ query: "tm.event = 'NewBlockHeader'" }, (err, event) => {
-        if (err) return console.error('error subscribing to headers', err)
-        dispatch('setLastHeader', event.data.data.header)
-      })
+      node.rpc.subscribe(
+        { query: "tm.event = 'NewBlockHeader'" },
+        (err, event) => {
+          if (err) return console.error("error subscribing to headers", err)
+          dispatch("setLastHeader", event.data.data.header)
+        }
+      )
 
-      dispatch('pollRPCConnection')
+      dispatch("pollRPCConnection")
     },
-    async checkConnection ({ commit }) {
-      let error = () => commit('notifyError', {
-        title: 'Critical Error',
-        body: `Couldn't initialize the blockchain client. If the problem persists, please make an issue on GitHub.`
-      })
+    async checkConnection({ commit }) {
+      let error = () =>
+        commit("notifyError", {
+          title: "Critical Error",
+          body: `Couldn't initialize the blockchain client. If the problem persists, please make an issue on GitHub.`
+        })
       try {
         if (await node.lcdConnected()) {
           return true
@@ -93,21 +96,21 @@ export default function ({ node }) {
         return false
       }
     },
-    pollRPCConnection ({ state, commit, dispatch }, timeout = 3000) {
+    pollRPCConnection({ state, commit, dispatch }, timeout = 3000) {
       if (state.nodeTimeout || state.stopConnecting) return
 
       state.nodeTimeout = setTimeout(() => {
         // clear timeout doesn't work
         if (state.nodeTimeout) {
           state.nodeTimeout = null
-          dispatch('reconnect')
+          dispatch("reconnect")
         }
       }, timeout)
       node.rpc.status((err, res) => {
         if (!err) {
           state.nodeTimeout = null
           setTimeout(() => {
-            dispatch('pollRPCConnection')
+            dispatch("pollRPCConnection")
           }, timeout)
         }
       })
@@ -115,10 +118,12 @@ export default function ({ node }) {
   }
 
   return {
-    state, mutations, actions
+    state,
+    mutations,
+    actions
   }
 }
 
-function sleep (ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }

@@ -5,9 +5,9 @@ data-msg(icon="info_outline")
 </template>
 
 <script>
-import DataMsg from 'common/NiDataMsg'
+import DataMsg from "common/NiDataMsg"
 export default {
-  name: 'ni-data-empty-tx',
+  name: "ni-data-empty-tx",
   components: { DataMsg }
 }
 </script>

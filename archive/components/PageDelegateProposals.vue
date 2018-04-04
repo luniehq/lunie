@@ -22,12 +22,12 @@ page(icon="storage" :title="`${delegateId} Proposals`")
 </template>
 
 <script>
-import ListItem from 'common/NiListItem'
-import ToolBar from 'common/NiToolBar'
-import Page from 'common/NiPage'
-import Part from 'common/NiPart'
+import ListItem from "common/NiListItem"
+import ToolBar from "common/NiToolBar"
+import Page from "common/NiPage"
+import Part from "common/NiPart"
 export default {
-  name: 'page-delegate-proposals',
+  name: "page-delegate-proposals",
   components: {
     ListItem,
     Page,
@@ -35,13 +35,17 @@ export default {
     ToolBar
   },
   computed: {
-    delegateId () { return this.slugToIp(this.$route.params.delegate) }
+    delegateId() {
+      return this.slugToIp(this.$route.params.delegate)
+    }
   },
   methods: {
-    toggleSearch () {
-      this.$store.commit('notify', { title: 'Searching...', body: 'TODO' })
+    toggleSearch() {
+      this.$store.commit("notify", { title: "Searching...", body: "TODO" })
     },
-    slugToIp (slug) { return slug.split('-').join('.') }
+    slugToIp(slug) {
+      return slug.split("-").join(".")
+    }
   }
 }
 </script>

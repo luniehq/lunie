@@ -10,32 +10,32 @@ transition(name="proposal")
 </template>
 
 <script>
-import ChartVotes from 'govern/ChartVotes'
-import dateUnix from 'scripts/dateUnix'
-import dateUnixAgo from 'scripts/dateUnixAgo'
+import ChartVotes from "govern/ChartVotes"
+import dateUnix from "scripts/dateUnix"
+import dateUnixAgo from "scripts/dateUnixAgo"
 export default {
-  name: 'li-proposal',
+  name: "li-proposal",
   components: { ChartVotes },
   computed: {
-    proposalCreatedAt () {
+    proposalCreatedAt() {
       return dateUnix(this.proposal.createdAt)
     },
-    proposalCreatedAtAgo () {
+    proposalCreatedAtAgo() {
       return dateUnixAgo(this.proposal.createdAt)
     }
   },
   methods: {
-    viewProposal () {
-      this.$router.push('/proposals/' + this.proposal.id)
+    viewProposal() {
+      this.$router.push("/proposals/" + this.proposal.id)
     }
   },
-  props: ['proposal'],
-  mounted () {
+  props: ["proposal"],
+  mounted() {
     let self = this
 
     if (this.proposal.flags.new) {
       // console.log('this proposal is new')
-      setTimeout(function () {
+      setTimeout(function() {
         self.proposal.flags.new = false
       }, 500)
     }

@@ -1,9 +1,9 @@
-import moment from 'moment'
+import moment from "moment"
 
-export default function (date) {
+export default function(date) {
   if (date === 0) {
-    return 'N/A'
+    return "N/A"
   } else {
-    return moment(date, 'x').fromNow()
+    return moment(date, "x").fromNow()
   }
 }

@@ -1,14 +1,14 @@
-import { mount } from '@vue/test-utils'
-import htmlBeautify from 'html-beautify'
-import NiFormStruct from 'common/NiFormStruct'
+import { mount } from "@vue/test-utils"
+import htmlBeautify from "html-beautify"
+import NiFormStruct from "common/NiFormStruct"
 
-describe('NiFormStruct', () => {
+describe("NiFormStruct", () => {
   let wrapper
 
   let propsData = {
-    width: 'narrow',
-    submit: function () {
-      console.log('form successfully submitted')
+    width: "narrow",
+    submit: function() {
+      console.log("form successfully submitted")
     }
   }
 
@@ -24,31 +24,46 @@ describe('NiFormStruct', () => {
     })
   })
 
-  it('has a width from props', () => {
-    expect(wrapper.vm.width).toBe('narrow')
+  it("has a width from props", () => {
+    expect(wrapper.vm.width).toBe("narrow")
   })
 
-  it('has a submit function', () => {
+  it("has a submit function", () => {
     expect(wrapper.vm.submit).toBeTruthy()
   })
 
-  it('has the expected html structure', () => {
+  it("has the expected html structure", () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it('has a default slot', () => {
-    expect(wrapper.findAll('.fake-fields').length).toBe(1)
+  it("has a default slot", () => {
+    expect(wrapper.findAll(".fake-fields").length).toBe(1)
   })
 
-  it('has a footer slot', () => {
-    expect(wrapper.find('.fake-footer').text().trim()).toBe('Fake Footer')
+  it("has a footer slot", () => {
+    expect(
+      wrapper
+        .find(".fake-footer")
+        .text()
+        .trim()
+    ).toBe("Fake Footer")
   })
 
-  it('has a title slot', () => {
-    expect(wrapper.find('.fake-title').text().trim()).toBe('Fake Title')
+  it("has a title slot", () => {
+    expect(
+      wrapper
+        .find(".fake-title")
+        .text()
+        .trim()
+    ).toBe("Fake Title")
   })
 
-  it('has a subtitle slot', () => {
-    expect(wrapper.find('.fake-subtitle').text().trim()).toBe('Fake Subtitle')
+  it("has a subtitle slot", () => {
+    expect(
+      wrapper
+        .find(".fake-subtitle")
+        .text()
+        .trim()
+    ).toBe("Fake Subtitle")
   })
 })

@@ -12,10 +12,10 @@
 
 <script>
 export default {
-  name: 'ni-tool-bar',
+  name: "ni-tool-bar",
   methods: {
-    enableModalHelp () {
-      this.$store.commit('setModalHelp', true)
+    enableModalHelp() {
+      this.$store.commit("setModalHelp", true)
     }
   }
 }

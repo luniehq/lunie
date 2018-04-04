@@ -27,14 +27,14 @@
 </template>
 
 <script>
-import { between, numeric } from 'vuelidate/lib/validators'
-import { mapGetters } from 'vuex'
-import Btn from '@nylira/vue-button'
-import Field from '@nylira/vue-field'
-import FormGroup from 'common/NiFormGroup'
-import FormMsg from 'common/NiFormMsg'
+import { between, numeric } from "vuelidate/lib/validators"
+import { mapGetters } from "vuex"
+import Btn from "@nylira/vue-button"
+import Field from "@nylira/vue-field"
+import FormGroup from "common/NiFormGroup"
+import FormMsg from "common/NiFormMsg"
 export default {
-  name: 'modal-search',
+  name: "modal-search",
   components: {
     Btn,
     Field,
@@ -42,26 +42,26 @@ export default {
     FormMsg
   },
   computed: {
-    ...mapGetters(['filters', 'lastHeader']),
-    open () {
+    ...mapGetters(["filters", "lastHeader"]),
+    open() {
       return this.filters[this.type].search.visible
     },
     query: {
-      get () {
+      get() {
         return this.filters[this.type].search.query
       },
-      set (string) {
-        this.$store.commit('setSearchQuery', [this.type, string])
+      set(string) {
+        this.$store.commit("setSearchQuery", [this.type, string])
       }
     }
   },
   methods: {
-    close () {
-      this.$store.commit('setSearchVisible', [this.type, false])
+    close() {
+      this.$store.commit("setSearchVisible", [this.type, false])
     },
-    gotoBlock () {
+    gotoBlock() {
       this.$router.push({
-        name: 'block',
+        name: "block",
         params: { block: this.filters.blocks.search.query }
       })
     }
@@ -72,7 +72,7 @@ export default {
         search: {
           query: {
             numeric,
-            between (height) {
+            between(height) {
               return between(1, this.lastHeader.height)(height)
             }
           }
@@ -81,16 +81,16 @@ export default {
     }
   }),
   watch: {
-    open (open) {
+    open(open) {
       if (open) {
         setTimeout(() => {
-          let el = this.$el.querySelector('.ni-field')
+          let el = this.$el.querySelector(".ni-field")
           el.select()
         })
       }
     }
   },
-  props: ['type']
+  props: ["type"]
 }
 </script>
 

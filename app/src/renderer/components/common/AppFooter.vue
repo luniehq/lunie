@@ -4,9 +4,9 @@ footer.app-footer
 </template>
 
 <script>
-import Connectivity from 'common/NiConnectivity'
+import Connectivity from "common/NiConnectivity"
 export default {
-  name: 'app-footer',
+  name: "app-footer",
   components: { Connectivity }
 }
 </script>

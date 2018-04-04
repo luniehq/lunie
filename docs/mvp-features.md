@@ -1,4 +1,5 @@
 # Voyager MVP Features
+
 These features of Voyager are considered essential for MVP. They are required to be completed before we can launch the Cosmos Hub.
 
 ## Managing accounts

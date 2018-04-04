@@ -1,73 +1,72 @@
 {
-  "genesis_time":"2017-12-30T04:49:30Z",
-  "chain_id":"gaia-2",
-  "validators":
-  [
-    
+  "genesis_time": "2017-12-30T04:49:30Z",
+  "chain_id": "gaia-2",
+  "validators": [
     {
       "pub_key": {
-        "data": "7A1C7CD300A797A80479FC7C717C8CEB467976775044BAFFE630DADB01F4F4D9",
+        "data":
+          "7A1C7CD300A797A80479FC7C717C8CEB467976775044BAFFE630DADB01F4F4D9",
         "type": "ed25519"
       },
-      "power":1000,
-      "name":"159.89.198.221"
-    }
-    ,
+      "power": 1000,
+      "name": "159.89.198.221"
+    },
     {
       "pub_key": {
-        "data": "27D710DD0FF5276651865FA6EB9B4804E46F987D1BA6A901AC35E2C0D48D7664",
+        "data":
+          "27D710DD0FF5276651865FA6EB9B4804E46F987D1BA6A901AC35E2C0D48D7664",
         "type": "ed25519"
       },
-      "power":1000,
-      "name":"178.62.35.120"
-    }
-    ,
+      "power": 1000,
+      "name": "178.62.35.120"
+    },
     {
       "pub_key": {
-        "data": "0A29EF59C9B01CFC880354F83D1253FDF04B9FDCD7411B96D801B52C6F03D376",
+        "data":
+          "0A29EF59C9B01CFC880354F83D1253FDF04B9FDCD7411B96D801B52C6F03D376",
         "type": "ed25519"
       },
-      "power":1000,
-      "name":"138.68.21.243"
-    }
-    ,
+      "power": 1000,
+      "name": "138.68.21.243"
+    },
     {
       "pub_key": {
-        "data": "1320BC3E22BCFDD2F9B133EBBA8BC393F9160E54917962D6E75245D885EAAD14",
+        "data":
+          "1320BC3E22BCFDD2F9B133EBBA8BC393F9160E54917962D6E75245D885EAAD14",
         "type": "ed25519"
       },
-      "power":1000,
-      "name":"159.203.88.224"
-    }
-    ,
+      "power": 1000,
+      "name": "159.203.88.224"
+    },
     {
       "pub_key": {
-        "data": "845F2C16B97D71FAF7C32724DF01A09120E4680FACFF0657977ACC852DF5E7C6",
+        "data":
+          "845F2C16B97D71FAF7C32724DF01A09120E4680FACFF0657977ACC852DF5E7C6",
         "type": "ed25519"
       },
-      "power":1000,
-      "name":"138.197.131.102"
-    }
-    ,
+      "power": 1000,
+      "name": "138.197.131.102"
+    },
     {
       "pub_key": {
-        "data": "2B26539CFA678ED5AAA72C55FB6DD4B394D160DDC0478DC50654658683F53A9B",
+        "data":
+          "2B26539CFA678ED5AAA72C55FB6DD4B394D160DDC0478DC50654658683F53A9B",
         "type": "ed25519"
       },
-      "power":1000,
-      "name":"95.85.37.158"
-    }
-    ,
+      "power": 1000,
+      "name": "95.85.37.158"
+    },
     {
       "pub_key": {
-        "data": "492DCDE8F3394A97BB92ECC3D025CEA5E380C7A04BF30991FDAF262EECC672C6",
+        "data":
+          "492DCDE8F3394A97BB92ECC3D025CEA5E380C7A04BF30991FDAF262EECC672C6",
         "type": "ed25519"
       },
-      "power":1000,
-      "name":"159.89.3.34"
+      "power": 1000,
+      "name": "159.89.3.34"
     }
   ],
-  "app_hash":"",
+  "app_hash": "",
   "app_options": {
     "accounts": [
       {
@@ -75,7 +74,8 @@
         "address": "1B1BE55F969F54064628A63B9559E7C21C925165",
         "pub_key": {
           "type": "ed25519",
-          "data": "619D3678599971ED29C7529DDD4DA537B97129893598A17C82E3AC9A8BA95279"
+          "data":
+            "619D3678599971ED29C7529DDD4DA537B97129893598A17C82E3AC9A8BA95279"
         },
         "coins": [
           {
@@ -89,7 +89,8 @@
         "address": "B01C264BFE9CBD45458256E613A6F07061A3A6B6",
         "pub_key": {
           "type": "ed25519",
-          "data": "E1FFBD187FA2A922CE1B367532CEAC1AD8E606D576AB0D2E2CAA7EC6B7DAC10F"
+          "data":
+            "E1FFBD187FA2A922CE1B367532CEAC1AD8E606D576AB0D2E2CAA7EC6B7DAC10F"
         },
         "coins": [
           {
@@ -143,7 +144,8 @@
         "address": "40CC622438D3E42148A1FFD3A27C07C100F8FA3D",
         "pub_key": {
           "type": "ed25519",
-          "data": "97BD389257763747488803DC686A8819C685936A3CD275D54EABEE51E0117EE6"
+          "data":
+            "97BD389257763747488803DC686A8819C685936A3CD275D54EABEE51E0117EE6"
         },
         "coins": [
           {
@@ -231,7 +233,8 @@
         "address": "B140EFAAE6D5CA1C8E98814C557AF7112E3B9EAE",
         "pub_key": {
           "type": "ed25519",
-          "data": "F492282705DF29ACC3BB803D543B7BF98C8080FA28AE85B62B45827EA9DA8167"
+          "data":
+            "F492282705DF29ACC3BB803D543B7BF98C8080FA28AE85B62B45827EA9DA8167"
         },
         "coins": [
           {
@@ -386,9 +389,10 @@
           }
         ]
       }
-
     ],
     "plugin_options": [
-      "coin/issuer", {"app": "sigs", "addr": "B01C264BFE9CBD45458256E613A6F07061A3A6B6"}
-    ]  }
+      "coin/issuer",
+      { "app": "sigs", "addr": "B01C264BFE9CBD45458256E613A6F07061A3A6B6" }
+    ]
+  }
 }

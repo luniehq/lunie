@@ -1,7 +1,7 @@
-import setup from '../../../helpers/vuex-setup'
-import NiToolBar from 'common/NiToolBar'
+import setup from "../../../helpers/vuex-setup"
+import NiToolBar from "common/NiToolBar"
 
-describe('NiToolBar', () => {
+describe("NiToolBar", () => {
   let wrapper, store, instance
   let { mount } = setup()
 
@@ -11,11 +11,11 @@ describe('NiToolBar', () => {
     store = instance.store
   })
 
-  it('has the expected html structure', () => {
+  it("has the expected html structure", () => {
     expect(wrapper.$el).toMatchSnapshot()
   })
 
-  it('sets the helper modal', () => {
+  it("sets the helper modal", () => {
     wrapper.vm.enableModalHelp()
     expect(store.state.config.modals.help.active).toBe(true)
   })
