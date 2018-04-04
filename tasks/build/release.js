@@ -1,7 +1,6 @@
 "use strict"
 
 const { cli } = require(`@nodeguy/cli`)
-const config = require(`../../config`)
 const { createHash } = require("crypto")
 const optionsSpecification = require(`./options.json`)
 const path = require("path")
@@ -15,13 +14,17 @@ var tar = require("tar-stream")
 var duplexer = require("duplexer")
 const packageJson = require("../../package.json")
 
-/**
- * Build webpack in production
- */
-const pack = async options => {
-  console.log("\x1b[33mBuilding webpack in production mode...\n\x1b[0m")
-  shell.exec("npm run pack")
-  build(options)
+// electron-packager options
+// Docs: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/building_your_app.html
+const building = {
+  arch: "x64",
+  asar: false,
+  dir: path.join(__dirname, "../../app"),
+  icon: path.join(__dirname, "../../app/icons/icon"),
+  ignore: /^\/(src|index\.ejs|icons)/,
+  out: path.join(__dirname, "../../builds"),
+  overwrite: true,
+  packageManager: "yarn"
 }
 
 /**
@@ -30,7 +33,7 @@ const pack = async options => {
 function build({ platform, gaia }) {
   console.log("Using prebuilt binary", gaia)
 
-  const options = Object.assign({}, config.building, {
+  const options = Object.assign({}, building, {
     afterCopy: [copyBinary("gaia", gaia)],
     platform
   })
@@ -61,6 +64,14 @@ function build({ platform, gaia }) {
       console.log("\n\x1b[34mDONE\n\x1b[0m")
     }
   })
+}
+
+/**
+ * Build webpack in production
+ */
+const pack = () => {
+  console.log("\x1b[33mBuilding webpack in production mode...\n\x1b[0m")
+  shell.exec("npm run pack")
 }
 
 function copyBinary(name, binaryLocation) {
@@ -204,7 +215,7 @@ function deterministicTar() {
   return duplexer(extract, pack)
 }
 
-cli(optionsSpecification, async options => {
+cli(optionsSpecification, options => {
   const { platform, "skip-pack": skipPack } = options
 
   if (platform === "clean") {
@@ -215,9 +226,10 @@ cli(optionsSpecification, async options => {
 
     if (skipPack) {
       console.log("Skipping packaging")
-      build(options)
     } else {
-      await pack(options)
+      pack()
     }
+
+    build(options)
   }
 })
