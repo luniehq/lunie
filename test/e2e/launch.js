@@ -14,7 +14,7 @@ let binary = process.env.BINARY_PATH
 function launch(t) {
   if (!started) {
     // tape doesn't exit properly on uncaught promise rejections
-    process.on('unhandledRejection', async error => {
+    if (!process.env.COSMOS_E2E_KEEP_OPEN) process.on('unhandledRejection', async error => {
       console.error('unhandledRejection', error)
       if (app && app.client) {
         console.log('saving screenshot to ', join(__dirname, 'snapshot.png'))
@@ -41,7 +41,7 @@ function launch(t) {
         path: electron,
         args: [
           join(__dirname, '../../app/dist/main.js'),
-          '--headless',
+          process.env.COSMOS_E2E_KEEP_OPEN ? '' : '--headless',
           '--disable-gpu',
           '--no-sandbox'
         ],
@@ -81,7 +81,6 @@ function launch(t) {
   return started
 }
 
-test.onFinish(() => app ? app.stop() : null)
 test.onFinish(async () => {
   console.log('DONE: cleaning up')
   await app ? app.stop() : null
