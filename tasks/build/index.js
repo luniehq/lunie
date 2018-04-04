@@ -1,36 +1,61 @@
 "use strict"
 
 const { cli } = require(`@nodeguy/cli`)
-const options = require(`./options.json`)
+const optionsSpecification = require(`./optionsSpecification.json`)
 const path = require(`path`)
+const R = require(`ramda`)
 const shell = require(`shelljs`)
 const untildify = require(`untildify`)
 
-cli(options, async ({ commit, gaia, platform, "skip-pack": skipPack }) => {
+cli(optionsSpecification, options => {
+  const { commit, gaia, network } = options
+
+  // Build the Docker image (if necessary).
   shell.exec(`docker build --tag cosmos/voyager-builder .`, {
     cwd: __dirname
   })
 
-  const builds = path.resolve(__dirname, "../../builds")
-  shell.mkdir(`-p`, builds)
+  // Expand '~' if present and resolve all pathnames to absolute paths for
+  // Docker.
+  const resolvedPaths = R.map(R.pipe(untildify, path.resolve), {
+    gaia,
+    git: path.join(__dirname, "../../.git"),
+    network,
+    builds: path.join(__dirname, "../../builds")
+  })
 
-  const resolved = {
-    gaia: parsePath(path.resolve(untildify(gaia))),
-    git: parsePath(path.resolve(__dirname, "../../.git")),
-    builds: parsePath(builds)
-  }
+  // Create the 'builds' directory for the output if necessary.
+  shell.mkdir(`-p`, resolvedPaths.builds)
 
+  // Pass the options through to the container while overriding 'gaia'.
+  const nextOptions = Object.assign({}, options, {
+    gaia: `/mnt/gaia`
+  })
+
+  const nextOptionsString = Object.entries(nextOptions)
+    .map(([key, value]) => `--${key}=${value}`)
+    .join(` `)
+
+  // Continue the build process in the container with the following mounts:
+  //
+  // inputs:
+  //   gaia
+  //   .git/
+  //   default network
+  //
+  // output:
+  //    builds
+  //
   shell.exec(`docker run \
       --interactive \
-      --mount type=bind,readonly,source=${resolved.gaia},target=/mnt/gaia \
-      --mount type=bind,readonly,source=${resolved.git},target=/mnt/.git \
-      --mount type=bind,source=${resolved.builds},target=/mnt/builds \
+      --mount type=bind,readonly,source=${resolvedPaths.gaia},target=/mnt/gaia \
+      --mount type=bind,readonly,source=${resolvedPaths.git},target=/mnt/.git \
+      --mount type=bind,readonly,source=${
+        resolvedPaths.network
+      },target=/mnt/network \
+      --mount type=bind,source=${resolvedPaths.builds},target=/mnt/builds \
       --rm \
-      cosmos/voyager-builder \
-        "${commit}" \
-        --gaia=/mnt/gaia \
-        --platform=${platform} \
-        --skip-pack=${skipPack}
+      cosmos/voyager-builder "${commit}" ${nextOptionsString}
   `)
 })
 

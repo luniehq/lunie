@@ -2,7 +2,7 @@
 
 const { cli } = require(`@nodeguy/cli`)
 const { createHash } = require("crypto")
-const optionsSpecification = require(`./options.json`)
+const optionsSpecification = require(`./optionsSpecification.json`)
 const path = require("path")
 const packager = require("electron-packager")
 const shell = require(`shelljs`)
@@ -13,6 +13,20 @@ const zlib = require("zlib")
 var tar = require("tar-stream")
 var duplexer = require("duplexer")
 const packageJson = require("../../package.json")
+
+const rewriteConfig = ({ network }) => {
+  const file = path.join(__dirname, `../../app`, `config.toml`)
+  const config = fs.readFileSync(file, { encoding: `utf8` })
+  const networkName = path.basename(network)
+
+  const newConfig = config.replace(
+    /default_network = ".*"/,
+    `default_network = "${networkName}"`
+  )
+
+  console.log(`Changed default network to "${networkName}".`)
+  fs.writeFileSync(file, newConfig)
+}
 
 // electron-packager options
 // Docs: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/building_your_app.html
@@ -216,13 +230,15 @@ function deterministicTar() {
 }
 
 cli(optionsSpecification, options => {
-  const { platform, "skip-pack": skipPack } = options
+  const { network, platform, "skip-pack": skipPack } = options
 
   if (platform === "clean") {
     require("del").sync(["builds/*", "!.gitkeep"])
     console.log("\x1b[33m`builds` directory cleaned.\n\x1b[0m")
   } else {
     console.log(`Building for platform "${platform}".`)
+    rewriteConfig(options)
+    shell.cp(`-r`, `/mnt/network`, `app/networks/${path.basename(network)}`)
 
     if (skipPack) {
       console.log("Skipping packaging")
