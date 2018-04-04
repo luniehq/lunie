@@ -6,11 +6,11 @@
 </template>
 
 <script>
-import BtnCopy from 'common/NiBtnCopy'
+import BtnCopy from "common/NiBtnCopy"
 export default {
-  name: 'ni-li-copy',
+  name: "ni-li-copy",
   components: { BtnCopy },
-  props: ['value']
+  props: ["value"]
 }
 </script>
 

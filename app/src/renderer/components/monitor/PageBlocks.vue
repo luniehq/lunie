@@ -26,19 +26,19 @@ page(title='Block Explorer')
 </template>
 
 <script>
-import moment from 'moment'
-import Mousetrap from 'mousetrap'
-import num from 'scripts/num'
-import { mapGetters } from 'vuex'
-import ListItem from 'common/NiListItem'
-import DataError from 'common/NiDataError'
-import DataLoading from 'common/NiDataLoading'
-import Page from 'common/NiPage'
-import Part from 'common/NiPart'
-import ToolBar from 'common/NiToolBar'
-import ModalSearch from 'common/NiModalSearch'
+import moment from "moment"
+import Mousetrap from "mousetrap"
+import num from "scripts/num"
+import { mapGetters } from "vuex"
+import ListItem from "common/NiListItem"
+import DataError from "common/NiDataError"
+import DataLoading from "common/NiDataLoading"
+import Page from "common/NiPage"
+import Part from "common/NiPart"
+import ToolBar from "common/NiToolBar"
+import ModalSearch from "common/NiModalSearch"
 export default {
-  name: 'page-blocks',
+  name: "page-blocks",
   components: {
     ListItem,
     DataError,
@@ -49,14 +49,14 @@ export default {
     ModalSearch
   },
   computed: {
-    ...mapGetters(['blockchain', 'lastHeader']),
-    latestBlockTime () {
-      return moment(this.lastHeader.time).format('MMMM Do YYYY — hh:mm:ss')
+    ...mapGetters(["blockchain", "lastHeader"]),
+    latestBlockTime() {
+      return moment(this.lastHeader.time).format("MMMM Do YYYY — hh:mm:ss")
     },
-    latestBlockHash () {
+    latestBlockHash() {
       return this.lastHeader.last_block_id.hash
     },
-    blocks () {
+    blocks() {
       return this.blockchain.blocks
     }
   },
@@ -65,16 +65,16 @@ export default {
     num: num
   }),
   methods: {
-    setSearch (bool) {
-      this.$store.commit('setSearchVisible', ['blocks', bool])
+    setSearch(bool) {
+      this.$store.commit("setSearchVisible", ["blocks", bool])
     }
   },
-  mounted () {
-    Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
-    Mousetrap.bind('esc', () => this.setSearch(false))
+  mounted() {
+    Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
+    Mousetrap.bind("esc", () => this.setSearch(false))
   },
-  beforeDestroy () {
-    this.$store.commit('resetSearch', 'blocks')
+  beforeDestroy() {
+    this.$store.commit("resetSearch", "blocks")
   }
 }
 </script>

@@ -4,7 +4,7 @@
 </template>
 
 <script>
-export default { name: 'ni-tab-bar' }
+export default { name: "ni-tab-bar" }
 </script>
 
 <style lang="stylus">

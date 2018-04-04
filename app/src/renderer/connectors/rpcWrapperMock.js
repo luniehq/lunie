@@ -1,10 +1,10 @@
-const mockValidators = require('../../helpers/json/mock_validators.json')
+const mockValidators = require("../../helpers/json/mock_validators.json")
 
 let state = { blockMetas: [], blocks: [] }
 createBlockMetas(state)
 
 const RpcClientMock = {
-  on: () => { },
+  on: () => {},
   subscribe: (args, cb) => {
     if (args.query === "tm.event = 'NewBlock'") {
       produceBlocks(cb)
@@ -13,51 +13,56 @@ const RpcClientMock = {
       produceBlockHeaders(cb)
     }
   },
-  validators: (cb) => cb(null, { validators: mockValidators }),
-  block: ({ minHeight, maxHeight }, cb) => cb(null, { block: state.blocks.find(b => b.header.height === minHeight) }),
-  blockchain: ({ minHeight, maxHeight }, cb) => cb(null, { block_metas: state.blockMetas.filter(b => b.height === minHeight) }),
-  status: (cb) => cb(null, {
-    latest_block_height: 42,
-    node_info: { network: 'mock-chain' }
-  })
+  validators: cb => cb(null, { validators: mockValidators }),
+  block: ({ minHeight, maxHeight }, cb) =>
+    cb(null, { block: state.blocks.find(b => b.header.height === minHeight) }),
+  blockchain: ({ minHeight, maxHeight }, cb) =>
+    cb(null, {
+      block_metas: state.blockMetas.filter(b => b.height === minHeight)
+    }),
+  status: cb =>
+    cb(null, {
+      latest_block_height: 42,
+      node_info: { network: "mock-chain" }
+    })
 }
 
-module.exports = function setRPCWrapperMock (container) {
+module.exports = function setRPCWrapperMock(container) {
   let rpcWrapper = {
     // RPC
     // made this a subobject so we can manipulate it in here while assigning it to the outer node object
     rpcInfo: {
-      nodeIP: '127.0.0.1',
+      nodeIP: "127.0.0.1",
       connecting: false,
       connected: true
     },
-    rpcConnect () {
+    rpcConnect() {
       container.rpc = RpcClientMock
     },
     rpcReconnect: async () => {
-      return '127.0.0.1'
+      return "127.0.0.1"
     }
   }
 
   return rpcWrapper
 }
 
-function createBlockMeta (time, height) {
+function createBlockMeta(time, height) {
   return {
     header: { time, height },
     block_id: { hash: makeBlockHash() },
     height,
-    chain_id: 'mock-chain',
+    chain_id: "mock-chain",
     last_block_id: { hash: makeBlockHash() }
   }
 }
 
-function createBlock (height) {
+function createBlock(height) {
   return {
     hash: makeBlockHash(),
     header: {
       height,
-      chain_id: 'mock-chain',
+      chain_id: "mock-chain",
       last_block_id: {
         hash: makeBlockHash(),
         parts: { total: 0, hash: makeBlockHash() }
@@ -72,7 +77,7 @@ function createBlock (height) {
   }
 }
 
-function createBlockMetas (state) {
+function createBlockMetas(state) {
   let now = new Date()
   new Array(200).fill(null).forEach((_, i) => {
     let time = new Date(now)
@@ -83,7 +88,7 @@ function createBlockMetas (state) {
   })
 }
 
-async function produceBlockHeaders (cb) {
+async function produceBlockHeaders(cb) {
   let height = 200
   while (true) {
     let newBlockHeader = createBlockMeta(Date.now(), ++height)
@@ -93,7 +98,7 @@ async function produceBlockHeaders (cb) {
   }
 }
 
-async function produceBlocks (cb) {
+async function produceBlocks(cb) {
   let height = 200
   while (true) {
     let newBlock = createBlock(++height)
@@ -103,15 +108,17 @@ async function produceBlocks (cb) {
   }
 }
 
-function makeBlockHash () {
-  var text = ''
-  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+function makeBlockHash() {
+  var text = ""
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-  for (var i = 0; i < 40; i++) { text += possible.charAt(Math.floor(Math.random() * possible.length)) }
+  for (var i = 0; i < 40; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length))
+  }
 
   return text
 }
 
-function sleep (ms = 0) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
+function sleep(ms = 0) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }

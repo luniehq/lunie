@@ -1,60 +1,63 @@
-import noScroll from 'no-scroll'
+import noScroll from "no-scroll"
 
 export default ({ commit }) => {
   const state = {
     maxValidators: 100,
-    activeMenu: '',
+    activeMenu: "",
     desktop: false,
-    devMode: process.env.PREVIEW !== undefined ? JSON.parse(process.env.PREVIEW) : process.env.NODE_ENV === 'development',
+    devMode:
+      process.env.PREVIEW !== undefined
+        ? JSON.parse(process.env.PREVIEW)
+        : process.env.NODE_ENV === "development",
     // TODO: change to atom
-    bondingDenom: 'fermion',
+    bondingDenom: "fermion",
     modals: {
       error: { active: false },
       help: { active: false },
       session: {
         active: true,
-        state: 'loading'
+        state: "loading"
       },
       blockchain: { active: false }
     },
-    theme: 'dark'
+    theme: "dark"
   }
   const mutations = {
-    setTheme (state, value) {
+    setTheme(state, value) {
       state.theme = value
     },
-    setDevMode (state, value) {
+    setDevMode(state, value) {
       state.devMode = value
     },
-    setModalError (state, value) {
+    setModalError(state, value) {
       state.modals.error.active = value
     },
-    setModalErrorMessage (state, message) {
+    setModalErrorMessage(state, message) {
       state.modals.error.message = message
     },
-    setModalHelp (state, value) {
+    setModalHelp(state, value) {
       state.modals.help.active = value
     },
-    setModalSession (state, value) {
+    setModalSession(state, value) {
       // reset modal session state if we're closing the modal
       if (value) {
         noScroll.on()
       } else {
-        state.modals.session.state = 'loading'
+        state.modals.session.state = "loading"
         noScroll.off()
       }
       state.modals.session.active = value
     },
-    setModalSessionState (state, value) {
+    setModalSessionState(state, value) {
       state.modals.session.state = value
     },
-    setModalBlockchain (state, value) {
+    setModalBlockchain(state, value) {
       state.modals.blockchain.active = value
     },
-    setActiveMenu (state, value) {
+    setActiveMenu(state, value) {
       state.activeMenu = value
     },
-    setConfigDesktop (state, value) {
+    setConfigDesktop(state, value) {
       state.desktop = value
     }
   }

@@ -31,41 +31,46 @@ mixin tx-container-sent
 </template>
 
 <script>
-import num from 'scripts/num'
-import moment from 'moment'
+import num from "scripts/num"
+import moment from "moment"
 export default {
-  name: 'ni-li-tx',
+  name: "ni-li-tx",
   computed: {
     // TODO: sum relevant inputs/outputs
-    sentSelf () {
-      return this.transactionValue.tx.inputs[0].sender === this.transactionValue.tx.outputs[0].receiver
+    sentSelf() {
+      return (
+        this.transactionValue.tx.inputs[0].sender ===
+        this.transactionValue.tx.outputs[0].receiver
+      )
     },
-    sent () {
+    sent() {
       return this.transactionValue.tx.inputs[0].sender === this.address
     },
-    sender () {
+    sender() {
       return this.transactionValue.tx.inputs[0].sender
     },
-    coinsSent () {
+    coinsSent() {
       return this.transactionValue.tx.inputs[0].coins
     },
-    receiver () {
+    receiver() {
       return this.transactionValue.tx.outputs[0].receiver
     },
-    coinsReceived () {
+    coinsReceived() {
       return this.transactionValue.tx.inputs[0].coins
     },
-    date () {
-      return moment(this.transactionValue.time).format('MMMM Do YYYY, h:mm:ss a')
+    date() {
+      return moment(this.transactionValue.time).format(
+        "MMMM Do YYYY, h:mm:ss a"
+      )
     }
   },
   data: () => ({ num: num }),
   methods: {
-    viewTransaction () {
-      console.log('TODO: implement tx viewer')
+    viewTransaction() {
+      console.log("TODO: implement tx viewer")
     }
   },
-  props: ['transaction-value', 'address', 'devMode']
+  props: ["transaction-value", "address", "devMode"]
 }
 </script>
 

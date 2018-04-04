@@ -15,22 +15,22 @@
 </template>
 
 <script>
-import Btn from '@nylira/vue-button'
+import Btn from "@nylira/vue-button"
 export default {
-  name: 'card-balance',
+  name: "card-balance",
   components: {
     Btn
   },
   methods: {
-    integerize (num) {
+    integerize(num) {
       return Math.trunc(num)
     },
-    fractionize (num) {
-      let value = Math.trunc(num % 1 * 100000) / 100000
+    fractionize(num) {
+      let value = Math.trunc((num % 1) * 100000) / 100000
       return value.toString().substring(1)
     }
   },
-  props: ['balance']
+  props: ["balance"]
 }
 </script>
 

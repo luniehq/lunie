@@ -2,7 +2,8 @@
   "name": "cosmos-voyager",
   "productName": "Cosmos Voyager",
   "version": "0.4.3",
-  "description": "Voyager is an electron-based user interface for the Cosmos Network.",
+  "description":
+    "Voyager is an electron-based user interface for the Cosmos Network.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
   "homepage": "https://cosmos.network",
@@ -14,27 +15,27 @@
     "node": ">=9.4.0"
   },
   "scripts": {
-    "build:clean": "cross-env PLATFORM_TARGET=clean node tasks/release.js",
-    "build:darwin": "cross-env PLATFORM_TARGET=darwin node tasks/release.js",
-    "build:linux": "cross-env PLATFORM_TARGET=linux node tasks/release.js",
-    "build:mas": "cross-env PLATFORM_TARGET=mas node tasks/release.js",
-    "build:win32": "cross-env PLATFORM_TARGET=win32 node tasks/release.js",
+    "build": "node tasks/build",
     "local": "yarn run testnet local",
     "testnet": "node tasks/testnet.js",
-    "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter app test",
-    "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix app test",
+    "lint":
+      "eslint -f ./node_modules/eslint-friendly-formatter '{,**/}*.{js,vue}' && prettier --list-different '{,**/}*.{css,js,json,md,vue}'",
+    "lint:fix": "prettier --write '{,**/}*.{css,js,json,md,vue}'",
     "pack": "yarn run pack:main && yarn run pack:renderer",
-    "pack:main": "cross-env NODE_ENV=production webpack --colors --config webpack.main.config.js",
-    "pack:renderer": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js",
+    "pack:main":
+      "cross-env NODE_ENV=production webpack --colors --config webpack.main.config.js",
+    "pack:renderer":
+      "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js",
     "test": "yarn run lint && yarn test:unit && yarn test:e2e",
-    "test:unit": "cross-env LOGGING=false MOCK=false ANALYTICS=false NODE_ENV=testing jest --maxWorkers=2",
-    "test:e2e": "cross-env ANALYTICS=false yarn run pack && tape \"test/e2e/*.js\"",
+    "test:unit":
+      "cross-env LOGGING=false MOCK=false ANALYTICS=false NODE_ENV=testing jest --maxWorkers=2",
+    "test:e2e":
+      "cross-env ANALYTICS=false yarn run pack && tape \"test/e2e/*.js\"",
     "test:exe": "node tasks/test-build.js",
-    "test:coverage": "http-server test/unit/coverage/lcov-report",
-    "vue:route": "node tasks/vue/route.js",
-    "vuex:module": "node tasks/vuex/module.js"
+    "test:coverage": "http-server test/unit/coverage/lcov-report"
   },
   "devDependencies": {
+    "@nodeguy/cli": "0.2.0",
     "babel-core": "6.8.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "21.2.0",
@@ -73,13 +74,16 @@
     "moment-timezone": "0.5.13",
     "node-loader": "0.6.0",
     "node-sass": "4.7.2",
+    "prettier": "1.11.1",
     "proxyquire": "1.8.0",
     "pug": "2.0.0-rc.1",
+    "shelljs": "0.8.1",
     "spectron": "3.8.0",
     "style-loader": "0.19.1",
     "tape": "4.8.0",
     "tape-promise": "2.0.1",
     "tar-stream": "1.5.5",
+    "untildify": "3.0.2",
     "url-loader": "0.6.2",
     "vue-hot-reload-api": "2.0.7",
     "vue-html-loader": "1.2.4",
@@ -137,18 +141,9 @@
     "vuex": "3.0.1"
   },
   "jest": {
-    "testMatch": [
-      "**/unit/specs/**/*spec.js"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "vue"
-    ],
-    "moduleDirectories": [
-      "app/node_modules",
-      "node_modules",
-      "src"
-    ],
+    "testMatch": ["**/unit/specs/**/*spec.js"],
+    "moduleFileExtensions": ["js", "vue"],
+    "moduleDirectories": ["app/node_modules", "node_modules", "src"],
     "moduleNameMapper": {
       "^src/(.*)$": "<rootDir>/app/src/$1",
       "^app/(.*)$": "<rootDir>/app/$1",
@@ -165,15 +160,11 @@
       ".*.vue$": "jest-vue-preprocessor",
       ".*.js$": "babel-jest"
     },
-    "transformIgnorePatterns": [
-      "node_modules/(?!.*vue$)"
-    ],
+    "transformIgnorePatterns": ["node_modules/(?!.*vue$)"],
     "collectCoverage": true,
     "mapCoverage": true,
     "coverageDirectory": "./test/unit/coverage",
-    "coverageReporters": [
-      "lcov"
-    ],
+    "coverageReporters": ["lcov"],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/build/",
@@ -190,5 +181,8 @@
       "./test/unit/helpers/ipc_mock.js",
       "jest-localstorage-mock"
     ]
+  },
+  "prettier": {
+    "semi": false
   }
 }

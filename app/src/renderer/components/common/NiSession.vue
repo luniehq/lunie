@@ -11,16 +11,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import SessionLoading from 'common/NiSessionLoading'
-import SessionWelcome from 'common/NiSessionWelcome'
-import SessionSignUp from 'common/NiSessionSignUp'
-import SessionSignIn from 'common/NiSessionSignIn'
-import SessionHardware from 'common/NiSessionHardware'
-import SessionImport from 'common/NiSessionImport'
-import SessionAccountDelete from 'common/NiSessionAccountDelete'
+import { mapGetters } from "vuex"
+import SessionLoading from "common/NiSessionLoading"
+import SessionWelcome from "common/NiSessionWelcome"
+import SessionSignUp from "common/NiSessionSignUp"
+import SessionSignIn from "common/NiSessionSignIn"
+import SessionHardware from "common/NiSessionHardware"
+import SessionImport from "common/NiSessionImport"
+import SessionAccountDelete from "common/NiSessionAccountDelete"
 export default {
-  name: 'ni-session',
+  name: "ni-session",
   components: {
     SessionLoading,
     SessionWelcome,
@@ -30,7 +30,7 @@ export default {
     SessionImport,
     SessionAccountDelete
   },
-  computed: { ...mapGetters(['config']) }
+  computed: { ...mapGetters(["config"]) }
 }
 </script>
 

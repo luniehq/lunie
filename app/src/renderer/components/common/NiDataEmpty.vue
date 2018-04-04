@@ -8,10 +8,10 @@ data-msg(icon="info_outline")
 </template>
 
 <script>
-import DataMsg from 'common/NiDataMsg'
+import DataMsg from "common/NiDataMsg"
 export default {
-  name: 'ni-data-empty',
-  props: ['title', 'subtitle'],
+  name: "ni-data-empty",
+  props: ["title", "subtitle"],
   components: { DataMsg }
 }
 </script>

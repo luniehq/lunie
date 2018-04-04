@@ -7,16 +7,18 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import ListItem from 'common/NiListItem'
-import num from 'scripts/num'
+import { mapGetters } from "vuex"
+import ListItem from "common/NiListItem"
+import num from "scripts/num"
 export default {
-  name: 'ni-connectivity',
+  name: "ni-connectivity",
   components: { ListItem },
   computed: {
-    ...mapGetters(['lastHeader', 'nodeIP', 'connected', 'validators']),
-    blockString () {
-      return `${this.lastHeader.chain_id} (#${num.prettyInt(this.lastHeader.height)})`
+    ...mapGetters(["lastHeader", "nodeIP", "connected", "validators"]),
+    blockString() {
+      return `${this.lastHeader.chain_id} (#${num.prettyInt(
+        this.lastHeader.height
+      )})`
     }
   },
   data: () => ({ num: num })

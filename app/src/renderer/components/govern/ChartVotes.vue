@@ -22,63 +22,61 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Chart from 'chart.js'
-import shortid from 'shortid'
+import shortid from "shortid"
+import { mapGetters } from "vuex"
+import Chart from "chart.js"
 export default {
-  name: 'chart-votes',
-  props: ['votes', 'size'],
+  name: "chart-votes",
+  props: ["votes", "size"],
   computed: {
-    ...mapGetters(['config']),
-    cssClass () {
-      if (this.size === 'lg') {
-        return 'chart-votes-size-lg'
+    ...mapGetters(["config"]),
+    cssClass() {
+      if (this.size === "lg") {
+        return "chart-votes-size-lg"
       } else {
-        return 'chart-votes-size-sm'
+        return "chart-votes-size-sm"
       }
     },
-    chartLabel () {
+    chartLabel() {
       let data = this.chartData.datasets[0].data
       return Math.max.apply(Math, data)
     },
-    chartLabelClass () {
+    chartLabelClass() {
       let data = this.chartData.datasets[0].data
       let index = data.indexOf(Math.max.apply(Math, data))
       switch (index) {
-        case 0: return 'yes'
-        case 1: return 'no'
-        default: return 'reject'
+        case 0:
+          return "yes"
+        case 1:
+          return "no"
+        default:
+          return "reject"
       }
     },
     chartData () {
       let abstainBgColor
-      if (this.config.theme === 'dark') {
-        abstainBgColor = '#FFFFFF'
+      if (this.config.theme === "dark") {
+        abstainBgColor = "#FFFFFF"
       } else {
-        abstainBgColor = '#000000'
+        abstainBgColor = "#000000"
       }
       return {
-        labels: [
-          'Yes',
-          'No',
-          'Reject',
-          'Abstain'
-        ],
+        labels: ["Yes", "No", "Reject", "Abstain"],
         datasets: [
           {
             borderWidth: 0,
             data: this.chartValues,
             backgroundColor: [
               abstainBgColor,
-              'hsl(233,96%,60%)',
-              'hsl(326,96%,59%)',
-              'hsl(233,13%,50%)'
+              "hsl(233,96%,60%)",
+              "hsl(326,96%,59%)",
+              "hsl(233,13%,50%)"
             ]
           }
         ]
       }
     },
-    chartValues () {
+    chartValues() {
       let values = []
       for (let v in this.votes) {
         values.push(this.votes[v])
@@ -87,7 +85,7 @@ export default {
     }
   },
   data: () => ({
-    id: 'chart-votes-' + shortid.generate(),
+    id: "chart-votes-" + shortid.generate(),
     chartOptions: {
       animation: { duration: 0 },
       cutoutPercentage: 92,
@@ -96,11 +94,11 @@ export default {
       maintainAspectRatio: false
     }
   }),
-  mounted () {
-    let ctx = document.querySelector('#' + this.id)
+  mounted() {
+    let ctx = document.querySelector("#" + this.id)
     // eslint-disable-next-line
     new Chart(ctx, {
-      type: 'doughnut',
+      type: "doughnut",
       data: this.chartData,
       options: this.chartOptions
     })

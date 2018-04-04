@@ -11,16 +11,16 @@ menu.app-menu
 </template>
 
 <script>
-import PerfectScrollbar from 'perfect-scrollbar'
-import { mapGetters } from 'vuex'
-import Btn from '@nylira/vue-button'
-import noScroll from 'no-scroll'
-import Connectivity from 'common/NiConnectivity'
-import ListItem from 'common/NiListItem'
-import UserPane from 'common/NiUserPane'
-import Part from 'common/NiPart'
+import PerfectScrollbar from "perfect-scrollbar"
+import { mapGetters } from "vuex"
+import Btn from "@nylira/vue-button"
+import noScroll from "no-scroll"
+import Connectivity from "common/NiConnectivity"
+import ListItem from "common/NiListItem"
+import UserPane from "common/NiUserPane"
+import Part from "common/NiPart"
 export default {
-  name: 'app-menu',
+  name: "app-menu",
   components: {
     Btn,
     Connectivity,
@@ -29,24 +29,23 @@ export default {
     UserPane
   },
   computed: {
-    ...mapGetters(['proposals', 'validators', 'config']),
-    proposalAlerts () {
-      return this.proposals
-        .filter(p => p.flags.read === false).length
+    ...mapGetters(["proposals", "validators", "config"]),
+    proposalAlerts() {
+      return this.proposals.filter(p => p.flags.read === false).length
     },
-    isValidatorPage () {
+    isValidatorPage() {
       return this.$route.params.validator
     }
   },
   methods: {
-    close () {
-      this.$store.commit('setActiveMenu', '')
+    close() {
+      this.$store.commit("setActiveMenu", "")
       noScroll.off()
     }
   },
-  mounted () {
+  mounted() {
     // eslint-disable-next-line no-unused-vars
-    const ps = new PerfectScrollbar('.app-menu-main')
+    const ps = new PerfectScrollbar(".app-menu-main")
   }
 }
 </script>

@@ -63,20 +63,31 @@ transition(name="proposal")
 </template>
 
 <script>
-import Btn from '@nylira/vue-button'
+import Btn from "@nylira/vue-button"
 export default {
-  name: 'ni-list-item',
-  props: ['type', 'title', 'subtitle', 'image', 'icon', 'to', 'dt', 'dd', 'href', 'btn', 'spin'],
+  name: "ni-list-item",
+  props: [
+    "type",
+    "title",
+    "subtitle",
+    "image",
+    "icon",
+    "to",
+    "dt",
+    "dd",
+    "href",
+    "btn",
+    "spin"
+  ],
   components: { Btn },
   computed: {
-    spinClass () {
+    spinClass() {
       if (this.spin) {
-        return 'fa-spin'
+        return "fa-spin"
       }
     }
   }
 }
-
 </script>
 
 <style lang="stylus">

@@ -17,34 +17,37 @@ nav#app-header: .container
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import noScroll from 'no-scroll'
-import AppMenu from 'common/AppMenu'
+import { mapGetters } from "vuex"
+import noScroll from "no-scroll"
+import AppMenu from "common/AppMenu"
 export default {
-  name: 'app-header',
+  name: "app-header",
   components: { AppMenu },
-  computed: { ...mapGetters(['config']) },
+  computed: { ...mapGetters(["config"]) },
   methods: {
-    close () {
-      this.$store.commit('setActiveMenu', '')
+    close() {
+      this.$store.commit("setActiveMenu", "")
       noScroll.off()
     },
-    enableMenu () {
-      this.$store.commit('setActiveMenu', 'app')
+    enableMenu() {
+      this.$store.commit("setActiveMenu", "app")
       noScroll.on()
     },
-    watchWindowSize () {
-      let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+    watchWindowSize() {
+      let w = Math.max(
+        document.documentElement.clientWidth,
+        window.innerWidth || 0
+      )
       if (w >= 1024) {
         this.close()
-        this.$store.commit('setConfigDesktop', true)
+        this.$store.commit("setConfigDesktop", true)
         return
       } else {
-        this.$store.commit('setConfigDesktop', false)
+        this.$store.commit("setConfigDesktop", false)
       }
     }
   },
-  mounted () {
+  mounted() {
     this.watchWindowSize()
     window.onresize = this.watchWindowSize
   }

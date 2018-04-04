@@ -1,4 +1,4 @@
-import indicateValidators from 'scripts/indicateValidators'
+import indicateValidators from "scripts/indicateValidators"
 
 export default ({ dispatch, node }) => {
   const state = {
@@ -7,7 +7,7 @@ export default ({ dispatch, node }) => {
   }
 
   const mutations = {
-    addDelegate (state, delegate) {
+    addDelegate(state, delegate) {
       delegate.id = delegate.pub_key.data
       Object.assign(delegate, delegate.description)
 
@@ -24,30 +24,37 @@ export default ({ dispatch, node }) => {
   }
 
   const actions = {
-    reconnected ({ state, dispatch }) {
+    reconnected({ state, dispatch }) {
       if (state.loading) {
-        dispatch('getDelegates')
+        dispatch("getDelegates")
       }
     },
-    async getDelegates ({ state, dispatch, rootState }) {
+    async getDelegates({ state, dispatch, rootState }) {
       state.loading = true
       let delegatePubkeys = (await node.candidates()).data
-      await Promise.all(delegatePubkeys.map(pubkey => {
-        return dispatch('getDelegate', pubkey)
-      }))
-      state.delegates = indicateValidators(state.delegates, rootState.config.maxValidators)
+      await Promise.all(
+        delegatePubkeys.map(pubkey => {
+          return dispatch("getDelegate", pubkey)
+        })
+      )
+      state.delegates = indicateValidators(
+        state.delegates,
+        rootState.config.maxValidators
+      )
       state.loading = false
       return state.delegates
     },
-    async getDelegate ({ commit }, pubkey) {
+    async getDelegate({ commit }, pubkey) {
       let delegate = (await node.candidate(pubkey.data)).data
       delegate.isValidator = false
-      commit('addDelegate', delegate)
+      commit("addDelegate", delegate)
       return delegate
     }
   }
 
   return {
-    state, mutations, actions
+    state,
+    mutations,
+    actions
   }
 }
