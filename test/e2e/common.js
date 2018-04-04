@@ -68,6 +68,7 @@ module.exports = {
     }
     await module.exports.openMenu(client)
 
+    await sleep(300)
     await client.$('.material-icons=exit_to_app').$('..').click()
   }
 }
