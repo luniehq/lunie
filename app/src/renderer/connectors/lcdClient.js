@@ -72,8 +72,8 @@ Object.assign(Client.prototype, {
   deleteKey: argReq('DELETE', '/keys'),
 
   // coins
-  send: argReq('POST', '/accounts/', '/send'),
-  ibcSend: argReq('POST', '/ibc/', '/send'),
+  send: argReq('POST', '/accounts', '/send'),
+  ibcSend: argReq('POST', '/ibc', '/send'),
   queryAccount (address) {
     try {
       return fetchAccount.call(this, address)

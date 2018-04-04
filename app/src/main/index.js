@@ -24,6 +24,7 @@ let nodeIP
 let connecting = true
 let crashingError = null
 let seeds = null
+let chainId
 
 const root = require('../root.js')
 const networkPath = require('../network.js').path
@@ -199,7 +200,8 @@ async function startLCD (home, nodeIP) {
     'rest-server',
     '--laddr', `tcp://localhost:${LCD_PORT}`,
     '--home', home,
-    '--node', nodeIP
+    '--node', nodeIP,
+    '--chain-id', chainId
     // '--trust-node'
   ])
   logProcess(child, join(home, 'lcd.log'))
@@ -406,7 +408,6 @@ async function main () {
   let genesisPath = join(root, 'genesis.json')
   let configPath = join(root, 'config.toml')
   let basecliVersionPath = join(root, 'basecoindversion.txt')
-  console.log(appVersionPath, genesisPath, configPath, basecliVersionPath)
 
   let rootExists = exists(root)
   await fs.ensureDir(root)
@@ -487,7 +488,7 @@ async function main () {
   // read chainId from genesis.json
   let genesisText = fs.readFileSync(genesisPath, 'utf8')
   let genesis = JSON.parse(genesisText)
-  let chainId = genesis.chain_id
+  chainId = genesis.chain_id
 
   // pick a random seed node from config.toml
   // TODO: user-specified nodes, support switching?
@@ -505,6 +506,7 @@ async function main () {
   nodeIP = pickNode(seeds)
 
   // TODO: re-enable init once implemented in basecli
+  init = false
   let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))
   console.log('LCD is', _lcdInitialized ? '' : 'not', 'initialized')
   if (init || !_lcdInitialized) {

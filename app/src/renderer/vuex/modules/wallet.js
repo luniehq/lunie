@@ -63,9 +63,9 @@ export default ({ commit, node }) => {
         state.balancesLoading = false
         return
       }
-      commit('setNonce', res.data.sequence)
-      commit('setWalletBalances', res.data.coins)
-      for (let coin of res.data.coins) {
+      commit('setNonce', res.sequence)
+      commit('setWalletBalances', res.coins)
+      for (let coin of res.coins) {
         if (coin.denom === rootState.config.bondingDenom) {
           commit('setAtoms', coin.amount)
           break

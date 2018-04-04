@@ -160,11 +160,7 @@ module.exports = {
 
   // coins
   async queryAccount (address) {
-    let account = state.accounts[address]
-    if (account) {
-      return { data: state.accounts[address] }
-    }
-    return null
+    return state.accounts[address]
   },
   async coinTxs (address) {
     return state.txs.filter(tx => {
