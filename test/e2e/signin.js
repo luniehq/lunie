@@ -7,13 +7,15 @@ let { logout, openMenu } = require('./common.js')
 */
 
 test('sign in', async function (t) {
-  let {app} = await getApp(t)
+  let { app } = await getApp(t)
   await restart(app)
   let client = app.client
   let el = (...args) => client.$(...args)
   let continueButton = () => el('.ni-btn__value=Next').$('..')
 
   t.test('signup', async function (t) {
+    await client.waitForExist('.ni-session-title=Sign In', 10000)
+
     // go to login selection
     await client.$('i=arrow_back').$('..').click()
     await client.waitForExist('.ni-li-session', 1000)
