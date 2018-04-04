@@ -46,7 +46,8 @@ describe('PageSend', () => {
       fields: {
         denom: 'ATOM',
         address: 'CE456B8BA9AFD1CBDF4ED14558E8C30691E549EA',
-        amount: 2
+        amount: 2,
+        zoneId: 'cosmos-hub-1'
       }
     })
     await wrapper.vm.onSubmit()
@@ -59,7 +60,8 @@ describe('PageSend', () => {
       fields: {
         denom: 'ATOM',
         address: 'CE456B8BA9AFD1CBDF4ED14558E8C30691E5fail',
-        amount: 2
+        amount: 2,
+        zoneId: 'cosmos-hub-1'
       }
     })
     node.sign = () => Promise.reject()

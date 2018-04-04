@@ -9,7 +9,11 @@ export default ({ commit, node }) => {
     key: { address: '' },
     history: [],
     historyLoading: false,
-    denoms: []
+    denoms: [],
+    zoneIds: [
+      'cosmos-hub-1',
+      'cosmos-hub-2'
+    ]
   }
 
   let mutations = {

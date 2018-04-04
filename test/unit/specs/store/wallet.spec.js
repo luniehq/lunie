@@ -20,7 +20,8 @@ describe('Module: Wallet', () => {
       key: { address: '' },
       history: [],
       historyLoading: false,
-      denoms: []
+      denoms: [],
+      zoneIds: ['cosmos-hub-1', 'cosmos-hub-2']
     }
     expect(store.state.wallet).toEqual(state)
   })
