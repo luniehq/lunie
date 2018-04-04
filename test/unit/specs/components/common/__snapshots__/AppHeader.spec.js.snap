@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AppHeader has the expected html structure 1 1`] = `
-"<nav id=\\"app-header\\">
+"<nav id=\\"app-header\\" class=\\"\\">
    <div class=\\"container\\">
       <!---->
       <a href=\\"#/\\" class=\\"header-item header-item-logo router-link-exact-active router-link-active\\"><img src=\\"~@/assets/images/cosmos.png\\"></a>
@@ -12,7 +12,7 @@ exports[`AppHeader has the expected html structure 1 1`] = `
 `;
 
 exports[`AppHeader has the expected html structure 2 1`] = `
-"<nav id=\\"app-header\\">
+"<nav id=\\"app-header\\" class=\\"mobile\\">
    <div class=\\"container\\">
       <div class=\\"header-item\\"></div>
    <a href=\\"#/\\" class=\\"header-item header-item-logo router-link-exact-active router-link-active\\"><img src=\\"~@/assets/images/cosmos.png\\"></a>
@@ -25,7 +25,7 @@ exports[`AppHeader has the expected html structure 2 1`] = `
 `;
 
 exports[`AppHeader has the expected html structure 3 1`] = `
-"<nav id=\\"app-header\\">
+"<nav id=\\"app-header\\" class=\\"\\">
    <div class=\\"container\\">
       <!---->
       <a href=\\"#/\\" class=\\"header-item header-item-logo router-link-exact-active router-link-active\\"><img src=\\"~@/assets/images/cosmos.png\\"></a>
@@ -36,7 +36,7 @@ exports[`AppHeader has the expected html structure 3 1`] = `
 `;
 
 exports[`AppHeader has the expected html structure 4 1`] = `
-"<nav id=\\"app-header\\">
+"<nav id=\\"app-header\\" class=\\"mobile\\">
    <div class=\\"container\\">
       <div class=\\"header-item\\"></div>
    <a href=\\"#/\\" class=\\"header-item header-item-logo router-link-exact-active router-link-active\\"><img src=\\"~@/assets/images/cosmos.png\\"></a>
