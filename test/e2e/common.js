@@ -74,6 +74,7 @@ module.exports = {
   },
   async logout(client) {
     console.log('logging out')
+    await sleep(100)
     if (await client.isExisting('.ni-li-session')) {
       return
     }
