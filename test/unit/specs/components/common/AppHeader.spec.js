@@ -87,13 +87,13 @@ describe("AppHeader", () => {
     expect(store.commit).toHaveBeenCalledWith("setConfigDesktop", false)
   })
 
-  it('handles dark theme', () => {
-    expect(wrapper.find('#logo-white').exists()).toBeTruthy()
+  it("handles dark theme", () => {
+    expect(wrapper.find("#logo-white").exists()).toBeTruthy()
   })
 
-  it('handles light theme', () => {
-    store.commit('setTheme', 'light')
+  it("handles light theme", () => {
+    store.commit("setTheme", "light")
     wrapper.update()
-    expect(wrapper.find('#logo-black').exists()).toBeTruthy()
+    expect(wrapper.find("#logo-black").exists()).toBeTruthy()
   })
 })

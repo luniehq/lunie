@@ -39,9 +39,9 @@ describe("PageProfile", () => {
     expect(wrapper.vm.user.errorCollection).not.toBe(errorCollection)
   })
 
-  it('should switch the theme', () => {
-    wrapper.find('#toggle-light-theme').trigger('click')
-    expect(store.commit).toHaveBeenCalledWith('setTheme', 'light')
-    expect(store.state.config.theme).toBe('light')
+  it("should switch the theme", () => {
+    wrapper.find("#toggle-light-theme").trigger("click")
+    expect(store.commit).toHaveBeenCalledWith("setTheme", "light")
+    expect(store.state.config.theme).toBe("light")
   })
 })

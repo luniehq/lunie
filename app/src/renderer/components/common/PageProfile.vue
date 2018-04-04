@@ -53,7 +53,7 @@ export default {
       this.$store.dispatch("signOut")
       this.$store.commit("notifySignOut")
     },
-    toggleAppTheme () {
+    toggleAppTheme() {
       if (this.config.theme === "dark") {
         this.$store.commit("setTheme", "light")
       } else {

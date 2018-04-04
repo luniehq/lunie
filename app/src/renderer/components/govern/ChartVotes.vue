@@ -53,7 +53,7 @@ export default {
           return "reject"
       }
     },
-    chartData () {
+    chartData() {
       let abstainBgColor
       if (this.config.theme === "dark") {
         abstainBgColor = "#FFFFFF"
