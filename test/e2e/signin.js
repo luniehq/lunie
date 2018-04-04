@@ -88,7 +88,6 @@ test('sign in', async function (t) {
       await openMenu(client)
       let activeUser = await client.$('.ni-li-user .ni-li-title').getText()
       t.ok(activeUser === 'signin_test', 'user is logged in')
-      await closeMenu(client)
 
       t.end()
     })
@@ -162,7 +161,6 @@ test('sign in', async function (t) {
       await openMenu(client)
       let activeUser = await client.$('.ni-li-user .ni-li-title').getText()
       t.ok(activeUser === 'seed_test', 'user is logged in')
-      await closeMenu(client)
 
       t.end()
     })
