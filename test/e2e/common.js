@@ -27,9 +27,15 @@ module.exports = {
   },
   async closeMenu(client) {
     console.log('closing menu')
+    // the menu is always open on desktop
+    if(!(await client.isExisting('#app-header.mobile'))) {
+      return
+    }
+    // check if menu is actually open
     if (!(await client.isExisting('.app-menu'))) {
       return
     }
+    // close notifications that could block the click
     await module.exports.closeNotifications(client)
     await client.waitForExist('.material-icons=close', 1000)
     await sleep(100)

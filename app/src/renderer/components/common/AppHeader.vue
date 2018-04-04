@@ -1,5 +1,5 @@
 <template lang='pug'>
-nav#app-header: .container
+nav#app-header(v-bind:class="{ mobile: !config.desktop }"): .container
   template(v-if="!config.desktop")
     .header-item
 
