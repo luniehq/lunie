@@ -1,6 +1,6 @@
 let test = require('tape-promise/tape')
 let { getApp, restart } = require('./launch.js')
-let { openMenu } = require('./common.js')
+let { openMenu, login } = require('./common.js')
 
 /*
 * NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
@@ -91,6 +91,17 @@ test('sign in', async function (t) {
 
       t.end()
     })
+    t.end()
+  })
+
+  t.test('sign out', async function (t) {
+    await client.refresh()
+    await login(client, 'testkey')
+    await client.waitForExist('.material-icons=exit_to_app', 1000)
+    await client.$('.material-icons=exit_to_app').$('..').click()
+
+    await client.waitForExist('.ni-session', 1000)
+
     t.end()
   })
 
