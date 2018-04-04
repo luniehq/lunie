@@ -3,7 +3,7 @@ import htmlBeautify from 'html-beautify'
 import setup from '../../../helpers/vuex-setup'
 
 describe('AppTheme', () => {
-  let wrapper, store, instance
+  let wrapper, instance
   let { mount } = setup()
 
   beforeEach(() => {
