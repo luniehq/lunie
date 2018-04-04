@@ -28,16 +28,16 @@ page(:title='proposal.title')
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Btn from '@nylira/vue-button'
-import FieldVote from 'common/NiFieldVote'
-import FormStruct from 'common/NiFormStruct'
-import Page from 'common/NiPage'
-import Part from 'common/NiPart'
-import TextBlock from 'common/TextBlock'
-import ToolBar from 'common/NiToolBar'
+import { mapGetters } from "vuex"
+import Btn from "@nylira/vue-button"
+import FieldVote from "common/NiFieldVote"
+import FormStruct from "common/NiFormStruct"
+import Page from "common/NiPage"
+import Part from "common/NiPart"
+import TextBlock from "common/TextBlock"
+import ToolBar from "common/NiToolBar"
 export default {
-  name: 'page-proposal',
+  name: "page-proposal",
   components: {
     Btn,
     FieldVote,
@@ -48,85 +48,87 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['proposals']),
-    proposal () {
+    ...mapGetters(["proposals"]),
+    proposal() {
       if (this.proposals && this.proposals.length > 0) {
         return this.proposals.find(p => p.id === this.$route.params.proposal)
       } else {
         return this.emptyProposal
       }
     },
-    totalVotes () {
-      return this.proposal.votes.yes +
+    totalVotes() {
+      return (
+        this.proposal.votes.yes +
         this.proposal.votes.no +
         this.proposal.votes.reject +
         this.proposal.votes.abstain
+      )
     },
-    yesPct () {
+    yesPct() {
       return this.proposal.votes.yes / this.totalVotes
     },
-    noPct () {
+    noPct() {
       return this.proposal.votes.no / this.totalVotes
     },
-    rejectPct () {
+    rejectPct() {
       return this.proposal.votes.reject / this.totalVotes
     },
-    abstainPct () {
+    abstainPct() {
       return this.proposal.votes.abstain / this.totalVotes
     }
   },
-  created () {
-    this.$watch('$route.params', this.refreshProposal)
+  created() {
+    this.$watch("$route.params", this.refreshProposal)
   },
   data: () => ({
     emptyProposal: {
-      id: '',
-      active_at: '',
-      created_at: '',
-      entity_id: '',
-      title: 'Loading...',
-      type: '',
+      id: "",
+      active_at: "",
+      created_at: "",
+      entity_id: "",
+      title: "Loading...",
+      type: "",
       flags: { passed: false },
       data: {
-        body: '',
-        old_members: '',
-        new_members: ''
+        body: "",
+        old_members: "",
+        new_members: ""
       },
       vote_id: 0
     },
-    votePick: 'abstain',
+    votePick: "abstain",
     voteVisible: false
   }),
   methods: {
-    vote (choice, $event) {
+    vote(choice, $event) {
       this.votePick = choice
     },
-    confirmVote () {
-      this.$store.commit('notify', {
+    confirmVote() {
+      this.$store.commit("notify", {
         title: `Voted '${this.votePick}'`,
-        body: 'Your vote has been submitted.'
+        body: "Your vote has been submitted."
       })
     },
-    refreshProposal () {
+    refreshProposal() {
       if (this.rawProposal) {
         this.proposal = this.rawProposal
       } else {
         this.proposal = this.emptyProposal
       }
     },
-    commentOnProposal (proposalId) {
-      this.$store.commit('notify', {
-        title: 'View Discussion Thread',
+    commentOnProposal(proposalId) {
+      this.$store.commit("notify", {
+        title: "View Discussion Thread",
         body: `TODO: Discuss ${proposalId} proposal on the forum.`
       })
     },
-    proposalIsSpam (proposalId) {
-      this.$store.commit('notify', {
-        title: 'Mark Proposal As Spam',
+    proposalIsSpam(proposalId) {
+      this.$store.commit("notify", {
+        title: "Mark Proposal As Spam",
         body: `TODO: Mark ${proposalId} proposal as a spam attack.`
       })
     },
-    toggleVoteVisible () {
+    toggleVoteVisible() {
       this.voteVisible = !this.voteVisible
     }
   }

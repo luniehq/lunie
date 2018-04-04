@@ -4,21 +4,21 @@
 
 <script>
 export default {
-  name: 'ni-tag',
+  name: "ni-tag",
   computed: {
-    cssClass () {
-      let value = 'ni-tag'
-      if (this.size === 'lg') {
-        value += ' ni-tag-lg'
-      } else if (this.size === 'sm') {
-        value += ' ni-tag-sm'
+    cssClass() {
+      let value = "ni-tag"
+      if (this.size === "lg") {
+        value += " ni-tag-lg"
+      } else if (this.size === "sm") {
+        value += " ni-tag-sm"
       } else {
-        value += ' ni-tag-df'
+        value += " ni-tag-df"
       }
       return value
     }
   },
-  props: ['value', 'size']
+  props: ["value", "size"]
 }
 </script>
 

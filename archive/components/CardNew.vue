@@ -9,13 +9,13 @@
 
 <script>
 export default {
-  name: 'card-new',
+  name: "card-new",
   computed: {
-    iconClass () {
+    iconClass() {
       return `fa fa-${this.icon}`
     }
   },
-  props: ['icon', 'value']
+  props: ["icon", "value"]
 }
 </script>
 

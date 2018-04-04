@@ -17,13 +17,13 @@ page(icon="storage" :title="`${delegateId} Vote Power`")
 </template>
 
 <script>
-import ChartVotePower from 'monitor/ChartVotePower'
-import ListItem from 'common/NiListItem'
-import ToolBar from 'common/NiToolBar'
-import Page from 'common/NiPage'
-import Part from 'common/NiPart'
+import ChartVotePower from "monitor/ChartVotePower"
+import ListItem from "common/NiListItem"
+import ToolBar from "common/NiToolBar"
+import Page from "common/NiPage"
+import Part from "common/NiPart"
 export default {
-  name: 'page-delegate-power',
+  name: "page-delegate-power",
   components: {
     ChartVotePower,
     ListItem,
@@ -32,7 +32,9 @@ export default {
     ToolBar
   },
   computed: {
-    delegateId () { return this.slugToIp(this.$route.params.delegate) }
+    delegateId() {
+      return this.slugToIp(this.$route.params.delegate)
+    }
   },
   data: () => ({
     chartData: {
@@ -43,7 +45,9 @@ export default {
     }
   }),
   methods: {
-    slugToIp (slug) { return slug.split('-').join('.') }
+    slugToIp(slug) {
+      return slug.split("-").join(".")
+    }
   }
 }
 </script>

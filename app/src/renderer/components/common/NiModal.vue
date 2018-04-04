@@ -17,15 +17,15 @@ div(:class='cssClass' @click="close()")
 <script>
 export default {
   computed: {
-    cssClass () {
-      let value = 'ni-modal'
-      if (this.size === 'fullscreen' || this.size === 'fs') {
-        value += ' ni-modal-fullscreen'
+    cssClass() {
+      let value = "ni-modal"
+      if (this.size === "fullscreen" || this.size === "fs") {
+        value += " ni-modal-fullscreen"
       }
       return value
     }
   },
-  props: ['size', 'icon', 'close']
+  props: ["size", "icon", "close"]
 }
 </script>
 

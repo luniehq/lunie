@@ -8,8 +8,8 @@
 
 <script>
 export default {
-  name: 'ni-li-session',
-  props: ['icon', 'title', 'subtitle']
+  name: "ni-li-session",
+  props: ["icon", "title", "subtitle"]
 }
 </script>
 

@@ -13,23 +13,23 @@
 
 <script>
 export default {
-  name: 'ni-list-item',
+  name: "ni-list-item",
   computed: {
-    innerBarStyle () {
+    innerBarStyle() {
       return {
-        width: Math.round(this.dd * 100) + '%',
+        width: Math.round(this.dd * 100) + "%",
         background: this.color
       }
     }
   },
   methods: {
-    updateValue (value) {
+    updateValue(value) {
       let formattedValue = value.trim()
       // Emit the number value through the input event
-      this.$emit('input', formattedValue)
+      this.$emit("input", formattedValue)
     }
   },
-  props: ['dt', 'dd', 'color', 'active', 'results']
+  props: ["dt", "dd", "color", "active", "results"]
 }
 </script>
 

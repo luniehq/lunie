@@ -6,37 +6,39 @@ export default ({ node }) => {
   }
 
   const mutations = {
-    setValidators (state, validators) {
+    setValidators(state, validators) {
       state.validators = validators
     },
-    setValidatorHash (state, validatorHash) {
+    setValidatorHash(state, validatorHash) {
       state.validatorHash = validatorHash
     }
   }
 
   const actions = {
-    reconnected ({ state, dispatch }) {
+    reconnected({ state, dispatch }) {
       if (state.loading) {
-        dispatch('getValidators')
+        dispatch("getValidators")
       }
     },
-    getValidators ({ state, commit }) {
+    getValidators({ state, commit }) {
       state.loading = true
       node.rpc.validators((err, { validators } = {}) => {
-        if (err) return console.error('error fetching validator set')
-        commit('setValidators', validators)
+        if (err) return console.error("error fetching validator set")
+        commit("setValidators", validators)
         state.loading = false
       })
     },
-    maybeUpdateValidators ({ state, commit, dispatch }, header) {
+    maybeUpdateValidators({ state, commit, dispatch }, header) {
       let validatorHash = header.validators_hash
       if (validatorHash === state.validatorHash) return
-      commit('setValidatorHash', validatorHash)
-      dispatch('getValidators')
+      commit("setValidatorHash", validatorHash)
+      dispatch("getValidators")
     }
   }
 
   return {
-    state, mutations, actions
+    state,
+    mutations,
+    actions
   }
 }

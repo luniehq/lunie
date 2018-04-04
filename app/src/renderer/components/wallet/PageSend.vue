@@ -51,18 +51,24 @@ page(title='Send')
 </template>
 
 <script>
-import { required, between, minLength, maxLength, alphaNum } from 'vuelidate/lib/validators'
-import { mapActions, mapGetters } from 'vuex'
-import Btn from '@nylira/vue-button'
-import Field from '@nylira/vue-field'
-import FieldAddon from 'common/NiFieldAddon'
-import FieldGroup from 'common/NiFieldGroup'
-import FormGroup from 'common/NiFormGroup'
-import FormMsg from 'common/NiFormMsg'
-import FormStruct from 'common/NiFormStruct'
-import Page from 'common/NiPage'
-import Part from 'common/NiPart'
-import ToolBar from 'common/NiToolBar'
+import {
+  required,
+  between,
+  minLength,
+  maxLength,
+  alphaNum
+} from "vuelidate/lib/validators"
+import { mapActions, mapGetters } from "vuex"
+import Btn from "@nylira/vue-button"
+import Field from "@nylira/vue-field"
+import FieldAddon from "common/NiFieldAddon"
+import FieldGroup from "common/NiFieldGroup"
+import FormGroup from "common/NiFormGroup"
+import FormMsg from "common/NiFormMsg"
+import FormStruct from "common/NiFormStruct"
+import Page from "common/NiPage"
+import Part from "common/NiPart"
+import ToolBar from "common/NiToolBar"
 export default {
   components: {
     Btn,
@@ -77,35 +83,34 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['wallet']),
-    denominations () {
-      return this.wallet.balances.map(i =>
-        ({ key: i.denom.toUpperCase(), value: i.denom })
-      )
+    ...mapGetters(["wallet"]),
+    denominations() {
+      return this.wallet.balances.map(i => ({
+        key: i.denom.toUpperCase(),
+        value: i.denom
+      }))
     },
-    zoneIds () {
-      return this.wallet.zoneIds.map(z =>
-        ({ key: z, value: z })
-      )
+    zoneIds() {
+      return this.wallet.zoneIds.map(z => ({ key: z, value: z }))
     }
   },
   data: () => ({
     fields: {
-      address: '',
+      address: "",
       amount: null,
-      denom: '',
-      zoneId: 'cosmos-hub-1'
+      denom: "",
+      zoneId: "cosmos-hub-1"
     },
     sending: false
   }),
   methods: {
-    resetForm () {
-      this.fields.address = ''
+    resetForm() {
+      this.fields.address = ""
       this.fields.amount = null
       this.sending = false
       this.$v.$reset()
     },
-    async onSubmit () {
+    async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
 
@@ -119,30 +124,33 @@ export default {
         to: address,
         amount: [{ denom, amount }],
         zoneId: zoneId
-      }).then(() => {
-        this.sending = false
-        this.$store.commit('notify', {
-          title: 'Successfully Sent',
-          body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
-        })
+      }).then(
+        () => {
+          this.sending = false
+          this.$store.commit("notify", {
+            title: "Successfully Sent",
+            body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
+          })
 
-        // resets send transaction form
-        this.resetForm()
+          // resets send transaction form
+          this.resetForm()
 
-        // refreshes user transaction history
-        this.$store.dispatch('queryWalletHistory')
-      }, err => {
-        this.sending = false
-        this.$store.commit('notifyError', {
-          title: 'Error Sending',
-          body: `An error occurred while trying to send: "${err.message}"`
-        })
-      })
+          // refreshes user transaction history
+          this.$store.dispatch("queryWalletHistory")
+        },
+        err => {
+          this.sending = false
+          this.$store.commit("notifyError", {
+            title: "Error Sending",
+            body: `An error occurred while trying to send: "${err.message}"`
+          })
+        }
+      )
     },
-    ...mapActions(['walletSend'])
+    ...mapActions(["walletSend"])
   },
-  props: ['denom'],
-  mounted () {
+  props: ["denom"],
+  mounted() {
     if (this.denom) {
       this.fields.denom = this.denom
     }
