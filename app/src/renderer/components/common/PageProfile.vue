@@ -60,9 +60,6 @@ export default {
         optin: !this.user.errorCollection
       })
     }
-  },
-  mounted () {
-    console.log('PageProfile.vue this.config.theme', this.config.theme)
   }
 }
 </script>
