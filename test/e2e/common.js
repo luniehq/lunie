@@ -7,12 +7,12 @@ function sleep (ms) {
 
 module.exports = {
   async closeNotifications (client) {
-    // close notifications as they overlay the menu button 
+    // close notifications as they overlay the menu button
     await sleep(100)
-    while (await client.isExisting(`.ni-notification`)) { 
-      await client.$(`.ni-notification`).click() 
+    while (await client.isExisting(`.ni-notification`)) {
+      await client.$(`.ni-notification`).click()
       await sleep(100)
-    } 
+    }
   },
   async openMenu (client) {
     if (await client.isExisting('.app-menu')) {
@@ -21,12 +21,12 @@ module.exports = {
     await module.exports.closeNotifications(client)
     await client.waitForExist('.material-icons=menu', 1000)
     await sleep(100)
-    await client.$('.material-icons=menu').click() 
+    await client.$('.material-icons=menu').click()
     await client.waitForExist('.app-menu', 1000)
   },
   async navigate (client, linkText, titleText = linkText) {
     await module.exports.openMenu(client)
-    // click link 
+    // click link
     await client.$(`a*=${linkText}`).click()
     await client.waitUntilTextExists('.ni-page-header-title', titleText)
     console.log(`navigated to "${linkText}"`)
@@ -69,7 +69,7 @@ module.exports = {
     await module.exports.openMenu(client)
 
     await sleep(300)
-    await client.$('.material-icons=exit_to_app').$('..').click()
+    await client.$('.material-icons=exit_to_app').click()
   }
 }
 
