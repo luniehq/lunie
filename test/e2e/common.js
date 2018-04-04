@@ -74,15 +74,13 @@ module.exports = {
   },
   async logout(client) {
     console.log('logging out')
-    await sleep(100)
     if (await client.isExisting('.ni-li-session')) {
       return
     }
     if (!(await client.isExisting('.material-icons=exit_to_app'))) {
       await module.exports.closeMenu(client)
-      await client.waitForExist('.material-icons=exit_to_app', 1000)
     }
-    await client.$('.material-icons=exit_to_app').click()
+    await client.$('.material-icons=exit_to_app').$('..').click()
   }
 }
 
