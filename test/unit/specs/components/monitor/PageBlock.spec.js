@@ -1,10 +1,10 @@
-import setup from '../../../helpers/vuex-setup'
-import htmlBeautify from 'html-beautify'
-import PageBlock from 'renderer/components/monitor/PageBlock'
+import setup from "../../../helpers/vuex-setup"
+import htmlBeautify from "html-beautify"
+import PageBlock from "renderer/components/monitor/PageBlock"
 
 const $route = { params: { block: 1234 } }
 
-describe('PageBlock', () => {
+describe("PageBlock", () => {
   let wrapper, store
   let { mount } = setup()
 
@@ -16,7 +16,7 @@ describe('PageBlock', () => {
           block: {
             header: {
               last_block_id: {
-                hash: 'last-hash',
+                hash: "last-hash",
                 parts: { total: 0 }
               },
               num_txs: 0,
@@ -26,7 +26,7 @@ describe('PageBlock', () => {
             last_commit: { precommits: [] },
             data: { txs: 0 }
           },
-          blockMetaInfo: { block_id: { hash: 'hash' } }
+          blockMetaInfo: { block_id: { hash: "hash" } }
         })
       }
     })
@@ -36,15 +36,18 @@ describe('PageBlock', () => {
     wrapper.update()
   })
 
-  it('has the expected html structure', () => {
+  it("has the expected html structure", () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it('should dispatch getBlock when mounted', () => {
-    expect(store.dispatch).toHaveBeenCalledWith('getBlock', wrapper.vm.$route.params.block)
+  it("should dispatch getBlock when mounted", () => {
+    expect(store.dispatch).toHaveBeenCalledWith(
+      "getBlock",
+      wrapper.vm.$route.params.block
+    )
   })
 
-  it('should show a loading state if loading', () => {
+  it("should show a loading state if loading", () => {
     let { wrapper } = mount(PageBlock, {
       getters: {
         blockchain: () => ({
@@ -53,12 +56,12 @@ describe('PageBlock', () => {
           blockLoading: true
         })
       },
-      stubs: { 'data-loading': '<data-loading />' }
+      stubs: { "data-loading": "<data-loading />" }
     })
     wrapper.update()
 
     expect(wrapper.vm.block).toEqual({})
-    expect(wrapper.contains('data-loading')).toBe(true)
+    expect(wrapper.contains("data-loading")).toBe(true)
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 })

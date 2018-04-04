@@ -4,26 +4,26 @@
 </template>
 
 <script>
-import Tag from './NiTag'
+import Tag from "./NiTag"
 export default {
-  name: 'ni-tags',
+  name: "ni-tags",
   components: {
     Tag
   },
   computed: {
-    cssClass () {
-      let value = 'ni-tags'
-      if (this.size === 'lg') {
-        value += ' ni-tags-lg'
-      } else if (this.size === 'sm') {
-        value += ' ni-tags-sm'
+    cssClass() {
+      let value = "ni-tags"
+      if (this.size === "lg") {
+        value += " ni-tags-lg"
+      } else if (this.size === "sm") {
+        value += " ni-tags-sm"
       } else {
-        value += ' ni-tags-df '
+        value += " ni-tags-df "
       }
       return value
     }
   },
-  props: ['values', 'size']
+  props: ["values", "size"]
 }
 </script>
 

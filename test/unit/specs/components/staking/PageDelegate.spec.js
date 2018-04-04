@@ -1,7 +1,7 @@
-import setup from '../../../helpers/vuex-setup'
-import PageDelegate from 'renderer/components/staking/PageDelegate'
+import setup from "../../../helpers/vuex-setup"
+import PageDelegate from "renderer/components/staking/PageDelegate"
 
-describe('PageDelegate', () => {
+describe("PageDelegate", () => {
   let wrapper, router
   let { mount } = setup()
 
@@ -12,14 +12,14 @@ describe('PageDelegate', () => {
         delegates: () => ({
           delegates: [
             {
-              id: '1a2b3c',
-              moniker: 'JB',
-              website: 'https://the.zone',
+              id: "1a2b3c",
+              moniker: "JB",
+              website: "https://the.zone",
               voting_power: 1000,
-              owner: { addr: 'helloaddr' },
-              pub_key: { data: '123pubkeyforme' }
+              owner: { addr: "helloaddr" },
+              pub_key: { data: "123pubkeyforme" }
             },
-            { id: 'd4e5f6' }
+            { id: "d4e5f6" }
           ]
         })
       }
@@ -27,14 +27,14 @@ describe('PageDelegate', () => {
     wrapper = instance.wrapper
     router = instance.router
 
-    router.push('/staking/delegates/1a2b3c')
+    router.push("/staking/delegates/1a2b3c")
   })
 
-  it('has the expected html structure', () => {
+  it("has the expected html structure", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it('should return one delegate based on route params', () => {
-    expect(wrapper.vm.delegate.id).toEqual('1a2b3c')
+  it("should return one delegate based on route params", () => {
+    expect(wrapper.vm.delegate.id).toEqual("1a2b3c")
   })
 })

@@ -1,4 +1,4 @@
-import data from '../json/proposals.json'
+import data from "../json/proposals.json"
 
 export default ({ commit }) => {
   const state = {
@@ -8,13 +8,15 @@ export default ({ commit }) => {
 
   const mutations = {}
   const actions = {
-    reconnected ({ state, dispatch }) {
+    reconnected({ state, dispatch }) {
       if (state.loading) {
         // dispatch('queryProposals')
       }
     }
   }
   return {
-    state, actions, mutations
+    state,
+    actions,
+    mutations
   }
 }

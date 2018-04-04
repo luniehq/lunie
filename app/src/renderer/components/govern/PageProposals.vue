@@ -20,20 +20,20 @@ page(title='Proposals')
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { includes, orderBy } from 'lodash'
-import Mousetrap from 'mousetrap'
-import DataLoading from 'common/NiDataLoading'
-import DataEmpty from 'common/NiDataEmpty'
-import DataEmptySearch from 'common/NiDataEmptySearch'
-import LiProposal from 'govern/LiProposal'
-import ModalSearch from 'common/NiModalSearch'
-import TabBar from 'common/NiTabBar'
-import ToolBar from 'common/NiToolBar'
-import Page from 'common/NiPage'
-import Part from 'common/NiPart'
+import { mapGetters } from "vuex"
+import { includes, orderBy } from "lodash"
+import Mousetrap from "mousetrap"
+import DataLoading from "common/NiDataLoading"
+import DataEmpty from "common/NiDataEmpty"
+import DataEmptySearch from "common/NiDataEmptySearch"
+import LiProposal from "govern/LiProposal"
+import ModalSearch from "common/NiModalSearch"
+import TabBar from "common/NiTabBar"
+import ToolBar from "common/NiToolBar"
+import Page from "common/NiPage"
+import Part from "common/NiPart"
 export default {
-  name: 'page-proposals',
+  name: "page-proposals",
   components: {
     DataLoading,
     DataEmpty,
@@ -46,11 +46,15 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['proposals', 'filters']),
-    filteredProposals () {
+    ...mapGetters(["proposals", "filters"]),
+    filteredProposals() {
       if (this.proposals.items && this.filters) {
         let query = this.filters.proposals.search.query
-        let proposals = orderBy(this.proposals.items, [this.sort.property], [this.sort.order])
+        let proposals = orderBy(
+          this.proposals.items,
+          [this.sort.property],
+          [this.sort.order]
+        )
         if (this.filters.proposals.search.visible) {
           return proposals.filter(p => includes(p.title.toLowerCase(), query))
         } else {
@@ -63,45 +67,62 @@ export default {
   },
   data: () => ({
     sort: {
-      property: 'created_at',
-      order: 'desc',
+      property: "created_at",
+      order: "desc",
       properties: [
         {
-          id: 1, title: 'Title', value: 'title'
+          id: 1,
+          title: "Title",
+          value: "title"
         },
         {
-          id: 2, title: 'Type', value: 'type'
+          id: 2,
+          title: "Type",
+          value: "type"
         },
         {
-          id: 3, title: 'Created At', value: 'created_at', initial: true
+          id: 3,
+          title: "Created At",
+          value: "created_at",
+          initial: true
         },
         {
-          id: 4, title: 'Activated At', value: 'active_at'
+          id: 4,
+          title: "Activated At",
+          value: "active_at"
         },
         {
-          id: 5, title: 'Proposer', value: 'entity_id'
+          id: 5,
+          title: "Proposer",
+          value: "entity_id"
         }
       ]
     }
   }),
   methods: {
-    gotoPrevote () {
-      this.$store.commit('notify', { title: 'TODO: Prevote Proposals', body: 'Work in progress.' })
+    gotoPrevote() {
+      this.$store.commit("notify", {
+        title: "TODO: Prevote Proposals",
+        body: "Work in progress."
+      })
     },
-    gotoArchive () {
-      this.$store.commit('notify', { title: 'TODO: Archive Proposals', body: 'Work in progress.' })
+    gotoArchive() {
+      this.$store.commit("notify", {
+        title: "TODO: Archive Proposals",
+        body: "Work in progress."
+      })
     },
-    gotoNewProposal () {
-      this.$router.push('/proposals/new')
+    gotoNewProposal() {
+      this.$router.push("/proposals/new")
     },
-    setSearch (bool) {
-      this.$store.commit('setSearchVisible', ['proposals', bool])
+    setSearch(bool) {
+      this.$store.commit("setSearchVisible", ["proposals", bool])
     }
   },
-  mounted () {
-    Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
-    Mousetrap.bind(['command+n', 'ctrl+n'], () => this.gotoNewProposal())
-    Mousetrap.bind('esc', () => this.setSearch(false))
+  mounted() {
+    Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
+    Mousetrap.bind(["command+n", "ctrl+n"], () => this.gotoNewProposal())
+    Mousetrap.bind("esc", () => this.setSearch(false))
   }
 }
 </script>

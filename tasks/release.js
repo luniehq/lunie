@@ -1,28 +1,28 @@
-'use strict'
+"use strict"
 
-const { exec } = require('child_process')
-const { createHash } = require('crypto')
-const path = require('path')
-const packager = require('electron-packager')
-const fs = require('fs-extra')
-var glob = require('glob')
-var JSZip = require('jszip')
-const zlib = require('zlib')
-var tar = require('tar-stream')
-var duplexer = require('duplexer')
-const packageJson = require('../package.json')
+const { exec } = require("child_process")
+const { createHash } = require("crypto")
+const path = require("path")
+const packager = require("electron-packager")
+const fs = require("fs-extra")
+var glob = require("glob")
+var JSZip = require("jszip")
+const zlib = require("zlib")
+var tar = require("tar-stream")
+var duplexer = require("duplexer")
+const packageJson = require("../package.json")
 
 let skipPack = false
 let binaryPath = null
-process.argv.forEach(function (val) {
-  if (val === '--skip-pack') {
-    console.log('Skipping packaging')
+process.argv.forEach(function(val) {
+  if (val === "--skip-pack") {
+    console.log("Skipping packaging")
     skipPack = true
   }
-  if (val.startsWith('--binary')) {
-    binaryPath = val.replace('--binary=', '')
+  if (val.startsWith("--binary")) {
+    binaryPath = val.replace("--binary=", "")
     fs.accessSync(binaryPath)
-    console.log('Using prebuilt binary', binaryPath)
+    console.log("Using prebuilt binary", binaryPath)
   }
 })
 
@@ -33,9 +33,9 @@ if (!binaryPath) {
   process.exit(1)
 }
 
-if (process.env.PLATFORM_TARGET === 'clean') {
-  require('del').sync(['builds/*', '!.gitkeep'])
-  console.log('\x1b[33m`builds` directory cleaned.\n\x1b[0m')
+if (process.env.PLATFORM_TARGET === "clean") {
+  require("del").sync(["builds/*", "!.gitkeep"])
+  console.log("\x1b[33m`builds` directory cleaned.\n\x1b[0m")
 } else {
   if (skipPack) {
     build(process.env.PLATFORM_TARGET)
@@ -47,13 +47,13 @@ if (process.env.PLATFORM_TARGET === 'clean') {
 /**
  * Build webpack in production
  */
-function pack () {
-  console.log('\x1b[33mBuilding webpack in production mode...\n\x1b[0m')
-  let pack = exec('npm run pack')
+function pack() {
+  console.log("\x1b[33mBuilding webpack in production mode...\n\x1b[0m")
+  let pack = exec("npm run pack")
 
-  pack.stdout.on('data', data => console.log(data))
-  pack.stderr.on('data', data => console.error(data))
-  pack.on('exit', code => {
+  pack.stdout.on("data", data => console.log(data))
+  pack.stderr.on("data", data => console.error(data))
+  pack.on("exit", code => {
     if (code === null || code <= 0) {
       build(process.env.PLATFORM_TARGET)
     }
@@ -63,100 +63,102 @@ function pack () {
 /**
  * Use electron-packager to build electron app
  */
-function build (platform) {
-  let options = require('../config').building
+function build(platform) {
+  let options = require("../config").building
 
-  options.afterCopy = [
-    copyBinary('gaia', binaryPath)
-  ]
+  options.afterCopy = [copyBinary("gaia", binaryPath)]
 
-  console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')
+  console.log("\x1b[34mBuilding electron app(s)...\n\x1b[0m")
   packager(options, async (err, appPaths) => {
     if (err) {
-      console.error('\x1b[31mError from `electron-packager` when building app...\x1b[0m')
+      console.error(
+        "\x1b[31mError from `electron-packager` when building app...\x1b[0m"
+      )
       console.error(err)
     } else {
-      console.log('Build(s) successful!')
+      console.log("Build(s) successful!")
       console.log(appPaths)
-      console.log('\n\x1b[34mZipping files...\n\x1b[0m')
-      await Promise.all(appPaths.map(async appPath => {
-        if (platform === 'win32') {
-          await zipFolder(appPath, options.out, packageJson.version)
-        } else {
-          await tarFolder(appPath, options.out, packageJson.version)
-          .catch(err => console.error(err))
-        }
-      }))
+      console.log("\n\x1b[34mZipping files...\n\x1b[0m")
+      await Promise.all(
+        appPaths.map(async appPath => {
+          if (platform === "win32") {
+            await zipFolder(appPath, options.out, packageJson.version)
+          } else {
+            await tarFolder(appPath, options.out, packageJson.version).catch(
+              err => console.error(err)
+            )
+          }
+        })
+      )
 
-      console.log('\n\x1b[34mDONE\n\x1b[0m')
+      console.log("\n\x1b[34mDONE\n\x1b[0m")
     }
   })
 }
 
-function copyBinary (name, binaryLocation) {
-  return function (buildPath, electronVersion, platform, arch, cb) {
-    let binPath = path.join(buildPath, 'bin', name)
-    if (platform === 'win32') {
-      binPath = binPath + '.exe'
+function copyBinary(name, binaryLocation) {
+  return function(buildPath, electronVersion, platform, arch, cb) {
+    let binPath = path.join(buildPath, "bin", name)
+    if (platform === "win32") {
+      binPath = binPath + ".exe"
     }
     fs.copySync(binaryLocation, binPath)
     cb()
   }
 }
 
-function sha256File (path) {
-  let hash = createHash('sha256')
+function sha256File(path) {
+  let hash = createHash("sha256")
   fs.createReadStream(path).pipe(hash)
   return new Promise((resolve, reject) => {
-    hash.on('data', (hash) =>
-      resolve(hash.toString('hex')))
+    hash.on("data", hash => resolve(hash.toString("hex")))
   })
 }
 
-function zipFolder (inDir, outDir, version) {
+function zipFolder(inDir, outDir, version) {
   return new Promise(async (resolve, reject) => {
     let name = path.parse(inDir).name
     let outFile = path.join(outDir, `${name}_${version}.zip`)
     var zip = new JSZip()
-    await new Promise((resolve) => {
-      glob(inDir + '/**/*', (err, files) => {
+    await new Promise(resolve => {
+      glob(inDir + "/**/*", (err, files) => {
         if (err) {
           return reject(err)
         }
-        files
-        .forEach(file => {
+        files.forEach(file => {
           // make the zip deterministic by changing all file times
           if (fs.lstatSync(file).isDirectory()) {
             zip.file(path.relative(inDir, file), null, {
               dir: true,
-              date: new Date('1993-06-16')
+              date: new Date("1993-06-16")
             })
           } else {
             zip.file(path.relative(inDir, file), fs.readFileSync(file), {
-              date: new Date('1987-08-16')
+              date: new Date("1987-08-16")
             })
           }
         })
         resolve()
       })
     })
-    zip.generateNodeStream({type: 'nodebuffer', streamFiles: true})
-    .pipe(fs.createWriteStream(outFile))
-    .on('finish', function () {
-      sha256File(outFile).then((hash) => {
-        console.log('Zip successful!', outFile, 'SHA256:', hash)
-        resolve()
+    zip
+      .generateNodeStream({ type: "nodebuffer", streamFiles: true })
+      .pipe(fs.createWriteStream(outFile))
+      .on("finish", function() {
+        sha256File(outFile).then(hash => {
+          console.log("Zip successful!", outFile, "SHA256:", hash)
+          resolve()
+        })
       })
-    })
   })
 }
 
-async function tarFolder (inDir, outDir, version) {
+async function tarFolder(inDir, outDir, version) {
   let name = path.parse(inDir).name
   let outFile = path.join(outDir, `${name}_${version}.tar.gz`)
   var pack = tar.pack()
 
-  let files = glob(inDir + '/**', { sync: true })
+  let files = glob(inDir + "/**", { sync: true })
 
   // add files to tar
   for (let file of files) {
@@ -168,17 +170,21 @@ async function tarFolder (inDir, outDir, version) {
         continue
       } else if (stats.isSymbolicLink()) {
         linkname = fs.readlinkSync(file)
-        type = 'symlink'
+        type = "symlink"
       } else {
         contents = fs.readFileSync(file)
-        type = 'file'
+        type = "file"
       }
-      await new Promise((resolve) => {
-        pack.entry(Object.assign({}, stats, {
-          name: path.relative(inDir, file),
-          type,
-          linkname
-        }), contents, resolve)
+      await new Promise(resolve => {
+        pack.entry(
+          Object.assign({}, stats, {
+            name: path.relative(inDir, file),
+            type,
+            linkname
+          }),
+          contents,
+          resolve
+        )
       })
     } catch (err) {
       console.error(`Couldn't pack file`, file, err)
@@ -188,45 +194,45 @@ async function tarFolder (inDir, outDir, version) {
   pack.finalize()
 
   // make tar deterministic
-  await new Promise((resolve) => {
+  await new Promise(resolve => {
     pack
-    .pipe(deterministicTar())
-    // save tar to disc
-    .pipe(zlib.createGzip())
-    .pipe(fs.createWriteStream(outFile))
-    .on('finish', function () {
-      console.log('write finished')
-      sha256File(outFile).then((hash) => {
-        console.log('Zip successful!', outFile, 'SHA256:', hash)
-        resolve()
+      .pipe(deterministicTar())
+      // save tar to disc
+      .pipe(zlib.createGzip())
+      .pipe(fs.createWriteStream(outFile))
+      .on("finish", function() {
+        console.log("write finished")
+        sha256File(outFile).then(hash => {
+          console.log("Zip successful!", outFile, "SHA256:", hash)
+          resolve()
+        })
       })
-    })
   })
 }
 
-function deterministicTar () {
+function deterministicTar() {
   var UNIXZERO = new Date(new Date().getTimezoneOffset() * -1)
 
   var pack = tar.pack()
 
-  var extract =
-    tar.extract()
-      .on('entry', function (header, stream, cb) {
-        header.mtime = header.atime = header.ctime = UNIXZERO
-        header.uid = header.gid = 0
+  var extract = tar
+    .extract()
+    .on("entry", function(header, stream, cb) {
+      header.mtime = header.atime = header.ctime = UNIXZERO
+      header.uid = header.gid = 0
 
-        delete header.uname
-        delete header.gname
+      delete header.uname
+      delete header.gname
 
-        if (header.type === 'file') {
-          stream.pipe(pack.entry(header, cb))
-        } else {
-          pack.entry(header, cb)
-        }
-      })
-      .on('finish', function () {
-        pack.finalize()
-      })
+      if (header.type === "file") {
+        stream.pipe(pack.entry(header, cb))
+      } else {
+        pack.entry(header, cb)
+      }
+    })
+    .on("finish", function() {
+      pack.finalize()
+    })
 
   return duplexer(extract, pack)
 }

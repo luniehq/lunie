@@ -33,17 +33,17 @@ page(title="Proposal: Create Atoms")
 </template>
 
 <script>
-import { minLength, maxLength, required } from 'vuelidate/lib/validators'
-import Btn from '@nylira/vue-button'
-import Field from '@nylira/vue-field'
-import FieldGroup from 'common/NiFieldGroup'
-import FormGroup from 'common/NiFormGroup'
-import FormMsg from 'common/NiFormMsg'
-import FormStruct from 'common/NiFormStruct'
-import Page from 'common/NiPage'
-import ToolBar from 'common/NiToolBar'
+import { minLength, maxLength, required } from "vuelidate/lib/validators"
+import Btn from "@nylira/vue-button"
+import Field from "@nylira/vue-field"
+import FieldGroup from "common/NiFieldGroup"
+import FormGroup from "common/NiFormGroup"
+import FormMsg from "common/NiFormMsg"
+import FormStruct from "common/NiFormStruct"
+import Page from "common/NiPage"
+import ToolBar from "common/NiToolBar"
 export default {
-  name: 'page-proposals-new-create',
+  name: "page-proposals-new-create",
   components: {
     Btn,
     Field,
@@ -60,23 +60,26 @@ export default {
     bodyMinLength: 10,
     bodyMaxLength: 40000,
     fields: {
-      title: '',
-      body: ''
+      title: "",
+      body: ""
     }
   }),
   methods: {
-    onSubmit () {
+    onSubmit() {
       this.$v.$touch()
       if (!this.$v.$error) {
-        this.$store.commit('notify', { title: 'TODO: Create Text Proposal', body: 'You will have successfully created a text proposal' })
+        this.$store.commit("notify", {
+          title: "TODO: Create Text Proposal",
+          body: "You will have successfully created a text proposal"
+        })
         this.resetForm()
-        this.$router.push({ name: 'proposals' })
+        this.$router.push({ name: "proposals" })
       }
     },
-    resetForm () {
+    resetForm() {
       this.fields = {
-        title: '',
-        body: ''
+        title: "",
+        body: ""
       }
     }
   },
@@ -84,19 +87,19 @@ export default {
     fields: {
       title: {
         required,
-        minLength (x) {
+        minLength(x) {
           return minLength(this.titleMinLength)(x)
         },
-        maxLength (x) {
+        maxLength(x) {
           return maxLength(this.titleMaxLength)(x)
         }
       },
       body: {
         required,
-        minLength (x) {
+        minLength(x) {
           return minLength(this.bodyMinLength)(x)
         },
-        maxLength (x) {
+        maxLength(x) {
           return maxLength(this.bodyMaxLength)(x)
         }
       }

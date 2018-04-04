@@ -114,22 +114,22 @@ page.page-bond(title="Bond Atoms")
 </template>
 
 <script>
-import { between, numeric, required } from 'vuelidate/lib/validators'
-import { mapGetters } from 'vuex'
-import num from 'scripts/num'
-import interact from 'interactjs'
-import Btn from '@nylira/vue-button'
-import Field from '@nylira/vue-field'
-import FieldAddon from 'common/NiFieldAddon'
-import FieldGroup from 'common/NiFieldGroup'
-import FormGroup from 'common/NiFormGroup'
-import FormMsg from 'common/NiFormMsg'
-import FormStruct from 'common/NiFormStruct'
-import Page from 'common/NiPage'
-import Part from 'common/NiPart'
-import ToolBar from 'common/NiToolBar'
+import { between, numeric, required } from "vuelidate/lib/validators"
+import { mapGetters } from "vuex"
+import num from "scripts/num"
+import interact from "interactjs"
+import Btn from "@nylira/vue-button"
+import Field from "@nylira/vue-field"
+import FieldAddon from "common/NiFieldAddon"
+import FieldGroup from "common/NiFieldGroup"
+import FormGroup from "common/NiFormGroup"
+import FormMsg from "common/NiFormMsg"
+import FormStruct from "common/NiFormStruct"
+import Page from "common/NiPage"
+import Part from "common/NiPart"
+import ToolBar from "common/NiToolBar"
 export default {
-  name: 'page-bond',
+  name: "page-bond",
   components: {
     Btn,
     Field,
@@ -143,17 +143,20 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['shoppingCart', 'user', 'committedDelegations']),
-    totalAtoms () {
+    ...mapGetters(["shoppingCart", "user", "committedDelegations"]),
+    totalAtoms() {
       return this.user.atoms + this.oldBondedAtoms
     },
-    oldBondedAtoms () {
-      return Object.values(this.committedDelegations).reduce((sum, d) => sum + d, 0)
+    oldBondedAtoms() {
+      return Object.values(this.committedDelegations).reduce(
+        (sum, d) => sum + d,
+        0
+      )
     },
-    oldUnbondedAtoms () {
+    oldUnbondedAtoms() {
       return this.totalAtoms - this.oldBondedAtoms
     },
-    newUnbondedAtoms () {
+    newUnbondedAtoms() {
       return this.fields.delegates.reduce((atoms, d) => {
         let delta = d.oldAtoms - d.atoms
         if (delta < 0) {
@@ -162,7 +165,7 @@ export default {
         return atoms
       }, this.oldUnbondedAtoms)
     },
-    newUnbondingAtoms () {
+    newUnbondingAtoms() {
       return this.fields.delegates.reduce((atoms, d) => {
         let delta = d.oldAtoms - d.atoms
         if (delta > 0) {
@@ -171,16 +174,16 @@ export default {
         return atoms
       }, 0)
     },
-    newUnbondingAtomsDelta () {
+    newUnbondingAtomsDelta() {
       return this.delta(this.newUnbondingAtoms, 0)
     },
-    newUnbondingAtomsDeltaPct () {
+    newUnbondingAtomsDeltaPct() {
       return this.percent(this.newUnbondingAtomsDelta, this.totalAtoms)
     },
-    unbondedAtomsDelta () {
+    unbondedAtomsDelta() {
       return this.delta(this.newUnbondedAtoms, this.oldUnbondedAtoms)
     },
-    unbondedAtomsDeltaPct () {
+    unbondedAtomsDeltaPct() {
       return this.percent(this.unbondedAtomsDelta, this.totalAtoms)
     }
   },
@@ -195,147 +198,159 @@ export default {
     num: num
   }),
   methods: {
-    async onSubmit () {
+    async onSubmit() {
       if (this.newUnbondedAtoms < 0) {
-        this.$store.commit('notifyError', {
-          title: 'Too Many Allocated Atoms',
-          body: `You've tried to bond ${this.newUnbondedAtoms * -1} more atoms than you have.`
+        this.$store.commit("notifyError", {
+          title: "Too Many Allocated Atoms",
+          body: `You've tried to bond ${this.newUnbondedAtoms *
+            -1} more atoms than you have.`
         })
         return
       }
       this.$v.$touch()
       if (!this.$v.$error) {
-        this.$store.commit('activateDelegation')
+        this.$store.commit("activateDelegation")
         try {
-          await this.$store.dispatch('submitDelegation', this.fields)
-          this.$store.commit('notify', {
-            title: 'Successful Delegation',
-            body: 'You have successfully bonded / unbonded.'
+          await this.$store.dispatch("submitDelegation", this.fields)
+          this.$store.commit("notify", {
+            title: "Successful Delegation",
+            body: "You have successfully bonded / unbonded."
           })
-          this.$router.push('/staking')
+          this.$router.push("/staking")
         } catch (err) {
-          this.$store.commit('notifyError', {
-            title: 'Error While Bonding Atoms',
+          this.$store.commit("notifyError", {
+            title: "Error While Bonding Atoms",
             body: err.message
           })
         }
       }
     },
-    resetFields () {
+    resetFields() {
       let committedDelegations = this.committedDelegations
       let totalAtoms = this.totalAtoms
       this.fields.bondConfirm = false
-      this.fields.delegates = this.shoppingCart.map(c => JSON.parse(JSON.stringify(c)))
+      this.fields.delegates = this.shoppingCart.map(c =>
+        JSON.parse(JSON.stringify(c))
+      )
       this.fields.delegates = this.fields.delegates.map(d => {
         let atoms = committedDelegations[d.delegate.id] || 0
         d.atoms = atoms
         d.oldAtoms = atoms
         d.bondedRatio = atoms / totalAtoms
         d.deltaAtoms = 0
-        d.deltaAtomsPercent = '0%'
+        d.deltaAtomsPercent = "0%"
         return d
       })
     },
-    leaveIfBroke (count) {
+    leaveIfBroke(count) {
       if (count === 0) {
-        this.$store.commit('notifyError', {
-          title: 'Cannot Bond Without Atoms',
-          body: 'You do not have any atoms to bond to delegates.'
+        this.$store.commit("notifyError", {
+          title: "Cannot Bond Without Atoms",
+          body: "You do not have any atoms to bond to delegates."
         })
-        this.$router.push('/staking')
+        this.$router.push("/staking")
       }
     },
-    leaveIfEmpty (count) {
+    leaveIfEmpty(count) {
       if (count === 0) {
-        this.$store.commit('notifyError', {
-          title: 'No Delegates Selected',
-          body: 'Select one or more delegates before proceeding to bond atoms.'
+        this.$store.commit("notifyError", {
+          title: "No Delegates Selected",
+          body: "Select one or more delegates before proceeding to bond atoms."
         })
-        this.$router.push('/staking')
+        this.$router.push("/staking")
       }
     },
-    bondBarPercent (dividend) {
+    bondBarPercent(dividend) {
       let divisor = this.totalAtoms
       let ratio = Math.round(dividend / divisor * 100)
-      return ratio + '%'
+      return ratio + "%"
     },
-    bondBarInnerWidth (dividend) {
+    bondBarInnerWidth(dividend) {
       let offset = this.bondBarScrubWidth
       let maxWidth = this.bondBarOuterWidth
       let divisor = this.totalAtoms
       let ratio = Math.round(dividend / divisor * 100) / 100
-      let width = (ratio * (maxWidth - offset)) + offset
-      return width + 'px'
+      let width = ratio * (maxWidth - offset) + offset
+      return width + "px"
     },
-    styleBondBarInner (dividend) {
+    styleBondBarInner(dividend) {
       return { width: this.bondBarInnerWidth(dividend) }
     },
-    bondGroupClass (delta) {
+    bondGroupClass(delta) {
       if (delta > 0) {
-        return 'bond-group--positive'
+        return "bond-group--positive"
       } else if (delta < 0) {
-        return 'bond-group--negative'
+        return "bond-group--negative"
       } else {
-        return 'bond-group--neutral'
+        return "bond-group--neutral"
       }
     },
-    bondBarsInput () {
+    bondBarsInput() {
       let offset = this.bondBarScrubWidth
-      interact('.bond-bar__inner--editable')
+      interact(".bond-bar__inner--editable")
         .resizable({
           edges: {
-            left: false, right: true, bottom: false, top: false
+            left: false,
+            right: true,
+            bottom: false,
+            top: false
           },
-          restrictEdges: { outer: 'parent' },
+          restrictEdges: { outer: "parent" },
           restrictSize: { min: { width: offset } }
         })
-        .on('resizemove', (event) => {
+        .on("resizemove", event => {
           this.handleResize(event.target, event.rect.width)
         })
     },
-    handleResize (element, width) {
+    handleResize(element, width) {
       let offset = this.bondBarScrubWidth
-      let ratio = Math.round((width - offset) / (this.bondBarOuterWidth - offset) * 100) / 100
+      let ratio =
+        Math.round((width - offset) / (this.bondBarOuterWidth - offset) * 100) /
+        100
       let rawAtoms = ratio * this.totalAtoms
 
-      element.style.width = width + 'px'
+      element.style.width = width + "px"
 
-      return this.updateDelegateAtoms(element.id.split('-')[1], rawAtoms)
+      return this.updateDelegateAtoms(element.id.split("-")[1], rawAtoms)
     },
-    updateDelegateAtoms (delegateId, rawAtoms) {
+    updateDelegateAtoms(delegateId, rawAtoms) {
       let d = this.fields.delegates.find(d => d.id === delegateId)
       if (d) {
         d.bondedRatio = rawAtoms / this.totalAtoms
         d.atoms = Math.round(rawAtoms)
-        d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, 'int')
-        d.deltaAtomsPercent =
-          this.percent(this.delta(rawAtoms, d.oldAtoms), this.totalAtoms)
+        d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, "int")
+        d.deltaAtomsPercent = this.percent(
+          this.delta(rawAtoms, d.oldAtoms),
+          this.totalAtoms
+        )
         return d
       }
     },
-    setBondBarOuterWidth () {
-      let outerBar = this.$el.querySelector('.bond-bar__outer')
+    setBondBarOuterWidth() {
+      let outerBar = this.$el.querySelector(".bond-bar__outer")
       this.bondBarOuterWidth = outerBar.clientWidth
     },
-    delta (current, previous, fmt) {
+    delta(current, previous, fmt) {
       let x = current - previous
-      if (fmt === 'int') {
+      if (fmt === "int") {
         return Math.round(x)
       } else {
         return x
       }
     },
-    percent (dividend, divisor, sigFigs) {
+    percent(dividend, divisor, sigFigs) {
       let ratio = dividend / divisor
       let value
       if (Number.isInteger(sigFigs)) {
-        value = Math.round(ratio * 100 * Math.pow(10, sigFigs)) / Math.pow(10, sigFigs)
+        value =
+          Math.round(ratio * 100 * Math.pow(10, sigFigs)) /
+          Math.pow(10, sigFigs)
       } else {
         value = Math.round(ratio * 100)
       }
-      return value + '%'
+      return value + "%"
     },
-    limitMax (delegate, event) {
+    limitMax(delegate, event) {
       let max = parseInt(event.target.max)
       if (delegate.atoms >= max) {
         console.log(`${delegate.atoms} <= ${max}`)
@@ -344,7 +359,7 @@ export default {
       }
     }
   },
-  async mounted () {
+  async mounted() {
     this.leaveIfBroke(this.user.atoms)
     this.leaveIfEmpty(this.shoppingCart.length)
     this.resetFields()
@@ -354,7 +369,7 @@ export default {
     this.setBondBarOuterWidth()
   },
   watch: {
-    shoppingCart (newVal) {
+    shoppingCart(newVal) {
       this.leaveIfEmpty(newVal.length)
       this.resetFields()
     }
@@ -367,11 +382,14 @@ export default {
           atoms: {
             required,
             numeric,
-            between (atoms, parentVm) {
+            between(atoms, parentVm) {
               let otherDelegates = this.fields.delegates.filter(
-                d => d.id !== parentVm.id)
+                d => d.id !== parentVm.id
+              )
               let otherBondedAtoms = otherDelegates.reduce(
-                (sum, d) => sum + (d.atoms || 0), 0)
+                (sum, d) => sum + (d.atoms || 0),
+                0
+              )
               let maximumAtoms = this.totalAtoms - otherBondedAtoms
               return between(this.minimumAtoms, maximumAtoms)(atoms)
             }

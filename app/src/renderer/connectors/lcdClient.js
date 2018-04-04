@@ -1,11 +1,11 @@
-'use strict'
+"use strict"
 
-const axios = require('axios')
+const axios = require("axios")
 
 // returns an async function which makes a request for the given
 // HTTP method (GET/POST/DELETE/etc) and path (/foo/bar)
-function req (method, path) {
-  return async function (data) {
+function req(method, path) {
+  return async function(data) {
     return await this.request(method, path, data)
   }
 }
@@ -13,13 +13,13 @@ function req (method, path) {
 // returns an async function which makes a request for the given
 // HTTP method and path, which accepts arguments to be appended
 // to the path (/foo/{arg}/...)
-function argReq (method, path) {
-  return async function (args, data) {
+function argReq(method, path) {
+  return async function(args, data) {
     // `args` can either be a single value or an array
     if (Array.isArray(args)) {
-      args = args.join('/')
+      args = args.join("/")
     }
-    if (method === 'DELETE') {
+    if (method === "DELETE") {
       data = { data }
     }
     return await this.request(method, `${path}/${args}`, data)
@@ -27,11 +27,11 @@ function argReq (method, path) {
 }
 
 class Client {
-  constructor (server = 'http://localhost:8998') {
+  constructor(server = "http://localhost:8998") {
     this.server = server
   }
 
-  async request (method, path, data) {
+  async request(method, path, data) {
     try {
       let res = await axios[method.toLowerCase()](this.server + path, data)
       return res.data
@@ -48,51 +48,50 @@ class Client {
   }
 }
 
-let fetchAccount = argReq('GET', '/query/account')
-let fetchNonce = argReq('GET', '/query/nonce')
+let fetchAccount = argReq("GET", "/query/account")
+let fetchNonce = argReq("GET", "/query/nonce")
 
 Object.assign(Client.prototype, {
   // meta
-  lcdConnected: function () {
-    return this.listKeys()
-      .then(() => true, () => false)
+  lcdConnected: function() {
+    return this.listKeys().then(() => true, () => false)
   },
 
   // tx
-  sign: req('POST', '/sign'),
-  postTx: req('POST', '/tx'),
+  sign: req("POST", "/sign"),
+  postTx: req("POST", "/tx"),
 
   // keys
-  generateKey: req('POST', '/keys'),
-  listKeys: req('GET', '/keys'),
-  getKey: argReq('GET', '/keys'),
-  updateKey: argReq('PUT', '/keys'),
+  generateKey: req("POST", "/keys"),
+  listKeys: req("GET", "/keys"),
+  getKey: argReq("GET", "/keys"),
+  updateKey: argReq("PUT", "/keys"),
   // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prop data
-  deleteKey: argReq('DELETE', '/keys'),
-  recoverKey: req('POST', '/keys/recover'),
+  deleteKey: argReq("DELETE", "/keys"),
+  recoverKey: req("POST", "/keys/recover"),
 
   // coins
-  buildSend: req('POST', '/build/send'),
-  async queryAccount (address) {
+  buildSend: req("POST", "/build/send"),
+  async queryAccount(address) {
     try {
       return await fetchAccount.call(this, address)
     } catch (err) {
       // if account not found, return null instead of throwing
-      if (err.message.includes('account bytes are empty')) {
+      if (err.message.includes("account bytes are empty")) {
         return null
       }
       throw err
     }
   },
-  coinTxs: argReq('GET', '/tx/coin'),
+  coinTxs: argReq("GET", "/tx/coin"),
 
   // nonce
-  async queryNonce (address) {
+  async queryNonce(address) {
     try {
       return await fetchNonce.call(this, address)
     } catch (err) {
       // if nonce not found, return 0 instead of throwing
-      if (err.message.includes('nonce empty')) {
+      if (err.message.includes("nonce empty")) {
         return 0
       }
       throw err
@@ -100,11 +99,11 @@ Object.assign(Client.prototype, {
   },
 
   // staking
-  candidate: argReq('GET', '/query/stake/candidate'),
-  candidates: req('GET', '/query/stake/candidates'),
-  buildDelegate: req('POST', '/build/stake/delegate'),
-  buildUnbond: req('POST', '/build/stake/unbond'),
-  bondingsByDelegator: argReq('GET', '/query/stake/delegator')
+  candidate: argReq("GET", "/query/stake/candidate"),
+  candidates: req("GET", "/query/stake/candidates"),
+  buildDelegate: req("POST", "/build/stake/delegate"),
+  buildUnbond: req("POST", "/build/stake/unbond"),
+  bondingsByDelegator: argReq("GET", "/query/stake/delegator")
 })
 
 module.exports = Client
