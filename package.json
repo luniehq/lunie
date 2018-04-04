@@ -173,7 +173,7 @@
       "/build/",
       "/dist/",
       "/test/",
-      "/config.js"
+      "/app/src/config.js"
     ],
     "testURL": "http://localhost",
     "setupFiles": [

@@ -14,7 +14,7 @@ let Raven = require("raven")
 
 let pkg = require("../../../package.json")
 let addMenu = require("./menu.js")
-let config = require("../../../config.js")
+let config = require("../config.js")
 
 let shuttingDown = false
 let mainWindow

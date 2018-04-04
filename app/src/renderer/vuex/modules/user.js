@@ -1,7 +1,7 @@
 import enableGoogleAnalytics from "../../google-analytics.js"
 import Raven from "raven-js"
 const { ipcRenderer } = require("electron")
-const config = require("../../../../../config")
+const config = require("../../../config")
 
 export default ({ commit, node }) => {
   const ERROR_COLLECTION_KEY = "voyager_error_collection"
