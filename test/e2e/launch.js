@@ -14,16 +14,18 @@ let binary = process.env.BINARY_PATH
 function launch(t) {
   if (!started) {
     // tape doesn't exit properly on uncaught promise rejections
-    process.on("unhandledRejection", async error => {
-      console.error("unhandledRejection", error)
-      if (app && app.client) {
-        console.log("saving screenshot to ", join(__dirname, "snapshot.png"))
-        await app.browserWindow.capturePage().then(function(imageBuffer) {
-          fs.writeFileSync(join(__dirname, "snapshot.png"), imageBuffer)
-        })
-      }
-      process.exit(1)
-    })
+    if (!process.env.COSMOS_E2E_KEEP_OPEN)
+      process.on("unhandledRejection", async error => {
+        console.error("unhandledRejection", error)
+        if (app && app.client) {
+          console.log("saving screenshot to ", join(__dirname, "snapshot.png"))
+          await app.browserWindow.capturePage().then(function(imageBuffer) {
+            fs.writeFileSync(join(__dirname, "snapshot.png"), imageBuffer)
+          })
+          await printAppLog(app)
+        }
+        process.exit(1)
+      })
 
     started = new Promise(async (resolve, reject) => {
       console.log("using binary", binary)
@@ -47,7 +49,6 @@ function launch(t) {
         startTimeout: 10000,
         waitTimeout: 10000,
         env: {
-          ANALYTICS: "false",
           COSMOS_NODE: "localhost",
           NODE_ENV: "production",
           PREVIEW: "true",
@@ -87,7 +88,6 @@ function launch(t) {
   return started
 }
 
-test.onFinish(() => (app ? app.stop() : null))
 test.onFinish(async () => {
   console.log("DONE: cleaning up")
   ;(await app) ? app.stop() : null
@@ -95,13 +95,13 @@ test.onFinish(async () => {
   process.exit(0)
 })
 
-function printAppLog(app) {
-  app.client.getMainProcessLogs().then(function(logs) {
+async function printAppLog(app) {
+  await app.client.getMainProcessLogs().then(function(logs) {
     logs.forEach(function(log) {
       console.log(log)
     })
   })
-  app.client.getRenderProcessLogs().then(function(logs) {
+  await app.client.getRenderProcessLogs().then(function(logs) {
     logs.forEach(function(log) {
       console.log(log.message)
       console.log(log.source)
@@ -113,8 +113,8 @@ function printAppLog(app) {
 async function startApp(app) {
   await app.start()
 
-  await app.client.waitForExist(".ni-session", 5000).catch(e => {
-    printAppLog(app)
+  await app.client.waitForExist(".ni-session", 5000).catch(async e => {
+    await printAppLog(app)
     throw e
   })
 }
