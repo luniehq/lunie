@@ -11,7 +11,7 @@ describe("PageSend", () => {
   beforeEach(async () => {
     let test = mount(PageSend, {
       propsData: {
-        denom: 'fermion'
+        denom: "fermion"
       }
     })
     wrapper = test.wrapper
@@ -66,7 +66,7 @@ describe("PageSend", () => {
   })
 
   it("should work without providing a default denom", () => {
-    let {wrapper} = mount(PageSend)
+    let { wrapper } = mount(PageSend)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
