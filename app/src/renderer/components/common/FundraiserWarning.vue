@@ -5,7 +5,7 @@
 </template>
 
 <script>
-export default { name: 'fundraiser-warning' }
+export default { name: "fundraiser-warning" }
 </script>
 
 <style lang="stylus">

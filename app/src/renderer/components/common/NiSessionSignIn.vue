@@ -25,16 +25,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { required, minLength } from 'vuelidate/lib/validators'
-import Btn from '@nylira/vue-button'
-import Field from '@nylira/vue-field'
-import FieldGroup from 'common/NiFieldGroup'
-import FormGroup from 'common/NiFormGroup'
-import FormMsg from 'common/NiFormMsg'
-import FormStruct from 'common/NiFormStruct'
+import { mapGetters } from "vuex"
+import { required, minLength } from "vuelidate/lib/validators"
+import Btn from "@nylira/vue-button"
+import Field from "@nylira/vue-field"
+import FieldGroup from "common/NiFieldGroup"
+import FormGroup from "common/NiFormGroup"
+import FormMsg from "common/NiFormMsg"
+import FormStruct from "common/NiFormStruct"
 export default {
-  name: 'ni-session-sign-in',
+  name: "ni-session-sign-in",
   components: {
     Btn,
     Field,
@@ -45,39 +45,48 @@ export default {
   },
   data: () => ({
     fields: {
-      signInName: '',
-      signInPassword: ''
+      signInName: "",
+      signInPassword: ""
     }
   }),
   computed: {
-    ...mapGetters(['user']),
-    accounts () {
+    ...mapGetters(["user"]),
+    accounts() {
       let accounts = this.user.accounts
-      accounts = accounts.filter(({ name }) => name !== 'trunk')
+      accounts = accounts.filter(({ name }) => name !== "trunk")
       return accounts.map(({ name }) => ({ key: name, value: name }))
     }
   },
   methods: {
-    help () {
-      this.$store.commit('setModalHelp', true)
+    help() {
+      this.$store.commit("setModalHelp", true)
     },
-    setState (value) {
-      this.$store.commit('setModalSessionState', value)
+    setState(value) {
+      this.$store.commit("setModalSessionState", value)
     },
-    async onSubmit () {
+    async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        await this.$store.dispatch('testLogin', { password: this.fields.signInPassword, account: this.fields.signInName })
-        this.$store.dispatch('signIn', { password: this.fields.signInPassword, account: this.fields.signInName })
-        localStorage.setItem('prevAccountKey', this.fields.signInName)
-        this.$store.commit('setModalSession', false)
+        await this.$store.dispatch("testLogin", {
+          password: this.fields.signInPassword,
+          account: this.fields.signInName
+        })
+        this.$store.dispatch("signIn", {
+          password: this.fields.signInPassword,
+          account: this.fields.signInName
+        })
+        localStorage.setItem("prevAccountKey", this.fields.signInName)
+        this.$store.commit("setModalSession", false)
       } catch (err) {
-        this.$store.commit('notifyError', { title: 'Signing In Failed', body: err.message })
+        this.$store.commit("notifyError", {
+          title: "Signing In Failed",
+          body: err.message
+        })
       }
     },
-    setDefaultAccount () {
-      let prevAccountKey = localStorage.getItem('prevAccountKey')
+    setDefaultAccount() {
+      let prevAccountKey = localStorage.getItem("prevAccountKey")
       let prevAccountExists = this.accounts.find(a => a.key === prevAccountKey)
 
       if (this.accounts.length === 1) {
@@ -87,13 +96,13 @@ export default {
       }
 
       if (this.fields.signInName) {
-        this.$el.querySelector('#sign-in-password').focus()
+        this.$el.querySelector("#sign-in-password").focus()
       } else {
-        this.$el.querySelector('#sign-in-name').focus()
+        this.$el.querySelector("#sign-in-name").focus()
       }
     }
   },
-  mounted () {
+  mounted() {
     this.setDefaultAccount(this.accounts)
   },
   validations: () => ({

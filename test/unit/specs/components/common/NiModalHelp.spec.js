@@ -1,7 +1,7 @@
-import setup from '../../../helpers/vuex-setup'
-import NiModalHelp from 'common/NiModalHelp'
+import setup from "../../../helpers/vuex-setup"
+import NiModalHelp from "common/NiModalHelp"
 
-describe('NiModalHelp', () => {
+describe("NiModalHelp", () => {
   let wrapper, store
   let { mount } = setup()
 
@@ -9,14 +9,14 @@ describe('NiModalHelp', () => {
     let instance = mount(NiModalHelp)
     wrapper = instance.wrapper
     store = instance.store
-    store.commit('setModalHelp', true)
+    store.commit("setModalHelp", true)
   })
 
-  it('has the expected html structure', () => {
+  it("has the expected html structure", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it('should hide', () => {
+  it("should hide", () => {
     wrapper.vm.close()
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()

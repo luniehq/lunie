@@ -15,17 +15,17 @@
 
 <script>
 export default {
-  name: 'ni-tool-bar',
+  name: "ni-tool-bar",
   methods: {
-    enableModalHelp () {
-      this.$store.commit('setModalHelp', true)
+    enableModalHelp() {
+      this.$store.commit("setModalHelp", true)
     },
-    openSession () {
-      this.$store.commit('setModalSession', true)
+    openSession() {
+      this.$store.commit("setModalSession", true)
       this.close()
     },
-    signOut () {
-      this.$store.dispatch('signOut')
+    signOut() {
+      this.$store.dispatch("signOut")
       this.openSession()
     }
   }

@@ -1,8 +1,8 @@
 {
-  "genesis_time":"2017-09-12T22:13:16Z",
+  "genesis_time": "2017-09-12T22:13:16Z",
   "chain_id": "local",
   "validators": [],
-  "app_hash":"",
+  "app_hash": "",
   "app_options": {
     "accounts": [
       {

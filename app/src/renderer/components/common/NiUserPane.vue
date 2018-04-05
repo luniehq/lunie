@@ -9,16 +9,16 @@ list-item.ni-li-user(
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import noScroll from 'no-scroll'
-import ListItem from 'common/NiListItem'
+import { mapGetters } from "vuex"
+import noScroll from "no-scroll"
+import ListItem from "common/NiListItem"
 export default {
-  name: 'ni-user-pane',
+  name: "ni-user-pane",
   components: { ListItem },
-  computed: { ...mapGetters(['user', 'config']) },
+  computed: { ...mapGetters(["user", "config"]) },
   methods: {
-    close () {
-      this.$store.commit('setActiveMenu', '')
+    close() {
+      this.$store.commit("setActiveMenu", "")
       noScroll.off()
     }
   }

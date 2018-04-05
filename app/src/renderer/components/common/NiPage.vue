@@ -8,22 +8,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import PerfectScrollbar from 'perfect-scrollbar'
-import PageHeader from 'common/NiPageHeader'
-import PageFooter from 'common/NiPageFooter'
+import { mapGetters } from "vuex"
+import PerfectScrollbar from "perfect-scrollbar"
+import PageHeader from "common/NiPageHeader"
+import PageFooter from "common/NiPageFooter"
 export default {
-  name: 'ni-page',
-  props: ['title', 'subtitle', 'icon'],
+  name: "ni-page",
+  props: ["title", "subtitle", "icon"],
   components: {
     PageHeader,
     PageFooter
   },
-  computed: { ...mapGetters(['config']) },
-  data: () => ({ ps: '' }),
-  async mounted () {
+  computed: { ...mapGetters(["config"]) },
+  data: () => ({ ps: "" }),
+  async mounted() {
     await this.$nextTick()
-    const container = this.$el.querySelector('.ni-page-main')
+    const container = this.$el.querySelector(".ni-page-main")
     this.ps = new PerfectScrollbar(container)
   }
 }

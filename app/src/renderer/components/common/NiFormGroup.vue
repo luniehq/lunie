@@ -9,15 +9,15 @@ div(:class='cssClass')
 
 <script>
 export default {
-  name: 'ni-form-group',
+  name: "ni-form-group",
   computed: {
-    cssClass () {
-      let value = 'ni-form-group'
-      if (this.error) value += ' ni-form-group--error'
+    cssClass() {
+      let value = "ni-form-group"
+      if (this.error) value += " ni-form-group--error"
       return value
     }
   },
-  props: ['error', 'field-id', 'field-label', 'sub-label']
+  props: ["error", "field-id", "field-label", "sub-label"]
 }
 </script>
 

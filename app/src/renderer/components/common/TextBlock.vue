@@ -4,16 +4,16 @@
 </template>
 
 <script>
-import MarkdownIt from 'markdown-it'
+import MarkdownIt from "markdown-it"
 export default {
-  name: 'text-block',
+  name: "text-block",
   computed: {
-    htmlContent () {
+    htmlContent() {
       let md = new MarkdownIt()
       return md.render(this.content)
     }
   },
-  props: ['content', 'author']
+  props: ["content", "author"]
 }
 </script>
 

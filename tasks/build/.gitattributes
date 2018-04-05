@@ -1,0 +1,2 @@
+# Use Unix line endings for text files because we're using Docker.
+* text eol=lf
