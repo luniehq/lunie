@@ -25,7 +25,7 @@ page(title="My Profile")
               .ni-field-checkbox-input
                 input#toggle-light-theme(
                   type="checkbox"
-                  :checked="config.theme === 'light'"
+                  :checked="themes.active === 'light'"
                   @change="toggleAppTheme")
   .ni-session-footer
     btn(icon='exit_to_app' type='button' @click.native="signOut" value='Sign Out')
@@ -47,14 +47,14 @@ export default {
     Part,
     ToolBar
   },
-  computed: { ...mapGetters(["user", "config"]) },
+  computed: { ...mapGetters(["user", "themes"]) },
   methods: {
     signOut() {
       this.$store.dispatch("signOut")
       this.$store.commit("notifySignOut")
     },
     toggleAppTheme() {
-      if (this.config.theme === "dark") {
+      if (this.themes.active === "dark") {
         this.$store.commit("setTheme", "light")
       } else {
         this.$store.commit("setTheme", "dark")

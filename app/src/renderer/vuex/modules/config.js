@@ -19,13 +19,9 @@ export default ({ commit }) => {
         state: "loading"
       },
       blockchain: { active: false }
-    },
-    theme: "dark"
+    }
   }
   const mutations = {
-    setTheme(state, value) {
-      state.theme = value
-    },
     setDevMode(state, value) {
       state.devMode = value
     },

@@ -29,7 +29,7 @@ export default {
   name: "chart-votes",
   props: ["votes", "size"],
   computed: {
-    ...mapGetters(["config"]),
+    ...mapGetters(["themes"]),
     cssClass() {
       if (this.size === "lg") {
         return "chart-votes-size-lg"
@@ -55,7 +55,7 @@ export default {
     },
     chartData() {
       let abstainBgColor
-      if (this.config.theme === "dark") {
+      if (this.themes.active === "dark") {
         abstainBgColor = "#FFFFFF"
       } else {
         abstainBgColor = "#000000"

@@ -16,7 +16,6 @@
 import { mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
 import AppFooter from "common/AppFooter"
-import AppTheme from "common/AppTheme"
 import Notifications from "@nylira/vue-notifications"
 import ModalError from "common/NiModalError"
 import ModalHelp from "common/NiModalHelp"
@@ -27,14 +26,21 @@ export default {
   components: {
     AppHeader,
     AppFooter,
-    AppTheme,
     ModalError,
     ModalHelp,
     Notifications,
     Session
   },
-  computed: { ...mapGetters(["notifications", "config"]) },
-  store
+  computed: { ...mapGetters(["notifications", "config", "themes"]) },
+  mounted() {
+    this.$store.commit("updateTheme", this.themes.active)
+  },
+  store,
+  watch: {
+    "themes.active"(newTheme) {
+      this.$store.commit("updateTheme", this.themes.active)
+    }
+  }
 }
 </script>
 

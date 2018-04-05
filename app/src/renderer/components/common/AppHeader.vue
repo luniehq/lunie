@@ -3,7 +3,7 @@ nav#app-header: .container
   template(v-if="!config.desktop"): .header-item
 
   router-link.header-item.header-item-logo(to="/")
-    img#logo-black(v-if="config.theme == 'light'"
+    img#logo-black(v-if="themes.active == 'light'"
       src="~@/assets/images/cosmos-wordmark-black.svg")
     img#logo-white(v-else
       src="~@/assets/images/cosmos-wordmark-white.svg")
@@ -23,7 +23,7 @@ import AppMenu from "common/AppMenu"
 export default {
   name: "app-header",
   components: { AppMenu },
-  computed: { ...mapGetters(["config"]) },
+  computed: { ...mapGetters(["config", "themes"]) },
   methods: {
     close() {
       this.$store.commit("setActiveMenu", "")

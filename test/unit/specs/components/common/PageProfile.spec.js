@@ -42,10 +42,10 @@ describe("PageProfile", () => {
   it("should switch the theme", () => {
     wrapper.find("#toggle-light-theme").trigger("click")
     expect(store.commit).toHaveBeenCalledWith("setTheme", "light")
-    expect(store.state.config.theme).toBe("light")
+    expect(store.state.themes.active).toBe("light")
     store.commit.mockClear()
     wrapper.find("#toggle-light-theme").trigger("click")
     expect(store.commit).toHaveBeenCalledWith("setTheme", "dark")
-    expect(store.state.config.theme).toBe("dark")
+    expect(store.state.themes.active).toBe("dark")
   })
 })
