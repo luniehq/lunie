@@ -5,8 +5,7 @@ exports[`TextBlock has the expected html structure 1`] = `
   class="text-block"
 >
   <pre>
-    ## Hello
-      ### Worl
+    Hello World
   </pre>
 </div>
 `;
