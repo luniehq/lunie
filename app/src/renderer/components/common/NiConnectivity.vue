@@ -29,11 +29,11 @@ export default {
 @require '~variables'
 
 .ni-connectivity
-  background app-bg
+  background var(--app-bg)
 
   .ni-li-thumb
     .material-icons
-      color success
+      color var(--success)
 
   &.connecting
     .material-icons
@@ -41,7 +41,7 @@ export default {
 
 @media screen and (min-width: 1024px)
   .ni-connectivity
-    border-top px solid bc
+    border-top px solid var(--bc)
     height 3rem + px
     display flex
     align-items center

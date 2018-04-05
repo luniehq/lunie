@@ -8,6 +8,7 @@ export default opts => ({
   notifications: require("./notifications.js").default(opts),
   proposals: require("./proposals.js").default(opts),
   send: require("./send.js").default(opts),
+  themes: require("./themes.js").default(opts),
   user: require("./user.js").default(opts),
   validators: require("./validators.js").default(opts),
   wallet: require("./wallet.js").default(opts)

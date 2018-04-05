@@ -21,7 +21,7 @@ export default {
   height 3rem
   display flex
   align-items center
-  border-bottom px solid bc-dim
+  border-bottom px solid var(--bc-dim)
   &:only-child
     border-bottom none
 

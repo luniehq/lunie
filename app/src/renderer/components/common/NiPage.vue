@@ -43,14 +43,13 @@ export default {
   position relative
 
 .ni-page-title
-  color bright
+  color var(--bright)
   font-size h2
   padding 0.5rem 1rem 1rem
 
-.ni-page-subtitle
-  > div
-    color dim
-    font-size sm
+.ni-page-subtitle > div
+  color var(--dim)
+  font-size sm
 
 @media screen and (min-width: 768px)
   .ni-page-main
