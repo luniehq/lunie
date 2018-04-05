@@ -43,7 +43,7 @@ export default {
 .panel-sort-container
   display flex
   height 2rem
-  border-bottom px solid bc
+  border-bottom px solid var(--bc)
 
 .sort-by
   flex 1
@@ -55,8 +55,8 @@ export default {
   min-width 0
 
   .label
-    font-size sm
-    color dim
+    font-size var(--sm)
+    color var(--dim)
     white-space nowrap
     text-overflow ellipsis
     overflow hidden
@@ -64,7 +64,7 @@ export default {
   &:after
     display block
     font-family FontAwesome
-    color dim
+    color var(--dim)
     padding-left 0.25rem
 
   &.asc:after
@@ -75,13 +75,13 @@ export default {
 
   &:not(.active):hover
     .label
-      color txt
+      color var(--txt)
 
   &.active
     .label
-      color bright
+      color var(--bright)
     &:after
-      color txt
+      color var(--txt)
 
   &.name
     flex 2

@@ -98,14 +98,14 @@ export default {
 @require '~variables'
 
 .ni-modal-search-container
-  background app-fg
+  background var(--app-fg)
   margin-bottom 1rem
   padding 0.5rem 0
 
   .ni-btn
     margin-left 0.5rem
   .ni-field
-    background app-bg
+    background var(--app-bg)
 
 .ni-modal-search-field
   display flex

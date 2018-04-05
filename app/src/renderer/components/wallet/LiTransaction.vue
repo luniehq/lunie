@@ -80,13 +80,13 @@ export default {
 .ni-li-tx
   display flex
   font-size sm
-  border-bottom 1px solid bc-dim
+  border-bottom 1px solid var(--bc-dim)
   &:nth-of-type(2n-1)
-    background app-fg
+    background var(--app-fg)
 
   .tx-icon
     padding 0 0.5rem
-    background app-fg
+    background var(--app-fg)
     display flex
     align-items center
     justify-content center
@@ -109,7 +109,7 @@ export default {
     .value
       flex 0 0 100%
       font-size sm
-      color dim
+      color var(--dim)
       &:before
         content ''
         display inline
@@ -125,19 +125,18 @@ export default {
     overflow hidden
     text-overflow ellipsis
 
-    color dim
+    color var(--dim)
     font-size sm
 
   &.ni-li-tx-sent
     .tx-icon
-      background alpha(dim, 5%)
     .tx-coin .value
       &:before
         content '-'
 
   &.ni-li-tx-received
     .tx-icon
-      background alpha(success, 5%)
+      background var(--app-fg)
     .tx-coin .value
       color success
       &:before
@@ -145,7 +144,7 @@ export default {
 
   &:hover
     cursor pointer
-    background hover-bg
+    background var(--hover-bg)
 
 @media screen and (min-width: 700px)
   .ni-li-tx

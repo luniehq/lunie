@@ -183,6 +183,40 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
                       class="ni-field-checkbox-input"
                     >
                       <input
+                        id="toggle-error-reports"
+                        type="checkbox"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Enable light theme
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  <div
+                    class="ni-field-checkbox"
+                  >
+                    <div
+                      class="ni-field-checkbox-input"
+                    >
+                      <input
+                        id="toggle-light-theme"
                         type="checkbox"
                       />
                     </div>
