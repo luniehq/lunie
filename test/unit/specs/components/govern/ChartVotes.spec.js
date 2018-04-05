@@ -20,16 +20,6 @@ describe("ChartVotes", () => {
   }
 
   beforeEach(() => {
-    const createElement = document.createElement.bind(document)
-    document.createElement = tagName => {
-      if (tagName === "canvas") {
-        return {
-          getContext: () => ({}),
-          setAttribute: () => ({})
-        }
-      }
-      return createElement(tagName)
-    }
     getters = {
       themes: () => ({})
     }
