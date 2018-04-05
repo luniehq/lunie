@@ -1,8 +1,10 @@
 import light from "../json/theme-light.json"
 import dark from "../json/theme-dark.json"
 
-function setCssVar(key, value) {
-  document.documentElement.style.setProperty(`--${key}`, value)
+function setCssVars(theme) {
+  for (let key in theme) {
+    document.documentElement.style.setProperty(`--${key}`, theme[key])
+  }
 }
 
 export default ({ commit }) => {
@@ -25,16 +27,10 @@ export default ({ commit }) => {
       }
     },
     setThemeLight(state) {
-      let theme = state.options.light
-      for (let key in theme) {
-        setCssVar(key, theme[key])
-      }
+      setCssVars(state.options.light)
     },
     setThemeDark(state) {
-      let theme = state.options.dark
-      for (let key in theme) {
-        setCssVar(key, theme[key])
-      }
+      setCssVars(state.options.dark)
     }
   }
   return {
