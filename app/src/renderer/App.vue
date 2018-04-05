@@ -1,6 +1,5 @@
 <template lang="pug">
 #app
-  app-theme
   template(v-if="!config.modals.session.active")
     app-header
     #app-content
