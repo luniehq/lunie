@@ -210,6 +210,8 @@ $ rm -rf package-lock.json
 
 * If starting the development server fails with the error: `Error: listen EADDRINUSE 127.0.0.1:9080`, you have still a development server process running. Kill it with `kill $(lsof -t -i:9080)` on Unix systems. On Windows Powershell first look for the processes with `netstat -a -o -n | Select-String -Pattern "9080"` then kill them with `taskkill /F /PID {PID}`.
 
+- If `yarn test:e2e` outputs an error about ChromeDriver timeout, remove your node_modules folder and reinstall all dependencies.
+
 ---
 
 ### ✌️

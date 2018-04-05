@@ -19,8 +19,8 @@
     "local": "yarn run testnet local",
     "testnet": "node tasks/testnet.js",
     "lint":
-      "eslint -f ./node_modules/eslint-friendly-formatter '{,**/}*.{js,vue}' && prettier --list-different '{,**/}*.{css,js,json,md,vue}'",
-    "lint:fix": "prettier --write '{,**/}*.{css,js,json,md,vue}'",
+      "eslint -f ./node_modules/eslint-friendly-formatter {,**/}*.{js,vue} && prettier --list-different {,**/}*.{css,js,json,md,vue}",
+    "lint:fix": "prettier --write {,**/}*.{css,js,json,md,vue}",
     "pack": "yarn run pack:main && yarn run pack:renderer",
     "pack:main":
       "cross-env NODE_ENV=production webpack --colors --config webpack.main.config.js",
