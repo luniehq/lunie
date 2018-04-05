@@ -5,11 +5,13 @@ describe("TextBlock", () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = mount(TextBlock, {propsData: {
-      content: `## Hello
+    wrapper = mount(TextBlock, {
+      propsData: {
+        content: `## Hello
       ### Worl`,
-      author: 'faboweb'
-    }})
+        author: "faboweb"
+      }
+    })
   })
 
   it("has the expected html structure", () => {
