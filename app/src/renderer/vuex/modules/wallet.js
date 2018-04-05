@@ -5,7 +5,7 @@ let root = require("../../../root.js")
 export default ({ commit, node }) => {
   let state = {
     balances: [],
-    balancesLoading: false,
+    balancesLoading: true,
     key: { address: "" },
     history: [],
     historyLoading: false,
@@ -57,11 +57,10 @@ export default ({ commit, node }) => {
       dispatch("queryNonce", state.key.address)
       dispatch("queryWalletHistory")
     },
-    async queryWalletBalances({ state, rootState, commit }) {
-      state.balancesLoading = true
+    async queryWalletBalances({ state, rootState, commit, dispatch }) {
       let res = await node.queryAccount(state.key.address)
       if (!res) {
-        state.balancesLoading = false
+        state.balancesLoading = true
         return
       }
       commit("setWalletBalances", res.data.coins)
@@ -72,6 +71,9 @@ export default ({ commit, node }) => {
         }
       }
       state.balancesLoading = false
+
+      await sleep(3000)
+      dispatch("queryWalletBalances")
     },
     async queryWalletHistory({ state, commit, dispatch }) {
       state.historyLoading = true
