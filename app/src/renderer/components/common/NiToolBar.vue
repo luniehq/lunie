@@ -20,13 +20,8 @@ export default {
     enableModalHelp() {
       this.$store.commit("setModalHelp", true)
     },
-    openSession() {
-      this.$store.commit("setModalSession", true)
-      this.close()
-    },
     signOut() {
       this.$store.dispatch("signOut")
-      this.openSession()
     }
   }
 }
