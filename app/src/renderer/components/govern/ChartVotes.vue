@@ -94,14 +94,19 @@ export default {
       maintainAspectRatio: false
     }
   }),
+  methods: {
+    drawChart() {
+      let ctx = this.$el.querySelector("#" + this.id)
+      // eslint-disable-next-line
+      new Chart(ctx, {
+        type: "doughnut",
+        data: this.chartData,
+        options: this.chartOptions
+      })
+    }
+  },
   mounted() {
-    let ctx = document.querySelector("#" + this.id)
-    // eslint-disable-next-line
-    new Chart(ctx, {
-      type: "doughnut",
-      data: this.chartData,
-      options: this.chartOptions
-    })
+    this.drawChart()
   }
 }
 </script>
