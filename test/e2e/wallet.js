@@ -7,7 +7,6 @@ let {
   waitForText,
   sleep,
   login,
-  logout,
   closeNotifications
 } = require("./common.js")
 
@@ -146,7 +145,7 @@ test("wallet", async function(t) {
 
   t.test("receive", async function(t) {
     t.test("fermion balance after receiving", async function(t) {
-      await logout(client)
+      await client.refresh()
       await login(client, "testreceiver")
       await navigate(client, "Wallet")
 
