@@ -15,14 +15,14 @@ export default { name: "fundraiser-warning" }
   margin-top 2rem
   padding 0.75rem 1rem 0.875rem
 
-  background app-fg
-  
+  background var(--app-fg)
+
 .fundraiser-warning__title
   padding 0 0 0.625rem
   font-weight bold
-  color danger
+  color var(--danger)
 
 .fundraiser-warning__subtitle
-  color dim
+  color var(--dim)
   font-size sm
 </style>

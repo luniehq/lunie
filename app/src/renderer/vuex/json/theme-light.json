@@ -1,0 +1,13 @@
+{
+  "app-fg": "#eee",
+  "app-bg": "#fff",
+  "app-bg-alpha": "hsla(233, 0%, 0%, 5%)",
+  "bright": "#000",
+  "txt": "#333",
+  "dim": "#666",
+  "bc": "#ddd",
+  "bc-dim": "#eee",
+  "hover-bg": "hsl(233, 0%, 90%)",
+  "input-bc": "hsl(233, 22%, 67%)",
+  "input-bc-hover": "hsl(233, 22%, 40%)"
+}

@@ -1,6 +1,6 @@
 <template lang='pug'>
 .chart-votes(:class="cssClass")
-  .chart-canvas: canvas(:id="id")
+  .chart-canvas: canvas
   .chart-legend(v-if="size === 'lg'" :class="chartLabelClass")
     .kv.abstain: .container
       .key Abstain
@@ -22,12 +22,13 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import Chart from "chart.js"
-import shortid from "shortid"
 export default {
   name: "chart-votes",
   props: ["votes", "size"],
   computed: {
+    ...mapGetters(["themes"]),
     cssClass() {
       if (this.size === "lg") {
         return "chart-votes-size-lg"
@@ -52,6 +53,12 @@ export default {
       }
     },
     chartData() {
+      let abstainBgColor
+      if (this.themes.active === "dark") {
+        abstainBgColor = "#FFFFFF"
+      } else {
+        abstainBgColor = "#000000"
+      }
       return {
         labels: ["Yes", "No", "Reject", "Abstain"],
         datasets: [
@@ -59,16 +66,10 @@ export default {
             borderWidth: 0,
             data: this.chartValues,
             backgroundColor: [
-              "hsl(0,0%,100%)",
+              abstainBgColor,
               "hsl(233,96%,60%)",
               "hsl(326,96%,59%)",
               "hsl(233,13%,50%)"
-              /*
-              'hsl(326,96%,59%)',
-              'hsl(279,96%,62%)',
-              'hsl(233,96%,65%)',
-              'hsl(0,0%,50%)'
-              */
             ]
           }
         ]
@@ -83,7 +84,6 @@ export default {
     }
   },
   data: () => ({
-    id: "chart-votes-" + shortid.generate(),
     chartOptions: {
       animation: { duration: 0 },
       cutoutPercentage: 92,
@@ -92,14 +92,19 @@ export default {
       maintainAspectRatio: false
     }
   }),
+  methods: {
+    drawChart() {
+      let ctx = this.$el.querySelector("canvas")
+      // eslint-disable-next-line
+      new Chart(ctx, {
+        type: "doughnut",
+        data: this.chartData,
+        options: this.chartOptions
+      })
+    }
+  },
   mounted() {
-    let ctx = document.querySelector("#" + this.id)
-    // eslint-disable-next-line
-    new Chart(ctx, {
-      type: "doughnut",
-      data: this.chartData,
-      options: this.chartOptions
-    })
+    this.drawChart()
   }
 }
 </script>
@@ -144,13 +149,13 @@ export default {
         text-align center
 
         &.abstain
-          color dim
+          color var(--dim)
         &.yes
-          color bright
+          color var(--bright)
         &.no
-          color link
+          color var(--link)
         &.reject
-          color mc
+          color var(--mc)
 
   &.chart-votes-size-lg
 
@@ -174,11 +179,11 @@ export default {
         padding 0 0.5rem
 
         &.yes .value
-          color success
+          color var(--success)
         &.no .value
-          color warning
+          color var(--warning)
         &.reject .value
-          color danger
+          color var(--danger)
 
         .container
           flex 1
@@ -186,10 +191,10 @@ export default {
           flex-flow column nowrap
           align-items center
           justify-content center
-          border-top 0.25rem solid bc
+          border-top 0.25rem solid var(--bc)
 
         .key
-          border-bottom px dotted bc
+          border-bottom px dotted var(--bc)
           height 2rem - 4*px
           width 100%
 
@@ -198,12 +203,12 @@ export default {
           justify-content center
 
           font-size xs
-          color dim
+          color var(--dim)
           text-transform uppercase
 
         .value
           flex 1
-          color bright
+          color var(--bright)
           font-size xl
 
           display flex
