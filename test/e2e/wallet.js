@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-let { spawn} = require('child_process')
-let test = require('tape-promise/tape')
-let { getApp, restart } = require('./launch.js')
-let { navigate, newTempDir, waitForText, sleep, login, closeNotifications } = require('./common.js')
-=======
 let { spawn } = require("child_process")
 let test = require("tape-promise/tape")
 let { getApp, restart } = require("./launch.js")
@@ -13,10 +7,8 @@ let {
   waitForText,
   sleep,
   login,
-  logout,
   closeNotifications
 } = require("./common.js")
->>>>>>> develop
 
 let binary = process.env.BINARY_PATH
 
@@ -151,19 +143,11 @@ test("wallet", async function(t) {
     t.end()
   })
 
-<<<<<<< HEAD
-  t.test('receive', async function (t) {
-    t.test('fermion balance after receiving', async function (t) {
-      await client.refresh()
-      await login(client, 'testreceiver')
-      await navigate(client, 'Wallet')
-=======
   t.test("receive", async function(t) {
     t.test("fermion balance after receiving", async function(t) {
-      await logout(client)
+      await client.refresh()
       await login(client, "testreceiver")
       await navigate(client, "Wallet")
->>>>>>> develop
 
       let fermionEl = () => balanceEl("fermion")
       await client.waitForExist(`//div[contains(text(), "FERMION")]`, 5000)
