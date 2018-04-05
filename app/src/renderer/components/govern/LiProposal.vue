@@ -10,32 +10,32 @@ transition(name="proposal")
 </template>
 
 <script>
-import ChartVotes from 'govern/ChartVotes'
-import dateUnix from 'scripts/dateUnix'
-import dateUnixAgo from 'scripts/dateUnixAgo'
+import ChartVotes from "govern/ChartVotes"
+import dateUnix from "scripts/dateUnix"
+import dateUnixAgo from "scripts/dateUnixAgo"
 export default {
-  name: 'li-proposal',
+  name: "li-proposal",
   components: { ChartVotes },
   computed: {
-    proposalCreatedAt () {
+    proposalCreatedAt() {
       return dateUnix(this.proposal.createdAt)
     },
-    proposalCreatedAtAgo () {
+    proposalCreatedAtAgo() {
       return dateUnixAgo(this.proposal.createdAt)
     }
   },
   methods: {
-    viewProposal () {
-      this.$router.push('/proposals/' + this.proposal.id)
+    viewProposal() {
+      this.$router.push("/proposals/" + this.proposal.id)
     }
   },
-  props: ['proposal'],
-  mounted () {
+  props: ["proposal"],
+  mounted() {
     let self = this
 
     if (this.proposal.flags.new) {
       // console.log('this proposal is new')
-      setTimeout(function () {
+      setTimeout(function() {
         self.proposal.flags.new = false
       }, 500)
     }
@@ -47,17 +47,17 @@ export default {
 @require '~variables'
 
 .card-proposal
-  border-bottom px solid bc
+  border-bottom px solid var(--bc)
   padding 0.75rem 1rem
   display flex
   position relative
 
-  color txt
+  color var(--txt)
 
   &:hover
-    background hover-bg
+    background var(--hover-bg)
     .title
-      color bright
+      color var(--bright)
 
   .chart
     width 4rem
@@ -75,20 +75,20 @@ export default {
 
     span
       color dim
-      font-size sm
+      font-size var(--sm)
       display inline-block
       padding 0 0.25rem
       vertical-align middle
-      border px solid bc
+      border px solid var(--bc)
 
   .meta
     display flex
     font-size sm
     .author
       margin-right 0.25rem
-      color dim
+      color var(--dim)
     .date
-      color dim
+      color var(--dim)
 
 @media screen and (min-width: 768px)
   .card-proposal

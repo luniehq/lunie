@@ -1,8 +1,8 @@
-import { mount } from '@vue/test-utils'
-import htmlBeautify from 'html-beautify'
-import NiCards from 'common/NiCards'
+import { mount } from "@vue/test-utils"
+import htmlBeautify from "html-beautify"
+import NiCards from "common/NiCards"
 
-describe('NiCards', () => {
+describe("NiCards", () => {
   let wrapper
 
   beforeEach(() => {
@@ -13,11 +13,11 @@ describe('NiCards', () => {
     })
   })
 
-  it('has the expected html structure', () => {
+  it("has the expected html structure", () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it('has a slot with content', () => {
-    expect(wrapper.findAll('.fake-addon').length).toBe(1)
+  it("has a slot with content", () => {
+    expect(wrapper.findAll(".fake-addon").length).toBe(1)
   })
 })

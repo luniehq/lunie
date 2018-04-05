@@ -65,6 +65,8 @@ export default ({ commit, node }) => {
   }
 
   return {
-    state, mutations, actions
+    state,
+    mutations,
+    actions
   }
 }

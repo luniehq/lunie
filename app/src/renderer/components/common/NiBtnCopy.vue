@@ -6,34 +6,35 @@ btn.btn-copy(
 </template>
 
 <script>
-import { clipboard } from 'electron'
-import Btn from '@nylira/vue-button'
+import { clipboard } from "electron"
+import Btn from "@nylira/vue-button"
 export default {
   components: { Btn },
   computed: {
-    notifyTitle () {
+    notifyTitle() {
       if (this.title) return this.title
-      else return 'Copy Success!'
+      else return "Copy Success!"
     },
-    notifyBody () {
+    notifyBody() {
       if (this.body) return this.body
-      else return `"${this.trunc(this.value)}" has been copied to your clipboard.`
+      else
+        return `"${this.trunc(this.value)}" has been copied to your clipboard.`
     }
   },
   methods: {
-    trunc (value) {
-      if (value.length > 20) value = value.substring(0, 10) + '...'
+    trunc(value) {
+      if (value.length > 20) value = value.substring(0, 10) + "..."
       return value
     },
-    click () {
+    click() {
       clipboard.writeText(this.value)
 
-      this.$store.commit('notify', {
+      this.$store.commit("notify", {
         title: this.notifyTitle,
         body: this.notifyBody
       })
     }
   },
-  props: ['value', 'title', 'body']
+  props: ["value", "title", "body"]
 }
 </script>

@@ -1,11 +1,11 @@
-import { shallow } from '@vue/test-utils'
-import CardBalance from 'renderer/components/wallet/CardBalance'
+import { shallow } from "@vue/test-utils"
+import CardBalance from "renderer/components/wallet/CardBalance"
 
-describe('CardBalance', () => {
+describe("CardBalance", () => {
   let wrapper
   let propsData = {
     balance: {
-      denom: 'jbcoin',
+      denom: "jbcoin",
       amount: 1234.56
     }
   }
@@ -16,16 +16,14 @@ describe('CardBalance', () => {
     })
   })
 
-  it('has a value from props', () => {
-    expect(wrapper.vm.balance).toEqual(
-      {
-        denom: 'jbcoin',
-        amount: 1234.56
-      }
-    )
+  it("has a value from props", () => {
+    expect(wrapper.vm.balance).toEqual({
+      denom: "jbcoin",
+      amount: 1234.56
+    })
   })
 
-  it('has the expected html structure', () => {
+  it("has the expected html structure", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

@@ -3,14 +3,14 @@
 </template>
 
 <script>
-export default { name: 'ni-modal-menu' }
+export default { name: "ni-modal-menu" }
 </script>
 
 <style lang="stylus">
 @require '~variables'
 
 .ni-modal-menu
-  background app-bg-alpha
+  background var(--app-bg-alpha)
   z-index z(default)
   user-select none
   backdrop-filter blur(0.5rem)

@@ -35,20 +35,20 @@ page(title='Wallet')
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { includes, orderBy } from 'lodash'
-import Mousetrap from 'mousetrap'
-import DataLoading from 'common/NiDataLoading'
-import DataEmpty from 'common/NiDataEmpty'
-import DataEmptySearch from 'common/NiDataEmptySearch'
-import LiCopy from 'common/NiLiCopy'
-import ListItem from 'common/NiListItem'
-import ModalSearch from 'common/NiModalSearch'
-import Page from 'common/NiPage'
-import Part from 'common/NiPart'
-import ToolBar from 'common/NiToolBar'
+import { mapGetters } from "vuex"
+import { includes, orderBy } from "lodash"
+import Mousetrap from "mousetrap"
+import DataLoading from "common/NiDataLoading"
+import DataEmpty from "common/NiDataEmpty"
+import DataEmptySearch from "common/NiDataEmptySearch"
+import LiCopy from "common/NiLiCopy"
+import ListItem from "common/NiListItem"
+import ModalSearch from "common/NiModalSearch"
+import Page from "common/NiPage"
+import Part from "common/NiPart"
+import ToolBar from "common/NiToolBar"
 export default {
-  name: 'page-wallet',
+  name: "page-wallet",
   components: {
     DataLoading,
     DataEmpty,
@@ -61,13 +61,12 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['filters', 'wallet']),
-    allDenomBalances () {
+    ...mapGetters(["filters", "wallet"]),
+    allDenomBalances() {
       // for denoms not in balances, add empty balance
       let balances = this.wallet.balances.slice(0)
-      let hasDenom = (denom) => {
-        return !!balances.filter((balance) =>
-          balance.denom === denom)[0]
+      let hasDenom = denom => {
+        return !!balances.filter(balance => balance.denom === denom)[0]
       }
       for (let denom of this.wallet.denoms) {
         if (hasDenom(denom)) continue
@@ -75,9 +74,13 @@ export default {
       }
       return balances
     },
-    filteredBalances () {
+    filteredBalances() {
       let query = this.filters.balances.search.query
-      let list = orderBy(this.allDenomBalances, ['amount', 'denom'], ['desc', 'asc'])
+      let list = orderBy(
+        this.allDenomBalances,
+        ["amount", "denom"],
+        ["desc", "asc"]
+      )
       if (this.filters.balances.search.visible) {
         return list.filter(i => includes(i.denom.toLowerCase(), query))
       } else {
@@ -86,16 +89,16 @@ export default {
     }
   },
   methods: {
-    setSearch (bool) {
-      this.$store.commit('setSearchVisible', ['balances', bool])
+    setSearch(bool) {
+      this.$store.commit("setSearchVisible", ["balances", bool])
     },
-    updateBalances () {
-      this.$store.dispatch('queryWalletState')
+    updateBalances() {
+      this.$store.dispatch("queryWalletState")
     }
   },
-  mounted () {
-    Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
-    Mousetrap.bind('esc', () => this.setSearch(false))
+  mounted() {
+    Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
+    Mousetrap.bind("esc", () => this.setSearch(false))
   }
 }
 </script>

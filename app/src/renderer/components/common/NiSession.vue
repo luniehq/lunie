@@ -11,16 +11,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import SessionLoading from 'common/NiSessionLoading'
-import SessionWelcome from 'common/NiSessionWelcome'
-import SessionSignUp from 'common/NiSessionSignUp'
-import SessionSignIn from 'common/NiSessionSignIn'
-import SessionHardware from 'common/NiSessionHardware'
-import SessionImport from 'common/NiSessionImport'
-import SessionAccountDelete from 'common/NiSessionAccountDelete'
+import { mapGetters } from "vuex"
+import SessionLoading from "common/NiSessionLoading"
+import SessionWelcome from "common/NiSessionWelcome"
+import SessionSignUp from "common/NiSessionSignUp"
+import SessionSignIn from "common/NiSessionSignIn"
+import SessionHardware from "common/NiSessionHardware"
+import SessionImport from "common/NiSessionImport"
+import SessionAccountDelete from "common/NiSessionAccountDelete"
 export default {
-  name: 'ni-session',
+  name: "ni-session",
   components: {
     SessionLoading,
     SessionWelcome,
@@ -30,7 +30,7 @@ export default {
     SessionImport,
     SessionAccountDelete
   },
-  computed: { ...mapGetters(['config']) }
+  computed: { ...mapGetters(["config"]) }
 }
 </script>
 
@@ -59,7 +59,7 @@ export default {
     display flex
     align-items center
     justify-content center
-    background app-fg
+    background var(--app-fg)
     input
       width auto
       display block
@@ -77,7 +77,7 @@ export default {
   top 0
   left 0
   z-index z(default)
-  background app-bg
+  background var(--app-bg)
 
 .ni-session-container
   &:not(.ni-form)
@@ -109,19 +109,19 @@ export default {
     cursor pointer
     height 3rem
     i
-      color txt
+      color var(--txt)
       font-size lg
     &:hover
-      background app-fg
+      background var(--app-fg)
       i
-        color bright
+        color var(--bright)
 
   .ni-session-title
     flex 1
     padding 0 1rem
     font-size lg
     text-align center
-    color bright
+    color var(--bright)
 
 .ni-session-main
   flex 1
@@ -137,10 +137,10 @@ export default {
 
   > p
     padding 1rem
-    border-bottom px solid bc
+    border-bottom px solid var(--bc)
 
 .ni-session-footer
-  border-top 2*px solid bc-dim
+  border-top 2*px solid var(--bc-dim)
   flex 0 0 5rem + px
   display flex
   align-items center
@@ -158,7 +158,7 @@ export default {
     position fixed
     top 0
     left 0
-    background darken(app-bg, 25%)
+    background var(--app-bg)
     width 100vw
     height 100vh
 
@@ -179,7 +179,7 @@ export default {
       height auto
 
   .ni-session-header
-    background app-fg
+    background var(--app-fg)
     margin-top 0
 
   .ni-session-main

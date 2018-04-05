@@ -1,11 +1,11 @@
-'use strict'
+"use strict"
 
-const axios = require('axios')
+const axios = require("axios")
 
 // returns an async function which makes a request for the given
 // HTTP method (GET/POST/DELETE/etc) and path (/foo/bar)
-function req (method, path) {
-  return async function (data) {
+function req(method, path) {
+  return async function(data) {
     return await this.request(method, path, data)
   }
 }
@@ -17,9 +17,9 @@ function argReq (method, prefix, suffix = '') {
   return function (args, data) {
     // `args` can either be a single value or an array
     if (Array.isArray(args)) {
-      args = args.join('/')
+      args = args.join("/")
     }
-    if (method === 'DELETE') {
+    if (method === "DELETE") {
       data = { data }
     }
     console.log('args', args)
@@ -28,11 +28,11 @@ function argReq (method, prefix, suffix = '') {
 }
 
 class Client {
-  constructor (server = 'http://localhost:8998') {
+  constructor(server = "http://localhost:8998") {
     this.server = server
   }
 
-  async request (method, path, data) {
+  async request(method, path, data) {
     try {
       let res = await axios[method.toLowerCase()](this.server + path, data)
       return res.data
@@ -53,14 +53,13 @@ let fetchAccount = argReq('GET', '/accounts')
 
 Object.assign(Client.prototype, {
   // meta
-  lcdConnected: function () {
-    return this.listKeys()
-      .then(() => true, () => false)
+  lcdConnected: function() {
+    return this.listKeys().then(() => true, () => false)
   },
 
   // tx
-  sign: req('POST', '/sign'),
-  postTx: req('POST', '/tx'),
+  sign: req("POST", "/sign"),
+  postTx: req("POST", "/tx"),
 
   // keys
   generateSeed: req('GET', '/keys/seed'),
@@ -79,20 +78,20 @@ Object.assign(Client.prototype, {
       return fetchAccount.call(this, address)
     } catch (err) {
       // if account not found, return null instead of throwing
-      if (err.message.includes('account bytes are empty')) {
+      if (err.message.includes("account bytes are empty")) {
         return null
       }
       throw err
     }
   },
-  coinTxs: argReq('GET', '/tx/coin'),
+  coinTxs: argReq("GET", "/tx/coin"),
 
   // staking
-  candidate: argReq('GET', '/query/stake/candidate'),
-  candidates: req('GET', '/query/stake/candidates'),
-  buildDelegate: req('POST', '/build/stake/delegate'),
-  buildUnbond: req('POST', '/build/stake/unbond'),
-  bondingsByDelegator: argReq('GET', '/query/stake/delegator')
+  candidate: argReq("GET", "/query/stake/candidate"),
+  candidates: req("GET", "/query/stake/candidates"),
+  buildDelegate: req("POST", "/build/stake/delegate"),
+  buildUnbond: req("POST", "/build/stake/unbond"),
+  bondingsByDelegator: argReq("GET", "/query/stake/delegator")
 })
 
 module.exports = Client

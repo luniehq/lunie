@@ -44,17 +44,17 @@ page(:title="pageBlockTitle")
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import moment from 'moment'
-import num from 'scripts/num'
-import DataLoading from 'common/NiDataLoading'
-import DataEmpty from 'common/NiDataEmpty'
-import ToolBar from 'common/NiToolBar'
-import ListItem from 'common/NiListItem'
-import Part from 'common/NiPart'
-import Page from 'common/NiPage'
+import { mapGetters } from "vuex"
+import moment from "moment"
+import num from "scripts/num"
+import DataLoading from "common/NiDataLoading"
+import DataEmpty from "common/NiDataEmpty"
+import ToolBar from "common/NiToolBar"
+import ListItem from "common/NiListItem"
+import Part from "common/NiPart"
+import Page from "common/NiPage"
 export default {
-  name: 'page-block',
+  name: "page-block",
   components: {
     DataLoading,
     DataEmpty,
@@ -64,38 +64,38 @@ export default {
     Page
   },
   computed: {
-    ...mapGetters(['blockchain']),
-    block () {
+    ...mapGetters(["blockchain"]),
+    block() {
       return this.blockchain.block
     },
-    blockHeaderTime () {
+    blockHeaderTime() {
       if (this.block.header) {
-        return moment(this.block.header.time).format('MMMM Do YYYY — hh:mm:ss')
+        return moment(this.block.header.time).format("MMMM Do YYYY — hh:mm:ss")
       } else {
-        return 'Loading...'
+        return "Loading..."
       }
     },
-    blockMeta () {
+    blockMeta() {
       return this.blockchain.blockMetaInfo
     },
-    pageBlockTitle () {
+    pageBlockTitle() {
       if (this.block.header) {
-        return 'Block #' + num.prettyInt(this.block.header.height)
+        return "Block #" + num.prettyInt(this.block.header.height)
       } else {
-        return 'Loading...'
+        return "Loading..."
       }
     }
   },
   methods: {
-    fetchBlock () {
-      this.$store.dispatch('getBlock', this.$route.params.block)
+    fetchBlock() {
+      this.$store.dispatch("getBlock", this.$route.params.block)
     }
   },
-  mounted () {
+  mounted() {
     this.fetchBlock()
   },
   watch: {
-    '$route' (to, from) {
+    $route(to, from) {
       this.fetchBlock()
     }
   }

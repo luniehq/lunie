@@ -26,13 +26,13 @@ page(icon="storage" :title="delegate.description.moniker" subtitle="Votes")
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import ListItem from 'common/NiListItem'
-import ToolBar from 'common/NiToolBar'
-import Page from 'common/NiPage'
-import Part from 'common/NiPart'
+import { mapGetters } from "vuex"
+import ListItem from "common/NiListItem"
+import ToolBar from "common/NiToolBar"
+import Page from "common/NiPage"
+import Part from "common/NiPart"
 export default {
-  name: 'page-delegate-votes',
+  name: "page-delegate-votes",
   components: {
     ListItem,
     Page,
@@ -40,23 +40,25 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['delegates']),
-    delegate () {
-      let value = { description: { moniker: 'Loading...' } }
+    ...mapGetters(["delegates"]),
+    delegate() {
+      let value = { description: { moniker: "Loading..." } }
       if (this.delegates && this.$route.params.delegate) {
-        value = this.delegates.find(v => v.id === this.$route.params.delegate) || value
+        value =
+          this.delegates.find(v => v.id === this.$route.params.delegate) ||
+          value
       }
       return value
     }
   },
   methods: {
-    toggleSearch () {
-      this.$store.commit('notify', { title: 'Searching...', body: 'TODO' })
+    toggleSearch() {
+      this.$store.commit("notify", { title: "Searching...", body: "TODO" })
     }
   },
-  async mounted () {
+  async mounted() {
     console.log(this.$route.params.delegate)
-    await this.$nextTick
+    await this.$nextTick()
     console.log(this.delegate)
   }
 }

@@ -43,18 +43,18 @@ page(title='Send')
 </template>
 
 <script>
-import { required, between, minLength } from 'vuelidate/lib/validators'
-import { mapActions, mapGetters } from 'vuex'
-import Btn from '@nylira/vue-button'
-import Field from '@nylira/vue-field'
-import FieldAddon from 'common/NiFieldAddon'
-import FieldGroup from 'common/NiFieldGroup'
-import FormGroup from 'common/NiFormGroup'
-import FormMsg from 'common/NiFormMsg'
-import FormStruct from 'common/NiFormStruct'
-import Page from 'common/NiPage'
-import Part from 'common/NiPart'
-import ToolBar from 'common/NiToolBar'
+import { required, between, minLength } from "vuelidate/lib/validators"
+import { mapActions, mapGetters } from "vuex"
+import Btn from "@nylira/vue-button"
+import Field from "@nylira/vue-field"
+import FieldAddon from "common/NiFieldAddon"
+import FieldGroup from "common/NiFieldGroup"
+import FormGroup from "common/NiFormGroup"
+import FormMsg from "common/NiFormMsg"
+import FormStruct from "common/NiFormStruct"
+import Page from "common/NiPage"
+import Part from "common/NiPart"
+import ToolBar from "common/NiToolBar"
 export default {
   components: {
     Btn,
@@ -69,29 +69,30 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['wallet']),
-    denominations () {
-      return this.wallet.balances.map(i =>
-        ({ key: i.denom.toUpperCase(), value: i.denom })
-      )
+    ...mapGetters(["wallet"]),
+    denominations() {
+      return this.wallet.balances.map(i => ({
+        key: i.denom.toUpperCase(),
+        value: i.denom
+      }))
     }
   },
   data: () => ({
     fields: {
-      address: '',
+      address: "",
       amount: null,
-      denom: ''
+      denom: ""
     },
     sending: false
   }),
   methods: {
-    resetForm () {
-      this.fields.address = ''
+    resetForm() {
+      this.fields.address = ""
       this.fields.amount = null
       this.sending = false
       this.$v.$reset()
     },
-    async onSubmit () {
+    async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
 
@@ -102,10 +103,10 @@ export default {
       try {
         // if address has a slash, it is IBC address format
         let type
-        if (address.includes('/')) {
-          type = 'ibcSend'
+        if (address.includes("/")) {
+          type = "ibcSend"
         } else {
-          type = 'send'
+          type = "send"
         }
 
         await this.sendTx({
@@ -115,8 +116,8 @@ export default {
         })
 
         this.sending = false
-        this.$store.commit('notify', {
-          title: 'Successfully Sent',
+        this.$store.commit("notify", {
+          title: "Successfully Sent",
           body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
         })
 
@@ -124,19 +125,19 @@ export default {
         this.resetForm()
 
         // refreshes user transaction history
-        this.$store.dispatch('queryWalletHistory')
+        this.$store.dispatch("queryWalletHistory")
       } catch (err) {
         this.sending = false
-        this.$store.commit('notifyError', {
-          title: 'Error Sending',
+        this.$store.commit("notifyError", {
+          title: "Error Sending",
           body: `An error occurred while trying to send: "${err.message}"`
         })
       }
     },
-    ...mapActions(['sendTx'])
+    ...mapActions(["sendTx"])
   },
-  props: ['denom'],
-  mounted () {
+  props: ["denom"],
+  mounted() {
     if (this.denom) {
       this.fields.denom = this.denom
     }

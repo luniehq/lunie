@@ -9,15 +9,15 @@ div(:class='cssClass')
 
 <script>
 export default {
-  name: 'ni-form-group',
+  name: "ni-form-group",
   computed: {
-    cssClass () {
-      let value = 'ni-form-group'
-      if (this.error) value += ' ni-form-group--error'
+    cssClass() {
+      let value = "ni-form-group"
+      if (this.error) value += " ni-form-group--error"
       return value
     }
   },
-  props: ['error', 'field-id', 'field-label', 'sub-label']
+  props: ["error", "field-id", "field-label", "sub-label"]
 }
 </script>
 
@@ -41,7 +41,7 @@ export default {
     bottom 0.5rem
     left 1rem
     font-size xs
-    color dim
+    color var(--dim)
 
 .ni-form-group__sub-label ~ .ni-form-group__label
   line-height 1rem
