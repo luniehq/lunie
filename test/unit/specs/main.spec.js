@@ -11,9 +11,18 @@ function sleep(ms) {
 jest.mock("fs-extra", () => {
   let fs = require("fs")
   let mockFs = mockFsExtra()
-  mockFs.writeFile('./app/networks/basecoind-2/config.toml', fs.readFileSync('./app/networks/basecoind-2/config.toml', 'utf8'))
-  mockFs.writeFile('./app/networks/basecoind-2/genesis.json', fs.readFileSync('./app/networks/basecoind-2/genesis.json', 'utf8'))
-  mockFs.writeFile('./app/networks/basecoind-2/basecoindversion.txt', fs.readFileSync('./app/networks/basecoind-2/basecoindversion.txt', 'utf8'))
+  mockFs.writeFile(
+    "./app/networks/basecoind-2/config.toml",
+    fs.readFileSync("./app/networks/basecoind-2/config.toml", "utf8")
+  )
+  mockFs.writeFile(
+    "./app/networks/basecoind-2/genesis.json",
+    fs.readFileSync("./app/networks/basecoind-2/genesis.json", "utf8")
+  )
+  mockFs.writeFile(
+    "./app/networks/basecoind-2/basecoindversion.txt",
+    fs.readFileSync("./app/networks/basecoind-2/basecoindversion.txt", "utf8")
+  )
   return mockFs
 })
 let fs = require("fs-extra")
@@ -49,22 +58,22 @@ jest.mock("electron", () => {
 childProcessMock((path, args) => ({
   on: (type, cb) => {
     // init processes always should return with 0
-    if (type === "exit" && args[1] === "init" && args.length > 4) {
+    if (type === "exit" && args[0] === "init" && args.length > 4) {
       cb(0)
     }
   },
   stdout: {
     on: (type, cb) => {
       if (args[0] === "version" && type === "data") {
-        cb({ toString: () => "v0.5.0" })
+        cb({ toString: () => "0.13.0" })
       }
     }
   },
   stderr: {
     on: (type, cb) => {
       // test for init of basecoind
-      if (type === 'data' && args[1] === 'init' && args.length === 4) {
-        cb({ toString: () => 'already is initialized' })
+      if (type === "data" && args[0] === "init" && args.length === 4) {
+        cb({ toString: () => "already is initialized" })
       }
     }
   }
@@ -79,7 +88,7 @@ let childProcess
 describe("Startup Process", () => {
   Object.assign(process.env, {
     LOGGING: false,
-    COSMOS_NETWORK: 'app/networks/basecoind-2',
+    COSMOS_NETWORK: "app/networks/basecoind-2",
     COSMOS_HOME: testRoot,
     NODE_ENV: "testing"
   })
@@ -91,7 +100,7 @@ describe("Startup Process", () => {
       Promise.resolve({
         toString: () => {
           if (i++ >= 1) {
-            return "Serving on"
+            return "Starting RPC HTTP server"
           } else {
             return "Test"
           }
@@ -114,22 +123,23 @@ describe("Startup Process", () => {
       expect(fs.existsSync(testRoot)).toBe(true)
     })
 
-    xit('should init lcd server with correct testnet', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('basecli') &&
-          args.includes('client') &&
-          args.includes('init') &&
-          args.join('=').includes('--chain-id=basecoind-2')
+    it("should init lcd server with correct testnet", async function() {
+      console.log(childProcess.spawn.mock.calls)
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes("basecli") &&
+            args.includes("init") &&
+            args.join("=").includes("--chain-id=basecoind-2")
         )
       ).toBeDefined()
     })
 
-    it('should start lcd server', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('basecli') &&
-          args.includes('rest-server')
+    it("should start lcd server", async function() {
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes("basecli") && args.includes("rest-server")
         )
       ).toBeDefined()
       expect(main.processes.lcdProcess).toBeDefined()
@@ -142,15 +152,20 @@ describe("Startup Process", () => {
     })
 
     // TODO the stdout.on('data') trick doesn't work
-    xit('should init lcd server accepting the new app hash', async function () {
+    xit("should init lcd server accepting the new app hash", async function() {
       jest.resetModules()
       let mockWrite = jest.fn()
       childProcessMock((path, args) => ({
         stdin: { write: mockWrite },
         stdout: {
           on: (type, cb) => {
-            if (type === 'data' && path.includes('basecli') && args[0] === 'server' && args[1] === 'init') {
-              cb('Will you accept the hash?')
+            if (
+              type === "data" &&
+              path.includes("basecli") &&
+              args[0] === "server" &&
+              args[1] === "init"
+            ) {
+              cb("Will you accept the hash?")
             }
           }
         }
@@ -181,15 +196,20 @@ describe("Startup Process", () => {
     })
 
     // TODO the stdout.on('data') trick doesn't work
-    xit('should init lcd accepting the new app hash', async function () {
+    xit("should init lcd accepting the new app hash", async function() {
       jest.resetModules()
       let mockWrite = jest.fn()
       childProcessMock((path, args) => ({
         stdin: { write: mockWrite },
         stdout: {
           on: (type, cb) => {
-            if (type === 'data' && path.includes('basecli') && args[0] === 'server' && args[1] === 'init') {
-              cb('Will you accept the hash?')
+            if (
+              type === "data" &&
+              path.includes("basecli") &&
+              args[0] === "server" &&
+              args[1] === "init"
+            ) {
+              cb("Will you accept the hash?")
             }
           }
         }
@@ -219,23 +239,23 @@ describe("Startup Process", () => {
       expect(fs.existsSync(testRoot)).toBe(true)
     })
 
-    // it('should init lcd server with correct testnet', async function () {
-    //   expect(childProcess.spawn.mock.calls
-    //     .find(([path, args]) =>
-    //       path.includes('basecli') &&
-    //       args.includes('client') &&
-    //       args.includes('init') &&
-    //       args.join('=').includes('--chain-id=basecoind-2')
-    //     )
-    //   ).toBeDefined()
-    // })
+    it("should init lcd server with correct testnet", async function() {
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes("basecli") &&
+            args.includes("init") &&
+            args.join("=").includes("--chain-id=basecoind-2")
+        )
+      ).toBeDefined()
+    })
 
-    it('should start lcd server', async function () {
+    it("should start lcd server", async function() {
       console.log(childProcess.spawn.mock.calls)
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('basecli') &&
-          args.includes('rest-server')
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes("basecli") && args.includes("rest-server")
         )
       ).toBeDefined()
       expect(main.processes.lcdProcess).toBeDefined()
@@ -251,21 +271,19 @@ describe("Startup Process", () => {
   describe("Start initialized", function() {
     mainSetup()
 
-    it('should not init lcd server again', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('basecli') &&
-          args.includes('rest-server') &&
-          args.includes('init')
+    it("should not init lcd server again", async function() {
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) => path.includes("basecli") && args.includes("init")
         )
       ).toBeUndefined()
     })
 
-    it('should start lcd server', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('basecli') &&
-          args.includes('rest-server')
+    it("should start lcd server", async function() {
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes("basecli") && args.includes("rest-server")
         )
       ).toBeDefined()
       expect(main.processes.lcdProcess).toBeDefined()
@@ -435,16 +453,16 @@ describe("Startup Process", () => {
     afterEach(function() {
       main.shutdown()
     })
-    it('should rerun lcd server if lcd server fails', async function () {
-      failingChildProcess('basecli', 'rest-server')
+    it("should rerun lcd server if lcd server fails", async function() {
+      failingChildProcess("basecli", "rest-server")
       main = await initMain()
 
       await sleep(1000)
 
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('basecli') &&
-          args.includes('rest-server')
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes("basecli") && args.includes("rest-server")
         ).length
       ).toBeGreaterThan(1)
     })
@@ -514,10 +532,9 @@ describe("Startup Process", () => {
         let { send } = require("electron")
         main = await require(appRoot + "src/main/index.js")
 
-        expect(childProcess.spawn.mock.calls
-          .find(([path, args]) =>
-            path.includes('basecli') &&
-            args.includes('init')
+        expect(
+          childProcess.spawn.mock.calls.find(
+            ([path, args]) => path.includes("basecli") && args.includes("init")
           ).length
         ).toBe(3) // one to check in first round, one to check + one to init in the second round
 
@@ -530,7 +547,7 @@ describe("Startup Process", () => {
     beforeEach(async function() {
       jest.resetModules()
     })
-    testFailingChildProcess('basecli', 'init')
+    testFailingChildProcess("basecli", "init")
   })
 })
 
@@ -606,11 +623,11 @@ function failingChildProcess(mockName, mockCmd) {
       if (type === "exit") {
         if (
           path.includes(mockName) &&
-          (mockCmd === undefined || args[1] === mockCmd)
+          (mockCmd === undefined || args[0] === mockCmd)
         ) {
           cb(-1)
           // init processes always should return with 0
-        } else if (args[1] === "init") {
+        } else if (args[0] === "init") {
           cb(0)
         }
       }
@@ -625,8 +642,8 @@ function failingChildProcess(mockName, mockCmd) {
     stderr: {
       on: (type, cb) => {
         // test for init of basecoind
-        if (type === 'data' && args[1] === 'init' && args.length === 4) {
-          cb({ toString: () => 'already is initialized' })
+        if (type === "data" && args[0] === "init" && args.length === 4) {
+          cb({ toString: () => "already is initialized" })
         }
       }
     }
