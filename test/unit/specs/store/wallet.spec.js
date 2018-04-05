@@ -16,7 +16,7 @@ describe("Module: Wallet", () => {
   it("should have an empty state by default", () => {
     const state = {
       balances: [],
-      balancesLoading: false,
+      balancesLoading: true,
       key: { address: "" },
       history: [],
       historyLoading: false,

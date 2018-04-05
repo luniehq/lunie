@@ -192,103 +192,39 @@ exports[`PageWallet has the expected html structure 1`] = `
         <main
           class="ni-part-main"
         >
+          <div
+            class="ni-data-msg"
+          >
+            <div
+              class="ni-data-msg__icon"
+            >
+              <i
+                class="material-icons fa-spin"
+              >
+                rotate_right
+              </i>
+            </div>
+            <div
+              class="ni-data-msg__text"
+            >
+              <div
+                class="ni-data-msg__title"
+              >
+                <div>
+                  Data is loading…
+                </div>
+              </div>
+              <div
+                class="ni-data-msg__subtitle"
+              >
+                <div>
+                  Please wait a moment.
+                </div>
+              </div>
+            </div>
+          </div>
           <!---->
-          <a
-            class="ni-li ni-li-link proposal-enter proposal-enter-active"
-            href="#/wallet/send"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  FERMION
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  456
-                </div>
-              </div>
-              <button
-                class="ni-btn"
-              >
-                <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="ni-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="ni-btn__value"
-                  >
-                    Send
-                  </span>
-                </span>
-              </button>
-            </div>
-          </a>
-          <a
-            class="ni-li ni-li-link proposal-enter proposal-enter-active"
-            href="#/wallet/send"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  ATOM
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  123
-                </div>
-              </div>
-              <button
-                class="ni-btn"
-              >
-                <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="ni-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="ni-btn__value"
-                  >
-                    Send
-                  </span>
-                </span>
-              </button>
-            </div>
-          </a>
+          <!---->
         </main>
       </div>
     </section>
@@ -535,103 +471,38 @@ exports[`PageWallet should filter the balances 1`] = `
         <main
           class="ni-part-main"
         >
+          <div
+            class="ni-data-msg"
+          >
+            <div
+              class="ni-data-msg__icon"
+            >
+              <i
+                class="material-icons fa-spin"
+              >
+                rotate_right
+              </i>
+            </div>
+            <div
+              class="ni-data-msg__text"
+            >
+              <div
+                class="ni-data-msg__title"
+              >
+                <div>
+                  Data is loading…
+                </div>
+              </div>
+              <div
+                class="ni-data-msg__subtitle"
+              >
+                <div>
+                  Please wait a moment.
+                </div>
+              </div>
+            </div>
+          </div>
           <!---->
-          <a
-            class="ni-li ni-li-link proposal-leave proposal-leave-active"
-            href="#/wallet/send"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  FERMION
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  456
-                </div>
-              </div>
-              <button
-                class="ni-btn"
-              >
-                <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="ni-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="ni-btn__value"
-                  >
-                    Send
-                  </span>
-                </span>
-              </button>
-            </div>
-          </a>
-          <a
-            class="ni-li ni-li-link proposal-enter proposal-enter-active"
-            href="#/wallet/send"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  ATOM
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  123
-                </div>
-              </div>
-              <button
-                class="ni-btn"
-              >
-                <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="ni-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="ni-btn__value"
-                  >
-                    Send
-                  </span>
-                </span>
-              </button>
-            </div>
-          </a>
         </main>
       </div>
     </section>
