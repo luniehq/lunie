@@ -19,4 +19,9 @@ describe("NiToolBar", () => {
     wrapper.vm.enableModalHelp()
     expect(store.state.config.modals.help.active).toBe(true)
   })
+
+  it("call dispatch to sign the user out", () => {
+    wrapper.vm.signOut()
+    expect(store.dispatch).toHaveBeenCalledWith("signOut")
+  })
 })

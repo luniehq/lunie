@@ -15,6 +15,7 @@ module.exports = {
     }
   },
   async openMenu(client) {
+    console.log("opening menu")
     if (await client.isExisting(".app-menu")) {
       return
     }
@@ -23,6 +24,24 @@ module.exports = {
     await sleep(100)
     await client.$(".material-icons=menu").click()
     await client.waitForExist(".app-menu", 1000)
+  },
+  async closeMenu(client) {
+    console.log("closing menu")
+    // the menu is always open on desktop
+    if (!await client.isExisting("#app-header.mobile")) {
+      return
+    }
+    // check if menu is actually open
+    if (!await client.isExisting(".app-menu")) {
+      return
+    }
+    // close notifications that could block the click
+    await module.exports.closeNotifications(client)
+    await client.waitForExist(".material-icons=close", 1000)
+    await sleep(100)
+    await client.$(".material-icons=close").click()
+    await client.waitForExist(".app-menu", 1000, true)
+    console.log("closed menu")
   },
   async navigate(client, linkText, titleText = linkText) {
     await module.exports.openMenu(client)
@@ -53,6 +72,7 @@ module.exports = {
     console.log("logging into " + account)
     let accountsSelect = "#sign-in-name select"
 
+    await client.waitForExist(accountsSelect, 5000)
     await selectOption(client, accountsSelect, account)
 
     await client.$("#sign-in-password").setValue("1234567890")
@@ -65,6 +85,9 @@ module.exports = {
     if (account !== activeUser) {
       throw new Error("Incorrect user logged in")
     }
+
+    console.log("logged in")
+    await module.exports.closeMenu(client)
   },
   async logout(client) {
     console.log("logging out")

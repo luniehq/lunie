@@ -8,7 +8,7 @@ page(title="My Profile")
     .ni-li
       .ni-li-container
         .ni-li-dl
-          .ni-li-dt Automatic error reports
+          .ni-li-dt Remote error tracking
           .ni-li-dd
             .ni-field-checkbox
               .ni-field-checkbox-input

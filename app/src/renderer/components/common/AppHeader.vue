@@ -1,6 +1,7 @@
 <template lang='pug'>
-nav#app-header: .container
-  template(v-if="!config.desktop"): .header-item
+nav#app-header(v-bind:class="{ mobile: !config.desktop }"): .container
+  template(v-if="!config.desktop")
+    .header-item
 
   router-link.header-item.header-item-logo(to="/")
     img#logo-black(v-if="themes.active == 'light'"
