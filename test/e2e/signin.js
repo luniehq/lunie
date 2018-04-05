@@ -1,6 +1,6 @@
 let test = require("tape-promise/tape")
 let { getApp, restart } = require("./launch.js")
-let { logout, openMenu } = require("./common.js")
+let { openMenu, login } = require("./common.js")
 
 /*
 * NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
@@ -14,6 +14,8 @@ test("sign in", async function(t) {
   let continueButton = () => el(".ni-btn__value=Next").$("..")
 
   t.test("signup", async function(t) {
+    await client.waitForExist(".ni-session-title=Sign In", 10000)
+
     // go to login selection
     await client
       .$("i=arrow_back")
@@ -159,10 +161,10 @@ test("sign in", async function(t) {
     })
 
     t.test("logs in", async function(t) {
-      await client.leftClick(".ni-btn__value=Next")
+      await continueButton().click()
 
       // checking if user is logged in
-      await client.waitForExist("#app-content", 5000)
+      await client.waitForExist("#app-content", 10000)
       await openMenu(client)
       let activeUser = await client.$(".ni-li-user .ni-li-title").getText()
       t.ok(activeUser === "signin_test", "user is logged in")
@@ -172,8 +174,22 @@ test("sign in", async function(t) {
     t.end()
   })
 
+  t.test("sign out", async function(t) {
+    await client.refresh()
+    await login(client, "testkey")
+    await client.waitForExist(".material-icons=exit_to_app", 1000)
+    await client
+      .$(".material-icons=exit_to_app")
+      .$("..")
+      .click()
+
+    await client.waitForExist(".ni-session", 1000)
+
+    t.end()
+  })
+
   t.test("seed", async function(t) {
-    await logout(client)
+    await client.refresh()
     // go to login selection
     await client
       .$("i=arrow_back")
@@ -200,6 +216,7 @@ test("sign in", async function(t) {
           .isExisting(".ni-form-msg--error"),
         "shows error"
       )
+      await accountName().scroll()
       await accountName().click()
       await client.keys("seed".split())
       t.ok(

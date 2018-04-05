@@ -106,7 +106,7 @@ export default {
     height 3rem + px
 
   &.ni-li-link
-    &:hover
+    &:hover, &.router-link-exact-active
       background var(--hover-bg)
 
       .ni-li-label
@@ -134,11 +134,11 @@ export default {
     .ni-li-title
       color var(--bright)
     &:before
-      background mc
+      background var(--mc)
 
     .ni-li-icon
       i.material-icons
-        color mc
+        color var(--mc)
   .ni-btn
     padding 0 0.75em
 
