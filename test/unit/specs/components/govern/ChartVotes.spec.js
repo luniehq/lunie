@@ -6,6 +6,8 @@ import ChartVotes from "renderer/components/govern/ChartVotes"
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
+jest.mock("chart.js")
+
 describe("ChartVotes", () => {
   let wrapper, store, getters
 
