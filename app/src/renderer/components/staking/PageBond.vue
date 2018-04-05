@@ -414,25 +414,25 @@ export default {
     pointer-events none
 
   .bond-bar__inner
-    background success
+    background var(--success)
 
   .bond-delta
-    color success
+    color var(--success)
     span:before
       content '+'
       display inline
 
   &.bond-group--unbonding
     .bond-bar__inner
-      background warning
+      background var(--warning)
     .bond-delta
-      color warning
+      color var(--warning)
 
 .bond-group--negative
   .bond-bar-old__inner
-    background danger
+    background var(--danger)
   .bond-delta
-    color danger
+    color var(--danger)
 
 .bond-group__fields
   display flex
@@ -446,14 +446,14 @@ export default {
 
 .bond-bar__label
   line-height 2rem
-  color bright
+  color var(--bright)
   font-size x
   text-align left
 
 .bond-bar__input
   height 2rem
   border-radius 1rem
-  border 1px solid input-bc
+  border 1px solid var(--input-bc)
   padding 1px
   position relative
 
@@ -471,7 +471,7 @@ export default {
 .bond-bar-old__inner
   height 2rem - 0.25rem
   border-radius 1rem
-  background dim
+  background var(--dim)
   width 50%
   min-width 2rem - 0.25rem
 
@@ -479,7 +479,7 @@ export default {
   position relative
 
   // debug
-  color app-bg
+  color var(--app-bg)
   font-size xs
   padding 0 0.5rem
   display flex
@@ -504,7 +504,7 @@ export default {
     font-size x
     font-family 'Material Icons'
     transform rotate(90deg)
-    color bc
+    color var(--bc)
 
 .bond-delta
   height 2rem

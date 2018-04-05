@@ -17,8 +17,8 @@ export default { name: "ni-field-addon" }
   z-index z(default)
 
 .ni-field-addon
-  background app-bg
-  border px solid bc
+  background var(--app-bg)
+  border px solid var(--bc)
   display flex
   align-items center
   justify-content center

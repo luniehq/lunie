@@ -58,7 +58,7 @@ export default {
   },
   async mounted() {
     console.log(this.$route.params.delegate)
-    await this.$nextTick
+    await this.$nextTick()
     console.log(this.delegate)
   }
 }
