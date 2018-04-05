@@ -7,8 +7,7 @@ describe("TextBlock", () => {
   beforeEach(() => {
     wrapper = mount(TextBlock, {
       propsData: {
-        content: `## Hello
-      ### Worl`,
+        content: `Hello World`,
         author: "faboweb"
       }
     })
