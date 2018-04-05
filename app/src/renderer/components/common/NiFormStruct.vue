@@ -64,16 +64,16 @@ export default {
 .ni-form-header
   display flex
   flex-flow column nowrap
-  border-bottom px solid bc
+  border-bottom px solid var(--bc)
   position relative
   padding 1rem 0
 
 .ni-form-title
   line-height 1rem
-  color bright
+  color var(--bright)
 
 .ni-form-subtitle
-  color dim
+  color var(--dim)
   font-size sm
   line-height 1rem
 
