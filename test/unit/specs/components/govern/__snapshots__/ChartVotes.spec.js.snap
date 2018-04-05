@@ -3,7 +3,7 @@
 exports[`ChartVotes has the expected html structure 1`] = `
 "<div class=\\"chart-votes chart-votes-size-lg\\">
    <div class=\\"chart-canvas\\">
-      <canvas id=\\"chart-votes-rJc\\"></canvas>
+      <canvas></canvas>
 </div>
 <div class=\\"chart-legend yes\\">
    <div class=\\"kv abstain\\">

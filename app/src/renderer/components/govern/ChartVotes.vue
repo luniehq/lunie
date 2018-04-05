@@ -1,6 +1,6 @@
 <template lang='pug'>
 .chart-votes(:class="cssClass")
-  .chart-canvas: canvas(:id="id")
+  .chart-canvas: canvas
   .chart-legend(v-if="size === 'lg'" :class="chartLabelClass")
     .kv.abstain: .container
       .key Abstain
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import shortid from "shortid"
 import { mapGetters } from "vuex"
 import Chart from "chart.js"
 export default {
@@ -85,7 +84,6 @@ export default {
     }
   },
   data: () => ({
-    id: "chart-votes-" + shortid.generate(),
     chartOptions: {
       animation: { duration: 0 },
       cutoutPercentage: 92,
@@ -96,7 +94,7 @@ export default {
   }),
   methods: {
     drawChart() {
-      let ctx = this.$el.querySelector("#" + this.id)
+      let ctx = this.$el.querySelector("canvas")
       // eslint-disable-next-line
       new Chart(ctx, {
         type: "doughnut",
