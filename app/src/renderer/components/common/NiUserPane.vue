@@ -29,10 +29,10 @@ export default {
 @import '~variables'
 
 .ni-li.ni-li-user
-  border-top px solid bc
+  border-top px solid var(--bc)
   height 3rem + px
   cursor: pointer
 
   .ni-li-title
-    color link
+    color var(--link)
 </style>

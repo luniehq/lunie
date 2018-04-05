@@ -154,7 +154,7 @@ export default {
 
 .fixed-button-bar
   padding 0.5rem 1rem
-  background alpha(app-bg, 90%)
+  background var(--app-bg)
   display flex
   justify-content space-between
   position fixed
@@ -164,7 +164,7 @@ export default {
   z-index z(toolBar)
 
   .label
-    color bright
+    color var(--bright)
     line-height 2rem
     strong
       font-weight bold

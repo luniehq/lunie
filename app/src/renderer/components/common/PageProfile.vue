@@ -12,7 +12,23 @@ page(title="My Profile")
           .ni-li-dd
             .ni-field-checkbox
               .ni-field-checkbox-input
-                input(type="checkbox" :checked="user.errorCollection || undefined" @change="setErrorCollection")
+                input#toggle-error-reports(
+                  type="checkbox"
+                  :checked="user.errorCollection || undefined"
+                  @change="setErrorCollection")
+    .ni-li
+      .ni-li-container
+        .ni-li-dl
+          .ni-li-dt Enable light theme
+          .ni-li-dd
+            .ni-field-checkbox
+              .ni-field-checkbox-input
+                input#toggle-light-theme(
+                  type="checkbox"
+                  :checked="themes.active === 'light'"
+                  @change="toggleAppTheme")
+  .ni-session-footer
+    btn(icon='exit_to_app' type='button' @click.native="signOut" value='Sign Out')
 </template>
 
 <script>
@@ -31,11 +47,18 @@ export default {
     Part,
     ToolBar
   },
-  computed: { ...mapGetters(["user"]) },
+  computed: { ...mapGetters(["user", "themes"]) },
   methods: {
     signOut() {
       this.$store.dispatch("signOut")
       this.$store.commit("notifySignOut")
+    },
+    toggleAppTheme() {
+      if (this.themes.active === "dark") {
+        this.$store.commit("setTheme", "light")
+      } else {
+        this.$store.commit("setTheme", "dark")
+      }
     },
     setErrorCollection() {
       this.$store.dispatch("setErrorCollection", {
