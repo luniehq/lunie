@@ -34,8 +34,8 @@ let state = {
         }
       ]
     }
-  },
-  nonces: { DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B: 0 },
+  }],
+  nonces: { 'DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B': 0 },
   txs: [
     {
       tx: {
