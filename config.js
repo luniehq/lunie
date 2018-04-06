@@ -1,14 +1,14 @@
 "use strict"
 
 const path = require("path")
-const fs = require("fs")
+const fs = require("fs-extra")
 const toml = require("toml")
 
 module.exports = (function() {
   let configPath =
-    process.env.NODE_ENV === "development"
-      ? path.join(__dirname, `config.toml`)
-      : path.join(__dirname, "../../../", `config.toml`)
+    process.env.NODE_ENV === "development" || process.env.NODE_ENV === "testing"
+      ? `config.toml`
+      : "../../../config.toml"
   let config = toml.parse(
     fs.readFileSync(configPath, {
       encoding: `utf8`

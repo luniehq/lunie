@@ -23,6 +23,7 @@ jest.mock("fs-extra", () => {
     "./app/networks/gaia-2/gaiaversion.txt",
     fs.readFileSync("./app/networks/gaia-2/gaiaversion.txt", "utf8")
   )
+  mockFs.writeFile("./config.toml", fs.readFileSync("./config.toml", "utf8"))
   return mockFs
 })
 let fs = require("fs-extra")
@@ -86,13 +87,6 @@ let testRoot = "./test/unit/tmp/test_root/"
 let childProcess
 
 describe("Startup Process", () => {
-  Object.assign(process.env, {
-    LOGGING: false,
-    COSMOS_NETWORK: "app/networks/gaia-2",
-    COSMOS_HOME: testRoot,
-    NODE_ENV: "testing"
-  })
-
   jest.mock(appRoot + "src/root.js", () => "./test/unit/tmp/test_root")
   jest.mock("event-to-promise", () => {
     let i = 0
@@ -177,19 +171,19 @@ describe("Startup Process", () => {
   })
 
   describe("Initialization in dev mode", function() {
-    beforeAll(async function() {
-      jest.resetModules()
-
+    beforeEach(async function() {
+      prepareMain()
       Object.assign(process.env, {
-        NODE_ENV: "development",
-        LOGGING: false
+        NODE_ENV: "development"
       })
+
+      main = await require(appRoot + "src/main/index.js")
+      expect(main).toBeDefined()
     })
 
     afterAll(() => {
-      Object.assign(process.env, { NODE_ENV: null })
+      Object.assign(process.env, { NODE_ENV: "testing" })
     })
-    mainSetup()
 
     it("should create the config dir", async function() {
       expect(fs.existsSync(testRoot)).toBe(true)
@@ -221,17 +215,18 @@ describe("Startup Process", () => {
   })
 
   describe("Initialization in dev mode", function() {
-    beforeAll(async function() {
-      jest.resetModules()
-
+    beforeEach(async function() {
+      prepareMain()
       Object.assign(process.env, {
-        NODE_ENV: "development",
-        LOGGING: false
+        NODE_ENV: "development"
       })
+
+      main = await require(appRoot + "src/main/index.js")
+      expect(main).toBeDefined()
     })
 
     afterAll(() => {
-      Object.assign(process.env, { NODE_ENV: null })
+      Object.assign(process.env, { NODE_ENV: "testing" })
     })
     mainSetup()
 
@@ -290,6 +285,26 @@ describe("Startup Process", () => {
         )
       ).toBeDefined()
       expect(main.processes.lcdProcess).toBeDefined()
+    })
+  })
+
+  describe("Start in production mode", function() {
+    beforeEach(async function() {
+      prepareMain()
+      Object.assign(process.env, {
+        NODE_ENV: "production"
+      })
+    })
+
+    it("should load the config from the build root folder", async () => {
+      const path = require("path")
+      let spy = jest.spyOn(fs, "readFileSync")
+      try {
+        await require(appRoot + "src/main/index.js")
+      } catch (err) {}
+      expect(spy).toHaveBeenCalledWith("../../../config.toml", {
+        encoding: "utf8"
+      })
     })
   })
 
@@ -566,6 +581,13 @@ function mainSetup() {
 
 // prepare mocks before we start the main process
 function prepareMain() {
+  Object.assign(process.env, {
+    LOGGING: false,
+    COSMOS_NETWORK: "app/networks/gaia-2",
+    COSMOS_HOME: testRoot,
+    NODE_ENV: "testing"
+  })
+
   // restart main with a now initialized state
   jest.resetModules()
   childProcess = require("child_process")
