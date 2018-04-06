@@ -87,6 +87,7 @@ let testRoot = "./test/unit/tmp/test_root/"
 let childProcess
 
 describe("Startup Process", () => {
+  jest.mock(appRoot + "src/root.js", () => "./test/unit/tmp/test_root")
   jest.mock("event-to-promise", () => {
     let i = 0
     return () =>
