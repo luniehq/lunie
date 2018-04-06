@@ -50,4 +50,7 @@ export default {
 
   .receive-modal
     border 1px solid bc
+
+  .value
+    padding 0
 </style>
