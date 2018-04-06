@@ -9,7 +9,11 @@ describe("PageSend", () => {
   localVue.use(Vuelidate)
 
   beforeEach(async () => {
-    let test = mount(PageSend)
+    let test = mount(PageSend, {
+      propsData: {
+        denom: "fermion"
+      }
+    })
     wrapper = test.wrapper
     store = test.store
     node = test.node
@@ -61,12 +65,18 @@ describe("PageSend", () => {
     ).toBe("FERMION")
   })
 
+  it("should work without providing a default denom", () => {
+    let { wrapper } = mount(PageSend)
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
   it("should show notification for successful send", async () => {
     wrapper.setData({
       fields: {
         denom: "ATOM",
         address: "CE456B8BA9AFD1CBDF4ED14558E8C30691E549EA",
-        amount: 2
+        amount: 2,
+        zoneId: "cosmos-hub-1"
       }
     })
     await wrapper.vm.onSubmit()
@@ -79,7 +89,8 @@ describe("PageSend", () => {
       fields: {
         denom: "ATOM",
         address: "CE456B8BA9AFD1CBDF4ED14558E8C30691E5fail",
-        amount: 2
+        amount: 2,
+        zoneId: "cosmos-hub-1"
       }
     })
     node.sign = () => Promise.reject()

@@ -16,11 +16,12 @@ describe("Module: Wallet", () => {
   it("should have an empty state by default", () => {
     const state = {
       balances: [],
-      balancesLoading: false,
+      balancesLoading: true,
       key: { address: "" },
       history: [],
       historyLoading: false,
-      denoms: []
+      denoms: [],
+      zoneIds: ["cosmos-hub-1", "cosmos-hub-2"]
     }
     expect(store.state.wallet).toEqual(state)
   })

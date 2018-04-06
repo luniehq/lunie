@@ -15,9 +15,9 @@ cli(options, async ({ commit, gaia, platform, "skip-pack": skipPack }) => {
   shell.mkdir(`-p`, builds)
 
   const resolved = {
-    gaia: path.resolve(untildify(gaia)),
-    git: path.resolve(__dirname, "../../.git"),
-    builds
+    gaia: parsePath(path.resolve(untildify(gaia))),
+    git: parsePath(path.resolve(__dirname, "../../.git")),
+    builds: parsePath(builds)
   }
 
   shell.exec(`docker run \
@@ -33,3 +33,12 @@ cli(options, async ({ commit, gaia, platform, "skip-pack": skipPack }) => {
         --skip-pack=${skipPack}
   `)
 })
+
+// Paths are resolved different on Windows. Docker needs the paths in the format //c/Users/Fabo/...
+function parsePath(path) {
+  if (process.platform === "win32") {
+    const drive = path[0]
+    return "//" + drive.toLowerCase() + path.substr(2).replace(/\\/g, "/")
+  }
+  return path
+}

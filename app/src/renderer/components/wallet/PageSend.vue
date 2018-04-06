@@ -13,6 +13,14 @@ page(title='Send')
         form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
 
     part(title='Transaction Details')
+      form-group(:error='$v.fields.zoneId.$error'
+        field-id='send-zone-id' field-label='Zone ID')
+        field#send-zone-id(
+          type="select"
+          v-model="fields.zoneId"
+          :options="zoneIds"
+          placeholder="Select zone...")
+        form-msg(name='Zone' type='required' v-if='!$v.fields.zoneId.required')
       form-group(:error='$v.fields.address.$error'
         field-id='send-address' field-label='Send To')
         field-group
@@ -69,19 +77,23 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(["wallet"]),
+    ...mapGetters(["wallet", "node"]),
     denominations() {
       return this.wallet.balances.map(i => ({
         key: i.denom.toUpperCase(),
         value: i.denom
       }))
+    },
+    zoneIds() {
+      return this.wallet.zoneIds.map(z => ({ key: z, value: z }))
     }
   },
   data: () => ({
     fields: {
       address: "",
       amount: null,
-      denom: ""
+      denom: "",
+      zoneId: "cosmos-hub-1"
     },
     sending: false
   }),
@@ -100,30 +112,27 @@ export default {
       let amount = +this.fields.amount
       let address = this.fields.address
       let denom = this.fields.denom
+      let zoneId = this.fields.zoneId
       try {
         // if address has a slash, it is IBC address format
         let type
-        if (address.includes("/")) {
+        if (node.lastHeader.chain_id !== zoneId) {
           type = "ibcSend"
         } else {
           type = "send"
         }
-
         await this.sendTx({
           type,
           to: address,
           amount: [{ denom, amount }]
         })
-
         this.sending = false
         this.$store.commit("notify", {
           title: "Successfully Sent",
           body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
         })
-
         // resets send transaction form
         this.resetForm()
-
         // refreshes user transaction history
         this.$store.dispatch("queryWalletHistory")
       } catch (err) {
@@ -141,6 +150,7 @@ export default {
     if (this.denom) {
       this.fields.denom = this.denom
     }
+    this.fields.zoneId = this.wallet.zoneIds[0]
   },
   validations: () => ({
     fields: {
@@ -152,8 +162,16 @@ export default {
         required,
         between: between(1, 1000000)
       },
-      denom: { required }
+      denom: { required },
+      zoneId: { required }
     }
-  })
+  }),
+  watch: {
+    // TODO should not be necessary?
+    // if the zoneId gets added at a later time
+    "wallet.zoneIds": () => {
+      this.fields.zoneId = this.wallet.zoneIds[0]
+    }
+  }
 }
 </script>

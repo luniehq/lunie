@@ -6,17 +6,18 @@ export default ({ commit, node }) => {
   let state = {
     balances: [],
     balancesLoading: false,
-    address: '',
+    address: "",
     history: [],
     historyLoading: false,
-    denoms: []
+    denoms: [],
+    zoneIds: ["basecoind-demo1", "basecoind-demo2"]
   }
 
   let mutations = {
     setWalletBalances(state, balances) {
       state.balances = balances
     },
-    setWalletAddress (state, address) {
+    setWalletAddress(state, address) {
       state.address = address
       // clear previous account state
       state.balances = []
@@ -47,24 +48,23 @@ export default ({ commit, node }) => {
         dispatch("queryWalletHistory")
       }
     },
-    initializeWallet ({ commit, dispatch }, address) {
-      commit('setWalletAddress', address)
-      dispatch('loadDenoms')
-      dispatch('queryWalletState')
+    initializeWallet({ commit, dispatch }, address) {
+      commit("setWalletAddress", address)
+      dispatch("loadDenoms")
+      dispatch("queryWalletState")
     },
-    queryWalletState ({ state, dispatch }) {
-      dispatch('queryWalletBalances')
-      dispatch('queryWalletHistory')
+    queryWalletState({ state, dispatch }) {
+      dispatch("queryWalletBalances")
+      dispatch("queryWalletHistory")
     },
-    async queryWalletBalances({ state, rootState, commit }) {
-      state.balancesLoading = true
+    async queryWalletBalances({ state, rootState, commit, dispatch }) {
       let res = await node.queryAccount(state.address)
       if (!res) {
-        state.balancesLoading = false
+        state.balancesLoading = true
         return
       }
-      commit('setNonce', res.sequence)
-      commit('setWalletBalances', res.coins)
+      commit("setNonce", res.sequence)
+      commit("setWalletBalances", res.coins)
       for (let coin of res.coins) {
         if (coin.denom === rootState.config.bondingDenom) {
           commit("setAtoms", coin.amount)
@@ -72,6 +72,9 @@ export default ({ commit, node }) => {
         }
       }
       state.balancesLoading = false
+
+      await sleep(3000)
+      dispatch("queryWalletBalances")
     },
     async queryWalletHistory({ state, commit, dispatch }) {
       state.historyLoading = true
@@ -96,7 +99,7 @@ export default ({ commit, node }) => {
       let blockMetaInfo = await dispatch("queryBlockInfo", blockHeight)
       commit("setTransactionTime", { blockHeight, blockMetaInfo })
     },
-    async loadDenoms ({ state, commit }) {
+    async loadDenoms({ state, commit }) {
       // read genesis.json to get default denoms
 
       // wait for genesis.json to exist
