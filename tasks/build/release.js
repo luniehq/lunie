@@ -48,7 +48,6 @@ function build({ platform, gaia }) {
       console.log("\n\x1b[34mZipping files...\n\x1b[0m")
       await Promise.all(
         appPaths.map(async appPath => {
-          console.log("Copying config into", appPath)
           copyConfig(appPath)
 
           if (platform === "win32") {
@@ -78,7 +77,13 @@ function copyBinary(name, binaryLocation) {
 }
 
 function copyConfig(buildFolder) {
-  fs.copySync(path.join(__dirname, "../../", "config.toml"), buildFolder)
+  console.log(
+    "Copying",
+    path.join(__dirname, "config.toml"),
+    "into",
+    buildFolder
+  )
+  fs.copySync(path.join(__dirname, "config.toml"), buildFolder)
 }
 
 function sha256File(path) {
