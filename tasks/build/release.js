@@ -45,11 +45,12 @@ function build({ platform, gaia }) {
     } else {
       console.log("Build(s) successful!")
       console.log(appPaths)
-      console.log("Copying config")
-      copyConfig(appPath)
       console.log("\n\x1b[34mZipping files...\n\x1b[0m")
       await Promise.all(
         appPaths.map(async appPath => {
+          console.log("Copying config into", appPath)
+          copyConfig(appPath)
+
           if (platform === "win32") {
             await zipFolder(appPath, options.out, packageJson.version)
           } else {
