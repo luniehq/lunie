@@ -1,4 +1,4 @@
-const { normalize, sep } = require("path")
+const { normalize, sep, relative } = require("path")
 const { Writable } = require("stream")
 
 /*
@@ -93,7 +93,7 @@ export default function mockFsExtra(fileSystem = {}) {
   }
 
   function get(path, fs) {
-    path = normalize(path)
+    path = relative(__dirname + "/../../../", normalize(path)) // get paths relative to root
     let pathArr = path.split(sep).filter(x => x !== "")
     let current = pathArr.shift()
 

@@ -23,8 +23,8 @@ let nodeIP
 let connecting = true
 let crashingError = null
 let seeds = null
-
 const root = require("../root.js")
+const lcdHome = join(root, "lcd")
 let config = require("../../../config.js")(
   process.env.NODE_ENV === "production"
 )
@@ -32,7 +32,6 @@ global.root = root // to make the root accessable from renderer
 global.config = config // to make the config accessable from renderer
 const networkPath = require("../network.js").path
 
-const lcdHome = join(root, "lcd")
 const WIN = /^win/.test(process.platform)
 const DEV = process.env.NODE_ENV === "development"
 const TEST = process.env.NODE_ENV === "testing"

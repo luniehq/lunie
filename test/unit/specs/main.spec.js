@@ -302,7 +302,7 @@ describe("Startup Process", () => {
       try {
         await require(appRoot + "src/main/index.js")
       } catch (err) {}
-      expect(spy).toHaveBeenCalledWith("../../../config.toml", {
+      expect(spy).toHaveBeenCalledWith(path.resolve("../../../config.toml"), {
         encoding: "utf8"
       })
     })
