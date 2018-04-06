@@ -77,7 +77,7 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(["wallet", "node"]),
+    ...mapGetters(["wallet", "lastHeader"]),
     denominations() {
       return this.wallet.balances.map(i => ({
         key: i.denom.toUpperCase(),
@@ -116,7 +116,7 @@ export default {
       try {
         // if address has a slash, it is IBC address format
         let type
-        if (node.lastHeader.chain_id !== zoneId) {
+        if (this.lastHeader.chain_id !== zoneId) {
           type = "ibcSend"
         } else {
           type = "send"
