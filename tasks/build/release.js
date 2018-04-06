@@ -1,7 +1,7 @@
 "use strict"
 
 const { cli } = require(`@nodeguy/cli`)
-const config = require(`../../config`)
+const config = require(`../../config`)(false)
 const { createHash } = require("crypto")
 const optionsSpecification = require(`./options.json`)
 const path = require("path")
