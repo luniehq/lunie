@@ -58,19 +58,20 @@ export default ({ commit, node }) => {
       dispatch("queryWalletHistory")
     },
     async queryWalletBalances({ state, rootState, commit, dispatch }) {
+      state.balancesLoading = true
+
       let res = await node.queryAccount(state.address)
-      if (!res) {
-        state.balancesLoading = true
-        return
-      }
-      commit("setNonce", res.sequence)
-      commit("setWalletBalances", res.coins)
-      for (let coin of res.coins) {
-        if (coin.denom === rootState.config.bondingDenom) {
-          commit("setAtoms", coin.amount)
-          break
+      if (res) {
+        commit("setNonce", res.sequence)
+        commit("setWalletBalances", res.coins)
+        for (let coin of res.coins) {
+          if (coin.denom === rootState.config.bondingDenom) {
+            commit("setAtoms", coin.amount)
+            break
+          }
         }
       }
+
       state.balancesLoading = false
 
       await sleep(3000)

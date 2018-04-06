@@ -14,7 +14,8 @@ page(title='Wallet')
     li-copy(:value="wallet.address")
 
   part(title="Denomination Balances")
-    data-loading(v-if="wallet.balancesLoading")
+    //- only show loader if no balances showing, would be annoying to always show loader
+    data-loading(v-if="wallet.balances.length === 0 && wallet.balancesLoading")
     data-empty(v-else-if="wallet.balances.length === 0")
     data-empty-search(v-else-if="filteredBalances.length === 0")
     list-item(
