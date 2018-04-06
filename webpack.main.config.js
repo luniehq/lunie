@@ -4,7 +4,7 @@ process.env.BABEL_ENV = "main"
 
 const path = require("path")
 const webpack = require("webpack")
-const settings = require("./config.js")
+const settings = require("./config.js")(false)
 
 let mainConfig = {
   entry: {

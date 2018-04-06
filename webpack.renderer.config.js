@@ -3,7 +3,7 @@
 process.env.BABEL_ENV = "renderer"
 
 const path = require("path")
-const settings = require("./config.js")
+const settings = require("./config.js")(false)
 const webpack = require("webpack")
 const stylus = require("stylus")
 const fs = require("fs-extra")

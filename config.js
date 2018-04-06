@@ -4,11 +4,11 @@ const path = require("path")
 const fs = require("fs-extra")
 const toml = require("toml")
 
-module.exports = (function() {
-  let configPath =
-    process.env.NODE_ENV === "development" || process.env.NODE_ENV === "testing"
-      ? `config.toml`
-      : "../../../config.toml"
+module.exports = function(production = false) {
+  let configPath = path.join(
+    __dirname,
+    production ? "../../../config.toml" : "config.toml"
+  )
   let config = toml.parse(
     fs.readFileSync(configPath, {
       encoding: `utf8`
@@ -30,4 +30,4 @@ module.exports = (function() {
   }
 
   return config
-})()
+}
