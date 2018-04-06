@@ -13,6 +13,14 @@ page(title='Send')
         form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
 
     part(title='Transaction Details')
+      form-group(:error='$v.fields.zoneId.$error'
+        field-id='send-zone-id' field-label='Zone ID')
+        field#send-zone-id(
+          type="select"
+          v-model="fields.zoneId"
+          :options="zoneIds"
+          placeholder="Select zone...")
+        form-msg(name='Zone' type='required' v-if='!$v.fields.zoneId.required')
       form-group(:error='$v.fields.address.$error'
         field-id='send-address' field-label='Send To')
         field-group
@@ -81,13 +89,17 @@ export default {
         key: i.denom.toUpperCase(),
         value: i.denom
       }))
+    },
+    zoneIds() {
+      return this.wallet.zoneIds.map(z => ({ key: z, value: z }))
     }
   },
   data: () => ({
     fields: {
       address: "",
       amount: null,
-      denom: ""
+      denom: "",
+      zoneId: "cosmos-hub-1"
     },
     sending: false
   }),
@@ -106,10 +118,12 @@ export default {
       let amount = +this.fields.amount
       let address = this.fields.address
       let denom = this.fields.denom
+      let zoneId = this.fields.zoneId
       await this.walletSend({
         fees: { denom, amount: 0 },
         to: address,
-        amount: [{ denom, amount }]
+        amount: [{ denom, amount }],
+        zoneId: zoneId
       }).then(
         () => {
           this.sending = false
@@ -153,7 +167,8 @@ export default {
         required,
         between: between(1, 1000000)
       },
-      denom: { required }
+      denom: { required },
+      zoneId: { required }
     }
   })
 }
