@@ -6,9 +6,9 @@ const toml = require("toml")
 
 module.exports = (function() {
   let configPath =
-    process.env.NODE_ENV === "production"
-      ? path.join(__dirname, "../../../", `config.toml`)
-      : path.join(__dirname, `config.toml`)
+    process.env.NODE_ENV === "development"
+      ? path.join(__dirname, `config.toml`)
+      : path.join(__dirname, "../../../", `config.toml`)
   let config = toml.parse(
     fs.readFileSync(configPath, {
       encoding: `utf8`
