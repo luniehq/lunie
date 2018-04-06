@@ -79,7 +79,7 @@ function copyBinary(name, binaryLocation) {
 function copyConfig(buildFolder) {
   console.log(
     "Copying",
-    path.join(__dirname, "config.toml"),
+    path.join(__dirname, "../../../../config.toml"),
     "into",
     buildFolder
   )
