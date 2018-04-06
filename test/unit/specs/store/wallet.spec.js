@@ -3,16 +3,6 @@ const mockFsExtra = require("../../helpers/fs-mock").default
 
 let instance = setup()
 
-jest.mock("fs-extra", () => {
-  let fs = require("fs")
-  let mockFs = mockFsExtra()
-  mockFs.writeFile(
-    "./genesis.json", // mocked root
-    fs.readFileSync("./app/networks/gaia-2/genesis.json", "utf8")
-  )
-  return mockFs
-})
-
 describe("Module: Wallet", () => {
   let store, node
 
