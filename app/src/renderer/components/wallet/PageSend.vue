@@ -118,6 +118,7 @@ export default {
         let type
         if (this.lastHeader.chain_id !== zoneId) {
           type = "ibcSend"
+          address = `${zoneId}/${address}`
         } else {
           type = "send"
         }
