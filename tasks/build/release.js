@@ -77,13 +77,9 @@ function copyBinary(name, binaryLocation) {
 }
 
 function copyConfig(buildFolder) {
-  console.log(
-    "Copying",
-    path.join(__dirname, "../../../../config.toml"),
-    "into",
-    buildFolder
-  )
-  fs.copySync(path.join(__dirname, "config.toml"), buildFolder)
+  const configPath = path.join(__dirname, "../../../../config.toml")
+  console.log("Copying", configPath, "into", buildFolder)
+  fs.copySync(configPath, buildFolder)
 }
 
 function sha256File(path) {
