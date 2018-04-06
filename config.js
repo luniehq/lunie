@@ -6,7 +6,7 @@ const toml = require("toml")
 
 module.exports = (function() {
   let configPath =
-    process.env === "production"
+    process.env.NODE_ENV === "production"
       ? path.join(__dirname, "../../../", `config.toml`)
       : path.join(__dirname, `config.toml`)
   let config = toml.parse(
