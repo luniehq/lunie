@@ -1,8 +1,8 @@
-import setup from '../../helpers/vuex-setup'
+import setup from "../../helpers/vuex-setup"
 
 let instance = setup()
 
-describe('Module: Send', () => {
+describe("Module: Send", () => {
   let store, node
 
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('Module: Send', () => {
 
   // DEFAULT
 
-  it('should have an empty state by default', () => {
+  it("should have an empty state by default", () => {
     const state = {
       loading: false,
       nonce: 0,
@@ -25,119 +25,130 @@ describe('Module: Send', () => {
 
   // MUTATIONS
 
-  it('should set wallet nonce', () => {
+  it("should set wallet nonce", () => {
     const nonce = 959
-    store.commit('setNonce', nonce)
+    store.commit("setNonce", nonce)
     expect(store.state.send.nonce).toBe(nonce)
   })
 
-  it('should add a tx to the queue', () => {
-    const tx = { denom: 'acoin', amount: '500' }
-    store.commit('queueSend', tx)
+  it("should add a tx to the queue", () => {
+    const tx = { denom: "acoin", amount: "500" }
+    store.commit("queueSend", tx)
     expect(store.state.send.queue).toContain(tx)
   })
 
-  it('should shift the queue', () => {
+  it("should shift the queue", () => {
     const txOne = {
-      id: 'first-tx', denom: 'acoin', amount: '50'
+      id: "first-tx",
+      denom: "acoin",
+      amount: "50"
     }
     const txTwo = {
-      id: 'second-tx', denom: 'acoin', amount: '125'
+      id: "second-tx",
+      denom: "acoin",
+      amount: "125"
     }
-    store.commit('queueSend', txOne)
-    store.commit('queueSend', txTwo)
-    store.commit('shiftSendQueue')
+    store.commit("queueSend", txOne)
+    store.commit("queueSend", txTwo)
+    store.commit("shiftSendQueue")
     expect(store.state.send.queue[0]).toBe(txTwo)
   })
 
-  it('should continue with the next tx in queue', async () => {
+  it("should continue with the next tx in queue", async () => {
     const txOne = {
-      type: 'test', id: 'first-tx', denom: 'acoin', amount: 50
+      type: "test",
+      id: "first-tx",
+      denom: "acoin",
+      amount: 50
     }
     const txTwo = {
-      type: 'test', id: 'second-tx', denom: 'acoin', amount: 125
+      type: "test",
+      id: "second-tx",
+      denom: "acoin",
+      amount: 125
     }
-    node.test = (v) => Promise.resolve(v)
-    node.sign = (v) => Promise.resolve(v)
-    node.postTx = jest.fn(() => Promise.resolve({
-      check_tx: {},
-      deliver_tx: {}
-    }))
+    node.test = v => Promise.resolve(v)
+    node.sign = v => Promise.resolve(v)
+    node.postTx = jest.fn(() =>
+      Promise.resolve({
+        check_tx: {},
+        deliver_tx: {}
+      })
+    )
 
-    await store.dispatch('sendTx', txOne)
-    let txDone = await store.dispatch('sendTx', txTwo)
+    await store.dispatch("sendTx", txOne)
+    let txDone = await store.dispatch("sendTx", txTwo)
     await txDone
     expect(store.state.send.queue.length).toBe(0)
 
     expect(node.postTx.mock.calls.length).toBe(2)
   })
 
-  it('should set sending', () => {
-    store.commit('setSending', true)
+  it("should set sending", () => {
+    store.commit("setSending", true)
     expect(store.state.send.sending).toBe(true)
   })
 
   // ACTIONS
 
-  it('should query wallet nonce', async () => {
-    const key = { address: 'DC97A6E1A3E1FE868B55BA93C7FC626368261E09' }
+  it("should query wallet nonce", async () => {
+    const key = { address: "DC97A6E1A3E1FE868B55BA93C7FC626368261E09" }
     const nonce = 42
-    node.queryNonce = async (addr) => {
+    node.queryNonce = async addr => {
       expect(addr).toBe(key.address)
       return { data: nonce }
     }
-    await store.dispatch('initializeWallet', key)
-    await store.dispatch('queryNonce', key.address)
+    await store.dispatch("initializeWallet", key)
+    await store.dispatch("queryNonce", key.address)
     expect(store.state.send.nonce).toBe(nonce)
   })
 
-  describe('send transactions', () => {
+  describe("send transactions", () => {
     beforeEach(async () => {
-      let account = 'abc'
-      let password = '123'
+      let account = "abc"
+      let password = "123"
       node.sendTx = jest.fn(() => Promise.resolve())
-      await store.dispatch('signIn', { account, password })
+      await store.dispatch("signIn", { account, password })
     })
 
-    it('should send from wallet', async () => {
-      const args = { type: 'buildSend' }
-      await store.dispatch('walletSend', args)
+    it("should send from wallet", async () => {
+      const args = { type: "buildSend" }
+      await store.dispatch("walletSend", args)
       expect(node.sendTx.mock.calls).toMatchSnapshot()
     })
 
-    it('should send a tx ', async () => {
-      node.queryNonce = async (addr) => ({ data: 88 })
-      const key = { address: 'DC97A6E1A3E1FE868B55BA93C7FC626368261E09' }
-      await store.dispatch('initializeWallet', key)
+    it("should send a tx ", async () => {
+      node.queryNonce = async addr => ({ data: 88 })
+      const key = { address: "DC97A6E1A3E1FE868B55BA93C7FC626368261E09" }
+      await store.dispatch("initializeWallet", key)
       const args = {
-        to: 'foo',
-        type: 'buildSend',
-        amount: { denom: 'foocoin', amount: 9001 }
+        to: "foo",
+        type: "buildSend",
+        amount: { denom: "foocoin", amount: 9001 }
       }
-      await store.dispatch('sendTx', args)
+      await store.dispatch("sendTx", args)
       expect(node.sendTx.mock.calls).toMatchSnapshot()
     })
 
-    it('should fail sending a wallet tx ', async done => {
+    it("should fail sending a wallet tx ", async done => {
       node.sign = () => Promise.reject()
-      const args = { type: 'buildSend' }
-      store.dispatch('walletSend', args)
-        .then(done.fail, () => done())
+      const args = { type: "buildSend" }
+      store.dispatch("walletSend", args).then(done.fail, () => done())
     })
 
-    it('should query the nonce on reconnection', () => {
+    it("should query the nonce on reconnection", () => {
       store.state.node.stopConnecting = true
       store.state.send.loading = true
-      jest.spyOn(node, 'queryNonce')
-      store.dispatch('reconnected')
+      jest.spyOn(node, "queryNonce")
+      store.dispatch("reconnected")
       expect(node.queryNonce).toHaveBeenCalled()
     })
 
-    it('should not query the nonce on reconnection if not stuck in loading', () => {
+    it("should not query the nonce on reconnection if not stuck in loading", () => {
       store.state.node.stopConnecting = true
       store.state.send.loading = false
-      jest.spyOn(node, 'queryNonce')
-      store.dispatch('reconnected')
+      jest.spyOn(node, "queryNonce")
+      store.dispatch("reconnected")
       expect(node.queryNonce).not.toHaveBeenCalled()
     })
   })

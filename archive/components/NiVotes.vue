@@ -5,42 +5,49 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from "vuex"
 // import {countVotes} from '../../scripts/votes'
 export default {
-  name: 'ni-votes',
+  name: "ni-votes",
   computed: {
-    ...mapGetters(['user']),
-    votes () {
+    ...mapGetters(["user"]),
+    votes() {
       // return countVotes(this.parent.votes)
       return 0
     },
-    userVoted () {
+    userVoted() {
       return this.parent.votes ? !!this.parent.votes[this.user.uid] : false
     },
-    cssClass () {
-      let value = ''
-      if (this.orientation === 'hz') {
-        value = 'ni-votes-hz'
+    cssClass() {
+      let value = ""
+      if (this.orientation === "hz") {
+        value = "ni-votes-hz"
       } else {
-        value = 'ni-votes-vt'
+        value = "ni-votes-vt"
       }
-      if (this.userVoted) { value += ' ni-votes-voted' }
+      if (this.userVoted) {
+        value += " ni-votes-voted"
+      }
       return value
     }
   },
   methods: {
-    vote () {
-      this.$store.dispatch(this.resource + 'Vote', {
-        [this.resource]: this.parent,
-        rootId: this.parent.rootId, // for comments
-        userUid: this.user.uid
-      }).then(null, error => {
-        this.$store.commit('notifyError', {title: 'Updating vote failed', body: error.message})
-      })
+    vote() {
+      this.$store
+        .dispatch(this.resource + "Vote", {
+          [this.resource]: this.parent,
+          rootId: this.parent.rootId, // for comments
+          userUid: this.user.uid
+        })
+        .then(null, error => {
+          this.$store.commit("notifyError", {
+            title: "Updating vote failed",
+            body: error.message
+          })
+        })
     }
   },
-  props: ['parent', 'resource', 'orientation']
+  props: ["parent", "resource", "orientation"]
 }
 </script>
 

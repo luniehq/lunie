@@ -1,34 +1,35 @@
-let fs = require('fs-extra')
-let { join } = require('path')
-let root = require('../../../root.js')
+let fs = require("fs-extra")
+let { join } = require("path")
+let root = require("../../../root.js")
 
 export default ({ commit, node }) => {
   let state = {
     balances: [],
-    balancesLoading: false,
-    key: { address: '' },
+    balancesLoading: true,
+    key: { address: "" },
     history: [],
     historyLoading: false,
-    denoms: []
+    denoms: [],
+    zoneIds: ["cosmos-hub-1", "cosmos-hub-2"]
   }
 
   let mutations = {
-    setWalletBalances (state, balances) {
+    setWalletBalances(state, balances) {
       state.balances = balances
     },
-    setWalletKey (state, key) {
+    setWalletKey(state, key) {
       state.key = key
       // clear previous account state
       state.balances = []
       state.history = []
     },
-    setWalletHistory (state, history) {
+    setWalletHistory(state, history) {
       state.history = history
     },
-    setDenoms (state, denoms) {
+    setDenoms(state, denoms) {
       state.denoms = denoms
     },
-    setTransactionTime (state, { blockHeight, blockMetaInfo }) {
+    setTransactionTime(state, { blockHeight, blockMetaInfo }) {
       state.history = state.history.map(t => {
         if (t.height === blockHeight) {
           t.time = blockMetaInfo.header.time
@@ -39,45 +40,47 @@ export default ({ commit, node }) => {
   }
 
   let actions = {
-    reconnected ({ state, dispatch }) {
+    reconnected({ state, dispatch }) {
       if (state.balancesLoading) {
-        dispatch('queryWalletBalances')
+        dispatch("queryWalletBalances")
       }
       if (state.historyLoading) {
-        dispatch('queryWalletHistory')
+        dispatch("queryWalletHistory")
       }
     },
-    initializeWallet ({ commit, dispatch }, key) {
-      commit('setWalletKey', key)
-      dispatch('loadDenoms')
-      dispatch('queryWalletState')
+    initializeWallet({ commit, dispatch }, key) {
+      commit("setWalletKey", key)
+      dispatch("loadDenoms")
+      dispatch("queryWalletState")
     },
-    queryWalletState ({ state, dispatch }) {
-      dispatch('queryWalletBalances')
-      dispatch('queryNonce', state.key.address)
-      dispatch('queryWalletHistory')
+    queryWalletState({ state, dispatch }) {
+      dispatch("queryWalletBalances")
+      dispatch("queryNonce", state.key.address)
+      dispatch("queryWalletHistory")
     },
-    async queryWalletBalances ({ state, rootState, commit }) {
-      state.balancesLoading = true
+    async queryWalletBalances({ state, rootState, commit, dispatch }) {
       let res = await node.queryAccount(state.key.address)
       if (!res) {
-        state.balancesLoading = false
+        state.balancesLoading = true
         return
       }
-      commit('setWalletBalances', res.data.coins)
+      commit("setWalletBalances", res.data.coins)
       for (let coin of res.data.coins) {
         if (coin.denom === rootState.config.bondingDenom) {
-          commit('setAtoms', coin.amount)
+          commit("setAtoms", coin.amount)
           break
         }
       }
       state.balancesLoading = false
+
+      await sleep(3000)
+      dispatch("queryWalletBalances")
     },
-    async queryWalletHistory ({ state, commit, dispatch }) {
+    async queryWalletHistory({ state, commit, dispatch }) {
       state.historyLoading = true
       let res = await node.coinTxs(state.key.address)
       if (!res) return
-      commit('setWalletHistory', res)
+      commit("setWalletHistory", res)
 
       let blockHeights = []
       res.forEach(t => {
@@ -85,35 +88,35 @@ export default ({ commit, node }) => {
           blockHeights.push(t.height)
         }
       })
-      await Promise.all(blockHeights.map(h =>
-        dispatch('queryTransactionTime', h)
-      ))
+      await Promise.all(
+        blockHeights.map(h => dispatch("queryTransactionTime", h))
+      )
       state.historyLoading = false
     },
-    async queryTransactionTime ({ commit, dispatch }, blockHeight) {
-      let blockMetaInfo = await dispatch('queryBlockInfo', blockHeight)
-      commit('setTransactionTime', { blockHeight, blockMetaInfo })
+    async queryTransactionTime({ commit, dispatch }, blockHeight) {
+      let blockMetaInfo = await dispatch("queryBlockInfo", blockHeight)
+      commit("setTransactionTime", { blockHeight, blockMetaInfo })
     },
-    async walletSend ({ dispatch }, args) {
-      args.type = 'buildSend'
+    async walletSend({ dispatch }, args) {
+      args.type = "buildSend"
       args.to = {
-        chain: '',
-        app: 'sigs',
+        chain: "",
+        app: "sigs",
         addr: args.to
       }
-      return dispatch('sendTx', args)
+      return dispatch("sendTx", args)
     },
-    async loadDenoms ({ state, commit }) {
+    async loadDenoms({ state, commit }) {
       // read genesis.json to get default denoms
 
       // wait for genesis.json to exist
-      let genesisPath = join(root, 'genesis.json')
+      let genesisPath = join(root, "genesis.json")
       while (true) {
         try {
           await fs.pathExists(genesisPath)
           break
         } catch (err) {
-          console.log('waiting for genesis', err, genesisPath)
+          console.log("waiting for genesis", err, genesisPath)
           await sleep(500)
         }
       }
@@ -126,15 +129,17 @@ export default ({ commit, node }) => {
         }
       }
 
-      commit('setDenoms', Object.keys(denoms))
+      commit("setDenoms", Object.keys(denoms))
     }
   }
 
   return {
-    state, mutations, actions
+    state,
+    mutations,
+    actions
   }
 }
 
-function sleep (ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }

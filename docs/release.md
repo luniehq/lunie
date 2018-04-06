@@ -6,7 +6,7 @@ First, you'll need to either download trusted `gaia` binaries for each platform,
 
 ### Building Gaia Binaries
 
-**TODO:** *Use Docker for this step*
+**TODO:** _Use Docker for this step_
 
 If you build the binaries yourself, you'll need to have Golang 1.9 installed, and be on the correct version of `gaia` for the network you are building Voyager for:
 
@@ -60,17 +60,20 @@ yarn
 
 ### Housekeeping
 
-**TODO:** *Automate these tasks with scripts or allow setting via environment variables*
+**TODO:** _Automate these tasks with scripts or allow setting via environment variables_
 
 There are a few miscellaneous tasks to do before making a new release:
-- Ensure the default network is correct in `app/src/main/index.js`:
+
+* Ensure the default network is correct in `app/src/main/index.js`:
+
 ```js
 // currently set to gaia-2, change if necessary
-let DEFAULT_NETWORK = join(__dirname, '../networks/gaia-2')
+let DEFAULT_NETWORK = join(__dirname, "../networks/gaia-2")
 ```
-- Ensure the network params you wish to use are in a folder at `app/networks/<networkname>`. It requires the `genesis.json`, `config.toml`, and `gaiaversion.txt` files. You can get them from the testnets repo (https://github.com/tendermint/testnets).
-- Increment the version for this release in `package.json`.
-- Commit and PR the above changes if necessary.
+
+* Ensure the network params you wish to use are in a folder at `app/networks/<networkname>`. It requires the `genesis.json`, `config.toml`, and `gaiaversion.txt` files. You can get them from the testnets repo (https://github.com/tendermint/testnets).
+* Increment the version for this release in `package.json`.
+* Commit and PR the above changes if necessary.
 
 ### Building the App
 
@@ -90,12 +93,12 @@ yarn build:win32 \
 
 ### Verifying Builds with the Team
 
-**TODO:** *Work on this process, automate as much as possible*
+**TODO:** _Work on this process, automate as much as possible_
 
 As a team, we should verify that we all independently arrived at the same result for each of the builds, which greatly increases security by reducing the chances that a build was backdoored by an attacker who has compromised one of our machines. (When dealing with huge sums of money, we can never be too careful).
 
-- Paste the output from the previous commands into Slack and ensure everyone has matching hashes
-- As a team, run the app at least once on each platform to double-check that the builds were done correctly
+* Paste the output from the previous commands into Slack and ensure everyone has matching hashes
+* As a team, run the app at least once on each platform to double-check that the builds were done correctly
 
 ### TODO: Signing Builds
 
@@ -107,9 +110,9 @@ We will also have a company key for macOS signatures, for extra security and so 
 
 Now this release is ready to go out to the world!
 
-- Visit https://github.com/cosmos/voyager/releases/new to create the Github release
-- Fill in the release text based on the format of past releases (https://github.com/cosmos/voyager/releases)
-- Add changes from `CHANGELOG.md`
-- Upload the build files from the `builds` folder (Windows `.zip`, Linux and Mac `.tar.gz`)
-- Hit the big green button and enjoy the dopamine and serotonin flooding your brain
-- 🎊🎉
+* Visit https://github.com/cosmos/voyager/releases/new to create the Github release
+* Fill in the release text based on the format of past releases (https://github.com/cosmos/voyager/releases)
+* Add changes from `CHANGELOG.md`
+* Upload the build files from the `builds` folder (Windows `.zip`, Linux and Mac `.tar.gz`)
+* Hit the big green button and enjoy the dopamine and serotonin flooding your brain
+* 🎊🎉

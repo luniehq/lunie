@@ -5,7 +5,7 @@ footer.ni-page-footer
 </template>
 
 <script>
-export default { name: 'ni-page-footer' }
+export default { name: "ni-page-footer" }
 </script>
 
 <style lang="stylus">
@@ -13,7 +13,7 @@ export default { name: 'ni-page-footer' }
 
 .ni-page-footer
   .container
-    border-top px solid bc
+    border-top px solid var(--bc)
     height 3rem
     display flex
     align-items center

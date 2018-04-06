@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'ni-cards'
+  name: "ni-cards"
 }
 </script>
 

@@ -20,39 +20,40 @@
 </template>
 
 <script>
-import { remote, shell } from 'electron'
-import Btn from '@nylira/vue-button'
+import { remote, shell } from "electron"
+import Btn from "@nylira/vue-button"
 export default {
-  name: 'ni-modal-error',
+  name: "ni-modal-error",
   components: { Btn },
   computed: {
-    errorIcon () {
+    errorIcon() {
       if (this.icon) return this.icon
-      else return 'error_outline'
+      else return "error_outline"
     },
-    errorTitle () {
+    errorTitle() {
       if (this.title) return this.title
-      else return 'Voyager ran into an error'
+      else return "Voyager ran into an error"
     },
-    errorBody () {
+    errorBody() {
       if (this.body) return this.body
-      else return 'Voyager has encountered a critical error that blocks the app from running. Please create an issue and include a copy of the app logs.'
+      else
+        return "Voyager has encountered a critical error that blocks the app from running. Please create an issue and include a copy of the app logs."
     }
   },
   data: () => ({
-    logPath: '',
-    chatUrl: 'https://web.telegram.org/#/im?p=@cosmosproject',
-    issueUrl: 'https://github.com/cosmos/voyager/issues'
+    logPath: "",
+    chatUrl: "https://web.telegram.org/#/im?p=@cosmosproject",
+    issueUrl: "https://github.com/cosmos/voyager/issues"
   }),
   methods: {
-    viewLogs () {
+    viewLogs() {
       shell.openItem(this.logPath)
     }
   },
-  mounted () {
-    this.logPath = remote.app.getPath('home') + '/.Cosmos/main.log'
+  mounted() {
+    this.logPath = remote.app.getPath("home") + "/.Cosmos/main.log"
   },
-  props: ['icon', 'title', 'body']
+  props: ["icon", "title", "body"]
 }
 </script>
 
@@ -65,7 +66,7 @@ export default {
   left 0
 
   z-index z(modalError)
-  background app-bg
+  background var(--app-bg)
   width 100vw
   height 100vh
   max-width 100%
@@ -86,7 +87,7 @@ export default {
   i.material-icons
     font-size 25vw + 25vh
     line-height 1
-    color bc-dim
+    color var(--bc-dim)
 
 .ni-modal-error__title
   font-size h1
@@ -96,7 +97,7 @@ export default {
 
 .ni-modal-error__body
   font-size lg
-  color dim
+  color var(--dim)
   margin-bottom 3rem
 
 .ni-modal-error__footer

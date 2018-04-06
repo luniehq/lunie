@@ -7,16 +7,18 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import ListItem from 'common/NiListItem'
-import num from 'scripts/num'
+import { mapGetters } from "vuex"
+import ListItem from "common/NiListItem"
+import num from "scripts/num"
 export default {
-  name: 'ni-connectivity',
+  name: "ni-connectivity",
   components: { ListItem },
   computed: {
-    ...mapGetters(['lastHeader', 'nodeIP', 'connected', 'validators']),
-    blockString () {
-      return `${this.lastHeader.chain_id} (#${num.prettyInt(this.lastHeader.height)})`
+    ...mapGetters(["lastHeader", "nodeIP", "connected", "validators"]),
+    blockString() {
+      return `${this.lastHeader.chain_id} (#${num.prettyInt(
+        this.lastHeader.height
+      )})`
     }
   },
   data: () => ({ num: num })
@@ -27,11 +29,11 @@ export default {
 @require '~variables'
 
 .ni-connectivity
-  background app-bg
+  background var(--app-bg)
 
   .ni-li-thumb
     .material-icons
-      color success
+      color var(--success)
 
   &.connecting
     .material-icons
@@ -39,7 +41,7 @@ export default {
 
 @media screen and (min-width: 1024px)
   .ni-connectivity
-    border-top px solid bc
+    border-top px solid var(--bc)
     height 3rem + px
     display flex
     align-items center

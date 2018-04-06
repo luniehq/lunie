@@ -23,7 +23,7 @@ import ModalReceive from 'common/NiModalReceive'
 import Session from 'common/NiSession'
 import store from './vuex/store'
 export default {
-  name: 'app',
+  name: "app",
   components: {
     AppHeader,
     AppFooter,
@@ -33,8 +33,16 @@ export default {
     Notifications,
     Session
   },
-  computed: { ...mapGetters(['notifications', 'config']) },
-  store
+  computed: { ...mapGetters(["notifications", "config", "themes"]) },
+  mounted() {
+    this.$store.commit("updateTheme", this.themes.active)
+  },
+  store,
+  watch: {
+    "themes.active"(newTheme) {
+      this.$store.commit("updateTheme", this.themes.active)
+    }
+  }
 }
 </script>
 

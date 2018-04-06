@@ -9,59 +9,59 @@ export default ({ commit, node }) => {
   }
 
   const mutations = {
-    queueSend (state, sendReq) {
+    queueSend(state, sendReq) {
       state.queue.push(sendReq)
     },
-    shiftSendQueue (state) {
+    shiftSendQueue(state) {
       state.queue = state.queue.slice(1)
     },
-    setSending (state, sending) {
+    setSending(state, sending) {
       state.sending = sending
     },
-    setNonce (state, nonce) {
+    setNonce(state, nonce) {
       state.nonce = nonce
     }
   }
 
   let actions = {
-    reconnected ({ state, dispatch, rootState }) {
+    reconnected({ state, dispatch, rootState }) {
       if (state.loading) {
-        dispatch('queryNonce', rootState.user.address)
+        dispatch("queryNonce", rootState.user.address)
       }
     },
     // queries for our account's nonce
-    async queryNonce ({ state, commit }, address) {
+    async queryNonce({ state, commit }, address) {
       state.loading = true
       let res = await node.queryNonce(address)
       if (!res) return
-      commit('setNonce', res.data)
+      commit("setNonce", res.data)
       state.loading = false
     },
 
     // builds, signs, and broadcasts a tx of any type
-    sendTx ({ state, dispatch, commit, rootState }, args) {
+    sendTx({ state, dispatch, commit, rootState }, args) {
       // wait until the current send operation is done
       if (state.sending) {
         args.done = new Promise((resolve, reject) => {
           args.resolve = resolve
           args.reject = reject
         })
-        commit('queueSend', args)
+        commit("queueSend", args)
         return args.done
       }
 
       return new Promise((resolve, reject) => {
-        commit('setSending', true)
+        commit("setSending", true)
 
         // once done, do next send in queue
-        function done (err, res) {
-          commit('setSending', false)
+        function done(err, res) {
+          commit("setSending", false)
 
           if (state.queue.length > 0) {
             // do next send
             let send = state.queue[0]
-            commit('shiftSendQueue')
-            dispatch('sendTx', send)
+            commit("shiftSendQueue")
+            dispatch("sendTx", send)
           }
 
           if (err) {
@@ -75,12 +75,11 @@ export default ({ commit, node }) => {
 
         args.sequence = state.nonce + 1
         args.from = {
-          chain: '',
-          app: 'sigs',
+          chain: "",
+          app: "sigs",
           addr: rootState.wallet.key.address
-        };
-
-        (async function () {
+        }
+        ;(async function() {
           // build tx
           let tx = await node[args.type](args)
 
@@ -97,20 +96,25 @@ export default ({ commit, node }) => {
           // check response code
           if (res.check_tx.code || res.deliver_tx.code) {
             let message = res.check_tx.log || res.deliver_tx.log
-            throw new Error('Error sending transaction: ' + message)
+            throw new Error("Error sending transaction: " + message)
           }
-        })().then(() => {
-          commit('setNonce', state.nonce + 1)
-          done(null, args)
-          dispatch('queryWalletBalances')
-        }, (err) => {
-          done(err || Error('Error sending transaction'))
-        })
+        })().then(
+          () => {
+            commit("setNonce", state.nonce + 1)
+            done(null, args)
+            dispatch("queryWalletBalances")
+          },
+          err => {
+            done(err || Error("Error sending transaction"))
+          }
+        )
       })
     }
   }
 
   return {
-    state, mutations, actions
+    state,
+    mutations,
+    actions
   }
 }
