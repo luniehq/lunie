@@ -20,7 +20,7 @@ page(title='Wallet')
     data-empty-search(v-else-if="filteredBalances.length === 0")
     list-item(
       v-for="i in filteredBalances"
-      v-if="wallet.balances.length > 0 && i.amount > 0 && !wallet.balancesLoading"
+      v-if="wallet.balances.length > 0 && i.amount > 0"
       :btn="'Send'"
       :key="i.denom"
       :dt="i.denom.toUpperCase()"
