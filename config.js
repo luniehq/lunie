@@ -5,10 +5,10 @@ const fs = require("fs")
 const toml = require("toml")
 
 module.exports = (function() {
-  let configPath = fs.existsSync(path.join(__dirname, `config.toml`))
-    ? path.join(__dirname, `config.toml`)
-    : path.join(__dirname, "app", `config.toml`)
-  console.log(configPath)
+  let configPath =
+    process.env === "production"
+      ? path.join(__dirname, "../../../", `config.toml`)
+      : path.join(__dirname, `config.toml`)
   let config = toml.parse(
     fs.readFileSync(configPath, {
       encoding: `utf8`
