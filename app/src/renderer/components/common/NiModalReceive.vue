@@ -6,15 +6,15 @@ modal.ni-modal-receive(v-if="active" :close="close")
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Btn from '@nylira/vue-button'
-import BtnCopy from 'common/NiBtnCopy'
-import LiCopy from 'common/NiLiCopy'
-import Modal from 'common/NiModal'
-import Part from 'common/NiPart'
+import { mapGetters } from "vuex"
+import Btn from "@nylira/vue-button"
+import BtnCopy from "common/NiBtnCopy"
+import LiCopy from "common/NiLiCopy"
+import Modal from "common/NiModal"
+import Part from "common/NiPart"
 export default {
-  name: 'ni-modal-receive',
-  props: ['value'],
+  name: "ni-modal-receive",
+  props: ["value"],
   components: {
     Btn,
     BtnCopy,
@@ -23,14 +23,14 @@ export default {
     Part
   },
   computed: {
-    ...mapGetters(['config', 'wallet']),
-    active () {
+    ...mapGetters(["config", "wallet"]),
+    active() {
       return this.config.modals.receive.active
     }
   },
   methods: {
-    close () {
-      this.$store.commit('setModalReceive', false)
+    close() {
+      this.$store.commit("setModalReceive", false)
     }
   }
 }
