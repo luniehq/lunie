@@ -4,16 +4,21 @@ const mockFsExtra = require('../helpers/fs-mock').default
 // prevents warnings from repeated event handling
 process.setMaxListeners(1000)
 
-function sleep (ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
 jest.mock('fs-extra', () => {
   let fs = require('fs')
   let mockFs = mockFsExtra()
-  mockFs.writeFile('./app/networks/gaia-2/config.toml', fs.readFileSync('./app/networks/gaia-2/config.toml', 'utf8'))
-  mockFs.writeFile('./app/networks/gaia-2/genesis.json', fs.readFileSync('./app/networks/gaia-2/genesis.json', 'utf8'))
-  mockFs.writeFile('./app/networks/gaia-2/gaiaversion.txt', fs.readFileSync('./app/networks/gaia-2/gaiaversion.txt', 'utf8'))
+  mockFs.writeFile(
+    './app/networks/gaia-2/config.toml',
+    fs.readFileSync('./app/networks/gaia-2/config.toml', 'utf8')
+  )
+  mockFs.writeFile(
+    './app/networks/gaia-2/genesis.json',
+    fs.readFileSync('./app/networks/gaia-2/genesis.json', 'utf8')
+  )
+  mockFs.writeFile(
+    './app/networks/gaia-2/gaiaversion.txt',
+    fs.readFileSync('./app/networks/gaia-2/gaiaversion.txt', 'utf8')
+  )
   return mockFs
 })
 let fs = require('fs-extra')
@@ -29,51 +34,82 @@ jest.mock('electron', () => {
     BrowserWindow: class MockBrowserWindow {
       constructor () {
         this.webContents = {
-          openDevTools: () => { },
-          on: () => { },
+          openDevTools: () => {},
+          on: () => {},
           send: electron.send
         }
       }
-      loadURL () { }
-      on () { }
-      maximize () { }
+      loadURL () {}
+      on () {}
+      maximize () {}
     },
     Menu: {
-      buildFromTemplate () { },
-      setApplicationMenu () { }
+      buildFromTemplate () {},
+      setApplicationMenu () {}
     },
-    ipcMain: { on: () => { } }
+    ipcMain: {
+      on: (type, cb) => {},
+      once: (type, cb) => {
+        if (type === 'booted') {
+          cb()
+        }
+        if (type === 'hash-approved') {
+          cb(null, '1234567890123456789012345678901234567890')
+        }
+      },
+      removeAllListeners: () => {}
+    }
   }
   return electron
+})
+
+let stdoutMocks = (path, args) => ({
+  on: (type, cb) => {
+    if (args[0] === 'version' && type === 'data') {
+      cb({ toString: () => 'v0.5.0' })
+    }
+    if (
+      path.includes('gaia') &&
+      args.includes('rest-server') &&
+      type === 'data'
+    ) {
+      cb('Serving on')
+    }
+    // mock gaia init approval request
+    if (
+      type === 'data' &&
+      path.includes('gaia') &&
+      args.includes('init') &&
+      args.length > 4
+    ) {
+      cb('1234567890123456789012345678901234567890')
+    }
+  }
+})
+let stderrMocks = (path, args) => ({
+  on: (type, cb) => {
+    // test for init of gaia
+    if (type === 'data' && args.includes('init') && args.length === 4) {
+      cb({ toString: () => 'already is initialized' })
+    }
+  }
 })
 childProcessMock((path, args) => ({
   on: (type, cb) => {
     // init processes always should return with 0
-    if (type === 'exit' && args[1] === 'init' && args.length > 4) {
+    if (type === 'exit' && args.includes('init') && args.length > 4) {
       cb(0)
     }
   },
-  stdout: {
-    on: (type, cb) => {
-      if (args[0] === 'version' && type === 'data') {
-        cb({ toString: () => 'v0.5.0' })
-      }
-    }
-  },
-  stderr: {
-    on: (type, cb) => {
-      // test for init of gaia
-      if (type === 'data' && args[1] === 'init' && args.length === 4) {
-        cb({ toString: () => 'already is initialized' })
-      }
-    }
-  }
+  stdin: { write: () => {} },
+  stdout: stdoutMocks(path, args),
+  stderr: stderrMocks(path, args)
 }))
 
 let main
-let root = '../../../'
-let appRoot = root + 'app/'
-let testRoot = './test/unit/tmp/test_root/'
+let root = '../../../';
+let appRoot = root + 'app/';
+let testRoot = './test/unit/tmp/test_root/';
 let childProcess
 
 describe('Startup Process', () => {
@@ -85,18 +121,6 @@ describe('Startup Process', () => {
   })
 
   jest.mock(appRoot + 'src/root.js', () => './test/unit/tmp/test_root')
-  jest.mock('event-to-promise', () => {
-    let i = 0
-    return () => Promise.resolve({
-      toString: () => {
-        if (i++ >= 1) {
-          return 'Serving on'
-        } else {
-          return 'Test'
-        }
-      }
-    })
-  })
 
   // uses package.json from voyager/ root.
   jest.mock(root + 'package.json', () => ({ version: '0.1.0' }))
@@ -114,21 +138,22 @@ describe('Startup Process', () => {
     })
 
     it('should init gaia server with correct testnet', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('gaia') &&
-          args.includes('client') &&
-          args.includes('init') &&
-          args.join('=').includes('--chain-id=gaia-2')
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes('gaia') &&
+            args.includes('client') &&
+            args.includes('init') &&
+            args.join('=').includes('--chain-id=gaia-2')
         )
       ).toBeDefined()
     })
 
     it('should start gaia server', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('gaia') &&
-          args.includes('rest-server')
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes('gaia') && args.includes('rest-server')
         )
       ).toBeDefined()
       expect(main.processes.lcdProcess).toBeDefined()
@@ -138,25 +163,6 @@ describe('Startup Process', () => {
       expect(fs.existsSync(testRoot + 'app_version')).toBe(true)
       let appVersion = fs.readFileSync(testRoot + 'app_version', 'utf8')
       expect(appVersion).toBe('0.1.0')
-    })
-
-    // TODO the stdout.on('data') trick doesn't work
-    xit('should init gaia server accepting the new app hash', async function () {
-      jest.resetModules()
-      let mockWrite = jest.fn()
-      childProcessMock((path, args) => ({
-        stdin: { write: mockWrite },
-        stdout: {
-          on: (type, cb) => {
-            if (type === 'data' && path.includes('gaia') && args[0] === 'server' && args[1] === 'init') {
-              cb('Will you accept the hash?')
-            }
-          }
-        }
-      }))
-      prepareMain()
-      main = await require(appRoot + 'src/main/index.js')
-      expect(mockWrite).toHaveBeenCalledWith('y\n')
     })
   })
 
@@ -177,25 +183,6 @@ describe('Startup Process', () => {
 
     it('should create the config dir', async function () {
       expect(fs.existsSync(testRoot)).toBe(true)
-    })
-
-    // TODO the stdout.on('data') trick doesn't work
-    xit('should init gaia accepting the new app hash', async function () {
-      jest.resetModules()
-      let mockWrite = jest.fn()
-      childProcessMock((path, args) => ({
-        stdin: { write: mockWrite },
-        stdout: {
-          on: (type, cb) => {
-            if (type === 'data' && path.includes('gaia') && args[0] === 'server' && args[1] === 'init') {
-              cb('Will you accept the hash?')
-            }
-          }
-        }
-      }))
-      prepareMain()
-      main = await require(appRoot + 'src/main/index.js')
-      expect(mockWrite).toHaveBeenCalledWith('y\n')
     })
   })
 
@@ -219,21 +206,22 @@ describe('Startup Process', () => {
     })
 
     it('should init gaia server with correct testnet', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('gaia') &&
-          args.includes('client') &&
-          args.includes('init') &&
-          args.join('=').includes('--chain-id=gaia-2')
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes('gaia') &&
+            args.includes('client') &&
+            args.includes('init') &&
+            args.join('=').includes('--chain-id=gaia-2')
         )
       ).toBeDefined()
     })
 
     it('should start gaia server', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('gaia') &&
-          args.includes('rest-server')
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes('gaia') && args.includes('rest-server')
         )
       ).toBeDefined()
       expect(main.processes.lcdProcess).toBeDefined()
@@ -250,20 +238,21 @@ describe('Startup Process', () => {
     mainSetup()
 
     it('should not init gaia server again', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('gaia') &&
-          args.includes('server') &&
-          args.includes('init')
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes('gaia') &&
+            args.includes('server') &&
+            args.includes('init')
         )
       ).toBeUndefined()
     })
 
     it('should start gaia server', async function () {
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('gaia') &&
-          args.includes('rest-server')
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes('gaia') && args.includes('rest-server')
         )
       ).toBeDefined()
       expect(main.processes.lcdProcess).toBeDefined()
@@ -281,7 +270,9 @@ describe('Startup Process', () => {
       await require(appRoot + 'src/main/index.js')
 
       expect(send.mock.calls[0][0]).toBe('error')
-      expect(send.mock.calls[0][1].message).toContain('incompatible app version')
+      expect(send.mock.calls[0][1].message).toContain(
+        'incompatible app version'
+      )
 
       let appVersion = fs.readFileSync(testRoot + 'app_version', 'utf8')
       expect(appVersion).toBe('0.1.0')
@@ -294,9 +285,14 @@ describe('Startup Process', () => {
     it('should error on changed genesis.json', async function () {
       resetModulesKeepingFS()
       // alter the genesis so the main thread assumes a change
-      let existingGenesis = JSON.parse(fs.readFileSync(testRoot + 'genesis.json', 'utf8'))
-      existingGenesis.genesis_time = (new Date()).toString()
-      fs.writeFileSync(testRoot + 'genesis.json', JSON.stringify(existingGenesis))
+      let existingGenesis = JSON.parse(
+        fs.readFileSync(testRoot + 'genesis.json', 'utf8')
+      )
+      existingGenesis.genesis_time = new Date().toString()
+      fs.writeFileSync(
+        testRoot + 'genesis.json',
+        JSON.stringify(existingGenesis)
+      )
 
       let { send } = require('electron')
       await require(appRoot + 'src/main/index.js')
@@ -308,6 +304,7 @@ describe('Startup Process', () => {
 
   describe('IPC', () => {
     let registeredIPCListeners = {}
+    let send
 
     beforeEach(async function () {
       prepareMain()
@@ -315,10 +312,12 @@ describe('Startup Process', () => {
       const { ipcMain } = require('electron')
       ipcMain.on = (type, cb) => {
         registeredIPCListeners[type] = cb
-      }
+      };
       // axios is used to ping nodes for the reconnection intent
       let axios = require('axios')
       axios.get = () => Promise.resolve()
+
+      send = require('electron').send
       main = await require(appRoot + 'src/main/index.js')
     })
 
@@ -328,7 +327,6 @@ describe('Startup Process', () => {
     })
 
     it('should reconnect on IPC call', async () => {
-      const { send } = require('electron')
       await registeredIPCListeners['reconnect']()
 
       expect(send.mock.calls[1][0]).toBe('connected')
@@ -344,9 +342,9 @@ describe('Startup Process', () => {
     })
 
     it('should search through nodes until it finds one', async () => {
-      const { send } = require('electron')
       let axios = require('axios')
-      axios.get = jest.fn()
+      axios.get = jest
+        .fn()
         .mockReturnValueOnce(Promise.reject())
         .mockReturnValueOnce(Promise.resolve())
 
@@ -364,11 +362,14 @@ describe('Startup Process', () => {
     })
 
     it('should provide the connected node when the view has booted', async () => {
-      let event = { sender: { send: jest.fn() } }
-      registeredIPCListeners['booted'](event)
-      expect(event.sender.send).toHaveBeenCalled()
-      expect(event.sender.send.mock.calls[0][0]).toEqual('connected')
-      expect(event.sender.send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
+      main.shutdown()
+      main = await require(appRoot + 'src/main/index.js')
+      expect(
+        send.mock.calls.find(([type, _]) => type === 'connected')
+      ).toBeTruthy()
+      expect(
+        send.mock.calls.find(([type, _]) => type === 'connected')[1]
+      ).toBeTruthy() // TODO fix seeds so we can test nodeIP output
     })
 
     it('should provide the error if the main process failed before the view has booted', async () => {
@@ -382,41 +383,14 @@ describe('Startup Process', () => {
       const { ipcMain } = require('electron')
       ipcMain.on = (type, cb) => {
         registeredIPCListeners[type] = cb
-      }
+      };
 
       // run main
       main = await require(appRoot + 'src/main/index.js')
 
-      let event = { sender: { send: jest.fn() } }
-      registeredIPCListeners['booted'](event)
-      expect(event.sender.send.mock.calls[0][0]).toEqual('error')
-      expect(event.sender.send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
-    })
-
-    it('should set error collection according to the error collection opt in state', async () => {
-      main.shutdown()
-
-      prepareMain()
-      // register listeners again
-      const { ipcMain } = require('electron')
-      ipcMain.on = (type, cb) => {
-        registeredIPCListeners[type] = cb
-      }
-
-      // run main
-      main = await require(appRoot + 'src/main/index.js')
-
-      const Raven = require('raven')
-      const ravenSpy = jest.spyOn(Raven, 'config')
-
-      registeredIPCListeners['error-collection'](null, true)
-      expect(ravenSpy).toHaveBeenCalled()
-      expect(ravenSpy.mock.calls[0]).not.toBe('')
-      expect(ravenSpy.mock.calls).toMatchSnapshot()
-
-      ravenSpy.mockClear()
-      registeredIPCListeners['error-collection'](null, false)
-      expect(ravenSpy).toHaveBeenCalledWith('', { 'captureUnhandledRejections': false })
+      let { send } = require('electron')
+      expect(send.mock.calls[0][0]).toEqual('error')
+      expect(send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
     })
   })
 
@@ -424,33 +398,21 @@ describe('Startup Process', () => {
     afterEach(function () {
       main.shutdown()
     })
-    it('should rerun gaia server if gaia server fails', async function () {
-      failingChildProcess('gaia', 'rest-server')
-      main = await initMain()
-
-      await sleep(1000)
-
-      expect(childProcess.spawn.mock.calls
-        .find(([path, args]) =>
-          path.includes('gaia') &&
-          args.includes('rest-server')
-        ).length
-      ).toBeGreaterThan(1)
-    })
 
     it('should fail if config.toml has no seeds', async () => {
-      jest.resetModules()
       main = await initMain()
       main.shutdown()
       let configText = fs.readFileSync(join(testRoot, 'config.toml'), 'utf8')
-      configText = configText.split('\n')
+      configText = configText
+        .split('\n')
         .map(line => {
           if (line.startsWith('seeds')) {
             return 'seeds = ""'
           } else {
             return line
           }
-        }).join('\n')
+        })
+        .join('\n')
       fs.writeFileSync(join(testRoot, 'config.toml'), configText, 'utf8')
 
       resetModulesKeepingFS()
@@ -501,10 +463,9 @@ describe('Startup Process', () => {
         let { send } = require('electron')
         main = await require(appRoot + 'src/main/index.js')
 
-        expect(childProcess.spawn.mock.calls
-          .find(([path, args]) =>
-            path.includes('gaia') &&
-            args.includes('init')
+        expect(
+          childProcess.spawn.mock.calls.find(
+            ([path, args]) => path.includes('gaia') && args.includes('init')
           ).length
         ).toBe(3) // one to check in first round, one to check + one to init in the second round
 
@@ -515,6 +476,7 @@ describe('Startup Process', () => {
 
   describe('Error handling on init', () => {
     testFailingChildProcess('gaia', 'init')
+    testFailingChildProcess('gaia', 'rest-server')
   })
 })
 
@@ -549,31 +511,42 @@ async function initMain () {
 }
 
 function testFailingChildProcess (name, cmd) {
-  return it(`should fail if there is a not handled error in the ${name} ${cmd || ''} process`, async function () {
+  return it(`should fail if there is a not handled error in the ${name} ${cmd ||
+    ''} process`, async function () {
     failingChildProcess(name, cmd)
     prepareMain()
     let { send } = require('electron')
     await require(appRoot + 'src/main/index.js')
 
-    expect(send.mock.calls[0][0]).toBe('error')
-    expect(send.mock.calls[0][1].message).toContain(name)
+    expect(send.mock.calls.find(([type, _]) => type === 'error')).toBeTruthy()
+    expect(
+      send.mock.calls
+        .find(([type, _]) => type === 'error')[1]
+        .message.toLowerCase()
+    ).toContain(name)
   })
 }
 
 function childProcessMock (mockExtend = () => ({})) {
   jest.doMock('child_process', () => ({
-    spawn: jest.fn((path, args) => Object.assign({}, {
-      stdout: {
-        on: () => { },
-        pipe: () => { }
-      },
-      stderr: {
-        on: () => { },
-        pipe: () => { }
-      },
-      on: () => { },
-      kill: () => { }
-    }, mockExtend(path, args)))
+    spawn: jest.fn((path, args) =>
+      Object.assign(
+        {},
+        {
+          stdout: {
+            on: () => {},
+            pipe: () => {}
+          },
+          stderr: {
+            on: () => {},
+            pipe: () => {}
+          },
+          on: () => {},
+          kill: () => {}
+        },
+        mockExtend(path, args)
+      )
+    )
   }))
 }
 
@@ -581,29 +554,20 @@ function failingChildProcess (mockName, mockCmd) {
   childProcessMock((path, args) => ({
     on: (type, cb) => {
       if (type === 'exit') {
-        if (path.includes(mockName) && (mockCmd === undefined || args[1] === mockCmd)) {
+        if (
+          path.includes(mockName) &&
+          (mockCmd === undefined || args.find(x => x === mockCmd))
+        ) {
           cb(-1)
           // init processes always should return with 0
-        } else if (args[1] === 'init') {
+        } else if (args.find(x => x === 'init')) {
           cb(0)
         }
       }
     },
-    stdout: {
-      on: (type, cb) => {
-        if (args[0] === 'version' && type === 'data') {
-          cb({ toString: () => 'v0.5.0' })
-        }
-      }
-    },
-    stderr: {
-      on: (type, cb) => {
-        // test for init of gaia
-        if (type === 'data' && args[1] === 'init' && args.length === 4) {
-          cb({ toString: () => 'already is initialized' })
-        }
-      }
-    }
+    stdin: { write: () => {} },
+    stdout: stdoutMocks(path, args),
+    stderr: stderrMocks(path, args)
   }))
 }
 

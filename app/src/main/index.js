@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 let { app, BrowserWindow, ipcMain } = require('electron')
 let fs = require('fs-extra')
@@ -6,8 +6,6 @@ let { join } = require('path')
 let { spawn } = require('child_process')
 let home = require('user-home')
 let semver = require('semver')
-// this dependency is wrapped in a file as it was not possible to mock the import with jest any other way
-let event = require('event-to-promise')
 let toml = require('toml')
 let axios = require('axios')
 let Raven = require('raven')
@@ -30,8 +28,8 @@ const networkPath = require('../network.js').path
 
 const lcdHome = join(root, 'lcd')
 const WIN = /^win/.test(process.platform)
-const DEV = process.env.NODE_ENV === 'development'
-const TEST = process.env.NODE_ENV === 'testing'
+const DEV = process.env.NODE_ENV === 'development';
+const TEST = process.env.NODE_ENV === 'testing';
 // TODO default logging or default disable logging?
 const LOGGING = JSON.parse(process.env.LOGGING || 'true') !== false
 const winURL = DEV
@@ -65,7 +63,7 @@ function logProcess (process, logPath) {
 }
 
 function sleep (ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 function expectCleanExit (process, errorMessage = 'Process exited unplanned') {
@@ -98,7 +96,7 @@ function shutdown () {
   }
 
   return Promise.all(
-    streams.map(stream => new Promise((resolve) => stream.close(resolve)))
+    streams.map(stream => new Promise(resolve => stream.close(resolve)))
   )
 }
 
@@ -148,8 +146,7 @@ function startProcess (name, args, env) {
   let binPath
   if (process.env.BINARY_PATH) {
     binPath = process.env.BINARY_PATH
-  } else
-  if (DEV) {
+  } else if (DEV) {
     // in dev mode or tests, use binaries installed in GOPATH
     let GOPATH = process.env.GOPATH
     if (!GOPATH) GOPATH = join(home, 'go')
@@ -159,7 +156,7 @@ function startProcess (name, args, env) {
     binPath = join(__dirname, '..', 'bin', name)
   }
 
-  let argString = args.map((arg) => JSON.stringify(arg)).join(' ')
+  let argString = args.map(arg => JSON.stringify(arg)).join(' ')
   log(`spawning ${binPath} with args "${argString}"`)
   let child
   try {
@@ -168,13 +165,21 @@ function startProcess (name, args, env) {
     log(`Err: Spawning ${name} failed`, err)
     throw err
   }
-  child.stdout.on('data', (data) => !shuttingDown && log(`${name}: ${data}`))
-  child.stderr.on('data', (data) => !shuttingDown && log(`${name}: ${data}`))
-  child.on('exit', (code) => !shuttingDown && log(`${name} exited with code ${code}`))
+  child.stdout.on('data', data => !shuttingDown && log(`${name}: ${data}`))
+  child.stderr.on('data', data => !shuttingDown && log(`${name}: ${data}`))
+  child.on(
+    'exit',
+    code => !shuttingDown && log(`${name} exited with code ${code}`)
+  )
   child.on('error', async function (err) {
     if (!(shuttingDown && err.code === 'ECONNRESET')) {
       // if we throw errors here, they are not handled by the main process
-      console.error('[Uncaught Exception] Child', name, 'produced an unhandled exception:', err)
+      console.error(
+        '[Uncaught Exception] Child',
+        name,
+        'produced an unhandled exception:',
+        err
+      )
       handleCrash(err)
 
       Raven.captureException(err)
@@ -197,29 +202,37 @@ app.on('ready', () => createWindow())
 
 // start lcd REST API
 async function startLCD (home, nodeIP) {
-  log('startLCD', home)
-  let child = startProcess(SERVER_BINARY, [
-    'rest-server',
-    '--port', LCD_PORT,
-    '--home', home,
-    '--node', nodeIP
-    // '--trust-node'
-  ])
-  logProcess(child, join(home, 'lcd.log'))
+  return new Promise((resolve, reject) => {
+    log('startLCD', home)
+    let child = startProcess(SERVER_BINARY, [
+      'rest-server',
+      '--port',
+      LCD_PORT,
+      '--home',
+      home,
+      '--node',
+      nodeIP
+      // '--trust-node'
+    ])
+    logProcess(child, join(home, 'lcd.log'))
 
-  while (true) {
-    if (shuttingDown) break
-
-    let data = await event(child.stderr, 'data')
-    if (data.toString().includes('Serving on')) break
-  }
-
-  return child
+    child.stdout.on('data', data => {
+      if (data.includes('Serving on')) resolve(child)
+    })
+    child.on('exit', () => {
+      afterBooted(() => {
+        mainWindow.webContents.send(
+          'error',
+          Error('The Gaia REST-server (LCD) exited unplanned')
+        )
+      })
+    })
+  })
 }
 
 async function getGaiaVersion () {
   let child = startProcess(SERVER_BINARY, ['version'])
-  let data = await new Promise((resolve) => {
+  let data = await new Promise(resolve => {
     child.stdout.on('data', resolve)
   })
   return data.toString('utf8').trim()
@@ -235,7 +248,7 @@ function exists (path) {
   }
 }
 
-async function handleHashVerification (nodeHash) {
+function handleHashVerification (nodeHash) {
   return new Promise((resolve, reject) => {
     ipcMain.once('hash-approved', (event, hash) => {
       ipcMain.removeAllListeners('hash-disapproved')
@@ -261,12 +274,15 @@ async function initLCD (chainId, home, node) {
     let child = startProcess(SERVER_BINARY, [
       'client',
       'init',
-      '--home', home,
-      '--chain-id', chainId,
-      '--node', node
+      '--home',
+      home,
+      '--chain-id',
+      chainId,
+      '--node',
+      node
     ])
 
-    child.stdout.on('data', async (data) => {
+    child.stdout.on('data', async data => {
       let hashMatch = /\w{40}/g.exec(data)
       if (hashMatch) {
         afterBooted(() => {
@@ -274,27 +290,32 @@ async function initLCD (chainId, home, node) {
         })
 
         handleHashVerification(hashMatch[0])
-          .then(async () => {
-            log('approved hash', hashMatch[0])
-            if (shuttingDown) return
-            // answer 'y' to the prompt about trust seed. we can trust this is correct
-            // since the LCD is talking to our own full node
-            child.stdin.write('y\n')
+          .then(
+            async () => {
+              log('approved hash', hashMatch[0])
+              if (shuttingDown) return
+              // answer 'y' to the prompt about trust seed. we can trust this is correct
+              // since the LCD is talking to our own full node
+              child.stdin.write('y\n')
 
-            await expectCleanExit(child, 'gaia init exited unplanned')
-            resolve()
-          }, () => {
-            // kill process as we will spin up a new init process
-            child.kill('SIGTERM')
+              expectCleanExit(child, 'gaia init exited unplanned').then(
+                resolve,
+                reject
+              )
+            },
+            () => {
+              // kill process as we will spin up a new init process
+              child.kill('SIGTERM')
 
-            if (shuttingDown) return
+              if (shuttingDown) return
 
-            // select a new node to try out
-            nodeIP = pickNode(seeds)
+              // select a new node to try out
+              nodeIP = pickNode(seeds)
 
-            initLCD(chainId, home, nodeIP)
-              .then(resolve, reject)
-          })
+              initLCD(chainId, home, nodeIP).then(resolve, reject)
+            }
+          )
+          .catch(reject)
       }
     })
   })
@@ -323,14 +344,14 @@ function setupLogging (root) {
       console.log(...args)
     }
     mainLog.write(`main-process: ${args.join(' ')}\r\n`)
-  }
+  };
   // eslint-disable-next-line no-func-assign
   logError = function (...args) {
     if (DEV) {
       console.error(...args)
     }
     mainLog.write(`main-process: ${args.join(' ')}\r\n`)
-  }
+  };
 }
 
 if (!TEST) {
@@ -348,19 +369,28 @@ if (!TEST) {
   })
 }
 
-function consistentConfigDir (appVersionPath, genesisPath, configPath, gaiaVersionPath) {
-  return exists(genesisPath) &&
+function consistentConfigDir (
+  appVersionPath,
+  genesisPath,
+  configPath,
+  gaiaVersionPath
+) {
+  return (
+    exists(genesisPath) &&
     exists(appVersionPath) &&
     exists(configPath) &&
     exists(gaiaVersionPath)
+  )
 }
 
 function handleIPC () {
   ipcMain.on('successful-launch', () => {
     console.log('[START SUCCESS] Vue app successfuly started')
   })
-  ipcMain.on('reconnect', (event) => reconnect(seeds))
-  ipcMain.on('booted', () => { booted = true })
+  ipcMain.on('reconnect', () => reconnect(seeds))
+  ipcMain.on('booted', () => {
+    booted = true
+  })
 }
 
 // check if LCD is initialized as the configs could be corrupted
@@ -371,7 +401,8 @@ function lcdInitialized (home) {
     let child = startProcess(SERVER_BINARY, [
       'client',
       'init',
-      '--home', home
+      '--home',
+      home
       // '--trust-node'
     ])
     child.stderr.on('data', data => {
@@ -398,7 +429,7 @@ function pickNode (seeds) {
 
 async function connect (seeds, nodeIP) {
   log(`starting gaia server with nodeIP ${nodeIP}`)
-  lcdProcess = await startLCD(lcdHome, nodeIP)
+  lcdProcess = await startLCD(lcdHome, nodeIP).catch(console.error)
   log('gaia server ready')
 
   afterBooted(() => {
@@ -418,9 +449,14 @@ async function reconnect (seeds) {
   let nodeAlive = false
   while (!nodeAlive) {
     let nodeIP = pickNode(seeds)
-    nodeAlive = await axios.get('http://' + nodeIP, { timeout: 3000 })
+    nodeAlive = await axios
+      .get('http://' + nodeIP, { timeout: 3000 })
       .then(() => true, () => false)
-    log(`${new Date().toLocaleTimeString()} ${nodeIP} is ${nodeAlive ? 'alive' : 'down'}`)
+    log(
+      `${new Date().toLocaleTimeString()} ${nodeIP} is ${
+        nodeAlive ? 'alive' : 'down'
+      }`
+    )
 
     if (!nodeAlive) await sleep(2000)
   }
@@ -462,9 +498,16 @@ async function main () {
 
     // check if the existing data came from a compatible app version
     // if not, fail with an error
-    if (consistentConfigDir(appVersionPath, genesisPath, configPath, gaiaVersionPath)) {
+    if (
+      consistentConfigDir(
+        appVersionPath,
+        genesisPath,
+        configPath,
+        gaiaVersionPath
+      )
+    ) {
       let existingVersion = fs.readFileSync(appVersionPath, 'utf8').trim()
-      let compatible = semver.diff(existingVersion, pkg.version) !== 'major'
+      let compatible = semver.diff(existingVersion, pkg.version) !== 'major';
       if (compatible) {
         log('configs are compatible with current app version')
         init = false
@@ -485,7 +528,10 @@ async function main () {
       let genesisJSON = JSON.parse(existingGenesis)
       // skip this check for local testnet
       if (genesisJSON.chain_id !== 'local') {
-        let specifiedGenesis = fs.readFileSync(join(networkPath, 'genesis.json'), 'utf8')
+        let specifiedGenesis = fs.readFileSync(
+          join(networkPath, 'genesis.json'),
+          'utf8'
+        )
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
           throw Error('Genesis has changed')
         }
@@ -540,9 +586,6 @@ async function main () {
     log(`Trying to initialize lcd with remote node ${nodeIP}`)
     await initLCD(chainId, lcdHome, nodeIP)
   }
-
-  console.log('connecting')
-
   await connect(seeds, nodeIP)
 }
 module.exports = main()
@@ -559,7 +602,7 @@ function afterBooted (cb) {
   if (booted) {
     cb()
   } else {
-    ipcMain.once('booted', (event) => {
+    ipcMain.once('booted', event => {
       cb()
     })
   }
