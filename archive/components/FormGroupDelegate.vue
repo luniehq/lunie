@@ -15,14 +15,14 @@ form-group(:class='cssClass' :error="$v.fields.atoms.$error")
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Field from '@nylira/vue-field'
-import Btn from '@nylira/vue-button'
-import FormGroup from 'common/NiFormGroup'
-import FormMsg from 'common/NiFormMsg'
+import { mapGetters } from "vuex"
+import Field from "@nylira/vue-field"
+import Btn from "@nylira/vue-button"
+import FormGroup from "common/NiFormGroup"
+import FormMsg from "common/NiFormMsg"
 export default {
-  name: 'card-delegate-atoms',
-  props: ['delegate'],
+  name: "card-delegate-atoms",
+  props: ["delegate"],
   components: {
     Btn,
     Field,
@@ -30,15 +30,15 @@ export default {
     FormMsg
   },
   computed: {
-    ...mapGetters(['shoppingCart', 'delegates']),
-    cssClass () {
-      let value = 'card-delegate-atoms'
+    ...mapGetters(["shoppingCart", "delegates"]),
+    cssClass() {
+      let value = "card-delegate-atoms"
       return value
     }
   },
   methods: {
-    rm (delegateId) {
-      this.$store.commit('removeFromCart', delegateId)
+    rm(delegateId) {
+      this.$store.commit("removeFromCart", delegateId)
     }
   }
 }

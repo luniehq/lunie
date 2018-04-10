@@ -20,20 +20,20 @@ page(title='Transactions')
 </template>
 
 <script>
-import shortid from 'shortid'
-import { mapGetters } from 'vuex'
-import { includes, orderBy, uniqBy } from 'lodash'
-import Mousetrap from 'mousetrap'
-import DataLoading from 'common/NiDataLoading'
-import DataEmptySearch from 'common/NiDataEmptySearch'
-import DataEmptyTx from 'common/NiDataEmptyTx'
-import LiTransaction from 'wallet/LiTransaction'
-import ModalSearch from 'common/NiModalSearch'
-import Page from 'common/NiPage'
-import Part from 'common/NiPart'
-import ToolBar from 'common/NiToolBar'
+import shortid from "shortid"
+import { mapGetters } from "vuex"
+import { includes, orderBy, uniqBy } from "lodash"
+import Mousetrap from "mousetrap"
+import DataLoading from "common/NiDataLoading"
+import DataEmptySearch from "common/NiDataEmptySearch"
+import DataEmptyTx from "common/NiDataEmptyTx"
+import LiTransaction from "wallet/LiTransaction"
+import ModalSearch from "common/NiModalSearch"
+import Page from "common/NiPage"
+import Part from "common/NiPart"
+import ToolBar from "common/NiToolBar"
 export default {
-  name: 'page-transactions',
+  name: "page-transactions",
   components: {
     LiTransaction,
     DataLoading,
@@ -45,16 +45,22 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['filters', 'transactions', 'wallet', 'config']),
-    orderedTransactions () {
-      let list = orderBy(this.transactions, [this.sort.property], [this.sort.order])
-      return uniqBy(list, 'time') // filter out duplicate tx to self
+    ...mapGetters(["filters", "transactions", "wallet", "config"]),
+    orderedTransactions() {
+      let list = orderBy(
+        this.transactions,
+        [this.sort.property],
+        [this.sort.order]
+      )
+      return uniqBy(list, "time") // filter out duplicate tx to self
     },
-    filteredTransactions () {
+    filteredTransactions() {
       let query = this.filters.transactions.search.query
       if (this.filters.transactions.search.visible) {
         // doing a full text comparison on the transaction data
-        return this.orderedTransactions.filter(t => includes(JSON.stringify(t).toLowerCase(), query))
+        return this.orderedTransactions.filter(t =>
+          includes(JSON.stringify(t).toLowerCase(), query)
+        )
       } else {
         return this.orderedTransactions
       }
@@ -63,18 +69,18 @@ export default {
   data: () => ({
     shortid: shortid,
     sort: {
-      property: 'time',
-      order: 'desc'
+      property: "time",
+      order: "desc"
     }
   }),
   methods: {
-    setSearch (bool) {
-      this.$store.commit('setSearchVisible', ['transactions', bool])
+    setSearch(bool) {
+      this.$store.commit("setSearchVisible", ["transactions", bool])
     }
   },
-  mounted () {
-    Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
-    Mousetrap.bind('esc', () => this.setSearch(false))
+  mounted() {
+    Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
+    Mousetrap.bind("esc", () => this.setSearch(false))
   }
 }
 </script>

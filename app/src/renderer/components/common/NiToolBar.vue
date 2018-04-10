@@ -8,14 +8,20 @@
     a.help(@click="enableModalHelp")
       i.material-icons help_outline
       .label Help
+    a.sign-out(@click="signOut")
+      i.material-icons exit_to_app
+      .label Sign Out
 </template>
 
 <script>
 export default {
-  name: 'ni-tool-bar',
+  name: "ni-tool-bar",
   methods: {
-    enableModalHelp () {
-      this.$store.commit('setModalHelp', true)
+    enableModalHelp() {
+      this.$store.commit("setModalHelp", true)
+    },
+    signOut() {
+      this.$store.dispatch("signOut")
     }
   }
 }
@@ -49,7 +55,7 @@ export default {
     position relative
 
     i, .label
-      color txt
+      color var(--txt)
 
     i
       font-size lg
@@ -59,14 +65,14 @@ export default {
       top 3rem
       right 0
 
-      background bc
+      background var(--bc)
       border-radius 0.25rem
 
       line-height 2.5rem
 
       padding 0 0.75rem
 
-      color txt
+      color var(--txt)
       z-index z(modal)
 
       white-space nowrap
@@ -82,26 +88,26 @@ export default {
         height 0
         border-left 0.375rem solid transparent
         border-right 0.375rem solid transparent
-        border-bottom 0.375rem solid bc
+        border-bottom 0.375rem solid var(--bc)
 
         display block
         content ''
 
     &.router-link-active
       i
-        color bright
+        color var(--bright)
 
     &:hover:not([disabled])
-      background app-fg
+      background var(--app-fg)
       i
-        color bright
+        color var(--bright)
       .label
         display block
 
     &[disabled]
       cursor default
       i
-        color dim
+        color var(--dim)
 
 @media screen and (max-width: 1023px)
   .ni-tool-bar
@@ -112,9 +118,9 @@ export default {
     right 0
 
   .ni-tool-bar-container
-    background app-bg-alpha
+    background var(--app-bg-alpha)
     height 3rem + px
-    border-top px solid bc
+    border-top px solid var(--bc)
 
   .ni-page
     padding-bottom 3rem

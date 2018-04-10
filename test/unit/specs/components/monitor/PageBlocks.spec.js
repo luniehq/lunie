@@ -1,15 +1,15 @@
-import setup from '../../../helpers/vuex-setup'
-import htmlBeautify from 'html-beautify'
-import PageBlocks from 'renderer/components/monitor/PageBlocks'
+import setup from "../../../helpers/vuex-setup"
+import htmlBeautify from "html-beautify"
+import PageBlocks from "renderer/components/monitor/PageBlocks"
 
-describe('PageBlocks', () => {
+describe("PageBlocks", () => {
   let wrapper, store
   let { mount } = setup()
 
   let block = {
     header: {
       last_block_id: {
-        hash: 'last-hash',
+        hash: "last-hash",
         parts: { total: 0 }
       },
       num_txs: 0,
@@ -22,17 +22,17 @@ describe('PageBlocks', () => {
 
   beforeEach(() => {
     let instance = mount(PageBlocks, {
-      stubs: { 'modal-search': '<modal-search />' },
+      stubs: { "modal-search": "<modal-search />" },
       getters: {
         lastHeader: () => ({
           time: 1608,
-          last_block_id: { hash: '123' },
+          last_block_id: { hash: "123" },
           height: 12345
         }),
         blockchain: () => ({
           blocks: [block],
           block,
-          blockMetaInfo: { block_id: { hash: 'hash' } },
+          blockMetaInfo: { block_id: { hash: "hash" } },
           blockHeight: null,
           blockLoading: false,
           subscription: true,
@@ -46,17 +46,20 @@ describe('PageBlocks', () => {
     wrapper.update()
   })
 
-  it('has the expected html structure', () => {
+  it("has the expected html structure", () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it('should call resetSearch on beforeDestroy', () => {
+  it("should call resetSearch on beforeDestroy", () => {
     wrapper.destroy()
-    expect(store.commit).toHaveBeenCalledWith('resetSearch', 'blocks')
+    expect(store.commit).toHaveBeenCalledWith("resetSearch", "blocks")
   })
 
-  it('should show the search on click', () => {
+  it("should show the search on click", () => {
     wrapper.vm.setSearch(true)
-    expect(store.commit).toHaveBeenCalledWith('setSearchVisible', ['blocks', true])
+    expect(store.commit).toHaveBeenCalledWith("setSearchVisible", [
+      "blocks",
+      true
+    ])
   })
 })

@@ -8,8 +8,8 @@
 
 <script>
 export default {
-  name: 'ni-text',
-  props: ['content']
+  name: "ni-text",
+  props: ["content"]
 }
 </script>
 

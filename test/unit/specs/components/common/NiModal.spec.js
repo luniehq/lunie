@@ -1,7 +1,7 @@
-import { mount } from '@vue/test-utils'
-import NiModal from 'common/NiModal'
+import { mount } from "@vue/test-utils"
+import NiModal from "common/NiModal"
 
-describe('NiModal', () => {
+describe("NiModal", () => {
   let wrapper, close
 
   beforeEach(() => {
@@ -15,39 +15,39 @@ describe('NiModal', () => {
     })
   })
 
-  it('has the expected html structure', () => {
+  it("has the expected html structure", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it('should call close on click', () => {
-    wrapper.trigger('click')
+  it("should call close on click", () => {
+    wrapper.trigger("click")
     expect(close).toHaveBeenCalled()
   })
 
-  it('should call close button click', () => {
-    wrapper.find('.ni-modal-close').trigger('click')
+  it("should call close button click", () => {
+    wrapper.find(".ni-modal-close").trigger("click")
     expect(close).toHaveBeenCalled()
   })
 
-  it('should set size', () => {
-    wrapper.setProps({ size: 'fs' })
-    expect(wrapper.classes()).toContain('ni-modal-fullscreen')
+  it("should set size", () => {
+    wrapper.setProps({ size: "fs" })
+    expect(wrapper.classes()).toContain("ni-modal-fullscreen")
   })
 
-  it('should show icon', () => {
-    wrapper.setProps({ icon: 'hallo_icon' })
-    expect(wrapper.find('.material-icons')).toBeDefined()
-    expect(wrapper.html()).toContain('hallo_icon')
+  it("should show icon", () => {
+    wrapper.setProps({ icon: "hallo_icon" })
+    expect(wrapper.find(".material-icons")).toBeDefined()
+    expect(wrapper.html()).toContain("hallo_icon")
   })
 
-  it('should use slots', () => {
+  it("should use slots", () => {
     wrapper = mount(NiModal, {
       slots: {
-        title: '<custom-title />',
-        footer: '<custom-footer />'
+        title: "<custom-title />",
+        footer: "<custom-footer />"
       }
     })
-    expect(wrapper.find('custom-title')).toBeDefined()
-    expect(wrapper.find('custom-footer')).toBeDefined()
+    expect(wrapper.find("custom-title")).toBeDefined()
+    expect(wrapper.find("custom-footer")).toBeDefined()
   })
 })

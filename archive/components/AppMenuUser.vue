@@ -16,32 +16,32 @@ modal-menu.app-menu-user(@click="close" v-else): .outer-wrapper: .inner-wrapper
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import noScroll from 'no-scroll'
-import ListItem from 'common/NiListItem'
-import ModalMenu from 'common/NiModalMenu'
-import Part from 'common/NiPart'
+import { mapGetters } from "vuex"
+import noScroll from "no-scroll"
+import ListItem from "common/NiListItem"
+import ModalMenu from "common/NiModalMenu"
+import Part from "common/NiPart"
 export default {
-  name: 'app-menu-user',
+  name: "app-menu-user",
   components: {
     ListItem,
     ModalMenu,
     Part
   },
   computed: {
-    ...mapGetters(['user', 'config'])
+    ...mapGetters(["user", "config"])
   },
   methods: {
-    close () {
-      this.$store.commit('setActiveMenu', '')
+    close() {
+      this.$store.commit("setActiveMenu", "")
       noScroll.off()
     },
-    signOut () {
-      this.$store.dispatch('signOut')
+    signOut() {
+      this.$store.dispatch("signOut")
       this.close()
     },
-    signIn () {
-      this.$store.dispatch('login')
+    signIn() {
+      this.$store.dispatch("login")
       this.close()
     }
   }
@@ -70,8 +70,8 @@ export default {
 
     .inner-wrapper
       width 20rem
-      background app-bg-alpha
-      border px solid bc
+      background var(--app-bg-alpha)
+      border px solid var(--bc)
       border-bottom none
       shadow()
 </style>

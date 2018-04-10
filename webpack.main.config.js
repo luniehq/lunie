@@ -1,29 +1,29 @@
-'use strict'
+"use strict"
 
-process.env.BABEL_ENV = 'main'
+process.env.BABEL_ENV = "main"
 
-const path = require('path')
-const webpack = require('webpack')
-const settings = require('./config.js')
+const path = require("path")
+const webpack = require("webpack")
+const settings = require("./config.js")
 
 let mainConfig = {
   entry: {
-    main: path.join(__dirname, 'app/src/main/index.js')
+    main: path.join(__dirname, "app/src/main/index.js")
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         exclude: /node_modules/
       },
       {
         test: /\.json$/,
-        loader: 'json-loader'
+        loader: "json-loader"
       },
       {
         test: /\.node$/,
-        loader: 'node-loader'
+        loader: "node-loader"
       }
     ]
   },
@@ -32,23 +32,21 @@ let mainConfig = {
     __filename: false
   },
   output: {
-    filename: '[name].js',
-    libraryTarget: 'commonjs2',
-    path: path.join(__dirname, 'app/dist')
+    filename: "[name].js",
+    libraryTarget: "commonjs2",
+    path: path.join(__dirname, "app/dist")
   },
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"' + process.env.NODE_ENV + '"'
+      "process.env.NODE_ENV": '"' + process.env.NODE_ENV + '"'
     })
   ],
   resolve: {
-    extensions: ['.js', '.json', '.node'],
-    modules: [
-      path.join(__dirname, 'node_modules')
-    ]
+    extensions: [".js", ".json", ".node"],
+    modules: [path.join(__dirname, "node_modules")]
   },
-  target: 'electron-main'
+  target: "electron-main"
 }
 
 module.exports = mainConfig

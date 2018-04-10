@@ -5,9 +5,9 @@ data-msg(icon="search")
 </template>
 
 <script>
-import DataMsg from 'common/NiDataMsg'
+import DataMsg from "common/NiDataMsg"
 export default {
-  name: 'ni-data-empty-search',
+  name: "ni-data-empty-search",
   components: { DataMsg }
 }
 </script>

@@ -33,29 +33,29 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import FundraiserWarning from 'common/FundraiserWarning'
-import ListItem from 'common/NiListItem'
-import LiSession from 'common/NiLiSession'
+import { mapGetters } from "vuex"
+import FundraiserWarning from "common/FundraiserWarning"
+import ListItem from "common/NiListItem"
+import LiSession from "common/NiLiSession"
 export default {
-  name: 'ni-session-welcome',
+  name: "ni-session-welcome",
   components: {
     FundraiserWarning,
     ListItem,
     LiSession
   },
   computed: {
-    ...mapGetters(['config', 'user']),
-    accountExists () {
+    ...mapGetters(["config", "user"]),
+    accountExists() {
       return this.user.accounts.length > 0
     }
   },
   methods: {
-    help () {
-      this.$store.commit('setModalHelp', true)
+    help() {
+      this.$store.commit("setModalHelp", true)
     },
-    setState (value) {
-      this.$store.commit('setModalSessionState', value)
+    setState(value) {
+      this.$store.commit("setModalSessionState", value)
     }
   }
 }

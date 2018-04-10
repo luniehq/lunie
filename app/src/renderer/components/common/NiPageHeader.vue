@@ -11,7 +11,7 @@ header.ni-page-header
 </template>
 
 <script>
-export default { name: 'ni-page-header' }
+export default { name: "ni-page-header" }
 </script>
 
 <style lang="stylus">
@@ -27,7 +27,7 @@ export default { name: 'ni-page-header' }
 
 .ni-page-header-container
   min-height 4.22rem
-  border-bottom px solid bc
+  border-bottom px solid var(--bc)
   display flex
 
 .ni-page-header-text
@@ -49,11 +49,11 @@ export default { name: 'ni-page-header' }
   h2
     font-size xl
     font-weight 500
-    color bright
+    color var(--bright)
 
 @media screen and (min-width: 1024px)
   .ni-page-header
-    border-bottom-color bc
+    border-bottom-color var(--bc)
 
   .ni-page-header-container
     display flex
