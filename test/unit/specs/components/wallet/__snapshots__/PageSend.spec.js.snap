@@ -50,11 +50,6 @@ exports[`PageSend has the expected html structure 1`] = `
                   >
                     arrow_back
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Back
-                  </div>
                 </a>
                 <a
                   class="help"
@@ -64,11 +59,6 @@ exports[`PageSend has the expected html structure 1`] = `
                   >
                     help_outline
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Help
-                  </div>
                 </a>
                 <a
                   class="sign-out"
@@ -78,11 +68,6 @@ exports[`PageSend has the expected html structure 1`] = `
                   >
                     exit_to_app
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Sign Out
-                  </div>
                 </a>
               </div>
             </div>
@@ -927,11 +912,6 @@ exports[`PageSend should work without providing a default denom 1`] = `
                   >
                     arrow_back
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Back
-                  </div>
                 </a>
                 <a
                   class="help"
@@ -941,11 +921,6 @@ exports[`PageSend should work without providing a default denom 1`] = `
                   >
                     help_outline
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Help
-                  </div>
                 </a>
                 <a
                   class="sign-out"
@@ -955,11 +930,6 @@ exports[`PageSend should work without providing a default denom 1`] = `
                   >
                     exit_to_app
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Sign Out
-                  </div>
                 </a>
               </div>
             </div>

@@ -1,9 +1,8 @@
 <template lang="pug">
 page(title='Transactions')
   div(slot="menu"): tool-bar
-    a(@click='setSearch(true)')
+    a(@click='setSearch(true)' v-tooltip.bottom="'Search'")
       i.material-icons search
-      .label Search
 
   modal-search(type="transactions")
 

@@ -51,11 +51,6 @@ exports[`PageDelegate has the expected html structure 1`] = `
                     >
                       arrow_back
                     </i>
-                    <div
-                      class="label"
-                    >
-                      Back
-                    </div>
                   </a>
                 </div>
                 <a
@@ -66,11 +61,6 @@ exports[`PageDelegate has the expected html structure 1`] = `
                   >
                     arrow_back
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Back
-                  </div>
                 </a>
                 <a
                   class="help"
@@ -80,11 +70,6 @@ exports[`PageDelegate has the expected html structure 1`] = `
                   >
                     help_outline
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Help
-                  </div>
                 </a>
                 <a
                   class="sign-out"
@@ -94,11 +79,6 @@ exports[`PageDelegate has the expected html structure 1`] = `
                   >
                     exit_to_app
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Sign Out
-                  </div>
                 </a>
               </div>
             </div>

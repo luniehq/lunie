@@ -1,0 +1,72 @@
+.vue-tooltip
+  df()
+  background var(--bc)
+  box-sizing border-box
+  color var(--txt)
+  max-width 20rem
+  padding 0.5rem 0.75rem
+  border-radius 0.25rem
+  z-index z(modal)
+
+.vue-tooltip .vue-tooltip-content
+  text-align center
+
+.vue-tooltip .tooltip-arrow
+  content ""
+  width 0
+  height 0
+  border-style solid
+  position absolute
+  margin 0.375rem
+
+.vue-tooltip[x-placement^="top"]
+  margin-bottom 0.375rem
+
+.vue-tooltip[x-placement^="top"] .tooltip-arrow
+  border-width 0.375rem 0.375rem 0 0.375rem
+  border-top-color var(--bc)
+  border-bottom-color transparent !important
+  border-left-color transparent !important
+  border-right-color transparent !important
+  bottom -0.375rem
+  margin-top 0
+  margin-bottom 0
+
+.vue-tooltip[x-placement^="bottom"]
+  margin-top 0.375rem
+
+.vue-tooltip[x-placement^="bottom"] .tooltip-arrow
+  border-width 0 0.375rem 0.375rem 0.375rem
+  border-bottom-color var(--bc)
+  border-top-color transparent !important
+  border-left-color transparent !important
+  border-right-color transparent !important
+  top -0.375rem
+  margin-top 0
+  margin-bottom 0
+
+.vue-tooltip[x-placement^="right"]
+  margin-left 0.375rem
+
+.vue-tooltip[x-placement^="right"] .tooltip-arrow
+  border-width 0.375rem 0.375rem 0.375rem 0
+  border-right-color var(--bc)
+  border-top-color transparent !important
+  border-left-color transparent !important
+  border-bottom-color transparent !important
+  left -0.375rem
+  margin-left 0
+  margin-right 0
+
+.vue-tooltip[x-placement^="left"]
+  margin-right 0.375rem
+
+.vue-tooltip[x-placement^="left"] .tooltip-arrow
+  border-width 0.375rem 0 0.375rem 0.375rem
+  border-left-color var(--bc)
+  border-top-color transparent !important
+  border-right-color transparent !important
+  border-bottom-color transparent !important
+  right -0.375rem
+  margin-left 0
+  margin-right 0

@@ -2,15 +2,12 @@
 .ni-tool-bar
   .ni-tool-bar-container
     .main: slot
-    a.back(@click="$router.go(-1)")
+    a.back(@click="$router.go(-1)" v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
-      .label Back
-    a.help(@click="enableModalHelp")
+    a.help(@click="enableModalHelp" v-tooltip.bottom="'Help'")
       i.material-icons help_outline
-      .label Help
-    a.sign-out(@click="signOut")
+    a.sign-out(@click="signOut"  v-tooltip.bottom.end="'Sign Out'")
       i.material-icons exit_to_app
-      .label Sign Out
 </template>
 
 <script>
@@ -54,44 +51,11 @@ export default {
     justify-content center
     position relative
 
-    i, .label
+    i
       color var(--txt)
 
     i
       font-size lg
-
-    .label
-      position absolute
-      top 3rem
-      right 0
-
-      background var(--bc)
-      border-radius 0.25rem
-
-      line-height 2.5rem
-
-      padding 0 0.75rem
-
-      color var(--txt)
-      z-index z(modal)
-
-      white-space nowrap
-
-      display none
-      &:before
-        position absolute
-        top -0.375rem
-        right 1.125rem
-
-        // arrow
-        width 0
-        height 0
-        border-left 0.375rem solid transparent
-        border-right 0.375rem solid transparent
-        border-bottom 0.375rem solid var(--bc)
-
-        display block
-        content ''
 
     &.router-link-active
       i
@@ -101,8 +65,6 @@ export default {
       background var(--app-fg)
       i
         color var(--bright)
-      .label
-        display block
 
     &[disabled]
       cursor default
