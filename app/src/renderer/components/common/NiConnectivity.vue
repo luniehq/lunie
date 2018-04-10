@@ -1,7 +1,7 @@
 <template lang='pug'>
 .ni-connectivity(v-if='connected')
-  list-item(icon="done" :title="blockString")
-  list-item(icon="settings_ethernet" :title="nodeIP")
+  list-item(icon="done" :title="blockString" v-tooltip.top="'Current Block Height'")
+  list-item(icon="settings_ethernet" title="nodeIP")
 .ni-connectivity(v-else)
   list-item(icon="rotate_right" spin="true" title="Connecting...")
 </template>
