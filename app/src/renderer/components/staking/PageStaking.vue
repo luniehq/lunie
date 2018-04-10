@@ -93,26 +93,34 @@ export default {
         {
           title: "Name",
           value: "small_moniker",
+          tooltip: "The unique moniker of this delegate.",
           class: "name"
         },
         {
           title: "% of Vote",
           value: "shares",
+          tooltip:
+            "The delegate controls this percentage of voting power on the network.",
           class: "percent_of_vote"
         },
         {
           title: "Total Votes",
           value: "voting_power",
+          tooltip: "The delegate stakes this many atoms on the network.",
           class: "voting_power"
         },
         {
           title: "Your Votes",
           value: "your_votes",
+          tooltip:
+            "You have personally staked this many atoms to the delegate.",
           class: "your-votes"
         },
         {
           title: "Status",
           value: "isValidator",
+          tooltip:
+            "The delegate is either a validator or a validator candidate.",
           class: "status"
         },
         {
