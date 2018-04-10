@@ -6,10 +6,7 @@
   "main": "./dist/main.js",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
-  "dependencies": {
-  },
-  "devDependencies": {
-  },
-  "optionalDependencies": {
-  }
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {}
 }

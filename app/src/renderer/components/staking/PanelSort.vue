@@ -8,32 +8,32 @@
 
 <script>
 export default {
-  name: 'panel-sort',
+  name: "panel-sort",
   methods: {
-    orderBy (property, event) {
-      let sortBys = this.$el.querySelectorAll('.sort-by')
-      sortBys.forEach(el => el.classList.remove('active', 'desc', 'asc'))
+    orderBy(property, event) {
+      let sortBys = this.$el.querySelectorAll(".sort-by")
+      sortBys.forEach(el => el.classList.remove("active", "desc", "asc"))
       let index = this.sort.properties.findIndex(p => p.value === property)
       let el = sortBys[index]
 
       if (this.sort.property === property) {
-        if (this.sort.order === 'asc') {
-          this.sort.order = 'desc'
+        if (this.sort.order === "asc") {
+          this.sort.order = "desc"
         } else {
-          this.sort.order = 'asc'
+          this.sort.order = "asc"
         }
       } else {
         this.sort.property = property
       }
-      if (this.sort.order === 'asc') {
-        el.classList.add('asc')
+      if (this.sort.order === "asc") {
+        el.classList.add("asc")
       } else {
-        el.classList.add('desc')
+        el.classList.add("desc")
       }
-      el.classList.add('active')
+      el.classList.add("active")
     }
   },
-  props: ['sort']
+  props: ["sort"]
 }
 </script>
 
@@ -43,7 +43,7 @@ export default {
 .panel-sort-container
   display flex
   height 2rem
-  border-bottom px solid bc
+  border-bottom px solid var(--bc)
 
 .sort-by
   flex 1
@@ -55,8 +55,8 @@ export default {
   min-width 0
 
   .label
-    font-size sm
-    color dim
+    font-size var(--sm)
+    color var(--dim)
     white-space nowrap
     text-overflow ellipsis
     overflow hidden
@@ -64,7 +64,7 @@ export default {
   &:after
     display block
     font-family FontAwesome
-    color dim
+    color var(--dim)
     padding-left 0.25rem
 
   &.asc:after
@@ -75,13 +75,13 @@ export default {
 
   &:not(.active):hover
     .label
-      color txt
+      color var(--txt)
 
   &.active
     .label
-      color bright
+      color var(--bright)
     &:after
-      color txt
+      color var(--txt)
 
   &.name
     flex 2

@@ -31,11 +31,11 @@ jobs:
             - node_modules
           key: v1-dependencies-root-{{ checksum "package.json" }}
 
-      - run: 
+      - run:
           name: Add Gaia
           command: |
-            sudo wget https://www.dropbox.com/s/vkyuut8hnzse614/gaia-0.5.0-linux-32?dl=1 -O ~/repo/gaia
+            sudo wget https://tendermint-packages.interblock.io/binaries/gaia_linux_amd64/gaia_decb23bed0179244e4f42d697dcd4bf759200a2d -O ~/repo/gaia
             sudo chmod o+wx /home/circleci/repo/gaia
-        
+
       - run: yarn run test
       - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN

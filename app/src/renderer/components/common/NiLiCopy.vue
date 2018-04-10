@@ -6,11 +6,11 @@
 </template>
 
 <script>
-import BtnCopy from 'common/NiBtnCopy'
+import BtnCopy from "common/NiBtnCopy"
 export default {
-  name: 'ni-li-copy',
+  name: "ni-li-copy",
   components: { BtnCopy },
-  props: ['value']
+  props: ["value"]
 }
 </script>
 
@@ -21,7 +21,7 @@ export default {
   height 3rem
   display flex
   align-items center
-  border-bottom px solid bc-dim
+  border-bottom px solid var(--bc-dim)
   &:only-child
     border-bottom none
 

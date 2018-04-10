@@ -28,22 +28,22 @@ page(title='Staking')
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { includes, orderBy, forEach } from 'lodash'
-import Mousetrap from 'mousetrap'
-import LiDelegate from 'staking/LiDelegate'
-import Btn from '@nylira/vue-button'
-import DataEmpty from 'common/NiDataEmpty'
-import DataEmptySearch from 'common/NiDataEmptySearch'
-import DataLoading from 'common/NiDataLoading'
-import Field from '@nylira/vue-field'
-import ModalSearch from 'common/NiModalSearch'
-import Page from 'common/NiPage'
-import Part from 'common/NiPart'
-import PanelSort from 'staking/PanelSort'
-import ToolBar from 'common/NiToolBar'
+import { mapGetters } from "vuex"
+import { includes, orderBy, forEach } from "lodash"
+import Mousetrap from "mousetrap"
+import LiDelegate from "staking/LiDelegate"
+import Btn from "@nylira/vue-button"
+import DataEmpty from "common/NiDataEmpty"
+import DataEmptySearch from "common/NiDataEmptySearch"
+import DataLoading from "common/NiDataLoading"
+import Field from "@nylira/vue-field"
+import ModalSearch from "common/NiModalSearch"
+import Page from "common/NiPage"
+import Part from "common/NiPart"
+import PanelSort from "staking/PanelSort"
+import ToolBar from "common/NiToolBar"
 export default {
-  name: 'page-delegates',
+  name: "page-delegates",
   components: {
     LiDelegate,
     Btn,
@@ -58,72 +58,90 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(['delegates', 'filters', 'shoppingCart', 'config', 'user']),
-    address () {
+    ...mapGetters(["delegates", "filters", "shoppingCart", "config", "user"]),
+    address() {
       return this.user.address
     },
-    filteredDelegates () {
+    filteredDelegates() {
       let query = this.filters.delegates.search.query
 
-      forEach(this.delegates.delegates, function (v) {
+      forEach(this.delegates.delegates, function(v) {
         v.small_moniker = v.moniker.toLowerCase()
       })
-      let delegates = orderBy(this.delegates.delegates, [this.sort.property], [this.sort.order])
+      let delegates = orderBy(
+        this.delegates.delegates,
+        [this.sort.property],
+        [this.sort.order]
+      )
 
       if (this.filters.delegates.search.visible) {
-        return delegates.filter(i => includes(JSON.stringify(i).toLowerCase(), query.toLowerCase()))
+        return delegates.filter(i =>
+          includes(JSON.stringify(i).toLowerCase(), query.toLowerCase())
+        )
       } else {
         return delegates
       }
     },
-    userCanDelegate () {
+    userCanDelegate() {
       return this.user.atoms > 0
     }
   },
   data: () => ({
-    query: '',
+    query: "",
     sort: {
-      property: 'shares',
-      order: 'desc',
+      property: "shares",
+      order: "desc",
       properties: [
         {
-          title: 'Name', value: 'small_moniker', class: 'name'
+          title: "Name",
+          value: "small_moniker",
+          class: "name"
         },
         {
-          title: '% of Vote', value: 'shares', class: 'percent_of_vote'
+          title: "% of Vote",
+          value: "shares",
+          class: "percent_of_vote"
         },
         {
-          title: 'Total Votes', value: 'voting_power', class: 'voting_power'
+          title: "Total Votes",
+          value: "voting_power",
+          class: "voting_power"
         },
         {
-          title: 'Your Votes', value: 'your_votes', class: 'your-votes'
+          title: "Your Votes",
+          value: "your_votes",
+          class: "your-votes"
         },
         {
-          title: 'Status', value: 'isValidator', class: 'status'
+          title: "Status",
+          value: "isValidator",
+          class: "status"
         },
         {
-          title: '', value: '', class: 'action hidden'
+          title: "",
+          value: "",
+          class: "action hidden"
         }
       ]
     }
   }),
   watch: {
-    address: function (address) {
+    address: function(address) {
       address && this.updateDelegates(address)
     }
   },
   methods: {
-    async updateDelegates (address) {
-      let candidates = await this.$store.dispatch('getDelegates')
-      this.$store.dispatch('getBondedDelegates', candidates)
+    async updateDelegates(address) {
+      let candidates = await this.$store.dispatch("getDelegates")
+      this.$store.dispatch("getBondedDelegates", candidates)
     },
-    setSearch (bool) {
-      this.$store.commit('setSearchVisible', ['delegates', bool])
+    setSearch(bool) {
+      this.$store.commit("setSearchVisible", ["delegates", bool])
     }
   },
-  async mounted () {
-    Mousetrap.bind(['command+f', 'ctrl+f'], () => this.setSearch(true))
-    Mousetrap.bind('esc', () => this.setSearch(false))
+  async mounted() {
+    Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
+    Mousetrap.bind("esc", () => this.setSearch(false))
     await this.updateDelegates(this.user.address)
   }
 }
@@ -136,7 +154,7 @@ export default {
 
 .fixed-button-bar
   padding 0.5rem 1rem
-  background alpha(app-bg, 90%)
+  background var(--app-bg)
   display flex
   justify-content space-between
   position fixed
@@ -146,7 +164,7 @@ export default {
   z-index z(toolBar)
 
   .label
-    color bright
+    color var(--bright)
     line-height 2rem
     strong
       font-weight bold

@@ -27,15 +27,15 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators'
-import Btn from '@nylira/vue-button'
-import Field from '@nylira/vue-field'
-import FieldGroup from 'common/NiFieldGroup'
-import FormGroup from 'common/NiFormGroup'
-import FormMsg from 'common/NiFormMsg'
-import FormStruct from 'common/NiFormStruct'
+import { required, minLength } from "vuelidate/lib/validators"
+import Btn from "@nylira/vue-button"
+import Field from "@nylira/vue-field"
+import FieldGroup from "common/NiFieldGroup"
+import FormGroup from "common/NiFormGroup"
+import FormMsg from "common/NiFormMsg"
+import FormStruct from "common/NiFormStruct"
 export default {
-  name: 'ni-session-account-delete',
+  name: "ni-session-account-delete",
   components: {
     Btn,
     Field,
@@ -44,30 +44,38 @@ export default {
     FormMsg,
     FormStruct
   },
-  data: () => ({ fields: { deletionPassword: '' } }),
+  data: () => ({ fields: { deletionPassword: "" } }),
   methods: {
-    help () {
-      this.$store.commit('setModalHelp', true)
+    help() {
+      this.$store.commit("setModalHelp", true)
     },
-    setState (value) {
-      this.$store.commit('setModalSessionState', value)
+    setState(value) {
+      this.$store.commit("setModalSessionState", value)
     },
-    async onSubmit () {
+    async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        let success = await this.$store.dispatch('deleteKey', { password: this.fields.deletionPassword })
+        let success = await this.$store.dispatch("deleteKey", {
+          password: this.fields.deletionPassword
+        })
         if (success) {
-          this.setState('welcome')
-          this.$store.commit('notify', { title: 'Account Deleted', body: `You have successfully deleted the account 'default'` })
+          this.setState("welcome")
+          this.$store.commit("notify", {
+            title: "Account Deleted",
+            body: `You have successfully deleted the account 'default'`
+          })
         }
       } catch (err) {
-        this.$store.commit('notifyError', { title: 'Account Deletion Failed', body: err.message })
+        this.$store.commit("notifyError", {
+          title: "Account Deletion Failed",
+          body: err.message
+        })
       }
     }
   },
-  mounted () {
-    this.$el.querySelector('#sign-in-password').focus()
+  mounted() {
+    this.$el.querySelector("#sign-in-password").focus()
   },
   validations: () => ({
     fields: {
