@@ -7,13 +7,13 @@
 <script>
 export default {
   computed: {
-    iconClass () {
+    iconClass() {
       if (this.spin) {
-        return 'fa-spin'
+        return "fa-spin"
       }
     }
   },
-  props: ['icon', 'value', 'spin']
+  props: ["icon", "value", "spin"]
 }
 </script>
 
@@ -21,7 +21,7 @@ export default {
 @require '~variables'
 
 .ni-hardware-state
-  background app-fg
+  background var(--app-fg)
   display flex
   flex-flow column nowrap
   align-items center
@@ -37,9 +37,9 @@ export default {
 .ni-hardware-state__icon
   font-size 5rem
   margin-bottom 1rem
-  color dim
+  color var(--dim)
 
 .ni-hardware-state__label
   text-align center
-  color bright
+  color var(--bright)
 </style>

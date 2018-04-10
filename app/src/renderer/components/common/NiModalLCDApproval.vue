@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import Btn from "@nylira/vue-button";
-import FormGroup from "common/NiFormGroup";
-import Field from "@nylira/vue-field";
+import Btn from "@nylira/vue-button"
+import FormGroup from "common/NiFormGroup"
+import Field from "@nylira/vue-field"
 export default {
   name: "modal-lcd-approval",
   components: {
@@ -37,14 +37,14 @@ export default {
   computed: {},
   methods: {
     approve() {
-      this.$store.dispatch("approveNodeHash", this.hash);
+      this.$store.dispatch("approveNodeHash", this.hash)
     },
     newNode() {
-      this.$store.dispatch("disapproveNodeHash", this.hash);
+      this.$store.dispatch("disapproveNodeHash", this.hash)
     }
   },
   props: ["hash"]
-};
+}
 </script>
 
 <style lang="stylus">

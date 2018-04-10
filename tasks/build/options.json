@@ -1,0 +1,6 @@
+{
+  "commit": ["commit from which to build", "HEAD"],
+  "gaia": ["path to the gaia binary"],
+  "platform": ["the target platform {darwin|linux|win32}"],
+  "skip-pack": ["skip the repackaging of the JS files", false]
+}

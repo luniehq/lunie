@@ -6,16 +6,16 @@ field.ni-field-seed(
 </template>
 
 <script>
-import Field from '@nylira/vue-field'
+import Field from "@nylira/vue-field"
 export default {
-  name: 'ni-field-seed',
+  name: "ni-field-seed",
   components: { Field },
   methods: {
-    update (value) {
-      this.$emit('input', value)
+    update(value) {
+      this.$emit("input", value)
     }
   },
-  props: ['value']
+  props: ["value"]
 }
 </script>
 

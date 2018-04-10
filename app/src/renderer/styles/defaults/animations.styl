@@ -11,7 +11,7 @@
   font-size 0
 
 .ts-list-item-enter
-  background link
+  background var(--link)
 
 /* li-delegate */
 .ts-li-delegate-enter-active, .ts-li-delegate-leave-active
@@ -24,7 +24,7 @@
   opacity 0
 
 .ts-li-delegate-enter
-  background link
+  background var(--link)
 
 /* zoom */
 .zoom-enter-active, .zoom-leave-active
@@ -39,27 +39,27 @@
 .member-enter-active, .member-leave-active
   transition all 0.5s ease
   overflow hidden
-  background #fff
+  background var(--bright)
   height 40px + 1px
-  padding 0.25*x
+  padding 0.25 * x
   opacity 1
 
 .member-enter, .member-leave-to
   height 0
-  padding 0 0.25*x
+  padding 0 0.25 * x
   opacity 0
   border-bottom none !important
 
 .member-enter
-  background link
+  background var(--link)
 
 /* vote-entity */
 .vote-entity-enter-active, .vote-entity-leave-active
   transition all 0.3s ease
-  padding 0.25*x
+  padding 0.25 * x
   overflow hidden
-  background #fff
-  height 2.5*x
+  background var(--bright)
+  height 2.5 * x
 
 .vote-entity-enter, .vote-entity-leave-to
   height 0
@@ -68,7 +68,7 @@
   opacity 0
 
 .vote-entity-enter
-  background link
+  background var(--link)
 
 /* proposal */
 .proposal-enter-active, .proposal-leave-active
@@ -87,15 +87,15 @@
 /* msg-small */
 .msg-small-enter-active, .msg-small-leave-active
   max-height 100vh
-  padding 0.5*x
+  padding 0.5 * x
   opacity 1
   transition all 0.3s ease
 
 .msg-small-enter, .msg-small-leave-to
   max-height 0
-  padding 0 0.5*x
+  padding 0 0.5 * x
   opacity 0
   border-bottom-width 0
 
 .msg-small-enter
-  background link
+  background var(--link)

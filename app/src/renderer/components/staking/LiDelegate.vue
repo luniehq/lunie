@@ -23,73 +23,81 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import num from 'scripts/num'
-import Btn from '@nylira/vue-button'
-import { maxBy } from 'lodash'
+import { mapGetters } from "vuex"
+import num from "scripts/num"
+import Btn from "@nylira/vue-button"
+import { maxBy } from "lodash"
 export default {
-  name: 'li-delegate',
-  props: ['delegate'],
+  name: "li-delegate",
+  props: ["delegate"],
   components: { Btn },
   computed: {
-    ...mapGetters(['shoppingCart', 'delegates', 'config', 'committedDelegations', 'user']),
-    yourVotes () {
-      let yourVotes = this.num.prettyInt(this.committedDelegations[this.delegate.id])
+    ...mapGetters([
+      "shoppingCart",
+      "delegates",
+      "config",
+      "committedDelegations",
+      "user"
+    ]),
+    yourVotes() {
+      let yourVotes = this.num.prettyInt(
+        this.committedDelegations[this.delegate.id]
+      )
       this.delegate.your_votes = yourVotes
 
       return yourVotes
     },
-    styles () {
-      let value = ''
-      if (this.inCart || this.yourVotes > 0) value += 'li-delegate-active '
-      if (this.delegate.isValidator) value += 'li-delegate-validator '
+    styles() {
+      let value = ""
+      if (this.inCart || this.yourVotes > 0) value += "li-delegate-active "
+      if (this.delegate.isValidator) value += "li-delegate-validator "
       return value
     },
-    vpMax () {
+    vpMax() {
       if (this.delegates.delegates.length > 0) {
-        let richestDelegate = maxBy(this.delegates.delegates, 'voting_power')
+        let richestDelegate = maxBy(this.delegates.delegates, "voting_power")
         return richestDelegate.voting_power
       } else {
         return 0
       }
     },
-    vpTotal () {
+    vpTotal() {
       return this.delegates.delegates
         .slice()
         .sort((a, b) => b.voting_power - a.voting_power)
         .slice(0, 100)
         .reduce((sum, v) => sum + v.voting_power, 0)
     },
-    vpStyles () {
-      let percentage = Math.round((this.delegate.voting_power / this.vpMax) * 100)
-      return { width: percentage + '%' }
+    vpStyles() {
+      let percentage = Math.round(this.delegate.voting_power / this.vpMax * 100)
+      return { width: percentage + "%" }
     },
-    bondedPercent () {
+    bondedPercent() {
       return this.delegate.voting_power / this.vpTotal
     },
-    inCart () {
+    inCart() {
       return this.shoppingCart.find(c => c.id === this.delegate.id)
     },
-    userCanDelegate () {
+    userCanDelegate() {
       return this.user.atoms > 0
     },
-    delegateType () {
-      return this.delegate.isValidator ? 'Validator' : 'Candidate'
+    delegateType() {
+      return this.delegate.isValidator ? "Validator" : "Candidate"
     }
   },
   data: () => ({ num: num }),
   methods: {
-    add (delegate) {
-      this.$store.commit('addToCart', delegate)
+    add(delegate) {
+      this.$store.commit("addToCart", delegate)
     },
-    rm (delegate) {
-      this.$store.commit('removeFromCart', delegate.id)
+    rm(delegate) {
+      this.$store.commit("removeFromCart", delegate.id)
     }
   },
   watch: {
-    yourVotes (newVal, oldVal) {
+    yourVotes(newVal, oldVal) {
       if (newVal > 0) {
-        this.$store.commit('addToCart', this.delegate)
+        this.$store.commit("addToCart", this.delegate)
       }
     }
   }
@@ -101,11 +109,11 @@ export default {
 
 .li-delegate
   &:nth-of-type(2n-1)
-    background app-fg
+    background var(--app-fg)
   &.li-delegate-active
-    background alpha(mc, 8%)
+    background var(--app-bg-alpha)
     .li-delegate__value i
-      color link
+      color var(--link)
 
 .li-delegate__values
   display flex
@@ -145,13 +153,13 @@ export default {
       z-index z(listItem)
 
       line-height 3rem
-      color txt
+      color var(--txt)
 
     .bar
       height 1.5rem
       position relative
       left -0.25rem
-      background alpha(accent, 33.3%)
+      background var(--accent)
 
   &.checkbox
     justify-content center

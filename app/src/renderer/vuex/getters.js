@@ -3,6 +3,7 @@ export const config = state => state.config
 export const filters = state => state.filters
 export const notifications = state => state.notifications
 export const user = state => state.user
+export const themes = state => state.themes
 
 // wallet
 export const transactions = state => state.wallet.history

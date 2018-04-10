@@ -3,24 +3,24 @@ menu.app-menu
   .app-menu-main
     list-item(to="/" exact @click.native="close" title="Wallet")
     list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions")
-    list-item(to="/staking" exact @click.native="close" title="Staking" v-bind:class="{ 'active': isValidatorPage }")
+    list-item(to="/staking" exact @click.native="close" title="Staking" v-bind:class="{ 'active': isValidatorPage }" v-if="config.devMode")
     list-item(to="/proposals" exact @click.native="close" title="Proposals" v-if="config.devMode")
-    list-item(to="/blocks" exact @click.native="close" title="Blocks")
+    list-item(to="/blocks" exact @click.native="close" title="Blocks" v-if="config.devMode")
     connectivity
   user-pane
 </template>
 
 <script>
-import PerfectScrollbar from 'perfect-scrollbar'
-import { mapGetters } from 'vuex'
-import Btn from '@nylira/vue-button'
-import noScroll from 'no-scroll'
-import Connectivity from 'common/NiConnectivity'
-import ListItem from 'common/NiListItem'
-import UserPane from 'common/NiUserPane'
-import Part from 'common/NiPart'
+import PerfectScrollbar from "perfect-scrollbar"
+import { mapGetters } from "vuex"
+import Btn from "@nylira/vue-button"
+import noScroll from "no-scroll"
+import Connectivity from "common/NiConnectivity"
+import ListItem from "common/NiListItem"
+import UserPane from "common/NiUserPane"
+import Part from "common/NiPart"
 export default {
-  name: 'app-menu',
+  name: "app-menu",
   components: {
     Btn,
     Connectivity,
@@ -29,24 +29,23 @@ export default {
     UserPane
   },
   computed: {
-    ...mapGetters(['proposals', 'validators', 'config']),
-    proposalAlerts () {
-      return this.proposals
-        .filter(p => p.flags.read === false).length
+    ...mapGetters(["proposals", "validators", "config"]),
+    proposalAlerts() {
+      return this.proposals.filter(p => p.flags.read === false).length
     },
-    isValidatorPage () {
+    isValidatorPage() {
       return this.$route.params.validator
     }
   },
   methods: {
-    close () {
-      this.$store.commit('setActiveMenu', '')
+    close() {
+      this.$store.commit("setActiveMenu", "")
       noScroll.off()
     }
   },
-  mounted () {
+  mounted() {
     // eslint-disable-next-line no-unused-vars
-    const ps = new PerfectScrollbar('.app-menu-main')
+    const ps = new PerfectScrollbar(".app-menu-main")
   }
 }
 </script>
@@ -55,7 +54,7 @@ export default {
 @require '~variables'
 
 .app-menu
-  background app-bg-alpha
+  background var(--app-bg-alpha)
   z-index z(appMenu)
   user-select none
 
@@ -70,7 +69,7 @@ export default {
       padding 0 0 0 1rem
 
   .ni-user
-    border-top 1px solid bc
+    border-top 1px solid var(--bc)
     padding 1rem
 
     display flex
@@ -80,7 +79,7 @@ export default {
       display flex
 
     .avatar
-      background link
+      background var(--link)
       width 2rem
       height 2rem
       border-radius 1rem
@@ -89,17 +88,17 @@ export default {
       align-items center
       justify-content center
       i
-        color bright
+        color var(--bright)
 
     .text
       padding 0 0.5rem
 
     .title
-      color bright
+      color var(--bright)
 
     .subtitle
       font-size xs
-      color dim
+      color var(--dim)
 
     .ni-btn
       margin-right 0.5rem
@@ -112,7 +111,7 @@ export default {
     bottom 0
     width 100vw
 
-    background bg-menu
+    background var(--app-bg)
     user-select none
 
 @media screen and (min-width:1024px)

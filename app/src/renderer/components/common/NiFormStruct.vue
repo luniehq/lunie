@@ -18,21 +18,21 @@ form(:class='cssClass' v-on:submit.prevent.default='submit')
 // Remember that v-on:submit will NOT work on this component
 // Use :submit="onSubmit on the parent component and it'll save you headaches
 export default {
-  name: 'ni-form-struct',
+  name: "ni-form-struct",
   computed: {
-    cssClass () {
-      let value = 'ni-form'
-      if (this.width === 'narrow') value += ' ni-form-narrow'
+    cssClass() {
+      let value = "ni-form"
+      if (this.width === "narrow") value += " ni-form-narrow"
       return value
     },
-    hasHeader () {
-      return this.$slots['title'] || this.$slots['subtitle']
+    hasHeader() {
+      return this.$slots["title"] || this.$slots["subtitle"]
     },
-    hasFooter () {
-      return this.$slots['footer']
+    hasFooter() {
+      return this.$slots["footer"]
     }
   },
-  props: ['width', 'submit']
+  props: ["width", "submit"]
 }
 </script>
 
@@ -64,16 +64,16 @@ export default {
 .ni-form-header
   display flex
   flex-flow column nowrap
-  border-bottom px solid bc
+  border-bottom px solid var(--bc)
   position relative
   padding 1rem 0
 
 .ni-form-title
   line-height 1rem
-  color bright
+  color var(--bright)
 
 .ni-form-subtitle
-  color dim
+  color var(--dim)
   font-size sm
   line-height 1rem
 

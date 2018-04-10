@@ -1,28 +1,39 @@
-const { app, Menu } = require('electron')
+const { app, Menu } = require("electron")
 
-module.exports = function () {
+module.exports = function() {
   let template = [
     {
-      label: 'Cosmos Voyager',
+      label: "Cosmos Voyager",
       submenu: [
-        { label: 'About Cosmos Voyager', selector: 'orderFrontStandardAboutPanel:' },
-        { type: 'separator' },
         {
-          label: 'Quit', accelerator: 'Command+Q', click: () => app.quit()
+          label: "About Cosmos Voyager",
+          selector: "orderFrontStandardAboutPanel:"
+        },
+        { type: "separator" },
+        {
+          label: "Quit",
+          accelerator: "Command+Q",
+          click: () => app.quit()
         }
       ]
     },
     {
-      label: 'Edit',
+      label: "Edit",
       submenu: [
         {
-          label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:'
+          label: "Cut",
+          accelerator: "CmdOrCtrl+X",
+          selector: "cut:"
         },
         {
-          label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:'
+          label: "Copy",
+          accelerator: "CmdOrCtrl+C",
+          selector: "copy:"
         },
         {
-          label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:'
+          label: "Paste",
+          accelerator: "CmdOrCtrl+V",
+          selector: "paste:"
         }
       ]
     }

@@ -8,8 +8,8 @@
 
 <script>
 export default {
-  name: 'ni-li-session',
-  props: ['icon', 'title', 'subtitle']
+  name: "ni-li-session",
+  props: ["icon", "title", "subtitle"]
 }
 </script>
 
@@ -20,18 +20,17 @@ export default {
   display flex
   flex-flow row nowrap
   user-select none
-  border-bottom 2*px solid bc-dim
+  border-bottom 2*px solid var(--bc-dim)
 
   &:last-of-type
     border-bottom none
 
   &:hover
     cursor pointer
-    background app-fg
+    background var(--app-fg)
     .ni-li-session-icon i
-      color bright
     .ni-li-session-title
-      color bright
+      color var(--bright)
 
 .ni-li-session-icon
   height 5rem
@@ -50,12 +49,12 @@ export default {
   padding 1rem 1rem
 
 .ni-li-session-title
-  color txt
+  color var(--txt)
   font-size lg
   line-height 1.25
   margin-bottom 0.375rem
 
 .ni-li-session-subtitle
-  color dim
+  color var(--dim)
   font-size sm
 </style>

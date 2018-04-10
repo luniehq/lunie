@@ -1,149 +1,153 @@
-import setup from '../../helpers/vuex-setup'
+import setup from "../../helpers/vuex-setup"
 
-function mockGA (uid) {
-  window.analytics = { foo: 'bar' }
+function mockGA(uid) {
+  window.analytics = { foo: "bar" }
 }
-jest.mock('renderer/google-analytics.js', () => mockGA)
+jest.mock("renderer/google-analytics.js", () => mockGA)
 
 let instance = setup()
 
-describe('Module: User', () => {
+describe("Module: User", () => {
   let store, node
-  let accounts = [{
-    address: '1234567890123456789012345678901234567890',
-    name: 'ACTIVE_ACCOUNT',
-    password: '1234567890'
-  }]
+  let accounts = [
+    {
+      address: "1234567890123456789012345678901234567890",
+      name: "ACTIVE_ACCOUNT",
+      password: "1234567890"
+    }
+  ]
 
   beforeEach(() => {
-    jest.mock('electron', () => ({ ipcRenderer: { send: jest.fn() } }))
+    jest.mock("electron", () => ({ ipcRenderer: { send: jest.fn() } }))
 
     let test = instance.shallow()
     store = test.store
     node = test.node
   })
 
-  it('should default to signed out state', () => {
+  it("should default to signed out state", () => {
     expect(store.state.user.signedIn).toBe(false)
     expect(store.state.user.password).toBe(null)
     expect(store.state.user.account).toBe(null)
     expect(store.state.user.address).toBe(null)
   })
 
-  it('should set accounts', () => {
-    store.commit('setAccounts', accounts)
+  it("should set accounts", () => {
+    store.commit("setAccounts", accounts)
     expect(store.state.user.accounts).toEqual(accounts)
   })
 
-  it('should show an error if loading accounts fails', async () => {
-    node.listKeys = () => Promise.reject('Expected Error')
-    await store.dispatch('loadAccounts')
+  it("should show an error if loading accounts fails", async () => {
+    node.listKeys = () => Promise.reject("Expected Error")
+    await store.dispatch("loadAccounts")
     expect(store.state.notifications[0].title).toBe(`Couldn't read keys`)
   })
 
-  it('should set atoms', () => {
-    store.commit('setAtoms', 42)
+  it("should set atoms", () => {
+    store.commit("setAtoms", 42)
     expect(store.state.user.atoms).toBe(42)
   })
 
-  it('should prepare the signin', async () => {
+  it("should prepare the signin", async () => {
     node.listKeys = () => Promise.resolve(accounts)
-    await store.dispatch('showInitialScreen')
-    expect(store.state.config.modals.session.state).toBe('sign-in')
+    await store.dispatch("showInitialScreen")
+    expect(store.state.config.modals.session.state).toBe("sign-in")
     expect(store.state.config.modals.session.active).toBe(true)
   })
 
-  it('should show a welcome screen if there are no accounts yet', async () => {
+  it("should show a welcome screen if there are no accounts yet", async () => {
     node.listKeys = () => Promise.resolve([])
-    await store.dispatch('showInitialScreen')
-    expect(store.state.config.modals.session.state).toBe('welcome')
+    await store.dispatch("showInitialScreen")
+    expect(store.state.config.modals.session.state).toBe("welcome")
     expect(store.state.config.modals.session.active).toBe(true)
   })
 
-  it('should test if the login works', async () => {
+  it("should test if the login works", async () => {
     node.updateKey = (account, { name, password, newPassphrase }) => {
       expect(account).toBe(name)
       expect(password).toBe(newPassphrase)
       return true
     }
-    let output = await store.dispatch('testLogin', {
-      account: 'ABC',
+    let output = await store.dispatch("testLogin", {
+      account: "ABC",
       details: {
-        name: 'ABC',
-        password: '123',
-        new_passphrase: '123'
+        name: "ABC",
+        password: "123",
+        new_passphrase: "123"
       }
     })
     expect(output).toBe(true)
   })
 
-  it('should raise an error if login test fails', done => {
-    node.updateKey = () => Promise.reject('Expected error')
-    store.dispatch('testLogin', {}).catch(() => done())
+  it("should raise an error if login test fails", done => {
+    node.updateKey = () => Promise.reject("Expected error")
+    store.dispatch("testLogin", {}).catch(() => done())
   })
 
-  it('should create a seed phrase', async () => {
-    let seed = await store.dispatch('createSeed')
+  it("should create a seed phrase", async () => {
+    let seed = await store.dispatch("createSeed")
     expect(seed).toBeDefined()
-    expect(seed.split(' ').length).toBe(12)
+    expect(seed.split(" ").length).toBe(12)
   })
 
-  it('should delete an existing trunc when generating a seed phrase', done => {
-    node.listKeys = () => Promise.resolve([{ name: 'trunk' }])
-    node.deleteKey = (account) => {
-      expect(account).toBe('trunk')
+  it("should delete an existing trunc when generating a seed phrase", done => {
+    node.listKeys = () => Promise.resolve([{ name: "trunk" }])
+    node.deleteKey = account => {
+      expect(account).toBe("trunk")
       done()
     }
-    store.dispatch('createSeed')
+    store.dispatch("createSeed")
   })
 
-  it('should create a key from a seed phrase', async () => {
-    let seedPhrase = 'abc'
-    let password = '123'
-    let name = 'def'
-    node.recoverKey = jest.fn(() => ({ key: { address: 'some address' } }))
-    let key = await store.dispatch('createKey', {
-      seedPhrase, password, name
+  it("should create a key from a seed phrase", async () => {
+    let seedPhrase = "abc"
+    let password = "123"
+    let name = "def"
+    node.recoverKey = jest.fn(() => ({ key: { address: "some address" } }))
+    let key = await store.dispatch("createKey", {
+      seedPhrase,
+      password,
+      name
     })
     expect(node.recoverKey).toHaveBeenCalledWith({
       seed_phrase: seedPhrase,
       password,
       name
     })
-    expect(key).toEqual({ address: 'some address' })
+    expect(key).toEqual({ address: "some address" })
 
     // initialize wallet
-    expect(store.state.wallet.key).toEqual({ address: 'some address' })
+    expect(store.state.wallet.key).toEqual({ address: "some address" })
   })
 
-  it('should delete a key', async () => {
-    let password = '123'
-    let name = 'def'
+  it("should delete a key", async () => {
+    let password = "123"
+    let name = "def"
     node.deleteKey = jest.fn()
-    await store.dispatch('deleteKey', { password, name })
+    await store.dispatch("deleteKey", { password, name })
     expect(node.deleteKey).toHaveBeenCalledWith(name, { password, name })
   })
 
-  it('should sign in', async () => {
-    let password = '123'
-    let account = 'def'
-    node.getKey = jest.fn(() => Promise.resolve({ address: 'some address' }))
-    await store.dispatch('signIn', { password, account })
+  it("should sign in", async () => {
+    let password = "123"
+    let account = "def"
+    node.getKey = jest.fn(() => Promise.resolve({ address: "some address" }))
+    await store.dispatch("signIn", { password, account })
     expect(node.getKey).toHaveBeenCalledWith(account)
     expect(store.state.user.signedIn).toBe(true)
 
     // initialize wallet
-    expect(store.state.wallet.key).toEqual({ address: 'some address' })
+    expect(store.state.wallet.key).toEqual({ address: "some address" })
 
     // hide login
     expect(store.state.config.modals.session.active).toBe(false)
   })
 
-  it('should sign out', async () => {
-    let password = '123'
-    let account = 'def'
-    await store.dispatch('signIn', { password, account })
-    store.dispatch('signOut')
+  it("should sign out", async () => {
+    let password = "123"
+    let account = "def"
+    await store.dispatch("signIn", { password, account })
+    store.dispatch("signOut")
     expect(store.state.user.account).toBe(null)
     expect(store.state.user.password).toBe(null)
     expect(store.state.user.signedIn).toBe(false)
@@ -152,40 +156,43 @@ describe('Module: User', () => {
     expect(store.state.config.modals.session.active).toBe(true)
   })
 
-  it('should set the error collection opt in', async () => {
-    const Raven = require('raven-js')
-    const ravenSpy = jest.spyOn(Raven, 'config')
-    store.dispatch('setErrorCollection', { account: 'abc', optin: true })
+  it("should set the error collection opt in", async () => {
+    const Raven = require("raven-js")
+    const ravenSpy = jest.spyOn(Raven, "config")
+    store.dispatch("setErrorCollection", { account: "abc", optin: true })
     expect(store.state.user.errorCollection).toBe(true)
     expect(window.analytics).toBeTruthy()
     expect(ravenSpy).toHaveBeenCalled()
-    expect(ravenSpy).not.toHaveBeenCalledWith('')
+    expect(ravenSpy).not.toHaveBeenCalledWith("")
     expect(ravenSpy.mock.calls).toMatchSnapshot()
 
-    store.dispatch('setErrorCollection', { account: 'abc', optin: false })
+    store.dispatch("setErrorCollection", { account: "abc", optin: false })
     expect(store.state.user.errorCollection).toBe(false)
     expect(window.analytics).toBeFalsy()
-    expect(ravenSpy).toHaveBeenCalledWith('')
+    expect(ravenSpy).toHaveBeenCalledWith("")
   })
 
-  it('should persist the error collection opt in', () => {
-    let localStorageSpy = jest.spyOn(localStorage, 'setItem')
-    store.dispatch('setErrorCollection', { account: 'abc', optin: true })
+  it("should persist the error collection opt in", () => {
+    let localStorageSpy = jest.spyOn(localStorage, "setItem")
+    store.dispatch("setErrorCollection", { account: "abc", optin: true })
 
-    expect(localStorageSpy).toHaveBeenCalledWith('voyager_error_collection_abc', true)
+    expect(localStorageSpy).toHaveBeenCalledWith(
+      "voyager_error_collection_abc",
+      true
+    )
   })
 
-  it('should load the persistet error collection opt in', () => {
-    let localStorageSpy = jest.spyOn(localStorage, 'getItem')
-    store.dispatch('setErrorCollection', { account: 'abc', optin: true })
+  it("should load the persistet error collection opt in", () => {
+    let localStorageSpy = jest.spyOn(localStorage, "getItem")
+    store.dispatch("setErrorCollection", { account: "abc", optin: true })
     store.state.user.errorCollection = false
-    store.dispatch('loadErrorCollection', 'abc')
+    store.dispatch("loadErrorCollection", "abc")
     expect(store.state.user.errorCollection).toBe(true)
-    expect(localStorageSpy).toHaveBeenCalledWith('voyager_error_collection_abc')
+    expect(localStorageSpy).toHaveBeenCalledWith("voyager_error_collection_abc")
 
-    store.dispatch('setErrorCollection', { account: 'abc', optin: false })
+    store.dispatch("setErrorCollection", { account: "abc", optin: false })
     store.state.user.errorCollection = true
-    store.dispatch('loadErrorCollection', 'abc')
+    store.dispatch("loadErrorCollection", "abc")
     expect(store.state.user.errorCollection).toBe(false)
   })
 })

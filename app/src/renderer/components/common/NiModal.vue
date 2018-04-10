@@ -17,15 +17,15 @@ div(:class='cssClass' @click="close()")
 <script>
 export default {
   computed: {
-    cssClass () {
-      let value = 'ni-modal'
-      if (this.size === 'fullscreen' || this.size === 'fs') {
-        value += ' ni-modal-fullscreen'
+    cssClass() {
+      let value = "ni-modal"
+      if (this.size === "fullscreen" || this.size === "fs") {
+        value += " ni-modal-fullscreen"
       }
       return value
     }
   },
-  props: ['size', 'icon', 'close']
+  props: ["size", "icon", "close"]
 }
 </script>
 
@@ -64,7 +64,7 @@ export default {
         display block
 
 .ni-modal-container
-  background app-bg
+  background var(--app-bg)
   box-shadow hsla(0,0,0,0.25) 0 0.25rem 1rem
 
   display flex
@@ -75,13 +75,13 @@ export default {
 
   max-width 30rem
   max-height 40rem
-  
+
 .ni-modal-header
   display flex
   flex-flow row nowrap
   align-items center
   flex 0 0 3rem + 0.0625rem
-  background app-fg
+  background var(--app-fg)
 
 .ni-modal-icon
   height 3rem
@@ -95,9 +95,9 @@ export default {
   &.ni-modal-close
     cursor pointer
     i
-      color link
+      color var(--link)
     &:hover i
-      color hover
+      color var(--hover)
 
 .ni-modal-icon + .ni-modal-title
   padding-left 0
@@ -105,14 +105,14 @@ export default {
 .ni-modal-title
   flex 1
   font-size h3
-  color bright
+  color var(--bright)
   padding 0 1rem
 
 .ni-modal-main, .ni-modal-footer
   padding 1rem
 
 .ni-modal-main + .ni-modal-footer
-  border-top px solid bc
+  border-top px solid var(--bc)
 
 .ni-modal-main
   flex 1

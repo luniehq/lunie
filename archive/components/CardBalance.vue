@@ -15,22 +15,22 @@
 </template>
 
 <script>
-import Btn from '@nylira/vue-button'
+import Btn from "@nylira/vue-button"
 export default {
-  name: 'card-balance',
+  name: "card-balance",
   components: {
     Btn
   },
   methods: {
-    integerize (num) {
+    integerize(num) {
       return Math.trunc(num)
     },
-    fractionize (num) {
-      let value = Math.trunc(num % 1 * 100000) / 100000
+    fractionize(num) {
+      let value = Math.trunc((num % 1) * 100000) / 100000
       return value.toString().substring(1)
     }
   },
-  props: ['balance']
+  props: ["balance"]
 }
 </script>
 
@@ -42,7 +42,7 @@ export default {
   padding 0.25em
 
   .card-balance-container
-    background app-fg
+    background var(--app-fg)
 
     height 3rem
     display flex
@@ -56,12 +56,12 @@ export default {
     .title
       display flex
       align-items center
-      border-right px dotted bc
+      border-right px dotted var(--bc)
       padding 0 0.75em
       width 8rem
 
       i.fa
-        color dim
+        color var(--dim)
         margin-right 0.375em
       span
         font-size sm
@@ -69,7 +69,7 @@ export default {
 
     .balance
       overflow hidden
-      border-right px dotted bc
+      border-right px dotted var(--bc)
 
       flex 1
       display flex
@@ -77,17 +77,16 @@ export default {
       padding 0 0.75em
 
       .unit
-        color dim
+        color var(--dim)
         margin-right 0.25em
 
       .value
         .fraction
-          color dim
+          color var(--dim)
 
     .actions
       display flex
       align-items center
-
       padding 0 0.75em
 
 @media screen and (min-width: 400px)

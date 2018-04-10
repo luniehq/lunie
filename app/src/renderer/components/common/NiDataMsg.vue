@@ -8,15 +8,15 @@
 
 <script>
 export default {
-  name: 'ni-data-msg',
+  name: "ni-data-msg",
   computed: {
-    iconCssClass () {
+    iconCssClass() {
       if (this.spin) {
-        return 'fa-spin'
+        return "fa-spin"
       }
     }
   },
-  props: ['title', 'subtitle', 'icon', 'spin']
+  props: ["title", "subtitle", "icon", "spin"]
 }
 </script>
 
@@ -24,24 +24,24 @@ export default {
 @require '~variables'
 
 .ni-data-msg
-  background app-fg
+  background var(--app-fg)
   padding 1rem
-  
+
 .ni-data-msg__icon
   margin-bottom 0.5rem
   i.material-icons
     font-size 3rem
-    color txt
+    color var(--txt)
 
 .ni-data-msg__text
   max-width 30rem
 
 .ni-data-msg__title
-  color bright
+  color var(--bright)
   font-size h2
 
 .ni-data-msg__subtitle
-  color dim
+  color var(--dim)
 
 @media screen and (min-width: 768px)
   .ni-data-msg

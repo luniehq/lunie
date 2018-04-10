@@ -5,9 +5,9 @@ data-msg(icon="sentiment_very_dissatisfied")
 </template>
 
 <script>
-import DataMsg from 'common/NiDataMsg'
+import DataMsg from "common/NiDataMsg"
 export default {
-  name: 'ni-data-error',
+  name: "ni-data-error",
   components: { DataMsg }
 }
 </script>

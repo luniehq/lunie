@@ -1,10 +1,14 @@
 <template lang='pug'>
-nav#app-header: .container
+nav#app-header(v-bind:class="{ mobile: !config.desktop }"): .container
   template(v-if="!config.desktop")
     .header-item
 
   router-link.header-item.header-item-logo(to="/")
-    img(src="~@/assets/images/cosmos.png")
+    img#logo-black(v-if="themes.active == 'light'"
+      src="~@/assets/images/cosmos-wordmark-black.svg")
+    img#logo-white(v-else
+      src="~@/assets/images/cosmos-wordmark-white.svg")
+
   app-menu(v-if="config.activeMenu === 'app' || config.desktop")
 
   template(v-if="!config.desktop")
@@ -14,34 +18,37 @@ nav#app-header: .container
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import noScroll from 'no-scroll'
-import AppMenu from 'common/AppMenu'
+import { mapGetters } from "vuex"
+import noScroll from "no-scroll"
+import AppMenu from "common/AppMenu"
 export default {
-  name: 'app-header',
+  name: "app-header",
   components: { AppMenu },
-  computed: { ...mapGetters(['config']) },
+  computed: { ...mapGetters(["config", "themes"]) },
   methods: {
-    close () {
-      this.$store.commit('setActiveMenu', '')
+    close() {
+      this.$store.commit("setActiveMenu", "")
       noScroll.off()
     },
-    enableMenu () {
-      this.$store.commit('setActiveMenu', 'app')
+    enableMenu() {
+      this.$store.commit("setActiveMenu", "app")
       noScroll.on()
     },
-    watchWindowSize () {
-      let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+    watchWindowSize() {
+      let w = Math.max(
+        document.documentElement.clientWidth,
+        window.innerWidth || 0
+      )
       if (w >= 1024) {
         this.close()
-        this.$store.commit('setConfigDesktop', true)
+        this.$store.commit("setConfigDesktop", true)
         return
       } else {
-        this.$store.commit('setConfigDesktop', false)
+        this.$store.commit("setConfigDesktop", false)
       }
     }
   },
-  mounted () {
+  mounted() {
     this.watchWindowSize()
     window.onresize = this.watchWindowSize
   }
@@ -54,7 +61,7 @@ export default {
 #app-header
   z-index z(appHeader)
   .container
-    -webkit-app-region: drag
+    -webkit-app-region drag
 
 @media screen and (max-width: 1023px)
   #app-header
@@ -63,14 +70,14 @@ export default {
     left 0
     width 100%
 
-    background app-bg
+    background var(--app-bg)
 
     > .container
       max-width aw
       margin 0 auto
       display flex
       flex-flow row nowrap
-      border-bottom px solid bc
+      border-bottom px solid var(--bc)
       justify-content space-between
 
     .header-item
@@ -81,7 +88,7 @@ export default {
       justify-content center
       padding 0 1rem
 
-      color link
+      color var(--link)
       cursor pointer
 
       i.material-icons
@@ -89,11 +96,29 @@ export default {
         font-size lg
 
       &:hover
-        color link
+        color var(--link)
 
       &.header-item-logo
-        font-size sm
-
         img
-          height 1rem
+          height 1.5rem
+
+@media screen and (min-width: 1024px)
+  #app-header
+    display flex
+    flex 0 0 width-side
+    min-width 0
+    border-right px solid var(--bc)
+    display flex
+
+    > .container
+      flex 1
+      display flex
+      flex-flow column nowrap
+
+    .header-item-logo
+      border-bottom px solid var(--bc)
+      padding 1.5rem 1rem .75rem
+      line-height normal
+      img
+        height 1.75rem
 </style>

@@ -13,12 +13,12 @@ page(title='New Proposal')
 </template>
 
 <script>
-import ListItem from 'common/NiListItem'
-import Page from 'common/NiPage'
-import Part from 'common/NiPart'
-import ToolBar from 'common/NiToolBar'
+import ListItem from "common/NiListItem"
+import Page from "common/NiPage"
+import Part from "common/NiPart"
+import ToolBar from "common/NiToolBar"
 export default {
-  name: 'page-proposals-new',
+  name: "page-proposals-new",
   components: {
     ListItem,
     Page,

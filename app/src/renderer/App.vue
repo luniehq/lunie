@@ -13,15 +13,15 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import AppHeader from "common/AppHeader";
-import AppFooter from "common/AppFooter";
-import Notifications from "@nylira/vue-notifications";
-import ModalError from "common/NiModalError";
-import ModalHelp from "common/NiModalHelp";
-import Session from "common/NiSession";
-import ModalLcdApproval from "common/NiModalLCDApproval";
-import store from "./vuex/store";
+import { mapGetters } from "vuex"
+import AppHeader from "common/AppHeader"
+import AppFooter from "common/AppFooter"
+import Notifications from "@nylira/vue-notifications"
+import ModalError from "common/NiModalError"
+import ModalHelp from "common/NiModalHelp"
+import Session from "common/NiSession"
+import ModalLcdApproval from "common/NiModalLCDApproval"
+import store from "./vuex/store"
 export default {
   name: "app",
   components: {
@@ -33,9 +33,19 @@ export default {
     Notifications,
     Session
   },
-  computed: { ...mapGetters(["notifications", "config", "approvalRequired"]) },
-  store
-};
+  computed: {
+    ...mapGetters(["notifications", "config", "themes", "approvalRequired"])
+  },
+  mounted() {
+    this.$store.commit("updateTheme", this.themes.active)
+  },
+  store,
+  watch: {
+    "themes.active"(newTheme) {
+      this.$store.commit("updateTheme", this.themes.active)
+    }
+  }
+}
 </script>
 
 <style lang="stylus" src="./styles/app.styl"></style>
