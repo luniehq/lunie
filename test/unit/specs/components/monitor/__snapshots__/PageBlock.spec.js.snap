@@ -20,29 +20,9 @@ exports[`PageBlock has the expected html structure 1`] = `
             <div class=\\"ni-tool-bar\\">
                <div class=\\"ni-tool-bar-container\\">
                   <div class=\\"main\\">
-                     <a href=\\"#/blocks/9\\" class=\\"\\"><i class=\\"material-icons\\">chevron_left</i>
-                     <div class=\\"label\\">
-                        Previous Block
-                     </div>
-      </a><a href=\\"#/blocks/11\\" class=\\"\\"><i class=\\"material-icons\\">chevron_right</i>
-      <div class=\\"label\\">
-         Next Block
-      </div>
-      </a>
-   </div>
-      <a class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i>
-      <div class=\\"label\\">
-         Back
-      </div>
-      </a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i>
-      <div class=\\"label\\">
-         Help
-      </div>
-      </a><a class=\\"sign-out\\"><i class=\\"material-icons\\">exit_to_app</i>
-      <div class=\\"label\\">
-         Sign Out
-      </div>
-      </a>
+                     <a href=\\"#/blocks/9\\" class=\\"\\"><i class=\\"material-icons\\">chevron_left</i></a><a href=\\"#/blocks/11\\" class=\\"\\"><i class=\\"material-icons\\">chevron_right</i></a>
+                  </div>
+      <a class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a class=\\"sign-out\\"><i class=\\"material-icons\\">exit_to_app</i></a>
    </div>
 </div>
 </div>

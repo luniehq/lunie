@@ -41,7 +41,7 @@ Vue.use(Vuelidate)
 async function main() {
   let lcdPort = getQueryParameter("lcd_port")
   console.log("Expecting lcd-server on port:", lcdPort)
-  const node = Node(lcdPort, true)
+  const node = Node(lcdPort)
 
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
