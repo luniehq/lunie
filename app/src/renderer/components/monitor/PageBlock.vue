@@ -4,12 +4,12 @@ page(:title="pageBlockTitle")
   data-empty(v-else-if="!block.header")
   template(v-else)
     div(slot="menu"): tool-bar
-      router-link(:to="{ name: 'block', params: { block: block.header.height - 1 }}")
+      router-link(:to="{ name: 'block', params: { block: block.header.height - 1 }}"
+        v-tooltip.bottom="'Older Block'")
         i.material-icons chevron_left
-        .label Previous Block
-      router-link(:to="{ name: 'block', params: { block: block.header.height + 1 }}")
+      router-link(:to="{ name: 'block', params: { block: block.header.height + 1 }}"
+        v-tooltip.bottom="'Newer Block'")
         i.material-icons chevron_right
-        .label Next Block
 
     part(title='')
       list-item(dt="Block Hash" :dd="blockMeta.block_id.hash")

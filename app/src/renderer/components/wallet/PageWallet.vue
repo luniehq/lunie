@@ -1,12 +1,10 @@
 <template lang="pug">
 page(title='Wallet')
   div(slot="menu"): tool-bar
-    a(@click='updateBalances()')
+    a(@click='updateBalances()' v-tooltip.bottom="'Refresh'")
       i.material-icons refresh
-      .label Refresh
-    a(@click='setSearch(true)')
+    a(@click='setSearch(true)' v-tooltip.bottom="'Search'")
       i.material-icons search
-      .label Search
 
   modal-search(type="balances")
 
