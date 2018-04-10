@@ -48,11 +48,6 @@ exports[`PageTransactions has the expected html structure 1`] = `
                     >
                       search
                     </i>
-                    <div
-                      class="label"
-                    >
-                      Search
-                    </div>
                   </a>
                 </div>
                 <a
@@ -63,11 +58,6 @@ exports[`PageTransactions has the expected html structure 1`] = `
                   >
                     arrow_back
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Back
-                  </div>
                 </a>
                 <a
                   class="help"
@@ -77,11 +67,6 @@ exports[`PageTransactions has the expected html structure 1`] = `
                   >
                     help_outline
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Help
-                  </div>
                 </a>
                 <a
                   class="sign-out"
@@ -91,11 +76,6 @@ exports[`PageTransactions has the expected html structure 1`] = `
                   >
                     exit_to_app
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Sign Out
-                  </div>
                 </a>
               </div>
             </div>
@@ -190,11 +170,6 @@ exports[`PageTransactions should filter the transactions 1`] = `
                     >
                       search
                     </i>
-                    <div
-                      class="label"
-                    >
-                      Search
-                    </div>
                   </a>
                 </div>
                 <a
@@ -205,11 +180,6 @@ exports[`PageTransactions should filter the transactions 1`] = `
                   >
                     arrow_back
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Back
-                  </div>
                 </a>
                 <a
                   class="help"
@@ -219,11 +189,6 @@ exports[`PageTransactions should filter the transactions 1`] = `
                   >
                     help_outline
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Help
-                  </div>
                 </a>
                 <a
                   class="sign-out"
@@ -233,11 +198,6 @@ exports[`PageTransactions should filter the transactions 1`] = `
                   >
                     exit_to_app
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Sign Out
-                  </div>
                 </a>
               </div>
             </div>

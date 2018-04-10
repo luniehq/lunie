@@ -48,11 +48,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                     >
                       refresh
                     </i>
-                    <div
-                      class="label"
-                    >
-                      Refresh
-                    </div>
                   </a>
                   <a>
                     <i
@@ -60,11 +55,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                     >
                       search
                     </i>
-                    <div
-                      class="label"
-                    >
-                      Search
-                    </div>
                   </a>
                 </div>
                 <a
@@ -75,11 +65,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                   >
                     arrow_back
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Back
-                  </div>
                 </a>
                 <a
                   class="help"
@@ -89,11 +74,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                   >
                     help_outline
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Help
-                  </div>
                 </a>
                 <a
                   class="sign-out"
@@ -103,11 +83,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                   >
                     exit_to_app
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Sign Out
-                  </div>
                 </a>
               </div>
             </div>
@@ -341,11 +316,6 @@ exports[`PageWallet should filter the balances 1`] = `
                     >
                       refresh
                     </i>
-                    <div
-                      class="label"
-                    >
-                      Refresh
-                    </div>
                   </a>
                   <a>
                     <i
@@ -353,11 +323,6 @@ exports[`PageWallet should filter the balances 1`] = `
                     >
                       search
                     </i>
-                    <div
-                      class="label"
-                    >
-                      Search
-                    </div>
                   </a>
                 </div>
                 <a
@@ -368,11 +333,6 @@ exports[`PageWallet should filter the balances 1`] = `
                   >
                     arrow_back
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Back
-                  </div>
                 </a>
                 <a
                   class="help"
@@ -382,11 +342,6 @@ exports[`PageWallet should filter the balances 1`] = `
                   >
                     help_outline
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Help
-                  </div>
                 </a>
                 <a
                   class="sign-out"
@@ -396,11 +351,6 @@ exports[`PageWallet should filter the balances 1`] = `
                   >
                     exit_to_app
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Sign Out
-                  </div>
                 </a>
               </div>
             </div>

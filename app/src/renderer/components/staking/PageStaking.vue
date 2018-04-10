@@ -1,12 +1,10 @@
 <template lang="pug">
 page(title='Staking')
   div(slot="menu"): tool-bar
-    a(@click='setSearch(true)')
+    a(@click='setSearch(true)' v-tooltip.bottom="'Search'")
       i.material-icons search
-      .label Search
-    a(@click='updateDelegates(address)')
+    a(@click='updateDelegates(address)' v-tooltip.bottom="'Refresh'")
       i.material-icons refresh
-      .label Refresh
 
   modal-search(type="delegates")
 
@@ -95,26 +93,34 @@ export default {
         {
           title: "Name",
           value: "small_moniker",
+          tooltip: "The unique moniker of this delegate.",
           class: "name"
         },
         {
           title: "% of Vote",
           value: "shares",
+          tooltip:
+            "The delegate controls this percentage of voting power on the network.",
           class: "percent_of_vote"
         },
         {
           title: "Total Votes",
           value: "voting_power",
+          tooltip: "The delegate stakes this many atoms on the network.",
           class: "voting_power"
         },
         {
           title: "Your Votes",
           value: "your_votes",
+          tooltip:
+            "You have personally staked this many atoms to the delegate.",
           class: "your-votes"
         },
         {
           title: "Status",
           value: "isValidator",
+          tooltip:
+            "The delegate is either a validator or a validator candidate.",
           class: "status"
         },
         {

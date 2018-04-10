@@ -1,9 +1,8 @@
 <template lang="pug">
 page(title='Block Explorer')
   div(slot="menu"): tool-bar
-    a(@click='setSearch(true)')
+    a(@click='setSearch(true)' v-tooltip.bottom="'Search Block'")
       i.material-icons search
-      .label Search
 
   modal-search(type="blocks")
 

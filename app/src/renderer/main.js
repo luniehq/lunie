@@ -2,6 +2,7 @@ import Vue from "vue"
 import Electron from "vue-electron"
 import Resource from "vue-resource"
 import Router from "vue-router"
+import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
 import shrinkStacktrace from "../helpers/shrink-stacktrace.js"
 import Raven from "raven-js"
@@ -34,6 +35,7 @@ Vue.config.errorHandler = (error, vm, info) => {
 Vue.use(Electron)
 Vue.use(Resource)
 Vue.use(Router)
+Vue.use(Tooltip)
 Vue.use(Vuelidate)
 
 async function main() {
