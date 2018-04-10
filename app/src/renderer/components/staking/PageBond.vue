@@ -424,9 +424,9 @@ export default {
 
   &.bond-group--unbonding
     .bond-bar__inner
-      background var(--input-bc)
+      background var(--warning)
     .bond-delta
-      color var(--input-bc)
+      color var(--warning)
 
 .bond-group--negative
   .bond-bar-old__inner
