@@ -35,7 +35,7 @@
       form-msg.sm
         | Please back up the seed phrase for this account. This seed phrase cannot be recovered.
 
-    form-group(field-id="sign-up-warning" field-label=' '
+    form-group(field-id="sign-up-warning" field-label=''
       :error='$v.fields.signUpWarning.$error')
       .ni-field-checkbox
         .ni-field-checkbox-input
@@ -44,10 +44,11 @@
           | I have securely written down my seed. I understand that lost seeds cannot be recovered.
       form-msg(name='Recovery confirmation' type='required' v-if='!$v.fields.signUpWarning.required')
 
-    form-group(field-id="error-collection" field-label=' ')
+    form-group(field-id="error-collection" field-label=''
+      :error='$v.fields.errorCollection.$error')
       .ni-field-checkbox
         .ni-field-checkbox-input
-          input#sign-up-warning(type="checkbox" v-model="fields.errorCollection")
+          input#error-collection(type="checkbox" v-model="fields.errorCollection")
         label.ni-field-checkbox-label(for="error-collection")
           | I'd like to opt in for remote error tracking to help improve Voyager.
 
