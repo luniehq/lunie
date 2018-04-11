@@ -79,6 +79,10 @@ function launch(t) {
       )
       console.log("restored test accounts")
       await startApp(app)
+
+      await app.client.waitForExist("#ni-modal-lcd-approval__btn-approve", 5000)
+      await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
+
       t.ok(app.isRunning(), "app is running")
 
       resolve({ app, home })

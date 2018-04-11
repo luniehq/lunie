@@ -294,8 +294,7 @@ async function initLCD(chainId, home, node) {
             async () => {
               log("approved hash", hashMatch[0])
               if (shuttingDown) return
-              // answer 'y' to the prompt about trust seed. we can trust this is correct
-              // since the LCD is talking to our own full node
+              // answer 'y' to the prompt about trust seed.
               child.stdin.write("y\n")
 
               expectCleanExit(child, "gaia init exited unplanned").then(
