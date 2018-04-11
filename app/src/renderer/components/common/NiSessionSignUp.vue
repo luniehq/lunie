@@ -41,17 +41,8 @@
         .ni-field-checkbox-input
           input#sign-up-warning(type="checkbox" v-model="fields.signUpWarning")
         label.ni-field-checkbox-label(for="sign-up-warning")
-          | I understand that lost seeds cannot be recovered.
+          | I have securely written down my seed. I understand that lost seeds cannot be recovered.
       form-msg(name='Recovery confirmation' type='required' v-if='!$v.fields.signUpWarning.required')
-
-    form-group(field-id="sign-up-backup" field-label=' '
-      :error='$v.fields.signUpBackup.$error')
-      .ni-field-checkbox(for="sign-up-backup")
-        .ni-field-checkbox-input
-          input#sign-up-backup(type="checkbox" v-model="fields.signUpBackup")
-        label.ni-field-checkbox-label(for="sign-up-backup")
-          | I have securely written down my seed.
-      form-msg(name='Backup confirmation' type='required' v-if='!$v.fields.signUpBackup.required')
 
     form-group(field-id="error-collection" field-label=' ')
       .ni-field-checkbox
@@ -59,7 +50,7 @@
           input#sign-up-warning(type="checkbox" v-model="fields.errorCollection")
         label.ni-field-checkbox-label(for="error-collection")
           | I'd like to opt in for remote error tracking to help improve Voyager.
-          
+
   .ni-session-footer
     btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg" :disabled="creating")
 </template>
@@ -91,8 +82,7 @@ export default {
       signUpSeed: "Creating seed...",
       signUpPassword: "",
       signUpPasswordConfirm: "",
-      signUpWarning: false,
-      signUpBackup: false
+      signUpWarning: false
     }
   }),
   methods: {
@@ -147,7 +137,6 @@ export default {
       signUpPassword: { required, minLength: minLength(10) },
       signUpPasswordConfirm: { sameAsPassword: sameAs("signUpPassword") },
       signUpWarning: { required },
-      signUpBackup: { required },
       errorCollection: false
     }
   })

@@ -62,25 +62,10 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
                <div class=\\"ni-field-checkbox-input\\">
                   <input id=\\"sign-up-warning\\" type=\\"checkbox\\">
                </div>
-      <label for=\\"sign-up-warning\\" class=\\"ni-field-checkbox-label\\">I understand that lost seeds cannot be recovered.</label>
+      <label for=\\"sign-up-warning\\" class=\\"ni-field-checkbox-label\\">I have securely written down my seed. I understand that lost seeds cannot be recovered.</label>
    </div>
       <div class=\\"ni-form-msg sm ni-form-msg--error\\">
          Recovery confirmation is required
-      </div>
-</div>
-</div>
-      <div class=\\"ni-form-group\\">
-         <!---->
-         <label for=\\"sign-up-backup\\" class=\\"ni-form-group__label\\"></label>
-         <div class=\\"ni-form-group__field\\">
-            <div for=\\"sign-up-backup\\" class=\\"ni-field-checkbox\\">
-               <div class=\\"ni-field-checkbox-input\\">
-                  <input id=\\"sign-up-backup\\" type=\\"checkbox\\">
-               </div>
-      <label for=\\"sign-up-backup\\" class=\\"ni-field-checkbox-label\\">I have securely written down my seed.</label>
-   </div>
-      <div class=\\"ni-form-msg sm ni-form-msg--error\\">
-         Backup confirmation is required
       </div>
 </div>
 </div>
