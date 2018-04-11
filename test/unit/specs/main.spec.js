@@ -68,13 +68,6 @@ let stdoutMocks = (path, args) => ({
     if (args[0] === "version" && type === "data") {
       cb({ toString: () => "v0.5.0" })
     }
-    if (
-      path.includes("gaia") &&
-      args.includes("rest-server") &&
-      type === "data"
-    ) {
-      cb("Serving on")
-    }
     // mock gaia init approval request
     if (
       type === "data" &&
@@ -91,6 +84,13 @@ let stderrMocks = (path, args) => ({
     // test for init of gaia
     if (type === "data" && args.includes("init") && args.length === 4) {
       cb({ toString: () => "already is initialized" })
+    }
+    if (
+      path.includes("gaia") &&
+      args.includes("rest-server") &&
+      type === "data"
+    ) {
+      cb("Serving on")
     }
   }
 })
