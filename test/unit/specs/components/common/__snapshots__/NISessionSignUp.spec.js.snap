@@ -56,7 +56,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
 </div>
       <div class=\\"ni-form-group\\">
          <!---->
-         <label for=\\"sign-up-warning\\" class=\\"ni-form-group__label\\"></label>
+         <!---->
          <div class=\\"ni-form-group__field\\">
             <div class=\\"ni-field-checkbox\\">
                <div class=\\"ni-field-checkbox-input\\">
@@ -71,11 +71,11 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
 </div>
       <div class=\\"ni-form-group\\">
          <!---->
-         <label for=\\"error-collection\\" class=\\"ni-form-group__label\\"></label>
+         <!---->
          <div class=\\"ni-form-group__field\\">
             <div class=\\"ni-field-checkbox\\">
                <div class=\\"ni-field-checkbox-input\\">
-                  <input id=\\"sign-up-warning\\" type=\\"checkbox\\">
+                  <input id=\\"error-collection\\" type=\\"checkbox\\">
                </div>
       <label for=\\"error-collection\\" class=\\"ni-field-checkbox-label\\">I'd like to opt in for remote error tracking to help improve Voyager.</label>
    </div>
