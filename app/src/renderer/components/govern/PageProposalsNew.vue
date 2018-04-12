@@ -1,9 +1,8 @@
 <template lang="pug">
 page(title='New Proposal')
   div(slot="menu"): tool-bar
-    router-link(to="/proposals" exact)
+    router-link(to="/proposals" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
-      .label Back
   part(title='Choose a Type')
     list-item(title='Adjust Parameters' to="/proposals/new/adjust")
     list-item(title='Amend Constitution' to="/proposals/new/amend")

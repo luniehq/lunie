@@ -1,13 +1,11 @@
 <template lang="pug">
 page(icon="storage" :title="`${delegateId} Slashes`")
   div(slot="menu"): tool-bar
-    router-link(
+    router-link(v-tooltip.bottom="'Back'"
       :to="{ name: 'delegate', params: { delegate: $route.params.delegate }}")
       i.material-icons arrow_back
-      .label Back
-    a(@click='toggleSearch')
+    a(@click='toggleSearch' v-tooltip.bottom="'Search'")
       i.material-icons search
-      .label Search
 
   part(title='Statistics')
     list-item(dt="Slashes" dd="7")

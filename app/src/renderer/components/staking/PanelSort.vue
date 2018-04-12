@@ -3,7 +3,7 @@
   v-for="property in sort.properties",
   @click="orderBy(property.value, $event)",
   :class="property.class")
-  .label {{ property.title }}
+  .label(v-tooltip.top="property.tooltip") {{ property.title }}
 </template>
 
 <script>

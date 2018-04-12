@@ -1,9 +1,8 @@
 <template lang="pug">
 page(:title="delegateType + ' Profile'")
   div(slot="menu"): tool-bar
-    router-link(to='/staking')
+    router-link(to='/staking' v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
-      .label Back
 
   part(:title="delegateType + ' Info'")
     list-item(dt='Moniker' :dd='delegate.moniker')
