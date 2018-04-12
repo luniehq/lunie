@@ -34,13 +34,6 @@ page(title='Wallet')
       :dt="denom"
       :dd="stakedTokens"
       :to="{name: 'staking'}")
-
-  part(title="Network Denominations")
-    list-item(
-      v-for="i in filteredBalances"
-      v-if="i.amount === 0"
-      :key="i.denom"
-      :dt="i.denom.toUpperCase()")
 </template>
 
 <script>
