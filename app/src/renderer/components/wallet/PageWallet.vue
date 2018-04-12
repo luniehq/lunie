@@ -27,13 +27,6 @@ page(title='Wallet')
       :dt="i.denom.toUpperCase()"
       :dd="i.amount"
       :to="{name: 'send', params: {denom: i.denom}}")
-
-  part(title="Network Denominations")
-    list-item(
-      v-for="i in filteredBalances"
-      v-if="i.amount === 0"
-      :key="i.denom"
-      :dt="i.denom.toUpperCase()")
 </template>
 
 <script>

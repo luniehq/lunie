@@ -233,33 +233,6 @@ exports[`PageWallet has the expected html structure 1`] = `
         </main>
       </div>
     </section>
-    <section
-      class="ni-part"
-    >
-      <div
-        class="ni-part-container"
-      >
-        <header
-          class="ni-part-header"
-        >
-          <div
-            class="ni-part-header-container"
-          >
-            <div
-              class="ni-part-title h5"
-            >
-              Network Denominations
-            </div>
-            <menu
-              class="ni-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="ni-part-main"
-        />
-      </div>
-    </section>
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
@@ -514,33 +487,6 @@ exports[`PageWallet should filter the balances 1`] = `
           </div>
           <!---->
         </main>
-      </div>
-    </section>
-    <section
-      class="ni-part"
-    >
-      <div
-        class="ni-part-container"
-      >
-        <header
-          class="ni-part-header"
-        >
-          <div
-            class="ni-part-header-container"
-          >
-            <div
-              class="ni-part-title h5"
-            >
-              Network Denominations
-            </div>
-            <menu
-              class="ni-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="ni-part-main"
-        />
       </div>
     </section>
     <div
