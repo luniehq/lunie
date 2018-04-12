@@ -1,26 +1,24 @@
 "use strict"
 
 const path = require("path")
+const fs = require("fs-extra")
+const toml = require("toml")
 
-let config = {
-  // Name of electron app
-  // Will be used in production builds
-  name: "Cosmos Voyager",
-
-  // Use ESLint (extends `standard`)
-  // Further changes can be made in `.eslintrc.js`
-  eslint: false,
-
-  // webpack-dev-server port
-  wds_port: 9080,
-  lcd_port: 9070,
-  lcd_port_prod: 9071,
-  relay_port: 9060,
-  relay_port_prod: 9061,
+module.exports = function(production = false) {
+  let configPath = path.join(
+    __dirname,
+    production ? "../../../config.toml" : "config.toml"
+  )
+  let config = toml.parse(
+    fs.readFileSync(configPath, {
+      encoding: `utf8`
+    })
+  )
 
   // electron-packager options
   // Docs: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/building_your_app.html
-  building: {
+  config.building = {
+    name: config.name,
     arch: "x64",
     asar: false,
     dir: path.join(__dirname, "app"),
@@ -29,16 +27,7 @@ let config = {
     out: path.join(__dirname, "builds"),
     overwrite: true,
     packageManager: "yarn"
-  },
+  }
 
-  default_network: "gaia-2",
-  analytics_networks: ["gaia-2", "gaia-3-dev", "gaia-3"],
-  google_analytics_uid: "UA-51029217-3",
-  sentry_dsn:
-    "https://4dee9f70a7d94cc0959a265c45902d84:cbf160384aab4cdeafbe9a08dee3b961@sentry.io/288169",
-  sentry_dsn_public: "https://4dee9f70a7d94cc0959a265c45902d84@sentry.io/288169"
+  return config
 }
-
-config.building.name = config.name
-
-module.exports = config

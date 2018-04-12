@@ -1,5 +1,5 @@
+const { normalize, sep, relative } = require("path")
 const { Writable } = require("stream")
-const { normalize, sep } = require("path")
 
 /*
 * this mock implements every function (all used in this project for now) in fs-extra so that the file system is just represented by a json file holding file content as strings
@@ -51,6 +51,10 @@ export default function mockFsExtra(fileSystem = {}) {
     exists: path => {
       let { file } = get(path, fsExtraMock.fs)
       return file !== null
+    },
+    readJson: path => {
+      let { file } = get(path, fsExtraMock.fs)
+      return JSON.parse(file)
     }
   }
 
@@ -89,7 +93,7 @@ export default function mockFsExtra(fileSystem = {}) {
   }
 
   function get(path, fs) {
-    path = normalize(path)
+    path = relative(__dirname + "/../../../", normalize(path)) // get paths relative to root
     let pathArr = path.split(sep).filter(x => x !== "")
     let current = pathArr.shift()
 

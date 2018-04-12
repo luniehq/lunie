@@ -1,4 +1,5 @@
 import setup from "../../helpers/vuex-setup"
+const mockFsExtra = require("../../helpers/fs-mock").default
 
 let instance = setup()
 
@@ -123,7 +124,7 @@ describe("Module: Wallet", () => {
 
   it("should load denoms", async () => {
     await store.dispatch("loadDenoms")
-    expect(store.state.wallet.denoms).toEqual(["mycoin", "fermion", "gregcoin"])
+    expect(store.state.wallet.denoms).toMatchSnapshot()
   })
 
   it("should enrich transaction times", async () => {

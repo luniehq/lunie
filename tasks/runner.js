@@ -1,6 +1,6 @@
 "use strict"
 
-const config = require("../config")
+const config = require("../config.js")(false)
 const spawn = require("child_process").spawn
 const path = require("path")
 const { cleanExitChild } = require("./common.js")

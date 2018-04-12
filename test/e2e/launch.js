@@ -38,6 +38,12 @@ function launch(t) {
 
       await startLocalNode()
 
+      // copy the config file so the relative path is the same in e2e tests and production apps
+      fs.copySync(
+        join(__dirname, "../../config.toml"),
+        join(__dirname, "../../../config.toml")
+      )
+
       app = new Application({
         path: electron,
         args: [

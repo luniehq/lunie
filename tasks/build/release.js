@@ -1,7 +1,7 @@
 "use strict"
 
 const { cli } = require(`@nodeguy/cli`)
-const config = require(`../../config`)
+const config = require(`../../config`)(false)
 const { createHash } = require("crypto")
 const optionsSpecification = require(`./options.json`)
 const path = require("path")
@@ -48,6 +48,8 @@ function build({ platform, gaia }) {
       console.log("\n\x1b[34mZipping files...\n\x1b[0m")
       await Promise.all(
         appPaths.map(async appPath => {
+          copyConfig(appPath)
+
           if (platform === "win32") {
             await zipFolder(appPath, options.out, packageJson.version)
           } else {
@@ -72,6 +74,12 @@ function copyBinary(name, binaryLocation) {
     fs.copySync(binaryLocation, binPath)
     cb()
   }
+}
+
+function copyConfig(buildFolder) {
+  const configPath = path.join(__dirname, "../../config.toml")
+  console.log("Copying", configPath, "into", buildFolder)
+  fs.copySync(configPath, path.join(buildFolder, "config.toml"))
 }
 
 function sha256File(path) {

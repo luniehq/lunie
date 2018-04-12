@@ -163,6 +163,10 @@ To debug the electron view, set the environment variable `COSMOS_DEVTOOLS` to so
 
 To see the console output of the view in your terminal, set the environment variable `ELECTRON_ENABLE_LOGGING` to something truthy like `1`.
 
+### Config
+
+The file `config.toml` can be used to define ports, networks and other variables to be available in your build. The file is copied into the production app.
+
 ### Flags
 
 A list of all environment variables and their purpose:
