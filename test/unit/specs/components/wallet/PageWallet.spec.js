@@ -61,7 +61,7 @@ describe("PageWallet", () => {
   })
 
   it("should list the denoms that are available", () => {
-    expect(wrapper.findAll(".ni-li").length).toBe(1) // address is .ni-li
+    expect(wrapper.findAll(".ni-li-balance").length).toBe(0)
   })
 
   it("should show the n/a message if there are no denoms", () => {

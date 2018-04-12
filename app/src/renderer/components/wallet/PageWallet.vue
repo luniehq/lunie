@@ -15,11 +15,11 @@ page(title='Wallet')
       :overflow="true"
       @click.native="copy")
 
-  part#available-balances(title="Available Balances")
+  part(title="Available Balances")
     data-loading(v-if="wallet.balancesLoading")
     data-empty(v-else-if="wallet.balances.length === 0")
     data-empty-search(v-else-if="filteredBalances.length === 0")
-    list-item(
+    list-item.ni-li-balance(
       v-for="i in filteredBalances"
       v-if="wallet.balances.length > 0 && i.amount > 0 && !wallet.balancesLoading"
       :btn="'Send'"
@@ -28,11 +28,11 @@ page(title='Wallet')
       :dd="i.amount"
       :to="{name: 'send', params: {denom: i.denom}}")
 
-  part(title="Staked Balances" v-if="stakedAtoms > 0")
+  part(title="Staked Balances")
     list-item(
-      btn="Staking"
-      dt="ATOM"
-      :dd="stakedAtoms"
+      btn="Stake"
+      :dt="denom"
+      :dd="stakedTokens"
       :to="{name: 'staking'}")
 
   part(title="Network Denominations")
@@ -72,7 +72,7 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(["filters", "wallet", "committedDelegations"]),
+    ...mapGetters(["filters", "wallet", "committedDelegations", "config"]),
     allDenomBalances() {
       // for denoms not in balances, add empty balance
       let balances = this.wallet.balances.slice(0)
@@ -98,14 +98,16 @@ export default {
         return list
       }
     },
-    stakedAtoms() {
-      if (this.commmitedDelegations) {
-        return Object.values(this.committedDelegations).reduce(
-          (sum, d) => sum + d
-        )
-      } else {
-        return 0
+    stakedTokens() {
+      let tokens = 0
+      let values = Object.values(this.committedDelegations)
+      if (values.length > 0) {
+        tokens = values.reduce((sum, d) => sum + d)
       }
+      return tokens
+    },
+    denom() {
+      return this.config.bondingDenom.toUpperCase()
     }
   },
   methods: {

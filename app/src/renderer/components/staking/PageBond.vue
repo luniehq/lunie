@@ -1,12 +1,11 @@
 <template lang="pug">
-page.page-bond(title="Bond Atoms")
+page.page-bond(:title="`Bond ${denom}`")
   div(slot="menu"): tool-bar
-  part(:title="'Start bonding your '+ totalAtoms + ' ATOM'"): form-struct(
-    :submit="onSubmit")
+  part(:title="`Start bonding your ${totalAtoms} ${denom}`"): form-struct( :submit="onSubmit")
     .bond-group(:class="bondGroupClass(unbondedAtomsDelta)")
       .bond-group__fields
         .bond-bar
-          label.bond-bar__label Unbonded Atoms
+          label.bond-bar__label Unbonded {{ denom }}
           .bond-bar__input
             .bond-bar-old__outer
               .bond-bar-old__inner(:style="styleBondBarInner(oldUnbondedAtoms)")
@@ -143,7 +142,10 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(["shoppingCart", "user", "committedDelegations"]),
+    ...mapGetters(["shoppingCart", "user", "committedDelegations", "config"]),
+    denom() {
+      return this.config.bondingDenom.toUpperCase()
+    },
     totalAtoms() {
       return this.user.atoms + this.oldBondedAtoms
     },
@@ -246,7 +248,7 @@ export default {
       if (count === 0) {
         this.$store.commit("notifyError", {
           title: "Cannot Bond Without Atoms",
-          body: "You do not have any atoms to bond to delegates."
+          body: `You do not have any ${this.denom} to bond to delegates.`
         })
         this.$router.push("/staking")
       }
@@ -255,7 +257,9 @@ export default {
       if (count === 0) {
         this.$store.commit("notifyError", {
           title: "No Delegates Selected",
-          body: "Select one or more delegates before proceeding to bond atoms."
+          body: `Select one or more delegates before proceeding to bond ${
+            this.denom
+          }`
         })
         this.$router.push("/staking")
       }
