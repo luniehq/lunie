@@ -330,6 +330,19 @@ async function initLCD(chainId, home, node) {
   await expectCleanExit(child, "gaia init exited unplanned")
 }
 
+// this function will call the passed in callback when the view is booted
+// the purpose is to send events to the view thread only after it is ready to receive those events
+// if we don't do this, the view thread misses out on those (i.e. an error that occures before the view is ready)
+function afterBooted(cb) {
+  if (booted) {
+    cb()
+  } else {
+    ipcMain.on("booted", event => {
+      cb()
+    })
+  }
+}
+
 /*
 * log to file
 */
@@ -615,13 +628,3 @@ module.exports = main()
     shutdown,
     processes: { lcdProcess }
   }))
-
-function afterBooted(cb) {
-  if (booted) {
-    cb()
-  } else {
-    ipcMain.on("booted", event => {
-      cb()
-    })
-  }
-}
