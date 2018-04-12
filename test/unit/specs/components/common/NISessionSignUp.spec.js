@@ -44,8 +44,7 @@ describe("NISessionSignUp", () => {
         signUpPasswordConfirm: "1234567890",
         signUpSeed: "bar", // <-- doesn#t check for correctness of seed
         signUpName: "testaccount",
-        signUpWarning: true,
-        signUpBackup: true
+        signUpWarning: true
       }
     })
     await wrapper.vm.onSubmit()
@@ -59,8 +58,7 @@ describe("NISessionSignUp", () => {
         signUpPasswordConfirm: "1234567890",
         signUpSeed: "bar", // <-- doesn#t check for correctness of seed
         signUpName: "testaccount",
-        signUpWarning: true,
-        signUpBackup: true
+        signUpWarning: true
       }
     })
     await wrapper.vm.onSubmit()
@@ -81,7 +79,6 @@ describe("NISessionSignUp", () => {
         signUpSeed: "bar", // <-- doesn#t check for correctness of seed
         signUpName: "testaccount",
         signUpWarning: true,
-        signUpBackup: true,
         errorCollection: true
       }
     })
@@ -102,7 +99,6 @@ describe("NISessionSignUp", () => {
         signUpSeed: "bar", // <-- doesn#t check for correctness of seed
         signUpName: "testaccount",
         signUpWarning: true,
-        signUpBackup: true,
         errorCollection: false
       }
     })
@@ -125,28 +121,11 @@ describe("NISessionSignUp", () => {
         signUpPasswordConfirm: "1234567890",
         signUpSeed: "bar",
         signUpName: "testaccount",
-        signUpWarning: false,
-        signUpBackup: true
+        signUpWarning: false
       }
     })
     wrapper.vm.onSubmit()
     expect(store.commit).not.toHaveBeenCalled()
-    expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
-  })
-
-  it("should show error if backup info not acknowledged", async () => {
-    wrapper.setData({
-      fields: {
-        signUpPassword: "1234567890",
-        signUpPasswordConfirm: "1234567890",
-        signUpSeed: "bar",
-        signUpName: "testaccount",
-        signUpWarning: true,
-        signUpBackup: false
-      }
-    })
-    await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
   })
 
@@ -157,8 +136,7 @@ describe("NISessionSignUp", () => {
         signUpPasswordConfirm: "1234567890",
         signUpSeed: "bar",
         signUpName: "testaccount",
-        signUpWarning: true,
-        signUpBackup: true
+        signUpWarning: true
       }
     })
     await wrapper.vm.onSubmit()
@@ -173,8 +151,7 @@ describe("NISessionSignUp", () => {
         signUpPasswordConfirm: "notthesame",
         signUpSeed: "bar",
         signUpName: "testaccount",
-        signUpWarning: true,
-        signUpBackup: true
+        signUpWarning: true
       }
     })
     await wrapper.vm.onSubmit()
@@ -189,8 +166,7 @@ describe("NISessionSignUp", () => {
         signUpPasswordConfirm: "1234567890",
         signUpSeed: "bar",
         signUpName: "test",
-        signUpWarning: true,
-        signUpBackup: true
+        signUpWarning: true
       }
     })
     await wrapper.vm.onSubmit()
@@ -206,8 +182,7 @@ describe("NISessionSignUp", () => {
         signUpPasswordConfirm: "1234567890",
         signUpSeed: "bar",
         signUpName: "testaccount",
-        signUpWarning: true,
-        signUpBackup: true
+        signUpWarning: true
       }
     })
     await wrapper.vm.onSubmit()
@@ -222,8 +197,7 @@ describe("NISessionSignUp", () => {
         signUpPasswordConfirm: "1234567890",
         signUpSeed: "bar",
         signUpName: "testaccount",
-        signUpWarning: true,
-        signUpBackup: true
+        signUpWarning: true
       }
     })
     await wrapper.vm.onSubmit()

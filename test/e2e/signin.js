@@ -33,7 +33,6 @@ test("sign in", async function(t) {
     let password = () => el("#sign-up-password")
     let passwordConfirm = () => el("#sign-up-password-confirm")
     let warning = () => el("#sign-up-warning")
-    let backedup = () => el("#sign-up-backup")
 
     t.test("did check warning", async function(t) {
       await continueButton().click()
@@ -48,28 +47,6 @@ test("sign in", async function(t) {
       await warning().click()
       t.ok(
         !await warning()
-          .$("..")
-          .$("..")
-          .$("..")
-          .isExisting(".ni-form-msg--error"),
-        "hides error"
-      )
-      t.end()
-    })
-
-    t.test("did check backup note", async function(t) {
-      await continueButton().click()
-      t.ok(
-        await backedup()
-          .$("..")
-          .$("..")
-          .$("..")
-          .isExisting(".ni-form-msg--error"),
-        "shows error"
-      )
-      await backedup().click()
-      t.ok(
-        !await backedup()
           .$("..")
           .$("..")
           .$("..")
