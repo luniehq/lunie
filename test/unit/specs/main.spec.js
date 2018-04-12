@@ -48,11 +48,12 @@ jest.mock("electron", () => {
       setApplicationMenu() {}
     },
     ipcMain: {
-      on: (type, cb) => {},
-      once: (type, cb) => {
+      on: (type, cb) => {
         if (type === "booted") {
           cb()
         }
+      },
+      once: (type, cb) => {
         if (type === "hash-approved") {
           cb(null, "1234567890123456789012345678901234567890")
         }
@@ -306,13 +307,21 @@ describe("Startup Process", () => {
     let registeredIPCListeners = {}
     let send
 
-    beforeEach(async function() {
-      prepareMain()
-      // register ipc listeners
+    function registerIPCListeners(registeredIPCListeners) {
       const { ipcMain } = require("electron")
       ipcMain.on = (type, cb) => {
+        // the booted signal needs to be sent (from the view) for the main thread to signal events to the view
+        if (type === "booted") {
+          cb()
+          return
+        }
         registeredIPCListeners[type] = cb
       }
+    }
+
+    beforeEach(async function() {
+      prepareMain()
+      registerIPCListeners(registeredIPCListeners)
       // axios is used to ping nodes for the reconnection intent
       let axios = require("axios")
       axios.get = () => Promise.resolve()
@@ -379,11 +388,8 @@ describe("Startup Process", () => {
       resetModulesKeepingFS()
       fs.removeSync(join(testRoot, "genesis.json"))
 
-      // register listeners again
-      const { ipcMain } = require("electron")
-      ipcMain.on = (type, cb) => {
-        registeredIPCListeners[type] = cb
-      }
+      // register listeners again as we rest the modules
+      registerIPCListeners(registeredIPCListeners)
 
       // run main
       main = await require(appRoot + "src/main/index.js")

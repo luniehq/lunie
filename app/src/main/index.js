@@ -79,7 +79,9 @@ function expectCleanExit(process, errorMessage = "Process exited unplanned") {
 
 function handleCrash(error) {
   afterBooted(() => {
-    mainWindow.webContents.send("error", error)
+    if (mainWindow) {
+      mainWindow.webContents.send("error", error)
+    }
   })
 }
 
@@ -97,7 +99,9 @@ function shutdown() {
 
   return Promise.all(
     streams.map(stream => new Promise(resolve => stream.close(resolve)))
-  )
+  ).then(() => {
+    log("[SHUTDOWN] Voyager has shutdown")
+  })
 }
 
 function createWindow() {
@@ -222,10 +226,12 @@ async function startLCD(home, nodeIP) {
     })
     child.on("exit", () => {
       afterBooted(() => {
-        mainWindow.webContents.send(
-          "error",
-          Error("The Gaia REST-server (LCD) exited unplanned")
-        )
+        if (mainWindow) {
+          mainWindow.webContents.send(
+            "error",
+            Error("The Gaia REST-server (LCD) exited unplanned")
+          )
+        }
       })
     })
   })
@@ -613,7 +619,7 @@ function afterBooted(cb) {
   if (booted) {
     cb()
   } else {
-    ipcMain.once("booted", event => {
+    ipcMain.on("booted", event => {
       cb()
     })
   }
