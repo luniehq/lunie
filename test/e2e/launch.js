@@ -11,18 +11,29 @@ let { newTempDir, login } = require("./common.js")
 let app, home, cliHome, started
 let binary = process.env.BINARY_PATH
 
+/*
+* NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
+*/
+
 function launch(t) {
   if (!started) {
     // tape doesn't exit properly on uncaught promise rejections
     if (!process.env.COSMOS_E2E_KEEP_OPEN)
       process.on("unhandledRejection", async error => {
-        console.error("unhandledRejection", error)
-        if (app && app.client) {
-          console.log("saving screenshot to ", join(__dirname, "snapshot.png"))
-          await app.browserWindow.capturePage().then(function(imageBuffer) {
-            fs.writeFileSync(join(__dirname, "snapshot.png"), imageBuffer)
-          })
-          await printAppLog(app)
+        try {
+          console.error("unhandledRejection", error)
+          if (app && app.client) {
+            console.log(
+              "saving screenshot to ",
+              join(__dirname, "snapshot.png")
+            )
+            await app.browserWindow.capturePage().then(function(imageBuffer) {
+              fs.writeFileSync(join(__dirname, "snapshot.png"), imageBuffer)
+            })
+            await printAppLog(app)
+          }
+        } catch (err) {
+          console.error(err)
         }
         process.exit(1)
       })
@@ -42,7 +53,7 @@ function launch(t) {
         path: electron,
         args: [
           join(__dirname, "../../app/dist/main.js"),
-          "--headless",
+          process.env.COSMOS_E2E_KEEP_OPEN ? "" : "--headless",
           "--disable-gpu",
           "--no-sandbox"
         ],
@@ -58,17 +69,32 @@ function launch(t) {
         }
       })
 
-      await startApp(app)
+      await startApp(app, ".ni-modal-lcd-approval")
       t.ok(app.isRunning(), "app is running")
 
+      // accept node hash
+      await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
+      await app.client.waitForExist(
+        ".ni-session-title=Welcome to Cosmos Voyager",
+        5000
+      )
+
       // test if app restores from unitialized gaia folder
-      await app.stop()
+      await stop(app)
       fs.removeSync(join(home, "lcd"))
       fs.mkdirpSync(join(home, "lcd"))
-      await startApp(app)
+      await startApp(app, ".ni-modal-lcd-approval")
       t.ok(app.isRunning(), "app recovers from uninitialized gaia")
 
-      await app.stop()
+      // accept node hash
+      await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
+      await app.client.waitForExist(
+        ".ni-session-title=Welcome to Cosmos Voyager",
+        5000
+      )
+      console.log("approved hash")
+
+      await stop(app)
       await createAccount(
         "testkey",
         "chair govern physical divorce tape movie slam field gloom process pen universe allow pyramid private ability"
@@ -77,11 +103,8 @@ function launch(t) {
         "testreceiver",
         "crash ten rug mosquito cart south allow pluck shine island broom deputy hungry photo drift absorb"
       )
-      console.log("restored test accounts")
-      await startApp(app)
-
-      await app.client.waitForExist("#ni-modal-lcd-approval__btn-approve", 5000)
-      await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
+      console.log("setup test accounts")
+      await startApp(app, ".ni-session-title=Sign In")
 
       t.ok(app.isRunning(), "app is running")
 
@@ -94,10 +117,14 @@ function launch(t) {
 
 test.onFinish(async () => {
   console.log("DONE: cleaning up")
-  ;(await app) ? app.stop() : null
+  if (app) await app.stop()
   // tape doesn't finish properly because of open processes like gaia
   process.exit(0)
 })
+
+async function stop(app) {
+  await app.stop()
+}
 
 async function printAppLog(app) {
   await app.client.getMainProcessLogs().then(function(logs) {
@@ -114,10 +141,10 @@ async function printAppLog(app) {
   })
 }
 
-async function startApp(app) {
+async function startApp(app, awaitingSelector = ".ni-session") {
   await app.start()
 
-  await app.client.waitForExist(".ni-session", 5000).catch(async e => {
+  await app.client.waitForExist(awaitingSelector, 5000).catch(async e => {
     await printAppLog(app)
     throw e
   })
@@ -181,9 +208,18 @@ async function createAccount(name, seed) {
 
 module.exports = {
   getApp: launch,
-  restart: async function(app) {
+  restart: async function(app, awaitingSelector = ".ni-session-title=Sign In") {
     console.log("restarting app")
-    await app.stop()
-    await startApp(app)
+    await stop(app)
+    await startApp(app, awaitingSelector)
+  },
+  refresh: async function(app, awaitingSelector = ".ni-session-title=Sign In") {
+    console.log("refreshing app")
+    await app.restart()
+    await app.client.waitForExist(awaitingSelector, 5000)
   }
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
