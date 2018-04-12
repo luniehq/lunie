@@ -4,8 +4,8 @@
     .ni-modal-lcd-approval__icon: i.material-icons sync problem
     .ni-modal-lcd-approval__title Node approval required
     .ni-modal-lcd-approval__body
-      | Voyager needs to approve the connected node. Please check the showing hash against a trusted source. Only approve if you are 100% sure the hash matches.
- 
+      | Voyager needs to approve the node you're trying to connect to. Please compare the hash below against the hash from a trusted source. If you are 100% sure that the hashes match, click approve to proceed.
+
       field#node-hash(type="textarea" :value="hash" disabled)
 
     .ni-modal-lcd-approval__footer
