@@ -15,7 +15,7 @@ page(title='Wallet')
       :overflow="true"
       @click.native="copy")
 
-  part(title="Available Tokens")
+  part#available-balances(title="Available Balances")
     data-loading(v-if="wallet.balancesLoading")
     data-empty(v-else-if="wallet.balances.length === 0")
     data-empty-search(v-else-if="filteredBalances.length === 0")
@@ -28,9 +28,7 @@ page(title='Wallet')
       :dd="i.amount"
       :to="{name: 'send', params: {denom: i.denom}}")
 
-  part(title="Staked Tokens")
-    // data-loading(v-if="wallet.balancesLoading")
-    // data-empty(v-else-if="wallet.balances.length === 0")
+  part(title="Staked Balances" v-if="stakedAtoms > 0")
     list-item(
       btn="Staking"
       dt="ATOM"
@@ -101,9 +99,13 @@ export default {
       }
     },
     stakedAtoms() {
-      return Object.values(this.committedDelegations).reduce(
-        (sum, d) => sum + d
-      )
+      if (this.commmitedDelegations) {
+        return Object.values(this.committedDelegations).reduce(
+          (sum, d) => sum + d
+        )
+      } else {
+        return 0
+      }
     }
   },
   methods: {
