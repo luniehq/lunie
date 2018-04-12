@@ -15,7 +15,7 @@ page(title='Wallet')
       :overflow="true"
       @click.native="copy")
 
-  part(title="Denomination Balances")
+  part(title="Available Tokens")
     data-loading(v-if="wallet.balancesLoading")
     data-empty(v-else-if="wallet.balances.length === 0")
     data-empty-search(v-else-if="filteredBalances.length === 0")
@@ -27,6 +27,15 @@ page(title='Wallet')
       :dt="i.denom.toUpperCase()"
       :dd="i.amount"
       :to="{name: 'send', params: {denom: i.denom}}")
+
+  part(title="Staked Tokens")
+    // data-loading(v-if="wallet.balancesLoading")
+    // data-empty(v-else-if="wallet.balances.length === 0")
+    list-item(
+      btn="Staking"
+      dt="ATOM"
+      :dd="stakedAtoms"
+      :to="{name: 'staking'}")
 
   part(title="Network Denominations")
     list-item(
@@ -65,7 +74,7 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(["filters", "wallet"]),
+    ...mapGetters(["filters", "wallet", "committedDelegations"]),
     allDenomBalances() {
       // for denoms not in balances, add empty balance
       let balances = this.wallet.balances.slice(0)
@@ -90,6 +99,11 @@ export default {
       } else {
         return list
       }
+    },
+    stakedAtoms() {
+      return Object.values(this.committedDelegations).reduce(
+        (sum, d) => sum + d
+      )
     }
   },
   methods: {
