@@ -89,6 +89,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Added `mvp-features.md` to documentation. @nylira
 * Added full page error @nylira
+* The validator hash has now to be approved by the user for security @faboweb
 
 ### Changed
 
