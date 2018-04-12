@@ -6,6 +6,7 @@
       router-view
       app-footer
     modal-help
+    modal-receive
   session(v-else)
   notifications(:notifications='notifications' theme='cosmos')
   modal-error(v-if='config.modals.error.active' :body='config.modals.error.message')
@@ -18,6 +19,7 @@ import AppFooter from "common/AppFooter"
 import Notifications from "@nylira/vue-notifications"
 import ModalError from "common/NiModalError"
 import ModalHelp from "common/NiModalHelp"
+import ModalReceive from "common/NiModalReceive"
 import Session from "common/NiSession"
 import store from "./vuex/store"
 export default {
@@ -27,6 +29,7 @@ export default {
     AppFooter,
     ModalError,
     ModalHelp,
+    ModalReceive,
     Notifications,
     Session
   },

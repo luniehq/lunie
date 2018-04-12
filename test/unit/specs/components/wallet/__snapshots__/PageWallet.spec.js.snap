@@ -123,35 +123,51 @@ exports[`PageWallet has the expected html structure 1`] = `
           class="ni-part-main"
         >
           <div
-            class="ni-li-copy"
+            class="ni-li ni-li-receive proposal-enter proposal-enter-active"
           >
             <div
-              class="value"
+              class="ni-li-container"
             >
-              123abc456def
-            </div>
-            <menu>
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-label"
+              >
+                <div
+                  class="ni-li-title"
+                >
+                  123abc456def
+                </div>
+                <div
+                  class="ni-li-subtitle"
+                >
+                  
+                </div>
+              </div>
               <button
-                class="ni-btn btn-copy"
+                class="ni-btn btn-receive"
               >
                 <span
-                  class="ni-btn__container"
+                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
                 >
                   <i
                     aria-hidden="true"
                     class="ni-btn__icon material-icons"
                   >
-                    content_copy
+                    file_download
                   </i>
                   <!---->
                   <span
                     class="ni-btn__value"
                   >
-                    Copy
+                    Receive
                   </span>
                 </span>
               </button>
-            </menu>
+            </div>
           </div>
         </main>
       </div>
@@ -391,35 +407,51 @@ exports[`PageWallet should filter the balances 1`] = `
           class="ni-part-main"
         >
           <div
-            class="ni-li-copy"
+            class="ni-li ni-li-receive proposal-enter proposal-enter-active"
           >
             <div
-              class="value"
+              class="ni-li-container"
             >
-              123abc456def
-            </div>
-            <menu>
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-label"
+              >
+                <div
+                  class="ni-li-title"
+                >
+                  123abc456def
+                </div>
+                <div
+                  class="ni-li-subtitle"
+                >
+                  
+                </div>
+              </div>
               <button
-                class="ni-btn btn-copy"
+                class="ni-btn btn-receive"
               >
                 <span
-                  class="ni-btn__container"
+                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
                 >
                   <i
                     aria-hidden="true"
                     class="ni-btn__icon material-icons"
                   >
-                    content_copy
+                    file_download
                   </i>
                   <!---->
                   <span
                     class="ni-btn__value"
                   >
-                    Copy
+                    Receive
                   </span>
                 </span>
               </button>
-            </menu>
+            </div>
           </div>
         </main>
       </div>
