@@ -10,7 +10,7 @@ page(title='Wallet')
 
   part(title='Your Address')
     list-item(
-      :dt="wallet.key.address"
+      :title="wallet.key.address"
       :btn="'Receive'"
       :overflow="true"
       @click.native="copy")

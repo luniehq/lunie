@@ -5,7 +5,7 @@ mixin ni-li-thumb
     template(v-else-if='image'): img(:src='image')
     template(v-else-if="$slots['graphic']"): slot(name='graphic')
 mixin ni-li-dl
-  .ni-li-dl(v-bind:class="{ 'no-overflow': overflow }")
+  .ni-li-dl
     .ni-li-dt {{ dt }}
     .ni-li-dd.ni-li-dd-flush(v-if="$slots['dd']"): slot(name='dd')
     .ni-li-dd(v-else) {{ dd }}
@@ -36,12 +36,6 @@ transition(name="proposal")
     +ni-li-dl
     btn(:value="btn" icon="chevron_right" icon-pos="right" color="primary")
 
-  //- button receive
-  .ni-li(v-else-if="dt && btn && !to"): .ni-li-container
-    +ni-li-thumb
-    +ni-li-dl
-    btn-receive
-
   //- dt/dd text
   .ni-li(v-else-if='dt'): .ni-li-container
     +ni-li-thumb
@@ -58,6 +52,12 @@ transition(name="proposal")
     +ni-li-thumb
     +ni-li-label
     +ni-li-icon
+
+  //- button receive
+  .ni-li.ni-li-receive(v-else-if="title && btn && !to"): .ni-li-container
+    +ni-li-thumb
+    +ni-li-label
+    btn-receive
 
   //- title/subtitle text
   .ni-li(v-else-if='title'): .ni-li-container
@@ -105,13 +105,10 @@ export default {
   display block
   height 3rem
   position relative
-  border-bottom 2px solid var(--bc-dim)
+  border-bottom 2*px solid var(--bc-dim)
 
   &:last-child
-    border-bottom none
-
-  &:first-child
-    height 3rem + px
+    border-bottom 2*px solid transparent
 
   &.ni-li-link
     &:hover, &.router-link-exact-active
@@ -148,13 +145,16 @@ export default {
       i.material-icons
         color var(--mc)
   .ni-btn
-    padding 0 0.75em
+    position absolute
+    top 0.5rem - px
+    right 1rem
 
 .ni-li-container
   display flex
   flex-flow row nowrap
   align-items center
   position relative
+  height 3rem - 2*px
 
 // type: anchor & link
 .ni-li-thumb
@@ -192,6 +192,10 @@ export default {
     font-size xs
     line-height 1.25
 
+.ni-li-receive
+  .ni-li-label
+    padding 0 1rem
+
 // type: dl definition list
 
 .ni-li-dl
@@ -211,6 +215,11 @@ export default {
   text-overflow ellipsis
   overflow hidden
   color var(--txt)
+
+.ni-li-dt
+.ni-li-dd
+  &:empty
+    display none
 
 .no-overflow
   .ni-li-dt
