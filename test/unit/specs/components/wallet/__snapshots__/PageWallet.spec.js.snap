@@ -174,7 +174,6 @@ exports[`PageWallet has the expected html structure 1`] = `
     </section>
     <section
       class="ni-part"
-      id="available-balances"
     >
       <div
         class="ni-part-container"
@@ -535,7 +534,6 @@ exports[`PageWallet should filter the balances 1`] = `
     </section>
     <section
       class="ni-part"
-      id="available-balances"
     >
       <div
         class="ni-part-container"
