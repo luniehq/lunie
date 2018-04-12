@@ -148,40 +148,35 @@ exports[`PageWallet has the expected html structure 1`] = `
           class="ni-part-main"
         >
           <div
-            class="ni-li-copy"
+            class="ni-li proposal-enter proposal-enter-active"
           >
             <div
-              class="value"
+              class="ni-li-container"
             >
-              123abc456def
-            </div>
-            <menu>
-              <button
-                class="ni-btn btn-copy"
+              <div
+                class="ni-li-thumb"
               >
-                <span
-                  class="ni-btn__container"
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl no-overflow"
+              >
+                <div
+                  class="ni-li-dt"
                 >
-                  <i
-                    aria-hidden="true"
-                    class="ni-btn__icon material-icons"
-                  >
-                    content_copy
-                  </i>
-                  <!---->
-                  <span
-                    class="ni-btn__value"
-                  >
-                    Copy
-                  </span>
-                </span>
-              </button>
+                  123abc456def
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  
+                </div>
+              </div>
               <button
-                address="value"
-                class="ni-btn receive"
+                class="ni-btn btn-receive"
               >
                 <span
-                  class="ni-btn__container"
+                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
                 >
                   <i
                     aria-hidden="true"
@@ -197,7 +192,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                   </span>
                 </span>
               </button>
-            </menu>
+            </div>
           </div>
         </main>
       </div>
@@ -462,40 +457,35 @@ exports[`PageWallet should filter the balances 1`] = `
           class="ni-part-main"
         >
           <div
-            class="ni-li-copy"
+            class="ni-li proposal-enter proposal-enter-active"
           >
             <div
-              class="value"
+              class="ni-li-container"
             >
-              123abc456def
-            </div>
-            <menu>
-              <button
-                class="ni-btn btn-copy"
+              <div
+                class="ni-li-thumb"
               >
-                <span
-                  class="ni-btn__container"
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl no-overflow"
+              >
+                <div
+                  class="ni-li-dt"
                 >
-                  <i
-                    aria-hidden="true"
-                    class="ni-btn__icon material-icons"
-                  >
-                    content_copy
-                  </i>
-                  <!---->
-                  <span
-                    class="ni-btn__value"
-                  >
-                    Copy
-                  </span>
-                </span>
-              </button>
+                  123abc456def
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  
+                </div>
+              </div>
               <button
-                address="value"
-                class="ni-btn receive"
+                class="ni-btn btn-receive"
               >
                 <span
-                  class="ni-btn__container"
+                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
                 >
                   <i
                     aria-hidden="true"
@@ -511,7 +501,7 @@ exports[`PageWallet should filter the balances 1`] = `
                   </span>
                 </span>
               </button>
-            </menu>
+            </div>
           </div>
         </main>
       </div>

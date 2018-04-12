@@ -105,8 +105,9 @@ export default {
       clipboard.writeText(this.wallet.key.address)
 
       this.$store.commit("notify", {
-        title: "Copy Success!",
-        body: "Your address has been copied to your clipboard."
+        title: "Copied your address to clipboard.",
+        body:
+          "You can receive Cosmos tokens of any denomination by sharing this address."
       })
     }
   },
