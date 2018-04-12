@@ -11,7 +11,11 @@ page(title='Wallet')
   modal-search(type="balances")
 
   part(title='Your Address')
-    li-copy(:value="wallet.key.address" receive="true")
+    list-item(
+      :dt="wallet.key.address"
+      :btn="'Receive'"
+      :overflow="true"
+      @click.native="copy")
 
   part(title="Denomination Balances")
     data-loading(v-if="wallet.balancesLoading")
@@ -36,7 +40,9 @@ page(title='Wallet')
 
 <script>
 import { mapGetters } from "vuex"
+import { clipboard } from "electron"
 import { includes, orderBy } from "lodash"
+import Btn from "@nylira/vue-button"
 import Mousetrap from "mousetrap"
 import DataLoading from "common/NiDataLoading"
 import DataEmpty from "common/NiDataEmpty"
@@ -94,6 +100,14 @@ export default {
     },
     updateBalances() {
       this.$store.dispatch("queryWalletState")
+    },
+    copy() {
+      clipboard.writeText(this.wallet.key.address)
+
+      this.$store.commit("notify", {
+        title: "Copy Success!",
+        body: "Your address has been copied to your clipboard."
+      })
     }
   },
   mounted() {

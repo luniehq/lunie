@@ -5,7 +5,7 @@ mixin ni-li-thumb
     template(v-else-if='image'): img(:src='image')
     template(v-else-if="$slots['graphic']"): slot(name='graphic')
 mixin ni-li-dl
-  .ni-li-dl
+  .ni-li-dl(v-bind:class="{ 'no-overflow': overflow }")
     .ni-li-dt {{ dt }}
     .ni-li-dd.ni-li-dd-flush(v-if="$slots['dd']"): slot(name='dd')
     .ni-li-dd(v-else) {{ dd }}
@@ -18,52 +18,59 @@ mixin ni-li-label
     .ni-li-title {{ title }}
     .ni-li-subtitle {{ subtitle }}
 transition(name="proposal")
-  // dt/dd anchor
+  //- dt/dd anchor
   a.ni-li.ni-li-link(v-if='dt && href' :href="href"): .ni-li-container
     +ni-li-thumb
     +ni-li-dl
     +ni-li-icon
 
-  // dt/dd router-link
+  //- dt/dd router-link
   router-link.ni-li.ni-li-link(v-else-if="dt && to && !btn" :to="to"): .ni-li-container
     +ni-li-thumb
     +ni-li-dl
     +ni-li-icon
 
-  // button router-link
+  //- button router-link
   router-link.ni-li.ni-li-link(v-else-if="btn && to" :to="to"): .ni-li-container
     +ni-li-thumb
     +ni-li-dl
     btn(:value="btn" icon="chevron_right" icon-pos="right" color="primary")
 
-  // dt/dd text
+  //- button receive
+  .ni-li(v-else-if="dt && btn && !to"): .ni-li-container
+    +ni-li-thumb
+    +ni-li-dl
+    btn-receive
+
+  //- dt/dd text
   .ni-li(v-else-if='dt'): .ni-li-container
     +ni-li-thumb
     +ni-li-dl
 
-  // title/subtitle anchor
+  //- title/subtitle anchor
   a.ni-li.ni-li-link(v-else-if="href" :href="href"): .ni-li-container
     +ni-li-thumb
     +ni-li-label
     +ni-li-icon
 
-  // title/subtitle router-link
+  //- title/subtitle router-link
   router-link.ni-li.ni-li-link(v-else-if="to" :to='to'): .ni-li-container
     +ni-li-thumb
     +ni-li-label
     +ni-li-icon
 
-  // title/subtitle text
+  //- title/subtitle text
   .ni-li(v-else-if='title'): .ni-li-container
     +ni-li-thumb
     +ni-li-label
 
-  // image
+  //- image
   .ni-li(v-else-if="type === 'image'"): .ni-li-container: slot
 </template>
 
 <script>
 import Btn from "@nylira/vue-button"
+import BtnReceive from "common/NiBtnReceive"
 export default {
   name: "ni-list-item",
   props: [
@@ -77,9 +84,10 @@ export default {
     "dd",
     "href",
     "btn",
-    "spin"
+    "spin",
+    "overflow"
   ],
-  components: { Btn },
+  components: { Btn, BtnReceive },
   computed: {
     spinClass() {
       if (this.spin) {
@@ -204,6 +212,11 @@ export default {
   overflow hidden
   color var(--txt)
 
+.no-overflow
+  .ni-li-dt
+  .ni-li-dd
+    overflow visible
+
 .ni-li-dt
   padding-left 0.5rem
   padding-right 0.25rem
@@ -239,4 +252,5 @@ a.ni-li-dd
     display block
   .active
     display none
+
 </style>
