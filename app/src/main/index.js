@@ -256,22 +256,22 @@ function exists(path) {
 }
 
 function handleHashVerification(nodeHash) {
+  function removeListeners() {
+    ipcMain.removeAllListeners("hash-disapproved")
+    ipcMain.removeAllListeners("hash-approved")
+  }
   return new Promise((resolve, reject) => {
-    ipcMain.once("hash-approved", (event, hash) => {
-      ipcMain.removeAllListeners("hash-disapproved")
-
+    ipcMain.on("hash-approved", (event, hash) => {
       if (hash === nodeHash) {
         resolve()
       } else {
         reject()
       }
     })
-    ipcMain.once("hash-disapproved", (event, hash) => {
-      ipcMain.removeAllListeners("hash-approved")
-
+    ipcMain.on("hash-disapproved", (event, hash) => {
       reject()
     })
-  })
+  }).finally(removeListeners)
 }
 
 async function initLCD(chainId, home, node) {
@@ -292,10 +292,6 @@ async function initLCD(chainId, home, node) {
     child.stdout.on("data", async data => {
       let hashMatch = /\w{40}/g.exec(data)
       if (hashMatch) {
-        afterBooted(() => {
-          mainWindow.webContents.send("approve-hash", hashMatch[0])
-        })
-
         handleHashVerification(hashMatch[0])
           .then(
             async () => {
@@ -323,6 +319,11 @@ async function initLCD(chainId, home, node) {
             }
           )
           .catch(reject)
+
+        // execute after registering handlers via handleHashVerification so that in the synchronous test they are available to answer the request
+        afterBooted(() => {
+          mainWindow.webContents.send("approve-hash", hashMatch[0])
+        })
       }
     })
   })
@@ -397,7 +398,7 @@ function handleIPC() {
   })
   ipcMain.on("reconnect", () => reconnect(seeds))
   ipcMain.on("booted", () => {
-    console.log("View has booted")
+    log("View has booted")
     booted = true
   })
   ipcMain.on("error-collection", (event, optin) => {
@@ -449,7 +450,7 @@ async function connect(seeds, nodeIP) {
   log("gaia server ready")
 
   afterBooted(() => {
-    console.log("Signaling connected to node")
+    log("Signaling connected node")
     mainWindow.webContents.send("connected", nodeIP)
   })
 
