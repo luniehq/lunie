@@ -123,7 +123,7 @@ exports[`PageWallet has the expected html structure 1`] = `
           class="ni-part-main"
         >
           <div
-            class="ni-li proposal-enter proposal-enter-active"
+            class="ni-li ni-li-receive proposal-enter proposal-enter-active"
           >
             <div
               class="ni-li-container"
@@ -134,15 +134,15 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <!---->
               </div>
               <div
-                class="ni-li-dl no-overflow"
+                class="ni-li-label"
               >
                 <div
-                  class="ni-li-dt"
+                  class="ni-li-title"
                 >
                   123abc456def
                 </div>
                 <div
-                  class="ni-li-dd"
+                  class="ni-li-subtitle"
                 >
                   
                 </div>
@@ -407,7 +407,7 @@ exports[`PageWallet should filter the balances 1`] = `
           class="ni-part-main"
         >
           <div
-            class="ni-li proposal-enter proposal-enter-active"
+            class="ni-li ni-li-receive proposal-enter proposal-enter-active"
           >
             <div
               class="ni-li-container"
@@ -418,15 +418,15 @@ exports[`PageWallet should filter the balances 1`] = `
                 <!---->
               </div>
               <div
-                class="ni-li-dl no-overflow"
+                class="ni-li-label"
               >
                 <div
-                  class="ni-li-dt"
+                  class="ni-li-title"
                 >
                   123abc456def
                 </div>
                 <div
-                  class="ni-li-dd"
+                  class="ni-li-subtitle"
                 >
                   
                 </div>
