@@ -6,8 +6,6 @@ let { join } = require("path")
 let { spawn } = require("child_process")
 let home = require("user-home")
 let semver = require("semver")
-// this dependency is wrapped in a file as it was not possible to mock the import with jest any other way
-let event = require("event-to-promise")
 let toml = require("toml")
 let axios = require("axios")
 let Raven = require("raven")
@@ -22,8 +20,8 @@ let lcdProcess
 let streams = []
 let nodeIP
 let connecting = true
-let crashingError = null
 let seeds = null
+let booted = false
 
 const root = require("../root.js")
 const networkPath = require("../network.js").path
@@ -72,7 +70,7 @@ function expectCleanExit(process, errorMessage = "Process exited unplanned") {
   return new Promise((resolve, reject) => {
     process.on("exit", code => {
       if (code !== 0 && !shuttingDown) {
-        throw new Error(errorMessage)
+        reject(Error(errorMessage))
       }
       resolve()
     })
@@ -80,8 +78,11 @@ function expectCleanExit(process, errorMessage = "Process exited unplanned") {
 }
 
 function handleCrash(error) {
-  crashingError = error
-  mainWindow.webContents.send("error", error)
+  afterBooted(() => {
+    if (mainWindow) {
+      mainWindow.webContents.send("error", error)
+    }
+  })
 }
 
 function shutdown() {
@@ -98,7 +99,9 @@ function shutdown() {
 
   return Promise.all(
     streams.map(stream => new Promise(resolve => stream.close(resolve)))
-  )
+  ).then(() => {
+    log("[SHUTDOWN] Voyager has shutdown")
+  })
 }
 
 function createWindow() {
@@ -114,7 +117,8 @@ function createWindow() {
     webPreferences: { webSecurity: false }
   })
 
-  mainWindow.loadURL(winURL + "?node=" + nodeIP + "&lcd_port=" + LCD_PORT)
+  // start vue app
+  mainWindow.loadURL(winURL + "?lcd_port=" + LCD_PORT)
 
   if (DEV || JSON.parse(process.env.COSMOS_DEVTOOLS || "false")) {
     mainWindow.webContents.openDevTools()
@@ -173,7 +177,6 @@ function startProcess(name, args, env) {
   )
   child.on("error", async function(err) {
     if (!(shuttingDown && err.code === "ECONNRESET")) {
-      await new Promise(resolve => Raven.captureException(err, resolve))
       // if we throw errors here, they are not handled by the main process
       console.error(
         "[Uncaught Exception] Child",
@@ -182,6 +185,8 @@ function startProcess(name, args, env) {
         err
       )
       handleCrash(err)
+
+      Raven.captureException(err)
     }
   })
   return child
@@ -201,27 +206,36 @@ app.on("ready", () => createWindow())
 
 // start lcd REST API
 async function startLCD(home, nodeIP) {
-  log("startLCD", home)
-  let child = startProcess(SERVER_BINARY, [
-    "rest-server",
-    "--port",
-    LCD_PORT,
-    "--home",
-    home,
-    "--node",
-    nodeIP
-    // '--trust-node'
-  ])
-  logProcess(child, join(home, "lcd.log"))
+  return new Promise((resolve, reject) => {
+    log("startLCD", home)
+    let child = startProcess(SERVER_BINARY, [
+      "rest-server",
+      "--port",
+      LCD_PORT,
+      "--home",
+      home,
+      "--node",
+      nodeIP
+      // '--trust-node'
+    ])
+    logProcess(child, join(home, "lcd.log"))
 
-  while (true) {
-    if (shuttingDown) break
-
-    let data = await event(child.stderr, "data")
-    if (data.toString().includes("Serving on")) break
-  }
-
-  return child
+    // XXX why the hell stderr?!?!?!?
+    child.stderr.on("data", data => {
+      if (data.includes("Serving on")) resolve(child)
+    })
+    child.on("exit", () => {
+      reject()
+      afterBooted(() => {
+        if (mainWindow) {
+          mainWindow.webContents.send(
+            "error",
+            Error("The Gaia REST-server (LCD) exited unplanned")
+          )
+        }
+      })
+    })
+  })
 }
 
 async function getGaiaVersion() {
@@ -242,31 +256,92 @@ function exists(path) {
   }
 }
 
+function handleHashVerification(nodeHash) {
+  function removeListeners() {
+    ipcMain.removeAllListeners("hash-disapproved")
+    ipcMain.removeAllListeners("hash-approved")
+  }
+  return new Promise((resolve, reject) => {
+    ipcMain.on("hash-approved", (event, hash) => {
+      if (hash === nodeHash) {
+        resolve()
+      } else {
+        reject()
+      }
+    })
+    ipcMain.on("hash-disapproved", (event, hash) => {
+      reject()
+    })
+  }).finally(removeListeners)
+}
+
 async function initLCD(chainId, home, node) {
-  // fs.ensureDirSync(home)
-  // `gaia client init` to generate config, trust seed
-  let child = startProcess(SERVER_BINARY, [
-    "client",
-    "init",
-    "--home",
-    home,
-    "--chain-id",
-    chainId,
-    "--node",
-    node
-    // '--trust-node'
-  ])
-  child.stdout.on("data", data => {
-    let hashMatch = /\w{40}/g.exec(data)
-    if (hashMatch) {
-      log("approving hash", hashMatch[0])
-      if (shuttingDown) return
-      // answer 'y' to the prompt about trust seed. we can trust this is correct
-      // since the LCD is talking to our own full node
-      child.stdin.write("y\n")
-    }
+  // let the user in the view approve the hash we get from the node
+  return new Promise((resolve, reject) => {
+    // `gaia client init` to generate config
+    let child = startProcess(SERVER_BINARY, [
+      "client",
+      "init",
+      "--home",
+      home,
+      "--chain-id",
+      chainId,
+      "--node",
+      node
+    ])
+
+    child.stdout.on("data", async data => {
+      let hashMatch = /\w{40}/g.exec(data)
+      if (hashMatch) {
+        handleHashVerification(hashMatch[0])
+          .then(
+            async () => {
+              log("approved hash", hashMatch[0])
+              if (shuttingDown) return
+              // answer 'y' to the prompt about trust seed. we can trust this is correct
+              // since the LCD is talking to our own full node
+              child.stdin.write("y\n")
+
+              expectCleanExit(child, "gaia init exited unplanned").then(
+                resolve,
+                reject
+              )
+            },
+            () => {
+              // kill process as we will spin up a new init process
+              child.kill("SIGTERM")
+
+              if (shuttingDown) return
+
+              // select a new node to try out
+              nodeIP = pickNode(seeds)
+
+              initLCD(chainId, home, nodeIP).then(resolve, reject)
+            }
+          )
+          .catch(reject)
+
+        // execute after registering handlers via handleHashVerification so that in the synchronous test they are available to answer the request
+        afterBooted(() => {
+          mainWindow.webContents.send("approve-hash", hashMatch[0])
+        })
+      }
+    })
   })
   await expectCleanExit(child, "gaia init exited unplanned")
+}
+
+// this function will call the passed in callback when the view is booted
+// the purpose is to send events to the view thread only after it is ready to receive those events
+// if we don't do this, the view thread misses out on those (i.e. an error that occures before the view is ready)
+function afterBooted(cb) {
+  if (booted) {
+    cb()
+  } else {
+    ipcMain.on("booted", event => {
+      cb()
+    })
+  }
 }
 
 /*
@@ -306,15 +381,13 @@ if (!TEST) {
   process.on("exit", shutdown)
   // on uncaught exceptions we wait so the sentry event can be sent
   process.on("uncaughtException", async function(err) {
-    await sleep(1000)
     logError("[Uncaught Exception]", err)
-    await new Promise(resolve => Raven.captureException(err, resolve))
+    Raven.captureException(err)
     handleCrash(err)
   })
   process.on("unhandledRejection", async function(err) {
-    await sleep(1000)
     logError("[Unhandled Promise Rejection]", err)
-    await new Promise(resolve => Raven.captureException(err, resolve))
+    Raven.captureException(err)
     handleCrash(err)
   })
 }
@@ -337,16 +410,10 @@ function handleIPC() {
   ipcMain.on("successful-launch", () => {
     console.log("[START SUCCESS] Vue app successfuly started")
   })
-  ipcMain.on("reconnect", function(event) {
-    return reconnect(seeds)
-  })
-  ipcMain.on("booted", event => {
-    // if the webcontent shows after we have connected to a node or produced, we need to send those events again
-    if (crashingError) {
-      event.sender.send("error", crashingError)
-    } else if (!connecting && nodeIP) {
-      event.sender.send("connected", nodeIP)
-    }
+  ipcMain.on("reconnect", () => reconnect(seeds))
+  ipcMain.on("booted", () => {
+    log("View has booted")
+    booted = true
   })
   ipcMain.on("error-collection", (event, optin) => {
     Raven.uninstall()
@@ -396,12 +463,14 @@ async function connect(seeds, nodeIP) {
   lcdProcess = await startLCD(lcdHome, nodeIP)
   log("gaia server ready")
 
-  console.log("connected")
-
-  mainWindow.webContents.send("connected", nodeIP)
+  afterBooted(() => {
+    log("Signaling connected node")
+    mainWindow.webContents.send("connected", nodeIP)
+  })
 
   connecting = false
 
+  // signal new node to view
   return nodeIP
 }
 
@@ -539,17 +608,16 @@ async function main() {
   if (seeds.length === 0) {
     throw new Error("No seeds specified in config.toml")
   }
+
+  // choose one random node to start from
   nodeIP = pickNode(seeds)
 
   let _lcdInitialized = await lcdInitialized(join(root, "lcd"))
-  console.log("LCD is", _lcdInitialized ? "" : "not", "initialized")
+  log("LCD is" + (_lcdInitialized ? "" : " not") + " initialized")
   if (init || !_lcdInitialized) {
     log(`Trying to initialize lcd with remote node ${nodeIP}`)
     await initLCD(chainId, lcdHome, nodeIP)
   }
-
-  console.log("connecting")
-
   await connect(seeds, nodeIP)
 }
 module.exports = main()
