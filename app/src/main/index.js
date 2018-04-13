@@ -220,6 +220,7 @@ async function startLCD(home, nodeIP) {
       if (data.includes("Serving on")) resolve(child)
     })
     child.on("exit", () => {
+      reject()
       afterBooted(() => {
         mainWindow.webContents.send(
           "error",
