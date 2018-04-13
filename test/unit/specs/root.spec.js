@@ -12,4 +12,13 @@ describe("Root UI Directory", () => {
     let root = require("../../../app/src/root.js")
     expect(root).toBe(join(homedir(), ".cosmos-voyager-dev/gaia-2"))
   })
+
+  it("should use COSMOS_HOME as default", () => {
+    Object.assign(process.env, {
+      COSMOS_HOME: "./abc"
+    })
+    jest.resetModules()
+    let root = require("../../../app/src/root.js")
+    expect(root).toBe("./abc")
+  })
 })
