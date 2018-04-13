@@ -91,7 +91,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Added full page error @nylira
 * Added receive button and receive modal @jolesbi
 * The validator hash now has to be approved by the user for security @faboweb
+* Transitioned to Docker for easier cross platform builds. @NodeGuy
+* New light theme for day time Voyaging 😎 🚀 @nylira
+* Users can now opt in or out of remote error collection. @faboweb
+* Ability to send over IBC @mappum
 
 ### Changed
 
 * If app crashes, a full page error is shown @faboweb
+* New Voyager logo @nylira
