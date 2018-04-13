@@ -15,7 +15,7 @@ cli(optionsSpecification, options => {
   })
 
   // Expand '~' if preset and resolve to absolute pathnames for Docker.
-  const resolved = fp.mapValues(fp.pipe(untildify, path.resolve, parsePath), {
+  const resolved = fp.mapValues(fp.pipe(untildify, path.resolve), {
     gaia,
     git: path.join(__dirname, "../../.git"),
     network,
