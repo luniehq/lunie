@@ -34,7 +34,7 @@ describe("App without analytics", () => {
   beforeEach(() => {
     Object.defineProperty(window.location, "search", {
       writable: true,
-      value: "?node=localhost&relay_port=8080"
+      value: "?node=localhost&lcd_port=8080"
     })
     document.body.innerHTML = '<div id="app"></div>'
     jest.resetModules()
@@ -42,6 +42,11 @@ describe("App without analytics", () => {
 
   it("has all dependencies", async () => {
     await require("renderer/main.js")
+  })
+
+  it("reads the lcd port from the url", async () => {
+    const { node } = require("renderer/main.js")
+    node.lcdPort = "8080"
   })
 
   it("does not activate google analytics if analytics is disabled", async mockDone => {
@@ -79,6 +84,19 @@ describe("App without analytics", () => {
     const { store } = require("renderer/main.js")
     expect(store.state.config.modals.error.active).toBe(true)
     expect(store.state.config.modals.error.message).toBe("Expected")
+  })
+
+  it("triggers the approval flow on IPC message", async () => {
+    jest.resetModules()
+    const { ipcRenderer } = require("electron")
+    ipcRenderer.on = (type, cb) => {
+      if (type === "approve-hash") {
+        cb(null, "THISISSOMEHASH")
+      }
+    }
+
+    const { store } = require("renderer/main.js")
+    expect(store.state.node.approvalRequired).toBe("THISISSOMEHASH")
   })
 
   it("sends a message to the main thread, that the app has loaded", () => {

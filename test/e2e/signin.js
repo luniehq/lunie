@@ -1,29 +1,32 @@
 let test = require("tape-promise/tape")
-let { getApp, restart } = require("./launch.js")
+let { getApp, restart, refresh } = require("./launch.js")
 let { openMenu, login } = require("./common.js")
 
 /*
 * NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
 */
 
+/*
+* NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
+*/
+
 test("sign in", async function(t) {
   let { app } = await getApp(t)
-  await restart(app)
-  let client = app.client
-  let el = (...args) => client.$(...args)
+  await refresh(app)
+  let el = (...args) => app.client.$(...args)
   let continueButton = () => el(".ni-btn__value=Next").$("..")
 
   t.test("signup", async function(t) {
-    await client.waitForExist(".ni-session-title=Sign In", 10000)
+    await app.client.waitForExist(".ni-session-title=Sign In", 10000)
 
     // go to login selection
-    await client
+    await app.client
       .$("i=arrow_back")
       .$("..")
       .click()
-    await client.waitForExist(".ni-li-session", 1000)
+    await app.client.waitForExist(".ni-li-session", 1000)
     // go to new account
-    await client
+    await app.client
       .$(".ni-li-session-title=Create new account")
       .$("..")
       .$("..")
@@ -64,16 +67,16 @@ test("sign in", async function(t) {
           .isExisting(".ni-form-msg--error"),
         "shows error"
       )
-      await client.leftClick("#sign-up-name")
-      await client.keys("sign".split())
+      await app.client.leftClick("#sign-up-name")
+      await app.client.keys("sign".split())
       t.ok(
         await accountName()
           .$("..")
           .isExisting(".ni-form-msg--error"),
         "shows error for too few letters"
       )
-      await client.leftClick("#sign-up-name")
-      await client.keys("in_test".split())
+      await app.client.leftClick("#sign-up-name")
+      await app.client.keys("in_test".split())
       t.ok(
         !await accountName()
           .$("..")
@@ -92,7 +95,7 @@ test("sign in", async function(t) {
         "shows error"
       )
       await password().click()
-      await client.keys("1234".split())
+      await app.client.keys("1234".split())
       t.ok(
         await password()
           .$("..")
@@ -100,7 +103,7 @@ test("sign in", async function(t) {
         "shows error for too few letters"
       )
       await password().click()
-      await client.keys("567890".split())
+      await app.client.keys("567890".split())
       t.ok(
         !await password()
           .$("..")
@@ -119,7 +122,7 @@ test("sign in", async function(t) {
         "shows error"
       )
       await passwordConfirm().click()
-      await client.keys("1234".split())
+      await app.client.keys("1234".split())
       t.ok(
         await passwordConfirm()
           .$("..")
@@ -127,7 +130,7 @@ test("sign in", async function(t) {
         "shows error for not matching passwords"
       )
       await passwordConfirm().click()
-      await client.keys("567890".split())
+      await app.client.keys("567890".split())
       t.ok(
         !await passwordConfirm()
           .$("..")
@@ -141,9 +144,9 @@ test("sign in", async function(t) {
       await continueButton().click()
 
       // checking if user is logged in
-      await client.waitForExist("#app-content", 10000)
-      await openMenu(client)
-      let activeUser = await client.$(".ni-li-user .ni-li-title").getText()
+      await app.client.waitForExist("#app-content", 10000)
+      await openMenu(app)
+      let activeUser = await app.client.$(".ni-li-user .ni-li-title").getText()
       t.ok(activeUser === "signin_test", "user is logged in")
 
       t.end()
@@ -152,29 +155,29 @@ test("sign in", async function(t) {
   })
 
   t.test("sign out", async function(t) {
-    await client.refresh()
-    await login(client, "testkey")
-    await client.waitForExist(".material-icons=exit_to_app", 1000)
-    await client
+    await refresh(app)
+    await login(app, "testkey")
+    await app.client.waitForExist(".material-icons=exit_to_app", 1000)
+    await app.client
       .$(".material-icons=exit_to_app")
       .$("..")
       .click()
 
-    await client.waitForExist(".ni-session", 1000)
+    await app.client.waitForExist(".ni-session", 1000)
 
     t.end()
   })
 
   t.test("seed", async function(t) {
-    await client.refresh()
+    await refresh(app)
     // go to login selection
-    await client
+    await app.client
       .$("i=arrow_back")
       .$("..")
       .click()
-    await client.waitForExist(".ni-li-session", 1000)
+    await app.client.waitForExist(".ni-li-session", 1000)
     // go to import with seed
-    await client
+    await app.client
       .$(".ni-li-session-title=Import with seed")
       .$("..")
       .$("..")
@@ -195,7 +198,7 @@ test("sign in", async function(t) {
       )
       await accountName().scroll()
       await accountName().click()
-      await client.keys("seed".split())
+      await app.client.keys("seed".split())
       t.ok(
         await accountName()
           .$("..")
@@ -203,7 +206,7 @@ test("sign in", async function(t) {
         "shows error for too few letters"
       )
       await accountName().click()
-      await client.keys("_test".split())
+      await app.client.keys("_test".split())
       t.ok(
         !await accountName()
           .$("..")
@@ -222,7 +225,7 @@ test("sign in", async function(t) {
         "shows error"
       )
       await password().click()
-      await client.keys("1234".split())
+      await app.client.keys("1234".split())
       t.ok(
         await password()
           .$("..")
@@ -230,7 +233,7 @@ test("sign in", async function(t) {
         "shows error for too few letters"
       )
       await password().click()
-      await client.keys("567890".split())
+      await app.client.keys("567890".split())
       t.ok(
         !await password()
           .$("..")
@@ -249,7 +252,7 @@ test("sign in", async function(t) {
         "shows error"
       )
       await passwordConfirm().click()
-      await client.keys("1234".split())
+      await app.client.keys("1234".split())
       t.ok(
         await passwordConfirm()
           .$("..")
@@ -257,7 +260,7 @@ test("sign in", async function(t) {
         "shows error for not matching passwords"
       )
       await passwordConfirm().click()
-      await client.keys("567890".split())
+      await app.client.keys("567890".split())
       t.ok(
         !await passwordConfirm()
           .$("..")
@@ -276,7 +279,7 @@ test("sign in", async function(t) {
         "shows error"
       )
       await seed().click()
-      await client.keys(
+      await app.client.keys(
         "crash ten rug mosquito cart south allow pluck shine island broom deputy hungry photo drift absorb".split()
       )
       t.ok(
@@ -292,9 +295,9 @@ test("sign in", async function(t) {
       await continueButton().click()
 
       // checking if user is logged in
-      await client.waitForExist("#app-content", 5000)
-      await openMenu(client)
-      let activeUser = await client.$(".ni-li-user .ni-li-title").getText()
+      await app.client.waitForExist("#app-content", 5000)
+      await openMenu(app)
+      let activeUser = await app.client.$(".ni-li-user .ni-li-title").getText()
       t.ok(activeUser === "seed_test", "user is logged in")
 
       t.end()
