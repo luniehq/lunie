@@ -1,7 +1,4 @@
 import setup from "../../../helpers/vuex-setup"
-
-jest.mock("electron", () => ({ clipboard: { writeText: jest.fn() } }))
-
 import NiBtnCopy from "renderer/components/common/NiBtnCopy"
 
 describe("NiBtnCopy", () => {
