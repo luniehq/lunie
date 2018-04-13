@@ -48,8 +48,7 @@ jest.mock("electron", () => {
       setApplicationMenu() {}
     },
     ipcMain: {
-      on: (type, cb) => {},
-      once: (type, cb) => {
+      on: (type, cb) => {
         if (type === "booted") {
           cb()
         }
@@ -68,13 +67,6 @@ let stdoutMocks = (path, args) => ({
     if (args[0] === "version" && type === "data") {
       cb({ toString: () => "v0.5.0" })
     }
-    if (
-      path.includes("gaia") &&
-      args.includes("rest-server") &&
-      type === "data"
-    ) {
-      cb("Serving on")
-    }
     // mock gaia init approval request
     if (
       type === "data" &&
@@ -82,7 +74,10 @@ let stdoutMocks = (path, args) => ({
       args.includes("init") &&
       args.length > 4
     ) {
-      cb("1234567890123456789012345678901234567890")
+      cb("No hash yet")
+      setImmediate(() => {
+        cb("1234567890123456789012345678901234567890")
+      })
     }
   }
 })
@@ -91,6 +86,16 @@ let stderrMocks = (path, args) => ({
     // test for init of gaia
     if (type === "data" && args.includes("init") && args.length === 4) {
       cb({ toString: () => "already is initialized" })
+    }
+    if (
+      path.includes("gaia") &&
+      args.includes("rest-server") &&
+      type === "data"
+    ) {
+      cb("Not yet serving the lcd")
+      setImmediate(() => {
+        cb("Serving on")
+      })
     }
   }
 })
@@ -306,18 +311,31 @@ describe("Startup Process", () => {
     let registeredIPCListeners = {}
     let send
 
-    beforeEach(async function() {
-      prepareMain()
-      // register ipc listeners
+    function registerIPCListeners(registeredIPCListeners) {
       const { ipcMain } = require("electron")
       ipcMain.on = (type, cb) => {
+        // the booted signal needs to be sent (from the view) for the main thread to signal events to the view
+        if (type === "booted") {
+          cb()
+          return
+        }
+        if (type === "hash-approved") {
+          cb(null, "1234567890123456789012345678901234567890")
+          return
+        }
         registeredIPCListeners[type] = cb
       }
+    }
+
+    beforeEach(async function() {
+      prepareMain()
+      send = require("electron").send
+
+      registerIPCListeners(registeredIPCListeners)
       // axios is used to ping nodes for the reconnection intent
       let axios = require("axios")
       axios.get = () => Promise.resolve()
 
-      send = require("electron").send
       main = await require(appRoot + "src/main/index.js")
     })
 
@@ -326,17 +344,31 @@ describe("Startup Process", () => {
       registeredIPCListeners = {}
     })
 
+    it("should provide the connected node when the view has booted", async () => {
+      expect(
+        send.mock.calls.filter(([type, _]) => type === "connected").length
+      ).toBe(1)
+      expect(
+        send.mock.calls.find(([type, _]) => type === "connected")[1]
+      ).toBeTruthy() // TODO fix seeds so we can test nodeIP output
+    })
+
     it("should reconnect on IPC call", async () => {
       await registeredIPCListeners["reconnect"]()
 
-      expect(send.mock.calls[1][0]).toBe("connected")
+      expect(
+        send.mock.calls.filter(([type, _]) => type === "connected").length
+      ).toBe(2)
     })
 
     it("should not start reconnecting again if already trying to reconnect", async () => {
       let axios = require("axios")
       let spy = jest.spyOn(axios, "get")
+      spy.mockImplementationOnce(async () => {
+        await registeredIPCListeners["reconnect"]()
+        return Promise.resolve()
+      })
 
-      registeredIPCListeners["reconnect"]()
       await registeredIPCListeners["reconnect"]()
       expect(spy).toHaveBeenCalledTimes(1) // a node has only be pinged once
     })
@@ -350,7 +382,9 @@ describe("Startup Process", () => {
 
       await registeredIPCListeners["reconnect"]()
 
-      expect(send.mock.calls[1][0]).toBe("connected")
+      expect(
+        send.mock.calls.filter(([type, _]) => type === "connected").length
+      ).toBe(2)
     })
 
     it("should print a success message if connected to node", async () => {
@@ -361,17 +395,6 @@ describe("Startup Process", () => {
       consoleSpy.mockRestore()
     })
 
-    it("should provide the connected node when the view has booted", async () => {
-      main.shutdown()
-      main = await require(appRoot + "src/main/index.js")
-      expect(
-        send.mock.calls.find(([type, _]) => type === "connected")
-      ).toBeTruthy()
-      expect(
-        send.mock.calls.find(([type, _]) => type === "connected")[1]
-      ).toBeTruthy() // TODO fix seeds so we can test nodeIP output
-    })
-
     it("should provide the error if the main process failed before the view has booted", async () => {
       main.shutdown()
 
@@ -379,11 +402,8 @@ describe("Startup Process", () => {
       resetModulesKeepingFS()
       fs.removeSync(join(testRoot, "genesis.json"))
 
-      // register listeners again
-      const { ipcMain } = require("electron")
-      ipcMain.on = (type, cb) => {
-        registeredIPCListeners[type] = cb
-      }
+      // register listeners again as we rest the modules
+      registerIPCListeners(registeredIPCListeners)
 
       // run main
       main = await require(appRoot + "src/main/index.js")
@@ -391,6 +411,38 @@ describe("Startup Process", () => {
       let { send } = require("electron")
       expect(send.mock.calls[0][0]).toEqual("error")
       expect(send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
+    })
+
+    it("should try another node if user disapproved the hash", async () => {
+      main.shutdown()
+      prepareMain()
+
+      const { ipcMain } = require("electron")
+      ipcMain.on = (type, cb) => {
+        // the booted signal needs to be sent (from the view) for the main thread to signal events to the view
+        if (type === "booted") {
+          cb()
+          return
+        }
+        // disapprove first hash
+        if (type === "hash-disapproved") {
+          cb(null, "1234567890123456789012345678901234567890")
+
+          // approve second hash
+          ipcMain.on = (type, cb) => {
+            if (type === "hash-approved") {
+              cb(null, "1234567890123456789012345678901234567890")
+              return
+            }
+          }
+        }
+      }
+
+      // run main
+      main = await require(appRoot + "src/main/index.js")
+      expect(
+        send.mock.calls.filter(([type, _]) => type === "connected").length
+      ).toBe(1)
     })
   })
 

@@ -108,16 +108,26 @@ describe("Module: Node", () => {
     expect(store.state.node.lastHeader.chain_id).toBe("test-net")
   })
 
+  it("should react to failing status calls", () => {
+    let spy = jest.spyOn(console, "error").mockImplementation(() => {})
+    node.rpc.status = cb => cb({ message: "Expected" }, null)
+    store.dispatch("rpcSubscribe")
+    expect(spy).toHaveBeenCalledWith({
+      message: "Expected"
+    })
+    spy.mockRestore()
+  })
+
   it("should react to status updates", () => {
     node.rpc.subscribe = (type, cb) => {
-      if (type.event === "NewBlockHeader") {
+      if (type.query === "tm.event = 'NewBlockHeader'") {
         cb(null, {
           data: {
             data: {
               header: {
-                height: 42,
-                chain_id: "test-net",
-                validators_hash: "abc"
+                height: 43,
+                chain_id: "test-net2",
+                validators_hash: "abcd"
               }
             }
           }
@@ -126,8 +136,22 @@ describe("Module: Node", () => {
     }
     store.dispatch("rpcSubscribe")
     expect(store.state.node.connected).toBe(true)
-    expect(store.state.node.lastHeader.height).toBe(42)
-    expect(store.state.node.lastHeader.chain_id).toBe("test-net")
+    expect(store.state.node.lastHeader.height).toBe(43)
+    expect(store.state.node.lastHeader.chain_id).toBe("test-net2")
+  })
+
+  it("should react to status updates errors", () => {
+    let spy = jest.spyOn(console, "error").mockImplementation(() => {})
+    node.rpc.subscribe = (type, cb) => {
+      if (type.query === "tm.event = 'NewBlockHeader'") {
+        cb({ message: "Expected" }, null)
+      }
+    }
+    store.dispatch("rpcSubscribe")
+    expect(spy).toHaveBeenCalledWith("error subscribing to headers", {
+      message: "Expected"
+    })
+    spy.mockRestore()
   })
 
   it("should check for an existing LCD connection", async () => {
@@ -178,5 +202,31 @@ describe("Module: Node", () => {
       throw Error("Shouldnt reconnect")
     }
     store.dispatch("pollRPCConnection", 50)
+  })
+
+  it("should set approval required state", () => {
+    store.commit("setNodeApprovalRequired", "abc")
+
+    expect(store.state.node.approvalRequired).toBe("abc")
+  })
+
+  it("should send approval of node hash", () => {
+    let { ipcRenderer } = require("electron")
+    let spy = jest.spyOn(ipcRenderer, "send")
+
+    store.dispatch("approveNodeHash", "abc")
+
+    expect(spy).toHaveBeenCalledWith("hash-approved", "abc")
+    expect(store.state.node.approvalRequired).toBe(null)
+  })
+
+  it("should send disapproval of node hash", () => {
+    let { ipcRenderer } = require("electron")
+    let spy = jest.spyOn(ipcRenderer, "send")
+
+    store.dispatch("disapproveNodeHash", "abc")
+
+    expect(spy).toHaveBeenCalledWith("hash-disapproved", "abc")
+    expect(store.state.node.approvalRequired).toBe(null)
   })
 })

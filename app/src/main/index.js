@@ -79,7 +79,9 @@ function expectCleanExit(process, errorMessage = "Process exited unplanned") {
 
 function handleCrash(error) {
   afterBooted(() => {
-    mainWindow.webContents.send("error", error)
+    if (mainWindow) {
+      mainWindow.webContents.send("error", error)
+    }
   })
 }
 
@@ -97,7 +99,9 @@ function shutdown() {
 
   return Promise.all(
     streams.map(stream => new Promise(resolve => stream.close(resolve)))
-  )
+  ).then(() => {
+    log("[SHUTDOWN] Voyager has shutdown")
+  })
 }
 
 function createWindow() {
@@ -216,16 +220,19 @@ async function startLCD(home, nodeIP) {
     ])
     logProcess(child, join(home, "lcd.log"))
 
-    child.stdout.on("data", data => {
+    // XXX why the hell stderr?!?!?!?
+    child.stderr.on("data", data => {
       if (data.includes("Serving on")) resolve(child)
     })
     child.on("exit", () => {
       reject()
       afterBooted(() => {
-        mainWindow.webContents.send(
-          "error",
-          Error("The Gaia REST-server (LCD) exited unplanned")
-        )
+        if (mainWindow) {
+          mainWindow.webContents.send(
+            "error",
+            Error("The Gaia REST-server (LCD) exited unplanned")
+          )
+        }
       })
     })
   })
@@ -250,22 +257,22 @@ function exists(path) {
 }
 
 function handleHashVerification(nodeHash) {
+  function removeListeners() {
+    ipcMain.removeAllListeners("hash-disapproved")
+    ipcMain.removeAllListeners("hash-approved")
+  }
   return new Promise((resolve, reject) => {
-    ipcMain.once("hash-approved", (event, hash) => {
-      ipcMain.removeAllListeners("hash-disapproved")
-
+    ipcMain.on("hash-approved", (event, hash) => {
       if (hash === nodeHash) {
         resolve()
       } else {
         reject()
       }
     })
-    ipcMain.once("hash-disapproved", (event, hash) => {
-      ipcMain.removeAllListeners("hash-approved")
-
+    ipcMain.on("hash-disapproved", (event, hash) => {
       reject()
     })
-  })
+  }).finally(removeListeners)
 }
 
 async function initLCD(chainId, home, node) {
@@ -286,16 +293,13 @@ async function initLCD(chainId, home, node) {
     child.stdout.on("data", async data => {
       let hashMatch = /\w{40}/g.exec(data)
       if (hashMatch) {
-        afterBooted(() => {
-          mainWindow.webContents.send("approve-hash", hashMatch[0])
-        })
-
         handleHashVerification(hashMatch[0])
           .then(
             async () => {
               log("approved hash", hashMatch[0])
               if (shuttingDown) return
-              // answer 'y' to the prompt about trust seed.
+              // answer 'y' to the prompt about trust seed. we can trust this is correct
+              // since the LCD is talking to our own full node
               child.stdin.write("y\n")
 
               expectCleanExit(child, "gaia init exited unplanned").then(
@@ -316,10 +320,28 @@ async function initLCD(chainId, home, node) {
             }
           )
           .catch(reject)
+
+        // execute after registering handlers via handleHashVerification so that in the synchronous test they are available to answer the request
+        afterBooted(() => {
+          mainWindow.webContents.send("approve-hash", hashMatch[0])
+        })
       }
     })
   })
   await expectCleanExit(child, "gaia init exited unplanned")
+}
+
+// this function will call the passed in callback when the view is booted
+// the purpose is to send events to the view thread only after it is ready to receive those events
+// if we don't do this, the view thread misses out on those (i.e. an error that occures before the view is ready)
+function afterBooted(cb) {
+  if (booted) {
+    cb()
+  } else {
+    ipcMain.on("booted", event => {
+      cb()
+    })
+  }
 }
 
 /*
@@ -390,6 +412,7 @@ function handleIPC() {
   })
   ipcMain.on("reconnect", () => reconnect(seeds))
   ipcMain.on("booted", () => {
+    log("View has booted")
     booted = true
   })
   ipcMain.on("error-collection", (event, optin) => {
@@ -437,10 +460,11 @@ function pickNode(seeds) {
 
 async function connect(seeds, nodeIP) {
   log(`starting gaia server with nodeIP ${nodeIP}`)
-  lcdProcess = await startLCD(lcdHome, nodeIP).catch(console.error)
+  lcdProcess = await startLCD(lcdHome, nodeIP)
   log("gaia server ready")
 
   afterBooted(() => {
+    log("Signaling connected node")
     mainWindow.webContents.send("connected", nodeIP)
   })
 
@@ -605,13 +629,3 @@ module.exports = main()
     shutdown,
     processes: { lcdProcess }
   }))
-
-function afterBooted(cb) {
-  if (booted) {
-    cb()
-  } else {
-    ipcMain.once("booted", event => {
-      cb()
-    })
-  }
-}

@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiBtnReceive has the expected html structure 1`] = `"<button class=\\"ni-btn btn-receive\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">file_download</i><!----><span class=\\"ni-btn__value\\">Receive</span></span></button>"`;

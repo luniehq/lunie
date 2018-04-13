@@ -9,7 +9,11 @@ page(title='Wallet')
   modal-search(type="balances")
 
   part(title='Your Address')
-    li-copy(:value="wallet.key.address")
+    list-item(
+      :title="wallet.key.address"
+      :btn="'Receive'"
+      :overflow="true"
+      @click.native="copy")
 
   part(title="Denomination Balances")
     data-loading(v-if="wallet.balancesLoading")
@@ -23,18 +27,13 @@ page(title='Wallet')
       :dt="i.denom.toUpperCase()"
       :dd="i.amount"
       :to="{name: 'send', params: {denom: i.denom}}")
-
-  part(title="Network Denominations")
-    list-item(
-      v-for="i in filteredBalances"
-      v-if="i.amount === 0"
-      :key="i.denom"
-      :dt="i.denom.toUpperCase()")
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import { clipboard } from "electron"
 import { includes, orderBy } from "lodash"
+import Btn from "@nylira/vue-button"
 import Mousetrap from "mousetrap"
 import DataLoading from "common/NiDataLoading"
 import DataEmpty from "common/NiDataEmpty"
@@ -92,6 +91,15 @@ export default {
     },
     updateBalances() {
       this.$store.dispatch("queryWalletState")
+    },
+    copy() {
+      clipboard.writeText(this.wallet.key.address)
+
+      this.$store.commit("notify", {
+        title: "Copied your address to clipboard.",
+        body:
+          "You can receive Cosmos tokens of any denomination by sharing this address."
+      })
     }
   },
   mounted() {
