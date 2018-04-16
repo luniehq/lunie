@@ -7,10 +7,16 @@ const path = require(`path`)
 const shell = require(`shelljs`)
 const untildify = require(`untildify`)
 
+// Show the exec commands for easier debugging if something goes wrong.
+const exec = (command, ...args) => {
+  console.log(command)
+  return shell.exec(command, ...args)
+}
+
 cli(optionsSpecification, options => {
   const { commit, gaia, network } = options
 
-  shell.exec(`docker build --tag cosmos/voyager-builder .`, {
+  exec(`docker build --tag cosmos/voyager-builder .`, {
     cwd: __dirname
   })
 
@@ -41,7 +47,7 @@ cli(optionsSpecification, options => {
   //   default network
   //
   // output: the builds directory
-  shell.exec(`docker run \
+  exec(`docker run \
       --interactive \
       --mount type=bind,readonly,source=${resolved.gaia},target=/mnt/gaia \
       --mount type=bind,readonly,source=${resolved.git},target=/mnt/.git \
