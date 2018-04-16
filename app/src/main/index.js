@@ -12,7 +12,8 @@ let Raven = require("raven")
 
 let pkg = require("../../../package.json")
 let addMenu = require("./menu.js")
-let config = require("../../../config.js")
+let config = require("../config.js")
+global.config = config // to make the config accessable from renderer
 
 let shuttingDown = false
 let mainWindow
@@ -24,6 +25,7 @@ let seeds = null
 let booted = false
 
 const root = require("../root.js")
+global.root = root // to make the root accessable from renderer
 const networkPath = require("../network.js").path
 
 const lcdHome = join(root, "lcd")

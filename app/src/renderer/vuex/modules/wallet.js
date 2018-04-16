@@ -1,6 +1,7 @@
 let fs = require("fs-extra")
 let { join } = require("path")
-let root = require("../../../root.js")
+const { remote } = require("electron")
+const root = remote.getGlobal("root")
 
 export default ({ commit, node }) => {
   let state = {

@@ -1,6 +1,6 @@
 let { join } = require("path")
 let { readFileSync } = require("fs")
-let config = require("../../config.js")
+let config = require("./config.js")
 
 // this network gets used if none is specified via the
 // COSMOS_NETWORK env var

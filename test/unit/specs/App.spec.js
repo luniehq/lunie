@@ -5,7 +5,7 @@ jest.mock("renderer/connectors/node.js", () => () =>
 )
 
 describe("App without analytics", () => {
-  jest.mock("../../../config", () => ({
+  jest.mock("../../../app/src/config", () => ({
     google_analytics_uid: "123",
     sentry_dsn_public: "456"
   }))

@@ -3,7 +3,6 @@
 process.env.BABEL_ENV = "renderer"
 
 const path = require("path")
-const settings = require("./config.js")
 const webpack = require("webpack")
 const stylus = require("stylus")
 const fs = require("fs-extra")
@@ -134,21 +133,6 @@ let rendererConfig = {
     ]
   },
   target: "electron-renderer"
-}
-
-if (process.env.NODE_ENV !== "production") {
-  /**
-   * Apply ESLint
-   */
-  if (settings.eslint) {
-    rendererConfig.module.rules.push({
-      test: /\.(js|vue)$/,
-      loader: "eslint-loader",
-      enforce: "pre",
-      exclude: /node_modules/,
-      options: { formatter: require("eslint-friendly-formatter") }
-    })
-  }
 }
 
 /**

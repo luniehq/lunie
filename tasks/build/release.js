@@ -1,9 +1,8 @@
 "use strict"
 
 const { cli } = require(`@nodeguy/cli`)
-const config = require(`../../config`)
 const { createHash } = require("crypto")
-const optionsSpecification = require(`./options.json`)
+const optionsSpecification = require(`./optionsSpecification.json`)
 const path = require("path")
 const packager = require("electron-packager")
 const shell = require(`shelljs`)
@@ -15,13 +14,31 @@ var tar = require("tar-stream")
 var duplexer = require("duplexer")
 const packageJson = require("../../package.json")
 
-/**
- * Build webpack in production
- */
-const pack = async options => {
-  console.log("\x1b[33mBuilding webpack in production mode...\n\x1b[0m")
-  shell.exec("npm run pack")
-  build(options)
+const rewriteConfig = ({ network }) => {
+  const file = path.join(__dirname, `../../app`, `config.toml`)
+  const config = fs.readFileSync(file, { encoding: `utf8` })
+  const networkName = path.basename(network)
+
+  const newConfig = config.replace(
+    /default_network = ".*"/,
+    `default_network = "${networkName}"`
+  )
+
+  console.log(`Changed default network to "${networkName}".`)
+  fs.writeFileSync(file, newConfig)
+}
+
+// electron-packager options
+// Docs: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/building_your_app.html
+const building = {
+  arch: "x64",
+  asar: false,
+  dir: path.join(__dirname, "../../app"),
+  icon: path.join(__dirname, "../../app/icons/icon"),
+  ignore: /^\/(src|index\.ejs|icons)/,
+  out: path.join(__dirname, "../../builds"),
+  overwrite: true,
+  packageManager: "yarn"
 }
 
 /**
@@ -30,7 +47,7 @@ const pack = async options => {
 function build({ platform, gaia }) {
   console.log("Using prebuilt binary", gaia)
 
-  const options = Object.assign({}, config.building, {
+  const options = Object.assign({}, building, {
     afterCopy: [copyBinary("gaia", gaia)],
     platform
   })
@@ -61,6 +78,14 @@ function build({ platform, gaia }) {
       console.log("\n\x1b[34mDONE\n\x1b[0m")
     }
   })
+}
+
+/**
+ * Build webpack in production
+ */
+const pack = () => {
+  console.log("\x1b[33mBuilding webpack in production mode...\n\x1b[0m")
+  shell.exec("npm run pack")
 }
 
 function copyBinary(name, binaryLocation) {
@@ -204,20 +229,23 @@ function deterministicTar() {
   return duplexer(extract, pack)
 }
 
-cli(optionsSpecification, async options => {
-  const { platform, "skip-pack": skipPack } = options
+cli(optionsSpecification, options => {
+  const { network, platform, "skip-pack": skipPack } = options
 
   if (platform === "clean") {
     require("del").sync(["builds/*", "!.gitkeep"])
     console.log("\x1b[33m`builds` directory cleaned.\n\x1b[0m")
   } else {
     console.log(`Building for platform "${platform}".`)
+    rewriteConfig(options)
+    shell.cp(`-r`, `/mnt/network`, `app/networks/${path.basename(network)}`)
 
     if (skipPack) {
       console.log("Skipping packaging")
-      build(options)
     } else {
-      await pack(options)
+      pack()
     }
+
+    build(options)
   }
 })
