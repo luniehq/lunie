@@ -234,13 +234,15 @@ module.exports = {
       }
     }
     for (let { denom, amount } of req.amount) {
-      let receiverCoin = receiverAccount.find(c => c.denom === denom)
+      let receiverCoin = receiverAccount.coins.find(c => c.denom === denom)
       if (!receiverCoin) {
         receiverCoin = { amount: 0, denom }
         receiverAccount.coins.push(receiverCoin)
       }
       receiverCoin.amount += amount
     }
+
+    return txResult(0)
   },
 
   // staking
