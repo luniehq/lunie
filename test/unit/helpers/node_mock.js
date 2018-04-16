@@ -7,30 +7,20 @@ module.exports = {
   lcdPort: "9070",
   lcdConnected: () => Promise.resolve(true),
   getKey: () => ({ address: "someaddress" }),
-  generateKey: () => ({
-    key: "123",
-    seed_phrase: "a b c d e f g h i j k l"
-  }),
+  generateSeed: () => "a b c d e f g h i j k l",
   updateKey: () => {},
   listKeys: () => [],
-  recoverKey: () => ({
+  storeKey: () => ({
     key: "123",
+    password: "1234567890",
     seed_phrase: "a b c d e f g h i j k l"
   }),
   queryAccount: () => null,
-  queryNonce: () => ({ data: 123 }),
   buildDelegate: () => Promise.resolve(null),
   buildUnbond: () => Promise.resolve(null),
   coinTxs: () => Promise.resolve([]),
   candidates: () => Promise.resolve({ data: [] }),
-  buildSend: () => Promise.resolve({}),
-  sendTx: () => Promise.resolve(),
-  postTx: () =>
-    Promise.resolve({
-      check_tx: { code: 0 },
-      deliver_tx: { code: 0 }
-    }),
-  sign: () => Promise.resolve(null),
+  send: () => Promise.resolve({}),
   candidate: () =>
     Promise.resolve({
       data: {
