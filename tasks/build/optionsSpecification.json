@@ -1,6 +1,7 @@
 {
   "commit": ["commit from which to build", "HEAD"],
   "gaia": ["path to the gaia binary"],
+  "network": ["path to the default network to use", "app/networks/gaia-2"],
   "platform": ["the target platform {darwin|linux|win32}"],
   "skip-pack": ["skip the repackaging of the JS files", false]
 }

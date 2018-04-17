@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Improved performance of amountBonded in LiDelegate.vue./ @nylira
 * Prevented user from going to PageBond if they don't have any atoms. @nylira
 * Hid the bonding interface on PageDelegates if the user doesn't have any atoms. @nylira
-* Improved error handling by shutting down the application when the are unhandled errors in the main thread. @faboweb
+* Improved error handling by shutting down the application when there are unhandled errors in the main thread. @faboweb
 
 ## [0.4.0] - 2018-01-31
 
@@ -89,7 +89,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Added `mvp-features.md` to documentation. @nylira
 * Added full page error @nylira
+* Added receive button and receive modal @jolesbi
+* The validator hash now has to be approved by the user for security @faboweb
+* Transitioned to Docker for easier cross platform builds. @NodeGuy
+* New light theme for day time Voyaging 😎 🚀 @nylira
+* Users can now opt in or out of remote error collection. @faboweb
+* Ability to send over IBC @mappum
 
 ### Changed
 
 * If app crashes, a full page error is shown @faboweb
+* New Voyager logo @nylira
