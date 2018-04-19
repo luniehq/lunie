@@ -25,11 +25,7 @@ export default ({ commit }) => {
       localStorage.setItem("appTheme", theme)
     },
     updateTheme(state, theme) {
-      if (state.active === "light") {
-        setCssVars(state.options.light)
-      } else {
-        setCssVars(state.options.dark)
-      }
+      setCssVars(state.options[theme])
     }
   }
   return {

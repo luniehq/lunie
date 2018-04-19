@@ -41,11 +41,10 @@ export default {
   },
   mounted() {
     this.$store.commit("loadTheme")
-    this.$store.commit("updateTheme", this.themes.active)
   },
   store,
   watch: {
-    "themes.active"(newTheme) {
+    "themes.active"() {
       this.$store.commit("updateTheme", this.themes.active)
     }
   }
