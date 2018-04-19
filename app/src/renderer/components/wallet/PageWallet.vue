@@ -39,7 +39,7 @@ page(title='Wallet')
 <script>
 import { mapGetters } from "vuex"
 import { clipboard } from "electron"
-import { includes, orderBy } from "lodash"
+import { sum, includes, orderBy } from "lodash"
 import Btn from "@nylira/vue-button"
 import Mousetrap from "mousetrap"
 import DataLoading from "common/NiDataLoading"
@@ -92,12 +92,7 @@ export default {
       }
     },
     stakedTokens() {
-      let tokens = 0
-      let values = Object.values(this.committedDelegations)
-      if (values.length > 0) {
-        tokens = values.reduce((sum, d) => sum + d)
-      }
-      return tokens
+      return sum(Object.values(this.committedDelegations))
     },
     stakingDenom() {
       return this.config.bondingDenom.toUpperCase()

@@ -3,7 +3,7 @@ import LiProposal from "renderer/components/govern/LiProposal"
 
 describe("LiProposal", () => {
   let wrapper
-  let propsData = {
+  const propsData = {
     proposal: {
       id: "d93bf0eu",
       createdAt: 1493627091000,
