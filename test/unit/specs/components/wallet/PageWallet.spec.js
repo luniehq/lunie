@@ -98,12 +98,20 @@ describe("PageWallet", () => {
     ).toBe("Staked Balances")
   })
 
-  it("has a balance of staked tokens", () => {
+  it("has shows the correct number of staked tokens", () => {
     expect(
       wrapper
         .find("#part-staked-balances .ni-li-dd")
         .text()
         .trim()
     ).toBe("123")
+  })
+
+  it("has a number of staked tokens", () => {
+    expect(wrapper.vm.stakedTokens).toBe(123)
+  })
+
+  it("has a label for the staking denomination", () => {
+    expect(wrapper.vm.stakingDenom).toBe("FERMION")
   })
 })

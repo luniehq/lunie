@@ -31,7 +31,7 @@ page(title='Wallet')
   part#part-staked-balances(title="Staked Balances")
     list-item(
       btn="Stake"
-      :dt="denom"
+      :dt="stakingDenom"
       :dd="stakedTokens"
       :to="{name: 'staking'}")
 </template>
@@ -99,7 +99,7 @@ export default {
       }
       return tokens
     },
-    denom() {
+    stakingDenom() {
       return this.config.bondingDenom.toUpperCase()
     }
   },
