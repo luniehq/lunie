@@ -16,21 +16,21 @@ export default ({ commit }) => {
     }
   }
   const mutations = {
+    loadTheme(state) {
+      let theme = localStorage.getItem("appTheme")
+      commit("updateTheme", theme)
+    },
     setTheme(state, theme) {
+      commit("updateTheme", theme)
+      localStorage.setItem("appTheme", theme)
+    },
+    updateTheme(state, theme) {
       state.active = theme
-    },
-    updateTheme(state) {
-      if (state.active === "light") {
-        commit("setThemeLight")
+      if (theme === "light") {
+        setCssVars(state.options.light)
       } else {
-        commit("setThemeDark")
+        setCssVars(state.options.dark)
       }
-    },
-    setThemeLight(state) {
-      setCssVars(state.options.light)
-    },
-    setThemeDark(state) {
-      setCssVars(state.options.dark)
     }
   }
   return {
