@@ -2,3 +2,4 @@
 /builds/
 /package.json
 /test/unit/coverage/
+/test/unit/tmp/
