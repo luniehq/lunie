@@ -21,8 +21,8 @@
     "lint": "yarn lint:eslint && yarn lint:format",
     "lint:eslint":
       "eslint -f ./node_modules/eslint-friendly-formatter {,**/}*.{js,vue}",
-    "lint:format": "prettier --list-different {,**/}*.{css,js,json,md,vue}",
-    "lint:fix": "prettier --write {,**/}*.{css,js,json,md,vue}",
+    "lint:format": "prettier --list-different {,**/}*.{css,js,json,vue}",
+    "lint:fix": "prettier --write {,**/}*.{css,js,json,vue}",
     "pack": "yarn run pack:main && yarn run pack:renderer",
     "pack:main":
       "cross-env NODE_ENV=production webpack --colors --config webpack.main.config.js",
