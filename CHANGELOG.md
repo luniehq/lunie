@@ -100,3 +100,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * If app crashes, a full page error is shown @faboweb
 * New Voyager logo @nylira
+
+## [Unreleased]
+
+### Added
+
+* The following file types are now formatted with [Prettier](https://prettier.io/): css, js, json, vue.
