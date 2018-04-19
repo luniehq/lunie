@@ -34,4 +34,25 @@ describe("LiProposal", () => {
   it("has the expected html structure", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
+
+  it("has the right title", () => {
+    expect(wrapper.find(".title").text()).toBe(
+      "text An dixit, nitido! Qui ab plangi, frustraque lanam, credunt nec postquam"
+    )
+  })
+
+  it("shows the right author", () => {
+    expect(wrapper.find(".author").text()).toBe("serena-korgan")
+  })
+
+  it("has the right date", () => {
+    expect(wrapper.find(".date").text()).toBe("a few seconds ago")
+  })
+
+  it("has a link to the proposal page", () => {
+    expect(wrapper.vm.proposalLink).toEqual({
+      name: "proposal",
+      params: { proposal: "d93bf0eu" }
+    })
+  })
 })

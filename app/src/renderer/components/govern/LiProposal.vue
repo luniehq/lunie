@@ -1,6 +1,6 @@
 <template lang="pug">
 transition(name="proposal")
-  router-link.card-proposal(:to="{ name: 'proposal', params: { proposal: proposal.id }}")
+  router-link.card-proposal(:to="proposalLink")
     .chart: chart-votes(:votes="proposal.votes")
     .text
       .title #[span {{ proposal.type }}] {{ proposal.title }}
@@ -15,30 +15,17 @@ import moment from "moment"
 export default {
   name: "li-proposal",
   components: { ChartVotes },
-  computed: {},
-  methods: {
-    viewProposal() {
-      this.$router.push("/proposals/" + this.proposal.id)
-    },
-    timeAgo(date) {
-      if (date === 0) {
-        return "N/A"
-      } else {
-        return moment(date, "x").fromNow()
-      }
+  computed: {
+    proposalLink() {
+      return { name: "proposal", params: { proposal: this.proposal.id } }
     }
   },
-  props: ["proposal"],
-  mounted() {
-    let self = this
-
-    if (this.proposal.flags.new) {
-      // console.log('this proposal is new')
-      setTimeout(function() {
-        self.proposal.flags.new = false
-      }, 500)
+  methods: {
+    timeAgo(date) {
+      return moment(date, "x").fromNow()
     }
-  }
+  },
+  props: ["proposal"]
 }
 </script>
 
