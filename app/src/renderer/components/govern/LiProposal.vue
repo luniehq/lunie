@@ -6,27 +6,26 @@ transition(name="proposal")
       .title #[span {{ proposal.type }}] {{ proposal.title }}
       .meta
         .author {{ proposal.validatorId }}
-        .date {{ proposalCreatedAtAgo }}
+        .date {{ timeAgo(this.proposal.createdAt) }}
 </template>
 
 <script>
 import ChartVotes from "govern/ChartVotes"
-import dateUnix from "scripts/dateUnix"
-import dateUnixAgo from "scripts/dateUnixAgo"
+import moment from "moment"
 export default {
   name: "li-proposal",
   components: { ChartVotes },
-  computed: {
-    proposalCreatedAt() {
-      return dateUnix(this.proposal.createdAt)
-    },
-    proposalCreatedAtAgo() {
-      return dateUnixAgo(this.proposal.createdAt)
-    }
-  },
+  computed: {},
   methods: {
     viewProposal() {
       this.$router.push("/proposals/" + this.proposal.id)
+    },
+    timeAgo(date) {
+      if (date === 0) {
+        return "N/A"
+      } else {
+        return moment(date, "x").fromNow()
+      }
     }
   },
   props: ["proposal"],
