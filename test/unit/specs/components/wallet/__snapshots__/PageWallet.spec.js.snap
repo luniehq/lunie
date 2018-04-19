@@ -174,6 +174,7 @@ exports[`PageWallet has the expected html structure 1`] = `
     </section>
     <section
       class="ni-part"
+      id="part-available-balances"
     >
       <div
         class="ni-part-container"
@@ -235,6 +236,7 @@ exports[`PageWallet has the expected html structure 1`] = `
     </section>
     <section
       class="ni-part"
+      id="part-staked-balances"
     >
       <div
         class="ni-part-container"
@@ -281,7 +283,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  0
+                  123
                 </div>
               </div>
               <button
@@ -507,6 +509,7 @@ exports[`PageWallet should filter the balances 1`] = `
     </section>
     <section
       class="ni-part"
+      id="part-available-balances"
     >
       <div
         class="ni-part-container"
@@ -567,6 +570,7 @@ exports[`PageWallet should filter the balances 1`] = `
     </section>
     <section
       class="ni-part"
+      id="part-staked-balances"
     >
       <div
         class="ni-part-container"
@@ -613,7 +617,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="ni-li-dd"
                 >
-                  0
+                  123
                 </div>
               </div>
               <button

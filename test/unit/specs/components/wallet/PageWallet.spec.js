@@ -23,6 +23,7 @@ describe("PageWallet", () => {
         amount: 456
       }
     ])
+    store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })
     store.commit("setSearchQuery", ["balances", ""])
 
     wrapper.update()
@@ -77,5 +78,32 @@ describe("PageWallet", () => {
     wrapper.update()
     expect(wrapper.vm.allDenomBalances.length).not.toBe(0)
     expect(wrapper.vm.$el.querySelector("#no-balances")).toBe(null)
+  })
+
+  it("has a title for available balances", () => {
+    expect(
+      wrapper
+        .find("#part-available-balances .ni-part-title")
+        .text()
+        .trim()
+    ).toBe("Available Balances")
+  })
+
+  it("has a title for staked balances", () => {
+    expect(
+      wrapper
+        .find("#part-staked-balances .ni-part-title")
+        .text()
+        .trim()
+    ).toBe("Staked Balances")
+  })
+
+  it("has a balance of staked tokens", () => {
+    expect(
+      wrapper
+        .find("#part-staked-balances .ni-li-dd")
+        .text()
+        .trim()
+    ).toBe("123")
   })
 })

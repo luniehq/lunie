@@ -15,7 +15,7 @@ page(title='Wallet')
       :overflow="true"
       @click.native="copy")
 
-  part(title="Available Balances")
+  part#part-available-balances(title="Available Balances")
     data-loading(v-if="wallet.balancesLoading")
     data-empty(v-else-if="wallet.balances.length === 0")
     data-empty-search(v-else-if="filteredBalances.length === 0")
@@ -28,7 +28,7 @@ page(title='Wallet')
       :dd="i.amount"
       :to="{name: 'send', params: {denom: i.denom}}")
 
-  part(title="Staked Balances")
+  part#part-staked-balances(title="Staked Balances")
     list-item(
       btn="Stake"
       :dt="denom"
