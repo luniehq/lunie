@@ -106,3 +106,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * The following file types are now formatted with [Prettier](https://prettier.io/): css, js, json, vue.
+* Staked tokens are now shown on the wallet page.
+
+### Changed
+
+* The primary staking token is now set in configuration - Fermion during development, Atom for launch.
