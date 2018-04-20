@@ -24,7 +24,7 @@ exports[`PageWallet has the expected html structure 1`] = `
           class="ni-page-header-subtitle"
         >
           <h3>
-            
+
           </h3>
         </div>
       </div>
@@ -48,11 +48,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                     >
                       refresh
                     </i>
-                    <div
-                      class="label"
-                    >
-                      Refresh
-                    </div>
                   </a>
                   <a>
                     <i
@@ -60,11 +55,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                     >
                       search
                     </i>
-                    <div
-                      class="label"
-                    >
-                      Search
-                    </div>
                   </a>
                 </div>
                 <a
@@ -75,11 +65,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                   >
                     arrow_back
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Back
-                  </div>
                 </a>
                 <a
                   class="help"
@@ -89,11 +74,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                   >
                     help_outline
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Help
-                  </div>
                 </a>
                 <a
                   class="sign-out"
@@ -103,11 +83,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                   >
                     exit_to_app
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Sign Out
-                  </div>
                 </a>
               </div>
             </div>
@@ -148,35 +123,51 @@ exports[`PageWallet has the expected html structure 1`] = `
           class="ni-part-main"
         >
           <div
-            class="ni-li-copy"
+            class="ni-li ni-li-receive proposal-enter proposal-enter-active"
           >
             <div
-              class="value"
+              class="ni-li-container"
             >
-              123abc456def
-            </div>
-            <menu>
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-label"
+              >
+                <div
+                  class="ni-li-title"
+                >
+                  123abc456def
+                </div>
+                <div
+                  class="ni-li-subtitle"
+                >
+
+                </div>
+              </div>
               <button
-                class="ni-btn btn-copy"
+                class="ni-btn btn-receive"
               >
                 <span
-                  class="ni-btn__container"
+                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
                 >
                   <i
                     aria-hidden="true"
                     class="ni-btn__icon material-icons"
                   >
-                    content_copy
+                    file_download
                   </i>
                   <!---->
                   <span
                     class="ni-btn__value"
                   >
-                    Copy
+                    Receive
                   </span>
                 </span>
               </button>
-            </menu>
+            </div>
           </div>
         </main>
       </div>
@@ -240,33 +231,6 @@ exports[`PageWallet has the expected html structure 1`] = `
           <!---->
           <!---->
         </main>
-      </div>
-    </section>
-    <section
-      class="ni-part"
-    >
-      <div
-        class="ni-part-container"
-      >
-        <header
-          class="ni-part-header"
-        >
-          <div
-            class="ni-part-header-container"
-          >
-            <div
-              class="ni-part-title h5"
-            >
-              Network Denominations
-            </div>
-            <menu
-              class="ni-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="ni-part-main"
-        />
       </div>
     </section>
     <div
@@ -317,7 +281,7 @@ exports[`PageWallet should filter the balances 1`] = `
           class="ni-page-header-subtitle"
         >
           <h3>
-            
+
           </h3>
         </div>
       </div>
@@ -341,11 +305,6 @@ exports[`PageWallet should filter the balances 1`] = `
                     >
                       refresh
                     </i>
-                    <div
-                      class="label"
-                    >
-                      Refresh
-                    </div>
                   </a>
                   <a>
                     <i
@@ -353,11 +312,6 @@ exports[`PageWallet should filter the balances 1`] = `
                     >
                       search
                     </i>
-                    <div
-                      class="label"
-                    >
-                      Search
-                    </div>
                   </a>
                 </div>
                 <a
@@ -368,11 +322,6 @@ exports[`PageWallet should filter the balances 1`] = `
                   >
                     arrow_back
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Back
-                  </div>
                 </a>
                 <a
                   class="help"
@@ -382,11 +331,6 @@ exports[`PageWallet should filter the balances 1`] = `
                   >
                     help_outline
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Help
-                  </div>
                 </a>
                 <a
                   class="sign-out"
@@ -396,11 +340,6 @@ exports[`PageWallet should filter the balances 1`] = `
                   >
                     exit_to_app
                   </i>
-                  <div
-                    class="label"
-                  >
-                    Sign Out
-                  </div>
                 </a>
               </div>
             </div>
@@ -441,35 +380,51 @@ exports[`PageWallet should filter the balances 1`] = `
           class="ni-part-main"
         >
           <div
-            class="ni-li-copy"
+            class="ni-li ni-li-receive proposal-enter proposal-enter-active"
           >
             <div
-              class="value"
+              class="ni-li-container"
             >
-              123abc456def
-            </div>
-            <menu>
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-label"
+              >
+                <div
+                  class="ni-li-title"
+                >
+                  123abc456def
+                </div>
+                <div
+                  class="ni-li-subtitle"
+                >
+
+                </div>
+              </div>
               <button
-                class="ni-btn btn-copy"
+                class="ni-btn btn-receive"
               >
                 <span
-                  class="ni-btn__container"
+                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
                 >
                   <i
                     aria-hidden="true"
                     class="ni-btn__icon material-icons"
                   >
-                    content_copy
+                    file_download
                   </i>
                   <!---->
                   <span
                     class="ni-btn__value"
                   >
-                    Copy
+                    Receive
                   </span>
                 </span>
               </button>
-            </menu>
+            </div>
           </div>
         </main>
       </div>
@@ -532,33 +487,6 @@ exports[`PageWallet should filter the balances 1`] = `
           </div>
           <!---->
         </main>
-      </div>
-    </section>
-    <section
-      class="ni-part"
-    >
-      <div
-        class="ni-part-container"
-      >
-        <header
-          class="ni-part-header"
-        >
-          <div
-            class="ni-part-header-container"
-          >
-            <div
-              class="ni-part-title h5"
-            >
-              Network Denominations
-            </div>
-            <menu
-              class="ni-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="ni-part-main"
-        />
       </div>
     </section>
     <div

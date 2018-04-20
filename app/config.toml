@@ -1,0 +1,15 @@
+# Name of electron app
+# Will be used in production builds
+name = "Cosmos Voyager"
+
+# webpack-dev-server port
+wds_port = 9080
+lcd_port = 9070
+lcd_port_prod = 9071
+relay_port = 9060
+relay_port_prod = 9061
+
+default_network = "basecoin-demo1"
+google_analytics_uid = "UA-51029217-3"
+sentry_dsn = "https://4dee9f70a7d94cc0959a265c45902d84:cbf160384aab4cdeafbe9a08dee3b961@sentry.io/288169"
+sentry_dsn_public = "https://4dee9f70a7d94cc0959a265c45902d84@sentry.io/288169"

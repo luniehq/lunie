@@ -4,10 +4,6 @@ const mockFsExtra = require("../helpers/fs-mock").default
 // prevents warnings from repeated event handling
 process.setMaxListeners(1000)
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
-
 jest.mock("fs-extra", () => {
   let fs = require("fs")
   let mockFs = mockFsExtra()
@@ -51,32 +47,68 @@ jest.mock("electron", () => {
       buildFromTemplate() {},
       setApplicationMenu() {}
     },
-    ipcMain: { on: () => {} }
+    ipcMain: {
+      on: (type, cb) => {
+        if (type === "booted") {
+          cb()
+        }
+        if (type === "hash-approved") {
+          cb(null, "1234567890123456789012345678901234567890")
+        }
+      },
+      removeAllListeners: () => {}
+    }
   }
   return electron
+})
+
+let stdoutMocks = (path, args) => ({
+  on: (type, cb) => {
+    if (args[0] === "version" && type === "data") {
+      cb({ toString: () => "v0.5.0" })
+    }
+    // mock basecli init approval request
+    if (
+      type === "data" &&
+      path.includes("basecli") &&
+      args.includes("init") &&
+      args.length > 4
+    ) {
+      cb("No hash yet")
+      setImmediate(() => {
+        cb("1234567890123456789012345678901234567890")
+      })
+    }
+  }
+})
+let stderrMocks = (path, args) => ({
+  on: (type, cb) => {
+    // test for init of basecli
+    if (type === "data" && args.includes("init") && args.length === 4) {
+      cb({ toString: () => "already is initialized" })
+    }
+    if (
+      path.includes("basecli") &&
+      args.includes("rest-server") &&
+      type === "data"
+    ) {
+      cb("Not yet serving the lcd")
+      setImmediate(() => {
+        cb("Serving on")
+      })
+    }
+  }
 })
 childProcessMock((path, args) => ({
   on: (type, cb) => {
     // init processes always should return with 0
-    if (type === "exit" && args[0] === "init" && args.length > 4) {
+    if (type === "exit" && args.includes("init") && args.length > 4) {
       cb(0)
     }
   },
-  stdout: {
-    on: (type, cb) => {
-      if (args[0] === "version" && type === "data") {
-        cb({ toString: () => "0.13.0" })
-      }
-    }
-  },
-  stderr: {
-    on: (type, cb) => {
-      // test for init of basecoind
-      if (type === "data" && args[0] === "init" && args.length === 4) {
-        cb({ toString: () => "already is initialized" })
-      }
-    }
-  }
+  stdin: { write: () => {} },
+  stdout: stdoutMocks(path, args),
+  stderr: stderrMocks(path, args)
 }))
 
 let main
@@ -87,26 +119,13 @@ let childProcess
 
 describe("Startup Process", () => {
   Object.assign(process.env, {
-    LOGGING: false,
+    LOGGING: "false",
     COSMOS_NETWORK: "app/networks/basecoind-2",
     COSMOS_HOME: testRoot,
     NODE_ENV: "testing"
   })
 
   jest.mock(appRoot + "src/root.js", () => "./test/unit/tmp/test_root")
-  jest.mock("event-to-promise", () => {
-    let i = 0
-    return () =>
-      Promise.resolve({
-        toString: () => {
-          if (i++ >= 1) {
-            return "Starting RPC HTTP server"
-          } else {
-            return "Test"
-          }
-        }
-      })
-  })
 
   // uses package.json from voyager/ root.
   jest.mock(root + "package.json", () => ({ version: "0.1.0" }))
@@ -150,30 +169,6 @@ describe("Startup Process", () => {
       let appVersion = fs.readFileSync(testRoot + "app_version", "utf8")
       expect(appVersion).toBe("0.1.0")
     })
-
-    // TODO the stdout.on('data') trick doesn't work
-    xit("should init lcd server accepting the new app hash", async function() {
-      jest.resetModules()
-      let mockWrite = jest.fn()
-      childProcessMock((path, args) => ({
-        stdin: { write: mockWrite },
-        stdout: {
-          on: (type, cb) => {
-            if (
-              type === "data" &&
-              path.includes("basecli") &&
-              args[0] === "server" &&
-              args[1] === "init"
-            ) {
-              cb("Will you accept the hash?")
-            }
-          }
-        }
-      }))
-      jest.resetModules()
-      main = await require(appRoot + "src/main/index.js")
-      expect(mockWrite).toHaveBeenCalledWith("y\n")
-    })
   })
 
   describe("Initialization in dev mode", function() {
@@ -182,7 +177,7 @@ describe("Startup Process", () => {
 
       Object.assign(process.env, {
         NODE_ENV: "development",
-        LOGGING: false
+        LOGGING: "false"
       })
     })
 
@@ -194,30 +189,6 @@ describe("Startup Process", () => {
     it("should create the config dir", async function() {
       expect(fs.existsSync(testRoot)).toBe(true)
     })
-
-    // TODO the stdout.on('data') trick doesn't work
-    xit("should init lcd accepting the new app hash", async function() {
-      jest.resetModules()
-      let mockWrite = jest.fn()
-      childProcessMock((path, args) => ({
-        stdin: { write: mockWrite },
-        stdout: {
-          on: (type, cb) => {
-            if (
-              type === "data" &&
-              path.includes("basecli") &&
-              args[0] === "server" &&
-              args[1] === "init"
-            ) {
-              cb("Will you accept the hash?")
-            }
-          }
-        }
-      }))
-      jest.resetModules()
-      main = await require(appRoot + "src/main/index.js")
-      expect(mockWrite).toHaveBeenCalledWith("y\n")
-    })
   })
 
   describe("Initialization in dev mode", function() {
@@ -226,7 +197,7 @@ describe("Startup Process", () => {
 
       Object.assign(process.env, {
         NODE_ENV: "development",
-        LOGGING: false
+        LOGGING: "false"
       })
     })
 
@@ -335,17 +306,33 @@ describe("Startup Process", () => {
 
   describe("IPC", () => {
     let registeredIPCListeners = {}
+    let send
+
+    function registerIPCListeners(registeredIPCListeners) {
+      const { ipcMain } = require("electron")
+      ipcMain.on = (type, cb) => {
+        // the booted signal needs to be sent (from the view) for the main thread to signal events to the view
+        if (type === "booted") {
+          cb()
+          return
+        }
+        if (type === "hash-approved") {
+          cb(null, "1234567890123456789012345678901234567890")
+          return
+        }
+        registeredIPCListeners[type] = cb
+      }
+    }
 
     beforeEach(async function() {
       prepareMain()
-      // register ipc listeners
-      const { ipcMain } = require("electron")
-      ipcMain.on = (type, cb) => {
-        registeredIPCListeners[type] = cb
-      }
+      send = require("electron").send
+
+      registerIPCListeners(registeredIPCListeners)
       // axios is used to ping nodes for the reconnection intent
       let axios = require("axios")
       axios.get = () => Promise.resolve()
+
       main = await require(appRoot + "src/main/index.js")
     })
 
@@ -354,24 +341,36 @@ describe("Startup Process", () => {
       registeredIPCListeners = {}
     })
 
+    it("should provide the connected node when the view has booted", async () => {
+      expect(
+        send.mock.calls.filter(([type, _]) => type === "connected").length
+      ).toBe(1)
+      expect(
+        send.mock.calls.find(([type, _]) => type === "connected")[1]
+      ).toBeTruthy() // TODO fix seeds so we can test nodeIP output
+    })
+
     it("should reconnect on IPC call", async () => {
-      const { send } = require("electron")
       await registeredIPCListeners["reconnect"]()
 
-      expect(send.mock.calls[1][0]).toBe("connected")
+      expect(
+        send.mock.calls.filter(([type, _]) => type === "connected").length
+      ).toBe(2)
     })
 
     it("should not start reconnecting again if already trying to reconnect", async () => {
       let axios = require("axios")
       let spy = jest.spyOn(axios, "get")
+      spy.mockImplementationOnce(async () => {
+        await registeredIPCListeners["reconnect"]()
+        return Promise.resolve()
+      })
 
-      registeredIPCListeners["reconnect"]()
       await registeredIPCListeners["reconnect"]()
       expect(spy).toHaveBeenCalledTimes(1) // a node has only be pinged once
     })
 
     it("should search through nodes until it finds one", async () => {
-      const { send } = require("electron")
       let axios = require("axios")
       axios.get = jest
         .fn()
@@ -380,7 +379,9 @@ describe("Startup Process", () => {
 
       await registeredIPCListeners["reconnect"]()
 
-      expect(send.mock.calls[1][0]).toBe("connected")
+      expect(
+        send.mock.calls.filter(([type, _]) => type === "connected").length
+      ).toBe(2)
     })
 
     it("should print a success message if connected to node", async () => {
@@ -391,13 +392,6 @@ describe("Startup Process", () => {
       consoleSpy.mockRestore()
     })
 
-    it("should provide the connected node when the view has booted", async () => {
-      let event = { sender: { send: jest.fn() } }
-      registeredIPCListeners["booted"](event)
-      expect(event.sender.send.mock.calls[0][0]).toEqual("connected")
-      expect(event.sender.send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
-    })
-
     it("should provide the error if the main process failed before the view has booted", async () => {
       main.shutdown()
 
@@ -405,47 +399,47 @@ describe("Startup Process", () => {
       resetModulesKeepingFS()
       fs.removeSync(join(testRoot, "genesis.json"))
 
-      // register listeners again
-      const { ipcMain } = require("electron")
-      ipcMain.on = (type, cb) => {
-        registeredIPCListeners[type] = cb
-      }
+      // register listeners again as we rest the modules
+      registerIPCListeners(registeredIPCListeners)
 
       // run main
       main = await require(appRoot + "src/main/index.js")
 
-      let event = { sender: { send: jest.fn() } }
-      registeredIPCListeners["booted"](event)
-      expect(event.sender.send.mock.calls[0][0]).toEqual("error")
-      expect(event.sender.send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
+      let { send } = require("electron")
+      expect(send.mock.calls[0][0]).toEqual("error")
+      expect(send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
     })
 
-    it("should set error collection according to the error collection opt in state", async () => {
+    it("should try another node if user disapproved the hash", async () => {
       main.shutdown()
-
       prepareMain()
-      // register listeners again
+
       const { ipcMain } = require("electron")
       ipcMain.on = (type, cb) => {
-        registeredIPCListeners[type] = cb
+        // the booted signal needs to be sent (from the view) for the main thread to signal events to the view
+        if (type === "booted") {
+          cb()
+          return
+        }
+        // disapprove first hash
+        if (type === "hash-disapproved") {
+          cb(null, "1234567890123456789012345678901234567890")
+
+          // approve second hash
+          ipcMain.on = (type, cb) => {
+            if (type === "hash-approved") {
+              cb(null, "1234567890123456789012345678901234567890")
+              return
+            }
+          }
+        }
       }
 
       // run main
       main = await require(appRoot + "src/main/index.js")
-
-      const Raven = require("raven")
-      const ravenSpy = jest.spyOn(Raven, "config")
-
-      registeredIPCListeners["error-collection"](null, true)
-      expect(ravenSpy).toHaveBeenCalled()
-      expect(ravenSpy.mock.calls[0]).not.toBe("")
-      expect(ravenSpy.mock.calls).toMatchSnapshot()
-
-      ravenSpy.mockClear()
-      registeredIPCListeners["error-collection"](null, false)
-      expect(ravenSpy).toHaveBeenCalledWith("", {
-        captureUnhandledRejections: false
-      })
+      expect(
+        send.mock.calls.filter(([type, _]) => type === "connected").length
+      ).toBe(1)
     })
   })
 
@@ -453,22 +447,8 @@ describe("Startup Process", () => {
     afterEach(function() {
       main.shutdown()
     })
-    it("should rerun lcd server if lcd server fails", async function() {
-      failingChildProcess("basecli", "rest-server")
-      main = await initMain()
-
-      await sleep(1000)
-
-      expect(
-        childProcess.spawn.mock.calls.find(
-          ([path, args]) =>
-            path.includes("basecli") && args.includes("rest-server")
-        ).length
-      ).toBeGreaterThan(1)
-    })
 
     it("should fail if config.toml has no seeds", async () => {
-      jest.resetModules()
       main = await initMain()
       main.shutdown()
       let configText = fs.readFileSync(join(testRoot, "config.toml"), "utf8")
@@ -544,10 +524,8 @@ describe("Startup Process", () => {
   })
 
   describe("Error handling on init", () => {
-    beforeEach(async function() {
-      jest.resetModules()
-    })
     testFailingChildProcess("basecli", "init")
+    testFailingChildProcess("basecli", "rest-server")
   })
 })
 
@@ -585,17 +563,21 @@ function testFailingChildProcess(name, cmd) {
   return it(`should fail if there is a not handled error in the ${name} ${cmd ||
     ""} process`, async function() {
     failingChildProcess(name, cmd)
-    jest.resetModules()
+    prepareMain()
     let { send } = require("electron")
     await require(appRoot + "src/main/index.js")
 
-    expect(send.mock.calls[0][0]).toBe("error")
-    expect(send.mock.calls[0][1].message).toContain(name)
+    expect(send.mock.calls.find(([type, _]) => type === "error")).toBeTruthy()
+    expect(
+      send.mock.calls
+        .find(([type, _]) => type === "error")[1]
+        .message.toLowerCase()
+    ).toContain(name)
   })
 }
 
 function childProcessMock(mockExtend = () => ({})) {
-  jest.mock("child_process", () => ({
+  jest.doMock("child_process", () => ({
     spawn: jest.fn((path, args) =>
       Object.assign(
         {},
@@ -623,30 +605,18 @@ function failingChildProcess(mockName, mockCmd) {
       if (type === "exit") {
         if (
           path.includes(mockName) &&
-          (mockCmd === undefined || args[0] === mockCmd)
+          (mockCmd === undefined || args.find(x => x === mockCmd))
         ) {
           cb(-1)
           // init processes always should return with 0
-        } else if (args[0] === "init") {
+        } else if (args.find(x => x === "init")) {
           cb(0)
         }
       }
     },
-    stdout: {
-      on: (type, cb) => {
-        if (args[0] === "version" && type === "data") {
-          cb({ toString: () => "v0.5.0" })
-        }
-      }
-    },
-    stderr: {
-      on: (type, cb) => {
-        // test for init of basecoind
-        if (type === "data" && args[0] === "init" && args.length === 4) {
-          cb({ toString: () => "already is initialized" })
-        }
-      }
-    }
+    stdin: { write: () => {} },
+    stdout: stdoutMocks(path, args),
+    stderr: stderrMocks(path, args)
   }))
 }
 
@@ -657,4 +627,8 @@ function resetModulesKeepingFS() {
   jest.resetModules()
   fs = require("fs-extra")
   fs.fs = fileSystem
+
+  // we want to keep Raven quiet
+  const Raven = require("raven")
+  Raven.disableConsoleAlerts()
 }

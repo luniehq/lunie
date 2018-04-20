@@ -1,12 +1,10 @@
 <template lang="pug">
 page(title='Proposals')
   div(slot="menu"): tool-bar
-    router-link(to="/proposals/new" exact)
+    router-link(to="/proposals/new" exact v-tooltip.bottom="'New Proposal'")
       i.material-icons add
-      .label New Proposal
-    a(@click='setSearch(true)')
+    a(@click='setSearch(true)' v-tooltip.bottom="'Search'")
       i.material-icons search
-      .label Search
   modal-search(type="proposals")
 
   data-loading(v-if="proposals.loading")

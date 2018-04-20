@@ -38,10 +38,11 @@
         placeholder="Must be exactly 12 words")
       form-msg(name='Seed' type='required' v-if='!$v.fields.importSeed.required')
 
-    form-group(field-id="error-collection" field-label=' ')
+    form-group(field-id="error-collection" field-label=''
+      :error='$v.fields.errorCollection.$error')
       .ni-field-checkbox
         .ni-field-checkbox-input
-          input#sign-up-warning(type="checkbox" v-model="fields.errorCollection")
+          input#error-collection(type="checkbox" v-model="fields.errorCollection")
         label.ni-field-checkbox-label(for="error-collection")
           | I'd like to opt in for remote error tracking to help improve Voyager.
 

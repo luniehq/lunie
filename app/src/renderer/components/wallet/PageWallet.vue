@@ -1,17 +1,19 @@
 <template lang="pug">
 page(title='Wallet')
   div(slot="menu"): tool-bar
-    a(@click='updateBalances()')
+    a(@click='updateBalances()' v-tooltip.bottom="'Refresh'")
       i.material-icons refresh
-      .label Refresh
-    a(@click='setSearch(true)')
+    a(@click='setSearch(true)' v-tooltip.bottom="'Search'")
       i.material-icons search
-      .label Search
 
   modal-search(type="balances")
 
   part(title='Your Address')
-    li-copy(:value="wallet.address")
+    list-item(
+      :title="wallet.address"
+      :btn="'Receive'"
+      :overflow="true"
+      @click.native="copy")
 
   part(title="Denomination Balances")
     //- only show loader if no balances showing, would be annoying to always show loader
@@ -26,18 +28,13 @@ page(title='Wallet')
       :dt="i.denom.toUpperCase()"
       :dd="i.amount"
       :to="{name: 'send', params: {denom: i.denom}}")
-
-  part(title="Network Denominations")
-    list-item(
-      v-for="i in filteredBalances"
-      v-if="i.amount === 0"
-      :key="i.denom"
-      :dt="i.denom.toUpperCase()")
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import { clipboard } from "electron"
 import { includes, orderBy } from "lodash"
+import Btn from "@nylira/vue-button"
 import Mousetrap from "mousetrap"
 import DataLoading from "common/NiDataLoading"
 import DataEmpty from "common/NiDataEmpty"
@@ -95,6 +92,15 @@ export default {
     },
     updateBalances() {
       this.$store.dispatch("queryWalletState")
+    },
+    copy() {
+      clipboard.writeText(this.wallet.key.address)
+
+      this.$store.commit("notify", {
+        title: "Copied your address to clipboard.",
+        body:
+          "You can receive Cosmos tokens of any denomination by sharing this address."
+      })
     }
   },
   mounted() {

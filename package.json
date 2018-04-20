@@ -21,8 +21,8 @@
     "lint": "yarn lint:eslint && yarn lint:format",
     "lint:eslint":
       "eslint -f ./node_modules/eslint-friendly-formatter {,**/}*.{js,vue}",
-    "lint:format": "prettier --list-different {,**/}*.{css,js,json,md,vue}",
-    "lint:fix": "prettier --write {,**/}*.{css,js,json,md,vue}",
+    "lint:format": "prettier --list-different {,**/}*.{css,js,json,vue}",
+    "lint:fix": "prettier --write {,**/}*.{css,js,json,vue}",
     "pack": "yarn run pack:main && yarn run pack:renderer",
     "pack:main":
       "cross-env NODE_ENV=production webpack --colors --config webpack.main.config.js",
@@ -136,6 +136,7 @@
     "toml": "2.3.3",
     "user-home": "2.0.0",
     "vue": "2.5.13",
+    "vue-directive-tooltip": "1.4.5",
     "vue-electron": "1.0.6",
     "vue-resource": "1.3.5",
     "vue-router": "3.0.1",
@@ -172,7 +173,7 @@
       "/build/",
       "/dist/",
       "/test/",
-      "/config.js"
+      "/app/src/config.js"
     ],
     "testURL": "http://localhost",
     "setupFiles": [
@@ -180,7 +181,7 @@
       "./test/unit/helpers/setup.js",
       "./test/unit/helpers/console_error_throw.js",
       "./test/unit/helpers/genesis_mock.js",
-      "./test/unit/helpers/ipc_mock.js",
+      "./test/unit/helpers/electron_mock.js",
       "jest-localstorage-mock"
     ]
   },

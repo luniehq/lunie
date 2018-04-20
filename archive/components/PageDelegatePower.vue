@@ -1,10 +1,9 @@
 <template lang="pug">
 page(icon="storage" :title="`${delegateId} Vote Power`")
   div(slot="menu"): tool-bar
-    router-link(
+    router-link(v-tooltip.bottom="'Back'"
       :to="{ name: 'delegate', params: { delegate: $route.params.delegate }}")
       i.material-icons arrow_back
-      .label Back
 
   part(title='Vote Power (Millions of ATOMs) / Time')
     chart-vote-power(:votes="chartData")

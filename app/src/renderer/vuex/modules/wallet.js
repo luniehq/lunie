@@ -1,12 +1,13 @@
 let fs = require("fs-extra")
 let { join } = require("path")
-let root = require("../../../root.js")
+const { remote } = require("electron")
+const root = remote.getGlobal("root")
 
 export default ({ commit, node }) => {
   let state = {
     balances: [],
-    balancesLoading: false,
-    address: "",
+    balancesLoading: true,
+    key: { address: "" },
     history: [],
     historyLoading: false,
     denoms: [],
@@ -58,17 +59,17 @@ export default ({ commit, node }) => {
       dispatch("queryWalletHistory")
     },
     async queryWalletBalances({ state, rootState, commit, dispatch }) {
-      state.balancesLoading = true
-
       let res = await node.queryAccount(state.address)
-      if (res) {
-        commit("setNonce", res.sequence)
-        commit("setWalletBalances", res.coins)
-        for (let coin of res.coins) {
-          if (coin.denom === rootState.config.bondingDenom) {
-            commit("setAtoms", coin.amount)
-            break
-          }
+      if (!res) {
+        state.balancesLoading = true
+        return
+      }
+      commit("setNonce", res.sequence)
+      commit("setWalletBalances", res.coins)
+      for (let coin of res.coins) {
+        if (coin.denom === rootState.config.bondingDenom) {
+          commit("setAtoms", coin.amount)
+          break
         }
       }
 

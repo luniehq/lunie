@@ -430,9 +430,9 @@ export default {
 
 .bond-group--negative
   .bond-bar-old__inner
-    background var(--danger)
+    background var(--input-bc)
   .bond-delta
-    color var(--danger)
+    color var(--input-bc)
 
 .bond-group__fields
   display flex
@@ -492,7 +492,7 @@ export default {
     right 1px
     width 2rem - 0.25rem - 0.125rem
     height 2rem - 0.25rem - 0.125rem
-    background txt
+    background var(--txt)
     border-radius 1rem
     z-index z(listItem)
 
