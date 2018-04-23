@@ -88,16 +88,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
     class="ni-page-main ps"
   >
     <!---->
-    <li-transaction
-      address="myAddress"
-      devmode="true"
-      transaction-value="[object Object]"
-    />
-    <li-transaction
-      address="myAddress"
-      devmode="true"
-      transaction-value="[object Object]"
-    />
+    <data-empty-tx />
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
