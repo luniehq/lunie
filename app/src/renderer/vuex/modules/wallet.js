@@ -17,6 +17,7 @@ export default ({ commit, node }) => {
   let mutations = {
     setWalletBalances(state, balances) {
       state.balances = balances
+      state.balancesLoading = false
     },
     setWalletAddress(state, address) {
       state.address = address

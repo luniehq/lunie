@@ -3,7 +3,7 @@
 let state = {
   keys: [
     {
-      name: "MOCK_ACCOUNT",
+      name: "default",
       password: "1234567890",
       address: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
     }
@@ -207,8 +207,15 @@ module.exports = {
   async send (to, req) {
     let fromKey = state.keys.find(a => a.name === req.name)
     let fromAccount = state.accounts[fromKey.address]
+    if (fromAccount == null) {
+      return txResult(1, 'Nonexistent account')
+    }
 
     for (let { denom, amount } of req.amount) {
+      console.log(denom, amount)
+      if (amount < 0) {
+        return txResult(1, 'Amount cannot be negative')
+      }
       if (fromAccount.coins.find(c => c.denom === denom).amount < amount) {
         return txResult(1, 'Not enough coins in your account')
       }
@@ -243,6 +250,11 @@ module.exports = {
     }
 
     return txResult(0)
+  },
+  ibcSend (to, req) {
+    // XXX ignores chainId, treated as normal send
+    to = to.split('/')[1]
+    return module.exports.send(to, req)
   },
 
   // staking

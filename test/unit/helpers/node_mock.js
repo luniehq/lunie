@@ -1,6 +1,6 @@
 let mockValidators = require("src/helpers/json/mock_validators.json")
+let mockLcd = require('../../../app/src/renderer/connectors/lcdClientMock.js')
 
-// XXX use lcdclientmock instead of this dup?
 module.exports = {
   // REST
   relayPort: "9060",
@@ -20,7 +20,8 @@ module.exports = {
   buildUnbond: () => Promise.resolve(null),
   coinTxs: () => Promise.resolve([]),
   candidates: () => Promise.resolve({ data: [] }),
-  send: () => Promise.resolve({}),
+  send: () => Promise.resolve({ }),
+  ibcSend: () => Promise.resolve({ }),
   candidate: () =>
     Promise.resolve({
       data: {
@@ -55,5 +56,7 @@ module.exports = {
     nodeIP: "127.0.0.1"
   },
   rpcConnect: () => {},
-  rpcReconnect: () => Promise.resolve("1.1.1.1")
+  rpcReconnect: () => Promise.resolve("1.1.1.1"),
+
+  ...mockLcd
 }
