@@ -12,7 +12,7 @@ describe("PageWallet", () => {
     wrapper = instance.wrapper
     store = instance.store
 
-    store.commit("setWalletKey", { address: "123abc456def" })
+    store.commit("setWalletAddress", "123abc456def")
     store.commit("setWalletBalances", [
       {
         denom: "ATOM",
@@ -61,7 +61,7 @@ describe("PageWallet", () => {
   })
 
   it("should list the denoms that are available", () => {
-    expect(wrapper.findAll(".ni-li").length).toBe(1) // address is .ni-li
+    expect(wrapper.findAll(".ni-li").length).toBe(3) // address is .ni-li
   })
 
   it("should show the n/a message if there are no denoms", () => {

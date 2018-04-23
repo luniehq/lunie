@@ -122,7 +122,53 @@ exports[`PageWallet has the expected html structure 1`] = `
         <main
           class="ni-part-main"
         >
-          <!---->
+          <div
+            class="ni-li ni-li-receive proposal-enter proposal-enter-active"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-label"
+              >
+                <div
+                  class="ni-li-title"
+                >
+                  123abc456def
+                </div>
+                <div
+                  class="ni-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <button
+                class="ni-btn btn-receive"
+              >
+                <span
+                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="ni-btn__icon material-icons"
+                  >
+                    file_download
+                  </i>
+                  <!---->
+                  <span
+                    class="ni-btn__value"
+                  >
+                    Receive
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
         </main>
       </div>
     </section>
@@ -151,37 +197,103 @@ exports[`PageWallet has the expected html structure 1`] = `
         <main
           class="ni-part-main"
         >
-          <div
-            class="ni-data-msg"
+          <!---->
+          <a
+            class="ni-li ni-li-link proposal-enter proposal-enter-active"
+            href="#/wallet/send"
           >
             <div
-              class="ni-data-msg__icon"
+              class="ni-li-container"
             >
-              <i
-                class="material-icons fa-spin"
+              <div
+                class="ni-li-thumb"
               >
-                rotate_right
-              </i>
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  FERMION
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  456
+                </div>
+              </div>
+              <button
+                class="ni-btn"
+              >
+                <span
+                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="ni-btn__icon material-icons"
+                  >
+                    chevron_right
+                  </i>
+                  <!---->
+                  <span
+                    class="ni-btn__value"
+                  >
+                    Send
+                  </span>
+                </span>
+              </button>
             </div>
+          </a>
+          <a
+            class="ni-li ni-li-link proposal-enter proposal-enter-active"
+            href="#/wallet/send"
+          >
             <div
-              class="ni-data-msg__text"
+              class="ni-li-container"
             >
               <div
-                class="ni-data-msg__title"
+                class="ni-li-thumb"
               >
-                <div>
-                  Data is loading…
-                </div>
+                <!---->
               </div>
               <div
-                class="ni-data-msg__subtitle"
+                class="ni-li-dl"
               >
-                <div>
-                  Please wait a moment.
+                <div
+                  class="ni-li-dt"
+                >
+                  ATOM
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  123
                 </div>
               </div>
+              <button
+                class="ni-btn"
+              >
+                <span
+                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="ni-btn__icon material-icons"
+                  >
+                    chevron_right
+                  </i>
+                  <!---->
+                  <span
+                    class="ni-btn__value"
+                  >
+                    Send
+                  </span>
+                </span>
+              </button>
             </div>
-          </div>
+          </a>
         </main>
       </div>
     </section>
@@ -233,7 +345,7 @@ exports[`PageWallet should filter the balances 1`] = `
           class="ni-page-header-subtitle"
         >
           <h3>
-
+            
           </h3>
         </div>
       </div>
@@ -353,7 +465,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="ni-li-subtitle"
                 >
-
+                  
                 </div>
               </div>
               <button
@@ -406,38 +518,103 @@ exports[`PageWallet should filter the balances 1`] = `
         <main
           class="ni-part-main"
         >
-          <div
-            class="ni-data-msg"
+          <!---->
+          <a
+            class="ni-li ni-li-link proposal-leave proposal-leave-active"
+            href="#/wallet/send"
           >
             <div
-              class="ni-data-msg__icon"
+              class="ni-li-container"
             >
-              <i
-                class="material-icons fa-spin"
+              <div
+                class="ni-li-thumb"
               >
-                rotate_right
-              </i>
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  FERMION
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  456
+                </div>
+              </div>
+              <button
+                class="ni-btn"
+              >
+                <span
+                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="ni-btn__icon material-icons"
+                  >
+                    chevron_right
+                  </i>
+                  <!---->
+                  <span
+                    class="ni-btn__value"
+                  >
+                    Send
+                  </span>
+                </span>
+              </button>
             </div>
+          </a>
+          <a
+            class="ni-li ni-li-link proposal-enter proposal-enter-active"
+            href="#/wallet/send"
+          >
             <div
-              class="ni-data-msg__text"
+              class="ni-li-container"
             >
               <div
-                class="ni-data-msg__title"
+                class="ni-li-thumb"
               >
-                <div>
-                  Data is loading…
-                </div>
+                <!---->
               </div>
               <div
-                class="ni-data-msg__subtitle"
+                class="ni-li-dl"
               >
-                <div>
-                  Please wait a moment.
+                <div
+                  class="ni-li-dt"
+                >
+                  ATOM
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  123
                 </div>
               </div>
+              <button
+                class="ni-btn"
+              >
+                <span
+                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="ni-btn__icon material-icons"
+                  >
+                    chevron_right
+                  </i>
+                  <!---->
+                  <span
+                    class="ni-btn__value"
+                  >
+                    Send
+                  </span>
+                </span>
+              </button>
             </div>
-          </div>
-          <!---->
+          </a>
         </main>
       </div>
     </section>
