@@ -225,10 +225,9 @@ async function startLCD(home, nodeIP) {
     ])
     logProcess(child, join(home, "lcd.log"))
 
-    // XXX why the hell stderr?!?!?!?
-    child.stderr.on("data", data => {
-      if (data.includes("Serving on")) resolve(child)
-    })
+    // XXX: should wait for server to be ready
+    setTimeout(resolve, 1000)
+
     child.on("exit", () => {
       reject()
       afterBooted(() => {
