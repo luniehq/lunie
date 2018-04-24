@@ -5,11 +5,81 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.3.0] - 2018-01-15
+## [Unreleased]
 
 ### Added
 
-* Added a changelog @jolesbi.
+* The following file types are now formatted with [Prettier](https://prettier.io/): css, js, json, vue.
+* Staked tokens are now shown on the wallet page.
+
+### Changed
+
+* If app crashes, a full page error is shown @faboweb
+* New Voyager logo @nylira
+
+## [0.4.4] - 2018-03-08
+
+### Added
+
+* Added `mvp-features.md` to documentation. @nylira
+* Added full page error @nylira
+* Added receive button and receive modal @jolesbi
+* The validator hash now has to be approved by the user for security @faboweb
+* Transitioned to Docker for easier cross platform builds. @NodeGuy
+* New light theme for day time Voyaging 😎 🚀 @nylira
+* Users can now opt in or out of remote error collection. @faboweb
+* Ability to send over IBC @mappum
+
+### Changed
+
+* The primary staking token is now set in configuration - Fermion during development, Atom for launch.
+
+## [0.4.3] - 2018-02-05
+
+### Changed
+
+* Renamed Cosmos UI to Cosmos Voyager. @nylira
+* Added Google Analytics for testnet versions @faboweb
+* Added Sentry error reporting for testnet versions @faboweb
+* Fixed reconnection issues @faboweb
+* Made Windows builds deterministic @mappum
+* Reduced size of OSX builds @mappum
+
+## [0.4.2] - 2018-02-05
+
+###Added
+
+* Added back button to every page. @jolesbi
+
+###Changed
+
+* Updated transaction history to be more clear and descriptive. @jolesbi
+* Improved delegate profile page to accommodate candidates and validators. @jolesbi
+
+## [0.4.1] - 2018-02-01
+
+###Fixed
+
+* Fix for Windows build crashing on startup. @faboweb
+
+## [0.4.0] - 2018-02-01
+
+### Added
+
+* Added button styles for Success, Warning, and Danger states. @nylira
+* Added support for image icons. @faboweb
+* Added release documentation. @mappum
+
+### Changed
+
+* Improved primary button style. @nylira
+* Fixed the cut-off text bug in buttons. @nylira
+* Improves the `hover-bg` app variable color. @nylira
+* Updated release script to use `tar-fs` instead of `tar-stream` to support symlinks. @nylira
+
+### Removed
+
+* Removed unused `sass-loader` node dependency. @nylira
 
 ## [0.3.1] - 2018-01-30
 
@@ -27,87 +97,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Hid the bonding interface on PageDelegates if the user doesn't have any atoms. @nylira
 * Improved error handling by shutting down the application when there are unhandled errors in the main thread. @faboweb
 
-## [0.4.0] - 2018-01-31
+## [0.3.0] - 2018-01-15
 
 ### Added
-
-* Added release documentation. @mappum
-
-### Changed
-
-* Updated app version to 0.4.0 in `package.json`
-* Updated release script to use `tar-fs` instead of `tar-stream` to support symlinks. @nylira
-
-### Removed
-
-* Removed unused `sass-loader` node dependency. @nylira
-
-## [0.4.0] - 2018-02-01
-
-### Added
-
-* Added button styles for Success, Warning, and Danger states. @nylira
-* Added support for image icons. @faboweb
-
-### Changed
-
-* Improved primary button style. @nylira
-* Fixed the cut-off text bug in buttons. @nylira
-* Improves the `hover-bg` app variable color. @nylira
-
-## [0.4.1] - 2018-02-01
-
-###Fixed
-
-* Fix for Windows build crashing on startup. @faboweb
-
-## [0.4.2] - 2018-02-05
-
-###Added
-
-* Added back button to every page. @jolesbi
-
-###Changed
-
-* Updated transaction history to be more clear and descriptive. @jolesbi
-* Improved delegate profile page to accommodate candidates and validators. @jolesbi
-
-## [0.4.3] - 2018-02-05
-
-### Changed
-
-* Renamed Cosmos UI to Cosmos Voyager. @nylira
-* Added Google Analytics for testnet versions @faboweb
-* Added Sentry error reporting for testnet versions @faboweb
-* Fixed reconnection issues @faboweb
-* Made Windows builds deterministic @mappum
-* Reduced size of OSX builds @mappum
-
-## [0.4.4] - 2018-03-08
-
-### Added
-
-* Added `mvp-features.md` to documentation. @nylira
-* Added full page error @nylira
-* Added receive button and receive modal @jolesbi
-* The validator hash now has to be approved by the user for security @faboweb
-* Transitioned to Docker for easier cross platform builds. @NodeGuy
-* New light theme for day time Voyaging 😎 🚀 @nylira
-* Users can now opt in or out of remote error collection. @faboweb
-* Ability to send over IBC @mappum
-
-### Changed
-
-* If app crashes, a full page error is shown @faboweb
-* New Voyager logo @nylira
-
-## [Unreleased]
-
-### Added
-
-* The following file types are now formatted with [Prettier](https://prettier.io/): css, js, json, vue.
-* Staked tokens are now shown on the wallet page.
-
-### Changed
-
-* The primary staking token is now set in configuration - Fermion during development, Atom for launch.
+* Added a changelog @jolesbi.
