@@ -138,9 +138,10 @@ export default {
 .ni-session-footer
   border-top 2*px solid var(--bc-dim)
   flex 0 0 5rem + px
+  padding 0 2rem
   display flex
   align-items center
-  justify-content center
+  justify-content space-between
 
   &:empty
     display none

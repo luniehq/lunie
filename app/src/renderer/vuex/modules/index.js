@@ -6,6 +6,7 @@ export default opts => ({
   filters: require("./filters.js").default(opts),
   node: require("./node.js").default(opts),
   notifications: require("./notifications.js").default(opts),
+  onboarding: require("./onboarding.js").default(opts),
   proposals: require("./proposals.js").default(opts),
   send: require("./send.js").default(opts),
   themes: require("./themes.js").default(opts),
