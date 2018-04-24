@@ -59,7 +59,7 @@ export default ({ commit, node }) => {
       return node.generateSeed()
     },
     async createKey ({ commit, dispatch }, { seedPhrase, password, name }) {
-      let address = await node.storeKey({
+      let { address } = await node.storeKey({
         name, password, seed: seedPhrase
       })
       dispatch('initializeWallet', address)

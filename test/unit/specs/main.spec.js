@@ -143,7 +143,6 @@ describe("Startup Process", () => {
     })
 
     it("should init lcd server with correct testnet", async function() {
-      console.log(childProcess.spawn.mock.calls)
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
