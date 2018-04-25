@@ -226,7 +226,7 @@ async function startLCD(home, nodeIP) {
     logProcess(child, join(home, "lcd.log"))
 
     // XXX: should wait for server to be ready
-    setTimeout(resolve, 1000)
+    setTimeout(() => resolve(child), 1000)
 
     child.on("exit", () => {
       reject()
@@ -234,7 +234,7 @@ async function startLCD(home, nodeIP) {
         if (mainWindow) {
           mainWindow.webContents.send(
             "error",
-            Error("The Gaia REST-server (LCD) exited unplanned")
+            Error("The basecli rest-server (LCD) exited unplanned")
           )
         }
       })
@@ -306,7 +306,7 @@ async function initLCD(chainId, home, node) {
               // since the LCD is talking to our own full node
               child.stdin.write("y\n")
 
-              expectCleanExit(child, "gaia init exited unplanned").then(
+              expectCleanExit(child, "basecli init exited unplanned").then(
                 resolve,
                 reject
               )
