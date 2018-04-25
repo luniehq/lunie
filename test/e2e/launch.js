@@ -7,6 +7,7 @@ let { join } = require("path")
 let { spawn } = require("child_process")
 let fs = require("fs-extra")
 let { newTempDir, login } = require("./common.js")
+const shell = require(`shelljs`)
 
 let app, home, cliHome, started
 let binary = process.env.BINARY_PATH
@@ -151,27 +152,21 @@ async function startApp(app, awaitingSelector = ".ni-session") {
 }
 
 async function startLocalNode() {
-  await new Promise((resolve, reject) => {
-    let child = spawn(binary, [
-      "node",
-      "init",
-      "D0718DDFF62D301626B428A182F830CBB0AD21FC",
-      "--home",
-      cliHome,
-      "--chain-id",
-      "localtestnet"
-    ])
-    child.once("exit", code => {
-      if (code === 0) resolve()
-      reject()
-    })
-  })
-  console.log("inited local node")
+  const command = `${binary} node init \
+D0718DDFF62D301626B428A182F830CBB0AD21FC --home ${cliHome} \
+--chain-id localtestnet`
+
+  console.log(command)
+  shell.exec(command)
+  console.log(`Initialized local node.`)
 
   await new Promise((resolve, reject) => {
     // TODO cleanup
-    let localnodeProcess = spawn(binary, ["node", "start", "--home", cliHome])
+    const command = `${binary} node start --home ${cliHome}`
+    console.log(command)
+    let localnodeProcess = shell.exec(command, { async: true, silent: true })
     localnodeProcess.stderr.pipe(process.stderr)
+
     localnodeProcess.stdout.once("data", data => {
       let msg = data.toString()
       if (!msg.includes("Failed") && !msg.includes("Error")) {
@@ -179,11 +174,13 @@ async function startLocalNode() {
       }
       reject()
     })
+
     localnodeProcess.once("exit", code => {
       reject()
     })
   })
-  console.log("started local node")
+
+  console.log(`Started local node.`)
 }
 
 async function createAccount(name, seed) {
