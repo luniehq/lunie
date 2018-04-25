@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiProposal has the expected html structure 1`] = `
+<router-link
+  class="card-proposal"
+  name="proposal"
+  to="[object Object]"
+>
+  <div
+    class="chart"
+  >
+    <!---->
+  </div>
+  <div
+    class="text"
+  >
+    <div
+      class="title"
+    >
+      <span>
+        text
+      </span>
+       An dixit, nitido! Qui ab plangi, frustraque lanam, credunt nec postquam
+    </div>
+    <div
+      class="meta"
+    >
+      <div
+        class="author"
+      >
+        serena-korgan
+      </div>
+      <div
+        class="date"
+      >
+        a few seconds ago
+      </div>
+    </div>
+  </div>
+</router-link>
+`;

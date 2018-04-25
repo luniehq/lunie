@@ -1,45 +1,31 @@
 <template lang="pug">
 transition(name="proposal")
-  router-link.card-proposal(:to="{ name: 'proposal', params: { proposal: proposal.id }}")
+  router-link.card-proposal(:to="proposalLink")
     .chart: chart-votes(:votes="proposal.votes")
     .text
       .title #[span {{ proposal.type }}] {{ proposal.title }}
       .meta
         .author {{ proposal.validatorId }}
-        .date {{ proposalCreatedAtAgo }}
+        .date {{ timeAgo(this.proposal.createdAt) }}
 </template>
 
 <script>
 import ChartVotes from "govern/ChartVotes"
-import dateUnix from "scripts/dateUnix"
-import dateUnixAgo from "scripts/dateUnixAgo"
+import moment from "moment"
 export default {
   name: "li-proposal",
   components: { ChartVotes },
   computed: {
-    proposalCreatedAt() {
-      return dateUnix(this.proposal.createdAt)
-    },
-    proposalCreatedAtAgo() {
-      return dateUnixAgo(this.proposal.createdAt)
+    proposalLink() {
+      return { name: "proposal", params: { proposal: this.proposal.id } }
     }
   },
   methods: {
-    viewProposal() {
-      this.$router.push("/proposals/" + this.proposal.id)
+    timeAgo(date) {
+      return moment(date, "x").fromNow()
     }
   },
-  props: ["proposal"],
-  mounted() {
-    let self = this
-
-    if (this.proposal.flags.new) {
-      // console.log('this proposal is new')
-      setTimeout(function() {
-        self.proposal.flags.new = false
-      }, 500)
-    }
-  }
+  props: ["proposal"]
 }
 </script>
 
