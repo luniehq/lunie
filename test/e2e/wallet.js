@@ -71,7 +71,11 @@ test("wallet", async function(t) {
     let denomBtn = denom => $(`option=${denom.toUpperCase()}`)
 
     t.test("fermion balance before sending", async function(t) {
-      await app.client.waitForExist(`//div[contains(text(), "FERMION")]`, 5000)
+      await app.client.waitForExist(
+        `//div[contains(text(), "FERMION")]`,
+        15 * 1000
+      )
+
       let fermionEl = balanceEl("fermion")
       let balance = await fermionEl.getText()
       t.equal(balance, "9007199254740992", "fermion balance is correct")
@@ -155,7 +159,11 @@ test("wallet", async function(t) {
       await navigate(app, "Wallet")
 
       let fermionEl = () => balanceEl("fermion")
-      await app.client.waitForExist(`//div[contains(text(), "FERMION")]`, 5000)
+      await app.client.waitForExist(
+        `//div[contains(text(), "FERMION")]`,
+        15 * 1000
+      )
+
       await waitForText(fermionEl, "100", 5000)
       t.pass("received mycoin transaction")
       t.end()

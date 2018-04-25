@@ -145,7 +145,7 @@ async function printAppLog(app) {
 async function startApp(app, awaitingSelector = ".ni-session") {
   await app.start()
 
-  await app.client.waitForExist(awaitingSelector, 5000).catch(async e => {
+  await app.client.waitForExist(awaitingSelector, 10 * 1000).catch(async e => {
     await printAppLog(app)
     throw e
   })
