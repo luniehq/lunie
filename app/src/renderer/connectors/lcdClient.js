@@ -37,6 +37,7 @@ class Client {
       let res = await axios[method.toLowerCase()](this.server + path, data)
       return res.data
     } catch (resError) {
+      console.log('error', resError)
       if (!resError.response || !resError.response.data) {
         throw resError
       }
@@ -74,15 +75,15 @@ Object.assign(Client.prototype, {
   send: argReq('POST', '/accounts', '/send'),
   ibcSend: argReq('POST', '/ibc', '/send'),
   queryAccount (address) {
-    try {
-      return fetchAccount.call(this, address)
-    } catch (err) {
-      // if account not found, return null instead of throwing
-      if (err.message.includes("account bytes are empty")) {
-        return null
-      }
-      throw err
-    }
+    return fetchAccount.call(this, address)
+      .catch((err) => {
+        console.log('err')
+        // if account not found, return null instead of throwing
+        if (err.message.includes("account bytes are empty")) {
+          return null
+        }
+        throw err
+      })
   },
   coinTxs: argReq("GET", "/tx/coin"),
 
