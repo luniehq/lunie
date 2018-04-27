@@ -44,11 +44,10 @@ describe("LCD Client", () => {
   })
 
   it("makes a POST request", async () => {
-    axios.post = jest
-      .fn()
+    axios.post = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ data: { foo: "bar" } }))
 
-    let res = await client.generateKey()
+    let res = await client.storeKey()
     expect(res).toEqual({ foo: "bar" })
     expect(axios.post.mock.calls[0]).toEqual([
       "http://localhost:8998/keys",
@@ -115,19 +114,6 @@ describe("LCD Client", () => {
     )
     let res = await client.queryAccount("address")
     expect(res).toBe(null)
-
-    axios.get = jest.fn().mockReturnValueOnce(
-      Promise.reject({
-        response: {
-          data: {
-            error: "nonce empty",
-            code: 2
-          }
-        }
-      })
-    )
-    res = await client.queryNonce("address")
-    expect(res).toBe(0)
   })
 
   it("checks for the connection with the lcd by performing a simple request", async () => {
