@@ -7,10 +7,10 @@ export default ({ commit, node }) => {
   let state = {
     balances: [],
     balancesLoading: true,
-    key: { address: "" },
     history: [],
     historyLoading: false,
     denoms: [],
+    address: null,
     zoneIds: ["basecoind-demo1", "basecoind-demo2"]
   }
 
