@@ -2,8 +2,7 @@ export default ({ commit, node }) => {
   let lock = null
 
   let state = {
-    nonce: 0,
-    loading: false
+    nonce: 0
   }
 
   const mutations = {

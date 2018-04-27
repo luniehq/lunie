@@ -1,5 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Module: Send send transactions should send a tx  1`] = `Array []`;
-
-exports[`Module: Send send transactions should send from wallet 1`] = `Array []`;
+exports[`Module: Send send transactions should send from wallet 1`] = `
+Array [
+  Array [
+    "address",
+    Object {
+      "amount": Array [
+        Object {
+          "amount": 123,
+          "denom": "mycoin",
+        },
+      ],
+      "chain_id": "",
+      "name": "default",
+      "password": "1234567890",
+      "sequence": 1,
+      "src_chain_id": "",
+    },
+  ],
+]
+`;

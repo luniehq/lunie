@@ -212,7 +212,6 @@ module.exports = {
     }
 
     for (let { denom, amount } of req.amount) {
-      console.log(denom, amount)
       if (amount < 0) {
         return txResult(1, 'Amount cannot be negative')
       }
