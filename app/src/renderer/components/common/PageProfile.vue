@@ -5,28 +5,25 @@ page(title="My Profile")
   part(title='My Profile')
     list-item(dt="Account Name" :dd="user.account")
     list-item(dt="Address" :dd="user.address")
-    .ni-li
-      .ni-li-container
-        .ni-li-dl
-          .ni-li-dt Remote error tracking
-          .ni-li-dd
-            .ni-field-checkbox
-              .ni-field-checkbox-input
-                input#toggle-error-reports(
-                  type="checkbox"
-                  :checked="user.errorCollection || undefined"
-                  @change="setErrorCollection")
-    .ni-li
-      .ni-li-container
-        .ni-li-dl
-          .ni-li-dt Enable light theme
-          .ni-li-dd
-            .ni-field-checkbox
-              .ni-field-checkbox-input
-                input#toggle-light-theme(
-                  type="checkbox"
-                  :checked="themes.active === 'light'"
-                  @change="toggleAppTheme")
+    list-item(dt="Remote error tracking")
+      div(slot="dd"): .ni-field-checkbox: .ni-field-checkbox-input
+        input#toggle-error-reports(
+          type="checkbox"
+          :checked="user.errorCollection || undefined"
+          @change="setErrorCollection")
+    list-item(dt="Light theme")
+      div(slot="dd"): .ni-field-checkbox: .ni-field-checkbox-input
+        input#toggle-light-theme(
+          type="checkbox"
+          :checked="themes.active === 'light'"
+          @change="setAppTheme")
+    list-item(dt="Onboarding tutorial")
+      div(slot="dd"): .ni-field-checkbox: .ni-field-checkbox-input
+        input#toggle-onboarding(
+          type="checkbox"
+          :checked="onboarding.active"
+          @change="setOnboarding")
+
   .ni-session-footer
     btn(icon='exit_to_app' type='button' @click.native="signOut" value='Sign Out')
 </template>
@@ -47,13 +44,13 @@ export default {
     Part,
     ToolBar
   },
-  computed: { ...mapGetters(["user", "themes"]) },
+  computed: { ...mapGetters(["user", "themes", "onboarding"]) },
   methods: {
     signOut() {
       this.$store.dispatch("signOut")
       this.$store.commit("notifySignOut")
     },
-    toggleAppTheme() {
+    setAppTheme() {
       if (this.themes.active === "dark") {
         this.$store.commit("setTheme", "light")
       } else {
@@ -65,6 +62,10 @@ export default {
         account: this.user.account,
         optin: !this.user.errorCollection
       })
+    },
+    setOnboarding(value) {
+      this.$store.commit("setOnboardingState", "welcome")
+      this.$store.commit("setOnboardingActive", true)
     }
   }
 }
