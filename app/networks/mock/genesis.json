@@ -1,6 +1,6 @@
 {
   "genesis_time": "2017-12-30T04:49:30Z",
-  "chain_id": "gaia-2",
+  "chain_id": "mock",
   "validators": [
     {
       "pub_key": {
