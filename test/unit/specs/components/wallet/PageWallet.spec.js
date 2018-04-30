@@ -23,6 +23,7 @@ describe("PageWallet", () => {
         amount: 456
       }
     ])
+    store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })
     store.commit("setSearchQuery", ["balances", ""])
 
     wrapper.update()
@@ -61,7 +62,7 @@ describe("PageWallet", () => {
   })
 
   it("should list the denoms that are available", () => {
-    expect(wrapper.findAll(".ni-li").length).toBe(3) // address is .ni-li
+    expect(wrapper.findAll(".ni-li-balance").length).toBe(0)
   })
 
   it("should show the n/a message if there are no denoms", () => {
@@ -77,5 +78,40 @@ describe("PageWallet", () => {
     wrapper.update()
     expect(wrapper.vm.allDenomBalances.length).not.toBe(0)
     expect(wrapper.vm.$el.querySelector("#no-balances")).toBe(null)
+  })
+
+  it("has a title for available balances", () => {
+    expect(
+      wrapper
+        .find("#part-available-balances .ni-part-title")
+        .text()
+        .trim()
+    ).toBe("Available Balances")
+  })
+
+  it("has a title for staked balances", () => {
+    expect(
+      wrapper
+        .find("#part-staked-balances .ni-part-title")
+        .text()
+        .trim()
+    ).toBe("Staked Balances")
+  })
+
+  it("has shows the correct number of staked tokens", () => {
+    expect(
+      wrapper
+        .find("#part-staked-balances .ni-li-dd")
+        .text()
+        .trim()
+    ).toBe("123")
+  })
+
+  it("has a number of staked tokens", () => {
+    expect(wrapper.vm.stakedTokens).toBe(123)
+  })
+
+  it("has a label for the staking denomination", () => {
+    expect(wrapper.vm.stakingDenom).toBe("FERMION")
   })
 })

@@ -174,6 +174,7 @@ exports[`PageWallet has the expected html structure 1`] = `
     </section>
     <section
       class="ni-part"
+      id="part-available-balances"
     >
       <div
         class="ni-part-container"
@@ -187,7 +188,7 @@ exports[`PageWallet has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Denomination Balances
+              Available Balances
             </div>
             <menu
               class="ni-part-menu"
@@ -199,7 +200,7 @@ exports[`PageWallet has the expected html structure 1`] = `
         >
           <!---->
           <a
-            class="ni-li ni-li-link proposal-enter proposal-enter-active"
+            class="ni-li ni-li-link ni-li-balance proposal-enter proposal-enter-active"
             href="#/wallet/send"
           >
             <div
@@ -247,7 +248,7 @@ exports[`PageWallet has the expected html structure 1`] = `
             </div>
           </a>
           <a
-            class="ni-li ni-li-link proposal-enter proposal-enter-active"
+            class="ni-li ni-li-link ni-li-balance proposal-enter proposal-enter-active"
             href="#/wallet/send"
           >
             <div
@@ -289,6 +290,83 @@ exports[`PageWallet has the expected html structure 1`] = `
                     class="ni-btn__value"
                   >
                     Send
+                  </span>
+                </span>
+              </button>
+            </div>
+          </a>
+        </main>
+      </div>
+    </section>
+    <section
+      class="ni-part"
+      id="part-staked-balances"
+    >
+      <div
+        class="ni-part-container"
+      >
+        <header
+          class="ni-part-header"
+        >
+          <div
+            class="ni-part-header-container"
+          >
+            <div
+              class="ni-part-title h5"
+            >
+              Staked Balances
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
+        >
+          <a
+            class="ni-li ni-li-link"
+            href="#/staking"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  FERMION
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  123
+                </div>
+              </div>
+              <button
+                class="ni-btn"
+              >
+                <span
+                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="ni-btn__icon material-icons"
+                  >
+                    chevron_right
+                  </i>
+                  <!---->
+                  <span
+                    class="ni-btn__value"
+                  >
+                    Stake
                   </span>
                 </span>
               </button>
@@ -495,6 +573,7 @@ exports[`PageWallet should filter the balances 1`] = `
     </section>
     <section
       class="ni-part"
+      id="part-available-balances"
     >
       <div
         class="ni-part-container"
@@ -508,7 +587,7 @@ exports[`PageWallet should filter the balances 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Denomination Balances
+              Available Balances
             </div>
             <menu
               class="ni-part-menu"
@@ -520,7 +599,7 @@ exports[`PageWallet should filter the balances 1`] = `
         >
           <!---->
           <a
-            class="ni-li ni-li-link proposal-leave proposal-leave-active"
+            class="ni-li ni-li-link ni-li-balance proposal-leave proposal-leave-active"
             href="#/wallet/send"
           >
             <div
@@ -568,7 +647,7 @@ exports[`PageWallet should filter the balances 1`] = `
             </div>
           </a>
           <a
-            class="ni-li ni-li-link proposal-enter proposal-enter-active"
+            class="ni-li ni-li-link ni-li-balance proposal-enter proposal-enter-active"
             href="#/wallet/send"
           >
             <div
@@ -610,6 +689,83 @@ exports[`PageWallet should filter the balances 1`] = `
                     class="ni-btn__value"
                   >
                     Send
+                  </span>
+                </span>
+              </button>
+            </div>
+          </a>
+        </main>
+      </div>
+    </section>
+    <section
+      class="ni-part"
+      id="part-staked-balances"
+    >
+      <div
+        class="ni-part-container"
+      >
+        <header
+          class="ni-part-header"
+        >
+          <div
+            class="ni-part-header-container"
+          >
+            <div
+              class="ni-part-title h5"
+            >
+              Staked Balances
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
+        >
+          <a
+            class="ni-li ni-li-link"
+            href="#/staking"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  FERMION
+                </div>
+                <div
+                  class="ni-li-dd"
+                >
+                  123
+                </div>
+              </div>
+              <button
+                class="ni-btn"
+              >
+                <span
+                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="ni-btn__icon material-icons"
+                  >
+                    chevron_right
+                  </i>
+                  <!---->
+                  <span
+                    class="ni-btn__value"
+                  >
+                    Stake
                   </span>
                 </span>
               </button>

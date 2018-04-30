@@ -40,11 +40,11 @@ export default {
     ...mapGetters(["notifications", "config", "themes", "approvalRequired"])
   },
   mounted() {
-    this.$store.commit("updateTheme", this.themes.active)
+    this.$store.commit("loadTheme")
   },
   store,
   watch: {
-    "themes.active"(newTheme) {
+    "themes.active"() {
       this.$store.commit("updateTheme", this.themes.active)
     }
   }
