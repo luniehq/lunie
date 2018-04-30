@@ -61,15 +61,21 @@ describe("PageStaking", () => {
 
   it("should sort the delegates by selected property", () => {
     expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual([
+      "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4",
+      "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD",
+      "651E7B12B3C7234FB82B4417C59DCE30E4EA28F06AD0ACAEDFF05F013E463F10",
       "pubkeyY",
-      "pubkeyX"
+      "pubkeyX",
     ])
 
     wrapper.vm.sort.property = "id"
     wrapper.vm.sort.order = "desc"
     expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual([
       "pubkeyY",
-      "pubkeyX"
+      "pubkeyX",
+      "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4",
+      "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD",
+      "651E7B12B3C7234FB82B4417C59DCE30E4EA28F06AD0ACAEDFF05F013E463F10"
     ])
   })
 
