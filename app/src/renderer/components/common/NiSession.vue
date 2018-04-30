@@ -128,6 +128,12 @@ export default {
 
   overflow-y auto
 
+  .description
+    text-align center
+    margin-bottom 1rem
+  img
+    max-width 100%
+
   .ps-scrollbar-y-rail
     display none
 

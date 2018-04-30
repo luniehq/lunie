@@ -1,11 +1,10 @@
 <template lang="pug">
 .ni-session: .ni-session-container
   .ni-session-header
-    .ni-session-title You can vote
+    .ni-session-title Welcome to Voyager
   .ni-session-main
-    p Option 1
-    p Option 2
-    p Option 3
+    .description Through governance, you can vote on the future of the Cosmos Network.
+    img(src="~@/assets/images/onboarding/step-4.png")
   .ni-session-footer
     btn(value="Skip" @click.native="skip" icon="close")
     btn(value="Next" @click.native="next('explore')" color="primary" icon="chevron_right" icon-pos="right" )

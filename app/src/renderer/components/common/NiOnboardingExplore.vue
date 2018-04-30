@@ -1,10 +1,10 @@
 <template lang="pug">
 .ni-session: .ni-session-container
   .ni-session-header
-    .ni-session-title You can explore the cosmos
+    .ni-session-title Welcome to Voyager
   .ni-session-main
-    p With
-    p Voyager!
+    .description That's everything. Start using Voyager to explore the Cosmos Network!
+    img(src="~@/assets/images/onboarding/step-5.png")
   .ni-session-footer
     btn(value="Restart" @click.native="restart" icon="settings_backup_restore")
     btn(value="Finish" @click.native="finish" color="primary" icon="chevron_right" icon-pos="right" )
