@@ -72,7 +72,7 @@ test("wallet", async function(t) {
 
     t.test("fermion balance before sending", async function(t) {
       await app.client.waitForExist(
-        `//div[contains(text(), "FERMION")]`,
+        `//span[contains(text(), "Send")]`,
         15 * 1000
       )
 
@@ -160,7 +160,7 @@ test("wallet", async function(t) {
 
       let fermionEl = () => balanceEl("fermion")
       await app.client.waitForExist(
-        `//div[contains(text(), "FERMION")]`,
+        `//span[contains(text(), "Send")]`,
         15 * 1000
       )
 
