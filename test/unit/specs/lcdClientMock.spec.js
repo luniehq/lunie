@@ -78,7 +78,7 @@ describe("LCD Client Mock", () => {
     })
     res = await client.send(toAddr, {
       sequence: 1,
-      name: 'MOCK_ACCOUNT',
+      name: 'default',
       fees: [],
       amount: [
         {
@@ -106,7 +106,7 @@ describe("LCD Client Mock", () => {
     })
     let tx = await client.send(toAddr, {
       sequence: 1,
-      name: 'MOCK_ACCOUNT',
+      name: 'default',
       fees: [],
       amount: [
         {
@@ -137,7 +137,7 @@ describe("LCD Client Mock", () => {
     })
     let res = await client.send(toAddr, {
       sequence: 1,
-      name: 'MOCK_ACCOUNT',
+      name: 'default',
       fees: [],
       amount: [
         {
@@ -165,7 +165,7 @@ describe("LCD Client Mock", () => {
     })
     let res = await client.send(toAddr, {
       sequence: 1,
-      name: 'MOCK_ACCOUNT',
+      name: 'default',
       fees: [],
       amount: [
         {
