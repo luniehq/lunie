@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+* The following file types are now formatted with [Prettier](https://prettier.io/): css, js, json, vue.
+* Staked tokens are now shown on the wallet page.
+
+### Changed
+
+* If app crashes, a full page error is shown @faboweb
+* New Voyager logo @nylira
+
 ## [0.4.4] - 2018-03-08
 
 ### Added
@@ -20,14 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-* If app crashes, a full page error is shown @faboweb
-* New Voyager logo @nylira
-
-## [Unreleased]
-
-### Added
-
-* The following file types are now formatted with [Prettier](https://prettier.io/): css, js, json, vue.
+* The primary staking token is now set in configuration - Fermion during development, Atom for launch.
 
 ## [0.4.3] - 2018-02-05
 
@@ -95,5 +100,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.3.0] - 2018-01-15
 
 ### Added
-
 * Added a changelog @jolesbi.

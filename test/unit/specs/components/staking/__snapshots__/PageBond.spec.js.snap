@@ -17,7 +17,7 @@ exports[`PageBond has the expected html structure 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-            Bond Atoms
+            Bond FERMION
           </h2>
         </div>
         <div
@@ -94,7 +94,7 @@ exports[`PageBond has the expected html structure 1`] = `
             <div
               class="ni-part-title h5"
             >
-              Start bonding your 101 ATOM
+              Start bonding your 101 FERMION
             </div>
             <menu
               class="ni-part-menu"
@@ -126,7 +126,7 @@ exports[`PageBond has the expected html structure 1`] = `
                       <label
                         class="bond-bar__label"
                       >
-                        Unbonded Atoms
+                        Unbonded FERMION
                       </label>
                       <div
                         class="bond-bar__input"

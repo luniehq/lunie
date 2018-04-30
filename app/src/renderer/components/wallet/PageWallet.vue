@@ -15,11 +15,11 @@ page(title='Wallet')
       :overflow="true"
       @click.native="copy")
 
-  part(title="Denomination Balances")
+  part#part-available-balances(title="Available Balances")
     data-loading(v-if="wallet.balancesLoading")
     data-empty(v-else-if="wallet.balances.length === 0")
     data-empty-search(v-else-if="filteredBalances.length === 0")
-    list-item(
+    list-item.ni-li-balance(
       v-for="i in filteredBalances"
       v-if="wallet.balances.length > 0 && i.amount > 0 && !wallet.balancesLoading"
       :btn="'Send'"
@@ -27,12 +27,19 @@ page(title='Wallet')
       :dt="i.denom.toUpperCase()"
       :dd="i.amount"
       :to="{name: 'send', params: {denom: i.denom}}")
+
+  part#part-staked-balances(title="Staked Balances")
+    list-item(
+      btn="Stake"
+      :dt="stakingDenom"
+      :dd="stakedTokens"
+      :to="{name: 'staking'}")
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import { clipboard } from "electron"
-import { includes, orderBy } from "lodash"
+import { sum, includes, orderBy } from "lodash"
 import Btn from "@nylira/vue-button"
 import Mousetrap from "mousetrap"
 import DataLoading from "common/NiDataLoading"
@@ -58,7 +65,7 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(["filters", "wallet"]),
+    ...mapGetters(["filters", "wallet", "committedDelegations", "config"]),
     allDenomBalances() {
       // for denoms not in balances, add empty balance
       let balances = this.wallet.balances.slice(0)
@@ -83,6 +90,12 @@ export default {
       } else {
         return list
       }
+    },
+    stakedTokens() {
+      return sum(Object.values(this.committedDelegations))
+    },
+    stakingDenom() {
+      return this.config.bondingDenom.toUpperCase()
     }
   },
   methods: {
