@@ -25,4 +25,4 @@ index_all_tags = true
 max_num_peers = 300
 pex = true
 laddr = "tcp://0.0.0.0:46656"
-seeds = ""
+seeds = "localhost"
