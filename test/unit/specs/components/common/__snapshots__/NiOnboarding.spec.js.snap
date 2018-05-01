@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiOnboarding has the expected html structure 0 1`] = `
+"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
+   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
+   <div class=\\"ni-session\\">
+      <div class=\\"ni-session-container\\">
+         <div class=\\"ni-session-header\\">
+            <div class=\\"ni-session-title\\">
+               Welcome to Voyager
+            </div>
+</div>
+<div class=\\"ni-session-main\\">
+   <div class=\\"ni-session-label\\">
+      This is a quick tour of the primary features of Voyager.
+   </div>
+<img src=\\"function () {        return fn.apply(this, arguments);      }\\">
+<div class=\\"ni-bar-discrete\\">
+   <div class=\\"ni-bar-discrete__container\\">
+      <div class=\\"ni-bar-discrete__edge\\"></div>
+<div class=\\"ni-bar-discrete__node ni-bar-discrete__node--active\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+</div>
+</div>
+</div>
+<div class=\\"ni-session-footer\\">
+   <button class=\\"ni-btn\\"><span class=\\"ni-btn__container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">close</i>
+   <!---->
+   <span class=\\"ni-btn__value\\">Skip</span></span></button><button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">chevron_right</i>
+   <!---->
+   <span class=\\"ni-btn__value\\">Next</span></span></button>
+</div>
+</div>
+</div>
+</div>"
+`;
+
+exports[`NiOnboarding has the expected html structure 1 1`] = `
+"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
+   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
+   <div class=\\"ni-session\\">
+      <div class=\\"ni-session-container\\">
+         <div class=\\"ni-session-header\\">
+            <div class=\\"ni-session-title\\">
+               Welcome to Voyager
+            </div>
+</div>
+<div class=\\"ni-session-main\\">
+   <div class=\\"ni-session-label\\">
+      You can send and receive Cosmos tokens from anyone around the world.
+   </div>
+<img src=\\"function () {        return fn.apply(this, arguments);      }\\">
+<div class=\\"ni-bar-discrete\\">
+   <div class=\\"ni-bar-discrete__container\\">
+      <div class=\\"ni-bar-discrete__edge\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+</div>
+</div>
+</div>
+<div class=\\"ni-session-footer\\">
+   <button class=\\"ni-btn\\"><span class=\\"ni-btn__container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">close</i>
+   <!---->
+   <span class=\\"ni-btn__value\\">Skip</span></span></button><button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">chevron_right</i>
+   <!---->
+   <span class=\\"ni-btn__value\\">Next</span></span></button>
+</div>
+</div>
+</div>
+</div>"
+`;
+
+exports[`NiOnboarding has the expected html structure 2 1`] = `
+"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
+   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
+   <div class=\\"ni-session\\">
+      <div class=\\"ni-session-container\\">
+         <div class=\\"ni-session-header\\">
+            <div class=\\"ni-session-title\\">
+               Welcome to Voyager
+            </div>
+</div>
+<div class=\\"ni-session-main\\">
+   <div class=\\"ni-session-label\\">
+      You can stake your Atoms to Cosmos Validators to earn even more Atoms.
+   </div>
+<img src=\\"function () {        return fn.apply(this, arguments);      }\\">
+<div class=\\"ni-bar-discrete\\">
+   <div class=\\"ni-bar-discrete__container\\">
+      <div class=\\"ni-bar-discrete__edge\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+</div>
+</div>
+</div>
+<div class=\\"ni-session-footer\\">
+   <button class=\\"ni-btn\\"><span class=\\"ni-btn__container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">close</i>
+   <!---->
+   <span class=\\"ni-btn__value\\">Skip</span></span></button><button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">chevron_right</i>
+   <!---->
+   <span class=\\"ni-btn__value\\">Next</span></span></button>
+</div>
+</div>
+</div>
+</div>"
+`;
+
+exports[`NiOnboarding has the expected html structure 3 1`] = `
+"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
+   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
+   <div class=\\"ni-session\\">
+      <div class=\\"ni-session-container\\">
+         <div class=\\"ni-session-header\\">
+            <div class=\\"ni-session-title\\">
+               Welcome to Voyager
+            </div>
+</div>
+<div class=\\"ni-session-main\\">
+   <div class=\\"ni-session-label\\">
+      Through governance, you can vote on the future of the Cosmos Network.
+   </div>
+<img src=\\"function () {        return fn.apply(this, arguments);      }\\">
+<div class=\\"ni-bar-discrete\\">
+   <div class=\\"ni-bar-discrete__container\\">
+      <div class=\\"ni-bar-discrete__edge\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+</div>
+</div>
+</div>
+<div class=\\"ni-session-footer\\">
+   <button class=\\"ni-btn\\"><span class=\\"ni-btn__container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">close</i>
+   <!---->
+   <span class=\\"ni-btn__value\\">Skip</span></span></button><button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">chevron_right</i>
+   <!---->
+   <span class=\\"ni-btn__value\\">Next</span></span></button>
+</div>
+</div>
+</div>
+</div>"
+`;
+
+exports[`NiOnboarding has the expected html structure 4 1`] = `
+"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
+   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
+   <div class=\\"ni-session\\">
+      <div class=\\"ni-session-container\\">
+         <div class=\\"ni-session-header\\">
+            <div class=\\"ni-session-title\\">
+               Welcome to Voyager
+            </div>
+</div>
+<div class=\\"ni-session-main\\">
+   <div class=\\"ni-session-label\\">
+      Start using Voyager to explore the Cosmos Network!
+   </div>
+<img src=\\"function () {        return fn.apply(this, arguments);      }\\">
+<div class=\\"ni-bar-discrete\\">
+   <div class=\\"ni-bar-discrete__container\\">
+      <div class=\\"ni-bar-discrete__edge\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+</div>
+</div>
+</div>
+<div class=\\"ni-session-footer\\">
+   <button class=\\"ni-btn\\"><span class=\\"ni-btn__container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">close</i>
+   <!---->
+   <span class=\\"ni-btn__value\\">Skip</span></span></button><button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">chevron_right</i>
+   <!---->
+   <span class=\\"ni-btn__value\\">Next</span></span></button>
+</div>
+</div>
+</div>
+</div>"
+`;

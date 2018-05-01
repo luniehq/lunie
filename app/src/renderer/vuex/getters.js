@@ -4,6 +4,7 @@ export const filters = state => state.filters
 export const notifications = state => state.notifications
 export const user = state => state.user
 export const themes = state => state.themes
+export const onboarding = state => state.onboarding
 
 // wallet
 export const transactions = state => state.wallet.history
