@@ -51,7 +51,6 @@ export default {
   mounted() {
     this.$store.commit("loadTheme")
     this.$store.commit("loadOnboarding")
-    console.log('mounted onboarding:', this.onboarding)
   },
   store,
   watch: {

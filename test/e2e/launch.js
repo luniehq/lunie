@@ -76,7 +76,7 @@ function launch(t) {
       // accept node hash
       await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
       await app.client.waitForExist(
-        ".ni-session-title=Welcome to Cosmos Voyager",
+        ".ni-session-title=Sign in to Cosmos Voyager",
         5000
       )
 
@@ -90,7 +90,7 @@ function launch(t) {
       // accept node hash
       await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
       await app.client.waitForExist(
-        ".ni-session-title=Welcome to Cosmos Voyager",
+        ".ni-session-title=Sign in to Cosmos Voyager",
         5000
       )
       console.log("approved hash")
