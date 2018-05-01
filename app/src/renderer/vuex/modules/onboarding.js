@@ -1,7 +1,7 @@
 export default ({ commit }) => {
   const state = {
     active: true,
-    state: "welcome"
+    state: 0
   }
   const mutations = {
     loadOnboarding(state) {

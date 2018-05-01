@@ -1,29 +1,69 @@
 <template lang="pug">
 .ni-session-wrapper
   img.ni-session-backdrop(src="~assets/images/cosmos-logo.png")
-  onboarding-welcome(v-if="onboarding.state == 'welcome'")
-  onboarding-send(v-if="onboarding.state == 'send'")
-  onboarding-stake(v-if="onboarding.state == 'stake'")
-  onboarding-vote(v-if="onboarding.state == 'vote'")
-  onboarding-explore(v-if="onboarding.state == 'explore'")
+  .ni-session: .ni-session-container
+    .ni-session-header: .ni-session-title Welcome to Voyager
+    .ni-session-main
+      .description {{ activeValue }}
+      img(:src="activeImg")
+      bar-discrete(:nodes="nodes" :click-fn="goto" :active="activeKey")
+    .ni-session-footer(v-if="activeKey === nodes.length")
+      btn(value="Restart" @click.native="goto(0)" icon="settings_backup_restore")
+      btn(value="Finish" @click.native="finish" color="primary"
+        icon="chevron_right" icon-pos="right" )
+    .ni-session-footer(v-else)
+      btn(value="Skip" @click.native="skip" icon="close")
+      btn(value="Next" @click.native="next" color="primary"
+        icon="chevron_right" icon-pos="right" )
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import OnboardingWelcome from "common/NiOnboardingWelcome"
-import OnboardingSend from "common/NiOnboardingSend"
-import OnboardingStake from "common/NiOnboardingStake"
-import OnboardingVote from "common/NiOnboardingVote"
-import OnboardingExplore from "common/NiOnboardingExplore"
+import Btn from "@nylira/vue-button"
+import BarDiscrete from "common/NiBarDiscrete"
 export default {
   name: "ni-onboarding",
-  components: {
-    OnboardingWelcome,
-    OnboardingSend,
-    OnboardingStake,
-    OnboardingVote,
-    OnboardingExplore
+  components: { Btn, BarDiscrete },
+  computed: {
+    ...mapGetters(["onboarding"]),
+    activeKey () {
+      return this.onboarding.state
+    },
+    activeValue () {
+      return this.nodes[this.onboarding.state]
+    },
+    activeImg () {
+      return require(
+        `../../assets/images/onboarding/step-${this.activeKey}.png`)
+    }
   },
-  computed: { ...mapGetters(["onboarding"]) }
+  data: () => ({
+    nodes: [
+      "This will be a quick tour of the primary features of Voyager.",
+      "You can send and receive Cosmos tokens from anyone around the world.",
+      "You can stake your Atoms to Cosmos Validators to earn even more Atoms.",
+      "Through governance, you can vote on the future of the Cosmos Network.",
+      "That's everything. Start using Voyager to explore the Cosmos Network!"
+    ]
+  }),
+  methods: {
+    skip() {
+      this.$store.commit("setOnboardingActive", false)
+    },
+    goto(state) {
+      this.$store.commit("setOnboardingState", state)
+    },
+    next(state) {
+      let nextState = this.onboarding.state + 1
+      this.$store.commit("setOnboardingState", nextState)
+    },
+    restart() {
+      this.$store.commit("setOnboardingState", 0)
+    },
+    finish() {
+      this.skip()
+      this.goto(0)
+    }
+  }
 }
 </script>

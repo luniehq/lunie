@@ -64,7 +64,7 @@ export default {
       })
     },
     setOnboarding(value) {
-      this.$store.commit("setOnboardingState", "welcome")
+      this.$store.commit("setOnboardingState", 0)
       this.$store.commit("setOnboardingActive", true)
     }
   }
