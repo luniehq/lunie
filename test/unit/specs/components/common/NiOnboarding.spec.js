@@ -2,11 +2,26 @@ import NiOnboarding from "common/NiOnboarding.vue"
 import htmlBeautify from "html-beautify"
 import setup from "../../../helpers/vuex-setup"
 
-jest.mock('../../../../../app/src/renderer/assets/images/onboarding/step-0.png', () => jest.fn())
-jest.mock('../../../../../app/src/renderer/assets/images/onboarding/step-1.png', () => jest.fn())
-jest.mock('../../../../../app/src/renderer/assets/images/onboarding/step-2.png', () => jest.fn())
-jest.mock('../../../../../app/src/renderer/assets/images/onboarding/step-3.png', () => jest.fn())
-jest.mock('../../../../../app/src/renderer/assets/images/onboarding/step-4.png', () => jest.fn())
+jest.mock(
+  "../../../../../app/src/renderer/assets/images/onboarding/step-0.png",
+  () => jest.fn()
+)
+jest.mock(
+  "../../../../../app/src/renderer/assets/images/onboarding/step-1.png",
+  () => jest.fn()
+)
+jest.mock(
+  "../../../../../app/src/renderer/assets/images/onboarding/step-2.png",
+  () => jest.fn()
+)
+jest.mock(
+  "../../../../../app/src/renderer/assets/images/onboarding/step-3.png",
+  () => jest.fn()
+)
+jest.mock(
+  "../../../../../app/src/renderer/assets/images/onboarding/step-4.png",
+  () => jest.fn()
+)
 
 describe("NiOnboarding", () => {
   let wrapper, store, instance
