@@ -63,7 +63,7 @@ export default {
         optin: !this.user.errorCollection
       })
     },
-    setOnboarding(value) {
+    setOnboarding() {
       this.$store.commit("setOnboardingState", 0)
       this.$store.commit("setOnboardingActive", true)
     }

@@ -1,5 +1,5 @@
 <template lang="pug">
-.ni-session-wrapper
+#onboarding.ni-session-wrapper
   img.ni-session-backdrop(src="~assets/images/cosmos-logo.png")
   .ni-session: .ni-session-container
     .ni-session-header: .ni-session-title Welcome to Voyager
