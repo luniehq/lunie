@@ -129,12 +129,6 @@ export default {
   overflow-y auto
   position relative
 
-  .description
-    text-align center
-    padding 1rem
-    background hsla(0,0,0,0.25)
-    color var(--dim)
-
   .ni-bar-discrete
     margin-bottom 1rem
 
@@ -148,6 +142,12 @@ export default {
   > p
     padding 1rem
     border-bottom px solid var(--bc)
+
+.ni-session-label
+  text-align center
+  padding 1rem
+  background hsla(0,0,0,0.25)
+  color var(--dim)
 
 .ni-session-footer
   border-top 2*px solid var(--bc-dim)

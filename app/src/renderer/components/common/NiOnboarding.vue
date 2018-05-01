@@ -4,10 +4,10 @@
   .ni-session: .ni-session-container
     .ni-session-header: .ni-session-title Welcome to Voyager
     .ni-session-main
-      .description {{ activeValue }}
+      .ni-session-label {{ activeValue }}
       img(:src="activeImg")
       bar-discrete(:nodes="nodes" :click-fn="go" :active="activeKey")
-    .ni-session-footer(v-if="activeKey === nodes.length")
+    .ni-session-footer(v-if="activeKey === nodes.length - 1")
       btn(value="Restart" @click.native="go(0)" icon="settings_backup_restore")
       btn(value="Finish" @click.native="finish" color="primary"
         icon="chevron_right" icon-pos="right" )
