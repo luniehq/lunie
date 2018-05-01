@@ -12,13 +12,13 @@
 export default {
   name: "ni-bar-discrete",
   methods: {
-    classObject (key) {
+    classObject(key) {
       return {
-        'ni-bar-discrete__node--active': key === this.active
+        "ni-bar-discrete__node--active": key === this.active
       }
     }
   },
-  props: ["nodes", "active", "click-fn"],
+  props: ["nodes", "active", "click-fn"]
 }
 </script>
 

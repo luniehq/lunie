@@ -26,15 +26,16 @@ export default {
   components: { Btn, BarDiscrete },
   computed: {
     ...mapGetters(["onboarding"]),
-    activeKey () {
+    activeKey() {
       return this.onboarding.state
     },
-    activeValue () {
+    activeValue() {
       return this.nodes[this.onboarding.state]
     },
-    activeImg () {
-      return require(
-        `../../assets/images/onboarding/step-${this.activeKey}.png`)
+    activeImg() {
+      return require(`../../assets/images/onboarding/step-${
+        this.activeKey
+      }.png`)
     }
   },
   data: () => ({
