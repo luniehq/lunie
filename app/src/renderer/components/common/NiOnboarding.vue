@@ -6,13 +6,13 @@
     .ni-session-main
       .description {{ activeValue }}
       img(:src="activeImg")
-      bar-discrete(:nodes="nodes" :click-fn="goto" :active="activeKey")
+      bar-discrete(:nodes="nodes" :click-fn="go" :active="activeKey")
     .ni-session-footer(v-if="activeKey === nodes.length")
-      btn(value="Restart" @click.native="goto(0)" icon="settings_backup_restore")
+      btn(value="Restart" @click.native="go(0)" icon="settings_backup_restore")
       btn(value="Finish" @click.native="finish" color="primary"
         icon="chevron_right" icon-pos="right" )
     .ni-session-footer(v-else)
-      btn(value="Skip" @click.native="skip" icon="close")
+      btn(value="Skip" @click.native="finish" icon="close")
       btn(value="Next" @click.native="next" color="primary"
         icon="chevron_right" icon-pos="right" )
 </template>
@@ -47,13 +47,10 @@ export default {
     ]
   }),
   methods: {
-    skip() {
-      this.$store.commit("setOnboardingActive", false)
-    },
-    goto(state) {
+    go(state) {
       this.$store.commit("setOnboardingState", state)
     },
-    next(state) {
+    next() {
       let nextState = this.onboarding.state + 1
       this.$store.commit("setOnboardingState", nextState)
     },
@@ -61,8 +58,8 @@ export default {
       this.$store.commit("setOnboardingState", 0)
     },
     finish() {
-      this.skip()
-      this.goto(0)
+      this.$store.commit("setOnboardingActive", false)
+      this.$store.commit("setOnboardingState", 0)
     }
   }
 }
