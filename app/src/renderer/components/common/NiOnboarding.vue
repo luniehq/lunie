@@ -44,7 +44,7 @@ export default {
       "You can send and receive Cosmos tokens from anyone around the world.",
       "You can stake your Atoms to Cosmos Validators to earn even more Atoms.",
       "Through governance, you can vote on the future of the Cosmos Network.",
-      "That's everything. Start using Voyager to explore the Cosmos Network!"
+      "Start using Voyager to explore the Cosmos Network!"
     ]
   }),
   methods: {

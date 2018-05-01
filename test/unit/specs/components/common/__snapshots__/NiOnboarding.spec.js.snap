@@ -164,7 +164,7 @@ exports[`NiOnboarding has the expected html structure 4 1`] = `
 </div>
 <div class=\\"ni-session-main\\">
    <div class=\\"ni-session-label\\">
-      That's everything. Start using Voyager to explore the Cosmos Network!
+      Start using Voyager to explore the Cosmos Network!
    </div>
 <img src=\\"function () {        return fn.apply(this, arguments);      }\\">
 <div class=\\"ni-bar-discrete\\">
