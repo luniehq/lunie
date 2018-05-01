@@ -625,7 +625,7 @@ async function main() {
       await initLCD(chainId, lcdHome, nodeIP)
     }
   }
-  
+
   await connect(seeds, nodeIP)
 }
 module.exports = main()
