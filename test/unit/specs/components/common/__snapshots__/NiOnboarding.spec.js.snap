@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiOnboarding has the expected html structure 1 1`] = `
+"<div class=\\"ni-session-wrapper\\">
+   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
+   <div class=\\"ni-session\\">
+      <div class=\\"ni-session-container\\">
+         <div class=\\"ni-session-header\\">
+            <div class=\\"ni-session-title\\">
+               Welcome to Voyager
+            </div>
+</div>
+<div class=\\"ni-session-main\\">
+   <div class=\\"ni-session-label\\"></div>
+<img>
+<div class=\\"ni-bar-discrete\\">
+   <div class=\\"ni-bar-discrete__container\\">
+      <div class=\\"ni-bar-discrete__edge\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"ni-bar-discrete__node\\"></div>
+</div>
+</div>
+</div>
+<div class=\\"ni-session-footer\\">
+   <button class=\\"ni-btn\\"><span class=\\"ni-btn__container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">close</i>
+   <!---->
+   <span class=\\"ni-btn__value\\">Skip</span></span></button><button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">chevron_right</i>
+   <!---->
+   <span class=\\"ni-btn__value\\">Next</span></span></button>
+</div>
+</div>
+</div>
+</div>"
+`;

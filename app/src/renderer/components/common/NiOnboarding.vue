@@ -61,9 +61,6 @@ export default {
       this.$store.commit("setOnboardingActive", false)
       this.$store.commit("setOnboardingState", 0)
     }
-  },
-  mounted () {
-
   }
 }
 </script>
