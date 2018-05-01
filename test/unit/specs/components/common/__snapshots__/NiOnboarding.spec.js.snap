@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NiOnboarding has the expected html structure 0 1`] = `
-"<div class=\\"ni-session-wrapper\\">
+"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
    <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
    <div class=\\"ni-session\\">
       <div class=\\"ni-session-container\\">
@@ -39,7 +39,7 @@ exports[`NiOnboarding has the expected html structure 0 1`] = `
 `;
 
 exports[`NiOnboarding has the expected html structure 1 1`] = `
-"<div class=\\"ni-session-wrapper\\">
+"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
    <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
    <div class=\\"ni-session\\">
       <div class=\\"ni-session-container\\">
@@ -77,7 +77,7 @@ exports[`NiOnboarding has the expected html structure 1 1`] = `
 `;
 
 exports[`NiOnboarding has the expected html structure 2 1`] = `
-"<div class=\\"ni-session-wrapper\\">
+"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
    <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
    <div class=\\"ni-session\\">
       <div class=\\"ni-session-container\\">
@@ -115,7 +115,7 @@ exports[`NiOnboarding has the expected html structure 2 1`] = `
 `;
 
 exports[`NiOnboarding has the expected html structure 3 1`] = `
-"<div class=\\"ni-session-wrapper\\">
+"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
    <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
    <div class=\\"ni-session\\">
       <div class=\\"ni-session-container\\">
@@ -153,7 +153,7 @@ exports[`NiOnboarding has the expected html structure 3 1`] = `
 `;
 
 exports[`NiOnboarding has the expected html structure 4 1`] = `
-"<div class=\\"ni-session-wrapper\\">
+"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
    <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
    <div class=\\"ni-session\\">
       <div class=\\"ni-session-container\\">
