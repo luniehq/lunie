@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiBarDiscrete has the expected html structure 1`] = `
+"<div class=\\"ni-bar-discrete\\">
+   <div class=\\"ni-bar-discrete__container\\">
+      <div class=\\"ni-bar-discrete__edge\\"></div>
+</div>
+</div>"
+`;

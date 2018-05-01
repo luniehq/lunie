@@ -39,7 +39,7 @@ describe("PageProfile", () => {
     expect(wrapper.vm.user.errorCollection).not.toBe(errorCollection)
   })
 
-  it("should switch the theme", () => {
+  it("can switch the theme", () => {
     wrapper.find("#toggle-light-theme").trigger("click")
     expect(store.commit).toHaveBeenCalledWith("setTheme", "light")
     expect(store.state.themes.active).toBe("light")
@@ -47,5 +47,13 @@ describe("PageProfile", () => {
     wrapper.find("#toggle-light-theme").trigger("click")
     expect(store.commit).toHaveBeenCalledWith("setTheme", "dark")
     expect(store.state.themes.active).toBe("dark")
+  })
+
+  it("can show onboarding again", () => {
+    wrapper.find("#toggle-onboarding").trigger("click")
+    expect(store.commit).toHaveBeenCalledWith("setOnboardingState", 0)
+    expect(store.commit).toHaveBeenCalledWith("setOnboardingActive", true)
+    wrapper.update()
+    expect(wrapper.find("#onboarding")).toBeDefined()
   })
 })

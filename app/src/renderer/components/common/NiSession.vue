@@ -127,6 +127,14 @@ export default {
   min-height 0
 
   overflow-y auto
+  position relative
+
+  .ni-bar-discrete
+    margin-bottom 1rem
+
+  img
+    max-width 100%
+    display block
 
   .ps-scrollbar-y-rail
     display none
@@ -135,12 +143,19 @@ export default {
     padding 1rem
     border-bottom px solid var(--bc)
 
+.ni-session-label
+  text-align center
+  padding 1rem
+  background hsla(0,0,0,0.25)
+  color var(--dim)
+
 .ni-session-footer
   border-top 2*px solid var(--bc-dim)
   flex 0 0 5rem + px
+  padding 0 2rem
   display flex
   align-items center
-  justify-content center
+  justify-content space-between
 
   &:empty
     display none
@@ -171,7 +186,7 @@ export default {
     &.ni-form .ni-form-main
       width 32rem
       min-height 28rem
-      max-height 90vh
+      max-height 100vh
       height auto
 
   .ni-session-header
