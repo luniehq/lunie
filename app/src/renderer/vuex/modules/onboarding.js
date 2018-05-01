@@ -7,15 +7,15 @@ export default ({ commit }) => {
     loadOnboarding(state) {
       // localstorage saves bools and ints as strings, so we have to convert
       state.active = JSON.parse(localStorage.getItem("appOnboardingActive"))
-      state.state = parseInt(localStorage.getItem("appOnboardingState"))
+      state.state = JSON.parse(localStorage.getItem("appOnboardingState"))
     },
     setOnboardingState(state, value) {
       state.state = value
-      localStorage.setItem("appOnboardingState", value)
+      localStorage.setItem("appOnboardingState", JSON.stringify(value))
     },
     setOnboardingActive(state, value) {
       state.active = value
-      localStorage.setItem("appOnboardingActive", value)
+      localStorage.setItem("appOnboardingActive", JSON.stringify(value))
     }
   }
   return {
