@@ -165,6 +165,11 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
               class="ni-li-container"
             >
               <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
                 class="ni-li-dl"
               >
                 <div
@@ -173,18 +178,20 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
                   Remote error tracking
                 </div>
                 <div
-                  class="ni-li-dd"
+                  class="ni-li-dd ni-li-dd-flush"
                 >
-                  <div
-                    class="ni-field-checkbox"
-                  >
+                  <div>
                     <div
-                      class="ni-field-checkbox-input"
+                      class="ni-field-checkbox"
                     >
-                      <input
-                        id="toggle-error-reports"
-                        type="checkbox"
-                      />
+                      <div
+                        class="ni-field-checkbox-input"
+                      >
+                        <input
+                          id="toggle-error-reports"
+                          type="checkbox"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -198,26 +205,73 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
               class="ni-li-container"
             >
               <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
                 class="ni-li-dl"
               >
                 <div
                   class="ni-li-dt"
                 >
-                  Enable light theme
+                  Light theme
                 </div>
                 <div
-                  class="ni-li-dd"
+                  class="ni-li-dd ni-li-dd-flush"
                 >
-                  <div
-                    class="ni-field-checkbox"
-                  >
+                  <div>
                     <div
-                      class="ni-field-checkbox-input"
+                      class="ni-field-checkbox"
                     >
-                      <input
-                        id="toggle-light-theme"
-                        type="checkbox"
-                      />
+                      <div
+                        class="ni-field-checkbox-input"
+                      >
+                        <input
+                          id="toggle-light-theme"
+                          type="checkbox"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Onboarding tutorial
+                </div>
+                <div
+                  class="ni-li-dd ni-li-dd-flush"
+                >
+                  <div>
+                    <div
+                      class="ni-field-checkbox"
+                    >
+                      <div
+                        class="ni-field-checkbox-input"
+                      >
+                        <input
+                          id="toggle-onboarding"
+                          type="checkbox"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

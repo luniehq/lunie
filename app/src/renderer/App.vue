@@ -1,13 +1,14 @@
 <template lang="pug">
 #app
-  template(v-if="!config.modals.session.active")
+  session(v-if="config.modals.session.active")
+  onboarding(v-else-if="onboarding.active")
+  template(v-else)
     app-header
     #app-content
       router-view
       app-footer
     modal-help
     modal-receive
-  session(v-else)
   notifications(:notifications='notifications' theme='cosmos')
   modal-error(v-if='config.modals.error.active' :body='config.modals.error.message')
   modal-lcd-approval(v-if='approvalRequired' :hash='approvalRequired')
@@ -20,9 +21,10 @@ import AppFooter from "common/AppFooter"
 import Notifications from "@nylira/vue-notifications"
 import ModalError from "common/NiModalError"
 import ModalHelp from "common/NiModalHelp"
-import ModalReceive from "common/NiModalReceive"
-import Session from "common/NiSession"
 import ModalLcdApproval from "common/NiModalLCDApproval"
+import ModalReceive from "common/NiModalReceive"
+import Onboarding from "common/NiOnboarding"
+import Session from "common/NiSession"
 import store from "./vuex/store"
 export default {
   name: "app",
@@ -34,13 +36,21 @@ export default {
     ModalLcdApproval,
     ModalReceive,
     Notifications,
+    Onboarding,
     Session
   },
   computed: {
-    ...mapGetters(["notifications", "config", "themes", "approvalRequired"])
+    ...mapGetters([
+      "notifications",
+      "config",
+      "themes",
+      "approvalRequired",
+      "onboarding"
+    ])
   },
   mounted() {
     this.$store.commit("loadTheme")
+    this.$store.commit("loadOnboarding")
   },
   store,
   watch: {

@@ -50,10 +50,12 @@ export default {
   computed: {
     ...mapGetters(["proposals"]),
     proposal() {
-      if (this.proposals && this.proposals.length > 0) {
-        return this.proposals.find(p => p.id === this.$route.params.proposal)
+      if (this.proposals) {
+        return this.proposals.items.find(
+          p => p.id === this.$route.params.proposal
+        )
       } else {
-        return this.emptyProposal
+        return {}
       }
     },
     totalVotes() {
@@ -77,25 +79,7 @@ export default {
       return this.proposal.votes.abstain / this.totalVotes
     }
   },
-  created() {
-    this.$watch("$route.params", this.refreshProposal)
-  },
   data: () => ({
-    emptyProposal: {
-      id: "",
-      active_at: "",
-      created_at: "",
-      entity_id: "",
-      title: "Loading...",
-      type: "",
-      flags: { passed: false },
-      data: {
-        body: "",
-        old_members: "",
-        new_members: ""
-      },
-      vote_id: 0
-    },
     votePick: "abstain",
     voteVisible: false
   }),
@@ -108,13 +92,6 @@ export default {
         title: `Voted '${this.votePick}'`,
         body: "Your vote has been submitted."
       })
-    },
-    refreshProposal() {
-      if (this.rawProposal) {
-        this.proposal = this.rawProposal
-      } else {
-        this.proposal = this.emptyProposal
-      }
     },
     commentOnProposal(proposalId) {
       this.$store.commit("notify", {
