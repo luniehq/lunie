@@ -37,14 +37,14 @@ describe("Module: Send", () => {
     })
 
     it("should send from wallet", async () => {
-      const args = { to: 'address', amount: [{ denom: 'mycoin', amount: 123 }] }
+      const args = { to: "address", amount: [{ denom: "mycoin", amount: 123 }] }
       await store.dispatch("sendTx", args)
       expect(node.send.mock.calls).toMatchSnapshot()
     })
 
     it("should fail sending a wallet tx ", async done => {
       node.send = () => Promise.reject()
-      const args = { to: 'address', amount: [{ denom: 'mycoin', amount: 123 }] }
+      const args = { to: "address", amount: [{ denom: "mycoin", amount: 123 }] }
       store.dispatch("sendTx", args).then(done.fail, () => done())
     })
   })

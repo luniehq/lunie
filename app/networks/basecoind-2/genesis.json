@@ -1,73 +1,72 @@
 {
-  "genesis_time":"2018-04-04T16:08:29Z",
-  "chain_id":"basecoind-2",
-  "validators":
-  [
-    
+  "genesis_time": "2018-04-04T16:08:29Z",
+  "chain_id": "basecoind-2",
+  "validators": [
     {
       "pub_key": {
-        "data": "0BB0CB1273613564AA1C0882F76CCF4FC7E52DC76BEC0CB75C1C1278E71A3B72",
+        "data":
+          "0BB0CB1273613564AA1C0882F76CCF4FC7E52DC76BEC0CB75C1C1278E71A3B72",
         "type": "ed25519"
       },
-      "power":1000,
-      "name":"206.189.16.112"
-    }
-    ,
+      "power": 1000,
+      "name": "206.189.16.112"
+    },
     {
       "pub_key": {
-        "data": "6250EFE95DE5D5B18FD5C2C78C94D36B4E7709574283FBC0FB4443CAFF5D0452",
+        "data":
+          "6250EFE95DE5D5B18FD5C2C78C94D36B4E7709574283FBC0FB4443CAFF5D0452",
         "type": "ed25519"
       },
-      "power":1000,
-      "name":"104.131.180.219"
-    }
-    ,
+      "power": 1000,
+      "name": "104.131.180.219"
+    },
     {
       "pub_key": {
-        "data": "D9392DE5BA1831F776348C346AC9A2BFD52DFE1EF6FBD4CB355B4FE85E236230",
+        "data":
+          "D9392DE5BA1831F776348C346AC9A2BFD52DFE1EF6FBD4CB355B4FE85E236230",
         "type": "ed25519"
       },
-      "power":1000,
-      "name":"138.197.207.58"
-    }
-    ,
+      "power": 1000,
+      "name": "138.197.207.58"
+    },
     {
       "pub_key": {
-        "data": "FD26E30679FE793C6115FF407C3446E71D62ED65366101ABD982A141838A91E0",
+        "data":
+          "FD26E30679FE793C6115FF407C3446E71D62ED65366101ABD982A141838A91E0",
         "type": "ed25519"
       },
-      "power":1000,
-      "name":"82.196.14.124"
-    }
-    ,
+      "power": 1000,
+      "name": "82.196.14.124"
+    },
     {
       "pub_key": {
-        "data": "3E915BC413B5649E493F9C00BC682C4CC7529ED67D8691B52C909B690CBD7E11",
+        "data":
+          "3E915BC413B5649E493F9C00BC682C4CC7529ED67D8691B52C909B690CBD7E11",
         "type": "ed25519"
       },
-      "power":1000,
-      "name":"159.203.30.37"
-    }
-    ,
+      "power": 1000,
+      "name": "159.203.30.37"
+    },
     {
       "pub_key": {
-        "data": "2B0802BAA3E04665A8655751D9ADD7E0ED78CE707B041DED7ECA617F14DFAEF4",
+        "data":
+          "2B0802BAA3E04665A8655751D9ADD7E0ED78CE707B041DED7ECA617F14DFAEF4",
         "type": "ed25519"
       },
-      "power":1000,
-      "name":"138.197.179.201"
-    }
-    ,
+      "power": 1000,
+      "name": "138.197.179.201"
+    },
     {
       "pub_key": {
-        "data": "B3A01596321B16F4E141A7237AE61A27573372EEFC58DF306468DA2719B6AADC",
+        "data":
+          "B3A01596321B16F4E141A7237AE61A27573372EEFC58DF306468DA2719B6AADC",
         "type": "ed25519"
       },
-      "power":1000,
-      "name":"167.99.69.158"
+      "power": 1000,
+      "name": "167.99.69.158"
     }
   ],
-  "app_hash":"",
+  "app_hash": "",
   "app_state": {
     "accounts": [
       {
@@ -156,6 +155,8 @@
       }
     ],
     "plugin_options": [
-      "coin/issuer", {"app": "sigs", "addr": "B01C264BFE9CBD45458256E613A6F07061A3A6B6"}
-    ]  }
+      "coin/issuer",
+      { "app": "sigs", "addr": "B01C264BFE9CBD45458256E613A6F07061A3A6B6" }
+    ]
+  }
 }

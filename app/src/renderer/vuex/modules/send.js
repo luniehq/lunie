@@ -6,12 +6,12 @@ export default ({ commit, node }) => {
   }
 
   const mutations = {
-    setNonce (state, nonce) {
+    setNonce(state, nonce) {
       state.nonce = nonce
     }
   }
 
-  async function doSend ({ state, dispatch, commit, rootState }, args) {
+  async function doSend({ state, dispatch, commit, rootState }, args) {
     args.sequence = state.nonce
     args.name = rootState.user.account
     args.password = rootState.user.password
@@ -21,7 +21,7 @@ export default ({ commit, node }) => {
     args.src_chain_id = chainId // for IBC transfer
 
     // extract type
-    let type = args.type || 'send'
+    let type = args.type || "send"
     delete args.type
 
     // extract "to" address
@@ -32,23 +32,24 @@ export default ({ commit, node }) => {
     let res = await node[type](to, args)
 
     // check response code
-    console.log('send response:', res)
+    console.log("send response:", res)
     if (res.check_tx.code || res.deliver_tx.code) {
       let message = res.check_tx.log || res.deliver_tx.log
-      throw new Error('Error sending transaction: ' + message)
+      throw new Error("Error sending transaction: " + message)
     }
 
-    commit('setNonce', state.nonce + 1)
+    commit("setNonce", state.nonce + 1)
 
     // wait to ensure tx is committed before we query
     // XXX
-    setTimeout(() => dispatch('queryWalletBalances'), 3 * 1000)
+    setTimeout(() => dispatch("queryWalletBalances"), 3 * 1000)
   }
 
   let actions = {
-    async sendTx (...args) {
+    async sendTx(...args) {
       // wait to acquire lock
-      while (lock != null) { // eslint-disable-line no-unmodified-loop-condition
+      while (lock != null) {
+        // eslint-disable-line no-unmodified-loop-condition
         await lock
       }
 

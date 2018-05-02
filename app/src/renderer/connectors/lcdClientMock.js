@@ -10,20 +10,7 @@ let state = {
   ],
   accounts: {
     DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B: {
-      coins: [{
-        denom: 'mycoin',
-        amount: 1000
-      }, {
-        denom: 'fermion',
-        amount: 2300
-      }],
-      sequence: 1
-    }
-  },
-  txs: [{
-    tx: {
-      hash: 'x',
-      inputs: [
+      coins: [
         {
           denom: "mycoin",
           amount: 1000
@@ -32,10 +19,28 @@ let state = {
           denom: "fermion",
           amount: 2300
         }
-      ]
+      ],
+      sequence: 1
     }
-  }],
-  nonces: { 'DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B': 0 },
+  },
+  txs: [
+    {
+      tx: {
+        hash: "x",
+        inputs: [
+          {
+            denom: "mycoin",
+            amount: 1000
+          },
+          {
+            denom: "fermion",
+            amount: 2300
+          }
+        ]
+      }
+    }
+  ],
+  nonces: { DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B: 0 },
   txs: [
     {
       tx: {
@@ -152,13 +157,15 @@ let state = {
 }
 
 module.exports = {
-  async lcdConnected () { return true },
+  async lcdConnected() {
+    return true
+  },
 
   // keys
-  async generateSeed () {
-    return 'grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon'
+  async generateSeed() {
+    return "grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon"
   },
-  async storeKey ({ name, password, seed }) {
+  async storeKey({ name, password, seed }) {
     let key = {
       name,
       password,
@@ -176,10 +183,12 @@ module.exports = {
   async getKey(name) {
     return state.keys.find(k => k.name === name)
   },
-  async updateKey (account, { name, old_password, new_password }) { // eslint-disable-line camelcase
+  async updateKey(account, { name, old_password, new_password }) {
+    // eslint-disable-line camelcase
     let key = state.keys.find(k => k.name === name)
-    if (key.password !== old_password) { // eslint-disable-line camelcase
-      throw new Error('Passwords do not match')
+    if (key.password !== old_password) {
+      // eslint-disable-line camelcase
+      throw new Error("Passwords do not match")
     }
     key.password = new_password // eslint-disable-line camelcase
   },
@@ -193,7 +202,7 @@ module.exports = {
   },
 
   // coins
-  async queryAccount (address) {
+  async queryAccount(address) {
     return state.accounts[address]
   },
   async coinTxs(address) {
@@ -204,25 +213,28 @@ module.exports = {
       )
     })
   },
-  async send (to, req) {
+  async send(to, req) {
     let fromKey = state.keys.find(a => a.name === req.name)
     let fromAccount = state.accounts[fromKey.address]
     if (fromAccount == null) {
-      return txResult(1, 'Nonexistent account')
+      return txResult(1, "Nonexistent account")
     }
 
     for (let { denom, amount } of req.amount) {
       if (amount < 0) {
-        return txResult(1, 'Amount cannot be negative')
+        return txResult(1, "Amount cannot be negative")
       }
       if (fromAccount.coins.find(c => c.denom === denom).amount < amount) {
-        return txResult(1, 'Not enough coins in your account')
+        return txResult(1, "Not enough coins in your account")
       }
     }
 
     // check/update nonce
     if (fromAccount.sequence !== req.sequence) {
-      return txResult(2, `Expected sequence "${fromAccount.sequence}", got "${req.sequence}"`)
+      return txResult(
+        2,
+        `Expected sequence "${fromAccount.sequence}", got "${req.sequence}"`
+      )
     }
     fromAccount.sequence += 1
 
@@ -250,9 +262,9 @@ module.exports = {
 
     return txResult(0)
   },
-  ibcSend (to, req) {
+  ibcSend(to, req) {
     // XXX ignores chainId, treated as normal send
-    to = to.split('/')[1]
+    to = to.split("/")[1]
     return module.exports.send(to, req)
   },
 
@@ -265,7 +277,7 @@ module.exports = {
   async candidates() {
     return { data: state.delegates.map(({ pub_key }) => pub_key) } // eslint-disable-line camelcase
   },
-  async bondingsByDelegator ([address, delegatePubkey]) {
+  async bondingsByDelegator([address, delegatePubkey]) {
     let stake = state.stake[address]
     if (stake && stake[delegatePubkey]) {
       return { data: stake[delegatePubkey] }
@@ -317,7 +329,7 @@ function makeAddress() {
 //   return txResult()
 // }
 
-function txResult (code = 0, message = '') {
+function txResult(code = 0, message = "") {
   return {
     check_tx: {
       code: code,

@@ -54,15 +54,17 @@ export default ({ commit, node }) => {
         throw Error("Incorrect passphrase")
       }
     },
-    createSeed ({ commit }) {
+    createSeed({ commit }) {
       // generate seed phrase
       return node.generateSeed()
     },
-    async createKey ({ commit, dispatch }, { seedPhrase, password, name }) {
+    async createKey({ commit, dispatch }, { seedPhrase, password, name }) {
       let { address } = await node.storeKey({
-        name, password, seed: seedPhrase
+        name,
+        password,
+        seed: seedPhrase
       })
-      dispatch('initializeWallet', address)
+      dispatch("initializeWallet", address)
       return address
     },
     async deleteKey({ commit, dispatch }, { password, name }) {
@@ -77,9 +79,9 @@ export default ({ commit, node }) => {
       let { address } = await node.getKey(account)
       state.address = address
 
-      commit('setModalSession', false)
-      dispatch('initializeWallet', address)
-      dispatch('loadErrorCollection', account)
+      commit("setModalSession", false)
+      dispatch("initializeWallet", address)
+      dispatch("loadErrorCollection", account)
     },
     signOut({ state, commit, dispatch }) {
       state.password = null

@@ -25,8 +25,8 @@ describe("PageSend", () => {
       }
     ])
     await store.dispatch("signIn", {
-      account: 'default',
-      password: '1234567890'
+      account: "default",
+      password: "1234567890"
     })
     store.commit("setWalletBalances", [
       {

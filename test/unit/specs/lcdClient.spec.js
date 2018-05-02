@@ -44,7 +44,8 @@ describe("LCD Client", () => {
   })
 
   it("makes a POST request", async () => {
-    axios.post = jest.fn()
+    axios.post = jest
+      .fn()
       .mockReturnValueOnce(Promise.resolve({ data: { foo: "bar" } }))
 
     let res = await client.storeKey()

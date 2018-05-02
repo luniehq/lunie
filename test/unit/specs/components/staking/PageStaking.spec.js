@@ -65,7 +65,7 @@ describe("PageStaking", () => {
       "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD",
       "651E7B12B3C7234FB82B4417C59DCE30E4EA28F06AD0ACAEDFF05F013E463F10",
       "pubkeyY",
-      "pubkeyX",
+      "pubkeyX"
     ])
 
     wrapper.vm.sort.property = "id"

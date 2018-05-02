@@ -13,12 +13,16 @@ describe("LCD Client Mock", () => {
 
   it("generates seeds", async () => {
     let seed = await client.generateSeed()
-    expect(seed.split(' ').length).toBe(16)
+    expect(seed.split(" ").length).toBe(16)
   })
 
   it("persists keys", async () => {
     let seed = await client.generateSeed()
-    let res = await client.storeKey({ name: "foo", password: "1234567890", seed })
+    let res = await client.storeKey({
+      name: "foo",
+      password: "1234567890",
+      seed
+    })
     expect(res.name).toBe("foo")
 
     res = await client.listKeys()
@@ -78,7 +82,7 @@ describe("LCD Client Mock", () => {
     })
     res = await client.send(toAddr, {
       sequence: 1,
-      name: 'default',
+      name: "default",
       fees: [],
       amount: [
         {
@@ -106,7 +110,7 @@ describe("LCD Client Mock", () => {
     })
     let tx = await client.send(toAddr, {
       sequence: 1,
-      name: 'default',
+      name: "default",
       fees: [],
       amount: [
         {
@@ -115,7 +119,9 @@ describe("LCD Client Mock", () => {
         }
       ]
     })
-    let account = await client.queryAccount("DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B")
+    let account = await client.queryAccount(
+      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+    )
     expect(account.sequence).toBe(2)
   })
 
@@ -137,7 +143,7 @@ describe("LCD Client Mock", () => {
     })
     let res = await client.send(toAddr, {
       sequence: 1,
-      name: 'default',
+      name: "default",
       fees: [],
       amount: [
         {
@@ -165,7 +171,7 @@ describe("LCD Client Mock", () => {
     })
     let res = await client.send(toAddr, {
       sequence: 1,
-      name: 'default',
+      name: "default",
       fees: [],
       amount: [
         {
