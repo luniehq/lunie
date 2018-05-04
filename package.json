@@ -89,9 +89,9 @@
     "vue-style-loader": "3.1.2",
     "vue-template-compiler": "2.5.16",
     "vue-template-es2015-compiler": "1.6.0",
-    "webpack": "3.10.0",
-    "webpack-dev-server": "2.2.0",
-    "webpack-merge": "0.14.1",
+    "webpack": "3.11.0",
+    "webpack-dev-server": "2.11.2",
+    "webpack-merge": "0.20.0",
     "xmlhttprequest": "1.8.0"
   },
   "dependencies": {
