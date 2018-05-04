@@ -49,11 +49,11 @@ test("sign in", async function(t) {
       )
       await warning().click()
       t.ok(
-        !await warning()
+        !(await warning()
           .$("..")
           .$("..")
           .$("..")
-          .isExisting(".ni-form-msg--error"),
+          .isExisting(".ni-form-msg--error")),
         "hides error"
       )
       t.end()
@@ -78,9 +78,9 @@ test("sign in", async function(t) {
       await app.client.leftClick("#sign-up-name")
       await app.client.keys("in_test".split())
       t.ok(
-        !await accountName()
+        !(await accountName()
           .$("..")
-          .isExisting(".ni-form-msg--error"),
+          .isExisting(".ni-form-msg--error")),
         "hides error"
       )
       t.end()
@@ -105,9 +105,9 @@ test("sign in", async function(t) {
       await password().click()
       await app.client.keys("567890".split())
       t.ok(
-        !await password()
+        !(await password()
           .$("..")
-          .isExisting(".ni-form-msg--error"),
+          .isExisting(".ni-form-msg--error")),
         "hides error"
       )
       t.end()
@@ -132,9 +132,9 @@ test("sign in", async function(t) {
       await passwordConfirm().click()
       await app.client.keys("567890".split())
       t.ok(
-        !await passwordConfirm()
+        !(await passwordConfirm()
           .$("..")
-          .isExisting(".ni-form-msg--error"),
+          .isExisting(".ni-form-msg--error")),
         "hides error"
       )
       t.end()
@@ -208,9 +208,9 @@ test("sign in", async function(t) {
       await accountName().click()
       await app.client.keys("_test".split())
       t.ok(
-        !await accountName()
+        !(await accountName()
           .$("..")
-          .isExisting(".ni-form-msg--error"),
+          .isExisting(".ni-form-msg--error")),
         "hides error"
       )
       t.end()
@@ -235,9 +235,9 @@ test("sign in", async function(t) {
       await password().click()
       await app.client.keys("567890".split())
       t.ok(
-        !await password()
+        !(await password()
           .$("..")
-          .isExisting(".ni-form-msg--error"),
+          .isExisting(".ni-form-msg--error")),
         "hides error"
       )
       t.end()
@@ -262,9 +262,9 @@ test("sign in", async function(t) {
       await passwordConfirm().click()
       await app.client.keys("567890".split())
       t.ok(
-        !await passwordConfirm()
+        !(await passwordConfirm()
           .$("..")
-          .isExisting(".ni-form-msg--error"),
+          .isExisting(".ni-form-msg--error")),
         "hides error"
       )
       t.end()
@@ -283,9 +283,9 @@ test("sign in", async function(t) {
         "crash ten rug mosquito cart south allow pluck shine island broom deputy hungry photo drift absorb".split()
       )
       t.ok(
-        !await seed()
+        !(await seed()
           .$("..")
-          .isExisting(".ni-form-msg--error"),
+          .isExisting(".ni-form-msg--error")),
         "hides error"
       )
       t.end()
