@@ -127,7 +127,7 @@ test("wallet", async function(t) {
       await amountInput().setValue("100")
       await addressInput().setValue("3F52AFC4FB737A0296EFE331885FCC476980B3BD")
       await sendBtn().click()
-      await app.client.waitForExist(".ni-notification", 5000)
+      await app.client.waitForExist(".ni-notification", 10 * 1000)
       let msg = await app.client.$(".ni-notification .body").getText()
       t.ok(msg.includes("Success"), "Send successful")
       // close the notifications to have a clean setup for the next tests
