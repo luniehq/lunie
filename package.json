@@ -20,15 +20,15 @@
     "testnet": "node tasks/testnet.js",
     "lint": "yarn lint:eslint && yarn lint:format",
     "lint:eslint":
-      "eslint -f ./node_modules/eslint-friendly-formatter {,**/}*.{js,vue}",
-    "lint:format": "prettier --list-different {,**/}*.{css,js,json,vue}",
-    "lint:fix": "prettier --write {,**/}*.{css,js,json,vue}",
+      "eslint -f ./node_modules/eslint-friendly-formatter '{,**/}*.{js,vue}'",
+    "lint:format": "prettier --list-different '{,**/}*.{css,js,json,vue}'",
+    "lint:fix": "prettier --write '{,**/}*.{css,js,json,vue}'",
     "pack": "yarn run pack:main && yarn run pack:renderer",
     "pack:main":
       "cross-env NODE_ENV=production webpack --colors --config webpack.main.config.js",
     "pack:renderer":
       "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js",
-    "test": "yarn run lint && yarn test:unit && yarn test:e2e",
+    "test": "yarn run lint && yarn test:unit",
     "test:unit":
       "cross-env LOGGING=false MOCK=false ANALYTICS=false NODE_ENV=testing jest --maxWorkers=2",
     "test:e2e":
