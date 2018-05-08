@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 * Turn off E2E test.
+* Upgraded many dependencies.
 
 ## [0.5.0]
 
