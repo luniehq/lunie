@@ -18,8 +18,6 @@
       field#sign-in-password(
         type="password"
         v-model="fields.signInPassword")
-      form-msg
-        span Password for the mock account is 1234567890
       form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
   .ni-session-footer
@@ -48,7 +46,7 @@ export default {
   data: () => ({
     fields: {
       signInName: "",
-      signInPassword: "1234567890"
+      signInPassword: ""
     }
   }),
   computed: {
