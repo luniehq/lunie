@@ -58,7 +58,7 @@ make install
 ```bash
 # checkout voyager
 cd ~ # or wherever you like to keep your project files
-git checkout https://github.com/cosmos/voyager.git
+git clone https://github.com/cosmos/voyager.git
 cd voyager
 
 # install js dependencies
