@@ -12,7 +12,7 @@ exports[`NiOnboarding has the expected html structure 0 1`] = `
 </div>
 <div class=\\"ni-session-main\\">
    <div class=\\"ni-session-label\\">
-      This is a quick tour of the primary features of Voyager.
+      This is a quick tour of the primary features of Cosmos Voyager.
    </div>
 <img src=\\"function () {        return fn.apply(this, arguments);      }\\">
 <div class=\\"ni-bar-discrete\\">

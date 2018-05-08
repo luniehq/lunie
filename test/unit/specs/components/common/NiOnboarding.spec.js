@@ -89,7 +89,7 @@ describe("NiOnboarding", () => {
   it("has an active node", () => {
     expect(wrapper.vm.activeKey).toBe(0)
     expect(wrapper.vm.activeValue).toBe(
-      "This is a quick tour of the primary features of Voyager."
+      "This is a quick tour of the primary features of Cosmos Voyager."
     )
     expect(wrapper.vm.activeimg).toBeTruthy
   })
