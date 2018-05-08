@@ -59,6 +59,10 @@ make install
 # checkout voyager
 cd ~ # or wherever you like to keep your project files
 git clone https://github.com/cosmos/voyager.git
+
+# if the error " engine "node" is incompatible with this module" appeasr, you should run the command below.
+yarn install --ignore-engines
+
 cd voyager
 
 # install js dependencies
