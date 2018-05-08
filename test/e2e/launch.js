@@ -152,9 +152,8 @@ async function startApp(app, awaitingSelector = ".ni-session") {
 }
 
 async function startLocalNode() {
-  const command = `${binary} node init \
-D0718DDFF62D301626B428A182F830CBB0AD21FC --home ${cliHome} \
---chain-id localtestnet`
+  const command = `${binary} init \
+D0718DDFF62D301626B428A182F830CBB0AD21FC --home ${cliHome}`
 
   console.log(command)
   shell.exec(command)
@@ -162,7 +161,7 @@ D0718DDFF62D301626B428A182F830CBB0AD21FC --home ${cliHome} \
 
   await new Promise((resolve, reject) => {
     // TODO cleanup
-    const command = `${binary} node start --home ${cliHome}`
+    const command = `${binary} start --home ${cliHome}`
     console.log(command)
     let localnodeProcess = shell.exec(command, { async: true, silent: true })
     localnodeProcess.stderr.pipe(process.stderr)
@@ -186,7 +185,6 @@ D0718DDFF62D301626B428A182F830CBB0AD21FC --home ${cliHome} \
 async function createAccount(name, seed) {
   await new Promise((resolve, reject) => {
     let child = spawn(binary, [
-      "client",
       "keys",
       "recover",
       name,
