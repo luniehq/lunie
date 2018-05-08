@@ -40,7 +40,7 @@ export default {
   },
   data: () => ({
     nodes: [
-      "This is a quick tour of the primary features of Cosmos Voyager.",
+      "This is a quick tour of the primary features of Voyager.",
       "You can send and receive Cosmos tokens from anyone around the world.",
       "You can stake your Atoms to Cosmos Validators to earn even more Atoms.",
       "Through governance, you can vote on the future of the Cosmos Network.",
