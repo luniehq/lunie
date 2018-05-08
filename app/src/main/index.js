@@ -509,7 +509,7 @@ async function reconnect(seeds) {
 
 async function main() {
   // we only enable error collection after users opted in
-  // Raven.config("", { captureUnhandledRejections: false }).install()
+  Raven.config("", { captureUnhandledRejections: false }).install()
 
   let appVersionPath = join(root, "app_version")
   let genesisPath = join(root, "genesis.json")
