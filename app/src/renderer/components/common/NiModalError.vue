@@ -51,7 +51,7 @@ export default {
     }
   },
   mounted() {
-    this.logPath = remote.app.getPath("home") + "/.Cosmos/main.log"
+    this.logPath = remote.getGlobal("root") + "/main.log"
   },
   props: ["icon", "title", "body"]
 }
