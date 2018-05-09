@@ -42,7 +42,7 @@ const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const MOCK = config.mocked
 const NODE = process.env.COSMOS_NODE
 
-let SERVER_BINARY = "basecli" + (WIN ? ".exe" : "")
+let SERVER_BINARY = "gaiacli" + (WIN ? ".exe" : "")
 
 function log(...args) {
   if (LOGGING) {
@@ -235,7 +235,7 @@ async function startLCD(home, nodeIP) {
         if (mainWindow) {
           mainWindow.webContents.send(
             "error",
-            Error("The basecli rest-server (LCD) exited unplanned")
+            Error("The gaiacli rest-server (LCD) exited unplanned")
           )
         }
       })
@@ -283,7 +283,7 @@ function handleHashVerification(nodeHash) {
 async function initLCD(chainId, home, node) {
   // let the user in the view approve the hash we get from the node
   return new Promise((resolve, reject) => {
-    // `basecli client init` to generate config
+    // `gaiacli client init` to generate config
     let child = startProcess(SERVER_BINARY, [
       "client",
       "init",
@@ -307,7 +307,7 @@ async function initLCD(chainId, home, node) {
               // since the LCD is talking to our own full node
               child.stdin.write("y\n")
 
-              expectCleanExit(child, "basecli init exited unplanned").then(
+              expectCleanExit(child, "gaiacli init exited unplanned").then(
                 resolve,
                 reject
               )
@@ -333,7 +333,7 @@ async function initLCD(chainId, home, node) {
       }
     })
   })
-  await expectCleanExit(child, "basecli init exited unplanned")
+  await expectCleanExit(child, "gaiacli init exited unplanned")
 }
 
 // this function will call the passed in callback when the view is booted
@@ -401,13 +401,13 @@ function consistentConfigDir(
   appVersionPath,
   genesisPath,
   configPath,
-  basecliVersionPath
+  gaiacliVersionPath
 ) {
   return (
     exists(genesisPath) &&
     exists(appVersionPath) &&
     exists(configPath) &&
-    exists(basecliVersionPath)
+    exists(gaiacliVersionPath)
   )
 }
 
@@ -464,9 +464,9 @@ function pickNode(seeds) {
 
 async function connect(seeds, nodeIP) {
   if (!MOCK) {
-    log(`starting basecli server with nodeIP ${nodeIP}`)
+    log(`starting gaiacli server with nodeIP ${nodeIP}`)
     lcdProcess = await startLCD(lcdHome, nodeIP)
-    log("basecli server ready")
+    log("gaiacli server ready")
   }
 
   afterBooted(() => {
@@ -514,7 +514,7 @@ async function main() {
   let appVersionPath = join(root, "app_version")
   let genesisPath = join(root, "genesis.json")
   let configPath = join(root, "config.toml")
-  let basecliVersionPath = join(root, "basecoindversion.txt")
+  let gaiacliVersionPath = join(root, "basecoindversion.txt")
 
   let rootExists = exists(root)
   await fs.ensureDir(root)
@@ -542,7 +542,7 @@ async function main() {
           appVersionPath,
           genesisPath,
           configPath,
-          basecliVersionPath
+          gaiacliVersionPath
         )
       ) {
         let existingVersion = fs.readFileSync(appVersionPath, "utf8").trim()
@@ -594,18 +594,18 @@ async function main() {
     log(`winURL: ${winURL}`)
 
     // XXX: currently ignores commit hash
-    let basecliVersion = (await getBasecoindVersion()).split(" ")[0]
+    let gaiacliVersion = (await getBasecoindVersion()).split(" ")[0]
     let expectedBasecoindVersion = fs
-      .readFileSync(basecliVersionPath, "utf8")
+      .readFileSync(gaiacliVersionPath, "utf8")
       .trim()
       .split(" ")[0]
     log(
-      `basecli version: "${basecliVersion}", expected: "${expectedBasecoindVersion}"`
+      `gaiacli version: "${gaiacliVersion}", expected: "${expectedBasecoindVersion}"`
     )
     // TODO: semver check, or exact match?
-    if (basecliVersion !== expectedBasecoindVersion) {
-      throw Error(`Requires basecli ${expectedBasecoindVersion}, but got ${basecliVersion}.
-      Please update your basecli installation or build with a newer binary.`)
+    if (gaiacliVersion !== expectedBasecoindVersion) {
+      throw Error(`Requires gaiacli ${expectedBasecoindVersion}, but got ${gaiacliVersion}.
+      Please update your gaiacli installation or build with a newer binary.`)
     }
 
     // read chainId from genesis.json
