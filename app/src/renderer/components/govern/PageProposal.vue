@@ -1,7 +1,6 @@
 <template lang="pug">
 page(:title='proposal.title')
   div(slot="menu"): tool-bar
-    router-link(to="/" exact): i.material-icons arrow_back
     a(@click="commentOnProposal(proposal.id)"): i.material-icons comment
     a(@click="proposalIsSpam(proposal.id)"): i.material-icons error
 
