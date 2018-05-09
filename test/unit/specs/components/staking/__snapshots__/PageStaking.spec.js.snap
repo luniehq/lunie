@@ -33,91 +33,25 @@ exports[`PageStaking has the expected html structure 1`] = `
 <main class=\\"ni-page-main ps\\">
    <!---->
    <div class=\\"delegates-container\\">
-      <div class=\\"panel-sort\\">
-         <div class=\\"panel-sort-container\\">
-            <div class=\\"sort-by name\\">
-               <div class=\\"label\\">
-                  Name
-               </div>
-</div>
-   <div class=\\"sort-by percent_of_vote\\">
-      <div class=\\"label\\">
-         % of Vote
-      </div>
-</div>
-   <div class=\\"sort-by voting_power\\">
-      <div class=\\"label\\">
-         Total Votes
-      </div>
-</div>
-   <div class=\\"sort-by your-votes\\">
-      <div class=\\"label\\">
-         Your Votes
-      </div>
-</div>
-   <div class=\\"sort-by status\\">
-      <div class=\\"label\\">
-         Status
-      </div>
-</div>
-   <div class=\\"sort-by action hidden\\">
-      <div class=\\"label\\"></div>
-</div>
-</div>
-</div>
-   <div class=\\"li-delegate li-delegate-validator \\">
-      <div class=\\"li-delegate__values\\">
-         <div class=\\"li-delegate__value name\\">
-            <a href=\\"#/staking/delegates/pubkeyY\\" class=\\"\\">candidateY</a>
+      <div class=\\"ni-data-msg\\">
+         <div class=\\"ni-data-msg__icon\\">
+            <i class=\\"material-icons fa-spin\\">rotate_right</i>
          </div>
-   <div class=\\"li-delegate__value percent_of_vote\\">
-      <span>75%</span>
-   </div>
-   <div class=\\"li-delegate__value number_of_votes num bar\\">
-      <span>30,000</span>
-      <div class=\\"bar\\" style=\\"width: 100%;\\"></div>
-</div>
-   <div class=\\"li-delegate__value your-votes\\">
-      <span>0</span>
-   </div>
-   <div class=\\"li-delegate__value status\\">
-      <span>Validator</span>
-   </div>
-   <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
-      <i class=\\"material-icons\\">check_box_outline_blank</i>
-   </div>
-</div>
-</div>
-   <div class=\\"li-delegate li-delegate-validator \\">
-      <div class=\\"li-delegate__values\\">
-         <div class=\\"li-delegate__value name\\">
-            <a href=\\"#/staking/delegates/pubkeyX\\" class=\\"\\">candidateX</a>
+   <div class=\\"ni-data-msg__text\\">
+      <div class=\\"ni-data-msg__title\\">
+         <div>
+            Data is loading…
          </div>
-   <div class=\\"li-delegate__value percent_of_vote\\">
-      <span>25%</span>
-   </div>
-   <div class=\\"li-delegate__value number_of_votes num bar\\">
-      <span>10,000</span>
-      <div class=\\"bar\\" style=\\"width: 33%;\\"></div>
 </div>
-   <div class=\\"li-delegate__value your-votes\\">
-      <span>0</span>
-   </div>
-   <div class=\\"li-delegate__value status\\">
-      <span>Validator</span>
-   </div>
-   <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
-      <i class=\\"material-icons\\">check_box_outline_blank</i>
-   </div>
-</div>
-</div>
-</div>
-   <div class=\\"fixed-button-bar\\">
-      <div class=\\"label\\">
-         <strong>0</strong> delegates selected
+   <div class=\\"ni-data-msg__subtitle\\">
+      <div>
+         Please wait a moment.
       </div>
-   <a href=\\"#/staking/bond\\" class=\\"ni-btn\\" disabled=\\"disabled\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">chevron_right</i><span class=\\"ni-btn__value\\">Next</span></span></a>
 </div>
+</div>
+</div>
+</div>
+   <!---->
    <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
       <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
 </div>

@@ -388,12 +388,12 @@ exports[`PageSend has the expected html structure 1`] = `
                         <!---->
                         <!---->
                         <option
-                          value="ATOM"
+                          value="mycoin"
                         >
-                          ATOM
+                          MYCOIN
                         </option>
                         <option
-                          value="FERMION"
+                          value="fermion"
                         >
                           FERMION
                         </option>
@@ -713,14 +713,14 @@ exports[`PageSend has the expected html structure 1`] = `
                         <!---->
                         <!---->
                         <option
-                          value="cosmos-hub-1"
+                          value="basecoind-demo1"
                         >
-                          cosmos-hub-1
+                          basecoind-demo1
                         </option>
                         <option
-                          value="cosmos-hub-2"
+                          value="basecoind-demo2"
                         >
-                          cosmos-hub-2
+                          basecoind-demo2
                         </option>
                       </select>
                       <div
@@ -764,8 +764,16 @@ exports[`PageSend has the expected html structure 1`] = `
                     >
                       Address is required
                     </div>
-                    <!---->
-                    <!---->
+                    <div
+                      class="ni-form-msg sm ni-form-msg--error"
+                    >
+                      Address must be exactly 40 characters
+                    </div>
+                    <div
+                      class="ni-form-msg sm ni-form-msg--error"
+                    >
+                      Address must contain only alphanumeric characters
+                    </div>
                   </div>
                 </div>
                 <div
@@ -853,7 +861,7 @@ exports[`PageSend has the expected html structure 1`] = `
 
 exports[`PageSend should show notification for unsuccessful send 1`] = `
 Object {
-  "body": "An error occurred while trying to send: \\"Error sending transaction\\"",
+  "body": "An error occurred while trying to send: \\"Cannot read property 'amount' of undefined\\"",
   "icon": "error",
   "layout": "alert",
   "time": 1608,
@@ -1569,14 +1577,14 @@ exports[`PageSend should work without providing a default denom 1`] = `
                         <!---->
                         <!---->
                         <option
-                          value="cosmos-hub-1"
+                          value="basecoind-demo1"
                         >
-                          cosmos-hub-1
+                          basecoind-demo1
                         </option>
                         <option
-                          value="cosmos-hub-2"
+                          value="basecoind-demo2"
                         >
-                          cosmos-hub-2
+                          basecoind-demo2
                         </option>
                       </select>
                       <div
@@ -1620,8 +1628,16 @@ exports[`PageSend should work without providing a default denom 1`] = `
                     >
                       Address is required
                     </div>
-                    <!---->
-                    <!---->
+                    <div
+                      class="ni-form-msg sm ni-form-msg--error"
+                    >
+                      Address must be exactly 40 characters
+                    </div>
+                    <div
+                      class="ni-form-msg sm ni-form-msg--error"
+                    >
+                      Address must contain only alphanumeric characters
+                    </div>
                   </div>
                 </div>
                 <div

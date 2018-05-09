@@ -20,7 +20,9 @@ describe("PageProfile", () => {
   it("has the expected html structure if connected", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.vm.$el.outerHTML).toContain("default")
-    expect(wrapper.vm.$el.outerHTML).toContain("someaddress")
+    expect(wrapper.vm.$el.outerHTML).toContain(
+      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+    )
   })
 
   it("should sign the user out", async () => {
