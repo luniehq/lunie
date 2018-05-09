@@ -15,8 +15,6 @@
     "node": ">=9.4.0"
   },
   "scripts": {
-
-    
     "build": "node tasks/build",
     "local": "yarn run testnet local",
     "testnet": "node tasks/testnet.js",
