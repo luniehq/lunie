@@ -44,7 +44,6 @@ export default {
   },
   data: () => ({
     logPath: "",
-    chatUrl: "https://web.telegram.org/#/im?p=@cosmosproject",
     issueUrl: "https://github.com/cosmos/voyager/issues"
   }),
   methods: {
