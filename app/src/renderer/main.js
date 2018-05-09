@@ -12,7 +12,6 @@ import App from "./App"
 import routes from "./routes"
 import Node from "./connectors/node"
 import Store from "./vuex/store"
-import config from "../config"
 
 // exporting this for testing
 let store
@@ -43,7 +42,7 @@ Vue.use(Vuelidate)
 async function main() {
   let lcdPort = getQueryParameter("lcd_port")
   console.log("Expecting lcd-server on port:", lcdPort)
-  node = Node(lcdPort, config.mocked)
+  node = Node(lcdPort)
 
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
