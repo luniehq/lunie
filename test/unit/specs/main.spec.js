@@ -127,6 +127,7 @@ describe("Startup Process", () => {
     COSMOS_HOME: testRoot,
     NODE_ENV: "testing"
   })
+  delete process.env.BINARY_PATH
 
   jest.mock(appRoot + "src/root.js", () => "./test/unit/tmp/test_root")
 
