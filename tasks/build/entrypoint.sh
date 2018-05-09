@@ -9,4 +9,4 @@ shift
 
 ln --symbolic /mnt/builds
 yarn install
-node tasks/build/release.js "$@"
+node tasks/build/entrypoint2.js "$@"
