@@ -129,8 +129,7 @@ describe("Startup Process", () => {
     LOGGING: "false",
     COSMOS_NETWORK: "app/networks/basecoind-2",
     COSMOS_HOME: testRoot,
-    NODE_ENV: "testing",
-    BINARY_PATH: null // binary path is set for e2e tests but for some reason confuses the unit tests where child_processes should be mocked anyway o.O
+    NODE_ENV: "testing"
   })
 
   jest.mock(appRoot + "src/root.js", () => "./test/unit/tmp/test_root")
