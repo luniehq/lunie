@@ -10,7 +10,7 @@ let { newTempDir, login } = require("./common.js")
 const shell = require(`shelljs`)
 
 let app, home, cliHome, started
-let binary = process.env.BINARY_PATH
+let binary = process.env.BINARY_PATH || "$GOPATH/bin/gaia"
 
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
