@@ -8,6 +8,8 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:9.11.1-browsers
+    environment:
+      - BINARY_PATH: "/home/circleci/repo/gaia"
 
     working_directory: ~/repo
 
@@ -28,6 +30,12 @@ jobs:
             - yarn.lock
             - node_modules
           key: v1-dependencies-root-{{ checksum "package.json" }}
+ 
+      - run:
+          name: Add Gaia
+          command: |
+            sudo wget https://www.dropbox.com/s/lyzwloe4swr5is5/gaia-0.13.0-linux?dl=0 -O ~/repo/gaia
+            sudo chmod o+wx /home/circleci/repo/gaia
 
       - run: yarn run test
       - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
