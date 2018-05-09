@@ -10,6 +10,7 @@ jobs:
       - image: circleci/node:9.11.1-browsers
     environment:
       - BINARY_PATH: "~/repo/gaia"
+      - NODE_BINARY_PATH: "~/repo/gaiad"
 
     working_directory: ~/repo
 
@@ -36,6 +37,8 @@ jobs:
           command: |
             sudo wget https://www.dropbox.com/s/lyzwloe4swr5is5/gaia-0.13.0-linux?dl=0 -O ~/repo/gaia
             sudo chmod o+wx ~/repo/gaia
+            sudo wget https://www.dropbox.com/s/3o1x21qit5ii8ce/gaiad-0.13.0-linux?dl=0 -O ~/repo/gaiad
+            sudo chmod o+wx ~/repo/gaiad
 
       - run: yarn run test
       - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN

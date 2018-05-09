@@ -11,6 +11,7 @@ const shell = require(`shelljs`)
 
 let app, home, cliHome, started
 let binary = process.env.BINARY_PATH
+let nodeBinary = process.env.NODE_BINARY_PATH
 
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
@@ -152,7 +153,7 @@ async function startApp(app, awaitingSelector = ".ni-session") {
 }
 
 async function startLocalNode() {
-  const command = `${binary} init \
+  const command = `${nodeBinary} init \
 D0718DDFF62D301626B428A182F830CBB0AD21FC --home ${cliHome}`
 
   console.log(command)
@@ -161,7 +162,7 @@ D0718DDFF62D301626B428A182F830CBB0AD21FC --home ${cliHome}`
 
   await new Promise((resolve, reject) => {
     // TODO cleanup
-    const command = `${binary} start --home ${cliHome}`
+    const command = `${nodeBinary} start --home ${cliHome}`
     console.log(command)
     let localnodeProcess = shell.exec(command, { async: true, silent: true })
     localnodeProcess.stderr.pipe(process.stderr)
