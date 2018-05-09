@@ -151,7 +151,7 @@ function createWindow() {
 
 function startProcess(name, args, env) {
   let binPath
-  if (process.env.BINARY_PATH) {
+  if (process.NODE_ENV !== "testing" && process.env.BINARY_PATH) {
     binPath = process.env.BINARY_PATH
   } else if (DEV) {
     // in dev mode or tests, use binaries installed in GOPATH
