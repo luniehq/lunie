@@ -163,6 +163,10 @@ function startProcess(name, args, env) {
     binPath = join(__dirname, "..", "bin", name)
   }
 
+  if (!fs.existsSync(binPath)) {
+    throw Error("Binary could not be found at: " + binPath)
+  }
+
   let argString = args.map(arg => JSON.stringify(arg)).join(" ")
   log(`spawning ${binPath} with args "${argString}"`)
   let child
