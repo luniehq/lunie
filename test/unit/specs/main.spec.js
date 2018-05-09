@@ -22,10 +22,6 @@ jest.mock("fs-extra", () => {
     "./app/networks/basecoind-2/basecoindversion.txt",
     fs.readFileSync("./app/networks/basecoind-2/basecoindversion.txt", "utf8")
   )
-  mockFs.writeFile(
-    "~/repo/gaia",
-    "THIS IS THE GAIA BINARY. IT IS NOT USED. IT IS HERE TO PASS THE EXISTANCE CHECK."
-  )
   return mockFs
 })
 let fs = require("fs-extra")
