@@ -22,6 +22,10 @@ jest.mock("fs-extra", () => {
     "./app/networks/basecoind-2/basecoindversion.txt",
     fs.readFileSync("./app/networks/basecoind-2/basecoindversion.txt", "utf8")
   )
+  mockFs.writeFile(
+    "~/repo/gaia",
+    "THIS IS THE GAIA BINARY. IT IS NOT USED. IT IS HERE TO PASS THE EXISTANCE CHECK."
+  )
   return mockFs
 })
 let fs = require("fs-extra")
@@ -125,7 +129,8 @@ describe("Startup Process", () => {
     LOGGING: "false",
     COSMOS_NETWORK: "app/networks/basecoind-2",
     COSMOS_HOME: testRoot,
-    NODE_ENV: "testing"
+    NODE_ENV: "testing",
+    BINARY_PATH: null // binary path is set for e2e tests but for some reason confuses the unit tests where child_processes should be mocked anyway o.O
   })
 
   jest.mock(appRoot + "src/root.js", () => "./test/unit/tmp/test_root")
