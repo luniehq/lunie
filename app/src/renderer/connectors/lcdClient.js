@@ -75,14 +75,19 @@ Object.assign(Client.prototype, {
   send: argReq("POST", "/accounts", "/send"),
   ibcSend: argReq("POST", "/ibc", "/send"),
   queryAccount(address) {
-    return fetchAccount.call(this, address).catch(err => {
-      console.log("err")
-      // if account not found, return null instead of throwing
-      if (err.message.includes("account bytes are empty")) {
-        return null
-      }
-      throw err
-    })
+    return fetchAccount
+      .call(this, address)
+      .then(res => {
+        return res.value
+      })
+      .catch(err => {
+        console.log("err")
+        // if account not found, return null instead of throwing
+        if (err.message.includes("account bytes are empty")) {
+          return null
+        }
+        throw err
+      })
   },
   coinTxs: argReq("GET", "/tx/coin"),
 
