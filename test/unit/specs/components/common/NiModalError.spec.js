@@ -4,10 +4,8 @@ import NiModalError from "common/NiModalError"
 
 jest.mock("electron", () => ({
   remote: {
-    app: {
-      getPath: () => {
-        return "$HOME"
-      }
+    getGlobal: () => {
+      return "$HOME/.cosmos-voyager-dev"
     }
   }
 }))
@@ -83,7 +81,7 @@ describe("NiModalError", () => {
   })
 
   it("knows the path to the app log", () => {
-    expect(wrapper.vm.logPath).toBe("$HOME/.Cosmos/main.log")
+    expect(wrapper.vm.logPath).toBe("$HOME/.cosmos-voyager-dev/main.log")
   })
 
   it("has a button to create an issue", () => {
