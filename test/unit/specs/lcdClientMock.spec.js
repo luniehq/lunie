@@ -136,11 +136,7 @@ describe("LCD Client Mock", () => {
   })
 
   it("sends coins", async () => {
-    let { address: toAddr } = await client.storeKey({
-      name: "bar",
-      password: "1234567890",
-      seed: "seed some thin"
-    })
+    let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
     let res = await client.send(toAddr, {
       sequence: 1,
       name: "default",
@@ -163,6 +159,45 @@ describe("LCD Client Mock", () => {
     expect(receiveAccount.coins.find(c => c.denom === "mycoin").amount).toBe(50)
   })
 
+  it("sends coins to existing account", async () => {
+    let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
+    let res = await client.send(toAddr, {
+      sequence: 1,
+      name: "default",
+      fees: [],
+      amount: [
+        {
+          denom: "mycoin",
+          amount: 50
+        }
+      ]
+    })
+    expect(res.check_tx.code).toBe(0)
+
+    res = await client.send(toAddr, {
+      sequence: 2,
+      name: "default",
+      fees: [],
+      amount: [
+        {
+          denom: "mycoin",
+          amount: 50
+        }
+      ]
+    })
+    expect(res.check_tx.code).toBe(0)
+
+    let account = await client.queryAccount(
+      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+    )
+    expect(account.coins.find(c => c.denom === "mycoin").amount).toBe(900)
+
+    let receiveAccount = await client.queryAccount(toAddr)
+    expect(receiveAccount.coins.find(c => c.denom === "mycoin").amount).toBe(
+      100
+    )
+  })
+
   it("fails to send coins you dont have", async () => {
     let { address: toAddr } = await client.storeKey({
       name: "bar",
@@ -177,6 +212,47 @@ describe("LCD Client Mock", () => {
         {
           denom: "mycoin",
           amount: 100000
+        }
+      ]
+    })
+    expect(res.check_tx.code).toBe(1)
+  })
+
+  it("fails to send coins from a nonexistent account", async () => {
+    let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
+    await client.storeKey({
+      name: "somekey",
+      password: "1234567890",
+      seed_phrase: "seed some thin test lol"
+    })
+    let res = await client.send(toAddr, {
+      sequence: 1,
+      name: "somekey",
+      fees: [],
+      amount: [
+        {
+          denom: "mycoin",
+          amount: 100000
+        }
+      ]
+    })
+    expect(res.check_tx.code).toBe(1)
+  })
+
+  it("fails to send negative amounts", async () => {
+    let { address: toAddr } = await client.storeKey({
+      name: "bar",
+      password: "1234567890",
+      seed: "seed some thin"
+    })
+    let res = await client.send(toAddr, {
+      sequence: 1,
+      name: "default",
+      fees: [],
+      amount: [
+        {
+          denom: "mycoin",
+          amount: -50
         }
       ]
     })

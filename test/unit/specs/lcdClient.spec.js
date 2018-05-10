@@ -117,6 +117,24 @@ describe("LCD Client", () => {
     expect(res).toBe(null)
   })
 
+  it("throws error for error other than empty account", async () => {
+    axios.get = jest.fn().mockReturnValueOnce(
+      Promise.reject({
+        response: {
+          data: {
+            error: "something failed",
+            code: 1
+          }
+        }
+      })
+    )
+    try {
+      await client.queryAccount("address")
+    } catch (err) {
+      expect(err.message).toBe("something failed")
+    }
+  })
+
   it("checks for the connection with the lcd by performing a simple request", async () => {
     client.listKeys = () => Promise.resolve()
     expect(await client.lcdConnected()).toBeTruthy()
