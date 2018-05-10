@@ -62,7 +62,7 @@ export default ({ commit, node }) => {
     async queryWalletBalances({ state, rootState, commit, dispatch }) {
       let res = await node.queryAccount(state.address)
       if (!res) {
-        state.balancesLoading = true
+        state.balancesLoading = false
         return
       }
       commit("setNonce", res.sequence)
