@@ -12,6 +12,7 @@ describe("PageWallet", () => {
     wrapper = instance.wrapper
     store = instance.store
 
+    store.commit("setDenoms", [ "ATOM", "FERMION", "TEST" ])
     store.commit("setWalletAddress", "123abc456def")
     store.commit("setWalletBalances", [
       {
@@ -36,7 +37,8 @@ describe("PageWallet", () => {
   it("should sort the balances by denom", () => {
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([
       "FERMION",
-      "ATOM"
+      "ATOM",
+      "TEST"
     ])
   })
 

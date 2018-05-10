@@ -295,6 +295,7 @@ exports[`PageWallet has the expected html structure 1`] = `
               </button>
             </div>
           </a>
+          <!---->
         </main>
       </div>
     </section>
@@ -599,7 +600,7 @@ exports[`PageWallet should filter the balances 1`] = `
         >
           <!---->
           <a
-            class="ni-li ni-li-link ni-li-balance proposal-leave proposal-leave-active"
+            class="ni-li ni-li-link ni-li-balance proposal-enter proposal-enter-active"
             href="#/wallet/send"
           >
             <div
@@ -616,12 +617,12 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="ni-li-dt"
                 >
-                  FERMION
+                  ATOM
                 </div>
                 <div
                   class="ni-li-dd"
                 >
-                  456
+                  123
                 </div>
               </div>
               <button
@@ -647,7 +648,7 @@ exports[`PageWallet should filter the balances 1`] = `
             </div>
           </a>
           <a
-            class="ni-li ni-li-link ni-li-balance proposal-enter proposal-enter-active"
+            class="ni-li ni-li-link ni-li-balance proposal-leave proposal-leave-active"
             href="#/wallet/send"
           >
             <div
@@ -664,12 +665,12 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="ni-li-dt"
                 >
-                  ATOM
+                  FERMION
                 </div>
                 <div
                   class="ni-li-dd"
                 >
-                  123
+                  456
                 </div>
               </div>
               <button
