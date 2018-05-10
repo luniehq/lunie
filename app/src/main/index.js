@@ -629,7 +629,7 @@ async function main() {
   log("LCD is" + (_lcdInitialized ? "" : "not") + "initialized")
   if (init || !_lcdInitialized) {
     log(`Trying to initialize lcd with remote node ${nodeIP}`)
-    await initLCD(chainId, lcdHome, nodeIP)
+    // await initLCD(chainId, lcdHome, nodeIP)
   }
   await connect(seeds, nodeIP)
 }
