@@ -115,7 +115,7 @@ export default ({ commit, node }) => {
 
           if (err) return error(err)
 
-          state.blocks.unshift(event.data.data.block)
+          state.blocks.unshift(event.data.value.block)
 
           if (state.blocks.length === 20) {
             state.blocks.pop()

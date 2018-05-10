@@ -82,7 +82,7 @@ export default function({ node }) {
         { query: "tm.event = 'NewBlockHeader'" },
         (err, event) => {
           if (err) return console.error("error subscribing to headers", err)
-          dispatch("setLastHeader", event.data.data.header)
+          dispatch("setLastHeader", event.data.value.header)
         }
       )
 
