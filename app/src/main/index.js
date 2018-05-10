@@ -41,7 +41,7 @@ const winURL = DEV
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
 
-let SERVER_BINARY = "basecli" + (WIN ? ".exe" : "")
+let SERVER_BINARY = "gaiacli" + (WIN ? ".exe" : "")
 
 function log(...args) {
   if (LOGGING) {
@@ -284,7 +284,6 @@ async function initLCD(chainId, home, node) {
   return new Promise((resolve, reject) => {
     // `basecli client init` to generate config
     let child = startProcess(SERVER_BINARY, [
-      "client",
       "init",
       "--home",
       home,
@@ -320,7 +319,7 @@ async function initLCD(chainId, home, node) {
               // select a new node to try out
               nodeIP = pickNode(seeds)
 
-              initLCD(chainId, home, nodeIP).then(resolve, reject)
+              // initLCD(chainId, home, nodeIP).then(resolve, reject)
             }
           )
           .catch(reject)
