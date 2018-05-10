@@ -70,10 +70,10 @@ let stdoutMocks = (path, args) => ({
     if (args[0] === "version" && type === "data") {
       cb({ toString: () => "0.13.0" })
     }
-    // mock basecli init approval request
+    // mock gaiacli init approval request
     if (
       type === "data" &&
-      path.includes("basecli") &&
+      path.includes("gaiacli") &&
       args.includes("init") &&
       args.length > 4
     ) {
@@ -86,12 +86,12 @@ let stdoutMocks = (path, args) => ({
 })
 let stderrMocks = (path, args) => ({
   on: (type, cb) => {
-    // test for init of basecli
+    // test for init of gaiacli
     if (type === "data" && args.includes("init") && args.length === 4) {
       cb({ toString: () => "already is initialized" })
     }
     if (
-      path.includes("basecli") &&
+      path.includes("gaiacli") &&
       args.includes("rest-server") &&
       type === "data"
     ) {
@@ -150,7 +150,7 @@ describe("Startup Process", () => {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
-            path.includes("basecli") &&
+            path.includes("gaiacli") &&
             args.includes("init") &&
             args.join("=").includes("--chain-id=basecoind-2")
         )
@@ -161,7 +161,7 @@ describe("Startup Process", () => {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
-            path.includes("basecli") && args.includes("rest-server")
+            path.includes("gaiacli") && args.includes("rest-server")
         )
       ).toBeDefined()
       expect(main.processes.lcdProcess).toBeDefined()
@@ -217,7 +217,7 @@ describe("Startup Process", () => {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
-            path.includes("basecli") &&
+            path.includes("gaiacli") &&
             args.includes("init") &&
             args.join("=").includes("--chain-id=basecoind-2")
         )
@@ -229,7 +229,7 @@ describe("Startup Process", () => {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
-            path.includes("basecli") && args.includes("rest-server")
+            path.includes("gaiacli") && args.includes("rest-server")
         )
       ).toBeDefined()
       expect(main.processes.lcdProcess).toBeDefined()
@@ -248,7 +248,7 @@ describe("Startup Process", () => {
     xit("should not init lcd server again", async function() {
       expect(
         childProcess.spawn.mock.calls.find(
-          ([path, args]) => path.includes("basecli") && args.includes("init")
+          ([path, args]) => path.includes("gaiacli") && args.includes("init")
         )
       ).toBeUndefined()
     })
@@ -257,7 +257,7 @@ describe("Startup Process", () => {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
-            path.includes("basecli") && args.includes("rest-server")
+            path.includes("gaiacli") && args.includes("rest-server")
         )
       ).toBeDefined()
       expect(main.processes.lcdProcess).toBeDefined()
@@ -519,7 +519,7 @@ describe("Startup Process", () => {
 
         expect(
           childProcess.spawn.mock.calls.find(
-            ([path, args]) => path.includes("basecli") && args.includes("init")
+            ([path, args]) => path.includes("gaiacli") && args.includes("init")
           ).length
         ).toBe(3) // one to check in first round, one to check + one to init in the second round
 
@@ -529,8 +529,8 @@ describe("Startup Process", () => {
   })
 
   describe("Error handling on init", () => {
-    testFailingChildProcess("basecli", "init")
-    testFailingChildProcess("basecli", "rest-server")
+    testFailingChildProcess("gaiacli", "init")
+    testFailingChildProcess("gaiacli", "rest-server")
   })
 })
 
