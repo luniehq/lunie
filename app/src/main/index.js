@@ -234,7 +234,7 @@ async function startLCD(home, nodeIP) {
         if (mainWindow) {
           mainWindow.webContents.send(
             "error",
-            Error("The basecli rest-server (LCD) exited unplanned")
+            Error(`The ${SERVER_BINARY} rest-server (LCD) exited unplanned`)
           )
         }
       })
