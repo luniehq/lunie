@@ -7,9 +7,10 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:9.4.0-browsers
+      - image: circleci/node:9.11.1-browsers
     environment:
-      - BINARY_PATH: "/home/circleci/repo/gaia"
+      - BINARY_PATH: "~/repo/gaia"
+      - NODE_BINARY_PATH: "~/repo/gaiad"
 
     working_directory: ~/repo
 
@@ -30,12 +31,14 @@ jobs:
             - yarn.lock
             - node_modules
           key: v1-dependencies-root-{{ checksum "package.json" }}
-
+ 
       - run:
           name: Add Gaia
           command: |
-            sudo wget https://tendermint-packages.interblock.io/binaries/gaia_linux_amd64/gaia_decb23bed0179244e4f42d697dcd4bf759200a2d -O ~/repo/gaia
-            sudo chmod o+wx /home/circleci/repo/gaia
+            sudo wget https://www.dropbox.com/s/lyzwloe4swr5is5/gaia-0.13.0-linux?dl=0 -O ~/repo/gaia
+            sudo chmod o+wx ~/repo/gaia
+            sudo wget https://www.dropbox.com/s/3o1x21qit5ii8ce/gaiad-0.13.0-linux?dl=0 -O ~/repo/gaiad
+            sudo chmod o+wx ~/repo/gaiad
 
       - run: yarn run test
       - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN

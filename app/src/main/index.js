@@ -22,6 +22,7 @@ let streams = []
 let nodeIP
 let connecting = true
 let seeds = null
+let chainId
 let booted = false
 
 const root = require("../root.js")
@@ -40,7 +41,7 @@ const winURL = DEV
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
 
-let SERVER_BINARY = "gaia" + (WIN ? ".exe" : "")
+let SERVER_BINARY = "gaiacli" + (WIN ? ".exe" : "")
 
 function log(...args) {
   if (LOGGING) {
@@ -212,27 +213,28 @@ async function startLCD(home, nodeIP) {
     log("startLCD", home)
     let child = startProcess(SERVER_BINARY, [
       "rest-server",
-      "--port",
-      LCD_PORT,
+      "--laddr",
+      `tcp://localhost:${LCD_PORT}`,
       "--home",
       home,
       "--node",
-      nodeIP
+      nodeIP,
+      "--chain-id",
+      chainId
       // '--trust-node'
     ])
     logProcess(child, join(home, "lcd.log"))
 
-    // XXX why the hell stderr?!?!?!?
-    child.stderr.on("data", data => {
-      if (data.includes("Serving on")) resolve(child)
-    })
+    // XXX: should wait for server to be ready
+    setTimeout(() => resolve(child), 1000)
+
     child.on("exit", () => {
       reject()
       afterBooted(() => {
         if (mainWindow) {
           mainWindow.webContents.send(
             "error",
-            Error("The Gaia REST-server (LCD) exited unplanned")
+            Error(`The ${SERVER_BINARY} rest-server (LCD) exited unplanned`)
           )
         }
       })
@@ -240,7 +242,7 @@ async function startLCD(home, nodeIP) {
   })
 }
 
-async function getGaiaVersion() {
+async function getBasecoindVersion() {
   let child = startProcess(SERVER_BINARY, ["version"])
   let data = await new Promise(resolve => {
     child.stdout.on("data", resolve)
@@ -280,9 +282,8 @@ function handleHashVerification(nodeHash) {
 async function initLCD(chainId, home, node) {
   // let the user in the view approve the hash we get from the node
   return new Promise((resolve, reject) => {
-    // `gaia client init` to generate config
+    // `basecli client init` to generate config
     let child = startProcess(SERVER_BINARY, [
-      "client",
       "init",
       "--home",
       home,
@@ -304,7 +305,7 @@ async function initLCD(chainId, home, node) {
               // since the LCD is talking to our own full node
               child.stdin.write("y\n")
 
-              expectCleanExit(child, "gaia init exited unplanned").then(
+              expectCleanExit(child, "basecli init exited unplanned").then(
                 resolve,
                 reject
               )
@@ -318,7 +319,7 @@ async function initLCD(chainId, home, node) {
               // select a new node to try out
               nodeIP = pickNode(seeds)
 
-              initLCD(chainId, home, nodeIP).then(resolve, reject)
+              // initLCD(chainId, home, nodeIP).then(resolve, reject)
             }
           )
           .catch(reject)
@@ -330,7 +331,7 @@ async function initLCD(chainId, home, node) {
       }
     })
   })
-  await expectCleanExit(child, "gaia init exited unplanned")
+  await expectCleanExit(child, "basecli init exited unplanned")
 }
 
 // this function will call the passed in callback when the view is booted
@@ -398,13 +399,13 @@ function consistentConfigDir(
   appVersionPath,
   genesisPath,
   configPath,
-  gaiaVersionPath
+  basecliVersionPath
 ) {
   return (
     exists(genesisPath) &&
     exists(appVersionPath) &&
     exists(configPath) &&
-    exists(gaiaVersionPath)
+    exists(basecliVersionPath)
   )
 }
 
@@ -432,7 +433,6 @@ function lcdInitialized(home) {
   log("Testing if LCD is already initialized")
   return new Promise((resolve, reject) => {
     let child = startProcess(SERVER_BINARY, [
-      "client",
       "init",
       "--home",
       home
@@ -451,7 +451,7 @@ function lcdInitialized(home) {
 }
 
 function pickNode(seeds) {
-  let nodeIP = NODE || seeds[Math.floor(Math.random() * seeds.length)]
+  let nodeIP = seeds[Math.floor(Math.random() * seeds.length)]
   // let nodeRegex = /([http[s]:\/\/]())/g
   log("Picked seed:", nodeIP, "of", seeds)
   // replace port with default RPC port
@@ -461,9 +461,9 @@ function pickNode(seeds) {
 }
 
 async function connect(seeds, nodeIP) {
-  log(`starting gaia server with nodeIP ${nodeIP}`)
+  log(`starting basecli server with nodeIP ${nodeIP}`)
   lcdProcess = await startLCD(lcdHome, nodeIP)
-  log("gaia server ready")
+  log("basecli server ready")
 
   afterBooted(() => {
     log("Signaling connected node")
@@ -510,7 +510,7 @@ async function main() {
   let appVersionPath = join(root, "app_version")
   let genesisPath = join(root, "genesis.json")
   let configPath = join(root, "config.toml")
-  let gaiaVersionPath = join(root, "gaiaversion.txt")
+  let basecliVersionPath = join(root, "basecoindversion.txt")
 
   let rootExists = exists(root)
   await fs.ensureDir(root)
@@ -537,7 +537,7 @@ async function main() {
         appVersionPath,
         genesisPath,
         configPath,
-        gaiaVersionPath
+        basecliVersionPath
       )
     ) {
       let existingVersion = fs.readFileSync(appVersionPath, "utf8").trim()
@@ -588,37 +588,52 @@ async function main() {
   log(`dev mode: ${DEV}`)
   log(`winURL: ${winURL}`)
 
-  let gaiaVersion = await getGaiaVersion()
-  let expectedGaiaVersion = fs.readFileSync(gaiaVersionPath, "utf8").trim()
-  log(`gaia version: "${gaiaVersion}", expected: "${expectedGaiaVersion}"`)
+  // XXX: currently ignores commit hash
+  let basecliVersion = (await getBasecoindVersion()).split(" ")[0]
+  let expectedBasecoindVersion = fs
+    .readFileSync(basecliVersionPath, "utf8")
+    .trim()
+    .split(" ")[0]
+  log(
+    `basecli version: "${basecliVersion}", expected: "${expectedBasecoindVersion}"`
+  )
   // TODO: semver check, or exact match?
-  if (gaiaVersion !== expectedGaiaVersion) {
-    throw Error(`Requires gaia ${expectedGaiaVersion}, but got ${gaiaVersion}.
-    Please update your gaia installation or build with a newer binary.`)
+  if (basecliVersion !== expectedBasecoindVersion) {
+    throw Error(`Requires basecli ${expectedBasecoindVersion}, but got ${basecliVersion}.
+    Please update your basecli installation or build with a newer binary.`)
   }
 
   // read chainId from genesis.json
   let genesisText = fs.readFileSync(genesisPath, "utf8")
   let genesis = JSON.parse(genesisText)
-  let chainId = genesis.chain_id
+  chainId = genesis.chain_id
 
-  // pick a random seed node from config.toml
+  // pick a random seed node from config.toml if not using COSMOS_NODE envvar
   // TODO: user-specified nodes, support switching?
-  let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
-  let configTOML = toml.parse(configText)
-  seeds = configTOML.p2p.seeds.split(",").filter(x => x !== "")
-  if (seeds.length === 0) {
-    throw new Error("No seeds specified in config.toml")
+  // TODO: get addresses from 'seeds' as well as 'persistent_peers'
+  // TODO: use address to prevent MITM if specified
+  if (!NODE) {
+    let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
+    let configTOML = toml.parse(configText)
+    seeds = configTOML.p2p.persistent_peers
+      .split(",")
+      .filter(x => x !== "")
+      .map(x => x.split("@")[1])
+    if (seeds.length === 0) {
+      throw new Error("No seeds specified in config.toml")
+    }
+  } else {
+    seeds = [NODE]
   }
 
   // choose one random node to start from
   nodeIP = pickNode(seeds)
 
-  let _lcdInitialized = await lcdInitialized(join(root, "lcd"))
-  log("LCD is" + (_lcdInitialized ? "" : " not") + " initialized")
+  let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))
+  log("LCD is" + (_lcdInitialized ? "" : "not") + "initialized")
   if (init || !_lcdInitialized) {
     log(`Trying to initialize lcd with remote node ${nodeIP}`)
-    await initLCD(chainId, lcdHome, nodeIP)
+    // await initLCD(chainId, lcdHome, nodeIP)
   }
   await connect(seeds, nodeIP)
 }

@@ -63,18 +63,14 @@ describe("Module: User", () => {
   })
 
   it("should test if the login works", async () => {
-    node.updateKey = (account, { name, password, newPassphrase }) => {
+    node.updateKey = (account, { name, old_password, new_password }) => {
       expect(account).toBe(name)
-      expect(password).toBe(newPassphrase)
+      expect(old_password).toBe(new_password)
       return true
     }
     let output = await store.dispatch("testLogin", {
-      account: "ABC",
-      details: {
-        name: "ABC",
-        password: "123",
-        new_passphrase: "123"
-      }
+      account: "default",
+      password: "1234567890"
     })
     expect(output).toBe(true)
   })
@@ -87,37 +83,28 @@ describe("Module: User", () => {
   it("should create a seed phrase", async () => {
     let seed = await store.dispatch("createSeed")
     expect(seed).toBeDefined()
-    expect(seed.split(" ").length).toBe(12)
-  })
-
-  it("should delete an existing trunc when generating a seed phrase", done => {
-    node.listKeys = () => Promise.resolve([{ name: "trunk" }])
-    node.deleteKey = account => {
-      expect(account).toBe("trunk")
-      done()
-    }
-    store.dispatch("createSeed")
+    expect(seed.split(" ").length).toBe(16)
   })
 
   it("should create a key from a seed phrase", async () => {
     let seedPhrase = "abc"
     let password = "123"
     let name = "def"
-    node.recoverKey = jest.fn(() => ({ key: { address: "some address" } }))
-    let key = await store.dispatch("createKey", {
+    node.storeKey = jest.fn(node.storeKey)
+    let address = await store.dispatch("createKey", {
       seedPhrase,
       password,
       name
     })
-    expect(node.recoverKey).toHaveBeenCalledWith({
-      seed_phrase: seedPhrase,
+    expect(node.storeKey).toHaveBeenCalledWith({
+      seed: seedPhrase,
       password,
       name
     })
-    expect(key).toEqual({ address: "some address" })
+    expect(address.length).toEqual(40)
 
     // initialize wallet
-    expect(store.state.wallet.key).toEqual({ address: "some address" })
+    expect(store.state.wallet.address).toBe(address)
   })
 
   it("should delete a key", async () => {
@@ -137,7 +124,7 @@ describe("Module: User", () => {
     expect(store.state.user.signedIn).toBe(true)
 
     // initialize wallet
-    expect(store.state.wallet.key).toEqual({ address: "some address" })
+    expect(store.state.wallet.address).toEqual("some address")
 
     // hide login
     expect(store.state.config.modals.session.active).toBe(false)

@@ -32,8 +32,14 @@ export default function({ node }) {
     reconnected({ commit, dispatch }) {
       dispatch("rpcSubscribe")
     },
-    setLastHeader({ state, dispatch }, header) {
+    setLastHeader({ state, rootState, dispatch }, header) {
       state.lastHeader = header
+
+      // TODO do this somewhere else probably
+      if (!rootState.wallet.zoneIds.find(x => x === header.chain_id)) {
+        rootState.wallet.zoneIds.unshift(header.chain_id)
+      }
+
       dispatch("maybeUpdateValidators", header)
     },
     async reconnect({ commit, dispatch }) {
@@ -76,7 +82,7 @@ export default function({ node }) {
         { query: "tm.event = 'NewBlockHeader'" },
         (err, event) => {
           if (err) return console.error("error subscribing to headers", err)
-          dispatch("setLastHeader", event.data.data.header)
+          dispatch("setLastHeader", event.data.value.header)
         }
       )
 

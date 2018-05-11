@@ -19,8 +19,7 @@
     "local": "yarn run testnet local",
     "testnet": "node tasks/testnet.js",
     "lint": "yarn lint:eslint && yarn lint:format",
-    "lint:eslint":
-      "eslint -f ./node_modules/eslint-friendly-formatter '{,**/}*.{js,vue}'",
+    "lint:eslint": "eslint -f ./node_modules/eslint-friendly-formatter '{,**/}*.{js,vue}'",
     "lint:format": "prettier --list-different '{,**/}*.{css,js,json,vue}'",
     "lint:fix": "prettier --write '{,**/}*.{css,js,json,vue}'",
     "pack": "yarn run pack:main && yarn run pack:renderer",
@@ -28,7 +27,7 @@
       "cross-env NODE_ENV=production webpack --colors --config webpack.main.config.js",
     "pack:renderer":
       "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js",
-    "test": "yarn run lint && yarn test:unit && yarn test:e2e",
+    "test": "yarn run lint && yarn test:unit",
     "test:unit":
       "cross-env LOGGING=false MOCK=false ANALYTICS=false NODE_ENV=testing jest --maxWorkers=2",
     "test:e2e":
@@ -140,9 +139,18 @@
     "vuex": "3.0.1"
   },
   "jest": {
-    "testMatch": ["**/unit/specs/**/*spec.js"],
-    "moduleFileExtensions": ["js", "vue"],
-    "moduleDirectories": ["app/node_modules", "node_modules", "src"],
+    "testMatch": [
+      "**/unit/specs/**/*spec.js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "vue"
+    ],
+    "moduleDirectories": [
+      "app/node_modules",
+      "node_modules",
+      "src"
+    ],
     "moduleNameMapper": {
       "^src/(.*)$": "<rootDir>/app/src/$1",
       "^app/(.*)$": "<rootDir>/app/$1",
@@ -159,11 +167,15 @@
       ".*.vue$": "jest-vue-preprocessor",
       ".*.js$": "babel-jest"
     },
-    "transformIgnorePatterns": ["node_modules/(?!.*vue$)"],
+    "transformIgnorePatterns": [
+      "node_modules/(?!.*vue$)"
+    ],
     "collectCoverage": true,
     "mapCoverage": true,
     "coverageDirectory": "./test/unit/coverage",
-    "coverageReporters": ["lcov"],
+    "coverageReporters": [
+      "lcov"
+    ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/build/",

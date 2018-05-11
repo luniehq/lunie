@@ -51,13 +51,7 @@ page(title='Send')
 </template>
 
 <script>
-import {
-  required,
-  between,
-  minLength,
-  maxLength,
-  alphaNum
-} from "vuelidate/lib/validators"
+import { required, between, minLength } from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
 import Btn from "@nylira/vue-button"
 import Field from "@nylira/vue-field"
@@ -83,7 +77,7 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(["wallet"]),
+    ...mapGetters(["wallet", "lastHeader"]),
     denominations() {
       return this.wallet.balances.map(i => ({
         key: i.denom.toUpperCase(),
@@ -119,49 +113,51 @@ export default {
       let address = this.fields.address
       let denom = this.fields.denom
       let zoneId = this.fields.zoneId
-      await this.walletSend({
-        fees: { denom, amount: 0 },
-        to: address,
-        amount: [{ denom, amount }],
-        zoneId: zoneId
-      }).then(
-        () => {
-          this.sending = false
-          this.$store.commit("notify", {
-            title: "Successfully Sent",
-            body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
-          })
-
-          // resets send transaction form
-          this.resetForm()
-
-          // refreshes user transaction history
-          this.$store.dispatch("queryWalletHistory")
-        },
-        err => {
-          this.sending = false
-          this.$store.commit("notifyError", {
-            title: "Error Sending",
-            body: `An error occurred while trying to send: "${err.message}"`
-          })
+      try {
+        // if address has a slash, it is IBC address format
+        let type
+        if (this.lastHeader.chain_id !== zoneId) {
+          type = "ibcSend"
+          address = `${zoneId}/${address}`
+        } else {
+          type = "send"
         }
-      )
+        await this.sendTx({
+          type,
+          to: address,
+          amount: [{ denom, amount }]
+        })
+        this.sending = false
+        this.$store.commit("notify", {
+          title: "Successfully Sent",
+          body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
+        })
+        // resets send transaction form
+        this.resetForm()
+        // refreshes user transaction history
+        this.$store.dispatch("queryWalletHistory")
+      } catch (err) {
+        this.sending = false
+        this.$store.commit("notifyError", {
+          title: "Error Sending",
+          body: `An error occurred while trying to send: "${err.message}"`
+        })
+      }
     },
-    ...mapActions(["walletSend"])
+    ...mapActions(["sendTx"])
   },
   props: ["denom"],
   mounted() {
     if (this.denom) {
       this.fields.denom = this.denom
     }
+    this.fields.zoneId = this.wallet.zoneIds[0]
   },
   validations: () => ({
     fields: {
       address: {
         required,
-        minLength: minLength(40),
-        maxLength: maxLength(42),
-        alphaNum: alphaNum
+        minLength: minLength(40)
       },
       amount: {
         required,
@@ -170,6 +166,13 @@ export default {
       denom: { required },
       zoneId: { required }
     }
-  })
+  }),
+  watch: {
+    // TODO should not be necessary?
+    // if the zoneId gets added at a later time
+    "wallet.zoneIds": () => {
+      this.fields.zoneId = this.wallet.zoneIds[0]
+    }
+  }
 }
 </script>
