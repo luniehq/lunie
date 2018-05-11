@@ -32,7 +32,6 @@ export default ({ commit, node }) => {
     let res = await node[type](to, args)
 
     // check response code
-    console.log("send response:", res)
     if (res.check_tx.code || res.deliver_tx.code) {
       let message = res.check_tx.log || res.deliver_tx.log
       throw new Error("Error sending transaction: " + message)

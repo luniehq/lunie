@@ -22,7 +22,6 @@ function argReq(method, prefix, suffix = "") {
     if (method === "DELETE") {
       data = { data }
     }
-    console.log("args", args)
     return this.request(method, `${prefix}/${args}${suffix}`, data)
   }
 }
@@ -37,7 +36,6 @@ class Client {
       let res = await axios[method.toLowerCase()](this.server + path, data)
       return res.data
     } catch (resError) {
-      console.log("error", resError)
       if (!resError.response || !resError.response.data) {
         throw resError
       }
