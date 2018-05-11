@@ -9,8 +9,8 @@ jobs:
       # specify the version you desire here
       - image: circleci/node:9.4.0-browsers
     environment:
-      - BINARY_PATH: "~/repo/gaia"
-      - NODE_BINARY_PATH: "~/repo/gaiad"
+      - BINARY_PATH: "/home/circleci/repo/gaia"
+      - NODE_BINARY_PATH: "/home/circleci/repo/gaiad"
 
     working_directory: ~/repo
 
