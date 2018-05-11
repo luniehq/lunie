@@ -59,8 +59,7 @@
         "max_validators": 100,
         "bond_denom": "steak"
       },
-      "candidates": [
-      ],
+      "candidates": [],
       "bonds": null
     }
   }

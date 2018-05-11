@@ -623,7 +623,7 @@ async function main() {
       throw new Error("No seeds specified in config.toml")
     }
   } else {
-    seeds = [ NODE ]
+    seeds = [NODE]
   }
 
   // choose one random node to start from

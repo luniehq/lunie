@@ -9,7 +9,7 @@ let fs = require("fs-extra")
 let { newTempDir, login } = require("./common.js")
 const shell = require(`shelljs`)
 
-const networkPath = join(__dirname, 'localtestnet')
+const networkPath = join(__dirname, "localtestnet")
 
 let app, home, nodeHome, started
 let binary = process.env.BINARY_PATH
@@ -160,7 +160,7 @@ async function startApp(app, awaitingSelector = ".ni-session") {
 }
 
 function startLocalNode() {
-  let configPath = join(nodeHome, 'config')
+  let configPath = join(nodeHome, "config")
   fs.mkdirpSync(configPath)
   fs.copySync(networkPath, configPath)
 
@@ -187,13 +187,7 @@ function startLocalNode() {
 
 async function createAccount(name, seed) {
   await new Promise((resolve, reject) => {
-    let child = spawn(binary, [
-      "keys",
-      "recover",
-      name,
-      "--home",
-      home
-    ])
+    let child = spawn(binary, ["keys", "recover", name, "--home", home])
     child.stdin.write("1234567890\n")
     child.stdin.write(seed + "\n")
     child.stderr.pipe(process.stdout)
