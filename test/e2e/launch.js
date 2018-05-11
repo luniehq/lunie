@@ -92,7 +92,6 @@ function launch(t) {
       // test if app restores from unitialized gaia folder
       await stop(app)
       fs.removeSync(home)
-      fs.mkdirpSync(home)
       await startApp(app, initialElement)
       t.ok(app.isRunning(), "app recovers from uninitialized gaia")
 
