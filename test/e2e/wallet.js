@@ -92,7 +92,8 @@ test("wallet", async function(t) {
     t.test("address w/ less than 40 chars", async function(t) {
       await goToSendPage()
       await addressInput().setValue("012345")
-      await $("div=Address must be exactly 40 characters").waitForExist()
+      await sendBtn().click()
+      await $("div*=Address must be exactly 40 characters").waitForExist()
       t.pass("got correct error message")
       await sendBtn().click()
       t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
@@ -102,6 +103,7 @@ test("wallet", async function(t) {
     t.test("address w/ 40 chars", async function(t) {
       await goToSendPage()
       await addressInput().setValue("0".repeat(40))
+      await sendBtn().click()
       t.notOk(
         await app.client.isExisting(
           "div=Address must be exactly 40 characters"
@@ -125,7 +127,7 @@ test("wallet", async function(t) {
     t.test("send", async function(t) {
       await goToSendPage()
       await amountInput().setValue("100")
-      await addressInput().setValue("3F52AFC4FB737A0296EFE331885FCC476980B3BD")
+      await addressInput().setValue("30E64F9A3FA6C2B9864DADDEDA29CB667BF8366C")
       await sendBtn().click()
       await app.client.waitForExist(".ni-notification", 10 * 1000)
       let msg = await app.client.$(".ni-notification .body").getText()
