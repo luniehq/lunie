@@ -12,7 +12,7 @@ const shell = require(`shelljs`)
 const networkPath = join(__dirname, "localtestnet")
 
 let app, home, nodeHome, started
-let binary = process.env.BINARY_PATH
+let binary = process.env.BINARY_PATH || "$GOPATH/bin/gaiacli"
 let nodeBinary = process.env.NODE_BINARY_PATH
 
 /*
