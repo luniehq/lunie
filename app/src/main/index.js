@@ -451,7 +451,7 @@ function lcdInitialized(home) {
 }
 
 function pickNode(seeds) {
-  let nodeIP = NODE || seeds[Math.floor(Math.random() * seeds.length)]
+  let nodeIP = seeds[Math.floor(Math.random() * seeds.length)]
   // let nodeRegex = /([http[s]:\/\/]())/g
   log("Picked seed:", nodeIP, "of", seeds)
   // replace port with default RPC port
@@ -608,18 +608,22 @@ async function main() {
   let genesis = JSON.parse(genesisText)
   chainId = genesis.chain_id
 
-  // pick a random seed node from config.toml
+  // pick a random seed node from config.toml if not using COSMOS_NODE envvar
   // TODO: user-specified nodes, support switching?
   // TODO: get addresses from 'seeds' as well as 'persistent_peers'
   // TODO: use address to prevent MITM if specified
-  let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
-  let configTOML = toml.parse(configText)
-  seeds = configTOML.p2p.persistent_peers
-    .split(",")
-    .filter(x => x !== "")
-    .map(x => x.split("@")[1])
-  if (seeds.length === 0) {
-    throw new Error("No seeds specified in config.toml")
+  if (!NODE) {
+    let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
+    let configTOML = toml.parse(configText)
+    seeds = configTOML.p2p.persistent_peers
+      .split(",")
+      .filter(x => x !== "")
+      .map(x => x.split("@")[1])
+    if (seeds.length === 0) {
+      throw new Error("No seeds specified in config.toml")
+    }
+  } else {
+    seeds = [ NODE ]
   }
 
   // choose one random node to start from
