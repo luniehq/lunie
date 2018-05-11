@@ -20,7 +20,7 @@ page(title='Block Explorer')
       v-for="block in blocks"
       :key="block.header.height"
       :dt="num.prettyInt(block.header.height)"
-      :dd="block.data.txs.length"
+      :dd="(block.data.txs || []).length"
       :to="{ name: 'block', params: { block: block.header.height} }")
 </template>
 
@@ -69,6 +69,7 @@ export default {
     }
   },
   mounted() {
+    console.log('blocks', this.blocks)
     Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
     Mousetrap.bind("esc", () => this.setSearch(false))
   },
