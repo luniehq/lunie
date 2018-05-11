@@ -27,7 +27,7 @@
       "cross-env NODE_ENV=production webpack --colors --config webpack.main.config.js",
     "pack:renderer":
       "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js",
-    "test": "yarn run lint && yarn test:unit",
+    "test": "yarn run lint && yarn test:unit && yarn test:e2e",
     "test:unit":
       "cross-env LOGGING=false MOCK=false ANALYTICS=false NODE_ENV=testing jest --maxWorkers=2",
     "test:e2e":
