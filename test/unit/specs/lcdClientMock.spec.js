@@ -23,7 +23,7 @@ describe("LCD Client Mock", () => {
       password: "1234567890",
       seed
     })
-    expect(res.name).toBe("foo")
+    expect(res.length).toBe(40)
 
     res = await client.listKeys()
     expect(res.find(k => k.name === "foo")).toBeDefined()

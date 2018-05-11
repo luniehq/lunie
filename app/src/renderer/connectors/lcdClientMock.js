@@ -172,7 +172,7 @@ module.exports = {
       address: makeAddress()
     }
     state.keys.push(key)
-    return key
+    return key.address
   },
   async listKeys() {
     return state.keys.map(k => ({
