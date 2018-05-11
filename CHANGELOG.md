@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* Upgraded many dependencies. @NodeGuy
+* Upgraded to new SDK. @mappum
+
+## [0.5.0]
+
 ### Added
 
 * The following file types are now formatted with [Prettier](https://prettier.io/): css, js, json, vue.
@@ -100,4 +107,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.3.0] - 2018-01-15
 
 ### Added
+
 * Added a changelog @jolesbi.
