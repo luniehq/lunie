@@ -11,9 +11,10 @@ const shell = require(`shelljs`)
 
 const networkPath = join(__dirname, "localtestnet")
 
-let app, home, nodeHome, started
-let binary = process.env.BINARY_PATH || "$GOPATH/bin/gaiacli"
-let nodeBinary = process.env.NODE_BINARY_PATH
+let app, cliHome, nodeHome, started
+let binary = process.env.BINARY_PATH || process.env.GOPATH + "/bin/gaiacli"
+let nodeBinary =
+  process.env.NODE_BINARY_PATH || process.env.GOPATH + "/bin/gaiad"
 
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
@@ -43,12 +44,13 @@ function launch(t) {
       })
 
     started = new Promise(async (resolve, reject) => {
-      console.log("using binary", binary)
+      console.log("using cli binary", binary)
+      console.log("using node binary", nodeBinary)
 
       // TODO cleanup
-      home = newTempDir()
+      cliHome = newTempDir()
       nodeHome = newTempDir()
-      console.error(`ui home: ${home}`)
+      console.error(`ui home: ${cliHome}`)
       console.error(`node home: ${nodeHome}`)
 
       await startLocalNode()
@@ -69,7 +71,7 @@ function launch(t) {
           NODE_ENV: "production",
           PREVIEW: "true",
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
-          COSMOS_HOME: home,
+          COSMOS_HOME: cliHome,
           COSMOS_NETWORK: networkPath
         }
       })
@@ -91,7 +93,7 @@ function launch(t) {
 
       // test if app restores from unitialized gaia folder
       await stop(app)
-      fs.removeSync(home)
+      fs.removeSync(cliHome)
       await startApp(app, initialElement)
       t.ok(app.isRunning(), "app recovers from uninitialized gaia")
 
@@ -106,18 +108,20 @@ function launch(t) {
       await stop(app)
       await createAccount(
         "testkey",
-        "chair govern physical divorce tape movie slam field gloom process pen universe allow pyramid private ability"
+        // address: DFA5D5AFFC5153FB0E82463FA496A133F949210D
+        "senior toy try above unfair silly believe bachelor unfold orient glove isolate hazard capital announce abandon"
       )
       await createAccount(
         "testreceiver",
-        "crash ten rug mosquito cart south allow pluck shine island broom deputy hungry photo drift absorb"
+        // address: 30E64F9A3FA6C2B9864DADDEDA29CB667BF8366C
+        "cream another bring skill effort narrow crumble ball trouble verify mother confirm recall rain armor abandon"
       )
       console.log("setup test accounts")
       await startApp(app, ".ni-session-title=Sign In")
 
       t.ok(app.isRunning(), "app is running")
 
-      resolve({ app, home })
+      resolve({ app, cliHome })
     })
   }
 
@@ -132,7 +136,9 @@ test.onFinish(async () => {
 })
 
 async function stop(app) {
+  console.log("Stopping app")
   await app.stop()
+  console.log("App stopped")
 }
 
 async function printAppLog(app) {
@@ -190,14 +196,13 @@ async function createAccount(name, seed) {
     let child = spawn(binary, [
       "keys",
       "add",
+      "--recover",
       name,
       "--home",
-      home,
-      "--recover",
-      `"${seed}"`
+      join(cliHome, "lcd")
     ])
     child.stdin.write("1234567890\n")
-    child.stdin.write("1234567890\n")
+    child.stdin.write(seed + "\n")
     child.stderr.pipe(process.stdout)
     child.once("exit", code => {
       if (code === 0) resolve()
