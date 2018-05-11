@@ -597,12 +597,10 @@ async function main() {
   log(`dev mode: ${DEV}`)
   log(`winURL: ${winURL}`)
 
-  // XXX: currently ignores commit hash
-  let gaiacliVersion = (await getBasecoindVersion()).split(" ")[0]
+  let gaiacliVersion = await getBasecoindVersion()
   let expectedBasecoindVersion = fs
     .readFileSync(gaiacliVersionPath, "utf8")
     .trim()
-    .split(" ")[0]
   log(
     `gaiacli version: "${gaiacliVersion}", expected: "${expectedBasecoindVersion}"`
   )
