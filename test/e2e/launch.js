@@ -50,6 +50,7 @@ function launch(t) {
       console.error(`node home: ${cliHome}`)
 
       await startLocalNode()
+      console.log(`Started local node.`)
 
       app = new Application({
         path: electron,
@@ -152,17 +153,13 @@ async function startApp(app, awaitingSelector = ".ni-session") {
   })
 }
 
-async function startLocalNode() {
-  const command = `${nodeBinary} init \
-D0718DDFF62D301626B428A182F830CBB0AD21FC --home ${cliHome}`
+function startLocalNode() {
+  let networkPath = join(__dirname, 'localtestnet')
+  fs.copySync(networkPath, home)
 
-  console.log(command)
-  shell.exec(command)
-  console.log(`Initialized local node.`)
-
-  await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     // TODO cleanup
-    const command = `${nodeBinary} start --home ${cliHome}`
+    const command = `${nodeBinary} start --home ${home}`
     console.log(command)
     let localnodeProcess = shell.exec(command, { async: true, silent: true })
     localnodeProcess.stderr.pipe(process.stderr)
@@ -179,8 +176,6 @@ D0718DDFF62D301626B428A182F830CBB0AD21FC --home ${cliHome}`
       reject()
     })
   })
-
-  console.log(`Started local node.`)
 }
 
 async function createAccount(name, seed) {
