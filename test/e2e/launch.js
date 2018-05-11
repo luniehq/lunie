@@ -72,30 +72,35 @@ function launch(t) {
         }
       })
 
-      await startApp(app, ".ni-modal-lcd-approval")
+      // TODO: use approval element once we restore initting
+      //       (".ni-modal-lcd-approval")
+      let initialElement = ".ni-session-wrapper"
+      await startApp(app, initialElement)
       t.ok(app.isRunning(), "app is running")
 
+      // TODO: uncomment below once we restore initting
+
       // accept node hash
-      await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
-      await app.client.waitForExist(
-        ".ni-session-title=Sign in to Cosmos Voyager",
-        5000
-      )
+      // await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
+      // await app.client.waitForExist(
+      //   ".ni-session-title=Sign in to Cosmos Voyager",
+      //   5000
+      // )
 
       // test if app restores from unitialized gaia folder
       await stop(app)
       fs.removeSync(join(home, "lcd"))
       fs.mkdirpSync(join(home, "lcd"))
-      await startApp(app, ".ni-modal-lcd-approval")
+      await startApp(app, initialElement)
       t.ok(app.isRunning(), "app recovers from uninitialized gaia")
 
       // accept node hash
-      await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
-      await app.client.waitForExist(
-        ".ni-session-title=Sign in to Cosmos Voyager",
-        5000
-      )
-      console.log("approved hash")
+      // await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
+      // await app.client.waitForExist(
+      //   ".ni-session-title=Sign in to Cosmos Voyager",
+      //   5000
+      // )
+      // console.log("approved hash")
 
       await stop(app)
       await createAccount(
