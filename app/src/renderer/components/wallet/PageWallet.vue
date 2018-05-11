@@ -106,7 +106,7 @@ export default {
       this.$store.dispatch("queryWalletState")
     },
     copy() {
-      clipboard.writeText(this.wallet.key.address)
+      clipboard.writeText(this.wallet.address)
 
       this.$store.commit("notify", {
         title: "Copied your address to clipboard.",
