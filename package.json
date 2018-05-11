@@ -12,7 +12,7 @@
     "url": "git+https://github.com/cosmos/voyager.git"
   },
   "engines": {
-    "node": ">=9.11.1"
+    "node": ">=9.4.0"
   },
   "scripts": {
     "build": "node tasks/build",
