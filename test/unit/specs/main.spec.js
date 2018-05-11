@@ -4,9 +4,6 @@ const mockFsExtra = require("../helpers/fs-mock").default
 // prevents warnings from repeated event handling
 process.setMaxListeners(1000)
 
-// increase timeout since CI can be slow
-// jasmine.DEFAULT_TIMEOUT_INTERVAL = 60 * 1000
-
 jest.mock("fs-extra", () => {
   let fs = require("fs")
   let mockFs = mockFsExtra()
