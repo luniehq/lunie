@@ -9,7 +9,9 @@ let fs = require("fs-extra")
 let { newTempDir, login } = require("./common.js")
 const shell = require(`shelljs`)
 
-let app, home, cliHome, started
+const networkPath = join(__dirname, 'localtestnet')
+
+let app, home, nodeHome, started
 let binary = process.env.BINARY_PATH
 let nodeBinary = process.env.NODE_BINARY_PATH
 
@@ -45,9 +47,9 @@ function launch(t) {
 
       // TODO cleanup
       home = newTempDir()
-      cliHome = join(newTempDir(), "lcd")
+      nodeHome = newTempDir()
       console.error(`ui home: ${home}`)
-      console.error(`node home: ${cliHome}`)
+      console.error(`node home: ${nodeHome}`)
 
       await startLocalNode()
       console.log(`Started local node.`)
@@ -68,7 +70,7 @@ function launch(t) {
           PREVIEW: "true",
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
           COSMOS_HOME: home,
-          COSMOS_NETWORK: "test/e2e/localtestnet"
+          COSMOS_NETWORK: networkPath
         }
       })
 
@@ -159,12 +161,13 @@ async function startApp(app, awaitingSelector = ".ni-session") {
 }
 
 function startLocalNode() {
-  let networkPath = join(__dirname, 'localtestnet')
-  fs.copySync(networkPath, home)
+  let configPath = join(nodeHome, 'config')
+  fs.mkdirpSync(configPath)
+  fs.copySync(networkPath, configPath)
 
   return new Promise((resolve, reject) => {
     // TODO cleanup
-    const command = `${nodeBinary} start --home ${home}`
+    const command = `${nodeBinary} start --home ${nodeHome}`
     console.log(command)
     let localnodeProcess = shell.exec(command, { async: true, silent: true })
     localnodeProcess.stderr.pipe(process.stderr)
