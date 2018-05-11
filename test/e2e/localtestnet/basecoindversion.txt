@@ -1,1 +1,1 @@
-config/basecoindversion.txt
+0.16.0-dev-7ef5e90f
