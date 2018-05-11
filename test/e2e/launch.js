@@ -187,9 +187,9 @@ function startLocalNode() {
 
 async function createAccount(name, seed) {
   await new Promise((resolve, reject) => {
-    let child = spawn(binary, ["keys", "recover", name, "--home", home])
+    let child = spawn(binary, ["keys", "add", name, "--home", home, "--recover", `"${seed}"`])
     child.stdin.write("1234567890\n")
-    child.stdin.write(seed + "\n")
+    child.stdin.write("1234567890\n")
     child.stderr.pipe(process.stdout)
     child.once("exit", code => {
       if (code === 0) resolve()
