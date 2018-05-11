@@ -11,15 +11,8 @@ describe("NiUserPane", () => {
     store = instance.store
     router = instance.router
     wrapper = instance.wrapper
-    store.commit("setAccounts", [
-      {
-        address: "1234567890123456789012345678901234567890",
-        name: "ACTIVE_ACCOUNT",
-        password: "1234567890"
-      }
-    ])
     await store.dispatch("signIn", {
-      account: "ACTIVE_ACCOUNT",
+      account: "default",
       password: "1234567890"
     })
     wrapper.update()
@@ -30,7 +23,7 @@ describe("NiUserPane", () => {
   })
 
   it("should show the active account name", () => {
-    expect(wrapper.html()).toContain("ACTIVE_ACCOUNT")
+    expect(wrapper.html()).toContain("default")
   })
 
   it("should not show the active account name if signed out", async () => {

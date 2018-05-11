@@ -123,7 +123,7 @@ describe("Module: Node", () => {
       if (type.query === "tm.event = 'NewBlockHeader'") {
         cb(null, {
           data: {
-            data: {
+            value: {
               header: {
                 height: 43,
                 chain_id: "test-net2",
