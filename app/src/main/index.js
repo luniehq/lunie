@@ -41,7 +41,7 @@ const winURL = DEV
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
 
-let SERVER_BINARY = "gaiacli" + (WIN ? ".exe" : "")
+let LCD_BINARY_NAME = "gaiacli" + (WIN ? ".exe" : "")
 
 function log(...args) {
   if (LOGGING) {
@@ -181,16 +181,23 @@ function startProcess(name, args, env) {
   child.on("error", async function(err) {
     if (!(shuttingDown && err.code === "ECONNRESET")) {
       // if we throw errors here, they are not handled by the main process
-      console.error(
+      let errorMessage = [
         "[Uncaught Exception] Child",
         name,
         "produced an unhandled exception:",
         err
-      )
+      ]
+      logError(...errorMessage)
+      console.error(...errorMessage) // also output to console for easier debugging
       handleCrash(err)
 
       Raven.captureException(err)
     }
+  })
+
+  // need to kill child processes if main process dies
+  process.on("exit", () => {
+    child.kill()
   })
   return child
 }
@@ -211,7 +218,7 @@ app.on("ready", () => createWindow())
 async function startLCD(home, nodeIP) {
   return new Promise((resolve, reject) => {
     log("startLCD", home)
-    let child = startProcess(SERVER_BINARY, [
+    let child = startProcess(LCD_BINARY_NAME, [
       "rest-server",
       "--laddr",
       `tcp://localhost:${LCD_PORT}`,
@@ -232,9 +239,11 @@ async function startLCD(home, nodeIP) {
       reject()
       afterBooted(() => {
         if (mainWindow) {
+          // TODO unify/refactor logError and webContents.send
+          logError(`The ${LCD_BINARY_NAME} rest-server (LCD) exited unplanned`)
           mainWindow.webContents.send(
             "error",
-            Error(`The ${SERVER_BINARY} rest-server (LCD) exited unplanned`)
+            Error(`The ${LCD_BINARY_NAME} rest-server (LCD) exited unplanned`)
           )
         }
       })
@@ -242,8 +251,8 @@ async function startLCD(home, nodeIP) {
   })
 }
 
-async function getBasecoindVersion() {
-  let child = startProcess(SERVER_BINARY, ["version"])
+async function getGaiacliVersion() {
+  let child = startProcess(LCD_BINARY_NAME, ["version"])
   let data = await new Promise(resolve => {
     child.stdout.on("data", resolve)
   })
@@ -282,8 +291,8 @@ function handleHashVerification(nodeHash) {
 async function initLCD(chainId, home, node) {
   // let the user in the view approve the hash we get from the node
   return new Promise((resolve, reject) => {
-    // `basecli client init` to generate config
-    let child = startProcess(SERVER_BINARY, [
+    // `gaiacli client init` to generate config
+    let child = startProcess(LCD_BINARY_NAME, [
       "init",
       "--home",
       home,
@@ -305,7 +314,7 @@ async function initLCD(chainId, home, node) {
               // since the LCD is talking to our own full node
               child.stdin.write("y\n")
 
-              expectCleanExit(child, "basecli init exited unplanned").then(
+              expectCleanExit(child, "gaiacli init exited unplanned").then(
                 resolve,
                 reject
               )
@@ -331,7 +340,7 @@ async function initLCD(chainId, home, node) {
       }
     })
   })
-  await expectCleanExit(child, "basecli init exited unplanned")
+  await expectCleanExit(child, "gaiacli init exited unplanned")
 }
 
 // this function will call the passed in callback when the view is booted
@@ -399,13 +408,13 @@ function consistentConfigDir(
   appVersionPath,
   genesisPath,
   configPath,
-  basecliVersionPath
+  gaiacliVersionPath
 ) {
   return (
     exists(genesisPath) &&
     exists(appVersionPath) &&
     exists(configPath) &&
-    exists(basecliVersionPath)
+    exists(gaiacliVersionPath)
   )
 }
 
@@ -432,7 +441,7 @@ function handleIPC() {
 function lcdInitialized(home) {
   log("Testing if LCD is already initialized")
   return new Promise((resolve, reject) => {
-    let child = startProcess(SERVER_BINARY, [
+    let child = startProcess(LCD_BINARY_NAME, [
       "init",
       "--home",
       home
@@ -461,9 +470,9 @@ function pickNode(seeds) {
 }
 
 async function connect(seeds, nodeIP) {
-  log(`starting basecli server with nodeIP ${nodeIP}`)
+  log(`starting gaiacli server with nodeIP ${nodeIP}`)
   lcdProcess = await startLCD(lcdHome, nodeIP)
-  log("basecli server ready")
+  log("gaiacli server ready")
 
   afterBooted(() => {
     log("Signaling connected node")
@@ -510,7 +519,7 @@ async function main() {
   let appVersionPath = join(root, "app_version")
   let genesisPath = join(root, "genesis.json")
   let configPath = join(root, "config.toml")
-  let basecliVersionPath = join(root, "basecoindversion.txt")
+  let gaiacliVersionPath = join(root, "basecoindversion.txt")
 
   let rootExists = exists(root)
   await fs.ensureDir(root)
@@ -537,7 +546,7 @@ async function main() {
         appVersionPath,
         genesisPath,
         configPath,
-        basecliVersionPath
+        gaiacliVersionPath
       )
     ) {
       let existingVersion = fs.readFileSync(appVersionPath, "utf8").trim()
@@ -589,18 +598,18 @@ async function main() {
   log(`winURL: ${winURL}`)
 
   // XXX: currently ignores commit hash
-  let basecliVersion = (await getBasecoindVersion()).split(" ")[0]
-  let expectedBasecoindVersion = fs
-    .readFileSync(basecliVersionPath, "utf8")
+  let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
+  let expectedGaiacliVersion = fs
+    .readFileSync(gaiacliVersionPath, "utf8")
     .trim()
-    .split(" ")[0]
+    .split("-")[0]
   log(
-    `basecli version: "${basecliVersion}", expected: "${expectedBasecoindVersion}"`
+    `gaiacli version: "${gaiacliVersion}", expected: "${expectedGaiacliVersion}"`
   )
   // TODO: semver check, or exact match?
-  if (basecliVersion !== expectedBasecoindVersion) {
-    throw Error(`Requires basecli ${expectedBasecoindVersion}, but got ${basecliVersion}.
-    Please update your basecli installation or build with a newer binary.`)
+  if (gaiacliVersion !== expectedGaiacliVersion) {
+    throw Error(`Requires gaiacli ${expectedGaiacliVersion}, but got ${gaiacliVersion}.
+    Please update your gaiacli installation or build with a newer binary.`)
   }
 
   // read chainId from genesis.json

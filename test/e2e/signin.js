@@ -14,7 +14,10 @@ test("sign in", async function(t) {
   let { app } = await getApp(t)
   await refresh(app)
   let el = (...args) => app.client.$(...args)
-  let continueButton = () => el(".ni-btn__value=Next").$("..")
+  // clicking the button does fail in webdriver as there is no actual click handler on the button
+  async function clickContinue() {
+    return app.client.submitForm(".ni-session form")
+  }
 
   t.test("signup", async function(t) {
     await app.client.waitForExist(".ni-session-title=Sign In", 10000)
@@ -38,7 +41,7 @@ test("sign in", async function(t) {
     let warning = () => el("#sign-up-warning")
 
     t.test("did check warning", async function(t) {
-      await continueButton().click()
+      await clickContinue()
       t.ok(
         await warning()
           .$("..")
@@ -60,7 +63,7 @@ test("sign in", async function(t) {
     })
 
     t.test("set account name", async function(t) {
-      await continueButton().click()
+      await clickContinue()
       t.ok(
         await accountName()
           .$("..")
@@ -87,7 +90,7 @@ test("sign in", async function(t) {
     })
 
     t.test("set password", async function(t) {
-      await continueButton().click()
+      await clickContinue()
       t.ok(
         await password()
           .$("..")
@@ -114,7 +117,7 @@ test("sign in", async function(t) {
     })
 
     t.test("confirm password", async function(t) {
-      await continueButton().click()
+      await clickContinue()
       t.ok(
         await passwordConfirm()
           .$("..")
@@ -141,7 +144,7 @@ test("sign in", async function(t) {
     })
 
     t.test("logs in", async function(t) {
-      await continueButton().click()
+      await clickContinue()
 
       // checking if user is logged in
       await app.client.waitForExist("#app-content", 10000)
@@ -189,7 +192,7 @@ test("sign in", async function(t) {
     let seed = () => el("#import-seed")
 
     t.test("set account name", async function(t) {
-      await continueButton().click()
+      await clickContinue()
       t.ok(
         await accountName()
           .$("..")
@@ -217,7 +220,7 @@ test("sign in", async function(t) {
     })
 
     t.test("set password", async function(t) {
-      await continueButton().click()
+      await clickContinue()
       t.ok(
         await password()
           .$("..")
@@ -244,7 +247,7 @@ test("sign in", async function(t) {
     })
 
     t.test("confirm password", async function(t) {
-      await continueButton().click()
+      await clickContinue()
       t.ok(
         await passwordConfirm()
           .$("..")
@@ -271,7 +274,7 @@ test("sign in", async function(t) {
     })
 
     t.test("input correct seed text", async function(t) {
-      await continueButton().click()
+      await clickContinue()
       t.ok(
         await seed()
           .$("..")
@@ -280,7 +283,7 @@ test("sign in", async function(t) {
       )
       await seed().click()
       await app.client.keys(
-        "crash ten rug mosquito cart south allow pluck shine island broom deputy hungry photo drift absorb".split()
+        "goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon".split()
       )
       t.ok(
         !(await seed()
@@ -292,7 +295,7 @@ test("sign in", async function(t) {
     })
 
     t.test("logs in", async function(t) {
-      await continueButton().click()
+      await clickContinue()
 
       // checking if user is logged in
       await app.client.waitForExist("#app-content", 5000)
