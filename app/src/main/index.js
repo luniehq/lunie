@@ -601,6 +601,10 @@ async function main() {
   let expectedBasecoindVersion = fs
     .readFileSync(gaiacliVersionPath, "utf8")
     .trim()
+  // output for better debugging for now
+  console.log(
+    `gaiacli version: "${gaiacliVersion}", expected: "${expectedBasecoindVersion}"`
+  )
   log(
     `gaiacli version: "${gaiacliVersion}", expected: "${expectedBasecoindVersion}"`
   )
