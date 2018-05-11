@@ -69,7 +69,6 @@ export default {
     }
   },
   mounted() {
-    console.log('blocks', this.blocks)
     Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
     Mousetrap.bind("esc", () => this.setSearch(false))
   },
