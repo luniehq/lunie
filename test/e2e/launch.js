@@ -91,8 +91,8 @@ function launch(t) {
 
       // test if app restores from unitialized gaia folder
       await stop(app)
-      fs.removeSync(join(home, "lcd"))
-      fs.mkdirpSync(join(home, "lcd"))
+      fs.removeSync(home)
+      fs.mkdirpSync(home)
       await startApp(app, initialElement)
       t.ok(app.isRunning(), "app recovers from uninitialized gaia")
 
@@ -193,7 +193,7 @@ async function createAccount(name, seed) {
       "recover",
       name,
       "--home",
-      join(home, "lcd")
+      home
     ])
     child.stdin.write("1234567890\n")
     child.stdin.write(seed + "\n")
