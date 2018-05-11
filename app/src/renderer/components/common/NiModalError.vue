@@ -52,15 +52,7 @@ export default {
     }
   },
   mounted() {
-    if (this.config.devMode) {
-      this.logPath =
-        remote.app.getPath("home") +
-        "/.cosmos-voyager-dev/" +
-        this.lastHeader.chain_id +
-        "/main.log"
-    } else {
-      this.logPath = remote.app.getPath("home") + "/.Cosmos/main.log"
-    }
+    this.logPath = remote.getGlobal("root") + "/main.log"
   },
   props: ["icon", "title", "body"]
 }
