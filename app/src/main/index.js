@@ -218,7 +218,7 @@ app.on("ready", () => createWindow())
 async function startLCD(home, nodeIP) {
   return new Promise((resolve, reject) => {
     log("startLCD", home)
-    let child = startProcess(LCD_BINARY_PATH, [
+    let child = startProcess(LCD_BINARY_NAME, [
       "rest-server",
       "--laddr",
       `tcp://localhost:${LCD_PORT}`,
@@ -240,10 +240,10 @@ async function startLCD(home, nodeIP) {
       afterBooted(() => {
         if (mainWindow) {
           // TODO unify/refactor logError and webContents.send
-          logError(`The ${LCD_BINARY_PATH} rest-server (LCD) exited unplanned`)
+          logError(`The ${LCD_BINARY_NAME} rest-server (LCD) exited unplanned`)
           mainWindow.webContents.send(
             "error",
-            Error(`The ${LCD_BINARY_PATH} rest-server (LCD) exited unplanned`)
+            Error(`The ${LCD_BINARY_NAME} rest-server (LCD) exited unplanned`)
           )
         }
       })
@@ -252,7 +252,7 @@ async function startLCD(home, nodeIP) {
 }
 
 async function getGaiacliVersion() {
-  let child = startProcess(LCD_BINARY_PATH, ["version"])
+  let child = startProcess(LCD_BINARY_NAME, ["version"])
   let data = await new Promise(resolve => {
     child.stdout.on("data", resolve)
   })
@@ -292,7 +292,7 @@ async function initLCD(chainId, home, node) {
   // let the user in the view approve the hash we get from the node
   return new Promise((resolve, reject) => {
     // `gaiacli client init` to generate config
-    let child = startProcess(LCD_BINARY_PATH, [
+    let child = startProcess(LCD_BINARY_NAME, [
       "init",
       "--home",
       home,
@@ -441,7 +441,7 @@ function handleIPC() {
 function lcdInitialized(home) {
   log("Testing if LCD is already initialized")
   return new Promise((resolve, reject) => {
-    let child = startProcess(LCD_BINARY_PATH, [
+    let child = startProcess(LCD_BINARY_NAME, [
       "init",
       "--home",
       home
