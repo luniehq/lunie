@@ -1,114 +1,65 @@
 export default ({ commit, node }) => {
+  let lock = null
+
   let state = {
-    // account nonce number, used to prevent replay attacks
-    nonce: 0,
-    // queue of transactions to be sent
-    queue: [],
-    sending: false,
-    loading: false
+    nonce: 0
   }
 
   const mutations = {
-    queueSend(state, sendReq) {
-      state.queue.push(sendReq)
-    },
-    shiftSendQueue(state) {
-      state.queue = state.queue.slice(1)
-    },
-    setSending(state, sending) {
-      state.sending = sending
-    },
     setNonce(state, nonce) {
       state.nonce = nonce
     }
   }
 
+  async function doSend({ state, dispatch, commit, rootState }, args) {
+    args.sequence = state.nonce
+    args.name = rootState.user.account
+    args.password = rootState.user.password
+
+    let chainId = rootState.node.lastHeader.chain_id
+    args.chain_id = chainId
+    args.src_chain_id = chainId // for IBC transfer
+
+    // extract type
+    let type = args.type || "send"
+    delete args.type
+
+    // extract "to" address
+    let to = args.to
+    delete args.to
+
+    // submit to LCD to build, sign, and broadcast
+    let res = await node[type](to, args)
+
+    // check response code
+    if (res.check_tx.code || res.deliver_tx.code) {
+      let message = res.check_tx.log || res.deliver_tx.log
+      throw new Error("Error sending transaction: " + message)
+    }
+
+    commit("setNonce", state.nonce + 1)
+
+    // wait to ensure tx is committed before we query
+    // XXX
+    setTimeout(() => dispatch("queryWalletBalances"), 3 * 1000)
+  }
+
   let actions = {
-    reconnected({ state, dispatch, rootState }) {
-      if (state.loading) {
-        dispatch("queryNonce", rootState.user.address)
-      }
-    },
-    // queries for our account's nonce
-    async queryNonce({ state, commit }, address) {
-      state.loading = true
-      let res = await node.queryNonce(address)
-      if (!res) return
-      commit("setNonce", res.data)
-      state.loading = false
-    },
-
-    // builds, signs, and broadcasts a tx of any type
-    sendTx({ state, dispatch, commit, rootState }, args) {
-      // wait until the current send operation is done
-      if (state.sending) {
-        args.done = new Promise((resolve, reject) => {
-          args.resolve = resolve
-          args.reject = reject
-        })
-        commit("queueSend", args)
-        return args.done
+    async sendTx(...args) {
+      // wait to acquire lock
+      while (lock != null) {
+        // eslint-disable-line no-unmodified-loop-condition
+        await lock
       }
 
-      return new Promise((resolve, reject) => {
-        commit("setSending", true)
+      // send and unlock when done
+      lock = doSend(...args)
 
-        // once done, do next send in queue
-        function done(err, res) {
-          commit("setSending", false)
+      // wait for doSend to finish
+      let res = await lock
+      lock = null
 
-          if (state.queue.length > 0) {
-            // do next send
-            let send = state.queue[0]
-            commit("shiftSendQueue")
-            dispatch("sendTx", send)
-          }
-
-          if (err) {
-            reject(err)
-            if (args.reject) args.reject(err)
-          } else {
-            resolve(res)
-            if (args.resolve) args.resolve(res)
-          }
-        }
-
-        args.sequence = state.nonce + 1
-        args.from = {
-          chain: "",
-          app: "sigs",
-          addr: rootState.wallet.key.address
-        }
-        ;(async function() {
-          // build tx
-          let tx = await node[args.type](args)
-
-          // sign tx
-          let signedTx = await node.sign({
-            name: rootState.user.account,
-            password: rootState.user.password,
-            tx
-          })
-
-          // broadcast tx
-          let res = await node.postTx(signedTx)
-
-          // check response code
-          if (res.check_tx.code || res.deliver_tx.code) {
-            let message = res.check_tx.log || res.deliver_tx.log
-            throw new Error("Error sending transaction: " + message)
-          }
-        })().then(
-          () => {
-            commit("setNonce", state.nonce + 1)
-            done(null, args)
-            dispatch("queryWalletBalances")
-          },
-          err => {
-            done(err || Error("Error sending transaction"))
-          }
-        )
-      })
+      return res
     }
   }
 

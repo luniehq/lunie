@@ -131,7 +131,9 @@ exports[`PageBlocks has the expected html structure 1`] = `
          <div class=\\"ni-li-dt\\">
             10
          </div>
-      <div class=\\"ni-li-dd\\"></div>
+      <div class=\\"ni-li-dd\\">
+         0
+      </div>
 </div>
       <div class=\\"ni-li-icon\\">
          <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>

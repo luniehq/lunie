@@ -31,7 +31,7 @@ describe("NiSessionSignIn", () => {
     wrapper.setData({
       fields: {
         signInPassword: "1234567890",
-        signInName: "name"
+        signInName: "default"
       }
     })
     await wrapper.vm.onSubmit()
@@ -43,13 +43,13 @@ describe("NiSessionSignIn", () => {
     wrapper.setData({
       fields: {
         signInPassword: "1234567890",
-        signInName: "name"
+        signInName: "default"
       }
     })
     await wrapper.vm.onSubmit()
     expect(store.dispatch).toHaveBeenCalledWith("signIn", {
       password: "1234567890",
-      account: "name"
+      account: "default"
     })
   })
 
@@ -65,7 +65,7 @@ describe("NiSessionSignIn", () => {
     wrapper.setData({
       fields: {
         signInPassword: "1234567890",
-        signInName: "name"
+        signInName: "default"
       }
     })
     await wrapper.vm.onSubmit()

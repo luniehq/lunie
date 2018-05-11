@@ -15,7 +15,7 @@ describe("PageTransactions", () => {
     wrapper = instance.wrapper
     store = instance.store
 
-    store.commit("setWalletKey", { address: "myAddress" })
+    store.commit("setWalletAddress", "myAddress")
     store.commit("setWalletHistory", [
       {
         tx: {

@@ -41,18 +41,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
               >
                 <div
                   class="main"
-                >
-                  <a
-                    class="router-link-active"
-                    href="#/staking"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                </div>
+                />
                 <a
                   class="back"
                 >

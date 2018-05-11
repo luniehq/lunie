@@ -21,11 +21,13 @@
 
 <script>
 import { remote, shell } from "electron"
+import { mapGetters } from "vuex"
 import Btn from "@nylira/vue-button"
 export default {
   name: "ni-modal-error",
   components: { Btn },
   computed: {
+    ...mapGetters(["config", "lastHeader"]),
     errorIcon() {
       if (this.icon) return this.icon
       else return "error_outline"
@@ -42,7 +44,6 @@ export default {
   },
   data: () => ({
     logPath: "",
-    chatUrl: "https://web.telegram.org/#/im?p=@cosmosproject",
     issueUrl: "https://github.com/cosmos/voyager/issues"
   }),
   methods: {
@@ -51,7 +52,7 @@ export default {
     }
   },
   mounted() {
-    this.logPath = remote.app.getPath("home") + "/.Cosmos/main.log"
+    this.logPath = remote.getGlobal("root") + "/main.log"
   },
   props: ["icon", "title", "body"]
 }
