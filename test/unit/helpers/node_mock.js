@@ -1,36 +1,27 @@
 let mockValidators = require("src/helpers/json/mock_validators.json")
+let mockLcd = require("../../../app/src/renderer/connectors/lcdClientMock.js")
 
-// XXX use lcdclientmock instead of this dup?
 module.exports = {
   // REST
   relayPort: "9060",
   lcdPort: "9070",
   lcdConnected: () => Promise.resolve(true),
   getKey: () => ({ address: "someaddress" }),
-  generateKey: () => ({
-    key: "123",
-    seed_phrase: "a b c d e f g h i j k l"
-  }),
+  generateSeed: () => "a b c d e f g h i j k l",
   updateKey: () => {},
   listKeys: () => [],
-  recoverKey: () => ({
+  storeKey: () => ({
     key: "123",
+    password: "1234567890",
     seed_phrase: "a b c d e f g h i j k l"
   }),
   queryAccount: () => null,
-  queryNonce: () => ({ data: 123 }),
   buildDelegate: () => Promise.resolve(null),
   buildUnbond: () => Promise.resolve(null),
   coinTxs: () => Promise.resolve([]),
   candidates: () => Promise.resolve({ data: [] }),
-  buildSend: () => Promise.resolve({}),
-  sendTx: () => Promise.resolve(),
-  postTx: () =>
-    Promise.resolve({
-      check_tx: { code: 0 },
-      deliver_tx: { code: 0 }
-    }),
-  sign: () => Promise.resolve(null),
+  send: () => Promise.resolve({}),
+  ibcSend: () => Promise.resolve({}),
   candidate: () =>
     Promise.resolve({
       data: {
@@ -65,5 +56,7 @@ module.exports = {
     nodeIP: "127.0.0.1"
   },
   rpcConnect: () => {},
-  rpcReconnect: () => Promise.resolve("1.1.1.1")
+  rpcReconnect: () => Promise.resolve("1.1.1.1"),
+
+  ...mockLcd
 }

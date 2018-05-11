@@ -1,6 +1,10 @@
-import { mount } from "@vue/test-utils"
+import Vuex from "vuex"
+import { mount, createLocalVue } from "@vue/test-utils"
 import htmlBeautify from "html-beautify"
 import NiModalError from "common/NiModalError"
+
+const localVue = createLocalVue()
+localVue.use(Vuex)
 
 jest.mock("electron", () => ({
   remote: {
@@ -12,9 +16,18 @@ jest.mock("electron", () => ({
 
 describe("NiModalError", () => {
   let wrapper
+  let store = new Vuex.Store({
+    getters: {
+      config: () => ({ devMode: true }),
+      lastHeader: () => ({ chain_id: "gaia-test", height: "31337" })
+    }
+  })
 
   beforeEach(() => {
-    wrapper = mount(NiModalError)
+    wrapper = mount(NiModalError, {
+      localVue,
+      store
+    })
   })
 
   it("has the expected html structure", () => {
@@ -31,7 +44,11 @@ describe("NiModalError", () => {
   })
 
   it("shows an icon if specified", () => {
-    wrapper = mount(NiModalError, { propsData: { icon: "icon-x" } })
+    wrapper = mount(NiModalError, {
+      localVue,
+      store,
+      propsData: { icon: "icon-x" }
+    })
     expect(
       wrapper
         .find(".ni-modal-error__icon i.material-icons")
@@ -50,7 +67,11 @@ describe("NiModalError", () => {
   })
 
   it("shows a title if specified", () => {
-    wrapper = mount(NiModalError, { propsData: { title: "title-x" } })
+    wrapper = mount(NiModalError, {
+      localVue,
+      store,
+      propsData: { title: "title-x" }
+    })
     expect(
       wrapper
         .find(".ni-modal-error__title")
@@ -71,7 +92,11 @@ describe("NiModalError", () => {
   })
 
   it("shows a body if specified", () => {
-    wrapper = mount(NiModalError, { propsData: { body: "body-x" } })
+    wrapper = mount(NiModalError, {
+      localVue,
+      store,
+      propsData: { body: "body-x" }
+    })
     expect(
       wrapper
         .find(".ni-modal-error__body")

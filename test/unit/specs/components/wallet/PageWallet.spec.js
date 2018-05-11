@@ -12,7 +12,8 @@ describe("PageWallet", () => {
     wrapper = instance.wrapper
     store = instance.store
 
-    store.commit("setWalletKey", { address: "123abc456def" })
+    store.commit("setDenoms", ["ATOM", "FERMION", "TEST"])
+    store.commit("setWalletAddress", "123abc456def")
     store.commit("setWalletBalances", [
       {
         denom: "ATOM",
@@ -36,7 +37,8 @@ describe("PageWallet", () => {
   it("should sort the balances by denom", () => {
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([
       "FERMION",
-      "ATOM"
+      "ATOM",
+      "TEST"
     ])
   })
 
@@ -62,7 +64,7 @@ describe("PageWallet", () => {
   })
 
   it("should list the denoms that are available", () => {
-    expect(wrapper.findAll(".ni-li-balance").length).toBe(0)
+    expect(wrapper.findAll(".ni-li-balance").length).toBe(2)
   })
 
   it("should show the n/a message if there are no denoms", () => {

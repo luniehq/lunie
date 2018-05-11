@@ -10,7 +10,7 @@ page(title='Wallet')
 
   part(title='Your Address')
     list-item(
-      :title="wallet.key.address"
+      :title="wallet.address"
       :btn="'Receive'"
       :overflow="true"
       @click.native="copy")
@@ -21,7 +21,7 @@ page(title='Wallet')
     data-empty-search(v-else-if="filteredBalances.length === 0")
     list-item.ni-li-balance(
       v-for="i in filteredBalances"
-      v-if="wallet.balances.length > 0 && i.amount > 0 && !wallet.balancesLoading"
+      v-if="wallet.balances.length > 0 && i.amount > 0"
       :btn="'Send'"
       :key="i.denom"
       :dt="i.denom.toUpperCase()"
@@ -106,7 +106,7 @@ export default {
       this.$store.dispatch("queryWalletState")
     },
     copy() {
-      clipboard.writeText(this.wallet.key.address)
+      clipboard.writeText(this.wallet.address)
 
       this.$store.commit("notify", {
         title: "Copied your address to clipboard.",

@@ -31,7 +31,7 @@ function mockGenesis() {
         }
       ],
       app_hash: "",
-      app_options: {
+      app_state: {
         accounts: [
           {
             name: "relay",
