@@ -41,7 +41,7 @@ const winURL = DEV
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const NODE = process.env.COSMOS_NODE
 
-let SERVER_BINARY = "gaiacli" + (WIN ? ".exe" : "")
+let LCD_BINARY_NAME = "gaiacli" + (WIN ? ".exe" : "")
 
 function log(...args) {
   if (LOGGING) {
@@ -218,7 +218,7 @@ app.on("ready", () => createWindow())
 async function startLCD(home, nodeIP) {
   return new Promise((resolve, reject) => {
     log("startLCD", home)
-    let child = startProcess(SERVER_BINARY, [
+    let child = startProcess(LCD_BINARY_PATH, [
       "rest-server",
       "--laddr",
       `tcp://localhost:${LCD_PORT}`,
@@ -240,10 +240,10 @@ async function startLCD(home, nodeIP) {
       afterBooted(() => {
         if (mainWindow) {
           // TODO unify/refactor logError and webContents.send
-          logError(`The ${SERVER_BINARY} rest-server (LCD) exited unplanned`)
+          logError(`The ${LCD_BINARY_PATH} rest-server (LCD) exited unplanned`)
           mainWindow.webContents.send(
             "error",
-            Error(`The ${SERVER_BINARY} rest-server (LCD) exited unplanned`)
+            Error(`The ${LCD_BINARY_PATH} rest-server (LCD) exited unplanned`)
           )
         }
       })
@@ -251,8 +251,8 @@ async function startLCD(home, nodeIP) {
   })
 }
 
-async function getBasecoindVersion() {
-  let child = startProcess(SERVER_BINARY, ["version"])
+async function getGaiacliVersion() {
+  let child = startProcess(LCD_BINARY_PATH, ["version"])
   let data = await new Promise(resolve => {
     child.stdout.on("data", resolve)
   })
@@ -292,7 +292,7 @@ async function initLCD(chainId, home, node) {
   // let the user in the view approve the hash we get from the node
   return new Promise((resolve, reject) => {
     // `gaiacli client init` to generate config
-    let child = startProcess(SERVER_BINARY, [
+    let child = startProcess(LCD_BINARY_PATH, [
       "init",
       "--home",
       home,
@@ -441,7 +441,7 @@ function handleIPC() {
 function lcdInitialized(home) {
   log("Testing if LCD is already initialized")
   return new Promise((resolve, reject) => {
-    let child = startProcess(SERVER_BINARY, [
+    let child = startProcess(LCD_BINARY_PATH, [
       "init",
       "--home",
       home
@@ -598,17 +598,17 @@ async function main() {
   log(`winURL: ${winURL}`)
 
   // XXX: currently ignores commit hash
-  let gaiacliVersion = (await getBasecoindVersion()).split("-")[0]
-  let expectedBasecoindVersion = fs
+  let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
+  let expectedGaiacliVersion = fs
     .readFileSync(gaiacliVersionPath, "utf8")
     .trim()
     .split("-")[0]
   log(
-    `gaiacli version: "${gaiacliVersion}", expected: "${expectedBasecoindVersion}"`
+    `gaiacli version: "${gaiacliVersion}", expected: "${expectedGaiacliVersion}"`
   )
   // TODO: semver check, or exact match?
-  if (gaiacliVersion !== expectedBasecoindVersion) {
-    throw Error(`Requires gaiacli ${expectedBasecoindVersion}, but got ${gaiacliVersion}.
+  if (gaiacliVersion !== expectedGaiacliVersion) {
+    throw Error(`Requires gaiacli ${expectedGaiacliVersion}, but got ${gaiacliVersion}.
     Please update your gaiacli installation or build with a newer binary.`)
   }
 
