@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:9.11.1-browsers
+      - image: circleci/node:9.4.0-browsers
     environment:
       - BINARY_PATH: "~/repo/gaia"
       - NODE_BINARY_PATH: "~/repo/gaiad"
