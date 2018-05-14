@@ -4,7 +4,7 @@ page(title='Staking')
     a(@click='updateDelegates(address)' v-tooltip.bottom="'Refresh'")
       i.material-icons refresh
     a(@click='setSearch(true)' v-tooltip.bottom="'Search'")
-      i.material-icons search
+      i.search.material-icons search
 
   modal-search(type="delegates")
 
