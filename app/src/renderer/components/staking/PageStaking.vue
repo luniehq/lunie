@@ -1,10 +1,10 @@
 <template lang="pug">
 page(title='Staking')
   div(slot="menu"): tool-bar
-    a(@click='setSearch(true)' v-tooltip.bottom="'Search'")
-      i.material-icons search
     a(@click='updateDelegates(address)' v-tooltip.bottom="'Refresh'")
       i.material-icons refresh
+    a(@click='setSearch(true)' v-tooltip.bottom="'Search'")
+      i.material-icons search
 
   modal-search(type="delegates")
 
