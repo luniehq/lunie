@@ -1,6 +1,6 @@
 let test = require("tape-promise/tape")
 let { getApp, restart, refresh } = require("./launch.js")
-let { openMenu, login } = require("./common.js")
+let { openMenu, login, closeOnboarding } = require("./common.js")
 
 /*
 * NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
@@ -10,7 +10,7 @@ let { openMenu, login } = require("./common.js")
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
 */
 
-test("sign in", async function(t) {
+test("sign in", async function (t) {
   let { app } = await getApp(t)
   await refresh(app)
   let el = (...args) => app.client.$(...args)
@@ -19,7 +19,7 @@ test("sign in", async function(t) {
     return app.client.submitForm(".ni-session form")
   }
 
-  t.test("signup", async function(t) {
+  t.test("signup", async function (t) {
     await app.client.waitForExist(".ni-session-title=Sign In", 10000)
 
     // go to login selection
@@ -40,7 +40,7 @@ test("sign in", async function(t) {
     let passwordConfirm = () => el("#sign-up-password-confirm")
     let warning = () => el("#sign-up-warning")
 
-    t.test("did check warning", async function(t) {
+    t.test("did check warning", async function (t) {
       await clickContinue()
       t.ok(
         await warning()
@@ -62,7 +62,7 @@ test("sign in", async function(t) {
       t.end()
     })
 
-    t.test("set account name", async function(t) {
+    t.test("set account name", async function (t) {
       await clickContinue()
       t.ok(
         await accountName()
@@ -89,7 +89,7 @@ test("sign in", async function(t) {
       t.end()
     })
 
-    t.test("set password", async function(t) {
+    t.test("set password", async function (t) {
       await clickContinue()
       t.ok(
         await password()
@@ -116,7 +116,7 @@ test("sign in", async function(t) {
       t.end()
     })
 
-    t.test("confirm password", async function(t) {
+    t.test("confirm password", async function (t) {
       await clickContinue()
       t.ok(
         await passwordConfirm()
@@ -143,8 +143,10 @@ test("sign in", async function(t) {
       t.end()
     })
 
-    t.test("logs in", async function(t) {
+    t.test("logs in", async function (t) {
       await clickContinue()
+
+      await closeOnboarding(app)
 
       // checking if user is logged in
       await app.client.waitForExist("#app-content", 10000)
@@ -157,7 +159,7 @@ test("sign in", async function(t) {
     t.end()
   })
 
-  t.test("sign out", async function(t) {
+  t.test("sign out", async function (t) {
     await refresh(app)
     await login(app, "testkey")
     await app.client.waitForExist(".material-icons=exit_to_app", 1000)
@@ -171,7 +173,7 @@ test("sign in", async function(t) {
     t.end()
   })
 
-  t.test("seed", async function(t) {
+  t.test("seed", async function (t) {
     await refresh(app)
     // go to login selection
     await app.client
@@ -191,7 +193,7 @@ test("sign in", async function(t) {
     let passwordConfirm = () => el("#import-password-confirmation")
     let seed = () => el("#import-seed")
 
-    t.test("set account name", async function(t) {
+    t.test("set account name", async function (t) {
       await clickContinue()
       t.ok(
         await accountName()
@@ -219,7 +221,7 @@ test("sign in", async function(t) {
       t.end()
     })
 
-    t.test("set password", async function(t) {
+    t.test("set password", async function (t) {
       await clickContinue()
       t.ok(
         await password()
@@ -246,7 +248,7 @@ test("sign in", async function(t) {
       t.end()
     })
 
-    t.test("confirm password", async function(t) {
+    t.test("confirm password", async function (t) {
       await clickContinue()
       t.ok(
         await passwordConfirm()
@@ -273,7 +275,7 @@ test("sign in", async function(t) {
       t.end()
     })
 
-    t.test("input correct seed text", async function(t) {
+    t.test("input correct seed text", async function (t) {
       await clickContinue()
       t.ok(
         await seed()
@@ -294,8 +296,10 @@ test("sign in", async function(t) {
       t.end()
     })
 
-    t.test("logs in", async function(t) {
+    t.test("logs in", async function (t) {
       await clickContinue()
+
+      await closeOnboarding(app)
 
       // checking if user is logged in
       await app.client.waitForExist("#app-content", 5000)
