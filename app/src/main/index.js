@@ -179,7 +179,7 @@ function startProcess(name, args, env) {
     "exit",
     code => !shuttingDown && log(`${name} exited with code ${code}`)
   )
-  child.on("error", async function(err) {
+  child.on("error", async function (err) {
     if (!(shuttingDown && err.code === "ECONNRESET")) {
       // if we throw errors here, they are not handled by the main process
       let errorMessage = [
@@ -375,14 +375,14 @@ function setupLogging(root) {
   // redirect stdout/err to logfile
   // TODO overwriting console.log sounds like a bad idea, can we find an alternative?
   // eslint-disable-next-line no-func-assign
-  log = function(...args) {
+  log = function (...args) {
     if (DEV) {
       console.log(...args)
     }
     mainLog.write(`main-process: ${args.join(" ")}\r\n`)
   }
   // eslint-disable-next-line no-func-assign
-  logError = function(...args) {
+  logError = function (...args) {
     if (DEV) {
       console.error(...args)
     }
@@ -393,12 +393,12 @@ function setupLogging(root) {
 if (!TEST) {
   process.on("exit", shutdown)
   // on uncaught exceptions we wait so the sentry event can be sent
-  process.on("uncaughtException", async function(err) {
+  process.on("uncaughtException", async function (err) {
     logError("[Uncaught Exception]", err)
     Raven.captureException(err)
     handleCrash(err)
   })
-  process.on("unhandledRejection", async function(err) {
+  process.on("unhandledRejection", async function (err) {
     logError("[Unhandled Promise Rejection]", err)
     Raven.captureException(err)
     handleCrash(err)
@@ -472,9 +472,9 @@ function pickNode(seeds) {
 
 async function connect(seeds, nodeIP) {
   if (!MOCK) {
-    log(`starting gaia server with nodeIP ${nodeIP}`)
+    log(`starting gaia rest server with nodeIP ${nodeIP}`)
     lcdProcess = await startLCD(lcdHome, nodeIP)
-    log("gaia server ready")
+    log("gaia rest server ready")
   }
 
   afterBooted(() => {
@@ -500,7 +500,7 @@ async function reconnect(seeds) {
       .then(() => true, () => false)
     log(
       `${new Date().toLocaleTimeString()} ${nodeIP} is ${
-        nodeAlive ? "alive" : "down"
+      nodeAlive ? "alive" : "down"
       }`
     )
 
@@ -550,7 +550,7 @@ async function main() {
           appVersionPath,
           genesisPath,
           configPath,
-          gaiaVersionPath
+          gaiacliVersionPath
         )
       ) {
         let existingVersion = fs.readFileSync(appVersionPath, "utf8").trim()
@@ -601,13 +601,13 @@ async function main() {
     log(`dev mode: ${DEV}`)
     log(`winURL: ${winURL}`)
 
-    let gaiaVersion = await getGaiaVersion()
-    let expectedGaiaVersion = fs.readFileSync(gaiaVersionPath, "utf8").trim()
-    log(`gaia version: "${gaiaVersion}", expected: "${expectedGaiaVersion}"`)
+    let gaiacliVersion = await getGaiacliVersion()
+    let expectedGaiaCliVersion = fs.readFileSync(gaiacliVersionPath, "utf8").trim()
+    log(`gaiacli version: "${gaiacliVersion}", expected: "${expectedGaiaCliVersion}"`)
     // TODO: semver check, or exact match?
-    if (gaiaVersion !== expectedGaiaVersion) {
-      throw Error(`Requires gaia ${expectedGaiaVersion}, but got ${gaiaVersion}.
-      Please update your gaia installation or build with a newer binary.`)
+    if (gaiacliVersion !== expectedGaiaCliVersion) {
+      throw Error(`Requires gaia ${expectedGaiaCliVersion}, but got ${gaiacliVersion}.
+      Please update your gaiacli installation or build with a newer binary.`)
     }
 
     // read chainId from genesis.json
