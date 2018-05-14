@@ -601,8 +601,12 @@ async function main() {
     log(`dev mode: ${DEV}`)
     log(`winURL: ${winURL}`)
 
-    let gaiacliVersion = await getGaiacliVersion()
-    let expectedGaiaCliVersion = fs.readFileSync(gaiacliVersionPath, "utf8").trim()
+    // XXX: currently ignores commit hash
+    let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
+    let expectedGaiaCliVersion = fs
+      .readFileSync(gaiacliVersionPath, "utf8")
+      .trim()
+      .split("-")[0]
     log(`gaiacli version: "${gaiacliVersion}", expected: "${expectedGaiaCliVersion}"`)
     // TODO: semver check, or exact match?
     if (gaiacliVersion !== expectedGaiaCliVersion) {
@@ -615,23 +619,32 @@ async function main() {
     let genesis = JSON.parse(genesisText)
     let chainId = genesis.chain_id
 
-    // pick a random seed node from config.toml
+    // pick a random seed node from config.toml if not using COSMOS_NODE envvar
     // TODO: user-specified nodes, support switching?
-    let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
-    let configTOML = toml.parse(configText)
-    seeds = configTOML.p2p.seeds.split(",").filter(x => x !== "")
-    if (seeds.length === 0) {
-      throw new Error("No seeds specified in config.toml")
+    // TODO: get addresses from 'seeds' as well as 'persistent_peers'
+    // TODO: use address to prevent MITM if specified
+    if (!NODE) {
+      let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
+      let configTOML = toml.parse(configText)
+      seeds = configTOML.p2p.persistent_peers
+        .split(",")
+        .filter(x => x !== "")
+        .map(x => x.split("@")[1])
+      if (seeds.length === 0) {
+        throw new Error("No seeds specified in config.toml")
+      }
+    } else {
+      seeds = [NODE]
     }
 
     // choose one random node to start from
     nodeIP = pickNode(seeds)
 
-    let _lcdInitialized = await lcdInitialized(join(root, "lcd"))
+    let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))
     log("LCD is" + (_lcdInitialized ? "" : " not") + " initialized")
     if (init || !_lcdInitialized) {
       log(`Trying to initialize lcd with remote node ${nodeIP}`)
-      await initLCD(chainId, lcdHome, nodeIP)
+      // await initLCD(chainId, lcdHome, nodeIP)
     }
   }
 
