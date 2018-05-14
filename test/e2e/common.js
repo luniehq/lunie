@@ -114,7 +114,7 @@ module.exports = {
   },
   async closeOnboarding(app) {
     await app.client.waitForVisible("#onboarding")
-    await app.client.$('#onboarding .ni-session-footer button').click()
+    await app.client.$("#onboarding .ni-session-footer button").click()
   }
 }
 
