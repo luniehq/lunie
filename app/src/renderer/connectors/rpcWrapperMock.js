@@ -4,7 +4,7 @@ let state = { blockMetas: [], blocks: [] }
 createBlockMetas(state)
 
 const RpcClientMock = {
-  on: () => {},
+  on: () => { },
   subscribe: (args, cb) => {
     if (args.query === "tm.event = 'NewBlock'") {
       produceBlocks(cb)
@@ -93,7 +93,7 @@ async function produceBlockHeaders(cb) {
   while (true) {
     let newBlockHeader = createBlockMeta(Date.now(), ++height)
     state.blockMetas.push(newBlockHeader)
-    cb(null, { data: { data: { header: newBlockHeader } } })
+    cb(null, { data: { value: { header: newBlockHeader } } })
     await sleep(1000)
   }
 }

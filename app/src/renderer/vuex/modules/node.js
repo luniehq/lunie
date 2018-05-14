@@ -1,7 +1,7 @@
 import { setTimeout } from "timers"
 import { ipcRenderer } from "electron"
 
-export default function({ node }) {
+export default function ({ node }) {
   // get tendermint RPC client from basecoin client
   const { nodeIP } = node
 
@@ -13,7 +13,8 @@ export default function({ node }) {
       height: 0,
       chain_id: ""
     },
-    approvalRequired: null
+    approvalRequired: null,
+    mocked: node.mocked
   }
 
   const mutations = {
@@ -132,6 +133,13 @@ export default function({ node }) {
     disapproveNodeHash({ state }, hash) {
       state.approvalRequired = null
       ipcRenderer.send("hash-disapproved", hash)
+    },
+    setMockedConnector({ state, dispatch }, mocked) {
+      node.setup(mocked)
+      state.mocked = mocked
+      node.rpcConnect(state.nodeIP)
+      dispatch("rpcSubscribe")
+      dispatch("subscribeToBlocks")
     }
   }
 
