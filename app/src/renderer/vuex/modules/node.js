@@ -3,7 +3,7 @@ import { ipcRenderer } from "electron"
 
 export default function ({ node }) {
   // get tendermint RPC client from basecoin client
-  const { nodeIP } = node
+  const { nodeIP } = node // TODO doesn't seem to hold the node ip
 
   const state = {
     nodeIP,
@@ -135,11 +135,12 @@ export default function ({ node }) {
       ipcRenderer.send("hash-disapproved", hash)
     },
     setMockedConnector({ state, dispatch }, mocked) {
+      node.rpcDisconnect()
+
       node.setup(mocked)
+
       state.mocked = mocked
-      node.rpcConnect(state.nodeIP)
-      dispatch("rpcSubscribe")
-      dispatch("subscribeToBlocks")
+      node.rpcReconnect()
     }
   }
 

@@ -24,7 +24,11 @@ const RpcClientMock = {
     cb(null, {
       latest_block_height: 42,
       node_info: { network: "mock-chain" }
-    })
+    }),
+  removeAllListeners: () => { },
+  ws: {
+    destroy: () => { }
+  }
 }
 
 module.exports = function setRPCWrapperMock(container) {
@@ -35,6 +39,9 @@ module.exports = function setRPCWrapperMock(container) {
       nodeIP: "127.0.0.1",
       connecting: false,
       connected: true
+    },
+    rpcDisconnect() {
+      rpcWrapper.rpcInfo.connected = false
     },
     rpcConnect() {
       container.rpc = RpcClientMock
@@ -103,7 +110,7 @@ async function produceBlocks(cb) {
   while (true) {
     let newBlock = createBlock(++height)
     state.blocks.push(newBlock)
-    cb(null, { data: { data: { block: newBlock } } })
+    cb(null, { data: { value: { block: newBlock } } })
     await sleep(1000)
   }
 }

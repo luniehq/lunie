@@ -9,17 +9,22 @@ module.exports = function setRpcWrapper(container) {
       connecting: false,
       connected: true
     },
+    rpcDisconnect() {
+      console.log("removing old websocket")
+
+      // ignore disconnect error
+      container.rpc.removeAllListeners("error")
+      container.rpc.on("error", () => { })
+
+      container.rpc.ws.destroy()
+
+      rpcWrapper.rpcInfo.connected = false
+    },
     rpcConnect(nodeIP) {
       rpcWrapper.rpcInfo.nodeIP = nodeIP
 
       if (container.rpc) {
-        console.log("removing old websocket")
-
-        // ignore disconnect error
-        container.rpc.removeAllListeners("error")
-        container.rpc.on("error", () => {})
-
-        container.rpc.ws.destroy()
+        rpcWrapper.rpcDisconnect()
       }
 
       console.log("init rpc with", nodeIP)
