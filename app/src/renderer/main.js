@@ -6,13 +6,14 @@ import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
 import shrinkStacktrace from "../helpers/shrink-stacktrace.js"
 import Raven from "raven-js"
-import { ipcRenderer } from "electron"
+import { ipcRenderer, remote } from "electron"
 
 import App from "./App"
 import routes from "./routes"
 import Node from "./connectors/node"
 import Store from "./vuex/store"
-import config from "../config"
+
+const config = remote.getGlobal("config")
 
 // exporting this for testing
 let store
