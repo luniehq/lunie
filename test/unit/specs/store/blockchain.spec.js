@@ -124,7 +124,7 @@ describe("Module: Blockchain", () => {
 
   it("should subscribe to new blocks", () => {
     node.rpc.subscribe = (query, cb) => {
-      cb(null, { data: { data: { block: { test: "test" } } } })
+      cb(null, { data: { value: { block: { test: "test" } } } })
     }
     store.dispatch("subscribeToBlocks")
     expect(store.state.blockchain.blocks[0]).toEqual({ test: "test" })
@@ -133,7 +133,7 @@ describe("Module: Blockchain", () => {
   it("should subscribe to new blocks", () => {
     node.rpc.subscribe = (query, cb) => {
       for (let i = 0; i < 25; i++) {
-        cb(null, { data: { data: { block: { test: "test" } } } })
+        cb(null, { data: { value: { block: { test: "test" } } } })
       }
     }
     store.dispatch("subscribeToBlocks")

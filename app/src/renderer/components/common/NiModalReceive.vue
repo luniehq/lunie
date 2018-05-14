@@ -2,7 +2,7 @@
 modal.ni-modal-receive(v-if="active" :close="close")
   div(slot='title') Receive Tokens
   p You can receive Cosmos tokens of any denomination by sharing this address.
-  li-copy.receive-modal(:value="wallet.key.address")
+  li-copy.receive-modal(:value="wallet.address")
 </template>
 
 <script>

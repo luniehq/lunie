@@ -22,6 +22,7 @@ let streams = []
 let nodeIP
 let connecting = true
 let seeds = null
+let chainId
 let booted = false
 
 const root = require("../root.js")
@@ -41,7 +42,7 @@ const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const MOCK = config.mocked
 const NODE = process.env.COSMOS_NODE
 
-let SERVER_BINARY = "gaia" + (WIN ? ".exe" : "")
+let LCD_BINARY_NAME = "gaiacli" + (WIN ? ".exe" : "")
 
 function log(...args) {
   if (LOGGING) {
@@ -181,16 +182,23 @@ function startProcess(name, args, env) {
   child.on("error", async function(err) {
     if (!(shuttingDown && err.code === "ECONNRESET")) {
       // if we throw errors here, they are not handled by the main process
-      console.error(
+      let errorMessage = [
         "[Uncaught Exception] Child",
         name,
         "produced an unhandled exception:",
         err
-      )
+      ]
+      logError(...errorMessage)
+      console.error(...errorMessage) // also output to console for easier debugging
       handleCrash(err)
 
       Raven.captureException(err)
     }
+  })
+
+  // need to kill child processes if main process dies
+  process.on("exit", () => {
+    child.kill()
   })
   return child
 }
@@ -211,29 +219,32 @@ app.on("ready", () => createWindow())
 async function startLCD(home, nodeIP) {
   return new Promise((resolve, reject) => {
     log("startLCD", home)
-    let child = startProcess(SERVER_BINARY, [
+    let child = startProcess(LCD_BINARY_NAME, [
       "rest-server",
-      "--port",
-      LCD_PORT,
+      "--laddr",
+      `tcp://localhost:${LCD_PORT}`,
       "--home",
       home,
       "--node",
-      nodeIP
+      nodeIP,
+      "--chain-id",
+      chainId
       // '--trust-node'
     ])
     logProcess(child, join(home, "lcd.log"))
 
-    // XXX why the hell stderr?!?!?!?
-    child.stderr.on("data", data => {
-      if (data.includes("Serving on")) resolve(child)
-    })
+    // XXX: should wait for server to be ready
+    setTimeout(() => resolve(child), 1000)
+
     child.on("exit", () => {
       reject()
       afterBooted(() => {
         if (mainWindow) {
+          // TODO unify/refactor logError and webContents.send
+          logError(`The ${LCD_BINARY_NAME} rest-server (LCD) exited unplanned`)
           mainWindow.webContents.send(
             "error",
-            Error("The Gaia REST-server (LCD) exited unplanned")
+            Error(`The ${LCD_BINARY_NAME} rest-server (LCD) exited unplanned`)
           )
         }
       })
@@ -241,8 +252,8 @@ async function startLCD(home, nodeIP) {
   })
 }
 
-async function getGaiaVersion() {
-  let child = startProcess(SERVER_BINARY, ["version"])
+async function getGaiacliVersion() {
+  let child = startProcess(LCD_BINARY_NAME, ["version"])
   let data = await new Promise(resolve => {
     child.stdout.on("data", resolve)
   })
@@ -281,9 +292,8 @@ function handleHashVerification(nodeHash) {
 async function initLCD(chainId, home, node) {
   // let the user in the view approve the hash we get from the node
   return new Promise((resolve, reject) => {
-    // `gaia client init` to generate config
-    let child = startProcess(SERVER_BINARY, [
-      "client",
+    // `gaiacli client init` to generate config
+    let child = startProcess(LCD_BINARY_NAME, [
       "init",
       "--home",
       home,
@@ -305,7 +315,7 @@ async function initLCD(chainId, home, node) {
               // since the LCD is talking to our own full node
               child.stdin.write("y\n")
 
-              expectCleanExit(child, "gaia init exited unplanned").then(
+              expectCleanExit(child, "gaiacli init exited unplanned").then(
                 resolve,
                 reject
               )
@@ -319,7 +329,7 @@ async function initLCD(chainId, home, node) {
               // select a new node to try out
               nodeIP = pickNode(seeds)
 
-              initLCD(chainId, home, nodeIP).then(resolve, reject)
+              // initLCD(chainId, home, nodeIP).then(resolve, reject)
             }
           )
           .catch(reject)
@@ -331,7 +341,7 @@ async function initLCD(chainId, home, node) {
       }
     })
   })
-  await expectCleanExit(child, "gaia init exited unplanned")
+  await expectCleanExit(child, "gaiacli init exited unplanned")
 }
 
 // this function will call the passed in callback when the view is booted
@@ -399,13 +409,13 @@ function consistentConfigDir(
   appVersionPath,
   genesisPath,
   configPath,
-  gaiaVersionPath
+  gaiacliVersionPath
 ) {
   return (
     exists(genesisPath) &&
     exists(appVersionPath) &&
     exists(configPath) &&
-    exists(gaiaVersionPath)
+    exists(gaiacliVersionPath)
   )
 }
 
@@ -432,8 +442,7 @@ function handleIPC() {
 function lcdInitialized(home) {
   log("Testing if LCD is already initialized")
   return new Promise((resolve, reject) => {
-    let child = startProcess(SERVER_BINARY, [
-      "client",
+    let child = startProcess(LCD_BINARY_NAME, [
       "init",
       "--home",
       home
@@ -452,7 +461,7 @@ function lcdInitialized(home) {
 }
 
 function pickNode(seeds) {
-  let nodeIP = NODE || seeds[Math.floor(Math.random() * seeds.length)]
+  let nodeIP = seeds[Math.floor(Math.random() * seeds.length)]
   // let nodeRegex = /([http[s]:\/\/]())/g
   log("Picked seed:", nodeIP, "of", seeds)
   // replace port with default RPC port
@@ -513,7 +522,7 @@ async function main() {
   let appVersionPath = join(root, "app_version")
   let genesisPath = join(root, "genesis.json")
   let configPath = join(root, "config.toml")
-  let gaiaVersionPath = join(root, "gaiaversion.txt")
+  let gaiacliVersionPath = join(root, "basecoindversion.txt")
 
   let rootExists = exists(root)
   await fs.ensureDir(root)

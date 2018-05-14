@@ -19,7 +19,7 @@ describe("PageSend", () => {
     node = test.node
     store.commit("setAccounts", [
       {
-        address: "1234567890123456789012345678901234567890",
+        address: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
         name: "default",
         password: "1234567890"
       }
@@ -30,14 +30,15 @@ describe("PageSend", () => {
     })
     store.commit("setWalletBalances", [
       {
-        denom: "ATOM",
-        amount: 123
+        denom: "mycoin",
+        amount: 1000
       },
       {
-        denom: "FERMION",
-        amount: 456
+        denom: "fermion",
+        amount: 2300
       }
     ])
+    store.commit("setNonce", 1)
   })
 
   it("has the expected html structure", () => {
@@ -56,13 +57,28 @@ describe("PageSend", () => {
         .findAll("option")
         .at(1)
         .text()
-    ).toBe("ATOM")
+    ).toBe("MYCOIN")
     expect(
       wrapper
         .findAll("option")
         .at(2)
         .text()
     ).toBe("FERMION")
+  })
+
+  it("should populate the select options with networks", () => {
+    expect(
+      wrapper
+        .findAll("option")
+        .at(3)
+        .text()
+    ).toBe("Select zone...")
+    expect(
+      wrapper
+        .findAll("option")
+        .at(4)
+        .text()
+    ).toBe("basecoind-demo1")
   })
 
   it("should work without providing a default denom", () => {
@@ -73,7 +89,7 @@ describe("PageSend", () => {
   it("should show notification for successful send", async () => {
     wrapper.setData({
       fields: {
-        denom: "ATOM",
+        denom: "mycoin",
         address: "CE456B8BA9AFD1CBDF4ED14558E8C30691E549EA",
         amount: 2,
         zoneId: "cosmos-hub-1"
@@ -87,8 +103,8 @@ describe("PageSend", () => {
   it("should show notification for unsuccessful send", async () => {
     wrapper.setData({
       fields: {
-        denom: "ATOM",
-        address: "CE456B8BA9AFD1CBDF4ED14558E8C30691E5fail",
+        denom: "notmycoin",
+        address: "CE456B8BA9AFD1CBDF4ED14558E8C30691E549EA",
         amount: 2,
         zoneId: "cosmos-hub-1"
       }

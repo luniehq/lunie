@@ -20,7 +20,7 @@ page(title='Block Explorer')
       v-for="block in blocks"
       :key="block.header.height"
       :dt="num.prettyInt(block.header.height)"
-      :dd="block.data.txs.length"
+      :dd="(block.data.txs || []).length"
       :to="{ name: 'block', params: { block: block.header.height} }")
 </template>
 

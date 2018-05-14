@@ -9,7 +9,7 @@ lcd_port_prod = 9071
 relay_port = 9060
 relay_port_prod = 9061
 
-default_network = "gaia-2"
+default_network = "gaia-5000"
 mocked = false
 
 google_analytics_uid = "UA-51029217-3"

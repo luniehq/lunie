@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-* Turn off E2E test.
+* Upgraded many dependencies. @NodeGuy
+* Upgraded to new SDK. @mappum
 
 ## [0.5.0]
 

@@ -1,24 +1,66 @@
 {
-  "genesis_time": "2017-09-12T22:13:16Z",
-  "chain_id": "localtestnet",
-  "validators": [],
+  "genesis_time": "2018-05-01T19:05:32.263489597Z",
+  "chain_id": "gaia-5000",
+  "consensus_params": {
+    "block_size_params": {
+      "max_bytes": 22020096,
+      "max_txs": 100000,
+      "max_gas": -1
+    },
+    "tx_size_params": {
+      "max_bytes": 10240,
+      "max_gas": -1
+    },
+    "block_gossip_params": {
+      "block_part_size_bytes": 65536
+    },
+    "evidence_params": {
+      "max_age": 100000
+    }
+  },
+  "validators": [
+    {
+      "pub_key": {
+        "type": "AC26791624DE60",
+        "value": "XZ290hXUYmOymwm+xm+fIJczVxz4UcRbNXLuH2/VOBA="
+      },
+      "power": 100,
+      "name": ""
+    }
+  ],
   "app_hash": "",
-  "app_options": {
+  "app_state": {
     "accounts": [
       {
-        "name": "test",
-        "address": "D0718DDFF62D301626B428A182F830CBB0AD21FC",
+        "address": "DFA5D5AFFC5153FB0E82463FA496A133F949210D",
         "coins": [
           {
-            "denom": "mycoin",
-            "amount": 9007199254740992
-          },
-          {
-            "denom": "testcoin",
+            "denom": "fermion",
             "amount": 9007199254740992
           }
         ]
       }
-    ]
+    ],
+    "stake": {
+      "pool": {
+        "total_supply": 1650,
+        "bonded_shares": "1100",
+        "unbonded_shares": "0",
+        "bonded_pool": 1100,
+        "unbonded_pool": 0,
+        "inflation_last_time": 0,
+        "inflation": "7/100"
+      },
+      "params": {
+        "inflation_rate_change": "13/100",
+        "inflation_max": "1/5",
+        "inflation_min": "7/100",
+        "goal_bonded": "67/100",
+        "max_validators": 100,
+        "bond_denom": "steak"
+      },
+      "candidates": [],
+      "bonds": null
+    }
   }
 }

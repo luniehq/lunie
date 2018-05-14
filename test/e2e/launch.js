@@ -9,8 +9,12 @@ let fs = require("fs-extra")
 let { newTempDir, login } = require("./common.js")
 const shell = require(`shelljs`)
 
-let app, home, cliHome, started
-let binary = process.env.BINARY_PATH
+const networkPath = join(__dirname, "localtestnet")
+
+let app, cliHome, nodeHome, started
+let binary = process.env.BINARY_PATH || process.env.GOPATH + "/bin/gaiacli"
+let nodeBinary =
+  process.env.NODE_BINARY_PATH || process.env.GOPATH + "/bin/gaiad"
 
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
@@ -40,15 +44,17 @@ function launch(t) {
       })
 
     started = new Promise(async (resolve, reject) => {
-      console.log("using binary", binary)
+      console.log("using cli binary", binary)
+      console.log("using node binary", nodeBinary)
 
       // TODO cleanup
-      home = newTempDir()
-      cliHome = join(newTempDir(), "lcd")
-      console.error(`ui home: ${home}`)
-      console.error(`node home: ${cliHome}`)
+      cliHome = newTempDir()
+      nodeHome = newTempDir()
+      console.error(`ui home: ${cliHome}`)
+      console.error(`node home: ${nodeHome}`)
 
       await startLocalNode()
+      console.log(`Started local node.`)
 
       app = new Application({
         path: electron,
@@ -65,51 +71,57 @@ function launch(t) {
           NODE_ENV: "production",
           PREVIEW: "true",
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
-          COSMOS_HOME: home,
-          COSMOS_NETWORK: "test/e2e/localtestnet"
+          COSMOS_HOME: cliHome,
+          COSMOS_NETWORK: networkPath
         }
       })
 
-      await startApp(app, ".ni-modal-lcd-approval")
+      // TODO: use approval element once we restore initting
+      //       (".ni-modal-lcd-approval")
+      let initialElement = ".ni-session-wrapper"
+      await startApp(app, initialElement)
       t.ok(app.isRunning(), "app is running")
 
+      // TODO: uncomment below once we restore initting
+
       // accept node hash
-      await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
-      await app.client.waitForExist(
-        ".ni-session-title=Sign in to Cosmos Voyager",
-        5000
-      )
+      // await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
+      // await app.client.waitForExist(
+      //   ".ni-session-title=Sign in to Cosmos Voyager",
+      //   5000
+      // )
 
       // test if app restores from unitialized gaia folder
       await stop(app)
-      fs.removeSync(join(home, "lcd"))
-      fs.mkdirpSync(join(home, "lcd"))
-      await startApp(app, ".ni-modal-lcd-approval")
+      fs.removeSync(cliHome)
+      await startApp(app, initialElement)
       t.ok(app.isRunning(), "app recovers from uninitialized gaia")
 
       // accept node hash
-      await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
-      await app.client.waitForExist(
-        ".ni-session-title=Sign in to Cosmos Voyager",
-        5000
-      )
-      console.log("approved hash")
+      // await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
+      // await app.client.waitForExist(
+      //   ".ni-session-title=Sign in to Cosmos Voyager",
+      //   5000
+      // )
+      // console.log("approved hash")
 
       await stop(app)
       await createAccount(
         "testkey",
-        "chair govern physical divorce tape movie slam field gloom process pen universe allow pyramid private ability"
+        // address: DFA5D5AFFC5153FB0E82463FA496A133F949210D
+        "senior toy try above unfair silly believe bachelor unfold orient glove isolate hazard capital announce abandon"
       )
       await createAccount(
         "testreceiver",
-        "crash ten rug mosquito cart south allow pluck shine island broom deputy hungry photo drift absorb"
+        // address: 30E64F9A3FA6C2B9864DADDEDA29CB667BF8366C
+        "cream another bring skill effort narrow crumble ball trouble verify mother confirm recall rain armor abandon"
       )
       console.log("setup test accounts")
       await startApp(app, ".ni-session-title=Sign In")
 
       t.ok(app.isRunning(), "app is running")
 
-      resolve({ app, home })
+      resolve({ app, cliHome })
     })
   }
 
@@ -124,7 +136,9 @@ test.onFinish(async () => {
 })
 
 async function stop(app) {
+  console.log("Stopping app")
   await app.stop()
+  console.log("App stopped")
 }
 
 async function printAppLog(app) {
@@ -151,18 +165,14 @@ async function startApp(app, awaitingSelector = ".ni-session") {
   })
 }
 
-async function startLocalNode() {
-  const command = `${binary} node init \
-D0718DDFF62D301626B428A182F830CBB0AD21FC --home ${cliHome} \
---chain-id localtestnet`
+function startLocalNode() {
+  let configPath = join(nodeHome, "config")
+  fs.mkdirpSync(configPath)
+  fs.copySync(networkPath, configPath)
 
-  console.log(command)
-  shell.exec(command)
-  console.log(`Initialized local node.`)
-
-  await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     // TODO cleanup
-    const command = `${binary} node start --home ${cliHome}`
+    const command = `${nodeBinary} start --home ${nodeHome}`
     console.log(command)
     let localnodeProcess = shell.exec(command, { async: true, silent: true })
     localnodeProcess.stderr.pipe(process.stderr)
@@ -179,19 +189,17 @@ D0718DDFF62D301626B428A182F830CBB0AD21FC --home ${cliHome} \
       reject()
     })
   })
-
-  console.log(`Started local node.`)
 }
 
 async function createAccount(name, seed) {
   await new Promise((resolve, reject) => {
     let child = spawn(binary, [
-      "client",
       "keys",
-      "recover",
+      "add",
+      "--recover",
       name,
       "--home",
-      join(home, "lcd")
+      join(cliHome, "lcd")
     ])
     child.stdin.write("1234567890\n")
     child.stdin.write(seed + "\n")
