@@ -10,6 +10,14 @@ describe("Module: Themes", () => {
     state = store.state.themes
   })
 
+  it("has a dark theme", () => {
+    expect(state.options.dark).toMatchSnapshot()
+  })
+
+  it("has a light theme", () => {
+    expect(state.options.light).toMatchSnapshot()
+  })
+
   it("loads themes", () => {
     expect(state.active).toBe("dark")
     localStorage.setItem("appTheme", "light")
