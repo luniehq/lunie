@@ -50,8 +50,8 @@ describe("RPC Wrapper Mock", () => {
     let blocks = []
     node.rpc.subscribe({ query: "tm.event = 'NewBlock'" }, (err, data) => {
       expect(err).toBeNull()
-      expect(data.data.data.block).toBeDefined()
-      blocks.push(data.data.data.block)
+      expect(data.data.value.block).toBeDefined()
+      blocks.push(data.data.value.block)
       if (blocks.length === 2) {
         done()
       }
@@ -64,8 +64,8 @@ describe("RPC Wrapper Mock", () => {
       { query: "tm.event = 'NewBlockHeader'" },
       (err, data) => {
         expect(err).toBeNull()
-        expect(data.data.data.header).toBeDefined()
-        headers.push(data.data.data.header)
+        expect(data.data.value.header).toBeDefined()
+        headers.push(data.data.value.header)
         if (headers.length === 2) {
           done()
         }
