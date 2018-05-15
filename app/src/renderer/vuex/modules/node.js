@@ -112,7 +112,7 @@ export default function ({ node }) {
 
       state.nodeTimeout = setTimeout(() => {
         // clear timeout doesn't work
-        if (state.nodeTimeout) {
+        if (state.nodeTimeout && !state.mocked) {
           state.nodeTimeout = null
           dispatch("reconnect")
         }
@@ -134,13 +134,25 @@ export default function ({ node }) {
       state.approvalRequired = null
       ipcRenderer.send("hash-disapproved", hash)
     },
-    setMockedConnector({ state, dispatch }, mocked) {
+    setMockedConnector({ state, dispatch, commit }, mocked) {
+      state.mocked = mocked
+
+      // disable updates from the live node
       node.rpcDisconnect()
 
+      // switch to a mocked or live node
       node.setup(mocked)
 
-      state.mocked = mocked
+      // reconnect to the node
       node.rpcReconnect()
+
+      if (mocked) {
+        // if we run a mocked version only, we don't want the lcd to run in the meantime
+        ipcRenderer.send('stop-lcd')
+
+        // the mocked node is automatically connected
+        dispatch('reconnected')
+      }
     }
   }
 
