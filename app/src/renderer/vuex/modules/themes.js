@@ -2,6 +2,10 @@ import light from "../json/theme-light.json"
 import dark from "../json/theme-dark.json"
 
 function setCssVars(theme) {
+  const isWin = navigator.platform.toUpperCase().indexOf("WIN") >= 0
+  if (isWin) {
+    document.documentElement.style.setProperty(`--font-weight`, 300)
+  }
   for (let key in theme) {
     document.documentElement.style.setProperty(`--${key}`, theme[key])
   }
