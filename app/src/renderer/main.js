@@ -36,7 +36,7 @@ Vue.config.errorHandler = (error, vm, info) => {
 Vue.use(Electron)
 Vue.use(Resource)
 Vue.use(Router)
-Vue.use(Tooltip)
+Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
 
 async function main() {
