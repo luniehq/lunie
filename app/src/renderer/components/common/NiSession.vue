@@ -1,5 +1,5 @@
 <template lang="pug">
-#session.ni-session-wrapper
+.ni-session-wrapper
   img.ni-session-backdrop(src="~assets/images/cosmos-logo.png")
   session-loading(v-if="config.modals.session.state == 'loading'")
   session-welcome(v-if="config.modals.session.state == 'welcome'")

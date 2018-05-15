@@ -1,5 +1,5 @@
 <template lang="pug">
-.ni-session: .ni-session-container
+#session-welcome.ni-session: .ni-session-container
   .ni-session-header
     a &nbsp;
     .ni-session-title Sign in to Cosmos Voyager
@@ -61,7 +61,7 @@ export default {
   },
   async mounted() {
     await this.$nextTick()
-    const container = this.$el.querySelector("#session .ni-session-main")
+    const container = this.$el.querySelector(".ni-session-main")
     this.ps = new PerfectScrollbar(container)
   }
 }
