@@ -1,5 +1,5 @@
 <template lang="pug">
-.ni-session-wrapper
+#session.ni-session-wrapper
   img.ni-session-backdrop(src="~assets/images/cosmos-logo.png")
   session-loading(v-if="config.modals.session.state == 'loading'")
   session-welcome(v-if="config.modals.session.state == 'welcome'")
@@ -146,7 +146,7 @@ export default {
 .ni-session-label
   text-align center
   padding 1rem
-  background hsla(0,0,0,0.25)
+  background var(--app-fg)
   color var(--dim)
 
 .ni-session-footer
