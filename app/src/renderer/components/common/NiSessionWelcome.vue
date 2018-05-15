@@ -34,6 +34,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import PerfectScrollbar from "perfect-scrollbar"
 import FundraiserWarning from "common/FundraiserWarning"
 import ListItem from "common/NiListItem"
 import LiSession from "common/NiLiSession"
@@ -57,6 +58,11 @@ export default {
     setState(value) {
       this.$store.commit("setModalSessionState", value)
     }
+  },
+  async mounted() {
+    await this.$nextTick()
+    const container = this.$el.querySelector("#session .ni-session-main")
+    this.ps = new PerfectScrollbar(container)
   }
 }
 </script>
