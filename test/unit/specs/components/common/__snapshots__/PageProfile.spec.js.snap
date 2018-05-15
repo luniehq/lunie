@@ -282,7 +282,7 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
       </div>
     </section>
     <div
-      class="ni-session-footer"
+      class="sign-out-container"
     >
       <button
         class="ni-btn"

@@ -30,7 +30,7 @@ page(title="My Profile")
           :checked="mockedConnector"
           @change="setMockedConnector")
 
-  .ni-session-footer
+  .sign-out-container
     btn(icon='exit_to_app' type='button' @click.native="signOut" value='Sign Out')
 </template>
 
@@ -81,3 +81,7 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  .sign-out-container
+    padding 0 1rem
+</style>

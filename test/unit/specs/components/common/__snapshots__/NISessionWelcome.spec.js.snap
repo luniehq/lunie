@@ -26,7 +26,7 @@ exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
 </div>
 <div class=\\"ni-li-session\\">
    <div class=\\"ni-li-session-icon\\">
-      <i class=\\"material-icons\\">create</i>
+      <i class=\\"material-icons\\">person_add</i>
    </div>
 <div class=\\"ni-li-session-text\\">
    <div class=\\"ni-li-session-title\\">
@@ -91,7 +91,7 @@ exports[`NISessionWelcome without accounts has the expected html structure 1`] =
    <!---->
    <div class=\\"ni-li-session\\">
       <div class=\\"ni-li-session-icon\\">
-         <i class=\\"material-icons\\">create</i>
+         <i class=\\"material-icons\\">person_add</i>
       </div>
 <div class=\\"ni-li-session-text\\">
    <div class=\\"ni-li-session-title\\">
