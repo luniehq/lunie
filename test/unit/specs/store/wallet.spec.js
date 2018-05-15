@@ -192,14 +192,15 @@ describe("Module: Wallet", () => {
   })
 
   it("should be in loading state before querying account, and not in loading state after", async () => {
-    node.queryAccount = () => Promise.resolve({
-      coins: [
-        {
-          denom: "fermion",
-          amount: 42
-        }
-      ]
-    })
+    node.queryAccount = () =>
+      Promise.resolve({
+        coins: [
+          {
+            denom: "fermion",
+            amount: 42
+          }
+        ]
+      })
 
     expect(store.state.wallet.balancesLoading).toBe(true)
     await store.dispatch("initializeWallet", "someAddress")
