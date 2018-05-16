@@ -34,18 +34,18 @@ jest.mock("electron", () => {
     BrowserWindow: class MockBrowserWindow {
       constructor() {
         this.webContents = {
-          openDevTools: () => {},
-          on: () => {},
+          openDevTools: () => { },
+          on: () => { },
           send: electron.send
         }
       }
-      loadURL() {}
-      on() {}
-      maximize() {}
+      loadURL() { }
+      on() { }
+      maximize() { }
     },
     Menu: {
-      buildFromTemplate() {},
-      setApplicationMenu() {}
+      buildFromTemplate() { },
+      setApplicationMenu() { }
     },
     ipcMain: {
       on: (type, cb) => {
@@ -56,7 +56,7 @@ jest.mock("electron", () => {
           cb(null, "1234567890123456789012345678901234567890")
         }
       },
-      removeAllListeners: () => {}
+      removeAllListeners: () => { }
     }
   }
   return electron
@@ -106,7 +106,7 @@ childProcessMock((path, args) => ({
       cb(0)
     }
   },
-  stdin: { write: () => {} },
+  stdin: { write: () => { } },
   stdout: stdoutMocks(path, args),
   stderr: stderrMocks(path, args)
 }))
@@ -136,14 +136,14 @@ describe("Startup Process", () => {
     fs.removeSync(testRoot + "genesis.json")
   })
 
-  describe("Initialization", function() {
+  describe("Initialization", function () {
     mainSetup()
 
-    it("should create the config dir", async function() {
+    it("should create the config dir", async function () {
       expect(fs.existsSync(testRoot)).toBe(true)
     })
 
-    xit("should init lcd server with correct testnet", async function() {
+    xit("should init lcd server with correct testnet", async function () {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
@@ -154,7 +154,7 @@ describe("Startup Process", () => {
       ).toBeDefined()
     })
 
-    it("should start lcd server", async function() {
+    it("should start lcd server", async function () {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
@@ -164,14 +164,34 @@ describe("Startup Process", () => {
       expect(main.processes.lcdProcess).toBeDefined()
     })
 
-    it("should persist the app_version", async function() {
+    it("should use a provided node-ip to connect to", async function () {
+      main.shutdown()
+      prepareMain()
+
+      Object.assign(process.env, {
+        COSMOS_NODE: "123.456.789.123"
+      })
+      // run main
+      main = await require(appRoot + "src/main/index.js")
+
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes("gaiacli") && args.includes("rest-server") && args.includes("123.456.789.123:46657")
+        )
+      ).toBeDefined()
+
+      delete process.env.COSMOS_NODE
+    })
+
+    it("should persist the app_version", async function () {
       expect(fs.existsSync(testRoot + "app_version")).toBe(true)
       let appVersion = fs.readFileSync(testRoot + "app_version", "utf8")
       expect(appVersion).toBe("0.1.0")
     })
   })
 
-  describe("Start in mocked mode", function() {
+  describe("Start in mocked mode", function () {
     beforeAll(() => {
       jest.doMock(appRoot + "src/config.js", () => ({
         mocked: true
@@ -182,7 +202,7 @@ describe("Startup Process", () => {
     })
     mainSetup()
 
-    it("should not start the lcd server", async function() {
+    it("should not start the lcd server", async function () {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
@@ -192,7 +212,7 @@ describe("Startup Process", () => {
       expect(main.processes.lcdProcess).toBeUndefined()
     })
 
-    xit("should not init the lcd server", async function() {
+    xit("should not init the lcd server", async function () {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) => path.includes("gaiacli") && args.includes("init")
@@ -202,8 +222,8 @@ describe("Startup Process", () => {
     })
   })
 
-  describe("Initialization in dev mode", function() {
-    beforeAll(async function() {
+  describe("Initialization in dev mode", function () {
+    beforeAll(async function () {
       jest.resetModules()
 
       Object.assign(process.env, {
@@ -217,11 +237,11 @@ describe("Startup Process", () => {
     })
     mainSetup()
 
-    it("should create the config dir", async function() {
+    it("should create the config dir", async function () {
       expect(fs.existsSync(testRoot)).toBe(true)
     })
 
-    xit("should init lcd server with correct testnet", async function() {
+    xit("should init lcd server with correct testnet", async function () {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
@@ -232,7 +252,7 @@ describe("Startup Process", () => {
       ).toBeDefined()
     })
 
-    it("should start lcd server", async function() {
+    it("should start lcd server", async function () {
       console.log(childProcess.spawn.mock.calls)
       expect(
         childProcess.spawn.mock.calls.find(
@@ -243,17 +263,17 @@ describe("Startup Process", () => {
       expect(main.processes.lcdProcess).toBeDefined()
     })
 
-    it("should persist the app_version", async function() {
+    it("should persist the app_version", async function () {
       expect(fs.existsSync(testRoot + "app_version")).toBe(true)
       let appVersion = fs.readFileSync(testRoot + "app_version", "utf8")
       expect(appVersion).toBe("0.1.0")
     })
   })
 
-  describe("Start initialized", function() {
+  describe("Start initialized", function () {
     mainSetup()
 
-    xit("should not init lcd server again", async function() {
+    xit("should not init lcd server again", async function () {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) => path.includes("gaiacli") && args.includes("init")
@@ -261,7 +281,7 @@ describe("Startup Process", () => {
       ).toBeUndefined()
     })
 
-    it("should start lcd server", async function() {
+    it("should start lcd server", async function () {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
@@ -272,10 +292,10 @@ describe("Startup Process", () => {
     })
   })
 
-  describe("Update app version", function() {
+  describe("Update app version", function () {
     mainSetup()
 
-    it("should not replace the existing data", async function() {
+    it("should not replace the existing data", async function () {
       resetModulesKeepingFS()
       // alter the version so the main thread assumes an update
       jest.mock(root + "package.json", () => ({ version: "1.1.1" }))
@@ -292,10 +312,10 @@ describe("Startup Process", () => {
     })
   })
 
-  describe("Update genesis.json", function() {
+  describe("Update genesis.json", function () {
     mainSetup()
 
-    it("should error on changed genesis.json", async function() {
+    it("should error on changed genesis.json", async function () {
       resetModulesKeepingFS()
       // alter the genesis so the main thread assumes a change
       let existingGenesis = JSON.parse(
@@ -335,7 +355,7 @@ describe("Startup Process", () => {
       }
     }
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       prepareMain()
       send = require("electron").send
 
@@ -347,7 +367,7 @@ describe("Startup Process", () => {
       main = await require(appRoot + "src/main/index.js")
     })
 
-    afterEach(function() {
+    afterEach(function () {
       main.shutdown()
       registeredIPCListeners = {}
     })
@@ -454,8 +474,8 @@ describe("Startup Process", () => {
     })
   })
 
-  describe("Error handling", function() {
-    afterEach(function() {
+  describe("Error handling", function () {
+    afterEach(function () {
       main.shutdown()
     })
 
@@ -543,11 +563,11 @@ describe("Startup Process", () => {
 })
 
 function mainSetup() {
-  beforeAll(async function() {
+  beforeAll(async function () {
     main = await initMain()
   })
 
-  afterAll(function() {
+  afterAll(function () {
     main.shutdown()
   })
 }
@@ -574,19 +594,19 @@ async function initMain() {
 
 function testFailingChildProcess(name, cmd) {
   return it(`should fail if there is a not handled error in the ${name} ${cmd ||
-    ""} process`, async function() {
-    failingChildProcess(name, cmd)
-    prepareMain()
-    let { send } = require("electron")
-    await require(appRoot + "src/main/index.js")
+    ""} process`, async function () {
+      failingChildProcess(name, cmd)
+      prepareMain()
+      let { send } = require("electron")
+      await require(appRoot + "src/main/index.js")
 
-    expect(send.mock.calls.find(([type, _]) => type === "error")).toBeTruthy()
-    expect(
-      send.mock.calls
-        .find(([type, _]) => type === "error")[1]
-        .message.toLowerCase()
-    ).toContain(name)
-  })
+      expect(send.mock.calls.find(([type, _]) => type === "error")).toBeTruthy()
+      expect(
+        send.mock.calls
+          .find(([type, _]) => type === "error")[1]
+          .message.toLowerCase()
+      ).toContain(name)
+    })
 }
 
 function childProcessMock(mockExtend = () => ({})) {
@@ -596,15 +616,15 @@ function childProcessMock(mockExtend = () => ({})) {
         {},
         {
           stdout: {
-            on: () => {},
-            pipe: () => {}
+            on: () => { },
+            pipe: () => { }
           },
           stderr: {
-            on: () => {},
-            pipe: () => {}
+            on: () => { },
+            pipe: () => { }
           },
-          on: () => {},
-          kill: () => {}
+          on: () => { },
+          kill: () => { }
         },
         mockExtend(path, args)
       )
@@ -627,7 +647,7 @@ function failingChildProcess(mockName, mockCmd) {
         }
       }
     },
-    stdin: { write: () => {} },
+    stdin: { write: () => { } },
     stdout: stdoutMocks(path, args),
     stderr: stderrMocks(path, args)
   }))
