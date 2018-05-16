@@ -2,11 +2,11 @@
 field.ni-field-seed(
   type="textarea"
   @input="update($event)"
-  :value="value"
-  resize="none")
+  :value="value")
 </template>
 
 <script>
+import autosize from "autosize"
 import Field from "@nylira/vue-field"
 export default {
   name: "ni-field-seed",
@@ -17,15 +17,16 @@ export default {
     }
   },
   mounted() {
-    this.$el.style.height = this.$el.scrollHeight + "px"
+    autosize(this.$el)
   },
-  props: ["value"]
+  props: ["value"],
+  watch: {
+    value: {
+      handler: async function(newVal) {
+        await this.$nextTick()
+        autosize.update(this.$el)
+      }
+    }
+  }
 }
 </script>
-
-<style lang="stylus">
-@require '~variables'
-
-.ni-field.ni-field-seed
-  resize none
-</style>
