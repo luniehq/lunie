@@ -1,5 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Module: Send send transactions should send an IBC transaction 1`] = `
+Array [
+  Array [
+    "zone/address",
+    Object {
+      "amount": Array [
+        Object {
+          "amount": 123,
+          "denom": "mycoin",
+        },
+      ],
+      "chain_id": "",
+      "name": "default",
+      "password": "1234567890",
+      "sequence": 2,
+      "src_chain_id": "",
+    },
+  ],
+]
+`;
+
 exports[`Module: Send send transactions should send from wallet 1`] = `
 Array [
   Array [
