@@ -25,7 +25,7 @@ page(title="My Profile")
           @change="setOnboarding")
     list-item(dt="Mock Connection")
       div(slot="dd"): .ni-field-checkbox: .ni-field-checkbox-input
-        input#toggle-onboarding(
+        input#toggle-mocked-connector(
           type="checkbox"
           :checked="mockedConnector"
           @change="setMockedConnector")
@@ -82,6 +82,6 @@ export default {
 }
 </script>
 <style lang="stylus">
-  .sign-out-container
-    padding 0 1rem
+.sign-out-container
+  padding 0 1rem
 </style>

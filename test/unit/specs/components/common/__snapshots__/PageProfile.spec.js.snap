@@ -308,7 +308,7 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
                         class="ni-field-checkbox-input"
                       >
                         <input
-                          id="toggle-onboarding"
+                          id="toggle-mocked-connector"
                           type="checkbox"
                         />
                       </div>
