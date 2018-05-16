@@ -59,10 +59,8 @@ export default {
       this.$store.commit("setModalSessionState", value)
     }
   },
-  async mounted() {
-    await this.$nextTick()
-    const container = this.$el.querySelector(".ni-session-main")
-    this.ps = new PerfectScrollbar(container)
+  mounted() {
+    new PerfectScrollbar(this.$el.querySelector(".ni-session-main"))
   }
 }
 </script>

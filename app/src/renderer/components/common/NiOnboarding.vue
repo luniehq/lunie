@@ -64,10 +64,8 @@ export default {
       this.$store.commit("setOnboardingState", 0)
     }
   },
-  async mounted() {
-    await this.$nextTick()
-    const container = this.$el.querySelector("#onboarding .ni-session-main")
-    this.ps = new PerfectScrollbar(container)
+  mounted() {
+    new PerfectScrollbar(this.$el.querySelector("#onboarding .ni-session-main"))
   }
 }
 </script>

@@ -23,5 +23,5 @@ export default {
 @require '~variables'
 
 .ni-field.ni-field-seed
-  height 6rem
+  height 7rem
 </style>
