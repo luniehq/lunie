@@ -4,7 +4,7 @@ let state = { blockMetas: [], blocks: [], connected: true }
 createBlockMetas(state)
 
 const RpcClientMock = {
-  on: () => { },
+  on: () => {},
   subscribe: (args, cb) => {
     if (args.query === "tm.event = 'NewBlock'") {
       produceBlocks(cb)
@@ -25,9 +25,9 @@ const RpcClientMock = {
       latest_block_height: 42,
       node_info: { network: "mock-chain" }
     }),
-  removeAllListeners: () => { },
+  removeAllListeners: () => {},
   ws: {
-    destroy: () => { }
+    destroy: () => {}
   }
 }
 

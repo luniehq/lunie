@@ -21,10 +21,10 @@ let node
 Raven.config("").install()
 
 // handle uncaught errors
-window.addEventListener("unhandledrejection", function (event) {
+window.addEventListener("unhandledrejection", function(event) {
   Raven.captureException(event.reason)
 })
-window.addEventListener("error", function (event) {
+window.addEventListener("error", function(event) {
   Raven.captureException(event.reason)
 })
 Vue.config.errorHandler = (error, vm, info) => {

@@ -1,7 +1,7 @@
 import { setTimeout } from "timers"
 import { ipcRenderer } from "electron"
 
-export default function ({ node }) {
+export default function({ node }) {
   // get tendermint RPC client from basecoin client
   const { nodeIP } = node // TODO doesn't seem to hold the node ip
 
@@ -148,10 +148,10 @@ export default function ({ node }) {
 
       if (mocked) {
         // if we run a mocked version only, we don't want the lcd to run in the meantime
-        ipcRenderer.send('stop-lcd')
+        ipcRenderer.send("stop-lcd")
 
         // the mocked node is automatically connected
-        dispatch('reconnected')
+        dispatch("reconnected")
       }
     }
   }

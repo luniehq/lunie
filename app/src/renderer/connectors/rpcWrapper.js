@@ -14,7 +14,7 @@ module.exports = function setRpcWrapper(container) {
 
       // ignore disconnect error
       container.rpc.removeAllListeners("error")
-      container.rpc.on("error", () => { })
+      container.rpc.on("error", () => {})
 
       container.rpc.ws.destroy()
 
