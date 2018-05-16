@@ -229,4 +229,22 @@ describe("Module: Node", () => {
     expect(spy).toHaveBeenCalledWith("hash-disapproved", "abc")
     expect(store.state.node.approvalRequired).toBe(null)
   })
+
+  it("should switch to the mocked node implemenation", () => {
+    let { ipcRenderer } = require("electron")
+    let spy = jest.spyOn(node, "setup")
+
+    store.dispatch("setMockedConnector", true)
+
+    expect(spy).toHaveBeenCalledWith(true)
+  })
+
+  it("should stop the lcd if in mocked mode", () => {
+    let { ipcRenderer } = require("electron")
+    let spy = jest.spyOn(ipcRenderer, "send")
+
+    store.dispatch("setMockedConnector", true)
+
+    expect(spy).toHaveBeenCalledWith("stop-lcd")
+  })
 })
