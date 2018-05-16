@@ -17,6 +17,8 @@ jobs:
     steps:
       - checkout
       
+      - run: git diff --name-only develop
+      - run: git diff --name-only develop | grep -c CHANGELOG.md
       - run: bash ./changelog-changed-check.sh
 
       # Download and cache dependencies
