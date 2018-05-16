@@ -58,6 +58,7 @@
 
 <script>
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
+import PerfectScrollbar from "perfect-scrollbar"
 import Btn from "@nylira/vue-button"
 import Field from "@nylira/vue-field"
 import FieldSeed from "common/NiFieldSeed"
@@ -131,6 +132,7 @@ export default {
       this.creating = false
       this.fields.signUpSeed = seedPhrase
     })
+    new PerfectScrollbar(this.$el.querySelector(".ni-session-main"))
   },
   validations: () => ({
     fields: {

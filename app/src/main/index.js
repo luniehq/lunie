@@ -146,7 +146,9 @@ function createWindow() {
   webContents.on("will-navigate", handleRedirect)
   webContents.on("new-window", handleRedirect)
 
-  if (!WIN) addMenu()
+  // addMenu overwrites the default menu to only hold copy/paste actions to not confuse the user
+  // In development mode we want all the options including switching the devtools
+  if (!DEV) addMenu()
 }
 
 function startProcess(name, args, env) {
