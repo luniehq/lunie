@@ -16,7 +16,8 @@ export default {
       this.$emit("input", value)
     }
   },
-  mounted() {
+  mounted() 
+    // adjust the textarea element height to match content
     autosize(this.$el)
   },
   props: ["value"],
