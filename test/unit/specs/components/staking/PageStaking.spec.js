@@ -47,7 +47,7 @@ describe("PageStaking", () => {
   })
 
   it("should show the search on click", () => {
-    wrapper.find(".ni-tool-bar i").trigger("click")
+    wrapper.find(".ni-tool-bar i.search").trigger("click")
     expect(wrapper.contains(".ni-modal-search")).toBe(true)
   })
 

@@ -185,7 +185,6 @@ export default {
     &:not(.ni-form)
     &.ni-form .ni-form-main
       width 32rem
-      min-height 28rem
       max-height 100vh
       height auto
 
