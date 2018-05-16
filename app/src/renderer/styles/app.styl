@@ -32,7 +32,7 @@ a
   height 100vh
   width 100vw
   max-width 100% // fixes bug where horizontal scrollbar appears
-  font-weight 300
+  font-weight var(--font-weight, 300) // fixes 300 weight too thin on windows
 
   display flex
   flex-flow column nowrap

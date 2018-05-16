@@ -1,5 +1,5 @@
 <template lang='pug'>
-nav#app-header(v-bind:class="{ mobile: !config.desktop }"): .container
+nav#app-header(v-bind:class="{ mobile: !config.desktop, windows: isWin }"): .container
   template(v-if="!config.desktop")
     .header-item
 
@@ -24,7 +24,12 @@ import AppMenu from "common/AppMenu"
 export default {
   name: "app-header",
   components: { AppMenu },
-  computed: { ...mapGetters(["config", "themes"]) },
+  computed: {
+    ...mapGetters(["config", "themes"]),
+    isWin() {
+      return navigator.platform.toUpperCase().indexOf("WIN") >= 0
+    }
+  },
   methods: {
     close() {
       this.$store.commit("setActiveMenu", "")
@@ -62,6 +67,17 @@ export default {
   z-index z(appHeader)
   .container
     -webkit-app-region drag
+
+  &.windows:before
+    display block
+    content ''
+    height px
+    background var(--bc)
+    width 100vw
+    position absolute
+    top 0
+    left 0
+    z-index z(appHeader)
 
 @media screen and (max-width: 1023px)
   #app-header

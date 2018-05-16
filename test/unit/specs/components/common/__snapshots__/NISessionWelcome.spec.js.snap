@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
-"<div class=\\"ni-session\\">
+"<div id=\\"session-welcome\\" class=\\"ni-session\\">
    <div class=\\"ni-session-container\\">
       <div class=\\"ni-session-header\\">
          <a>&nbsp;</a>
@@ -10,7 +10,7 @@ exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
          </div>
 <a><i class=\\"material-icons\\">help_outline</i></a>
 </div>
-<div class=\\"ni-session-main\\">
+<div class=\\"ni-session-main ps\\">
    <div class=\\"ni-li-session\\">
       <div class=\\"ni-li-session-icon\\">
          <i class=\\"material-icons\\">lock</i>
@@ -71,6 +71,12 @@ exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
    Even when we do start supporting fundraiser seeds, don't use it except for testing or with small amounts. Soon we will release a command line interface to use for the signing of transactions offline including support for certain hardware ledgers.
 </div>
 </div>
+<div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
+   <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
+</div>
+<div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
+   <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
+</div>
 </div>
 <div class=\\"ni-session-footer\\"></div>
 </div>
@@ -78,7 +84,7 @@ exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
 `;
 
 exports[`NISessionWelcome without accounts has the expected html structure 1`] = `
-"<div class=\\"ni-session\\">
+"<div id=\\"session-welcome\\" class=\\"ni-session\\">
    <div class=\\"ni-session-container\\">
       <div class=\\"ni-session-header\\">
          <a>&nbsp;</a>
@@ -87,7 +93,7 @@ exports[`NISessionWelcome without accounts has the expected html structure 1`] =
          </div>
 <a><i class=\\"material-icons\\">help_outline</i></a>
 </div>
-<div class=\\"ni-session-main\\">
+<div class=\\"ni-session-main ps\\">
    <!---->
    <div class=\\"ni-li-session\\">
       <div class=\\"ni-li-session-icon\\">
@@ -135,6 +141,12 @@ exports[`NISessionWelcome without accounts has the expected html structure 1`] =
 <div class=\\"fundraiser-warning__subtitle\\">
    Even when we do start supporting fundraiser seeds, don't use it except for testing or with small amounts. Soon we will release a command line interface to use for the signing of transactions offline including support for certain hardware ledgers.
 </div>
+</div>
+<div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
+   <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
+</div>
+<div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
+   <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
 <div class=\\"ni-session-footer\\"></div>

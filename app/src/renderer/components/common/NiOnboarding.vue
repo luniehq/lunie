@@ -19,6 +19,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import PerfectScrollbar from "perfect-scrollbar"
 import Btn from "@nylira/vue-button"
 import BarDiscrete from "common/NiBarDiscrete"
 export default {
@@ -62,6 +63,16 @@ export default {
       this.$store.commit("setOnboardingActive", false)
       this.$store.commit("setOnboardingState", 0)
     }
+  },
+  mounted() {
+    new PerfectScrollbar(this.$el.querySelector("#onboarding .ni-session-main"))
   }
 }
 </script>
+
+<style lang="stylus">
+@require '~variables'
+
+#onboarding .ni-session-main
+  position relative
+</style>
