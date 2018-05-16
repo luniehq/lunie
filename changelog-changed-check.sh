@@ -1,4 +1,4 @@
-if [ "$(git diff --name-only develop billy/672-help-on-sign-in | grep -c CHANGELOG.md)" -ge 1 ]; then
+if [ "$(git diff --name-only develop $(git rev-parse --abbrev-ref HEAD) | grep -c CHANGELOG.md)" -ge 1 ]; then
     echo "CHANGELOG updated"
     exit 0;
 else
