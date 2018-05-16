@@ -1,5 +1,4 @@
-branch=$CIRCLE_BRANCH || "$(git rev-parse --abbrev-ref HEAD)"
-if [ "$(git diff --name-only develop $(branch) | grep -c CHANGELOG.md)" -ge 1 ]; then
+if [ "$(git diff --name-only develop | grep -c CHANGELOG.md)" -ge 1 ]; then
     echo "CHANGELOG updated"
     exit 0;
 else
