@@ -33,6 +33,7 @@ describe("Module: Send", () => {
       let account = "default"
       let password = "1234567890"
       node.send = jest.fn(node.send)
+      node.ibcSend = jest.fn(node.ibcSend)
       await store.dispatch("signIn", { account, password })
     })
 
@@ -42,10 +43,20 @@ describe("Module: Send", () => {
       expect(node.send.mock.calls).toMatchSnapshot()
     })
 
-    it("should fail sending a wallet tx ", async done => {
+    it("should fail sending a wallet tx", async done => {
       node.send = () => Promise.reject()
       const args = { to: "address", amount: [{ denom: "mycoin", amount: 123 }] }
       store.dispatch("sendTx", args).then(done.fail, () => done())
+    })
+
+    it("should send an IBC transaction", async () => {
+      const args = {
+        to: "zone/address",
+        amount: [{ denom: "mycoin", amount: 123 }],
+        type: "ibcSend"
+      }
+      await store.dispatch("sendTx", args)
+      expect(node.ibcSend.mock.calls).toMatchSnapshot()
     })
   })
 })
