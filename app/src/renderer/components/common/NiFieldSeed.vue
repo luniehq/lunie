@@ -2,7 +2,8 @@
 field.ni-field-seed(
   type="textarea"
   @input="update($event)"
-  :value="value")
+  :value="value"
+  resize="none")
 </template>
 
 <script>
@@ -15,6 +16,9 @@ export default {
       this.$emit("input", value)
     }
   },
+  mounted() {
+    this.$el.style.height = this.$el.scrollHeight + "px"
+  },
   props: ["value"]
 }
 </script>
@@ -23,5 +27,5 @@ export default {
 @require '~variables'
 
 .ni-field.ni-field-seed
-  height 7rem
+  resize none
 </style>
