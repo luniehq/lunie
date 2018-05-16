@@ -2,17 +2,18 @@
 
 const { cli } = require(`@nodeguy/cli`)
 const { createHash } = require("crypto")
+const zip = require(`deterministic-zip`)
 const optionsSpecification = require(`./optionsSpecification.json`)
 const path = require("path")
 const packager = require("electron-packager")
 const shell = require(`shelljs`)
 const fs = require("fs-extra")
 var glob = require("glob")
-var JSZip = require("jszip")
 const zlib = require("zlib")
 var tar = require("tar-stream")
 var duplexer = require("duplexer")
 const packageJson = require("../../package.json")
+const util = require(`util`)
 
 const rewriteConfig = ({ network }) => {
   const file = path.join(__dirname, `../../app`, `config.toml`)
@@ -107,42 +108,12 @@ function sha256File(path) {
   })
 }
 
-function zipFolder(inDir, outDir, version) {
-  return new Promise(async (resolve, reject) => {
-    let name = path.parse(inDir).name
-    let outFile = path.join(outDir, `${name}_${version}.zip`)
-    var zip = new JSZip()
-    await new Promise(resolve => {
-      glob(inDir + "/**/*", (err, files) => {
-        if (err) {
-          return reject(err)
-        }
-        files.forEach(file => {
-          // make the zip deterministic by changing all file times
-          if (fs.lstatSync(file).isDirectory()) {
-            zip.file(path.relative(inDir, file), null, {
-              dir: true,
-              date: new Date("1993-06-16")
-            })
-          } else {
-            zip.file(path.relative(inDir, file), fs.readFileSync(file), {
-              date: new Date("1987-08-16")
-            })
-          }
-        })
-        resolve()
-      })
-    })
-    zip
-      .generateNodeStream({ type: "nodebuffer", streamFiles: true })
-      .pipe(fs.createWriteStream(outFile))
-      .on("finish", function() {
-        sha256File(outFile).then(hash => {
-          console.log("Zip successful!", outFile, "SHA256:", hash)
-          resolve()
-        })
-      })
-  })
+const zipFolder = async (inDir, outDir, version) => {
+  const { name } = path.parse(inDir)
+  const outFile = path.join(outDir, `${name}_${version}.zip`)
+  await util.promisify(zip)(inDir, outFile)
+  const hash = await sha256File(outFile)
+  console.log("Zip successful!", outFile, "SHA256:", hash)
 }
 
 async function tarFolder(inDir, outDir, version) {

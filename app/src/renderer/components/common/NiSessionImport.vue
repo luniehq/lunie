@@ -52,6 +52,7 @@
 
 <script>
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
+import PerfectScrollbar from "perfect-scrollbar"
 import Btn from "@nylira/vue-button"
 import Field from "@nylira/vue-field"
 import FieldGroup from "common/NiFieldGroup"
@@ -119,6 +120,7 @@ export default {
   },
   mounted() {
     this.$el.querySelector("#import-seed").focus()
+    new PerfectScrollbar(this.$el.querySelector(".ni-session-main"))
   },
   validations: () => ({
     fields: {

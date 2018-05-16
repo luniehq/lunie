@@ -1,12 +1,6 @@
 import light from "../json/theme-light.json"
 import dark from "../json/theme-dark.json"
 
-function setCssVars(theme) {
-  for (let key in theme) {
-    document.documentElement.style.setProperty(`--${key}`, theme[key])
-  }
-}
-
 export default ({ commit }) => {
   const state = {
     active: "dark",
@@ -17,7 +11,7 @@ export default ({ commit }) => {
   }
   const mutations = {
     loadTheme(state) {
-      let theme = localStorage.getItem("appTheme")
+      const theme = localStorage.getItem("appTheme")
       state.active = theme
     },
     setTheme(state, theme) {
@@ -25,7 +19,14 @@ export default ({ commit }) => {
       localStorage.setItem("appTheme", theme)
     },
     updateTheme(state, theme) {
-      setCssVars(state.options[theme])
+      const newTheme = state.options[theme]
+      const isWin = navigator.platform.toUpperCase().indexOf("WIN") >= 0
+      if (isWin) {
+        document.documentElement.style.setProperty(`--font-weight`, 400)
+      }
+      for (let key in newTheme) {
+        document.documentElement.style.setProperty(`--${key}`, newTheme[key])
+      }
     }
   }
   return {
