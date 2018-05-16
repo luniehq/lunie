@@ -16,6 +16,8 @@ jobs:
 
     steps:
       - checkout
+      
+      - run: bash ./changelog-changed-check.sh
 
       # Download and cache dependencies
       - restore_cache:

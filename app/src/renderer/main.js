@@ -6,12 +6,14 @@ import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
 import shrinkStacktrace from "../helpers/shrink-stacktrace.js"
 import Raven from "raven-js"
-import { ipcRenderer } from "electron"
+import { ipcRenderer, remote } from "electron"
 
 import App from "./App"
 import routes from "./routes"
 import Node from "./connectors/node"
 import Store from "./vuex/store"
+
+const config = remote.getGlobal("config")
 
 // exporting this for testing
 let store
@@ -42,7 +44,7 @@ Vue.use(Vuelidate)
 async function main() {
   let lcdPort = getQueryParameter("lcd_port")
   console.log("Expecting lcd-server on port:", lcdPort)
-  node = Node(lcdPort)
+  node = Node(lcdPort, config.mocked)
 
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
