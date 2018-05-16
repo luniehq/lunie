@@ -1,7 +1,8 @@
 /* mocking electron differently in one file apparently didn't work so I had to split the App tests in 2 files */
 
-jest.mock("renderer/connectors/node.js", () => () =>
-  require("../helpers/node_mock")
+jest.mock(
+  "renderer/connectors/node.js",
+  () => jest.fn(() => require("../helpers/node_mock")) // using jest.fn to be able to spy on the constructor call
 )
 
 describe("App without analytics", () => {
@@ -18,7 +19,7 @@ describe("App without analytics", () => {
   jest.mock("renderer/google-analytics.js", () => uid => {})
   jest.mock("electron", () => ({
     remote: {
-      getGlobal: () => ({ env: { NODE_ENV: "test" } }),
+      getGlobal: () => ({ mocked: false }),
       app: {
         getPath: () => {
           return "$HOME"
@@ -45,8 +46,21 @@ describe("App without analytics", () => {
   })
 
   it("reads the lcd port from the url", async () => {
+    let Node = require("renderer/connectors/node.js")
     const { node } = require("renderer/main.js")
-    node.lcdPort = "8080"
+    expect(Node).toHaveBeenCalledWith("8080", false) // second argument is a switch for a mocked node implementation
+  })
+
+  it("uses a mocked connector implementation if set in config", async () => {
+    let electron = require("electron")
+    electron.remote.getGlobal = () => ({
+      env: { NODE_ENV: "test" },
+      mocked: true
+    })
+    let Node = require("renderer/connectors/node.js")
+    const { node } = require("renderer/main.js")
+    expect(Node).toHaveBeenCalledWith("8080", true)
+    jest.resetModules()
   })
 
   it("does not activate google analytics if analytics is disabled", async mockDone => {

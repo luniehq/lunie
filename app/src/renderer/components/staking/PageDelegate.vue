@@ -5,7 +5,7 @@ page(:title="delegateType + ' Profile'")
   part(:title="delegateType + ' Info'")
     list-item(dt='Moniker' :dd='delegate.moniker')
     list-item(dt='Website' :dd='delegate.website')
-    list-item(dt='Address' :dd='delegate.owner.addr')
+    list-item(dt='Address' :dd='delegate.address')
     list-item(dt='Public Key' :dd='delegate.pub_key.data')
 
   part(:title="delegateType + ' Description'")
