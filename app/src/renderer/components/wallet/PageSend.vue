@@ -41,7 +41,7 @@ page(title='Send')
             v-model='fields.amount'
             placeholder='Amount')
         form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
-        form-msg(name='Amount' type='between' min='1' max='1000000'
+        form-msg(name='Amount' type='between' :min='max ? 1 : 0' :max='max'
           v-if='!$v.fields.amount.between')
 
     div(slot='footer')
@@ -51,7 +51,13 @@ page(title='Send')
 </template>
 
 <script>
-import { required, between, minLength } from "vuelidate/lib/validators"
+import {
+  required,
+  between,
+  minLength,
+  maxLength,
+  alphaNum
+} from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
 import Btn from "@nylira/vue-button"
 import Field from "@nylira/vue-field"
@@ -78,6 +84,10 @@ export default {
   },
   computed: {
     ...mapGetters(["wallet", "lastHeader"]),
+    max() {
+      let denom = this.wallet.balances.find(b => b.denom === this.denom)
+      return (denom && denom.amount) || 0
+    },
     denominations() {
       return this.wallet.balances.map(i => ({
         key: i.denom.toUpperCase(),
@@ -153,20 +163,24 @@ export default {
     }
     this.fields.zoneId = this.wallet.zoneIds[0]
   },
-  validations: () => ({
-    fields: {
-      address: {
-        required,
-        minLength: minLength(40)
-      },
-      amount: {
-        required,
-        between: between(1, 1000000)
-      },
-      denom: { required },
-      zoneId: { required }
+  validations() {
+    return {
+      fields: {
+        address: {
+          required,
+          minLength: minLength(40),
+          maxLength: maxLength(40),
+          alphaNum: alphaNum
+        },
+        amount: {
+          required,
+          between: between(1, this.max)
+        },
+        denom: { required },
+        zoneId: { required }
+      }
     }
-  }),
+  },
   watch: {
     // TODO should not be necessary?
     // if the zoneId gets added at a later time
