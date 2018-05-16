@@ -13,7 +13,7 @@
       subtitle="If you have an account, choose this option.")
     li-session(
       @click.native="setState('sign-up')"
-      icon="create"
+      icon="person_add"
       title="Create new account"
       subtitle="Generate a brand new seed and create a new account.")
     li-session(
