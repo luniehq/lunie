@@ -171,23 +171,34 @@ describe("Startup Process", () => {
     })
   })
 
-  describe("Initialization in dev mode", function() {
-    beforeAll(async function() {
-      jest.resetModules()
-
-      Object.assign(process.env, {
-        NODE_ENV: "development",
-        LOGGING: "false"
-      })
+  describe("Start in mocked mode", function() {
+    beforeAll(() => {
+      jest.doMock(appRoot + "src/config.js", () => ({
+        mocked: true
+      }))
     })
-
     afterAll(() => {
-      Object.assign(process.env, { NODE_ENV: null })
+      jest.unmock(appRoot + "src/config.js")
     })
     mainSetup()
 
-    it("should create the config dir", async function() {
-      expect(fs.existsSync(testRoot)).toBe(true)
+    it("should not start the lcd server", async function() {
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes("gaiacli") && args.includes("rest-server")
+        )
+      ).toBeUndefined()
+      expect(main.processes.lcdProcess).toBeUndefined()
+    })
+
+    xit("should not init the lcd server", async function() {
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) => path.includes("gaiacli") && args.includes("init")
+        )
+      ).toBeDefined()
+      expect(main.processes.lcdProcess).toBeUndefined()
     })
   })
 
