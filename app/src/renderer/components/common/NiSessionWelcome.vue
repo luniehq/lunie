@@ -1,5 +1,5 @@
 <template lang="pug">
-.ni-session: .ni-session-container
+#session-welcome.ni-session: .ni-session-container
   .ni-session-header
     a &nbsp;
     .ni-session-title Sign in to Cosmos Voyager
@@ -34,6 +34,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import PerfectScrollbar from "perfect-scrollbar"
 import FundraiserWarning from "common/FundraiserWarning"
 import ListItem from "common/NiListItem"
 import LiSession from "common/NiLiSession"
@@ -57,6 +58,9 @@ export default {
     setState(value) {
       this.$store.commit("setModalSessionState", value)
     }
+  },
+  mounted() {
+    new PerfectScrollbar(this.$el.querySelector(".ni-session-main"))
   }
 }
 </script>

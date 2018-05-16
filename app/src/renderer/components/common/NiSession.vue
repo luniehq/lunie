@@ -146,7 +146,7 @@ export default {
 .ni-session-label
   text-align center
   padding 1rem
-  background hsla(0,0,0,0.25)
+  background var(--app-fg)
   color var(--dim)
 
 .ni-session-footer
