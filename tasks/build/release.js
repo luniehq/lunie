@@ -111,7 +111,7 @@ function sha256File(path) {
 const zipFolder = async (inDir, outDir, version) => {
   const { name } = path.parse(inDir)
   const outFile = path.join(outDir, `${name}_${version}.zip`)
-  await util.promisify(zip)(inDir, outFile)
+  await util.promisify(zip)(inDir, outFile, { cwd: inDir })
   const hash = await sha256File(outFile)
   console.log("Zip successful!", outFile, "SHA256:", hash)
 }
