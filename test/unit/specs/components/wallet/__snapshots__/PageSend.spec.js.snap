@@ -764,16 +764,8 @@ exports[`PageSend has the expected html structure 1`] = `
                     >
                       Address is required
                     </div>
-                    <div
-                      class="ni-form-msg sm ni-form-msg--error"
-                    >
-                      Address must be exactly 40 characters
-                    </div>
-                    <div
-                      class="ni-form-msg sm ni-form-msg--error"
-                    >
-                      Address must contain only alphanumeric characters
-                    </div>
+                    <!---->
+                    <!---->
                   </div>
                 </div>
                 <div
@@ -1628,16 +1620,8 @@ exports[`PageSend should work without providing a default denom 1`] = `
                     >
                       Address is required
                     </div>
-                    <div
-                      class="ni-form-msg sm ni-form-msg--error"
-                    >
-                      Address must be exactly 40 characters
-                    </div>
-                    <div
-                      class="ni-form-msg sm ni-form-msg--error"
-                    >
-                      Address must contain only alphanumeric characters
-                    </div>
+                    <!---->
+                    <!---->
                   </div>
                 </div>
                 <div
