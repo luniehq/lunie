@@ -12,12 +12,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Added a toggle to switch between a mocked blockchain connector and the live connector @faboweb
 * A check for updating the changelog @faboweb
 * Added automatic Prettier formatting on commits @faboweb
+* The build process now builds the Cosmos SDK from source code. @NodeGuy
 
 ### Changed
 
 * Upgraded many dependencies. @NodeGuy
 * Upgraded to new SDK. @mappum
 * Disabled the changelog check on develop @faboweb
+
+### Fixed
+
+* Windows build now compresses `zip` file.
 
 ## [0.5.0]
 
@@ -30,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * If app crashes, a full page error is shown @faboweb
 * New Voyager logo @nylira
+* The application is now built in a Docker container for increased reproducibility.
 
 ## [0.4.4] - 2018-03-08
 
@@ -61,18 +67,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.4.2] - 2018-02-05
 
-###Added
+### Added
 
 * Added back button to every page. @jolesbi
 
-###Changed
+### Changed
 
 * Updated transaction history to be more clear and descriptive. @jolesbi
 * Improved delegate profile page to accommodate candidates and validators. @jolesbi
 
 ## [0.4.1] - 2018-02-01
 
-###Fixed
+### Fixed
 
 * Fix for Windows build crashing on startup. @faboweb
 
