@@ -9,7 +9,7 @@ There are a few miscellaneous tasks to do before making a new release:
 * Ensure the default network is correct in `app/config.toml`:
 
 ```toml
-default_network = "gaia-2"
+default_network = "gaia-5001"
 ```
 
 * Ensure the network params you wish to use are in a folder at `app/networks/<networkname>`. It requires the `genesis.json`, `config.toml`, and `gaiaversion.txt` files. You can get them from the testnets repo (https://github.com/tendermint/testnets).
