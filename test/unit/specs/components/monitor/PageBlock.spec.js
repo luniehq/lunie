@@ -45,7 +45,6 @@ describe("PageBlock", () => {
   })
 
   it("should dispatch getBlock when mounted", () => {
-    console.log(wrapper.vm.$route)
     expect(store.dispatch).toHaveBeenCalledWith("getBlock", NaN) // NaN as it trys to parse $route.param.block which is not set
   })
 
@@ -72,6 +71,23 @@ describe("PageBlock", () => {
     expect(wrapper.vm.block).toEqual({})
     expect(wrapper.contains("data-loading")).toBe(true)
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+  })
+
+  it("should survive no blocks being available", () => {
+    let { wrapper } = mount(PageBlock, {
+      getters: {
+        blockchain: () => ({
+          blocks: [],
+          block: {},
+          blockMetaInfo: {},
+          blockLoading: true
+        })
+      },
+      stubs: { "data-loading": "<data-loading />" }
+    })
+    wrapper.update()
+
+    expect(wrapper.contains("data-loading")).toBe(true)
   })
 
   it("should disable the next block button if last block", () => {
