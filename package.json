@@ -1,8 +1,9 @@
 {
   "name": "cosmos-voyager",
   "productName": "Cosmos Voyager",
-  "version": "0.4.3",
-  "description": "Voyager is an electron-based user interface for the Cosmos Network.",
+  "version": "0.5.0",
+  "description":
+    "Voyager is an electron-based user interface for the Cosmos Network.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
   "homepage": "https://cosmos.network",
@@ -28,7 +29,8 @@
     "test:unit": "cross-env LOGGING=false MOCK=false ANALYTICS=false NODE_ENV=testing jest --maxWorkers=2",
     "test:e2e": "cross-env ANALYTICS=false yarn run pack && tape \"test/e2e/*.js\"",
     "test:exe": "node tasks/test-build.js",
-    "test:coverage": "http-server test/unit/coverage/lcov-report"
+    "test:coverage": "http-server test/unit/coverage/lcov-report",
+    "precommit": "pretty-quick --staged"
   },
   "devDependencies": {
     "@nodeguy/cli": "0.2.1",
@@ -58,6 +60,7 @@
     "html-beautify": "1.0.4",
     "html-webpack-plugin": "2.30.1",
     "http-server": "0.11.1",
+    "husky": "0.14.3",
     "jest": "21.2.1",
     "jest-localstorage-mock": "2.2.0",
     "jest-vue-preprocessor": "1.4.0",
@@ -69,9 +72,9 @@
     "node-loader": "0.6.0",
     "node-sass": "4.9.0",
     "prettier": "1.12.1",
+    "pretty-quick": "1.4.1",
     "proxyquire": "1.8.0",
     "pug": "2.0.3",
-    "shelljs": "0.8.1",
     "spectron": "3.8.0",
     "style-loader": "0.21.0",
     "tape": "4.9.0",

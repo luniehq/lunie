@@ -1,5 +1,6 @@
 <template lang="pug">
 #app
+  modal-help
   session(v-if="config.modals.session.active")
   onboarding(v-else-if="onboarding.active")
   template(v-else)
@@ -7,7 +8,6 @@
     #app-content
       router-view
       app-footer
-    modal-help
     modal-receive
   notifications(:notifications='notifications' theme='cosmos')
   modal-error(v-if='config.modals.error.active' :body='config.modals.error.message')
