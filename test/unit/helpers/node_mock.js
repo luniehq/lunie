@@ -56,7 +56,9 @@ module.exports = {
     nodeIP: "127.0.0.1"
   },
   rpcConnect: () => {},
+  rpcDisconnect: () => {},
   rpcReconnect: () => Promise.resolve("1.1.1.1"),
+  setup: () => {},
 
   ...mockLcd
 }

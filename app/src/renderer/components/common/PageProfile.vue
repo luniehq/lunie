@@ -23,6 +23,12 @@ page(title="My Profile")
           type="checkbox"
           :checked="onboarding.active"
           @change="setOnboarding")
+    list-item(dt="Mock Connection")
+      div(slot="dd"): .ni-field-checkbox: .ni-field-checkbox-input
+        input#toggle-mocked-connector(
+          type="checkbox"
+          :checked="mockedConnector"
+          @change="setMockedConnector")
 
   .sign-out-container
     btn(icon='exit_to_app' type='button' @click.native="signOut" value='Sign Out')
@@ -44,7 +50,9 @@ export default {
     Part,
     ToolBar
   },
-  computed: { ...mapGetters(["user", "themes", "onboarding"]) },
+  computed: {
+    ...mapGetters(["user", "themes", "onboarding", "mockedConnector"])
+  },
   methods: {
     signOut() {
       this.$store.dispatch("signOut")
@@ -66,11 +74,14 @@ export default {
     setOnboarding() {
       this.$store.commit("setOnboardingState", 0)
       this.$store.commit("setOnboardingActive", true)
+    },
+    setMockedConnector() {
+      this.$store.dispatch("setMockedConnector", !this.mockedConnector)
     }
   }
 }
 </script>
 <style lang="stylus">
-  .sign-out-container
-    padding 0 1rem
+.sign-out-container
+  padding 0 1rem
 </style>

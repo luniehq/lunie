@@ -278,6 +278,46 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
               </div>
             </div>
           </div>
+          <div
+            class="ni-li"
+          >
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-dl"
+              >
+                <div
+                  class="ni-li-dt"
+                >
+                  Mock Connection
+                </div>
+                <div
+                  class="ni-li-dd ni-li-dd-flush"
+                >
+                  <div>
+                    <div
+                      class="ni-field-checkbox"
+                    >
+                      <div
+                        class="ni-field-checkbox-input"
+                      >
+                        <input
+                          id="toggle-mocked-connector"
+                          type="checkbox"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </main>
       </div>
     </section>

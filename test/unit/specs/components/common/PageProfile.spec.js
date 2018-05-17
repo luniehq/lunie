@@ -58,4 +58,9 @@ describe("PageProfile", () => {
     wrapper.update()
     expect(wrapper.find("#onboarding")).toBeDefined()
   })
+
+  it("switches mocked mode", () => {
+    wrapper.find("#toggle-mocked-connector").trigger("click")
+    expect(store.dispatch).toHaveBeenCalledWith("setMockedConnector", true)
+  })
 })
