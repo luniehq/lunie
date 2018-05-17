@@ -9,14 +9,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* Added a toggle to switch between a mocked blockchain connector and the live connector
-* A check for updating the changelog
-* Added automatic Prettier formatting on commits
+* Added a toggle to switch between a mocked blockchain connector and the live connector @faboweb
+* A check for updating the changelog @faboweb
+* Added automatic Prettier formatting on commits @faboweb
 
 ### Changed
 
 * Upgraded many dependencies. @NodeGuy
 * Upgraded to new SDK. @mappum
+* Disabled the changelog check on develop @faboweb
 
 ## [0.5.0]
 
