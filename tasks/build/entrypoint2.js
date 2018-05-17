@@ -1,12 +1,12 @@
 "use strict"
 
+const childProcess = require(`child_process`)
 const { cli } = require(`@nodeguy/cli`)
 const { createHash } = require("crypto")
 const zip = require(`deterministic-zip`)
 const optionsSpecification = require(`./optionsSpecification.json`)
 const path = require("path")
 const packager = require("electron-packager")
-const shell = require(`shelljs`)
 const fs = require("fs-extra")
 var glob = require("glob")
 const zlib = require("zlib")
@@ -42,14 +42,16 @@ const building = {
   packageManager: "yarn"
 }
 
+const copySDK = (buildPath, electronVersion, platform, arch, callback) => {
+  fs.copy(`/go/${platform}/bin`, `${buildPath}/bin`, callback)
+}
+
 /**
  * Use electron-packager to build electron app
  */
-function build({ platform, gaia }) {
-  console.log("Using prebuilt binary", gaia)
-
+function build({ platform }) {
   const options = Object.assign({}, building, {
-    afterCopy: [copyBinary("gaia", gaia)],
+    afterCopy: [copySDK],
     platform
   })
 
@@ -86,18 +88,7 @@ function build({ platform, gaia }) {
  */
 const pack = () => {
   console.log("\x1b[33mBuilding webpack in production mode...\n\x1b[0m")
-  shell.exec("npm run pack")
-}
-
-function copyBinary(name, binaryLocation) {
-  return function(buildPath, electronVersion, platform, arch, cb) {
-    let binPath = path.join(buildPath, "bin", name)
-    if (platform === "win32") {
-      binPath = binPath + ".exe"
-    }
-    fs.copySync(binaryLocation, binPath)
-    cb()
-  }
+  childProcess.execSync(`npm run pack`, { stdio: `inherit` })
 }
 
 function sha256File(path) {
@@ -209,7 +200,7 @@ cli(optionsSpecification, options => {
   } else {
     console.log(`Building for platform "${platform}".`)
     rewriteConfig(options)
-    shell.cp(`-r`, `/mnt/network`, `app/networks/${path.basename(network)}`)
+    fs.copySync(`/mnt/network`, `app/networks/${path.basename(network)}`)
 
     if (skipPack) {
       console.log("Skipping packaging")

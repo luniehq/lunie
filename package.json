@@ -75,7 +75,6 @@
     "pretty-quick": "1.4.1",
     "proxyquire": "1.8.0",
     "pug": "2.0.3",
-    "shelljs": "0.8.1",
     "spectron": "3.8.0",
     "style-loader": "0.21.0",
     "tape": "4.9.0",
