@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* Added a toggle to switch between a mocked blockchain connector and the live connector
 * A check for updating the changelog
 * Added automatic Prettier formatting on commits
 

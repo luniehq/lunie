@@ -1,6 +1,6 @@
 const mockValidators = require("../../helpers/json/mock_validators.json")
 
-let state = { blockMetas: [], blocks: [] }
+let state = { blockMetas: [], blocks: [], connected: true }
 createBlockMetas(state)
 
 const RpcClientMock = {
@@ -24,7 +24,11 @@ const RpcClientMock = {
     cb(null, {
       latest_block_height: 42,
       node_info: { network: "mock-chain" }
-    })
+    }),
+  removeAllListeners: () => {},
+  ws: {
+    destroy: () => {}
+  }
 }
 
 module.exports = function setRPCWrapperMock(container) {
@@ -36,10 +40,17 @@ module.exports = function setRPCWrapperMock(container) {
       connecting: false,
       connected: true
     },
+    rpcDisconnect() {
+      state.connected = false
+      rpcWrapper.rpcInfo.connected = false
+    },
     rpcConnect() {
+      state.connected = true
+      rpcWrapper.rpcInfo.connected = true
       container.rpc = RpcClientMock
     },
     rpcReconnect: async () => {
+      rpcWrapper.rpcConnect()
       return "127.0.0.1"
     }
   }
@@ -90,20 +101,20 @@ function createBlockMetas(state) {
 
 async function produceBlockHeaders(cb) {
   let height = 200
-  while (true) {
+  while (state.connected) {
     let newBlockHeader = createBlockMeta(Date.now(), ++height)
     state.blockMetas.push(newBlockHeader)
-    cb(null, { data: { data: { header: newBlockHeader } } })
+    cb(null, { data: { value: { header: newBlockHeader } } })
     await sleep(1000)
   }
 }
 
 async function produceBlocks(cb) {
   let height = 200
-  while (true) {
+  while (state.connected) {
     let newBlock = createBlock(++height)
     state.blocks.push(newBlock)
-    cb(null, { data: { data: { block: newBlock } } })
+    cb(null, { data: { value: { block: newBlock } } })
     await sleep(1000)
   }
 }

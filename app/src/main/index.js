@@ -437,6 +437,12 @@ function handleIPC() {
       })
       .install()
   })
+  ipcMain.on("stop-lcd", event => {
+    log("Stopping the LCD server")
+    // prevent and exit to signal bad termination warnings
+    lcdProcess.removeAllListeners("exit")
+    lcdProcess.kill("SIGKILL")
+  })
 }
 
 // check if LCD is initialized as the configs could be corrupted
