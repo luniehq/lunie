@@ -42,15 +42,7 @@ exports[`PageBond has the expected html structure 1`] = `
                 <div
                   class="main"
                 />
-                <a
-                  class="back"
-                >
-                  <i
-                    class="material-icons"
-                  >
-                    arrow_back
-                  </i>
-                </a>
+                <!---->
                 <a
                   class="help"
                 >

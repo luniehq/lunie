@@ -57,15 +57,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                     </i>
                   </a>
                 </div>
-                <a
-                  class="back"
-                >
-                  <i
-                    class="material-icons"
-                  >
-                    arrow_back
-                  </i>
-                </a>
+                <!---->
                 <a
                   class="help"
                 >
@@ -457,15 +449,7 @@ exports[`PageWallet should filter the balances 1`] = `
                     </i>
                   </a>
                 </div>
-                <a
-                  class="back"
-                >
-                  <i
-                    class="material-icons"
-                  >
-                    arrow_back
-                  </i>
-                </a>
+                <!---->
                 <a
                   class="help"
                 >

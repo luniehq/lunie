@@ -43,7 +43,8 @@ exports[`PageSend has the expected html structure 1`] = `
                   class="main"
                 />
                 <a
-                  class="back"
+                  class="router-link-exact-active router-link-active"
+                  href="#/"
                 >
                   <i
                     class="material-icons"
@@ -913,7 +914,8 @@ exports[`PageSend should work without providing a default denom 1`] = `
                   class="main"
                 />
                 <a
-                  class="back"
+                  class="router-link-exact-active router-link-active"
+                  href="#/"
                 >
                   <i
                     class="material-icons"
