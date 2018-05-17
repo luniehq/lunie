@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Added a toggle to switch between a mocked blockchain connector and the live connector
+* A check for updating the changelog
+* Added automatic Prettier formatting on commits
 
 ### Changed
 
@@ -20,7 +22,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* A check for updating the changelog
 * The following file types are now formatted with [Prettier](https://prettier.io/): css, js, json, vue.
 * Staked tokens are now shown on the wallet page.
 
