@@ -3,7 +3,7 @@ page(:title="pageBlockTitle")
   data-loading(v-if="blockchain.blockLoading")
   data-empty(v-else-if="!block.header")
   template(v-else)
-    div(slot="menu"): tool-bar
+    div(slot="menu"): tool-bar(backPath="/blocks")
       router-link(:to="{ name: 'block', params: { block: block.header.height - 1 }}"
         v-tooltip.bottom="'Older Block'")
         i.material-icons chevron_left

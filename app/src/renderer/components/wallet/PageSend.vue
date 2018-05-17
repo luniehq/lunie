@@ -1,6 +1,6 @@
 <template lang='pug'>
 page(title='Send')
-  div(slot="menu"): tool-bar
+  div(slot="menu"): tool-bar(backPath="/")
   form-struct(:submit="onSubmit")
     part(title='Denomination Options')
       form-group(:error='$v.fields.denom.$error'
