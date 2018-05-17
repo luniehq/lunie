@@ -95,7 +95,9 @@ export default {
       }
     },
     nextBlockAvailable() {
-      return this.block.header.height < this.blockchainHeight
+      return (
+        this.block.header && this.block.header.height < this.blockchainHeight
+      )
     }
   },
   methods: {
