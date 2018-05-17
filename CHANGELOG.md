@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Upgraded many dependencies. @NodeGuy
 * Upgraded to new SDK. @mappum
 * Disabled the changelog check on develop @faboweb
+* Back button in the block view will return to the blocks overview + back button in the send view will return to the balance view @faboweb
 
 ### Fixed
 
