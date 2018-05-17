@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Improved design of light theme.
 * Improved design on Windows.
 
+### Fixed
+
+* Windows build now compresses `zip` file.
+
 ## [0.5.0]
 
 ### Added
