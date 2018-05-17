@@ -11,17 +11,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* Added a toggle to switch between a mocked blockchain connector and the live connector.
-* A check for updating the changelog.
-* Added automatic Prettier formatting on commits.
-* The build process now builds the Cosmos SDK from source code.
+* Added a toggle to switch between a mocked blockchain connector and the live connector. @faboweb
+* A check for updating the changelog. @faboweb
+* Added automatic Prettier formatting on commits. @faboweb
+* The build process now builds the Cosmos SDK from source code. @NodeGuy
 
 ### Changed
 
 * Upgraded many dependencies. @NodeGuy
 * Upgraded to new SDK. @mappum
-* Improved design of light theme.
-* Improved design on Windows.
+* Improved design of light theme. @nylira
+* Improved design on Windows. @nylira
+* Disabled the changelog check on develop @faboweb
 
 ### Fixed
 
