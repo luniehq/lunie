@@ -17,7 +17,6 @@
       title="Create new account"
       subtitle="Generate a brand new seed and create a new account.")
     li-session(
-      v-if="config.devMode"
       @click.native="setState('import')"
       icon="settings_backup_restore"
       title="Import with seed"
