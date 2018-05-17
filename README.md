@@ -31,9 +31,9 @@ brew install yarn
 
 Install [Yarn](https://yarnpkg.com/lang/en/docs/install/#windows)
 
-#### Install Cosmos SDK
+#### Install Gaia Binaries (Cosmos SDK)
 
-Install the Cosmos SDK by following [the instructions](https://cosmos-sdk.readthedocs.io/en/develop/sdk/install.html).
+Install the Gaia-CLI (`gaiacli`) and the Gaia full node binary (`gaiad`) which are part of the Cosmos SDK by following [the instructions](https://cosmos-sdk.readthedocs.io/en/develop/sdk/install.html).
 
 #### Prepare Voyager
 
