@@ -362,6 +362,7 @@ describe("Startup Process", () => {
       send = require("electron").send
 
       registerIPCListeners(registeredIPCListeners)
+
       // axios is used to ping nodes for the reconnection intent
       let axios = require("axios")
       axios.get = () => Promise.resolve()
@@ -389,6 +390,13 @@ describe("Startup Process", () => {
       expect(
         send.mock.calls.filter(([type, _]) => type === "connected").length
       ).toBe(2)
+    })
+
+    it("should reconnect on IPC call", async () => {
+      let killSpy = jest.spyOn(main.processes.lcdProcess, "kill")
+      await registeredIPCListeners["stop-lcd"]()
+
+      expect(killSpy).toHaveBeenCalled()
     })
 
     it("should not start reconnecting again if already trying to reconnect", async () => {
@@ -626,7 +634,8 @@ function childProcessMock(mockExtend = () => ({})) {
             pipe: () => {}
           },
           on: () => {},
-          kill: () => {}
+          kill: () => {},
+          removeAllListeners: () => {}
         },
         mockExtend(path, args)
       )
