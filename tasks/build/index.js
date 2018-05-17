@@ -1,70 +1,58 @@
 "use strict"
 
+const childProcess = require(`child_process`)
 const { cli } = require(`@nodeguy/cli`)
 const fp = require(`lodash/fp`)
+const fs = require(`fs-extra`)
 const optionsSpecification = require(`./optionsSpecification.json`)
 const path = require(`path`)
-const shell = require(`shelljs`)
 const untildify = require(`untildify`)
 
 // Show the exec commands for easier debugging if something goes wrong.
-const exec = (command, ...args) => {
+const execSync = (command, options) => {
   console.log(command)
-  return shell.exec(command, ...args)
+  childProcess.execSync(command, Object.assign({ stdio: `inherit` }, options))
 }
 
 cli(optionsSpecification, options => {
-  const { commit, gaia, network } = options
+  const { commit, network } = options
 
-  exec(`docker build --tag cosmos/voyager-builder .`, {
-    cwd: __dirname
-  })
+  execSync(
+    `docker build \
+      --build-arg SDK_COMMIT=${options[`sdk-commit`]} \
+      --tag cosmos/voyager-builder .`,
+    {
+      cwd: __dirname
+    }
+  )
 
   // Expand '~' if preset and resolve to absolute pathnames for Docker.
   const resolved = fp.mapValues(fp.pipe(untildify, path.resolve), {
-    gaia,
     git: path.join(__dirname, "../../.git"),
     network,
     builds: path.join(__dirname, "../../builds")
   })
 
   // Make the 'builds' directory if not present.
-  shell.mkdir(`-p`, resolved.builds)
+  fs.mkdirsSync(resolved.builds)
 
-  // Override the gaia option before passing the options into the container.
-  const nextOptions = Object.assign({}, options, {
-    gaia: `/mnt/gaia`
-  })
-
-  const nextOptionsString = Object.entries(nextOptions)
+  const optionsString = Object.entries(options)
     .map(([key, value]) => `--${key}=${value}`)
     .join(` `)
 
-  // inputs: The Gaia binary and the .git directory.
   // inputs:
-  //   gaia
   //   .git/
   //   default network
   //
   // output: the builds directory
-  exec(`docker run \
+  execSync(`docker run \
       --interactive \
-      --mount type=bind,readonly,source=${resolved.gaia},target=/mnt/gaia \
       --mount type=bind,readonly,source=${resolved.git},target=/mnt/.git \
       --mount type=bind,readonly,source=${
         resolved.network
       },target=/mnt/network \
       --mount type=bind,source=${resolved.builds},target=/mnt/builds \
       --rm \
-      cosmos/voyager-builder "${commit}" ${nextOptionsString}
+      cosmos/voyager-builder "${commit}" ${optionsString}
   `)
 })
-
-// Paths are resolved different on Windows. Docker needs the paths in the format //c/Users/Fabo/...
-function parsePath(path) {
-  if (process.platform === "win32") {
-    const drive = path[0]
-    return "//" + drive.toLowerCase() + path.substr(2).replace(/\\/g, "/")
-  }
-  return path
-}
