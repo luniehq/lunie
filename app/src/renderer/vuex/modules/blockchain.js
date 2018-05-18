@@ -45,20 +45,17 @@ export default ({ commit, node }) => {
     },
     async queryBlock({ state, commit }, height) {
       return new Promise(resolve => {
-        node.rpc.block(
-          { minHeight: height, maxHeight: height },
-          (err, data) => {
-            if (err) {
-              commit("notifyError", {
-                title: `Couldn't query block`,
-                body: err.message
-              })
-              resolve({})
-            } else {
-              resolve(data.block)
-            }
+        node.rpc.block({ height }, (err, data) => {
+          if (err) {
+            commit("notifyError", {
+              title: `Couldn't query block`,
+              body: err.message
+            })
+            resolve({})
+          } else {
+            resolve(data.block)
           }
-        )
+        })
       })
     },
     async queryBlockInfo({ state, commit }, height) {
