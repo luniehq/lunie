@@ -1,13 +1,22 @@
 {
-  "validators": [
-    {
-      "pub_key": {
-        "type": "AC26791624DE60",
-        "value": "qwQyuWl3e6bx2S6lZpUA8cI/J0I4CrVZPLagFxrFAVc="
-      },
-      "power": 100,
-      "name": ""
+  "consensus_params": {
+    "block_size_params": {
+      "max_bytes": 22020096,
+      "max_txs": 100000,
+      "max_gas": -1
     },
+    "tx_size_params": {
+      "max_bytes": 10240,
+      "max_gas": -1
+    },
+    "block_gossip_params": {
+      "block_part_size_bytes": 65536
+    },
+    "evidence_params": {
+      "max_age": 100000
+    }
+  },
+  "validators": [
     {
       "pub_key": {
         "type": "AC26791624DE60",
@@ -35,26 +44,10 @@
     {
       "pub_key": {
         "type": "AC26791624DE60",
-        "value": "3odNO4JQ3PZXRmzwc2u9aMcttefKKEni0hgmllG+61M="
-      },
-      "power": 100,
-      "name": ""
-    },
-    {
-      "pub_key": {
-        "type": "AC26791624DE60",
         "value": "RMwWTZsVdkq1heicNJb2fosy9Fls4NHxAHReiJvHl+8="
       },
       "power": 100,
-      "name": ""
-    },
-    {
-      "pub_key": {
-        "type": "AC26791624DE60",
-        "value": "RMwWTZsVdkq1heicNJb2fosy9Fls4NHxAHReiJvHl+8="
-      },
-      "power": 100,
-      "name": ""
+      "name": "polsdam"
     },
     {
       "pub_key": {
@@ -99,14 +92,6 @@
     {
       "pub_key": {
         "type": "AC26791624DE60",
-        "value": "RpX+xkwnCNw5DpBelscz4//TiODyC9RDiyIuD6NEwx0="
-      },
-      "power": 100,
-      "name": "aurel"
-    },
-    {
-      "pub_key": {
-        "type": "AC26791624DE60",
         "value": "0aNTDL49987ZNRi3FtJIi0jk93ybHuYg1FjWrfP9H2o="
       },
       "power": 100,
@@ -130,40 +115,8 @@
     }
   ],
   "app_hash": "",
-  "genesis_time": "2018-05-18T11:15:42.342271286+02:00",
-  "chain_id": "gaia-5001",
-  "consensus_params": {
-    "block_size_params": {
-      "max_bytes": 22020096,
-      "max_txs": 100000,
-      "max_gas": -1
-    },
-    "tx_size_params": {
-      "max_bytes": 10240,
-      "max_gas": -1
-    },
-    "block_gossip_params": {
-      "block_part_size_bytes": 65536
-    },
-    "evidence_params": {
-      "max_age": 100000
-    }
-  },
   "app_state": {
     "accounts": [
-      {
-        "address": "45DDB0A454A1DE8E554637EAD2F1495376C9E31C",
-        "coins": [
-          {
-            "denom": "rigeToken",
-            "amount": 1000
-          },
-          {
-            "denom": "steak",
-            "amount": 50
-          }
-        ]
-      },
       {
         "address": "D9C12CB5186FE0018179742FD3110EE534C63460",
         "coins": [
@@ -204,36 +157,10 @@
         ]
       },
       {
-        "address": "B7D4ACC1819EE2E39E778D5E89515822F3D4FEBE",
+        "address": "FA929191B04C5DB222AFC6F15C63EF48CCC864C5",
         "coins": [
           {
-            "denom": "chainflow01Token",
-            "amount": 1000
-          },
-          {
-            "denom": "steak",
-            "amount": 50
-          }
-        ]
-      },
-      {
-        "address": "21B7CCCA7BE603416151B0A04474FFFDA60037F9",
-        "coins": [
-          {
-            "denom": "poldsam3Token",
-            "amount": 1000
-          },
-          {
-            "denom": "steak",
-            "amount": 50
-          }
-        ]
-      },
-      {
-        "address": "21B7CCCA7BE603416151B0A04474FFFDA60037F9",
-        "coins": [
-          {
-            "denom": "poldsam3Token",
+            "denom": "poldsamToken",
             "amount": 1000
           },
           {
@@ -308,19 +235,6 @@
         ]
       },
       {
-        "address": "10B0899E05A486AE4E5589C39587DF7E9A185872",
-        "coins": [
-          {
-            "denom": "aurelToken",
-            "amount": 1000
-          },
-          {
-            "denom": "steak",
-            "amount": 50
-          }
-        ]
-      },
-      {
         "address": "935E48ED79F1006ED135553768E1D9A768747CF6",
         "coins": [
           {
@@ -362,10 +276,10 @@
     ],
     "stake": {
       "pool": {
-        "total_supply": 2400,
-        "bonded_shares": "1600",
+        "total_supply": 1800,
+        "bonded_shares": "1200",
         "unbonded_shares": "0",
-        "bonded_pool": 1600,
+        "bonded_pool": 1200,
         "unbonded_pool": 0,
         "inflation_last_time": 0,
         "inflation": "7/100"
@@ -379,24 +293,6 @@
         "bond_denom": "steak"
       },
       "candidates": [
-        {
-          "status": 1,
-          "owner": "45DDB0A454A1DE8E554637EAD2F1495376C9E31C",
-          "pub_key": {
-            "type": "AC26791624DE60",
-            "value": "qwQyuWl3e6bx2S6lZpUA8cI/J0I4CrVZPLagFxrFAVc="
-          },
-          "assets": "100",
-          "liabilities": "0",
-          "description": {
-            "moniker": "rige",
-            "identity": "",
-            "website": "",
-            "details": ""
-          },
-          "validator_bond_height": 0,
-          "validator_bond_counter": 0
-        },
         {
           "status": 1,
           "owner": "D9C12CB5186FE0018179742FD3110EE534C63460",
@@ -453,25 +349,7 @@
         },
         {
           "status": 1,
-          "owner": "B7D4ACC1819EE2E39E778D5E89515822F3D4FEBE",
-          "pub_key": {
-            "type": "AC26791624DE60",
-            "value": "3odNO4JQ3PZXRmzwc2u9aMcttefKKEni0hgmllG+61M="
-          },
-          "assets": "100",
-          "liabilities": "0",
-          "description": {
-            "moniker": "chainflow01",
-            "identity": "",
-            "website": "",
-            "details": ""
-          },
-          "validator_bond_height": 0,
-          "validator_bond_counter": 0
-        },
-        {
-          "status": 1,
-          "owner": "21B7CCCA7BE603416151B0A04474FFFDA60037F9",
+          "owner": "FA929191B04C5DB222AFC6F15C63EF48CCC864C5",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "RMwWTZsVdkq1heicNJb2fosy9Fls4NHxAHReiJvHl+8="
@@ -479,25 +357,7 @@
           "assets": "100",
           "liabilities": "0",
           "description": {
-            "moniker": "poldsam3",
-            "identity": "",
-            "website": "",
-            "details": ""
-          },
-          "validator_bond_height": 0,
-          "validator_bond_counter": 0
-        },
-        {
-          "status": 1,
-          "owner": "21B7CCCA7BE603416151B0A04474FFFDA60037F9",
-          "pub_key": {
-            "type": "AC26791624DE60",
-            "value": "RMwWTZsVdkq1heicNJb2fosy9Fls4NHxAHReiJvHl+8="
-          },
-          "assets": "100",
-          "liabilities": "0",
-          "description": {
-            "moniker": "poldsam3",
+            "moniker": "poldsam",
             "identity": "",
             "website": "",
             "details": ""
@@ -597,24 +457,6 @@
         },
         {
           "status": 1,
-          "owner": "10B0899E05A486AE4E5589C39587DF7E9A185872",
-          "pub_key": {
-            "type": "AC26791624DE60",
-            "value": "RpX+xkwnCNw5DpBelscz4//TiODyC9RDiyIuD6NEwx0="
-          },
-          "assets": "100",
-          "liabilities": "0",
-          "description": {
-            "moniker": "aurel",
-            "identity": "",
-            "website": "",
-            "details": ""
-          },
-          "validator_bond_height": 0,
-          "validator_bond_counter": 0
-        },
-        {
-          "status": 1,
           "owner": "935E48ED79F1006ED135553768E1D9A768747CF6",
           "pub_key": {
             "type": "AC26791624DE60",
@@ -670,5 +512,7 @@
       ],
       "bonds": null
     }
-  }
+  },
+  "genesis_time": "2018-05-18T09:57:08.80318911Z",
+  "chain_id": "gaia-5001"
 }
