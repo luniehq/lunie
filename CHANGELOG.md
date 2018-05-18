@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Added a toggle to switch between a mocked blockchain connector and the live connector @faboweb
-* A check for updating the changelog @faboweb
+* A check for updating the changelog (also pre-push) @faboweb
 * Added automatic Prettier formatting on commits @faboweb
 * The build process now builds the Cosmos SDK from source code. @NodeGuy
 
