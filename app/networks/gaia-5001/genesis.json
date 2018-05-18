@@ -1,0 +1,70 @@
+{
+  "validators": [
+    {
+      "pub_key": {
+        "type": "AC26791624DE60",
+        "value": "Di04rWW+askNm8akopew773iWOQGG/lqqctinItt0Uo="
+      },
+      "power": 100,
+      "name": ""
+    }
+  ],
+  "app_hash": "",
+  "genesis_time": "2018-05-14T14:40:43.440935072+02:00",
+  "chain_id": "test-chain-2lZIMH",
+  "consensus_params": {
+    "block_size_params": {
+      "max_bytes": 22020096,
+      "max_txs": 100000,
+      "max_gas": -1
+    },
+    "tx_size_params": {
+      "max_bytes": 10240,
+      "max_gas": -1
+    },
+    "block_gossip_params": {
+      "block_part_size_bytes": 65536
+    },
+    "evidence_params": {
+      "max_age": 100000
+    }
+  },
+  "app_state": {
+    "accounts": [
+      {
+        "address": "340B5162508AE651D0BE6AC5E0EEA5BDA3219B6F",
+        "coins": [
+          {
+            "denom": "Token",
+            "amount": 1000
+          },
+          {
+            "denom": "steak",
+            "amount": 50
+          }
+        ]
+      }
+    ],
+    "stake": {
+      "pool": {
+        "total_supply": 50,
+        "bonded_shares": "0",
+        "unbonded_shares": "0",
+        "bonded_pool": 0,
+        "unbonded_pool": 0,
+        "inflation_last_time": 0,
+        "inflation": "7/100"
+      },
+      "params": {
+        "inflation_rate_change": "13/100",
+        "inflation_max": "1/5",
+        "inflation_min": "7/100",
+        "goal_bonded": "67/100",
+        "max_validators": 100,
+        "bond_denom": "steak"
+      },
+      "candidates": null,
+      "bonds": null
+    }
+  }
+}
