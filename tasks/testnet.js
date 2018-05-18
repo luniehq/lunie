@@ -1,7 +1,7 @@
 const toml = require("toml")
 
 let runDev = require("./runner.js")
-let config = toml(require("../app/config.toml"))
+let config = require("../app/src/config.js")
 
 async function main() {
   const network = process.argv[2] || config.default_network
