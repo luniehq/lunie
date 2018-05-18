@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.6.0]
+
 ### Added
 
 * Added a toggle to switch between a mocked blockchain connector and the live connector @faboweb
@@ -18,6 +20,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Upgraded many dependencies. @NodeGuy
 * Upgraded to new SDK. @mappum
+* Improved design of light theme. @nylira
+* Improved design on Windows. @nylira
 * Disabled the changelog check on develop @faboweb
 
 ### Fixed
