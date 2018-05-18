@@ -116,9 +116,15 @@ function launch(t) {
         "cream another bring skill effort narrow crumble ball trouble verify mother confirm recall rain armor abandon"
       )
       console.log("setup test accounts")
-      await startApp(app, ".ni-session-title=Sign In")
 
+      await startApp(app, ".ni-session-title=Sign In")
       t.ok(app.isRunning(), "app is running")
+
+      // disable the onboarding wizard
+      await app.client.localStorage("POST", {
+        key: "appOnboardingActive",
+        value: "false"
+      })
 
       resolve({ app, cliHome })
     })

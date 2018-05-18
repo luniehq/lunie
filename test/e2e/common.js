@@ -82,9 +82,6 @@ module.exports = {
     await app.client.$("#sign-in-password").setValue("1234567890")
     await app.client.$(".ni-session-footer button").click()
 
-    // the onboarding dialog opens for first time logins
-    await module.exports.closeOnboarding(app)
-
     await app.client.waitForExist("#app-content", 5000)
 
     // checking if user is logged in
@@ -111,10 +108,6 @@ module.exports = {
       .$(".material-icons=exit_to_app")
       .$("..")
       .click()
-  },
-  async closeOnboarding(app) {
-    await app.client.waitForVisible("#onboarding")
-    await app.client.$("#onboarding .ni-session-footer button").click()
   }
 }
 
