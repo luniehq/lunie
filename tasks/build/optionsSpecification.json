@@ -1,10 +1,7 @@
 {
-  "commit": ["commit from which to build", "HEAD"],
-  "network": ["path to the default network to use", "app/networks/gaia-5001"],
+  "commit": ["commit from which to build"],
+  "network": ["path to the default network to use"],
   "platform": ["the target platform {darwin|linux|win32}"],
-  "sdk-commit": [
-    "commit of the SDK to build",
-    "35d0e34b2674ad9edf0f074167dd967219dbbe1b"
-  ],
+  "sdk-commit": ["commit of the SDK to build"],
   "skip-pack": ["skip the repackaging of the JS files", false]
 }
