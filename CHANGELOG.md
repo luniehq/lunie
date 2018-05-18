@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Windows build now compresses `zip` file. @NodeGuy
 * Fixed block explorer @faboweb
+* An error showing after a reconnect @faboweb
 
 ## [0.5.0]
 
