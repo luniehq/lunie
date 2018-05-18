@@ -10,7 +10,7 @@ let { openMenu, login, closeOnboarding } = require("./common.js")
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
 */
 
-test("sign in", async function(t) {
+test.skip("sign in", async function(t) {
   let { app } = await getApp(t)
   await refresh(app)
   let el = (...args) => app.client.$(...args)

@@ -57,7 +57,8 @@ test("wallet", async function(t) {
   t.test("send", async function(t) {
     async function goToSendPage() {
       await navigate(app, "Wallet")
-      await $(".ni-li-dt=FERMION")
+      await $("#part-available-balances")
+        .$(".ni-li-dt=FERMION")
         .$("..")
         .$("..")
         .click()
@@ -89,27 +90,49 @@ test("wallet", async function(t) {
       t.end()
     })
 
-    // t.test("address w/ less than 40 chars", async function(t) {
-    //   await goToSendPage()
-    //   await addressInput().setValue("012345")
-    //   await sendBtn().click()
-    //   await $("div*=Address must be exactly 40 characters").waitForExist()
-    //   t.pass("got correct error message")
-    //   await sendBtn().click()
-    //   t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
-    //   t.end()
-    // })
+    t.test("address w/ less than or greater than 40 chars", async function(t) {
+      await goToSendPage()
+      await addressInput().setValue("012345")
+      await sendBtn().click()
+      await $("div*=Address must be exactly 40 characters").waitForExist()
+      t.pass("got correct error message")
+      await sendBtn().click()
+      t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
+
+      await addressInput().setValue("0".repeat(41))
+
+      await sendBtn().click()
+      await $("div*=Address must be exactly 40 characters").waitForExist()
+      t.pass("got correct error message")
+      await sendBtn().click()
+      t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
+
+      t.end()
+    })
 
     t.test("address w/ 40 chars", async function(t) {
       await goToSendPage()
       await addressInput().setValue("0".repeat(40))
-      // TODO reenable
-      // t.notOk(
-      //   await app.client.isExisting(
-      //     "div*=Address must be exactly 40 characters"
-      //   ),
-      //   "no error message"
-      // )
+
+      t.notOk(
+        await app.client.isExisting(
+          "div*=Address must be exactly 40 characters"
+        ),
+        "no error message"
+      )
+      await sendBtn().click()
+      console.log(await sendBtn().getText())
+      t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
+      t.end()
+    })
+
+    t.test("address not alphaNum", async function(t) {
+      await goToSendPage()
+      await addressInput().setValue("~".repeat(40))
+
+      await $("div*=must contain only alphanumeric characters").waitForExist()
+      t.pass("got correct error message")
+
       await sendBtn().click()
       t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
       t.end()
