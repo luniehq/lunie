@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Improved design of light theme. @nylira
 * Improved design on Windows. @nylira
 * Disabled the changelog check on develop @faboweb
+* Removed some defaults when building a release to reduce confusion.
 
 ### Fixed
 
