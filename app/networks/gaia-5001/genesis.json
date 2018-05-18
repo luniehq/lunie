@@ -11,7 +11,7 @@
   ],
   "app_hash": "",
   "genesis_time": "2018-05-14T14:40:43.440935072+02:00",
-  "chain_id": "test-chain-2lZIMH",
+  "chain_id": "gaia-5001",
   "consensus_params": {
     "block_size_params": {
       "max_bytes": 22020096,
