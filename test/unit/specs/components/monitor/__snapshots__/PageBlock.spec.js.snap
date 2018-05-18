@@ -247,6 +247,8 @@ exports[`PageBlock has the expected html structure 1`] = `
 </div>"
 `;
 
+exports[`PageBlock should disable the next block button if last block 1`] = `undefined`;
+
 exports[`PageBlock should show a loading state if loading 1`] = `
 "<div class=\\"ni-page\\">
    <header class=\\"ni-page-header\\">
