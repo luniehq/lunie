@@ -39,6 +39,7 @@ module.exports = function setRpcWrapper(container) {
       })
 
       container.rpc = newRpc
+      rpcWrapper.rpcInfo.connecting = false
     },
     rpcReconnect: (alreadyConnecting = rpcWrapper.rpcInfo.connecting) => {
       if (alreadyConnecting) return
