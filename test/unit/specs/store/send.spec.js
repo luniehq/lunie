@@ -58,5 +58,28 @@ describe("Module: Send", () => {
       await store.dispatch("sendTx", args)
       expect(node.ibcSend.mock.calls).toMatchSnapshot()
     })
+
+    it("should send a transaction after failing", async () => {
+      let send = node.send.bind(node)
+
+      node.send = () => Promise.reject(true)
+      const args = { to: "address", amount: [{ denom: "mycoin", amount: 123 }] }
+      let error1
+      try {
+        await store.dispatch("sendTx", args)
+      } catch (err) {
+        error1 = err
+      }
+      expect(error1).toBeDefined()
+
+      node.send = send
+      let error2
+      try {
+        await store.dispatch("sendTx", args)
+      } catch (err) {
+        error2 = err
+      }
+      expect(error2).toBeUndefined()
+    })
   })
 })
