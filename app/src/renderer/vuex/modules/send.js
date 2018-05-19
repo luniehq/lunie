@@ -45,6 +45,10 @@ export default ({ commit, node }) => {
   }
 
   let actions = {
+    // `lock` is a Promise which is set if we are in the process
+    // of sending a transaction, so that we can ensure only one send
+    // happens at once. otherwise, we might try to send 2 transactions
+    // using the same sequence number, which means 1 of them won't be valid.
     async sendTx(...args) {
       // wait to acquire lock
       while (lock != null) {
@@ -52,14 +56,16 @@ export default ({ commit, node }) => {
         await lock
       }
 
-      // send and unlock when done
-      lock = doSend(...args)
-
-      // wait for doSend to finish
-      let res = await lock
-      lock = null
-
-      return res
+      try {
+        // send and unlock when done
+        lock = doSend(...args)
+        // wait for doSend to finish
+        let res = await lock
+        return res
+      } finally {
+        // get rid of lock whether doSend throws or succeeds
+        lock = null
+      }
     }
   }
 
