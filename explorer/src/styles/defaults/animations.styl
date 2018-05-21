@@ -1,0 +1,76 @@
+/* zoom */
+
+.zoom-enter-active, .zoom-leave-active
+  transition all 0.5s ease
+  overflow hidden
+
+.zoom-enter, .zoom-leave-to
+  opacity 0
+  transform scale(0.1)
+
+/* member */
+
+.member-enter-active, .member-leave-active
+  transition all 0.5s ease
+  overflow hidden
+  background #fff
+  height 40px + 1px
+  padding 0.25*x
+  opacity 1
+
+.member-enter, .member-leave-to
+  height 0
+  padding 0 0.25*x
+  opacity 0
+  border-bottom none !important
+
+.member-enter
+  background link
+
+/* vote-entity */
+
+.vote-entity-enter-active, .vote-entity-leave-active
+  transition all 0.3s ease
+  padding 0.25*x
+  overflow hidden
+  background #fff
+  height 2.5*x
+
+.vote-entity-enter, .vote-entity-leave-to
+  height 0
+  padding-top 0
+  padding-bottom 0
+  opacity 0
+
+.vote-entity-enter
+  background link
+
+/* proposal */
+
+.proposal-enter-active, .proposal-leave-active
+  transition all 150ms ease
+  height 6rem
+  overflow hidden
+  opacity 1
+
+.proposal-enter, .proposal-leave-to
+  height 0 !important
+  padding 0 !important
+  opacity 0 !important
+
+/* msg-small */
+
+.msg-small-enter-active, .msg-small-leave-active
+  max-height 100vh
+  padding 0.5*x
+  opacity 1
+  transition all 0.3s ease
+
+.msg-small-enter, .msg-small-leave-to
+  max-height 0
+  padding 0 0.5*x
+  opacity 0
+  border-bottom-width 0
+
+.msg-small-enter
+  background link

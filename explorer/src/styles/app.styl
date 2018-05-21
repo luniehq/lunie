@@ -1,0 +1,58 @@
+@require '../../node_modules/nib/index.styl'
+@require 'variables'
+@require 'vendor/*'
+@require 'defaults/*'
+
+global-reset()
+reset-html5()
+
+*
+  box-sizing border-box
+
+html, body, #app
+  background #070b0f url('../assets/images/background-grid.png')
+
+a
+  color link
+  text-decoration none
+
+.dont-break-out
+  /* These are technically the same, but use both */
+  overflow-wrap break-word
+  word-wrap break-word
+
+  -ms-word-break break-all
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break break-all
+  /* Instead use this non-standard one */
+  word-break break-word
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink)
+  -ms-hyphens auto
+  -moz-hyphens auto
+  -webkit-hyphens auto
+  hyphens auto
+  */
+
+.desktop-only
+  display none
+
+@media screen and (min-width: 1024px)
+ agu .desktop-only
+    display block
+
+#app
+  df()
+  color txt
+  padding-top 3rem
+  min-height 100vh
+  display flex
+  flex-flow column nowrap
+
+#app-content
+  flex 1
+  display flex
+  flex-flow column nowrap
+
+#app-main
+  flex 1
