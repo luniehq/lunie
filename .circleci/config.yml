@@ -1,46 +1,51 @@
+# template for node apps
+node_app: &node_app
+  docker:
+    - image: circleci/node:9.4.0-browsers
+  working_directory: ~/cosmos-ui
+
 # Javascript Node CircleCI 2.0 configuration file
-#
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
 jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:9.4.0-browsers
+  voyager:
+    <<: *node_app
     environment:
-      - BINARY_PATH: "/home/circleci/repo/gaia"
-      - NODE_BINARY_PATH: "/home/circleci/repo/gaiad"
-
-    working_directory: ~/repo
+      - BINARY_PATH: "/home/circleci/cosmos-ui/voyager/gaia"
+      - NODE_BINARY_PATH: "/home/circleci/cosmos-ui/voyager/gaiad"
 
     steps:
       - checkout
-      
-      - run: bash ./changelog-changed-check.sh
+      - run: cd voyager && bash ./changelog-changed-check.sh
 
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-root-{{ checksum "package.json" }}
+          - v1-dependencies-root-{{ checksum "voyager/package.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-root-
 
-      - run: yarn
+      - run: cd voyager && yarn
 
       - save_cache:
           paths:
-            - yarn.lock
-            - node_modules
-          key: v1-dependencies-root-{{ checksum "package.json" }}
- 
-      - run:
-          name: Add Gaia
-          command: |
-            sudo wget https://www.dropbox.com/s/c82lrtttdiqtmki/gaiacli-0.16.0-linux?dl=0 -O ~/repo/gaia
-            sudo chmod o+wx ~/repo/gaia
-            sudo wget https://www.dropbox.com/s/2y0pklw9penzg87/gaiad-0.16.0-linux?dl=0 -O ~/repo/gaiad
-            sudo chmod o+wx ~/repo/gaiad
+            - voyager/yarn.lock
+            - voyager/node_modules
+          key: v1-dependencies-root-{{ checksum "voyager/package.json" }}
 
-      - run: yarn run test
-      - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+      - run:
+          name: Download Gaia
+          command: |
+            sudo wget https://www.dropbox.com/s/c82lrtttdiqtmki/gaiacli-0.16.0-linux?dl=0 -O ~/cosmos-ui/voyager/gaia
+            sudo chmod o+wx ~/cosmos-ui/voyager/gaia
+            sudo wget https://www.dropbox.com/s/2y0pklw9penzg87/gaiad-0.16.0-linux?dl=0 -O ~/cosmos-ui/voyager/gaiad
+            sudo chmod o+wx ~/cosmos-ui/voyager/gaiad
+
+      - run: cd voyager && yarn run test
+      - run: cd voyager && bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+
+workflows:
+  version: 2
+  build_all:
+    jobs:
+      - voyager
