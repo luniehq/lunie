@@ -44,8 +44,21 @@ jobs:
       - run: cd voyager && yarn run test
       - run: cd voyager && bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
+  explorer:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd explorer && yarn
+      - save_cache:
+          paths:
+            - explorer/yarn.lock
+            - explorer/node_modules
+          key: v1-dependencies-root-{{ checksum "explorer/package.json" }}
+      - run: cd explorer && yarn build
+
 workflows:
   version: 2
   build_all:
     jobs:
+      - explorer
       - voyager
