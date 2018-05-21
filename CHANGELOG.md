@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 * Removed some defaults when building a release to reduce confusion.
+* Staking hidden (see https://github.com/cosmos/voyager/issues/720).
 
 ## [0.6.0]
 
