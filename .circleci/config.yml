@@ -57,9 +57,100 @@ jobs:
           key: v1-dependencies-root-{{ checksum "explorer/package.json" }}
       - run: cd explorer && yarn build
 
+  allinbits.com:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd allinbits.com && yarn
+      - save_cache:
+          paths:
+            - allinbits.com/yarn.lock
+            - allinbits.com/node_modules
+          key: v1-dependencies-root-{{ checksum "allinbits.com/package.json" }}
+      - run: cd allinbits.com && yarn build
+
+  cosmos.network:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd cosmos.network && yarn
+      - save_cache:
+          paths:
+            - cosmos.network/yarn.lock
+            - cosmos.network/node_modules
+          key: v1-dependencies-root-{{ checksum "cosmos.network/package.json" }}
+      - run: cd cosmos.network && yarn build
+
+  ether.peg.zone:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd ether.peg.zone && yarn
+      - save_cache:
+          paths:
+            - ether.peg.zone/yarn.lock
+            - ether.peg.zone/node_modules
+          key: v1-dependencies-root-{{ checksum "ether.peg.zone/package.json" }}
+      - run: cd ether.peg.zone && yarn build
+
+  ethermint.peg.zone:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd ethermint.peg.zone && yarn
+      - save_cache:
+          paths:
+            - ethermint.peg.zone/yarn.lock
+            - ethermint.peg.zone/node_modules
+          key: v1-dependencies-root-{{ checksum "ethermint.peg.zone/package.json" }}
+      - run: cd ethermint.peg.zone && yarn build
+
+  interchain.io:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd interchain.io && yarn
+      - save_cache:
+          paths:
+            - interchain.io/yarn.lock
+            - interchain.io/node_modules
+          key: v1-dependencies-root-{{ checksum "interchain.io/package.json" }}
+      - run: cd interchain.io && yarn build
+
+  tendermint.com:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd tendermint.com && yarn
+      - save_cache:
+          paths:
+            - tendermint.com/yarn.lock
+            - tendermint.com/node_modules
+          key: v1-dependencies-root-{{ checksum "tendermint.com/package.json" }}
+      - run: cd tendermint.com && yarn build
+
+  tendermint-vue:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd tendermint-vue && yarn
+      - save_cache:
+          paths:
+            - tendermint-vue/yarn.lock
+            - tendermint-vue/node_modules
+          key: v1-dependencies-root-{{ checksum "tendermint-vue/package.json" }}
+      - run: cd tendermint-vue && yarn build
+
 workflows:
   version: 2
   build_all:
     jobs:
       - explorer
       - voyager
+      - allinbits.com
+      - cosmos.network
+      - interchain.io
+      - tendermint.com
+      - tendermint-vue
+      - ether.peg.zone
+      - ethermint.peg.zone

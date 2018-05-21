@@ -1,0 +1,67 @@
+//=========================================================================
+// colors
+//=========================================================================
+
+mhue = 208
+msat = 100%
+mlit = 25%
+mcolor = hsl(mhue,msat,mlit)
+ahue = 140
+asat = 100%
+alit = 35%
+acolor = hsl(ahue,asat,alit)
+ibc = #ccc
+bc = hsl(0,0,95%)
+c-app-bg = hsl(0,0%,98%)
+c-app-fg = #fff
+
+// type colors
+txt = #000
+dim = #666
+light = #999
+subtle = lighten(light,50%)
+faint = lighten(bc,75%)
+placeholder-color = light
+
+link = hsl(mhue,msat,45%)
+anchor = link
+
+alert-color = hsl(330,100%,45%)
+
+primary-gradient = linear-gradient(top, lighten(mcolor,10%), darken(mcolor,10%))
+primary-gradient-hover = linear-gradient(top, lighten(mcolor,15%), darken(mcolor,8%))
+subtle-gradient = linear-gradient(top, hsl(0,0,99%), hsl(0,0,95%))
+subtle-gradient-hover = linear-gradient(top, hsl(0,0,100%), hsl(0,0,95%))
+
+// button colors
+btn-red-color = hsl(0,100%,40%)
+btn-green-color = hsl(120,100%,40%)
+
+eth-color = rgb(201,157,102)
+btc-color = rgb(255,153,0)
+dash-color = rgb(30,115,90)
+xmr-color = rgb(255,102,0)
+maid-color = rgb(85,146,215)
+doge-color = rgb(186,159,51)
+
+//=========================================================================
+// typography
+//=========================================================================
+
+x = 16px
+sans = system, -apple-system, BlinkMacSystemFont, "Roboto", "Seogue UI", "Helvetica Neue", "Lucida Grande", sans-serif
+mono = Consolas, 'Deja Vu Sans Mono', 'Andale Sans Mono', monospace
+
+df()
+  font-size x
+  line-height 1.5
+  font-family sans
+  color txt
+  font-weight 300
+
+mono()
+  font-family Consolas, Monaco, monospace
+  font-weight normal
+
+shadow()
+  box-shadow hsla(0,0,0,0.1) 0 1px 3px

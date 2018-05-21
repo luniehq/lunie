@@ -1,0 +1,15 @@
+To send a signed agreement to the Tendermint project,
+please send an email with the following information:
+
+* Your full name
+* Your title, if signing a corporate CLA
+* Your Github username, if signing an individual CLA
+* The version and type (corporate or individual) of the CLA you are agreeing to
+
+Please send the email to cla@tendermint.com.
+
+
+If you do not own the contribution, please send an
+email to cla@tendermint.com explaining who owns it.
+
+Thanks!

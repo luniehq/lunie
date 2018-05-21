@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>All In Bits - Internet of Blockchains</title>
+<meta name=viewport content="width=device-width, user-scalable=no">
+<link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
+<style>
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  html, body, .wrap,#app {
+    height: 100%;
+  }
+
+  .main {
+    height: auto;
+    min-height: 100% !important;
+    _height: 100%;
+    padding-bottom: 40px;
+  }
+
+
+  #load {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background: hsl(0, 0%, 98%);
+  }
+
+  #load-container {
+    font: 16px/1.5 system, -apple-system, BlinkMacSystemFont, "Roboto", "Seogue UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+    margin: 0 auto;
+    text-align: center;
+    width: 18rem;
+    height: 18rem;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  #load-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    width: 100%;
+    text-transform: lowercase;
+  }
+
+  #load-main {
+    padding: 1rem 0 0;
+  }
+
+  #load-main p {
+    font-size: 1rem;
+    font-weight: 300;
+    color: #666;
+    margin-bottom: 1em;
+  }
+
+  #load-main p.green {
+    color: hsl(120, 100%, 30%);
+  }
+
+  #load-main a {
+    text-decoration: none;
+  }
+
+</style>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<body>
+<div id="app">
+  <div id="load">
+    <div id="load-container">
+      <div id="load-title">All In Bits</div>
+      <div id="load-main">
+        <p class="green">app is loading&hellip;</p>
+        <p>taking forever? disable noscript</p>
+        <p>need help? <a href="mailto:hello@tendermint.com">email us</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+
+<script>
+  if (!Object.defineProperty) {
+    window.alert('The All In Bits website does not support Internet Explorer 8 and below. Please update your browser to a modern version of Chrome, Firefox, or Safari.')
+  }
+
+</script>
