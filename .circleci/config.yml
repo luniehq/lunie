@@ -16,6 +16,7 @@ jobs:
 
     steps:
       - checkout
+
       - run: cd voyager && bash ./changelog-changed-check.sh
 
       # Download and cache dependencies
@@ -41,7 +42,7 @@ jobs:
             sudo wget https://www.dropbox.com/s/2y0pklw9penzg87/gaiad-0.16.0-linux?dl=0 -O ~/cosmos-ui/voyager/gaiad
             sudo chmod o+wx ~/cosmos-ui/voyager/gaiad
 
-      - run: cd voyager && yarn run test
+      - run: cd voyager && yarn test
       - run: cd voyager && bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
   explorer:

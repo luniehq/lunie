@@ -9,7 +9,7 @@ describe("Root UI Directory", () => {
   })
 
   it("should create the correct path", () => {
-    let root = require("../../../../app/src/root.js")
+    let root = require("../../../app/src/root.js")
     expect(root).toBe(join(homedir(), ".cosmos-voyager-dev/gaia-2"))
   })
 
