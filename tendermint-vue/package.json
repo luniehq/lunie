@@ -1,0 +1,36 @@
+{
+  "name": "my-project",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve --host 127.0.0.1 --open",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "css-loader": "^0.28.11",
+    "moment": "^2.22.1",
+    "vue": "^2.5.13",
+    "vue-progress": "^0.2.1",
+    "vue-style-loader": "^4.1.0",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "^3.0.0-beta.6",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "vue-template-compiler": "^2.5.13"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "prettier": {
+    "semi": false
+  }
+}

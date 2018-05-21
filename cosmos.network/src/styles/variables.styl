@@ -1,0 +1,136 @@
+//==============================================================================
+// variables
+
+:root
+  // change for dark/light themes
+  --app-fg hsl(233, 33%, 16%)
+  --app-bg hsl(233, 36%, 13%)
+  --app-bg-alpha hsla(233, 36%, 13%, 95%)
+  --bright #fff
+  --txt hsl(233, 13%, 85%)
+  --dim hsl(233, 13%, 60%)
+  --bc hsl(233, 22%, 23%)
+  --bc-dim hsl(233, 33%, 16%)
+  --hover-bg hsl(233, 43%, 10%)
+  --input-bc hsl(233, 22%, 33%)
+  --input-bc-hover hsl(233, 22%, 40%)
+  // change for rebranding
+  --mc hsl(325, 96%, 59%)
+  --accent hsl(277, 92%, 58%)
+  --primary hsl(233, 88%, 57%)
+  --primary-bc hsl(233, 88%, 43%)
+  --link hsl(233, 88%, 67%)
+  --hover hsl(233, 88%, 73%)
+  // don't change
+  --input-bg transparent
+  --success hsl(120,58%,55%)
+  --success-bc hsl(120,58%,41%)
+  --warning hsl(52,73%,50%)
+  --warning-bc hsl(52,73%,38%)
+  --danger hsl(0,100%,55%)
+  --danger-bc hsl(0,100%,41%)
+
+// tendermint
+tmc = #5EAD37
+
+// main colors
+mhue = 325
+msat = 96%
+mlit = 59%
+mc = hsl(mhue, msat, mlit)
+
+app-hue = 233
+
+accent = hsl((mhue + app-hue)/2, 96%, 62%)
+
+// backgrounds
+app-fg = hsl(app-hue, 33%, 16%)
+
+app-bg = hsl(app-hue, 36%, 13%)
+app-bg-alpha = alpha(app-bg, 95%)
+app-bg-hover = hsl(app-hue, 33%, 20%)
+
+// text
+bright = #fff
+txt = hsl(app-hue, 13%, 85%)
+dim = hsl(app-hue, 13%, 60%)
+
+// borders
+bc = hsl(app-hue, 22%, 23%)
+bc-dim = app-fg
+
+// anchor
+link = hsl(app-hue, 88%, 70%)
+hover = hsl(app-hue, 88%, 60%)
+hover-bg = hsl(app-hue, 30%, 19%)
+
+// input
+input-bg = transparent
+input-bc = hsl(app-hue, 22%, 33%)
+input-bc-hover = hsl(app-hue, 22%, 40%)
+
+// typography
+x = 16px
+px = 0.0625rem
+sans = -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
+mono = Consolas, Monaco, monospace
+
+// alerts
+success = hsl(120,58%,55%)
+warning = hsl(52,73%,50%)
+danger = hsl(0,100%,55%)
+
+// sizes
+aw = 64rem
+width-main = 100%
+width-side = 16rem
+bw = 3*px
+
+//==============================================================================
+// methods
+
+df()
+  font-size x
+  line-height 1.5
+  font-family sans
+  color txt
+  font-weight 300 !important
+
+mono()
+  font-family Consolas, Monaco, monospace
+  font-weight normal
+
+shadow()
+  box-shadow hsla(0,0,0,0.25) 0 0.125rem 0.375rem
+
+xl = x * 1.5
+lg = x * 1.25
+m = x
+sm = x * 0.75
+xs = x * 0.625
+
+h1 = 2.25rem
+h2 = 1.75rem
+h3 = 1.5rem
+h4 = 1.25rem
+h5 = 1.125rem
+h6 = 0.75rem
+
+//==============================================================================
+// z-index
+
+z-layers = {
+  modalTop: 1002,
+  modalHelp: 1001,
+  modal: 1000,
+  appHeader: 100,
+  appMenu: 99,
+  toolBar: 98,
+  listItem: 10,
+  default: 1,
+  zero: 0,
+  below: -1
+}
+
+z(layer)
+  z-layers[layer]
