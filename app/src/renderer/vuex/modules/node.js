@@ -145,14 +145,7 @@ export default function({ node }) {
 
       // reconnect to the node
       node.rpcReconnect()
-
-      if (mocked) {
-        // if we run a mocked version only, we don't want the lcd to run in the meantime
-        ipcRenderer.send("stop-lcd")
-
-        // the mocked node is automatically connected
-        dispatch("reconnected")
-      }
+      dispatch("reconnected")
     }
   }
 
