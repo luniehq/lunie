@@ -1,0 +1,518 @@
+{
+  "consensus_params": {
+    "block_size_params": {
+      "max_bytes": 22020096,
+      "max_txs": 100000,
+      "max_gas": -1
+    },
+    "tx_size_params": {
+      "max_bytes": 10240,
+      "max_gas": -1
+    },
+    "block_gossip_params": {
+      "block_part_size_bytes": 65536
+    },
+    "evidence_params": {
+      "max_age": 100000
+    }
+  },
+  "validators": [
+    {
+      "pub_key": {
+        "type": "AC26791624DE60",
+        "value": "TZTQnfqOsi89SeoXVnIw+tnFJnr4X8qVC0U8AsEmFk4="
+      },
+      "power": 100,
+      "name": "adrian"
+    },
+    {
+      "pub_key": {
+        "type": "AC26791624DE60",
+        "value": "CDF/8aD8Lt+ikR3LyCg9c7DwWBA51NH+MUkH7tzxrfY="
+      },
+      "power": 100,
+      "name": "zaki"
+    },
+    {
+      "pub_key": {
+        "type": "AC26791624DE60",
+        "value": "vq0V0BjpmIh6WyNnFpMaO5LyUK2FamkNt65eJYa5AaQ="
+      },
+      "power": 100,
+      "name": "staked"
+    },
+    {
+      "pub_key": {
+        "type": "AC26791624DE60",
+        "value": "RMwWTZsVdkq1heicNJb2fosy9Fls4NHxAHReiJvHl+8="
+      },
+      "power": 100,
+      "name": "polsdam"
+    },
+    {
+      "pub_key": {
+        "type": "AC26791624DE60",
+        "value": "SW12+WpGKUCO9oT2CV0CD5kUclbXjJHV1MjerLWB7Oc="
+      },
+      "power": 100,
+      "name": "lino"
+    },
+    {
+      "pub_key": {
+        "type": "AC26791624DE60",
+        "value": "NjjEQKUsq8F0gWxl3BoU2Li5n7hEz9H/LX80rfMxVyE="
+      },
+      "power": 100,
+      "name": ""
+    },
+    {
+      "pub_key": {
+        "type": "AC26791624DE60",
+        "value": "7SaH/LyM+qdz9ovD/pvqIf2q7LC7tc5v0ZJxsA2CGTw="
+      },
+      "power": 100,
+      "name": "iris"
+    },
+    {
+      "pub_key": {
+        "type": "AC26791624DE60",
+        "value": "pY7eLF0Ez3yq495kIjag8mD67Q131np/ssagpEvlV2A="
+      },
+      "power": 100,
+      "name": "pbostrom"
+    },
+    {
+      "pub_key": {
+        "type": "AC26791624DE60",
+        "value": "RpX+xkwnCNw5DpBelscz4//TiODyC9RDiyIuD6NEwx0="
+      },
+      "power": 100,
+      "name": "aurel"
+    },
+    {
+      "pub_key": {
+        "type": "AC26791624DE60",
+        "value": "0aNTDL49987ZNRi3FtJIi0jk93ybHuYg1FjWrfP9H2o="
+      },
+      "power": 100,
+      "name": "bucky"
+    },
+    {
+      "pub_key": {
+        "type": "AC26791624DE60",
+        "value": "tJlZJWjOpYvRitYFTWNPTaUtvQVf+hoNjlfI84VPqvI="
+      },
+      "power": 100,
+      "name": "anton"
+    },
+    {
+      "pub_key": {
+        "type": "AC26791624DE60",
+        "value": "dcmCn+RZTBdwbCa4YqSnw/Va7xQloBw6vF87ItLwdM0="
+      },
+      "power": 100,
+      "name": "cwgoes"
+    }
+  ],
+  "app_hash": "",
+  "app_state": {
+    "accounts": [
+      {
+        "address": "D9C12CB5186FE0018179742FD3110EE534C63460",
+        "coins": [
+          {
+            "denom": "defaultToken",
+            "amount": 1000
+          },
+          {
+            "denom": "steak",
+            "amount": 50
+          }
+        ]
+      },
+      {
+        "address": "ECE57661F0CDCF28EED257B72F86240E57F4A612",
+        "coins": [
+          {
+            "denom": "zakiToken",
+            "amount": 1000
+          },
+          {
+            "denom": "steak",
+            "amount": 50
+          }
+        ]
+      },
+      {
+        "address": "935E04662697134905706A4CCDB822AC6FC11C2E",
+        "coins": [
+          {
+            "denom": "defaultToken",
+            "amount": 1000
+          },
+          {
+            "denom": "steak",
+            "amount": 50
+          }
+        ]
+      },
+      {
+        "address": "FA929191B04C5DB222AFC6F15C63EF48CCC864C5",
+        "coins": [
+          {
+            "denom": "poldsamToken",
+            "amount": 1000
+          },
+          {
+            "denom": "steak",
+            "amount": 50
+          }
+        ]
+      },
+      {
+        "address": "5A007B81A25AF34B829B79DA508A26E12180BCDB",
+        "coins": [
+          {
+            "denom": "linoToken",
+            "amount": 1000
+          },
+          {
+            "denom": "steak",
+            "amount": 50
+          }
+        ]
+      },
+      {
+        "address": "9D5723057702E2090405AB5D3B48C45B9ABF4377",
+        "coins": [
+          {
+            "denom": "zachToken",
+            "amount": 1000
+          },
+          {
+            "denom": "steak",
+            "amount": 50
+          }
+        ]
+      },
+      {
+        "address": "4B5BE759EB23B0D76C6A60636BD0E3111178794E",
+        "coins": [
+          {
+            "denom": "=suyuToken",
+            "amount": 1000
+          },
+          {
+            "denom": "steak",
+            "amount": 50
+          }
+        ]
+      },
+      {
+        "address": "109720515B4F8C0858DA3521E448262334534FFD",
+        "coins": [
+          {
+            "denom": "defaultToken",
+            "amount": 1000
+          },
+          {
+            "denom": "steak",
+            "amount": 50
+          }
+        ]
+      },
+      {
+        "address": "10B0899E05A486AE4E5589C39587DF7E9A185872",
+        "coins": [
+          {
+            "denom": "aurelToken",
+            "amount": 1000
+          },
+          {
+            "denom": "steak",
+            "amount": 50
+          }
+        ]
+      },
+      {
+        "address": "935E48ED79F1006ED135553768E1D9A768747CF6",
+        "coins": [
+          {
+            "denom": "buckyToken",
+            "amount": 1000
+          },
+          {
+            "denom": "steak",
+            "amount": 50
+          }
+        ]
+      },
+      {
+        "address": "E766088FD171906289617F60BF0014C46F0F85EC",
+        "coins": [
+          {
+            "denom": "defaultToken",
+            "amount": 1000
+          },
+          {
+            "denom": "steak",
+            "amount": 50
+          }
+        ]
+      },
+      {
+        "address": "328FBB8EA315D070DF908982A5F91A3618001D20",
+        "coins": [
+          {
+            "denom": "cwgoesToken",
+            "amount": 1000
+          },
+          {
+            "denom": "steak",
+            "amount": 50
+          }
+        ]
+      }
+    ],
+    "stake": {
+      "pool": {
+        "total_supply": 1800,
+        "bonded_shares": "1200",
+        "unbonded_shares": "0",
+        "bonded_pool": 1200,
+        "unbonded_pool": 0,
+        "inflation_last_time": 0,
+        "inflation": "7/100"
+      },
+      "params": {
+        "inflation_rate_change": "13/100",
+        "inflation_max": "1/5",
+        "inflation_min": "7/100",
+        "goal_bonded": "67/100",
+        "max_validators": 100,
+        "bond_denom": "steak"
+      },
+      "candidates": [
+        {
+          "status": 1,
+          "owner": "D9C12CB5186FE0018179742FD3110EE534C63460",
+          "pub_key": {
+            "type": "AC26791624DE60",
+            "value": "TZTQnfqOsi89SeoXVnIw+tnFJnr4X8qVC0U8AsEmFk4="
+          },
+          "assets": "100",
+          "liabilities": "0",
+          "description": {
+            "moniker": "default",
+            "identity": "",
+            "website": "",
+            "details": ""
+          },
+          "validator_bond_height": 0,
+          "validator_bond_counter": 0
+        },
+        {
+          "status": 1,
+          "owner": "ECE57661F0CDCF28EED257B72F86240E57F4A612",
+          "pub_key": {
+            "type": "AC26791624DE60",
+            "value": "CDF/8aD8Lt+ikR3LyCg9c7DwWBA51NH+MUkH7tzxrfY="
+          },
+          "assets": "100",
+          "liabilities": "0",
+          "description": {
+            "moniker": "zaki",
+            "identity": "",
+            "website": "",
+            "details": ""
+          },
+          "validator_bond_height": 0,
+          "validator_bond_counter": 0
+        },
+        {
+          "status": 1,
+          "owner": "935E04662697134905706A4CCDB822AC6FC11C2E",
+          "pub_key": {
+            "type": "AC26791624DE60",
+            "value": "vq0V0BjpmIh6WyNnFpMaO5LyUK2FamkNt65eJYa5AaQ="
+          },
+          "assets": "100",
+          "liabilities": "0",
+          "description": {
+            "moniker": "default",
+            "identity": "",
+            "website": "",
+            "details": ""
+          },
+          "validator_bond_height": 0,
+          "validator_bond_counter": 0
+        },
+        {
+          "status": 1,
+          "owner": "FA929191B04C5DB222AFC6F15C63EF48CCC864C5",
+          "pub_key": {
+            "type": "AC26791624DE60",
+            "value": "RMwWTZsVdkq1heicNJb2fosy9Fls4NHxAHReiJvHl+8="
+          },
+          "assets": "100",
+          "liabilities": "0",
+          "description": {
+            "moniker": "poldsam",
+            "identity": "",
+            "website": "",
+            "details": ""
+          },
+          "validator_bond_height": 0,
+          "validator_bond_counter": 0
+        },
+        {
+          "status": 1,
+          "owner": "5A007B81A25AF34B829B79DA508A26E12180BCDB",
+          "pub_key": {
+            "type": "AC26791624DE60",
+            "value": "SW12+WpGKUCO9oT2CV0CD5kUclbXjJHV1MjerLWB7Oc="
+          },
+          "assets": "100",
+          "liabilities": "0",
+          "description": {
+            "moniker": "lino",
+            "identity": "",
+            "website": "",
+            "details": ""
+          },
+          "validator_bond_height": 0,
+          "validator_bond_counter": 0
+        },
+        {
+          "status": 1,
+          "owner": "9D5723057702E2090405AB5D3B48C45B9ABF4377",
+          "pub_key": {
+            "type": "AC26791624DE60",
+            "value": "NjjEQKUsq8F0gWxl3BoU2Li5n7hEz9H/LX80rfMxVyE="
+          },
+          "assets": "100",
+          "liabilities": "0",
+          "description": {
+            "moniker": "zach",
+            "identity": "",
+            "website": "",
+            "details": ""
+          },
+          "validator_bond_height": 0,
+          "validator_bond_counter": 0
+        },
+        {
+          "status": 1,
+          "owner": "4B5BE759EB23B0D76C6A60636BD0E3111178794E",
+          "pub_key": {
+            "type": "AC26791624DE60",
+            "value": "7SaH/LyM+qdz9ovD/pvqIf2q7LC7tc5v0ZJxsA2CGTw="
+          },
+          "assets": "100",
+          "liabilities": "0",
+          "description": {
+            "moniker": "=suyu",
+            "identity": "",
+            "website": "",
+            "details": ""
+          },
+          "validator_bond_height": 0,
+          "validator_bond_counter": 0
+        },
+        {
+          "status": 1,
+          "owner": "109720515B4F8C0858DA3521E448262334534FFD",
+          "pub_key": {
+            "type": "AC26791624DE60",
+            "value": "pY7eLF0Ez3yq495kIjag8mD67Q131np/ssagpEvlV2A="
+          },
+          "assets": "100",
+          "liabilities": "0",
+          "description": {
+            "moniker": "default",
+            "identity": "",
+            "website": "",
+            "details": ""
+          },
+          "validator_bond_height": 0,
+          "validator_bond_counter": 0
+        },
+        {
+          "status": 1,
+          "owner": "10B0899E05A486AE4E5589C39587DF7E9A185872",
+          "pub_key": {
+            "type": "AC26791624DE60",
+            "value": "RpX+xkwnCNw5DpBelscz4//TiODyC9RDiyIuD6NEwx0="
+          },
+          "assets": "100",
+          "liabilities": "0",
+          "description": {
+            "moniker": "aurel",
+            "identity": "",
+            "website": "",
+            "details": ""
+          },
+          "validator_bond_height": 0,
+          "validator_bond_counter": 0
+        },
+        {
+          "status": 1,
+          "owner": "935E48ED79F1006ED135553768E1D9A768747CF6",
+          "pub_key": {
+            "type": "AC26791624DE60",
+            "value": "0aNTDL49987ZNRi3FtJIi0jk93ybHuYg1FjWrfP9H2o="
+          },
+          "assets": "100",
+          "liabilities": "0",
+          "description": {
+            "moniker": "bucky",
+            "identity": "",
+            "website": "",
+            "details": ""
+          },
+          "validator_bond_height": 0,
+          "validator_bond_counter": 0
+        },
+        {
+          "status": 1,
+          "owner": "E766088FD171906289617F60BF0014C46F0F85EC",
+          "pub_key": {
+            "type": "AC26791624DE60",
+            "value": "tJlZJWjOpYvRitYFTWNPTaUtvQVf+hoNjlfI84VPqvI="
+          },
+          "assets": "100",
+          "liabilities": "0",
+          "description": {
+            "moniker": "default",
+            "identity": "",
+            "website": "",
+            "details": ""
+          },
+          "validator_bond_height": 0,
+          "validator_bond_counter": 0
+        },
+        {
+          "status": 1,
+          "owner": "328FBB8EA315D070DF908982A5F91A3618001D20",
+          "pub_key": {
+            "type": "AC26791624DE60",
+            "value": "dcmCn+RZTBdwbCa4YqSnw/Va7xQloBw6vF87ItLwdM0="
+          },
+          "assets": "100",
+          "liabilities": "0",
+          "description": {
+            "moniker": "cwgoes",
+            "identity": "",
+            "website": "",
+            "details": ""
+          },
+          "validator_bond_height": 0,
+          "validator_bond_counter": 0
+        }
+      ],
+      "bonds": null
+    }
+  },
+  "genesis_time": "2018-05-18T09:57:08.80318911Z",
+  "chain_id": "gaia-5001"
+}
