@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Removed some defaults when building a release to reduce confusion.
 * Staking hidden (see https://github.com/cosmos/voyager/issues/720).
 
+### Fixed
+
+* Unchecking `Mock Connection` returns network back to `gaia-5001`.
+
 ## [0.6.0]
 
 ### Added
