@@ -41,6 +41,7 @@ markdown.use(require("markdown-it-table-of-contents"), {
 module.exports = {
   chainWebpack: config => {
     config.resolve.alias
+      .set("shared", resolve("../components"))
       .set("assets", resolve("src/assets"))
       .set("images", resolve("src/assets/images"))
       .set("content", resolve("src/content"))

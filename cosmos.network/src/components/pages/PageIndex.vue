@@ -9,7 +9,7 @@
 
 <script>
 import SectionBlog from "sections/SectionBlog"
-import SectionCover from "sections/SectionCover"
+import SectionCover from "shared/sections/SectionCover"
 import SectionEvents from "sections/SectionEvents"
 import SectionWhat from "sections/SectionWhat"
 import SectionBenefits from "sections/SectionBenefits"
