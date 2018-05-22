@@ -62,13 +62,13 @@ describe("PageSend", () => {
         .findAll("option")
         .at(1)
         .text()
-    ).toBe(coins[0].toUpperCase())
+    ).toBe(coins[0].denom.toUpperCase())
     expect(
       wrapper
         .findAll("option")
         .at(2)
         .text()
-    ).toBe(coins[1].toUpperCase())
+    ).toBe(coins[1].denom.toUpperCase())
   })
 
   it("should populate the select options with networks", () => {
