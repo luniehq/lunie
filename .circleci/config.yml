@@ -45,5 +45,5 @@ jobs:
       - run: 
           name: Test
           command: yarn run test
-          no_output_timeout: 10
+          no_output_timeout: 120
       - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
