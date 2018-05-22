@@ -1,74 +1,15 @@
 # Creating a Cosmos Voyager Release
 
-## Gaia
-
-First, you'll need to either download trusted `gaia` binaries for each platform, or build them yourself.
-
-### Building Gaia Binaries
-
-**TODO:** _Use Docker for this step_
-
-If you build the binaries yourself, you'll need to have Golang 1.9 installed, and be on the correct version of `gaia` for the network you are building Voyager for:
-
-```bash
-go version # should be at least 1.9
-
-cd $GOPATH/src/github.com/cosmos/gaia
-git checkout v0.5.0 # choose a gaia version
-
-# install deps
-rm -rf vendor
-glide install
-```
-
-Once that is checked out, we can build the binaries for each platform:
-
-```bash
-# macOS
-GOOS=darwin GOARCH=amd64 go build \
-  -ldflags "-s -w" \
-  -o gaia-mac \
-  ./cmd/gaia
-
-# 32-bit linux
-GOOS=linux GOARCH=386 go build \
-  -ldflags "-s -w" \
-  -o gaia-linux-32 \
-  ./cmd/gaia
-
-# 32-bit windows
-GOOS=windows GOARCH=386 go build \
-  -ldflags "-s -w" \
-  -o gaia-windows-32.exe \
-  ./cmd/gaia
-
-# (if you want 64-bit, change `GOARCH=386` to `GOARCH=amd64`)
-```
-
-## Cosmos Voyager
-
-Now that we have `gaia`, we can build the app.
-
-### Dependencies
-
-Just in case you installed package dependencies in a non-deterministic order, it's a good idea to remove them and reinstall:
-
-```bash
-rm -rf node_modules
-yarn
-```
-
 ### Housekeeping
 
 **TODO:** _Automate these tasks with scripts or allow setting via environment variables_
 
 There are a few miscellaneous tasks to do before making a new release:
 
-* Ensure the default network is correct in `app/src/main/index.js`:
+* Ensure the default network is correct in `app/config.toml`:
 
-```js
-// currently set to gaia-2, change if necessary
-let DEFAULT_NETWORK = join(__dirname, "../networks/gaia-2")
+```toml
+default_network = "gaia-5001"
 ```
 
 * Ensure the network params you wish to use are in a folder at `app/networks/<networkname>`. It requires the `genesis.json`, `config.toml`, and `gaiaversion.txt` files. You can get them from the testnets repo (https://github.com/tendermint/testnets).
@@ -77,19 +18,7 @@ let DEFAULT_NETWORK = join(__dirname, "../networks/gaia-2")
 
 ### Building the App
 
-```bash
-# macOS
-yarn build:darwin \
-  --binary=$GOPATH/src/github.com/cosmos/gaia/gaia-mac
-
-# linux (32-bit)
-yarn build:linux \
-  --binary=$GOPATH/src/github.com/cosmos/gaia/gaia-linux-32
-
-# windows (32-bit)
-yarn build:win32 \
-  --binary=$GOPATH/src/github.com/cosmos/gaia/gaia-windows-32.exe
-```
+Follow the instructions in `README.md`.
 
 ### Verifying Builds with the Team
 

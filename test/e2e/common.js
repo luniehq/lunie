@@ -81,6 +81,7 @@ module.exports = {
 
     await app.client.$("#sign-in-password").setValue("1234567890")
     await app.client.$(".ni-session-footer button").click()
+
     await app.client.waitForExist("#app-content", 5000)
 
     // checking if user is logged in
@@ -91,6 +92,7 @@ module.exports = {
     }
 
     console.log("logged in")
+
     await module.exports.closeMenu(app)
   },
   async logout(app) {

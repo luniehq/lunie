@@ -7,7 +7,6 @@ let { join } = require("path")
 let { spawn } = require("child_process")
 let fs = require("fs-extra")
 let { newTempDir, login } = require("./common.js")
-const shell = require(`shelljs`)
 
 const networkPath = join(__dirname, "localtestnet")
 
@@ -117,9 +116,15 @@ function launch(t) {
         "cream another bring skill effort narrow crumble ball trouble verify mother confirm recall rain armor abandon"
       )
       console.log("setup test accounts")
-      await startApp(app, ".ni-session-title=Sign In")
 
+      await startApp(app, ".ni-session-title=Sign In")
       t.ok(app.isRunning(), "app is running")
+
+      // disable the onboarding wizard
+      await app.client.localStorage("POST", {
+        key: "appOnboardingActive",
+        value: "false"
+      })
 
       resolve({ app, cliHome })
     })
@@ -166,7 +171,7 @@ async function startApp(app, awaitingSelector = ".ni-session") {
 }
 
 function startLocalNode() {
-  let configPath = join(nodeHome, "config")
+  const configPath = join(nodeHome, "config")
   fs.mkdirpSync(configPath)
   fs.copySync(networkPath, configPath)
 
@@ -174,20 +179,20 @@ function startLocalNode() {
     // TODO cleanup
     const command = `${nodeBinary} start --home ${nodeHome}`
     console.log(command)
-    let localnodeProcess = shell.exec(command, { async: true, silent: true })
+    const localnodeProcess = spawn(command, { shell: true })
     localnodeProcess.stderr.pipe(process.stderr)
 
     localnodeProcess.stdout.once("data", data => {
       let msg = data.toString()
+
       if (!msg.includes("Failed") && !msg.includes("Error")) {
         resolve()
+      } else {
+        reject()
       }
-      reject()
     })
 
-    localnodeProcess.once("exit", code => {
-      reject()
-    })
+    localnodeProcess.once("exit", reject)
   })
 }
 

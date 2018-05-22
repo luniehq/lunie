@@ -21,37 +21,19 @@
 
 ##### On Mac
 
+Install Yarn for JavaScript dependencies. This will also install Node.js if necessary.
+
 ```bash
-# install go, set $GOPATH
-brew install go
-
-# install glide for go dependencies
-brew install glide
-
-# install yarn for js dependencies
 brew install yarn
 ```
 
 ##### On Windows
 
-Install [Go](https://golang.org/dl/)
-
-Install [Glide](https://github.com/Masterminds/glide/releases)
-
 Install [Yarn](https://yarnpkg.com/lang/en/docs/install/#windows)
 
-#### Install Gaia
+#### Install Gaia Binaries (Cosmos SDK)
 
-`gaia` is a prepackaged version of Cosmos SDK and Tendermint. You will need `gaia` installed.
-
-```bash
-# install gaia
-go get github.com/cosmos/gaia
-cd $GOPATH/src/github.com/cosmos/gaia
-git checkout v0.5.0
-glide install
-make install
-```
+Install the Gaia-CLI (`gaiacli`) and the Gaia full node binary (`gaiad`) which are part of the Cosmos SDK by following [the instructions](https://cosmos-sdk.readthedocs.io/en/develop/sdk/install.html).
 
 #### Prepare Voyager
 
@@ -102,16 +84,16 @@ $ COSMOS_NODE=localhost yarn testnet
 
 ### Production
 
-Get the Gaia binary from [GitHub](`https://github.com/cosmos/gaia/releases`).
-
 Building requires that [Docker](https://www.docker.com/get-docker) is installed
 on your system.
 
-Execute the following command to see building options.
+Here's an example build command:
 
 ```shell
-yarn run build --help
+yarn run build --commit=HEAD --network=app/networks/gaia-5001 --platform=darwin --sdk-commit=35d0e34b2674ad9edf0f074167dd967219dbbe1b
 ```
+
+You can specify `--help` to see all options with explanations.
 
 Run the app.
 
@@ -130,6 +112,8 @@ To test if your build worked run:
 ```bash
 $ yarn test:exe {path to the build executable}
 ```
+
+To make an official release, follow the instructions in `docs/release.md`.
 
 ---
 

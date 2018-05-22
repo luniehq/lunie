@@ -11,6 +11,7 @@ module.exports = function(lcdPort, mocked = false) {
     lcdPort,
     // activate or deactivate the mocked lcdClient
     setup: mocked => {
+      console.log("Setting connector to state:", mocked ? "mocked" : "live")
       let newRestClient = mocked ? mockedRestClient : new RestClient(LCD_SERVER)
       let newRpcClient = mocked
         ? MockedRpcWrapper(connector)

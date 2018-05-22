@@ -164,6 +164,28 @@ describe("Startup Process", () => {
       expect(main.processes.lcdProcess).toBeDefined()
     })
 
+    it("should use a provided node-ip to connect to", async function() {
+      main.shutdown()
+      prepareMain()
+
+      Object.assign(process.env, {
+        COSMOS_NODE: "123.456.789.123"
+      })
+      // run main
+      main = await require(appRoot + "src/main/index.js")
+
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes("gaiacli") &&
+            args.includes("rest-server") &&
+            args.includes("123.456.789.123:46657")
+        )
+      ).toBeDefined()
+
+      delete process.env.COSMOS_NODE
+    })
+
     it("should persist the app_version", async function() {
       expect(fs.existsSync(testRoot + "app_version")).toBe(true)
       let appVersion = fs.readFileSync(testRoot + "app_version", "utf8")
@@ -171,23 +193,34 @@ describe("Startup Process", () => {
     })
   })
 
-  describe("Initialization in dev mode", function() {
-    beforeAll(async function() {
-      jest.resetModules()
-
-      Object.assign(process.env, {
-        NODE_ENV: "development",
-        LOGGING: "false"
-      })
+  describe("Start in mocked mode", function() {
+    beforeAll(() => {
+      jest.doMock(appRoot + "src/config.js", () => ({
+        mocked: true
+      }))
     })
-
     afterAll(() => {
-      Object.assign(process.env, { NODE_ENV: null })
+      jest.unmock(appRoot + "src/config.js")
     })
     mainSetup()
 
-    it("should create the config dir", async function() {
-      expect(fs.existsSync(testRoot)).toBe(true)
+    it("should not start the lcd server", async function() {
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) =>
+            path.includes("gaiacli") && args.includes("rest-server")
+        )
+      ).toBeUndefined()
+      expect(main.processes.lcdProcess).toBeUndefined()
+    })
+
+    xit("should not init the lcd server", async function() {
+      expect(
+        childProcess.spawn.mock.calls.find(
+          ([path, args]) => path.includes("gaiacli") && args.includes("init")
+        )
+      ).toBeDefined()
+      expect(main.processes.lcdProcess).toBeUndefined()
     })
   })
 
@@ -329,6 +362,7 @@ describe("Startup Process", () => {
       send = require("electron").send
 
       registerIPCListeners(registeredIPCListeners)
+
       // axios is used to ping nodes for the reconnection intent
       let axios = require("axios")
       axios.get = () => Promise.resolve()
@@ -356,6 +390,13 @@ describe("Startup Process", () => {
       expect(
         send.mock.calls.filter(([type, _]) => type === "connected").length
       ).toBe(2)
+    })
+
+    it("should reconnect on IPC call", async () => {
+      let killSpy = jest.spyOn(main.processes.lcdProcess, "kill")
+      await registeredIPCListeners["stop-lcd"]()
+
+      expect(killSpy).toHaveBeenCalled()
     })
 
     it("should not start reconnecting again if already trying to reconnect", async () => {
@@ -593,7 +634,8 @@ function childProcessMock(mockExtend = () => ({})) {
             pipe: () => {}
           },
           on: () => {},
-          kill: () => {}
+          kill: () => {},
+          removeAllListeners: () => {}
         },
         mockExtend(path, args)
       )
