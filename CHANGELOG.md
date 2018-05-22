@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 * Removed some defaults when building a release to reduce confusion.
+* Fixed a bug where errors that occurred while sending a transaction would prevent further sends from succeeding.
 
 ## [0.6.0]
 
