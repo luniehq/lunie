@@ -182,4 +182,10 @@ describe("Module: User", () => {
     store.dispatch("loadErrorCollection", "abc")
     expect(store.state.user.errorCollection).toBe(false)
   })
+
+  it("should reload accounts on reconnect as this could be triggered by a switch from a mocked connection", async () => {
+    store.state.user.accounts = []
+    await store.dispatch("reconnected")
+    expect(store.state.user.accounts.length).toBeGreaterThan(0)
+  })
 })
