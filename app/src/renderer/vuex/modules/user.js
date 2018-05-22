@@ -26,6 +26,10 @@ export default ({ commit, node }) => {
   }
 
   const actions = {
+    async reconnected({ dispatch }) {
+      // reload available accounts as the reconnect could be a result of a switch from a mocked connection with mocked accounts
+      await dispatch("loadAccounts")
+    },
     async showInitialScreen({ dispatch, commit }) {
       await dispatch("loadAccounts")
       let exists = state.accounts.length > 0

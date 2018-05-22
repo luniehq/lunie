@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 * Reconnection when coming back from mocked connection works again @faboweb
+* Fixed accounts not available after switching back from a mocked connection. @faboweb
 
 ## [0.6.0]
 
