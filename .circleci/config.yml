@@ -43,6 +43,7 @@ jobs:
             sudo chmod o+wx ~/repo/gaiad
 
       - run: 
+          name: Test
           command: yarn run test
-            timeout: 10
+          no_output_timeout: 10
       - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
