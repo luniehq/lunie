@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 * Removed some defaults when building a release to reduce confusion.
+* CircleCI no times out after 5 mins to free workers from bad runs. @faboweb
 
 ## [0.6.0]
 
