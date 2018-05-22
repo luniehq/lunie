@@ -70,7 +70,7 @@ test("wallet", async function(t) {
     let addressInput = () => $("#send-address")
     let amountInput = () => $("#send-amount")
     let denomBtn = denom => $(`option=${denom.toUpperCase()}`)
-
+    let balance = 9007199254740992
     t.test("fermion balance before sending", async function(t) {
       await app.client.waitForExist(
         `//span[contains(text(), "Send")]`,
@@ -79,7 +79,7 @@ test("wallet", async function(t) {
 
       let fermionEl = balanceEl("fermion")
       let balance = await fermionEl.getText()
-      t.equal(balance, "9007199254740992", "fermion balance is correct")
+      t.equal(balance, balance.toString(), "fermion balance is correct")
       t.end()
     })
 
@@ -121,7 +121,6 @@ test("wallet", async function(t) {
         "no error message"
       )
       await sendBtn().click()
-      console.log(await sendBtn().getText())
       t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
       t.end()
     })
@@ -169,7 +168,7 @@ test("wallet", async function(t) {
       await app.client.$(".material-icons=refresh").click()
 
       let mycoinEl = () => balanceEl("fermion")
-      await waitForText(mycoinEl, "9007199254740892", 10000)
+      await waitForText(mycoinEl, (balance - 100).toString(), 10000)
       t.pass("balance is reduced by 100")
       t.end()
     })
