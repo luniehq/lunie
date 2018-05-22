@@ -253,11 +253,17 @@ async function startLCD(home, nodeIP) {
 }
 
 function stopLCD() {
-  log("Stopping the LCD server")
-  // prevent the exit to signal bad termination warnings
-  lcdProcess.removeAllListeners("exit")
-  lcdProcess.kill("SIGKILL")
-  lcdProcess = null
+  return new Promise(resolve => {
+    if (!lcdProcess) {
+      resolve()
+    }
+    log("Stopping the LCD server")
+    // prevent the exit to signal bad termination warnings
+    lcdProcess.removeAllListeners("exit")
+    lcdProcess.on("exit", resolve)
+    lcdProcess.kill("SIGKILL")
+    lcdProcess = null
+  })
 }
 
 async function getGaiacliVersion() {
@@ -517,7 +523,7 @@ async function reconnect(seeds) {
     if (!nodeAlive) await sleep(2000)
   }
 
-  stopLCD()
+  await stopLCD()
 
   await connect(nodeIP)
 }
