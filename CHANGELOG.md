@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Removed some defaults when building a release to reduce confusion.
 
+### Fixed
+
+* Reconnection when coming back from mocked connection works again @faboweb
+
 ## [0.6.0]
 
 ### Added
