@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Removed some defaults when building a release to reduce confusion.
 * Fixed a bug where errors that occurred while sending a transaction would prevent further sends from succeeding.
 
+### Fixed
+
+* Fixed accounts not available after switching back from a mocked connection. @faboweb
+
 ## [0.6.0]
 
 ### Added
