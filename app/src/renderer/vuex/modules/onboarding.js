@@ -6,9 +6,12 @@ export default ({ commit }) => {
   const mutations = {
     loadOnboarding(state) {
       // localstorage saves bools and ints as strings, so we have to convert
-      state.active =
-        JSON.parse(localStorage.getItem("appOnboardingActive")) || true
-      state.state = JSON.parse(localStorage.getItem("appOnboardingState")) || 0
+      state.active = JSON.parse(
+        localStorage.getItem("appOnboardingActive") || "true"
+      )
+      state.state = JSON.parse(
+        localStorage.getItem("appOnboardingState") || "0"
+      )
     },
     setOnboardingState(state, value) {
       state.state = value

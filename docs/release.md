@@ -18,7 +18,7 @@ default_network = "gaia-5001"
 
 ### Building the App
 
-Follow the instructions in `README.md`. Specify the version of the Cosmos SDK to bundle with the `--sdk-commit` option.
+Follow the instructions in `README.md`.
 
 ### Verifying Builds with the Team
 
