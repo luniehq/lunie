@@ -7,10 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* Removed some defaults when building a release to reduce confusion.
+
+## [0.6.0]
+
 ### Added
 
 * Added a toggle to switch between a mocked blockchain connector and the live connector @faboweb
-* A check for updating the changelog @faboweb
+* A check for updating the changelog (also pre-push) @faboweb
 * Added automatic Prettier formatting on commits @faboweb
 * The build process now builds the Cosmos SDK from source code. @NodeGuy
 
@@ -18,11 +24,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Upgraded many dependencies. @NodeGuy
 * Upgraded to new SDK. @mappum
+* Improved design of light theme. @nylira
+* Improved design on Windows. @nylira
 * Disabled the changelog check on develop @faboweb
 
 ### Fixed
 
-* Windows build now compresses `zip` file.
+* Windows build now compresses `zip` file. @NodeGuy
+* Fixed block explorer @faboweb
+* An error showing after a reconnect @faboweb
+* Fixed onboarding window appearing everytime @faboweb
 
 ## [0.5.0]
 

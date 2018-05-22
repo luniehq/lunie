@@ -25,4 +25,18 @@ describe("Module: Onboarding", () => {
     store.commit("setOnboardingState", 0)
     expect(state.state).toBe(0)
   })
+
+  it("loads the onboarding active state from localStorage", () => {
+    store.commit("setOnboardingActive", false)
+    state.active = true
+    store.commit("loadOnboarding")
+    expect(state.active).toBe(false)
+  })
+
+  it("loads the onboarding state from localStorage", () => {
+    store.commit("setOnboardingState", 3)
+    state.state = 1
+    store.commit("loadOnboarding")
+    expect(state.state).toBe(3)
+  })
 })
