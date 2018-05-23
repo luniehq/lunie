@@ -7,9 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.6.1] - 2018-05-22
+
 ### Changed
 
-* Removed some defaults when building a release to reduce confusion.
+* Removed some defaults when building a release to reduce confusion. @NodeGuy
+* CircleCI no times out after 5 mins to free workers from bad runs. @faboweb
+* Fixed a bug where errors that occurred while sending a transaction would prevent further sends from succeeding. @mappum
+
+### Fixed
+
+* Reconnection when coming back from mocked connection works again @faboweb
+* Fixed accounts not available after switching back from a mocked connection. @faboweb
 
 ## [0.6.0]
 
