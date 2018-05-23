@@ -7,10 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.6.1] - 2018-05-22
+
+### Changed
+
+* Removed some defaults when building a release to reduce confusion.
+* Fixed a bug where errors that occurred while sending a transaction would prevent further sends from succeeding.
+
+### Fixed
+
+* Reconnection when coming back from mocked connection works again @faboweb
+* Fixed accounts not available after switching back from a mocked connection. @faboweb
+
+## [0.6.0]
+
 ### Added
 
 * Added a toggle to switch between a mocked blockchain connector and the live connector @faboweb
-* A check for updating the changelog @faboweb
+* A check for updating the changelog (also pre-push) @faboweb
 * Added automatic Prettier formatting on commits @faboweb
 * The build process now builds the Cosmos SDK from source code. @NodeGuy
 
@@ -18,12 +32,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Upgraded many dependencies. @NodeGuy
 * Upgraded to new SDK. @mappum
+* Improved design of light theme. @nylira
+* Improved design on Windows. @nylira
 * Disabled the changelog check on develop @faboweb
 * Back button in the block view will return to the blocks overview + back button in the send view will return to the balance view @faboweb
 
 ### Fixed
 
-* Windows build now compresses `zip` file.
+* Windows build now compresses `zip` file. @NodeGuy
+* Fixed block explorer @faboweb
+* An error showing after a reconnect @faboweb
+* Fixed onboarding window appearing everytime @faboweb
 
 ## [0.5.0]
 

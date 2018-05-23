@@ -87,11 +87,13 @@ $ COSMOS_NODE=localhost yarn testnet
 Building requires that [Docker](https://www.docker.com/get-docker) is installed
 on your system.
 
-Execute the following command to see building options.
+Here's an example build command:
 
 ```shell
-yarn run build --help
+yarn run build --commit=HEAD --network=app/networks/gaia-5001 --platform=darwin --sdk-commit=35d0e34b2674ad9edf0f074167dd967219dbbe1b
 ```
+
+You can specify `--help` to see all options with explanations.
 
 Run the app.
 

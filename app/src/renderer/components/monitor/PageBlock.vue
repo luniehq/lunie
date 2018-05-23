@@ -1,13 +1,17 @@
 <template lang="pug">
 page(:title="pageBlockTitle")
   data-loading(v-if="blockchain.blockLoading")
-  data-empty(v-else-if="!block.header")
+  data-empty(v-else-if="!block.header || !blockMeta")
   template(v-else)
     div(slot="menu"): tool-bar(backPath="/blocks")
       router-link(:to="{ name: 'block', params: { block: block.header.height - 1 }}"
+        :disabled="block.header.height === 0"
+        :event="block.header.height === 0 ? '' : 'click'"
         v-tooltip.bottom="'Older Block'")
         i.material-icons chevron_left
       router-link(:to="{ name: 'block', params: { block: block.header.height + 1 }}"
+        :disabled="!nextBlockAvailable"
+        :event="nextBlockAvailable ? 'click' : ''"
         v-tooltip.bottom="'Newer Block'")
         i.material-icons chevron_right
 
@@ -65,6 +69,11 @@ export default {
   },
   computed: {
     ...mapGetters(["blockchain"]),
+    blockchainHeight() {
+      return this.blockchain.blocks.length > 0
+        ? this.blockchain.blocks[0].header.height
+        : 0
+    },
     block() {
       return this.blockchain.block
     },
@@ -84,11 +93,16 @@ export default {
       } else {
         return "Loading..."
       }
+    },
+    nextBlockAvailable() {
+      return (
+        this.block.header && this.block.header.height < this.blockchainHeight
+      )
     }
   },
   methods: {
     fetchBlock() {
-      this.$store.dispatch("getBlock", this.$route.params.block)
+      this.$store.dispatch("getBlock", parseInt(this.$route.params.block))
     }
   },
   mounted() {

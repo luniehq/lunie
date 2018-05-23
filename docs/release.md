@@ -13,12 +13,13 @@ default_network = "gaia-5001"
 ```
 
 * Ensure the network params you wish to use are in a folder at `app/networks/<networkname>`. It requires the `genesis.json`, `config.toml`, and `gaiaversion.txt` files. You can get them from the testnets repo (https://github.com/tendermint/testnets).
-* Increment the version for this release in `package.json`.
+* Update `CHANGELOG.md`.
+* Increment the version number with `yarn version`.
 * Commit and PR the above changes if necessary.
 
 ### Building the App
 
-Follow the instructions in `README.md`. Specify the version of the Cosmos SDK to bundle with the `--sdk-commit` option.
+Follow the instructions in `README.md`.
 
 ### Verifying Builds with the Team
 

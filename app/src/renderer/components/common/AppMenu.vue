@@ -2,10 +2,10 @@
 menu.app-menu
   .app-menu-main
     list-item(to="/" exact @click.native="close" title="Wallet")
-    list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions")
+    list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions" v-if="config.devMode")
     list-item(to="/staking" exact @click.native="close" title="Staking" v-bind:class="{ 'active': isValidatorPage }" v-if="config.devMode")
     list-item(to="/proposals" exact @click.native="close" title="Proposals" v-if="config.devMode")
-    list-item(to="/blocks" exact @click.native="close" title="Blocks" v-if="config.devMode")
+    list-item(to="/blocks" exact @click.native="close" title="Blocks")
     connectivity
   user-pane
 </template>

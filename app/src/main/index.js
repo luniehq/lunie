@@ -96,9 +96,7 @@ function shutdown() {
   shuttingDown = true
 
   if (lcdProcess) {
-    log("killing lcd")
-    lcdProcess.kill("SIGKILL")
-    lcdProcess = null
+    stopLCD()
   }
 
   return Promise.all(
@@ -251,6 +249,20 @@ async function startLCD(home, nodeIP) {
         }
       })
     })
+  })
+}
+
+function stopLCD() {
+  return new Promise(resolve => {
+    if (!lcdProcess) {
+      resolve()
+    }
+    log("Stopping the LCD server")
+    // prevent the exit to signal bad termination warnings
+    lcdProcess.removeAllListeners("exit")
+    lcdProcess.on("exit", resolve)
+    lcdProcess.kill("SIGKILL")
+    lcdProcess = null
   })
 }
 
@@ -438,10 +450,7 @@ function handleIPC() {
       .install()
   })
   ipcMain.on("stop-lcd", event => {
-    log("Stopping the LCD server")
-    // prevent and exit to signal bad termination warnings
-    lcdProcess.removeAllListeners("exit")
-    lcdProcess.kill("SIGKILL")
+    stopLCD()
   })
 }
 
@@ -478,7 +487,7 @@ function pickNode(seeds) {
   return nodeIP
 }
 
-async function connect(seeds, nodeIP) {
+async function connect(nodeIP) {
   if (!MOCK) {
     log(`starting gaia rest server with nodeIP ${nodeIP}`)
     lcdProcess = await startLCD(lcdHome, nodeIP)
@@ -491,18 +500,17 @@ async function connect(seeds, nodeIP) {
   })
 
   connecting = false
-
-  // signal new node to view
-  return nodeIP
 }
 
 async function reconnect(seeds) {
   if (connecting) return
+  log("Starting reconnect")
   connecting = true
 
   let nodeAlive = false
+  let nodeIP
   while (!nodeAlive) {
-    let nodeIP = pickNode(seeds)
+    nodeIP = pickNode(seeds)
     nodeAlive = await axios
       .get("http://" + nodeIP, { timeout: 3000 })
       .then(() => true, () => false)
@@ -515,12 +523,9 @@ async function reconnect(seeds) {
     if (!nodeAlive) await sleep(2000)
   }
 
-  log("quitting running LCD")
-  lcdProcess.kill("SIGKILL")
+  await stopLCD()
 
-  await connect(seeds, nodeIP)
-
-  return nodeIP
+  await connect(nodeIP)
 }
 
 async function main() {
@@ -658,7 +663,7 @@ async function main() {
     }
   }
 
-  await connect(seeds, nodeIP)
+  await connect(nodeIP)
 }
 module.exports = main()
   .catch(err => {
