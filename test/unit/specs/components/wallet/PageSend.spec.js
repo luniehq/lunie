@@ -91,6 +91,60 @@ describe("PageSend", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it("should show address required error", async () => {
+    let { wrapper } = mount(PageSend)
+    wrapper.setData({
+      fields: {
+        denom: "mycoin",
+        address: "",
+        amount: 2,
+        zoneId: "cosmos-hub-1"
+      }
+    })
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+  it("should show address length error (short)", async () => {
+    let { wrapper } = mount(PageSend)
+    wrapper.setData({
+      fields: {
+        denom: "mycoin",
+        address: "asdf",
+        amount: 2,
+        zoneId: "cosmos-hub-1"
+      }
+    })
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it("should show address length error (long)", async () => {
+    let { wrapper } = mount(PageSend)
+    wrapper.setData({
+      fields: {
+        denom: "mycoin",
+        address: "asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf",
+        amount: 2,
+        zoneId: "cosmos-hub-1"
+      }
+    })
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+  it("should show address alphanumeric error", async () => {
+    let { wrapper } = mount(PageSend)
+    wrapper.setData({
+      fields: {
+        denom: "mycoin",
+        address: "!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$",
+        amount: 2,
+        zoneId: "cosmos-hub-1"
+      }
+    })
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
   it("should show notification for successful send", async () => {
     wrapper.setData({
       fields: {
