@@ -14,5 +14,5 @@ Thank you for your interest in contributing to Voyager. We've written up some gu
 
 * Please confirm that your pull request will pass our linting and unit tests.
 * Please make sure your code is properly tested, so that the code coverage is not decreasing.
-* Please write `closes #123` somwhere in the pull request. #123 is the issue number you are attempting to fix with this PR. This string will automatically close the issue when the PR is merged.
+* Please write `closes #123` somewhere in the pull request. #123 is the issue number you are attempting to fix with this PR. This string will automatically close the issue when the PR is merged.
 * If this PR produces a visible change, please provide screenshots showing these changes.
