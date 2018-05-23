@@ -488,11 +488,9 @@ function pickNode(seeds) {
 }
 
 async function connect(nodeIP) {
-  if (!MOCK) {
-    log(`starting gaia rest server with nodeIP ${nodeIP}`)
-    lcdProcess = await startLCD(lcdHome, nodeIP)
-    log("gaia rest server ready")
-  }
+  log(`starting gaia rest server with nodeIP ${nodeIP}`)
+  lcdProcess = await startLCD(lcdHome, nodeIP)
+  log("gaia rest server ready")
 
   afterBooted(() => {
     log("Signaling connected node")
@@ -665,6 +663,7 @@ async function main() {
   // to make switching between mocked and live mode easier, we still need to check the config folder and read files on app start
   if (MOCK) {
     // we still need to signal a connected event so view is waiting for to start
+    connecting = false
     afterBooted(() => {
       mainWindow.webContents.send("connected", "127.0.0.1")
     })
