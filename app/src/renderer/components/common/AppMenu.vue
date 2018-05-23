@@ -11,13 +11,13 @@ menu.app-menu
       exact
       @click.native="close"
       title="Transactions"
-      v-if="config.devMode || mockedConnector")
+      v-if="config.devMode || mocked")
     list-item(
       to="/staking"
       exact
       @click.native="close" title="Staking"
       v-bind:class="{ 'active': isValidatorPage }"
-      v-if="config.devMode || mockedConnector")
+      v-if="config.devMode || mocked")
     list-item(
       to="/proposals"
       exact @click.native="close"
@@ -51,7 +51,10 @@ export default {
     UserPane
   },
   computed: {
-    ...mapGetters(["proposals", "validators", "config", "mockedConnector"]),
+    ...mapGetters(["proposals", "validators", "config", "lastHeader"]),
+    mocked() {
+      return this.lastHeader.chain_id === "mock-chain"
+    },
     proposalAlerts() {
       return this.proposals.filter(p => p.flags.read === false).length
     },

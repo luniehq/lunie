@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.6.2] - 2018-05-23
+
 ### Fixed
-* Re-enable staking and transactions pages for mocked network. @nylira
-* Reveal the default password for mocked network. @nylira
+* Re-enabled staking and transactions pages for mocked network. @nylira
+* Revealed the password for the default account on the mocked network. @nylira
 
 ## [0.6.1] - 2018-05-22
 

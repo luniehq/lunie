@@ -20,7 +20,7 @@
         v-model="fields.signInPassword")
       form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
-      form-msg(body='default password is 1234567890' v-if='mockedConnector')
+      form-msg(v-if='mocked') default password is 1234567890
   .ni-session-footer
     btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
 </template>
@@ -51,7 +51,10 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters(["user", "mockedConnector"]),
+    ...mapGetters(["user", "mockedConnector", "lastHeader"]),
+    mocked() {
+      return this.lastHeader.chain_id === "mock-chain"
+    },
     accounts() {
       let accounts = this.user.accounts
       accounts = accounts.filter(({ name }) => name !== "trunk")
@@ -105,7 +108,7 @@ export default {
   },
   mounted() {
     this.setDefaultAccount(this.accounts)
-    if (this.mockedConnection) {
+    if (this.mocked) {
       this.fields.signInPassword = 1234567890
     }
   },
