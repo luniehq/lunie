@@ -385,6 +385,10 @@ describe("Startup Process", () => {
     })
 
     it("should reconnect on IPC call", async () => {
+      // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
+      main.processes.lcdProcess.on = (type, cb) => {
+        if (type === "exit") cb()
+      }
       await registeredIPCListeners["reconnect"]()
 
       expect(
@@ -400,6 +404,11 @@ describe("Startup Process", () => {
     })
 
     it("should not start reconnecting again if already trying to reconnect", async () => {
+      // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
+      main.processes.lcdProcess.on = (type, cb) => {
+        if (type === "exit") cb()
+      }
+
       let axios = require("axios")
       let spy = jest.spyOn(axios, "get")
       spy.mockImplementationOnce(async () => {
@@ -412,6 +421,11 @@ describe("Startup Process", () => {
     })
 
     it("should search through nodes until it finds one", async () => {
+      // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
+      main.processes.lcdProcess.on = (type, cb) => {
+        if (type === "exit") cb()
+      }
+
       let axios = require("axios")
       axios.get = jest
         .fn()
