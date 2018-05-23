@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* Simplify pull request and issue templates. @nylira
+* Add CONTRIBUTING.md with contributing tips.@nylira
+
 ## [0.6.1] - 2018-05-22
 
 ### Changed
