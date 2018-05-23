@@ -1,11 +1,33 @@
 <template lang="pug">
 menu.app-menu
   .app-menu-main
-    list-item(to="/" exact @click.native="close" title="Wallet")
-    list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions" v-if="config.devMode")
-    list-item(to="/staking" exact @click.native="close" title="Staking" v-bind:class="{ 'active': isValidatorPage }" v-if="config.devMode")
-    list-item(to="/proposals" exact @click.native="close" title="Proposals" v-if="config.devMode")
-    list-item(to="/blocks" exact @click.native="close" title="Blocks")
+    list-item(
+      to="/"
+      exact
+      @click.native="close"
+      title="Wallet")
+    list-item(
+      to="/wallet/transactions"
+      exact
+      @click.native="close"
+      title="Transactions"
+      v-if="config.devMode || mockedConnector")
+    list-item(
+      to="/staking"
+      exact
+      @click.native="close" title="Staking"
+      v-bind:class="{ 'active': isValidatorPage }"
+      v-if="config.devMode || mockedConnector")
+    list-item(
+      to="/proposals"
+      exact @click.native="close"
+      title="Proposals"
+      v-if="config.devMode")
+    list-item(
+      to="/blocks"
+      exact
+      @click.native="close"
+      title="Blocks")
     connectivity
   user-pane
 </template>
@@ -29,7 +51,7 @@ export default {
     UserPane
   },
   computed: {
-    ...mapGetters(["proposals", "validators", "config"]),
+    ...mapGetters(["proposals", "validators", "config", "mockedConnector"]),
     proposalAlerts() {
       return this.proposals.filter(p => p.flags.read === false).length
     },
