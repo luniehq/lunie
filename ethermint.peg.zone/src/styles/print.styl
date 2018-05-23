@@ -1,0 +1,54 @@
+x = 13px
+
+@media print
+  // fix a bug with Chrome where styles were messed up with transitions
+  *
+    -webkit-transition none !important
+    transition none !important
+
+  // set up the margins for the page (not supported by Safari) 
+  @page
+    size auto
+    margin 1in 1.5in
+
+  body
+    display block
+    background #fff
+    font-size x
+    font-family serif
+
+    margin 0 auto
+    max-width 43.75em
+
+  .app-header
+  .app-footer 
+  .locale-menu-container
+  .minimal-toc
+  .mobile-only
+    display none !important
+
+  .ni-article-body
+    padding 0
+    line-height 1.25
+
+    max-width initial
+    width initial
+
+    li
+      margin 0
+
+    ul ul, ul ol, ol ul, ol ol
+      padding-left 2rem
+      margin-top 0
+
+    p, ol, ul, blockquote, img, pre
+      margin-bottom 1em
+
+    pre
+      font-size 0.9*x
+
+    // fix code blocks and images breaking over pages
+    img, pre, table
+      page-break-before auto /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+      page-break-after auto /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+      page-break-inside avoid /* or 'auto' */

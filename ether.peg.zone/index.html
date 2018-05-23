@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Peggy Zone</title>
+<meta name=viewport content="width=device-width, user-scalable=no">
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<div id="app">
+  <div id="load">
+    <div id="load-container">
+      <div id="load-title">Peggy Zone</div>
+      <div id="load-main">
+        <p>website is loading&hellip;</p>
+        <p>disable noscript</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+body { margin: 0; }
+#load {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background: hsl(233, 36%, 13%);
+}
+#load-container {
+  font: 16px/1.5 system, -apple-system, BlinkMacSystemFont, "Roboto", "Seogue UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+  margin: 0 auto;
+  width: 18rem;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  box-sizing: border-box;
+}
+#load-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.25rem;
+  color: #fff;
+  margin-bottom: 1rem;
+  padding: 0 0.5rem;
+}
+
+#load-main p {
+  font-size: 1rem;
+  line-height: 2rem;
+  font-weight: 300;
+  padding: 0 0.5rem;
+  color: hsl(226, 13%, 50%);
+  background: hsl(233, 33%, 16%);
+  margin: 0 0 1px;
+}
+#load-main a {
+  text-decoration: none;
+  color: hsl(233, 96%, 70%);
+}
+</style>

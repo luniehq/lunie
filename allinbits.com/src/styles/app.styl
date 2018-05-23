@@ -1,0 +1,42 @@
+@import '../../node_modules/nib/index.styl'
+@import './print.styl' print
+
+@require './variables.styl'
+@require './vendor/*'
+
+global-reset()
+reset-html5()
+
+*
+  box-sizing border-box
+
+body
+  df()
+  background c-app-bg
+  padding-top 3rem
+  -webkit-text-size-adjust 100%
+
+a
+  color link
+  text-decoration none
+
+body, input, button, textarea
+  font-size x
+  line-height 1.5
+  font-family sans
+
+strong
+  font-weight 600
+
+em
+  font-style italic
+
+.ni-page-split-main
+.ni-article-body
+  background transparent !important
+
+@media screen and (min-width: 1024px)
+  .ni-page-split-header
+    border-right 1px solid bc
+  .mobile-only
+    display none

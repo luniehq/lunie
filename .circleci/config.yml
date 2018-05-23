@@ -1,49 +1,160 @@
+# template for node apps
+node_app: &node_app
+  docker:
+    - image: circleci/node:9.4.0-browsers
+  working_directory: ~/cosmos-ui
+
 # Javascript Node CircleCI 2.0 configuration file
-#
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
 jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:9.4.0-browsers
+  voyager:
+    <<: *node_app
     environment:
-      - BINARY_PATH: "/home/circleci/repo/gaia"
-      - NODE_BINARY_PATH: "/home/circleci/repo/gaiad"
-
-    working_directory: ~/repo
+      - BINARY_PATH: "/home/circleci/cosmos-ui/voyager/gaia"
+      - NODE_BINARY_PATH: "/home/circleci/cosmos-ui/voyager/gaiad"
 
     steps:
       - checkout
-      
-      - run: bash ./changelog-changed-check.sh
+
+      - run: cd voyager && bash ./changelog-changed-check.sh
 
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-root-{{ checksum "package.json" }}
+          - v1-dependencies-root-{{ checksum "voyager/package.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-root-
 
-      - run: yarn
+      - run: cd voyager && yarn
 
       - save_cache:
           paths:
-            - yarn.lock
-            - node_modules
-          key: v1-dependencies-root-{{ checksum "package.json" }}
- 
-      - run:
-          name: Add Gaia
-          command: |
-            sudo wget https://okw.me/gaiacli-0.17.0-ubuntu -O ~/repo/gaia
-            sudo chmod o+wx ~/repo/gaia
-            sudo wget https://okw.me/gaiad-0.17.0-ubuntu -O ~/repo/gaiad
-            sudo chmod o+wx ~/repo/gaiad
+            - voyager/yarn.lock
+            - voyager/node_modules
+          key: v1-dependencies-root-{{ checksum "voyager/package.json" }}
 
-      - run: 
+      - run:
+          name: Download Gaia
+          command: |
+            sudo wget https://okw.me/gaiacli-0.17.0-ubuntu -O ~/cosmos-ui/voyager/gaia
+            sudo chmod o+wx ~/cosmos-ui/voyager/gaia
+            sudo wget https://okw.me/gaiad-0.17.0-ubuntu -O ~/cosmos-ui/voyager/gaiad
+            sudo chmod o+wx ~/cosmos-ui/voyager/gaiad
+
+      - run:
           name: Test
-          command: yarn run test
+          command: cd voyager && yarn test
           no_output_timeout: 120
-      - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+
+      - run: cd voyager && bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+
+  explorer:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd explorer && yarn
+      - save_cache:
+          paths:
+            - explorer/yarn.lock
+            - explorer/node_modules
+          key: v1-dependencies-root-{{ checksum "explorer/package.json" }}
+      - run: cd explorer && yarn build
+
+  allinbits.com:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd allinbits.com && yarn
+      - save_cache:
+          paths:
+            - allinbits.com/yarn.lock
+            - allinbits.com/node_modules
+          key: v1-dependencies-root-{{ checksum "allinbits.com/package.json" }}
+      - run: cd allinbits.com && yarn build
+
+  cosmos.network:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd cosmos.network && yarn
+      - save_cache:
+          paths:
+            - cosmos.network/yarn.lock
+            - cosmos.network/node_modules
+          key: v1-dependencies-root-{{ checksum "cosmos.network/package.json" }}
+      - run: cd cosmos.network && yarn build
+
+  ether.peg.zone:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd ether.peg.zone && yarn
+      - save_cache:
+          paths:
+            - ether.peg.zone/yarn.lock
+            - ether.peg.zone/node_modules
+          key: v1-dependencies-root-{{ checksum "ether.peg.zone/package.json" }}
+      - run: cd ether.peg.zone && yarn build
+
+  ethermint.peg.zone:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd ethermint.peg.zone && yarn
+      - save_cache:
+          paths:
+            - ethermint.peg.zone/yarn.lock
+            - ethermint.peg.zone/node_modules
+          key: v1-dependencies-root-{{ checksum "ethermint.peg.zone/package.json" }}
+      - run: cd ethermint.peg.zone && yarn build
+
+  interchain.io:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd interchain.io && yarn
+      - save_cache:
+          paths:
+            - interchain.io/yarn.lock
+            - interchain.io/node_modules
+          key: v1-dependencies-root-{{ checksum "interchain.io/package.json" }}
+      - run: cd interchain.io && yarn build
+
+  tendermint.com:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd tendermint.com && yarn
+      - save_cache:
+          paths:
+            - tendermint.com/yarn.lock
+            - tendermint.com/node_modules
+          key: v1-dependencies-root-{{ checksum "tendermint.com/package.json" }}
+      - run: cd tendermint.com && yarn build
+
+  tendermint-vue:
+    <<: *node_app
+    steps:
+      - checkout
+      - run: cd tendermint-vue && yarn
+      - save_cache:
+          paths:
+            - tendermint-vue/yarn.lock
+            - tendermint-vue/node_modules
+          key: v1-dependencies-root-{{ checksum "tendermint-vue/package.json" }}
+      - run: cd tendermint-vue && yarn build
+
+workflows:
+  version: 2
+  build_all:
+    jobs:
+      - explorer
+      - voyager
+      - allinbits.com
+      - cosmos.network
+      - interchain.io
+      - tendermint.com
+      - tendermint-vue
+      - ether.peg.zone
+      - ethermint.peg.zone

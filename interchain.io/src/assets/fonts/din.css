@@ -1,0 +1,18 @@
+@font-face {
+  font-family: DIN;
+  src: url('din_bold.woff2') format('woff2'), url('din_bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: DIN;
+  src: url('din_light.woff2') format('woff2'), url('din_light.woff') format('woff');
+  font-weight: normal;
+  font-style: light;
+}
+@font-face {
+  font-family: DIN;
+  src: url('din.woff2') format('woff2'), url('din.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
