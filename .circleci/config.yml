@@ -42,5 +42,8 @@ jobs:
             sudo wget https://www.dropbox.com/s/2y0pklw9penzg87/gaiad-0.16.0-linux?dl=0 -O ~/repo/gaiad
             sudo chmod o+wx ~/repo/gaiad
 
-      - run: yarn run test
+      - run: 
+          name: Test
+          command: yarn run test
+          no_output_timeout: 120
       - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
