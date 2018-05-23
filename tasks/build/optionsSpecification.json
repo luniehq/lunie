@@ -1,7 +1,0 @@
-{
-  "commit": ["commit from which to build"],
-  "network": ["path to the default network to use"],
-  "platform": ["the target platform {darwin|linux|win32}"],
-  "sdk-commit": ["commit of the SDK to build"],
-  "skip-pack": ["skip the repackaging of the JS files", false]
-}
