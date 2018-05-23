@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Re-enabled staking and transactions pages for mocked network. @nylira
 * Revealed the password for the default account on the mocked network. @nylira
+* Fixed not being able to reconnect to a live network if started in mocked mode. @faboweb 
 
 ## [0.6.1] - 2018-05-22
 
