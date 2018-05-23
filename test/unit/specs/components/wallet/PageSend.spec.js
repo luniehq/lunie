@@ -4,6 +4,20 @@ import PageSend from "renderer/components/wallet/PageSend"
 
 describe("PageSend", () => {
   let wrapper, store, node
+  const name = "default"
+  const password = "1234567890"
+  const address = "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+
+  const coins = [
+    {
+      denom: "mycoin",
+      amount: 1000
+    },
+    {
+      denom: "fermion",
+      amount: 2300
+    }
+  ]
 
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
@@ -19,25 +33,16 @@ describe("PageSend", () => {
     node = test.node
     store.commit("setAccounts", [
       {
-        address: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-        name: "default",
-        password: "1234567890"
+        address,
+        name,
+        password
       }
     ])
     await store.dispatch("signIn", {
-      account: "default",
-      password: "1234567890"
+      account: name,
+      password
     })
-    store.commit("setWalletBalances", [
-      {
-        denom: "mycoin",
-        amount: 1000
-      },
-      {
-        denom: "fermion",
-        amount: 2300
-      }
-    ])
+    store.commit("setWalletBalances", coins)
     store.commit("setNonce", 1)
   })
 
@@ -57,13 +62,13 @@ describe("PageSend", () => {
         .findAll("option")
         .at(1)
         .text()
-    ).toBe("MYCOIN")
+    ).toBe(coins[0].denom.toUpperCase())
     expect(
       wrapper
         .findAll("option")
         .at(2)
         .text()
-    ).toBe("FERMION")
+    ).toBe(coins[1].denom.toUpperCase())
   })
 
   it("should populate the select options with networks", () => {
@@ -86,11 +91,65 @@ describe("PageSend", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it("should show address required error", async () => {
+    let { wrapper } = mount(PageSend)
+    wrapper.setData({
+      fields: {
+        denom: "mycoin",
+        address: "",
+        amount: 2,
+        zoneId: "cosmos-hub-1"
+      }
+    })
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+  it("should show address length error (short)", async () => {
+    let { wrapper } = mount(PageSend)
+    wrapper.setData({
+      fields: {
+        denom: "mycoin",
+        address: "asdf",
+        amount: 2,
+        zoneId: "cosmos-hub-1"
+      }
+    })
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it("should show address length error (long)", async () => {
+    let { wrapper } = mount(PageSend)
+    wrapper.setData({
+      fields: {
+        denom: "mycoin",
+        address: "asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf",
+        amount: 2,
+        zoneId: "cosmos-hub-1"
+      }
+    })
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+  it("should show address alphanumeric error", async () => {
+    let { wrapper } = mount(PageSend)
+    wrapper.setData({
+      fields: {
+        denom: "mycoin",
+        address: "!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$",
+        amount: 2,
+        zoneId: "cosmos-hub-1"
+      }
+    })
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
   it("should show notification for successful send", async () => {
     wrapper.setData({
       fields: {
         denom: "mycoin",
-        address: "CE456B8BA9AFD1CBDF4ED14558E8C30691E549EA",
+        address,
         amount: 2,
         zoneId: "cosmos-hub-1"
       }
@@ -104,7 +163,7 @@ describe("PageSend", () => {
     wrapper.setData({
       fields: {
         denom: "notmycoin",
-        address: "CE456B8BA9AFD1CBDF4ED14558E8C30691E549EA",
+        address,
         amount: 2,
         zoneId: "cosmos-hub-1"
       }

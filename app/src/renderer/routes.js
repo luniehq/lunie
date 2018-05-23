@@ -67,7 +67,7 @@ export default [
     component: wallet("Wallet")
   },
   {
-    path: "/wallet/send",
+    path: "/wallet/send/:denom?",
     name: "send",
     props: true,
     component: wallet("Send")
