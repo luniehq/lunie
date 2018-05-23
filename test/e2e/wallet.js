@@ -57,7 +57,8 @@ test("wallet", async function(t) {
   t.test("send", async function(t) {
     async function goToSendPage() {
       await navigate(app, "Wallet")
-      await $(".ni-li-dt=FERMION")
+      await $("#part-available-balances")
+        .$(".ni-li-dt=FERMION")
         .$("..")
         .$("..")
         .click()
@@ -69,7 +70,7 @@ test("wallet", async function(t) {
     let addressInput = () => $("#send-address")
     let amountInput = () => $("#send-amount")
     let denomBtn = denom => $(`option=${denom.toUpperCase()}`)
-
+    let balance = 9007199254740992
     t.test("fermion balance before sending", async function(t) {
       await app.client.waitForExist(
         `//span[contains(text(), "Send")]`,
@@ -78,7 +79,7 @@ test("wallet", async function(t) {
 
       let fermionEl = balanceEl("fermion")
       let balance = await fermionEl.getText()
-      t.equal(balance, "9007199254740992", "fermion balance is correct")
+      t.equal(balance, balance.toString(), "fermion balance is correct")
       t.end()
     })
 
@@ -89,27 +90,48 @@ test("wallet", async function(t) {
       t.end()
     })
 
-    // t.test("address w/ less than 40 chars", async function(t) {
-    //   await goToSendPage()
-    //   await addressInput().setValue("012345")
-    //   await sendBtn().click()
-    //   await $("div*=Address must be exactly 40 characters").waitForExist()
-    //   t.pass("got correct error message")
-    //   await sendBtn().click()
-    //   t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
-    //   t.end()
-    // })
+    t.test("address w/ less than or greater than 40 chars", async function(t) {
+      await goToSendPage()
+      await addressInput().setValue("012345")
+      await sendBtn().click()
+      await $("div*=Address must be exactly 40 characters").waitForExist()
+      t.pass("got correct error message")
+      await sendBtn().click()
+      t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
+
+      await addressInput().setValue("0".repeat(41))
+
+      await sendBtn().click()
+      await $("div*=Address must be exactly 40 characters").waitForExist()
+      t.pass("got correct error message")
+      await sendBtn().click()
+      t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
+
+      t.end()
+    })
 
     t.test("address w/ 40 chars", async function(t) {
       await goToSendPage()
       await addressInput().setValue("0".repeat(40))
-      // TODO reenable
-      // t.notOk(
-      //   await app.client.isExisting(
-      //     "div*=Address must be exactly 40 characters"
-      //   ),
-      //   "no error message"
-      // )
+
+      t.notOk(
+        await app.client.isExisting(
+          "div*=Address must be exactly 40 characters"
+        ),
+        "no error message"
+      )
+      await sendBtn().click()
+      t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
+      t.end()
+    })
+
+    t.test("address not alphaNum", async function(t) {
+      await goToSendPage()
+      await addressInput().setValue("~".repeat(40))
+
+      await $("div*=must contain only alphanumeric characters").waitForExist()
+      t.pass("got correct error message")
+
       await sendBtn().click()
       t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
       t.end()
@@ -146,7 +168,7 @@ test("wallet", async function(t) {
       await app.client.$(".material-icons=refresh").click()
 
       let mycoinEl = () => balanceEl("fermion")
-      await waitForText(mycoinEl, "9007199254740892", 10000)
+      await waitForText(mycoinEl, (balance - 100).toString(), 10000)
       t.pass("balance is reduced by 100")
       t.end()
     })
