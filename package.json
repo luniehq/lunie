@@ -30,7 +30,7 @@
     "test:exe": "node tasks/test-build.js",
     "test:coverage": "http-server test/unit/coverage/lcov-report",
     "precommit": "pretty-quick --staged",
-    "prepush": "bash ./changelog-changed-check.sh"
+    "prepush": "yarn lint && yarn test:unit && bash ./changelog-changed-check.sh"
   },
   "devDependencies": {
     "@nodeguy/cli": "0.2.1",
