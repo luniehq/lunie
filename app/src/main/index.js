@@ -545,125 +545,132 @@ async function main() {
   // handle ipc messages from the renderer process
   handleIPC()
 
-  if (!MOCK) {
-    let init = true
-    if (rootExists) {
-      log(`root exists (${root})`)
+  let init = true
+  if (rootExists) {
+    log(`root exists (${root})`)
 
-      // NOTE: when changing this code, always make sure the app can never
-      // overwrite/delete existing data without at least backing it up,
-      // since it may contain the user's private keys and they might not
-      // have written down their seed words.
-      // they might get pretty mad if the app deletes their money!
+    // NOTE: when changing this code, always make sure the app can never
+    // overwrite/delete existing data without at least backing it up,
+    // since it may contain the user's private keys and they might not
+    // have written down their seed words.
+    // they might get pretty mad if the app deletes their money!
 
-      // check if the existing data came from a compatible app version
-      // if not, fail with an error
-      if (
-        consistentConfigDir(
-          appVersionPath,
-          genesisPath,
-          configPath,
-          gaiacliVersionPath
-        )
-      ) {
-        let existingVersion = fs.readFileSync(appVersionPath, "utf8").trim()
-        let compatible = semver.diff(existingVersion, pkg.version) !== "major"
-        if (compatible) {
-          log("configs are compatible with current app version")
-          init = false
-        } else {
-          // TODO: versions of the app with different data formats will need to learn how to
-          // migrate old data
-          throw Error(`Data was created with an incompatible app version
-          data=${existingVersion} app=${pkg.version}`)
-        }
+    // check if the existing data came from a compatible app version
+    // if not, fail with an error
+    if (
+      consistentConfigDir(
+        appVersionPath,
+        genesisPath,
+        configPath,
+        gaiacliVersionPath
+      )
+    ) {
+      let existingVersion = fs.readFileSync(appVersionPath, "utf8").trim()
+      let compatible = semver.diff(existingVersion, pkg.version) !== "major"
+      if (compatible) {
+        log("configs are compatible with current app version")
+        init = false
       } else {
-        throw Error(`The data directory (${root}) has missing files`)
-      }
-
-      // check to make sure the genesis.json we want to use matches the one
-      // we already have. if it has changed, exit with an error
-      if (!init) {
-        let existingGenesis = fs.readFileSync(genesisPath, "utf8")
-        let genesisJSON = JSON.parse(existingGenesis)
-        // skip this check for local testnet
-        if (genesisJSON.chain_id !== "local") {
-          let specifiedGenesis = fs.readFileSync(
-            join(networkPath, "genesis.json"),
-            "utf8"
-          )
-          if (existingGenesis.trim() !== specifiedGenesis.trim()) {
-            throw Error("Genesis has changed")
-          }
-        }
-      }
-    }
-
-    if (init) {
-      log(`initializing data directory (${root})`)
-      await fs.ensureDir(root)
-
-      // copy predefined genesis.json and config.toml into root
-      fs.accessSync(networkPath) // crash if invalid path
-      fs.copySync(networkPath, root)
-
-      fs.writeFileSync(appVersionPath, pkg.version)
-    }
-
-    log("starting app")
-    log(`dev mode: ${DEV}`)
-    log(`winURL: ${winURL}`)
-
-    // XXX: currently ignores commit hash
-    let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
-    let expectedGaiaCliVersion = fs
-      .readFileSync(gaiacliVersionPath, "utf8")
-      .trim()
-      .split("-")[0]
-    log(
-      `gaiacli version: "${gaiacliVersion}", expected: "${expectedGaiaCliVersion}"`
-    )
-    // TODO: semver check, or exact match?
-    if (gaiacliVersion !== expectedGaiaCliVersion) {
-      throw Error(`Requires gaia ${expectedGaiaCliVersion}, but got ${gaiacliVersion}.
-      Please update your gaiacli installation or build with a newer binary.`)
-    }
-
-    // read chainId from genesis.json
-    let genesisText = fs.readFileSync(genesisPath, "utf8")
-    let genesis = JSON.parse(genesisText)
-    chainId = genesis.chain_id // is set globaly
-
-    // pick a random seed node from config.toml if not using COSMOS_NODE envvar
-    // TODO: user-specified nodes, support switching?
-    // TODO: get addresses from 'seeds' as well as 'persistent_peers'
-    // TODO: use address to prevent MITM if specified
-    if (!NODE) {
-      let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
-      let configTOML = toml.parse(configText)
-      seeds = configTOML.p2p.persistent_peers
-        .split(",")
-        .filter(x => x !== "")
-        .map(x => x.split("@")[1])
-      if (seeds.length === 0) {
-        throw new Error("No seeds specified in config.toml")
+        // TODO: versions of the app with different data formats will need to learn how to
+        // migrate old data
+        throw Error(`Data was created with an incompatible app version
+          data=${existingVersion} app=${pkg.version}`)
       }
     } else {
-      seeds = [NODE]
+      throw Error(`The data directory (${root}) has missing files`)
     }
 
-    // choose one random node to start from
-    nodeIP = pickNode(seeds)
-
-    let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))
-    log("LCD is" + (_lcdInitialized ? "" : " not") + " initialized")
-    if (init || !_lcdInitialized) {
-      log(`Trying to initialize lcd with remote node ${nodeIP}`)
-      // await initLCD(chainId, lcdHome, nodeIP)
+    // check to make sure the genesis.json we want to use matches the one
+    // we already have. if it has changed, exit with an error
+    if (!init) {
+      let existingGenesis = fs.readFileSync(genesisPath, "utf8")
+      let genesisJSON = JSON.parse(existingGenesis)
+      // skip this check for local testnet
+      if (genesisJSON.chain_id !== "local") {
+        let specifiedGenesis = fs.readFileSync(
+          join(networkPath, "genesis.json"),
+          "utf8"
+        )
+        if (existingGenesis.trim() !== specifiedGenesis.trim()) {
+          throw Error("Genesis has changed")
+        }
+      }
     }
   }
 
-  await connect(nodeIP)
+  if (init) {
+    log(`initializing data directory (${root})`)
+    await fs.ensureDir(root)
+
+    // copy predefined genesis.json and config.toml into root
+    fs.accessSync(networkPath) // crash if invalid path
+    fs.copySync(networkPath, root)
+
+    fs.writeFileSync(appVersionPath, pkg.version)
+  }
+
+  log("starting app")
+  log(`dev mode: ${DEV}`)
+  log(`winURL: ${winURL}`)
+
+  // XXX: currently ignores commit hash
+  let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
+  let expectedGaiaCliVersion = fs
+    .readFileSync(gaiacliVersionPath, "utf8")
+    .trim()
+    .split("-")[0]
+  log(
+    `gaiacli version: "${gaiacliVersion}", expected: "${expectedGaiaCliVersion}"`
+  )
+  // TODO: semver check, or exact match?
+  if (gaiacliVersion !== expectedGaiaCliVersion) {
+    throw Error(`Requires gaia ${expectedGaiaCliVersion}, but got ${gaiacliVersion}.
+      Please update your gaiacli installation or build with a newer binary.`)
+  }
+
+  // read chainId from genesis.json
+  let genesisText = fs.readFileSync(genesisPath, "utf8")
+  let genesis = JSON.parse(genesisText)
+  chainId = genesis.chain_id // is set globaly
+
+  // pick a random seed node from config.toml if not using COSMOS_NODE envvar
+  // TODO: user-specified nodes, support switching?
+  // TODO: get addresses from 'seeds' as well as 'persistent_peers'
+  // TODO: use address to prevent MITM if specified
+  if (!NODE) {
+    let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
+    let configTOML = toml.parse(configText)
+    seeds = configTOML.p2p.persistent_peers
+      .split(",")
+      .filter(x => x !== "")
+      .map(x => x.split("@")[1])
+    if (seeds.length === 0) {
+      throw new Error("No seeds specified in config.toml")
+    }
+  } else {
+    seeds = [NODE]
+  }
+
+  // choose one random node to start from
+  nodeIP = pickNode(seeds)
+
+  let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))
+  log("LCD is" + (_lcdInitialized ? "" : " not") + " initialized")
+  if (init || !_lcdInitialized) {
+    log(`Trying to initialize lcd with remote node ${nodeIP}`)
+    // await initLCD(chainId, lcdHome, nodeIP)
+  }
+
+  // if we start in mocked mode, we don't need to connect to a node right away
+  // to make switching between mocked and live mode easier, we still need to check the config folder and read files on app start
+  if (MOCK) {
+    // we still need to signal a connected event so view is waiting for to start
+    afterBooted(() => {
+      mainWindow.webContents.send("connected", "127.0.0.1")
+    })
+  } else {
+    await connect(nodeIP)
+  }
 }
 module.exports = main()
   .catch(err => {
