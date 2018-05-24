@@ -4,7 +4,6 @@ const childProcess = require(`child_process`)
 const { cli } = require(`@nodeguy/cli`)
 const { createHash } = require("crypto")
 const zip = require(`deterministic-zip`)
-const optionsSpecification = require(`./optionsSpecification.json`)
 const path = require("path")
 const packager = require("electron-packager")
 const fs = require("fs-extra")
@@ -14,6 +13,12 @@ var tar = require("tar-stream")
 var duplexer = require("duplexer")
 const packageJson = require("../../package.json")
 const util = require(`util`)
+
+const optionsSpecification = {
+  network: ["path to the default network to use"],
+  platform: ["the target platform {darwin|linux|win32}"],
+  "skip-pack": ["skip the repackaging of the JS files", false]
+}
 
 const rewriteConfig = ({ network }) => {
   const file = path.join(__dirname, `../../app`, `config.toml`)
@@ -42,8 +47,14 @@ const building = {
   packageManager: "yarn"
 }
 
+const platformSDKPaths = {
+  darwin: `bin/darwin_amd64`,
+  linux: `bin`,
+  win32: `bin/windows_amd64`
+}
+
 const copySDK = (buildPath, electronVersion, platform, arch, callback) => {
-  fs.copy(`/go/${platform}/bin`, `${buildPath}/bin`, callback)
+  fs.copy(`/go/${platformSDKPaths[platform]}`, `${buildPath}/bin`, callback)
 }
 
 /**
@@ -193,21 +204,15 @@ function deterministicTar() {
 
 cli(optionsSpecification, options => {
   const { network, platform, "skip-pack": skipPack } = options
+  console.log(`Building for platform "${platform}".`)
+  rewriteConfig(options)
+  fs.copySync(`/mnt/network`, `app/networks/${path.basename(network)}`)
 
-  if (platform === "clean") {
-    require("del").sync(["builds/*", "!.gitkeep"])
-    console.log("\x1b[33m`builds` directory cleaned.\n\x1b[0m")
+  if (skipPack) {
+    console.log("Skipping packaging")
   } else {
-    console.log(`Building for platform "${platform}".`)
-    rewriteConfig(options)
-    fs.copySync(`/mnt/network`, `app/networks/${path.basename(network)}`)
-
-    if (skipPack) {
-      console.log("Skipping packaging")
-    } else {
-      pack()
-    }
-
-    build(options)
+    pack()
   }
+
+  build(options)
 })
