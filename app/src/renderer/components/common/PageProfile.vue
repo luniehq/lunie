@@ -4,16 +4,12 @@ page(title="Preferences")
 
   part(title='Settings')
     list-item(type="field" title="Select network to connect to")
-      // .ni-field-checkbox: .ni-field-checkbox-input
-        input#toggle-mocked-connector(
-          type="checkbox"
-          :checked="mockedConnector"
-          @change="setMockedConnector")
       field#select-network(
         type="select"
         v-model="networkSelectActive"
         :options="networkSelectOptions"
-        placeholder="Select network...")
+        placeholder="Select network..."
+        @change="setMockedConnector")
     list-item(type="field" title="Select theme")
       field#select-theme(
         type="select"
@@ -83,8 +79,8 @@ export default {
         key: "Live Testnet"
       },
       {
-        value: "mocked",
-        key: "Mocked Network"
+        value: "mock",
+        key: "Mock Testnet"
       }
     ]
   }),
@@ -110,9 +106,17 @@ export default {
       this.$store.commit("setOnboardingState", 0)
       this.$store.commit("setOnboardingActive", true)
     },
-    // TODO: Fix Mocked Connector functionality
+    // TODO: Fix mocked connector functionality
     setMockedConnector() {
-      this.$store.dispatch("setMockedConnector", !this.mockedConnector)
+      console.log(this.networkSelectActive)
+      if (this.networkSelectActive === "live" && !this.mockedConnector) {
+        console.log("turning on mocked connector")
+        this.$store.dispatch("setMockedConnector", true)
+      }
+      if (this.networkSelectActive === "mock" && this.mockedConnector) {
+        console.log("turning off mocked connector")
+        this.$store.dispatch("setMockedConnector", false)
+      }
     }
   }
 }
