@@ -134,7 +134,7 @@ export default function({ node }) {
       state.approvalRequired = null
       ipcRenderer.send("hash-disapproved", hash)
     },
-    setMockedConnector({ state, dispatch, commit }, mocked) {
+    async setMockedConnector({ state, dispatch, commit }, mocked) {
       state.mocked = mocked
 
       // disable updates from the live node
@@ -152,7 +152,14 @@ export default function({ node }) {
 
         // the mocked node is automatically connected
         dispatch("reconnected")
+      } else {
+        // if we switch to a live connector, we need to wait for the process to have started up again so we can access the KMS
+        commit("setModalSession", "loading")
+        await new Promise(resolve => ipcRenderer.once("connected", resolve))
       }
+
+      // sign user out, as when switching from mocked to live node, the account address needs to be clarified again
+      dispatch("signOut")
     }
   }
 

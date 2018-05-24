@@ -84,7 +84,9 @@ function expectCleanExit(process, errorMessage = "Process exited unplanned") {
 function handleCrash(error) {
   afterBooted(() => {
     if (mainWindow) {
-      mainWindow.webContents.send("error", error)
+      mainWindow.webContents.send("error", {
+        message: error ? error.message : undefined
+      })
     }
   })
 }
@@ -607,10 +609,6 @@ async function main() {
     fs.writeFileSync(appVersionPath, pkg.version)
   }
 
-  log("starting app")
-  log(`dev mode: ${DEV}`)
-  log(`winURL: ${winURL}`)
-
   // XXX: currently ignores commit hash
   let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
   let expectedGaiaCliVersion = fs
@@ -620,8 +618,10 @@ async function main() {
   log(
     `gaiacli version: "${gaiacliVersion}", expected: "${expectedGaiaCliVersion}"`
   )
-  // TODO: semver check, or exact match?
-  if (gaiacliVersion !== expectedGaiaCliVersion) {
+  let compatible =
+    semver.major(gaiacliVersion) == semver.major(expectedGaiaCliVersion) &&
+    semver.minor(gaiacliVersion) == semver.minor(expectedGaiaCliVersion)
+  if (!compatible) {
     throw Error(`Requires gaia ${expectedGaiaCliVersion}, but got ${gaiacliVersion}.
       Please update your gaiacli installation or build with a newer binary.`)
   }
