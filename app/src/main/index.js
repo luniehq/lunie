@@ -84,7 +84,9 @@ function expectCleanExit(process, errorMessage = "Process exited unplanned") {
 function handleCrash(error) {
   afterBooted(() => {
     if (mainWindow) {
-      mainWindow.webContents.send("error", error)
+      mainWindow.webContents.send("error", {
+        message: error.message
+      })
     }
   })
 }

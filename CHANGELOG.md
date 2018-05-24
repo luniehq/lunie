@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Build process now builds for all three platforms at the same time. @NodeGuy
 * The binary is now accepted if it has the same minor version instead of the path version. @faboweb
 
+### Fixes
+
+* Error messages from main thread are now displayed correctly in the view @faboweb
+
 ## [0.6.1] - 2018-05-22
 
 ### Changed
