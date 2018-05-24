@@ -85,7 +85,7 @@ function handleCrash(error) {
   afterBooted(() => {
     if (mainWindow) {
       mainWindow.webContents.send("error", {
-        message: error.message
+        message: error ? error.message : undefined
       })
     }
   })
