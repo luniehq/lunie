@@ -90,7 +90,7 @@ on your system.
 Here's an example build command:
 
 ```shell
-yarn run build --commit=HEAD --network=app/networks/gaia-5001 --platform=darwin --sdk-commit=35d0e34b2674ad9edf0f074167dd967219dbbe1b
+yarn run build --commit=HEAD --network=app/networks/gaia-5001 --sdk-commit=35d0e34b2674ad9edf0f074167dd967219dbbe1b
 ```
 
 You can specify `--help` to see all options with explanations.
@@ -104,7 +104,7 @@ open builds/Cosmos-{platform}-x64/Cosmos.app
 When you are testing the build system you can skip the repackaging of the JS files.
 
 ```bash
-$ yarn run build --platform=darwin --skip-pack
+$ yarn run build --skip-pack
 ```
 
 To test if your build worked run:

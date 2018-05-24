@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Simplify pull request and issue templates. @nylira
 * Add CONTRIBUTING.md with contributing tips. @nylira
+* Build process now builds for all three platforms at the same time. @NodeGuy
 
 ## [0.6.1] - 2018-05-22
 
