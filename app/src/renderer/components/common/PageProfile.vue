@@ -19,7 +19,8 @@ page(title="Preferences")
         type="select"
         v-model="themes.active"
         :options="themeSelectOptions"
-        placeholder="Select theme...")
+        placeholder="Select theme..."
+        @change="setAppTheme")
     list-item(type="field" title="View tutorial for Voyager")
       btn#toggle-onboarding(
         @click.native="setOnboarding"
