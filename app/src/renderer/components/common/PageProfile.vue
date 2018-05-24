@@ -93,7 +93,6 @@ export default {
       this.$store.dispatch("signOut")
       this.$store.commit("notifySignOut")
     },
-    // TODO: Fix theme switching functionality
     setAppTheme() {
       if (this.themes.active === "dark") {
         this.$store.commit("setTheme", "light")
