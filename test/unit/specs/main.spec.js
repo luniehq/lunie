@@ -65,7 +65,7 @@ jest.mock("electron", () => {
 let stdoutMocks = (path, args) => ({
   on: (type, cb) => {
     if (args[0] === "version" && type === "data") {
-      cb({ toString: () => "0.13.0 797aec2" })
+      cb({ toString: () => "0.13.0" })
     }
     // mock gaiacli init approval request
     if (
@@ -110,6 +110,7 @@ childProcessMock((path, args) => ({
   stdout: stdoutMocks(path, args),
   stderr: stderrMocks(path, args)
 }))
+mockConfig()
 
 let main
 let root = "../../../"
@@ -200,7 +201,7 @@ describe("Startup Process", () => {
       }))
     })
     afterAll(() => {
-      jest.unmock(appRoot + "src/config.js")
+      mockConfig()
     })
     mainSetup()
 
@@ -689,4 +690,22 @@ function resetModulesKeepingFS() {
   // we want to keep Raven quiet
   const Raven = require("raven")
   Raven.disableConsoleAlerts()
+}
+
+function mockConfig() {
+  jest.mock("app/src/config.js", () => ({
+    name: "Cosmos Voyager",
+    wds_port: 9080,
+    lcd_port: 9070,
+    lcd_port_prod: 9071,
+    relay_port: 9060,
+    relay_port_prod: 9061,
+
+    default_network: "gaia-5001",
+    mocked: false,
+
+    google_analytics_uid: "UA-51029217-3",
+    sentry_dsn: "https://abc:def@sentry.io/288169",
+    sentry_dsn_public: "https://abc@sentry.io/288169"
+  }))
 }
