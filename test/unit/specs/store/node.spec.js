@@ -247,4 +247,12 @@ describe("Module: Node", () => {
 
     expect(spy).toHaveBeenCalledWith("stop-lcd")
   })
+
+  it("should log the user out if switched to live mode", () => {
+    store.dispatch("setMockedConnector", true)
+    store.dispatch("setMockedConnector", false)
+
+    expect(store.state.config.modals.session.state).toBe("loading")
+    expect(store.state.user.signedIn).toBe(false)
+  })
 })
