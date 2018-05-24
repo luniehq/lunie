@@ -1,42 +1,45 @@
 <template lang="pug">
-page(title="My Profile")
+page(title="Preferences")
   div(slot="menu"): tool-bar
 
-  part(title='My Profile')
-    list-item(dt="Account Name" :dd="user.account")
-    list-item(dt="Address" :dd="user.address")
-    list-item(dt="Remote error tracking")
-      div(slot="dd"): .ni-field-checkbox: .ni-field-checkbox-input
+  part(title='Settings')
+    list-item(type="field"
+      title="Automatically send usage statistics and crash reports"
+      subtitle="to the Voyager development team")
+      .ni-field-checkbox: .ni-field-checkbox-input
         input#toggle-error-reports(
           type="checkbox"
           :checked="user.errorCollection || undefined"
           @change="setErrorCollection")
-    list-item(dt="Light theme")
-      div(slot="dd"): .ni-field-checkbox: .ni-field-checkbox-input
+    list-item(type="field" title="Select theme")
+      // .ni-field-checkbox: .ni-field-checkbox-input
         input#toggle-light-theme(
           type="checkbox"
           :checked="themes.active === 'light'"
           @change="setAppTheme")
-    list-item(dt="Onboarding tutorial")
-      div(slot="dd"): .ni-field-checkbox: .ni-field-checkbox-input
-        input#toggle-onboarding(
-          type="checkbox"
-          :checked="onboarding.active"
-          @change="setOnboarding")
-    list-item(dt="Mock Connection")
-      div(slot="dd"): .ni-field-checkbox: .ni-field-checkbox-input
+      field#select-light-theme(
+        type="select"
+        v-model="themes.active"
+        :options="themes.options"
+        placeholder="Select theme...")
+    list-item(type="field" title="View tutorial for Voyager")
+      btn#toggle-onboarding(@change="setOnboarding" value="View")
+    list-item(type="field" title="Select full node to connect to")
+      .ni-field-checkbox: .ni-field-checkbox-input
         input#toggle-mocked-connector(
           type="checkbox"
           :checked="mockedConnector"
           @change="setMockedConnector")
 
-  .sign-out-container
-    btn(icon='exit_to_app' type='button' @click.native="signOut" value='Sign Out')
+  part(title='Account')
+    list-item(type="field" title="Switch Account")
+      btn(icon='exit_to_app' type='button' @click.native="signOut" value='Sign Out')
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import Btn from "@nylira/vue-button"
+import Field from "@nylira/vue-field"
 import ListItem from "common/NiListItem"
 import ToolBar from "common/NiToolBar"
 import Page from "common/NiPage"
@@ -45,6 +48,7 @@ export default {
   name: "page-profile",
   components: {
     Btn,
+    Field,
     ListItem,
     Page,
     Part,
