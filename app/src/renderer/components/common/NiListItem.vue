@@ -150,6 +150,9 @@ export default {
     .ni-li-icon
       i.material-icons
         color var(--mc)
+
+.ni-li-label
+.ni-li-dl
   .ni-btn
     position absolute
     top 0.5rem - px
@@ -203,12 +206,19 @@ export default {
     padding 0 1rem 0 0
 
 // type: field
+
 .ni-li-field .ni-li-container
   display flex
   .ni-li-label
     flex 2
   .ni-li-input
     flex 1
+    display flex
+    .ni-btn
+      flex 1
+    .ni-select
+      width 100%
+
 // type: dl definition list
 
 .ni-li-dl

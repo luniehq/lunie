@@ -3,6 +3,28 @@ page(title="Preferences")
   div(slot="menu"): tool-bar
 
   part(title='Settings')
+    list-item(type="field" title="Select network to connect to")
+      // .ni-field-checkbox: .ni-field-checkbox-input
+        input#toggle-mocked-connector(
+          type="checkbox"
+          :checked="mockedConnector"
+          @change="setMockedConnector")
+      field#select-network(
+        type="select"
+        v-model="networkSelectActive"
+        :options="networkSelectOptions"
+        placeholder="Select network...")
+    list-item(type="field" title="Select theme")
+      field#select-theme(
+        type="select"
+        v-model="themes.active"
+        :options="themeSelectOptions"
+        placeholder="Select theme...")
+    list-item(type="field" title="View tutorial for Voyager")
+      btn#toggle-onboarding(
+        @click.native="setOnboarding"
+        value="Launch Tutorial"
+        icon="open_in_new")
     list-item(type="field"
       title="Automatically send usage statistics and crash reports"
       subtitle="to the Voyager development team")
@@ -11,29 +33,14 @@ page(title="Preferences")
           type="checkbox"
           :checked="user.errorCollection || undefined"
           @change="setErrorCollection")
-    list-item(type="field" title="Select theme")
-      // .ni-field-checkbox: .ni-field-checkbox-input
-        input#toggle-light-theme(
-          type="checkbox"
-          :checked="themes.active === 'light'"
-          @change="setAppTheme")
-      field#select-light-theme(
-        type="select"
-        v-model="themes.active"
-        :options="themes.options"
-        placeholder="Select theme...")
-    list-item(type="field" title="View tutorial for Voyager")
-      btn#toggle-onboarding(@change="setOnboarding" value="View")
-    list-item(type="field" title="Select full node to connect to")
-      .ni-field-checkbox: .ni-field-checkbox-input
-        input#toggle-mocked-connector(
-          type="checkbox"
-          :checked="mockedConnector"
-          @change="setMockedConnector")
 
   part(title='Account')
-    list-item(type="field" title="Switch Account")
-      btn(icon='exit_to_app' type='button' @click.native="signOut" value='Sign Out')
+    list-item(type="field" title="Switch account")
+      btn(
+        icon='exit_to_app'
+        type='button'
+        @click.native="signOut"
+        value='Sign Out')
 </template>
 
 <script>
@@ -57,11 +64,35 @@ export default {
   computed: {
     ...mapGetters(["user", "themes", "onboarding", "mockedConnector"])
   },
+  data: () => ({
+    themeSelectOptions: [
+      {
+        value: "light",
+        key: "Light"
+      },
+      {
+        value: "dark",
+        key: "Dark"
+      }
+    ],
+    networkSelectActive: "live",
+    networkSelectOptions: [
+      {
+        value: "live",
+        key: "Live Testnet"
+      },
+      {
+        value: "mocked",
+        key: "Mocked Network"
+      }
+    ]
+  }),
   methods: {
     signOut() {
       this.$store.dispatch("signOut")
       this.$store.commit("notifySignOut")
     },
+    // TODO: Fix theme switching functionality
     setAppTheme() {
       if (this.themes.active === "dark") {
         this.$store.commit("setTheme", "light")
@@ -79,13 +110,10 @@ export default {
       this.$store.commit("setOnboardingState", 0)
       this.$store.commit("setOnboardingActive", true)
     },
+    // TODO: Fix Mocked Connector functionality
     setMockedConnector() {
       this.$store.dispatch("setMockedConnector", !this.mockedConnector)
     }
   }
 }
 </script>
-<style lang="stylus">
-.sign-out-container
-  padding 0 1rem
-</style>
