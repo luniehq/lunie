@@ -75,12 +75,20 @@ async function main() {
 
   console.log("--- Committing release changes ---")
   git()
+    .addConfig("user.name", "Voyager Bot")
+    .addConfig("user.email", "voyager_bot@tendermint.com")
+    .removeRemote("origin")
+    // needed to authenticate properly
+    .addRemote(
+      "origin",
+      `https://${process.env.GIT_BOT_TOKEN}@github.com/cosmos/voyager.git`
+    )
     .commit("Bumped version for release", [
       __dirname + "/../package.json",
       __dirname + "/../CHANGELOG.md"
     ])
     .tag([newVersion])
-  // .push()
+    .push()
 
   console.log("--- Publishing release ---")
 
@@ -106,7 +114,7 @@ async function main() {
         __dirname + `/../builds/Cosmos Voyager-linux-x64_${newVersion}.tar.gz`,
         __dirname + `/../builds/Cosmos Voyager-win32-x64_${newVersion}.zip`
       ],
-      target_commitish: "master"
+      target_commitish: "develop"
     },
     function(err, release) {
       console.log("--- Done releasing ---")
