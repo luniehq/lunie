@@ -29,6 +29,7 @@
     "test:e2e": "cross-env ANALYTICS=false yarn run pack && tape \"test/e2e/*.js\"",
     "test:exe": "node tasks/test-build.js",
     "test:coverage": "http-server test/unit/coverage/lcov-report",
+    "release": "node ./ci/release.js",
     "precommit": "pretty-quick --staged",
     "prepush": "yarn lint && yarn test:unit && bash ./ci/changelog-changed-check.sh"
   },
