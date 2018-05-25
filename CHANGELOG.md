@@ -7,19 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.6.2] - Fri, 25 May 2018 09:43:41 GMT
-
 ### Added
 
 * Added linting check and unit tests to the git prepush hook @faboweb
 * Added basic validation for wallet send @okwme
 * Added automatic releases @faboweb @NodeGuy
+* User will now be logged out if switching between mocked and live connector @faboweb
 
 ### Changed
 
 * Simplify pull request and issue templates. @nylira
 * Add CONTRIBUTING.md with contributing tips. @nylira
 * Build process now builds for all three platforms at the same time. @NodeGuy
+* The config.toml is now mocked to guarantee consistent unit tests @faboweb
+* The binary is now accepted if it has the same minor version instead of the path version. @faboweb
+
+### Fixes
+
+* Error messages from main thread are now displayed correctly in the view @faboweb
 
 ## [0.6.1] - 2018-05-22
 
