@@ -58,19 +58,21 @@ async function main() {
   console.log("SDK commit:", releaseConfig.SDK_COMMIT) // TODO put in config.toml?
 
   console.log("--- BUILDING ---")
-  execSync(
-    [
-      "yarn",
-      "build",
-      "--network=" +
-        path.join(__dirname, "../app/networks/" + config.default_network),
-      "--sdk-commit=" + releaseConfig.SDK_COMMIT,
-      "--commit=" + VoyagerCommit
-    ].join(" "),
-    {
-      stdio: [0, 1, 2]
-    }
-  )
+  if (!process.env.SKIP_BUILD) {
+    execSync(
+      [
+        "yarn",
+        "build",
+        "--network=" +
+          path.join(__dirname, "../app/networks/" + config.default_network),
+        "--sdk-commit=" + releaseConfig.SDK_COMMIT,
+        "--commit=" + VoyagerCommit
+      ].join(" "),
+      {
+        stdio: [0, 1, 2]
+      }
+    )
+  }
   console.log("--- DONE BUILDING ---")
 
   console.log("--- Committing release changes ---")
