@@ -28,6 +28,19 @@ function updateChangeLog(changeLog, newVersion, now) {
 const updatePackageJson = (packageJson, version) =>
   Object.assign({}, packageJson, { version })
 
+const pushCommit = (token, branch, tag) =>
+  git()
+    .addConfig("user.name", "Voyager Bot")
+    .addConfig("user.email", "voyager_bot@tendermint.com")
+    // needed to authenticate properly
+    .addRemote("bot", `https://${token}@github.com/cosmos/voyager.git`)
+    .commit("Bump version for release.", [
+      __dirname + "/../package.json",
+      __dirname + "/../CHANGELOG.md"
+    ])
+    .tag([tag])
+    .push("bot", branch)
+
 const publishRelease = (token, target_commitish, tag) =>
   util.promisify(release)({
     token,
@@ -109,21 +122,7 @@ async function main() {
   }
 
   console.log("--- Committing release changes ---")
-  git()
-    .addConfig("user.name", "Voyager Bot")
-    .addConfig("user.email", "voyager_bot@tendermint.com")
-    .removeRemote("origin")
-    // needed to authenticate properly
-    .addRemote(
-      "origin",
-      `https://${process.env.GIT_BOT_TOKEN}@github.com/cosmos/voyager.git`
-    )
-    .commit("Bumped version for release", [
-      __dirname + "/../package.json",
-      __dirname + "/../CHANGELOG.md"
-    ])
-    .tag([newVersion])
-    .push("origin", RELEASE_BRANCH)
+  pushCommit(process.env.GIT_BOT_TOKEN, RELEASE_BRANCH, newVersion)
 
   console.log("--- Publishing release ---")
   await publishRelease(process.env.GIT_BOT_TOKEN, RELEASE_BRANCH, newVersion)
