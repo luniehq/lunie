@@ -16,9 +16,9 @@
   version "4.4.3"
   resolved "https://registry.yarnpkg.com/@nylira/vue-button/-/vue-button-4.4.3.tgz#068252a7e39beff9e35589bc1071a8a94379e212"
 
-"@nylira/vue-field@1.4.0":
+"@nylira/vue-field@https://github.com/okwme/vue-field.git":
   version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-field/-/vue-field-1.4.0.tgz#660a8fea621005b1c393c6b20488f6c3d7f6c5e5"
+  resolved "https://github.com/okwme/vue-field.git#0eeb2494d443f606820196beb8ffe7e3b965c55e"
 
 "@nylira/vue-notifications@1.5.0":
   version "1.5.0"

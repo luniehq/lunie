@@ -9,7 +9,7 @@ page(title="Preferences")
         v-model="networkSelectActive"
         :options="networkSelectOptions"
         placeholder="Select network..."
-        @change="setMockedConnector")
+        @change.native="setMockedConnector")
     list-item(type="field" title="Select theme")
       field#select-theme(
         type="select"
@@ -25,12 +25,14 @@ page(title="Preferences")
     list-item(type="field"
       title="Automatically send usage statistics and crash reports"
       subtitle="to the Voyager development team")
-      .ni-field-checkbox: .ni-field-checkbox-input
-        input#toggle-error-reports(
-          type="checkbox"
-          :checked="user.errorCollection || undefined"
-          @change="setErrorCollection")
-
+      field(
+        type="toggle"
+        :options=`{
+          checked: "yes",
+          unchecked: "no"
+          }`
+        :value="user.errorCollection || undefined"
+        @change.native="setErrorCollection")
   part(title='Account')
     list-item(type="field" title="Switch account")
       btn(
@@ -106,15 +108,10 @@ export default {
       this.$store.commit("setOnboardingState", 0)
       this.$store.commit("setOnboardingActive", true)
     },
-    // TODO: Fix mocked connector functionality
     setMockedConnector() {
-      console.log(this.networkSelectActive)
-      if (this.networkSelectActive === "live" && !this.mockedConnector) {
-        console.log("turning on mocked connector")
+      if (this.networkSelectActive === "mock" && !this.mockedConnector) {
         this.$store.dispatch("setMockedConnector", true)
-      }
-      if (this.networkSelectActive === "mock" && this.mockedConnector) {
-        console.log("turning off mocked connector")
+      } else if (this.networkSelectActive === "live" && this.mockedConnector) {
         this.$store.dispatch("setMockedConnector", false)
       }
     }

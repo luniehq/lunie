@@ -19,10 +19,12 @@ describe("PageProfile", () => {
 
   it("has the expected html structure if connected", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-    expect(wrapper.vm.$el.outerHTML).toContain("default")
-    expect(wrapper.vm.$el.outerHTML).toContain(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-    )
+    expect(wrapper.vm.$el.outerHTML).toContain("Select network")
+    expect(wrapper.vm.$el.outerHTML).toContain("Select theme")
+    expect(wrapper.vm.$el.outerHTML).toContain("View tutorial")
+    expect(wrapper.vm.$el.outerHTML).toContain("Automatically send")
+    expect(wrapper.vm.$el.outerHTML).toContain("Switch account")
+    expect(wrapper.vm.$el.outerHTML).toContain("Sign Out")
   })
 
   it("should sign the user out", async () => {
@@ -42,11 +44,11 @@ describe("PageProfile", () => {
   })
 
   it("can switch the theme", () => {
-    wrapper.find("#toggle-light-theme").trigger("click")
+    wrapper.vm.setAppTheme()
     expect(store.commit).toHaveBeenCalledWith("setTheme", "light")
     expect(store.state.themes.active).toBe("light")
-    store.commit.mockClear()
-    wrapper.find("#toggle-light-theme").trigger("click")
+    // store.commit.mockClear()
+    wrapper.vm.setAppTheme()
     expect(store.commit).toHaveBeenCalledWith("setTheme", "dark")
     expect(store.state.themes.active).toBe("dark")
   })
@@ -60,7 +62,8 @@ describe("PageProfile", () => {
   })
 
   it("switches mocked mode", () => {
-    wrapper.find("#toggle-mocked-connector").trigger("click")
+    wrapper.vm.networkSelectActive = "mock"
+    wrapper.vm.setMockedConnector()
     expect(store.dispatch).toHaveBeenCalledWith("setMockedConnector", true)
   })
 })

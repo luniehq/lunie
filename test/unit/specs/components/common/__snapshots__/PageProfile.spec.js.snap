@@ -17,7 +17,7 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
           class="ni-page-header-title"
         >
           <h2>
-            My Profile
+            Preferences
           </h2>
         </div>
         <div
@@ -94,7 +94,7 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
             <div
               class="ni-part-title h5"
             >
-              My Profile
+              Settings
             </div>
             <menu
               class="ni-part-menu"
@@ -105,7 +105,7 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
           class="ni-part-main"
         >
           <div
-            class="ni-li"
+            class="ni-li ni-li-field"
           >
             <div
               class="ni-li-container"
@@ -116,90 +116,63 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
                 <!---->
               </div>
               <div
-                class="ni-li-dl"
+                class="ni-li-label"
               >
                 <div
-                  class="ni-li-dt"
+                  class="ni-li-title"
                 >
-                  Account Name
+                  Select network to connect to
                 </div>
                 <div
-                  class="ni-li-dd"
+                  class="ni-li-subtitle"
                 >
-                  default
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
-              <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
-              >
-                <div
-                  class="ni-li-dt"
-                >
-                  Address
-                </div>
-                <div
-                  class="ni-li-dd"
-                >
-                  DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B
+                  
                 </div>
               </div>
-            </div>
-          </div>
-          <div
-            class="ni-li"
-          >
-            <div
-              class="ni-li-container"
-            >
               <div
-                class="ni-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="ni-li-dl"
+                class="ni-li-input"
               >
                 <div
-                  class="ni-li-dt"
+                  class="ni-select"
+                  id="select-network"
                 >
-                  Remote error tracking
-                </div>
-                <div
-                  class="ni-li-dd ni-li-dd-flush"
-                >
-                  <div>
-                    <div
-                      class="ni-field-checkbox"
+                  <select
+                    class="ni-field ni-field-select"
+                  >
+                    <option
+                      disabled="disabled"
+                      hidden="hidden"
+                      selected="selected"
+                      value=""
                     >
-                      <div
-                        class="ni-field-checkbox-input"
-                      >
-                        <input
-                          id="toggle-error-reports"
-                          type="checkbox"
-                        />
-                      </div>
-                    </div>
+                      Select network...
+                    </option>
+                    <option
+                      value="live"
+                    >
+                      Live Testnet
+                    </option>
+                    <option
+                      value="mock"
+                    >
+                      Mock Testnet
+                    </option>
+                  </select>
+                  <div
+                    class="ni-field-select-addon"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_drop_down
+                    </i>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div
-            class="ni-li"
+            class="ni-li ni-li-field"
           >
             <div
               class="ni-li-container"
@@ -210,36 +183,63 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
                 <!---->
               </div>
               <div
-                class="ni-li-dl"
+                class="ni-li-label"
               >
                 <div
-                  class="ni-li-dt"
+                  class="ni-li-title"
                 >
-                  Light theme
+                  Select theme
                 </div>
                 <div
-                  class="ni-li-dd ni-li-dd-flush"
+                  class="ni-li-subtitle"
                 >
-                  <div>
-                    <div
-                      class="ni-field-checkbox"
+                  
+                </div>
+              </div>
+              <div
+                class="ni-li-input"
+              >
+                <div
+                  class="ni-select"
+                  id="select-theme"
+                >
+                  <select
+                    class="ni-field ni-field-select"
+                  >
+                    <option
+                      disabled="disabled"
+                      hidden="hidden"
+                      selected="selected"
+                      value=""
                     >
-                      <div
-                        class="ni-field-checkbox-input"
-                      >
-                        <input
-                          id="toggle-light-theme"
-                          type="checkbox"
-                        />
-                      </div>
-                    </div>
+                      Select theme...
+                    </option>
+                    <option
+                      value="light"
+                    >
+                      Light
+                    </option>
+                    <option
+                      value="dark"
+                    >
+                      Dark
+                    </option>
+                  </select>
+                  <div
+                    class="ni-field-select-addon"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_drop_down
+                    </i>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div
-            class="ni-li"
+            class="ni-li ni-li-field"
           >
             <div
               class="ni-li-container"
@@ -250,36 +250,48 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
                 <!---->
               </div>
               <div
-                class="ni-li-dl"
+                class="ni-li-label"
               >
                 <div
-                  class="ni-li-dt"
+                  class="ni-li-title"
                 >
-                  Onboarding tutorial
+                  View tutorial for Voyager
                 </div>
                 <div
-                  class="ni-li-dd ni-li-dd-flush"
+                  class="ni-li-subtitle"
                 >
-                  <div>
-                    <div
-                      class="ni-field-checkbox"
-                    >
-                      <div
-                        class="ni-field-checkbox-input"
-                      >
-                        <input
-                          id="toggle-onboarding"
-                          type="checkbox"
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  
                 </div>
+              </div>
+              <div
+                class="ni-li-input"
+              >
+                <button
+                  class="ni-btn"
+                  id="toggle-onboarding"
+                >
+                  <span
+                    class="ni-btn__container"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="ni-btn__icon material-icons"
+                    >
+                      open_in_new
+                    </i>
+                    <!---->
+                    <span
+                      class="ni-btn__value"
+                    >
+                      Launch Tutorial
+                    </span>
+                  </span>
+                </button>
               </div>
             </div>
           </div>
           <div
-            class="ni-li"
+            class="ni-li ni-li-field"
           >
             <div
               class="ni-li-container"
@@ -290,62 +302,139 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
                 <!---->
               </div>
               <div
-                class="ni-li-dl"
+                class="ni-li-label"
               >
                 <div
-                  class="ni-li-dt"
+                  class="ni-li-title"
                 >
-                  Mock Connection
+                  Automatically send usage statistics and crash reports
                 </div>
                 <div
-                  class="ni-li-dd ni-li-dd-flush"
+                  class="ni-li-subtitle"
                 >
-                  <div>
+                  to the Voyager development team
+                </div>
+              </div>
+              <div
+                class="ni-li-input"
+              >
+                <label
+                  class="ni-toggle unchecked"
+                >
+                  <div
+                    class="ni-toggle-wrapper"
+                  >
+                    <span>
+                      yes
+                    </span>
                     <div
-                      class="ni-field-checkbox"
+                      class="toggle-option-checked"
                     >
-                      <div
-                        class="ni-field-checkbox-input"
-                      >
-                        <input
-                          id="toggle-mocked-connector"
-                          type="checkbox"
-                        />
+                      <div>
+                        yes
                       </div>
                     </div>
+                    <div
+                      class="toggle-option-unchecked"
+                    >
+                      <div>
+                        no
+                      </div>
+                    </div>
+                    <div
+                      class="toggle-handle"
+                    />
+                    <input
+                      type="checkbox"
+                    />
                   </div>
-                </div>
+                </label>
               </div>
             </div>
           </div>
         </main>
       </div>
     </section>
-    <div
-      class="sign-out-container"
+    <section
+      class="ni-part"
     >
-      <button
-        class="ni-btn"
-        type="button"
+      <div
+        class="ni-part-container"
       >
-        <span
-          class="ni-btn__container"
+        <header
+          class="ni-part-header"
         >
-          <i
-            aria-hidden="true"
-            class="ni-btn__icon material-icons"
+          <div
+            class="ni-part-header-container"
           >
-            exit_to_app
-          </i>
-          <!---->
-          <span
-            class="ni-btn__value"
+            <div
+              class="ni-part-title h5"
+            >
+              Account
+            </div>
+            <menu
+              class="ni-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="ni-part-main"
+        >
+          <div
+            class="ni-li ni-li-field"
           >
-            Sign Out
-          </span>
-        </span>
-      </button>
-    </div>
+            <div
+              class="ni-li-container"
+            >
+              <div
+                class="ni-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="ni-li-label"
+              >
+                <div
+                  class="ni-li-title"
+                >
+                  Switch account
+                </div>
+                <div
+                  class="ni-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="ni-li-input"
+              >
+                <button
+                  class="ni-btn"
+                  type="button"
+                >
+                  <span
+                    class="ni-btn__container"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="ni-btn__icon material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                    <!---->
+                    <span
+                      class="ni-btn__value"
+                    >
+                      Sign Out
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
