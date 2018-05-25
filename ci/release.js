@@ -94,6 +94,9 @@ async function main() {
     "utf8"
   )
 
+  console.log("--- Committing release changes ---")
+  pushCommit(process.env.GIT_BOT_TOKEN, RELEASE_BRANCH, newVersion)
+
   const VoyagerCommit = execSync("git rev-parse --short=6 HEAD")
     .toString()
     .trim()
@@ -120,9 +123,6 @@ async function main() {
   } else {
     console.log("--- SKIPPED BUILDING ---")
   }
-
-  console.log("--- Committing release changes ---")
-  pushCommit(process.env.GIT_BOT_TOKEN, RELEASE_BRANCH, newVersion)
 
   console.log("--- Publishing release ---")
   await publishRelease(process.env.GIT_BOT_TOKEN, RELEASE_BRANCH, newVersion)
