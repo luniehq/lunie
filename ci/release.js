@@ -7,40 +7,30 @@ const release = require("publish-release")
 
 const RELEASE_BRANCH = "develop"
 
-function updateVersion(newVersion) {
-  const packageJson = require(__dirname + "/../package.json")
-  packageJson.version = newVersion
-  fs.writeFileSync(
-    __dirname + "/../package.json",
-    JSON.stringify(packageJson, null, 2),
-    "utf8"
-  )
-}
-
 function bumpVersion(versionString) {
   let versionElements = versionString.split(".")
   versionElements[2] = parseInt(versionElements[2]) + 1
   return versionElements.join(".")
 }
 
-function getVersion() {
-  const packageJson = require(__dirname + "/../package.json")
-  return packageJson.version
+function updateChangeLog(changeLog, newVersion, now) {
+  const today = now.toISOString().slice(0, 10)
+
+  return changeLog.replace(
+    "## [Unreleased]",
+    `## [Unreleased]\n\n## [${newVersion}] - ${today}`
+  )
 }
 
-function updateChangelog(newVersion) {
-  let changelog = fs.readFileSync(__dirname + "/../CHANGELOG.md", "utf8")
-  changelog = changelog.replace(
-    "## [Unreleased]",
-    `## [Unreleased]\n\n## [${newVersion}] - ${new Date().toUTCString()}`
-  )
-  fs.writeFileSync(__dirname + "/../CHANGELOG.md", changelog, "utf8")
-}
+const updatePackageJson = (packageJson, version) =>
+  Object.assign({}, packageJson, { version })
 
 async function main() {
   console.log("Releasing Voyager...")
 
-  const oldVersion = getVersion()
+  const changeLog = fs.readFileSync(__dirname + "/../CHANGELOG.md", "utf8")
+  const packageJson = require(__dirname + "/../package.json")
+  const oldVersion = packageJson.version
   const newVersion = bumpVersion(oldVersion)
   const releaseConfig = require(__dirname + "/../release.config.json")
   const config = toml.parse(
@@ -49,8 +39,16 @@ async function main() {
 
   console.log("New version:", newVersion)
 
-  updateVersion(newVersion)
-  updateChangelog(newVersion)
+  const newChangeLog = updateChangeLog(changeLog, newVersion, new Date())
+  const newPackageJson = updatePackageJson(packageJson, newVersion)
+
+  fs.writeFileSync(__dirname + "/../CHANGELOG.md", newChangeLog, "utf8")
+
+  fs.writeFileSync(
+    __dirname + "/../package.json",
+    JSON.stringify(newPackageJson, null, 2),
+    "utf8"
+  )
 
   const VoyagerCommit = execSync("git rev-parse --short=6 HEAD")
     .toString()
@@ -138,4 +136,12 @@ async function main() {
   )
 }
 
-main().then(null, console.error)
+if (require.main === module) {
+  main().then(null, console.error)
+} else {
+  module.exports = {
+    bumpVersion,
+    updateChangeLog,
+    updatePackageJson
+  }
+}
