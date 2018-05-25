@@ -71,7 +71,8 @@ function launch(t) {
           PREVIEW: "true",
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
           COSMOS_HOME: cliHome,
-          COSMOS_NETWORK: networkPath
+          COSMOS_NETWORK: networkPath,
+          COSMOS_MOCKED: false // the e2e tests expect mocking to be switched off
         }
       })
 
