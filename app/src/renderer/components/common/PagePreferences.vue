@@ -51,7 +51,7 @@ import ToolBar from "common/NiToolBar"
 import Page from "common/NiPage"
 import Part from "common/NiPart"
 export default {
-  name: "page-profile",
+  name: "page-preferences",
   components: {
     Btn,
     Field,

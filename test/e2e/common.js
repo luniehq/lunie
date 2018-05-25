@@ -77,7 +77,7 @@ module.exports = {
     let accountsSelect = "#sign-in-name select"
 
     await app.client.waitForExist(accountsSelect, 5000)
-    await selectOption(app, accountsSelect, account)
+    await module.exports.selectOption(app, accountsSelect, account)
 
     await app.client.$("#sign-in-password").setValue("1234567890")
     await app.client.$(".ni-session-footer button").click()
@@ -108,10 +108,9 @@ module.exports = {
       .$(".material-icons=exit_to_app")
       .$("..")
       .click()
+  },
+  async selectOption(app, selectSelector, text) {
+    await app.client.$(selectSelector).click()
+    await app.client.keys(text.split())
   }
-}
-
-async function selectOption(app, selectSelector, text) {
-  await app.client.$(selectSelector).click()
-  await app.client.keys(text.split())
 }

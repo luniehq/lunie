@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageProfile has the expected html structure if connected 1`] = `
+exports[`PagePreferences has the expected html structure if connected 1`] = `
 <div
   class="ni-page"
 >
@@ -457,4 +457,4 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
     </div>
   </main>
 </div>
-`;
+`

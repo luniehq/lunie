@@ -1,13 +1,13 @@
 import setup from "../../../helpers/vuex-setup"
-import PageProfile from "renderer/components/common/PageProfile"
+import PagePreferences from "renderer/components/common/PagePreferences"
 jest.mock("renderer/google-analytics.js", () => uid => {})
 
-describe("PageProfile", () => {
+describe("PagePreferences", () => {
   let wrapper, store
   let instance = setup()
 
   beforeEach(async () => {
-    let test = instance.mount(PageProfile)
+    let test = instance.mount(PagePreferences)
     wrapper = test.wrapper
     store = test.store
 

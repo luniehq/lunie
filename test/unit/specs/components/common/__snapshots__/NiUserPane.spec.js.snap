@@ -3,7 +3,7 @@
 exports[`NiUserPane has the expected html structure 1`] = `
 <a
   class="ni-li ni-li-link ni-li-user proposal-enter proposal-enter-active"
-  href="#/profile"
+  href="#/preferences"
 >
   <div
     class="ni-li-container"
@@ -47,4 +47,4 @@ exports[`NiUserPane has the expected html structure 1`] = `
     </div>
   </div>
 </a>
-`;
+`
