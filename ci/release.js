@@ -5,6 +5,8 @@ const { execSync } = require("child_process")
 const git = require("simple-git")
 const release = require("publish-release")
 
+const RELEASE_BRANCH = "develop"
+
 function updateVersion(newVersion) {
   const packageJson = require(__dirname + "/../package.json")
   packageJson.version = newVersion
@@ -90,7 +92,7 @@ async function main() {
       __dirname + "/../CHANGELOG.md"
     ])
     .tag([newVersion])
-    .push()
+    .push("origin", RELEASE_BRANCH)
 
   console.log("--- Publishing release ---")
 
@@ -112,11 +114,20 @@ async function main() {
       prerelease: true,
       skipAssetsCheck: false,
       assets: [
-        __dirname + `/../builds/Cosmos Voyager-darwin-x64_${newVersion}.tar.gz`,
-        __dirname + `/../builds/Cosmos Voyager-linux-x64_${newVersion}.tar.gz`,
-        __dirname + `/../builds/Cosmos Voyager-win32-x64_${newVersion}.zip`
+        path.join(
+          __dirname,
+          `../builds/Cosmos Voyager-darwin-x64_${newVersion}.tar.gz`
+        ),
+        path.join(
+          __dirname,
+          `../builds/Cosmos Voyager-linux-x64_${newVersion}.tar.gz`
+        ),
+        path.join(
+          __dirname,
+          `../builds/Cosmos Voyager-win32-x64_${newVersion}.zip`
+        )
       ],
-      target_commitish: "develop"
+      target_commitish: RELEASE_BRANCH
     },
     function(err, release) {
       console.log("--- Done releasing ---")
