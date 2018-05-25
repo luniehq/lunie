@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Added linting check and unit tests to the git prepush hook @faboweb
 * Added basic validation for wallet send @okwme
+* Added COSMOS_MOCKED env variable to allow overwriting mocked mode from the command line @faboweb
 
 ### Changed
 
