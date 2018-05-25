@@ -59,8 +59,8 @@ async function main() {
   console.log("Voyager commit:", VoyagerCommit)
   console.log("SDK commit:", releaseConfig.SDK_COMMIT) // TODO put in config.toml?
 
-  console.log("--- BUILDING ---")
   if (!process.env.SKIP_BUILD) {
+    console.log("--- BUILDING ---")
     execSync(
       [
         "yarn",
@@ -74,8 +74,10 @@ async function main() {
         stdio: [0, 1, 2]
       }
     )
+    console.log("--- DONE BUILDING ---")
+  } else {
+    console.log("--- SKIPPED BUILDING ---")
   }
-  console.log("--- DONE BUILDING ---")
 
   console.log("--- Committing release changes ---")
   git()
@@ -108,7 +110,7 @@ async function main() {
 
       Even when we do start supporting fundraiser seeds, don't use it except for testing or with small amounts. We will release a CLI to use for offline signing of transactions, and we will also add hardware support for this UI.
 
-      Please checkout the CHANGELOG.md for a list of changes.
+      Please checkout the [CHANGELOG.md](CHANGELOG.md) for a list of changes.
       `,
       draft: false,
       prerelease: true,
