@@ -65,7 +65,7 @@ jest.mock("electron", () => {
 let stdoutMocks = (path, args) => ({
   on: (type, cb) => {
     if (args[0] === "version" && type === "data") {
-      cb({ toString: () => "0.13.0 797aec2" })
+      cb({ toString: () => "0.13.0" })
     }
     // mock gaiacli init approval request
     if (
