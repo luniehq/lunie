@@ -6,6 +6,7 @@ const toml = require("toml")
 const { execSync } = require("child_process")
 const git = require("simple-git")
 const release = require("publish-release")
+const util = require("util")
 
 const RELEASE_BRANCH = "develop"
 
@@ -26,6 +27,34 @@ function updateChangeLog(changeLog, newVersion, now) {
 
 const updatePackageJson = (packageJson, version) =>
   Object.assign({}, packageJson, { version })
+
+const publishRelease = (token, target_commitish, tag) =>
+  util.promisify(release)({
+    token,
+    owner: "cosmos",
+    repo: "voyager",
+    tag,
+    name: `Cosmos Voyager Alpha ${tag} (UNSAFE)`,
+    notes: `
+NOTE: DO NOT ENTER YOUR FUNDRAISER SEED. THIS SOFTWARE HAS NOT BEEN AUDITED.
+NEVER ENTER YOUR FUNDRAISER SEED 12 WORDS ONTO AN ONLINE COMPUTER.
+
+Even when we do start supporting fundraiser seeds, don't use it except for
+testing or with small amounts. We will release a CLI to use for offline signing
+of transactions, and we will also add hardware support for this UI.
+
+Please checkout the [CHANGELOG.md](CHANGELOG.md) for a list of changes.
+`,
+    draft: false,
+    prerelease: true,
+    skipAssetsCheck: false,
+    assets: [
+      path.join(__dirname, `../builds/Cosmos Voyager-darwin-x64_${tag}.tar.gz`),
+      path.join(__dirname, `../builds/Cosmos Voyager-linux-x64_${tag}.tar.gz`),
+      path.join(__dirname, `../builds/Cosmos Voyager-win32-x64_${tag}.zip`)
+    ],
+    target_commitish
+  })
 
 async function main() {
   console.log("Releasing Voyager...")
@@ -97,45 +126,8 @@ async function main() {
     .push("origin", RELEASE_BRANCH)
 
   console.log("--- Publishing release ---")
-
-  release(
-    {
-      token: process.env.GIT_BOT_TOKEN,
-      owner: "cosmos",
-      repo: "voyager",
-      tag: newVersion,
-      name: `Cosmos Voyager Alpha ${newVersion} (UNSAFE)`,
-      notes: `
-      NOTE: DO NOT ENTER YOUR FUNDRAISER SEED. THIS SOFTWARE HAS NOT BEEN AUDITED. NEVER ENTER YOUR FUNDRAISER SEED 12 WORDS ONTO AN ONLINE COMPUTER.
-
-      Even when we do start supporting fundraiser seeds, don't use it except for testing or with small amounts. We will release a CLI to use for offline signing of transactions, and we will also add hardware support for this UI.
-
-      Please checkout the [CHANGELOG.md](CHANGELOG.md) for a list of changes.
-      `,
-      draft: false,
-      prerelease: true,
-      skipAssetsCheck: false,
-      assets: [
-        path.join(
-          __dirname,
-          `../builds/Cosmos Voyager-darwin-x64_${newVersion}.tar.gz`
-        ),
-        path.join(
-          __dirname,
-          `../builds/Cosmos Voyager-linux-x64_${newVersion}.tar.gz`
-        ),
-        path.join(
-          __dirname,
-          `../builds/Cosmos Voyager-win32-x64_${newVersion}.zip`
-        )
-      ],
-      target_commitish: RELEASE_BRANCH
-    },
-    function(err, release) {
-      console.log("--- Done releasing ---")
-      // `release`: object returned from github about the newly created release
-    }
-  )
+  await publishRelease(process.env.GIT_BOT_TOKEN, RELEASE_BRANCH, newVersion)
+  console.log("--- Done releasing ---")
 }
 
 if (require.main === module) {
