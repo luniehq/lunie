@@ -8,8 +8,6 @@ const git = require("simple-git")
 const release = require("publish-release")
 const util = require("util")
 
-const RELEASE_BRANCH = "develop"
-
 function bumpVersion(versionString) {
   let versionElements = versionString.split(".")
   versionElements[2] = parseInt(versionElements[2]) + 1
@@ -28,7 +26,7 @@ function updateChangeLog(changeLog, newVersion, now) {
 const updatePackageJson = (packageJson, version) =>
   Object.assign({}, packageJson, { version })
 
-const pushCommit = (token, branch, tag) =>
+const pushCommit = (token, tag) =>
   git()
     .addConfig("user.name", "Voyager Bot")
     .addConfig("user.email", "voyager_bot@tendermint.com")
@@ -39,9 +37,10 @@ const pushCommit = (token, branch, tag) =>
       __dirname + "/../CHANGELOG.md"
     ])
     .tag([tag])
-    .push("bot", branch)
+    // The 'push' method doesn't allow defaults so we call it manually.
+    .raw(["push", "bot"])
 
-const publishRelease = (token, target_commitish, tag) =>
+const publishRelease = (token, tag) =>
   util.promisify(release)({
     token,
     owner: "cosmos",
@@ -65,8 +64,7 @@ Please checkout the [CHANGELOG.md](CHANGELOG.md) for a list of changes.
       path.join(__dirname, `../builds/Cosmos Voyager-darwin-x64_${tag}.tar.gz`),
       path.join(__dirname, `../builds/Cosmos Voyager-linux-x64_${tag}.tar.gz`),
       path.join(__dirname, `../builds/Cosmos Voyager-win32-x64_${tag}.zip`)
-    ],
-    target_commitish
+    ]
   })
 
 async function main() {
@@ -95,7 +93,7 @@ async function main() {
   )
 
   console.log("--- Committing release changes ---")
-  pushCommit(process.env.GIT_BOT_TOKEN, RELEASE_BRANCH, newVersion)
+  pushCommit(process.env.GIT_BOT_TOKEN, newVersion)
   console.log("SDK commit:", releaseConfig.SDK_COMMIT) // TODO put in config.toml?
 
   if (!process.env.SKIP_BUILD) {
@@ -117,7 +115,7 @@ async function main() {
   }
 
   console.log("--- Publishing release ---")
-  await publishRelease(process.env.GIT_BOT_TOKEN, RELEASE_BRANCH, newVersion)
+  await publishRelease(process.env.GIT_BOT_TOKEN, newVersion)
   console.log("--- Done releasing ---")
 }
 
