@@ -96,29 +96,21 @@ async function main() {
 
   console.log("--- Committing release changes ---")
   pushCommit(process.env.GIT_BOT_TOKEN, RELEASE_BRANCH, newVersion)
-
-  const VoyagerCommit = execSync("git rev-parse --short=6 HEAD")
-    .toString()
-    .trim()
-
-  console.log("Voyager commit:", VoyagerCommit)
   console.log("SDK commit:", releaseConfig.SDK_COMMIT) // TODO put in config.toml?
 
   if (!process.env.SKIP_BUILD) {
     console.log("--- BUILDING ---")
+
     execSync(
-      [
-        "yarn",
-        "build",
-        "--network=" +
-          path.join(__dirname, "../app/networks/" + config.default_network),
-        "--sdk-commit=" + releaseConfig.SDK_COMMIT,
-        "--commit=" + VoyagerCommit
-      ].join(" "),
+      `yarn build \
+        --commit=HEAD \
+        --network=${__dirname}/../app/networks/${config.default_network} \
+        --sdk-commit=${releaseConfig.SDK_COMMIT}`,
       {
-        stdio: [0, 1, 2]
+        stdio: `inherit`
       }
     )
+
     console.log("--- DONE BUILDING ---")
   } else {
     console.log("--- SKIPPED BUILDING ---")
