@@ -31,9 +31,17 @@ brew install yarn
 
 Install [Yarn](https://yarnpkg.com/lang/en/docs/install/#windows)
 
-#### Install Gaia Binaries (Cosmos SDK)
+#### Build Gaia (Cosmos SDK)
 
-Install the Gaia-CLI (`gaiacli`) and the Gaia full node binary (`gaiad`) which are part of the Cosmos SDK by following [the instructions](https://cosmos-sdk.readthedocs.io/en/develop/sdk/install.html).
+Build the Gaia CLI (`gaiacli`) and full node (`gaiad`), which are part of the
+Cosmos SDK, with the following command:
+
+```shell
+yarn build:gaia
+```
+
+The version built is specified in `tasks/build/Gaia/COMMIT.sh` and the programs
+are placed in the `builds/gaia` directory.
 
 #### Prepare Voyager
 
@@ -90,7 +98,7 @@ on your system.
 Here's an example build command:
 
 ```shell
-yarn run build --commit=HEAD --network=app/networks/gaia-5001 --sdk-commit=35d0e34b2674ad9edf0f074167dd967219dbbe1b
+yarn run build --commit=HEAD --network=app/networks/gaia-5001
 ```
 
 You can specify `--help` to see all options with explanations.

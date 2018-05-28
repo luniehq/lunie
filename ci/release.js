@@ -4,7 +4,7 @@ const fs = require("fs")
 const path = require("path")
 const toml = require("toml")
 const { execSync } = require("child_process")
-const git = require("simple-git")
+const git = require("simple-git/promise")()
 const release = require("publish-release")
 const util = require("util")
 
@@ -26,19 +26,24 @@ function updateChangeLog(changeLog, newVersion, now) {
 const updatePackageJson = (packageJson, version) =>
   Object.assign({}, packageJson, { version })
 
-const pushCommit = (token, tag) =>
-  git()
-    .addConfig("user.name", "Voyager Bot")
-    .addConfig("user.email", "voyager_bot@tendermint.com")
-    // needed to authenticate properly
-    .addRemote("bot", `https://${token}@github.com/cosmos/voyager.git`)
-    .commit("Bump version for release.", [
-      __dirname + "/../package.json",
-      __dirname + "/../CHANGELOG.md"
-    ])
-    .tag([tag])
-    // The 'push' method doesn't allow defaults so we call it manually.
-    .raw(["push", "bot"])
+const pushCommit = async (token, tag) => {
+  await Promise.all([
+    git.addConfig("user.name", "Voyager Bot"),
+    git.addConfig("user.email", "voyager_bot@tendermint.com")
+  ])
+
+  await git.commit("Bump version for release.", [
+    __dirname + "/../package.json",
+    __dirname + "/../CHANGELOG.md"
+  ])
+
+  await git.tag([tag])
+
+  // needed to authenticate properly
+  await git.addRemote("bot", `https://${token}@github.com/cosmos/voyager.git`)
+
+  await git.push("bot", "HEAD:master")
+}
 
 const publishRelease = (token, tag) =>
   util.promisify(release)({
@@ -74,7 +79,6 @@ async function main() {
   const packageJson = require(__dirname + "/../package.json")
   const oldVersion = packageJson.version
   const newVersion = bumpVersion(oldVersion)
-  const releaseConfig = require(__dirname + "/../release.config.json")
   const config = toml.parse(
     fs.readFileSync(__dirname + "/../app/config.toml", "utf8")
   )
@@ -93,16 +97,18 @@ async function main() {
   )
 
   console.log("--- Committing release changes ---")
-  pushCommit(process.env.GIT_BOT_TOKEN, newVersion)
-  console.log("SDK commit:", releaseConfig.SDK_COMMIT) // TODO put in config.toml?
+  const tag = `v${newVersion}`
+  await pushCommit(process.env.GIT_BOT_TOKEN, tag)
 
   console.log("--- BUILDING ---")
 
   execSync(
-    `yarn build \
-        --commit=HEAD \
-        --network=${__dirname}/../app/networks/${config.default_network} \
-        --sdk-commit=${releaseConfig.SDK_COMMIT}`,
+    `node tasks/build/build.js \
+      --network=${path.join(
+        __dirname,
+        `../app/networks`,
+        config.default_network
+      )}`,
     {
       stdio: `inherit`
     }
@@ -111,12 +117,15 @@ async function main() {
   console.log("--- DONE BUILDING ---")
 
   console.log("--- Publishing release ---")
-  await publishRelease(process.env.GIT_BOT_TOKEN, newVersion)
+  await publishRelease(process.env.GIT_BOT_TOKEN, tag)
   console.log("--- Done releasing ---")
 }
 
 if (require.main === module) {
-  main().then(null, console.error)
+  main().catch(reason => {
+    console.error(reason)
+    process.exit(1)
+  })
 } else {
   module.exports = {
     bumpVersion,

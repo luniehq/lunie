@@ -9,8 +9,7 @@ const untildify = require(`untildify`)
 
 const optionsSpecification = {
   commit: ["commit from which to build"],
-  network: ["path to the default network to use"],
-  "sdk-commit": ["commit of the SDK to build"]
+  network: ["path to the default network to use"]
 }
 
 // Show the exec commands for easier debugging if something goes wrong.
@@ -20,16 +19,11 @@ const execSync = (command, options) => {
 }
 
 cli(optionsSpecification, options => {
-  const { commit, network, "sdk-commit": sdkCommit } = options
+  const { commit, network } = options
 
-  execSync(
-    `docker build \
-      --build-arg SDK_COMMIT=${options[`sdk-commit`]} \
-      --tag cosmos/voyager-builder .`,
-    {
-      cwd: __dirname
-    }
-  )
+  execSync(`docker build --tag cosmos/voyager-builder .`, {
+    cwd: __dirname
+  })
 
   // Expand '~' if preset and resolve to absolute pathnames for Docker.
   const resolved = fp.mapValues(fp.pipe(untildify, path.resolve), {
@@ -53,12 +47,11 @@ cli(optionsSpecification, options => {
   execSync(
     `docker run \
       --env COMMIT=${commit} \
-      --env SDK_COMMIT=${sdkCommit} \
       --interactive \
       --mount type=bind,readonly,source=${resolved.git},target=/mnt/.git \
       --mount type=bind,readonly,source=${
         resolved.network
-      },target=/mnt/network \
+      },target=/mnt/network/${path.basename(network)} \
       --mount type=bind,source=${resolved.builds},target=/mnt/builds \
       --rm \
       cosmos/voyager-builder ${optionsString}
