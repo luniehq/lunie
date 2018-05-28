@@ -8,7 +8,7 @@ export default ({ dispatch, node }) => {
 
   const mutations = {
     addDelegate(state, delegate) {
-      delegate.id = delegate.pub_key.data
+      delegate.id = delegate.owner
       Object.assign(delegate, delegate.description)
 
       // TODO: calculate voting power
