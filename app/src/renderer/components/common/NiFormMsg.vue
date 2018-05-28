@@ -55,6 +55,12 @@ export default {
         case "required":
           msg = "is required"
           break
+        case "required":
+          msg = "is required"
+          break
+        case "words16":
+          msg = "phrase must be 16 words"
+          break
         case "url":
           msg = "must be a valid URL (http:// required)"
           break

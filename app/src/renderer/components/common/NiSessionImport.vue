@@ -35,8 +35,9 @@
       field-seed#import-seed(
         :value="fields.importSeed"
         @input="val => fields.importSeed = val"
-        placeholder="Must be exactly 12 words")
+        placeholder="Must be exactly 16 words")
       form-msg(name='Seed' type='required' v-if='!$v.fields.importSeed.required')
+      form-msg(name='Seed' type='words16' v-else-if='!$v.fields.importSeed.words16')
 
     form-group(field-id="error-collection" field-label=''
       :error='$v.fields.errorCollection.$error')
@@ -127,9 +128,13 @@ export default {
       importName: { required, minLength: minLength(5) },
       importPassword: { required, minLength: minLength(10) },
       importPasswordConfirm: { sameAsPassword: sameAs("importPassword") },
-      importSeed: { required },
+      importSeed: { required, words16 },
       errorCollection: false
     }
   })
+}
+const words16 = param => {
+  return true
+  return param && param.split(" ").length === 16
 }
 </script>

@@ -4,7 +4,8 @@ import { mount, createLocalVue } from "@vue/test-utils"
 import htmlBeautify from "html-beautify"
 import NiSessionImport from "common/NiSessionImport"
 jest.mock("renderer/google-analytics.js", () => uid => {})
-
+const seed =
+  "goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon"
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
@@ -49,10 +50,11 @@ describe("NiSessionImport", () => {
         importName: "foo123",
         importPassword: "1234567890",
         importPasswordConfirm: "1234567890",
-        importSeed: "bar" // <-- doesn#t check for correctness of seed
+        importSeed: seed
       }
     })
     await wrapper.vm.onSubmit()
+    console.log(store.commit.mock.calls)
     expect(
       store.commit.mock.calls.find(
         ([action, _]) => action === "setModalSession"
@@ -66,7 +68,7 @@ describe("NiSessionImport", () => {
         importName: "foo123",
         importPassword: "1234567890",
         importPasswordConfirm: "1234567890",
-        importSeed: "bar" // <-- doesn#t check for correctness of seed
+        importSeed: seed
       }
     })
     await wrapper.vm.onSubmit()
@@ -87,7 +89,7 @@ describe("NiSessionImport", () => {
         importName: "foo123",
         importPassword: "1234567890",
         importPasswordConfirm: "1234567890",
-        importSeed: "bar", // <-- doesn#t check for correctness of seed
+        importSeed: seed,
         errorCollection: true
       }
     })
@@ -106,7 +108,7 @@ describe("NiSessionImport", () => {
         importName: "foo123",
         importPassword: "1234567890",
         importPasswordConfirm: "1234567890",
-        importSeed: "bar", // <-- doesn#t check for correctness of seed
+        importSeed: seed,
         errorCollection: false
       }
     })
@@ -129,13 +131,24 @@ describe("NiSessionImport", () => {
     expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
   })
 
+  it("should show error if seed is 16 words long", async () => {
+    wrapper.setData({
+      fields: {
+        importSeed: "asdf asdf asdf asdf"
+      }
+    })
+    await wrapper.vm.onSubmit()
+    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
+  })
+
   it("should show error if password is not confirmed", async () => {
     wrapper.setData({
       fields: {
         importName: "foo123",
         importPassword: "1234567890",
         importPasswordConfirm: "notthesame",
-        importSeed: "bar" // <-- doesn#t check for correctness of seed
+        importSeed: seed
       }
     })
     await wrapper.vm.onSubmit()
@@ -150,7 +163,7 @@ describe("NiSessionImport", () => {
         importName: "foo123",
         importPassword: "1234567890",
         importPasswordConfirm: "1234567890",
-        importSeed: "bar" // <-- doesn#t check for correctness of seed
+        importSeed: seed
       }
     })
     await wrapper.vm.onSubmit()
@@ -164,7 +177,7 @@ describe("NiSessionImport", () => {
         importName: "foo123",
         importPassword: "1234567890",
         importPasswordConfirm: "1234567890",
-        importSeed: "bar" // <-- doesn#t check for correctness of seed
+        importSeed: seed
       }
     })
     await wrapper.vm.onSubmit()
