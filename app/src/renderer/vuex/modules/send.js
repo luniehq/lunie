@@ -12,8 +12,6 @@ export default ({ commit, node }) => {
   }
 
   async function doSend({ state, dispatch, commit, rootState }, args) {
-    console.log("doSend", arguments[0])
-
     args.sequence = state.nonce
     args.name = rootState.user.account
     args.password = rootState.user.password
