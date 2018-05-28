@@ -282,7 +282,7 @@ describe("LCD Client Mock", () => {
     let res = await client.updateDelegations({
       sequence: 1,
       name: "default",
-      bond: [
+      delegate: [
         {
           delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
           validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
@@ -306,7 +306,7 @@ describe("LCD Client Mock", () => {
     let res = await client.updateDelegations({
       sequence: 1,
       name: "default",
-      bond: [
+      delegate: [
         {
           delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
           validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
