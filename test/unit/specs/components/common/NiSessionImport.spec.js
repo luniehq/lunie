@@ -54,7 +54,7 @@ describe("NiSessionImport", () => {
       }
     })
     await wrapper.vm.onSubmit()
-    console.log(store.commit.mock.calls)
+
     expect(
       store.commit.mock.calls.find(
         ([action, _]) => action === "setModalSession"
