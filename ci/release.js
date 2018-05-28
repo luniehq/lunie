@@ -8,16 +8,6 @@ const git = require("simple-git")
 const release = require("publish-release")
 const util = require("util")
 
-async function getBranchName() {
-  return new Promise((resolve, reject) => {
-    git().revparse(["--abbrev-ref", "HEAD"], (err, branch) => {
-      if (err) reject(err)
-      else resolve(branch)
-    })
-  })
-  return branch
-}
-
 function bumpVersion(versionString) {
   let versionElements = versionString.split(".")
   versionElements[2] = parseInt(versionElements[2]) + 1
@@ -78,11 +68,6 @@ Please checkout the [CHANGELOG.md](CHANGELOG.md) for a list of changes.
   })
 
 async function main() {
-  console.log(await getBranchName())
-  if ((await getBranchName()) !== "master") {
-    console.log("--- Not releasing. Not a merge to master. ---")
-    return
-  }
   console.log("Releasing Voyager...")
 
   const changeLog = fs.readFileSync(__dirname + "/../CHANGELOG.md", "utf8")
