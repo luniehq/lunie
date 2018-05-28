@@ -68,46 +68,54 @@ export default ({ commit, node }) => {
     async getBondedDelegate({ commit }, { delegator, validator }) {
       let bond = await node.queryDelegation(delegator, validator)
       commit("setCommittedDelegation", {
-        candidateId: bond.validator_addr,
-        value: parseRat(bond.shares)
+        candidateId: validator,
+        value: bond ? parseRat(bond.shares) : 0
       })
     },
-    walletDelegate({ dispatch }, args) {
-      args.type = "buildDelegate"
-      return dispatch("sendTx", args)
-    },
-    walletUnbond({ dispatch }, args) {
-      args.type = "buildUnbond"
-      return dispatch("sendTx", args)
-    },
-    submitDelegation({ state, dispatch }, delegation) {
-      return Promise.all(
-        delegation.delegates
-          .map(delegation => {
-            let candidateId = delegation.delegate.pub_key.data
-            let currentlyDelegated = state.committedDelegates[candidateId] || 0
-            let amountChange = delegation.atoms - currentlyDelegated
-            let action = amountChange > 0 ? "walletDelegate" : "walletUnbond"
+    submitDelegation({ rootState, state, dispatch }, delegations) {
+      let delegate = []
+      let unbond = []
+      for (let delegation of delegations.delegates) {
+        let candidateId = delegation.delegate.owner
+        let currentlyDelegated = state.committedDelegates[candidateId] || 0
+        let amountChange = delegation.atoms - currentlyDelegated
+        let isBond = amountChange > 0
 
-            // skip if no change
-            if (amountChange === 0) return null
+        // skip if no change
+        if (amountChange === 0) return null
 
-            // bonding takes a 'coin' object, unbond just takes a number
-            let amount
-            if (amountChange > 0) {
-              // TODO: figure out which denom is bonding denom
-              amount = { denom: "fermion", amount: Math.abs(amountChange) }
-            } else {
-              amount = Math.abs(amountChange)
+        // bonding takes a 'coin' object, unbond takes a rational number
+        let amount
+        if (amountChange > 0) {
+        } else {
+          amount = Math.abs(amountChange) + "/1"
+        }
+
+        if (isBond) {
+          delegate.push({
+            delegator_addr: rootState.wallet.address,
+            validator_addr: candidateId,
+            // TODO: figure out which denom is bonding denom
+            bond: {
+              denom: "steak",
+              amount: Math.abs(amountChange)
             }
-
-            return dispatch(action, {
-              amount,
-              pub_key: delegation.delegate.pub_key
-            })
           })
-          .filter(x => x !== null)
-      )
+        } else {
+          unbond.push({
+            delegator_addr: rootState.wallet.address,
+            validator_addr: candidateId,
+            // rational number
+            shares: Math.abs(amountChange) + "/1"
+          })
+        }
+      }
+
+      return dispatch("sendTx", {
+        type: "updateDelegations",
+        delegate,
+        unbond
+      })
     }
   }
 

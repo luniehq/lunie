@@ -18,6 +18,10 @@ let state = {
         {
           denom: "fermion",
           amount: 2300
+        },
+        {
+          denom: "steak",
+          amount: 1000
         }
       ],
       sequence: 1
@@ -266,7 +270,9 @@ module.exports = {
   },
 
   // staking
-  async updateDelegations({ name, sequence, bond, unbond }) {
+  async updateDelegations({ name, sequence, delegate, unbond }) {
+    console.log("updateDelegations", arguments[0])
+
     let results = []
 
     let fromKey = state.keys.find(a => a.name === name)
@@ -287,7 +293,8 @@ module.exports = {
       return results
     }
 
-    for (let tx of bond) {
+    for (let tx of delegate) {
+      console.log("tx", tx)
       let { denom, amount } = tx.bond
       if (amount < 0) {
         results.push(txResult(1, "Amount cannot be negative"))
@@ -301,6 +308,7 @@ module.exports = {
       // update sender account
       fromAccount.sequence += 1
       fromAccount.coins.find(c => c.denom === denom).amount -= amount
+      console.log("from", fromAccount)
 
       // update stake
       let delegator = state.stake[fromKey.address]
@@ -322,6 +330,7 @@ module.exports = {
       delegation.shares = shares + +tx.bond.amount + "/1"
 
       let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
+      console.log("candy", candidate)
       shares = +candidate.pool_shares.amount.split("/")[0]
       candidate.pool_shares.amount = shares + +tx.bond.amount + "/1"
 
