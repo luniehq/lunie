@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.6.2] - 2018-05-28
+
 ### Added
 
 * Added linting check and unit tests to the git prepush hook @faboweb
