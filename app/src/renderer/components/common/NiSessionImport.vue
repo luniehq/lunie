@@ -134,7 +134,6 @@ export default {
   })
 }
 const words16 = param => {
-  return true
   return param && param.split(" ").length === 16
 }
 </script>
