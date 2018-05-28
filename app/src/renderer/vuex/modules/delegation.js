@@ -57,19 +57,19 @@ export default ({ commit, node }) => {
       await Promise.all(
         candidates.map(candidate =>
           dispatch("getBondedDelegate", {
-            address,
-            pubkey: candidate.pub_key.data
+            delegator: address,
+            validator: candidate.owner
           })
         )
       )
       state.loading = false
     },
     // load committed delegation from LCD
-    async getBondedDelegate({ commit }, { address, pubkey }) {
-      let bond = (await node.bondingsByDelegator([address, pubkey])).data
+    async getBondedDelegate({ commit }, { delegator, validator }) {
+      let bond = await node.queryDelegation(delegator, validator)
       commit("setCommittedDelegation", {
-        candidateId: bond.PubKey.data,
-        value: bond.Shares
+        candidateId: bond.validator_addr,
+        value: parseRat(bond.shares)
       })
     },
     walletDelegate({ dispatch }, args) {
@@ -116,4 +116,10 @@ export default ({ commit, node }) => {
     mutations,
     actions
   }
+}
+
+// parse sdk rational number string
+function parseRat(ratStr) {
+  let [numerator, denominator] = ratStr.split("/")
+  return +numerator / +denominator
 }
