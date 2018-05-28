@@ -259,63 +259,44 @@ describe("LCD Client Mock", () => {
     expect(res.check_tx.code).toBe(1)
   })
 
-  xit("queries for a candidate", async () => {
-    let { data } = await client.candidate(
-      "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
-    )
-    expect(data.address).not.toBeFalsy()
-  })
-
-  xit("queries for all candidates", async () => {
-    let { data } = await client.candidates()
+  it("queries for all candidates", async () => {
+    let data = await client.candidates()
     expect(data.length).toBeGreaterThan(0)
   })
 
-  xit("builds a delegate tx", async () => {
-    let res = await client.buildDelegate({
-      sequence: 0,
-      from: { addr: "foo" },
-      amount: { amount: 10 },
-      pubkey: "abc"
-    })
-    expect(res.type).toBe("sigs/one")
+  it("queries bondings per delegator", async () => {
+    let res = await client.queryDelegation(
+      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+      "70705055A9FA5901735D0C3F0954501DDE667327"
+    )
+    expect(res.shares).toBe("5/1")
   })
 
-  xit("queries bondings per delegator", async () => {
-    let res = await client.bondingsByDelegator([
+  it("executes a delegate tx", async () => {
+    let stake = await client.queryDelegation(
       "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD"
-    ])
-    expect(res.data.Shares).toBe(5)
-  })
+      "80705055A9FA5901735D0C3F0954501DDE667328"
+    )
+    expect(stake).toBeUndefined()
 
-  xit("executes a delegate tx", async () => {
-    let { data: stake } = await client.bondingsByDelegator([
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
-    ])
-    expect(stake.Shares).toBe(0)
-
-    let tx = await client.buildDelegate({
+    let res = await client.updateDelegations({
       sequence: 0,
-      from: { addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B" },
-      amount: { amount: 10 },
-      pub_key: {
-        data: "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
-      }
-    })
-    let signedTx = await client.sign({
       name: "foo",
-      password: "1234567890",
-      tx
+      bond: [
+        {
+          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+          validator_addr: "80705055A9FA5901735D0C3F0954501DDE667328",
+          bond: { denom: "mycoin", amount: "10" }
+        }
+      ],
+      unbond: []
     })
-    let res = await client.postTx(signedTx)
     expect(res.check_tx.code).toBe(0)
 
-    let { data: updatedStake } = await client.bondingsByDelegator([
+    let { data: updatedStake } = await client.queryDelegation(
       "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
-    ])
+      "80705055A9FA5901735D0C3F0954501DDE667328"
+    )
     expect(updatedStake.Shares).toBe(10)
   })
 
