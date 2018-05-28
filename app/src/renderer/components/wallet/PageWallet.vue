@@ -28,7 +28,7 @@ page(title='Wallet')
       :dd="i.amount"
       :to="{name: 'send', params: {denom: i.denom}}")
 
-  part#part-staked-balances(title="Staked Balances")
+  part#part-staked-balances(v-if="config.devMode" title="Staked Balances")
     list-item(
       btn="Stake"
       :dt="stakingDenom"
