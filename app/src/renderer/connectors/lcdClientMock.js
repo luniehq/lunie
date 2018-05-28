@@ -266,13 +266,102 @@ module.exports = {
   },
 
   // staking
-  async updateDelegations({ bond, unbond }) {
-    // TODO
-    return {}
+  async updateDelegations({ name, sequence, bond, unbond }) {
+    let results = []
+
+    let fromKey = state.keys.find(a => a.name === name)
+    let fromAccount = state.accounts[fromKey.address]
+    if (fromAccount == null) {
+      results.push(txResult(1, "Nonexistent account"))
+      return results
+    }
+
+    // check nonce
+    if (fromAccount.sequence !== sequence) {
+      results.push(
+        txResult(
+          2,
+          `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
+        )
+      )
+      return results
+    }
+
+    for (let tx of bond) {
+      let { denom, amount } = tx.bond
+      if (amount < 0) {
+        results.push(txResult(1, "Amount cannot be negative"))
+        return results
+      }
+      if (fromAccount.coins.find(c => c.denom === denom).amount < amount) {
+        results.push(txResult(1, "Not enough coins in your account"))
+        return results
+      }
+
+      // update sender account
+      fromAccount.sequence += 1
+      fromAccount.coins.find(c => c.denom === denom).amount -= amount
+
+      // update stake
+      let delegator = state.stake[fromKey.address]
+      if (!delegator) {
+        state.stake[fromKey.address] = {}
+        delegator = state.stake[fromKey.address]
+      }
+      let delegation = delegator[tx.validator_addr]
+      if (!delegation) {
+        delegation = {
+          delegator_addr: fromKey.address,
+          validator_addr: tx.validator_addr,
+          shares: "0/1",
+          height: 0
+        }
+        delegator[tx.validator_addr] = delegation
+      }
+      let shares = +delegation.shares.split("/")[0]
+      delegation.shares = shares + +tx.bond.amount + "/1"
+
+      let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
+      shares = +candidate.pool_shares.amount.split("/")[0]
+      candidate.pool_shares.amount = shares + +tx.bond.amount + "/1"
+
+      results.push(txResult(0))
+    }
+
+    for (let tx of unbond) {
+      fromAccount.sequence += 1
+
+      let amount = +tx.shares.split("/")[0]
+
+      // update sender balance
+      fromAccount.coins.find(c => c.denom === "steak").amount += amount
+
+      // update stake
+      let delegator = state.stake[fromKey.address]
+      if (!delegator) {
+        results.push(txResult(2, "Nonexistent delegator"))
+        return results
+      }
+      let delegation = delegator[tx.validator_addr]
+      if (!delegation) {
+        results.push(txResult(2, "Nonexistent delegation"))
+        return results
+      }
+      let shares = delegation.shares.split("/")[0]
+      delegation.shares = +shares - amount + "/1"
+
+      let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
+      shares = candidate.pool_shares.amount.split("/")[0]
+      candidate.pool_shares.amount = +shares - amount + "/1"
+
+      results.push(txResult(0))
+    }
+
+    return results
   },
   async queryDelegation(delegatorAddress, validatorAddress) {
     let delegator = state.stake[delegatorAddress]
-    if (!delegator) return null
+    if (!delegator) return
     return delegator[validatorAddress]
   },
   async candidates() {

@@ -275,46 +275,48 @@ describe("LCD Client Mock", () => {
   it("executes a delegate tx", async () => {
     let stake = await client.queryDelegation(
       "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "80705055A9FA5901735D0C3F0954501DDE667328"
+      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31"
     )
     expect(stake).toBeUndefined()
 
     let res = await client.updateDelegations({
-      sequence: 0,
-      name: "foo",
+      sequence: 1,
+      name: "default",
       bond: [
         {
           delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-          validator_addr: "80705055A9FA5901735D0C3F0954501DDE667328",
-          bond: { denom: "mycoin", amount: "10" }
+          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          bond: { denom: "mycoin", amount: 10 }
         }
       ],
       unbond: []
     })
-    expect(res.check_tx.code).toBe(0)
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.log).toBe("")
+    expect(res[0].check_tx.code).toBe(0)
 
-    let { data: updatedStake } = await client.queryDelegation(
+    let updatedStake = await client.queryDelegation(
       "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "80705055A9FA5901735D0C3F0954501DDE667328"
+      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31"
     )
-    expect(updatedStake.Shares).toBe(10)
+    expect(updatedStake.shares).toBe("10/1")
   })
 
-  xit("can not stake fermions you dont have", async () => {
-    let tx = await client.buildDelegate({
-      sequence: 0,
-      from: { addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B" },
-      amount: { amount: 100000 },
-      pub_key: {
-        data: "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
-      }
+  it("can not stake fermions you dont have", async () => {
+    let res = await client.updateDelegations({
+      sequence: 1,
+      name: "default",
+      bond: [
+        {
+          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          bond: { denom: "mycoin", amount: 100000 }
+        }
+      ],
+      unbond: []
     })
-    let signedTx = await client.sign({
-      name: "foo",
-      password: "1234567890",
-      tx
-    })
-    let res = await client.postTx(signedTx)
-    expect(res.check_tx.code).toBe(1)
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.log).toBe("Not enough coins in your account")
+    expect(res[0].check_tx.code).toBe(1)
   })
 })
