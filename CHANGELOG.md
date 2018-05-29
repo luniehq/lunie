@@ -7,30 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.6.10] - 1970-01-01
-
-## [0.6.9] - 1970-01-01
-
-## [0.6.8] - 2018-05-28
-
-## [0.6.7] - 2018-05-28
-
-## [0.6.6] - 2018-05-28
-
-## [0.6.5] - 2018-05-28
-
-## [0.6.4] - 2018-05-28
-
-## [0.6.3] - 2018-05-28
-
-## [0.6.2] - 2018-05-28
-
 ### Added
 
 * Added linting check and unit tests to the git prepush hook @faboweb
 * Added basic validation for wallet send @okwme
 * Added automatic releases @faboweb @NodeGuy
+* Added COSMOS_MOCKED env variable to allow overwriting mocked mode from the command line @faboweb
 * User will now be logged out if switching between mocked and live connector @faboweb
+* recovery seed form validation & tests @okwme
 
 ### Changed
 
@@ -39,6 +23,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Build process now builds for all three platforms at the same time. @NodeGuy
 * The config.toml is now mocked to guarantee consistent unit tests @faboweb
 * The binary is now accepted if it has the same minor version instead of the path version. @faboweb
+* Hid staking button on wallet page @jolesbi
+* Increment version in package.json @jolesbi
+* Added proper voyager logo to readme @jolesbi
 
 ### Fixes
 
