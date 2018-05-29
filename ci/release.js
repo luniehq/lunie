@@ -77,22 +77,23 @@ Please checkout the [CHANGELOG.md](CHANGELOG.md) for a list of changes.
     ]
   })
 
-async function main() {
-  console.log(await getBranchName())
-  if ((await getBranchName()) !== "master") {
+async function releaseProcess(
+  branchName,
+  changeLog = fs.readFileSync(__dirname + "/../CHANGELOG.md", "utf8"),
+  packageJson = require(__dirname + "/../package.json"),
+  releaseConfig = require(__dirname + "/../release.config.json"),
+  config = toml.parse(
+    fs.readFileSync(__dirname + "/../app/config.toml", "utf8")
+  )
+) {
+  if (branchName !== "master") {
     console.log("--- Not releasing. Not a merge to master. ---")
-    return
+    return false
   }
   console.log("Releasing Voyager...")
 
-  const changeLog = fs.readFileSync(__dirname + "/../CHANGELOG.md", "utf8")
-  const packageJson = require(__dirname + "/../package.json")
   const oldVersion = packageJson.version
   const newVersion = bumpVersion(oldVersion)
-  const releaseConfig = require(__dirname + "/../release.config.json")
-  const config = toml.parse(
-    fs.readFileSync(__dirname + "/../app/config.toml", "utf8")
-  )
 
   console.log("New version:", newVersion)
 
@@ -132,14 +133,19 @@ async function main() {
   console.log("--- Publishing release ---")
   await publishRelease(process.env.GIT_BOT_TOKEN, newVersion)
   console.log("--- Done releasing ---")
+  return true
 }
 
 if (require.main === module) {
-  main().then(null, console.error)
+  ;(async function() {
+    const branchName = await getBranchName()
+    releaseProcess(branchName).then(null, console.error)
+  })()
 } else {
   module.exports = {
     bumpVersion,
     updateChangeLog,
-    updatePackageJson
+    updatePackageJson,
+    releaseProcess
   }
 }

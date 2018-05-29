@@ -56,3 +56,54 @@ test(`updatePackageJson`, () => {
 
   expect(release.updatePackageJson(previous, newVersion)).toEqual(updated)
 })
+
+describe(`release process`, () => {
+  jest.doMock("simple-git", () => {
+    let git = () => git
+    git.addConfig = () => git
+    git.addRemote = () => git
+    git.commit = () => git
+    git.tag = () => git
+    git.raw = () => git
+
+    return git
+  })
+  jest.doMock("publish-release", () => (...args) => {
+    const cb = args[args.length - 1]
+    cb(null, true)
+  })
+  jest.doMock("child_process", () => ({ execSync: () => {} }))
+  jest.doMock("fs")
+  jest.resetModules()
+  let release = require(`../../../ci/release`)
+
+  it("should release on master", done => {
+    release
+      .releaseProcess(
+        "master",
+        "",
+        { version: "0.0.1" },
+        { SDK_COMMIT: "abc" },
+        {}
+      )
+      .then(released => {
+        expect(released).toBe(true)
+        done()
+      }, done.fail)
+  })
+
+  it("should not release if not on master", done => {
+    release
+      .releaseProcess(
+        "develop",
+        "",
+        { version: "0.0.1" },
+        { SDK_COMMIT: "abc" },
+        {}
+      )
+      .then(released => {
+        expect(released).toBe(false)
+        done()
+      }, done.fail)
+  })
+})
