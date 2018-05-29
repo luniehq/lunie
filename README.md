@@ -101,12 +101,6 @@ Run the app.
 open builds/Cosmos-{platform}-x64/Cosmos.app
 ```
 
-When you are testing the build system you can skip the repackaging of the JS files.
-
-```bash
-$ yarn run build --skip-pack
-```
-
 To test if your build worked run:
 
 ```bash

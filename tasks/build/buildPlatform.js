@@ -16,8 +16,7 @@ const util = require(`util`)
 
 const optionsSpecification = {
   network: ["path to the default network to use"],
-  platform: ["the target platform {darwin|linux|win32}"],
-  "skip-pack": ["skip the repackaging of the JS files", false]
+  platform: ["the target platform {darwin|linux|win32}"]
 }
 
 const rewriteConfig = ({ network }) => {
@@ -203,16 +202,10 @@ function deterministicTar() {
 }
 
 cli(optionsSpecification, options => {
-  const { network, platform, "skip-pack": skipPack } = options
+  const { network, platform } = options
   console.log(`Building for platform "${platform}".`)
   rewriteConfig(options)
   fs.copySync(`/mnt/network`, `app/networks/${path.basename(network)}`)
-
-  if (skipPack) {
-    console.log("Skipping packaging")
-  } else {
-    pack()
-  }
-
+  pack()
   build(options)
 })

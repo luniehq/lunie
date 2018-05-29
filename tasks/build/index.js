@@ -10,8 +10,7 @@ const untildify = require(`untildify`)
 const optionsSpecification = {
   commit: ["commit from which to build"],
   network: ["path to the default network to use"],
-  "sdk-commit": ["commit of the SDK to build"],
-  "skip-pack": ["skip the repackaging of the JS files", false]
+  "sdk-commit": ["commit of the SDK to build"]
 }
 
 // Show the exec commands for easier debugging if something goes wrong.

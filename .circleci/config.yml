@@ -17,7 +17,7 @@ jobs:
     steps:
       - checkout
       
-      - run: bash ./changelog-changed-check.sh
+      - run: bash ./ci/changelog-changed-check.sh
 
       # Download and cache dependencies
       - restore_cache:
@@ -47,3 +47,8 @@ jobs:
           command: yarn run test
           no_output_timeout: 120
       - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+
+      - run:
+          name: Release if on master
+          command: node ci/release.js
+          no_output_timeout: 120
