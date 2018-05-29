@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Added basic validation for wallet send @okwme
 * Added COSMOS_MOCKED env variable to allow overwriting mocked mode from the command line @faboweb
 * User will now be logged out if switching between mocked and live connector @faboweb
+* recovery seed form validation & tests @okwme
 
 ### Changed
 
@@ -25,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * The binary is now accepted if it has the same minor version instead of the path version. @faboweb
 * Hid staking button on wallet page @jolesbi
 * Increment version in package.json @jolesbi
+* Added proper voyager logo to readme @jolesbi
 
 ### Fixes
 
