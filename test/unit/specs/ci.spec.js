@@ -57,6 +57,11 @@ test(`updatePackageJson`, () => {
   expect(release.updatePackageJson(previous, newVersion)).toEqual(updated)
 })
 
+test(`get branch name`, async () => {
+  let branch = await release.getBranchName()
+  expect(branch).toBeDefined()
+})
+
 describe(`release process`, () => {
   jest.doMock("simple-git", () => {
     let git = () => git

@@ -119,23 +119,19 @@ async function releaseProcess(
   pushCommit(process.env.GIT_BOT_TOKEN, newVersion)
   console.log("SDK commit:", releaseConfig.SDK_COMMIT) // TODO put in config.toml?
 
-  if (!process.env.SKIP_BUILD) {
-    console.log("--- BUILDING ---")
+  console.log("--- BUILDING ---")
 
-    execSync(
-      `yarn build \
-        --commit=HEAD \
-        --network=${__dirname}/../app/networks/${config.default_network} \
-        --sdk-commit=${releaseConfig.SDK_COMMIT}`,
-      {
-        stdio: `inherit`
-      }
-    )
+  execSync(
+    `yarn build \
+      --commit=HEAD \
+      --network=${__dirname}/../app/networks/${config.default_network} \
+      --sdk-commit=${releaseConfig.SDK_COMMIT}`,
+    {
+      stdio: `inherit`
+    }
+  )
 
-    console.log("--- DONE BUILDING ---")
-  } else {
-    console.log("--- SKIPPED BUILDING ---")
-  }
+  console.log("--- DONE BUILDING ---")
 
   console.log("--- Publishing release ---")
   await publishRelease(process.env.GIT_BOT_TOKEN, newVersion)
@@ -153,6 +149,7 @@ if (require.main === module) {
     bumpVersion,
     updateChangeLog,
     updatePackageJson,
+    getBranchName,
     releaseProcess
   }
 }
