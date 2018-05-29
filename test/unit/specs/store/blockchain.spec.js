@@ -20,9 +20,14 @@ describe("Module: Blockchain", () => {
     store.state.blockchain.blockMetas = [blockMeta]
   })
 
-  it("sets blocks", () => {
+  it("sets block", () => {
     store.commit("setBlock", { test: "test" })
     expect(store.state.blockchain.block).toEqual({ test: "test" })
+  })
+  it("sets blocks", () => {
+    let payload = [{ foo: "bar" }, { hello: "world" }]
+    store.commit("setBlocks", payload)
+    expect(store.state.blockchain.blocks).toEqual(payload)
   })
 
   it("sets block meta info", () => {

@@ -109,6 +109,12 @@ describe("PageWallet", () => {
     ).toBe("123")
   })
 
+  it("should update 'somethingToSearch' when there's nothing to search", () => {
+    expect(wrapper.vm.somethingToSearch).toBe(true)
+    store.commit("setWalletBalances", [])
+    expect(wrapper.vm.somethingToSearch).toBe(false)
+  })
+
   it("has a number of staked tokens", () => {
     expect(wrapper.vm.stakedTokens).toBe(123)
   })

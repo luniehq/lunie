@@ -4,7 +4,7 @@ import PageBlocks from "renderer/components/monitor/PageBlocks"
 
 describe("PageBlocks", () => {
   let wrapper, store
-  let { mount } = setup()
+  let { mount, shallow } = setup()
 
   let block = {
     header: {
@@ -50,21 +50,30 @@ describe("PageBlocks", () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  // it("should update 'somethingToSearch' when there's nothing to search", () => {
-  //   expect(wrapper.vm.somethingToSearch).toBe(true)
-  //   wrapper.setData({
-  //     getters: {
-  //       blockchain: () => ({
-  //         blocks: []
-  //       })
-  //     }
-  //   })
-  //   console.log(wrapper.vm.blocks)
-  //   // store.commit("setBlocks", [])
-  //   wrapper.update()
-  //   console.log(wrapper.vm.blocks)
-  //   expect(wrapper.vm.somethingToSearch).toBe(false)
-  // })
+  it("should update 'somethingToSearch' when there's nothing to search", () => {
+    expect(wrapper.vm.somethingToSearch).toBe(true)
+    let instance = shallow(PageBlocks, {
+      stubs: { "modal-search": "<modal-search />" },
+      getters: {
+        lastHeader: () => ({
+          time: 1608,
+          last_block_id: { hash: "123" },
+          height: 12345
+        }),
+        blockchain: () => ({
+          blocks: [],
+          block,
+          blockMetaInfo: { block_id: { hash: "hash" } },
+          blockHeight: null,
+          blockLoading: false,
+          subscription: true,
+          blockMetas: []
+        })
+      }
+    })
+    wrapper = instance.wrapper
+    expect(wrapper.vm.somethingToSearch).toBe(false)
+  })
   //
   // it("should not call resetSearch on beforeDestroy", () => {
   //   wrapper.destroy()
