@@ -50,13 +50,29 @@ describe("PageBlocks", () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it("should call resetSearch on beforeDestroy", () => {
-    wrapper.destroy()
-    expect(store.commit).toHaveBeenCalledWith("resetSearch", "blocks")
-  })
+  // it("should update 'somethingToSearch' when there's nothing to search", () => {
+  //   expect(wrapper.vm.somethingToSearch).toBe(true)
+  //   wrapper.setData({
+  //     getters: {
+  //       blockchain: () => ({
+  //         blocks: []
+  //       })
+  //     }
+  //   })
+  //   console.log(wrapper.vm.blocks)
+  //   // store.commit("setBlocks", [])
+  //   wrapper.update()
+  //   console.log(wrapper.vm.blocks)
+  //   expect(wrapper.vm.somethingToSearch).toBe(false)
+  // })
+  //
+  // it("should not call resetSearch on beforeDestroy", () => {
+  //   wrapper.destroy()
+  //   expect(store.commit).toHaveBeenCalledWith("resetSearch", "blocks")
+  // })
 
   it("should show the search on click", () => {
-    wrapper.vm.setSearch(true)
+    wrapper.vm.setSearch()
     expect(store.commit).toHaveBeenCalledWith("setSearchVisible", [
       "blocks",
       true

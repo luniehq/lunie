@@ -1,10 +1,10 @@
 <template lang="pug">
 page(title='Transactions')
   div(slot="menu"): tool-bar
-    a(@click='setSearch(true)' v-tooltip.bottom="'Search'")
+    a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
       i.material-icons search
 
-  modal-search(type="transactions")
+  modal-search(type="transactions" v-if="somethingToSearch")
 
   data-loading(v-if="wallet.historyLoading")
   data-empty-tx(v-else-if='transactions.length === 0')
@@ -45,6 +45,9 @@ export default {
   },
   computed: {
     ...mapGetters(["filters", "transactions", "wallet", "config"]),
+    somethingToSearch() {
+      return !this.wallet.historyLoading && !!this.transactions.length
+    },
     orderedTransactions() {
       let list = orderBy(
         this.transactions,
@@ -73,7 +76,8 @@ export default {
     }
   }),
   methods: {
-    setSearch(bool) {
+    setSearch(bool = !this.filters["transactions"].search.visible) {
+      if (!this.somethingToSearch) return false
       this.$store.commit("setSearchVisible", ["transactions", bool])
     }
   },

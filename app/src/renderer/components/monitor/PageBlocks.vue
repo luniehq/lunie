@@ -1,10 +1,10 @@
 <template lang="pug">
 page(title='Block Explorer')
   div(slot="menu"): tool-bar
-    a(@click='setSearch(true)' v-tooltip.bottom="'Search Block'")
+    a(@click='setSearch()' v-tooltip.bottom="'Search Block'" :disabled="!somethingToSearch")
       i.material-icons search
 
-  modal-search(type="blocks")
+  modal-search(type="blocks" v-if="somethingToSearch")
 
   data-loading(v-if="blockchain.syncing" title="Node is syncing blockchain…")
   data-loading(v-if="!blockchain.syncing && !blockchain.subscription")
@@ -48,7 +48,10 @@ export default {
     ModalSearch
   },
   computed: {
-    ...mapGetters(["blockchain", "lastHeader"]),
+    ...mapGetters(["blockchain", "lastHeader", "filters"]),
+    somethingToSearch() {
+      return !this.blockchain.syncing && !!this.blocks.length
+    },
     latestBlockTime() {
       return moment(this.lastHeader.time).format("MMMM Do YYYY — hh:mm:ss")
     },
@@ -64,16 +67,14 @@ export default {
     num: num
   }),
   methods: {
-    setSearch(bool) {
+    setSearch(bool = !this.filters["blocks"].search.visible) {
+      if (!this.somethingToSearch) return false
       this.$store.commit("setSearchVisible", ["blocks", bool])
     }
   },
   mounted() {
     Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
     Mousetrap.bind("esc", () => this.setSearch(false))
-  },
-  beforeDestroy() {
-    this.$store.commit("resetSearch", "blocks")
   }
 }
 </script>

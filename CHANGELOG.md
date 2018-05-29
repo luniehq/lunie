@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * The binary is now accepted if it has the same minor version instead of the path version. @faboweb
 * Hid staking button on wallet page @jolesbi
 * Increment version in package.json @jolesbi
+* Made search consistent @okwme
 
 ### Fixes
 
