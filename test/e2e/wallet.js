@@ -43,11 +43,16 @@ test("wallet", async function(t) {
 
   let $ = (...args) => app.client.$(...args)
 
-  await login(app, "testkey")
+  await login(app, "default")
 
   let balanceEl = denom => {
+    console.log("looking for " + denom.toUpperCase())
+    // let balanceElemSlector = "div=" + denom.toUpperCase()
     let balanceElemSlector = `//div[contains(text(), "${denom.toUpperCase()}")]`
-    return app.client.waitForExist(balanceElemSlector, 10000).then(() =>
+    app.client.getHTML("#part-available-balances").then(result => {
+      console.log(result)
+    })
+    return app.client.waitForExist(balanceElemSlector, 20000).then(() =>
       $(balanceElemSlector)
         .$("..")
         .$("div.ni-li-dd")

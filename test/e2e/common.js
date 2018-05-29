@@ -72,7 +72,7 @@ module.exports = {
       await sleep(100)
     }
   },
-  async login(app, account = "testkey") {
+  async login(app, account = "default") {
     console.log("logging into " + account)
     let accountsSelect = "#sign-in-name select"
 
@@ -88,7 +88,9 @@ module.exports = {
     await module.exports.openMenu(app)
     let activeUser = await app.client.$(".ni-li-user .ni-li-title").getText()
     if (account !== activeUser) {
-      throw new Error("Incorrect user logged in")
+      throw new Error(
+        "Incorrect user logged in (" + account + ", " + activeUser + ")"
+      )
     }
 
     console.log("logged in")
