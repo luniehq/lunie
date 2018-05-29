@@ -11,27 +11,86 @@ describe("NiFormMsg", () => {
       name: "Password",
       min: 16,
       max: 255,
-      length: ""
+      length: "",
+      error: "Password must be between 16 and 255 characters"
     },
     {
       type: "words16",
-      name: "Seed"
+      name: "Seed",
+      error: "Seed phrase must be 16 words"
     },
     {
       type: "alphaNum",
-      name: "Asdf"
+      name: "Asdf",
+      error: "Asdf must contain only alphanumeric characters"
+    },
+    {
+      type: "numeric",
+      name: "Asdf",
+      error: "Asdf must contain only numerals"
+    },
+    {
+      type: "between",
+      name: "Asdf",
+      min: 16,
+      max: 255,
+      error: "Asdf must be between 16 and 255"
+    },
+    {
+      type: "date",
+      name: "Asdf",
+      error: "Asdf must be a valid date"
+    },
+    {
+      type: "datetime",
+      name: "Asdf",
+      error: "Asdf must be a valid date and time"
+    },
+    {
+      type: "exactLength",
+      name: "Asdf",
+      length: 16,
+      error: "Asdf must be exactly 16 characters"
+    },
+    {
+      type: "ipAddress",
+      name: "Asdf",
+      error: "Asdf must be a valid IPv4 or IPv6 address"
+    },
+    {
+      type: "minLength",
+      name: "Asdf",
+      min: 2,
+      error: "Asdf must be longer than 2 characters"
+    },
+    {
+      type: "maxLength",
+      name: "Asdf",
+      max: 255,
+      error: "Asdf must be shorter than 255 characters"
+    },
+    {
+      type: "match",
+      name: "Asdf",
+      error: "Asdf must match"
+    },
+    {
+      type: "required",
+      name: "Asdf",
+      error: "Asdf is required"
+    },
+    {
+      type: "url",
+      name: "Asdf",
+      error: "Asdf must be a valid URL (http:// required)"
     },
     {
       type: "asdf",
-      name: "Asdf"
+      name: "Asdf",
+      error: "Asdf must be valid"
     }
   ]
-  let propsErrors = [
-    "Password must be between 16 and 255 characters",
-    "Seed phrase must be 16 words",
-    "Asdf must contain only alphanumeric characters",
-    "Asdf must be valid"
-  ]
+
   beforeEach(() => {
     wrapper = mount(NiFormMsg, { propsData: propsData[0] })
   })
@@ -53,7 +112,7 @@ describe("NiFormMsg", () => {
           .find(".ni-form-msg")
           .text()
           .trim()
-      ).toContain(propsErrors[i])
+      ).toContain(propsData[i].error)
     })
   }
 })
