@@ -1,4 +1,4 @@
-![the cosmos network](cosmos-github.jpg)
+![Cosmos Voyager logo — spaceship blasting off](/app/icons/png/128x128.png)
 
 # Cosmos Voyager
 
