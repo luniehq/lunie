@@ -124,4 +124,17 @@ describe("PageTransactions", () => {
     wrapper.update()
     expect(wrapper.contains("data-empty-tx")).toBe(true)
   })
+
+  it("should not show search when there is nothing to search", () => {
+    let transactions = []
+    let instance = mount(PageTransactions, {
+      stubs: {
+        "li-transaction": "<li-transaction />",
+        "data-empty-tx": "<data-empty-tx />"
+      }
+    })
+    store.commit("setWalletHistory", transactions)
+    wrapper.update()
+    expect(wrapper.vm.setSearch()).toEqual(false)
+  })
 })

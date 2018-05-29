@@ -129,4 +129,19 @@ describe("PageStaking", () => {
 
     expect(wrapper.contains("data-loading")).toBe(true)
   })
+
+  it("should not show search when there is nothing to search", () => {
+    let { wrapper } = mount(PageStaking, {
+      getters: {
+        delegates: () => ({
+          delegates: [],
+          loading: true
+        })
+      },
+      stubs: { "data-loading": "<data-loading />" }
+    })
+    wrapper.update()
+
+    expect(wrapper.vm.setSearch()).toEqual(false)
+  })
 })

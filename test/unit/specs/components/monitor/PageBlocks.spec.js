@@ -74,11 +74,6 @@ describe("PageBlocks", () => {
     wrapper = instance.wrapper
     expect(wrapper.vm.somethingToSearch).toBe(false)
   })
-  //
-  // it("should not call resetSearch on beforeDestroy", () => {
-  //   wrapper.destroy()
-  //   expect(store.commit).toHaveBeenCalledWith("resetSearch", "blocks")
-  // })
 
   it("should show the search on click", () => {
     wrapper.vm.setSearch()
@@ -86,5 +81,24 @@ describe("PageBlocks", () => {
       "blocks",
       true
     ])
+  })
+
+  it("should not show search when there is nothing to search", () => {
+    let instance = shallow(PageBlocks, {
+      stubs: { "modal-search": "<modal-search />" },
+      getters: {
+        lastHeader: () => ({
+          last_block_id: { hash: "123" }
+        }),
+        blockchain: () => ({
+          blocks: []
+        })
+      }
+    })
+    wrapper = instance.wrapper
+    wrapper.update()
+
+    expect(store.commit).not.toHaveBeenCalled()
+    expect(wrapper.vm.setSearch()).toEqual(false)
   })
 })

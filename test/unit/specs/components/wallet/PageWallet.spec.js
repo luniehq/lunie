@@ -115,6 +115,12 @@ describe("PageWallet", () => {
     expect(wrapper.vm.somethingToSearch).toBe(false)
   })
 
+  it("should not show search when there's nothing to search", () => {
+    store.commit("setWalletBalances", [])
+    wrapper.update()
+    expect(wrapper.vm.setSearch()).toEqual(false)
+  })
+
   it("has a number of staked tokens", () => {
     expect(wrapper.vm.stakedTokens).toBe(123)
   })
