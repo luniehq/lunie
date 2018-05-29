@@ -81,6 +81,7 @@ async function releaseProcess(
   branchName,
   changeLog = fs.readFileSync(__dirname + "/../CHANGELOG.md", "utf8"),
   packageJson = require(__dirname + "/../package.json"),
+  appPackageJson = require(__dirname + "/../app/package.json"),
   releaseConfig = require(__dirname + "/../release.config.json"),
   config = toml.parse(
     fs.readFileSync(__dirname + "/../app/config.toml", "utf8")
@@ -99,12 +100,18 @@ async function releaseProcess(
 
   const newChangeLog = updateChangeLog(changeLog, newVersion, new Date())
   const newPackageJson = updatePackageJson(packageJson, newVersion)
+  const newAppPackageJson = updatePackageJson(appPackageJson, newVersion)
 
   fs.writeFileSync(__dirname + "/../CHANGELOG.md", newChangeLog, "utf8")
 
   fs.writeFileSync(
     __dirname + "/../package.json",
     JSON.stringify(newPackageJson, null, 2),
+    "utf8"
+  )
+  fs.writeFileSync(
+    __dirname + "/../app/package.json",
+    JSON.stringify(newAppPackageJson, null, 2),
     "utf8"
   )
 

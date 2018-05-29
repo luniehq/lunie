@@ -83,6 +83,7 @@ describe(`release process`, () => {
         "master",
         "",
         { version: "0.0.1" },
+        { version: "0.0.1" },
         { SDK_COMMIT: "abc" },
         {}
       )
@@ -97,6 +98,7 @@ describe(`release process`, () => {
       .releaseProcess(
         "develop",
         "",
+        { version: "0.0.1" },
         { version: "0.0.1" },
         { SDK_COMMIT: "abc" },
         {}
