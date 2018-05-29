@@ -32,10 +32,10 @@ describe("NiFormMsg", () => {
     "Asdf must contain only alphanumeric characters",
     "Asdf must be valid"
   ]
-
   beforeEach(() => {
     wrapper = mount(NiFormMsg, { propsData: propsData[0] })
   })
+  for (let i = 1; i < propsData.length; i++) {}
 
   it("has a type from props", () => {
     expect(wrapper.vm.type).toBe("length")
@@ -45,15 +45,8 @@ describe("NiFormMsg", () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it("shows the correct message", () => {
-    expect(
-      wrapper
-        .find(".ni-form-msg")
-        .text()
-        .trim()
-    ).toContain(propsErrors[0])
-
-    for (let i = 1; i < propsData.length; i++) {
+  for (let i = 0; i < propsData.length; i++) {
+    it("shows correct message for " + propsData[i].type, () => {
       wrapper.setData(propsData[i])
       expect(
         wrapper
@@ -61,6 +54,6 @@ describe("NiFormMsg", () => {
           .text()
           .trim()
       ).toContain(propsErrors[i])
-    }
-  })
+    })
+  }
 })
