@@ -41,6 +41,10 @@ test("preferences", async function(t) {
     t.test("mock network", async function(t) {
       await selectOption(app, "#select-network select", "mock")
       // await networkSelect().selectByVisibleText("Mock Testnet")
+      await sleep(1000)
+
+      await login(app, "default")
+      await navigate(app, "default", "Preferences") //should click preferences link with username
 
       await sleep(1000)
       let network = await $(
