@@ -3,7 +3,7 @@ page(:title="pageBlockTitle")
   data-loading(v-if="blockchain.blockLoading")
   data-empty(v-else-if="!block.header || !blockMeta")
   template(v-else)
-    div(slot="menu"): tool-bar
+    div(slot="menu"): tool-bar(backPath="/blocks")
       router-link(:to="{ name: 'block', params: { block: block.header.height - 1 }}"
         :disabled="block.header.height === 0"
         :event="block.header.height === 0 ? '' : 'click'"

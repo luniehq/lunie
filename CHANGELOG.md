@@ -59,6 +59,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Improved design of light theme. @nylira
 * Improved design on Windows. @nylira
 * Disabled the changelog check on develop @faboweb
+* Back button in the block view will return to the blocks overview + back button in the send view will return to the balance view @faboweb
 
 ### Fixed
 

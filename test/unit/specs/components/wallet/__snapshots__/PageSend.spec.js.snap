@@ -43,7 +43,8 @@ exports[`PageSend has the expected html structure 1`] = `
                   class="main"
                 />
                 <a
-                  class="back"
+                  class="router-link-exact-active router-link-active"
+                  href="#/"
                 >
                   <i
                     class="material-icons"
@@ -894,7 +895,8 @@ exports[`PageSend should show address alphanumeric error 1`] = `
                   class="main"
                 />
                 <a
-                  class="back"
+                  class="router-link-exact-active router-link-active"
+                  href="#/"
                 >
                   <i
                     class="material-icons"

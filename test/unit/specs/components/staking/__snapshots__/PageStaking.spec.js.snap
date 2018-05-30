@@ -22,7 +22,8 @@ exports[`PageStaking has the expected html structure 1`] = `
                   <div class=\\"main\\">
                      <a><i class=\\"material-icons\\">refresh</i></a><a><i class=\\"search material-icons\\">search</i></a>
                   </div>
-      <a class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a class=\\"sign-out\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+                     <!---->
+      <a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a class=\\"sign-out\\"><i class=\\"material-icons\\">exit_to_app</i></a>
    </div>
 </div>
 </div>
@@ -119,15 +120,7 @@ exports[`PageStaking should filter the delegates 1`] = `
                     </i>
                   </a>
                 </div>
-                <a
-                  class="back"
-                >
-                  <i
-                    class="material-icons"
-                  >
-                    arrow_back
-                  </i>
-                </a>
+                <!---->
                 <a
                   class="help"
                 >

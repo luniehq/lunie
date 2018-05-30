@@ -42,15 +42,7 @@ exports[`PageProfile has the expected html structure if connected 1`] = `
                 <div
                   class="main"
                 />
-                <a
-                  class="back"
-                >
-                  <i
-                    class="material-icons"
-                  >
-                    arrow_back
-                  </i>
-                </a>
+                <!---->
                 <a
                   class="help"
                 >

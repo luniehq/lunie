@@ -2,7 +2,7 @@
 .ni-tool-bar
   .ni-tool-bar-container
     .main: slot
-    a.back(@click="$router.go(-1)" v-tooltip.bottom="'Back'")
+    router-link(v-if="backPath" :to="backPath" v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
     a.help(@click="enableModalHelp" v-tooltip.bottom="'Help'")
       i.material-icons help_outline
@@ -13,6 +13,7 @@
 <script>
 export default {
   name: "ni-tool-bar",
+  props: ["backPath"],
   methods: {
     enableModalHelp() {
       this.$store.commit("setModalHelp", true)
