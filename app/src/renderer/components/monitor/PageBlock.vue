@@ -76,7 +76,7 @@ export default {
         : 0
     },
     txs() {
-      return this.blocTxInfo || this.block.data.txs
+      return this.blocTxInfo || (this.block.data && this.block.data.txs)
     },
     block() {
       return this.blockchain.block
