@@ -44,8 +44,8 @@ page(:title="pageBlockTitle")
     part(title='Transactions')
       data-loading(v-if="blockchain.blockLoading")
       data-empty(v-else-if="block.header.num_txs === 0" title="Empty Block" subtitle="There were no transactions in this block.")
-      part(v-else v-for="tx in block.data.txs" :title="tx.hash" :key="tx.hash")
-        list-item(v-for="(tx, key) in tx" :key="tx.hash + 'key'" :dt="key" :dd="tx")
+    part(v-if="txs.length" v-for="(tx, tkey) in txs" :title="(isObj(tx) ? 'tx #' : 'loading tx #') + (tkey + 1)" :key="tkey + '-part'")
+      list-item(v-for="(tx, key) in tx"  :key="key + 'key'" :dt="key" :dd="tx")
 </template>
 
 <script>
@@ -69,11 +69,14 @@ export default {
     Page
   },
   computed: {
-    ...mapGetters(["blockchain"]),
+    ...mapGetters(["blockchain", "blocTxInfo"]),
     blockchainHeight() {
       return this.blockchain.blocks.length > 0
         ? this.blockchain.blocks[0].header.height
         : 0
+    },
+    txs() {
+      return this.blocTxInfo || this.block.data.txs
     },
     block() {
       return this.blockchain.block
@@ -102,6 +105,9 @@ export default {
     }
   },
   methods: {
+    isObj(thing) {
+      return typeof thing === "object"
+    },
     fetchBlock() {
       this.$store.dispatch("getBlock", parseInt(this.$route.params.block))
     }

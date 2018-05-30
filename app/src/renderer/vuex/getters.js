@@ -28,3 +28,13 @@ export const connected = state => state.node.connected
 export const lastHeader = state => state.node.lastHeader
 export const nodeIP = state => state.node.nodeIP
 export const mockedConnector = state => state.node.mocked
+
+//blockchain
+export const blocTxInfo = state => {
+  return (
+    state.blockchain.block &&
+    state.blockchain.blockTxs.find(
+      b => b.length && b[0].height === state.blockchain.block.header.height
+    )
+  )
+}
