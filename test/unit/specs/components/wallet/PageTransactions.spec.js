@@ -4,7 +4,64 @@ import PageTransactions from "renderer/components/wallet/PageTransactions"
 describe("PageTransactions", () => {
   let wrapper, store
   let { mount } = setup()
-
+  let transactions = [
+    {
+      tx: {
+        hash: "x",
+        inputs: [
+          {
+            coins: [
+              {
+                denom: "jbcoins",
+                amount: 1234
+              }
+            ],
+            sender: "myAddress"
+          }
+        ],
+        outputs: [
+          {
+            coins: [
+              {
+                denom: "jbcoins",
+                amount: 1234
+              }
+            ],
+            recipient: "otherAddress"
+          }
+        ]
+      },
+      time: Date.now()
+    },
+    {
+      tx: {
+        hash: "y",
+        inputs: [
+          {
+            coins: [
+              {
+                denom: "fabocoins",
+                amount: 1234
+              }
+            ],
+            sender: "otherAddress"
+          }
+        ],
+        outputs: [
+          {
+            coins: [
+              {
+                denom: "fabocoins",
+                amount: 1234
+              }
+            ],
+            recipient: "myAddress"
+          }
+        ]
+      },
+      time: Date.now() + 10
+    }
+  ]
   beforeEach(() => {
     let instance = mount(PageTransactions, {
       stubs: {
@@ -16,64 +73,7 @@ describe("PageTransactions", () => {
     store = instance.store
 
     store.commit("setWalletAddress", "myAddress")
-    store.commit("setWalletHistory", [
-      {
-        tx: {
-          hash: "x",
-          inputs: [
-            {
-              coins: [
-                {
-                  denom: "jbcoins",
-                  amount: 1234
-                }
-              ],
-              sender: "myAddress"
-            }
-          ],
-          outputs: [
-            {
-              coins: [
-                {
-                  denom: "jbcoins",
-                  amount: 1234
-                }
-              ],
-              recipient: "otherAddress"
-            }
-          ]
-        },
-        time: Date.now()
-      },
-      {
-        tx: {
-          hash: "y",
-          inputs: [
-            {
-              coins: [
-                {
-                  denom: "fabocoins",
-                  amount: 1234
-                }
-              ],
-              sender: "otherAddress"
-            }
-          ],
-          outputs: [
-            {
-              coins: [
-                {
-                  denom: "fabocoins",
-                  amount: 1234
-                }
-              ],
-              recipient: "myAddress"
-            }
-          ]
-        },
-        time: Date.now() + 10
-      }
-    ])
+    store.commit("setWalletHistory", transactions)
 
     wrapper.update()
   })
@@ -109,9 +109,32 @@ describe("PageTransactions", () => {
     expect(wrapper.vm.filteredTransactions.map(x => x.tx.hash)).toEqual(["x"])
   })
 
+  it("should update 'somethingToSearch' when there's nothing to search", () => {
+    expect(wrapper.vm.somethingToSearch).toBe(true)
+    store.commit("setWalletHistory", [])
+    expect(wrapper.vm.somethingToSearch).toBe(false)
+    store.commit("setWalletHistory", transactions)
+    expect(wrapper.vm.somethingToSearch).toBe(true)
+    store.commit("setHistoryLoading", true)
+    expect(wrapper.vm.somethingToSearch).toBe(false)
+  })
+
   it("should show an error if there are no transactions", () => {
     store.commit("setWalletHistory", [])
     wrapper.update()
     expect(wrapper.contains("data-empty-tx")).toBe(true)
+  })
+
+  it("should not show search when there is nothing to search", () => {
+    let transactions = []
+    let instance = mount(PageTransactions, {
+      stubs: {
+        "li-transaction": "<li-transaction />",
+        "data-empty-tx": "<data-empty-tx />"
+      }
+    })
+    store.commit("setWalletHistory", transactions)
+    wrapper.update()
+    expect(wrapper.vm.setSearch()).toEqual(false)
   })
 })

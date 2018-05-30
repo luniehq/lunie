@@ -11,6 +11,9 @@ export default ({ commit, node }) => {
   }
 
   const mutations = {
+    setBlocks(state, blocks) {
+      state.blocks = blocks
+    },
     setBlock(state, block) {
       state.block = block
     },

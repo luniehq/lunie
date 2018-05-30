@@ -1,12 +1,14 @@
 import NiModalSearch from "common/NiModalSearch"
 import setup from "../../../helpers/vuex-setup"
+import Vuelidate from "vuelidate"
 
 describe("NiModalSearch", () => {
   let wrapper, store
-  let { mount } = setup()
+  let { mount, shallow, localVue } = setup()
 
   beforeEach(() => {
     let instance = mount(NiModalSearch, { propsData: { type: "transactions" } })
+    localVue.use(Vuelidate)
     store = instance.store
     wrapper = instance.wrapper
     store.commit("setSearchVisible", ["transactions", true])
@@ -38,5 +40,19 @@ describe("NiModalSearch", () => {
       "transactions",
       "def"
     ])
+  })
+
+  it("should show find button on blocks", () => {
+    wrapper.setProps({ type: "blocks" })
+    store.commit("setSearchVisible", ["blocks", true])
+    store.commit("setSearchVisible", ["transactions", false])
+    wrapper.update()
+
+    expect(
+      wrapper
+        .find(".ni-modal-search-field .ni-btn__value")
+        .text()
+        .trim()
+    ).toBe("Find")
   })
 })

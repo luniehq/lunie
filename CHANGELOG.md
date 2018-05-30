@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Hid staking button on wallet page @jolesbi
 * Increment version in package.json @jolesbi
 * Added proper voyager logo to readme @jolesbi
+* Made search consistent @okwme
 
 ### Fixes
 
