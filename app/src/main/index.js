@@ -39,9 +39,11 @@ const winURL = DEV
   ? `http://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
-const MOCK = process.env.COSMOS_MOCKED
-  ? JSON.parse(process.env.COSMOS_MOCKED)
-  : config.mocked
+const MOCK =
+  process.env.COSMOS_MOCKED !== undefined
+    ? JSON.parse(process.env.COSMOS_MOCKED)
+    : config.mocked
+global.config.mocked = MOCK // persist resolved mock setting also in config used by view thread
 const NODE = process.env.COSMOS_NODE
 
 let LCD_BINARY_NAME = "gaiacli" + (WIN ? ".exe" : "")
