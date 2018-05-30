@@ -44,7 +44,8 @@ page(:title="pageBlockTitle")
     part(title='Transactions')
       data-loading(v-if="blockchain.blockLoading")
       data-empty(v-else-if="block.header.num_txs === 0" title="Empty Block" subtitle="There were no transactions in this block.")
-      list-item(v-else v-for="tx in block.data.txs" :key="tx.id" dt="Transaction" :dd="TODO")
+      part(v-else v-for="tx in block.data.txs" :title="tx.hash" :key="tx.hash")
+        list-item(v-for="(tx, key) in tx" :key="tx.hash + 'key'" :dt="key" :dd="tx")
 </template>
 
 <script>

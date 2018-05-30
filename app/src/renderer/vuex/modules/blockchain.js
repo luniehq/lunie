@@ -3,11 +3,13 @@ export default ({ commit, node }) => {
     blocks: [],
     block: {},
     blockMetaInfo: { block_id: {} },
+    blocTxInfo: { block_id: {} },
     blockHeight: null, // we remember the height so we can requery the block, if querying failed
     blockLoading: false,
     subscription: false,
     syncing: true,
-    blockMetas: []
+    blockMetas: [],
+    blockTxs: []
   }
 
   const mutations = {
@@ -16,6 +18,9 @@ export default ({ commit, node }) => {
     },
     setBlockMetaInfo(state, blockMetaInfo) {
       state.blockMetaInfo = blockMetaInfo
+    },
+    setBlockTxInfo(state, blockTxInfo) {
+      state.blockTxInfo = blockTxInfo
     }
   }
 
@@ -33,6 +38,9 @@ export default ({ commit, node }) => {
         dispatch("queryBlock", height).then(block => commit("setBlock", block)),
         dispatch("queryBlockInfo", height).then(blockMetaInfo =>
           commit("setBlockMetaInfo", blockMetaInfo)
+        ),
+        dispatch("queryTxInfo", height).then(blockTxInfo =>
+          commit("setBlockTxInfo", blockTxInfo)
         )
       ]).then(
         () => {
