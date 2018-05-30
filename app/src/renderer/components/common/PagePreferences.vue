@@ -27,9 +27,10 @@ page(title="Preferences")
       subtitle="to the Voyager development team")
       field(
         type="toggle"
+        :style="{margin:'1em auto 0 auto'}"
         :options=`{
-          checked: "yes",
-          unchecked: "no"
+          checked: " ",
+          unchecked: " "
           }`
         :value="user.errorCollection || undefined"
         @change.native="setErrorCollection")
