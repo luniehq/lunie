@@ -39,11 +39,12 @@ function cliSendCoins(home, to, amount) {
 
 test("wallet", async function(t) {
   let { app, home } = await getApp(t)
+  // app.env.COSMOS_MOCKED = false
   await restart(app)
 
   let $ = (...args) => app.client.$(...args)
 
-  await login(app, "default")
+  await login(app, "testkey")
 
   let balanceEl = denom => {
     console.log("looking for " + denom.toUpperCase())
