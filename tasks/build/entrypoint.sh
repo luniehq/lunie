@@ -1,12 +1,29 @@
 #!/bin/sh
 set -o errexit
+set -o xtrace
 
+# Cosmos SDK
+
+cd $GOPATH/src/github.com/cosmos
+git clone https://github.com/cosmos/cosmos-sdk
+cd cosmos-sdk
+git checkout $SDK_COMMIT
+export GOOS
+
+for GOOS in darwin linux windows; do
+  echo Building Cosmos SDK for platform \"$GOOS\".
+  make get_vendor_deps
+  make install
+done
+
+# Voyager
+
+cd /usr/src/app
 git clone /mnt/.git .
-
-# Use the specified commit of Voyager.
-git checkout "$1"
-shift
-
+git checkout $COMMIT
 ln --symbolic /mnt/builds
 yarn install
-node tasks/build/entrypoint2.js "$@"
+
+for platform in darwin linux win32; do
+  node tasks/build/buildPlatform.js --platform=$platform "$@"
+done

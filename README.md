@@ -1,4 +1,4 @@
-![the cosmos network](cosmos-github.jpg)
+![Cosmos Voyager logo — spaceship blasting off](/app/icons/png/128x128.png)
 
 # Cosmos Voyager
 
@@ -90,7 +90,7 @@ on your system.
 Here's an example build command:
 
 ```shell
-yarn run build --commit=HEAD --network=app/networks/gaia-5001 --platform=darwin --sdk-commit=35d0e34b2674ad9edf0f074167dd967219dbbe1b
+yarn run build --commit=HEAD --network=app/networks/gaia-5001 --sdk-commit=35d0e34b2674ad9edf0f074167dd967219dbbe1b
 ```
 
 You can specify `--help` to see all options with explanations.
@@ -104,7 +104,7 @@ open builds/Cosmos-{platform}-x64/Cosmos.app
 When you are testing the build system you can skip the repackaging of the JS files.
 
 ```bash
-$ yarn run build --platform=darwin --skip-pack
+$ yarn run build --skip-pack
 ```
 
 To test if your build worked run:
@@ -162,6 +162,7 @@ A list of all environment variables and their purpose:
 | ELECTRON_ENABLE_LOGGING | 'true', 'false'                        | 'false'                          | Redirect the browser view console output to the console                                 |
 | PREVIEW                 | 'true', 'false'                        | 'true' if NODE_ENV 'development' | Show/Hide features that are in development                                              |
 | COSMOS_E2E_KEEP_OPEN    | 'true', 'false'                        | 'false'                          | Keep the Window open in local E2E test to see the state in which the application broke. |
+| COSMOS_MOCKED           | 'true', 'false'                        | `app/config.toml` > mocked       | Start with a mocked connector. Overwrites the setting in `app/config.toml`.             |
 
 ### FAQ
 

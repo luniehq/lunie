@@ -39,7 +39,9 @@ const winURL = DEV
   ? `http://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
-const MOCK = config.mocked
+const MOCK = process.env.COSMOS_MOCKED
+  ? JSON.parse(process.env.COSMOS_MOCKED)
+  : config.mocked
 const NODE = process.env.COSMOS_NODE
 
 let LCD_BINARY_NAME = "gaiacli" + (WIN ? ".exe" : "")
@@ -84,7 +86,9 @@ function expectCleanExit(process, errorMessage = "Process exited unplanned") {
 function handleCrash(error) {
   afterBooted(() => {
     if (mainWindow) {
-      mainWindow.webContents.send("error", error)
+      mainWindow.webContents.send("error", {
+        message: error ? error.message : undefined
+      })
     }
   })
 }
@@ -623,8 +627,10 @@ async function main() {
     log(
       `gaiacli version: "${gaiacliVersion}", expected: "${expectedGaiaCliVersion}"`
     )
-    // TODO: semver check, or exact match?
-    if (gaiacliVersion !== expectedGaiaCliVersion) {
+    let compatible =
+      semver.major(gaiacliVersion) == semver.major(expectedGaiaCliVersion) &&
+      semver.minor(gaiacliVersion) == semver.minor(expectedGaiaCliVersion)
+    if (!compatible) {
       throw Error(`Requires gaia ${expectedGaiaCliVersion}, but got ${gaiacliVersion}.
       Please update your gaiacli installation or build with a newer binary.`)
     }
