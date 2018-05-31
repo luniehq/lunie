@@ -43,6 +43,7 @@ test("preferences", async function(t) {
 
       // await login(app, "default")
       // HACK skipping actual login verification
+      await app.client.waitForExist("#sign-in-name", 10000)
       await app.client.$(".ni-session-footer button").click()
       await app.client.waitForExist("#app-content", 10000)
 
