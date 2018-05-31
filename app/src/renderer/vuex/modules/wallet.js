@@ -15,6 +15,9 @@ export default ({ commit, node }) => {
   }
 
   let mutations = {
+    setHistoryLoading(state, loading) {
+      state.historyLoading = loading
+    },
     setWalletBalances(state, balances) {
       state.balances = balances
       state.balancesLoading = false
@@ -80,7 +83,7 @@ export default ({ commit, node }) => {
       dispatch("queryWalletBalances")
     },
     async queryWalletHistory({ state, commit, dispatch }) {
-      state.historyLoading = true
+      commit("setHistoryLoading", true)
       // let res = await node.coinTxs(state.address)
       // XXX
       let res = []
@@ -96,7 +99,7 @@ export default ({ commit, node }) => {
       await Promise.all(
         blockHeights.map(h => dispatch("queryTransactionTime", h))
       )
-      state.historyLoading = false
+      commit("setHistoryLoading", false)
     },
     async queryTransactionTime({ commit, dispatch }, blockHeight) {
       let blockMetaInfo = await dispatch("queryBlockInfo", blockHeight)

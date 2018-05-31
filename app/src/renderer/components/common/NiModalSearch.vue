@@ -11,7 +11,7 @@
           step="1"
           placeholder="View block height..."
           v-model="query")
-        btn(value="Go")
+        btn(value="Find")
         btn(type="button" icon="close" @click.native="close")
       form-msg(name="Query" type="numeric"
         v-if="!$v.filters.blocks.search.query.numeric")
