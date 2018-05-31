@@ -18,6 +18,12 @@ describe("Module: Filters", () => {
 
     store.commit("setSearchVisible", ["balances", false])
     expect(state.balances.search.visible).toBe(false)
+
+    store.commit("setSearchVisible", ["balances", true])
+    expect(state.balances.search.visible).toBe(true)
+
+    store.commit("resetSearch", "balances")
+    expect(state.balances.search.visible).toBe(false)
   })
 
   it("can set a search type's query", () => {

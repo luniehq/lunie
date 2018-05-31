@@ -8,6 +8,7 @@ module.exports = function(lcdPort, mocked = false) {
   const LCD_SERVER = "http://localhost:" + lcdPort
 
   let connector = {
+    mocked,
     lcdPort,
     // activate or deactivate the mocked lcdClient
     setup: mocked => {

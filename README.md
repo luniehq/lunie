@@ -51,7 +51,7 @@ yarn
 
 ### Develop
 
-To run Voyager on the default testnet (`gaia-2`):
+To run Voyager on the default testnet (`gaia-5001`):
 
 ```bash
 $ yarn testnet
