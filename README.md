@@ -32,7 +32,7 @@ make get_tools && make get_vendor_deps && make install
 
 ### Check Out Voyager
 
-Voyager requires Node.js >=9.4.0. If you have a different version of Node.js installed (e.g. node.js 10.0.0), you need to use `n` to install the correct version. The following command will install it alongside your current version of Node.js.
+Voyager requires Node.js `>=9.4.0`. If you have a different version of Node.js installed (e.g. Node.js `10.0.0`), you need to use `n` to install the correct version. The following command will use `n` to install it alongside your current version of Node.js.
 
 ```bash
 npm i -g n && n 9.4.0
