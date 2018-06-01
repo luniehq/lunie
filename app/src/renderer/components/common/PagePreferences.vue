@@ -87,6 +87,9 @@ export default {
       }
     ]
   }),
+  mounted() {
+    this.networkSelectActive = this.mockedConnector ? "mock" : "live"
+  },
   methods: {
     signOut() {
       this.$store.dispatch("signOut")
