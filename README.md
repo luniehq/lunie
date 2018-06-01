@@ -19,7 +19,7 @@
 
 ### Install Cosmos SDK
 
-Make sure you have **go 1.10+** installed. [Get it here.](https://golang.org/doc/install).
+Make sure you have **go 1.10+** installed. [Get it here.](https://golang.org/doc/install)
 
 Now, check out and install `v0.17.3` of the Cosmos SDK:
 
@@ -28,15 +28,6 @@ go get github.com/cosmos/cosmos-sdk
 cd $GOPATH/src/github.com/cosmos/cosmos-sdk
 git checkout v0.17.3
 make get_tools && make get_vendor_deps && make install
-```
-
-Verify that everything is OK by running:
-
-```
-gaiacli version
-
-# You should see:
-0.17.3-a5a78eb5
 ```
 
 ### Check Out Voyager
@@ -49,7 +40,7 @@ npm i -g n && n 9.4.0
 
 Yarn is a JS package packager we use manage Voyager dependencies. [Download it.](https://yarnpkg.com/lang/en/docs/install)
 
-With Node.js and Yarn installed, you're ready for the last part:
+With Node.js and Yarn installed, you're ready to check out the source code:
 
 ```bash
 git clone https://github.com/cosmos/voyager.git
