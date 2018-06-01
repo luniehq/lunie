@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+### Changes
+
+* Disabled error reporting in development @faboweb
+
+### Added
+
+* Persisting e2e failure screenshots as artifact on circleci @faboweb
+
 ## [0.6.2] - 2018-05-23
 
 ### Added
@@ -30,6 +39,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Added proper voyager logo to readme @jolesbi
 * Made search consistent @okwme
 * Change gaia-2 to gaia-5001 in readme @jolesbi
+* Improved readme with better prerequisite instructions @nylira
 
 ### Fixes
 
