@@ -320,25 +320,26 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
               >
                 <label
                   class="ni-toggle unchecked"
+                  style="margin: 1em auto 0px auto;"
                 >
                   <div
                     class="ni-toggle-wrapper"
                   >
                     <span>
-                      yes
+                       
                     </span>
                     <div
                       class="toggle-option-checked"
                     >
                       <div>
-                        yes
+                         
                       </div>
                     </div>
                     <div
                       class="toggle-option-unchecked"
                     >
                       <div>
-                        no
+                         
                       </div>
                     </div>
                     <div
