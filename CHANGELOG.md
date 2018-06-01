@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+### Changes
+
+* Disabled error reporting in development @faboweb
+
 ### Added
 
 * Persisting e2e failure screenshots as artifact on circleci @faboweb

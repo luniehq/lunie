@@ -188,4 +188,34 @@ describe("Module: User", () => {
     await store.dispatch("reconnected")
     expect(store.state.user.accounts.length).toBeGreaterThan(0)
   })
+
+  it("should not set error collection if in development mode", async () => {
+    const Raven = require("raven-js")
+    const ravenSpy = jest.spyOn(Raven, "config")
+    jest.doMock("electron", () => ({
+      ipcRenderer: { send: jest.fn() },
+      remote: {
+        getGlobal(name) {
+          if (name === "config")
+            return {
+              development: true
+            }
+        }
+      }
+    }))
+
+    // we need to force resetting of the store modules to enable the new electron mock
+    jest.resetModules()
+    let setup = require("../../helpers/vuex-setup").default
+    let instance = setup()
+    let test = instance.shallow()
+    store = test.store
+    node = test.node
+
+    ravenSpy.mockClear()
+    store.dispatch("setErrorCollection", { account: "abc", optin: true })
+    expect(store.state.user.errorCollection).toBe(false)
+    expect(window.analytics).toBeFalsy()
+    expect(ravenSpy).not.toHaveBeenCalled()
+  })
 })
