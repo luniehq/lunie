@@ -49,7 +49,7 @@ cd voyager && yarn
 
 ---
 
-### Voyager Development
+## Voyager Development
 
 To run Voyager on the default testnet (`gaia-5001`):
 
@@ -116,7 +116,7 @@ To make an official release, follow the instructions in `docs/release.md`.
 
 ---
 
-### Testing
+## Testing
 
 Voyager is using [Jest](https://facebook.github.io/jest) to run unit tests.
 
@@ -132,7 +132,7 @@ $ yarn test:coverage
 
 ---
 
-### Debug
+## Debug
 
 To debug the electron application, build it and run the node inspector for the built files:
 
@@ -146,7 +146,7 @@ To debug the electron view, set the environment variable `COSMOS_DEVTOOLS` to so
 
 To see the console output of the view in your terminal, set the environment variable `ELECTRON_ENABLE_LOGGING` to something truthy like `1`.
 
-### Flags
+## Flags
 
 A list of all environment variables and their purpose:
 
@@ -163,7 +163,7 @@ A list of all environment variables and their purpose:
 | COSMOS_E2E_KEEP_OPEN    | 'true', 'false'                        | 'false'                          | Keep the Window open in local E2E test to see the state in which the application broke. |
 | COSMOS_MOCKED           | 'true', 'false'                        | `app/config.toml` > mocked       | Start with a mocked connector. Overwrites the setting in `app/config.toml`.             |
 
-### FAQ
+## FAQ
 
 * If tendermint crashes and the log shows `Tendermint state.AppHash does not match AppHash after replay.` delete the config folders at `$HOME/.cosmos-voyager[-dev]`.
 
@@ -199,4 +199,4 @@ $ rm -rf package-lock.json
 
 ---
 
-### ✌️
+## ✌️
