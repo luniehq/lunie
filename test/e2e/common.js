@@ -114,5 +114,6 @@ module.exports = {
   async selectOption(app, selectSelector, text) {
     await app.client.$(selectSelector).click()
     await app.client.keys(text.split())
+    await app.client.keys("Enter")
   }
 }
