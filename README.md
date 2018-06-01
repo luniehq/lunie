@@ -17,13 +17,11 @@
 
 ## Voyager Prerequsities
 
-### I. Install `gaiacli`
+### Install Cosmos SDK
 
-#### 1. Install Go
+Make sure you have **go 1.10+** installed. [Get it here.](https://golang.org/doc/install).
 
-Install `go` **1.10+** by following the [instructions](https://golang.org/doc/install).
-
-#### 2. Install Cosmos SDK
+Now, check out and install `v0.17.3` of the Cosmos SDK:
 
 ```
 go get github.com/cosmos/cosmos-sdk
@@ -32,7 +30,7 @@ git checkout v0.17.3
 make get_tools && make get_vendor_deps && make install
 ```
 
-This will install `gaiacli` binary. Verify that everything is OK by running:
+Verify that everything is OK by running:
 
 ```
 gaiacli version
@@ -41,21 +39,18 @@ gaiacli version
 0.17.3-a5a78eb5
 ```
 
-### II. Get Voyager
+### Check Out Voyager
 
-#### 1. Install Node.js
-
-Voyager requires Node.js >=9.4.0. If you have a different version of Node.js installed (e.g. node.js 10.0.0), you need to use `n` (or `nvm`) to install the correct version.
+Voyager requires Node.js >=9.4.0. If you have a different version of Node.js installed (e.g. node.js 10.0.0), you need to use `n` to install the correct version. The following command will install it alongside your current version of Node.js.
 
 ```bash
 npm i -g n && n 9.4.0
 ```
 
-#### 2. Install Yarn
-
 Yarn is a JS package packager we use manage Voyager dependencies. [Download it.](https://yarnpkg.com/lang/en/docs/install)
 
-#### 3. Checkout Voyager
+With Node.js and Yarn installed, you're ready for the last part:
+
 ```bash
 git clone https://github.com/cosmos/voyager.git
 cd voyager && yarn
@@ -86,7 +81,7 @@ $ gaia node start --home=./app/networks/local
 $ yarn testnet local
 ``` -->
 
-First start a local node following the Gaia [readme](https://github.com/cosmos/gaia).
+First, start a full node following the [testnet instructions](https://cosmos.network/join-testnet).
 
 Then start Voyager pointing at your local node.
 
