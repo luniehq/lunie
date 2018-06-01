@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Added proper voyager logo to readme @jolesbi
 * Made search consistent @okwme
 * Change gaia-2 to gaia-5001 in readme @jolesbi
+* Improved readme with better prerequisite instructions @nylira
 
 ### Fixes
 
