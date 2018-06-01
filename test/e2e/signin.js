@@ -59,6 +59,7 @@ test("sign in", async function(t) {
           .isExisting(".ni-form-msg--error")),
         "hides error"
       )
+      throw Error("EXPECTED ERROR")
       t.end()
     })
 
