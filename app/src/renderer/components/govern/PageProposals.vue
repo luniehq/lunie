@@ -3,9 +3,9 @@ page(title='Proposals')
   div(slot="menu"): tool-bar
     router-link(to="/proposals/new" exact v-tooltip.bottom="'New Proposal'")
       i.material-icons add
-    a(@click='setSearch(true)' v-tooltip.bottom="'Search'")
+    a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
       i.material-icons search
-  modal-search(type="proposals")
+  modal-search(type="proposals" v-if="somethingToSearch")
 
   data-loading(v-if="proposals.loading")
   data-empty(v-else-if="proposals.length === 0")
@@ -45,6 +45,9 @@ export default {
   },
   computed: {
     ...mapGetters(["proposals", "filters"]),
+    somethingToSearch() {
+      return !this.proposals.loading && !!this.proposals.length
+    },
     filteredProposals() {
       if (this.proposals.items && this.filters) {
         let query = this.filters.proposals.search.query
@@ -113,7 +116,8 @@ export default {
     gotoNewProposal() {
       this.$router.push("/proposals/new")
     },
-    setSearch(bool) {
+    setSearch(bool = !this.filters["proposals"].search.visible) {
+      if (!this.somethingToSearch) return false
       this.$store.commit("setSearchVisible", ["proposals", bool])
     }
   },

@@ -3,10 +3,10 @@ page(title='Wallet')
   div(slot="menu"): tool-bar
     a(@click='updateBalances()' v-tooltip.bottom="'Refresh'")
       i.material-icons refresh
-    a(@click='setSearch(true)' v-tooltip.bottom="'Search'")
+    a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
       i.material-icons search
 
-  modal-search(type="balances")
+  modal-search(type="balances" v-if="somethingToSearch")
 
   part(title='Your Address')
     list-item(
@@ -28,7 +28,7 @@ page(title='Wallet')
       :dd="i.amount"
       :to="{name: 'send', params: {denom: i.denom}}")
 
-  part#part-staked-balances(title="Staked Balances")
+  part#part-staked-balances(v-if="config.devMode" title="Staked Balances")
     list-item(
       btn="Stake"
       :dt="stakingDenom"
@@ -66,6 +66,9 @@ export default {
   },
   computed: {
     ...mapGetters(["filters", "wallet", "committedDelegations", "config"]),
+    somethingToSearch() {
+      return !this.wallet.balancesLoading && !!this.wallet.balances.length
+    },
     allDenomBalances() {
       // for denoms not in balances, add empty balance
       let balances = this.wallet.balances.slice(0)
@@ -99,7 +102,8 @@ export default {
     }
   },
   methods: {
-    setSearch(bool) {
+    setSearch(bool = !this.filters["balances"].search.visible) {
+      if (!this.somethingToSearch) return false
       this.$store.commit("setSearchVisible", ["balances", bool])
     },
     updateBalances() {

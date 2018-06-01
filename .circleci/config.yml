@@ -64,7 +64,18 @@ jobs:
           command: yarn run test
           no_output_timeout: 120
 
-      - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+      - run:
+          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+          when: on_success
+
+      - run:
+          command: |
+            mkdir -p /tmp/test_info
+            [ -f test/e2e/snapshot.png ] && cp test/e2e/snapshot.png /tmp/test_info || echo "No screenshot found"
+          when: on_fail
+
+      - store_artifacts:
+          path: /tmp/test_info
 
   # Build a release and publish it to GitHub.
   release:

@@ -7,26 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.6.8] - 2018-05-28
+### Changes
 
-## [0.6.7] - 2018-05-28
+* Disabled error reporting in development @faboweb
 
-## [0.6.6] - 2018-05-28
+### Added
 
-## [0.6.5] - 2018-05-28
+* Persisting e2e failure screenshots as artifact on circleci @faboweb
+* Added automatic releases @faboweb @NodeGuy
 
-## [0.6.4] - 2018-05-28
-
-## [0.6.3] - 2018-05-28
-
-## [0.6.2] - 2018-05-28
+## [0.6.2] - 2018-05-23
 
 ### Added
 
 * Added linting check and unit tests to the git prepush hook @faboweb
 * Added basic validation for wallet send @okwme
-* Added automatic releases @faboweb @NodeGuy
+* Added COSMOS_MOCKED env variable to allow overwriting mocked mode from the command line @faboweb
 * User will now be logged out if switching between mocked and live connector @faboweb
+* recovery seed form validation & tests @okwme
 
 ### Changed
 
@@ -35,10 +33,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Build process now builds for all three platforms at the same time. @NodeGuy
 * The config.toml is now mocked to guarantee consistent unit tests @faboweb
 * The binary is now accepted if it has the same minor version instead of the path version. @faboweb
+* Hid staking button on wallet page @jolesbi
+* Increment version in package.json @jolesbi
+* Added proper voyager logo to readme @jolesbi
+* Made search consistent @okwme
+* Change gaia-2 to gaia-5001 in readme @jolesbi
+* Improved readme with better prerequisite instructions @nylira
 
 ### Fixes
 
 * Error messages from main thread are now displayed correctly in the view @faboweb
+
+### Fixed
+
+* Re-enabled staking and transactions pages for mocked network. @nylira
+* Revealed the password for the default account on the mocked network. @nylira
+* Fixed not being able to reconnect to a live network if started in mocked mode. @faboweb
 
 ## [0.6.1] - 2018-05-22
 
