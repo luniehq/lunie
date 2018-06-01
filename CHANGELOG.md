@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.6.2] - 2018-05-23
+
 ### Added
 
 * Added linting check and unit tests to the git prepush hook @faboweb
@@ -26,10 +28,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Hid staking button on wallet page @jolesbi
 * Increment version in package.json @jolesbi
 * Added proper voyager logo to readme @jolesbi
+* Made search consistent @okwme
+* Change gaia-2 to gaia-5001 in readme @jolesbi
+* Improved readme with better prerequisite instructions @nylira
 
 ### Fixes
 
 * Error messages from main thread are now displayed correctly in the view @faboweb
+
+### Fixed
+
+* Re-enabled staking and transactions pages for mocked network. @nylira
+* Revealed the password for the default account on the mocked network. @nylira
+* Fixed not being able to reconnect to a live network if started in mocked mode. @faboweb
 
 ## [0.6.1] - 2018-05-22
 

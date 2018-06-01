@@ -1,11 +1,33 @@
 <template lang="pug">
 menu.app-menu
   .app-menu-main
-    list-item(to="/" exact @click.native="close" title="Wallet")
-    list-item(to="/wallet/transactions" exact @click.native="close" title="Transactions" v-if="config.devMode")
-    list-item(to="/staking" exact @click.native="close" title="Staking" v-bind:class="{ 'active': isValidatorPage }" v-if="config.devMode")
-    list-item(to="/proposals" exact @click.native="close" title="Proposals" v-if="config.devMode")
-    list-item(to="/blocks" exact @click.native="close" title="Blocks")
+    list-item(
+      to="/"
+      exact
+      @click.native="close"
+      title="Wallet")
+    list-item(
+      to="/wallet/transactions"
+      exact
+      @click.native="close"
+      title="Transactions"
+      v-if="config.devMode || mockedConnector")
+    list-item(
+      to="/staking"
+      exact
+      @click.native="close" title="Staking"
+      v-bind:class="{ 'active': isValidatorPage }"
+      v-if="config.devMode || mockedConnector")
+    list-item(
+      to="/proposals"
+      exact @click.native="close"
+      title="Proposals"
+      v-if="config.devMode")
+    list-item(
+      to="/blocks"
+      exact
+      @click.native="close"
+      title="Blocks")
     connectivity
   user-pane
 </template>
@@ -29,7 +51,13 @@ export default {
     UserPane
   },
   computed: {
-    ...mapGetters(["proposals", "validators", "config"]),
+    ...mapGetters([
+      "proposals",
+      "validators",
+      "config",
+      "lastHeader",
+      "mockedConnector"
+    ]),
     proposalAlerts() {
       return this.proposals.filter(p => p.flags.read === false).length
     },
@@ -57,7 +85,6 @@ export default {
   background var(--app-bg-alpha)
   z-index z(appMenu)
   user-select none
-
   display flex
   flex-flow column nowrap
 
@@ -71,7 +98,6 @@ export default {
   .ni-user
     border-top 1px solid var(--bc)
     padding 1rem
-
     display flex
 
     .ni-user-info
@@ -83,10 +109,10 @@ export default {
       width 2rem
       height 2rem
       border-radius 1rem
-
       display flex
       align-items center
       justify-content center
+
       i
         color var(--bright)
 
@@ -103,20 +129,20 @@ export default {
     .ni-btn
       margin-right 0.5rem
 
-@media screen and (max-width:1023px)
+@media screen and (max-width: 1023px)
   .app-menu
     position fixed
     top 3rem
     left 0
     bottom 0
     width 100vw
-
     background var(--app-bg)
     user-select none
 
-@media screen and (min-width:1024px)
+@media screen and (min-width: 1024px)
   .app-menu
     flex 1
+
     .ni-connectivity
       display none
 </style>

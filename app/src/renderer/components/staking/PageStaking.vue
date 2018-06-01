@@ -3,10 +3,10 @@ page(title='Staking')
   div(slot="menu"): tool-bar
     a(@click='updateDelegates(address)' v-tooltip.bottom="'Refresh'")
       i.material-icons refresh
-    a(@click='setSearch(true)' v-tooltip.bottom="'Search'")
+    a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
       i.search.material-icons search
 
-  modal-search(type="delegates")
+  modal-search(type="delegates" v-if="somethingToSearch")
 
   .delegates-container
     data-loading(v-if="delegates.loading")
@@ -59,6 +59,9 @@ export default {
     ...mapGetters(["delegates", "filters", "shoppingCart", "config", "user"]),
     address() {
       return this.user.address
+    },
+    somethingToSearch() {
+      return !this.delegates.loading && !!this.delegates.delegates.length
     },
     filteredDelegates() {
       let query = this.filters.delegates.search.query
@@ -141,7 +144,8 @@ export default {
       let candidates = await this.$store.dispatch("getDelegates")
       this.$store.dispatch("getBondedDelegates", candidates)
     },
-    setSearch(bool) {
+    setSearch(bool = !this.filters["delegates"].search.visible) {
+      if (!this.somethingToSearch) return false
       this.$store.commit("setSearchVisible", ["delegates", bool])
     }
   },

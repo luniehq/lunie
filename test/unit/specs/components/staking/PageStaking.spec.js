@@ -5,15 +5,8 @@ import PageStaking from "renderer/components/staking/PageStaking"
 describe("PageStaking", () => {
   let wrapper, store
   let { mount } = setup()
-
-  beforeEach(() => {
-    let instance = mount(PageStaking)
-    wrapper = instance.wrapper
-    store = instance.store
-
-    store.state.user.address = "abc"
-    store.commit("setAtoms", 1337)
-    store.commit("addDelegate", {
+  let delegates = [
+    {
       pub_key: {
         type: "ed25519",
         data: "pubkeyX"
@@ -25,8 +18,8 @@ describe("PageStaking", () => {
         moniker: "candidateX",
         country: "USA"
       }
-    })
-    store.commit("addDelegate", {
+    },
+    {
       pub_key: {
         type: "ed25519",
         data: "pubkeyY"
@@ -38,7 +31,17 @@ describe("PageStaking", () => {
         moniker: "candidateY",
         country: "Canada"
       }
-    })
+    }
+  ]
+  beforeEach(() => {
+    let instance = mount(PageStaking)
+    wrapper = instance.wrapper
+    store = instance.store
+
+    store.state.user.address = "abc"
+    store.commit("setAtoms", 1337)
+    store.commit("addDelegate", delegates[0])
+    store.commit("addDelegate", delegates[1])
     wrapper.update()
   })
 
@@ -101,6 +104,18 @@ describe("PageStaking", () => {
     ).toContain("2")
   })
 
+  it("should update 'somethingToSearch' when there's nothing to search", () => {
+    expect(wrapper.vm.somethingToSearch).toBe(true)
+    store.commit("setDelegates", [])
+    expect(wrapper.vm.somethingToSearch).toBe(false)
+
+    store.commit("addDelegate", delegates[0])
+    store.commit("addDelegate", delegates[1])
+    expect(wrapper.vm.somethingToSearch).toBe(true)
+    store.commit("setDelegateLoading", true)
+    expect(wrapper.vm.somethingToSearch).toBe(false)
+  })
+
   it("should show placeholder if delegates are loading", () => {
     let { wrapper } = mount(PageStaking, {
       getters: {
@@ -113,5 +128,20 @@ describe("PageStaking", () => {
     })
 
     expect(wrapper.contains("data-loading")).toBe(true)
+  })
+
+  it("should not show search when there is nothing to search", () => {
+    let { wrapper } = mount(PageStaking, {
+      getters: {
+        delegates: () => ({
+          delegates: [],
+          loading: true
+        })
+      },
+      stubs: { "data-loading": "<data-loading />" }
+    })
+    wrapper.update()
+
+    expect(wrapper.vm.setSearch()).toEqual(false)
   })
 })
