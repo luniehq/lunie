@@ -82,8 +82,14 @@ export default ({ commit, node }) => {
       console.log(state.block)
       blockTxInfo = await dispatch("getTxs", {
         key: 0,
-        len: state.block.data ? state.block.data.txs.length : 0,
-        txs: state.block.data ? state.block.data.txs.slice(0) : []
+        len:
+          state.block && state.block.data && state.block.data.txs
+            ? state.block.data.txs.length
+            : 0,
+        txs:
+          state.block && state.block.data && state.block.data.txs
+            ? state.block.data.txs.slice(0)
+            : []
       })
       blockTxInfo && state.blockTxs.push(blockTxInfo)
       return blockTxInfo

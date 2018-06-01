@@ -1,7 +1,7 @@
 <template lang="pug">
 page(:title="pageBlockTitle")
   data-loading(v-if="blockchain.blockLoading")
-  data-empty(v-else-if="!block.header || !blockMeta")
+  data-empty(v-else-if="!block || !block.header || !blockMeta")
   template(v-else)
     div(slot="menu"): tool-bar
       router-link(:to="{ name: 'block', params: { block: block.header.height - 1 }}"
@@ -46,12 +46,20 @@ page(:title="pageBlockTitle")
       data-empty(v-else-if="block.header.num_txs === 0" title="Empty Block" subtitle="There were no transactions in this block.")
     part(v-if="txs.length" v-for="(tx, tkey) in txs" :title="(isObj(tx) ? 'tx #' : 'loading tx #') + (tkey + 1)" :key="tkey + '-part'")
       list-item(v-for="(tx, key) in tx"  :key="key + 'key'" :dt="key" :dd="tx")
+    li-transaction(
+      v-if="txs.length"
+      v-for="(tx, tkey) in txs"
+      :key="tkey + '-tx'"
+      :transaction-value="transactionValueify(tx)"
+      :address="tx.msg.inputs[0].address"
+      :devMode="config.devMode")
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import moment from "moment"
 import num from "scripts/num"
+import LiTransaction from "wallet/LiTransaction"
 import DataLoading from "common/NiDataLoading"
 import DataEmpty from "common/NiDataEmpty"
 import ToolBar from "common/NiToolBar"
@@ -61,6 +69,7 @@ import Page from "common/NiPage"
 export default {
   name: "page-block",
   components: {
+    LiTransaction,
     DataLoading,
     DataEmpty,
     ToolBar,
@@ -92,7 +101,7 @@ export default {
       return this.blockchain.blockMetaInfo
     },
     pageBlockTitle() {
-      if (this.block.header) {
+      if (this.block && this.block.header) {
         return "Block #" + num.prettyInt(this.block.header.height)
       } else {
         return "Loading..."
@@ -100,7 +109,9 @@ export default {
     },
     nextBlockAvailable() {
       return (
-        this.block.header && this.block.header.height < this.blockchainHeight
+        this.block &&
+        this.block.header &&
+        this.block.header.height < this.blockchainHeight
       )
     }
   },
@@ -110,6 +121,20 @@ export default {
     },
     fetchBlock() {
       this.$store.dispatch("getBlock", parseInt(this.$route.params.block))
+    },
+    heightToTime(height) {
+      // TODO how to get time from height?
+      return height
+    },
+    transactionValueify(tv) {
+      console.log(tv)
+
+      tv = JSON.parse(JSON.stringify(tv))
+      tv.tx.inputs = tv.tx.msg.inputs
+      tv.tx.outputs = tv.tx.msg.outputs
+      tv.time = this.heightToTime(tv.height)
+      console.log(tv)
+      return tv
     }
   },
   mounted() {
