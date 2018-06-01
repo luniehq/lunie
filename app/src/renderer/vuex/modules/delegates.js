@@ -7,6 +7,12 @@ export default ({ dispatch, node }) => {
   }
 
   const mutations = {
+    setDelegateLoading(state, loading) {
+      state.loading = loading
+    },
+    setDelegates(state, delegates) {
+      state.delegates = delegates
+    },
     addDelegate(state, delegate) {
       delegate.id = delegate.pub_key.data
       Object.assign(delegate, delegate.description)
@@ -24,24 +30,25 @@ export default ({ dispatch, node }) => {
   }
 
   const actions = {
-    reconnected({ state, dispatch }) {
+    reconnected({ state, commit, dispatch }) {
       if (state.loading) {
         dispatch("getDelegates")
       }
     },
-    async getDelegates({ state, dispatch, rootState }) {
-      state.loading = true
+    async getDelegates({ state, dispatch, rootState, commit }) {
+      commit("setDelegateLoading", true)
       let delegatePubkeys = (await node.candidates()).data
       await Promise.all(
         delegatePubkeys.map(pubkey => {
           return dispatch("getDelegate", pubkey)
         })
       )
-      state.delegates = indicateValidators(
-        state.delegates,
-        rootState.config.maxValidators
+      commit(
+        "setDelegates",
+        indicateValidators(state.delegates, rootState.config.maxValidators)
       )
-      state.loading = false
+      commit("setDelegateLoading", false)
+
       return state.delegates
     },
     async getDelegate({ commit }, pubkey) {

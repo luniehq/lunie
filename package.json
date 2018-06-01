@@ -1,7 +1,7 @@
 {
   "name": "cosmos-voyager",
   "productName": "Cosmos Voyager",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Voyager is an electron-based user interface for the Cosmos Network.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
@@ -95,7 +95,7 @@
   },
   "dependencies": {
     "@nylira/vue-button": "4.4.3",
-    "@nylira/vue-field": "https://github.com/okwme/vue-field.git",
+    "@nylira/vue-field": "1.5.0",
     "@nylira/vue-notifications": "1.5.0",
     "@vue/test-utils": "1.0.0-beta.11",
     "autosize": "4.0.2",

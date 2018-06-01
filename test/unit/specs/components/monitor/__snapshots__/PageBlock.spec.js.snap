@@ -247,7 +247,7 @@ exports[`PageBlock has the expected html structure 1`] = `
 </div>"
 `;
 
-exports[`PageBlock should disable the next block button if last block 1`] = `undefined`;
+exports[`PageBlock should disable the next block button if last block 1`] = `"<div class=\\"ni-page\\"><header class=\\"ni-page-header\\"><div class=\\"ni-page-header-container\\"><div class=\\"ni-page-header-text\\"><div class=\\"ni-page-header-title\\"><h2>Block #10</h2></div><div class=\\"ni-page-header-subtitle\\"><h3></h3></div></div><menu class=\\"ni-page-header-menu\\"><div></div></menu></div></header><main class=\\"ni-page-main\\"><div class=\\"ni-data-msg\\"><div class=\\"ni-data-msg__icon\\"><i class=\\"material-icons fa-spin\\">rotate_right</i></div><div class=\\"ni-data-msg__text\\"><div class=\\"ni-data-msg__title\\"><div>Data is loading…</div></div><div class=\\"ni-data-msg__subtitle\\"><div>Please wait a moment.</div></div></div></div></main></div>"`;
 
 exports[`PageBlock should show a loading state if loading 1`] = `
 "<div class=\\"ni-page\\">
