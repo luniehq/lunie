@@ -44,15 +44,13 @@ page(:title="pageBlockTitle")
     part(title='Transactions')
       data-loading(v-if="blockchain.blockLoading")
       data-empty(v-else-if="block.header.num_txs === 0" title="Empty Block" subtitle="There were no transactions in this block.")
-    part(v-if="txs.length" v-for="(tx, tkey) in txs" :title="(isObj(tx) ? 'tx #' : 'loading tx #') + (tkey + 1)" :key="tkey + '-part'")
-      list-item(v-for="(tx, key) in tx"  :key="key + 'key'" :dt="key" :dd="tx")
-    li-transaction(
-      v-if="txs.length"
-      v-for="(tx, tkey) in txs"
-      :key="tkey + '-tx'"
-      :transaction-value="transactionValueify(tx)"
-      :address="tx.msg.inputs[0].address"
-      :devMode="config.devMode")
+      li-transaction(
+        v-else-if="txs.length"
+        v-for="(tx, tkey) in txs"
+        :key="tkey + '-tx'"
+        :transaction-value="transactionValueify(tx)"
+        :address="tx.tx.msg.inputs[0].address"
+        :devMode="config.devMode")
 </template>
 
 <script>
@@ -78,7 +76,7 @@ export default {
     Page
   },
   computed: {
-    ...mapGetters(["blockchain", "blocTxInfo"]),
+    ...mapGetters(["blockchain", "blocTxInfo", "config"]),
     blockchainHeight() {
       return this.blockchain.blocks.length > 0
         ? this.blockchain.blocks[0].header.height
@@ -127,13 +125,10 @@ export default {
       return height
     },
     transactionValueify(tv) {
-      console.log(tv)
-
       tv = JSON.parse(JSON.stringify(tv))
       tv.tx.inputs = tv.tx.msg.inputs
       tv.tx.outputs = tv.tx.msg.outputs
       tv.time = this.heightToTime(tv.height)
-      console.log(tv)
       return tv
     }
   },
