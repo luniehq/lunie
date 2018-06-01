@@ -46,4 +46,13 @@ jobs:
           name: Test
           command: yarn run test
           no_output_timeout: 120
-      - run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+      - run: 
+          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+          when: on_success
+      - run:
+          command: |
+            mkdir -p /tmp/test_info
+            cp test/e2e/snapshot.png /tmp/test_info
+          when: on_fail
+      - store_artifacts:
+          path: /tmp/test_info
