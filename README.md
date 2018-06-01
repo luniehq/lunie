@@ -5,51 +5,65 @@
 [![CircleCI](https://circleci.com/gh/cosmos/voyager.svg?style=svg)](https://circleci.com/gh/cosmos/voyager)
 [![codecov](https://codecov.io/gh/cosmos/voyager/branch/develop/graph/badge.svg)](https://codecov.io/gh/cosmos/voyager)
 
-👋 Welcome to Voyager, the official user interface for the [Cosmos Network](https://cosmos.network/).
-
-💻 Voyager is a desktop application built with [Electron](https://github.com/electron/electron). Voyager runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
+👋 Welcome to Voyager, the official desktop application for the [Cosmos Network](https://cosmos.network/).
 
 ⚠️ This is still alpha-level software. **DO NOT** enter your Cosmos fundraiser seed into Voyager.
+
+💻 Voyager runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
 
 🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases).
 
 ---
 
-### Prerequisites
+## Voyager Prerequsities
 
-#### Install dependencies
+### I. Install `gaiacli`
 
-##### On Mac
+#### 1. Install Go
 
-Install Yarn for JavaScript dependencies. This will also install Node.js if necessary.
+Install `go` **1.10+** by following the [instructions](https://golang.org/doc/install).
 
-```bash
-brew install yarn
+#### 2. Install Cosmos SDK
+
+```
+go get github.com/cosmos/cosmos-sdk
+cd $GOPATH/src/github.com/cosmos/cosmos-sdk
+git checkout v0.17.3
+make get_tools && make get_vendor_deps && make install
 ```
 
-##### On Windows
+This will install `gaiacli` binary. Verify that everything is OK by running:
 
-Install [Yarn](https://yarnpkg.com/lang/en/docs/install/#windows)
+```
+gaiacli version
 
-#### Install Gaia Binaries (Cosmos SDK)
+# You should see:
+0.17.3-a5a78eb5
+```
 
-Install the Gaia-CLI (`gaiacli`) and the Gaia full node binary (`gaiad`) which are part of the Cosmos SDK by following [the instructions](https://cosmos-sdk.readthedocs.io/en/develop/sdk/install.html).
+### II. Get Voyager
 
-#### Prepare Voyager
+#### 1. Install Node.js
+
+Voyager requires Node.js >=9.4.0. If you have a different version of Node.js installed (e.g. node.js 10.0.0), you need to use `n` (or `nvm`) to install the correct version.
 
 ```bash
-# checkout voyager
-cd ~ # or wherever you like to keep your project files
-git clone https://github.com/cosmos/voyager.git
-cd voyager
+npm i -g n && n 9.4.0
+```
 
-# install js dependencies
-yarn
+#### 2. Install Yarn
+
+Yarn is a JS package packager we use manage Voyager dependencies. [Download it.](https://yarnpkg.com/lang/en/docs/install)
+
+#### 3. Checkout Voyager
+```bash
+git clone https://github.com/cosmos/voyager.git
+cd voyager && yarn
 ```
 
 ---
 
-### Develop
+### Voyager Development
 
 To run Voyager on the default testnet (`gaia-5001`):
 
@@ -82,10 +96,9 @@ $ COSMOS_NODE=localhost yarn testnet
 
 ---
 
-### Production
+### Building Voyager Binaries
 
-Building requires that [Docker](https://www.docker.com/get-docker) is installed
-on your system.
+Building Voyager requires [Docker](https://www.docker.com/get-docker) installed.
 
 Here's an example build command:
 
