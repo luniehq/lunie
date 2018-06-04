@@ -2,7 +2,7 @@
 list-item.ni-li-user(
   v-if="user.signedIn"
   type="link"
-  to="/profile"
+  to="/preferences"
   @click.native="close"
   icon="face"
   :title="user.account")
