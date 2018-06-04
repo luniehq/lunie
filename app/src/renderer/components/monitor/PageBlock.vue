@@ -44,13 +44,16 @@ page(:title="pageBlockTitle")
     part(title='Transactions')
       data-loading(v-if="blockchain.blockLoading")
       data-empty(v-else-if="block.header.num_txs === 0" title="Empty Block" subtitle="There were no transactions in this block.")
-      li-transaction(
+      template(
         v-else-if="txs.length"
-        v-for="(tx, tkey) in txs"
-        :key="tkey + '-tx'"
-        :transaction-value="transactionValueify(tx)"
-        :address="tx.tx.msg.inputs[0].address"
-        :devMode="config.devMode")
+        )
+        li-transaction(
+          :key="tkey + '-tx'"
+          v-for="(tx, tkey) in txs"
+          v-if="isObj(tx)"
+          :transaction-value="transactionValueify(tx)"
+          :address="tx.tx.msg.inputs[0].address"
+          :devMode="config.devMode")
 </template>
 
 <script>

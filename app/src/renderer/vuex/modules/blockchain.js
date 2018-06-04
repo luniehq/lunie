@@ -79,7 +79,6 @@ export default ({ commit, node }) => {
       if (blockTxInfo) {
         return blockTxInfo
       }
-      console.log(state.block)
       blockTxInfo = await dispatch("getTxs", {
         key: 0,
         len:
