@@ -45,6 +45,20 @@ const pushCommit = async (token, tag) => {
   await git.push("bot", "HEAD:master")
 }
 
+const build = defaultNetwork => {
+  console.log("--- BUILDING ---")
+
+  execSync(
+    `node tasks/build/build.js \
+      --network=${path.join(__dirname, `../app/networks`, defaultNetwork)}`,
+    {
+      stdio: `inherit`
+    }
+  )
+
+  console.log("--- DONE BUILDING ---")
+}
+
 const publishRelease = (token, tag) =>
   util.promisify(release)({
     token,
@@ -74,17 +88,16 @@ Please checkout the [CHANGELOG.md](CHANGELOG.md) for a list of changes.
 
 async function main() {
   console.log("Releasing Voyager...")
-
   const changeLog = fs.readFileSync(__dirname + "/../CHANGELOG.md", "utf8")
   const packageJson = require(__dirname + "/../package.json")
   const oldVersion = packageJson.version
   const newVersion = bumpVersion(oldVersion)
+
   const config = toml.parse(
     fs.readFileSync(__dirname + "/../app/config.toml", "utf8")
   )
 
   console.log("New version:", newVersion)
-
   const newChangeLog = updateChangeLog(changeLog, newVersion, new Date())
   const newPackageJson = updatePackageJson(packageJson, newVersion)
 
@@ -92,30 +105,14 @@ async function main() {
 
   fs.writeFileSync(
     __dirname + "/../package.json",
-    JSON.stringify(newPackageJson, null, 2),
+    JSON.stringify(newPackageJson, null, 2) + "\n",
     "utf8"
   )
 
   console.log("--- Committing release changes ---")
   const tag = `v${newVersion}`
   await pushCommit(process.env.GIT_BOT_TOKEN, tag)
-
-  console.log("--- BUILDING ---")
-
-  execSync(
-    `node tasks/build/build.js \
-      --network=${path.join(
-        __dirname,
-        `../app/networks`,
-        config.default_network
-      )}`,
-    {
-      stdio: `inherit`
-    }
-  )
-
-  console.log("--- DONE BUILDING ---")
-
+  build(config.default_network)
   console.log("--- Publishing release ---")
   await publishRelease(process.env.GIT_BOT_TOKEN, tag)
   console.log("--- Done releasing ---")
