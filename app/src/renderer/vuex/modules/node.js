@@ -30,7 +30,6 @@ export default function({ node }) {
   }
 
   const actions = {
-    reconnected({ commit, dispatch }) {},
     setLastHeader({ state, rootState, dispatch }, header) {
       state.lastHeader = header
 
