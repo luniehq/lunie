@@ -1,8 +1,10 @@
 import setup from "../../helpers/vuex-setup"
+import convertTx from "../../../../app/src/renderer/scripts/utils.js"
 
 let instance = setup()
 
 describe("Module: Blockchain", () => {
+  // const convertTx = utils.default.convertTx
   let store, node
   let blockMeta = {
     header: {
@@ -179,7 +181,7 @@ describe("Module: Blockchain", () => {
     let expectedHash = "bfbb60a6e34561b223a10973f7ea7e3b822d30d2"
     let txString =
       "5wEPKiyH+w4DAQoU2cEstRhv4AGBeXQv0xEO5TTGNGAWAwEKBXN0ZWFrEQAAAAAAAAABBAQWAwEKFO85c4xpK5f28LYmEaY7OdYfuYuxFgMBCgVzdGVhaxEAAAAAAAAAAQQEBBMRAAAAAAAAAAAEHgMBDxYk3mIggDMizvgRs6nMKxBEfkMszfCU2ds6N9b9QxnzU6bNzXsXPaHbKkCLqwKfTYiuSPRjyqMROHd4T1oLM2sdduX7o81C9a8EbUTOCoXFRmYM8L50NBhtYOunMK0gsCSL1474TOLU6TMBGQAAAAAAAAAGBAQ="
-    let hash = await store.dispatch("convertTx", txString)
+    let hash = await convertTx(txString)
     expect(hash).toBe(expectedHash)
   })
 

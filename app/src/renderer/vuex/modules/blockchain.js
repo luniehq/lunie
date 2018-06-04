@@ -1,6 +1,4 @@
-import createHash from "create-hash"
-import varint from "varint"
-import b64 from "base64-js"
+import convertTx from "../../scripts/utils.js"
 
 export default ({ commit, node }) => {
   const state = {
@@ -106,21 +104,15 @@ export default ({ commit, node }) => {
         return Promise.reject(error)
       }
     },
-    convertTx({ state }, txstring) {
-      let txbytes = b64.toByteArray(txstring)
-      let varintlen = new Uint8Array(varint.encode(txbytes.length))
-      let tmp = new Uint8Array(varintlen.byteLength + txbytes.byteLength)
-      tmp.set(new Uint8Array(varintlen), 0)
-      tmp.set(new Uint8Array(txbytes), varintlen.byteLength)
-      return createHash("ripemd160")
-        .update(Buffer.from(tmp))
-        .digest("hex")
-    },
     getTxs({ state, commit, dispatch }, { key, len, txs }) {
+      //  this function is recursice promie used as an async loop in order to query all tx
+      // found in a block. it's made similarly to queryBlockInfo only there
+      // is more than one async call to make. the txstring is included but might not
+      // actually be useful. etherscan.io includes something similar but it's seldom helpful
       return new Promise(async (resolve, reject) => {
         if (key >= len) return resolve(txs)
         let txstring = atob(txs[key])
-        let hash = await dispatch("convertTx", txs[key])
+        let hash = await convertTx(txs[key])
         node
           .txs(hash)
           .then(data => {
