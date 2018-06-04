@@ -152,6 +152,9 @@ export default function({ node }) {
         // if we run a mocked version only, we don't want the lcd to run in the meantime
         ipcRenderer.send("stop-lcd")
 
+        // we need to trigger this event for the mocked mode as it is usually triggered by the "connected" event from the main thread
+        dispatch("rpcSubscribe")
+
         // the mocked node is automatically connected
         dispatch("reconnected")
       } else {
