@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * The binary is now accepted if it has the same minor version instead of the path version. @faboweb
 * Hid staking button on wallet page @jolesbi
 * Increment version in package.json @jolesbi
+* Profile page now settings with forked ni-vue-field @okwme @nylira
 * Added proper voyager logo to readme @jolesbi
 * Made search consistent @okwme
 * Change gaia-2 to gaia-5001 in readme @jolesbi

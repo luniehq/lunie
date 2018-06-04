@@ -88,7 +88,7 @@ export default {
       return this.blockchain.blockMetaInfo
     },
     pageBlockTitle() {
-      if (this.block.header) {
+      if (this.block && this.block.header) {
         return "Block #" + num.prettyInt(this.block.header.height)
       } else {
         return "Loading..."

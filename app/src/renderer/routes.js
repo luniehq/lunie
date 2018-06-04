@@ -56,9 +56,9 @@ export default [
   },
 
   {
-    path: "/profile",
-    name: "profile",
-    component: common("Profile")
+    path: "/preferences",
+    name: "preferences",
+    component: common("Preferences")
   },
 
   {

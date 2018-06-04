@@ -32,8 +32,8 @@ describe("NiUserPane", () => {
     expect(wrapper.html()).toBeUndefined()
   })
 
-  it("should redirect to the profile page if signed in", () => {
+  it("should redirect to the preferences page if signed in", () => {
     wrapper.find(ListItem).trigger("click")
-    expect(router.currentRoute.path).toBe("/profile")
+    expect(router.currentRoute.path).toBe("/preferences")
   })
 })
