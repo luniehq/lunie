@@ -24,6 +24,12 @@ transition(name="proposal")
     +ni-li-dl
     +ni-li-icon
 
+  //- label and input
+  .ni-li.ni-li-field(v-else-if="type === 'field'"): .ni-li-container
+    +ni-li-thumb
+    +ni-li-label
+    .ni-li-input: slot
+
   //- dt/dd router-link
   router-link.ni-li.ni-li-link(v-else-if="dt && to && !btn" :to="to"): .ni-li-container
     +ni-li-thumb
@@ -103,7 +109,7 @@ export default {
 
 .ni-li
   display block
-  height 3rem
+  min-height 3rem
   position relative
   border-bottom 2*px solid var(--bc-dim)
 
@@ -144,6 +150,9 @@ export default {
     .ni-li-icon
       i.material-icons
         color var(--mc)
+
+.ni-li-label
+.ni-li-dl
   .ni-btn
     position absolute
     top 0.5rem - px
@@ -154,13 +163,13 @@ export default {
   flex-flow row nowrap
   align-items center
   position relative
-  height 3rem - 2*px
+  min-height 3rem - 2*px
 
 // type: anchor & link
 .ni-li-thumb
 .ni-li-label
 .ni-li-icon
-  height 3rem - px
+  min-height 3rem - 2*px
 
 .ni-li-thumb:empty
   display none
@@ -181,7 +190,7 @@ export default {
   display flex
   align-items flex-start
   justify-content center
-  padding 0 1rem 0 0
+  padding 0 1rem
   flex-flow column nowrap
 
   .ni-li-title
@@ -192,9 +201,23 @@ export default {
     font-size xs
     line-height 1.25
 
-.ni-li-receive
+.ni-li-link
   .ni-li-label
-    padding 0 1rem
+    padding 0 1rem 0 0
+
+// type: field
+
+.ni-li-field .ni-li-container
+  display flex
+  .ni-li-label
+    flex 2
+  .ni-li-input
+    flex 1
+    display flex
+    .ni-btn
+      flex 1
+    .ni-select
+      width 100%
 
 // type: dl definition list
 
@@ -261,5 +284,4 @@ a.ni-li-dd
     display block
   .active
     display none
-
 </style>
