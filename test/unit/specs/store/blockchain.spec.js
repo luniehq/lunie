@@ -211,7 +211,7 @@ describe("Module: Blockchain", () => {
     let blockTxInfo = await store.dispatch("queryTxInfo", 42)
     expect(blockTxInfo[0].test).toBe("test")
     // block = await store.dispatch("queryTxInfo", 42)
-    expect(store.state.blockchain.blockTxs[42]).not.toBe(false)
+    expect(store.state.blockchain.blockTxs.length).toBe(1)
   })
 
   it("should handle tx error", async () => {

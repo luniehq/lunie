@@ -82,7 +82,9 @@ export default ({ commit, node }) => {
       })
     },
     async queryTxInfo({ state, dispatch }, height) {
-      let blockTxInfo = state.blockTxs[height]
+      let blockTxInfo = state.blockTxs.find(
+        b => b.length && b[0].height === height
+      )
       if (blockTxInfo) {
         return blockTxInfo
       }
@@ -98,7 +100,7 @@ export default ({ commit, node }) => {
               ? state.block.data.txs.slice(0)
               : []
         })
-        state.blockTxs[height] = blockTxInfo
+        blockTxInfo && state.blockTxs.push(blockTxInfo)
         return blockTxInfo
       } catch (error) {
         return Promise.reject(error)
