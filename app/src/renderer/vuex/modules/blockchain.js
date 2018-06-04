@@ -38,24 +38,33 @@ export default ({ commit, node }) => {
       dispatch("subscribeToBlocks")
     },
     async getBlock({ state, commit, dispatch }, height) {
-      state.blockLoading = true
-      state.blockHeight = height
-      return Promise.all([
-        dispatch("queryBlock", height).then(block => commit("setBlock", block)),
-        dispatch("queryBlockInfo", height).then(blockMetaInfo =>
-          commit("setBlockMetaInfo", blockMetaInfo)
-        )
-      ]).then(
-        () => {
-          state.blockLoading = false
-          dispatch("queryTxInfo", height).then(blockTxInfo =>
-            commit("setBlockTxInfo", blockTxInfo)
+      return new Promise((resolve, reject) => {
+        state.blockLoading = true
+        state.blockHeight = height
+        return Promise.all([
+          dispatch("queryBlock", height).then(block =>
+            commit("setBlock", block)
+          ),
+          dispatch("queryBlockInfo", height).then(blockMetaInfo =>
+            commit("setBlockMetaInfo", blockMetaInfo)
           )
-        },
-        () => {
-          state.blockLoading = false
-        }
-      )
+        ])
+          .then(() => {
+            state.blockLoading = false
+            dispatch("queryTxInfo", height)
+              .then(blockTxInfo => {
+                commit("setBlockTxInfo", blockTxInfo)
+                resolve()
+              })
+              .catch(error => {
+                return reject(error)
+              })
+          })
+          .catch(error => {
+            state.blockLoading = false
+            return reject(error)
+          })
+      })
     },
     async queryBlock({ state, commit }, height) {
       return new Promise(resolve => {
@@ -79,32 +88,39 @@ export default ({ commit, node }) => {
       if (blockTxInfo) {
         return blockTxInfo
       }
-      blockTxInfo = await dispatch("getTxs", {
-        key: 0,
-        len:
-          state.block && state.block.data && state.block.data.txs
-            ? state.block.data.txs.length
-            : 0,
-        txs:
-          state.block && state.block.data && state.block.data.txs
-            ? state.block.data.txs.slice(0)
-            : []
-      })
-      blockTxInfo && state.blockTxs.push(blockTxInfo)
-      return blockTxInfo
+      try {
+        blockTxInfo = await dispatch("getTxs", {
+          key: 0,
+          len:
+            state.block && state.block.data && state.block.data.txs
+              ? state.block.data.txs.length
+              : 0,
+          txs:
+            state.block && state.block.data && state.block.data.txs
+              ? state.block.data.txs.slice(0)
+              : []
+        })
+        blockTxInfo && state.blockTxs.push(blockTxInfo)
+        return blockTxInfo
+      } catch (error) {
+        return Promise.reject(error)
+      }
+    },
+    convertTx({ state }, txstring) {
+      let txbytes = b64.toByteArray(txstring)
+      let varintlen = new Uint8Array(varint.encode(txbytes.length))
+      let tmp = new Uint8Array(varintlen.byteLength + txbytes.byteLength)
+      tmp.set(new Uint8Array(varintlen), 0)
+      tmp.set(new Uint8Array(txbytes), varintlen.byteLength)
+      return createHash("ripemd160")
+        .update(Buffer.from(tmp))
+        .digest("hex")
     },
     getTxs({ state, commit, dispatch }, { key, len, txs }) {
-      return new Promise((resolve, reject) => {
+      return new Promise(async (resolve, reject) => {
         if (key >= len) return resolve(txs)
         let txstring = atob(txs[key])
-        let txbytes = b64.toByteArray(txs[key])
-        let varintlen = new Uint8Array(varint.encode(txbytes.length))
-        let tmp = new Uint8Array(varintlen.byteLength + txbytes.byteLength)
-        tmp.set(new Uint8Array(varintlen), 0)
-        tmp.set(new Uint8Array(txbytes), varintlen.byteLength)
-        let hash = createHash("ripemd160")
-          .update(Buffer.from(tmp))
-          .digest("hex")
+        let hash = await dispatch("convertTx", txs[key])
         node
           .txs(hash)
           .then(data => {
@@ -121,14 +137,13 @@ export default ({ commit, node }) => {
               title: `Couldn't query block`,
               body: err.message
             })
-            reject()
+            reject(err)
           })
       })
     },
     async queryBlockInfo({ state, commit }, height) {
       let blockMetaInfo = state.blockMetas.find(b => b.header.height === height)
       if (blockMetaInfo) {
-        // console.log("blockMetaInfo was found", blockMetaInfo)
         return blockMetaInfo
       }
       blockMetaInfo = await new Promise((resolve, reject) => {
@@ -140,16 +155,13 @@ export default ({ commit, node }) => {
                 title: `Couldn't query block`,
                 body: err.message
               })
-              // console.log("couldnt query block " + height)
               resolve(null)
             } else {
-              // console.log("received block data ", data)
               resolve(data.block_metas.length ? data.block_metas[0] : null)
             }
           }
         )
       })
-      // console.log("received block data as ", blockMetaInfo)
       blockMetaInfo && state.blockMetas.push(blockMetaInfo)
       return blockMetaInfo
     },

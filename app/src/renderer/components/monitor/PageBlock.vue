@@ -123,15 +123,11 @@ export default {
     fetchBlock() {
       this.$store.dispatch("getBlock", parseInt(this.$route.params.block))
     },
-    heightToTime(height) {
-      // TODO how to get time from height?
-      return height
-    },
     transactionValueify(tv) {
       tv = JSON.parse(JSON.stringify(tv))
       tv.tx.inputs = tv.tx.msg.inputs
       tv.tx.outputs = tv.tx.msg.outputs
-      tv.time = this.heightToTime(tv.height)
+      tv.time = this.block && this.block.blockHeaderTime
       return tv
     }
   },

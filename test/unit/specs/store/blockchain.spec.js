@@ -174,4 +174,71 @@ describe("Module: Blockchain", () => {
     store.dispatch("subscribeToBlocks")
     expect(node.rpc.subscribe.mock.calls.length).toBe(1)
   })
+
+  it("should convert tx strings correctly", async () => {
+    let expectedHash = "bfbb60a6e34561b223a10973f7ea7e3b822d30d2"
+    let txString =
+      "5wEPKiyH+w4DAQoU2cEstRhv4AGBeXQv0xEO5TTGNGAWAwEKBXN0ZWFrEQAAAAAAAAABBAQWAwEKFO85c4xpK5f28LYmEaY7OdYfuYuxFgMBCgVzdGVhaxEAAAAAAAAAAQQEBBMRAAAAAAAAAAAEHgMBDxYk3mIggDMizvgRs6nMKxBEfkMszfCU2ds6N9b9QxnzU6bNzXsXPaHbKkCLqwKfTYiuSPRjyqMROHd4T1oLM2sdduX7o81C9a8EbUTOCoXFRmYM8L50NBhtYOunMK0gsCSL1474TOLU6TMBGQAAAAAAAAAGBAQ="
+    let hash = await store.dispatch("convertTx", txString)
+    expect(hash).toBe(expectedHash)
+  })
+
+  it("should query txs", async () => {
+    let txString =
+      "5wEPKiyH+w4DAQoU2cEstRhv4AGBeXQv0xEO5TTGNGAWAwEKBXN0ZWFrEQAAAAAAAAABBAQWAwEKFO85c4xpK5f28LYmEaY7OdYfuYuxFgMBCgVzdGVhaxEAAAAAAAAAAQQEBBMRAAAAAAAAAAAEHgMBDxYk3mIggDMizvgRs6nMKxBEfkMszfCU2ds6N9b9QxnzU6bNzXsXPaHbKkCLqwKfTYiuSPRjyqMROHd4T1oLM2sdduX7o81C9a8EbUTOCoXFRmYM8L50NBhtYOunMK0gsCSL1474TOLU6TMBGQAAAAAAAAAGBAQ="
+    node.rpc.block = (query, cb) => {
+      cb(null, {
+        block: {
+          test: "test",
+          height: 42,
+          data: {
+            txs: [txString]
+          }
+        }
+      })
+    }
+    node.txs = hash => {
+      return new Promise(resolve => {
+        resolve({
+          height: 42,
+          test: "test"
+        })
+      })
+    }
+    expect(store.state.blockchain.blockTxs.length).toBe(0)
+    await store.dispatch("getBlock", 42)
+    let block = await store.dispatch("queryBlock", 42)
+    let blockTxInfo = await store.dispatch("queryTxInfo", 42)
+    expect(blockTxInfo[0].test).toBe("test")
+    // block = await store.dispatch("queryTxInfo", 42)
+    expect(store.state.blockchain.blockTxs.length).toBe(1)
+  })
+
+  it("should handle tx error", async () => {
+    let txString =
+      "5wEPKiyH+w4DAQoU2cEstRhv4AGBeXQv0xEO5TTGNGAWAwEKBXN0ZWFrEQAAAAAAAAABBAQWAwEKFO85c4xpK5f28LYmEaY7OdYfuYuxFgMBCgVzdGVhaxEAAAAAAAAAAQQEBBMRAAAAAAAAAAAEHgMBDxYk3mIggDMizvgRs6nMKxBEfkMszfCU2ds6N9b9QxnzU6bNzXsXPaHbKkCLqwKfTYiuSPRjyqMROHd4T1oLM2sdduX7o81C9a8EbUTOCoXFRmYM8L50NBhtYOunMK0gsCSL1474TOLU6TMBGQAAAAAAAAAGBAQ="
+    node.rpc.block = (query, cb) => {
+      cb(null, {
+        block: {
+          test: "test",
+          height: 42,
+          data: {
+            txs: [txString]
+          }
+        }
+      })
+    }
+    node.txs = hash => {
+      return new Promise((resolve, reject) => {
+        reject("asdf")
+      })
+    }
+
+    try {
+      await store.dispatch("getBlock", 42)
+      expect(true).toBe(false)
+    } catch (error) {
+      expect(error).toBe("asdf")
+    }
+  })
 })
