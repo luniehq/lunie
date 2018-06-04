@@ -30,9 +30,7 @@ export default function({ node }) {
   }
 
   const actions = {
-    reconnected({ commit, dispatch }) {
-      dispatch("rpcSubscribe")
-    },
+    reconnected({ commit, dispatch }) {},
     setLastHeader({ state, rootState, dispatch }, header) {
       state.lastHeader = header
 
@@ -136,6 +134,10 @@ export default function({ node }) {
     },
     async setMockedConnector({ state, dispatch, commit }, mocked) {
       state.mocked = mocked
+
+      // IDEA let's have an event 'networkSwitched' and bundle those action under this one
+      // remove blocks from block explorer as it should not show blocks of another network
+      commit("setBlocks", [])
 
       // disable updates from the live node
       node.rpcDisconnect()
