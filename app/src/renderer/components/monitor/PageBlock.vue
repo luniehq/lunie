@@ -79,14 +79,14 @@ export default {
     Page
   },
   computed: {
-    ...mapGetters(["blockchain", "blocTxInfo", "config"]),
+    ...mapGetters(["blockchain", "blockTxInfo", "config"]),
     blockchainHeight() {
       return this.blockchain.blocks.length > 0
         ? this.blockchain.blocks[0].header.height
         : 0
     },
     txs() {
-      return this.blocTxInfo || (this.block.data && this.block.data.txs)
+      return this.blockTxInfo || (this.block.data && this.block.data.txs)
     },
     block() {
       return this.blockchain.block

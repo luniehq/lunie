@@ -30,7 +30,7 @@ export const nodeIP = state => state.node.nodeIP
 export const mockedConnector = state => state.node.mocked
 
 //blockchain
-export const blocTxInfo = state => {
+export const blockTxInfo = state => {
   return (
     state.blockchain.block &&
     state.blockchain.blockTxs.find(

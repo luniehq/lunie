@@ -82,29 +82,23 @@ export default ({ commit, node }) => {
       })
     },
     async queryTxInfo({ state, dispatch }, height) {
-      let blockTxInfo = state.blockTxs.find(
-        b => b.length && b[0].height === height
-      )
+      let blockTxInfo = state.blockTxs[height] || false
       if (blockTxInfo) {
         return blockTxInfo
       }
-      try {
-        blockTxInfo = await dispatch("getTxs", {
-          key: 0,
-          len:
-            state.block && state.block.data && state.block.data.txs
-              ? state.block.data.txs.length
-              : 0,
-          txs:
-            state.block && state.block.data && state.block.data.txs
-              ? state.block.data.txs.slice(0)
-              : []
-        })
-        blockTxInfo && state.blockTxs.push(blockTxInfo)
-        return blockTxInfo
-      } catch (error) {
-        return Promise.reject(error)
-      }
+      blockTxInfo = await dispatch("getTxs", {
+        key: 0,
+        len:
+          state.block && state.block.data && state.block.data.txs
+            ? state.block.data.txs.length
+            : 0,
+        txs:
+          state.block && state.block.data && state.block.data.txs
+            ? state.block.data.txs.slice(0)
+            : []
+      })
+      state.blockTxs[height] = blockTxInfo
+      return blockTxInfo
     },
     convertTx({ state }, txstring) {
       let txbytes = b64.toByteArray(txstring)
@@ -117,6 +111,10 @@ export default ({ commit, node }) => {
         .digest("hex")
     },
     getTxs({ state, commit, dispatch }, { key, len, txs }) {
+      // this function is recursice promie used as an async loop in order to query all tx
+      // found in a block. it's made similarly to queryBlockInfo only there
+      // is more than one async call to make. the txstring is included but might not
+      // actually be useful. etherscan.io includes something similar but it's seldom helpful
       return new Promise(async (resolve, reject) => {
         if (key >= len) return resolve(txs)
         let txstring = atob(txs[key])
@@ -142,7 +140,7 @@ export default ({ commit, node }) => {
       })
     },
     async queryBlockInfo({ state, commit }, height) {
-      let blockMetaInfo = state.blockMetas.find(b => b.header.height === height)
+      let blockMetaInfo = state.blockMetas[height] || false
       if (blockMetaInfo) {
         return blockMetaInfo
       }
@@ -162,7 +160,7 @@ export default ({ commit, node }) => {
           }
         )
       })
-      blockMetaInfo && state.blockMetas.push(blockMetaInfo)
+      state.blockMetas[height] = blockMetaInfo
       return blockMetaInfo
     },
     subscribeToBlocks({ state, commit, dispatch }) {
