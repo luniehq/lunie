@@ -128,6 +128,7 @@ export default ({ commit, node }) => {
     async queryBlockInfo({ state, commit }, height) {
       let blockMetaInfo = state.blockMetas.find(b => b.header.height === height)
       if (blockMetaInfo) {
+        // console.log("blockMetaInfo was found", blockMetaInfo)
         return blockMetaInfo
       }
       blockMetaInfo = await new Promise((resolve, reject) => {
@@ -139,13 +140,16 @@ export default ({ commit, node }) => {
                 title: `Couldn't query block`,
                 body: err.message
               })
+              // console.log("couldnt query block " + height)
               resolve(null)
             } else {
-              resolve(data.block_metas[0])
+              // console.log("received block data ", data)
+              resolve(data.block_metas.length ? data.block_metas[0] : null)
             }
           }
         )
       })
+      // console.log("received block data as ", blockMetaInfo)
       blockMetaInfo && state.blockMetas.push(blockMetaInfo)
       return blockMetaInfo
     },
