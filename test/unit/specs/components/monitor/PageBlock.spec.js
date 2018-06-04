@@ -120,6 +120,6 @@ describe("PageBlock", () => {
       }
     })
     expect(wrapper.vm.nextBlockAvailable).toBe(false)
-    expect(wrapper.$el).toMatchSnapshot()
+    expect(wrapper.html()).toMatchSnapshot()
   })
 })

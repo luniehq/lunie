@@ -5,53 +5,53 @@
 [![CircleCI](https://circleci.com/gh/cosmos/voyager.svg?style=svg)](https://circleci.com/gh/cosmos/voyager)
 [![codecov](https://codecov.io/gh/cosmos/voyager/branch/develop/graph/badge.svg)](https://codecov.io/gh/cosmos/voyager)
 
-👋 Welcome to Voyager, the official user interface for the [Cosmos Network](https://cosmos.network/).
-
-💻 Voyager is a desktop application built with [Electron](https://github.com/electron/electron). Voyager runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
+👋 Welcome to Voyager, the official desktop application for the [Cosmos Network](https://cosmos.network/).
 
 ⚠️ This is still alpha-level software. **DO NOT** enter your Cosmos fundraiser seed into Voyager.
+
+💻 Voyager runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
 
 🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases).
 
 ---
 
-### Prerequisites
+## Voyager Prerequsities
 
-#### Install dependencies
+### Install Cosmos SDK
 
-##### On Mac
+Make sure you have **go 1.10+** installed. [Get it here.](https://golang.org/doc/install)
 
-Install Yarn for JavaScript dependencies. This will also install Node.js if necessary.
+Now, check out and install `v0.17.3` of the Cosmos SDK:
 
-```bash
-brew install yarn
+```
+go get github.com/cosmos/cosmos-sdk
+cd $GOPATH/src/github.com/cosmos/cosmos-sdk
+git checkout v0.17.3
+make get_tools && make get_vendor_deps && make install
 ```
 
-##### On Windows
+### Check Out Voyager
 
-Install [Yarn](https://yarnpkg.com/lang/en/docs/install/#windows)
-
-#### Install Gaia Binaries (Cosmos SDK)
-
-Install the Gaia-CLI (`gaiacli`) and the Gaia full node binary (`gaiad`) which are part of the Cosmos SDK by following [the instructions](https://cosmos-sdk.readthedocs.io/en/develop/sdk/install.html).
-
-#### Prepare Voyager
+Voyager requires Node.js `>=9.4.0`. If you have a different version of Node.js installed (e.g. Node.js `10.0.0`), you need to use `n` to install the correct version. The following command will use `n` to install it alongside your current version of Node.js.
 
 ```bash
-# checkout voyager
-cd ~ # or wherever you like to keep your project files
-git clone https://github.com/cosmos/voyager.git
-cd voyager
+npm i -g n && n 9.4.0
+```
 
-# install js dependencies
-yarn
+Yarn is a JS package packager we use manage Voyager dependencies. [Download it.](https://yarnpkg.com/lang/en/docs/install)
+
+With Node.js and Yarn installed, you're ready to check out the source code:
+
+```bash
+git clone https://github.com/cosmos/voyager.git
+cd voyager && yarn
 ```
 
 ---
 
-### Develop
+## Voyager Development
 
-To run Voyager on the default testnet (`gaia-2`):
+To run Voyager on the default testnet (`gaia-5001`):
 
 ```bash
 $ yarn testnet
@@ -72,7 +72,7 @@ $ gaia node start --home=./app/networks/local
 $ yarn testnet local
 ``` -->
 
-First start a local node following the Gaia [readme](https://github.com/cosmos/gaia).
+First, start a full node following the [testnet instructions](https://cosmos.network/join-testnet).
 
 Then start Voyager pointing at your local node.
 
@@ -82,10 +82,9 @@ $ COSMOS_NODE=localhost yarn testnet
 
 ---
 
-### Production
+### Building Voyager Binaries
 
-Building requires that [Docker](https://www.docker.com/get-docker) is installed
-on your system.
+Building Voyager requires [Docker](https://www.docker.com/get-docker) installed.
 
 Here's an example build command:
 
@@ -117,7 +116,7 @@ To make an official release, follow the instructions in `docs/release.md`.
 
 ---
 
-### Testing
+## Testing
 
 Voyager is using [Jest](https://facebook.github.io/jest) to run unit tests.
 
@@ -133,7 +132,7 @@ $ yarn test:coverage
 
 ---
 
-### Debug
+## Debug
 
 To debug the electron application, build it and run the node inspector for the built files:
 
@@ -147,7 +146,7 @@ To debug the electron view, set the environment variable `COSMOS_DEVTOOLS` to so
 
 To see the console output of the view in your terminal, set the environment variable `ELECTRON_ENABLE_LOGGING` to something truthy like `1`.
 
-### Flags
+## Flags
 
 A list of all environment variables and their purpose:
 
@@ -164,7 +163,7 @@ A list of all environment variables and their purpose:
 | COSMOS_E2E_KEEP_OPEN    | 'true', 'false'                        | 'false'                          | Keep the Window open in local E2E test to see the state in which the application broke. |
 | COSMOS_MOCKED           | 'true', 'false'                        | `app/config.toml` > mocked       | Start with a mocked connector. Overwrites the setting in `app/config.toml`.             |
 
-### FAQ
+## FAQ
 
 * If tendermint crashes and the log shows `Tendermint state.AppHash does not match AppHash after replay.` delete the config folders at `$HOME/.cosmos-voyager[-dev]`.
 
@@ -200,4 +199,4 @@ $ rm -rf package-lock.json
 
 ---
 
-### ✌️
+## ✌️

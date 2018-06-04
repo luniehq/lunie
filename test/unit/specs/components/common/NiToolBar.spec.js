@@ -12,7 +12,7 @@ describe("NiToolBar", () => {
   })
 
   it("has the expected html structure", () => {
-    expect(wrapper.$el).toMatchSnapshot()
+    expect(wrapper.html()).toMatchSnapshot()
   })
 
   it("sets the helper modal", () => {
