@@ -102,12 +102,12 @@ export default ({ commit, node }) => {
     },
     setErrorCollection({ state }, { account, optin }) {
       localStorage.setItem(`${ERROR_COLLECTION_KEY}_${account}`, optin)
-      state.errorCollection = optin
+      state.errorCollection = config.development ? false : optin
 
       Raven.uninstall()
-        .config(optin ? config.sentry_dsn_public : "")
+        .config(state.errorCollection ? config.sentry_dsn_public : "")
         .install()
-      if (optin) {
+      if (state.errorCollection) {
         console.log("Analytics enabled in browser")
         enableGoogleAnalytics(config.google_analytics_uid)
       } else {
@@ -115,7 +115,7 @@ export default ({ commit, node }) => {
         window.analytics = null
       }
 
-      ipcRenderer.send("error-collection", optin)
+      ipcRenderer.send("error-collection", state.errorCollection)
     }
   }
 

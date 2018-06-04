@@ -33,6 +33,7 @@ const lcdHome = join(root, "lcd")
 const WIN = /^win/.test(process.platform)
 const DEV = process.env.NODE_ENV === "development"
 const TEST = process.env.NODE_ENV === "testing"
+global.config.development = DEV || TEST
 // TODO default logging or default disable logging?
 const LOGGING = JSON.parse(process.env.LOGGING || "true") !== false
 const winURL = DEV
