@@ -30,9 +30,6 @@ export default function({ node }) {
   }
 
   const actions = {
-    reconnected({ commit, dispatch }) {
-      dispatch("rpcSubscribe")
-    },
     setLastHeader({ state, rootState, dispatch }, header) {
       state.lastHeader = header
 
@@ -137,6 +134,10 @@ export default function({ node }) {
     async setMockedConnector({ state, dispatch, commit }, mocked) {
       state.mocked = mocked
 
+      // IDEA let's have an event 'networkSwitched' and bundle those action under this one
+      // remove blocks from block explorer as it should not show blocks of another network
+      commit("setBlocks", [])
+
       // disable updates from the live node
       node.rpcDisconnect()
 
@@ -149,6 +150,9 @@ export default function({ node }) {
       if (mocked) {
         // if we run a mocked version only, we don't want the lcd to run in the meantime
         ipcRenderer.send("stop-lcd")
+
+        // we need to trigger this event for the mocked mode as it is usually triggered by the "connected" event from the main thread
+        dispatch("rpcSubscribe")
 
         // the mocked node is automatically connected
         dispatch("reconnected")
