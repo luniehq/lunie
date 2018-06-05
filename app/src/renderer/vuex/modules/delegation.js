@@ -65,11 +65,19 @@ export default ({ commit, node }) => {
       state.loading = false
     },
     // load committed delegation from LCD
-    async getBondedDelegate({ commit }, { delegator, validator }) {
+    async getBondedDelegate({ commit, rootState }, { delegator, validator }) {
       let bond = await node.queryDelegation(delegator, validator)
+      let shares = bond ? parseRat(bond.shares) : 0
+      let delegate = rootState.delegates.delegates.find(
+        d => d.owner === validator
+      )
+      let tokensPerShare =
+        parseRat(delegate.pool_shares.amount) /
+        parseRat(delegate.delegator_shares)
+      let value = tokensPerShare * shares
       commit("setCommittedDelegation", {
         candidateId: validator,
-        value: bond ? parseRat(bond.shares) : 0
+        value
       })
     },
     submitDelegation({ rootState, state, dispatch }, delegations) {
@@ -84,13 +92,6 @@ export default ({ commit, node }) => {
         // skip if no change
         if (amountChange === 0) return null
 
-        // bonding takes a 'coin' object, unbond takes a rational number
-        let amount
-        if (amountChange > 0) {
-        } else {
-          amount = Math.abs(amountChange) + "/1"
-        }
-
         if (isBond) {
           delegate.push({
             delegator_addr: rootState.wallet.address,
@@ -98,15 +99,21 @@ export default ({ commit, node }) => {
             // TODO: figure out which denom is bonding denom
             bond: {
               denom: "steak",
-              amount: Math.abs(amountChange)
+              amount: amountChange
             }
           })
         } else {
+          // convert tokens to shares
+          let sharesPerToken =
+            parseRat(delegation.delegate.delegator_shares) /
+            parseRat(delegation.delegate.pool_shares.amount)
+          let value = Math.abs(amountChange) * sharesPerToken
+
           unbond.push({
             delegator_addr: rootState.wallet.address,
             validator_addr: candidateId,
             // rational number
-            shares: Math.abs(amountChange) + "/1"
+            shares: String(value)
           })
         }
       }
@@ -129,5 +136,6 @@ export default ({ commit, node }) => {
 // parse sdk rational number string
 function parseRat(ratStr) {
   let [numerator, denominator] = ratStr.split("/")
+  if (!denominator) return +numerator
   return +numerator / +denominator
 }
