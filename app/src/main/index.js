@@ -597,7 +597,10 @@ async function main() {
           "utf8"
         )
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
-          throw Error("Genesis has changed")
+          fs.copySync(networkPath, root)
+          log(
+            `genesis.json at "${genesisPath}" was overridden by genesis.json from "${networkPath}"`
+          )
         }
       }
     }
