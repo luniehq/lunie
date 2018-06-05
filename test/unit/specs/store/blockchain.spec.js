@@ -11,6 +11,13 @@ describe("Module: Blockchain", () => {
       time: 42
     }
   }
+  const block = {
+    test: "test",
+    height: 42,
+    data: {
+      txs: []
+    }
+  }
 
   beforeEach(() => {
     let test = instance.shallow()
@@ -73,20 +80,22 @@ describe("Module: Blockchain", () => {
     node.rpc.block = (props, cb) => cb("Error")
     let height = 42
     let output = await store.dispatch("queryBlock", height)
-    expect(output).toEqual({})
+    expect(output).toEqual(null)
     expect(store.state.notifications.length).toBe(1)
     expect(store.state.notifications[0]).toMatchSnapshot()
   })
 
   it("queries a block and info for a certain height", async () => {
     node.rpc.block = (query, cb) => {
-      cb(null, { block: { test: "test" } })
+      cb(null, {
+        block
+      })
     }
     node.rpc.blockchain = (query, cb) => {
       cb(null, { block_metas: [{ test: "test2" }] })
     }
     await store.dispatch("getBlock", 42)
-    expect(store.state.blockchain.block).toEqual({ test: "test" })
+    expect(store.state.blockchain.block).toEqual(block)
     expect(store.state.blockchain.blockMetaInfo).toEqual({ test: "test2" })
   })
 
@@ -97,7 +106,7 @@ describe("Module: Blockchain", () => {
 
   it("should show that querying the block has finished", async () => {
     node.rpc.block = (query, cb) => {
-      cb(null, { block: { test: "test" } })
+      cb(null, { block })
     }
     node.rpc.blockchain = (query, cb) => {
       cb(null, { block_metas: [{ test: "test2" }] })
@@ -109,7 +118,7 @@ describe("Module: Blockchain", () => {
 
   it("should hide loading on an error", async () => {
     node.rpc.block = (query, cb) => {
-      cb({ message: "expected" }, { block: { test: "test" } })
+      cb({ message: "expected" }, block)
     }
     node.rpc.blockchain = (query, cb) => {
       cb(null, { block_metas: [{ test: "test2" }] })

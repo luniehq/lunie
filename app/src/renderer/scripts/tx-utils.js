@@ -1,6 +1,5 @@
-import createHash from "create-hash"
+import crypto from "crypto"
 import varint from "varint"
-// import b64 from "base64-js"
 
 export function getTxHash(txstring) {
   let txbytes = Buffer.from(txstring, "base64")
@@ -8,7 +7,8 @@ export function getTxHash(txstring) {
   let tmp = new Uint8Array(varintlen.byteLength + txbytes.byteLength)
   tmp.set(new Uint8Array(varintlen), 0)
   tmp.set(new Uint8Array(txbytes), varintlen.byteLength)
-  return createHash("ripemd160")
+  return crypto
+    .createHash("ripemd160")
     .update(Buffer.from(tmp))
     .digest("hex")
 }

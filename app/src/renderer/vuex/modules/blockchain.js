@@ -61,7 +61,7 @@ export default ({ commit, node }) => {
               title: `Couldn't query block`,
               body: err.message
             })
-            resolve({})
+            resolve(null)
           } else {
             resolve(data.block)
           }
@@ -83,14 +83,8 @@ export default ({ commit, node }) => {
       try {
         blockTxInfo = await dispatch("getTxs", {
           key: 0,
-          len:
-            state.block && state.block.data && state.block.data.txs
-              ? state.block.data.txs.length
-              : 0,
-          txs:
-            state.block && state.block.data && state.block.data.txs
-              ? state.block.data.txs.slice(0)
-              : []
+          len: state.block ? state.block.data.txs.length : 0,
+          txs: state.block ? state.block.data.txs.slice(0) : []
         })
         state.blockTxs[height] = blockTxInfo
         return blockTxInfo
@@ -99,10 +93,9 @@ export default ({ commit, node }) => {
       }
     },
     async getTxs({ state, commit, dispatch }, { key, len, txs }) {
-      //  this function is recursice promie used as an async loop in order to query all tx
-      // found in a block. it's made similarly to queryBlockInfo only there
-      // is more than one async call to make. the txstring is included but might not
-      // actually be useful. etherscan.io includes something similar but it's seldom helpful
+      //  this function queries txs recursively. it's called from queryTxInfo as series of synchronous
+      // calls. it could also be called as a Promise.all to make the calls asynchronous but block with
+      // many transactions might overload the tx endpoint with too many simultaneous calls.
       try {
         if (key >= len) return txs
         let txstring = atob(txs[key])
