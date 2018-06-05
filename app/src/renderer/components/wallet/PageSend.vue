@@ -29,9 +29,7 @@ page(title='Send')
             v-model='fields.address'
             placeholder='Address')
         form-msg(name='Address' type='required' v-if='!$v.fields.address.required')
-        form-msg(name='Address' type='exactLength' length='40'
-          v-if='!$v.fields.address.minLength || !$v.fields.address.maxLength')
-        form-msg(name='Address' type='alphaNum' v-if='!$v.fields.address.alphaNum')
+        form-msg(name='Address' type='bech32' :body="bech32error" v-else-if='!$v.fields.address.bech32Validate')
 
       form-group(:error='$v.fields.amount.$error'
         field-id='send-amount' field-label='Amount')
@@ -51,13 +49,8 @@ page(title='Send')
 </template>
 
 <script>
-import {
-  required,
-  between,
-  minLength,
-  maxLength,
-  alphaNum
-} from "vuelidate/lib/validators"
+import bech32 from "bech32"
+import { required, between } from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
 import Btn from "@nylira/vue-button"
 import Field from "@nylira/vue-field"
@@ -99,6 +92,7 @@ export default {
     }
   },
   data: () => ({
+    bech32error: null,
     fields: {
       address: "",
       amount: null,
@@ -155,6 +149,16 @@ export default {
         })
       }
     },
+    bech32Validate(param) {
+      try {
+        bech32.decode(param)
+        this.bech32error = null
+        return true
+      } catch (error) {
+        this.bech32error = error.message
+        return false
+      }
+    },
     ...mapActions(["sendTx"])
   },
   props: ["denom"],
@@ -169,9 +173,7 @@ export default {
       fields: {
         address: {
           required,
-          minLength: minLength(40),
-          maxLength: maxLength(40),
-          alphaNum: alphaNum
+          bech32Validate: this.bech32Validate
         },
         amount: {
           required,
@@ -188,6 +190,16 @@ export default {
     "wallet.zoneIds": () => {
       this.fields.zoneId = this.wallet.zoneIds[0]
     }
+  }
+}
+const bech32Validate = param => {
+  try {
+    bech32.decode(param)
+    this.bech32error = null
+    return true
+  } catch (error) {
+    this.bech32error = error
+    return false
   }
 }
 </script>

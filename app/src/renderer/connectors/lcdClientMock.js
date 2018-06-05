@@ -1,15 +1,15 @@
 "use strict"
-
+import bech32 from "bech32"
 let state = {
   keys: [
     {
       name: "default",
       password: "1234567890",
-      address: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+      address: "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq"
     }
   ],
   accounts: {
-    DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B: {
+    tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq: {
       coins: [
         {
           denom: "mycoin",
@@ -40,7 +40,7 @@ let state = {
       }
     }
   ],
-  nonces: { DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B: 0 },
+  nonces: { tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq: 0 },
   txs: [
     {
       tx: {
@@ -64,7 +64,7 @@ let state = {
                 amount: 1234
               }
             ],
-            receiver: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+            receiver: "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq"
           }
         ]
       },
@@ -81,7 +81,7 @@ let state = {
                 amount: 1234
               }
             ],
-            sender: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+            sender: "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq"
           }
         ],
         outputs: [
@@ -100,7 +100,7 @@ let state = {
     }
   ],
   stake: {
-    DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B: {
+    tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq: {
       "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD": {
         PubKey: {
           data:
@@ -298,8 +298,7 @@ function makeAddress() {
   for (var i = 0; i < 40; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length))
   }
-
-  return text
+  return bech32.encode("tb", bech32.toWords(text, "hex"))
 }
 
 // function delegate (sender, { pub_key: { data: pubKey }, amount: delegation }) {
