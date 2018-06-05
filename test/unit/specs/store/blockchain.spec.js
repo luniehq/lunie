@@ -1,13 +1,21 @@
 import setup from "../../helpers/vuex-setup"
-
+import { getTxHash } from "../../../../app/src/renderer/scripts/tx-utils.js"
 let instance = setup()
 
 describe("Module: Blockchain", () => {
   let store, node
+  let height = 100
   let blockMeta = {
     header: {
-      height: 100,
+      height,
       time: 42
+    }
+  }
+  const block = {
+    test: "test",
+    height: 42,
+    data: {
+      txs: []
     }
   }
 
@@ -17,7 +25,8 @@ describe("Module: Blockchain", () => {
     node = test.node
 
     // prefill block metas
-    store.state.blockchain.blockMetas = [blockMeta]
+    store.state.blockchain.blockMetas = {}
+    store.state.blockchain.blockMetas[height] = blockMeta
   })
 
   it("sets block", () => {
@@ -36,7 +45,7 @@ describe("Module: Blockchain", () => {
   })
 
   it("should query block info", async () => {
-    store.state.blockchain.blockMetas = []
+    store.state.blockchain.blockMetas = {}
     node.rpc.blockchain = jest.fn(({ minHeight, maxHeight }, cb) => {
       cb(null, { block_metas: [blockMeta] })
     })
@@ -46,7 +55,9 @@ describe("Module: Blockchain", () => {
   })
 
   it("should reuse queried block info", async () => {
-    store.state.blockchain.blockMetas = [blockMeta]
+    store.state.blockchain.blockMetas = {}
+    store.state.blockchain.blockMetas[height] = blockMeta
+
     node.rpc.blockchain = jest.fn()
 
     let output = await store.dispatch("queryBlockInfo", 100)
@@ -55,7 +66,7 @@ describe("Module: Blockchain", () => {
   })
 
   it("should show an info if block info is unavailable", async () => {
-    store.state.blockchain.blockMetas = []
+    store.state.blockchain.blockMetas = {}
     node.rpc.blockchain = (props, cb) => cb("Error")
     let height = 100
     let output = await store.dispatch("queryBlockInfo", height)
@@ -69,20 +80,22 @@ describe("Module: Blockchain", () => {
     node.rpc.block = (props, cb) => cb("Error")
     let height = 42
     let output = await store.dispatch("queryBlock", height)
-    expect(output).toEqual({})
+    expect(output).toEqual(null)
     expect(store.state.notifications.length).toBe(1)
     expect(store.state.notifications[0]).toMatchSnapshot()
   })
 
   it("queries a block and info for a certain height", async () => {
     node.rpc.block = (query, cb) => {
-      cb(null, { block: { test: "test" } })
+      cb(null, {
+        block
+      })
     }
     node.rpc.blockchain = (query, cb) => {
       cb(null, { block_metas: [{ test: "test2" }] })
     }
     await store.dispatch("getBlock", 42)
-    expect(store.state.blockchain.block).toEqual({ test: "test" })
+    expect(store.state.blockchain.block).toEqual(block)
     expect(store.state.blockchain.blockMetaInfo).toEqual({ test: "test2" })
   })
 
@@ -93,7 +106,7 @@ describe("Module: Blockchain", () => {
 
   it("should show that querying the block has finished", async () => {
     node.rpc.block = (query, cb) => {
-      cb(null, { block: { test: "test" } })
+      cb(null, { block })
     }
     node.rpc.blockchain = (query, cb) => {
       cb(null, { block_metas: [{ test: "test2" }] })
@@ -105,7 +118,7 @@ describe("Module: Blockchain", () => {
 
   it("should hide loading on an error", async () => {
     node.rpc.block = (query, cb) => {
-      cb({ message: "expected" }, { block: { test: "test" } })
+      cb({ message: "expected" }, block)
     }
     node.rpc.blockchain = (query, cb) => {
       cb(null, { block_metas: [{ test: "test2" }] })
@@ -173,5 +186,72 @@ describe("Module: Blockchain", () => {
     node.rpc.subscribe = jest.fn()
     store.dispatch("subscribeToBlocks")
     expect(node.rpc.subscribe.mock.calls.length).toBe(1)
+  })
+
+  it("should convert tx strings correctly", async () => {
+    let expectedHash = "bfbb60a6e34561b223a10973f7ea7e3b822d30d2"
+    let txString =
+      "5wEPKiyH+w4DAQoU2cEstRhv4AGBeXQv0xEO5TTGNGAWAwEKBXN0ZWFrEQAAAAAAAAABBAQWAwEKFO85c4xpK5f28LYmEaY7OdYfuYuxFgMBCgVzdGVhaxEAAAAAAAAAAQQEBBMRAAAAAAAAAAAEHgMBDxYk3mIggDMizvgRs6nMKxBEfkMszfCU2ds6N9b9QxnzU6bNzXsXPaHbKkCLqwKfTYiuSPRjyqMROHd4T1oLM2sdduX7o81C9a8EbUTOCoXFRmYM8L50NBhtYOunMK0gsCSL1474TOLU6TMBGQAAAAAAAAAGBAQ="
+    let hash = await getTxHash(txString)
+    expect(hash).toBe(expectedHash)
+  })
+
+  it("should query txs", async () => {
+    let txString =
+      "5wEPKiyH+w4DAQoU2cEstRhv4AGBeXQv0xEO5TTGNGAWAwEKBXN0ZWFrEQAAAAAAAAABBAQWAwEKFO85c4xpK5f28LYmEaY7OdYfuYuxFgMBCgVzdGVhaxEAAAAAAAAAAQQEBBMRAAAAAAAAAAAEHgMBDxYk3mIggDMizvgRs6nMKxBEfkMszfCU2ds6N9b9QxnzU6bNzXsXPaHbKkCLqwKfTYiuSPRjyqMROHd4T1oLM2sdduX7o81C9a8EbUTOCoXFRmYM8L50NBhtYOunMK0gsCSL1474TOLU6TMBGQAAAAAAAAAGBAQ="
+    node.rpc.block = (query, cb) => {
+      cb(null, {
+        block: {
+          test: "test",
+          height: 42,
+          data: {
+            txs: [txString]
+          }
+        }
+      })
+    }
+    node.txs = hash => {
+      return new Promise(resolve => {
+        resolve({
+          height: 42,
+          test: "test"
+        })
+      })
+    }
+    expect(Object.keys(store.state.blockchain.blockTxs).length).toBe(0)
+    await store.dispatch("getBlock", 42)
+    let blockTxInfo = await store.dispatch("queryTxInfo", 42)
+    expect(blockTxInfo[0].test).toBe("test")
+    expect(Object.keys(store.state.blockchain.blockTxs).length).toBe(1)
+  })
+
+  it("should handle tx error", async () => {
+    // store.state.blockchain.blockTxs = {}
+    let txString =
+      "5wEPKiyH+w4DAQoU2cEstRhv4AGBeXQv0xEO5TTGNGAWAwEKBXN0ZWFrEQAAAAAAAAABBAQWAwEKFO85c4xpK5f28LYmEaY7OdYfuYuxFgMBCgVzdGVhaxEAAAAAAAAAAQQEBBMRAAAAAAAAAAAEHgMBDxYk3mIggDMizvgRs6nMKxBEfkMszfCU2ds6N9b9QxnzU6bNzXsXPaHbKkCLqwKfTYiuSPRjyqMROHd4T1oLM2sdduX7o81C9a8EbUTOCoXFRmYM8L50NBhtYOunMK0gsCSL1474TOLU6TMBGQAAAAAAAAAGBAQ="
+    node.rpc.block = (query, cb) => {
+      cb(null, {
+        block: {
+          test: "test",
+          height: 42,
+          data: {
+            txs: [txString]
+          }
+        }
+      })
+    }
+    node.txs = hash => {
+      return new Promise((resolve, reject) => {
+        reject("asdf")
+      })
+    }
+
+    try {
+      await store.dispatch("getBlock", 42)
+      await store.dispatch("queryBlock", 42)
+      expect(true).toBe(false)
+    } catch (error) {
+      expect(error).toBe("asdf")
+    }
   })
 })

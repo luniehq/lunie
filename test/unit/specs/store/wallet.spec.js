@@ -110,7 +110,7 @@ describe("Module: Wallet", () => {
       // prefill history
       store.commit("setWalletHistory", [{ height }])
       // prefill block metas
-      store.state.blockchain.blockMetas = [blockMeta]
+      store.state.blockchain.blockMetas[height] = blockMeta
     })
 
     it("should query transaction time", async () => {

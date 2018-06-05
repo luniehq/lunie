@@ -1,6 +1,6 @@
 const mockValidators = require("../../helpers/json/mock_validators.json")
 
-let state = { blockMetas: [], blocks: [], connected: true }
+let state = { blockMetas: {}, blocks: [], connected: true }
 createBlockMetas(state)
 
 const RpcClientMock = {
@@ -18,7 +18,7 @@ const RpcClientMock = {
     cb(null, { block: state.blocks.find(b => b.header.height === minHeight) }),
   blockchain: ({ minHeight, maxHeight }, cb) =>
     cb(null, {
-      block_metas: state.blockMetas.filter(b => b.height === minHeight)
+      block_metas: state.blockMetas[minHeight]
     }),
   status: cb =>
     cb(null, {
@@ -94,7 +94,7 @@ function createBlockMetas(state) {
     let time = new Date(now)
     time.setMinutes(time.getMinutes() - i)
 
-    state.blockMetas.push(createBlockMeta(time, i))
+    state.blockMetas[i] = createBlockMeta(time, i)
     state.blocks.push(createBlock(i))
   })
 }
@@ -103,7 +103,7 @@ async function produceBlockHeaders(cb) {
   let height = 200
   while (state.connected) {
     let newBlockHeader = createBlockMeta(Date.now(), ++height)
-    state.blockMetas.push(newBlockHeader)
+    state.blockMetas[newBlockHeader.height] = newBlockHeader
     cb(null, { data: { value: { header: newBlockHeader } } })
     await sleep(1000)
   }
