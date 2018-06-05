@@ -207,13 +207,13 @@ describe("Module: Blockchain", () => {
         })
       })
     }
-    expect(store.state.blockchain.blockTxs.length).toBe(0)
+    expect(Object.keys(store.state.blockchain.blockTxs).length).toBe(0)
     await store.dispatch("getBlock", 42)
     let block = await store.dispatch("queryBlock", 42)
     let blockTxInfo = await store.dispatch("queryTxInfo", 42)
     expect(blockTxInfo[0].test).toBe("test")
     // block = await store.dispatch("queryTxInfo", 42)
-    expect(store.state.blockchain.blockTxs.length).toBe(1)
+    expect(Object.keys(store.state.blockchain.blockTxs).length).toBe(1)
   })
 
   it("should handle tx error", async () => {

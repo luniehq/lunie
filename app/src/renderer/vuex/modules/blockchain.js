@@ -10,7 +10,7 @@ export default ({ commit, node }) => {
     subscription: false,
     syncing: true,
     blockMetas: [],
-    blockTxs: []
+    blockTxs: {}
   }
 
   const mutations = {
@@ -80,29 +80,24 @@ export default ({ commit, node }) => {
       })
     },
     async queryTxInfo({ state, dispatch }, height) {
-      let blockTxInfo = state.blockTxs.find(
-        b => b.length && b[0].height === height
-      )
+      if (!height) return Promise.resolve()
+      let blockTxInfo = state.blockTxs[height]
       if (blockTxInfo) {
         return blockTxInfo
       }
-      try {
-        blockTxInfo = await dispatch("getTxs", {
-          key: 0,
-          len:
-            state.block && state.block.data && state.block.data.txs
-              ? state.block.data.txs.length
-              : 0,
-          txs:
-            state.block && state.block.data && state.block.data.txs
-              ? state.block.data.txs.slice(0)
-              : []
-        })
-        blockTxInfo && state.blockTxs.push(blockTxInfo)
-        return blockTxInfo
-      } catch (error) {
-        return Promise.reject(error)
-      }
+      blockTxInfo = await dispatch("getTxs", {
+        key: 0,
+        len:
+          state.block && state.block.data && state.block.data.txs
+            ? state.block.data.txs.length
+            : 0,
+        txs:
+          state.block && state.block.data && state.block.data.txs
+            ? state.block.data.txs.slice(0)
+            : []
+      })
+      state.blockTxs[height] = blockTxInfo
+      return blockTxInfo
     },
     getTxs({ state, commit, dispatch }, { key, len, txs }) {
       //  this function is recursice promie used as an async loop in order to query all tx
