@@ -1,10 +1,8 @@
 import setup from "../../helpers/vuex-setup"
-import convertTx from "../../../../app/src/renderer/scripts/utils.js"
-
+import { getTxHash } from "../../../../app/src/renderer/scripts/tx-utils.js"
 let instance = setup()
 
 describe("Module: Blockchain", () => {
-  // const convertTx = utils.default.convertTx
   let store, node
   let height = 100
   let blockMeta = {
@@ -185,7 +183,7 @@ describe("Module: Blockchain", () => {
     let expectedHash = "bfbb60a6e34561b223a10973f7ea7e3b822d30d2"
     let txString =
       "5wEPKiyH+w4DAQoU2cEstRhv4AGBeXQv0xEO5TTGNGAWAwEKBXN0ZWFrEQAAAAAAAAABBAQWAwEKFO85c4xpK5f28LYmEaY7OdYfuYuxFgMBCgVzdGVhaxEAAAAAAAAAAQQEBBMRAAAAAAAAAAAEHgMBDxYk3mIggDMizvgRs6nMKxBEfkMszfCU2ds6N9b9QxnzU6bNzXsXPaHbKkCLqwKfTYiuSPRjyqMROHd4T1oLM2sdduX7o81C9a8EbUTOCoXFRmYM8L50NBhtYOunMK0gsCSL1474TOLU6TMBGQAAAAAAAAAGBAQ="
-    let hash = await convertTx(txString)
+    let hash = await getTxHash(txString)
     expect(hash).toBe(expectedHash)
   })
 
@@ -213,14 +211,13 @@ describe("Module: Blockchain", () => {
     }
     expect(Object.keys(store.state.blockchain.blockTxs).length).toBe(0)
     await store.dispatch("getBlock", 42)
-    let block = await store.dispatch("queryBlock", 42)
     let blockTxInfo = await store.dispatch("queryTxInfo", 42)
     expect(blockTxInfo[0].test).toBe("test")
-    // block = await store.dispatch("queryTxInfo", 42)
     expect(Object.keys(store.state.blockchain.blockTxs).length).toBe(1)
   })
 
   it("should handle tx error", async () => {
+    // store.state.blockchain.blockTxs = {}
     let txString =
       "5wEPKiyH+w4DAQoU2cEstRhv4AGBeXQv0xEO5TTGNGAWAwEKBXN0ZWFrEQAAAAAAAAABBAQWAwEKFO85c4xpK5f28LYmEaY7OdYfuYuxFgMBCgVzdGVhaxEAAAAAAAAAAQQEBBMRAAAAAAAAAAAEHgMBDxYk3mIggDMizvgRs6nMKxBEfkMszfCU2ds6N9b9QxnzU6bNzXsXPaHbKkCLqwKfTYiuSPRjyqMROHd4T1oLM2sdduX7o81C9a8EbUTOCoXFRmYM8L50NBhtYOunMK0gsCSL1474TOLU6TMBGQAAAAAAAAAGBAQ="
     node.rpc.block = (query, cb) => {
@@ -242,6 +239,7 @@ describe("Module: Blockchain", () => {
 
     try {
       await store.dispatch("getBlock", 42)
+      await store.dispatch("queryBlock", 42)
       expect(true).toBe(false)
     } catch (error) {
       expect(error).toBe("asdf")

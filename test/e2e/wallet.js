@@ -48,9 +48,9 @@ test("wallet", async function(t) {
 
   let balanceEl = denom => {
     let balanceElemSlector = `//div[contains(text(), "${denom.toUpperCase()}")]`
-    app.client.getHTML("#part-available-balances").then(result => {
-      console.log(result)
-    })
+    // app.client.getHTML("#part-available-balances").then(result => {
+    //   console.log(result)
+    // })
     return app.client.waitForExist(balanceElemSlector, 20000).then(() =>
       $(balanceElemSlector)
         .$("..")
