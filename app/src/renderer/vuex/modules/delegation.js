@@ -71,9 +71,10 @@ export default ({ commit, node }) => {
       let delegate = rootState.delegates.delegates.find(
         d => d.owner === validator
       )
-      let tokensPerShare =
-        parseRat(delegate.pool_shares.amount) /
-        parseRat(delegate.delegator_shares)
+      let tokens = parseRat(delegate.pool_shares.amount)
+      let totalShares = parseRat(delegate.delegator_shares)
+      let tokensPerShare = totalShares ? tokens / totalShares : 0
+
       let value = tokensPerShare * shares
       commit("setCommittedDelegation", {
         candidateId: validator,
