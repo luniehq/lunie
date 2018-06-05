@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Added COSMOS_MOCKED env variable to allow overwriting mocked mode from the command line @faboweb
 * User will now be logged out if switching between mocked and live connector @faboweb
 * recovery seed form validation & tests @okwme
+* added tx view to block explorer @okwme
 
 ### Changed
 

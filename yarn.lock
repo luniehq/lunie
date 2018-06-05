@@ -8594,6 +8594,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
+varint@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/varint/-/varint-5.0.0.tgz#d826b89f7490732fabc0c0ed693ed475dcb29ebf"
+
 varstruct@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/varstruct/-/varstruct-5.3.0.tgz#d51b53e20316d0afddb54cf7cade894e628f1cb5"

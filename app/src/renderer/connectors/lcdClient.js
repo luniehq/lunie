@@ -89,6 +89,8 @@ Object.assign(Client.prototype, {
   },
   coinTxs: argReq("GET", "/tx/coin"),
 
+  txs: argReq("GET", "/txs"),
+
   // staking
   candidate: argReq("GET", "/query/stake/candidate"),
   candidates: req("GET", "/query/stake/candidates"),
