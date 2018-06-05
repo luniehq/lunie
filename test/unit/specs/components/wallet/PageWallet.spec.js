@@ -114,6 +114,6 @@ describe("PageWallet", () => {
   })
 
   it("has a label for the staking denomination", () => {
-    expect(wrapper.vm.stakingDenom).toBe("FERMION")
+    expect(wrapper.vm.stakingDenom).toBe("STEAK")
   })
 })

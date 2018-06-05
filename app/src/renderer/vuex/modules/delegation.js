@@ -134,7 +134,7 @@ export default ({ commit, node }) => {
 }
 
 // parse sdk rational number string
-function parseRat(ratStr) {
+function parseRat(ratStr = "") {
   let [numerator, denominator] = ratStr.split("/")
   if (!denominator) return +numerator
   return +numerator / +denominator
