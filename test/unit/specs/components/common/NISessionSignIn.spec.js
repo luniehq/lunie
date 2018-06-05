@@ -72,4 +72,18 @@ describe("NiSessionSignIn", () => {
     expect(store.commit).toHaveBeenCalled()
     expect(store.commit.mock.calls[0][0]).toBe("notifyError")
   })
+
+  it("should set the default password in mocked mode", async () => {
+    let test = instance.mount(NiSessionSignIn, {
+      getters: {
+        mockedConnector: () => true
+      }
+    })
+    store = test.store
+    wrapper = test.wrapper
+
+    expect(wrapper.vm.fields.signInPassword).toBe("1234567890")
+    expect(wrapper.html()).toContain("1234567890")
+    expect(wrapper.html()).toMatchSnapshot()
+  })
 })

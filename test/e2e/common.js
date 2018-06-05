@@ -72,23 +72,25 @@ module.exports = {
       await sleep(100)
     }
   },
-  async login(app, account = "testkey") {
+  async login(app, account = "default") {
     console.log("logging into " + account)
     let accountsSelect = "#sign-in-name select"
 
-    await app.client.waitForExist(accountsSelect, 5000)
-    await selectOption(app, accountsSelect, account)
+    await app.client.waitForExist(accountsSelect, 10000)
+    await module.exports.selectOption(app, accountsSelect, account)
 
     await app.client.$("#sign-in-password").setValue("1234567890")
     await app.client.$(".ni-session-footer button").click()
 
-    await app.client.waitForExist("#app-content", 5000)
+    await app.client.waitForExist("#app-content", 10000)
 
     // checking if user is logged in
     await module.exports.openMenu(app)
     let activeUser = await app.client.$(".ni-li-user .ni-li-title").getText()
     if (account !== activeUser) {
-      throw new Error("Incorrect user logged in")
+      throw new Error(
+        "Incorrect user logged in (" + account + ", " + activeUser + ")"
+      )
     }
 
     console.log("logged in")
@@ -108,10 +110,10 @@ module.exports = {
       .$(".material-icons=exit_to_app")
       .$("..")
       .click()
+  },
+  async selectOption(app, selectSelector, text) {
+    await app.client.$(selectSelector).click()
+    await app.client.keys(text.split())
+    await app.client.keys("Enter")
   }
-}
-
-async function selectOption(app, selectSelector, text) {
-  await app.client.$(selectSelector).click()
-  await app.client.keys(text.split())
 }

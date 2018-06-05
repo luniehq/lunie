@@ -7,6 +7,12 @@ export default ({ dispatch, node }) => {
   }
 
   const mutations = {
+    setDelegateLoading(state, loading) {
+      state.loading = loading
+    },
+    setDelegates(state, delegates) {
+      state.delegates = delegates
+    },
     addDelegate(state, delegate) {
       delegate.id = delegate.owner
       Object.assign(delegate, delegate.description)
@@ -27,22 +33,23 @@ export default ({ dispatch, node }) => {
   }
 
   const actions = {
-    reconnected({ state, dispatch }) {
+    reconnected({ state, commit, dispatch }) {
       if (state.loading) {
         dispatch("getDelegates")
       }
     },
     async getDelegates({ state, dispatch, commit, rootState }) {
-      state.loading = true
+      commit("setDelegateLoading", true)
       let delegates = await node.candidates()
       for (let delegate of delegates) {
         commit("addDelegate", delegate)
       }
-      state.delegates = indicateValidators(
-        state.delegates,
-        rootState.config.maxValidators
+      commit(
+        "setDelegates",
+        indicateValidators(state.delegates, rootState.config.maxValidators)
       )
-      state.loading = false
+      commit("setDelegateLoading", false)
+
       return state.delegates
     }
   }

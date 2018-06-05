@@ -75,6 +75,18 @@ describe("PageStaking", () => {
     ).toContain("2")
   })
 
+  it("should update 'somethingToSearch' when there's nothing to search", () => {
+    expect(wrapper.vm.somethingToSearch).toBe(true)
+    let delegates = store.state.delegates.delegates
+    store.commit("setDelegates", [])
+    expect(wrapper.vm.somethingToSearch).toBe(false)
+
+    store.commit("setDelegates", delegates)
+    expect(wrapper.vm.somethingToSearch).toBe(true)
+    store.commit("setDelegateLoading", true)
+    expect(wrapper.vm.somethingToSearch).toBe(false)
+  })
+
   it("should show placeholder if delegates are loading", () => {
     let { wrapper } = mount(PageStaking, {
       getters: {
@@ -87,5 +99,20 @@ describe("PageStaking", () => {
     })
 
     expect(wrapper.contains("data-loading")).toBe(true)
+  })
+
+  it("should not show search when there is nothing to search", () => {
+    let { wrapper } = mount(PageStaking, {
+      getters: {
+        delegates: () => ({
+          delegates: [],
+          loading: true
+        })
+      },
+      stubs: { "data-loading": "<data-loading />" }
+    })
+    wrapper.update()
+
+    expect(wrapper.vm.setSearch()).toEqual(false)
   })
 })

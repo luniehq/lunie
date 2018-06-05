@@ -11,6 +11,9 @@ export default ({ commit, node }) => {
   }
 
   const mutations = {
+    setBlocks(state, blocks) {
+      state.blocks = blocks
+    },
     setBlock(state, block) {
       state.block = block
     },
@@ -24,6 +27,8 @@ export default ({ commit, node }) => {
       if (state.blockLoading) {
         dispatch("getBlock", state.blockHeight)
       }
+      //on a reconnect we assume, that the rpc connector changed, so we can safely resubscribe to blocks
+      state.subscription = false
       dispatch("subscribeToBlocks")
     },
     async getBlock({ state, commit, dispatch }, height) {

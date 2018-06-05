@@ -39,6 +39,7 @@ function cliSendCoins(home, to, amount) {
 
 test("wallet", async function(t) {
   let { app, home } = await getApp(t)
+  // app.env.COSMOS_MOCKED = false
   await restart(app)
 
   let $ = (...args) => app.client.$(...args)
@@ -46,8 +47,13 @@ test("wallet", async function(t) {
   await login(app, "testkey")
 
   let balanceEl = denom => {
+    console.log("looking for " + denom.toUpperCase())
+    // let balanceElemSlector = "div=" + denom.toUpperCase()
     let balanceElemSlector = `//div[contains(text(), "${denom.toUpperCase()}")]`
-    return app.client.waitForExist(balanceElemSlector, 10000).then(() =>
+    app.client.getHTML("#part-available-balances").then(result => {
+      console.log(result)
+    })
+    return app.client.waitForExist(balanceElemSlector, 20000).then(() =>
       $(balanceElemSlector)
         .$("..")
         .$("div.ni-li-dd")
