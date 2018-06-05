@@ -13,6 +13,7 @@ let Raven = require("raven")
 let pkg = require("../../../package.json")
 let addMenu = require("./menu.js")
 let config = require("../config.js")
+let LcdClient = require("../renderer/connectors/lcdClient.js")
 global.config = config // to make the config accessable from renderer
 
 let shuttingDown = false
@@ -224,7 +225,7 @@ app.on("ready", () => createWindow())
 
 // start lcd REST API
 async function startLCD(home, nodeIP) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     log("startLCD", home)
     let child = startProcess(LCD_BINARY_NAME, [
       "rest-server",
@@ -236,12 +237,20 @@ async function startLCD(home, nodeIP) {
       nodeIP,
       "--chain-id",
       chainId
-      // '--trust-node'
     ])
     logProcess(child, join(home, "lcd.log"))
 
-    // XXX: should wait for server to be ready
-    setTimeout(() => resolve(child), 1000)
+    // poll until LCD is started
+    let client = new LcdClient(`http://localhost:${LCD_PORT}`)
+    while (true) {
+      try {
+        await client.listKeys()
+        break // request succeeded
+      } catch (err) {
+        await sleep(1000)
+      }
+    }
+    resolve(child)
 
     child.on("exit", () => {
       reject()
