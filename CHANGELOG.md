@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Persisting e2e failure screenshots as artifact on circleci @faboweb
 
+### Fixed
+
+* Blocks not updating in block explorer when switching network @faboweb
+
 ## [0.6.2] - 2018-05-23
 
 ### Added
