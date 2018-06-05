@@ -6,9 +6,10 @@ let instance = setup()
 describe("Module: Blockchain", () => {
   // const convertTx = utils.default.convertTx
   let store, node
+  let height = 100
   let blockMeta = {
     header: {
-      height: 100,
+      height,
       time: 42
     }
   }
@@ -19,7 +20,8 @@ describe("Module: Blockchain", () => {
     node = test.node
 
     // prefill block metas
-    store.state.blockchain.blockMetas = [blockMeta]
+    store.state.blockchain.blockMetas = {}
+    store.state.blockchain.blockMetas[height] = blockMeta
   })
 
   it("sets block", () => {
@@ -38,7 +40,7 @@ describe("Module: Blockchain", () => {
   })
 
   it("should query block info", async () => {
-    store.state.blockchain.blockMetas = []
+    store.state.blockchain.blockMetas = {}
     node.rpc.blockchain = jest.fn(({ minHeight, maxHeight }, cb) => {
       cb(null, { block_metas: [blockMeta] })
     })
@@ -48,7 +50,9 @@ describe("Module: Blockchain", () => {
   })
 
   it("should reuse queried block info", async () => {
-    store.state.blockchain.blockMetas = [blockMeta]
+    store.state.blockchain.blockMetas = {}
+    store.state.blockchain.blockMetas[height] = blockMeta
+
     node.rpc.blockchain = jest.fn()
 
     let output = await store.dispatch("queryBlockInfo", 100)
@@ -57,7 +61,7 @@ describe("Module: Blockchain", () => {
   })
 
   it("should show an info if block info is unavailable", async () => {
-    store.state.blockchain.blockMetas = []
+    store.state.blockchain.blockMetas = {}
     node.rpc.blockchain = (props, cb) => cb("Error")
     let height = 100
     let output = await store.dispatch("queryBlockInfo", height)

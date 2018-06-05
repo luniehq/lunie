@@ -9,7 +9,7 @@ export default ({ commit, node }) => {
     blockLoading: false,
     subscription: false,
     syncing: true,
-    blockMetas: [],
+    blockMetas: {},
     blockTxs: {}
   }
 
@@ -129,7 +129,8 @@ export default ({ commit, node }) => {
       })
     },
     async queryBlockInfo({ state, commit }, height) {
-      let blockMetaInfo = state.blockMetas.find(b => b.header.height === height)
+      // if (!height) return Promise.resolve()
+      let blockMetaInfo = state.blockMetas[height]
       if (blockMetaInfo) {
         return blockMetaInfo
       }
@@ -149,7 +150,7 @@ export default ({ commit, node }) => {
           }
         )
       })
-      blockMetaInfo && state.blockMetas.push(blockMetaInfo)
+      state.blockMetas[height] = blockMetaInfo
       return blockMetaInfo
     },
     subscribeToBlocks({ state, commit, dispatch }) {

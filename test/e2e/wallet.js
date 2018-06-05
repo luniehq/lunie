@@ -47,8 +47,6 @@ test("wallet", async function(t) {
   await login(app, "testkey")
 
   let balanceEl = denom => {
-    console.log("looking for " + denom.toUpperCase())
-    // let balanceElemSlector = "div=" + denom.toUpperCase()
     let balanceElemSlector = `//div[contains(text(), "${denom.toUpperCase()}")]`
     app.client.getHTML("#part-available-balances").then(result => {
       console.log(result)
