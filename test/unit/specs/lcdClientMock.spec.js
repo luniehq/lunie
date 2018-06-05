@@ -102,8 +102,6 @@ describe("LCD Client Mock", () => {
 
     // res = await client.coinTxs("DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B")
     res = await client.coinTxs("tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq")
-
-    tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq
     expect(res.length).toBe(3)
   })
 
