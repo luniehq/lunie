@@ -132,6 +132,7 @@
     "tendermint-crypto": "github:mappum/js-crypto",
     "toml": "2.3.3",
     "user-home": "2.0.0",
+    "varint": "5.0.0",
     "vue": "2.5.16",
     "vue-directive-tooltip": "1.4.5",
     "vue-electron": "1.0.6",
