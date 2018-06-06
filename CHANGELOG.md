@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changes
 
 * Disabled error reporting in development @faboweb
+* Update genesis.json when conflicts are detected @jolesbi
 
 ### Added
 
