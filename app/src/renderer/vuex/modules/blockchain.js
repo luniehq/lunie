@@ -3,7 +3,7 @@ import { getTxHash } from "../../scripts/tx-utils.js"
 export default ({ commit, node }) => {
   const state = {
     blocks: [],
-    block: {},
+    block: null,
     blockMetaInfo: { block_id: {} },
     blockHeight: null, // we remember the height so we can requery the block, if querying failed
     blockLoading: false,
@@ -14,6 +14,9 @@ export default ({ commit, node }) => {
   }
 
   const mutations = {
+    setBlockHeight(state, height) {
+      state.blockHeight = height
+    },
     setBlocks(state, blocks) {
       state.blocks = blocks
     },
@@ -40,7 +43,8 @@ export default ({ commit, node }) => {
     async getBlock({ state, commit, dispatch }, height) {
       try {
         state.blockLoading = true
-        state.blockHeight = height
+        commit("setBlockHeight", height)
+
         const [block, blockMetaInfo] = await Promise.all([
           dispatch("queryBlock", height),
           dispatch("queryBlockInfo", height)
@@ -57,7 +61,8 @@ export default ({ commit, node }) => {
     },
     queryBlock({ state, commit }, height) {
       return new Promise((resolve, reject) => {
-        node.rpc.block({ height }, (err, data) => {
+        node.rpc.block({ minHeight: height, height }, (err, data) => {
+          // the mock /block looks for minHeight but the live /block looks for height
           if (err) {
             commit("notifyError", {
               title: `Couldn't query block`,
@@ -71,12 +76,8 @@ export default ({ commit, node }) => {
       })
     },
     async queryTxInfo({ state, dispatch, commit }, height) {
-      if (!height) {
-        commit("notifyError", {
-          title: `Couldn't query tx`,
-          body: "No Height Provided"
-        })
-        return Promise.resolve()
+      if (!height || !state.block) {
+        return Promise.resolve({})
       }
       let blockTxInfo = state.blockTxs[height]
       if (blockTxInfo) {
@@ -85,10 +86,10 @@ export default ({ commit, node }) => {
       try {
         blockTxInfo = await dispatch("getTxs", {
           key: 0,
-          len: state.block ? state.block.data.txs.length : 0,
-          txs: state.block ? state.block.data.txs.slice(0) : []
+          len: state.block.data.txs ? state.block.data.txs.length : 0,
+          txs: state.block.data.txs ? state.block.data.txs.slice(0) : []
         })
-        state.blockTxs[height] = blockTxInfo
+        state.blockTxs = { ...state.blockTxs, [height]: blockTxInfo }
         return blockTxInfo
       } catch (error) {
         return Promise.reject(error)
@@ -137,12 +138,12 @@ export default ({ commit, node }) => {
               })
               resolve(null)
             } else {
-              resolve(data.block_metas.length ? data.block_metas[0] : null)
+              resolve(data.block_metas ? data.block_metas[0] : null)
             }
           }
         )
       })
-      state.blockMetas[height] = blockMetaInfo
+      state.blockMetas = { ...state.blockMetas, [height]: blockMetaInfo }
       return blockMetaInfo
     },
     subscribeToBlocks({ state, commit, dispatch }) {
@@ -159,7 +160,7 @@ export default ({ commit, node }) => {
 
       node.rpc.status((err, status) => {
         if (err) return error(err)
-
+        commit("setBlockHeight", status.latest_block_height)
         if (status.syncing) {
           // still syncing, let's try subscribing again in 30 seconds
           state.syncing = true

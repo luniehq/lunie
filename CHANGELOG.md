@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 * Blocks not updating in block explorer when switching network @faboweb
+* Tx bug where state wasn't updated @okwme
 
 ## [0.6.2] - 2018-05-23
 
