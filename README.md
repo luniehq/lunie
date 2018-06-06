@@ -17,22 +17,21 @@
 
 ## Voyager Prerequisites
 
-### Install Cosmos SDK
+#### Build Gaia (Cosmos SDK)
 
-Make sure you have **go 1.10+** installed. [Get it here.](https://golang.org/doc/install)
+Build the Gaia CLI (`gaiacli`) and full node (`gaiad`), which are part of the
+Cosmos SDK, with the following command:
 
-Now, check out and install `v0.17.3` of the Cosmos SDK:
-
+```shell
+yarn build:gaia
 ```
-go get github.com/cosmos/cosmos-sdk
-cd $GOPATH/src/github.com/cosmos/cosmos-sdk
-git checkout v0.17.3
-make get_tools && make get_vendor_deps && make install
-```
+
+The version built is specified in `tasks/build/Gaia/COMMIT.sh` and the programs
+are placed in the `builds/gaia` directory.
 
 ### Check Out Voyager
 
-Voyager requires Node.js `>=9.4.0`. If you have a different version of Node.js installed (e.g. Node.js `10.0.0`), you need to use `n` to install the correct version. The following command will use `n` to install it alongside your current version of Node.js.
+Voyager requires Node.js `>=9.4.0`. If you have a different version of Node.js installed (e.g. Node.js `8.11 LTS`), you can use `n` to install the correct version. The following command will use `n` to install it alongside your current version of Node.js.
 
 ```bash
 npm i -g n && n 9.4.0
@@ -44,7 +43,8 @@ With Node.js and Yarn installed, you're ready to check out the source code:
 
 ```bash
 git clone https://github.com/cosmos/voyager.git
-cd voyager && yarn
+cd voyager
+yarn install
 ```
 
 ---
@@ -89,7 +89,7 @@ Building Voyager requires [Docker](https://www.docker.com/get-docker) installed.
 Here's an example build command:
 
 ```shell
-yarn run build --commit=HEAD --network=app/networks/gaia-5001 --sdk-commit=35d0e34b2674ad9edf0f074167dd967219dbbe1b
+yarn run build --commit=HEAD --network=app/networks/gaia-5001
 ```
 
 You can specify `--help` to see all options with explanations.
@@ -98,12 +98,6 @@ Run the app.
 
 ```bash
 open builds/Cosmos-{platform}-x64/Cosmos.app
-```
-
-When you are testing the build system you can skip the repackaging of the JS files.
-
-```bash
-$ yarn run build --skip-pack
 ```
 
 To test if your build worked run:
