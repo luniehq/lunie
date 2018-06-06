@@ -14,14 +14,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* Persisting e2e failure screenshots as artifact on circleci @faboweb
 * Notification for dev error collection toggle behavior @okwme
+* Added automatic releases @faboweb @NodeGuy
 
 ### Fixed
 
 * Blocks not updating in block explorer when switching network @faboweb
 * Fixed minor typo in README.md @nylira
 * Tx bug where state wasn't updated @okwme
+* Persisting e2e failure screenshots as artifact on circleci @faboweb
 
 ## [0.6.2] - 2018-05-23
 

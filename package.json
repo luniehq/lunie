@@ -14,7 +14,8 @@
     "node": ">=9.4.0"
   },
   "scripts": {
-    "build": "node tasks/build",
+    "build": "node tasks/build/runBuild",
+    "build:gaia": "cd tasks/build/Gaia; ./runBuild.sh",
     "local": "yarn run testnet local",
     "testnet": "node tasks/testnet.js",
     "lint": "yarn lint:eslint && yarn lint:format",
@@ -29,8 +30,9 @@
     "test:e2e": "cross-env ANALYTICS=false yarn run pack && tape \"test/e2e/*.js\"",
     "test:exe": "node tasks/test-build.js",
     "test:coverage": "http-server test/unit/coverage/lcov-report",
+    "release": "node ./ci/release.js",
     "precommit": "pretty-quick --staged",
-    "prepush": "yarn lint && yarn test:unit && bash ./changelog-changed-check.sh"
+    "prepush": "yarn lint && yarn test:unit && bash ./ci/changelog-changed-check.sh"
   },
   "devDependencies": {
     "@nodeguy/cli": "0.2.1",
@@ -74,7 +76,9 @@
     "prettier": "1.12.1",
     "pretty-quick": "1.4.1",
     "proxyquire": "1.8.0",
+    "publish-release": "1.5.1",
     "pug": "2.0.3",
+    "simple-git": "1.95.0",
     "spectron": "3.8.0",
     "style-loader": "0.21.0",
     "tape": "4.9.0",
