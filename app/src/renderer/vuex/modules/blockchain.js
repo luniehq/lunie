@@ -77,23 +77,19 @@ export default ({ commit, node }) => {
     },
     async queryTxInfo({ state, dispatch, commit }, height) {
       if (!height || !state.block) {
-        return Promise.resolve({})
+        return {}
       }
       let blockTxInfo = state.blockTxs[height]
       if (blockTxInfo) {
         return blockTxInfo
       }
-      try {
-        blockTxInfo = await dispatch("getTxs", {
-          key: 0,
-          len: state.block.data.txs ? state.block.data.txs.length : 0,
-          txs: state.block.data.txs ? state.block.data.txs.slice(0) : []
-        })
-        state.blockTxs = { ...state.blockTxs, [height]: blockTxInfo }
-        return blockTxInfo
-      } catch (error) {
-        return Promise.reject(error)
-      }
+      blockTxInfo = await dispatch("getTxs", {
+        key: 0,
+        len: state.block.data.txs ? state.block.data.txs.length : 0,
+        txs: state.block.data.txs ? state.block.data.txs.slice(0) : []
+      })
+      state.blockTxs = { ...state.blockTxs, [height]: blockTxInfo }
+      return blockTxInfo
     },
     async getTxs({ state, commit, dispatch }, { key, len, txs }) {
       //  this function queries txs recursively. it's called from queryTxInfo as series of synchronous
@@ -121,7 +117,7 @@ export default ({ commit, node }) => {
           title: `Couldn't query block`,
           body: "No Height Provided"
         })
-        return Promise.resolve()
+        return
       }
       let blockMetaInfo = state.blockMetas[height]
       if (blockMetaInfo) {
