@@ -32,7 +32,7 @@ export const mockedConnector = state => state.node.mocked
 //blockchain
 export const blockTxInfo = state => {
   return (
-    state.blockchain.block.header &&
+    state.blockchain.block &&
     state.blockchain.blockTxs[state.blockchain.block.header.height]
   )
 }
