@@ -7,10 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-
 ### Changes
 
 * Disabled error reporting in development @faboweb
+* Removed ci files from code coverage as they are badly testable @faboweb
 
 ### Added
 
