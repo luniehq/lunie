@@ -15,7 +15,6 @@ let binary = process.env.BINARY_PATH || process.env.GOPATH + "/bin/gaiacli"
 process.env.BINARY_PATH = binary
 let nodeBinary =
   process.env.NODE_BINARY_PATH || process.env.GOPATH + "/bin/gaiad"
-process.env.NODE_BINARY_PATH = nodeBinary
 
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
