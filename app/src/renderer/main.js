@@ -79,6 +79,8 @@ async function main() {
       })
 
       firstStart = false
+    } else {
+      store.dispatch("reconnected")
     }
   })
 
