@@ -12,7 +12,6 @@ const networkPath = join(__dirname, "localtestnet")
 
 let app, cliHome, nodeHome, started
 let binary = process.env.BINARY_PATH || process.env.GOPATH + "/bin/gaiacli"
-process.env.BINARY_PATH = binary
 let nodeBinary =
   process.env.NODE_BINARY_PATH || process.env.GOPATH + "/bin/gaiad"
 
@@ -73,7 +72,8 @@ function launch(t) {
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
           COSMOS_HOME: cliHome,
           COSMOS_NETWORK: networkPath,
-          COSMOS_MOCKED: false // the e2e tests expect mocking to be switched off
+          COSMOS_MOCKED: false, // the e2e tests expect mocking to be switched off
+          BINARY_PATH: binary
         }
       })
 
