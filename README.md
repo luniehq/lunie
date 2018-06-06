@@ -15,7 +15,7 @@
 
 ---
 
-## Voyager Prerequsities
+## Voyager Prerequisites
 
 ### Install Cosmos SDK
 
