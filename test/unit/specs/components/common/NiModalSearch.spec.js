@@ -4,7 +4,7 @@ import Vuelidate from "vuelidate"
 
 describe("NiModalSearch", () => {
   let wrapper, store
-  let { mount, shallow, localVue } = setup()
+  let { mount, localVue } = setup()
 
   beforeEach(() => {
     let instance = mount(NiModalSearch, { propsData: { type: "transactions" } })
@@ -54,5 +54,15 @@ describe("NiModalSearch", () => {
         .text()
         .trim()
     ).toBe("Find")
+  })
+
+  it("should go to block", () => {
+    wrapper.vm.$router.go("balances")
+    wrapper.setProps({ type: "blocks" })
+    store.commit("setSearchVisible", ["blocks", true])
+    expect(wrapper.vm.$route.name).toBe("balances")
+    wrapper.vm.query = "1"
+    wrapper.vm.gotoBlock()
+    expect(wrapper.vm.$route.name).toBe("block")
   })
 })

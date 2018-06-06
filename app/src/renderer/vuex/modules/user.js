@@ -98,11 +98,21 @@ export default ({ commit, node }) => {
     loadErrorCollection({ state, dispatch }, account) {
       let errorCollection =
         localStorage.getItem(`${ERROR_COLLECTION_KEY}_${account}`) === "true"
-      dispatch("setErrorCollection", { account, optin: errorCollection })
+      if (state.errorCollection !== errorCollection)
+        dispatch("setErrorCollection", { account, optin: errorCollection })
     },
-    setErrorCollection({ state }, { account, optin }) {
-      localStorage.setItem(`${ERROR_COLLECTION_KEY}_${account}`, optin)
+    setErrorCollection({ state, commit }, { account, optin }) {
+      if (state.errorCollection !== optin && config.development) {
+        commit("notifyError", {
+          title: `Couldn't switch ${optin ? "on" : "off"} error collection.`,
+          body: "Error collection is disabled during development."
+        })
+      }
       state.errorCollection = config.development ? false : optin
+      localStorage.setItem(
+        `${ERROR_COLLECTION_KEY}_${account}`,
+        state.errorCollection
+      )
 
       Raven.uninstall()
         .config(state.errorCollection ? config.sentry_dsn_public : "")

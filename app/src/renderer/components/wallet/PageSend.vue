@@ -116,7 +116,6 @@ export default {
     },
     async onSubmit() {
       this.$v.$touch()
-      console.log(this.$v.$error)
       if (this.$v.$error) return
 
       this.sending = true
