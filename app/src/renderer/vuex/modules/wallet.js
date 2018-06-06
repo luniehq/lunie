@@ -2,7 +2,7 @@ let fs = require("fs-extra")
 let { join } = require("path")
 const { remote } = require("electron")
 const root = remote.getGlobal("root")
-import bech32 from "bech32"
+import b32 from "scripts/b32"
 export default ({ commit, node }) => {
   let state = {
     balances: [],
@@ -24,11 +24,10 @@ export default ({ commit, node }) => {
     },
     setWalletAddress(state, address) {
       try {
-        bech32.decode(address)
+        b32.decode(address)
         state.address = address
       } catch (error) {
-        // let words = bech32.toWords(Buffer.from(address, "hex"))
-        // address = bech32.encode("tb", words)
+        // address = b32.encode(address)
         console.log(error)
       }
       // clear previous account state

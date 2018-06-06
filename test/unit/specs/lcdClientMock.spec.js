@@ -1,4 +1,5 @@
-import bech32 from "bech32"
+import b32 from "scripts/b32"
+
 describe("LCD Client Mock", () => {
   let client
 
@@ -25,7 +26,7 @@ describe("LCD Client Mock", () => {
       seed
     })
     try {
-      bech32.decode(res)
+      b32.decode(res)
       expect(true).toBe(true)
     } catch (error) {
       console.log(error)

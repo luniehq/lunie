@@ -49,7 +49,7 @@ page(title='Send')
 </template>
 
 <script>
-import bech32 from "bech32"
+import b32 from "scripts/b32"
 import { required, between } from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
 import Btn from "@nylira/vue-button"
@@ -110,7 +110,6 @@ export default {
     },
     async onSubmit() {
       this.$v.$touch()
-      console.log(this.$v.$error)
       if (this.$v.$error) return
 
       this.sending = true
@@ -151,7 +150,7 @@ export default {
     },
     bech32Validate(param) {
       try {
-        bech32.decode(param)
+        b32.decode(param)
         this.bech32error = null
         return true
       } catch (error) {
@@ -194,7 +193,7 @@ export default {
 }
 const bech32Validate = param => {
   try {
-    bech32.decode(param)
+    b32.decode(param)
     this.bech32error = null
     return true
   } catch (error) {

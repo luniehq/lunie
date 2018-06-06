@@ -1,5 +1,5 @@
 import setup from "../../helpers/vuex-setup"
-import bech32 from "bech32"
+import b32 from "scripts/b32"
 
 function mockGA(uid) {
   window.analytics = { foo: "bar" }
@@ -104,7 +104,7 @@ describe("Module: User", () => {
       name
     })
     try {
-      bech32.decode(address)
+      b32.decode(address)
       expect(true).toBe(true)
     } catch (error) {
       console.log(error)

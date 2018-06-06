@@ -1,5 +1,5 @@
 "use strict"
-import bech32 from "bech32"
+import b32 from "scripts/b32"
 let state = {
   keys: [
     {
@@ -298,7 +298,7 @@ function makeAddress() {
   for (var i = 0; i < 40; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length))
   }
-  return bech32.encode("tb", bech32.toWords(text, "hex"))
+  return b32.encode(text)
 }
 
 // function delegate (sender, { pub_key: { data: pubKey }, amount: delegation }) {
