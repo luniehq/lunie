@@ -500,13 +500,12 @@ function pickNode(nodes) {
 }
 
 async function checkNodeSDKVersion() {
-  const nodeInfo = await axios(`http://localhost:${LCD_PORT}/node_info`).then(
-    res => res.data
-  )
-  const nodeSDKVersion = nodeInfo.version
+  const nodeSDKVersion = await axios(
+    `http://localhost:${LCD_PORT}/version`
+  ).then(res => res.data)
   const gaiacliVersion = await getGaiacliVersion()
-  const compatible =
-    semver.diff(nodeSDKVersion, gaiacliVersion.split("-")[0]) === "patch"
+  const diff = semver.diff(nodeSDKVersion, gaiacliVersion.split("-")[0])
+  const compatible = diff !== "major" || diff !== "minor"
   if (!compatible) {
     console.log(
       `The connected node uses version ${nodeSDKVersion} of the SDK. The local gaiacli uses version ${gaiacliVersion}. Trying another node.`
