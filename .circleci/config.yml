@@ -44,7 +44,7 @@ jobs:
       - attach_workspace:
           at: builds/gaia
 
-      - run: bash ./tasks/changelog-changed-check.sh
+      - run: sudo tasks/changelog-changed-check.sh
 
       - restore_cache:
           keys:
