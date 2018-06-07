@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  # Build Gaia from the SDK source code specified within SDK_COMMIT.
+  # Build Gaia from the SDK source code specified by tasks/build/Gaia/COMMIT.sh.
   buildGaia:
     docker:
       - image: circleci/golang
