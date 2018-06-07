@@ -224,9 +224,10 @@ app.on("ready", () => createWindow())
 
 // start lcd REST API
 async function startLCD(home, nodeIP) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     log("startLCD", home)
     let child = startProcess(LCD_BINARY_NAME, [
+      "advanced",
       "rest-server",
       "--laddr",
       `tcp://localhost:${LCD_PORT}`,
@@ -494,17 +495,39 @@ function pickNode(seeds) {
   return nodeIP
 }
 
+async function checkNodeSDKVersion() {
+  const nodeInfo = await axios(`http://localhost:${LCD_PORT}/node_info`).then(
+    res => res.data
+  )
+  const nodeSDKVersion = nodeInfo.version
+  const gaiacliVersion = await getGaiacliVersion()
+  const compatible =
+    semver.diff(nodeSDKVersion, gaiacliVersion.split("-")[0]) === "patch"
+  if (!compatible) {
+    console.log(
+      `The connected node uses version ${nodeSDKVersion} of the SDK. The local gaiacli uses version ${gaiacliVersion}. Trying another node.`
+    )
+  }
+  return compatible
+}
+
 async function connect(nodeIP) {
   log(`starting gaia rest server with nodeIP ${nodeIP}`)
   lcdProcess = await startLCD(lcdHome, nodeIP)
   log("gaia rest server ready")
 
-  afterBooted(() => {
-    log("Signaling connected node")
-    mainWindow.webContents.send("connected", nodeIP)
-  })
+  const compatible = await checkNodeSDKVersion()
+  if (!compatible) {
+    connecting = false
+    await reconnect(seeds)
+  } else {
+    afterBooted(() => {
+      log("Signaling connected node")
+      mainWindow.webContents.send("connected", nodeIP)
+    })
 
-  connecting = false
+    connecting = false
+  }
 }
 
 async function reconnect(seeds) {
