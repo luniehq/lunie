@@ -70,7 +70,7 @@ jobs:
           when: on_success
 
       - store_artifacts:
-          path: /tmp/test_temp
+          path: /tmp/testArtifacts
 
   # Build a release and publish it to GitHub.
   release:
