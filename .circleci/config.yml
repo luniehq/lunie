@@ -71,12 +71,12 @@ jobs:
 
       - run:
           command: |
-            mkdir -p /tmp/test_info
-            [ -f test/e2e/snapshot.png ] && cp test/e2e/snapshot.png /tmp/test_info || echo "No screenshot found"
+            mkdir -p /tmp/test_config
+            cp -r test/test_temp /tmp/test_config
           when: on_fail
 
       - store_artifacts:
-          path: /tmp/test_info
+          path: /tmp/test_config
 
   # Build a release and publish it to GitHub.
   release:
