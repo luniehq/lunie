@@ -69,14 +69,8 @@ jobs:
           command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
           when: on_success
 
-      - run:
-          command: |
-            mkdir -p /tmp/test_config
-            cp -r test/test_temp /tmp/test_config
-          when: on_fail
-
       - store_artifacts:
-          path: /tmp/test_config
+          path: /tmp/test_temp
 
   # Build a release and publish it to GitHub.
   release:

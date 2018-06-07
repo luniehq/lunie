@@ -9,7 +9,7 @@ let fs = require("fs-extra")
 let { login } = require("./common.js")
 
 const networkPath = join(__dirname, "localtestnet")
-const test_dir = join(__dirname, "../../test_temp")
+const testDir = join(__dirname, "../../test_temp")
 
 let app, cliHome, nodeHome, started, crashed
 let binary = process.env.BINARY_PATH || process.env.GOPATH + "/bin/gaiacli"
@@ -32,8 +32,8 @@ function launch(t) {
       console.log("using cli binary", binary)
       console.log("using node binary", nodeBinary)
 
-      cliHome = join(test_dir, "cli_home")
-      nodeHome = join(test_dir, "node_home")
+      cliHome = join(testDir, "cli_home")
+      nodeHome = join(testDir, "node_home")
       console.error(`ui home: ${cliHome}`)
       console.error(`node home: ${nodeHome}`)
 
@@ -47,7 +47,7 @@ function launch(t) {
         path: electron,
         args: [
           join(__dirname, "../../app/dist/main.js"),
-          !JSON.parse(process.env.CI || "false") ? "" : "--headless",
+          JSON.parse(process.env.CI || "false") ? "--headless" : "",
           "--disable-gpu",
           "--no-sandbox"
         ],
@@ -154,8 +154,8 @@ async function writeLogs(app, location) {
   fs.ensureFileSync(mainProcessLogLocation)
   fs.ensureFileSync(rendererProcessLogLocation)
 
-  let mainProcessLogs = await app.client.getMainProcessLogs()
-  let rendererProcessLogs = await app.client.getRenderProcessLogs()
+  const mainProcessLogs = await app.client.getMainProcessLogs()
+  const rendererProcessLogs = await app.client.getRenderProcessLogs()
   fs.writeFileSync(mainProcessLogLocation, mainProcessLogs.join("\n"), "utf8")
   fs.writeFileSync(
     rendererProcessLogLocation,
@@ -184,14 +184,14 @@ async function handleCrash(app) {
 
   // show or persist logs
   if (process.env.CI) {
-    await writeLogs(app, test_dir)
+    await writeLogs(app, testDir)
   } else {
     await printAppLog(app)
   }
 
   // save a screenshot
   if (process.env.CI && app && app.client) {
-    const screenshotLocation = join(test_dir, "snapshot.png")
+    const screenshotLocation = join(testDir, "snapshot.png")
     await app.browserWindow.capturePage().then(function(imageBuffer) {
       if (!imageBuffer.length) {
         console.log("saving screenshot to ", screenshotLocation)
