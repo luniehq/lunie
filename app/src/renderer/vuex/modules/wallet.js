@@ -23,16 +23,7 @@ export default ({ commit, node }) => {
       state.balancesLoading = false
     },
     setWalletAddress(state, address) {
-      try {
-        b32.decode(address)
-        state.address = address
-      } catch (error) {
-        // address = b32.encode(address)
-        console.log(error)
-      }
-      // clear previous account state
-      state.balances = []
-      state.history = []
+      state.address = address
     },
     setWalletHistory(state, history) {
       state.history = history
@@ -61,6 +52,10 @@ export default ({ commit, node }) => {
       }
     },
     initializeWallet({ commit, dispatch }, address) {
+      // clear previous account state
+      state.balances = []
+      state.history = []
+
       commit("setWalletAddress", address)
       dispatch("loadDenoms")
       dispatch("queryWalletState")
