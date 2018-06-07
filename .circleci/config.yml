@@ -37,7 +37,6 @@ jobs:
     environment:
       - BINARY_PATH: "/home/circleci/project/builds/gaia/linux_amd64/gaiacli"
       - NODE_BINARY_PATH: "/home/circleci/project/builds/gaia/linux_amd64/gaiad"
-      - CI: "true"
 
     steps:
       - checkout
