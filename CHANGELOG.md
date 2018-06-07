@@ -10,15 +10,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changes
 
 * Disabled error reporting in development @faboweb
+* Update genesis.json when conflicts are detected @jolesbi
+* Updated e2e tests to not rely on flags to run @okwme
 
 ### Added
 
+* Notification for dev error collection toggle behavior @okwme
+* Added automatic releases @faboweb @NodeGuy
 * Added staking functionality! @mappum
-* Persisting e2e failure screenshots as artifact on circleci @faboweb
 
 ### Fixed
 
 * Blocks not updating in block explorer when switching network @faboweb
+* Fixed minor typo in README.md @nylira
+* Tx bug where state wasn't updated @okwme
+* Persisting e2e failure screenshots as artifact on circleci @faboweb
 
 ## [0.6.2] - 2018-05-23
 
@@ -29,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Added COSMOS_MOCKED env variable to allow overwriting mocked mode from the command line @faboweb
 * User will now be logged out if switching between mocked and live connector @faboweb
 * recovery seed form validation & tests @okwme
+* added tx view to block explorer @okwme
 
 ### Changed
 

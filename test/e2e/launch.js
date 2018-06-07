@@ -72,7 +72,8 @@ function launch(t) {
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
           COSMOS_HOME: cliHome,
           COSMOS_NETWORK: networkPath,
-          COSMOS_MOCKED: false // the e2e tests expect mocking to be switched off
+          COSMOS_MOCKED: false, // the e2e tests expect mocking to be switched off
+          BINARY_PATH: binary
         }
       })
 
@@ -189,7 +190,7 @@ function startLocalNode() {
       if (!msg.includes("Failed") && !msg.includes("Error")) {
         resolve()
       } else {
-        reject()
+        reject(msg)
       }
     })
 

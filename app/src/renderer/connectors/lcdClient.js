@@ -86,6 +86,8 @@ Object.assign(Client.prototype, {
       })
   },
 
+  txs: argReq("GET", "/txs"),
+
   // staking
   updateDelegations: req("POST", "/stake/delegations"),
   candidates: req("GET", "/stake/validators"),

@@ -587,7 +587,7 @@ async function main() {
     }
 
     // check to make sure the genesis.json we want to use matches the one
-    // we already have. if it has changed, exit with an error
+    // we already have. if it has changed, replace it with the new one
     if (!init) {
       let existingGenesis = fs.readFileSync(genesisPath, "utf8")
       let genesisJSON = JSON.parse(existingGenesis)
@@ -598,7 +598,10 @@ async function main() {
           "utf8"
         )
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
-          throw Error("Genesis has changed")
+          fs.copySync(networkPath, root)
+          log(
+            `genesis.json at "${genesisPath}" was overridden by genesis.json from "${networkPath}"`
+          )
         }
       }
     }
