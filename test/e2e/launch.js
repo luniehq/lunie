@@ -32,11 +32,13 @@ function launch(t) {
       console.log("using cli binary", binary)
       console.log("using node binary", nodeBinary)
 
-      // TODO cleanup
       cliHome = join(test_dir, "cli_home")
       nodeHome = join(test_dir, "node_home")
       console.error(`ui home: ${cliHome}`)
       console.error(`node home: ${nodeHome}`)
+
+      fs.emptyDirSync(cliHome)
+      fs.emptyDirSync(nodeHome)
 
       await startLocalNode()
       console.log(`Started local node.`)
@@ -45,7 +47,7 @@ function launch(t) {
         path: electron,
         args: [
           join(__dirname, "../../app/dist/main.js"),
-          !process.env.CI ? "" : "--headless",
+          !JSON.parse(process.env.CI || "false") ? "" : "--headless",
           "--disable-gpu",
           "--no-sandbox"
         ],
@@ -141,7 +143,7 @@ async function printAppLog(app) {
   })
   await app.client.getRenderProcessLogs().then(function(logs) {
     logs.forEach(function(log) {
-      console.log(log.message)
+      console.log(log.message.replace("\\n", "\n"))
     })
   })
 }
