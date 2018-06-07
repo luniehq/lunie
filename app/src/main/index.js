@@ -9,6 +9,7 @@ let semver = require("semver")
 let toml = require("toml")
 let axios = require("axios")
 let Raven = require("raven")
+let _ = require("lodash")
 
 let pkg = require("../../../package.json")
 let addMenu = require("./menu.js")
@@ -21,7 +22,7 @@ let lcdProcess
 let streams = []
 let nodeIP
 let connecting = true
-let seeds = null
+let nodes = [] // {ip, state}
 let chainId
 let booted = false
 
@@ -40,6 +41,7 @@ const winURL = DEV
   ? `http://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
+const RPC_PORT = "46657"
 const MOCK =
   process.env.COSMOS_MOCKED !== undefined
     ? JSON.parse(process.env.COSMOS_MOCKED)
@@ -349,7 +351,7 @@ async function initLCD(chainId, home, node) {
               if (shuttingDown) return
 
               // select a new node to try out
-              nodeIP = pickNode(seeds)
+              nodeIP = pickNode(nodes)
 
               // initLCD(chainId, home, nodeIP).then(resolve, reject)
             }
@@ -445,7 +447,7 @@ function handleIPC() {
   ipcMain.on("successful-launch", () => {
     console.log("[START SUCCESS] Vue app successfuly started")
   })
-  ipcMain.on("reconnect", () => reconnect(seeds))
+  ipcMain.on("reconnect", () => reconnect(nodes))
   ipcMain.on("booted", () => {
     log("View has booted")
     booted = true
@@ -485,14 +487,16 @@ function lcdInitialized(home) {
   })
 }
 
-function pickNode(seeds) {
-  let nodeIP = seeds[Math.floor(Math.random() * seeds.length)]
+function pickNode(nodes) {
+  let availableNodes = nodes.filter(node => node.state === "available")
+  if (availableNodes.length === 0) {
+    throw Error("No nodes available to connect to.")
+  }
+  let node = availableNodes[Math.floor(Math.random() * availableNodes.length)]
   // let nodeRegex = /([http[s]:\/\/]())/g
-  log("Picked seed:", nodeIP, "of", seeds)
-  // replace port with default RPC port
-  nodeIP = `${nodeIP.split(":")[0]}:46657`
+  log("Picked node:", node.ip, "of", nodes)
 
-  return nodeIP
+  return node.ip
 }
 
 async function checkNodeSDKVersion() {
@@ -518,8 +522,10 @@ async function connect(nodeIP) {
 
   const compatible = await checkNodeSDKVersion()
   if (!compatible) {
+    // remember that the node is not compatible
+    nodes.find(node => node.ip === nodeIP).state = "incompatible"
     connecting = false
-    await reconnect(seeds)
+    await reconnect(nodes)
   } else {
     afterBooted(() => {
       log("Signaling connected node")
@@ -530,7 +536,7 @@ async function connect(nodeIP) {
   }
 }
 
-async function reconnect(seeds) {
+async function reconnect(nodes) {
   if (connecting) return
   log("Starting reconnect")
   connecting = true
@@ -538,7 +544,7 @@ async function reconnect(seeds) {
   let nodeAlive = false
   let nodeIP
   while (!nodeAlive) {
-    nodeIP = pickNode(seeds)
+    nodeIP = pickNode(nodes)
     nodeAlive = await axios
       .get("http://" + nodeIP, { timeout: 3000 })
       .then(() => true, () => false)
@@ -548,7 +554,13 @@ async function reconnect(seeds) {
       }`
     )
 
-    if (!nodeAlive) await sleep(2000)
+    if (!nodeAlive) {
+      // remember that node is down
+      nodes.find(node => node.ip === nodeIP).state = "down"
+
+      // wait to prevent being caught in a fast loop
+      await sleep(500)
+    }
   }
 
   await stopLCD()
@@ -669,19 +681,25 @@ async function main() {
   if (!NODE) {
     let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
     let configTOML = toml.parse(configText)
-    seeds = configTOML.p2p.persistent_peers
-      .split(",")
-      .filter(x => x !== "")
-      .map(x => x.split("@")[1])
-    if (seeds.length === 0) {
+    nodes = _.uniq(
+      configTOML.p2p.persistent_peers
+        .split(",")
+        .filter(x => x !== "")
+        .map(x => x.split("@")[1])
+    )
+    if (nodes.length === 0) {
       throw new Error("No seeds specified in config.toml")
     }
   } else {
-    seeds = [NODE]
+    nodes = [NODE]
   }
 
+  nodes = nodes
+    .map(ip => `${ip.split(":")[0]}:${RPC_PORT}`) // use default RPC port
+    .map(ip => ({ ip, state: "available" }))
+
   // choose one random node to start from
-  nodeIP = pickNode(seeds)
+  nodeIP = pickNode(nodes)
 
   let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))
   log("LCD is" + (_lcdInitialized ? "" : " not") + " initialized")
