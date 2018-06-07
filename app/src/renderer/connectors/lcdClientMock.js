@@ -5,11 +5,11 @@ let state = {
     {
       name: "default",
       password: "1234567890",
-      address: "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq"
+      address: "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
     }
   ],
   accounts: {
-    tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq: {
+    cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545: {
       coins: [
         {
           denom: "mycoin",
@@ -40,7 +40,7 @@ let state = {
       }
     }
   ],
-  nonces: { tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq: 0 },
+  nonces: { cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545: 0 },
   txs: [
     {
       tx: {
@@ -64,7 +64,7 @@ let state = {
                 amount: 1234
               }
             ],
-            receiver: "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq"
+            receiver: "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
           }
         ]
       },
@@ -81,7 +81,7 @@ let state = {
                 amount: 1234
               }
             ],
-            sender: "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq"
+            sender: "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
           }
         ],
         outputs: [
@@ -100,7 +100,7 @@ let state = {
     }
   ],
   stake: {
-    tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq: {
+    cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545: {
       "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD": {
         PubKey: {
           data:

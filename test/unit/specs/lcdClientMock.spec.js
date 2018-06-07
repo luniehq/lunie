@@ -80,7 +80,9 @@ describe("LCD Client Mock", () => {
 
   xit("persists a sent tx", async () => {
     // let res = await client.coinTxs("DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B")
-    let res = await client.coinTxs("tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq")
+    let res = await client.coinTxs(
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
+    )
     expect(res.length).toBe(2) // predefined txs
 
     let { address: toAddr } = await client.storeKey({
@@ -102,14 +104,16 @@ describe("LCD Client Mock", () => {
     expect(res.height).toBeDefined()
 
     // res = await client.coinTxs("DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B")
-    res = await client.coinTxs("tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq")
+    res = await client.coinTxs(
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
+    )
     expect(res.length).toBe(3)
   })
 
   it("query and update the nonce", async () => {
     let { sequence } = await client.queryAccount(
       // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-      "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq"
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
     )
     expect(sequence).toBe(1)
 
@@ -131,7 +135,7 @@ describe("LCD Client Mock", () => {
     })
     let account = await client.queryAccount(
       // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-      "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq"
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
     )
     expect(account.sequence).toBe(2)
   })
@@ -139,7 +143,7 @@ describe("LCD Client Mock", () => {
   it("queries an account", async () => {
     let data = await client.queryAccount(
       // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-      "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq"
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
     )
     expect(data.coins.find(c => c.denom === "mycoin").amount).toBe(1000)
 
@@ -165,7 +169,7 @@ describe("LCD Client Mock", () => {
 
     let account = await client.queryAccount(
       // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-      "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq"
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
     )
     expect(account.coins.find(c => c.denom === "mycoin").amount).toBe(950)
 
@@ -203,7 +207,7 @@ describe("LCD Client Mock", () => {
     expect(res.check_tx.code).toBe(0)
 
     let account = await client.queryAccount(
-      "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq"
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
       // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
     )
     expect(account.coins.find(c => c.denom === "mycoin").amount).toBe(900)
@@ -302,7 +306,7 @@ describe("LCD Client Mock", () => {
   xit("queries bondings per delegator", async () => {
     let res = await client.bondingsByDelegator([
       // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq",
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545",
       // "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD"
       "tb102whs089g2erlg3aclcsz3sg0xrpypthycrtfsl6ata7m7cqu77sf2q5vs"
     ])
@@ -312,7 +316,7 @@ describe("LCD Client Mock", () => {
   xit("executes a delegate tx", async () => {
     let { data: stake } = await client.bondingsByDelegator([
       // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq",
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545",
       // "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
       "tb13pty5vjspgfq4feva770233wq789mkmskep37k0h0z5dcnd8rxjqy0c8yd"
     ])
@@ -321,7 +325,7 @@ describe("LCD Client Mock", () => {
     let tx = await client.buildDelegate({
       sequence: 0,
       // from: { addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B" },
-      from: { addr: "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq" },
+      from: { addr: "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545" },
 
       amount: { amount: 10 },
       pub_key: {
@@ -339,7 +343,7 @@ describe("LCD Client Mock", () => {
 
     let { data: updatedStake } = await client.bondingsByDelegator([
       // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq",
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545",
       // "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
       "tb13pty5vjspgfq4feva770233wq789mkmskep37k0h0z5dcnd8rxjqy0c8yd"
     ])
@@ -350,7 +354,7 @@ describe("LCD Client Mock", () => {
     let tx = await client.buildDelegate({
       sequence: 0,
       // from: { addr: ""DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"" },
-      from: { addr: "tb1muyklh5d8q86tv4dyrdjjckg9h02rmvm7hntpq" },
+      from: { addr: "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545" },
       amount: { amount: 100000 },
       pub_key: {
         // data: "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
