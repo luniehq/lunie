@@ -68,8 +68,6 @@ async function main() {
     store.dispatch("rpcSubscribe")
     store.dispatch("subscribeToBlocks")
 
-    throw Error("Expected")
-
     if (firstStart) {
       store.dispatch("showInitialScreen")
 
