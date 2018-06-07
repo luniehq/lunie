@@ -43,7 +43,8 @@ export default ({ commit, node }) => {
     setTransactionTime(state, { blockHeight, blockMetaInfo }) {
       state.history = state.history.map(t => {
         if (t.height === blockHeight) {
-          t.time = blockMetaInfo.header.time
+          // console.log("blockMetaInfo", blockMetaInfo)
+          t.time = blockMetaInfo && blockMetaInfo.header.time
         }
         return t
       })
@@ -109,6 +110,10 @@ export default ({ commit, node }) => {
     },
     async queryTransactionTime({ commit, dispatch }, blockHeight) {
       let blockMetaInfo = await dispatch("queryBlockInfo", blockHeight)
+      // console.log(
+      //   "received blockMetaInfo at height " + blockHeight,
+      //   blockMetaInfo
+      // )
       commit("setTransactionTime", { blockHeight, blockMetaInfo })
     },
     async loadDenoms({ state, commit }) {

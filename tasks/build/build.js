@@ -1,23 +1,21 @@
 "use strict"
 
+const util = require(`util`)
 const childProcess = require(`child_process`)
 const { cli } = require(`@nodeguy/cli`)
 const { createHash } = require("crypto")
 const zip = require(`deterministic-zip`)
 const path = require("path")
-const packager = require("electron-packager")
+const packager = util.promisify(require("electron-packager"))
 const fs = require("fs-extra")
 var glob = require("glob")
 const zlib = require("zlib")
 var tar = require("tar-stream")
 var duplexer = require("duplexer")
 const packageJson = require("../../package.json")
-const util = require(`util`)
 
 const optionsSpecification = {
-  network: ["path to the default network to use"],
-  platform: ["the target platform {darwin|linux|win32}"],
-  "skip-pack": ["skip the repackaging of the JS files", false]
+  network: ["path to the default network to use"]
 }
 
 const rewriteConfig = ({ network }) => {
@@ -47,51 +45,14 @@ const building = {
   packageManager: "yarn"
 }
 
-const platformSDKPaths = {
-  darwin: `bin/darwin_amd64`,
-  linux: `bin`,
-  win32: `bin/windows_amd64`
-}
+const copyGaia = (buildPath, electronVersion, platform, arch, callback) => {
+  const platformPath = platform === `win32` ? `windows` : platform
 
-const copySDK = (buildPath, electronVersion, platform, arch, callback) => {
-  fs.copy(`/go/${platformSDKPaths[platform]}`, `${buildPath}/bin`, callback)
-}
-
-/**
- * Use electron-packager to build electron app
- */
-function build({ platform }) {
-  const options = Object.assign({}, building, {
-    afterCopy: [copySDK],
-    platform
-  })
-
-  console.log("\x1b[34mBuilding electron app(s)...\n\x1b[0m")
-  packager(options, async (err, appPaths) => {
-    if (err) {
-      console.error(
-        "\x1b[31mError from `electron-packager` when building app...\x1b[0m"
-      )
-      console.error(err)
-    } else {
-      console.log("Build(s) successful!")
-      console.log(appPaths)
-      console.log("\n\x1b[34mZipping files...\n\x1b[0m")
-      await Promise.all(
-        appPaths.map(async appPath => {
-          if (platform === "win32") {
-            await zipFolder(appPath, options.out, packageJson.version)
-          } else {
-            await tarFolder(appPath, options.out, packageJson.version).catch(
-              err => console.error(err)
-            )
-          }
-        })
-      )
-
-      console.log("\n\x1b[34mDONE\n\x1b[0m")
-    }
-  })
+  fs.copy(
+    path.join(__dirname, `../../builds/gaia/${platformPath}_amd64`),
+    `${buildPath}/bin`,
+    callback
+  )
 }
 
 /**
@@ -110,17 +71,17 @@ function sha256File(path) {
   })
 }
 
-const zipFolder = async (inDir, outDir, version) => {
+const zipFolder = async (inDir, outDir, tag) => {
   const { name } = path.parse(inDir)
-  const outFile = path.join(outDir, `${name}_${version}.zip`)
+  const outFile = path.join(outDir, `${name}_${tag}.zip`)
   await util.promisify(zip)(inDir, outFile, { cwd: inDir })
   const hash = await sha256File(outFile)
   console.log("Zip successful!", outFile, "SHA256:", hash)
 }
 
-async function tarFolder(inDir, outDir, version) {
+async function tarFolder(inDir, outDir, tag) {
   let name = path.parse(inDir).name
-  let outFile = path.join(outDir, `${name}_${version}.tar.gz`)
+  let outFile = path.join(outDir, `${name}_${tag}.tar.gz`)
   var pack = tar.pack()
 
   let files = glob(inDir + "/**", { sync: true })
@@ -202,17 +163,37 @@ function deterministicTar() {
   return duplexer(extract, pack)
 }
 
-cli(optionsSpecification, options => {
-  const { network, platform, "skip-pack": skipPack } = options
-  console.log(`Building for platform "${platform}".`)
+/**
+ * Use electron-packager to build electron app
+ */
+const build = async platform => {
+  const options = Object.assign({}, building, {
+    afterCopy: [copyGaia],
+    platform
+  })
+
+  console.log(
+    `\x1b[34mBuilding electron app(s) for platform ${platform}...\n\x1b[0m`
+  )
+
+  const appPaths = await packager(options)
+  console.log("Build(s) successful!")
+  console.log(appPaths)
+  console.log("\n\x1b[34mArchiving files...\n\x1b[0m")
+  const tag = `v${packageJson.version}`
+
+  await Promise.all(
+    appPaths.map(appPath =>
+      (platform === "win32" ? zipFolder : tarFolder)(appPath, options.out, tag)
+    )
+  )
+
+  console.log("\n\x1b[34mDONE\n\x1b[0m")
+}
+
+cli(optionsSpecification, async options => {
+  const { network } = options
   rewriteConfig(options)
-  fs.copySync(`/mnt/network`, `app/networks/${path.basename(network)}`)
-
-  if (skipPack) {
-    console.log("Skipping packaging")
-  } else {
-    pack()
-  }
-
-  build(options)
+  pack()
+  await Promise.all([`darwin`, `linux`, `win32`].map(build))
 })
