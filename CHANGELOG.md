@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Disabled error reporting in development @faboweb
 * Removed ci files from code coverage as they are badly testable @faboweb
 * Update genesis.json when conflicts are detected @jolesbi
+* Updated e2e tests to not rely on flags to run @okwme
 
 ### Added
 
@@ -22,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Blocks not updating in block explorer when switching network @faboweb
 * Fixed minor typo in README.md @nylira
+* Tx bug where state wasn't updated @okwme
 * Persisting e2e failure screenshots as artifact on circleci @faboweb
 
 ## [0.6.2] - 2018-05-23
