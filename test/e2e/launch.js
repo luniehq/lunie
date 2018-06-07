@@ -6,11 +6,12 @@ let electron = require("electron")
 let { join } = require("path")
 let { spawn } = require("child_process")
 let fs = require("fs-extra")
-let { newTempDir, login } = require("./common.js")
+let { login } = require("./common.js")
 
 const networkPath = join(__dirname, "localtestnet")
+const test_dir = join(__dirname, "../../test_temp")
 
-let app, cliHome, nodeHome, started
+let app, cliHome, nodeHome, started, crashed
 let binary = process.env.BINARY_PATH || process.env.GOPATH + "/bin/gaiacli"
 let nodeBinary =
   process.env.NODE_BINARY_PATH || process.env.GOPATH + "/bin/gaiad"
@@ -22,33 +23,18 @@ let nodeBinary =
 function launch(t) {
   if (!started) {
     // tape doesn't exit properly on uncaught promise rejections
-    if (!process.env.COSMOS_E2E_KEEP_OPEN)
-      process.on("unhandledRejection", async error => {
-        try {
-          console.error("unhandledRejection", error)
-          if (app && app.client) {
-            console.log(
-              "saving screenshot to ",
-              join(__dirname, "snapshot.png")
-            )
-            await app.browserWindow.capturePage().then(function(imageBuffer) {
-              fs.writeFileSync(join(__dirname, "snapshot.png"), imageBuffer)
-            })
-            await printAppLog(app)
-          }
-        } catch (err) {
-          console.error(err)
-        }
-        process.exit(1)
-      })
+    process.on("unhandledRejection", async error => {
+      console.error("unhandledRejection", error)
+      await handleCrash(app)
+    })
 
     started = new Promise(async (resolve, reject) => {
       console.log("using cli binary", binary)
       console.log("using node binary", nodeBinary)
 
       // TODO cleanup
-      cliHome = newTempDir()
-      nodeHome = newTempDir()
+      cliHome = join(test_dir, "cli_home")
+      nodeHome = join(test_dir, "node_home")
       console.error(`ui home: ${cliHome}`)
       console.error(`node home: ${nodeHome}`)
 
@@ -59,7 +45,7 @@ function launch(t) {
         path: electron,
         args: [
           join(__dirname, "../../app/dist/main.js"),
-          process.env.COSMOS_E2E_KEEP_OPEN ? "" : "--headless",
+          !process.env.CI ? "" : "--headless",
           "--disable-gpu",
           "--no-sandbox"
         ],
@@ -156,19 +142,67 @@ async function printAppLog(app) {
   await app.client.getRenderProcessLogs().then(function(logs) {
     logs.forEach(function(log) {
       console.log(log.message)
-      console.log(log.source)
-      console.log(log.level)
     })
   })
+}
+
+async function writeLogs(app, location) {
+  const mainProcessLogLocation = join(location, "main-process.log")
+  const rendererProcessLogLocation = join(location, "renderer-process.log")
+  fs.ensureFileSync(mainProcessLogLocation)
+  fs.ensureFileSync(rendererProcessLogLocation)
+
+  let mainProcessLogs = await app.client.getMainProcessLogs()
+  let rendererProcessLogs = await app.client.getRenderProcessLogs()
+  fs.writeFileSync(mainProcessLogLocation, mainProcessLogs.join("\n"), "utf8")
+  fs.writeFileSync(
+    rendererProcessLogLocation,
+    rendererProcessLogs.map(log => log.message).join("\n"),
+    "utf8"
+  )
+  console.log("Wrote main process log to", mainProcessLogLocation)
+  console.log("Wrote renderer process log to", rendererProcessLogLocation)
 }
 
 async function startApp(app, awaitingSelector = ".ni-session") {
   await app.start()
 
   await app.client.waitForExist(awaitingSelector, 10 * 1000).catch(async e => {
-    await printAppLog(app)
+    await handleCrash(app)
     throw e
   })
+}
+
+async function handleCrash(app) {
+  // only write logs once even if writing them fails to not recursively call this function
+  if (crashed) {
+    return
+  }
+  crashed = true
+
+  // show or persist logs
+  if (process.env.CI) {
+    await writeLogs(app, test_dir)
+  } else {
+    await printAppLog(app)
+  }
+
+  // save a screenshot
+  if (process.env.CI && app && app.client) {
+    const screenshotLocation = join(test_dir, "snapshot.png")
+    await app.browserWindow.capturePage().then(function(imageBuffer) {
+      if (!imageBuffer.length) {
+        console.log("saving screenshot to ", screenshotLocation)
+        fs.writeFileSync(screenshotLocation, imageBuffer)
+      }
+    })
+  }
+
+  if (app) await app.stop()
+
+  if (!process.COSMOS_E2E_KEEP_OPEN) {
+    process.exit(1)
+  }
 }
 
 function startLocalNode() {
