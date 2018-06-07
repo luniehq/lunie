@@ -37,9 +37,9 @@ jobs:
       - run:
           name: Add Gaia
           command: |
-            sudo wget https://www.dropbox.com/s/2ywly5eawc7zur6/gaiacli-0.18.0-rc0-linux?dl=0 -O ~/repo/gaia
+            sudo wget https://okw.me/gaiacli-0.17.0-ubuntu -O ~/repo/gaia
             sudo chmod o+wx ~/repo/gaia
-            sudo wget https://www.dropbox.com/s/md9n8ykbjk2sn3q/gaiad-0.18.0-rc0-linux?dl=0 -O ~/repo/gaiad
+            sudo wget https://okw.me/gaiad-0.17.0-ubuntu -O ~/repo/gaiad
             sudo chmod o+wx ~/repo/gaiad
 
       - run: 
