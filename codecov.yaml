@@ -19,4 +19,4 @@ comment:
   require_head: yes
 
 ignore:
-  - "ci/**/*"
+  - "tasks/release.js"
