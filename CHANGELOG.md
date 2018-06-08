@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Update genesis.json when conflicts are detected @jolesbi
 * Hide IBC as it will not be ready for launch @faboweb
 * Updated e2e tests to not rely on flags to run @okwme
+* Not shrinking stacktrace anymore @faboweb
 
 ### Added
 
