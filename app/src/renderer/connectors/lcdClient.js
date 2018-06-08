@@ -87,9 +87,14 @@ Object.assign(Client.prototype, {
         throw err
       })
   },
-  coinTxs: argReq("GET", "/tx/coin"),
+  txs: function(addr) {
+    return Promise.all([
+      req("GET", `/txs?tag=sender='${addr}'`).call(this),
+      req("GET", `/txs?tag=recipient='${addr}'`).call(this)
+    ]).then(([senderTxs, recipientTxs]) => [].concat(senderTxs, recipientTxs))
+  },
 
-  txs: argReq("GET", "/txs"),
+  tx: argReq("GET", "/txs"),
 
   // staking
   candidate: argReq("GET", "/query/stake/candidate"),
