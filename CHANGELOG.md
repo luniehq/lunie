@@ -10,8 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changes
 
 * Disabled error reporting in development @faboweb
+* Removed ci files from code coverage as they are badly testable @faboweb
 * Update genesis.json when conflicts are detected @jolesbi
 * Updated e2e tests to not rely on flags to run @okwme
+* Not shrinking stacktrace anymore @faboweb
 
 ### Added
 
