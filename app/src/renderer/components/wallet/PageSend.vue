@@ -14,6 +14,7 @@ page(title='Send')
 
     part(title='Transaction Details')
       form-group(:error='$v.fields.zoneId.$error'
+        v-if="config.devMode"
         field-id='send-zone-id' field-label='Zone ID')
         field#send-zone-id(
           type="select"
@@ -76,7 +77,7 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(["wallet", "lastHeader"]),
+    ...mapGetters(["wallet", "lastHeader", "config"]),
     max() {
       let denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
