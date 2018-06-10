@@ -6,6 +6,11 @@ let state = {
       name: "default",
       password: "1234567890",
       address: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+    },
+    {
+      name: "nonexistent_account",
+      password: "1234567890",
+      address: "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
     }
   ],
   accounts: {

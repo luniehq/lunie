@@ -302,6 +302,52 @@ describe("LCD Client Mock", () => {
     expect(updatedStake.shares).toBe("10/1")
   })
 
+  it("executes an unbond tx", async () => {
+    let res = await client.updateDelegations({
+      sequence: 1,
+      name: "default",
+      delegate: [
+        {
+          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          bond: { denom: "mycoin", amount: 10 }
+        }
+      ],
+      unbond: []
+    })
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.log).toBe("")
+    expect(res[0].check_tx.code).toBe(0)
+
+    let initialStake = await client.queryDelegation(
+      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31"
+    )
+    expect(initialStake.shares).toBe("10/1")
+
+    res = await client.updateDelegations({
+      sequence: 2,
+      name: "default",
+      delegate: [],
+      unbond: [
+        {
+          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          shares: "5/1"
+        }
+      ]
+    })
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.log).toBe("")
+    expect(res[0].check_tx.code).toBe(0)
+
+    let updatedStake = await client.queryDelegation(
+      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31"
+    )
+    expect(updatedStake.shares).toBe("5/1")
+  })
+
   it("can not stake fermions you dont have", async () => {
     let res = await client.updateDelegations({
       sequence: 1,
@@ -317,6 +363,58 @@ describe("LCD Client Mock", () => {
     })
     expect(res.length).toBe(1)
     expect(res[0].check_tx.log).toBe("Not enough coins in your account")
+    expect(res[0].check_tx.code).toBe(1)
+  })
+
+  it("errors when delegating with incorrect nonce", async () => {
+    let res = await client.updateDelegations({
+      sequence: 1,
+      name: "default",
+      delegate: [
+        {
+          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          bond: { denom: "mycoin", amount: 10 }
+        }
+      ],
+      unbond: []
+    })
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.log).toBe("")
+    expect(res[0].check_tx.code).toBe(0)
+
+    res = await client.updateDelegations({
+      sequence: 1,
+      name: "default",
+      delegate: [
+        {
+          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          bond: { denom: "mycoin", amount: 10 }
+        }
+      ],
+      unbond: []
+    })
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.log).toBe('Expected sequence "2", got "1"')
+    expect(res[0].check_tx.code).toBe(2)
+  })
+
+  it("errors when delegating with nonexistent account", async () => {
+    let res = await client.updateDelegations({
+      sequence: 1,
+      name: "nonexistent_account",
+      delegate: [
+        {
+          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          bond: { denom: "mycoin", amount: 10 }
+        }
+      ],
+      unbond: []
+    })
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.log).toBe("Nonexistent account")
     expect(res[0].check_tx.code).toBe(1)
   })
 })
