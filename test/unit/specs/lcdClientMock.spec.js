@@ -417,4 +417,77 @@ describe("LCD Client Mock", () => {
     expect(res[0].check_tx.log).toBe("Nonexistent account")
     expect(res[0].check_tx.code).toBe(1)
   })
+
+  it("delegates to multiple validators at once", async () => {
+    let res = await client.updateDelegations({
+      sequence: 1,
+      name: "default",
+      delegate: [
+        {
+          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          bond: { denom: "mycoin", amount: 10 }
+        },
+        {
+          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+          validator_addr: "70705055A9FA5901735D0C3F0954501DDE667327",
+          bond: { denom: "mycoin", amount: 10 }
+        }
+      ],
+      unbond: []
+    })
+    expect(res.length).toBe(2)
+    expect(res[0].check_tx.log).toBe("")
+    expect(res[0].check_tx.code).toBe(0)
+    expect(res[1].check_tx.log).toBe("")
+    expect(res[1].check_tx.code).toBe(0)
+
+    let stake1 = await client.queryDelegation(
+      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31"
+    )
+    expect(stake1.shares).toBe("10/1")
+
+    let stake2 = await client.queryDelegation(
+      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+      "70705055A9FA5901735D0C3F0954501DDE667327"
+    )
+    expect(stake2.shares).toBe("15/1")
+  })
+
+  it("errors when delegating negative amount", async () => {
+    let res = await client.updateDelegations({
+      sequence: 1,
+      name: "default",
+      delegate: [
+        {
+          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          bond: { denom: "mycoin", amount: -10 }
+        }
+      ],
+      unbond: []
+    })
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.log).toBe("Amount cannot be negative")
+    expect(res[0].check_tx.code).toBe(1)
+  })
+
+  it("errors when unbonding with no delegation", async () => {
+    let res = await client.updateDelegations({
+      sequence: 1,
+      name: "default",
+      delegate: [],
+      unbond: [
+        {
+          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          shares: "10/1"
+        }
+      ]
+    })
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.log).toBe("Nonexistent delegation")
+    expect(res[0].check_tx.code).toBe(2)
+  })
 })
