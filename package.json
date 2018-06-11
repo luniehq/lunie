@@ -107,7 +107,7 @@
     "bech32": "1.1.3",
     "casual": "1.5.19",
     "chart.js": "2.7.2",
-    "electron": "1.8.6",
+    "electron": "2.0.2",
     "electron-chromedriver": "1.8.0",
     "electron-ga": "1.0.6",
     "event-to-promise": "0.8.0",

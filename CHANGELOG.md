@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Hide IBC as it will not be ready for launch @faboweb
 * Updated e2e tests to not rely on flags to run @okwme
 * Not shrinking stacktrace anymore @faboweb
+* Updated electron to v2.0.2 @okwme
 
 ### Added
 
@@ -29,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed minor typo in README.md @nylira
 * Tx bug where state wasn't updated @okwme
 * Persisting e2e failure screenshots as artifact on circleci @faboweb
+* Theme switching bug @okwme
 
 ## [0.6.2] - 2018-05-23
 
