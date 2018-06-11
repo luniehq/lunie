@@ -98,7 +98,7 @@ test("wallet", async function(t) {
       await goToSendPage()
       await addressInput().setValue("012345")
       await sendBtn().click()
-      await $("div*=Address must be exactly 40 characters").waitForExist()
+      await $("div*=Address is invalid (012345 too short)").waitForExist()
       t.pass("got correct error message")
       await sendBtn().click()
       t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
@@ -106,7 +106,9 @@ test("wallet", async function(t) {
       await addressInput().setValue("0".repeat(41))
 
       await sendBtn().click()
-      await $("div*=Address must be exactly 40 characters").waitForExist()
+      await $(
+        "div*=Address is invalid (No separator character for 00000000000000000000000000000000000000000)"
+      ).waitForExist()
       t.pass("got correct error message")
       await sendBtn().click()
       t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
@@ -120,7 +122,7 @@ test("wallet", async function(t) {
 
       t.notOk(
         await app.client.isExisting(
-          "div*=Address must be exactly 40 characters"
+          "div*=Address is invalid (No separator character for 0000000000000000000000000000000000000000)"
         ),
         "no error message"
       )
@@ -133,7 +135,24 @@ test("wallet", async function(t) {
       await goToSendPage()
       await addressInput().setValue("~".repeat(40))
 
-      await $("div*=must contain only alphanumeric characters").waitForExist()
+      await $(
+        "div*=Address is invalid (No separator character for ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~)"
+      ).waitForExist()
+      t.pass("got correct error message")
+
+      await sendBtn().click()
+      t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
+      t.end()
+    })
+    t.test("correct address mis-typed", async function(t) {
+      await goToSendPage()
+      let validAddress = "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
+      let invalidAddress = validAddress.slice(0, -1) + "4"
+      await addressInput().setValue(invalidAddress)
+
+      await $(
+        "div*=Address is invalid (Invalid checksum for " + invalidAddress + ")"
+      ).waitForExist()
       t.pass("got correct error message")
 
       await sendBtn().click()
