@@ -13,10 +13,10 @@ page(title="Preferences")
     list-item(type="field" title="Select theme")
       field#select-theme(
         type="select"
-        v-model="themes.active"
+        v-model="themeSelectActive"
         :options="themeSelectOptions"
         placeholder="Select theme..."
-        @change="setAppTheme")
+        @change.native="setAppTheme")
     list-item(type="field" title="View tutorial for Voyager")
       btn#toggle-onboarding(
         @click.native="setOnboarding"
@@ -65,6 +65,7 @@ export default {
     ...mapGetters(["user", "themes", "onboarding", "mockedConnector"])
   },
   data: () => ({
+    themeSelectActive: null,
     themeSelectOptions: [
       {
         value: "light",
@@ -75,7 +76,7 @@ export default {
         key: "Dark"
       }
     ],
-    networkSelectActive: "live",
+    networkSelectActive: null,
     networkSelectOptions: [
       {
         value: "live",
@@ -89,6 +90,7 @@ export default {
   }),
   mounted() {
     this.networkSelectActive = this.mockedConnector ? "mock" : "live"
+    this.themeSelectActive = this.themes.active
   },
   methods: {
     signOut() {
