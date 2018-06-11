@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed minor typo in README.md @nylira
 * Tx bug where state wasn't updated @okwme
 * Persisting e2e failure screenshots as artifact on circleci @faboweb
+* Theme switching bug @okwme
 
 ## [0.6.2] - 2018-05-23
 
