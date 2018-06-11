@@ -86,7 +86,7 @@ module.exports = {
 
     // checking if user is logged in
     await module.exports.openMenu(app)
-    let activeUser = await app.client.$(".ni-li-user .ni-li-title").getText()
+    let activeUser = await app.client.$(".ni-li-user .ni-li-subtitle").getText()
     if (account !== activeUser) {
       throw new Error(
         "Incorrect user logged in (" + account + ", " + activeUser + ")"

@@ -5,7 +5,8 @@ list-item.ni-li-user(
   to="/preferences"
   @click.native="close"
   icon="settings"
-  title="Preferences")
+  title="Preferences"
+  :subtitle="user.account")
 </template>
 
 <script>

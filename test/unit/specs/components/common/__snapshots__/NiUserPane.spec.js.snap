@@ -28,7 +28,7 @@ exports[`NiUserPane has the expected html structure 1`] = `
       <div
         class="ni-li-subtitle"
       >
-        
+        default
       </div>
     </div>
     <div

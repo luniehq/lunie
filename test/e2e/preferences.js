@@ -46,12 +46,10 @@ test("preferences", async function(t) {
       await navigate(app, "default", "Preferences") //should click preferences link with username
 
       await sleep(1000)
-      let network = await $(
-        "#app-content .ni-connectivity .ni-li-title"
-      ).getText()
+      let network = await $("#ni-connected-network__string").getText()
       console.log("network", network)
       console.log(network.split(" "))
-      t.equal(network.split(" ")[0], "mock-chain", "Mock Chain Working")
+      t.equal(network.split(" ")[2], "mock-chain", "Mock Chain Working")
 
       t.end()
     })

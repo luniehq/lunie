@@ -22,6 +22,16 @@ describe("NiUserPane", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it("should show the active account name", () => {
+    expect(wrapper.html()).toContain("default")
+  })
+
+  it("should not show the active account name if signed out", async () => {
+    await store.dispatch("signOut")
+    wrapper.update()
+    expect(wrapper.html()).toBeUndefined()
+  })
+
   it("should redirect to the preferences page if signed in", () => {
     wrapper.find(ListItem).trigger("click")
     expect(router.currentRoute.path).toBe("/preferences")

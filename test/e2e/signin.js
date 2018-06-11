@@ -149,7 +149,9 @@ test("sign in", async function(t) {
       // checking if user is logged in
       await app.client.waitForExist("#app-content", 10000)
       await openMenu(app)
-      let activeUser = await app.client.$(".ni-li-user .ni-li-title").getText()
+      let activeUser = await app.client
+        .$(".ni-li-user .ni-li-subtitle")
+        .getText()
       t.ok(activeUser === "signin_test", "user is logged in")
 
       t.end()
