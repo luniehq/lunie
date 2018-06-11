@@ -21,7 +21,6 @@ let nodeBinary =
 */
 
 function launch(t) {
-  throw Error("Expected")
   if (!started) {
     // tape doesn't exit properly on uncaught promise rejections
     process.on("unhandledRejection", async error => {
@@ -65,6 +64,8 @@ function launch(t) {
           BINARY_PATH: binary
         }
       })
+
+      throw Error("Expected")
 
       // TODO: use approval element once we restore initting
       //       (".ni-modal-lcd-approval")
