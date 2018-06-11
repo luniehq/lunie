@@ -14,7 +14,7 @@ exports[`NiUserPane has the expected html structure 1`] = `
       <i
         class="material-icons"
       >
-        face
+        settings
       </i>
     </div>
     <div
@@ -23,7 +23,7 @@ exports[`NiUserPane has the expected html structure 1`] = `
       <div
         class="ni-li-title"
       >
-        default
+        Preferences
       </div>
       <div
         class="ni-li-subtitle"
@@ -47,4 +47,4 @@ exports[`NiUserPane has the expected html structure 1`] = `
     </div>
   </div>
 </a>
-`
+`;

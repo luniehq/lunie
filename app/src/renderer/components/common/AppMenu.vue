@@ -28,7 +28,7 @@ menu.app-menu
       exact
       @click.native="close"
       title="Blocks")
-    connectivity
+    connected-network
   user-pane
 </template>
 
@@ -37,7 +37,7 @@ import PerfectScrollbar from "perfect-scrollbar"
 import { mapGetters } from "vuex"
 import Btn from "@nylira/vue-button"
 import noScroll from "no-scroll"
-import Connectivity from "common/NiConnectivity"
+import ConnectedNetwork from "common/NiConnectedNetwork"
 import ListItem from "common/NiListItem"
 import UserPane from "common/NiUserPane"
 import Part from "common/NiPart"
@@ -45,7 +45,7 @@ export default {
   name: "app-menu",
   components: {
     Btn,
-    Connectivity,
+    ConnectedNetwork,
     ListItem,
     Part,
     UserPane
@@ -143,6 +143,6 @@ export default {
   .app-menu
     flex 1
 
-    .ni-connectivity
+    .ni-connected-network
       display none
 </style>

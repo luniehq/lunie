@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NiConnectedNetwork has the expected html structure 1`] = `
+"<div id=\\"ni-connected-network\\" class=\\"ni-connected-network\\">
+   <div class=\\"ni-connected-network__connection\\">
+      <div id=\\"ni-connected-network__icon\\" class=\\"ni-connected-network__icon\\">
+         <i class=\\"material-icons\\">wifi</i>
+      </div>
+<div id=\\"ni-connected-network__string\\" class=\\"ni-connected-network__string\\">
+   Connected to <span class=\\"chain-id\\">gaia-home</span> via <span>127.0.0.1</span>
+   <router-link to=\\"/preferences\\">
+      (change network)
+   </router-link>
+</div>
+</div>
+<div id=\\"ni-connected-network__block\\" class=\\"ni-connected-network__string\\">
+   Current Block: 
+   <router-link to=\\"/blocks\\">
+      #31,337
+   </router-link>
+</div>
+</div>"
+`;
