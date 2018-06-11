@@ -21,6 +21,7 @@ let nodeBinary =
 */
 
 function launch(t) {
+  throw Error("Expected")
   if (!started) {
     // tape doesn't exit properly on uncaught promise rejections
     process.on("unhandledRejection", async error => {

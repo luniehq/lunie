@@ -119,7 +119,6 @@ let testRoot = "./test/unit/tmp/test_root/"
 let childProcess
 
 describe("Startup Process", () => {
-  throw Error("Expected")
   Object.assign(process.env, {
     LOGGING: "false",
     COSMOS_NETWORK: "app/networks/basecoind-2",
