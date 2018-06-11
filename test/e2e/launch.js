@@ -65,8 +65,6 @@ function launch(t) {
         }
       })
 
-      throw Error("Expected")
-
       // TODO: use approval element once we restore initting
       //       (".ni-modal-lcd-approval")
       let initialElement = ".ni-session-wrapper"
