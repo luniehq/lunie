@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Notification for dev error collection toggle behavior @okwme
 * Added automatic releases @faboweb @NodeGuy
+* Export all testing config on CI @faboweb
 
 ### Fixed
 
