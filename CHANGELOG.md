@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Hide IBC as it will not be ready for launch @faboweb
 * Updated e2e tests to not rely on flags to run @okwme
 * Not shrinking stacktrace anymore @faboweb
+* Improved the visibility and readability of the current network connection. @nylira
 
 ### Added
 
