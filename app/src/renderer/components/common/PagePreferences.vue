@@ -65,7 +65,7 @@ export default {
     ...mapGetters(["user", "themes", "onboarding", "mockedConnector"])
   },
   data: () => ({
-    themeSelectActive: "light",
+    themeSelectActive: null,
     themeSelectOptions: [
       {
         value: "light",
@@ -76,7 +76,7 @@ export default {
         key: "Dark"
       }
     ],
-    networkSelectActive: "live",
+    networkSelectActive: null,
     networkSelectOptions: [
       {
         value: "live",
@@ -98,10 +98,10 @@ export default {
       this.$store.commit("notifySignOut")
     },
     setAppTheme() {
-      if (this.themes.active === "light") {
-        this.$store.commit("setTheme", "dark")
-      } else {
+      if (this.themes.active === "dark") {
         this.$store.commit("setTheme", "light")
+      } else {
+        this.$store.commit("setTheme", "dark")
       }
     },
     setErrorCollection() {
