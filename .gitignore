@@ -11,4 +11,4 @@ thumbs.db
 .vscode/*
 app/networks
 yarn-error.log
-test_artifacts/*
+testArtifacts/*

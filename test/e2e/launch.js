@@ -9,7 +9,7 @@ let fs = require("fs-extra")
 let { login } = require("./common.js")
 
 const networkPath = join(__dirname, "localtestnet")
-const testDir = join(__dirname, "../../test_artifacts")
+const testDir = join(__dirname, "../../testArtifacts")
 
 let app, cliHome, nodeHome, started, crashed
 let binary = process.env.BINARY_PATH || process.env.GOPATH + "/bin/gaiacli"
