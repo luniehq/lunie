@@ -28,7 +28,7 @@ menu.app-menu
       exact
       @click.native="close"
       title="Blocks")
-    connected-network
+  connected-network
   user-pane
 </template>
 

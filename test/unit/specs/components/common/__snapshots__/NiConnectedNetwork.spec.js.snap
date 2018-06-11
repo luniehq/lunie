@@ -7,14 +7,14 @@ exports[`NiConnectedNetwork has the expected html structure 1`] = `
          <i class=\\"material-icons\\">wifi</i>
       </div>
 <div id=\\"ni-connected-network__string\\" class=\\"ni-connected-network__string\\">
-   Connected to <span class=\\"chain-id\\">gaia-home</span> via <span>127.0.0.1</span>
-   <router-link to=\\"/preferences\\">
+   <span class=\\"desktop-only\\">Connected to</span><span class=\\"chain-id\\"> gaia-home</span> via <span>127.0.0.1</span>
+   <router-link to=\\"/preferences\\" class=\\"desktop-only\\">
       (change network)
    </router-link>
 </div>
 </div>
 <div id=\\"ni-connected-network__block\\" class=\\"ni-connected-network__string\\">
-   Current Block: 
+   <span class=\\"desktop-only\\">Current Block:</span>
    <router-link to=\\"/blocks\\">
       #31,337
    </router-link>

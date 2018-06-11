@@ -2,8 +2,15 @@
 .ni-connected-network#ni-connected-network(v-if='connected' :class="cssClass")
   .ni-connected-network__connection
     .ni-connected-network__icon#ni-connected-network__icon: i.material-icons wifi
-    .ni-connected-network__string#ni-connected-network__string Connected to #[span.chain-id(v-tooltip.top="networkTooltip") {{ chainId }}] via #[span {{ nodeAddress }}] #[router-link(to="/preferences" v-if="!onPreferencesPage") (change network)]
-  .ni-connected-network__string#ni-connected-network__block Current Block: #[router-link(to="/blocks" v-tooltip.top="'View Block'") {{ blockHeight }}]
+    .ni-connected-network__string#ni-connected-network__string
+      span.desktop-only Connected to
+      span.chain-id(v-tooltip.top="networkTooltip")  {{ chainId }}
+      |  via #[span {{ nodeAddress }}]
+      router-link.desktop-only(to="/preferences" v-if="!onPreferencesPage")
+        |  (change network)
+  .ni-connected-network__string#ni-connected-network__block
+    span.desktop-only Current Block:
+    router-link(to="/blocks" v-tooltip.top="'View Block'")  {{ blockHeight }}
 .ni-connected-network(v-else)
   .ni-connected-network__icon: i.material-icons.fa-spin rotate_right
   .ni-connected-network__string Connected to network&hellip;
@@ -68,6 +75,10 @@ export default {
   border 0.5rem solid var(--app-bg)
   color var(--dim)
 
+  display flex
+  align-items center
+  justify-content space-between
+
   a
     font-weight 500
 
@@ -97,11 +108,4 @@ export default {
 
 .ni-connected-network__connection
   display flex
-
-@media screen and (min-width: 1024px)
-  .ni-connected-network
-    height 3rem
-    display flex
-    align-items center
-    justify-content space-between
 </style>
