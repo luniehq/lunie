@@ -160,8 +160,9 @@ test("wallet", async function(t) {
     t.test("send", async function(t) {
       await goToSendPage()
       await amountInput().setValue("100")
-      // await addressInput().setValue("30E64F9A3FA6C2B9864DADDEDA29CB667BF8366C")
-      await addressInput().setValue("tb1xrnylx3l5mptnpjd4h0d52wtvealsdnvtv6x2w")
+      await addressInput().setValue(
+        "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
+      )
       await sendBtn().click()
       await app.client.waitForExist(".ni-notification", 10 * 1000)
       let msg = await app.client.$(".ni-notification .body").getText()
