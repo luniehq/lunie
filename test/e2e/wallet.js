@@ -103,31 +103,20 @@ test("wallet", async function(t) {
       await sendBtn().click()
       t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
 
-      await addressInput().setValue("0".repeat(41))
+      let fourtyOneZeros = "01234" + "0".repeat(36)
+
+      await addressInput().setValue(fourtyOneZeros)
 
       await sendBtn().click()
       await $(
-        "div*=Address is invalid (No separator character for 00000000000000000000000000000000000000000)"
+        "div*=Address is invalid (No separator character for " +
+          fourtyOneZeros +
+          ")"
       ).waitForExist()
       t.pass("got correct error message")
       await sendBtn().click()
       t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
 
-      t.end()
-    })
-
-    t.test("address w/ 40 chars", async function(t) {
-      await goToSendPage()
-      await addressInput().setValue("0".repeat(40))
-
-      t.notOk(
-        await app.client.isExisting(
-          "div*=Address is invalid (No separator character for 0000000000000000000000000000000000000000)"
-        ),
-        "no error message"
-      )
-      await sendBtn().click()
-      t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
       t.end()
     })
 
@@ -144,6 +133,7 @@ test("wallet", async function(t) {
       t.equal(await sendBtn().getText(), "Send Tokens", "not sending")
       t.end()
     })
+
     t.test("correct address mis-typed", async function(t) {
       await goToSendPage()
       let validAddress = "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
