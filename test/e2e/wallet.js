@@ -109,9 +109,7 @@ test("wallet", async function(t) {
 
       await sendBtn().click()
       await $(
-        "div*=Address is invalid (No separator character for " +
-          fourtyOneZeros +
-          ")"
+        "div*=Address is invalid (Invalid checksum for " + fourtyOneZeros + ")"
       ).waitForExist()
       t.pass("got correct error message")
       await sendBtn().click()
