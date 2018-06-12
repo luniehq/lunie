@@ -86,8 +86,8 @@ Object.assign(Client.prototype, {
   },
   txs: function(addr) {
     return Promise.all([
-      req("GET", `/txs?tag=sender='${addr}'`).call(this),
-      req("GET", `/txs?tag=recipient='${addr}'`).call(this)
+      req("GET", `/txs?tag=sender_bech32='${addr}'`).call(this),
+      req("GET", `/txs?tag=recipient_bech32='${addr}'`).call(this)
     ]).then(([senderTxs, recipientTxs]) => [].concat(senderTxs, recipientTxs))
   },
 

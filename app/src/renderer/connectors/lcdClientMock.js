@@ -205,13 +205,16 @@ module.exports = {
   async queryAccount(address) {
     return state.accounts[address]
   },
-  async coinTxs(address) {
+  async txs(address) {
     return state.txs.filter(tx => {
       return (
         tx.tx.inputs.find(input => input.sender === address) ||
         tx.tx.outputs.find(output => output.receiver === address)
       )
     })
+  },
+  async tx(hash) {
+    return {}
   },
   async send(to, req) {
     let fromKey = state.keys.find(a => a.name === req.name)
