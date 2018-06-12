@@ -54,6 +54,12 @@ module.exports = {
     await app.client.waitUntilTextExists(".ni-page-header-title", titleText)
     console.log(`navigated to "${linkText}"`)
   },
+  async navigateToPreferences(app) {
+    await module.exports.openMenu(app)
+    // click link
+    await app.client.$(`.ni-li-user`).click()
+    console.log(`navigated to preferences`)
+  },
   newTempDir() {
     return join(
       tmpdir(),

@@ -2,7 +2,7 @@ let { spawn } = require("child_process")
 let test = require("tape-promise/tape")
 let { getApp, restart } = require("./launch.js")
 let {
-  navigate,
+  navigateToPreferences,
   newTempDir,
   waitForText,
   sleep,
@@ -24,7 +24,7 @@ test("preferences", async function(t) {
   await login(app, "testkey")
 
   t.test("change", async function(t) {
-    await navigate(app, "testkey", "Preferences") //should click preferences link with username
+    await navigateToPreferences(app) //should click preferences link with username
 
     let networkSelect = () => $("#select-network select")
     let themeSelect = () => $("#select-theme select")
@@ -43,13 +43,16 @@ test("preferences", async function(t) {
 
       await login(app, "default")
 
-      await navigate(app, "default", "Preferences") //should click preferences link with username
+      await navigateToPreferences(app) //should click preferences link with username
 
       await sleep(1000)
-      let network = await $("#ni-connected-network__string").getText()
-      console.log("network", network)
-      console.log(network.split(" "))
-      t.equal(network.split(" ")[2], "mock-chain", "Mock Chain Working")
+      let network = await app.client
+        .$("#ni-connected-network__string")
+        .getHTML()
+      t.ok(
+        network.indexOf("mock-chain") !== -1,
+        "network indicator shows 'mock-chain'"
+      )
 
       t.end()
     })
