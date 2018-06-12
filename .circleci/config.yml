@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  # Build Gaia from the SDK source code specified within SDK_COMMIT.
+  # Build Gaia from the SDK source code specified by tasks/build/Gaia/COMMIT.sh.
   buildGaia:
     docker:
       - image: circleci/golang
@@ -68,14 +68,8 @@ jobs:
           command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
           when: on_success
 
-      - run:
-          command: |
-            mkdir -p /tmp/test_info
-            [ -f test/e2e/snapshot.png ] && cp test/e2e/snapshot.png /tmp/test_info || echo "No screenshot found"
-          when: on_fail
-
       - store_artifacts:
-          path: /tmp/test_info
+          path: testArtifacts
 
   # Build a release and publish it to GitHub.
   release:

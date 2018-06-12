@@ -1,4 +1,3 @@
-let { tmpdir } = require("os")
 let { join } = require("path")
 
 function sleep(ms) {
@@ -53,14 +52,6 @@ module.exports = {
     await app.client.$(`a*=${linkText}`).click()
     await app.client.waitUntilTextExists(".ni-page-header-title", titleText)
     console.log(`navigated to "${linkText}"`)
-  },
-  newTempDir() {
-    return join(
-      tmpdir(),
-      Math.random()
-        .toString(36)
-        .slice(2)
-    )
   },
   sleep,
   async waitForText(elGetterFn, text, timeout = 5000) {
