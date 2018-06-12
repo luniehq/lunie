@@ -33,10 +33,10 @@ menu.app-menu
 </template>
 
 <script>
-import PerfectScrollbar from "perfect-scrollbar"
 import { mapGetters } from "vuex"
-import Btn from "@nylira/vue-button"
+import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
+import Btn from "@nylira/vue-button"
 import ConnectedNetwork from "common/NiConnectedNetwork"
 import ListItem from "common/NiListItem"
 import UserPane from "common/NiUserPane"
@@ -58,13 +58,17 @@ export default {
       "lastHeader",
       "mockedConnector"
     ]),
-    proposalAlerts() {
-      return this.proposals.filter(p => p.flags.read === false).length
-    },
     isValidatorPage() {
-      return this.$route.params.validator
+      if (this.$route) {
+        return this.$route.params.validator
+      } else {
+        return false
+      }
     }
   },
+  data: () => ({
+    ps: {}
+  }),
   methods: {
     close() {
       this.$store.commit("setActiveMenu", "")
@@ -72,8 +76,7 @@ export default {
     }
   },
   mounted() {
-    // eslint-disable-next-line no-unused-vars
-    const ps = new PerfectScrollbar(".app-menu-main")
+    this.ps = new PerfectScrollbar(this.$el.querySelector(".app-menu-main"))
   }
 }
 </script>

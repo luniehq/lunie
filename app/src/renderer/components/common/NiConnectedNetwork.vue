@@ -69,7 +69,6 @@ export default {
 @require '~variables'
 
 .ni-connected-network
-  background var(--app-bg)
   font-size 0.75rem
   background var(--app-fg)
   border 0.5rem solid var(--app-bg)
@@ -79,14 +78,8 @@ export default {
   align-items center
   justify-content space-between
 
-  a
+  a, .chain-id
     font-weight 500
-
-  .chain-id
-    font-weight 500
-
-.ni-connected-network__connection
-  height 2rem
 
 .ni-connected-network__icon
   background var(--success)
