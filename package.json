@@ -52,7 +52,7 @@
     "deterministic-tar": "0.2.0",
     "deterministic-zip": "1.0.5",
     "electron-debug": "1.5.0",
-    "electron-devtools-installer": "2.2.3",
+    "electron-devtools-installer": "2.2.4",
     "electron-packager": "10.1.2",
     "eslint": "4.19.1",
     "eslint-friendly-formatter": "2.0.7",
