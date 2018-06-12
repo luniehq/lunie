@@ -184,7 +184,7 @@ const build = async platform => {
 
   await Promise.all(
     appPaths.map(appPath =>
-      (platform === "win32" ? zipFolder : tarFolder)(appPath, options.out, tag)
+      (platform === `linux` ? tarFolder : zipFolder)(appPath, options.out, tag)
     )
   )
 
