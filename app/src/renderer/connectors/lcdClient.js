@@ -39,11 +39,8 @@ class Client {
       if (!resError.response || !resError.response.data) {
         throw resError
       }
-      let data = resError.response.data
       // server responded with error message, create an Error from that
-      let error = Error(data.error)
-      error.code = data.code
-      throw error
+      throw Error(resError.response.data)
     }
   }
 }

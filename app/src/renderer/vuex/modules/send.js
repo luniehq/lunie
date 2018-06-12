@@ -17,8 +17,9 @@ export default ({ commit, node }) => {
     args.password = rootState.user.password
 
     let chainId = rootState.node.lastHeader.chain_id
-    args.chain_id = chainId
-    args.src_chain_id = chainId // for IBC transfer
+    // TODO enable again when IBC is enabled
+    // args.chain_id = chainId
+    // args.src_chain_id = chainId // for IBC transfer
 
     // extract type
     let type = args.type || "send"
@@ -29,13 +30,9 @@ export default ({ commit, node }) => {
     delete args.to
 
     // submit to LCD to build, sign, and broadcast
-    let res = await node[type](to, args)
-
-    // check response code
-    if (res.check_tx.code || res.deliver_tx.code) {
-      let message = res.check_tx.log || res.deliver_tx.log
-      throw new Error("Error sending transaction: " + message)
-    }
+    let res = await node[type](to, args).catch(err => {
+      throw new Error(err.message)
+    })
 
     commit("setNonce", state.nonce + 1)
 

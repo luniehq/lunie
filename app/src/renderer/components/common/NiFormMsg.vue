@@ -61,6 +61,9 @@ export default {
         case "url":
           msg = "must be a valid URL (http:// required)"
           break
+        case "bech32":
+          msg = "is invalid (" + this.body + ")"
+          break
         default:
           msg = "must be valid"
           break

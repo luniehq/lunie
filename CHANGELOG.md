@@ -19,9 +19,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* Bech32 address validation @okwme
 * Notification for dev error collection toggle behavior @okwme
 * Added automatic releases @faboweb @NodeGuy
 * Export all testing config on CI @faboweb
+* Persisting e2e failure screenshots as artifact on circleci @faboweb
 
 ### Fixed
 

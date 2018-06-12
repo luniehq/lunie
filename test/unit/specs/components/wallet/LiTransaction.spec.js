@@ -15,7 +15,8 @@ describe("LiTransaction", () => {
                 amount: 1234
               }
             ],
-            sender: "otherAddress"
+            // sender: "otherAddress"
+            sender: "tb1da6xsetjg9jxgun9wdesexv05j"
           }
         ],
         outputs: [
@@ -26,13 +27,15 @@ describe("LiTransaction", () => {
                 amount: 1234
               }
             ],
-            recipient: "myAddress"
+            // recipient: "myAddress"
+            recipient: "tb1d4u5zerywfjhxuc9nudvw"
           }
         ]
       },
       time: null
     },
-    address: "myAddress"
+    // address: "myAddress"
+    address: "tb1d4u5zerywfjhxuc9nudvw"
   }
 
   beforeEach(() => {
@@ -59,7 +62,8 @@ describe("LiTransaction", () => {
                   amount: 1234
                 }
               ],
-              sender: "myAddress"
+              // sender: "myAddress"
+              sender: "tb1d4u5zerywfjhxuc9nudvw"
             }
           ],
           outputs: [
@@ -70,13 +74,15 @@ describe("LiTransaction", () => {
                   amount: 1234
                 }
               ],
-              recipient: "otherAddress"
+              // recipient: "otherAddress"
+              recipient: "tb1da6xsetjg9jxgun9wdesexv05j"
             }
           ]
         },
         time: Date.now()
       },
-      address: "myAddress"
+      // address: "myAddress"
+      address: "tb1d4u5zerywfjhxuc9nudvw"
     })
     expect(wrapper.find(".ni-li-tx").classes()).toContain("ni-li-tx-sent")
   })
@@ -101,7 +107,8 @@ describe("LiTransaction", () => {
                   amount: 42
                 }
               ],
-              sender: "otherAddress"
+              // sender: "otherAddress"
+              sender: "tb1da6xsetjg9jxgun9wdesexv05j"
             }
           ],
           outputs: [
@@ -120,13 +127,15 @@ describe("LiTransaction", () => {
                   amount: 42
                 }
               ],
-              recipient: "myAddress"
+              // recipient: "myAddress"
+              recipient: "tb1d4u5zerywfjhxuc9nudvw"
             }
           ]
         },
         time: Date.now()
       },
-      address: "myAddress"
+      // address: "myAddress"
+      address: "tb1d4u5zerywfjhxuc9nudvw"
     })
     expect(wrapper.findAll(".tx-coin").length).toBe(3)
     expect(

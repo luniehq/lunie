@@ -2,7 +2,7 @@ let fs = require("fs-extra")
 let { join } = require("path")
 const { remote } = require("electron")
 const root = remote.getGlobal("root")
-
+import b32 from "scripts/b32"
 export default ({ commit, node }) => {
   let state = {
     balances: [],
@@ -24,9 +24,6 @@ export default ({ commit, node }) => {
     },
     setWalletAddress(state, address) {
       state.address = address
-      // clear previous account state
-      state.balances = []
-      state.history = []
     },
     setWalletHistory(state, history) {
       state.history = history
@@ -55,6 +52,10 @@ export default ({ commit, node }) => {
       }
     },
     initializeWallet({ commit, dispatch }, address) {
+      // clear previous account state
+      state.balances = []
+      state.history = []
+
       commit("setWalletAddress", address)
       dispatch("loadDenoms")
       dispatch("queryWalletState")

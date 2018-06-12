@@ -6,7 +6,8 @@ describe("PageSend", () => {
   let wrapper, store, node
   const name = "default"
   const password = "1234567890"
-  const address = "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+  // const address = "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+  const address = "tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l"
 
   const coins = [
     {
@@ -104,7 +105,7 @@ describe("PageSend", () => {
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-  it("should show address length error (short)", async () => {
+  it("should show bech32 error when address length is too short", async () => {
     let { wrapper } = mount(PageSend)
     wrapper.setData({
       fields: {
@@ -118,7 +119,7 @@ describe("PageSend", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it("should show address length error (long)", async () => {
+  it("should show bech32 error when address length is too long", async () => {
     let { wrapper } = mount(PageSend)
     wrapper.setData({
       fields: {
@@ -131,7 +132,7 @@ describe("PageSend", () => {
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-  it("should show address alphanumeric error", async () => {
+  it("should show bech32 error when alphanumeric is wrong", async () => {
     let { wrapper } = mount(PageSend)
     wrapper.setData({
       fields: {

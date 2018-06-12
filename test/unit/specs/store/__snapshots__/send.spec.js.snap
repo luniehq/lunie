@@ -11,11 +11,9 @@ Array [
           "denom": "mycoin",
         },
       ],
-      "chain_id": "",
       "name": "default",
       "password": "1234567890",
       "sequence": 2,
-      "src_chain_id": "",
     },
   ],
 ]
@@ -32,11 +30,9 @@ Array [
           "denom": "mycoin",
         },
       ],
-      "chain_id": "",
       "name": "default",
       "password": "1234567890",
       "sequence": 1,
-      "src_chain_id": "",
     },
   ],
 ]

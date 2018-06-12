@@ -1,3 +1,5 @@
+import b32 from "scripts/b32"
+
 describe("LCD Client Mock", () => {
   let client
 
@@ -23,8 +25,13 @@ describe("LCD Client Mock", () => {
       password: "1234567890",
       seed
     })
-    expect(res.length).toBe(40)
-
+    try {
+      b32.decode(res)
+      expect(true).toBe(true)
+    } catch (error) {
+      console.log(error)
+      expect(false).toBe(true)
+    }
     res = await client.listKeys()
     expect(res.find(k => k.name === "foo")).toBeDefined()
 
@@ -72,7 +79,10 @@ describe("LCD Client Mock", () => {
   })
 
   xit("persists a sent tx", async () => {
-    let res = await client.coinTxs("DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B")
+    // let res = await client.coinTxs("DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B")
+    let res = await client.coinTxs(
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
+    )
     expect(res.length).toBe(2) // predefined txs
 
     let { address: toAddr } = await client.storeKey({
@@ -93,13 +103,17 @@ describe("LCD Client Mock", () => {
     })
     expect(res.height).toBeDefined()
 
-    res = await client.coinTxs("DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B")
+    // res = await client.coinTxs("DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B")
+    res = await client.coinTxs(
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
+    )
     expect(res.length).toBe(3)
   })
 
   it("query and update the nonce", async () => {
     let { sequence } = await client.queryAccount(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+      // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
     )
     expect(sequence).toBe(1)
 
@@ -120,14 +134,16 @@ describe("LCD Client Mock", () => {
       ]
     })
     let account = await client.queryAccount(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+      // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
     )
     expect(account.sequence).toBe(2)
   })
 
   it("queries an account", async () => {
     let data = await client.queryAccount(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+      // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
     )
     expect(data.coins.find(c => c.denom === "mycoin").amount).toBe(1000)
 
@@ -136,7 +152,8 @@ describe("LCD Client Mock", () => {
   })
 
   it("sends coins", async () => {
-    let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
+    // let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
+    let toAddr = "tb1424xlh5d8q86tv4dyrdjjckg9h02rmd2c4v7dc"
     let res = await client.send(toAddr, {
       sequence: 1,
       name: "default",
@@ -151,7 +168,8 @@ describe("LCD Client Mock", () => {
     expect(res.check_tx.code).toBe(0)
 
     let account = await client.queryAccount(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+      // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
     )
     expect(account.coins.find(c => c.denom === "mycoin").amount).toBe(950)
 
@@ -160,7 +178,8 @@ describe("LCD Client Mock", () => {
   })
 
   it("sends coins to existing account", async () => {
-    let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
+    // let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
+    let toAddr = "tb1424xlh5d8q86tv4dyrdjjckg9h02rmd2c4v7dc"
     let res = await client.send(toAddr, {
       sequence: 1,
       name: "default",
@@ -188,7 +207,8 @@ describe("LCD Client Mock", () => {
     expect(res.check_tx.code).toBe(0)
 
     let account = await client.queryAccount(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
+      // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
     )
     expect(account.coins.find(c => c.denom === "mycoin").amount).toBe(900)
 
@@ -219,7 +239,8 @@ describe("LCD Client Mock", () => {
   })
 
   it("fails to send coins from a nonexistent account", async () => {
-    let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
+    // let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
+    let toAddr = "tb1424xlh5d8q86tv4dyrdjjckg9h02rmd2c4v7dc"
     await client.storeKey({
       name: "somekey",
       password: "1234567890",
@@ -261,7 +282,8 @@ describe("LCD Client Mock", () => {
 
   xit("queries for a candidate", async () => {
     let { data } = await client.candidate(
-      "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
+      // "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
+      "tb13pty5vjspgfq4feva770233wq789mkmskep37k0h0z5dcnd8rxjqy0c8yd"
     )
     expect(data.address).not.toBeFalsy()
   })
@@ -283,25 +305,32 @@ describe("LCD Client Mock", () => {
 
   xit("queries bondings per delegator", async () => {
     let res = await client.bondingsByDelegator([
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD"
+      // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545",
+      // "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD"
+      "tb102whs089g2erlg3aclcsz3sg0xrpypthycrtfsl6ata7m7cqu77sf2q5vs"
     ])
     expect(res.data.Shares).toBe(5)
   })
 
   xit("executes a delegate tx", async () => {
     let { data: stake } = await client.bondingsByDelegator([
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
+      // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545",
+      // "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
+      "tb13pty5vjspgfq4feva770233wq789mkmskep37k0h0z5dcnd8rxjqy0c8yd"
     ])
     expect(stake.Shares).toBe(0)
 
     let tx = await client.buildDelegate({
       sequence: 0,
-      from: { addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B" },
+      // from: { addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B" },
+      from: { addr: "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545" },
+
       amount: { amount: 10 },
       pub_key: {
-        data: "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
+        // data: "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
+        data: "tb13pty5vjspgfq4feva770233wq789mkmskep37k0h0z5dcnd8rxjqy0c8yd"
       }
     })
     let signedTx = await client.sign({
@@ -313,8 +342,10 @@ describe("LCD Client Mock", () => {
     expect(res.check_tx.code).toBe(0)
 
     let { data: updatedStake } = await client.bondingsByDelegator([
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
+      // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+      "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545",
+      // "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
+      "tb13pty5vjspgfq4feva770233wq789mkmskep37k0h0z5dcnd8rxjqy0c8yd"
     ])
     expect(updatedStake.Shares).toBe(10)
   })
@@ -322,10 +353,12 @@ describe("LCD Client Mock", () => {
   xit("can not stake fermions you dont have", async () => {
     let tx = await client.buildDelegate({
       sequence: 0,
-      from: { addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B" },
+      // from: { addr: ""DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"" },
+      from: { addr: "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545" },
       amount: { amount: 100000 },
       pub_key: {
-        data: "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
+        // data: "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
+        data: "tb13pty5vjspgfq4feva770233wq789mkmskep37k0h0z5dcnd8rxjqy0c8yd"
       }
     })
     let signedTx = await client.sign({
