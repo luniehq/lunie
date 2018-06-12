@@ -10,14 +10,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changes
 
 * Disabled error reporting in development @faboweb
+* Removed ci files from code coverage as they are badly testable @faboweb
 * Update genesis.json when conflicts are detected @jolesbi
+* Hide IBC as it will not be ready for launch @faboweb
 * Updated e2e tests to not rely on flags to run @okwme
+* Not shrinking stacktrace anymore @faboweb
+* Updated electron to v2.0.2 @okwme
 
 ### Added
 
 * Notification for dev error collection toggle behavior @okwme
 * Added automatic releases @faboweb @NodeGuy
 * Added staking functionality! @mappum
+* Export all testing config on CI @faboweb
 
 ### Fixed
 
@@ -25,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed minor typo in README.md @nylira
 * Tx bug where state wasn't updated @okwme
 * Persisting e2e failure screenshots as artifact on circleci @faboweb
+* Theme switching bug @okwme
 
 ## [0.6.2] - 2018-05-23
 

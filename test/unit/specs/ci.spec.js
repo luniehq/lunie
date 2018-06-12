@@ -1,6 +1,6 @@
 "use strict"
 
-const release = require(`../../../ci/release`)
+const release = require(`../../../tasks/release`)
 
 test(`bumpVersion`, () => {
   expect(release.bumpVersion(`0.6.1`)).toEqual(`0.6.2`)

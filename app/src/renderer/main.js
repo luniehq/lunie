@@ -4,7 +4,6 @@ import Resource from "vue-resource"
 import Router from "vue-router"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
-import shrinkStacktrace from "../helpers/shrink-stacktrace.js"
 import Raven from "raven-js"
 import { ipcRenderer, remote } from "electron"
 
@@ -31,7 +30,6 @@ window.addEventListener("error", function(event) {
 })
 Vue.config.errorHandler = (error, vm, info) => {
   Raven.captureException(error)
-  shrinkStacktrace(error)
   return true
 }
 
