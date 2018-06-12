@@ -6,6 +6,11 @@ let state = {
       name: "default",
       password: "1234567890",
       address: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+    },
+    {
+      name: "nonexistent_account",
+      password: "1234567890",
+      address: "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
     }
   ],
   accounts: {
@@ -18,6 +23,10 @@ let state = {
         {
           denom: "fermion",
           amount: 2300
+        },
+        {
+          denom: "steak",
+          amount: 1000
         }
       ],
       sequence: 1
@@ -101,24 +110,23 @@ let state = {
   ],
   stake: {
     DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B: {
-      "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD": {
-        PubKey: {
-          data:
-            "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD"
-        },
-        Shares: 5
+      "70705055A9FA5901735D0C3F0954501DDE667327": {
+        delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
+        validator_addr: "70705055A9FA5901735D0C3F0954501DDE667327",
+        shares: "5/1",
+        height: 123
       }
     }
   },
-  delegates: [
+  candidates: [
     {
-      address: "70705055A9FA5901735D0C3F0954501DDE667327",
+      owner: "70705055A9FA5901735D0C3F0954501DDE667327",
       pub_key: {
-        type: "ed25519",
-        data: "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
+        type: "AC26791624DE60",
+        data: "t3zVnKU42WNH+NtYFcstZRLFVULWV8VagoP0HwW43Pk="
       },
-      voting_power: 14,
-      accum: 585,
+      revoked: false,
+      pool_shares: { amount: "14/1" },
       description: {
         description: "Mr Mounty",
         moniker: "mr_mounty",
@@ -126,13 +134,12 @@ let state = {
       }
     },
     {
-      address: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+      owner: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
       pub_key: {
-        type: "ed25519",
-        data: "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD"
+        type: "AC26791624DE60",
+        data: "9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w="
       },
-      voting_power: 32,
-      accum: -1107,
+      pool_shares: { amount: "32/1" },
       description: {
         description: "Good Guy Greg",
         moniker: "good_greg",
@@ -140,13 +147,12 @@ let state = {
       }
     },
     {
-      address: "77C26DF82654C5A5DDE5C6B7B27F3F06E9C223C0",
+      owner: "77C26DF82654C5A5DDE5C6B7B27F3F06E9C223C0",
       pub_key: {
-        type: "ed25519",
-        data: "651E7B12B3C7234FB82B4417C59DCE30E4EA28F06AD0ACAEDFF05F013E463F10"
+        type: "AC26791624DE60",
+        data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0="
       },
-      voting_power: 19,
-      accum: 539,
+      pool_shares: { amount: "19/1" },
       description: {
         description: "Herr Schmidt",
         moniker: "herr_schmidt",
@@ -269,25 +275,106 @@ module.exports = {
   },
 
   // staking
-  async candidate(pubkey) {
-    return {
-      data: state.delegates.find(delegate => delegate.pub_key.data === pubkey)
+  async updateDelegations({ name, sequence, delegate, unbond }) {
+    let results = []
+
+    let fromKey = state.keys.find(a => a.name === name)
+    let fromAccount = state.accounts[fromKey.address]
+    if (fromAccount == null) {
+      results.push(txResult(1, "Nonexistent account"))
+      return results
     }
+
+    // check nonce
+    if (fromAccount.sequence !== sequence) {
+      results.push(
+        txResult(
+          2,
+          `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
+        )
+      )
+      return results
+    }
+
+    for (let tx of delegate) {
+      let { denom, amount } = tx.bond
+      if (amount < 0) {
+        results.push(txResult(1, "Amount cannot be negative"))
+        return results
+      }
+      if (fromAccount.coins.find(c => c.denom === denom).amount < amount) {
+        results.push(txResult(1, "Not enough coins in your account"))
+        return results
+      }
+
+      // update sender account
+      fromAccount.sequence += 1
+      fromAccount.coins.find(c => c.denom === denom).amount -= amount
+
+      // update stake
+      let delegator = state.stake[fromKey.address]
+      if (!delegator) {
+        state.stake[fromKey.address] = {}
+        delegator = state.stake[fromKey.address]
+      }
+      let delegation = delegator[tx.validator_addr]
+      if (!delegation) {
+        delegation = {
+          delegator_addr: fromKey.address,
+          validator_addr: tx.validator_addr,
+          shares: "0/1",
+          height: 0
+        }
+        delegator[tx.validator_addr] = delegation
+      }
+      let shares = +delegation.shares.split("/")[0]
+      delegation.shares = shares + +tx.bond.amount + "/1"
+
+      let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
+      shares = +candidate.pool_shares.amount.split("/")[0]
+      candidate.pool_shares.amount = shares + +tx.bond.amount + "/1"
+
+      results.push(txResult(0))
+    }
+
+    for (let tx of unbond) {
+      fromAccount.sequence += 1
+
+      let amount = +tx.shares.split("/")[0]
+
+      // update sender balance
+      fromAccount.coins.find(c => c.denom === "steak").amount += amount
+
+      // update stake
+      let delegator = state.stake[fromKey.address]
+      if (!delegator) {
+        results.push(txResult(2, "Nonexistent delegator"))
+        return results
+      }
+      let delegation = delegator[tx.validator_addr]
+      if (!delegation) {
+        results.push(txResult(2, "Nonexistent delegation"))
+        return results
+      }
+      let shares = delegation.shares.split("/")[0]
+      delegation.shares = +shares - amount + "/1"
+
+      let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
+      shares = candidate.pool_shares.amount.split("/")[0]
+      candidate.pool_shares.amount = +shares - amount + "/1"
+
+      results.push(txResult(0))
+    }
+
+    return results
+  },
+  async queryDelegation(delegatorAddress, validatorAddress) {
+    let delegator = state.stake[delegatorAddress]
+    if (!delegator) return
+    return delegator[validatorAddress]
   },
   async candidates() {
-    return { data: state.delegates.map(({ pub_key }) => pub_key) } // eslint-disable-line camelcase
-  },
-  async bondingsByDelegator([address, delegatePubkey]) {
-    let stake = state.stake[address]
-    if (stake && stake[delegatePubkey]) {
-      return { data: stake[delegatePubkey] }
-    }
-    return {
-      data: {
-        PubKey: { data: delegatePubkey },
-        Shares: 0
-      }
-    }
+    return state.candidates
   }
 }
 

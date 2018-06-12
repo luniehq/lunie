@@ -29,13 +29,10 @@ export default ({ commit, node }) => {
     delete args.to
 
     // submit to LCD to build, sign, and broadcast
-    let res = await node[type](to, args)
+    let res = to ? await node[type](to, args) : await node[type](args)
 
     // check response code
-    if (res.check_tx.code || res.deliver_tx.code) {
-      let message = res.check_tx.log || res.deliver_tx.log
-      throw new Error("Error sending transaction: " + message)
-    }
+    assertOk(res)
 
     commit("setNonce", state.nonce + 1)
 
@@ -73,5 +70,16 @@ export default ({ commit, node }) => {
     state,
     mutations,
     actions
+  }
+}
+
+function assertOk(res) {
+  if (Array.isArray(res)) {
+    return res.forEach(assertOk)
+  }
+
+  if (res.check_tx.code || res.deliver_tx.code) {
+    let message = res.check_tx.log || res.deliver_tx.log
+    throw new Error("Error sending transaction: " + message)
   }
 }

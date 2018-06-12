@@ -5,34 +5,7 @@ import PageStaking from "renderer/components/staking/PageStaking"
 describe("PageStaking", () => {
   let wrapper, store
   let { mount } = setup()
-  let delegates = [
-    {
-      pub_key: {
-        type: "ed25519",
-        data: "pubkeyX"
-      },
-      voting_power: 10000,
-      shares: 5000,
-      description: {
-        description: "descriptionX",
-        moniker: "candidateX",
-        country: "USA"
-      }
-    },
-    {
-      pub_key: {
-        type: "ed25519",
-        data: "pubkeyY"
-      },
-      voting_power: 30000,
-      shares: 10000,
-      description: {
-        description: "descriptionY",
-        moniker: "candidateY",
-        country: "Canada"
-      }
-    }
-  ]
+
   beforeEach(() => {
     let instance = mount(PageStaking)
     wrapper = instance.wrapper
@@ -40,8 +13,6 @@ describe("PageStaking", () => {
 
     store.state.user.address = "abc"
     store.commit("setAtoms", 1337)
-    store.commit("addDelegate", delegates[0])
-    store.commit("addDelegate", delegates[1])
     wrapper.update()
   })
 
@@ -63,33 +34,33 @@ describe("PageStaking", () => {
   })
 
   it("should sort the delegates by selected property", () => {
-    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual([
-      "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4",
-      "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD",
-      "651E7B12B3C7234FB82B4417C59DCE30E4EA28F06AD0ACAEDFF05F013E463F10",
-      "pubkeyY",
-      "pubkeyX"
+    expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual([
+      "70705055A9FA5901735D0C3F0954501DDE667327",
+      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+      "77C26DF82654C5A5DDE5C6B7B27F3F06E9C223C0"
     ])
 
-    wrapper.vm.sort.property = "id"
+    wrapper.vm.sort.property = "owner"
     wrapper.vm.sort.order = "desc"
-    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual([
-      "pubkeyY",
-      "pubkeyX",
-      "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4",
-      "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD",
-      "651E7B12B3C7234FB82B4417C59DCE30E4EA28F06AD0ACAEDFF05F013E463F10"
+    expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual([
+      "77C26DF82654C5A5DDE5C6B7B27F3F06E9C223C0",
+      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+      "70705055A9FA5901735D0C3F0954501DDE667327"
     ])
   })
 
   it("should filter the delegates", () => {
     store.commit("setSearchVisible", ["delegates", true])
-    store.commit("setSearchQuery", ["delegates", "dateX"])
-    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(["pubkeyX"])
+    store.commit("setSearchQuery", ["delegates", "c26d"])
+    expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual([
+      "77C26DF82654C5A5DDE5C6B7B27F3F06E9C223C0"
+    ])
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
-    store.commit("setSearchQuery", ["delegates", "dateY"])
-    expect(wrapper.vm.filteredDelegates.map(x => x.id)).toEqual(["pubkeyY"])
+    store.commit("setSearchQuery", ["delegates", "7070"])
+    expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual([
+      "70705055A9FA5901735D0C3F0954501DDE667327"
+    ])
   })
 
   it("should show the amount of selected delegates", () => {
@@ -106,11 +77,11 @@ describe("PageStaking", () => {
 
   it("should update 'somethingToSearch' when there's nothing to search", () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
+    let delegates = store.state.delegates.delegates
     store.commit("setDelegates", [])
     expect(wrapper.vm.somethingToSearch).toBe(false)
 
-    store.commit("addDelegate", delegates[0])
-    store.commit("addDelegate", delegates[1])
+    store.commit("setDelegates", delegates)
     expect(wrapper.vm.somethingToSearch).toBe(true)
     store.commit("setDelegateLoading", true)
     expect(wrapper.vm.somethingToSearch).toBe(false)

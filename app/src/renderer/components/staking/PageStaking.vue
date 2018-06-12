@@ -64,7 +64,7 @@ export default {
       return !this.delegates.loading && !!this.delegates.delegates.length
     },
     filteredDelegates() {
-      let query = this.filters.delegates.search.query
+      let query = this.filters.delegates.search.query || ""
 
       forEach(this.delegates.delegates, function(v) {
         v.small_moniker = v.moniker.toLowerCase()

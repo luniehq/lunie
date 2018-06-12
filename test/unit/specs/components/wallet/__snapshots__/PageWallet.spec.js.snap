@@ -343,7 +343,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="ni-li-dt"
                 >
-                  FERMION
+                  STEAK
                 </div>
                 <div
                   class="ni-li-dd"
@@ -742,7 +742,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="ni-li-dt"
                 >
-                  FERMION
+                  STEAK
                 </div>
                 <div
                   class="ni-li-dd"
