@@ -1,4 +1,3 @@
-let { tmpdir } = require("os")
 let { join } = require("path")
 
 function sleep(ms) {

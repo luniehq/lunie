@@ -16,11 +16,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Updated e2e tests to not rely on flags to run @okwme
 * Not shrinking stacktrace anymore @faboweb
 * Improved the visibility and readability of the current network connection. @nylira
+* Updated electron to v2.0.2 @okwme
 
 ### Added
 
 * Notification for dev error collection toggle behavior @okwme
 * Added automatic releases @faboweb @NodeGuy
+* Export all testing config on CI @faboweb
 
 ### Fixed
 
@@ -28,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed minor typo in README.md @nylira
 * Tx bug where state wasn't updated @okwme
 * Persisting e2e failure screenshots as artifact on circleci @faboweb
+* Theme switching bug @okwme
 
 ## [0.6.2] - 2018-05-23
 
