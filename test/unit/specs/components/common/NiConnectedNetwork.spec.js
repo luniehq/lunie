@@ -60,10 +60,28 @@ describe("NiConnectedNetwork", () => {
   it("has a node address for mockedConnector", () => {
     expect(wrapper.vm.nodeAddress).toBe("127.0.0.1")
   })
+
   it("has a chain id for mockedConnector", () => {
     expect(wrapper.vm.chainId).toBe("test-net")
   })
+
   it("has a block height for mockedConnector", () => {
     expect(wrapper.vm.blockHeight).toBe("#42")
+  })
+
+  it("has a connecting state", async () => {
+    await store.commit("setConnected", false)
+    expect(
+      wrapper
+        .find(
+          "#ni-disconnected-network .ni-connected-network__icon i.material-icons"
+        )
+        .text()
+    ).toBe("rotate_right")
+    expect(
+      wrapper
+        .find("#ni-disconnected-network .ni-connected-network__string")
+        .text()
+    ).toBe("Connecting to network…")
   })
 })

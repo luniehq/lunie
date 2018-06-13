@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NiConnectedNetwork has the expected html structure 1`] = `
-"<div class=\\"ni-connected-network ni-connected-network--mocked\\" id=\\"ni-connected-network\\">
+"<div id=\\"ni-connected-network\\" class=\\"ni-connected-network ni-connected-network--mocked\\">
    <div class=\\"ni-connected-network__connection\\">
       <div id=\\"ni-connected-network__icon\\" class=\\"ni-connected-network__icon\\">
          <i class=\\"material-icons\\">wifi</i>
