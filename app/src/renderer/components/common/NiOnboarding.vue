@@ -6,7 +6,7 @@
     .ni-session-main
       .ni-session-label {{ activeValue }}
       img(:src="activeImg")
-      bar-discrete(:nodes="nodes" :click-fn="go" :active="activeKey")
+      tm-bar-discrete(:nodes="nodes" :click-fn="go" :active="activeKey")
     .ni-session-footer(v-if="activeKey === nodes.length - 1")
       btn(value="Restart" @click.native="go(0)" icon="settings_backup_restore")
       btn(value="Finish" @click.native="finish" color="primary"
@@ -21,10 +21,10 @@
 import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import Btn from "@nylira/vue-button"
-import BarDiscrete from "common/NiBarDiscrete"
+import { TmBarDiscrete } from "@tendermint/ui"
 export default {
   name: "ni-onboarding",
-  components: { Btn, BarDiscrete },
+  components: { Btn, TmBarDiscrete },
   computed: {
     ...mapGetters(["onboarding"]),
     activeKey() {
