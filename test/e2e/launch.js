@@ -102,7 +102,7 @@ function launch(t) {
       )
       await createAccount(
         "testreceiver",
-        // address: 30E64F9A3FA6C2B9864DADDEDA29CB667BF8366C
+        // address: cosmosaccaddr1xrnylx3l5mptnpjd4h0d52wtvealsdnv5k77n8
         "cream another bring skill effort narrow crumble ball trouble verify mother confirm recall rain armor abandon"
       )
       console.log("setup test accounts")
@@ -201,9 +201,9 @@ async function handleCrash(app) {
     })
   }
 
-  if (app) await app.stop()
-
   if (!process.COSMOS_E2E_KEEP_OPEN) {
+    if (app) await app.stop()
+
     process.exit(1)
   }
 }

@@ -38,11 +38,9 @@ test("preferences", async function(t) {
     })
     t.test("mock network", async function(t) {
       await selectOption(app, "#select-network select", "mock")
-      // await networkSelect().selectByVisibleText("Mock Testnet")
-      await sleep(1000)
+      await app.client.waitForVisible(".ni-session-wrapper", 5000)
 
       await login(app, "default")
-
       await navigateToPreferences(app) //should click preferences link with username
 
       await sleep(1000)

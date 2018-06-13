@@ -1,6 +1,7 @@
 import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
 import PageStaking from "renderer/components/staking/PageStaking"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe("PageStaking", () => {
   let wrapper, store
@@ -34,32 +35,34 @@ describe("PageStaking", () => {
   })
 
   it("should sort the delegates by selected property", () => {
-    expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual([
-      "70705055A9FA5901735D0C3F0954501DDE667327",
-      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
-      "77C26DF82654C5A5DDE5C6B7B27F3F06E9C223C0"
-    ])
+    expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual(
+      lcdClientMock.validators
+    )
 
     wrapper.vm.sort.property = "owner"
-    wrapper.vm.sort.order = "desc"
-    expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual([
-      "77C26DF82654C5A5DDE5C6B7B27F3F06E9C223C0",
-      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
-      "70705055A9FA5901735D0C3F0954501DDE667327"
-    ])
+    wrapper.vm.sort.order = "asc"
+    expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual(
+      lcdClientMock.validators.reverse()
+    )
   })
 
   it("should filter the delegates", () => {
     store.commit("setSearchVisible", ["delegates", true])
-    store.commit("setSearchQuery", ["delegates", "c26d"])
+    store.commit("setSearchQuery", [
+      "delegates",
+      lcdClientMock.validators[2].substr(20, 26)
+    ])
     expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual([
-      "77C26DF82654C5A5DDE5C6B7B27F3F06E9C223C0"
+      lcdClientMock.validators[2]
     ])
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
-    store.commit("setSearchQuery", ["delegates", "7070"])
+    store.commit("setSearchQuery", [
+      "delegates",
+      lcdClientMock.validators[1].substr(20, 26)
+    ])
     expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual([
-      "70705055A9FA5901735D0C3F0954501DDE667327"
+      lcdClientMock.validators[1]
     ])
   })
 

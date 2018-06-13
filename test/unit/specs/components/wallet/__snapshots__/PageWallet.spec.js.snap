@@ -139,7 +139,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="ni-li-title"
                 >
-                  123abc456def
+                  tb1zgatc3tdauv2m0uf
                 </div>
                 <div
                   class="ni-li-subtitle"
@@ -539,7 +539,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="ni-li-title"
                 >
-                  123abc456def
+                  tb1zgatc3tdauv2m0uf
                 </div>
                 <div
                   class="ni-li-subtitle"

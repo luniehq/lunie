@@ -12,7 +12,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
     >
       <a
         class=""
-        href="#/staking/delegates/70705055A9FA5901735D0C3F0954501DDE667327"
+        href="#/staking/delegates/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
       >
         mr_mounty
       </a>

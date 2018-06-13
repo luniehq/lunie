@@ -68,7 +68,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <div class=\\"li-delegate li-delegate-validator \\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
-            <a href=\\"#/staking/delegates/70705055A9FA5901735D0C3F0954501DDE667327\\" class=\\"\\">mr_mounty</a>
+            <a href=\\"#/staking/delegates/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"\\">mr_mounty</a>
          </div>
    <div class=\\"li-delegate__value percent_of_vote\\">
       <span>22%</span>
@@ -91,7 +91,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <div class=\\"li-delegate li-delegate-validator \\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
-            <a href=\\"#/staking/delegates/760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31\\" class=\\"\\">good_greg</a>
+            <a href=\\"#/staking/delegates/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"\\">good_greg</a>
          </div>
    <div class=\\"li-delegate__value percent_of_vote\\">
       <span>49%</span>
@@ -114,7 +114,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <div class=\\"li-delegate li-delegate-validator \\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
-            <a href=\\"#/staking/delegates/77C26DF82654C5A5DDE5C6B7B27F3F06E9C223C0\\" class=\\"\\">herr_schmidt</a>
+            <a href=\\"#/staking/delegates/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"\\">herr_schmidt</a>
          </div>
    <div class=\\"li-delegate__value percent_of_vote\\">
       <span>29%</span>
@@ -365,27 +365,27 @@ exports[`PageStaking should filter the delegates 1`] = `
           >
             <a
               class=""
-              href="#/staking/delegates/77C26DF82654C5A5DDE5C6B7B27F3F06E9C223C0"
+              href="#/staking/delegates/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
             >
-              herr_schmidt
+              mr_mounty
             </a>
           </div>
           <div
             class="li-delegate__value percent_of_vote"
           >
             <span>
-              29%
+              22%
             </span>
           </div>
           <div
             class="li-delegate__value number_of_votes num bar"
           >
             <span>
-              19
+              14
             </span>
             <div
               class="bar"
-              style="width: 59%;"
+              style="width: 44%;"
             />
           </div>
           <div
