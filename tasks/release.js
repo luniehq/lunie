@@ -80,9 +80,9 @@ Please checkout the [CHANGELOG.md](CHANGELOG.md) for a list of changes.
     prerelease: true,
     skipAssetsCheck: false,
     assets: [
-      path.join(__dirname, `../builds/Cosmos Voyager-darwin-x64_${tag}.tar.gz`),
-      path.join(__dirname, `../builds/Cosmos Voyager-linux-x64_${tag}.tar.gz`),
-      path.join(__dirname, `../builds/Cosmos Voyager-win32-x64_${tag}.zip`)
+      path.join(__dirname, `../builds/Cosmos Voyager ${tag} (Linux).tar.gz`),
+      path.join(__dirname, `../builds/Cosmos Voyager ${tag} (macOS).tar.gz`),
+      path.join(__dirname, `../builds/Cosmos Voyager ${tag} (Windows).zip`)
     ]
   })
 
