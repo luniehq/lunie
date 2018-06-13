@@ -19,6 +19,8 @@
 
 #### Build Gaia (Cosmos SDK)
 
+Note: the following requires `docker` installed.
+
 Build the Gaia CLI (`gaiacli`) and full node (`gaiad`), which are part of the
 Cosmos SDK, with the following command:
 
