@@ -6,7 +6,6 @@ describe("PageSend", () => {
   let wrapper, store, node
   const name = "default"
   const password = "1234567890"
-  // const address = "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
   const address = "tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l"
 
   const coins = [

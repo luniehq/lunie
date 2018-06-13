@@ -79,7 +79,6 @@ describe("LCD Client Mock", () => {
   })
 
   xit("persists a sent tx", async () => {
-    // let res = await client.coinTxs("DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B")
     let res = await client.coinTxs(lcdClientMock.addresses[0])
     expect(res.length).toBe(2) // predefined txs
 
@@ -101,16 +100,12 @@ describe("LCD Client Mock", () => {
     })
     expect(res.height).toBeDefined()
 
-    // res = await client.coinTxs("DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B")
     res = await client.coinTxs(lcdClientMock.addresses[0])
     expect(res.length).toBe(3)
   })
 
   it("query and update the nonce", async () => {
-    let { sequence } = await client.queryAccount(
-      // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-      lcdClientMock.addresses[0]
-    )
+    let { sequence } = await client.queryAccount(lcdClientMock.addresses[0])
     expect(sequence).toBe(1)
 
     let { address: toAddr } = await client.storeKey({
@@ -129,18 +124,12 @@ describe("LCD Client Mock", () => {
         }
       ]
     })
-    let account = await client.queryAccount(
-      // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-      lcdClientMock.addresses[0]
-    )
+    let account = await client.queryAccount(lcdClientMock.addresses[0])
     expect(account.sequence).toBe(2)
   })
 
   it("queries an account", async () => {
-    let data = await client.queryAccount(
-      // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-      lcdClientMock.addresses[0]
-    )
+    let data = await client.queryAccount(lcdClientMock.addresses[0])
     expect(data.coins.find(c => c.denom === "mycoin").amount).toBe(1000)
 
     let res = await client.queryAccount("address_doesnt_exist")
@@ -148,7 +137,6 @@ describe("LCD Client Mock", () => {
   })
 
   it("sends coins", async () => {
-    // let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
     let toAddr = "tb1424xlh5d8q86tv4dyrdjjckg9h02rmd2c4v7dc"
     let res = await client.send(toAddr, {
       sequence: 1,
@@ -163,10 +151,7 @@ describe("LCD Client Mock", () => {
     })
     expect(res.check_tx.code).toBe(0)
 
-    let account = await client.queryAccount(
-      // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-      lcdClientMock.addresses[0]
-    )
+    let account = await client.queryAccount(lcdClientMock.addresses[0])
     expect(account.coins.find(c => c.denom === "mycoin").amount).toBe(950)
 
     let receiveAccount = await client.queryAccount(toAddr)
@@ -174,7 +159,6 @@ describe("LCD Client Mock", () => {
   })
 
   it("sends coins to existing account", async () => {
-    // let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
     let toAddr = "tb1424xlh5d8q86tv4dyrdjjckg9h02rmd2c4v7dc"
     let res = await client.send(toAddr, {
       sequence: 1,
@@ -202,10 +186,7 @@ describe("LCD Client Mock", () => {
     })
     expect(res.check_tx.code).toBe(0)
 
-    let account = await client.queryAccount(
-      lcdClientMock.addresses[0]
-      // "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-    )
+    let account = await client.queryAccount(lcdClientMock.addresses[0])
     expect(account.coins.find(c => c.denom === "mycoin").amount).toBe(900)
 
     let receiveAccount = await client.queryAccount(toAddr)
@@ -235,7 +216,6 @@ describe("LCD Client Mock", () => {
   })
 
   it("fails to send coins from a nonexistent account", async () => {
-    // let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
     let toAddr = "tb1424xlh5d8q86tv4dyrdjjckg9h02rmd2c4v7dc"
     await client.storeKey({
       name: "somekey",
