@@ -40,7 +40,6 @@ page(title='Wallet')
 import { mapGetters } from "vuex"
 import { clipboard } from "electron"
 import { sum, includes, orderBy } from "lodash"
-import Btn from "@nylira/vue-button"
 import Mousetrap from "mousetrap"
 import DataLoading from "common/NiDataLoading"
 import DataEmpty from "common/NiDataEmpty"

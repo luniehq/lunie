@@ -23,12 +23,12 @@
           | I understand that Cosmos cannot recover deleted accounts without the passphrase.
       form-msg(name='Deletion confirmation' type='required' v-if='!$v.fields.deletionWarning.required')
   .ni-session-footer
-    btn(icon="exit_to_app" value="Sign Out and Remove Account" size="lg")
+    tm-btn(icon="exit_to_app" value="Sign Out and Remove Account" size="lg")
 </template>
 
 <script>
 import { required, minLength } from "vuelidate/lib/validators"
-import Btn from "@nylira/vue-button"
+import { TmBtn } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldGroup from "common/NiFieldGroup"
 import FormGroup from "common/NiFormGroup"
@@ -37,7 +37,7 @@ import FormStruct from "common/NiFormStruct"
 export default {
   name: "ni-session-account-delete",
   components: {
-    Btn,
+    TmBtn,
     Field,
     FieldGroup,
     FormGroup,

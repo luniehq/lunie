@@ -108,8 +108,8 @@ page.page-bond(:title="`Bond ${denom}`")
         v-if='!$v.fields.bondConfirm.required')
 
     div(slot='footer')
-      btn#btn-reset(type="button" @click.native="resetFields" value="Reset" color="danger")
-      btn#btn-bond(value="Submit" color="primary")
+      tm-btn#btn-reset(type="button" @click.native="resetFields" value="Reset" color="danger")
+      tm-btn#btn-bond(value="Submit" color="primary")
 </template>
 
 <script>
@@ -117,7 +117,7 @@ import { between, numeric, required } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import interact from "interactjs"
-import Btn from "@nylira/vue-button"
+import { TmBtn } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldAddon from "common/NiFieldAddon"
 import FieldGroup from "common/NiFieldGroup"
@@ -130,7 +130,7 @@ import ToolBar from "common/NiToolBar"
 export default {
   name: "page-bond",
   components: {
-    Btn,
+    TmBtn,
     Field,
     FieldAddon,
     FieldGroup,

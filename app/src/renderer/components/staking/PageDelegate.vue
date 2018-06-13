@@ -3,22 +3,21 @@ page(:title="delegateType + ' Profile'")
   div(slot="menu"): tool-bar
 
   part(:title="delegateType + ' Info'")
-    list-item(dt='Moniker' :dd='delegate.moniker')
-    list-item(dt='Website' :dd='delegate.website')
-    list-item(dt='Address' :dd='delegate.address')
-    list-item(dt='Public Key' :dd='delegate.pub_key.data')
+    tm-list-item(dt='Moniker' :dd='delegate.moniker')
+    tm-list-item(dt='Website' :dd='delegate.website')
+    tm-list-item(dt='Address' :dd='delegate.address')
+    tm-list-item(dt='Public Key' :dd='delegate.pub_key.data')
 
   part(:title="delegateType + ' Description'")
     text-block(:content="delegate.details || 'No description available.'")
 
   part(:title="delegateType + ' Details'" v-if="isValidator")
-    list-item(dt="Total Vote Power" :dd="delegate.voting_power")
+    tm-list-item(dt="Total Vote Power" :dd="delegate.voting_power")
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import Btn from "@nylira/vue-button"
-import ListItem from "common/NiListItem"
+import { TmListItem } from "@tendermint/ui"
 import Page from "common/NiPage"
 import Part from "common/NiPart"
 import TextBlock from "common/TextBlock"
@@ -26,8 +25,7 @@ import ToolBar from "common/NiToolBar"
 export default {
   name: "page-delegate",
   components: {
-    Btn,
-    ListItem,
+    TmListItem,
     Page,
     Part,
     TextBlock,

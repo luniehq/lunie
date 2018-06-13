@@ -5,14 +5,14 @@
     .ni-modal-error__title {{ errorTitle }}
     .ni-modal-error__body {{ errorBody }}
     .ni-modal-error__footer
-      btn#ni-modal-error__btn-issue(
+      tm-btn#ni-modal-error__btn-issue(
         size="lg"
         icon="bug_report"
         color="primary"
         value="Create an issue"
         type="anchor"
         :href="issueUrl")
-      btn#ni-modal-error__btn-logs(
+      tm-btn#ni-modal-error__btn-logs(
         size="lg"
         icon="info_outline"
         value="View app logs"
@@ -22,10 +22,10 @@
 <script>
 import { remote, shell } from "electron"
 import { mapGetters } from "vuex"
-import Btn from "@nylira/vue-button"
+import { TmBtn } from "@tendermint/ui"
 export default {
   name: "ni-modal-error",
-  components: { Btn },
+  components: { TmBtn },
   computed: {
     ...mapGetters(["config", "lastHeader"]),
     errorIcon() {

@@ -7,8 +7,6 @@ modal.ni-modal-receive(v-if="active" :close="close")
 
 <script>
 import { mapGetters } from "vuex"
-import Btn from "@nylira/vue-button"
-import BtnCopy from "common/NiBtnCopy"
 import LiCopy from "common/NiLiCopy"
 import Modal from "common/NiModal"
 import Part from "common/NiPart"
@@ -16,8 +14,6 @@ export default {
   name: "ni-modal-receive",
   props: ["value"],
   components: {
-    Btn,
-    BtnCopy,
     LiCopy,
     Modal,
     Part

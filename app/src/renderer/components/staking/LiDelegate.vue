@@ -25,12 +25,10 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import Btn from "@nylira/vue-button"
 import { maxBy } from "lodash"
 export default {
   name: "li-delegate",
   props: ["delegate"],
-  components: { Btn },
   computed: {
     ...mapGetters([
       "shoppingCart",

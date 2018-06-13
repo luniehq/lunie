@@ -2,24 +2,22 @@
 modal.ni-modal-help(v-if="active" :close="close")
   div(slot='title') Need Help?
   p Something in the app not working correctly? Tell us what went wrong in developer chat or create an issue on our GitHub. Thanks for improving Cosmos Voyager!
-  list-item(
+  tm-list-item(
     title="Developer Chat"
     href="https://riot.im/app/#/room/#cosmos:matrix.org")
-  list-item(
+  tm-list-item(
     title="GitHub Issues"
     href="https://github.com/cosmos/voyager/issues")
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import Btn from "@nylira/vue-button"
 import Modal from "common/NiModal"
-import ListItem from "common/NiListItem"
+import { TmListItem } from "@tendermint/ui"
 export default {
   name: "ni-modal-help",
   components: {
-    ListItem,
-    Btn,
+    TmListItem,
     Modal
   },
   computed: {

@@ -1,5 +1,5 @@
 <template lang="pug">
-list-item.ni-li-user(
+tm-list-item.ni-li-user(
   v-if="user.signedIn"
   type="link"
   to="/preferences"
@@ -12,10 +12,10 @@ list-item.ni-li-user(
 <script>
 import { mapGetters } from "vuex"
 import noScroll from "no-scroll"
-import ListItem from "common/NiListItem"
+import { TmListItem } from "@tendermint/ui"
 export default {
   name: "ni-user-pane",
-  components: { ListItem },
+  components: { TmListItem },
   computed: { ...mapGetters(["user", "config"]) },
   methods: {
     close() {

@@ -28,12 +28,12 @@ page(title="Proposal: Freeform Text")
         v-if='!$v.fields.body.minLength || !$v.fields.body.maxLength')
     div(slot="footer")
       div
-      btn(icon="send" value="Propose" type="submit")
+      tm-btn(icon="send" value="Propose" type="submit")
 </template>
 
 <script>
 import { minLength, maxLength, required } from "vuelidate/lib/validators"
-import Btn from "@nylira/vue-button"
+import { TmBtn } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldGroup from "common/NiFieldGroup"
 import FormGroup from "common/NiFormGroup"
@@ -44,7 +44,7 @@ import ToolBar from "common/NiToolBar"
 export default {
   name: "page-proposals-text",
   components: {
-    Btn,
+    TmBtn,
     Field,
     FieldGroup,
     FormGroup,

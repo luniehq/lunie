@@ -19,10 +19,10 @@ page(title='Staking')
   .fixed-button-bar(v-if="!delegates.loading")
     template(v-if="userCanDelegate")
       .label #[strong {{ shoppingCart.length }}] delegates selected
-      btn(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next" color="primary")
+      tm-btn(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next" color="primary")
     template(v-else)
       .label You do not have any ATOMs to delegate.
-      btn(disabled icon="chevron_right" icon-pos="right" value="Next" color="primary")
+      tm-btn(disabled icon="chevron_right" icon-pos="right" value="Next" color="primary")
 </template>
 
 <script>
@@ -30,7 +30,7 @@ import { mapGetters } from "vuex"
 import { includes, orderBy, forEach } from "lodash"
 import Mousetrap from "mousetrap"
 import LiDelegate from "staking/LiDelegate"
-import Btn from "@nylira/vue-button"
+import { TmBtn } from "@tendermint/ui"
 import DataEmpty from "common/NiDataEmpty"
 import DataEmptySearch from "common/NiDataEmptySearch"
 import DataLoading from "common/NiDataLoading"
@@ -44,7 +44,7 @@ export default {
   name: "page-delegates",
   components: {
     LiDelegate,
-    Btn,
+    TmBtn,
     DataEmpty,
     DataEmptySearch,
     DataLoading,

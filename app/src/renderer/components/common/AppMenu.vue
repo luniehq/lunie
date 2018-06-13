@@ -1,29 +1,29 @@
 <template lang="pug">
 menu.app-menu
   .app-menu-main
-    list-item#app-menu__wallet(
+    tm-list-item#app-menu__wallet(
       to="/"
       exact
       @click.native="close"
       title="Wallet")
-    list-item#app-menu__transactions(
+    tm-list-item#app-menu__transactions(
       to="/wallet/transactions"
       exact
       @click.native="close"
       title="Transactions"
       v-if="config.devMode || mockedConnector")
-    list-item#app-menu__staking(
+    tm-list-item#app-menu__staking(
       to="/staking"
       exact
       @click.native="close" title="Staking"
       v-bind:class="{ 'active': isValidatorPage }"
       v-if="config.devMode || mockedConnector")
-    list-item#app-menu__proposals(
+    tm-list-item#app-menu__proposals(
       to="/proposals"
       exact @click.native="close"
       title="Proposals"
       v-if="config.devMode")
-    list-item#app-menu__blocks(
+    tm-list-item#app-menu__blocks(
       to="/blocks"
       exact
       @click.native="close"
@@ -36,15 +36,13 @@ menu.app-menu
 import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
-import Btn from "@nylira/vue-button"
 import ConnectedNetwork from "common/NiConnectedNetwork"
-import ListItem from "common/NiListItem"
+import { TmListItem } from "@tendermint/ui"
 import UserPane from "common/NiUserPane"
 import Part from "common/NiPart"
 export default {
   name: "app-menu",
   components: {
-    Btn,
     ConnectedNetwork,
     ListItem,
     Part,

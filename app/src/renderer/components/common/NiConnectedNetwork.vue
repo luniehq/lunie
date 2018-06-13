@@ -18,11 +18,9 @@
 
 <script>
 import { mapGetters } from "vuex"
-import ListItem from "common/NiListItem"
 import num from "scripts/num"
 export default {
   name: "ni-connected-network",
-  components: { ListItem },
   computed: {
     ...mapGetters(["lastHeader", "nodeIP", "connected", "mockedConnector"]),
     cssClass() {

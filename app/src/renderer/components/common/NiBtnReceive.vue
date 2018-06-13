@@ -1,5 +1,5 @@
 <template lang="pug">
-btn.btn-receive(
+tm-btn.btn-receive(
   @click.native.stop="openModal"
   value="Receive"
   icon="file_download"
@@ -9,7 +9,7 @@ btn.btn-receive(
 
 <script>
 import { clipboard } from "electron"
-import Btn from "@nylira/vue-button"
+import { TmBtn } from "@tendermint/ui"
 export default {
   components: { Btn },
   methods: {

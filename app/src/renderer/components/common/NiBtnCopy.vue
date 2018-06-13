@@ -1,5 +1,5 @@
 <template lang="pug">
-btn.btn-copy(
+tm-btn.btn-copy(
   icon="content_copy"
   @click.native="click"
   value="Copy")
@@ -7,9 +7,9 @@ btn.btn-copy(
 
 <script>
 import { clipboard } from "electron"
-import Btn from "@nylira/vue-button"
+import { TmBtn } from "@tendermint/ui"
 export default {
-  components: { Btn },
+  components: { TmBtn },
   computed: {
     notifyTitle() {
       if (this.title) return this.title

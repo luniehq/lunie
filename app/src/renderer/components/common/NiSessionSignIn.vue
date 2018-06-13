@@ -22,13 +22,13 @@
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
       form-msg(v-if='mockedConnector') default password is 1234567890
   .ni-session-footer
-    btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
+    tm-btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
-import Btn from "@nylira/vue-button"
+import { TmBtn } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldGroup from "common/NiFieldGroup"
 import FormGroup from "common/NiFormGroup"
@@ -37,7 +37,7 @@ import FormStruct from "common/NiFormStruct"
 export default {
   name: "ni-session-sign-in",
   components: {
-    Btn,
+    TmBtn,
     Field,
     FieldGroup,
     FormGroup,

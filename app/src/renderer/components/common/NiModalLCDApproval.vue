@@ -10,13 +10,13 @@
 
     .ni-modal-lcd-approval__footer
 
-      btn#ni-modal-lcd-approval__btn-approve(
+      tm-btn#ni-modal-lcd-approval__btn-approve(
         size="lg"
         icon="check"
         color="primary"
         value="Approve Node"
         @click.native="approve")
-      btn#ni-modal-lcd-approval__btn-disapprove(
+      tm-btn#ni-modal-lcd-approval__btn-disapprove(
         size="lg"
         icon="skip_next"
         value="Switch Node"
@@ -24,13 +24,13 @@
 </template>
 
 <script>
-import Btn from "@nylira/vue-button"
+import { TmBtn } from "@tendermint/ui"
 import FormGroup from "common/NiFormGroup"
 import Field from "@nylira/vue-field"
 export default {
   name: "modal-lcd-approval",
   components: {
-    Btn,
+    TmBtn,
     FormGroup,
     Field
   },

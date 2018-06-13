@@ -35,13 +35,11 @@
 import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import FundraiserWarning from "common/FundraiserWarning"
-import ListItem from "common/NiListItem"
 import LiSession from "common/NiLiSession"
 export default {
   name: "ni-session-welcome",
   components: {
     FundraiserWarning,
-    ListItem,
     LiSession
   },
   computed: {

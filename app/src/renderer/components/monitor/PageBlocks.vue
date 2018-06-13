@@ -10,13 +10,13 @@ page(title='Block Explorer')
   data-loading(v-if="!blockchain.syncing && !blockchain.subscription")
 
   part(title='Current Block' v-if="blockchain.subscription")
-    list-item(dt='Block Height' :dd='num.prettyInt(lastHeader.height)' :to="{ name: 'block', params: { block: lastHeader.height} }")
-    list-item(dt='Block Time' :dd='latestBlockTime')
-    list-item(dt='Block Hash' :dd='latestBlockHash')
+    tm-list-item(dt='Block Height' :dd='num.prettyInt(lastHeader.height)' :to="{ name: 'block', params: { block: lastHeader.height} }")
+    tm-list-item(dt='Block Time' :dd='latestBlockTime')
+    tm-list-item(dt='Block Hash' :dd='latestBlockHash')
 
   part(title='Latest Blocks' v-if="blockchain.subscription")
-    list-item.column-header(dt="Block Height" dd="# of Transactions")
-    list-item(
+    tm-list-item.column-header(dt="Block Height" dd="# of Transactions")
+    tm-list-item(
       v-for="block in blocks"
       :key="block.header.height"
       :dt="num.prettyInt(block.header.height)"
@@ -29,7 +29,7 @@ import moment from "moment"
 import Mousetrap from "mousetrap"
 import num from "scripts/num"
 import { mapGetters } from "vuex"
-import ListItem from "common/NiListItem"
+import { TmListItem } from "@tendermint/ui"
 import DataError from "common/NiDataError"
 import DataLoading from "common/NiDataLoading"
 import Page from "common/NiPage"
@@ -39,7 +39,7 @@ import ModalSearch from "common/NiModalSearch"
 export default {
   name: "page-blocks",
   components: {
-    ListItem,
+    TmListItem,
     DataError,
     DataLoading,
     Page,

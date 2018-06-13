@@ -48,13 +48,13 @@
           | I'd like to opt in for remote error tracking to help improve Voyager.
 
   .ni-session-footer
-    btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
+    tm-btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
 </template>
 
 <script>
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
 import PerfectScrollbar from "perfect-scrollbar"
-import Btn from "@nylira/vue-button"
+import { TmBtn } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldGroup from "common/NiFieldGroup"
 import FieldSeed from "common/NiFieldSeed"
@@ -64,7 +64,7 @@ import FormStruct from "common/NiFormStruct"
 export default {
   name: "ni-session-import",
   components: {
-    Btn,
+    TmBtn,
     Field,
     FieldGroup,
     FieldSeed,

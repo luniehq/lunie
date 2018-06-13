@@ -22,13 +22,13 @@ page(:title='proposal.title')
       color='hsl(0,0%,35%)' :active="votePick === 'abstain'" :results="voteVisible")
 
     div(slot='footer')
-      btn(theme='cosmos' type='button' @click.native="toggleVoteVisible" value='Toggle Results')
-      btn(theme='cosmos' type='submit' value='Confirm Vote')
+      tm-btn(theme='cosmos' type='button' @click.native="toggleVoteVisible" value='Toggle Results')
+      tm-btn(theme='cosmos' type='submit' value='Confirm Vote')
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import Btn from "@nylira/vue-button"
+import { TmBtn } from "@tendermint/ui"
 import FieldVote from "common/NiFieldVote"
 import FormStruct from "common/NiFormStruct"
 import Page from "common/NiPage"
@@ -38,7 +38,7 @@ import ToolBar from "common/NiToolBar"
 export default {
   name: "page-proposal",
   components: {
-    Btn,
+    TmBtn,
     FieldVote,
     FormStruct,
     Page,

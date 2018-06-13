@@ -47,8 +47,8 @@ page(title='Send')
 
     div(slot='footer')
       div
-      btn(v-if='sending' value='Sending...' disabled color="primary")
-      btn(v-else @click='onSubmit' value="Send Tokens" color="primary")
+      tm-btn(v-if='sending' value='Sending...' disabled color="primary")
+      tm-btn(v-else @click='onSubmit' value="Send Tokens" color="primary")
 </template>
 
 <script>
@@ -60,7 +60,7 @@ import {
   alphaNum
 } from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
-import Btn from "@nylira/vue-button"
+import { TmBtn } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldAddon from "common/NiFieldAddon"
 import FieldGroup from "common/NiFieldGroup"
@@ -72,7 +72,7 @@ import Part from "common/NiPart"
 import ToolBar from "common/NiToolBar"
 export default {
   components: {
-    Btn,
+    TmBtn,
     Field,
     FieldAddon,
     FieldGroup,

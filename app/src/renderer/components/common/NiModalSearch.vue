@@ -11,8 +11,8 @@
           step="1"
           placeholder="View block height..."
           v-model="query")
-        btn(value="Find")
-        btn(type="button" icon="close" @click.native="close")
+        tm-btn(value="Find")
+        tm-btn(type="button" icon="close" @click.native="close")
       form-msg(name="Query" type="numeric"
         v-if="!$v.filters.blocks.search.query.numeric")
       form-msg(name="Query" type="between" min="0"
@@ -23,20 +23,20 @@
       .ni-modal-search-field
         field#search-input.mousetrap(
           type="text" placeholder="Search..." v-model="query")
-        btn(icon="close" @click.native="close")
+        tm-btn(icon="close" @click.native="close")
 </template>
 
 <script>
 import { between, numeric } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
-import Btn from "@nylira/vue-button"
+import { TmBtn } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FormGroup from "common/NiFormGroup"
 import FormMsg from "common/NiFormMsg"
 export default {
   name: "modal-search",
   components: {
-    Btn,
+    TmBtn,
     Field,
     FormGroup,
     FormMsg

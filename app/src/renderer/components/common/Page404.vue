@@ -1,18 +1,18 @@
 <template lang="pug">
 page(title='404 - Page Not Found')
   part(title='Try another page...')
-    list-item(to='/' title='Balances')
-    list-item(to='/staking' title='Staking')
+    tm-list-item(to='/' title='Balances')
+    tm-list-item(to='/staking' title='Staking')
 </template>
 
 <script>
-import ListItem from "common/NiListItem"
+import { TmListItem } from "@tendermint/ui"
 import Page from "common/NiPage"
 import Part from "common/NiPart"
 export default {
   name: "page-404",
   components: {
-    ListItem,
+    TmListItem,
     Page,
     Part
   }

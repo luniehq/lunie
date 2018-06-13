@@ -98,7 +98,6 @@
     "xmlhttprequest": "1.8.0"
   },
   "dependencies": {
-    "@nylira/vue-button": "4.4.3",
     "@nylira/vue-field": "1.5.0",
     "@nylira/vue-notifications": "1.5.0",
     "@tendermint/ui": "tendermint/ui",
