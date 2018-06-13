@@ -6,7 +6,7 @@
       span.desktop-only Connected to
       span.chain-id(v-tooltip.top="networkTooltip")  {{ chainId }}
       |  via #[span {{ nodeAddress }}]
-      router-link.desktop-only(to="/preferences" v-if="!onPreferencesPage")
+      router-link#ni-connected-network_preferences-link.desktop-only(to="/preferences" v-if="!onPreferencesPage")
         |  (change network)
   .ni-connected-network__string#ni-connected-network__block
     span.desktop-only Current Block:
@@ -41,9 +41,8 @@ export default {
       if (this.mockedConnector) {
         return "127.0.0.1"
       }
-      if (this.nodeIP) {
-        return this.nodeIP
-      }
+
+      return this.nodeIP
     },
     chainId() {
       return this.lastHeader.chain_id
@@ -72,7 +71,6 @@ export default {
   background var(--app-fg)
   border 0.5rem solid var(--app-bg)
   color var(--dim)
-
   display flex
   align-items center
   justify-content space-between
@@ -95,6 +93,7 @@ export default {
 .ni-connected-network--mocked
   .ni-connected-network__icon
     background var(--warning)
+
   .chain-id
     color var(--warning)
 

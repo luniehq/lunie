@@ -84,4 +84,26 @@ describe("NiConnectedNetwork", () => {
         .text()
     ).toBe("Connecting to network…")
   })
+
+  it("shows a link to the preferences page if not on the preferences page", () => {
+    expect(wrapper.find("#ni-connected-network_preferences-link")).toBeDefined()
+    router.push("/preferences")
+    wrapper.update()
+    expect(wrapper.vm.$route.name).toBe("preferences")
+    expect(
+      wrapper.vm.$el.querySelector("#ni-connected-network_preferences-link")
+    ).toBeFalsy()
+  })
+
+  it("shows the connected node", async () => {
+    instance = mount(NiConnectedNetwork)
+    store = instance.store
+    router = instance.router
+    wrapper = instance.wrapper
+    store.state.node.mocked = false
+    store.state.node.nodeIP = "123.123.123.123"
+    wrapper.update()
+    expect(wrapper.vm.nodeAddress).toBe("123.123.123.123")
+    expect(wrapper.$el).toMatchSnapshot()
+  })
 })
