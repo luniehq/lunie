@@ -3,7 +3,7 @@
 exports[`AppMenu has the expected html structure 1`] = `
 "<menu class=\\"app-menu\\">
    <div class=\\"app-menu-main ps\\">
-      <a href=\\"#/\\" class=\\"ni-li ni-li-link router-link-exact-active router-link-active\\" exact=\\"exact\\">
+      <a href=\\"#/\\" class=\\"ni-li ni-li-link router-link-exact-active router-link-active\\" id=\\"app-menu__wallet\\" exact=\\"exact\\">
       <div class=\\"ni-li-container\\">
          <div class=\\"ni-li-thumb\\">
             <!---->
@@ -18,7 +18,7 @@ exports[`AppMenu has the expected html structure 1`] = `
       <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
    </div>
 </div>
-   </a><a href=\\"#/wallet/transactions\\" class=\\"ni-li ni-li-link\\" exact=\\"exact\\">
+   </a><a href=\\"#/wallet/transactions\\" class=\\"ni-li ni-li-link\\" id=\\"app-menu__transactions\\" exact=\\"exact\\">
    <div class=\\"ni-li-container\\">
       <div class=\\"ni-li-thumb\\">
          <!---->
@@ -33,7 +33,7 @@ exports[`AppMenu has the expected html structure 1`] = `
       <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
    </div>
 </div>
-   </a><a href=\\"#/staking\\" class=\\"ni-li ni-li-link\\" exact=\\"exact\\">
+   </a><a href=\\"#/staking\\" class=\\"ni-li ni-li-link\\" id=\\"app-menu__staking\\" exact=\\"exact\\">
    <div class=\\"ni-li-container\\">
       <div class=\\"ni-li-thumb\\">
          <!---->
@@ -48,7 +48,7 @@ exports[`AppMenu has the expected html structure 1`] = `
       <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
    </div>
 </div>
-   </a><a href=\\"#/proposals\\" class=\\"ni-li ni-li-link\\" exact=\\"exact\\">
+   </a><a href=\\"#/proposals\\" class=\\"ni-li ni-li-link\\" id=\\"app-menu__proposals\\" exact=\\"exact\\">
    <div class=\\"ni-li-container\\">
       <div class=\\"ni-li-thumb\\">
          <!---->
@@ -63,7 +63,7 @@ exports[`AppMenu has the expected html structure 1`] = `
       <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
    </div>
 </div>
-   </a><a href=\\"#/blocks\\" class=\\"ni-li ni-li-link\\" exact=\\"exact\\">
+   </a><a href=\\"#/blocks\\" class=\\"ni-li ni-li-link\\" id=\\"app-menu__blocks\\" exact=\\"exact\\">
    <div class=\\"ni-li-container\\">
       <div class=\\"ni-li-thumb\\">
          <!---->

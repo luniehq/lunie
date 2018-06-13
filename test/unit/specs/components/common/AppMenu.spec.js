@@ -21,4 +21,27 @@ describe("AppMenu", () => {
   it("has the expected html structure", () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
+
+  it("checks whether current page is validators", () => {
+    expect(wrapper.vm.isValidatorPage).toBeFalsy()
+  })
+
+  it("has a perfect scrollbar", () => {
+    expect(wrapper.vm.ps).toBeDefined()
+  })
+
+  it("shows staking page because of mocked connector", () => {
+    expect(wrapper.find("#app-menu__staking")).toBeDefined()
+  })
+
+  it("shows transactions page because of mocked connector", () => {
+    expect(wrapper.find("#app-menu__transactions")).toBeDefined()
+  })
+
+  it("can close the app menu", () => {
+    wrapper.find("#app-menu__wallet").trigger("click")
+    expect(store.commit).toHaveBeenCalled()
+    expect(store.commit.mock.calls[0][0]).toBe("setActiveMenu")
+    expect(store.commit.mock.calls[0][1]).toBeFalsy()
+  })
 })

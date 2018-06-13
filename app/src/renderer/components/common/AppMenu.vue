@@ -1,29 +1,29 @@
 <template lang="pug">
 menu.app-menu
   .app-menu-main
-    list-item(
+    list-item#app-menu__wallet(
       to="/"
       exact
       @click.native="close"
       title="Wallet")
-    list-item(
+    list-item#app-menu__transactions(
       to="/wallet/transactions"
       exact
       @click.native="close"
       title="Transactions"
       v-if="config.devMode || mockedConnector")
-    list-item(
+    list-item#app-menu__staking(
       to="/staking"
       exact
       @click.native="close" title="Staking"
       v-bind:class="{ 'active': isValidatorPage }"
       v-if="config.devMode || mockedConnector")
-    list-item(
+    list-item#app-menu__proposals(
       to="/proposals"
       exact @click.native="close"
       title="Proposals"
       v-if="config.devMode")
-    list-item(
+    list-item#app-menu__blocks(
       to="/blocks"
       exact
       @click.native="close"
@@ -59,11 +59,7 @@ export default {
       "mockedConnector"
     ]),
     isValidatorPage() {
-      if (this.$route) {
-        return this.$route.params.validator
-      } else {
-        return false
-      }
+      return this.$route.params.validator
     }
   },
   data: () => ({
