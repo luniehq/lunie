@@ -1,28 +1,18 @@
-import Vuex from "vuex"
-import { mount, createLocalVue } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
 import NiConnectedNetwork from "common/NiConnectedNetwork"
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
+import htmlBeautify from "html-beautify"
+import setup from "../../../helpers/vuex-setup"
 
 describe("NiConnectedNetwork", () => {
-  let wrapper
-  let store = new Vuex.Store({
-    getters: {
-      connected: () => true,
-      lastHeader: () => ({ chain_id: "gaia-home", height: "31337" }),
-      nodeIP: () => "127.0.0.1",
-      mockedConnector: () => false
-    }
-  })
-  store.commit = jest.fn()
+  let wrapper, router, store, instance
+  let { mount } = setup()
 
-  beforeEach(() => {
-    wrapper = mount(NiConnectedNetwork, {
-      localVue,
-      store
-    })
+  beforeEach(async () => {
+    instance = mount(NiConnectedNetwork)
+    store = instance.store
+    router = instance.router
+    wrapper = instance.wrapper
+    await store.dispatch("setMockedConnector", true)
+    wrapper.update()
   })
 
   it("has the expected html structure", () => {
@@ -44,7 +34,7 @@ describe("NiConnectedNetwork", () => {
         .find("#ni-connected-network__string")
         .text()
         .trim()
-    ).toBe("Connected to gaia-home via 127.0.0.1 (change network)")
+    ).toBe("Connected to test-net via 127.0.0.1 (change network)")
   })
 
   it("has a block string", () => {
@@ -53,6 +43,27 @@ describe("NiConnectedNetwork", () => {
         .find("#ni-connected-network__block")
         .text()
         .trim()
-    ).toBe("Current Block: #31,337")
+    ).toBe("Current Block: #42")
+  })
+
+  it("has a certain style for mockedConnector", () => {
+    expect(wrapper.find("#ni-connected-network").classes()).toContain(
+      "ni-connected-network--mocked"
+    )
+  })
+  it("has a network tooltip for mockedConnector", () => {
+    expect(wrapper.vm.networkTooltip).toBe(
+      "Note: `mock-chain` does not have real peers."
+    )
+  })
+
+  it("has a node address for mockedConnector", () => {
+    expect(wrapper.vm.nodeAddress).toBe("127.0.0.1")
+  })
+  it("has a chain id for mockedConnector", () => {
+    expect(wrapper.vm.chainId).toBe("test-net")
+  })
+  it("has a block height for mockedConnector", () => {
+    expect(wrapper.vm.blockHeight).toBe("#42")
   })
 })

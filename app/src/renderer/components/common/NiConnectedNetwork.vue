@@ -13,7 +13,7 @@
     router-link(to="/blocks" v-tooltip.top="'View Block'")  {{ blockHeight }}
 .ni-connected-network(v-else)
   .ni-connected-network__icon: i.material-icons.fa-spin rotate_right
-  .ni-connected-network__string Connected to network&hellip;
+  .ni-connected-network__string Connecting to network&hellip;
 </template>
 
 <script>
