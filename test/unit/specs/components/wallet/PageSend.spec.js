@@ -174,4 +174,17 @@ describe("PageSend", () => {
     expect(store.state.notifications[0].title).toBe("Error Sending")
     expect(store.state.notifications[0]).toMatchSnapshot()
   })
+
+  it("validates bech32 addresses", () => {
+    expect(
+      wrapper.vm.bech32Validate(
+        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      )
+    ).toBe(true)
+    expect(
+      wrapper.vm.bech32Validate(
+        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqprm5ctpesxxn9"
+      )
+    ).toBe(false)
+  })
 })
