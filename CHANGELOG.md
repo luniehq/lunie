@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Not shrinking stacktrace anymore @faboweb
 * Improved the visibility and readability of the current network connection. @nylira
 * Updated electron to v2.0.2 @okwme
+* The release builds now have more sensible names. @NodeGuy
 
 ### Added
 

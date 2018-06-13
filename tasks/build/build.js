@@ -32,19 +32,6 @@ const rewriteConfig = ({ network }) => {
   fs.writeFileSync(file, newConfig)
 }
 
-// electron-packager options
-// Docs: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/building_your_app.html
-const building = {
-  arch: "x64",
-  asar: false,
-  dir: path.join(__dirname, "../../app"),
-  icon: path.join(__dirname, "../../app/icons/icon"),
-  ignore: /^\/(src|index\.ejs|icons)/,
-  out: path.join(__dirname, "../../builds"),
-  overwrite: true,
-  packageManager: "yarn"
-}
-
 const copyGaia = (buildPath, electronVersion, platform, arch, callback) => {
   const platformPath = platform === `win32` ? `windows` : platform
 
@@ -71,17 +58,15 @@ function sha256File(path) {
   })
 }
 
-const zipFolder = async (inDir, outDir, tag) => {
-  const { name } = path.parse(inDir)
-  const outFile = path.join(outDir, `${name}_${tag}.zip`)
+const zipFolder = async (inDir, outDir) => {
+  const outFile = path.join(outDir, `${path.basename(inDir)}.zip`)
   await util.promisify(zip)(inDir, outFile, { cwd: inDir })
   const hash = await sha256File(outFile)
   console.log("Zip successful!", outFile, "SHA256:", hash)
 }
 
-async function tarFolder(inDir, outDir, tag) {
-  let name = path.parse(inDir).name
-  let outFile = path.join(outDir, `${name}_${tag}.tar.gz`)
+async function tarFolder(inDir, outDir) {
+  let outFile = path.join(outDir, `${path.basename(inDir)}.tar.gz`)
   var pack = tar.pack()
 
   let files = glob(inDir + "/**", { sync: true })
@@ -163,31 +148,55 @@ function deterministicTar() {
   return duplexer(extract, pack)
 }
 
+const platformNames = {
+  darwin: `macOS`,
+  linux: `Linux`,
+  win32: `Windows`
+}
+
+// Choose better names than Electron Packager does for the application paths.
+const packagerWrapper = async ({ productName, version }, options) => {
+  const source = (await packager(options))[0]
+
+  const destination = `${productName} v${version} (${
+    platformNames[options.platform]
+  })`
+
+  await fs.move(source, destination, {
+    overwrite: true
+  })
+
+  return destination
+}
+
 /**
  * Use electron-packager to build electron app
  */
 const build = async platform => {
-  const options = Object.assign({}, building, {
+  // electron-packager options
+  // Docs: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/building_your_app.html
+  const options = {
     afterCopy: [copyGaia],
+    arch: "x64",
+    asar: false,
+    dir: path.join(__dirname, "../../app"),
+    icon: path.join(__dirname, "../../app/icons/icon"),
+    ignore: /^\/(src|index\.ejs|icons)/,
+    out: path.join(__dirname, "../../builds"),
+    overwrite: true,
+    packageManager: "yarn",
     platform
-  })
+  }
 
   console.log(
     `\x1b[34mBuilding electron app(s) for platform ${platform}...\n\x1b[0m`
   )
 
-  const appPaths = await packager(options)
+  const appPath = await packagerWrapper(packageJson, options)
   console.log("Build(s) successful!")
-  console.log(appPaths)
+  console.log(appPath)
   console.log("\n\x1b[34mArchiving files...\n\x1b[0m")
-  const tag = `v${packageJson.version}`
-
-  await Promise.all(
-    appPaths.map(appPath =>
-      (platform === "win32" ? zipFolder : tarFolder)(appPath, options.out, tag)
-    )
-  )
-
+  await (platform === `linux` ? tarFolder : zipFolder)(appPath, options.out)
   console.log("\n\x1b[34mDONE\n\x1b[0m")
 }
 
