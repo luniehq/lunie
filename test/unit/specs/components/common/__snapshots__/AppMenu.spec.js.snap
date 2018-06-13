@@ -91,7 +91,7 @@ exports[`AppMenu has the expected html structure 1`] = `
          <i class=\\"material-icons fa-spin\\">rotate_right</i>
       </div>
    <div class=\\"ni-connected-network__string\\">
-      Connected to network…
+      Connecting to network…
    </div>
 </div>
    <a href=\\"#/preferences\\" class=\\"ni-li ni-li-link ni-li-user proposal-enter proposal-enter-active\\">
