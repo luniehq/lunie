@@ -2,7 +2,7 @@ let fs = require("fs-extra")
 let { join } = require("path")
 const { remote } = require("electron")
 const root = remote.getGlobal("root")
-import b32 from "scripts/b32"
+
 export default ({ commit, node }) => {
   let state = {
     balances: [],

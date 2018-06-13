@@ -12,6 +12,7 @@ let { openMenu, login } = require("./common.js")
 
 test("sign in", async function(t) {
   let { app } = await getApp(t)
+
   await refresh(app)
   let el = (...args) => app.client.$(...args)
   // clicking the button does fail in webdriver as there is no actual click handler on the button

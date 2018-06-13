@@ -14,8 +14,11 @@ export default ({ dispatch, node }) => {
       state.delegates = delegates
     },
     addDelegate(state, delegate) {
-      delegate.id = delegate.pub_key.data
+      delegate.id = delegate.owner
       Object.assign(delegate, delegate.description)
+
+      // TODO: calculate voting power
+      delegate.voting_power = parseRat(delegate.pool_shares.amount)
 
       // update if we already have this delegate
       for (let existingDelegate of state.delegates) {
@@ -35,14 +38,12 @@ export default ({ dispatch, node }) => {
         dispatch("getDelegates")
       }
     },
-    async getDelegates({ state, dispatch, rootState, commit }) {
+    async getDelegates({ state, dispatch, commit, rootState }) {
       commit("setDelegateLoading", true)
-      let delegatePubkeys = (await node.candidates()).data
-      await Promise.all(
-        delegatePubkeys.map(pubkey => {
-          return dispatch("getDelegate", pubkey)
-        })
-      )
+      let delegates = await node.candidates()
+      for (let delegate of delegates) {
+        commit("addDelegate", delegate)
+      }
       commit(
         "setDelegates",
         indicateValidators(state.delegates, rootState.config.maxValidators)
@@ -50,12 +51,6 @@ export default ({ dispatch, node }) => {
       commit("setDelegateLoading", false)
 
       return state.delegates
-    },
-    async getDelegate({ commit }, pubkey) {
-      let delegate = (await node.candidate(pubkey.data)).data
-      delegate.isValidator = false
-      commit("addDelegate", delegate)
-      return delegate
     }
   }
 
@@ -64,4 +59,11 @@ export default ({ dispatch, node }) => {
     mutations,
     actions
   }
+}
+
+// parse sdk rational number string
+function parseRat(ratStr = "") {
+  let [numerator, denominator] = ratStr.split("/")
+  if (!denominator) return +numerator
+  return +numerator / +denominator
 }

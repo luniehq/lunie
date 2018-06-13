@@ -38,14 +38,15 @@ test("preferences", async function(t) {
     })
     t.test("mock network", async function(t) {
       await selectOption(app, "#select-network select", "mock")
+      await app.client.waitForVisible(".ni-session-wrapper", 5000)
       // await networkSelect().selectByVisibleText("Mock Testnet")
-      await sleep(1000)
+      // await sleep(1000)
 
       await login(app, "default")
 
-      await navigate(app, "default", "Preferences") //should click preferences link with username
+      // await navigate(app, "default", "Preferences") //should click preferences link with username
 
-      await sleep(1000)
+      // await sleep(1000)
       let network = await $(
         "#app-content .ni-connectivity .ni-li-title"
       ).getText()

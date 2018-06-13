@@ -30,19 +30,6 @@ describe("LCD Client", () => {
     ])
   })
 
-  it("makes a GET request with multiple args", async () => {
-    axios.get = jest
-      .fn()
-      .mockReturnValueOnce(Promise.resolve({ data: { foo: "bar" } }))
-
-    let res = await client.bondingsByDelegator(["foo", "bar"])
-    expect(res).toEqual({ foo: "bar" })
-    expect(axios.get.mock.calls[0]).toEqual([
-      "http://localhost:8998/query/stake/delegator/foo/bar",
-      undefined
-    ])
-  })
-
   it("makes a POST request", async () => {
     axios.post = jest
       .fn()

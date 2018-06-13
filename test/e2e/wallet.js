@@ -9,7 +9,10 @@ let {
   login,
   closeNotifications
 } = require("./common.js")
-
+let {
+  addresses
+} = require("../../app/src/renderer/connectors/lcdClientMock.js")
+console.log(addresses)
 let binary = process.env.BINARY_PATH
 
 /*
@@ -74,7 +77,7 @@ test("wallet", async function(t) {
     let addressInput = () => $("#send-address")
     let amountInput = () => $("#send-amount")
     let denomBtn = denom => $(`option=${denom.toUpperCase()}`)
-    let balance = 9007199254740992
+    let defaultBalance = 9007199254740992
     t.test("fermion balance before sending", async function(t) {
       await app.client.waitForExist(
         `//span[contains(text(), "Send")]`,
@@ -82,8 +85,7 @@ test("wallet", async function(t) {
       )
 
       let fermionEl = balanceEl("fermion")
-      let balance = await fermionEl.getText()
-      t.equal(balance, balance.toString(), "fermion balance is correct")
+      waitForText(() => fermionEl, defaultBalance.toString())
       t.end()
     })
 
@@ -134,7 +136,7 @@ test("wallet", async function(t) {
 
     t.test("correct address mis-typed", async function(t) {
       await goToSendPage()
-      let validAddress = "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
+      let validAddress = addresses[0]
       let invalidAddress = validAddress.slice(0, -1) + "4"
       await addressInput().setValue(invalidAddress)
 
@@ -161,7 +163,7 @@ test("wallet", async function(t) {
       await goToSendPage()
       await amountInput().setValue("100")
       await addressInput().setValue(
-        "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem545"
+        "cosmosaccaddr1xrnylx3l5mptnpjd4h0d52wtvealsdnv5k77n8"
       )
       await sendBtn().click()
       await app.client.waitForExist(".ni-notification", 10 * 1000)
@@ -182,7 +184,7 @@ test("wallet", async function(t) {
       await app.client.$(".material-icons=refresh").click()
 
       let mycoinEl = () => balanceEl("fermion")
-      await waitForText(mycoinEl, (balance - 100).toString(), 10000)
+      await waitForText(mycoinEl, (defaultBalance - 100).toString(), 10000)
       t.pass("balance is reduced by 100")
       t.end()
     })
