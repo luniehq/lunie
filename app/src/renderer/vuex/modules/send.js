@@ -15,6 +15,7 @@ export default ({ commit, node }) => {
     args.sequence = state.nonce
     args.name = rootState.user.account
     args.password = rootState.user.password
+    args.account_number = rootState.wallet.accountNumber // TODO move into LCD?
 
     let chainId = rootState.node.lastHeader.chain_id
     // TODO enable again when IBC is enabled
