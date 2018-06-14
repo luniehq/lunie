@@ -24,9 +24,9 @@
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@tendermint/ui@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.1.0.tgz#73be0c3c59edef88693e6b62bbc2d003b2c5efad"
+"@tendermint/ui@https://github.com/tendermint/ui.git":
+  version "0.1.1"
+  resolved "https://github.com/tendermint/ui.git#5524f8a09eccf35132dcec0c603e1f9076e2157b"
   dependencies:
     moment "^2.22.2"
     vue "^2.5.16"
