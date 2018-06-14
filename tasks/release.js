@@ -76,14 +76,8 @@ of transactions, and we will also add hardware support for this UI.
 
 Please checkout the [CHANGELOG.md](CHANGELOG.md) for a list of changes.
 `,
-    draft: false,
     prerelease: true,
-    skipAssetsCheck: false,
-    assets: [
-      path.join(__dirname, `../builds/Cosmos Voyager ${tag} (Linux).tar.gz`),
-      path.join(__dirname, `../builds/Cosmos Voyager ${tag} (macOS).tar.gz`),
-      path.join(__dirname, `../builds/Cosmos Voyager ${tag} (Windows).zip`)
-    ]
+    assets: fs.readdirSync(path.join(__dirname, `../builds/Voyager`))
   })
 
 async function main() {

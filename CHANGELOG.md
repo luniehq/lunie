@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Updated electron to v2.0.2 @okwme
 * The release builds now have more sensible names. @NodeGuy
 * Transactions use the account number to prevent attacks @faboweb
+* Building Voyager now builds Gaia if not found @NodeGuy
 
 ### Added
 
@@ -37,6 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Theme switching bug @okwme
 * Electron dev tool version bug @okwme
 * Update delegations also in the wallet view @faboweb
+* The release builds forgot to include the network configuration. @NodeGuy
 
 ## [0.6.2] - 2018-05-23
 
