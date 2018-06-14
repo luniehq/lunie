@@ -15,10 +15,12 @@ export default ({ commit, node }) => {
     args.sequence = state.nonce
     args.name = rootState.user.account
     args.password = rootState.user.password
+    args.account_number = rootState.wallet.accountNumber // TODO move into LCD?
 
     let chainId = rootState.node.lastHeader.chain_id
-    args.chain_id = chainId
-    args.src_chain_id = chainId // for IBC transfer
+    // TODO enable again when IBC is enabled
+    // args.chain_id = chainId
+    // args.src_chain_id = chainId // for IBC transfer
 
     // extract type
     let type = args.type || "send"
@@ -27,9 +29,13 @@ export default ({ commit, node }) => {
     // extract "to" address
     let to = args.to
     delete args.to
+    args.gas = 500000
 
     // submit to LCD to build, sign, and broadcast
-    let res = to ? await node[type](to, args) : await node[type](args)
+    let req = to ? node[type](to, args) : node[type](args)
+    let res = await req.catch(err => {
+      throw new Error(err.message)
+    })
 
     // check response code
     assertOk(res)

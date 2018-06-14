@@ -1,20 +1,30 @@
 "use strict"
+const b32 = require("../scripts/b32.js")
 
+const addresses = [
+  "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+  "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546"
+]
+const validators = [
+  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+]
 let state = {
   keys: [
     {
       name: "default",
       password: "1234567890",
-      address: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+      address: addresses[0]
     },
     {
       name: "nonexistent_account",
       password: "1234567890",
-      address: "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+      address: addresses[1]
     }
   ],
   accounts: {
-    DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B: {
+    [addresses[0]]: {
       coins: [
         {
           denom: "mycoin",
@@ -49,7 +59,7 @@ let state = {
       }
     }
   ],
-  nonces: { DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B: 0 },
+  nonces: { [addresses[0]]: 0 },
   txs: [
     {
       tx: {
@@ -73,7 +83,7 @@ let state = {
                 amount: 1234
               }
             ],
-            receiver: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+            receiver: addresses[0]
           }
         ]
       },
@@ -90,7 +100,7 @@ let state = {
                 amount: 1234
               }
             ],
-            sender: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
+            sender: addresses[0]
           }
         ],
         outputs: [
@@ -109,10 +119,10 @@ let state = {
     }
   ],
   stake: {
-    DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B: {
-      "70705055A9FA5901735D0C3F0954501DDE667327": {
-        delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-        validator_addr: "70705055A9FA5901735D0C3F0954501DDE667327",
+    [addresses[0]]: {
+      [validators[0]]: {
+        delegator_addr: addresses[0],
+        validator_addr: validators[0],
         shares: "5/1",
         height: 123
       }
@@ -120,7 +130,7 @@ let state = {
   },
   candidates: [
     {
-      owner: "70705055A9FA5901735D0C3F0954501DDE667327",
+      owner: validators[0],
       pub_key: {
         type: "AC26791624DE60",
         data: "t3zVnKU42WNH+NtYFcstZRLFVULWV8VagoP0HwW43Pk="
@@ -134,7 +144,7 @@ let state = {
       }
     },
     {
-      owner: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+      owner: validators[1],
       pub_key: {
         type: "AC26791624DE60",
         data: "9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w="
@@ -147,7 +157,7 @@ let state = {
       }
     },
     {
-      owner: "77C26DF82654C5A5DDE5C6B7B27F3F06E9C223C0",
+      owner: validators[2],
       pub_key: {
         type: "AC26791624DE60",
         data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0="
@@ -375,7 +385,11 @@ module.exports = {
   },
   async candidates() {
     return state.candidates
-  }
+  },
+  // exports to be used in tests
+  state,
+  addresses,
+  validators
 }
 
 function makeAddress() {
@@ -385,8 +399,7 @@ function makeAddress() {
   for (var i = 0; i < 40; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length))
   }
-
-  return text
+  return b32.encode(text)
 }
 
 // function delegate (sender, { pub_key: { data: pubKey }, amount: delegation }) {

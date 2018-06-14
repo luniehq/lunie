@@ -1,9 +1,11 @@
+import b32 from "scripts/b32"
+
 describe("LCD Client Mock", () => {
-  let client
+  let client, lcdClientMock
 
   beforeEach(() => {
     jest.resetModules()
-    let lcdClientMock = require("renderer/connectors/lcdClientMock.js")
+    lcdClientMock = require("renderer/connectors/lcdClientMock.js")
     client = lcdClientMock
   })
 
@@ -23,8 +25,13 @@ describe("LCD Client Mock", () => {
       password: "1234567890",
       seed
     })
-    expect(res.length).toBe(40)
-
+    try {
+      b32.decode(res)
+      expect(true).toBe(true)
+    } catch (error) {
+      console.log(error)
+      expect(false).toBe(true)
+    }
     res = await client.listKeys()
     expect(res.find(k => k.name === "foo")).toBeDefined()
 
@@ -72,7 +79,7 @@ describe("LCD Client Mock", () => {
   })
 
   xit("persists a sent tx", async () => {
-    let res = await client.coinTxs("DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B")
+    let res = await client.coinTxs(lcdClientMock.addresses[0])
     expect(res.length).toBe(2) // predefined txs
 
     let { address: toAddr } = await client.storeKey({
@@ -93,14 +100,12 @@ describe("LCD Client Mock", () => {
     })
     expect(res.height).toBeDefined()
 
-    res = await client.coinTxs("DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B")
+    res = await client.coinTxs(lcdClientMock.addresses[0])
     expect(res.length).toBe(3)
   })
 
   it("query and update the nonce", async () => {
-    let { sequence } = await client.queryAccount(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-    )
+    let { sequence } = await client.queryAccount(lcdClientMock.addresses[0])
     expect(sequence).toBe(1)
 
     let { address: toAddr } = await client.storeKey({
@@ -119,16 +124,12 @@ describe("LCD Client Mock", () => {
         }
       ]
     })
-    let account = await client.queryAccount(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-    )
+    let account = await client.queryAccount(lcdClientMock.addresses[0])
     expect(account.sequence).toBe(2)
   })
 
   it("queries an account", async () => {
-    let data = await client.queryAccount(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-    )
+    let data = await client.queryAccount(lcdClientMock.addresses[0])
     expect(data.coins.find(c => c.denom === "mycoin").amount).toBe(1000)
 
     let res = await client.queryAccount("address_doesnt_exist")
@@ -136,7 +137,7 @@ describe("LCD Client Mock", () => {
   })
 
   it("sends coins", async () => {
-    let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
+    let toAddr = "tb1424xlh5d8q86tv4dyrdjjckg9h02rmd2c4v7dc"
     let res = await client.send(toAddr, {
       sequence: 1,
       name: "default",
@@ -150,9 +151,7 @@ describe("LCD Client Mock", () => {
     })
     expect(res.check_tx.code).toBe(0)
 
-    let account = await client.queryAccount(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-    )
+    let account = await client.queryAccount(lcdClientMock.addresses[0])
     expect(account.coins.find(c => c.denom === "mycoin").amount).toBe(950)
 
     let receiveAccount = await client.queryAccount(toAddr)
@@ -160,7 +159,7 @@ describe("LCD Client Mock", () => {
   })
 
   it("sends coins to existing account", async () => {
-    let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
+    let toAddr = "tb1424xlh5d8q86tv4dyrdjjckg9h02rmd2c4v7dc"
     let res = await client.send(toAddr, {
       sequence: 1,
       name: "default",
@@ -187,9 +186,7 @@ describe("LCD Client Mock", () => {
     })
     expect(res.check_tx.code).toBe(0)
 
-    let account = await client.queryAccount(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
-    )
+    let account = await client.queryAccount(lcdClientMock.addresses[0])
     expect(account.coins.find(c => c.denom === "mycoin").amount).toBe(900)
 
     let receiveAccount = await client.queryAccount(toAddr)
@@ -219,7 +216,7 @@ describe("LCD Client Mock", () => {
   })
 
   it("fails to send coins from a nonexistent account", async () => {
-    let toAddr = "AAAA6FDE8D380FA5B2AD20DB2962C82DDEA1EDAA"
+    let toAddr = "tb1424xlh5d8q86tv4dyrdjjckg9h02rmd2c4v7dc"
     await client.storeKey({
       name: "somekey",
       password: "1234567890",
@@ -266,16 +263,16 @@ describe("LCD Client Mock", () => {
 
   it("queries bondings per delegator", async () => {
     let res = await client.queryDelegation(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "70705055A9FA5901735D0C3F0954501DDE667327"
+      lcdClientMock.addresses[0],
+      lcdClientMock.validators[0]
     )
     expect(res.shares).toBe("5/1")
   })
 
   it("executes a delegate tx", async () => {
     let stake = await client.queryDelegation(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31"
+      lcdClientMock.addresses[0],
+      lcdClientMock.validators[2]
     )
     expect(stake).toBeUndefined()
 
@@ -284,8 +281,8 @@ describe("LCD Client Mock", () => {
       name: "default",
       delegate: [
         {
-          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[2],
           bond: { denom: "mycoin", amount: 10 }
         }
       ],
@@ -296,8 +293,8 @@ describe("LCD Client Mock", () => {
     expect(res[0].check_tx.code).toBe(0)
 
     let updatedStake = await client.queryDelegation(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31"
+      lcdClientMock.addresses[0],
+      lcdClientMock.validators[2]
     )
     expect(updatedStake.shares).toBe("10/1")
   })
@@ -308,8 +305,8 @@ describe("LCD Client Mock", () => {
       name: "default",
       delegate: [
         {
-          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[2],
           bond: { denom: "mycoin", amount: 10 }
         }
       ],
@@ -320,8 +317,8 @@ describe("LCD Client Mock", () => {
     expect(res[0].check_tx.code).toBe(0)
 
     let initialStake = await client.queryDelegation(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31"
+      lcdClientMock.addresses[0],
+      lcdClientMock.validators[2]
     )
     expect(initialStake.shares).toBe("10/1")
 
@@ -331,8 +328,8 @@ describe("LCD Client Mock", () => {
       delegate: [],
       unbond: [
         {
-          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[2],
           shares: "5/1"
         }
       ]
@@ -342,8 +339,8 @@ describe("LCD Client Mock", () => {
     expect(res[0].check_tx.code).toBe(0)
 
     let updatedStake = await client.queryDelegation(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31"
+      lcdClientMock.addresses[0],
+      lcdClientMock.validators[2]
     )
     expect(updatedStake.shares).toBe("5/1")
   })
@@ -354,8 +351,8 @@ describe("LCD Client Mock", () => {
       name: "default",
       delegate: [
         {
-          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[2],
           bond: { denom: "mycoin", amount: 100000 }
         }
       ],
@@ -372,8 +369,8 @@ describe("LCD Client Mock", () => {
       name: "default",
       delegate: [
         {
-          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[2],
           bond: { denom: "mycoin", amount: 10 }
         }
       ],
@@ -388,8 +385,8 @@ describe("LCD Client Mock", () => {
       name: "default",
       delegate: [
         {
-          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[2],
           bond: { denom: "mycoin", amount: 10 }
         }
       ],
@@ -406,8 +403,8 @@ describe("LCD Client Mock", () => {
       name: "nonexistent_account",
       delegate: [
         {
-          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[2],
           bond: { denom: "mycoin", amount: 10 }
         }
       ],
@@ -424,13 +421,13 @@ describe("LCD Client Mock", () => {
       name: "default",
       delegate: [
         {
-          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[2],
           bond: { denom: "mycoin", amount: 10 }
         },
         {
-          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-          validator_addr: "70705055A9FA5901735D0C3F0954501DDE667327",
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[0],
           bond: { denom: "mycoin", amount: 10 }
         }
       ],
@@ -443,14 +440,14 @@ describe("LCD Client Mock", () => {
     expect(res[1].check_tx.code).toBe(0)
 
     let stake1 = await client.queryDelegation(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31"
+      lcdClientMock.addresses[0],
+      lcdClientMock.validators[2]
     )
     expect(stake1.shares).toBe("10/1")
 
     let stake2 = await client.queryDelegation(
-      "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-      "70705055A9FA5901735D0C3F0954501DDE667327"
+      lcdClientMock.addresses[0],
+      lcdClientMock.validators[0]
     )
     expect(stake2.shares).toBe("15/1")
   })
@@ -461,8 +458,8 @@ describe("LCD Client Mock", () => {
       name: "default",
       delegate: [
         {
-          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[2],
           bond: { denom: "mycoin", amount: -10 }
         }
       ],
@@ -480,8 +477,8 @@ describe("LCD Client Mock", () => {
       delegate: [],
       unbond: [
         {
-          delegator_addr: "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B",
-          validator_addr: "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[2],
           shares: "10/1"
         }
       ]

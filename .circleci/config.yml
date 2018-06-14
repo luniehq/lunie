@@ -35,14 +35,14 @@ jobs:
       - image: circleci/node:9.4.0-browsers
 
     environment:
-      - BINARY_PATH: "/home/circleci/project/builds/gaia/linux_amd64/gaiacli"
-      - NODE_BINARY_PATH: "/home/circleci/project/builds/gaia/linux_amd64/gaiad"
+      - BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiacli"
+      - NODE_BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiad"
 
     steps:
       - checkout
 
       - attach_workspace:
-          at: builds/gaia
+          at: builds/Gaia
 
       - run: tasks/changelog-changed-check.sh
 
@@ -82,9 +82,9 @@ jobs:
       - run: yarn install
 
       - attach_workspace:
-          at: builds/gaia
+          at: builds/Gaia
 
-      - run: node ci/release.js
+      - run: node tasks/release.js
 
 workflows:
   version: 2

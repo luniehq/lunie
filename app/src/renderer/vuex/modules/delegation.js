@@ -81,6 +81,10 @@ export default ({ commit, node }) => {
         value
       })
     },
+    async updateDelegates({ dispatch }) {
+      let candidates = await dispatch("getDelegates")
+      dispatch("getBondedDelegates", candidates)
+    },
     submitDelegation({ rootState, state, dispatch }, delegations) {
       let delegate = []
       let unbond = []

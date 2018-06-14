@@ -43,14 +43,9 @@ describe("Module: Delegates", () => {
 
   it("fetches all candidates", async () => {
     await store.dispatch("getDelegates")
-    expect(store.state.delegates.delegates[0].owner).toBe(
-      "70705055A9FA5901735D0C3F0954501DDE667327"
-    )
-    expect(store.state.delegates.delegates[1].owner).toBe(
-      "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31"
-    )
-    expect(store.state.delegates.delegates[2].owner).toBe(
-      "77C26DF82654C5A5DDE5C6B7B27F3F06E9C223C0"
+    let lcdClientMock = require("renderer/connectors/lcdClientMock.js")
+    expect(store.state.delegates.delegates.map(x => x.owner)).toEqual(
+      lcdClientMock.validators
     )
   })
 

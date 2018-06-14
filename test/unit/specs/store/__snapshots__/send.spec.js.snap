@@ -5,17 +5,17 @@ Array [
   Array [
     "zone/address",
     Object {
+      "account_number": 123,
       "amount": Array [
         Object {
           "amount": 123,
           "denom": "mycoin",
         },
       ],
-      "chain_id": "",
+      "gas": 500000,
       "name": "default",
       "password": "1234567890",
       "sequence": 2,
-      "src_chain_id": "",
     },
   ],
 ]
@@ -26,17 +26,17 @@ Array [
   Array [
     "address",
     Object {
+      "account_number": 123,
       "amount": Array [
         Object {
           "amount": 123,
           "denom": "mycoin",
         },
       ],
-      "chain_id": "",
+      "gas": 500000,
       "name": "default",
       "password": "1234567890",
       "sequence": 1,
-      "src_chain_id": "",
     },
   ],
 ]

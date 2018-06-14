@@ -1,7 +1,7 @@
 #!/bin/sh
 
 . COMMIT.sh
-source=$(pwd)/../../../builds/gaia
+source=$(pwd)/../../../builds/Gaia
 mkdir -p $source
 export TARGET=/mnt
 

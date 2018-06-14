@@ -82,6 +82,11 @@ module.exports = {
     let accountsSelect = "#sign-in-name select"
 
     await app.client.waitForExist(accountsSelect, 10000)
+
+    // in mocked mode, the password is already set and selectOption presses enter resulting in logging, which we don't want to keep the process the same as in live mode
+    await app.client.$("#sign-in-password").click()
+    await app.client.keys(["___"])
+
     await module.exports.selectOption(app, accountsSelect, account)
 
     await app.client.$("#sign-in-password").setValue("1234567890")
