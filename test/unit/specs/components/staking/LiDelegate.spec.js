@@ -5,7 +5,7 @@ describe("LiDelegate", () => {
   let wrapper, store, delegate
   let instance = setup()
 
-  beforeEach(() => {
+  beforeEach(async () => {
     let test = instance.mount(LiDelegate, {
       propsData: {
         delegate: {
@@ -18,35 +18,8 @@ describe("LiDelegate", () => {
     store = test.store
 
     store.commit("setAtoms", 1337)
-    store.commit("addDelegate", {
-      pub_key: {
-        type: "ed25519",
-        data: "pubkeyX"
-      },
-      voting_power: 10000,
-      shares: 5000,
-      description: {
-        description: "descriptionX",
-        moniker: "candidateX",
-        country: "USA"
-      }
-    })
-    store.commit("addDelegate", {
-      pub_key: {
-        type: "ed25519",
-        data: "pubkeyY"
-      },
-      voting_power: 30000,
-      shares: 10000,
-      description: {
-        description: "descriptionY",
-        moniker: "candidateY",
-        country: "Canada"
-      }
-    })
-
+    await store.dispatch("getDelegates")
     delegate = store.state.delegates.delegates[0]
-
     wrapper.setData({ delegate })
   })
 
@@ -55,17 +28,17 @@ describe("LiDelegate", () => {
   })
 
   it("should show the voting power", () => {
-    expect(wrapper.html()).toContain("25%")
+    expect(wrapper.html()).toContain("22%")
   })
 
   it("should show the number of bonded atoms", () => {
-    expect(wrapper.html()).toContain("10,000")
+    expect(wrapper.html()).toContain("14")
   })
 
   it("should show the relative voting power as a bar", () => {
     expect(
       wrapper.vm.$el.querySelector(".number_of_votes .bar").style.width
-    ).toBe("33%")
+    ).toBe("44%")
   })
 
   it("should add to cart", () => {

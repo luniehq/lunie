@@ -2,7 +2,7 @@ let fs = require("fs-extra")
 let { join } = require("path")
 const { remote } = require("electron")
 const root = remote.getGlobal("root")
-import b32 from "scripts/b32"
+
 export default ({ commit, node }) => {
   let state = {
     balances: [],
@@ -24,6 +24,9 @@ export default ({ commit, node }) => {
     },
     setWalletAddress(state, address) {
       state.address = address
+    },
+    setAccountNumber(state, accountNumber) {
+      state.accountNumber = accountNumber
     },
     setWalletHistory(state, history) {
       state.history = history
@@ -71,6 +74,7 @@ export default ({ commit, node }) => {
         return
       }
       commit("setNonce", res.sequence)
+      commit("setAccountNumber", res.account_number)
       commit("setWalletBalances", res.coins)
       for (let coin of res.coins) {
         if (coin.denom === rootState.config.bondingDenom) {

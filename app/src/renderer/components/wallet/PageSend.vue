@@ -120,13 +120,14 @@ export default {
       let zoneId = this.fields.zoneId
       try {
         // if address has a slash, it is IBC address format
-        let type
-        if (this.lastHeader.chain_id !== zoneId) {
-          type = "ibcSend"
-          address = `${zoneId}/${address}`
-        } else {
-          type = "send"
-        }
+        let type = "send"
+        // TODO reenable when we have IBC
+        // if (this.lastHeader.chain_id !== zoneId) {
+        //   type = "ibcSend"
+        //   address = `${zoneId}/${address}`
+        // } else {
+        //   type = "send"
+        // }
         await this.sendTx({
           type,
           to: address,
@@ -185,21 +186,11 @@ export default {
     }
   },
   watch: {
-    // TODO should not be necessary?
-    // if the zoneId gets added at a later time
-    "wallet.zoneIds": () => {
-      this.fields.zoneId = this.wallet.zoneIds[0]
-    }
-  }
-}
-const bech32Validate = param => {
-  try {
-    b32.decode(param)
-    this.bech32error = null
-    return true
-  } catch (error) {
-    this.bech32error = error
-    return false
+    // TODO ignored while we don't have IBC
+    // // if the zoneId gets added at a later time
+    // "wallet.zoneIds": () => {
+    //   this.fields.zoneId = this.wallet.zoneIds[0]
+    // }
   }
 }
 </script>

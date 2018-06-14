@@ -54,7 +54,6 @@ Object.assign(Client.prototype, {
   },
 
   // tx
-  sign: req("POST", "/sign"),
   postTx: req("POST", "/tx"),
 
   // keys
@@ -76,7 +75,6 @@ Object.assign(Client.prototype, {
         return res.value
       })
       .catch(err => {
-        console.log("err")
         // if account not found, return null instead of throwing
         if (err.message.includes("account bytes are empty")) {
           return null
@@ -90,15 +88,16 @@ Object.assign(Client.prototype, {
       req("GET", `/txs?tag=recipient_bech32='${addr}'`).call(this)
     ]).then(([senderTxs, recipientTxs]) => [].concat(senderTxs, recipientTxs))
   },
-
   tx: argReq("GET", "/txs"),
 
   // staking
-  candidate: argReq("GET", "/query/stake/candidate"),
-  candidates: req("GET", "/query/stake/candidates"),
-  buildDelegate: req("POST", "/build/stake/delegate"),
-  buildUnbond: req("POST", "/build/stake/unbond"),
-  bondingsByDelegator: argReq("GET", "/query/stake/delegator")
+  updateDelegations: req("POST", "/stake/delegations"),
+  candidates: req("GET", "/stake/validators"),
+  queryDelegation: function(delegator, validator) {
+    return req("GET", `/stake/${delegator}/bonding_status/${validator}`).call(
+      this
+    )
+  }
 })
 
 module.exports = Client

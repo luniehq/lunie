@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.7.0] - 2018-06-13
+
 ### Changes
 
 * Disabled error reporting in development @faboweb
@@ -15,15 +17,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Hide IBC as it will not be ready for launch @faboweb
 * Updated e2e tests to not rely on flags to run @okwme
 * Not shrinking stacktrace anymore @faboweb
+* Improved the visibility and readability of the current network connection. @nylira
 * Updated electron to v2.0.2 @okwme
+* The release builds now have more sensible names. @NodeGuy
+* Transactions use the account number to prevent attacks @faboweb
+* Building Voyager now builds Gaia if not found @NodeGuy
 
 ### Added
 
 * Bech32 address validation @okwme
 * Notification for dev error collection toggle behavior @okwme
 * Added automatic releases @faboweb @NodeGuy
+* Added staking functionality! @mappum
 * Export all testing config on CI @faboweb
-* Persisting e2e failure screenshots as artifact on circleci @faboweb
 
 ### Fixed
 
@@ -32,6 +38,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Tx bug where state wasn't updated @okwme
 * Persisting e2e failure screenshots as artifact on circleci @faboweb
 * Theme switching bug @okwme
+* Electron dev tool version bug @okwme
+* Update delegations also in the wallet view @faboweb
+* The release builds forgot to include the network configuration. @NodeGuy
+* Skip changelog update check on release branches @faboweb
 
 ## [0.6.2] - 2018-05-23
 

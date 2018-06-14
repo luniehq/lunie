@@ -1,13 +1,12 @@
  <template lang='pug'>
-footer.app-footer
-  connectivity
+footer.app-footer: connected-network
 </template>
 
 <script>
-import Connectivity from "common/NiConnectivity"
+import ConnectedNetwork from "common/NiConnectedNetwork"
 export default {
   name: "app-footer",
-  components: { Connectivity }
+  components: { ConnectedNetwork }
 }
 </script>
 
@@ -15,6 +14,7 @@ export default {
 @require '~variables'
 
 .app-footer
+  border-top 1px solid var(--bc)
   display none
 
 @media screen and (min-width: 1024px)

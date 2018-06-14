@@ -6,7 +6,6 @@ describe("PageSend", () => {
   let wrapper, store, node
   const name = "default"
   const password = "1234567890"
-  // const address = "DF096FDE8D380FA5B2AD20DB2962C82DDEA1ED9B"
   const address = "tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l"
 
   const coins = [
@@ -174,5 +173,18 @@ describe("PageSend", () => {
     expect(store.state.notifications.length).toBe(1)
     expect(store.state.notifications[0].title).toBe("Error Sending")
     expect(store.state.notifications[0]).toMatchSnapshot()
+  })
+
+  it("validates bech32 addresses", () => {
+    expect(
+      wrapper.vm.bech32Validate(
+        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      )
+    ).toBe(true)
+    expect(
+      wrapper.vm.bech32Validate(
+        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqprm5ctpesxxn9"
+      )
+    ).toBe(false)
   })
 })

@@ -15,6 +15,7 @@ export default ({ commit, node }) => {
     args.sequence = state.nonce
     args.name = rootState.user.account
     args.password = rootState.user.password
+    args.account_number = rootState.wallet.accountNumber // TODO move into LCD?
 
     let chainId = rootState.node.lastHeader.chain_id
     // TODO enable again when IBC is enabled
@@ -28,11 +29,16 @@ export default ({ commit, node }) => {
     // extract "to" address
     let to = args.to
     delete args.to
+    args.gas = 500000
 
     // submit to LCD to build, sign, and broadcast
-    let res = await node[type](to, args).catch(err => {
+    let req = to ? node[type](to, args) : node[type](args)
+    let res = await req.catch(err => {
       throw new Error(err.message)
     })
+
+    // check response code
+    assertOk(res)
 
     commit("setNonce", state.nonce + 1)
 
@@ -70,5 +76,16 @@ export default ({ commit, node }) => {
     state,
     mutations,
     actions
+  }
+}
+
+function assertOk(res) {
+  if (Array.isArray(res)) {
+    return res.forEach(assertOk)
+  }
+
+  if (res.check_tx.code || res.deliver_tx.code) {
+    let message = res.check_tx.log || res.deliver_tx.log
+    throw new Error("Error sending transaction: " + message)
   }
 }

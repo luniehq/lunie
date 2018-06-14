@@ -5,12 +5,14 @@ Array [
   Array [
     "zone/address",
     Object {
+      "account_number": 123,
       "amount": Array [
         Object {
           "amount": 123,
           "denom": "mycoin",
         },
       ],
+      "gas": 500000,
       "name": "default",
       "password": "1234567890",
       "sequence": 2,
@@ -24,12 +26,14 @@ Array [
   Array [
     "address",
     Object {
+      "account_number": 123,
       "amount": Array [
         Object {
           "amount": 123,
           "denom": "mycoin",
         },
       ],
+      "gas": 500000,
       "name": "default",
       "password": "1234567890",
       "sequence": 1,

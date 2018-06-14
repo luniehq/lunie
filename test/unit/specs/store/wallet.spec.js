@@ -35,7 +35,6 @@ describe("Module: Wallet", () => {
   })
 
   it("should set wallet key and clear balance ", () => {
-    // const address = "address123"
     const address = "tb1v9jxgun9wdenzv3nu98g8r"
     store.commit("setWalletAddress", address)
     expect(store.state.wallet.address).toBe(address)
@@ -67,7 +66,6 @@ describe("Module: Wallet", () => {
   // ACTIONS
 
   it("should initialize wallet", async () => {
-    // const address = "DC97A6E1A3E1FE868B55BA93C7FC626368261E09"
     const address = "tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l"
     await store.dispatch("initializeWallet", address)
     expect(store.state.wallet.address).toEqual(address)
@@ -205,7 +203,6 @@ describe("Module: Wallet", () => {
       })
 
     expect(store.state.wallet.balancesLoading).toBe(true)
-    // await store.dispatch("initializeWallet", "someAddress")
     await store.dispatch("initializeWallet", "tb1wdhk6e2pv3j8yetnwv0yr6s6")
     expect(store.state.wallet.balancesLoading).toBe(false)
   })

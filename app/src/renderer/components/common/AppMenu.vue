@@ -1,43 +1,42 @@
 <template lang="pug">
 menu.app-menu
   .app-menu-main
-    list-item(
+    list-item#app-menu__wallet(
       to="/"
       exact
       @click.native="close"
       title="Wallet")
-    list-item(
+    list-item#app-menu__transactions(
       to="/wallet/transactions"
       exact
       @click.native="close"
       title="Transactions"
       v-if="config.devMode || mockedConnector")
-    list-item(
+    list-item#app-menu__staking(
       to="/staking"
       exact
       @click.native="close" title="Staking"
-      v-bind:class="{ 'active': isValidatorPage }"
-      v-if="config.devMode || mockedConnector")
-    list-item(
+      v-bind:class="{ 'active': isValidatorPage }")
+    list-item#app-menu__proposals(
       to="/proposals"
       exact @click.native="close"
       title="Proposals"
       v-if="config.devMode")
-    list-item(
+    list-item#app-menu__blocks(
       to="/blocks"
       exact
       @click.native="close"
       title="Blocks")
-    connectivity
+  connected-network
   user-pane
 </template>
 
 <script>
-import PerfectScrollbar from "perfect-scrollbar"
 import { mapGetters } from "vuex"
-import Btn from "@nylira/vue-button"
+import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
-import Connectivity from "common/NiConnectivity"
+import Btn from "@nylira/vue-button"
+import ConnectedNetwork from "common/NiConnectedNetwork"
 import ListItem from "common/NiListItem"
 import UserPane from "common/NiUserPane"
 import Part from "common/NiPart"
@@ -45,7 +44,7 @@ export default {
   name: "app-menu",
   components: {
     Btn,
-    Connectivity,
+    ConnectedNetwork,
     ListItem,
     Part,
     UserPane
@@ -58,13 +57,13 @@ export default {
       "lastHeader",
       "mockedConnector"
     ]),
-    proposalAlerts() {
-      return this.proposals.filter(p => p.flags.read === false).length
-    },
     isValidatorPage() {
       return this.$route.params.validator
     }
   },
+  data: () => ({
+    ps: {}
+  }),
   methods: {
     close() {
       this.$store.commit("setActiveMenu", "")
@@ -72,8 +71,7 @@ export default {
     }
   },
   mounted() {
-    // eslint-disable-next-line no-unused-vars
-    const ps = new PerfectScrollbar(".app-menu-main")
+    this.ps = new PerfectScrollbar(this.$el.querySelector(".app-menu-main"))
   }
 }
 </script>
@@ -143,6 +141,6 @@ export default {
   .app-menu
     flex 1
 
-    .ni-connectivity
+    .ni-connected-network
       display none
 </style>

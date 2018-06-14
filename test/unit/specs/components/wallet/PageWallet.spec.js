@@ -13,7 +13,6 @@ describe("PageWallet", () => {
     store = instance.store
 
     store.commit("setDenoms", ["ATOM", "FERMION", "TEST"])
-    // store.commit("setWalletAddress", "123abc456def")
     store.commit("setWalletAddress", "tb1zgatc3tdauv2m0uf")
 
     store.commit("setWalletBalances", [
@@ -128,6 +127,6 @@ describe("PageWallet", () => {
   })
 
   it("has a label for the staking denomination", () => {
-    expect(wrapper.vm.stakingDenom).toBe("FERMION")
+    expect(wrapper.vm.stakingDenom).toBe("STEAK")
   })
 })
