@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Electron dev tool version bug @okwme
 * Update delegations also in the wallet view @faboweb
 * The release builds forgot to include the network configuration. @NodeGuy
+* Skip changelog update check on release branches @faboweb
 
 ## [0.6.2] - 2018-05-23
 
