@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Persisting e2e failure screenshots as artifact on circleci @faboweb
 * Theme switching bug @okwme
 * Electron dev tool version bug @okwme
+* Fixed bug in yarn build:gaia @zramsay
 
 ## [0.6.2] - 2018-05-23
 
