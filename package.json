@@ -32,7 +32,7 @@
     "test:coverage": "http-server test/unit/coverage/lcov-report",
     "release": "node ./ci/release.js",
     "precommit": "pretty-quick --staged",
-    "prepush": "yarn lint && yarn test:unit && bash ./tasks/changelog-changed-check.sh"
+    "prepush": "bash ./tasks/changelog-changed-check.sh && yarn lint && yarn test:unit"
   },
   "devDependencies": {
     "@nodeguy/cli": "0.2.1",
