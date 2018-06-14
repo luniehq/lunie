@@ -36,27 +36,33 @@ import moment from "moment"
 export default {
   name: "ni-li-tx",
   computed: {
+    transactionValue() {
+      return this.transaction.tx.value.msg.value
+    },
+    transactionHeight() {
+      return this.transaction.height
+    },
     // TODO: sum relevant inputs/outputs
     sentSelf() {
       return (
-        this.transactionValue.tx.inputs[0].sender ===
-        this.transactionValue.tx.outputs[0].receiver
+        this.transactionValue.inputs[0].sender ===
+        this.transactionValue.outputs[0].receiver
       )
     },
     sent() {
-      return this.transactionValue.tx.inputs[0].sender === this.address
+      return this.transactionValue.inputs[0].sender === this.address
     },
     sender() {
-      return this.transactionValue.tx.inputs[0].sender
+      return this.transactionValue.inputs[0].sender
     },
     coinsSent() {
-      return this.transactionValue.tx.inputs[0].coins
+      return this.transactionValue.inputs[0].coins
     },
     receiver() {
-      return this.transactionValue.tx.outputs[0].receiver
+      return this.transactionValue.outputs[0].receiver
     },
     coinsReceived() {
-      return this.transactionValue.tx.inputs[0].coins
+      return this.transactionValue.inputs[0].coins
     },
     date() {
       return moment(this.transactionValue.time).format(
@@ -70,7 +76,7 @@ export default {
       console.log("TODO: implement tx viewer")
     }
   },
-  props: ["transaction-value", "address", "devMode"]
+  props: ["transaction", "address", "devMode"]
 }
 </script>
 
@@ -81,6 +87,7 @@ export default {
   display flex
   font-size sm
   border-bottom 1px solid var(--bc-dim)
+
   &:nth-of-type(2n-1)
     background var(--app-fg)
 
@@ -98,7 +105,6 @@ export default {
     margin 0.5rem 0
     display flex
     width 100%
-
     min-width 0 // fix text-overflow
 
   .tx-element
@@ -110,35 +116,37 @@ export default {
       flex 0 0 100%
       font-size sm
       color var(--dim)
+
       &:before
         content ''
         display inline
+
     .key
       font-weight 500
       font-size m
-    .value,
-    .key
+
+    .value, .key
       line-height 1.5rem
 
   .tx-address
     white-space nowrap
     overflow hidden
     text-overflow ellipsis
-
     color var(--dim)
     font-size sm
 
   &.ni-li-tx-sent
-    .tx-icon
-    .tx-coin .value
+    .tx-icon, .tx-coin .value
       &:before
         content '-'
 
   &.ni-li-tx-received
     .tx-icon
       background var(--app-fg)
+
     .tx-coin .value
       color success
+
       &:before
         content '+'
 
@@ -152,12 +160,15 @@ export default {
 
     .tx-container
       flex-direction row
+
       .tx-coins
         flex 0 0 9rem
         padding 0
         min-width 0
+
         .tx-coin
           padding 0 1.5rem 0
+
           .key
             white-space nowrap
             overflow hidden

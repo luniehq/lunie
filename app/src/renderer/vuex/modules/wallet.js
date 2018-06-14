@@ -7,7 +7,7 @@ export default ({ commit, node }) => {
   let state = {
     balances: [],
     balancesLoading: true,
-    history: [],
+    history: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
     historyLoading: false,
     denoms: [],
     address: null,

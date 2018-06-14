@@ -13,7 +13,7 @@ page(title='Transactions')
     v-else
     v-for="i in filteredTransactions"
     :key="shortid.generate()"
-    :transaction-value="i"
+    :transaction="i"
     :address="wallet.address"
     :devMode="config.devMode")
 </template>
