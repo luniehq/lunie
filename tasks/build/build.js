@@ -201,7 +201,7 @@ const build = async platform => {
 }
 
 cli(optionsSpecification, async options => {
-  const { network } = options
+  fs.copySync(`/mnt/network`, `app/networks/${path.basename(options.network)}`)
   rewriteConfig(options)
   pack()
   await Promise.all([`darwin`, `linux`, `win32`].map(build))

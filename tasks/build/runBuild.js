@@ -51,7 +51,7 @@ cli(optionsSpecification, options => {
       --mount type=bind,readonly,source=${resolved.git},target=/mnt/.git \
       --mount type=bind,readonly,source=${
         resolved.network
-      },target=/mnt/network/${path.basename(network)} \
+      },target=/mnt/network \
       --mount type=bind,source=${resolved.builds},target=/mnt/builds \
       --rm \
       cosmos/voyager-builder ${optionsString}
