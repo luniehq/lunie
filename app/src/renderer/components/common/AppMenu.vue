@@ -17,7 +17,7 @@ menu.app-menu
       exact
       @click.native="close" title="Staking"
       v-bind:class="{ 'active': isValidatorPage }")
-    list-item#app-menu__proposals(
+    tm-list-item#app-menu__proposals(
       to="/proposals"
       exact @click.native="close"
       title="Proposals"
@@ -43,7 +43,7 @@ export default {
   name: "app-menu",
   components: {
     ConnectedNetwork,
-    ListItem,
+    TmListItem,
     Part,
     UserPane
   },
