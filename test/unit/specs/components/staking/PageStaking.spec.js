@@ -31,7 +31,7 @@ describe("PageStaking", () => {
       .findAll(".ni-tool-bar i")
       .at(1)
       .trigger("click")
-    expect(store.dispatch).toHaveBeenCalledWith("getDelegates")
+    expect(store.dispatch).toHaveBeenCalledWith("updateDelegates")
   })
 
   it("should sort the delegates by selected property", () => {

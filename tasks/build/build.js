@@ -36,7 +36,7 @@ const copyGaia = (buildPath, electronVersion, platform, arch, callback) => {
   const platformPath = platform === `win32` ? `windows` : platform
 
   fs.copy(
-    path.join(__dirname, `../../builds/gaia/${platformPath}_amd64`),
+    path.join(__dirname, `../../builds/Gaia/${platformPath}_amd64`),
     `${buildPath}/bin`,
     callback
   )
@@ -182,7 +182,7 @@ const build = async platform => {
     dir: path.join(__dirname, "../../app"),
     icon: path.join(__dirname, "../../app/icons/icon"),
     ignore: /^\/(src|index\.ejs|icons)/,
-    out: path.join(__dirname, "../../builds"),
+    out: path.join(__dirname, "../../builds/Voyager"),
     overwrite: true,
     packageManager: "yarn",
     platform
@@ -201,7 +201,7 @@ const build = async platform => {
 }
 
 cli(optionsSpecification, async options => {
-  const { network } = options
+  fs.copySync(`/mnt/network`, `app/networks/${path.basename(options.network)}`)
   rewriteConfig(options)
   pack()
   await Promise.all([`darwin`, `linux`, `win32`].map(build))

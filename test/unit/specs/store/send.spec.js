@@ -35,6 +35,7 @@ describe("Module: Send", () => {
       node.send = jest.fn(node.send)
       node.ibcSend = jest.fn(node.ibcSend)
       await store.dispatch("signIn", { account, password })
+      await store.commit("setAccountNumber", 123)
     })
 
     it("should send from wallet", async () => {
