@@ -1,7 +1,7 @@
 <template lang="pug">
 page(title='Staking')
   div(slot="menu"): tool-bar
-    a(@click='updateDelegates(address)' v-tooltip.bottom="'Refresh'")
+    a(@click='updateDelegates()' v-tooltip.bottom="'Refresh'")
       i.material-icons refresh
     a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
       i.search.material-icons search
@@ -136,13 +136,12 @@ export default {
   }),
   watch: {
     address: function(address) {
-      address && this.updateDelegates(address)
+      address && this.updateDelegates()
     }
   },
   methods: {
-    async updateDelegates(address) {
-      let candidates = await this.$store.dispatch("getDelegates")
-      this.$store.dispatch("getBondedDelegates", candidates)
+    updateDelegates() {
+      this.$store.dispatch("updateDelegates")
     },
     setSearch(bool = !this.filters["delegates"].search.visible) {
       if (!this.somethingToSearch) return false
@@ -152,7 +151,7 @@ export default {
   async mounted() {
     Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
     Mousetrap.bind("esc", () => this.setSearch(false))
-    await this.updateDelegates(this.user.address)
+    this.updateDelegates()
   }
 }
 </script>
@@ -176,14 +175,15 @@ export default {
   .label
     color var(--bright)
     line-height 2rem
+
     strong
       font-weight bold
 
 @media screen and (min-width: 768px)
-    padding-bottom 4rem
+  padding-bottom 4rem
 
-  .fixed-button-bar
-    padding 1rem
+.fixed-button-bar
+  padding 1rem
 
 @media screen and (min-width: 1024px)
   .fixed-button-bar
