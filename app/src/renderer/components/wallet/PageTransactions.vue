@@ -82,6 +82,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.dispatch("queryWalletHistory")
     Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
     Mousetrap.bind("esc", () => this.setSearch(false))
   }
