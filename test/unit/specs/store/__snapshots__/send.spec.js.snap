@@ -5,6 +5,7 @@ Array [
   Array [
     "zone/address",
     Object {
+      "account_number": 123,
       "amount": Array [
         Object {
           "amount": 123,
@@ -25,6 +26,7 @@ Array [
   Array [
     "address",
     Object {
+      "account_number": 123,
       "amount": Array [
         Object {
           "amount": 123,

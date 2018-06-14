@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Improved the visibility and readability of the current network connection. @nylira
 * Updated electron to v2.0.2 @okwme
 * The release builds now have more sensible names. @NodeGuy
+* Transactions use the account number to prevent attacks @faboweb
 
 ### Added
 
@@ -35,6 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Persisting e2e failure screenshots as artifact on circleci @faboweb
 * Theme switching bug @okwme
 * Electron dev tool version bug @okwme
+* Update delegations also in the wallet view @faboweb
 
 ## [0.6.2] - 2018-05-23
 
