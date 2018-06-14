@@ -84,7 +84,7 @@ jobs:
       - attach_workspace:
           at: builds/gaia
 
-      - run: node ci/release.js
+      - run: node tasks/release.js
 
 workflows:
   version: 2
