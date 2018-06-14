@@ -24,10 +24,11 @@
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@tendermint/ui@tendermint/ui":
+"@tendermint/ui@0.1.0":
   version "0.1.0"
-  resolved "https://codeload.github.com/tendermint/ui/tar.gz/767e67b1497a009c819f4a5a74c6c0405f2359f3"
+  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.1.0.tgz#73be0c3c59edef88693e6b62bbc2d003b2c5efad"
   dependencies:
+    moment "^2.22.2"
     vue "^2.5.16"
 
 "@types/babel-types@*", "@types/babel-types@^7.0.0":
@@ -5615,6 +5616,10 @@ moment@2.22.1, moment@^2.10.2:
 "moment@>= 2.9.0", moment@^2.15.2:
   version "2.22.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.0.tgz#7921ade01017dd45186e7fee5f424f0b8663a730"
+
+moment@^2.22.2:
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
 mousetrap@1.6.1:
   version "1.6.1"

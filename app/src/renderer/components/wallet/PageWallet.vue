@@ -9,7 +9,7 @@ page(title='Wallet')
   modal-search(type="balances" v-if="somethingToSearch")
 
   part(title='Your Address')
-    list-item(
+    tm-list-item(
       :title="wallet.address"
       :btn="'Receive'"
       :overflow="true"
@@ -19,7 +19,7 @@ page(title='Wallet')
     data-loading(v-if="wallet.balancesLoading")
     data-empty(v-else-if="wallet.balances.length === 0")
     data-empty-search(v-else-if="filteredBalances.length === 0")
-    list-item.ni-li-balance(
+    tm-list-item.ni-li-balance(
       v-for="i in filteredBalances"
       v-if="wallet.balances.length > 0 && i.amount > 0"
       :btn="'Send'"
@@ -29,7 +29,7 @@ page(title='Wallet')
       :to="{name: 'send', params: {denom: i.denom}}")
 
   part#part-staked-balances(v-if="config.devMode" title="Staked Balances")
-    list-item(
+    tm-list-item(
       btn="Stake"
       :dt="stakingDenom"
       :dd="stakedTokens"
@@ -45,7 +45,7 @@ import DataLoading from "common/NiDataLoading"
 import DataEmpty from "common/NiDataEmpty"
 import DataEmptySearch from "common/NiDataEmptySearch"
 import LiCopy from "common/NiLiCopy"
-import ListItem from "common/NiListItem"
+import { TmListItem } from "@tendermint/ui"
 import ModalSearch from "common/NiModalSearch"
 import Page from "common/NiPage"
 import Part from "common/NiPart"
@@ -57,7 +57,7 @@ export default {
     DataEmpty,
     DataEmptySearch,
     LiCopy,
-    ListItem,
+    TmListItem,
     ModalSearch,
     Page,
     Part,
