@@ -16,8 +16,7 @@ menu.app-menu
       to="/staking"
       exact
       @click.native="close" title="Staking"
-      v-bind:class="{ 'active': isValidatorPage }"
-      v-if="config.devMode || mockedConnector")
+      v-bind:class="{ 'active': isValidatorPage }")
     list-item#app-menu__proposals(
       to="/proposals"
       exact @click.native="close"
