@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Increased version of localtestnet used for testing to match gaia @faboweb
 
+### Added
+
+* Checking known nodes round robin and signaling an error if none are available @faboweb
+
 ## [0.7.0] - 2018-06-13
 
 ### Changes
