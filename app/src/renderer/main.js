@@ -53,8 +53,15 @@ async function main() {
   store = Store({ node })
 
   ipcRenderer.on("error", (event, error) => {
-    store.commit("setModalError", true)
-    store.commit("setModalErrorMessage", error.message)
+    let matchErrorCode = /\[(([A-Z])\w+)\]/.exec(error.message)
+    switch (matchErrorCode ? matchErrorCode[1] : "") {
+      case "NO_NODES_AVAILABLE":
+        store.commit("setModalConnection", true)
+        break
+      default:
+        store.commit("setModalError", true)
+        store.commit("setModalErrorMessage", error.message)
+    }
   })
   ipcRenderer.on("approve-hash", (event, hash) => {
     console.log(hash)

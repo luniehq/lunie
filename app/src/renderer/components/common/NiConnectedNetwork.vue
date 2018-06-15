@@ -6,11 +6,11 @@
       span.desktop-only Connected to
       span.chain-id(v-tooltip.top="networkTooltip")  {{ chainId }}
       |  via #[span {{ nodeAddress }}]
-      router-link#ni-connected-network_preferences-link.desktop-only(to="/preferences" v-if="!onPreferencesPage")
+      router-link#ni-connected-network_preferences-link.desktop-only(to="/preferences" @click.native="closeMenu" v-if="!onPreferencesPage")
         |  (change network)
   .ni-connected-network__string#ni-connected-network__block
     span.desktop-only Current Block:
-    router-link(to="/blocks" v-tooltip.top="'View Block'")  {{ blockHeight }}
+    router-link(to="/blocks" v-tooltip.top="'View Block'") {{ blockHeight }}
 .ni-connected-network#ni-disconnected-network(v-else)
   .ni-connected-network__icon: i.material-icons.fa-spin rotate_right
   .ni-connected-network__string Connecting to network&hellip;
@@ -55,6 +55,12 @@ export default {
     num: num,
     onPreferencesPage: false
   }),
+  methods: {
+    closeMenu() {
+      console.log("closing menu")
+      this.$store.commit("setActiveMenu", "")
+    }
+  },
   watch: {
     "$route.name"(newName, oldName) {
       this.onPreferencesPage = newName === "preferences"

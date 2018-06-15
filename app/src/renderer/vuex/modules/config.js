@@ -19,7 +19,8 @@ export default ({ commit }) => {
         active: true,
         state: "loading"
       },
-      blockchain: { active: false }
+      blockchain: { active: false },
+      connection: { active: false }
     }
   }
   const mutations = {
@@ -53,6 +54,9 @@ export default ({ commit }) => {
     },
     setModalBlockchain(state, value) {
       state.modals.blockchain.active = value
+    },
+    setModalConnection(state, value) {
+      state.modals.connection.active = value
     },
     setActiveMenu(state, value) {
       state.activeMenu = value

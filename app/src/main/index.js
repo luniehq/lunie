@@ -462,6 +462,11 @@ function handleIPC() {
   ipcMain.on("stop-lcd", event => {
     stopLCD()
   })
+  ipcMain.on("retry-connection", () => {
+    log("Retrying to connect to nodes")
+    resetNodes()
+    reconnect(nodes)
+  })
 }
 
 // check if LCD is initialized as the configs could be corrupted
@@ -490,13 +495,22 @@ function lcdInitialized(home) {
 function pickNode(nodes) {
   let availableNodes = nodes.filter(node => node.state === "available")
   if (availableNodes.length === 0) {
-    throw Error("No nodes available to connect to.")
+    connecting = false
+    throw Error("[NO_NODES_AVAILABLE] No nodes available to connect to.")
   }
   let node = availableNodes[Math.floor(Math.random() * availableNodes.length)]
   // let nodeRegex = /([http[s]:\/\/]())/g
   log("Picked node:", node.ip, "of", nodes)
 
   return node.ip
+}
+
+function resetNodes() {
+  nodes = nodes.map(node =>
+    Object.assign({}, node, {
+      state: "available"
+    })
+  )
 }
 
 async function checkNodeSDKVersion() {
