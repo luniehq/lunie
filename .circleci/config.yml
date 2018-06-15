@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  # Build Gaia from the SDK source code specified within SDK_COMMIT.
+  # Build Gaia from the SDK source code specified by tasks/build/Gaia/COMMIT.sh.
   buildGaia:
     docker:
       - image: circleci/golang
@@ -35,16 +35,16 @@ jobs:
       - image: circleci/node:9.4.0-browsers
 
     environment:
-      - BINARY_PATH: "/home/circleci/project/builds/gaia/linux_amd64/gaiacli"
-      - NODE_BINARY_PATH: "/home/circleci/project/builds/gaia/linux_amd64/gaiad"
+      - BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiacli"
+      - NODE_BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiad"
 
     steps:
       - checkout
 
       - attach_workspace:
-          at: builds/gaia
+          at: builds/Gaia
 
-      - run: bash ./ci/changelog-changed-check.sh
+      - run: tasks/changelog-changed-check.sh
 
       - restore_cache:
           keys:
@@ -68,14 +68,8 @@ jobs:
           command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
           when: on_success
 
-      - run:
-          command: |
-            mkdir -p /tmp/test_info
-            [ -f test/e2e/snapshot.png ] && cp test/e2e/snapshot.png /tmp/test_info || echo "No screenshot found"
-          when: on_fail
-
       - store_artifacts:
-          path: /tmp/test_info
+          path: testArtifacts
 
   # Build a release and publish it to GitHub.
   release:
@@ -88,9 +82,9 @@ jobs:
       - run: yarn install
 
       - attach_workspace:
-          at: builds/gaia
+          at: builds/Gaia
 
-      - run: node ci/release.js
+      - run: node tasks/release.js
 
 workflows:
   version: 2

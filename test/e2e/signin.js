@@ -12,6 +12,7 @@ let { openMenu, login } = require("./common.js")
 
 test("sign in", async function(t) {
   let { app } = await getApp(t)
+
   await refresh(app)
   let el = (...args) => app.client.$(...args)
   // clicking the button does fail in webdriver as there is no actual click handler on the button
@@ -149,7 +150,9 @@ test("sign in", async function(t) {
       // checking if user is logged in
       await app.client.waitForExist("#app-content", 10000)
       await openMenu(app)
-      let activeUser = await app.client.$(".ni-li-user .ni-li-title").getText()
+      let activeUser = await app.client
+        .$(".ni-li-user .ni-li-subtitle")
+        .getText()
       t.ok(activeUser === "signin_test", "user is logged in")
 
       t.end()
@@ -300,8 +303,10 @@ test("sign in", async function(t) {
       // checking if user is logged in
       await app.client.waitForExist("#app-content", 5000)
       await openMenu(app)
-      let activeUser = await app.client.$(".ni-li-user .ni-li-title").getText()
-      t.ok(activeUser === "seed_test", "user is logged in")
+      let activeUser = await app.client
+        .$(".ni-li-user .ni-li-subtitle")
+        .getText()
+      t.equal(activeUser, "seed_test", "user is logged in")
 
       t.end()
     })

@@ -35,6 +35,7 @@ describe("Module: Send", () => {
       node.send = jest.fn(node.send)
       node.ibcSend = jest.fn(node.ibcSend)
       await store.dispatch("signIn", { account, password })
+      await store.commit("setAccountNumber", 123)
     })
 
     it("should send from wallet", async () => {
@@ -63,7 +64,7 @@ describe("Module: Send", () => {
       let send = node.send.bind(node)
 
       node.send = () => Promise.reject(true)
-      const args = { to: "address", amount: [{ denom: "mycoin", amount: 123 }] }
+      let args = { to: "address", amount: [{ denom: "mycoin", amount: 123 }] }
       let error1
       try {
         await store.dispatch("sendTx", args)
@@ -73,6 +74,7 @@ describe("Module: Send", () => {
       expect(error1).toBeDefined()
 
       node.send = send
+      args = { to: "address", amount: [{ denom: "mycoin", amount: 123 }] }
       let error2
       try {
         await store.dispatch("sendTx", args)

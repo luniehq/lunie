@@ -24,9 +24,9 @@ export default ({ commit, node }) => {
     },
     setWalletAddress(state, address) {
       state.address = address
-      // clear previous account state
-      state.balances = []
-      state.history = []
+    },
+    setAccountNumber(state, accountNumber) {
+      state.accountNumber = accountNumber
     },
     setWalletHistory(state, history) {
       state.history = history
@@ -55,6 +55,10 @@ export default ({ commit, node }) => {
       }
     },
     initializeWallet({ commit, dispatch }, address) {
+      // clear previous account state
+      state.balances = []
+      state.history = []
+
       commit("setWalletAddress", address)
       dispatch("loadDenoms")
       dispatch("queryWalletState")
@@ -70,6 +74,7 @@ export default ({ commit, node }) => {
         return
       }
       commit("setNonce", res.sequence)
+      commit("setAccountNumber", res.account_number)
       commit("setWalletBalances", res.coins)
       for (let coin of res.coins) {
         if (coin.denom === rootState.config.bondingDenom) {

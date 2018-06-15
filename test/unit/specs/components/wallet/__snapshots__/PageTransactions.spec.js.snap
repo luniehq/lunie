@@ -89,12 +89,12 @@ exports[`PageTransactions has the expected html structure 1`] = `
   >
     <!---->
     <li-transaction
-      address="myAddress"
+      address="tb1d4u5zerywfjhxuc9nudvw"
       devmode="true"
       transaction-value="[object Object]"
     />
     <li-transaction
-      address="myAddress"
+      address="tb1d4u5zerywfjhxuc9nudvw"
       devmode="true"
       transaction-value="[object Object]"
     />
@@ -254,7 +254,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
       </div>
     </div>
     <li-transaction
-      address="myAddress"
+      address="tb1d4u5zerywfjhxuc9nudvw"
       devmode="true"
       transaction-value="[object Object]"
     />

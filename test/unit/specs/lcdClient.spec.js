@@ -30,19 +30,6 @@ describe("LCD Client", () => {
     ])
   })
 
-  it("makes a GET request with multiple args", async () => {
-    axios.get = jest
-      .fn()
-      .mockReturnValueOnce(Promise.resolve({ data: { foo: "bar" } }))
-
-    let res = await client.bondingsByDelegator(["foo", "bar"])
-    expect(res).toEqual({ foo: "bar" })
-    expect(axios.get.mock.calls[0]).toEqual([
-      "http://localhost:8998/query/stake/delegator/foo/bar",
-      undefined
-    ])
-  })
-
   it("makes a POST request", async () => {
     axios.post = jest
       .fn()
@@ -73,10 +60,7 @@ describe("LCD Client", () => {
     axios.get = jest.fn().mockReturnValueOnce(
       Promise.reject({
         response: {
-          data: {
-            error: "foo",
-            code: 123
-          }
+          data: "foo"
         }
       })
     )
@@ -85,7 +69,6 @@ describe("LCD Client", () => {
       await await client.listKeys()
     } catch (err) {
       expect(err.message).toBe("foo")
-      expect(err.code).toBe(123)
     }
     expect(axios.get.mock.calls[0]).toEqual([
       "http://localhost:8998/keys",
@@ -106,10 +89,7 @@ describe("LCD Client", () => {
     axios.get = jest.fn().mockReturnValueOnce(
       Promise.reject({
         response: {
-          data: {
-            error: "account bytes are empty",
-            code: 1
-          }
+          data: "account bytes are empty"
         }
       })
     )
@@ -121,10 +101,7 @@ describe("LCD Client", () => {
     axios.get = jest.fn().mockReturnValueOnce(
       Promise.reject({
         response: {
-          data: {
-            error: "something failed",
-            code: 1
-          }
+          data: "something failed"
         }
       })
     )

@@ -1,4 +1,5 @@
 import setup from "../../helpers/vuex-setup"
+import b32 from "scripts/b32"
 
 function mockGA(uid) {
   window.analytics = { foo: "bar" }
@@ -11,7 +12,7 @@ describe("Module: User", () => {
   let store, node
   let accounts = [
     {
-      address: "1234567890123456789012345678901234567890",
+      address: "tb1zg69v7yszg69v7yszg69v7yszg69v7ysd8ep6q",
       name: "ACTIVE_ACCOUNT",
       password: "1234567890"
     }
@@ -101,8 +102,13 @@ describe("Module: User", () => {
       password,
       name
     })
-    expect(address.length).toEqual(40)
-
+    try {
+      b32.decode(address)
+      expect(true).toBe(true)
+    } catch (error) {
+      console.log(error)
+      expect(true).toBe(false)
+    }
     // initialize wallet
     expect(store.state.wallet.address).toBe(address)
   })
@@ -118,13 +124,15 @@ describe("Module: User", () => {
   it("should sign in", async () => {
     let password = "123"
     let account = "def"
-    node.getKey = jest.fn(() => Promise.resolve({ address: "some address" }))
+    node.getKey = jest.fn(() =>
+      Promise.resolve({ address: "tb1wdhk6efqv9jxgun9wdesd6m8k8" })
+    )
     await store.dispatch("signIn", { password, account })
     expect(node.getKey).toHaveBeenCalledWith(account)
     expect(store.state.user.signedIn).toBe(true)
 
     // initialize wallet
-    expect(store.state.wallet.address).toEqual("some address")
+    expect(store.state.wallet.address).toEqual("tb1wdhk6efqv9jxgun9wdesd6m8k8")
 
     // hide login
     expect(store.state.config.modals.session.active).toBe(false)

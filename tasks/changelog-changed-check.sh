@@ -1,5 +1,7 @@
+#!/bin/sh
+
 currentBranch="$(git rev-parse --abbrev-ref HEAD)"
-if [ "$currentBranch" = "develop" ]; then
+if [ "$currentBranch" = "master" ] || [ "$currentBranch" = "release" ] || [ "$currentBranch" = "develop" ]; then
     echo "This branch is the develop branch. Checks on updating the changelog are omitted."
     exit 0;
 fi
