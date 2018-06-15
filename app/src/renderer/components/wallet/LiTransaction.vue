@@ -45,21 +45,21 @@ export default {
     // TODO: sum relevant inputs/outputs
     sentSelf() {
       return (
-        this.transactionValue.inputs[0].sender ===
-        this.transactionValue.outputs[0].receiver
+        this.transactionValue.inputs[0].address ===
+        this.transactionValue.outputs[0].address
       )
     },
     sent() {
-      return this.transactionValue.inputs[0].sender === this.address
+      return this.transactionValue.inputs[0].address === this.address
     },
     sender() {
-      return this.transactionValue.inputs[0].sender
+      return this.transactionValue.inputs[0].address
     },
     coinsSent() {
       return this.transactionValue.inputs[0].coins
     },
     receiver() {
-      return this.transactionValue.outputs[0].receiver
+      return this.transactionValue.outputs[0].address
     },
     coinsReceived() {
       return this.transactionValue.inputs[0].coins

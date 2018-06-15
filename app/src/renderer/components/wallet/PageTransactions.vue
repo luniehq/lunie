@@ -54,7 +54,7 @@ export default {
         [this.sort.property],
         [this.sort.order]
       )
-      return uniqBy(list, "time") // filter out duplicate tx to self
+      return uniqBy(list, "height") // filter out duplicate tx to self
     },
     filteredTransactions() {
       let query = this.filters.transactions.search.query
@@ -71,7 +71,7 @@ export default {
   data: () => ({
     shortid: shortid,
     sort: {
-      property: "time",
+      property: "height",
       order: "desc"
     }
   }),
@@ -82,7 +82,6 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("queryWalletHistory")
     Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
     Mousetrap.bind("esc", () => this.setSearch(false))
   }
