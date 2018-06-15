@@ -11,6 +11,7 @@
     modal-receive
   notifications(:notifications='notifications' theme='cosmos')
   modal-error(v-if='config.modals.error.active' :body='config.modals.error.message')
+  modal-connection(v-if='config.modals.connection.active')
   modal-lcd-approval(v-if='approvalRequired' :hash='approvalRequired')
 </template>
 
@@ -22,6 +23,7 @@ import Notifications from "@nylira/vue-notifications"
 import ModalError from "common/NiModalError"
 import ModalHelp from "common/NiModalHelp"
 import ModalLcdApproval from "common/NiModalLCDApproval"
+import ModalConnection from "common/NiModalConnection"
 import ModalReceive from "common/NiModalReceive"
 import Onboarding from "common/NiOnboarding"
 import Session from "common/NiSession"

@@ -522,20 +522,20 @@ async function connect(nodeIP) {
   lcdProcess = await startLCD(lcdHome, nodeIP)
   log("gaia rest server ready")
 
-  const compatible = await checkNodeSDKVersion()
-  if (!compatible) {
-    // remember that the node is not compatible
-    nodes.find(node => node.ip === nodeIP).state = "incompatible"
-    connecting = false
-    await reconnect(nodes)
-  } else {
-    afterBooted(() => {
-      log("Signaling connected node")
-      mainWindow.webContents.send("connected", nodeIP)
-    })
+  // const compatible = await checkNodeSDKVersion()
+  // if (!compatible) {
+  //   // remember that the node is not compatible
+  //   nodes.find(node => node.ip === nodeIP).state = "incompatible"
+  //   connecting = false
+  //   await reconnect(nodes)
+  // } else {
+  afterBooted(() => {
+    log("Signaling connected node")
+    mainWindow.webContents.send("connected", nodeIP)
+  })
 
-    connecting = false
-  }
+  connecting = false
+  // }
 }
 
 async function reconnect(nodes) {
@@ -678,16 +678,15 @@ async function main() {
 
   // pick a random seed node from config.toml if not using COSMOS_NODE envvar
   // TODO: user-specified nodes, support switching?
-  // TODO: get addresses from 'seeds' as well as 'persistent_peers'
   // TODO: use address to prevent MITM if specified
   if (!NODE) {
     let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
     let configTOML = toml.parse(configText)
     nodes = _.uniq(
-      configTOML.p2p.persistent_peers
+      (configTOML.p2p.persistent_peers + "," + configTOML.p2p.seeds)
         .split(",")
         .filter(x => x !== "")
-        .map(x => x.split("@")[1])
+        .map(x => (x.indexOf("@") !== -1 ? x.split("@")[1] : x))
     )
     if (nodes.length === 0) {
       throw new Error("No seeds specified in config.toml")
