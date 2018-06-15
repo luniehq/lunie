@@ -210,7 +210,7 @@ describe("Module: Blockchain", () => {
         }
       })
     }
-    node.txs = hash => {
+    node.tx = hash => {
       return new Promise(resolve => {
         resolve({
           height: 42,
@@ -240,7 +240,7 @@ describe("Module: Blockchain", () => {
         }
       })
     }
-    node.txs = hash => {
+    node.tx = hash => {
       return new Promise((resolve, reject) => {
         reject("asdf")
       })

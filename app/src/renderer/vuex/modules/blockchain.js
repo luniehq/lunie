@@ -99,7 +99,7 @@ export default ({ commit, node }) => {
         if (key >= len) return txs
         let txstring = atob(txs[key])
         let hash = await getTxHash(txs[key])
-        let data = await node.txs(hash)
+        let data = await node.tx(hash)
         data.string = txstring
         txs[key] = data
         return await dispatch("getTxs", { key: key + 1, len, txs })
