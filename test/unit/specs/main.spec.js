@@ -370,7 +370,7 @@ describe("Startup Process", () => {
 
       // axios is used to ping nodes and get the SDK version of the node
       let axios = require("axios")
-      axios.get = () => Promise.resolve({ data: "0.19.0" })
+      axios.get = async () => ({ data: "0.19.0" })
 
       main = await require(appRoot + "src/main/index.js")
     })
@@ -699,7 +699,7 @@ function resetModulesKeepingFS() {
   // axios is used to ping nodes and get the SDK version of the node
   // we need to keep this mocked, if not, the process fails
   let axios = require("axios")
-  axios.get = () => Promise.resolve({ data: "0.19.0" })
+  axios.get = async () => ({ data: "0.19.0" })
 }
 
 function mockConfig() {
