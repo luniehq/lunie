@@ -500,9 +500,9 @@ function pickNode(nodes) {
 }
 
 async function checkNodeSDKVersion() {
-  const nodeSDKVersion = await axios(
-    `http://localhost:${LCD_PORT}/node_version`
-  ).then(res => res.data)
+  const nodeSDKVersion = await axios
+    .get(`http://localhost:${LCD_PORT}/node_version`)
+    .then(res => res.data)
   const gaiacliVersion = await getGaiacliVersion()
   const diff = semver.diff(
     nodeSDKVersion.split("-")[0],

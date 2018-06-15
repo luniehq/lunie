@@ -320,6 +320,7 @@ describe("Startup Process", () => {
 
     it("should override the genesis.json file", async function() {
       resetModulesKeepingFS()
+
       // alter the genesis so the main thread assumes a change
       let existingGenesis = JSON.parse(
         fs.readFileSync(testRoot + "genesis.json", "utf8")
@@ -367,9 +368,9 @@ describe("Startup Process", () => {
 
       registerIPCListeners(registeredIPCListeners)
 
-      // axios is used to ping nodes for the reconnection intent
+      // axios is used to ping nodes and get the SDK version of the node
       let axios = require("axios")
-      axios.get = () => Promise.resolve()
+      axios.get = () => Promise.resolve({ data: "0.19.0" })
 
       main = await require(appRoot + "src/main/index.js")
     })
@@ -421,7 +422,7 @@ describe("Startup Process", () => {
       })
 
       await registeredIPCListeners["reconnect"]()
-      expect(spy).toHaveBeenCalledTimes(1) // a node has only be pinged once
+      expect(spy).toHaveBeenCalledTimes(2) // a node has only be pinged once and asked for a node_version once
     })
 
     it("should search through nodes until it finds one", async () => {
@@ -433,8 +434,9 @@ describe("Startup Process", () => {
       let axios = require("axios")
       axios.get = jest
         .fn()
-        .mockReturnValueOnce(Promise.reject())
-        .mockReturnValueOnce(Promise.resolve())
+        .mockReturnValueOnce(Promise.reject()) // reject ping
+        .mockReturnValueOnce(Promise.resolve()) // ping
+        .mockReturnValueOnce(Promise.resolve({ data: "0.19.0" })) // /node_version
 
       await registeredIPCListeners["reconnect"]()
 
@@ -693,6 +695,11 @@ function resetModulesKeepingFS() {
   // we want to keep Raven quiet
   const Raven = require("raven")
   Raven.disableConsoleAlerts()
+
+  // axios is used to ping nodes and get the SDK version of the node
+  // we need to keep this mocked, if not, the process fails
+  let axios = require("axios")
+  axios.get = () => Promise.resolve({ data: "0.19.0" })
 }
 
 function mockConfig() {
