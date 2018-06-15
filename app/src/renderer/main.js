@@ -30,7 +30,8 @@ window.addEventListener("error", function(event) {
 })
 Vue.config.errorHandler = (error, vm, info) => {
   Raven.captureException(error)
-  return true
+  // shrinkStacktrace(error)
+  // return true
 }
 
 Vue.use(Electron)

@@ -7,7 +7,7 @@ export default ({ commit, node }) => {
   let state = {
     balances: [],
     balancesLoading: true,
-    history: [],
+    history: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
     historyLoading: false,
     denoms: [],
     address: null,
@@ -90,9 +90,7 @@ export default ({ commit, node }) => {
     },
     async queryWalletHistory({ state, commit, dispatch }) {
       commit("setHistoryLoading", true)
-      // let res = await node.coinTxs(state.address)
-      // XXX
-      let res = []
+      let res = await node.txs(state.address)
       if (!res) return
       commit("setWalletHistory", res)
 
