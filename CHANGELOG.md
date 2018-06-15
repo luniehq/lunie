@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 * Increased version of localtestnet used for testing to match gaia @faboweb
+* Fixed padding issue in main container @faboweb
 
 ## [0.7.0] - 2018-06-13
 
