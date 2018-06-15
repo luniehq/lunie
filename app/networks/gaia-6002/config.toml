@@ -71,7 +71,7 @@ seeds = ""
 
 # Comma separated list of nodes to keep persistent connections to
 # Do not add private peers to this list if you don't want them advertised
-persistent_peers = "38aa9bec3998f12ae9088b21a2d910d19d565c27@gaia-6001.coinculture.net:46656"
+persistent_peers = "38aa9bec3998f12ae9088b21a2d910d19d565c27@gaia-6002.coinculture.net:46656,7642e91d3c5c94b7913275491a14fc2bb7569b62@fullnode.cosmos.cryptium.ch:46656"
 
 # Path to address book
 addr_book_file = "config/addrbook.json"
