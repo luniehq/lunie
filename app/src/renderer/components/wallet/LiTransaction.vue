@@ -39,9 +39,10 @@ export default {
     transactionValue() {
       return this.transaction.tx.value.msg.value
     },
-    transactionHeight() {
-      return this.transaction.height
-    },
+    // HERE FOR DOCUMENTATION
+    // transactionHeight() {
+    //   return this.transaction.height
+    // },
     // TODO: sum relevant inputs/outputs
     sentSelf() {
       return (
