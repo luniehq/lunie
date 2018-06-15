@@ -1,9 +1,9 @@
 <template lang="pug">
 .ni-modal-error__wrapper
   .ni-modal-error
-    .ni-modal-error__icon: i.material-icons offline_bolt
-    .ni-modal-error__title No peers found
-    .ni-modal-error__body All known peers are offline or incompatible. You can retry to connect or switch to demo connection so you can try out Voyager.
+    .ni-modal-error__icon: i.material-icons sync_problem
+    .ni-modal-error__title No nodes found
+    .ni-modal-error__body All known nodes are offline or incompatible. You can retry to connect or switch to a demo connection so you can try out Voyager.
     .ni-modal-error__footer
       btn#ni-modal-error__btn-retry(
         size="lg"
