@@ -642,15 +642,14 @@ async function main() {
 
   // pick a random seed node from config.toml if not using COSMOS_NODE envvar
   // TODO: user-specified nodes, support switching?
-  // TODO: get addresses from 'seeds' as well as 'persistent_peers'
   // TODO: use address to prevent MITM if specified
   if (!NODE) {
     let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
     let configTOML = toml.parse(configText)
-    seeds = configTOML.p2p.persistent_peers
+    seeds = (configTOML.p2p.persistent_peers + "," + configTOML.p2p.seeds)
       .split(",")
       .filter(x => x !== "")
-      .map(x => x.split("@")[1])
+      .map(x => (x.indexOf("@") !== -1 ? x.split("@")[1] : x))
     if (seeds.length === 0) {
       throw new Error("No seeds specified in config.toml")
     }

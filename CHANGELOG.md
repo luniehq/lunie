@@ -7,10 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* Configs for the gaia-6002 testnet @faboweb
+
+### Changes
+
+* Use persistent peers and seeds from tendermint config @faboweb
+
 ### Fixed
 
 * Fixed bug in yarn build:gaia @zramsay
 * Increased version of localtestnet used for testing to match gaia @faboweb
+* Fixed padding issue in main container @faboweb
 
 ## [0.7.0] - 2018-06-13
 

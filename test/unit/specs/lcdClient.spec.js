@@ -119,4 +119,17 @@ describe("LCD Client", () => {
     client.listKeys = () => Promise.reject()
     expect(await client.lcdConnected()).toBeFalsy()
   })
+
+  it("queries for indexed transactions", async () => {
+    let axios = require("axios")
+    axios.get = jest
+      .fn()
+      .mockReturnValueOnce(Promise.resolve({ data: [] }))
+      .mockReturnValueOnce(Promise.resolve({ data: ["abc"] }))
+    let result = await client.txs("abc")
+
+    expect(axios.get).toHaveBeenCalledTimes(2)
+    client.listKeys = () => Promise.resolve()
+    expect(result).toEqual(["abc"])
+  })
 })

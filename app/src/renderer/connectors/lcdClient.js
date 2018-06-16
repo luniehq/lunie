@@ -82,8 +82,13 @@ Object.assign(Client.prototype, {
         throw err
       })
   },
-
-  txs: argReq("GET", "/txs"),
+  txs: function(addr) {
+    return Promise.all([
+      req("GET", `/txs?tag=sender_bech32='${addr}'`).call(this),
+      req("GET", `/txs?tag=recipient_bech32='${addr}'`).call(this)
+    ]).then(([senderTxs, recipientTxs]) => [].concat(senderTxs, recipientTxs))
+  },
+  tx: argReq("GET", "/txs"),
 
   // staking
   updateDelegations: req("POST", "/stake/delegations"),
