@@ -56,7 +56,7 @@ async function main() {
     let matchErrorCode = /\[(([A-Z])\w+)\]/.exec(error.message)
     switch (matchErrorCode ? matchErrorCode[1] : "") {
       case "NO_NODES_AVAILABLE":
-        store.commit("setModalConnection", true)
+        store.commit("setModalNoNodes", true)
         break
       default:
         store.commit("setModalError", true)

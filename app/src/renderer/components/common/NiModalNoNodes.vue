@@ -28,11 +28,11 @@ export default {
   methods: {
     retry() {
       ipcRenderer.send("retry-connection")
-      this.$store.commit("setModalConnection", false)
+      this.$store.commit("setModalNoNodes", false)
     },
     useMock() {
       this.$store.dispatch("setMockedConnector", true)
-      this.$store.commit("setModalConnection", false)
+      this.$store.commit("setModalNoNodes", false)
     }
   }
 }

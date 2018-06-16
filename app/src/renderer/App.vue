@@ -11,7 +11,7 @@
     modal-receive
   notifications(:notifications='notifications' theme='cosmos')
   modal-error(v-if='config.modals.error.active' :body='config.modals.error.message')
-  modal-no-nodes(v-if='config.modals.connection.active')
+  modal-no-nodes(v-if='config.modals.nonodes.active')
   modal-lcd-approval(v-if='approvalRequired' :hash='approvalRequired')
 </template>
 
