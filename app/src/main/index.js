@@ -45,7 +45,7 @@ const RPC_PORT = "46657"
 const MOCK =
   process.env.COSMOS_MOCKED !== undefined
     ? JSON.parse(process.env.COSMOS_MOCKED)
-    : config.mocked
+    : false
 global.config.mocked = MOCK // persist resolved mock setting also in config used by view thread
 const NODE = process.env.COSMOS_NODE
 
