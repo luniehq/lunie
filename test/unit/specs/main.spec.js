@@ -192,36 +192,28 @@ describe("Startup Process", () => {
       let appVersion = fs.readFileSync(testRoot + "app_version", "utf8")
       expect(appVersion).toBe("0.1.0")
     })
-  })
 
-  describe("Start in mocked mode", function() {
-    beforeAll(() => {
-      jest.doMock(appRoot + "src/config.js", () => ({
-        mocked: true
-      }))
-    })
-    afterAll(() => {
-      mockConfig()
-    })
-    mainSetup()
+    it("should error if it can't find a node to connect to", async () => {
+      main.shutdown()
+      prepareMain()
+      let { send } = require("electron")
+      send.mockClear()
 
-    it("should not start the lcd server", async function() {
+      let axios = require("axios")
+      axios.get = async () => Promise.reject() // ping
+
+      // run main
+      main = await require(appRoot + "src/main/index.js")
+
       expect(
-        childProcess.spawn.mock.calls.find(
-          ([path, args]) =>
-            path.includes("gaiacli") && args.includes("rest-server")
-        )
-      ).toBeUndefined()
-      expect(main.processes.lcdProcess).toBeUndefined()
-    })
-
-    xit("should not init the lcd server", async function() {
+        send.mock.calls.filter(([type, _]) => type === "connected").length
+      ).toBe(0) // doesn't connect
       expect(
-        childProcess.spawn.mock.calls.find(
-          ([path, args]) => path.includes("gaiacli") && args.includes("init")
-        )
-      ).toBeDefined()
-      expect(main.processes.lcdProcess).toBeUndefined()
+        send.mock.calls.filter(([type, _]) => type === "error").length
+      ).toBe(1)
+      expect(
+        send.mock.calls.filter(([type, _]) => type === "error")[0][1].code
+      ).toBe("NO_NODES_AVAILABLE")
     })
   })
 
@@ -400,7 +392,7 @@ describe("Startup Process", () => {
       ).toBe(2)
     })
 
-    it("should reconnect on IPC call", async () => {
+    it("should stop the LCD on IPC call", async () => {
       let killSpy = jest.spyOn(main.processes.lcdProcess, "kill")
       await registeredIPCListeners["stop-lcd"]()
 
@@ -443,7 +435,7 @@ describe("Startup Process", () => {
       ).toBe(2)
     })
 
-    it("should error if it can't find a node to connect to", async () => {
+    it("should error if it can't find a node to connect to at reconnect", async () => {
       // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
       main.processes.lcdProcess.on = (type, cb) => {
         if (type === "exit") cb()
@@ -455,11 +447,11 @@ describe("Startup Process", () => {
       await registeredIPCListeners["reconnect"]()
 
       expect(
-        send.mock.calls.filter(([type, _]) => type === "connected").length
-      ).toBe(1) // doesn't reconnect
+        send.mock.calls.filter(([type, _]) => type === "connected")
+      ).toHaveLength(1) // doesn't reconnect
       expect(
-        send.mock.calls.filter(([type, _]) => type === "error").length
-      ).toBe(1)
+        send.mock.calls.filter(([type, _]) => type === "error")
+      ).toHaveLength(1)
       expect(
         send.mock.calls.filter(([type, _]) => type === "error")[0][1].code
       ).toBe("NO_NODES_AVAILABLE")
@@ -630,6 +622,12 @@ function prepareMain() {
   // have the same mocked fs as main uses
   // this is reset with jest.resetModules
   fs = require("fs-extra")
+
+  // axios is used to ping nodes and get the SDK version of the node
+  // we need to keep this mocked, if not, the process fails
+  let axios = require("axios")
+  axios.get = async () => ({ data: "0.19.0" })
+
   const Raven = require("raven")
   Raven.disableConsoleAlerts()
 }
