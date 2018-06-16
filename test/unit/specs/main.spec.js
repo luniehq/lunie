@@ -422,7 +422,7 @@ describe("Startup Process", () => {
       })
 
       await registeredIPCListeners["reconnect"]()
-      expect(spy).toHaveBeenCalledTimes(2) // a node has only be pinged once and asked for a node_version once
+      expect(spy).toHaveBeenCalledTimes(1) // a node has only be pinged once
     })
 
     it("should search through nodes until it finds one", async () => {
