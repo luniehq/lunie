@@ -10,7 +10,7 @@
         |  (change network)
   .ni-connected-network__string#ni-connected-network__block
     span.desktop-only Current Block:
-    router-link(to="/blocks" v-tooltip.top="'View Block'") {{ blockHeight }}
+    router-link(to="/blocks" v-tooltip.top="'View Block'")  {{ blockHeight }}
 .ni-connected-network#ni-disconnected-network(v-else)
   .ni-connected-network__icon: i.material-icons.fa-spin rotate_right
   .ni-connected-network__string Connecting to network&hellip;

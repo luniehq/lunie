@@ -513,43 +513,17 @@ function resetNodes() {
   )
 }
 
-async function checkNodeSDKVersion() {
-  const nodeSDKVersion = (await axios.get(
-    `http://localhost:${LCD_PORT}/node_version`
-  )).data
-  const gaiacliVersion = await getGaiacliVersion()
-  const diff = semver.diff(
-    nodeSDKVersion.split("-")[0],
-    gaiacliVersion.split("-")[0]
-  )
-  const compatible = diff !== "major" || diff !== "minor"
-  if (!compatible) {
-    console.log(
-      `The connected node uses version ${nodeSDKVersion} of the SDK. The local gaiacli uses version ${gaiacliVersion}. Trying another node.`
-    )
-  }
-  return compatible
-}
-
 async function connect(nodeIP) {
   log(`starting gaia rest server with nodeIP ${nodeIP}`)
   lcdProcess = await startLCD(lcdHome, nodeIP)
   log("gaia rest server ready")
 
-  // const compatible = await checkNodeSDKVersion()
-  // if (!compatible) {
-  //   // remember that the node is not compatible
-  //   nodes.find(node => node.ip === nodeIP).state = "incompatible"
-  //   connecting = false
-  //   await reconnect(nodes)
-  // } else {
   afterBooted(() => {
     log("Signaling connected node")
     mainWindow.webContents.send("connected", nodeIP)
   })
 
   connecting = false
-  // }
 }
 
 async function reconnect(nodes) {

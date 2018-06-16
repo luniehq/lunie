@@ -70,7 +70,7 @@ unsafe = false
 laddr = "tcp://0.0.0.0:46656"
 
 # Comma separated list of seed nodes to connect to
-seeds = ""
+seeds = "104.131.180.219"
 
 # Comma separated list of nodes to keep persistent connections to
 persistent_peers = "23dd0f102c0b2fb60b4775ccb0418ca7c5d9945d@104.131.180.219:46656,11352a8094b0128f96f331796847c1696f366749@138.197.207.58:46656,26f9cb761d50e4428650dcd006934cb9057b469d@82.196.14.124:46656,6eb705743dd07de15ca179431a717a9b44ed96ac@159.203.30.37:46656,703ae0a67adc71cd4296d8f1da79822caf99820e@138.197.179.201:46656,c8739cba5bb561bdce1ac8b6a958b2a63633dc21@167.99.69.158:46656"
