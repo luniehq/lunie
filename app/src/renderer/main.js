@@ -53,8 +53,7 @@ async function main() {
   store = Store({ node })
 
   ipcRenderer.on("error", (event, error) => {
-    let matchErrorCode = /\[(([A-Z])\w+)\]/.exec(error.message)
-    switch (matchErrorCode ? matchErrorCode[1] : "") {
+    switch (error.code) {
       case "NO_NODES_AVAILABLE":
         store.commit("setModalNoNodes", true)
         break

@@ -155,7 +155,8 @@ describe("App without analytics", () => {
 
     let { store } = require("renderer/main.js")
     await connectedCB(null, {
-      message: "[NO_NODES_AVAILABLE] message"
+      code: "NO_NODES_AVAILABLE",
+      message: "message"
     })
 
     expect(store.state.config.modals.nonodes.active).toBe(true)

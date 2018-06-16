@@ -256,7 +256,6 @@ describe("Startup Process", () => {
     })
 
     it("should start lcd server", async function() {
-      console.log(childProcess.spawn.mock.calls)
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
@@ -436,13 +435,34 @@ describe("Startup Process", () => {
         .fn()
         .mockReturnValueOnce(Promise.reject()) // reject ping
         .mockReturnValueOnce(Promise.resolve()) // ping
-        .mockReturnValueOnce(Promise.resolve({ data: "0.19.0" })) // /node_version
 
       await registeredIPCListeners["reconnect"]()
 
       expect(
         send.mock.calls.filter(([type, _]) => type === "connected").length
       ).toBe(2)
+    })
+
+    it("should error if it can't find a node to connect to", async () => {
+      // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
+      main.processes.lcdProcess.on = (type, cb) => {
+        if (type === "exit") cb()
+      }
+
+      let axios = require("axios")
+      axios.get = async () => Promise.reject() // ping
+
+      await registeredIPCListeners["reconnect"]()
+
+      expect(
+        send.mock.calls.filter(([type, _]) => type === "connected").length
+      ).toBe(1) // doesn't reconnect
+      expect(
+        send.mock.calls.filter(([type, _]) => type === "error").length
+      ).toBe(1)
+      expect(
+        send.mock.calls.filter(([type, _]) => type === "error")[0][1].code
+      ).toBe("NO_NODES_AVAILABLE")
     })
 
     it("should print a success message if connected to node", async () => {

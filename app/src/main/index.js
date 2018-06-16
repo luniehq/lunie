@@ -98,6 +98,15 @@ function handleCrash(error) {
   })
 }
 
+function signalNoNodesAvailable() {
+  if (mainWindow) {
+    mainWindow.webContents.send("error", {
+      code: "NO_NODES_AVAILABLE",
+      message: "No nodes available to connect to."
+    })
+  }
+}
+
 function shutdown() {
   if (shuttingDown) return
 
@@ -352,6 +361,10 @@ async function initLCD(chainId, home, node) {
 
               // select a new node to try out
               nodeIP = pickNode(nodes)
+              if (!nodeIP) {
+                signalNoNodesAvailable()
+                return
+              }
 
               // initLCD(chainId, home, nodeIP).then(resolve, reject)
             }
@@ -496,10 +509,9 @@ function pickNode(nodes) {
   let availableNodes = nodes.filter(node => node.state === "available")
   if (availableNodes.length === 0) {
     connecting = false
-    throw Error("[NO_NODES_AVAILABLE] No nodes available to connect to.")
+    return
   }
   let node = availableNodes[Math.floor(Math.random() * availableNodes.length)]
-  // let nodeRegex = /([http[s]:\/\/]())/g
   log("Picked node:", node.ip, "of", nodes)
 
   return node.ip
@@ -535,6 +547,10 @@ async function reconnect(nodes) {
   let nodeIP
   while (!nodeAlive) {
     nodeIP = pickNode(nodes)
+    if (!nodeIP) {
+      signalNoNodesAvailable()
+      return
+    }
     nodeAlive = await axios
       .get("http://" + nodeIP, { timeout: 3000 })
       .then(() => true, () => false)
@@ -689,6 +705,10 @@ async function main() {
 
   // choose one random node to start from
   nodeIP = pickNode(nodes)
+  if (!nodeIP) {
+    signalNoNodesAvailable()
+    return
+  }
 
   let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))
   log("LCD is" + (_lcdInitialized ? "" : " not") + " initialized")
