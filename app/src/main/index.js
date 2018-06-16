@@ -718,17 +718,7 @@ async function main() {
   //   // await initLCD(chainId, lcdHome, nodeIP)
   // }
 
-  // if we start in mocked mode, we don't need to connect to a node right away
-  // to make switching between mocked and live mode easier, we still need to check the config folder and read files on app start
-  if (MOCK) {
-    // we still need to signal a connected event so view is waiting for to start
-    connecting = false
-    afterBooted(() => {
-      mainWindow.webContents.send("connected", "127.0.0.1")
-    })
-  } else {
-    await connect(nodeIP)
-  }
+  await connect(nodeIP)
 }
 module.exports = main()
   .catch(err => {
