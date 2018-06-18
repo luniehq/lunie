@@ -3,7 +3,7 @@ page(title="Proposal: Adjust Parameters")
   div(slot="menu"): tool-bar
     router-link(to="/proposals/new" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
-  form-struct(:submit="onSubmit")
+  tm-form-struct(:submit="onSubmit")
     tm-form-group(:error="$v.fields.title.$error"
       field-id='proposal-title' field-label='Proposal Title')
       field#proposal-title(
@@ -33,10 +33,9 @@ page(title="Proposal: Adjust Parameters")
 
 <script>
 import { minLength, maxLength, required } from "vuelidate/lib/validators"
-import { TmBtn, TmFormGroup } from "@tendermint/ui"
+import { TmBtn, TmFormGroup, TmFormStruct } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FormMsg from "common/NiFormMsg"
-import FormStruct from "common/NiFormStruct"
 import Page from "common/NiPage"
 import ToolBar from "common/NiToolBar"
 export default {
@@ -46,7 +45,7 @@ export default {
     Field,
     TmFormGroup,
     FormMsg,
-    FormStruct,
+    TmFormStruct,
     Page,
     ToolBar
   },

@@ -8,7 +8,7 @@ page(:title='proposal.title')
     div(slot='title') Proposed by #[router-link(:to="{ name: 'delegate', params: { delegate: proposal.validatorId }}") {{ proposal.validatorId }}]
     text-block(:content="proposal.data.text")
 
-  part(title='Time to vote: 13D 23H 27M'): form-struct(:submit='confirmVote')
+  part(title='Time to vote: 13D 23H 27M'): tm-form-struct(:submit='confirmVote')
     field-vote(@click.native="vote('yes')" dt='Yes' :dd='yesPct'
       color='hsl(120,50%,35%)' :active="votePick === 'yes'" :results="voteVisible")
 
@@ -28,9 +28,8 @@ page(:title='proposal.title')
 
 <script>
 import { mapGetters } from "vuex"
-import { TmBtn } from "@tendermint/ui"
+import { TmBtn, TmFormStruct } from "@tendermint/ui"
 import FieldVote from "common/NiFieldVote"
-import FormStruct from "common/NiFormStruct"
 import Page from "common/NiPage"
 import Part from "common/NiPart"
 import TextBlock from "common/TextBlock"
@@ -40,7 +39,7 @@ export default {
   components: {
     TmBtn,
     FieldVote,
-    FormStruct,
+    TmFormStruct,
     Page,
     Part,
     TextBlock,

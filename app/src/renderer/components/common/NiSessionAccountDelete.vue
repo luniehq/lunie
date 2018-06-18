@@ -1,5 +1,5 @@
 <template lang="pug">
-.ni-session: form-struct(:submit='onSubmit').ni-session-container
+.ni-session: tm-form-struct(:submit='onSubmit').ni-session-container
   .ni-session-header
     a(@click="setState('sign-in')"): i.material-icons arrow_back
     .ni-session-title Remove Account
@@ -28,10 +28,9 @@
 
 <script>
 import { required, minLength } from "vuelidate/lib/validators"
-import { TmBtn, TmFormGroup } from "@tendermint/ui"
+import { TmBtn, TmFormGroup, TmFormStruct } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FormMsg from "common/NiFormMsg"
-import FormStruct from "common/NiFormStruct"
 export default {
   name: "ni-session-account-delete",
   components: {
@@ -39,7 +38,7 @@ export default {
     Field,
     TmFormGroup,
     FormMsg,
-    FormStruct
+    TmFormStruct
   },
   data: () => ({ fields: { deletionPassword: "" } }),
   methods: {

@@ -1,28 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NiFormStruct has the expected html structure 1`] = `
-"<form class=\\"ni-form ni-form-narrow\\">
-   <div class=\\"ni-form-container\\">
-      <header class=\\"ni-form-header\\">
-         <div class=\\"ni-form-title\\">
+exports[`TmFormStruct has the expected html structure 1`] = `
+"<form class=\\"tm-form tm-form-narrow\\">
+   <div class=\\"tm-form-container\\">
+      <header class=\\"tm-form-header\\">
+         <div class=\\"tm-form-title\\">
             <div class=\\"fake-title\\">
                Fake Title
             </div>
 </div>
-      <div class=\\"ni-form-subtitle\\">
+      <div class=\\"tm-form-subtitle\\">
          <div class=\\"fake-subtitle\\">
             Fake Subtitle
          </div>
 </div>
 </header>
-   <main class=\\"ni-form-main\\">
+   <main class=\\"tm-form-main\\">
       <div class=\\"fake-fields\\"></div>
 </main>
-   <footer class=\\"ni-form-footer\\">
+   <footer class=\\"tm-form-footer\\">
       <div class=\\"fake-footer\\">
          Fake Footer
       </div>
 </footer>
 </div>
 </form>"
-`;
+`

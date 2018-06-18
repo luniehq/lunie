@@ -1,5 +1,5 @@
 <template lang="pug">
-.ni-session: form-struct(:submit='onSubmit').ni-session-container
+.ni-session: tm-form-struct(:submit='onSubmit').ni-session-container
   .ni-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
     .ni-session-title Import with Seed
@@ -54,11 +54,11 @@
 <script>
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
 import PerfectScrollbar from "perfect-scrollbar"
-import { TmBtn, TmFormGroup } from "@tendermint/ui"
+import { TmBtn, TmFormGroup, TmFormStruct } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldSeed from "common/NiFieldSeed"
 import FormMsg from "common/NiFormMsg"
-import FormStruct from "common/NiFormStruct"
+
 export default {
   name: "ni-session-import",
   components: {
@@ -67,7 +67,7 @@ export default {
     FieldSeed,
     TmFormGroup,
     FormMsg,
-    FormStruct
+    TmFormStruct
   },
   data: () => ({
     fields: {
