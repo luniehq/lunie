@@ -241,14 +241,16 @@ async function startLCD(home, nodeIP) {
     ])
     logProcess(child, join(home, "lcd.log"))
 
-    // poll until LCD is started
-    let client = new LcdClient(`http://localhost:${LCD_PORT}`)
-    while (true) {
-      try {
-        await client.listKeys()
-        break // request succeeded
-      } catch (err) {
-        await sleep(1000)
+    if (!child.mocked) {
+      // poll until LCD is started
+      let client = new LcdClient(`http://localhost:${LCD_PORT}`)
+      while (true) {
+        try {
+          await client.listKeys()
+          break // request succeeded
+        } catch (err) {
+          await sleep(1000)
+        }
       }
     }
     resolve(child)

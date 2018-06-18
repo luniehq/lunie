@@ -108,7 +108,8 @@ childProcessMock((path, args) => ({
   },
   stdin: { write: () => {} },
   stdout: stdoutMocks(path, args),
-  stderr: stderrMocks(path, args)
+  stderr: stderrMocks(path, args),
+  mocked: true
 }))
 mockConfig()
 
@@ -244,12 +245,12 @@ describe("Startup Process", () => {
       expect(fs.existsSync(testRoot)).toBe(true)
     })
 
-    xit("should init lcd server with correct testnet", async function() {
+    it("should init lcd server with correct testnet", async function() {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
             path.includes("gaiacli") &&
-            args.includes("init") &&
+            args.includes("rest-server") &&
             args.join("=").includes("--chain-id=basecoind-2")
         )
       ).toBeDefined()
@@ -678,7 +679,8 @@ function failingChildProcess(mockName, mockCmd) {
     },
     stdin: { write: () => {} },
     stdout: stdoutMocks(path, args),
-    stderr: stderrMocks(path, args)
+    stderr: stderrMocks(path, args),
+    mocked: true
   }))
 }
 
