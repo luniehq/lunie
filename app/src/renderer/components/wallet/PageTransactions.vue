@@ -13,7 +13,7 @@ page(title='Transactions')
     v-else
     v-for="i in filteredTransactions"
     :key="shortid.generate()"
-    :transaction-value="i"
+    :transaction="i"
     :address="wallet.address"
     :devMode="config.devMode")
 </template>
@@ -54,7 +54,7 @@ export default {
         [this.sort.property],
         [this.sort.order]
       )
-      return uniqBy(list, "time") // filter out duplicate tx to self
+      return uniqBy(list, "height") // filter out duplicate tx to self
     },
     filteredTransactions() {
       let query = this.filters.transactions.search.query
@@ -71,7 +71,7 @@ export default {
   data: () => ({
     shortid: shortid,
     sort: {
-      property: "time",
+      property: "height",
       order: "desc"
     }
   }),
