@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title="Proposal: Amend Constitution")
+tm-page(title="Proposal: Amend Constitution")
   div(slot="menu"): tool-bar
     router-link(to="/proposals/new" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
@@ -33,10 +33,9 @@ page(title="Proposal: Amend Constitution")
 
 <script>
 import { minLength, maxLength, required } from "vuelidate/lib/validators"
-import { TmBtn, TmFormGroup, TmFormStruct } from "@tendermint/ui"
+import { TmBtn, TmFormGroup, TmFormStruct, TmPage } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FormMsg from "common/NiFormMsg"
-import Page from "common/NiPage"
 import ToolBar from "common/NiToolBar"
 export default {
   name: "page-proposals-new-amend",
@@ -46,7 +45,7 @@ export default {
     TmFormGroup,
     FormMsg,
     TmFormStruct,
-    Page,
+    TmPage,
     ToolBar
   },
   data: () => ({

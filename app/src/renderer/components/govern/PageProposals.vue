@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Proposals')
+tm-page(title='Proposals')
   div(slot="menu"): tool-bar
     router-link(to="/proposals/new" exact v-tooltip.bottom="'New Proposal'")
       i.material-icons add
@@ -28,7 +28,7 @@ import LiProposal from "govern/LiProposal"
 import ModalSearch from "common/NiModalSearch"
 import TabBar from "common/NiTabBar"
 import ToolBar from "common/NiToolBar"
-import Page from "common/NiPage"
+import { TmPage } from "@tendermint/ui"
 import Part from "common/NiPart"
 export default {
   name: "page-proposals",
@@ -38,7 +38,7 @@ export default {
     DataEmptySearch,
     LiProposal,
     ModalSearch,
-    Page,
+    TmPage,
     Part,
     TabBar,
     ToolBar

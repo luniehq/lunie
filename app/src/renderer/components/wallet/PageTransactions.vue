@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Transactions')
+tm-page(title='Transactions')
   div(slot="menu"): tool-bar
     a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
       i.material-icons search
@@ -28,7 +28,7 @@ import DataEmptySearch from "common/NiDataEmptySearch"
 import DataEmptyTx from "common/NiDataEmptyTx"
 import LiTransaction from "wallet/LiTransaction"
 import ModalSearch from "common/NiModalSearch"
-import Page from "common/NiPage"
+import { TmPage } from "@tendermint/ui"
 import Part from "common/NiPart"
 import ToolBar from "common/NiToolBar"
 export default {
@@ -39,7 +39,7 @@ export default {
     DataEmptySearch,
     DataEmptyTx,
     ModalSearch,
-    Page,
+    TmPage,
     Part,
     ToolBar
   },

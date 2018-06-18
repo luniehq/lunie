@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Staking')
+tm-page(title='Staking')
   div(slot="menu"): tool-bar
     a(@click='updateDelegates()' v-tooltip.bottom="'Refresh'")
       i.material-icons refresh
@@ -30,13 +30,12 @@ import { mapGetters } from "vuex"
 import { includes, orderBy, forEach } from "lodash"
 import Mousetrap from "mousetrap"
 import LiDelegate from "staking/LiDelegate"
-import { TmBtn } from "@tendermint/ui"
+import { TmBtn, TmPage } from "@tendermint/ui"
 import DataEmpty from "common/NiDataEmpty"
 import DataEmptySearch from "common/NiDataEmptySearch"
 import DataLoading from "common/NiDataLoading"
 import Field from "@nylira/vue-field"
 import ModalSearch from "common/NiModalSearch"
-import Page from "common/NiPage"
 import Part from "common/NiPart"
 import PanelSort from "staking/PanelSort"
 import ToolBar from "common/NiToolBar"
@@ -50,7 +49,7 @@ export default {
     DataLoading,
     Field,
     ModalSearch,
-    Page,
+    TmPage,
     Part,
     PanelSort,
     ToolBar

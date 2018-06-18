@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='New Proposal')
+tm-page(title='New Proposal')
   div(slot="menu"): tool-bar
     router-link(to="/proposals" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
@@ -12,15 +12,14 @@ page(title='New Proposal')
 </template>
 
 <script>
-import { TmListItem } from "@tendermint/ui"
-import Page from "common/NiPage"
+import { TmListItem, TmPage } from "@tendermint/ui"
 import Part from "common/NiPart"
 import ToolBar from "common/NiToolBar"
 export default {
   name: "page-proposals-new",
   components: {
     TmListItem,
-    Page,
+    TmPage,
     Part,
     ToolBar
   }

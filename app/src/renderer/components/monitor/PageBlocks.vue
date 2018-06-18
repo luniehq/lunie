@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Block Explorer')
+tm-page(title='Block Explorer')
   div(slot="menu"): tool-bar
     a(@click='setSearch()' v-tooltip.bottom="'Search Block'" :disabled="!somethingToSearch")
       i.material-icons search
@@ -29,10 +29,9 @@ import moment from "moment"
 import Mousetrap from "mousetrap"
 import num from "scripts/num"
 import { mapGetters } from "vuex"
-import { TmListItem } from "@tendermint/ui"
+import { TmListItem, TmPage } from "@tendermint/ui"
 import DataError from "common/NiDataError"
 import DataLoading from "common/NiDataLoading"
-import Page from "common/NiPage"
 import Part from "common/NiPart"
 import ToolBar from "common/NiToolBar"
 import ModalSearch from "common/NiModalSearch"
@@ -42,7 +41,7 @@ export default {
     TmListItem,
     DataError,
     DataLoading,
-    Page,
+    TmPage,
     Part,
     ToolBar,
     ModalSearch

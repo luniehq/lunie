@@ -1,5 +1,5 @@
 <template lang="pug">
-page(:title='proposal.title')
+tm-page(:title='proposal.title')
   div(slot="menu"): tool-bar
     a(@click="commentOnProposal(proposal.id)"): i.material-icons comment
     a(@click="proposalIsSpam(proposal.id)"): i.material-icons error
@@ -28,9 +28,8 @@ page(:title='proposal.title')
 
 <script>
 import { mapGetters } from "vuex"
-import { TmBtn, TmFormStruct } from "@tendermint/ui"
+import { TmBtn, TmFormStruct, TmPage } from "@tendermint/ui"
 import FieldVote from "common/NiFieldVote"
-import Page from "common/NiPage"
 import Part from "common/NiPart"
 import TextBlock from "common/TextBlock"
 import ToolBar from "common/NiToolBar"
@@ -40,7 +39,7 @@ export default {
     TmBtn,
     FieldVote,
     TmFormStruct,
-    Page,
+    TmPage,
     Part,
     TextBlock,
     ToolBar

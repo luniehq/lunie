@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Wallet')
+tm-page(title='Wallet')
   div(slot="menu"): tool-bar
     a(@click='updateBalances()' v-tooltip.bottom="'Refresh'")
       i.material-icons refresh
@@ -45,9 +45,8 @@ import DataLoading from "common/NiDataLoading"
 import DataEmpty from "common/NiDataEmpty"
 import DataEmptySearch from "common/NiDataEmptySearch"
 import LiCopy from "common/NiLiCopy"
-import { TmListItem } from "@tendermint/ui"
+import { TmListItem, TmPage } from "@tendermint/ui"
 import ModalSearch from "common/NiModalSearch"
-import Page from "common/NiPage"
 import Part from "common/NiPart"
 import ToolBar from "common/NiToolBar"
 export default {
@@ -59,7 +58,7 @@ export default {
     LiCopy,
     TmListItem,
     ModalSearch,
-    Page,
+    TmPage,
     Part,
     ToolBar
   },

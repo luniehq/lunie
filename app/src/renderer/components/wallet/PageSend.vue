@@ -1,5 +1,5 @@
 <template lang='pug'>
-page(title='Send')
+tm-page(title='Send')
   div(slot="menu"): tool-bar
   tm-form-struct(:submit="onSubmit")
     part(title='Denomination Options')
@@ -53,11 +53,16 @@ page(title='Send')
 import b32 from "scripts/b32"
 import { required, between } from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
-import { TmBtn, TmFieldGroup, TmFormGroup, TmFormStruct } from "@tendermint/ui"
+import {
+  TmBtn,
+  TmFieldGroup,
+  TmFormGroup,
+  TmFormStruct,
+  TmPage
+} from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldAddon from "common/NiFieldAddon"
 import FormMsg from "common/NiFormMsg"
-import Page from "common/NiPage"
 import Part from "common/NiPart"
 import ToolBar from "common/NiToolBar"
 export default {
@@ -69,7 +74,7 @@ export default {
     TmFormGroup,
     FormMsg,
     TmFormStruct,
-    Page,
+    TmPage,
     Part,
     ToolBar
   },

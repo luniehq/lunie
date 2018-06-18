@@ -1,5 +1,5 @@
 <template lang="pug">
-page(:title="delegateType + ' Profile'")
+tm-page(:title="delegateType + ' Profile'")
   div(slot="menu"): tool-bar
 
   part(:title="delegateType + ' Info'")
@@ -17,8 +17,7 @@ page(:title="delegateType + ' Profile'")
 
 <script>
 import { mapGetters } from "vuex"
-import { TmListItem } from "@tendermint/ui"
-import Page from "common/NiPage"
+import { TmListItem, TmPage } from "@tendermint/ui"
 import Part from "common/NiPart"
 import TextBlock from "common/TextBlock"
 import ToolBar from "common/NiToolBar"
@@ -26,7 +25,7 @@ export default {
   name: "page-delegate",
   components: {
     TmListItem,
-    Page,
+    TmPage,
     Part,
     TextBlock,
     ToolBar

@@ -1,5 +1,5 @@
 <template lang="pug">
-page(:title="pageBlockTitle")
+tm-page(:title="pageBlockTitle")
   data-loading(v-if="blockchain.blockLoading")
   data-empty(v-else-if="!block || !block.header || !blockMeta")
   template(v-else)
@@ -64,9 +64,8 @@ import LiTransaction from "wallet/LiTransaction"
 import DataLoading from "common/NiDataLoading"
 import DataEmpty from "common/NiDataEmpty"
 import ToolBar from "common/NiToolBar"
-import { TmListItem } from "@tendermint/ui"
+import { TmListItem, TmPage } from "@tendermint/ui"
 import Part from "common/NiPart"
-import Page from "common/NiPage"
 export default {
   name: "page-block",
   components: {
@@ -76,7 +75,7 @@ export default {
     ToolBar,
     TmListItem,
     Part,
-    Page
+    TmPage
   },
   computed: {
     ...mapGetters(["blockchain", "blockTxInfo", "config"]),

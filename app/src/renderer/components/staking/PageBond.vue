@@ -1,5 +1,5 @@
 <template lang="pug">
-page.page-bond(:title="`Bond ${denom}`")
+tm-page.page-bond(:title="`Bond ${denom}`")
   div(slot="menu"): tool-bar
   part(:title="`Start bonding your ${totalAtoms} ${denom}`"): tm-form-struct( :submit="onSubmit")
     .bond-group(:class="bondGroupClass(unbondedAtomsDelta)")
@@ -117,11 +117,10 @@ import { between, numeric, required } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import interact from "interactjs"
-import { TmBtn, TmFormGroup, TmFormStruct } from "@tendermint/ui"
+import { TmBtn, TmFormGroup, TmFormStruct, TmPage } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldAddon from "common/NiFieldAddon"
 import FormMsg from "common/NiFormMsg"
-import Page from "common/NiPage"
 import Part from "common/NiPart"
 import ToolBar from "common/NiToolBar"
 export default {
@@ -133,7 +132,7 @@ export default {
     TmFormGroup,
     FormMsg,
     TmFormStruct,
-    Page,
+    TmPage,
     Part,
     ToolBar
   },

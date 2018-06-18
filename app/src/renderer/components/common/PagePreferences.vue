@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title="Preferences")
+tm-page(title="Preferences")
   div(slot="menu"): tool-bar
 
   part(title='Settings')
@@ -46,9 +46,8 @@ page(title="Preferences")
 <script>
 import { mapGetters } from "vuex"
 import Field from "@nylira/vue-field"
-import { TmListItem, TmBtn } from "@tendermint/ui"
+import { TmListItem, TmBtn, TmPage } from "@tendermint/ui"
 import ToolBar from "common/NiToolBar"
-import Page from "common/NiPage"
 import Part from "common/NiPart"
 export default {
   name: "page-preferences",
@@ -56,7 +55,7 @@ export default {
     TmBtn,
     Field,
     TmListItem,
-    Page,
+    TmPage,
     Part,
     ToolBar
   },

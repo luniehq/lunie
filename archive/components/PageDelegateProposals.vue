@@ -1,5 +1,5 @@
 <template lang="pug">
-page(icon="storage" :title="`${delegateId} Proposals`")
+tm-page(icon="storage" :title="`${delegateId} Proposals`")
   div(slot="menu"): tool-bar
     router-link(v-tooltip.bottom="'Back'"
       :to="{ name: 'delegate', params: { delegate: $route.params.delegate }}")
@@ -22,13 +22,13 @@ page(icon="storage" :title="`${delegateId} Proposals`")
 <script>
 import ListItem from "common/NiListItem"
 import ToolBar from "common/NiToolBar"
-import Page from "common/NiPage"
+import { TmPage } from "@tendermint/ui"
 import Part from "common/NiPart"
 export default {
   name: "page-delegate-proposals",
   components: {
     ListItem,
-    Page,
+    TmPage,
     Part,
     ToolBar
   },

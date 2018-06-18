@@ -1,5 +1,5 @@
 <template lang="pug">
-page(icon="storage" :title="`${delegateId} Vote Power`")
+tm-page(icon="storage" :title="`${delegateId} Vote Power`")
   div(slot="menu"): tool-bar
     router-link(v-tooltip.bottom="'Back'"
       :to="{ name: 'delegate', params: { delegate: $route.params.delegate }}")
@@ -19,14 +19,14 @@ page(icon="storage" :title="`${delegateId} Vote Power`")
 import ChartVotePower from "monitor/ChartVotePower"
 import ListItem from "common/NiListItem"
 import ToolBar from "common/NiToolBar"
-import Page from "common/NiPage"
+import { TmPage } from "@tendermint/ui"
 import Part from "common/NiPart"
 export default {
   name: "page-delegate-power",
   components: {
     ChartVotePower,
     ListItem,
-    Page,
+    TmPage,
     Part,
     ToolBar
   },

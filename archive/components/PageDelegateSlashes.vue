@@ -1,5 +1,5 @@
 <template lang="pug">
-page(icon="storage" :title="`${delegateId} Slashes`")
+tm-page(icon="storage" :title="`${delegateId} Slashes`")
   div(slot="menu"): tool-bar
     router-link(v-tooltip.bottom="'Back'"
       :to="{ name: 'delegate', params: { delegate: $route.params.delegate }}")
@@ -23,13 +23,13 @@ page(icon="storage" :title="`${delegateId} Slashes`")
 <script>
 import ListItem from "common/NiListItem"
 import ToolBar from "common/NiToolBar"
-import Page from "common/NiPage"
+import { TmPage } from "@tendermint/ui"
 import Part from "common/NiPart"
 export default {
   name: "page-delegate-slashes",
   components: {
     ListItem,
-    Page,
+    TmPage,
     Part,
     ToolBar
   },
