@@ -1,5 +1,6 @@
 "use strict"
 const b32 = require("../scripts/b32.js")
+const { getHeight } = require("./rpcWrapperMock.js")
 
 const botAddress = "cosmosaccaddr1p6zajjw6xged056andyhn62lm7axwzyspkzjq0"
 const addresses = [
@@ -427,13 +428,13 @@ function send(to, from, req) {
           value: {
             inputs: [
               {
-                coins: [req.amount],
+                coins: req.amount,
                 address: from
               }
             ],
             outputs: [
               {
-                coins: [req.amount],
+                coins: req.amount,
                 address: to
               }
             ]
@@ -441,7 +442,7 @@ function send(to, from, req) {
         }
       }
     },
-    height: state.sendHeight++,
+    height: getHeight() + (from === botAddress ? 1 : 0),
     time: Date.now()
   })
 

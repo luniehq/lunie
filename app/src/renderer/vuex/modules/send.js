@@ -44,7 +44,10 @@ export default ({ commit, node }) => {
 
     // wait to ensure tx is committed before we query
     // XXX
-    setTimeout(() => dispatch("queryWalletBalances"), 3 * 1000)
+    setTimeout(() => {
+      dispatch("queryWalletBalances")
+      dispatch("queryWalletHistory")
+    }, 3 * 1000)
   }
 
   let actions = {

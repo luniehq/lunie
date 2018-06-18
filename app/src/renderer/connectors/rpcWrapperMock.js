@@ -58,6 +58,10 @@ module.exports = function setRPCWrapperMock(container) {
   return rpcWrapper
 }
 
+module.exports.getHeight = function() {
+  return state.blocks.length - 1
+}
+
 function createBlockMeta(time, height) {
   return {
     header: { time, height },
