@@ -2,23 +2,22 @@
 tm-page(:title="delegateType + ' Profile'")
   div(slot="menu"): tool-bar
 
-  part(:title="delegateType + ' Info'")
+  tm-part(:title="delegateType + ' Info'")
     tm-list-item(dt='Moniker' :dd='delegate.moniker')
     tm-list-item(dt='Website' :dd='delegate.website')
     tm-list-item(dt='Address' :dd='delegate.address')
     tm-list-item(dt='Public Key' :dd='delegate.pub_key.data')
 
-  part(:title="delegateType + ' Description'")
+  tm-part(:title="delegateType + ' Description'")
     text-block(:content="delegate.details || 'No description available.'")
 
-  part(:title="delegateType + ' Details'" v-if="isValidator")
+  tm-part(:title="delegateType + ' Details'" v-if="isValidator")
     tm-list-item(dt="Total Vote Power" :dd="delegate.voting_power")
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import { TmListItem, TmPage } from "@tendermint/ui"
-import Part from "common/NiPart"
+import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
 import TextBlock from "common/TextBlock"
 import ToolBar from "common/NiToolBar"
 export default {
@@ -26,7 +25,7 @@ export default {
   components: {
     TmListItem,
     TmPage,
-    Part,
+    TmPart,
     TextBlock,
     ToolBar
   },

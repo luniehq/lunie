@@ -3,7 +3,7 @@ tm-page(title='New Proposal')
   div(slot="menu"): tool-bar
     router-link(to="/proposals" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
-  part(title='Choose a Type')
+  tm-part(title='Choose a Type')
     tm-list-item(title='Adjust Parameters' to="/proposals/new/adjust")
     tm-list-item(title='Amend Constitution' to="/proposals/new/amend")
     tm-list-item(title='Create Atoms' to="/proposals/new/create")
@@ -12,15 +12,14 @@ tm-page(title='New Proposal')
 </template>
 
 <script>
-import { TmListItem, TmPage } from "@tendermint/ui"
-import Part from "common/NiPart"
+import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
 import ToolBar from "common/NiToolBar"
 export default {
   name: "page-proposals-new",
   components: {
     TmListItem,
     TmPage,
-    Part,
+    TmPart,
     ToolBar
   }
 }

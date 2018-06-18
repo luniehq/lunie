@@ -9,14 +9,12 @@ modal.ni-modal-receive(v-if="active" :close="close")
 import { mapGetters } from "vuex"
 import LiCopy from "common/NiLiCopy"
 import Modal from "common/NiModal"
-import Part from "common/NiPart"
 export default {
   name: "ni-modal-receive",
   props: ["value"],
   components: {
     LiCopy,
-    Modal,
-    Part
+    Modal
   },
   computed: {
     ...mapGetters(["config", "wallet"]),

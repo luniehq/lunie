@@ -36,7 +36,6 @@ import DataEmptySearch from "common/NiDataEmptySearch"
 import DataLoading from "common/NiDataLoading"
 import Field from "@nylira/vue-field"
 import ModalSearch from "common/NiModalSearch"
-import Part from "common/NiPart"
 import PanelSort from "staking/PanelSort"
 import ToolBar from "common/NiToolBar"
 export default {
@@ -50,7 +49,6 @@ export default {
     Field,
     ModalSearch,
     TmPage,
-    Part,
     PanelSort,
     ToolBar
   },

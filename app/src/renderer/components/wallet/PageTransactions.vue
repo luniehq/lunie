@@ -29,7 +29,6 @@ import DataEmptyTx from "common/NiDataEmptyTx"
 import LiTransaction from "wallet/LiTransaction"
 import ModalSearch from "common/NiModalSearch"
 import { TmPage } from "@tendermint/ui"
-import Part from "common/NiPart"
 import ToolBar from "common/NiToolBar"
 export default {
   name: "page-transactions",
@@ -40,7 +39,6 @@ export default {
     DataEmptyTx,
     ModalSearch,
     TmPage,
-    Part,
     ToolBar
   },
   computed: {

@@ -7,10 +7,10 @@ tm-page(icon="storage" :title="`${delegateId} Proposals`")
     a(@click='toggleSearch' v-tooltip.bottom="'Search'")
       i.material-icons search
 
-  part(title='Current Proposals')
+  tm-part(title='Current Proposals')
     list-item(title="Title of the proposal here" subtitle="Live now" to="/proposal")
 
-  part(title='Past Proposals')
+  tm-part(title='Past Proposals')
     list-item(title="Title of the proposal here" subtitle="Failed" to="/proposals")
     list-item(title="Title of the proposal here" subtitle="Passed" to="/proposals")
     list-item(title="Title of the proposal here" subtitle="Passed" to="/proposals")
@@ -22,14 +22,13 @@ tm-page(icon="storage" :title="`${delegateId} Proposals`")
 <script>
 import ListItem from "common/NiListItem"
 import ToolBar from "common/NiToolBar"
-import { TmPage } from "@tendermint/ui"
-import Part from "common/NiPart"
+import { TmPage, TmPart } from "@tendermint/ui"
 export default {
   name: "page-delegate-proposals",
   components: {
     ListItem,
     TmPage,
-    Part,
+    TmPart,
     ToolBar
   },
   computed: {

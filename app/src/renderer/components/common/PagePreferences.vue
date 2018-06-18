@@ -2,7 +2,7 @@
 tm-page(title="Preferences")
   div(slot="menu"): tool-bar
 
-  part(title='Settings')
+  tm-part(title='Settings')
     tm-list-item(type="field" title="Select network to connect to")
       field#select-network(
         type="select"
@@ -34,7 +34,7 @@ tm-page(title="Preferences")
           }`
         :value="user.errorCollection || undefined"
         @change.native="setErrorCollection")
-  part(title='Account')
+  tm-part(title='Account')
     tm-list-item(type="field" title="Switch account")
       tm-btn(
         icon='exit_to_app'
@@ -46,9 +46,9 @@ tm-page(title="Preferences")
 <script>
 import { mapGetters } from "vuex"
 import Field from "@nylira/vue-field"
-import { TmListItem, TmBtn, TmPage } from "@tendermint/ui"
+import { TmListItem, TmBtn, TmPage, TmPart } from "@tendermint/ui"
 import ToolBar from "common/NiToolBar"
-import Part from "common/NiPart"
+
 export default {
   name: "page-preferences",
   components: {
@@ -56,7 +56,7 @@ export default {
     Field,
     TmListItem,
     TmPage,
-    Part,
+    TmPart,
     ToolBar
   },
   computed: {

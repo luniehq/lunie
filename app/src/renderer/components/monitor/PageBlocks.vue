@@ -9,12 +9,12 @@ tm-page(title='Block Explorer')
   data-loading(v-if="blockchain.syncing" title="Node is syncing blockchain…")
   data-loading(v-if="!blockchain.syncing && !blockchain.subscription")
 
-  part(title='Current Block' v-if="blockchain.subscription")
+  tm-part(title='Current Block' v-if="blockchain.subscription")
     tm-list-item(dt='Block Height' :dd='num.prettyInt(lastHeader.height)' :to="{ name: 'block', params: { block: lastHeader.height} }")
     tm-list-item(dt='Block Time' :dd='latestBlockTime')
     tm-list-item(dt='Block Hash' :dd='latestBlockHash')
 
-  part(title='Latest Blocks' v-if="blockchain.subscription")
+  tm-part(title='Latest Blocks' v-if="blockchain.subscription")
     tm-list-item.column-header(dt="Block Height" dd="# of Transactions")
     tm-list-item(
       v-for="block in blocks"
@@ -29,10 +29,9 @@ import moment from "moment"
 import Mousetrap from "mousetrap"
 import num from "scripts/num"
 import { mapGetters } from "vuex"
-import { TmListItem, TmPage } from "@tendermint/ui"
+import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
 import DataError from "common/NiDataError"
 import DataLoading from "common/NiDataLoading"
-import Part from "common/NiPart"
 import ToolBar from "common/NiToolBar"
 import ModalSearch from "common/NiModalSearch"
 export default {
@@ -42,7 +41,7 @@ export default {
     DataError,
     DataLoading,
     TmPage,
-    Part,
+    TmPart,
     ToolBar,
     ModalSearch
   },

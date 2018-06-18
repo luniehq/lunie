@@ -8,14 +8,14 @@ tm-page(title='Wallet')
 
   modal-search(type="balances" v-if="somethingToSearch")
 
-  part(title='Your Address')
+  tm-part(title='Your Address')
     tm-list-item(
       :title="wallet.address"
       :btn="'Receive'"
       :overflow="true"
       @click.native="copy")
 
-  part#part-available-balances(title="Available Balances")
+  tm-part#part-available-balances(title="Available Balances")
     data-loading(v-if="wallet.balancesLoading")
     data-empty(v-else-if="wallet.balances.length === 0")
     data-empty-search(v-else-if="filteredBalances.length === 0")
@@ -28,7 +28,7 @@ tm-page(title='Wallet')
       :dd="i.amount"
       :to="{name: 'send', params: {denom: i.denom}}")
 
-  part#part-staked-balances(v-if="config.devMode" title="Staked Balances")
+  tm-part#part-staked-balances(v-if="config.devMode" title="Staked Balances")
     tm-list-item(
       btn="Stake"
       :dt="stakingDenom"
@@ -45,9 +45,8 @@ import DataLoading from "common/NiDataLoading"
 import DataEmpty from "common/NiDataEmpty"
 import DataEmptySearch from "common/NiDataEmptySearch"
 import LiCopy from "common/NiLiCopy"
-import { TmListItem, TmPage } from "@tendermint/ui"
+import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
 import ModalSearch from "common/NiModalSearch"
-import Part from "common/NiPart"
 import ToolBar from "common/NiToolBar"
 export default {
   name: "page-wallet",
@@ -59,7 +58,7 @@ export default {
     TmListItem,
     ModalSearch,
     TmPage,
-    Part,
+    TmPart,
     ToolBar
   },
   computed: {

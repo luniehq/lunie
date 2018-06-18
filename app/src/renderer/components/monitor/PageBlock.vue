@@ -15,10 +15,10 @@ tm-page(:title="pageBlockTitle")
         v-tooltip.bottom="'Newer Block'")
         i.material-icons chevron_right
 
-    part(title='')
+    tm-part(title='')
       tm-list-item(dt="Block Hash" :dd="blockMeta.block_id.hash")
 
-    part(title='Header')
+    tm-part(title='Header')
       tm-list-item(dt="Chain ID" :dd="block.header.chain_id")
       tm-list-item(dt="Time" :dd="blockHeaderTime")
       tm-list-item(dt="Transactions" :dd="block.header.num_txs")
@@ -26,13 +26,13 @@ tm-page(:title="pageBlockTitle")
       tm-list-item(dt="Validators Hash" :dd="block.header.validators_hash")
       tm-list-item(dt="App Hash" :dd="block.header.app_hash")
 
-    part(title='Last Block')
+    tm-part(title='Last Block')
       tm-list-item(dt="Hash" :dd="block.header.last_block_id.hash")
       tm-list-item(dt="Parts Total"
         :dd="block.header.last_block_id.parts.total")
       tm-list-item(dt="Parts Hash" :dd="block.header.last_block_id.parts.hash")
 
-    part(title="Precommit"
+    tm-part(title="Precommit"
       v-for="p in block.last_commit.precommits"
       :key="p.validator_address" v-if="p !== null")
       tm-list-item(dt="Address" :dd="p.validator_address")
@@ -41,7 +41,7 @@ tm-page(:title="pageBlockTitle")
       tm-list-item(:dt="`Sig (${p.signature.type})`"
       :dd="p.signature.data")
 
-    part(title='Transactions')
+    tm-part(title='Transactions')
       data-loading(v-if="blockchain.blockLoading")
       data-empty(v-else-if="block.header.num_txs === 0" title="Empty Block" subtitle="There were no transactions in this block.")
       template(
@@ -64,8 +64,7 @@ import LiTransaction from "wallet/LiTransaction"
 import DataLoading from "common/NiDataLoading"
 import DataEmpty from "common/NiDataEmpty"
 import ToolBar from "common/NiToolBar"
-import { TmListItem, TmPage } from "@tendermint/ui"
-import Part from "common/NiPart"
+import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
 export default {
   name: "page-block",
   components: {
@@ -74,7 +73,7 @@ export default {
     DataEmpty,
     ToolBar,
     TmListItem,
-    Part,
+    TmPart,
     TmPage
   },
   computed: {

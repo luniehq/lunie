@@ -38,13 +38,11 @@ import noScroll from "no-scroll"
 import ConnectedNetwork from "common/NiConnectedNetwork"
 import { TmListItem } from "@tendermint/ui"
 import UserPane from "common/NiUserPane"
-import Part from "common/NiPart"
 export default {
   name: "app-menu",
   components: {
     ConnectedNetwork,
     TmListItem,
-    Part,
     UserPane
   },
   computed: {

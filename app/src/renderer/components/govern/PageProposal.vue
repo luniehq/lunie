@@ -4,11 +4,11 @@ tm-page(:title='proposal.title')
     a(@click="commentOnProposal(proposal.id)"): i.material-icons comment
     a(@click="proposalIsSpam(proposal.id)"): i.material-icons error
 
-  part(v-if="proposal.type === 'text'")
+  tm-part(v-if="proposal.type === 'text'")
     div(slot='title') Proposed by #[router-link(:to="{ name: 'delegate', params: { delegate: proposal.validatorId }}") {{ proposal.validatorId }}]
     text-block(:content="proposal.data.text")
 
-  part(title='Time to vote: 13D 23H 27M'): tm-form-struct(:submit='confirmVote')
+  tm-part(title='Time to vote: 13D 23H 27M'): tm-form-struct(:submit='confirmVote')
     field-vote(@click.native="vote('yes')" dt='Yes' :dd='yesPct'
       color='hsl(120,50%,35%)' :active="votePick === 'yes'" :results="voteVisible")
 
@@ -28,9 +28,8 @@ tm-page(:title='proposal.title')
 
 <script>
 import { mapGetters } from "vuex"
-import { TmBtn, TmFormStruct, TmPage } from "@tendermint/ui"
+import { TmBtn, TmFormStruct, TmPage, TmPart } from "@tendermint/ui"
 import FieldVote from "common/NiFieldVote"
-import Part from "common/NiPart"
 import TextBlock from "common/TextBlock"
 import ToolBar from "common/NiToolBar"
 export default {
@@ -40,7 +39,7 @@ export default {
     FieldVote,
     TmFormStruct,
     TmPage,
-    Part,
+    TmPart,
     TextBlock,
     ToolBar
   },

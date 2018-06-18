@@ -29,7 +29,6 @@ import ModalSearch from "common/NiModalSearch"
 import TabBar from "common/NiTabBar"
 import ToolBar from "common/NiToolBar"
 import { TmPage } from "@tendermint/ui"
-import Part from "common/NiPart"
 export default {
   name: "page-proposals",
   components: {
@@ -39,7 +38,6 @@ export default {
     LiProposal,
     ModalSearch,
     TmPage,
-    Part,
     TabBar,
     ToolBar
   },

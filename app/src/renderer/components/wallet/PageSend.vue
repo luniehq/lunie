@@ -2,7 +2,7 @@
 tm-page(title='Send')
   div(slot="menu"): tool-bar
   tm-form-struct(:submit="onSubmit")
-    part(title='Denomination Options')
+    tm-part(title='Denomination Options')
       tm-form-group(:error='$v.fields.denom.$error'
         field-id='send-denomination' field-label='Denomination')
         field#send-denomination(
@@ -12,7 +12,7 @@ tm-page(title='Send')
           placeholder="Select token...")
         form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
 
-    part(title='Transaction Details')
+    tm-part(title='Transaction Details')
       tm-form-group(:error='$v.fields.zoneId.$error'
         v-if="config.devMode"
         field-id='send-zone-id' field-label='Zone ID')
@@ -58,12 +58,12 @@ import {
   TmFieldGroup,
   TmFormGroup,
   TmFormStruct,
-  TmPage
+  TmPage,
+  TmPart
 } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldAddon from "common/NiFieldAddon"
 import FormMsg from "common/NiFormMsg"
-import Part from "common/NiPart"
 import ToolBar from "common/NiToolBar"
 export default {
   components: {
@@ -75,7 +75,7 @@ export default {
     FormMsg,
     TmFormStruct,
     TmPage,
-    Part,
+    TmPart,
     ToolBar
   },
   computed: {

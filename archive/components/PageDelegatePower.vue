@@ -5,10 +5,10 @@ tm-page(icon="storage" :title="`${delegateId} Vote Power`")
       :to="{ name: 'delegate', params: { delegate: $route.params.delegate }}")
       i.material-icons arrow_back
 
-  part(title='Vote Power (Millions of ATOMs) / Time')
+  tm-part(title='Vote Power (Millions of ATOMs) / Time')
     chart-vote-power(:votes="chartData")
 
-  part(title='Statistics')
+  tm-part(title='Statistics')
     list-item(dt='Total Vote Power' dd='4.2M ATOM')
     list-item#li-solo-power(dt="Solo Vote Power" dd="1M ATOM (19%)")
     list-item#li-delegated-power(dt="Delg. Vote Power" dd="3.2M ATOM (81%)")
@@ -19,15 +19,14 @@ tm-page(icon="storage" :title="`${delegateId} Vote Power`")
 import ChartVotePower from "monitor/ChartVotePower"
 import ListItem from "common/NiListItem"
 import ToolBar from "common/NiToolBar"
-import { TmPage } from "@tendermint/ui"
-import Part from "common/NiPart"
+import { TmPage, TmPart } from "@tendermint/ui"
 export default {
   name: "page-delegate-power",
   components: {
     ChartVotePower,
     ListItem,
     TmPage,
-    Part,
+    TmPart,
     ToolBar
   },
   computed: {

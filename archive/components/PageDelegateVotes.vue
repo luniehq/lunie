@@ -7,14 +7,14 @@ tm-page(icon="storage" :title="delegate.description.moniker" subtitle="Votes")
     a(@click='toggleSearch' v-tooltip.bottom="'Search'")
       i.material-icons search
 
-  part(title='Vote Statistics')
+  tm-part(title='Vote Statistics')
     list-item(dt="Voted Yes:" dd="27%")
     list-item(dt="Voted No:" dd="5%")
     list-item(dt="Voted Reject:" dd="4%")
     list-item(dt="Abstained:" dd="11%")
     list-item(dt="Did Not Vote:" dd="53%")
 
-  part(title='Past Votes')
+  tm-part(title='Past Votes')
     list-item(title="Title of the proposal here" subtitle="YES" to="/proposals")
     list-item(title="Title of the proposal here" subtitle="NO" to="/proposals")
     list-item(title="Title of the proposal here" subtitle="REJECT" to="/proposals")
@@ -27,14 +27,13 @@ tm-page(icon="storage" :title="delegate.description.moniker" subtitle="Votes")
 import { mapGetters } from "vuex"
 import ListItem from "common/NiListItem"
 import ToolBar from "common/NiToolBar"
-import { TmPage } from "@tendermint/ui"
-import Part from "common/NiPart"
+import { TmPage, TmPart } from "@tendermint/ui"
 export default {
   name: "page-delegate-votes",
   components: {
     ListItem,
     TmPage,
-    Part,
+    TmPart,
     ToolBar
   },
   computed: {
