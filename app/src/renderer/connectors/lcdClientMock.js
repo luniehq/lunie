@@ -74,7 +74,7 @@ let state = {
                       amount: 1234
                     }
                   ],
-                  sender: makeAddress()
+                  address: makeAddress()
                 }
               ],
               outputs: [
@@ -85,7 +85,7 @@ let state = {
                       amount: 1234
                     }
                   ],
-                  receiver: addresses[0]
+                  address: addresses[0]
                 }
               ]
             }
@@ -107,7 +107,7 @@ let state = {
                       amount: 1234
                     }
                   ],
-                  sender: addresses[0]
+                  address: addresses[0]
                 }
               ],
               outputs: [
@@ -118,7 +118,7 @@ let state = {
                       amount: 1234
                     }
                   ],
-                  receiver: makeAddress()
+                  address: makeAddress()
                 }
               ]
             }
@@ -179,7 +179,8 @@ let state = {
         country: "DE"
       }
     }
-  ]
+  ],
+  sendHeight: 2
 }
 
 module.exports = {
@@ -234,10 +235,8 @@ module.exports = {
   async txs(address) {
     return state.txs.filter(tx => {
       return (
-        tx.tx.value.msg.value.inputs.find(input => input.sender === address) ||
-        tx.tx.value.msg.value.outputs.find(
-          output => output.receiver === address
-        )
+        tx.tx.value.msg.value.inputs.find(input => input.address === address) ||
+        tx.tx.value.msg.value.outputs.find(output => output.address === address)
       )
     })
   },
@@ -300,20 +299,21 @@ module.exports = {
               inputs: [
                 {
                   coins: [req.amount],
-                  sender: fromKey.address
+                  address: fromKey.address
                 }
               ],
               outputs: [
                 {
                   coins: [req.amount],
-                  receiver: to
+                  address: to
                 }
               ]
             }
           }
         }
       },
-      height: 1
+      height: state.sendHeight++,
+      time: Date.now()
     })
 
     return txResult(0)
