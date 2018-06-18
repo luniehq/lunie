@@ -5,7 +5,7 @@
     .ni-session-title Create Account
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
-    form-group(field-id='sign-up-name' field-label='Account Name' :error='$v.fields.signUpName.$error')
+    tm-form-group(field-id='sign-up-name' field-label='Account Name' :error='$v.fields.signUpName.$error')
       field#sign-up-name(
         type="text"
         placeholder="Must be at least 5 characters"
@@ -13,7 +13,7 @@
       form-msg(name='Name' type='required' v-if='!$v.fields.signUpName.required')
       form-msg(name='Name' type='minLength' min="5" v-if='!$v.fields.signUpName.minLength')
 
-    form-group(:error='$v.fields.signUpPassword.$error'
+    tm-form-group(:error='$v.fields.signUpPassword.$error'
       field-id='sign-up-password' field-label='Password')
       field#sign-up-password(
         type="password"
@@ -22,7 +22,7 @@
       form-msg(name='Password' type='required' v-if='!$v.fields.signUpPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signUpPassword.minLength')
 
-    form-group(:error='$v.fields.signUpPasswordConfirm.$error'
+    tm-form-group(:error='$v.fields.signUpPasswordConfirm.$error'
       field-id='sign-up-password-confirm' field-label='Confirm Password')
       field#sign-up-password-confirm(
         type="password"
@@ -30,12 +30,12 @@
         v-model="fields.signUpPasswordConfirm")
       form-msg(name='Password confirmation' type='match' v-if='!$v.fields.signUpPasswordConfirm.sameAsPassword')
 
-    form-group(field-id='sign-up-seed' field-label='Seed Phrase')
+    tm-form-group(field-id='sign-up-seed' field-label='Seed Phrase')
       field-seed#sign-up-seed(v-model="fields.signUpSeed" disabled)
       form-msg.sm
         | Please back up the seed phrase for this account. This seed phrase cannot be recovered.
 
-    form-group(field-id="sign-up-warning" field-label=''
+    tm-form-group(field-id="sign-up-warning" field-label=''
       :error='$v.fields.signUpWarning.$error')
       .ni-field-checkbox
         .ni-field-checkbox-input
@@ -44,7 +44,7 @@
           | I have securely written down my seed. I understand that lost seeds cannot be recovered.
       form-msg(name='Recovery confirmation' type='required' v-if='!$v.fields.signUpWarning.required')
 
-    form-group(field-id="error-collection" field-label=''
+    tm-form-group(field-id="error-collection" field-label=''
       :error='$v.fields.errorCollection.$error')
       .ni-field-checkbox
         .ni-field-checkbox-input
@@ -59,10 +59,9 @@
 <script>
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
 import PerfectScrollbar from "perfect-scrollbar"
-import { TmBtn } from "@tendermint/ui"
+import { TmBtn, TmFormGroup } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldSeed from "common/NiFieldSeed"
-import FormGroup from "common/NiFormGroup"
 import FormMsg from "common/NiFormMsg"
 import FormStruct from "common/NiFormStruct"
 export default {
@@ -71,7 +70,7 @@ export default {
     TmBtn,
     Field,
     FieldSeed,
-    FormGroup,
+    TmFormGroup,
     FormMsg,
     FormStruct
   },

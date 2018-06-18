@@ -5,7 +5,7 @@
     .ni-session-title Sign In
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
-    form-group(field-id='sign-in-name' field-label='Select Account')
+    tm-form-group(field-id='sign-in-name' field-label='Select Account')
       field#sign-in-name(
         type="select"
         v-model="fields.signInName"
@@ -13,7 +13,7 @@
         :options="accounts")
       form-msg(name='Name' type='required' v-if='!$v.fields.signInName.required')
 
-    form-group(:error='$v.fields.signInPassword.$error'
+    tm-form-group(:error='$v.fields.signInPassword.$error'
       field-id='sign-in-password' field-label='Password')
       field#sign-in-password(
         type="password"
@@ -28,9 +28,8 @@
 <script>
 import { mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
-import { TmBtn } from "@tendermint/ui"
+import { TmBtn, TmFormGroup } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
-import FormGroup from "common/NiFormGroup"
 import FormMsg from "common/NiFormMsg"
 import FormStruct from "common/NiFormStruct"
 export default {
@@ -38,7 +37,7 @@ export default {
   components: {
     TmBtn,
     Field,
-    FormGroup,
+    TmFormGroup,
     FormMsg,
     FormStruct
   },
@@ -116,7 +115,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-.ni-form-group
+.ni-tm-form-group
   a
     cursor pointer
 </style>

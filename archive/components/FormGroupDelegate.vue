@@ -1,5 +1,5 @@
 <template lang="pug">
-form-group(:class='cssClass' :error="$v.fields.atoms.$error")
+tm-form-group(:class='cssClass' :error="$v.fields.atoms.$error")
   i.fa.fa-check-square-o(@click='rm(delegate.id)')
   router-link.id(:to="{ name: 'delegate', params: { delegate: delegate.id } }")
     | {{ delegate.keybaseID }}
@@ -18,7 +18,7 @@ form-group(:class='cssClass' :error="$v.fields.atoms.$error")
 import { mapGetters } from "vuex"
 import Field from "@nylira/vue-field"
 import Btn from "@nylira/vue-button"
-import FormGroup from "common/NiFormGroup"
+import { TmFormGroup } from "@tendermint/ui"
 import FormMsg from "common/NiFormMsg"
 export default {
   name: "card-delegate-atoms",
@@ -26,7 +26,7 @@ export default {
   components: {
     Btn,
     Field,
-    FormGroup,
+    TmFormGroup,
     FormMsg
   },
   computed: {

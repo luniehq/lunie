@@ -5,7 +5,7 @@
     .ni-session-title Remove Account
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
-    form-group(:error='$v.fields.deletionPassword.$error'
+    tm-form-group(:error='$v.fields.deletionPassword.$error'
       field-id='sign-in-password' field-label='Password')
       field#sign-in-password(
         type="password"
@@ -14,7 +14,7 @@
       form-msg(name='Password' type='required' v-if='!$v.fields.deletionPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.deletionPassword.minLength')
 
-    form-group(field-id="sign-up-warning" field-label=' '
+    tm-form-group(field-id="sign-up-warning" field-label=' '
       :error='$v.fields.deletionWarning.$error')
       .ni-field-checkbox
         .ni-field-checkbox-input
@@ -28,9 +28,8 @@
 
 <script>
 import { required, minLength } from "vuelidate/lib/validators"
-import { TmBtn } from "@tendermint/ui"
+import { TmBtn, TmFormGroup } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
-import FormGroup from "common/NiFormGroup"
 import FormMsg from "common/NiFormMsg"
 import FormStruct from "common/NiFormStruct"
 export default {
@@ -38,7 +37,7 @@ export default {
   components: {
     TmBtn,
     Field,
-    FormGroup,
+    TmFormGroup,
     FormMsg,
     FormStruct
   },

@@ -25,13 +25,11 @@
 
 <script>
 import { TmBtn } from "@tendermint/ui"
-import FormGroup from "common/NiFormGroup"
 import Field from "@nylira/vue-field"
 export default {
   name: "modal-lcd-approval",
   components: {
     TmBtn,
-    FormGroup,
     Field
   },
   computed: {},

@@ -3,7 +3,7 @@ page(title='Send')
   div(slot="menu"): tool-bar
   form-struct(:submit="onSubmit")
     part(title='Denomination Options')
-      form-group(:error='$v.fields.denom.$error'
+      tm-form-group(:error='$v.fields.denom.$error'
         field-id='send-denomination' field-label='Denomination')
         field#send-denomination(
           type="select"
@@ -13,7 +13,7 @@ page(title='Send')
         form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
 
     part(title='Transaction Details')
-      form-group(:error='$v.fields.zoneId.$error'
+      tm-form-group(:error='$v.fields.zoneId.$error'
         v-if="config.devMode"
         field-id='send-zone-id' field-label='Zone ID')
         field#send-zone-id(
@@ -22,7 +22,7 @@ page(title='Send')
           :options="zoneIds"
           placeholder="Select zone...")
         form-msg(name='Zone' type='required' v-if='!$v.fields.zoneId.required')
-      form-group(:error='$v.fields.address.$error'
+      tm-form-group(:error='$v.fields.address.$error'
         field-id='send-address' field-label='Send To')
         tm-field-group
           field#send-address(
@@ -32,7 +32,7 @@ page(title='Send')
         form-msg(name='Address' type='required' v-if='!$v.fields.address.required')
         form-msg(name='Address' type='bech32' :body="bech32error" v-else-if='!$v.fields.address.bech32Validate')
 
-      form-group(:error='$v.fields.amount.$error'
+      tm-form-group(:error='$v.fields.amount.$error'
         field-id='send-amount' field-label='Amount')
         tm-field-group
           field#send-amount(
@@ -53,10 +53,9 @@ page(title='Send')
 import b32 from "scripts/b32"
 import { required, between } from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
-import { TmBtn, TmFieldGroup } from "@tendermint/ui"
+import { TmBtn, TmFieldGroup, TmFormGroup } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldAddon from "common/NiFieldAddon"
-import FormGroup from "common/NiFormGroup"
 import FormMsg from "common/NiFormMsg"
 import FormStruct from "common/NiFormStruct"
 import Page from "common/NiPage"
@@ -68,7 +67,7 @@ export default {
     Field,
     FieldAddon,
     TmFieldGroup,
-    FormGroup,
+    TmFormGroup,
     FormMsg,
     FormStruct,
     Page,

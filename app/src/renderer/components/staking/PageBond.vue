@@ -97,7 +97,7 @@ page.page-bond(:title="`Bond ${denom}`")
             placeholder="Atoms"
             :value="newUnbondingAtoms")
 
-    form-group(field-id="bond-confirm" field-label=''
+    tm-form-group(field-id="bond-confirm" field-label=''
       :error='$v.fields.bondConfirm.$error')
       .ni-field-checkbox
         .ni-field-checkbox-input
@@ -117,10 +117,9 @@ import { between, numeric, required } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import interact from "interactjs"
-import { TmBtn } from "@tendermint/ui"
+import { TmBtn, TmFormGroup } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldAddon from "common/NiFieldAddon"
-import FormGroup from "common/NiFormGroup"
 import FormMsg from "common/NiFormMsg"
 import FormStruct from "common/NiFormStruct"
 import Page from "common/NiPage"
@@ -132,7 +131,7 @@ export default {
     TmBtn,
     Field,
     FieldAddon,
-    FormGroup,
+    TmFormGroup,
     FormMsg,
     FormStruct,
     Page,

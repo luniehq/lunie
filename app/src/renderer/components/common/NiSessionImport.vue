@@ -5,7 +5,7 @@
     .ni-session-title Import with Seed
     a(@click="help"): i.material-icons help_outline
   .ni-session-main
-    form-group(field-id='import-name' field-label='Account Name' :error='$v.fields.importName.$error')
+    tm-form-group(field-id='import-name' field-label='Account Name' :error='$v.fields.importName.$error')
       field#import-name(
         type="text"
         placeholder="Must have at least 5 characters"
@@ -13,7 +13,7 @@
       form-msg(name='Name' type='required' v-if='!$v.fields.importName.required')
       form-msg(name='Name' type='minLength' min="5" v-if='!$v.fields.importName.minLength')
 
-    form-group(:error='$v.fields.importPassword.$error'
+    tm-form-group(:error='$v.fields.importPassword.$error'
       field-id='import-password' field-label='Password')
       field#import-password(
         type="password"
@@ -22,7 +22,7 @@
       form-msg(name='Password' type='required' v-if='!$v.fields.importPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.importPassword.minLength')
 
-    form-group(:error='$v.fields.importPasswordConfirm.$error'
+    tm-form-group(:error='$v.fields.importPasswordConfirm.$error'
       field-id='import-password-confirmation' field-label='Confirm Password')
       field#import-password-confirmation(
         type="password"
@@ -30,7 +30,7 @@
         v-model="fields.importPasswordConfirm")
       form-msg(name='Password confirmation' type='match' v-if='!$v.fields.importPasswordConfirm.sameAsPassword')
 
-    form-group(:error='$v.fields.importSeed.$error'
+    tm-form-group(:error='$v.fields.importSeed.$error'
       field-id='import-seed' field-label='Seed Phrase')
       field-seed#import-seed(
         :value="fields.importSeed"
@@ -39,7 +39,7 @@
       form-msg(name='Seed' type='required' v-if='!$v.fields.importSeed.required')
       form-msg(name='Seed' type='words16' v-else-if='!$v.fields.importSeed.words16')
 
-    form-group(field-id="error-collection" field-label=''
+    tm-form-group(field-id="error-collection" field-label=''
       :error='$v.fields.errorCollection.$error')
       .ni-field-checkbox
         .ni-field-checkbox-input
@@ -54,10 +54,9 @@
 <script>
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
 import PerfectScrollbar from "perfect-scrollbar"
-import { TmBtn } from "@tendermint/ui"
+import { TmBtn, TmFormGroup } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldSeed from "common/NiFieldSeed"
-import FormGroup from "common/NiFormGroup"
 import FormMsg from "common/NiFormMsg"
 import FormStruct from "common/NiFormStruct"
 export default {
@@ -66,7 +65,7 @@ export default {
     TmBtn,
     Field,
     FieldSeed,
-    FormGroup,
+    TmFormGroup,
     FormMsg,
     FormStruct
   },

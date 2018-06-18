@@ -3,7 +3,7 @@
   form.ni-modal-search-container(
     v-if="type === 'blocks'"
     v-on:submit.prevent.default="gotoBlock")
-    form-group(field-id="search-input" field-label=""
+    tm-form-group(field-id="search-input" field-label=""
       :error="$v.filters.blocks.search.query.$invalid")
       .ni-modal-search-field
         field#search-input.mousetrap(
@@ -19,7 +19,7 @@
         :max="$v.filters.blocks.search.query.$params.between.max"
         v-if="!$v.filters.blocks.search.query.between")
   .ni-modal-search-container(v-else)
-    form-group(field-id="search-input" field-label="")
+    tm-form-group(field-id="search-input" field-label="")
       .ni-modal-search-field
         field#search-input.mousetrap(
           type="text" placeholder="Search..." v-model="query")
@@ -29,16 +29,15 @@
 <script>
 import { between, numeric } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
-import { TmBtn } from "@tendermint/ui"
+import { TmBtn, TmFormGroup } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
-import FormGroup from "common/NiFormGroup"
 import FormMsg from "common/NiFormMsg"
 export default {
   name: "modal-search",
   components: {
     TmBtn,
     Field,
-    FormGroup,
+    TmFormGroup,
     FormMsg
   },
   computed: {
