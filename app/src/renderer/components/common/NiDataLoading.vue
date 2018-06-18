@@ -1,14 +1,14 @@
 <template lang="pug">
-data-msg(icon="rotate_right" spin="true")
+tm-data-msg(icon="rotate_right" spin="true")
   div(slot="title") {{ title }}
   div(slot="subtitle") Please wait a moment.
 </template>
 
 <script>
-import DataMsg from "common/NiDataMsg"
+import { TmDataMsg } from "@tendermint/ui"
 export default {
   name: "ni-data-loading",
-  components: { DataMsg },
+  components: { TmDataMsg },
   props: {
     title: {
       type: String,

@@ -1,13 +1,13 @@
 <template lang="pug">
-data-msg(icon="search")
+tm-data-msg(icon="search")
   div(slot="title") No Results
   div(slot="subtitle") Your search did not match any available data.
 </template>
 
 <script>
-import DataMsg from "common/NiDataMsg"
+import { TmDataMsg } from "@tendermint/ui"
 export default {
   name: "ni-data-empty-search",
-  components: { DataMsg }
+  components: { TmDataMsg }
 }
 </script>

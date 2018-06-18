@@ -1,5 +1,5 @@
 <template lang="pug">
-data-msg(icon="info_outline")
+tm-data-msg(icon="info_outline")
   h4(v-if="title" slot="title") {{ title }}
   h4(v-else slot="title") N/A
 
@@ -8,10 +8,10 @@ data-msg(icon="info_outline")
 </template>
 
 <script>
-import DataMsg from "common/NiDataMsg"
+import { TmDataMsg } from "@tendermint/ui"
 export default {
   name: "ni-data-empty",
   props: ["title", "subtitle"],
-  components: { DataMsg }
+  components: { TmDataMsg }
 }
 </script>
