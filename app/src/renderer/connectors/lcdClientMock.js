@@ -291,6 +291,31 @@ module.exports = {
       receiverCoin.amount += amount
     }
 
+    // log tx
+    state.txs.push({
+      tx: {
+        value: {
+          msg: {
+            value: {
+              inputs: [
+                {
+                  coins: [req.amount],
+                  sender: fromKey.address
+                }
+              ],
+              outputs: [
+                {
+                  coins: [req.amount],
+                  receiver: to
+                }
+              ]
+            }
+          }
+        }
+      },
+      height: 1
+    })
+
     return txResult(0)
   },
   ibcSend(to, req) {
