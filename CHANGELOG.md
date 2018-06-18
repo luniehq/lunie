@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Configs for the gaia-6002 testnet @faboweb
+* Bot which returns money to sender in mock mode @mappum
 
 ### Changes
 
