@@ -89,14 +89,19 @@ exports[`PageTransactions has the expected html structure 1`] = `
   >
     <!---->
     <li-transaction
-      address="myAddress"
+      address="tb1d4u5zerywfjhxuc9nudvw"
       devmode="true"
-      transaction-value="[object Object]"
+      transaction="[object Object]"
     />
     <li-transaction
-      address="myAddress"
+      address="tb1d4u5zerywfjhxuc9nudvw"
       devmode="true"
-      transaction-value="[object Object]"
+      transaction="[object Object]"
+    />
+    <li-transaction
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      devmode="true"
+      transaction="[object Object]"
     />
     <div
       class="ps__rail-x"
@@ -254,9 +259,9 @@ exports[`PageTransactions should filter the transactions 1`] = `
       </div>
     </div>
     <li-transaction
-      address="myAddress"
+      address="tb1d4u5zerywfjhxuc9nudvw"
       devmode="true"
-      transaction-value="[object Object]"
+      transaction="[object Object]"
     />
   </main>
 </div>

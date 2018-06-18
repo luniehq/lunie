@@ -122,6 +122,7 @@ export default {
   mounted() {
     Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
     Mousetrap.bind("esc", () => this.setSearch(false))
+    this.$store.dispatch("updateDelegates")
   }
 }
 </script>

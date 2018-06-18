@@ -1,4 +1,3 @@
-let { tmpdir } = require("os")
 let { join } = require("path")
 
 function sleep(ms) {
@@ -54,6 +53,12 @@ module.exports = {
     await app.client.waitUntilTextExists(".ni-page-header-title", titleText)
     console.log(`navigated to "${linkText}"`)
   },
+  async navigateToPreferences(app) {
+    await module.exports.openMenu(app)
+    // click link
+    await app.client.$(`.ni-li-user`).click()
+    console.log(`navigated to preferences`)
+  },
   newTempDir() {
     return join(
       tmpdir(),
@@ -77,6 +82,11 @@ module.exports = {
     let accountsSelect = "#sign-in-name select"
 
     await app.client.waitForExist(accountsSelect, 10000)
+
+    // in mocked mode, the password is already set and selectOption presses enter resulting in logging, which we don't want to keep the process the same as in live mode
+    await app.client.$("#sign-in-password").click()
+    await app.client.keys(["___"])
+
     await module.exports.selectOption(app, accountsSelect, account)
 
     await app.client.$("#sign-in-password").setValue("1234567890")
@@ -86,7 +96,7 @@ module.exports = {
 
     // checking if user is logged in
     await module.exports.openMenu(app)
-    let activeUser = await app.client.$(".ni-li-user .ni-li-title").getText()
+    let activeUser = await app.client.$(".ni-li-user .ni-li-subtitle").getText()
     if (account !== activeUser) {
       throw new Error(
         "Incorrect user logged in (" + account + ", " + activeUser + ")"

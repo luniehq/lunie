@@ -1,38 +1,13 @@
 import { shallow } from "@vue/test-utils"
 import LiTransaction from "renderer/components/wallet/LiTransaction"
+import transactions from "../../store/json/txs.js"
 
 describe("LiTransaction", () => {
   let wrapper
   let propsData = {
     devMode: true,
-    transactionValue: {
-      tx: {
-        inputs: [
-          {
-            coins: [
-              {
-                denom: "jbcoins",
-                amount: 1234
-              }
-            ],
-            sender: "otherAddress"
-          }
-        ],
-        outputs: [
-          {
-            coins: [
-              {
-                denom: "jbcoins",
-                amount: 1234
-              }
-            ],
-            recipient: "myAddress"
-          }
-        ]
-      },
-      time: null
-    },
-    address: "myAddress"
+    transaction: transactions[0],
+    address: "tb1d4u5zerywfjhxuc9nudvw"
   }
 
   beforeEach(() => {
@@ -49,84 +24,16 @@ describe("LiTransaction", () => {
 
   it("should show outgoing transactions", () => {
     wrapper.setProps({
-      transactionValue: {
-        tx: {
-          inputs: [
-            {
-              coins: [
-                {
-                  denom: "jbcoins",
-                  amount: 1234
-                }
-              ],
-              sender: "myAddress"
-            }
-          ],
-          outputs: [
-            {
-              coins: [
-                {
-                  denom: "jbcoins",
-                  amount: 1234
-                }
-              ],
-              recipient: "otherAddress"
-            }
-          ]
-        },
-        time: Date.now()
-      },
-      address: "myAddress"
+      transaction: transactions[1],
+      address: "tb1d4u5zerywfjhxuc9nudvw"
     })
     expect(wrapper.find(".ni-li-tx").classes()).toContain("ni-li-tx-sent")
   })
 
   it("should show all coins of the transaction", () => {
     wrapper.setProps({
-      transactionValue: {
-        tx: {
-          inputs: [
-            {
-              coins: [
-                {
-                  denom: "jbcoins",
-                  amount: 1234
-                },
-                {
-                  denom: "fabocoins",
-                  amount: 1
-                },
-                {
-                  denom: "mattcoins",
-                  amount: 42
-                }
-              ],
-              sender: "otherAddress"
-            }
-          ],
-          outputs: [
-            {
-              coins: [
-                {
-                  denom: "jbcoins",
-                  amount: 1234
-                },
-                {
-                  denom: "fabocoins",
-                  amount: 1
-                },
-                {
-                  denom: "mattcoins",
-                  amount: 42
-                }
-              ],
-              recipient: "myAddress"
-            }
-          ]
-        },
-        time: Date.now()
-      },
-      address: "myAddress"
+      transaction: transactions[2],
+      address: "tb1d4u5zerywfjhxuc9nudvw"
     })
     expect(wrapper.findAll(".tx-coin").length).toBe(3)
     expect(

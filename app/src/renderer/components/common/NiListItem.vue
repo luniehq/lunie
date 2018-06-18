@@ -111,10 +111,10 @@ export default {
   display block
   min-height 3rem
   position relative
-  border-bottom 2*px solid var(--bc-dim)
+  border-bottom 2 * px solid var(--bc-dim)
 
   &:last-child
-    border-bottom 2*px solid transparent
+    border-bottom 2 * px solid transparent
 
   &.ni-li-link
     &:hover, &.router-link-exact-active
@@ -137,13 +137,13 @@ export default {
       background transparent
       z-index z(listItem)
 
-    .ni-li-dt
-    .ni-li-dd
+    .ni-li-dt, .ni-li-dd
       color var(--link)
 
   &.router-link-exact-active
     .ni-li-title
       color var(--bright)
+
     &:before
       background var(--mc)
 
@@ -151,8 +151,7 @@ export default {
       i.material-icons
         color var(--mc)
 
-.ni-li-label
-.ni-li-dl
+.ni-li-label, .ni-li-dl
   .ni-btn
     position absolute
     top 0.5rem - px
@@ -163,19 +162,18 @@ export default {
   flex-flow row nowrap
   align-items center
   position relative
-  min-height 3rem - 2*px
+  min-height 3rem - 2 * px
 
 // type: anchor & link
-.ni-li-thumb
-.ni-li-label
-.ni-li-icon
-  min-height 3rem - 2*px
+.ni-li-thumb, .ni-li-label, .ni-li-icon
+  min-height 3rem - 2 * px
 
 .ni-li-thumb:empty
   display none
 
 .ni-li-thumb
   width 3rem - px
+
   i.material-icons
     display block
     width 3rem - px
@@ -192,10 +190,16 @@ export default {
   justify-content center
   padding 0 1rem
   flex-flow column nowrap
+  overflow hidden
 
   .ni-li-title
     color var(--txt)
     line-height 1.25
+    text-overflow ellipsis
+    max-width 100%
+    white-space nowrap
+    overflow hidden
+
   .ni-li-subtitle
     color var(--dim)
     font-size xs
@@ -206,65 +210,62 @@ export default {
     padding 0 1rem 0 0
 
 // type: field
-
 .ni-li-field .ni-li-container
   display flex
+
   .ni-li-label
     flex 2
+
   .ni-li-input
     flex 1
     display flex
+
     .ni-btn
       flex 1
+
     .ni-select
       width 100%
 
 // type: dl definition list
-
 .ni-li-dl
   flex 1
   height 3rem - px
   padding 0 0.5rem
   display flex
   align-items center
-
   // truncate
   min-width 0
 
-.ni-li-dt
-.ni-li-dd
+.ni-li-dt, .ni-li-dd
   // truncate
   white-space nowrap
   text-overflow ellipsis
   overflow hidden
   color var(--txt)
 
-.ni-li-dt
-.ni-li-dd
+.ni-li-dt, .ni-li-dd
   &:empty
     display none
 
 .no-overflow
-  .ni-li-dt
-  .ni-li-dd
+  .ni-li-dt, .ni-li-dd
     overflow visible
 
 .ni-li-dt
   padding-left 0.5rem
   padding-right 0.25rem
-
   max-width width-side
   flex 2
 
 .ni-li-dd
   padding-left 0.25rem
   padding-right 0.5rem
-
   flex 3
   line-height 1.25
 
   &.ni-li-dd-flush
     padding 0
+
   &.ni-li-dd-flush > div
     display flex
     height 3rem - px
@@ -280,8 +281,10 @@ a.ni-li-dd
   position absolute
   top 0
   right 0
+
   .inactive
     display block
+
   .active
     display none
 </style>

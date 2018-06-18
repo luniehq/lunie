@@ -15,10 +15,12 @@ export default ({ commit, node }) => {
     args.sequence = state.nonce
     args.name = rootState.user.account
     args.password = rootState.user.password
+    args.account_number = rootState.wallet.accountNumber // TODO move into LCD?
 
     let chainId = rootState.node.lastHeader.chain_id
-    args.chain_id = chainId
-    args.src_chain_id = chainId // for IBC transfer
+    // TODO enable again when IBC is enabled
+    // args.chain_id = chainId
+    // args.src_chain_id = chainId // for IBC transfer
 
     // extract type
     let type = args.type || "send"
@@ -27,15 +29,16 @@ export default ({ commit, node }) => {
     // extract "to" address
     let to = args.to
     delete args.to
+    args.gas = 500000
 
     // submit to LCD to build, sign, and broadcast
-    let res = await node[type](to, args)
+    let req = to ? node[type](to, args) : node[type](args)
+    let res = await req.catch(err => {
+      throw new Error(err.message)
+    })
 
     // check response code
-    if (res.check_tx.code || res.deliver_tx.code) {
-      let message = res.check_tx.log || res.deliver_tx.log
-      throw new Error("Error sending transaction: " + message)
-    }
+    assertOk(res)
 
     commit("setNonce", state.nonce + 1)
 
@@ -73,5 +76,16 @@ export default ({ commit, node }) => {
     state,
     mutations,
     actions
+  }
+}
+
+function assertOk(res) {
+  if (Array.isArray(res)) {
+    return res.forEach(assertOk)
+  }
+
+  if (res.check_tx.code || res.deliver_tx.code) {
+    let message = res.check_tx.log || res.deliver_tx.log
+    throw new Error("Error sending transaction: " + message)
   }
 }

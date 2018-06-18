@@ -2,7 +2,7 @@
 
 exports[`LiDelegate has the expected html structure 1`] = `
 <div
-  class="li-delegate"
+  class="li-delegate li-delegate-validator "
 >
   <div
     class="li-delegate__values"
@@ -12,27 +12,27 @@ exports[`LiDelegate has the expected html structure 1`] = `
     >
       <a
         class=""
-        href="#/staking/delegates/pubkeyX"
+        href="#/staking/delegates/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
       >
-        candidateX
+        mr_mounty
       </a>
     </div>
     <div
       class="li-delegate__value percent_of_vote"
     >
       <span>
-        25%
+        22%
       </span>
     </div>
     <div
       class="li-delegate__value number_of_votes num bar"
     >
       <span>
-        10,000
+        14
       </span>
       <div
         class="bar"
-        style="width: 33%;"
+        style="width: 44%;"
       />
     </div>
     <div
@@ -46,7 +46,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
       class="li-delegate__value status"
     >
       <span>
-        Candidate
+        Validator
       </span>
     </div>
     <div

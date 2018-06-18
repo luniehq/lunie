@@ -1,7 +1,7 @@
 <template lang="pug">
 page(:title="pageBlockTitle")
   data-loading(v-if="blockchain.blockLoading")
-  data-empty(v-else-if="!block.header || !blockMeta")
+  data-empty(v-else-if="!block || !block.header || !blockMeta")
   template(v-else)
     div(slot="menu"): tool-bar
       router-link(:to="{ name: 'block', params: { block: block.header.height - 1 }}"
@@ -44,13 +44,23 @@ page(:title="pageBlockTitle")
     part(title='Transactions')
       data-loading(v-if="blockchain.blockLoading")
       data-empty(v-else-if="block.header.num_txs === 0" title="Empty Block" subtitle="There were no transactions in this block.")
-      list-item(v-else v-for="tx in block.data.txs" :key="tx.id" dt="Transaction" :dd="TODO")
+      template(
+        v-else-if="txs.length"
+        )
+        li-transaction(
+          :key="tkey + '-tx'"
+          v-for="(tx, tkey) in txs"
+          v-if="isObj(tx)"
+          :transaction-value="transactionValueify(tx)"
+          :address="tx.tx.msg.inputs[0].address"
+          :devMode="config.devMode")
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import moment from "moment"
 import num from "scripts/num"
+import LiTransaction from "wallet/LiTransaction"
 import DataLoading from "common/NiDataLoading"
 import DataEmpty from "common/NiDataEmpty"
 import ToolBar from "common/NiToolBar"
@@ -60,6 +70,7 @@ import Page from "common/NiPage"
 export default {
   name: "page-block",
   components: {
+    LiTransaction,
     DataLoading,
     DataEmpty,
     ToolBar,
@@ -68,11 +79,14 @@ export default {
     Page
   },
   computed: {
-    ...mapGetters(["blockchain"]),
+    ...mapGetters(["blockchain", "blockTxInfo", "config"]),
     blockchainHeight() {
       return this.blockchain.blocks.length > 0
         ? this.blockchain.blocks[0].header.height
         : 0
+    },
+    txs() {
+      return this.blockTxInfo || (this.block.data && this.block.data.txs)
     },
     block() {
       return this.blockchain.block
@@ -96,13 +110,25 @@ export default {
     },
     nextBlockAvailable() {
       return (
-        this.block.header && this.block.header.height < this.blockchainHeight
+        this.block &&
+        this.block.header &&
+        this.block.header.height < this.blockchainHeight
       )
     }
   },
   methods: {
+    isObj(thing) {
+      return typeof thing === "object"
+    },
     fetchBlock() {
       this.$store.dispatch("getBlock", parseInt(this.$route.params.block))
+    },
+    transactionValueify(tv) {
+      tv = JSON.parse(JSON.stringify(tv))
+      tv.tx.inputs = tv.tx.msg.inputs
+      tv.tx.outputs = tv.tx.msg.outputs
+      tv.time = this.block && this.block.blockHeaderTime
+      return tv
     }
   },
   mounted() {

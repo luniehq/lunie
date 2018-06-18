@@ -25,13 +25,12 @@ export default {
   position relative
   max-width width-main-max
 
-.ni-part-container
-.ni-part-header
-.ni-part-title
-.ni-part-menu
-.ni-part-main
+.ni-part-container, .ni-part-header, .ni-part-title, .ni-part-menu, .ni-part-main
   &:empty
     display none
+
+.ni-part-main
+  padding-right 1rem
 
 .ni-part-container
   margin 0 auto
@@ -45,13 +44,13 @@ export default {
   display flex
   align-items center
 
-.ni-part-title
-.ni-part-menu
+.ni-part-title, .ni-part-menu
   color var(--dim)
   margin 0
 
   a
     color var(--link)
+
     &:hover
       color var(--hover)
 
@@ -64,5 +63,5 @@ export default {
 @media screen and (min-width: 768px)
   .ni-part-container
     &:last-child
-      padding-bottom: 1.5rem
+      padding-bottom 1.5rem
 </style>

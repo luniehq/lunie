@@ -1,58 +1,106 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
-jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:9.4.0-browsers
-    environment:
-      - BINARY_PATH: "/home/circleci/repo/gaia"
-      - NODE_BINARY_PATH: "/home/circleci/repo/gaiad"
 
-    working_directory: ~/repo
+jobs:
+  # Build Gaia from the SDK source code specified by tasks/build/Gaia/COMMIT.sh.
+  buildGaia:
+    docker:
+      - image: circleci/golang
 
     steps:
       - checkout
-      
-      - run: bash ./changelog-changed-check.sh
 
-      # Download and cache dependencies
+      - restore_cache:
+          key: v5-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
+
+      # If Gaia isn't in the cache then build it.
+      - run: |
+          if [ ! -d ~/target ]; then
+            cd tasks/build/Gaia
+            . COMMIT.sh
+            TARGET=~/target ./build.sh
+          fi
+
+      - save_cache:
+          key: v5-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
+          paths:
+            - ~/target
+
+      - persist_to_workspace:
+          root: ~/target
+          paths:
+            - "*"
+
+  test:
+    docker:
+      - image: circleci/node:9.4.0-browsers
+
+    environment:
+      - BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiacli"
+      - NODE_BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiad"
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: builds/Gaia
+
+      - run: tasks/changelog-changed-check.sh
+
       - restore_cache:
           keys:
-          - v1-dependencies-root-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-root-
+            - v1-dependencies-root-{{ checksum "package.json" }}
+            - v1-dependencies-root-
 
-      - run: yarn
+      - run: yarn install
 
       - save_cache:
           paths:
             - yarn.lock
             - node_modules
           key: v1-dependencies-root-{{ checksum "package.json" }}
- 
-      - run:
-          name: Add Gaia
-          command: |
-            sudo wget https://okw.me/gaiacli-0.17.0-ubuntu -O ~/repo/gaia
-            sudo chmod o+wx ~/repo/gaia
-            sudo wget https://okw.me/gaiad-0.17.0-ubuntu -O ~/repo/gaiad
-            sudo chmod o+wx ~/repo/gaiad
 
-      - run: 
+      - run:
           name: Test
           command: yarn run test
           no_output_timeout: 120
-      - run: 
+
+      - run:
           command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
           when: on_success
-      - run:
-          command: |
-            mkdir -p /tmp/test_info
-            [ -f test/e2e/snapshot.png ] && cp test/e2e/snapshot.png /tmp/test_info || echo "No screenshot found"
-          when: on_fail
+
       - store_artifacts:
-          path: /tmp/test_info
+          path: testArtifacts
+
+  # Build a release and publish it to GitHub.
+  release:
+    docker:
+      - image: circleci/node:9.11.1
+
+    steps:
+      - checkout
+      - run: sudo tasks/build/installWine.sh
+      - run: yarn install
+
+      - attach_workspace:
+          at: builds/Gaia
+
+      - run: node tasks/release.js
+
+workflows:
+  version: 2
+
+  gaia-test-and-release:
+    jobs:
+      - buildGaia
+
+      - test:
+          requires:
+            - buildGaia
+
+      - release:
+          requires:
+            - buildGaia
+            - test
+          filters:
+            branches:
+              only: /release/

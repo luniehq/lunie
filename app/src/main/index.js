@@ -228,6 +228,7 @@ async function startLCD(home, nodeIP) {
   return new Promise(async (resolve, reject) => {
     log("startLCD", home)
     let child = startProcess(LCD_BINARY_NAME, [
+      "advanced",
       "rest-server",
       "--laddr",
       `tcp://localhost:${LCD_PORT}`,
@@ -595,7 +596,7 @@ async function main() {
     }
 
     // check to make sure the genesis.json we want to use matches the one
-    // we already have. if it has changed, exit with an error
+    // we already have. if it has changed, replace it with the new one
     if (!init) {
       let existingGenesis = fs.readFileSync(genesisPath, "utf8")
       let genesisJSON = JSON.parse(existingGenesis)
@@ -606,7 +607,10 @@ async function main() {
           "utf8"
         )
         if (existingGenesis.trim() !== specifiedGenesis.trim()) {
-          throw Error("Genesis has changed")
+          fs.copySync(networkPath, root)
+          log(
+            `genesis.json at "${genesisPath}" was overridden by genesis.json from "${networkPath}"`
+          )
         }
       }
     }
@@ -647,15 +651,14 @@ async function main() {
 
   // pick a random seed node from config.toml if not using COSMOS_NODE envvar
   // TODO: user-specified nodes, support switching?
-  // TODO: get addresses from 'seeds' as well as 'persistent_peers'
   // TODO: use address to prevent MITM if specified
   if (!NODE) {
     let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
     let configTOML = toml.parse(configText)
-    seeds = configTOML.p2p.persistent_peers
+    seeds = (configTOML.p2p.persistent_peers + "," + configTOML.p2p.seeds)
       .split(",")
       .filter(x => x !== "")
-      .map(x => x.split("@")[1])
+      .map(x => (x.indexOf("@") !== -1 ? x.split("@")[1] : x))
     if (seeds.length === 0) {
       throw new Error("No seeds specified in config.toml")
     }

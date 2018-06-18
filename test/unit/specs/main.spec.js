@@ -318,7 +318,7 @@ describe("Startup Process", () => {
   describe("Update genesis.json", function() {
     mainSetup()
 
-    it("should error on changed genesis.json", async function() {
+    it("should override the genesis.json file", async function() {
       resetModulesKeepingFS()
       // alter the genesis so the main thread assumes a change
       let existingGenesis = JSON.parse(
@@ -329,12 +329,15 @@ describe("Startup Process", () => {
         testRoot + "genesis.json",
         JSON.stringify(existingGenesis)
       )
+      let specifiedGenesis = JSON.parse(
+        fs.readFileSync(testRoot + "genesis.json", "utf8")
+      )
 
       let { send } = require("electron")
       await require(appRoot + "src/main/index.js")
 
-      expect(send.mock.calls[0][0]).toBe("error")
-      expect(send.mock.calls[0][1].message).toContain("Genesis has changed")
+      expect(send.mock.calls[0][0]).toBe("connected")
+      expect(existingGenesis).toEqual(specifiedGenesis)
     })
   })
 

@@ -10,7 +10,7 @@ export default ({ commit }) => {
         ? JSON.parse(process.env.PREVIEW)
         : process.env.NODE_ENV === "development",
     // TODO: change to atom
-    bondingDenom: "fermion",
+    bondingDenom: "steak",
     modals: {
       error: { active: false },
       help: { active: false },

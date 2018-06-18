@@ -7,7 +7,7 @@ export default ({ commit, node }) => {
   let state = {
     balances: [],
     balancesLoading: true,
-    history: [],
+    history: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
     historyLoading: false,
     denoms: [],
     address: null,
@@ -24,9 +24,9 @@ export default ({ commit, node }) => {
     },
     setWalletAddress(state, address) {
       state.address = address
-      // clear previous account state
-      state.balances = []
-      state.history = []
+    },
+    setAccountNumber(state, accountNumber) {
+      state.accountNumber = accountNumber
     },
     setWalletHistory(state, history) {
       state.history = history
@@ -37,7 +37,8 @@ export default ({ commit, node }) => {
     setTransactionTime(state, { blockHeight, blockMetaInfo }) {
       state.history = state.history.map(t => {
         if (t.height === blockHeight) {
-          t.time = blockMetaInfo.header.time
+          // console.log("blockMetaInfo", blockMetaInfo)
+          t.time = blockMetaInfo && blockMetaInfo.header.time
         }
         return t
       })
@@ -54,6 +55,10 @@ export default ({ commit, node }) => {
       }
     },
     initializeWallet({ commit, dispatch }, address) {
+      // clear previous account state
+      state.balances = []
+      state.history = []
+
       commit("setWalletAddress", address)
       dispatch("loadDenoms")
       dispatch("queryWalletState")
@@ -69,6 +74,7 @@ export default ({ commit, node }) => {
         return
       }
       commit("setNonce", res.sequence)
+      commit("setAccountNumber", res.account_number)
       commit("setWalletBalances", res.coins)
       for (let coin of res.coins) {
         if (coin.denom === rootState.config.bondingDenom) {
@@ -84,9 +90,7 @@ export default ({ commit, node }) => {
     },
     async queryWalletHistory({ state, commit, dispatch }) {
       commit("setHistoryLoading", true)
-      // let res = await node.coinTxs(state.address)
-      // XXX
-      let res = []
+      let res = await node.txs(state.address)
       if (!res) return
       commit("setWalletHistory", res)
 
@@ -103,6 +107,10 @@ export default ({ commit, node }) => {
     },
     async queryTransactionTime({ commit, dispatch }, blockHeight) {
       let blockMetaInfo = await dispatch("queryBlockInfo", blockHeight)
+      // console.log(
+      //   "received blockMetaInfo at height " + blockHeight,
+      //   blockMetaInfo
+      // )
       commit("setTransactionTime", { blockHeight, blockMetaInfo })
     },
     async loadDenoms({ state, commit }) {

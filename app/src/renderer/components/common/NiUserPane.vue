@@ -4,8 +4,9 @@ list-item.ni-li-user(
   type="link"
   to="/preferences"
   @click.native="close"
-  icon="face"
-  :title="user.account")
+  icon="settings"
+  title="Preferences"
+  :subtitle="user.account")
 </template>
 
 <script>
@@ -31,8 +32,4 @@ export default {
 .ni-li.ni-li-user
   border-top px solid var(--bc)
   height 3rem + px
-  cursor: pointer
-
-  .ni-li-title
-    color var(--link)
 </style>
