@@ -63,57 +63,67 @@ let state = {
   txs: [
     {
       tx: {
-        hash: "x",
-        inputs: [
-          {
-            coins: [
-              {
-                denom: "jbcoins",
-                amount: 1234
-              }
-            ],
-            sender: makeAddress()
+        value: {
+          msg: {
+            value: {
+              inputs: [
+                {
+                  coins: [
+                    {
+                      denom: "jbcoins",
+                      amount: 1234
+                    }
+                  ],
+                  sender: makeAddress()
+                }
+              ],
+              outputs: [
+                {
+                  coins: [
+                    {
+                      denom: "jbcoins",
+                      amount: 1234
+                    }
+                  ],
+                  receiver: addresses[0]
+                }
+              ]
+            }
           }
-        ],
-        outputs: [
-          {
-            coins: [
-              {
-                denom: "jbcoins",
-                amount: 1234
-              }
-            ],
-            receiver: addresses[0]
-          }
-        ]
+        }
       },
       height: 1
     },
     {
       tx: {
-        hash: "y",
-        inputs: [
-          {
-            coins: [
-              {
-                denom: "fabocoins",
-                amount: 1234
-              }
-            ],
-            sender: addresses[0]
+        value: {
+          msg: {
+            value: {
+              inputs: [
+                {
+                  coins: [
+                    {
+                      denom: "fabocoins",
+                      amount: 1234
+                    }
+                  ],
+                  sender: addresses[0]
+                }
+              ],
+              outputs: [
+                {
+                  coins: [
+                    {
+                      denom: "fabocoins",
+                      amount: 1234
+                    }
+                  ],
+                  receiver: makeAddress()
+                }
+              ]
+            }
           }
-        ],
-        outputs: [
-          {
-            coins: [
-              {
-                denom: "fabocoins",
-                amount: 1234
-              }
-            ],
-            receiver: makeAddress()
-          }
-        ]
+        }
       },
       height: 150
     }
@@ -224,8 +234,10 @@ module.exports = {
   async txs(address) {
     return state.txs.filter(tx => {
       return (
-        tx.tx.inputs.find(input => input.sender === address) ||
-        tx.tx.outputs.find(output => output.receiver === address)
+        tx.tx.value.msg.value.inputs.find(input => input.sender === address) ||
+        tx.tx.value.msg.value.outputs.find(
+          output => output.receiver === address
+        )
       )
     })
   },
