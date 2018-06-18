@@ -35,7 +35,6 @@ page(title="Proposal: Amend Constitution")
 import { minLength, maxLength, required } from "vuelidate/lib/validators"
 import { TmBtn } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
-import FieldGroup from "common/NiFieldGroup"
 import FormGroup from "common/NiFormGroup"
 import FormMsg from "common/NiFormMsg"
 import FormStruct from "common/NiFormStruct"
@@ -46,7 +45,6 @@ export default {
   components: {
     TmBtn,
     Field,
-    FieldGroup,
     FormGroup,
     FormMsg,
     FormStruct,

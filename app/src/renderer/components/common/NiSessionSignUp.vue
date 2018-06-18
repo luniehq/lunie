@@ -62,7 +62,6 @@ import PerfectScrollbar from "perfect-scrollbar"
 import { TmBtn } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldSeed from "common/NiFieldSeed"
-import FieldGroup from "common/NiFieldGroup"
 import FormGroup from "common/NiFormGroup"
 import FormMsg from "common/NiFormMsg"
 import FormStruct from "common/NiFormStruct"
@@ -72,7 +71,6 @@ export default {
     TmBtn,
     Field,
     FieldSeed,
-    FieldGroup,
     FormGroup,
     FormMsg,
     FormStruct

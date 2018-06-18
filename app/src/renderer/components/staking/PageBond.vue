@@ -120,7 +120,6 @@ import interact from "interactjs"
 import { TmBtn } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldAddon from "common/NiFieldAddon"
-import FieldGroup from "common/NiFieldGroup"
 import FormGroup from "common/NiFormGroup"
 import FormMsg from "common/NiFormMsg"
 import FormStruct from "common/NiFormStruct"
@@ -133,7 +132,6 @@ export default {
     TmBtn,
     Field,
     FieldAddon,
-    FieldGroup,
     FormGroup,
     FormMsg,
     FormStruct,

@@ -24,7 +24,7 @@ page(title='Send')
         form-msg(name='Zone' type='required' v-if='!$v.fields.zoneId.required')
       form-group(:error='$v.fields.address.$error'
         field-id='send-address' field-label='Send To')
-        field-group
+        tm-field-group
           field#send-address(
             type='text'
             v-model='fields.address'
@@ -34,7 +34,7 @@ page(title='Send')
 
       form-group(:error='$v.fields.amount.$error'
         field-id='send-amount' field-label='Amount')
-        field-group
+        tm-field-group
           field#send-amount(
             type='number'
             v-model='fields.amount'
@@ -53,10 +53,9 @@ page(title='Send')
 import b32 from "scripts/b32"
 import { required, between } from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
-import { TmBtn } from "@tendermint/ui"
+import { TmBtn, TmFieldGroup } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldAddon from "common/NiFieldAddon"
-import FieldGroup from "common/NiFieldGroup"
 import FormGroup from "common/NiFormGroup"
 import FormMsg from "common/NiFormMsg"
 import FormStruct from "common/NiFormStruct"
@@ -68,7 +67,7 @@ export default {
     TmBtn,
     Field,
     FieldAddon,
-    FieldGroup,
+    TmFieldGroup,
     FormGroup,
     FormMsg,
     FormStruct,
