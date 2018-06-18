@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Increased version of localtestnet used for testing to match gaia @faboweb
 * Fixed padding issue in main container @faboweb
+* Wait for LCD to start serving at app startup to prevent timing errors @mappum
 
 ## [0.7.0] - 2018-06-13
 
