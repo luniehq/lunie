@@ -23,6 +23,12 @@ jest.mock("fs-extra", () => {
 })
 let fs = require("fs-extra")
 
+jest.mock("../../../app/src/renderer/connectors/lcdClient.js", () => {
+  return () => ({
+    listKeys: jest.fn().mockReturnValueOnce(Promise.reject())
+  })
+})
+
 jest.mock("electron", () => {
   let electron = {
     app: {
