@@ -1,6 +1,6 @@
 const mockValidators = require("../../helpers/json/mock_validators.json")
 
-let state = { blockMetas: {}, blocks: [], connected: true }
+let state = { blockMetas: [], blocks: [], connected: true }
 createBlockMetas(state)
 
 const RpcClientMock = {
@@ -18,7 +18,7 @@ const RpcClientMock = {
     cb(null, { block: state.blocks.find(b => b.header.height === minHeight) }),
   blockchain: ({ minHeight, maxHeight }, cb) =>
     cb(null, {
-      block_metas: state.blockMetas[minHeight]
+      block_metas: state.blockMetas.slice(minHeight)
     }),
   status: cb =>
     cb(null, {
