@@ -201,7 +201,14 @@ const build = async platform => {
 }
 
 cli(optionsSpecification, async options => {
-  fs.copySync(`/mnt/network`, `app/networks/${path.basename(options.network)}`)
+  // If we're doing a local build then copy the specified network configuration.
+  if (fs.existsSync(`/mnt/network`)) {
+    fs.copySync(
+      `/mnt/network`,
+      `app/networks/${path.basename(options.network)}`
+    )
+  }
+
   rewriteConfig(options)
   pack()
   await Promise.all([`darwin`, `linux`, `win32`].map(build))
