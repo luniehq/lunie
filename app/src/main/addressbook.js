@@ -25,10 +25,9 @@ module.exports = class Addressbook {
       .then(() => true, () => false)
   }
 
-  // adds the new peer to a list of peers
-  // mutates the list of peers
-  addPeer(peerList, peerIP) {
-    peerList.push({
+  // adds the new peer to the list of peers
+  addPeer(peerIP) {
+    this.peers.push({
       ip: peerIP,
       // assume that new peers are available
       state: "available"
@@ -75,6 +74,9 @@ module.exports = class Addressbook {
       return this.pickNode()
     }
 
+    // remember the peers of the node and store them in the addressbook
+    this.discoverPeers(curNode.ip)
+
     return curNode.ip
   }
 
@@ -94,30 +96,17 @@ module.exports = class Addressbook {
     )
   }
 
-  // hops defines how deep peers of peers are scanned
-  async discoverNodes(hops = 1, peerIPs = this.peers.map(p => p.ip)) {
-    await peerIPs
-      // get peers of all available nodes
-      .filter(async peerIP => await this.ping(peerIP))
-      // XXX race condition?
-      // get peers of peer
-      .forEach(async peer => {
-        let subPeersIPs = (await axios.get(peer + "/net_info/peers")).data
+  async discoverPeers(peerIP) {
+    let subPeersIPs = (await axios.get(peerIP + "/net_info/peers")).data
 
-        // check if we already know the peer
-        let newPeerIPs = subPeersIPs.filter(
-          subPeerIP => !this.peers.find(peer => peer.ip === subPeerIP)
-        )
+    // check if we already know the peer
+    let newPeerIPs = subPeersIPs.filter(
+      subPeerIP => !this.peers.find(peer => peer.ip === subPeerIP)
+    )
 
-        // add new peers to state
-        newPeerIPs.forEach(subPeerIP => {
-          this.addPeer(peerIPs, subPeerIP)
-        })
-
-        // discover peers of peers
-        if (hops > 1) {
-          peerIPs = await this.discoverNodes(hops - 1, newPeerIPs)
-        }
-      })
+    // add new peers to state
+    newPeerIPs.forEach(subPeerIP => {
+      this.addPeer(peerIPs, subPeerIP)
+    })
   }
 }

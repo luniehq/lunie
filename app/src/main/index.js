@@ -665,8 +665,6 @@ async function main() {
   nodes = nodes.map(ip => `${ip.split(":")[0]}:${RPC_PORT}`) // use default RPC port
 
   addressbook = new Addressbook(root, nodes)
-  // always start with a discovery of new peers for now
-  addressbook.discoverNodes()
 
   // choose one random node to start from
   try {
