@@ -11,20 +11,22 @@
 
 💻 Voyager runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
 
-🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases).
+🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Voyager` icon to launch Voyager.
 
 ---
 
 ## Voyager Prerequisites
 
-#### Build Gaia (Cosmos SDK)
+### Docker
 
-Note: the following requires `docker` installed.
+Building Voyager and its dependencies requires [Docker](https://www.docker.com/get-docker) installed.
+
+#### Build Gaia (Cosmos SDK)
 
 Build the Gaia CLI (`gaiacli`) and full node (`gaiad`), which are part of the
 Cosmos SDK, with the following command:
 
-```shell
+```bash
 yarn build:gaia
 ```
 
@@ -59,7 +61,7 @@ To run Voyager on the default testnet (`gaia-5001`):
 $ yarn testnet
 ```
 
-To run Voyager on a specific testnet from the [testnets](https://github.com/tendermint/testnets) repo:
+To run Voyager on a specific testnet, see the [status page](https://github.com/cosmos/cosmos-sdk/blob/develop/cmd/gaia/testnets/STATUS.md) for a list of available testnets.
 
 ```bash
 $ yarn testnet <networkName>
@@ -86,11 +88,9 @@ $ COSMOS_NODE=localhost yarn testnet
 
 ### Building Voyager Binaries
 
-Building Voyager requires [Docker](https://www.docker.com/get-docker) installed.
-
 Here's an example build command:
 
-```shell
+```bash
 yarn run build --commit=HEAD --network=app/networks/gaia-5001
 ```
 
