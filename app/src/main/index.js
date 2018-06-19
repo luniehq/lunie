@@ -11,6 +11,7 @@ let axios = require("axios")
 let Raven = require("raven")
 let _ = require("lodash")
 
+let Addressbook = require("./addressbook.js")
 let pkg = require("../../../package.json")
 let addMenu = require("./menu.js")
 let config = require("../config.js")
@@ -25,6 +26,7 @@ let connecting = true
 let nodes = [] // {ip, state}
 let chainId
 let booted = false
+let addressbook
 
 const root = require("../root.js")
 global.root = root // to make the root accessable from renderer
@@ -73,20 +75,20 @@ function logProcess(process, logPath) {
   }
 }
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
+// function sleep(ms) {
+//   return new Promise(resolve => setTimeout(resolve, ms))
+// }
 
-function expectCleanExit(process, errorMessage = "Process exited unplanned") {
-  return new Promise((resolve, reject) => {
-    process.on("exit", code => {
-      if (code !== 0 && !shuttingDown) {
-        reject(Error(errorMessage))
-      }
-      resolve()
-    })
-  })
-}
+// function expectCleanExit(process, errorMessage = "Process exited unplanned") {
+//   return new Promise((resolve, reject) => {
+//     process.on("exit", code => {
+//       if (code !== 0 && !shuttingDown) {
+//         reject(Error(errorMessage))
+//       }
+//       resolve()
+//     })
+//   })
+// }
 
 function handleCrash(error) {
   afterBooted(() => {
@@ -361,7 +363,7 @@ function handleHashVerification(nodeHash) {
 //               if (shuttingDown) return
 
 //               // select a new node to try out
-//               nodeIP = await pickNode(nodes)
+//               nodeIP = await pickNode()
 //               if (!nodeIP) {
 //                 signalNoNodesAvailable()
 //                 return
@@ -507,44 +509,6 @@ function handleIPC() {
 //   })
 // }
 
-async function pickNode(nodes) {
-  let availableNodes = nodes.filter(node => node.state === "available")
-  if (availableNodes.length === 0) {
-    connecting = false
-    return
-  }
-  // pick a random node
-  let curNode =
-    availableNodes[Math.floor(Math.random() * availableNodes.length)]
-
-  // ping to see if the node is ali
-  let nodeAlive = await axios
-    .get("http://" + curNode.ip, { timeout: 3000 })
-    .then(() => true, () => false)
-  log(
-    `${new Date().toLocaleTimeString()} ${curNode.ip} is ${
-      nodeAlive ? "alive" : "down"
-    }`
-  )
-
-  if (!nodeAlive) {
-    // remember that node is down
-    nodes.find(node => node.ip === curNode.ip).state = "down"
-
-    return pickNode(nodes)
-  }
-
-  return curNode.ip
-}
-
-function resetNodes() {
-  nodes = nodes.map(node =>
-    Object.assign({}, node, {
-      state: "available"
-    })
-  )
-}
-
 async function connect(nodeIP) {
   log(`starting gaia rest server with nodeIP ${nodeIP}`)
   lcdProcess = await startLCD(lcdHome, nodeIP)
@@ -565,7 +529,7 @@ async function reconnect(nodes) {
 
   await stopLCD()
 
-  let nodeIP = await pickNode(nodes)
+  let nodeIP = await addressbook.pickNode()
   if (!nodeIP) {
     signalNoNodesAvailable()
     return
@@ -698,14 +662,16 @@ async function main() {
   } else {
     nodes = [NODE]
   }
+  nodes = nodes.map(ip => `${ip.split(":")[0]}:${RPC_PORT}`) // use default RPC port
 
-  nodes = nodes
-    .map(ip => `${ip.split(":")[0]}:${RPC_PORT}`) // use default RPC port
-    .map(ip => ({ ip, state: "available" }))
+  addressbook = new Addressbook(root, nodes)
+  // always start with a discovery of new peers for now
+  addressbook.discoverNodes()
 
   // choose one random node to start from
-  nodeIP = await pickNode(nodes)
-  if (!nodeIP) {
+  try {
+    nodeIP = addressbook.pickNode()
+  } catch (err) {
     signalNoNodesAvailable()
     return
   }
