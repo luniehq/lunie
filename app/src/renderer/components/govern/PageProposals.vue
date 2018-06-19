@@ -26,7 +26,6 @@ import DataEmpty from "common/NiDataEmpty"
 import DataEmptySearch from "common/NiDataEmptySearch"
 import LiProposal from "govern/LiProposal"
 import ModalSearch from "common/NiModalSearch"
-import TabBar from "common/NiTabBar"
 import ToolBar from "common/NiToolBar"
 import { TmPage } from "@tendermint/ui"
 export default {
@@ -38,7 +37,6 @@ export default {
     LiProposal,
     ModalSearch,
     TmPage,
-    TabBar,
     ToolBar
   },
   computed: {
