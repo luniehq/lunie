@@ -7,7 +7,8 @@ module.exports = function() {
       submenu: [
         {
           label: "About Cosmos Voyager",
-          selector: "orderFrontStandardAboutPanel:"
+          selector: "orderFrontStandardAboutPanel:",
+          click: openAboutMenu
         },
         { type: "separator" },
         {
@@ -41,4 +42,9 @@ module.exports = function() {
 
   let menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
+}
+
+function openAboutMenu() {
+  if (process.platform === "darwin") return
+  window.open("/about.html", "about", "width=400,height=300")
 }
