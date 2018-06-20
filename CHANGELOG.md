@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* Fixed bug in yarn build:gaia @zramsay
 * Increased version of localtestnet used for testing to match gaia @faboweb
 * Fixed padding issue in main container @faboweb
 
