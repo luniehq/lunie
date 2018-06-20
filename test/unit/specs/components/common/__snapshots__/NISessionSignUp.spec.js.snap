@@ -1,83 +1,83 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NISessionSignUp has the expected html structure 1`] = `
-"<div class=\\"ni-session\\">
-   <form class=\\"ni-session-container ni-form\\">
-      <div class=\\"ni-form-container\\">
+"<div class=\\"tm-session\\">
+   <form class=\\"tm-session-container tm-form\\">
+      <div class=\\"tm-form-container\\">
          <!---->
-         <main class=\\"ni-form-main\\">
-            <div class=\\"ni-session-header\\">
+         <main class=\\"tm-form-main\\">
+            <div class=\\"tm-session-header\\">
                <a><i class=\\"material-icons\\">arrow_back</i></a>
-               <div class=\\"ni-session-title\\">
+               <div class=\\"tm-session-title\\">
                   Create Account
                </div>
       <a><i class=\\"material-icons\\">help_outline</i></a>
    </div>
-      <div class=\\"ni-session-main ps\\">
-         <div class=\\"ni-form-group\\">
+      <div class=\\"tm-session-main ps\\">
+         <div class=\\"tm-form-group\\">
             <!---->
-            <label for=\\"sign-up-name\\" class=\\"ni-form-group__label\\">Account Name</label>
-            <div class=\\"ni-form-group__field\\">
-               <input type=\\"text\\" placeholder=\\"Must be at least 5 characters\\" class=\\"ni-field\\" id=\\"sign-up-name\\">
-               <div class=\\"ni-form-msg sm ni-form-msg--error\\">
+            <label for=\\"sign-up-name\\" class=\\"tm-form-group__label\\">Account Name</label>
+            <div class=\\"tm-form-group__field\\">
+               <input type=\\"text\\" placeholder=\\"Must be at least 5 characters\\" class=\\"tm-field\\" id=\\"sign-up-name\\">
+               <div class=\\"tm-form-msg sm tm-form-msg--error\\">
                   Name is required
                </div>
                   <!---->
    </div>
 </div>
-      <div class=\\"ni-form-group\\">
+      <div class=\\"tm-form-group\\">
          <!---->
-         <label for=\\"sign-up-password\\" class=\\"ni-form-group__label\\">Password</label>
-         <div class=\\"ni-form-group__field\\">
-            <input type=\\"password\\" placeholder=\\"Must be at least 10 characters\\" class=\\"ni-field\\" id=\\"sign-up-password\\">
-            <div class=\\"ni-form-msg sm ni-form-msg--error\\">
+         <label for=\\"sign-up-password\\" class=\\"tm-form-group__label\\">Password</label>
+         <div class=\\"tm-form-group__field\\">
+            <input type=\\"password\\" placeholder=\\"Must be at least 10 characters\\" class=\\"tm-field\\" id=\\"sign-up-password\\">
+            <div class=\\"tm-form-msg sm tm-form-msg--error\\">
                Password is required
             </div>
                <!---->
    </div>
 </div>
-      <div class=\\"ni-form-group\\">
+      <div class=\\"tm-form-group\\">
          <!---->
-         <label for=\\"sign-up-password-confirm\\" class=\\"ni-form-group__label\\">Confirm Password</label>
-         <div class=\\"ni-form-group__field\\">
-            <input type=\\"password\\" placeholder=\\"Enter password again\\" class=\\"ni-field\\" id=\\"sign-up-password-confirm\\">
+         <label for=\\"sign-up-password-confirm\\" class=\\"tm-form-group__label\\">Confirm Password</label>
+         <div class=\\"tm-form-group__field\\">
+            <input type=\\"password\\" placeholder=\\"Enter password again\\" class=\\"tm-field\\" id=\\"sign-up-password-confirm\\">
             <!---->
          </div>
 </div>
-      <div class=\\"ni-form-group\\">
+      <div class=\\"tm-form-group\\">
          <!---->
-         <label for=\\"sign-up-seed\\" class=\\"ni-form-group__label\\">Seed Phrase</label>
-         <div class=\\"ni-form-group__field\\">
-            <textarea class=\\"ni-field-seed ni-field\\" id=\\"sign-up-seed\\" disabled=\\"disabled\\" style=\\"overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;\\"></textarea>
-            <div class=\\"sm ni-form-msg sm ni-form-msg--desc\\">
+         <label for=\\"sign-up-seed\\" class=\\"tm-form-group__label\\">Seed Phrase</label>
+         <div class=\\"tm-form-group__field\\">
+            <textarea class=\\"tm-field-seed tm-field\\" id=\\"sign-up-seed\\" disabled=\\"disabled\\" style=\\"overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;\\"></textarea>
+            <div class=\\"sm tm-form-msg sm tm-form-msg--desc\\">
                Please back up the seed phrase for this account. This seed phrase cannot be recovered.
             </div>
 </div>
 </div>
-      <div class=\\"ni-form-group\\">
+      <div class=\\"tm-form-group\\">
          <!---->
          <!---->
-         <div class=\\"ni-form-group__field\\">
-            <div class=\\"ni-field-checkbox\\">
-               <div class=\\"ni-field-checkbox-input\\">
+         <div class=\\"tm-form-group__field\\">
+            <div class=\\"tm-field-checkbox\\">
+               <div class=\\"tm-field-checkbox-input\\">
                   <input id=\\"sign-up-warning\\" type=\\"checkbox\\">
                </div>
-      <label for=\\"sign-up-warning\\" class=\\"ni-field-checkbox-label\\">I have securely written down my seed. I understand that lost seeds cannot be recovered.</label>
+      <label for=\\"sign-up-warning\\" class=\\"tm-field-checkbox-label\\">I have securely written down my seed. I understand that lost seeds cannot be recovered.</label>
    </div>
-      <div class=\\"ni-form-msg sm ni-form-msg--error\\">
+      <div class=\\"tm-form-msg sm tm-form-msg--error\\">
          Recovery confirmation is required
       </div>
 </div>
 </div>
-      <div class=\\"ni-form-group\\">
+      <div class=\\"tm-form-group\\">
          <!---->
          <!---->
-         <div class=\\"ni-form-group__field\\">
-            <div class=\\"ni-field-checkbox\\">
-               <div class=\\"ni-field-checkbox-input\\">
+         <div class=\\"tm-form-group__field\\">
+            <div class=\\"tm-field-checkbox\\">
+               <div class=\\"tm-field-checkbox-input\\">
                   <input id=\\"error-collection\\" type=\\"checkbox\\">
                </div>
-      <label for=\\"error-collection\\" class=\\"ni-field-checkbox-label\\">I'd like to opt in for remote error tracking to help improve Voyager.</label>
+      <label for=\\"error-collection\\" class=\\"tm-field-checkbox-label\\">I'd like to opt in for remote error tracking to help improve Voyager.</label>
    </div>
 </div>
 </div>
@@ -88,10 +88,10 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
          <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
-      <div class=\\"ni-session-footer\\">
-         <button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--size-lg\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">arrow_forward</i>
+      <div class=\\"tm-session-footer\\">
+         <button class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn__icon-right tm-btn--size-lg\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">arrow_forward</i>
          <!---->
-         <span class=\\"ni-btn__value\\">Next</span></span></button>
+         <span class=\\"tm-btn__value\\">Next</span></span></button>
       </div>
 </main>
       <!---->

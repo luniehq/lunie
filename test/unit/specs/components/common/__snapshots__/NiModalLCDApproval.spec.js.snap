@@ -2,13 +2,13 @@
 
 exports[`NiModalLCDApproval has the expected html structure 1`] = `
 <div
-  class="ni-modal-lcd-approval__wrapper"
+  class="tm-modal-lcd-approval__wrapper"
 >
   <div
-    class="ni-modal-lcd-approval"
+    class="tm-modal-lcd-approval"
   >
     <div
-      class="ni-modal-lcd-approval__icon"
+      class="tm-modal-lcd-approval__icon"
     >
       <i
         class="material-icons"
@@ -17,60 +17,60 @@ exports[`NiModalLCDApproval has the expected html structure 1`] = `
       </i>
     </div>
     <div
-      class="ni-modal-lcd-approval__title"
+      class="tm-modal-lcd-approval__title"
     >
       Node approval required
     </div>
     <div
-      class="ni-modal-lcd-approval__body"
+      class="tm-modal-lcd-approval__body"
     >
       Voyager needs to approve the node you're trying to connect to. Please compare the hash below against the hash from a trusted source. If you are 100% sure that the hashes match, click approve to proceed.
       <textarea
-        class="ni-field"
+        class="tm-field"
         disabled="disabled"
         id="node-hash"
       />
     </div>
     <div
-      class="ni-modal-lcd-approval__footer"
+      class="tm-modal-lcd-approval__footer"
     >
       <button
-        class="ni-btn"
-        id="ni-modal-lcd-approval__btn-approve"
+        class="tm-btn"
+        id="tm-modal-lcd-approval__btn-approve"
       >
         <span
-          class="ni-btn__container ni-btn--size-lg ni-btn--primary"
+          class="tm-btn__container tm-btn--size-lg tm-btn--primary"
         >
           <i
             aria-hidden="true"
-            class="ni-btn__icon material-icons"
+            class="tm-btn__icon material-icons"
           >
             check
           </i>
           <!---->
           <span
-            class="ni-btn__value"
+            class="tm-btn__value"
           >
             Approve Node
           </span>
         </span>
       </button>
       <button
-        class="ni-btn"
-        id="ni-modal-lcd-approval__btn-disapprove"
+        class="tm-btn"
+        id="tm-modal-lcd-approval__btn-disapprove"
       >
         <span
-          class="ni-btn__container ni-btn--size-lg"
+          class="tm-btn__container tm-btn--size-lg"
         >
           <i
             aria-hidden="true"
-            class="ni-btn__icon material-icons"
+            class="tm-btn__icon material-icons"
           >
             skip_next
           </i>
           <!---->
           <span
-            class="ni-btn__value"
+            class="tm-btn__value"
           >
             Switch Node
           </span>

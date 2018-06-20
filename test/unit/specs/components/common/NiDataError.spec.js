@@ -15,7 +15,7 @@ describe("NiDataError", () => {
   it("has an icon", () => {
     expect(
       wrapper
-        .find(".ni-data-msg__icon i.material-icons")
+        .find(".tm-data-msg__icon i.material-icons")
         .text()
         .trim()
     ).toBe("sentiment_very_dissatisfied")
@@ -24,7 +24,7 @@ describe("NiDataError", () => {
   it("has a title", () => {
     expect(
       wrapper
-        .find(".ni-data-msg__title div")
+        .find(".tm-data-msg__title div")
         .text()
         .trim()
     ).toBe("Aw shucks!")
@@ -33,7 +33,7 @@ describe("NiDataError", () => {
   it("has a subtitle", () => {
     expect(
       wrapper
-        .find(".ni-data-msg__subtitle div")
+        .find(".tm-data-msg__subtitle div")
         .text()
         .trim()
     ).toContain(

@@ -65,7 +65,7 @@ describe("PageWallet", () => {
   })
 
   it("should list the denoms that are available", () => {
-    expect(wrapper.findAll(".ni-li-balance").length).toBe(2)
+    expect(wrapper.findAll(".tm-li-balance").length).toBe(2)
   })
 
   it("should show the n/a message if there are no denoms", () => {
@@ -86,7 +86,7 @@ describe("PageWallet", () => {
   it("has a title for available balances", () => {
     expect(
       wrapper
-        .find("#part-available-balances .ni-part-title")
+        .find("#part-available-balances .tm-part-title")
         .text()
         .trim()
     ).toBe("Available Balances")
@@ -95,7 +95,7 @@ describe("PageWallet", () => {
   it("has a title for staked balances", () => {
     expect(
       wrapper
-        .find("#part-staked-balances .ni-part-title")
+        .find("#part-staked-balances .tm-part-title")
         .text()
         .trim()
     ).toBe("Staked Balances")
@@ -104,7 +104,7 @@ describe("PageWallet", () => {
   it("has shows the correct number of staked tokens", () => {
     expect(
       wrapper
-        .find("#part-staked-balances .ni-li-dd")
+        .find("#part-staked-balances .tm-li-dd")
         .text()
         .trim()
     ).toBe("123")

@@ -27,7 +27,7 @@ describe("NiSessionAccountDelete", () => {
 
   it("should go back to the login screen on click", () => {
     wrapper
-      .findAll(".ni-session-header a")
+      .findAll(".tm-session-header a")
       .at(0)
       .trigger("click")
     expect(store.commit.mock.calls[0]).toEqual([
@@ -38,7 +38,7 @@ describe("NiSessionAccountDelete", () => {
 
   it("should open the help modal on click", () => {
     wrapper
-      .findAll(".ni-session-header a")
+      .findAll(".tm-session-header a")
       .at(1)
       .trigger("click")
     expect(store.commit.mock.calls[0]).toEqual(["setModalHelp", true])
@@ -67,7 +67,7 @@ describe("NiSessionAccountDelete", () => {
     })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
+    expect(wrapper.find(".tm-form-msg-error")).toBeDefined()
   })
 
   it("should show error if deletionWarning is not acknowledged", async () => {
@@ -79,7 +79,7 @@ describe("NiSessionAccountDelete", () => {
     })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
+    expect(wrapper.find(".tm-form-msg-error")).toBeDefined()
   })
 
   it("should show a notification if deletion failed", async () => {

@@ -2,26 +2,26 @@
 
 exports[`Page404 has the expected html structure 1`] = `
 <div
-  class="ni-page"
+  class="tm-page"
 >
   <header
-    class="ni-page-header"
+    class="tm-page-header"
   >
     <div
-      class="ni-page-header-container"
+      class="tm-page-header-container"
     >
       <div
-        class="ni-page-header-text"
+        class="tm-page-header-text"
       >
         <div
-          class="ni-page-header-title"
+          class="tm-page-header-title"
         >
           <h2>
             404 - Page Not Found
           </h2>
         </div>
         <div
-          class="ni-page-header-subtitle"
+          class="tm-page-header-subtitle"
         >
           <h3>
             
@@ -29,68 +29,68 @@ exports[`Page404 has the expected html structure 1`] = `
         </div>
       </div>
       <menu
-        class="ni-page-header-menu"
+        class="tm-page-header-menu"
       >
         <div />
       </menu>
     </div>
   </header>
   <main
-    class="ni-page-main ps"
+    class="tm-page-main ps"
   >
     <section
-      class="ni-part"
+      class="tm-part"
     >
       <div
-        class="ni-part-container"
+        class="tm-part-container"
       >
         <header
-          class="ni-part-header"
+          class="tm-part-header"
         >
           <div
-            class="ni-part-header-container"
+            class="tm-part-header-container"
           >
             <div
-              class="ni-part-title h5"
+              class="tm-part-title h5"
             >
               Try another page...
             </div>
             <menu
-              class="ni-part-menu"
+              class="tm-part-menu"
             />
           </div>
         </header>
         <main
-          class="ni-part-main"
+          class="tm-part-main"
         >
           <a
-            class="ni-li ni-li-link router-link-exact-active router-link-active"
+            class="tm-li tm-li-link router-link-exact-active router-link-active"
             href="#/"
           >
             <div
-              class="ni-li-container"
+              class="tm-li-container"
             >
               <div
-                class="ni-li-thumb"
+                class="tm-li-thumb"
               >
                 <!---->
               </div>
               <div
-                class="ni-li-label"
+                class="tm-li-label"
               >
                 <div
-                  class="ni-li-title"
+                  class="tm-li-title"
                 >
                   Balances
                 </div>
                 <div
-                  class="ni-li-subtitle"
+                  class="tm-li-subtitle"
                 >
                   
                 </div>
               </div>
               <div
-                class="ni-li-icon"
+                class="tm-li-icon"
               >
                 <i
                   class="material-icons inactive"
@@ -106,33 +106,33 @@ exports[`Page404 has the expected html structure 1`] = `
             </div>
           </a>
           <a
-            class="ni-li ni-li-link"
+            class="tm-li tm-li-link"
             href="#/staking"
           >
             <div
-              class="ni-li-container"
+              class="tm-li-container"
             >
               <div
-                class="ni-li-thumb"
+                class="tm-li-thumb"
               >
                 <!---->
               </div>
               <div
-                class="ni-li-label"
+                class="tm-li-label"
               >
                 <div
-                  class="ni-li-title"
+                  class="tm-li-title"
                 >
                   Staking
                 </div>
                 <div
-                  class="ni-li-subtitle"
+                  class="tm-li-subtitle"
                 >
                   
                 </div>
               </div>
               <div
-                class="ni-li-icon"
+                class="tm-li-icon"
               >
                 <i
                   class="material-icons inactive"

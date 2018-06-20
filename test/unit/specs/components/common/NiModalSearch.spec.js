@@ -50,7 +50,7 @@ describe("NiModalSearch", () => {
 
     expect(
       wrapper
-        .find(".ni-modal-search-field .ni-btn__value")
+        .find(".tm-modal-search-field .tm-btn__value")
         .text()
         .trim()
     ).toBe("Find")

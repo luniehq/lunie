@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NiHardwareState has the expected html structure 1`] = `
-"<div class=\\"ni-hardware-state\\">
-   <i class=\\"ni-hardware-state__icon material-icons fa-spin\\">rotate_right</i>
-   <div class=\\"ni-hardware-state__label\\">
+"<div class=\\"tm-hardware-state\\">
+   <i class=\\"tm-hardware-state__icon material-icons fa-spin\\">rotate_right</i>
+   <div class=\\"tm-hardware-state__label\\">
       Detecting your Ledger Wallet
    </div>
 </div>"

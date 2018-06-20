@@ -22,13 +22,13 @@ describe("PageStaking", () => {
   })
 
   it("should show the search on click", () => {
-    wrapper.find(".ni-tool-bar i.search").trigger("click")
-    expect(wrapper.contains(".ni-modal-search")).toBe(true)
+    wrapper.find(".tm-tool-bar i.search").trigger("click")
+    expect(wrapper.contains(".tm-modal-search")).toBe(true)
   })
 
   it("should refresh candidates on click", () => {
     wrapper
-      .findAll(".ni-tool-bar i")
+      .findAll(".tm-tool-bar i")
       .at(1)
       .trigger("click")
     expect(store.dispatch).toHaveBeenCalledWith("updateDelegates")

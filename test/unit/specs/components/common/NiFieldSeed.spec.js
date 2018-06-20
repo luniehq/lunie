@@ -24,6 +24,6 @@ describe("NiFieldSeed", () => {
   })
 
   it("has the correct class", () => {
-    expect(wrapper.find(".ni-field").classes()).toContain("ni-field-seed")
+    expect(wrapper.find(".tm-field").classes()).toContain("tm-field-seed")
   })
 })

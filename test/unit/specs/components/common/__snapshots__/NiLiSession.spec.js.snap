@@ -2,10 +2,10 @@
 
 exports[`NiLiSession has the expected html structure 1`] = `
 <div
-  class="ni-li-session"
+  class="tm-li-session"
 >
   <div
-    class="ni-li-session-icon"
+    class="tm-li-session-icon"
   >
     <i
       class="material-icons"
@@ -14,15 +14,15 @@ exports[`NiLiSession has the expected html structure 1`] = `
     </i>
   </div>
   <div
-    class="ni-li-session-text"
+    class="tm-li-session-text"
   >
     <div
-      class="ni-li-session-title"
+      class="tm-li-session-title"
     >
       useful title
     </div>
     <div
-      class="ni-li-session-subtitle"
+      class="tm-li-session-subtitle"
     >
       useful subtitle
     </div>

@@ -22,7 +22,7 @@ describe("NISessionSignUp", () => {
 
   it("should go back to the welcome screen on click", () => {
     wrapper
-      .findAll(".ni-session-header a")
+      .findAll(".tm-session-header a")
       .at(0)
       .trigger("click")
     expect(store.commit.mock.calls[0][0]).toBe("setModalSessionState")
@@ -31,7 +31,7 @@ describe("NISessionSignUp", () => {
 
   it("should open the help modal on click", () => {
     wrapper
-      .findAll(".ni-session-header a")
+      .findAll(".tm-session-header a")
       .at(1)
       .trigger("click")
     expect(store.commit.mock.calls[0]).toEqual(["setModalHelp", true])
@@ -126,7 +126,7 @@ describe("NISessionSignUp", () => {
     })
     wrapper.vm.onSubmit()
     expect(store.commit).not.toHaveBeenCalled()
-    expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
+    expect(wrapper.find(".tm-form-msg-error")).toBeDefined()
   })
 
   it("should show error if password is not 10 long", async () => {
@@ -141,7 +141,7 @@ describe("NISessionSignUp", () => {
     })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
+    expect(wrapper.find(".tm-form-msg-error")).toBeDefined()
   })
 
   it("should show error if password is not confirmed", async () => {
@@ -156,7 +156,7 @@ describe("NISessionSignUp", () => {
     })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
+    expect(wrapper.find(".tm-form-msg-error")).toBeDefined()
   })
 
   it("should show an error if account name is not 5 long", async () => {
@@ -171,7 +171,7 @@ describe("NISessionSignUp", () => {
     })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
+    expect(wrapper.find(".tm-form-msg-error")).toBeDefined()
   })
 
   it("should not continue if creation failed", async () => {

@@ -15,7 +15,7 @@ describe("NiDataEmpty", () => {
   it("has an icon", () => {
     expect(
       wrapper
-        .find(".ni-data-msg__icon i.material-icons")
+        .find(".tm-data-msg__icon i.material-icons")
         .text()
         .trim()
     ).toBe("info_outline")
@@ -24,7 +24,7 @@ describe("NiDataEmpty", () => {
   it("has a title", () => {
     expect(
       wrapper
-        .find(".ni-data-msg__title h4")
+        .find(".tm-data-msg__title h4")
         .text()
         .trim()
     ).toBe("N/A")
@@ -33,7 +33,7 @@ describe("NiDataEmpty", () => {
   it("has a subtitle", () => {
     expect(
       wrapper
-        .find(".ni-data-msg__subtitle h5")
+        .find(".tm-data-msg__subtitle h5")
         .text()
         .trim()
     ).toBe("No data available yet.")

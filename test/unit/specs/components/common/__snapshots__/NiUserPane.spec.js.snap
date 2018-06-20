@@ -2,14 +2,14 @@
 
 exports[`NiUserPane has the expected html structure 1`] = `
 <a
-  class="ni-li ni-li-link ni-li-user proposal-enter proposal-enter-active"
+  class="tm-li tm-li-link tm-li-user proposal-enter proposal-enter-active"
   href="#/preferences"
 >
   <div
-    class="ni-li-container"
+    class="tm-li-container"
   >
     <div
-      class="ni-li-thumb"
+      class="tm-li-thumb"
     >
       <i
         class="material-icons"
@@ -18,21 +18,21 @@ exports[`NiUserPane has the expected html structure 1`] = `
       </i>
     </div>
     <div
-      class="ni-li-label"
+      class="tm-li-label"
     >
       <div
-        class="ni-li-title"
+        class="tm-li-title"
       >
         Preferences
       </div>
       <div
-        class="ni-li-subtitle"
+        class="tm-li-subtitle"
       >
         default
       </div>
     </div>
     <div
-      class="ni-li-icon"
+      class="tm-li-icon"
     >
       <i
         class="material-icons inactive"

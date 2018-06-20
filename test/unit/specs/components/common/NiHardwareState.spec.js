@@ -30,7 +30,7 @@ describe("NiHardwareState", () => {
   it("has a label", () => {
     expect(
       wrapper
-        .find(".ni-hardware-state__label")
+        .find(".tm-hardware-state__label")
         .text()
         .trim()
     ).toContain("Detecting your Ledger Wallet")

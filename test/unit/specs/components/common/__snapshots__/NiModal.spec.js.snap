@@ -2,20 +2,20 @@
 
 exports[`NiModal has the expected html structure 1`] = `
 <div
-  class="ni-modal"
+  class="tm-modal"
 >
   <div
-    class="ni-modal-container"
+    class="tm-modal-container"
   >
     <header
-      class="ni-modal-header"
+      class="tm-modal-header"
     >
       <!---->
       <div
-        class="ni-modal-title"
+        class="tm-modal-title"
       />
       <div
-        class="ni-modal-icon ni-modal-close"
+        class="tm-modal-icon tm-modal-close"
       >
         <i
           class="material-icons"
@@ -25,10 +25,10 @@ exports[`NiModal has the expected html structure 1`] = `
       </div>
     </header>
     <main
-      class="ni-modal-main"
+      class="tm-modal-main"
     />
     <footer
-      class="ni-modal-footer"
+      class="tm-modal-footer"
     />
   </div>
 </div>

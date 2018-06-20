@@ -22,7 +22,7 @@ describe("NiConnectedNetwork", () => {
   it("has a network icon", () => {
     expect(
       wrapper
-        .find("#ni-connected-network__icon i.material-icons")
+        .find("#tm-connected-network__icon i.material-icons")
         .text()
         .trim()
     ).toBe("wifi")
@@ -31,7 +31,7 @@ describe("NiConnectedNetwork", () => {
   it("has a network string", () => {
     expect(
       wrapper
-        .find("#ni-connected-network__string")
+        .find("#tm-connected-network__string")
         .text()
         .trim()
     ).toBe("Connected to test-net via 127.0.0.1 (change network)")
@@ -40,15 +40,15 @@ describe("NiConnectedNetwork", () => {
   it("has a block string", () => {
     expect(
       wrapper
-        .find("#ni-connected-network__block")
+        .find("#tm-connected-network__block")
         .text()
         .trim()
     ).toBe("Current Block: #42")
   })
 
   it("has a certain style for mockedConnector", () => {
-    expect(wrapper.find("#ni-connected-network").classes()).toContain(
-      "ni-connected-network--mocked"
+    expect(wrapper.find("#tm-connected-network").classes()).toContain(
+      "tm-connected-network--mocked"
     )
   })
   it("has a network tooltip for mockedConnector", () => {
@@ -74,24 +74,24 @@ describe("NiConnectedNetwork", () => {
     expect(
       wrapper
         .find(
-          "#ni-disconnected-network .ni-connected-network__icon i.material-icons"
+          "#tm-disconnected-network .tm-connected-network__icon i.material-icons"
         )
         .text()
     ).toBe("rotate_right")
     expect(
       wrapper
-        .find("#ni-disconnected-network .ni-connected-network__string")
+        .find("#tm-disconnected-network .tm-connected-network__string")
         .text()
     ).toBe("Connecting to network…")
   })
 
   it("shows a link to the preferences page if not on the preferences page", () => {
-    expect(wrapper.find("#ni-connected-network_preferences-link")).toBeDefined()
+    expect(wrapper.find("#tm-connected-network_preferences-link")).toBeDefined()
     router.push("/preferences")
     wrapper.update()
     expect(wrapper.vm.$route.name).toBe("preferences")
     expect(
-      wrapper.vm.$el.querySelector("#ni-connected-network_preferences-link")
+      wrapper.vm.$el.querySelector("#tm-connected-network_preferences-link")
     ).toBeFalsy()
   })
 

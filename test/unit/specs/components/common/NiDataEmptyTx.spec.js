@@ -15,7 +15,7 @@ describe("NiDataEmptyTx", () => {
   it("has an icon", () => {
     expect(
       wrapper
-        .find(".ni-data-msg__icon i.material-icons")
+        .find(".tm-data-msg__icon i.material-icons")
         .text()
         .trim()
     ).toBe("info_outline")
@@ -24,7 +24,7 @@ describe("NiDataEmptyTx", () => {
   it("has a title", () => {
     expect(
       wrapper
-        .find(".ni-data-msg__title div")
+        .find(".tm-data-msg__title div")
         .text()
         .trim()
     ).toBe("No Transaction History")
@@ -33,7 +33,7 @@ describe("NiDataEmptyTx", () => {
   it("has a subtitle", () => {
     expect(
       wrapper
-        .find(".ni-data-msg__subtitle div")
+        .find(".tm-data-msg__subtitle div")
         .text()
         .trim()
     ).toContain("Looks like you haven't sent or received any transactions yet.")

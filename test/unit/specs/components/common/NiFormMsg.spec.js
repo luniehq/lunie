@@ -109,7 +109,7 @@ describe("NiFormMsg", () => {
       wrapper.setData(propsData[i])
       expect(
         wrapper
-          .find(".ni-form-msg")
+          .find(".tm-form-msg")
           .text()
           .trim()
       ).toContain(propsData[i].error)

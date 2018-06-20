@@ -25,13 +25,13 @@ describe("NiModal", () => {
   })
 
   it("should call close button click", () => {
-    wrapper.find(".ni-modal-close").trigger("click")
+    wrapper.find(".tm-modal-close").trigger("click")
     expect(close).toHaveBeenCalled()
   })
 
   it("should set size", () => {
     wrapper.setProps({ size: "fs" })
-    expect(wrapper.classes()).toContain("ni-modal-fullscreen")
+    expect(wrapper.classes()).toContain("tm-modal-fullscreen")
   })
 
   it("should show icon", () => {

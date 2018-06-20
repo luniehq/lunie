@@ -1,50 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NiSessionAccountDelete has the expected html structure 1`] = `
-"<div class=\\"ni-session\\">
-   <form class=\\"ni-session-container ni-form\\">
-      <div class=\\"ni-form-container\\">
+"<div class=\\"tm-session\\">
+   <form class=\\"tm-session-container tm-form\\">
+      <div class=\\"tm-form-container\\">
          <!---->
-         <main class=\\"ni-form-main\\">
-            <div class=\\"ni-session-header\\">
+         <main class=\\"tm-form-main\\">
+            <div class=\\"tm-session-header\\">
                <a><i class=\\"material-icons\\">arrow_back</i></a>
-               <div class=\\"ni-session-title\\">
+               <div class=\\"tm-session-title\\">
                   Remove Account
                </div>
       <a><i class=\\"material-icons\\">help_outline</i></a>
    </div>
-      <div class=\\"ni-session-main\\">
-         <div class=\\"ni-form-group\\">
+      <div class=\\"tm-session-main\\">
+         <div class=\\"tm-form-group\\">
             <!---->
-            <label for=\\"sign-in-password\\" class=\\"ni-form-group__label\\">Password</label>
-            <div class=\\"ni-form-group__field\\">
-               <input type=\\"password\\" placeholder=\\"Enter your password\\" class=\\"ni-field\\" id=\\"sign-in-password\\">
-               <div class=\\"ni-form-msg sm ni-form-msg--error\\">
+            <label for=\\"sign-in-password\\" class=\\"tm-form-group__label\\">Password</label>
+            <div class=\\"tm-form-group__field\\">
+               <input type=\\"password\\" placeholder=\\"Enter your password\\" class=\\"tm-field\\" id=\\"sign-in-password\\">
+               <div class=\\"tm-form-msg sm tm-form-msg--error\\">
                   Password is required
                </div>
                   <!---->
    </div>
 </div>
-      <div class=\\"ni-form-group\\">
+      <div class=\\"tm-form-group\\">
          <!---->
-         <label for=\\"sign-up-warning\\" class=\\"ni-form-group__label\\"></label>
-         <div class=\\"ni-form-group__field\\">
-            <div class=\\"ni-field-checkbox\\">
-               <div class=\\"ni-field-checkbox-input\\">
+         <label for=\\"sign-up-warning\\" class=\\"tm-form-group__label\\"></label>
+         <div class=\\"tm-form-group__field\\">
+            <div class=\\"tm-field-checkbox\\">
+               <div class=\\"tm-field-checkbox-input\\">
                   <input id=\\"sign-up-warning\\" type=\\"checkbox\\">
                </div>
-      <label for=\\"sign-up-warning\\" class=\\"ni-field-checkbox-label\\">I understand that Cosmos cannot recover deleted accounts without the passphrase.</label>
+      <label for=\\"sign-up-warning\\" class=\\"tm-field-checkbox-label\\">I understand that Cosmos cannot recover deleted accounts without the passphrase.</label>
    </div>
-      <div class=\\"ni-form-msg sm ni-form-msg--error\\">
+      <div class=\\"tm-form-msg sm tm-form-msg--error\\">
          Deletion confirmation is required
       </div>
 </div>
 </div>
 </div>
-      <div class=\\"ni-session-footer\\">
-         <button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn--size-lg\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">exit_to_app</i>
+      <div class=\\"tm-session-footer\\">
+         <button class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn--size-lg\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">exit_to_app</i>
          <!---->
-         <span class=\\"ni-btn__value\\">Sign Out and Remove Account</span></span></button>
+         <span class=\\"tm-btn__value\\">Sign Out and Remove Account</span></span></button>
       </div>
 </main>
       <!---->

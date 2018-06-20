@@ -18,18 +18,18 @@ describe("NiLiSession", () => {
 
   it("should have an icon", () => {
     expect(
-      wrapper.find(".ni-li-session-icon i.material-icons").html()
+      wrapper.find(".tm-li-session-icon i.material-icons").html()
     ).toContain("mood")
   })
 
   it("should have a title", () => {
-    expect(wrapper.find(".ni-li-session-title").html()).toContain(
+    expect(wrapper.find(".tm-li-session-title").html()).toContain(
       "useful title"
     )
   })
 
   it("should have a subtitle", () => {
-    expect(wrapper.find(".ni-li-session-subtitle").html()).toContain(
+    expect(wrapper.find(".tm-li-session-subtitle").html()).toContain(
       "useful subtitle"
     )
   })

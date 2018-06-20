@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NiSessionLoading has the expected html structure 1`] = `
-"<div class=\\"ni-session\\">
-   <div class=\\"ni-session-container\\">
-      <div class=\\"ni-session-header\\">
-         <div class=\\"ni-session-title\\">
+"<div class=\\"tm-session\\">
+   <div class=\\"tm-session-container\\">
+      <div class=\\"tm-session-header\\">
+         <div class=\\"tm-session-title\\">
             Loading…
          </div>
 </div>
-<div class=\\"ni-session-main\\">
+<div class=\\"tm-session-main\\">
    &nbsp;
 </div>
-<div class=\\"ni-session-footer\\">
+<div class=\\"tm-session-footer\\">
    &nbsp;
 </div>
 </div>

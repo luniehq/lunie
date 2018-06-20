@@ -29,7 +29,7 @@ describe("NiSessionImport", () => {
 
   it("should go back to the welcome screen on click", () => {
     wrapper
-      .findAll(".ni-session-header a")
+      .findAll(".tm-session-header a")
       .at(0)
       .trigger("click")
     expect(store.commit.mock.calls[0][0]).toBe("setModalSessionState")
@@ -38,7 +38,7 @@ describe("NiSessionImport", () => {
 
   it("should open the help modal on click", () => {
     wrapper
-      .findAll(".ni-session-header a")
+      .findAll(".tm-session-header a")
       .at(1)
       .trigger("click")
     expect(store.commit.mock.calls[0]).toEqual(["setModalHelp", true])
@@ -128,7 +128,7 @@ describe("NiSessionImport", () => {
     wrapper.setData({ fields: { importSeed: "" } })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
+    expect(wrapper.find(".tm-form-msg-error")).toBeDefined()
   })
 
   it("should show error if seed is 16 words long", async () => {
@@ -139,7 +139,7 @@ describe("NiSessionImport", () => {
     })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
+    expect(wrapper.find(".tm-form-msg-error")).toBeDefined()
   })
 
   it("should show error if password is not confirmed", async () => {
@@ -153,7 +153,7 @@ describe("NiSessionImport", () => {
     })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
+    expect(wrapper.find(".tm-form-msg-error")).toBeDefined()
   })
 
   it("should not continue if creation failed", async () => {

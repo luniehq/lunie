@@ -1,28 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NiOnboarding has the expected html structure 0 1`] = `
-"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
-   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
-   <div class=\\"ni-session\\">
-      <div class=\\"ni-session-container\\">
-         <div class=\\"ni-session-header\\">
-            <div class=\\"ni-session-title\\">
+"<div id=\\"onboarding\\" class=\\"tm-session-wrapper\\">
+   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"tm-session-backdrop\\">
+   <div class=\\"tm-session\\">
+      <div class=\\"tm-session-container\\">
+         <div class=\\"tm-session-header\\">
+            <div class=\\"tm-session-title\\">
                Welcome to Voyager
             </div>
 </div>
-<div class=\\"ni-session-main ps\\">
-   <div class=\\"ni-session-label\\">
+<div class=\\"tm-session-main ps\\">
+   <div class=\\"tm-session-label\\">
       This is a quick tour of the primary features of Cosmos Voyager.
    </div>
 <img src=\\"function () {        return fn.apply(this, arguments);      }\\">
-<div class=\\"ni-bar-discrete\\">
-   <div class=\\"ni-bar-discrete__container\\">
-      <div class=\\"ni-bar-discrete__edge\\"></div>
-<div class=\\"ni-bar-discrete__node ni-bar-discrete__node--active\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete\\">
+   <div class=\\"tm-bar-discrete__container\\">
+      <div class=\\"tm-bar-discrete__edge\\"></div>
+<div class=\\"tm-bar-discrete__node tm-bar-discrete__node--active\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
 </div>
 </div>
 <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
@@ -32,12 +32,12 @@ exports[`NiOnboarding has the expected html structure 0 1`] = `
    <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
-<div class=\\"ni-session-footer\\">
-   <button class=\\"ni-btn\\"><span class=\\"ni-btn__container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">close</i>
+<div class=\\"tm-session-footer\\">
+   <button class=\\"tm-btn\\"><span class=\\"tm-btn__container\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">close</i>
    <!---->
-   <span class=\\"ni-btn__value\\">Skip</span></span></button><button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">chevron_right</i>
+   <span class=\\"tm-btn__value\\">Skip</span></span></button><button class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn__icon-right tm-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">chevron_right</i>
    <!---->
-   <span class=\\"ni-btn__value\\">Next</span></span></button>
+   <span class=\\"tm-btn__value\\">Next</span></span></button>
 </div>
 </div>
 </div>
@@ -45,28 +45,28 @@ exports[`NiOnboarding has the expected html structure 0 1`] = `
 `;
 
 exports[`NiOnboarding has the expected html structure 1 1`] = `
-"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
-   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
-   <div class=\\"ni-session\\">
-      <div class=\\"ni-session-container\\">
-         <div class=\\"ni-session-header\\">
-            <div class=\\"ni-session-title\\">
+"<div id=\\"onboarding\\" class=\\"tm-session-wrapper\\">
+   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"tm-session-backdrop\\">
+   <div class=\\"tm-session\\">
+      <div class=\\"tm-session-container\\">
+         <div class=\\"tm-session-header\\">
+            <div class=\\"tm-session-title\\">
                Welcome to Voyager
             </div>
 </div>
-<div class=\\"ni-session-main ps\\">
-   <div class=\\"ni-session-label\\">
+<div class=\\"tm-session-main ps\\">
+   <div class=\\"tm-session-label\\">
       You can send and receive Cosmos tokens from anyone around the world.
    </div>
 <img src=\\"function () {        return fn.apply(this, arguments);      }\\">
-<div class=\\"ni-bar-discrete\\">
-   <div class=\\"ni-bar-discrete__container\\">
-      <div class=\\"ni-bar-discrete__edge\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete\\">
+   <div class=\\"tm-bar-discrete__container\\">
+      <div class=\\"tm-bar-discrete__edge\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
 </div>
 </div>
 <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
@@ -76,12 +76,12 @@ exports[`NiOnboarding has the expected html structure 1 1`] = `
    <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
-<div class=\\"ni-session-footer\\">
-   <button class=\\"ni-btn\\"><span class=\\"ni-btn__container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">close</i>
+<div class=\\"tm-session-footer\\">
+   <button class=\\"tm-btn\\"><span class=\\"tm-btn__container\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">close</i>
    <!---->
-   <span class=\\"ni-btn__value\\">Skip</span></span></button><button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">chevron_right</i>
+   <span class=\\"tm-btn__value\\">Skip</span></span></button><button class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn__icon-right tm-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">chevron_right</i>
    <!---->
-   <span class=\\"ni-btn__value\\">Next</span></span></button>
+   <span class=\\"tm-btn__value\\">Next</span></span></button>
 </div>
 </div>
 </div>
@@ -89,28 +89,28 @@ exports[`NiOnboarding has the expected html structure 1 1`] = `
 `;
 
 exports[`NiOnboarding has the expected html structure 2 1`] = `
-"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
-   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
-   <div class=\\"ni-session\\">
-      <div class=\\"ni-session-container\\">
-         <div class=\\"ni-session-header\\">
-            <div class=\\"ni-session-title\\">
+"<div id=\\"onboarding\\" class=\\"tm-session-wrapper\\">
+   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"tm-session-backdrop\\">
+   <div class=\\"tm-session\\">
+      <div class=\\"tm-session-container\\">
+         <div class=\\"tm-session-header\\">
+            <div class=\\"tm-session-title\\">
                Welcome to Voyager
             </div>
 </div>
-<div class=\\"ni-session-main ps\\">
-   <div class=\\"ni-session-label\\">
+<div class=\\"tm-session-main ps\\">
+   <div class=\\"tm-session-label\\">
       You can stake your Atoms to Cosmos Validators to earn even more Atoms.
    </div>
 <img src=\\"function () {        return fn.apply(this, arguments);      }\\">
-<div class=\\"ni-bar-discrete\\">
-   <div class=\\"ni-bar-discrete__container\\">
-      <div class=\\"ni-bar-discrete__edge\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete\\">
+   <div class=\\"tm-bar-discrete__container\\">
+      <div class=\\"tm-bar-discrete__edge\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
 </div>
 </div>
 <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
@@ -120,12 +120,12 @@ exports[`NiOnboarding has the expected html structure 2 1`] = `
    <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
-<div class=\\"ni-session-footer\\">
-   <button class=\\"ni-btn\\"><span class=\\"ni-btn__container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">close</i>
+<div class=\\"tm-session-footer\\">
+   <button class=\\"tm-btn\\"><span class=\\"tm-btn__container\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">close</i>
    <!---->
-   <span class=\\"ni-btn__value\\">Skip</span></span></button><button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">chevron_right</i>
+   <span class=\\"tm-btn__value\\">Skip</span></span></button><button class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn__icon-right tm-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">chevron_right</i>
    <!---->
-   <span class=\\"ni-btn__value\\">Next</span></span></button>
+   <span class=\\"tm-btn__value\\">Next</span></span></button>
 </div>
 </div>
 </div>
@@ -133,28 +133,28 @@ exports[`NiOnboarding has the expected html structure 2 1`] = `
 `;
 
 exports[`NiOnboarding has the expected html structure 3 1`] = `
-"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
-   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
-   <div class=\\"ni-session\\">
-      <div class=\\"ni-session-container\\">
-         <div class=\\"ni-session-header\\">
-            <div class=\\"ni-session-title\\">
+"<div id=\\"onboarding\\" class=\\"tm-session-wrapper\\">
+   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"tm-session-backdrop\\">
+   <div class=\\"tm-session\\">
+      <div class=\\"tm-session-container\\">
+         <div class=\\"tm-session-header\\">
+            <div class=\\"tm-session-title\\">
                Welcome to Voyager
             </div>
 </div>
-<div class=\\"ni-session-main ps\\">
-   <div class=\\"ni-session-label\\">
+<div class=\\"tm-session-main ps\\">
+   <div class=\\"tm-session-label\\">
       Through governance, you can vote on the future of the Cosmos Network.
    </div>
 <img src=\\"function () {        return fn.apply(this, arguments);      }\\">
-<div class=\\"ni-bar-discrete\\">
-   <div class=\\"ni-bar-discrete__container\\">
-      <div class=\\"ni-bar-discrete__edge\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete\\">
+   <div class=\\"tm-bar-discrete__container\\">
+      <div class=\\"tm-bar-discrete__edge\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
 </div>
 </div>
 <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
@@ -164,12 +164,12 @@ exports[`NiOnboarding has the expected html structure 3 1`] = `
    <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
-<div class=\\"ni-session-footer\\">
-   <button class=\\"ni-btn\\"><span class=\\"ni-btn__container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">close</i>
+<div class=\\"tm-session-footer\\">
+   <button class=\\"tm-btn\\"><span class=\\"tm-btn__container\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">close</i>
    <!---->
-   <span class=\\"ni-btn__value\\">Skip</span></span></button><button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">chevron_right</i>
+   <span class=\\"tm-btn__value\\">Skip</span></span></button><button class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn__icon-right tm-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">chevron_right</i>
    <!---->
-   <span class=\\"ni-btn__value\\">Next</span></span></button>
+   <span class=\\"tm-btn__value\\">Next</span></span></button>
 </div>
 </div>
 </div>
@@ -177,28 +177,28 @@ exports[`NiOnboarding has the expected html structure 3 1`] = `
 `;
 
 exports[`NiOnboarding has the expected html structure 4 1`] = `
-"<div id=\\"onboarding\\" class=\\"ni-session-wrapper\\">
-   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"ni-session-backdrop\\">
-   <div class=\\"ni-session\\">
-      <div class=\\"ni-session-container\\">
-         <div class=\\"ni-session-header\\">
-            <div class=\\"ni-session-title\\">
+"<div id=\\"onboarding\\" class=\\"tm-session-wrapper\\">
+   <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"tm-session-backdrop\\">
+   <div class=\\"tm-session\\">
+      <div class=\\"tm-session-container\\">
+         <div class=\\"tm-session-header\\">
+            <div class=\\"tm-session-title\\">
                Welcome to Voyager
             </div>
 </div>
-<div class=\\"ni-session-main ps\\">
-   <div class=\\"ni-session-label\\">
+<div class=\\"tm-session-main ps\\">
+   <div class=\\"tm-session-label\\">
       Start using Voyager to explore the Cosmos Network!
    </div>
 <img src=\\"function () {        return fn.apply(this, arguments);      }\\">
-<div class=\\"ni-bar-discrete\\">
-   <div class=\\"ni-bar-discrete__container\\">
-      <div class=\\"ni-bar-discrete__edge\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
-<div class=\\"ni-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete\\">
+   <div class=\\"tm-bar-discrete__container\\">
+      <div class=\\"tm-bar-discrete__edge\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
+<div class=\\"tm-bar-discrete__node\\"></div>
 </div>
 </div>
 <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
@@ -208,12 +208,12 @@ exports[`NiOnboarding has the expected html structure 4 1`] = `
    <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
-<div class=\\"ni-session-footer\\">
-   <button class=\\"ni-btn\\"><span class=\\"ni-btn__container\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">close</i>
+<div class=\\"tm-session-footer\\">
+   <button class=\\"tm-btn\\"><span class=\\"tm-btn__container\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">close</i>
    <!---->
-   <span class=\\"ni-btn__value\\">Skip</span></span></button><button class=\\"ni-btn\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">chevron_right</i>
+   <span class=\\"tm-btn__value\\">Skip</span></span></button><button class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn__icon-right tm-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">chevron_right</i>
    <!---->
-   <span class=\\"ni-btn__value\\">Next</span></span></button>
+   <span class=\\"tm-btn__value\\">Next</span></span></button>
 </div>
 </div>
 </div>

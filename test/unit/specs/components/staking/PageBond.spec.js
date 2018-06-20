@@ -119,7 +119,7 @@ describe("PageBond", () => {
   })
 
   it("returns to the candidates if desired", () => {
-    wrapper.find(".ni-tool-bar a").trigger("click")
+    wrapper.find(".tm-tool-bar a").trigger("click")
     expect(router.currentRoute.fullPath).toBe("/staking")
   })
 
@@ -171,7 +171,7 @@ describe("PageBond", () => {
     })
     wrapper.findAll("#btn-bond").trigger("click")
     expect(store.dispatch.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
+    expect(wrapper.find(".tm-form-msg-error")).toBeDefined()
   })
 
   it("shows an appropriate amount of unbonded atoms", () => {
@@ -246,7 +246,7 @@ describe("PageBond", () => {
     })
     wrapper.findAll("#btn-bond").trigger("click")
     expect(store.dispatch.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(".ni-form-msg-error")).toBeDefined()
+    expect(wrapper.find(".tm-form-msg-error")).toBeDefined()
   })
 
   it("bonds atoms on submit", () => {

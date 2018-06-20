@@ -1,20 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NiFieldVote has the expected html structure 1`] = `
-"<div class=\\"ni-field-vote\\">
-   <div class=\\"ni-field-vote-container\\">
-      <div class=\\"ni-field-vote-input\\">
+"<div class=\\"tm-field-vote\\">
+   <div class=\\"tm-field-vote-container\\">
+      <div class=\\"tm-field-vote-input\\">
          <i class=\\"material-icons\\">radio_button_checked</i>
       </div>
-<div class=\\"ni-field-vote-label\\">
-   <div class=\\"ni-field-vote-bar-outer\\">
-      <div class=\\"ni-field-vote-bar-inner\\" style=\\"width: 34%;\\"></div>
+<div class=\\"tm-field-vote-label\\">
+   <div class=\\"tm-field-vote-bar-outer\\">
+      <div class=\\"tm-field-vote-bar-inner\\" style=\\"width: 34%;\\"></div>
 </div>
-<div class=\\"ni-field-vote-dl\\">
-   <div class=\\"ni-field-vote-dt\\">
+<div class=\\"tm-field-vote-dl\\">
+   <div class=\\"tm-field-vote-dt\\">
       No
    </div>
-<div class=\\"ni-field-vote-dd\\">
+<div class=\\"tm-field-vote-dd\\">
    34%
 </div>
 </div>

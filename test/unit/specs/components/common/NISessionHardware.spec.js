@@ -26,7 +26,7 @@ describe("NISessionHardware", () => {
 
   it("should go back to the welcome screen on click", () => {
     wrapper
-      .findAll(".ni-session-header a")
+      .findAll(".tm-session-header a")
       .at(0)
       .trigger("click")
     expect(store.commit.mock.calls[0][0]).toBe("setModalSessionState")
@@ -35,7 +35,7 @@ describe("NISessionHardware", () => {
 
   it("should open the help modal on click", () => {
     wrapper
-      .findAll(".ni-session-header a")
+      .findAll(".tm-session-header a")
       .at(1)
       .trigger("click")
     expect(store.commit.mock.calls[0]).toEqual(["setModalHelp", true])

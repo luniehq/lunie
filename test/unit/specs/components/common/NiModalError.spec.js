@@ -37,7 +37,7 @@ describe("NiModalError", () => {
   it("has an icon", () => {
     expect(
       wrapper
-        .find(".ni-modal-error__icon i.material-icons")
+        .find(".tm-modal-error__icon i.material-icons")
         .text()
         .trim()
     ).toBe("error_outline")
@@ -51,7 +51,7 @@ describe("NiModalError", () => {
     })
     expect(
       wrapper
-        .find(".ni-modal-error__icon i.material-icons")
+        .find(".tm-modal-error__icon i.material-icons")
         .text()
         .trim()
     ).toBe("icon-x")
@@ -60,7 +60,7 @@ describe("NiModalError", () => {
   it("has a title", () => {
     expect(
       wrapper
-        .find(".ni-modal-error__title")
+        .find(".tm-modal-error__title")
         .text()
         .trim()
     ).toBe("Voyager ran into an error")
@@ -74,7 +74,7 @@ describe("NiModalError", () => {
     })
     expect(
       wrapper
-        .find(".ni-modal-error__title")
+        .find(".tm-modal-error__title")
         .text()
         .trim()
     ).toBe("title-x")
@@ -83,7 +83,7 @@ describe("NiModalError", () => {
   it("has a body", () => {
     expect(
       wrapper
-        .find(".ni-modal-error__body")
+        .find(".tm-modal-error__body")
         .text()
         .trim()
     ).toContain(
@@ -99,7 +99,7 @@ describe("NiModalError", () => {
     })
     expect(
       wrapper
-        .find(".ni-modal-error__body")
+        .find(".tm-modal-error__body")
         .text()
         .trim()
     ).toBe("body-x")
@@ -110,10 +110,10 @@ describe("NiModalError", () => {
   })
 
   it("has a button to create an issue", () => {
-    wrapper.find("#ni-modal-error__btn-issue").trigger("click")
+    wrapper.find("#tm-modal-error__btn-issue").trigger("click")
   })
 
   it("has a button to view the app logs", () => {
-    wrapper.find("#ni-modal-error__btn-logs").trigger("click")
+    wrapper.find("#tm-modal-error__btn-logs").trigger("click")
   })
 })

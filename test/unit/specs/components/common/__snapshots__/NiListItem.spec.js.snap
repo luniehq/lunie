@@ -4,14 +4,14 @@ exports[`NiListItem has the expected html structure 1`] = `<!---->`;
 
 exports[`NiListItem should append the fa-spin class 1`] = `
 <div
-  class="ni-li v-enter v-enter-active"
+  class="tm-li v-enter v-enter-active"
   name="proposal"
 >
   <div
-    class="ni-li-container"
+    class="tm-li-container"
   >
     <div
-      class="ni-li-thumb"
+      class="tm-li-thumb"
     >
       <i
         class="material-icons fa-spin"
@@ -20,15 +20,15 @@ exports[`NiListItem should append the fa-spin class 1`] = `
       </i>
     </div>
     <div
-      class="ni-li-label"
+      class="tm-li-label"
     >
       <div
-        class="ni-li-title"
+        class="tm-li-title"
       >
         Connecting...
       </div>
       <div
-        class="ni-li-subtitle"
+        class="tm-li-subtitle"
       >
         
       </div>
@@ -39,34 +39,34 @@ exports[`NiListItem should append the fa-spin class 1`] = `
 
 exports[`NiListItem should show a dd link 1`] = `
 <a
-  class="ni-li ni-li-link v-enter v-enter-active"
+  class="tm-li tm-li-link v-enter v-enter-active"
   href="/location"
   name="proposal"
 >
   <div
-    class="ni-li-container"
+    class="tm-li-container"
   >
     <div
-      class="ni-li-thumb"
+      class="tm-li-thumb"
     >
       <!---->
     </div>
     <div
-      class="ni-li-dl"
+      class="tm-li-dl"
     >
       <div
-        class="ni-li-dt"
+        class="tm-li-dt"
       >
         Link
       </div>
       <div
-        class="ni-li-dd"
+        class="tm-li-dd"
       >
         
       </div>
     </div>
     <div
-      class="ni-li-icon"
+      class="tm-li-icon"
     >
       <i
         class="material-icons inactive"
@@ -85,34 +85,34 @@ exports[`NiListItem should show a dd link 1`] = `
 
 exports[`NiListItem should show a description 1`] = `
 <a
-  class="ni-li ni-li-link v-enter v-enter-active"
+  class="tm-li tm-li-link v-enter v-enter-active"
   href="/location"
   name="proposal"
 >
   <div
-    class="ni-li-container"
+    class="tm-li-container"
   >
     <div
-      class="ni-li-thumb"
+      class="tm-li-thumb"
     >
       <!---->
     </div>
     <div
-      class="ni-li-dl"
+      class="tm-li-dl"
     >
       <div
-        class="ni-li-dt"
+        class="tm-li-dt"
       >
         Link
       </div>
       <div
-        class="ni-li-dd"
+        class="tm-li-dd"
       >
         
       </div>
     </div>
     <div
-      class="ni-li-icon"
+      class="tm-li-icon"
     >
       <i
         class="material-icons inactive"
@@ -131,27 +131,27 @@ exports[`NiListItem should show a description 1`] = `
 
 exports[`NiListItem should show a label 1`] = `
 <div
-  class="ni-li v-enter v-enter-active"
+  class="tm-li v-enter v-enter-active"
   name="proposal"
 >
   <div
-    class="ni-li-container"
+    class="tm-li-container"
   >
     <div
-      class="ni-li-thumb"
+      class="tm-li-thumb"
     >
       <!---->
     </div>
     <div
-      class="ni-li-label"
+      class="tm-li-label"
     >
       <div
-        class="ni-li-title"
+        class="tm-li-title"
       >
         Title
       </div>
       <div
-        class="ni-li-subtitle"
+        class="tm-li-subtitle"
       >
         Subtitle
       </div>
@@ -162,34 +162,34 @@ exports[`NiListItem should show a label 1`] = `
 
 exports[`NiListItem should show a router-link 1`] = `
 <router-link
-  class="ni-li ni-li-link v-enter v-enter-active"
+  class="tm-li tm-li-link v-enter v-enter-active"
   name="proposal"
   to="/location"
 >
   <div
-    class="ni-li-container"
+    class="tm-li-container"
   >
     <div
-      class="ni-li-thumb"
+      class="tm-li-thumb"
     >
       <!---->
     </div>
     <div
-      class="ni-li-dl"
+      class="tm-li-dl"
     >
       <div
-        class="ni-li-dt"
+        class="tm-li-dt"
       >
         Link
       </div>
       <div
-        class="ni-li-dd"
+        class="tm-li-dd"
       >
         
       </div>
     </div>
     <div
-      class="ni-li-icon"
+      class="tm-li-icon"
     >
       <i
         class="material-icons inactive"
@@ -208,34 +208,34 @@ exports[`NiListItem should show a router-link 1`] = `
 
 exports[`NiListItem should show a subtitle router link 1`] = `
 <router-link
-  class="ni-li ni-li-link v-enter v-enter-active"
+  class="tm-li tm-li-link v-enter v-enter-active"
   name="proposal"
   to="/location"
 >
   <div
-    class="ni-li-container"
+    class="tm-li-container"
   >
     <div
-      class="ni-li-thumb"
+      class="tm-li-thumb"
     >
       <!---->
     </div>
     <div
-      class="ni-li-label"
+      class="tm-li-label"
     >
       <div
-        class="ni-li-title"
+        class="tm-li-title"
       >
         
       </div>
       <div
-        class="ni-li-subtitle"
+        class="tm-li-subtitle"
       >
         
       </div>
     </div>
     <div
-      class="ni-li-icon"
+      class="tm-li-icon"
     >
       <i
         class="material-icons inactive"
@@ -254,34 +254,34 @@ exports[`NiListItem should show a subtitle router link 1`] = `
 
 exports[`NiListItem should show a thumb 1`] = `
 <a
-  class="ni-li ni-li-link v-enter v-enter-active"
+  class="tm-li tm-li-link v-enter v-enter-active"
   href="/location"
   name="proposal"
 >
   <div
-    class="ni-li-container"
+    class="tm-li-container"
   >
     <div
-      class="ni-li-thumb"
+      class="tm-li-thumb"
     >
       <!---->
     </div>
     <div
-      class="ni-li-dl"
+      class="tm-li-dl"
     >
       <div
-        class="ni-li-dt"
+        class="tm-li-dt"
       >
         Link
       </div>
       <div
-        class="ni-li-dd"
+        class="tm-li-dd"
       >
         
       </div>
     </div>
     <div
-      class="ni-li-icon"
+      class="tm-li-icon"
     >
       <i
         class="material-icons inactive"
@@ -300,27 +300,27 @@ exports[`NiListItem should show a thumb 1`] = `
 
 exports[`NiListItem should show as dd text 1`] = `
 <div
-  class="ni-li v-enter v-enter-active"
+  class="tm-li v-enter v-enter-active"
   name="proposal"
 >
   <div
-    class="ni-li-container"
+    class="tm-li-container"
   >
     <div
-      class="ni-li-thumb"
+      class="tm-li-thumb"
     >
       <!---->
     </div>
     <div
-      class="ni-li-dl"
+      class="tm-li-dl"
     >
       <div
-        class="ni-li-dt"
+        class="tm-li-dt"
       >
         Link
       </div>
       <div
-        class="ni-li-dd"
+        class="tm-li-dd"
       >
         
       </div>
@@ -331,27 +331,27 @@ exports[`NiListItem should show as dd text 1`] = `
 
 exports[`NiListItem should show as text 1`] = `
 <div
-  class="ni-li v-enter v-enter-active"
+  class="tm-li v-enter v-enter-active"
   name="proposal"
 >
   <div
-    class="ni-li-container"
+    class="tm-li-container"
   >
     <div
-      class="ni-li-thumb"
+      class="tm-li-thumb"
     >
       <!---->
     </div>
     <div
-      class="ni-li-label"
+      class="tm-li-label"
     >
       <div
-        class="ni-li-title"
+        class="tm-li-title"
       >
         Link
       </div>
       <div
-        class="ni-li-subtitle"
+        class="tm-li-subtitle"
       >
         
       </div>
@@ -362,27 +362,27 @@ exports[`NiListItem should show as text 1`] = `
 
 exports[`NiListItem should show as text link 1`] = `
 <div
-  class="ni-li v-enter v-enter-active"
+  class="tm-li v-enter v-enter-active"
   name="proposal"
 >
   <div
-    class="ni-li-container"
+    class="tm-li-container"
   >
     <div
-      class="ni-li-thumb"
+      class="tm-li-thumb"
     >
       <!---->
     </div>
     <div
-      class="ni-li-dl"
+      class="tm-li-dl"
     >
       <div
-        class="ni-li-dt"
+        class="tm-li-dt"
       >
         Link
       </div>
       <div
-        class="ni-li-dd"
+        class="tm-li-dd"
       >
         
       </div>

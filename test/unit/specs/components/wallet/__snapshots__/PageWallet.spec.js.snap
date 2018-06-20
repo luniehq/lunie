@@ -2,26 +2,26 @@
 
 exports[`PageWallet has the expected html structure 1`] = `
 <div
-  class="ni-page"
+  class="tm-page"
 >
   <header
-    class="ni-page-header"
+    class="tm-page-header"
   >
     <div
-      class="ni-page-header-container"
+      class="tm-page-header-container"
     >
       <div
-        class="ni-page-header-text"
+        class="tm-page-header-text"
       >
         <div
-          class="ni-page-header-title"
+          class="tm-page-header-title"
         >
           <h2>
             Wallet
           </h2>
         </div>
         <div
-          class="ni-page-header-subtitle"
+          class="tm-page-header-subtitle"
         >
           <h3>
             
@@ -29,15 +29,15 @@ exports[`PageWallet has the expected html structure 1`] = `
         </div>
       </div>
       <menu
-        class="ni-page-header-menu"
+        class="tm-page-header-menu"
       >
         <div>
           <div>
             <div
-              class="ni-tool-bar"
+              class="tm-tool-bar"
             >
               <div
-                class="ni-tool-bar-container"
+                class="tm-tool-bar-container"
               >
                 <div
                   class="main"
@@ -92,76 +92,76 @@ exports[`PageWallet has the expected html structure 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main ps"
+    class="tm-page-main ps"
   >
     <modal-search
       type="balances"
     />
     <section
-      class="ni-part"
+      class="tm-part"
     >
       <div
-        class="ni-part-container"
+        class="tm-part-container"
       >
         <header
-          class="ni-part-header"
+          class="tm-part-header"
         >
           <div
-            class="ni-part-header-container"
+            class="tm-part-header-container"
           >
             <div
-              class="ni-part-title h5"
+              class="tm-part-title h5"
             >
               Your Address
             </div>
             <menu
-              class="ni-part-menu"
+              class="tm-part-menu"
             />
           </div>
         </header>
         <main
-          class="ni-part-main"
+          class="tm-part-main"
         >
           <div
-            class="ni-li ni-li-receive proposal-enter proposal-enter-active"
+            class="tm-li tm-li-receive proposal-enter proposal-enter-active"
           >
             <div
-              class="ni-li-container"
+              class="tm-li-container"
             >
               <div
-                class="ni-li-thumb"
+                class="tm-li-thumb"
               >
                 <!---->
               </div>
               <div
-                class="ni-li-label"
+                class="tm-li-label"
               >
                 <div
-                  class="ni-li-title"
+                  class="tm-li-title"
                 >
                   tb1zgatc3tdauv2m0uf
                 </div>
                 <div
-                  class="ni-li-subtitle"
+                  class="tm-li-subtitle"
                 >
                   
                 </div>
               </div>
               <button
-                class="ni-btn btn-receive"
+                class="tm-btn btn-receive"
               >
                 <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="tm-btn__icon material-icons"
                   >
                     file_download
                   </i>
                   <!---->
                   <span
-                    class="ni-btn__value"
+                    class="tm-btn__value"
                   >
                     Receive
                   </span>
@@ -173,73 +173,73 @@ exports[`PageWallet has the expected html structure 1`] = `
       </div>
     </section>
     <section
-      class="ni-part"
+      class="tm-part"
       id="part-available-balances"
     >
       <div
-        class="ni-part-container"
+        class="tm-part-container"
       >
         <header
-          class="ni-part-header"
+          class="tm-part-header"
         >
           <div
-            class="ni-part-header-container"
+            class="tm-part-header-container"
           >
             <div
-              class="ni-part-title h5"
+              class="tm-part-title h5"
             >
               Available Balances
             </div>
             <menu
-              class="ni-part-menu"
+              class="tm-part-menu"
             />
           </div>
         </header>
         <main
-          class="ni-part-main"
+          class="tm-part-main"
         >
           <!---->
           <a
-            class="ni-li ni-li-link ni-li-balance proposal-enter proposal-enter-active"
+            class="tm-li tm-li-link tm-li-balance proposal-enter proposal-enter-active"
             href="#/wallet/send/FERMION"
           >
             <div
-              class="ni-li-container"
+              class="tm-li-container"
             >
               <div
-                class="ni-li-thumb"
+                class="tm-li-thumb"
               >
                 <!---->
               </div>
               <div
-                class="ni-li-dl"
+                class="tm-li-dl"
               >
                 <div
-                  class="ni-li-dt"
+                  class="tm-li-dt"
                 >
                   FERMION
                 </div>
                 <div
-                  class="ni-li-dd"
+                  class="tm-li-dd"
                 >
                   456
                 </div>
               </div>
               <button
-                class="ni-btn"
+                class="tm-btn"
               >
                 <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="tm-btn__icon material-icons"
                   >
                     chevron_right
                   </i>
                   <!---->
                   <span
-                    class="ni-btn__value"
+                    class="tm-btn__value"
                   >
                     Send
                   </span>
@@ -248,46 +248,46 @@ exports[`PageWallet has the expected html structure 1`] = `
             </div>
           </a>
           <a
-            class="ni-li ni-li-link ni-li-balance proposal-enter proposal-enter-active"
+            class="tm-li tm-li-link tm-li-balance proposal-enter proposal-enter-active"
             href="#/wallet/send/ATOM"
           >
             <div
-              class="ni-li-container"
+              class="tm-li-container"
             >
               <div
-                class="ni-li-thumb"
+                class="tm-li-thumb"
               >
                 <!---->
               </div>
               <div
-                class="ni-li-dl"
+                class="tm-li-dl"
               >
                 <div
-                  class="ni-li-dt"
+                  class="tm-li-dt"
                 >
                   ATOM
                 </div>
                 <div
-                  class="ni-li-dd"
+                  class="tm-li-dd"
                 >
                   123
                 </div>
               </div>
               <button
-                class="ni-btn"
+                class="tm-btn"
               >
                 <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="tm-btn__icon material-icons"
                   >
                     chevron_right
                   </i>
                   <!---->
                   <span
-                    class="ni-btn__value"
+                    class="tm-btn__value"
                   >
                     Send
                   </span>
@@ -300,72 +300,72 @@ exports[`PageWallet has the expected html structure 1`] = `
       </div>
     </section>
     <section
-      class="ni-part"
+      class="tm-part"
       id="part-staked-balances"
     >
       <div
-        class="ni-part-container"
+        class="tm-part-container"
       >
         <header
-          class="ni-part-header"
+          class="tm-part-header"
         >
           <div
-            class="ni-part-header-container"
+            class="tm-part-header-container"
           >
             <div
-              class="ni-part-title h5"
+              class="tm-part-title h5"
             >
               Staked Balances
             </div>
             <menu
-              class="ni-part-menu"
+              class="tm-part-menu"
             />
           </div>
         </header>
         <main
-          class="ni-part-main"
+          class="tm-part-main"
         >
           <a
-            class="ni-li ni-li-link"
+            class="tm-li tm-li-link"
             href="#/staking"
           >
             <div
-              class="ni-li-container"
+              class="tm-li-container"
             >
               <div
-                class="ni-li-thumb"
+                class="tm-li-thumb"
               >
                 <!---->
               </div>
               <div
-                class="ni-li-dl"
+                class="tm-li-dl"
               >
                 <div
-                  class="ni-li-dt"
+                  class="tm-li-dt"
                 >
                   STEAK
                 </div>
                 <div
-                  class="ni-li-dd"
+                  class="tm-li-dd"
                 >
                   123
                 </div>
               </div>
               <button
-                class="ni-btn"
+                class="tm-btn"
               >
                 <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="tm-btn__icon material-icons"
                   >
                     chevron_right
                   </i>
                   <!---->
                   <span
-                    class="ni-btn__value"
+                    class="tm-btn__value"
                   >
                     Stake
                   </span>
@@ -402,26 +402,26 @@ exports[`PageWallet has the expected html structure 1`] = `
 
 exports[`PageWallet should filter the balances 1`] = `
 <div
-  class="ni-page"
+  class="tm-page"
 >
   <header
-    class="ni-page-header"
+    class="tm-page-header"
   >
     <div
-      class="ni-page-header-container"
+      class="tm-page-header-container"
     >
       <div
-        class="ni-page-header-text"
+        class="tm-page-header-text"
       >
         <div
-          class="ni-page-header-title"
+          class="tm-page-header-title"
         >
           <h2>
             Wallet
           </h2>
         </div>
         <div
-          class="ni-page-header-subtitle"
+          class="tm-page-header-subtitle"
         >
           <h3>
             
@@ -429,15 +429,15 @@ exports[`PageWallet should filter the balances 1`] = `
         </div>
       </div>
       <menu
-        class="ni-page-header-menu"
+        class="tm-page-header-menu"
       >
         <div>
           <div>
             <div
-              class="ni-tool-bar"
+              class="tm-tool-bar"
             >
               <div
-                class="ni-tool-bar-container"
+                class="tm-tool-bar-container"
               >
                 <div
                   class="main"
@@ -492,76 +492,76 @@ exports[`PageWallet should filter the balances 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main ps"
+    class="tm-page-main ps"
   >
     <modal-search
       type="balances"
     />
     <section
-      class="ni-part"
+      class="tm-part"
     >
       <div
-        class="ni-part-container"
+        class="tm-part-container"
       >
         <header
-          class="ni-part-header"
+          class="tm-part-header"
         >
           <div
-            class="ni-part-header-container"
+            class="tm-part-header-container"
           >
             <div
-              class="ni-part-title h5"
+              class="tm-part-title h5"
             >
               Your Address
             </div>
             <menu
-              class="ni-part-menu"
+              class="tm-part-menu"
             />
           </div>
         </header>
         <main
-          class="ni-part-main"
+          class="tm-part-main"
         >
           <div
-            class="ni-li ni-li-receive proposal-enter proposal-enter-active"
+            class="tm-li tm-li-receive proposal-enter proposal-enter-active"
           >
             <div
-              class="ni-li-container"
+              class="tm-li-container"
             >
               <div
-                class="ni-li-thumb"
+                class="tm-li-thumb"
               >
                 <!---->
               </div>
               <div
-                class="ni-li-label"
+                class="tm-li-label"
               >
                 <div
-                  class="ni-li-title"
+                  class="tm-li-title"
                 >
                   tb1zgatc3tdauv2m0uf
                 </div>
                 <div
-                  class="ni-li-subtitle"
+                  class="tm-li-subtitle"
                 >
                   
                 </div>
               </div>
               <button
-                class="ni-btn btn-receive"
+                class="tm-btn btn-receive"
               >
                 <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="tm-btn__icon material-icons"
                   >
                     file_download
                   </i>
                   <!---->
                   <span
-                    class="ni-btn__value"
+                    class="tm-btn__value"
                   >
                     Receive
                   </span>
@@ -573,73 +573,73 @@ exports[`PageWallet should filter the balances 1`] = `
       </div>
     </section>
     <section
-      class="ni-part"
+      class="tm-part"
       id="part-available-balances"
     >
       <div
-        class="ni-part-container"
+        class="tm-part-container"
       >
         <header
-          class="ni-part-header"
+          class="tm-part-header"
         >
           <div
-            class="ni-part-header-container"
+            class="tm-part-header-container"
           >
             <div
-              class="ni-part-title h5"
+              class="tm-part-title h5"
             >
               Available Balances
             </div>
             <menu
-              class="ni-part-menu"
+              class="tm-part-menu"
             />
           </div>
         </header>
         <main
-          class="ni-part-main"
+          class="tm-part-main"
         >
           <!---->
           <a
-            class="ni-li ni-li-link ni-li-balance proposal-enter proposal-enter-active"
+            class="tm-li tm-li-link tm-li-balance proposal-enter proposal-enter-active"
             href="#/wallet/send/ATOM"
           >
             <div
-              class="ni-li-container"
+              class="tm-li-container"
             >
               <div
-                class="ni-li-thumb"
+                class="tm-li-thumb"
               >
                 <!---->
               </div>
               <div
-                class="ni-li-dl"
+                class="tm-li-dl"
               >
                 <div
-                  class="ni-li-dt"
+                  class="tm-li-dt"
                 >
                   ATOM
                 </div>
                 <div
-                  class="ni-li-dd"
+                  class="tm-li-dd"
                 >
                   123
                 </div>
               </div>
               <button
-                class="ni-btn"
+                class="tm-btn"
               >
                 <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="tm-btn__icon material-icons"
                   >
                     chevron_right
                   </i>
                   <!---->
                   <span
-                    class="ni-btn__value"
+                    class="tm-btn__value"
                   >
                     Send
                   </span>
@@ -648,46 +648,46 @@ exports[`PageWallet should filter the balances 1`] = `
             </div>
           </a>
           <a
-            class="ni-li ni-li-link ni-li-balance proposal-leave proposal-leave-active"
+            class="tm-li tm-li-link tm-li-balance proposal-leave proposal-leave-active"
             href="#/wallet/send/FERMION"
           >
             <div
-              class="ni-li-container"
+              class="tm-li-container"
             >
               <div
-                class="ni-li-thumb"
+                class="tm-li-thumb"
               >
                 <!---->
               </div>
               <div
-                class="ni-li-dl"
+                class="tm-li-dl"
               >
                 <div
-                  class="ni-li-dt"
+                  class="tm-li-dt"
                 >
                   FERMION
                 </div>
                 <div
-                  class="ni-li-dd"
+                  class="tm-li-dd"
                 >
                   456
                 </div>
               </div>
               <button
-                class="ni-btn"
+                class="tm-btn"
               >
                 <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="tm-btn__icon material-icons"
                   >
                     chevron_right
                   </i>
                   <!---->
                   <span
-                    class="ni-btn__value"
+                    class="tm-btn__value"
                   >
                     Send
                   </span>
@@ -699,72 +699,72 @@ exports[`PageWallet should filter the balances 1`] = `
       </div>
     </section>
     <section
-      class="ni-part"
+      class="tm-part"
       id="part-staked-balances"
     >
       <div
-        class="ni-part-container"
+        class="tm-part-container"
       >
         <header
-          class="ni-part-header"
+          class="tm-part-header"
         >
           <div
-            class="ni-part-header-container"
+            class="tm-part-header-container"
           >
             <div
-              class="ni-part-title h5"
+              class="tm-part-title h5"
             >
               Staked Balances
             </div>
             <menu
-              class="ni-part-menu"
+              class="tm-part-menu"
             />
           </div>
         </header>
         <main
-          class="ni-part-main"
+          class="tm-part-main"
         >
           <a
-            class="ni-li ni-li-link"
+            class="tm-li tm-li-link"
             href="#/staking"
           >
             <div
-              class="ni-li-container"
+              class="tm-li-container"
             >
               <div
-                class="ni-li-thumb"
+                class="tm-li-thumb"
               >
                 <!---->
               </div>
               <div
-                class="ni-li-dl"
+                class="tm-li-dl"
               >
                 <div
-                  class="ni-li-dt"
+                  class="tm-li-dt"
                 >
                   STEAK
                 </div>
                 <div
-                  class="ni-li-dd"
+                  class="tm-li-dd"
                 >
                   123
                 </div>
               </div>
               <button
-                class="ni-btn"
+                class="tm-btn"
               >
                 <span
-                  class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="tm-btn__icon material-icons"
                   >
                     chevron_right
                   </i>
                   <!---->
                   <span
-                    class="ni-btn__value"
+                    class="tm-btn__value"
                   >
                     Stake
                   </span>

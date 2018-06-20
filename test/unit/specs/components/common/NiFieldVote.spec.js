@@ -28,7 +28,7 @@ describe("NiFieldVote", () => {
   it("shows the title of the vote option", () => {
     expect(
       wrapper
-        .find(".ni-field-vote-dt")
+        .find(".tm-field-vote-dt")
         .text()
         .trim()
     ).toBe("No")
@@ -37,7 +37,7 @@ describe("NiFieldVote", () => {
   it("has been selected by the user", () => {
     expect(
       wrapper
-        .find(".ni-field-vote-input i.material-icons")
+        .find(".tm-field-vote-input i.material-icons")
         .text()
         .trim()
     ).toBe("radio_button_checked")
@@ -46,7 +46,7 @@ describe("NiFieldVote", () => {
   it("shows the percentage who voted", () => {
     expect(
       wrapper
-        .find(".ni-field-vote-dd")
+        .find(".tm-field-vote-dd")
         .text()
         .trim()
     ).toBe("34%")

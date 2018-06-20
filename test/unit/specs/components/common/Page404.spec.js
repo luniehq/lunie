@@ -15,6 +15,6 @@ describe("Page404", () => {
   })
 
   it("should show links to other pages", () => {
-    expect(wrapper.findAll(".ni-li").length > 0).toBe(true)
+    expect(wrapper.findAll(".tm-li").length > 0).toBe(true)
   })
 })

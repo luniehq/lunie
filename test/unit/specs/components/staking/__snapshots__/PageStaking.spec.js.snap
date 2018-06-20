@@ -1,24 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageStaking has the expected html structure 1`] = `
-"<div class=\\"ni-page\\">
-   <header class=\\"ni-page-header\\">
-      <div class=\\"ni-page-header-container\\">
-         <div class=\\"ni-page-header-text\\">
-            <div class=\\"ni-page-header-title\\">
+"<div class=\\"tm-page\\">
+   <header class=\\"tm-page-header\\">
+      <div class=\\"tm-page-header-container\\">
+         <div class=\\"tm-page-header-text\\">
+            <div class=\\"tm-page-header-title\\">
                <h2>
                   Staking
                </h2>
 </div>
-   <div class=\\"ni-page-header-subtitle\\">
+   <div class=\\"tm-page-header-subtitle\\">
       <h3></h3>
 </div>
 </div>
-   <menu class=\\"ni-page-header-menu\\">
+   <menu class=\\"tm-page-header-menu\\">
       <div>
          <div>
-            <div class=\\"ni-tool-bar\\">
-               <div class=\\"ni-tool-bar-container\\">
+            <div class=\\"tm-tool-bar\\">
+               <div class=\\"tm-tool-bar-container\\">
                   <div class=\\"main\\">
                      <a><i class=\\"material-icons\\">refresh</i></a><a><i class=\\"search material-icons\\">search</i></a>
                   </div>
@@ -30,7 +30,7 @@ exports[`PageStaking has the expected html structure 1`] = `
 </menu>
 </div>
 </header>
-<main class=\\"ni-page-main ps\\">
+<main class=\\"tm-page-main ps\\">
    <!---->
    <div class=\\"delegates-container\\">
       <div class=\\"panel-sort\\">
@@ -139,7 +139,7 @@ exports[`PageStaking has the expected html structure 1`] = `
       <div class=\\"label\\">
          <strong>0</strong> delegates selected
       </div>
-   <a href=\\"#/staking/bond\\" class=\\"ni-btn\\" disabled=\\"disabled\\"><span class=\\"ni-btn__container ni-btn__icon-right ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">chevron_right</i><span class=\\"ni-btn__value\\">Next</span></span></a>
+   <a href=\\"#/staking/bond\\" class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container tm-btn__icon-right tm-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">chevron_right</i><span class=\\"tm-btn__value\\">Next</span></span></a>
 </div>
    <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
       <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
@@ -153,26 +153,26 @@ exports[`PageStaking has the expected html structure 1`] = `
 
 exports[`PageStaking should filter the delegates 1`] = `
 <div
-  class="ni-page"
+  class="tm-page"
 >
   <header
-    class="ni-page-header"
+    class="tm-page-header"
   >
     <div
-      class="ni-page-header-container"
+      class="tm-page-header-container"
     >
       <div
-        class="ni-page-header-text"
+        class="tm-page-header-text"
       >
         <div
-          class="ni-page-header-title"
+          class="tm-page-header-title"
         >
           <h2>
             Staking
           </h2>
         </div>
         <div
-          class="ni-page-header-subtitle"
+          class="tm-page-header-subtitle"
         >
           <h3>
             
@@ -180,15 +180,15 @@ exports[`PageStaking should filter the delegates 1`] = `
         </div>
       </div>
       <menu
-        class="ni-page-header-menu"
+        class="tm-page-header-menu"
       >
         <div>
           <div>
             <div
-              class="ni-tool-bar"
+              class="tm-tool-bar"
             >
               <div
-                class="ni-tool-bar-container"
+                class="tm-tool-bar-container"
               >
                 <div
                   class="main"
@@ -243,40 +243,40 @@ exports[`PageStaking should filter the delegates 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main"
+    class="tm-page-main"
   >
     <div
-      class="ni-modal-search"
+      class="tm-modal-search"
     >
       <div
-        class="ni-modal-search-container"
+        class="tm-modal-search-container"
       >
         <div
-          class="ni-form-group"
+          class="tm-form-group"
         >
           <!---->
           <!---->
           <div
-            class="ni-form-group__field"
+            class="tm-form-group__field"
           >
             <div
-              class="ni-modal-search-field"
+              class="tm-modal-search-field"
             >
               <input
-                class="mousetrap ni-field"
+                class="mousetrap tm-field"
                 id="search-input"
                 placeholder="Search..."
                 type="text"
               />
               <button
-                class="ni-btn"
+                class="tm-btn"
               >
                 <span
-                  class="ni-btn__container"
+                  class="tm-btn__container"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="tm-btn__icon material-icons"
                   >
                     close
                   </i>
@@ -427,21 +427,21 @@ exports[`PageStaking should filter the delegates 1`] = `
          delegates selected
       </div>
       <a
-        class="ni-btn"
+        class="tm-btn"
         disabled="disabled"
         href="#/staking/bond"
       >
         <span
-          class="ni-btn__container ni-btn__icon-right ni-btn--primary"
+          class="tm-btn__container tm-btn__icon-right tm-btn--primary"
         >
           <i
             aria-hidden="true"
-            class="ni-btn__icon material-icons"
+            class="tm-btn__icon material-icons"
           >
             chevron_right
           </i>
           <span
-            class="ni-btn__value"
+            class="tm-btn__value"
           >
             Next
           </span>

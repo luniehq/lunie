@@ -15,7 +15,7 @@ describe("NiDataLoading", () => {
   it("has an icon", () => {
     expect(
       wrapper
-        .find(".ni-data-msg__icon i.material-icons")
+        .find(".tm-data-msg__icon i.material-icons")
         .text()
         .trim()
     ).toBe("rotate_right")
@@ -23,14 +23,14 @@ describe("NiDataLoading", () => {
 
   it("has a spinning icon", () => {
     expect(
-      wrapper.find(".ni-data-msg__icon").contains("i.material-icons.fa-spin")
+      wrapper.find(".tm-data-msg__icon").contains("i.material-icons.fa-spin")
     ).toBe(true)
   })
 
   it("has a title", () => {
     expect(
       wrapper
-        .find(".ni-data-msg__title div")
+        .find(".tm-data-msg__title div")
         .text()
         .trim()
     ).toBe("Data is loading…")
@@ -39,7 +39,7 @@ describe("NiDataLoading", () => {
   it("has a subtitle", () => {
     expect(
       wrapper
-        .find(".ni-data-msg__subtitle div")
+        .find(".tm-data-msg__subtitle div")
         .text()
         .trim()
     ).toBe("Please wait a moment.")

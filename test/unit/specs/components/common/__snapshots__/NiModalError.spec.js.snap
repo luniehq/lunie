@@ -1,21 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NiModalError has the expected html structure 1`] = `
-"<div class=\\"ni-modal-error__wrapper\\">
-   <div class=\\"ni-modal-error\\">
-      <div class=\\"ni-modal-error__icon\\">
+"<div class=\\"tm-modal-error__wrapper\\">
+   <div class=\\"tm-modal-error\\">
+      <div class=\\"tm-modal-error__icon\\">
          <i class=\\"material-icons\\">error_outline</i>
       </div>
-<div class=\\"ni-modal-error__title\\">
+<div class=\\"tm-modal-error__title\\">
    Voyager ran into an error
 </div>
-<div class=\\"ni-modal-error__body\\">
+<div class=\\"tm-modal-error__body\\">
    Voyager has encountered a critical error that blocks the app from running. Please create an issue and include a copy of the app logs.
 </div>
-<div class=\\"ni-modal-error__footer\\">
-   <a class=\\"ni-btn\\" id=\\"ni-modal-error__btn-issue\\" href=\\"https://github.com/cosmos/voyager/issues\\"><span class=\\"ni-btn__container ni-btn--size-lg ni-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">bug_report</i><span class=\\"ni-btn__value\\">Create an issue</span></span></a><button class=\\"ni-btn\\" id=\\"ni-modal-error__btn-logs\\"><span class=\\"ni-btn__container ni-btn--size-lg\\"><i aria-hidden=\\"true\\" class=\\"ni-btn__icon material-icons\\">info_outline</i>
+<div class=\\"tm-modal-error__footer\\">
+   <a class=\\"tm-btn\\" id=\\"tm-modal-error__btn-issue\\" href=\\"https://github.com/cosmos/voyager/issues\\"><span class=\\"tm-btn__container tm-btn--size-lg tm-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">bug_report</i><span class=\\"tm-btn__value\\">Create an issue</span></span></a><button class=\\"tm-btn\\" id=\\"tm-modal-error__btn-logs\\"><span class=\\"tm-btn__container tm-btn--size-lg\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">info_outline</i>
    <!---->
-   <span class=\\"ni-btn__value\\">View app logs</span></span></button>
+   <span class=\\"tm-btn__value\\">View app logs</span></span></button>
 </div>
 </div>
 </div>"

@@ -1,24 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageBlock has the expected html structure 1`] = `
-"<div class=\\"ni-page\\">
-   <header class=\\"ni-page-header\\">
-      <div class=\\"ni-page-header-container\\">
-         <div class=\\"ni-page-header-text\\">
-            <div class=\\"ni-page-header-title\\">
+"<div class=\\"tm-page\\">
+   <header class=\\"tm-page-header\\">
+      <div class=\\"tm-page-header-container\\">
+         <div class=\\"tm-page-header-text\\">
+            <div class=\\"tm-page-header-title\\">
                <h2>
                   Block #10
                </h2>
 </div>
-   <div class=\\"ni-page-header-subtitle\\">
+   <div class=\\"tm-page-header-subtitle\\">
       <h3></h3>
 </div>
 </div>
-   <menu class=\\"ni-page-header-menu\\">
+   <menu class=\\"tm-page-header-menu\\">
       <div>
          <div>
-            <div class=\\"ni-tool-bar\\">
-               <div class=\\"ni-tool-bar-container\\">
+            <div class=\\"tm-tool-bar\\">
+               <div class=\\"tm-tool-bar-container\\">
                   <div class=\\"main\\">
                      <a href=\\"#/blocks/9\\" class=\\"\\"><i class=\\"material-icons\\">chevron_left</i></a><a href=\\"#/blocks/11\\" class=\\"\\"><i class=\\"material-icons\\">chevron_right</i></a>
                   </div>
@@ -30,21 +30,21 @@ exports[`PageBlock has the expected html structure 1`] = `
 </menu>
 </div>
 </header>
-<main class=\\"ni-page-main ps\\">
-   <section class=\\"ni-part\\">
-      <div class=\\"ni-part-container\\">
+<main class=\\"tm-page-main ps\\">
+   <section class=\\"tm-part\\">
+      <div class=\\"tm-part-container\\">
          <!---->
-         <main class=\\"ni-part-main\\">
-            <div class=\\"ni-li\\">
-               <div class=\\"ni-li-container\\">
-                  <div class=\\"ni-li-thumb\\">
+         <main class=\\"tm-part-main\\">
+            <div class=\\"tm-li\\">
+               <div class=\\"tm-li-container\\">
+                  <div class=\\"tm-li-thumb\\">
                      <!---->
                   </div>
-         <div class=\\"ni-li-dl\\">
-            <div class=\\"ni-li-dt\\">
+         <div class=\\"tm-li-dl\\">
+            <div class=\\"tm-li-dt\\">
                Block Hash
             </div>
-         <div class=\\"ni-li-dd\\">
+         <div class=\\"tm-li-dd\\">
             hash
          </div>
 </div>
@@ -53,181 +53,181 @@ exports[`PageBlock has the expected html structure 1`] = `
 </main>
 </div>
 </section>
-<section class=\\"ni-part\\">
-   <div class=\\"ni-part-container\\">
-      <header class=\\"ni-part-header\\">
-         <div class=\\"ni-part-header-container\\">
-            <div class=\\"ni-part-title h5\\">
+<section class=\\"tm-part\\">
+   <div class=\\"tm-part-container\\">
+      <header class=\\"tm-part-header\\">
+         <div class=\\"tm-part-header-container\\">
+            <div class=\\"tm-part-title h5\\">
                Header
             </div>
-      <menu class=\\"ni-part-menu\\"></menu>
+      <menu class=\\"tm-part-menu\\"></menu>
 </div>
 </header>
-   <main class=\\"ni-part-main\\">
-      <div class=\\"ni-li\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
+   <main class=\\"tm-part-main\\">
+      <div class=\\"tm-li\\">
+         <div class=\\"tm-li-container\\">
+            <div class=\\"tm-li-thumb\\">
                <!---->
             </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
+      <div class=\\"tm-li-dl\\">
+         <div class=\\"tm-li-dt\\">
             Chain ID
          </div>
-      <div class=\\"ni-li-dd\\"></div>
+      <div class=\\"tm-li-dd\\"></div>
 </div>
 </div>
 </div>
-      <div class=\\"ni-li\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
+      <div class=\\"tm-li\\">
+         <div class=\\"tm-li-container\\">
+            <div class=\\"tm-li-thumb\\">
                <!---->
             </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
+      <div class=\\"tm-li-dl\\">
+         <div class=\\"tm-li-dt\\">
             Time
          </div>
-      <div class=\\"ni-li-dd\\">
+      <div class=\\"tm-li-dd\\">
          January 1st 1970 — 02:00:01
       </div>
 </div>
 </div>
 </div>
-      <div class=\\"ni-li\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
+      <div class=\\"tm-li\\">
+         <div class=\\"tm-li-container\\">
+            <div class=\\"tm-li-thumb\\">
                <!---->
             </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
+      <div class=\\"tm-li-dl\\">
+         <div class=\\"tm-li-dt\\">
             Transactions
          </div>
-      <div class=\\"ni-li-dd\\">
+      <div class=\\"tm-li-dd\\">
          0
       </div>
 </div>
 </div>
 </div>
-      <div class=\\"ni-li\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
+      <div class=\\"tm-li\\">
+         <div class=\\"tm-li-container\\">
+            <div class=\\"tm-li-thumb\\">
                <!---->
             </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
+      <div class=\\"tm-li-dl\\">
+         <div class=\\"tm-li-dt\\">
             Last Commit Hash
          </div>
-      <div class=\\"ni-li-dd\\"></div>
+      <div class=\\"tm-li-dd\\"></div>
 </div>
 </div>
 </div>
-      <div class=\\"ni-li\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
+      <div class=\\"tm-li\\">
+         <div class=\\"tm-li-container\\">
+            <div class=\\"tm-li-thumb\\">
                <!---->
             </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
+      <div class=\\"tm-li-dl\\">
+         <div class=\\"tm-li-dt\\">
             Validators Hash
          </div>
-      <div class=\\"ni-li-dd\\"></div>
+      <div class=\\"tm-li-dd\\"></div>
 </div>
 </div>
 </div>
-      <div class=\\"ni-li\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
+      <div class=\\"tm-li\\">
+         <div class=\\"tm-li-container\\">
+            <div class=\\"tm-li-thumb\\">
                <!---->
             </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
+      <div class=\\"tm-li-dl\\">
+         <div class=\\"tm-li-dt\\">
             App Hash
          </div>
-      <div class=\\"ni-li-dd\\"></div>
+      <div class=\\"tm-li-dd\\"></div>
 </div>
 </div>
 </div>
 </main>
 </div>
 </section>
-<section class=\\"ni-part\\">
-   <div class=\\"ni-part-container\\">
-      <header class=\\"ni-part-header\\">
-         <div class=\\"ni-part-header-container\\">
-            <div class=\\"ni-part-title h5\\">
+<section class=\\"tm-part\\">
+   <div class=\\"tm-part-container\\">
+      <header class=\\"tm-part-header\\">
+         <div class=\\"tm-part-header-container\\">
+            <div class=\\"tm-part-title h5\\">
                Last Block
             </div>
-      <menu class=\\"ni-part-menu\\"></menu>
+      <menu class=\\"tm-part-menu\\"></menu>
 </div>
 </header>
-   <main class=\\"ni-part-main\\">
-      <div class=\\"ni-li\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
+   <main class=\\"tm-part-main\\">
+      <div class=\\"tm-li\\">
+         <div class=\\"tm-li-container\\">
+            <div class=\\"tm-li-thumb\\">
                <!---->
             </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
+      <div class=\\"tm-li-dl\\">
+         <div class=\\"tm-li-dt\\">
             Hash
          </div>
-      <div class=\\"ni-li-dd\\">
+      <div class=\\"tm-li-dd\\">
          last-hash
       </div>
 </div>
 </div>
 </div>
-      <div class=\\"ni-li\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
+      <div class=\\"tm-li\\">
+         <div class=\\"tm-li-container\\">
+            <div class=\\"tm-li-thumb\\">
                <!---->
             </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
+      <div class=\\"tm-li-dl\\">
+         <div class=\\"tm-li-dt\\">
             Parts Total
          </div>
-      <div class=\\"ni-li-dd\\">
+      <div class=\\"tm-li-dd\\">
          0
       </div>
 </div>
 </div>
 </div>
-      <div class=\\"ni-li\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
+      <div class=\\"tm-li\\">
+         <div class=\\"tm-li-container\\">
+            <div class=\\"tm-li-thumb\\">
                <!---->
             </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
+      <div class=\\"tm-li-dl\\">
+         <div class=\\"tm-li-dt\\">
             Parts Hash
          </div>
-      <div class=\\"ni-li-dd\\"></div>
+      <div class=\\"tm-li-dd\\"></div>
 </div>
 </div>
 </div>
 </main>
 </div>
 </section>
-<section class=\\"ni-part\\">
-   <div class=\\"ni-part-container\\">
-      <header class=\\"ni-part-header\\">
-         <div class=\\"ni-part-header-container\\">
-            <div class=\\"ni-part-title h5\\">
+<section class=\\"tm-part\\">
+   <div class=\\"tm-part-container\\">
+      <header class=\\"tm-part-header\\">
+         <div class=\\"tm-part-header-container\\">
+            <div class=\\"tm-part-title h5\\">
                Transactions
             </div>
-      <menu class=\\"ni-part-menu\\"></menu>
+      <menu class=\\"tm-part-menu\\"></menu>
 </div>
 </header>
-   <main class=\\"ni-part-main\\">
-      <div class=\\"ni-data-msg\\">
-         <div class=\\"ni-data-msg__icon\\">
+   <main class=\\"tm-part-main\\">
+      <div class=\\"tm-data-msg\\">
+         <div class=\\"tm-data-msg__icon\\">
             <i class=\\"material-icons\\">info_outline</i>
          </div>
-      <div class=\\"ni-data-msg__text\\">
-         <div class=\\"ni-data-msg__title\\">
+      <div class=\\"tm-data-msg__text\\">
+         <div class=\\"tm-data-msg__title\\">
             <h4>
                Empty Block
             </h4>
 </div>
-      <div class=\\"ni-data-msg__subtitle\\">
+      <div class=\\"tm-data-msg__subtitle\\">
          <h5>
             There were no transactions in this block.
          </h5>
@@ -247,28 +247,28 @@ exports[`PageBlock has the expected html structure 1`] = `
 </div>"
 `;
 
-exports[`PageBlock should disable the next block button if last block 1`] = `"<div class=\\"ni-page\\"><header class=\\"ni-page-header\\"><div class=\\"ni-page-header-container\\"><div class=\\"ni-page-header-text\\"><div class=\\"ni-page-header-title\\"><h2>Block #10</h2></div><div class=\\"ni-page-header-subtitle\\"><h3></h3></div></div><menu class=\\"ni-page-header-menu\\"><div></div></menu></div></header><main class=\\"ni-page-main\\"><div class=\\"ni-data-msg\\"><div class=\\"ni-data-msg__icon\\"><i class=\\"material-icons fa-spin\\">rotate_right</i></div><div class=\\"ni-data-msg__text\\"><div class=\\"ni-data-msg__title\\"><div>Data is loading…</div></div><div class=\\"ni-data-msg__subtitle\\"><div>Please wait a moment.</div></div></div></div></main></div>"`;
+exports[`PageBlock should disable the next block button if last block 1`] = `"<div class=\\"tm-page\\"><header class=\\"tm-page-header\\"><div class=\\"tm-page-header-container\\"><div class=\\"tm-page-header-text\\"><div class=\\"tm-page-header-title\\"><h2>Block #10</h2></div><div class=\\"tm-page-header-subtitle\\"><h3></h3></div></div><menu class=\\"tm-page-header-menu\\"><div></div></menu></div></header><main class=\\"tm-page-main\\"><div class=\\"tm-data-msg\\"><div class=\\"tm-data-msg__icon\\"><i class=\\"material-icons fa-spin\\">rotate_right</i></div><div class=\\"tm-data-msg__text\\"><div class=\\"tm-data-msg__title\\"><div>Data is loading…</div></div><div class=\\"tm-data-msg__subtitle\\"><div>Please wait a moment.</div></div></div></div></main></div>"`;
 
 exports[`PageBlock should show a loading state if loading 1`] = `
-"<div class=\\"ni-page\\">
-   <header class=\\"ni-page-header\\">
-      <div class=\\"ni-page-header-container\\">
-         <div class=\\"ni-page-header-text\\">
-            <div class=\\"ni-page-header-title\\">
+"<div class=\\"tm-page\\">
+   <header class=\\"tm-page-header\\">
+      <div class=\\"tm-page-header-container\\">
+         <div class=\\"tm-page-header-text\\">
+            <div class=\\"tm-page-header-title\\">
                <h2>
                   Loading...
                </h2>
 </div>
-   <div class=\\"ni-page-header-subtitle\\">
+   <div class=\\"tm-page-header-subtitle\\">
       <h3></h3>
 </div>
 </div>
-   <menu class=\\"ni-page-header-menu\\">
+   <menu class=\\"tm-page-header-menu\\">
       <div></div>
 </menu>
 </div>
 </header>
-<main class=\\"ni-page-main\\">
+<main class=\\"tm-page-main\\">
    <data-loading></data-loading>
 </main>
 </div>"

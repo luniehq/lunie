@@ -19,7 +19,7 @@ describe("LiTransaction", () => {
   })
 
   it("should show incoming transactions", () => {
-    expect(wrapper.find(".ni-li-tx").classes()).toContain("ni-li-tx-received")
+    expect(wrapper.find(".tm-li-tx").classes()).toContain("tm-li-tx-received")
   })
 
   it("should show outgoing transactions", () => {
@@ -27,7 +27,7 @@ describe("LiTransaction", () => {
       transaction: transactions[1],
       address: "tb1d4u5zerywfjhxuc9nudvw"
     })
-    expect(wrapper.find(".ni-li-tx").classes()).toContain("ni-li-tx-sent")
+    expect(wrapper.find(".tm-li-tx").classes()).toContain("tm-li-tx-sent")
   })
 
   it("should show all coins of the transaction", () => {

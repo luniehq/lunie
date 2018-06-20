@@ -172,7 +172,10 @@
       ".*.js$": "babel-jest"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!.*vue$)"
+      "/node_modules/(?!.*vue$)",
+      "/node_modules/(?!@tendermint/ui).+\\.js$",
+      "/node_modules/(?!@tendermint/ui)",
+      "/node_modules/(?!@tendermint)"
     ],
     "collectCoverage": true,
     "mapCoverage": true,
