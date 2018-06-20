@@ -29,6 +29,8 @@ export default {
 
 .ni-data-msg__icon
   margin-bottom 0.5rem
+  display: flex;
+  align-items: center;
   i.material-icons
     font-size 3rem
     color var(--txt)

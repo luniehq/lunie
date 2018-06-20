@@ -1,25 +1,19 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<title>Cosmos Voyager</title>
-<% if (htmlWebpackPlugin.options.appModules) { %>
-  <!-- Add `app/node_modules` to global paths so `require` works properly in development -->
-  <script>
-    require('module').globalPaths.push('<%= htmlWebpackPlugin.options.appModules.replace(/\\/g, '\\\\') %>')
-  </script>
-<% } %>
+<html lang="en" dir="ltr">
+<head>
 <meta name=viewport content="width=device-width, user-scalable=no">
-<div id="app">
-  <div id="load">
-    <div id="load-container">
-      <div id="load-title">Cosmos Voyager</div>
-      <div id="load-main">
-        <p>app is loading&hellip;</p>
-        <p>need help? <a href="mailto:hello@tendermint.com">email us</a></p>
-      </div>
-    </div>
-  </div>
-</div>
+<title>Cosmos Voyager</title>
+  <% if (htmlWebpackPlugin.options.appModules) { %>
+    <!-- Add `app/node_modules` to global paths so `require` works properly in development -->
+    <script>
+      require('module').globalPaths.push('<%= htmlWebpackPlugin.options.appModules.replace(/\\/g, '\\\\') %>')
+    </script>
+  <% } %>
 
-<style>
-<%= htmlWebpackPlugin.options.styles %>
-</style>
+  <body style="background: #15182d">
+    <div id="app" style="background: #15182d">
+      <span>Loading...</span>
+      <!-- <img src="imgs/loader.svg" alt="spinner"> -->
+    </div>
+  </body>
+</html>
