@@ -6,7 +6,7 @@
     .tm-modal-lcd-approval__body
       | Voyager needs to approve the node you're trying to connect to. Please compare the hash below against the hash from a trusted source. If you are 100% sure that the hashes match, click approve to proceed.
 
-      field#node-hash(type="textarea" :value="hash" disabled)
+      tm-field#node-hash(type="textarea" :value="hash" disabled)
 
     .tm-modal-lcd-approval__footer
 
@@ -24,13 +24,12 @@
 </template>
 
 <script>
-import { TmBtn } from "@tendermint/ui"
-import Field from "@nylira/vue-field"
+import { TmBtn, TmField } from "@tendermint/ui"
 export default {
   name: "modal-lcd-approval",
   components: {
     TmBtn,
-    Field
+    TmField
   },
   computed: {},
   methods: {

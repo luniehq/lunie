@@ -5,42 +5,42 @@ tm-page(title='Send')
     tm-part(title='Denomination Options')
       tm-form-group(:error='$v.fields.denom.$error'
         field-id='send-denomination' field-label='Denomination')
-        field#send-denomination(
+        tm-field#send-denomination(
           type="select"
           v-model="fields.denom"
           :options="denominations"
           placeholder="Select token...")
-        form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
+        tm-form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
 
     tm-part(title='Transaction Details')
       tm-form-group(:error='$v.fields.zoneId.$error'
         v-if="config.devMode"
         field-id='send-zone-id' field-label='Zone ID')
-        field#send-zone-id(
+        tm-field#send-zone-id(
           type="select"
           v-model="fields.zoneId"
           :options="zoneIds"
           placeholder="Select zone...")
-        form-msg(name='Zone' type='required' v-if='!$v.fields.zoneId.required')
+        tm-form-msg(name='Zone' type='required' v-if='!$v.fields.zoneId.required')
       tm-form-group(:error='$v.fields.address.$error'
         field-id='send-address' field-label='Send To')
         tm-field-group
-          field#send-address(
+          tm-field#send-address(
             type='text'
             v-model='fields.address'
             placeholder='Address')
-        form-msg(name='Address' type='required' v-if='!$v.fields.address.required')
-        form-msg(name='Address' type='bech32' :body="bech32error" v-else-if='!$v.fields.address.bech32Validate')
+        tm-form-msg(name='Address' type='required' v-if='!$v.fields.address.required')
+        tm-form-msg(name='Address' type='bech32' :body="bech32error" v-else-if='!$v.fields.address.bech32Validate')
 
       tm-form-group(:error='$v.fields.amount.$error'
         field-id='send-amount' field-label='Amount')
         tm-field-group
-          field#send-amount(
+          tm-field#send-amount(
             type='number'
             v-model='fields.amount'
             placeholder='Amount')
-        form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
-        form-msg(name='Amount' type='between' :min='max ? 1 : 0' :max='max'
+        tm-form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
+        tm-form-msg(name='Amount' type='between' :min='max ? 1 : 0' :max='max'
           v-if='!$v.fields.amount.between')
 
     div(slot='footer')
@@ -59,20 +59,21 @@ import {
   TmFormGroup,
   TmFormStruct,
   TmPage,
-  TmPart
+  TmPart,
+  TmField,
+  TmFormMsg
 } from "@tendermint/ui"
-import Field from "@nylira/vue-field"
+
 import FieldAddon from "common/NiFieldAddon"
-import FormMsg from "common/NiFormMsg"
 import ToolBar from "common/VrToolBar"
 export default {
   components: {
     TmBtn,
-    Field,
+    TmField,
     FieldAddon,
     TmFieldGroup,
     TmFormGroup,
-    FormMsg,
+    TmFormMsg,
     TmFormStruct,
     TmPage,
     TmPart,

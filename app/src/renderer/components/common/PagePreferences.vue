@@ -4,14 +4,14 @@ tm-page(title="Preferences")
 
   tm-part(title='Settings')
     tm-list-item(type="field" title="Select network to connect to")
-      field#select-network(
+      tm-field#select-network(
         type="select"
         v-model="networkSelectActive"
         :options="networkSelectOptions"
         placeholder="Select network..."
         @change.native="setMockedConnector")
     tm-list-item(type="field" title="Select theme")
-      field#select-theme(
+      tm-field#select-theme(
         type="select"
         v-model="themeSelectActive"
         :options="themeSelectOptions"
@@ -25,7 +25,7 @@ tm-page(title="Preferences")
     tm-list-item(type="field"
       title="Automatically send usage statistics and crash reports"
       subtitle="to the Voyager development team")
-      field(
+      tm-field(
         type="toggle"
         :style="{margin:'1em auto 0 auto'}"
         :options=`{
@@ -45,15 +45,14 @@ tm-page(title="Preferences")
 
 <script>
 import { mapGetters } from "vuex"
-import Field from "@nylira/vue-field"
-import { TmListItem, TmBtn, TmPage, TmPart } from "@tendermint/ui"
+import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
 import ToolBar from "common/VrToolBar"
 
 export default {
   name: "page-preferences",
   components: {
     TmBtn,
-    Field,
+    TmField,
     TmListItem,
     TmPage,
     TmPart,

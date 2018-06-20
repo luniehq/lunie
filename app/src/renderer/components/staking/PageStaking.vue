@@ -34,7 +34,7 @@ import { TmBtn, TmPage } from "@tendermint/ui"
 import DataEmpty from "common/NiDataEmpty"
 import DataEmptySearch from "common/NiDataEmptySearch"
 import DataLoading from "common/NiDataLoading"
-import Field from "@nylira/vue-field"
+
 import ModalSearch from "common/NiModalSearch"
 import PanelSort from "staking/PanelSort"
 import ToolBar from "common/VrToolBar"
@@ -46,7 +46,6 @@ export default {
     DataEmpty,
     DataEmptySearch,
     DataLoading,
-    Field,
     ModalSearch,
     TmPage,
     PanelSort,

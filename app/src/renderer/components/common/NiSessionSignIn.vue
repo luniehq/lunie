@@ -6,21 +6,21 @@
     a(@click="help"): i.material-icons help_outline
   .tm-session-main
     tm-form-group(field-id='sign-in-name' field-label='Select Account')
-      field#sign-in-name(
+      tm-field#sign-in-name(
         type="select"
         v-model="fields.signInName"
         placeholder="Select account…"
         :options="accounts")
-      form-msg(name='Name' type='required' v-if='!$v.fields.signInName.required')
+      tm-form-msg(name='Name' type='required' v-if='!$v.fields.signInName.required')
 
     tm-form-group(:error='$v.fields.signInPassword.$error'
       field-id='sign-in-password' field-label='Password')
-      field#sign-in-password(
+      tm-field#sign-in-password(
         type="password"
         v-model="fields.signInPassword")
-      form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
-      form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
-      form-msg(v-if='mockedConnector') default password is 1234567890
+      tm-form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
+      tm-form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
+      tm-form-msg(v-if='mockedConnector') default password is 1234567890
   .tm-session-footer
     tm-btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
 </template>
@@ -28,16 +28,20 @@
 <script>
 import { mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
-import { TmBtn, TmFormGroup, TmFormStruct } from "@tendermint/ui"
-import Field from "@nylira/vue-field"
-import FormMsg from "common/NiFormMsg"
+import {
+  TmBtn,
+  TmFormGroup,
+  TmFormStruct,
+  TmField,
+  TmFormMsg
+} from "@tendermint/ui"
 export default {
   name: "tm-session-sign-in",
   components: {
     TmBtn,
-    Field,
+    TmField,
     TmFormGroup,
-    FormMsg,
+    TmFormMsg,
     TmFormStruct
   },
   data: () => ({

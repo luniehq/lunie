@@ -6,22 +6,22 @@
     tm-form-group(field-id="search-input" field-label=""
       :error="$v.filters.blocks.search.query.$invalid")
       .tm-modal-search-field
-        field#search-input.mousetrap(
+        tm-field#search-input.mousetrap(
           type="number"
           step="1"
           placeholder="View block height..."
           v-model="query")
         tm-btn(value="Find")
         tm-btn(type="button" icon="close" @click.native="close")
-      form-msg(name="Query" type="numeric"
+      tm-form-msg(name="Query" type="numeric"
         v-if="!$v.filters.blocks.search.query.numeric")
-      form-msg(name="Query" type="between" min="0"
+      tm-form-msg(name="Query" type="between" min="0"
         :max="$v.filters.blocks.search.query.$params.between.max"
         v-if="!$v.filters.blocks.search.query.between")
   .tm-modal-search-container(v-else)
     tm-form-group(field-id="search-input" field-label="")
       .tm-modal-search-field
-        field#search-input.mousetrap(
+        tm-field#search-input.mousetrap(
           type="text" placeholder="Search..." v-model="query")
         tm-btn(icon="close" @click.native="close")
 </template>
@@ -29,16 +29,14 @@
 <script>
 import { between, numeric } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
-import { TmBtn, TmFormGroup } from "@tendermint/ui"
-import Field from "@nylira/vue-field"
-import FormMsg from "common/NiFormMsg"
+import { TmBtn, TmFormGroup, TmField, TmFormMsg } from "@tendermint/ui"
 export default {
   name: "modal-search",
   components: {
     TmBtn,
-    Field,
+    TmField,
     TmFormGroup,
-    FormMsg
+    TmFormMsg
   },
   computed: {
     ...mapGetters(["filters", "lastHeader"]),

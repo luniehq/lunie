@@ -6,24 +6,24 @@ tm-page(title="Proposal: Freeform Text")
   tm-form-struct(:submit="onSubmit")
     tm-form-group(:error="$v.fields.title.$error"
       field-id='proposal-title' field-label='Proposal Title')
-      field#proposal-title(
+      tm-field#proposal-title(
         type="text"
         placeholder="Proposal Title"
         v-model="fields.title")
-      form-msg(name='Proposal Title' type='required'
+      tm-form-msg(name='Proposal Title' type='required'
         v-if='!$v.fields.title.required')
-      form-msg(name='Proposal Title' type='length'
+      tm-form-msg(name='Proposal Title' type='length'
         :min='titleMinLength' :max='titleMaxLength'
         v-if='!$v.fields.title.minLength || !$v.fields.title.maxLength')
     tm-form-group(:error="$v.fields.body.$error"
       field-id='proposal-body' field-label='Proposal Body')
-      field#proposal-body(
+      tm-field#proposal-body(
         type="textarea"
         placeholder="Write your proposal here..."
         v-model="fields.body")
-      form-msg(name='Proposal Body' type='required'
+      tm-form-msg(name='Proposal Body' type='required'
         v-if='!$v.fields.body.required')
-      form-msg(name='Proposal Body' type='length'
+      tm-form-msg(name='Proposal Body' type='length'
         :min='bodyMinLength' :max='bodyMaxLength'
         v-if='!$v.fields.body.minLength || !$v.fields.body.maxLength')
     div(slot="footer")
@@ -33,17 +33,23 @@ tm-page(title="Proposal: Freeform Text")
 
 <script>
 import { minLength, maxLength, required } from "vuelidate/lib/validators"
-import { TmBtn, TmFormGroup, TmFormStruct, TmPage } from "@tendermint/ui"
-import Field from "@nylira/vue-field"
-import FormMsg from "common/NiFormMsg"
+import {
+  TmBtn,
+  TmFormGroup,
+  TmFormStruct,
+  TmPage,
+  TmField,
+  TmFormMsg
+} from "@tendermint/ui"
+
 import ToolBar from "common/VrToolBar"
 export default {
   name: "page-proposals-text",
   components: {
     TmBtn,
-    Field,
+    TmField,
     TmFormGroup,
-    FormMsg,
+    TmFormMsg,
     TmFormStruct,
     TmPage,
     ToolBar

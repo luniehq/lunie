@@ -1,5 +1,5 @@
 import NiUserPane from "common/NiUserPane"
-import ListItem from "common/NiListItem"
+import { TmListItem } from "@tendermint/ui"
 import setup from "../../../helpers/vuex-setup"
 
 describe("NiUserPane", () => {
@@ -33,7 +33,7 @@ describe("NiUserPane", () => {
   })
 
   it("should redirect to the preferences page if signed in", () => {
-    wrapper.find(ListItem).trigger("click")
+    wrapper.find(TmListItem).trigger("click")
     expect(router.currentRoute.path).toBe("/preferences")
   })
 })

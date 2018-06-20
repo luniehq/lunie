@@ -6,33 +6,33 @@
     a(@click="help"): i.material-icons help_outline
   .tm-session-main
     tm-form-group(field-id='sign-up-name' field-label='Account Name' :error='$v.fields.signUpName.$error')
-      field#sign-up-name(
+      tm-field#sign-up-name(
         type="text"
         placeholder="Must be at least 5 characters"
         v-model="fields.signUpName")
-      form-msg(name='Name' type='required' v-if='!$v.fields.signUpName.required')
-      form-msg(name='Name' type='minLength' min="5" v-if='!$v.fields.signUpName.minLength')
+      tm-form-msg(name='Name' type='required' v-if='!$v.fields.signUpName.required')
+      tm-form-msg(name='Name' type='minLength' min="5" v-if='!$v.fields.signUpName.minLength')
 
     tm-form-group(:error='$v.fields.signUpPassword.$error'
       field-id='sign-up-password' field-label='Password')
-      field#sign-up-password(
+      tm-field#sign-up-password(
         type="password"
         placeholder="Must be at least 10 characters"
         v-model="fields.signUpPassword")
-      form-msg(name='Password' type='required' v-if='!$v.fields.signUpPassword.required')
-      form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signUpPassword.minLength')
+      tm-form-msg(name='Password' type='required' v-if='!$v.fields.signUpPassword.required')
+      tm-form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signUpPassword.minLength')
 
     tm-form-group(:error='$v.fields.signUpPasswordConfirm.$error'
       field-id='sign-up-password-confirm' field-label='Confirm Password')
-      field#sign-up-password-confirm(
+      tm-field#sign-up-password-confirm(
         type="password"
         placeholder="Enter password again"
         v-model="fields.signUpPasswordConfirm")
-      form-msg(name='Password confirmation' type='match' v-if='!$v.fields.signUpPasswordConfirm.sameAsPassword')
+      tm-form-msg(name='Password confirmation' type='match' v-if='!$v.fields.signUpPasswordConfirm.sameAsPassword')
 
     tm-form-group(field-id='sign-up-seed' field-label='Seed Phrase')
       field-seed#sign-up-seed(v-model="fields.signUpSeed" disabled)
-      form-msg.sm
+      tm-form-msg.sm
         | Please back up the seed phrase for this account. This seed phrase cannot be recovered.
 
     tm-form-group(field-id="sign-up-warning" field-label=''
@@ -42,7 +42,7 @@
           input#sign-up-warning(type="checkbox" v-model="fields.signUpWarning")
         label.tm-field-checkbox-label(for="sign-up-warning")
           | I have securely written down my seed. I understand that lost seeds cannot be recovered.
-      form-msg(name='Recovery confirmation' type='required' v-if='!$v.fields.signUpWarning.required')
+      tm-form-msg(name='Recovery confirmation' type='required' v-if='!$v.fields.signUpWarning.required')
 
     tm-form-group(field-id="error-collection" field-label=''
       :error='$v.fields.errorCollection.$error')
@@ -59,18 +59,22 @@
 <script>
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
 import PerfectScrollbar from "perfect-scrollbar"
-import { TmBtn, TmFormGroup, TmFormStruct } from "@tendermint/ui"
-import Field from "@nylira/vue-field"
+import {
+  TmBtn,
+  TmFormGroup,
+  TmFormStruct,
+  TmField,
+  TmFormMsg
+} from "@tendermint/ui"
 import FieldSeed from "common/NiFieldSeed"
-import FormMsg from "common/NiFormMsg"
 export default {
   name: "tm-session-sign-up",
   components: {
     TmBtn,
-    Field,
+    TmField,
     FieldSeed,
     TmFormGroup,
-    FormMsg,
+    TmFormMsg,
     TmFormStruct
   },
   data: () => ({

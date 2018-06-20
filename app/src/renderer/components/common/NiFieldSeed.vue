@@ -1,5 +1,5 @@
 <template lang="pug">
-field.tm-field-seed(
+tm-field.tm-field-seed(
   type="textarea"
   @input="update($event)"
   :value="value")
@@ -7,10 +7,10 @@ field.tm-field-seed(
 
 <script>
 import autosize from "autosize"
-import Field from "@nylira/vue-field"
+import { TmField } from "@tendermint/ui"
 export default {
   name: "tm-field-seed",
-  components: { Field },
+  components: { TmField },
   methods: {
     update(value) {
       this.$emit("input", value)

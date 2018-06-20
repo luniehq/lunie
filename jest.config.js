@@ -14,14 +14,14 @@ module.exports = {
     "^wallet/(.*)$": "<rootDir>/app/src/renderer/components/wallet/$1",
     "^variables$": "<rootDir>/app/src/renderer/styles/variables.styl"
   },
+
   transform: {
-    ".*.vue$": "jest-vue-preprocessor",
-    ".*.js$": "babel-jest"
+    ".*\\.vue$": "<rootDir>/node_modules/jest-vue-preprocessor",
+    ".*\\.js$": "<rootDir>/node_modules/babel-jest"
   },
-  transformIgnorePatterns: [
-    "/node_modules/(?!.*vue$)",
-    "/node_modules/(?!@tendermint-ui).+\\.js$"
-  ],
+
+  transformIgnorePatterns: ["node_modules/(?!@tendermint/ui|.*vue)"],
+
   collectCoverage: true,
   mapCoverage: true,
   coverageDirectory: "./test/unit/coverage",

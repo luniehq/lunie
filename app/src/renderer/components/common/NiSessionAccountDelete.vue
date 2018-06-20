@@ -7,12 +7,12 @@
   .tm-session-main
     tm-form-group(:error='$v.fields.deletionPassword.$error'
       field-id='sign-in-password' field-label='Password')
-      field#sign-in-password(
+      tm-field#sign-in-password(
         type="password"
         placeholder="Enter your password"
         v-model="fields.deletionPassword")
-      form-msg(name='Password' type='required' v-if='!$v.fields.deletionPassword.required')
-      form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.deletionPassword.minLength')
+      tm-form-msg(name='Password' type='required' v-if='!$v.fields.deletionPassword.required')
+      tm-form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.deletionPassword.minLength')
 
     tm-form-group(field-id="sign-up-warning" field-label=' '
       :error='$v.fields.deletionWarning.$error')
@@ -21,23 +21,27 @@
           input#sign-up-warning(type="checkbox" v-model="fields.deletionWarning")
         label.tm-field-checkbox-label(for="sign-up-warning")
           | I understand that Cosmos cannot recover deleted accounts without the passphrase.
-      form-msg(name='Deletion confirmation' type='required' v-if='!$v.fields.deletionWarning.required')
+      tm-form-msg(name='Deletion confirmation' type='required' v-if='!$v.fields.deletionWarning.required')
   .tm-session-footer
     tm-btn(icon="exit_to_app" value="Sign Out and Remove Account" size="lg")
 </template>
 
 <script>
 import { required, minLength } from "vuelidate/lib/validators"
-import { TmBtn, TmFormGroup, TmFormStruct } from "@tendermint/ui"
-import Field from "@nylira/vue-field"
-import FormMsg from "common/NiFormMsg"
+import {
+  TmBtn,
+  TmFormGroup,
+  TmFormStruct,
+  TmField,
+  TmFormMsg
+} from "@tendermint/ui"
 export default {
   name: "tm-session-account-delete",
   components: {
     TmBtn,
-    Field,
+    TmField,
     TmFormGroup,
-    FormMsg,
+    TmFormMsg,
     TmFormStruct
   },
   data: () => ({ fields: { deletionPassword: "" } }),

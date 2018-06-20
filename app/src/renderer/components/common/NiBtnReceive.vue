@@ -11,7 +11,7 @@ tm-btn.btn-receive(
 import { clipboard } from "electron"
 import { TmBtn } from "@tendermint/ui"
 export default {
-  components: { Btn },
+  components: { TmBtn },
   methods: {
     openModal() {
       this.$store.commit("setModalReceive", true)
