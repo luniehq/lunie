@@ -46,7 +46,7 @@ import DataLoading from "common/NiDataLoading"
 import DataEmpty from "common/NiDataEmpty"
 import DataEmptySearch from "common/NiDataEmptySearch"
 import LiCopy from "common/NiLiCopy"
-import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
+import { TmListItem, TmPage, TmPart } from "@tendermint-ui"
 import ModalSearch from "common/NiModalSearch"
 import VrToolBar from "common/VrToolBar"
 export default {

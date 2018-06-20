@@ -64,7 +64,7 @@ import LiTransaction from "wallet/LiTransaction"
 import DataLoading from "common/NiDataLoading"
 import DataEmpty from "common/NiDataEmpty"
 import ToolBar from "common/VrToolBar"
-import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
+import { TmListItem, TmPage, TmPart } from "@tendermint-ui"
 export default {
   name: "page-block",
   components: {

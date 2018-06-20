@@ -17,7 +17,7 @@ tm-page(:title="delegateType + ' Profile'")
 
 <script>
 import { mapGetters } from "vuex"
-import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
+import { TmListItem, TmPage, TmPart } from "@tendermint-ui"
 import TextBlock from "common/TextBlock"
 import ToolBar from "common/VrToolBar"
 export default {

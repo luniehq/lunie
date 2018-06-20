@@ -28,7 +28,7 @@
 
 <script>
 import { required, minLength } from "vuelidate/lib/validators"
-import { TmBtn, TmFormGroup, TmFormStruct } from "@tendermint/ui"
+import { TmBtn, TmFormGroup, TmFormStruct } from "@tendermint-ui"
 import Field from "@nylira/vue-field"
 import FormMsg from "common/NiFormMsg"
 export default {

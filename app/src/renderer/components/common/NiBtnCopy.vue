@@ -7,7 +7,7 @@ tm-btn.btn-copy(
 
 <script>
 import { clipboard } from "electron"
-import { TmBtn } from "@tendermint/ui"
+import { TmBtn } from "@tendermint-ui"
 export default {
   components: { TmBtn },
   computed: {

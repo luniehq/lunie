@@ -5,7 +5,7 @@ tm-data-msg(icon="search")
 </template>
 
 <script>
-import { TmDataMsg } from "@tendermint/ui"
+import { TmDataMsg } from "@tendermint-ui"
 export default {
   name: "tm-data-empty-search",
   components: { TmDataMsg }

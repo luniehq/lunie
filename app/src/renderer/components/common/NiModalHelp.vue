@@ -13,7 +13,7 @@ modal.tm-modal-help(v-if="active" :close="close")
 <script>
 import { mapGetters } from "vuex"
 import Modal from "common/NiModal"
-import { TmListItem } from "@tendermint/ui"
+import { TmListItem } from "@tendermint-ui"
 export default {
   name: "tm-modal-help",
   components: {

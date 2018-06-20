@@ -28,7 +28,7 @@ tm-page(:title='proposal.title')
 
 <script>
 import { mapGetters } from "vuex"
-import { TmBtn, TmFormStruct, TmPage, TmPart } from "@tendermint/ui"
+import { TmBtn, TmFormStruct, TmPage, TmPart } from "@tendermint-ui"
 import FieldVote from "common/NiFieldVote"
 import TextBlock from "common/TextBlock"
 import ToolBar from "common/VrToolBar"

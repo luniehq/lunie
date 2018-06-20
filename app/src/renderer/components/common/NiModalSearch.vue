@@ -29,7 +29,7 @@
 <script>
 import { between, numeric } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
-import { TmBtn, TmFormGroup } from "@tendermint/ui"
+import { TmBtn, TmFormGroup } from "@tendermint-ui"
 import Field from "@nylira/vue-field"
 import FormMsg from "common/NiFormMsg"
 export default {

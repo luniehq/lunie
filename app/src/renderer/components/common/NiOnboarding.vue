@@ -20,7 +20,7 @@
 <script>
 import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
-import { TmBarDiscrete, TmBtn } from "@tendermint/ui"
+import { TmBarDiscrete, TmBtn } from "@tendermint-ui"
 export default {
   name: "tm-onboarding",
   components: { TmBtn, TmBarDiscrete },
