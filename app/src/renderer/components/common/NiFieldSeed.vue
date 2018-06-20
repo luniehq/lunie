@@ -1,5 +1,5 @@
 <template lang="pug">
-field.ni-field-seed(
+field.tm-field-seed(
   type="textarea"
   @input="update($event)"
   :value="value")
@@ -9,7 +9,7 @@ field.ni-field-seed(
 import autosize from "autosize"
 import Field from "@nylira/vue-field"
 export default {
-  name: "ni-field-seed",
+  name: "tm-field-seed",
   components: { Field },
   methods: {
     update(value) {

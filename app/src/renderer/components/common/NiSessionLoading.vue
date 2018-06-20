@@ -1,11 +1,11 @@
 <template lang="pug">
-.ni-session: .ni-session-container
-  .ni-session-header
-    .ni-session-title Loading&hellip;
-  .ni-session-main &nbsp
-  .ni-session-footer &nbsp;
+.tm-session: .tm-session-container
+  .tm-session-header
+    .tm-session-title Loading&hellip;
+  .tm-session-main &nbsp
+  .tm-session-footer &nbsp;
 </template>
 
 <script>
-export default { name: "ni-session-loading" }
+export default { name: "tm-session-loading" }
 </script>

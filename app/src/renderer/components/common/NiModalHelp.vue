@@ -1,5 +1,5 @@
 <template lang="pug">
-modal.ni-modal-help(v-if="active" :close="close")
+modal.tm-modal-help(v-if="active" :close="close")
   div(slot='title') Need Help?
   p Something in the app not working correctly? Tell us what went wrong in developer chat or create an issue on our GitHub. Thanks for improving Cosmos Voyager!
   tm-list-item(
@@ -15,7 +15,7 @@ import { mapGetters } from "vuex"
 import Modal from "common/NiModal"
 import { TmListItem } from "@tendermint/ui"
 export default {
-  name: "ni-modal-help",
+  name: "tm-modal-help",
   components: {
     TmListItem,
     Modal
@@ -37,10 +37,10 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
-.ni-modal.ni-modal-help
+.tm-modal.tm-modal-help
   z-index z(modalHelp)
 
-  .ni-modal-main
+  .tm-modal-main
     padding 2rem
 
     p

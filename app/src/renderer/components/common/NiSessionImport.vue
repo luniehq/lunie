@@ -1,10 +1,10 @@
 <template lang="pug">
-.ni-session: tm-form-struct(:submit='onSubmit').ni-session-container
-  .ni-session-header
+.tm-session: tm-form-struct(:submit='onSubmit').tm-session-container
+  .tm-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
-    .ni-session-title Import with Seed
+    .tm-session-title Import with Seed
     a(@click="help"): i.material-icons help_outline
-  .ni-session-main
+  .tm-session-main
     tm-form-group(field-id='import-name' field-label='Account Name' :error='$v.fields.importName.$error')
       field#import-name(
         type="text"
@@ -41,13 +41,13 @@
 
     tm-form-group(field-id="error-collection" field-label=''
       :error='$v.fields.errorCollection.$error')
-      .ni-field-checkbox
-        .ni-field-checkbox-input
+      .tm-field-checkbox
+        .tm-field-checkbox-input
           input#error-collection(type="checkbox" v-model="fields.errorCollection")
-        label.ni-field-checkbox-label(for="error-collection")
+        label.tm-field-checkbox-label(for="error-collection")
           | I'd like to opt in for remote error tracking to help improve Voyager.
 
-  .ni-session-footer
+  .tm-session-footer
     tm-btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
 </template>
 
@@ -60,7 +60,7 @@ import FieldSeed from "common/NiFieldSeed"
 import FormMsg from "common/NiFormMsg"
 
 export default {
-  name: "ni-session-import",
+  name: "tm-session-import",
   components: {
     TmBtn,
     Field,
@@ -118,7 +118,7 @@ export default {
   },
   mounted() {
     this.$el.querySelector("#import-seed").focus()
-    new PerfectScrollbar(this.$el.querySelector(".ni-session-main"))
+    new PerfectScrollbar(this.$el.querySelector(".tm-session-main"))
   },
   validations: () => ({
     fields: {

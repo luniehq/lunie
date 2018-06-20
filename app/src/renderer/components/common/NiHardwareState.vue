@@ -1,7 +1,7 @@
 <template lang='pug'>
-.ni-hardware-state
-  i.ni-hardware-state__icon.material-icons(:class="iconClass") {{ icon }}
-  .ni-hardware-state__label {{ value }}
+.tm-hardware-state
+  i.tm-hardware-state__icon.material-icons(:class="iconClass") {{ icon }}
+  .tm-hardware-state__label {{ value }}
 </template>
 
 <script>
@@ -20,7 +20,7 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.ni-hardware-state
+.tm-hardware-state
   background var(--app-fg)
   display flex
   flex-flow column nowrap
@@ -34,12 +34,12 @@ export default {
 
   user-select none
 
-.ni-hardware-state__icon
+.tm-hardware-state__icon
   font-size 5rem
   margin-bottom 1rem
   color var(--dim)
 
-.ni-hardware-state__label
+.tm-hardware-state__label
   text-align center
   color var(--bright)
 </style>

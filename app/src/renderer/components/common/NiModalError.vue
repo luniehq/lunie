@@ -1,18 +1,18 @@
 <template lang="pug">
-.ni-modal-error__wrapper
-  .ni-modal-error
-    .ni-modal-error__icon: i.material-icons {{ errorIcon }}
-    .ni-modal-error__title {{ errorTitle }}
-    .ni-modal-error__body {{ errorBody }}
-    .ni-modal-error__footer
-      tm-btn#ni-modal-error__btn-issue(
+.tm-modal-error__wrapper
+  .tm-modal-error
+    .tm-modal-error__icon: i.material-icons {{ errorIcon }}
+    .tm-modal-error__title {{ errorTitle }}
+    .tm-modal-error__body {{ errorBody }}
+    .tm-modal-error__footer
+      tm-btn#tm-modal-error__btn-issue(
         size="lg"
         icon="bug_report"
         color="primary"
         value="Create an issue"
         type="anchor"
         :href="issueUrl")
-      tm-btn#ni-modal-error__btn-logs(
+      tm-btn#tm-modal-error__btn-logs(
         size="lg"
         icon="info_outline"
         value="View app logs"
@@ -24,7 +24,7 @@ import { remote, shell } from "electron"
 import { mapGetters } from "vuex"
 import { TmBtn } from "@tendermint/ui"
 export default {
-  name: "ni-modal-error",
+  name: "tm-modal-error",
   components: { TmBtn },
   computed: {
     ...mapGetters(["config", "lastHeader"]),
@@ -61,7 +61,7 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
-.ni-modal-error__wrapper
+.tm-modal-error__wrapper
   position absolute
   top 0
   left 0
@@ -76,11 +76,11 @@ export default {
   align-items center
   justify-content center
 
-.ni-modal-error
+.tm-modal-error
   padding 1.5rem
   max-width 40rem
 
-.ni-modal-error__icon
+.tm-modal-error__icon
   position fixed
   top 0
   left 0
@@ -90,19 +90,19 @@ export default {
     line-height 1
     color var(--bc-dim)
 
-.ni-modal-error__title
+.tm-modal-error__title
   font-size h1
   font-weight 500
   line-height 1
   margin-bottom 1.5rem
 
-.ni-modal-error__body
+.tm-modal-error__body
   font-size lg
   color var(--dim)
   margin-bottom 3rem
 
-.ni-modal-error__footer
-  .ni-btn
+.tm-modal-error__footer
+  .tm-btn
     width 100%
     margin-right 1.5rem
     margin-bottom 1rem
@@ -111,15 +111,15 @@ export default {
       margin-bottom 0
 
 @media screen and (min-width: 768px)
-  .ni-modal-error__icon i.material-icons
+  .tm-modal-error__icon i.material-icons
     font-size 20vw + 20vh
 
-  .ni-modal-error__body
+  .tm-modal-error__body
     margin-bottom 4.5rem
 
-  .ni-modal-error__footer
+  .tm-modal-error__footer
     min-width: 31rem
 
-  .ni-modal-error__footer .ni-btn
+  .tm-modal-error__footer .tm-btn
       margin-bottom 0
 </style>

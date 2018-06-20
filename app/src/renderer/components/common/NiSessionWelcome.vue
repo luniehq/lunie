@@ -1,10 +1,10 @@
 <template lang="pug">
-#session-welcome.ni-session: .ni-session-container
-  .ni-session-header
+#session-welcome.tm-session: .tm-session-container
+  .tm-session-header
     a &nbsp;
-    .ni-session-title Sign in to Cosmos Voyager
+    .tm-session-title Sign in to Cosmos Voyager
     a(@click="help"): i.material-icons help_outline
-  .ni-session-main
+  .tm-session-main
     li-session(
       v-if="accountExists"
       @click.native="setState('sign-in')"
@@ -28,7 +28,7 @@
       title="Sign in with hardware"
       subtitle="If you have a Ledger Wallet, choose this option.")
     fundraiser-warning
-  .ni-session-footer
+  .tm-session-footer
 </template>
 
 <script>
@@ -37,7 +37,7 @@ import PerfectScrollbar from "perfect-scrollbar"
 import FundraiserWarning from "common/FundraiserWarning"
 import LiSession from "common/NiLiSession"
 export default {
-  name: "ni-session-welcome",
+  name: "tm-session-welcome",
   components: {
     FundraiserWarning,
     LiSession
@@ -57,7 +57,7 @@ export default {
     }
   },
   mounted() {
-    new PerfectScrollbar(this.$el.querySelector(".ni-session-main"))
+    new PerfectScrollbar(this.$el.querySelector(".tm-session-main"))
   }
 }
 </script>

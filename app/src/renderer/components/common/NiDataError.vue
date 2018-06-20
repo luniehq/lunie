@@ -7,7 +7,7 @@ tm-data-msg(icon="sentiment_very_dissatisfied")
 <script>
 import { TmDataMsg } from "@tendermint/ui"
 export default {
-  name: "ni-data-error",
+  name: "tm-data-error",
   components: { TmDataMsg }
 }
 </script>

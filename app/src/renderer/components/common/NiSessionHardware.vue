@@ -1,23 +1,23 @@
 <template lang="pug">
-.ni-session: .ni-session-container
-  .ni-session-header
+.tm-session: .tm-session-container
+  .tm-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
-    .ni-session-title Sign In
+    .tm-session-title Sign In
     a(@click="help"): i.material-icons help_outline
-  .ni-session-main
+  .tm-session-main
     hardware-state(v-if="status == 'connect'" @click.native="setStatus('detect')"
       icon="usb" value="Please plug in your Ledger Wallet")
     hardware-state(v-if="status == 'detect'" @click.native="setStatus('success')"
       icon="rotate_right" spin="true" value="Detecting your Ledger Wallet")
     hardware-state(v-if="status == 'success'" @click.native="onSubmit"
       icon="check_circle" value="Ledger Wallet successfully loaded")
-  .ni-session-footer
+  .tm-session-footer
 </template>
 
 <script>
 import HardwareState from "common/NiHardwareState"
 export default {
-  name: "ni-session-hardware",
+  name: "tm-session-hardware",
   components: { HardwareState },
   data: () => ({ status: "connect" }),
   methods: {

@@ -81,8 +81,8 @@ export default {
 @require '~variables'
 
 .column-header
-  .ni-li-dd,
-  .ni-li-dt
+  .tm-li-dd,
+  .tm-li-dt
     font-size sm
     color var(--dim)
 </style>

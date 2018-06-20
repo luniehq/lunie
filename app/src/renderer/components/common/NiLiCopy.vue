@@ -1,5 +1,5 @@
 <template lang="pug">
-.ni-li-copy
+.tm-li-copy
   .value {{ value }}
   menu
     btn-copy(:value='value')
@@ -8,7 +8,7 @@
 <script>
 import BtnCopy from "common/NiBtnCopy"
 export default {
-  name: "ni-li-copy",
+  name: "tm-li-copy",
   components: { BtnCopy },
   props: ["value"]
 }
@@ -17,7 +17,7 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.ni-li-copy
+.tm-li-copy
   height 3rem
   display flex
   align-items center

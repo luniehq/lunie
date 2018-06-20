@@ -1,5 +1,5 @@
 <template lang="pug">
-modal.ni-modal-receive(v-if="active" :close="close")
+modal.tm-modal-receive(v-if="active" :close="close")
   div(slot='title') Receive Tokens
   p You can receive Cosmos tokens of any denomination by sharing this address.
   li-copy.receive-modal(:value="wallet.address")
@@ -10,7 +10,7 @@ import { mapGetters } from "vuex"
 import LiCopy from "common/NiLiCopy"
 import Modal from "common/NiModal"
 export default {
-  name: "ni-modal-receive",
+  name: "tm-modal-receive",
   props: ["value"],
   components: {
     LiCopy,
@@ -33,10 +33,10 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
-.ni-modal.ni-modal-receive
+.tm-modal.tm-modal-receive
   z-index z(modalError)
 
-  .ni-modal-main
+  .tm-modal-main
     padding 2rem
 
     p

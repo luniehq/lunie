@@ -8,11 +8,11 @@ div(:class='cssClass')
 export default {
   computed: {
     cssClass() {
-      let value = "ni-form-msg sm"
+      let value = "tm-form-msg sm"
       if (this.type) {
-        value += " ni-form-msg--error"
+        value += " tm-form-msg--error"
       } else {
-        value += " ni-form-msg--desc"
+        value += " tm-form-msg--desc"
       }
       return value
     },
@@ -78,7 +78,7 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.ni-form-msg
+.tm-form-msg
   padding 0.25rem 0 0
   display flex
   margin 0 !important
@@ -86,22 +86,22 @@ export default {
   &.sm
     font-size sm
 
-.ni-form-msg:before
+.tm-form-msg:before
   content ''
   font-family 'Material Icons'
   padding-right 0.35rem
 
-.ni-form-msg.ni-form-msg--error
+.tm-form-msg.tm-form-msg--error
   color var(--danger)
 
-.ni-form-msg.ni-form-msg--error:before
+.tm-form-msg.tm-form-msg--error:before
   content 'error'
   color var(--danger)
 
-.ni-form-msg.ni-form-msg--desc
+.tm-form-msg.tm-form-msg--desc
   color var(--warning)
 
-.ni-form-msg.ni-form-msg--desc:before
+.tm-form-msg.tm-form-msg--desc:before
   content 'priority_high'
   color var(--warning)
 </style>

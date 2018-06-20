@@ -1,17 +1,17 @@
 <template lang="pug">
-#onboarding.ni-session-wrapper
-  img.ni-session-backdrop(src="~assets/images/cosmos-logo.png")
-  .ni-session: .ni-session-container
-    .ni-session-header: .ni-session-title Welcome to Voyager
-    .ni-session-main
-      .ni-session-label {{ activeValue }}
+#onboarding.tm-session-wrapper
+  img.tm-session-backdrop(src="~assets/images/cosmos-logo.png")
+  .tm-session: .tm-session-container
+    .tm-session-header: .tm-session-title Welcome to Voyager
+    .tm-session-main
+      .tm-session-label {{ activeValue }}
       img(:src="activeImg")
       tm-bar-discrete(:nodes="nodes" :click-fn="go" :active="activeKey")
-    .ni-session-footer(v-if="activeKey === nodes.length - 1")
+    .tm-session-footer(v-if="activeKey === nodes.length - 1")
       tm-btn(value="Restart" @click.native="go(0)" icon="settings_backup_restore")
       tm-btn(value="Finish" @click.native="finish" color="primary"
         icon="chevron_right" icon-pos="right" )
-    .ni-session-footer(v-else)
+    .tm-session-footer(v-else)
       tm-btn(value="Skip" @click.native="finish" icon="close")
       tm-btn(value="Next" @click.native="next" color="primary"
         icon="chevron_right" icon-pos="right" )
@@ -22,7 +22,7 @@ import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import { TmBarDiscrete, TmBtn } from "@tendermint/ui"
 export default {
-  name: "ni-onboarding",
+  name: "tm-onboarding",
   components: { TmBtn, TmBarDiscrete },
   computed: {
     ...mapGetters(["onboarding"]),
@@ -64,7 +64,7 @@ export default {
     }
   },
   mounted() {
-    new PerfectScrollbar(this.$el.querySelector("#onboarding .ni-session-main"))
+    new PerfectScrollbar(this.$el.querySelector("#onboarding .tm-session-main"))
   }
 }
 </script>
@@ -72,6 +72,6 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-#onboarding .ni-session-main
+#onboarding .tm-session-main
   position relative
 </style>

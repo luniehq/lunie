@@ -7,7 +7,7 @@ tm-data-msg(icon="info_outline")
 <script>
 import { TmDataMsg } from "@tendermint/ui"
 export default {
-  name: "ni-data-empty-tx",
+  name: "tm-data-empty-tx",
   components: { TmDataMsg }
 }
 </script>

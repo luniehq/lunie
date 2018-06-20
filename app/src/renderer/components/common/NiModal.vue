@@ -1,16 +1,16 @@
 <template lang="pug">
 div(:class='cssClass' @click="close()")
-  .ni-modal-container
-    header.ni-modal-header
-      .ni-modal-icon(v-if='icon')
+  .tm-modal-container
+    header.tm-modal-header
+      .tm-modal-icon(v-if='icon')
         i.material-icons {{ icon }}
-      .ni-modal-title
+      .tm-modal-title
         slot(name='title')
-      .ni-modal-icon.ni-modal-close(@click="close()")
+      .tm-modal-icon.tm-modal-close(@click="close()")
         i.material-icons close
-    main.ni-modal-main
+    main.tm-modal-main
       slot
-    footer.ni-modal-footer
+    footer.tm-modal-footer
       slot(name='footer')
 </template>
 
@@ -18,9 +18,9 @@ div(:class='cssClass' @click="close()")
 export default {
   computed: {
     cssClass() {
-      let value = "ni-modal"
+      let value = "tm-modal"
       if (this.size === "fullscreen" || this.size === "fs") {
-        value += " ni-modal-fullscreen"
+        value += " tm-modal-fullscreen"
       }
       return value
     }
@@ -32,7 +32,7 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
-.ni-modal
+.tm-modal
   position fixed
   top 0
   left 0
@@ -47,10 +47,10 @@ export default {
   align-items center
   backdrop-filter blur(0.5em)
 
-  &.ni-modal-fullscreen
+  &.tm-modal-fullscreen
     display flex
 
-    .ni-modal-container
+    .tm-modal-container
       flex 1
       height 100vh
       max-height 100vh
@@ -58,12 +58,12 @@ export default {
       display flex
       flex-flow column nowrap
 
-      .ni-modal-main
+      .tm-modal-main
         flex 1
         overflow-y scroll
         display block
 
-.ni-modal-container
+.tm-modal-container
   background var(--app-bg)
   box-shadow hsla(0,0,0,0.25) 0 0.25rem 1rem
 
@@ -76,14 +76,14 @@ export default {
   max-width 30rem
   max-height 40rem
 
-.ni-modal-header
+.tm-modal-header
   display flex
   flex-flow row nowrap
   align-items center
   flex 0 0 3rem + 0.0625rem
   background var(--app-fg)
 
-.ni-modal-icon
+.tm-modal-icon
   height 3rem
   flex 0 0 3rem
   display flex
@@ -92,29 +92,29 @@ export default {
 
   i
     font-size lg
-  &.ni-modal-close
+  &.tm-modal-close
     cursor pointer
     i
       color var(--link)
     &:hover i
       color var(--hover)
 
-.ni-modal-icon + .ni-modal-title
+.tm-modal-icon + .tm-modal-title
   padding-left 0
 
-.ni-modal-title
+.tm-modal-title
   flex 1
   font-size h3
   color var(--bright)
   padding 0 1rem
 
-.ni-modal-main, .ni-modal-footer
+.tm-modal-main, .tm-modal-footer
   padding 1rem
 
-.ni-modal-main + .ni-modal-footer
+.tm-modal-main + .tm-modal-footer
   border-top px solid var(--bc)
 
-.ni-modal-main
+.tm-modal-main
   flex 1
   display flex
   flex-flow column
@@ -123,18 +123,18 @@ export default {
   .ps-scrollbar-y-rail
     display none
 
-.ni-modal-main p
+.tm-modal-main p
   margin-bottom 1rem
 
-.ni-modal-main > .ni-article-body
+.tm-modal-main > .tm-article-body
   margin -1rem
 
-.ni-modal-footer
+.tm-modal-footer
   flex 0 0 4rem + px
   &:empty
     display none
 
-.ni-modal-footer > div
+.tm-modal-footer > div
   display flex
   justify-content space-between
 </style>

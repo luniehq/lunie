@@ -1,10 +1,10 @@
 <template lang="pug">
-.ni-session: tm-form-struct(:submit='onSubmit').ni-session-container
-  .ni-session-header
+.tm-session: tm-form-struct(:submit='onSubmit').tm-session-container
+  .tm-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
-    .ni-session-title Create Account
+    .tm-session-title Create Account
     a(@click="help"): i.material-icons help_outline
-  .ni-session-main
+  .tm-session-main
     tm-form-group(field-id='sign-up-name' field-label='Account Name' :error='$v.fields.signUpName.$error')
       field#sign-up-name(
         type="text"
@@ -37,22 +37,22 @@
 
     tm-form-group(field-id="sign-up-warning" field-label=''
       :error='$v.fields.signUpWarning.$error')
-      .ni-field-checkbox
-        .ni-field-checkbox-input
+      .tm-field-checkbox
+        .tm-field-checkbox-input
           input#sign-up-warning(type="checkbox" v-model="fields.signUpWarning")
-        label.ni-field-checkbox-label(for="sign-up-warning")
+        label.tm-field-checkbox-label(for="sign-up-warning")
           | I have securely written down my seed. I understand that lost seeds cannot be recovered.
       form-msg(name='Recovery confirmation' type='required' v-if='!$v.fields.signUpWarning.required')
 
     tm-form-group(field-id="error-collection" field-label=''
       :error='$v.fields.errorCollection.$error')
-      .ni-field-checkbox
-        .ni-field-checkbox-input
+      .tm-field-checkbox
+        .tm-field-checkbox-input
           input#error-collection(type="checkbox" v-model="fields.errorCollection")
-        label.ni-field-checkbox-label(for="error-collection")
+        label.tm-field-checkbox-label(for="error-collection")
           | I'd like to opt in for remote error tracking to help improve Voyager.
 
-  .ni-session-footer
+  .tm-session-footer
     tm-btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg" :disabled="creating")
 </template>
 
@@ -64,7 +64,7 @@ import Field from "@nylira/vue-field"
 import FieldSeed from "common/NiFieldSeed"
 import FormMsg from "common/NiFormMsg"
 export default {
-  name: "ni-session-sign-up",
+  name: "tm-session-sign-up",
   components: {
     TmBtn,
     Field,
@@ -128,7 +128,7 @@ export default {
       this.creating = false
       this.fields.signUpSeed = seedPhrase
     })
-    new PerfectScrollbar(this.$el.querySelector(".ni-session-main"))
+    new PerfectScrollbar(this.$el.querySelector(".tm-session-main"))
   },
   validations: () => ({
     fields: {

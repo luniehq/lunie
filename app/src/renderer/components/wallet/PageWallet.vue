@@ -20,7 +20,7 @@ tm-page(title='Wallet')
     data-loading(v-if="wallet.balancesLoading")
     data-empty(v-else-if="wallet.balances.length === 0")
     data-empty-search(v-else-if="filteredBalances.length === 0")
-    tm-list-item.ni-li-balance(
+    tm-list-item.tm-li-balance(
       v-for="i in filteredBalances"
       v-if="wallet.balances.length > 0 && i.amount > 0"
       :btn="'Send'"

@@ -1,10 +1,10 @@
 <template lang="pug">
-.ni-session: tm-form-struct(:submit="onSubmit").ni-session-container
-  .ni-session-header
+.tm-session: tm-form-struct(:submit="onSubmit").tm-session-container
+  .tm-session-header
     a(@click="setState('welcome')"): i.material-icons arrow_back
-    .ni-session-title Sign In
+    .tm-session-title Sign In
     a(@click="help"): i.material-icons help_outline
-  .ni-session-main
+  .tm-session-main
     tm-form-group(field-id='sign-in-name' field-label='Select Account')
       field#sign-in-name(
         type="select"
@@ -21,7 +21,7 @@
       form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
       form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
       form-msg(v-if='mockedConnector') default password is 1234567890
-  .ni-session-footer
+  .tm-session-footer
     tm-btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
 </template>
 
@@ -32,7 +32,7 @@ import { TmBtn, TmFormGroup, TmFormStruct } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FormMsg from "common/NiFormMsg"
 export default {
-  name: "ni-session-sign-in",
+  name: "tm-session-sign-in",
   components: {
     TmBtn,
     Field,
@@ -114,7 +114,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-.ni-tm-form-group
+.tm-tm-form-group
   a
     cursor pointer
 </style>

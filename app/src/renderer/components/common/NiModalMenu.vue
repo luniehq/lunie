@@ -1,15 +1,15 @@
 <template lang="pug">
-.ni-modal-menu: slot
+.tm-modal-menu: slot
 </template>
 
 <script>
-export default { name: "ni-modal-menu" }
+export default { name: "tm-modal-menu" }
 </script>
 
 <style lang="stylus">
 @require '~variables'
 
-.ni-modal-menu
+.tm-modal-menu
   background var(--app-bg-alpha)
   z-index z(default)
   user-select none
@@ -17,7 +17,7 @@ export default { name: "ni-modal-menu" }
   overflow-y scroll
 
 @media screen and (max-width:1023px)
-  .ni-modal-menu
+  .tm-modal-menu
     padding-top 3rem
     height 100vh
     position fixed

@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-list-item.ni-li-user(
+tm-list-item.tm-li-user(
   v-if="user.signedIn"
   type="link"
   to="/preferences"
@@ -14,7 +14,7 @@ import { mapGetters } from "vuex"
 import noScroll from "no-scroll"
 import { TmListItem } from "@tendermint/ui"
 export default {
-  name: "ni-user-pane",
+  name: "tm-user-pane",
   components: { TmListItem },
   computed: { ...mapGetters(["user", "config"]) },
   methods: {
@@ -29,7 +29,7 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
-.ni-li.ni-li-user
+.tm-li.tm-li-user
   border-top px solid var(--bc)
   height 3rem + px
 </style>

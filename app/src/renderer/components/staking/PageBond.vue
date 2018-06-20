@@ -99,10 +99,10 @@ tm-page.page-bond(:title="`Bond ${denom}`")
 
     tm-form-group(field-id="bond-confirm" field-label=''
       :error='$v.fields.bondConfirm.$error')
-      .ni-field-checkbox
-        .ni-field-checkbox-input
+      .tm-field-checkbox
+        .tm-field-checkbox-input
           input#bond-confirm(type="checkbox" v-model="fields.bondConfirm")
-        label.ni-field-checkbox-label(for="bond-confirm")
+        label.tm-field-checkbox-label(for="bond-confirm")
           | Yes, update my bonds. I understand unbonding will take 30 days.
       form-msg(name="Bonding Confirmation" type='required'
         v-if='!$v.fields.bondConfirm.required')

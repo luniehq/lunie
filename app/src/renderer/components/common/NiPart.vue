@@ -1,19 +1,19 @@
 <template lang='pug'>
-section.ni-part
-  .ni-part-container
-    header.ni-part-header(v-if="$slots['title'] || title")
-      .ni-part-header-container
-        .ni-part-title.h5
+section.tm-part
+  .tm-part-container
+    header.tm-part-header(v-if="$slots['title'] || title")
+      .tm-part-header-container
+        .tm-part-title.h5
           template(v-if='title') {{ title }}
           slot(name='title', v-else='')
-        menu.ni-part-menu
+        menu.tm-part-menu
           slot(name='menu')
-    main.ni-part-main: slot
+    main.tm-part-main: slot
 </template>
 
 <script>
 export default {
-  name: "ni-part",
+  name: "tm-part",
   props: ["title"]
 }
 </script>
@@ -21,30 +21,30 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.ni-part
+.tm-part
   position relative
   max-width width-main-max
 
-.ni-part-container, .ni-part-header, .ni-part-title, .ni-part-menu, .ni-part-main
+.tm-part-container, .tm-part-header, .tm-part-title, .tm-part-menu, .tm-part-main
   &:empty
     display none
 
-.ni-part-main
+.tm-part-main
   padding-right 1rem
 
-.ni-part-container
+.tm-part-container
   margin 0 auto
 
-.ni-part-header
+.tm-part-header
   padding 0.5rem 1rem
   margin-bottom 0.5rem
   background var(--app-fg)
 
-.ni-part-header-container
+.tm-part-header-container
   display flex
   align-items center
 
-.ni-part-title, .ni-part-menu
+.tm-part-title, .tm-part-menu
   color var(--dim)
   margin 0
 
@@ -54,14 +54,14 @@ export default {
     &:hover
       color var(--hover)
 
-.ni-part-title
+.tm-part-title
   flex 1
   color var(--dim)
   font-size sm
   font-weight 400
 
 @media screen and (min-width: 768px)
-  .ni-part-container
+  .tm-part-container
     &:last-child
       padding-bottom 1.5rem
 </style>

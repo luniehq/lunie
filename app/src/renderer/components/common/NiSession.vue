@@ -1,6 +1,6 @@
 <template lang="pug">
-.ni-session-wrapper
-  img.ni-session-backdrop(src="~assets/images/cosmos-logo.png")
+.tm-session-wrapper
+  img.tm-session-backdrop(src="~assets/images/cosmos-logo.png")
   session-loading(v-if="config.modals.session.state == 'loading'")
   session-welcome(v-if="config.modals.session.state == 'welcome'")
   session-sign-up(v-if="config.modals.session.state == 'sign-up'")
@@ -20,7 +20,7 @@ import SessionHardware from "common/NiSessionHardware"
 import SessionImport from "common/NiSessionImport"
 import SessionAccountDelete from "common/NiSessionAccountDelete"
 export default {
-  name: "ni-session",
+  name: "tm-session",
   components: {
     SessionLoading,
     SessionWelcome,
@@ -37,23 +37,23 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
-.ni-session-wrapper
+.tm-session-wrapper
   position relative
   z-index z(modal)
 
-  .ni-session-backdrop
+  .tm-session-backdrop
     position absolute
     top -10vw
     left -10vw
     width 50vw
     opacity 0.25
 
-.ni-field-checkbox
+.tm-field-checkbox
   display flex
   flex-flow row nowrap
   align-items center
 
-  .ni-field-checkbox-input
+  .tm-field-checkbox-input
     flex 0 0 2rem
     height 2rem
     display flex
@@ -66,34 +66,34 @@ export default {
       padding 0
       margin 0
 
-  .ni-field-checkbox-label
+  .tm-field-checkbox-label
     flex 1
     line-height 1.375
     padding 0.5rem 1rem
     font-size 0.875rem
 
-.ni-session
+.tm-session
   position fixed
   top 0
   left 0
   z-index z(default)
   background var(--app-bg)
 
-.ni-session-container
-  &:not(.ni-form)
+.tm-session-container
+  &:not(.tm-form)
     width 100vw
     height 100vh
     display flex
     flex-flow column nowrap
 
-  &.ni-form
-    .ni-form-main
+  &.tm-form
+    .tm-form-main
       width 100vw
       height 100vh
       display flex
       flex-flow column nowrap
 
-.ni-session-header
+.tm-session-header
   display flex
   flex-flow row nowrap
   justify-content space-between
@@ -116,20 +116,20 @@ export default {
       i
         color var(--bright)
 
-  .ni-session-title
+  .tm-session-title
     flex 1
     padding 0 1rem
     font-size lg
     text-align center
     color var(--bright)
 
-.ni-session-main
+.tm-session-main
   min-height 0
 
   overflow-y auto
   position relative
 
-  .ni-bar-discrete
+  .tm-bar-discrete
     margin-bottom 1rem
 
   img
@@ -143,13 +143,13 @@ export default {
     padding 1rem
     border-bottom px solid var(--bc)
 
-.ni-session-label
+.tm-session-label
   text-align center
   padding 1rem
   background var(--app-fg)
   color var(--dim)
 
-.ni-session-footer
+.tm-session-footer
   border-top 2*px solid var(--bc-dim)
   flex 0 0 5rem + px
   padding 0 2rem
@@ -160,12 +160,12 @@ export default {
   &:empty
     display none
 
-.ni-session-footer > div
+.tm-session-footer > div
   display flex
   justify-content space-between
 
 @media screen and (min-width: 768px)
-  .ni-session-wrapper
+  .tm-session-wrapper
     position fixed
     top 0
     left 0
@@ -177,24 +177,24 @@ export default {
     align-items center
     justify-content center
 
-  .ni-session
+  .tm-session
     position static
     shadow()
 
-  .ni-session-container
-    &:not(.ni-form)
-    &.ni-form .ni-form-main
+  .tm-session-container
+    &:not(.tm-form)
+    &.tm-form .tm-form-main
       width 32rem
       max-height 100vh
       height auto
 
-  .ni-session-header
+  .tm-session-header
     background var(--app-fg)
     margin-top 0
 
-  .ni-session-main
+  .tm-session-main
     padding 2rem
 
-    .ni-form-group
+    .tm-form-group
       display block !important
 </style>

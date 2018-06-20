@@ -1,10 +1,10 @@
 <template lang="pug">
-.ni-session: tm-form-struct(:submit='onSubmit').ni-session-container
-  .ni-session-header
+.tm-session: tm-form-struct(:submit='onSubmit').tm-session-container
+  .tm-session-header
     a(@click="setState('sign-in')"): i.material-icons arrow_back
-    .ni-session-title Remove Account
+    .tm-session-title Remove Account
     a(@click="help"): i.material-icons help_outline
-  .ni-session-main
+  .tm-session-main
     tm-form-group(:error='$v.fields.deletionPassword.$error'
       field-id='sign-in-password' field-label='Password')
       field#sign-in-password(
@@ -16,13 +16,13 @@
 
     tm-form-group(field-id="sign-up-warning" field-label=' '
       :error='$v.fields.deletionWarning.$error')
-      .ni-field-checkbox
-        .ni-field-checkbox-input
+      .tm-field-checkbox
+        .tm-field-checkbox-input
           input#sign-up-warning(type="checkbox" v-model="fields.deletionWarning")
-        label.ni-field-checkbox-label(for="sign-up-warning")
+        label.tm-field-checkbox-label(for="sign-up-warning")
           | I understand that Cosmos cannot recover deleted accounts without the passphrase.
       form-msg(name='Deletion confirmation' type='required' v-if='!$v.fields.deletionWarning.required')
-  .ni-session-footer
+  .tm-session-footer
     tm-btn(icon="exit_to_app" value="Sign Out and Remove Account" size="lg")
 </template>
 
@@ -32,7 +32,7 @@ import { TmBtn, TmFormGroup, TmFormStruct } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FormMsg from "common/NiFormMsg"
 export default {
-  name: "ni-session-account-delete",
+  name: "tm-session-account-delete",
   components: {
     TmBtn,
     Field,

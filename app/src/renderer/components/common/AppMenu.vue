@@ -86,15 +86,15 @@ export default {
     flex 1
     position relative // for perfect-scrollbar
 
-    .ni-li-link
+    .tm-li-link
       padding 0 0 0 1rem
 
-  .ni-user
+  .tm-user
     border-top 1px solid var(--bc)
     padding 1rem
     display flex
 
-    .ni-user-info
+    .tm-user-info
       flex 1
       display flex
 
@@ -120,7 +120,7 @@ export default {
       font-size xs
       color var(--dim)
 
-    .ni-btn
+    .tm-btn
       margin-right 0.5rem
 
 @media screen and (max-width: 1023px)
@@ -137,6 +137,6 @@ export default {
   .app-menu
     flex 1
 
-    .ni-connected-network
+    .tm-connected-network
       display none
 </style>
