@@ -123,7 +123,7 @@ import {
   TmFormStruct,
   TmPage,
   TmPart
-} from "@tendermint-ui"
+} from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldAddon from "common/NiFieldAddon"
 import FormMsg from "common/NiFormMsg"

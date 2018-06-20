@@ -5,7 +5,7 @@ tm-data-msg(icon="rotate_right" spin="true")
 </template>
 
 <script>
-import { TmDataMsg } from "@tendermint-ui"
+import { TmDataMsg } from "@tendermint/ui"
 export default {
   name: "tm-data-loading",
   components: { TmDataMsg },

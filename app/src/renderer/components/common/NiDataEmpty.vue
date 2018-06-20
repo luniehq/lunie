@@ -8,7 +8,7 @@ tm-data-msg(icon="info_outline")
 </template>
 
 <script>
-import { TmDataMsg } from "@tendermint-ui"
+import { TmDataMsg } from "@tendermint/ui"
 export default {
   name: "tm-data-empty",
   props: ["title", "subtitle"],

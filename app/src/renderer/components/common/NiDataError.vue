@@ -5,7 +5,7 @@ tm-data-msg(icon="sentiment_very_dissatisfied")
 </template>
 
 <script>
-import { TmDataMsg } from "@tendermint-ui"
+import { TmDataMsg } from "@tendermint/ui"
 export default {
   name: "tm-data-error",
   components: { TmDataMsg }

@@ -59,7 +59,7 @@
 <script>
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
 import PerfectScrollbar from "perfect-scrollbar"
-import { TmBtn, TmFormGroup, TmFormStruct } from "@tendermint-ui"
+import { TmBtn, TmFormGroup, TmFormStruct } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 import FieldSeed from "common/NiFieldSeed"
 import FormMsg from "common/NiFormMsg"

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { TmBtn } from "@tendermint-ui"
+import { TmBtn } from "@tendermint/ui"
 import Field from "@nylira/vue-field"
 export default {
   name: "modal-lcd-approval",

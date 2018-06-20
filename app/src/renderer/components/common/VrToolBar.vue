@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { TmToolBar } from "@tendermint-ui"
+import { TmToolBar } from "@tendermint/ui"
 export default {
   name: "vr-tool-bar",
   components: {

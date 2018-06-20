@@ -36,7 +36,7 @@ import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/NiConnectedNetwork"
-import { TmListItem } from "@tendermint-ui"
+import { TmListItem } from "@tendermint/ui"
 import UserPane from "common/NiUserPane"
 export default {
   name: "app-menu",

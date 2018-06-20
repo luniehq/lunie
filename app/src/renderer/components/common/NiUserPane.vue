@@ -12,7 +12,7 @@ tm-list-item.tm-li-user(
 <script>
 import { mapGetters } from "vuex"
 import noScroll from "no-scroll"
-import { TmListItem } from "@tendermint-ui"
+import { TmListItem } from "@tendermint/ui"
 export default {
   name: "tm-user-pane",
   components: { TmListItem },
