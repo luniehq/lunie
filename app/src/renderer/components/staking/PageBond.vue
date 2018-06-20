@@ -127,7 +127,7 @@ import {
 import Field from "@nylira/vue-field"
 import FieldAddon from "common/NiFieldAddon"
 import FormMsg from "common/NiFormMsg"
-import ToolBar from "common/NiToolBar"
+import ToolBar from "common/VrToolBar"
 export default {
   name: "page-bond",
   components: {

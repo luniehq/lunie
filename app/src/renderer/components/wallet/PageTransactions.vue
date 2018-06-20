@@ -29,7 +29,7 @@ import DataEmptyTx from "common/NiDataEmptyTx"
 import LiTransaction from "wallet/LiTransaction"
 import ModalSearch from "common/NiModalSearch"
 import { TmPage } from "@tendermint/ui"
-import ToolBar from "common/NiToolBar"
+import ToolBar from "common/VrToolBar"
 export default {
   name: "page-transactions",
   components: {

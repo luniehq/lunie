@@ -26,7 +26,7 @@ import DataEmpty from "common/NiDataEmpty"
 import DataEmptySearch from "common/NiDataEmptySearch"
 import LiProposal from "govern/LiProposal"
 import ModalSearch from "common/NiModalSearch"
-import ToolBar from "common/NiToolBar"
+import ToolBar from "common/VrToolBar"
 import { TmPage } from "@tendermint/ui"
 export default {
   name: "page-proposals",

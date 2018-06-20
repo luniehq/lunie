@@ -32,7 +32,7 @@ import { mapGetters } from "vuex"
 import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
 import DataError from "common/NiDataError"
 import DataLoading from "common/NiDataLoading"
-import ToolBar from "common/NiToolBar"
+import ToolBar from "common/VrToolBar"
 import ModalSearch from "common/NiModalSearch"
 export default {
   name: "page-blocks",

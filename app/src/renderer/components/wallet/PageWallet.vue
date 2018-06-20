@@ -1,10 +1,11 @@
 <template lang="pug">
 tm-page(title='Wallet')
-  div(slot="menu"): tool-bar
-    a(@click='updateBalances()' v-tooltip.bottom="'Refresh'")
-      i.material-icons refresh
-    a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
-      i.material-icons search
+  div(slot="menu")
+    vr-tool-bar
+      a(@click='updateBalances()' v-tooltip.bottom="'Refresh'")
+        i.material-icons refresh
+      a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
+        i.material-icons search
 
   modal-search(type="balances" v-if="somethingToSearch")
 
@@ -47,7 +48,7 @@ import DataEmptySearch from "common/NiDataEmptySearch"
 import LiCopy from "common/NiLiCopy"
 import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
 import ModalSearch from "common/NiModalSearch"
-import ToolBar from "common/NiToolBar"
+import VrToolBar from "common/VrToolBar"
 export default {
   name: "page-wallet",
   components: {
@@ -59,7 +60,7 @@ export default {
     ModalSearch,
     TmPage,
     TmPart,
-    ToolBar
+    VrToolBar
   },
   computed: {
     ...mapGetters(["filters", "wallet", "committedDelegations", "config"]),

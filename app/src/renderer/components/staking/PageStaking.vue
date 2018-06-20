@@ -37,7 +37,7 @@ import DataLoading from "common/NiDataLoading"
 import Field from "@nylira/vue-field"
 import ModalSearch from "common/NiModalSearch"
 import PanelSort from "staking/PanelSort"
-import ToolBar from "common/NiToolBar"
+import ToolBar from "common/VrToolBar"
 export default {
   name: "page-delegates",
   components: {

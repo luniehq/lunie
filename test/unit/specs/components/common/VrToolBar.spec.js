@@ -1,12 +1,12 @@
 import setup from "../../../helpers/vuex-setup"
-import NiToolBar from "common/NiToolBar"
+import VrToolBar from "common/VrToolBar"
 
-describe("NiToolBar", () => {
+describe("VrToolBar", () => {
   let wrapper, store, instance
   let { mount } = setup()
 
   beforeEach(() => {
-    instance = mount(NiToolBar)
+    instance = mount(VrToolBar)
     wrapper = instance.wrapper
     store = instance.store
   })
