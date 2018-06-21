@@ -14,9 +14,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changes
 
 * Use persistent peers and seeds from tendermint config @faboweb
+* Removed COSMOS_MOCKED flag @faboweb
 
 ### Fixed
 
+* Fixed bug in yarn build:gaia @zramsay
 * Increased version of localtestnet used for testing to match gaia @faboweb
 * Fixed padding issue in main container @faboweb
 
