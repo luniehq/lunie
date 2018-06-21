@@ -17,7 +17,9 @@ describe("PagePreferences", () => {
     })
   })
 
-  it("has the expected html structure if connected", () => {
+  it("has the expected html structure if connected", async () => {
+    await wrapper.vm.$nextTick()
+    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.vm.$el.outerHTML).toContain("Select network")
     expect(wrapper.vm.$el.outerHTML).toContain("Select theme")

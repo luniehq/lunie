@@ -46,11 +46,14 @@ describe("PageSend", () => {
     store.commit("setNonce", 1)
   })
 
-  it("has the expected html structure", () => {
+  it("has the expected html structure", async () => {
+    await wrapper.vm.$nextTick()
+    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it("should populate the select options with denoms", () => {
+    wrapper.update()
     expect(
       wrapper
         .findAll("option")
@@ -72,6 +75,8 @@ describe("PageSend", () => {
   })
 
   it("should populate the select options with networks", () => {
+    wrapper.update()
+
     expect(
       wrapper
         .findAll("option")
@@ -102,6 +107,7 @@ describe("PageSend", () => {
       }
     })
     await wrapper.vm.onSubmit()
+    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
   it("should show bech32 error when address length is too short", async () => {
@@ -115,6 +121,7 @@ describe("PageSend", () => {
       }
     })
     await wrapper.vm.onSubmit()
+    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -129,6 +136,7 @@ describe("PageSend", () => {
       }
     })
     await wrapper.vm.onSubmit()
+    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
   it("should show bech32 error when alphanumeric is wrong", async () => {
@@ -142,6 +150,7 @@ describe("PageSend", () => {
       }
     })
     await wrapper.vm.onSubmit()
+    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 

@@ -17,6 +17,7 @@ describe("NISessionSignUp", () => {
   })
 
   it("has the expected html structure", () => {
+    wrapper.update()
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 

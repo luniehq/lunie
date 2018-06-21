@@ -71,6 +71,7 @@ describe("NiConnectedNetwork", () => {
 
   it("has a connecting state", async () => {
     await store.commit("setConnected", false)
+    wrapper.update()
     expect(
       wrapper
         .find(

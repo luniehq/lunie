@@ -31,7 +31,9 @@ describe("PageWallet", () => {
     wrapper.update()
   })
 
-  it("has the expected html structure", () => {
+  it("has the expected html structure", async () => {
+    await wrapper.vm.$nextTick()
+    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -43,9 +45,10 @@ describe("PageWallet", () => {
     ])
   })
 
-  it("should filter the balances", () => {
+  it("should filter the balances", async () => {
     store.commit("setSearchVisible", ["balances", true])
     store.commit("setSearchQuery", ["balances", "atom"])
+    await wrapper.vm.$nextTick()
     wrapper.update()
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual(["ATOM"])
     expect(wrapper.vm.$el).toMatchSnapshot()
@@ -101,7 +104,9 @@ describe("PageWallet", () => {
     ).toBe("Staked Balances")
   })
 
-  it("has shows the correct number of staked tokens", () => {
+  it("has shows the correct number of staked tokens", async () => {
+    await wrapper.vm.$nextTick()
+    wrapper.update()
     expect(
       wrapper
         .find("#part-staked-balances .tm-li-dd")

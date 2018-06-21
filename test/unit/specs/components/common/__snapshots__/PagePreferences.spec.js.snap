@@ -41,34 +41,35 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
               >
                 <div
                   class="main"
-                />
-                <a
-                  class="back"
                 >
-                  <i
-                    class="material-icons"
+                  <a
+                    class="back"
                   >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
                   >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
                   >
-                    exit_to_app
-                  </i>
-                </a>
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -133,7 +134,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 class="tm-li-input"
               >
                 <div
-                  class="tm-select"
+                  class="ni-select"
                   id="select-network"
                 >
                   <select
@@ -200,7 +201,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 class="tm-li-input"
               >
                 <div
-                  class="tm-select"
+                  class="ni-select"
                   id="select-theme"
                 >
                   <select
@@ -319,11 +320,11 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 class="tm-li-input"
               >
                 <label
-                  class="tm-toggle unchecked"
+                  class="ni-toggle unchecked"
                   style="margin: 1em auto 0px auto;"
                 >
                   <div
-                    class="tm-toggle-wrapper"
+                    class="ni-toggle-wrapper"
                   >
                     <span>
                        

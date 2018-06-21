@@ -16,6 +16,9 @@ export default {
   components: {
     TmToolBar
   },
+  mounted() {
+    // console.log(TmToolBar)
+  },
   methods: {
     enableModalHelp() {
       this.$store.commit("setModalHelp", true)

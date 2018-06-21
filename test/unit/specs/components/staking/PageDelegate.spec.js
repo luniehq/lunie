@@ -30,7 +30,9 @@ describe("PageDelegate", () => {
     router.push("/staking/delegates/1a2b3c")
   })
 
-  it("has the expected html structure", () => {
+  it("has the expected html structure", async () => {
+    await wrapper.vm.$nextTick()
+    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 

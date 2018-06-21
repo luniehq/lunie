@@ -15,6 +15,7 @@ tm-page(title='Wallet')
       :btn="'Receive'"
       :overflow="true"
       @click.native="copy")
+      btn-receive(slot="btn-receive")
 
   tm-part#part-available-balances(title="Available Balances")
     data-loading(v-if="wallet.balancesLoading")
@@ -46,6 +47,7 @@ import DataLoading from "common/NiDataLoading"
 import DataEmpty from "common/NiDataEmpty"
 import DataEmptySearch from "common/NiDataEmptySearch"
 import LiCopy from "common/NiLiCopy"
+import BtnReceive from "common/NiBtnReceive"
 import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
 import ModalSearch from "common/NiModalSearch"
 import VrToolBar from "common/VrToolBar"
@@ -60,7 +62,8 @@ export default {
     ModalSearch,
     TmPage,
     TmPart,
-    VrToolBar
+    VrToolBar,
+    BtnReceive
   },
   computed: {
     ...mapGetters(["filters", "wallet", "committedDelegations", "config"]),

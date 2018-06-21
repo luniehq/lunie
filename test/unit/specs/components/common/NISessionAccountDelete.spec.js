@@ -19,6 +19,7 @@ describe("NiSessionAccountDelete", () => {
     })
     store.commit = jest.fn()
     store.dispatch = jest.fn(async () => true)
+    wrapper.update()
   })
 
   it("has the expected html structure", () => {

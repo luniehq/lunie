@@ -10,6 +10,7 @@ describe("NiModalHelp", () => {
     wrapper = instance.wrapper
     store = instance.store
     store.commit("setModalHelp", true)
+    wrapper.update()
   })
 
   it("has the expected html structure", () => {

@@ -41,34 +41,35 @@ exports[`PageSend has the expected html structure 1`] = `
               >
                 <div
                   class="main"
-                />
-                <a
-                  class="back"
                 >
-                  <i
-                    class="material-icons"
+                  <a
+                    class="back"
                   >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
                   >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
                   >
-                    exit_to_app
-                  </i>
-                </a>
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -128,7 +129,7 @@ exports[`PageSend has the expected html structure 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="tm-select"
+                      class="ni-select"
                       id="send-denomination"
                     >
                       <select
@@ -208,7 +209,7 @@ exports[`PageSend has the expected html structure 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="tm-select"
+                      class="ni-select"
                       id="send-zone-id"
                     >
                       <select
@@ -400,34 +401,35 @@ exports[`PageSend should show address required error 1`] = `
               >
                 <div
                   class="main"
-                />
-                <a
-                  class="back"
                 >
-                  <i
-                    class="material-icons"
+                  <a
+                    class="back"
                   >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
                   >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
                   >
-                    exit_to_app
-                  </i>
-                </a>
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -487,7 +489,7 @@ exports[`PageSend should show address required error 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="tm-select"
+                      class="ni-select"
                       id="send-denomination"
                     >
                       <select
@@ -557,7 +559,7 @@ exports[`PageSend should show address required error 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="tm-select"
+                      class="ni-select"
                       id="send-zone-id"
                     >
                       <select
@@ -729,34 +731,35 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
               >
                 <div
                   class="main"
-                />
-                <a
-                  class="back"
                 >
-                  <i
-                    class="material-icons"
+                  <a
+                    class="back"
                   >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
                   >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
                   >
-                    exit_to_app
-                  </i>
-                </a>
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -816,7 +819,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                     class="tm-form-group__field"
                   >
                     <div
-                      class="tm-select"
+                      class="ni-select"
                       id="send-denomination"
                     >
                       <select
@@ -886,7 +889,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                     class="tm-form-group__field"
                   >
                     <div
-                      class="tm-select"
+                      class="ni-select"
                       id="send-zone-id"
                     >
                       <select
@@ -1058,34 +1061,35 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
               >
                 <div
                   class="main"
-                />
-                <a
-                  class="back"
                 >
-                  <i
-                    class="material-icons"
+                  <a
+                    class="back"
                   >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
                   >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
                   >
-                    exit_to_app
-                  </i>
-                </a>
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -1145,7 +1149,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                     class="tm-form-group__field"
                   >
                     <div
-                      class="tm-select"
+                      class="ni-select"
                       id="send-denomination"
                     >
                       <select
@@ -1215,7 +1219,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                     class="tm-form-group__field"
                   >
                     <div
-                      class="tm-select"
+                      class="ni-select"
                       id="send-zone-id"
                     >
                       <select
@@ -1387,34 +1391,35 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
               >
                 <div
                   class="main"
-                />
-                <a
-                  class="back"
                 >
-                  <i
-                    class="material-icons"
+                  <a
+                    class="back"
                   >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
                   >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
                   >
-                    exit_to_app
-                  </i>
-                </a>
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -1474,7 +1479,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="tm-select"
+                      class="ni-select"
                       id="send-denomination"
                     >
                       <select
@@ -1544,7 +1549,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="tm-select"
+                      class="ni-select"
                       id="send-zone-id"
                     >
                       <select
@@ -1727,34 +1732,35 @@ exports[`PageSend should work without providing a default denom 1`] = `
               >
                 <div
                   class="main"
-                />
-                <a
-                  class="back"
                 >
-                  <i
-                    class="material-icons"
+                  <a
+                    class="back"
                   >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
                   >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
                   >
-                    exit_to_app
-                  </i>
-                </a>
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -1814,7 +1820,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="tm-select"
+                      class="ni-select"
                       id="send-denomination"
                     >
                       <select
@@ -1888,7 +1894,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="tm-select"
+                      class="ni-select"
                       id="send-zone-id"
                     >
                       <select
