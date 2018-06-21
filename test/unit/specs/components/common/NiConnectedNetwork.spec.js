@@ -112,10 +112,11 @@ describe("NiConnectedNetwork", () => {
 
   it("should close the menu if clicking on switch to live network intent", async () => {
     store.commit("setActiveMenu", "app")
+    wrapper.update()
     expect(store.state.config.activeMenu).toBe("app")
     let spy = jest.spyOn(wrapper.vm, "closeMenu")
     wrapper.vm.$el
-      .querySelector("#ni-connected-network_preferences-link")
+      .querySelector("#tm-connected-network_preferences-link")
       .click()
     expect(spy).toHaveBeenCalled()
     expect(store.state.config.activeMenu).not.toBe("app")

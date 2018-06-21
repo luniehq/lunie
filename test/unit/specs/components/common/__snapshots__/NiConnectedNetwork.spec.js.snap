@@ -18,15 +18,15 @@ exports[`NiConnectedNetwork has the expected html structure 1`] = `
 
 exports[`NiConnectedNetwork shows the connected node 1`] = `
 <div
-  class="ni-connected-network"
-  id="ni-connected-network"
+  class="tm-connected-network"
+  id="tm-connected-network"
 >
   <div
-    class="ni-connected-network__connection"
+    class="tm-connected-network__connection"
   >
     <div
-      class="ni-connected-network__icon"
-      id="ni-connected-network__icon"
+      class="tm-connected-network__icon"
+      id="tm-connected-network__icon"
     >
       <i
         class="material-icons"
@@ -35,8 +35,8 @@ exports[`NiConnectedNetwork shows the connected node 1`] = `
       </i>
     </div>
     <div
-      class="ni-connected-network__string"
-      id="ni-connected-network__string"
+      class="tm-connected-network__string"
+      id="tm-connected-network__string"
     >
       <span
         class="desktop-only"
@@ -55,15 +55,15 @@ exports[`NiConnectedNetwork shows the connected node 1`] = `
       <a
         class="desktop-only router-link-exact-active router-link-active"
         href="#/preferences"
-        id="ni-connected-network_preferences-link"
+        id="tm-connected-network_preferences-link"
       >
          (change network)
       </a>
     </div>
   </div>
   <div
-    class="ni-connected-network__string"
-    id="ni-connected-network__block"
+    class="tm-connected-network__string"
+    id="tm-connected-network__block"
   >
     <span
       class="desktop-only"

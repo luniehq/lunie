@@ -5,13 +5,13 @@
     .ni-modal-error__title No nodes found
     .ni-modal-error__body All known nodes are offline or incompatible. You can retry to connect or switch to a demo connection so you can try out Voyager.
     .ni-modal-error__footer
-      btn#ni-modal-error__btn-retry(
+      tm-btn#ni-modal-error__btn-retry(
         size="lg"
         icon="autorenew"
         color="primary"
         value="Retry Connection"
         @click.native="retry")
-      btn#ni-modal-error__btn-mock(
+      tm-btn#ni-modal-error__btn-mock(
         size="lg"
         icon="pageview"
         value="Try Demo"
@@ -21,10 +21,10 @@
 <script>
 import { ipcRenderer } from "electron"
 import { mapGetters } from "vuex"
-import Btn from "@nylira/vue-button"
+import { TmBtn } from "@tendermint/ui"
 export default {
   name: "modal-no-nodes",
-  components: { Btn },
+  components: { TmBtn },
   methods: {
     retry() {
       ipcRenderer.send("retry-connection")
