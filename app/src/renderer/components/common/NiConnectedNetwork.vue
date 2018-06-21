@@ -32,7 +32,7 @@ export default {
     },
     networkTooltip() {
       if (this.mockedConnector) {
-        return "Note: `mock-chain` does not have real peers."
+        return "Note: `offline demo` does not have real peers."
       } else {
         return "This testnet is a blockchain with live peers."
       }

@@ -23,7 +23,7 @@ const RpcClientMock = {
   status: cb =>
     cb(null, {
       latest_block_height: 42,
-      node_info: { network: "mock-chain" }
+      node_info: { network: "offline demo" }
     }),
   removeAllListeners: () => {},
   ws: {

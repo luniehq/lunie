@@ -53,7 +53,7 @@ describe("NiConnectedNetwork", () => {
   })
   it("has a network tooltip for mockedConnector", () => {
     expect(wrapper.vm.networkTooltip).toBe(
-      "Note: `mock-chain` does not have real peers."
+      "Note: `offline demo` does not have real peers."
     )
   })
 
