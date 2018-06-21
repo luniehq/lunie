@@ -9,6 +9,7 @@ let semver = require("semver")
 let toml = require("toml")
 let axios = require("axios")
 let Raven = require("raven")
+let _ = require("lodash")
 
 let pkg = require("../../../package.json")
 let addMenu = require("./menu.js")
@@ -21,7 +22,7 @@ let lcdProcess
 let streams = []
 let nodeIP
 let connecting = true
-let seeds = null
+let nodes = [] // {ip, state}
 let chainId
 let booted = false
 
@@ -40,10 +41,11 @@ const winURL = DEV
   ? `http://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
+const RPC_PORT = "46657"
 const MOCK =
   process.env.COSMOS_MOCKED !== undefined
     ? JSON.parse(process.env.COSMOS_MOCKED)
-    : config.mocked
+    : false
 global.config.mocked = MOCK // persist resolved mock setting also in config used by view thread
 const NODE = process.env.COSMOS_NODE
 
@@ -94,6 +96,15 @@ function handleCrash(error) {
       })
     }
   })
+}
+
+function signalNoNodesAvailable() {
+  if (mainWindow) {
+    mainWindow.webContents.send("error", {
+      code: "NO_NODES_AVAILABLE",
+      message: "No nodes available to connect to."
+    })
+  }
 }
 
 function shutdown() {
@@ -225,7 +236,7 @@ app.on("ready", () => createWindow())
 
 // start lcd REST API
 async function startLCD(home, nodeIP) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     log("startLCD", home)
     let child = startProcess(LCD_BINARY_NAME, [
       "advanced",
@@ -312,60 +323,65 @@ function handleHashVerification(nodeHash) {
   }).finally(removeListeners)
 }
 
-async function initLCD(chainId, home, node) {
-  // let the user in the view approve the hash we get from the node
-  return new Promise((resolve, reject) => {
-    // `gaiacli client init` to generate config
-    let child = startProcess(LCD_BINARY_NAME, [
-      "init",
-      "--home",
-      home,
-      "--chain-id",
-      chainId,
-      "--node",
-      node
-    ])
+// TODO readd when needed
+// async function initLCD(chainId, home, node) {
+//   // let the user in the view approve the hash we get from the node
+//   return new Promise((resolve, reject) => {
+//     // `gaiacli client init` to generate config
+//     let child = startProcess(LCD_BINARY_NAME, [
+//       "init",
+//       "--home",
+//       home,
+//       "--chain-id",
+//       chainId,
+//       "--node",
+//       node
+//     ])
 
-    child.stdout.on("data", async data => {
-      let hashMatch = /\w{40}/g.exec(data)
-      if (hashMatch) {
-        handleHashVerification(hashMatch[0])
-          .then(
-            async () => {
-              log("approved hash", hashMatch[0])
-              if (shuttingDown) return
-              // answer 'y' to the prompt about trust seed. we can trust this is correct
-              // since the LCD is talking to our own full node
-              child.stdin.write("y\n")
+//     child.stdout.on("data", async data => {
+//       let hashMatch = /\w{40}/g.exec(data)
+//       if (hashMatch) {
+//         handleHashVerification(hashMatch[0])
+//           .then(
+//             async () => {
+//               log("approved hash", hashMatch[0])
+//               if (shuttingDown) return
+//               // answer 'y' to the prompt about trust seed. we can trust this is correct
+//               // since the LCD is talking to our own full node
+//               child.stdin.write("y\n")
 
-              expectCleanExit(child, "gaiacli init exited unplanned").then(
-                resolve,
-                reject
-              )
-            },
-            () => {
-              // kill process as we will spin up a new init process
-              child.kill("SIGTERM")
+//               expectCleanExit(child, "gaiacli init exited unplanned").then(
+//                 resolve,
+//                 reject
+//               )
+//             },
+//             async () => {
+//               // kill process as we will spin up a new init process
+//               child.kill("SIGTERM")
 
-              if (shuttingDown) return
+//               if (shuttingDown) return
 
-              // select a new node to try out
-              nodeIP = pickNode(seeds)
+//               // select a new node to try out
+//               nodeIP = await pickNode(nodes)
+//               if (!nodeIP) {
+//                 signalNoNodesAvailable()
+//                 return
+//               }
 
-              // initLCD(chainId, home, nodeIP).then(resolve, reject)
-            }
-          )
-          .catch(reject)
+//               // initLCD(chainId, home, nodeIP).then(resolve, reject)
+//             }
+//           )
+//           .catch(reject)
 
-        // execute after registering handlers via handleHashVerification so that in the synchronous test they are available to answer the request
-        afterBooted(() => {
-          mainWindow.webContents.send("approve-hash", hashMatch[0])
-        })
-      }
-    })
-  })
-  await expectCleanExit(child, "gaiacli init exited unplanned")
-}
+//         // execute after registering handlers via handleHashVerification so that in the synchronous test they are available to answer the request
+//         afterBooted(() => {
+//           mainWindow.webContents.send("approve-hash", hashMatch[0])
+//         })
+//       }
+//     })
+//   })
+//   await expectCleanExit(child, "gaiacli init exited unplanned")
+// }
 
 // this function will call the passed in callback when the view is booted
 // the purpose is to send events to the view thread only after it is ready to receive those events
@@ -446,7 +462,7 @@ function handleIPC() {
   ipcMain.on("successful-launch", () => {
     console.log("[START SUCCESS] Vue app successfuly started")
   })
-  ipcMain.on("reconnect", () => reconnect(seeds))
+  ipcMain.on("reconnect", () => reconnect(nodes))
   ipcMain.on("booted", () => {
     log("View has booted")
     booted = true
@@ -461,39 +477,73 @@ function handleIPC() {
   ipcMain.on("stop-lcd", event => {
     stopLCD()
   })
-}
-
-// check if LCD is initialized as the configs could be corrupted
-// we need to parse the error on initialization as there is no way to just get this status programmatically
-function lcdInitialized(home) {
-  log("Testing if LCD is already initialized")
-  return new Promise((resolve, reject) => {
-    let child = startProcess(LCD_BINARY_NAME, [
-      "init",
-      "--home",
-      home
-      // '--trust-node'
-    ])
-    child.stderr.on("data", data => {
-      if (data.toString().includes("already is initialized")) {
-        return resolve(true)
-      }
-      if (data.toString().includes('"--chain-id" required')) {
-        return resolve(false)
-      }
-      reject("Unknown state for Gaia initialization: " + data.toString())
-    })
+  ipcMain.on("retry-connection", () => {
+    log("Retrying to connect to nodes")
+    resetNodes()
+    reconnect(nodes)
   })
 }
 
-function pickNode(seeds) {
-  let nodeIP = seeds[Math.floor(Math.random() * seeds.length)]
-  // let nodeRegex = /([http[s]:\/\/]())/g
-  log("Picked seed:", nodeIP, "of", seeds)
-  // replace port with default RPC port
-  nodeIP = `${nodeIP.split(":")[0]}:46657`
+// TODO readd when needed
+// check if LCD is initialized as the configs could be corrupted
+// we need to parse the error on initialization as there is no way to just get this status programmatically
+// function lcdInitialized(home) {
+//   log("Testing if LCD is already initialized")
+//   return new Promise((resolve, reject) => {
+//     let child = startProcess(LCD_BINARY_NAME, [
+//       "init",
+//       "--home",
+//       home
+//       // '--trust-node'
+//     ])
+//     child.stderr.on("data", data => {
+//       if (data.toString().includes("already is initialized")) {
+//         return resolve(true)
+//       }
+//       if (data.toString().includes('"--chain-id" required')) {
+//         return resolve(false)
+//       }
+//       reject("Unknown state for Gaia initialization: " + data.toString())
+//     })
+//   })
+// }
 
-  return nodeIP
+async function pickNode(nodes) {
+  let availableNodes = nodes.filter(node => node.state === "available")
+  if (availableNodes.length === 0) {
+    connecting = false
+    return
+  }
+  // pick a random node
+  let curNode =
+    availableNodes[Math.floor(Math.random() * availableNodes.length)]
+
+  // ping to see if the node is ali
+  let nodeAlive = await axios
+    .get("http://" + curNode.ip, { timeout: 3000 })
+    .then(() => true, () => false)
+  log(
+    `${new Date().toLocaleTimeString()} ${curNode.ip} is ${
+      nodeAlive ? "alive" : "down"
+    }`
+  )
+
+  if (!nodeAlive) {
+    // remember that node is down
+    nodes.find(node => node.ip === curNode.ip).state = "down"
+
+    return pickNode(nodes)
+  }
+
+  return curNode.ip
+}
+
+function resetNodes() {
+  nodes = nodes.map(node =>
+    Object.assign({}, node, {
+      state: "available"
+    })
+  )
 }
 
 async function connect(nodeIP) {
@@ -509,28 +559,18 @@ async function connect(nodeIP) {
   connecting = false
 }
 
-async function reconnect(seeds) {
+async function reconnect(nodes) {
   if (connecting) return
   log("Starting reconnect")
   connecting = true
 
-  let nodeAlive = false
-  let nodeIP
-  while (!nodeAlive) {
-    nodeIP = pickNode(seeds)
-    nodeAlive = await axios
-      .get("http://" + nodeIP, { timeout: 3000 })
-      .then(() => true, () => false)
-    log(
-      `${new Date().toLocaleTimeString()} ${nodeIP} is ${
-        nodeAlive ? "alive" : "down"
-      }`
-    )
-
-    if (!nodeAlive) await sleep(2000)
-  }
-
   await stopLCD()
+
+  let nodeIP = await pickNode(nodes)
+  if (!nodeIP) {
+    signalNoNodesAvailable()
+    return
+  }
 
   await connect(nodeIP)
 }
@@ -647,38 +687,39 @@ async function main() {
   if (!NODE) {
     let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
     let configTOML = toml.parse(configText)
-    seeds = (configTOML.p2p.persistent_peers + "," + configTOML.p2p.seeds)
-      .split(",")
-      .filter(x => x !== "")
-      .map(x => (x.indexOf("@") !== -1 ? x.split("@")[1] : x))
-    if (seeds.length === 0) {
+    nodes = _.uniq(
+      (configTOML.p2p.persistent_peers + "," + configTOML.p2p.seeds)
+        .split(",")
+        .filter(x => x !== "")
+        .map(x => (x.indexOf("@") !== -1 ? x.split("@")[1] : x))
+    )
+    if (nodes.length === 0) {
       throw new Error("No seeds specified in config.toml")
     }
   } else {
-    seeds = [NODE]
+    nodes = [NODE]
   }
+
+  nodes = nodes
+    .map(ip => `${ip.split(":")[0]}:${RPC_PORT}`) // use default RPC port
+    .map(ip => ({ ip, state: "available" }))
 
   // choose one random node to start from
-  nodeIP = pickNode(seeds)
-
-  let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))
-  log("LCD is" + (_lcdInitialized ? "" : " not") + " initialized")
-  if (init || !_lcdInitialized) {
-    log(`Trying to initialize lcd with remote node ${nodeIP}`)
-    // await initLCD(chainId, lcdHome, nodeIP)
+  nodeIP = await pickNode(nodes)
+  if (!nodeIP) {
+    signalNoNodesAvailable()
+    return
   }
 
-  // if we start in mocked mode, we don't need to connect to a node right away
-  // to make switching between mocked and live mode easier, we still need to check the config folder and read files on app start
-  if (MOCK) {
-    // we still need to signal a connected event so view is waiting for to start
-    connecting = false
-    afterBooted(() => {
-      mainWindow.webContents.send("connected", "127.0.0.1")
-    })
-  } else {
-    await connect(nodeIP)
-  }
+  // TODO reenable when we need LCD init
+  // let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))
+  // log("LCD is" + (_lcdInitialized ? "" : " not") + " initialized")
+  // if (init || !_lcdInitialized) {
+  //   log(`Trying to initialize lcd with remote node ${nodeIP}`)
+  //   // await initLCD(chainId, lcdHome, nodeIP)
+  // }
+
+  await connect(nodeIP)
 }
 module.exports = main()
   .catch(err => {
