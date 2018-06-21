@@ -48,8 +48,8 @@ test("preferences", async function(t) {
         .$("#tm-connected-network__string")
         .getHTML()
       t.ok(
-        network.indexOf("mock-chain") !== -1,
-        "network indicator shows 'mock-chain'"
+        network.indexOf("offline demo") !== -1,
+        "network indicator shows 'offline demo'"
       )
 
       t.end()

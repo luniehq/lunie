@@ -6,7 +6,7 @@
       span.desktop-only Connected to
       span.chain-id(v-tooltip.top="networkTooltip")  {{ chainId }}
       |  via #[span {{ nodeAddress }}]
-      router-link#tm-connected-network_preferences-link.desktop-only(to="/preferences" v-if="!onPreferencesPage")
+      router-link#tm-connected-network_preferences-link.desktop-only(to="/preferences" @click.native="closeMenu" v-if="!onPreferencesPage")
         |  (change network)
   .tm-connected-network__string#tm-connected-network__block
     span.desktop-only Current Block:
@@ -30,7 +30,7 @@ export default {
     },
     networkTooltip() {
       if (this.mockedConnector) {
-        return "Note: `mock-chain` does not have real peers."
+        return "Note: `offline demo` does not have real peers."
       } else {
         return "This testnet is a blockchain with live peers."
       }
@@ -53,6 +53,12 @@ export default {
     num: num,
     onPreferencesPage: false
   }),
+  methods: {
+    closeMenu() {
+      console.log("closing menu")
+      this.$store.commit("setActiveMenu", "")
+    }
+  },
   watch: {
     "$route.name"(newName, oldName) {
       this.onPreferencesPage = newName === "preferences"

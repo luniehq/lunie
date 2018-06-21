@@ -15,12 +15,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Use persistent peers and seeds from tendermint config @faboweb
 * more components moved to `@tendermint/ui` @okwme
+* Removed COSMOS_MOCKED flag @faboweb
 
 ### Fixed
 
+* Fixed bug in yarn build:gaia @zramsay
 * Increased version of localtestnet used for testing to match gaia @faboweb
 * Fixed padding issue in main container @faboweb
 * Unit tests work with new components @okwme
+
+### Added
+
+* Checking known nodes round robin and signaling an error if none are available @faboweb
 
 ## [0.7.0] - 2018-06-13
 
