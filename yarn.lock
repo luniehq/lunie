@@ -24,10 +24,11 @@
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@tendermint/ui@https://github.com/tendermint/ui.git":
-  version "0.2.3"
-  resolved "https://github.com/tendermint/ui.git#874eca7e20ad2acacc04195bb123ea3a610ab516"
+"@tendermint/ui@https://github.com/tendermint/ui.git#":
+  version "0.2.6"
+  resolved "https://github.com/tendermint/ui.git#3538219cc2bc4019778ab2866ca2405d2774fe33"
   dependencies:
+    cookieconsent "^3.0.6"
     moment "^2.22.2"
     perfect-scrollbar "^1.4.0"
     vue "^2.5.16"
@@ -1947,6 +1948,10 @@ cookie-signature@1.0.6:
 cookie@0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
+
+cookieconsent@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/cookieconsent/-/cookieconsent-3.0.6.tgz#147afa3e594e7b1a7826e49cb322aa0beee7b987"
 
 copy-descriptor@^0.1.0:
   version "0.1.1"
