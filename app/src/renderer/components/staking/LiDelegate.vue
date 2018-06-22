@@ -109,11 +109,13 @@ export default {
 
 .li-delegate
   &:nth-of-type(2n-1)
-    background var(--app-fg)
+    background var(--app-bg-light)
   &.li-delegate-active
     background var(--app-bg-alpha)
     .li-delegate__value i
       color var(--link)
+  &:hover
+    background var(--hover-bg)
 
 .li-delegate__values
   display flex

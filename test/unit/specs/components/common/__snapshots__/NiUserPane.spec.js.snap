@@ -11,11 +11,7 @@ exports[`NiUserPane has the expected html structure 1`] = `
     <div
       class="ni-li-thumb"
     >
-      <i
-        class="material-icons"
-      >
-        settings
-      </i>
+      <!---->
     </div>
     <div
       class="ni-li-label"
