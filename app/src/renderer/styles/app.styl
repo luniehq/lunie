@@ -40,11 +40,21 @@ a
 
 .ni-field
   border-radius 2px!important
+  padding 0.5rem !important
+
+input.ni-field
+  height inherit !important
+
+.ni-select .ni-field-select-addon
+  height 100% !important
 
 #app-content
   flex 1
   display flex
   flex-flow column no-wrap
+
+#app-header
+  background var(--app-fg)
 
 @media screen and (min-width: 1024px)
   #app

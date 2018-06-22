@@ -79,12 +79,12 @@ export default {
 @require '~variables'
 
 .ni-form-msg
-  padding 0.25rem 0 0
+  line-height 1.75rem
   display flex
   margin 0 !important
 
   &.sm
-    font-size sm
+    font-size xs
 
 .ni-form-msg:before
   content ''

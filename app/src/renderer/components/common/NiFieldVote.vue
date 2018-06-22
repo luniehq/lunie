@@ -72,7 +72,7 @@ export default {
   align-items center
   justify-content space-between
 
-  color var(--bright)
+  color var(--txt)
 
 .ni-field-vote-bar-outer
   position absolute

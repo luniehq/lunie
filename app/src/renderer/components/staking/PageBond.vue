@@ -450,7 +450,7 @@ export default {
 
 .bond-bar__label
   line-height 2rem
-  color var(--bright)
+  color var(--txt)
   font-size x
   text-align left
 
