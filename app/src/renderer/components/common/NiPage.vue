@@ -43,7 +43,7 @@ export default {
   position relative
 
 .ni-page-title
-  color var(--bright)
+  color var(--txt)
   font-size h2
   padding 0.5rem 1rem 1rem
 

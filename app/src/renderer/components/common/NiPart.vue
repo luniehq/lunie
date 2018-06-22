@@ -24,21 +24,21 @@ export default {
 .ni-part
   position relative
   max-width width-main-max
+  background var(--app-bg-light)
+  border-radius 2px
+  margin 1rem 0
 
 .ni-part-container, .ni-part-header, .ni-part-title, .ni-part-menu, .ni-part-main
   &:empty
     display none
 
-.ni-part-main
-  padding-right 1rem
-
 .ni-part-container
   margin 0 auto
 
 .ni-part-header
-  padding 0.5rem 1rem
-  margin-bottom 0.5rem
-  background var(--app-fg)
+  padding 1rem 1rem 0.5rem
+  border-radius 2px
+  background var(--app-bg-light)
 
 .ni-part-header-container
   display flex
@@ -59,9 +59,4 @@ export default {
   color var(--dim)
   font-size sm
   font-weight 400
-
-@media screen and (min-width: 768px)
-  .ni-part-container
-    &:last-child
-      padding-bottom 1.5rem
 </style>

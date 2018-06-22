@@ -111,20 +111,20 @@ export default {
   display block
   min-height 3rem
   position relative
-  border-bottom 2 * px solid var(--bc-dim)
+  border-bottom 1px solid var(--bc-light)
 
   &:last-child
-    border-bottom 2 * px solid transparent
+    border-bottom 1px solid transparent
 
   &.ni-li-link
-    &:hover, &.router-link-exact-active
+    &:hover
       background var(--hover-bg)
 
       .ni-li-label
         cursor pointer
 
       .ni-li-title
-        color var(--bright)
+        color var(--txt)
 
     &:before
       content ''
@@ -132,7 +132,7 @@ export default {
       position absolute
       top 0
       left 0
-      height 3rem
+      height 100%
       width bw
       background transparent
       z-index z(listItem)
@@ -142,7 +142,7 @@ export default {
 
   &.router-link-exact-active
     .ni-li-title
-      color var(--bright)
+      color var(--txt)
 
     &:before
       background var(--mc)
@@ -162,11 +162,18 @@ export default {
   flex-flow row nowrap
   align-items center
   position relative
+  padding 0 1rem;
   min-height 3rem - 2 * px
+  height 100%
+  border-radius 2px
+
+.ni-li-receive:hover
+  cursor copy
 
 // type: anchor & link
 .ni-li-thumb, .ni-li-label, .ni-li-icon
   min-height 3rem - 2 * px
+  height 100%
 
 .ni-li-thumb:empty
   display none
@@ -188,7 +195,6 @@ export default {
   display flex
   align-items flex-start
   justify-content center
-  padding 0 1rem
   flex-flow column nowrap
   overflow hidden
 
@@ -229,8 +235,6 @@ export default {
 // type: dl definition list
 .ni-li-dl
   flex 1
-  height 3rem - px
-  padding 0 0.5rem
   display flex
   align-items center
   // truncate
@@ -252,8 +256,6 @@ export default {
     overflow visible
 
 .ni-li-dt
-  padding-left 0.5rem
-  padding-right 0.25rem
   max-width width-side
   flex 2
 

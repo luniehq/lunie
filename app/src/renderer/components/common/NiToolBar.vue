@@ -41,7 +41,8 @@ export default {
     justify-content center
 
   a
-    padding 1rem
+    padding 0.5rem
+    border-radius 2px
 
     user-select none
     cursor pointer
@@ -59,12 +60,12 @@ export default {
 
     &.router-link-active
       i
-        color var(--bright)
+        color var(--txt)
 
     &:hover:not([disabled])
-      background var(--app-fg)
+      background var(--hover-bg)
       i
-        color var(--bright)
+        color var(--txt)
 
     &[disabled]
       cursor default
@@ -91,6 +92,4 @@ export default {
   .ni-tool-bar-container
     .main
       justify-content flex-end
-    a
-      margin-top 0.7rem
 </style>

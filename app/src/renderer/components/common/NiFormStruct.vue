@@ -70,7 +70,7 @@ export default {
 
 .ni-form-title
   line-height 1rem
-  color var(--bright)
+  color var(--txt)
 
 .ni-form-subtitle
   color var(--dim)
