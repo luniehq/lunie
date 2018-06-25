@@ -41,6 +41,7 @@ jest.mock("electron", () => {
       }
       loadURL() {}
       on() {}
+      once() {}
       maximize() {}
     },
     Menu: {
