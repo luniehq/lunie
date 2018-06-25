@@ -21,6 +21,7 @@
       tm-form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
       tm-form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
       tm-form-msg(v-if='mockedConnector') default password is 1234567890
+
   .tm-session-footer
     tm-btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
 </template>

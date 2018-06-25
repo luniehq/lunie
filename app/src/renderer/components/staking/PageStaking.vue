@@ -169,7 +169,7 @@ export default {
   z-index z(toolBar)
 
   .label
-    color var(--bright)
+    color var(--txt)
     line-height 2rem
 
     strong
@@ -179,7 +179,7 @@ export default {
   padding-bottom 4rem
 
 .fixed-button-bar
-  padding 1rem
+  padding 1rem 1rem 1rem 2rem
 
 @media screen and (min-width: 1024px)
   .fixed-button-bar

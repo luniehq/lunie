@@ -11,11 +11,7 @@ exports[`TmUserPane has the expected html structure 1`] = `
     <div
       class="tm-li-thumb"
     >
-      <i
-        class="material-icons"
-      >
-        settings
-      </i>
+      <!---->
     </div>
     <div
       class="tm-li-label"

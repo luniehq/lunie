@@ -76,7 +76,7 @@ export default {
 @require '~variables'
 
 .app-menu
-  background var(--app-bg-alpha)
+  background var(--app-fg)
   z-index z(appMenu)
   user-select none
   display flex
@@ -86,8 +86,8 @@ export default {
     flex 1
     position relative // for perfect-scrollbar
 
-    .tm-li-link
-      padding 0 0 0 1rem
+    .tm-li
+      border-bottom 1px solid var(--bc-dim)
 
   .tm-user
     border-top 1px solid var(--bc)
@@ -108,13 +108,13 @@ export default {
       justify-content center
 
       i
-        color var(--bright)
+        color var(--txt)
 
     .text
       padding 0 0.5rem
 
     .title
-      color var(--bright)
+      color var(--txt)
 
     .subtitle
       font-size xs

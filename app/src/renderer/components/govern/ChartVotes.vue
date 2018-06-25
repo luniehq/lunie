@@ -151,7 +151,7 @@ export default {
         &.abstain
           color var(--dim)
         &.yes
-          color var(--bright)
+          color var(--txt)
         &.no
           color var(--link)
         &.reject
@@ -208,7 +208,7 @@ export default {
 
         .value
           flex 1
-          color var(--bright)
+          color var(--txt)
           font-size xl
 
           display flex

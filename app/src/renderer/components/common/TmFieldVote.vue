@@ -72,7 +72,7 @@ export default {
   align-items center
   justify-content space-between
 
-  color var(--bright)
+  color var(--txt)
 
 .tm-field-vote-bar-outer
   position absolute

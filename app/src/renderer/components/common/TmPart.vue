@@ -24,11 +24,15 @@ export default {
 .tm-part
   position relative
   max-width width-main-max
+  background var(--app-bg-light)
+  border-radius 2px
+  margin 1rem 0
 
 .tm-part-container, .tm-part-header, .tm-part-title, .tm-part-menu, .tm-part-main
   &:empty
     display none
 
+<<<<<<< HEAD:app/src/renderer/components/common/TmPart.vue
 .tm-part-main
   padding-right 1rem
 
@@ -39,6 +43,15 @@ export default {
   padding 0.5rem 1rem
   margin-bottom 0.5rem
   background var(--app-fg)
+=======
+.ni-part-container
+  margin 0 auto
+
+.ni-part-header
+  padding 1rem 1rem 0.5rem
+  border-radius 2px
+  background var(--app-bg-light)
+>>>>>>> develop:app/src/renderer/components/common/NiPart.vue
 
 .tm-part-header-container
   display flex
@@ -59,9 +72,12 @@ export default {
   color var(--dim)
   font-size sm
   font-weight 400
+<<<<<<< HEAD:app/src/renderer/components/common/TmPart.vue
 
 @media screen and (min-width: 768px)
   .tm-part-container
     &:last-child
       padding-bottom 1.5rem
+=======
+>>>>>>> develop:app/src/renderer/components/common/NiPart.vue
 </style>

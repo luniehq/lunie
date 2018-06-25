@@ -11,7 +11,7 @@
   .tm-connected-network__string#tm-connected-network__block
     span.desktop-only Current Block:
     router-link(to="/blocks" v-tooltip.top="'View Block'")  {{ blockHeight }}
-.tm-connected-network#tm-disconnected-network(v-else)
+.tm-connected-network.tm-disconnected-network#tm-disconnected-network(v-else)
   .tm-connected-network__icon: i.material-icons.fa-spin rotate_right
   .tm-connected-network__string Connecting to network&hellip;
 </template>
@@ -72,23 +72,25 @@ export default {
 
 .tm-connected-network
   font-size 0.75rem
-  background var(--app-fg)
-  border 0.5rem solid var(--app-bg)
+  background var(--app-bg-light)
   color var(--dim)
   display flex
   align-items center
   justify-content space-between
+  padding 0.5rem 1rem
+  margin 0.25rem 1rem
 
   a, .chain-id
     font-weight 500
 
 .tm-connected-network__icon
-  background var(--success)
-  width 2rem
+  background var(--success-bc)
+  padding 0.5rem
   display flex
   align-items center
   justify-content center
-  color var(--bright)
+  color var(--txt)
+  border-radius 2px
 
 .tm-connected-network__string
   padding 0 1em
@@ -103,4 +105,7 @@ export default {
 
 .tm-connected-network__connection
   display flex
+
+.tm-disconnected-network
+  justify-content start
 </style>

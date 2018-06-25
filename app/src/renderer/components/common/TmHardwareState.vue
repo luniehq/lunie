@@ -41,5 +41,5 @@ export default {
 
 .tm-hardware-state__label
   text-align center
-  color var(--bright)
+  color var(--txt)
 </style>

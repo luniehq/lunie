@@ -20,17 +20,17 @@ export default {
   display flex
   flex-flow row nowrap
   user-select none
-  border-bottom 2*px solid var(--bc-dim)
+  border-bottom 1px solid var(--bc-light)
 
   &:last-of-type
     border-bottom none
 
   &:hover
     cursor pointer
-    background var(--app-fg)
+    background var(--hover-bg)
     .tm-li-session-icon i
     .tm-li-session-title
-      color var(--bright)
+      color var(--txt)
 
 .tm-li-session-icon
   height 5rem
