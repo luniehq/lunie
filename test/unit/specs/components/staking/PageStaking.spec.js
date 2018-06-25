@@ -35,12 +35,16 @@ describe("PageStaking", () => {
   })
 
   it("should sort the delegates by selected property", () => {
+    wrapper.vm.sort.property = "owner"
+    wrapper.vm.sort.order = "desc"
+
     expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual(
       lcdClientMock.validators
     )
 
     wrapper.vm.sort.property = "owner"
     wrapper.vm.sort.order = "asc"
+
     expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual(
       lcdClientMock.validators.reverse()
     )
@@ -90,7 +94,7 @@ describe("PageStaking", () => {
     expect(wrapper.vm.somethingToSearch).toBe(false)
   })
 
-  it("should show placeholder if delegates are loading", () => {
+  it("should show placeholder if delegates are loading and delegates are empty", () => {
     let { wrapper } = mount(PageStaking, {
       getters: {
         delegates: () => ({
