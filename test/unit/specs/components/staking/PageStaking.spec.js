@@ -94,7 +94,7 @@ describe("PageStaking", () => {
     expect(wrapper.vm.somethingToSearch).toBe(false)
   })
 
-  it("should show placeholder if delegates are loading and delegates are empty", () => {
+  it("should show placeholder if delegates are loading", () => {
     let { wrapper } = mount(PageStaking, {
       getters: {
         delegates: () => ({
