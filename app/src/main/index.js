@@ -134,6 +134,7 @@ function createWindow() {
     title: "Cosmos Voyager",
     darkTheme: true,
     titleBarStyle: "hidden",
+    backgroundColor: "#15182d",
     webPreferences: { webSecurity: false }
   })
 
