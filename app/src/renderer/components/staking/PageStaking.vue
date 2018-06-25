@@ -9,7 +9,7 @@ page(title='Staking')
   modal-search(type="delegates" v-if="somethingToSearch")
 
   .delegates-container
-    data-loading(v-if="delegates.loading && delegates.delegates.length === 0")
+    data-loading(v-if="delegates.loading")
     data-empty(v-else-if="delegates.delegates.length === 0")
     data-empty-search(v-else-if="filteredDelegates.length === 0")
     template(v-else)
