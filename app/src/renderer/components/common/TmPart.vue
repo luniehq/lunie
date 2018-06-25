@@ -32,26 +32,14 @@ export default {
   &:empty
     display none
 
-<<<<<<< HEAD:app/src/renderer/components/common/TmPart.vue
-.tm-part-main
-  padding-right 1rem
 
 .tm-part-container
   margin 0 auto
 
 .tm-part-header
-  padding 0.5rem 1rem
-  margin-bottom 0.5rem
-  background var(--app-fg)
-=======
-.ni-part-container
-  margin 0 auto
-
-.ni-part-header
   padding 1rem 1rem 0.5rem
   border-radius 2px
   background var(--app-bg-light)
->>>>>>> develop:app/src/renderer/components/common/NiPart.vue
 
 .tm-part-header-container
   display flex
@@ -72,12 +60,4 @@ export default {
   color var(--dim)
   font-size sm
   font-weight 400
-<<<<<<< HEAD:app/src/renderer/components/common/TmPart.vue
-
-@media screen and (min-width: 768px)
-  .tm-part-container
-    &:last-child
-      padding-bottom 1.5rem
-=======
->>>>>>> develop:app/src/renderer/components/common/NiPart.vue
 </style>

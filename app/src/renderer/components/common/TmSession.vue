@@ -192,13 +192,8 @@ export default {
     background var(--app-fg)
     margin-top 0
 
-<<<<<<< HEAD:app/src/renderer/components/common/TmSession.vue
   .tm-session-main
-    padding 2rem
-=======
-  .ni-session-main
     padding 3rem 2rem
->>>>>>> develop:app/src/renderer/components/common/NiSession.vue
 
     .tm-form-group
       display block !important
