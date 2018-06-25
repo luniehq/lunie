@@ -13,7 +13,7 @@ tm-page(title='New Proposal')
 
 <script>
 import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
-import ToolBar from "common/VrToolBar"
+import ToolBar from "common/TmToolBar"
 export default {
   name: "page-proposals-new",
   components: {

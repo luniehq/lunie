@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmModalSearch has the expected html structure 1`] = `
+<div
+  class="tm-modal-search"
+>
+  <div
+    class="tm-modal-search-container"
+  >
+    <div
+      class="tm-form-group"
+    >
+      <!---->
+      <!---->
+      <div
+        class="tm-form-group__field"
+      >
+        <div
+          class="tm-modal-search-field"
+        >
+          <input
+            class="mousetrap tm-field"
+            id="search-input"
+            placeholder="Search..."
+            type="text"
+          />
+          <button
+            class="tm-btn"
+          >
+            <span
+              class="tm-btn__container"
+            >
+              <i
+                aria-hidden="true"
+                class="tm-btn__icon material-icons"
+              >
+                close
+              </i>
+              <!---->
+              <!---->
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

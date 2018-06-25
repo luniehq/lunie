@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`NiFieldAddon has the expected html structure 1`] = `
-"<div class=\\"tm-field-addon\\">
-   <div class=\\"fake-addon\\">
-      ATOM
-   </div>
-</div>"
-`;

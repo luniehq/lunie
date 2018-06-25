@@ -31,13 +31,13 @@ import { includes, orderBy, forEach } from "lodash"
 import Mousetrap from "mousetrap"
 import LiDelegate from "staking/LiDelegate"
 import { TmBtn, TmPage } from "@tendermint/ui"
-import DataEmpty from "common/NiDataEmpty"
-import DataEmptySearch from "common/NiDataEmptySearch"
-import DataLoading from "common/NiDataLoading"
+import DataEmpty from "common/TmDataEmpty"
+import DataEmptySearch from "common/TmDataEmptySearch"
+import DataLoading from "common/TmDataLoading"
 
-import ModalSearch from "common/NiModalSearch"
+import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
-import ToolBar from "common/VrToolBar"
+import ToolBar from "common/TmToolBar"
 export default {
   name: "page-delegates",
   components: {

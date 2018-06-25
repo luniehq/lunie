@@ -19,7 +19,7 @@ tm-page(:title="delegateType + ' Profile'")
 import { mapGetters } from "vuex"
 import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
 import TextBlock from "common/TextBlock"
-import ToolBar from "common/VrToolBar"
+import ToolBar from "common/TmToolBar"
 export default {
   name: "page-delegate",
   components: {

@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(title='Wallet')
   div(slot="menu")
-    vr-tool-bar
+    tm-tool-bar
       a(@click='updateBalances()' v-tooltip.bottom="'Refresh'")
         i.material-icons refresh
       a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
@@ -43,14 +43,14 @@ import { mapGetters } from "vuex"
 import { clipboard } from "electron"
 import { sum, includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
-import DataLoading from "common/NiDataLoading"
-import DataEmpty from "common/NiDataEmpty"
-import DataEmptySearch from "common/NiDataEmptySearch"
-import LiCopy from "common/NiLiCopy"
-import BtnReceive from "common/NiBtnReceive"
+import DataLoading from "common/TmDataLoading"
+import DataEmpty from "common/TmDataEmpty"
+import DataEmptySearch from "common/TmDataEmptySearch"
+import LiCopy from "common/TmLiCopy"
+import BtnReceive from "common/TmBtnReceive"
 import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
-import ModalSearch from "common/NiModalSearch"
-import VrToolBar from "common/VrToolBar"
+import ModalSearch from "common/TmModalSearch"
+import TmToolBar from "common/TmToolBar"
 export default {
   name: "page-wallet",
   components: {
@@ -62,7 +62,7 @@ export default {
     ModalSearch,
     TmPage,
     TmPart,
-    VrToolBar,
+    TmToolBar,
     BtnReceive
   },
   computed: {

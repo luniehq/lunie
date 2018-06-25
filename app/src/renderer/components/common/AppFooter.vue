@@ -3,7 +3,7 @@ footer.app-footer: connected-network
 </template>
 
 <script>
-import ConnectedNetwork from "common/NiConnectedNetwork"
+import ConnectedNetwork from "common/TmConnectedNetwork"
 export default {
   name: "app-footer",
   components: { ConnectedNetwork }

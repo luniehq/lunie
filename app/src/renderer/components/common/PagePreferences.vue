@@ -46,7 +46,7 @@ tm-page(title="Preferences")
 <script>
 import { mapGetters } from "vuex"
 import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
-import ToolBar from "common/VrToolBar"
+import ToolBar from "common/TmToolBar"
 
 export default {
   name: "page-preferences",

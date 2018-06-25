@@ -64,8 +64,8 @@ import {
   TmFormMsg
 } from "@tendermint/ui"
 
-import FieldAddon from "common/NiFieldAddon"
-import ToolBar from "common/VrToolBar"
+import FieldAddon from "common/TmFieldAddon"
+import ToolBar from "common/TmToolBar"
 export default {
   components: {
     TmBtn,

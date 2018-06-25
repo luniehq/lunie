@@ -21,12 +21,12 @@ tm-page(title='Proposals')
 import { mapGetters } from "vuex"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
-import DataLoading from "common/NiDataLoading"
-import DataEmpty from "common/NiDataEmpty"
-import DataEmptySearch from "common/NiDataEmptySearch"
+import DataLoading from "common/TmDataLoading"
+import DataEmpty from "common/TmDataEmpty"
+import DataEmptySearch from "common/TmDataEmptySearch"
 import LiProposal from "govern/LiProposal"
-import ModalSearch from "common/NiModalSearch"
-import ToolBar from "common/VrToolBar"
+import ModalSearch from "common/TmModalSearch"
+import ToolBar from "common/TmToolBar"
 import { TmPage } from "@tendermint/ui"
 export default {
   name: "page-proposals",

@@ -30,10 +30,10 @@ import Mousetrap from "mousetrap"
 import num from "scripts/num"
 import { mapGetters } from "vuex"
 import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
-import DataError from "common/NiDataError"
-import DataLoading from "common/NiDataLoading"
-import ToolBar from "common/VrToolBar"
-import ModalSearch from "common/NiModalSearch"
+import DataError from "common/TmDataError"
+import DataLoading from "common/TmDataLoading"
+import ToolBar from "common/TmToolBar"
+import ModalSearch from "common/TmModalSearch"
 export default {
   name: "page-blocks",
   components: {

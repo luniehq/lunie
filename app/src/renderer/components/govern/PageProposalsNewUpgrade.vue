@@ -42,7 +42,7 @@ import {
   TmFormMsg
 } from "@tendermint/ui"
 
-import ToolBar from "common/VrToolBar"
+import ToolBar from "common/TmToolBar"
 export default {
   name: "page-proposals-new-upgrade",
   components: {

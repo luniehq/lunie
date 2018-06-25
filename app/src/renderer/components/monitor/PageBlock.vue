@@ -61,9 +61,9 @@ import { mapGetters } from "vuex"
 import moment from "moment"
 import num from "scripts/num"
 import LiTransaction from "wallet/LiTransaction"
-import DataLoading from "common/NiDataLoading"
-import DataEmpty from "common/NiDataEmpty"
-import ToolBar from "common/VrToolBar"
+import DataLoading from "common/TmDataLoading"
+import DataEmpty from "common/TmDataEmpty"
+import ToolBar from "common/TmToolBar"
 import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
 export default {
   name: "page-block",
