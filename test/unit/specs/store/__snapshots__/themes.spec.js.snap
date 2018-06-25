@@ -4,6 +4,7 @@ exports[`Module: Themes has a dark theme 1`] = `
 Object {
   "app-bg": "hsl(233, 36%, 13%)",
   "app-bg-alpha": "hsla(233, 36%, 13%, 95%)",
+  "app-bg-light": "hsla(233, 36%, 13%, 95%)",
   "app-fg": "hsl(233, 33%, 16%)",
   "bc": "hsl(233, 22%, 23%)",
   "bc-dim": "hsl(233, 33%, 16%)",
@@ -20,6 +21,7 @@ exports[`Module: Themes has a light theme 1`] = `
 Object {
   "app-bg": "#fff",
   "app-bg-alpha": "hsla(233, 0%, 0%, 5%)",
+  "app-bg-light": "hsla(233, 0%, 0%, 5%)",
   "app-fg": "#f3f3f3",
   "bc": "#ddd",
   "bc-dim": "#eee",
