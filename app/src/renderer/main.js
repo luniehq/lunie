@@ -1,6 +1,6 @@
 import Vue from "vue"
 import Electron from "vue-electron"
-import Resource from "vue-resource"
+
 import Router from "vue-router"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
@@ -35,7 +35,7 @@ Vue.config.errorHandler = (error, vm, info) => {
 }
 
 Vue.use(Electron)
-Vue.use(Resource)
+
 Vue.use(Router)
 Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)

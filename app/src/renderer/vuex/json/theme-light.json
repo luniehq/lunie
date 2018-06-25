@@ -2,6 +2,7 @@
   "app-fg": "#f3f3f3",
   "app-bg": "#fff",
   "app-bg-alpha": "hsla(233, 0%, 0%, 5%)",
+  "app-bg-light": "hsla(233, 0%, 0%, 5%)",
   "bright": "#000",
   "txt": "#333",
   "dim": "#666",
