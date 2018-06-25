@@ -14,15 +14,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changes
 
 * Use persistent peers and seeds from tendermint config @faboweb
+* Updated loading icon and loading states @jolesbi
 * Removed COSMOS_MOCKED flag @faboweb
 * Improved readability and accessibility @jolesbi
-* Substantial style / UI updates @jolesbi
+* Significant style / UI updates @jolesbi
+* Doesn't show loading screen when validators are still stored @okwme
 
 ### Fixed
 
 * Fixed bug in yarn build:gaia @zramsay
 * Increased version of localtestnet used for testing to match gaia @faboweb
 * Fixed padding issue in main container @faboweb
+* Fixed white flash on startup @okwme
+* Fixed critical dependency warning @okwme
 
 ### Added
 

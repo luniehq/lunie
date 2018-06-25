@@ -126,6 +126,7 @@ function shutdown() {
 
 function createWindow() {
   mainWindow = new BrowserWindow({
+    show: false,
     minWidth: 320,
     minHeight: 480,
     width: 1024,
@@ -134,7 +135,13 @@ function createWindow() {
     title: "Cosmos Voyager",
     darkTheme: true,
     titleBarStyle: "hidden",
+    backgroundColor: "#15182d",
     webPreferences: { webSecurity: false }
+  })
+  mainWindow.once("ready-to-show", () => {
+    setTimeout(() => {
+      mainWindow.show()
+    }, 300)
   })
 
   // start vue app
