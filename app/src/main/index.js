@@ -43,7 +43,6 @@ const winURL = DEV
   ? `http://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
-const RPC_PORT = "46657"
 const MOCK =
   process.env.COSMOS_MOCKED !== undefined
     ? JSON.parse(process.env.COSMOS_MOCKED)
@@ -529,8 +528,10 @@ async function reconnect(nodes) {
 
   await stopLCD()
 
-  let nodeIP = await addressbook.pickNode()
-  if (!nodeIP) {
+  let nodeIP
+  try {
+    nodeIP = await addressbook.pickNode()
+  } catch (err) {
     signalNoNodesAvailable()
     return
   }
@@ -662,7 +663,7 @@ async function main() {
   } else {
     nodes = [NODE]
   }
-  nodes = nodes.map(ip => `${ip.split(":")[0]}:${RPC_PORT}`) // use default RPC port
+  nodes = nodes.map(ip => `${ip.split(":")[0]}`) // use default RPC port
 
   addressbook = new Addressbook(root, nodes)
 

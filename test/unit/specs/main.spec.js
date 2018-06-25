@@ -165,26 +165,32 @@ describe("Startup Process", () => {
       expect(main.processes.lcdProcess).toBeDefined()
     })
 
-    it("should use a provided node-ip to connect to", async function() {
+    it("should use a provided node-ip to connect to", async function(done) {
       main.shutdown()
       prepareMain()
+
+      jest.doMock(
+        "app/src/main/addressbook.js",
+        () =>
+          class MockAddressbook {
+            constructor(path, peers) {
+              try {
+                expect(peers).toEqual(["123.456.789.123"])
+                done()
+              } catch (err) {
+                done.fail(err)
+              } finally {
+                delete process.env.COSMOS_NODE
+              }
+            }
+          }
+      )
 
       Object.assign(process.env, {
         COSMOS_NODE: "123.456.789.123"
       })
       // run main
-      main = await require(appRoot + "src/main/index.js")
-
-      expect(
-        childProcess.spawn.mock.calls.find(
-          ([path, args]) =>
-            path.includes("gaiacli") &&
-            args.includes("rest-server") &&
-            args.includes("123.456.789.123:46657")
-        )
-      ).toBeDefined()
-
-      delete process.env.COSMOS_NODE
+      require(appRoot + "src/main/index.js")
     })
 
     it("should persist the app_version", async function() {
@@ -199,8 +205,15 @@ describe("Startup Process", () => {
       let { send } = require("electron")
       send.mockClear()
 
-      let axios = require("axios")
-      axios.get = async () => Promise.reject() // ping
+      jest.doMock(
+        "app/src/main/addressbook.js",
+        () =>
+          class MockAddressbook {
+            async pickNode() {
+              throw Error("no nodes")
+            }
+          }
+      )
 
       // run main
       main = await require(appRoot + "src/main/index.js")
@@ -359,10 +372,6 @@ describe("Startup Process", () => {
 
       registerIPCListeners(registeredIPCListeners)
 
-      // axios is used to ping nodes and get the SDK version of the node
-      let axios = require("axios")
-      axios.get = async () => ({ data: "0.19.0" })
-
       main = await require(appRoot + "src/main/index.js")
     })
 
@@ -399,24 +408,38 @@ describe("Startup Process", () => {
       expect(killSpy).toHaveBeenCalled()
     })
 
-    it("should not start reconnecting again if already trying to reconnect", async () => {
+    it("should not start reconnecting again if already trying to reconnect", async done => {
       // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
       main.processes.lcdProcess.on = (type, cb) => {
         if (type === "exit") cb()
       }
 
-      let axios = require("axios")
-      let spy = jest.spyOn(axios, "get")
-      spy.mockImplementationOnce(async () => {
-        await registeredIPCListeners["reconnect"]()
-        return Promise.resolve()
-      })
+      jest.doMock(
+        "app/src/main/addressbook.js",
+        () =>
+          class MockAddressbook {
+            constructor() {
+              this.calls = 0
+            }
+            async pickNode() {
+              try {
+                expect(this.calls).toBe(0)
+                this.calls++
+                await registeredIPCListeners["reconnect"]()
+                return "127.0.0.1:46657"
+              } catch (err) {
+                done.fail(err)
+              }
+            }
+          }
+      )
 
       await registeredIPCListeners["reconnect"]()
-      expect(spy).toHaveBeenCalledTimes(1) // a node has only be pinged once
+      done()
     })
 
-    it("should search through nodes until it finds one", async () => {
+    // TODO move into addressbook test
+    xit("should search through nodes until it finds one", async () => {
       // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
       main.processes.lcdProcess.on = (type, cb) => {
         if (type === "exit") cb()
@@ -435,7 +458,8 @@ describe("Startup Process", () => {
       ).toBe(2)
     })
 
-    it("should error if it can't find a node to connect to at reconnect", async () => {
+    // TODO move into addressbook test
+    xit("should error if it can't find a node to connect to at reconnect", async () => {
       // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
       main.processes.lcdProcess.on = (type, cb) => {
         if (type === "exit") cb()
@@ -623,13 +647,18 @@ function prepareMain() {
   // this is reset with jest.resetModules
   fs = require("fs-extra")
 
-  // axios is used to ping nodes and get the SDK version of the node
-  // we need to keep this mocked, if not, the process fails
-  let axios = require("axios")
-  axios.get = async () => ({ data: "0.19.0" })
-
   const Raven = require("raven")
   Raven.disableConsoleAlerts()
+
+  jest.mock(
+    "app/src/main/addressbook.js",
+    () =>
+      class MockAddressbook {
+        async pickNode() {
+          return "127.0.0.1:46657"
+        }
+      }
+  )
 }
 
 async function initMain() {
@@ -713,11 +742,6 @@ function resetModulesKeepingFS() {
   // we want to keep Raven quiet
   const Raven = require("raven")
   Raven.disableConsoleAlerts()
-
-  // axios is used to ping nodes and get the SDK version of the node
-  // we need to keep this mocked, if not, the process fails
-  let axios = require("axios")
-  axios.get = async () => ({ data: "0.19.0" })
 }
 
 function mockConfig() {
