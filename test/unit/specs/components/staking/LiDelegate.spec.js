@@ -10,7 +10,6 @@ describe("LiDelegate", () => {
       propsData: {
         delegate: {
           id: "abc",
-          percent_of_vote: "22%",
           description: {}
         }
       }
