@@ -105,7 +105,7 @@ export default {
 .ni-modal-title
   flex 1
   font-size h3
-  color var(--bright)
+  color var(--txt)
   padding 0 1rem
 
 .ni-modal-main, .ni-modal-footer

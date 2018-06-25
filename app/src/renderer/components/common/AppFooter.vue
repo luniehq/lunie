@@ -14,7 +14,6 @@ export default {
 @require '~variables'
 
 .app-footer
-  border-top 1px solid var(--bc)
   display none
 
 @media screen and (min-width: 1024px)

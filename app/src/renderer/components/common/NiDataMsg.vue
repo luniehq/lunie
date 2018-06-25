@@ -24,11 +24,14 @@ export default {
 @require '~variables'
 
 .ni-data-msg
-  background var(--app-fg)
+  background var(--app-bg-light)
   padding 1rem
+  border-radius 2px
 
 .ni-data-msg__icon
   margin-bottom 0.5rem
+  display: flex;
+  align-items: center;
   i.material-icons
     font-size 3rem
     color var(--txt)
@@ -37,7 +40,7 @@ export default {
   max-width 30rem
 
 .ni-data-msg__title
-  color var(--bright)
+  color var(--txt)
   font-size h2
 
 .ni-data-msg__subtitle

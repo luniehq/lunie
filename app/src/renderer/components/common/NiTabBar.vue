@@ -35,7 +35,7 @@ export default { name: "ni-tab-bar" }
       border-right none
 
     &.router-link-active
-      color var(--bright)
+      color var(--txt)
       background var(--app-bg)
 
     i.material-icons

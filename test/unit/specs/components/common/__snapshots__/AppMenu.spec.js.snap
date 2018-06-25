@@ -86,7 +86,7 @@ exports[`AppMenu has the expected html structure 1`] = `
       <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
-   <div id=\\"ni-disconnected-network\\" class=\\"ni-connected-network\\">
+   <div id=\\"ni-disconnected-network\\" class=\\"ni-connected-network ni-disconnected-network\\">
       <div class=\\"ni-connected-network__icon\\">
          <i class=\\"material-icons fa-spin\\">rotate_right</i>
       </div>
@@ -97,7 +97,7 @@ exports[`AppMenu has the expected html structure 1`] = `
    <a href=\\"#/preferences\\" class=\\"ni-li ni-li-link ni-li-user proposal-enter proposal-enter-active\\">
    <div class=\\"ni-li-container\\">
       <div class=\\"ni-li-thumb\\">
-         <i class=\\"material-icons\\">settings</i>
+         <!---->
       </div>
    <div class=\\"ni-li-label\\">
       <div class=\\"ni-li-title\\">

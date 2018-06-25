@@ -79,7 +79,7 @@ export default {
 
   &.active
     .label
-      color var(--bright)
+      color var(--txt)
     &:after
       color var(--txt)
 

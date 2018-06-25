@@ -19,7 +19,8 @@ export default ({ commit }) => {
         active: true,
         state: "loading"
       },
-      blockchain: { active: false }
+      blockchain: { active: false },
+      nonodes: { active: false }
     }
   }
   const mutations = {
@@ -51,8 +52,8 @@ export default ({ commit }) => {
     setModalSessionState(state, value) {
       state.modals.session.state = value
     },
-    setModalBlockchain(state, value) {
-      state.modals.blockchain.active = value
+    setModalNoNodes(state, value) {
+      state.modals.nonodes.active = value
     },
     setActiveMenu(state, value) {
       state.activeMenu = value

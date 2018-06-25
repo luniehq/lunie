@@ -4,7 +4,6 @@ list-item.ni-li-user(
   type="link"
   to="/preferences"
   @click.native="close"
-  icon="settings"
   title="Preferences"
   :subtitle="user.account")
 </template>
@@ -31,5 +30,5 @@ export default {
 
 .ni-li.ni-li-user
   border-top px solid var(--bc)
-  height 3rem + px
+  height 3.5rem + px
 </style>

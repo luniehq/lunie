@@ -43,6 +43,9 @@ export default {
     font-size xs
     color var(--dim)
 
+  .ni-field:focus
+    border-color var(--mc)
+
 .ni-form-group__sub-label ~ .ni-form-group__label
   line-height 1rem
 
@@ -55,8 +58,9 @@ export default {
 
 .ni-form-group__label
   display block
-  line-height 2rem
-  color txt
+  line-height 1.75rem
+  color var(--dim)
+  font-size sm
 
 @media (min-width: 768px)
   .ni-form-group
