@@ -3,6 +3,8 @@ const { join } = require("path")
 const axios = require("axios")
 const url = require("url")
 
+const TENDERMINT_RPC_PORT = 46657
+
 module.exports = class Addressbook {
   constructor(configPath, persistent_peers = []) {
     this.addressbookPath = join(configPath, "addressbook.json")
@@ -19,28 +21,27 @@ module.exports = class Addressbook {
   }
 
   async ping(peerURL) {
-    console.log("Pinging node:", peerURL)
-    return axios
-      .get("http://" + peerURL, { timeout: 3000 })
+    let pingURL = `http://${peerURL}:${TENDERMINT_RPC_PORT}`
+    console.log("Pinging node:", pingURL)
+    let nodeAlive = await axios
+      .get(pingURL, { timeout: 3000 })
       .then(() => true, () => false)
+    console.log("Node", peerURL, "is", nodeAlive ? "alive" : "down")
+    return nodeAlive
   }
 
-  // check for substr as we prefix found urls with http for consistency and incoming peer urls could not have http
   peerIsKnown(peerURL) {
-    let peerHost = url.parse(peerURL).hostname
-    return this.peers.find(peer => peer.ip.indexOf(peerHost) !== -1)
+    // we only store the hostname as we want to set protocol and port ourselfs
+    let peerHost = getHostname(peerURL)
+    return this.peers.find(peer => peer.host.indexOf(peerHost) !== -1)
   }
 
   // adds the new peer to the list of peers
   addPeer(peerURL) {
-    peerURL = url.parse(peerURL)
-    let formatedURL = url.format({
-      protocol: "",
-      port: 46657,
-      hostname: peerURL.hostname
-    })
+    let peerHost = getHostname(peerURL)
+    console.log("Adding new peer:", peerHost)
     this.peers.push({
-      ip: formatedURL,
+      host: peerHost,
       // assume that new peers are available
       state: "available"
     })
@@ -53,20 +54,20 @@ module.exports = class Addressbook {
       return
     }
     let content = fs.readFileSync(this.addressbookPath, "utf8")
-    let ips = JSON.parse(content)
-    this.peers = ips.map(ip => ({
-      ip,
+    let peers = JSON.parse(content)
+    this.peers = peers.map(host => ({
+      host,
       state: "available"
     }))
   }
 
   persistToDisc() {
-    let ips = this.peers
+    let peers = this.peers
       // only remember available nodes
       .filter(p => p.state === "available")
-      .map(p => p.ip)
+      .map(p => p.host)
     fs.ensureFileSync(this.addressbookPath)
-    fs.writeFileSync(this.addressbookPath, JSON.stringify(ips), "utf8")
+    fs.writeFileSync(this.addressbookPath, JSON.stringify(peers), "utf8")
   }
 
   // returns an available node or throws if it can't find any
@@ -79,25 +80,27 @@ module.exports = class Addressbook {
     let curNode =
       availableNodes[Math.floor(Math.random() * availableNodes.length)]
 
-    let nodeAlive = await this.ping(curNode.ip)
+    let nodeAlive = await this.ping(curNode.host)
     if (!nodeAlive) {
-      this.flagNodeOffline(curNode.ip)
+      this.flagNodeOffline(curNode.host)
 
       return this.pickNode()
     }
 
+    console.log("Picked node:", curNode.host)
+
     // remember the peers of the node and store them in the addressbook
-    this.discoverPeers(curNode.ip)
+    this.discoverPeers(curNode.host)
 
-    return curNode.ip
+    return curNode.host + ":" + TENDERMINT_RPC_PORT
   }
 
-  flagNodeOffline(ip) {
-    this.peers.find(p => p.ip === ip).state = "down"
+  flagNodeOffline(host) {
+    this.peers.find(p => p.host === host).state = "down"
   }
 
-  flagNodeIncompatible(ip) {
-    this.peers.find(p => p.ip === ip).state = "incompatible"
+  flagNodeIncompatible(host) {
+    this.peers.find(p => p.host === host).state = "incompatible"
   }
 
   resetNodes() {
@@ -109,17 +112,26 @@ module.exports = class Addressbook {
   }
 
   async discoverPeers(peerIP) {
-    let subPeers = (await axios.get(peerIP + "/net_info")).data.result.peers
-    let subPeersIPs = subPeers.map(peer => peer.node_info.listen_addr)
+    let subPeers = (await axios.get(
+      `http://${peerIP}:${TENDERMINT_RPC_PORT}/net_info`
+    )).data.result.peers
+    let subPeersHostnames = subPeers.map(peer => peer.node_info.listen_addr)
 
-    subPeersIPs
+    subPeersHostnames
       // check if we already know the peer
-      .filter(subPeerIP => !this.peerIsKnown(subPeerIP))
-      // prefix ip so url parser understands it as an url
-      .map(subPeerIP => "http://" + subPeerIP)
+      .filter(subPeerHostname => !this.peerIsKnown(subPeerHostname))
       // add new peers to state
-      .forEach(subPeerIP => {
-        this.addPeer(subPeerIP)
+      .forEach(subPeerHostname => {
+        this.addPeer(subPeerHostname)
       })
+
+    this.persistToDisc()
   }
+}
+
+function getHostname(peerURL) {
+  // some urls like from peers do not have a protocol specified and are therefor not correctly parsed
+  peerURL = peerURL.startsWith("http") ? peerURL : "http://" + peerURL
+  peerURL = url.parse(peerURL)
+  return peerURL.hostname
 }
