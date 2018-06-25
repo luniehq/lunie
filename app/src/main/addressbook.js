@@ -1,6 +1,7 @@
 const fs = require("fs-extra")
 const { join } = require("path")
 const axios = require("axios")
+const url = require("url")
 
 module.exports = class Addressbook {
   constructor(configPath, persistent_peers = []) {
@@ -10,25 +11,36 @@ module.exports = class Addressbook {
     this.loadFromDisc()
 
     // add persistent peers to already stored peers
-    persistent_peers.forEach(ip => {
-      if (!this.peers.find(p => p.ip === ip)) {
-        this.addPeer(this.peers, ip)
-      }
-    })
+    persistent_peers
+      .filter(peer => !this.peerIsKnown(peer))
+      .forEach(peer => this.addPeer(peer))
 
     this.persistToDisc()
   }
 
-  async ping(nodeIP) {
+  async ping(peerURL) {
+    console.log("Pinging node:", peerURL)
     return axios
-      .get("http://" + nodeIP, { timeout: 3000 })
+      .get("http://" + peerURL, { timeout: 3000 })
       .then(() => true, () => false)
   }
 
+  // check for substr as we prefix found urls with http for consistency and incoming peer urls could not have http
+  peerIsKnown(peerURL) {
+    let peerHost = url.parse(peerURL).hostname
+    return this.peers.find(peer => peer.ip.indexOf(peerHost) !== -1)
+  }
+
   // adds the new peer to the list of peers
-  addPeer(peerIP) {
+  addPeer(peerURL) {
+    peerURL = url.parse(peerURL)
+    let formatedURL = url.format({
+      protocol: "",
+      port: 46657,
+      hostname: peerURL.hostname
+    })
     this.peers.push({
-      ip: peerIP,
+      ip: formatedURL,
       // assume that new peers are available
       state: "available"
     })
@@ -97,16 +109,17 @@ module.exports = class Addressbook {
   }
 
   async discoverPeers(peerIP) {
-    let subPeersIPs = (await axios.get(peerIP + "/net_info/peers")).data
+    let subPeers = (await axios.get(peerIP + "/net_info")).data.result.peers
+    let subPeersIPs = subPeers.map(peer => peer.node_info.listen_addr)
 
-    // check if we already know the peer
-    let newPeerIPs = subPeersIPs.filter(
-      subPeerIP => !this.peers.find(peer => peer.ip === subPeerIP)
-    )
-
-    // add new peers to state
-    newPeerIPs.forEach(subPeerIP => {
-      this.addPeer(peerIPs, subPeerIP)
-    })
+    subPeersIPs
+      // check if we already know the peer
+      .filter(subPeerIP => !this.peerIsKnown(subPeerIP))
+      // prefix ip so url parser understands it as an url
+      .map(subPeerIP => "http://" + subPeerIP)
+      // add new peers to state
+      .forEach(subPeerIP => {
+        this.addPeer(subPeerIP)
+      })
   }
 }

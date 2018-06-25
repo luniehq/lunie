@@ -668,7 +668,7 @@ async function main() {
 
   // choose one random node to start from
   try {
-    nodeIP = addressbook.pickNode()
+    nodeIP = await addressbook.pickNode()
   } catch (err) {
     signalNoNodesAvailable()
     return
