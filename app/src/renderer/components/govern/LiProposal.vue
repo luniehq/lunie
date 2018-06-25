@@ -43,7 +43,7 @@ export default {
   &:hover
     background var(--hover-bg)
     .title
-      color var(--bright)
+      color var(--txt)
 
   .chart
     width 4rem

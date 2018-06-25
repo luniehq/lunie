@@ -26,15 +26,15 @@ export default { name: "ni-page-header" }
     display inline-block
 
 .ni-page-header-container
-  min-height 4.22rem
-  border-bottom px solid var(--bc)
   display flex
+  align-items center
+  justify-content space-between
+  padding 2rem 1rem 0 2rem
 
 .ni-page-header-text
   flex 1
   display flex
   min-width 0 // fix truncation
-  padding 11px 0 0 1rem
   align-items: center
 
   i.material-icons
@@ -47,9 +47,9 @@ export default { name: "ni-page-header" }
     text-overflow ellipsis
 
   h2
-    font-size xl
-    font-weight 500
-    color var(--bright)
+    font-size xxl
+    font-weight 400
+    color var(--txt)
 
 @media screen and (min-width: 1024px)
   .ni-page-header

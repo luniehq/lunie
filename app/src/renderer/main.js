@@ -1,6 +1,5 @@
 import Vue from "vue"
 import Electron from "vue-electron"
-import Resource from "vue-resource"
 import Router from "vue-router"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
@@ -35,7 +34,6 @@ Vue.config.errorHandler = (error, vm, info) => {
 }
 
 Vue.use(Electron)
-Vue.use(Resource)
 Vue.use(Router)
 Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
@@ -53,8 +51,14 @@ async function main() {
   store = Store({ node })
 
   ipcRenderer.on("error", (event, error) => {
-    store.commit("setModalError", true)
-    store.commit("setModalErrorMessage", error.message)
+    switch (error.code) {
+      case "NO_NODES_AVAILABLE":
+        store.commit("setModalNoNodes", true)
+        break
+      default:
+        store.commit("setModalError", true)
+        store.commit("setModalErrorMessage", error.message)
+    }
   })
   ipcRenderer.on("approve-hash", (event, hash) => {
     console.log(hash)

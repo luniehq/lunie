@@ -53,7 +53,7 @@ describe("NiConnectedNetwork", () => {
   })
   it("has a network tooltip for mockedConnector", () => {
     expect(wrapper.vm.networkTooltip).toBe(
-      "Note: `mock-chain` does not have real peers."
+      "Note: `offline demo` does not have real peers."
     )
   })
 
@@ -102,8 +102,21 @@ describe("NiConnectedNetwork", () => {
     wrapper = instance.wrapper
     store.state.node.mocked = false
     store.state.node.nodeIP = "123.123.123.123"
+    store.state.node.connected = true
     wrapper.update()
     expect(wrapper.vm.nodeAddress).toBe("123.123.123.123")
-    expect(wrapper.$el).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.vm.$el.outerHTML).toContain("123.123.123.123")
+  })
+
+  it("should close the menu if clicking on switch to live network intent", async () => {
+    store.commit("setActiveMenu", "app")
+    expect(store.state.config.activeMenu).toBe("app")
+    let spy = jest.spyOn(wrapper.vm, "closeMenu")
+    wrapper.vm.$el
+      .querySelector("#ni-connected-network_preferences-link")
+      .click()
+    expect(spy).toHaveBeenCalled()
+    expect(store.state.config.activeMenu).not.toBe("app")
   })
 })

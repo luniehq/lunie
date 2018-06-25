@@ -16,4 +16,66 @@ exports[`NiConnectedNetwork has the expected html structure 1`] = `
 </div>"
 `;
 
-exports[`NiConnectedNetwork shows the connected node 1`] = `undefined`;
+exports[`NiConnectedNetwork shows the connected node 1`] = `
+<div
+  class="ni-connected-network"
+  id="ni-connected-network"
+>
+  <div
+    class="ni-connected-network__connection"
+  >
+    <div
+      class="ni-connected-network__icon"
+      id="ni-connected-network__icon"
+    >
+      <i
+        class="material-icons"
+      >
+        wifi
+      </i>
+    </div>
+    <div
+      class="ni-connected-network__string"
+      id="ni-connected-network__string"
+    >
+      <span
+        class="desktop-only"
+      >
+        Connected to
+      </span>
+      <span
+        class="chain-id"
+      >
+         
+      </span>
+       via 
+      <span>
+        123.123.123.123
+      </span>
+      <a
+        class="desktop-only router-link-exact-active router-link-active"
+        href="#/preferences"
+        id="ni-connected-network_preferences-link"
+      >
+         (change network)
+      </a>
+    </div>
+  </div>
+  <div
+    class="ni-connected-network__string"
+    id="ni-connected-network__block"
+  >
+    <span
+      class="desktop-only"
+    >
+      Current Block:
+    </span>
+    <a
+      class=""
+      href="#/blocks"
+    >
+       #0
+    </a>
+  </div>
+</div>
+`;

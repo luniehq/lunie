@@ -23,7 +23,7 @@ const RpcClientMock = {
   status: cb =>
     cb(null, {
       latest_block_height: 42,
-      node_info: { network: "mock-chain" }
+      node_info: { network: "offline demo" }
     }),
   removeAllListeners: () => {},
   ws: {
@@ -67,7 +67,7 @@ function createBlockMeta(time, height) {
     header: { time, height },
     block_id: { hash: makeBlockHash() },
     height,
-    chain_id: "mock-chain",
+    chain_id: "offline demo",
     last_block_id: { hash: makeBlockHash() }
   }
 }
@@ -77,7 +77,7 @@ function createBlock(height) {
     hash: makeBlockHash(),
     header: {
       height,
-      chain_id: "mock-chain",
+      chain_id: "offline demo",
       last_block_id: {
         hash: makeBlockHash(),
         parts: { total: 0, hash: makeBlockHash() }
