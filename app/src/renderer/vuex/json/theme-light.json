@@ -1,14 +1,16 @@
 {
-  "app-fg": "#f3f3f3",
-  "app-bg": "#fff",
+  "app-fg": "hsl(0,0%,92%)",
+  "app-bg": "#f5f5f5",
+  "app-bg-light": "#fff",
   "app-bg-alpha": "hsla(233, 0%, 0%, 5%)",
-  "app-bg-light": "hsla(233, 0%, 0%, 5%)",
-  "bright": "#000",
-  "txt": "#333",
-  "dim": "#666",
+  "txt": "#000",
+  "dim": "#3b3b3b",
   "bc": "#ddd",
-  "bc-dim": "#eee",
-  "hover-bg": "#f3f3f3",
+  "bc-dim": "#cdcbcb",
+  "bc-light": "#dfdfdf",
+  "box-shadow": "hsla(0,0,80%,0.2)",
+  "hover-bg": "hsla(233, 88%, 90%, 0.2)",
   "input-bc": "hsl(233, 22%, 67%)",
-  "input-bc-hover": "hsl(233, 22%, 40%)"
+  "input-bc-hover": "hsl(233, 22%, 40%)",
+  "link": "hsl(233, 88%, 57%)"
 }
