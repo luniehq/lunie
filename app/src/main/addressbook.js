@@ -1,5 +1,5 @@
 const fs = require("fs-extra")
-const { join } = require("path")
+const { join, normalize } = require("path")
 const axios = require("axios")
 const url = require("url")
 
@@ -99,13 +99,9 @@ module.exports = class Addressbook {
     this.peers.find(p => p.host === host).state = "down"
   }
 
-  flagNodeIncompatible(host) {
-    this.peers.find(p => p.host === host).state = "incompatible"
-  }
-
   resetNodes() {
-    nodes = nodes.map(node =>
-      Object.assign({}, node, {
+    this.peers = this.peers.map(peer =>
+      Object.assign({}, peer, {
         state: "available"
       })
     )
