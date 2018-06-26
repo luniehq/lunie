@@ -1,6 +1,6 @@
 const { app, Menu } = require("electron")
 
-module.exports = function() {
+module.exports = function(mainWindow) {
   let template = [
     {
       label: "Cosmos Voyager",
@@ -8,7 +8,7 @@ module.exports = function() {
         {
           label: "About Cosmos Voyager",
           selector: "orderFrontStandardAboutPanel:",
-          click: openAboutMenu
+          click: () => openAboutMenu(mainWindow)
         },
         { type: "separator" },
         {
@@ -44,7 +44,7 @@ module.exports = function() {
   Menu.setApplicationMenu(menu)
 }
 
-function openAboutMenu() {
+function openAboutMenu(mainWindow) {
   if (process.platform === "darwin") return
-  window.open("/about.html", "about", "width=400,height=300")
+  mainWindow.webContents.send("open-about-menu")
 }
