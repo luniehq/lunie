@@ -47,7 +47,7 @@ export default ({ commit, node }) => {
 
   let actions = {
     reconnected({ state, dispatch }) {
-      if (state.balancesLoading) {
+      if (state.balancesLoading && state.address) {
         dispatch("queryWalletBalances")
       }
       if (state.historyLoading) {

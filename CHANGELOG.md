@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Configs for the gaia-6002 testnet @faboweb
-* Checking known nodes round robin and signaling an error if none are available @faboweb
+* Introduced addressbook to store found peers and to select nodes round robin @faboweb
 
 ### Changes
 
