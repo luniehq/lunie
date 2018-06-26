@@ -20,6 +20,7 @@ describe("LiDelegate", () => {
     store.commit("setAtoms", 1337)
     await store.dispatch("getDelegates")
     delegate = store.state.delegates.delegates[0]
+    delegate.percent_of_vote = "22%"
     wrapper.setData({ delegate })
   })
 

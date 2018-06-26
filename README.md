@@ -11,18 +11,22 @@
 
 💻 Voyager runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
 
-🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases).
+🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Voyager` icon to launch Voyager.
 
 ---
 
 ## Voyager Prerequisites
+
+### Docker
+
+Building Voyager and its dependencies requires [Docker](https://www.docker.com/get-docker) installed.
 
 #### Build Gaia (Cosmos SDK)
 
 Build the Gaia CLI (`gaiacli`) and full node (`gaiad`), which are part of the
 Cosmos SDK, with the following command:
 
-```shell
+```bash
 yarn build:gaia
 ```
 
@@ -57,7 +61,7 @@ To run Voyager on the default testnet (`gaia-5001`):
 $ yarn testnet
 ```
 
-To run Voyager on a specific testnet from the [testnets](https://github.com/tendermint/testnets) repo:
+To run Voyager on a specific testnet, see the [status page](https://github.com/cosmos/cosmos-sdk/blob/develop/cmd/gaia/testnets/STATUS.md) for a list of available testnets.
 
 ```bash
 $ yarn testnet <networkName>
@@ -84,11 +88,9 @@ $ COSMOS_NODE=localhost yarn testnet
 
 ### Building Voyager Binaries
 
-Building Voyager requires [Docker](https://www.docker.com/get-docker) installed.
-
 Here's an example build command:
 
-```shell
+```bash
 yarn run build --commit=HEAD --network=app/networks/gaia-5001
 ```
 
@@ -155,7 +157,6 @@ A list of all environment variables and their purpose:
 | ELECTRON_ENABLE_LOGGING | 'true', 'false'                        | 'false'                          | Redirect the browser view console output to the console                                 |
 | PREVIEW                 | 'true', 'false'                        | 'true' if NODE_ENV 'development' | Show/Hide features that are in development                                              |
 | COSMOS_E2E_KEEP_OPEN    | 'true', 'false'                        | 'false'                          | Keep the Window open in local E2E test to see the state in which the application broke. |
-| COSMOS_MOCKED           | 'true', 'false'                        | `app/config.toml` > mocked       | Start with a mocked connector. Overwrites the setting in `app/config.toml`.             |
 
 ## FAQ
 

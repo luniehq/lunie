@@ -142,6 +142,26 @@ describe("App without analytics", () => {
     ])
   })
 
+  it("show that there are no nodes available to connect to", async () => {
+    jest.resetModules()
+    const { ipcRenderer } = require("electron")
+    ipcRenderer.send = jest.fn()
+    let connectedCB
+    ipcRenderer.on = (type, cb) => {
+      if (type === "error") {
+        connectedCB = cb
+      }
+    }
+
+    let { store } = require("renderer/main.js")
+    await connectedCB(null, {
+      code: "NO_NODES_AVAILABLE",
+      message: "message"
+    })
+
+    expect(store.state.config.modals.nonodes.active).toBe(true)
+  })
+
   it("sends a successful-launch only on first start", async () => {
     jest.resetModules()
     const { ipcRenderer } = require("electron")
