@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Configs for the gaia-6002 testnet @faboweb
+* Introduced addressbook to store found peers and to select nodes round robin @faboweb
 
 ### Changes
 
@@ -17,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Updated loading icon and loading states @jolesbi
 * Removed COSMOS_MOCKED flag @faboweb
 * Improved readability and accessibility @jolesbi
-* Significant style / UI updates @jolesbi
+* Significant style and UI updates for dark and light themes @jolesbi
 * Doesn't show loading screen when validators are still stored @okwme
 
 ### Fixed
@@ -25,14 +26,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed bug in yarn build:gaia @zramsay
 * Increased version of localtestnet used for testing to match gaia @faboweb
 * Fixed padding issue in main container @faboweb
+* Wait for LCD to start serving at app startup to prevent timing errors @mappum
 * Fixed white flash on startup @okwme
 * Fixed critical dependency warning @okwme
 * Fixed theme bg bug @okwme
 * Fixed sorting bug on staking page @okwme
-
-### Added
-
-* Checking known nodes round robin and signaling an error if none are available @faboweb
 
 ## [0.7.0] - 2018-06-13
 
