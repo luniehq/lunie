@@ -307,6 +307,8 @@ exports[`PageSend has the expected html structure 1`] = `
                     <!---->
                   </div>
                 </div>
+                <!---->
+                <!---->
               </main>
             </div>
           </section>
@@ -656,6 +658,8 @@ exports[`PageSend should show address required error 1`] = `
                     </div>
                   </div>
                 </div>
+                <!---->
+                <!---->
               </main>
             </div>
           </section>
@@ -985,6 +989,8 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                     </div>
                   </div>
                 </div>
+                <!---->
+                <!---->
               </main>
             </div>
           </section>
@@ -1314,6 +1320,8 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                     </div>
                   </div>
                 </div>
+                <!---->
+                <!---->
               </main>
             </div>
           </section>
@@ -1643,6 +1651,8 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                     </div>
                   </div>
                 </div>
+                <!---->
+                <!---->
               </main>
             </div>
           </section>
@@ -1680,7 +1690,7 @@ Object {
   "body": "An error occurred while trying to send: \\"Cannot read property 'amount' of undefined\\"",
   "icon": "error",
   "layout": "alert",
-  "time": 1608,
+  "time": -1193998392,
   "title": "Error Sending",
   "type": "error",
 }
@@ -1987,6 +1997,8 @@ exports[`PageSend should work without providing a default denom 1`] = `
                     <!---->
                   </div>
                 </div>
+                <!---->
+                <!---->
               </main>
             </div>
           </section>
