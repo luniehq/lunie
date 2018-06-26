@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Use persistent peers and seeds from tendermint config @faboweb
 * Updated loading icon and loading states @jolesbi
+* more components moved to `@tendermint/ui` @okwme
 * Removed COSMOS_MOCKED flag @faboweb
 * Improved readability and accessibility @jolesbi
 * Significant style and UI updates for dark and light themes @jolesbi
@@ -26,11 +27,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed bug in yarn build:gaia @zramsay
 * Increased version of localtestnet used for testing to match gaia @faboweb
 * Fixed padding issue in main container @faboweb
+* Unit tests work with new components @okwme
 * Wait for LCD to start serving at app startup to prevent timing errors @mappum
 * Fixed white flash on startup @okwme
 * Fixed critical dependency warning @okwme
 * Fixed theme bg bug @okwme
 * Fixed sorting bug on staking page @okwme
+
+### Added
+
+* Checking known nodes round robin and signaling an error if none are available @faboweb
 
 ## [0.7.0] - 2018-06-13
 

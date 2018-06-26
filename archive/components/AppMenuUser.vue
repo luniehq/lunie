@@ -1,13 +1,13 @@
 <template lang="pug">
 modal-menu.app-menu-user(v-if="!config.desktop")
-  part(title='User Menu')
+  tm-part(title='User Menu')
     template(v-if="user.signedIn")
       list-item(to="/settings" exact @click.native="close" title="Settings")
       list-item(type="anchor" @click.native="signOut" title="Sign Out")
     template(v-else)
       list-item(type="anchor" @click.native="signIn" title="Sign In")
 modal-menu.app-menu-user(@click="close" v-else): .outer-wrapper: .inner-wrapper
-  part(title='User Menu')
+  tm-part(title='User Menu')
     template(v-if="user.signedIn")
       list-item(to="/settings" exact @click.native="close" title="Settings")
       list-item(type="anchor" @click.native="signOut" title="Sign Out")
@@ -20,13 +20,13 @@ import { mapGetters } from "vuex"
 import noScroll from "no-scroll"
 import ListItem from "common/NiListItem"
 import ModalMenu from "common/NiModalMenu"
-import Part from "common/NiPart"
+import { TmPart } from "@tendermint/ui"
 export default {
   name: "app-menu-user",
   components: {
     ListItem,
     ModalMenu,
-    Part
+    TmPart
   },
   computed: {
     ...mapGetters(["user", "config"])

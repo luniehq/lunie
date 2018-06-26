@@ -57,7 +57,7 @@ test("wallet", async function(t) {
     return app.client.waitForExist(balanceElemSlector, 20000).then(() =>
       $(balanceElemSlector)
         .$("..")
-        .$("div.ni-li-dd")
+        .$("div.tm-li-dd")
     )
   }
 
@@ -65,7 +65,7 @@ test("wallet", async function(t) {
     async function goToSendPage() {
       await navigate(app, "Wallet")
       await $("#part-available-balances")
-        .$(".ni-li-dt=FERMION")
+        .$(".tm-li-dt=FERMION")
         .$("..")
         .$("..")
         .click()
@@ -73,7 +73,7 @@ test("wallet", async function(t) {
 
     await navigate(app, "Wallet")
 
-    let sendBtn = () => $(".ni-form-footer button")
+    let sendBtn = () => $(".tm-form-footer button")
     let addressInput = () => $("#send-address")
     let amountInput = () => $("#send-amount")
     let denomBtn = denom => $(`option=${denom.toUpperCase()}`)
@@ -166,8 +166,8 @@ test("wallet", async function(t) {
         "cosmosaccaddr1xrnylx3l5mptnpjd4h0d52wtvealsdnv5k77n8"
       )
       await sendBtn().click()
-      await app.client.waitForExist(".ni-notification", 10 * 1000)
-      let msg = await app.client.$(".ni-notification .body").getText()
+      await app.client.waitForExist(".tm-notification", 10 * 1000)
+      let msg = await app.client.$(".tm-notification .body").getText()
       console.log("msg", msg)
       t.ok(msg.includes("Success"), "Send successful")
       // close the notifications to have a clean setup for the next tests

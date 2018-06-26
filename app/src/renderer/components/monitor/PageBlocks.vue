@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Block Explorer')
+tm-page(title='Block Explorer')
   div(slot="menu"): tool-bar
     a(@click='setSearch()' v-tooltip.bottom="'Search Block'" :disabled="!somethingToSearch")
       i.material-icons search
@@ -9,14 +9,14 @@ page(title='Block Explorer')
   data-loading(v-if="blockchain.syncing" title="Node is syncing blockchain…")
   data-loading(v-if="!blockchain.syncing && !blockchain.subscription")
 
-  part(title='Current Block' v-if="blockchain.subscription")
-    list-item(dt='Block Height' :dd='num.prettyInt(lastHeader.height)' :to="{ name: 'block', params: { block: lastHeader.height} }")
-    list-item(dt='Block Time' :dd='latestBlockTime')
-    list-item(dt='Block Hash' :dd='latestBlockHash')
+  tm-part(title='Current Block' v-if="blockchain.subscription")
+    tm-list-item(dt='Block Height' :dd='num.prettyInt(lastHeader.height)' :to="{ name: 'block', params: { block: lastHeader.height} }")
+    tm-list-item(dt='Block Time' :dd='latestBlockTime')
+    tm-list-item(dt='Block Hash' :dd='latestBlockHash')
 
-  part(title='Latest Blocks' v-if="blockchain.subscription")
-    list-item.column-header(dt="Block Height" dd="# of Transactions")
-    list-item(
+  tm-part(title='Latest Blocks' v-if="blockchain.subscription")
+    tm-list-item.column-header(dt="Block Height" dd="# of Transactions")
+    tm-list-item(
       v-for="block in blocks"
       :key="block.header.height"
       :dt="num.prettyInt(block.header.height)"
@@ -29,21 +29,19 @@ import moment from "moment"
 import Mousetrap from "mousetrap"
 import num from "scripts/num"
 import { mapGetters } from "vuex"
-import ListItem from "common/NiListItem"
-import DataError from "common/NiDataError"
-import DataLoading from "common/NiDataLoading"
-import Page from "common/NiPage"
-import Part from "common/NiPart"
-import ToolBar from "common/NiToolBar"
-import ModalSearch from "common/NiModalSearch"
+import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
+import DataError from "common/TmDataError"
+import DataLoading from "common/TmDataLoading"
+import ToolBar from "common/TmToolBar"
+import ModalSearch from "common/TmModalSearch"
 export default {
   name: "page-blocks",
   components: {
-    ListItem,
+    TmListItem,
     DataError,
     DataLoading,
-    Page,
-    Part,
+    TmPage,
+    TmPart,
     ToolBar,
     ModalSearch
   },
@@ -83,8 +81,8 @@ export default {
 @require '~variables'
 
 .column-header
-  .ni-li-dd,
-  .ni-li-dt
+  .tm-li-dd,
+  .tm-li-dt
     font-size sm
     color var(--dim)
 </style>

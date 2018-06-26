@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`NiFieldGroup has the expected html structure 1`] = `
-"<div class=\\"ni-field-group\\">
-   <input placeholder=\\"Fake\\" class=\\"fake-field\\">
-</div>"
-`;

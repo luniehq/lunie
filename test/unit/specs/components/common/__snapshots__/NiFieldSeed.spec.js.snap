@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`NiFieldSeed has the expected html structure 1`] = `"<textarea class=\\"ni-field-seed ni-field\\" style=\\"overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;\\"></textarea>"`;

@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Staking')
+tm-page(title='Staking')
   div(slot="menu"): tool-bar
     a(@click='updateDelegates()' v-tooltip.bottom="'Refresh'")
       i.material-icons refresh
@@ -19,10 +19,10 @@ page(title='Staking')
   .fixed-button-bar(v-if="!delegates.loading")
     template(v-if="userCanDelegate")
       .label #[strong {{ shoppingCart.length }}] delegates selected
-      btn(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next" color="primary")
+      tm-btn(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next" color="primary")
     template(v-else)
       .label You do not have any ATOMs to delegate.
-      btn(disabled icon="chevron_right" icon-pos="right" value="Next" color="primary")
+      tm-btn(disabled icon="chevron_right" icon-pos="right" value="Next" color="primary")
 </template>
 
 <script>
@@ -31,28 +31,24 @@ import num from "scripts/num"
 import { includes, orderBy, forEach } from "lodash"
 import Mousetrap from "mousetrap"
 import LiDelegate from "staking/LiDelegate"
-import Btn from "@nylira/vue-button"
-import DataEmpty from "common/NiDataEmpty"
-import DataEmptySearch from "common/NiDataEmptySearch"
-import DataLoading from "common/NiDataLoading"
-import Field from "@nylira/vue-field"
-import ModalSearch from "common/NiModalSearch"
-import Page from "common/NiPage"
-import Part from "common/NiPart"
+import { TmBtn, TmPage } from "@tendermint/ui"
+import DataEmpty from "common/TmDataEmpty"
+import DataEmptySearch from "common/TmDataEmptySearch"
+import DataLoading from "common/TmDataLoading"
+
+import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
-import ToolBar from "common/NiToolBar"
+import ToolBar from "common/TmToolBar"
 export default {
   name: "page-staking",
   components: {
     LiDelegate,
-    Btn,
+    TmBtn,
     DataEmpty,
     DataEmptySearch,
     DataLoading,
-    Field,
     ModalSearch,
-    Page,
-    Part,
+    TmPage,
     PanelSort,
     ToolBar
   },

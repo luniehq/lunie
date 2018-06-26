@@ -66,17 +66,17 @@ function launch(t) {
       })
 
       // TODO: use approval element once we restore initting
-      //       (".ni-modal-lcd-approval")
-      let initialElement = ".ni-session-wrapper"
+      //       (".tm-modal-lcd-approval")
+      let initialElement = ".tm-session-wrapper"
       await startApp(app, initialElement)
       t.ok(app.isRunning(), "app is running")
 
       // TODO: uncomment below once we restore initting
 
       // accept node hash
-      // await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
+      // await app.client.$("#tm-modal-lcd-approval__btn-approve").click()
       // await app.client.waitForExist(
-      //   ".ni-session-title=Sign in to Cosmos Voyager",
+      //   ".tm-session-title=Sign in to Cosmos Voyager",
       //   5000
       // )
 
@@ -87,9 +87,9 @@ function launch(t) {
       t.ok(app.isRunning(), "app recovers from uninitialized gaia")
 
       // accept node hash
-      // await app.client.$("#ni-modal-lcd-approval__btn-approve").click()
+      // await app.client.$("#tm-modal-lcd-approval__btn-approve").click()
       // await app.client.waitForExist(
-      //   ".ni-session-title=Sign in to Cosmos Voyager",
+      //   ".tm-session-title=Sign in to Cosmos Voyager",
       //   5000
       // )
       // console.log("approved hash")
@@ -107,7 +107,7 @@ function launch(t) {
       )
       console.log("setup test accounts")
 
-      await startApp(app, ".ni-session-title=Sign In")
+      await startApp(app, ".tm-session-title=Sign In")
       t.ok(app.isRunning(), "app is running")
 
       // disable the onboarding wizard
@@ -167,7 +167,7 @@ async function writeLogs(app, location) {
   console.log("Wrote renderer process log to", rendererProcessLogLocation)
 }
 
-async function startApp(app, awaitingSelector = ".ni-session") {
+async function startApp(app, awaitingSelector = ".tm-session") {
   await app.start()
 
   await app.client.waitForExist(awaitingSelector, 10 * 1000).catch(async e => {
@@ -256,12 +256,12 @@ async function createAccount(name, seed) {
 
 module.exports = {
   getApp: launch,
-  restart: async function(app, awaitingSelector = ".ni-session-title=Sign In") {
+  restart: async function(app, awaitingSelector = ".tm-session-title=Sign In") {
     console.log("restarting app")
     await stop(app)
     await startApp(app, awaitingSelector)
   },
-  refresh: async function(app, awaitingSelector = ".ni-session-title=Sign In") {
+  refresh: async function(app, awaitingSelector = ".tm-session-title=Sign In") {
     console.log("refreshing app")
     await app.restart()
     await app.client.waitForExist(awaitingSelector, 5000)

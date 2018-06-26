@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`NiFormMsg has the expected html structure 1`] = `
-"<div class=\\"ni-form-msg sm ni-form-msg--error\\">
-   Password must be between 16 and 255 characters
-</div>"
-`;

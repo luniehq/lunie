@@ -29,7 +29,7 @@ test("preferences", async function(t) {
     let networkSelect = () => $("#select-network select")
     let themeSelect = () => $("#select-theme select")
     let tutorialBtn = () => $("#toggle-onboarding")
-    let statisticsToggle = () => $("label.ni-toggle")
+    let statisticsToggle = () => $("label.tm-toggle")
 
     t.test("default network", async function(t) {
       let option = await networkSelect().getValue()
@@ -38,14 +38,14 @@ test("preferences", async function(t) {
     })
     t.test("mock network", async function(t) {
       await selectOption(app, "#select-network select", "mock")
-      await app.client.waitForVisible(".ni-session-wrapper", 5000)
+      await app.client.waitForVisible(".tm-session-wrapper", 5000)
 
       await login(app, "default")
       await navigateToPreferences(app) //should click preferences link with username
 
       await sleep(1000)
       let network = await app.client
-        .$("#ni-connected-network__string")
+        .$("#tm-connected-network__string")
         .getHTML()
       t.ok(
         network.indexOf("offline demo") !== -1,

@@ -2,26 +2,26 @@
 
 exports[`PageSend has the expected html structure 1`] = `
 <div
-  class="ni-page"
+  class="tm-page"
 >
   <header
-    class="ni-page-header"
+    class="tm-page-header"
   >
     <div
-      class="ni-page-header-container"
+      class="tm-page-header-container"
     >
       <div
-        class="ni-page-header-text"
+        class="tm-page-header-text"
       >
         <div
-          class="ni-page-header-title"
+          class="tm-page-header-title"
         >
           <h2>
             Send
           </h2>
         </div>
         <div
-          class="ni-page-header-subtitle"
+          class="tm-page-header-subtitle"
         >
           <h3>
             
@@ -29,46 +29,47 @@ exports[`PageSend has the expected html structure 1`] = `
         </div>
       </div>
       <menu
-        class="ni-page-header-menu"
+        class="tm-page-header-menu"
       >
         <div>
           <div>
             <div
-              class="ni-tool-bar"
+              class="tm-tool-bar"
             >
               <div
-                class="ni-tool-bar-container"
+                class="tm-tool-bar-container"
               >
                 <div
                   class="main"
-                />
-                <a
-                  class="back"
                 >
-                  <i
-                    class="material-icons"
+                  <a
+                    class="back"
                   >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
                   >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
                   >
-                    exit_to_app
-                  </i>
-                </a>
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -77,62 +78,62 @@ exports[`PageSend has the expected html structure 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main ps"
+    class="tm-page-main ps"
   >
     <form
-      class="ni-form"
+      class="tm-form"
     >
       <div
-        class="ni-form-container"
+        class="tm-form-container"
       >
         <!---->
         <main
-          class="ni-form-main"
+          class="tm-form-main"
         >
           <section
-            class="ni-part"
+            class="tm-part"
           >
             <div
-              class="ni-part-container"
+              class="tm-part-container"
             >
               <header
-                class="ni-part-header"
+                class="tm-part-header"
               >
                 <div
-                  class="ni-part-header-container"
+                  class="tm-part-header-container"
                 >
                   <div
-                    class="ni-part-title h5"
+                    class="tm-part-title h5"
                   >
                     Denomination Options
                   </div>
                   <menu
-                    class="ni-part-menu"
+                    class="tm-part-menu"
                   />
                 </div>
               </header>
               <main
-                class="ni-part-main"
+                class="tm-part-main"
               >
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-denomination"
                   >
                     Denomination
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
                       class="ni-select"
                       id="send-denomination"
                     >
                       <select
-                        class="ni-field ni-field-select"
+                        class="tm-field tm-field-select"
                       >
                         <option
                           disabled="disabled"
@@ -154,7 +155,7 @@ exports[`PageSend has the expected html structure 1`] = `
                         </option>
                       </select>
                       <div
-                        class="ni-field-select-addon"
+                        class="tm-field-select-addon"
                       >
                         <i
                           class="material-icons"
@@ -170,49 +171,49 @@ exports[`PageSend has the expected html structure 1`] = `
             </div>
           </section>
           <section
-            class="ni-part"
+            class="tm-part"
           >
             <div
-              class="ni-part-container"
+              class="tm-part-container"
             >
               <header
-                class="ni-part-header"
+                class="tm-part-header"
               >
                 <div
-                  class="ni-part-header-container"
+                  class="tm-part-header-container"
                 >
                   <div
-                    class="ni-part-title h5"
+                    class="tm-part-title h5"
                   >
                     Transaction Details
                   </div>
                   <menu
-                    class="ni-part-menu"
+                    class="tm-part-menu"
                   />
                 </div>
               </header>
               <main
-                class="ni-part-main"
+                class="tm-part-main"
               >
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-zone-id"
                   >
                     Zone ID
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
                       class="ni-select"
                       id="send-zone-id"
                     >
                       <select
-                        class="ni-field ni-field-select"
+                        class="tm-field tm-field-select"
                       >
                         <option
                           disabled="disabled"
@@ -234,7 +235,7 @@ exports[`PageSend has the expected html structure 1`] = `
                         </option>
                       </select>
                       <div
-                        class="ni-field-select-addon"
+                        class="tm-field-select-addon"
                       >
                         <i
                           class="material-icons"
@@ -247,60 +248,60 @@ exports[`PageSend has the expected html structure 1`] = `
                   </div>
                 </div>
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-address"
                   >
                     Send To
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
-                      class="ni-field-group"
+                      class="tm-field-group"
                     >
                       <input
-                        class="ni-field"
+                        class="tm-field"
                         id="send-address"
                         placeholder="Address"
                         type="text"
                       />
                     </div>
                     <div
-                      class="ni-form-msg sm ni-form-msg--error"
+                      class="tm-form-msg sm tm-form-msg--error"
                     >
                       Address is required
                     </div>
                   </div>
                 </div>
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-amount"
                   >
                     Amount
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
-                      class="ni-field-group"
+                      class="tm-field-group"
                     >
                       <input
-                        class="ni-field"
+                        class="tm-field"
                         id="send-amount"
                         placeholder="Amount"
                         type="number"
                       />
                     </div>
                     <div
-                      class="ni-form-msg sm ni-form-msg--error"
+                      class="tm-form-msg sm tm-form-msg--error"
                     >
                       Amount is required
                     </div>
@@ -312,20 +313,20 @@ exports[`PageSend has the expected html structure 1`] = `
           </section>
         </main>
         <footer
-          class="ni-form-footer"
+          class="tm-form-footer"
         >
           <div>
             <div />
             <button
-              class="ni-btn"
+              class="tm-btn"
             >
               <span
-                class="ni-btn__container ni-btn--primary"
+                class="tm-btn__container tm-btn--primary"
               >
                 <!---->
                 <!---->
                 <span
-                  class="ni-btn__value"
+                  class="tm-btn__value"
                 >
                   Send Tokens
                 </span>
@@ -361,26 +362,26 @@ exports[`PageSend has the expected html structure 1`] = `
 
 exports[`PageSend should show address required error 1`] = `
 <div
-  class="ni-page"
+  class="tm-page"
 >
   <header
-    class="ni-page-header"
+    class="tm-page-header"
   >
     <div
-      class="ni-page-header-container"
+      class="tm-page-header-container"
     >
       <div
-        class="ni-page-header-text"
+        class="tm-page-header-text"
       >
         <div
-          class="ni-page-header-title"
+          class="tm-page-header-title"
         >
           <h2>
             Send
           </h2>
         </div>
         <div
-          class="ni-page-header-subtitle"
+          class="tm-page-header-subtitle"
         >
           <h3>
             
@@ -388,46 +389,47 @@ exports[`PageSend should show address required error 1`] = `
         </div>
       </div>
       <menu
-        class="ni-page-header-menu"
+        class="tm-page-header-menu"
       >
         <div>
           <div>
             <div
-              class="ni-tool-bar"
+              class="tm-tool-bar"
             >
               <div
-                class="ni-tool-bar-container"
+                class="tm-tool-bar-container"
               >
                 <div
                   class="main"
-                />
-                <a
-                  class="back"
                 >
-                  <i
-                    class="material-icons"
+                  <a
+                    class="back"
                   >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
                   >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
                   >
-                    exit_to_app
-                  </i>
-                </a>
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -436,62 +438,62 @@ exports[`PageSend should show address required error 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main"
+    class="tm-page-main"
   >
     <form
-      class="ni-form"
+      class="tm-form"
     >
       <div
-        class="ni-form-container"
+        class="tm-form-container"
       >
         <!---->
         <main
-          class="ni-form-main"
+          class="tm-form-main"
         >
           <section
-            class="ni-part"
+            class="tm-part"
           >
             <div
-              class="ni-part-container"
+              class="tm-part-container"
             >
               <header
-                class="ni-part-header"
+                class="tm-part-header"
               >
                 <div
-                  class="ni-part-header-container"
+                  class="tm-part-header-container"
                 >
                   <div
-                    class="ni-part-title h5"
+                    class="tm-part-title h5"
                   >
                     Denomination Options
                   </div>
                   <menu
-                    class="ni-part-menu"
+                    class="tm-part-menu"
                   />
                 </div>
               </header>
               <main
-                class="ni-part-main"
+                class="tm-part-main"
               >
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-denomination"
                   >
                     Denomination
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
                       class="ni-select"
                       id="send-denomination"
                     >
                       <select
-                        class="ni-field ni-field-select"
+                        class="tm-field tm-field-select"
                       >
                         <option
                           disabled="disabled"
@@ -503,7 +505,7 @@ exports[`PageSend should show address required error 1`] = `
                         </option>
                       </select>
                       <div
-                        class="ni-field-select-addon"
+                        class="tm-field-select-addon"
                       >
                         <i
                           class="material-icons"
@@ -519,49 +521,49 @@ exports[`PageSend should show address required error 1`] = `
             </div>
           </section>
           <section
-            class="ni-part"
+            class="tm-part"
           >
             <div
-              class="ni-part-container"
+              class="tm-part-container"
             >
               <header
-                class="ni-part-header"
+                class="tm-part-header"
               >
                 <div
-                  class="ni-part-header-container"
+                  class="tm-part-header-container"
                 >
                   <div
-                    class="ni-part-title h5"
+                    class="tm-part-title h5"
                   >
                     Transaction Details
                   </div>
                   <menu
-                    class="ni-part-menu"
+                    class="tm-part-menu"
                   />
                 </div>
               </header>
               <main
-                class="ni-part-main"
+                class="tm-part-main"
               >
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-zone-id"
                   >
                     Zone ID
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
                       class="ni-select"
                       id="send-zone-id"
                     >
                       <select
-                        class="ni-field ni-field-select"
+                        class="tm-field tm-field-select"
                       >
                         <option
                           disabled="disabled"
@@ -583,7 +585,7 @@ exports[`PageSend should show address required error 1`] = `
                         </option>
                       </select>
                       <div
-                        class="ni-field-select-addon"
+                        class="tm-field-select-addon"
                       >
                         <i
                           class="material-icons"
@@ -596,53 +598,53 @@ exports[`PageSend should show address required error 1`] = `
                   </div>
                 </div>
                 <div
-                  class="ni-form-group ni-form-group--error"
+                  class="tm-form-group tm-form-group--error"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-address"
                   >
                     Send To
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
-                      class="ni-field-group"
+                      class="tm-field-group"
                     >
                       <input
-                        class="ni-field"
+                        class="tm-field"
                         id="send-address"
                         placeholder="Address"
                         type="text"
                       />
                     </div>
                     <div
-                      class="ni-form-msg sm ni-form-msg--error"
+                      class="tm-form-msg sm tm-form-msg--error"
                     >
                       Address is required
                     </div>
                   </div>
                 </div>
                 <div
-                  class="ni-form-group ni-form-group--error"
+                  class="tm-form-group tm-form-group--error"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-amount"
                   >
                     Amount
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
-                      class="ni-field-group"
+                      class="tm-field-group"
                     >
                       <input
-                        class="ni-field"
+                        class="tm-field"
                         id="send-amount"
                         placeholder="Amount"
                         type="number"
@@ -650,7 +652,7 @@ exports[`PageSend should show address required error 1`] = `
                     </div>
                     <!---->
                     <div
-                      class="ni-form-msg sm ni-form-msg--error"
+                      class="tm-form-msg sm tm-form-msg--error"
                     >
                       Amount must be between 0 and 0
                     </div>
@@ -661,20 +663,20 @@ exports[`PageSend should show address required error 1`] = `
           </section>
         </main>
         <footer
-          class="ni-form-footer"
+          class="tm-form-footer"
         >
           <div>
             <div />
             <button
-              class="ni-btn"
+              class="tm-btn"
             >
               <span
-                class="ni-btn__container ni-btn--primary"
+                class="tm-btn__container tm-btn--primary"
               >
                 <!---->
                 <!---->
                 <span
-                  class="ni-btn__value"
+                  class="tm-btn__value"
                 >
                   Send Tokens
                 </span>
@@ -690,26 +692,26 @@ exports[`PageSend should show address required error 1`] = `
 
 exports[`PageSend should show bech32 error when address length is too long 1`] = `
 <div
-  class="ni-page"
+  class="tm-page"
 >
   <header
-    class="ni-page-header"
+    class="tm-page-header"
   >
     <div
-      class="ni-page-header-container"
+      class="tm-page-header-container"
     >
       <div
-        class="ni-page-header-text"
+        class="tm-page-header-text"
       >
         <div
-          class="ni-page-header-title"
+          class="tm-page-header-title"
         >
           <h2>
             Send
           </h2>
         </div>
         <div
-          class="ni-page-header-subtitle"
+          class="tm-page-header-subtitle"
         >
           <h3>
             
@@ -717,46 +719,47 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
         </div>
       </div>
       <menu
-        class="ni-page-header-menu"
+        class="tm-page-header-menu"
       >
         <div>
           <div>
             <div
-              class="ni-tool-bar"
+              class="tm-tool-bar"
             >
               <div
-                class="ni-tool-bar-container"
+                class="tm-tool-bar-container"
               >
                 <div
                   class="main"
-                />
-                <a
-                  class="back"
                 >
-                  <i
-                    class="material-icons"
+                  <a
+                    class="back"
                   >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
                   >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
                   >
-                    exit_to_app
-                  </i>
-                </a>
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -765,62 +768,62 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
     </div>
   </header>
   <main
-    class="ni-page-main"
+    class="tm-page-main"
   >
     <form
-      class="ni-form"
+      class="tm-form"
     >
       <div
-        class="ni-form-container"
+        class="tm-form-container"
       >
         <!---->
         <main
-          class="ni-form-main"
+          class="tm-form-main"
         >
           <section
-            class="ni-part"
+            class="tm-part"
           >
             <div
-              class="ni-part-container"
+              class="tm-part-container"
             >
               <header
-                class="ni-part-header"
+                class="tm-part-header"
               >
                 <div
-                  class="ni-part-header-container"
+                  class="tm-part-header-container"
                 >
                   <div
-                    class="ni-part-title h5"
+                    class="tm-part-title h5"
                   >
                     Denomination Options
                   </div>
                   <menu
-                    class="ni-part-menu"
+                    class="tm-part-menu"
                   />
                 </div>
               </header>
               <main
-                class="ni-part-main"
+                class="tm-part-main"
               >
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-denomination"
                   >
                     Denomination
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
                       class="ni-select"
                       id="send-denomination"
                     >
                       <select
-                        class="ni-field ni-field-select"
+                        class="tm-field tm-field-select"
                       >
                         <option
                           disabled="disabled"
@@ -832,7 +835,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                         </option>
                       </select>
                       <div
-                        class="ni-field-select-addon"
+                        class="tm-field-select-addon"
                       >
                         <i
                           class="material-icons"
@@ -848,49 +851,49 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
             </div>
           </section>
           <section
-            class="ni-part"
+            class="tm-part"
           >
             <div
-              class="ni-part-container"
+              class="tm-part-container"
             >
               <header
-                class="ni-part-header"
+                class="tm-part-header"
               >
                 <div
-                  class="ni-part-header-container"
+                  class="tm-part-header-container"
                 >
                   <div
-                    class="ni-part-title h5"
+                    class="tm-part-title h5"
                   >
                     Transaction Details
                   </div>
                   <menu
-                    class="ni-part-menu"
+                    class="tm-part-menu"
                   />
                 </div>
               </header>
               <main
-                class="ni-part-main"
+                class="tm-part-main"
               >
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-zone-id"
                   >
                     Zone ID
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
                       class="ni-select"
                       id="send-zone-id"
                     >
                       <select
-                        class="ni-field ni-field-select"
+                        class="tm-field tm-field-select"
                       >
                         <option
                           disabled="disabled"
@@ -912,7 +915,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                         </option>
                       </select>
                       <div
-                        class="ni-field-select-addon"
+                        class="tm-field-select-addon"
                       >
                         <i
                           class="material-icons"
@@ -925,53 +928,53 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                   </div>
                 </div>
                 <div
-                  class="ni-form-group ni-form-group--error"
+                  class="tm-form-group tm-form-group--error"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-address"
                   >
                     Send To
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
-                      class="ni-field-group"
+                      class="tm-field-group"
                     >
                       <input
-                        class="ni-field"
+                        class="tm-field"
                         id="send-address"
                         placeholder="Address"
                         type="text"
                       />
                     </div>
                     <div
-                      class="ni-form-msg sm ni-form-msg--error"
+                      class="tm-form-msg sm tm-form-msg--error"
                     >
                       Address is invalid (No separator character for asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf)
                     </div>
                   </div>
                 </div>
                 <div
-                  class="ni-form-group ni-form-group--error"
+                  class="tm-form-group tm-form-group--error"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-amount"
                   >
                     Amount
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
-                      class="ni-field-group"
+                      class="tm-field-group"
                     >
                       <input
-                        class="ni-field"
+                        class="tm-field"
                         id="send-amount"
                         placeholder="Amount"
                         type="number"
@@ -979,7 +982,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                     </div>
                     <!---->
                     <div
-                      class="ni-form-msg sm ni-form-msg--error"
+                      class="tm-form-msg sm tm-form-msg--error"
                     >
                       Amount must be between 0 and 0
                     </div>
@@ -990,20 +993,20 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
           </section>
         </main>
         <footer
-          class="ni-form-footer"
+          class="tm-form-footer"
         >
           <div>
             <div />
             <button
-              class="ni-btn"
+              class="tm-btn"
             >
               <span
-                class="ni-btn__container ni-btn--primary"
+                class="tm-btn__container tm-btn--primary"
               >
                 <!---->
                 <!---->
                 <span
-                  class="ni-btn__value"
+                  class="tm-btn__value"
                 >
                   Send Tokens
                 </span>
@@ -1019,26 +1022,26 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
 
 exports[`PageSend should show bech32 error when address length is too short 1`] = `
 <div
-  class="ni-page"
+  class="tm-page"
 >
   <header
-    class="ni-page-header"
+    class="tm-page-header"
   >
     <div
-      class="ni-page-header-container"
+      class="tm-page-header-container"
     >
       <div
-        class="ni-page-header-text"
+        class="tm-page-header-text"
       >
         <div
-          class="ni-page-header-title"
+          class="tm-page-header-title"
         >
           <h2>
             Send
           </h2>
         </div>
         <div
-          class="ni-page-header-subtitle"
+          class="tm-page-header-subtitle"
         >
           <h3>
             
@@ -1046,46 +1049,47 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
         </div>
       </div>
       <menu
-        class="ni-page-header-menu"
+        class="tm-page-header-menu"
       >
         <div>
           <div>
             <div
-              class="ni-tool-bar"
+              class="tm-tool-bar"
             >
               <div
-                class="ni-tool-bar-container"
+                class="tm-tool-bar-container"
               >
                 <div
                   class="main"
-                />
-                <a
-                  class="back"
                 >
-                  <i
-                    class="material-icons"
+                  <a
+                    class="back"
                   >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
                   >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
                   >
-                    exit_to_app
-                  </i>
-                </a>
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -1094,62 +1098,62 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
     </div>
   </header>
   <main
-    class="ni-page-main"
+    class="tm-page-main"
   >
     <form
-      class="ni-form"
+      class="tm-form"
     >
       <div
-        class="ni-form-container"
+        class="tm-form-container"
       >
         <!---->
         <main
-          class="ni-form-main"
+          class="tm-form-main"
         >
           <section
-            class="ni-part"
+            class="tm-part"
           >
             <div
-              class="ni-part-container"
+              class="tm-part-container"
             >
               <header
-                class="ni-part-header"
+                class="tm-part-header"
               >
                 <div
-                  class="ni-part-header-container"
+                  class="tm-part-header-container"
                 >
                   <div
-                    class="ni-part-title h5"
+                    class="tm-part-title h5"
                   >
                     Denomination Options
                   </div>
                   <menu
-                    class="ni-part-menu"
+                    class="tm-part-menu"
                   />
                 </div>
               </header>
               <main
-                class="ni-part-main"
+                class="tm-part-main"
               >
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-denomination"
                   >
                     Denomination
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
                       class="ni-select"
                       id="send-denomination"
                     >
                       <select
-                        class="ni-field ni-field-select"
+                        class="tm-field tm-field-select"
                       >
                         <option
                           disabled="disabled"
@@ -1161,7 +1165,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                         </option>
                       </select>
                       <div
-                        class="ni-field-select-addon"
+                        class="tm-field-select-addon"
                       >
                         <i
                           class="material-icons"
@@ -1177,49 +1181,49 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
             </div>
           </section>
           <section
-            class="ni-part"
+            class="tm-part"
           >
             <div
-              class="ni-part-container"
+              class="tm-part-container"
             >
               <header
-                class="ni-part-header"
+                class="tm-part-header"
               >
                 <div
-                  class="ni-part-header-container"
+                  class="tm-part-header-container"
                 >
                   <div
-                    class="ni-part-title h5"
+                    class="tm-part-title h5"
                   >
                     Transaction Details
                   </div>
                   <menu
-                    class="ni-part-menu"
+                    class="tm-part-menu"
                   />
                 </div>
               </header>
               <main
-                class="ni-part-main"
+                class="tm-part-main"
               >
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-zone-id"
                   >
                     Zone ID
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
                       class="ni-select"
                       id="send-zone-id"
                     >
                       <select
-                        class="ni-field ni-field-select"
+                        class="tm-field tm-field-select"
                       >
                         <option
                           disabled="disabled"
@@ -1241,7 +1245,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                         </option>
                       </select>
                       <div
-                        class="ni-field-select-addon"
+                        class="tm-field-select-addon"
                       >
                         <i
                           class="material-icons"
@@ -1254,53 +1258,53 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                   </div>
                 </div>
                 <div
-                  class="ni-form-group ni-form-group--error"
+                  class="tm-form-group tm-form-group--error"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-address"
                   >
                     Send To
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
-                      class="ni-field-group"
+                      class="tm-field-group"
                     >
                       <input
-                        class="ni-field"
+                        class="tm-field"
                         id="send-address"
                         placeholder="Address"
                         type="text"
                       />
                     </div>
                     <div
-                      class="ni-form-msg sm ni-form-msg--error"
+                      class="tm-form-msg sm tm-form-msg--error"
                     >
                       Address is invalid (asdf too short)
                     </div>
                   </div>
                 </div>
                 <div
-                  class="ni-form-group ni-form-group--error"
+                  class="tm-form-group tm-form-group--error"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-amount"
                   >
                     Amount
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
-                      class="ni-field-group"
+                      class="tm-field-group"
                     >
                       <input
-                        class="ni-field"
+                        class="tm-field"
                         id="send-amount"
                         placeholder="Amount"
                         type="number"
@@ -1308,7 +1312,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                     </div>
                     <!---->
                     <div
-                      class="ni-form-msg sm ni-form-msg--error"
+                      class="tm-form-msg sm tm-form-msg--error"
                     >
                       Amount must be between 0 and 0
                     </div>
@@ -1319,20 +1323,20 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
           </section>
         </main>
         <footer
-          class="ni-form-footer"
+          class="tm-form-footer"
         >
           <div>
             <div />
             <button
-              class="ni-btn"
+              class="tm-btn"
             >
               <span
-                class="ni-btn__container ni-btn--primary"
+                class="tm-btn__container tm-btn--primary"
               >
                 <!---->
                 <!---->
                 <span
-                  class="ni-btn__value"
+                  class="tm-btn__value"
                 >
                   Send Tokens
                 </span>
@@ -1348,26 +1352,26 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
 
 exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
 <div
-  class="ni-page"
+  class="tm-page"
 >
   <header
-    class="ni-page-header"
+    class="tm-page-header"
   >
     <div
-      class="ni-page-header-container"
+      class="tm-page-header-container"
     >
       <div
-        class="ni-page-header-text"
+        class="tm-page-header-text"
       >
         <div
-          class="ni-page-header-title"
+          class="tm-page-header-title"
         >
           <h2>
             Send
           </h2>
         </div>
         <div
-          class="ni-page-header-subtitle"
+          class="tm-page-header-subtitle"
         >
           <h3>
             
@@ -1375,46 +1379,47 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
         </div>
       </div>
       <menu
-        class="ni-page-header-menu"
+        class="tm-page-header-menu"
       >
         <div>
           <div>
             <div
-              class="ni-tool-bar"
+              class="tm-tool-bar"
             >
               <div
-                class="ni-tool-bar-container"
+                class="tm-tool-bar-container"
               >
                 <div
                   class="main"
-                />
-                <a
-                  class="back"
                 >
-                  <i
-                    class="material-icons"
+                  <a
+                    class="back"
                   >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
                   >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
                   >
-                    exit_to_app
-                  </i>
-                </a>
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -1423,62 +1428,62 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main"
+    class="tm-page-main"
   >
     <form
-      class="ni-form"
+      class="tm-form"
     >
       <div
-        class="ni-form-container"
+        class="tm-form-container"
       >
         <!---->
         <main
-          class="ni-form-main"
+          class="tm-form-main"
         >
           <section
-            class="ni-part"
+            class="tm-part"
           >
             <div
-              class="ni-part-container"
+              class="tm-part-container"
             >
               <header
-                class="ni-part-header"
+                class="tm-part-header"
               >
                 <div
-                  class="ni-part-header-container"
+                  class="tm-part-header-container"
                 >
                   <div
-                    class="ni-part-title h5"
+                    class="tm-part-title h5"
                   >
                     Denomination Options
                   </div>
                   <menu
-                    class="ni-part-menu"
+                    class="tm-part-menu"
                   />
                 </div>
               </header>
               <main
-                class="ni-part-main"
+                class="tm-part-main"
               >
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-denomination"
                   >
                     Denomination
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
                       class="ni-select"
                       id="send-denomination"
                     >
                       <select
-                        class="ni-field ni-field-select"
+                        class="tm-field tm-field-select"
                       >
                         <option
                           disabled="disabled"
@@ -1490,7 +1495,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                         </option>
                       </select>
                       <div
-                        class="ni-field-select-addon"
+                        class="tm-field-select-addon"
                       >
                         <i
                           class="material-icons"
@@ -1506,49 +1511,49 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
             </div>
           </section>
           <section
-            class="ni-part"
+            class="tm-part"
           >
             <div
-              class="ni-part-container"
+              class="tm-part-container"
             >
               <header
-                class="ni-part-header"
+                class="tm-part-header"
               >
                 <div
-                  class="ni-part-header-container"
+                  class="tm-part-header-container"
                 >
                   <div
-                    class="ni-part-title h5"
+                    class="tm-part-title h5"
                   >
                     Transaction Details
                   </div>
                   <menu
-                    class="ni-part-menu"
+                    class="tm-part-menu"
                   />
                 </div>
               </header>
               <main
-                class="ni-part-main"
+                class="tm-part-main"
               >
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-zone-id"
                   >
                     Zone ID
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
                       class="ni-select"
                       id="send-zone-id"
                     >
                       <select
-                        class="ni-field ni-field-select"
+                        class="tm-field tm-field-select"
                       >
                         <option
                           disabled="disabled"
@@ -1570,7 +1575,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                         </option>
                       </select>
                       <div
-                        class="ni-field-select-addon"
+                        class="tm-field-select-addon"
                       >
                         <i
                           class="material-icons"
@@ -1583,53 +1588,53 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                   </div>
                 </div>
                 <div
-                  class="ni-form-group ni-form-group--error"
+                  class="tm-form-group tm-form-group--error"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-address"
                   >
                     Send To
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
-                      class="ni-field-group"
+                      class="tm-field-group"
                     >
                       <input
-                        class="ni-field"
+                        class="tm-field"
                         id="send-address"
                         placeholder="Address"
                         type="text"
                       />
                     </div>
                     <div
-                      class="ni-form-msg sm ni-form-msg--error"
+                      class="tm-form-msg sm tm-form-msg--error"
                     >
                       Address is invalid (No separator character for !@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$)
                     </div>
                   </div>
                 </div>
                 <div
-                  class="ni-form-group ni-form-group--error"
+                  class="tm-form-group tm-form-group--error"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-amount"
                   >
                     Amount
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
-                      class="ni-field-group"
+                      class="tm-field-group"
                     >
                       <input
-                        class="ni-field"
+                        class="tm-field"
                         id="send-amount"
                         placeholder="Amount"
                         type="number"
@@ -1637,7 +1642,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                     </div>
                     <!---->
                     <div
-                      class="ni-form-msg sm ni-form-msg--error"
+                      class="tm-form-msg sm tm-form-msg--error"
                     >
                       Amount must be between 0 and 0
                     </div>
@@ -1648,20 +1653,20 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
           </section>
         </main>
         <footer
-          class="ni-form-footer"
+          class="tm-form-footer"
         >
           <div>
             <div />
             <button
-              class="ni-btn"
+              class="tm-btn"
             >
               <span
-                class="ni-btn__container ni-btn--primary"
+                class="tm-btn__container tm-btn--primary"
               >
                 <!---->
                 <!---->
                 <span
-                  class="ni-btn__value"
+                  class="tm-btn__value"
                 >
                   Send Tokens
                 </span>
@@ -1688,26 +1693,26 @@ Object {
 
 exports[`PageSend should work without providing a default denom 1`] = `
 <div
-  class="ni-page"
+  class="tm-page"
 >
   <header
-    class="ni-page-header"
+    class="tm-page-header"
   >
     <div
-      class="ni-page-header-container"
+      class="tm-page-header-container"
     >
       <div
-        class="ni-page-header-text"
+        class="tm-page-header-text"
       >
         <div
-          class="ni-page-header-title"
+          class="tm-page-header-title"
         >
           <h2>
             Send
           </h2>
         </div>
         <div
-          class="ni-page-header-subtitle"
+          class="tm-page-header-subtitle"
         >
           <h3>
             
@@ -1715,46 +1720,47 @@ exports[`PageSend should work without providing a default denom 1`] = `
         </div>
       </div>
       <menu
-        class="ni-page-header-menu"
+        class="tm-page-header-menu"
       >
         <div>
           <div>
             <div
-              class="ni-tool-bar"
+              class="tm-tool-bar"
             >
               <div
-                class="ni-tool-bar-container"
+                class="tm-tool-bar-container"
               >
                 <div
                   class="main"
-                />
-                <a
-                  class="back"
                 >
-                  <i
-                    class="material-icons"
+                  <a
+                    class="back"
                   >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
                   >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
                   >
-                    exit_to_app
-                  </i>
-                </a>
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -1763,62 +1769,62 @@ exports[`PageSend should work without providing a default denom 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main"
+    class="tm-page-main"
   >
     <form
-      class="ni-form"
+      class="tm-form"
     >
       <div
-        class="ni-form-container"
+        class="tm-form-container"
       >
         <!---->
         <main
-          class="ni-form-main"
+          class="tm-form-main"
         >
           <section
-            class="ni-part"
+            class="tm-part"
           >
             <div
-              class="ni-part-container"
+              class="tm-part-container"
             >
               <header
-                class="ni-part-header"
+                class="tm-part-header"
               >
                 <div
-                  class="ni-part-header-container"
+                  class="tm-part-header-container"
                 >
                   <div
-                    class="ni-part-title h5"
+                    class="tm-part-title h5"
                   >
                     Denomination Options
                   </div>
                   <menu
-                    class="ni-part-menu"
+                    class="tm-part-menu"
                   />
                 </div>
               </header>
               <main
-                class="ni-part-main"
+                class="tm-part-main"
               >
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-denomination"
                   >
                     Denomination
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
                       class="ni-select"
                       id="send-denomination"
                     >
                       <select
-                        class="ni-field ni-field-select"
+                        class="tm-field tm-field-select"
                       >
                         <option
                           disabled="disabled"
@@ -1830,7 +1836,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                         </option>
                       </select>
                       <div
-                        class="ni-field-select-addon"
+                        class="tm-field-select-addon"
                       >
                         <i
                           class="material-icons"
@@ -1840,7 +1846,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                       </div>
                     </div>
                     <div
-                      class="ni-form-msg sm ni-form-msg--error"
+                      class="tm-form-msg sm tm-form-msg--error"
                     >
                       Denomination is required
                     </div>
@@ -1850,49 +1856,49 @@ exports[`PageSend should work without providing a default denom 1`] = `
             </div>
           </section>
           <section
-            class="ni-part"
+            class="tm-part"
           >
             <div
-              class="ni-part-container"
+              class="tm-part-container"
             >
               <header
-                class="ni-part-header"
+                class="tm-part-header"
               >
                 <div
-                  class="ni-part-header-container"
+                  class="tm-part-header-container"
                 >
                   <div
-                    class="ni-part-title h5"
+                    class="tm-part-title h5"
                   >
                     Transaction Details
                   </div>
                   <menu
-                    class="ni-part-menu"
+                    class="tm-part-menu"
                   />
                 </div>
               </header>
               <main
-                class="ni-part-main"
+                class="tm-part-main"
               >
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-zone-id"
                   >
                     Zone ID
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
                       class="ni-select"
                       id="send-zone-id"
                     >
                       <select
-                        class="ni-field ni-field-select"
+                        class="tm-field tm-field-select"
                       >
                         <option
                           disabled="disabled"
@@ -1914,7 +1920,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                         </option>
                       </select>
                       <div
-                        class="ni-field-select-addon"
+                        class="tm-field-select-addon"
                       >
                         <i
                           class="material-icons"
@@ -1927,60 +1933,60 @@ exports[`PageSend should work without providing a default denom 1`] = `
                   </div>
                 </div>
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-address"
                   >
                     Send To
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
-                      class="ni-field-group"
+                      class="tm-field-group"
                     >
                       <input
-                        class="ni-field"
+                        class="tm-field"
                         id="send-address"
                         placeholder="Address"
                         type="text"
                       />
                     </div>
                     <div
-                      class="ni-form-msg sm ni-form-msg--error"
+                      class="tm-form-msg sm tm-form-msg--error"
                     >
                       Address is required
                     </div>
                   </div>
                 </div>
                 <div
-                  class="ni-form-group"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
-                    class="ni-form-group__label"
+                    class="tm-form-group__label"
                     for="send-amount"
                   >
                     Amount
                   </label>
                   <div
-                    class="ni-form-group__field"
+                    class="tm-form-group__field"
                   >
                     <div
-                      class="ni-field-group"
+                      class="tm-field-group"
                     >
                       <input
-                        class="ni-field"
+                        class="tm-field"
                         id="send-amount"
                         placeholder="Amount"
                         type="number"
                       />
                     </div>
                     <div
-                      class="ni-form-msg sm ni-form-msg--error"
+                      class="tm-form-msg sm tm-form-msg--error"
                     >
                       Amount is required
                     </div>
@@ -1992,20 +1998,20 @@ exports[`PageSend should work without providing a default denom 1`] = `
           </section>
         </main>
         <footer
-          class="ni-form-footer"
+          class="tm-form-footer"
         >
           <div>
             <div />
             <button
-              class="ni-btn"
+              class="tm-btn"
             >
               <span
-                class="ni-btn__container ni-btn--primary"
+                class="tm-btn__container tm-btn--primary"
               >
                 <!---->
                 <!---->
                 <span
-                  class="ni-btn__value"
+                  class="tm-btn__value"
                 >
                   Send Tokens
                 </span>
