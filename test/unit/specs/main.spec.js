@@ -173,34 +173,6 @@ describe("Startup Process", () => {
       expect(main.processes.lcdProcess).toBeDefined()
     })
 
-    it("should use a provided node-ip to connect to", async function(done) {
-      main.shutdown()
-      prepareMain()
-
-      jest.doMock(
-        "app/src/main/addressbook.js",
-        () =>
-          class MockAddressbook {
-            constructor(path, peers) {
-              try {
-                expect(peers).toEqual(["123.456.789.123"])
-                done()
-              } catch (err) {
-                done.fail(err)
-              } finally {
-                delete process.env.COSMOS_NODE
-              }
-            }
-          }
-      )
-
-      Object.assign(process.env, {
-        COSMOS_NODE: "123.456.789.123"
-      })
-      // run main
-      require(appRoot + "src/main/index.js")
-    })
-
     it("should persist the app_version", async function() {
       expect(fs.existsSync(testRoot + "app_version")).toBe(true)
       let appVersion = fs.readFileSync(testRoot + "app_version", "utf8")
@@ -446,49 +418,6 @@ describe("Startup Process", () => {
 
       await registeredIPCListeners["reconnect"]()
       done()
-    })
-
-    // TODO move into addressbook test
-    xit("should search through nodes until it finds one", async () => {
-      // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
-      main.processes.lcdProcess.on = (type, cb) => {
-        if (type === "exit") cb()
-      }
-
-      let axios = require("axios")
-      axios.get = jest
-        .fn()
-        .mockReturnValueOnce(Promise.reject()) // reject ping
-        .mockReturnValueOnce(Promise.resolve()) // ping
-
-      await registeredIPCListeners["reconnect"]()
-
-      expect(
-        send.mock.calls.filter(([type, _]) => type === "connected").length
-      ).toBe(2)
-    })
-
-    // TODO move into addressbook test
-    xit("should error if it can't find a node to connect to at reconnect", async () => {
-      // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
-      main.processes.lcdProcess.on = (type, cb) => {
-        if (type === "exit") cb()
-      }
-
-      let axios = require("axios")
-      axios.get = async () => Promise.reject() // ping
-
-      await registeredIPCListeners["reconnect"]()
-
-      expect(
-        send.mock.calls.filter(([type, _]) => type === "connected")
-      ).toHaveLength(1) // doesn't reconnect
-      expect(
-        send.mock.calls.filter(([type, _]) => type === "error")
-      ).toHaveLength(1)
-      expect(
-        send.mock.calls.filter(([type, _]) => type === "error")[0][1].code
-      ).toBe("NO_NODES_AVAILABLE")
     })
 
     it("should print a success message if connected to node", async () => {

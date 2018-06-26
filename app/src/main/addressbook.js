@@ -5,12 +5,19 @@ const url = require("url")
 
 const LOGGING = JSON.parse(process.env.LOGGING || "true") !== false
 const TENDERMINT_RPC_PORT = 46657
+const FIXED_NODE = process.env.COSMOS_NODE
 
 module.exports = class Addressbook {
   constructor(configPath, persistent_peers = []) {
-    this.addressbookPath = join(configPath, "addressbook.json")
     this.peers = []
 
+    // if we define a fixed node, we skip persistence
+    if (FIXED_NODE) {
+      this.addPeer(FIXED_NODE)
+      return
+    }
+
+    this.addressbookPath = join(configPath, "addressbook.json")
     this.loadFromDisc()
 
     // add persistent peers to already stored peers
@@ -18,7 +25,9 @@ module.exports = class Addressbook {
       .filter(peer => !this.peerIsKnown(peer))
       .forEach(peer => this.addPeer(peer))
 
-    this.persistToDisc()
+    if (persistent_peers.length > 0) {
+      this.persistToDisc()
+    }
   }
 
   async ping(peerURL) {
@@ -49,6 +58,8 @@ module.exports = class Addressbook {
   }
 
   loadFromDisc() {
+    // if there is no address book file yet, there are no peers stored yet
+    // the file will be created when persisting any peers to disc
     let exists = fs.existsSync(this.addressbookPath)
     if (!exists) {
       this.peers = []
@@ -90,8 +101,11 @@ module.exports = class Addressbook {
 
     LOGGING && console.log("Picked node:", curNode.host)
 
-    // remember the peers of the node and store them in the addressbook
-    this.discoverPeers(curNode.host)
+    // we skip discovery for fixed nodes as we want to always return the same node
+    if (!FIXED_NODE) {
+      // remember the peers of the node and store them in the addressbook
+      this.discoverPeers(curNode.host)
+    }
 
     return curNode.host + ":" + TENDERMINT_RPC_PORT
   }
@@ -122,7 +136,9 @@ module.exports = class Addressbook {
         this.addPeer(subPeerHostname)
       })
 
-    this.persistToDisc()
+    if (subPeersHostnames.length > 0) {
+      this.persistToDisc()
+    }
   }
 }
 

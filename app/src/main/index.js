@@ -24,7 +24,6 @@ let lcdProcess
 let streams = []
 let nodeIP
 let connecting = true
-let nodes = [] // {ip, state}
 let chainId
 let booted = false
 let addressbook
@@ -49,7 +48,6 @@ const MOCK =
     ? JSON.parse(process.env.COSMOS_MOCKED)
     : false
 global.config.mocked = MOCK // persist resolved mock setting also in config used by view thread
-const NODE = process.env.COSMOS_NODE
 
 let LCD_BINARY_NAME = "gaiacli" + (WIN ? ".exe" : "")
 
@@ -478,7 +476,7 @@ function handleIPC() {
   ipcMain.on("successful-launch", () => {
     console.log("[START SUCCESS] Vue app successfuly started")
   })
-  ipcMain.on("reconnect", () => reconnect(nodes))
+  ipcMain.on("reconnect", () => reconnect())
   ipcMain.on("booted", () => {
     log("View has booted")
     booted = true
@@ -496,7 +494,7 @@ function handleIPC() {
   ipcMain.on("retry-connection", () => {
     log("Retrying to connect to nodes")
     resetNodes()
-    reconnect(nodes)
+    reconnect()
   })
 }
 
@@ -537,7 +535,7 @@ async function connect(nodeIP) {
   connecting = false
 }
 
-async function reconnect(nodes) {
+async function reconnect() {
   if (connecting) return
   log("Starting reconnect")
   connecting = true
@@ -664,24 +662,22 @@ async function main() {
   // pick a random seed node from config.toml if not using COSMOS_NODE envvar
   // TODO: user-specified nodes, support switching?
   // TODO: use address to prevent MITM if specified
-  if (!NODE) {
+  let persistent_peers = []
+  if (!process.env.COSMOS_NODE) {
     let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
     let configTOML = toml.parse(configText)
-    nodes = _.uniq(
+    persistent_peers = _.uniq(
       (configTOML.p2p.persistent_peers + "," + configTOML.p2p.seeds)
         .split(",")
         .filter(x => x !== "")
         .map(x => (x.indexOf("@") !== -1 ? x.split("@")[1] : x))
     )
-    if (nodes.length === 0) {
+    if (persistent_peers.length === 0) {
       throw new Error("No seeds specified in config.toml")
     }
-  } else {
-    nodes = [NODE]
   }
-  nodes = nodes.map(ip => `${ip.split(":")[0]}`) // use default RPC port
 
-  addressbook = new Addressbook(root, nodes)
+  addressbook = new Addressbook(root, persistent_peers)
 
   // choose one random node to start from
   try {

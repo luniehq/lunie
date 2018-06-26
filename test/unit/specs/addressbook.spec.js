@@ -45,6 +45,21 @@ describe("Addressbook", () => {
     expect(node).toBe("123.456.123.456:46657")
   })
 
+  it("should always return a specified node", async () => {
+    process.env.COSMOS_NODE = "123.456.123.456"
+    try {
+      jest.resetModules()
+      Addressbook = require("src/main/addressbook.js")
+      let addressbook = new Addressbook("./config")
+
+      expect(await addressbook.pickNode()).toBe("123.456.123.456:46657")
+    } catch (err) {
+      throw err
+    } finally {
+      delete process.env.COSMOS_NODE
+    }
+  })
+
   it("should cycle though nodes until it finds one that is available", async () => {
     jest.doMock("axios", () => ({
       get: async url => {
