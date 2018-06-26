@@ -18,6 +18,10 @@ describe("PagePreferences", () => {
   })
 
   it("has the expected html structure if connected", async () => {
+    // after importing the @tendermint/ui components  modules
+    // the perfect scroll plugin needs a $nextTick and a wrapper.update
+    // to work properly in the tests (snapshots weren't matching)
+    // this has occured across multiple tests
     await wrapper.vm.$nextTick()
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()

@@ -13,11 +13,12 @@ describe("Page404", () => {
   })
 
   it("has the expected html structure", async () => {
+    // after importing the @tendermint/ui components from modules
+    // the perfect scroll plugin needs a $nextTick and a wrapper.update
+    // to work properly in the tests (snapshots weren't matching)
+    // this has occured across multiple tests
     await wrapper.vm.$nextTick()
     wrapper.update()
-    // console.log(wrapper.vm.$el)
-    // console.log(htmlBeautify(wrapper.html()))
-    // expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 

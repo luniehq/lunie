@@ -12,6 +12,7 @@
 <script>
 import { TmToolBar } from "@tendermint/ui"
 export default {
+  // the name needs to be different from TmToolBar (tm-tool-bar) or else recursive rendering takes place
   name: "vm-tool-bar",
   components: {
     TmToolBar
