@@ -3,7 +3,7 @@
   .li-delegate__value.name
     router-link(:to="{ name: 'delegate', params: { delegate: delegate.id }}") {{ delegate.moniker }}
   .li-delegate__value.percent_of_vote
-    span {{ num.percentInt(bondedPercent) }}
+    span {{ delegate.percent_of_vote }}
   .li-delegate__value.number_of_votes.num.bar
     span {{ num.prettyInt(delegate.voting_power) }}
     .bar(:style='vpStyles')
@@ -61,19 +61,9 @@ export default {
         return 0
       }
     },
-    vpTotal() {
-      return this.delegates.delegates
-        .slice()
-        .sort((a, b) => b.voting_power - a.voting_power)
-        .slice(0, 100)
-        .reduce((sum, v) => sum + v.voting_power, 0)
-    },
     vpStyles() {
       let percentage = Math.round(this.delegate.voting_power / this.vpMax * 100)
       return { width: percentage + "%" }
-    },
-    bondedPercent() {
-      return this.delegate.voting_power / this.vpTotal
     },
     inCart() {
       return this.shoppingCart.find(c => c.id === this.delegate.id)
