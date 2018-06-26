@@ -244,12 +244,12 @@ describe("Startup Process", () => {
       expect(fs.existsSync(testRoot)).toBe(true)
     })
 
-    it("should init lcd server with correct testnet", async function() {
+    xit("should init lcd server with correct testnet", async function() {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
             path.includes("gaiacli") &&
-            args.includes("rest-server") &&
+            args.includes("init") &&
             args.join("=").includes("--chain-id=basecoind-2")
         )
       ).toBeDefined()
@@ -259,7 +259,9 @@ describe("Startup Process", () => {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
-            path.includes("gaiacli") && args.includes("rest-server")
+            path.includes("gaiacli") &&
+            args.includes("rest-server") &&
+            args.join("=").includes("--chain-id=basecoind-2")
         )
       ).toBeDefined()
       expect(main.processes.lcdProcess).toBeDefined()
