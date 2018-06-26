@@ -5,14 +5,11 @@ exports[`NiSessionLoading has the expected html structure 1`] = `
    <div class=\\"ni-session-container\\">
       <div class=\\"ni-session-header\\">
          <div class=\\"ni-session-title\\">
-            Loading…
+            Voyager is loading…
          </div>
 </div>
-<div class=\\"ni-session-main\\">
-   &nbsp;
-</div>
-<div class=\\"ni-session-footer\\">
-   &nbsp;
+<div class=\\"ni-session-main ni-session-main--loading\\">
+   <img src=\\"~assets/images/loader.svg\\">
 </div>
 </div>
 </div>"

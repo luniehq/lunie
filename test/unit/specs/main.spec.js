@@ -23,6 +23,12 @@ jest.mock("fs-extra", () => {
 })
 let fs = require("fs-extra")
 
+jest.mock("../../../app/src/renderer/connectors/lcdClient.js", () => {
+  return () => ({
+    listKeys: jest.fn().mockReturnValueOnce(Promise.reject())
+  })
+})
+
 jest.mock("electron", () => {
   let electron = {
     app: {
@@ -41,6 +47,7 @@ jest.mock("electron", () => {
       }
       loadURL() {}
       on() {}
+      once() {}
       maximize() {}
     },
     Menu: {
@@ -108,7 +115,8 @@ childProcessMock((path, args) => ({
   },
   stdin: { write: () => {} },
   stdout: stdoutMocks(path, args),
-  stderr: stderrMocks(path, args)
+  stderr: stderrMocks(path, args),
+  mocked: true
 }))
 mockConfig()
 
@@ -264,7 +272,9 @@ describe("Startup Process", () => {
       expect(
         childProcess.spawn.mock.calls.find(
           ([path, args]) =>
-            path.includes("gaiacli") && args.includes("rest-server")
+            path.includes("gaiacli") &&
+            args.includes("rest-server") &&
+            args.join("=").includes("--chain-id=basecoind-2")
         )
       ).toBeDefined()
       expect(main.processes.lcdProcess).toBeDefined()
@@ -727,7 +737,8 @@ function failingChildProcess(mockName, mockCmd) {
     },
     stdin: { write: () => {} },
     stdout: stdoutMocks(path, args),
-    stderr: stderrMocks(path, args)
+    stderr: stderrMocks(path, args),
+    mocked: true
   }))
 }
 

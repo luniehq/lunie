@@ -77,7 +77,7 @@ export default {
   top 0
   left 0
   z-index z(default)
-  background var(--app-bg)
+  background var(--app-fg)
 
 .ni-session-container
   &:not(.ni-form)
@@ -95,11 +95,11 @@ export default {
 
 .ni-session-header
   display flex
-  flex-flow row nowrap
   justify-content space-between
   align-items center
-  flex 0 0 3rem
   margin-top 1.5rem // for macos traffic signals
+  padding 1rem 0;
+  border-bottom: 0.125rem solid var(--bc-dim);
 
   a
     width 3rem
@@ -114,18 +114,18 @@ export default {
     &:hover
       background var(--app-fg)
       i
-        color var(--bright)
+        color var(--txt)
 
   .ni-session-title
     flex 1
     padding 0 1rem
-    font-size lg
+    font-size xl
     text-align center
-    color var(--bright)
+    color var(--txt)
 
 .ni-session-main
   min-height 0
-
+  background var(--app-bg-light)
   overflow-y auto
   position relative
 
@@ -150,12 +150,12 @@ export default {
   color var(--dim)
 
 .ni-session-footer
-  border-top 2*px solid var(--bc-dim)
+  background var(--app-bg-light)
   flex 0 0 5rem + px
-  padding 0 2rem
+  padding 0 3rem
   display flex
   align-items center
-  justify-content space-between
+  justify-content flex-end
 
   &:empty
     display none
@@ -193,7 +193,7 @@ export default {
     margin-top 0
 
   .ni-session-main
-    padding 2rem
+    padding 3rem 2rem
 
     .ni-form-group
       display block !important
