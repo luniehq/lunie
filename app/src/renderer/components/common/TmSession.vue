@@ -150,9 +150,9 @@ export default {
   color var(--dim)
 
 .tm-session-footer
-  border-top 2*px solid var(--bc-dim)
+  background var(--app-bg-light)
   flex 0 0 5rem + px
-  padding 0 1rem
+  padding 0 3rem
   display flex
   align-items center
   justify-content flex-end

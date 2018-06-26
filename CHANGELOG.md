@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Configs for the gaia-6002 testnet @faboweb
+* Checking known nodes round robin and signaling an error if none are available @faboweb
 
 ### Changes
 
@@ -18,7 +19,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * more components moved to `@tendermint/ui` @okwme
 * Removed COSMOS_MOCKED flag @faboweb
 * Improved readability and accessibility @jolesbi
-* Significant style / UI updates @jolesbi
+* Significant style and UI updates for dark and light themes @jolesbi
+* Doesn't show loading screen when validators are still stored @okwme
 
 ### Fixed
 
@@ -26,6 +28,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Increased version of localtestnet used for testing to match gaia @faboweb
 * Fixed padding issue in main container @faboweb
 * Unit tests work with new components @okwme
+* Wait for LCD to start serving at app startup to prevent timing errors @mappum
+* Fixed white flash on startup @okwme
+* Fixed critical dependency warning @okwme
+* Fixed sorting bug on staking page @okwme
 
 ### Added
 

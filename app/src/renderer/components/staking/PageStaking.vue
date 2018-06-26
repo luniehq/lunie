@@ -9,7 +9,7 @@ tm-page(title='Staking')
   modal-search(type="delegates" v-if="somethingToSearch")
 
   .delegates-container
-    data-loading(v-if="delegates.loading")
+    data-loading(v-if="delegates.loading && delegates.delegates.length === 0")
     data-empty(v-else-if="delegates.delegates.length === 0")
     data-empty-search(v-else-if="filteredDelegates.length === 0")
     template(v-else)
@@ -27,6 +27,7 @@ tm-page(title='Staking')
 
 <script>
 import { mapGetters } from "vuex"
+import num from "scripts/num"
 import { includes, orderBy, forEach } from "lodash"
 import Mousetrap from "mousetrap"
 import LiDelegate from "staking/LiDelegate"
@@ -39,7 +40,7 @@ import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
 import ToolBar from "common/TmToolBar"
 export default {
-  name: "page-delegates",
+  name: "page-staking",
   components: {
     LiDelegate,
     TmBtn,
@@ -59,16 +60,28 @@ export default {
     somethingToSearch() {
       return !this.delegates.loading && !!this.delegates.delegates.length
     },
+    vpTotal() {
+      return this.delegates.delegates
+        .slice()
+        .map(v => {
+          v.voting_power = v.voting_power || 0
+          return v
+        })
+        .sort((a, b) => b.voting_power - a.voting_power)
+        .slice(0, 100)
+        .reduce((sum, v) => sum + v.voting_power, 0)
+    },
     filteredDelegates() {
       let query = this.filters.delegates.search.query || ""
 
-      forEach(this.delegates.delegates, function(v) {
+      forEach(this.delegates.delegates, v => {
         v.small_moniker = v.moniker.toLowerCase()
+        v.percent_of_vote = num.percent(v.voting_power / this.vpTotal)
       })
       let delegates = orderBy(
         this.delegates.delegates,
-        [this.sort.property],
-        [this.sort.order]
+        [this.sort.property, "small_moniker"],
+        [this.sort.order, "asc"]
       )
 
       if (this.filters.delegates.search.visible) {
@@ -86,7 +99,7 @@ export default {
   data: () => ({
     query: "",
     sort: {
-      property: "shares",
+      property: "percent_of_vote",
       order: "desc",
       properties: [
         {
@@ -97,7 +110,7 @@ export default {
         },
         {
           title: "% of Vote",
-          value: "shares",
+          value: "percent_of_vote",
           tooltip:
             "The delegate controls this percentage of voting power on the network.",
           class: "percent_of_vote"
