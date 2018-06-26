@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Updated loading icon and loading states @jolesbi
 * Removed COSMOS_MOCKED flag @faboweb
 * Improved readability and accessibility @jolesbi
-* Significant style / UI updates @jolesbi
+* Significant style and UI updates for dark and light themes @jolesbi
 * Doesn't show loading screen when validators are still stored @okwme
 
 ### Fixed
