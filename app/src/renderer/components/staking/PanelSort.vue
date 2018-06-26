@@ -55,8 +55,8 @@ export default {
   min-width 0
 
   .label
-    font-size var(--sm)
-    color var(--dim)
+    font-weight 500
+    color var(--link)
     white-space nowrap
     text-overflow ellipsis
     overflow hidden
@@ -73,15 +73,11 @@ export default {
   &.desc:after
     content '\f0d7'
 
-  &:not(.active):hover
-    .label
-      color var(--txt)
-
   &.active
     .label
-      color var(--txt)
+      color var(--mc)
     &:after
-      color var(--txt)
+      color var(--mc)
 
   &.name
     flex 2

@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Wait for LCD to start serving at app startup to prevent timing errors @mappum
 * Fixed white flash on startup @okwme
 * Fixed critical dependency warning @okwme
+* Fixed theme bg bug @okwme
 * Fixed sorting bug on staking page @okwme
 
 ### Added
