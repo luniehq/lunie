@@ -3,6 +3,7 @@ const { join, normalize } = require("path")
 const axios = require("axios")
 const url = require("url")
 
+const LOGGING = JSON.parse(process.env.LOGGING || "true") !== false
 const TENDERMINT_RPC_PORT = 46657
 
 module.exports = class Addressbook {
@@ -22,11 +23,11 @@ module.exports = class Addressbook {
 
   async ping(peerURL) {
     let pingURL = `http://${peerURL}:${TENDERMINT_RPC_PORT}`
-    console.log("Pinging node:", pingURL)
+    LOGGING && console.log("Pinging node:", pingURL)
     let nodeAlive = await axios
       .get(pingURL, { timeout: 3000 })
       .then(() => true, () => false)
-    console.log("Node", peerURL, "is", nodeAlive ? "alive" : "down")
+    LOGGING && console.log("Node", peerURL, "is", nodeAlive ? "alive" : "down")
     return nodeAlive
   }
 
@@ -39,7 +40,7 @@ module.exports = class Addressbook {
   // adds the new peer to the list of peers
   addPeer(peerURL) {
     let peerHost = getHostname(peerURL)
-    console.log("Adding new peer:", peerHost)
+    LOGGING && console.log("Adding new peer:", peerHost)
     this.peers.push({
       host: peerHost,
       // assume that new peers are available
@@ -87,7 +88,7 @@ module.exports = class Addressbook {
       return this.pickNode()
     }
 
-    console.log("Picked node:", curNode.host)
+    LOGGING && console.log("Picked node:", curNode.host)
 
     // remember the peers of the node and store them in the addressbook
     this.discoverPeers(curNode.host)
