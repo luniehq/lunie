@@ -12,21 +12,13 @@
   dependencies:
     ramda "0.25.0"
 
-"@nylira/vue-field@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-field/-/vue-field-1.5.0.tgz#09a04f2555e63a92eb31dd40cad524ea8558a8f4"
-
-"@nylira/vue-notifications@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@nylira/vue-notifications/-/vue-notifications-1.5.0.tgz#a6f027c4ecd8ca99ed7dbbcc04d5b67288d8d0f6"
-
 "@sindresorhus/is@^0.7.0":
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@tendermint/ui@https://github.com/tendermint/ui.git#":
-  version "0.2.6"
-  resolved "https://github.com/tendermint/ui.git#3538219cc2bc4019778ab2866ca2405d2774fe33"
+"@tendermint/ui@0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.7.tgz#417a5946124f4c6df40dec38d0858c9e6684877c"
   dependencies:
     cookieconsent "^3.0.6"
     moment "^2.22.2"

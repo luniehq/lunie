@@ -98,9 +98,7 @@
     "xmlhttprequest": "1.8.0"
   },
   "dependencies": {
-    "@nylira/vue-field": "1.5.0",
-    "@nylira/vue-notifications": "1.5.0",
-    "@tendermint/ui": "https://github.com/tendermint/ui.git#",
+    "@tendermint/ui": "0.2.7",
     "@vue/test-utils": "1.0.0-beta.11",
     "autosize": "4.0.2",
     "axios": "0.18.0",
