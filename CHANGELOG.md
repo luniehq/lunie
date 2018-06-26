@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed white flash on startup @okwme
 * Fixed critical dependency warning @okwme
 * Fixed sorting bug on staking page @okwme
+* "About Cosmos Voyager" menu item is now responsive on Windows and Linux
 
 ### Added
 
