@@ -59,6 +59,8 @@ const build = defaultNetwork => {
   console.log("--- DONE BUILDING ---")
 }
 
+const assetsDir = path.join(__dirname, `../builds/Voyager`)
+
 const publishRelease = (token, tag) =>
   util.promisify(release)({
     token,
@@ -77,7 +79,7 @@ of transactions, and we will also add hardware support for this UI.
 Please checkout the [CHANGELOG.md](CHANGELOG.md) for a list of changes.
 `,
     prerelease: true,
-    assets: fs.readdirSync(path.join(__dirname, `../builds/Voyager`))
+    assets: fs.readdirSync(assetsDir).map(file => path.join(assetsDir, file))
   })
 
 async function main() {
