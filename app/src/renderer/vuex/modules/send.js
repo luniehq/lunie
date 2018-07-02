@@ -41,10 +41,6 @@ export default ({ commit, node }) => {
     assertOk(res)
 
     commit("setNonce", state.nonce + 1)
-
-    // wait to ensure tx is committed before we query
-    // XXX
-    setTimeout(() => dispatch("queryWalletBalances"), 3 * 1000)
   }
 
   let actions = {
