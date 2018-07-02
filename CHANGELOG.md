@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Configs for the gaia-6002 testnet @faboweb
 * Introduced addressbook to store found peers and to select nodes round robin @faboweb
+* Tutorial how to start a local node @faboweb
 
 ### Changes
 
