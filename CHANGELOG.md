@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed sorting bug on staking page @okwme
 * Fixed preference page style bug @okwme
 * Fixed missing node-ip in connection indicator @faboweb
+* Launch sequence for dev improved @okwme
 
 ### Added
 
