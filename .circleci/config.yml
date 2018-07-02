@@ -137,7 +137,8 @@ workflows:
       - release:
           requires:
             - buildGaia
-            - test
+            - testUnit
+            - testE2e
           filters:
             branches:
               only: /release/
