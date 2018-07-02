@@ -30,19 +30,12 @@ jobs:
           paths:
             - "*"
 
-  test:
+  testUnit:
     docker:
       - image: circleci/node:9.4.0-browsers
 
-    environment:
-      - BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiacli"
-      - NODE_BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiad"
-
     steps:
       - checkout
-
-      - attach_workspace:
-          at: builds/Gaia
 
       - run: tasks/changelog-changed-check.sh
 
@@ -61,12 +54,44 @@ jobs:
 
       - run:
           name: Test
-          command: yarn run test
+          command: yarn run test:unit
           no_output_timeout: 120
 
       - run:
           command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
           when: on_success
+
+  testE2e:
+    docker:
+      - image: circleci/node:9.4.0-browsers
+
+    environment:
+      - BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiacli"
+      - NODE_BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiad"
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: builds/Gaia
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-root-{{ checksum "package.json" }}
+            - v1-dependencies-root-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - yarn.lock
+            - node_modules
+          key: v1-dependencies-root-{{ checksum "package.json" }}
+
+      - run:
+          name: Test
+          command: yarn run test:e2e
+          no_output_timeout: 120
 
       - store_artifacts:
           path: testArtifacts
@@ -89,11 +114,23 @@ jobs:
 workflows:
   version: 2
 
+  test:
+    jobs:
+      - buildGaia
+
+      - testUnit
+
+      - testE2e:
+          requires:
+            - buildGaia
+
   gaia-test-and-release:
     jobs:
       - buildGaia
 
-      - test:
+      - testUnit
+
+      - testE2e:
           requires:
             - buildGaia
 
