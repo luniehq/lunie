@@ -151,7 +151,7 @@ Sometimes you may want to run a local node, i.e. in the case there is no availab
 Then initialize your node:
 
 ```bash
-$ ./builds/gaia/{OS}/gaiad init --home ~/.gaiad-testnet
+$ ./builds/Gaia/{OS}/gaiad init --home ~/.gaiad-testnet
 ```
 
 Write down the 12 word secret phrase to be able to import an account that holds tokens later on.
@@ -172,7 +172,7 @@ $ sed -i.bak 's/seeds = ""/seeds = "localhost"/g' ./app/networks/local-testnet/c
 Start your local node:
 
 ```bash
-$ ./builds/gaia/{OS}/gaiad start --home ~/.gaiad-testnet
+$ ./builds/Gaia/{OS}/gaiad start --home ~/.gaiad-testnet
 ```
 
 Then run Voyager for your local testnet:
