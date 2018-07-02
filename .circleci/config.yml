@@ -114,6 +114,16 @@ jobs:
 workflows:
   version: 2
 
+  test:
+    jobs:
+      - buildGaia
+
+      - testUnit
+
+      - testE2e:
+          requires:
+            - buildGaia
+
   gaia-test-and-release:
     jobs:
       - buildGaia
