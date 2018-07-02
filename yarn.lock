@@ -12,9 +12,9 @@
   dependencies:
     ramda "0.25.0"
 
-"@tendermint/ui@0.2.7":
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.7.tgz#417a5946124f4c6df40dec38d0858c9e6684877c"
+"@tendermint/ui@0.2.9":
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.9.tgz#a6c775df822653321269b3176faa67aefcda1834"
   dependencies:
     cookieconsent "^3.0.6"
     moment "^2.22.2"
