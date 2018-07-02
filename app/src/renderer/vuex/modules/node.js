@@ -3,10 +3,9 @@ import { ipcRenderer } from "electron"
 
 export default function({ node }) {
   // get tendermint RPC client from basecoin client
-  const { nodeIP } = node // TODO doesn't seem to hold the node ip
 
   const state = {
-    nodeIP,
+    nodeIP: null,
     stopConnecting: false,
     connected: false,
     lastHeader: {
@@ -23,6 +22,9 @@ export default function({ node }) {
     },
     setConnected(state, connected) {
       state.connected = connected
+    },
+    setNode(state, nodeIP) {
+      state.nodeIP = nodeIP
     },
     setNodeApprovalRequired(state, hash) {
       state.approvalRequired = hash
@@ -59,6 +61,7 @@ export default function({ node }) {
       }
 
       commit("setConnected", true)
+      commit("setNode", node.rpcInfo.nodeIP)
 
       // TODO: get event from light-client websocket instead of RPC connection (once that exists)
       node.rpc.on("error", err => {
