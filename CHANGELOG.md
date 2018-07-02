@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Improved readability and accessibility @jolesbi
 * Significant style and UI updates for dark and light themes @jolesbi
 * Doesn't show loading screen when validators are still stored @okwme
+* Improved CI @faboweb
 
 ### Fixed
 
@@ -33,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed critical dependency warning @okwme
 * Fixed theme bg bug @okwme
 * Fixed sorting bug on staking page @okwme
+* Fixed missing node-ip in connection indicator @faboweb
 
 ### Added
 

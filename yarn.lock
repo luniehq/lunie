@@ -12,10 +12,6 @@
   dependencies:
     ramda "0.25.0"
 
-"@sindresorhus/is@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
-
 "@tendermint/ui@0.2.7":
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.7.tgz#417a5946124f4c6df40dec38d0858c9e6684877c"
