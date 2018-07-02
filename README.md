@@ -159,8 +159,8 @@ Write down the 12 word secret phrase to be able to import an account that holds 
 Copy the configuration files (assuming you are in the Voyager dir):
 
 ```bash
-$ cp ~/.gaiad-testnet/genesis.json ./app/networks/local-testnet
-$ cp ~/.gaiad-testnet/config.toml ./app/networks/local-testnet
+$ mkdir app/networks/local-testnet
+$ cp ~/.gaiad-testnet/config/{genesis.json,config.toml} app/networks/local-testnet/
 ```
 
 Enter your local node as a seed:
