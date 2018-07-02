@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Improved readability and accessibility @jolesbi
 * Significant style and UI updates for dark and light themes @jolesbi
 * Doesn't show loading screen when validators are still stored @okwme
+* Improved CI @faboweb
 
 ### Fixed
 
