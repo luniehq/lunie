@@ -151,7 +151,7 @@ Sometimes you may want to run a local node, i.e. in the case there is no availab
 Then initialize your node:
 
 ```bash
-$ ./builds/Gaia/{OS}/gaiad init --home ~/.gaiad-testnet
+$ builds/Gaia/{OS}/gaiad init --home ~/.gaiad-testnet --name local
 ```
 
 Write down the 12 word secret phrase to be able to import an account that holds tokens later on.
