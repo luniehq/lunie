@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed critical dependency warning @okwme
 * Fixed theme bg bug @okwme
 * Fixed sorting bug on staking page @okwme
+* Fixed missing node-ip in connection indicator @faboweb
 
 ### Added
 
