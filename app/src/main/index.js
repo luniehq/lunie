@@ -172,7 +172,7 @@ function createWindow() {
 
   // addMenu overwrites the default menu to only hold copy/paste actions to not confuse the user
   // In development mode we want all the options including switching the devtools
-  addMenu()
+  if (!DEV) addMenu()
 }
 
 function startProcess(name, args, env) {
