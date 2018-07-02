@@ -93,7 +93,7 @@ async function main() {
 
   ipcRenderer.send("booted")
 
-  new Vue({
+  return new Vue({
     router,
     ...App,
     store
