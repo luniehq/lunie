@@ -134,7 +134,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 class="tm-li-input"
               >
                 <div
-                  class="ni-select"
+                  class="tm-select"
                   id="select-network"
                 >
                   <select
@@ -201,7 +201,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 class="tm-li-input"
               >
                 <div
-                  class="ni-select"
+                  class="tm-select"
                   id="select-theme"
                 >
                   <select
@@ -320,11 +320,11 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 class="tm-li-input"
               >
                 <label
-                  class="ni-toggle unchecked"
+                  class="tm-toggle unchecked"
                   style="margin: 1em auto 0px auto;"
                 >
                   <div
-                    class="ni-toggle-wrapper"
+                    class="tm-toggle-wrapper"
                   >
                     <span>
                        

@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Improved readability and accessibility @jolesbi
 * Significant style and UI updates for dark and light themes @jolesbi
 * Doesn't show loading screen when validators are still stored @okwme
+* Improved CI @faboweb
+* Search bar fixed to top @okwme
 
 ### Fixed
 
@@ -33,7 +35,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed critical dependency warning @okwme
 * Fixed theme bg bug @okwme
 * Fixed sorting bug on staking page @okwme
-* "About Cosmos Voyager" menu item is now responsive on Windows and Linux
+* "About Cosmos Voyager" menu item is now responsive on Windows and Linux @mappum
+* Fixed preference page style bug @okwme
+* Fixed missing node-ip in connection indicator @faboweb
+* Launch sequence for dev improved @okwme
 
 ### Added
 
