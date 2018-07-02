@@ -93,7 +93,11 @@ export default {
 
 <style lang="stylus">
 @require '~variables'
-
+.tm-modal-search
+  position sticky
+  top 0
+  z-index z(modal)
+  width 100%
 .tm-modal-search-container
   background var(--app-fg)
   margin-bottom 1rem
