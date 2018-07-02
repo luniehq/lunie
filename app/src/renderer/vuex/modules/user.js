@@ -2,6 +2,7 @@ import enableGoogleAnalytics from "../../google-analytics.js"
 import Raven from "raven-js"
 const { ipcRenderer, remote } = require("electron")
 const config = remote.getGlobal("config")
+const bech32 = require("bech32")
 
 export default ({ commit, node }) => {
   const ERROR_COLLECTION_KEY = "voyager_error_collection"
@@ -13,6 +14,7 @@ export default ({ commit, node }) => {
     password: null,
     account: null,
     address: null,
+    decodedAddress: null,
     errorCollection: false
   }
 
@@ -82,6 +84,13 @@ export default ({ commit, node }) => {
 
       let { address } = await node.getKey(account)
       state.address = address
+
+      let decoded = bech32.fromWords(bech32.decode(address).words)
+      state.decodedAddress = decoded
+        .map(w => w.toString(16).padStart(2, "0"))
+        .join("")
+        .toUpperCase()
+      console.log("decoded", address, state.decodedAddress)
 
       commit("setModalSession", false)
       dispatch("initializeWallet", address)
