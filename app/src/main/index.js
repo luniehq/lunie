@@ -677,7 +677,7 @@ async function main() {
     }
   }
 
-  addressbook = new Addressbook(root, persistent_peers)
+  addressbook = new Addressbook(root, expectedGaiaCliVersion, persistent_peers)
 
   // choose one random node to start from
   try {

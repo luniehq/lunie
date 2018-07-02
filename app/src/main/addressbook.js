@@ -8,8 +8,9 @@ const TENDERMINT_RPC_PORT = 46657
 const FIXED_NODE = process.env.COSMOS_NODE
 
 module.exports = class Addressbook {
-  constructor(configPath, persistent_peers = []) {
+  constructor(configPath, expectedNodeVersion, persistent_peers = []) {
     this.peers = []
+    this.expectedNodeVersion = expectedNodeVersion
 
     // if we define a fixed node, we skip persistence
     if (FIXED_NODE) {
@@ -38,6 +39,16 @@ module.exports = class Addressbook {
       .then(() => true, () => false)
     LOGGING && console.log("Node", peerURL, "is", nodeAlive ? "alive" : "down")
     return nodeAlive
+  }
+
+  async getVersion(peerURL) {
+    let versionURL = `http://${peerURL}:${TENDERMINT_RPC_PORT}/node_version`
+    LOGGING && console.log("Querying node version:", versionURL)
+    let nodeVersion = await axios
+      .get(versionURL, { timeout: 3000 })
+      .then(res => res.data)
+    LOGGING && console.log("Node version is", nodeVersion)
+    return nodeVersion
   }
 
   peerIsKnown(peerURL) {
@@ -99,6 +110,13 @@ module.exports = class Addressbook {
       return this.pickNode()
     }
 
+    let nodeVersion = await this.getVersion(curNode.host)
+    if (this.expectedNodeVersion !== nodeVersion) {
+      this.flagNodeIncompatible(curNode.host)
+
+      return this.pickNode()
+    }
+
     LOGGING && console.log("Picked node:", curNode.host)
 
     // we skip discovery for fixed nodes as we want to always return the same node
@@ -112,6 +130,10 @@ module.exports = class Addressbook {
 
   flagNodeOffline(host) {
     this.peers.find(p => p.host === host).state = "down"
+  }
+
+  flagNodeIncompatible(host) {
+    this.peers.find(p => p.host === host).state = "incompatible"
   }
 
   resetNodes() {
