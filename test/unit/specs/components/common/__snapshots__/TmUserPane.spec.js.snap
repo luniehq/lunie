@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmUserPane has the expected html structure 1`] = `
+<a
+  class="tm-li tm-li-link tm-li-user proposal-enter proposal-enter-active"
+  href="#/preferences"
+>
+  <div
+    class="tm-li-container"
+  >
+    <div
+      class="tm-li-thumb"
+    >
+      <!---->
+    </div>
+    <div
+      class="tm-li-label"
+    >
+      <div
+        class="tm-li-title"
+      >
+        Preferences
+      </div>
+      <div
+        class="tm-li-subtitle"
+      >
+        default
+      </div>
+    </div>
+    <div
+      class="tm-li-icon"
+    >
+      <i
+        class="material-icons inactive"
+      >
+        chevron_right
+      </i>
+      <i
+        class="material-icons active"
+      >
+        my_location
+      </i>
+    </div>
+  </div>
+</a>
+`;

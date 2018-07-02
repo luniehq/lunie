@@ -1,7 +1,7 @@
 <template lang="pug">
-page.page-bond(:title="`Bond ${denom}`")
+tm-page.page-bond(:title="`Bond ${denom}`")
   div(slot="menu"): tool-bar
-  part(:title="`Start bonding your ${totalAtoms} ${denom}`"): form-struct( :submit="onSubmit")
+  tm-part(:title="`Start bonding your ${totalAtoms} ${denom}`"): tm-form-struct( :submit="onSubmit")
     .bond-group(:class="bondGroupClass(unbondedAtomsDelta)")
       .bond-group__fields
         .bond-bar
@@ -15,14 +15,14 @@ page.page-bond(:title="`Bond ${denom}`")
         .bond-percent
           label.bond-delta
             span(v-if="unbondedAtomsDeltaPct !== '0%'") {{ unbondedAtomsDeltaPct }}
-          field.bond-percent__input(
+          tm-field.bond-percent__input(
             disabled
             placeholder="0%"
             :value="bondBarPercent(newUnbondedAtoms)")
         .bond-value
           label.bond-delta
             span(v-if="unbondedAtomsDelta !== 0") {{ unbondedAtomsDelta }}
-          field.bond-value__input#new-unbonded-atoms(
+          tm-field.bond-value__input#new-unbonded-atoms(
             disabled
             type="number"
             placeholder="Atoms"
@@ -45,14 +45,14 @@ page.page-bond(:title="`Bond ${denom}`")
         .bond-percent
           label.bond-delta
             span(v-if="d.deltaAtomsPercent !== '0%'") {{ d.deltaAtomsPercent }}
-          field.bond-percent__input(
+          tm-field.bond-percent__input(
             disabled
             placeholder="0%"
             :value="bondBarPercent(d.atoms)")
         .bond-value
           label.bond-delta
             span(v-if="d.deltaAtoms !== 0") {{ d.deltaAtoms }}
-          field.bond-value__input(
+          tm-field.bond-value__input(
             type="number"
             placeholder="Atoms"
             step="1"
@@ -61,11 +61,11 @@ page.page-bond(:title="`Bond ${denom}`")
             v-model.number="d.atoms"
             @change.native="limitMax(d, $event)")
 
-      form-msg(name="Atoms" type="required"
+      tm-form-msg(name="Atoms" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
-      form-msg(name="Atoms" type="numeric"
+      tm-form-msg(name="Atoms" type="numeric"
         v-if="!$v.fields.delegates.$each[index].atoms.numeric")
-      form-msg(name="Atoms" type="between" :min="minimumAtoms" :max="$v.fields.delegates.$each[index].atoms.$params.between.max"
+      tm-form-msg(name="Atoms" type="between" :min="minimumAtoms" :max="$v.fields.delegates.$each[index].atoms.$params.between.max"
         v-if="!$v.fields.delegates.$each[index].atoms.between")
 
     .bond-group.bond-group--unbonding(
@@ -84,32 +84,32 @@ page.page-bond(:title="`Bond ${denom}`")
         .bond-percent
           label.bond-delta
             span(v-if="newUnbondingAtomsDeltaPct !== '0%'") {{ newUnbondingAtomsDeltaPct }}
-          field.bond-percent__input(
+          tm-field.bond-percent__input(
             disabled
             placeholder="0%"
             :value="bondBarPercent(newUnbondingAtoms)")
         .bond-value
           label.bond-delta
             span(v-if="newUnbondingAtomsDelta !== 0") {{ newUnbondingAtomsDelta }}
-          field.bond-value__input#new-unbonding-atoms(
+          tm-field.bond-value__input#new-unbonding-atoms(
             disabled
             type="number"
             placeholder="Atoms"
             :value="newUnbondingAtoms")
 
-    form-group(field-id="bond-confirm" field-label=''
+    tm-form-group(field-id="bond-confirm" field-label=''
       :error='$v.fields.bondConfirm.$error')
-      .ni-field-checkbox
-        .ni-field-checkbox-input
+      .tm-field-checkbox
+        .tm-field-checkbox-input
           input#bond-confirm(type="checkbox" v-model="fields.bondConfirm")
-        label.ni-field-checkbox-label(for="bond-confirm")
+        label.tm-field-checkbox-label(for="bond-confirm")
           | Yes, update my bonds. I understand unbonding will take 30 days.
-      form-msg(name="Bonding Confirmation" type='required'
+      tm-form-msg(name="Bonding Confirmation" type='required'
         v-if='!$v.fields.bondConfirm.required')
 
     div(slot='footer')
-      btn#btn-reset(type="button" @click.native="resetFields" value="Reset" color="danger")
-      btn#btn-bond(value="Submit" color="primary")
+      tm-btn#btn-reset(type="button" @click.native="resetFields" value="Reset" color="danger")
+      tm-btn#btn-bond(value="Submit" color="primary")
 </template>
 
 <script>
@@ -117,28 +117,29 @@ import { between, numeric, required } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import interact from "interactjs"
-import Btn from "@nylira/vue-button"
-import Field from "@nylira/vue-field"
-import FieldAddon from "common/NiFieldAddon"
-import FieldGroup from "common/NiFieldGroup"
-import FormGroup from "common/NiFormGroup"
-import FormMsg from "common/NiFormMsg"
-import FormStruct from "common/NiFormStruct"
-import Page from "common/NiPage"
-import Part from "common/NiPart"
-import ToolBar from "common/NiToolBar"
+import {
+  TmBtn,
+  TmFormGroup,
+  TmFormStruct,
+  TmPage,
+  TmPart,
+  TmField,
+  TmFormMsg
+} from "@tendermint/ui"
+
+import FieldAddon from "common/TmFieldAddon"
+import ToolBar from "common/TmToolBar"
 export default {
   name: "page-bond",
   components: {
-    Btn,
-    Field,
+    TmBtn,
+    TmField,
     FieldAddon,
-    FieldGroup,
-    FormGroup,
-    FormMsg,
-    FormStruct,
-    Page,
-    Part,
+    TmFormGroup,
+    TmFormMsg,
+    TmFormStruct,
+    TmPage,
+    TmPart,
     ToolBar
   },
   computed: {

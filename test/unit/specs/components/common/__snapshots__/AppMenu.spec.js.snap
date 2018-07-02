@@ -3,78 +3,78 @@
 exports[`AppMenu has the expected html structure 1`] = `
 "<menu class=\\"app-menu\\">
    <div class=\\"app-menu-main ps\\">
-      <a href=\\"#/\\" class=\\"ni-li ni-li-link router-link-exact-active router-link-active\\" id=\\"app-menu__wallet\\" exact=\\"exact\\">
-      <div class=\\"ni-li-container\\">
-         <div class=\\"ni-li-thumb\\">
+      <a href=\\"#/\\" class=\\"tm-li tm-li-link router-link-exact-active router-link-active\\" id=\\"app-menu__wallet\\" exact=\\"exact\\">
+      <div class=\\"tm-li-container\\">
+         <div class=\\"tm-li-thumb\\">
             <!---->
          </div>
-   <div class=\\"ni-li-label\\">
-      <div class=\\"ni-li-title\\">
+   <div class=\\"tm-li-label\\">
+      <div class=\\"tm-li-title\\">
          Wallet
       </div>
-   <div class=\\"ni-li-subtitle\\"></div>
+   <div class=\\"tm-li-subtitle\\"></div>
 </div>
-   <div class=\\"ni-li-icon\\">
+   <div class=\\"tm-li-icon\\">
       <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
    </div>
 </div>
-   </a><a href=\\"#/wallet/transactions\\" class=\\"ni-li ni-li-link\\" id=\\"app-menu__transactions\\" exact=\\"exact\\">
-   <div class=\\"ni-li-container\\">
-      <div class=\\"ni-li-thumb\\">
+   </a><a href=\\"#/wallet/transactions\\" class=\\"tm-li tm-li-link\\" id=\\"app-menu__transactions\\" exact=\\"exact\\">
+   <div class=\\"tm-li-container\\">
+      <div class=\\"tm-li-thumb\\">
          <!---->
       </div>
-   <div class=\\"ni-li-label\\">
-      <div class=\\"ni-li-title\\">
+   <div class=\\"tm-li-label\\">
+      <div class=\\"tm-li-title\\">
          Transactions
       </div>
-   <div class=\\"ni-li-subtitle\\"></div>
+   <div class=\\"tm-li-subtitle\\"></div>
 </div>
-   <div class=\\"ni-li-icon\\">
+   <div class=\\"tm-li-icon\\">
       <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
    </div>
 </div>
-   </a><a href=\\"#/staking\\" class=\\"ni-li ni-li-link\\" id=\\"app-menu__staking\\" exact=\\"exact\\">
-   <div class=\\"ni-li-container\\">
-      <div class=\\"ni-li-thumb\\">
+   </a><a href=\\"#/staking\\" class=\\"tm-li tm-li-link\\" id=\\"app-menu__staking\\" exact=\\"exact\\">
+   <div class=\\"tm-li-container\\">
+      <div class=\\"tm-li-thumb\\">
          <!---->
       </div>
-   <div class=\\"ni-li-label\\">
-      <div class=\\"ni-li-title\\">
+   <div class=\\"tm-li-label\\">
+      <div class=\\"tm-li-title\\">
          Staking
       </div>
-   <div class=\\"ni-li-subtitle\\"></div>
+   <div class=\\"tm-li-subtitle\\"></div>
 </div>
-   <div class=\\"ni-li-icon\\">
+   <div class=\\"tm-li-icon\\">
       <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
    </div>
 </div>
-   </a><a href=\\"#/proposals\\" class=\\"ni-li ni-li-link\\" id=\\"app-menu__proposals\\" exact=\\"exact\\">
-   <div class=\\"ni-li-container\\">
-      <div class=\\"ni-li-thumb\\">
+   </a><a href=\\"#/proposals\\" class=\\"tm-li tm-li-link\\" id=\\"app-menu__proposals\\" exact=\\"exact\\">
+   <div class=\\"tm-li-container\\">
+      <div class=\\"tm-li-thumb\\">
          <!---->
       </div>
-   <div class=\\"ni-li-label\\">
-      <div class=\\"ni-li-title\\">
+   <div class=\\"tm-li-label\\">
+      <div class=\\"tm-li-title\\">
          Proposals
       </div>
-   <div class=\\"ni-li-subtitle\\"></div>
+   <div class=\\"tm-li-subtitle\\"></div>
 </div>
-   <div class=\\"ni-li-icon\\">
+   <div class=\\"tm-li-icon\\">
       <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
    </div>
 </div>
-   </a><a href=\\"#/blocks\\" class=\\"ni-li ni-li-link\\" id=\\"app-menu__blocks\\" exact=\\"exact\\">
-   <div class=\\"ni-li-container\\">
-      <div class=\\"ni-li-thumb\\">
+   </a><a href=\\"#/blocks\\" class=\\"tm-li tm-li-link\\" id=\\"app-menu__blocks\\" exact=\\"exact\\">
+   <div class=\\"tm-li-container\\">
+      <div class=\\"tm-li-thumb\\">
          <!---->
       </div>
-   <div class=\\"ni-li-label\\">
-      <div class=\\"ni-li-title\\">
+   <div class=\\"tm-li-label\\">
+      <div class=\\"tm-li-title\\">
          Blocks
       </div>
-   <div class=\\"ni-li-subtitle\\"></div>
+   <div class=\\"tm-li-subtitle\\"></div>
 </div>
-   <div class=\\"ni-li-icon\\">
+   <div class=\\"tm-li-icon\\">
       <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
    </div>
 </div>
@@ -86,31 +86,31 @@ exports[`AppMenu has the expected html structure 1`] = `
       <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
-   <div id=\\"ni-disconnected-network\\" class=\\"ni-connected-network ni-disconnected-network\\">
-      <div class=\\"ni-connected-network__icon\\">
+   <div id=\\"tm-disconnected-network\\" class=\\"tm-connected-network tm-disconnected-network\\">
+      <div class=\\"tm-connected-network__icon\\">
          <i class=\\"material-icons fa-spin\\">rotate_right</i>
       </div>
-   <div class=\\"ni-connected-network__string\\">
+   <div class=\\"tm-connected-network__string\\">
       Connecting to network…
    </div>
 </div>
-   <a href=\\"#/preferences\\" class=\\"ni-li ni-li-link ni-li-user proposal-enter proposal-enter-active\\">
-   <div class=\\"ni-li-container\\">
-      <div class=\\"ni-li-thumb\\">
+   <a href=\\"#/preferences\\" class=\\"tm-li tm-li-link tm-li-user proposal-enter proposal-enter-active\\">
+   <div class=\\"tm-li-container\\">
+      <div class=\\"tm-li-thumb\\">
          <!---->
       </div>
-   <div class=\\"ni-li-label\\">
-      <div class=\\"ni-li-title\\">
+   <div class=\\"tm-li-label\\">
+      <div class=\\"tm-li-title\\">
          Preferences
       </div>
-   <div class=\\"ni-li-subtitle\\">
+   <div class=\\"tm-li-subtitle\\">
       default
    </div>
 </div>
-   <div class=\\"ni-li-icon\\">
+   <div class=\\"tm-li-icon\\">
       <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
    </div>
 </div>
    </a>
 </menu>"
-`;
+`

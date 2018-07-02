@@ -1,14 +1,14 @@
 <template lang="pug">
-page(:title='proposal.title')
+tm-page(:title='proposal.title')
   div(slot="menu"): tool-bar
     a(@click="commentOnProposal(proposal.id)"): i.material-icons comment
     a(@click="proposalIsSpam(proposal.id)"): i.material-icons error
 
-  part(v-if="proposal.type === 'text'")
+  tm-part(v-if="proposal.type === 'text'")
     div(slot='title') Proposed by #[router-link(:to="{ name: 'delegate', params: { delegate: proposal.validatorId }}") {{ proposal.validatorId }}]
     text-block(:content="proposal.data.text")
 
-  part(title='Time to vote: 13D 23H 27M'): form-struct(:submit='confirmVote')
+  tm-part(title='Time to vote: 13D 23H 27M'): tm-form-struct(:submit='confirmVote')
     field-vote(@click.native="vote('yes')" dt='Yes' :dd='yesPct'
       color='hsl(120,50%,35%)' :active="votePick === 'yes'" :results="voteVisible")
 
@@ -22,27 +22,24 @@ page(:title='proposal.title')
       color='hsl(0,0%,35%)' :active="votePick === 'abstain'" :results="voteVisible")
 
     div(slot='footer')
-      btn(theme='cosmos' type='button' @click.native="toggleVoteVisible" value='Toggle Results')
-      btn(theme='cosmos' type='submit' value='Confirm Vote')
+      tm-btn(theme='cosmos' type='button' @click.native="toggleVoteVisible" value='Toggle Results')
+      tm-btn(theme='cosmos' type='submit' value='Confirm Vote')
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import Btn from "@nylira/vue-button"
-import FieldVote from "common/NiFieldVote"
-import FormStruct from "common/NiFormStruct"
-import Page from "common/NiPage"
-import Part from "common/NiPart"
+import { TmBtn, TmFormStruct, TmPage, TmPart } from "@tendermint/ui"
+import FieldVote from "common/TmFieldVote"
 import TextBlock from "common/TextBlock"
-import ToolBar from "common/NiToolBar"
+import ToolBar from "common/TmToolBar"
 export default {
   name: "page-proposal",
   components: {
-    Btn,
+    TmBtn,
     FieldVote,
-    FormStruct,
-    Page,
-    Part,
+    TmFormStruct,
+    TmPage,
+    TmPart,
     TextBlock,
     ToolBar
   },

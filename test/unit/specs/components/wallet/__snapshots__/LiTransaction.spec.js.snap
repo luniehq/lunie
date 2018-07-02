@@ -2,7 +2,7 @@
 
 exports[`LiTransaction has the expected html structure 1`] = `
 <div
-  class="ni-li-tx ni-li-tx-received"
+  class="tm-li-tx tm-li-tx-received"
 >
   <div
     class="tx-icon"

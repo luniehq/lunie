@@ -1,79 +1,82 @@
 <template lang='pug'>
-page(title='Send')
+tm-page(title='Send')
   div(slot="menu"): tool-bar
-  form-struct(:submit="onSubmit")
-    part(title='Denomination Options')
-      form-group(:error='$v.fields.denom.$error'
+  tm-form-struct(:submit="onSubmit")
+    tm-part(title='Denomination Options')
+      tm-form-group(:error='$v.fields.denom.$error'
         field-id='send-denomination' field-label='Denomination')
-        field#send-denomination(
+        tm-field#send-denomination(
           type="select"
           v-model="fields.denom"
           :options="denominations"
           placeholder="Select token...")
-        form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
+        tm-form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
 
-    part(title='Transaction Details')
-      form-group(:error='$v.fields.zoneId.$error'
+    tm-part(title='Transaction Details')
+      tm-form-group(:error='$v.fields.zoneId.$error'
         v-if="config.devMode"
         field-id='send-zone-id' field-label='Zone ID')
-        field#send-zone-id(
+        tm-field#send-zone-id(
           type="select"
           v-model="fields.zoneId"
           :options="zoneIds"
           placeholder="Select zone...")
-        form-msg(name='Zone' type='required' v-if='!$v.fields.zoneId.required')
-      form-group(:error='$v.fields.address.$error'
+        tm-form-msg(name='Zone' type='required' v-if='!$v.fields.zoneId.required')
+      tm-form-group(:error='$v.fields.address.$error'
         field-id='send-address' field-label='Send To')
-        field-group
-          field#send-address(
+        tm-field-group
+          tm-field#send-address(
             type='text'
             v-model='fields.address'
             placeholder='Address')
-        form-msg(name='Address' type='required' v-if='!$v.fields.address.required')
-        form-msg(name='Address' type='bech32' :body="bech32error" v-else-if='!$v.fields.address.bech32Validate')
+        tm-form-msg(name='Address' type='required' v-if='!$v.fields.address.required')
+        tm-form-msg(name='Address' type='bech32' :body="bech32error" v-else-if='!$v.fields.address.bech32Validate')
 
-      form-group(:error='$v.fields.amount.$error'
+      tm-form-group(:error='$v.fields.amount.$error'
         field-id='send-amount' field-label='Amount')
-        field-group
-          field#send-amount(
+        tm-field-group
+          tm-field#send-amount(
             type='number'
             v-model='fields.amount'
             placeholder='Amount')
-        form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
-        form-msg(name='Amount' type='between' :min='max ? 1 : 0' :max='max'
+        tm-form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
+        tm-form-msg(name='Amount' type='between' :min='max ? 1 : 0' :max='max'
           v-if='!$v.fields.amount.between')
 
     div(slot='footer')
       div
-      btn(v-if='sending' value='Sending...' disabled color="primary")
-      btn(v-else @click='onSubmit' value="Send Tokens" color="primary")
+      tm-btn(v-if='sending' value='Sending...' disabled color="primary")
+      tm-btn(v-else @click='onSubmit' value="Send Tokens" color="primary")
 </template>
 
 <script>
 import b32 from "scripts/b32"
 import { required, between } from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
-import Btn from "@nylira/vue-button"
-import Field from "@nylira/vue-field"
-import FieldAddon from "common/NiFieldAddon"
-import FieldGroup from "common/NiFieldGroup"
-import FormGroup from "common/NiFormGroup"
-import FormMsg from "common/NiFormMsg"
-import FormStruct from "common/NiFormStruct"
-import Page from "common/NiPage"
-import Part from "common/NiPart"
-import ToolBar from "common/NiToolBar"
+import {
+  TmBtn,
+  TmFieldGroup,
+  TmFormGroup,
+  TmFormStruct,
+  TmPage,
+  TmPart,
+  TmField,
+  TmFormMsg
+} from "@tendermint/ui"
+
+import FieldAddon from "common/TmFieldAddon"
+import ToolBar from "common/TmToolBar"
 export default {
   components: {
-    Btn,
-    Field,
+    TmBtn,
+    TmField,
     FieldAddon,
-    FieldGroup,
-    FormGroup,
-    FormMsg,
-    FormStruct,
-    Page,
-    Part,
+    TmFieldGroup,
+    TmFormGroup,
+    TmFormMsg,
+    TmFormStruct,
+    TmPage,
+    TmPart,
     ToolBar
   },
   computed: {

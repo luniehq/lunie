@@ -2,26 +2,26 @@
 
 exports[`PageTransactions has the expected html structure 1`] = `
 <div
-  class="ni-page"
+  class="tm-page"
 >
   <header
-    class="ni-page-header"
+    class="tm-page-header"
   >
     <div
-      class="ni-page-header-container"
+      class="tm-page-header-container"
     >
       <div
-        class="ni-page-header-text"
+        class="tm-page-header-text"
       >
         <div
-          class="ni-page-header-title"
+          class="tm-page-header-title"
         >
           <h2>
             Transactions
           </h2>
         </div>
         <div
-          class="ni-page-header-subtitle"
+          class="tm-page-header-subtitle"
         >
           <h3>
             
@@ -29,15 +29,15 @@ exports[`PageTransactions has the expected html structure 1`] = `
         </div>
       </div>
       <menu
-        class="ni-page-header-menu"
+        class="tm-page-header-menu"
       >
         <div>
           <div>
             <div
-              class="ni-tool-bar"
+              class="tm-tool-bar"
             >
               <div
-                class="ni-tool-bar-container"
+                class="tm-tool-bar-container"
               >
                 <div
                   class="main"
@@ -49,34 +49,34 @@ exports[`PageTransactions has the expected html structure 1`] = `
                       search
                     </i>
                   </a>
+                  <a
+                    class="back"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
                 </div>
-                <a
-                  class="back"
-                >
-                  <i
-                    class="material-icons"
-                  >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
-                  >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
-                  >
-                    exit_to_app
-                  </i>
-                </a>
               </div>
             </div>
           </div>
@@ -85,7 +85,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main ps"
+    class="tm-page-main ps"
   >
     <!---->
     <li-transaction
@@ -129,26 +129,26 @@ exports[`PageTransactions has the expected html structure 1`] = `
 
 exports[`PageTransactions should filter the transactions 1`] = `
 <div
-  class="ni-page"
+  class="tm-page"
 >
   <header
-    class="ni-page-header"
+    class="tm-page-header"
   >
     <div
-      class="ni-page-header-container"
+      class="tm-page-header-container"
     >
       <div
-        class="ni-page-header-text"
+        class="tm-page-header-text"
       >
         <div
-          class="ni-page-header-title"
+          class="tm-page-header-title"
         >
           <h2>
             Transactions
           </h2>
         </div>
         <div
-          class="ni-page-header-subtitle"
+          class="tm-page-header-subtitle"
         >
           <h3>
             
@@ -156,15 +156,15 @@ exports[`PageTransactions should filter the transactions 1`] = `
         </div>
       </div>
       <menu
-        class="ni-page-header-menu"
+        class="tm-page-header-menu"
       >
         <div>
           <div>
             <div
-              class="ni-tool-bar"
+              class="tm-tool-bar"
             >
               <div
-                class="ni-tool-bar-container"
+                class="tm-tool-bar-container"
               >
                 <div
                   class="main"
@@ -176,34 +176,34 @@ exports[`PageTransactions should filter the transactions 1`] = `
                       search
                     </i>
                   </a>
+                  <a
+                    class="back"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
                 </div>
-                <a
-                  class="back"
-                >
-                  <i
-                    class="material-icons"
-                  >
-                    arrow_back
-                  </i>
-                </a>
-                <a
-                  class="help"
-                >
-                  <i
-                    class="material-icons"
-                  >
-                    help_outline
-                  </i>
-                </a>
-                <a
-                  class="sign-out"
-                >
-                  <i
-                    class="material-icons"
-                  >
-                    exit_to_app
-                  </i>
-                </a>
               </div>
             </div>
           </div>
@@ -212,40 +212,40 @@ exports[`PageTransactions should filter the transactions 1`] = `
     </div>
   </header>
   <main
-    class="ni-page-main"
+    class="tm-page-main"
   >
     <div
-      class="ni-modal-search"
+      class="tm-modal-search"
     >
       <div
-        class="ni-modal-search-container"
+        class="tm-modal-search-container"
       >
         <div
-          class="ni-form-group"
+          class="tm-form-group"
         >
           <!---->
           <!---->
           <div
-            class="ni-form-group__field"
+            class="tm-form-group__field"
           >
             <div
-              class="ni-modal-search-field"
+              class="tm-modal-search-field"
             >
               <input
-                class="mousetrap ni-field"
+                class="mousetrap tm-field"
                 id="search-input"
                 placeholder="Search..."
                 type="text"
               />
               <button
-                class="ni-btn"
+                class="tm-btn"
               >
                 <span
-                  class="ni-btn__container"
+                  class="tm-btn__container"
                 >
                   <i
                     aria-hidden="true"
-                    class="ni-btn__icon material-icons"
+                    class="tm-btn__icon material-icons"
                   >
                     close
                   </i>

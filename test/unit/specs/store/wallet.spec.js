@@ -162,6 +162,7 @@ describe("Module: Wallet", () => {
   it("should query the balances on reconnection", () => {
     store.state.node.stopConnecting = true
     store.state.wallet.balancesLoading = true
+    store.state.wallet.address = "12345678901234567890"
     jest.spyOn(node, "queryAccount")
     store.dispatch("reconnected")
     expect(node.queryAccount).toHaveBeenCalled()

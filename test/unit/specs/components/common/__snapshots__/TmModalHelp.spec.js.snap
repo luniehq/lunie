@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmModalHelp has the expected html structure 1`] = `
+<div
+  class="tm-modal-help tm-modal"
+>
+  <div
+    class="tm-modal-container"
+  >
+    <header
+      class="tm-modal-header"
+    >
+      <!---->
+      <div
+        class="tm-modal-title"
+      >
+        <div>
+          Need Help?
+        </div>
+      </div>
+      <div
+        class="tm-modal-icon tm-modal-close"
+      >
+        <i
+          class="material-icons"
+        >
+          close
+        </i>
+      </div>
+    </header>
+    <main
+      class="tm-modal-main"
+    >
+      <p>
+        Something in the app not working correctly? Tell us what went wrong in developer chat or create an issue on our GitHub. Thanks for improving Cosmos Voyager!
+      </p>
+      <a
+        class="tm-li tm-li-link proposal-enter proposal-enter-active"
+        href="https://riot.im/app/#/room/#cosmos:matrix.org"
+      >
+        <div
+          class="tm-li-container"
+        >
+          <div
+            class="tm-li-thumb"
+          >
+            <!---->
+          </div>
+          <div
+            class="tm-li-label"
+          >
+            <div
+              class="tm-li-title"
+            >
+              Developer Chat
+            </div>
+            <div
+              class="tm-li-subtitle"
+            >
+              
+            </div>
+          </div>
+          <div
+            class="tm-li-icon"
+          >
+            <i
+              class="material-icons inactive"
+            >
+              chevron_right
+            </i>
+            <i
+              class="material-icons active"
+            >
+              my_location
+            </i>
+          </div>
+        </div>
+      </a>
+      <a
+        class="tm-li tm-li-link proposal-enter proposal-enter-active"
+        href="https://github.com/cosmos/voyager/issues"
+      >
+        <div
+          class="tm-li-container"
+        >
+          <div
+            class="tm-li-thumb"
+          >
+            <!---->
+          </div>
+          <div
+            class="tm-li-label"
+          >
+            <div
+              class="tm-li-title"
+            >
+              GitHub Issues
+            </div>
+            <div
+              class="tm-li-subtitle"
+            >
+              
+            </div>
+          </div>
+          <div
+            class="tm-li-icon"
+          >
+            <i
+              class="material-icons inactive"
+            >
+              chevron_right
+            </i>
+            <i
+              class="material-icons active"
+            >
+              my_location
+            </i>
+          </div>
+        </div>
+      </a>
+    </main>
+    <footer
+      class="tm-modal-footer"
+    />
+  </div>
+</div>
+`;
+
+exports[`TmModalHelp should hide 1`] = `<!---->`;

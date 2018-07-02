@@ -2,32 +2,38 @@
 
 exports[`Module: Themes has a dark theme 1`] = `
 Object {
-  "app-bg": "hsl(233, 36%, 13%)",
-  "app-bg-alpha": "hsla(233, 36%, 13%, 95%)",
-  "app-fg": "hsl(233, 33%, 16%)",
+  "app-bg": "hsl(233, 37%, 18%)",
+  "app-bg-alpha": "hsla(237, 18%, 20%, 95%)",
+  "app-bg-light": "hsl(233, 40%, 14%)",
+  "app-fg": "hsl(233, 43%, 10%)",
   "bc": "hsl(233, 22%, 23%)",
   "bc-dim": "hsl(233, 33%, 16%)",
-  "bright": "#fff",
-  "dim": "hsl(233, 13%, 60%)",
-  "hover-bg": "hsl(233, 43%, 10%)",
+  "bc-light": "#dfdfdf",
+  "box-shadow": "hsla(0,0,0,0.2)",
+  "dim": "hsl(240, 5%, 75%)",
+  "hover-bg": "hsla(233, 88%, 90%, 0.2)",
   "input-bc": "hsl(233, 22%, 33%)",
   "input-bc-hover": "hsl(233, 22%, 40%)",
-  "txt": "hsl(233, 13%, 85%)",
+  "link": "hsl(233, 88%, 82%)",
+  "txt": "hsl(0, 0%, 100%)",
 }
 `;
 
 exports[`Module: Themes has a light theme 1`] = `
 Object {
-  "app-bg": "#fff",
+  "app-bg": "#f5f5f5",
   "app-bg-alpha": "hsla(233, 0%, 0%, 5%)",
-  "app-fg": "#f3f3f3",
+  "app-bg-light": "#fff",
+  "app-fg": "hsl(0,0%,92%)",
   "bc": "#ddd",
-  "bc-dim": "#eee",
-  "bright": "#000",
-  "dim": "#666",
-  "hover-bg": "#f3f3f3",
+  "bc-dim": "#cdcbcb",
+  "bc-light": "#dfdfdf",
+  "box-shadow": "hsla(0,0,80%,0.2)",
+  "dim": "#3b3b3b",
+  "hover-bg": "hsla(233, 88%, 90%, 0.2)",
   "input-bc": "hsl(233, 22%, 67%)",
   "input-bc-hover": "hsl(233, 22%, 40%)",
-  "txt": "#333",
+  "link": "hsl(233, 88%, 57%)",
+  "txt": "#000",
 }
 `;
