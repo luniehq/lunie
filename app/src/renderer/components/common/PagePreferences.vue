@@ -2,6 +2,12 @@
 tm-page(title="Preferences")
   div(slot="menu"): tool-bar
 
+  tm-modal(:close="setAbout", v-if="showAbout")
+    div(slot="title") Cosmos Voyager
+    .about-popup
+      img( :src="require('assets/images/onboarding/step-0.png')")
+      div Version 0.4.3 (0.4.3)
+
   tm-part(title='Settings')
     tm-list-item(type="field" title="Select network to connect to")
       tm-field#select-network(
@@ -41,13 +47,26 @@ tm-page(title="Preferences")
         type='button'
         @click.native="signOut"
         value='Sign Out')
+  tm-part(title="About")
+    tm-list-item(title="Cosmos Voyager" subtitle="Version 0.4.3 (0.4.3)")
+    tm-list-item(title="Cosmos SDK" subtitle="Version 0.19.0 (0.19.0)")
+    tm-list-item(title="Gaia Testnet" subtitle="7001")
+    //- tm-list-item(dt="Cosmos Voyager" dd="Version 0.4.3 (0.4.3)")
+    //- tm-list-item(dt="Cosmos SDK" dd="Version 0.19.0 (0.19.0)")
+    //- tm-list-item(dt="Gaia Testnet" dd="7001")
+    //tm-list-item(type="field"
+      title="")
+      tm-btn#toggle-onboarding(
+        @click.native="setAbout"
+        value="Versions"
+        icon="info")
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
 import ToolBar from "common/TmToolBar"
-
+import TmModal from "common/TmModal"
 export default {
   name: "page-preferences",
   components: {
@@ -56,12 +75,15 @@ export default {
     TmListItem,
     TmPage,
     TmPart,
-    ToolBar
+    ToolBar,
+    TmModal
   },
   computed: {
     ...mapGetters(["user", "themes", "onboarding", "mockedConnector"])
   },
   data: () => ({
+    showAbout: false,
+    version: "0.7.0",
     themeSelectActive: null,
     themeSelectOptions: [
       {
@@ -90,6 +112,9 @@ export default {
     this.themeSelectActive = this.themes.active
   },
   methods: {
+    setAbout() {
+      this.showAbout = !this.showAbout
+    },
     signOut() {
       this.$store.dispatch("signOut")
       this.$store.commit("notifySignOut")
@@ -121,3 +146,9 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  .about-popup
+    text-align center
+    img
+      max-width 150px
+</style>
