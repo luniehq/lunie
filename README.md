@@ -21,7 +21,7 @@
 
 Building Voyager and its dependencies requires [Docker](https://www.docker.com/get-docker) installed.
 
-#### Build Gaia (Cosmos SDK)
+#### Build Gaia (Cosmos SDK)<a name="build-gaia"></a>
 
 Build the Gaia CLI (`gaiacli`) and full node (`gaiad`), which are part of the
 Cosmos SDK, with the following command:
@@ -141,6 +141,47 @@ Then attach to the debugger via the posted url in Chrome.
 To debug the electron view, set the environment variable `COSMOS_DEVTOOLS` to something truthy like `"true"`. The Chrome DevTools will appear when you start Voyager.
 
 To see the console output of the view in your terminal, set the environment variable `ELECTRON_ENABLE_LOGGING` to something truthy like `1`.
+
+---
+
+## Run a local node
+
+Sometimes you may want to run a local node, i.e. in the case there is no available network. You need Gaia to do so [Build Gaia](#build-gaia).
+
+Then initialize your node:
+
+```bash
+$ ./builds/gaia/{OS}/gaiad init --home ~/.gaiad-testnet
+```
+
+Write down the 12 word secret phrase to be able to import an account that holds tokens later on.
+
+Copy the configuration files (assuming you are in the Voyager dir):
+
+```bash
+$ cp ~/.gaiad-testnet/genesis.json ./app/networks/local-testnet
+$ cp ~/.gaiad-testnet/config.toml ./app/networks/local-testnet
+```
+
+Enter your local node as a seed:
+
+```bash
+$ sed -i.bak 's/seeds = ""/seeds = "localhost"/g' ./app/networks/local-testnet/config.toml
+```
+
+Start your local node:
+
+```bash
+$ ./builds/gaia/{OS}/gaiad start --home ~/.gaiad-testnet
+```
+
+Then run Voyager for your local testnet:
+
+```bash
+$ yarn testnet local-testnet
+```
+
+Import the account with the 12 word seed phrase you wrote down earlier.
 
 ## Flags
 
