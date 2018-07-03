@@ -70,7 +70,11 @@ export default {
       return this.user.atoms > 0
     },
     delegateType() {
-      return this.delegate.isValidator ? "Validator" : "Candidate"
+      return this.delegate.revoked
+        ? "Revoked"
+        : this.delegate.isValidator
+          ? "Validator"
+          : "Candidate"
     }
   },
   data: () => ({ num: num }),
