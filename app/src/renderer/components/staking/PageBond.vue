@@ -35,7 +35,9 @@ tm-page.page-bond(:title="`Bond ${denom}`")
       :class="bondGroupClass(delta(d.atoms, d.oldAtoms))")
       .bond-group__fields
         .bond-bar
-          label.bond-bar__label {{ d.delegate.moniker }}
+          label.bond-bar__label(v-if="!d.delegate.revoked") {{ d.delegate.moniker }}
+          label.bond-bar__label.revoked(v-if="d.delegate.revoked") {{ d.delegate.moniker }}
+          label.bond-bar__revoked(v-if="d.delegate.revoked") REVOKED
           .bond-bar__input
             .bond-bar-old__outer
               .bond-bar-old__inner(
@@ -456,6 +458,14 @@ export default {
   color var(--txt)
   font-size x
   text-align left
+
+.bond-bar__label.revoked
+  text-decoration line-through
+
+.bond-bar__revoked
+  color red
+  font-weight bold
+  margin-left 6px
 
 .bond-bar__input
   height 2rem
