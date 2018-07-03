@@ -3,6 +3,8 @@ import fs from "fs-extra"
 let testRoot = "./test/unit/tmp/test_root/"
 
 function mockGenesis() {
+  process.env.COSMOS_NETWORK = "./foo/bar/"
+  process.env.GAIA_VERSION = "gaia"
   process.env.COSMOS_HOME = testRoot
   fs.ensureFileSync(testRoot + "genesis.json")
   fs.writeFileSync(

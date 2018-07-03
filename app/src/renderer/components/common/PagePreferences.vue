@@ -5,7 +5,7 @@ tm-page(title="Preferences")
   tm-modal(:close="setAbout", v-if="showAbout")
     div(slot="title") Cosmos Voyager
     .about-popup
-      img( :src="require('assets/images/onboarding/step-0.png')")
+      img( src="~@/assets/images/onboarding/step-0.png")
       div Voyager Version {{versionVoyager}}
       //- div Cosmos {{versionNetwork}}
       div Cosmos SDK {{versionGaia}}
@@ -111,7 +111,6 @@ export default {
   mounted() {
     this.networkSelectActive = this.mockedConnector ? "mock" : "live"
     this.themeSelectActive = this.themes.active
-
     this.versionGaia = process.env.GAIA_VERSION
     this.versionNetwork = process.env.COSMOS_NETWORK.split("/")
       .filter(n => n)
