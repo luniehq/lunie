@@ -27,12 +27,23 @@ export default ({ commit, node }) => {
     setWalletAddress(state, address) {
       state.address = address
 
+      if (!address) {
+        state.decodedAddress = null
+        return
+      }
+
       // decode bech32 so we know raw hex address
-      let decoded = bech32.fromWords(bech32.decode(address).words)
-      state.decodedAddress = decoded
-        .map(w => w.toString(16).padStart(2, "0"))
-        .join("")
-        .toUpperCase()
+      try {
+        let decoded = bech32.fromWords(bech32.decode(address).words)
+        state.decodedAddress = decoded
+          .map(w => w.toString(16).padStart(2, "0"))
+          .join("")
+          .toUpperCase()
+      } catch (err) {
+        // don't fail for invalid addresses,
+        // this should only happen during some tests
+        state.decodedAddress = null
+      }
     },
     setAccountNumber(state, accountNumber) {
       state.accountNumber = accountNumber
