@@ -1,5 +1,3 @@
-import indicateValidators from "scripts/indicateValidators"
-
 export default ({ dispatch, node }) => {
   const state = {
     delegates: [],
@@ -41,13 +39,15 @@ export default ({ dispatch, node }) => {
     async getDelegates({ state, dispatch, commit, rootState }) {
       commit("setDelegateLoading", true)
       let delegates = await node.candidates()
+      let { validators } = await node.getValidators()
       for (let delegate of delegates) {
+        if (validators.find(v => v.pub_key === delegate.pub_key)) {
+          delegate.isValidator = true
+        }
         commit("addDelegate", delegate)
       }
-      commit(
-        "setDelegates",
-        indicateValidators(state.delegates, rootState.config.maxValidators)
-      )
+
+      commit("setDelegates", delegates)
       commit("setDelegateLoading", false)
 
       return state.delegates

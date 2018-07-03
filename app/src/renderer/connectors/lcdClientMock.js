@@ -389,6 +389,12 @@ module.exports = {
   async candidates() {
     return state.candidates
   },
+  async getValidators() {
+    return {
+      block_height: 1,
+      validators: state.candidates
+    }
+  },
   // exports to be used in tests
   state,
   addresses,
