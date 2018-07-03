@@ -27,11 +27,6 @@ export default ({ commit, node }) => {
     setWalletAddress(state, address) {
       state.address = address
 
-      if (!address) {
-        state.decodedAddress = null
-        return
-      }
-
       // decode bech32 so we know raw hex address
       try {
         let decoded = bech32.fromWords(bech32.decode(address).words)
@@ -41,7 +36,7 @@ export default ({ commit, node }) => {
           .toUpperCase()
       } catch (err) {
         // don't fail for invalid addresses,
-        // this should only happen during some tests
+        // this happens when logging out
         state.decodedAddress = null
       }
     },
@@ -156,13 +151,16 @@ export default ({ commit, node }) => {
 
       commit("setDenoms", Object.keys(denoms))
     },
-    async queryWalletStateAfterHeight({ rootState, dispatch }, height) {
-      // wait until height is >= `height`
-      let interval = setInterval(() => {
-        if (rootState.node.lastHeader.height < height) return
-        clearInterval(interval)
-        dispatch("queryWalletState")
-      }, 1000)
+    queryWalletStateAfterHeight({ rootState, dispatch }, height) {
+      return new Promise(resolve => {
+        // wait until height is >= `height`
+        let interval = setInterval(() => {
+          if (rootState.node.lastHeader.height < height) return
+          clearInterval(interval)
+          dispatch("queryWalletState")
+          resolve()
+        }, 1000)
+      })
     },
     walletSubscribe({ state, dispatch }) {
       if (!state.decodedAddress) return

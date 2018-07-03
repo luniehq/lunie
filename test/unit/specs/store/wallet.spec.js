@@ -208,4 +208,53 @@ describe("Module: Wallet", () => {
     await store.dispatch("initializeWallet", "tb1wdhk6e2pv3j8yetnwv0yr6s6")
     expect(store.state.wallet.balancesLoading).toBe(false)
   })
+
+  it("should not error when setting address to null", async () => {
+    store.commit("setWalletAddress", null)
+    expect(store.state.wallet.address).toBe(null)
+    expect(store.state.wallet.decodedAddress).toBe(null)
+  })
+
+  it("should query wallet data at specified height", async () => {
+    let height = store.state.node.lastHeader.height
+    setTimeout(() => store.state.node.lastHeader.height++, 2000)
+    await store.dispatch("queryWalletStateAfterHeight", height + 1)
+  })
+
+  it("should not error when subscribing with no address", async () => {
+    store.state.wallet.address = null
+    store.state.wallet.decodedAddress = null
+    store.dispatch("walletSubscribe")
+  })
+
+  it("should handle subscription errors", async () => {
+    store.state.wallet.address = "x"
+    store.state.wallet.decodedAddress = "x"
+
+    console.error = jest.fn()
+    node.rpc.subscribe = jest.fn(({ query }, cb) => {
+      cb(Error("foo"))
+    })
+
+    store.dispatch("walletSubscribe")
+    expect(console.error.mock.calls).toMatchSnapshot()
+  })
+
+  it("should query wallet on subscription txs", async () => {
+    store.state.wallet.address = "x"
+    store.state.wallet.decodedAddress = "x"
+
+    await new Promise(resolve => {
+      node.queryAccount = jest.fn(() => {
+        if (node.queryAccount.mock.calls.length < 2) return
+        resolve()
+      })
+
+      node.rpc.subscribe = jest.fn(({ query }, cb) => {
+        cb(null, { data: { value: { TxResult: { height: -1 } } } })
+      })
+
+      store.dispatch("walletSubscribe")
+    })
+  })
 })
