@@ -38,7 +38,9 @@ tm-page.page-bond(:title="`Bond ${denom}`")
           label.bond-bar__label {{ d.delegate.moniker }}
           .bond-bar__input
             .bond-bar-old__outer
-              .bond-bar-old__inner(:style="styleBondBarInner(d.oldAtoms)")
+              .bond-bar-old__inner(
+                :style="styleBondBarInner(d.oldAtoms)"
+                v-if="d.oldAtoms > 0")
             .bond-bar__outer
               .bond-bar__inner.bond-bar__inner--editable(:id="'delegate-' + d.id"
                 :style="styleBondBarInner(d.atoms)")
