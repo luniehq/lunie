@@ -196,16 +196,15 @@ exports[`PageBond has the expected html structure 1`] = `
                       >
                         someValidator
                       </label>
+                      <!---->
+                      <!---->
                       <div
                         class="bond-bar__input"
                       >
                         <div
                           class="bond-bar-old__outer"
                         >
-                          <div
-                            class="bond-bar-old__inner"
-                            style="width: 28px;"
-                          />
+                          <!---->
                         </div>
                         <div
                           class="bond-bar__outer"
@@ -242,7 +241,6 @@ exports[`PageBond has the expected html structure 1`] = `
                       </label>
                       <input
                         class="bond-value__input tm-field"
-                        max="101"
                         min="0"
                         placeholder="Atoms"
                         step="1"
@@ -268,16 +266,15 @@ exports[`PageBond has the expected html structure 1`] = `
                       >
                         someOtherValidator
                       </label>
+                      <!---->
+                      <!---->
                       <div
                         class="bond-bar__input"
                       >
                         <div
                           class="bond-bar-old__outer"
                         >
-                          <div
-                            class="bond-bar-old__inner"
-                            style="width: 28px;"
-                          />
+                          <!---->
                         </div>
                         <div
                           class="bond-bar__outer"
@@ -314,7 +311,6 @@ exports[`PageBond has the expected html structure 1`] = `
                       </label>
                       <input
                         class="bond-value__input tm-field"
-                        max="101"
                         min="0"
                         placeholder="Atoms"
                         step="1"
