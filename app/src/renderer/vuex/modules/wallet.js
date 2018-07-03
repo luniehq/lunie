@@ -26,19 +26,20 @@ export default ({ commit, node }) => {
     },
     setWalletAddress(state, address) {
       state.address = address
-
-      // decode bech32 so we know raw hex address
-      try {
-        let decoded = bech32.fromWords(bech32.decode(address).words)
-        state.decodedAddress = decoded
-          .map(w => w.toString(16).padStart(2, "0"))
-          .join("")
-          .toUpperCase()
-      } catch (err) {
-        // don't fail for invalid addresses,
-        // this happens when logging out
+      mutations.setDecodedAddress(state, address)
+    },
+    // decode bech32 so we know the raw hex address for handling tendermint events
+    setDecodedAddress(state, address) {
+      if (!address) {
         state.decodedAddress = null
+        return
       }
+
+      let decoded = bech32.fromWords(bech32.decode(address).words)
+      state.decodedAddress = decoded
+        .map(w => w.toString(16).padStart(2, "0"))
+        .join("")
+        .toUpperCase()
     },
     setAccountNumber(state, accountNumber) {
       state.accountNumber = accountNumber
@@ -165,36 +166,29 @@ export default ({ commit, node }) => {
     walletSubscribe({ state, dispatch }) {
       if (!state.decodedAddress) return
 
+      function onTx(err, event) {
+        if (err) {
+          return console.error("error subscribing to transactions", err)
+        }
+        console.log("detected tx", event)
+        dispatch(
+          "queryWalletStateAfterHeight",
+          event.data.value.TxResult.height + 1
+        )
+      }
+
       node.rpc.subscribe(
         {
           query: `tm.event = 'Tx' AND sender = '${state.decodedAddress}'`
         },
-        (err, event) => {
-          if (err) {
-            return console.error("error subscribing to transactions", err)
-          }
-          console.log("detected outgoing tx", event)
-          dispatch(
-            "queryWalletStateAfterHeight",
-            event.data.value.TxResult.height + 1
-          )
-        }
+        onTx
       )
 
       node.rpc.subscribe(
         {
           query: `tm.event = 'Tx' AND recipient = '${state.decodedAddress}'`
         },
-        (err, event) => {
-          if (err) {
-            return console.error("error subscribing to transactions", err)
-          }
-          console.log("detected incoming tx", event)
-          dispatch(
-            "queryWalletStateAfterHeight",
-            event.data.value.TxResult.height + 1
-          )
-        }
+        onTx
       )
     }
   }
