@@ -1,6 +1,7 @@
 let fs = require("fs-extra")
 let { join } = require("path")
 const { remote } = require("electron")
+const b32 = require("scripts/b32")
 const root = remote.getGlobal("root")
 
 export default ({ commit, node }) => {
@@ -53,6 +54,7 @@ export default ({ commit, node }) => {
       if (state.historyLoading) {
         dispatch("queryWalletHistory")
       }
+      dispatch("subscribeToTxs")
     },
     initializeWallet({ commit, dispatch }, address) {
       // clear previous account state
@@ -62,6 +64,7 @@ export default ({ commit, node }) => {
       commit("setWalletAddress", address)
       dispatch("loadDenoms")
       dispatch("queryWalletState")
+      dispatch("subscribeToTxs")
     },
     queryWalletState({ state, dispatch }) {
       dispatch("queryWalletBalances")
@@ -137,6 +140,18 @@ export default ({ commit, node }) => {
       }
 
       commit("setDenoms", Object.keys(denoms))
+    },
+    // subscribe to all txs that are sent to or from the current address
+    subscribeToTxs({ state, dispatch }) {
+      const hexAddress = b32.decode(state.address)
+      node.rpc.subscribe(
+        { query: `tm.event = 'Tx' AND sender = '${hexAddress}'` },
+        () => dispatch("queryWalletState")
+      )
+      node.rpc.subscribe(
+        { query: `tm.event = 'Tx' AND recipient = '${hexAddress}'` },
+        () => dispatch("queryWalletState")
+      )
     }
   }
 
