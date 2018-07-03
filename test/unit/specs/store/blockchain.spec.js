@@ -160,14 +160,12 @@ describe("Module: Blockchain", () => {
   })
 
   it("should handle errors", () => {
+    console.error = jest.fn()
     node.rpc.subscribe = (query, cb) => {
       cb({ message: "expected error" })
     }
     store.dispatch("subscribeToBlocks")
-    expect(store.state.blockchain.blocks.length).toBe(0)
-    expect(store.state.notifications[0].title).toContain(
-      `Error subscribing to new blocks`
-    )
+    expect(console.error.mock.calls.length).toBe(1)
   })
 
   it("should not subscribe if still syncing", async () => {
