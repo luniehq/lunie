@@ -2,6 +2,7 @@ let fs = require("fs-extra")
 let { join } = require("path")
 const { remote } = require("electron")
 const root = remote.getGlobal("root")
+const bech32 = require("bech32")
 
 export default ({ commit, node }) => {
   let state = {
@@ -11,6 +12,7 @@ export default ({ commit, node }) => {
     historyLoading: false,
     denoms: [],
     address: null,
+    decodedAddress: null,
     zoneIds: ["basecoind-demo1", "basecoind-demo2"]
   }
 
@@ -24,6 +26,13 @@ export default ({ commit, node }) => {
     },
     setWalletAddress(state, address) {
       state.address = address
+
+      // decode bech32 so we know raw hex address
+      let decoded = bech32.fromWords(bech32.decode(address).words)
+      state.decodedAddress = decoded
+        .map(w => w.toString(16).padStart(2, "0"))
+        .join("")
+        .toUpperCase()
     },
     setAccountNumber(state, accountNumber) {
       state.accountNumber = accountNumber
@@ -62,6 +71,7 @@ export default ({ commit, node }) => {
       commit("setWalletAddress", address)
       dispatch("loadDenoms")
       dispatch("queryWalletState")
+      dispatch("walletSubscribe")
     },
     queryWalletState({ state, dispatch }) {
       dispatch("queryWalletBalances")
@@ -84,9 +94,6 @@ export default ({ commit, node }) => {
       }
 
       state.balancesLoading = false
-
-      await sleep(3000)
-      dispatch("queryWalletBalances")
     },
     async queryWalletHistory({ state, commit, dispatch }) {
       commit("setHistoryLoading", true)
@@ -137,6 +144,49 @@ export default ({ commit, node }) => {
       }
 
       commit("setDenoms", Object.keys(denoms))
+    },
+    async queryWalletStateAfterHeight({ rootState, dispatch }, height) {
+      // wait until height is >= `height`
+      let interval = setInterval(() => {
+        if (rootState.node.lastHeader.height < height) return
+        clearInterval(interval)
+        dispatch("queryWalletState")
+      }, 1000)
+    },
+    walletSubscribe({ state, dispatch }) {
+      if (!state.decodedAddress) return
+
+      node.rpc.subscribe(
+        {
+          query: `tm.event = 'Tx' AND sender = '${state.decodedAddress}'`
+        },
+        (err, event) => {
+          if (err) {
+            return console.error("error subscribing to transactions", err)
+          }
+          console.log("detected outgoing tx", event)
+          dispatch(
+            "queryWalletStateAfterHeight",
+            event.data.value.TxResult.height + 1
+          )
+        }
+      )
+
+      node.rpc.subscribe(
+        {
+          query: `tm.event = 'Tx' AND recipient = '${state.decodedAddress}'`
+        },
+        (err, event) => {
+          if (err) {
+            return console.error("error subscribing to transactions", err)
+          }
+          console.log("detected incoming tx", event)
+          dispatch(
+            "queryWalletStateAfterHeight",
+            event.data.value.TxResult.height + 1
+          )
+        }
+      )
     }
   }
 

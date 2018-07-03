@@ -82,11 +82,14 @@ export default function({ node }) {
       node.rpc.subscribe(
         { query: "tm.event = 'NewBlockHeader'" },
         (err, event) => {
-          if (err) return console.error("error subscribing to headers", err)
+          if (err) {
+            return console.error("error subscribing to headers", err)
+          }
           dispatch("setLastHeader", event.data.value.header)
         }
       )
 
+      dispatch("walletSubscribe")
       dispatch("pollRPCConnection")
     },
     async checkConnection({ commit }) {
