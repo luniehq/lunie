@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Doesn't show loading screen when validators are still stored @okwme
 * Improved CI @faboweb
 * Search bar fixed to top @okwme
+* Hide block subscription errors @mappum
 
 ### Fixed
 
