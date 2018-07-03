@@ -21,6 +21,7 @@ describe("Module: Wallet", () => {
       historyLoading: false,
       denoms: [],
       address: null,
+      decodedAddress: null,
       zoneIds: ["basecoind-demo1", "basecoind-demo2"]
     }
     expect(store.state.wallet).toEqual(state)
