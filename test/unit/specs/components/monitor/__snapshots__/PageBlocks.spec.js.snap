@@ -1,93 +1,92 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageBlocks has the expected html structure 1`] = `
-"<div class=\\"ni-page\\">
-   <header class=\\"ni-page-header\\">
-      <div class=\\"ni-page-header-container\\">
-         <div class=\\"ni-page-header-text\\">
-            <div class=\\"ni-page-header-title\\">
+"<div class=\\"tm-page\\">
+   <header class=\\"tm-page-header\\">
+      <div class=\\"tm-page-header-container\\">
+         <div class=\\"tm-page-header-text\\">
+            <div class=\\"tm-page-header-title\\">
                <h2>
                   Block Explorer
                </h2>
 </div>
-   <div class=\\"ni-page-header-subtitle\\">
+   <div class=\\"tm-page-header-subtitle\\">
       <h3></h3>
 </div>
 </div>
-   <menu class=\\"ni-page-header-menu\\">
+   <menu class=\\"tm-page-header-menu\\">
       <div>
          <div>
-            <div class=\\"ni-tool-bar\\">
-               <div class=\\"ni-tool-bar-container\\">
+            <div class=\\"tm-tool-bar\\">
+               <div class=\\"tm-tool-bar-container\\">
                   <div class=\\"main\\">
-                     <a><i class=\\"material-icons\\">search</i></a>
+                     <a><i class=\\"material-icons\\">search</i></a><a class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a class=\\"sign-out\\"><i class=\\"material-icons\\">exit_to_app</i></a>
                   </div>
-      <a class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a class=\\"sign-out\\"><i class=\\"material-icons\\">exit_to_app</i></a>
-   </div>
+</div>
 </div>
 </div>
 </div>
 </menu>
 </div>
 </header>
-<main class=\\"ni-page-main ps\\">
+<main class=\\"tm-page-main ps\\">
    <modal-search type=\\"blocks\\"></modal-search>
       <!---->
       <!---->
-   <section class=\\"ni-part\\">
-      <div class=\\"ni-part-container\\">
-         <header class=\\"ni-part-header\\">
-            <div class=\\"ni-part-header-container\\">
-               <div class=\\"ni-part-title h5\\">
+   <section class=\\"tm-part\\">
+      <div class=\\"tm-part-container\\">
+         <header class=\\"tm-part-header\\">
+            <div class=\\"tm-part-header-container\\">
+               <div class=\\"tm-part-title h5\\">
                   Current Block
                </div>
-         <menu class=\\"ni-part-menu\\"></menu>
+         <menu class=\\"tm-part-menu\\"></menu>
 </div>
 </header>
-      <main class=\\"ni-part-main\\">
-         <a href=\\"#/blocks/12345\\" class=\\"ni-li ni-li-link\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
+      <main class=\\"tm-part-main\\">
+         <a href=\\"#/blocks/12345\\" class=\\"tm-li tm-li-link\\">
+         <div class=\\"tm-li-container\\">
+            <div class=\\"tm-li-thumb\\">
                <!---->
             </div>
-         <div class=\\"ni-li-dl\\">
-            <div class=\\"ni-li-dt\\">
+         <div class=\\"tm-li-dl\\">
+            <div class=\\"tm-li-dt\\">
                Block Height
             </div>
-         <div class=\\"ni-li-dd\\">
+         <div class=\\"tm-li-dd\\">
             12,345
          </div>
 </div>
-         <div class=\\"ni-li-icon\\">
+         <div class=\\"tm-li-icon\\">
             <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
          </div>
 </div>
          </a>
-         <div class=\\"ni-li\\">
-            <div class=\\"ni-li-container\\">
-               <div class=\\"ni-li-thumb\\">
+         <div class=\\"tm-li\\">
+            <div class=\\"tm-li-container\\">
+               <div class=\\"tm-li-thumb\\">
                   <!---->
                </div>
-         <div class=\\"ni-li-dl\\">
-            <div class=\\"ni-li-dt\\">
+         <div class=\\"tm-li-dl\\">
+            <div class=\\"tm-li-dt\\">
                Block Time
             </div>
-         <div class=\\"ni-li-dd\\">
+         <div class=\\"tm-li-dd\\">
             January 1st 1970 — 02:00:01
          </div>
 </div>
 </div>
 </div>
-         <div class=\\"ni-li\\">
-            <div class=\\"ni-li-container\\">
-               <div class=\\"ni-li-thumb\\">
+         <div class=\\"tm-li\\">
+            <div class=\\"tm-li-container\\">
+               <div class=\\"tm-li-thumb\\">
                   <!---->
                </div>
-         <div class=\\"ni-li-dl\\">
-            <div class=\\"ni-li-dt\\">
+         <div class=\\"tm-li-dl\\">
+            <div class=\\"tm-li-dt\\">
                Block Hash
             </div>
-         <div class=\\"ni-li-dd\\">
+         <div class=\\"tm-li-dd\\">
             123
          </div>
 </div>
@@ -96,46 +95,46 @@ exports[`PageBlocks has the expected html structure 1`] = `
 </main>
 </div>
 </section>
-<section class=\\"ni-part\\">
-   <div class=\\"ni-part-container\\">
-      <header class=\\"ni-part-header\\">
-         <div class=\\"ni-part-header-container\\">
-            <div class=\\"ni-part-title h5\\">
+<section class=\\"tm-part\\">
+   <div class=\\"tm-part-container\\">
+      <header class=\\"tm-part-header\\">
+         <div class=\\"tm-part-header-container\\">
+            <div class=\\"tm-part-title h5\\">
                Latest Blocks
             </div>
-      <menu class=\\"ni-part-menu\\"></menu>
+      <menu class=\\"tm-part-menu\\"></menu>
 </div>
 </header>
-   <main class=\\"ni-part-main\\">
-      <div class=\\"ni-li column-header\\">
-         <div class=\\"ni-li-container\\">
-            <div class=\\"ni-li-thumb\\">
+   <main class=\\"tm-part-main\\">
+      <div class=\\"tm-li column-header\\">
+         <div class=\\"tm-li-container\\">
+            <div class=\\"tm-li-thumb\\">
                <!---->
             </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
+      <div class=\\"tm-li-dl\\">
+         <div class=\\"tm-li-dt\\">
             Block Height
          </div>
-      <div class=\\"ni-li-dd\\">
+      <div class=\\"tm-li-dd\\">
          # of Transactions
       </div>
 </div>
 </div>
 </div>
-      <a href=\\"#/blocks/10\\" class=\\"ni-li ni-li-link\\">
-      <div class=\\"ni-li-container\\">
-         <div class=\\"ni-li-thumb\\">
+      <a href=\\"#/blocks/10\\" class=\\"tm-li tm-li-link\\">
+      <div class=\\"tm-li-container\\">
+         <div class=\\"tm-li-thumb\\">
             <!---->
          </div>
-      <div class=\\"ni-li-dl\\">
-         <div class=\\"ni-li-dt\\">
+      <div class=\\"tm-li-dl\\">
+         <div class=\\"tm-li-dt\\">
             10
          </div>
-      <div class=\\"ni-li-dd\\">
+      <div class=\\"tm-li-dd\\">
          0
       </div>
 </div>
-      <div class=\\"ni-li-icon\\">
+      <div class=\\"tm-li-icon\\">
          <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
       </div>
 </div>

@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Proposals')
+tm-page(title='Proposals')
   div(slot="menu"): tool-bar
     router-link(to="/proposals/new" exact v-tooltip.bottom="'New Proposal'")
       i.material-icons add
@@ -21,15 +21,13 @@ page(title='Proposals')
 import { mapGetters } from "vuex"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
-import DataLoading from "common/NiDataLoading"
-import DataEmpty from "common/NiDataEmpty"
-import DataEmptySearch from "common/NiDataEmptySearch"
+import DataLoading from "common/TmDataLoading"
+import DataEmpty from "common/TmDataEmpty"
+import DataEmptySearch from "common/TmDataEmptySearch"
 import LiProposal from "govern/LiProposal"
-import ModalSearch from "common/NiModalSearch"
-import TabBar from "common/NiTabBar"
-import ToolBar from "common/NiToolBar"
-import Page from "common/NiPage"
-import Part from "common/NiPart"
+import ModalSearch from "common/TmModalSearch"
+import ToolBar from "common/TmToolBar"
+import { TmPage } from "@tendermint/ui"
 export default {
   name: "page-proposals",
   components: {
@@ -38,9 +36,7 @@ export default {
     DataEmptySearch,
     LiProposal,
     ModalSearch,
-    Page,
-    Part,
-    TabBar,
+    TmPage,
     ToolBar
   },
   computed: {

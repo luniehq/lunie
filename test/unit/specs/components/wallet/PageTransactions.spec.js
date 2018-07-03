@@ -24,13 +24,19 @@ describe("PageTransactions", () => {
     wrapper.update()
   })
 
-  it("has the expected html structure", () => {
+  it("has the expected html structure", async () => {
+    // after importing the @tendermint/ui components from modules
+    // the perfect scroll plugin needs a $nextTick and a wrapper.update
+    // to work properly in the tests (snapshots weren't matching)
+    // this has occured across multiple tests
+    await wrapper.vm.$nextTick()
+    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it("should show the search on click", () => {
-    wrapper.find(".ni-tool-bar i").trigger("click")
-    expect(wrapper.contains(".ni-modal-search")).toBe(true)
+    wrapper.find(".tm-tool-bar i").trigger("click")
+    expect(wrapper.contains(".tm-modal-search")).toBe(true)
   })
 
   it("should show transactions", () => {

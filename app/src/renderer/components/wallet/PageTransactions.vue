@@ -1,5 +1,5 @@
 <template lang="pug">
-page(title='Transactions')
+tm-page(title='Transactions')
   div(slot="menu"): tool-bar
     a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
       i.material-icons search
@@ -23,14 +23,13 @@ import shortid from "shortid"
 import { mapGetters } from "vuex"
 import { includes, orderBy, uniqBy } from "lodash"
 import Mousetrap from "mousetrap"
-import DataLoading from "common/NiDataLoading"
-import DataEmptySearch from "common/NiDataEmptySearch"
-import DataEmptyTx from "common/NiDataEmptyTx"
+import DataLoading from "common/TmDataLoading"
+import DataEmptySearch from "common/TmDataEmptySearch"
+import DataEmptyTx from "common/TmDataEmptyTx"
 import LiTransaction from "wallet/LiTransaction"
-import ModalSearch from "common/NiModalSearch"
-import Page from "common/NiPage"
-import Part from "common/NiPart"
-import ToolBar from "common/NiToolBar"
+import ModalSearch from "common/TmModalSearch"
+import { TmPage } from "@tendermint/ui"
+import ToolBar from "common/TmToolBar"
 export default {
   name: "page-transactions",
   components: {
@@ -39,8 +38,7 @@ export default {
     DataEmptySearch,
     DataEmptyTx,
     ModalSearch,
-    Page,
-    Part,
+    TmPage,
     ToolBar
   },
   computed: {

@@ -31,7 +31,13 @@ describe("PageWallet", () => {
     wrapper.update()
   })
 
-  it("has the expected html structure", () => {
+  it("has the expected html structure", async () => {
+    // after importing the @tendermint/ui components from modules
+    // the perfect scroll plugin needs a $nextTick and a wrapper.update
+    // to work properly in the tests (snapshots weren't matching)
+    // this has occured across multiple tests
+    await wrapper.vm.$nextTick()
+    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -43,9 +49,14 @@ describe("PageWallet", () => {
     ])
   })
 
-  it("should filter the balances", () => {
+  it("should filter the balances", async () => {
     store.commit("setSearchVisible", ["balances", true])
     store.commit("setSearchQuery", ["balances", "atom"])
+    // after importing the @tendermint/ui components from modules
+    // the perfect scroll plugin needs a $nextTick and a wrapper.update
+    // to work properly in the tests (snapshots weren't matching)
+    // this has occured across multiple tests
+    await wrapper.vm.$nextTick()
     wrapper.update()
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual(["ATOM"])
     expect(wrapper.vm.$el).toMatchSnapshot()
@@ -65,7 +76,7 @@ describe("PageWallet", () => {
   })
 
   it("should list the denoms that are available", () => {
-    expect(wrapper.findAll(".ni-li-balance").length).toBe(2)
+    expect(wrapper.findAll(".tm-li-balance").length).toBe(2)
   })
 
   it("should show the n/a message if there are no denoms", () => {
@@ -86,7 +97,7 @@ describe("PageWallet", () => {
   it("has a title for available balances", () => {
     expect(
       wrapper
-        .find("#part-available-balances .ni-part-title")
+        .find("#part-available-balances .tm-part-title")
         .text()
         .trim()
     ).toBe("Available Balances")
@@ -95,16 +106,22 @@ describe("PageWallet", () => {
   it("has a title for staked balances", () => {
     expect(
       wrapper
-        .find("#part-staked-balances .ni-part-title")
+        .find("#part-staked-balances .tm-part-title")
         .text()
         .trim()
     ).toBe("Staked Balances")
   })
 
-  it("has shows the correct number of staked tokens", () => {
+  it("has shows the correct number of staked tokens", async () => {
+    // after importing the @tendermint/ui components from modules
+    // the perfect scroll plugin needs a $nextTick and a wrapper.update
+    // to work properly in the tests (snapshots weren't matching)
+    // this has occured across multiple tests
+    await wrapper.vm.$nextTick()
+    wrapper.update()
     expect(
       wrapper
-        .find("#part-staked-balances .ni-li-dd")
+        .find("#part-staked-balances .tm-li-dd")
         .text()
         .trim()
     ).toBe("123")

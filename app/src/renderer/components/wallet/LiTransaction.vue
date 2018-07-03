@@ -10,15 +10,15 @@ mixin tx-container-sent
       .tx-element.tx-address(v-if="!sentSelf") Sent to {{ receiver }}
       .tx-element.tx-address(v-if="sentSelf") You sent this amount to yourself.
 
-.ni-li-tx(v-if="sentSelf" @click="() => devMode && viewTransaction()")
+.tm-li-tx(v-if="sentSelf" @click="() => devMode && viewTransaction()")
   .tx-icon: i.material-icons swap_horiz
   +tx-container-sent
 
-.ni-li-tx.ni-li-tx-sent(v-else-if="sent" @click="() => devMode && viewTransaction()")
+.tm-li-tx.tm-li-tx-sent(v-else-if="sent" @click="() => devMode && viewTransaction()")
   .tx-icon: i.material-icons remove_circle
   +tx-container-sent
 
-.ni-li-tx.ni-li-tx-received(v-else @click="() => devMode && viewTransaction()")
+.tm-li-tx.tm-li-tx-received(v-else @click="() => devMode && viewTransaction()")
   .tx-icon: i.material-icons add_circle
   .tx-container
     .tx-element.tx-coins
@@ -34,7 +34,7 @@ mixin tx-container-sent
 import num from "scripts/num"
 import moment from "moment"
 export default {
-  name: "ni-li-tx",
+  name: "tm-li-tx",
   computed: {
     transactionValue() {
       return this.transaction.tx.value.msg.value
@@ -84,7 +84,7 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.ni-li-tx
+.tm-li-tx
   display flex
   font-size sm
   border-bottom 1px solid var(--bc-dim)
@@ -136,12 +136,12 @@ export default {
     color var(--dim)
     font-size sm
 
-  &.ni-li-tx-sent
+  &.tm-li-tx-sent
     .tx-coin .value
       &:before
         content '-'
 
-  &.ni-li-tx-received
+  &.tm-li-tx-received
     .tx-icon
       background var(--app-fg)
 
@@ -156,7 +156,7 @@ export default {
     background var(--hover-bg)
 
 @media screen and (min-width: 700px)
-  .ni-li-tx
+  .tm-li-tx
     font-size 0.875rem
 
     .tx-container

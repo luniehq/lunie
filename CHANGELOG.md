@@ -11,28 +11,41 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Configs for the gaia-6002 testnet @faboweb
 * Bot which returns money to sender in mock mode @mappum
+* Introduced addressbook to store found peers and to select nodes round robin @faboweb
+* Tutorial how to start a local node @faboweb
 
 ### Changes
 
 * Use persistent peers and seeds from tendermint config @faboweb
 * Updated loading icon and loading states @jolesbi
+* more components moved to `@tendermint/ui` @okwme
 * Removed COSMOS_MOCKED flag @faboweb
 * Improved readability and accessibility @jolesbi
-* Significant style / UI updates @jolesbi
+* Significant style and UI updates for dark and light themes @jolesbi
 * Doesn't show loading screen when validators are still stored @okwme
+* Improved CI @faboweb
+* Search bar fixed to top @okwme
+* Hide block subscription errors @mappum
 
 ### Fixed
 
 * Fixed bug in yarn build:gaia @zramsay
 * Increased version of localtestnet used for testing to match gaia @faboweb
 * Fixed padding issue in main container @faboweb
+* Unit tests work with new components @okwme
+* Wait for LCD to start serving at app startup to prevent timing errors @mappum
 * Fixed white flash on startup @okwme
 * Fixed critical dependency warning @okwme
+* Fixed theme bg bug @okwme
 * Fixed sorting bug on staking page @okwme
+* Fixed preference page style bug @okwme
+* Fixed missing node-ip in connection indicator @faboweb
+* Launch sequence for dev improved @okwme
 
 ### Added
 
 * Checking known nodes round robin and signaling an error if none are available @faboweb
+* Help menu with links to report a bug or view the log @faboweb
 
 ## [0.7.0] - 2018-06-13
 

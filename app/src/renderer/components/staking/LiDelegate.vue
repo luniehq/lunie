@@ -25,12 +25,10 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import Btn from "@nylira/vue-button"
 import { maxBy } from "lodash"
 export default {
   name: "li-delegate",
   props: ["delegate"],
-  components: { Btn },
   computed: {
     ...mapGetters([
       "shoppingCart",
@@ -98,6 +96,8 @@ export default {
 @require '~variables'
 
 .li-delegate
+  border-left 1px solid var(--bc)
+  border-right 1px solid var(--bc)
   &:nth-of-type(2n-1)
     background var(--app-bg-light)
   &.li-delegate-active
@@ -151,7 +151,7 @@ export default {
       height 1.5rem
       position relative
       left -0.25rem
-      background var(--accent)
+      background var(--accent-alpha)
 
   &.checkbox
     justify-content center

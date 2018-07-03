@@ -9,7 +9,7 @@
       router-view
       app-footer
     modal-receive
-  notifications(:notifications='notifications' theme='cosmos')
+  tm-notifications(:notifications='notifications' theme='cosmos')
   modal-error(v-if='config.modals.error.active' :body='config.modals.error.message')
   modal-no-nodes(v-if='config.modals.nonodes.active')
   modal-lcd-approval(v-if='approvalRequired' :hash='approvalRequired')
@@ -19,14 +19,14 @@
 import { mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
 import AppFooter from "common/AppFooter"
-import Notifications from "@nylira/vue-notifications"
-import ModalError from "common/NiModalError"
-import ModalHelp from "common/NiModalHelp"
-import ModalLcdApproval from "common/NiModalLCDApproval"
-import ModalNoNodes from "common/NiModalNoNodes"
-import ModalReceive from "common/NiModalReceive"
-import Onboarding from "common/NiOnboarding"
-import Session from "common/NiSession"
+import { TmNotifications } from "@tendermint/ui"
+import ModalError from "common/TmModalError"
+import ModalHelp from "common/TmModalHelp"
+import ModalLcdApproval from "common/TmModalLCDApproval"
+import ModalNoNodes from "common/TmModalNoNodes"
+import ModalReceive from "common/TmModalReceive"
+import Onboarding from "common/TmOnboarding"
+import Session from "common/TmSession"
 import store from "./vuex/store"
 export default {
   name: "app",
@@ -37,8 +37,8 @@ export default {
     ModalHelp,
     ModalLcdApproval,
     ModalReceive,
+    TmNotifications,
     ModalNoNodes,
-    Notifications,
     Onboarding,
     Session
   },

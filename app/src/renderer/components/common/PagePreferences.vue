@@ -1,31 +1,31 @@
 <template lang="pug">
-page(title="Preferences")
+tm-page(title="Preferences")
   div(slot="menu"): tool-bar
 
-  part(title='Settings')
-    list-item(type="field" title="Select network to connect to")
-      field#select-network(
+  tm-part(title='Settings')
+    tm-list-item(type="field" title="Select network to connect to")
+      tm-field#select-network(
         type="select"
         v-model="networkSelectActive"
         :options="networkSelectOptions"
         placeholder="Select network..."
         @change.native="setMockedConnector")
-    list-item(type="field" title="Select theme")
-      field#select-theme(
+    tm-list-item(type="field" title="Select theme")
+      tm-field#select-theme(
         type="select"
         v-model="themeSelectActive"
         :options="themeSelectOptions"
         placeholder="Select theme..."
         @change.native="setAppTheme")
-    list-item(type="field" title="View tutorial for Voyager")
-      btn#toggle-onboarding(
+    tm-list-item(type="field" title="View tutorial for Voyager")
+      tm-btn#toggle-onboarding(
         @click.native="setOnboarding"
         value="Launch Tutorial"
         icon="open_in_new")
-    list-item(type="field"
+    tm-list-item(type="field"
       title="Automatically send usage statistics and crash reports"
       subtitle="to the Voyager development team")
-      field(
+      tm-field(
         type="toggle"
         :style="{margin:'1em auto 0 auto'}"
         :options=`{
@@ -34,9 +34,9 @@ page(title="Preferences")
           }`
         :value="user.errorCollection || undefined"
         @change.native="setErrorCollection")
-  part(title='Account')
-    list-item(type="field" title="Switch account")
-      btn(
+  tm-part(title='Account')
+    tm-list-item(type="field" title="Switch account")
+      tm-btn(
         icon='exit_to_app'
         type='button'
         @click.native="signOut"
@@ -45,20 +45,17 @@ page(title="Preferences")
 
 <script>
 import { mapGetters } from "vuex"
-import Btn from "@nylira/vue-button"
-import Field from "@nylira/vue-field"
-import ListItem from "common/NiListItem"
-import ToolBar from "common/NiToolBar"
-import Page from "common/NiPage"
-import Part from "common/NiPart"
+import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
+import ToolBar from "common/TmToolBar"
+
 export default {
   name: "page-preferences",
   components: {
-    Btn,
-    Field,
-    ListItem,
-    Page,
-    Part,
+    TmBtn,
+    TmField,
+    TmListItem,
+    TmPage,
+    TmPart,
     ToolBar
   },
   computed: {

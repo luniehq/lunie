@@ -40,7 +40,9 @@ describe("PageBlock", () => {
     wrapper.update()
   })
 
-  it("has the expected html structure", () => {
+  it("has the expected html structure", async () => {
+    await wrapper.vm.$nextTick()
+    wrapper.update()
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 

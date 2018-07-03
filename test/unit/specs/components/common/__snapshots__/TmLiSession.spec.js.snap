@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmLiSession has the expected html structure 1`] = `
+<div
+  class="tm-li-session"
+>
+  <div
+    class="tm-li-session-icon"
+  >
+    <i
+      class="material-icons"
+    >
+      mood
+    </i>
+  </div>
+  <div
+    class="tm-li-session-text"
+  >
+    <div
+      class="tm-li-session-title"
+    >
+      useful title
+    </div>
+    <div
+      class="tm-li-session-subtitle"
+    >
+      useful subtitle
+    </div>
+  </div>
+</div>
+`;

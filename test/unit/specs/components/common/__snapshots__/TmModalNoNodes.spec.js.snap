@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmModalNoNodes has the expected html structure 1`] = `
+<div
+  class="ni-modal-error__wrapper"
+>
+  <div
+    class="ni-modal-error"
+  >
+    <div
+      class="ni-modal-error__icon"
+    >
+      <i
+        class="material-icons"
+      >
+        sync_problem
+      </i>
+    </div>
+    <div
+      class="ni-modal-error__title"
+    >
+      No nodes found
+    </div>
+    <div
+      class="ni-modal-error__body"
+    >
+      All known nodes are offline or incompatible. You can retry to connect or switch to a demo connection so you can try out Voyager.
+    </div>
+    <div
+      class="ni-modal-error__footer"
+    >
+      <button
+        class="tm-btn"
+        id="ni-modal-error__btn-retry"
+      >
+        <span
+          class="tm-btn__container tm-btn--size-lg tm-btn--primary"
+        >
+          <i
+            aria-hidden="true"
+            class="tm-btn__icon material-icons"
+          >
+            autorenew
+          </i>
+          <!---->
+          <span
+            class="tm-btn__value"
+          >
+            Retry Connection
+          </span>
+        </span>
+      </button>
+      <button
+        class="tm-btn"
+        id="ni-modal-error__btn-mock"
+      >
+        <span
+          class="tm-btn__container tm-btn--size-lg"
+        >
+          <i
+            aria-hidden="true"
+            class="tm-btn__icon material-icons"
+          >
+            pageview
+          </i>
+          <!---->
+          <span
+            class="tm-btn__value"
+          >
+            Try Demo
+          </span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;

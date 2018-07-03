@@ -12,8 +12,8 @@ module.exports = {
   async closeNotifications(app) {
     // close notifications as they overlay the menu button
     await sleep(100)
-    while (await app.client.isExisting(`.ni-notification`)) {
-      await app.client.$(`.ni-notification`).click()
+    while (await app.client.isExisting(`.tm-notification`)) {
+      await app.client.$(`.tm-notification`).click()
       await sleep(100)
     }
   },
@@ -50,13 +50,13 @@ module.exports = {
     await module.exports.openMenu(app)
     // click link
     await app.client.$(`a*=${linkText}`).click()
-    await app.client.waitUntilTextExists(".ni-page-header-title", titleText)
+    await app.client.waitUntilTextExists(".tm-page-header-title", titleText)
     console.log(`navigated to "${linkText}"`)
   },
   async navigateToPreferences(app) {
     await module.exports.openMenu(app)
     // click link
-    await app.client.$(`.ni-li-user`).click()
+    await app.client.$(`.tm-li-user`).click()
     console.log(`navigated to preferences`)
   },
   newTempDir() {
@@ -90,13 +90,13 @@ module.exports = {
     await module.exports.selectOption(app, accountsSelect, account)
 
     await app.client.$("#sign-in-password").setValue("1234567890")
-    await app.client.$(".ni-session-footer button").click()
+    await app.client.$(".tm-session-footer button").click()
 
     await app.client.waitForExist("#app-content", 10000)
 
     // checking if user is logged in
     await module.exports.openMenu(app)
-    let activeUser = await app.client.$(".ni-li-user .ni-li-subtitle").getText()
+    let activeUser = await app.client.$(".tm-li-user .tm-li-subtitle").getText()
     if (account !== activeUser) {
       throw new Error(
         "Incorrect user logged in (" + account + ", " + activeUser + ")"
@@ -109,12 +109,12 @@ module.exports = {
   },
   async logout(app) {
     console.log("logging out")
-    if (await app.client.isExisting(".ni-li-session")) {
+    if (await app.client.isExisting(".tm-li-session")) {
       return
     }
     await module.exports.openMenu(app)
 
-    await app.client.$(".ni-li-user").click()
+    await app.client.$(".tm-li-user").click()
     await sleep(300)
     await app.client
       .$(".material-icons=exit_to_app")
