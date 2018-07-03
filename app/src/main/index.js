@@ -141,18 +141,17 @@ function createWindow() {
   mainWindow.once("ready-to-show", () => {
     setTimeout(() => {
       mainWindow.show()
+      if (DEV || JSON.parse(process.env.COSMOS_DEVTOOLS || "false")) {
+        mainWindow.webContents.openDevTools()
+      }
+      if (DEV) {
+        mainWindow.maximize()
+      }
     }, 300)
   })
 
   // start vue app
   mainWindow.loadURL(winURL + "?lcd_port=" + LCD_PORT)
-
-  if (DEV || JSON.parse(process.env.COSMOS_DEVTOOLS || "false")) {
-    mainWindow.webContents.openDevTools()
-  }
-  if (DEV) {
-    mainWindow.maximize()
-  }
 
   mainWindow.on("closed", shutdown)
 
