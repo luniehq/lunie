@@ -129,7 +129,7 @@ exports[`PageSend has the expected html structure 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="ni-select"
+                      class="tm-select"
                       id="send-denomination"
                     >
                       <select
@@ -209,7 +209,7 @@ exports[`PageSend has the expected html structure 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="ni-select"
+                      class="tm-select"
                       id="send-zone-id"
                     >
                       <select
@@ -489,7 +489,7 @@ exports[`PageSend should show address required error 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="ni-select"
+                      class="tm-select"
                       id="send-denomination"
                     >
                       <select
@@ -559,7 +559,7 @@ exports[`PageSend should show address required error 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="ni-select"
+                      class="tm-select"
                       id="send-zone-id"
                     >
                       <select
@@ -819,7 +819,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                     class="tm-form-group__field"
                   >
                     <div
-                      class="ni-select"
+                      class="tm-select"
                       id="send-denomination"
                     >
                       <select
@@ -889,7 +889,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                     class="tm-form-group__field"
                   >
                     <div
-                      class="ni-select"
+                      class="tm-select"
                       id="send-zone-id"
                     >
                       <select
@@ -1149,7 +1149,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                     class="tm-form-group__field"
                   >
                     <div
-                      class="ni-select"
+                      class="tm-select"
                       id="send-denomination"
                     >
                       <select
@@ -1219,7 +1219,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                     class="tm-form-group__field"
                   >
                     <div
-                      class="ni-select"
+                      class="tm-select"
                       id="send-zone-id"
                     >
                       <select
@@ -1479,7 +1479,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="ni-select"
+                      class="tm-select"
                       id="send-denomination"
                     >
                       <select
@@ -1549,7 +1549,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="ni-select"
+                      class="tm-select"
                       id="send-zone-id"
                     >
                       <select
@@ -1820,7 +1820,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="ni-select"
+                      class="tm-select"
                       id="send-denomination"
                     >
                       <select
@@ -1894,7 +1894,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                     class="tm-form-group__field"
                   >
                     <div
-                      class="ni-select"
+                      class="tm-select"
                       id="send-zone-id"
                     >
                       <select
