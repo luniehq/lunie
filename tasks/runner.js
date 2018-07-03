@@ -1,5 +1,5 @@
 "use strict"
-
+const fs = require("fs")
 const config = require("../app/src/config")
 const spawn = require("child_process").spawn
 const path = require("path")
@@ -66,11 +66,16 @@ module.exports = async function(networkPath) {
   console.log(
     `${BLUE}Starting electron...\n  (network path: ${networkPath})\n${END}`
   )
+
+  let gaiaVersion = fs
+    .readFileSync(networkPath + "basecoindversion.txt")
+    .toString()
   let env = Object.assign(
     {},
     {
       NODE_ENV: "development",
-      COSMOS_NETWORK: networkPath
+      COSMOS_NETWORK: networkPath,
+      GAIA_VERSION: gaiaVersion
     },
     process.env
   )

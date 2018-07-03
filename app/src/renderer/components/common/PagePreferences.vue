@@ -6,7 +6,9 @@ tm-page(title="Preferences")
     div(slot="title") Cosmos Voyager
     .about-popup
       img( :src="require('assets/images/onboarding/step-0.png')")
-      div Version 0.4.3 (0.4.3)
+      div Voyager Version {{versionVoyager}}
+      //- div Cosmos {{versionNetwork}}
+      div Cosmos SDK {{versionGaia}}
 
   tm-part(title='Settings')
     tm-list-item(type="field" title="Select network to connect to")
@@ -48,17 +50,11 @@ tm-page(title="Preferences")
         @click.native="signOut"
         value='Sign Out')
   tm-part(title="About")
-    tm-list-item(title="Cosmos Voyager" subtitle="Version 0.4.3 (0.4.3)")
-    tm-list-item(title="Cosmos SDK" subtitle="Version 0.19.0 (0.19.0)")
-    tm-list-item(title="Gaia Testnet" subtitle="7001")
-    //- tm-list-item(dt="Cosmos Voyager" dd="Version 0.4.3 (0.4.3)")
-    //- tm-list-item(dt="Cosmos SDK" dd="Version 0.19.0 (0.19.0)")
-    //- tm-list-item(dt="Gaia Testnet" dd="7001")
-    //tm-list-item(type="field"
+    tm-list-item(type="field"
       title="")
       tm-btn#toggle-onboarding(
         @click.native="setAbout"
-        value="Versions"
+        value="Version Information"
         icon="info")
 </template>
 
@@ -67,6 +63,8 @@ import { mapGetters } from "vuex"
 import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
 import ToolBar from "common/TmToolBar"
 import TmModal from "common/TmModal"
+import packageJSON from "../../../../package.json"
+
 export default {
   name: "page-preferences",
   components: {
@@ -81,9 +79,12 @@ export default {
   computed: {
     ...mapGetters(["user", "themes", "onboarding", "mockedConnector"])
   },
+
   data: () => ({
     showAbout: false,
-    version: "0.7.0",
+    versionVoyager: null,
+    versionNetwork: null,
+    versionGaia: null,
     themeSelectActive: null,
     themeSelectOptions: [
       {
@@ -110,6 +111,12 @@ export default {
   mounted() {
     this.networkSelectActive = this.mockedConnector ? "mock" : "live"
     this.themeSelectActive = this.themes.active
+
+    this.versionGaia = process.env.GAIA_VERSION
+    this.versionNetwork = process.env.COSMOS_NETWORK.split("/")
+      .filter(n => n)
+      .pop()
+    this.versionVoyager = packageJSON.version
   },
   methods: {
     setAbout() {
