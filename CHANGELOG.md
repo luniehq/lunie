@@ -43,6 +43,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Checking known nodes round robin and signaling an error if none are available @faboweb
+* Help menu with links to report a bug or view the log @faboweb
 
 ## [0.7.0] - 2018-06-13
 
