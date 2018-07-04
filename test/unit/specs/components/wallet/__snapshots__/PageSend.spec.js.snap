@@ -2117,6 +2117,7 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
           >
             <button
               class="tm-btn"
+              id="send-confirmation-btn"
               type="button"
             >
               <span
@@ -2132,12 +2133,13 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
                 <span
                   class="tm-btn__value"
                 >
-                  Send coins
+                  Approve Send
                 </span>
               </span>
             </button>
             <button
               class="tm-btn"
+              id="send-cancel-btn"
               type="button"
             >
               <span
@@ -2153,7 +2155,7 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
                 <span
                   class="tm-btn__value"
                 >
-                  Cancel transaction
+                  Cancel Send
                 </span>
               </span>
             </button>

@@ -68,7 +68,7 @@ import {
 
 import FieldAddon from "common/TmFieldAddon"
 import ToolBar from "common/TmToolBar"
-import TmModalSendConfirmation from "common/TmModalSendConfirmation"
+import TmModalSendConfirmation from "wallet/TmModalSendConfirmation"
 export default {
   components: {
     TmBtn,

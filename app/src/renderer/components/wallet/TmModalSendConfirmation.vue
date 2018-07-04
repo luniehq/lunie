@@ -15,6 +15,7 @@ modal.tm-modal-send-confirmation(:close="close")
           @click.native="approve"
           value='Approve Send')
     tm-btn(
+          id="send-cancel-btn"
           icon='cancel'
           type='button'
           @click.native="close"
