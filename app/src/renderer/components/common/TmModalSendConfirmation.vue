@@ -8,16 +8,17 @@ modal.tm-modal-send-confirmation(:close="close")
 
   .tm-modal-send-confirmation__footer
     tm-btn(
+          id="send-confirmation-btn"
           icon='send'
           type='button'
           color="primary"
           @click.native="approve"
-          value='Send coins')
+          value='Approve Send')
     tm-btn(
           icon='cancel'
           type='button'
           @click.native="close"
-          value='Cancel transaction')
+          value='Cancel Send')
 </template>
 
 <script>
