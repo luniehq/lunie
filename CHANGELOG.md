@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Introduced addressbook to store found peers and to select nodes round robin @faboweb
 * Tutorial how to start a local node @faboweb
 * Added versions to Preference Page @okwme
+* Send confirmation popup @faboweb
 
 ### Changes
 

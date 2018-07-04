@@ -110,8 +110,9 @@ describe("PageSend", () => {
         zoneId: "cosmos-hub-1"
       }
     })
-    await wrapper.vm.onSubmit()
+    wrapper.vm.onSubmit()
     wrapper.update()
+    expect(wrapper.vm.$v.$error).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
   it("should show bech32 error when address length is too short", async () => {
@@ -124,7 +125,7 @@ describe("PageSend", () => {
         zoneId: "cosmos-hub-1"
       }
     })
-    await wrapper.vm.onSubmit()
+    wrapper.vm.onSubmit()
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -139,7 +140,7 @@ describe("PageSend", () => {
         zoneId: "cosmos-hub-1"
       }
     })
-    await wrapper.vm.onSubmit()
+    wrapper.vm.onSubmit()
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -153,9 +154,35 @@ describe("PageSend", () => {
         zoneId: "cosmos-hub-1"
       }
     })
-    await wrapper.vm.onSubmit()
+    wrapper.vm.onSubmit()
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it("should trigger confirmation modal if form is corect", async () => {
+    let { wrapper, store } = mount(PageSend, {
+      propsData: {
+        denom: "mycoin"
+      }
+    })
+    store.commit("setWalletBalances", coins)
+    wrapper.setData({
+      fields: {
+        denom: "mycoin",
+        address,
+        amount: 2,
+        zoneId: "cosmos-hub-1"
+      }
+    })
+    wrapper.vm.onSubmit()
+    wrapper.update()
+    expect(wrapper.vm.confirmationPending).toBe(true)
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it("should close confirmation modal on cancel", async () => {
+    wrapper.vm.onCancel()
+    expect(wrapper.vm.confirmationPending).toBe(false)
   })
 
   it("should show notification for successful send", async () => {
@@ -167,7 +194,7 @@ describe("PageSend", () => {
         zoneId: "cosmos-hub-1"
       }
     })
-    await wrapper.vm.onSubmit()
+    await wrapper.vm.onApproved()
     // walletSend is async so we need to wait until it is resolved
     expect(store.commit).toHaveBeenCalledWith("notify", expect.any(Object))
   })
@@ -182,7 +209,7 @@ describe("PageSend", () => {
       }
     })
     node.sign = () => Promise.reject()
-    await wrapper.vm.onSubmit()
+    await wrapper.vm.onApproved()
     expect(store.state.notifications.length).toBe(1)
     expect(store.state.notifications[0].title).toBe("Error Sending")
     expect(store.state.notifications[0]).toMatchSnapshot()
