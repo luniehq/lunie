@@ -71,16 +71,20 @@ describe("PagePreferences", () => {
     wrapper.vm.networkSelectActive = "mock"
     wrapper.vm.setMockedConnector()
     expect(store.dispatch).toHaveBeenCalledWith("setMockedConnector", true)
+    wrapper.vm.networkSelectActive = "live"
+    wrapper.vm.setMockedConnector()
+    expect(store.dispatch).toHaveBeenCalledWith("setMockedConnector", true)
   })
+
   it("shows versions", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
     wrapper.vm.setAbout()
     wrapper.update()
     expect(wrapper.vm.$el.outerHTML).toContain(
-      "Voyager Version " + wrapper.vm.versionVoyager
+      "Voyager v" + wrapper.vm.versionVoyager
     )
     expect(wrapper.vm.$el.outerHTML).toContain(
-      "Cosmos SDK " + wrapper.vm.versionGaia
+      "Cosmos SDK v" + wrapper.vm.versionSDK.split("-").shift()
     )
     expect(wrapper.vm.$el).toMatchSnapshot()
   })

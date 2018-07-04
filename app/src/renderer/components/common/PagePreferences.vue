@@ -3,12 +3,11 @@ tm-page(title="Preferences")
   div(slot="menu"): tool-bar
 
   tm-modal(:close="setAbout", v-if="showAbout")
-    div(slot="title") Cosmos Voyager
+    div(slot="title") About Cosmos Voyager
     .about-popup
       img( src="~@/assets/images/onboarding/step-0.png")
-      div Voyager Version {{versionVoyager}}
-      //- div Cosmos {{versionNetwork}}
-      div Cosmos SDK {{versionGaia}}
+      div Voyager v{{versionVoyager}}
+      div Cosmos SDK v{{versionSDK}}
 
   tm-part(title='Settings')
     tm-list-item(type="field" title="Select network to connect to")
@@ -51,10 +50,10 @@ tm-page(title="Preferences")
         value='Sign Out')
   tm-part(title="About")
     tm-list-item(type="field"
-      title="")
+      title="Version Information")
       tm-btn#toggle-onboarding(
         @click.native="setAbout"
-        value="Version Information"
+        value="Show Versions"
         icon="info")
 </template>
 
@@ -63,7 +62,6 @@ import { mapGetters } from "vuex"
 import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
 import ToolBar from "common/TmToolBar"
 import TmModal from "common/TmModal"
-import packageJSON from "../../../../package.json"
 
 export default {
   name: "page-preferences",
@@ -83,8 +81,7 @@ export default {
   data: () => ({
     showAbout: false,
     versionVoyager: null,
-    versionNetwork: null,
-    versionGaia: null,
+    versionSDK: null,
     themeSelectActive: null,
     themeSelectOptions: [
       {
@@ -111,11 +108,8 @@ export default {
   mounted() {
     this.networkSelectActive = this.mockedConnector ? "mock" : "live"
     this.themeSelectActive = this.themes.active
-    this.versionGaia = process.env.GAIA_VERSION
-    this.versionNetwork = process.env.COSMOS_NETWORK.split("/")
-      .filter(n => n)
-      .pop()
-    this.versionVoyager = packageJSON.version
+    this.versionSDK = process.env.GAIA_VERSION.split("-").shift()
+    this.versionVoyager = process.env.VOYAGER_VERSION
   },
   methods: {
     setAbout() {

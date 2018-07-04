@@ -66,8 +66,9 @@ module.exports = async function(networkPath) {
   console.log(
     `${BLUE}Starting electron...\n  (network path: ${networkPath})\n${END}`
   )
-
-  let gaiaVersion = fs
+  const packageJSON = require("../package.json")
+  const voyagerVersion = packageJSON.version
+  const gaiaVersion = fs
     .readFileSync(networkPath + "basecoindversion.txt")
     .toString()
   let env = Object.assign(
@@ -75,7 +76,8 @@ module.exports = async function(networkPath) {
     {
       NODE_ENV: "development",
       COSMOS_NETWORK: networkPath,
-      GAIA_VERSION: gaiaVersion
+      GAIA_VERSION: gaiaVersion,
+      VOYAGER_VERSION: voyagerVersion
     },
     process.env
   )

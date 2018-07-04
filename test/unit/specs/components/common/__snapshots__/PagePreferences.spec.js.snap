@@ -480,7 +480,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 <div
                   class="tm-li-title"
                 >
-                  
+                  Version Information
                 </div>
                 <div
                   class="tm-li-subtitle"
@@ -508,7 +508,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                     <span
                       class="tm-btn__value"
                     >
-                      Version Information
+                      Show Versions
                     </span>
                   </span>
                 </button>
@@ -1022,7 +1022,7 @@ exports[`PagePreferences shows versions 1`] = `
                 <div
                   class="tm-li-title"
                 >
-                  
+                  Version Information
                 </div>
                 <div
                   class="tm-li-subtitle"
@@ -1050,7 +1050,7 @@ exports[`PagePreferences shows versions 1`] = `
                     <span
                       class="tm-btn__value"
                     >
-                      Version Information
+                      Show Versions
                     </span>
                   </span>
                 </button>
@@ -1158,7 +1158,7 @@ exports[`PagePreferences shows versions 2`] = `
             class="tm-modal-title"
           >
             <div>
-              Cosmos Voyager
+              About Cosmos Voyager
             </div>
           </div>
           <div
@@ -1181,10 +1181,10 @@ exports[`PagePreferences shows versions 2`] = `
               src="~@/assets/images/onboarding/step-0.png"
             />
             <div>
-              Voyager Version 0.7.0
+              Voyager v3.6.9
             </div>
             <div>
-              Cosmos SDK gaia
+              Cosmos SDK v1.2.3
             </div>
           </div>
         </main>
@@ -1592,7 +1592,7 @@ exports[`PagePreferences shows versions 2`] = `
                 <div
                   class="tm-li-title"
                 >
-                  
+                  Version Information
                 </div>
                 <div
                   class="tm-li-subtitle"
@@ -1620,7 +1620,7 @@ exports[`PagePreferences shows versions 2`] = `
                     <span
                       class="tm-btn__value"
                     >
-                      Version Information
+                      Show Versions
                     </span>
                   </span>
                 </button>
