@@ -137,6 +137,8 @@ async function stop(app) {
 }
 
 async function printAppLog(app) {
+  if (!app) console.log("Not printing logs as app has not started yet")
+
   await app.client.getMainProcessLogs().then(function(logs) {
     logs.forEach(function(log) {
       console.log(log)
