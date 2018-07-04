@@ -1,5 +1,5 @@
 <template lang="pug">
-div(:class='cssClass' @click="close()")
+div(:class='cssClass' @click.self="close()")
   .tm-modal-container
     header.tm-modal-header
       .tm-modal-icon(v-if='icon')
