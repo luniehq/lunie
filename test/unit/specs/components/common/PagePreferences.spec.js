@@ -70,10 +70,34 @@ describe("PagePreferences", () => {
   it("switches mocked mode", () => {
     wrapper.vm.networkSelectActive = "mock"
     wrapper.vm.setMockedConnector()
+    expect(wrapper.vm.mockedConnector).toBe(true)
     expect(store.dispatch).toHaveBeenCalledWith("setMockedConnector", true)
+
     wrapper.vm.networkSelectActive = "live"
     wrapper.vm.setMockedConnector()
+    expect(wrapper.vm.mockedConnector).toBe(false)
     expect(store.dispatch).toHaveBeenCalledWith("setMockedConnector", true)
+
+    // dont update without switch
+    wrapper.vm.setMockedConnector()
+    expect(wrapper.vm.mockedConnector).toBe(false)
+  })
+
+  it("switches mocked mode again", async () => {
+    let test = instance.mount(PagePreferences, {
+      getters: {
+        mockedConnector: () => true
+      }
+    })
+    wrapper = test.wrapper
+    store = test.store
+    await store.dispatch("signIn", {
+      account: "default",
+      password: "1234567890"
+    })
+    wrapper.vm.networkSelectActive = "live"
+    wrapper.vm.setMockedConnector()
+    expect(store.dispatch).toHaveBeenCalledWith("setMockedConnector", false)
   })
 
   it("shows versions", () => {
