@@ -58,7 +58,7 @@ tm-page(title="Preferences")
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapMutations } from "vuex"
 import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
 import ToolBar from "common/TmToolBar"
 import TmModal from "common/TmModal"
@@ -75,11 +75,19 @@ export default {
     TmModal
   },
   computed: {
-    ...mapGetters(["user", "themes", "onboarding", "mockedConnector"])
+    ...mapGetters([
+      "user",
+      "themes",
+      "onboarding",
+      "mockedConnector",
+      "config"
+    ]),
+    showAbout() {
+      return this.config.showAbout
+    }
   },
 
   data: () => ({
-    showAbout: false,
     versionVoyager: null,
     versionSDK: null,
     themeSelectActive: null,
@@ -112,9 +120,7 @@ export default {
     this.versionVoyager = process.env.VOYAGER_VERSION
   },
   methods: {
-    setAbout() {
-      this.showAbout = !this.showAbout
-    },
+    ...mapMutations(["setAbout"]),
     signOut() {
       this.$store.dispatch("signOut")
       this.$store.commit("notifySignOut")

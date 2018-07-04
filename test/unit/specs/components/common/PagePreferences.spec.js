@@ -104,6 +104,7 @@ describe("PagePreferences", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
     wrapper.vm.setAbout()
     wrapper.update()
+    expect(store.state.config.showAbout).toBe(true)
     expect(wrapper.vm.$el.outerHTML).toContain(
       "Voyager v" + wrapper.vm.versionVoyager
     )
