@@ -112,5 +112,7 @@ describe("PagePreferences", () => {
       "Cosmos SDK v" + wrapper.vm.versionSDK.split("-").shift()
     )
     expect(wrapper.vm.$el).toMatchSnapshot()
+    wrapper.vm.setAbout(false)
+    expect(store.state.config.showAbout).toBe(false)
   })
 })

@@ -29,7 +29,9 @@ export default ({ commit }) => {
       // when triggered from a button the click event is value, when triggered from the modal the value is undefined
       // value is present so it can also be explicit as a replacement from the electron menu
       state.showAbout =
-        typeof value === ("object" || "undefined") ? !state.showAbout : value
+        typeof value === "object" || typeof value === "undefined"
+          ? !state.showAbout
+          : value
     },
     setDevMode(state, value) {
       state.devMode = value
