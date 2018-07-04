@@ -2,6 +2,9 @@ let test = require("tape-promise/tape")
 let { getApp, restart, refresh } = require("./launch.js")
 let { openMenu, login } = require("./common.js")
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
 /*
 * NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
 */
