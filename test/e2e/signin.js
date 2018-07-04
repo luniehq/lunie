@@ -36,6 +36,8 @@ test("sign in", async function(t) {
       .$("..")
       .click()
 
+    await sleep(500) // circleci error where the checkbox somehow isn't ready to be clicked yet
+
     let accountName = () => el("#sign-up-name")
     let password = () => el("#sign-up-password")
     let passwordConfirm = () => el("#sign-up-password-confirm")
