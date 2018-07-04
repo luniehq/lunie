@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.7.1] - 2018-07-04
+
 ### Added
 
 * Configs for the gaia-6002 testnet @faboweb
@@ -14,8 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Tutorial how to start a local node @faboweb
 * Added versions to Preference Page @okwme
 * Send confirmation popup @faboweb
+* Checking known nodes round robin and signaling an error if none are available @faboweb
+* Help menu with links to report a bug or view the log @faboweb
 
-### Changes
+### Changed
 
 * Use persistent peers and seeds from tendermint config @faboweb
 * Updated loading icon and loading states @jolesbi
@@ -43,11 +47,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed missing node-ip in connection indicator @faboweb
 * Launch sequence for dev improved @okwme
 * E2E test maybe fix @okwme
-
-### Added
-
-* Checking known nodes round robin and signaling an error if none are available @faboweb
-* Help menu with links to report a bug or view the log @faboweb
 
 ## [0.7.0] - 2018-06-13
 
