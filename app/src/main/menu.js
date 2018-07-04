@@ -1,4 +1,4 @@
-const { app, Menu } = require("electron")
+const { app, Menu, shell } = require("electron")
 
 module.exports = function(mainWindow) {
   let template = [
@@ -35,6 +35,23 @@ module.exports = function(mainWindow) {
           label: "Paste",
           accelerator: "CmdOrCtrl+V",
           selector: "paste:"
+        }
+      ]
+    },
+    {
+      label: "Help",
+      submenu: [
+        {
+          label: "Report An Issue",
+          click() {
+            shell.openExternal("https://github.com/cosmos/voyager/issues/new")
+          }
+        },
+        {
+          label: "View Application Log",
+          click() {
+            shell.openItem(global.root + "/main.log")
+          }
         }
       ]
     }

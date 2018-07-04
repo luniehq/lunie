@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Configs for the gaia-6002 testnet @faboweb
 * Introduced addressbook to store found peers and to select nodes round robin @faboweb
+* Tutorial how to start a local node @faboweb
+* Added versions to Preference Page @okwme
+* Send confirmation popup @faboweb
 
 ### Changes
 
@@ -23,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Doesn't show loading screen when validators are still stored @okwme
 * Improved CI @faboweb
 * Search bar fixed to top @okwme
+* Hide block subscription errors @mappum
 
 ### Fixed
 
@@ -39,10 +43,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed preference page style bug @okwme
 * Fixed missing node-ip in connection indicator @faboweb
 * Launch sequence for dev improved @okwme
+* E2E test maybe fix @okwme
 
 ### Added
 
 * Checking known nodes round robin and signaling an error if none are available @faboweb
+* Help menu with links to report a bug or view the log @faboweb
 
 ## [0.7.0] - 2018-06-13
 

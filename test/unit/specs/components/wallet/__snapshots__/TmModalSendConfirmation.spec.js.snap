@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmModalSendConfirmation has the expected html structure 1`] = `
+<div
+  class="tm-modal-send-confirmation tm-modal"
+>
+  <div
+    class="tm-modal-container"
+  >
+    <header
+      class="tm-modal-header"
+    >
+      <!---->
+      <div
+        class="tm-modal-title"
+      >
+        <div>
+          Confirm Your Transaction
+        </div>
+      </div>
+      <div
+        class="tm-modal-icon tm-modal-close"
+      >
+        <i
+          class="material-icons"
+        >
+          close
+        </i>
+      </div>
+    </header>
+    <main
+      class="tm-modal-main"
+    >
+      <div
+        class="tm-li"
+      >
+        <div
+          class="tm-li-container"
+        >
+          <div
+            class="tm-li-thumb"
+          >
+            <!---->
+          </div>
+          <div
+            class="tm-li-dl"
+          >
+            <div
+              class="tm-li-dt"
+            >
+              Amount
+            </div>
+            <div
+              class="tm-li-dd"
+            >
+              12345 funkycoin
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="tm-li"
+      >
+        <div
+          class="tm-li-container"
+        >
+          <div
+            class="tm-li-thumb"
+          >
+            <!---->
+          </div>
+          <div
+            class="tm-li-dl"
+          >
+            <div
+              class="tm-li-dt"
+            >
+              Recipient
+            </div>
+            <div
+              class="tm-li-dd"
+            >
+              cosmosacc1tb1d4u5zerywfjhxuc9nudvw
+            </div>
+          </div>
+        </div>
+      </div>
+      <p />
+      <p>
+        Are you sure you want to send this transaction? Make sure to check the address again. This transaction cannot be undone.
+      </p>
+      <div
+        class="tm-modal-send-confirmation__footer"
+      >
+        <button
+          class="tm-btn"
+          id="send-confirmation-btn"
+          type="button"
+        >
+          <span
+            class="tm-btn__container tm-btn--primary"
+          >
+            <i
+              aria-hidden="true"
+              class="tm-btn__icon material-icons"
+            >
+              send
+            </i>
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              Approve Send
+            </span>
+          </span>
+        </button>
+        <button
+          class="tm-btn"
+          id="send-cancel-btn"
+          type="button"
+        >
+          <span
+            class="tm-btn__container"
+          >
+            <i
+              aria-hidden="true"
+              class="tm-btn__icon material-icons"
+            >
+              cancel
+            </i>
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              Cancel Send
+            </span>
+          </span>
+        </button>
+      </div>
+    </main>
+    <footer
+      class="tm-modal-footer"
+    />
+  </div>
+</div>
+`;
