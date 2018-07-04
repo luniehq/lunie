@@ -96,8 +96,18 @@ jobs:
       - store_artifacts:
           path: testArtifacts
 
-  # Build a release and publish it to GitHub.
+  # Create release.
   release:
+    docker:
+      - image: circleci/node:9.11.1
+
+    steps:
+      - checkout
+      - run: yarn install
+      - run: node tasks/release.js
+
+  # Publish the release to GitHub.
+  publish:
     docker:
       - image: circleci/node:9.11.1
 
@@ -109,12 +119,12 @@ jobs:
       - attach_workspace:
           at: builds/Gaia
 
-      - run: node tasks/release.js
+      - run: node tasks/publish.js
 
 workflows:
   version: 2
 
-  gaia-test-and-release:
+  gaia-test-and-publish:
     jobs:
       - buildGaia
 
@@ -124,11 +134,18 @@ workflows:
           requires:
             - buildGaia
 
-      - release:
+      - publish:
           requires:
             - buildGaia
-            - testUnit
-            - testE2e
           filters:
             branches:
-              only: /release/
+              only: develop
+            tags:
+              only: /.+/
+
+  release:
+    jobs:
+      - release:
+          filters:
+            branches:
+              only: release
