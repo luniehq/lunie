@@ -22,13 +22,6 @@ let rendererConfig = {
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: "css-loader"
-        })
-      },
-      {
         test: /\.html$/,
         use: "vue-html-loader"
       },
