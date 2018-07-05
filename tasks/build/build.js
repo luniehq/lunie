@@ -4,6 +4,7 @@ const util = require(`util`)
 const childProcess = require(`child_process`)
 const { cli } = require(`@nodeguy/cli`)
 const { createHash } = require("crypto")
+const fp = require(`lodash/fp`)
 const zip = require(`deterministic-zip`)
 const path = require("path")
 const packager = util.promisify(require("electron-packager"))
@@ -17,6 +18,11 @@ const packageJson = require("../../package.json")
 const optionsSpecification = {
   network: ["path to the default network to use"]
 }
+
+const generateAppPackageJson = packageJson =>
+  Object.assign({}, fp.pick([`productName`, `version`], packageJson), {
+    main: `./dist/main.js`
+  })
 
 const updateConfig = (config, { network }) =>
   config.replace(
@@ -205,6 +211,12 @@ if (require.main === module) {
       )
     }
 
+    // Generate package.json for the app directory.
+    fs.writeFileSync(
+      path.join(__dirname, `../../app/package.json`),
+      JSON.stringify(generateAppPackageJson(packageJson))
+    )
+
     // Rewrite config file.
     const configFile = path.join(__dirname, `../../app`, `config.toml`)
     const config = fs.readFileSync(configFile, { encoding: `utf8` })
@@ -215,6 +227,7 @@ if (require.main === module) {
   })
 } else {
   module.exports = {
+    generateAppPackageJson,
     sanitizeAssetName,
     updateConfig
   }

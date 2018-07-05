@@ -2,6 +2,20 @@
 
 const build = require(`../../../tasks/build/build`)
 
+test(`generateAppPackageJson`, () => {
+  const packageJson = {
+    name: "cosmos-voyager",
+    productName: "Cosmos Voyager",
+    version: "0.7.1"
+  }
+
+  expect(build.generateAppPackageJson(packageJson)).toEqual({
+    main: "./dist/main.js",
+    productName: "Cosmos Voyager",
+    version: "0.7.1"
+  })
+})
+
 test(`sanitizeAssetName`, () => {
   expect(build.sanitizeAssetName(`Cosmos Voyager-v0.7.1-Linux`)).toEqual(
     `Cosmos_Voyager-v0.7.1-Linux`
