@@ -40,11 +40,6 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-@media screen and (max-width: 768px)
-  .sort-by
-    &.id
-      display none
-
 .panel-sort-container
   display flex
   height 2rem
@@ -81,7 +76,6 @@ export default {
   &.active
     .label
       color var(--mc)
-
     &:after
       color var(--mc)
 
@@ -93,4 +87,9 @@ export default {
 
   &.hidden
     visibility hidden
+
+@media screen and (max-width: 768px)
+  .sort-by
+    &.id
+      display none
 </style>

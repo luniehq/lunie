@@ -167,13 +167,6 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-@media screen and (min-width: 768px)
-  padding-bottom 4rem
-
-@media screen and (min-width: 1024px)
-  .fixed-button-bar
-    margin-left width-side
-
 .delegates-container
   padding-bottom 3rem
 
@@ -195,6 +188,13 @@ export default {
     strong
       font-weight bold
 
+@media screen and (min-width: 768px)
+  padding-bottom 4rem
+
 .fixed-button-bar
   padding 1rem 1rem 1rem 2rem
+
+@media screen and (min-width: 1024px)
+  .fixed-button-bar
+    margin-left width-side
 </style>

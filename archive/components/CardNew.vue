@@ -22,12 +22,9 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-@media screen and (min-width: 400px)
-  .new-bar
-    font-size x
-
 .new-bar
   font-size sm
+
   border 0.125em dashed bc
   margin 0.25em
   height 3rem
@@ -35,6 +32,7 @@ export default {
   display flex
   align-items center
   justify-content center
+
   cursor pointer
 
   &:hover
@@ -43,8 +41,11 @@ export default {
   .label
     color dim
     font-weight 500
-
     i.fa
       margin-right 0.25em
       color dim
+
+@media screen and (min-width: 400px)
+  .new-bar
+    font-size x
 </style>

@@ -37,16 +37,13 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-@media screen and (min-width: 400px)
-  .card-balance
-    font-size x
-
 .card-balance
   font-size sm
   padding 0.25em
 
   .card-balance-container
     background var(--app-fg)
+
     height 3rem
     display flex
     align-items stretch
@@ -66,7 +63,6 @@ export default {
       i.fa
         color var(--dim)
         margin-right 0.375em
-
       span
         font-size sm
         font-weight bold
@@ -74,6 +70,7 @@ export default {
     .balance
       overflow hidden
       border-right px dotted var(--bc)
+
       flex 1
       display flex
       align-items center
@@ -91,4 +88,8 @@ export default {
       display flex
       align-items center
       padding 0 0.75em
+
+@media screen and (min-width: 400px)
+  .card-balance
+    font-size x
 </style>
