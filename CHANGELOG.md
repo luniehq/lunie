@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Improved CI @faboweb
 * Search bar fixed to top @okwme
 * Hide block subscription errors @mappum
+* Fixed css editing in devtools @faboweb
 
 ### Fixed
 
