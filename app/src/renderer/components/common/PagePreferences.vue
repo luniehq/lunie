@@ -2,6 +2,13 @@
 tm-page(title="Preferences")
   div(slot="menu"): tool-bar
 
+  tm-modal(:close="setAbout", v-if="showAbout")
+    div(slot="title") About Cosmos Voyager
+    .about-popup
+      img( src="~@/assets/images/onboarding/step-0.png")
+      div Voyager v{{versionVoyager}}
+      div Cosmos SDK v{{versionSDK}}
+
   tm-part(title='Settings')
     tm-list-item(type="field" title="Select network to connect to")
       tm-field#select-network(
@@ -41,12 +48,20 @@ tm-page(title="Preferences")
         type='button'
         @click.native="signOut"
         value='Sign Out')
+  tm-part(title="About")
+    tm-list-item(type="field"
+      title="Version Information")
+      tm-btn#toggle-onboarding(
+        @click.native="setAbout"
+        value="Show Versions"
+        icon="info")
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapMutations } from "vuex"
 import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
 import ToolBar from "common/TmToolBar"
+import TmModal from "common/TmModal"
 
 export default {
   name: "page-preferences",
@@ -56,12 +71,25 @@ export default {
     TmListItem,
     TmPage,
     TmPart,
-    ToolBar
+    ToolBar,
+    TmModal
   },
   computed: {
-    ...mapGetters(["user", "themes", "onboarding", "mockedConnector"])
+    ...mapGetters([
+      "user",
+      "themes",
+      "onboarding",
+      "mockedConnector",
+      "config"
+    ]),
+    showAbout() {
+      return this.config.showAbout
+    }
   },
+
   data: () => ({
+    versionVoyager: null,
+    versionSDK: null,
     themeSelectActive: null,
     themeSelectOptions: [
       {
@@ -88,8 +116,11 @@ export default {
   mounted() {
     this.networkSelectActive = this.mockedConnector ? "mock" : "live"
     this.themeSelectActive = this.themes.active
+    this.versionSDK = process.env.GAIA_VERSION.split("-").shift()
+    this.versionVoyager = process.env.VOYAGER_VERSION
   },
   methods: {
+    ...mapMutations(["setAbout"]),
     signOut() {
       this.$store.dispatch("signOut")
       this.$store.commit("notifySignOut")
@@ -121,3 +152,9 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  .about-popup
+    text-align center
+    img
+      max-width 150px
+</style>

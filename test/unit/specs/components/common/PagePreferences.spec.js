@@ -70,6 +70,49 @@ describe("PagePreferences", () => {
   it("switches mocked mode", () => {
     wrapper.vm.networkSelectActive = "mock"
     wrapper.vm.setMockedConnector()
+    expect(wrapper.vm.mockedConnector).toBe(true)
     expect(store.dispatch).toHaveBeenCalledWith("setMockedConnector", true)
+
+    wrapper.vm.networkSelectActive = "live"
+    wrapper.vm.setMockedConnector()
+    expect(wrapper.vm.mockedConnector).toBe(false)
+    expect(store.dispatch).toHaveBeenCalledWith("setMockedConnector", true)
+
+    // dont update without switch
+    wrapper.vm.setMockedConnector()
+    expect(wrapper.vm.mockedConnector).toBe(false)
+  })
+
+  it("switches mocked mode again", async () => {
+    let test = instance.mount(PagePreferences, {
+      getters: {
+        mockedConnector: () => true
+      }
+    })
+    wrapper = test.wrapper
+    store = test.store
+    await store.dispatch("signIn", {
+      account: "default",
+      password: "1234567890"
+    })
+    wrapper.vm.networkSelectActive = "live"
+    wrapper.vm.setMockedConnector()
+    expect(store.dispatch).toHaveBeenCalledWith("setMockedConnector", false)
+  })
+
+  it("shows versions", () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
+    wrapper.vm.setAbout()
+    wrapper.update()
+    expect(store.state.config.showAbout).toBe(true)
+    expect(wrapper.vm.$el.outerHTML).toContain(
+      "Voyager v" + wrapper.vm.versionVoyager
+    )
+    expect(wrapper.vm.$el.outerHTML).toContain(
+      "Cosmos SDK v" + wrapper.vm.versionSDK.split("-").shift()
+    )
+    expect(wrapper.vm.$el).toMatchSnapshot()
+    wrapper.vm.setAbout(false)
+    expect(store.state.config.showAbout).toBe(false)
   })
 })
