@@ -7,8 +7,8 @@ const webpack = require("webpack")
 const stylus = require("stylus")
 const fs = require("fs-extra")
 
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const VueLoaderPlugin = require("vue-loader/lib/plugin")
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -22,10 +22,6 @@ let rendererConfig = {
   module: {
     rules: [
       {
-        test: /\.html$/,
-        use: "vue-html-loader"
-      },
-      {
         test: /\.js$/,
         use: "babel-loader",
         include: [path.resolve(__dirname, "app/src/renderer")],
@@ -34,10 +30,6 @@ let rendererConfig = {
       {
         test: /\.json$/,
         use: "json-loader"
-      },
-      {
-        test: /\.node$/,
-        use: "node-loader"
       },
       {
         test: /\.vue$/,
@@ -68,6 +60,14 @@ let rendererConfig = {
             }
           }
         ]
+      },
+      {
+        test: /\.pug$/,
+        loader: "pug-plain-loader"
+      },
+      {
+        test: /\.styl(us)?$/,
+        use: ["vue-style-loader", "css-loader", "stylus-loader"]
       }
     ]
   },
@@ -76,10 +76,10 @@ let rendererConfig = {
     __filename: false
   },
   plugins: [
+    new VueLoaderPlugin(),
     // the global.GENTLY below fixes a compile issue with superagent + webpack
     // https://github.com/visionmedia/superagent/issues/672
     new webpack.DefinePlugin({ "global.GENTLY": false }),
-    new ExtractTextPlugin("styles.css"),
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "./app/index.ejs",
