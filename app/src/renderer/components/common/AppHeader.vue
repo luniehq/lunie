@@ -63,29 +63,12 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-#app-header
-  z-index z(appHeader)
-  .container
-    -webkit-app-region drag
-
-  &.windows:before
-    display block
-    content ''
-    height px
-    background var(--bc)
-    width 100vw
-    position absolute
-    top 0
-    left 0
-    z-index z(appHeader)
-
 @media screen and (max-width: 1023px)
   #app-header
     position fixed
     top 0
     left 0
     width 100%
-
     background var(--app-bg)
 
     > .container
@@ -103,7 +86,6 @@ export default {
       align-items center
       justify-content center
       padding 0 1rem
-
       color var(--link)
       cursor pointer
 
@@ -135,6 +117,24 @@ export default {
       border-bottom px solid var(--bc)
       padding 2.5rem 1rem 1rem 1rem
       line-height normal
+
       img
         height 1.75rem
+
+#app-header
+  z-index z(appHeader)
+
+  .container
+    -webkit-app-region drag
+
+  &.windows:before
+    display block
+    content ''
+    height px
+    background var(--bc)
+    width 100vw
+    position absolute
+    top 0
+    left 0
+    z-index z(appHeader)
 </style>

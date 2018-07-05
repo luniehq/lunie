@@ -41,6 +41,19 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
+@media screen and (min-width: 768px)
+  .ni-modal-error__icon i.material-icons
+    font-size 20vw + 20vh
+
+  .ni-modal-error__body
+    margin-bottom 4.5rem
+
+  .ni-modal-error__footer
+    min-width 31rem
+
+  .ni-modal-error__footer .ni-btn
+    margin-bottom 0
+
 .ni-modal-error__wrapper
   position absolute
   top 0
@@ -89,17 +102,4 @@ export default {
 
     &:last-child
       margin-bottom 0
-
-@media screen and (min-width: 768px)
-  .ni-modal-error__icon i.material-icons
-    font-size 20vw + 20vh
-
-  .ni-modal-error__body
-    margin-bottom 4.5rem
-
-  .ni-modal-error__footer
-    min-width 31rem
-
-  .ni-modal-error__footer .ni-btn
-    margin-bottom 0
 </style>

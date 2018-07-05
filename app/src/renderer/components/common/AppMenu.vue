@@ -75,6 +75,23 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
+@media screen and (max-width: 1023px)
+  .app-menu
+    position fixed
+    top 3rem
+    left 0
+    bottom 0
+    width 100vw
+    background var(--app-bg)
+    user-select none
+
+@media screen and (min-width: 1024px)
+  .app-menu
+    flex 1
+
+    .tm-connected-network
+      display none
+
 .app-menu
   background var(--app-fg)
   z-index z(appMenu)
@@ -122,21 +139,4 @@ export default {
 
     .tm-btn
       margin-right 0.5rem
-
-@media screen and (max-width: 1023px)
-  .app-menu
-    position fixed
-    top 3rem
-    left 0
-    bottom 0
-    width 100vw
-    background var(--app-bg)
-    user-select none
-
-@media screen and (min-width: 1024px)
-  .app-menu
-    flex 1
-
-    .tm-connected-network
-      display none
 </style>

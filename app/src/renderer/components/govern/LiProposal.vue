@@ -32,16 +32,21 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
+@media screen and (min-width: 768px)
+  .card-proposal
+    .chart
+      margin-right 1rem
+
 .card-proposal
   border-bottom px solid var(--bc)
   padding 0.75rem 1rem
   display flex
   position relative
-
   color var(--txt)
 
   &:hover
     background var(--hover-bg)
+
     .title
       color var(--txt)
 
@@ -70,14 +75,11 @@ export default {
   .meta
     display flex
     font-size sm
+
     .author
       margin-right 0.25rem
       color var(--dim)
+
     .date
       color var(--dim)
-
-@media screen and (min-width: 768px)
-  .card-proposal
-    .chart
-      margin-right 1rem
 </style>

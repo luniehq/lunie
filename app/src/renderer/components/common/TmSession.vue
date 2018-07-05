@@ -37,6 +37,38 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
+@media screen and (min-width: 768px)
+  .tm-session-wrapper
+    position fixed
+    top 0
+    left 0
+    background var(--app-bg)
+    width 100vw
+    height 100vh
+    display flex
+    align-items center
+    justify-content center
+
+  .tm-session
+    position static
+    shadow()
+
+  .tm-session-container
+    &:not(.tm-form), &.tm-form .tm-form-main
+      width 32rem
+      max-height 100vh
+      height auto
+
+  .tm-session-header
+    background var(--app-fg)
+    margin-top 0
+
+  .tm-session-main
+    padding 3rem 2rem
+
+    .tm-form-group
+      display block !important
+
 .tm-session-wrapper
   position relative
   z-index z(modal)
@@ -60,6 +92,7 @@ export default {
     align-items center
     justify-content center
     background var(--app-fg)
+
     input
       width auto
       display block
@@ -98,8 +131,8 @@ export default {
   justify-content space-between
   align-items center
   margin-top 1.5rem // for macos traffic signals
-  padding 1rem 0;
-  border-bottom: 0.125rem solid var(--bc-dim);
+  padding 1rem 0
+  border-bottom 0.125rem solid var(--bc-dim)
 
   a
     width 3rem
@@ -108,11 +141,14 @@ export default {
     justify-content center
     cursor pointer
     height 3rem
+
     i
       color var(--txt)
       font-size lg
+
     &:hover
       background var(--app-fg)
+
       i
         color var(--txt)
 
@@ -163,38 +199,4 @@ export default {
 .tm-session-footer > div
   display flex
   justify-content space-between
-
-@media screen and (min-width: 768px)
-  .tm-session-wrapper
-    position fixed
-    top 0
-    left 0
-    background var(--app-bg)
-    width 100vw
-    height 100vh
-
-    display flex
-    align-items center
-    justify-content center
-
-  .tm-session
-    position static
-    shadow()
-
-  .tm-session-container
-    &:not(.tm-form)
-    &.tm-form .tm-form-main
-      width 32rem
-      max-height 100vh
-      height auto
-
-  .tm-session-header
-    background var(--app-fg)
-    margin-top 0
-
-  .tm-session-main
-    padding 3rem 2rem
-
-    .tm-form-group
-      display block !important
 </style>

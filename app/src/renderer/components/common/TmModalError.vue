@@ -61,17 +61,28 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
+@media screen and (min-width: 768px)
+  .tm-modal-error__icon i.material-icons
+    font-size 20vw + 20vh
+
+  .tm-modal-error__body
+    margin-bottom 4.5rem
+
+  .tm-modal-error__footer
+    min-width 31rem
+
+  .tm-modal-error__footer .tm-btn
+    margin-bottom 0
+
 .tm-modal-error__wrapper
   position absolute
   top 0
   left 0
-
   z-index z(modalError)
   background var(--app-bg)
   width 100vw
   height 100vh
   max-width 100%
-
   display flex
   align-items center
   justify-content center
@@ -85,6 +96,7 @@ export default {
   top 0
   left 0
   z-index z(below)
+
   i.material-icons
     font-size 25vw + 25vh
     line-height 1
@@ -107,19 +119,7 @@ export default {
     margin-right 1.5rem
     margin-bottom 1rem
     max-width 14rem
+
     &:last-child
-      margin-bottom 0
-
-@media screen and (min-width: 768px)
-  .tm-modal-error__icon i.material-icons
-    font-size 20vw + 20vh
-
-  .tm-modal-error__body
-    margin-bottom 4.5rem
-
-  .tm-modal-error__footer
-    min-width: 31rem
-
-  .tm-modal-error__footer .tm-btn
       margin-bottom 0
 </style>

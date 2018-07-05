@@ -37,11 +37,9 @@ export default {
   top 0
   left 0
   z-index z(modal)
-
   width 100vw
   height 100vh
-  background hsla(0,0,0,0.5)
-
+  background hsla(0, 0, 0, 0.5)
   display flex
   justify-content center
   align-items center
@@ -65,14 +63,11 @@ export default {
 
 .tm-modal-container
   background var(--app-bg)
-  box-shadow hsla(0,0,0,0.25) 0 0.25rem 1rem
-
+  box-shadow hsla(0, 0, 0, 0.25) 0 0.25rem 1rem
   display flex
   flex-flow column nowrap
-
   min-width 20rem
   min-height 20rem
-
   max-width 30rem
   max-height 40rem
 
@@ -92,10 +87,13 @@ export default {
 
   i
     font-size lg
+
   &.tm-modal-close
     cursor pointer
+
     i
       color var(--link)
+
     &:hover i
       color var(--hover)
 
@@ -131,6 +129,7 @@ export default {
 
 .tm-modal-footer
   flex 0 0 4rem + px
+
   &:empty
     display none
 

@@ -74,4 +74,7 @@ export default {
       border px solid var(--bc)
       border-bottom none
       shadow()
+
+.ni-modal-menu.app-menu-user
+  width auto
 </style>

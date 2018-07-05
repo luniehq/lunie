@@ -45,86 +45,71 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~variables';
+@import '~variables'
 
-.tm-modal-lcd-approval {
-  padding: 1.5rem;
-  max-width: 40rem;
+@media screen and (min-width: 768px)
+  .tm-modal-lcd-approval
+    &__icon i.material-icons
+      font-size 20vw + 20vh
 
-  &__wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: z(modalError);
-    background: app-bg;
-    width: 100vw;
-    height: 100vh;
-    max-width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    &__footer
+      min-width 31rem
 
-  &__icon {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: z(below);
+    &__footer .tm-btn
+      margin-bottom 0
 
-    i.material-icons {
-      font-size: 25vw + 25vh;
-      line-height: 1;
-      color: bc-dim;
-    }
-  }
+.tm-modal-lcd-approval
+  padding 1.5rem
+  max-width 40rem
 
-  &__title {
-    font-size: h1;
-    font-weight: 500;
-    line-height: 1;
-    margin-bottom: 1.5rem;
-  }
+  &__wrapper
+    position absolute
+    top 0
+    left 0
+    z-index z(modalError)
+    background app-bg
+    width 100vw
+    height 100vh
+    max-width 100%
+    display flex
+    align-items center
+    justify-content center
 
-  &__body {
-    font-size: lg;
-    color: dim;
-    margin-bottom: 2.5rem;
-  }
+  &__icon
+    position fixed
+    top 0
+    left 0
+    z-index z(below)
 
-  &__footer {
-    flex-direction: row;
-    justify-content: flex-start;
+    i.material-icons
+      font-size 25vw + 25vh
+      line-height 1
+      color bc-dim
 
-    .tm-btn {
-      width: 100%;
-      margin-right: 1.5rem;
-      margin-bottom: 1rem;
-      max-width: 14rem;
+  &__title
+    font-size h1
+    font-weight 500
+    line-height 1
+    margin-bottom 1.5rem
 
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
+  &__body
+    font-size lg
+    color dim
+    margin-bottom 2.5rem
 
-  #node-hash {
-    margin-top: 3rem;
-  }
-}
+  &__footer
+    flex-direction row
+    justify-content flex-start
 
-@media screen and (min-width: 768px) {
-  .tm-modal-lcd-approval {
-    &__icon i.material-icons {
-      font-size: 20vw + 20vh;
-    }
+    .tm-btn
+      width 100%
+      margin-right 1.5rem
+      margin-bottom 1rem
+      max-width 14rem
 
-    &__footer {
-      min-width: 31rem;
-    }
+      &:last-child
+        margin-bottom 0
 
-    &__footer .tm-btn {
-      margin-bottom: 0;
-    }
-  }
-}
+  #node-hash
+    margin-top 3rem
 </style>

@@ -9,9 +9,11 @@ export default { name: "tm-field-addon" }
 <style lang="stylus">
 @import '~variables'
 
-.tm-field-addon + .tm-field-addon
-.tm-field + .tm-field-addon
-.tm-field-addon + .tm-field
+@media screen and (min-width: 768px)
+  .tm-field-addon
+    padding 0 0.75rem
+
+.tm-field-addon + .tm-field-addon, .tm-field + .tm-field-addon, .tm-field-addon + .tm-field
   margin-left -1 * px
   position relative
   z-index z(default)
@@ -28,8 +30,4 @@ export default { name: "tm-field-addon" }
 
 .tm-field-addon + .tm-btn
   margin-left 1rem
-
-@media screen and (min-width: 768px)
-  .tm-field-addon
-    padding 0 0.75rem
 </style>

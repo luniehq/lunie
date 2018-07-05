@@ -84,6 +84,26 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
+@media screen and (min-width: 700px)
+  .tm-li-tx
+    font-size 0.875rem
+
+    .tx-container
+      flex-direction row
+
+      .tx-coins
+        flex 0 0 9rem
+        padding 0
+        min-width 0
+
+        .tx-coin
+          padding 0 1.5rem 0
+
+          .key
+            white-space nowrap
+            overflow hidden
+            text-overflow ellipsis
+
 .tm-li-tx
   display flex
   font-size sm
@@ -154,24 +174,4 @@ export default {
   &:hover
     cursor pointer
     background var(--hover-bg)
-
-@media screen and (min-width: 700px)
-  .tm-li-tx
-    font-size 0.875rem
-
-    .tx-container
-      flex-direction row
-
-      .tx-coins
-        flex 0 0 9rem
-        padding 0
-        min-width 0
-
-        .tx-coin
-          padding 0 1.5rem 0
-
-          .key
-            white-space nowrap
-            overflow hidden
-            text-overflow ellipsis
 </style>
