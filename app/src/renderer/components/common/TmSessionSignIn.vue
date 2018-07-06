@@ -80,6 +80,7 @@ export default {
         })
         localStorage.setItem("prevAccountKey", this.fields.signInName)
         this.$router.push("/")
+        this.$store.commit("setModalSession", false)
       } catch (err) {
         this.$store.commit("notifyError", {
           title: "Signing In Failed",
