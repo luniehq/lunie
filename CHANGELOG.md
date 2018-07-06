@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Send confirmation popup @faboweb
 * Checking known nodes round robin and signaling an error if none are available @faboweb
 * Help menu with links to report a bug or view the log @faboweb
+* build duration and input/output hashes to build process @NodeGuy
 
 ### Changed
 
