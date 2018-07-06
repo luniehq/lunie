@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Search bar fixed to top @okwme
 * Hide block subscription errors @mappum
 * Fixed css editing in devtools @faboweb
+* Added history and disabled backbutton on no history @okwme
 
 ### Fixed
 

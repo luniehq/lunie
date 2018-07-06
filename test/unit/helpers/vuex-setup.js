@@ -29,7 +29,11 @@ export default function vuexSetup() {
     jest.spyOn(store, "commit")
 
     let router = new VueRouter({ routes })
-
+    router.beforeEach((to, from, next) => {
+      if (from.fullPath !== to.fullPath)
+        store.commit("addHistory", from.fullPath)
+      next()
+    })
     return {
       node,
       store,

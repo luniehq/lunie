@@ -10,6 +10,7 @@ export default ({ commit, node }) => {
     atoms: 0,
     signedIn: false,
     accounts: [],
+    history: [],
     password: null,
     account: null,
     address: null,
@@ -22,6 +23,12 @@ export default ({ commit, node }) => {
     },
     setAtoms(state, atoms) {
       state.atoms = atoms
+    },
+    addHistory(state, path) {
+      state.history.push(path)
+    },
+    clearHistory(state) {
+      state.history = []
     }
   }
 
@@ -31,8 +38,7 @@ export default ({ commit, node }) => {
       await dispatch("loadAccounts")
     },
     async showInitialScreen({ dispatch, commit }) {
-      let history = []
-      localStorage.setItem("history", JSON.stringify(history))
+      commit("clearHistory")
       await dispatch("loadAccounts")
       let exists = state.accounts.length > 0
       let screen = exists ? "sign-in" : "welcome"

@@ -48,15 +48,14 @@ async function main() {
 
     routes
   })
-  router.beforeEach((to, from, next) => {
-    let history = JSON.parse(localStorage.getItem("history"))
-    history.push(from.fullPath)
-    localStorage.setItem("history", JSON.stringify(history))
-    next()
-  })
 
   store = Store({ node })
   store.dispatch("loadTheme")
+
+  router.beforeEach((to, from, next) => {
+    if (from.fullPath !== to.fullPath) store.commit("addHistory", from.fullPath)
+    next()
+  })
 
   ipcRenderer.on("error", (event, error) => {
     switch (error.code) {

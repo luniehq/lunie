@@ -44,6 +44,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 >
                   <a
                     class="back"
+                    disabled="disabled"
                   >
                     <i
                       class="material-icons"
@@ -586,6 +587,7 @@ exports[`PagePreferences shows versions 1`] = `
                 >
                   <a
                     class="back"
+                    disabled="disabled"
                   >
                     <i
                       class="material-icons"
@@ -1108,6 +1110,7 @@ exports[`PagePreferences shows versions 2`] = `
                 >
                   <a
                     class="back"
+                    disabled="disabled"
                   >
                     <i
                       class="material-icons"

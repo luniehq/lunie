@@ -56,7 +56,7 @@ describe("TmSessionSignIn", () => {
   it("should show error if password not 10 long", () => {
     wrapper.setData({ fields: { signInPassword: "123" } })
     wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect(store.commit.mock.calls[1]).toBeUndefined()
     expect(wrapper.find(".tm-form-msg-error")).toBeDefined()
   })
 
@@ -85,5 +85,21 @@ describe("TmSessionSignIn", () => {
     expect(wrapper.vm.fields.signInPassword).toBe("1234567890")
     expect(wrapper.html()).toContain("1234567890")
     expect(wrapper.html()).toMatchSnapshot()
+  })
+  it("should reset history after signin", async () => {
+    expect(store.state.user.history.length).toBe(0)
+    wrapper.setData({
+      fields: {
+        signInPassword: "1234567890",
+        signInName: "default"
+      }
+    })
+    await wrapper.vm.onSubmit()
+    expect(store.state.user.history.length).toBe(0)
+    wrapper.vm.$router.push("/staking")
+    wrapper.update()
+    expect(store.state.user.history.length).toBe(1)
+    store.dispatch("signOut")
+    expect(store.state.user.history.length).toBe(0)
   })
 })
