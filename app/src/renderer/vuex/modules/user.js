@@ -31,6 +31,8 @@ export default ({ commit, node }) => {
       await dispatch("loadAccounts")
     },
     async showInitialScreen({ dispatch, commit }) {
+      let history = []
+      localStorage.setItem("history", JSON.stringify(history))
       await dispatch("loadAccounts")
       let exists = state.accounts.length > 0
       let screen = exists ? "sign-in" : "welcome"

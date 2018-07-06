@@ -45,7 +45,14 @@ async function main() {
 
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
+
     routes
+  })
+  router.beforeEach((to, from, next) => {
+    let history = JSON.parse(localStorage.getItem("history"))
+    history.push(from.fullPath)
+    localStorage.setItem("history", JSON.stringify(history))
+    next()
   })
 
   store = Store({ node })
