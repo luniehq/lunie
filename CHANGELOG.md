@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Launch sequence for dev improved @okwme
 * E2E test maybe fix @okwme
 * Login in to restricted page bug @okwme
+* Send with an empty wallet bug @okwme
 
 ### Added
 
