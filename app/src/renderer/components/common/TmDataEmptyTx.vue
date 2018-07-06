@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-data-msg(icon="info_outline")
   div(slot="title") No Transaction History
-  div(slot="subtitle") Looks like you haven't sent or received any transactions yet. Head over to #[router-link(:to="{ name: 'send' }") Send] to make your first transaction!
+  div(slot="subtitle") Looks like you haven't sent or received any transactions yet. Head over to your #[router-link(:to="{ name: 'balances' }") Wallet] to make your first transaction!
 </template>
 
 <script>
