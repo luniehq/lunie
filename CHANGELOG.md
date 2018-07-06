@@ -59,6 +59,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Hide block subscription errors @mappum
 * Fixed css editing in devtools @faboweb
 * Added history and disabled backbutton on no history @okwme
+* Network configuration files are now taken from the SDK repo. @NodeGuy
 
 ### Fixed
 
@@ -78,7 +79,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * E2E test maybe fix @okwme
 * Login in to restricted page bug @okwme
 * Send with an empty wallet bug @okwme
-* Readme formatting @okwme
+  <<<<<<< HEAD
+* # Readme formatting @okwme
+  > > > > > > > Use network configuration files from the SDK.
 
 ## [0.7.0] - 2018-06-13
 
