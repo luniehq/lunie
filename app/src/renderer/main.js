@@ -7,7 +7,7 @@ import Raven from "raven-js"
 import { ipcRenderer, remote } from "electron"
 
 import App from "./App"
-import routes from "./routes"
+import routesConstructor from "./routes"
 import Node from "./connectors/node"
 import Store from "./vuex/store"
 
@@ -16,6 +16,7 @@ const config = remote.getGlobal("config")
 // exporting this for testing
 let store
 let node
+let router
 
 // Raven serves automatic error reporting. It is turned off by default
 Raven.config("").install()
@@ -43,13 +44,14 @@ async function main() {
   console.log("Expecting lcd-server on port:", lcdPort)
   node = Node(lcdPort, config.mocked)
 
-  const router = new Router({
+  store = Store({ node })
+  store.dispatch("loadTheme")
+
+  const routes = routesConstructor(store)
+  router = new Router({
     scrollBehavior: () => ({ y: 0 }),
     routes
   })
-
-  store = Store({ node })
-  store.dispatch("loadTheme")
 
   ipcRenderer.on("error", (event, error) => {
     switch (error.code) {
@@ -106,6 +108,7 @@ main()
 // exporting this for testing
 module.exports.store = store
 module.exports.node = node
+module.exports.router = router
 
 function getQueryParameter(name) {
   let queryString = window.location.search.substring(1)
