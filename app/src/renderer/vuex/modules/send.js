@@ -1,3 +1,5 @@
+import { sleep } from "scripts/common.js"
+
 export default ({ commit, node }) => {
   let lock = null
 
@@ -44,7 +46,9 @@ export default ({ commit, node }) => {
 
     // wait to ensure tx is committed before we query
     // XXX
-    setTimeout(() => dispatch("queryWalletBalances"), 3 * 1000)
+    setTimeout(() => {
+      dispatch("queryWalletState")
+    }, 3 * 1000)
   }
 
   let actions = {
@@ -65,6 +69,8 @@ export default ({ commit, node }) => {
         // wait for doSend to finish
         let res = await lock
         return res
+      } catch (err) {
+        throw err
       } finally {
         // get rid of lock whether doSend throws or succeeds
         lock = null
