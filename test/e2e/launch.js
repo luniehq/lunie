@@ -6,7 +6,7 @@ let electron = require("electron")
 let { join } = require("path")
 let { spawn } = require("child_process")
 let fs = require("fs-extra")
-let { login } = require("./common.js")
+let { login, sleep } = require("./common.js")
 
 const networkPath = join(__dirname, "localtestnet")
 const testDir = join(__dirname, "../../testArtifacts")
@@ -268,8 +268,4 @@ module.exports = {
     await app.restart()
     await app.client.waitForExist(awaitingSelector, 5000)
   }
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
 }

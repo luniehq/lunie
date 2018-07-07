@@ -43,6 +43,12 @@ tm-page(title='Send')
         tm-form-msg(name='Amount' type='between' :min='max ? 1 : 0' :max='max'
           v-if='!$v.fields.amount.between')
 
+      p(v-if='mockedConnector')
+        span Try sending to the address "
+        strong(style="font-weight: bold") cosmosaccaddr1p6zajjw6xged056andyhn62lm7axwzyspkzjq0
+        span ", it's a friendly bot which will send the money back to you!
+      br(v-if='mockedConnector')
+
     div(slot='footer')
       div
       tm-btn(v-if='sending' value='Sending...' disabled color="primary")
@@ -84,7 +90,7 @@ export default {
     TmModalSendConfirmation
   },
   computed: {
-    ...mapGetters(["wallet", "lastHeader", "config"]),
+    ...mapGetters(["wallet", "lastHeader", "config", "mockedConnector"]),
     max() {
       let denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0

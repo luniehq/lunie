@@ -24,7 +24,7 @@ Array [
 exports[`Module: Send send transactions should send from wallet 1`] = `
 Array [
   Array [
-    "address",
+    "mock_address",
     Object {
       "account_number": 123,
       "amount": Array [
