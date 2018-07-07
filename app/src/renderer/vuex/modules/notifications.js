@@ -32,7 +32,6 @@ export default () => {
       note.icon = "check_circle"
       note.time = Date.now()
       state.push(note)
-      // console.log('notify', note)
     },
     notifyWarn(state, data) {
       let note = data
@@ -40,7 +39,6 @@ export default () => {
       note.time = Date.now()
       note.type = "warning"
       state.push(note)
-      // console.log('notifyError', note)
     },
     notifyError(state, data) {
       let note = data
@@ -49,32 +47,27 @@ export default () => {
       note.layout = "alert"
       note.type = "error"
       state.push(note)
-      // console.log('notifyError', note)
     },
     notifySignUp(state) {
       let note = JSON.parse(JSON.stringify(noteSignUp))
       note.time = Date.now()
       state.push(note)
-      // console.log('notifySignUp', note)
     },
     notifySignIn(state) {
       let note = JSON.parse(JSON.stringify(noteSignIn))
       note.time = Date.now()
       state.push(note)
-      // console.log('notifySignIn', note)
     },
     notifySignOut(state) {
       let note = JSON.parse(JSON.stringify(noteSignOut))
       note.time = Date.now()
       state.push(note)
-      // console.log('notifySignOut', note)
     },
     notifyAuthRequired(state, body) {
       let note = JSON.parse(JSON.stringify(noteAuthRequired))
       note.time = Date.now()
       if (body) note.body = body
       state.push(note)
-      // console.log('notifyAuthRequired', not)
     }
   }
 
