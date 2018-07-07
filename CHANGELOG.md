@@ -54,6 +54,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed missing node-ip in connection indicator @faboweb
 * Launch sequence for dev improved @okwme
 * E2E test maybe fix @okwme
+* Login in to restricted page bug @okwme
 * Send with an empty wallet bug @okwme
 
 ## [0.7.0] - 2018-06-13
