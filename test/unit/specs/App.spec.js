@@ -113,6 +113,32 @@ describe("App without analytics", () => {
     expect(store.state.node.approvalRequired).toBe("THISISSOMEHASH")
   })
 
+  it("triggers navigation to About on IPC message", async () => {
+    jest.resetModules()
+
+    let mockPush = jest.fn()
+    jest.mock(
+      "vue-router",
+      () =>
+        function() {
+          if (this == null) return
+          this.push = mockPush
+        }
+    )
+
+    const { ipcRenderer } = require("electron")
+    ipcRenderer.on = (type, cb) => {
+      if (type === "open-about-menu") {
+        cb(null)
+      }
+    }
+
+    let app = require("renderer/main.js")
+    expect(mockPush.mock.calls[0][0]).toBe("/about")
+
+    jest.resetModules()
+  })
+
   it("sends a message to the main thread, that the app has loaded", () => {
     const { ipcRenderer } = require("electron")
     ipcRenderer.send = jest.fn()

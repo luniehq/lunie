@@ -1,13 +1,14 @@
 const { app, Menu, shell } = require("electron")
 
-module.exports = function() {
+module.exports = function(mainWindow) {
   let template = [
     {
       label: "Cosmos Voyager",
       submenu: [
         {
           label: "About Cosmos Voyager",
-          selector: "orderFrontStandardAboutPanel:"
+          selector: "orderFrontStandardAboutPanel:",
+          click: () => openAboutMenu(mainWindow)
         },
         { type: "separator" },
         {
@@ -58,4 +59,8 @@ module.exports = function() {
 
   let menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
+}
+
+function openAboutMenu(mainWindow) {
+  mainWindow.webContents.send("open-about-menu")
 }
