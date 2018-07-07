@@ -123,6 +123,7 @@ describe("App without analytics", () => {
         function() {
           if (this == null) return
           this.push = mockPush
+          this.beforeEach = jest.fn()
         }
     )
 

@@ -50,14 +50,14 @@ async function main() {
   const routes = routesConstructor(store)
   router = new Router({
     scrollBehavior: () => ({ y: 0 }),
-
     routes
   })
+
   router.beforeEach((to, from, next) => {
     if (from.fullPath !== to.fullPath) store.commit("addHistory", from.fullPath)
     next()
   })
-  
+
   ipcRenderer.on("error", (event, error) => {
     switch (error.code) {
       case "NO_NODES_AVAILABLE":
