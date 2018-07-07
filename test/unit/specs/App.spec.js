@@ -134,7 +134,7 @@ describe("App without analytics", () => {
     }
 
     let app = require("renderer/main.js")
-    expect(mockPush.mock.calls[0][0]).toBe("/preferences")
+    expect(mockPush.mock.calls[0][0]).toBe("/about")
 
     jest.resetModules()
   })

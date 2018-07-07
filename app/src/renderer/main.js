@@ -68,8 +68,7 @@ async function main() {
     store.commit("setNodeApprovalRequired", hash)
   })
   ipcRenderer.on("open-about-menu", event => {
-    // TODO: create an about page
-    router.push("/preferences")
+    router.push("/about")
   })
 
   let firstStart = true

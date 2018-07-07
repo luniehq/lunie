@@ -62,6 +62,5 @@ module.exports = function(mainWindow) {
 }
 
 function openAboutMenu(mainWindow) {
-  if (process.platform === "darwin") return
   mainWindow.webContents.send("open-about-menu")
 }

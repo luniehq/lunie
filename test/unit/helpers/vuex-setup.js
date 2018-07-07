@@ -2,7 +2,7 @@ import Vuex from "vuex"
 import VueRouter from "vue-router"
 import { shallow, mount, createLocalVue } from "@vue/test-utils"
 
-import routes from "renderer/routes"
+import routesConstructor from "renderer/routes"
 
 const Modules = require("renderer/vuex/modules").default
 const Getters = require("renderer/vuex/getters")
@@ -28,6 +28,7 @@ export default function vuexSetup() {
     jest.spyOn(store, "dispatch")
     jest.spyOn(store, "commit")
 
+    const routes = routesConstructor(store)
     let router = new VueRouter({ routes })
 
     return {
