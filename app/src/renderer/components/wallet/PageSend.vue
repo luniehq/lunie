@@ -53,6 +53,8 @@ tm-page(title='Send')
       div
       tm-btn(v-if='sending' value='Sending...' disabled color="primary")
       tm-btn(v-else @click='onSubmit' value="Send Tokens" color="primary")
+
+  tm-modal-send-confirmation(v-if="confirmationPending" @approved="onApproved" @canceled="onCancel" :amount="fields.amount" :recipient="fields.address" :denom="fields.denom")
 </template>
 
 <script>
@@ -72,6 +74,7 @@ import {
 
 import FieldAddon from "common/TmFieldAddon"
 import ToolBar from "common/TmToolBar"
+import TmModalSendConfirmation from "wallet/TmModalSendConfirmation"
 export default {
   components: {
     TmBtn,
@@ -83,7 +86,8 @@ export default {
     TmFormStruct,
     TmPage,
     TmPart,
-    ToolBar
+    ToolBar,
+    TmModalSendConfirmation
   },
   computed: {
     ...mapGetters(["wallet", "lastHeader", "config", "mockedConnector"]),
@@ -109,6 +113,7 @@ export default {
       denom: "",
       zoneId: "cosmos-hub-1"
     },
+    confirmationPending: false,
     sending: false
   }),
   methods: {
@@ -118,10 +123,14 @@ export default {
       this.sending = false
       this.$v.$reset()
     },
-    async onSubmit() {
+    onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
 
+      this.confirmationPending = true
+    },
+    async onApproved() {
+      this.confirmationPending = false
       this.sending = true
       let amount = +this.fields.amount
       let address = this.fields.address
@@ -158,6 +167,9 @@ export default {
           body: `An error occurred while trying to send: "${err.message}"`
         })
       }
+    },
+    onCancel() {
+      this.confirmationPending = false
     },
     bech32Validate(param) {
       try {

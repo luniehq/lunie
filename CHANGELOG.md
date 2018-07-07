@@ -7,14 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.7.1] - 2018-07-04
+
 ### Added
 
 * Configs for the gaia-6002 testnet @faboweb
 * Bot which returns money to sender in mock mode @mappum
 * Introduced addressbook to store found peers and to select nodes round robin @faboweb
 * Tutorial how to start a local node @faboweb
+* Added versions to Preference Page @okwme
+* Send confirmation popup @faboweb
+* Checking known nodes round robin and signaling an error if none are available @faboweb
+* Help menu with links to report a bug or view the log @faboweb
 
-### Changes
+### Changed
 
 * Use persistent peers and seeds from tendermint config @faboweb
 * Updated loading icon and loading states @jolesbi
@@ -26,6 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Improved CI @faboweb
 * Search bar fixed to top @okwme
 * Hide block subscription errors @mappum
+* Fixed css editing in devtools @faboweb
 
 ### Fixed
 
@@ -41,11 +48,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed preference page style bug @okwme
 * Fixed missing node-ip in connection indicator @faboweb
 * Launch sequence for dev improved @okwme
-
-### Added
-
-* Checking known nodes round robin and signaling an error if none are available @faboweb
-* Help menu with links to report a bug or view the log @faboweb
+* E2E test maybe fix @okwme
+* Send with an empty wallet bug @okwme
 
 ## [0.7.0] - 2018-06-13
 

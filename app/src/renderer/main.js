@@ -49,6 +49,7 @@ async function main() {
   })
 
   store = Store({ node })
+  store.dispatch("loadTheme")
 
   ipcRenderer.on("error", (event, error) => {
     switch (error.code) {
