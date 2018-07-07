@@ -1,5 +1,5 @@
 const mockValidators = require("../../helpers/json/mock_validators.json")
-const { sleep } = require("scripts/common.js")
+const { sleep } = require("../scripts/common.js")
 
 let state = { blockMetas: [], blocks: [], connected: true }
 createBlockMetas(state)
