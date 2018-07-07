@@ -1,4 +1,5 @@
 const mockValidators = require("../../helpers/json/mock_validators.json")
+const { sleep } = require("scripts/common.js")
 
 let state = { blockMetas: [], blocks: [], connected: true }
 createBlockMetas(state)
@@ -132,8 +133,4 @@ function makeBlockHash() {
   }
 
   return text
-}
-
-function sleep(ms = 0) {
-  return new Promise(resolve => setTimeout(resolve, ms))
 }
