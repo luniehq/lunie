@@ -47,8 +47,7 @@ export default ({ commit, node }) => {
     // wait to ensure tx is committed before we query
     // XXX
     setTimeout(() => {
-      dispatch("queryWalletBalances")
-      dispatch("queryWalletHistory")
+      dispatch("queryWalletState")
     }, 3 * 1000)
   }
 
@@ -70,6 +69,8 @@ export default ({ commit, node }) => {
         // wait for doSend to finish
         let res = await lock
         return res
+      } catch (err) {
+        throw err
       } finally {
         // get rid of lock whether doSend throws or succeeds
         lock = null
