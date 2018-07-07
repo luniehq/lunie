@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* Copy the network configuration only during local builds. @NodeGuy
+
 ## [0.7.1] - 2018-07-04
 
 ### Added
