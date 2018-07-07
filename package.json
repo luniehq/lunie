@@ -1,7 +1,7 @@
 {
   "name": "cosmos-voyager",
   "productName": "Cosmos Voyager",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Voyager is an electron-based user interface for the Cosmos Network.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
@@ -49,6 +49,7 @@
     "cross-env": "3.2.4",
     "css-loader": "0.28.11",
     "deterministic-zip": "1.0.5",
+    "duplexer": "0.1.1",
     "electron-debug": "1.5.0",
     "electron-devtools-installer": "2.2.4",
     "electron-packager": "10.1.2",

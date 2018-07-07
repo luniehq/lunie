@@ -4,6 +4,7 @@ const util = require(`util`)
 const childProcess = require(`child_process`)
 const { cli } = require(`@nodeguy/cli`)
 const { createHash } = require("crypto")
+const fp = require(`lodash/fp`)
 const zip = require(`deterministic-zip`)
 const path = require("path")
 const packager = util.promisify(require("electron-packager"))
@@ -18,19 +19,16 @@ const optionsSpecification = {
   network: ["path to the default network to use"]
 }
 
-const rewriteConfig = ({ network }) => {
-  const file = path.join(__dirname, `../../app`, `config.toml`)
-  const config = fs.readFileSync(file, { encoding: `utf8` })
-  const networkName = path.basename(network)
+const generateAppPackageJson = packageJson =>
+  Object.assign({}, fp.pick([`productName`, `version`], packageJson), {
+    main: `./dist/main.js`
+  })
 
-  const newConfig = config.replace(
+const updateConfig = (config, { network }) =>
+  config.replace(
     /default_network = ".*"/,
-    `default_network = "${networkName}"`
+    `default_network = "${path.basename(network)}"`
   )
-
-  console.log(`Changed default network to "${networkName}".`)
-  fs.writeFileSync(file, newConfig)
-}
 
 const copyGaia = (buildPath, electronVersion, platform, arch, callback) => {
   const platformPath = platform === `win32` ? `windows` : platform
@@ -154,13 +152,16 @@ const platformNames = {
   win32: `Windows`
 }
 
+// GitHub doesn't allow spaces in release asset names.  :-(
+const sanitizeAssetName = name => name.replace(` `, `_`)
+
 // Choose better names than Electron Packager does for the application paths.
 const packagerWrapper = async ({ productName, version }, options) => {
   const source = (await packager(options))[0]
 
-  const destination = `${productName} v${version} (${
-    platformNames[options.platform]
-  })`
+  const destination = sanitizeAssetName(
+    `${productName}-v${version}-${platformNames[options.platform]}`
+  )
 
   await fs.move(source, destination, {
     overwrite: true
@@ -200,9 +201,34 @@ const build = async platform => {
   console.log("\n\x1b[34mDONE\n\x1b[0m")
 }
 
-cli(optionsSpecification, async options => {
-  fs.copySync(`/mnt/network`, `app/networks/${path.basename(options.network)}`)
-  rewriteConfig(options)
-  pack()
-  await Promise.all([`darwin`, `linux`, `win32`].map(build))
-})
+if (require.main === module) {
+  cli(optionsSpecification, async options => {
+    // If we're doing a local build then copy the specified network configuration.
+    if (fs.existsSync(`/mnt/network`)) {
+      fs.copySync(
+        `/mnt/network`,
+        `app/networks/${path.basename(options.network)}`
+      )
+    }
+
+    // Generate package.json for the app directory.
+    fs.writeFileSync(
+      path.join(__dirname, `../../app/package.json`),
+      JSON.stringify(generateAppPackageJson(packageJson))
+    )
+
+    // Rewrite config file.
+    const configFile = path.join(__dirname, `../../app`, `config.toml`)
+    const config = fs.readFileSync(configFile, { encoding: `utf8` })
+    fs.writeFileSync(configFile, updateConfig(config, options))
+
+    pack()
+    await Promise.all([`darwin`, `linux`, `win32`].map(build))
+  })
+} else {
+  module.exports = {
+    generateAppPackageJson,
+    sanitizeAssetName,
+    updateConfig
+  }
+}
