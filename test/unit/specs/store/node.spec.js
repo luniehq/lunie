@@ -170,13 +170,13 @@ describe("Module: Node", () => {
   })
 
   it("should trigger reconnection if it started disconnected", done => {
+    jest.useFakeTimers()
     node.rpcInfo.connected = false
     node.rpcReconnect = () => {
       done()
-      node.rpcInfo.connected = true
-      return Promise.resolve("1.1.1.1")
     }
     store.dispatch("rpcSubscribe")
+    jest.runAllTimers()
   })
 
   it("should ping the node to check connection status", done => {

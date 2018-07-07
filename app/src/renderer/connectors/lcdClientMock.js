@@ -248,6 +248,10 @@ module.exports = {
   },
   async send(to, req) {
     let fromKey = state.keys.find(a => a.name === req.name)
+    if (!fromKey)
+      throw Error(
+        "Key you want to send from does not exist in the lcd connection mock"
+      )
     return send(to, fromKey.address, req)
   },
   ibcSend(to, req) {

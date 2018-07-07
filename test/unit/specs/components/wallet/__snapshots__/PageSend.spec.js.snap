@@ -2006,6 +2006,8 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
                     <!---->
                   </div>
                 </div>
+                <!---->
+                <!---->
               </main>
             </div>
           </section>
