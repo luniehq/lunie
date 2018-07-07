@@ -137,7 +137,7 @@ export default {
     font-size sm
 
   &.tm-li-tx-sent
-    .tx-icon, .tx-coin .value
+    .tx-coin .value
       &:before
         content '-'
 

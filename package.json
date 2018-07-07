@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@nodeguy/cli": "0.2.1",
+    "@octokit/rest": "15.9.4",
     "babel-core": "6.26.3",
     "babel-eslint": "7.2.3",
     "babel-jest": "21.2.0",

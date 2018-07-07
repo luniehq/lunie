@@ -7,11 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* Copy the network configuration only during local builds. @NodeGuy
+
 ## [0.7.1] - 2018-07-04
 
 ### Added
 
 * Configs for the gaia-6002 testnet @faboweb
+* Bot which returns money to sender in mock mode @mappum
 * Introduced addressbook to store found peers and to select nodes round robin @faboweb
 * Tutorial how to start a local node @faboweb
 * Added versions to Preference Page @okwme
