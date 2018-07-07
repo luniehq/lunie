@@ -21,7 +21,7 @@ describe("Module: Themes", () => {
   it("loads themes", () => {
     expect(state.active).toBe("dark")
     localStorage.setItem("appTheme", "light")
-    store.commit("loadTheme")
+    store.dispatch("loadTheme")
     expect(state.active).toBe("light")
   })
 
