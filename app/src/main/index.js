@@ -400,11 +400,10 @@ function handleHashVerification(nodeHash) {
 function afterBooted(cb) {
   if (booted) {
     cb()
-  } else {
-    ipcMain.on("booted", event => {
-      cb()
-    })
   }
+  ipcMain.on("booted", event => {
+    cb()
+  })
 }
 
 /*
