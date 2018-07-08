@@ -183,4 +183,14 @@ describe("Addressbook", () => {
     let node = await addressbook.pickNode()
     expect(node).toBe("123.456.123.456:46657")
   })
+
+  it("should call back on connection", async () => {
+    let spy = jest.fn()
+    let addressbook = new Addressbook("./config", {
+      persistent_peers: ["http://123.456.123.456"],
+      onConnectionMessage: spy
+    })
+    let node = await addressbook.pickNode()
+    expect(spy).toHaveBeenCalled()
+  })
 })
