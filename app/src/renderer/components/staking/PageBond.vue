@@ -103,6 +103,7 @@ tm-page.page-bond(:title="`Bond ${denom}`")
 
     tm-form-group(field-id="bond-confirm" field-label=''
       :error='$v.fields.bondConfirm.$error')
+      tm-form-msg(v-if="showsRevokedValidators") A revoked validator is not validating and therefor is not producing rewards. The revoked state may be temporary.
       .tm-field-checkbox
         .tm-field-checkbox-input
           input#bond-confirm(type="checkbox" v-model="fields.bondConfirm")
@@ -192,6 +193,9 @@ export default {
     },
     unbondedAtomsDeltaPct() {
       return this.percent(this.unbondedAtomsDelta, this.totalAtoms)
+    },
+    showsRevokedValidators() {
+      return !!this.fields.delegates.find(d => d.delegate.revoked)
     }
   },
   data: () => ({
@@ -427,6 +431,7 @@ export default {
 
   .bond-delta
     color var(--success)
+
     span:before
       content '+'
       display inline
@@ -434,12 +439,14 @@ export default {
   &.bond-group--unbonding
     .bond-bar__inner
       background var(--warning)
+
     .bond-delta
       color var(--warning)
 
 .bond-group--negative
   .bond-bar-old__inner
     background var(--input-bc)
+
   .bond-delta
     color var(--input-bc)
 
@@ -474,9 +481,8 @@ export default {
   padding 1px
   position relative
 
-.bond-bar__outer
-.bond-bar-old__outer
-  height 2rem - 4*px
+.bond-bar__outer, .bond-bar-old__outer
+  height 2rem - 4 * px
   border-radius 1rem
   position absolute
   top 1px
@@ -484,8 +490,7 @@ export default {
   right 1px
   bottom 1px
 
-.bond-bar__inner
-.bond-bar-old__inner
+.bond-bar__inner, .bond-bar-old__inner
   height 2rem - 0.25rem
   border-radius 1rem
   background var(--dim)
@@ -494,7 +499,6 @@ export default {
 
 .bond-bar__inner
   position relative
-
   // debug
   color var(--app-bg)
   font-size xs
@@ -512,11 +516,9 @@ export default {
     background var(--txt)
     border-radius 1rem
     z-index z(listItem)
-
     display flex
     align-items center
     justify-content center
-
     content 'drag_handle'
     font-size x
     font-family 'Material Icons'
@@ -529,12 +531,12 @@ export default {
   display flex
   align-items center
   justify-content flex-end
+
   span
     font-size sm
     font-weight 500
 
-.bond-percent
-.bond-value
+.bond-percent, .bond-value
   input
     text-align right
 

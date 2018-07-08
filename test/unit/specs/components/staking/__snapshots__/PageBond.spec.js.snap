@@ -331,6 +331,7 @@ exports[`PageBond has the expected html structure 1`] = `
                   <div
                     class="tm-form-group__field"
                   >
+                    <!---->
                     <div
                       class="tm-field-checkbox"
                     >

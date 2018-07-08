@@ -165,9 +165,10 @@ let state = {
       pool_shares: { amount: "19/1" },
       description: {
         description: "Herr Schmidt",
-        moniker: "herr_schmidt",
+        moniker: "herr_schmidt_revoked",
         country: "DE"
-      }
+      },
+      revoked: true
     }
   ]
 }
