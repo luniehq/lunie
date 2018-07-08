@@ -1,9 +1,12 @@
 "use strict"
 const b32 = require("../scripts/b32.js")
+const { getHeight } = require("./rpcWrapperMock.js")
 
+const botAddress = "cosmosaccaddr1p6zajjw6xged056andyhn62lm7axwzyspkzjq0"
 const addresses = [
   "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-  "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546"
+  "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546",
+  botAddress
 ]
 const validators = [
   "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
@@ -63,57 +66,67 @@ let state = {
   txs: [
     {
       tx: {
-        hash: "x",
-        inputs: [
-          {
-            coins: [
-              {
-                denom: "jbcoins",
-                amount: 1234
-              }
-            ],
-            sender: makeAddress()
+        value: {
+          msg: {
+            value: {
+              inputs: [
+                {
+                  coins: [
+                    {
+                      denom: "jbcoins",
+                      amount: 1234
+                    }
+                  ],
+                  address: makeAddress()
+                }
+              ],
+              outputs: [
+                {
+                  coins: [
+                    {
+                      denom: "jbcoins",
+                      amount: 1234
+                    }
+                  ],
+                  address: addresses[0]
+                }
+              ]
+            }
           }
-        ],
-        outputs: [
-          {
-            coins: [
-              {
-                denom: "jbcoins",
-                amount: 1234
-              }
-            ],
-            receiver: addresses[0]
-          }
-        ]
+        }
       },
       height: 1
     },
     {
       tx: {
-        hash: "y",
-        inputs: [
-          {
-            coins: [
-              {
-                denom: "fabocoins",
-                amount: 1234
-              }
-            ],
-            sender: addresses[0]
+        value: {
+          msg: {
+            value: {
+              inputs: [
+                {
+                  coins: [
+                    {
+                      denom: "fabocoins",
+                      amount: 1234
+                    }
+                  ],
+                  address: addresses[0]
+                }
+              ],
+              outputs: [
+                {
+                  coins: [
+                    {
+                      denom: "fabocoins",
+                      amount: 1234
+                    }
+                  ],
+                  address: makeAddress()
+                }
+              ]
+            }
           }
-        ],
-        outputs: [
-          {
-            coins: [
-              {
-                denom: "fabocoins",
-                amount: 1234
-              }
-            ],
-            receiver: makeAddress()
-          }
-        ]
+        }
       },
       height: 150
     }
@@ -170,7 +183,8 @@ let state = {
       },
       revoked: true
     }
-  ]
+  ],
+  sendHeight: 2
 }
 
 module.exports = {
@@ -225,8 +239,8 @@ module.exports = {
   async txs(address) {
     return state.txs.filter(tx => {
       return (
-        tx.tx.inputs.find(input => input.sender === address) ||
-        tx.tx.outputs.find(output => output.receiver === address)
+        tx.tx.value.msg.value.inputs.find(input => input.address === address) ||
+        tx.tx.value.msg.value.outputs.find(output => output.address === address)
       )
     })
   },
@@ -235,52 +249,11 @@ module.exports = {
   },
   async send(to, req) {
     let fromKey = state.keys.find(a => a.name === req.name)
-    let fromAccount = state.accounts[fromKey.address]
-    if (fromAccount == null) {
-      return txResult(1, "Nonexistent account")
-    }
-
-    for (let { denom, amount } of req.amount) {
-      if (amount < 0) {
-        return txResult(1, "Amount cannot be negative")
-      }
-      if (fromAccount.coins.find(c => c.denom === denom).amount < amount) {
-        return txResult(1, "Not enough coins in your account")
-      }
-    }
-
-    // check/update nonce
-    if (fromAccount.sequence !== req.sequence) {
-      return txResult(
-        2,
-        `Expected sequence "${fromAccount.sequence}", got "${req.sequence}"`
+    if (!fromKey)
+      throw Error(
+        "Key you want to send from does not exist in the lcd connection mock"
       )
-    }
-    fromAccount.sequence += 1
-
-    // update sender balances
-    for (let { denom, amount } of req.amount) {
-      fromAccount.coins.find(c => c.denom === denom).amount -= amount
-    }
-
-    // update receiver balances
-    let receiverAccount = state.accounts[to]
-    if (!receiverAccount) {
-      receiverAccount = state.accounts[to] = {
-        coins: [],
-        sequence: 0
-      }
-    }
-    for (let { denom, amount } of req.amount) {
-      let receiverCoin = receiverAccount.coins.find(c => c.denom === denom)
-      if (!receiverCoin) {
-        receiverCoin = { amount: 0, denom }
-        receiverAccount.coins.push(receiverCoin)
-      }
-      receiverCoin.amount += amount
-    }
-
-    return txResult(0)
+    return send(to, fromKey.address, req)
   },
   ibcSend(to, req) {
     // XXX ignores chainId, treated as normal send
@@ -410,6 +383,89 @@ function makeAddress() {
     text += possible.charAt(Math.floor(Math.random() * possible.length))
   }
   return b32.encode(text)
+}
+
+function send(to, from, req) {
+  let fromAccount = state.accounts[from]
+  if (fromAccount == null) {
+    return txResult(1, "Nonexistent account")
+  }
+
+  for (let { denom, amount } of req.amount) {
+    if (amount < 0) {
+      return txResult(1, "Amount cannot be negative")
+    }
+    if (fromAccount.coins.find(c => c.denom === denom).amount < amount) {
+      return txResult(1, "Not enough coins in your account")
+    }
+  }
+
+  // check/update nonce
+  if (fromAccount.sequence !== req.sequence) {
+    return txResult(
+      2,
+      `Expected sequence "${fromAccount.sequence}", got "${req.sequence}"`
+    )
+  }
+  fromAccount.sequence += 1
+
+  // update sender balances
+  for (let { denom, amount } of req.amount) {
+    fromAccount.coins.find(c => c.denom === denom).amount -= amount
+  }
+
+  // update receiver balances
+  let receiverAccount = state.accounts[to]
+  if (!receiverAccount) {
+    receiverAccount = state.accounts[to] = {
+      coins: [],
+      sequence: 0
+    }
+  }
+  for (let { denom, amount } of req.amount) {
+    let receiverCoin = receiverAccount.coins.find(c => c.denom === denom)
+    if (!receiverCoin) {
+      receiverCoin = { amount: 0, denom }
+      receiverAccount.coins.push(receiverCoin)
+    }
+    receiverCoin.amount += amount
+  }
+
+  // log tx
+  state.txs.push({
+    tx: {
+      value: {
+        msg: {
+          value: {
+            inputs: [
+              {
+                coins: req.amount,
+                address: from
+              }
+            ],
+            outputs: [
+              {
+                coins: req.amount,
+                address: to
+              }
+            ]
+          }
+        }
+      }
+    },
+    height: getHeight() + (from === botAddress ? 1 : 0),
+    time: Date.now()
+  })
+
+  // if receiver is bot address, send money back
+  if (to === botAddress) {
+    send(from, botAddress, {
+      amount: req.amount,
+      sequence: state.accounts[botAddress].sequence
+    })
+  }
+
+  return txResult(0)
 }
 
 // function delegate (sender, { pub_key: { data: pubKey }, amount: delegation }) {

@@ -2,6 +2,7 @@ let fs = require("fs-extra")
 let { join } = require("path")
 const { remote } = require("electron")
 const root = remote.getGlobal("root")
+let { sleep } = require("scripts/common.js")
 
 export default ({ commit, node }) => {
   let state = {
@@ -145,8 +146,4 @@ export default ({ commit, node }) => {
     mutations,
     actions
   }
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
 }

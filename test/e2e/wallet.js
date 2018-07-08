@@ -166,6 +166,9 @@ test("wallet", async function(t) {
         "cosmosaccaddr1xrnylx3l5mptnpjd4h0d52wtvealsdnv5k77n8"
       )
       await sendBtn().click()
+      // the confirmation popup will open
+      await app.client.$("#send-confirmation-btn").click()
+
       await app.client.waitForExist(".tm-notification", 10 * 1000)
       let msg = await app.client.$(".tm-notification .body").getText()
       console.log("msg", msg)
