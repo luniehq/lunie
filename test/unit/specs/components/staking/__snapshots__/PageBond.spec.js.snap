@@ -425,3 +425,425 @@ exports[`PageBond has the expected html structure 1`] = `
   </main>
 </div>
 `;
+
+exports[`PageBond shows a message if there are revoked candidates 1`] = `
+<div
+  class="tm-page page-bond"
+>
+  <header
+    class="tm-page-header"
+  >
+    <div
+      class="tm-page-header-container"
+    >
+      <div
+        class="tm-page-header-text"
+      >
+        <div
+          class="tm-page-header-title"
+        >
+          <h2>
+            Bond STEAK
+          </h2>
+        </div>
+        <div
+          class="tm-page-header-subtitle"
+        >
+          <h3>
+            
+          </h3>
+        </div>
+      </div>
+      <menu
+        class="tm-page-header-menu"
+      >
+        <div>
+          <div>
+            <div
+              class="tm-tool-bar"
+            >
+              <div
+                class="tm-tool-bar-container"
+              >
+                <div
+                  class="main"
+                >
+                  <a
+                    class="back"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </menu>
+    </div>
+  </header>
+  <main
+    class="tm-page-main"
+  >
+    <section
+      class="tm-part"
+    >
+      <div
+        class="tm-part-container"
+      >
+        <header
+          class="tm-part-header"
+        >
+          <div
+            class="tm-part-header-container"
+          >
+            <div
+              class="tm-part-title h5"
+            >
+              Start bonding your 101 STEAK
+            </div>
+            <menu
+              class="tm-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="tm-part-main"
+        >
+          <form
+            class="tm-form"
+          >
+            <div
+              class="tm-form-container"
+            >
+              <!---->
+              <main
+                class="tm-form-main"
+              >
+                <div
+                  class="bond-group bond-group--neutral"
+                >
+                  <div
+                    class="bond-group__fields"
+                  >
+                    <div
+                      class="bond-bar"
+                    >
+                      <label
+                        class="bond-bar__label"
+                      >
+                        Unbonded STEAK
+                      </label>
+                      <div
+                        class="bond-bar__input"
+                      >
+                        <div
+                          class="bond-bar-old__outer"
+                        >
+                          <div
+                            class="bond-bar-old__inner"
+                            style="width: 0px;"
+                          />
+                        </div>
+                        <div
+                          class="bond-bar__outer"
+                        >
+                          <div
+                            class="bond-bar__inner"
+                            style="width: 0px;"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="bond-percent"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <!---->
+                      </label>
+                      <input
+                        class="bond-percent__input tm-field"
+                        disabled="disabled"
+                        placeholder="0%"
+                      />
+                    </div>
+                    <div
+                      class="bond-value"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <!---->
+                      </label>
+                      <input
+                        class="bond-value__input tm-field"
+                        disabled="disabled"
+                        id="new-unbonded-atoms"
+                        placeholder="Atoms"
+                        type="number"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="bond-group bond-group--neutral"
+                >
+                  <div
+                    class="bond-group__fields"
+                  >
+                    <div
+                      class="bond-bar"
+                    >
+                      <!---->
+                      <label
+                        class="bond-bar__label revoked"
+                      >
+                        someValidator
+                      </label>
+                      <label
+                        class="bond-bar__revoked"
+                      >
+                        REVOKED
+                      </label>
+                      <div
+                        class="bond-bar__input"
+                      >
+                        <div
+                          class="bond-bar-old__outer"
+                        >
+                          <!---->
+                        </div>
+                        <div
+                          class="bond-bar__outer"
+                        >
+                          <div
+                            class="bond-bar__inner bond-bar__inner--editable"
+                            id="delegate-pubkeyX"
+                            style="width: 28px;"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="bond-percent"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <span>
+                          
+                        </span>
+                      </label>
+                      <input
+                        class="bond-percent__input tm-field"
+                        disabled="disabled"
+                        placeholder="0%"
+                      />
+                    </div>
+                    <div
+                      class="bond-value"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <span>
+                          
+                        </span>
+                      </label>
+                      <input
+                        class="bond-value__input tm-field"
+                        min="0"
+                        placeholder="Atoms"
+                        step="1"
+                        type="number"
+                      />
+                    </div>
+                  </div>
+                  <!---->
+                  <!---->
+                  <!---->
+                </div>
+                <div
+                  class="bond-group bond-group--neutral"
+                >
+                  <div
+                    class="bond-group__fields"
+                  >
+                    <div
+                      class="bond-bar"
+                    >
+                      <label
+                        class="bond-bar__label"
+                      >
+                        someOtherValidator
+                      </label>
+                      <!---->
+                      <!---->
+                      <div
+                        class="bond-bar__input"
+                      >
+                        <div
+                          class="bond-bar-old__outer"
+                        >
+                          <!---->
+                        </div>
+                        <div
+                          class="bond-bar__outer"
+                        >
+                          <div
+                            class="bond-bar__inner bond-bar__inner--editable"
+                            id="delegate-pubkeyY"
+                            style="width: 21px;"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="bond-percent"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <span>
+                          
+                        </span>
+                      </label>
+                      <input
+                        class="bond-percent__input tm-field"
+                        disabled="disabled"
+                        placeholder="0%"
+                      />
+                    </div>
+                    <div
+                      class="bond-value"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <span>
+                          
+                        </span>
+                      </label>
+                      <input
+                        class="bond-value__input tm-field"
+                        min="0"
+                        placeholder="Atoms"
+                        step="1"
+                        type="number"
+                      />
+                    </div>
+                  </div>
+                  <!---->
+                  <!---->
+                  <!---->
+                </div>
+                <!---->
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <!---->
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <div
+                      class="tm-form-msg sm tm-form-msg--desc"
+                    >
+                      A revoked validator is not validating and therefor is not producing rewards. The revoked state may be temporary.
+                    </div>
+                    <div
+                      class="tm-field-checkbox"
+                    >
+                      <div
+                        class="tm-field-checkbox-input"
+                      >
+                        <input
+                          id="bond-confirm"
+                          type="checkbox"
+                        />
+                      </div>
+                      <label
+                        class="tm-field-checkbox-label"
+                        for="bond-confirm"
+                      >
+                        Yes, update my bonds. I understand unbonding will take 30 days.
+                      </label>
+                    </div>
+                    <div
+                      class="tm-form-msg sm tm-form-msg--error"
+                    >
+                      Bonding Confirmation is required
+                    </div>
+                  </div>
+                </div>
+              </main>
+              <footer
+                class="tm-form-footer"
+              >
+                <div>
+                  <button
+                    class="tm-btn"
+                    id="btn-reset"
+                    type="button"
+                  >
+                    <span
+                      class="tm-btn__container tm-btn--danger"
+                    >
+                      <!---->
+                      <!---->
+                      <span
+                        class="tm-btn__value"
+                      >
+                        Reset
+                      </span>
+                    </span>
+                  </button>
+                  <button
+                    class="tm-btn"
+                    id="btn-bond"
+                  >
+                    <span
+                      class="tm-btn__container tm-btn--primary"
+                    >
+                      <!---->
+                      <!---->
+                      <span
+                        class="tm-btn__value"
+                      >
+                        Submit
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </footer>
+            </div>
+          </form>
+        </main>
+      </div>
+    </section>
+  </main>
+</div>
+`;

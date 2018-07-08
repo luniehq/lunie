@@ -314,4 +314,29 @@ describe("PageBond", () => {
       wrapper.vm.$el.querySelector(".bond-group.bond-group--unbonding")
     ).toBeNull()
   })
+
+  it("shows a message if there are revoked candidates", () => {
+    wrapper.setData({
+      fields: {
+        delegates: [
+          {
+            id: "pubkeyX",
+            delegate: Object.assign(
+              {},
+              store.getters.shoppingCart[0].delegate,
+              { revoked: true }
+            ),
+            atoms: 0
+          },
+          {
+            id: "pubkeyY",
+            delegate: store.getters.shoppingCart[1].delegate,
+            atoms: 25
+          }
+        ]
+      }
+    })
+    expect(wrapper.vm.showsRevokedValidators).toBe(true)
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
 })
