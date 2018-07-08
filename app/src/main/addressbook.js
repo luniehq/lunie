@@ -8,8 +8,12 @@ const TENDERMINT_RPC_PORT = 46657
 const FIXED_NODE = process.env.COSMOS_NODE
 
 module.exports = class Addressbook {
-  constructor(configPath, persistent_peers = []) {
+  constructor(
+    configPath,
+    { persistent_peers = [], onConnectionMessage = () => {} }
+  ) {
     this.peers = []
+    this.onConnectionMessage = onConnectionMessage
 
     // if we define a fixed node, we skip persistence
     if (FIXED_NODE) {
@@ -32,11 +36,13 @@ module.exports = class Addressbook {
 
   async ping(peerURL) {
     let pingURL = `http://${peerURL}:${TENDERMINT_RPC_PORT}`
-    LOGGING && console.log("Pinging node:", pingURL)
+    this.onConnectionMessage(`pinging node: ${pingURL}`)
     let nodeAlive = await axios
       .get(pingURL, { timeout: 3000 })
       .then(() => true, () => false)
-    LOGGING && console.log("Node", peerURL, "is", nodeAlive ? "alive" : "down")
+    this.onConnectionMessage(
+      `Node ${peerURL} is ${nodeAlive ? "alive" : "down"}`
+    )
     return nodeAlive
   }
 
@@ -99,7 +105,7 @@ module.exports = class Addressbook {
       return this.pickNode()
     }
 
-    LOGGING && console.log("Picked node:", curNode.host)
+    this.onConnectionMessage("Picked node: " + curNode.host)
 
     // we skip discovery for fixed nodes as we want to always return the same node
     if (!FIXED_NODE) {
