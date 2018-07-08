@@ -10,7 +10,7 @@ const FIXED_NODE = process.env.COSMOS_NODE
 module.exports = class Addressbook {
   constructor(
     configPath,
-    { persistent_peers = [], onConnectionMessage = () => {} }
+    { persistent_peers = [], onConnectionMessage = () => {} } = {}
   ) {
     this.peers = []
     this.onConnectionMessage = onConnectionMessage
