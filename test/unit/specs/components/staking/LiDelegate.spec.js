@@ -65,4 +65,27 @@ describe("LiDelegate", () => {
     expect(wrapper.vm.inCart).toBeFalsy()
     expect(wrapper.html()).not.toContain("li-delegate-active")
   })
+
+  it("should show the type of the candidate", () => {
+    wrapper.vm.delegate = {
+      revoked: false,
+      isValidator: false
+    }
+    expect(wrapper.vm.delegateType).toBe("Candidate")
+    wrapper.vm.delegate = {
+      revoked: false,
+      isValidator: true
+    }
+    expect(wrapper.vm.delegateType).toBe("Validator")
+    wrapper.vm.delegate = {
+      revoked: true,
+      isValidator: false
+    }
+    expect(wrapper.vm.delegateType).toBe("Revoked")
+    wrapper.vm.delegate = {
+      revoked: true,
+      isValidator: true
+    }
+    expect(wrapper.vm.delegateType).toBe("Revoked")
+  })
 })
