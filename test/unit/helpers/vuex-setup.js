@@ -15,7 +15,7 @@ export default function vuexSetup() {
   function init(
     componentConstructor,
     testType = shallow,
-    { stubs, getters = {}, propsData }
+    { stubs, getters = {}, propsData, doBefore = ({ store, router }) => {} }
   ) {
     const node = Object.assign({}, require("../helpers/node_mock"))
     const modules = Modules({ node })
@@ -35,6 +35,10 @@ export default function vuexSetup() {
         store.commit("addHistory", from.fullPath)
       next()
     })
+
+    // execute some preparation logic on the store or router before mounting
+    doBefore({ store, router })
+
     return {
       node,
       store,
@@ -53,17 +57,25 @@ export default function vuexSetup() {
 
   return {
     localVue,
-    shallow: (componentConstructor, { stubs, getters, propsData } = {}) =>
+    shallow: (
+      componentConstructor,
+      { stubs, getters, propsData, doBefore } = {}
+    ) =>
       init(componentConstructor, shallow, {
         stubs,
         getters,
-        propsData
+        propsData,
+        doBefore
       }),
-    mount: (componentConstructor, { stubs, getters, propsData } = {}) =>
+    mount: (
+      componentConstructor,
+      { stubs, getters, propsData, doBefore } = {}
+    ) =>
       init(componentConstructor, mount, {
         stubs,
         getters,
-        propsData
+        propsData,
+        doBefore
       })
   }
 }
