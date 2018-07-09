@@ -208,26 +208,6 @@ describe("Startup Process", () => {
         send.mock.calls.filter(([type, _]) => type === "error")[0][1].code
       ).toBe("NO_NODES_AVAILABLE")
     })
-
-    it("should error if it can't find a node to connect to", async () => {
-      main.shutdown()
-      prepareMain()
-      let { send } = require("electron")
-      send.mockClear()
-
-      // run main
-      main = await require(appRoot + "src/main/index.js")
-
-      expect(
-        send.mock.calls.filter(([type, _]) => type === "connected").length
-      ).toBe(0) // doesn't connect
-      expect(
-        send.mock.calls.filter(([type, _]) => type === "error").length
-      ).toBe(1)
-      expect(
-        send.mock.calls.filter(([type, _]) => type === "error")[0][1].code
-      ).toBe("NO_NODES_AVAILABLE")
-    })
   })
 
   describe("Initialization in dev mode", function() {
@@ -410,18 +390,18 @@ describe("Startup Process", () => {
       expect(killSpy).toHaveBeenCalled()
     })
 
-    it("should report connection messages", async done => {
+    it("should report connection messages", async () => {
       prepareMain()
 
       jest.doMock(
         "app/src/main/addressbook.js",
         () =>
           class MockAddressbook {
-            constructor(root, { onConnectionCallback }) {
-              this.onConnectionCallback = onConnectionCallback
+            constructor(root, { onConnectionMessage }) {
+              this.onConnectionMessage = onConnectionMessage
             }
             async pickNode() {
-              this.onConnectionCallback("HALLO WORLD")
+              this.onConnectionMessage("HALLO WORLD")
               return "127.0.0.1:46657"
             }
           }
@@ -430,7 +410,7 @@ describe("Startup Process", () => {
       send.mockClear()
 
       await require(appRoot + "src/main/index.js")
-      expect(send).toHaveBeenCalledWith("connection-message", "HALLO WORLD")
+      expect(send).toHaveBeenCalledWith("connection-status", "HALLO WORLD")
     })
 
     it("should not start reconnecting again if already trying to reconnect", async done => {
