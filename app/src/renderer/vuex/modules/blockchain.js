@@ -148,10 +148,7 @@ export default ({ commit, node }) => {
 
       function error(err) {
         state.subscription = false
-        commit("notifyError", {
-          title: `Error subscribing to new blocks`,
-          body: err.message
-        })
+        console.error(`Error subscribing to new blocks: ${err.message}`)
       }
 
       node.rpc.status((err, status) => {

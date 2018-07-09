@@ -1,13 +1,14 @@
-const { app, Menu } = require("electron")
+const { app, Menu, shell } = require("electron")
 
-module.exports = function() {
+module.exports = function(mainWindow) {
   let template = [
     {
       label: "Cosmos Voyager",
       submenu: [
         {
           label: "About Cosmos Voyager",
-          selector: "orderFrontStandardAboutPanel:"
+          selector: "orderFrontStandardAboutPanel:",
+          click: () => openAboutMenu(mainWindow)
         },
         { type: "separator" },
         {
@@ -36,9 +37,30 @@ module.exports = function() {
           selector: "paste:"
         }
       ]
+    },
+    {
+      label: "Help",
+      submenu: [
+        {
+          label: "Report An Issue",
+          click() {
+            shell.openExternal("https://github.com/cosmos/voyager/issues/new")
+          }
+        },
+        {
+          label: "View Application Log",
+          click() {
+            shell.openItem(global.root + "/main.log")
+          }
+        }
+      ]
     }
   ]
 
   let menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
+}
+
+function openAboutMenu(mainWindow) {
+  mainWindow.webContents.send("open-about-menu")
 }

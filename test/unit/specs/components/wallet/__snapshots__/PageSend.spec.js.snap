@@ -44,6 +44,7 @@ exports[`PageSend has the expected html structure 1`] = `
                 >
                   <a
                     class="back"
+                    disabled="disabled"
                   >
                     <i
                       class="material-icons"
@@ -308,6 +309,8 @@ exports[`PageSend has the expected html structure 1`] = `
                     <!---->
                   </div>
                 </div>
+                <!---->
+                <!---->
               </main>
             </div>
           </section>
@@ -336,6 +339,7 @@ exports[`PageSend has the expected html structure 1`] = `
         </footer>
       </div>
     </form>
+    <!---->
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
@@ -404,6 +408,7 @@ exports[`PageSend should show address required error 1`] = `
                 >
                   <a
                     class="back"
+                    disabled="disabled"
                   >
                     <i
                       class="material-icons"
@@ -658,6 +663,8 @@ exports[`PageSend should show address required error 1`] = `
                     </div>
                   </div>
                 </div>
+                <!---->
+                <!---->
               </main>
             </div>
           </section>
@@ -686,6 +693,7 @@ exports[`PageSend should show address required error 1`] = `
         </footer>
       </div>
     </form>
+    <!---->
   </main>
 </div>
 `;
@@ -734,6 +742,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                 >
                   <a
                     class="back"
+                    disabled="disabled"
                   >
                     <i
                       class="material-icons"
@@ -988,6 +997,8 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                     </div>
                   </div>
                 </div>
+                <!---->
+                <!---->
               </main>
             </div>
           </section>
@@ -1016,6 +1027,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
         </footer>
       </div>
     </form>
+    <!---->
   </main>
 </div>
 `;
@@ -1064,6 +1076,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                 >
                   <a
                     class="back"
+                    disabled="disabled"
                   >
                     <i
                       class="material-icons"
@@ -1318,6 +1331,8 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                     </div>
                   </div>
                 </div>
+                <!---->
+                <!---->
               </main>
             </div>
           </section>
@@ -1346,6 +1361,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
         </footer>
       </div>
     </form>
+    <!---->
   </main>
 </div>
 `;
@@ -1394,6 +1410,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                 >
                   <a
                     class="back"
+                    disabled="disabled"
                   >
                     <i
                       class="material-icons"
@@ -1648,6 +1665,8 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                     </div>
                   </div>
                 </div>
+                <!---->
+                <!---->
               </main>
             </div>
           </section>
@@ -1676,6 +1695,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
         </footer>
       </div>
     </form>
+    <!---->
   </main>
 </div>
 `;
@@ -1689,6 +1709,483 @@ Object {
   "title": "Error Sending",
   "type": "error",
 }
+`;
+
+exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
+<div
+  class="tm-page"
+>
+  <header
+    class="tm-page-header"
+  >
+    <div
+      class="tm-page-header-container"
+    >
+      <div
+        class="tm-page-header-text"
+      >
+        <div
+          class="tm-page-header-title"
+        >
+          <h2>
+            Send
+          </h2>
+        </div>
+        <div
+          class="tm-page-header-subtitle"
+        >
+          <h3>
+            
+          </h3>
+        </div>
+      </div>
+      <menu
+        class="tm-page-header-menu"
+      >
+        <div>
+          <div>
+            <div
+              class="tm-tool-bar"
+            >
+              <div
+                class="tm-tool-bar-container"
+              >
+                <div
+                  class="main"
+                >
+                  <a
+                    class="back"
+                    disabled="disabled"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </menu>
+    </div>
+  </header>
+  <main
+    class="tm-page-main"
+  >
+    <form
+      class="tm-form"
+    >
+      <div
+        class="tm-form-container"
+      >
+        <!---->
+        <main
+          class="tm-form-main"
+        >
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <header
+                class="tm-part-header"
+              >
+                <div
+                  class="tm-part-header-container"
+                >
+                  <div
+                    class="tm-part-title h5"
+                  >
+                    Denomination Options
+                  </div>
+                  <menu
+                    class="tm-part-menu"
+                  />
+                </div>
+              </header>
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="send-denomination"
+                  >
+                    Denomination
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <div
+                      class="tm-select"
+                      id="send-denomination"
+                    >
+                      <select
+                        class="tm-field tm-field-select"
+                      >
+                        <option
+                          disabled="disabled"
+                          hidden="hidden"
+                          selected="selected"
+                          value=""
+                        >
+                          Select token...
+                        </option>
+                        <option
+                          value="mycoin"
+                        >
+                          MYCOIN
+                        </option>
+                        <option
+                          value="fermion"
+                        >
+                          FERMION
+                        </option>
+                      </select>
+                      <div
+                        class="tm-field-select-addon"
+                      >
+                        <i
+                          class="material-icons"
+                        >
+                          arrow_drop_down
+                        </i>
+                      </div>
+                    </div>
+                    <!---->
+                  </div>
+                </div>
+              </main>
+            </div>
+          </section>
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <header
+                class="tm-part-header"
+              >
+                <div
+                  class="tm-part-header-container"
+                >
+                  <div
+                    class="tm-part-title h5"
+                  >
+                    Transaction Details
+                  </div>
+                  <menu
+                    class="tm-part-menu"
+                  />
+                </div>
+              </header>
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="send-zone-id"
+                  >
+                    Zone ID
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <div
+                      class="tm-select"
+                      id="send-zone-id"
+                    >
+                      <select
+                        class="tm-field tm-field-select"
+                      >
+                        <option
+                          disabled="disabled"
+                          hidden="hidden"
+                          selected="selected"
+                          value=""
+                        >
+                          Select zone...
+                        </option>
+                        <option
+                          value="basecoind-demo1"
+                        >
+                          basecoind-demo1
+                        </option>
+                        <option
+                          value="basecoind-demo2"
+                        >
+                          basecoind-demo2
+                        </option>
+                      </select>
+                      <div
+                        class="tm-field-select-addon"
+                      >
+                        <i
+                          class="material-icons"
+                        >
+                          arrow_drop_down
+                        </i>
+                      </div>
+                    </div>
+                    <!---->
+                  </div>
+                </div>
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="send-address"
+                  >
+                    Send To
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <div
+                      class="tm-field-group"
+                    >
+                      <input
+                        class="tm-field"
+                        id="send-address"
+                        placeholder="Address"
+                        type="text"
+                      />
+                    </div>
+                    <!---->
+                  </div>
+                </div>
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="send-amount"
+                  >
+                    Amount
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <div
+                      class="tm-field-group"
+                    >
+                      <input
+                        class="tm-field"
+                        id="send-amount"
+                        placeholder="Amount"
+                        type="number"
+                      />
+                    </div>
+                    <!---->
+                    <!---->
+                  </div>
+                </div>
+                <!---->
+                <!---->
+              </main>
+            </div>
+          </section>
+        </main>
+        <footer
+          class="tm-form-footer"
+        >
+          <div>
+            <div />
+            <button
+              class="tm-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn--primary"
+              >
+                <!---->
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Send Tokens
+                </span>
+              </span>
+            </button>
+          </div>
+        </footer>
+      </div>
+    </form>
+    <div
+      class="tm-modal-send-confirmation tm-modal"
+    >
+      <div
+        class="tm-modal-container"
+      >
+        <header
+          class="tm-modal-header"
+        >
+          <!---->
+          <div
+            class="tm-modal-title"
+          >
+            <div>
+              Confirm Your Transaction
+            </div>
+          </div>
+          <div
+            class="tm-modal-icon tm-modal-close"
+          >
+            <i
+              class="material-icons"
+            >
+              close
+            </i>
+          </div>
+        </header>
+        <main
+          class="tm-modal-main"
+        >
+          <div
+            class="tm-li"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-dl"
+              >
+                <div
+                  class="tm-li-dt"
+                >
+                  Amount
+                </div>
+                <div
+                  class="tm-li-dd"
+                >
+                  2 mycoin
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tm-li"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-dl"
+              >
+                <div
+                  class="tm-li-dt"
+                >
+                  Recipient
+                </div>
+                <div
+                  class="tm-li-dd"
+                >
+                  tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l
+                </div>
+              </div>
+            </div>
+          </div>
+          <p />
+          <p>
+            Are you sure you want to send this transaction? Make sure to check the address again. This transaction cannot be undone.
+          </p>
+          <div
+            class="tm-modal-send-confirmation__footer"
+          >
+            <button
+              class="tm-btn"
+              id="send-confirmation-btn"
+              type="button"
+            >
+              <span
+                class="tm-btn__container tm-btn--primary"
+              >
+                <i
+                  aria-hidden="true"
+                  class="tm-btn__icon material-icons"
+                >
+                  send
+                </i>
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Approve Send
+                </span>
+              </span>
+            </button>
+            <button
+              class="tm-btn"
+              id="send-cancel-btn"
+              type="button"
+            >
+              <span
+                class="tm-btn__container"
+              >
+                <i
+                  aria-hidden="true"
+                  class="tm-btn__icon material-icons"
+                >
+                  cancel
+                </i>
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Cancel Send
+                </span>
+              </span>
+            </button>
+          </div>
+        </main>
+        <footer
+          class="tm-modal-footer"
+        />
+      </div>
+    </div>
+  </main>
+</div>
 `;
 
 exports[`PageSend should work without providing a default denom 1`] = `
@@ -1735,6 +2232,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                 >
                   <a
                     class="back"
+                    disabled="disabled"
                   >
                     <i
                       class="material-icons"
@@ -1993,6 +2491,8 @@ exports[`PageSend should work without providing a default denom 1`] = `
                     <!---->
                   </div>
                 </div>
+                <!---->
+                <!---->
               </main>
             </div>
           </section>
@@ -2021,6 +2521,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
         </footer>
       </div>
     </form>
+    <!---->
   </main>
 </div>
 `;
