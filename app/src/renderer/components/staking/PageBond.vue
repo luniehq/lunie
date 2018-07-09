@@ -63,7 +63,7 @@ tm-page.page-bond(:title="`Bond ${denom}`")
             min="0"
             :max=newUnbondedAtoms
             v-model.number="d.atoms"
-            @change.native="limitMax(d, $event)")
+            @change.native="limitMax(d, parseInt($event.target.max))")
 
       tm-form-msg(name="Atoms" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
@@ -328,16 +328,14 @@ export default {
     },
     updateDelegateAtoms(delegateId, rawAtoms) {
       let d = this.fields.delegates.find(d => d.id === delegateId)
-      if (d) {
-        d.bondedRatio = rawAtoms / this.totalAtoms
-        d.atoms = Math.round(rawAtoms)
-        d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, "int")
-        d.deltaAtomsPercent = this.percent(
-          this.delta(rawAtoms, d.oldAtoms),
-          this.totalAtoms
-        )
-        return d
-      }
+      d.bondedRatio = rawAtoms / this.totalAtoms
+      d.atoms = Math.round(rawAtoms)
+      d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, "int")
+      d.deltaAtomsPercent = this.percent(
+        this.delta(rawAtoms, d.oldAtoms),
+        this.totalAtoms
+      )
+      return d
     },
     setBondBarOuterWidth() {
       let outerBar = this.$el.querySelector(".bond-bar__outer")
@@ -363,10 +361,8 @@ export default {
       }
       return value + "%"
     },
-    limitMax(delegate, event) {
-      let max = parseInt(event.target.max)
+    limitMax(delegate, max) {
       if (delegate.atoms >= max) {
-        console.log(`${delegate.atoms} <= ${max}`)
         delegate.atoms = max
         return
       }
