@@ -67,6 +67,7 @@ export default ({ commit, node }) => {
     // load committed delegation from LCD
     async getBondedDelegate({ commit, rootState }, { delegator, validator }) {
       let bond = await node.queryDelegation(delegator, validator)
+      if (!bond) return
       let shares = bond ? parseRat(bond.shares) : 0
       let delegate = rootState.delegates.delegates.find(
         d => d.owner === validator
