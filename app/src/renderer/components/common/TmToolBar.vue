@@ -1,7 +1,7 @@
 <template lang="pug">
   tm-tool-bar
     slot
-    a.back(@click="$router.go(-1)" v-tooltip.bottom="'Back'")
+    a.back(@click.native="$router.go(-1)" :disabled="user.history.length === 0" v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
     a.help(@click="enableModalHelp" v-tooltip.bottom="'Help'")
       i.material-icons help_outline
@@ -11,6 +11,7 @@
 
 <script>
 import { TmToolBar } from "@tendermint/ui"
+import { mapGetters } from "vuex"
 export default {
   // the name needs to be different from TmToolBar (tm-tool-bar) or else recursive rendering takes place
   name: "vm-tool-bar",
@@ -24,6 +25,9 @@ export default {
     signOut() {
       this.$store.dispatch("signOut")
     }
+  },
+  computed: {
+    ...mapGetters(["user"])
   }
 }
 </script>

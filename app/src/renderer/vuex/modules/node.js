@@ -1,5 +1,6 @@
 import { setTimeout } from "timers"
 import { ipcRenderer } from "electron"
+import { sleep } from "scripts/common.js"
 
 export default function({ node }) {
   // get tendermint RPC client from basecoin client
@@ -175,8 +176,4 @@ export default function({ node }) {
     mutations,
     actions
   }
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
 }

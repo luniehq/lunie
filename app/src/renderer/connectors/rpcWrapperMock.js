@@ -1,6 +1,7 @@
 const mockValidators = require("../../helpers/json/mock_validators.json")
+const { sleep } = require("../scripts/common.js")
 
-let state = { blockMetas: {}, blocks: [], connected: true }
+let state = { blockMetas: [], blocks: [], connected: true }
 createBlockMetas(state)
 
 const RpcClientMock = {
@@ -18,7 +19,7 @@ const RpcClientMock = {
     cb(null, { block: state.blocks.find(b => b.header.height === minHeight) }),
   blockchain: ({ minHeight, maxHeight }, cb) =>
     cb(null, {
-      block_metas: state.blockMetas[minHeight]
+      block_metas: state.blockMetas.slice(minHeight)
     }),
   status: cb =>
     cb(null, {
@@ -56,6 +57,10 @@ module.exports = function setRPCWrapperMock(container) {
   }
 
   return rpcWrapper
+}
+
+module.exports.getHeight = function() {
+  return state.blocks.length - 1
 }
 
 function createBlockMeta(time, height) {
@@ -128,8 +133,4 @@ function makeBlockHash() {
   }
 
   return text
-}
-
-function sleep(ms = 0) {
-  return new Promise(resolve => setTimeout(resolve, ms))
 }

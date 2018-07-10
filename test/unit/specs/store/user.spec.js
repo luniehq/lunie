@@ -19,8 +19,6 @@ describe("Module: User", () => {
   ]
 
   beforeEach(() => {
-    jest.mock("electron", () => ({ ipcRenderer: { send: jest.fn() } }))
-
     let test = instance.shallow()
     store = test.store
     node = test.node
