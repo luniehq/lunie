@@ -82,7 +82,7 @@ async function main() {
   console.log("--- Committing release changes ---")
 
   const tag = `v${newVersion}`
-  const head = `release/${tag}`
+  const head = `RC/${tag}`
   await pushCommit({ token: process.env.GIT_BOT_TOKEN, tag, head })
 
   await createPullRequest({
