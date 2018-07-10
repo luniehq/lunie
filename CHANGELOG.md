@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Copy the network configuration only during local builds. @NodeGuy
 
+### Fixed
+
+* Voyager hanging after reloading in development mode @faboweb
+
 ## [0.7.1] - 2018-07-04
 
 ### Added
@@ -61,6 +65,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * E2E test maybe fix @okwme
 * Login in to restricted page bug @okwme
 * Send with an empty wallet bug @okwme
+* Readme formatting @okwme
 
 ## [0.7.0] - 2018-06-13
 
