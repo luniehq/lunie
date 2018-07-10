@@ -398,12 +398,15 @@ function handleHashVerification(nodeHash) {
 // the purpose is to send events to the view thread only after it is ready to receive those events
 // if we don't do this, the view thread misses out on those (i.e. an error that occures before the view is ready)
 function afterBooted(cb) {
-  if (booted) {
+  // in tests we trigger the booted callback always, this causes those events to be sent twice
+  // this is why we skip the callback if the message was sent already
+  let sent = false
+  ipcMain.on("booted", event => {
     cb()
-  } else {
-    ipcMain.on("booted", event => {
-      cb()
-    })
+    sent = true
+  })
+  if (booted && !sent) {
+    cb()
   }
 }
 
