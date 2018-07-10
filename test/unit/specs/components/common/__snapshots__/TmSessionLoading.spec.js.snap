@@ -5,7 +5,7 @@ exports[`TmSessionLoading has the expected html structure 1`] = `
    <div class=\\"tm-session-container\\">
       <div class=\\"tm-session-header\\">
          <div class=\\"tm-session-title\\">
-            Loading…
+            Connecting to 'mock-net'…
          </div>
 </div>
 <div class=\\"tm-session-main\\">

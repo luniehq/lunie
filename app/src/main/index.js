@@ -493,7 +493,7 @@ function handleIPC() {
   })
   ipcMain.on("retry-connection", () => {
     log("Retrying to connect to nodes")
-    resetNodes()
+    addressbook.resetNodes()
     reconnect()
   })
 }
@@ -677,7 +677,13 @@ async function main() {
     }
   }
 
-  addressbook = new Addressbook(root, persistent_peers)
+  addressbook = new Addressbook(root, {
+    persistent_peers,
+    onConnectionMessage: message => {
+      log(message)
+      mainWindow.webContents.send("connection-status", message)
+    }
+  })
 
   // choose one random node to start from
   try {
