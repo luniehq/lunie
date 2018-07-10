@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Indicate if a validator has been revoked in the Staking UI @mappum
+* Information about current connection attempts @faboweb
 
 ### Changed
 
