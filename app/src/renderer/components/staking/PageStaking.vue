@@ -14,7 +14,7 @@ tm-page(title='Staking')
     data-empty-search(v-else-if="filteredDelegates.length === 0")
     template(v-else)
       panel-sort(:sort='sort')
-      li-delegate(v-for='i in filteredDelegates' :key='i.id' :delegate='i')
+      li-delegate(v-for='i in enrichedAndFilteredDelegates' :key='i.id' :delegate='i')
 
   .fixed-button-bar(v-if="!delegates.loading")
     template(v-if="userCanDelegate")
@@ -78,6 +78,13 @@ export default {
         .slice(0, 100)
         .reduce((sum, v) => sum + v.voting_power, 0)
     },
+    enrichedAndFilteredDelegates() {
+      return this.filteredDelegates.map(d =>
+        Object.assign({}, d, {
+          your_votes: this.num.prettyInt(this.committedDelegations[d.id])
+        })
+      )
+    },
     filteredDelegates() {
       let query = this.filters.delegates.search.query || ""
 
@@ -109,6 +116,7 @@ export default {
     )
   },
   data: () => ({
+    num: num,
     query: "",
     sort: {
       property: "percent_of_vote",
@@ -172,7 +180,9 @@ export default {
   async mounted() {
     Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
     Mousetrap.bind("esc", () => this.setSearch(false))
-    this.updateDelegates()
+
+    // XXX temporary because querying the shares shows old shares after bonding
+    // this.updateDelegates()
   }
 }
 </script>
