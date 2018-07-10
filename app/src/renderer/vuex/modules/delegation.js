@@ -86,9 +86,9 @@ export default ({ commit, node }) => {
     },
     async updateDelegates({ dispatch }) {
       let candidates = await dispatch("getDelegates")
-      dispatch("getBondedDelegates", candidates)
+      return dispatch("getBondedDelegates", candidates)
     },
-    submitDelegation({ rootState, state, dispatch }, delegations) {
+    async submitDelegation({ rootState, state, dispatch }, delegations) {
       let delegate = []
       let unbond = []
       for (let delegation of delegations.delegates) {
@@ -126,10 +126,24 @@ export default ({ commit, node }) => {
         }
       }
 
-      return dispatch("sendTx", {
+      await dispatch("sendTx", {
         type: "updateDelegations",
         delegate,
         unbond
+      })
+
+      // usually I would just query the new state through the LCD but at this point we still get the old shares
+      dispatch("updateDelegates").then(() => {
+        for (let delegation of delegations.delegates) {
+          commit("setCommittedDelegation", {
+            candidateId: delegation.delegate.owner,
+            value: delegation.atoms
+          })
+          commit("setCommittedDelegation", {
+            candidateId: delegation.delegate.owner,
+            value: delegation.atoms
+          })
+        }
       })
     }
   }
