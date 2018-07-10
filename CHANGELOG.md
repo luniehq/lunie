@@ -7,9 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* Information about current connection attempts @faboweb
+
 ### Changed
 
 * Copy the network configuration only during local builds. @NodeGuy
+
+### Fixed
+
+* Voyager hanging after reloading in development mode @faboweb
 
 ## [0.7.1] - 2018-07-04
 
@@ -23,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Send confirmation popup @faboweb
 * Checking known nodes round robin and signaling an error if none are available @faboweb
 * Help menu with links to report a bug or view the log @faboweb
+* build duration and input/output hashes to build process @NodeGuy
 
 ### Changed
 
