@@ -68,6 +68,7 @@ export default ({ commit, node }) => {
     async getBondedDelegate({ commit, rootState }, { delegator, validator }) {
       let bond = await node.queryDelegation(delegator, validator)
       if (!bond) return
+
       let shares = bond ? parseRat(bond.shares) : 0
       let delegate = rootState.delegates.delegates.find(
         d => d.owner === validator
@@ -81,6 +82,7 @@ export default ({ commit, node }) => {
         candidateId: validator,
         value
       })
+      commit("addToCart", delegate)
     },
     async updateDelegates({ dispatch }) {
       let candidates = await dispatch("getDelegates")
