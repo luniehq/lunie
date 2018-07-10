@@ -31,7 +31,7 @@ yarn build:gaia
 ```
 
 The version built is specified in `tasks/build/Gaia/COMMIT.sh` and the programs
-are placed in the `builds/gaia` directory.
+are placed in the `builds/Gaia` directory.
 
 ### Check Out Voyager
 
@@ -151,7 +151,7 @@ Sometimes you may want to run a local node, i.e. in the case there is no availab
 Then initialize your node:
 
 ```bash
-$ builds/gaia/{OS}/gaiad init --home ~/.gaiad-testnet --name local
+$ builds/Gaia/{OS}/gaiad init --home ~/.gaiad-testnet --name local
 ```
 
 Write down the 12 word secret phrase to be able to import an account that holds tokens later on.
@@ -172,7 +172,7 @@ $ sed -i.bak 's/seeds = ""/seeds = "localhost"/g' ./app/networks/local-testnet/c
 Store the gaia version used in your local testnet:
 
 ```bash
-$ ./builds/gaia/{OS}/gaiad version > ./app/networks/local-testnet/basecoindversion.txt
+$ ./builds/Gaia/{OS}/gaiad version > ./app/networks/local-testnet/basecoindversion.txt
 ```
 
 Start your local node:

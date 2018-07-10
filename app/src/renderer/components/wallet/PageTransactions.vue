@@ -47,12 +47,7 @@ export default {
       return !this.wallet.historyLoading && !!this.transactions.length
     },
     orderedTransactions() {
-      let list = orderBy(
-        this.transactions,
-        [this.sort.property],
-        [this.sort.order]
-      )
-      return uniqBy(list, "height") // filter out duplicate tx to self
+      return orderBy(this.transactions, [this.sort.property], [this.sort.order])
     },
     filteredTransactions() {
       let query = this.filters.transactions.search.query
