@@ -149,7 +149,8 @@ let state = {
         data: "t3zVnKU42WNH+NtYFcstZRLFVULWV8VagoP0HwW43Pk="
       },
       revoked: false,
-      pool_shares: { amount: "14/1" },
+      pool_shares: { amount: "14" },
+      delegator_shares: "14",
       description: {
         description: "Mr Mounty",
         moniker: "mr_mounty",
@@ -162,7 +163,8 @@ let state = {
         type: "AC26791624DE60",
         data: "9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w="
       },
-      pool_shares: { amount: "32/1" },
+      pool_shares: { amount: "32" },
+      delegator_shares: "32",
       description: {
         description: "Good Guy Greg",
         moniker: "good_greg",
@@ -175,7 +177,8 @@ let state = {
         type: "AC26791624DE60",
         data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0="
       },
-      pool_shares: { amount: "19/1" },
+      pool_shares: { amount: "19" },
+      delegator_shares: "19",
       description: {
         description: "Herr Schmidt",
         moniker: "herr_schmidt_revoked",

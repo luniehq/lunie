@@ -5,15 +5,16 @@ let instance = setup()
 describe("Module: Delegations", () => {
   let store, node
 
-  beforeEach(() => {
+  beforeEach(async () => {
     let test = instance.shallow()
     store = test.store
     node = test.node
 
-    store.dispatch("signIn", { password: "bar", account: "bar" })
+    store.dispatch("signIn", { password: "bar", account: "default" })
+    await store.dispatch("getDelegates")
   })
 
-  xit("adds delegate to cart", () => {
+  it("adds delegate to cart", () => {
     store.commit("addToCart", { id: "foo", x: 1 })
     expect(store.state.delegation.delegates[0]).toEqual({
       id: "foo",
@@ -23,7 +24,7 @@ describe("Module: Delegations", () => {
     expect(store.state.delegation.delegates.length).toBe(1)
   })
 
-  xit("does not add delegate to cart if already exists", () => {
+  it("does not add delegate to cart if already exists", () => {
     store.commit("addToCart", { id: "foo" })
     store.commit("addToCart", { id: "foo", x: 1 })
     expect(store.state.delegation.delegates[0].id).toBe("foo")
@@ -31,7 +32,7 @@ describe("Module: Delegations", () => {
     expect(store.state.delegation.delegates.length).toBe(1)
   })
 
-  xit("removes delegate from cart", () => {
+  it("removes delegate from cart", () => {
     store.commit("addToCart", { id: "foo" })
     store.commit("addToCart", { id: "bar" })
     store.commit("removeFromCart", "foo")
@@ -43,61 +44,66 @@ describe("Module: Delegations", () => {
     expect(store.state.delegation.delegates.length).toBe(1)
   })
 
-  xit("sets atoms for delegate", () => {
+  it("sets atoms for delegate", () => {
     store.commit("addToCart", { id: "foo" })
     store.commit("setShares", { candidateId: "foo", value: 123 })
     expect(store.state.delegation.delegates[0].atoms).toBe(123)
   })
 
-  xit("sets committed atoms for delegate", () => {
+  it("sets committed atoms for delegate", () => {
     store.commit("addToCart", { id: "foo" })
     store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })
     expect(store.state.delegation.committedDelegates).toEqual({ foo: 123 })
   })
 
-  xit("sets committed atoms for delegate to 0", () => {
+  it("sets committed atoms for delegate to 0", () => {
     store.commit("addToCart", { id: "foo" })
     store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })
     store.commit("setCommittedDelegation", { candidateId: "foo", value: 0 })
     expect(store.state.delegation.committedDelegates).toEqual({})
   })
 
-  xit("fetches bonded delegates", async () => {
-    node.bondingsByDelegator = jest
+  it("fetches bonded delegates", async () => {
+    node.queryDelegation = jest
       .fn()
       .mockReturnValueOnce({
-        data: {
-          PubKey: { data: "foo" },
-          Shares: 123
-        }
+        shares: "10/123"
       })
       .mockReturnValueOnce({
-        data: {
-          PubKey: { data: "bar" },
-          Shares: 456
-        }
+        shares: "15/123"
+      })
+      // no delegation for a delegate
+      .mockReturnValueOnce({
+        data: null
       })
 
-    await store.dispatch("getBondedDelegates", [
-      { pub_key: { data: "foo" } },
-      { pub_key: { data: "bar" } }
-    ])
-    expect(node.bondingsByDelegator.mock.calls[0][0]).toEqual([
-      "someaddress",
-      "foo"
-    ])
-    expect(node.bondingsByDelegator.mock.calls[1][0]).toEqual([
-      "someaddress",
-      "bar"
+    await store.dispatch("getBondedDelegates", store.state.delegates.delegates)
+
+    // each is user account + validator owner
+    expect(node.queryDelegation.mock.calls).toEqual([
+      [
+        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      ],
+      [
+        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+      ],
+      [
+        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+      ]
     ])
 
     expect(store.state.delegation.committedDelegates).toEqual({
-      foo: 123,
-      bar: 456
+      cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 0.12195121951219512,
+      cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: 0.08130081300813008
     })
   })
 
   xit("submits delegation transaction", async () => {
+    store.commit("addToCart", { id: "foo" })
+    store.commit("addToCart", { id: "foo", x: 1 })
     store.commit("setCommittedDelegation", { candidateId: "bar", value: 123 })
     store.commit("setCommittedDelegation", { candidateId: "baz", value: 789 })
     jest.spyOn(store._actions.sendTx, "0")
@@ -125,7 +131,7 @@ describe("Module: Delegations", () => {
     expect(node.buildUnbond.mock.calls).toMatchSnapshot()
   })
 
-  xit("should query delegated atoms on reconnection", () => {
+  it("should query delegated atoms on reconnection", () => {
     jest.resetModules()
     let axios = require("axios")
     store.state.node.stopConnecting = true
@@ -135,7 +141,7 @@ describe("Module: Delegations", () => {
     expect(axios.get.mock.calls).toMatchSnapshot()
   })
 
-  xit("should not query delegated atoms on reconnection if not stuck in loading", () => {
+  it("should not query delegated atoms on reconnection if not stuck in loading", () => {
     jest.resetModules()
     let axios = require("axios")
     store.state.node.stopConnecting = true
