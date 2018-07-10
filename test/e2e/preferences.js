@@ -1,14 +1,10 @@
-let { spawn } = require("child_process")
 let test = require("tape-promise/tape")
 let { getApp, restart } = require("./launch.js")
 let {
   navigateToPreferences,
-  newTempDir,
-  waitForText,
   sleep,
   login,
-  selectOption,
-  closeNotifications
+  selectOption
 } = require("./common.js")
 
 /*
@@ -16,7 +12,7 @@ let {
 */
 
 test("preferences", async function(t) {
-  let { app, home } = await getApp(t)
+  let { app } = await getApp(t)
   await restart(app)
 
   let $ = (...args) => app.client.$(...args)
@@ -27,9 +23,6 @@ test("preferences", async function(t) {
     await navigateToPreferences(app) //should click preferences link with username
 
     let networkSelect = () => $("#select-network select")
-    let themeSelect = () => $("#select-theme select")
-    let tutorialBtn = () => $("#toggle-onboarding")
-    let statisticsToggle = () => $("label.tm-toggle")
 
     t.test("default network", async function(t) {
       let option = await networkSelect().getValue()

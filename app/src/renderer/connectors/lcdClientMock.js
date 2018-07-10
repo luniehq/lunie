@@ -195,7 +195,7 @@ module.exports = {
   async generateSeed() {
     return "grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon"
   },
-  async storeKey({ name, password, seed }) {
+  async storeKey({ name, password }) {
     let key = {
       name,
       password,
@@ -243,7 +243,7 @@ module.exports = {
       )
     })
   },
-  async tx(hash) {
+  async tx() {
     return {}
   },
   async send(to, req) {

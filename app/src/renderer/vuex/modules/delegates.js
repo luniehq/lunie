@@ -1,6 +1,6 @@
 import indicateValidators from "scripts/indicateValidators"
 
-export default ({ dispatch, node }) => {
+export default ({ node }) => {
   const state = {
     delegates: [],
     loading: false
@@ -33,12 +33,12 @@ export default ({ dispatch, node }) => {
   }
 
   const actions = {
-    reconnected({ state, commit, dispatch }) {
+    reconnected({ state, dispatch }) {
       if (state.loading) {
         dispatch("getDelegates")
       }
     },
-    async getDelegates({ state, dispatch, commit, rootState }) {
+    async getDelegates({ state, commit, rootState }) {
       commit("setDelegateLoading", true)
       let delegates = await node.candidates()
       for (let delegate of delegates) {

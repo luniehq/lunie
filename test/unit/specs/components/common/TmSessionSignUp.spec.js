@@ -2,7 +2,7 @@ import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
 import htmlBeautify from "html-beautify"
 import NISessionSignUp from "common/TmSessionSignUp"
-jest.mock("renderer/google-analytics.js", () => uid => {})
+jest.mock("renderer/google-analytics.js", () => () => {})
 
 let instance = setup()
 instance.localVue.use(Vuelidate)
@@ -64,7 +64,7 @@ describe("NISessionSignUp", () => {
     })
     await wrapper.vm.onSubmit()
     expect(
-      store.commit.mock.calls.find(([action, _]) => action === "notify")[1]
+      store.commit.mock.calls.find(([action]) => action === "notify")[1]
     ).toMatchSnapshot()
     expect(store.dispatch).toHaveBeenCalledWith("signIn", {
       password: "1234567890",
@@ -86,7 +86,7 @@ describe("NISessionSignUp", () => {
     await wrapper.vm.onSubmit()
     expect(
       store.dispatch.mock.calls.find(
-        ([action, _]) => action === "setErrorCollection"
+        ([action]) => action === "setErrorCollection"
       )[1]
     ).toMatchObject({
       account: "testaccount",
@@ -107,7 +107,7 @@ describe("NISessionSignUp", () => {
     await wrapper.vm.onSubmit()
     expect(
       store.dispatch.mock.calls.find(
-        ([action, _]) => action === "setErrorCollection"
+        ([action]) => action === "setErrorCollection"
       )[1]
     ).toMatchObject({
       account: "testaccount",

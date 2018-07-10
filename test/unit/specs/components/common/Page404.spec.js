@@ -1,6 +1,5 @@
 import setup from "../../../helpers/vuex-setup"
 import Page404 from "renderer/components/common/Page404"
-import htmlBeautify from "html-beautify"
 
 describe("Page404", () => {
   let instance = setup()

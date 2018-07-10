@@ -67,7 +67,7 @@ export default function(store) {
 
     {
       path: "/about",
-      redirect: to => {
+      redirect: () => {
         store.commit("setAbout", true)
 
         return "/preferences"

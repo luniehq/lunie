@@ -113,7 +113,7 @@ describe("LCD Client Mock", () => {
       password: "1234567890",
       seed_phrase: "seed some thin"
     })
-    let tx = await client.send(toAddr, {
+    await client.send(toAddr, {
       sequence: 1,
       name: "default",
       fees: [],
