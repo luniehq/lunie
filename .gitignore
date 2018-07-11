@@ -11,3 +11,4 @@ thumbs.db
 .vscode/*
 yarn-error.log
 testArtifacts/*
+app/networks/local-testnet/*
