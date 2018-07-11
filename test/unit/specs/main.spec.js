@@ -390,6 +390,29 @@ describe("Startup Process", () => {
       expect(killSpy).toHaveBeenCalled()
     })
 
+    it("should report connection messages", async () => {
+      prepareMain()
+
+      jest.doMock(
+        "app/src/main/addressbook.js",
+        () =>
+          class MockAddressbook {
+            constructor(root, { onConnectionMessage }) {
+              this.onConnectionMessage = onConnectionMessage
+            }
+            async pickNode() {
+              this.onConnectionMessage("HALLO WORLD")
+              return "127.0.0.1:46657"
+            }
+          }
+      )
+      let { send } = require("electron")
+      send.mockClear()
+
+      await require(appRoot + "src/main/index.js")
+      expect(send).toHaveBeenCalledWith("connection-status", "HALLO WORLD")
+    })
+
     it("should not start reconnecting again if already trying to reconnect", async done => {
       // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
       main.processes.lcdProcess.on = (type, cb) => {
