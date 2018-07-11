@@ -95,40 +95,25 @@ describe("Module: Delegations", () => {
       ]
     ])
 
-    expect(store.state.delegation.committedDelegates).toEqual({
-      cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 0.12195121951219512,
-      cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: 0.08130081300813008
-    })
+    expect(store.state.delegation.committedDelegates).toMatchSnapshot()
   })
 
-  xit("submits delegation transaction", async () => {
-    store.commit("addToCart", { id: "foo" })
-    store.commit("addToCart", { id: "foo", x: 1 })
-    store.commit("setCommittedDelegation", { candidateId: "bar", value: 123 })
-    store.commit("setCommittedDelegation", { candidateId: "baz", value: 789 })
-    jest.spyOn(store._actions.sendTx, "0")
-    jest.spyOn(node, "buildDelegate")
-    jest.spyOn(node, "buildUnbond")
+  it("submits delegation transaction", async () => {
+    store.commit("setAccountNumber", 1)
+    await store.dispatch("getBondedDelegates")
 
-    await store.dispatch("submitDelegation", {
-      delegates: [
-        {
-          delegate: { pub_key: { data: "foo" } },
-          atoms: 123
-        },
-        {
-          delegate: { pub_key: { data: "bar" } },
-          atoms: 456
-        },
-        {
-          delegate: { pub_key: { data: "baz" } },
-          atoms: 0
-        }
-      ]
-    })
+    jest.spyOn(store._actions.sendTx, "0")
+
+    let bondings = [123, 456, 0]
+    const delegations = store.state.delegates.delegates.map((delegate, i) => ({
+      delegate,
+      atoms: bondings[i]
+    }))
+
+    await store.dispatch("submitDelegation", delegations)
+
+    // TODO account number is wrong in snapshot
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
-    expect(node.buildDelegate.mock.calls).toMatchSnapshot()
-    expect(node.buildUnbond.mock.calls).toMatchSnapshot()
   })
 
   it("should query delegated atoms on reconnection", () => {

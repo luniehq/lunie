@@ -136,7 +136,7 @@ let state = {
       [validators[0]]: {
         delegator_addr: addresses[0],
         validator_addr: validators[0],
-        shares: "5/1",
+        shares: "130/1",
         height: 123
       }
     }
@@ -163,8 +163,8 @@ let state = {
         type: "AC26791624DE60",
         data: "9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w="
       },
-      pool_shares: { amount: "32" },
-      delegator_shares: "32",
+      pool_shares: { amount: "0" },
+      delegator_shares: "0",
       description: {
         description: "Good Guy Greg",
         moniker: "good_greg",

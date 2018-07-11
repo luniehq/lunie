@@ -220,9 +220,8 @@ export default {
       }
       this.$v.$touch()
       if (!this.$v.$error) {
-        this.$store.commit("activateDelegation")
         try {
-          await this.$store.dispatch("submitDelegation", this.fields)
+          await this.$store.dispatch("submitDelegation", this.fields.delegates)
           this.$store.commit("notify", {
             title: "Successful Delegation",
             body: "You have successfully bonded / unbonded."
