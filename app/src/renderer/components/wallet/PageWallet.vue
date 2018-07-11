@@ -18,8 +18,8 @@ tm-page(title='Wallet')
       btn-receive(slot="btn-receive")
 
   tm-part#part-available-balances(title="Available Balances")
-    data-loading(v-if="wallet.balancesLoading")
-    data-empty(v-else-if="wallet.balances.length === 0")
+    tm-data-loading(v-if="wallet.balancesLoading")
+    tm-data-empty(v-else-if="wallet.balances.length === 0")
     data-empty-search(v-else-if="filteredBalances.length === 0")
     tm-list-item.tm-li-balance(
       v-for="i in filteredBalances"
@@ -43,19 +43,23 @@ import { mapGetters } from "vuex"
 import { clipboard } from "electron"
 import { sum, includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
-import DataLoading from "common/TmDataLoading"
-import DataEmpty from "common/TmDataEmpty"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import LiCopy from "common/TmLiCopy"
 import BtnReceive from "common/TmBtnReceive"
-import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
+import {
+  TmListItem,
+  TmPage,
+  TmPart,
+  TmDataEmpty,
+  TmDataLoading
+} from "@tendermint/ui"
 import ModalSearch from "common/TmModalSearch"
 import TmToolBar from "common/TmToolBar"
 export default {
   name: "page-wallet",
   components: {
-    DataLoading,
-    DataEmpty,
+    TmDataLoading,
+    TmDataEmpty,
     DataEmptySearch,
     LiCopy,
     TmListItem,

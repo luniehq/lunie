@@ -25,11 +25,15 @@
     node-fetch "^2.1.1"
     url-template "^2.0.8"
 
-"@tendermint/ui@0.2.9":
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.9.tgz#a6c775df822653321269b3176faa67aefcda1834"
+"@tendermint/ui@0.2.10":
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.10.tgz#833f29e7d5c92580ac7779ad67d7365609210b25"
   dependencies:
+    axios "^0.18.0"
     cookieconsent "^3.0.6"
+    js-base64 "^2.4.5"
+    markdown-it "^8.4.1"
+    markdown-it-anchor "^5.0.2"
     moment "^2.22.2"
     perfect-scrollbar "^1.4.0"
     vue "^2.5.16"
@@ -412,7 +416,7 @@ aws4@^1.6.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.7.0.tgz#d4d0e9b9dbfca77bf08eeb0a8a471550fe39e289"
 
-axios@0.18.0:
+axios@0.18.0, axios@^0.18.0:
   version "0.18.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
   dependencies:
@@ -4427,7 +4431,7 @@ jest@21.2.1:
   dependencies:
     jest-cli "^21.2.1"
 
-js-base64@^2.1.9:
+js-base64@^2.1.9, js-base64@^2.4.5:
   version "2.4.5"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.5.tgz#e293cd3c7c82f070d700fc7a1ca0a2e69f101f92"
 
@@ -4767,7 +4771,11 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-markdown-it@8.4.1:
+markdown-it-anchor@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/markdown-it-anchor/-/markdown-it-anchor-5.0.2.tgz#cdd917a05b7bf92fb736a6dae3385c6d0d0fa552"
+
+markdown-it@8.4.1, markdown-it@^8.4.1:
   version "8.4.1"
   resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-8.4.1.tgz#206fe59b0e4e1b78a7c73250af9b34a4ad0aaf44"
   dependencies:

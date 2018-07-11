@@ -9,8 +9,8 @@ tm-page(title='Staking')
   modal-search(type="delegates" v-if="somethingToSearch")
 
   .delegates-container
-    data-loading(v-if="delegates.loading && delegates.delegates.length === 0")
-    data-empty(v-else-if="delegates.delegates.length === 0")
+    tm-data-loading(v-if="delegates.loading && delegates.delegates.length === 0")
+    tm-data-empty(v-else-if="delegates.delegates.length === 0")
     data-empty-search(v-else-if="filteredDelegates.length === 0")
     template(v-else)
       panel-sort(:sort='sort')
@@ -31,10 +31,8 @@ import num from "scripts/num"
 import { includes, orderBy, forEach } from "lodash"
 import Mousetrap from "mousetrap"
 import LiDelegate from "staking/LiDelegate"
-import { TmBtn, TmPage } from "@tendermint/ui"
-import DataEmpty from "common/TmDataEmpty"
+import { TmBtn, TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 import DataEmptySearch from "common/TmDataEmptySearch"
-import DataLoading from "common/TmDataLoading"
 
 import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
@@ -44,9 +42,9 @@ export default {
   components: {
     LiDelegate,
     TmBtn,
-    DataEmpty,
+    TmDataEmpty,
     DataEmptySearch,
-    DataLoading,
+    TmDataLoading,
     ModalSearch,
     TmPage,
     PanelSort,

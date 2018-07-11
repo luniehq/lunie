@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(:title="pageBlockTitle")
-  data-loading(v-if="blockchain.blockLoading")
-  data-empty(v-else-if="!block || !block.header || !blockMeta")
+  tm-data-loading(v-if="blockchain.blockLoading")
+  tm-data-empty(v-else-if="!block || !block.header || !blockMeta")
   template(v-else)
     div(slot="menu"): tool-bar
       router-link(:to="{ name: 'block', params: { block: block.header.height - 1 }}"
@@ -15,66 +15,24 @@ tm-page(:title="pageBlockTitle")
         v-tooltip.bottom="'Newer Block'")
         i.material-icons chevron_right
 
-    tm-part(title='')
-      tm-list-item(dt="Block Hash" :dd="blockMeta.block_id.hash")
-
-    tm-part(title='Header')
-      tm-list-item(dt="Chain ID" :dd="block.header.chain_id")
-      tm-list-item(dt="Time" :dd="blockHeaderTime")
-      tm-list-item(dt="Transactions" :dd="block.header.num_txs")
-      tm-list-item(dt="Last Commit Hash" :dd="block.header.last_commit_hash")
-      tm-list-item(dt="Validators Hash" :dd="block.header.validators_hash")
-      tm-list-item(dt="App Hash" :dd="block.header.app_hash")
-
-    tm-part(title='Last Block')
-      tm-list-item(dt="Hash" :dd="block.header.last_block_id.hash")
-      tm-list-item(dt="Parts Total"
-        :dd="block.header.last_block_id.parts.total")
-      tm-list-item(dt="Parts Hash" :dd="block.header.last_block_id.parts.hash")
-
-    tm-part(title="Precommit"
-      v-for="p in block.last_commit.precommits"
-      :key="p.validator_address" v-if="p !== null")
-      tm-list-item(dt="Address" :dd="p.validator_address")
-      tm-list-item(dt="Index" :dd="p.validator_index")
-      tm-list-item(dt="Round" :dd="p.round")
-      tm-list-item(:dt="`Sig (${p.signature.type})`"
-      :dd="p.signature.data")
-
-    tm-part(title='Transactions')
-      data-loading(v-if="blockchain.blockLoading")
-      data-empty(v-else-if="block.header.num_txs === 0" title="Empty Block" subtitle="There were no transactions in this block.")
-      template(
-        v-else-if="txs.length"
-        )
-        li-transaction(
-          :key="tkey + '-tx'"
-          v-for="(tx, tkey) in txs"
-          v-if="isObj(tx)"
-          :transaction-value="transactionValueify(tx)"
-          :address="tx.tx.msg.inputs[0].address"
-          :devMode="config.devMode")
+    tm-block(:blockMeta="blockMeta", :block="block", :loading="blockchain.blockLoading", :txs="txs")
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import moment from "moment"
 import num from "scripts/num"
-import LiTransaction from "wallet/LiTransaction"
-import DataLoading from "common/TmDataLoading"
-import DataEmpty from "common/TmDataEmpty"
 import ToolBar from "common/TmToolBar"
-import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
+import TmBlock from "common/TmBlock"
+import { TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 export default {
   name: "page-block",
   components: {
-    LiTransaction,
-    DataLoading,
-    DataEmpty,
+    TmDataLoading,
+    TmDataEmpty,
     ToolBar,
-    TmListItem,
-    TmPart,
-    TmPage
+    TmPage,
+    TmBlock
   },
   computed: {
     ...mapGetters(["blockchain", "blockTxInfo", "config"]),

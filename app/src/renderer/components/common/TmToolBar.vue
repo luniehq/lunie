@@ -1,7 +1,7 @@
 <template lang="pug">
   tm-tool-bar
     slot
-    a.back(@click.native="$router.go(-1)" :disabled="user.history.length === 0" v-tooltip.bottom="'Back'")
+    a.back(@click="$router.go(-1)" :disabled="user.history.length === 0" v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
     a.help(@click="enableModalHelp" v-tooltip.bottom="'Help'")
       i.material-icons help_outline

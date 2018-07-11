@@ -31,7 +31,7 @@ mixin tx-container-sent
 </template>
 
 <script>
-import num from "scripts/num"
+import numeral from "numeral"
 import moment from "moment"
 export default {
   name: "tm-li-tx",
@@ -71,13 +71,22 @@ export default {
       )
     }
   },
-  data: () => ({ num: num }),
+  data: () => ({
+    num: num,
+    devMode:
+      process.env.PREVIEW !== undefined
+        ? JSON.parse(process.env.PREVIEW)
+        : process.env.NODE_ENV === "development"
+  }),
   methods: {
     viewTransaction() {
       console.log("TODO: implement tx viewer")
+    },
+    pretty(num) {
+      return numeral(num).format("0,0.00")
     }
   },
-  props: ["transaction", "address", "devMode"]
+  props: { transaction: {}, address: { type: String, default: null } }
 }
 </script>
 
