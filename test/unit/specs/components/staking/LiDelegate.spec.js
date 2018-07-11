@@ -39,7 +39,7 @@ describe("LiDelegate", () => {
   it("should show the relative voting power as a bar", () => {
     expect(
       wrapper.vm.$el.querySelector(".number_of_votes .bar").style.width
-    ).toBe("44%")
+    ).toMatchSnapshot()
   })
 
   it("should add to cart", () => {
