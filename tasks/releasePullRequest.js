@@ -22,7 +22,7 @@ function updateChangeLog(changeLog, newVersion, now) {
 const updatePackageJson = (packageJson, version) =>
   Object.assign({}, packageJson, { version })
 
-const pushCommit = async (token, tag, head) => {
+const pushCommit = async ({ token, tag, head }) => {
   await Promise.all([
     git.addConfig("user.name", "Voyager Bot"),
     git.addConfig("user.email", "voyager_bot@tendermint.com")
@@ -41,7 +41,10 @@ const pushCommit = async (token, tag, head) => {
   await git.push("bot", `HEAD:${head}`, { "--tags": null })
 }
 
-const createPullRequest = async (token, tag, head) => {
+const recentChanges = changeLog =>
+  changeLog.match(/.+?## .+?\n## .+?\n\n(.+?)\n## /s)[1]
+
+const createPullRequest = async ({ changeLog, token, tag, head }) => {
   octokit.authenticate({
     type: `token`,
     token
@@ -53,6 +56,7 @@ const createPullRequest = async (token, tag, head) => {
     title: `automatic release created for ${tag}`,
     head,
     base: `develop`,
+    body: recentChanges(changeLog),
     maintainer_can_modify: true
   })
 }
@@ -76,10 +80,17 @@ async function main() {
   )
 
   console.log("--- Committing release changes ---")
+
   const tag = `v${newVersion}`
-  const head = `release/${tag}`
-  await pushCommit(process.env.GIT_BOT_TOKEN, tag, head)
-  await createPullRequest(process.env.GIT_BOT_TOKEN, tag, head)
+  const head = `release-candidate/${tag}`
+  await pushCommit({ token: process.env.GIT_BOT_TOKEN, tag, head })
+
+  await createPullRequest({
+    changeLog: newChangeLog,
+    token: process.env.GIT_BOT_TOKEN,
+    tag,
+    head
+  })
 }
 
 if (require.main === module) {

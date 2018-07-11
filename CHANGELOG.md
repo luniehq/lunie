@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Indicate if a validator has been revoked in the Staking UI @mappum
 * Information about current connection attempts @faboweb
+* Release published on GitHub now including changes from CHANGELOG. @NodeGuy
 
 ### Changed
 
@@ -35,6 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Send confirmation popup @faboweb
 * Checking known nodes round robin and signaling an error if none are available @faboweb
 * Help menu with links to report a bug or view the log @faboweb
+* build duration and input/output hashes to build process @NodeGuy
 
 ### Changed
 
