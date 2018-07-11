@@ -110,11 +110,6 @@ export default {
       return this.user.atoms > 0
     }
   },
-  candidatesSelected() {
-    return (
-      this.shoppingCart.length + Object.keys(this.committedDelegations).length
-    )
-  },
   data: () => ({
     num: num,
     query: "",
