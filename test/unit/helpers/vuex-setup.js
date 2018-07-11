@@ -1,6 +1,7 @@
 import Vuex from "vuex"
 import VueRouter from "vue-router"
 import { shallow, mount, createLocalVue } from "@vue/test-utils"
+import { getCommits, getDispatches } from "./vuex-helpers.js"
 
 import routesConstructor from "renderer/routes"
 
@@ -27,6 +28,10 @@ export default function vuexSetup() {
 
     jest.spyOn(store, "dispatch")
     jest.spyOn(store, "commit")
+
+    // helpers to make it easier to search events
+    store.getCommits = getCommits.bind(this, store)
+    store.getDispatches = getDispatches.bind(this, store)
 
     const routes = routesConstructor(store)
     let router = new VueRouter({ routes })
