@@ -9,11 +9,13 @@
       tm-list-item(dt="Last Commit Hash" :dd="block.header.last_commit_hash")
       tm-list-item(dt="Validators Hash" :dd="block.header.validators_hash")
       tm-list-item(dt="App Hash" :dd="block.header.app_hash")
+
     tm-part(title='Last Block')
       tm-list-item(dt="Hash" :dd="block.header.last_block_id.hash")
       tm-list-item(dt="Parts Total"
         :dd="block.header.last_block_id.parts.total")
       tm-list-item(dt="Parts Hash" :dd="block.header.last_block_id.parts.hash")
+
     tm-part(title="Precommit"
       v-for="p in block.last_commit.precommits"
       :key="p.validator_address" v-if="p !== null")
@@ -22,6 +24,7 @@
       tm-list-item(dt="Round" :dd="p.round")
       tm-list-item(:dt="`Sig (${p.signature.type})`"
       :dd="p.signature.data")
+
     tm-part(title='Transactions')
       tm-data-loading(v-if="loading")
       tm-data-empty(v-else-if="block.header.num_txs === 0" title="Empty Block" subtitle="There were no transactions in this block.")
@@ -47,7 +50,7 @@ import {
 import moment from "moment"
 
 export default {
-  name: "tm-blocks",
+  name: "tm-block",
   components: {
     TmPart,
     TmListItem,
