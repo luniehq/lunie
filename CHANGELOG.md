@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 * Voyager hanging after reloading in development mode @faboweb
+* Bad Boy Back Button Back @okwme
 
 ## [0.7.1] - 2018-07-04
 

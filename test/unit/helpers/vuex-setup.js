@@ -31,7 +31,7 @@ export default function vuexSetup() {
     const routes = routesConstructor(store)
     let router = new VueRouter({ routes })
     router.beforeEach((to, from, next) => {
-      if (from.fullPath !== to.fullPath)
+      if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)
         store.commit("addHistory", from.fullPath)
       next()
     })

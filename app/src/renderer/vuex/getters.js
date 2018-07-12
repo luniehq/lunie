@@ -3,6 +3,12 @@ export const config = state => state.config
 export const filters = state => state.filters
 export const notifications = state => state.notifications
 export const user = state => state.user
+export const lastPage = state => {
+  return (
+    state.user.history.length &&
+    state.user.history[state.user.history.length - 1]
+  )
+}
 export const themes = state => state.themes
 export const onboarding = state => state.onboarding
 
