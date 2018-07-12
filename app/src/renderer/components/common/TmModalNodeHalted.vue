@@ -3,7 +3,7 @@
   .ni-modal-error
     .ni-modal-error__icon: i.material-icons sync_problem
     .ni-modal-error__title Node has halted
-    .ni-modal-error__body The node your are connected to appears to have halted. You can connect to another node or wait longer for the node to send blocks.
+    .ni-modal-error__body The node your are connected to appears to have halted. You can try to connect to another node or switch to a demo connection so you can try out Voyager.
     .ni-modal-error__footer
       tm-btn#ni-modal-error__btn-retry(
         size="lg"
@@ -13,9 +13,9 @@
         @click.native="switchNode")
       tm-btn#ni-modal-error__btn-mock(
         size="lg"
-        icon="clock"
-        value="Wait Longer"
-        @click.native="wait")
+        icon="pageview"
+        value="Try Demo"
+        @click.native="useMock")
 </template>
 
 <script>
@@ -27,11 +27,11 @@ export default {
   components: { TmBtn },
   methods: {
     switchNode() {
-      ipcRenderer.send("retry-connection")
+      ipcRenderer.send("reconnect")
       this.$store.commit("setModalNodeHalted", false)
     },
-    wait() {
-      this.$store.dispatch("checkNodeHalted")
+    useMock() {
+      this.$store.dispatch("setMockedConnector", true)
       this.$store.commit("setModalNodeHalted", false)
     }
   }
