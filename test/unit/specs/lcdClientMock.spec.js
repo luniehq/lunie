@@ -15,7 +15,7 @@ describe("LCD Client Mock", () => {
 
   it("generates seeds", async () => {
     let seed = await client.generateSeed()
-    expect(seed.split(" ").length).toBe(16)
+    expect(seed.split(" ").length).toBe(24)
   })
 
   it("persists keys", async () => {
@@ -25,13 +25,9 @@ describe("LCD Client Mock", () => {
       password: "1234567890",
       seed
     })
-    try {
-      b32.decode(res)
-      expect(true).toBe(true)
-    } catch (error) {
-      console.log(error)
-      expect(false).toBe(true)
-    }
+
+    b32.decode(res.address)
+
     res = await client.listKeys()
     expect(res.find(k => k.name === "foo")).toBeDefined()
 

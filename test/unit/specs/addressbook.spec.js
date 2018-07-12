@@ -48,7 +48,7 @@ describe("Addressbook", () => {
       persistent_peers: ["123.456.123.456"]
     })
     let node = await addressbook.pickNode()
-    expect(node).toBe("123.456.123.456:46657")
+    expect(node).toMatchSnapshot()
   })
 
   it("should always return a specified node", async () => {
@@ -58,7 +58,7 @@ describe("Addressbook", () => {
       Addressbook = require("src/main/addressbook.js")
       let addressbook = new Addressbook("./config")
 
-      expect(await addressbook.pickNode()).toBe("123.456.123.456:46657")
+      expect(await addressbook.pickNode()).toMatchSnapshot()
     } catch (err) {
       throw err
     } finally {
@@ -82,7 +82,7 @@ describe("Addressbook", () => {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
     })
     let node = await addressbook.pickNode()
-    expect(node).toBe("223.456.123.456:46657")
+    expect(node).toMatchSnapshot()
   })
 
   it("should throw an error if there are no nodes available", async done => {
@@ -181,7 +181,7 @@ describe("Addressbook", () => {
       persistent_peers: ["http://123.456.123.456"]
     })
     let node = await addressbook.pickNode()
-    expect(node).toBe("123.456.123.456:46657")
+    expect(node).toMatchSnapshot()
   })
 
   it("should call back on connection", async () => {

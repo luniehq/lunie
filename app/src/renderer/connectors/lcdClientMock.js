@@ -197,7 +197,7 @@ module.exports = {
 
   // keys
   async generateSeed() {
-    return "grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon"
+    return "grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon grace admit inherit female grant pledge shine inquiry"
   },
   async storeKey({ name, password, seed }) {
     let key = {
@@ -206,7 +206,7 @@ module.exports = {
       address: makeAddress()
     }
     state.keys.push(key)
-    return key.address
+    return { name, password, seed, address: key.address }
   },
   async listKeys() {
     return state.keys.map(k => ({

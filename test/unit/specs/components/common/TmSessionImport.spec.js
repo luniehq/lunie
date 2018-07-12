@@ -5,7 +5,7 @@ import htmlBeautify from "html-beautify"
 import TmSessionImport from "common/TmSessionImport"
 jest.mock("renderer/google-analytics.js", () => uid => {})
 const seed =
-  "goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon"
+  "goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon grace admit inherit female grant pledge shine inquiry"
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
