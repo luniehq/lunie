@@ -4,7 +4,7 @@ const axios = require("axios")
 const url = require("url")
 
 const LOGGING = JSON.parse(process.env.LOGGING || "true") !== false
-const TENDERMINT_RPC_PORT = 46657
+const TENDERMINT_RPC_PORT = 26657
 const FIXED_NODE = process.env.COSMOS_NODE
 
 module.exports = class Addressbook {
