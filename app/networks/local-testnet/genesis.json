@@ -1,7 +1,6 @@
 {
-  "app_hash": "",
-  "genesis_time": "2018-07-10T13:00:03.525091896+02:00",
-  "chain_id": "test-chain-k0QGXP",
+  "genesis_time": "2018-07-11T18:32:23.831003949+02:00",
+  "chain_id": "test-chain-Waptk9",
   "consensus_params": {
     "block_size_params": {
       "max_bytes": 22020096,
@@ -23,7 +22,7 @@
     {
       "pub_key": {
         "type": "AC26791624DE60",
-        "value": "F5o1/k2pqgYs1VnJMZPCZEe7JRnk4EByWQ6AGgpaMAI="
+        "value": "WfGGatHZhR8669PzmRf+9PfhI2lITOXTLLHcb1lCpB8="
       },
       "power": 100,
       "name": ""
@@ -32,7 +31,7 @@
   "app_state": {
     "accounts": [
       {
-        "address": "3C0248386D1D5DAE4426CB54B3B115E226DE6189",
+        "address": "96352EF1091C2B8632395009BA415BFB281DB664",
         "coins": [
           {
             "denom": "localToken",
@@ -69,10 +68,10 @@
       },
       "validators": [
         {
-          "owner": "3C0248386D1D5DAE4426CB54B3B115E226DE6189",
+          "owner": "96352EF1091C2B8632395009BA415BFB281DB664",
           "pub_key": {
             "type": "AC26791624DE60",
-            "value": "F5o1/k2pqgYs1VnJMZPCZEe7JRnk4EByWQ6AGgpaMAI="
+            "value": "WfGGatHZhR8669PzmRf+9PfhI2lITOXTLLHcb1lCpB8="
           },
           "revoked": false,
           "pool_shares": {
@@ -98,5 +97,6 @@
       ],
       "bonds": null
     }
-  }
+  },
+  "app_hash": ""
 }

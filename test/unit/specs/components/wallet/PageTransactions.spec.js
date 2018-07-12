@@ -8,7 +8,7 @@ describe("PageTransactions", () => {
   beforeEach(() => {
     let instance = mount(PageTransactions, {
       stubs: {
-        "li-transaction": "<li-transaction />",
+        "tm-li-transaction": "<tm-li-transaction />",
         "data-empty-tx": "<data-empty-tx />"
       }
     })
@@ -40,7 +40,7 @@ describe("PageTransactions", () => {
   })
 
   it("should show transactions", () => {
-    expect(wrapper.findAll("li-transaction").length).toBe(3)
+    expect(wrapper.findAll("tm-li-transaction").length).toBe(3)
   })
 
   it("should sort the transaction by time", () => {
@@ -82,7 +82,7 @@ describe("PageTransactions", () => {
     let transactions = []
     let instance = mount(PageTransactions, {
       stubs: {
-        "li-transaction": "<li-transaction />",
+        "tm-li-transaction": "<tm-li-transaction />",
         "data-empty-tx": "<data-empty-tx />"
       }
     })

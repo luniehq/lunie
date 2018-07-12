@@ -22,11 +22,16 @@ import moment from "moment"
 import Mousetrap from "mousetrap"
 import num from "scripts/num"
 import { mapGetters } from "vuex"
-import { TmListItem, TmPage, TmPart, TmDataLoading } from "@tendermint/ui"
+import {
+  TmListItem,
+  TmPage,
+  TmPart,
+  TmDataLoading,
+  TmBlocks
+} from "@tendermint/ui"
 import DataError from "common/TmDataError"
 import ToolBar from "common/TmToolBar"
 import ModalSearch from "common/TmModalSearch"
-import TmBlocks from "common/TmBlocks"
 export default {
   name: "page-blocks",
   components: {

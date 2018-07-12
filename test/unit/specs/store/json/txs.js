@@ -4,59 +4,55 @@ module.exports = [
     height: 3436,
     tx: {
       type: "8EFE47F0625DE8",
-      value: {
-        msg: {
-          type: "EAFDE32A2C87F8",
-          value: {
-            inputs: [
+      msg: {
+        type: "EAFDE32A2C87F8",
+        inputs: [
+          {
+            coins: [
               {
-                coins: [
-                  {
-                    denom: "jbcoins",
-                    amount: 1234
-                  }
-                ],
-                address: "tb1da6xsetjg9jxgun9wdesexv05j"
+                denom: "jbcoins",
+                amount: 1234
               }
             ],
-            outputs: [
-              {
-                coins: [
-                  {
-                    denom: "jbcoins",
-                    amount: 1234
-                  }
-                ],
-                address: "tb1d4u5zerywfjhxuc9nudvw"
-              }
-            ]
+            address: "tb1da6xsetjg9jxgun9wdesexv05j"
           }
-        },
-        fee: {
-          amount: [
-            {
-              denom: "",
-              amount: 0
-            }
-          ],
-          gas: 500000
-        },
-        signatures: [
+        ],
+        outputs: [
           {
-            pub_key: {
-              type: "AC26791624DE60",
-              value: "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU="
-            },
-            signature: {
-              type: "6BF5903DA1DB28",
-              value:
-                "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA=="
-            },
-            account_number: 28,
-            sequence: 0
+            coins: [
+              {
+                denom: "jbcoins",
+                amount: 1234
+              }
+            ],
+            address: "tb1d4u5zerywfjhxuc9nudvw"
           }
         ]
-      }
+      },
+      fee: {
+        amount: [
+          {
+            denom: "",
+            amount: 0
+          }
+        ],
+        gas: 500000
+      },
+      signatures: [
+        {
+          pub_key: {
+            type: "AC26791624DE60",
+            value: "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU="
+          },
+          signature: {
+            type: "6BF5903DA1DB28",
+            value:
+              "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA=="
+          },
+          account_number: 28,
+          sequence: 0
+        }
+      ]
     },
     result: {
       gasUsed: "3324",
@@ -78,59 +74,55 @@ module.exports = [
     height: 3438,
     tx: {
       type: "8EFE47F0625DE8",
-      value: {
-        msg: {
-          type: "EAFDE32A2C87F8",
-          value: {
-            inputs: [
+      msg: {
+        type: "EAFDE32A2C87F8",
+        inputs: [
+          {
+            coins: [
               {
-                coins: [
-                  {
-                    denom: "jbcoins",
-                    amount: 1234
-                  }
-                ],
-                address: "tb1d4u5zerywfjhxuc9nudvw"
+                denom: "jbcoins",
+                amount: 1234
               }
             ],
-            outputs: [
-              {
-                coins: [
-                  {
-                    denom: "jbcoins",
-                    amount: 1234
-                  }
-                ],
-                address: "tb1da6xsetjg9jxgun9wdesexv05j"
-              }
-            ]
+            address: "tb1d4u5zerywfjhxuc9nudvw"
           }
-        },
-        fee: {
-          amount: [
-            {
-              denom: "",
-              amount: 0
-            }
-          ],
-          gas: 500000
-        },
-        signatures: [
+        ],
+        outputs: [
           {
-            pub_key: {
-              type: "AC26791624DE60",
-              value: "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU="
-            },
-            signature: {
-              type: "6BF5903DA1DB28",
-              value:
-                "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA=="
-            },
-            account_number: 28,
-            sequence: 0
+            coins: [
+              {
+                denom: "jbcoins",
+                amount: 1234
+              }
+            ],
+            address: "tb1da6xsetjg9jxgun9wdesexv05j"
           }
         ]
-      }
+      },
+      fee: {
+        amount: [
+          {
+            denom: "",
+            amount: 0
+          }
+        ],
+        gas: 500000
+      },
+      signatures: [
+        {
+          pub_key: {
+            type: "AC26791624DE60",
+            value: "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU="
+          },
+          signature: {
+            type: "6BF5903DA1DB28",
+            value:
+              "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA=="
+          },
+          account_number: 28,
+          sequence: 0
+        }
+      ]
     },
     result: {
       gasUsed: "3324",
@@ -152,75 +144,71 @@ module.exports = [
     height: 3466,
     tx: {
       type: "8EFE47F0625DE8",
-      value: {
-        msg: {
-          type: "EAFDE32A2C87F8",
-          value: {
-            inputs: [
+      msg: {
+        type: "EAFDE32A2C87F8",
+        inputs: [
+          {
+            coins: [
               {
-                coins: [
-                  {
-                    denom: "jbcoins",
-                    amount: 1234
-                  },
-                  {
-                    denom: "fabocoins",
-                    amount: 1
-                  },
-                  {
-                    denom: "mattcoins",
-                    amount: 42
-                  }
-                ],
-                address: "tb1da6xsetjg9jxgun9wdesexv05j"
+                denom: "jbcoins",
+                amount: 1234
+              },
+              {
+                denom: "fabocoins",
+                amount: 1
+              },
+              {
+                denom: "mattcoins",
+                amount: 42
               }
             ],
-            outputs: [
-              {
-                coins: [
-                  {
-                    denom: "jbcoins",
-                    amount: 1234
-                  },
-                  {
-                    denom: "fabocoins",
-                    amount: 1
-                  },
-                  {
-                    denom: "mattcoins",
-                    amount: 42
-                  }
-                ],
-                address: "tb1d4u5zerywfjhxuc9nudvw"
-              }
-            ]
+            address: "tb1da6xsetjg9jxgun9wdesexv05j"
           }
-        },
-        fee: {
-          amount: [
-            {
-              denom: "",
-              amount: 0
-            }
-          ],
-          gas: 500000
-        },
-        signatures: [
+        ],
+        outputs: [
           {
-            pub_key: {
-              type: "AC26791624DE60",
-              value: "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU="
-            },
-            signature: {
-              type: "6BF5903DA1DB28",
-              value:
-                "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA=="
-            },
-            account_number: 28,
-            sequence: 0
+            coins: [
+              {
+                denom: "jbcoins",
+                amount: 1234
+              },
+              {
+                denom: "fabocoins",
+                amount: 1
+              },
+              {
+                denom: "mattcoins",
+                amount: 42
+              }
+            ],
+            address: "tb1d4u5zerywfjhxuc9nudvw"
           }
         ]
-      }
+      },
+      fee: {
+        amount: [
+          {
+            denom: "",
+            amount: 0
+          }
+        ],
+        gas: 500000
+      },
+      signatures: [
+        {
+          pub_key: {
+            type: "AC26791624DE60",
+            value: "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU="
+          },
+          signature: {
+            type: "6BF5903DA1DB28",
+            value:
+              "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA=="
+          },
+          account_number: 28,
+          sequence: 0
+        }
+      ]
     },
     result: {
       gasUsed: "3324",

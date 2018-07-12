@@ -14,7 +14,6 @@ tm-page(:title="pageBlockTitle")
         :event="nextBlockAvailable ? 'click' : ''"
         v-tooltip.bottom="'Newer Block'")
         i.material-icons chevron_right
-
     tm-block(:blockMeta="blockMeta", :block="block", :loading="blockchain.blockLoading", :txs="txs")
 </template>
 
@@ -23,8 +22,7 @@ import { mapGetters } from "vuex"
 import moment from "moment"
 import num from "scripts/num"
 import ToolBar from "common/TmToolBar"
-import TmBlock from "common/TmBlock"
-import { TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
+import { TmPage, TmDataEmpty, TmDataLoading, TmBlock } from "@tendermint/ui"
 export default {
   name: "page-block",
   components: {
@@ -42,7 +40,7 @@ export default {
         : 0
     },
     txs() {
-      return this.blockTxInfo || (this.block.data && this.block.data.txs)
+      return this.blockTxInfo
     },
     block() {
       return this.blockchain.block

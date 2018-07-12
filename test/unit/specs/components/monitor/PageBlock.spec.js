@@ -66,12 +66,12 @@ describe("PageBlock", () => {
           blockLoading: true
         })
       },
-      stubs: { "data-loading": "<data-loading />" }
+      stubs: { "tm-data-loading": "<tm-data-loading />" }
     })
     wrapper.update()
 
     expect(wrapper.vm.block).toEqual({})
-    expect(wrapper.contains("data-loading")).toBe(true)
+    expect(wrapper.contains("tm-data-loading")).toBe(true)
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
@@ -85,11 +85,11 @@ describe("PageBlock", () => {
           blockLoading: true
         })
       },
-      stubs: { "data-loading": "<data-loading />" }
+      stubs: { "tm-data-loading": "<tm-data-loading />" }
     })
     wrapper.update()
 
-    expect(wrapper.contains("data-loading")).toBe(true)
+    expect(wrapper.contains("tm-data-loading")).toBe(true)
   })
 
   it("should disable the next block button if last block", () => {

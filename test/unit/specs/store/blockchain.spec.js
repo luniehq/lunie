@@ -14,6 +14,7 @@ describe("Module: Blockchain", () => {
   const block = {
     test: "test",
     height: 42,
+    time: "Good Morning",
     data: {
       txs: []
     }
@@ -91,12 +92,18 @@ describe("Module: Blockchain", () => {
         block
       })
     }
+    let bc = {
+      test: "test2",
+      header: {
+        time: "Good Morning"
+      }
+    }
     node.rpc.blockchain = (query, cb) => {
-      cb(null, { block_metas: [{ test: "test2" }] })
+      cb(null, { block_metas: [bc] })
     }
     await store.dispatch("getBlock", 42)
     expect(store.state.blockchain.block).toEqual(block)
-    expect(store.state.blockchain.blockMetaInfo).toEqual({ test: "test2" })
+    expect(store.state.blockchain.blockMetaInfo).toEqual(bc)
   })
 
   it("should remember the block height for the queried block", async () => {
@@ -108,8 +115,14 @@ describe("Module: Blockchain", () => {
     node.rpc.block = (query, cb) => {
       cb(null, { block })
     }
+    let bc = {
+      test: "test2",
+      header: {
+        time: "Good Morning"
+      }
+    }
     node.rpc.blockchain = (query, cb) => {
-      cb(null, { block_metas: [{ test: "test2" }] })
+      cb(null, { block_metas: [bc] })
     }
     store.state.blockchain.blockLoading = true
     await store.dispatch("getBlock", 42)
@@ -120,8 +133,15 @@ describe("Module: Blockchain", () => {
     node.rpc.block = (query, cb) => {
       cb({ message: "expected" }, block)
     }
+
+    let bc = {
+      test: "test2",
+      header: {
+        time: "Good Morning"
+      }
+    }
     node.rpc.blockchain = (query, cb) => {
-      cb(null, { block_metas: [{ test: "test2" }] })
+      cb(null, { block_metas: [bc] })
     }
     store.state.blockchain.blockLoading = true
     await store.dispatch("getBlock", 42)
@@ -201,6 +221,9 @@ describe("Module: Blockchain", () => {
       cb(null, {
         block: {
           test: "test",
+          header: {
+            time: "Good Morning"
+          },
           height: 42,
           data: {
             txs: [txString]
