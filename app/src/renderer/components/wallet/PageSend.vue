@@ -149,7 +149,7 @@ export default {
         await this.sendTx({
           type,
           to: address,
-          amount: [{ denom, amount }]
+          amount: [{ denom, amount: amount.toString() }]
         })
         this.sending = false
         this.$store.commit("notify", {

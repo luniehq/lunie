@@ -20,8 +20,8 @@ export default ({ commit, node }) => {
     args.account_number = rootState.wallet.accountNumber // TODO move into LCD?
 
     let chainId = rootState.node.lastHeader.chain_id
+    args.chain_id = chainId
     // TODO enable again when IBC is enabled
-    // args.chain_id = chainId
     // args.src_chain_id = chainId // for IBC transfer
 
     // extract type
