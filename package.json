@@ -19,7 +19,7 @@
     "local": "yarn run testnet local",
     "testnet": "node tasks/testnet.js",
     "lint": "yarn lint:eslint && yarn lint:format",
-    "lint:eslint": "eslint -f ./node_modules/eslint-friendly-formatter '{,**/}*.{js,vue}' '!app/networks/**'",
+    "lint:eslint": "eslint -f ./node_modules/eslint-friendly-formatter '{,**/}*.{js,vue}'",
     "lint:format": "prettier --list-different '{,**/}*.{css,js,json,vue}' '!testArtifacts/**' '!app/networks/**'",
     "lint:fix": "prettier --write '{,**/}*.{css,js,json,vue}' '!testArtifacts/**'",
     "pack": "yarn run pack:main && yarn run pack:renderer",
