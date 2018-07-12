@@ -19,11 +19,6 @@ let state = {
       name: "default",
       password: "1234567890",
       address: addresses[0]
-    },
-    {
-      name: "nonexistent_account",
-      password: "1234567890",
-      address: addresses[1]
     }
   ],
   accounts: {

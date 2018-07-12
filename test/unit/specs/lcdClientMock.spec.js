@@ -398,6 +398,11 @@ describe("LCD Client Mock", () => {
   })
 
   it("errors when delegating with nonexistent account", async () => {
+    client.state.keys.push({
+      name: "nonexistent_account",
+      password: "1234567890",
+      address: lcdClientMock.addresses[1]
+    })
     let res = await client.updateDelegations({
       sequence: 1,
       name: "nonexistent_account",
