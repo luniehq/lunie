@@ -94,9 +94,7 @@ Object.assign(Client.prototype, {
   updateDelegations: req("POST", "/stake/delegations"),
   candidates: req("GET", "/stake/validators"),
   queryDelegation: function(delegator, validator) {
-    return req("GET", `/stake/${delegator}/bonding_status/${validator}`).call(
-      this
-    )
+    return req("GET", `/stake/${delegator}/delegation/${validator}`).call(this)
   }
 })
 
