@@ -32,7 +32,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
       </span>
       <div
         class="bar"
-        style="width: 44%;"
+        style="width: 74%;"
       />
     </div>
     <div
@@ -62,3 +62,5 @@ exports[`LiDelegate has the expected html structure 1`] = `
   </div>
 </div>
 `;
+
+exports[`LiDelegate should show the relative voting power as a bar 1`] = `"74%"`;

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* Indicate if a validator has been revoked in the Staking UI @mappum
 * Information about current connection attempts @faboweb
 * Release published on GitHub now including changes from CHANGELOG. @NodeGuy
 
@@ -20,6 +21,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 * Voyager hanging after reloading in development mode @faboweb
+* Unable to bond just to already bonded candidates @faboweb
+* Staking tokens showing NaN @faboweb
+* Staking page showing old shares after bonding @faboweb
 
 ## [0.7.1] - 2018-07-04
 

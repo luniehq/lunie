@@ -85,7 +85,7 @@ describe("PageStaking", () => {
         .find(".fixed-button-bar strong")
         .text()
         .trim()
-    ).toContain("2")
+    ).toMatchSnapshot()
   })
 
   it("should update 'somethingToSearch' when there's nothing to search", () => {

@@ -35,10 +35,14 @@ tm-page.page-bond(:title="`Bond ${denom}`")
       :class="bondGroupClass(delta(d.atoms, d.oldAtoms))")
       .bond-group__fields
         .bond-bar
-          label.bond-bar__label {{ d.delegate.moniker }}
+          label.bond-bar__label(v-if="!d.delegate.revoked") {{ d.delegate.moniker }}
+          label.bond-bar__label.revoked(v-if="d.delegate.revoked") {{ d.delegate.moniker }}
+          label.bond-bar__revoked(v-if="d.delegate.revoked") REVOKED
           .bond-bar__input
             .bond-bar-old__outer
-              .bond-bar-old__inner(:style="styleBondBarInner(d.oldAtoms)")
+              .bond-bar-old__inner(
+                :style="styleBondBarInner(d.oldAtoms)"
+                v-if="d.oldAtoms > 0")
             .bond-bar__outer
               .bond-bar__inner.bond-bar__inner--editable(:id="'delegate-' + d.id"
                 :style="styleBondBarInner(d.atoms)")
@@ -57,9 +61,9 @@ tm-page.page-bond(:title="`Bond ${denom}`")
             placeholder="Atoms"
             step="1"
             min="0"
-            :max="$v.fields.delegates.$each[index].atoms.$params.between.max"
+            :max=newUnbondedAtoms
             v-model.number="d.atoms"
-            @change.native="limitMax(d, $event)")
+            @change.native="limitMax(d, parseInt($event.target.max))")
 
       tm-form-msg(name="Atoms" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
@@ -99,6 +103,7 @@ tm-page.page-bond(:title="`Bond ${denom}`")
 
     tm-form-group(field-id="bond-confirm" field-label=''
       :error='$v.fields.bondConfirm.$error')
+      tm-form-msg(v-if="showsRevokedValidators") A revoked validator is not validating and therefor is not producing rewards. The revoked state may be temporary.
       .tm-field-checkbox
         .tm-field-checkbox-input
           input#bond-confirm(type="checkbox" v-model="fields.bondConfirm")
@@ -188,6 +193,12 @@ export default {
     },
     unbondedAtomsDeltaPct() {
       return this.percent(this.unbondedAtomsDelta, this.totalAtoms)
+    },
+    showsRevokedValidators() {
+      return !!this.fields.delegates.find(d => d.delegate.revoked)
+    },
+    userCanDelegate() {
+      return this.shoppingCart.length > 0 || this.user.atoms > 0
     }
   },
   data: () => ({
@@ -212,9 +223,8 @@ export default {
       }
       this.$v.$touch()
       if (!this.$v.$error) {
-        this.$store.commit("activateDelegation")
         try {
-          await this.$store.dispatch("submitDelegation", this.fields)
+          await this.$store.dispatch("submitDelegation", this.fields.delegates)
           this.$store.commit("notify", {
             title: "Successful Delegation",
             body: "You have successfully bonded / unbonded."
@@ -245,8 +255,8 @@ export default {
         return d
       })
     },
-    leaveIfBroke(count) {
-      if (count === 0) {
+    leaveIfBroke() {
+      if (!this.userCanDelegate) {
         this.$store.commit("notifyError", {
           title: "Cannot Bond Without Atoms",
           body: `You do not have any ${this.denom} to bond to delegates.`
@@ -320,16 +330,14 @@ export default {
     },
     updateDelegateAtoms(delegateId, rawAtoms) {
       let d = this.fields.delegates.find(d => d.id === delegateId)
-      if (d) {
-        d.bondedRatio = rawAtoms / this.totalAtoms
-        d.atoms = Math.round(rawAtoms)
-        d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, "int")
-        d.deltaAtomsPercent = this.percent(
-          this.delta(rawAtoms, d.oldAtoms),
-          this.totalAtoms
-        )
-        return d
-      }
+      d.bondedRatio = rawAtoms / this.totalAtoms
+      d.atoms = Math.round(rawAtoms)
+      d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, "int")
+      d.deltaAtomsPercent = this.percent(
+        this.delta(rawAtoms, d.oldAtoms),
+        this.totalAtoms
+      )
+      return d
     },
     setBondBarOuterWidth() {
       let outerBar = this.$el.querySelector(".bond-bar__outer")
@@ -355,10 +363,8 @@ export default {
       }
       return value + "%"
     },
-    limitMax(delegate, event) {
-      let max = parseInt(event.target.max)
+    limitMax(delegate, max) {
       if (delegate.atoms >= max) {
-        console.log(`${delegate.atoms} <= ${max}`)
         delegate.atoms = max
         return
       }
@@ -423,6 +429,7 @@ export default {
 
   .bond-delta
     color var(--success)
+
     span:before
       content '+'
       display inline
@@ -430,12 +437,14 @@ export default {
   &.bond-group--unbonding
     .bond-bar__inner
       background var(--warning)
+
     .bond-delta
       color var(--warning)
 
 .bond-group--negative
   .bond-bar-old__inner
     background var(--input-bc)
+
   .bond-delta
     color var(--input-bc)
 
@@ -455,6 +464,14 @@ export default {
   font-size x
   text-align left
 
+.bond-bar__label.revoked
+  text-decoration line-through
+
+.bond-bar__revoked
+  color red
+  font-weight bold
+  margin-left 6px
+
 .bond-bar__input
   height 2rem
   border-radius 1rem
@@ -462,9 +479,8 @@ export default {
   padding 1px
   position relative
 
-.bond-bar__outer
-.bond-bar-old__outer
-  height 2rem - 4*px
+.bond-bar__outer, .bond-bar-old__outer
+  height 2rem - 4 * px
   border-radius 1rem
   position absolute
   top 1px
@@ -472,8 +488,7 @@ export default {
   right 1px
   bottom 1px
 
-.bond-bar__inner
-.bond-bar-old__inner
+.bond-bar__inner, .bond-bar-old__inner
   height 2rem - 0.25rem
   border-radius 1rem
   background var(--dim)
@@ -482,7 +497,6 @@ export default {
 
 .bond-bar__inner
   position relative
-
   // debug
   color var(--app-bg)
   font-size xs
@@ -500,11 +514,9 @@ export default {
     background var(--txt)
     border-radius 1rem
     z-index z(listItem)
-
     display flex
     align-items center
     justify-content center
-
     content 'drag_handle'
     font-size x
     font-family 'Material Icons'
@@ -517,12 +529,12 @@ export default {
   display flex
   align-items center
   justify-content flex-end
+
   span
     font-size sm
     font-weight 500
 
-.bond-percent
-.bond-value
+.bond-percent, .bond-value
   input
     text-align right
 
