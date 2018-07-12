@@ -24,7 +24,7 @@ exports[`TmModalNodeHalted has the expected html structure 1`] = `
     <div
       class="ni-modal-error__body"
     >
-      The node your are connected to appears to have halted. You can connect to another node or wait longer for the node to send blocks.
+      The node your are connected to appears to have halted. You can try to connect to another node or switch to a demo connection so you can try out Voyager.
     </div>
     <div
       class="ni-modal-error__footer"
@@ -61,13 +61,13 @@ exports[`TmModalNodeHalted has the expected html structure 1`] = `
             aria-hidden="true"
             class="tm-btn__icon material-icons"
           >
-            clock
+            pageview
           </i>
           <!---->
           <span
             class="tm-btn__value"
           >
-            Wait Longer
+            Try Demo
           </span>
         </span>
       </button>
