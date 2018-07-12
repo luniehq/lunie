@@ -148,6 +148,7 @@ export default ({ commit, node }) => {
 
       function error(err) {
         state.subscription = false
+        dispatch("nodeHasHalted")
         console.error(`Error subscribing to new blocks: ${err.message}`)
       }
 
