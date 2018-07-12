@@ -31,6 +31,21 @@ describe("Module: User", () => {
     expect(store.state.user.address).toBe(null)
   })
 
+  it("should add and remove history correctly", () => {
+    expect(store.state.user.history.length).toBe(0)
+    store.commit("addHistory", "/")
+    expect(store.state.user.history.length).toBe(1)
+    store.commit("popHistory")
+    expect(store.state.user.history.length).toBe(0)
+  })
+  it("should pauseHistory correctly", () => {
+    expect(store.state.user.pauseHistory).toBe(false)
+    store.commit("pauseHistory", true)
+    expect(store.state.user.pauseHistory).toBe(true)
+    store.commit("pauseHistory", false)
+    expect(store.state.user.pauseHistory).toBe(false)
+  })
+
   it("should set accounts", () => {
     store.commit("setAccounts", accounts)
     expect(store.state.user.accounts).toEqual(accounts)
