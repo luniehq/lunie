@@ -196,6 +196,9 @@ export default {
     },
     showsRevokedValidators() {
       return !!this.fields.delegates.find(d => d.delegate.revoked)
+    },
+    userCanDelegate() {
+      return this.shoppingCart.length > 0 || this.user.atoms > 0
     }
   },
   data: () => ({
@@ -252,8 +255,8 @@ export default {
         return d
       })
     },
-    leaveIfBroke(count) {
-      if (count === 0) {
+    leaveIfBroke() {
+      if (!this.userCanDelegate) {
         this.$store.commit("notifyError", {
           title: "Cannot Bond Without Atoms",
           body: `You do not have any ${this.denom} to bond to delegates.`
