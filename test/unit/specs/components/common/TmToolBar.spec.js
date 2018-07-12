@@ -30,9 +30,18 @@ describe("TmToolBar", () => {
   })
 
   it("goes back correctly and updates the state", () => {
+    expect(router.currentRoute.fullPath).toBe("/")
+
     router.push("/staking")
     expect(store.state.user.history.length).toBe(1)
+    expect(router.currentRoute.fullPath).toBe("/staking")
+
     wrapper.vm.back()
     expect(store.state.user.history.length).toBe(0)
+    expect(router.currentRoute.fullPath).toBe("/")
+
+    wrapper.vm.back()
+    expect(store.state.user.history.length).toBe(0)
+    expect(router.currentRoute.fullPath).toBe("/")
   })
 })
