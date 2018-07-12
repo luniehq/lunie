@@ -110,7 +110,7 @@ jobs:
             - v1-dependencies-root-
 
       - run: yarn install
-      - run: node tasks/release.js
+      - run: node tasks/releasePullRequest.js
 
   # Publish the release to GitHub.
   publish:

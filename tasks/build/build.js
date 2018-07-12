@@ -1,5 +1,7 @@
 "use strict"
 
+const canonicalJson = require(`canonical-json`)
+const stream = require(`stream`)
 const util = require(`util`)
 const childProcess = require(`child_process`)
 const { cli } = require(`@nodeguy/cli`)
@@ -48,19 +50,23 @@ const pack = () => {
   childProcess.execSync(`npm run pack`, { stdio: `inherit` })
 }
 
-function sha256File(path) {
-  let hash = createHash("sha256")
-  fs.createReadStream(path).pipe(hash)
-  return new Promise((resolve, reject) => {
-    hash.on("data", hash => resolve(hash.toString("hex")))
-  })
+const sha256 = async data => {
+  const hash = createHash(`sha256`).setEncoding(`base64`)
+
+  return data instanceof stream.Readable
+    ? new Promise((resolve, reject) => {
+        data
+          .pipe(hash)
+          .once(`data`, resolve)
+          .once(`error`, reject)
+      })
+    : hash.update(canonicalJson(data)).digest(`base64`)
 }
 
 const zipFolder = async (inDir, outDir) => {
   const outFile = path.join(outDir, `${path.basename(inDir)}.zip`)
   await util.promisify(zip)(inDir, outFile, { cwd: inDir })
-  const hash = await sha256File(outFile)
-  console.log("Zip successful!", outFile, "SHA256:", hash)
+  return outFile
 }
 
 async function tarFolder(inDir, outDir) {
@@ -109,14 +115,10 @@ async function tarFolder(inDir, outDir) {
       // save tar to disc
       .pipe(zlib.createGzip())
       .pipe(fs.createWriteStream(outFile))
-      .on("finish", function() {
-        console.log("write finished")
-        sha256File(outFile).then(hash => {
-          console.log("Zip successful!", outFile, "SHA256:", hash)
-          resolve()
-        })
-      })
+      .once(`finish`, resolve)
   })
+
+  return outFile
 }
 
 function deterministicTar() {
@@ -197,13 +199,45 @@ const build = async platform => {
   console.log("Build(s) successful!")
   console.log(appPath)
   console.log("\n\x1b[34mArchiving files...\n\x1b[0m")
-  await (platform === `linux` ? tarFolder : zipFolder)(appPath, options.out)
+
+  const outFile = await (platform === `linux` ? tarFolder : zipFolder)(
+    appPath,
+    options.out
+  )
+
+  const hash = await sha256(fs.createReadStream(outFile))
+  console.log("Archive successful!", outFile, "SHA256:", hash)
   console.log("\n\x1b[34mDONE\n\x1b[0m")
+  return hash
 }
 
-if (require.main === module) {
+const summary = async ({
+  buildHashes,
+  end,
+  gaiaVersionHash,
+  options,
+  start
+}) => {
+  const inputsHash = await sha256([gaiaVersionHash, options])
+  const outputsHash = await sha256(buildHashes)
+  const duration = end - start
+  const seconds = Math.floor(duration / 1000)
+  const minutes = Math.floor(seconds / 60)
+  return `inputs hash: ${inputsHash}
+outputs hash: ${outputsHash}
+build time: ${minutes}:${seconds % 60}`
+}
+
+const main = () =>
   cli(optionsSpecification, async options => {
-    // If we're doing a local build then copy the specified network configuration.
+    const start = new Date()
+
+    const gaiaVersionHash = await sha256(
+      fs.createReadStream(path.join(__dirname, `Gaia/COMMIT.sh`))
+    )
+
+    // If we're doing a local build then copy the specified network
+    // configuration.
     if (fs.existsSync(`/mnt/network`)) {
       fs.copySync(
         `/mnt/network`,
@@ -223,12 +257,26 @@ if (require.main === module) {
     fs.writeFileSync(configFile, updateConfig(config, options))
 
     pack()
-    await Promise.all([`darwin`, `linux`, `win32`].map(build))
+
+    const buildHashes = await Promise.all(
+      [`darwin`, `linux`, `win32`].map(build)
+    )
+
+    const end = new Date()
+
+    console.log(
+      await summary({ buildHashes, end, gaiaVersionHash, options, start })
+    )
   })
+
+if (require.main === module) {
+  main()
 } else {
   module.exports = {
     generateAppPackageJson,
     sanitizeAssetName,
+    sha256,
+    summary,
     updateConfig
   }
 }
