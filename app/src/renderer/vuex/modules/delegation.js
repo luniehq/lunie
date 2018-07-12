@@ -77,7 +77,9 @@ export default ({ commit, node }) => {
         candidateId: validator,
         value
       })
-      commit("addToCart", delegate)
+      if (share > 0) {
+        commit("addToCart", delegate)
+      }
     },
     async updateDelegates({ dispatch }) {
       let candidates = await dispatch("getDelegates")
