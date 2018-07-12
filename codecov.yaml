@@ -19,6 +19,7 @@ comment:
   require_head: yes
 
 ignore:
-  - "tasks/release.js"
+  - "tasks/releasePullRequest.js"
+  - "tasks/publish.js"
   - "app/src/renderer/components/govern/*"
   - "app/src/main/menu.js" # a test for this file would only test electron code

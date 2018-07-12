@@ -7,9 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* Information about current connection attempts @faboweb
+* Release published on GitHub now including changes from CHANGELOG. @NodeGuy
+
 ### Changed
 
 * Copy the network configuration only during local builds. @NodeGuy
+* Ignoring the potential local-testnet folder that is used in the README for local testnets @faboweb
+
+### Fixed
+
+* Voyager hanging after reloading in development mode @faboweb
 
 ## [0.7.1] - 2018-07-04
 
@@ -23,6 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Send confirmation popup @faboweb
 * Checking known nodes round robin and signaling an error if none are available @faboweb
 * Help menu with links to report a bug or view the log @faboweb
+* build duration and input/output hashes to build process @NodeGuy
 
 ### Changed
 
@@ -57,6 +68,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * E2E test maybe fix @okwme
 * Login in to restricted page bug @okwme
 * Send with an empty wallet bug @okwme
+* Readme formatting @okwme
 
 ## [0.7.0] - 2018-06-13
 
