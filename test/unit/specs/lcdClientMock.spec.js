@@ -266,7 +266,7 @@ describe("LCD Client Mock", () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[0]
     )
-    expect(res.shares).toBe("5/1")
+    expect(res.shares).toMatchSnapshot()
   })
 
   it("executes a delegate tx", async () => {
@@ -443,13 +443,13 @@ describe("LCD Client Mock", () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[2]
     )
-    expect(stake1.shares).toBe("10/1")
+    expect(stake1.shares).toMatchSnapshot()
 
     let stake2 = await client.queryDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[0]
     )
-    expect(stake2.shares).toBe("15/1")
+    expect(stake2.shares).toMatchSnapshot()
   })
 
   it("errors when delegating negative amount", async () => {
