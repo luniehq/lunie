@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmModalNodeHalted has the expected html structure 1`] = `
+<div
+  class="ni-modal-error__wrapper"
+>
+  <div
+    class="ni-modal-error"
+  >
+    <div
+      class="ni-modal-error__icon"
+    >
+      <i
+        class="material-icons"
+      >
+        sync_problem
+      </i>
+    </div>
+    <div
+      class="ni-modal-error__title"
+    >
+      Node has halted
+    </div>
+    <div
+      class="ni-modal-error__body"
+    >
+      The node your are connected to appears to have halted. You can connect to another node or wait longer for the node to send blocks.
+    </div>
+    <div
+      class="ni-modal-error__footer"
+    >
+      <button
+        class="tm-btn"
+        id="ni-modal-error__btn-retry"
+      >
+        <span
+          class="tm-btn__container tm-btn--size-lg tm-btn--primary"
+        >
+          <i
+            aria-hidden="true"
+            class="tm-btn__icon material-icons"
+          >
+            autorenew
+          </i>
+          <!---->
+          <span
+            class="tm-btn__value"
+          >
+            Switch Node
+          </span>
+        </span>
+      </button>
+      <button
+        class="tm-btn"
+        id="ni-modal-error__btn-mock"
+      >
+        <span
+          class="tm-btn__container tm-btn--size-lg"
+        >
+          <i
+            aria-hidden="true"
+            class="tm-btn__icon material-icons"
+          >
+            clock
+          </i>
+          <!---->
+          <span
+            class="tm-btn__value"
+          >
+            Wait Longer
+          </span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;

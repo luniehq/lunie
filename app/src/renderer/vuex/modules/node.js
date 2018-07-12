@@ -87,8 +87,19 @@ export default function({ node }) {
           dispatch("setLastHeader", event.data.value.header)
         }
       )
+      dispatch("checkNodeHalted")
 
       dispatch("pollRPCConnection")
+    },
+    checkNodeHalted({ state }) {
+      setTimeout(() => {
+        if (state.lastHeader.height === 0) {
+          dispatch("nodeHasHalted")
+        }
+      }, 30000)
+    },
+    nodeHasHalted({ commit }) {
+      commit("setModalReconnect", { active: true, reason: "node_halted" })
     },
     async checkConnection({ commit }) {
       let error = () =>

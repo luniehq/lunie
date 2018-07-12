@@ -186,7 +186,7 @@ describe("App without analytics", () => {
       message: "message"
     })
 
-    expect(store.state.config.modals.nonodes.active).toBe(true)
+    expect(store.state.config.modals.noNodes.active).toBe(true)
   })
 
   it("sends a successful-launch only on first start", async () => {
