@@ -77,7 +77,7 @@ export default ({ commit, node }) => {
         candidateId: validator,
         value
       })
-      if (share > 0) {
+      if (shares > 0) {
         commit("addToCart", delegate)
       }
     },
@@ -134,10 +134,6 @@ export default ({ commit, node }) => {
       // usually I would just query the new state through the LCD but at this point we still get the old shares
       dispatch("updateDelegates").then(() => {
         for (let delegation of delegations) {
-          commit("setCommittedDelegation", {
-            candidateId: delegation.delegate.owner,
-            value: delegation.atoms
-          })
           commit("setCommittedDelegation", {
             candidateId: delegation.delegate.owner,
             value: delegation.atoms
