@@ -93,100 +93,76 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~variables';
+@require '~variables'
 
-.li-delegate {
-  border-left: 1px solid var(--bc);
-  border-right: 1px solid var(--bc);
+.li-delegate
+  border-left 1px solid var(--bc)
+  border-right 1px solid var(--bc)
+  &:nth-of-type(2n-1)
+    background var(--app-bg-light)
+  &.li-delegate-active
+    background var(--app-bg-alpha)
+    .li-delegate__value i
+      color var(--link)
+  &:hover
+    background var(--hover-bg)
 
-  &:nth-of-type(2n-1) {
-    background: var(--app-bg-light);
-  }
+.li-delegate__values
+  display flex
+  height 3rem
 
-  &.li-delegate-active {
-    background: var(--app-bg-alpha);
+.li-delegate__value
+  flex 1
+  display flex
+  align-items center
+  min-width 0
 
-    .li-delegate__value i {
-      color: var(--link);
-    }
-  }
+  &:last-child
+    flex 0.5
 
-  &:hover {
-    background: var(--hover-bg);
-  }
-}
+  &.name
+    flex 2
+    padding-left 1rem
 
-.li-delegate__values {
-  display: flex;
-  height: 3rem;
-}
+    span a
+      display flex
+    .li-delegate__icon
+      width 1.5rem
+      display flex
+      align-items center
+      justify-content center
+      img, span
+        height 1rem
+        width 1rem
 
-.li-delegate__value {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  min-width: 0;
+  &.bar
+    position relative
+    span
+      display block
+      position absolute
+      top 0
+      left 0
+      z-index z(listItem)
 
-  &:last-child {
-    flex: 0.5;
-  }
+      line-height 3rem
+      color var(--txt)
 
-  &.name {
-    flex: 2;
-    padding-left: 1rem;
+    .bar
+      height 1.5rem
+      position relative
+      left -0.25rem
+      background var(--accent-alpha)
 
-    span a {
-      display: flex;
-    }
+  &.checkbox
+    justify-content center
+    cursor pointer
 
-    .li-delegate__icon {
-      width: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  span
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+    padding-right 1rem
 
-      img, span {
-        height: 1rem;
-        width: 1rem;
-      }
-    }
-  }
-
-  &.bar {
-    position: relative;
-
-    span {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: z(listItem);
-      line-height: 3rem;
-      color: var(--txt);
-    }
-
-    .bar {
-      height: 1.5rem;
-      position: relative;
-      left: -0.25rem;
-      background: var(--accent-alpha);
-    }
-  }
-
-  &.checkbox {
-    justify-content: center;
-    cursor: pointer;
-  }
-
-  span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-right: 1rem;
-  }
-}
-
-.sort-by.name {
-  padding-left: 1rem;
-}
+.sort-by.name
+  padding-left 1rem
 </style>

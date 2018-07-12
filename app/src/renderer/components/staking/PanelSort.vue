@@ -38,74 +38,58 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '~variables';
+@require '~variables'
 
-.panel-sort-container {
-  display: flex;
-  height: 2rem;
-  border-bottom: px solid var(--bc);
-}
+.panel-sort-container
+  display flex
+  height 2rem
+  border-bottom px solid var(--bc)
 
-.sort-by {
-  flex: 1;
-  cursor: pointer;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  position: relative;
-  min-width: 0;
+.sort-by
+  flex 1
+  cursor pointer
+  user-select none
+  display flex
+  align-items center
+  position relative
+  min-width 0
 
-  .label {
-    font-weight: 500;
-    color: var(--link);
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
+  .label
+    font-weight 500
+    color var(--link)
+    white-space nowrap
+    text-overflow ellipsis
+    overflow hidden
 
-  &:after {
-    display: block;
-    font-family: FontAwesome;
-    color: var(--dim);
-    padding-left: 0.25rem;
-  }
+  &:after
+    display block
+    font-family FontAwesome
+    color var(--dim)
+    padding-left 0.25rem
 
-  &.asc:after {
-    content: '\f0d8';
-  }
+  &.asc:after
+    content '\f0d8'
 
-  &.desc:after {
-    content: '\f0d7';
-  }
+  &.desc:after
+    content '\f0d7'
 
-  &.active {
-    .label {
-      color: var(--mc);
-    }
+  &.active
+    .label
+      color var(--mc)
+    &:after
+      color var(--mc)
 
-    &:after {
-      color: var(--mc);
-    }
-  }
+  &.name
+    flex 2
 
-  &.name {
-    flex: 2;
-  }
+  &.action
+    flex 0.5
 
-  &.action {
-    flex: 0.5;
-  }
+  &.hidden
+    visibility hidden
 
-  &.hidden {
-    visibility: hidden;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .sort-by {
-    &.id {
-      display: none;
-    }
-  }
-}
+@media screen and (max-width: 768px)
+  .sort-by
+    &.id
+      display none
 </style>

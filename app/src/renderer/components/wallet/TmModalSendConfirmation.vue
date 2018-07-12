@@ -45,57 +45,44 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~variables';
+@import '~variables'
 
-.tm-modal-send-confirmation {
-  &__row {
-    > * {
-      display: inline-block;
-    }
+.tm-modal-send-confirmation
+  &__row
+    > *
+      display inline-block
 
-    &__property {
-      width: 6rem;
-      overflow: hidden;
-    }
+    &__property
+      width 6rem
+      overflow hidden
 
-    &__value {
-      width: calc(100% - 6rem);
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-  }
+    &__value
+      width calc(100% - 6rem)
+      text-overflow ellipsis
+      overflow hidden
+      white-space nowrap
 
-  &__footer {
-    flex-direction: row;
-    justify-content: flex-start;
+  &__footer
+    flex-direction row
+    justify-content flex-start
 
-    .tm-btn {
-      margin-right: 1.5rem;
-      margin-bottom: 1rem;
-      max-width: 14rem;
+    .tm-btn
+      margin-right 1.5rem
+      margin-bottom 1rem
+      max-width 14rem
 
-      &:last-child {
-        margin-bottom: 0;
-        margin-right: 0;
-      }
-    }
-  }
-}
+      &:last-child
+        margin-bottom 0
+        margin-right 0
 
-@media screen and (min-width: 768px) {
-  .tm-modal-send-confirmation {
-    &__icon i.material-icons {
-      font-size: 20vw + 20vh;
-    }
+@media screen and (min-width: 768px)
+  .tm-modal-send-confirmation
+    &__icon i.material-icons
+      font-size 20vw + 20vh
 
-    &__footer {
-      min-width: 31rem;
-    }
+    &__footer
+      min-width 31rem
 
-    &__footer .tm-btn {
-      margin-bottom: 0;
-    }
-  }
-}
+    &__footer .tm-btn
+      margin-bottom 0
 </style>
