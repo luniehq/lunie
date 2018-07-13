@@ -25,9 +25,9 @@
     node-fetch "^2.1.1"
     url-template "^2.0.8"
 
-"@tendermint/ui@0.2.10":
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.10.tgz#833f29e7d5c92580ac7779ad67d7365609210b25"
+"@tendermint/ui@0.2.12":
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.12.tgz#469b361b994e6204c3dcbf5e2281ba53d4212c6b"
   dependencies:
     axios "^0.18.0"
     cookieconsent "^3.0.6"
@@ -35,6 +35,7 @@
     markdown-it "^8.4.1"
     markdown-it-anchor "^5.0.2"
     moment "^2.22.2"
+    numeral "^2.0.6"
     perfect-scrollbar "^1.4.0"
     vue "^2.5.16"
 
@@ -1443,15 +1444,15 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   version "1.0.30000864"
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000864.tgz#35a4b2325a8d4553a46b516dbc233bf391d75555"
 
+canonical-json@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/canonical-json/-/canonical-json-0.0.4.tgz#6579c072c3db5c477ec41dc978fbf2b8f41074a3"
+
 capture-exit@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/capture-exit/-/capture-exit-1.2.0.tgz#1c5fcc489fd0ab00d4f1ac7ae1072e3173fbab6f"
   dependencies:
     rsvp "^3.3.3"
-
-canonical-json@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/canonical-json/-/canonical-json-0.0.4.tgz#6579c072c3db5c477ec41dc978fbf2b8f41074a3"
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -4435,9 +4436,13 @@ jest@21.2.1:
   dependencies:
     jest-cli "^21.2.1"
 
-js-base64@^2.1.9, js-base64@^2.4.5:
+js-base64@^2.1.9:
   version "2.4.5"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.5.tgz#e293cd3c7c82f070d700fc7a1ca0a2e69f101f92"
+
+js-base64@^2.4.5:
+  version "2.4.6"
+  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.6.tgz#1d49f618bef43630cd191f4e122447acfdb947d8"
 
 js-stringify@^1.0.1:
   version "1.0.2"
@@ -5307,7 +5312,7 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
-numeral@2.0.6:
+numeral@2.0.6, numeral@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/numeral/-/numeral-2.0.6.tgz#4ad080936d443c2561aed9f2197efffe25f4e506"
 
