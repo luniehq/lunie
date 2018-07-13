@@ -8,7 +8,7 @@ describe("PageBlock", () => {
 
   beforeEach(() => {
     let instance = mount(PageBlock, {
-      stubs: { "tm-block": "<tm-block />" },
+      // stubs: { "tm-block": "<tm-block />" },
       getters: {
         blockchain: () => ({
           blocks: [
