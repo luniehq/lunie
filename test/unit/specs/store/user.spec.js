@@ -1,7 +1,7 @@
 import setup from "../../helpers/vuex-setup"
 import b32 from "scripts/b32"
 
-function mockGA(uid) {
+function mockGA() {
   window.analytics = { foo: "bar" }
 }
 jest.mock("renderer/google-analytics.js", () => mockGA)

@@ -86,7 +86,7 @@ export default {
     }
   },
   watch: {
-    yourVotes(newVal, oldVal) {
+    yourVotes(newVal) {
       if (newVal > 0) {
         this.$store.commit("addToCart", this.delegate)
       }

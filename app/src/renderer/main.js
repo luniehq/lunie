@@ -28,7 +28,7 @@ window.addEventListener("unhandledrejection", function(event) {
 window.addEventListener("error", function(event) {
   Raven.captureException(event.reason)
 })
-Vue.config.errorHandler = (error, vm, info) => {
+Vue.config.errorHandler = error => {
   Raven.captureException(error)
   // shrinkStacktrace(error)
   // return true
@@ -73,7 +73,7 @@ async function main() {
     console.log(hash)
     store.commit("setNodeApprovalRequired", hash)
   })
-  ipcRenderer.on("open-about-menu", event => {
+  ipcRenderer.on("open-about-menu", () => {
     router.push("/about")
   })
 
