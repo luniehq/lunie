@@ -54,7 +54,8 @@ async function main() {
   })
 
   router.beforeEach((to, from, next) => {
-    if (from.fullPath !== to.fullPath) store.commit("addHistory", from.fullPath)
+    if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)
+      store.commit("addHistory", from.fullPath)
     next()
   })
 

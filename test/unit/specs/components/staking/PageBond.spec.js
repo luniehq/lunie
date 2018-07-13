@@ -154,11 +154,6 @@ describe("PageBond", () => {
     expect(router.currentRoute.fullPath).toBe("/staking")
   })
 
-  it("returns to the candidates if desired", () => {
-    wrapper.find(".tm-tool-bar a").trigger("click")
-    expect(router.currentRoute.fullPath).toBe("/staking")
-  })
-
   it("shows selected candidates", () => {
     expect(htmlBeautify(wrapper.html())).toContain("someValidator")
     expect(htmlBeautify(wrapper.html())).toContain("someOtherValidator")
