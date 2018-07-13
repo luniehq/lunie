@@ -71,18 +71,8 @@ export default {
     }
   },
   methods: {
-    isObj(thing) {
-      return typeof thing === "object"
-    },
     fetchBlock() {
       this.$store.dispatch("getBlock", parseInt(this.$route.params.block))
-    },
-    transactionValueify(tv) {
-      tv = JSON.parse(JSON.stringify(tv))
-      tv.tx.inputs = tv.tx.msg.inputs
-      tv.tx.outputs = tv.tx.msg.outputs
-      tv.time = this.block && this.block.blockHeaderTime
-      return tv
     }
   },
   mounted() {
