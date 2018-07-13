@@ -10,6 +10,7 @@ export default ({ node }) => {
     atoms: 0,
     signedIn: false,
     accounts: [],
+    pauseHistory: false,
     history: [],
     password: null,
     account: null,
@@ -29,6 +30,12 @@ export default ({ node }) => {
     },
     clearHistory(state) {
       state.history = []
+    },
+    popHistory(state) {
+      state.history.pop()
+    },
+    pauseHistory(state, paused) {
+      state.pauseHistory = paused
     }
   }
 
