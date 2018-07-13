@@ -3,7 +3,6 @@ import htmlBeautify from "html-beautify"
 import Vuelidate from "vuelidate"
 import PageBond from "renderer/components/staking/PageBond"
 import interact from "interactjs"
-require("../../../helpers/fixed_time")
 
 describe("PageBond", () => {
   let wrapper, store, router

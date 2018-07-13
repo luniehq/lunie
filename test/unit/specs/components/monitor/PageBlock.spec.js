@@ -1,6 +1,7 @@
 import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
 import PageBlock from "renderer/components/monitor/PageBlock"
+require("../../../helpers/fixed_time")
 
 describe("PageBlock", () => {
   let wrapper, store
