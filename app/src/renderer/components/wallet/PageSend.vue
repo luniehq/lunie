@@ -135,7 +135,6 @@ export default {
       let amount = +this.fields.amount
       let address = this.fields.address
       let denom = this.fields.denom
-      let zoneId = this.fields.zoneId
       try {
         // if address has a slash, it is IBC address format
         let type = "send"

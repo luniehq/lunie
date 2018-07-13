@@ -1,3 +1,7 @@
+// This is necessary because another file corrupts the behavior of Date.  We
+// really should fix that.
+/*global _Date */
+
 "use strict"
 
 const build = require(`../../../tasks/build/build`)

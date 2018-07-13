@@ -7,7 +7,6 @@ let { spawn } = require("child_process")
 let home = require("user-home")
 let semver = require("semver")
 let toml = require("toml")
-let axios = require("axios")
 let Raven = require("raven")
 let _ = require("lodash")
 
@@ -315,25 +314,6 @@ function exists(path) {
   }
 }
 
-function handleHashVerification(nodeHash) {
-  function removeListeners() {
-    ipcMain.removeAllListeners("hash-disapproved")
-    ipcMain.removeAllListeners("hash-approved")
-  }
-  return new Promise((resolve, reject) => {
-    ipcMain.on("hash-approved", (event, hash) => {
-      if (hash === nodeHash) {
-        resolve()
-      } else {
-        reject()
-      }
-    })
-    ipcMain.on("hash-disapproved", (event, hash) => {
-      reject()
-    })
-  }).finally(removeListeners)
-}
-
 // TODO readd when needed
 // async function initLCD(chainId, home, node) {
 //   // let the user in the view approve the hash we get from the node
@@ -401,7 +381,7 @@ function afterBooted(cb) {
   // in tests we trigger the booted callback always, this causes those events to be sent twice
   // this is why we skip the callback if the message was sent already
   let sent = false
-  ipcMain.on("booted", event => {
+  ipcMain.on("booted", () => {
     cb()
     sent = true
   })
@@ -488,7 +468,7 @@ function handleIPC() {
       })
       .install()
   })
-  ipcMain.on("stop-lcd", event => {
+  ipcMain.on("stop-lcd", () => {
     stopLCD()
   })
   ipcMain.on("retry-connection", () => {

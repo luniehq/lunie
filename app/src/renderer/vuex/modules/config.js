@@ -1,6 +1,6 @@
 import noScroll from "no-scroll"
 
-export default ({ commit }) => {
+export default () => {
   const state = {
     maxValidators: 100,
     activeMenu: "",

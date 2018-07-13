@@ -80,7 +80,7 @@ describe("PageTransactions", () => {
 
   it("should not show search when there is nothing to search", () => {
     let transactions = []
-    let instance = mount(PageTransactions, {
+    mount(PageTransactions, {
       stubs: {
         "tm-li-transaction": "<tm-li-transaction />",
         "data-empty-tx": "<data-empty-tx />"

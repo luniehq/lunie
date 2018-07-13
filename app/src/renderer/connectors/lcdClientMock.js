@@ -136,7 +136,7 @@ let state = {
       [validators[0]]: {
         delegator_addr: addresses[0],
         validator_addr: validators[0],
-        shares: "5/1",
+        shares: "130/1",
         height: 123
       }
     }
@@ -149,7 +149,8 @@ let state = {
         data: "t3zVnKU42WNH+NtYFcstZRLFVULWV8VagoP0HwW43Pk="
       },
       revoked: false,
-      pool_shares: { amount: "14/1" },
+      pool_shares: { amount: "14" },
+      delegator_shares: "14",
       description: {
         description: "Mr Mounty",
         moniker: "mr_mounty",
@@ -162,7 +163,8 @@ let state = {
         type: "AC26791624DE60",
         data: "9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w="
       },
-      pool_shares: { amount: "32/1" },
+      pool_shares: { amount: "0" },
+      delegator_shares: "0",
       description: {
         description: "Good Guy Greg",
         moniker: "good_greg",
@@ -175,12 +177,14 @@ let state = {
         type: "AC26791624DE60",
         data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0="
       },
-      pool_shares: { amount: "19/1" },
+      pool_shares: { amount: "19" },
+      delegator_shares: "19",
       description: {
         description: "Herr Schmidt",
-        moniker: "herr_schmidt",
+        moniker: "herr_schmidt_revoked",
         country: "DE"
-      }
+      },
+      revoked: true
     }
   ],
   sendHeight: 2
@@ -195,7 +199,7 @@ module.exports = {
   async generateSeed() {
     return "grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon"
   },
-  async storeKey({ name, password, seed }) {
+  async storeKey({ name, password }) {
     let key = {
       name,
       password,
@@ -243,7 +247,7 @@ module.exports = {
       )
     })
   },
-  async tx(hash) {
+  async tx() {
     return {}
   },
   async send(to, req) {
@@ -361,6 +365,12 @@ module.exports = {
   },
   async candidates() {
     return state.candidates
+  },
+  async getValidators() {
+    return {
+      block_height: 1,
+      validators: state.candidates
+    }
   },
   // exports to be used in tests
   state,

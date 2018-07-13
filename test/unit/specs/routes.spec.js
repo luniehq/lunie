@@ -11,12 +11,12 @@ describe("Routes", () => {
     sentry_dsn_public: "456"
   }))
   jest.mock("raven-js", () => ({
-    config: dsn => {
+    config: () => {
       return { install: () => {} }
     },
     captureException: err => console.error(err)
   }))
-  jest.mock("renderer/google-analytics.js", () => uid => {})
+  jest.mock("renderer/google-analytics.js", () => () => {})
   jest.mock("electron", () => ({
     remote: {
       getGlobal: () => ({ mocked: false }),
@@ -27,7 +27,7 @@ describe("Routes", () => {
       }
     },
     ipcRenderer: {
-      on: (type, cb) => {},
+      on: () => {},
       send: () => {}
     }
   }))
