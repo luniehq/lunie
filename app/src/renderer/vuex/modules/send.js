@@ -1,6 +1,4 @@
-import { sleep } from "scripts/common.js"
-
-export default ({ commit, node }) => {
+export default ({ node }) => {
   let lock = null
 
   let state = {
@@ -19,7 +17,6 @@ export default ({ commit, node }) => {
     args.password = rootState.user.password
     args.account_number = rootState.wallet.accountNumber // TODO move into LCD?
 
-    let chainId = rootState.node.lastHeader.chain_id
     // TODO enable again when IBC is enabled
     // args.chain_id = chainId
     // args.src_chain_id = chainId // for IBC transfer

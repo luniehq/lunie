@@ -46,7 +46,7 @@ export default function({ node }) {
 
       dispatch("maybeUpdateValidators", header)
     },
-    async reconnect({ commit, dispatch }) {
+    async reconnect({ commit }) {
       if (state.stopConnecting) return
 
       commit("setConnected", false)
@@ -122,7 +122,7 @@ export default function({ node }) {
         return false
       }
     },
-    pollRPCConnection({ state, commit, dispatch }, timeout = 3000) {
+    pollRPCConnection({ state, dispatch }, timeout = 3000) {
       if (state.nodeTimeout || state.stopConnecting) return
 
       state.nodeTimeout = setTimeout(() => {
@@ -132,7 +132,7 @@ export default function({ node }) {
           dispatch("reconnect")
         }
       }, timeout)
-      node.rpc.status((err, res) => {
+      node.rpc.status(err => {
         if (!err) {
           state.nodeTimeout = null
           setTimeout(() => {

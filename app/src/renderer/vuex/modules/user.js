@@ -3,13 +3,14 @@ import Raven from "raven-js"
 const { ipcRenderer, remote } = require("electron")
 const config = remote.getGlobal("config")
 
-export default ({ commit, node }) => {
+export default ({ node }) => {
   const ERROR_COLLECTION_KEY = "voyager_error_collection"
 
   let state = {
     atoms: 0,
     signedIn: false,
     accounts: [],
+    pauseHistory: false,
     history: [],
     password: null,
     account: null,
@@ -29,6 +30,12 @@ export default ({ commit, node }) => {
     },
     clearHistory(state) {
       state.history = []
+    },
+    popHistory(state) {
+      state.history.pop()
+    },
+    pauseHistory(state, paused) {
+      state.pauseHistory = paused
     }
   }
 
@@ -67,11 +74,11 @@ export default ({ commit, node }) => {
         throw Error("Incorrect passphrase")
       }
     },
-    createSeed({ commit }) {
+    createSeed() {
       // generate seed phrase
       return node.generateSeed()
     },
-    async createKey({ commit, dispatch }, { seedPhrase, password, name }) {
+    async createKey({ dispatch }, { seedPhrase, password, name }) {
       let address = await node.storeKey({
         name,
         password,
@@ -80,7 +87,7 @@ export default ({ commit, node }) => {
       dispatch("initializeWallet", address)
       return address
     },
-    async deleteKey({ commit, dispatch }, { password, name }) {
+    async deleteKey(ignore, { password, name }) {
       await node.deleteKey(name, { name, password })
       return true
     },

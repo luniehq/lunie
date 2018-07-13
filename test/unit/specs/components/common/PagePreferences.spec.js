@@ -1,6 +1,6 @@
 import setup from "../../../helpers/vuex-setup"
 import PagePreferences from "renderer/components/common/PagePreferences"
-jest.mock("renderer/google-analytics.js", () => uid => {})
+jest.mock("renderer/google-analytics.js", () => () => {})
 
 describe("PagePreferences", () => {
   let wrapper, store

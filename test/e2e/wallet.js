@@ -1,9 +1,7 @@
-let { spawn } = require("child_process")
 let test = require("tape-promise/tape")
 let { getApp, restart } = require("./launch.js")
 let {
   navigate,
-  newTempDir,
   waitForText,
   sleep,
   login,
@@ -13,35 +11,13 @@ let {
   addresses
 } = require("../../app/src/renderer/connectors/lcdClientMock.js")
 console.log(addresses)
-let binary = process.env.BINARY_PATH
 
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
 */
 
-function cliSendCoins(home, to, amount) {
-  let child = spawn(binary, [
-    "client",
-    "tx",
-    "send",
-    "--name",
-    "testkey",
-    "--to",
-    to,
-    "--amount",
-    amount,
-    "--home",
-    home
-  ])
-  child.stdin.write("1234567890\n")
-  return new Promise((resolve, reject) => {
-    child.once("error", reject)
-    child.once("exit", resolve)
-  })
-}
-
 test("wallet", async function(t) {
-  let { app, home } = await getApp(t)
+  let { app } = await getApp(t)
   // app.env.COSMOS_MOCKED = false
   await restart(app)
 
@@ -76,7 +52,6 @@ test("wallet", async function(t) {
     let sendBtn = () => $(".tm-form-footer button")
     let addressInput = () => $("#send-address")
     let amountInput = () => $("#send-amount")
-    let denomBtn = denom => $(`option=${denom.toUpperCase()}`)
     let defaultBalance = 9007199254740992
     t.test("fermion balance before sending", async function(t) {
       await app.client.waitForExist(

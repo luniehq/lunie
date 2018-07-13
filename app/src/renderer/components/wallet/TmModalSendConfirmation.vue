@@ -23,7 +23,6 @@ modal.tm-modal-send-confirmation(:close="close")
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import { TmBtn, TmListItem } from "@tendermint/ui"
 import Modal from "common/TmModal"
 export default {

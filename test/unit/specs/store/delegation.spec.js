@@ -5,15 +5,16 @@ let instance = setup()
 describe("Module: Delegations", () => {
   let store, node
 
-  beforeEach(() => {
+  beforeEach(async () => {
     let test = instance.shallow()
     store = test.store
     node = test.node
 
-    store.dispatch("signIn", { password: "bar", account: "bar" })
+    store.dispatch("signIn", { password: "bar", account: "default" })
+    await store.dispatch("getDelegates")
   })
 
-  xit("adds delegate to cart", () => {
+  it("adds delegate to cart", () => {
     store.commit("addToCart", { id: "foo", x: 1 })
     expect(store.state.delegation.delegates[0]).toEqual({
       id: "foo",
@@ -23,7 +24,7 @@ describe("Module: Delegations", () => {
     expect(store.state.delegation.delegates.length).toBe(1)
   })
 
-  xit("does not add delegate to cart if already exists", () => {
+  it("does not add delegate to cart if already exists", () => {
     store.commit("addToCart", { id: "foo" })
     store.commit("addToCart", { id: "foo", x: 1 })
     expect(store.state.delegation.delegates[0].id).toBe("foo")
@@ -31,7 +32,7 @@ describe("Module: Delegations", () => {
     expect(store.state.delegation.delegates.length).toBe(1)
   })
 
-  xit("removes delegate from cart", () => {
+  it("removes delegate from cart", () => {
     store.commit("addToCart", { id: "foo" })
     store.commit("addToCart", { id: "bar" })
     store.commit("removeFromCart", "foo")
@@ -43,89 +44,79 @@ describe("Module: Delegations", () => {
     expect(store.state.delegation.delegates.length).toBe(1)
   })
 
-  xit("sets atoms for delegate", () => {
+  it("sets atoms for delegate", () => {
     store.commit("addToCart", { id: "foo" })
     store.commit("setShares", { candidateId: "foo", value: 123 })
     expect(store.state.delegation.delegates[0].atoms).toBe(123)
   })
 
-  xit("sets committed atoms for delegate", () => {
+  it("sets committed atoms for delegate", () => {
     store.commit("addToCart", { id: "foo" })
     store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })
     expect(store.state.delegation.committedDelegates).toEqual({ foo: 123 })
   })
 
-  xit("sets committed atoms for delegate to 0", () => {
+  it("sets committed atoms for delegate to 0", () => {
     store.commit("addToCart", { id: "foo" })
     store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })
     store.commit("setCommittedDelegation", { candidateId: "foo", value: 0 })
     expect(store.state.delegation.committedDelegates).toEqual({})
   })
 
-  xit("fetches bonded delegates", async () => {
-    node.bondingsByDelegator = jest
+  it("fetches bonded delegates", async () => {
+    node.queryDelegation = jest
       .fn()
       .mockReturnValueOnce({
-        data: {
-          PubKey: { data: "foo" },
-          Shares: 123
-        }
+        shares: "10/123"
       })
       .mockReturnValueOnce({
-        data: {
-          PubKey: { data: "bar" },
-          Shares: 456
-        }
+        shares: "15/123"
+      })
+      // no delegation for a delegate
+      .mockReturnValueOnce({
+        data: null
       })
 
-    await store.dispatch("getBondedDelegates", [
-      { pub_key: { data: "foo" } },
-      { pub_key: { data: "bar" } }
-    ])
-    expect(node.bondingsByDelegator.mock.calls[0][0]).toEqual([
-      "someaddress",
-      "foo"
-    ])
-    expect(node.bondingsByDelegator.mock.calls[1][0]).toEqual([
-      "someaddress",
-      "bar"
-    ])
+    await store.dispatch("getBondedDelegates", store.state.delegates.delegates)
 
-    expect(store.state.delegation.committedDelegates).toEqual({
-      foo: 123,
-      bar: 456
-    })
-  })
-
-  xit("submits delegation transaction", async () => {
-    store.commit("setCommittedDelegation", { candidateId: "bar", value: 123 })
-    store.commit("setCommittedDelegation", { candidateId: "baz", value: 789 })
-    jest.spyOn(store._actions.sendTx, "0")
-    jest.spyOn(node, "buildDelegate")
-    jest.spyOn(node, "buildUnbond")
-
-    await store.dispatch("submitDelegation", {
-      delegates: [
-        {
-          delegate: { pub_key: { data: "foo" } },
-          atoms: 123
-        },
-        {
-          delegate: { pub_key: { data: "bar" } },
-          atoms: 456
-        },
-        {
-          delegate: { pub_key: { data: "baz" } },
-          atoms: 0
-        }
+    // each is user account + validator owner
+    expect(node.queryDelegation.mock.calls).toEqual([
+      [
+        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      ],
+      [
+        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+      ],
+      [
+        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
       ]
-    })
-    expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
-    expect(node.buildDelegate.mock.calls).toMatchSnapshot()
-    expect(node.buildUnbond.mock.calls).toMatchSnapshot()
+    ])
+
+    expect(store.state.delegation.committedDelegates).toMatchSnapshot()
   })
 
-  xit("should query delegated atoms on reconnection", () => {
+  it("submits delegation transaction", async () => {
+    store.commit("setAccountNumber", 1)
+    await store.dispatch("getBondedDelegates")
+
+    jest.spyOn(store._actions.sendTx, "0")
+
+    let bondings = [123, 456, 0]
+    const delegations = store.state.delegates.delegates.map((delegate, i) => ({
+      delegate,
+      atoms: bondings[i]
+    }))
+
+    await store.dispatch("submitDelegation", delegations)
+
+    // TODO account number is wrong in snapshot
+    expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
+  })
+
+  it("should query delegated atoms on reconnection", () => {
     jest.resetModules()
     let axios = require("axios")
     store.state.node.stopConnecting = true
@@ -135,7 +126,7 @@ describe("Module: Delegations", () => {
     expect(axios.get.mock.calls).toMatchSnapshot()
   })
 
-  xit("should not query delegated atoms on reconnection if not stuck in loading", () => {
+  it("should not query delegated atoms on reconnection if not stuck in loading", () => {
     jest.resetModules()
     let axios = require("axios")
     store.state.node.stopConnecting = true
