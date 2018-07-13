@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Information about current connection attempts @faboweb
 * Release published on GitHub now including changes from CHANGELOG. @NodeGuy
 * Added ESLint errors: no-undef and no-unused-vars. @NodeGuy
+* Modal when a node doesn't signal any new blocks @faboweb
 
 ### Changed
 
