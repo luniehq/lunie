@@ -14,12 +14,12 @@ tm-page(title='Staking')
     data-empty-search(v-else-if="filteredDelegates.length === 0")
     template(v-else)
       panel-sort(:sort='sort')
-      li-delegate(v-for='i in filteredDelegates' :key='i.id' :delegate='i')
+      li-delegate(v-for='i in enrichedAndFilteredDelegates' :key='i.id' :delegate='i')
 
   .fixed-button-bar(v-if="!delegates.loading")
     template(v-if="userCanDelegate")
       .label #[strong {{ shoppingCart.length }}] delegates selected
-      tm-btn(type="link" to="/staking/bond" :disabled="shoppingCart.length < 1" icon="chevron_right" icon-pos="right" value="Next" color="primary")
+      tm-btn(type="link" to="/staking/bond" :disabled="shoppingCart.length === 0" icon="chevron_right" icon-pos="right" value="Next" color="primary")
     template(v-else)
       .label You do not have any ATOMs to delegate.
       tm-btn(disabled icon="chevron_right" icon-pos="right" value="Next" color="primary")
@@ -51,7 +51,14 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(["delegates", "filters", "shoppingCart", "config", "user"]),
+    ...mapGetters([
+      "delegates",
+      "filters",
+      "shoppingCart",
+      "committedDelegations",
+      "config",
+      "user"
+    ]),
     address() {
       return this.user.address
     },
@@ -68,6 +75,13 @@ export default {
         .sort((a, b) => b.voting_power - a.voting_power)
         .slice(0, 100)
         .reduce((sum, v) => sum + v.voting_power, 0)
+    },
+    enrichedAndFilteredDelegates() {
+      return this.filteredDelegates.map(d =>
+        Object.assign({}, d, {
+          your_votes: this.num.prettyInt(this.committedDelegations[d.id])
+        })
+      )
     },
     filteredDelegates() {
       let query = this.filters.delegates.search.query || ""
@@ -95,6 +109,7 @@ export default {
     }
   },
   data: () => ({
+    num: num,
     query: "",
     sort: {
       property: "percent_of_vote",
@@ -158,7 +173,9 @@ export default {
   async mounted() {
     Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
     Mousetrap.bind("esc", () => this.setSearch(false))
-    this.updateDelegates()
+
+    // XXX temporary because querying the shares shows old shares after bonding
+    // this.updateDelegates()
   }
 }
 </script>

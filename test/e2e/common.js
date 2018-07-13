@@ -1,5 +1,3 @@
-let { join } = require("path")
-
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
@@ -58,14 +56,6 @@ module.exports = {
     // click link
     await app.client.$(`.tm-li-user`).click()
     console.log(`navigated to preferences`)
-  },
-  newTempDir() {
-    return join(
-      tmpdir(),
-      Math.random()
-        .toString(36)
-        .slice(2)
-    )
   },
   sleep,
   async waitForText(elGetterFn, text, timeout = 5000) {

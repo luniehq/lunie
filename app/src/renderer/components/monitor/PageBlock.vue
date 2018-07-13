@@ -89,7 +89,7 @@ export default {
     this.fetchBlock()
   },
   watch: {
-    $route(to, from) {
+    $route() {
       this.fetchBlock()
     }
   }

@@ -140,7 +140,7 @@ describe("Module: Wallet", () => {
           height: 2
         }
       ])
-    node.rpc.blockchain = ({ minHeight, maxHeight }, cb) => {
+    node.rpc.blockchain = ({ minHeight }, cb) => {
       cb(null, {
         block_metas: [
           {

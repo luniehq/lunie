@@ -23,7 +23,7 @@ export default {
   props: ["value"],
   watch: {
     value: {
-      handler: async function(newVal) {
+      handler: async function() {
         await this.$nextTick()
         autosize.update(this.$el)
       }

@@ -47,7 +47,7 @@ describe("Module: Blockchain", () => {
 
   it("should query block info", async () => {
     store.state.blockchain.blockMetas = {}
-    node.rpc.blockchain = jest.fn(({ minHeight, maxHeight }, cb) => {
+    node.rpc.blockchain = jest.fn((ignored, cb) => {
       cb(null, { block_metas: [blockMeta] })
     })
 
@@ -231,7 +231,7 @@ describe("Module: Blockchain", () => {
         }
       })
     }
-    node.tx = hash => {
+    node.tx = () => {
       return new Promise(resolve => {
         resolve({
           height: 42,
@@ -261,7 +261,7 @@ describe("Module: Blockchain", () => {
         }
       })
     }
-    node.tx = hash => {
+    node.tx = () => {
       return new Promise((resolve, reject) => {
         reject("asdf")
       })

@@ -60,7 +60,7 @@ export default {
     }
   },
   watch: {
-    "$route.name"(newName, oldName) {
+    "$route.name"(newName) {
       this.onPreferencesPage = newName === "preferences"
     }
   }

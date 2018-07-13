@@ -1,5 +1,5 @@
 let test = require("tape-promise/tape")
-let { getApp, restart, refresh } = require("./launch.js")
+let { getApp, refresh } = require("./launch.js")
 let { openMenu, login, sleep } = require("./common.js")
 
 /*

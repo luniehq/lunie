@@ -1,5 +1,5 @@
 const fs = require("fs-extra")
-const { join, normalize } = require("path")
+const { join } = require("path")
 const axios = require("axios")
 const url = require("url")
 

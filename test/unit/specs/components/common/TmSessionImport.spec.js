@@ -3,7 +3,7 @@ import Vuelidate from "vuelidate"
 import { mount, createLocalVue } from "@vue/test-utils"
 import htmlBeautify from "html-beautify"
 import TmSessionImport from "common/TmSessionImport"
-jest.mock("renderer/google-analytics.js", () => uid => {})
+jest.mock("renderer/google-analytics.js", () => () => {})
 const seed =
   "goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon"
 const localVue = createLocalVue()
@@ -57,7 +57,7 @@ describe("TmSessionImport", () => {
 
     expect(
       store.commit.mock.calls.find(
-        ([action, _]) => action === "setModalSession"
+        ([action]) => action === "setModalSession"
       )[1]
     ).toBe(false)
   })
@@ -74,7 +74,7 @@ describe("TmSessionImport", () => {
     await wrapper.vm.onSubmit()
     expect(
       store.commit.mock.calls
-        .find(([action, _]) => action === "notify")[1]
+        .find(([action]) => action === "notify")[1]
         .title.toLowerCase()
     ).toContain("welcome back!")
     expect(store.dispatch).toHaveBeenCalledWith("signIn", {
@@ -96,7 +96,7 @@ describe("TmSessionImport", () => {
     await wrapper.vm.onSubmit()
     expect(
       store.dispatch.mock.calls.find(
-        ([action, _]) => action === "setErrorCollection"
+        ([action]) => action === "setErrorCollection"
       )[1]
     ).toMatchObject({
       account: "foo123",
@@ -116,7 +116,7 @@ describe("TmSessionImport", () => {
     await wrapper.vm.onSubmit()
     expect(
       store.dispatch.mock.calls.find(
-        ([action, _]) => action === "setErrorCollection"
+        ([action]) => action === "setErrorCollection"
       )[1]
     ).toMatchObject({
       account: "foo123",

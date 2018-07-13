@@ -1,4 +1,4 @@
-export default ({ commit }) => {
+export default () => {
   const state = {
     active: true,
     state: 0

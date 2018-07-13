@@ -8,7 +8,6 @@ tm-btn.btn-receive(
 </template>
 
 <script>
-import { clipboard } from "electron"
 import { TmBtn } from "@tendermint/ui"
 export default {
   components: { TmBtn },

@@ -2,24 +2,9 @@
 
 const fs = require("fs")
 const path = require("path")
-const { execSync } = require("child_process")
 const git = require("simple-git/promise")()
 const release = require("publish-release")
 const util = require("util")
-
-const build = defaultNetwork => {
-  console.log("--- BUILDING ---")
-
-  execSync(
-    `node tasks/build/build.js \
-      --network=${path.join(__dirname, `../app/networks`, defaultNetwork)}`,
-    {
-      stdio: `inherit`
-    }
-  )
-
-  console.log("--- DONE BUILDING ---")
-}
 
 const assetsDir = path.join(__dirname, `../builds/Voyager`)
 
@@ -48,7 +33,6 @@ const publishRelease = ({ notes, tag, token }) =>
   })
 
 async function main() {
-  build(config.default_network)
   console.log("--- Publishing release ---")
 
   const notes = createNotes(
