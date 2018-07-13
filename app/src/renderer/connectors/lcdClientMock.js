@@ -1,6 +1,6 @@
 "use strict"
 const b32 = require("../scripts/b32.js")
-const { getHeight } = require("./rpcWrapperMock.js")
+const { getHeight, makeBlockHash } = require("./rpcWrapperMock.js")
 
 const botAddress = "cosmosaccaddr1p6zajjw6xged056andyhn62lm7axwzyspkzjq0"
 const addresses = [
@@ -50,67 +50,73 @@ let state = {
     {
       tx: {
         value: {
-          msg: {
-            value: {
-              inputs: [
-                {
-                  coins: [
-                    {
-                      denom: "jbcoins",
-                      amount: 1234
-                    }
-                  ],
-                  address: makeAddress()
-                }
-              ],
-              outputs: [
-                {
-                  coins: [
-                    {
-                      denom: "jbcoins",
-                      amount: 1234
-                    }
-                  ],
-                  address: addresses[0]
-                }
-              ]
+          msg: [
+            {
+              value: {
+                inputs: [
+                  {
+                    coins: [
+                      {
+                        denom: "jbcoins",
+                        amount: 1234
+                      }
+                    ],
+                    address: makeAddress()
+                  }
+                ],
+                outputs: [
+                  {
+                    coins: [
+                      {
+                        denom: "jbcoins",
+                        amount: 1234
+                      }
+                    ],
+                    address: addresses[0]
+                  }
+                ]
+              }
             }
-          }
+          ]
         }
       },
+      hash: "999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A",
       height: 1
     },
     {
       tx: {
         value: {
-          msg: {
-            value: {
-              inputs: [
-                {
-                  coins: [
-                    {
-                      denom: "fabocoins",
-                      amount: 1234
-                    }
-                  ],
-                  address: addresses[0]
-                }
-              ],
-              outputs: [
-                {
-                  coins: [
-                    {
-                      denom: "fabocoins",
-                      amount: 1234
-                    }
-                  ],
-                  address: makeAddress()
-                }
-              ]
+          msg: [
+            {
+              value: {
+                inputs: [
+                  {
+                    coins: [
+                      {
+                        denom: "fabocoins",
+                        amount: 1234
+                      }
+                    ],
+                    address: addresses[0]
+                  }
+                ],
+                outputs: [
+                  {
+                    coins: [
+                      {
+                        denom: "fabocoins",
+                        amount: 1234
+                      }
+                    ],
+                    address: makeAddress()
+                  }
+                ]
+              }
             }
-          }
+          ]
         }
       },
+      hash: "A7C6DE5CA923AF08E6088F1348047F16BABB9F48",
       height: 150
     }
   ],
@@ -225,8 +231,12 @@ module.exports = {
   async txs(address) {
     return state.txs.filter(tx => {
       return (
-        tx.tx.value.msg.value.inputs.find(input => input.address === address) ||
-        tx.tx.value.msg.value.outputs.find(output => output.address === address)
+        tx.tx.value.msg[0].value.inputs.find(
+          input => input.address === address
+        ) ||
+        tx.tx.value.msg[0].value.outputs.find(
+          output => output.address === address
+        )
       )
     })
   },
@@ -421,24 +431,27 @@ function send(to, from, req) {
   state.txs.push({
     tx: {
       value: {
-        msg: {
-          value: {
-            inputs: [
-              {
-                coins: req.amount,
-                address: from
-              }
-            ],
-            outputs: [
-              {
-                coins: req.amount,
-                address: to
-              }
-            ]
+        msg: [
+          {
+            value: {
+              inputs: [
+                {
+                  coins: req.amount,
+                  address: from
+                }
+              ],
+              outputs: [
+                {
+                  coins: req.amount,
+                  address: to
+                }
+              ]
+            }
           }
-        }
+        ]
       }
     },
+    hash: makeBlockHash(),
     height: getHeight() + (from === botAddress ? 1 : 0),
     time: Date.now()
   })
