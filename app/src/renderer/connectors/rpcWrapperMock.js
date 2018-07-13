@@ -124,7 +124,7 @@ async function produceBlocks(cb) {
   }
 }
 
-export function makeBlockHash() {
+function makeBlockHash() {
   var text = ""
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 

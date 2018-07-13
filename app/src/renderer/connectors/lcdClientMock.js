@@ -1,6 +1,6 @@
 "use strict"
 const b32 = require("../scripts/b32.js")
-const { getHeight, makeBlockHash } = require("./rpcWrapperMock.js")
+const { getHeight } = require("./rpcWrapperMock.js")
 
 const botAddress = "cosmosaccaddr1p6zajjw6xged056andyhn62lm7axwzyspkzjq0"
 const addresses = [
@@ -61,7 +61,7 @@ let state = {
                         amount: 1234
                       }
                     ],
-                    address: makeAddress()
+                    address: makeHash()
                   }
                 ],
                 outputs: [
@@ -108,7 +108,7 @@ let state = {
                         amount: 1234
                       }
                     ],
-                    address: makeAddress()
+                    address: makeHash()
                   }
                 ]
               }
@@ -192,7 +192,7 @@ module.exports = {
     let key = {
       name,
       password,
-      address: makeAddress()
+      address: makeHash()
     }
     state.keys.push(key)
     return { name, password, seed, address: key.address }
@@ -371,7 +371,7 @@ module.exports = {
   validators
 }
 
-function makeAddress() {
+function makeHash() {
   var text = ""
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
@@ -451,7 +451,7 @@ function send(to, from, req) {
         ]
       }
     },
-    hash: makeBlockHash(),
+    hash: makeHash(),
     height: getHeight() + (from === botAddress ? 1 : 0),
     time: Date.now()
   })
