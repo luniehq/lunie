@@ -6,7 +6,6 @@ let electron = require("electron")
 let { join } = require("path")
 let { spawn } = require("child_process")
 let fs = require("fs-extra")
-let { login, sleep } = require("./common.js")
 
 const networkPath = join(__dirname, "localtestnet")
 const testDir = join(__dirname, "../../testArtifacts")
@@ -28,7 +27,7 @@ function launch(t) {
       await handleCrash(app)
     })
 
-    started = new Promise(async (resolve, reject) => {
+    started = new Promise(async resolve => {
       console.log("using cli binary", binary)
       console.log("using node binary", nodeBinary)
 

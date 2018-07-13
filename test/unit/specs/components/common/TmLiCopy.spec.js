@@ -2,13 +2,12 @@ import setup from "../../../helpers/vuex-setup"
 import TmLiCopy from "common/TmLiCopy"
 
 describe("TmLiCopy", () => {
-  let wrapper, store
+  let wrapper
   let { mount } = setup()
 
   beforeEach(() => {
     let instance = mount(TmLiCopy)
     wrapper = instance.wrapper
-    store = instance.store
   })
 
   it("has the expected html structure", () => {

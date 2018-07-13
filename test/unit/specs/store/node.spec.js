@@ -187,14 +187,14 @@ describe("Module: Node", () => {
 
   it("should reconnect if pinging node timesout", done => {
     node.rpcReconnect = () => done()
-    node.rpc.status = cb => {}
+    node.rpc.status = () => {}
     store.dispatch("pollRPCConnection", 10)
   })
 
   it("should reconnect if pinging node fails", done => {
     node.rpcReconnect = () => {
       // restore status hook as it crashes the rest if not
-      node.rpc.status = cb => {}
+      node.rpc.status = () => {}
       done()
     }
     node.rpc.status = cb => cb("Error")
@@ -247,7 +247,6 @@ describe("Module: Node", () => {
   })
 
   it("should switch to the mocked node implemenation", () => {
-    let { ipcRenderer } = require("electron")
     let spy = jest.spyOn(node, "setup")
 
     store.dispatch("setMockedConnector", true)

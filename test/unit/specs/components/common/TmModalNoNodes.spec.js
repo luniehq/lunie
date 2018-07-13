@@ -3,7 +3,7 @@ import setup from "../../../helpers/vuex-setup"
 
 describe("TmModalNoNodes", () => {
   let wrapper, store
-  let { mount, localVue } = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
     let instance = mount(TmModalNoNodes)

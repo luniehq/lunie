@@ -1,7 +1,6 @@
-export default ({ commit, node }) => {
+export default ({ node }) => {
   let state = {
     loading: false,
-    delegationActive: false,
 
     // our delegations, maybe not yet committed
     delegates: [],
@@ -11,9 +10,6 @@ export default ({ commit, node }) => {
   }
 
   const mutations = {
-    activateDelegation(state) {
-      state.delegationActive = true
-    },
     addToCart(state, delegate) {
       // don't add to cart if already in cart
       for (let existingDelegate of state.delegates) {
@@ -67,6 +63,7 @@ export default ({ commit, node }) => {
     // load committed delegation from LCD
     async getBondedDelegate({ commit, rootState }, { delegator, validator }) {
       let bond = await node.queryDelegation(delegator, validator)
+
       let shares = bond ? parseRat(bond.shares) : 0
       let delegate = rootState.delegates.delegates.find(
         d => d.owner === validator
@@ -80,30 +77,33 @@ export default ({ commit, node }) => {
         candidateId: validator,
         value
       })
+      commit("addToCart", delegate)
     },
     async updateDelegates({ dispatch }) {
       let candidates = await dispatch("getDelegates")
-      dispatch("getBondedDelegates", candidates)
+      return dispatch("getBondedDelegates", candidates)
     },
-    submitDelegation({ rootState, state, dispatch }, delegations) {
+    async submitDelegation(
+      { rootState, state, dispatch, commit },
+      delegations
+    ) {
       let delegate = []
       let unbond = []
-      for (let delegation of delegations.delegates) {
+      for (let delegation of delegations) {
         let candidateId = delegation.delegate.owner
         let currentlyDelegated = state.committedDelegates[candidateId] || 0
         let amountChange = delegation.atoms - currentlyDelegated
+
         let isBond = amountChange > 0
 
         // skip if no change
-        if (amountChange === 0) return null
-
+        if (amountChange === 0) continue
         if (isBond) {
           delegate.push({
             delegator_addr: rootState.wallet.address,
             validator_addr: candidateId,
-            // TODO: figure out which denom is bonding denom
             bond: {
-              denom: "steak",
+              denom: rootState.config.bondingDenom,
               amount: amountChange
             }
           })
@@ -123,10 +123,24 @@ export default ({ commit, node }) => {
         }
       }
 
-      return dispatch("sendTx", {
+      await dispatch("sendTx", {
         type: "updateDelegations",
         delegate,
         unbond
+      })
+
+      // usually I would just query the new state through the LCD but at this point we still get the old shares
+      dispatch("updateDelegates").then(() => {
+        for (let delegation of delegations) {
+          commit("setCommittedDelegation", {
+            candidateId: delegation.delegate.owner,
+            value: delegation.atoms
+          })
+          commit("setCommittedDelegation", {
+            candidateId: delegation.delegate.owner,
+            value: delegation.atoms
+          })
+        }
       })
     }
   }

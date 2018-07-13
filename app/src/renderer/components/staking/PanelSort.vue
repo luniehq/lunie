@@ -10,7 +10,7 @@
 export default {
   name: "panel-sort",
   methods: {
-    orderBy(property, event) {
+    orderBy(property) {
       let sortBys = this.$el.querySelectorAll(".sort-by")
       sortBys.forEach(el => el.classList.remove("active", "desc", "asc"))
       let index = this.sort.properties.findIndex(p => p.value === property)

@@ -4,7 +4,7 @@ const { remote } = require("electron")
 const root = remote.getGlobal("root")
 let { sleep } = require("scripts/common.js")
 
-export default ({ commit, node }) => {
+export default ({ node }) => {
   let state = {
     balances: [],
     balancesLoading: true,
@@ -64,7 +64,7 @@ export default ({ commit, node }) => {
       dispatch("loadDenoms")
       dispatch("queryWalletState")
     },
-    queryWalletState({ state, dispatch }) {
+    queryWalletState({ dispatch }) {
       dispatch("queryWalletBalances")
       dispatch("queryWalletHistory")
     },
@@ -114,7 +114,7 @@ export default ({ commit, node }) => {
       // )
       commit("setTransactionTime", { blockHeight, blockMetaInfo })
     },
-    async loadDenoms({ state, commit }) {
+    async loadDenoms({ commit }) {
       // read genesis.json to get default denoms
 
       // wait for genesis.json to exist
