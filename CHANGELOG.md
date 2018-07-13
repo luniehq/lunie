@@ -12,12 +12,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Indicate if a validator has been revoked in the Staking UI @mappum
 * Information about current connection attempts @faboweb
 * Release published on GitHub now including changes from CHANGELOG. @NodeGuy
+* Added reload button to transaction history page @faboweb
 
 ### Changed
 
 * Copy the network configuration only during local builds. @NodeGuy
 * Ignoring the potential local-testnet folder that is used in the README for local testnets @faboweb
 * Moved to SDK v0.20.0 @faboweb
+* Showing uniq transactions by their hash in history @faboweb
 
 ### Fixed
 
