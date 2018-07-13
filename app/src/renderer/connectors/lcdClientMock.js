@@ -45,23 +45,6 @@ let state = {
       sequence: 1
     }
   },
-  txs: [
-    {
-      tx: {
-        hash: "x",
-        inputs: [
-          {
-            denom: "mycoin",
-            amount: 1000
-          },
-          {
-            denom: "fermion",
-            amount: 2300
-          }
-        ]
-      }
-    }
-  ],
   nonces: { [addresses[0]]: 0 },
   txs: [
     {
