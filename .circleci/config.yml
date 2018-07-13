@@ -30,7 +30,7 @@ jobs:
           paths:
             - "*"
 
-  changelog:
+  changelogUpdated:
     docker:
       - image: circleci/node:9.4.0-browsers
 
@@ -139,7 +139,7 @@ workflows:
 
   gaia-test-and-publish:
     jobs:
-      - changelog
+      - changelogUpdated
       
       - buildGaia
 
