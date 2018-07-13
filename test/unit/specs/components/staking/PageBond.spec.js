@@ -11,7 +11,7 @@ describe("PageBond", () => {
 
   beforeEach(() => {
     let test = mount(PageBond, {
-      doBefore: ({ store, router }) => {
+      doBefore: ({ store }) => {
         store.commit("setAtoms", 101)
 
         store.commit("addToCart", {
