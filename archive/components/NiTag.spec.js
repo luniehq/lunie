@@ -18,23 +18,23 @@ describe("NiTag", () => {
 
   it("has the expected classes for default size", () => {
     wrapper = mount(NiTag, {})
-    expect(wrapper.find(".ni-tag").exists()).toBe(true)
-    expect(wrapper.find(".ni-tag-df").exists()).toBe(true)
+    expect(wrapper.find(".ti-tag").exists()).toBe(true)
+    expect(wrapper.find(".ti-tag-df").exists()).toBe(true)
   })
 
   it("has the expected classes for small size", () => {
     wrapper = mount(NiTag, {
       propsData: { size: "sm" }
     })
-    expect(wrapper.find(".ni-tag").exists()).toBe(true)
-    expect(wrapper.find(".ni-tag-sm").exists()).toBe(true)
+    expect(wrapper.find(".ti-tag").exists()).toBe(true)
+    expect(wrapper.find(".ti-tag-sm").exists()).toBe(true)
   })
 
   it("has the expected classes for large size", () => {
     wrapper = mount(NiTag, {
       propsData: { size: "lg" }
     })
-    expect(wrapper.find(".ni-tag").exists()).toBe(true)
-    expect(wrapper.find(".ni-tag-lg").exists()).toBe(true)
+    expect(wrapper.find(".ti-tag").exists()).toBe(true)
+    expect(wrapper.find(".ti-tag-lg").exists()).toBe(true)
   })
 })

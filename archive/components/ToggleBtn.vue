@@ -18,9 +18,9 @@ export default {
 @require '~variables'
 
 .btn--select-wrapper.active
-  .ni-btn-value
+  .ti-btn-value
     color app-bg
 
-  .ni-btn-container
+  .ti-btn-container
     background txt
 </style>

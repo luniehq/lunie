@@ -52,7 +52,7 @@ export default {
 @require '~variables'
 
 @media screen and (min-width: 1024px)
-  .ni-modal-menu.app-menu-user
+  .ti-modal-menu.app-menu-user
     width 100vw
     height 100vh
     position fixed

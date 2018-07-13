@@ -2,13 +2,13 @@
 
 exports[`TmModalNoNodes has the expected html structure 1`] = `
 <div
-  class="ni-modal-error__wrapper"
+  class="ti-modal-error__wrapper"
 >
   <div
-    class="ni-modal-error"
+    class="ti-modal-error"
   >
     <div
-      class="ni-modal-error__icon"
+      class="ti-modal-error__icon"
     >
       <i
         class="material-icons"
@@ -17,21 +17,21 @@ exports[`TmModalNoNodes has the expected html structure 1`] = `
       </i>
     </div>
     <div
-      class="ni-modal-error__title"
+      class="ti-modal-error__title"
     >
       No nodes found
     </div>
     <div
-      class="ni-modal-error__body"
+      class="ti-modal-error__body"
     >
       All known nodes are offline or incompatible. You can retry to connect or switch to a demo connection so you can try out Voyager.
     </div>
     <div
-      class="ni-modal-error__footer"
+      class="ti-modal-error__footer"
     >
       <button
         class="tm-btn"
-        id="ni-modal-error__btn-retry"
+        id="ti-modal-error__btn-retry"
       >
         <span
           class="tm-btn__container tm-btn--size-lg tm-btn--primary"
@@ -52,7 +52,7 @@ exports[`TmModalNoNodes has the expected html structure 1`] = `
       </button>
       <button
         class="tm-btn"
-        id="ni-modal-error__btn-mock"
+        id="ti-modal-error__btn-mock"
       >
         <span
           class="tm-btn__container tm-btn--size-lg"

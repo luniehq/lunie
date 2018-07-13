@@ -1,17 +1,17 @@
 <template lang="pug">
-.ni-modal-error__wrapper
-  .ni-modal-error
-    .ni-modal-error__icon: i.material-icons sync_problem
-    .ni-modal-error__title No nodes found
-    .ni-modal-error__body All known nodes are offline or incompatible. You can retry to connect or switch to a demo connection so you can try out Voyager.
-    .ni-modal-error__footer
-      tm-btn#ni-modal-error__btn-retry(
+.ti-modal-error__wrapper
+  .ti-modal-error
+    .ti-modal-error__icon: i.material-icons sync_problem
+    .ti-modal-error__title No nodes found
+    .ti-modal-error__body All known nodes are offline or incompatible. You can retry to connect or switch to a demo connection so you can try out Voyager.
+    .ti-modal-error__footer
+      tm-btn#ti-modal-error__btn-retry(
         size="lg"
         icon="autorenew"
         color="primary"
         value="Retry Connection"
         @click.native="retry")
-      tm-btn#ni-modal-error__btn-mock(
+      tm-btn#ti-modal-error__btn-mock(
         size="lg"
         icon="pageview"
         value="Try Demo"
@@ -40,7 +40,7 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
-.ni-modal-error__wrapper
+.ti-modal-error__wrapper
   position absolute
   top 0
   left 0
@@ -53,11 +53,11 @@ export default {
   align-items center
   justify-content center
 
-.ni-modal-error
+.ti-modal-error
   padding 1.5rem
   max-width 40rem
 
-.ni-modal-error__icon
+.ti-modal-error__icon
   position fixed
   top 0
   left 0
@@ -68,19 +68,19 @@ export default {
     line-height 1
     color var(--bc-dim)
 
-.ni-modal-error__title
+.ti-modal-error__title
   font-size h1
   font-weight 500
   line-height 1
   margin-bottom 1.5rem
 
-.ni-modal-error__body
+.ti-modal-error__body
   font-size lg
   color var(--dim)
   margin-bottom 3rem
 
-.ni-modal-error__footer
-  .ni-btn
+.ti-modal-error__footer
+  .ti-btn
     width 100%
     margin-right 1.5rem
     margin-bottom 1rem
@@ -90,15 +90,15 @@ export default {
       margin-bottom 0
 
 @media screen and (min-width: 768px)
-  .ni-modal-error__icon i.material-icons
+  .ti-modal-error__icon i.material-icons
     font-size 20vw + 20vh
 
-  .ni-modal-error__body
+  .ti-modal-error__body
     margin-bottom 4.5rem
 
-  .ni-modal-error__footer
+  .ti-modal-error__footer
     min-width 31rem
 
-  .ni-modal-error__footer .ni-btn
+  .ti-modal-error__footer .ti-btn
     margin-bottom 0
 </style>

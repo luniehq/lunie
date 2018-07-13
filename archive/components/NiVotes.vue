@@ -1,5 +1,5 @@
 <template lang='pug'>
-.ni-votes(:class="cssClass" @click='vote')
+.ti-votes(:class="cssClass" @click='vote')
   .btn-vote.btn-vote-yea: i.material-icons expand_less
   .value {{ votes }}
 </template>
@@ -8,7 +8,7 @@
 import { mapGetters } from "vuex"
 // import {countVotes} from '../../scripts/votes'
 export default {
-  name: "ni-votes",
+  name: "ti-votes",
   computed: {
     ...mapGetters(["user"]),
     votes() {
@@ -21,12 +21,12 @@ export default {
     cssClass() {
       let value = ""
       if (this.orientation === "hz") {
-        value = "ni-votes-hz"
+        value = "ti-votes-hz"
       } else {
-        value = "ni-votes-vt"
+        value = "ti-votes-vt"
       }
       if (this.userVoted) {
-        value += " ni-votes-voted"
+        value += " ti-votes-voted"
       }
       return value
     }
@@ -54,15 +54,14 @@ export default {
 <style lang='stylus'>
 @require '~variables'
 
-.ni-votes
+.ti-votes
   position relative
   display flex
   cursor pointer
 
-  &.ni-votes-vt
+  &.ti-votes-vt
     width 3rem
     height 5rem
-
     flex-flow column
     align-items center
     justify-content center
@@ -75,6 +74,7 @@ export default {
       height 1rem
       background app-fg
       margin-bottom 0.25rem
+
       i.material-icons
         font-size lg
 
@@ -83,7 +83,7 @@ export default {
       font-weight 500
       min-width 1.75rem
 
-  &.ni-votes-hz
+  &.ti-votes-hz
     flex-flow row
     width 3rem
     height 1.5rem
@@ -97,17 +97,18 @@ export default {
       justify-content center
       width 1.5rem
       color link
+
     .value
       width 1.5rem
       text-align center
       font-size sm
       font-weight bold
 
-  &.ni-votes-voted
+  &.ti-votes-voted
     .btn-vote, .value
       color mc
 
-  &:not(.ni-votes-voted):hover
+  &:not(.ti-votes-voted):hover
     .btn-vote
       background mc
       color app-bg
