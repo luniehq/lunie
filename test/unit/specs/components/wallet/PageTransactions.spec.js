@@ -15,9 +15,6 @@ describe("PageTransactions", () => {
     wrapper = instance.wrapper
     store = instance.store
 
-    jest.mock("axios", () => ({
-      get: () => mockTransactions
-    }))
     store.commit("setWalletAddress", "tb1d4u5zerywfjhxuc9nudvw")
     store.commit("setWalletHistory", mockTransactions)
 
@@ -34,9 +31,20 @@ describe("PageTransactions", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it("should show the search on click", () => {
-    wrapper.find(".tm-tool-bar i").trigger("click")
+  it("should show the search", () => {
+    wrapper
+      .findAll(".tm-tool-bar i")
+      .at(1)
+      .trigger("click")
     expect(wrapper.contains(".tm-modal-search")).toBe(true)
+  })
+
+  it("should refresh the transaction history", () => {
+    wrapper
+      .findAll(".tm-tool-bar i")
+      .at(0)
+      .trigger("click")
+    expect(store.dispatch).toHaveBeenCalledWith("queryWalletHistory")
   })
 
   it("should show transactions", () => {
