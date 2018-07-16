@@ -50,6 +50,10 @@ export default {
         console.log("1 - moment", moment)
         console.log("1 - now", moment().format())
         console.log("1 - time", this.block.header.time)
+        console.log(
+          moment(this.block.header.time).format("MMMM Do YYYY — hh:mm:ss")
+        )
+
         return moment(this.block.header.time).format("MMMM Do YYYY — hh:mm:ss")
       } else {
         return "Loading..."
