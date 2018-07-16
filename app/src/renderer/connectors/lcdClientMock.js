@@ -40,89 +40,78 @@ let state = {
       sequence: 1
     }
   },
-  txs: [
-    {
-      tx: {
-        hash: "x",
-        inputs: [
-          {
-            denom: "mycoin",
-            amount: 1000
-          },
-          {
-            denom: "fermion",
-            amount: 2300
-          }
-        ]
-      }
-    }
-  ],
   nonces: { [addresses[0]]: 0 },
   txs: [
     {
       tx: {
         value: {
-          msg: {
-            value: {
-              inputs: [
-                {
-                  coins: [
-                    {
-                      denom: "jbcoins",
-                      amount: 1234
-                    }
-                  ],
-                  address: makeAddress()
-                }
-              ],
-              outputs: [
-                {
-                  coins: [
-                    {
-                      denom: "jbcoins",
-                      amount: 1234
-                    }
-                  ],
-                  address: addresses[0]
-                }
-              ]
+          msg: [
+            {
+              value: {
+                inputs: [
+                  {
+                    coins: [
+                      {
+                        denom: "jbcoins",
+                        amount: 1234
+                      }
+                    ],
+                    address: makeAddress()
+                  }
+                ],
+                outputs: [
+                  {
+                    coins: [
+                      {
+                        denom: "jbcoins",
+                        amount: 1234
+                      }
+                    ],
+                    address: addresses[0]
+                  }
+                ]
+              }
             }
-          }
+          ]
         }
       },
+      hash: "999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A",
       height: 1
     },
     {
       tx: {
         value: {
-          msg: {
-            value: {
-              inputs: [
-                {
-                  coins: [
-                    {
-                      denom: "fabocoins",
-                      amount: 1234
-                    }
-                  ],
-                  address: addresses[0]
-                }
-              ],
-              outputs: [
-                {
-                  coins: [
-                    {
-                      denom: "fabocoins",
-                      amount: 1234
-                    }
-                  ],
-                  address: makeAddress()
-                }
-              ]
+          msg: [
+            {
+              value: {
+                inputs: [
+                  {
+                    coins: [
+                      {
+                        denom: "fabocoins",
+                        amount: 1234
+                      }
+                    ],
+                    address: addresses[0]
+                  }
+                ],
+                outputs: [
+                  {
+                    coins: [
+                      {
+                        denom: "fabocoins",
+                        amount: 1234
+                      }
+                    ],
+                    address: makeAddress()
+                  }
+                ]
+              }
             }
-          }
+          ]
         }
       },
+      hash: "A7C6DE5CA923AF08E6088F1348047F16BABB9F48",
       height: 150
     }
   ],
@@ -192,16 +181,16 @@ module.exports = {
 
   // keys
   async generateSeed() {
-    return "grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon"
+    return "grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon grace admit inherit female grant pledge shine inquiry"
   },
-  async storeKey({ name, password }) {
+  async storeKey({ name, password, seed }) {
     let key = {
       name,
       password,
       address: makeAddress()
     }
     state.keys.push(key)
-    return key.address
+    return { name, password, seed, address: key.address }
   },
   async listKeys() {
     return state.keys.map(k => ({
@@ -237,8 +226,12 @@ module.exports = {
   async txs(address) {
     return state.txs.filter(tx => {
       return (
-        tx.tx.value.msg.value.inputs.find(input => input.address === address) ||
-        tx.tx.value.msg.value.outputs.find(output => output.address === address)
+        tx.tx.value.msg[0].value.inputs.find(
+          input => input.address === address
+        ) ||
+        tx.tx.value.msg[0].value.outputs.find(
+          output => output.address === address
+        )
       )
     })
   },
@@ -433,24 +426,27 @@ function send(to, from, req) {
   state.txs.push({
     tx: {
       value: {
-        msg: {
-          value: {
-            inputs: [
-              {
-                coins: req.amount,
-                address: from
-              }
-            ],
-            outputs: [
-              {
-                coins: req.amount,
-                address: to
-              }
-            ]
+        msg: [
+          {
+            value: {
+              inputs: [
+                {
+                  coins: req.amount,
+                  address: from
+                }
+              ],
+              outputs: [
+                {
+                  coins: req.amount,
+                  address: to
+                }
+              ]
+            }
           }
-        }
+        ]
       }
     },
+    hash: makeAddress(),
     height: getHeight() + (from === botAddress ? 1 : 0),
     time: Date.now()
   })

@@ -37,7 +37,7 @@ export default {
   name: "tm-li-tx",
   computed: {
     transactionValue() {
-      return this.transaction.tx.value.msg.value
+      return this.transaction.tx.value.msg[0].value
     },
     // HERE FOR DOCUMENTATION
     // transactionHeight() {

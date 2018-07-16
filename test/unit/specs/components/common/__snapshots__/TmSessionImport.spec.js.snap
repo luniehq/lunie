@@ -48,7 +48,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
          <!---->
          <label for=\\"import-seed\\" class=\\"tm-form-group__label\\">Seed Phrase</label>
          <div class=\\"tm-form-group__field\\">
-            <textarea class=\\"tm-field-seed tm-field\\" id=\\"import-seed\\" placeholder=\\"Must be exactly 16 words\\" style=\\"overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;\\"></textarea>
+            <textarea class=\\"tm-field-seed tm-field\\" id=\\"import-seed\\" placeholder=\\"Must be exactly 24 words\\" style=\\"overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;\\"></textarea>
             <div class=\\"tm-form-msg sm tm-form-msg--error\\">
                Seed is required
             </div>
