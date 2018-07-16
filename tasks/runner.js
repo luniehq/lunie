@@ -89,7 +89,7 @@ module.exports = async function(networkPath) {
   )
 
   // terminate running processes on exit of main process
-  mainProcess.on("exit", async code => {
+  mainProcess.on("exit", async () => {
     await cleanExitChild(renderProcess)
     // webpack-dev-server spins up an own process we have no access to. so we kill all processes on our port
     process.exit(0)

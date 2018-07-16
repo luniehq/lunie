@@ -87,7 +87,7 @@ describe("Addressbook", () => {
 
   it("should throw an error if there are no nodes available", async done => {
     jest.doMock("axios", () => ({
-      get: async url => {
+      get: async () => {
         return Promise.reject()
       }
     }))
@@ -105,7 +105,7 @@ describe("Addressbook", () => {
 
   it("should query peers on connecting to a node", async () => {
     jest.doMock("axios", () => ({
-      get: async url => ({
+      get: async () => ({
         data: { result: { peers: [] } }
       })
     }))
@@ -121,7 +121,7 @@ describe("Addressbook", () => {
 
   it("should query and store peers of connected node", async () => {
     jest.doMock("axios", () => ({
-      get: async url => ({
+      get: async () => ({
         data: {
           result: {
             peers: [
@@ -190,7 +190,7 @@ describe("Addressbook", () => {
       persistent_peers: ["http://123.456.123.456"],
       onConnectionMessage: spy
     })
-    let node = await addressbook.pickNode()
+    await addressbook.pickNode()
     expect(spy).toHaveBeenCalled()
   })
 })

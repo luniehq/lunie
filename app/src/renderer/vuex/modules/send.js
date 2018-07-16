@@ -1,6 +1,4 @@
-import { sleep } from "scripts/common.js"
-
-export default ({ commit, node }) => {
+export default ({ node }) => {
   let lock = null
 
   let state = {

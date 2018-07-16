@@ -80,7 +80,7 @@ export default {
     voteVisible: false
   }),
   methods: {
-    vote(choice, $event) {
+    vote(choice) {
       this.votePick = choice
     },
     confirmVote() {

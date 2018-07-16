@@ -16,7 +16,7 @@ export default function vuexSetup() {
   function init(
     componentConstructor,
     testType = shallow,
-    { stubs, getters = {}, propsData, doBefore = ({ store, router }) => {} }
+    { stubs, getters = {}, propsData, doBefore = () => {} } // doBefore receives router and store
   ) {
     const node = Object.assign({}, require("../helpers/node_mock"))
     const modules = Modules({ node })
@@ -36,7 +36,7 @@ export default function vuexSetup() {
     const routes = routesConstructor(store)
     let router = new VueRouter({ routes })
     router.beforeEach((to, from, next) => {
-      if (from.fullPath !== to.fullPath)
+      if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)
         store.commit("addHistory", from.fullPath)
       next()
     })

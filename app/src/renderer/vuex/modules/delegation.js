@@ -1,4 +1,4 @@
-export default ({ commit, node }) => {
+export default ({ node }) => {
   let state = {
     loading: false,
 

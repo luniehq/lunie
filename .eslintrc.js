@@ -13,6 +13,8 @@ module.exports = {
   plugins: ["html"],
   rules: {
     // allow debugger during development
-    "no-debugger": process.env.NODE_ENV === "production" ? 2 : 0
+    "no-debugger": process.env.NODE_ENV === "production" ? 2 : 0,
+    "no-undef": "error",
+    "no-unused-vars": "error"
   }
 }

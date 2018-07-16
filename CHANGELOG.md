@@ -12,16 +12,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Indicate if a validator has been revoked in the Staking UI @mappum
 * Information about current connection attempts @faboweb
 * Release published on GitHub now including changes from CHANGELOG. @NodeGuy
+* Added ESLint errors: no-undef and no-unused-vars. @NodeGuy
+* Modal when a node doesn't signal any new blocks @faboweb
 
 ### Changed
 
 * Copy the network configuration only during local builds. @NodeGuy
 * Ignoring the potential local-testnet folder that is used in the README for local testnets @faboweb
 * Moved to SDK v0.20.0 @faboweb
+* Using vue-jest for transpiling in tests for better code coverage output @faboweb
 
 ### Fixed
 
 * Voyager hanging after reloading in development mode @faboweb
+* Bad Boy Back Button Back @okwme
 * Unable to bond just to already bonded candidates @faboweb
 * Staking tokens showing NaN @faboweb
 * Staking page showing old shares after bonding @faboweb

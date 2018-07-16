@@ -109,7 +109,7 @@ describe("LCD Client Mock", () => {
       password: "1234567890",
       seed_phrase: "seed some thin"
     })
-    let tx = await client.send(toAddr, {
+    await client.send(toAddr, {
       sequence: 1,
       name: "default",
       fees: [],
@@ -394,6 +394,11 @@ describe("LCD Client Mock", () => {
   })
 
   it("errors when delegating with nonexistent account", async () => {
+    client.state.keys.push({
+      name: "nonexistent_account",
+      password: "1234567890",
+      address: lcdClientMock.addresses[1]
+    })
     let res = await client.updateDelegations({
       sequence: 1,
       name: "nonexistent_account",

@@ -1,4 +1,4 @@
-export default ({ dispatch, node }) => {
+export default ({ node }) => {
   const state = {
     delegates: [],
     loading: false
@@ -31,12 +31,12 @@ export default ({ dispatch, node }) => {
   }
 
   const actions = {
-    reconnected({ state, commit, dispatch }) {
+    reconnected({ state, dispatch }) {
       if (state.loading) {
         dispatch("getDelegates")
       }
     },
-    async getDelegates({ state, dispatch, commit, rootState }) {
+    async getDelegates({ state, commit }) {
       commit("setDelegateLoading", true)
       let delegates = await node.candidates()
       let { validators } = await node.getValidators()

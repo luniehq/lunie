@@ -19,11 +19,6 @@ let state = {
       name: "default",
       password: "1234567890",
       address: addresses[0]
-    },
-    {
-      name: "nonexistent_account",
-      password: "1234567890",
-      address: addresses[1]
     }
   ],
   accounts: {
@@ -188,7 +183,7 @@ module.exports = {
   async generateSeed() {
     return "grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon grace admit inherit female grant pledge shine inquiry"
   },
-  async storeKey({ name, password, seed }) {
+  async storeKey({ name, password }) {
     let key = {
       name,
       password,
@@ -240,7 +235,7 @@ module.exports = {
       )
     })
   },
-  async tx(hash) {
+  async tx() {
     return {}
   },
   async send(to, req) {
