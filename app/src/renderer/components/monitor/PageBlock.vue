@@ -47,6 +47,9 @@ export default {
     },
     blockHeaderTime() {
       if (this.block.header) {
+        console.log("1 - moment", moment)
+        console.log("1 - now", moment().format())
+        console.log("1 - time", this.block.header.time)
         return moment(this.block.header.time).format("MMMM Do YYYY — hh:mm:ss")
       } else {
         return "Loading..."

@@ -25,9 +25,9 @@
     node-fetch "^2.1.1"
     url-template "^2.0.8"
 
-"@tendermint/ui@0.2.12":
+"@tendermint/ui@git+ssh://git@github.com/tendermint/ui.git#billy/test-time":
   version "0.2.12"
-  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.12.tgz#469b361b994e6204c3dcbf5e2281ba53d4212c6b"
+  resolved "git+ssh://git@github.com/tendermint/ui.git#0be6249940cee21dafae0456abc5e9243e48b9f1"
   dependencies:
     axios "^0.18.0"
     cookieconsent "^3.0.6"
@@ -35,6 +35,7 @@
     markdown-it "^8.4.1"
     markdown-it-anchor "^5.0.2"
     moment "^2.22.2"
+    moment-timezone "^0.5.21"
     numeral "^2.0.6"
     perfect-scrollbar "^1.4.0"
     vue "^2.5.16"
@@ -5007,6 +5008,12 @@ mksnapshot@^0.3.0:
 moment-timezone@0.5.16:
   version "0.5.16"
   resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.16.tgz#661717d5f55b4d2c2e002262d726c83785192a5a"
+  dependencies:
+    moment ">= 2.9.0"
+
+moment-timezone@^0.5.21:
+  version "0.5.21"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.21.tgz#3cba247d84492174dbf71de2a9848fa13207b845"
   dependencies:
     moment ">= 2.9.0"
 
