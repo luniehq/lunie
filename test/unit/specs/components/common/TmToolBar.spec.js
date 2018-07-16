@@ -2,7 +2,7 @@ import setup from "../../../helpers/vuex-setup"
 import TmToolBar from "common/TmToolBar"
 
 describe("TmToolBar", () => {
-  let wrapper, store, instance, router
+  let wrapper, store, router
   let { mount } = setup()
 
   beforeEach(() => {
