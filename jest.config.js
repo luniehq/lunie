@@ -16,8 +16,8 @@ module.exports = {
   },
 
   transform: {
-    ".*\\.vue$": "<rootDir>/node_modules/jest-vue-preprocessor",
-    ".*\\.js$": "<rootDir>/node_modules/babel-jest"
+    ".*\\.js$": "<rootDir>/node_modules/babel-jest",
+    ".*\\.vue$": "<rootDir>/node_modules/vue-jest"
   },
 
   transformIgnorePatterns: ["node_modules/(?!@tendermint/ui|.*vue)"],

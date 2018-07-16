@@ -1,6 +1,9 @@
 import { setTimeout } from "timers"
-import { ipcRenderer } from "electron"
+import { ipcRenderer, remote } from "electron"
 import { sleep } from "scripts/common.js"
+
+const config = remote.getGlobal("config")
+const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 
 export default function({ node }) {
   // get tendermint RPC client from basecoin client
@@ -87,8 +90,19 @@ export default function({ node }) {
           dispatch("setLastHeader", event.data.value.header)
         }
       )
-
+      dispatch("checkNodeHalted")
       dispatch("pollRPCConnection")
+    },
+    checkNodeHalted({ state, dispatch }) {
+      state.nodeHaltedTimeout = setTimeout(() => {
+        if (!state.lastHeader.height) {
+          dispatch("nodeHasHalted")
+        }
+      }, NODE_HALTED_TIMEOUT) // default 30s
+    },
+    nodeHasHalted({ commit }) {
+      clearTimeout(state.nodeHaltedTimeout)
+      commit("setModalNodeHalted", true)
     },
     async checkConnection({ commit }) {
       let error = () =>
