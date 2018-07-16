@@ -87,7 +87,7 @@ exports[`PageBlock has the expected html structure 1`] = `
             Time
          </div>
       <div class=\\"tm-li-dd\\">
-         January 5th 1988 — 09:00:00
+         January 1st 1970 — 01:00:00
       </div>
 </div>
 </div>
