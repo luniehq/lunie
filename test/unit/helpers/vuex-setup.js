@@ -16,7 +16,7 @@ export default function vuexSetup() {
   function init(
     componentConstructor,
     testType = shallow,
-    { stubs, getters = {}, propsData, doBefore = ({ store, router }) => {} }
+    { stubs, getters = {}, propsData, doBefore = ({}) => {} } // doBefore gets store and router as parameters
   ) {
     const node = Object.assign({}, require("../helpers/node_mock"))
     const modules = Modules({ node })

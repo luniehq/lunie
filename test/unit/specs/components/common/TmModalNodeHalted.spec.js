@@ -3,7 +3,7 @@ import setup from "../../../helpers/vuex-setup"
 
 describe("TmModalNodeHalted", () => {
   let wrapper, store
-  let { mount, localVue } = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
     let instance = mount(TmModalNodeHalted)
