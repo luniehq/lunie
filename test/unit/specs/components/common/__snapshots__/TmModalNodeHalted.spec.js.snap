@@ -2,13 +2,13 @@
 
 exports[`TmModalNodeHalted has the expected html structure 1`] = `
 <div
-  class="ti-modal-error__wrapper"
+  class="tm-modal-error__wrapper"
 >
   <div
-    class="ti-modal-error"
+    class="tm-modal-error"
   >
     <div
-      class="ti-modal-error__icon"
+      class="tm-modal-error__icon"
     >
       <i
         class="material-icons"
@@ -17,21 +17,21 @@ exports[`TmModalNodeHalted has the expected html structure 1`] = `
       </i>
     </div>
     <div
-      class="ti-modal-error__title"
+      class="tm-modal-error__title"
     >
       Node has halted
     </div>
     <div
-      class="ti-modal-error__body"
+      class="tm-modal-error__body"
     >
       The node your are connected to appears to have halted. You can try to connect to another node or switch to a demo connection so you can try out Voyager.
     </div>
     <div
-      class="ti-modal-error__footer"
+      class="tm-modal-error__footer"
     >
       <button
         class="tm-btn"
-        id="ti-modal-error__btn-retry"
+        id="tm-modal-error__btn-retry"
       >
         <span
           class="tm-btn__container tm-btn--size-lg tm-btn--primary"
@@ -52,7 +52,7 @@ exports[`TmModalNodeHalted has the expected html structure 1`] = `
       </button>
       <button
         class="tm-btn"
-        id="ti-modal-error__btn-mock"
+        id="tm-modal-error__btn-mock"
       >
         <span
           class="tm-btn__container tm-btn--size-lg"

@@ -1,5 +1,5 @@
 <template lang='pug'>
-.ti-votes(:class="cssClass" @click='vote')
+.tm-votes(:class="cssClass" @click='vote')
   .btn-vote.btn-vote-yea: i.material-icons expand_less
   .value {{ votes }}
 </template>
@@ -8,7 +8,7 @@
 import { mapGetters } from "vuex"
 // import {countVotes} from '../../scripts/votes'
 export default {
-  name: "ti-votes",
+  name: "tm-votes",
   computed: {
     ...mapGetters(["user"]),
     votes() {
@@ -21,12 +21,12 @@ export default {
     cssClass() {
       let value = ""
       if (this.orientation === "hz") {
-        value = "ti-votes-hz"
+        value = "tm-votes-hz"
       } else {
-        value = "ti-votes-vt"
+        value = "tm-votes-vt"
       }
       if (this.userVoted) {
-        value += " ti-votes-voted"
+        value += " tm-votes-voted"
       }
       return value
     }
@@ -54,12 +54,12 @@ export default {
 <style lang='stylus'>
 @require '~variables'
 
-.ti-votes
+.tm-votes
   position relative
   display flex
   cursor pointer
 
-  &.ti-votes-vt
+  &.tm-votes-vt
     width 3rem
     height 5rem
     flex-flow column
@@ -83,7 +83,7 @@ export default {
       font-weight 500
       min-width 1.75rem
 
-  &.ti-votes-hz
+  &.tm-votes-hz
     flex-flow row
     width 3rem
     height 1.5rem
@@ -104,11 +104,11 @@ export default {
       font-size sm
       font-weight bold
 
-  &.ti-votes-voted
+  &.tm-votes-voted
     .btn-vote, .value
       color mc
 
-  &:not(.ti-votes-voted):hover
+  &:not(.tm-votes-voted):hover
     .btn-vote
       background mc
       color app-bg

@@ -1,19 +1,19 @@
 <template lang="pug">
-.ti-tag(:class="cssClass") {{ value }}
+.tm-tag(:class="cssClass") {{ value }}
 </template>
 
 <script>
 export default {
-  name: "ti-tag",
+  name: "tm-tag",
   computed: {
     cssClass() {
-      let value = "ti-tag"
+      let value = "tm-tag"
       if (this.size === "lg") {
-        value += " ti-tag-lg"
+        value += " tm-tag-lg"
       } else if (this.size === "sm") {
-        value += " ti-tag-sm"
+        value += " tm-tag-sm"
       } else {
-        value += " ti-tag-df"
+        value += " tm-tag-df"
       }
       return value
     }
@@ -25,18 +25,18 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.ti-tag
+.tm-tag
   background app-fg
   color dim
 
   &:empty
     display none
 
-  &.ti-tag-df
+  &.tm-tag-df
     padding 0 0.5rem
     line-height 2rem
 
-  &.ti-tag-sm
+  &.tm-tag-sm
     border none
     vertical-align text-top
     font-size sm

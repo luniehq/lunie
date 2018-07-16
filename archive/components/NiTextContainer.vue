@@ -1,6 +1,6 @@
 <template>
-  <div class="ti-text">
-    <div class="ti-text-container">
+  <div class="tm-text">
+    <div class="tm-text-container">
       <slot></slot>
     </div>
   </div>
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: "ti-text",
+  name: "tm-text",
   props: ["content"]
 }
 </script>
@@ -16,7 +16,7 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.ti-text
+.tm-text
   hr
     border none
     border-top px solid bc
@@ -161,7 +161,7 @@ export default {
     & + h2
       margin-top 1.5rem
 
-.ti-text-container
+.tm-text-container
   padding 1rem
   margin-left auto
   margin-right auto
@@ -171,8 +171,8 @@ export default {
   font-weight 400
   color txt
 
-.ti-text
-  p, hr, ul, ol, table, pre, figcaption, blockquote, img, iframe, .ti-btn
+.tm-text
+  p, hr, ul, ol, table, pre, figcaption, blockquote, img, iframe, .tm-btn
     margin-bottom 1.5em
 
   p code:before, p code:after
@@ -217,7 +217,7 @@ export default {
         margin-bottom 0
 
 @media screen and (min-width: 768px)
-  .ti-text
+  .tm-text
     pre
       margin-left 0
       margin-right 0
@@ -236,13 +236,13 @@ export default {
 sbw = 20rem
 
 @media screen and (min-width: 1024px)
-  .ti-text-container
+  .tm-text-container
     margin 0
     max-width 100%
     padding-left 0
     padding-right 0
 
-  .ti-text
+  .tm-text
     h2, h2:not(:first-child)
       border-top px solid bc
       padding-top 1.5rem
@@ -271,8 +271,8 @@ sbw = 20rem
       border-top px solid bc
       padding-top 1.5rem
 
-  .ti-text-container
-    h3, h4, h5, h6, p, ul, ol, pre, blockquote, .ti-btn, iframe, > div
+  .tm-text-container
+    h3, h4, h5, h6, p, ul, ol, pre, blockquote, .tm-btn, iframe, > div
       margin-left sbw
       padding-left 0
 

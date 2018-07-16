@@ -53,9 +53,9 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-#li-solo-power .ti-li-dd
+#li-solo-power .tm-li-dd
   color mc
 
-#li-delegated-power .ti-li-dd
+#li-delegated-power .tm-li-dd
   color accent
 </style>

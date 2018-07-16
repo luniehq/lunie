@@ -1,23 +1,23 @@
 <template lang="pug">
-.ti-cards: slot
+.tm-cards: slot
 </template>
 
 <script>
 export default {
-  name: "ti-cards"
+  name: "tm-cards"
 }
 </script>
 
 <style lang="stylus">
 @import '~variables'
 
-.ti-cards
+.tm-cards
   display flex
   flex-flow column nowrap
   padding 0.125rem
   margin 0 -0.25rem
 
 @media screen and (min-width: 768px)
-  .ti-cards
+  .tm-cards
     flex-flow row wrap
 </style>
