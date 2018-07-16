@@ -14,10 +14,11 @@ tm-page(:title="pageBlockTitle")
         :event="nextBlockAvailable ? 'click' : ''"
         v-tooltip.bottom="'Newer Block'")
         i.material-icons chevron_right
-    tm-block(:blockMeta="blockMeta", :block="block", :loading="blockchain.blockLoading", :txs="txs")
+    tm-block(:blockMeta="blockMeta" :blockHeaderTime="blockHeaderTime" :block="block", :loading="blockchain.blockLoading", :txs="txs")
 </template>
 
 <script>
+import moment from "moment"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import ToolBar from "common/TmToolBar"
@@ -43,6 +44,13 @@ export default {
     },
     block() {
       return this.blockchain.block
+    },
+    blockHeaderTime() {
+      if (this.block.header) {
+        return moment(this.block.header.time).format("MMMM Do YYYY — hh:mm:ss")
+      } else {
+        return "Loading..."
+      }
     },
     blockMeta() {
       return this.blockchain.blockMetaInfo
