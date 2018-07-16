@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LCD Client queries for shares for a validator and delegate 1`] = `
+Array [
+  Array [
+    "http://localhost:8998/stake/abc/delegation/efg",
+    undefined,
+  ],
+]
+`;

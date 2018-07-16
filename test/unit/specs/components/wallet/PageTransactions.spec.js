@@ -66,6 +66,15 @@ describe("PageTransactions", () => {
     expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([3466])
   })
 
+  it("should refresh the transactions on click", () => {
+    wrapper
+      .findAll(".tm-tool-bar i")
+      .at(0)
+      .trigger("click")
+
+    expect(store.dispatch).toHaveBeenCalledWith("queryWalletHistory")
+  })
+
   it("should update 'somethingToSearch' when there's nothing to search", () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
     store.commit("setWalletHistory", [])
