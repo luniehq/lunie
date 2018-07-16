@@ -7,7 +7,6 @@ let { join } = require("path")
 let { spawn } = require("child_process")
 let fs = require("fs-extra")
 
-const networkPath = join(__dirname, "localtestnet")
 const testDir = join(__dirname, "../../testArtifacts")
 
 let app, cliHome, nodeHome, started, crashed
@@ -42,6 +41,7 @@ function launch(t) {
       const initValues = await initLocalNode()
       await startLocalNode()
       console.log(`Started local node.`)
+      await saveVersion()
 
       app = new Application({
         path: electron,
@@ -59,7 +59,7 @@ function launch(t) {
           PREVIEW: "true",
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
           COSMOS_HOME: cliHome,
-          COSMOS_NETWORK: networkPath,
+          COSMOS_NETWORK: join(nodeHome, "config"),
           COSMOS_MOCKED: false, // the e2e tests expect mocking to be switched off
           BINARY_PATH: binary
         }
@@ -248,6 +248,28 @@ function initLocalNode() {
     })
 
     localnodeProcess.once("exit", reject)
+  })
+}
+
+// save the version of the currently used gaia into the newly created network config folder
+function saveVersion() {
+  return new Promise((resolve, reject) => {
+    let versionFilePath = join(nodeHome, "config", "basecoindversion.txt") // nodeHome/config is used to copy created config files from, therefor we copy the version file in there
+    const command = `${nodeBinary} version`
+    console.log(command, ">", versionFilePath)
+    let child = spawn(command, { shell: true })
+    child.stderr.pipe(process.stderr)
+    child.stdout.once("data", data => {
+      let msg = data.toString()
+
+      if (!msg.includes("Failed") && !msg.includes("Error")) {
+        fs.ensureFileSync(versionFilePath)
+        fs.writeFileSync(versionFilePath, msg, "utf8")
+        resolve()
+      } else {
+        reject(msg)
+      }
+    })
   })
 }
 
