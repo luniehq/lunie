@@ -35,7 +35,11 @@ describe("PageTransactions", () => {
   })
 
   it("should show the search on click", () => {
-    wrapper.find(".tm-tool-bar i").trigger("click")
+    wrapper
+      .findAll(".tm-tool-bar i")
+      .at(1)
+      .trigger("click")
+    wrapper.update()
     expect(wrapper.contains(".tm-modal-search")).toBe(true)
   })
 

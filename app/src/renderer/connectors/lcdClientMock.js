@@ -1,6 +1,6 @@
 "use strict"
 const b32 = require("../scripts/b32.js")
-const { getHeight, makeBlockHash } = require("./rpcWrapperMock.js")
+const { getHeight } = require("./rpcWrapperMock.js")
 
 const botAddress = "cosmosaccaddr1p6zajjw6xged056andyhn62lm7axwzyspkzjq0"
 const addresses = [
@@ -183,7 +183,7 @@ module.exports = {
   async generateSeed() {
     return "grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon grace admit inherit female grant pledge shine inquiry"
   },
-  async storeKey({ name, password }) {
+  async storeKey({ name, password, seed }) {
     let key = {
       name,
       password,
@@ -446,7 +446,7 @@ function send(to, from, req) {
         ]
       }
     },
-    hash: makeBlockHash(),
+    hash: makeAddress(),
     height: getHeight() + (from === botAddress ? 1 : 0),
     time: Date.now()
   })
