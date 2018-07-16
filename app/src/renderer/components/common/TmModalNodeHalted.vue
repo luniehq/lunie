@@ -20,7 +20,6 @@
 
 <script>
 import { ipcRenderer } from "electron"
-import { mapGetters } from "vuex"
 import { TmBtn } from "@tendermint/ui"
 export default {
   name: "modal-node-halted",
