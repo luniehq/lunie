@@ -13,12 +13,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Information about current connection attempts @faboweb
 * Release published on GitHub now including changes from CHANGELOG. @NodeGuy
 * Added ESLint errors: no-undef and no-unused-vars. @NodeGuy
+* Modal when a node doesn't signal any new blocks @faboweb
 
 ### Changed
 
 * Copy the network configuration only during local builds. @NodeGuy
 * Ignoring the potential local-testnet folder that is used in the README for local testnets @faboweb
 * Extracted components into @tendermint/ui for use in explorer @okwme
+* Using vue-jest for transpiling in tests for better code coverage output @faboweb
+
 
 ### Fixed
 

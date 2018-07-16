@@ -45,7 +45,8 @@ export default ({ node }) => {
       await dispatch("loadAccounts")
     },
     async showInitialScreen({ dispatch, commit }) {
-      commit("clearHistory")
+      dispatch("resetSessionData")
+
       await dispatch("loadAccounts")
       let exists = state.accounts.length > 0
       let screen = exists ? "sign-in" : "welcome"
@@ -109,6 +110,10 @@ export default ({ node }) => {
 
       commit("setModalSession", true)
       dispatch("showInitialScreen")
+    },
+    resetSessionData({ commit }) {
+      commit("clearHistory")
+      commit("setActiveMenu", "")
     },
     loadErrorCollection({ state, dispatch }, account) {
       let errorCollection =

@@ -6,6 +6,11 @@ describe("TmSessionLoading", () => {
   let wrapper
 
   beforeEach(() => {
+    require("electron").ipcRenderer.on = (event, cb) => {
+      if (event === "connection-status") {
+        cb(null, "HALLO WORLD")
+      }
+    }
     wrapper = mount(TmSessionLoading)
   })
 
@@ -14,15 +19,6 @@ describe("TmSessionLoading", () => {
   })
 
   it("should show connection status", () => {
-    require("electron").ipcRenderer.on = (event, cb) => {
-      console.log("alled", event)
-      if (event === "connection-status") {
-        cb(null, "HALLO WORLD")
-      }
-    }
-
-    const TmSessionLoading = require("common/TmSessionLoading")
-    wrapper = mount(TmSessionLoading)
     wrapper.update()
     expect(wrapper.html()).toContain("HALLO WORLD")
   })
