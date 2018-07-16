@@ -19,7 +19,6 @@ tm-page(:title="pageBlockTitle")
 
 <script>
 import { mapGetters } from "vuex"
-import moment from "moment"
 import num from "scripts/num"
 import ToolBar from "common/TmToolBar"
 import { TmPage, TmDataEmpty, TmDataLoading, TmBlock } from "@tendermint/ui"
