@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Unable to bond just to already bonded candidates @faboweb
 * Staking tokens showing NaN @faboweb
 * Staking page showing old shares after bonding @faboweb
+* Made linting work on Windows. @NodeGuy
 
 ## [0.7.1] - 2018-07-04
 
