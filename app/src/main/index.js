@@ -571,7 +571,8 @@ async function main() {
       )
     ) {
       let existingVersion = fs.readFileSync(appVersionPath, "utf8").trim()
-      let compatible = semver.diff(existingVersion, pkg.version) !== "major"
+      let semverDiff = semver.diff(existingVersion, pkg.version)
+      let compatible = semverDiff !== "major" && semverDiff !== "minor"
       if (compatible) {
         log("configs are compatible with current app version")
         init = false
