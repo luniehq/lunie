@@ -36,6 +36,10 @@ describe("Module: Send", () => {
       node.ibcSend = jest.fn(node.ibcSend)
       await store.dispatch("signIn", { account, password })
       await store.commit("setAccountNumber", 123)
+      store.dispatch("setLastHeader", {
+        height: 5,
+        chain_id: "test-chain"
+      })
     })
 
     it("should send from wallet", async () => {

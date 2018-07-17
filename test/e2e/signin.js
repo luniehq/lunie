@@ -288,7 +288,7 @@ test("sign in", async function(t) {
       )
       await seed().click()
       await app.client.keys(
-        "goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon".split()
+        "attack ocean crack fun say lawn display proof tiny traffic light expect gravity citizen split deer family bar mutual clown stage cook awake evoke".split()
       )
       t.ok(
         !(await seed()

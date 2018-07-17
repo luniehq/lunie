@@ -17,7 +17,7 @@ console.log(addresses)
 */
 
 test("wallet", async function(t) {
-  let { app } = await getApp(t)
+  let { app, accounts } = await getApp(t)
   // app.env.COSMOS_MOCKED = false
   await restart(app)
 
@@ -41,7 +41,7 @@ test("wallet", async function(t) {
     async function goToSendPage() {
       await navigate(app, "Wallet")
       await $("#part-available-balances")
-        .$(".tm-li-dt=FERMION")
+        .$(".tm-li-dt=LOCALTOKEN")
         .$("..")
         .$("..")
         .click()
@@ -52,15 +52,15 @@ test("wallet", async function(t) {
     let sendBtn = () => $(".tm-form-footer button")
     let addressInput = () => $("#send-address")
     let amountInput = () => $("#send-amount")
-    let defaultBalance = 9007199254740992
-    t.test("fermion balance before sending", async function(t) {
+    let defaultBalance = 1000
+    t.test("localToken balance before sending", async function(t) {
       await app.client.waitForExist(
         `//span[contains(text(), "Send")]`,
         15 * 1000
       )
 
-      let fermionEl = balanceEl("fermion")
-      waitForText(() => fermionEl, defaultBalance.toString())
+      let localTokenEl = balanceEl("LOCALTOKEN")
+      waitForText(() => localTokenEl, defaultBalance.toString())
       t.end()
     })
 
@@ -137,9 +137,7 @@ test("wallet", async function(t) {
     t.test("send", async function(t) {
       await goToSendPage()
       await amountInput().setValue("100")
-      await addressInput().setValue(
-        "cosmosaccaddr1xrnylx3l5mptnpjd4h0d52wtvealsdnv5k77n8"
-      )
+      await addressInput().setValue(accounts[1].address)
       await sendBtn().click()
       // the confirmation popup will open
       await app.client.$("#send-confirmation-btn").click()
@@ -161,7 +159,7 @@ test("wallet", async function(t) {
       await sleep(1000)
       await app.client.$(".material-icons=refresh").click()
 
-      let mycoinEl = () => balanceEl("fermion")
+      let mycoinEl = () => balanceEl("LOCALTOKEN")
       await waitForText(mycoinEl, (defaultBalance - 100).toString(), 10000)
       t.pass("balance is reduced by 100")
       t.end()
@@ -171,18 +169,18 @@ test("wallet", async function(t) {
   })
 
   t.test("receive", async function(t) {
-    t.test("fermion balance after receiving", async function(t) {
+    t.test("localToken balance after receiving", async function(t) {
       await restart(app)
       await login(app, "testreceiver")
       await navigate(app, "Wallet")
 
-      let fermionEl = () => balanceEl("fermion")
+      let localTokenEl = () => balanceEl("LOCALTOKEN")
       await app.client.waitForExist(
         `//span[contains(text(), "Send")]`,
         15 * 1000
       )
 
-      await waitForText(fermionEl, "100", 5000)
+      await waitForText(localTokenEl, "100", 5000)
       t.pass("received mycoin transaction")
       t.end()
     })

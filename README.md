@@ -169,6 +169,12 @@ Enter your local node as a seed:
 $ sed -i.bak 's/seeds = ""/seeds = "localhost"/g' ./app/networks/local-testnet/config.toml
 ```
 
+Activate TX indexing in your local node:
+
+```bash
+$ sed -i.bak 's/index_all_tags = true/index_all_tags = false/g' ./app/networks/local-testnet/config.toml
+```
+
 Store the gaia version used in your local testnet:
 
 ```bash
