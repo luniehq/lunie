@@ -10,7 +10,7 @@ jobs:
       - checkout
 
       - restore_cache:
-          key: v5-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
+          key: v6-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
 
       # If Gaia isn't in the cache then build it.
       - run: |
@@ -21,7 +21,7 @@ jobs:
           fi
 
       - save_cache:
-          key: v5-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
+          key: v6-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
           paths:
             - ~/target
 
@@ -38,6 +38,9 @@ jobs:
       - checkout
 
       - run: tasks/changelog-changed-check.sh
+
+      - attach_workspace:
+          at: builds/Gaia
 
       - restore_cache:
           keys:
@@ -134,7 +137,9 @@ workflows:
     jobs:
       - buildGaia
 
-      - testUnit
+      - testUnit:
+          requires:
+            - buildGaia
 
       - testE2e:
           requires:
