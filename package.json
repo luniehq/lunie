@@ -35,7 +35,7 @@
     "prepush": "bash ./tasks/changelog-changed-check.sh && yarn lint && yarn test:unit"
   },
   "devDependencies": {
-    "@nodeguy/cli": "0.2.1",
+    "@nodeguy/cli": "0.2.2",
     "@octokit/rest": "15.9.4",
     "babel-core": "6.26.3",
     "babel-eslint": "7.2.3",
