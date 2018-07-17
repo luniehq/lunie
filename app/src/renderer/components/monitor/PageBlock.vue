@@ -14,7 +14,13 @@ tm-page(:title="pageBlockTitle")
         :event="nextBlockAvailable ? 'click' : ''"
         v-tooltip.bottom="'Newer Block'")
         i.material-icons chevron_right
-    tm-block(:blockMeta="blockMeta" :blockHeaderTime="blockHeaderTime" :block="block", :loading="blockchain.blockLoading", :txs="txs")
+    tm-block(
+      :blockMeta="blockMeta",
+      :blockHeaderTime="blockHeaderTime",
+      :block="block",
+      :loading="blockchain.blockLoading",
+      :txs="txs",
+      :currentUser="wallet.address")
 </template>
 
 <script>
@@ -33,7 +39,7 @@ export default {
     TmBlock
   },
   computed: {
-    ...mapGetters(["blockchain", "blockTxInfo", "config"]),
+    ...mapGetters(["blockchain", "blockTxInfo", "config", "wallet"]),
     blockchainHeight() {
       return this.blockchain.blocks.length > 0
         ? this.blockchain.blocks[0].header.height

@@ -66,7 +66,7 @@ export default {
       return this.shoppingCart.find(c => c.id === this.delegate.id)
     },
     userCanDelegate() {
-      return this.user.atoms > 0
+      return this.shoppingCart.length > 0 || this.user.atoms > 0
     },
     delegateType() {
       return this.delegate.revoked

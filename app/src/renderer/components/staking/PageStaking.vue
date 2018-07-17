@@ -105,7 +105,7 @@ export default {
       }
     },
     userCanDelegate() {
-      return this.user.atoms > 0
+      return this.shoppingCart.length > 0 || this.user.atoms > 0
     }
   },
   data: () => ({

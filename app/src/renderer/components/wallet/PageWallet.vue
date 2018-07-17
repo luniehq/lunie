@@ -131,3 +131,15 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+main
+  .tm-li-label
+    max-width calc(100% - 110px)
+
+  .tm-li-title
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+    width 100%
+</style>

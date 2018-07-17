@@ -13,6 +13,7 @@ Array [
   Array [
     Object {
       "account_number": 1,
+      "chain_id": "test-chain",
       "delegate": Array [
         Object {
           "bond": Object {
@@ -23,7 +24,7 @@ Array [
           "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
         },
       ],
-      "gas": 500000,
+      "gas": "500000",
       "name": "default",
       "password": "bar",
       "sequence": 1,

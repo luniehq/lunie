@@ -1,6 +1,8 @@
 <template lang="pug">
 tm-page(title='Transactions')
   div(slot="menu"): tool-bar
+    a(@click='refreshTransactions()' v-tooltip.bottom="'Refresh'")
+      i.material-icons refresh
     a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
       i.material-icons search
 
@@ -66,6 +68,9 @@ export default {
     }
   }),
   methods: {
+    refreshTransactions() {
+      this.$store.dispatch("queryWalletHistory")
+    },
     setSearch(bool = !this.filters["transactions"].search.visible) {
       if (!this.somethingToSearch) return false
       this.$store.commit("setSearchVisible", ["transactions", bool])

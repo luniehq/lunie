@@ -4,31 +4,34 @@ module.exports = [
     height: 3436,
     tx: {
       type: "8EFE47F0625DE8",
-      msg: {
-        type: "EAFDE32A2C87F8",
-        inputs: [
-          {
-            coins: [
-              {
-                denom: "jbcoins",
-                amount: 1234
-              }
-            ],
-            address: "tb1da6xsetjg9jxgun9wdesexv05j"
-          }
-        ],
-        outputs: [
-          {
-            coins: [
-              {
-                denom: "jbcoins",
-                amount: 1234
-              }
-            ],
-            address: "tb1d4u5zerywfjhxuc9nudvw"
-          }
-        ]
-      },
+      msg: [
+        {
+          type: "EAFDE32A2C87F8",
+
+          inputs: [
+            {
+              coins: [
+                {
+                  denom: "jbcoins",
+                  amount: 1234
+                }
+              ],
+              address: "tb1da6xsetjg9jxgun9wdesexv05j"
+            }
+          ],
+          outputs: [
+            {
+              coins: [
+                {
+                  denom: "jbcoins",
+                  amount: 1234
+                }
+              ],
+              address: "tb1d4u5zerywfjhxuc9nudvw"
+            }
+          ]
+        }
+      ],
       fee: {
         amount: [
           {
@@ -38,6 +41,7 @@ module.exports = [
         ],
         gas: 500000
       },
+      gas: 500000,
       signatures: [
         {
           pub_key: {
@@ -74,31 +78,34 @@ module.exports = [
     height: 3438,
     tx: {
       type: "8EFE47F0625DE8",
-      msg: {
-        type: "EAFDE32A2C87F8",
-        inputs: [
-          {
-            coins: [
-              {
-                denom: "jbcoins",
-                amount: 1234
-              }
-            ],
-            address: "tb1d4u5zerywfjhxuc9nudvw"
-          }
-        ],
-        outputs: [
-          {
-            coins: [
-              {
-                denom: "jbcoins",
-                amount: 1234
-              }
-            ],
-            address: "tb1da6xsetjg9jxgun9wdesexv05j"
-          }
-        ]
-      },
+
+      msg: [
+        {
+          type: "EAFDE32A2C87F8",
+          inputs: [
+            {
+              coins: [
+                {
+                  denom: "jbcoins",
+                  amount: 1234
+                }
+              ],
+              address: "tb1d4u5zerywfjhxuc9nudvw"
+            }
+          ],
+          outputs: [
+            {
+              coins: [
+                {
+                  denom: "jbcoins",
+                  amount: 1234
+                }
+              ],
+              address: "tb1da6xsetjg9jxgun9wdesexv05j"
+            }
+          ]
+        }
+      ],
       fee: {
         amount: [
           {
@@ -108,6 +115,7 @@ module.exports = [
         ],
         gas: 500000
       },
+      gas: 500000,
       signatures: [
         {
           pub_key: {
@@ -144,47 +152,49 @@ module.exports = [
     height: 3466,
     tx: {
       type: "8EFE47F0625DE8",
-      msg: {
-        type: "EAFDE32A2C87F8",
-        inputs: [
-          {
-            coins: [
-              {
-                denom: "jbcoins",
-                amount: 1234
-              },
-              {
-                denom: "fabocoins",
-                amount: 1
-              },
-              {
-                denom: "mattcoins",
-                amount: 42
-              }
-            ],
-            address: "tb1da6xsetjg9jxgun9wdesexv05j"
-          }
-        ],
-        outputs: [
-          {
-            coins: [
-              {
-                denom: "jbcoins",
-                amount: 1234
-              },
-              {
-                denom: "fabocoins",
-                amount: 1
-              },
-              {
-                denom: "mattcoins",
-                amount: 42
-              }
-            ],
-            address: "tb1d4u5zerywfjhxuc9nudvw"
-          }
-        ]
-      },
+      msg: [
+        {
+          type: "EAFDE32A2C87F8",
+          inputs: [
+            {
+              coins: [
+                {
+                  denom: "jbcoins",
+                  amount: 1234
+                },
+                {
+                  denom: "fabocoins",
+                  amount: 1
+                },
+                {
+                  denom: "mattcoins",
+                  amount: 42
+                }
+              ],
+              address: "tb1da6xsetjg9jxgun9wdesexv05j"
+            }
+          ],
+          outputs: [
+            {
+              coins: [
+                {
+                  denom: "jbcoins",
+                  amount: 1234
+                },
+                {
+                  denom: "fabocoins",
+                  amount: 1
+                },
+                {
+                  denom: "mattcoins",
+                  amount: 42
+                }
+              ],
+              address: "tb1d4u5zerywfjhxuc9nudvw"
+            }
+          ]
+        }
+      ],
       fee: {
         amount: [
           {
@@ -194,6 +204,7 @@ module.exports = [
         ],
         gas: 500000
       },
+      gas: 500000,
       signatures: [
         {
           pub_key: {

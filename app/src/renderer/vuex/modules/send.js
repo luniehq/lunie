@@ -17,8 +17,9 @@ export default ({ node }) => {
     args.password = rootState.user.password
     args.account_number = rootState.wallet.accountNumber // TODO move into LCD?
 
+    let chainId = rootState.node.lastHeader.chain_id
+    args.chain_id = chainId
     // TODO enable again when IBC is enabled
-    // args.chain_id = chainId
     // args.src_chain_id = chainId // for IBC transfer
 
     // extract type
@@ -28,7 +29,7 @@ export default ({ node }) => {
     // extract "to" address
     let to = args.to
     delete args.to
-    args.gas = 500000
+    args.gas = "500000"
 
     // submit to LCD to build, sign, and broadcast
     let req = to ? node[type](to, args) : node[type](args)
