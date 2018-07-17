@@ -397,7 +397,7 @@ describe("Startup Process", () => {
         "app/src/main/addressbook.js",
         () =>
           class MockAddressbook {
-            constructor(root, { onConnectionMessage }) {
+            constructor(root, expectedVersion, { onConnectionMessage }) {
               this.onConnectionMessage = onConnectionMessage
             }
             async pickNode() {
