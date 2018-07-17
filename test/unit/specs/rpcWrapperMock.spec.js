@@ -19,7 +19,7 @@ describe("RPC Wrapper Mock", () => {
 
   it("outputs a block", done => {
     let height = 5
-    node.rpc.block({ minHeight: height, maxHeight: height }, (err, data) => {
+    node.rpc.block({ height: height, maxHeight: height }, (err, data) => {
       expect(err).toBeNull()
       expect(data.block).toBeDefined()
       done()

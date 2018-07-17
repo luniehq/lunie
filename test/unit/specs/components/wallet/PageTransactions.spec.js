@@ -49,9 +49,9 @@ describe("PageTransactions", () => {
 
   it("should sort the transaction by time", () => {
     expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([
-      3466,
-      3438,
-      3436
+      "3466",
+      "3438",
+      "3436"
     ])
   })
 
@@ -59,11 +59,11 @@ describe("PageTransactions", () => {
     store.commit("setSearchVisible", ["transactions", true])
     store.commit("setSearchQuery", ["transactions", "fabo"])
     wrapper.update()
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([3466])
+    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual(["3466"])
     // reflects the filter in the view
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit("setSearchQuery", ["transactions", "mattc"])
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([3466])
+    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual(["3466"])
   })
 
   it("should refresh the transactions on click", () => {

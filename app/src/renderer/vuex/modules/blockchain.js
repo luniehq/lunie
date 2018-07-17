@@ -61,8 +61,7 @@ export default ({ node }) => {
     },
     queryBlock({ commit }, height) {
       return new Promise(resolve => {
-        node.rpc.block({ minHeight: height, height }, (err, data) => {
-          // the mock /block looks for minHeight but the live /block looks for height
+        node.rpc.block({ height: height && height.toString() }, (err, data) => {
           if (err) {
             commit("notifyError", {
               title: `Couldn't query block`,
