@@ -97,7 +97,7 @@ describe("Module: User", () => {
   it("should create a seed phrase", async () => {
     let seed = await store.dispatch("createSeed")
     expect(seed).toBeDefined()
-    expect(seed.split(" ").length).toBe(16)
+    expect(seed.split(" ").length).toBe(24)
   })
 
   it("should create a key from a seed phrase", async () => {
@@ -115,13 +115,7 @@ describe("Module: User", () => {
       password,
       name
     })
-    try {
-      b32.decode(address)
-      expect(true).toBe(true)
-    } catch (error) {
-      console.log(error)
-      expect(true).toBe(false)
-    }
+    b32.decode(address)
     // initialize wallet
     expect(store.state.wallet.address).toBe(address)
   })

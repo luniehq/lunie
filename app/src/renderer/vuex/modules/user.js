@@ -79,7 +79,7 @@ export default ({ node }) => {
       return node.generateSeed()
     },
     async createKey({ dispatch }, { seedPhrase, password, name }) {
-      let address = await node.storeKey({
+      let { address } = await node.storeKey({
         name,
         password,
         seed: seedPhrase

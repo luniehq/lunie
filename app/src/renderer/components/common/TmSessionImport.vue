@@ -35,9 +35,9 @@
       field-seed#import-seed(
         :value="fields.importSeed"
         @input="val => fields.importSeed = val"
-        placeholder="Must be exactly 16 words")
+        placeholder="Must be exactly 24 words")
       tm-form-msg(name='Seed' type='required' v-if='!$v.fields.importSeed.required')
-      tm-form-msg(name='Seed' type='words16' v-else-if='!$v.fields.importSeed.words16')
+      tm-form-msg(name='Seed' type='words24' v-else-if='!$v.fields.importSeed.words24')
 
     tm-form-group(field-id="error-collection" field-label=''
       :error='$v.fields.errorCollection.$error')
@@ -129,12 +129,12 @@ export default {
       importName: { required, minLength: minLength(5) },
       importPassword: { required, minLength: minLength(10) },
       importPasswordConfirm: { sameAsPassword: sameAs("importPassword") },
-      importSeed: { required, words16 },
+      importSeed: { required, words24 },
       errorCollection: false
     }
   })
 }
-const words16 = param => {
-  return param && param.split(" ").length === 16
+const words24 = param => {
+  return param && param.split(" ").length === 24
 }
 </script>

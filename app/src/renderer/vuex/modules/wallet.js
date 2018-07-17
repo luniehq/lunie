@@ -1,5 +1,6 @@
 let fs = require("fs-extra")
 let { join } = require("path")
+let { uniqBy } = require("lodash")
 const { remote } = require("electron")
 const root = remote.getGlobal("root")
 let { sleep } = require("scripts/common.js")
@@ -79,7 +80,7 @@ export default ({ node }) => {
       commit("setWalletBalances", res.coins)
       for (let coin of res.coins) {
         if (coin.denom === rootState.config.bondingDenom) {
-          commit("setAtoms", coin.amount)
+          commit("setAtoms", parseFloat(coin.amount))
           break
         }
       }
@@ -91,12 +92,19 @@ export default ({ node }) => {
     },
     async queryWalletHistory({ state, commit, dispatch }) {
       commit("setHistoryLoading", true)
-      let res = await node.txs(state.address)
+      const res = await node.txs(state.address)
       if (!res) return
-      commit("setWalletHistory", res)
 
+      const uniqueTransactions = uniqBy(res, "hash")
+      commit("setWalletHistory", uniqueTransactions)
+
+      await dispatch("enrichTransactions", uniqueTransactions)
+
+      commit("setHistoryLoading", false)
+    },
+    async enrichTransactions({ dispatch }, transactions) {
       let blockHeights = []
-      res.forEach(t => {
+      transactions.forEach(t => {
         if (!blockHeights.find(h => h === t.height)) {
           blockHeights.push(t.height)
         }
@@ -104,7 +112,6 @@ export default ({ node }) => {
       await Promise.all(
         blockHeights.map(h => dispatch("queryTransactionTime", h))
       )
-      commit("setHistoryLoading", false)
     },
     async queryTransactionTime({ commit, dispatch }, blockHeight) {
       let blockMetaInfo = await dispatch("queryBlockInfo", blockHeight)

@@ -62,7 +62,10 @@ module.exports = {
     let start = Date.now()
     while ((await elGetterFn().getText()) !== text) {
       if (Date.now() - start >= timeout) {
-        throw Error("Timed out waiting for text")
+        throw Error(
+          `Timed out waiting for text. Expected ${text}, Showing ${(await elGetterFn().getText()) ||
+            "nothing"}`
+        )
       }
       await sleep(100)
     }

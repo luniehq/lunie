@@ -99,6 +99,10 @@ describe("Module: Delegations", () => {
   })
 
   it("submits delegation transaction", async () => {
+    store.dispatch("setLastHeader", {
+      height: 42,
+      chain_id: "test-chain"
+    })
     store.commit("setAccountNumber", 1)
     await store.dispatch("getBondedDelegates")
 
@@ -112,7 +116,6 @@ describe("Module: Delegations", () => {
 
     await store.dispatch("submitDelegation", delegations)
 
-    // TODO account number is wrong in snapshot
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
 
