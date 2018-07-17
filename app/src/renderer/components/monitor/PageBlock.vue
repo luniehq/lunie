@@ -40,10 +40,13 @@ export default {
         : 0
     },
     txs() {
-      return this.blockTxInfo.map(tx => {
-        tx.formattedTime = moment(tx.time).format("MMMM Do YYYY — h:mm:ss a")
-        return tx
-      })
+      return (
+        this.blockTxInfo &&
+        this.blockTxInfo.map(tx => {
+          tx.formattedTime = moment(tx.time).format("MMMM Do YYYY — h:mm:ss a")
+          return tx
+        })
+      )
     },
     block() {
       return this.blockchain.block
