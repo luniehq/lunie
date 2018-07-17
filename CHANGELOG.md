@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Copy the network configuration only during local builds. @NodeGuy
 * Ignoring the potential local-testnet folder that is used in the README for local testnets @faboweb
+* Renaming classes to the tendermint namespace @faboweb
 * Moved to SDK v0.21.1 @faboweb
 * Using vue-jest for transpiling in tests for better code coverage output @faboweb
 

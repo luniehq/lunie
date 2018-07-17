@@ -1,24 +1,24 @@
 <template lang="pug">
-.ni-tags(:class="cssClass")
+.tm-tags(:class="cssClass")
   tag(v-for="i in values" v-if="i" :key="i" :value="i" :size="size")
 </template>
 
 <script>
 import Tag from "./NiTag"
 export default {
-  name: "ni-tags",
+  name: "tm-tags",
   components: {
     Tag
   },
   computed: {
     cssClass() {
-      let value = "ni-tags"
+      let value = "tm-tags"
       if (this.size === "lg") {
-        value += " ni-tags-lg"
+        value += " tm-tags-lg"
       } else if (this.size === "sm") {
-        value += " ni-tags-sm"
+        value += " tm-tags-sm"
       } else {
-        value += " ni-tags-df "
+        value += " tm-tags-df "
       }
       return value
     }
@@ -30,21 +30,23 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.ni-tags
-  &.ni-tags-df
+.tm-tags
+  &.tm-tags-df
     padding 0.5rem 1rem
     border-bottom px solid bc
     display flex
     flex-flow row wrap
 
-    .ni-tag
+    .tm-tag
       margin-right 0.5rem
 
-  &.ni-tags-sm
+  &.tm-tags-sm
     display block
-    .ni-tag
+
+    .tm-tag
       display inline-block
       margin-right 0.5rem
+
       &:last-child
         margin-right 0
 </style>
