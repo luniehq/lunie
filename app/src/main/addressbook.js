@@ -5,17 +5,16 @@ const url = require("url")
 const semver = require("semver")
 
 const LOGGING = JSON.parse(process.env.LOGGING || "true") !== false
-const TENDERMINT_RPC_PORT = 26657
 const FIXED_NODE = process.env.COSMOS_NODE
 
 module.exports = class Addressbook {
   constructor(
+    config,
     configPath,
-    expectedNodeVersion,
     { persistent_peers = [], onConnectionMessage = () => {} } = {}
   ) {
     this.peers = []
-    this.expectedNodeVersion = expectedNodeVersion
+    this.config = config
     this.onConnectionMessage = onConnectionMessage
 
     // if we define a fixed node, we skip persistence
@@ -38,7 +37,7 @@ module.exports = class Addressbook {
   }
 
   async ping(peerURL) {
-    let pingURL = `http://${peerURL}:${TENDERMINT_RPC_PORT}`
+    let pingURL = `http://${peerURL}:${this.config.default_tendermint_port}`
     this.onConnectionMessage(`pinging node: ${pingURL}`)
     let nodeAlive = await axios
       .get(pingURL, { timeout: 3000 })
@@ -47,16 +46,6 @@ module.exports = class Addressbook {
       `Node ${peerURL} is ${nodeAlive ? "alive" : "down"}`
     )
     return nodeAlive
-  }
-
-  async getVersion(peerURL) {
-    let versionURL = `http://${peerURL}:${TENDERMINT_RPC_PORT}/node_version`
-    this.onConnectionMessage("Querying node version:", versionURL)
-    let nodeVersion = await axios
-      .get(versionURL, { timeout: 3000 })
-      .then(res => res.data)
-    this.onConnectionMessage("Node version is", nodeVersion)
-    return nodeVersion
   }
 
   peerIsKnown(peerURL) {
@@ -118,14 +107,6 @@ module.exports = class Addressbook {
       return this.pickNode()
     }
 
-    let nodeVersion = await this.getVersion(curNode.host)
-    let semverDiff = semver.diff(nodeVersion, this.expectedNodeVersion)
-    if (semverDiff === "major" || semverDiff === "minor") {
-      this.flagNodeIncompatible(curNode.host)
-
-      return this.pickNode()
-    }
-
     this.onConnectionMessage("Picked node: " + curNode.host)
 
     // we skip discovery for fixed nodes as we want to always return the same node
@@ -134,7 +115,7 @@ module.exports = class Addressbook {
       this.discoverPeers(curNode.host)
     }
 
-    return curNode.host + ":" + TENDERMINT_RPC_PORT
+    return curNode.host + ":" + this.config.default_tendermint_port
   }
 
   flagNodeOffline(host) {
@@ -155,7 +136,7 @@ module.exports = class Addressbook {
 
   async discoverPeers(peerIP) {
     let subPeers = (await axios.get(
-      `http://${peerIP}:${TENDERMINT_RPC_PORT}/net_info`
+      `http://${peerIP}:${this.config.default_tendermint_port}/net_info`
     )).data.result.peers
     let subPeersHostnames = subPeers.map(peer => peer.node_info.listen_addr)
 

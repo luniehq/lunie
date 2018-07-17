@@ -2,6 +2,9 @@ const mockFsExtra = require("../helpers/fs-mock").default
 let Addressbook
 
 const mockVERSION = "0.12.1"
+const mockConfig = {
+  default_tendermint_port: 26657
+}
 
 describe("Addressbook", () => {
   beforeEach(() => {
