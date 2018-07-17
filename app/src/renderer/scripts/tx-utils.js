@@ -1,5 +1,4 @@
 import crypto from "crypto"
-import varint from "varint"
 
 export function getTxHash(txstring) {
   let s256Buffer = crypto
