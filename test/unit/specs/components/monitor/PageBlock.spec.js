@@ -1,7 +1,7 @@
 import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
 import PageBlock from "renderer/components/monitor/PageBlock"
-
+import txs from "../../store/json/txs.js"
 describe("PageBlock", () => {
   let wrapper, store
   let { mount } = setup()
@@ -10,6 +10,7 @@ describe("PageBlock", () => {
     let instance = mount(PageBlock, {
       // stubs: { "tm-block": "<tm-block />" },
       getters: {
+        blockTxInfo: () => txs,
         blockchain: () => ({
           blocks: [
             {
@@ -54,6 +55,7 @@ describe("PageBlock", () => {
   it("should show a loading state if loading", () => {
     let { wrapper } = mount(PageBlock, {
       getters: {
+        blockTxInfo: () => [],
         blockchain: () => ({
           blocks: [
             {
@@ -79,6 +81,7 @@ describe("PageBlock", () => {
   it("should survive no blocks being available", () => {
     let { wrapper } = mount(PageBlock, {
       getters: {
+        blockTxInfo: () => [],
         blockchain: () => ({
           blocks: [],
           block: {},
@@ -96,6 +99,7 @@ describe("PageBlock", () => {
   it("should disable the next block button if last block", () => {
     let { wrapper } = mount(PageBlock, {
       getters: {
+        blockTxInfo: () => [],
         blockchain: () => ({
           blocks: [
             {
