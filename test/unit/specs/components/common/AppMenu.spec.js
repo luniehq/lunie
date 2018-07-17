@@ -3,13 +3,12 @@ import htmlBeautify from "html-beautify"
 import setup from "../../../helpers/vuex-setup"
 
 describe("AppMenu", () => {
-  let wrapper, router, store, instance
+  let wrapper, store, instance
   let { mount } = setup()
 
   beforeEach(async () => {
     instance = mount(AppMenu)
     store = instance.store
-    router = instance.router
     wrapper = instance.wrapper
     await store.dispatch("signIn", {
       account: "default",

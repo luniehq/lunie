@@ -44,6 +44,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 >
                   <a
                     class="back"
+                    disabled="disabled"
                   >
                     <i
                       class="material-icons"
@@ -80,6 +81,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
   <main
     class="tm-page-main ps"
   >
+    <!---->
     <section
       class="tm-part"
     >
@@ -437,6 +439,86 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
         </main>
       </div>
     </section>
+    <section
+      class="tm-part"
+    >
+      <div
+        class="tm-part-container"
+      >
+        <header
+          class="tm-part-header"
+        >
+          <div
+            class="tm-part-header-container"
+          >
+            <div
+              class="tm-part-title h5"
+            >
+              About
+            </div>
+            <menu
+              class="tm-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="tm-part-main"
+        >
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
+                  Version Information
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <button
+                  class="tm-btn"
+                  id="toggle-onboarding"
+                >
+                  <span
+                    class="tm-btn__container"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="tm-btn__icon material-icons"
+                    >
+                      info
+                    </i>
+                    <!---->
+                    <span
+                      class="tm-btn__value"
+                    >
+                      Show Versions
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
@@ -457,6 +539,1100 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
         tabindex="0"
       />
     </div>
+  </main>
+</div>
+`;
+
+exports[`PagePreferences shows versions 1`] = `
+<div
+  class="tm-page"
+>
+  <header
+    class="tm-page-header"
+  >
+    <div
+      class="tm-page-header-container"
+    >
+      <div
+        class="tm-page-header-text"
+      >
+        <div
+          class="tm-page-header-title"
+        >
+          <h2>
+            Preferences
+          </h2>
+        </div>
+        <div
+          class="tm-page-header-subtitle"
+        >
+          <h3>
+            
+          </h3>
+        </div>
+      </div>
+      <menu
+        class="tm-page-header-menu"
+      >
+        <div>
+          <div>
+            <div
+              class="tm-tool-bar"
+            >
+              <div
+                class="tm-tool-bar-container"
+              >
+                <div
+                  class="main"
+                >
+                  <a
+                    class="back"
+                    disabled="disabled"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </menu>
+    </div>
+  </header>
+  <main
+    class="tm-page-main"
+  >
+    <!---->
+    <section
+      class="tm-part"
+    >
+      <div
+        class="tm-part-container"
+      >
+        <header
+          class="tm-part-header"
+        >
+          <div
+            class="tm-part-header-container"
+          >
+            <div
+              class="tm-part-title h5"
+            >
+              Settings
+            </div>
+            <menu
+              class="tm-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="tm-part-main"
+        >
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
+                  Select network to connect to
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <div
+                  class="tm-select"
+                  id="select-network"
+                >
+                  <select
+                    class="tm-field tm-field-select"
+                  >
+                    <option
+                      disabled="disabled"
+                      hidden="hidden"
+                      selected="selected"
+                      value=""
+                    >
+                      Select network...
+                    </option>
+                    <option
+                      value="live"
+                    >
+                      Live Testnet
+                    </option>
+                    <option
+                      value="mock"
+                    >
+                      Mock Testnet
+                    </option>
+                  </select>
+                  <div
+                    class="tm-field-select-addon"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_drop_down
+                    </i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
+                  Select theme
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <div
+                  class="tm-select"
+                  id="select-theme"
+                >
+                  <select
+                    class="tm-field tm-field-select"
+                  >
+                    <option
+                      disabled="disabled"
+                      hidden="hidden"
+                      selected="selected"
+                      value=""
+                    >
+                      Select theme...
+                    </option>
+                    <option
+                      value="light"
+                    >
+                      Light
+                    </option>
+                    <option
+                      value="dark"
+                    >
+                      Dark
+                    </option>
+                  </select>
+                  <div
+                    class="tm-field-select-addon"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_drop_down
+                    </i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
+                  View tutorial for Voyager
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <button
+                  class="tm-btn"
+                  id="toggle-onboarding"
+                >
+                  <span
+                    class="tm-btn__container"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="tm-btn__icon material-icons"
+                    >
+                      open_in_new
+                    </i>
+                    <!---->
+                    <span
+                      class="tm-btn__value"
+                    >
+                      Launch Tutorial
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
+                  Automatically send usage statistics and crash reports
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  to the Voyager development team
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <label
+                  class="tm-toggle unchecked"
+                  style="margin: 1em auto 0px auto;"
+                >
+                  <div
+                    class="tm-toggle-wrapper"
+                  >
+                    <span>
+                       
+                    </span>
+                    <div
+                      class="toggle-option-checked"
+                    >
+                      <div>
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="toggle-option-unchecked"
+                    >
+                      <div>
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="toggle-handle"
+                    />
+                    <input
+                      type="checkbox"
+                    />
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
+    <section
+      class="tm-part"
+    >
+      <div
+        class="tm-part-container"
+      >
+        <header
+          class="tm-part-header"
+        >
+          <div
+            class="tm-part-header-container"
+          >
+            <div
+              class="tm-part-title h5"
+            >
+              Account
+            </div>
+            <menu
+              class="tm-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="tm-part-main"
+        >
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
+                  Switch account
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <button
+                  class="tm-btn"
+                  type="button"
+                >
+                  <span
+                    class="tm-btn__container"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="tm-btn__icon material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                    <!---->
+                    <span
+                      class="tm-btn__value"
+                    >
+                      Sign Out
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
+    <section
+      class="tm-part"
+    >
+      <div
+        class="tm-part-container"
+      >
+        <header
+          class="tm-part-header"
+        >
+          <div
+            class="tm-part-header-container"
+          >
+            <div
+              class="tm-part-title h5"
+            >
+              About
+            </div>
+            <menu
+              class="tm-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="tm-part-main"
+        >
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
+                  Version Information
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <button
+                  class="tm-btn"
+                  id="toggle-onboarding"
+                >
+                  <span
+                    class="tm-btn__container"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="tm-btn__icon material-icons"
+                    >
+                      info
+                    </i>
+                    <!---->
+                    <span
+                      class="tm-btn__value"
+                    >
+                      Show Versions
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
+  </main>
+</div>
+`;
+
+exports[`PagePreferences shows versions 2`] = `
+<div
+  class="tm-page"
+>
+  <header
+    class="tm-page-header"
+  >
+    <div
+      class="tm-page-header-container"
+    >
+      <div
+        class="tm-page-header-text"
+      >
+        <div
+          class="tm-page-header-title"
+        >
+          <h2>
+            Preferences
+          </h2>
+        </div>
+        <div
+          class="tm-page-header-subtitle"
+        >
+          <h3>
+            
+          </h3>
+        </div>
+      </div>
+      <menu
+        class="tm-page-header-menu"
+      >
+        <div>
+          <div>
+            <div
+              class="tm-tool-bar"
+            >
+              <div
+                class="tm-tool-bar-container"
+              >
+                <div
+                  class="main"
+                >
+                  <a
+                    class="back"
+                    disabled="disabled"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <a
+                    class="help"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="sign-out"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </menu>
+    </div>
+  </header>
+  <main
+    class="tm-page-main"
+  >
+    <div
+      class="tm-modal"
+    >
+      <div
+        class="tm-modal-container"
+      >
+        <header
+          class="tm-modal-header"
+        >
+          <!---->
+          <div
+            class="tm-modal-title"
+          >
+            <div>
+              About Cosmos Voyager
+            </div>
+          </div>
+          <div
+            class="tm-modal-icon tm-modal-close"
+          >
+            <i
+              class="material-icons"
+            >
+              close
+            </i>
+          </div>
+        </header>
+        <main
+          class="tm-modal-main"
+        >
+          <div
+            class="about-popup"
+          >
+            <img
+              src="~@/assets/images/onboarding/step-0.png"
+            />
+            <div>
+              Voyager v3.6.9
+            </div>
+            <div>
+              Cosmos SDK v1.2.3
+            </div>
+          </div>
+        </main>
+        <footer
+          class="tm-modal-footer"
+        />
+      </div>
+    </div>
+    <section
+      class="tm-part"
+    >
+      <div
+        class="tm-part-container"
+      >
+        <header
+          class="tm-part-header"
+        >
+          <div
+            class="tm-part-header-container"
+          >
+            <div
+              class="tm-part-title h5"
+            >
+              Settings
+            </div>
+            <menu
+              class="tm-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="tm-part-main"
+        >
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
+                  Select network to connect to
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <div
+                  class="tm-select"
+                  id="select-network"
+                >
+                  <select
+                    class="tm-field tm-field-select"
+                  >
+                    <option
+                      disabled="disabled"
+                      hidden="hidden"
+                      selected="selected"
+                      value=""
+                    >
+                      Select network...
+                    </option>
+                    <option
+                      value="live"
+                    >
+                      Live Testnet
+                    </option>
+                    <option
+                      value="mock"
+                    >
+                      Mock Testnet
+                    </option>
+                  </select>
+                  <div
+                    class="tm-field-select-addon"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_drop_down
+                    </i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
+                  Select theme
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <div
+                  class="tm-select"
+                  id="select-theme"
+                >
+                  <select
+                    class="tm-field tm-field-select"
+                  >
+                    <option
+                      disabled="disabled"
+                      hidden="hidden"
+                      selected="selected"
+                      value=""
+                    >
+                      Select theme...
+                    </option>
+                    <option
+                      value="light"
+                    >
+                      Light
+                    </option>
+                    <option
+                      value="dark"
+                    >
+                      Dark
+                    </option>
+                  </select>
+                  <div
+                    class="tm-field-select-addon"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_drop_down
+                    </i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
+                  View tutorial for Voyager
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <button
+                  class="tm-btn"
+                  id="toggle-onboarding"
+                >
+                  <span
+                    class="tm-btn__container"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="tm-btn__icon material-icons"
+                    >
+                      open_in_new
+                    </i>
+                    <!---->
+                    <span
+                      class="tm-btn__value"
+                    >
+                      Launch Tutorial
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
+                  Automatically send usage statistics and crash reports
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  to the Voyager development team
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <label
+                  class="tm-toggle unchecked"
+                  style="margin: 1em auto 0px auto;"
+                >
+                  <div
+                    class="tm-toggle-wrapper"
+                  >
+                    <span>
+                       
+                    </span>
+                    <div
+                      class="toggle-option-checked"
+                    >
+                      <div>
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="toggle-option-unchecked"
+                    >
+                      <div>
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="toggle-handle"
+                    />
+                    <input
+                      type="checkbox"
+                    />
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
+    <section
+      class="tm-part"
+    >
+      <div
+        class="tm-part-container"
+      >
+        <header
+          class="tm-part-header"
+        >
+          <div
+            class="tm-part-header-container"
+          >
+            <div
+              class="tm-part-title h5"
+            >
+              Account
+            </div>
+            <menu
+              class="tm-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="tm-part-main"
+        >
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
+                  Switch account
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <button
+                  class="tm-btn"
+                  type="button"
+                >
+                  <span
+                    class="tm-btn__container"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="tm-btn__icon material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                    <!---->
+                    <span
+                      class="tm-btn__value"
+                    >
+                      Sign Out
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
+    <section
+      class="tm-part"
+    >
+      <div
+        class="tm-part-container"
+      >
+        <header
+          class="tm-part-header"
+        >
+          <div
+            class="tm-part-header-container"
+          >
+            <div
+              class="tm-part-title h5"
+            >
+              About
+            </div>
+            <menu
+              class="tm-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="tm-part-main"
+        >
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
+                  Version Information
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <button
+                  class="tm-btn"
+                  id="toggle-onboarding"
+                >
+                  <span
+                    class="tm-btn__container"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="tm-btn__icon material-icons"
+                    >
+                      info
+                    </i>
+                    <!---->
+                    <span
+                      class="tm-btn__value"
+                    >
+                      Show Versions
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
   </main>
 </div>
 `;

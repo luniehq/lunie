@@ -12,7 +12,8 @@ Array [
           "denom": "mycoin",
         },
       ],
-      "gas": 500000,
+      "chain_id": "test-chain",
+      "gas": "500000",
       "name": "default",
       "password": "1234567890",
       "sequence": 2,
@@ -24,7 +25,7 @@ Array [
 exports[`Module: Send send transactions should send from wallet 1`] = `
 Array [
   Array [
-    "address",
+    "mock_address",
     Object {
       "account_number": 123,
       "amount": Array [
@@ -33,7 +34,8 @@ Array [
           "denom": "mycoin",
         },
       ],
-      "gas": 500000,
+      "chain_id": "test-chain",
+      "gas": "500000",
       "name": "default",
       "password": "1234567890",
       "sequence": 1,

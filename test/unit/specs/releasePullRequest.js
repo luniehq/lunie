@@ -1,6 +1,10 @@
+// This is necessary because another file corrupts the behavior of Date.  We
+// really should fix that.
+/*global _Date */
+
 "use strict"
 
-const release = require(`../../../tasks/release`)
+const release = require(`../../../tasks/releasePullRequest`)
 
 test(`bumpVersion`, () => {
   expect(release.bumpVersion(`0.6.1`)).toEqual(`0.6.2`)

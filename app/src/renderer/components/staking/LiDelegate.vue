@@ -41,7 +41,6 @@ export default {
       let yourVotes = this.num.prettyInt(
         this.committedDelegations[this.delegate.id]
       )
-      this.delegate.your_votes = yourVotes
 
       return yourVotes
     },
@@ -67,10 +66,14 @@ export default {
       return this.shoppingCart.find(c => c.id === this.delegate.id)
     },
     userCanDelegate() {
-      return this.user.atoms > 0
+      return this.shoppingCart.length > 0 || this.user.atoms > 0
     },
     delegateType() {
-      return this.delegate.isValidator ? "Validator" : "Candidate"
+      return this.delegate.revoked
+        ? "Revoked"
+        : this.delegate.isValidator
+          ? "Validator"
+          : "Candidate"
     }
   },
   data: () => ({ num: num }),
@@ -83,7 +86,7 @@ export default {
     }
   },
   watch: {
-    yourVotes(newVal, oldVal) {
+    yourVotes(newVal) {
       if (newVal > 0) {
         this.$store.commit("addToCart", this.delegate)
       }
@@ -98,12 +101,16 @@ export default {
 .li-delegate
   border-left 1px solid var(--bc)
   border-right 1px solid var(--bc)
+
   &:nth-of-type(2n-1)
     background var(--app-bg-light)
+
   &.li-delegate-active
     background var(--app-bg-alpha)
+
     .li-delegate__value i
       color var(--link)
+
   &:hover
     background var(--hover-bg)
 
@@ -126,24 +133,26 @@ export default {
 
     span a
       display flex
+
     .li-delegate__icon
       width 1.5rem
       display flex
       align-items center
       justify-content center
+
       img, span
         height 1rem
         width 1rem
 
   &.bar
     position relative
+
     span
       display block
       position absolute
       top 0
       left 0
       z-index z(listItem)
-
       line-height 3rem
       color var(--txt)
 

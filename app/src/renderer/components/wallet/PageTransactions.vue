@@ -1,6 +1,8 @@
 <template lang="pug">
 tm-page(title='Transactions')
   div(slot="menu"): tool-bar
+    a(@click='refreshTransactions()' v-tooltip.bottom="'Refresh'")
+      i.material-icons refresh
     a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
       i.material-icons search
 
@@ -21,7 +23,7 @@ tm-page(title='Transactions')
 <script>
 import shortid from "shortid"
 import { mapGetters } from "vuex"
-import { includes, orderBy, uniqBy } from "lodash"
+import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import DataLoading from "common/TmDataLoading"
 import DataEmptySearch from "common/TmDataEmptySearch"
@@ -47,12 +49,7 @@ export default {
       return !this.wallet.historyLoading && !!this.transactions.length
     },
     orderedTransactions() {
-      let list = orderBy(
-        this.transactions,
-        [this.sort.property],
-        [this.sort.order]
-      )
-      return uniqBy(list, "height") // filter out duplicate tx to self
+      return orderBy(this.transactions, [this.sort.property], [this.sort.order])
     },
     filteredTransactions() {
       let query = this.filters.transactions.search.query
@@ -74,6 +71,9 @@ export default {
     }
   }),
   methods: {
+    refreshTransactions() {
+      this.$store.dispatch("queryWalletHistory")
+    },
     setSearch(bool = !this.filters["transactions"].search.visible) {
       if (!this.somethingToSearch) return false
       this.$store.commit("setSearchVisible", ["transactions", bool])

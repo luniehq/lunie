@@ -15,7 +15,7 @@ describe("LCD Client Mock", () => {
 
   it("generates seeds", async () => {
     let seed = await client.generateSeed()
-    expect(seed.split(" ").length).toBe(16)
+    expect(seed.split(" ").length).toBe(24)
   })
 
   it("persists keys", async () => {
@@ -25,13 +25,9 @@ describe("LCD Client Mock", () => {
       password: "1234567890",
       seed
     })
-    try {
-      b32.decode(res)
-      expect(true).toBe(true)
-    } catch (error) {
-      console.log(error)
-      expect(false).toBe(true)
-    }
+
+    b32.decode(res.address)
+
     res = await client.listKeys()
     expect(res.find(k => k.name === "foo")).toBeDefined()
 
@@ -113,7 +109,7 @@ describe("LCD Client Mock", () => {
       password: "1234567890",
       seed_phrase: "seed some thin"
     })
-    let tx = await client.send(toAddr, {
+    await client.send(toAddr, {
       sequence: 1,
       name: "default",
       fees: [],
@@ -266,7 +262,7 @@ describe("LCD Client Mock", () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[0]
     )
-    expect(res.shares).toBe("5/1")
+    expect(res.shares).toMatchSnapshot()
   })
 
   it("executes a delegate tx", async () => {
@@ -398,6 +394,11 @@ describe("LCD Client Mock", () => {
   })
 
   it("errors when delegating with nonexistent account", async () => {
+    client.state.keys.push({
+      name: "nonexistent_account",
+      password: "1234567890",
+      address: lcdClientMock.addresses[1]
+    })
     let res = await client.updateDelegations({
       sequence: 1,
       name: "nonexistent_account",
@@ -443,13 +444,13 @@ describe("LCD Client Mock", () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[2]
     )
-    expect(stake1.shares).toBe("10/1")
+    expect(stake1.shares).toMatchSnapshot()
 
     let stake2 = await client.queryDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[0]
     )
-    expect(stake2.shares).toBe("15/1")
+    expect(stake2.shares).toMatchSnapshot()
   })
 
   it("errors when delegating negative amount", async () => {

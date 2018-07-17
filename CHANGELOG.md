@@ -9,10 +9,44 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* Configs for the gaia-6002 testnet @faboweb
-* Introduced addressbook to store found peers and to select nodes round robin @faboweb
+* Indicate if a validator has been revoked in the Staking UI @mappum
+* Information about current connection attempts @faboweb
+* Release published on GitHub now including changes from CHANGELOG. @NodeGuy
+* Added ESLint errors: no-undef and no-unused-vars. @NodeGuy
+* Modal when a node doesn't signal any new blocks @faboweb
 
-### Changes
+### Changed
+
+* Copy the network configuration only during local builds. @NodeGuy
+* Ignoring the potential local-testnet folder that is used in the README for local testnets @faboweb
+* Moved to SDK v0.21.1 @faboweb
+* Using vue-jest for transpiling in tests for better code coverage output @faboweb
+* Automatically update wallet when a relevant transaction is detected @mappum
+
+### Fixed
+
+* Voyager hanging after reloading in development mode @faboweb
+* Bad Boy Back Button Back @okwme
+* Unable to bond just to already bonded candidates @faboweb
+* Staking tokens showing NaN @faboweb
+* Staking page showing old shares after bonding @faboweb
+* Made linting work on Windows. @NodeGuy
+
+## [0.7.1] - 2018-07-04
+
+### Added
+
+* Configs for the gaia-6002 testnet @faboweb
+* Bot which returns money to sender in mock mode @mappum
+* Introduced addressbook to store found peers and to select nodes round robin @faboweb
+* Tutorial how to start a local node @faboweb
+* Added versions to Preference Page @okwme
+* Send confirmation popup @faboweb
+* Checking known nodes round robin and signaling an error if none are available @faboweb
+* Help menu with links to report a bug or view the log @faboweb
+* build duration and input/output hashes to build process @NodeGuy
+
+### Changed
 
 * Use persistent peers and seeds from tendermint config @faboweb
 * Updated loading icon and loading states @jolesbi
@@ -23,7 +57,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Doesn't show loading screen when validators are still stored @okwme
 * Improved CI @faboweb
 * Search bar fixed to top @okwme
-* Automatically update wallet when a relevant transaction is detected @mappum
+* Hide block subscription errors @mappum
+* Fixed css editing in devtools @faboweb
+* Added history and disabled backbutton on no history @okwme
 
 ### Fixed
 
@@ -36,13 +72,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed critical dependency warning @okwme
 * Fixed theme bg bug @okwme
 * Fixed sorting bug on staking page @okwme
+* "About Cosmos Voyager" menu item is now responsive on Windows and Linux @mappum
 * Fixed preference page style bug @okwme
 * Fixed missing node-ip in connection indicator @faboweb
 * Launch sequence for dev improved @okwme
-
-### Added
-
-* Checking known nodes round robin and signaling an error if none are available @faboweb
+* E2E test maybe fix @okwme
+* Login in to restricted page bug @okwme
+* Send with an empty wallet bug @okwme
+* Readme formatting @okwme
 
 ## [0.7.0] - 2018-06-13
 

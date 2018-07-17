@@ -97,6 +97,32 @@ describe("LCD Client", () => {
     expect(res).toBe(null)
   })
 
+  it("queries for shares for a validator and delegate", async () => {
+    axios.get = jest.fn().mockReturnValueOnce(
+      Promise.resolve({
+        response: {
+          data: {
+            shares: 5
+          }
+        }
+      })
+    )
+    client.queryDelegation("abc", "efg")
+    expect(axios.get.mock.calls).toMatchSnapshot()
+  })
+
+  it("does not throw error for empty results", async () => {
+    axios.get = jest.fn().mockReturnValueOnce(
+      Promise.reject({
+        response: {
+          data: "account bytes are empty"
+        }
+      })
+    )
+    let res = await client.queryAccount("address")
+    expect(res).toBe(null)
+  })
+
   it("throws error for error other than empty account", async () => {
     axios.get = jest.fn().mockReturnValueOnce(
       Promise.reject({

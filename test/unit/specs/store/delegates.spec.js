@@ -3,12 +3,11 @@ import setup from "../../helpers/vuex-setup"
 let instance = setup()
 
 describe("Module: Delegates", () => {
-  let store, node
+  let store
 
   beforeEach(() => {
     let test = instance.shallow()
     store = test.store
-    node = test.node
   })
 
   it("adds delegate to state", () => {

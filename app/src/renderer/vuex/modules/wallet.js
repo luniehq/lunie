@@ -1,10 +1,12 @@
 let fs = require("fs-extra")
 let { join } = require("path")
+let { uniqBy } = require("lodash")
 const { remote } = require("electron")
 const root = remote.getGlobal("root")
 const bech32 = require("bech32")
+let { sleep } = require("scripts/common.js")
 
-export default ({ commit, node }) => {
+export default ({ node }) => {
   let state = {
     balances: [],
     balancesLoading: true,
@@ -80,7 +82,7 @@ export default ({ commit, node }) => {
       dispatch("queryWalletState")
       dispatch("walletSubscribe")
     },
-    queryWalletState({ state, dispatch }) {
+    queryWalletState({ dispatch }) {
       dispatch("queryWalletBalances")
       dispatch("queryWalletHistory")
     },
@@ -95,7 +97,7 @@ export default ({ commit, node }) => {
       commit("setWalletBalances", res.coins)
       for (let coin of res.coins) {
         if (coin.denom === rootState.config.bondingDenom) {
-          commit("setAtoms", coin.amount)
+          commit("setAtoms", parseFloat(coin.amount))
           break
         }
       }
@@ -104,12 +106,19 @@ export default ({ commit, node }) => {
     },
     async queryWalletHistory({ state, commit, dispatch }) {
       commit("setHistoryLoading", true)
-      let res = await node.txs(state.address)
+      const res = await node.txs(state.address)
       if (!res) return
-      commit("setWalletHistory", res)
 
+      const uniqueTransactions = uniqBy(res, "hash")
+      commit("setWalletHistory", uniqueTransactions)
+
+      await dispatch("enrichTransactions", uniqueTransactions)
+
+      commit("setHistoryLoading", false)
+    },
+    async enrichTransactions({ dispatch }, transactions) {
       let blockHeights = []
-      res.forEach(t => {
+      transactions.forEach(t => {
         if (!blockHeights.find(h => h === t.height)) {
           blockHeights.push(t.height)
         }
@@ -117,7 +126,6 @@ export default ({ commit, node }) => {
       await Promise.all(
         blockHeights.map(h => dispatch("queryTransactionTime", h))
       )
-      commit("setHistoryLoading", false)
     },
     async queryTransactionTime({ commit, dispatch }, blockHeight) {
       let blockMetaInfo = await dispatch("queryBlockInfo", blockHeight)
@@ -127,7 +135,7 @@ export default ({ commit, node }) => {
       // )
       commit("setTransactionTime", { blockHeight, blockMetaInfo })
     },
-    async loadDenoms({ state, commit }) {
+    async loadDenoms({ commit }) {
       // read genesis.json to get default denoms
 
       // wait for genesis.json to exist
@@ -198,8 +206,4 @@ export default ({ commit, node }) => {
     mutations,
     actions
   }
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
 }

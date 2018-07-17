@@ -20,7 +20,7 @@ exports[`PageBlock has the expected html structure 1`] = `
             <div class=\\"tm-tool-bar\\">
                <div class=\\"tm-tool-bar-container\\">
                   <div class=\\"main\\">
-                     <a href=\\"#/blocks/9\\" class=\\"\\"><i class=\\"material-icons\\">chevron_left</i></a><a href=\\"#/blocks/11\\" class=\\"\\"><i class=\\"material-icons\\">chevron_right</i></a><a class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a class=\\"sign-out\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+                     <a href=\\"#/blocks/9\\" class=\\"\\"><i class=\\"material-icons\\">chevron_left</i></a><a href=\\"#/blocks/11\\" class=\\"\\"><i class=\\"material-icons\\">chevron_right</i></a><a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a class=\\"sign-out\\"><i class=\\"material-icons\\">exit_to_app</i></a>
                   </div>
 </div>
 </div>
@@ -86,7 +86,7 @@ exports[`PageBlock has the expected html structure 1`] = `
             Time
          </div>
       <div class=\\"tm-li-dd\\">
-         January 1st 1970 — 02:00:01
+         January 1st 1970 — 01:00:01
       </div>
 </div>
 </div>

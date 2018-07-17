@@ -1,4 +1,4 @@
-export default ({ commit, node }) => {
+export default ({ node }) => {
   let lock = null
 
   let state = {
@@ -18,8 +18,8 @@ export default ({ commit, node }) => {
     args.account_number = rootState.wallet.accountNumber // TODO move into LCD?
 
     let chainId = rootState.node.lastHeader.chain_id
+    args.chain_id = chainId
     // TODO enable again when IBC is enabled
-    // args.chain_id = chainId
     // args.src_chain_id = chainId // for IBC transfer
 
     // extract type
@@ -29,7 +29,7 @@ export default ({ commit, node }) => {
     // extract "to" address
     let to = args.to
     delete args.to
-    args.gas = 500000
+    args.gas = "500000"
 
     // submit to LCD to build, sign, and broadcast
     let req = to ? node[type](to, args) : node[type](args)
@@ -44,7 +44,9 @@ export default ({ commit, node }) => {
 
     // wait to ensure tx is committed before we query
     // XXX
-    setTimeout(() => dispatch("queryWalletBalances"), 3 * 1000)
+    setTimeout(() => {
+      dispatch("queryWalletState")
+    }, 3 * 1000)
   }
 
   let actions = {
@@ -65,6 +67,8 @@ export default ({ commit, node }) => {
         // wait for doSend to finish
         let res = await lock
         return res
+      } catch (err) {
+        throw err
       } finally {
         // get rid of lock whether doSend throws or succeeds
         lock = null

@@ -20,7 +20,7 @@ exports[`PageStaking has the expected html structure 1`] = `
             <div class=\\"tm-tool-bar\\">
                <div class=\\"tm-tool-bar-container\\">
                   <div class=\\"main\\">
-                     <a><i class=\\"material-icons\\">refresh</i></a><a><i class=\\"search material-icons\\">search</i></a><a class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a class=\\"sign-out\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+                     <a><i class=\\"material-icons\\">refresh</i></a><a><i class=\\"search material-icons\\">search</i></a><a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a class=\\"sign-out\\"><i class=\\"material-icons\\">exit_to_app</i></a>
                   </div>
 </div>
 </div>
@@ -67,60 +67,60 @@ exports[`PageStaking has the expected html structure 1`] = `
    <div class=\\"li-delegate li-delegate-validator \\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
-            <a href=\\"#/staking/delegates/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"\\">good_greg</a>
+            <a href=\\"#/staking/delegates/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"\\">herr_schmidt_revoked</a>
          </div>
    <div class=\\"li-delegate__value percent_of_vote\\">
-      <span>49.23%</span>
+      <span>57.58%</span>
    </div>
    <div class=\\"li-delegate__value number_of_votes num bar\\">
-      <span>32</span>
+      <span>19</span>
       <div class=\\"bar\\" style=\\"width: 100%;\\"></div>
 </div>
    <div class=\\"li-delegate__value your-votes\\">
       <span>0</span>
    </div>
    <div class=\\"li-delegate__value status\\">
-      <span>Validator</span>
+      <span>Revoked</span>
    </div>
    <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
       <i class=\\"material-icons\\">check_box_outline_blank</i>
    </div>
 </div>
 </div>
-   <div class=\\"li-delegate li-delegate-validator \\">
-      <div class=\\"li-delegate__values\\">
-         <div class=\\"li-delegate__value name\\">
-            <a href=\\"#/staking/delegates/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"\\">herr_schmidt</a>
-         </div>
-   <div class=\\"li-delegate__value percent_of_vote\\">
-      <span>29.23%</span>
-   </div>
-   <div class=\\"li-delegate__value number_of_votes num bar\\">
-      <span>19</span>
-      <div class=\\"bar\\" style=\\"width: 59%;\\"></div>
-</div>
-   <div class=\\"li-delegate__value your-votes\\">
-      <span>0</span>
-   </div>
-   <div class=\\"li-delegate__value status\\">
-      <span>Validator</span>
-   </div>
-   <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
-      <i class=\\"material-icons\\">check_box_outline_blank</i>
-   </div>
-</div>
-</div>
-   <div class=\\"li-delegate li-delegate-validator \\">
+   <div class=\\"li-delegate li-delegate-active li-delegate-validator \\">
       <div class=\\"li-delegate__values\\">
          <div class=\\"li-delegate__value name\\">
             <a href=\\"#/staking/delegates/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"\\">mr_mounty</a>
          </div>
    <div class=\\"li-delegate__value percent_of_vote\\">
-      <span>21.54%</span>
+      <span>42.42%</span>
    </div>
    <div class=\\"li-delegate__value number_of_votes num bar\\">
       <span>14</span>
-      <div class=\\"bar\\" style=\\"width: 44%;\\"></div>
+      <div class=\\"bar\\" style=\\"width: 74%;\\"></div>
+</div>
+   <div class=\\"li-delegate__value your-votes\\">
+      <span>130</span>
+   </div>
+   <div class=\\"li-delegate__value status\\">
+      <span>Validator</span>
+   </div>
+   <div class=\\"li-delegate__value checkbox\\">
+      <i class=\\"material-icons\\">lock</i>
+   </div>
+</div>
+</div>
+   <div class=\\"li-delegate li-delegate-validator \\">
+      <div class=\\"li-delegate__values\\">
+         <div class=\\"li-delegate__value name\\">
+            <a href=\\"#/staking/delegates/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"\\">good_greg</a>
+         </div>
+   <div class=\\"li-delegate__value percent_of_vote\\">
+      <span>0.00%</span>
+   </div>
+   <div class=\\"li-delegate__value number_of_votes num bar\\">
+      <span>0</span>
+      <div class=\\"bar\\" style=\\"width: 0%;\\"></div>
 </div>
    <div class=\\"li-delegate__value your-votes\\">
       <span>0</span>
@@ -136,9 +136,9 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
    <div class=\\"fixed-button-bar\\">
       <div class=\\"label\\">
-         <strong>0</strong> delegates selected
+         <strong>1</strong> delegates selected
       </div>
-   <a href=\\"#/staking/bond\\" class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container tm-btn__icon-right tm-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">chevron_right</i><span class=\\"tm-btn__value\\">Next</span></span></a>
+   <a href=\\"#/staking/bond\\" class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn__icon-right tm-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">chevron_right</i><span class=\\"tm-btn__value\\">Next</span></span></a>
 </div>
    <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
       <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
@@ -208,6 +208,7 @@ exports[`PageStaking should filter the delegates 1`] = `
                   </a>
                   <a
                     class="back"
+                    disabled="disabled"
                   >
                     <i
                       class="material-icons"
@@ -354,7 +355,7 @@ exports[`PageStaking should filter the delegates 1`] = `
         </div>
       </div>
       <div
-        class="li-delegate li-delegate-validator "
+        class="li-delegate li-delegate-active li-delegate-validator "
       >
         <div
           class="li-delegate__values"
@@ -373,7 +374,7 @@ exports[`PageStaking should filter the delegates 1`] = `
             class="li-delegate__value percent_of_vote"
           >
             <span>
-              21.54%
+              42.42%
             </span>
           </div>
           <div
@@ -384,14 +385,14 @@ exports[`PageStaking should filter the delegates 1`] = `
             </span>
             <div
               class="bar"
-              style="width: 44%;"
+              style="width: 74%;"
             />
           </div>
           <div
             class="li-delegate__value your-votes"
           >
             <span>
-              0
+              130
             </span>
           </div>
           <div
@@ -403,12 +404,11 @@ exports[`PageStaking should filter the delegates 1`] = `
           </div>
           <div
             class="li-delegate__value checkbox"
-            id="add-to-cart"
           >
             <i
               class="material-icons"
             >
-              check_box_outline_blank
+              lock
             </i>
           </div>
         </div>
@@ -421,13 +421,12 @@ exports[`PageStaking should filter the delegates 1`] = `
         class="label"
       >
         <strong>
-          0
+          1
         </strong>
          delegates selected
       </div>
       <a
         class="tm-btn"
-        disabled="disabled"
         href="#/staking/bond"
       >
         <span
@@ -450,3 +449,5 @@ exports[`PageStaking should filter the delegates 1`] = `
   </main>
 </div>
 `;
+
+exports[`PageStaking should show the amount of selected delegates 1`] = `"2"`;

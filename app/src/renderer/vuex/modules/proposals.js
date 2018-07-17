@@ -1,6 +1,6 @@
 import data from "../json/proposals.json"
 
-export default ({ commit }) => {
+export default () => {
   const state = {
     items: data,
     loading: false
@@ -8,7 +8,7 @@ export default ({ commit }) => {
 
   const mutations = {}
   const actions = {
-    reconnected({ state, dispatch }) {
+    reconnected({ state }) {
       if (state.loading) {
         // dispatch('queryProposals')
       }

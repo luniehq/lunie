@@ -1,7 +1,7 @@
 import setup from "../../helpers/vuex-setup"
 import b32 from "scripts/b32"
 
-function mockGA(uid) {
+function mockGA() {
   window.analytics = { foo: "bar" }
 }
 jest.mock("renderer/google-analytics.js", () => mockGA)
@@ -19,8 +19,6 @@ describe("Module: User", () => {
   ]
 
   beforeEach(() => {
-    jest.mock("electron", () => ({ ipcRenderer: { send: jest.fn() } }))
-
     let test = instance.shallow()
     store = test.store
     node = test.node
@@ -31,6 +29,21 @@ describe("Module: User", () => {
     expect(store.state.user.password).toBe(null)
     expect(store.state.user.account).toBe(null)
     expect(store.state.user.address).toBe(null)
+  })
+
+  it("should add and remove history correctly", () => {
+    expect(store.state.user.history.length).toBe(0)
+    store.commit("addHistory", "/")
+    expect(store.state.user.history.length).toBe(1)
+    store.commit("popHistory")
+    expect(store.state.user.history.length).toBe(0)
+  })
+  it("should pauseHistory correctly", () => {
+    expect(store.state.user.pauseHistory).toBe(false)
+    store.commit("pauseHistory", true)
+    expect(store.state.user.pauseHistory).toBe(true)
+    store.commit("pauseHistory", false)
+    expect(store.state.user.pauseHistory).toBe(false)
   })
 
   it("should set accounts", () => {
@@ -84,7 +97,7 @@ describe("Module: User", () => {
   it("should create a seed phrase", async () => {
     let seed = await store.dispatch("createSeed")
     expect(seed).toBeDefined()
-    expect(seed.split(" ").length).toBe(16)
+    expect(seed.split(" ").length).toBe(24)
   })
 
   it("should create a key from a seed phrase", async () => {
@@ -102,13 +115,7 @@ describe("Module: User", () => {
       password,
       name
     })
-    try {
-      b32.decode(address)
-      expect(true).toBe(true)
-    } catch (error) {
-      console.log(error)
-      expect(true).toBe(false)
-    }
+    b32.decode(address)
     // initialize wallet
     expect(store.state.wallet.address).toBe(address)
   })

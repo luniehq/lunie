@@ -7,9 +7,9 @@ if (COSMOS_HOME) {
   const { join } = require("path")
   const networkName = require("./network.js").name
 
-  const pkg = require("../package.json")
+  const { name } = require("../../package.json")
   const DEV = NODE_ENV === "development"
-  const appName = pkg.name.toLowerCase()
+  const appName = name.toLowerCase()
   const appDirName = `.${appName}${DEV ? "-dev" : ""}`
 
   module.exports = join(home, appDirName, networkName)
