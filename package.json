@@ -95,7 +95,7 @@
     "xmlhttprequest": "1.8.0"
   },
   "dependencies": {
-    "@tendermint/ui": "0.2.13",
+    "@tendermint/ui": "git+ssh://git@github.com/tendermint/ui.git#2da6947354bdbb9c6c5494a15c935b8d8158430d",
     "@vue/test-utils": "1.0.0-beta.11",
     "autosize": "4.0.2",
     "axios": "0.18.0",
