@@ -1,8 +1,9 @@
 import Vuex from "vuex"
 import VueRouter from "vue-router"
 import { shallow, mount, createLocalVue } from "@vue/test-utils"
+import { getCommits, getDispatches } from "./vuex-helpers.js"
 
-import routes from "renderer/routes"
+import routesConstructor from "renderer/routes"
 
 const Modules = require("renderer/vuex/modules").default
 const Getters = require("renderer/vuex/getters")
@@ -15,7 +16,7 @@ export default function vuexSetup() {
   function init(
     componentConstructor,
     testType = shallow,
-    { stubs, getters = {}, propsData }
+    { stubs, getters = {}, propsData, doBefore = () => {} } // doBefore receives router and store
   ) {
     const node = Object.assign({}, require("../helpers/node_mock"))
     const modules = Modules({ node })
@@ -28,7 +29,20 @@ export default function vuexSetup() {
     jest.spyOn(store, "dispatch")
     jest.spyOn(store, "commit")
 
+    // helpers to make it easier to search events
+    store.getCommits = getCommits.bind(this, store)
+    store.getDispatches = getDispatches.bind(this, store)
+
+    const routes = routesConstructor(store)
     let router = new VueRouter({ routes })
+    router.beforeEach((to, from, next) => {
+      if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)
+        store.commit("addHistory", from.fullPath)
+      next()
+    })
+
+    // execute some preparation logic on the store or router before mounting
+    doBefore({ store, router })
 
     return {
       node,
@@ -48,17 +62,25 @@ export default function vuexSetup() {
 
   return {
     localVue,
-    shallow: (componentConstructor, { stubs, getters, propsData } = {}) =>
+    shallow: (
+      componentConstructor,
+      { stubs, getters, propsData, doBefore } = {}
+    ) =>
       init(componentConstructor, shallow, {
         stubs,
         getters,
-        propsData
+        propsData,
+        doBefore
       }),
-    mount: (componentConstructor, { stubs, getters, propsData } = {}) =>
+    mount: (
+      componentConstructor,
+      { stubs, getters, propsData, doBefore } = {}
+    ) =>
       init(componentConstructor, mount, {
         stubs,
         getters,
-        propsData
+        propsData,
+        doBefore
       })
   }
 }

@@ -11,6 +11,7 @@ describe("Module: Node", () => {
     store = test.store
     node = test.node
 
+    node.rpcInfo.nodeIP = "234.234.234.234"
     node.rpcInfo.connected = true
     node.rpcReconnect = jest.fn(() => {
       node.rpcInfo.connected = true
@@ -46,6 +47,12 @@ describe("Module: Node", () => {
     expect(store.state.node.connected).toBe(false)
     store.commit("setConnected", true)
     expect(store.state.node.connected).toBe(true)
+  })
+
+  it("sets the connected node", () => {
+    expect(store.state.node.nodeIP).toBe(null)
+    store.commit("setNode", "123.123.123.123")
+    expect(store.state.node.nodeIP).toBe("123.123.123.123")
   })
 
   it("triggers a reconnect", () => {
@@ -96,7 +103,7 @@ describe("Module: Node", () => {
     store.dispatch("rpcSubscribe")
   })
 
-  it("should set the initial status", () => {
+  it("should set the initial status on subscription", () => {
     node.rpc.status = cb =>
       cb(null, {
         latest_block_height: 42,
@@ -104,6 +111,7 @@ describe("Module: Node", () => {
       })
     store.dispatch("rpcSubscribe")
     expect(store.state.node.connected).toBe(true)
+    expect(store.state.node.nodeIP).toBe("234.234.234.234")
     expect(store.state.node.lastHeader.height).toBe(42)
     expect(store.state.node.lastHeader.chain_id).toBe("test-net")
   })
@@ -162,13 +170,13 @@ describe("Module: Node", () => {
   })
 
   it("should trigger reconnection if it started disconnected", done => {
+    jest.useFakeTimers()
     node.rpcInfo.connected = false
     node.rpcReconnect = () => {
       done()
-      node.rpcInfo.connected = true
-      return Promise.resolve("1.1.1.1")
     }
     store.dispatch("rpcSubscribe")
+    jest.runAllTimers()
   })
 
   it("should ping the node to check connection status", done => {
@@ -179,14 +187,14 @@ describe("Module: Node", () => {
 
   it("should reconnect if pinging node timesout", done => {
     node.rpcReconnect = () => done()
-    node.rpc.status = cb => {}
+    node.rpc.status = () => {}
     store.dispatch("pollRPCConnection", 10)
   })
 
   it("should reconnect if pinging node fails", done => {
     node.rpcReconnect = () => {
       // restore status hook as it crashes the rest if not
-      node.rpc.status = cb => {}
+      node.rpc.status = () => {}
       done()
     }
     node.rpc.status = cb => cb("Error")
@@ -202,6 +210,14 @@ describe("Module: Node", () => {
       throw Error("Shouldnt reconnect")
     }
     store.dispatch("pollRPCConnection", 50)
+  })
+
+  it("should not subscribe if stopConnecting active", () => {
+    store.commit("stopConnecting", true)
+    node.subscribe = () => {
+      throw Error("Shouldnt subscribe")
+    }
+    store.dispatch("rpcSubscribe")
   })
 
   it("should set approval required state", () => {
@@ -231,7 +247,6 @@ describe("Module: Node", () => {
   })
 
   it("should switch to the mocked node implemenation", () => {
-    let { ipcRenderer } = require("electron")
     let spy = jest.spyOn(node, "setup")
 
     store.dispatch("setMockedConnector", true)

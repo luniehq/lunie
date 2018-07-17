@@ -3,13 +3,15 @@ import Raven from "raven-js"
 const { ipcRenderer, remote } = require("electron")
 const config = remote.getGlobal("config")
 
-export default ({ commit, node }) => {
+export default ({ node }) => {
   const ERROR_COLLECTION_KEY = "voyager_error_collection"
 
   let state = {
     atoms: 0,
     signedIn: false,
     accounts: [],
+    pauseHistory: false,
+    history: [],
     password: null,
     account: null,
     address: null,
@@ -22,6 +24,18 @@ export default ({ commit, node }) => {
     },
     setAtoms(state, atoms) {
       state.atoms = atoms
+    },
+    addHistory(state, path) {
+      state.history.push(path)
+    },
+    clearHistory(state) {
+      state.history = []
+    },
+    popHistory(state) {
+      state.history.pop()
+    },
+    pauseHistory(state, paused) {
+      state.pauseHistory = paused
     }
   }
 
@@ -31,6 +45,8 @@ export default ({ commit, node }) => {
       await dispatch("loadAccounts")
     },
     async showInitialScreen({ dispatch, commit }) {
+      dispatch("resetSessionData")
+
       await dispatch("loadAccounts")
       let exists = state.accounts.length > 0
       let screen = exists ? "sign-in" : "welcome"
@@ -58,12 +74,12 @@ export default ({ commit, node }) => {
         throw Error("Incorrect passphrase")
       }
     },
-    createSeed({ commit }) {
+    createSeed() {
       // generate seed phrase
       return node.generateSeed()
     },
-    async createKey({ commit, dispatch }, { seedPhrase, password, name }) {
-      let address = await node.storeKey({
+    async createKey({ dispatch }, { seedPhrase, password, name }) {
+      let { address } = await node.storeKey({
         name,
         password,
         seed: seedPhrase
@@ -71,7 +87,7 @@ export default ({ commit, node }) => {
       dispatch("initializeWallet", address)
       return address
     },
-    async deleteKey({ commit, dispatch }, { password, name }) {
+    async deleteKey(ignore, { password, name }) {
       await node.deleteKey(name, { name, password })
       return true
     },
@@ -94,6 +110,10 @@ export default ({ commit, node }) => {
 
       commit("setModalSession", true)
       dispatch("showInitialScreen")
+    },
+    resetSessionData({ commit }) {
+      commit("clearHistory")
+      commit("setActiveMenu", "")
     },
     loadErrorCollection({ state, dispatch }, account) {
       let errorCollection =

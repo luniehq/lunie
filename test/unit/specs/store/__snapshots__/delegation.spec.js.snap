@@ -1,170 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Module: Delegations fetches bonded delegates 1`] = `
+Object {
+  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw": 0.08130081300813008,
+}
+`;
+
 exports[`Module: Delegations should query delegated atoms on reconnection 1`] = `Array []`;
 
 exports[`Module: Delegations submits delegation transaction 1`] = `
 Array [
   Array [
     Object {
-      "amount": Object {
-        "amount": 123,
-        "denom": "fermion",
-      },
-      "from": Object {
-        "addr": "someaddress",
-        "app": "sigs",
-        "chain": "",
-      },
-      "pub_key": Object {
-        "data": "foo",
-      },
-      "sequence": 124,
-      "type": "buildDelegate",
-    },
-  ],
-  Array [
-    Object {
-      "amount": Object {
-        "amount": 333,
-        "denom": "fermion",
-      },
-      "done": Promise {},
-      "from": Object {
-        "addr": "someaddress",
-        "app": "sigs",
-        "chain": "",
-      },
-      "pub_key": Object {
-        "data": "bar",
-      },
-      "reject": [Function],
-      "resolve": [Function],
-      "sequence": 125,
-      "type": "buildDelegate",
-    },
-  ],
-  Array [
-    Object {
-      "amount": 789,
-      "done": Promise {},
-      "from": Object {
-        "addr": "someaddress",
-        "app": "sigs",
-        "chain": "",
-      },
-      "pub_key": Object {
-        "data": "baz",
-      },
-      "reject": [Function],
-      "resolve": [Function],
-      "sequence": 126,
-      "type": "buildUnbond",
-    },
-  ],
-  Array [
-    Object {
-      "amount": Object {
-        "amount": 333,
-        "denom": "fermion",
-      },
-      "done": Promise {},
-      "from": Object {
-        "addr": "someaddress",
-        "app": "sigs",
-        "chain": "",
-      },
-      "pub_key": Object {
-        "data": "bar",
-      },
-      "reject": [Function],
-      "resolve": [Function],
-      "sequence": 125,
-      "type": "buildDelegate",
-    },
-  ],
-  Array [
-    Object {
-      "amount": 789,
-      "done": Promise {},
-      "from": Object {
-        "addr": "someaddress",
-        "app": "sigs",
-        "chain": "",
-      },
-      "pub_key": Object {
-        "data": "baz",
-      },
-      "reject": [Function],
-      "resolve": [Function],
-      "sequence": 126,
-      "type": "buildUnbond",
-    },
-  ],
-]
-`;
-
-exports[`Module: Delegations submits delegation transaction 2`] = `
-Array [
-  Array [
-    Object {
-      "amount": Object {
-        "amount": 123,
-        "denom": "fermion",
-      },
-      "from": Object {
-        "addr": "someaddress",
-        "app": "sigs",
-        "chain": "",
-      },
-      "pub_key": Object {
-        "data": "foo",
-      },
-      "sequence": 124,
-      "type": "buildDelegate",
-    },
-  ],
-  Array [
-    Object {
-      "amount": Object {
-        "amount": 333,
-        "denom": "fermion",
-      },
-      "done": Promise {},
-      "from": Object {
-        "addr": "someaddress",
-        "app": "sigs",
-        "chain": "",
-      },
-      "pub_key": Object {
-        "data": "bar",
-      },
-      "reject": [Function],
-      "resolve": [Function],
-      "sequence": 125,
-      "type": "buildDelegate",
-    },
-  ],
-]
-`;
-
-exports[`Module: Delegations submits delegation transaction 3`] = `
-Array [
-  Array [
-    Object {
-      "amount": 789,
-      "done": Promise {},
-      "from": Object {
-        "addr": "someaddress",
-        "app": "sigs",
-        "chain": "",
-      },
-      "pub_key": Object {
-        "data": "baz",
-      },
-      "reject": [Function],
-      "resolve": [Function],
-      "sequence": 126,
-      "type": "buildUnbond",
+      "account_number": 1,
+      "chain_id": "test-chain",
+      "delegate": Array [
+        Object {
+          "bond": Object {
+            "amount": 456,
+            "denom": "steak",
+          },
+          "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+        },
+      ],
+      "gas": "500000",
+      "name": "default",
+      "password": "bar",
+      "sequence": 1,
+      "unbond": Array [
+        Object {
+          "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+          "shares": "7",
+          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+        },
+      ],
     },
   ],
 ]

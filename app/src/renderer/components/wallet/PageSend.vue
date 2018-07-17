@@ -43,10 +43,18 @@ tm-page(title='Send')
         tm-form-msg(name='Amount' type='between' :min='max ? 1 : 0' :max='max'
           v-if='!$v.fields.amount.between')
 
+      p(v-if='mockedConnector')
+        span Try sending to the address "
+        strong(style="font-weight: bold") cosmosaccaddr1p6zajjw6xged056andyhn62lm7axwzyspkzjq0
+        span ", it's a friendly bot which will send the money back to you!
+      br(v-if='mockedConnector')
+
     div(slot='footer')
       div
       tm-btn(v-if='sending' value='Sending...' disabled color="primary")
       tm-btn(v-else @click='onSubmit' value="Send Tokens" color="primary")
+
+  tm-modal-send-confirmation(v-if="confirmationPending" @approved="onApproved" @canceled="onCancel" :amount="fields.amount" :recipient="fields.address" :denom="fields.denom")
 </template>
 
 <script>
@@ -66,6 +74,7 @@ import {
 
 import FieldAddon from "common/TmFieldAddon"
 import ToolBar from "common/TmToolBar"
+import TmModalSendConfirmation from "wallet/TmModalSendConfirmation"
 export default {
   components: {
     TmBtn,
@@ -77,10 +86,11 @@ export default {
     TmFormStruct,
     TmPage,
     TmPart,
-    ToolBar
+    ToolBar,
+    TmModalSendConfirmation
   },
   computed: {
-    ...mapGetters(["wallet", "lastHeader", "config"]),
+    ...mapGetters(["wallet", "lastHeader", "config", "mockedConnector"]),
     max() {
       let denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
@@ -103,6 +113,7 @@ export default {
       denom: "",
       zoneId: "cosmos-hub-1"
     },
+    confirmationPending: false,
     sending: false
   }),
   methods: {
@@ -112,15 +123,18 @@ export default {
       this.sending = false
       this.$v.$reset()
     },
-    async onSubmit() {
+    onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
 
+      this.confirmationPending = true
+    },
+    async onApproved() {
+      this.confirmationPending = false
       this.sending = true
       let amount = +this.fields.amount
       let address = this.fields.address
       let denom = this.fields.denom
-      let zoneId = this.fields.zoneId
       try {
         // if address has a slash, it is IBC address format
         let type = "send"
@@ -134,7 +148,7 @@ export default {
         await this.sendTx({
           type,
           to: address,
-          amount: [{ denom, amount }]
+          amount: [{ denom, amount: amount.toString() }]
         })
         this.sending = false
         this.$store.commit("notify", {
@@ -152,6 +166,9 @@ export default {
           body: `An error occurred while trying to send: "${err.message}"`
         })
       }
+    },
+    onCancel() {
+      this.confirmationPending = false
     },
     bech32Validate(param) {
       try {

@@ -1,10 +1,11 @@
 import noScroll from "no-scroll"
 
-export default ({ commit }) => {
+export default () => {
   const state = {
     maxValidators: 100,
     activeMenu: "",
     desktop: false,
+    showAbout: false,
     devMode:
       process.env.PREVIEW !== undefined
         ? JSON.parse(process.env.PREVIEW)
@@ -19,11 +20,19 @@ export default ({ commit }) => {
         active: true,
         state: "loading"
       },
-      blockchain: { active: false },
-      nonodes: { active: false }
+      noNodes: { active: false },
+      nodeHalted: { active: false }
     }
   }
   const mutations = {
+    setAbout(state, value) {
+      // when triggered from a button the click event is value, when triggered from the modal the value is undefined
+      // value is present so it can also be explicit as a replacement from the electron menu
+      state.showAbout =
+        typeof value === "object" || typeof value === "undefined"
+          ? !state.showAbout
+          : value
+    },
     setDevMode(state, value) {
       state.devMode = value
     },
@@ -53,7 +62,10 @@ export default ({ commit }) => {
       state.modals.session.state = value
     },
     setModalNoNodes(state, value) {
-      state.modals.nonodes.active = value
+      state.modals.noNodes.active = value
+    },
+    setModalNodeHalted(state, value) {
+      state.modals.nodeHalted.active = value
     },
     setActiveMenu(state, value) {
       state.activeMenu = value

@@ -1,6 +1,6 @@
 let test = require("tape-promise/tape")
-let { getApp, restart, refresh } = require("./launch.js")
-let { openMenu, login } = require("./common.js")
+let { getApp, refresh } = require("./launch.js")
+let { openMenu, login, sleep } = require("./common.js")
 
 /*
 * NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
@@ -35,6 +35,8 @@ test("sign in", async function(t) {
       .$("..")
       .$("..")
       .click()
+
+    await sleep(500) // circleci error where the checkbox somehow isn't ready to be clicked yet
 
     let accountName = () => el("#sign-up-name")
     let password = () => el("#sign-up-password")
@@ -286,7 +288,7 @@ test("sign in", async function(t) {
       )
       await seed().click()
       await app.client.keys(
-        "goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon".split()
+        "attack ocean crack fun say lawn display proof tiny traffic light expect gravity citizen split deer family bar mutual clown stage cook awake evoke".split()
       )
       t.ok(
         !(await seed()

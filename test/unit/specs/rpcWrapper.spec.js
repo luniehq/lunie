@@ -13,7 +13,7 @@ describe("RPC Connector", () => {
 
   beforeEach(() => {
     jest.mock("tendermint", () => () => ({
-      on(value, cb) {},
+      on() {},
       removeAllListeners() {},
       ws: { destroy() {} }
     }))
@@ -75,7 +75,7 @@ describe("RPC Connector", () => {
   describe("reconnect", () => {
     beforeEach(() => {
       jest.mock("tendermint", () => () => ({
-        on(value, cb) {},
+        on() {},
         removeAllListeners() {},
         ws: { destroy() {} }
       }))

@@ -3,7 +3,7 @@ import setup from "../../../helpers/vuex-setup"
 
 describe("TmModalNoNodes", () => {
   let wrapper, store
-  let { mount, localVue } = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
     let instance = mount(TmModalNoNodes)
@@ -23,7 +23,7 @@ describe("TmModalNoNodes", () => {
     expect(spy).toHaveBeenCalledWith("retry-connection")
 
     // also closing the modal
-    expect(store.state.config.modals.nonodes.active).toBe(false)
+    expect(store.state.config.modals.noNodes.active).toBe(false)
   })
 
   it("switches to a mock connection", () => {
@@ -32,6 +32,6 @@ describe("TmModalNoNodes", () => {
     expect(store.state.node.mocked).toBe(true)
 
     // also closing the modal
-    expect(store.state.config.modals.nonodes.active).toBe(false)
+    expect(store.state.config.modals.noNodes.active).toBe(false)
   })
 })

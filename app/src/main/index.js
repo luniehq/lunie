@@ -7,7 +7,6 @@ let { spawn } = require("child_process")
 let home = require("user-home")
 let semver = require("semver")
 let toml = require("toml")
-let axios = require("axios")
 let Raven = require("raven")
 let _ = require("lodash")
 
@@ -141,18 +140,17 @@ function createWindow() {
   mainWindow.once("ready-to-show", () => {
     setTimeout(() => {
       mainWindow.show()
+      if (DEV || JSON.parse(process.env.COSMOS_DEVTOOLS || "false")) {
+        mainWindow.webContents.openDevTools()
+      }
+      if (DEV) {
+        mainWindow.maximize()
+      }
     }, 300)
   })
 
   // start vue app
   mainWindow.loadURL(winURL + "?lcd_port=" + LCD_PORT)
-
-  if (DEV || JSON.parse(process.env.COSMOS_DEVTOOLS || "false")) {
-    mainWindow.webContents.openDevTools()
-  }
-  if (DEV) {
-    mainWindow.maximize()
-  }
 
   mainWindow.on("closed", shutdown)
 
@@ -170,9 +168,7 @@ function createWindow() {
   webContents.on("will-navigate", handleRedirect)
   webContents.on("new-window", handleRedirect)
 
-  // addMenu overwrites the default menu to only hold copy/paste actions to not confuse the user
-  // In development mode we want all the options including switching the devtools
-  if (!DEV) addMenu()
+  addMenu(mainWindow)
 }
 
 function startProcess(name, args, env) {
@@ -318,25 +314,6 @@ function exists(path) {
   }
 }
 
-function handleHashVerification(nodeHash) {
-  function removeListeners() {
-    ipcMain.removeAllListeners("hash-disapproved")
-    ipcMain.removeAllListeners("hash-approved")
-  }
-  return new Promise((resolve, reject) => {
-    ipcMain.on("hash-approved", (event, hash) => {
-      if (hash === nodeHash) {
-        resolve()
-      } else {
-        reject()
-      }
-    })
-    ipcMain.on("hash-disapproved", (event, hash) => {
-      reject()
-    })
-  }).finally(removeListeners)
-}
-
 // TODO readd when needed
 // async function initLCD(chainId, home, node) {
 //   // let the user in the view approve the hash we get from the node
@@ -401,12 +378,15 @@ function handleHashVerification(nodeHash) {
 // the purpose is to send events to the view thread only after it is ready to receive those events
 // if we don't do this, the view thread misses out on those (i.e. an error that occures before the view is ready)
 function afterBooted(cb) {
-  if (booted) {
+  // in tests we trigger the booted callback always, this causes those events to be sent twice
+  // this is why we skip the callback if the message was sent already
+  let sent = false
+  ipcMain.on("booted", () => {
     cb()
-  } else {
-    ipcMain.on("booted", event => {
-      cb()
-    })
+    sent = true
+  })
+  if (booted && !sent) {
+    cb()
   }
 }
 
@@ -488,12 +468,12 @@ function handleIPC() {
       })
       .install()
   })
-  ipcMain.on("stop-lcd", event => {
+  ipcMain.on("stop-lcd", () => {
     stopLCD()
   })
   ipcMain.on("retry-connection", () => {
     log("Retrying to connect to nodes")
-    resetNodes()
+    addressbook.resetNodes()
     reconnect()
   })
 }
@@ -677,7 +657,14 @@ async function main() {
     }
   }
 
-  addressbook = new Addressbook(root, expectedGaiaCliVersion, persistent_peers)
+  addressbook = new Addressbook(root, {
+    persistent_peers,
+    expectedGaiaCliVersion,
+    onConnectionMessage: message => {
+      log(message)
+      mainWindow.webContents.send("connection-status", message)
+    }
+  })
 
   // choose one random node to start from
   try {

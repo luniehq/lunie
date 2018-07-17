@@ -12,7 +12,7 @@ describe("PageStaking", () => {
     wrapper = instance.wrapper
     store = instance.store
 
-    store.state.user.address = "abc"
+    store.state.user.address = lcdClientMock.addresses[0]
     store.commit("setAtoms", 1337)
     wrapper.update()
   })
@@ -85,7 +85,7 @@ describe("PageStaking", () => {
         .find(".fixed-button-bar strong")
         .text()
         .trim()
-    ).toContain("2")
+    ).toMatchSnapshot()
   })
 
   it("should update 'somethingToSearch' when there's nothing to search", () => {

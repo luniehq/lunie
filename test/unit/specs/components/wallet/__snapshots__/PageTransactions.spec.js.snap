@@ -46,11 +46,19 @@ exports[`PageTransactions has the expected html structure 1`] = `
                     <i
                       class="material-icons"
                     >
+                      refresh
+                    </i>
+                  </a>
+                  <a>
+                    <i
+                      class="material-icons"
+                    >
                       search
                     </i>
                   </a>
                   <a
                     class="back"
+                    disabled="disabled"
                   >
                     <i
                       class="material-icons"
@@ -173,11 +181,19 @@ exports[`PageTransactions should filter the transactions 1`] = `
                     <i
                       class="material-icons"
                     >
+                      refresh
+                    </i>
+                  </a>
+                  <a>
+                    <i
+                      class="material-icons"
+                    >
                       search
                     </i>
                   </a>
                   <a
                     class="back"
+                    disabled="disabled"
                   >
                     <i
                       class="material-icons"

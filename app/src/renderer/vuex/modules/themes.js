@@ -1,7 +1,7 @@
 import light from "../json/theme-light.json"
 import dark from "../json/theme-dark.json"
 
-export default ({ commit }) => {
+export default () => {
   const state = {
     active: "dark",
     options: {
@@ -10,10 +10,6 @@ export default ({ commit }) => {
     }
   }
   const mutations = {
-    loadTheme(state) {
-      const theme = localStorage.getItem("appTheme")
-      state.active = theme
-    },
     setTheme(state, theme) {
       state.active = theme
       localStorage.setItem("appTheme", theme)
@@ -29,8 +25,18 @@ export default ({ commit }) => {
       }
     }
   }
+
+  const actions = {
+    loadTheme({ commit }) {
+      const theme = localStorage.getItem("appTheme")
+      commit("setTheme", theme)
+      commit("updateTheme", theme)
+    }
+  }
+
   return {
     state,
-    mutations
+    mutations,
+    actions
   }
 }

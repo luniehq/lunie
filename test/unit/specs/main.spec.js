@@ -199,13 +199,13 @@ describe("Startup Process", () => {
       main = await require(appRoot + "src/main/index.js")
 
       expect(
-        send.mock.calls.filter(([type, _]) => type === "connected").length
+        send.mock.calls.filter(([type]) => type === "connected").length
       ).toBe(0) // doesn't connect
+      expect(send.mock.calls.filter(([type]) => type === "error").length).toBe(
+        1
+      )
       expect(
-        send.mock.calls.filter(([type, _]) => type === "error").length
-      ).toBe(1)
-      expect(
-        send.mock.calls.filter(([type, _]) => type === "error")[0][1].code
+        send.mock.calls.filter(([type]) => type === "error")[0][1].code
       ).toBe("NO_NODES_AVAILABLE")
     })
   })
@@ -364,10 +364,10 @@ describe("Startup Process", () => {
 
     it("should provide the connected node when the view has booted", async () => {
       expect(
-        send.mock.calls.filter(([type, _]) => type === "connected").length
+        send.mock.calls.filter(([type]) => type === "connected").length
       ).toBe(1)
       expect(
-        send.mock.calls.find(([type, _]) => type === "connected")[1]
+        send.mock.calls.find(([type]) => type === "connected")[1]
       ).toBeTruthy() // TODO fix seeds so we can test nodeIP output
     })
 
@@ -379,7 +379,7 @@ describe("Startup Process", () => {
       await registeredIPCListeners["reconnect"]()
 
       expect(
-        send.mock.calls.filter(([type, _]) => type === "connected").length
+        send.mock.calls.filter(([type]) => type === "connected").length
       ).toBe(2)
     })
 
@@ -388,6 +388,29 @@ describe("Startup Process", () => {
       await registeredIPCListeners["stop-lcd"]()
 
       expect(killSpy).toHaveBeenCalled()
+    })
+
+    it("should report connection messages", async () => {
+      prepareMain()
+
+      jest.doMock(
+        "app/src/main/addressbook.js",
+        () =>
+          class MockAddressbook {
+            constructor(root, { onConnectionMessage }) {
+              this.onConnectionMessage = onConnectionMessage
+            }
+            async pickNode() {
+              this.onConnectionMessage("HALLO WORLD")
+              return "127.0.0.1:46657"
+            }
+          }
+      )
+      let { send } = require("electron")
+      send.mockClear()
+
+      await require(appRoot + "src/main/index.js")
+      expect(send).toHaveBeenCalledWith("connection-status", "HALLO WORLD")
     })
 
     it("should not start reconnecting again if already trying to reconnect", async done => {
@@ -474,7 +497,7 @@ describe("Startup Process", () => {
       // run main
       main = await require(appRoot + "src/main/index.js")
       expect(
-        send.mock.calls.filter(([type, _]) => type === "connected").length
+        send.mock.calls.filter(([type]) => type === "connected").length
       ).toBe(1)
     })
   })
@@ -616,10 +639,10 @@ function testFailingChildProcess(name, cmd) {
     let { send } = require("electron")
     await require(appRoot + "src/main/index.js")
 
-    expect(send.mock.calls.find(([type, _]) => type === "error")).toBeTruthy()
+    expect(send.mock.calls.find(([type]) => type === "error")).toBeTruthy()
     expect(
       send.mock.calls
-        .find(([type, _]) => type === "error")[1]
+        .find(([type]) => type === "error")[1]
         .message.toLowerCase()
     ).toContain(name)
   })

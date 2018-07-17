@@ -6,9 +6,7 @@ let electron = require("electron")
 let { join } = require("path")
 let { spawn } = require("child_process")
 let fs = require("fs-extra")
-let { login } = require("./common.js")
 
-const networkPath = join(__dirname, "localtestnet")
 const testDir = join(__dirname, "../../testArtifacts")
 
 let app, cliHome, nodeHome, started, crashed
@@ -25,10 +23,10 @@ function launch(t) {
     // tape doesn't exit properly on uncaught promise rejections
     process.on("unhandledRejection", async error => {
       console.error("unhandledRejection", error)
-      await handleCrash(app)
+      return handleCrash(app)
     })
 
-    started = new Promise(async (resolve, reject) => {
+    started = new Promise(async resolve => {
       console.log("using cli binary", binary)
       console.log("using node binary", nodeBinary)
 
@@ -40,8 +38,10 @@ function launch(t) {
       fs.emptyDirSync(cliHome)
       fs.emptyDirSync(nodeHome)
 
+      const initValues = await initLocalNode()
       await startLocalNode()
       console.log(`Started local node.`)
+      await saveVersion()
 
       app = new Application({
         path: electron,
@@ -59,7 +59,7 @@ function launch(t) {
           PREVIEW: "true",
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
           COSMOS_HOME: cliHome,
-          COSMOS_NETWORK: networkPath,
+          COSMOS_NETWORK: join(nodeHome, "config"),
           COSMOS_MOCKED: false, // the e2e tests expect mocking to be switched off
           BINARY_PATH: binary
         }
@@ -95,17 +95,13 @@ function launch(t) {
       // console.log("approved hash")
 
       await stop(app)
-      await createAccount(
-        "testkey",
-        // address: DFA5D5AFFC5153FB0E82463FA496A133F949210D
-        "senior toy try above unfair silly believe bachelor unfold orient glove isolate hazard capital announce abandon"
+      let accounts = []
+      // testkey account needs to match genesis to own tokens for testing
+      accounts.push(
+        await createAccount("testkey", initValues.app_message.secret)
       )
-      await createAccount(
-        "testreceiver",
-        // address: cosmosaccaddr1xrnylx3l5mptnpjd4h0d52wtvealsdnv5k77n8
-        "cream another bring skill effort narrow crumble ball trouble verify mother confirm recall rain armor abandon"
-      )
-      console.log("setup test accounts")
+      accounts.push(await createAccount("testreceiver"))
+      console.log("setup test accounts", accounts)
 
       await startApp(app, ".tm-session-title=Sign In")
       t.ok(app.isRunning(), "app is running")
@@ -116,7 +112,7 @@ function launch(t) {
         value: "false"
       })
 
-      resolve({ app, cliHome })
+      resolve({ app, cliHome, accounts })
     })
   }
 
@@ -137,6 +133,11 @@ async function stop(app) {
 }
 
 async function printAppLog(app) {
+  if (!app) {
+    console.log("Not printing logs as app has not started yet")
+    return
+  }
+
   await app.client.getMainProcessLogs().then(function(logs) {
     logs.forEach(function(log) {
       console.log(log)
@@ -191,7 +192,7 @@ async function handleCrash(app) {
   }
 
   // save a screenshot
-  if (process.env.CI && app && app.client) {
+  if (process.env.CI && app && app.browserWindow) {
     const screenshotLocation = join(testDir, "snapshot.png")
     await app.browserWindow.capturePage().then(function(imageBuffer) {
       if (!imageBuffer.length) {
@@ -201,7 +202,7 @@ async function handleCrash(app) {
     })
   }
 
-  if (!process.COSMOS_E2E_KEEP_OPEN) {
+  if (!process.env.COSMOS_E2E_KEEP_OPEN) {
     if (app) await app.stop()
 
     process.exit(1)
@@ -209,12 +210,7 @@ async function handleCrash(app) {
 }
 
 function startLocalNode() {
-  const configPath = join(nodeHome, "config")
-  fs.mkdirpSync(configPath)
-  fs.copySync(networkPath, configPath)
-
   return new Promise((resolve, reject) => {
-    // TODO cleanup
     const command = `${nodeBinary} start --home ${nodeHome}`
     console.log(command)
     const localnodeProcess = spawn(command, { shell: true })
@@ -234,22 +230,78 @@ function startLocalNode() {
   })
 }
 
-async function createAccount(name, seed) {
-  await new Promise((resolve, reject) => {
-    let child = spawn(binary, [
-      "keys",
-      "add",
-      "--recover",
-      name,
-      "--home",
-      join(cliHome, "lcd")
-    ])
+function initLocalNode() {
+  return new Promise((resolve, reject) => {
+    const command = `${nodeBinary} init --home ${nodeHome} --name local --owk`
+    console.log(command)
+    const localnodeProcess = spawn(command, { shell: true })
+    localnodeProcess.stderr.pipe(process.stderr)
+
+    localnodeProcess.stdout.once("data", data => {
+      let msg = data.toString()
+
+      if (!msg.includes("Failed") && !msg.includes("Error")) {
+        resolve(JSON.parse(msg))
+      } else {
+        reject(msg)
+      }
+    })
+
+    localnodeProcess.once("exit", reject)
+  })
+}
+
+// save the version of the currently used gaia into the newly created network config folder
+function saveVersion() {
+  return new Promise((resolve, reject) => {
+    let versionFilePath = join(nodeHome, "config", "basecoindversion.txt") // nodeHome/config is used to copy created config files from, therefor we copy the version file in there
+    const command = `${nodeBinary} version`
+    console.log(command, ">", versionFilePath)
+    let child = spawn(command, { shell: true })
+    child.stderr.pipe(process.stderr)
+    child.stdout.once("data", data => {
+      let msg = data.toString()
+
+      if (!msg.includes("Failed") && !msg.includes("Error")) {
+        fs.ensureFileSync(versionFilePath)
+        fs.writeFileSync(versionFilePath, msg, "utf8")
+        resolve()
+      } else {
+        reject(msg)
+      }
+    })
+  })
+}
+
+function createAccount(name, seed) {
+  return new Promise((resolve, reject) => {
+    let child = spawn(
+      binary,
+      [
+        "keys",
+        "add",
+        name,
+        seed ? "--recover" : null,
+        "--home",
+        join(cliHome, "lcd"),
+        "--output",
+        "json"
+      ].filter(x => x !== null)
+    )
+
+    child.stdout.once("data", data => {
+      let msg = data.toString()
+
+      if (msg.startsWith("{")) {
+        resolve(JSON.parse(msg))
+      }
+    })
+
     child.stdin.write("1234567890\n")
-    child.stdin.write(seed + "\n")
+    seed && child.stdin.write(seed + "\n")
     child.stderr.pipe(process.stdout)
     child.once("exit", code => {
-      if (code === 0) resolve()
-      reject()
+      if (code !== 0) reject()
     })
   })
 }
@@ -266,8 +318,4 @@ module.exports = {
     await app.restart()
     await app.client.waitForExist(awaitingSelector, 5000)
   }
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
 }
