@@ -657,9 +657,8 @@ async function main() {
     }
   }
 
-  addressbook = new Addressbook(root, {
+  addressbook = new Addressbook(root, expectedGaiaCliVersion, {
     persistent_peers,
-    expectedGaiaCliVersion,
     onConnectionMessage: message => {
       log(message)
       mainWindow.webContents.send("connection-status", message)

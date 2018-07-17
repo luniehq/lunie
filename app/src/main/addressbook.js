@@ -2,6 +2,7 @@ const fs = require("fs-extra")
 const { join } = require("path")
 const axios = require("axios")
 const url = require("url")
+const semver = require("semver")
 
 const LOGGING = JSON.parse(process.env.LOGGING || "true") !== false
 const TENDERMINT_RPC_PORT = 26657
@@ -11,8 +12,7 @@ module.exports = class Addressbook {
   constructor(
     configPath,
     expectedNodeVersion,
-    persistent_peers = [],
-    onConnectionMessage = () => {}
+    { persistent_peers = [], onConnectionMessage = () => {} } = {}
   ) {
     this.peers = []
     this.expectedNodeVersion = expectedNodeVersion
@@ -51,11 +51,11 @@ module.exports = class Addressbook {
 
   async getVersion(peerURL) {
     let versionURL = `http://${peerURL}:${TENDERMINT_RPC_PORT}/node_version`
-    LOGGING && console.log("Querying node version:", versionURL)
+    this.onConnectionMessage("Querying node version:", versionURL)
     let nodeVersion = await axios
       .get(versionURL, { timeout: 3000 })
       .then(res => res.data)
-    LOGGING && console.log("Node version is", nodeVersion)
+    this.onConnectionMessage("Node version is", nodeVersion)
     return nodeVersion
   }
 
@@ -119,7 +119,8 @@ module.exports = class Addressbook {
     }
 
     let nodeVersion = await this.getVersion(curNode.host)
-    if (this.expectedNodeVersion !== nodeVersion) {
+    let semverDiff = semver.diff(nodeVersion, this.expectedNodeVersion)
+    if (semverDiff === "major" || semverDiff === "minor") {
       this.flagNodeIncompatible(curNode.host)
 
       return this.pickNode()
