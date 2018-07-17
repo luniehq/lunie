@@ -9,15 +9,21 @@ jest.mock("fs-extra", () => {
   let mockFs = mockFsExtra()
   mockFs.writeFile(
     "./app/networks/gaia-6002/config.toml",
-    fs.readFileSync("./app/networks/gaia-6002/config.toml", "utf8")
+    fs.readFileSync("./test/unit/helpers/mockNetworkConfig/config.toml", "utf8")
   )
   mockFs.writeFile(
     "./app/networks/gaia-6002/genesis.json",
-    fs.readFileSync("./app/networks/gaia-6002/genesis.json", "utf8")
+    fs.readFileSync(
+      "./test/unit/helpers/mockNetworkConfig/genesis.json",
+      "utf8"
+    )
   )
   mockFs.writeFile(
     "./app/networks/gaia-6002/basecoindversion.txt",
-    fs.readFileSync("./app/networks/gaia-6002/basecoindversion.txt", "utf8")
+    fs.readFileSync(
+      "./test/unit/helpers/mockNetworkConfig/basecoindversion.txt",
+      "utf8"
+    )
   )
   return mockFs
 })
