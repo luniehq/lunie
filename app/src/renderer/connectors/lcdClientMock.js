@@ -37,7 +37,7 @@ let state = {
           amount: 1000
         }
       ],
-      sequence: 1
+      sequence: "1"
     }
   },
   nonces: { [addresses[0]]: 0 },
