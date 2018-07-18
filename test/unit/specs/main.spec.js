@@ -178,6 +178,10 @@ describe("Startup Process", () => {
       let appVersion = fs.readFileSync(testRoot + "app_version", "utf8")
       expect(appVersion).toBe("0.1.0")
     })
+  })
+
+  describe("Connection", function() {
+    mainSetup()
 
     it("should error if it can't find a node to connect to", async () => {
       main.shutdown()
@@ -207,6 +211,27 @@ describe("Startup Process", () => {
       expect(
         send.mock.calls.filter(([type]) => type === "error")[0][1].code
       ).toBe("NO_NODES_AVAILABLE")
+    })
+
+    it.only("should look for a node with a compatible SDK version", async () => {
+      const mockAxiosGet = jest
+        .fn()
+        .mockReturnValueOnce(Promise.resolve({ data: "0.1.0" })) // should fail as expected version is 0.13.0
+        .mockReturnValueOnce(Promise.resolve({ data: "0.13.2" })) // should succeed as in semver range
+      // mock the version check request
+      jest.doMock("axios", () => ({
+        get: mockAxiosGet
+      }))
+
+      main.shutdown()
+      prepareMain()
+      let { send } = require("electron")
+      send.mockClear()
+
+      // run main
+      main = await require(appRoot + "src/main/index.js")
+
+      expect(send).toHaveBeenCalledWith("connected", "127.0.0.1:46657")
     })
   })
 

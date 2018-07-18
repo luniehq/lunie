@@ -205,4 +205,16 @@ describe("Addressbook", () => {
     await addressbook.pickNode()
     expect(spy).toHaveBeenCalled()
   })
+
+  it("should flag nodes incompatible", async done => {
+    let spy = jest.fn()
+    let addressbook = new Addressbook(mockConfig, "./config", {
+      persistent_peers: ["http://123.456.123.456"]
+    })
+    addressbook.flagNodeIncompatible("123.456.123.456")
+    await addressbook
+      .pickNode()
+      .then(done.fail)
+      .catch(() => done())
+  })
 })
