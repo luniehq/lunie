@@ -232,7 +232,8 @@ describe("Module: Wallet", () => {
     store.state.wallet.decodedAddress = "x"
 
     console.error = jest.fn()
-    node.rpc.subscribe = jest.fn(({ query }, cb) => {
+    node.rpc.subscribe = jest.fn(({}, cb) => {
+      //query is param
       cb(Error("foo"))
     })
 
@@ -250,7 +251,8 @@ describe("Module: Wallet", () => {
         resolve()
       })
 
-      node.rpc.subscribe = jest.fn(({ query }, cb) => {
+      node.rpc.subscribe = jest.fn(({}, cb) => {
+        // query is param
         cb(null, { data: { value: { TxResult: { height: -1 } } } })
       })
 

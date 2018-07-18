@@ -86,7 +86,7 @@ export default ({ node }) => {
       dispatch("queryWalletBalances")
       dispatch("queryWalletHistory")
     },
-    async queryWalletBalances({ state, rootState, commit, dispatch }) {
+    async queryWalletBalances({ state, rootState, commit }) {
       let res = await node.queryAccount(state.address)
       if (!res) {
         state.balancesLoading = false
