@@ -92,7 +92,7 @@ export default ({ node }) => {
         state.balancesLoading = false
         return
       }
-      commit("setNonce", res.sequence.toString())
+      commit("setNonce", res.sequence)
       commit("setAccountNumber", res.account_number)
       commit("setWalletBalances", res.coins)
       for (let coin of res.coins) {

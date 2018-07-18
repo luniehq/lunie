@@ -37,7 +37,8 @@ let state = {
           amount: 1000
         }
       ],
-      sequence: "1"
+      sequence: "1",
+      account_number: "1"
     }
   },
   nonces: { [addresses[0]]: 0 },
@@ -264,7 +265,7 @@ module.exports = {
     }
 
     // check nonce
-    if (fromAccount.sequence !== sequence) {
+    if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
       results.push(
         txResult(
           2,
@@ -286,7 +287,7 @@ module.exports = {
       }
 
       // update sender account
-      fromAccount.sequence += 1
+      incrementSequence(fromAccount)
       fromAccount.coins.find(c => c.denom === denom).amount -= amount
 
       // update stake
@@ -316,7 +317,7 @@ module.exports = {
     }
 
     for (let tx of unbond) {
-      fromAccount.sequence += 1
+      incrementSequence(fromAccount)
 
       let amount = +tx.shares.split("/")[0]
 
@@ -392,13 +393,13 @@ function send(to, from, req) {
   }
 
   // check/update nonce
-  if (fromAccount.sequence !== req.sequence) {
+  if (parseInt(fromAccount.sequence) !== parseInt(req.sequence)) {
     return txResult(
       2,
       `Expected sequence "${fromAccount.sequence}", got "${req.sequence}"`
     )
   }
-  fromAccount.sequence += 1
+  incrementSequence(fromAccount)
 
   // update sender balances
   for (let { denom, amount } of req.amount) {
@@ -410,7 +411,7 @@ function send(to, from, req) {
   if (!receiverAccount) {
     receiverAccount = state.accounts[to] = {
       coins: [],
-      sequence: 0
+      sequence: "0"
     }
   }
   for (let { denom, amount } of req.amount) {
@@ -507,4 +508,8 @@ function txResult(code = 0, message = "") {
     hash: "999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A",
     height: 0
   }
+}
+
+function incrementSequence(account) {
+  account.sequence = (parseInt(account.sequence) + 1).toString()
 }

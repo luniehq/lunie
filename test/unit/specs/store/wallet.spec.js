@@ -76,7 +76,7 @@ describe("Module: Wallet", () => {
     store.dispatch("queryWalletState")
     expect(store.state.wallet.balances).toEqual([])
     expect(store.state.wallet.history).toEqual([])
-    expect(store.state.send.nonce).toBe(0)
+    expect(store.state.send.nonce).toBe("0")
   })
 
   it("should query wallet balances", async () => {
