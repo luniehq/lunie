@@ -104,7 +104,7 @@ exports[`NISessionSignUp should signal signedin state on successful login 1`] = 
 Object {
   "body": "Your account has been created.",
   "icon": "check_circle",
-  "time": 0,
+  "time": 42000,
   "title": "Signed Up",
 }
 `;

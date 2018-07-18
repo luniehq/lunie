@@ -72,7 +72,7 @@ exports[`PageBlocks has the expected html structure 1`] = `
                Block Time
             </div>
          <div class=\\"tm-li-dd\\">
-            January 1st 1970 — 12:00:00
+            January 1st 1970 — 12:00:42
          </div>
 </div>
 </div>

@@ -1705,7 +1705,7 @@ Object {
   "body": "An error occurred while trying to send: \\"Cannot read property 'amount' of undefined\\"",
   "icon": "error",
   "layout": "alert",
-  "time": 0,
+  "time": 42000,
   "title": "Error Sending",
   "type": "error",
 }

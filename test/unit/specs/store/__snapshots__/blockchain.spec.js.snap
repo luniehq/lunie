@@ -5,7 +5,7 @@ Object {
   "body": undefined,
   "icon": "error",
   "layout": "alert",
-  "time": 0,
+  "time": 42000,
   "title": "Couldn't query block",
   "type": "error",
 }
@@ -16,7 +16,7 @@ Object {
   "body": undefined,
   "icon": "error",
   "layout": "alert",
-  "time": 0,
+  "time": 42000,
   "title": "Couldn't query block",
   "type": "error",
 }
