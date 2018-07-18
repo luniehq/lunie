@@ -213,7 +213,7 @@ describe("Startup Process", () => {
       ).toBe("NO_NODES_AVAILABLE")
     })
 
-    it.only("should look for a node with a compatible SDK version", async () => {
+    it("should look for a node with a compatible SDK version", async () => {
       const mockAxiosGet = jest
         .fn()
         .mockReturnValueOnce(Promise.resolve({ data: "0.1.0" })) // should fail as expected version is 0.13.0
