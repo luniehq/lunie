@@ -505,7 +505,7 @@ function handleIPC() {
 // }
 
 // query version of the used SDK via LCD
-async function getNodeVersion(peerURL) {
+async function getNodeVersion() {
   let versionURL = `http://localhost:${LCD_PORT}/node_version`
   let nodeVersion = await axios
     .get(versionURL, { timeout: 3000 })
@@ -700,7 +700,7 @@ async function main() {
     }
   }
 
-  addressbook = new Addressbook(config, root, expectedGaiaCliVersion, {
+  addressbook = new Addressbook(config, root, {
     persistent_peers,
     onConnectionMessage: message => {
       log(message)

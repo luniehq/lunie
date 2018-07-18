@@ -397,7 +397,7 @@ describe("Startup Process", () => {
         "app/src/main/addressbook.js",
         () =>
           class MockAddressbook {
-            constructor(root, expectedVersion, { onConnectionMessage }) {
+            constructor(config, root, { onConnectionMessage }) {
               this.onConnectionMessage = onConnectionMessage
             }
             async pickNode() {
@@ -621,6 +621,15 @@ function prepareMain() {
         }
       }
   )
+
+  // mock the version check request
+  jest.mock("axios", () => ({
+    get: async url => {
+      if (url.indexOf("node_version") !== -1) {
+        return { data: "0.13.0" }
+      }
+    }
+  }))
 }
 
 async function initMain() {
