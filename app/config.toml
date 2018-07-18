@@ -16,4 +16,4 @@ sentry_dsn = "https://4dee9f70a7d94cc0959a265c45902d84:cbf160384aab4cdeafbe9a08d
 sentry_dsn_public = "https://4dee9f70a7d94cc0959a265c45902d84@sentry.io/288169"
 
 # time to wait for a block until node is declared halted
-node_halted_timeout = 600000
+node_halted_timeout = 120000
