@@ -169,18 +169,18 @@ export default ({ node }) => {
         }
 
         state.syncing = false
+      })
 
-        node.rpc.subscribe({ query: "tm.event = 'NewBlock'" }, (err, event) => {
-          state.subscription = true
+      node.rpc.subscribe({ query: "tm.event = 'NewBlock'" }, (err, event) => {
+        state.subscription = true
 
-          if (err) return error(err)
+        if (err) return error(err)
 
-          state.blocks.unshift(event.data.value.block)
+        state.blocks.unshift(event.data.value.block)
 
-          if (state.blocks.length === 20) {
-            state.blocks.pop()
-          }
-        })
+        if (state.blocks.length === 20) {
+          state.blocks.pop()
+        }
       })
     }
   }
