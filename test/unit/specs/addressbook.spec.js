@@ -1,7 +1,6 @@
 const mockFsExtra = require("../helpers/fs-mock").default
 let Addressbook
 
-const mockVERSION = "0.12.1"
 const mockConfig = {
   default_tendermint_port: 26657
 }
@@ -14,16 +13,13 @@ describe("Addressbook", () => {
 
     jest.mock("axios", () => ({
       get: async url => {
-        if (url.indexOf("node_version") !== -1) {
-          return { data: mockVERSION }
-        }
         return { data: { result: { peers: [] } } }
       }
     }))
   })
 
   it("should store peristent peers", () => {
-    let addressbook = new Addressbook("./", mockVERSION, {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456"]
     })
     expect(addressbook.peers.map(p => p.host)).toContain("123.456.123.456")
@@ -35,13 +31,13 @@ describe("Addressbook", () => {
       "./config/addressbook.json",
       JSON.stringify(["123.456.123.456"])
     )
-    let addressbook = new Addressbook("./config", mockVERSION)
+    let addressbook = new Addressbook(mockConfig, "./config")
     expect(addressbook.peers.map(p => p.host)).toContain("123.456.123.456")
   })
 
   it("should save initial peers to disc", () => {
     let fs = require("fs-extra")
-    let addressbook = new Addressbook("./", mockVERSION, {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456"]
     })
     expect(addressbook.peers.map(p => p.host)).toContain("123.456.123.456")
@@ -52,16 +48,13 @@ describe("Addressbook", () => {
   it("should return node", async () => {
     jest.doMock("axios", () => ({
       get: async url => {
-        if (url.indexOf("node_version") !== -1) {
-          return { data: mockVERSION }
-        }
         return { data: { result: { peers: [] } } }
       }
     }))
     jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
 
-    let addressbook = new Addressbook("./", mockVERSION, {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456"]
     })
     let node = await addressbook.pickNode()
@@ -73,7 +66,7 @@ describe("Addressbook", () => {
     try {
       jest.resetModules()
       Addressbook = require("src/main/addressbook.js")
-      let addressbook = new Addressbook("./config", mockVERSION)
+      let addressbook = new Addressbook(mockConfig, "./config")
 
       expect(await addressbook.pickNode()).toMatchSnapshot()
     } catch (err) {
@@ -86,9 +79,6 @@ describe("Addressbook", () => {
   it("should cycle though nodes until it finds one that is available", async () => {
     jest.doMock("axios", () => ({
       get: async url => {
-        if (url.indexOf("node_version") !== -1) {
-          return { data: mockVERSION }
-        }
         if (url.indexOf("123.456.123.456") !== -1) return Promise.reject()
         return Promise.resolve({
           data: { result: { peers: [] } }
@@ -98,7 +88,7 @@ describe("Addressbook", () => {
     jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
 
-    let addressbook = new Addressbook("./", mockVERSION, {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
     })
     let node = await addressbook.pickNode()
@@ -114,7 +104,7 @@ describe("Addressbook", () => {
     jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
 
-    let addressbook = new Addressbook("./", mockVERSION, {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
     })
     await addressbook.pickNode().then(done.fail, err => {
@@ -126,15 +116,12 @@ describe("Addressbook", () => {
   it("should query peers on connecting to a node", async () => {
     jest.doMock("axios", () => ({
       get: async url => {
-        if (url.indexOf("node_version") !== -1) {
-          return { data: "0.12.1" }
-        }
         return { data: { result: { peers: [] } } }
       }
     }))
     jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
-    let addressbook = new Addressbook("./", mockVERSION, {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
     })
     addressbook.discoverPeers = jest.fn()
@@ -145,9 +132,6 @@ describe("Addressbook", () => {
   it("should query and store peers of connected node", async () => {
     jest.doMock("axios", () => ({
       get: async url => {
-        if (url.indexOf("node_version") !== -1) {
-          return { data: mockVERSION }
-        }
         return {
           data: {
             result: {
@@ -171,7 +155,7 @@ describe("Addressbook", () => {
     jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
 
-    let addressbook = new Addressbook("./", mockVERSION, {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
     })
     await addressbook.discoverPeers("123.456.123.456")
@@ -186,7 +170,7 @@ describe("Addressbook", () => {
   })
 
   it("should provide the ability to reset the state of the nodes to try to reconnect to all, i.e. after an internet outage", async done => {
-    let addressbook = new Addressbook("./", mockVERSION, {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
     })
 
@@ -205,7 +189,7 @@ describe("Addressbook", () => {
   })
 
   it("should allow http addresses as peer addresses", async () => {
-    let addressbook = new Addressbook("./", mockVERSION, {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["http://123.456.123.456"]
     })
     let node = await addressbook.pickNode()
@@ -214,31 +198,11 @@ describe("Addressbook", () => {
 
   it("should call back on connection", async () => {
     let spy = jest.fn()
-    let addressbook = new Addressbook("./config", mockVERSION, {
+    let addressbook = new Addressbook(mockConfig, "./config", {
       persistent_peers: ["http://123.456.123.456"],
       onConnectionMessage: spy
     })
     await addressbook.pickNode()
     expect(spy).toHaveBeenCalled()
-  })
-
-  it("should pick nodes with the correct version", async () => {
-    jest.doMock("axios", () => ({
-      get: async url => {
-        if (url.indexOf("node_version") !== -1) {
-          if (url.indexOf("123.456.123.456") !== -1) return { data: "0.13.1" }
-          if (url.indexOf("223.456.123.456") !== -1)
-            return { data: mockVERSION }
-        }
-        return { data: { result: { peers: [] } } }
-      }
-    }))
-    jest.resetModules()
-    Addressbook = require("src/main/addressbook.js")
-    let addressbook = new Addressbook("./config", mockVERSION, {
-      persistent_peers: ["123.456.123.456", "223.456.123.456"]
-    })
-    let node = await addressbook.pickNode()
-    expect(node).toBe("223.456.123.456:26657")
   })
 })
