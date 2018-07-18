@@ -68,8 +68,8 @@ export default ({ node }) => {
       let delegate = rootState.delegates.delegates.find(
         d => d.owner === validator
       )
-      let tokens = parseRat(delegate.pool_shares.amount)
-      let totalShares = parseRat(delegate.delegator_shares)
+      let tokens = delegate.tokens
+      let totalShares = delegate.delegator_shares
       let tokensPerShare = totalShares ? tokens / totalShares : 0
 
       let value = tokensPerShare * shares

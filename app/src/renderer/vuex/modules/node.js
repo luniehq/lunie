@@ -78,7 +78,7 @@ export default function({ node }) {
         if (err) return console.error(err)
         let status = res
         dispatch("setLastHeader", {
-          height: status.latest_block_height,
+          height: status.sync_info.latest_block_height,
           chain_id: status.node_info.network
         })
       })
