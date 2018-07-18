@@ -17,7 +17,8 @@
     "build": "node tasks/build/runBuild",
     "build:gaia": "cd tasks/build/Gaia; ./runBuild.sh",
     "local": "yarn run testnet local",
-    "testnet": "node tasks/testnet.js",
+    "start": "node tasks/testnet.js",
+    "testnet": "echo \"'yarn testnet' has been deprecated. Please use 'yarn start'\"",
     "lint": "yarn lint:eslint && yarn lint:format",
     "lint:eslint": "eslint -f ./node_modules/eslint-friendly-formatter \"{,**/}*.{js,vue}\"",
     "lint:format": "prettier --list-different \"{,**/}*.{css,js,json,vue}\" \"!testArtifacts/**\" \"!app/networks/**\"",
@@ -32,7 +33,8 @@
     "test:coverage": "http-server test/unit/coverage/lcov-report",
     "release": "node ./ci/release.js",
     "precommit": "pretty-quick --staged",
-    "prepush": "bash ./tasks/changelog-changed-check.sh && yarn lint && yarn test:unit"
+    "prepush": "bash ./tasks/changelog-changed-check.sh && yarn lint && yarn test:unit",
+    "postcheckout": "yarn"
   },
   "devDependencies": {
     "@nodeguy/cli": "0.2.2",

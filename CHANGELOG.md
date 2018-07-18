@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Release published on GitHub now including changes from CHANGELOG. @NodeGuy
 * Added ESLint errors: no-undef and no-unused-vars. @NodeGuy
 * Modal when a node doesn't signal any new blocks @faboweb
+* Added post checkout yarn @okwme
 
 ### Changed
 
@@ -22,6 +23,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Moved the changelog check to a GitHub status check @faboweb
 * Moved to SDK v0.21.1 @faboweb
 * Using vue-jest for transpiling in tests for better code coverage output @faboweb
+* Changed `yarn testnet` to `yarn start` @okwme
+* Automatically update wallet when a relevant transaction is detected @mappum
 
 ### Fixed
 
@@ -31,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Staking tokens showing NaN @faboweb
 * Staking page showing old shares after bonding @faboweb
 * Made linting work on Windows. @NodeGuy
+* Renamed some ni- class identifiers to tm- to be consistent @faboweb
 
 ## [0.7.1] - 2018-07-04
 
