@@ -30,7 +30,7 @@ jobs:
           paths:
             - "*"
 
-  testUnit:
+  changelogUpdated:
     docker:
       - image: circleci/node:9.4.0-browsers
 
@@ -38,6 +38,13 @@ jobs:
       - checkout
 
       - run: tasks/changelog-changed-check.sh
+
+  testUnit:
+    docker:
+      - image: circleci/node:9.4.0-browsers
+
+    steps:
+      - checkout
 
       - attach_workspace:
           at: builds/Gaia
@@ -135,6 +142,8 @@ workflows:
 
   gaia-test-and-publish:
     jobs:
+      - changelogUpdated
+
       - buildGaia
 
       - testUnit:
