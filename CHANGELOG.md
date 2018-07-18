@@ -84,9 +84,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * E2E test maybe fix @okwme
 * Login in to restricted page bug @okwme
 * Send with an empty wallet bug @okwme
-  <<<<<<< HEAD
-* # Readme formatting @okwme
-  > > > > > > > Use network configuration files from the SDK.
+* Readme formatting @okwme
 
 ## [0.7.0] - 2018-06-13
 
