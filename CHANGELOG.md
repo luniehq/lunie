@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Moved to SDK v0.21.1 @faboweb
 * Using vue-jest for transpiling in tests for better code coverage output @faboweb
 * Default to gaia-7001 @okwme
+* Automatically update wallet when a relevant transaction is detected @mappum
 
 ### Fixed
 
