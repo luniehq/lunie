@@ -103,7 +103,6 @@ describe("Module: Delegations", () => {
       height: 42,
       chain_id: "test-chain"
     })
-    store.commit("setAccountNumber", 1)
     await store.dispatch("getBondedDelegates")
 
     jest.spyOn(store._actions.sendTx, "0")
