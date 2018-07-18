@@ -80,6 +80,8 @@ export default ({ node }) => {
 
 function assertOk(res) {
   if (Array.isArray(res)) {
+    if (res.length === 0) throw new Error("Error sending transaction.")
+
     return res.forEach(assertOk)
   }
 
