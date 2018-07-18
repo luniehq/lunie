@@ -14,7 +14,7 @@ describe("Module: Send", () => {
   // DEFAULT
 
   it("should have an empty state by default", () => {
-    const state = { nonce: 0 }
+    const state = { nonce: "0" }
     expect(store.state.send).toEqual(state)
   })
 
@@ -35,7 +35,6 @@ describe("Module: Send", () => {
       node.send = jest.fn(node.send)
       node.ibcSend = jest.fn(node.ibcSend)
       await store.dispatch("signIn", { account, password })
-      await store.commit("setAccountNumber", 123)
       store.dispatch("setLastHeader", {
         height: 5,
         chain_id: "test-chain"
