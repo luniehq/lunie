@@ -43,7 +43,7 @@ describe("PageSend", () => {
       password
     })
     store.commit("setWalletBalances", coins)
-    store.commit("setNonce", 1)
+    store.commit("setNonce", "1")
   })
 
   it("has the expected html structure", async () => {
