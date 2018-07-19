@@ -511,21 +511,19 @@ async function getNodeVersion() {
     .get(versionURL, { timeout: 3000 })
     .then(res => res.data)
 
-  console.log("VERSION", nodeVersion)
-
   return nodeVersion
 }
 
 // test an actual node version against the expected one and flag the node if incompatible
-async function testNodeVersion(nodeIP, expectedGaiaVersion) {
+async function testNodeVersion(nodeIP, expectedGaiaVersion, addressbook) {
   let nodeVersion = await getNodeVersion(nodeIP)
   let semverDiff = semver.diff(nodeVersion, expectedGaiaVersion)
-  if (semverDiff === "major" || semverDiff === "minor") {
-    addressbook.flagNodeIncompatible(curNode.host)
-
-    return false
+  if (semverDiff === "patch" || semverDiff === null) {
+    return { compatible: true, nodeVersion }
   }
-  return true
+
+  addressbook.flagNodeIncompatible(nodeIP)
+  return { compatible: false, nodeVersion }
 }
 
 // pick a random node from the addressbook and check if the SDK version is compatible with ours
@@ -542,9 +540,13 @@ async function pickAndConnect(addressbook) {
 
   await connect(nodeIP)
 
-  const compatible = await testNodeVersion(nodeIP, expectedGaiaCliVersion)
+  const { compatible, nodeVersion } = await testNodeVersion(
+    nodeIP,
+    expectedGaiaCliVersion,
+    addressbook
+  )
   if (!compatible) {
-    let message = `Node ${nodeIP} uses SDK version ${expectedGaiaCliVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
+    let message = `Node ${nodeIP} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
     log(message)
     mainWindow.webContents.send("connection-status", message)
 

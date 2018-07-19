@@ -644,6 +644,7 @@ function prepareMain() {
         async pickNode() {
           return "127.0.0.1:46657"
         }
+        flagNodeIncompatible() {}
       }
   )
 
