@@ -121,7 +121,7 @@ let state = {
       [validators[0]]: {
         delegator_addr: addresses[0],
         validator_addr: validators[0],
-        shares: "130/1",
+        shares: "130",
         height: 123
       }
     }
@@ -134,7 +134,7 @@ let state = {
         data: "t3zVnKU42WNH+NtYFcstZRLFVULWV8VagoP0HwW43Pk="
       },
       revoked: false,
-      pool_shares: { amount: "14" },
+      tokens: "14",
       delegator_shares: "14",
       description: {
         description: "Mr Mounty",
@@ -148,7 +148,7 @@ let state = {
         type: "AC26791624DE60",
         data: "9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w="
       },
-      pool_shares: { amount: "0" },
+      tokens: "0",
       delegator_shares: "0",
       description: {
         description: "Good Guy Greg",
@@ -162,7 +162,7 @@ let state = {
         type: "AC26791624DE60",
         data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0="
       },
-      pool_shares: { amount: "19" },
+      tokens: "19",
       delegator_shares: "19",
       description: {
         description: "Herr Schmidt",
@@ -276,7 +276,8 @@ module.exports = {
     }
 
     for (let tx of delegate) {
-      let { denom, amount } = tx.bond
+      let { denom } = tx.bond
+      let amount = parseInt(tx.bond.amount)
       if (amount < 0) {
         results.push(txResult(1, "Amount cannot be negative"))
         return results
@@ -301,17 +302,19 @@ module.exports = {
         delegation = {
           delegator_addr: fromKey.address,
           validator_addr: tx.validator_addr,
-          shares: "0/1",
+          shares: "0",
           height: 0
         }
         delegator[tx.validator_addr] = delegation
       }
-      let shares = +delegation.shares.split("/")[0]
-      delegation.shares = shares + +tx.bond.amount + "/1"
+      let shares = parseInt(delegation.shares)
+      delegation.shares = (shares + amount).toString()
 
       let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
-      shares = +candidate.pool_shares.amount.split("/")[0]
-      candidate.pool_shares.amount = shares + +tx.bond.amount + "/1"
+      candidate.tokens = (parseInt(candidate.tokens) + amount).toString()
+      candidate.delegator_shares = (
+        parseInt(candidate.delegator_shares) + amount
+      ).toString()
 
       results.push(txResult(0))
     }
@@ -335,12 +338,12 @@ module.exports = {
         results.push(txResult(2, "Nonexistent delegation"))
         return results
       }
-      let shares = delegation.shares.split("/")[0]
-      delegation.shares = +shares - amount + "/1"
+      let shares = parseInt(delegation.shares)
+      delegation.shares = (+shares - amount).toString()
 
       let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
-      shares = candidate.pool_shares.amount.split("/")[0]
-      candidate.pool_shares.amount = +shares - amount + "/1"
+      shares = parseInt(candidate.tokens)
+      candidate.tokens = (+shares - amount).toString()
 
       results.push(txResult(0))
     }

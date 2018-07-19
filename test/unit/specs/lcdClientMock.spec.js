@@ -204,7 +204,7 @@ describe("LCD Client Mock", () => {
       amount: [
         {
           denom: "mycoin",
-          amount: 100000
+          amount: "100000"
         }
       ]
     })
@@ -225,7 +225,7 @@ describe("LCD Client Mock", () => {
       amount: [
         {
           denom: "mycoin",
-          amount: 100000
+          amount: "100000"
         }
       ]
     })
@@ -245,7 +245,7 @@ describe("LCD Client Mock", () => {
       amount: [
         {
           denom: "mycoin",
-          amount: -50
+          amount: "-50"
         }
       ]
     })
@@ -279,7 +279,7 @@ describe("LCD Client Mock", () => {
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          bond: { denom: "mycoin", amount: 10 }
+          bond: { denom: "mycoin", amount: "10" }
         }
       ],
       unbond: []
@@ -292,7 +292,7 @@ describe("LCD Client Mock", () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[2]
     )
-    expect(updatedStake.shares).toBe("10/1")
+    expect(updatedStake.shares).toBe("10")
   })
 
   it("executes an unbond tx", async () => {
@@ -303,7 +303,7 @@ describe("LCD Client Mock", () => {
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          bond: { denom: "mycoin", amount: 10 }
+          bond: { denom: "mycoin", amount: "10" }
         }
       ],
       unbond: []
@@ -316,7 +316,7 @@ describe("LCD Client Mock", () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[2]
     )
-    expect(initialStake.shares).toBe("10/1")
+    expect(initialStake.shares).toBe("10")
 
     res = await client.updateDelegations({
       sequence: 2,
@@ -424,12 +424,12 @@ describe("LCD Client Mock", () => {
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          bond: { denom: "mycoin", amount: 10 }
+          bond: { denom: "mycoin", amount: "10" }
         },
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[0],
-          bond: { denom: "mycoin", amount: 10 }
+          bond: { denom: "mycoin", amount: "10" }
         }
       ],
       unbond: []
@@ -461,7 +461,7 @@ describe("LCD Client Mock", () => {
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          bond: { denom: "mycoin", amount: -10 }
+          bond: { denom: "mycoin", amount: "-10" }
         }
       ],
       unbond: []
@@ -480,7 +480,7 @@ describe("LCD Client Mock", () => {
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          shares: "10/1"
+          shares: "10"
         }
       ]
     })
