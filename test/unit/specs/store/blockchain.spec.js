@@ -168,9 +168,24 @@ describe("Module: Blockchain", () => {
     expect(console.error.mock.calls.length).toBe(1)
   })
 
+  it("should handle ignore already subscribed errors", () => {
+    console.error = jest.fn()
+    node.rpc.subscribe = (query, cb) => {
+      cb({ message: "expected error", data: "already subscribed" })
+    }
+    store.dispatch("subscribeToBlocks")
+    expect(console.error.mock.calls.length).toBe(1)
+    expect(store.dispatch).not.toHaveBeenCalledWith("nodeHasHalted")
+  })
+
   it("should not subscribe if still syncing", async () => {
     node.rpc.status = cb => {
-      cb(null, { syncing: true })
+      cb(null, {
+        sync_info: {
+          catching_up: true,
+          latest_block_height: 42
+        }
+      })
     }
     node.rpc.subscribe = jest.fn()
     store.dispatch("subscribeToBlocks")
@@ -179,7 +194,12 @@ describe("Module: Blockchain", () => {
 
   it("should subscribe if not syncing", async () => {
     node.rpc.status = cb => {
-      cb(null, { syncing: false })
+      cb(null, {
+        sync_info: {
+          catching_up: false,
+          latest_block_height: 42
+        }
+      })
     }
     node.rpc.subscribe = jest.fn()
     store.dispatch("subscribeToBlocks")

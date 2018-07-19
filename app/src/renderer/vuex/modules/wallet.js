@@ -198,6 +198,11 @@ export default ({ node }) => {
         },
         onTx
       )
+
+      // BACKUP remove when subscription works again
+      setInterval(() => {
+        dispatch("queryWalletState")
+      }, 5000)
     }
   }
 

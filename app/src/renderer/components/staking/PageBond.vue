@@ -153,11 +153,11 @@ export default {
       return this.config.bondingDenom.toUpperCase()
     },
     totalAtoms() {
-      return this.user.atoms + this.oldBondedAtoms
+      return parseInt(this.user.atoms) + this.oldBondedAtoms
     },
     oldBondedAtoms() {
       return Object.values(this.committedDelegations).reduce(
-        (sum, d) => sum + d,
+        (sum, d) => sum + parseInt(d),
         0
       )
     },
@@ -166,7 +166,7 @@ export default {
     },
     newUnbondedAtoms() {
       return this.fields.delegates.reduce((atoms, d) => {
-        let delta = d.oldAtoms - d.atoms
+        let delta = parseInt(d.oldAtoms) - parseInt(d.atoms)
         if (delta < 0) {
           return atoms + delta
         }
