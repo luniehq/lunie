@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Staking page showing old shares after bonding @faboweb
 * Made linting work on Windows. @NodeGuy
 * Renamed some ni- class identifiers to tm- to be consistent @faboweb
+* Fixed the theme switcher @faboweb
 * Development CLI tools handle exceptions better. @NodeGuy
 
 ## [0.7.1] - 2018-07-04
