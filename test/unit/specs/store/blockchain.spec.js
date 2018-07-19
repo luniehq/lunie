@@ -168,6 +168,16 @@ describe("Module: Blockchain", () => {
     expect(console.error.mock.calls.length).toBe(1)
   })
 
+  it("should handle ignore already subscribed errors", () => {
+    console.error = jest.fn()
+    node.rpc.subscribe = (query, cb) => {
+      cb({ message: "expected error", data: "already subscribed" })
+    }
+    store.dispatch("subscribeToBlocks")
+    expect(console.error.mock.calls.length).toBe(1)
+    expect(store.dispatch).not.toHaveBeenCalledWith("nodeHasHalted")
+  })
+
   it("should not subscribe if still syncing", async () => {
     node.rpc.status = cb => {
       cb(null, {
