@@ -8,16 +8,22 @@ jest.mock("fs-extra", () => {
   let fs = require("fs")
   let mockFs = mockFsExtra()
   mockFs.writeFile(
-    "./app/networks/basecoind-2/config.toml",
-    fs.readFileSync("./app/networks/basecoind-2/config.toml", "utf8")
+    "./app/networks/gaia-6002/config.toml",
+    fs.readFileSync("./test/unit/helpers/mockNetworkConfig/config.toml", "utf8")
   )
   mockFs.writeFile(
-    "./app/networks/basecoind-2/genesis.json",
-    fs.readFileSync("./app/networks/basecoind-2/genesis.json", "utf8")
+    "./app/networks/gaia-6002/genesis.json",
+    fs.readFileSync(
+      "./test/unit/helpers/mockNetworkConfig/genesis.json",
+      "utf8"
+    )
   )
   mockFs.writeFile(
-    "./app/networks/basecoind-2/basecoindversion.txt",
-    fs.readFileSync("./app/networks/basecoind-2/basecoindversion.txt", "utf8")
+    "./app/networks/gaia-6002/basecoindversion.txt",
+    fs.readFileSync(
+      "./test/unit/helpers/mockNetworkConfig/basecoindversion.txt",
+      "utf8"
+    )
   )
   return mockFs
 })
@@ -129,7 +135,7 @@ let childProcess
 describe("Startup Process", () => {
   Object.assign(process.env, {
     LOGGING: "false",
-    COSMOS_NETWORK: "app/networks/basecoind-2",
+    COSMOS_NETWORK: "app/networks/gaia-6002",
     COSMOS_HOME: testRoot,
     NODE_ENV: "testing"
   })
@@ -158,7 +164,7 @@ describe("Startup Process", () => {
           ([path, args]) =>
             path.includes("gaiacli") &&
             args.includes("init") &&
-            args.join("=").includes("--chain-id=basecoind-2")
+            args.join("=").includes("--chain-id=gaia-6002")
         )
       ).toBeDefined()
     })
@@ -235,7 +241,7 @@ describe("Startup Process", () => {
           ([path, args]) =>
             path.includes("gaiacli") &&
             args.includes("init") &&
-            args.join("=").includes("--chain-id=basecoind-2")
+            args.join("=").includes("--chain-id=gaia-6002")
         )
       ).toBeDefined()
     })
@@ -246,7 +252,7 @@ describe("Startup Process", () => {
           ([path, args]) =>
             path.includes("gaiacli") &&
             args.includes("rest-server") &&
-            args.join("=").includes("--chain-id=basecoind-2")
+            args.join("=").includes("--chain-id=gaia-6002")
         )
       ).toBeDefined()
       expect(main.processes.lcdProcess).toBeDefined()
