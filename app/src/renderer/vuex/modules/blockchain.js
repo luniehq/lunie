@@ -147,15 +147,20 @@ export default ({ node }) => {
       if (state.subscription) return
 
       function error(err) {
-        state.subscription = false
+        if (err.data === "already subscribed") {
+          console.error("Tryed to subscribe to an already subscribed rpc event")
+          return
+        }
         dispatch("nodeHasHalted")
-        console.error(`Error subscribing to new blocks: ${err.message}`)
+        console.error(
+          `Error subscribing to new blocks: ${err.message} ${err.data || ""}`
+        )
       }
 
       node.rpc.status((err, status) => {
         if (err) return error(err)
-        commit("setBlockHeight", status.latest_block_height)
-        if (status.syncing) {
+        commit("setBlockHeight", status.sync_info.latest_block_height)
+        if (status.sync_info.catching_up) {
           // still syncing, let's try subscribing again in 30 seconds
           state.syncing = true
           state.subscription = false
