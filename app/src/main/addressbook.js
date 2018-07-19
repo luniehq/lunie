@@ -2,7 +2,6 @@ const fs = require("fs-extra")
 const { join } = require("path")
 const axios = require("axios")
 const url = require("url")
-const semver = require("semver")
 
 const LOGGING = JSON.parse(process.env.LOGGING || "true") !== false
 const FIXED_NODE = process.env.COSMOS_NODE

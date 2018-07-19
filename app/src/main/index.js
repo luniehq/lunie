@@ -22,7 +22,6 @@ let shuttingDown = false
 let mainWindow
 let lcdProcess
 let streams = []
-let nodeIP
 let connecting = true
 let chainId
 let booted = false
@@ -713,7 +712,7 @@ async function main() {
   })
 
   // choose one random node to start from
-  nodeIP = await pickAndConnect(addressbook)
+  await pickAndConnect(addressbook)
 
   // TODO reenable when we need LCD init
   // let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))

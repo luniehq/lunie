@@ -12,7 +12,7 @@ describe("Addressbook", () => {
     Addressbook = require("src/main/addressbook.js")
 
     jest.mock("axios", () => ({
-      get: async url => {
+      get: async () => {
         return { data: { result: { peers: [] } } }
       }
     }))
@@ -47,7 +47,7 @@ describe("Addressbook", () => {
 
   it("should return node", async () => {
     jest.doMock("axios", () => ({
-      get: async url => {
+      get: async () => {
         return { data: { result: { peers: [] } } }
       }
     }))
@@ -115,7 +115,7 @@ describe("Addressbook", () => {
 
   it("should query peers on connecting to a node", async () => {
     jest.doMock("axios", () => ({
-      get: async url => {
+      get: async () => {
         return { data: { result: { peers: [] } } }
       }
     }))
@@ -131,7 +131,7 @@ describe("Addressbook", () => {
 
   it("should query and store peers of connected node", async () => {
     jest.doMock("axios", () => ({
-      get: async url => {
+      get: async () => {
         return {
           data: {
             result: {
@@ -207,7 +207,6 @@ describe("Addressbook", () => {
   })
 
   it("should flag nodes incompatible", async done => {
-    let spy = jest.fn()
     let addressbook = new Addressbook(mockConfig, "./config", {
       persistent_peers: ["http://123.456.123.456"]
     })
