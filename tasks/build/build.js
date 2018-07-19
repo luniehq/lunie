@@ -18,7 +18,7 @@ var duplexer = require("duplexer")
 const packageJson = require("../../package.json")
 
 const optionsSpecification = {
-  network: ["path to the default network to use"]
+  network: ["name of the default network to use"]
 }
 
 const generateAppPackageJson = packageJson =>
