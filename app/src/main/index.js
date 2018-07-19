@@ -511,6 +511,8 @@ async function getNodeVersion() {
     .get(versionURL, { timeout: 3000 })
     .then(res => res.data)
 
+  console.log("VERSION", nodeVersion)
+
   return nodeVersion
 }
 

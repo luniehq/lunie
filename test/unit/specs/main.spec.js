@@ -214,6 +214,8 @@ describe("Startup Process", () => {
     })
 
     it("should look for a node with a compatible SDK version", async () => {
+      main.shutdown()
+      prepareMain()
       const mockAxiosGet = jest
         .fn()
         .mockReturnValueOnce(Promise.resolve({ data: "0.1.0" })) // should fail as expected version is 0.13.0
@@ -222,15 +224,13 @@ describe("Startup Process", () => {
       jest.doMock("axios", () => ({
         get: mockAxiosGet
       }))
-
-      main.shutdown()
-      prepareMain()
       let { send } = require("electron")
       send.mockClear()
 
       // run main
       main = await require(appRoot + "src/main/index.js")
 
+      expect(mockAxiosGet).toHaveBeenCalledTimes(2)
       expect(send).toHaveBeenCalledWith("connected", "127.0.0.1:46657")
     })
   })
