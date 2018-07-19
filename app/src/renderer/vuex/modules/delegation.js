@@ -110,8 +110,7 @@ export default ({ node }) => {
           unbond.push({
             delegator_addr: rootState.wallet.address,
             validator_addr: candidateId,
-            // rational number
-            shares: String(amountChange)
+            shares: String(Math.abs(amountChange))
           })
         }
       }
