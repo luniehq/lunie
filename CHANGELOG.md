@@ -15,13 +15,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Added ESLint errors: no-undef and no-unused-vars. @NodeGuy
 * Modal when a node doesn't signal any new blocks @faboweb
 * Checking the SDK version of the node Voyager connects to against an expected SDK version for the network @faboweb
+* Added post checkout yarn @okwme
 
 ### Changed
 
 * Copy the network configuration only during local builds. @NodeGuy
 * Ignoring the potential local-testnet folder that is used in the README for local testnets @faboweb
+* Moved the changelog check to a GitHub status check @faboweb
 * Moved to SDK v0.21.1 @faboweb
 * Using vue-jest for transpiling in tests for better code coverage output @faboweb
+* Changed `yarn testnet` to `yarn start` @okwme
+* Automatically update wallet when a relevant transaction is detected @mappum
 
 ### Fixed
 
@@ -31,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Staking tokens showing NaN @faboweb
 * Staking page showing old shares after bonding @faboweb
 * Made linting work on Windows. @NodeGuy
+* Renamed some ni- class identifiers to tm- to be consistent @faboweb
 
 ## [0.7.1] - 2018-07-04
 
@@ -60,6 +65,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Hide block subscription errors @mappum
 * Fixed css editing in devtools @faboweb
 * Added history and disabled backbutton on no history @okwme
+* Network configuration files are now taken from the SDK repo. @NodeGuy
 
 ### Fixed
 

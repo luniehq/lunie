@@ -102,7 +102,7 @@ describe("LCD Client Mock", () => {
 
   it("query and update the nonce", async () => {
     let { sequence } = await client.queryAccount(lcdClientMock.addresses[0])
-    expect(sequence).toBe(1)
+    expect(sequence).toBe("1")
 
     let { address: toAddr } = await client.storeKey({
       name: "bar",
@@ -121,7 +121,7 @@ describe("LCD Client Mock", () => {
       ]
     })
     let account = await client.queryAccount(lcdClientMock.addresses[0])
-    expect(account.sequence).toBe(2)
+    expect(account.sequence).toBe("2")
   })
 
   it("queries an account", async () => {

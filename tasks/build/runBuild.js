@@ -9,7 +9,7 @@ const untildify = require(`untildify`)
 
 const optionsSpecification = {
   commit: ["commit from which to build"],
-  network: ["path to the default network to use"]
+  network: ["name of the default network to use"]
 }
 
 // Show the exec commands for easier debugging if something goes wrong.
@@ -38,7 +38,6 @@ cli(optionsSpecification, async options => {
   // Expand '~' if preset and resolve to absolute pathnames for Docker.
   const resolved = fp.mapValues(fp.pipe(untildify, path.resolve), {
     git: path.join(__dirname, "../../.git"),
-    network,
     builds
   })
 
@@ -56,9 +55,6 @@ cli(optionsSpecification, async options => {
       --env COMMIT=${commit} \
       --interactive \
       --mount type=bind,readonly,source=${resolved.git},target=/mnt/.git \
-      --mount type=bind,readonly,source=${
-        resolved.network
-      },target=/mnt/network \
       --mount type=bind,source=${resolved.builds},target=/mnt/builds \
       --rm \
       cosmos/voyager-builder ${optionsString}

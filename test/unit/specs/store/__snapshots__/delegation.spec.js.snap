@@ -12,7 +12,7 @@ exports[`Module: Delegations submits delegation transaction 1`] = `
 Array [
   Array [
     Object {
-      "account_number": 1,
+      "account_number": "1",
       "chain_id": "test-chain",
       "delegate": Array [
         Object {
@@ -27,7 +27,7 @@ Array [
       "gas": "500000",
       "name": "default",
       "password": "bar",
-      "sequence": 1,
+      "sequence": "1",
       "unbond": Array [
         Object {
           "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",

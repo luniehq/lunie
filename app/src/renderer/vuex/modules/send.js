@@ -2,7 +2,7 @@ export default ({ node }) => {
   let lock = null
 
   let state = {
-    nonce: 0
+    nonce: "0"
   }
 
   const mutations = {
@@ -12,6 +12,7 @@ export default ({ node }) => {
   }
 
   async function doSend({ state, dispatch, commit, rootState }, args) {
+    await dispatch("queryWalletBalances") // the nonce was getting out of sync, this is to force a sync
     args.sequence = state.nonce
     args.name = rootState.user.account
     args.password = rootState.user.password
@@ -40,13 +41,7 @@ export default ({ node }) => {
     // check response code
     assertOk(res)
 
-    commit("setNonce", state.nonce + 1)
-
-    // wait to ensure tx is committed before we query
-    // XXX
-    setTimeout(() => {
-      dispatch("queryWalletState")
-    }, 3 * 1000)
+    commit("setNonce", (parseInt(state.nonce) + 1).toString())
   }
 
   let actions = {

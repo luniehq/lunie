@@ -1,5 +1,5 @@
 let { join } = require("path")
-let { readFileSync } = require("fs")
+let { readFileSync } = require("fs-extra")
 let config = require("./config.js")
 
 // this network gets used if none is specified via the

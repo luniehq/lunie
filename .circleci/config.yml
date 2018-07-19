@@ -10,7 +10,7 @@ jobs:
       - checkout
 
       - restore_cache:
-          key: v5-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
+          key: v6-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
 
       # If Gaia isn't in the cache then build it.
       - run: |
@@ -21,7 +21,7 @@ jobs:
           fi
 
       - save_cache:
-          key: v5-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
+          key: v6-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
           paths:
             - ~/target
 
@@ -30,7 +30,7 @@ jobs:
           paths:
             - "*"
 
-  testUnit:
+  changelogUpdated:
     docker:
       - image: circleci/node:9.4.0-browsers
 
@@ -38,6 +38,16 @@ jobs:
       - checkout
 
       - run: tasks/changelog-changed-check.sh
+
+  testUnit:
+    docker:
+      - image: circleci/node:9.4.0-browsers
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: builds/Gaia
 
       - restore_cache:
           keys:
@@ -132,9 +142,13 @@ workflows:
 
   gaia-test-and-publish:
     jobs:
+      - changelogUpdated
+
       - buildGaia
 
-      - testUnit
+      - testUnit:
+          requires:
+            - buildGaia
 
       - testE2e:
           requires:
