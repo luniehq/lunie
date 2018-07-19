@@ -106,7 +106,9 @@ describe("Module: Node", () => {
   it("should set the initial status on subscription", () => {
     node.rpc.status = cb =>
       cb(null, {
-        latest_block_height: 42,
+        sync_info: {
+          latest_block_height: 42
+        },
         node_info: { network: "test-net" }
       })
     store.dispatch("rpcSubscribe")
