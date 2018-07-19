@@ -176,7 +176,7 @@ export default ({ node }) => {
 
       function onTx(err, event) {
         if (err) {
-          return console.error("  error subscribing to transactions", err)
+          return console.error("error subscribing to transactions", err)
         }
         console.log("detected tx", event)
         dispatch(
