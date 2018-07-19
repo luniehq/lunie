@@ -26,15 +26,15 @@ let state = {
       coins: [
         {
           denom: "mycoin",
-          amount: 1000
+          amount: "1000"
         },
         {
           denom: "fermion",
-          amount: 2300
+          amount: "2300"
         },
         {
           denom: "steak",
-          amount: 1000
+          amount: "1000"
         }
       ],
       sequence: "1",
@@ -54,7 +54,7 @@ let state = {
                     coins: [
                       {
                         denom: "jbcoins",
-                        amount: 1234
+                        amount: "1234"
                       }
                     ],
                     address: makeAddress()
@@ -65,7 +65,7 @@ let state = {
                     coins: [
                       {
                         denom: "jbcoins",
-                        amount: 1234
+                        amount: "1234"
                       }
                     ],
                     address: addresses[0]
@@ -90,7 +90,7 @@ let state = {
                     coins: [
                       {
                         denom: "fabocoins",
-                        amount: 1234
+                        amount: "1234"
                       }
                     ],
                     address: addresses[0]
@@ -101,7 +101,7 @@ let state = {
                     coins: [
                       {
                         denom: "fabocoins",
-                        amount: 1234
+                        amount: "1234"
                       }
                     ],
                     address: makeAddress()
@@ -254,7 +254,7 @@ module.exports = {
   },
 
   // staking
-  async updateDelegations({ name, sequence, delegate, unbond }) {
+  async updateDelegations({ name, sequence, delegations, begin_unbondings }) {
     let results = []
 
     let fromKey = state.keys.find(a => a.name === name)
@@ -275,9 +275,9 @@ module.exports = {
       return results
     }
 
-    for (let tx of delegate) {
-      let { denom } = tx.bond
-      let amount = parseInt(tx.bond.amount)
+    for (let tx of delegations) {
+      let { denom } = tx.delegation
+      let amount = parseInt(tx.delegation.amount)
       if (amount < 0) {
         results.push(txResult(1, "Amount cannot be negative"))
         return results
@@ -319,13 +319,14 @@ module.exports = {
       results.push(txResult(0))
     }
 
-    for (let tx of unbond) {
+    for (let tx of begin_unbondings) {
       incrementSequence(fromAccount)
 
-      let amount = +tx.shares.split("/")[0]
+      let amount = parseInt(tx.shares)
 
       // update sender balance
-      fromAccount.coins.find(c => c.denom === "steak").amount += amount
+      let coinBalance = fromAccount.coins.find(c => c.denom === "steak")
+      coinBalance.amount = String(parseInt(coinBalance) + amount)
 
       // update stake
       let delegator = state.stake[fromKey.address]
@@ -387,10 +388,12 @@ function send(to, from, req) {
   }
 
   for (let { denom, amount } of req.amount) {
-    if (amount < 0) {
+    if (parseInt(amount) < 0) {
       return txResult(1, "Amount cannot be negative")
     }
-    if (fromAccount.coins.find(c => c.denom === denom).amount < amount) {
+    if (
+      fromAccount.coins.find(c => c.denom === denom).amount < parseInt(amount)
+    ) {
       return txResult(1, "Not enough coins in your account")
     }
   }
@@ -406,7 +409,10 @@ function send(to, from, req) {
 
   // update sender balances
   for (let { denom, amount } of req.amount) {
-    fromAccount.coins.find(c => c.denom === denom).amount -= amount
+    let senderBalance = fromAccount.coins.find(c => c.denom === denom)
+    senderBalance.amount = String(
+      parseInt(senderBalance.amount) - parseInt(amount)
+    )
   }
 
   // update receiver balances
@@ -418,12 +424,14 @@ function send(to, from, req) {
     }
   }
   for (let { denom, amount } of req.amount) {
-    let receiverCoin = receiverAccount.coins.find(c => c.denom === denom)
-    if (!receiverCoin) {
-      receiverCoin = { amount: 0, denom }
-      receiverAccount.coins.push(receiverCoin)
+    let receiverBalance = receiverAccount.coins.find(c => c.denom === denom)
+    if (!receiverBalance) {
+      receiverBalance = { amount: "0", denom }
+      receiverAccount.coins.push(receiverBalance)
     }
-    receiverCoin.amount += amount
+    receiverBalance.amount = String(
+      parseInt(receiverBalance.amount) + parseInt(amount)
+    )
   }
 
   // log tx
