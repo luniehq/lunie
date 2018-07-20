@@ -236,15 +236,6 @@ const main = () =>
       fs.createReadStream(path.join(__dirname, `Gaia/COMMIT.sh`))
     )
 
-    // If we're doing a local build then copy the specified network
-    // configuration.
-    if (fs.existsSync(`/mnt/network`)) {
-      fs.copySync(
-        `/mnt/network`,
-        `app/networks/${path.basename(options.network)}`
-      )
-    }
-
     // Generate package.json for the app directory.
     fs.writeFileSync(
       path.join(__dirname, `../../app/package.json`),

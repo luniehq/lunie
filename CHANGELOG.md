@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Made linting work on Windows. @NodeGuy
 * Renamed some ni- class identifiers to tm- to be consistent @faboweb
 * Fixed the theme switcher @faboweb
+* Fixed various building bugs. @NodeGuy
 
 ## [0.7.1] - 2018-07-04
 
