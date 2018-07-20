@@ -109,10 +109,9 @@ export default {
     cursor pointer
     height 3rem
     i
-      color var(--txt)
+      color var(--dim)
       font-size lg
     &:hover
-      background var(--app-fg)
       i
         color var(--txt)
 
@@ -144,7 +143,6 @@ export default {
     border-bottom px solid var(--bc)
 
 .tm-session-label
-  text-align center
   padding 1rem
   background var(--app-fg)
   color var(--dim)
@@ -159,6 +157,11 @@ export default {
 
   &:empty
     display none
+
+.tm-form-group__label
+  color var(--dim)
+  font-size sm
+  line-height xl
 
 .tm-session-footer > div
   display flex
@@ -189,7 +192,7 @@ export default {
       height auto
 
   .tm-session-header
-    background var(--app-fg)
+    background var(--app-nav)
     margin-top 0
 
   .tm-session-main
