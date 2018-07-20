@@ -46,7 +46,9 @@ module.exports = {
     blockchain: (args, cb) => cb(null, { block_metas: {} }),
     status: cb =>
       cb(null, {
-        latest_block_height: 42,
+        sync_info: {
+          latest_block_height: 42
+        },
         node_info: { network: "test-net" }
       })
   },

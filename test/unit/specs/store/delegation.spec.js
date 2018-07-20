@@ -67,15 +67,13 @@ describe("Module: Delegations", () => {
     node.queryDelegation = jest
       .fn()
       .mockReturnValueOnce({
-        shares: "10/123"
+        shares: "10"
       })
       .mockReturnValueOnce({
-        shares: "15/123"
+        shares: "15"
       })
       // no delegation for a delegate
-      .mockReturnValueOnce({
-        data: null
-      })
+      .mockReturnValueOnce(null)
 
     await store.dispatch("getBondedDelegates", store.state.delegates.delegates)
 

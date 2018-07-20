@@ -16,7 +16,7 @@ export default ({ node }) => {
       Object.assign(delegate, delegate.description)
 
       // TODO: calculate voting power
-      delegate.voting_power = parseRat(delegate.pool_shares.amount)
+      delegate.voting_power = delegate.tokens
 
       // update if we already have this delegate
       for (let existingDelegate of state.delegates) {
@@ -59,11 +59,4 @@ export default ({ node }) => {
     mutations,
     actions
   }
-}
-
-// parse sdk rational number string
-function parseRat(ratStr = "") {
-  let [numerator, denominator] = ratStr.split("/")
-  if (!denominator) return +numerator
-  return +numerator / +denominator
 }
