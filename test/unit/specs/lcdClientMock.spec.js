@@ -90,7 +90,7 @@ describe("LCD Client Mock", () => {
       amount: [
         {
           denom: "mycoin",
-          amount: 50
+          amount: "50"
         }
       ]
     })
@@ -116,7 +116,7 @@ describe("LCD Client Mock", () => {
       amount: [
         {
           denom: "mycoin",
-          amount: 50
+          amount: "50"
         }
       ]
     })
@@ -126,7 +126,7 @@ describe("LCD Client Mock", () => {
 
   it("queries an account", async () => {
     let data = await client.queryAccount(lcdClientMock.addresses[0])
-    expect(data.coins.find(c => c.denom === "mycoin").amount).toBe(1000)
+    expect(data.coins.find(c => c.denom === "mycoin").amount).toBe("1000")
 
     let res = await client.queryAccount("address_doesnt_exist")
     expect(res).toBe(undefined)
@@ -141,17 +141,19 @@ describe("LCD Client Mock", () => {
       amount: [
         {
           denom: "mycoin",
-          amount: 50
+          amount: "50"
         }
       ]
     })
     expect(res.check_tx.code).toBe(0)
 
     let account = await client.queryAccount(lcdClientMock.addresses[0])
-    expect(account.coins.find(c => c.denom === "mycoin").amount).toBe(950)
+    expect(account.coins.find(c => c.denom === "mycoin").amount).toBe("950")
 
     let receiveAccount = await client.queryAccount(toAddr)
-    expect(receiveAccount.coins.find(c => c.denom === "mycoin").amount).toBe(50)
+    expect(receiveAccount.coins.find(c => c.denom === "mycoin").amount).toBe(
+      "50"
+    )
   })
 
   it("sends coins to existing account", async () => {
@@ -163,7 +165,7 @@ describe("LCD Client Mock", () => {
       amount: [
         {
           denom: "mycoin",
-          amount: 50
+          amount: "50"
         }
       ]
     })
@@ -176,18 +178,18 @@ describe("LCD Client Mock", () => {
       amount: [
         {
           denom: "mycoin",
-          amount: 50
+          amount: "50"
         }
       ]
     })
     expect(res.check_tx.code).toBe(0)
 
     let account = await client.queryAccount(lcdClientMock.addresses[0])
-    expect(account.coins.find(c => c.denom === "mycoin").amount).toBe(900)
+    expect(account.coins.find(c => c.denom === "mycoin").amount).toBe("900")
 
     let receiveAccount = await client.queryAccount(toAddr)
     expect(receiveAccount.coins.find(c => c.denom === "mycoin").amount).toBe(
-      100
+      "100"
     )
   })
 
@@ -204,7 +206,7 @@ describe("LCD Client Mock", () => {
       amount: [
         {
           denom: "mycoin",
-          amount: 100000
+          amount: "100000"
         }
       ]
     })
@@ -225,7 +227,7 @@ describe("LCD Client Mock", () => {
       amount: [
         {
           denom: "mycoin",
-          amount: 100000
+          amount: "100000"
         }
       ]
     })
@@ -245,7 +247,7 @@ describe("LCD Client Mock", () => {
       amount: [
         {
           denom: "mycoin",
-          amount: -50
+          amount: "-50"
         }
       ]
     })
@@ -275,14 +277,14 @@ describe("LCD Client Mock", () => {
     let res = await client.updateDelegations({
       sequence: 1,
       name: "default",
-      delegate: [
+      delegations: [
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          bond: { denom: "mycoin", amount: 10 }
+          delegation: { denom: "mycoin", amount: "10" }
         }
       ],
-      unbond: []
+      begin_unbondings: []
     })
     expect(res.length).toBe(1)
     expect(res[0].check_tx.log).toBe("")
@@ -292,21 +294,21 @@ describe("LCD Client Mock", () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[2]
     )
-    expect(updatedStake.shares).toBe("10/1")
+    expect(updatedStake.shares).toBe("10")
   })
 
   it("executes an unbond tx", async () => {
     let res = await client.updateDelegations({
       sequence: 1,
       name: "default",
-      delegate: [
+      delegations: [
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          bond: { denom: "mycoin", amount: 10 }
+          delegation: { denom: "mycoin", amount: "10" }
         }
       ],
-      unbond: []
+      begin_unbondings: []
     })
     expect(res.length).toBe(1)
     expect(res[0].check_tx.log).toBe("")
@@ -316,17 +318,17 @@ describe("LCD Client Mock", () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[2]
     )
-    expect(initialStake.shares).toBe("10/1")
+    expect(initialStake.shares).toBe("10")
 
     res = await client.updateDelegations({
       sequence: 2,
       name: "default",
-      delegate: [],
-      unbond: [
+      delegations: [],
+      begin_unbondings: [
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          shares: "5/1"
+          shares: "5"
         }
       ]
     })
@@ -338,21 +340,21 @@ describe("LCD Client Mock", () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[2]
     )
-    expect(updatedStake.shares).toBe("5/1")
+    expect(updatedStake.shares).toBe("5")
   })
 
   it("can not stake fermions you dont have", async () => {
     let res = await client.updateDelegations({
       sequence: 1,
       name: "default",
-      delegate: [
+      delegations: [
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          bond: { denom: "mycoin", amount: 100000 }
+          delegation: { denom: "mycoin", amount: "100000" }
         }
       ],
-      unbond: []
+      begin_unbondings: []
     })
     expect(res.length).toBe(1)
     expect(res[0].check_tx.log).toBe("Not enough coins in your account")
@@ -363,14 +365,14 @@ describe("LCD Client Mock", () => {
     let res = await client.updateDelegations({
       sequence: 1,
       name: "default",
-      delegate: [
+      delegations: [
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          bond: { denom: "mycoin", amount: 10 }
+          delegation: { denom: "mycoin", amount: "10" }
         }
       ],
-      unbond: []
+      begin_unbondings: []
     })
     expect(res.length).toBe(1)
     expect(res[0].check_tx.log).toBe("")
@@ -379,14 +381,14 @@ describe("LCD Client Mock", () => {
     res = await client.updateDelegations({
       sequence: 1,
       name: "default",
-      delegate: [
+      delegations: [
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          bond: { denom: "mycoin", amount: 10 }
+          delegation: { denom: "mycoin", amount: "10" }
         }
       ],
-      unbond: []
+      begin_unbondings: []
     })
     expect(res.length).toBe(1)
     expect(res[0].check_tx.log).toBe('Expected sequence "2", got "1"')
@@ -402,14 +404,14 @@ describe("LCD Client Mock", () => {
     let res = await client.updateDelegations({
       sequence: 1,
       name: "nonexistent_account",
-      delegate: [
+      delegations: [
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          bond: { denom: "mycoin", amount: 10 }
+          delegation: { denom: "mycoin", amount: "10" }
         }
       ],
-      unbond: []
+      begin_unbondings: []
     })
     expect(res.length).toBe(1)
     expect(res[0].check_tx.log).toBe("Nonexistent account")
@@ -420,19 +422,19 @@ describe("LCD Client Mock", () => {
     let res = await client.updateDelegations({
       sequence: 1,
       name: "default",
-      delegate: [
+      delegations: [
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          bond: { denom: "mycoin", amount: 10 }
+          delegation: { denom: "mycoin", amount: "10" }
         },
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[0],
-          bond: { denom: "mycoin", amount: 10 }
+          delegation: { denom: "mycoin", amount: "10" }
         }
       ],
-      unbond: []
+      begin_unbondings: []
     })
     expect(res.length).toBe(2)
     expect(res[0].check_tx.log).toBe("")
@@ -457,14 +459,14 @@ describe("LCD Client Mock", () => {
     let res = await client.updateDelegations({
       sequence: 1,
       name: "default",
-      delegate: [
+      delegations: [
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          bond: { denom: "mycoin", amount: -10 }
+          delegation: { denom: "mycoin", amount: "-10" }
         }
       ],
-      unbond: []
+      begin_unbondings: []
     })
     expect(res.length).toBe(1)
     expect(res[0].check_tx.log).toBe("Amount cannot be negative")
@@ -475,12 +477,12 @@ describe("LCD Client Mock", () => {
     let res = await client.updateDelegations({
       sequence: 1,
       name: "default",
-      delegate: [],
-      unbond: [
+      delegations: [],
+      begin_unbondings: [
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[2],
-          shares: "10/1"
+          shares: "10"
         }
       ]
     })
