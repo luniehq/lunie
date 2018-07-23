@@ -81,7 +81,7 @@ export default {
   flex-flow row nowrap
   align-items center
   flex 0 0 3rem + 0.0625rem
-  background var(--app-fg)
+  background var(--app-nav)
 
 .tm-modal-icon
   height 3rem
