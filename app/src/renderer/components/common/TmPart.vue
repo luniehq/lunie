@@ -28,10 +28,16 @@ export default {
   border-radius 2px
   margin 1rem 0
 
-.tm-part-container, .tm-part-header, .tm-part-title, .tm-part-menu, .tm-part-main
+.tm-part-container,
+.tm-part-header,
+.tm-part-title,
+.tm-part-menu,
+.tm-part-main
   &:empty
     display none
 
+.tm-part-main
+  background: blue
 
 .tm-part-container
   margin 0 auto

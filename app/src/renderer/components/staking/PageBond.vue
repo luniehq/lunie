@@ -446,7 +446,7 @@ export default {
     background var(--bc)
 
   .bond-delta
-    color var(--bc)
+    color var(--dim)
 
 .bond-group__fields
   display flex
