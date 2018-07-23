@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.8.1] - 2018-07-23
+
 ### Added
 
 * Indicate if a validator has been revoked in the Staking UI @mappum
@@ -25,7 +27,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Using vue-jest for transpiling in tests for better code coverage output @faboweb
 * Default to gaia-7001 @okwme
 * Changed `yarn testnet` to `yarn start` @okwme
-* Default to gaia-7001 @okwme
 
 ### Fixed
 
