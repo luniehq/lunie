@@ -3,6 +3,7 @@
 const fs = require("fs")
 const path = require("path")
 const release = require("publish-release")
+const git = require("simple-git/promise")()
 const util = require("util")
 
 const assetsDir = path.join(__dirname, `../builds/Voyager`)
@@ -50,6 +51,14 @@ async function main() {
     token: process.env.GIT_BOT_TOKEN,
     tag
   })
+
+  // after we created the release we push the released tag to master
+  await git.addRemote(
+    "bot",
+    `https://${process.env.GIT_BOT_TOKEN}@github.com/cosmos/voyager.git`
+  )
+
+  await git.push("bot", "HEAD:master")
 
   console.log("--- Done releasing ---")
 }
