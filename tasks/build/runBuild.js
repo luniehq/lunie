@@ -45,11 +45,6 @@ cli(optionsSpecification, async options => {
     .map(([key, value]) => `--${key}=${value}`)
     .join(` `)
 
-  // inputs:
-  //   .git/
-  //   default network
-  //
-  // output: the builds directory
   execSync(
     `docker run \
       --env COMMIT=${commit} \
