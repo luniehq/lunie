@@ -2,8 +2,8 @@
 
 exports[`Module: Themes has a dark theme 1`] = `
 Object {
-  "app-bg": "hsl(233, 36%, 18%)",
-  "app-fg": "hsl(233, 30%, 22%)",
+  "app-bg": "hsl(233, 30%, 22%)",
+  "app-fg": "hsl(233, 36%, 18%)",
   "app-nav": "hsl(233, 38%, 14%)",
   "bc": "hsla(233, 24%, 75%, 0.175)",
   "bc-dim": "hsla(233, 24%, 75%, 0.0875)",
