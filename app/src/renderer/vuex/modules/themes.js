@@ -13,6 +13,7 @@ export default () => {
     setTheme(state, theme) {
       state.active = theme
       localStorage.setItem("appTheme", theme)
+      mutations.updateTheme(state, theme)
     },
     updateTheme(state, theme) {
       const newTheme = state.options[theme]
@@ -30,7 +31,6 @@ export default () => {
     loadTheme({ commit }) {
       const theme = localStorage.getItem("appTheme")
       commit("setTheme", theme)
-      commit("updateTheme", theme)
     }
   }
 

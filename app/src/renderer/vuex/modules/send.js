@@ -30,7 +30,7 @@ export default ({ node }) => {
     // extract "to" address
     let to = args.to
     delete args.to
-    args.gas = "500000"
+    args.gas = "50000000"
 
     // submit to LCD to build, sign, and broadcast
     let req = to ? node[type](to, args) : node[type](args)
@@ -80,6 +80,8 @@ export default ({ node }) => {
 
 function assertOk(res) {
   if (Array.isArray(res)) {
+    if (res.length === 0) throw new Error("Error sending transaction.")
+
     return res.forEach(assertOk)
   }
 

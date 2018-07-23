@@ -6,9 +6,9 @@
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/7zip/-/7zip-0.0.6.tgz#9cafb171af82329490353b4816f03347aa150a30"
 
-"@nodeguy/cli@0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@nodeguy/cli/-/cli-0.2.1.tgz#6166771821cb74fad19d4282ff0a2bc8f09905dc"
+"@nodeguy/cli@0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@nodeguy/cli/-/cli-0.2.2.tgz#f0946d1c6a69b19ebbff5ddf8e09fa9843952d0a"
   dependencies:
     ramda "0.25.0"
 
@@ -1454,10 +1454,6 @@ caniuse-api@^1.5.2:
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   version "1.0.30000865"
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000865.tgz#82ffb64d40f7567620aac02d3a632079689abc6b"
-
-canonical-json@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/canonical-json/-/canonical-json-0.0.4.tgz#6579c072c3db5c477ec41dc978fbf2b8f41074a3"
 
 canonical-json@0.0.4:
   version "0.0.4"
@@ -3230,9 +3226,9 @@ fs-extra@0.26.7:
     path-is-absolute "^1.0.0"
     rimraf "^2.2.8"
 
-fs-extra@5.0.0, fs-extra@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-5.0.0.tgz#414d0110cdd06705734d055652c5411260c31abd"
+fs-extra@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-7.0.0.tgz#8cc3f47ce07ef7b3593a11b9fb245f7e34c041d6"
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^4.0.0"
@@ -3258,6 +3254,14 @@ fs-extra@^2.0.0:
 fs-extra@^4.0.0:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-4.0.3.tgz#0d852122e5bc5beb453fb028e9c0c9bf36340c94"
+  dependencies:
+    graceful-fs "^4.1.2"
+    jsonfile "^4.0.0"
+    universalify "^0.1.0"
+
+fs-extra@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-5.0.0.tgz#414d0110cdd06705734d055652c5411260c31abd"
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^4.0.0"
