@@ -64,7 +64,7 @@ export default {
         display block
 
 .tm-modal-container
-  background var(--app-bg)
+  background var(--app-fg)
   box-shadow hsla(0,0,0,0.25) 0 0.25rem 1rem
 
   display flex

@@ -38,8 +38,8 @@ a
   --dim       hsla(0, 100%, 100%, 0.667)
   --bc        hsla(233, 24%, 75%, 0.175)
   --bc-dim    hsla(233, 24%, 75%, 0.0875)
-  --app-fg    hsl(233, 30%, 22%)
-  --app-bg    hsl(233, 36%, 18%)
+  --app-fg    hsl(233, 36%, 18%)
+  --app-bg    hsl(233, 30%, 22%)
   --app-nav   hsl(233, 38%, 14%)
 
   // don't change - should be consistent across themes
@@ -65,6 +65,7 @@ a
   flex-flow column nowrap
   min-width 0
 
+// these styles should live in tendermint/ui
 .tm-field
   border-radius 2px!important
 
@@ -74,11 +75,20 @@ input.tm-field
 .tm-select .tm-field-select-addon
   height 100% !important
 
+.tm-part-header
+  border 1px solid var(--bc-dim)
+
 .tm-part-main
   padding-right 0 !important
 
   .tm-btn__container
     margin-right 1rem
+
+.tm-page-header-container
+  min-height 5.5rem
+
+.tm-data-msg
+  border 1px solid var(--bc-dim)
 
 #app-content
   flex 1

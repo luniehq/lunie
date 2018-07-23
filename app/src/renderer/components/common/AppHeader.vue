@@ -120,7 +120,6 @@ export default {
     display flex
     flex 0 0 width-side
     min-width 0
-    border-right px solid var(--bc)
     display flex
 
     > .container
