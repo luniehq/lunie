@@ -81,7 +81,7 @@ async function main() {
   ipcRenderer.on("connected", (event, nodeIP) => {
     node.rpcConnect(nodeIP)
     store.dispatch("rpcSubscribe")
-    // store.dispatch("subscribeToBlocks")
+    store.dispatch("subscribeToBlocks")
 
     if (firstStart) {
       store.dispatch("showInitialScreen")
