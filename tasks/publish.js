@@ -2,7 +2,6 @@
 
 const fs = require("fs")
 const path = require("path")
-const git = require("simple-git/promise")()
 const release = require("publish-release")
 const util = require("util")
 
