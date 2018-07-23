@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+* fixed block explorer always showing "syncing" @faboweb
+
 ## [0.8.2] - 2018-07-23
 
 ### Fixed
