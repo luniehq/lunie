@@ -117,11 +117,13 @@ module.exports = class Addressbook {
     return curNode.host + ":" + this.config.default_tendermint_port
   }
 
-  flagNodeOffline(host) {
+  flagNodeOffline(nodeIP) {
+    const host = nodeIP.split(":")[0]
     this.peers.find(p => p.host === host).state = "down"
   }
 
-  flagNodeIncompatible(host) {
+  flagNodeIncompatible(nodeIP) {
+    const host = nodeIP.split(":")[0]
     this.peers.find(p => p.host === host).state = "incompatible"
   }
 

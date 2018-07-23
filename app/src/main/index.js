@@ -539,11 +539,24 @@ async function pickAndConnect(addressbook) {
 
   await connect(nodeIP)
 
-  const { compatible, nodeVersion } = await testNodeVersion(
-    nodeIP,
-    expectedGaiaCliVersion,
-    addressbook
-  )
+  let compatible, nodeVersion
+  try {
+    const out = await testNodeVersion(
+      nodeIP,
+      expectedGaiaCliVersion,
+      addressbook
+    )
+    compatible = out.compatible
+    nodeVersion = out.nodeVersion
+  } catch (err) {
+    logError(
+      "Error in getting node SDK version, assuming node is offline. Error:",
+      err
+    )
+    addressbook.flagNodeOffline(nodeIP)
+    return await pickAndConnect(addressbook)
+  }
+
   if (!compatible) {
     let message = `Node ${nodeIP} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
     log(message)
