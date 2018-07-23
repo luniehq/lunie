@@ -111,9 +111,6 @@ export default {
         width 1rem
         font-size lg
 
-      &:hover
-        color var(--link)
-
       &.header-item-logo
         img
           height 1.5rem

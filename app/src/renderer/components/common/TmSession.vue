@@ -124,7 +124,7 @@ export default {
 
 .tm-session-main
   min-height 0
-  background var(--app-bg-light)
+  background var(--app-fg)
   overflow-y auto
   position relative
 
@@ -148,7 +148,7 @@ export default {
   color var(--dim)
 
 .tm-session-footer
-  background var(--app-bg-light)
+  background var(--app-fg)
   flex 0 0 5rem + px
   padding 0 3rem
   display flex

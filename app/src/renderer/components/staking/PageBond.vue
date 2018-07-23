@@ -443,10 +443,10 @@ export default {
 
 .bond-group--negative
   .bond-bar-old__inner
-    background var(--input-bc)
+    background var(--bc)
 
   .bond-delta
-    color var(--input-bc)
+    color var(--bc)
 
 .bond-group__fields
   display flex
@@ -475,7 +475,7 @@ export default {
 .bond-bar__input
   height 2rem
   border-radius 1rem
-  border 1px solid var(--input-bc)
+  border 1px solid var(--bc)
   padding 1px
   position relative
 
