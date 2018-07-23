@@ -6,9 +6,9 @@
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/7zip/-/7zip-0.0.6.tgz#9cafb171af82329490353b4816f03347aa150a30"
 
-"@nodeguy/cli@0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@nodeguy/cli/-/cli-0.2.1.tgz#6166771821cb74fad19d4282ff0a2bc8f09905dc"
+"@nodeguy/cli@0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@nodeguy/cli/-/cli-0.2.2.tgz#f0946d1c6a69b19ebbff5ddf8e09fa9843952d0a"
   dependencies:
     ramda "0.25.0"
 
