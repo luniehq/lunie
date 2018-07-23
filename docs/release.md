@@ -1,23 +1,23 @@
 # Creating a Cosmos Voyager Release
 
-### Housekeeping
+### Automatic Release
 
-There are a few miscellaneous tasks to do before making a new release:
+There is an automatic release process setup. Just push to release and the CI will create a release candidate PR. If this is merged the CI will create and publish the release.
 
-1.  Ensure the default network is correct in `app/config.toml`:
+### Manual Release
 
-```toml
-default_network = "gaia-5001"
-```
+If the CI is broken, you can also manually release. Therefor you need a GitHub access token with simple repository rights.
 
-2.  Ensure the network params you wish to use are in a folder at
-    `app/networks/<networkname>`. It requires the `genesis.json`, `config.toml`,
-    and `gaiaversion.txt` files. You can get them from the testnets repo
-    (https://github.com/tendermint/testnets).
-1.  Update `CHANGELOG.md`.
-1.  Commit and PR the above changes if necessary.
-1.  Push the commit to the `release` branch. If the tests pass then it will also
-    be pushed to `master` and a release will be published on GitHub.
+First create the release candidate:
+`GIT_BOT_TOKEN={TOKEN} node tasks/releasePullRequest.js`
+
+If this is merged, checkout the new develop. Then cleanup the release folder:
+`rm -rf ./builds/Voyager`
+
+Now build Voyager (checkout the <a href="../README.md#build-gaia">README.md</a> for how to build).
+
+Now you publish the release:
+`GIT_BOT_TOKEN={TOKEN} node tasks/publish.js`
 
 ### Verifying Builds with the Team
 
@@ -28,7 +28,7 @@ for each of the builds, which greatly increases security by reducing the chances
 that a build was backdoored by an attacker who has compromised one of our
 machines. (When dealing with huge sums of money, we can never be too careful).
 
-1.  Make a production build (see how in <a href="../README.md">README.md</a>).
+1.  Make a production build (see how in <a href="../README.md#build-gaia">README.md</a>).
 1.  Paste the output from the previous commands into Slack and ensure everyone
     has matching hashes.
 1.  As a team, run the app at least once on each platform to double-check that
