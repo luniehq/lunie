@@ -509,6 +509,7 @@ async function getNodeVersion() {
   let nodeVersion = await axios
     .get(versionURL, { timeout: 3000 })
     .then(res => res.data)
+    .then(fullversion => fullversion.split("-")[0])
 
   return nodeVersion
 }
