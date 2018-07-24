@@ -7,8 +7,8 @@ tm-page(title='Proposals')
       i.material-icons search
   modal-search(type="proposals" v-if="somethingToSearch")
 
-  data-loading(v-if="proposals.loading")
-  data-empty(v-else-if="proposals.length === 0")
+  tm-data-loading(v-if="proposals.loading")
+  tm-data-empty(v-else-if="proposals.length === 0")
   data-empty-search(v-else-if="filteredProposals.length === 0")
   li-proposal(
     v-else
@@ -21,18 +21,16 @@ tm-page(title='Proposals')
 import { mapGetters } from "vuex"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
-import DataLoading from "common/TmDataLoading"
-import DataEmpty from "common/TmDataEmpty"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import LiProposal from "govern/LiProposal"
 import ModalSearch from "common/TmModalSearch"
 import ToolBar from "common/TmToolBar"
-import { TmPage } from "@tendermint/ui"
+import { TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 export default {
   name: "page-proposals",
   components: {
-    DataLoading,
-    DataEmpty,
+    TmDataLoading,
+    TmDataEmpty,
     DataEmptySearch,
     LiProposal,
     ModalSearch,
