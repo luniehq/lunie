@@ -76,7 +76,7 @@ export default {
 @require '~variables'
 
 .app-menu
-  background var(--app-fg)
+  background var(--app-nav)
   z-index z(appMenu)
   user-select none
   display flex
@@ -122,6 +122,9 @@ export default {
 
     .tm-btn
       margin-right 0.5rem
+
+.tm-li.tm-li-link.router-link-exact-active
+  color var(--tertiary)
 
 @media screen and (max-width: 1023px)
   .app-menu
