@@ -1,10 +1,8 @@
-import { sleep } from "scripts/common.js"
-
-export default ({ commit, node }) => {
+export default ({ node }) => {
   let lock = null
 
   let state = {
-    nonce: 0
+    nonce: "0"
   }
 
   const mutations = {
@@ -14,6 +12,7 @@ export default ({ commit, node }) => {
   }
 
   async function doSend({ state, dispatch, commit, rootState }, args) {
+    await dispatch("queryWalletBalances") // the nonce was getting out of sync, this is to force a sync
     args.sequence = state.nonce
     args.name = rootState.user.account
     args.password = rootState.user.password
@@ -31,7 +30,7 @@ export default ({ commit, node }) => {
     // extract "to" address
     let to = args.to
     delete args.to
-    args.gas = "500000"
+    args.gas = "50000000"
 
     // submit to LCD to build, sign, and broadcast
     let req = to ? node[type](to, args) : node[type](args)
@@ -42,13 +41,7 @@ export default ({ commit, node }) => {
     // check response code
     assertOk(res)
 
-    commit("setNonce", state.nonce + 1)
-
-    // wait to ensure tx is committed before we query
-    // XXX
-    setTimeout(() => {
-      dispatch("queryWalletState")
-    }, 3 * 1000)
+    commit("setNonce", (parseInt(state.nonce) + 1).toString())
   }
 
   let actions = {
@@ -87,6 +80,8 @@ export default ({ commit, node }) => {
 
 function assertOk(res) {
   if (Array.isArray(res)) {
+    if (res.length === 0) throw new Error("Error sending transaction.")
+
     return res.forEach(assertOk)
   }
 

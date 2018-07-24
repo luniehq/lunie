@@ -1,6 +1,6 @@
 import { getTxHash } from "../../scripts/tx-utils.js"
 
-export default ({ commit, node }) => {
+export default ({ node }) => {
   const state = {
     blocks: [],
     block: null,
@@ -59,8 +59,8 @@ export default ({ commit, node }) => {
         return Promise.reject(error)
       }
     },
-    queryBlock({ state, commit }, height) {
-      return new Promise((resolve, reject) => {
+    queryBlock({ commit }, height) {
+      return new Promise(resolve => {
         node.rpc.block({ minHeight: height, height }, (err, data) => {
           // the mock /block looks for minHeight but the live /block looks for height
           if (err) {
@@ -75,7 +75,7 @@ export default ({ commit, node }) => {
         })
       })
     },
-    async queryTxInfo({ state, dispatch, commit }, height) {
+    async queryTxInfo({ state, dispatch }, height) {
       if (!height || !state.block) {
         return {}
       }
@@ -91,7 +91,7 @@ export default ({ commit, node }) => {
       state.blockTxs = { ...state.blockTxs, [height]: blockTxInfo }
       return blockTxInfo
     },
-    async getTxs({ state, commit, dispatch }, { key, len, txs }) {
+    async getTxs({ commit, dispatch }, { key, len, txs }) {
       //  this function queries txs recursively. it's called from queryTxInfo as series of synchronous
       // calls. it could also be called as a Promise.all to make the calls asynchronous but block with
       // many transactions might overload the tx endpoint with too many simultaneous calls.
@@ -123,7 +123,7 @@ export default ({ commit, node }) => {
       if (blockMetaInfo) {
         return blockMetaInfo
       }
-      blockMetaInfo = await new Promise((resolve, reject) => {
+      blockMetaInfo = await new Promise(resolve => {
         node.rpc.blockchain(
           { minHeight: height, maxHeight: height },
           (err, data) => {
@@ -147,14 +147,20 @@ export default ({ commit, node }) => {
       if (state.subscription) return
 
       function error(err) {
-        state.subscription = false
-        console.error(`Error subscribing to new blocks: ${err.message}`)
+        if (err.data === "already subscribed") {
+          console.error("Tryed to subscribe to an already subscribed rpc event")
+          return
+        }
+        dispatch("nodeHasHalted")
+        console.error(
+          `Error subscribing to new blocks: ${err.message} ${err.data || ""}`
+        )
       }
 
       node.rpc.status((err, status) => {
         if (err) return error(err)
-        commit("setBlockHeight", status.latest_block_height)
-        if (status.syncing) {
+        commit("setBlockHeight", status.sync_info.latest_block_height)
+        if (status.sync_info.catching_up) {
           // still syncing, let's try subscribing again in 30 seconds
           state.syncing = true
           state.subscription = false
@@ -164,6 +170,7 @@ export default ({ commit, node }) => {
 
         state.syncing = false
 
+        // only subscribe if the node is not catching up anymore
         node.rpc.subscribe({ query: "tm.event = 'NewBlock'" }, (err, event) => {
           state.subscription = true
 

@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Module: Wallet should handle subscription errors 1`] = `
+Array [
+  Array [
+    "error subscribing to transactions",
+    [Error: foo],
+  ],
+  Array [
+    "error subscribing to transactions",
+    [Error: foo],
+  ],
+]
+`;

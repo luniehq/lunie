@@ -31,11 +31,12 @@ describe("PageTransactions", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it("should show the search", () => {
+  it("should show the search on click", () => {
     wrapper
       .findAll(".tm-tool-bar i")
       .at(1)
       .trigger("click")
+    wrapper.update()
     expect(wrapper.contains(".tm-modal-search")).toBe(true)
   })
 
@@ -70,6 +71,15 @@ describe("PageTransactions", () => {
     expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([3466])
   })
 
+  it("should refresh the transactions on click", () => {
+    wrapper
+      .findAll(".tm-tool-bar i")
+      .at(0)
+      .trigger("click")
+
+    expect(store.dispatch).toHaveBeenCalledWith("queryWalletHistory")
+  })
+
   it("should update 'somethingToSearch' when there's nothing to search", () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
     store.commit("setWalletHistory", [])
@@ -88,7 +98,7 @@ describe("PageTransactions", () => {
 
   it("should not show search when there is nothing to search", () => {
     let transactions = []
-    let instance = mount(PageTransactions, {
+    mount(PageTransactions, {
       stubs: {
         "li-transaction": "<li-transaction />",
         "data-empty-tx": "<data-empty-tx />"

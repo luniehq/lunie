@@ -18,7 +18,7 @@ var duplexer = require("duplexer")
 const packageJson = require("../../package.json")
 
 const optionsSpecification = {
-  network: ["path to the default network to use"]
+  network: ["name of the default network to use"]
 }
 
 const generateAppPackageJson = packageJson =>
@@ -228,51 +228,44 @@ outputs hash: ${outputsHash}
 build time: ${minutes}:${seconds % 60}`
 }
 
+const buildAllPlatforms = async (options = {}) => {
+  const start = new Date()
+  console.log("--- Building all platforms ---")
+
+  const gaiaVersionHash = await sha256(
+    fs.createReadStream(path.join(__dirname, `Gaia/COMMIT.sh`))
+  )
+
+  // Generate package.json for the app directory.
+  fs.writeFileSync(
+    path.join(__dirname, `../../app/package.json`),
+    JSON.stringify(generateAppPackageJson(packageJson))
+  )
+
+  pack()
+  const buildHashes = await Promise.all([`darwin`, `linux`, `win32`].map(build))
+  const end = new Date()
+
+  console.log(
+    await summary({ buildHashes, end, gaiaVersionHash, options, start })
+  )
+}
+
 const main = () =>
   cli(optionsSpecification, async options => {
-    const start = new Date()
-
-    const gaiaVersionHash = await sha256(
-      fs.createReadStream(path.join(__dirname, `Gaia/COMMIT.sh`))
-    )
-
-    // If we're doing a local build then copy the specified network
-    // configuration.
-    if (fs.existsSync(`/mnt/network`)) {
-      fs.copySync(
-        `/mnt/network`,
-        `app/networks/${path.basename(options.network)}`
-      )
-    }
-
-    // Generate package.json for the app directory.
-    fs.writeFileSync(
-      path.join(__dirname, `../../app/package.json`),
-      JSON.stringify(generateAppPackageJson(packageJson))
-    )
-
     // Rewrite config file.
     const configFile = path.join(__dirname, `../../app`, `config.toml`)
     const config = fs.readFileSync(configFile, { encoding: `utf8` })
     fs.writeFileSync(configFile, updateConfig(config, options))
 
-    pack()
-
-    const buildHashes = await Promise.all(
-      [`darwin`, `linux`, `win32`].map(build)
-    )
-
-    const end = new Date()
-
-    console.log(
-      await summary({ buildHashes, end, gaiaVersionHash, options, start })
-    )
+    buildAllPlatforms(options)
   })
 
 if (require.main === module) {
   main()
 } else {
   module.exports = {
+    buildAllPlatforms,
     generateAppPackageJson,
     sanitizeAssetName,
     sha256,

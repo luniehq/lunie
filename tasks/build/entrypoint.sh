@@ -3,6 +3,9 @@ git clone /mnt/.git .
 git checkout $COMMIT
 yarn install
 ln --symbolic /mnt/builds
-rm --force --recursive app/networks
-ln --symbolic /mnt/networks
+
+# electron-packager can't handle the symbolic link
+rm app/networks
+cp --recursive builds/Gaia/networks app/
+
 node tasks/build/build.js "$@"

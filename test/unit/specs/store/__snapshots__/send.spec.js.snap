@@ -5,7 +5,7 @@ Array [
   Array [
     "zone/address",
     Object {
-      "account_number": 123,
+      "account_number": "1",
       "amount": Array [
         Object {
           "amount": 123,
@@ -13,10 +13,10 @@ Array [
         },
       ],
       "chain_id": "test-chain",
-      "gas": "500000",
+      "gas": "50000000",
       "name": "default",
       "password": "1234567890",
-      "sequence": 2,
+      "sequence": "2",
     },
   ],
 ]
@@ -27,7 +27,7 @@ Array [
   Array [
     "mock_address",
     Object {
-      "account_number": 123,
+      "account_number": "1",
       "amount": Array [
         Object {
           "amount": 123,
@@ -35,10 +35,10 @@ Array [
         },
       ],
       "chain_id": "test-chain",
-      "gas": "500000",
+      "gas": "50000000",
       "name": "default",
       "password": "1234567890",
-      "sequence": 1,
+      "sequence": "1",
     },
   ],
 ]

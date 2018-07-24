@@ -1,12 +1,12 @@
-import TmModalNoNodes from "common/TmModalNoNodes"
+import TmModalNodeHalted from "common/TmModalNodeHalted"
 import setup from "../../../helpers/vuex-setup"
 
-describe("TmModalNoNodes", () => {
+describe("TmModalNodeHalted", () => {
   let wrapper, store
   let { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(TmModalNoNodes)
+    let instance = mount(TmModalNodeHalted)
     store = instance.store
     wrapper = instance.wrapper
   })
@@ -18,12 +18,12 @@ describe("TmModalNoNodes", () => {
 
   it("send a connection retry event", () => {
     let { ipcRenderer } = require("electron")
-    wrapper.vm.retry()
+    wrapper.vm.switchNode()
     let spy = jest.spyOn(ipcRenderer, "send")
-    expect(spy).toHaveBeenCalledWith("retry-connection")
+    expect(spy).toHaveBeenCalledWith("reconnect")
 
     // also closing the modal
-    expect(store.state.config.modals.noNodes.active).toBe(false)
+    expect(store.state.config.modals.nodeHalted.active).toBe(false)
   })
 
   it("switches to a mock connection", () => {
@@ -32,6 +32,6 @@ describe("TmModalNoNodes", () => {
     expect(store.state.node.mocked).toBe(true)
 
     // also closing the modal
-    expect(store.state.config.modals.noNodes.active).toBe(false)
+    expect(store.state.config.modals.nodeHalted.active).toBe(false)
   })
 })

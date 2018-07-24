@@ -1,6 +1,9 @@
 import { setTimeout } from "timers"
-import { ipcRenderer } from "electron"
+import { ipcRenderer, remote } from "electron"
 import { sleep } from "scripts/common.js"
+
+const config = remote.getGlobal("config")
+const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 
 export default function({ node }) {
   // get tendermint RPC client from basecoin client
@@ -43,7 +46,7 @@ export default function({ node }) {
 
       dispatch("maybeUpdateValidators", header)
     },
-    async reconnect({ commit, dispatch }) {
+    async reconnect({ commit }) {
       if (state.stopConnecting) return
 
       commit("setConnected", false)
@@ -75,7 +78,7 @@ export default function({ node }) {
         if (err) return console.error(err)
         let status = res
         dispatch("setLastHeader", {
-          height: status.latest_block_height,
+          height: status.sync_info.latest_block_height,
           chain_id: status.node_info.network
         })
       })
@@ -83,12 +86,27 @@ export default function({ node }) {
       node.rpc.subscribe(
         { query: "tm.event = 'NewBlockHeader'" },
         (err, event) => {
-          if (err) return console.error("error subscribing to headers", err)
+          if (err) {
+            return console.error("error subscribing to headers", err)
+          }
           dispatch("setLastHeader", event.data.value.header)
         }
       )
 
+      dispatch("walletSubscribe")
+      dispatch("checkNodeHalted")
       dispatch("pollRPCConnection")
+    },
+    checkNodeHalted({ state, dispatch }) {
+      state.nodeHaltedTimeout = setTimeout(() => {
+        if (!state.lastHeader.height) {
+          dispatch("nodeHasHalted")
+        }
+      }, NODE_HALTED_TIMEOUT) // default 30s
+    },
+    nodeHasHalted({ commit }) {
+      clearTimeout(state.nodeHaltedTimeout)
+      commit("setModalNodeHalted", true)
     },
     async checkConnection({ commit }) {
       let error = () =>
@@ -108,7 +126,7 @@ export default function({ node }) {
         return false
       }
     },
-    pollRPCConnection({ state, commit, dispatch }, timeout = 3000) {
+    pollRPCConnection({ state, dispatch }, timeout = 3000) {
       if (state.nodeTimeout || state.stopConnecting) return
 
       state.nodeTimeout = setTimeout(() => {
@@ -118,7 +136,7 @@ export default function({ node }) {
           dispatch("reconnect")
         }
       }, timeout)
-      node.rpc.status((err, res) => {
+      node.rpc.status(err => {
         if (!err) {
           state.nodeTimeout = null
           setTimeout(() => {

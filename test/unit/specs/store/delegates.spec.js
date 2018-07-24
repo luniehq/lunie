@@ -3,24 +3,23 @@ import setup from "../../helpers/vuex-setup"
 let instance = setup()
 
 describe("Module: Delegates", () => {
-  let store, node
+  let store
 
   beforeEach(() => {
     let test = instance.shallow()
     store = test.store
-    node = test.node
   })
 
   it("adds delegate to state", () => {
     store.commit("addDelegate", {
       owner: "foo",
-      pool_shares: { amount: "10/1" }
+      tokens: "10"
     })
     expect(store.state.delegates.delegates[0]).toEqual({
       id: "foo",
       owner: "foo",
-      pool_shares: { amount: "10/1" },
-      voting_power: 10
+      tokens: "10",
+      voting_power: "10"
     })
     expect(store.state.delegates.delegates.length).toBe(1)
   })
@@ -28,15 +27,15 @@ describe("Module: Delegates", () => {
   it("replaces existing delegate with same id", () => {
     store.commit("addDelegate", {
       owner: "foo",
-      pool_shares: { amount: "12/1" },
+      tokens: "12",
       updated: true
     })
     expect(store.state.delegates.delegates[0]).toEqual({
       id: "foo",
       owner: "foo",
-      pool_shares: { amount: "12/1" },
+      tokens: "12",
       updated: true,
-      voting_power: 12
+      voting_power: "12"
     })
     expect(store.state.delegates.delegates.length).toBe(1)
   })

@@ -42,7 +42,7 @@ export default {
   padding 0.25em
 
   .card-balance-container
-    background var(--app-fg)
+    background var(--app-nav)
 
     height 3rem
     display flex

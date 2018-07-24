@@ -55,16 +55,16 @@ yarn install
 
 ## Voyager Development
 
-To run Voyager on the default testnet (`gaia-5001`):
+To run Voyager on the default testnet:
 
 ```bash
-$ yarn testnet
+$ yarn start
 ```
 
 To run Voyager on a specific testnet, see the [status page](https://github.com/cosmos/cosmos-sdk/blob/develop/cmd/gaia/testnets/STATUS.md) for a list of available testnets.
 
 ```bash
-$ yarn testnet <networkName>
+$ yarn start <networkName>
 ```
 
 To run Voyager on a local node:
@@ -73,7 +73,7 @@ To run Voyager on a local node:
 # First start a local node using the the configuration provided in Voyager.
 $ gaia node start --home=./app/networks/local
 # Then start Voyager connecting to your local node.
-$ yarn testnet local
+$ yarn start local
 ``` -->
 
 First, start a full node following the [testnet instructions](https://cosmos.network/join-testnet).
@@ -81,7 +81,7 @@ First, start a full node following the [testnet instructions](https://cosmos.net
 Then start Voyager pointing at your local node.
 
 ```bash
-$ COSMOS_NODE=localhost yarn testnet
+$ COSMOS_NODE=localhost yarn start
 ```
 
 ---
@@ -91,7 +91,7 @@ $ COSMOS_NODE=localhost yarn testnet
 Here's an example build command:
 
 ```bash
-yarn run build --commit=HEAD --network=app/networks/gaia-5001
+yarn run build --commit=HEAD --network=gaia-7001
 ```
 
 You can specify `--help` to see all options with explanations.
@@ -190,7 +190,7 @@ $ ./builds/Gaia/{OS}/gaiad start --home ~/.gaiad-testnet
 Then run Voyager for your local testnet:
 
 ```bash
-$ yarn testnet local-testnet
+$ yarn start local-testnet
 ```
 
 Import the account with the 12 word seed phrase you wrote down earlier.
@@ -203,7 +203,7 @@ A list of all environment variables and their purpose:
 | ----------------------- | -------------------------------------- | -------------------------------- | --------------------------------------------------------------------------------------- |
 | NODE_ENV                | 'production', 'development'            |                                  |                                                                                         |
 | LOGGING                 | 'true', 'false'                        | 'true'                           | Disable logging                                                                         |
-| COSMOS_NETWORK          | {path to network configuration folder} | '../networks/gaia-1'             | Network to connect to                                                                   |
+| COSMOS_NETWORK          | {path to network configuration folder} | '../networks/gaia-7001'          | Network to connect to                                                                   |
 | COSMOS_HOME             | {path to config persistence folder}    | '$HOME/.cosmos-voyager[-dev]'    |                                                                                         |
 | COSMOS_NODE             | {ip of a certain node}                 |                                  | Node to connect to                                                                      |
 | COSMOS_DEVTOOLS         | 'true', 'false'                        | 'false'                          | Open the debug panel in the electron view                                               |

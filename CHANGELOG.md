@@ -9,24 +9,59 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* Added reload button to transaction history page @faboweb
+
+### Changed
+
+* Showing uniq transactions by their hash in history @faboweb
+
+### Fixed
+
+* fixed block explorer always showing "syncing" @faboweb
+* fixed not pushing to master (caused by me ;P) @faboweb
+* Publish script now builds release artifacts. @NodeGuy
+
+## [0.8.2] - 2018-07-23
+
+### Fixed
+
+* fixed release process and documentation @faboweb
+* Showing weird characters @faboweb
+
+## [0.8.1] - 2018-07-23
+
+### Added
+
 * Indicate if a validator has been revoked in the Staking UI @mappum
 * Information about current connection attempts @faboweb
 * Release published on GitHub now including changes from CHANGELOG. @NodeGuy
-* Added reload button to transaction history page @faboweb
+* Added ESLint errors: no-undef and no-unused-vars. @NodeGuy
+* Modal when a node doesn't signal any new blocks @faboweb
+* Added post checkout yarn @okwme
 
 ### Changed
 
 * Copy the network configuration only during local builds. @NodeGuy
 * Ignoring the potential local-testnet folder that is used in the README for local testnets @faboweb
-* Moved to SDK v0.20.0 @faboweb
-* Showing uniq transactions by their hash in history @faboweb
+* Moved the changelog check to a GitHub status check @faboweb
+* Moved to SDK v0.21.1 @faboweb
+* Using vue-jest for transpiling in tests for better code coverage output @faboweb
+* Default to gaia-7001 @okwme
+* Changed `yarn testnet` to `yarn start` @okwme
+* Updated colors throughout @jolesbi
 
 ### Fixed
 
 * Voyager hanging after reloading in development mode @faboweb
+* Bad Boy Back Button Back @okwme
 * Unable to bond just to already bonded candidates @faboweb
 * Staking tokens showing NaN @faboweb
 * Staking page showing old shares after bonding @faboweb
+* Made linting work on Windows. @NodeGuy
+* Renamed some ni- class identifiers to tm- to be consistent @faboweb
+* Fixed the theme switcher @faboweb
+* Fixed various building bugs. @NodeGuy
+* Development CLI tools handle exceptions better. @NodeGuy
 
 ## [0.7.1] - 2018-07-04
 
@@ -56,6 +91,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Hide block subscription errors @mappum
 * Fixed css editing in devtools @faboweb
 * Added history and disabled backbutton on no history @okwme
+* Network configuration files are now taken from the SDK repo. @NodeGuy
 
 ### Fixed
 

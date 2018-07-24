@@ -60,7 +60,7 @@ export default {
     }
   },
   watch: {
-    "$route.name"(newName, oldName) {
+    "$route.name"(newName) {
       this.onPreferencesPage = newName === "preferences"
     }
   }
@@ -72,7 +72,7 @@ export default {
 
 .tm-connected-network
   font-size 0.75rem
-  background var(--app-bg-light)
+  background var(--app-nav)
   color var(--dim)
   display flex
   align-items center

@@ -23,7 +23,7 @@ export default {
   props: ["value"],
   watch: {
     value: {
-      handler: async function(newVal) {
+      handler: async function() {
         await this.$nextTick()
         autosize.update(this.$el)
       }
@@ -31,3 +31,7 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  .tm-field:disabled.tm-field-seed
+    border 1px solid var(--bc)
+</style>

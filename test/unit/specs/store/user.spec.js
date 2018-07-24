@@ -1,7 +1,7 @@
 import setup from "../../helpers/vuex-setup"
 import b32 from "scripts/b32"
 
-function mockGA(uid) {
+function mockGA() {
   window.analytics = { foo: "bar" }
 }
 jest.mock("renderer/google-analytics.js", () => mockGA)
@@ -29,6 +29,21 @@ describe("Module: User", () => {
     expect(store.state.user.password).toBe(null)
     expect(store.state.user.account).toBe(null)
     expect(store.state.user.address).toBe(null)
+  })
+
+  it("should add and remove history correctly", () => {
+    expect(store.state.user.history.length).toBe(0)
+    store.commit("addHistory", "/")
+    expect(store.state.user.history.length).toBe(1)
+    store.commit("popHistory")
+    expect(store.state.user.history.length).toBe(0)
+  })
+  it("should pauseHistory correctly", () => {
+    expect(store.state.user.pauseHistory).toBe(false)
+    store.commit("pauseHistory", true)
+    expect(store.state.user.pauseHistory).toBe(true)
+    store.commit("pauseHistory", false)
+    expect(store.state.user.pauseHistory).toBe(false)
   })
 
   it("should set accounts", () => {

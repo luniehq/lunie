@@ -1,5 +1,3 @@
-let { join } = require("path")
-
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
@@ -59,20 +57,15 @@ module.exports = {
     await app.client.$(`.tm-li-user`).click()
     console.log(`navigated to preferences`)
   },
-  newTempDir() {
-    return join(
-      tmpdir(),
-      Math.random()
-        .toString(36)
-        .slice(2)
-    )
-  },
   sleep,
   async waitForText(elGetterFn, text, timeout = 5000) {
     let start = Date.now()
     while ((await elGetterFn().getText()) !== text) {
       if (Date.now() - start >= timeout) {
-        throw Error("Timed out waiting for text")
+        throw Error(
+          `Timed out waiting for text. Expected ${text}, Showing ${(await elGetterFn().getText()) ||
+            "nothing"}`
+        )
       }
       await sleep(100)
     }

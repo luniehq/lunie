@@ -15,15 +15,17 @@ const RpcClientMock = {
     }
   },
   validators: cb => cb(null, { validators: mockValidators }),
-  block: ({ minHeight, maxHeight }, cb) =>
+  block: ({ minHeight }, cb) =>
     cb(null, { block: state.blocks.find(b => b.header.height === minHeight) }),
-  blockchain: ({ minHeight, maxHeight }, cb) =>
+  blockchain: ({ minHeight }, cb) =>
     cb(null, {
       block_metas: state.blockMetas.slice(minHeight)
     }),
   status: cb =>
     cb(null, {
-      latest_block_height: 42,
+      sync_info: {
+        latest_block_height: 42
+      },
       node_info: { network: "offline demo" }
     }),
   removeAllListeners: () => {},

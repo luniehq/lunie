@@ -23,7 +23,7 @@ tm-page(title='Transactions')
 <script>
 import shortid from "shortid"
 import { mapGetters } from "vuex"
-import { includes, orderBy, uniqBy } from "lodash"
+import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import DataLoading from "common/TmDataLoading"
 import DataEmptySearch from "common/TmDataEmptySearch"

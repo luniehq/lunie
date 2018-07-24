@@ -11,12 +11,12 @@ describe("App without analytics", () => {
     sentry_dsn_public: "456"
   }))
   jest.mock("raven-js", () => ({
-    config: dsn => {
+    config: () => {
       return { install: () => {} }
     },
     captureException: err => console.error(err)
   }))
-  jest.mock("renderer/google-analytics.js", () => uid => {})
+  jest.mock("renderer/google-analytics.js", () => () => {})
   jest.mock("electron", () => ({
     remote: {
       getGlobal: () => ({ mocked: false }),
@@ -27,7 +27,7 @@ describe("App without analytics", () => {
       }
     },
     ipcRenderer: {
-      on: (type, cb) => {},
+      on: () => {},
       send: () => {}
     }
   }))
@@ -47,7 +47,7 @@ describe("App without analytics", () => {
 
   it("reads the lcd port from the url", async () => {
     let Node = require("renderer/connectors/node.js")
-    const { node } = require("renderer/main.js")
+    require("renderer/main.js")
     expect(Node).toHaveBeenCalledWith("8080", false) // second argument is a switch for a mocked node implementation
   })
 
@@ -58,13 +58,13 @@ describe("App without analytics", () => {
       mocked: true
     })
     let Node = require("renderer/connectors/node.js")
-    const { node } = require("renderer/main.js")
+    require("renderer/main.js")
     expect(Node).toHaveBeenCalledWith("8080", true)
     jest.resetModules()
   })
 
   it("does not activate google analytics if analytics is disabled", async mockDone => {
-    jest.mock("renderer/google-analytics.js", () => uid => {
+    jest.mock("renderer/google-analytics.js", () => () => {
       mockDone.fail()
     })
     await require("renderer/main.js")
@@ -134,7 +134,7 @@ describe("App without analytics", () => {
       }
     }
 
-    let app = require("renderer/main.js")
+    require("renderer/main.js")
     expect(mockPush.mock.calls[0][0]).toBe("/about")
 
     jest.resetModules()
@@ -186,7 +186,7 @@ describe("App without analytics", () => {
       message: "message"
     })
 
-    expect(store.state.config.modals.nonodes.active).toBe(true)
+    expect(store.state.config.modals.noNodes.active).toBe(true)
   })
 
   it("sends a successful-launch only on first start", async () => {

@@ -19,11 +19,6 @@ let state = {
       name: "default",
       password: "1234567890",
       address: addresses[0]
-    },
-    {
-      name: "nonexistent_account",
-      password: "1234567890",
-      address: addresses[1]
     }
   ],
   accounts: {
@@ -31,18 +26,19 @@ let state = {
       coins: [
         {
           denom: "mycoin",
-          amount: 1000
+          amount: "1000"
         },
         {
           denom: "fermion",
-          amount: 2300
+          amount: "2300"
         },
         {
           denom: "steak",
-          amount: 1000
+          amount: "1000"
         }
       ],
-      sequence: 1
+      sequence: "1",
+      account_number: "1"
     }
   },
   nonces: { [addresses[0]]: 0 },
@@ -58,7 +54,7 @@ let state = {
                     coins: [
                       {
                         denom: "jbcoins",
-                        amount: 1234
+                        amount: "1234"
                       }
                     ],
                     address: makeHash()
@@ -69,7 +65,7 @@ let state = {
                     coins: [
                       {
                         denom: "jbcoins",
-                        amount: 1234
+                        amount: "1234"
                       }
                     ],
                     address: addresses[0]
@@ -94,7 +90,7 @@ let state = {
                     coins: [
                       {
                         denom: "fabocoins",
-                        amount: 1234
+                        amount: "1234"
                       }
                     ],
                     address: addresses[0]
@@ -105,7 +101,7 @@ let state = {
                     coins: [
                       {
                         denom: "fabocoins",
-                        amount: 1234
+                        amount: "1234"
                       }
                     ],
                     address: makeHash()
@@ -125,7 +121,7 @@ let state = {
       [validators[0]]: {
         delegator_addr: addresses[0],
         validator_addr: validators[0],
-        shares: "130/1",
+        shares: "130",
         height: 123
       }
     }
@@ -138,7 +134,7 @@ let state = {
         data: "t3zVnKU42WNH+NtYFcstZRLFVULWV8VagoP0HwW43Pk="
       },
       revoked: false,
-      pool_shares: { amount: "14" },
+      tokens: "14",
       delegator_shares: "14",
       description: {
         description: "Mr Mounty",
@@ -152,7 +148,7 @@ let state = {
         type: "AC26791624DE60",
         data: "9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w="
       },
-      pool_shares: { amount: "0" },
+      tokens: "0",
       delegator_shares: "0",
       description: {
         description: "Good Guy Greg",
@@ -166,7 +162,7 @@ let state = {
         type: "AC26791624DE60",
         data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0="
       },
-      pool_shares: { amount: "19" },
+      tokens: "19",
       delegator_shares: "19",
       description: {
         description: "Herr Schmidt",
@@ -240,7 +236,7 @@ module.exports = {
       )
     })
   },
-  async tx(hash) {
+  async tx() {
     return {}
   },
   async send(to, req) {
@@ -258,7 +254,7 @@ module.exports = {
   },
 
   // staking
-  async updateDelegations({ name, sequence, delegate, unbond }) {
+  async updateDelegations({ name, sequence, delegations, begin_unbondings }) {
     let results = []
 
     let fromKey = state.keys.find(a => a.name === name)
@@ -269,7 +265,7 @@ module.exports = {
     }
 
     // check nonce
-    if (fromAccount.sequence !== sequence) {
+    if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
       results.push(
         txResult(
           2,
@@ -279,8 +275,9 @@ module.exports = {
       return results
     }
 
-    for (let tx of delegate) {
-      let { denom, amount } = tx.bond
+    for (let tx of delegations) {
+      let { denom } = tx.delegation
+      let amount = parseInt(tx.delegation.amount)
       if (amount < 0) {
         results.push(txResult(1, "Amount cannot be negative"))
         return results
@@ -291,7 +288,7 @@ module.exports = {
       }
 
       // update sender account
-      fromAccount.sequence += 1
+      incrementSequence(fromAccount)
       fromAccount.coins.find(c => c.denom === denom).amount -= amount
 
       // update stake
@@ -305,28 +302,31 @@ module.exports = {
         delegation = {
           delegator_addr: fromKey.address,
           validator_addr: tx.validator_addr,
-          shares: "0/1",
+          shares: "0",
           height: 0
         }
         delegator[tx.validator_addr] = delegation
       }
-      let shares = +delegation.shares.split("/")[0]
-      delegation.shares = shares + +tx.bond.amount + "/1"
+      let shares = parseInt(delegation.shares)
+      delegation.shares = (shares + amount).toString()
 
       let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
-      shares = +candidate.pool_shares.amount.split("/")[0]
-      candidate.pool_shares.amount = shares + +tx.bond.amount + "/1"
+      candidate.tokens = (parseInt(candidate.tokens) + amount).toString()
+      candidate.delegator_shares = (
+        parseInt(candidate.delegator_shares) + amount
+      ).toString()
 
       results.push(txResult(0))
     }
 
-    for (let tx of unbond) {
-      fromAccount.sequence += 1
+    for (let tx of begin_unbondings) {
+      incrementSequence(fromAccount)
 
-      let amount = +tx.shares.split("/")[0]
+      let amount = parseInt(tx.shares)
 
       // update sender balance
-      fromAccount.coins.find(c => c.denom === "steak").amount += amount
+      let coinBalance = fromAccount.coins.find(c => c.denom === "steak")
+      coinBalance.amount = String(parseInt(coinBalance) + amount)
 
       // update stake
       let delegator = state.stake[fromKey.address]
@@ -339,12 +339,12 @@ module.exports = {
         results.push(txResult(2, "Nonexistent delegation"))
         return results
       }
-      let shares = delegation.shares.split("/")[0]
-      delegation.shares = +shares - amount + "/1"
+      let shares = parseInt(delegation.shares)
+      delegation.shares = (+shares - amount).toString()
 
       let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
-      shares = candidate.pool_shares.amount.split("/")[0]
-      candidate.pool_shares.amount = +shares - amount + "/1"
+      shares = parseInt(candidate.tokens)
+      candidate.tokens = (+shares - amount).toString()
 
       results.push(txResult(0))
     }
@@ -388,26 +388,31 @@ function send(to, from, req) {
   }
 
   for (let { denom, amount } of req.amount) {
-    if (amount < 0) {
+    if (parseInt(amount) < 0) {
       return txResult(1, "Amount cannot be negative")
     }
-    if (fromAccount.coins.find(c => c.denom === denom).amount < amount) {
+    if (
+      fromAccount.coins.find(c => c.denom === denom).amount < parseInt(amount)
+    ) {
       return txResult(1, "Not enough coins in your account")
     }
   }
 
   // check/update nonce
-  if (fromAccount.sequence !== req.sequence) {
+  if (parseInt(fromAccount.sequence) !== parseInt(req.sequence)) {
     return txResult(
       2,
       `Expected sequence "${fromAccount.sequence}", got "${req.sequence}"`
     )
   }
-  fromAccount.sequence += 1
+  incrementSequence(fromAccount)
 
   // update sender balances
   for (let { denom, amount } of req.amount) {
-    fromAccount.coins.find(c => c.denom === denom).amount -= amount
+    let senderBalance = fromAccount.coins.find(c => c.denom === denom)
+    senderBalance.amount = String(
+      parseInt(senderBalance.amount) - parseInt(amount)
+    )
   }
 
   // update receiver balances
@@ -415,16 +420,18 @@ function send(to, from, req) {
   if (!receiverAccount) {
     receiverAccount = state.accounts[to] = {
       coins: [],
-      sequence: 0
+      sequence: "0"
     }
   }
   for (let { denom, amount } of req.amount) {
-    let receiverCoin = receiverAccount.coins.find(c => c.denom === denom)
-    if (!receiverCoin) {
-      receiverCoin = { amount: 0, denom }
-      receiverAccount.coins.push(receiverCoin)
+    let receiverBalance = receiverAccount.coins.find(c => c.denom === denom)
+    if (!receiverBalance) {
+      receiverBalance = { amount: "0", denom }
+      receiverAccount.coins.push(receiverBalance)
     }
-    receiverCoin.amount += amount
+    receiverBalance.amount = String(
+      parseInt(receiverBalance.amount) + parseInt(amount)
+    )
   }
 
   // log tx
@@ -451,7 +458,7 @@ function send(to, from, req) {
         ]
       }
     },
-    hash: makeHash(),
+    hash: makeAddress(),
     height: getHeight() + (from === botAddress ? 1 : 0),
     time: Date.now()
   })
@@ -512,4 +519,8 @@ function txResult(code = 0, message = "") {
     hash: "999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A",
     height: 0
   }
+}
+
+function incrementSequence(account) {
+  account.sequence = (parseInt(account.sequence) + 1).toString()
 }

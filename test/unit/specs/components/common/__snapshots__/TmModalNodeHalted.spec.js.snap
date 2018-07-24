@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TmModalNoNodes has the expected html structure 1`] = `
+exports[`TmModalNodeHalted has the expected html structure 1`] = `
 <div
   class="tm-modal-error__wrapper"
 >
@@ -19,12 +19,12 @@ exports[`TmModalNoNodes has the expected html structure 1`] = `
     <div
       class="tm-modal-error__title"
     >
-      No nodes found
+      Node has halted
     </div>
     <div
       class="tm-modal-error__body"
     >
-      All known nodes are offline or incompatible. You can retry to connect or switch to a demo connection so you can try out Voyager.
+      The node your are connected to appears to have halted. You can try to connect to another node or switch to a demo connection so you can try out Voyager.
     </div>
     <div
       class="tm-modal-error__footer"
@@ -46,7 +46,7 @@ exports[`TmModalNoNodes has the expected html structure 1`] = `
           <span
             class="tm-btn__value"
           >
-            Retry Connection
+            Switch Node
           </span>
         </span>
       </button>

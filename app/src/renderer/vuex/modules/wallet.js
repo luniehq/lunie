@@ -3,9 +3,10 @@ let { join } = require("path")
 let { uniqBy } = require("lodash")
 const { remote } = require("electron")
 const root = remote.getGlobal("root")
+const bech32 = require("bech32")
 let { sleep } = require("scripts/common.js")
 
-export default ({ commit, node }) => {
+export default ({ node }) => {
   let state = {
     balances: [],
     balancesLoading: true,
@@ -13,6 +14,7 @@ export default ({ commit, node }) => {
     historyLoading: false,
     denoms: [],
     address: null,
+    decodedAddress: null,
     zoneIds: ["basecoind-demo1", "basecoind-demo2"]
   }
 
@@ -26,6 +28,20 @@ export default ({ commit, node }) => {
     },
     setWalletAddress(state, address) {
       state.address = address
+      mutations.setDecodedAddress(state, address)
+    },
+    // decode bech32 so we know the raw hex address for handling tendermint events
+    setDecodedAddress(state, address) {
+      if (!address) {
+        state.decodedAddress = null
+        return
+      }
+
+      let decoded = bech32.fromWords(bech32.decode(address).words)
+      state.decodedAddress = decoded
+        .map(w => w.toString(16).padStart(2, "0"))
+        .join("")
+        .toUpperCase()
     },
     setAccountNumber(state, accountNumber) {
       state.accountNumber = accountNumber
@@ -64,12 +80,13 @@ export default ({ commit, node }) => {
       commit("setWalletAddress", address)
       dispatch("loadDenoms")
       dispatch("queryWalletState")
+      dispatch("walletSubscribe")
     },
-    queryWalletState({ state, dispatch }) {
+    queryWalletState({ dispatch }) {
       dispatch("queryWalletBalances")
       dispatch("queryWalletHistory")
     },
-    async queryWalletBalances({ state, rootState, commit, dispatch }) {
+    async queryWalletBalances({ state, rootState, commit }) {
       let res = await node.queryAccount(state.address)
       if (!res) {
         state.balancesLoading = false
@@ -86,9 +103,6 @@ export default ({ commit, node }) => {
       }
 
       state.balancesLoading = false
-
-      await sleep(3000)
-      dispatch("queryWalletBalances")
     },
     async queryWalletHistory({ state, commit, dispatch }) {
       commit("setHistoryLoading", true)
@@ -121,7 +135,7 @@ export default ({ commit, node }) => {
       // )
       commit("setTransactionTime", { blockHeight, blockMetaInfo })
     },
-    async loadDenoms({ state, commit }) {
+    async loadDenoms({ commit }) {
       // read genesis.json to get default denoms
 
       // wait for genesis.json to exist
@@ -145,6 +159,50 @@ export default ({ commit, node }) => {
       }
 
       commit("setDenoms", Object.keys(denoms))
+    },
+    queryWalletStateAfterHeight({ rootState, dispatch }, height) {
+      return new Promise(resolve => {
+        // wait until height is >= `height`
+        let interval = setInterval(() => {
+          if (rootState.node.lastHeader.height < height) return
+          clearInterval(interval)
+          dispatch("queryWalletState")
+          resolve()
+        }, 1000)
+      })
+    },
+    walletSubscribe({ state, dispatch }) {
+      if (!state.decodedAddress) return
+
+      function onTx(err, event) {
+        if (err) {
+          return console.error("error subscribing to transactions", err)
+        }
+        console.log("detected tx", event)
+        dispatch(
+          "queryWalletStateAfterHeight",
+          event.data.value.TxResult.height + 1
+        )
+      }
+
+      node.rpc.subscribe(
+        {
+          query: `tm.event = 'Tx' AND sender = '${state.decodedAddress}'`
+        },
+        onTx
+      )
+
+      node.rpc.subscribe(
+        {
+          query: `tm.event = 'Tx' AND recipient = '${state.decodedAddress}'`
+        },
+        onTx
+      )
+
+      // BACKUP remove when subscription works again
+      setInterval(() => {
+        dispatch("queryWalletState")
+      }, 5000)
     }
   }
 

@@ -1,4 +1,4 @@
-export default ({ dispatch, node }) => {
+export default ({ node }) => {
   const state = {
     delegates: [],
     loading: false
@@ -16,7 +16,7 @@ export default ({ dispatch, node }) => {
       Object.assign(delegate, delegate.description)
 
       // TODO: calculate voting power
-      delegate.voting_power = parseRat(delegate.pool_shares.amount)
+      delegate.voting_power = delegate.tokens
 
       // update if we already have this delegate
       for (let existingDelegate of state.delegates) {
@@ -31,12 +31,12 @@ export default ({ dispatch, node }) => {
   }
 
   const actions = {
-    reconnected({ state, commit, dispatch }) {
+    reconnected({ state, dispatch }) {
       if (state.loading) {
         dispatch("getDelegates")
       }
     },
-    async getDelegates({ state, dispatch, commit, rootState }) {
+    async getDelegates({ state, commit }) {
       commit("setDelegateLoading", true)
       let delegates = await node.candidates()
       let { validators } = await node.getValidators()
@@ -59,11 +59,4 @@ export default ({ dispatch, node }) => {
     mutations,
     actions
   }
-}
-
-// parse sdk rational number string
-function parseRat(ratStr = "") {
-  let [numerator, denominator] = ratStr.split("/")
-  if (!denominator) return +numerator
-  return +numerator / +denominator
 }

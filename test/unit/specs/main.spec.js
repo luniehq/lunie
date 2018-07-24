@@ -8,16 +8,22 @@ jest.mock("fs-extra", () => {
   let fs = require("fs")
   let mockFs = mockFsExtra()
   mockFs.writeFile(
-    "./app/networks/basecoind-2/config.toml",
-    fs.readFileSync("./app/networks/basecoind-2/config.toml", "utf8")
+    "./app/networks/gaia-6002/config.toml",
+    fs.readFileSync("./test/unit/helpers/mockNetworkConfig/config.toml", "utf8")
   )
   mockFs.writeFile(
-    "./app/networks/basecoind-2/genesis.json",
-    fs.readFileSync("./app/networks/basecoind-2/genesis.json", "utf8")
+    "./app/networks/gaia-6002/genesis.json",
+    fs.readFileSync(
+      "./test/unit/helpers/mockNetworkConfig/genesis.json",
+      "utf8"
+    )
   )
   mockFs.writeFile(
-    "./app/networks/basecoind-2/basecoindversion.txt",
-    fs.readFileSync("./app/networks/basecoind-2/basecoindversion.txt", "utf8")
+    "./app/networks/gaia-6002/basecoindversion.txt",
+    fs.readFileSync(
+      "./test/unit/helpers/mockNetworkConfig/basecoindversion.txt",
+      "utf8"
+    )
   )
   return mockFs
 })
@@ -129,7 +135,7 @@ let childProcess
 describe("Startup Process", () => {
   Object.assign(process.env, {
     LOGGING: "false",
-    COSMOS_NETWORK: "app/networks/basecoind-2",
+    COSMOS_NETWORK: "app/networks/gaia-6002",
     COSMOS_HOME: testRoot,
     NODE_ENV: "testing"
   })
@@ -158,7 +164,7 @@ describe("Startup Process", () => {
           ([path, args]) =>
             path.includes("gaiacli") &&
             args.includes("init") &&
-            args.join("=").includes("--chain-id=basecoind-2")
+            args.join("=").includes("--chain-id=gaia-6002")
         )
       ).toBeDefined()
     })
@@ -199,13 +205,13 @@ describe("Startup Process", () => {
       main = await require(appRoot + "src/main/index.js")
 
       expect(
-        send.mock.calls.filter(([type, _]) => type === "connected").length
+        send.mock.calls.filter(([type]) => type === "connected").length
       ).toBe(0) // doesn't connect
+      expect(send.mock.calls.filter(([type]) => type === "error").length).toBe(
+        1
+      )
       expect(
-        send.mock.calls.filter(([type, _]) => type === "error").length
-      ).toBe(1)
-      expect(
-        send.mock.calls.filter(([type, _]) => type === "error")[0][1].code
+        send.mock.calls.filter(([type]) => type === "error")[0][1].code
       ).toBe("NO_NODES_AVAILABLE")
     })
   })
@@ -235,7 +241,7 @@ describe("Startup Process", () => {
           ([path, args]) =>
             path.includes("gaiacli") &&
             args.includes("init") &&
-            args.join("=").includes("--chain-id=basecoind-2")
+            args.join("=").includes("--chain-id=gaia-6002")
         )
       ).toBeDefined()
     })
@@ -246,7 +252,7 @@ describe("Startup Process", () => {
           ([path, args]) =>
             path.includes("gaiacli") &&
             args.includes("rest-server") &&
-            args.join("=").includes("--chain-id=basecoind-2")
+            args.join("=").includes("--chain-id=gaia-6002")
         )
       ).toBeDefined()
       expect(main.processes.lcdProcess).toBeDefined()
@@ -364,10 +370,10 @@ describe("Startup Process", () => {
 
     it("should provide the connected node when the view has booted", async () => {
       expect(
-        send.mock.calls.filter(([type, _]) => type === "connected").length
+        send.mock.calls.filter(([type]) => type === "connected").length
       ).toBe(1)
       expect(
-        send.mock.calls.find(([type, _]) => type === "connected")[1]
+        send.mock.calls.find(([type]) => type === "connected")[1]
       ).toBeTruthy() // TODO fix seeds so we can test nodeIP output
     })
 
@@ -379,7 +385,7 @@ describe("Startup Process", () => {
       await registeredIPCListeners["reconnect"]()
 
       expect(
-        send.mock.calls.filter(([type, _]) => type === "connected").length
+        send.mock.calls.filter(([type]) => type === "connected").length
       ).toBe(2)
     })
 
@@ -497,7 +503,7 @@ describe("Startup Process", () => {
       // run main
       main = await require(appRoot + "src/main/index.js")
       expect(
-        send.mock.calls.filter(([type, _]) => type === "connected").length
+        send.mock.calls.filter(([type]) => type === "connected").length
       ).toBe(1)
     })
   })
@@ -639,10 +645,10 @@ function testFailingChildProcess(name, cmd) {
     let { send } = require("electron")
     await require(appRoot + "src/main/index.js")
 
-    expect(send.mock.calls.find(([type, _]) => type === "error")).toBeTruthy()
+    expect(send.mock.calls.find(([type]) => type === "error")).toBeTruthy()
     expect(
       send.mock.calls
-        .find(([type, _]) => type === "error")[1]
+        .find(([type]) => type === "error")[1]
         .message.toLowerCase()
     ).toContain(name)
   })

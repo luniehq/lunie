@@ -5,13 +5,13 @@ import PageBond from "renderer/components/staking/PageBond"
 import interact from "interactjs"
 
 describe("PageBond", () => {
-  let wrapper, store, router, node
+  let wrapper, store, router
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
 
   beforeEach(() => {
     let test = mount(PageBond, {
-      doBefore: ({ store, router }) => {
+      doBefore: ({ store }) => {
         store.commit("setAtoms", 101)
 
         store.commit("addToCart", {
@@ -43,7 +43,6 @@ describe("PageBond", () => {
     store = test.store
     router = test.router
     wrapper = test.wrapper
-    node = test.node
 
     wrapper.update()
   })
@@ -137,7 +136,7 @@ describe("PageBond", () => {
 
   it("leaves if there are no candidates selected", () => {
     let { router } = mount(PageBond, {
-      doBefore: ({ store, router }) => {
+      doBefore: ({ store }) => {
         store.commit("setAtoms", 101)
       }
     })
@@ -146,16 +145,11 @@ describe("PageBond", () => {
 
   it("leaves if no atoms available", () => {
     let test = mount(PageBond, {
-      doBefore: ({ store, router }) => {
+      doBefore: ({ store }) => {
         store.commit("setAtoms", 0)
       }
     })
     router = test.router
-    expect(router.currentRoute.fullPath).toBe("/staking")
-  })
-
-  it("returns to the candidates if desired", () => {
-    wrapper.find(".tm-tool-bar a").trigger("click")
     expect(router.currentRoute.fullPath).toBe("/staking")
   })
 
