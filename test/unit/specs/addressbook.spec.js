@@ -1,15 +1,25 @@
 const mockFsExtra = require("../helpers/fs-mock").default
 let Addressbook
 
+const mockConfig = {
+  default_tendermint_port: 26657
+}
+
 describe("Addressbook", () => {
   beforeEach(() => {
     jest.resetModules()
     jest.mock("fs-extra", () => mockFsExtra())
     Addressbook = require("src/main/addressbook.js")
+
+    jest.mock("axios", () => ({
+      get: async () => {
+        return { data: { result: { peers: [] } } }
+      }
+    }))
   })
 
   it("should store peristent peers", () => {
-    let addressbook = new Addressbook("./", {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456"]
     })
     expect(addressbook.peers.map(p => p.host)).toContain("123.456.123.456")
@@ -21,30 +31,30 @@ describe("Addressbook", () => {
       "./config/addressbook.json",
       JSON.stringify(["123.456.123.456"])
     )
-    let addressbook = new Addressbook("./config")
+    let addressbook = new Addressbook(mockConfig, "./config")
     expect(addressbook.peers.map(p => p.host)).toContain("123.456.123.456")
   })
 
   it("should save initial peers to disc", () => {
     let fs = require("fs-extra")
-    let addressbook = new Addressbook("./config", {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456"]
     })
     expect(addressbook.peers.map(p => p.host)).toContain("123.456.123.456")
-    let content = fs.readFileSync("./config/addressbook.json")
+    let content = fs.readFileSync("./addressbook.json")
     expect(JSON.parse(content)).toEqual(["123.456.123.456"])
   })
 
   it("should return node", async () => {
     jest.doMock("axios", () => ({
-      get: async () => ({
-        data: { result: { peers: [] } }
-      })
+      get: async () => {
+        return { data: { result: { peers: [] } } }
+      }
     }))
     jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
 
-    let addressbook = new Addressbook("./config", {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456"]
     })
     let node = await addressbook.pickNode()
@@ -56,7 +66,7 @@ describe("Addressbook", () => {
     try {
       jest.resetModules()
       Addressbook = require("src/main/addressbook.js")
-      let addressbook = new Addressbook("./config")
+      let addressbook = new Addressbook(mockConfig, "./config")
 
       expect(await addressbook.pickNode()).toMatchSnapshot()
     } catch (err) {
@@ -78,7 +88,7 @@ describe("Addressbook", () => {
     jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
 
-    let addressbook = new Addressbook("./config", {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
     })
     let node = await addressbook.pickNode()
@@ -94,7 +104,7 @@ describe("Addressbook", () => {
     jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
 
-    let addressbook = new Addressbook("./config", {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
     })
     await addressbook.pickNode().then(done.fail, err => {
@@ -105,13 +115,13 @@ describe("Addressbook", () => {
 
   it("should query peers on connecting to a node", async () => {
     jest.doMock("axios", () => ({
-      get: async () => ({
-        data: { result: { peers: [] } }
-      })
+      get: async () => {
+        return { data: { result: { peers: [] } } }
+      }
     }))
     jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
-    let addressbook = new Addressbook("./config", {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
     })
     addressbook.discoverPeers = jest.fn()
@@ -121,29 +131,31 @@ describe("Addressbook", () => {
 
   it("should query and store peers of connected node", async () => {
     jest.doMock("axios", () => ({
-      get: async () => ({
-        data: {
-          result: {
-            peers: [
-              {
-                node_info: {
-                  listen_addr: "323.456.123.456"
+      get: async () => {
+        return {
+          data: {
+            result: {
+              peers: [
+                {
+                  node_info: {
+                    listen_addr: "323.456.123.456"
+                  }
+                },
+                {
+                  node_info: {
+                    listen_addr: "423.456.123.456"
+                  }
                 }
-              },
-              {
-                node_info: {
-                  listen_addr: "423.456.123.456"
-                }
-              }
-            ]
+              ]
+            }
           }
         }
-      })
+      }
     }))
     jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
 
-    let addressbook = new Addressbook("./config", {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
     })
     await addressbook.discoverPeers("123.456.123.456")
@@ -151,14 +163,14 @@ describe("Addressbook", () => {
     expect(addressbook.peers.map(p => p.host)).toContain("423.456.123.456")
 
     const fs = require("fs-extra")
-    let content = fs.readFileSync("./config/addressbook.json")
+    let content = fs.readFileSync("./addressbook.json")
     let storedNodes = JSON.parse(content)
     expect(storedNodes).toContain("323.456.123.456")
     expect(storedNodes).toContain("423.456.123.456")
   })
 
   it("should provide the ability to reset the state of the nodes to try to reconnect to all, i.e. after an internet outage", async done => {
-    let addressbook = new Addressbook("./config", {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
     })
 
@@ -177,7 +189,7 @@ describe("Addressbook", () => {
   })
 
   it("should allow http addresses as peer addresses", async () => {
-    let addressbook = new Addressbook("./config", {
+    let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["http://123.456.123.456"]
     })
     let node = await addressbook.pickNode()
@@ -186,11 +198,22 @@ describe("Addressbook", () => {
 
   it("should call back on connection", async () => {
     let spy = jest.fn()
-    let addressbook = new Addressbook("./config", {
+    let addressbook = new Addressbook(mockConfig, "./config", {
       persistent_peers: ["http://123.456.123.456"],
       onConnectionMessage: spy
     })
     await addressbook.pickNode()
     expect(spy).toHaveBeenCalled()
+  })
+
+  it("should flag nodes incompatible", async done => {
+    let addressbook = new Addressbook(mockConfig, "./config", {
+      persistent_peers: ["http://123.456.123.456"]
+    })
+    addressbook.flagNodeIncompatible("123.456.123.456")
+    await addressbook
+      .pickNode()
+      .then(done.fail)
+      .catch(() => done())
   })
 })
