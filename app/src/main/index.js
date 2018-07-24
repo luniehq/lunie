@@ -743,6 +743,5 @@ module.exports = main()
   })
   .then(() => ({
     shutdown,
-    processes: { lcdProcess },
-    addressbook
+    processes: { lcdProcess }
   }))
