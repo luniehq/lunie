@@ -7,8 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* Added reload button to transaction history page @faboweb
+
 ### Changed
 
+* Showing uniq transactions by their hash in history @faboweb
 * Extracted components into @tendermint/ui for use in explorer @okwme
 
 ### Fixed
