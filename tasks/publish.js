@@ -1,6 +1,6 @@
 "use strict"
 
-const build = require(`../build/build`)
+const build = require(`./build/build`)
 const fs = require("fs")
 const path = require("path")
 const release = require("publish-release")
