@@ -215,10 +215,13 @@ describe("Module: Wallet", () => {
     expect(store.state.wallet.decodedAddress).toBe(null)
   })
 
-  it("should query wallet data at specified height", async () => {
+  it("should query wallet data at specified height", done => {
+    jest.useFakeTimers()
     let height = store.state.node.lastHeader.height
-    setTimeout(() => store.state.node.lastHeader.height++, 2000)
-    await store.dispatch("queryWalletStateAfterHeight", height + 1)
+    store.dispatch("queryWalletStateAfterHeight", height + 1).then(() => done())
+    store.state.node.lastHeader.height++
+    jest.runAllTimers()
+    jest.useRealTimers()
   })
 
   it("should not error when subscribing with no address", async () => {
