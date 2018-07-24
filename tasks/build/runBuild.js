@@ -26,7 +26,7 @@ cli(optionsSpecification, async options => {
     execSync(`yarn run build:gaia`)
   }
 
-  const { commit, network } = options
+  const { commit } = options
 
   // Build the container that we'll use to build Voyager.
   execSync(`docker build --tag cosmos/voyager-builder .`, {
@@ -45,11 +45,6 @@ cli(optionsSpecification, async options => {
     .map(([key, value]) => `--${key}=${value}`)
     .join(` `)
 
-  // inputs:
-  //   .git/
-  //   default network
-  //
-  // output: the builds directory
   execSync(
     `docker run \
       --env COMMIT=${commit} \

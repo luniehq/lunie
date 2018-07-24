@@ -69,7 +69,7 @@ export default {
       return this.delegates.delegates
         .slice()
         .map(v => {
-          v.voting_power = v.voting_power || 0
+          v.voting_power = v.voting_power ? parseInt(v.voting_power) : 0
           return v
         })
         .sort((a, b) => b.voting_power - a.voting_power)
@@ -187,7 +187,7 @@ export default {
 
 .fixed-button-bar
   padding 0.5rem 1rem
-  background var(--app-bg)
+  background var(--app-fg)
   display flex
   justify-content space-between
   position fixed

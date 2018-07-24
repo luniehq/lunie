@@ -1,7 +1,7 @@
 {
   "name": "cosmos-voyager",
   "productName": "Cosmos Voyager",
-  "version": "0.7.1",
+  "version": "0.8.2",
   "description": "Voyager is an electron-based user interface for the Cosmos Network.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
@@ -31,13 +31,13 @@
     "test:e2e": "cross-env ANALYTICS=false yarn run pack && tape \"test/e2e/*.js\"",
     "test:exe": "node tasks/test-build.js",
     "test:coverage": "http-server test/unit/coverage/lcov-report",
-    "release": "node ./ci/release.js",
+    "release": "node ./tasks/releasePullRequest.js",
     "precommit": "pretty-quick --staged",
     "prepush": "bash ./tasks/changelog-changed-check.sh && yarn lint && yarn test:unit",
     "postcheckout": "yarn"
   },
   "devDependencies": {
-    "@nodeguy/cli": "0.2.1",
+    "@nodeguy/cli": "0.2.2",
     "@octokit/rest": "15.9.4",
     "babel-core": "6.26.3",
     "babel-eslint": "7.2.3",
@@ -106,7 +106,7 @@
     "electron": "2.0.2",
     "electron-chromedriver": "1.8.0",
     "electron-ga": "1.0.6",
-    "fs-extra": "5.0.0",
+    "fs-extra": "7.0.0",
     "glob": "7.1.2",
     "interactjs": "1.3.3",
     "moment": "2.22.1",

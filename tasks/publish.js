@@ -1,12 +1,15 @@
 "use strict"
 
+const build = require(`./build/build`)
 const fs = require("fs")
 const path = require("path")
-const git = require("simple-git/promise")()
 const release = require("publish-release")
+const git = require("simple-git/promise")()
 const util = require("util")
 
 const assetsDir = path.join(__dirname, `../builds/Voyager`)
+
+const getTag = packageJson => "v" + packageJson.version
 
 const recentChanges = changeLog =>
   changeLog.match(/.+?## .+?\n## .+?\n\n(.+?)\n## /s)[1]
@@ -33,13 +36,18 @@ const publishRelease = ({ notes, tag, token }) =>
   })
 
 async function main() {
+  await build.buildAllPlatforms()
+
   console.log("--- Publishing release ---")
 
   const notes = createNotes(
-    fs.readFileSync(path.join(__dirname, `../CHANGELOG.md`))
+    fs.readFileSync(path.join(__dirname, `../CHANGELOG.md`), "utf8")
   )
 
-  const tag = await git.tag(`--points-at`, `HEAD`)
+  const tag = getTag(
+    JSON.parse(fs.readFileSync(path.join(__dirname, `../package.json`), "utf8"))
+  )
+  console.log("--- Releasing tag", tag, "---")
 
   await publishRelease({
     notes,
@@ -47,13 +55,14 @@ async function main() {
     tag
   })
 
-  // needed to authenticate properly
+  // after we created the release we push the released tag to master
   await git.addRemote(
     "bot",
     `https://${process.env.GIT_BOT_TOKEN}@github.com/cosmos/voyager.git`
   )
 
   await git.push("bot", "HEAD:master")
+
   console.log("--- Done releasing ---")
 }
 

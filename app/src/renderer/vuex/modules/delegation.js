@@ -64,18 +64,14 @@ export default ({ node }) => {
     async getBondedDelegate({ commit, rootState }, { delegator, validator }) {
       let bond = await node.queryDelegation(delegator, validator)
 
-      let shares = bond ? parseRat(bond.shares) : 0
+      let shares = bond ? bond.shares : 0
       let delegate = rootState.delegates.delegates.find(
         d => d.owner === validator
       )
-      let tokens = parseRat(delegate.pool_shares.amount)
-      let totalShares = parseRat(delegate.delegator_shares)
-      let tokensPerShare = totalShares ? tokens / totalShares : 0
 
-      let value = tokensPerShare * shares
       commit("setCommittedDelegation", {
         candidateId: validator,
-        value
+        value: shares
       })
       if (shares > 0) {
         commit("addToCart", delegate)
@@ -93,8 +89,9 @@ export default ({ node }) => {
       let unbond = []
       for (let delegation of delegations) {
         let candidateId = delegation.delegate.owner
-        let currentlyDelegated = state.committedDelegates[candidateId] || 0
-        let amountChange = delegation.atoms - currentlyDelegated
+        let currentlyDelegated =
+          parseInt(state.committedDelegates[candidateId]) || 0
+        let amountChange = parseInt(delegation.atoms) - currentlyDelegated
 
         let isBond = amountChange > 0
 
@@ -104,31 +101,24 @@ export default ({ node }) => {
           delegate.push({
             delegator_addr: rootState.wallet.address,
             validator_addr: candidateId,
-            bond: {
+            delegation: {
               denom: rootState.config.bondingDenom,
-              amount: amountChange
+              amount: String(amountChange)
             }
           })
         } else {
-          // convert tokens to shares
-          let sharesPerToken =
-            parseRat(delegation.delegate.delegator_shares) /
-            parseRat(delegation.delegate.pool_shares.amount)
-          let value = Math.abs(amountChange) * sharesPerToken
-
           unbond.push({
             delegator_addr: rootState.wallet.address,
             validator_addr: candidateId,
-            // rational number
-            shares: String(value)
+            shares: String(Math.abs(amountChange))
           })
         }
       }
 
       await dispatch("sendTx", {
         type: "updateDelegations",
-        delegate,
-        unbond
+        delegations: delegate,
+        begin_unbondings: unbond
       })
 
       // usually I would just query the new state through the LCD but at this point we still get the old shares
@@ -148,11 +138,4 @@ export default ({ node }) => {
     mutations,
     actions
   }
-}
-
-// parse sdk rational number string
-function parseRat(ratStr = "") {
-  let [numerator, denominator] = ratStr.split("/")
-  if (!denominator) return +numerator
-  return +numerator / +denominator
 }

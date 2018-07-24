@@ -103,7 +103,7 @@ export default {
   border-right 1px solid var(--bc)
 
   &:nth-of-type(2n-1)
-    background var(--app-bg-light)
+    background var(--app-fg)
 
   &.li-delegate-active
     background var(--app-bg-alpha)
@@ -174,4 +174,8 @@ export default {
 
 .sort-by.name
   padding-left 1rem
+
+.sort-by
+  .label
+    font-size sm
 </style>

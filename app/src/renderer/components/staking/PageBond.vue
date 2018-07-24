@@ -153,11 +153,11 @@ export default {
       return this.config.bondingDenom.toUpperCase()
     },
     totalAtoms() {
-      return this.user.atoms + this.oldBondedAtoms
+      return parseInt(this.user.atoms) + this.oldBondedAtoms
     },
     oldBondedAtoms() {
       return Object.values(this.committedDelegations).reduce(
-        (sum, d) => sum + d,
+        (sum, d) => sum + parseInt(d),
         0
       )
     },
@@ -166,7 +166,7 @@ export default {
     },
     newUnbondedAtoms() {
       return this.fields.delegates.reduce((atoms, d) => {
-        let delta = d.oldAtoms - d.atoms
+        let delta = parseInt(d.oldAtoms) - parseInt(d.atoms)
         if (delta < 0) {
           return atoms + delta
         }
@@ -443,10 +443,10 @@ export default {
 
 .bond-group--negative
   .bond-bar-old__inner
-    background var(--input-bc)
+    background var(--bc)
 
   .bond-delta
-    color var(--input-bc)
+    color var(--dim)
 
 .bond-group__fields
   display flex
@@ -475,7 +475,7 @@ export default {
 .bond-bar__input
   height 2rem
   border-radius 1rem
-  border 1px solid var(--input-bc)
+  border 1px solid var(--bc)
   padding 1px
   position relative
 

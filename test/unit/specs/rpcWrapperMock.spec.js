@@ -41,7 +41,7 @@ describe("RPC Wrapper Mock", () => {
   it("outputs a status", done => {
     node.rpc.status((err, data) => {
       expect(err).toBeNull()
-      expect(data.latest_block_height).toBeDefined()
+      expect(data.sync_info.latest_block_height).toBeDefined()
       done()
     })
   })

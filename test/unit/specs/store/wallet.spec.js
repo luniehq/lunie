@@ -259,4 +259,20 @@ describe("Module: Wallet", () => {
       store.dispatch("walletSubscribe")
     })
   })
+
+  it("should backup to polling balances for now", async () => {
+    jest.useFakeTimers()
+    store.state.wallet.address = "x"
+    store.state.wallet.decodedAddress = "x"
+
+    await new Promise(resolve => {
+      node.queryAccount = jest.fn(() => {
+        if (node.queryAccount.mock.calls.length < 2) return
+        resolve()
+      })
+
+      store.dispatch("walletSubscribe")
+      jest.runAllTimers()
+    })
+  })
 })

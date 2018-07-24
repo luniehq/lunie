@@ -125,7 +125,6 @@ export default {
     .chart-canvas
       width 4rem
       height 4rem
-      // border-radius 2rem
 
     .chart-legend
       position absolute
@@ -151,11 +150,11 @@ export default {
         &.abstain
           color var(--dim)
         &.yes
-          color var(--txt)
+          color var(--success)
         &.no
-          color var(--link)
+          color var(--danger)
         &.reject
-          color var(--mc)
+          color var(--warning)
 
   &.chart-votes-size-lg
 

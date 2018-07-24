@@ -1,5 +1,5 @@
 <template lang="pug">
-.tm-session: .tm-session-container
+.tm-session: .tm-session-container.tm-session-loading
   .tm-session-header
     .tm-session-title Connecting to '{{config.default_network}}'&hellip;
   .tm-session-main {{message}} &nbsp
@@ -23,6 +23,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-.tm-session-main
-  text-align center
+.tm-session-loading
+  .tm-session-main
+    text-align center
 </style>

@@ -20,7 +20,7 @@ export default {
   display flex
   flex-flow row nowrap
   user-select none
-  border-bottom 1px solid var(--bc-light)
+  border-bottom 2px solid var(--bc-dim)
 
   &:last-of-type
     border-bottom none

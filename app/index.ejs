@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
-<meta name=viewport content="width=device-width, user-scalable=no">
-<title>Cosmos Voyager</title>
+  <meta name=viewport content="width=device-width, user-scalable=no">
+  <meta charset="utf-8">
+  <title>Cosmos Voyager</title>
   <% if (htmlWebpackPlugin.options.appModules) { %>
     <!-- Add `app/node_modules` to global paths so `require` works properly in development -->
     <script>
       require('module').globalPaths.push('<%= htmlWebpackPlugin.options.appModules.replace(/\\/g, '\\\\') %>')
     </script>
-  <% } %>
+    <% } %>
 
-  <body style="background: #15182d">
-    <div id="app" style="background: #15182d"></div>
-  </body>
+      <body style="background: #15182d">
+        <div id="app" style="background: #15182d"></div>
+      </body>
+
 </html>

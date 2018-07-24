@@ -55,7 +55,7 @@ yarn install
 
 ## Voyager Development
 
-To run Voyager on the default testnet (`gaia-5001`):
+To run Voyager on the default testnet:
 
 ```bash
 $ yarn start
@@ -91,7 +91,7 @@ $ COSMOS_NODE=localhost yarn start
 Here's an example build command:
 
 ```bash
-yarn run build --commit=HEAD --network=app/networks/gaia-5001
+yarn run build --commit=HEAD --network=gaia-7001
 ```
 
 You can specify `--help` to see all options with explanations.
@@ -203,7 +203,7 @@ A list of all environment variables and their purpose:
 | ----------------------- | -------------------------------------- | -------------------------------- | --------------------------------------------------------------------------------------- |
 | NODE_ENV                | 'production', 'development'            |                                  |                                                                                         |
 | LOGGING                 | 'true', 'false'                        | 'true'                           | Disable logging                                                                         |
-| COSMOS_NETWORK          | {path to network configuration folder} | '../networks/gaia-1'             | Network to connect to                                                                   |
+| COSMOS_NETWORK          | {path to network configuration folder} | '../networks/gaia-7001'          | Network to connect to                                                                   |
 | COSMOS_HOME             | {path to config persistence folder}    | '$HOME/.cosmos-voyager[-dev]'    |                                                                                         |
 | COSMOS_NODE             | {ip of a certain node}                 |                                  | Node to connect to                                                                      |
 | COSMOS_DEVTOOLS         | 'true', 'false'                        | 'false'                          | Open the debug panel in the electron view                                               |
