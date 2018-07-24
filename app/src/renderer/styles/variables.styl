@@ -1,29 +1,3 @@
-//=================
-// variables
-// do not enter any elements in here! they will be repeatedly inserted into the dom on refresh
-// variables should only live in the themes files
-// global variables live in the app.styl
-// here is a copy:
-/*
-  // change for rebranding
-  --mc hsl(325, 96%, 59%)
-  --accent hsl(279, 92%, 58%)
-  --accent-alpha hsla(279, 92%, 58%, 0.5)
-  --primary hsl(233, 88%, 57%)
-  --primary-bc hsl(233, 88%, 43%)
-  --link hsl(233, 88%, 82%)
-  --hover hsl(233, 88%, 67%)
-
-  // don't change
-  --input-bg transparent
-  --success hsl(120,58%,55%)
-  --success-bc hsl(120,58%,41%)
-  --warning hsl(35,100%,50%)
-  --warning-bc hsl(35,75%,38%)
-  --danger hsl(0,100%,55%)
-  --danger-bc hsl(0,100%,41%)
-*/
-
 //==============================================================================
 // typography
 
@@ -31,6 +5,20 @@ x = 16px
 px = 0.0625rem
 sans = -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
 mono = Consolas, Monaco, monospace
+
+xxl = x * 1.75
+xl = x * 1.5
+lg = x * 1.25
+m = x
+sm = x * 0.75
+xs = x * 0.7
+
+h1 = 2rem
+h2 = 1.5rem
+h3 = 1.25rem
+h4 = 1.125rem
+h5 = 1rem
+h6 = 0.75rem
 
 // sizes
 aw = 64rem
@@ -54,20 +42,6 @@ mono()
 
 shadow()
   box-shadow var(--box-shadow) 0 0.25rem 0.25rem
-
-xxl = x * 1.75
-xl = x * 1.5
-lg = x * 1.25
-m = x
-sm = x * 0.75
-xs = x * 0.7
-
-h1 = 2rem
-h2 = 1.5rem
-h3 = 1.25rem
-h4 = 1.125rem
-h5 = 1rem
-h6 = 0.75rem
 
 //==============================================================================
 // z-index

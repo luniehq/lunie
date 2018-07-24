@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * fixed block explorer always showing "syncing" @faboweb
 * fixed not pushing to master (caused by me ;P) @faboweb
+* Publish script now builds release artifacts. @NodeGuy
 
 ## [0.8.2] - 2018-07-23
 
@@ -40,6 +41,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Using vue-jest for transpiling in tests for better code coverage output @faboweb
 * Default to gaia-7001 @okwme
 * Changed `yarn testnet` to `yarn start` @okwme
+* Updated colors throughout @jolesbi
 
 ### Fixed
 

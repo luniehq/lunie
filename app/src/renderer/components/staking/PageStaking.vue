@@ -189,7 +189,7 @@ export default {
 
 .fixed-button-bar
   padding 0.5rem 1rem
-  background var(--app-bg)
+  background var(--app-fg)
   display flex
   justify-content space-between
   position fixed
