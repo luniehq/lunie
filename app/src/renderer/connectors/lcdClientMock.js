@@ -458,7 +458,7 @@ function send(to, from, req) {
         ]
       }
     },
-    hash: makeAddress(),
+    hash: makeHash(),
     height: getHeight() + (from === botAddress ? 1 : 0),
     time: Date.now()
   })
