@@ -30,15 +30,16 @@ exports[`PageBlock has the expected html structure 1`] = `
 </div>
 </header>
 <main class=\\"tm-page-main ps\\">
-   <section class=\\"tm-part\\">
-      <div class=\\"tm-part-container\\">
-         <!---->
-         <main class=\\"tm-part-main\\">
-            <div class=\\"tm-li\\">
-               <div class=\\"tm-li-container\\">
-                  <div class=\\"tm-li-thumb\\">
-                     <!---->
-                  </div>
+   <div>
+      <section class=\\"tm-part\\">
+         <div class=\\"tm-part-container\\">
+            <!---->
+            <main class=\\"tm-part-main\\">
+               <div class=\\"tm-li\\">
+                  <div class=\\"tm-li-container\\">
+                     <div class=\\"tm-li-thumb\\">
+                        <!---->
+                     </div>
          <div class=\\"tm-li-dl\\">
             <div class=\\"tm-li-dt\\">
                Block Hash
@@ -86,7 +87,7 @@ exports[`PageBlock has the expected html structure 1`] = `
             Time
          </div>
       <div class=\\"tm-li-dd\\">
-         January 1st 1970 — 01:00:01
+         January 1st 1970 — 12:00:42
       </div>
 </div>
 </div>
@@ -218,24 +219,25 @@ exports[`PageBlock has the expected html structure 1`] = `
    <main class=\\"tm-part-main\\">
       <div class=\\"tm-data-msg\\">
          <div class=\\"tm-data-msg__icon\\">
-            <i class=\\"material-icons\\">info_outline</i>
+            <i class=\\"material-icons fa-spin\\">rotate_right</i>
          </div>
       <div class=\\"tm-data-msg__text\\">
          <div class=\\"tm-data-msg__title\\">
-            <h4>
-               Empty Block
-            </h4>
+            <div>
+               Data is loading…
+            </div>
 </div>
       <div class=\\"tm-data-msg__subtitle\\">
-         <h5>
-            There were no transactions in this block.
-         </h5>
+         <div>
+            Please wait a moment.
+         </div>
 </div>
 </div>
 </div>
 </main>
 </div>
 </section>
+</div>
 <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
    <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
 </div>
@@ -268,7 +270,7 @@ exports[`PageBlock should show a loading state if loading 1`] = `
 </div>
 </header>
 <main class=\\"tm-page-main\\">
-   <data-loading></data-loading>
+   <tm-data-loading></tm-data-loading>
 </main>
 </div>"
 `;

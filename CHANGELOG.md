@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 * Showing uniq transactions by their hash in history @faboweb
+* Extracted components into @tendermint/ui for use in explorer @okwme
 
 ### Fixed
 

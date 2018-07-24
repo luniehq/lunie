@@ -14,6 +14,7 @@ describe("Module: Blockchain", () => {
   const block = {
     test: "test",
     height: 42,
+    time: "Good Morning",
     data: {
       txs: []
     }
@@ -91,12 +92,18 @@ describe("Module: Blockchain", () => {
         block
       })
     }
+    let bc = {
+      test: "test2",
+      header: {
+        time: "Good Morning"
+      }
+    }
     node.rpc.blockchain = (query, cb) => {
-      cb(null, { block_metas: [{ test: "test2" }] })
+      cb(null, { block_metas: [bc] })
     }
     await store.dispatch("getBlock", 42)
     expect(store.state.blockchain.block).toEqual(block)
-    expect(store.state.blockchain.blockMetaInfo).toEqual({ test: "test2" })
+    expect(store.state.blockchain.blockMetaInfo).toEqual(bc)
   })
 
   it("should remember the block height for the queried block", async () => {
@@ -108,8 +115,14 @@ describe("Module: Blockchain", () => {
     node.rpc.block = (query, cb) => {
       cb(null, { block })
     }
+    let bc = {
+      test: "test2",
+      header: {
+        time: "Good Morning"
+      }
+    }
     node.rpc.blockchain = (query, cb) => {
-      cb(null, { block_metas: [{ test: "test2" }] })
+      cb(null, { block_metas: [bc] })
     }
     store.state.blockchain.blockLoading = true
     await store.dispatch("getBlock", 42)
@@ -120,8 +133,15 @@ describe("Module: Blockchain", () => {
     node.rpc.block = (query, cb) => {
       cb({ message: "expected" }, block)
     }
+
+    let bc = {
+      test: "test2",
+      header: {
+        time: "Good Morning"
+      }
+    }
     node.rpc.blockchain = (query, cb) => {
-      cb(null, { block_metas: [{ test: "test2" }] })
+      cb(null, { block_metas: [bc] })
     }
     store.state.blockchain.blockLoading = true
     await store.dispatch("getBlock", 42)
@@ -207,9 +227,9 @@ describe("Module: Blockchain", () => {
   })
 
   it("should convert tx strings correctly", async () => {
-    let expectedHash = "bfbb60a6e34561b223a10973f7ea7e3b822d30d2"
+    let expectedHash = "0a31fba9f6d7403b41f5e52c12b98246c7c649af"
     let txString =
-      "5wEPKiyH+w4DAQoU2cEstRhv4AGBeXQv0xEO5TTGNGAWAwEKBXN0ZWFrEQAAAAAAAAABBAQWAwEKFO85c4xpK5f28LYmEaY7OdYfuYuxFgMBCgVzdGVhaxEAAAAAAAAAAQQEBBMRAAAAAAAAAAAEHgMBDxYk3mIggDMizvgRs6nMKxBEfkMszfCU2ds6N9b9QxnzU6bNzXsXPaHbKkCLqwKfTYiuSPRjyqMROHd4T1oLM2sdduX7o81C9a8EbUTOCoXFRmYM8L50NBhtYOunMK0gsCSL1474TOLU6TMBGQAAAAAAAAAGBAQ="
+      "4wHwYl3uCloqLIf6CikKFIPMHcOoYjqQbmtzFFdU3g967Y0/EhEKCmxvY2FsVG9rZW4SAzEwMBIpChSDzB3DqGI6kG5rcxRXVN4Peu2NPxIRCgpsb2NhbFRva2VuEgMxMDASCQoDEgEwEMCEPRp2CibrWumHIQLUKUS5mPDRAdBIB5lAw9AIh/aaAL9PTqArOWGO5fpsphJMf8SklUcwRQIhAM9qzjJSTxzXatI3ncHcb1cwIdCTU+oVP4V8RO6lzjcXAiAoS9XZ4e3I/1e/HonfHucRNYE65ioGk88q4dWPs9Z5LA=="
     let hash = await getTxHash(txString)
     expect(hash).toBe(expectedHash)
   })
@@ -221,6 +241,9 @@ describe("Module: Blockchain", () => {
       cb(null, {
         block: {
           test: "test",
+          header: {
+            time: "Good Morning"
+          },
           height: 42,
           data: {
             txs: [txString]
