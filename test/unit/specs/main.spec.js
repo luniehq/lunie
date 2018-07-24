@@ -239,6 +239,32 @@ describe("Startup Process", () => {
       expect(mockAxiosGet).toHaveBeenCalledTimes(2)
       expect(send).toHaveBeenCalledWith("connected", "127.0.0.1:46657")
     })
+
+    it("should mark a version incompatible if getting the SDK version fails", async () => {
+      main.shutdown()
+      prepareMain()
+
+      // TODO replace with mockRejectOnce when updated jest
+      let i = 0
+      jest.doMock("axios", () => ({
+        get: async () => {
+          if (i++ === 0) {
+            return Promise.reject("X")
+          }
+          return Promise.resolve({ data: "0.13.2" })
+        }
+      }))
+      let nodeIncompatibleSpy = jest.fn()
+      require("app/src/main/addressbook.js").prototype.flagNodeIncompatible = nodeIncompatibleSpy
+      let { send } = require("electron")
+      send.mockClear()
+
+      // run main
+      main = await require(appRoot + "src/main/index.js")
+
+      expect(nodeIncompatibleSpy).toHaveBeenCalledWith("127.0.0.1:46657")
+      expect(send).toHaveBeenCalledWith("connected", "127.0.0.1:46657") // check we still connect to a node. it shows the same node as pickNode always returns "127.0.0.1:46657" in tests
+    })
   })
 
   describe("Initialization in dev mode", function() {

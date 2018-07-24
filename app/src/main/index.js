@@ -551,10 +551,10 @@ async function pickAndConnect(addressbook) {
     nodeVersion = out.nodeVersion
   } catch (err) {
     logError(
-      "Error in getting node SDK version, assuming node is offline. Error:",
+      "Error in getting node SDK version, assuming node is incompatible. Error:",
       err
     )
-    addressbook.flagNodeOffline(nodeIP)
+    addressbook.flagNodeIncompatible(nodeIP)
     return await pickAndConnect(addressbook)
   }
 
@@ -743,5 +743,6 @@ module.exports = main()
   })
   .then(() => ({
     shutdown,
-    processes: { lcdProcess }
+    processes: { lcdProcess },
+    addressbook
   }))
