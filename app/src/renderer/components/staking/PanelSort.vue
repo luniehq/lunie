@@ -55,7 +55,6 @@ export default {
   min-width 0
 
   .label
-    font-weight 500
     color var(--link)
     white-space nowrap
     text-overflow ellipsis
@@ -75,9 +74,9 @@ export default {
 
   &.active
     .label
-      color var(--mc)
+      color var(--tertiary)
     &:after
-      color var(--mc)
+      color var(--tertiary)
 
   &.name
     flex 2

@@ -61,8 +61,7 @@ export default ({ node }) => {
     },
     queryBlock({ commit }, height) {
       return new Promise(resolve => {
-        node.rpc.block({ minHeight: height, height }, (err, data) => {
-          // the mock /block looks for minHeight but the live /block looks for height
+        node.rpc.block({ height: height && height.toString() }, (err, data) => {
           if (err) {
             commit("notifyError", {
               title: `Couldn't query block`,
@@ -101,6 +100,9 @@ export default ({ node }) => {
         let hash = await getTxHash(txs[key])
         let data = await node.tx(hash)
         data.string = txstring
+        data.time =
+          state.blockMetas[data.height] &&
+          state.blockMetas[data.height].header.time
         txs[key] = data
         return await dispatch("getTxs", { key: key + 1, len, txs })
       } catch (error) {
