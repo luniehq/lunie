@@ -155,12 +155,8 @@ test("wallet", async function(t) {
     t.test("own balance updated", async function(t) {
       await navigate(app, "Wallet")
 
-      // TODO should not be necessary
-      await sleep(1000)
-      await app.client.$(".material-icons=refresh").click()
-
       let mycoinEl = () => balanceEl("LOCALTOKEN")
-      await waitForText(mycoinEl, (defaultBalance - 100).toString(), 10000)
+      await waitForText(mycoinEl, (defaultBalance - 100).toString(), 30000)
       t.pass("balance is reduced by 100")
       t.end()
     })
