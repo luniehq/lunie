@@ -28,7 +28,7 @@ tm-page.page-bond(:title="`Bond ${denom}`")
             placeholder="Atoms"
             :value="newUnbondedAtoms")
 
-    .bond-group(
+    .bond-group.bond-candidate(
       v-for='(d, index) in fields.delegates'
       :key='d.id'
       :error='$v.fields.delegates.$each[index].$error'

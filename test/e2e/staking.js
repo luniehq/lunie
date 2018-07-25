@@ -1,0 +1,179 @@
+let test = require("tape-promise/tape")
+let { getApp, restart } = require("./launch.js")
+let {
+  navigate,
+  waitForText,
+  sleep,
+  login,
+  closeNotifications
+} = require("./common.js")
+let {
+  addresses
+} = require("../../app/src/renderer/connectors/lcdClientMock.js")
+
+/*
+* NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
+*/
+
+test("staking", async function(t) {
+  let { app, accounts } = await getApp(t)
+  // app.env.COSMOS_MOCKED = false
+  await restart(app)
+
+  let $ = (...args) => app.client.$(...args)
+
+  await login(app, "testkey")
+  await navigate(app, "Staking")
+
+  let totalUserStake = 150
+  let bondedStake = 100
+  let defaultValidatorMoniker = "local"
+  t.test("show validators", async function(t) {
+    await waitForText(
+      () => app.client.$(".li-delegate__value.name"),
+      defaultValidatorMoniker
+    ) // moniker of the local node set in launch.js
+    t.end()
+  })
+  t.test("show validators stake", async function(t) {
+    await waitForText(
+      () => app.client.$(".li-delegate__value.number_of_votes"),
+      bondedStake + ""
+    )
+    t.end()
+  })
+  t.test("show my stake in the validator", async function(t) {
+    await waitForText(
+      () => app.client.$(".li-delegate__value.your-votes"),
+      bondedStake + ""
+    )
+    t.end()
+  })
+  t.test("show candidate is a validator", async function(t) {
+    await waitForText(
+      () => app.client.$(".li-delegate__value.status"),
+      "Validator"
+    )
+    t.end()
+  })
+
+  t.test("bonding", async function(t) {
+    // validator should already be in the cart so we only need to click a button to go to the bonding view
+    await app.client.$("#go-to-bonding-btn").click()
+
+    t.equal(
+      await app.client.$("#new-unbonded-atoms").getValue(),
+      (totalUserStake - bondedStake).toString()
+    )
+
+    t.equal(
+      await app.client.$(".bond-candidate .bond-value__input").getValue(),
+      bondedStake.toString()
+    )
+
+    await app.client
+      .$(".bond-candidate .bond-value__input")
+      .setValue(bondedStake + 20)
+
+    t.equal(
+      await app.client.$("#new-unbonded-atoms").getValue(),
+      (totalUserStake - bondedStake - 20).toString()
+    )
+
+    await app.client.$("#btn-bond").click()
+
+    // should fail
+    t.ok(await app.client.isExisting(".tm-form-msg--error"), "shows error")
+
+    await app.client.$("#bond-confirm").click()
+    await app.client.$("#btn-bond").click()
+
+    t.ok(!(await app.client.isExisting(".tm-form-msg--error")), "hides error")
+
+    bondedStake += 20
+
+    // wait until the validators are showing again
+    await app.client.waitForExist("#go-to-bonding-btn", 10000)
+
+    // wait till one block increases so our tx is in a block
+    let currentBlock = parseInt(
+      (await app.client.$("#tm-connected-network__block").getText()).split(
+        "#"
+      )[1]
+    )
+    await app.client.waitForExist(
+      "#tm-connected-network__block",
+      "#" + (currentBlock + 1)
+    )
+
+    t.equal(
+      await app.client.$(".li-delegate__value.number_of_votes").getText(),
+      bondedStake.toString()
+    )
+
+    t.equal(
+      await app.client.$(".li-delegate__value.your-votes").getText(),
+      bondedStake.toString()
+    )
+
+    t.end()
+  })
+
+  t.test("unbonding", async function(t) {
+    // validator should already be in the cart so we only need to click a button to go to the bonding view
+    await app.client.$("#go-to-bonding-btn").click()
+
+    t.equal(
+      await app.client.$("#new-unbonded-atoms").getValue(),
+      (totalUserStake - bondedStake).toString()
+    )
+
+    t.equal(
+      await app.client.$(".bond-candidate .bond-value__input").getValue(),
+      bondedStake.toString()
+    )
+
+    await app.client
+      .$(".bond-candidate .bond-value__input")
+      .setValue(bondedStake - 20)
+
+    t.equal(
+      await app.client.$("#new-unbonded-atoms").getValue(),
+      (totalUserStake - bondedStake + 20).toString()
+    )
+
+    t.equal(
+      await app.client.$("#new-unbonding-atoms").getValue(),
+      (20).toString()
+    )
+
+    await app.client.$("#btn-bond").click()
+
+    // should fail
+    t.ok(await app.client.isExisting(".tm-form-msg--error"), "shows error")
+
+    await app.client.$("#bond-confirm").click()
+    await app.client.$("#btn-bond").click()
+
+    t.ok(!(await app.client.isExisting(".tm-form-msg--error")), "hides error")
+
+    bondedStake -= 20
+
+    // wait until the validators are showing again
+    await app.client.waitForExist("#go-to-bonding-btn", 10000)
+
+    t.equal(
+      await app.client.$(".li-delegate__value.number_of_votes").getText(),
+      bondedStake.toString()
+    )
+
+    t.equal(
+      await app.client.$(".li-delegate__value.your-votes").getText(),
+      bondedStake.toString()
+    )
+
+    t.end()
+  })
+
+  t.end()
+})

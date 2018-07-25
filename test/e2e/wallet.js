@@ -60,7 +60,7 @@ test("wallet", async function(t) {
       )
 
       let localTokenEl = balanceEl("LOCALTOKEN")
-      waitForText(() => localTokenEl, defaultBalance.toString())
+      await waitForText(() => localTokenEl, defaultBalance.toString())
       t.end()
     })
 

@@ -19,7 +19,7 @@ tm-page(title='Staking')
   .fixed-button-bar(v-if="!delegates.loading")
     template(v-if="userCanDelegate")
       .label #[strong {{ shoppingCart.length }}] delegates selected
-      tm-btn(type="link" to="/staking/bond" :disabled="shoppingCart.length === 0" icon="chevron_right" icon-pos="right" value="Next" color="primary")
+      tm-btn(id="go-to-bonding-btn" type="link" to="/staking/bond" :disabled="shoppingCart.length === 0" icon="chevron_right" icon-pos="right" value="Next" color="primary")
     template(v-else)
       .label You do not have any ATOMs to delegate.
       tm-btn(disabled icon="chevron_right" icon-pos="right" value="Next" color="primary")
