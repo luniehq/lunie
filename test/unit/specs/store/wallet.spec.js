@@ -208,7 +208,8 @@ describe("Module: Wallet", () => {
     expect(store.state.wallet.balancesLoading).toBe(false)
   })
 
-  it("should query wallet data at specified height", async () => {
+  it("should query wallet data at specified height", async done => {
+    jest.useFakeTimers()
     let height = store.state.node.lastHeader.height
     store.dispatch("queryWalletStateAfterHeight", height + 1).then(() => done())
     store.state.node.lastHeader.height++
