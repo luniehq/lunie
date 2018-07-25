@@ -156,7 +156,7 @@ test("wallet", async function(t) {
       await navigate(app, "Wallet")
 
       let mycoinEl = () => balanceEl("LOCALTOKEN")
-      await waitForText(mycoinEl, (defaultBalance - 100).toString(), 30000)
+      await waitForText(mycoinEl, (defaultBalance - 100).toString(), 10000)
       t.pass("balance is reduced by 100")
       t.end()
     })

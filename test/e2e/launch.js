@@ -6,6 +6,7 @@ let electron = require("electron")
 let { join } = require("path")
 let { spawn } = require("child_process")
 let fs = require("fs-extra")
+let toml = require("toml")
 
 const testDir = join(__dirname, "../../testArtifacts")
 
@@ -39,6 +40,7 @@ function launch(t) {
       fs.emptyDirSync(nodeHome)
 
       const initValues = await initLocalNode()
+      reduceTimeouts()
       await startLocalNode()
       console.log(`Started local node.`)
       await saveVersion()
@@ -249,6 +251,33 @@ function initLocalNode() {
 
     localnodeProcess.once("exit", reject)
   })
+}
+
+function reduceTimeouts() {
+  const configPath = join(nodeHome, "config", "config.toml")
+  let configToml = fs.readFileSync(configPath, "utf8")
+
+  const timeouts = [
+    "timeout_propose",
+    "timeout_propose_delta",
+    "timeout_prevote",
+    "timeout_prevote_delta",
+    "timeout_precommit",
+    "timeout_precommit_delta",
+    "timeout_commit"
+  ]
+  const updatedConfigToml = configToml
+    .split("\n")
+    .map(line => {
+      let [key, value] = line.split(" = ")
+      if (timeouts.indexOf(key) !== -1) {
+        return `${key} = ${parseInt(value) / 10}`
+      }
+      return line
+    })
+    .join("\n")
+
+  fs.writeFileSync(configPath, updatedConfigToml, "utf8")
 }
 
 // save the version of the currently used gaia into the newly created network config folder
