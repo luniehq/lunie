@@ -6,7 +6,6 @@ let electron = require("electron")
 let { join } = require("path")
 let { spawn } = require("child_process")
 let fs = require("fs-extra")
-let toml = require("toml")
 
 const testDir = join(__dirname, "../../testArtifacts")
 
