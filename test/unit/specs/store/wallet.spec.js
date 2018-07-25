@@ -21,7 +21,6 @@ describe("Module: Wallet", () => {
       historyLoading: false,
       denoms: [],
       address: null,
-      decodedAddress: null,
       zoneIds: ["basecoind-demo1", "basecoind-demo2"]
     }
     expect(store.state.wallet).toEqual(state)
@@ -207,12 +206,6 @@ describe("Module: Wallet", () => {
     expect(store.state.wallet.balancesLoading).toBe(true)
     await store.dispatch("initializeWallet", "tb1wdhk6e2pv3j8yetnwv0yr6s6")
     expect(store.state.wallet.balancesLoading).toBe(false)
-  })
-
-  it("should not error when setting address to null", async () => {
-    store.commit("setWalletAddress", null)
-    expect(store.state.wallet.address).toBe(null)
-    expect(store.state.wallet.decodedAddress).toBe(null)
   })
 
   it("should query wallet data at specified height", async () => {
