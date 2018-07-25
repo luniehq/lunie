@@ -178,7 +178,6 @@ export default ({ node }) => {
         if (err) {
           return console.error("error subscribing to transactions", err)
         }
-        console.log("detected tx", event)
         dispatch(
           "queryWalletStateAfterHeight",
           event.data.value.TxResult.height + 1
@@ -187,14 +186,14 @@ export default ({ node }) => {
 
       node.rpc.subscribe(
         {
-          query: `tm.event = 'Tx' AND sender = '${state.decodedAddress}'`
+          query: `tm.event = 'Tx' AND sender = '${state.address}'`
         },
         onTx
       )
 
       node.rpc.subscribe(
         {
-          query: `tm.event = 'Tx' AND recipient = '${state.decodedAddress}'`
+          query: `tm.event = 'Tx' AND recipient = '${state.address}'`
         },
         onTx
       )
