@@ -15,8 +15,8 @@ const RpcClientMock = {
     }
   },
   validators: cb => cb(null, { validators: mockValidators }),
-  block: ({ minHeight }, cb) =>
-    cb(null, { block: state.blocks.find(b => b.header.height === minHeight) }),
+  block: ({ height }, cb) =>
+    cb(null, { block: state.blocks.find(b => b.header.height === height) }),
   blockchain: ({ minHeight }, cb) =>
     cb(null, {
       block_metas: state.blockMetas.slice(minHeight)

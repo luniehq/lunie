@@ -2,20 +2,19 @@
 
 exports[`Module: Themes has a dark theme 1`] = `
 Object {
-  "app-bg": "hsl(233, 37%, 18%)",
-  "app-bg-alpha": "hsla(237, 18%, 20%, 95%)",
-  "app-bg-light": "hsl(233, 40%, 14%)",
-  "app-fg": "hsl(233, 43%, 10%)",
-  "bc": "hsl(233, 22%, 23%)",
-  "bc-dim": "hsl(233, 33%, 16%)",
-  "bc-light": "#dfdfdf",
-  "box-shadow": "hsla(0,0,0,0.2)",
-  "dim": "hsl(240, 5%, 75%)",
-  "hover-bg": "hsla(233, 88%, 90%, 0.2)",
-  "input-bc": "hsl(233, 22%, 33%)",
-  "input-bc-hover": "hsl(233, 22%, 40%)",
-  "link": "hsl(233, 88%, 82%)",
-  "txt": "hsl(0, 0%, 100%)",
+  "app-bg": "hsl(233, 30%, 22%)",
+  "app-fg": "hsl(233, 36%, 18%)",
+  "app-nav": "hsl(233, 38%, 14%)",
+  "bc": "hsla(233, 24%, 75%, 0.175)",
+  "bc-dim": "hsla(233, 24%, 75%, 0.0875)",
+  "bright": "hsl(0, 100%, 100%)",
+  "dim": "hsla(0, 100%, 100%, 0.667)",
+  "hover": "hsla(0, 0%, 0%, 0)",
+  "link": "hsl(217, 100%, 70%)",
+  "primary": "hsl(233, 88%, 57%)",
+  "secondary": "hsl(277, 92%, 58%)",
+  "tertiary": "hsl(325, 96%, 59%)",
+  "txt": "hsla(0, 100%, 100%, 0.8)",
 }
 `;
 

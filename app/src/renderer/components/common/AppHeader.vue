@@ -111,9 +111,6 @@ export default {
         width 1rem
         font-size lg
 
-      &:hover
-        color var(--link)
-
       &.header-item-logo
         img
           height 1.5rem
@@ -123,7 +120,6 @@ export default {
     display flex
     flex 0 0 width-side
     min-width 0
-    border-right px solid var(--bc)
     display flex
 
     > .container
