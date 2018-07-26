@@ -11,8 +11,6 @@ test("staking", async function(t) {
   // app.env.COSMOS_MOCKED = false
   await restart(app)
 
-  let $ = (...args) => app.client.$(...args)
-
   await login(app, "testkey")
   await navigate(app, "Staking")
 
