@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Showing uniq transactions by their hash in history @faboweb
 * Extracted components into @tendermint/ui for use in explorer @okwme
+* using new old testnet repo for getting genesis files @faboweb
+* switched to Gaia-7002 @faboweb
 
 ### Fixed
 

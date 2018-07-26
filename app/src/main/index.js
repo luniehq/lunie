@@ -4,7 +4,6 @@ let { app, BrowserWindow, ipcMain } = require("electron")
 let fs = require("fs-extra")
 let { join } = require("path")
 let { spawn } = require("child_process")
-let home = require("user-home")
 let semver = require("semver")
 let toml = require("toml")
 let Raven = require("raven")
@@ -177,10 +176,18 @@ function startProcess(name, args, env) {
   if (process.env.BINARY_PATH) {
     binPath = process.env.BINARY_PATH
   } else if (DEV) {
-    // in dev mode or tests, use binaries installed in GOPATH
-    let GOPATH = process.env.GOPATH
-    if (!GOPATH) GOPATH = join(home, "go")
-    binPath = join(GOPATH, "bin", name)
+    // in development use the build gaia files from running `yarn build:gaia`
+    const osFolderName = (function() {
+      switch (process.platform) {
+        case "win32":
+          return "windows_amd64"
+        case "darwin":
+          return "darwin_amd64"
+        case "linux":
+          return "linux_amd64"
+      }
+    })()
+    binPath = join(__dirname, "../../../builds/gaia", osFolderName, name)
   } else {
     // in production mode, use binaries packaged with app
     binPath = join(__dirname, "..", "bin", name)
