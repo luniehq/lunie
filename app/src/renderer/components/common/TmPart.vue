@@ -24,14 +24,20 @@ export default {
 .tm-part
   position relative
   max-width width-main-max
-  background var(--app-bg-light)
+  background var(--app-fg)
   border-radius 2px
   margin 1rem 0
 
-.tm-part-container, .tm-part-header, .tm-part-title, .tm-part-menu, .tm-part-main
+.tm-part-container,
+.tm-part-header,
+.tm-part-title,
+.tm-part-menu,
+.tm-part-main
   &:empty
     display none
 
+.tm-part-main
+  background: blue
 
 .tm-part-container
   margin 0 auto
@@ -39,7 +45,7 @@ export default {
 .tm-part-header
   padding 1rem 1rem 0.5rem
   border-radius 2px
-  background var(--app-bg-light)
+  background var(--app-fg)
 
 .tm-part-header-container
   display flex

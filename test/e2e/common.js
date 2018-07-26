@@ -70,6 +70,18 @@ module.exports = {
       await sleep(100)
     }
   },
+  async waitForValue(elGetterFn, value, timeout = 5000) {
+    let start = Date.now()
+    while ((await elGetterFn().getValue()) !== value) {
+      if (Date.now() - start >= timeout) {
+        throw Error(
+          `Timed out waiting for value. Expected ${value}, Showing ${(await elGetterFn().getValue()) ||
+            "nothing"}`
+        )
+      }
+      await sleep(100)
+    }
+  },
   async login(app, account = "default") {
     console.log("logging into " + account)
     let accountsSelect = "#sign-in-name select"

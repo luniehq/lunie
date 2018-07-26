@@ -25,12 +25,17 @@
     node-fetch "^2.1.1"
     url-template "^2.0.8"
 
-"@tendermint/ui@0.2.9":
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.9.tgz#a6c775df822653321269b3176faa67aefcda1834"
+"@tendermint/ui@0.2.13":
+  version "0.2.13"
+  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.13.tgz#e7b2d4b4f24a9ae1edae73644b655b53d34e8537"
   dependencies:
+    axios "^0.18.0"
     cookieconsent "^3.0.6"
+    js-base64 "^2.4.5"
+    markdown-it "^8.4.1"
+    markdown-it-anchor "^5.0.2"
     moment "^2.22.2"
+    numeral "^2.0.6"
     perfect-scrollbar "^1.4.0"
     vue "^2.5.16"
 
@@ -420,7 +425,7 @@ aws4@^1.6.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.7.0.tgz#d4d0e9b9dbfca77bf08eeb0a8a471550fe39e289"
 
-axios@0.18.0:
+axios@0.18.0, axios@^0.18.0:
   version "0.18.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
   dependencies:
@@ -4475,7 +4480,7 @@ jest@21.2.1:
   dependencies:
     jest-cli "^21.2.1"
 
-js-base64@^2.1.9:
+js-base64@^2.1.9, js-base64@^2.4.5:
   version "2.4.6"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.6.tgz#1d49f618bef43630cd191f4e122447acfdb947d8"
 
@@ -4834,7 +4839,11 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-markdown-it@8.4.1:
+markdown-it-anchor@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/markdown-it-anchor/-/markdown-it-anchor-5.0.2.tgz#cdd917a05b7bf92fb736a6dae3385c6d0d0fa552"
+
+markdown-it@8.4.1, markdown-it@^8.4.1:
   version "8.4.1"
   resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-8.4.1.tgz#206fe59b0e4e1b78a7c73250af9b34a4ad0aaf44"
   dependencies:
@@ -5369,7 +5378,7 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
-numeral@2.0.6:
+numeral@2.0.6, numeral@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/numeral/-/numeral-2.0.6.tgz#4ad080936d443c2561aed9f2197efffe25f4e506"
 

@@ -8,16 +8,15 @@ tm-page(title='Transactions')
 
   modal-search(type="transactions" v-if="somethingToSearch")
 
-  data-loading(v-if="wallet.historyLoading")
+  tm-data-loading(v-if="wallet.historyLoading")
   data-empty-tx(v-else-if='transactions.length === 0')
   data-empty-search(v-else-if="filteredTransactions.length === 0")
-  li-transaction(
+  tm-li-transaction(
     v-else
     v-for="i in filteredTransactions"
     :key="shortid.generate()"
     :transaction="i"
-    :address="wallet.address"
-    :devMode="config.devMode")
+    :address="wallet.address")
 </template>
 
 <script>
@@ -25,18 +24,16 @@ import shortid from "shortid"
 import { mapGetters } from "vuex"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
-import DataLoading from "common/TmDataLoading"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import DataEmptyTx from "common/TmDataEmptyTx"
-import LiTransaction from "wallet/LiTransaction"
 import ModalSearch from "common/TmModalSearch"
-import { TmPage } from "@tendermint/ui"
+import { TmPage, TmDataLoading, TmLiTransaction } from "@tendermint/ui"
 import ToolBar from "common/TmToolBar"
 export default {
   name: "page-transactions",
   components: {
-    LiTransaction,
-    DataLoading,
+    TmLiTransaction,
+    TmDataLoading,
     DataEmptySearch,
     DataEmptyTx,
     ModalSearch,

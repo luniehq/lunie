@@ -8,16 +8,13 @@ describe("PageTransactions", () => {
   beforeEach(() => {
     let instance = mount(PageTransactions, {
       stubs: {
-        "li-transaction": "<li-transaction />",
+        "tm-li-transaction": "<tm-li-transaction />",
         "data-empty-tx": "<data-empty-tx />"
       }
     })
     wrapper = instance.wrapper
     store = instance.store
 
-    jest.mock("axios", () => ({
-      get: () => mockTransactions
-    }))
     store.commit("setWalletAddress", "tb1d4u5zerywfjhxuc9nudvw")
     store.commit("setWalletHistory", mockTransactions)
 
@@ -43,15 +40,23 @@ describe("PageTransactions", () => {
     expect(wrapper.contains(".tm-modal-search")).toBe(true)
   })
 
+  it("should refresh the transaction history", () => {
+    wrapper
+      .findAll(".tm-tool-bar i")
+      .at(0)
+      .trigger("click")
+    expect(store.dispatch).toHaveBeenCalledWith("queryWalletHistory")
+  })
+
   it("should show transactions", () => {
-    expect(wrapper.findAll("li-transaction").length).toBe(3)
+    expect(wrapper.findAll("tm-li-transaction").length).toBe(3)
   })
 
   it("should sort the transaction by time", () => {
     expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([
-      3466,
-      3438,
-      3436
+      "3466",
+      "3438",
+      "3436"
     ])
   })
 
@@ -59,11 +64,11 @@ describe("PageTransactions", () => {
     store.commit("setSearchVisible", ["transactions", true])
     store.commit("setSearchQuery", ["transactions", "fabo"])
     wrapper.update()
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([3466])
+    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual(["3466"])
     // reflects the filter in the view
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit("setSearchQuery", ["transactions", "mattc"])
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([3466])
+    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual(["3466"])
   })
 
   it("should refresh the transactions on click", () => {
@@ -95,7 +100,7 @@ describe("PageTransactions", () => {
     let transactions = []
     mount(PageTransactions, {
       stubs: {
-        "li-transaction": "<li-transaction />",
+        "tm-li-transaction": "<tm-li-transaction />",
         "data-empty-tx": "<data-empty-tx />"
       }
     })

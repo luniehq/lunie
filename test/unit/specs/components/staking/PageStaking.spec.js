@@ -108,9 +108,8 @@ describe("PageStaking", () => {
           loading: true
         })
       },
-      stubs: { "data-loading": "<data-loading />" }
+      stubs: { "tm-data-loading": "<data-loading />" }
     })
-
     expect(wrapper.contains("data-loading")).toBe(true)
   })
 
@@ -122,7 +121,7 @@ describe("PageStaking", () => {
           loading: true
         })
       },
-      stubs: { "data-loading": "<data-loading />" }
+      stubs: { "tm-data-loading": "<data-loading />" }
     })
     wrapper.update()
 

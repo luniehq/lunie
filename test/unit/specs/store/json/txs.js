@@ -1,7 +1,8 @@
 module.exports = [
   {
+    hash: "not a real hash",
     time: Date.now(), // set by Voyager
-    height: 3436,
+    height: "3436",
     tx: {
       type: "8EFE47F0625DE8",
       value: {
@@ -43,6 +44,7 @@ module.exports = [
           ],
           gas: 500000
         },
+        gas: 500000,
         signatures: [
           {
             pub_key: {
@@ -58,28 +60,30 @@ module.exports = [
             sequence: 0
           }
         ]
+      },
+      result: {
+        gasUsed: "3324",
+        tags: [
+          {
+            key: "c2VuZGVy",
+            value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
+          },
+          {
+            key: "cmVjaXBpZW50",
+            value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
+          }
+        ],
+        fee: {}
       }
-    },
-    result: {
-      gasUsed: "3324",
-      tags: [
-        {
-          key: "c2VuZGVy",
-          value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
-        },
-        {
-          key: "cmVjaXBpZW50",
-          value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
-        }
-      ],
-      fee: {}
     }
   },
   {
+    hash: "not a real hash2",
     time: Date.now() + 10, // set by Voyager
-    height: 3438,
+    height: "3438",
     tx: {
       type: "8EFE47F0625DE8",
+
       value: {
         msg: [
           {
@@ -119,6 +123,7 @@ module.exports = [
           ],
           gas: 500000
         },
+        gas: 500000,
         signatures: [
           {
             pub_key: {
@@ -134,26 +139,28 @@ module.exports = [
             sequence: 0
           }
         ]
+      },
+      result: {
+        gasUsed: "3324",
+        tags: [
+          {
+            key: "c2VuZGVy",
+            value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
+          },
+          {
+            key: "cmVjaXBpZW50",
+            value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
+          }
+        ],
+        fee: {}
       }
-    },
-    result: {
-      gasUsed: "3324",
-      tags: [
-        {
-          key: "c2VuZGVy",
-          value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
-        },
-        {
-          key: "cmVjaXBpZW50",
-          value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
-        }
-      ],
-      fee: {}
     }
   },
   {
+    hash: "not a real hash3",
+
     time: Date.now() + 100, // set by Voyager
-    height: 3466,
+    height: "3466",
     tx: {
       type: "8EFE47F0625DE8",
       value: {
@@ -211,6 +218,7 @@ module.exports = [
           ],
           gas: 500000
         },
+        gas: 500000,
         signatures: [
           {
             pub_key: {
@@ -226,21 +234,21 @@ module.exports = [
             sequence: 0
           }
         ]
+      },
+      result: {
+        gasUsed: "3324",
+        tags: [
+          {
+            key: "c2VuZGVy",
+            value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
+          },
+          {
+            key: "cmVjaXBpZW50",
+            value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
+          }
+        ],
+        fee: {}
       }
-    },
-    result: {
-      gasUsed: "3324",
-      tags: [
-        {
-          key: "c2VuZGVy",
-          value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
-        },
-        {
-          key: "cmVjaXBpZW50",
-          value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
-        }
-      ],
-      fee: {}
     }
   }
 ]

@@ -8,6 +8,7 @@ let semver = require("semver")
 let toml = require("toml")
 let Raven = require("raven")
 let _ = require("lodash")
+let axios = require("axios")
 
 let Addressbook = require("./addressbook.js")
 let pkg = require("../../../package.json")
@@ -20,11 +21,11 @@ let shuttingDown = false
 let mainWindow
 let lcdProcess
 let streams = []
-let nodeIP
 let connecting = true
 let chainId
 let booted = false
 let addressbook
+let expectedGaiaCliVersion
 
 const root = require("../root.js")
 global.root = root // to make the root accessable from renderer
@@ -463,7 +464,7 @@ function handleIPC() {
   ipcMain.on("successful-launch", () => {
     console.log("[START SUCCESS] Vue app successfuly started")
   })
-  ipcMain.on("reconnect", () => reconnect())
+  ipcMain.on("reconnect", () => reconnect(addressbook))
   ipcMain.on("booted", () => {
     log("View has booted")
     booted = true
@@ -481,7 +482,7 @@ function handleIPC() {
   ipcMain.on("retry-connection", () => {
     log("Retrying to connect to nodes")
     addressbook.resetNodes()
-    reconnect()
+    reconnect(addressbook)
   })
 }
 
@@ -509,6 +510,72 @@ function handleIPC() {
 //   })
 // }
 
+// query version of the used SDK via LCD
+async function getNodeVersion() {
+  let versionURL = `http://localhost:${LCD_PORT}/node_version`
+  let nodeVersion = await axios
+    .get(versionURL, { timeout: 3000 })
+    .then(res => res.data)
+    .then(fullversion => fullversion.split("-")[0])
+
+  return nodeVersion
+}
+
+// test an actual node version against the expected one and flag the node if incompatible
+async function testNodeVersion(nodeIP, expectedGaiaVersion, addressbook) {
+  let nodeVersion = await getNodeVersion(nodeIP)
+  let semverDiff = semver.diff(nodeVersion, expectedGaiaVersion)
+  if (semverDiff === "patch" || semverDiff === null) {
+    return { compatible: true, nodeVersion }
+  }
+
+  addressbook.flagNodeIncompatible(nodeIP)
+  return { compatible: false, nodeVersion }
+}
+
+// pick a random node from the addressbook and check if the SDK version is compatible with ours
+async function pickAndConnect(addressbook) {
+  let nodeIP
+  connecting = true
+
+  try {
+    nodeIP = await addressbook.pickNode()
+  } catch (err) {
+    signalNoNodesAvailable()
+    return
+  }
+
+  await connect(nodeIP)
+
+  let compatible, nodeVersion
+  try {
+    const out = await testNodeVersion(
+      nodeIP,
+      expectedGaiaCliVersion,
+      addressbook
+    )
+    compatible = out.compatible
+    nodeVersion = out.nodeVersion
+  } catch (err) {
+    logError(
+      "Error in getting node SDK version, assuming node is incompatible. Error:",
+      err
+    )
+    addressbook.flagNodeIncompatible(nodeIP)
+    return await pickAndConnect(addressbook)
+  }
+
+  if (!compatible) {
+    let message = `Node ${nodeIP} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
+    log(message)
+    mainWindow.webContents.send("connection-status", message)
+
+    return await pickAndConnect(addressbook)
+  }
+
+  return nodeIP
+}
+
 async function connect(nodeIP) {
   log(`starting gaia rest server with nodeIP ${nodeIP}`)
   lcdProcess = await startLCD(lcdHome, nodeIP)
@@ -529,15 +596,7 @@ async function reconnect() {
 
   await stopLCD()
 
-  let nodeIP
-  try {
-    nodeIP = await addressbook.pickNode()
-  } catch (err) {
-    signalNoNodesAvailable()
-    return
-  }
-
-  await connect(nodeIP)
+  await pickAndConnect(addressbook)
 }
 
 async function main() {
@@ -578,7 +637,8 @@ async function main() {
       )
     ) {
       let existingVersion = fs.readFileSync(appVersionPath, "utf8").trim()
-      let compatible = semver.diff(existingVersion, pkg.version) !== "major"
+      let semverDiff = semver.diff(existingVersion, pkg.version)
+      let compatible = semverDiff !== "major" && semverDiff !== "minor"
       if (compatible) {
         log("configs are compatible with current app version")
         init = false
@@ -626,7 +686,7 @@ async function main() {
 
   // XXX: currently ignores commit hash
   let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
-  let expectedGaiaCliVersion = fs
+  expectedGaiaCliVersion = fs
     .readFileSync(gaiacliVersionPath, "utf8")
     .trim()
     .split("-")[0]
@@ -664,7 +724,7 @@ async function main() {
     }
   }
 
-  addressbook = new Addressbook(root, {
+  addressbook = new Addressbook(config, root, {
     persistent_peers,
     onConnectionMessage: message => {
       log(message)
@@ -673,12 +733,7 @@ async function main() {
   })
 
   // choose one random node to start from
-  try {
-    nodeIP = await addressbook.pickNode()
-  } catch (err) {
-    signalNoNodesAvailable()
-    return
-  }
+  await pickAndConnect(addressbook)
 
   // TODO reenable when we need LCD init
   // let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))
@@ -687,8 +742,6 @@ async function main() {
   //   log(`Trying to initialize lcd with remote node ${nodeIP}`)
   //   // await initLCD(chainId, lcdHome, nodeIP)
   // }
-
-  await connect(nodeIP)
 }
 module.exports = main()
   .catch(err => {

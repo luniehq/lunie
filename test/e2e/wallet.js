@@ -3,7 +3,6 @@ let { getApp, restart } = require("./launch.js")
 let {
   navigate,
   waitForText,
-  sleep,
   login,
   closeNotifications
 } = require("./common.js")
@@ -60,7 +59,7 @@ test("wallet", async function(t) {
       )
 
       let localTokenEl = balanceEl("LOCALTOKEN")
-      waitForText(() => localTokenEl, defaultBalance.toString())
+      await waitForText(() => localTokenEl, defaultBalance.toString())
       t.end()
     })
 
@@ -154,10 +153,6 @@ test("wallet", async function(t) {
 
     t.test("own balance updated", async function(t) {
       await navigate(app, "Wallet")
-
-      // TODO should not be necessary
-      await sleep(1000)
-      await app.client.$(".material-icons=refresh").click()
 
       let mycoinEl = () => balanceEl("LOCALTOKEN")
       await waitForText(mycoinEl, (defaultBalance - 100).toString(), 10000)
