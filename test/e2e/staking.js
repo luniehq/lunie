@@ -1,6 +1,6 @@
 let test = require("tape-promise/tape")
 let { getApp, restart } = require("./launch.js")
-let { navigate, waitForValue, login, waitBlocks } = require("./common.js")
+let { navigate, waitForValue, login } = require("./common.js")
 
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app

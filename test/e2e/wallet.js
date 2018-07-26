@@ -3,7 +3,6 @@ let { getApp, restart } = require("./launch.js")
 let {
   navigate,
   waitForText,
-  sleep,
   login,
   closeNotifications
 } = require("./common.js")
