@@ -184,7 +184,7 @@ exports[`PageBond has the expected html structure 1`] = `
                   </div>
                 </div>
                 <div
-                  class="bond-group bond-group--neutral"
+                  class="bond-group bond-candidate bond-group--neutral"
                 >
                   <div
                     class="bond-group__fields"
@@ -254,7 +254,7 @@ exports[`PageBond has the expected html structure 1`] = `
                   <!---->
                 </div>
                 <div
-                  class="bond-group bond-group--neutral"
+                  class="bond-group bond-candidate bond-group--neutral"
                 >
                   <div
                     class="bond-group__fields"
@@ -610,7 +610,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                   </div>
                 </div>
                 <div
-                  class="bond-group bond-group--neutral"
+                  class="bond-group bond-candidate bond-group--neutral"
                 >
                   <div
                     class="bond-group__fields"
@@ -688,7 +688,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                   <!---->
                 </div>
                 <div
-                  class="bond-group bond-group--neutral"
+                  class="bond-group bond-candidate bond-group--neutral"
                 >
                   <div
                     class="bond-group__fields"

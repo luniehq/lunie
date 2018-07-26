@@ -57,7 +57,7 @@ let state = {
                         amount: "1234"
                       }
                     ],
-                    address: makeAddress()
+                    address: makeHash()
                   }
                 ],
                 outputs: [
@@ -104,7 +104,7 @@ let state = {
                         amount: "1234"
                       }
                     ],
-                    address: makeAddress()
+                    address: makeHash()
                   }
                 ]
               }
@@ -188,7 +188,7 @@ module.exports = {
     let key = {
       name,
       password,
-      address: makeAddress()
+      address: makeHash()
     }
     state.keys.push(key)
     return { name, password, seed, address: key.address }
@@ -371,7 +371,7 @@ module.exports = {
   validators
 }
 
-function makeAddress() {
+function makeHash() {
   var text = ""
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
@@ -458,7 +458,7 @@ function send(to, from, req) {
         ]
       }
     },
-    hash: makeAddress(),
+    hash: makeHash(),
     height: getHeight() + (from === botAddress ? 1 : 0),
     time: Date.now()
   })

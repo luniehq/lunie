@@ -34,12 +34,12 @@ export default {
 
   user-select none
 
-.tm-hardware-state__icon
-  font-size 5rem
-  margin-bottom 1rem
-  color var(--dim)
+  .tm-hardware-state__icon
+    font-size 5rem
+    margin-bottom 1rem
+    color var(--dim)
 
-.tm-hardware-state__label
-  text-align center
-  color var(--txt)
+  .tm-hardware-state__label
+    text-align center
+    color var(--txt)
 </style>

@@ -7,13 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-### Changes
+### Added
 
+* Added reload button to transaction history page @faboweb
+
+### Changed
+
+* Showing uniq transactions by their hash in history @faboweb
+* Extracted components into @tendermint/ui for use in explorer @okwme
 * using new old testnet repo for getting genesis files @faboweb
 
 ### Fixed
 
 * fixed block explorer always showing "syncing" @faboweb
+* fixed not pushing to master (caused by me ;P) @faboweb
+* Publish script now builds release artifacts. @NodeGuy
+* fixed tx subscription @faboweb
+
+### Added
+
+* staking e2e tests @faboweb
 
 ## [0.8.2] - 2018-07-23
 
@@ -31,6 +44,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Release published on GitHub now including changes from CHANGELOG. @NodeGuy
 * Added ESLint errors: no-undef and no-unused-vars. @NodeGuy
 * Modal when a node doesn't signal any new blocks @faboweb
+* Checking the SDK version of the node Voyager connects to against an expected SDK version for the network @faboweb
 * Added post checkout yarn @okwme
 
 ### Changed
@@ -42,6 +56,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Using vue-jest for transpiling in tests for better code coverage output @faboweb
 * Default to gaia-7001 @okwme
 * Changed `yarn testnet` to `yarn start` @okwme
+* Updated colors throughout @jolesbi
 
 ### Fixed
 
