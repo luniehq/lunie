@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changes
 
 * using new old testnet repo for getting genesis files @faboweb
+* switched to Gaia-7002 @faboweb
 
 ### Fixed
 
