@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Publish script now builds release artifacts. @NodeGuy
 * fixed tx subscription @faboweb
 
+### Added
+
+* staking e2e tests @faboweb
+
 ## [0.8.2] - 2018-07-23
 
 ### Fixed

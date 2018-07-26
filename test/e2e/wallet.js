@@ -3,7 +3,6 @@ let { getApp, restart } = require("./launch.js")
 let {
   navigate,
   waitForText,
-  sleep,
   login,
   closeNotifications
 } = require("./common.js")
@@ -60,7 +59,7 @@ test("wallet", async function(t) {
       )
 
       let localTokenEl = balanceEl("LOCALTOKEN")
-      waitForText(() => localTokenEl, defaultBalance.toString())
+      await waitForText(() => localTokenEl, defaultBalance.toString())
       t.end()
     })
 

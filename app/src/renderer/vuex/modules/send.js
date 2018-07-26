@@ -7,7 +7,9 @@ export default ({ node }) => {
 
   const mutations = {
     setNonce(state, nonce) {
-      state.nonce = nonce
+      // we may query an account state that still has a nonce older then the one we locally have
+      // this is because the nonce only updates after txs where incorporated in a block
+      if (state.nonce < nonce) state.nonce = nonce
     }
   }
 
