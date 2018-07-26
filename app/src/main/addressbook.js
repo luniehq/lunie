@@ -4,15 +4,16 @@ const axios = require("axios")
 const url = require("url")
 
 const LOGGING = JSON.parse(process.env.LOGGING || "true") !== false
-const TENDERMINT_RPC_PORT = 26657
 const FIXED_NODE = process.env.COSMOS_NODE
 
 module.exports = class Addressbook {
   constructor(
+    config,
     configPath,
     { persistent_peers = [], onConnectionMessage = () => {} } = {}
   ) {
     this.peers = []
+    this.config = config
     this.onConnectionMessage = onConnectionMessage
 
     // if we define a fixed node, we skip persistence
@@ -35,7 +36,7 @@ module.exports = class Addressbook {
   }
 
   async ping(peerURL) {
-    let pingURL = `http://${peerURL}:${TENDERMINT_RPC_PORT}`
+    let pingURL = `http://${peerURL}:${this.config.default_tendermint_port}`
     this.onConnectionMessage(`pinging node: ${pingURL}`)
     let nodeAlive = await axios
       .get(pingURL, { timeout: 3000 })
@@ -113,11 +114,17 @@ module.exports = class Addressbook {
       this.discoverPeers(curNode.host)
     }
 
-    return curNode.host + ":" + TENDERMINT_RPC_PORT
+    return curNode.host + ":" + this.config.default_tendermint_port
   }
 
-  flagNodeOffline(host) {
+  flagNodeOffline(nodeIP) {
+    const host = nodeIP.split(":")[0]
     this.peers.find(p => p.host === host).state = "down"
+  }
+
+  flagNodeIncompatible(nodeIP) {
+    const host = nodeIP.split(":")[0]
+    this.peers.find(p => p.host === host).state = "incompatible"
   }
 
   resetNodes() {
@@ -130,7 +137,7 @@ module.exports = class Addressbook {
 
   async discoverPeers(peerIP) {
     let subPeers = (await axios.get(
-      `http://${peerIP}:${TENDERMINT_RPC_PORT}/net_info`
+      `http://${peerIP}:${this.config.default_tendermint_port}/net_info`
     )).data.result.peers
     let subPeersHostnames = subPeers.map(peer => peer.node_info.listen_addr)
 

@@ -96,19 +96,16 @@ exports[`PageTransactions has the expected html structure 1`] = `
     class="tm-page-main ps"
   >
     <!---->
-    <li-transaction
+    <tm-li-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      devmode="true"
       transaction="[object Object]"
     />
-    <li-transaction
+    <tm-li-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      devmode="true"
       transaction="[object Object]"
     />
-    <li-transaction
+    <tm-li-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      devmode="true"
       transaction="[object Object]"
     />
     <div
@@ -274,9 +271,8 @@ exports[`PageTransactions should filter the transactions 1`] = `
         </div>
       </div>
     </div>
-    <li-transaction
+    <tm-li-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      devmode="true"
       transaction="[object Object]"
     />
   </main>

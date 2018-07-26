@@ -64,7 +64,7 @@ export default {
         display block
 
 .tm-modal-container
-  background var(--app-bg)
+  background var(--app-fg)
   box-shadow hsla(0,0,0,0.25) 0 0.25rem 1rem
 
   display flex
@@ -81,7 +81,7 @@ export default {
   flex-flow row nowrap
   align-items center
   flex 0 0 3rem + 0.0625rem
-  background var(--app-fg)
+  background var(--app-nav)
 
 .tm-modal-icon
   height 3rem
