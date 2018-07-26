@@ -9,7 +9,7 @@ git checkout $COMMIT
 echo ###############################################################################
 echo Installing development tools.
 echo ###############################################################################
-make get_dev_tools
+make get_tools
 
 # Build Gaia for each platform.
 
