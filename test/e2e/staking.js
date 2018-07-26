@@ -87,9 +87,6 @@ test("staking", async function(t) {
     // wait until the validators are showing again
     await app.client.waitForExist("#go-to-bonding-btn", 10000)
 
-    // wait till one block increases so our tx is in a block
-    await waitBlocks(app, 1)
-
     t.equal(
       await app.client.$(".li-delegate__value.number_of_votes").getText(),
       bondedStake.toString(),

@@ -82,24 +82,6 @@ module.exports = {
       await sleep(100)
     }
   },
-  async waitBlocks(app, blocks) {
-    const blockIndicator = () =>
-      app.client.$(".app-footer #tm-connected-network__block a")
-    let currentBlock = parseInt(
-      (await blockIndicator().getText()).split("#")[1]
-    )
-    console.log(
-      "Current block:",
-      currentBlock,
-      "Waiting for block",
-      currentBlock + blocks
-    )
-    await module.exports.waitForText(
-      blockIndicator,
-      "#" + (currentBlock + blocks),
-      10000
-    )
-  },
   async login(app, account = "default") {
     console.log("logging into " + account)
     let accountsSelect = "#sign-in-name select"
