@@ -46,9 +46,12 @@ sed --expression="s/seeds = \"\"/seeds = \"718145d422a823fd2a4e1e36e91b92bb0c4dd
 
 version=$(gaiacli version)
 
+# Download the testnet configuration files
+git clone https://github.com/cosmos/testnets ./testnets
+
 ## Copy the network configuration files.
 mkdir --parents $TARGET/networks
-cp --recursive cmd/gaia/testnets/* $TARGET/networks/
+cp --recursive ./testnets/* $TARGET/networks/
 
 for network in $TARGET/networks/*/; do
   ## Copy the config.toml file.
