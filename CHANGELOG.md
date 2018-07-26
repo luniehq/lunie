@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changes
+
+* using new old testnet repo for getting genesis files @faboweb
+
 ### Fixed
 
 * fixed block explorer always showing "syncing" @faboweb
