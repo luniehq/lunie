@@ -1,22 +1,13 @@
 let test = require("tape-promise/tape")
 let { getApp, restart } = require("./launch.js")
-let {
-  navigate,
-  waitForText,
-  sleep,
-  login,
-  closeNotifications
-} = require("./common.js")
-let {
-  addresses
-} = require("../../app/src/renderer/connectors/lcdClientMock.js")
+let { navigate, waitForValue, login, waitBlocks } = require("./common.js")
 
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
 */
 
 test("staking", async function(t) {
-  let { app, accounts } = await getApp(t)
+  let { app } = await getApp(t)
   // app.env.COSMOS_MOCKED = false
   await restart(app)
 
@@ -28,32 +19,32 @@ test("staking", async function(t) {
   let totalUserStake = 150
   let bondedStake = 100
   let defaultValidatorMoniker = "local"
-  t.test("show validators", async function(t) {
-    await waitForText(
-      () => app.client.$(".li-delegate__value.name"),
-      defaultValidatorMoniker
-    ) // moniker of the local node set in launch.js
-    t.end()
-  })
-  t.test("show validators stake", async function(t) {
-    await waitForText(
-      () => app.client.$(".li-delegate__value.number_of_votes"),
-      bondedStake + ""
+
+  t.test("overview", async function(t) {
+    await t.equal(
+      await app.client.$(".li-delegate__value.name").getText(),
+      defaultValidatorMoniker, // moniker of the local node set in launch.js
+      "show validators"
     )
-    t.end()
-  })
-  t.test("show my stake in the validator", async function(t) {
-    await waitForText(
-      () => app.client.$(".li-delegate__value.your-votes"),
-      bondedStake + ""
+
+    await t.equal(
+      await app.client.$(".li-delegate__value.number_of_votes").getText(),
+      bondedStake + "",
+      "show validators stake"
     )
-    t.end()
-  })
-  t.test("show candidate is a validator", async function(t) {
-    await waitForText(
-      () => app.client.$(".li-delegate__value.status"),
-      "Validator"
+
+    await t.equal(
+      await app.client.$(".li-delegate__value.your-votes").getText(),
+      bondedStake + "",
+      "show my stake in the validator"
     )
+
+    await t.equal(
+      await app.client.$(".li-delegate__value.status").getText(),
+      "Validator",
+      "show candidate is a validator"
+    )
+
     t.end()
   })
 
@@ -63,12 +54,14 @@ test("staking", async function(t) {
 
     t.equal(
       await app.client.$("#new-unbonded-atoms").getValue(),
-      (totalUserStake - bondedStake).toString()
+      (totalUserStake - bondedStake).toString(),
+      "Left over steak shows correctly"
     )
 
     t.equal(
       await app.client.$(".bond-candidate .bond-value__input").getValue(),
-      bondedStake.toString()
+      bondedStake.toString(),
+      "Candidate bond matches current bond"
     )
 
     await app.client
@@ -77,7 +70,8 @@ test("staking", async function(t) {
 
     t.equal(
       await app.client.$("#new-unbonded-atoms").getValue(),
-      (totalUserStake - bondedStake - 20).toString()
+      (totalUserStake - bondedStake - 20).toString(),
+      "Left over steak shows correctly after adjusting bond"
     )
 
     await app.client.$("#btn-bond").click()
@@ -96,24 +90,18 @@ test("staking", async function(t) {
     await app.client.waitForExist("#go-to-bonding-btn", 10000)
 
     // wait till one block increases so our tx is in a block
-    let currentBlock = parseInt(
-      (await app.client.$("#tm-connected-network__block").getText()).split(
-        "#"
-      )[1]
-    )
-    await app.client.waitForExist(
-      "#tm-connected-network__block",
-      "#" + (currentBlock + 1)
-    )
+    await waitBlocks(app, 1)
 
     t.equal(
       await app.client.$(".li-delegate__value.number_of_votes").getText(),
-      bondedStake.toString()
+      bondedStake.toString(),
+      "Validator total steak updated correctly"
     )
 
     t.equal(
       await app.client.$(".li-delegate__value.your-votes").getText(),
-      bondedStake.toString()
+      bondedStake.toString(),
+      "Delegate steak in validator updated correctly"
     )
 
     t.end()
@@ -123,28 +111,38 @@ test("staking", async function(t) {
     // validator should already be in the cart so we only need to click a button to go to the bonding view
     await app.client.$("#go-to-bonding-btn").click()
 
-    t.equal(
-      await app.client.$("#new-unbonded-atoms").getValue(),
-      (totalUserStake - bondedStake).toString()
+    t.doesNotThrow(
+      async () =>
+        await waitForValue(
+          () => app.client.$("#new-unbonded-atoms"),
+          (totalUserStake - bondedStake).toString()
+        ),
+      "Left over steak shows correctly"
     )
 
     t.equal(
       await app.client.$(".bond-candidate .bond-value__input").getValue(),
-      bondedStake.toString()
+      bondedStake.toString(),
+      "Candidate bond matches current bond"
     )
 
     await app.client
       .$(".bond-candidate .bond-value__input")
       .setValue(bondedStake - 20)
 
-    t.equal(
-      await app.client.$("#new-unbonded-atoms").getValue(),
-      (totalUserStake - bondedStake + 20).toString()
+    t.doesNotThrow(
+      async () =>
+        await waitForValue(
+          () => app.client.$("#new-unbonded-atoms"),
+          (totalUserStake - bondedStake + 20).toString()
+        ),
+      "Left over steak shows correctly after adjusting bond"
     )
 
     t.equal(
       await app.client.$("#new-unbonding-atoms").getValue(),
-      (20).toString()
+      (20).toString(),
+      "Unbonding steak shows correctly"
     )
 
     await app.client.$("#btn-bond").click()
@@ -164,12 +162,14 @@ test("staking", async function(t) {
 
     t.equal(
       await app.client.$(".li-delegate__value.number_of_votes").getText(),
-      bondedStake.toString()
+      bondedStake.toString(),
+      "Validator total steak updated correctly"
     )
 
     t.equal(
       await app.client.$(".li-delegate__value.your-votes").getText(),
-      bondedStake.toString()
+      bondedStake.toString(),
+      "Delegate steak in validator updated correctly"
     )
 
     t.end()
