@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Extracted components into @tendermint/ui for use in explorer @okwme
 * using new old testnet repo for getting genesis files @faboweb
 * switched to Gaia-7003 @faboweb
+* Message for empty account @faboweb
 
 ### Fixed
 

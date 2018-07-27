@@ -80,12 +80,10 @@ describe("PageWallet", () => {
   })
 
   it("should show the n/a message if there are no denoms", () => {
-    let { store, wrapper } = mount(PageWallet, {
-      "data-empty": "<data-empty />"
-    })
+    let { store, wrapper } = mount(PageWallet)
     store.commit("setWalletBalances", [])
     wrapper.update()
-    expect(wrapper.find("data-empty")).toBeDefined()
+    expect(wrapper.find("#account_empty_msg").exists()).toBeTruthy()
   })
 
   it("should not show the n/a message if there are denoms", () => {
