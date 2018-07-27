@@ -10,6 +10,8 @@ module.exports = function setRpcWrapper(container) {
       connected: true
     },
     rpcDisconnect() {
+      if (!container.rpc) return
+
       console.log("removing old websocket")
 
       // ignore disconnect error
