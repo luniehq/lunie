@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * fixed not pushing to master (caused by me ;P) @faboweb
 * Publish script now builds release artifacts. @NodeGuy
 * fixed tx subscription @faboweb
+* fixed hanging if initial nodes are offline @faboweb
 
 ### Added
 
