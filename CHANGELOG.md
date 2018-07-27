@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Added reload button to transaction history page @faboweb
+* added page views for google analytics @faboweb
 
 ### Changed
 

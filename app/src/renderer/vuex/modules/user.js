@@ -27,6 +27,10 @@ export default ({ node }) => {
     },
     addHistory(state, path) {
       state.history.push(path)
+      window.analytics &&
+        window.analytics.send("pageview", {
+          dl: path
+        })
     },
     clearHistory(state) {
       state.history = []
@@ -51,6 +55,11 @@ export default ({ node }) => {
       let exists = state.accounts.length > 0
       let screen = exists ? "sign-in" : "welcome"
       commit("setModalSessionState", screen)
+
+      window.analytics &&
+        window.analytics.send("pageview", {
+          dl: "/session/" + screen
+        })
     },
     async loadAccounts({ commit }) {
       try {
@@ -140,6 +149,10 @@ export default ({ node }) => {
       if (state.errorCollection) {
         console.log("Analytics enabled in browser")
         enableGoogleAnalytics(config.google_analytics_uid)
+        window.analytics &&
+          window.analytics.send("pageview", {
+            dl: window.location.pathname
+          })
       } else {
         console.log("Analytics disabled in browser")
         window.analytics = null
