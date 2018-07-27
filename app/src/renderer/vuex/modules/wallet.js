@@ -135,14 +135,16 @@ export default ({ node }) => {
       }
 
       let genesis = await fs.readJson(genesisPath)
-      let denoms = {}
+      let denoms = []
       for (let account of genesis.app_state.accounts) {
-        for (let { denom } of account.coins) {
-          denoms[denom] = true
+        if (account.coins) {
+          for (let { denom } of account.coins) {
+            denoms.push(denom)
+          }
         }
       }
 
-      commit("setDenoms", Object.keys(denoms))
+      commit("setDenoms", denoms)
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {

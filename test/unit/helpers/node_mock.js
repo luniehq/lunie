@@ -41,7 +41,7 @@ module.exports = {
   rpc: {
     on: () => {},
     subscribe: () => {},
-    validators: () => mockValidators,
+    validators: cb => cb(null, { validators: mockValidators }),
     block: (args, cb) => cb({}),
     blockchain: (args, cb) => cb(null, { block_metas: {} }),
     status: cb =>

@@ -1,6 +1,6 @@
 export default ({ node }) => {
   const state = {
-    validators: {},
+    validators: [],
     loading: false,
     validatorHash: null
   }
@@ -23,7 +23,13 @@ export default ({ node }) => {
     getValidators({ state, commit }) {
       state.loading = true
       node.rpc.validators((err, { validators } = {}) => {
-        if (err) return console.error("error fetching validator set")
+        if (err) {
+          commit("notifyError", {
+            title: "Error fetching validator set",
+            body: err.message
+          })
+          return
+        }
         commit("setValidators", validators)
         state.loading = false
       })
