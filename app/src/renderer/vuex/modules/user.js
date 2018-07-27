@@ -149,9 +149,10 @@ export default ({ node }) => {
       if (state.errorCollection) {
         console.log("Analytics enabled in browser")
         enableGoogleAnalytics(config.google_analytics_uid)
-        window.analytics.send("pageview", {
-          dl: window.location.pathname
-        })
+        window.analytics &&
+          window.analytics.send("pageview", {
+            dl: window.location.pathname
+          })
       } else {
         console.log("Analytics disabled in browser")
         window.analytics = null
