@@ -98,12 +98,12 @@ function handleCrash(error) {
 }
 
 function signalNoNodesAvailable() {
-  if (mainWindow) {
+  afterBooted(() => {
     mainWindow.webContents.send("error", {
       code: "NO_NODES_AVAILABLE",
       message: "No nodes available to connect to."
     })
-  }
+  })
 }
 
 function shutdown() {
@@ -541,6 +541,7 @@ async function pickAndConnect(addressbook) {
   try {
     nodeIP = await addressbook.pickNode()
   } catch (err) {
+    connecting = false
     signalNoNodesAvailable()
     return
   }

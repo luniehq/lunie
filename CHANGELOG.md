@@ -10,13 +10,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Added reload button to transaction history page @faboweb
+* added page views for google analytics @faboweb
 
 ### Changed
 
 * Showing uniq transactions by their hash in history @faboweb
 * Extracted components into @tendermint/ui for use in explorer @okwme
 * using new old testnet repo for getting genesis files @faboweb
-* switched to Gaia-7002 @faboweb
+* switched to Gaia-7003 @faboweb
 * Message for empty accounts @faboweb
 
 ### Fixed
@@ -25,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * fixed not pushing to master (caused by me ;P) @faboweb
 * Publish script now builds release artifacts. @NodeGuy
 * fixed tx subscription @faboweb
+* fixed hanging if initial nodes are offline @faboweb
 
 ### Added
 
