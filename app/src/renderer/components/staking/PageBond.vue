@@ -336,7 +336,7 @@ export default {
       d.atoms = Math.round(rawAtoms)
       d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, "int")
       d.deltaAtomsPercent = this.percent(
-        this.delta(rawAtoms, d.oldAtoms),
+        this.delta(d.atoms, d.oldAtoms),
         this.totalAtoms
       )
       return d
