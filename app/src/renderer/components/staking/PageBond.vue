@@ -61,7 +61,7 @@ tm-page.page-bond(:title="`Bond ${denom}`")
             placeholder="Atoms"
             step="1"
             min="0"
-            :max=newUnbondedAtoms
+            :max="newUnbondedAtoms"
             v-model.number="d.atoms"
             @change.native="limitMax(d, parseInt($event.target.max))")
 
