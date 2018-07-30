@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* showing warning about out of range of atoms in bonding UI only once on top and renaming it @faboweb
+
+### Fixed
+
+* slider in staking UI @faboweb
+* error with empty accounts @faboweb
+
 ## [0.9.1] - 2018-07-27
 
 ### Added
