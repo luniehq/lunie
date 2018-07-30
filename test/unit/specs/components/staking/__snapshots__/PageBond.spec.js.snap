@@ -182,6 +182,7 @@ exports[`PageBond has the expected html structure 1`] = `
                       />
                     </div>
                   </div>
+                  <!---->
                 </div>
                 <div
                   class="bond-group bond-candidate bond-group--neutral"
@@ -242,6 +243,7 @@ exports[`PageBond has the expected html structure 1`] = `
                       </label>
                       <input
                         class="bond-value__input tm-field"
+                        max="101"
                         min="0"
                         placeholder="Atoms"
                         step="1"
@@ -249,7 +251,6 @@ exports[`PageBond has the expected html structure 1`] = `
                       />
                     </div>
                   </div>
-                  <!---->
                   <!---->
                   <!---->
                 </div>
@@ -312,6 +313,7 @@ exports[`PageBond has the expected html structure 1`] = `
                       </label>
                       <input
                         class="bond-value__input tm-field"
+                        max="101"
                         min="0"
                         placeholder="Atoms"
                         step="1"
@@ -319,7 +321,6 @@ exports[`PageBond has the expected html structure 1`] = `
                       />
                     </div>
                   </div>
-                  <!---->
                   <!---->
                   <!---->
                 </div>
@@ -608,6 +609,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                       />
                     </div>
                   </div>
+                  <!---->
                 </div>
                 <div
                   class="bond-group bond-candidate bond-group--neutral"
@@ -676,6 +678,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                       </label>
                       <input
                         class="bond-value__input tm-field"
+                        max="101"
                         min="0"
                         placeholder="Atoms"
                         step="1"
@@ -683,7 +686,6 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                       />
                     </div>
                   </div>
-                  <!---->
                   <!---->
                   <!---->
                 </div>
@@ -750,6 +752,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                       </label>
                       <input
                         class="bond-value__input tm-field"
+                        max="101"
                         min="0"
                         placeholder="Atoms"
                         step="1"
@@ -757,7 +760,6 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                       />
                     </div>
                   </div>
-                  <!---->
                   <!---->
                   <!---->
                 </div>

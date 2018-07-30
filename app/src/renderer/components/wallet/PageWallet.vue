@@ -105,7 +105,7 @@ export default {
       }
     },
     stakedTokens() {
-      return sum(Object.values(this.committedDelegations))
+      return sum(Object.values(this.committedDelegations).map(parseFloat))
     },
     stakingDenom() {
       return this.config.bondingDenom.toUpperCase()
