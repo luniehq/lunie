@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* Switched to Gaia-7004 @faboweb
+
 ## [0.9.1] - 2018-07-27
 
 ### Added
