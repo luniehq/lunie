@@ -27,6 +27,10 @@ tm-page.page-bond(:title="`Bond ${denom}`")
             type="number"
             placeholder="Atoms"
             :value="newUnbondedAtoms")
+            
+      tm-form-msg(type="between"
+        v-if="newUnbondedAtoms < 0")
+        | You can't bond more Atoms then you have
 
     .bond-group.bond-candidate(
       v-for='(d, index) in fields.delegates'
@@ -69,8 +73,6 @@ tm-page.page-bond(:title="`Bond ${denom}`")
         v-if="!$v.fields.delegates.$each[index].atoms.required")
       tm-form-msg(name="Atoms" type="numeric"
         v-if="!$v.fields.delegates.$each[index].atoms.numeric")
-      tm-form-msg(name="Atoms" type="between" :min="minimumAtoms" :max="$v.fields.delegates.$each[index].atoms.$params.between.max"
-        v-if="!$v.fields.delegates.$each[index].atoms.between")
 
     .bond-group.bond-group--unbonding(
       v-if="oldBondedAtoms > 0"
