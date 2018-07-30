@@ -228,6 +228,17 @@ outputs hash: ${outputsHash}
 build time: ${minutes}:${seconds % 60}`
 }
 
+const copyNetworks = root => {
+  const networksPath = path.join(root, `app/networks`)
+
+  // Remove the symbolic link.
+  fs.removeSync(networksPath)
+
+  // Copy the directory.
+  fs.mkdirpSync(networksPath)
+  fs.copySync(path.join(root, `builds/Gaia/networks`), networksPath)
+}
+
 const buildAllPlatforms = async (options = {}) => {
   const start = new Date()
   console.log("--- Building all platforms ---")
@@ -235,6 +246,9 @@ const buildAllPlatforms = async (options = {}) => {
   const gaiaVersionHash = await sha256(
     fs.createReadStream(path.join(__dirname, `Gaia/COMMIT.sh`))
   )
+
+  // Copy the network configuration from Gaia.
+  copyNetworks(path.join(__dirname, `../..`))
 
   // Generate package.json for the app directory.
   fs.writeFileSync(
