@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Switched to Gaia-7004 @faboweb
 * showing warning about out of range of atoms in bonding UI only once on top and renaming it @faboweb
+* blocking login if not connected to a node to prevent errors @faboweb
 
 ### Fixed
 
