@@ -10,7 +10,11 @@ describe("TmSessionSignIn", () => {
   let wrapper, store
 
   beforeEach(() => {
-    let test = instance.mount(TmSessionSignIn)
+    let test = instance.mount(TmSessionSignIn, {
+      getters: {
+        connected: () => true
+      }
+    })
     store = test.store
     wrapper = test.wrapper
   })
@@ -76,7 +80,8 @@ describe("TmSessionSignIn", () => {
   it("should set the default password in mocked mode", async () => {
     let test = instance.mount(TmSessionSignIn, {
       getters: {
-        mockedConnector: () => true
+        mockedConnector: () => true,
+        connected: () => true
       }
     })
     store = test.store
