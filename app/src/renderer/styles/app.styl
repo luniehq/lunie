@@ -67,13 +67,18 @@ a
 
 // these styles should live in tendermint/ui
 .tm-field
-  border-radius 2px!important
+  border-radius 0.25rem !important
 
 input.tm-field
   height inherit !important
 
+.tm-select
+  .tm-field
+    border 1px solid var(--bc, #ddd);
+
 .tm-select .tm-field-select-addon
   height 100% !important
+  border-left 1px solid var(--bc, #ddd);
 
 .tm-part-header
   border 1px solid var(--bc-dim)
@@ -81,14 +86,17 @@ input.tm-field
 .tm-part-main
   padding-right 0 !important
 
-  .tm-btn__container
-    margin-right 1rem
-
 .tm-page-header-container
   min-height 5.5rem
 
 .tm-data-msg
   border 1px solid var(--bc-dim)
+
+.tm-btn__container
+  border-width 1px
+
+.tm-li-container
+  margin-right 1rem
 
 #app-content
   flex 1

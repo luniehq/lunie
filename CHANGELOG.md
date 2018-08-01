@@ -7,13 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.9.2] - 2018-07-30
+
 ### Changed
 
+* button styling @jolesbi
 * Switched to Gaia-7004 @faboweb
 * showing warning about out of range of atoms in bonding UI only once on top and renaming it @faboweb
 
 ### Fixed
 
+* broken styles in light theme @jolesbi
 * slider in staking UI @faboweb
 * error with empty accounts @faboweb
 
