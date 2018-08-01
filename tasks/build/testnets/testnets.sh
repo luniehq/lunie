@@ -7,7 +7,7 @@ echo ###########################################################################
 # Generate config.toml and basecoindversion.txt files for each network.
 
 ## Create config.toml file.
-$TARGET/linux_amd64/gaiad init --name Voyager &>/dev/null
+$TARGET/linux_amd64/gaiad init --name Voyager
 
 ### Add seed nodes from
 ### https://github.com/cosmos/cosmos-sdk/tree/5c8791743411cac58c502f3b18bfe8a1970e830e/cmd/gaia/testnets#add-seed-nodes
