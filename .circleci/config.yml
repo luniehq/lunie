@@ -166,7 +166,7 @@ workflows:
 
       - buildGaia
 
-      - downloadTestnets
+      - downloadTestnets:
           requires:
             - buildGaia
 
