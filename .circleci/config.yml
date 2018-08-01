@@ -46,10 +46,10 @@ jobs:
 
       - run: |
           cd tasks/build/testnets
-          TARGET=~/target ./testnets.sh
+          ./testnets.sh
 
       - persist_to_workspace:
-          root: ~/target
+          root: $TARGET
           paths:
             - "*"
 
