@@ -57,14 +57,15 @@ export default ({ node }) => {
       }
     },
     initializeWallet({ commit, dispatch }, address) {
-      // clear previous account state
-      state.balances = []
-      state.history = []
-
       commit("setWalletAddress", address)
       dispatch("loadDenoms")
       dispatch("queryWalletState")
       dispatch("walletSubscribe")
+    },
+    resetSessionData({ commit }) {
+      // clear previous account state
+      state.balances = []
+      state.history = []
     },
     queryWalletState({ dispatch }) {
       dispatch("queryWalletBalances")
