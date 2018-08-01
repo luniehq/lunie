@@ -15,29 +15,7 @@ export default (opts = {}) => {
     // strict: true,
     modules: modules(opts),
     mutations: {
-      loadPersistedState(state, { account, password }) {
-        const cachedState = localStorage.getItem("store_" + account)
-        if (cachedState) {
-          const bytes = CryptoJS.AES.decrypt(cachedState, password)
-          const plaintext = bytes.toString(CryptoJS.enc.Utf8)
-
-          // Replace the state object with the stored item
-          // Object.assign does no deep assign :/
-          let oldState = JSON.parse(plaintext)
-          _.merge(state, oldState, {
-            wallet: {
-              historyLoading: false,
-              balancesLoading: false
-            },
-            delegates: {
-              loading: false
-            }
-          })
-          this.replaceState(state)
-        }
-
-        state.user.stateLoaded = true
-      }
+      loadPersistedState
     }
   })
 
