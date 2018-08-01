@@ -49,7 +49,7 @@ jobs:
           ./testnets.sh
 
       - persist_to_workspace:
-          root: $TARGET
+          root: "/home/circleci/project/builds/Gaia"
           paths:
             - "*"
 
