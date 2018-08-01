@@ -185,11 +185,6 @@ workflows:
           requires:
             - buildGaia
             - downloadTestnets
-          filters:
-            branches:
-              only: develop
-            tags:
-              only: /.+/
 
   release:
     jobs:
