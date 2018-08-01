@@ -62,7 +62,7 @@ export default ({ node }) => {
       dispatch("queryWalletState")
       dispatch("walletSubscribe")
     },
-    resetSessionData({ commit }) {
+    resetSessionData() {
       // clear previous account state
       state.balances = []
       state.history = []
