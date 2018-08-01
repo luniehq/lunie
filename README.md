@@ -188,7 +188,7 @@ $ sed -i.bak 's/index_all_tags = true/index_all_tags = false/g' ./app/networks/l
 Store the gaia version used in your local testnet:
 
 ```bash
-$ ./builds/Gaia/{OS}/gaiad version > ./app/networks/local-testnet/basecoindversion.txt
+$ ./builds/Gaia/{OS}/gaiad version > ./app/networks/local-testnet/gaiaversion.txt
 ```
 
 Start your local node:

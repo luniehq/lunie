@@ -14,9 +14,9 @@
     "node": ">=9.4.0"
   },
   "scripts": {
-    "build": "node tasks/build/runBuild",
-    "build:testnets": "cd tasks/build/testnets; ./runTestnetsDownload.sh",
-    "build:gaia": "cd tasks/build/Gaia; ./runBuild.sh",
+    "build": "node tasks/build/localBuild",
+    "build:testnets": "cd tasks/build/testnets && ./localBuild.sh",
+    "build:gaia": "cd tasks/build/Gaia && ./localBuild.sh",
     "local": "yarn run testnet local",
     "start": "node tasks/testnet.js",
     "testnet": "echo \"'yarn testnet' has been deprecated. Please use 'yarn start'\"",
