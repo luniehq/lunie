@@ -33,6 +33,14 @@ yarn build:gaia
 The version built is specified in `tasks/build/Gaia/COMMIT.sh` and the programs
 are placed in the `builds/Gaia` directory.
 
+### Testnet Configurations<a name="download-testnets"></a>
+
+To connect to a testnet, Voyager needs the configuration files of those networks in the folder `app/networks/{network_name}`. Gaia has a Git repository that holds the configuration files. Voyager has script to download those configurations for you:
+
+```bash
+yarn build:testnets
+```
+
 ### Check Out Voyager
 
 Voyager requires Node.js `>=9.4.0`. If you have a different version of Node.js installed (e.g. Node.js `8.11 LTS`), you can use `n` to install the correct version. The following command will use `n` to install it alongside your current version of Node.js.
@@ -87,6 +95,8 @@ $ COSMOS_NODE=localhost yarn start
 ---
 
 ### Building Voyager Binaries
+
+First [Build Gaia](#build-gaia) and [Download the testnet configurations](#download-testnets).
 
 Here's an example build command:
 

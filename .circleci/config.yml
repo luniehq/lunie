@@ -30,6 +30,26 @@ jobs:
           paths:
             - "*"
 
+    # Download the current testnet configurations via git
+  downloadTestnets:
+    docker:
+      - image: circleci/golang
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: builds/Gaia
+
+      - run: |
+          cd tasks/build/testnets
+          TARGET=~/target ./testnets.sh
+
+      - persist_to_workspace:
+          root: ~/target
+          paths:
+            - "*"
+
   changelogUpdated:
     docker:
       - image: circleci/node:9.4.0-browsers
@@ -146,9 +166,16 @@ workflows:
 
       - buildGaia
 
-      - testUnit:
+      - downloadTestnets
           requires:
             - buildGaia
+          filters:
+            branches:
+              only: develop
+            tags:
+              only: /.+/
+
+      - testUnit
 
       - testE2e:
           requires:
@@ -157,6 +184,7 @@ workflows:
       - publish:
           requires:
             - buildGaia
+            - downloadTestnets
           filters:
             branches:
               only: develop

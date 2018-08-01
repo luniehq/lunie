@@ -15,6 +15,7 @@
   },
   "scripts": {
     "build": "node tasks/build/runBuild",
+    "build:testnets": "cd tasks/build/testnets; ./runTestnetsDownload.sh",
     "build:gaia": "cd tasks/build/Gaia; ./runBuild.sh",
     "local": "yarn run testnet local",
     "start": "node tasks/testnet.js",
