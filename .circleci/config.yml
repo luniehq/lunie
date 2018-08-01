@@ -169,11 +169,6 @@ workflows:
       - downloadTestnets
           requires:
             - buildGaia
-          filters:
-            branches:
-              only: develop
-            tags:
-              only: /.+/
 
       - testUnit
 
