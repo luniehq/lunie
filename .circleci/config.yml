@@ -35,6 +35,9 @@ jobs:
     docker:
       - image: circleci/golang
 
+    environment:
+      - TARGET: "/home/circleci/project/builds/Gaia"
+
     steps:
       - checkout
 
@@ -65,9 +68,6 @@ jobs:
 
     steps:
       - checkout
-
-      - attach_workspace:
-          at: builds/Gaia
 
       - restore_cache:
           keys:
