@@ -102,10 +102,12 @@ Object.assign(Client.prototype, {
   },
   // Get a specific tx from a delegator
   getDelegatorTx: function(addr, id, types) {
-    if types ===  "" {
+    if (types === "") {
       return req("GET", `/stake/delegators/${addr}/txs`).call(this)
     } else {
-      return req("GET", `/stake/delegators/${addr}/txs?type=${types}`).call(this)
+      return req("GET", `/stake/delegators/${addr}/txs?type=${types}`).call(
+        this
+      )
     }
   },
   // // Query all validators that a delegator is bonded to
@@ -131,19 +133,24 @@ Object.assign(Client.prototype, {
   // Get the list of the validators in the latest validator set
   getValidatorSet: req("GET", "/validatorsets/latest"),
 
-
-  updateDelegations:  function(delegatorAddr) {
+  updateDelegations: function(delegatorAddr) {
     return req("POST", `/stake/delegators/${delegatorAddr}/delegations`)
-  }
+  },
 
   candidates: req("GET", "/stake/validators"),
   getValidators: req("GET", "/validatorsets/latest"),
   // Query a delegation between a delegator and a validator
   queryDelegation: function(delegatorAddr, validatorAddr) {
-    return req("GET", `/stake/delegators/${delegatorAddr}/delegations/${validatorAddr}`).call(this)
-  }
+    return req(
+      "GET",
+      `/stake/delegators/${delegatorAddr}/delegations/${validatorAddr}`
+    ).call(this)
+  },
   queryUnbonding: function(delegatorAddr, validatorAddr) {
-    return req("GET", `/stake/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`).call(this)
+    return req(
+      "GET",
+      `/stake/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`
+    ).call(this)
   }
 })
 

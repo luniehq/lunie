@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* LCD staking endpoints @fedekunze
+
 ## [0.9.3] - 2018-08-02
 
 ### Fixed
