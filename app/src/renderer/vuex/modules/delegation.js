@@ -46,36 +46,24 @@ export default ({ node }) => {
       }
     },
     // load committed delegations from LCD
-    async getBondedDelegates({ state, rootState, dispatch }, candidates) {
+    async getBondedDelegates({ state, rootState, commit }, candidates) {
       state.loading = true
       let address = rootState.user.address
       candidates = candidates || (await dispatch("getDelegates"))
-      await Promise.all(
-        candidates.map(candidate =>
-          dispatch("getBondedDelegate", {
-            delegator: address,
-            validator: candidate.owner
-          })
-        )
-      )
-      state.loading = false
-    },
-    // load committed delegation from LCD
-    async getBondedDelegate({ commit, rootState }, { delegator, validator }) {
-      let bond = await node.queryDelegation(delegator, validator)
-
-      let shares = bond ? bond.shares : 0
-      let delegate = rootState.delegates.delegates.find(
-        d => d.owner === validator
-      )
-
-      commit("setCommittedDelegation", {
-        candidateId: validator,
-        value: shares
+      let delegator = await node.getDelegator(address)
+      delegator.delegations.forEach(({ validator_addr, shares }) => {
+        commit("setCommittedDelegation", {
+          candidateId: validator_addr,
+          value: parseFloat(shares)
+        })
+        if (shares > 0) {
+          const delegate = candidates.find(
+            ({ owner }) => owner === validator_addr // this should change to address instead of owner
+          )
+          commit("addToCart", delegate)
+        }
       })
-      if (shares > 0) {
-        commit("addToCart", delegate)
-      }
+      state.loading = false
     },
     async updateDelegates({ dispatch }) {
       let candidates = await dispatch("getDelegates")

@@ -1,3 +1,5 @@
+import b32 from "scripts/b32"
+
 export default ({ node }) => {
   const state = {
     validators: [],
@@ -20,19 +22,18 @@ export default ({ node }) => {
         dispatch("getValidators")
       }
     },
-    getValidators({ state, commit }) {
+    async getValidators({ state, commit }) {
       state.loading = true
-      node.rpc.validators((err, { validators } = {}) => {
-        if (err) {
-          commit("notifyError", {
-            title: "Error fetching validator set",
-            body: err.message
-          })
-          return
-        }
-        commit("setValidators", validators)
-        state.loading = false
-      })
+      try {
+        let candidates = await node.candidates()
+        commit("setValidators", candidates)
+      } catch (err) {
+        commit("notifyError", {
+          title: "Error fetching validator set",
+          body: err.message
+        })
+      }
+      state.loading = false
     },
     maybeUpdateValidators({ state, commit, dispatch }, header) {
       let validatorHash = header.validators_hash
