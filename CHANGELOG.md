@@ -7,20 +7,54 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.9.3] - 2018-08-02
+
+### Fixed
+
+* builds not updating testnet configurations if the gaia version doesn't change @faboweb
+
+## [0.9.2] - 2018-07-30
+
+### Changed
+
+* button styling @jolesbi
+* Switched to Gaia-7004 @faboweb
+* showing warning about out of range of atoms in bonding UI only once on top and renaming it @faboweb
+* blocking login if not connected to a node to prevent errors @faboweb
+
+### Fixed
+
+* broken styles in light theme @jolesbi
+* slider in staking UI @faboweb
+* error with empty accounts @faboweb
+
+## [0.9.1] - 2018-07-27
+
 ### Added
 
 * Added reload button to transaction history page @faboweb
+* added page views for google analytics @faboweb
 
 ### Changed
 
 * Showing uniq transactions by their hash in history @faboweb
 * Extracted components into @tendermint/ui for use in explorer @okwme
+* using new old testnet repo for getting genesis files @faboweb
+* switched to Gaia-7003 @faboweb
+* Message for empty account @faboweb
 
 ### Fixed
 
 * fixed block explorer always showing "syncing" @faboweb
 * fixed not pushing to master (caused by me ;P) @faboweb
 * Publish script now builds release artifacts. @NodeGuy
+* fixed tx subscription @faboweb
+* fixed hanging if initial nodes are offline @faboweb
+* Copy network configuration from Gaia during publish. @NodeGuy
+
+### Added
+
+* staking e2e tests @faboweb
 
 ## [0.8.2] - 2018-07-23
 

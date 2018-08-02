@@ -3,7 +3,6 @@ let { join } = require("path")
 let { uniqBy } = require("lodash")
 const { remote } = require("electron")
 const root = remote.getGlobal("root")
-const bech32 = require("bech32")
 let { sleep } = require("scripts/common.js")
 
 export default ({ node }) => {
@@ -14,7 +13,6 @@ export default ({ node }) => {
     historyLoading: false,
     denoms: [],
     address: null,
-    decodedAddress: null,
     zoneIds: ["basecoind-demo1", "basecoind-demo2"]
   }
 
@@ -28,20 +26,6 @@ export default ({ node }) => {
     },
     setWalletAddress(state, address) {
       state.address = address
-      mutations.setDecodedAddress(state, address)
-    },
-    // decode bech32 so we know the raw hex address for handling tendermint events
-    setDecodedAddress(state, address) {
-      if (!address) {
-        state.decodedAddress = null
-        return
-      }
-
-      let decoded = bech32.fromWords(bech32.decode(address).words)
-      state.decodedAddress = decoded
-        .map(w => w.toString(16).padStart(2, "0"))
-        .join("")
-        .toUpperCase()
     },
     setAccountNumber(state, accountNumber) {
       state.accountNumber = accountNumber
@@ -92,10 +76,11 @@ export default ({ node }) => {
         state.balancesLoading = false
         return
       }
+      let coins = res.coins || []
       commit("setNonce", res.sequence)
       commit("setAccountNumber", res.account_number)
-      commit("setWalletBalances", res.coins)
-      for (let coin of res.coins) {
+      commit("setWalletBalances", coins)
+      for (let coin of coins) {
         if (coin.denom === rootState.config.bondingDenom) {
           commit("setAtoms", parseFloat(coin.amount))
           break
@@ -151,14 +136,16 @@ export default ({ node }) => {
       }
 
       let genesis = await fs.readJson(genesisPath)
-      let denoms = {}
+      let denoms = []
       for (let account of genesis.app_state.accounts) {
-        for (let { denom } of account.coins) {
-          denoms[denom] = true
+        if (account.coins) {
+          for (let { denom } of account.coins) {
+            denoms.push(denom)
+          }
         }
       }
 
-      commit("setDenoms", Object.keys(denoms))
+      commit("setDenoms", denoms)
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {
@@ -172,13 +159,12 @@ export default ({ node }) => {
       })
     },
     walletSubscribe({ state, dispatch }) {
-      if (!state.decodedAddress) return
+      if (!state.address) return
 
       function onTx(err, event) {
         if (err) {
           return console.error("error subscribing to transactions", err)
         }
-        console.log("detected tx", event)
         dispatch(
           "queryWalletStateAfterHeight",
           event.data.value.TxResult.height + 1
@@ -187,22 +173,17 @@ export default ({ node }) => {
 
       node.rpc.subscribe(
         {
-          query: `tm.event = 'Tx' AND sender = '${state.decodedAddress}'`
+          query: `tm.event = 'Tx' AND sender = '${state.address}'`
         },
         onTx
       )
 
       node.rpc.subscribe(
         {
-          query: `tm.event = 'Tx' AND recipient = '${state.decodedAddress}'`
+          query: `tm.event = 'Tx' AND recipient = '${state.address}'`
         },
         onTx
       )
-
-      // BACKUP remove when subscription works again
-      setInterval(() => {
-        dispatch("queryWalletState")
-      }, 5000)
     }
   }
 

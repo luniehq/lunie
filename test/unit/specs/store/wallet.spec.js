@@ -21,7 +21,6 @@ describe("Module: Wallet", () => {
       historyLoading: false,
       denoms: [],
       address: null,
-      decodedAddress: null,
       zoneIds: ["basecoind-demo1", "basecoind-demo2"]
     }
     expect(store.state.wallet).toEqual(state)
@@ -209,13 +208,7 @@ describe("Module: Wallet", () => {
     expect(store.state.wallet.balancesLoading).toBe(false)
   })
 
-  it("should not error when setting address to null", async () => {
-    store.commit("setWalletAddress", null)
-    expect(store.state.wallet.address).toBe(null)
-    expect(store.state.wallet.decodedAddress).toBe(null)
-  })
-
-  it("should query wallet data at specified height", done => {
+  it("should query wallet data at specified height", async done => {
     jest.useFakeTimers()
     let height = store.state.node.lastHeader.height
     store.dispatch("queryWalletStateAfterHeight", height + 1).then(() => done())

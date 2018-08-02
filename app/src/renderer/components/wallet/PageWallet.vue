@@ -19,7 +19,12 @@ tm-page(title='Wallet')
 
   tm-part#part-available-balances(title="Available Balances")
     tm-data-loading(v-if="wallet.balancesLoading")
-    tm-data-empty(v-else-if="wallet.balances.length === 0")
+    tm-data-msg(id="account_empty_msg" v-else-if="wallet.balances.length === 0" icon="help_outline")
+      div(slot="title") Account empty
+      div(slot="subtitle") 
+        | This account doesn't hold any coins yet. Go to the 
+        a(href="https://gaia.faucetcosmos.network/") token faucet
+        | &nbsp;to aquire tokens to play with.
     data-empty-search(v-else-if="filteredBalances.length === 0")
     tm-list-item.tm-li-balance(
       v-for="i in filteredBalances"
@@ -50,8 +55,8 @@ import {
   TmListItem,
   TmPage,
   TmPart,
-  TmDataEmpty,
-  TmDataLoading
+  TmDataLoading,
+  TmDataMsg
 } from "@tendermint/ui"
 import ModalSearch from "common/TmModalSearch"
 import TmToolBar from "common/TmToolBar"
@@ -59,7 +64,7 @@ export default {
   name: "page-wallet",
   components: {
     TmDataLoading,
-    TmDataEmpty,
+    TmDataMsg,
     DataEmptySearch,
     LiCopy,
     TmListItem,
@@ -100,7 +105,7 @@ export default {
       }
     },
     stakedTokens() {
-      return sum(Object.values(this.committedDelegations))
+      return sum(Object.values(this.committedDelegations).map(parseFloat))
     },
     stakingDenom() {
       return this.config.bondingDenom.toUpperCase()

@@ -39,6 +39,7 @@ function launch(t) {
       fs.emptyDirSync(nodeHome)
 
       const initValues = await initLocalNode()
+      reduceTimeouts()
       await startLocalNode()
       console.log(`Started local node.`)
       await saveVersion()
@@ -251,10 +252,37 @@ function initLocalNode() {
   })
 }
 
+function reduceTimeouts() {
+  const configPath = join(nodeHome, "config", "config.toml")
+  let configToml = fs.readFileSync(configPath, "utf8")
+
+  const timeouts = [
+    "timeout_propose",
+    "timeout_propose_delta",
+    "timeout_prevote",
+    "timeout_prevote_delta",
+    "timeout_precommit",
+    "timeout_precommit_delta",
+    "timeout_commit"
+  ]
+  const updatedConfigToml = configToml
+    .split("\n")
+    .map(line => {
+      let [key, value] = line.split(" = ")
+      if (timeouts.indexOf(key) !== -1) {
+        return `${key} = ${parseInt(value) / 10}`
+      }
+      return line
+    })
+    .join("\n")
+
+  fs.writeFileSync(configPath, updatedConfigToml, "utf8")
+}
+
 // save the version of the currently used gaia into the newly created network config folder
 function saveVersion() {
   return new Promise((resolve, reject) => {
-    let versionFilePath = join(nodeHome, "config", "basecoindversion.txt") // nodeHome/config is used to copy created config files from, therefor we copy the version file in there
+    let versionFilePath = join(nodeHome, "config", "gaiaversion.txt") // nodeHome/config is used to copy created config files from, therefor we copy the version file in there
     const command = `${nodeBinary} version`
     console.log(command, ">", versionFilePath)
     let child = spawn(command, { shell: true })

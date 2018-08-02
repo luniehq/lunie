@@ -48,7 +48,8 @@
           | I'd like to opt in for remote error tracking to help improve Voyager.
 
   .tm-session-footer
-    tm-btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
+    tm-btn(v-if="connected" icon="arrow_forward" icon-pos="right" value="Next" size="lg")
+    tm-btn(v-else icon-pos="right" value="Connecting..." size="lg" disabled="true")
 </template>
 
 <script>
@@ -62,7 +63,7 @@ import {
   TmFormMsg
 } from "@tendermint/ui"
 import FieldSeed from "common/TmFieldSeed"
-
+import { mapGetters } from "vuex"
 export default {
   name: "tm-session-import",
   components: {
@@ -72,6 +73,9 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmFormStruct
+  },
+  computed: {
+    ...mapGetters(["connected"])
   },
   data: () => ({
     fields: {

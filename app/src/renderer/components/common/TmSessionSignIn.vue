@@ -23,7 +23,8 @@
       tm-form-msg(v-if='mockedConnector') default password is 1234567890
 
   .tm-session-footer
-    tm-btn(icon="arrow_forward" icon-pos="right" value="Next" size="lg")
+    tm-btn(v-if="connected" icon="arrow_forward" icon-pos="right" value="Next" size="lg")
+    tm-btn(v-else icon-pos="right" value="Connecting..." size="lg" disabled="true")
 </template>
 
 <script>
@@ -52,7 +53,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters(["user", "mockedConnector", "lastHeader"]),
+    ...mapGetters(["user", "mockedConnector", "lastHeader", "connected"]),
     accounts() {
       let accounts = this.user.accounts
       accounts = accounts.filter(({ name }) => name !== "trunk")

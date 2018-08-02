@@ -27,8 +27,12 @@ tm-page.page-bond(:title="`Bond ${denom}`")
             type="number"
             placeholder="Atoms"
             :value="newUnbondedAtoms")
+            
+      tm-form-msg(type="between"
+        v-if="newUnbondedAtoms < 0")
+        | You can't bond more Atoms then you have
 
-    .bond-group(
+    .bond-group.bond-candidate(
       v-for='(d, index) in fields.delegates'
       :key='d.id'
       :error='$v.fields.delegates.$each[index].$error'
@@ -61,7 +65,7 @@ tm-page.page-bond(:title="`Bond ${denom}`")
             placeholder="Atoms"
             step="1"
             min="0"
-            :max=newUnbondedAtoms
+            :max="totalAtoms"
             v-model.number="d.atoms"
             @change.native="limitMax(d, parseInt($event.target.max))")
 
@@ -69,8 +73,6 @@ tm-page.page-bond(:title="`Bond ${denom}`")
         v-if="!$v.fields.delegates.$each[index].atoms.required")
       tm-form-msg(name="Atoms" type="numeric"
         v-if="!$v.fields.delegates.$each[index].atoms.numeric")
-      tm-form-msg(name="Atoms" type="between" :min="minimumAtoms" :max="$v.fields.delegates.$each[index].atoms.$params.between.max"
-        v-if="!$v.fields.delegates.$each[index].atoms.between")
 
     .bond-group.bond-group--unbonding(
       v-if="oldBondedAtoms > 0"
@@ -113,8 +115,10 @@ tm-page.page-bond(:title="`Bond ${denom}`")
         v-if='!$v.fields.bondConfirm.required')
 
     div(slot='footer')
-      tm-btn#btn-reset(type="button" @click.native="resetFields" value="Reset" color="danger")
-      tm-btn#btn-bond(value="Submit" color="primary")
+      tm-btn(v-if="delegating" type="button" value="Reset" disabled="true")
+      tm-btn#btn-reset(v-else type="button" @click.native="resetFields" value="Reset" color="danger")
+      tm-btn(v-if="delegating" value="Sending..." disabled="true")
+      tm-btn#btn-bond(v-else value="Submit" color="primary" )
 </template>
 
 <script>
@@ -202,6 +206,7 @@ export default {
     }
   },
   data: () => ({
+    delegating: false,
     bondBarScrubWidth: 28,
     bondBarOuterWidth: 0,
     minimumAtoms: 0,
@@ -224,6 +229,7 @@ export default {
       this.$v.$touch()
       if (!this.$v.$error) {
         try {
+          this.delegating = true
           await this.$store.dispatch("submitDelegation", this.fields.delegates)
           this.$store.commit("notify", {
             title: "Successful Delegation",
@@ -235,6 +241,8 @@ export default {
             title: "Error While Bonding Atoms",
             body: err.message
           })
+        } finally {
+          this.delegating = false
         }
       }
     },
@@ -247,9 +255,9 @@ export default {
       )
       this.fields.delegates = this.fields.delegates.map(d => {
         let atoms = committedDelegations[d.delegate.id] || 0
-        d.atoms = atoms
-        d.oldAtoms = atoms
-        d.bondedRatio = atoms / totalAtoms
+        d.atoms = parseFloat(atoms)
+        d.oldAtoms = d.atoms
+        d.bondedRatio = d.atoms / totalAtoms
         d.deltaAtoms = 0
         d.deltaAtomsPercent = "0%"
         return d
@@ -334,7 +342,7 @@ export default {
       d.atoms = Math.round(rawAtoms)
       d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, "int")
       d.deltaAtomsPercent = this.percent(
-        this.delta(rawAtoms, d.oldAtoms),
+        this.delta(d.atoms, d.oldAtoms),
         this.totalAtoms
       )
       return d

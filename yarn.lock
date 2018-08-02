@@ -25,9 +25,9 @@
     node-fetch "^2.1.1"
     url-template "^2.0.8"
 
-"@tendermint/ui@git+ssh://git@github.com/tendermint/ui.git#960949f2e41d3f2d703baa021c73d7c45e37a805":
-  version "0.2.12"
-  resolved "git+ssh://git@github.com/tendermint/ui.git#960949f2e41d3f2d703baa021c73d7c45e37a805"
+"@tendermint/ui@0.2.13":
+  version "0.2.13"
+  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.13.tgz#e7b2d4b4f24a9ae1edae73644b655b53d34e8537"
   dependencies:
     axios "^0.18.0"
     cookieconsent "^3.0.6"
