@@ -105,6 +105,7 @@ export default ({ node }) => {
 
       await dispatch("sendTx", {
         type: "updateDelegations",
+        to: rootState.wallet.address, // TODO strange syntax
         delegations: delegate,
         begin_unbondings: unbond
       })

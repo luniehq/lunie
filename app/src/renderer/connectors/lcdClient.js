@@ -133,8 +133,11 @@ Object.assign(Client.prototype, {
   // Get the list of the validators in the latest validator set
   getValidatorSet: req("GET", "/validatorsets/latest"),
 
-  updateDelegations: function(delegatorAddr) {
-    return req("POST", `/stake/delegators/${delegatorAddr}/delegations`)
+  updateDelegations: function(delegatorAddr, data) {
+    return req("POST", `/stake/delegators/${delegatorAddr}/delegations`).call(
+      this,
+      data
+    )
   },
 
   candidates: req("GET", "/stake/validators"),
