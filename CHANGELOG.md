@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+* builds not updating testnet configurations if the gaia version doesn't change @faboweb
+
 ## [0.9.2] - 2018-07-30
 
 ### Changed
