@@ -607,7 +607,7 @@ async function main() {
   let appVersionPath = join(root, "app_version")
   let genesisPath = join(root, "genesis.json")
   let configPath = join(root, "config.toml")
-  let gaiacliVersionPath = join(root, "basecoindversion.txt")
+  let gaiacliVersionPath = join(root, "gaiaversion.txt")
 
   let rootExists = exists(root)
   await fs.ensureDir(root)

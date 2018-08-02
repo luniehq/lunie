@@ -46,9 +46,6 @@ jobs:
     steps:
       - checkout
 
-      - attach_workspace:
-          at: builds/Gaia
-
       - restore_cache:
           keys:
             - v2-dependencies-root-{{ checksum "package.json" }}
@@ -135,6 +132,7 @@ jobs:
       - attach_workspace:
           at: builds/Gaia
 
+      - run: node tasks/testnets/build.sh
       - run: node tasks/publish.js
 
 workflows:
@@ -146,9 +144,7 @@ workflows:
 
       - buildGaia
 
-      - testUnit:
-          requires:
-            - buildGaia
+      - testUnit
 
       - testE2e:
           requires:
@@ -157,6 +153,7 @@ workflows:
       - publish:
           requires:
             - buildGaia
+            - downloadTestnets
           filters:
             branches:
               only: develop
