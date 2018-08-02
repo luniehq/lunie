@@ -11,7 +11,11 @@ describe("NISessionSignUp", () => {
   let wrapper, store
 
   beforeEach(() => {
-    let test = instance.mount(NISessionSignUp)
+    let test = instance.mount(NISessionSignUp, {
+      getters: {
+        connected: () => true
+      }
+    })
     store = test.store
     wrapper = test.wrapper
   })
