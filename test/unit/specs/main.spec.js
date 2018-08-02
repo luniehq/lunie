@@ -19,9 +19,9 @@ jest.mock("fs-extra", () => {
     )
   )
   mockFs.writeFile(
-    "./app/networks/gaia-6002/basecoindversion.txt",
+    "./app/networks/gaia-6002/gaiaversion.txt",
     fs.readFileSync(
-      "./test/unit/helpers/mockNetworkConfig/basecoindversion.txt",
+      "./test/unit/helpers/mockNetworkConfig/gaiaversion.txt",
       "utf8"
     )
   )

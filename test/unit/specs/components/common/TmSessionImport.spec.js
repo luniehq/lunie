@@ -14,7 +14,11 @@ describe("TmSessionImport", () => {
   let wrapper, store
 
   beforeEach(() => {
-    store = new Vuex.Store()
+    store = new Vuex.Store({
+      getters: {
+        connected: () => true
+      }
+    })
     wrapper = mount(TmSessionImport, {
       localVue,
       store
