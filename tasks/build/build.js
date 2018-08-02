@@ -236,7 +236,7 @@ const copyNetworks = root => {
 
   // Copy the directory.
   fs.mkdirpSync(networksPath)
-  fs.copySync(path.join(root, `builds/networks`), networksPath)
+  fs.copySync(path.join(root, `builds/testnets`), networksPath)
 }
 
 const buildAllPlatforms = async (options = {}) => {
