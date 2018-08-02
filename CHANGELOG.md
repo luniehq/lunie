@@ -7,14 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.9.3] - 2018-08-02
+
+### Fixed
+
+* builds not updating testnet configurations if the gaia version doesn't change @faboweb
+
+## [0.9.2] - 2018-07-30
+
 ### Changed
 
+* button styling @jolesbi
 * Switched to Gaia-7004 @faboweb
 * showing warning about out of range of atoms in bonding UI only once on top and renaming it @faboweb
 * blocking login if not connected to a node to prevent errors @faboweb
 
 ### Fixed
 
+* broken styles in light theme @jolesbi
 * slider in staking UI @faboweb
 * error with empty accounts @faboweb
 
