@@ -282,7 +282,7 @@ function reduceTimeouts() {
 // save the version of the currently used gaia into the newly created network config folder
 function saveVersion() {
   return new Promise((resolve, reject) => {
-    let versionFilePath = join(nodeHome, "config", "basecoindversion.txt") // nodeHome/config is used to copy created config files from, therefor we copy the version file in there
+    let versionFilePath = join(nodeHome, "config", "gaiaversion.txt") // nodeHome/config is used to copy created config files from, therefor we copy the version file in there
     const command = `${nodeBinary} version`
     console.log(command, ">", versionFilePath)
     let child = spawn(command, { shell: true })

@@ -1,7 +1,7 @@
 {
   "name": "cosmos-voyager",
   "productName": "Cosmos Voyager",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "Voyager is an electron-based user interface for the Cosmos Network.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
@@ -14,8 +14,9 @@
     "node": ">=9.4.0"
   },
   "scripts": {
-    "build": "node tasks/build/runBuild",
-    "build:gaia": "cd tasks/build/Gaia; ./runBuild.sh",
+    "build": "node tasks/build/localBuild",
+    "build:testnets": "cd tasks/build/testnets && ./localBuild.sh",
+    "build:gaia": "cd tasks/build/Gaia && ./localBuild.sh",
     "local": "yarn run testnet local",
     "start": "node tasks/testnet.js",
     "testnet": "echo \"'yarn testnet' has been deprecated. Please use 'yarn start'\"",

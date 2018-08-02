@@ -69,7 +69,7 @@ module.exports = async function(networkPath) {
   const packageJSON = require("../package.json")
   const voyagerVersion = packageJSON.version
   const gaiaVersion = fs
-    .readFileSync(networkPath + "basecoindversion.txt")
+    .readFileSync(networkPath + "gaiaversion.txt")
     .toString()
   let env = Object.assign(
     {},
