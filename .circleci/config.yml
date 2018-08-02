@@ -132,7 +132,7 @@ jobs:
       - attach_workspace:
           at: builds/Gaia
 
-      - run: node tasks/testnets/build.sh
+      - run: node tasks/build/testnets/build.sh
       - run: node tasks/publish.js
 
 workflows:
