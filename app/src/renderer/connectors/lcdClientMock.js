@@ -370,7 +370,7 @@ module.exports = {
     state.candidates.sort(function(candidate1, candidate2) {
       let power1 = candidate1.tokens + candidate1.delegator_shares
       let power2 = candidate2.tokens + candidate2.delegator_shares
-      return power2 - power1
+      return power2 - power1 // sort in DESC order
     })
     return {
       block_height: 1,
