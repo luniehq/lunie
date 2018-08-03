@@ -97,18 +97,18 @@ Object.assign(Client.prototype, {
     return req("GET", `/stake/delegators/${addr}`).call(this)
   },
   // Get all txs from a delegator
-  getDelegatorTxs: function(addr) {
-    return req("GET", `/stake/delegators/${addr}/txs`).call(this)
-  },
-  // Get a specific tx from a delegator
-  getDelegatorTx: function(addr, id, types) {
-    if (types === "") {
+  getDelegatorTxs: function(addr, types) {
+    if (!types) {
       return req("GET", `/stake/delegators/${addr}/txs`).call(this)
     } else {
       return req("GET", `/stake/delegators/${addr}/txs?type=${types}`).call(
         this
       )
     }
+  },
+  // Get a specific tx from a delegator
+  getDelegatorTx: function(addr, id) {
+    return req("GET", `/stake/delegators/${addr}/txs/${id}`).call(this)
   },
   // // Query all validators that a delegator is bonded to
   // getDelegatorValidators: function(delegatorAddr) {
@@ -140,8 +140,6 @@ Object.assign(Client.prototype, {
     )
   },
 
-  candidates: req("GET", "/stake/validators"),
-  getValidators: req("GET", "/validatorsets/latest"),
   // Query a delegation between a delegator and a validator
   queryDelegation: function(delegatorAddr, validatorAddr) {
     return req(

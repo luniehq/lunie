@@ -118,12 +118,15 @@ let state = {
   ],
   stake: {
     [addresses[0]]: {
-      [validators[0]]: {
-        delegator_addr: addresses[0],
-        validator_addr: validators[0],
-        shares: "130",
-        height: 123
-      }
+      delegations: [
+        {
+          delegator_addr: addresses[0],
+          validator_addr: validators[0],
+          shares: "14",
+          height: 123
+        }
+      ],
+      unbonding_delegations: []
     }
   },
   candidates: [
@@ -254,7 +257,10 @@ module.exports = {
   },
 
   // staking
-  async updateDelegations({ name, sequence, delegations, begin_unbondings }) {
+  async updateDelegations(
+    delegatorAddr,
+    { name, sequence, delegations, begin_unbondings }
+  ) {
     let results = []
 
     let fromKey = state.keys.find(a => a.name === name)
@@ -294,10 +300,15 @@ module.exports = {
       // update stake
       let delegator = state.stake[fromKey.address]
       if (!delegator) {
-        state.stake[fromKey.address] = {}
+        state.stake[fromKey.address] = {
+          delegations: [],
+          unbonding_delegations: []
+        }
         delegator = state.stake[fromKey.address]
       }
-      let delegation = delegator[tx.validator_addr]
+      let delegation = delegator.delegations.find(
+        d => d.validator_addr === tx.validator_addr
+      )
       if (!delegation) {
         delegation = {
           delegator_addr: fromKey.address,
@@ -305,8 +316,9 @@ module.exports = {
           shares: "0",
           height: 0
         }
-        delegator[tx.validator_addr] = delegation
+        delegator.delegations.push(delegation)
       }
+
       let shares = parseInt(delegation.shares)
       delegation.shares = (shares + amount).toString()
 
@@ -334,7 +346,9 @@ module.exports = {
         results.push(txResult(2, "Nonexistent delegator"))
         return results
       }
-      let delegation = delegator[tx.validator_addr]
+      let delegation = delegator.delegations.find(
+        d => d.validator_addr === tx.validator_addr
+      )
       if (!delegation) {
         results.push(txResult(2, "Nonexistent delegation"))
         return results
@@ -345,6 +359,15 @@ module.exports = {
       let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
       shares = parseInt(candidate.tokens)
       candidate.tokens = (+shares - amount).toString()
+      delegator.unbonding_delegations.push({
+        validator_addr: tx.validator_addr,
+        delegator_addr: fromKey.address,
+        balance: {
+          // TODO
+          denom: "steak",
+          amount: amount
+        }
+      })
 
       results.push(txResult(0))
     }
@@ -354,16 +377,35 @@ module.exports = {
   async queryDelegation(delegatorAddress, validatorAddress) {
     let delegator = state.stake[delegatorAddress]
     if (!delegator) return
-    return delegator[validatorAddress]
+    return delegator[validatorAddress].delegation
   },
-  async candidates() {
-    return state.candidates
+  async queryUnbonding(delegatorAddress, validatorAddress) {
+    let delegator = state.stake[delegatorAddress]
+    if (!delegator) return
+    return delegator[validatorAddress].undelegation
+  },
+  // Get all delegations information from a delegator
+  getDelegator(delegatorAddress) {
+    let delegator = state.stake[delegatorAddress]
+    return delegator
+  },
+  getDelegatorTxs(addr, types) {
+    return [] // TODO
+  },
+  async getDelegatorTx(addr, id) {
+    return {} // not used
   },
   async getValidators() {
+    return state.candidates
+  },
+  async getValidatorset() {
     return {
       block_height: 1,
       validators: state.candidates
     }
+  },
+  async getValidator(addr) {
+    return state.candidates.find(c => c.owner === addr)
   },
   // exports to be used in tests
   state,

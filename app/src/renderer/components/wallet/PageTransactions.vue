@@ -41,12 +41,25 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(["filters", "transactions", "wallet", "config"]),
+    ...mapGetters([
+      "filters",
+      "transactions",
+      "wallet",
+      "config",
+      "delegation"
+    ]),
     somethingToSearch() {
       return !this.wallet.historyLoading && !!this.transactions.length
     },
+    allTransactions() {
+      return [].concat(this.transactions, this.delegation.delegationTxs)
+    },
     orderedTransactions() {
-      return orderBy(this.transactions, [this.sort.property], [this.sort.order])
+      return orderBy(
+        this.allTransactions,
+        [this.sort.property],
+        [this.sort.order]
+      )
     },
     filteredTransactions() {
       let query = this.filters.transactions.search.query
@@ -70,6 +83,7 @@ export default {
   methods: {
     refreshTransactions() {
       this.$store.dispatch("queryWalletHistory")
+      this.$store.dispatch("getDelegationTxs")
     },
     setSearch(bool = !this.filters["transactions"].search.visible) {
       if (!this.somethingToSearch) return false
@@ -79,6 +93,7 @@ export default {
   mounted() {
     Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
     Mousetrap.bind("esc", () => this.setSearch(false))
+    this.refreshTransactions()
   }
 }
 </script>

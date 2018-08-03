@@ -7,7 +7,8 @@ export default ({ node }) => {
 
     // our delegations which are already on the blockchain
     committedDelegates: {},
-    unbondingDelegations: {}
+    unbondingDelegations: {},
+    delegationTxs: []
   }
 
   const mutations = {
@@ -61,27 +62,36 @@ export default ({ node }) => {
       let address = rootState.user.address
       candidates = candidates || (await dispatch("getDelegates"))
       let delegator = await node.getDelegator(address)
-      delegator.delegations.forEach(({ validator_addr, shares }) => {
-        commit("setCommittedDelegation", {
-          candidateId: validator_addr,
-          value: parseFloat(shares)
-        })
-        if (shares > 0) {
-          const delegate = candidates.find(
-            ({ owner }) => owner === validator_addr // this should change to address instead of owner
-          )
-          commit("addToCart", delegate)
-        }
-      })
-      delegator.unbonding_delegations.forEach(
-        ({ validator_addr, balance: { amount } }) => {
-          commit("setUnbondingDelegation", {
+      if (delegator.delegations) {
+        delegator.delegations.forEach(({ validator_addr, shares }) => {
+          commit("setCommittedDelegation", {
             candidateId: validator_addr,
-            value: parseFloat(amount)
+            value: parseFloat(shares)
           })
-        }
-      )
+          if (shares > 0) {
+            const delegate = candidates.find(
+              ({ owner }) => owner === validator_addr // this should change to address instead of owner
+            )
+            commit("addToCart", delegate)
+          }
+        })
+      }
+      if (delegator.unbonding_delegations) {
+        delegator.unbonding_delegations.forEach(
+          ({ validator_addr, balance: { amount } }) => {
+            commit("setUnbondingDelegation", {
+              candidateId: validator_addr,
+              value: parseFloat(amount)
+            })
+          }
+        )
+      }
       state.loading = false
+    },
+    async getDelegationTxs({ state, rootState }) {
+      let address = rootState.user.address
+      let txs = await node.getDelegatorTxs(address)
+      state.delegationTxs = txs
     },
     async updateDelegates({ dispatch }) {
       let candidates = await dispatch("getDelegates")
