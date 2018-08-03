@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* enabled staked balance on PageWallet in production @faboweb
+
+### Added
+
+* storing balance, tx history and delegations locally to serve an old state faster @faboweb
+
 ### Fixed
 
 * testnets not properly available after download @faboweb
@@ -24,6 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * button styling @jolesbi
 * Switched to Gaia-7004 @faboweb
 * showing warning about out of range of atoms in bonding UI only once on top and renaming it @faboweb
+* blocking login if not connected to a node to prevent errors @faboweb
 
 ### Fixed
 

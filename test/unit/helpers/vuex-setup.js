@@ -22,7 +22,10 @@ export default function vuexSetup() {
     const modules = Modules({ node })
     let store = new Vuex.Store({
       getters: Object.assign({}, Getters, getters),
-      modules
+      modules,
+      mutations: {
+        loadPersistedState: () => {}
+      }
     })
     store.commit("setDevMode", true)
 
