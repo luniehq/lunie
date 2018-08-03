@@ -6,7 +6,8 @@ export default ({ node }) => {
     delegates: [],
 
     // our delegations which are already on the blockchain
-    committedDelegates: {}
+    committedDelegates: {},
+    unbondingDelegations: {}
   }
 
   const mutations = {
@@ -36,6 +37,15 @@ export default ({ node }) => {
         committedDelegates[candidateId] = value
       }
       state.committedDelegates = committedDelegates
+    },
+    setUnbondingDelegation(state, { candidateId, value }) {
+      let unbondingDelegations = Object.assign({}, state.unbondingDelegations)
+      if (value === 0) {
+        delete unbondingDelegations[candidateId]
+      } else {
+        unbondingDelegations[candidateId] = value
+      }
+      state.unbondingDelegations = unbondingDelegations
     }
   }
 
@@ -63,6 +73,14 @@ export default ({ node }) => {
           commit("addToCart", delegate)
         }
       })
+      delegator.unbonding_delegations.forEach(
+        ({ validator_addr, balance: { amount } }) => {
+          commit("setUnbondingDelegation", {
+            candidateId: validator_addr,
+            value: parseFloat(amount)
+          })
+        }
+      )
       state.loading = false
     },
     async updateDelegates({ dispatch }) {
