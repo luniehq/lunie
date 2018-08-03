@@ -357,9 +357,21 @@ module.exports = {
     return delegator[validatorAddress]
   },
   async candidates() {
+    // sort validators by power
+    state.candidates.sort(function(candidate1, candidate2) {
+      let power1 = candidate1.tokens + candidate1.delegator_shares
+      let power2 = candidate2.tokens + candidate2.delegator_shares
+      return power2 - power1
+    })
     return state.candidates
   },
   async getValidators() {
+    // sort validators by power
+    state.candidates.sort(function(candidate1, candidate2) {
+      let power1 = candidate1.tokens + candidate1.delegator_shares
+      let power2 = candidate2.tokens + candidate2.delegator_shares
+      return power2 - power1
+    })
     return {
       block_height: 1,
       validators: state.candidates
