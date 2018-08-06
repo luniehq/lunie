@@ -11,12 +11,17 @@ tm-page(title='Transactions')
   tm-data-loading(v-if="wallet.historyLoading")
   data-empty-tx(v-else-if='transactions.length === 0')
   data-empty-search(v-else-if="filteredTransactions.length === 0")
-  tm-li-transaction(
-    v-else
-    v-for="i in filteredTransactions"
-    :key="shortid.generate()"
-    :transaction="i"
-    :address="wallet.address")
+  template(v-else v-for="i in filteredTransactions")
+    tm-li-transaction(
+      v-if="i.type === 'wallet'"
+      :key="shortid.generate()"
+      :transaction="i"
+      :address="wallet.address")
+    tm-li-staking-transaction(
+      v-if="i.type === 'staking'"
+      :key="shortid.generate()"
+      :transaction="i"
+      :address="wallet.address")
 </template>
 
 <script>
@@ -27,12 +32,15 @@ import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import ModalSearch from "common/TmModalSearch"
-import { TmPage, TmDataLoading, TmLiTransaction } from "@tendermint/ui"
+import { TmPage, TmDataLoading } from "@tendermint/ui"
+import TmLiTransaction from "./TmLiTransaction"
+import TmLiStakingTransaction from "./TmLiStakingTransaction"
 import ToolBar from "common/TmToolBar"
 export default {
   name: "page-transactions",
   components: {
     TmLiTransaction,
+    TmLiStakingTransaction,
     TmDataLoading,
     DataEmptySearch,
     DataEmptyTx,
@@ -52,11 +60,23 @@ export default {
       return !this.wallet.historyLoading && !!this.transactions.length
     },
     allTransactions() {
-      return [].concat(this.transactions, this.delegation.delegationTxs)
+      return [].concat(
+        this.transactions.map(t => {
+          t.type = "wallet"
+          return t
+        }),
+        this.delegation.delegationTxs.map(t => {
+          t.type = "staking"
+          return t
+        })
+      )
     },
     orderedTransactions() {
       return orderBy(
-        this.allTransactions,
+        this.allTransactions.map(t => {
+          t.height = parseInt(t.height)
+          return t // TODO what happens if block height is bigger then int?
+        }),
         [this.sort.property],
         [this.sort.order]
       )

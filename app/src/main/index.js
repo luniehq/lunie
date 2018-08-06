@@ -580,13 +580,13 @@ async function pickAndConnect(addressbook) {
     return await pickAndConnect(addressbook)
   }
 
-  if (!compatible) {
-    let message = `Node ${nodeIP} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
-    log(message)
-    mainWindow.webContents.send("connection-status", message)
+  // if (!compatible) {
+  //   let message = `Node ${nodeIP} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
+  //   log(message)
+  //   mainWindow.webContents.send("connection-status", message)
 
-    return await pickAndConnect(addressbook)
-  }
+  //   return await pickAndConnect(addressbook)
+  // }
 
   return nodeIP
 }
@@ -708,10 +708,10 @@ async function main() {
   let compatible =
     semver.major(gaiacliVersion) == semver.major(expectedGaiaCliVersion) &&
     semver.minor(gaiacliVersion) == semver.minor(expectedGaiaCliVersion)
-  if (!compatible) {
-    throw Error(`Requires gaia ${expectedGaiaCliVersion}, but got ${gaiacliVersion}.
-      Please update your gaiacli installation or build with a newer binary.`)
-  }
+  // if (!compatible) {
+  //   throw Error(`Requires gaia ${expectedGaiaCliVersion}, but got ${gaiacliVersion}.
+  //     Please update your gaiacli installation or build with a newer binary.`)
+  // }
 
   // read chainId from genesis.json
   let genesisText = fs.readFileSync(genesisPath, "utf8")

@@ -25,7 +25,7 @@ export default ({ node }) => {
     async getValidators({ state, commit }) {
       state.loading = true
       try {
-        let candidates = await node.getValidators()
+        let candidates = await node.getValidatorSet()
         commit("setValidators", candidates)
       } catch (err) {
         commit("notifyError", {
