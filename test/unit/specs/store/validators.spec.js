@@ -82,4 +82,19 @@ describe("Module: Validators", () => {
     store.dispatch("reconnected")
     expect(node.rpc.validators).not.toHaveBeenCalled()
   })
+
+  it("should not error when subscribing without previous subscription", async () => {
+    store.state.wallet.subscribed = false
+    store.dispatch("validatorUpdateSubscribe")
+  })
+
+  it("should handle ignore already subscribed errors", () => {
+    console.error = jest.fn()
+    node.rpc.subscribe = (query, cb) => {
+      cb({ message: "expected error", data: "already subscribed" })
+    }
+    store.dispatch("validatorUpdateSubscribe")
+    expect(console.error.mock.calls.length).toBe(1)
+    expect(store.dispatch).not.toHaveBeenCalledWith("nodeHasHalted")
+  })
 })
