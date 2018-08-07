@@ -1,4 +1,3 @@
-import light from "../json/theme-light.json"
 import dark from "../json/theme-dark.json"
 
 export default () => {
