@@ -5,7 +5,6 @@ export default () => {
   const state = {
     active: "dark",
     options: {
-      light: light,
       dark: dark
     }
   }
