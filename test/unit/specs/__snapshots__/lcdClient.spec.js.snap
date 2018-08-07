@@ -3,7 +3,7 @@
 exports[`LCD Client queries for shares for a validator and delegate 1`] = `
 Array [
   Array [
-    "http://localhost:8998/stake/abc/delegation/efg",
+    "http://localhost:8998/stake/delegators/abc/delegations/efg",
     undefined,
   ],
 ]
