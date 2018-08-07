@@ -155,6 +155,9 @@ export default function({ node }) {
     async setMockedConnector({ state, dispatch, commit }, mocked) {
       state.mocked = mocked
 
+      // Tell the main process our status in case of reload.
+      ipcRenderer.send(`mocked`, mocked)
+
       // IDEA let's have an event 'networkSwitched' and bundle those action under this one
       // remove blocks from block explorer as it should not show blocks of another network
       commit("setBlocks", [])
