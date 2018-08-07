@@ -460,31 +460,45 @@ function consistentConfigDir(
   )
 }
 
-function handleIPC() {
-  ipcMain.on("successful-launch", () => {
-    console.log("[START SUCCESS] Vue app successfuly started")
-  })
-  ipcMain.on("reconnect", () => reconnect(addressbook))
-  ipcMain.on("booted", () => {
+const eventHandlers = {
+  booted: () => {
     log("View has booted")
     booted = true
-  })
-  ipcMain.on("error-collection", (event, optin) => {
+  },
+
+  "error-collection": (event, optin) => {
     Raven.uninstall()
       .config(optin ? config.sentry_dsn : "", {
         captureUnhandledRejections: false
       })
       .install()
-  })
-  ipcMain.on("stop-lcd", () => {
-    stopLCD()
-  })
-  ipcMain.on("retry-connection", () => {
+  },
+
+  mocked: value => {
+    global.config.mocked = value
+  },
+
+  reconnect: () => reconnect(addressbook),
+
+  "retry-connection": () => {
     log("Retrying to connect to nodes")
     addressbook.resetNodes()
     reconnect(addressbook)
-  })
+  },
+
+  "stop-lcd": () => {
+    stopLCD()
+  },
+
+  "successful-launch": () => {
+    console.log("[START SUCCESS] Vue app successfuly started")
+  }
 }
+
+// handle ipc messages from the renderer process
+Object.entries(eventHandlers).forEach(([event, handler]) => {
+  ipcMain.on(event, handler)
+})
 
 // TODO readd when needed
 // check if LCD is initialized as the configs could be corrupted
@@ -613,9 +627,6 @@ async function main() {
   await fs.ensureDir(root)
 
   setupLogging(root)
-
-  // handle ipc messages from the renderer process
-  handleIPC()
 
   let init = true
   if (rootExists) {
