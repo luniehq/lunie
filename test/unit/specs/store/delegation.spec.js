@@ -64,35 +64,7 @@ describe("Module: Delegations", () => {
   })
 
   it("fetches bonded delegates", async () => {
-    node.queryDelegation = jest
-      .fn()
-      .mockReturnValueOnce({
-        shares: "10"
-      })
-      .mockReturnValueOnce({
-        shares: "15"
-      })
-      // no delegation for a delegate
-      .mockReturnValueOnce(null)
-
     await store.dispatch("getBondedDelegates", store.state.delegates.delegates)
-
-    // each is user account + validator owner
-    expect(node.queryDelegation.mock.calls).toEqual([
-      [
-        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-        "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-      ],
-      [
-        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-        "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
-      ],
-      [
-        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-        "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
-      ]
-    ])
-
     expect(store.state.delegation.committedDelegates).toMatchSnapshot()
   })
 

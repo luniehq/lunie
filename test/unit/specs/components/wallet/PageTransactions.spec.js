@@ -9,6 +9,7 @@ describe("PageTransactions", () => {
     let instance = mount(PageTransactions, {
       stubs: {
         "tm-li-transaction": "<tm-li-transaction />",
+        "tm-li-staking-transaction": "<tm-li-staking-transaction />",
         "data-empty-tx": "<data-empty-tx />"
       }
     })
@@ -17,6 +18,7 @@ describe("PageTransactions", () => {
 
     store.commit("setWalletAddress", "tb1d4u5zerywfjhxuc9nudvw")
     store.commit("setWalletHistory", mockTransactions)
+    store.commit("setDelegationTxs", [])
 
     wrapper.update()
   })

@@ -9,7 +9,7 @@ tm-page(title='Transactions')
   modal-search(type="transactions" v-if="somethingToSearch")
 
   tm-data-loading(v-if="wallet.historyLoading")
-  data-empty-tx(v-else-if='transactions.length === 0')
+  data-empty-tx(v-else-if='allTransactions.length === 0')
   data-empty-search(v-else-if="filteredTransactions.length === 0")
   template(v-else v-for="i in filteredTransactions")
     tm-li-transaction(

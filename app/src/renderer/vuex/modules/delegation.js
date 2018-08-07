@@ -47,7 +47,8 @@ export default ({ node }) => {
         unbondingDelegations[candidateId] = value
       }
       state.unbondingDelegations = unbondingDelegations
-    }
+    },
+    setDelegationTxs(state, txs) {}
   }
 
   let actions = {
@@ -57,7 +58,10 @@ export default ({ node }) => {
       }
     },
     // load committed delegations from LCD
-    async getBondedDelegates({ state, rootState, commit }, candidates) {
+    async getBondedDelegates(
+      { state, rootState, commit, dispatch },
+      candidates
+    ) {
       state.loading = true
       let address = rootState.user.address
       candidates = candidates || (await dispatch("getDelegates"))
@@ -88,10 +92,10 @@ export default ({ node }) => {
       }
       state.loading = false
     },
-    async getDelegationTxs({ state, rootState }) {
+    async getDelegationTxs({ commit, rootState }) {
       let address = rootState.user.address
       let txs = await node.getDelegatorTxs(address)
-      state.delegationTxs = txs
+      commit("setDelegationTxs", txs)
     },
     async updateDelegates({ dispatch }) {
       let candidates = await dispatch("getDelegates")

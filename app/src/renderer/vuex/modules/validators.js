@@ -25,8 +25,8 @@ export default ({ node }) => {
     async getValidators({ state, commit }) {
       state.loading = true
       try {
-        let candidates = await node.getValidatorSet()
-        commit("setValidators", candidates)
+        let validators = (await node.getValidatorSet()).validators
+        commit("setValidators", validators)
       } catch (err) {
         commit("notifyError", {
           title: "Error fetching validator set",
@@ -35,11 +35,11 @@ export default ({ node }) => {
       }
       state.loading = false
     },
-    maybeUpdateValidators({ state, commit, dispatch }, header) {
+    async maybeUpdateValidators({ state, commit, dispatch }, header) {
       let validatorHash = header.validators_hash
       if (validatorHash === state.validatorHash) return
       commit("setValidatorHash", validatorHash)
-      dispatch("getValidators")
+      await dispatch("getValidators")
     }
   }
 

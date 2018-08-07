@@ -386,7 +386,7 @@ module.exports = {
   },
   // Get all delegations information from a delegator
   getDelegator(delegatorAddress) {
-    let delegator = state.stake[delegatorAddress]
+    let delegator = state.stake[delegatorAddress] || {}
     return delegator
   },
   getDelegatorTxs(addr, types) {
@@ -395,10 +395,10 @@ module.exports = {
   async getDelegatorTx(addr, id) {
     return {} // not used
   },
-  async getValidators() {
+  async getCandidates() {
     return state.candidates
   },
-  async getValidatorset() {
+  async getValidatorSet() {
     return {
       block_height: 1,
       validators: state.candidates

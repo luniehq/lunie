@@ -1,5 +1,6 @@
 import Store from "renderer/vuex/store"
 import node from "../../helpers/node_mock"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe("Store", () => {
   let store
@@ -18,7 +19,9 @@ describe("Store", () => {
       password: "1234567890"
     })
     store.commit("setWalletBalances", [{ denom: "fabocoin", amount: 42 }])
-    expect(localStorage.getItem("store_default")).toBeTruthy()
+    expect(
+      localStorage.getItem("store_" + lcdClientMock.addresses[0])
+    ).toBeTruthy()
   })
 
   it("should restore balances et al after logging in", async () => {

@@ -15,7 +15,7 @@
   .tx-container
     .tx-element.tx-coins
       .tx-coin
-        .key Steak
+        .key STEAK
         .value {{ pretty(tx.shares_amount) }}
     div
       .tx-element.tx-date(v-if="devMode") {{ date }}

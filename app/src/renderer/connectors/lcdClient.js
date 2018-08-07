@@ -120,7 +120,7 @@ Object.assign(Client.prototype, {
   // },
 
   // Get a list containing all the validator candidates
-  getValidators: req("GET", "/stake/validators"),
+  getCandidates: req("GET", "/stake/validators"),
   // Get information from a validator
   getValidator: function(addr) {
     return req("GET", `/stake/validators/${addr}`).call(this)

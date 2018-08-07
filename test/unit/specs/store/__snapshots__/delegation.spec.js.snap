@@ -2,8 +2,7 @@
 
 exports[`Module: Delegations fetches bonded delegates 1`] = `
 Object {
-  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au": "15",
-  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw": "10",
+  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw": 14,
 }
 `;
 
@@ -14,15 +13,17 @@ Array [
   Array [
     Object {
       "account_number": "1",
-      "begin_unbondings": Array [
-        Object {
-          "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "shares": "7",
-          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-        },
-      ],
+      "begin_unbondings": Array [],
       "chain_id": "test-chain",
       "delegations": Array [
+        Object {
+          "delegation": Object {
+            "amount": "109",
+            "denom": "steak",
+          },
+          "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+        },
         Object {
           "delegation": Object {
             "amount": "456",

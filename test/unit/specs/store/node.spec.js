@@ -35,7 +35,7 @@ describe("Module: Node", () => {
   })
 
   it("checks for new validators", done => {
-    node.rpc.validators = () => done()
+    node.getValidatorSet = () => done()
     store.dispatch("setLastHeader", {
       height: 5,
       chain_id: "test-chain",
