@@ -57,7 +57,7 @@ export default {
       "delegation"
     ]),
     somethingToSearch() {
-      return !this.wallet.historyLoading && !!this.transactions.length
+      return !this.wallet.historyLoading && !!this.allTransactions.length
     },
     allTransactions() {
       return [].concat(

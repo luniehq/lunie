@@ -5,12 +5,15 @@ import mockTransactions from "../../store/json/txs.js"
 describe("PageTransactions", () => {
   let wrapper, store
   let { mount } = setup()
-  beforeEach(() => {
+  beforeEach(async () => {
     let instance = mount(PageTransactions, {
       stubs: {
         "tm-li-transaction": "<tm-li-transaction />",
         "tm-li-staking-transaction": "<tm-li-staking-transaction />",
         "data-empty-tx": "<data-empty-tx />"
+      },
+      methods: {
+        refreshTransactions: jest.fn()
       }
     })
     wrapper = instance.wrapper
@@ -43,11 +46,12 @@ describe("PageTransactions", () => {
   })
 
   it("should refresh the transaction history", () => {
+    wrapper.vm.refreshTransactions = jest.fn()
     wrapper
       .findAll(".tm-tool-bar i")
       .at(0)
       .trigger("click")
-    expect(store.dispatch).toHaveBeenCalledWith("queryWalletHistory")
+    expect(wrapper.vm.refreshTransactions).toHaveBeenCalled()
   })
 
   it("should show transactions", () => {
@@ -56,9 +60,9 @@ describe("PageTransactions", () => {
 
   it("should sort the transaction by time", () => {
     expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([
-      "3466",
-      "3438",
-      "3436"
+      3438,
+      3436,
+      466
     ])
   })
 
@@ -66,20 +70,11 @@ describe("PageTransactions", () => {
     store.commit("setSearchVisible", ["transactions", true])
     store.commit("setSearchQuery", ["transactions", "fabo"])
     wrapper.update()
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual(["3466"])
+    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([466])
     // reflects the filter in the view
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit("setSearchQuery", ["transactions", "mattc"])
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual(["3466"])
-  })
-
-  it("should refresh the transactions on click", () => {
-    wrapper
-      .findAll(".tm-tool-bar i")
-      .at(0)
-      .trigger("click")
-
-    expect(store.dispatch).toHaveBeenCalledWith("queryWalletHistory")
+    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([466])
   })
 
   it("should update 'somethingToSearch' when there's nothing to search", () => {
