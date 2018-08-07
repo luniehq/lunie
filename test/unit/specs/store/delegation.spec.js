@@ -3,12 +3,11 @@ import setup from "../../helpers/vuex-setup"
 let instance = setup()
 
 describe("Module: Delegations", () => {
-  let store, node
+  let store
 
   beforeEach(async () => {
     let test = instance.shallow()
     store = test.store
-    node = test.node
 
     store.dispatch("signIn", { password: "bar", account: "default" })
     await store.dispatch("getDelegates")

@@ -1,5 +1,3 @@
-import b32 from "scripts/b32"
-
 export default ({ node }) => {
   const state = {
     validators: [],

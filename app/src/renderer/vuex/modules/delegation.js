@@ -48,7 +48,9 @@ export default ({ node }) => {
       }
       state.unbondingDelegations = unbondingDelegations
     },
-    setDelegationTxs(state, txs) {}
+    setDelegationTxs(state, txs) {
+      state.delegationTxs = txs
+    }
   }
 
   let actions = {

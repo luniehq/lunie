@@ -389,10 +389,12 @@ module.exports = {
     let delegator = state.stake[delegatorAddress] || {}
     return delegator
   },
-  getDelegatorTxs(addr, types) {
+  getDelegatorTxs() {
+    // input addr, types
     return [] // TODO
   },
-  async getDelegatorTx(addr, id) {
+  async getDelegatorTx() {
+    // input addr, id
     return {} // not used
   },
   async getCandidates() {
