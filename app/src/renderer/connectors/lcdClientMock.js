@@ -376,8 +376,10 @@ module.exports = {
   },
   async queryDelegation(delegatorAddress, validatorAddress) {
     let delegator = state.stake[delegatorAddress]
-    if (!delegator) return
-    return delegator[validatorAddress].delegation
+    if (!delegator) return {}
+    return delegator.delegations.find(
+      ({ validator_addr }) => validator_addr === validatorAddress
+    )
   },
   async queryUnbonding(delegatorAddress, validatorAddress) {
     let delegator = state.stake[delegatorAddress]
