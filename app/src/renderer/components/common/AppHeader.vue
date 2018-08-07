@@ -44,6 +44,8 @@ export default {
         document.documentElement.clientWidth,
         window.innerWidth || 0
       )
+
+      console.log("called")
       if (w >= 1024) {
         this.close()
         this.$store.commit("setConfigDesktop", true)
@@ -65,6 +67,7 @@ export default {
 
 #app-header
   z-index z(appHeader)
+
   .container
     -webkit-app-region drag
 
@@ -85,7 +88,6 @@ export default {
     top 0
     left 0
     width 100%
-
     background var(--app-bg)
 
     > .container
@@ -103,7 +105,6 @@ export default {
       align-items center
       justify-content center
       padding 0 1rem
-
       color var(--link)
       cursor pointer
 
@@ -131,6 +132,7 @@ export default {
       border-bottom px solid var(--bc)
       padding 2.5rem 1rem 1rem 1rem
       line-height normal
+
       img
         height 1.75rem
 </style>
