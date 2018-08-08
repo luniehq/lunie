@@ -115,7 +115,7 @@ describe("PageBond", () => {
     expect(wrapper.vm.percent(40, 60, 4)).toBe("66.6667%")
   })
 
-  it("limits the input of atoms to the maximum", () => {
+  it("limits the input of atoms for max and min", () => {
     let delegate = {
       id: "pubkeyX",
       delegate: store.getters.shoppingCart[0].delegate,
@@ -127,6 +127,9 @@ describe("PageBond", () => {
 
     wrapper.vm.limitMax(delegate, 10)
     expect(delegate.atoms).toBe(10)
+
+    wrapper.vm.limitMax(delegate, -1)
+    expect(delegate.atoms).toBe(0)
   })
 
   it("leaves if there are no candidates selected", () => {
@@ -392,22 +395,6 @@ describe("PageBond", () => {
     expect(
       wrapper.vm.$el.querySelector(".bond-group.bond-group--unbonding")
     ).toBeNull()
-  })
-
-  it("should show 0 atoms after trying to set a negative number", () => {
-    wrapper.setData({
-      fields: {
-        delegates: [
-          {
-            id: "pubkeyX",
-            delegate: store.getters.shoppingCart[0].delegate,
-            atoms: -1
-          }
-        ]
-      }
-    })
-    wrapper.update()
-    expect(wrapper.vm.fields.delegates[0].atoms).toBe(0)
   })
 
   it("shows a message if there are revoked candidates", () => {
