@@ -100,6 +100,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Default to gaia-7001 @okwme
 * Changed `yarn testnet` to `yarn start` @okwme
 * Updated colors throughout @jolesbi
+* Update network @okwme
 
 ### Fixed
 
