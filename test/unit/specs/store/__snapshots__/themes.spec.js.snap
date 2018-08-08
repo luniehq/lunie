@@ -18,20 +18,4 @@ Object {
 }
 `;
 
-exports[`Module: Themes has a light theme 1`] = `
-Object {
-  "app-bg": "#f5f5f5",
-  "app-fg": "hsl(0,0%,92%)",
-  "app-nav": "#ddd",
-  "bc": "#ddd",
-  "bc-dim": "#cdcbcb",
-  "bright": "#000",
-  "dim": "#3b3b3b",
-  "hover": "hsla(0, 0%, 0%, 0)",
-  "link": "hsl(233, 88%, 57%)",
-  "primary": "hsl(233, 88%, 57%)",
-  "secondary": "hsl(277, 92%, 58%)",
-  "tertiary": "hsl(325, 96%, 59%)",
-  "txt": "hsl(233, 38%, 14%)",
-}
-`;
+exports[`Module: Themes has a light theme 1`] = `undefined`;

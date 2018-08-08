@@ -56,6 +56,7 @@ export default {
   },
   mounted() {
     this.$store.commit("loadOnboarding")
+    this.$store.commit("setTheme", "dark")
   },
   store
 }
