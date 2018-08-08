@@ -84,12 +84,6 @@ export default {
         v.percent_of_vote = num.percent(v.voting_power / this.vpTotal)
         v.your_vote = this.num.prettyInt(this.committedDelegations[v.id])
       })
-      console.log(
-        this.delegates.delegates,
-        [this.sort.property, "small_moniker"],
-        [this.sort.order, "asc"]
-      )
-      console.log(this.delegates.delegates)
       let delegates = orderBy(
         this.delegates.delegates,
         [this.sort.property, "small_moniker"],
