@@ -394,6 +394,22 @@ describe("PageBond", () => {
     ).toBeNull()
   })
 
+  it("should show 0 atoms after trying to set a negative number", () => {
+    wrapper.setData({
+      fields: {
+        delegates: [
+          {
+            id: "pubkeyX",
+            delegate: store.getters.shoppingCart[0].delegate,
+            atoms: -1
+          }
+        ]
+      }
+    })
+    wrapper.update()
+    expect(wrapper.vm.fields.delegates[0].atoms).toBe(0)
+  })
+
   it("shows a message if there are revoked candidates", () => {
     wrapper.setData({
       fields: {
