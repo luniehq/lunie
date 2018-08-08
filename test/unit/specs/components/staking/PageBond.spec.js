@@ -423,4 +423,30 @@ describe("PageBond", () => {
     expect(wrapper.vm.showsRevokedValidators).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
+
+  it("shows an error if trying to bond to revoked candidates", () => {
+    wrapper.setData({
+      fields: {
+        delegates: [
+          {
+            id: "pubkeyX",
+            delegate: Object.assign(
+              {},
+              store.getters.shoppingCart[0].delegate,
+              { revoked: true }
+            ),
+            atoms: 0
+          },
+          {
+            id: "pubkeyY",
+            delegate: store.getters.shoppingCart[1].delegate,
+            atoms: 25
+          }
+        ]
+      }
+    })
+    wrapper.findAll("#btn-bond").trigger("click")
+    expect(store.dispatch.mock.calls[0]).toBeUndefined()
+    expect(wrapper.vm.$el.querySelector(".tm-form-msg--error")).not.toBeNull()
+  })
 })
