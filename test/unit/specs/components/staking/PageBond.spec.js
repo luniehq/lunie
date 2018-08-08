@@ -128,7 +128,12 @@ describe("PageBond", () => {
     wrapper.vm.limitMax(delegate, 10)
     expect(delegate.atoms).toBe(10)
 
-    wrapper.vm.limitMax(delegate, -1)
+    delegate.atoms = -1
+    wrapper.vm.limitMax(delegate, 10)
+    expect(delegate.atoms).toBe(0)
+
+    delegate.atoms = "0-101-9"
+    wrapper.vm.limitMax(delegate, 10)
     expect(delegate.atoms).toBe(0)
   })
 
