@@ -109,7 +109,6 @@
     "electron-ga": "1.0.6",
     "fs-extra": "7.0.0",
     "glob": "7.1.2",
-    "interactjs": "1.3.3",
     "moment": "2.22.1",
     "mousetrap": "1.6.1",
     "nib": "1.1.2",
