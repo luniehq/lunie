@@ -94,8 +94,7 @@
     "vue-template-compiler": "2.5.16",
     "vue-template-es2015-compiler": "1.6.0",
     "webpack": "3.11.0",
-    "webpack-dev-server": "2.11.2",
-    "xmlhttprequest": "1.8.0"
+    "webpack-dev-server": "2.11.2"
   },
   "dependencies": {
     "@tendermint/ui": "0.2.13",
