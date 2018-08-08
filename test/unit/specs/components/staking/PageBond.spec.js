@@ -38,6 +38,19 @@ describe("PageBond", () => {
           country: "Canada",
           moniker: "someOtherValidator"
         })
+        store.commit("addToCart", {
+          id: "pubkeyZ",
+          pub_key: {
+            type: "ed25519",
+            data: "pubkeyZ"
+          },
+          voting_power: 20000,
+          shares: 75000,
+          description: "descriptionZ",
+          country: "Chile",
+          moniker: "aChileanValidator",
+          revoked: true
+        })
       }
     })
     store = test.store
@@ -427,26 +440,21 @@ describe("PageBond", () => {
   it("shows an error if trying to bond to revoked candidates", () => {
     wrapper.setData({
       fields: {
+        bondConfirm: true,
         delegates: [
           {
-            id: "pubkeyX",
+            id: "pubkeyZ",
             delegate: Object.assign(
               {},
-              store.getters.shoppingCart[0].delegate,
+              store.getters.shoppingCart[2].delegate,
               { revoked: true }
             ),
-            atoms: 0
-          },
-          {
-            id: "pubkeyY",
-            delegate: store.getters.shoppingCart[1].delegate,
-            atoms: 25
+            atoms: 12
           }
         ]
       }
     })
     wrapper.findAll("#btn-bond").trigger("click")
-    expect(store.dispatch.mock.calls[0]).toBeUndefined()
     expect(wrapper.vm.$el.querySelector(".tm-form-msg--error")).not.toBeNull()
   })
 })

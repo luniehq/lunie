@@ -347,6 +347,7 @@ export default {
     },
     updateDelegateAtoms(delegateId, rawAtoms) {
       let d = this.fields.delegates.find(d => d.id === delegateId)
+      console.log(d)
       d.bondedRatio = rawAtoms / this.totalAtoms
       d.atoms = Math.round(rawAtoms)
       d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, "int")
