@@ -14,7 +14,7 @@ tm-page(title='Staking')
     data-empty-search(v-else-if="filteredDelegates.length === 0")
     template(v-else)
       panel-sort(:sort='sort')
-      li-delegate(v-for='i in enrichedAndFilteredDelegates' :key='i.id' :delegate='i')
+      li-delegate(v-for='i in filteredDelegates' :key='i.id' :delegate='i')
 
   .fixed-button-bar(v-if="!delegates.loading")
     template(v-if="userCanDelegate")
@@ -76,20 +76,20 @@ export default {
         .slice(0, 100)
         .reduce((sum, v) => sum + v.voting_power, 0)
     },
-    enrichedAndFilteredDelegates() {
-      return this.filteredDelegates.map(d =>
-        Object.assign({}, d, {
-          your_votes: this.num.prettyInt(this.committedDelegations[d.id])
-        })
-      )
-    },
     filteredDelegates() {
       let query = this.filters.delegates.search.query || ""
 
       forEach(this.delegates.delegates, v => {
         v.small_moniker = v.moniker.toLowerCase()
         v.percent_of_vote = num.percent(v.voting_power / this.vpTotal)
+        v.your_vote = this.num.prettyInt(this.committedDelegations[v.id])
       })
+      console.log(
+        this.delegates.delegates,
+        [this.sort.property, "small_moniker"],
+        [this.sort.order, "asc"]
+      )
+      console.log(this.delegates.delegates)
       let delegates = orderBy(
         this.delegates.delegates,
         [this.sort.property, "small_moniker"],
