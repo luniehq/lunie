@@ -27,7 +27,7 @@ tm-page.page-bond(:title="`Bond ${denom}`")
             type="number"
             placeholder="Atoms"
             :value="newUnbondedAtoms")
-            
+
       tm-form-msg(type="between"
         v-if="newUnbondedAtoms < 0")
         | You can't bond more Atoms then you have
@@ -237,9 +237,10 @@ export default {
           })
           this.$router.push("/staking")
         } catch (err) {
+          let parsedErr = err.message.split("\n")[5].split('"')[1]
           this.$store.commit("notifyError", {
             title: "Error While Bonding Atoms",
-            body: err.message
+            body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
           })
         } finally {
           this.delegating = false
