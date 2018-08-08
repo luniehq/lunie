@@ -27,7 +27,6 @@ tm-page.page-bond(:title="`Bond ${denom}`")
             type="number"
             placeholder="Atoms"
             :value="newUnbondedAtoms")
-            
       tm-form-msg(type="between"
         v-if="newUnbondedAtoms < 0")
         | You can't bond more Atoms then you have
@@ -48,7 +47,7 @@ tm-page.page-bond(:title="`Bond ${denom}`")
                 :style="styleBondBarInner(d.oldAtoms)"
                 v-if="d.oldAtoms > 0")
             .bond-bar__outer
-              .bond-bar__inner.bond-bar__inner--editable(:id="'delegate-' + d.id"
+              .bond-bar__inner(:id="'delegate-' + d.id"
                 :style="styleBondBarInner(d.atoms)")
         .bond-percent
           label.bond-delta
@@ -67,7 +66,9 @@ tm-page.page-bond(:title="`Bond ${denom}`")
             min="0"
             :max="totalAtoms"
             v-model.number="d.atoms"
-            @change.native="limitMax(d, parseInt($event.target.max))")
+            @keyup.native="limitMax(d, parseInt($event.target.max))"
+            @change.native="limitMax(d, parseInt($event.target.max))"
+            )
 
       tm-form-msg(name="Atoms" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
@@ -125,7 +126,6 @@ tm-page.page-bond(:title="`Bond ${denom}`")
 import { between, numeric, required } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import interact from "interactjs"
 import {
   TmBtn,
   TmFormGroup,
@@ -286,6 +286,7 @@ export default {
     bondBarPercent(dividend) {
       let divisor = this.totalAtoms
       let ratio = Math.round(dividend / divisor * 100)
+      if (isNaN(ratio)) ratio = 0
       return ratio + "%"
     },
     bondBarInnerWidth(dividend) {
@@ -294,6 +295,7 @@ export default {
       let divisor = this.totalAtoms
       let ratio = Math.round(dividend / divisor * 100) / 100
       let width = ratio * (maxWidth - offset) + offset
+      if (width > maxWidth) width = maxWidth
       return width + "px"
     },
     styleBondBarInner(dividend) {
@@ -307,23 +309,6 @@ export default {
       } else {
         return "bond-group--neutral"
       }
-    },
-    bondBarsInput() {
-      let offset = this.bondBarScrubWidth
-      interact(".bond-bar__inner--editable")
-        .resizable({
-          edges: {
-            left: false,
-            right: true,
-            bottom: false,
-            top: false
-          },
-          restrictEdges: { outer: "parent" },
-          restrictSize: { min: { width: offset } }
-        })
-        .on("resizemove", event => {
-          this.handleResize(event.target, event.rect.width)
-        })
     },
     handleResize(element, width) {
       let offset = this.bondBarScrubWidth
@@ -372,17 +357,19 @@ export default {
       return value + "%"
     },
     limitMax(delegate, max) {
+      delegate.atoms = parseFloat(delegate.atoms) // for stuff like 0-101-9
       if (delegate.atoms >= max) {
         delegate.atoms = max
-        return
+      } else if (delegate.atoms < 0) {
+        delegate.atoms = 0
       }
+      return
     }
   },
   async mounted() {
     this.leaveIfBroke(this.user.atoms)
     this.leaveIfEmpty(this.shoppingCart.length)
     this.resetFields()
-    this.bondBarsInput()
 
     await this.$nextTick()
     this.setBondBarOuterWidth()
@@ -511,25 +498,6 @@ export default {
   padding 0 0.5rem
   display flex
   align-items center
-
-.bond-bar__inner--editable
-  &:after
-    position absolute
-    top 1px
-    right 1px
-    width 2rem - 0.25rem - 0.125rem
-    height 2rem - 0.25rem - 0.125rem
-    background var(--txt)
-    border-radius 1rem
-    z-index z(listItem)
-    display flex
-    align-items center
-    justify-content center
-    content 'drag_handle'
-    font-size x
-    font-family 'Material Icons'
-    transform rotate(90deg)
-    color var(--bc)
 
 .bond-delta
   height 2rem
