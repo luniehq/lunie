@@ -26,7 +26,6 @@ describe("PagePreferences", () => {
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.vm.$el.outerHTML).toContain("Select network")
-    expect(wrapper.vm.$el.outerHTML).toContain("Select theme")
     expect(wrapper.vm.$el.outerHTML).toContain("View tutorial")
     expect(wrapper.vm.$el.outerHTML).toContain("Automatically send")
     expect(wrapper.vm.$el.outerHTML).toContain("Switch account")
