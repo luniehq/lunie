@@ -17,13 +17,6 @@ tm-page(title="Preferences")
         :options="networkSelectOptions"
         placeholder="Select network..."
         @change.native="setMockedConnector")
-    tm-list-item(type="field" title="Select theme")
-      tm-field#select-theme(
-        type="select"
-        v-model="themeSelectActive"
-        :options="themeSelectOptions"
-        placeholder="Select theme..."
-        @change.native="setAppTheme")
     tm-list-item(type="field" title="View tutorial for Voyager")
       tm-btn#toggle-onboarding(
         @click.native="setOnboarding"

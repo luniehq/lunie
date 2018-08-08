@@ -263,14 +263,15 @@ function reduceTimeouts() {
     "timeout_prevote_delta",
     "timeout_precommit",
     "timeout_precommit_delta",
-    "timeout_commit"
+    "timeout_commit",
+    "flush_throttle_timeout"
   ]
   const updatedConfigToml = configToml
     .split("\n")
     .map(line => {
       let [key, value] = line.split(" = ")
       if (timeouts.indexOf(key) !== -1) {
-        return `${key} = ${parseInt(value) / 10}`
+        return `${key} = ${parseInt(value) / 50}`
       }
       return line
     })
