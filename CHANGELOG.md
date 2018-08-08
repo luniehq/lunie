@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * testnets not properly available after download @faboweb
 * Tell the main process when we switch to the mock network. @NodeGuy
 * improved tooltip styling @jolesbi
+* Overflow bonding bar bug @okwme
 
 ## [0.9.3] - 2018-08-02
 
@@ -116,7 +117,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed the theme switcher @faboweb
 * Fixed various building bugs. @NodeGuy
 * Development CLI tools handle exceptions better. @NodeGuy
-* Overflow bonding bar bug @okwme
 
 ## [0.7.1] - 2018-07-04
 
