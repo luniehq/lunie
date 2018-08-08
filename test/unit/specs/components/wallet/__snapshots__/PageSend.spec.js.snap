@@ -297,6 +297,8 @@ exports[`PageSend has the expected html structure 1`] = `
                       <input
                         class="tm-field"
                         id="send-amount"
+                        max="2300"
+                        min="1"
                         placeholder="Amount"
                         type="number"
                       />
@@ -651,6 +653,8 @@ exports[`PageSend should show address required error 1`] = `
                       <input
                         class="tm-field"
                         id="send-amount"
+                        max="0"
+                        min="0"
                         placeholder="Amount"
                         type="number"
                       />
@@ -985,6 +989,8 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                       <input
                         class="tm-field"
                         id="send-amount"
+                        max="0"
+                        min="0"
                         placeholder="Amount"
                         type="number"
                       />
@@ -1319,6 +1325,8 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                       <input
                         class="tm-field"
                         id="send-amount"
+                        max="0"
+                        min="0"
                         placeholder="Amount"
                         type="number"
                       />
@@ -1653,6 +1661,8 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                       <input
                         class="tm-field"
                         id="send-amount"
+                        max="0"
+                        min="0"
                         placeholder="Amount"
                         type="number"
                       />
@@ -2004,6 +2014,8 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
                       <input
                         class="tm-field"
                         id="send-amount"
+                        max="1000"
+                        min="1"
                         placeholder="Amount"
                         type="number"
                       />
@@ -2479,6 +2491,8 @@ exports[`PageSend should work without providing a default denom 1`] = `
                       <input
                         class="tm-field"
                         id="send-amount"
+                        max="0"
+                        min="0"
                         placeholder="Amount"
                         type="number"
                       />
