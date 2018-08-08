@@ -237,11 +237,19 @@ export default {
           })
           this.$router.push("/staking")
         } catch (err) {
-          let parsedErr = err.message.split("\n")[5].split('"')[1]
-          this.$store.commit("notifyError", {
-            title: "Error While Bonding Atoms",
-            body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
-          })
+          let errData = err.message.split("\n")[5]
+          if (errData) {
+            let parsedErr = errData.split('"')[1]
+            this.$store.commit("notifyError", {
+              title: "Error While Bonding Atoms",
+              body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
+            })
+          } else {
+            this.$store.commit("notifyError", {
+              title: "Error While Bonding Atoms",
+              body: err.message
+            })
+          }
         } finally {
           this.delegating = false
         }
