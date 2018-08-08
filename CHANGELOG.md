@@ -7,7 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.9.3] - 2018-08-01
+### Changed
+
+* removed light theme option from preferences page @jolesbi
+* enabled staked balance on PageWallet in production @faboweb
+* removed unused xmlhttprequest dependency @faboweb
+
+### Added
+
+* storing balance, tx history and delegations locally to serve an old state faster @faboweb
+* added error message for missing network config @faboweb
+
+### Fixed
+
+* testnets not properly available after download @faboweb
+* Tell the main process when we switch to the mock network. @NodeGuy
+
+## [0.9.3] - 2018-08-02
 
 ### Fixed
 
@@ -20,6 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * button styling @jolesbi
 * Switched to Gaia-7004 @faboweb
 * showing warning about out of range of atoms in bonding UI only once on top and renaming it @faboweb
+* blocking login if not connected to a node to prevent errors @faboweb
 
 ### Fixed
 
@@ -84,6 +101,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Default to gaia-7001 @okwme
 * Changed `yarn testnet` to `yarn start` @okwme
 * Updated colors throughout @jolesbi
+* Update network @okwme
 
 ### Fixed
 

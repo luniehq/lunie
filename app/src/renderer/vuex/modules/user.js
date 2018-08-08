@@ -15,7 +15,8 @@ export default ({ node }) => {
     password: null,
     account: null,
     address: null,
-    errorCollection: false
+    errorCollection: false,
+    stateLoaded: false // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
   }
 
   const mutations = {
@@ -108,6 +109,7 @@ export default ({ node }) => {
       let { address } = await node.getKey(account)
       state.address = address
 
+      commit("loadPersistedState", { account, password })
       commit("setModalSession", false)
       dispatch("initializeWallet", address)
       dispatch("loadErrorCollection", account)
@@ -120,7 +122,8 @@ export default ({ node }) => {
       commit("setModalSession", true)
       dispatch("showInitialScreen")
     },
-    resetSessionData({ commit }) {
+    resetSessionData({ commit, state }) {
+      state.stateLoaded = false
       commit("clearHistory")
       commit("setActiveMenu", "")
     },

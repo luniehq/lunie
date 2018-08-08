@@ -35,7 +35,7 @@ tm-page(title='Wallet')
       :dd="i.amount"
       :to="{name: 'send', params: {denom: i.denom}}")
 
-  tm-part#part-staked-balances(v-if="config.devMode" title="Staked Balances")
+  tm-part#part-staked-balances(title="Staked Balances")
     tm-list-item(
       btn="Stake"
       :dt="stakingDenom"
