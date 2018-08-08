@@ -27,7 +27,6 @@ tm-page.page-bond(:title="`Bond ${denom}`")
             type="number"
             placeholder="Atoms"
             :value="newUnbondedAtoms")
-
       tm-form-msg(type="between"
         v-if="newUnbondedAtoms < 0")
         | You can't bond more Atoms then you have
@@ -499,25 +498,6 @@ export default {
   padding 0 0.5rem
   display flex
   align-items center
-
-// .bond-bar__inner--editable
-//   &:after
-//     position absolute
-//     top 1px
-//     right 1px
-//     width 2rem - 0.25rem - 0.125rem
-//     height 2rem - 0.25rem - 0.125rem
-//     background var(--txt)
-//     border-radius 1rem
-//     z-index z(listItem)
-//     display flex
-//     align-items center
-//     justify-content center
-//     content 'drag_handle'
-//     font-size x
-//     font-family 'Material Icons'
-//     transform rotate(90deg)
-//     color var(--bc)
 
 .bond-delta
   height 2rem
