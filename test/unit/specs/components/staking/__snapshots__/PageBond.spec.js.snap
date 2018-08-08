@@ -212,9 +212,9 @@ exports[`PageBond has the expected html structure 1`] = `
                           class="bond-bar__outer"
                         >
                           <div
-                            class="bond-bar__inner bond-bar__inner--editable"
+                            class="bond-bar__inner"
                             id="delegate-pubkeyX"
-                            style="width: 28px;"
+                            style="width: 0px;"
                           />
                         </div>
                       </div>
@@ -282,9 +282,9 @@ exports[`PageBond has the expected html structure 1`] = `
                           class="bond-bar__outer"
                         >
                           <div
-                            class="bond-bar__inner bond-bar__inner--editable"
+                            class="bond-bar__inner"
                             id="delegate-pubkeyY"
-                            style="width: 28px;"
+                            style="width: 0px;"
                           />
                         </div>
                       </div>
@@ -643,9 +643,9 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                           class="bond-bar__outer"
                         >
                           <div
-                            class="bond-bar__inner bond-bar__inner--editable"
+                            class="bond-bar__inner"
                             id="delegate-pubkeyX"
-                            style="width: 28px;"
+                            style="width: 0px;"
                           />
                         </div>
                       </div>
@@ -717,9 +717,9 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                           class="bond-bar__outer"
                         >
                           <div
-                            class="bond-bar__inner bond-bar__inner--editable"
+                            class="bond-bar__inner"
                             id="delegate-pubkeyY"
-                            style="width: 21px;"
+                            style="width: 0px;"
                           />
                         </div>
                       </div>
