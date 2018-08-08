@@ -2,7 +2,6 @@ import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
 import Vuelidate from "vuelidate"
 import PageBond from "renderer/components/staking/PageBond"
-import interact from "interactjs"
 
 describe("PageBond", () => {
   let wrapper, store, router
@@ -90,10 +89,6 @@ describe("PageBond", () => {
     expect(wrapper.vm.bondGroupClass(1337)).toBe("bond-group--positive")
     expect(wrapper.vm.bondGroupClass(-1337)).toBe("bond-group--negative")
     expect(wrapper.vm.bondGroupClass(0)).toBe("bond-group--neutral")
-  })
-
-  it("has bond bars the user can interact with", () => {
-    expect(interact.isSet(".bond-bar__inner--editable")).toBe(true)
   })
 
   it("updates delegate atoms", () => {

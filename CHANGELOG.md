@@ -114,6 +114,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed the theme switcher @faboweb
 * Fixed various building bugs. @NodeGuy
 * Development CLI tools handle exceptions better. @NodeGuy
+* Overflow bonding bar bug @okwme
 
 ## [0.7.1] - 2018-07-04
 
