@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * removed light theme option from preferences page @jolesbi
 * enabled staked balance on PageWallet in production @faboweb
+* removed unused xmlhttprequest dependency @faboweb
 
 ### Added
 
@@ -22,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * delegation error message properly parsed @fedekunze
 * testnets not properly available after download @faboweb
 * Tell the main process when we switch to the mock network. @NodeGuy
+* improved tooltip styling @jolesbi
 
 ## [0.9.3] - 2018-08-02
 
