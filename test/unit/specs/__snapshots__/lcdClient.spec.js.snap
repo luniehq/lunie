@@ -1,5 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`LCD Client queries for a candidate 1`] = `
+Array [
+  Array [
+    "http://localhost:8998/stake/validators/abc",
+    undefined,
+  ],
+]
+`;
+
 exports[`LCD Client queries for a delegation summary for a delegator 1`] = `
 Array [
   Array [
