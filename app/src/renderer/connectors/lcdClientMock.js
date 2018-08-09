@@ -48,6 +48,7 @@ let state = {
         value: {
           msg: [
             {
+              type: "cosmos-sdk/Send",
               value: {
                 inputs: [
                   {
@@ -84,6 +85,7 @@ let state = {
         value: {
           msg: [
             {
+              type: "cosmos-sdk/Send",
               value: {
                 inputs: [
                   {
@@ -239,8 +241,8 @@ module.exports = {
       )
     })
   },
-  async tx() {
-    return {}
+  async tx(hash) {
+    return state.txs.find(tx => tx.hash === hash)
   },
   async send(to, req) {
     let fromKey = state.keys.find(a => a.name === req.name)
@@ -328,6 +330,7 @@ module.exports = {
         parseInt(candidate.delegator_shares) + amount
       ).toString()
 
+      storeTx("cosmos-sdk/MsgDelegate", tx)
       results.push(txResult(0))
     }
 
@@ -359,16 +362,9 @@ module.exports = {
       let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
       shares = parseInt(candidate.tokens)
       candidate.tokens = (+shares - amount).toString()
-      delegator.unbonding_delegations.push({
-        validator_addr: tx.validator_addr,
-        delegator_addr: fromKey.address,
-        balance: {
-          // TODO
-          denom: "steak",
-          amount: amount
-        }
-      })
+      delegator.unbonding_delegations.push(tx)
 
+      storeTx("cosmos-sdk/BeginUnbonding", tx)
       results.push(txResult(0))
     }
 
@@ -384,20 +380,25 @@ module.exports = {
   async queryUnbonding(delegatorAddress, validatorAddress) {
     let delegator = state.stake[delegatorAddress]
     if (!delegator) return
-    return delegator[validatorAddress].undelegation
+    return delegator.unbonding_delegations.find(
+      d => d.validator_addr === validatorAddress
+    )
   },
   // Get all delegations information from a delegator
   getDelegator(delegatorAddress) {
     let delegator = state.stake[delegatorAddress] || {}
     return delegator
   },
-  getDelegatorTxs() {
-    // input addr, types
-    return [] // TODO
+  getDelegatorTxs(addr, types = []) {
+    if (types.length === 0) types = ["bonding", "unbonding"]
+    types = types.map(type => {
+      if (type === "bonding") return "cosmos-sdk/MsgDelegate"
+      if (type === "unbonding") return "cosmos-sdk/BeginUnbonding"
+    })
+    return getTxs(types)
   },
-  async getDelegatorTx() {
-    // input addr, id
-    return {} // not used
+  async getDelegatorTx(addr, hash) {
+    module.exports.tx(hash)
   },
   async getCandidates() {
     return state.candidates
@@ -408,7 +409,7 @@ module.exports = {
       validators: state.candidates
     }
   },
-  async getValidator(addr) {
+  async getCandidate(addr) {
     return state.candidates.find(c => c.owner === addr)
   },
   // exports to be used in tests
@@ -481,32 +482,19 @@ function send(to, from, req) {
   }
 
   // log tx
-  state.txs.push({
-    tx: {
-      value: {
-        msg: [
-          {
-            value: {
-              inputs: [
-                {
-                  coins: req.amount,
-                  address: from
-                }
-              ],
-              outputs: [
-                {
-                  coins: req.amount,
-                  address: to
-                }
-              ]
-            }
-          }
-        ]
+  storeTx("cosmos-sdk/Send", {
+    inputs: [
+      {
+        coins: req.amount,
+        address: from
       }
-    },
-    hash: makeHash(),
-    height: getHeight() + (from === botAddress ? 1 : 0),
-    time: Date.now()
+    ],
+    outputs: [
+      {
+        coins: req.amount,
+        address: to
+      }
+    ]
   })
 
   // if receiver is bot address, send money back
@@ -518,6 +506,28 @@ function send(to, from, req) {
   }
 
   return txResult(0)
+}
+
+function storeTx(type, body) {
+  state.txs.push({
+    tx: {
+      value: {
+        msg: [
+          {
+            type,
+            value: body
+          }
+        ]
+      }
+    },
+    hash: makeHash(),
+    height: getHeight(),
+    time: Date.now()
+  })
+}
+
+function getTxs(types) {
+  return state.txs.filter(tx => types.indexOf(tx.tx.value.msg[0].type) !== -1)
 }
 
 // function delegate (sender, { pub_key: { data: pubKey }, amount: delegation }) {

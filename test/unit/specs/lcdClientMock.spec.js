@@ -259,6 +259,15 @@ describe("LCD Client Mock", () => {
     expect(data.length).toBeGreaterThan(0)
   })
 
+  it("queries for one candidate", async () => {
+    let validator = await client.getCandidate(lcdClientMock.validators[0])
+    expect(validator).toBe(
+      lcdClientMock.state.candidates.find(
+        v => v.owner === lcdClientMock.validators[0]
+      )
+    )
+  })
+
   it("queries bondings per delegator", async () => {
     let res = await client.queryDelegation(
       lcdClientMock.addresses[0],
@@ -489,5 +498,68 @@ describe("LCD Client Mock", () => {
     expect(res.length).toBe(1)
     expect(res[0].check_tx.log).toBe("Nonexistent delegation")
     expect(res[0].check_tx.code).toBe(2)
+  })
+
+  it("queries for summary of delegation information for a delegator", async () => {
+    let delegation = await client.getDelegator(lcdClientMock.addresses[0])
+    expect(Object.keys(delegation)).toEqual([
+      "delegations",
+      "unbonding_delegations"
+    ])
+  })
+
+  it("queries for an unbonding delegation between a validator and a delegator", async () => {
+    await client.updateDelegations(lcdClientMock.addresses[0], {
+      sequence: 1,
+      name: "default",
+      delegations: [],
+      begin_unbondings: [
+        {
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[0],
+          shares: "10"
+        }
+      ]
+    })
+    let undelegations = await client.queryUnbonding(
+      lcdClientMock.addresses[0],
+      lcdClientMock.validators[0]
+    )
+
+    expect(undelegations.shares).toBe("10")
+  })
+
+  it("queries for staking txs", async () => {
+    await client.updateDelegations(lcdClientMock.addresses[0], {
+      sequence: 1,
+      name: "default",
+      delegations: [
+        {
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[2],
+          delegation: { denom: "mycoin", amount: "10" }
+        }
+      ],
+      begin_unbondings: [
+        {
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[0],
+          shares: "10"
+        }
+      ]
+    })
+    let txs = await client.getDelegatorTxs(lcdClientMock.addresses[0])
+    expect(txs).toHaveLength(2)
+
+    txs = await client.getDelegatorTxs(lcdClientMock.addresses[0], ["bonding"])
+    expect(txs).toHaveLength(1)
+    console.log(JSON.stringify(txs))
+    expect(txs[0].tx.value.msg[0].type).toBe("cosmos-sdk/MsgDelegate")
+
+    txs = await client.getDelegatorTxs(lcdClientMock.addresses[0], [
+      "unbonding"
+    ])
+    expect(txs).toHaveLength(1)
+    expect(txs[0].tx.value.msg[0].type).toBe("cosmos-sdk/BeginUnbonding")
   })
 })

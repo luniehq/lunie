@@ -45,7 +45,6 @@ export default {
         window.innerWidth || 0
       )
 
-      console.log("called")
       if (w >= 1024) {
         this.close()
         this.$store.commit("setConfigDesktop", true)
