@@ -178,4 +178,10 @@ describe("LCD Client", () => {
     client.queryUnbonding("abc", "def")
     expect(axios.get.mock.calls).toMatchSnapshot()
   })
+
+  it("queries for a candidate", async () => {
+    axios.get = jest.fn().mockReturnValue({})
+    client.getCandidate("abc")
+    expect(axios.get.mock.calls).toMatchSnapshot()
+  })
 })

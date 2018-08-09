@@ -112,6 +112,18 @@ describe("Module: Delegations", () => {
     expect(store.state.delegation.unbondingDelegations).toMatchSnapshot()
   })
 
+  it("deletes undelegations that are 0", async () => {
+    await store.dispatch("getBondedDelegates", store.state.delegates.delegates)
+    store.commit("setUnbondingDelegations", {
+      candidateId: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+      value: 0
+    })
+    expect(
+      store.state.delegation.unbondingDelegations
+        .cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+    ).toBeUndefined()
+  })
+
   it("should query delegated atoms on reconnection", () => {
     jest.resetModules()
     let axios = require("axios")
