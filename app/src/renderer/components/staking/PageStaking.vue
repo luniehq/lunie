@@ -11,10 +11,10 @@ tm-page(title='Staking')
   .delegates-container
     tm-data-loading(v-if="delegates.loading && delegates.delegates.length === 0")
     tm-data-empty(v-else-if="delegates.delegates.length === 0")
-    data-empty-search(v-else-if="filteredDelegates.length === 0")
+    data-empty-search(v-else-if="sortedFilteredEnrichedDelegates.length === 0")
     template(v-else)
       panel-sort(:sort='sort')
-      li-delegate(v-for='i in enrichedAndFilteredDelegates' :key='i.id' :delegate='i')
+      li-delegate(v-for='i in sortedFilteredEnrichedDelegates' :key='i.id' :delegate='i')
 
   .fixed-button-bar(v-if="!delegates.loading")
     template(v-if="userCanDelegate")
@@ -67,7 +67,7 @@ export default {
     },
     vpTotal() {
       return this.delegates.delegates
-        .slice()
+        .slice(0)
         .map(v => {
           v.voting_power = v.voting_power ? parseInt(v.voting_power) : 0
           return v
@@ -76,32 +76,29 @@ export default {
         .slice(0, 100)
         .reduce((sum, v) => sum + v.voting_power, 0)
     },
-    enrichedAndFilteredDelegates() {
-      return this.filteredDelegates.map(d =>
-        Object.assign({}, d, {
-          your_votes: this.num.prettyInt(this.committedDelegations[d.id])
-        })
-      )
+    enrichedDelegates() {
+      return !this.somethingToSearch
+        ? []
+        : this.delegates.delegates.map(v => {
+            v.small_moniker = v.moniker.toLowerCase()
+            v.percent_of_vote = num.percent(v.voting_power / this.vpTotal)
+            v.your_votes = this.num.prettyInt(this.committedDelegations[v.id])
+            return v
+          })
     },
-    filteredDelegates() {
+    sortedFilteredEnrichedDelegates() {
       let query = this.filters.delegates.search.query || ""
-
-      forEach(this.delegates.delegates, v => {
-        v.small_moniker = v.moniker.toLowerCase()
-        v.percent_of_vote = num.percent(v.voting_power / this.vpTotal)
-      })
-      let delegates = orderBy(
-        this.delegates.delegates,
+      let sortedEnrichedDelegates = orderBy(
+        this.enrichedDelegates.slice(0),
         [this.sort.property, "small_moniker"],
         [this.sort.order, "asc"]
       )
-
       if (this.filters.delegates.search.visible) {
-        return delegates.filter(i =>
+        return sortedEnrichedDelegates.filter(i =>
           includes(JSON.stringify(i).toLowerCase(), query.toLowerCase())
         )
       } else {
-        return delegates
+        return sortedEnrichedDelegates
       }
     },
     userCanDelegate() {
