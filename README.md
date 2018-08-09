@@ -201,7 +201,6 @@ Then run Voyager for your local testnet:
 
 ```bash
 $ yarn start local-testnet
-carry brush trumpet garbage raise host such worth power evolve coyote method bachelor sun isolate nominee infant reject away three detail olive opera document
 ```
 
 Import the account with the 12 word seed phrase you wrote down earlier.
