@@ -10,9 +10,24 @@ let fs = require("fs-extra")
 const testDir = join(__dirname, "../../testArtifacts")
 
 let app, cliHome, nodeHome, started, crashed
-let binary = process.env.BINARY_PATH || process.env.GOPATH + "/bin/gaiacli"
+
+const osFolderName = (function() {
+  switch (process.platform) {
+    case "win32":
+      return "windows_amd64"
+    case "darwin":
+      return "darwin_amd64"
+    case "linux":
+      return "linux_amd64"
+  }
+})()
+let binary =
+  process.env.BINARY_PATH ||
+  join(__dirname, "../../builds/gaia/", osFolderName, "gaiacli")
+
 let nodeBinary =
-  process.env.NODE_BINARY_PATH || process.env.GOPATH + "/bin/gaiad"
+  process.env.NODE_BINARY_PATH ||
+  join(__dirname, "../../builds/gaia/", osFolderName, "gaiad")
 
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
@@ -237,6 +252,9 @@ function initLocalNode() {
     console.log(command)
     const localnodeProcess = spawn(command, { shell: true })
     localnodeProcess.stderr.pipe(process.stderr)
+
+    // the init command now asks for a password for some default account we don't need
+    localnodeProcess.stdin.write("\n")
 
     localnodeProcess.stdout.once("data", data => {
       let msg = data.toString()
