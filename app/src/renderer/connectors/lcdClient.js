@@ -106,10 +106,6 @@ Object.assign(Client.prototype, {
       )
     }
   },
-  // Get a specific tx from a delegator
-  getDelegatorTx: function(addr, id) {
-    return req("GET", `/stake/delegators/${addr}/txs/${id}`).call(this)
-  },
   // // Query all validators that a delegator is bonded to
   // getDelegatorValidators: function(delegatorAddr) {
   //   return req("GET", `/stake/delegators/${delegatorAddr}/validators`).call(this)

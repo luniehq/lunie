@@ -6,6 +6,13 @@ Object {
 }
 `;
 
+exports[`Module: Delegations fetches current undelegations 1`] = `
+Object {
+  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au": 356,
+  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw": 73,
+}
+`;
+
 exports[`Module: Delegations should query delegated atoms on reconnection 1`] = `Array []`;
 
 exports[`Module: Delegations submits delegation transaction 1`] = `
@@ -37,6 +44,34 @@ Array [
       "name": "default",
       "password": "bar",
       "sequence": "1",
+    },
+  ],
+]
+`;
+
+exports[`Module: Delegations submits undelegation transaction 1`] = `
+Array [
+  Array [
+    Object {
+      "account_number": "1",
+      "begin_unbondings": Array [
+        Object {
+          "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+          "shares": "73",
+          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+        },
+        Object {
+          "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+          "shares": "356",
+          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+        },
+      ],
+      "chain_id": "test-chain",
+      "delegations": Array [],
+      "gas": "50000000",
+      "name": "default",
+      "password": "bar",
+      "sequence": "3",
     },
   ],
 ]

@@ -39,7 +39,7 @@ export default ({ node }) => {
       }
       state.committedDelegates = committedDelegates
     },
-    setUnbondingDelegation(state, { candidateId, value }) {
+    setUnbondingDelegations(state, { candidateId, value }) {
       let unbondingDelegations = Object.assign({}, state.unbondingDelegations)
       if (value === 0) {
         delete unbondingDelegations[candidateId]
@@ -85,7 +85,7 @@ export default ({ node }) => {
       if (delegator.unbonding_delegations) {
         delegator.unbonding_delegations.forEach(
           ({ validator_addr, balance: { amount } }) => {
-            commit("setUnbondingDelegation", {
+            commit("setUnbondingDelegations", {
               candidateId: validator_addr,
               value: parseFloat(amount)
             })

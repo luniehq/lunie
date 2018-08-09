@@ -1,6 +1,49 @@
 import setup from "../../../helpers/vuex-setup"
 import PageTransactions from "renderer/components/wallet/PageTransactions"
 import mockTransactions from "../../store/json/txs.js"
+import lcdclientMock from "renderer/connectors/lcdClientMock.js"
+
+let delegationTxs = [
+  {
+    tx: {
+      value: {
+        msg: [
+          {
+            type: "cosmos-sdk/MsgDelegate",
+            value: {
+              validator_addr: lcdclientMock.validators[0],
+              delegator_addr: lcdclientMock.addresses[0],
+              delegation: {
+                amount: "24",
+                denom: "steak"
+              }
+            }
+          }
+        ]
+      }
+    },
+    hash: "A7C6DE5CB923AF08E6088F1348047F16BABB9F48",
+    height: 160
+  },
+  {
+    tx: {
+      value: {
+        msg: [
+          {
+            type: "cosmos-sdk/BeginUnbonding",
+            value: {
+              validator_addr: lcdclientMock.validators[0],
+              delegator_addr: lcdclientMock.addresses[0],
+              shares: "5"
+            }
+          }
+        ]
+      }
+    },
+    hash: "A7C6FDE5CA923AF08E6088F1348047F16BABB9F48",
+    height: 170
+  }
+]
 
 describe("PageTransactions", () => {
   let wrapper, store
@@ -21,7 +64,7 @@ describe("PageTransactions", () => {
 
     store.commit("setWalletAddress", "tb1d4u5zerywfjhxuc9nudvw")
     store.commit("setWalletHistory", mockTransactions)
-    store.commit("setDelegationTxs", [])
+    store.commit("setDelegationTxs", delegationTxs)
 
     wrapper.update()
   })
@@ -62,7 +105,9 @@ describe("PageTransactions", () => {
     expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([
       3438,
       3436,
-      466
+      466,
+      170,
+      160
     ])
   })
 
@@ -80,6 +125,7 @@ describe("PageTransactions", () => {
   it("should update 'somethingToSearch' when there's nothing to search", () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
     store.commit("setWalletHistory", [])
+    store.commit("setDelegationTxs", [])
     expect(wrapper.vm.somethingToSearch).toBe(false)
     store.commit("setWalletHistory", mockTransactions)
     expect(wrapper.vm.somethingToSearch).toBe(true)
@@ -89,19 +135,20 @@ describe("PageTransactions", () => {
 
   it("should show an error if there are no transactions", () => {
     store.commit("setWalletHistory", [])
+    store.commit("setDelegationTxs", [])
     wrapper.update()
     expect(wrapper.contains("data-empty-tx")).toBe(true)
   })
 
   it("should not show search when there is nothing to search", () => {
-    let transactions = []
     mount(PageTransactions, {
       stubs: {
         "tm-li-transaction": "<tm-li-transaction />",
         "data-empty-tx": "<data-empty-tx />"
       }
     })
-    store.commit("setWalletHistory", transactions)
+    store.commit("setWalletHistory", [])
+    store.commit("setDelegationTxs", [])
     wrapper.update()
     expect(wrapper.vm.setSearch()).toEqual(false)
   })

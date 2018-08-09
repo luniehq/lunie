@@ -74,8 +74,8 @@ describe("LCD Client Mock", () => {
     expect(res).toBeUndefined()
   })
 
-  xit("persists a sent tx", async () => {
-    let res = await client.coinTxs(lcdClientMock.addresses[0])
+  it("persists a sent tx", async () => {
+    let res = await client.txs(lcdClientMock.addresses[0])
     expect(res.length).toBe(2) // predefined txs
 
     let { address: toAddr } = await client.storeKey({
@@ -96,8 +96,13 @@ describe("LCD Client Mock", () => {
     })
     expect(res.height).toBeDefined()
 
-    res = await client.coinTxs(lcdClientMock.addresses[0])
+    res = await client.txs(lcdClientMock.addresses[0])
     expect(res.length).toBe(3)
+  })
+
+  it("queries a tx by it's hash", async () => {
+    let tx = await client.tx(lcdClientMock.state.txs[0].hash)
+    expect(tx.height).toBe(1)
   })
 
   it("query and update the nonce", async () => {
@@ -553,7 +558,6 @@ describe("LCD Client Mock", () => {
 
     txs = await client.getDelegatorTxs(lcdClientMock.addresses[0], ["bonding"])
     expect(txs).toHaveLength(1)
-    console.log(JSON.stringify(txs))
     expect(txs[0].tx.value.msg[0].type).toBe("cosmos-sdk/MsgDelegate")
 
     txs = await client.getDelegatorTxs(lcdClientMock.addresses[0], [

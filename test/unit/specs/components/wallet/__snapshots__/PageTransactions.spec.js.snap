@@ -111,6 +111,16 @@ exports[`PageTransactions has the expected html structure 1`] = `
       transaction="[object Object]"
     />
     <!---->
+    <!---->
+    <tm-li-staking-transaction
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      transaction="[object Object]"
+    />
+    <!---->
+    <tm-li-staking-transaction
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      transaction="[object Object]"
+    />
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"

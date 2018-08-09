@@ -362,7 +362,13 @@ module.exports = {
       let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
       shares = parseInt(candidate.tokens)
       candidate.tokens = (+shares - amount).toString()
-      delegator.unbonding_delegations.push(tx)
+      delegator.unbonding_delegations.push(
+        Object.assign({}, tx, {
+          balance: {
+            amount: tx.shares
+          }
+        })
+      )
 
       storeTx("cosmos-sdk/BeginUnbonding", tx)
       results.push(txResult(0))
@@ -396,9 +402,6 @@ module.exports = {
       if (type === "unbonding") return "cosmos-sdk/BeginUnbonding"
     })
     return getTxs(types)
-  },
-  async getDelegatorTx(addr, hash) {
-    module.exports.tx(hash)
   },
   async getCandidates() {
     return state.candidates

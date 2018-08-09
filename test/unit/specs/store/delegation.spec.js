@@ -87,6 +87,31 @@ describe("Module: Delegations", () => {
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
 
+  it("submits undelegation transaction", async () => {
+    store.dispatch("setLastHeader", {
+      height: 42,
+      chain_id: "test-chain"
+    })
+    await store.dispatch("getBondedDelegates")
+
+    jest.spyOn(store._actions.sendTx, "0")
+
+    let bondings = [50, 100, 0]
+    const delegations = store.state.delegates.delegates.map((delegate, i) => ({
+      delegate,
+      atoms: bondings[i]
+    }))
+
+    await store.dispatch("submitDelegation", delegations)
+
+    expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
+  })
+
+  it("fetches current undelegations", async () => {
+    await store.dispatch("getBondedDelegates", store.state.delegates.delegates)
+    expect(store.state.delegation.unbondingDelegations).toMatchSnapshot()
+  })
+
   it("should query delegated atoms on reconnection", () => {
     jest.resetModules()
     let axios = require("axios")
