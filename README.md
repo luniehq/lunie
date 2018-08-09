@@ -182,7 +182,7 @@ $ sed -i.bak 's/seeds = ""/seeds = "localhost"/g' ./builds/testnets/local-testne
 Activate TX indexing in your local node:
 
 ```bash
-$ sed -i.bak 's/index_all_tags = true/index_all_tags = false/g' ./builds/testnets/local-testnet/config.toml
+$ sed -i.bak 's/index_all_tags = false/index_all_tags = true/g'  ~/.gaiad-testnet/config/config.toml
 ```
 
 Store the gaia version used in your local testnet:
@@ -201,6 +201,7 @@ Then run Voyager for your local testnet:
 
 ```bash
 $ yarn start local-testnet
+carry brush trumpet garbage raise host such worth power evolve coyote method bachelor sun isolate nominee infant reject away three detail olive opera document
 ```
 
 Import the account with the 12 word seed phrase you wrote down earlier.
