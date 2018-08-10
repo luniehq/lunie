@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-* delegation error message properly parsed @fedekunze
+* delegations error message properly parsed @fedekunze
 * testnets not properly available after download @faboweb
 * Tell the main process when we switch to the mock network. @NodeGuy
 * improved tooltip styling @jolesbi
