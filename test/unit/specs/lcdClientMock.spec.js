@@ -270,7 +270,7 @@ describe("LCD Client Mock", () => {
   it("executes a delegate tx", async () => {
     let stake = await client.queryDelegation(
       lcdClientMock.addresses[0],
-      lcdClientMock.validators[2]
+      lcdClientMock.validators[1]
     )
     expect(stake).toBeUndefined()
 
@@ -280,7 +280,7 @@ describe("LCD Client Mock", () => {
       delegations: [
         {
           delegator_addr: lcdClientMock.addresses[0],
-          validator_addr: lcdClientMock.validators[2],
+          validator_addr: lcdClientMock.validators[1],
           delegation: { denom: "mycoin", amount: "10" }
         }
       ],
@@ -292,7 +292,7 @@ describe("LCD Client Mock", () => {
 
     let updatedStake = await client.queryDelegation(
       lcdClientMock.addresses[0],
-      lcdClientMock.validators[2]
+      lcdClientMock.validators[1]
     )
     expect(updatedStake.shares).toBe("10")
   })
@@ -304,7 +304,7 @@ describe("LCD Client Mock", () => {
       delegations: [
         {
           delegator_addr: lcdClientMock.addresses[0],
-          validator_addr: lcdClientMock.validators[2],
+          validator_addr: lcdClientMock.validators[1],
           delegation: { denom: "mycoin", amount: "10" }
         }
       ],
@@ -316,7 +316,7 @@ describe("LCD Client Mock", () => {
 
     let initialStake = await client.queryDelegation(
       lcdClientMock.addresses[0],
-      lcdClientMock.validators[2]
+      lcdClientMock.validators[1]
     )
     expect(initialStake.shares).toBe("10")
 
@@ -327,7 +327,7 @@ describe("LCD Client Mock", () => {
       begin_unbondings: [
         {
           delegator_addr: lcdClientMock.addresses[0],
-          validator_addr: lcdClientMock.validators[2],
+          validator_addr: lcdClientMock.validators[1],
           shares: "5"
         }
       ]
@@ -338,7 +338,7 @@ describe("LCD Client Mock", () => {
 
     let updatedStake = await client.queryDelegation(
       lcdClientMock.addresses[0],
-      lcdClientMock.validators[2]
+      lcdClientMock.validators[1]
     )
     expect(updatedStake.shares).toBe("5")
   })
@@ -368,7 +368,7 @@ describe("LCD Client Mock", () => {
       delegations: [
         {
           delegator_addr: lcdClientMock.addresses[0],
-          validator_addr: lcdClientMock.validators[2],
+          validator_addr: lcdClientMock.validators[1],
           delegation: { denom: "mycoin", amount: "10" }
         }
       ],
@@ -384,7 +384,7 @@ describe("LCD Client Mock", () => {
       delegations: [
         {
           delegator_addr: lcdClientMock.addresses[0],
-          validator_addr: lcdClientMock.validators[2],
+          validator_addr: lcdClientMock.validators[1],
           delegation: { denom: "mycoin", amount: "10" }
         }
       ],
@@ -425,7 +425,7 @@ describe("LCD Client Mock", () => {
       delegations: [
         {
           delegator_addr: lcdClientMock.addresses[0],
-          validator_addr: lcdClientMock.validators[2],
+          validator_addr: lcdClientMock.validators[1],
           delegation: { denom: "mycoin", amount: "10" }
         },
         {
@@ -444,7 +444,7 @@ describe("LCD Client Mock", () => {
 
     let stake1 = await client.queryDelegation(
       lcdClientMock.addresses[0],
-      lcdClientMock.validators[2]
+      lcdClientMock.validators[1]
     )
     expect(stake1.shares).toMatchSnapshot()
 

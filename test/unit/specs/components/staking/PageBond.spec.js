@@ -2,15 +2,14 @@ import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
 import Vuelidate from "vuelidate"
 import PageBond from "renderer/components/staking/PageBond"
-
 describe("PageBond", () => {
   let wrapper, store, router
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
 
-  beforeEach(() => {
+  beforeEach(async () => {
     let test = mount(PageBond, {
-      doBefore: ({ store }) => {
+      doBefore: async ({ store, node }) => {
         store.commit("setAtoms", 101)
 
         store.commit("addToCart", {
@@ -37,19 +36,20 @@ describe("PageBond", () => {
           country: "Canada",
           moniker: "someOtherValidator"
         })
-        store.commit("addToCart", {
-          id: "pubkeyZ",
-          pub_key: {
-            type: "ed25519",
-            data: "pubkeyZ"
-          },
-          voting_power: 20000,
-          shares: 75000,
-          description: "descriptionZ",
-          country: "Chile",
-          moniker: "aChileanValidator",
-          revoked: true
-        })
+
+        let candidates = await node.candidates()
+        store.commit(
+          "addToCart",
+          Object.assign(
+            {
+              id: "pubkeyZ",
+              voting_power: 20000,
+              shares: 75000,
+              moniker: "aChileanValidator"
+            },
+            candidates[2] // this is the revoked one
+          )
+        )
       }
     })
     store = test.store
@@ -440,24 +440,26 @@ describe("PageBond", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it("shows an error if trying to bond to revoked candidates", () => {
-    wrapper.setData({
-      fields: {
-        bondConfirm: true,
-        delegates: [
-          {
-            id: "pubkeyZ",
-            delegate: Object.assign(
-              {},
-              store.getters.shoppingCart[2].delegate,
-              { revoked: true }
-            ),
-            atoms: 12
-          }
-        ]
-      }
+  it("shows an error if trying to bond to revoked candidates", async () => {
+    await store.dispatch("signIn", {
+      account: "default",
+      password: "1234567890"
     })
+
+    wrapper.update()
+    wrapper.vm.fields.bondConfirm = true
+    wrapper.vm.fields.delegates[2].revoked = true
+    wrapper.vm.fields.delegates[2].atoms = 1
     wrapper.findAll("#btn-bond").trigger("click")
-    expect(wrapper.vm.$el.querySelector(".tm-form-msg--error")).not.toBeNull()
+    await sleep(1000)
+    let lastErr =
+      store.state.notifications[store.state.notifications.length - 1]
+    expect(lastErr.body).toContain(
+      "Validator for this address is currently revoked"
+    )
   })
 })
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}

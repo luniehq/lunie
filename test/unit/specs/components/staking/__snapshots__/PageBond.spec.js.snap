@@ -410,7 +410,7 @@ exports[`PageBond has the expected html structure 1`] = `
                     <div
                       class="tm-form-msg sm tm-form-msg--desc"
                     >
-                      A revoked validator is not validating and therefor is not producing rewards. The revoked state may be temporary.
+                      A revoked validator is not validating and therefore is not producing rewards. The revoked state may be temporary.
                     </div>
                     <div
                       class="tm-field-checkbox"
@@ -853,7 +853,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                     <div
                       class="tm-form-msg sm tm-form-msg--desc"
                     >
-                      A revoked validator is not validating and therefor is not producing rewards. The revoked state may be temporary.
+                      A revoked validator is not validating and therefore is not producing rewards. The revoked state may be temporary.
                     </div>
                     <div
                       class="tm-field-checkbox"

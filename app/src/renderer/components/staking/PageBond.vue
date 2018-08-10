@@ -106,7 +106,7 @@ tm-page.page-bond(:title="`Bond ${denom}`")
 
     tm-form-group(field-id="bond-confirm" field-label=''
       :error='$v.fields.bondConfirm.$error')
-      tm-form-msg(v-if="showsRevokedValidators") A revoked validator is not validating and therefor is not producing rewards. The revoked state may be temporary.
+      tm-form-msg(v-if="showsRevokedValidators") A revoked validator is not validating and therefore is not producing rewards. The revoked state may be temporary.
       .tm-field-checkbox
         .tm-field-checkbox-input
           input#bond-confirm(type="checkbox" v-model="fields.bondConfirm")
@@ -332,7 +332,6 @@ export default {
     },
     updateDelegateAtoms(delegateId, rawAtoms) {
       let d = this.fields.delegates.find(d => d.id === delegateId)
-      console.log(d)
       d.bondedRatio = rawAtoms / this.totalAtoms
       d.atoms = Math.round(rawAtoms)
       d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, "int")

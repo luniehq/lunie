@@ -256,14 +256,12 @@ module.exports = {
   // staking
   async updateDelegations({ name, sequence, delegations, begin_unbondings }) {
     let results = []
-
     let fromKey = state.keys.find(a => a.name === name)
     let fromAccount = state.accounts[fromKey.address]
     if (fromAccount == null) {
       results.push(txResult(1, "Nonexistent account"))
       return results
     }
-
     // check nonce
     if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
       results.push(
@@ -274,7 +272,6 @@ module.exports = {
       )
       return results
     }
-
     for (let tx of delegations) {
       let { denom } = tx.delegation
       let amount = parseInt(tx.delegation.amount)
@@ -286,11 +283,9 @@ module.exports = {
         results.push(txResult(1, "Not enough coins in your account"))
         return results
       }
-
       // update sender account
       incrementSequence(fromAccount)
       fromAccount.coins.find(c => c.denom === denom).amount -= amount
-
       // update stake
       let delegator = state.stake[fromKey.address]
       if (!delegator) {
@@ -309,13 +304,24 @@ module.exports = {
       }
       let shares = parseInt(delegation.shares)
       delegation.shares = (shares + amount).toString()
-
       let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
+      if (candidate.revoked) {
+        throw new Error(`checkTx failed: (262245) Msg 0 failed: === ABCI Log ===
+  Codespace: 4
+  Code:      101
+  ABCICode:  262245
+  Error:     --= Error =--
+  Data: common.FmtError{format:"validator for this address is currently revoked", args:[]interface {}(nil)}
+  Msg Traces:
+  --= /Error =--
+
+  === /ABCI Log ===`)
+      }
+
       candidate.tokens = (parseInt(candidate.tokens) + amount).toString()
       candidate.delegator_shares = (
         parseInt(candidate.delegator_shares) + amount
       ).toString()
-
       results.push(txResult(0))
     }
 

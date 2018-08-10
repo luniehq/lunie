@@ -45,7 +45,7 @@ export default function vuexSetup() {
     })
 
     // execute some preparation logic on the store or router before mounting
-    doBefore({ store, router })
+    doBefore({ store, router, node })
 
     return {
       node,
