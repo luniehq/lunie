@@ -47,45 +47,31 @@ export default {
   align-items center
   backdrop-filter blur(0.5em)
 
+  b
+    font-weight 500
+    color var(--bright)
+
   &.tm-modal-fullscreen
     display flex
-
-    .tm-modal-container
-      flex 1
-      height 100vh
-      max-height 100vh
-      max-width 40rem + 6rem
-      display flex
-      flex-flow column nowrap
-
-      .tm-modal-main
-        flex 1
-        overflow-y scroll
-        display block
 
 .tm-modal-container
   background var(--app-fg)
   box-shadow hsla(0,0,0,0.25) 0 0.25rem 1rem
-
   display flex
   flex-flow column nowrap
-
   min-width 20rem
-  min-height 20rem
-
-  max-width 30rem
-  max-height 40rem
+  max-width 40rem
 
 .tm-modal-header
   display flex
   flex-flow row nowrap
   align-items center
   flex 0 0 3rem + 0.0625rem
+  padding 2rem 1rem
   background var(--app-nav)
 
 .tm-modal-icon
   height 3rem
-  flex 0 0 3rem
   display flex
   align-items center
   justify-content center
@@ -95,9 +81,9 @@ export default {
   &.tm-modal-close
     cursor pointer
     i
-      color var(--link)
+      color var(--txt)
     &:hover i
-      color var(--hover)
+      color var(--link)
 
 .tm-modal-icon + .tm-modal-title
   padding-left 0
@@ -105,11 +91,12 @@ export default {
 .tm-modal-title
   flex 1
   font-size h3
-  color var(--txt)
+  font-weight 500
+  color var(--bright)
   padding 0 1rem
 
-.tm-modal-main, .tm-modal-footer
-  padding 1rem
+.tm-modal-main
+  padding 2rem 1rem
 
 .tm-modal-main + .tm-modal-footer
   border-top px solid var(--bc)
@@ -125,16 +112,20 @@ export default {
 
 .tm-modal-main p
   margin-bottom 1rem
-
-.tm-modal-main > .tm-article-body
-  margin -1rem
+  padding 0 1rem
+  word-wrap break-word
+  color var(--txt)
 
 .tm-modal-footer
-  flex 0 0 4rem + px
+  padding 1rem
+
+  button
+    padding-left 1rem
+
   &:empty
     display none
 
 .tm-modal-footer > div
   display flex
-  justify-content space-between
+  justify-content flex-end
 </style>

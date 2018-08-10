@@ -35,16 +35,4 @@ export default {
 
 .tm-modal.tm-modal-receive
   z-index z(modalError)
-
-  .tm-modal-main
-    padding 2rem
-
-    p
-      margin 0 0 2rem
-
-  .receive-modal
-    border 1px solid bc
-
-  .value
-    padding 0
 </style>
