@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * testnets not properly available after download @faboweb
 * Tell the main process when we switch to the mock network. @NodeGuy
 * improved tooltip styling @jolesbi
+* Sort validators by "Your Votes" fixed @okwme
 * Overflow bonding bar bug @okwme
 
 ## [0.9.3] - 2018-08-02

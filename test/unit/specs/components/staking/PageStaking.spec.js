@@ -44,16 +44,16 @@ describe("PageStaking", () => {
     wrapper.vm.sort.property = "owner"
     wrapper.vm.sort.order = "desc"
 
-    expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual(
-      lcdClientMock.validators
-    )
+    expect(
+      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.owner)
+    ).toEqual(lcdClientMock.validators)
 
     wrapper.vm.sort.property = "owner"
     wrapper.vm.sort.order = "asc"
 
-    expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual(
-      lcdClientMock.validators.reverse()
-    )
+    expect(
+      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.owner)
+    ).toEqual(lcdClientMock.validators.reverse())
   })
 
   it("should filter the delegates", () => {
@@ -62,18 +62,18 @@ describe("PageStaking", () => {
       "delegates",
       lcdClientMock.validators[2].substr(20, 26)
     ])
-    expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual([
-      lcdClientMock.validators[2]
-    ])
+    expect(
+      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.owner)
+    ).toEqual([lcdClientMock.validators[2]])
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit("setSearchQuery", [
       "delegates",
       lcdClientMock.validators[1].substr(20, 26)
     ])
-    expect(wrapper.vm.filteredDelegates.map(x => x.owner)).toEqual([
-      lcdClientMock.validators[1]
-    ])
+    expect(
+      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.owner)
+    ).toEqual([lcdClientMock.validators[1]])
   })
 
   it("should show the amount of selected delegates", () => {
