@@ -8,8 +8,7 @@ describe("AppHeader", () => {
 
   beforeEach(() => {
     instance = mount(AppHeader, {
-      stubs: { "app-menu": "<app-menu />" },
-      methods: { watchWindowSize: () => {} }
+      stubs: { "app-menu": "<app-menu />" }
     })
     wrapper = instance.wrapper
     store = instance.store

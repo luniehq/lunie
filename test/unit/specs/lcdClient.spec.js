@@ -158,4 +158,30 @@ describe("LCD Client", () => {
     client.listKeys = () => Promise.resolve()
     expect(result).toEqual(["abc"])
   })
+
+  it("queries for a delegation summary for a delegator", async () => {
+    axios.get = jest.fn().mockReturnValue({})
+    client.getDelegator("abc")
+    expect(axios.get.mock.calls).toMatchSnapshot()
+  })
+
+  it("queries for a delegation txs", async () => {
+    axios.get = jest.fn().mockReturnValue({})
+    client.getDelegatorTxs("abc")
+    client.getDelegatorTxs("abc", ["bonding"])
+    client.getDelegatorTxs("abc", ["unbonding"])
+    expect(axios.get.mock.calls).toMatchSnapshot()
+  })
+
+  it("queries for undelegations between a delegator and a validator", async () => {
+    axios.get = jest.fn().mockReturnValue({})
+    client.queryUnbonding("abc", "def")
+    expect(axios.get.mock.calls).toMatchSnapshot()
+  })
+
+  it("queries for a candidate", async () => {
+    axios.get = jest.fn().mockReturnValue({})
+    client.getCandidate("abc")
+    expect(axios.get.mock.calls).toMatchSnapshot()
+  })
 })
