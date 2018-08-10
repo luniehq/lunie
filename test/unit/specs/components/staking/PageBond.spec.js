@@ -37,10 +37,6 @@ describe("PageBond", () => {
           country: "Canada",
           moniker: "someOtherValidator"
         })
-        store.commit("setUnbondingDelegations", {
-          candidateId: "pubkeyY",
-          value: 100
-        })
       }
     })
     store = test.store
@@ -62,7 +58,7 @@ describe("PageBond", () => {
 
   it("shows number of total atoms", () => {
     store.commit("setAtoms", 1337)
-    expect(wrapper.vm.totalAtoms).toBe(1437) // plus unbonding atoms
+    expect(wrapper.vm.totalAtoms).toBe(1337)
   })
 
   it("shows old bonded atoms ", () => {
@@ -79,14 +75,14 @@ describe("PageBond", () => {
 
   it("shows bond bar percent", () => {
     store.commit("setAtoms", 120)
-    expect(wrapper.vm.bondBarPercent(30)).toBe("14%")
+    expect(wrapper.vm.bondBarPercent(30)).toBe("25%")
   })
 
   it("sets bond bar inner width and style", () => {
     store.commit("setAtoms", 120)
     wrapper.setData({ bondBarOuterWidth: 128 })
-    expect(wrapper.vm.bondBarInnerWidth(80)).toBe("64px")
-    expect(wrapper.vm.styleBondBarInner(80)).toEqual({ width: "64px" })
+    expect(wrapper.vm.bondBarInnerWidth(80)).toBe("95px")
+    expect(wrapper.vm.styleBondBarInner(80)).toEqual({ width: "95px" })
   })
 
   it("sets bond group class", () => {
@@ -184,9 +180,9 @@ describe("PageBond", () => {
         ]
       }
     })
-    expect(wrapper.find("#new-unbonded-atoms").element.value).toBe("181") // plus unbonding atoms
+    expect(wrapper.find("#new-unbonded-atoms").element.value).toBe("81")
     wrapper.find("#btn-reset").trigger("click")
-    expect(wrapper.find("#new-unbonded-atoms").element.value).toBe("201")
+    expect(wrapper.find("#new-unbonded-atoms").element.value).toBe("101")
   })
 
   it("shows an error when bonding too many atoms", () => {
@@ -231,8 +227,8 @@ describe("PageBond", () => {
         ]
       }
     })
-    expect(wrapper.vm.newUnbondedAtoms).toBe(181) // plus unbonding atoms
-    expect(wrapper.find("#new-unbonded-atoms").vnode.elm._value).toBe(181)
+    expect(wrapper.vm.newUnbondedAtoms).toBe(81)
+    expect(wrapper.find("#new-unbonded-atoms").vnode.elm._value).toBe(81)
   })
 
   it("shows an appropriate amount of unbonding atoms", () => {
@@ -259,8 +255,8 @@ describe("PageBond", () => {
         ]
       }
     })
-    expect(wrapper.vm.newUnbondingAtoms).toBe(120) // plus old unbonding atoms
-    expect(wrapper.find("#new-unbonding-atoms").vnode.elm._value).toBe(120)
+    expect(wrapper.vm.newUnbondingAtoms).toBe(20)
+    expect(wrapper.find("#new-unbonding-atoms").vnode.elm._value).toBe(20)
   })
 
   it("shows an error if confirmation is not checked", () => {

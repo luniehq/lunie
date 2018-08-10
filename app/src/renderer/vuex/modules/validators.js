@@ -20,24 +20,25 @@ export default ({ node }) => {
         dispatch("getValidators")
       }
     },
-    async getValidators({ state, commit }) {
+    getValidators({ state, commit }) {
       state.loading = true
-      try {
-        let validators = (await node.getValidatorSet()).validators
+      node.rpc.validators((err, { validators } = {}) => {
+        if (err) {
+          commit("notifyError", {
+            title: "Error fetching validator set",
+            body: err.message
+          })
+          return
+        }
         commit("setValidators", validators)
-      } catch (err) {
-        commit("notifyError", {
-          title: "Error fetching validator set",
-          body: err.message
-        })
-      }
-      state.loading = false
+        state.loading = false
+      })
     },
-    async maybeUpdateValidators({ state, commit, dispatch }, header) {
+    maybeUpdateValidators({ state, commit, dispatch }, header) {
       let validatorHash = header.validators_hash
       if (validatorHash === state.validatorHash) return
       commit("setValidatorHash", validatorHash)
-      await dispatch("getValidators")
+      dispatch("getValidators")
     }
   }
 
