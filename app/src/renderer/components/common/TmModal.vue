@@ -60,7 +60,7 @@ export default {
   display flex
   flex-flow column nowrap
   min-width 20rem
-  max-width 30rem
+  max-width 40rem
 
 .tm-modal-header
   display flex
