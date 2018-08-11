@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-* removed light theme option from preferences page @jolesbi
+* removed light theme option from preferences page @jbibla
 * enabled staked balance on PageWallet in production @faboweb
 * removed unused xmlhttprequest dependency @faboweb
 
@@ -24,9 +24,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * testnets not properly available after download @faboweb
 * Tell the main process when we switch to the mock network. @NodeGuy
-* improved tooltip styling @jolesbi
+* improved tooltip styling @jbibla
 * Sort validators by "Your Votes" fixed @okwme
 * Overflow bonding bar bug @okwme
+* improved modal and wallet styling @jbibla
 
 ## [0.9.3] - 2018-08-02
 
@@ -38,14 +39,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-* button styling @jolesbi
+* button styling @jbibla
 * Switched to Gaia-7004 @faboweb
 * showing warning about out of range of atoms in bonding UI only once on top and renaming it @faboweb
 * blocking login if not connected to a node to prevent errors @faboweb
 
 ### Fixed
 
-* broken styles in light theme @jolesbi
+* broken styles in light theme @jbibla
 * slider in staking UI @faboweb
 * error with empty accounts @faboweb
 
@@ -105,7 +106,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Using vue-jest for transpiling in tests for better code coverage output @faboweb
 * Default to gaia-7001 @okwme
 * Changed `yarn testnet` to `yarn start` @okwme
-* Updated colors throughout @jolesbi
+* Updated colors throughout @jbibla
 * Update network @okwme
 
 ### Fixed
@@ -138,11 +139,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 * Use persistent peers and seeds from tendermint config @faboweb
-* Updated loading icon and loading states @jolesbi
+* Updated loading icon and loading states @jbibla
 * more components moved to `@tendermint/ui` @okwme
 * Removed COSMOS_MOCKED flag @faboweb
-* Improved readability and accessibility @jolesbi
-* Significant style and UI updates for dark and light themes @jolesbi
+* Improved readability and accessibility @jbibla
+* Significant style and UI updates for dark and light themes @jbibla
 * Doesn't show loading screen when validators are still stored @okwme
 * Improved CI @faboweb
 * Search bar fixed to top @okwme
@@ -177,7 +178,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Disabled error reporting in development @faboweb
 * Removed ci files from code coverage as they are badly testable @faboweb
-* Update genesis.json when conflicts are detected @jolesbi
+* Update genesis.json when conflicts are detected @jbibla
 * Hide IBC as it will not be ready for launch @faboweb
 * Updated e2e tests to not rely on flags to run @okwme
 * Not shrinking stacktrace anymore @faboweb
@@ -225,12 +226,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Build process now builds for all three platforms at the same time. @NodeGuy
 * The config.toml is now mocked to guarantee consistent unit tests @faboweb
 * The binary is now accepted if it has the same minor version instead of the path version. @faboweb
-* Hid staking button on wallet page @jolesbi
-* Increment version in package.json @jolesbi
+* Hid staking button on wallet page @jbibla
+* Increment version in package.json @jbibla
 * Profile page now settings with forked ni-vue-field @okwme @nylira
-* Added proper voyager logo to readme @jolesbi
+* Added proper voyager logo to readme @jbibla
 * Made search consistent @okwme
-* Change gaia-2 to gaia-5001 in readme @jolesbi
+* Change gaia-2 to gaia-5001 in readme @jbibla
 * Improved readme with better prerequisite instructions @nylira
 
 ### Fixes
@@ -299,7 +300,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Added `mvp-features.md` to documentation. @nylira
 * Added full page error @nylira
-* Added receive button and receive modal @jolesbi
+* Added receive button and receive modal @jbibla
 * The validator hash now has to be approved by the user for security @faboweb
 * Transitioned to Docker for easier cross platform builds. @NodeGuy
 * New light theme for day time Voyaging 😎 🚀 @nylira
@@ -325,12 +326,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* Added back button to every page. @jolesbi
+* Added back button to every page. @jbibla
 
 ### Changed
 
-* Updated transaction history to be more clear and descriptive. @jolesbi
-* Improved delegate profile page to accommodate candidates and validators. @jolesbi
+* Updated transaction history to be more clear and descriptive. @jbibla
+* Improved delegate profile page to accommodate candidates and validators. @jbibla
 
 ## [0.4.1] - 2018-02-01
 
@@ -377,4 +378,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* Added a changelog @jolesbi.
+* Added a changelog @jbibla.

@@ -50,7 +50,6 @@ tm-page(title='Send')
       br(v-if='mockedConnector')
 
     div(slot='footer')
-      div
       tm-btn(v-if='sending' value='Sending...' disabled color="primary")
       tm-btn(v-else @click='onSubmit' value="Send Tokens" color="primary")
 
@@ -214,3 +213,13 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+@require '~variables'
+
+.tm-form-footer
+  max-width width-main-max
+  display flex
+  justify-content flex-end
+
+</style>
