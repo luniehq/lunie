@@ -36,15 +36,13 @@ export default function({ node }) {
   }
 
   const actions = {
-    setLastHeader({ state, rootState, dispatch }, header) {
+    setLastHeader({ state, rootState }, header) {
       state.lastHeader = header
 
       // TODO do this somewhere else probably
       if (!rootState.wallet.zoneIds.find(x => x === header.chain_id)) {
         rootState.wallet.zoneIds.unshift(header.chain_id)
       }
-
-      dispatch("maybeUpdateValidators", header)
     },
     async reconnect({ commit }) {
       if (state.stopConnecting) return
@@ -93,6 +91,7 @@ export default function({ node }) {
         }
       )
 
+      dispatch("validatorUpdateSubscribe")
       dispatch("walletSubscribe")
       dispatch("checkNodeHalted")
       dispatch("pollRPCConnection")

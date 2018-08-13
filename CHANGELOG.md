@@ -18,10 +18,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * storing balance, tx history and delegations locally to serve an old state faster @faboweb
-* added error message for missing network config @faboweb
 
 ### Fixed
 
+* added error message for missing network config @faboweb
 * testnets not properly available after download @faboweb
 * Tell the main process when we switch to the mock network. @NodeGuy
 * improved tooltip styling @jbibla

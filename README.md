@@ -169,26 +169,26 @@ Write down the 12 word secret phrase to be able to import an account that holds 
 Copy the configuration files (assuming you are in the Voyager dir):
 
 ```bash
-$ mkdir builds/testnets/local-testnet
-$ cp ~/.gaiad-testnet/config/{genesis.json,config.toml} builds/testnets/local-testnet/
+$ mkdir app/networks/local-testnet
+$ cp ~/.gaiad-testnet/config/{genesis.json,config.toml} app/networks/local-testnet/
 ```
 
 Enter your local node as a seed:
 
 ```bash
-$ sed -i.bak 's/seeds = ""/seeds = "localhost"/g' ./builds/testnets/local-testnet/config.toml
+$ sed -i.bak 's/seeds = ""/seeds = "localhost"/g' ./app/networks/local-testnet/config.toml
 ```
 
 Activate TX indexing in your local node:
 
 ```bash
-$ sed -i.bak 's/index_all_tags = true/index_all_tags = false/g' ./builds/testnets/local-testnet/config.toml
+$ sed -i.bak 's/index_all_tags = true/index_all_tags = false/g' ./app/networks/local-testnet/config.toml
 ```
 
 Store the gaia version used in your local testnet:
 
 ```bash
-$ ./builds/Gaia/{OS}/gaiad version > ./builds/testnets/local-testnet/gaiaversion.txt
+$ ./builds/Gaia/{OS}/gaiad version > ./app/networks/local-testnet/gaiaversion.txt
 ```
 
 Start your local node:
