@@ -28,7 +28,7 @@ tm-page(title='Staking')
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { includes, orderBy, forEach } from "lodash"
+import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import LiDelegate from "staking/LiDelegate"
 import { TmBtn, TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"

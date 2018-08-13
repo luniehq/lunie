@@ -10,7 +10,7 @@ describe("PageBond", () => {
 
   beforeEach(async () => {
     let test = mount(PageBond, {
-      doBefore: async ({ store, node }) => {
+      doBefore: async ({ store }) => {
         store.commit("setAtoms", 101)
 
         store.commit("addToCart", {
