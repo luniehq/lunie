@@ -2,6 +2,7 @@ import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
 import Vuelidate from "vuelidate"
 import PageBond from "renderer/components/staking/PageBond"
+import { candidates } from "renderer/connectors/lcdClientMock.js"
 describe("PageBond", () => {
   let wrapper, store, router
   let { mount, localVue } = setup()
@@ -36,8 +37,6 @@ describe("PageBond", () => {
           country: "Canada",
           moniker: "someOtherValidator"
         })
-
-        let candidates = await node.candidates()
         store.commit(
           "addToCart",
           Object.assign(
@@ -71,6 +70,7 @@ describe("PageBond", () => {
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
     wrapper.update()
+    console.log(wrapper.vm.totalAtoms)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -455,6 +455,7 @@ describe("PageBond", () => {
     wrapper.vm.fields.bondConfirm = true
     wrapper.vm.fields.delegates[2].revoked = true
     wrapper.vm.fields.delegates[2].atoms = 1
+
     wrapper.findAll("#btn-bond").trigger("click")
     await sleep(1000)
     let lastErr =

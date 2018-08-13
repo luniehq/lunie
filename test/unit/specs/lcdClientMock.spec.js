@@ -541,7 +541,7 @@ describe("LCD Client Mock", () => {
       delegations: [
         {
           delegator_addr: lcdClientMock.addresses[0],
-          validator_addr: lcdClientMock.validators[2],
+          validator_addr: lcdClientMock.validators[1],
           delegation: { denom: "mycoin", amount: "10" }
         }
       ],

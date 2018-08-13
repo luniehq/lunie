@@ -181,6 +181,8 @@ let state = {
 }
 
 module.exports = {
+  candidates: state.candidates,
+
   async lcdConnected() {
     return true
   },

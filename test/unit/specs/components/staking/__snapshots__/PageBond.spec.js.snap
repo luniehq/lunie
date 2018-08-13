@@ -387,7 +387,7 @@ exports[`PageBond has the expected html structure 1`] = `
                       </label>
                       <input
                         class="bond-value__input tm-field"
-                        max="101"
+                        max="201"
                         min="0"
                         placeholder="Atoms"
                         step="1"
