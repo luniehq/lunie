@@ -6,9 +6,7 @@ export default ({ node }) => {
     delegates: [],
 
     // our delegations which are already on the blockchain
-    committedDelegates: {},
-    unbondingDelegations: {},
-    delegationTxs: []
+    committedDelegates: {}
   }
 
   const mutations = {
@@ -38,18 +36,6 @@ export default ({ node }) => {
         committedDelegates[candidateId] = value
       }
       state.committedDelegates = committedDelegates
-    },
-    setUnbondingDelegations(state, { candidateId, value }) {
-      let unbondingDelegations = Object.assign({}, state.unbondingDelegations)
-      if (value === 0) {
-        delete unbondingDelegations[candidateId]
-      } else {
-        unbondingDelegations[candidateId] = value
-      }
-      state.unbondingDelegations = unbondingDelegations
-    },
-    setDelegationTxs(state, txs) {
-      state.delegationTxs = txs
     }
   }
 
@@ -60,44 +46,36 @@ export default ({ node }) => {
       }
     },
     // load committed delegations from LCD
-    async getBondedDelegates(
-      { state, rootState, commit, dispatch },
-      candidates
-    ) {
+    async getBondedDelegates({ state, rootState, dispatch }, candidates) {
       state.loading = true
       let address = rootState.user.address
       candidates = candidates || (await dispatch("getDelegates"))
-      let delegator = await node.getDelegator(address)
-      if (delegator.delegations) {
-        delegator.delegations.forEach(({ validator_addr, shares }) => {
-          commit("setCommittedDelegation", {
-            candidateId: validator_addr,
-            value: parseFloat(shares)
+      await Promise.all(
+        candidates.map(candidate =>
+          dispatch("getBondedDelegate", {
+            delegator: address,
+            validator: candidate.owner
           })
-          if (shares > 0) {
-            const delegate = candidates.find(
-              ({ owner }) => owner === validator_addr // this should change to address instead of owner
-            )
-            commit("addToCart", delegate)
-          }
-        })
-      }
-      if (delegator.unbonding_delegations) {
-        delegator.unbonding_delegations.forEach(
-          ({ validator_addr, balance: { amount } }) => {
-            commit("setUnbondingDelegations", {
-              candidateId: validator_addr,
-              value: parseFloat(amount)
-            })
-          }
         )
-      }
+      )
       state.loading = false
     },
-    async getDelegationTxs({ commit, rootState }) {
-      let address = rootState.user.address
-      let txs = await node.getDelegatorTxs(address)
-      commit("setDelegationTxs", txs)
+    // load committed delegation from LCD
+    async getBondedDelegate({ commit, rootState }, { delegator, validator }) {
+      let bond = await node.queryDelegation(delegator, validator)
+
+      let shares = bond ? bond.shares : 0
+      let delegate = rootState.delegates.delegates.find(
+        d => d.owner === validator
+      )
+
+      commit("setCommittedDelegation", {
+        candidateId: validator,
+        value: shares
+      })
+      if (shares > 0) {
+        commit("addToCart", delegate)
+      }
     },
     async updateDelegates({ dispatch }) {
       let candidates = await dispatch("getDelegates")
@@ -138,7 +116,6 @@ export default ({ node }) => {
 
       await dispatch("sendTx", {
         type: "updateDelegations",
-        to: rootState.wallet.address, // TODO strange syntax
         delegations: delegate,
         begin_unbondings: unbond
       })

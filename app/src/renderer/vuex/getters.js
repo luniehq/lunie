@@ -17,7 +17,6 @@ export const transactions = state => state.wallet.history
 export const wallet = state => state.wallet
 
 // staking
-export const delegation = state => state.delegation
 export const committedDelegations = state => state.delegation.committedDelegates
 export const delegates = state => state.delegates
 export const shoppingCart = state => state.delegation.delegates

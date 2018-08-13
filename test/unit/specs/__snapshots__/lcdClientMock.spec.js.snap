@@ -2,10 +2,10 @@
 
 exports[`LCD Client Mock delegates to multiple validators at once 1`] = `"10"`;
 
-exports[`LCD Client Mock delegates to multiple validators at once 2`] = `"24"`;
+exports[`LCD Client Mock delegates to multiple validators at once 2`] = `"140"`;
 
 exports[`LCD Client Mock deletes keys 1`] = `[Error: Passwords do not match]`;
 
-exports[`LCD Client Mock queries bondings per delegator 1`] = `"14"`;
+exports[`LCD Client Mock queries bondings per delegator 1`] = `"130"`;
 
 exports[`LCD Client Mock updates keys 1`] = `[Error: Passwords do not match]`;

@@ -182,7 +182,7 @@ $ sed -i.bak 's/seeds = ""/seeds = "localhost"/g' ./builds/testnets/local-testne
 Activate TX indexing in your local node:
 
 ```bash
-$ sed -i.bak 's/index_all_tags = false/index_all_tags = true/g'  ~/.gaiad-testnet/config/config.toml
+$ sed -i.bak 's/index_all_tags = true/index_all_tags = false/g' ./builds/testnets/local-testnet/config.toml
 ```
 
 Store the gaia version used in your local testnet:

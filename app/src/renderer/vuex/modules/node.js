@@ -36,7 +36,7 @@ export default function({ node }) {
   }
 
   const actions = {
-    async setLastHeader({ state, rootState, dispatch }, header) {
+    setLastHeader({ state, rootState, dispatch }, header) {
       state.lastHeader = header
 
       // TODO do this somewhere else probably
@@ -44,7 +44,7 @@ export default function({ node }) {
         rootState.wallet.zoneIds.unshift(header.chain_id)
       }
 
-      await dispatch("maybeUpdateValidators", header)
+      dispatch("maybeUpdateValidators", header)
     },
     async reconnect({ commit }) {
       if (state.stopConnecting) return

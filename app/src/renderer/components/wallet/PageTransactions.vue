@@ -9,19 +9,14 @@ tm-page(title='Transactions')
   modal-search(type="transactions" v-if="somethingToSearch")
 
   tm-data-loading(v-if="wallet.historyLoading")
-  data-empty-tx(v-else-if='allTransactions.length === 0')
+  data-empty-tx(v-else-if='transactions.length === 0')
   data-empty-search(v-else-if="filteredTransactions.length === 0")
-  template(v-else v-for="i in filteredTransactions")
-    tm-li-transaction(
-      v-if="i.type === 'wallet'"
-      :key="shortid.generate()"
-      :transaction="i"
-      :address="wallet.address")
-    tm-li-staking-transaction(
-      v-if="i.type === 'staking'"
-      :key="shortid.generate()"
-      :transaction="i"
-      :address="wallet.address")
+  tm-li-transaction(
+    v-else
+    v-for="i in filteredTransactions"
+    :key="shortid.generate()"
+    :transaction="i"
+    :address="wallet.address")
 </template>
 
 <script>
@@ -32,15 +27,12 @@ import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import ModalSearch from "common/TmModalSearch"
-import { TmPage, TmDataLoading } from "@tendermint/ui"
-import TmLiTransaction from "./TmLiTransaction"
-import TmLiStakingTransaction from "./TmLiStakingTransaction"
+import { TmPage, TmDataLoading, TmLiTransaction } from "@tendermint/ui"
 import ToolBar from "common/TmToolBar"
 export default {
   name: "page-transactions",
   components: {
     TmLiTransaction,
-    TmLiStakingTransaction,
     TmDataLoading,
     DataEmptySearch,
     DataEmptyTx,
@@ -49,37 +41,12 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters([
-      "filters",
-      "transactions",
-      "wallet",
-      "config",
-      "delegation"
-    ]),
+    ...mapGetters(["filters", "transactions", "wallet", "config"]),
     somethingToSearch() {
-      return !this.wallet.historyLoading && !!this.allTransactions.length
-    },
-    allTransactions() {
-      return [].concat(
-        this.transactions.map(t => {
-          t.type = "wallet"
-          return t
-        }),
-        this.delegation.delegationTxs.map(t => {
-          t.type = "staking"
-          return t
-        })
-      )
+      return !this.wallet.historyLoading && !!this.transactions.length
     },
     orderedTransactions() {
-      return orderBy(
-        this.allTransactions.map(t => {
-          t.height = parseInt(t.height)
-          return t // TODO what happens if block height is bigger then int?
-        }),
-        [this.sort.property],
-        [this.sort.order]
-      )
+      return orderBy(this.transactions, [this.sort.property], [this.sort.order])
     },
     filteredTransactions() {
       let query = this.filters.transactions.search.query
@@ -103,7 +70,6 @@ export default {
   methods: {
     refreshTransactions() {
       this.$store.dispatch("queryWalletHistory")
-      this.$store.dispatch("getDelegationTxs")
     },
     setSearch(bool = !this.filters["transactions"].search.visible) {
       if (!this.somethingToSearch) return false
@@ -113,7 +79,6 @@ export default {
   mounted() {
     Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
     Mousetrap.bind("esc", () => this.setSearch(false))
-    this.refreshTransactions()
   }
 }
 </script>

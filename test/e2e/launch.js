@@ -253,9 +253,6 @@ function initLocalNode() {
     const localnodeProcess = spawn(command, { shell: true })
     localnodeProcess.stderr.pipe(process.stderr)
 
-    // the init command now asks for a password for some default account we don't need
-    localnodeProcess.stdin.write("\n")
-
     localnodeProcess.stdout.once("data", data => {
       let msg = data.toString()
 

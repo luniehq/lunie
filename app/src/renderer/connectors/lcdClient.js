@@ -90,64 +90,12 @@ Object.assign(Client.prototype, {
   },
   tx: argReq("GET", "/txs"),
 
-  /* ============ STAKE ============ */
-
-  // Get all delegations information from a delegator
-  getDelegator: function(addr) {
-    return req("GET", `/stake/delegators/${addr}`).call(this)
-  },
-  // Get all txs from a delegator
-  getDelegatorTxs: function(addr, types) {
-    if (!types) {
-      return req("GET", `/stake/delegators/${addr}/txs`).call(this)
-    } else {
-      return req("GET", `/stake/delegators/${addr}/txs?type=${types}`).call(
-        this
-      )
-    }
-  },
-  // // Query all validators that a delegator is bonded to
-  // getDelegatorValidators: function(delegatorAddr) {
-  //   return req("GET", `/stake/delegators/${delegatorAddr}/validators`).call(this)
-  // },
-  // // Query a validator info that a delegator is bonded to
-  // getDelegatorValidator: function(delegatorAddr, validatorAddr) {
-  //   return req("GET", `/stake/delegators/${delegatorAddr}/validators/${validatorAddr}`).call(this)
-  // },
-
-  // Get a list containing all the validator candidates
-  getCandidates: req("GET", "/stake/validators"),
-  // Get information from a validator
-  getCandidate: function(addr) {
-    return req("GET", `/stake/validators/${addr}`).call(this)
-  },
-  // // Get all of the validator bonded delegators
-  // getValidatorDelegators: function(addr) {
-  //   return req("GET", `/stake/validator/${addr}/delegators`).call(this)
-  // },
-
-  // Get the list of the validators in the latest validator set
-  getValidatorSet: req("GET", "/validatorsets/latest"),
-
-  updateDelegations: function(delegatorAddr, data) {
-    return req("POST", `/stake/delegators/${delegatorAddr}/delegations`).call(
-      this,
-      data
-    )
-  },
-
-  // Query a delegation between a delegator and a validator
-  queryDelegation: function(delegatorAddr, validatorAddr) {
-    return req(
-      "GET",
-      `/stake/delegators/${delegatorAddr}/delegations/${validatorAddr}`
-    ).call(this)
-  },
-  queryUnbonding: function(delegatorAddr, validatorAddr) {
-    return req(
-      "GET",
-      `/stake/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`
-    ).call(this)
+  // staking
+  updateDelegations: req("POST", "/stake/delegations"),
+  candidates: req("GET", "/stake/validators"),
+  getValidators: req("GET", "/validatorsets/latest"),
+  queryDelegation: function(delegator, validator) {
+    return req("GET", `/stake/${delegator}/delegation/${validator}`).call(this)
   }
 })
 

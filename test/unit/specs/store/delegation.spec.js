@@ -3,11 +3,12 @@ import setup from "../../helpers/vuex-setup"
 let instance = setup()
 
 describe("Module: Delegations", () => {
-  let store
+  let store, node
 
   beforeEach(async () => {
     let test = instance.shallow()
     store = test.store
+    node = test.node
 
     store.dispatch("signIn", { password: "bar", account: "default" })
     await store.dispatch("getDelegates")
@@ -63,7 +64,35 @@ describe("Module: Delegations", () => {
   })
 
   it("fetches bonded delegates", async () => {
+    node.queryDelegation = jest
+      .fn()
+      .mockReturnValueOnce({
+        shares: "10"
+      })
+      .mockReturnValueOnce({
+        shares: "15"
+      })
+      // no delegation for a delegate
+      .mockReturnValueOnce(null)
+
     await store.dispatch("getBondedDelegates", store.state.delegates.delegates)
+
+    // each is user account + validator owner
+    expect(node.queryDelegation.mock.calls).toEqual([
+      [
+        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      ],
+      [
+        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+      ],
+      [
+        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+      ]
+    ])
+
     expect(store.state.delegation.committedDelegates).toMatchSnapshot()
   })
 
@@ -85,43 +114,6 @@ describe("Module: Delegations", () => {
     await store.dispatch("submitDelegation", delegations)
 
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
-  })
-
-  it("submits undelegation transaction", async () => {
-    store.dispatch("setLastHeader", {
-      height: 42,
-      chain_id: "test-chain"
-    })
-    await store.dispatch("getBondedDelegates")
-
-    jest.spyOn(store._actions.sendTx, "0")
-
-    let bondings = [50, 100, 0]
-    const delegations = store.state.delegates.delegates.map((delegate, i) => ({
-      delegate,
-      atoms: bondings[i]
-    }))
-
-    await store.dispatch("submitDelegation", delegations)
-
-    expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
-  })
-
-  it("fetches current undelegations", async () => {
-    await store.dispatch("getBondedDelegates", store.state.delegates.delegates)
-    expect(store.state.delegation.unbondingDelegations).toMatchSnapshot()
-  })
-
-  it("deletes undelegations that are 0", async () => {
-    await store.dispatch("getBondedDelegates", store.state.delegates.delegates)
-    store.commit("setUnbondingDelegations", {
-      candidateId: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-      value: 0
-    })
-    expect(
-      store.state.delegation.unbondingDelegations
-        .cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
-    ).toBeUndefined()
   })
 
   it("should query delegated atoms on reconnection", () => {

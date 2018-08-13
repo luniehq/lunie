@@ -1,7 +1,7 @@
 module.exports = [
   {
     hash: "not a real hash",
-    time: Date.now() + 1000, // set by Voyager
+    time: Date.now(), // set by Voyager
     height: "3436",
     tx: {
       type: "8EFE47F0625DE8",
@@ -79,7 +79,7 @@ module.exports = [
   },
   {
     hash: "not a real hash2",
-    time: Date.now() + 1010, // set by Voyager
+    time: Date.now() + 10, // set by Voyager
     height: "3438",
     tx: {
       type: "8EFE47F0625DE8",
@@ -160,7 +160,7 @@ module.exports = [
     hash: "not a real hash3",
 
     time: Date.now() + 100, // set by Voyager
-    height: "466",
+    height: "3466",
     tx: {
       type: "8EFE47F0625DE8",
       value: {
