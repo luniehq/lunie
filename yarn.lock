@@ -39,6 +39,23 @@
     perfect-scrollbar "^1.4.0"
     vue "^2.5.16"
 
+"@tendermint/ui@https://github.com/tendermint/ui.git":
+  version "0.2.14"
+  resolved "https://github.com/tendermint/ui.git#1574d61848c269ee7aea1704d6ad35a3102cf76f"
+  dependencies:
+    axios "^0.18.0"
+    cookieconsent "^3.0.6"
+    js-base64 "^2.4.5"
+    markdown-it "^8.4.1"
+    markdown-it-anchor "^5.0.2"
+    moment "^2.22.2"
+    nib "^1.1.2"
+    numeral "^2.0.6"
+    perfect-scrollbar "^1.4.0"
+    vue "^2.5.16"
+    vue-router "^3.0.1"
+    vuex "^3.0.1"
+
 "@types/babel-types@*", "@types/babel-types@^7.0.0":
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/@types/babel-types/-/babel-types-7.0.4.tgz#bfd5b0d0d1ba13e351dff65b6e52783b816826c8"
@@ -5173,7 +5190,7 @@ next-tick@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
-nib@1.1.2:
+nib@1.1.2, nib@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/nib/-/nib-1.1.2.tgz#6a69ede4081b95c0def8be024a4c8ae0c2cbb6c7"
   dependencies:
@@ -7904,7 +7921,7 @@ vue-loader@15.2.4:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-router@3.0.1:
+vue-router@3.0.1, vue-router@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"
 
@@ -7934,7 +7951,7 @@ vuelidate@0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.6.2.tgz#b417f5367407b047a2548119b25db56fe2bd5753"
 
-vuex@3.0.1:
+vuex@3.0.1, vuex@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.0.1.tgz#e761352ebe0af537d4bb755a9b9dc4be3df7efd2"
 
