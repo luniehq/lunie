@@ -2,7 +2,6 @@ import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
 import Vuelidate from "vuelidate"
 import PageBond from "renderer/components/staking/PageBond"
-import interact from "interactjs"
 
 describe("PageBond", () => {
   let wrapper, store, router
@@ -92,10 +91,6 @@ describe("PageBond", () => {
     expect(wrapper.vm.bondGroupClass(0)).toBe("bond-group--neutral")
   })
 
-  it("has bond bars the user can interact with", () => {
-    expect(interact.isSet(".bond-bar__inner--editable")).toBe(true)
-  })
-
   it("updates delegate atoms", () => {
     wrapper.vm.updateDelegateAtoms("pubkeyX", 88)
     let delegate = wrapper.vm.fields.delegates.find(d => d.id === "pubkeyX")
@@ -120,7 +115,7 @@ describe("PageBond", () => {
     expect(wrapper.vm.percent(40, 60, 4)).toBe("66.6667%")
   })
 
-  it("limits the input of atoms to the maximum", () => {
+  it("limits the input of atoms for max and min", () => {
     let delegate = {
       id: "pubkeyX",
       delegate: store.getters.shoppingCart[0].delegate,
@@ -132,6 +127,14 @@ describe("PageBond", () => {
 
     wrapper.vm.limitMax(delegate, 10)
     expect(delegate.atoms).toBe(10)
+
+    delegate.atoms = -1
+    wrapper.vm.limitMax(delegate, 10)
+    expect(delegate.atoms).toBe(0)
+
+    delegate.atoms = "0-101-9"
+    wrapper.vm.limitMax(delegate, 10)
+    expect(delegate.atoms).toBe(0)
   })
 
   it("leaves if there are no candidates selected", () => {

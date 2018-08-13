@@ -321,7 +321,6 @@ exports[`PageSend has the expected html structure 1`] = `
           class="tm-form-footer"
         >
           <div>
-            <div />
             <button
               class="tm-btn"
             >
@@ -677,7 +676,6 @@ exports[`PageSend should show address required error 1`] = `
           class="tm-form-footer"
         >
           <div>
-            <div />
             <button
               class="tm-btn"
             >
@@ -1013,7 +1011,6 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
           class="tm-form-footer"
         >
           <div>
-            <div />
             <button
               class="tm-btn"
             >
@@ -1349,7 +1346,6 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
           class="tm-form-footer"
         >
           <div>
-            <div />
             <button
               class="tm-btn"
             >
@@ -1685,7 +1681,6 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
           class="tm-form-footer"
         >
           <div>
-            <div />
             <button
               class="tm-btn"
             >
@@ -2034,7 +2029,6 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
           class="tm-form-footer"
         >
           <div>
-            <div />
             <button
               class="tm-btn"
             >
@@ -2084,89 +2078,27 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
         <main
           class="tm-modal-main"
         >
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Amount
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  2 mycoin
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Recipient
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l
-                </div>
-              </div>
-            </div>
-          </div>
-          <p />
           <p>
-            Are you sure you want to send this transaction? Make sure to check the address again. This transaction cannot be undone.
+            Please confirm that you would like to send 
+            <b>
+              2 mycoin
+            </b>
+             to 
+            <b>
+              tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l
+            </b>
+            .
           </p>
-          <div
-            class="tm-modal-send-confirmation__footer"
+          <p
+            class="warning"
           >
-            <button
-              class="tm-btn"
-              id="send-confirmation-btn"
-              type="button"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <i
-                  aria-hidden="true"
-                  class="tm-btn__icon material-icons"
-                >
-                  send
-                </i>
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Approve Send
-                </span>
-              </span>
-            </button>
+            This transaction cannot be undone.
+          </p>
+        </main>
+        <footer
+          class="tm-modal-footer"
+        >
+          <div>
             <button
               class="tm-btn"
               id="send-cancel-btn"
@@ -2175,25 +2107,34 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
               <span
                 class="tm-btn__container"
               >
-                <i
-                  aria-hidden="true"
-                  class="tm-btn__icon material-icons"
-                >
-                  cancel
-                </i>
+                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
                 >
-                  Cancel Send
+                  Cancel
+                </span>
+              </span>
+            </button>
+            <button
+              class="tm-btn"
+              id="send-confirmation-btn"
+              type="button"
+            >
+              <span
+                class="tm-btn__container tm-btn--primary"
+              >
+                <!---->
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Confirm
                 </span>
               </span>
             </button>
           </div>
-        </main>
-        <footer
-          class="tm-modal-footer"
-        />
+        </footer>
       </div>
     </div>
   </main>
@@ -2515,7 +2456,6 @@ exports[`PageSend should work without providing a default denom 1`] = `
           class="tm-form-footer"
         >
           <div>
-            <div />
             <button
               class="tm-btn"
             >
