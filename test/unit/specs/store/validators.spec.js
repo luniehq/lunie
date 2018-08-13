@@ -34,8 +34,8 @@ describe("Module: Validators", () => {
   })
 
   it("should query validators", async () => {
-    await store.dispatch("getValidators")
-    expect(store.state.validators.validators).toHaveLength(3)
+    store.dispatch("getValidators")
+    expect(store.state.validators.validators).toHaveLength(6)
   })
 
   it("should survive errors in querying validators", async () => {
@@ -69,9 +69,9 @@ describe("Module: Validators", () => {
     jest.resetModules()
     store.state.node.stopConnecting = true
     store.state.validators.loading = true
-    jest.spyOn(node, "getValidatorSet")
+    jest.spyOn(node.rpc, "validators")
     store.dispatch("reconnected")
-    expect(node.getValidatorSet).toHaveBeenCalled()
+    expect(node.rpc.validators).toHaveBeenCalled()
   })
 
   it("should not query validators on reconnection if not stuck in loading", () => {

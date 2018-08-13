@@ -48,7 +48,6 @@ let state = {
         value: {
           msg: [
             {
-              type: "cosmos-sdk/Send",
               value: {
                 inputs: [
                   {
@@ -85,7 +84,6 @@ let state = {
         value: {
           msg: [
             {
-              type: "cosmos-sdk/Send",
               value: {
                 inputs: [
                   {
@@ -120,15 +118,12 @@ let state = {
   ],
   stake: {
     [addresses[0]]: {
-      delegations: [
-        {
-          delegator_addr: addresses[0],
-          validator_addr: validators[0],
-          shares: "14",
-          height: 123
-        }
-      ],
-      unbonding_delegations: []
+      [validators[0]]: {
+        delegator_addr: addresses[0],
+        validator_addr: validators[0],
+        shares: "130",
+        height: 123
+      }
     }
   },
   candidates: [
@@ -241,8 +236,8 @@ module.exports = {
       )
     })
   },
-  async tx(hash) {
-    return state.txs.find(tx => tx.hash === hash)
+  async tx() {
+    return {}
   },
   async send(to, req) {
     let fromKey = state.keys.find(a => a.name === req.name)
@@ -259,10 +254,7 @@ module.exports = {
   },
 
   // staking
-  async updateDelegations(
-    delegatorAddr,
-    { name, sequence, delegations, begin_unbondings }
-  ) {
+  async updateDelegations({ name, sequence, delegations, begin_unbondings }) {
     let results = []
 
     let fromKey = state.keys.find(a => a.name === name)
@@ -302,15 +294,10 @@ module.exports = {
       // update stake
       let delegator = state.stake[fromKey.address]
       if (!delegator) {
-        state.stake[fromKey.address] = {
-          delegations: [],
-          unbonding_delegations: []
-        }
+        state.stake[fromKey.address] = {}
         delegator = state.stake[fromKey.address]
       }
-      let delegation = delegator.delegations.find(
-        d => d.validator_addr === tx.validator_addr
-      )
+      let delegation = delegator[tx.validator_addr]
       if (!delegation) {
         delegation = {
           delegator_addr: fromKey.address,
@@ -318,9 +305,8 @@ module.exports = {
           shares: "0",
           height: 0
         }
-        delegator.delegations.push(delegation)
+        delegator[tx.validator_addr] = delegation
       }
-
       let shares = parseInt(delegation.shares)
       delegation.shares = (shares + amount).toString()
 
@@ -330,7 +316,6 @@ module.exports = {
         parseInt(candidate.delegator_shares) + amount
       ).toString()
 
-      storeTx("cosmos-sdk/MsgDelegate", tx)
       results.push(txResult(0))
     }
 
@@ -349,9 +334,7 @@ module.exports = {
         results.push(txResult(2, "Nonexistent delegator"))
         return results
       }
-      let delegation = delegator.delegations.find(
-        d => d.validator_addr === tx.validator_addr
-      )
+      let delegation = delegator[tx.validator_addr]
       if (!delegation) {
         results.push(txResult(2, "Nonexistent delegation"))
         return results
@@ -362,15 +345,7 @@ module.exports = {
       let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
       shares = parseInt(candidate.tokens)
       candidate.tokens = (+shares - amount).toString()
-      delegator.unbonding_delegations.push(
-        Object.assign({}, tx, {
-          balance: {
-            amount: tx.shares
-          }
-        })
-      )
 
-      storeTx("cosmos-sdk/BeginUnbonding", tx)
       results.push(txResult(0))
     }
 
@@ -378,42 +353,17 @@ module.exports = {
   },
   async queryDelegation(delegatorAddress, validatorAddress) {
     let delegator = state.stake[delegatorAddress]
-    if (!delegator) return {}
-    return delegator.delegations.find(
-      ({ validator_addr }) => validator_addr === validatorAddress
-    )
-  },
-  async queryUnbonding(delegatorAddress, validatorAddress) {
-    let delegator = state.stake[delegatorAddress]
     if (!delegator) return
-    return delegator.unbonding_delegations.find(
-      d => d.validator_addr === validatorAddress
-    )
+    return delegator[validatorAddress]
   },
-  // Get all delegations information from a delegator
-  getDelegator(delegatorAddress) {
-    let delegator = state.stake[delegatorAddress] || {}
-    return delegator
-  },
-  getDelegatorTxs(addr, types = []) {
-    if (types.length === 0) types = ["bonding", "unbonding"]
-    types = types.map(type => {
-      if (type === "bonding") return "cosmos-sdk/MsgDelegate"
-      if (type === "unbonding") return "cosmos-sdk/BeginUnbonding"
-    })
-    return getTxs(types)
-  },
-  async getCandidates() {
+  async candidates() {
     return state.candidates
   },
-  async getValidatorSet() {
+  async getValidators() {
     return {
       block_height: 1,
       validators: state.candidates
     }
-  },
-  async getCandidate(addr) {
-    return state.candidates.find(c => c.owner === addr)
   },
   // exports to be used in tests
   state,
@@ -485,19 +435,32 @@ function send(to, from, req) {
   }
 
   // log tx
-  storeTx("cosmos-sdk/Send", {
-    inputs: [
-      {
-        coins: req.amount,
-        address: from
+  state.txs.push({
+    tx: {
+      value: {
+        msg: [
+          {
+            value: {
+              inputs: [
+                {
+                  coins: req.amount,
+                  address: from
+                }
+              ],
+              outputs: [
+                {
+                  coins: req.amount,
+                  address: to
+                }
+              ]
+            }
+          }
+        ]
       }
-    ],
-    outputs: [
-      {
-        coins: req.amount,
-        address: to
-      }
-    ]
+    },
+    hash: makeHash(),
+    height: getHeight() + (from === botAddress ? 1 : 0),
+    time: Date.now()
   })
 
   // if receiver is bot address, send money back
@@ -509,28 +472,6 @@ function send(to, from, req) {
   }
 
   return txResult(0)
-}
-
-function storeTx(type, body) {
-  state.txs.push({
-    tx: {
-      value: {
-        msg: [
-          {
-            type,
-            value: body
-          }
-        ]
-      }
-    },
-    hash: makeHash(),
-    height: getHeight(),
-    time: Date.now()
-  })
-}
-
-function getTxs(types) {
-  return state.txs.filter(tx => types.indexOf(tx.tx.value.msg[0].type) !== -1)
 }
 
 // function delegate (sender, { pub_key: { data: pubKey }, amount: delegation }) {

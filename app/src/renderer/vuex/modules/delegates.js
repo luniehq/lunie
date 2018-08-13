@@ -38,16 +38,16 @@ export default ({ node }) => {
     },
     async getDelegates({ state, commit }) {
       commit("setDelegateLoading", true)
-      let candidates = await node.getCandidates()
-      let { validators } = await node.getValidatorSet()
-      for (let delegate of candidates) {
+      let delegates = await node.candidates()
+      let { validators } = await node.getValidators()
+      for (let delegate of delegates) {
         if (validators.find(v => v.pub_key === delegate.pub_key)) {
           delegate.isValidator = true
         }
         commit("addDelegate", delegate)
       }
 
-      commit("setDelegates", candidates)
+      commit("setDelegates", delegates)
       commit("setDelegateLoading", false)
 
       return state.delegates

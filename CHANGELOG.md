@@ -14,13 +14,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * removed light theme option from preferences page @jbibla
 * enabled staked balance on PageWallet in production @faboweb
 * removed unused xmlhttprequest dependency @faboweb
-* LCD staking endpoints @fedekunze @faboweb
 
 ### Added
 
 * storing balance, tx history and delegations locally to serve an old state faster @faboweb
 * added error message for missing network config @faboweb
-* showing staking txs in history @faboweb
 
 ### Fixed
 
