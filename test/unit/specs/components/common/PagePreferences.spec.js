@@ -2,6 +2,14 @@ import setup from "../../../helpers/vuex-setup"
 import PagePreferences from "renderer/components/common/PagePreferences"
 jest.mock("renderer/google-analytics.js", () => () => {})
 
+jest.mock("electron", () => ({
+  remote: {
+    getVersion: () => {
+      return "0.5.4"
+    }
+  }
+}))
+
 describe("PagePreferences", () => {
   let wrapper, store
   let instance = setup()
@@ -105,10 +113,10 @@ describe("PagePreferences", () => {
     wrapper.update()
     expect(store.state.config.showAbout).toBe(true)
     expect(wrapper.vm.$el.outerHTML).toContain(
-      "Voyager " + wrapper.vm.versionVoyager
+      "Voyager " + wrapper.vm.voyagerVersion
     )
     expect(wrapper.vm.$el.outerHTML).toContain(
-      "Cosmos SDK " + wrapper.vm.versionSDK.split("-").shift()
+      "Cosmos SDK " + wrapper.vm.gaiaVersion
     )
     expect(wrapper.vm.$el).toMatchSnapshot()
     wrapper.vm.setAbout(false)
