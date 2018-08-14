@@ -105,10 +105,10 @@ describe("PagePreferences", () => {
     wrapper.update()
     expect(store.state.config.showAbout).toBe(true)
     expect(wrapper.vm.$el.outerHTML).toContain(
-      "Voyager v" + wrapper.vm.versionVoyager
+      "Voyager " + wrapper.vm.versionVoyager
     )
     expect(wrapper.vm.$el.outerHTML).toContain(
-      "Cosmos SDK v" + wrapper.vm.versionSDK.split("-").shift()
+      "Cosmos SDK " + wrapper.vm.versionSDK.split("-").shift()
     )
     expect(wrapper.vm.$el).toMatchSnapshot()
     wrapper.vm.setAbout(false)
