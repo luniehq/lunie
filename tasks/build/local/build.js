@@ -1,6 +1,8 @@
 const os = require("os")
-
+const fs = require("fs-extra")
 const { cli } = require(`@nodeguy/cli`)
+var path = require("path")
+
 let { spawn, exec } = require("child_process")
 
 const optionsSpecification = {
@@ -48,14 +50,16 @@ function makeExec(command) {
   })
 }
 async function moveFiles(options, environment) {
+  var appDir = path.resolve(__dirname + "/../../../")
   let out
-  if (options.overwrite) {
-    out = await makeExec(
-      "rm -r builds/testnets/local-testnet; mkdir builds/testnets/local-testnet"
-    )
-  } else {
-    out = await makeExec("mkdir builds/testnets/local-testnet")
+  if (
+    options.overwrite &&
+    fs.existsSync(appDir + "/builds/testnets/local-testnet")
+  ) {
+    out = await makeExec("rm -r builds/testnets/local-testnet")
+    out && console.log(out)
   }
+  out = await makeExec("mkdir builds/testnets/local-testnet")
   out && console.log(out)
   out = await makeExec(
     `cp ~/.gaiad-testnet/config/{genesis.json,config.toml} builds/testnets/local-testnet/`
@@ -68,9 +72,14 @@ async function moveFiles(options, environment) {
   out && console.log(out)
 
   out = await makeExec(
-    `sed -i.bak 's/index_all_tags = true/index_all_tags = false/g' ./builds/testnets/local-testnet/config.toml`
+    `sed -i.bak 's/index_all_tags = false/index_all_tags = true/g'  ~/.gaiad-testnet/config/config.toml`
   )
   out && console.log(out)
+
+  if (fs.existsSync("~/.gaiad-testnet")) {
+    out = await makeExec("rm -r ~/.gaiad-testnet")
+    out && console.log(out)
+  }
 
   out = await makeExec(
     `./builds/Gaia/${environment}/gaiad version > ./builds/testnets/local-testnet/gaiaversion.txt`
