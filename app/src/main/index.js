@@ -698,6 +698,7 @@ async function main() {
 
   // XXX: currently ignores commit hash
   let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
+  process.env.GAIA_VERSION = gaiacliVersion
   expectedGaiaCliVersion = fs
     .readFileSync(gaiacliVersionPath, "utf8")
     .trim()
