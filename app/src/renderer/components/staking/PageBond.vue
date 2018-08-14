@@ -106,7 +106,7 @@ tm-page.page-bond(:title="`Bond ${denom}`")
 
     tm-form-group(field-id="bond-confirm" field-label=''
       :error='$v.fields.bondConfirm.$error')
-      tm-form-msg(v-if="showsRevokedValidators") A revoked validator is not validating and therefor is not producing rewards. The revoked state may be temporary.
+      tm-form-msg(v-if="showsRevokedValidators") A revoked validator is not validating and therefore is not producing rewards. The revoked state may be temporary.
       .tm-field-checkbox
         .tm-field-checkbox-input
           input#bond-confirm(type="checkbox" v-model="fields.bondConfirm")
@@ -247,10 +247,19 @@ export default {
           })
           this.$router.push("/staking")
         } catch (err) {
-          this.$store.commit("notifyError", {
-            title: "Error While Bonding Atoms",
-            body: err.message
-          })
+          let errData = err.message.split("\n")[5]
+          if (errData) {
+            let parsedErr = errData.split('"')[1]
+            this.$store.commit("notifyError", {
+              title: "Error While Bonding Atoms",
+              body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
+            })
+          } else {
+            this.$store.commit("notifyError", {
+              title: "Error While Bonding Atoms",
+              body: err.message
+            })
+          }
         } finally {
           this.delegating = false
         }
