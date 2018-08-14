@@ -2,6 +2,8 @@ const os = require("os")
 const fs = require("fs-extra")
 const { cli } = require(`@nodeguy/cli`)
 var path = require("path")
+const homeDir = require("os").homedir()
+const appDir = path.resolve(__dirname + "/../../../")
 
 let { spawn, exec } = require("child_process")
 
@@ -50,7 +52,6 @@ function makeExec(command) {
   })
 }
 async function moveFiles(options, environment) {
-  var appDir = path.resolve(__dirname + "/../../../")
   let out
   if (
     options.overwrite &&
@@ -59,6 +60,7 @@ async function moveFiles(options, environment) {
     out = await makeExec("rm -r builds/testnets/local-testnet")
     out && console.log(out)
   }
+
   out = await makeExec("mkdir builds/testnets/local-testnet")
   out && console.log(out)
   out = await makeExec(
@@ -72,14 +74,9 @@ async function moveFiles(options, environment) {
   out && console.log(out)
 
   out = await makeExec(
-    `sed -i.bak 's/index_all_tags = false/index_all_tags = true/g'  ~/.gaiad-testnet/config/config.toml`
+    `sed -i.bak 's/index_all_tags = false/index_all_tags = true/g'  ${homeDir}/.gaiad-testnet/config/config.toml`
   )
   out && console.log(out)
-
-  if (fs.existsSync("~/.gaiad-testnet")) {
-    out = await makeExec("rm -r ~/.gaiad-testnet")
-    out && console.log(out)
-  }
 
   out = await makeExec(
     `./builds/Gaia/${environment}/gaiad version > ./builds/testnets/local-testnet/gaiaversion.txt`
@@ -88,8 +85,13 @@ async function moveFiles(options, environment) {
 }
 
 function init(options, environment) {
-  return new Promise((resolve, reject) => {
-    let command = `builds/Gaia/${environment}/gaiad init --home ~/.gaiad-testnet --name local`
+  return new Promise(async (resolve, reject) => {
+    if (options.overwrite && fs.existsSync(homeDir + "/.gaiad-testnet")) {
+      let out = await makeExec(`rm -r ${homeDir}/.gaiad-testnet`)
+      out && console.log(out)
+    }
+
+    let command = `builds/Gaia/${environment}/gaiad init --home ${homeDir}/.gaiad-testnet --name local`
     if (options.overwrite) {
       command += " -o --owk"
     }
