@@ -64,7 +64,7 @@ export default function(store) {
 
     {
       path: "/",
-      name: "balances",
+      name: "wallet",
       component: wallet("Wallet")
     },
     {
