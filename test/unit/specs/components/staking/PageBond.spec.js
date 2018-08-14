@@ -51,12 +51,10 @@ describe("PageBond", () => {
           )
         )
 
-
         store.commit("setUnbondingDelegations", {
           candidateId: "pubkeyY",
           value: 100
         })
-
       }
     })
     store = test.store
