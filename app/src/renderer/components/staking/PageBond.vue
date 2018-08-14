@@ -152,15 +152,17 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(["shoppingCart", "user", "committedDelegations", "config"]),
+    ...mapGetters(["shoppingCart", "user", "delegation", "config"]),
     denom() {
       return this.config.bondingDenom.toUpperCase()
     },
     totalAtoms() {
-      return parseInt(this.user.atoms) + this.oldBondedAtoms
+      return (
+        parseInt(this.user.atoms) + this.oldBondedAtoms + this.oldUnbondingAtoms
+      )
     },
     oldBondedAtoms() {
-      return Object.values(this.committedDelegations).reduce(
+      return Object.values(this.delegation.committedDelegates).reduce(
         (sum, d) => sum + parseInt(d),
         0
       )
@@ -177,6 +179,14 @@ export default {
         return atoms
       }, this.oldUnbondedAtoms)
     },
+    oldUnbondingAtoms() {
+      return Object.values(this.delegation.unbondingDelegations).reduce(
+        (atoms, value) => {
+          return atoms + value
+        },
+        0
+      )
+    },
     newUnbondingAtoms() {
       return this.fields.delegates.reduce((atoms, d) => {
         let delta = d.oldAtoms - d.atoms
@@ -184,7 +194,7 @@ export default {
           return atoms + delta
         }
         return atoms
-      }, 0)
+      }, this.oldUnbondingAtoms)
     },
     newUnbondingAtomsDelta() {
       return this.delta(this.newUnbondingAtoms, 0)
@@ -256,7 +266,7 @@ export default {
       }
     },
     resetFields() {
-      let committedDelegations = this.committedDelegations
+      let committedDelegations = this.delegation.committedDelegates
       let totalAtoms = this.totalAtoms
       this.fields.bondConfirm = false
       this.fields.delegates = this.shoppingCart.map(c =>
