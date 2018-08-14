@@ -21,13 +21,10 @@ export const delegation = state => state.delegation
 export const committedDelegations = state => state.delegation.committedDelegates
 export const delegates = state => state.delegates
 export const shoppingCart = state => state.delegation.delegates
+export const validators = state => state.validators.validators
 
 // govern
 export const proposals = state => state.proposals
-
-// monitor
-export const blockchain = state => state.blockchain
-export const validators = state => state.validators.validators
 
 // status
 export const approvalRequired = state => state.node.approvalRequired
@@ -35,11 +32,3 @@ export const connected = state => state.node.connected
 export const lastHeader = state => state.node.lastHeader
 export const nodeIP = state => state.node.nodeIP
 export const mockedConnector = state => state.node.mocked
-
-//blockchain
-export const blockTxInfo = state => {
-  return (
-    state.blockchain.block &&
-    state.blockchain.blockTxs[state.blockchain.block.header.height]
-  )
-}

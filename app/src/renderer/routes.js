@@ -4,7 +4,6 @@ function r(type, pageName) {
 
 let common = r.bind(null, "common")
 let govern = r.bind(null, "govern")
-let monitor = r.bind(null, "monitor")
 let staking = r.bind(null, "staking")
 let wallet = r.bind(null, "wallet")
 
@@ -28,18 +27,6 @@ export default function(store) {
       path: "/proposals/:proposal",
       name: "proposal",
       component: govern("Proposal")
-    },
-
-    // MONITOR
-    {
-      path: "/blocks",
-      name: "blocks",
-      component: monitor("Blocks")
-    },
-    {
-      path: "/blocks/:block",
-      name: "block",
-      component: monitor("Block")
     },
 
     // STAKE
