@@ -100,7 +100,7 @@ exports[`PageStaking has the expected html structure 1`] = `
       <div class=\\"bar\\" style=\\"width: 74%;\\"></div>
 </div>
    <div class=\\"li-delegate__value your-votes\\">
-      <span>130</span>
+      <span>14</span>
    </div>
    <div class=\\"li-delegate__value status\\">
       <span>Validator</span>
@@ -392,7 +392,7 @@ exports[`PageStaking should filter the delegates 1`] = `
             class="li-delegate__value your-votes"
           >
             <span>
-              130
+              14
             </span>
           </div>
           <div

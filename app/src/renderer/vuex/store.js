@@ -47,11 +47,11 @@ function persistState(state) {
     state.user.password
   )
   // Store the state object as a JSON string
-  localStorage.setItem("store_" + state.user.account, encryptedState)
+  localStorage.setItem("store_" + state.user.address, encryptedState)
 }
 
-function loadPersistedState(state, { account, password }) {
-  const cachedState = localStorage.getItem("store_" + account)
+function loadPersistedState(state, { address, password }) {
+  const cachedState = localStorage.getItem("store_" + address)
   if (cachedState) {
     const bytes = CryptoJS.AES.decrypt(cachedState, password)
     const plaintext = bytes.toString(CryptoJS.enc.Utf8)
