@@ -16,7 +16,7 @@ export default function vuexSetup() {
   function init(
     componentConstructor,
     testType = shallow,
-    { stubs, getters = {}, propsData, doBefore = () => {} } // doBefore receives router and store
+    { stubs, getters = {}, propsData, methods, doBefore = () => {} } // doBefore receives router and store
   ) {
     const node = Object.assign({}, require("../helpers/node_mock"))
     const modules = Modules({ node })
@@ -58,7 +58,8 @@ export default function vuexSetup() {
           store,
           router,
           stubs,
-          propsData
+          propsData,
+          methods
         })
     }
   }
@@ -67,22 +68,24 @@ export default function vuexSetup() {
     localVue,
     shallow: (
       componentConstructor,
-      { stubs, getters, propsData, doBefore } = {}
+      { stubs, getters, propsData, methods, doBefore } = {}
     ) =>
       init(componentConstructor, shallow, {
         stubs,
         getters,
         propsData,
+        methods,
         doBefore
       }),
     mount: (
       componentConstructor,
-      { stubs, getters, propsData, doBefore } = {}
+      { stubs, getters, propsData, methods, doBefore } = {}
     ) =>
       init(componentConstructor, mount, {
         stubs,
         getters,
         propsData,
+        methods,
         doBefore
       })
   }
