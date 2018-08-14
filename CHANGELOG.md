@@ -15,11 +15,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * enabled staked balance on PageWallet in production @faboweb
 * updated tendermint/ui to fix min max override in page send @okwme
 * removed unused xmlhttprequest dependency @faboweb
+* LCD staking endpoints @fedekunze @faboweb
 
 ### Added
 
 * storing balance, tx history and delegations locally to serve an old state faster @faboweb
 * added error message for missing network config @faboweb
+* showing staking transactions in history @faboweb
 
 ### Fixed
 
