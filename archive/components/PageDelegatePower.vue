@@ -16,7 +16,7 @@ tm-page(icon="storage" :title="`${delegateId} Vote Power`")
 </template>
 
 <script>
-import ChartVotePower from "monitor/ChartVotePower"
+import ChartVotePower from "staking/ChartVotePower"
 import ListItem from "common/NiListItem"
 import ToolBar from "common/NiToolBar"
 import { TmPage, TmPart } from "@tendermint/ui"
