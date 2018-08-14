@@ -1,5 +1,4 @@
 const os = require("os")
-const fs = require("fs-extra")
 
 const { cli } = require(`@nodeguy/cli`)
 let { spawn, exec } = require("child_process")
