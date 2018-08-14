@@ -33,9 +33,9 @@ export default ({ node }) => {
     let to = args.to
     delete args.to
     args.gas = "50000000"
-
     // submit to LCD to build, sign, and broadcast
     let req = to ? node[type](to, args) : node[type](args)
+
     let res = await req.catch(err => {
       throw new Error(err.message)
     })
