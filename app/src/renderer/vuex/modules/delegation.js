@@ -116,7 +116,6 @@ export default ({ node }) => {
         let amountChange = parseInt(delegation.atoms) - currentlyDelegated
 
         let isBond = amountChange > 0
-
         // skip if no change
         if (amountChange === 0) continue
         if (isBond) {
