@@ -101,15 +101,25 @@ First [Build Gaia](#build-gaia) and [Download the testnet configurations](#downl
 Here's an example build command:
 
 ```bash
-yarn run build --commit=HEAD --network=gaia-7001
+yarn run build --commit=HEAD --network=gaia-7005
 ```
 
 You can specify `--help` to see all options with explanations.
 
-Run the app.
+Unzip the app:
 
 ```bash
-open builds/Cosmos-{platform}-x64/Cosmos.app
+open builds/Voyager/Cosmos_Voyager-v0.9.4-Linux.tar.gz
+open builds/Voyager/Cosmos_Voyager-v0.9.4-macOS.zip
+open builds/Voyager/Cosmos_Voyager-v0.9.4-Windows.zip
+```
+
+Then open the Cosmos Voyager.app:
+
+```bash
+open builds/Voyager/Cosmos_Voyager-v0.9.4-Linux/Cosmos\ Voyager.app
+open builds/Voyager/Cosmos_Voyager-v0.9.4-macOS/Cosmos\ Voyager.app
+open builds/Voyager/Cosmos_Voyager-v0.9.4-Windows/Cosmos\ Voyager.app
 ```
 
 To test if your build worked run:
