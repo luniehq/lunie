@@ -253,6 +253,8 @@ function initLocalNode() {
     const localnodeProcess = spawn(command, { shell: true })
     localnodeProcess.stderr.pipe(process.stderr)
 
+    localnodeProcess.stdin.write("12345678\n")
+
     localnodeProcess.stdout.once("data", data => {
       let msg = data.toString()
 
