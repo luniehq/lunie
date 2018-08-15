@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* cache per network to not have side effects between networks @faboweb
+
 ## [0.9.4] - 2018-08-08
 
 ### Changed
