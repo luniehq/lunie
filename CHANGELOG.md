@@ -7,10 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* cache per network to not have side effects between networks @faboweb
+
 ## [0.9.4] - 2018-08-08
 
 ### Changed
 
+* remove block explorer and monitor references @jbibla
 * removed light theme option from preferences page @jbibla
 * enabled staked balance on PageWallet in production @faboweb
 * removed unused xmlhttprequest dependency @faboweb

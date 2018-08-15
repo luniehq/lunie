@@ -10,7 +10,8 @@
         |  (change network)
   .tm-connected-network__string#tm-connected-network__block
     span.desktop-only Current Block:
-    router-link(to="/blocks" v-tooltip.top="'View Block'")  {{ blockHeight }}
+    a(:href="explorerLink" v-tooltip.top="'View Block'")  {{ blockHeight }}
+      i.material-icons exit_to_app
 .tm-connected-network.tm-disconnected-network#tm-disconnected-network(v-else)
   .tm-connected-network__icon: i.material-icons.fa-spin rotate_right
   .tm-connected-network__string Connecting to network&hellip;
@@ -47,6 +48,9 @@ export default {
     },
     blockHeight() {
       return "#" + num.prettyInt(this.lastHeader.height)
+    },
+    explorerLink() {
+      return "https://explorecosmos.network/blocks/" + this.lastHeader.height
     }
   },
   data: () => ({
@@ -82,6 +86,10 @@ export default {
 
   a, .chain-id
     font-weight 500
+
+  .material-icons
+    padding-left 2px
+    font-size 14px
 
 .tm-connected-network__icon
   background var(--success-bc)

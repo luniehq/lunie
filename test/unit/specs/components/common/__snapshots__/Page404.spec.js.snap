@@ -81,7 +81,7 @@ exports[`Page404 has the expected html structure 1`] = `
                 <div
                   class="tm-li-title"
                 >
-                  Balances
+                  Wallet
                 </div>
                 <div
                   class="tm-li-subtitle"

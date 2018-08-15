@@ -43,7 +43,7 @@ describe("TmConnectedNetwork", () => {
         .find("#tm-connected-network__block")
         .text()
         .trim()
-    ).toBe("Current Block: #42")
+    ).toContain("Current Block: #42")
   })
 
   it("has a certain style for mockedConnector", () => {
@@ -67,6 +67,12 @@ describe("TmConnectedNetwork", () => {
 
   it("has a block height for mockedConnector", () => {
     expect(wrapper.vm.blockHeight).toBe("#42")
+  })
+
+  it("has link to the external block explorer", () => {
+    expect(wrapper.vm.explorerLink).toBe(
+      "https://explorecosmos.network/blocks/42"
+    )
   })
 
   it("has a connecting state", async () => {

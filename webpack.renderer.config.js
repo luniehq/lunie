@@ -114,7 +114,6 @@ let rendererConfig = {
       scripts: resolve("app/src/renderer/scripts"),
       common: resolve("app/src/renderer/components/common"),
       govern: resolve("app/src/renderer/components/govern"),
-      monitor: resolve("app/src/renderer/components/monitor"),
       staking: resolve("app/src/renderer/components/staking"),
       wallet: resolve("app/src/renderer/components/wallet"),
       variables: resolve("app/src/renderer/styles/variables.styl")
