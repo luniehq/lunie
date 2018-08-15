@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * storing balance, tx history and delegations locally to serve an old state faster @faboweb
 * added error message for missing network config @faboweb
+* command for building local node @okwme
 * showing staking transactions in history @faboweb
 
 ### Fixed
