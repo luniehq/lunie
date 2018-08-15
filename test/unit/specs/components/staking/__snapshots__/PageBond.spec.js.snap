@@ -62,7 +62,7 @@ exports[`PageBond has the expected html structure 1`] = `
                     </i>
                   </a>
                   <a
-                    class="sign-out"
+                    id="signOut-btn"
                   >
                     <i
                       class="material-icons"
@@ -567,7 +567,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                     </i>
                   </a>
                   <a
-                    class="sign-out"
+                    id="signOut-btn"
                   >
                     <i
                       class="material-icons"

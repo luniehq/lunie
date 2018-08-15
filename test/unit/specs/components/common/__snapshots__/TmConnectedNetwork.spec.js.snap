@@ -11,7 +11,7 @@ exports[`TmConnectedNetwork has the expected html structure 1`] = `
 </div>
 </div>
 <div class=\\"tm-connected-network__string\\" id=\\"tm-connected-network__block\\">
-   <span class=\\"desktop-only\\">Current Block:</span><a href=\\"#/blocks\\" class=\\"\\"> #42</a>
+   <span class=\\"desktop-only\\">Current Block:</span><a href=\\"https://explorecosmos.network/blocks/42\\"> #42<i class=\\"material-icons\\">exit_to_app</i></a>
 </div>
 </div>"
 `;
@@ -71,10 +71,14 @@ exports[`TmConnectedNetwork shows the connected node 1`] = `
       Current Block:
     </span>
     <a
-      class=""
-      href="#/blocks"
+      href="https://explorecosmos.network/blocks/0"
     >
        #0
+      <i
+        class="material-icons"
+      >
+        exit_to_app
+      </i>
     </a>
   </div>
 </div>

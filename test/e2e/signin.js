@@ -165,11 +165,8 @@ test("sign in", async function(t) {
   t.test("sign out", async function(t) {
     await refresh(app)
     await login(app, "testkey")
-    await app.client.waitForExist(".material-icons=exit_to_app", 1000)
-    await app.client
-      .$(".material-icons=exit_to_app")
-      .$("..")
-      .click()
+    await app.client.waitForExist("#signOut-btn", 1000)
+    await app.client.$("#signOut-btn").click()
 
     await app.client.waitForExist(".tm-session", 1000)
 

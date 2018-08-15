@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* remove block explorer and monitor references @jbibla
 * removed light theme option from preferences page @jbibla
 * enabled staked balance on PageWallet in production @faboweb
 * removed unused xmlhttprequest dependency @faboweb

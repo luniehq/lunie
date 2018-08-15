@@ -62,7 +62,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                     </i>
                   </a>
                   <a
-                    class="sign-out"
+                    id="signOut-btn"
                   >
                     <i
                       class="material-icons"
@@ -347,6 +347,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
               >
                 <button
                   class="tm-btn"
+                  id="signOut-btn"
                   type="button"
                 >
                   <span
@@ -538,7 +539,7 @@ exports[`PagePreferences shows versions 1`] = `
                     </i>
                   </a>
                   <a
-                    class="sign-out"
+                    id="signOut-btn"
                   >
                     <i
                       class="material-icons"
@@ -823,6 +824,7 @@ exports[`PagePreferences shows versions 1`] = `
               >
                 <button
                   class="tm-btn"
+                  id="signOut-btn"
                   type="button"
                 >
                   <span
@@ -994,7 +996,7 @@ exports[`PagePreferences shows versions 2`] = `
                     </i>
                   </a>
                   <a
-                    class="sign-out"
+                    id="signOut-btn"
                   >
                     <i
                       class="material-icons"
@@ -1327,6 +1329,7 @@ exports[`PagePreferences shows versions 2`] = `
               >
                 <button
                   class="tm-btn"
+                  id="signOut-btn"
                   type="button"
                 >
                   <span
