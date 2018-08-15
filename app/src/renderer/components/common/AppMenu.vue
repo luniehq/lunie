@@ -22,11 +22,6 @@ menu.app-menu
       exact @click.native="close"
       title="Proposals"
       v-if="config.devMode")
-    tm-list-item#app-menu__blocks(
-      to="/blocks"
-      exact
-      @click.native="close"
-      title="Blocks")
   connected-network
   user-pane
 </template>

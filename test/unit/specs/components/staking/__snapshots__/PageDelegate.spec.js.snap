@@ -61,7 +61,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
                     </i>
                   </a>
                   <a
-                    class="sign-out"
+                    id="signOut-btn"
                   >
                     <i
                       class="material-icons"

@@ -5,7 +5,7 @@
       i.material-icons arrow_back
     a.help(@click="enableModalHelp" v-tooltip.bottom="'Help'")
       i.material-icons help_outline
-    a.sign-out(@click="signOut" v-tooltip.bottom.end="'Sign Out'")
+    a#signOut-btn(@click="signOut" v-tooltip.bottom.end="'Sign Out'")
       i.material-icons exit_to_app
 </template>
 
