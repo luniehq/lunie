@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * remove block explorer and monitor references @jbibla
 * removed light theme option from preferences page @jbibla
 * enabled staked balance on PageWallet in production @faboweb
+* updated tendermint/ui to fix min max override in page send @okwme
 * removed unused xmlhttprequest dependency @faboweb
 * LCD staking endpoints @fedekunze @faboweb
 
