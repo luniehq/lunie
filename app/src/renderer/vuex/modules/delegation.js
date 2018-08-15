@@ -1,5 +1,5 @@
 export default ({ node }) => {
-  let state = {
+  let emptyState = {
     loading: false,
 
     // our delegations, maybe not yet committed
@@ -10,6 +10,7 @@ export default ({ node }) => {
     unbondingDelegations: {},
     delegationTxs: []
   }
+  const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
     addToCart(state, delegate) {
@@ -58,6 +59,9 @@ export default ({ node }) => {
       if (state.loading) {
         dispatch("getBondedDelegates")
       }
+    },
+    resetSessionData({ rootState }) {
+      rootState.delegation = JSON.parse(JSON.stringify(emptyState))
     },
     // load committed delegations from LCD
     async getBondedDelegates(

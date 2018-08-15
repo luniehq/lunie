@@ -33,9 +33,6 @@ export default ({ node }) => {
           dl: path
         })
     },
-    clearHistory(state) {
-      state.history = []
-    },
     popHistory(state) {
       state.history.pop()
     },
@@ -122,10 +119,12 @@ export default ({ node }) => {
       commit("setModalSession", true)
       dispatch("showInitialScreen")
     },
-    resetSessionData({ commit, state }) {
-      state.stateLoaded = false
-      commit("clearHistory")
-      commit("setActiveMenu", "")
+    resetSessionData({ state }) {
+      state.atoms = 0
+      state.history = []
+      state.password = null
+      state.account = null
+      state.address = null
     },
     loadErrorCollection({ state, dispatch }, account) {
       let errorCollection =

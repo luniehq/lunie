@@ -1,8 +1,9 @@
 export default ({ node }) => {
-  const state = {
+  const emptyState = {
     delegates: [],
     loading: false
   }
+  const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
     setDelegateLoading(state, loading) {
@@ -35,6 +36,9 @@ export default ({ node }) => {
       if (state.loading) {
         dispatch("getDelegates")
       }
+    },
+    resetSessionData({ rootState }) {
+      rootState.delegates = JSON.parse(JSON.stringify(emptyState))
     },
     async getDelegates({ state, commit }) {
       commit("setDelegateLoading", true)
