@@ -6,7 +6,7 @@ const root = remote.getGlobal("root")
 let { sleep } = require("scripts/common.js")
 
 export default ({ node }) => {
-  let state = {
+  let emptyState = {
     balances: [],
     balancesLoading: true,
     history: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
@@ -15,6 +15,7 @@ export default ({ node }) => {
     address: null,
     zoneIds: ["basecoind-demo1", "basecoind-demo2"]
   }
+  let state = JSON.parse(JSON.stringify(emptyState))
 
   let mutations = {
     setHistoryLoading(state, loading) {
@@ -62,10 +63,9 @@ export default ({ node }) => {
       dispatch("queryWalletState")
       dispatch("walletSubscribe")
     },
-    resetSessionData() {
+    resetSessionData({ rootState }) {
       // clear previous account state
-      state.balances = []
-      state.history = []
+      rootState.wallet = JSON.parse(JSON.stringify(emptyState))
     },
     queryWalletState({ dispatch }) {
       dispatch("queryWalletBalances")

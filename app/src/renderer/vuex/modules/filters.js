@@ -1,5 +1,5 @@
 export default () => {
-  const state = {
+  const emptyState = {
     balances: {
       search: {
         visible: false,
@@ -37,6 +37,8 @@ export default () => {
       }
     }
   }
+  const state = JSON.parse(JSON.stringify(emptyState))
+
   const mutations = {
     resetSearch(state, type) {
       state[type].search.visible = false
@@ -49,5 +51,11 @@ export default () => {
       state[type].search.query = string
     }
   }
-  return { state, mutations }
+
+  const actions = {
+    resetSessionData({ rootState }) {
+      rootState.filters = JSON.parse(JSON.stringify(emptyState))
+    }
+  }
+  return { state, mutations, actions }
 }

@@ -1,9 +1,10 @@
 export default ({ node }) => {
-  const state = {
+  const emptyState = {
     validators: [],
     loading: false,
     validatorHash: null
   }
+  let state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
     setValidators(state, validators) {
@@ -19,6 +20,10 @@ export default ({ node }) => {
       if (state.loading) {
         dispatch("getValidators")
       }
+    },
+    resetSessionData({ rootState }) {
+      // clear previous account state
+      rootState.validators = JSON.parse(JSON.stringify(emptyState))
     },
     async getValidators({ state, commit }) {
       state.loading = true

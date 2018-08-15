@@ -70,6 +70,9 @@ export default ({ node }) => {
         // get rid of lock whether doSend throws or succeeds
         lock = null
       }
+    },
+    resetSessionData({ state }) {
+      state.nonce = "0"
     }
   }
 
