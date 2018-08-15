@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * cache per network to not have side effects between networks @faboweb
 
+### Fixed
+
+* now resetting most store information on signing out to not have side effects between sessions @faboweb
+
 ## [0.9.4] - 2018-08-08
 
 ### Changed
