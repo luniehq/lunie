@@ -37,6 +37,7 @@ tm-page(title="Preferences")
   tm-part(title='Account')
     tm-list-item(type="field" title="Switch account")
       tm-btn(
+        id="signOut-btn"
         icon='exit_to_app'
         type='button'
         @click.native="signOut"
@@ -146,8 +147,9 @@ export default {
 }
 </script>
 <style lang="stylus">
-  .about-popup
-    text-align center
-    img
-      max-width 150px
+.about-popup
+  text-align center
+
+  img
+    max-width 150px
 </style>
