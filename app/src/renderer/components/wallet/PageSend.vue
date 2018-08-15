@@ -37,6 +37,8 @@ tm-page(title='Send')
         tm-field-group
           tm-field#send-amount(
             type='number'
+            :max="max"
+            :min='max ? 1 : 0'
             v-model='fields.amount'
             placeholder='Amount')
         tm-form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')

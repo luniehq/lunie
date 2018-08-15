@@ -41,28 +41,4 @@ describe("TmModalSearch", () => {
       "def"
     ])
   })
-
-  it("should show find button on blocks", () => {
-    wrapper.setProps({ type: "blocks" })
-    store.commit("setSearchVisible", ["blocks", true])
-    store.commit("setSearchVisible", ["transactions", false])
-    wrapper.update()
-
-    expect(
-      wrapper
-        .find(".tm-modal-search-field .tm-btn__value")
-        .text()
-        .trim()
-    ).toBe("Find")
-  })
-
-  it("should go to block", () => {
-    wrapper.vm.$router.go("balances")
-    wrapper.setProps({ type: "blocks" })
-    store.commit("setSearchVisible", ["blocks", true])
-    expect(wrapper.vm.$route.name).toBe("balances")
-    wrapper.vm.query = "1"
-    wrapper.vm.gotoBlock()
-    expect(wrapper.vm.$route.name).toBe("block")
-  })
 })

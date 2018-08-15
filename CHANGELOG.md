@@ -7,12 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* cache per network to not have side effects between networks @faboweb
+
+### Fixed
+
+* now resetting most store information on signing out to not have side effects between sessions @faboweb
+
 ## [0.9.4] - 2018-08-08
 
 ### Changed
 
+* remove block explorer and monitor references @jbibla
 * removed light theme option from preferences page @jbibla
 * enabled staked balance on PageWallet in production @faboweb
+* updated tendermint/ui to fix min max override in page send @okwme
 * removed unused xmlhttprequest dependency @faboweb
 * LCD staking endpoints @fedekunze @faboweb
 * the way we show version numbers in the version modal @jbibla
@@ -21,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * storing balance, tx history and delegations locally to serve an old state faster @faboweb
 * added error message for missing network config @faboweb
+* command for building local node @okwme
 * showing staking transactions in history @faboweb
 
 ### Fixed

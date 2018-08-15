@@ -17,6 +17,7 @@
     "build": "node tasks/build/localBuild",
     "build:testnets": "cd tasks/build/testnets && ./localBuild.sh",
     "build:gaia": "cd tasks/build/Gaia && ./localBuild.sh",
+    "build:local": "node tasks/build/local/build",
     "local": "yarn run testnet local",
     "start": "node tasks/testnet.js",
     "testnet": "echo \"'yarn testnet' has been deprecated. Please use 'yarn start'\"",
@@ -97,7 +98,7 @@
     "webpack-dev-server": "2.11.2"
   },
   "dependencies": {
-    "@tendermint/ui": "0.2.13",
+    "@tendermint/ui": "0.2.16",
     "@vue/test-utils": "1.0.0-beta.11",
     "autosize": "4.0.2",
     "axios": "0.18.0",
@@ -109,6 +110,7 @@
     "electron-ga": "1.0.6",
     "fs-extra": "7.0.0",
     "glob": "7.1.2",
+    "markdown-it-anchor": "5.0.2",
     "moment": "2.22.1",
     "mousetrap": "1.6.1",
     "nib": "1.1.2",

@@ -166,9 +166,23 @@ To see the console output of the view in your terminal, set the environment vari
 
 ## Run a local node
 
-Sometimes you may want to run a local node, i.e. in the case there is no available network. You need Gaia to do so [Build Gaia](#build-gaia).
+Sometimes you may want to run a local node, i.e. in the case there is no available network. To do so first [Build Gaia](#build-gaia), then use our automatic script or the manual process to set up your node.
 
-Then initialize your node:
+### Automatically
+
+You can do the entire process in one command by running:
+
+```bash
+$ yarn build:local --overwrite=true
+```
+
+(Be careful with the --overwrite flag as it will remove previous local node configurations)
+
+### Manually
+
+You can do the entire process manually by following these steps:
+
+First initialize your node:
 
 ```bash
 $ builds/Gaia/{OS}/gaiad init --home ~/.gaiad-testnet --name local

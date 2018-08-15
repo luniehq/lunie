@@ -14,13 +14,17 @@ describe("Store", () => {
   // DEFAULT
 
   it("should persist balances et al if the user is logged in", async () => {
+    await store.dispatch("setLastHeader", {
+      height: 42,
+      chain_id: "test-net"
+    })
     await store.dispatch("signIn", {
       account: "default",
       password: "1234567890"
     })
     store.commit("setWalletBalances", [{ denom: "fabocoin", amount: 42 }])
     expect(
-      localStorage.getItem("store_" + lcdClientMock.addresses[0])
+      localStorage.getItem("store_test-net_" + lcdClientMock.addresses[0])
     ).toBeTruthy()
   })
 
