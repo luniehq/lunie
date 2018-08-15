@@ -42,11 +42,13 @@ const exampleValidator = {
   prev_bonded_shares: "0"
 }
 
-beforeAll(async () => {
-  await provider.setup()
+beforeAll(() => provider.setup())
+afterAll(() => provider.finalize())
+afterEach(() => provider.verify())
 
+test(`getCandidates`, async () => {
   provider.addInteraction({
-    uponReceiving: "query candidates",
+    uponReceiving: "getCandidates",
     withRequest: {
       method: "GET",
       path: "/stake/validators",
@@ -58,14 +60,27 @@ beforeAll(async () => {
       body: eachLike(exampleValidator)
     }
   })
-})
 
-afterAll(() => {
-  provider.finalize()
-})
-
-test(`query candidates`, async () => {
   const client = new LcdClient()
   expect(await client.getCandidates()).toEqual([exampleValidator])
-  provider.verify()
+})
+
+test(`getDelegator`, async () => {
+  provider.addInteraction({
+    state: `delegated`,
+    uponReceiving: "getDelegator",
+    withRequest: {
+      method: "GET",
+      path: "/stake/delegators/address",
+      headers: { Accept: "application/json" }
+    },
+    willRespondWith: {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+      body: []
+    }
+  })
+
+  const client = new LcdClient()
+  expect(await client.getDelegator(`address`)).toEqual([])
 })

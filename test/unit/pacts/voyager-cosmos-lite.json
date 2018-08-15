@@ -7,7 +7,7 @@
   },
   "interactions": [
     {
-      "description": "query candidates",
+      "description": "getCandidates",
       "request": {
         "method": "GET",
         "path": "/stake/validators",
@@ -53,6 +53,24 @@
             "match": "type"
           }
         }
+      }
+    },
+    {
+      "description": "getDelegator",
+      "providerState": "delegated",
+      "request": {
+        "method": "GET",
+        "path": "/stake/delegators/address",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": []
       }
     }
   ],
