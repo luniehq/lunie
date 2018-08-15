@@ -17,6 +17,14 @@ export default ({ node }) => {
       Object.assign(delegate, delegate.description)
 
       // TODO: calculate voting power
+      let divIdx = delegate.tokens.indexOf("/")
+      if (divIdx == -1) {
+        delegate.tokens = Number(delegate.tokens)
+      } else {
+        delegate.tokens =
+          Number(delegate.tokens.substring(0, divIdx)) /
+          Number(delegate.tokens.substring(divIdx + 1))
+      }
       delegate.voting_power = delegate.tokens
 
       // update if we already have this delegate
