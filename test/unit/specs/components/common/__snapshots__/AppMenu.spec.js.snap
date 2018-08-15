@@ -63,21 +63,6 @@ exports[`AppMenu has the expected html structure 1`] = `
       <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
    </div>
 </div>
-   </a><a href=\\"#/blocks\\" class=\\"tm-li tm-li-link\\" id=\\"app-menu__blocks\\" exact=\\"exact\\">
-   <div class=\\"tm-li-container\\">
-      <div class=\\"tm-li-thumb\\">
-         <!---->
-      </div>
-   <div class=\\"tm-li-label\\">
-      <div class=\\"tm-li-title\\">
-         Blocks
-      </div>
-   <div class=\\"tm-li-subtitle\\"></div>
-</div>
-   <div class=\\"tm-li-icon\\">
-      <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
-   </div>
-</div>
    </a>
    <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
       <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
@@ -113,4 +98,4 @@ exports[`AppMenu has the expected html structure 1`] = `
 </div>
    </a>
 </menu>"
-`
+`;

@@ -2,15 +2,15 @@ import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
 import Vuelidate from "vuelidate"
 import PageBond from "renderer/components/staking/PageBond"
-
+import { candidates } from "renderer/connectors/lcdClientMock.js"
 describe("PageBond", () => {
   let wrapper, store, router
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
 
-  beforeEach(() => {
+  beforeEach(async () => {
     let test = mount(PageBond, {
-      doBefore: ({ store }) => {
+      doBefore: async ({ store }) => {
         store.commit("setAtoms", 101)
 
         store.commit("addToCart", {
@@ -37,6 +37,20 @@ describe("PageBond", () => {
           country: "Canada",
           moniker: "someOtherValidator"
         })
+
+        store.commit(
+          "addToCart",
+          Object.assign(
+            {
+              id: "pubkeyZ",
+              voting_power: 20000,
+              shares: 75000,
+              moniker: "aChileanValidator"
+            },
+            candidates[2] // this is the revoked one
+          )
+        )
+
         store.commit("setUnbondingDelegations", {
           candidateId: "pubkeyY",
           value: 100
@@ -57,6 +71,7 @@ describe("PageBond", () => {
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
     wrapper.update()
+    console.log(wrapper.vm.totalAtoms)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -430,4 +445,28 @@ describe("PageBond", () => {
     expect(wrapper.vm.showsRevokedValidators).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
+
+  it("shows an error if trying to bond to revoked candidates", async () => {
+    await store.dispatch("signIn", {
+      account: "default",
+      password: "1234567890"
+    })
+
+    wrapper.update()
+    wrapper.vm.fields.bondConfirm = true
+    wrapper.vm.fields.delegates[2].revoked = true
+    wrapper.vm.fields.delegates[2].atoms = 1
+
+    wrapper.findAll("#btn-bond").trigger("click")
+    await sleep(1000)
+    let lastErr =
+      store.state.notifications[store.state.notifications.length - 1]
+    expect(lastErr.body).toContain(
+      "Validator for this address is currently revoked"
+    )
+  })
 })
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}

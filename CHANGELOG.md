@@ -7,10 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* cache per network to not have side effects between networks @faboweb
+
 ## [0.9.4] - 2018-08-08
 
 ### Changed
 
+* remove block explorer and monitor references @jbibla
 * removed light theme option from preferences page @jbibla
 * enabled staked balance on PageWallet in production @faboweb
 * updated tendermint/ui to fix min max override in page send @okwme
@@ -21,10 +26,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * storing balance, tx history and delegations locally to serve an old state faster @faboweb
 * added error message for missing network config @faboweb
+* command for building local node @okwme
 * showing staking transactions in history @faboweb
 
 ### Fixed
 
+* delegations error message properly parsed @fedekunze
 * testnets not properly available after download @faboweb
 * Tell the main process when we switch to the mock network. @NodeGuy
 * improved tooltip styling @jbibla

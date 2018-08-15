@@ -62,7 +62,7 @@ exports[`PageBond has the expected html structure 1`] = `
                     </i>
                   </a>
                   <a
-                    class="sign-out"
+                    id="signOut-btn"
                   >
                     <i
                       class="material-icons"
@@ -324,6 +324,80 @@ exports[`PageBond has the expected html structure 1`] = `
                   <!---->
                   <!---->
                 </div>
+                <div
+                  class="bond-group bond-candidate bond-group--neutral"
+                >
+                  <div
+                    class="bond-group__fields"
+                  >
+                    <div
+                      class="bond-bar"
+                    >
+                      <!---->
+                      <label
+                        class="bond-bar__label revoked"
+                      >
+                        aChileanValidator
+                      </label>
+                      <label
+                        class="bond-bar__revoked"
+                      >
+                        REVOKED
+                      </label>
+                      <div
+                        class="bond-bar__input"
+                      >
+                        <div
+                          class="bond-bar-old__outer"
+                        >
+                          <!---->
+                        </div>
+                        <div
+                          class="bond-bar__outer"
+                        >
+                          <div
+                            class="bond-bar__inner"
+                            id="delegate-pubkeyZ"
+                            style="width: 0px;"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="bond-percent"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <!---->
+                      </label>
+                      <input
+                        class="bond-percent__input tm-field"
+                        disabled="disabled"
+                        placeholder="0%"
+                      />
+                    </div>
+                    <div
+                      class="bond-value"
+                    >
+                      <label
+                        class="bond-delta"
+                      >
+                        <!---->
+                      </label>
+                      <input
+                        class="bond-value__input tm-field"
+                        max="201"
+                        min="0"
+                        placeholder="Atoms"
+                        step="1"
+                        type="number"
+                      />
+                    </div>
+                  </div>
+                  <!---->
+                  <!---->
+                </div>
                 <!---->
                 <div
                   class="tm-form-group"
@@ -333,7 +407,11 @@ exports[`PageBond has the expected html structure 1`] = `
                   <div
                     class="tm-form-group__field"
                   >
-                    <!---->
+                    <div
+                      class="tm-form-msg sm tm-form-msg--desc"
+                    >
+                      A revoked validator is not validating and therefore is not producing rewards. The revoked state may be temporary.
+                    </div>
                     <div
                       class="tm-field-checkbox"
                     >
@@ -489,7 +567,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                     </i>
                   </a>
                   <a
-                    class="sign-out"
+                    id="signOut-btn"
                   >
                     <i
                       class="material-icons"
@@ -775,7 +853,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                     <div
                       class="tm-form-msg sm tm-form-msg--desc"
                     >
-                      A revoked validator is not validating and therefor is not producing rewards. The revoked state may be temporary.
+                      A revoked validator is not validating and therefore is not producing rewards. The revoked state may be temporary.
                     </div>
                     <div
                       class="tm-field-checkbox"

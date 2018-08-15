@@ -109,7 +109,7 @@ export default ({ node }) => {
       let { address } = await node.getKey(account)
       state.address = address
 
-      commit("loadPersistedState", { address, password })
+      commit("loadPersistedState", { password })
       commit("setModalSession", false)
       dispatch("initializeWallet", address)
       dispatch("loadErrorCollection", account)
