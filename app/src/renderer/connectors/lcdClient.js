@@ -33,14 +33,21 @@ class Client {
 
   async request(method, path, data) {
     try {
-      let res = await axios[method.toLowerCase()](this.server + path, data)
-      return res.data
+      const response = await axios({
+        method: method.toLowerCase(),
+        url: this.server + path,
+        data,
+        headers: { Accept: `application/json` }
+      })
+
+      return response.data
     } catch (resError) {
       if (!resError.response || !resError.response.data) {
         throw resError
       }
+
       // server responded with error message, create an Error from that
-      throw Error(resError.response.data)
+      throw Error(JSON.stringify(resError.response.data))
     }
   }
 }
