@@ -1,8 +1,10 @@
 export default () => {
-  const state = {
+  const emptyState = {
     active: true,
     state: 0
   }
+  const state = JSON.parse(JSON.stringify(emptyState))
+
   const mutations = {
     loadOnboarding(state) {
       // localstorage saves bools and ints as strings, so we have to convert
@@ -22,8 +24,16 @@ export default () => {
       localStorage.setItem("appOnboardingActive", JSON.stringify(value))
     }
   }
+
+  const actions = {
+    resetSessionData({ commit, rootState }) {
+      rootState.onboarding = JSON.parse(JSON.stringify(emptyState))
+      commit("loadOnboarding")
+    }
+  }
   return {
     state,
-    mutations
+    mutations,
+    actions
   }
 }

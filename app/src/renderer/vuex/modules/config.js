@@ -1,7 +1,7 @@
 import noScroll from "no-scroll"
 
 export default () => {
-  const state = {
+  const emptyState = {
     maxValidators: 100,
     activeMenu: "",
     desktop: false,
@@ -24,6 +24,8 @@ export default () => {
       nodeHalted: { active: false }
     }
   }
+  const state = JSON.parse(JSON.stringify(emptyState))
+
   const mutations = {
     setAbout(state, value) {
       // when triggered from a button the click event is value, when triggered from the modal the value is undefined
@@ -74,5 +76,10 @@ export default () => {
       state.desktop = value
     }
   }
-  return { state, mutations }
+  const actions = {
+    resetSessionData({ rootState }) {
+      rootState.config = JSON.parse(JSON.stringify(emptyState))
+    }
+  }
+  return { state, mutations, actions }
 }

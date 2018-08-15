@@ -71,5 +71,11 @@ export default () => {
     }
   }
 
-  return { state, mutations }
+  const actions = {
+    resetSessionData({ state }) {
+      state.notifications = []
+    }
+  }
+
+  return { state, mutations, actions }
 }

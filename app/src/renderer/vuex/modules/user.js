@@ -6,7 +6,7 @@ const config = remote.getGlobal("config")
 export default ({ node }) => {
   const ERROR_COLLECTION_KEY = "voyager_error_collection"
 
-  let state = {
+  let emptyState = {
     atoms: 0,
     signedIn: false,
     accounts: [],
@@ -18,6 +18,7 @@ export default ({ node }) => {
     errorCollection: false,
     stateLoaded: false // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
   }
+  let state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
     setAccounts(state, accounts) {
@@ -32,9 +33,6 @@ export default ({ node }) => {
         window.analytics.send("pageview", {
           dl: path
         })
-    },
-    clearHistory(state) {
-      state.history = []
     },
     popHistory(state) {
       state.history.pop()
@@ -122,9 +120,8 @@ export default ({ node }) => {
       commit("setModalSession", true)
       dispatch("showInitialScreen")
     },
-    resetSessionData({ commit, state }) {
-      state.stateLoaded = false
-      commit("clearHistory")
+    resetSessionData({ commit, rootState }) {
+      rootState.user = JSON.parse(JSON.stringify(emptyState))
       commit("setActiveMenu", "")
     },
     loadErrorCollection({ state, dispatch }, account) {
