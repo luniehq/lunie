@@ -1052,10 +1052,10 @@ exports[`PagePreferences shows versions 2`] = `
               src="~@/assets/images/onboarding/step-0.png"
             />
             <div>
-              Voyager v3.6.9
+              Voyager 0.5.5
             </div>
             <div>
-              Cosmos SDK v1.2.3
+              Cosmos SDK 1.2.3
             </div>
           </div>
         </main>
