@@ -6,7 +6,7 @@ const config = remote.getGlobal("config")
 export default ({ node }) => {
   const ERROR_COLLECTION_KEY = "voyager_error_collection"
 
-  let emptyState = {
+  let state = {
     atoms: 0,
     signedIn: false,
     accounts: [],
@@ -18,7 +18,6 @@ export default ({ node }) => {
     errorCollection: false,
     stateLoaded: false // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
   }
-  let state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
     setAccounts(state, accounts) {
@@ -120,9 +119,12 @@ export default ({ node }) => {
       commit("setModalSession", true)
       dispatch("showInitialScreen")
     },
-    resetSessionData({ commit, rootState }) {
-      rootState.user = JSON.parse(JSON.stringify(emptyState))
-      commit("setActiveMenu", "")
+    resetSessionData({ state }) {
+      state.atoms = 0
+      state.history = []
+      state.password = null
+      state.account = null
+      state.address = null
     },
     loadErrorCollection({ state, dispatch }, account) {
       let errorCollection =
