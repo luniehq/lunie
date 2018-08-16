@@ -1,7 +1,7 @@
 <template lang="pug">
-tm-page.page-bond(:title="`Bond ${denom}`")
+tm-page.page-bond(title="Staking")
   div(slot="menu"): tool-bar
-  tm-part(:title="`Start bonding your ${totalAtoms} ${denom}`"): tm-form-struct( :submit="onSubmit")
+  tm-part(:title="`Stake your ${totalAtoms} ${denom}`"): tm-form-struct( :submit="onSubmit")
     .bond-group(:class="bondGroupClass(unbondedAtomsDelta)")
       .bond-group__fields
         .bond-bar
@@ -25,11 +25,11 @@ tm-page.page-bond(:title="`Bond ${denom}`")
           tm-field.bond-value__input#new-unbonded-atoms(
             disabled
             type="number"
-            placeholder="Atoms"
+            :placeholder="denom"
             :value="newUnbondedAtoms")
       tm-form-msg(type="between"
         v-if="newUnbondedAtoms < 0")
-        | You can't bond more Atoms then you have
+        | You can't bond more {{ denom }} then you have
 
     .bond-group.bond-candidate(
       v-for='(d, index) in fields.delegates'
@@ -61,7 +61,7 @@ tm-page.page-bond(:title="`Bond ${denom}`")
             span(v-if="d.deltaAtoms !== 0") {{ d.deltaAtoms }}
           tm-field.bond-value__input(
             type="number"
-            placeholder="Atoms"
+            :placeholder="denom"
             step="1"
             min="0"
             :max="totalAtoms"
@@ -101,7 +101,7 @@ tm-page.page-bond(:title="`Bond ${denom}`")
           tm-field.bond-value__input#new-unbonding-atoms(
             disabled
             type="number"
-            placeholder="Atoms"
+            :placeholder="denom"
             :value="newUnbondingAtoms")
 
     tm-form-group(field-id="bond-confirm" field-label=''
@@ -111,7 +111,7 @@ tm-page.page-bond(:title="`Bond ${denom}`")
         .tm-field-checkbox-input
           input#bond-confirm(type="checkbox" v-model="fields.bondConfirm")
         label.tm-field-checkbox-label(for="bond-confirm")
-          | Yes, update my bonds. I understand unbonding will take 30 days.
+          | Yes, update my stake. I understand unbonding will take 30 days.
       tm-form-msg(name="Bonding Confirmation" type='required'
         v-if='!$v.fields.bondConfirm.required')
 
@@ -161,7 +161,7 @@ export default {
       "connected"
     ]),
     denom() {
-      return this.config.bondingDenom.toUpperCase()
+      return this.config.bondingDenom
     },
     totalAtoms() {
       return (
@@ -237,9 +237,10 @@ export default {
     async onSubmit() {
       if (this.newUnbondedAtoms < 0) {
         this.$store.commit("notifyError", {
-          title: "Too Many Allocated Atoms",
-          body: `You've tried to bond ${this.newUnbondedAtoms *
-            -1} more atoms than you have.`
+          title: `Too Many Allocated ${this.denom}`,
+          body: `You've tried to bond ${this.newUnbondedAtoms * -1} more ${
+            this.denom
+          } than you have.`
         })
         return
       }
@@ -249,8 +250,8 @@ export default {
           this.delegating = true
           await this.$store.dispatch("submitDelegation", this.fields.delegates)
           this.$store.commit("notify", {
-            title: "Successful Delegation",
-            body: "You have successfully bonded / unbonded."
+            title: "Successful Staking!",
+            body: `You have successfully staked your ${this.denom}s.`
           })
           this.$router.push("/staking")
         } catch (err) {
@@ -258,12 +259,12 @@ export default {
           if (errData) {
             let parsedErr = errData.split('"')[1]
             this.$store.commit("notifyError", {
-              title: "Error While Bonding Atoms",
+              title: `Error While Bonding ${this.denom}`,
               body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
             })
           } else {
             this.$store.commit("notifyError", {
-              title: "Error While Bonding Atoms",
+              title: `Error While Bonding ${this.denom}`,
               body: err.message
             })
           }
@@ -292,7 +293,7 @@ export default {
     leaveIfBroke() {
       if (!this.userCanDelegate) {
         this.$store.commit("notifyError", {
-          title: "Cannot Bond Without Atoms",
+          title: `Cannot Bond Without ${this.denom}`,
           body: `You do not have any ${this.denom} to bond to delegates.`
         })
         this.$router.push("/staking")
@@ -301,10 +302,8 @@ export default {
     leaveIfEmpty(count) {
       if (count === 0) {
         this.$store.commit("notifyError", {
-          title: "No Delegates Selected",
-          body: `Select one or more delegates before proceeding to bond ${
-            this.denom
-          }`
+          title: "No Validators Selected",
+          body: `Select one or more validators before proceeding.`
         })
         this.$router.push("/staking")
       }
