@@ -25,7 +25,8 @@ export default ({ node }) => {
           Number(delegate.tokens.substring(0, divIdx)) /
           Number(delegate.tokens.substring(divIdx + 1))
       }
-      delegate.voting_power = delegate.tokens
+      delegate.voting_power = delegate.tokens.toFixed(2)
+      console.log(delegate.voting_power)
 
       // update if we already have this delegate
       for (let existingDelegate of state.delegates) {
