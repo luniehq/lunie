@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * publish script on CI now requires all tests to pass, so we are sure that the published Version runs @ƒaboweb
 * disable interaction buttons if not connected to the network, so user do not expect working interaction @faboweb
 * changed ATOM to bondingDenom getter @okwme
+* more bondingDenom and copy updates @jbibla
 
 ### Fixed
 

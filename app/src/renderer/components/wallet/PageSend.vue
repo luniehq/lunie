@@ -161,7 +161,7 @@ export default {
         this.sending = false
         this.$store.commit("notify", {
           title: "Successfully Sent",
-          body: `Successfully sent ${amount} ${denom.toUpperCase()} to ${address}`
+          body: `Successfully sent ${amount} ${denom} to ${address}`
         })
         // resets send transaction form
         this.resetForm()
