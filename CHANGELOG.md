@@ -10,10 +10,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 * cache per network to not have side effects between networks @faboweb
+* publish script on CI now requires all tests to pass, so we are sure that the published Version runs @ƒaboweb
+* disable interaction buttons if not connected to the network, so user do not expect working interaction @faboweb
 
 ### Fixed
 
 * now resetting most store information on signing out to not have side effects between sessions @faboweb
+* import seed focus bug @okwme
+* fixed trying to subscribe to transaction rpc events multiple times (prevent unexpected side effects doing so) @faboweb
 
 ## [0.9.4] - 2018-08-08
 

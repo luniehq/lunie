@@ -13,7 +13,8 @@ export default ({ node }) => {
     historyLoading: false,
     denoms: [],
     address: null,
-    zoneIds: ["basecoind-demo1", "basecoind-demo2"]
+    zoneIds: ["basecoind-demo1", "basecoind-demo2"],
+    subscribedRPC: null
   }
   let state = JSON.parse(JSON.stringify(emptyState))
 
@@ -161,6 +162,11 @@ export default ({ node }) => {
     },
     walletSubscribe({ state, dispatch }) {
       if (!state.address) return
+      // check if we already subscribed to this rpc object
+      // we need to resubscribe on rpc reconnections
+      if (state.subscribedRPC === node.rpc) return
+
+      state.subscribedRPC = node.rpc
 
       function onTx(err, event) {
         if (err) {
