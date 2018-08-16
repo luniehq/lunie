@@ -25,7 +25,7 @@ tm-page.page-bond(title="Staking")
           tm-field.bond-value__input#new-unbonded-atoms(
             disabled
             type="number"
-            :placeholder="denom"
+            placeholder="0"
             :value="newUnbondedAtoms")
       tm-form-msg(type="between"
         v-if="newUnbondedAtoms < 0")
@@ -61,7 +61,7 @@ tm-page.page-bond(title="Staking")
             span(v-if="d.deltaAtoms !== 0") {{ d.deltaAtoms }}
           tm-field.bond-value__input(
             type="number"
-            :placeholder="denom"
+            placeholder="0"
             step="1"
             min="0"
             :max="totalAtoms"
@@ -101,7 +101,7 @@ tm-page.page-bond(title="Staking")
           tm-field.bond-value__input#new-unbonding-atoms(
             disabled
             type="number"
-            :placeholder="denom"
+            placeholder="0"
             :value="newUnbondingAtoms")
 
     tm-form-group(field-id="bond-confirm" field-label=''
