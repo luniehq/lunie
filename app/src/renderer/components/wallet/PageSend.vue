@@ -54,7 +54,7 @@ tm-page(title='Send')
     div(slot='footer')
       tm-btn(v-if='sending' value='Sending...' disabled color="primary")
       tm-btn(v-else-if='!connected' value='Connecting...' disabled color="primary")
-      tm-btn(v-else @click='onSubmit' value="Send Tokens" color="primary")
+      tm-btn(v-else id="send-btn" @click='onSubmit' value="Send Tokens" color="primary")
 
   tm-modal-send-confirmation(v-if="confirmationPending" @approved="onApproved" @canceled="onCancel" :amount="fields.amount" :recipient="fields.address" :denom="fields.denom")
 </template>
