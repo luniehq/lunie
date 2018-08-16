@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(title='Staking')
   div(slot="menu"): tool-bar
-    a(@click='updateDelegates()' v-tooltip.bottom="'Refresh'")
+    a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
       i.material-icons refresh
     a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
       i.search.material-icons search
