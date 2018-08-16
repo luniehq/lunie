@@ -13,7 +13,7 @@ tm-page(title='Staking')
     tm-data-empty(v-else-if="delegates.delegates.length === 0")
     data-empty-search(v-else-if="sortedFilteredEnrichedDelegates.length === 0")
     template(v-else)
-      panel-sort(:sort='sort')
+      panel-sort(:sort='smartSort')
       li-delegate(v-for='i in sortedFilteredEnrichedDelegates' :key='i.id' :delegate='i')
 
   .fixed-button-bar(v-if="!delegates.loading")
@@ -50,6 +50,46 @@ export default {
     PanelSort,
     ToolBar
   },
+  data: () => ({
+    num: num,
+    query: "",
+    sort: {
+      property: "percent_of_vote",
+      order: "desc",
+      properties: [
+        {
+          title: "Name",
+          value: "small_moniker",
+          class: "name"
+        },
+        {
+          title: "% of Vote",
+          value: "percent_of_vote",
+          class: "percent_of_vote"
+        },
+        {
+          title: "Total Votes",
+          value: "voting_power",
+          class: "voting_power"
+        },
+        {
+          title: "Your Votes",
+          value: "your_votes",
+          class: "your-votes"
+        },
+        {
+          title: "Status",
+          value: "isValidator",
+          class: "status"
+        },
+        {
+          title: "",
+          value: "",
+          class: "action hidden"
+        }
+      ]
+    }
+  }),
   computed: {
     ...mapGetters([
       "delegates",
@@ -77,6 +117,53 @@ export default {
         .slice(0, 100)
         .reduce((sum, v) => sum + v.voting_power, 0)
     },
+    smartSort() {
+      this.sort.properties = [
+        {
+          title: "Moniker",
+          value: "small_moniker",
+          tooltip: "The validator's moniker",
+          class: "name"
+        },
+        {
+          title: `% of ${this.config.bondingDenom}`,
+          value: "percent_of_vote",
+          tooltip: `Percentage of ${
+            this.config.bondingDenom
+          } the validator has on The Cosmos Hub`,
+          class: "percent_of_vote"
+        },
+        {
+          title: `Total ${this.config.bondingDenom}`,
+          value: "voting_power",
+          tooltip: `Total number of ${
+            this.config.bondingDenom
+          } the validator has on The Cosmos Hub`,
+          class: "voting_power"
+        },
+        {
+          title: `Your ${this.config.bondingDenom}`,
+          value: "your_votes",
+          tooltip: `Number of ${
+            this.config.bondingDenom
+          } you have staked to the validator`,
+          class: "your-votes"
+        },
+        {
+          title: "Status",
+          value: "isValidator",
+          tooltip:
+            "The validator's current state: validating, candidate, or jailed",
+          class: "status"
+        },
+        {
+          title: "",
+          value: "",
+          class: "action hidden"
+        }
+      ]
+      return this.sort
+    },
     enrichedDelegates() {
       return !this.somethingToSearch
         ? []
@@ -86,57 +173,6 @@ export default {
             v.your_votes = this.num.prettyInt(this.committedDelegations[v.id])
             return v
           })
-    },
-    sort() {
-      const sort = {
-        property: "percent_of_vote",
-        order: "desc",
-        properties: [
-          {
-            title: "Moniker",
-            value: "small_moniker",
-            tooltip: "This validators moniker",
-            class: "name"
-          },
-          {
-            title: `% of ${this.config.bondingDenom}`,
-            value: "percent_of_vote",
-            tooltip: `Percentage of ${
-              this.config.bondingDenom
-            } this validator has on The Cosmos Hub`,
-            class: "percent_of_vote"
-          },
-          {
-            title: `Total ${this.config.bondingDenom}`,
-            value: "voting_power",
-            tooltip: `Total number of ${
-              this.config.bondingDenom
-            } this validator has on The Cosmos Hub`,
-            class: "voting_power"
-          },
-          {
-            title: `Your ${this.config.bondingDenom}`,
-            value: "your_votes",
-            tooltip: `Number of ${
-              this.config.bondingDenom
-            } you have staked to this validator`,
-            class: "your-votes"
-          },
-          {
-            title: "Status",
-            value: "isValidator",
-            tooltip:
-              "This validators current state: validating, candidate, or jailed",
-            class: "status"
-          },
-          {
-            title: "",
-            value: "",
-            class: "action hidden"
-          }
-        ]
-      }
-      return sort
     },
     sortedFilteredEnrichedDelegates() {
       let query = this.filters.delegates.search.query || ""
@@ -157,10 +193,6 @@ export default {
       return this.shoppingCart.length > 0 || this.user.atoms > 0
     }
   },
-  data: () => ({
-    num: num,
-    query: ""
-  }),
   watch: {
     address: function(address) {
       address && this.updateDelegates()
