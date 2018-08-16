@@ -152,8 +152,4 @@ export default {
 
   img
     max-width 150px
-
-.toggle-handle:after
-    background var(--txt)
-
 </style>
