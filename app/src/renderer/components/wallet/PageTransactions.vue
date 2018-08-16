@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(title='Transactions')
   div(slot="menu"): tool-bar
-    a(@click='refreshTransactions()' v-tooltip.bottom="'Refresh'")
+    a(@click='connected && refreshTransactions()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
       i.material-icons refresh
     a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
       i.material-icons search
@@ -54,7 +54,8 @@ export default {
       "transactions",
       "wallet",
       "config",
-      "delegation"
+      "delegation",
+      "connected"
     ]),
     somethingToSearch() {
       return !this.wallet.historyLoading && !!this.allTransactions.length

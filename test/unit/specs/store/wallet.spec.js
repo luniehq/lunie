@@ -14,16 +14,7 @@ describe("Module: Wallet", () => {
   // DEFAULT
 
   it("should have an empty state by default", () => {
-    const state = {
-      balances: [],
-      balancesLoading: true,
-      history: [],
-      historyLoading: false,
-      denoms: [],
-      address: null,
-      zoneIds: ["basecoind-demo1", "basecoind-demo2"]
-    }
-    expect(store.state.wallet).toEqual(state)
+    expect(store.state.wallet).toMatchSnapshot()
   })
 
   // MUTATIONS
