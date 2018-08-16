@@ -88,4 +88,7 @@ export default {
 
 #onboarding .tm-session-main
   position relative
+
+.tm-bar-discrete__node--active
+  border-color var(--tertiary) !important
 </style>
