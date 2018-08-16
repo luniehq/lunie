@@ -98,16 +98,14 @@ export default {
   justify-content space-between
   align-items center
   margin-top 1.5rem // for macos traffic signals
-  padding 1rem 0;
+  padding 1rem 2rem;
   border-bottom: 0.125rem solid var(--bc-dim);
 
   a
-    width 3rem
     display flex
     align-items center
     justify-content center
     cursor pointer
-    height 3rem
     i
       color var(--dim)
       font-size lg
@@ -129,10 +127,11 @@ export default {
   position relative
 
   .tm-bar-discrete
-    margin-bottom 1rem
+    margin 1rem auto
 
   img
-    max-width 100%
+    margin 0 auto
+    max-width 300px
     display block
 
   .ps-scrollbar-y-rail
@@ -145,15 +144,19 @@ export default {
 .tm-session-label
   padding 1rem
   background var(--app-fg)
-  color var(--dim)
+  color var(--txt)
+  text-align center
 
 .tm-session-footer
   background var(--app-fg)
   flex 0 0 5rem + px
-  padding 0 3rem
+  padding 0 2rem
   display flex
   align-items center
   justify-content flex-end
+
+  button
+    margin-left 1rem
 
   &:empty
     display none
@@ -196,7 +199,7 @@ export default {
     margin-top 0
 
   .tm-session-main
-    padding 3rem 2rem
+    padding 3rem 1rem
 
     .tm-form-group
       display block !important
