@@ -106,18 +106,16 @@ yarn run build --commit=HEAD --network=gaia-7005
 
 You can specify `--help` to see all options with explanations.
 
-To unzip the app:
+Unzip the app version for your OS:
 
-```bash
-open builds/Voyager/Cosmos_Voyager-v0.9.4-Linux.tar.gz
-open builds/Voyager/Cosmos_Voyager-v0.9.4-macOS.zip
-open builds/Voyager/Cosmos_Voyager-v0.9.4-Windows.zip
-```
+- Linux: `builds/Voyager/Cosmos_Voyager-v0.9.4-Linux.tar.gz`
+- MacOS: `builds/Voyager/Cosmos_Voyager-v0.9.4-macOS.tar.gz`
+- Windows: `builds/Voyager/Cosmos_Voyager-v0.9.4-Windows.tar.gz`
 
 To test if your build worked run:
 
 ```bash
-$ yarn test:exe {path to the build executable}
+$ yarn test:exe {path to the unpacked executable}
 ```
 
 To make an official release, follow the instructions in `docs/release.md`.
