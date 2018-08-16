@@ -62,6 +62,7 @@ describe("PageTransactions", () => {
     wrapper = instance.wrapper
     store = instance.store
 
+    store.commit("setConnected", true)
     store.commit("setWalletAddress", "tb1d4u5zerywfjhxuc9nudvw")
     store.commit("setWalletHistory", mockTransactions)
     store.commit("setDelegationTxs", delegationTxs)
