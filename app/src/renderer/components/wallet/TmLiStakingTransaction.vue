@@ -15,7 +15,7 @@
   .tx-container
     .tx-element.tx-coins
       .tx-coin
-        .key STEAK
+        .key {{ denom }}
         .value {{ pretty(tx.shares_amount) }}
     div
       .tx-element.tx-date(v-if="devMode") {{ date }}
@@ -25,10 +25,12 @@
 <script>
 import moment from "moment"
 import numeral from "numeral"
+import { mapGetters } from "vuex"
 
 export default {
   name: "tm-li-staking-transaction",
   computed: {
+    ...mapGetters(["config"]),
     tx() {
       return this.transaction.tx.value.msg[0].value
     },
@@ -41,6 +43,9 @@ export default {
       } catch (error) {
         return null
       }
+    },
+    denom() {
+      return this.config.bondingDenom
     }
   },
   data: () => ({
