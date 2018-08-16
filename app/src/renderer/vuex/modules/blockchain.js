@@ -10,7 +10,8 @@ export default ({ node }) => {
     subscription: false,
     syncing: true,
     blockMetas: {},
-    blockTxs: {}
+    blockTxs: {},
+    subscribedRPC: null
   }
 
   const mutations = {
@@ -147,12 +148,11 @@ export default ({ node }) => {
     subscribeToBlocks({ state, commit, dispatch }) {
       // ensure we never subscribe twice
       if (state.subscription) return
+      if (state.subscribedRPC === node.rpc) return
+
+      state.subscribedRPC = node.rpc
 
       function error(err) {
-        if (err.data === "already subscribed") {
-          console.error("Tryed to subscribe to an already subscribed rpc event")
-          return
-        }
         dispatch("nodeHasHalted")
         console.error(
           `Error subscribing to new blocks: ${err.message} ${err.data || ""}`
