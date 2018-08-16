@@ -12,6 +12,7 @@ describe("PageWallet", () => {
     wrapper = instance.wrapper
     store = instance.store
 
+    store.commit("setConnected", true)
     store.commit("setDenoms", ["ATOM", "FERMION", "TEST"])
     store.commit("setWalletAddress", "tb1zgatc3tdauv2m0uf")
 
