@@ -125,7 +125,7 @@ export default {
     }
   },
   mounted() {
-    this.$el.querySelector("#import-seed").focus()
+    this.$el.querySelector("#import-name").focus()
     new PerfectScrollbar(this.$el.querySelector(".tm-session-main"))
   },
   validations: () => ({
