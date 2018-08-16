@@ -18,15 +18,15 @@ export default ({ node }) => {
 
       // TODO: calculate voting power
       let divIdx = delegate.tokens.indexOf("/")
+      let tokens
       if (divIdx == -1) {
-        delegate.tokens = Number(delegate.tokens)
+        tokens = Number(delegate.tokens)
       } else {
-        delegate.tokens =
+        tokens =
           Number(delegate.tokens.substring(0, divIdx)) /
           Number(delegate.tokens.substring(divIdx + 1))
       }
-      delegate.voting_power = delegate.tokens.toFixed(2)
-      console.log(delegate.voting_power)
+      delegate.voting_power = tokens.toFixed(2)
 
       // update if we already have this delegate
       for (let existingDelegate of state.delegates) {

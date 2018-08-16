@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(title='Staking')
   div(slot="menu"): tool-bar
-    a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
+    a(@click='updateDelegates()' v-tooltip.bottom="'Refresh'")
       i.material-icons refresh
     a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
       i.search.material-icons search
@@ -57,8 +57,7 @@ export default {
       "shoppingCart",
       "committedDelegations",
       "config",
-      "user",
-      "connected"
+      "user"
     ]),
     address() {
       return this.user.address
@@ -70,8 +69,7 @@ export default {
       return this.delegates.delegates
         .slice(0)
         .map(v => {
-          v.voting_power = v.voting_power ? v.voting_power : 0
-          console.log(v.voting_power)
+          v.voting_power = v.voting_power ? Number(v.voting_power) : 0
           return v
         })
         .sort((a, b) => b.voting_power - a.voting_power)
