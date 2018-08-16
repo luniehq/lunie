@@ -6,10 +6,10 @@ tm-form-group(:class='cssClass' :error="$v.fields.atoms.$error")
   field(
     theme="cosmos"
     type="number"
-    placeholder="Atoms"
+    :placeholder="bondingDenom"
     v-model="fields.atoms")
   form-msg(
-    name="Atoms"
+    :name="bondingDenom"
     type="required"
     v-if="!$v.fields.atoms.required")
 </template>
@@ -30,7 +30,7 @@ export default {
     FormMsg
   },
   computed: {
-    ...mapGetters(["shoppingCart", "delegates"]),
+    ...mapGetters(["shoppingCart", "delegates", "bondingDenom"]),
     cssClass() {
       let value = "card-delegate-atoms"
       return value
