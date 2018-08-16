@@ -152,7 +152,10 @@ workflows:
 
       - publish:
           requires:
+            - changelogUpdated
             - buildGaia
+            - testUnit
+            - testE2e
           filters:
             branches:
               only: develop
