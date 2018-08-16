@@ -118,7 +118,8 @@ tm-page.page-bond(:title="`Bond ${denom}`")
     div(slot='footer')
       tm-btn(v-if="delegating" type="button" value="Reset" disabled="true")
       tm-btn#btn-reset(v-else type="button" @click.native="resetFields" value="Reset" color="danger")
-      tm-btn(v-if="delegating" value="Sending..." disabled="true")
+      tm-btn(v-if="delegating" value="Sending..." disabled="true" color="primary")
+      tm-btn(v-else-if='!connected' value='Connecting...' disabled color="primary")
       tm-btn#btn-bond(v-else value="Submit" color="primary" )
 </template>
 
@@ -152,7 +153,13 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters(["shoppingCart", "user", "delegation", "config"]),
+    ...mapGetters([
+      "shoppingCart",
+      "user",
+      "delegation",
+      "config",
+      "connected"
+    ]),
     denom() {
       return this.config.bondingDenom.toUpperCase()
     },

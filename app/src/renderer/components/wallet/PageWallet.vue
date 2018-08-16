@@ -2,7 +2,7 @@
 tm-page(title='Wallet')
   div(slot="menu")
     tm-tool-bar
-      a(@click='updateBalances()' v-tooltip.bottom="'Refresh'")
+      a(@click='connected && updateBalances()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
         i.material-icons refresh
       a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
         i.material-icons search
@@ -75,7 +75,13 @@ export default {
     BtnReceive
   },
   computed: {
-    ...mapGetters(["filters", "wallet", "committedDelegations", "config"]),
+    ...mapGetters([
+      "filters",
+      "wallet",
+      "committedDelegations",
+      "config",
+      "connected"
+    ]),
     somethingToSearch() {
       return !this.wallet.balancesLoading && !!this.wallet.balances.length
     },
