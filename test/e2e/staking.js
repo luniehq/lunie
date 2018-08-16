@@ -27,13 +27,13 @@ test("staking", async function(t) {
 
     await t.equal(
       await app.client.$(".li-delegate__value.number_of_votes").getText(),
-      bondedStake + "",
+      num.pretty(bondedStake),
       "show validators stake"
     )
 
     await t.equal(
       await app.client.$(".li-delegate__value.your-votes").getText(),
-      num.pretty(bondedStake),
+      bondedStake.toString(),
       "show my stake in the validator"
     )
 
@@ -52,7 +52,7 @@ test("staking", async function(t) {
 
     t.equal(
       await app.client.$("#new-unbonded-atoms").getValue(),
-      num.pretty(totalUserStake - bondedStake),
+      (totalUserStake - bondedStake).toString(),
       "Left over steak shows correctly"
     )
 
@@ -157,7 +157,7 @@ test("staking", async function(t) {
 
     t.equal(
       await app.client.$(".li-delegate__value.number_of_votes").getText(),
-      bondedStake.toString(),
+      num.pretty(bondedStake),
       "Validator total steak updated correctly"
     )
 
