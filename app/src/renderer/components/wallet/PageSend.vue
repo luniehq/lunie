@@ -53,6 +53,7 @@ tm-page(title='Send')
 
     div(slot='footer')
       tm-btn(v-if='sending' value='Sending...' disabled color="primary")
+      tm-btn(v-else-if='!connected' value='Connecting...' disabled color="primary")
       tm-btn(v-else @click='onSubmit' value="Send Tokens" color="primary")
 
   tm-modal-send-confirmation(v-if="confirmationPending" @approved="onApproved" @canceled="onCancel" :amount="fields.amount" :recipient="fields.address" :denom="fields.denom")
@@ -91,7 +92,13 @@ export default {
     TmModalSendConfirmation
   },
   computed: {
-    ...mapGetters(["wallet", "lastHeader", "config", "mockedConnector"]),
+    ...mapGetters([
+      "wallet",
+      "lastHeader",
+      "config",
+      "mockedConnector",
+      "connected"
+    ]),
     max() {
       let denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
@@ -223,5 +230,4 @@ export default {
   max-width width-main-max
   display flex
   justify-content flex-end
-
 </style>
