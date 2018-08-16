@@ -50,6 +50,46 @@ export default {
     PanelSort,
     ToolBar
   },
+  data: () => ({
+    num: num,
+    query: "",
+    sort: {
+      property: "percent_of_vote",
+      order: "desc",
+      properties: [
+        {
+          title: "Name",
+          value: "small_moniker",
+          class: "name"
+        },
+        {
+          title: "% of Vote",
+          value: "percent_of_vote",
+          class: "percent_of_vote"
+        },
+        {
+          title: "Total Votes",
+          value: "voting_power",
+          class: "voting_power"
+        },
+        {
+          title: "Your Votes",
+          value: "your_votes",
+          class: "your-votes"
+        },
+        {
+          title: "Status",
+          value: "isValidator",
+          class: "status"
+        },
+        {
+          title: "",
+          value: "",
+          class: "action hidden"
+        }
+      ]
+    }
+  }),
   computed: {
     ...mapGetters([
       "delegates",
