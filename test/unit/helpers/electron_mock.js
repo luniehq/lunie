@@ -15,6 +15,9 @@ jest.mock("electron", () => ({
             "https://4dee9f70a7d94cc0959a265c45902d84@sentry.io/288169"
         }
       if (name === "root") return "./test/unit/tmp/test_root/"
+    },
+    app: {
+      getVersion: jest.fn(() => "0.5.5")
     }
   }
 }))

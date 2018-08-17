@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * updated tendermint/ui to fix min max override in page send @okwme
 * removed unused xmlhttprequest dependency @faboweb
 * LCD staking endpoints @fedekunze @faboweb
+* the way we show version numbers in the version modal @jbibla
 
 ### Added
 
