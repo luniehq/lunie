@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mepGetters } from "vuex"
+import { mapGetters } from "vuex"
 import Chart from "chart.js"
 import shortid from "shortid"
 export default {
