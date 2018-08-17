@@ -1,11 +1,11 @@
 <template lang="pug">
 tm-page.page-bond(title="Staking")
   div(slot="menu"): tool-bar
-  tm-part(:title="`Stake your ${totalAtoms} ${denom}`"): tm-form-struct( :submit="onSubmit")
+  tm-part(:title="`Stake your ${totalAtoms} ${bondingDenom}`"): tm-form-struct( :submit="onSubmit")
     .bond-group(:class="bondGroupClass(unbondedAtomsDelta)")
       .bond-group__fields
         .bond-bar
-          label.bond-bar__label Unbonded {{ bondingDenom.toUpperCase() }}
+          label.bond-bar__label Unbonded {{ bondingDenom }}
           .bond-bar__input
             .bond-bar-old__outer
               .bond-bar-old__inner(:style="styleBondBarInner(oldUnbondedAtoms)")

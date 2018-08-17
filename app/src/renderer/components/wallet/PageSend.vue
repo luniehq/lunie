@@ -105,7 +105,7 @@ export default {
     },
     denominations() {
       return this.wallet.balances.map(i => ({
-        key: i.denom.toUpperCase(),
+        key: i.denom,
         value: i.denom
       }))
     },
