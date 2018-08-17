@@ -13,7 +13,7 @@ tm-page(title='Staking')
     tm-data-empty(v-else-if="delegates.delegates.length === 0")
     data-empty-search(v-else-if="sortedFilteredEnrichedDelegates.length === 0")
     template(v-else)
-      panel-sort(:sort='smartSort')
+      panel-sort(:sort='sort', :properties="properties")
       li-delegate(v-for='i in sortedFilteredEnrichedDelegates' :key='i.id' :delegate='i')
 
   .fixed-button-bar(v-if="!delegates.loading")
@@ -21,8 +21,8 @@ tm-page(title='Staking')
       .label #[strong {{ shoppingCart.length }}] validators selected
       tm-btn(id="go-to-bonding-btn" type="link" to="/staking/bond" :disabled="shoppingCart.length === 0" icon="chevron_right" icon-pos="right" value="Next" color="primary")
     template(v-else)
-      .label You do not have any {{ config.bondingDenom }} to stake.
-      tm-btn(id="go-to-bonding-btn" type="link" to="/staking/bond" :disabled="shoppingCart.length === 0" icon="chevron_right" icon-pos="right" value="Next" color="primary")
+      .label You do not have any {{bondingDenom}}s to stake.
+      tm-btn(disabled icon="chevron_right" icon-pos="right" value="Next" color="primary")
 </template>
 
 <script>
@@ -98,7 +98,8 @@ export default {
       "committedDelegations",
       "config",
       "user",
-      "connected"
+      "connected",
+      "bondingDenom"
     ]),
     address() {
       return this.user.address
@@ -117,8 +118,36 @@ export default {
         .slice(0, 100)
         .reduce((sum, v) => sum + v.voting_power, 0)
     },
-    smartSort() {
-      this.sort.properties = [
+    enrichedDelegates() {
+      return !this.somethingToSearch
+        ? []
+        : this.delegates.delegates.map(v => {
+            v.small_moniker = v.moniker.toLowerCase()
+            v.percent_of_vote = num.percent(v.voting_power / this.vpTotal)
+            v.your_votes = this.num.prettyInt(this.committedDelegations[v.id])
+            return v
+          })
+    },
+    sortedFilteredEnrichedDelegates() {
+      let query = this.filters.delegates.search.query || ""
+      let sortedEnrichedDelegates = orderBy(
+        this.enrichedDelegates.slice(0),
+        [this.sort.property, "small_moniker"],
+        [this.sort.order, "asc"]
+      )
+      if (this.filters.delegates.search.visible) {
+        return sortedEnrichedDelegates.filter(i =>
+          includes(JSON.stringify(i).toLowerCase(), query.toLowerCase())
+        )
+      } else {
+        return sortedEnrichedDelegates
+      }
+    },
+    userCanDelegate() {
+      return this.shoppingCart.length > 0 || this.user.atoms > 0
+    },
+    properties() {
+      return [
         {
           title: "Moniker",
           value: "small_moniker",
@@ -126,26 +155,26 @@ export default {
           class: "name"
         },
         {
-          title: `% of ${this.config.bondingDenom}`,
+          title: `% of ${this.bondingDenom}`,
           value: "percent_of_vote",
           tooltip: `Percentage of ${
-            this.config.bondingDenom
+            this.bondingDenom
           } the validator has on The Cosmos Hub`,
           class: "percent_of_vote"
         },
         {
-          title: `Total ${this.config.bondingDenom}`,
+          title: `Total ${this.bondingDenom}`,
           value: "voting_power",
           tooltip: `Total number of ${
-            this.config.bondingDenom
+            this.bondingDenom
           } the validator has on The Cosmos Hub`,
           class: "voting_power"
         },
         {
-          title: `Your ${this.config.bondingDenom}`,
+          title: `Your ${this.bondingDenom}`,
           value: "your_votes",
           tooltip: `Number of ${
-            this.config.bondingDenom
+            this.bondingDenom
           } you have staked to the validator`,
           class: "your-votes"
         },
@@ -193,6 +222,14 @@ export default {
       return this.shoppingCart.length > 0 || this.user.atoms > 0
     }
   },
+  data: () => ({
+    num: num,
+    query: "",
+    sort: {
+      property: "percent_of_vote",
+      order: "desc"
+    }
+  }),
   watch: {
     address: function(address) {
       address && this.updateDelegates()

@@ -5,13 +5,13 @@ tm-page(icon="storage" :title="`${delegateId} Vote Power`")
       :to="{ name: 'delegate', params: { delegate: $route.params.delegate }}")
       i.material-icons arrow_back
 
-  tm-part(title='Vote Power (Millions of ATOMs) / Time')
+  tm-part(:title='`Vote Power (Millions of ${bondingDenom}) / Time`')
     chart-vote-power(:votes="chartData")
 
   tm-part(title='Statistics')
-    list-item(dt='Total Vote Power' dd='4.2M ATOM')
-    list-item#li-solo-power(dt="Solo Vote Power" dd="1M ATOM (19%)")
-    list-item#li-delegated-power(dt="Delg. Vote Power" dd="3.2M ATOM (81%)")
+    list-item(dt='Total Vote Power' :dd='`4.2M ${bondingDenom.toUpperCase()}`')
+    list-item#li-solo-power(dt="Solo Vote Power" :dd="`1M ${bondingDenom.toUpperCase()} (19%)`")
+    list-item#li-delegated-power(dt="Delg. Vote Power" :dd="`3.2M ${bondingDenom.toUpperCase()} (81%)`")
     list-item(dt='Power Rank' dd='#17')
 </template>
 
@@ -20,6 +20,7 @@ import ChartVotePower from "staking/ChartVotePower"
 import ListItem from "common/NiListItem"
 import ToolBar from "common/NiToolBar"
 import { TmPage, TmPart } from "@tendermint/ui"
+import { mapGetters } from "vuex"
 export default {
   name: "page-delegate-power",
   components: {
@@ -30,6 +31,7 @@ export default {
     ToolBar
   },
   computed: {
+    ...mapGetters(["bondingDenom"]),
     delegateId() {
       return this.slugToIp(this.$route.params.delegate)
     }

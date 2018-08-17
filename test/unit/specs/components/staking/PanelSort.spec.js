@@ -9,18 +9,18 @@ describe("PanelSort", () => {
     let test = instance.mount(PanelSort, {
       propsData: {
         sort: {
-          order: "asc",
-          properties: [
-            {
-              value: "id",
-              title: "ID"
-            },
-            {
-              value: "amount",
-              title: "AMOUNT"
-            }
-          ]
-        }
+          order: "asc"
+        },
+        properties: [
+          {
+            value: "id",
+            title: "ID"
+          },
+          {
+            value: "amount",
+            title: "AMOUNT"
+          }
+        ]
       }
     })
     wrapper = test.wrapper

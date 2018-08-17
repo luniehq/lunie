@@ -5,7 +5,7 @@ tm-page.page-bond(title="Staking")
     .bond-group(:class="bondGroupClass(unbondedAtomsDelta)")
       .bond-group__fields
         .bond-bar
-          label.bond-bar__label Unbonded {{ denom }}
+          label.bond-bar__label Unbonded {{ bondingDenom.toUpperCase() }}
           .bond-bar__input
             .bond-bar-old__outer
               .bond-bar-old__inner(:style="styleBondBarInner(oldUnbondedAtoms)")
@@ -29,8 +29,7 @@ tm-page.page-bond(title="Staking")
             :value="newUnbondedAtoms")
       tm-form-msg(type="between"
         v-if="newUnbondedAtoms < 0")
-        | You can't bond more {{ denom }} then you have
-
+        | You can't stake more {{ bondingDenom }} then you have
     .bond-group.bond-candidate(
       v-for='(d, index) in fields.delegates'
       :key='d.id'
@@ -70,9 +69,9 @@ tm-page.page-bond(title="Staking")
             @change.native="limitMax(d, parseInt($event.target.max))"
             )
 
-      tm-form-msg(name="Atoms" type="required"
+      tm-form-msg(:name="bondingDenom + 's'" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
-      tm-form-msg(name="Atoms" type="numeric"
+      tm-form-msg(name="bondingDenom + 's'" type="numeric"
         v-if="!$v.fields.delegates.$each[index].atoms.numeric")
 
     .bond-group.bond-group--unbonding(
@@ -158,11 +157,9 @@ export default {
       "user",
       "delegation",
       "config",
-      "connected"
+      "connected",
+      "bondingDenom"
     ]),
-    denom() {
-      return this.config.bondingDenom
-    },
     totalAtoms() {
       return (
         parseInt(this.user.atoms) + this.oldBondedAtoms + this.oldUnbondingAtoms
@@ -237,9 +234,9 @@ export default {
     async onSubmit() {
       if (this.newUnbondedAtoms < 0) {
         this.$store.commit("notifyError", {
-          title: `Too Many Allocated ${this.denom}`,
+          title: `Too Many Allocated ${this.bondingDenom}`,
           body: `You've tried to bond ${this.newUnbondedAtoms * -1} more ${
-            this.denom
+            this.bondingDenom
           } than you have.`
         })
         return
@@ -259,12 +256,12 @@ export default {
           if (errData) {
             let parsedErr = errData.split('"')[1]
             this.$store.commit("notifyError", {
-              title: `Error While Bonding ${this.denom}`,
+              title: `Error While Staking ${this.bondingDenom}s`,
               body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
             })
           } else {
             this.$store.commit("notifyError", {
-              title: `Error While Bonding ${this.denom}`,
+              title: `Error While Staking ${this.bondingDenom}s`,
               body: err.message
             })
           }
@@ -293,8 +290,8 @@ export default {
     leaveIfBroke() {
       if (!this.userCanDelegate) {
         this.$store.commit("notifyError", {
-          title: `Cannot Bond Without ${this.denom}`,
-          body: `You do not have any ${this.denom} to bond to delegates.`
+          title: `Cannot Stake Without ${this.bondingDenom}s`,
+          body: `You do not have any ${this.bondingDenom} to stake to validators.`
         })
         this.$router.push("/staking")
       }
