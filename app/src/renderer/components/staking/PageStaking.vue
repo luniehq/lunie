@@ -13,7 +13,7 @@ tm-page(title='Staking')
     tm-data-empty(v-else-if="delegates.delegates.length === 0")
     data-empty-search(v-else-if="sortedFilteredEnrichedDelegates.length === 0")
     template(v-else)
-      panel-sort(:sort='sort')
+      panel-sort(:sort='sort', :properties="properties")
       li-delegate(v-for='i in sortedFilteredEnrichedDelegates' :key='i.id' :delegate='i')
 
   .fixed-button-bar(v-if="!delegates.loading")
@@ -21,7 +21,7 @@ tm-page(title='Staking')
       .label #[strong {{ shoppingCart.length }}] delegates selected
       tm-btn(id="go-to-bonding-btn" type="link" to="/staking/bond" :disabled="shoppingCart.length === 0" icon="chevron_right" icon-pos="right" value="Next" color="primary")
     template(v-else)
-      .label You do not have any ATOMs to delegate.
+      .label You do not have any {{bondingDenom.toUpperCase()}}s to delegate.
       tm-btn(disabled icon="chevron_right" icon-pos="right" value="Next" color="primary")
 </template>
 
@@ -57,7 +57,9 @@ export default {
       "shoppingCart",
       "committedDelegations",
       "config",
-      "user"
+      "user",
+      "connected",
+      "bondingDenom"
     ]),
     address() {
       return this.user.address
@@ -103,15 +105,9 @@ export default {
     },
     userCanDelegate() {
       return this.shoppingCart.length > 0 || this.user.atoms > 0
-    }
-  },
-  data: () => ({
-    num: num,
-    query: "",
-    sort: {
-      property: "percent_of_vote",
-      order: "desc",
-      properties: [
+    },
+    properties() {
+      return [
         {
           title: "Name",
           value: "small_moniker",
@@ -128,14 +124,17 @@ export default {
         {
           title: "Total Votes",
           value: "voting_power",
-          tooltip: "The delegate stakes this many atoms on the network.",
+          tooltip: `The delegate stakes this many ${
+            this.bondingDenom
+          }s on the network.`,
           class: "voting_power"
         },
         {
           title: "Your Votes",
           value: "your_votes",
-          tooltip:
-            "You have personally staked this many atoms to the delegate.",
+          tooltip: `You have personally staked this many ${
+            this.bondingDenom
+          }s to the delegate.`,
           class: "your-votes"
         },
         {
@@ -151,6 +150,14 @@ export default {
           class: "action hidden"
         }
       ]
+    }
+  },
+  data: () => ({
+    num: num,
+    query: "",
+    sort: {
+      property: "percent_of_vote",
+      order: "desc"
     }
   }),
   watch: {

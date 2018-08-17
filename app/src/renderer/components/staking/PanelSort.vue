@@ -1,6 +1,6 @@
 <template lang="pug">
 .panel-sort: .panel-sort-container: .sort-by(
-  v-for="property in sort.properties",
+  v-for="property in properties",
   @click="orderBy(property.value, $event)",
   :class="property.class")
   .label(v-tooltip.top="property.tooltip") {{ property.title }}
@@ -13,7 +13,7 @@ export default {
     orderBy(property) {
       let sortBys = this.$el.querySelectorAll(".sort-by")
       sortBys.forEach(el => el.classList.remove("active", "desc", "asc"))
-      let index = this.sort.properties.findIndex(p => p.value === property)
+      let index = this.properties.findIndex(p => p.value === property)
       let el = sortBys[index]
 
       if (this.sort.property === property) {
@@ -33,7 +33,7 @@ export default {
       el.classList.add("active")
     }
   },
-  props: ["sort"]
+  props: ["sort", "properties"]
 }
 </script>
 
