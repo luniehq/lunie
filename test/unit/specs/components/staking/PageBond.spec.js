@@ -72,7 +72,6 @@ describe("PageBond", () => {
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
     wrapper.update()
-    console.log(wrapper.vm.totalAtoms)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
