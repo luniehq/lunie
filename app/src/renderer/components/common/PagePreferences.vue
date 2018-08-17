@@ -5,9 +5,9 @@ tm-page(title="Preferences")
   tm-modal(:close="setAbout", v-if="showAbout")
     div(slot="title") About Cosmos Voyager
     .about-popup
-      img( src="~@/assets/images/onboarding/step-0.png")
-      div Voyager v{{versionVoyager}}
-      div Cosmos SDK v{{versionSDK}}
+      img(src="~@/assets/images/onboarding/step-0.png")
+      div(v-if="voyagerVersion") Voyager {{voyagerVersion}}
+      div(v-if="gaiaVersion") Cosmos SDK {{gaiaVersion}}
 
   tm-part(title='Settings')
     tm-list-item(type="field" title="Select network to connect to")
@@ -54,6 +54,7 @@ tm-page(title="Preferences")
 <script>
 import { mapGetters, mapMutations } from "vuex"
 import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
+import { remote } from "electron"
 import ToolBar from "common/TmToolBar"
 import TmModal from "common/TmModal"
 
@@ -78,12 +79,15 @@ export default {
     ]),
     showAbout() {
       return this.config.showAbout
+    },
+    voyagerVersion() {
+      return remote.app.getVersion()
+    },
+    gaiaVersion() {
+      return process.env.GAIA_VERSION
     }
   },
-
   data: () => ({
-    versionVoyager: null,
-    versionSDK: null,
     themeSelectActive: null,
     themeSelectOptions: [
       {
@@ -110,8 +114,6 @@ export default {
   mounted() {
     this.networkSelectActive = this.mockedConnector ? "mock" : "live"
     this.themeSelectActive = this.themes.active
-    this.versionSDK = process.env.GAIA_VERSION.split("-").shift()
-    this.versionVoyager = process.env.VOYAGER_VERSION
   },
   methods: {
     ...mapMutations(["setAbout"]),

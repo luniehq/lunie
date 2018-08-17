@@ -47,6 +47,11 @@ const MOCK =
     ? JSON.parse(process.env.COSMOS_MOCKED)
     : false
 global.config.mocked = MOCK // persist resolved mock setting also in config used by view thread
+const gaiaVersion = fs
+  .readFileSync(networkPath + "/gaiaversion.txt")
+  .toString()
+  .split("-")[0]
+process.env.GAIA_VERSION = gaiaVersion
 
 let LCD_BINARY_NAME = "gaiacli" + (WIN ? ".exe" : "")
 
