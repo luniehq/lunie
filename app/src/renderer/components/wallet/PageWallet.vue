@@ -114,7 +114,7 @@ export default {
       return sum(Object.values(this.committedDelegations).map(parseFloat))
     },
     stakingDenom() {
-      return this.config.bondingDenom.toUpperCase()
+      return this.config.bondingDenom
     }
   },
   methods: {

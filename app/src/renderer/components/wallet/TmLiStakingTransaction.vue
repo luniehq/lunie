@@ -4,7 +4,7 @@
   .tx-container
     .tx-element.tx-coins
       .tx-coin
-        .key {{ tx.delegation.denom.toUpperCase() }}
+        .key {{ tx.delegation.denom }}
         .value {{ pretty(tx.delegation.amount) }}
     div
       .tx-element.tx-date(v-if="devMode") {{ date }}

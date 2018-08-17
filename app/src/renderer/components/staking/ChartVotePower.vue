@@ -29,7 +29,7 @@ export default {
         ],
         datasets: [
           {
-            label: "Delegated " + this.bondingDenom.toUpperCase(),
+            label: "Delegated " + this.bondingDenom,
             lineTension: 0,
             borderColor: "hsl(330,100%,30%)",
             borderWidth: 2,
