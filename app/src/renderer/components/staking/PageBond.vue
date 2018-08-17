@@ -29,7 +29,7 @@ tm-page.page-bond(title="Staking")
             :value="newUnbondedAtoms")
       tm-form-msg(type="between"
         v-if="newUnbondedAtoms < 0")
-        | You can't stake more {{bondingDenom}}s then you have
+        | You can't stake more {{bondingDenom}}s than you have
 
     .bond-group.bond-candidate(
       v-for='(d, index) in fields.delegates'

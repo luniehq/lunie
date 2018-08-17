@@ -17,7 +17,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
           class="tm-page-header-title"
         >
           <h2>
-            Bond STEAK
+            Staking
           </h2>
         </div>
         <div
@@ -95,7 +95,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
             <div
               class="tm-part-title h5"
             >
-              Start bonding your 201 STEAK
+              Stake your 201 Steak
             </div>
             <menu
               class="tm-part-menu"
@@ -127,7 +127,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                       <label
                         class="bond-bar__label"
                       >
-                        Unbonded STEAK
+                        Unbonded Steak
                       </label>
                       <div
                         class="bond-bar__input"
@@ -176,7 +176,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                         class="bond-value__input tm-field"
                         disabled="disabled"
                         id="new-unbonded-atoms"
-                        placeholder="Steaks"
+                        placeholder="0"
                         type="number"
                       />
                     </div>
@@ -244,7 +244,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                         class="bond-value__input tm-field"
                         max="201"
                         min="0"
-                        placeholder="Steaks"
+                        placeholder="0"
                         step="1"
                         type="number"
                       />
@@ -314,7 +314,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                         class="bond-value__input tm-field"
                         max="201"
                         min="0"
-                        placeholder="Steaks"
+                        placeholder="0"
                         step="1"
                         type="number"
                       />
@@ -388,7 +388,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                         class="bond-value__input tm-field"
                         max="201"
                         min="0"
-                        placeholder="Steaks"
+                        placeholder="0"
                         step="1"
                         type="number"
                       />
@@ -426,7 +426,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                         class="tm-field-checkbox-label"
                         for="bond-confirm"
                       >
-                        Yes, update my bonds. I understand unbonding will take 30 days.
+                        Yes, update my stake. I understand unbonding will take 30 days.
                       </label>
                     </div>
                     <div
@@ -502,7 +502,7 @@ exports[`PageBond has the expected html structure 1`] = `
           class="tm-page-header-title"
         >
           <h2>
-            Bond STEAK
+            Staking
           </h2>
         </div>
         <div
@@ -581,7 +581,7 @@ exports[`PageBond has the expected html structure 1`] = `
             <div
               class="tm-part-title h5"
             >
-              Start bonding your 201 STEAK
+              Stake your 201 Steak
             </div>
             <menu
               class="tm-part-menu"
@@ -613,7 +613,7 @@ exports[`PageBond has the expected html structure 1`] = `
                       <label
                         class="bond-bar__label"
                       >
-                        Unbonded STEAK
+                        Unbonded Steak
                       </label>
                       <div
                         class="bond-bar__input"
@@ -662,7 +662,7 @@ exports[`PageBond has the expected html structure 1`] = `
                         class="bond-value__input tm-field"
                         disabled="disabled"
                         id="new-unbonded-atoms"
-                        placeholder="Steaks"
+                        placeholder="0"
                         type="number"
                       />
                     </div>
@@ -730,7 +730,7 @@ exports[`PageBond has the expected html structure 1`] = `
                         class="bond-value__input tm-field"
                         max="201"
                         min="0"
-                        placeholder="Steaks"
+                        placeholder="0"
                         step="1"
                         type="number"
                       />
@@ -800,7 +800,7 @@ exports[`PageBond has the expected html structure 1`] = `
                         class="bond-value__input tm-field"
                         max="201"
                         min="0"
-                        placeholder="Steaks"
+                        placeholder="0"
                         step="1"
                         type="number"
                       />
@@ -874,7 +874,7 @@ exports[`PageBond has the expected html structure 1`] = `
                         class="bond-value__input tm-field"
                         max="201"
                         min="0"
-                        placeholder="Steaks"
+                        placeholder="0"
                         step="1"
                         type="number"
                       />
@@ -912,7 +912,7 @@ exports[`PageBond has the expected html structure 1`] = `
                         class="tm-field-checkbox-label"
                         for="bond-confirm"
                       >
-                        Yes, update my bonds. I understand unbonding will take 30 days.
+                        Yes, update my stake. I understand unbonding will take 30 days.
                       </label>
                     </div>
                     <div
@@ -1008,7 +1008,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
           class="tm-page-header-title"
         >
           <h2>
-            Bond STEAK
+            Staking
           </h2>
         </div>
         <div
@@ -1086,7 +1086,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
             <div
               class="tm-part-title h5"
             >
-              Start bonding your 201 STEAK
+              Stake your 201 Steak
             </div>
             <menu
               class="tm-part-menu"
@@ -1118,7 +1118,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                       <label
                         class="bond-bar__label"
                       >
-                        Unbonded STEAK
+                        Unbonded Steak
                       </label>
                       <div
                         class="bond-bar__input"
@@ -1167,7 +1167,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                         class="bond-value__input tm-field"
                         disabled="disabled"
                         id="new-unbonded-atoms"
-                        placeholder="Steaks"
+                        placeholder="0"
                         type="number"
                       />
                     </div>
@@ -1243,7 +1243,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                         class="bond-value__input tm-field"
                         max="201"
                         min="0"
-                        placeholder="Steaks"
+                        placeholder="0"
                         step="1"
                         type="number"
                       />
@@ -1317,7 +1317,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                         class="bond-value__input tm-field"
                         max="201"
                         min="0"
-                        placeholder="Steaks"
+                        placeholder="0"
                         step="1"
                         type="number"
                       />
@@ -1355,7 +1355,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                         class="tm-field-checkbox-label"
                         for="bond-confirm"
                       >
-                        Yes, update my bonds. I understand unbonding will take 30 days.
+                        Yes, update my stake. I understand unbonding will take 30 days.
                       </label>
                     </div>
                     <div

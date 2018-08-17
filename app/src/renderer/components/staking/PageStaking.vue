@@ -190,6 +190,35 @@ export default {
           class: "action hidden"
         }
       ]
+      return this.sort
+    },
+    enrichedDelegates() {
+      return !this.somethingToSearch
+        ? []
+        : this.delegates.delegates.map(v => {
+            v.small_moniker = v.moniker.toLowerCase()
+            v.percent_of_vote = num.percent(v.voting_power / this.vpTotal)
+            v.your_votes = this.num.prettyInt(this.committedDelegations[v.id])
+            return v
+          })
+    },
+    sortedFilteredEnrichedDelegates() {
+      let query = this.filters.delegates.search.query || ""
+      let sortedEnrichedDelegates = orderBy(
+        this.enrichedDelegates.slice(0),
+        [this.sort.property, "small_moniker"],
+        [this.sort.order, "asc"]
+      )
+      if (this.filters.delegates.search.visible) {
+        return sortedEnrichedDelegates.filter(i =>
+          includes(JSON.stringify(i).toLowerCase(), query.toLowerCase())
+        )
+      } else {
+        return sortedEnrichedDelegates
+      }
+    },
+    userCanDelegate() {
+      return this.shoppingCart.length > 0 || this.user.atoms > 0
     }
   },
   data: () => ({
