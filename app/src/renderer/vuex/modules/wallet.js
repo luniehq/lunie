@@ -83,7 +83,7 @@ export default ({ node }) => {
       commit("setAccountNumber", res.account_number)
       commit("setWalletBalances", coins)
       for (let coin of coins) {
-        if (coin.denom === rootState.config.bondingDenom) {
+        if (coin.denom === rootState.config.bondingDenom.toLowerCase()) {
           commit("setAtoms", parseFloat(coin.amount))
           break
         }

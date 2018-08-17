@@ -127,7 +127,7 @@ export default ({ node }) => {
             delegator_addr: rootState.wallet.address,
             validator_addr: candidateId,
             delegation: {
-              denom: rootState.config.bondingDenom,
+              denom: rootState.config.bondingDenom.toLowerCase(),
               amount: String(amountChange)
             }
           })

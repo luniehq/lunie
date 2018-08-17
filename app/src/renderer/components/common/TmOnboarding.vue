@@ -29,6 +29,18 @@ export default {
     activeKey() {
       return this.onboarding.state
     },
+    nodes() {
+      const nodes = [
+        "This is a quick tour of the primary features of Cosmos Voyager.",
+        "You can send and receive Cosmos tokens from anyone around the world.",
+        `You can stake your ${
+          this.bondingDenom
+        } to Cosmos Validators to earn even more ${this.bondingDenom}.`,
+        "Through governance, you can vote on the future of the Cosmos Network.",
+        "Start using Voyager to explore the Cosmos Network!"
+      ]
+      return nodes
+    },
     activeValue() {
       return this.nodes[this.onboarding.state]
     },
@@ -36,17 +48,6 @@ export default {
       return require(`../../assets/images/onboarding/step-${
         this.activeKey
       }.png`)
-    },
-    nodes() {
-      return [
-        "This is a quick tour of the primary features of Cosmos Voyager.",
-        "You can send and receive Cosmos tokens from anyone around the world.",
-        `You can stake your ${
-          this.bondingDenom
-        }s to Cosmos Validators to earn even more ${this.bondingDenom}s.`,
-        "Through governance, you can vote on the future of the Cosmos Network.",
-        "Start using Voyager to explore the Cosmos Network!"
-      ]
     }
   },
   methods: {
@@ -76,4 +77,7 @@ export default {
 
 #onboarding .tm-session-main
   position relative
+
+.tm-bar-discrete__node--active
+  border-color var(--tertiary) !important
 </style>

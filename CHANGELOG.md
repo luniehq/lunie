@@ -12,7 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * cache per network to not have side effects between networks @faboweb
 * publish script on CI now requires all tests to pass, so we are sure that the published Version runs @ƒaboweb
 * disable interaction buttons if not connected to the network, so user do not expect working interaction @faboweb
+* using a variable for determining staking denomination @jbibla
 * changed ATOM to bondingDenom getter @okwme
+* more bondingDenom and copy updates @jbibla
 
 ### Fixed
 
