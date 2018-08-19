@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * now resetting most store information on signing out to not have side effects between sessions @faboweb
 * import seed focus bug @okwme
 * fixed trying to subscribe to transaction rpc events multiple times (prevent unexpected side effects doing so) @faboweb
+* CircleCI no longer runs test during a push to `release`. @NodeGuy
 
 ## [0.9.4] - 2018-08-08
 
