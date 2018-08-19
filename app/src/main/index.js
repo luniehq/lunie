@@ -642,6 +642,27 @@ const checkGaiaCompatibility = async gaiacliVersionPath => {
   }
 }
 
+const getPersistentPeers = configPath => {
+  // TODO: user-specified nodes, support switching?
+  // TODO: use address to prevent MITM if specified
+
+  let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
+  let configTOML = toml.parse(configText)
+
+  const persistent_peers = _.uniq(
+    (configTOML.p2p.persistent_peers + "," + configTOML.p2p.seeds)
+      .split(",")
+      .filter(x => x !== "")
+      .map(x => (x.indexOf("@") !== -1 ? x.split("@")[1] : x))
+  )
+
+  if (persistent_peers.length === 0) {
+    throw new Error("No seeds specified in config.toml")
+  } else {
+    return persistent_peers
+  }
+}
+
 async function main() {
   // we only enable error collection after users opted in
   Raven.config("", { captureUnhandledRejections: false }).install()
@@ -732,22 +753,9 @@ async function main() {
   chainId = genesis.chain_id // is set globaly
 
   // pick a random seed node from config.toml if not using COSMOS_NODE envvar
-  // TODO: user-specified nodes, support switching?
-  // TODO: use address to prevent MITM if specified
-  let persistent_peers = []
-  if (!process.env.COSMOS_NODE) {
-    let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
-    let configTOML = toml.parse(configText)
-    persistent_peers = _.uniq(
-      (configTOML.p2p.persistent_peers + "," + configTOML.p2p.seeds)
-        .split(",")
-        .filter(x => x !== "")
-        .map(x => (x.indexOf("@") !== -1 ? x.split("@")[1] : x))
-    )
-    if (persistent_peers.length === 0) {
-      throw new Error("No seeds specified in config.toml")
-    }
-  }
+  const persistent_peers = process.env.COSMOS_NODE
+    ? []
+    : getPersistentPeers(configPath)
 
   addressbook = new Addressbook(config, root, {
     persistent_peers,
