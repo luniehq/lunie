@@ -451,20 +451,6 @@ if (!TEST) {
   })
 }
 
-function consistentConfigDir(
-  appVersionPath,
-  genesisPath,
-  configPath,
-  gaiacliVersionPath
-) {
-  return (
-    exists(genesisPath) &&
-    exists(appVersionPath) &&
-    exists(configPath) &&
-    exists(gaiacliVersionPath)
-  )
-}
-
 const eventHandlers = {
   booted: () => {
     log("View has booted")
@@ -619,6 +605,34 @@ async function reconnect() {
   await pickAndConnect(addressbook)
 }
 
+function checkConsistentConfigDir(
+  appVersionPath,
+  genesisPath,
+  configPath,
+  gaiacliVersionPath
+) {
+  if (
+    exists(genesisPath) &&
+    exists(appVersionPath) &&
+    exists(configPath) &&
+    exists(gaiacliVersionPath)
+  ) {
+    let existingVersion = fs.readFileSync(appVersionPath, "utf8").trim()
+    let semverDiff = semver.diff(existingVersion, pkg.version)
+    let compatible = semverDiff !== "major" && semverDiff !== "minor"
+    if (compatible) {
+      log("configs are compatible with current app version")
+    } else {
+      // TODO: versions of the app with different data formats will need to learn how to
+      // migrate old data
+      throw Error(`Data was created with an incompatible app version
+        data=${existingVersion} app=${pkg.version}`)
+    }
+  } else {
+    throw Error(`The data directory (${root}) has missing files`)
+  }
+}
+
 const checkGaiaCompatibility = async gaiacliVersionPath => {
   // XXX: currently ignores commit hash
   let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
@@ -677,7 +691,6 @@ async function main() {
 
   setupLogging(root)
 
-  let init = true
   if (rootExists) {
     log(`root exists (${root})`)
 
@@ -689,52 +702,31 @@ async function main() {
 
     // check if the existing data came from a compatible app version
     // if not, fail with an error
-    if (
-      consistentConfigDir(
-        appVersionPath,
-        genesisPath,
-        configPath,
-        gaiacliVersionPath
-      )
-    ) {
-      let existingVersion = fs.readFileSync(appVersionPath, "utf8").trim()
-      let semverDiff = semver.diff(existingVersion, pkg.version)
-      let compatible = semverDiff !== "major" && semverDiff !== "minor"
-      if (compatible) {
-        log("configs are compatible with current app version")
-        init = false
-      } else {
-        // TODO: versions of the app with different data formats will need to learn how to
-        // migrate old data
-        throw Error(`Data was created with an incompatible app version
-          data=${existingVersion} app=${pkg.version}`)
-      }
-    } else {
-      throw Error(`The data directory (${root}) has missing files`)
-    }
+    checkConsistentConfigDir(
+      appVersionPath,
+      genesisPath,
+      configPath,
+      gaiacliVersionPath
+    )
 
     // check to make sure the genesis.json we want to use matches the one
     // we already have. if it has changed, replace it with the new one
-    if (!init) {
-      let existingGenesis = fs.readFileSync(genesisPath, "utf8")
-      let genesisJSON = JSON.parse(existingGenesis)
-      // skip this check for local testnet
-      if (genesisJSON.chain_id !== "local") {
-        let specifiedGenesis = fs.readFileSync(
-          join(networkPath, "genesis.json"),
-          "utf8"
+    let existingGenesis = fs.readFileSync(genesisPath, "utf8")
+    let genesisJSON = JSON.parse(existingGenesis)
+    // skip this check for local testnet
+    if (genesisJSON.chain_id !== "local") {
+      let specifiedGenesis = fs.readFileSync(
+        join(networkPath, "genesis.json"),
+        "utf8"
+      )
+      if (existingGenesis.trim() !== specifiedGenesis.trim()) {
+        fs.copySync(networkPath, root)
+        log(
+          `genesis.json at "${genesisPath}" was overridden by genesis.json from "${networkPath}"`
         )
-        if (existingGenesis.trim() !== specifiedGenesis.trim()) {
-          fs.copySync(networkPath, root)
-          log(
-            `genesis.json at "${genesisPath}" was overridden by genesis.json from "${networkPath}"`
-          )
-        }
       }
     }
-  }
-
-  if (init) {
+  } else {
     log(`initializing data directory (${root})`)
     await fs.ensureDir(root)
 
