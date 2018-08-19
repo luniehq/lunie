@@ -619,6 +619,29 @@ async function reconnect() {
   await pickAndConnect(addressbook)
 }
 
+const checkGaiaCompatibility = async gaiacliVersionPath => {
+  // XXX: currently ignores commit hash
+  let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
+
+  expectedGaiaCliVersion = fs
+    .readFileSync(gaiacliVersionPath, "utf8")
+    .trim()
+    .split("-")[0]
+
+  log(
+    `gaiacli version: "${gaiacliVersion}", expected: "${expectedGaiaCliVersion}"`
+  )
+
+  let compatible =
+    semver.major(gaiacliVersion) == semver.major(expectedGaiaCliVersion) &&
+    semver.minor(gaiacliVersion) == semver.minor(expectedGaiaCliVersion)
+
+  if (!compatible) {
+    throw Error(`Requires gaia ${expectedGaiaCliVersion}, but got ${gaiacliVersion}.
+      Please update your gaiacli installation or build with a newer binary.`)
+  }
+}
+
 async function main() {
   // we only enable error collection after users opted in
   Raven.config("", { captureUnhandledRejections: false }).install()
@@ -701,22 +724,7 @@ async function main() {
     fs.writeFileSync(appVersionPath, pkg.version)
   }
 
-  // XXX: currently ignores commit hash
-  let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
-  expectedGaiaCliVersion = fs
-    .readFileSync(gaiacliVersionPath, "utf8")
-    .trim()
-    .split("-")[0]
-  log(
-    `gaiacli version: "${gaiacliVersion}", expected: "${expectedGaiaCliVersion}"`
-  )
-  let compatible =
-    semver.major(gaiacliVersion) == semver.major(expectedGaiaCliVersion) &&
-    semver.minor(gaiacliVersion) == semver.minor(expectedGaiaCliVersion)
-  if (!compatible) {
-    throw Error(`Requires gaia ${expectedGaiaCliVersion}, but got ${gaiacliVersion}.
-      Please update your gaiacli installation or build with a newer binary.`)
-  }
+  checkGaiaCompatibility(gaiacliVersionPath)
 
   // read chainId from genesis.json
   let genesisText = fs.readFileSync(genesisPath, "utf8")
