@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* added more information on validators page @faboweb
+
 ### Changed
 
 * cache per network to not have side effects between networks @faboweb
