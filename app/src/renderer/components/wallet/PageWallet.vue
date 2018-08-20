@@ -2,7 +2,7 @@
 tm-page(title='Wallet')
   div(slot="menu")
     tm-tool-bar
-      a(@click='updateBalances()' v-tooltip.bottom="'Refresh'")
+      a(@click='connected && updateBalances()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
         i.material-icons refresh
       a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
         i.material-icons search
@@ -21,8 +21,8 @@ tm-page(title='Wallet')
     tm-data-loading(v-if="wallet.balancesLoading")
     tm-data-msg(id="account_empty_msg" v-else-if="wallet.balances.length === 0" icon="help_outline")
       div(slot="title") Account empty
-      div(slot="subtitle") 
-        | This account doesn't hold any coins yet. Go to the 
+      div(slot="subtitle")
+        | This account doesn't hold any coins yet. Go to the
         a(href="https://gaia.faucetcosmos.network/") token faucet
         | &nbsp;to aquire tokens to play with.
     data-empty-search(v-else-if="filteredBalances.length === 0")
@@ -75,7 +75,13 @@ export default {
     BtnReceive
   },
   computed: {
-    ...mapGetters(["filters", "wallet", "committedDelegations", "config"]),
+    ...mapGetters([
+      "filters",
+      "wallet",
+      "committedDelegations",
+      "config",
+      "connected"
+    ]),
     somethingToSearch() {
       return !this.wallet.balancesLoading && !!this.wallet.balances.length
     },
@@ -108,7 +114,7 @@ export default {
       return sum(Object.values(this.committedDelegations).map(parseFloat))
     },
     stakingDenom() {
-      return this.config.bondingDenom.toUpperCase()
+      return this.config.bondingDenom
     }
   },
   methods: {

@@ -11,6 +11,7 @@ describe("PageBond", () => {
   beforeEach(async () => {
     let test = mount(PageBond, {
       doBefore: async ({ store }) => {
+        store.commit("setConnected", true)
         store.commit("setAtoms", 101)
 
         store.commit("addToCart", {
@@ -71,7 +72,6 @@ describe("PageBond", () => {
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
     wrapper.update()
-    console.log(wrapper.vm.totalAtoms)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -464,6 +464,14 @@ describe("PageBond", () => {
     expect(lastErr.body).toContain(
       "Validator for this address is currently revoked"
     )
+  })
+
+  it("disables bonding if not connected", async () => {
+    store.commit("setConnected", false)
+    wrapper.vm.onSubmit = jest.fn()
+    wrapper.findAll("#btn-bond").trigger("click")
+    expect(wrapper.vm.onSubmit).not.toHaveBeenCalled()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })
 

@@ -344,7 +344,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dt"
                 >
-                  STEAK
+                  Steak
                 </div>
                 <div
                   class="tm-li-dd"
@@ -744,7 +744,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="tm-li-dt"
                 >
-                  STEAK
+                  Steak
                 </div>
                 <div
                   class="tm-li-dd"

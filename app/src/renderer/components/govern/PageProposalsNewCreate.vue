@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page(title="Proposal: Create Atoms")
+tm-page(:title="`Proposal: Create ${bondingDenom}s`")
   div(slot="menu"): tool-bar
     router-link(to="/proposals/new" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
@@ -32,6 +32,7 @@ tm-page(title="Proposal: Create Atoms")
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import { minLength, maxLength, required } from "vuelidate/lib/validators"
 import {
   TmBtn,
@@ -63,6 +64,9 @@ export default {
       body: ""
     }
   }),
+  computed: {
+    ...mapGetters(["bondingDenom"])
+  },
   methods: {
     onSubmit() {
       this.$v.$touch()

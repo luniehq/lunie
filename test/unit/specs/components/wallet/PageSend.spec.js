@@ -38,6 +38,7 @@ describe("PageSend", () => {
         password
       }
     ])
+    store.commit("setConnected", true)
     await store.dispatch("signIn", {
       account: name,
       password
@@ -96,12 +97,15 @@ describe("PageSend", () => {
   })
 
   it("should work without providing a default denom", () => {
-    let { wrapper } = mount(PageSend)
+    let { wrapper, store } = mount(PageSend)
+    store.commit("setConnected", true)
+    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it("should show address required error", async () => {
-    let { wrapper } = mount(PageSend)
+    let { wrapper, store } = mount(PageSend)
+    store.commit("setConnected", true)
     wrapper.setData({
       fields: {
         denom: "mycoin",
@@ -116,7 +120,8 @@ describe("PageSend", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
   it("should show bech32 error when address length is too short", async () => {
-    let { wrapper } = mount(PageSend)
+    let { wrapper, store } = mount(PageSend)
+    store.commit("setConnected", true)
     wrapper.setData({
       fields: {
         denom: "mycoin",
@@ -131,7 +136,8 @@ describe("PageSend", () => {
   })
 
   it("should show bech32 error when address length is too long", async () => {
-    let { wrapper } = mount(PageSend)
+    let { wrapper, store } = mount(PageSend)
+    store.commit("setConnected", true)
     wrapper.setData({
       fields: {
         denom: "mycoin",
@@ -145,7 +151,8 @@ describe("PageSend", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
   it("should show bech32 error when alphanumeric is wrong", async () => {
-    let { wrapper } = mount(PageSend)
+    let { wrapper, store } = mount(PageSend)
+    store.commit("setConnected", true)
     wrapper.setData({
       fields: {
         denom: "mycoin",
@@ -165,6 +172,7 @@ describe("PageSend", () => {
         denom: "mycoin"
       }
     })
+    store.commit("setConnected", true)
     store.commit("setWalletBalances", coins)
     wrapper.setData({
       fields: {
@@ -226,5 +234,21 @@ describe("PageSend", () => {
         "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqprm5ctpesxxn9"
       )
     ).toBe(false)
+  })
+
+  it("disables sending if not connected", async () => {
+    wrapper.setData({
+      fields: {
+        denom: "mycoin",
+        address,
+        amount: 2,
+        zoneId: "cosmos-hub-1"
+      }
+    })
+    expect(wrapper.find("#send-btn").exists()).toBe(true)
+    store.commit("setConnected", false)
+    wrapper.update()
+    expect(wrapper.find("#send-btn").exists()).toBe(false)
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })
