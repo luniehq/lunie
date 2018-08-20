@@ -64,6 +64,7 @@ export default {
       "filters",
       "shoppingCart",
       "committedDelegations",
+      "config",
       "user",
       "connected",
       "bondingDenom"
@@ -78,7 +79,7 @@ export default {
       return this.delegates.delegates
         .slice(0)
         .map(v => {
-          v.voting_power = v.voting_power ? parseInt(v.voting_power) : 0
+          v.voting_power = v.voting_power ? Number(v.voting_power) : 0
           return v
         })
         .sort((a, b) => b.voting_power - a.voting_power)

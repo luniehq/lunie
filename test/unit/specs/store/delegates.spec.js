@@ -19,7 +19,7 @@ describe("Module: Delegates", () => {
       id: "foo",
       owner: "foo",
       tokens: "10",
-      voting_power: "10"
+      voting_power: "10.00"
     })
     expect(store.state.delegates.delegates.length).toBe(1)
   })
@@ -35,7 +35,23 @@ describe("Module: Delegates", () => {
       owner: "foo",
       tokens: "12",
       updated: true,
-      voting_power: "12"
+      voting_power: "12.00"
+    })
+    expect(store.state.delegates.delegates.length).toBe(1)
+  })
+
+  it("parses delegate tokens with fraction value", () => {
+    store.commit("addDelegate", {
+      owner: "foo",
+      tokens: "4000/40",
+      updated: true
+    })
+    expect(store.state.delegates.delegates[0]).toEqual({
+      id: "foo",
+      owner: "foo",
+      tokens: "4000/40",
+      updated: true,
+      voting_power: "100.00"
     })
     expect(store.state.delegates.delegates.length).toBe(1)
   })
