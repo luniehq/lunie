@@ -633,6 +633,57 @@ function checkConsistentConfigDir(
   }
 }
 
+const ensureCorrectGenesisFile = (
+  appVersionPath,
+  genesisPath,
+  configPath,
+  gaiacliVersionPath
+) => {
+  // NOTE: when changing this code, always make sure the app can never
+  // overwrite/delete existing data without at least backing it up,
+  // since it may contain the user's private keys and they might not
+  // have written down their seed words.
+  // they might get pretty mad if the app deletes their money!
+
+  // check if the existing data came from a compatible app version
+  // if not, fail with an error
+  checkConsistentConfigDir(
+    appVersionPath,
+    genesisPath,
+    configPath,
+    gaiacliVersionPath
+  )
+
+  // check to make sure the genesis.json we want to use matches the one
+  // we already have. if it has changed, replace it with the new one
+  let existingGenesis = fs.readFileSync(genesisPath, "utf8")
+  let genesisJSON = JSON.parse(existingGenesis)
+  // skip this check for local testnet
+  if (genesisJSON.chain_id !== "local") {
+    let specifiedGenesis = fs.readFileSync(
+      join(networkPath, "genesis.json"),
+      "utf8"
+    )
+    if (existingGenesis.trim() !== specifiedGenesis.trim()) {
+      fs.copySync(networkPath, root)
+      log(
+        `genesis.json at "${genesisPath}" was overridden by genesis.json from "${networkPath}"`
+      )
+    }
+  }
+}
+
+const initializeDataDirectory = async appVersionPath => {
+  log(`initializing data directory (${root})`)
+  await fs.ensureDir(root)
+
+  // copy predefined genesis.json and config.toml into root
+  fs.accessSync(networkPath) // crash if invalid path
+  fs.copySync(networkPath, root)
+
+  fs.writeFileSync(appVersionPath, pkg.version)
+}
+
 const checkGaiaCompatibility = async gaiacliVersionPath => {
   // XXX: currently ignores commit hash
   let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
@@ -694,50 +745,17 @@ async function main() {
   if (rootExists) {
     log(`root exists (${root})`)
 
-    // NOTE: when changing this code, always make sure the app can never
-    // overwrite/delete existing data without at least backing it up,
-    // since it may contain the user's private keys and they might not
-    // have written down their seed words.
-    // they might get pretty mad if the app deletes their money!
-
-    // check if the existing data came from a compatible app version
-    // if not, fail with an error
-    checkConsistentConfigDir(
+    ensureCorrectGenesisFile(
       appVersionPath,
       genesisPath,
       configPath,
       gaiacliVersionPath
     )
-
-    // check to make sure the genesis.json we want to use matches the one
-    // we already have. if it has changed, replace it with the new one
-    let existingGenesis = fs.readFileSync(genesisPath, "utf8")
-    let genesisJSON = JSON.parse(existingGenesis)
-    // skip this check for local testnet
-    if (genesisJSON.chain_id !== "local") {
-      let specifiedGenesis = fs.readFileSync(
-        join(networkPath, "genesis.json"),
-        "utf8"
-      )
-      if (existingGenesis.trim() !== specifiedGenesis.trim()) {
-        fs.copySync(networkPath, root)
-        log(
-          `genesis.json at "${genesisPath}" was overridden by genesis.json from "${networkPath}"`
-        )
-      }
-    }
   } else {
-    log(`initializing data directory (${root})`)
-    await fs.ensureDir(root)
-
-    // copy predefined genesis.json and config.toml into root
-    fs.accessSync(networkPath) // crash if invalid path
-    fs.copySync(networkPath, root)
-
-    fs.writeFileSync(appVersionPath, pkg.version)
+    await initializeDataDirectory(appVersionPath)
   }
 
-  checkGaiaCompatibility(gaiacliVersionPath)
+  await checkGaiaCompatibility(gaiacliVersionPath)
 
   // read chainId from genesis.json
   let genesisText = fs.readFileSync(genesisPath, "utf8")
