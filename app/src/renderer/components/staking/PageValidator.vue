@@ -21,13 +21,15 @@ tm-page(title='Validator')
     tm-list-item(dt="Pub Key" :dd="validator.pub_key")
 
   tm-part(title='Validator Stake' v-if="!validator.revoked")
-    tm-list-item(dt="Voting Power" :dd="validator.tokens")
+    tm-list-item(dt="Voting Power" :dd="pretty(validator.tokens) + ' ' + this.config.bondingDenom")
+    tm-list-item(dt="Self Bonded" :dd="pretty(selfBond) + ' ' + this.config.bondingDenom")
     tm-list-item(dt="Bond Height" :dd="`Block ${validator.bond_height}`")
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import { TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
+import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
 export default {
   name: "page-validator",
@@ -39,32 +41,21 @@ export default {
     TmToolBar
   },
   computed: {
-    ...mapGetters(["delegates"]),
+    ...mapGetters(["delegates", "config"]),
     validator() {
       if (this.delegates.delegates && this.delegates.delegates.length > 0) {
         return this.delegates.delegates.find(
           v => this.$route.params.validator === v.owner
         )
       } else {
-        return this.tmpValidator
+        return {}
       }
+    },
+    selfBond() {
+      parseFloat(this.validator.tokens) -
+        parseFloat(this.validator.delegator_shares)
     }
   },
-  data: () => ({
-    tmpValidator: {
-      owner: "Loading...",
-      pubkey: "Loading...",
-      revoked: false,
-      tokens: "Loading...",
-      delegator_shares: "Loading...",
-      description: {
-        moniker: "Loading...",
-        identity: "Loading...",
-        website: "Loading...",
-        details: "Loading..."
-      }
-    }
-  }),
   methods: {
     validatorTitle(validator) {
       let title
@@ -77,6 +68,9 @@ export default {
       shortOwner = shortOwner.slice(0, 8)
       title += ` - (${shortOwner})`
       return title
+    },
+    pretty(num) {
+      return numeral(num).format("0,0.00")
     }
   }
 }
