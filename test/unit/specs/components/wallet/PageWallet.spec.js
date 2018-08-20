@@ -12,6 +12,7 @@ describe("PageWallet", () => {
     wrapper = instance.wrapper
     store = instance.store
 
+    store.commit("setConnected", true)
     store.commit("setDenoms", ["STEAK", "FERMION", "TEST"])
     store.commit("setWalletAddress", "tb1zgatc3tdauv2m0uf")
 
@@ -142,6 +143,6 @@ describe("PageWallet", () => {
   })
 
   it("has a label for the staking denomination", () => {
-    expect(wrapper.vm.stakingDenom).toBe("STEAK")
+    expect(wrapper.vm.stakingDenom).toBe("Steak")
   })
 })

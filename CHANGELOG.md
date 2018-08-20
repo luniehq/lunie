@@ -11,10 +11,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * cache per network to not have side effects between networks @faboweb
 * removed animation from TmLi @okwme
+* publish script on CI now requires all tests to pass, so we are sure that the published Version runs @ƒaboweb
+* disable interaction buttons if not connected to the network, so user do not expect working interaction @faboweb
+* using a variable for determining staking denomination @jbibla
+* changed ATOM to bondingDenom getter @okwme
+* more bondingDenom and copy updates @jbibla
+
 
 ### Fixed
 
+* solved parsing error with decimals in delegators voting power @fedekunze
 * now resetting most store information on signing out to not have side effects between sessions @faboweb
+* fixed toggle bg color bug @okwme
+* import seed focus bug @okwme
+* fixed trying to subscribe to transaction rpc events multiple times (prevent unexpected side effects doing so) @faboweb
+* Refactored main process. @NodeGuy
+* CircleCI no longer runs test during a push to `release`. @NodeGuy
 
 ## [0.9.4] - 2018-08-08
 
@@ -26,6 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * updated tendermint/ui to fix min max override in page send @okwme
 * removed unused xmlhttprequest dependency @faboweb
 * LCD staking endpoints @fedekunze @faboweb
+* the way we show version numbers in the version modal @jbibla
 
 ### Added
 

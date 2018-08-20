@@ -100,7 +100,7 @@ exports[`TmOnboarding has the expected html structure 2 1`] = `
 </div>
 <div class=\\"tm-session-main ps\\">
    <div class=\\"tm-session-label\\">
-      You can stake your Atoms to Cosmos Validators to earn even more Atoms.
+      You can stake your Steak to Cosmos Validators to earn even more Steak.
    </div>
 <img src=\\"function () {        return fn.apply(this, arguments);      }\\">
 <div class=\\"tm-bar-discrete\\">

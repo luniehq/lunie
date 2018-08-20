@@ -25,9 +25,21 @@ export default {
   name: "tm-onboarding",
   components: { TmBtn, TmBarDiscrete },
   computed: {
-    ...mapGetters(["onboarding"]),
+    ...mapGetters(["onboarding", "bondingDenom"]),
     activeKey() {
       return this.onboarding.state
+    },
+    nodes() {
+      const nodes = [
+        "This is a quick tour of the primary features of Cosmos Voyager.",
+        "You can send and receive Cosmos tokens from anyone around the world.",
+        `You can stake your ${
+          this.bondingDenom
+        } to Cosmos Validators to earn even more ${this.bondingDenom}.`,
+        "Through governance, you can vote on the future of the Cosmos Network.",
+        "Start using Voyager to explore the Cosmos Network!"
+      ]
+      return nodes
     },
     activeValue() {
       return this.nodes[this.onboarding.state]
@@ -38,15 +50,6 @@ export default {
       }.png`)
     }
   },
-  data: () => ({
-    nodes: [
-      "This is a quick tour of the primary features of Cosmos Voyager.",
-      "You can send and receive Cosmos tokens from anyone around the world.",
-      "You can stake your Atoms to Cosmos Validators to earn even more Atoms.",
-      "Through governance, you can vote on the future of the Cosmos Network.",
-      "Start using Voyager to explore the Cosmos Network!"
-    ]
-  }),
   methods: {
     go(state) {
       this.$store.commit("setOnboardingState", state)
@@ -74,4 +77,7 @@ export default {
 
 #onboarding .tm-session-main
   position relative
+
+.tm-bar-discrete__node--active
+  border-color var(--tertiary) !important
 </style>

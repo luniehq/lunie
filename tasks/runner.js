@@ -78,6 +78,7 @@ module.exports = async function(networkPath) {
   const gaiaVersion = fs
     .readFileSync(networkPath + "gaiaversion.txt")
     .toString()
+    .split("-")[0]
   let env = Object.assign(
     {},
     {

@@ -36,22 +36,22 @@ exports[`PageStaking has the expected html structure 1`] = `
          <div class=\\"panel-sort-container\\">
             <div class=\\"sort-by name\\">
                <div class=\\"label\\">
-                  Name
+                  Moniker
                </div>
 </div>
    <div class=\\"sort-by percent_of_vote\\">
       <div class=\\"label\\">
-         % of Vote
+         % of Steak
       </div>
 </div>
    <div class=\\"sort-by voting_power\\">
       <div class=\\"label\\">
-         Total Votes
+         Total Steak
       </div>
 </div>
    <div class=\\"sort-by your-votes\\">
       <div class=\\"label\\">
-         Your Votes
+         Your Steak
       </div>
 </div>
    <div class=\\"sort-by status\\">
@@ -73,7 +73,7 @@ exports[`PageStaking has the expected html structure 1`] = `
       <span>57.58%</span>
    </div>
    <div class=\\"li-delegate__value number_of_votes num bar\\">
-      <span>19</span>
+      <span>19.00</span>
       <div class=\\"bar\\" style=\\"width: 100%;\\"></div>
 </div>
    <div class=\\"li-delegate__value your-votes\\">
@@ -96,7 +96,7 @@ exports[`PageStaking has the expected html structure 1`] = `
       <span>42.42%</span>
    </div>
    <div class=\\"li-delegate__value number_of_votes num bar\\">
-      <span>14</span>
+      <span>14.00</span>
       <div class=\\"bar\\" style=\\"width: 74%;\\"></div>
 </div>
    <div class=\\"li-delegate__value your-votes\\">
@@ -119,7 +119,7 @@ exports[`PageStaking has the expected html structure 1`] = `
       <span>0.00%</span>
    </div>
    <div class=\\"li-delegate__value number_of_votes num bar\\">
-      <span>0</span>
+      <span>0.00</span>
       <div class=\\"bar\\" style=\\"width: 0%;\\"></div>
 </div>
    <div class=\\"li-delegate__value your-votes\\">
@@ -136,7 +136,7 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
    <div class=\\"fixed-button-bar\\">
       <div class=\\"label\\">
-         <strong>1</strong> delegates selected
+         <strong>1</strong> validators selected
       </div>
    <a href=\\"#/staking/bond\\" class=\\"tm-btn\\" id=\\"go-to-bonding-btn\\"><span class=\\"tm-btn__container tm-btn__icon-right tm-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">chevron_right</i><span class=\\"tm-btn__value\\">Next</span></span></a>
 </div>
@@ -304,7 +304,7 @@ exports[`PageStaking should filter the delegates 1`] = `
             <div
               class="label"
             >
-              Name
+              Moniker
             </div>
           </div>
           <div
@@ -313,7 +313,7 @@ exports[`PageStaking should filter the delegates 1`] = `
             <div
               class="label"
             >
-              % of Vote
+              % of Steak
             </div>
           </div>
           <div
@@ -322,7 +322,7 @@ exports[`PageStaking should filter the delegates 1`] = `
             <div
               class="label"
             >
-              Total Votes
+              Total Steak
             </div>
           </div>
           <div
@@ -331,7 +331,7 @@ exports[`PageStaking should filter the delegates 1`] = `
             <div
               class="label"
             >
-              Your Votes
+              Your Steak
             </div>
           </div>
           <div
@@ -381,7 +381,7 @@ exports[`PageStaking should filter the delegates 1`] = `
             class="li-delegate__value number_of_votes num bar"
           >
             <span>
-              14
+              14.00
             </span>
             <div
               class="bar"
@@ -423,7 +423,7 @@ exports[`PageStaking should filter the delegates 1`] = `
         <strong>
           1
         </strong>
-         delegates selected
+         validators selected
       </div>
       <a
         class="tm-btn"
