@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * solved parsing error with decimals in delegators voting power @fedekunze
 * now resetting most store information on signing out to not have side effects between sessions @faboweb
+* fixed toggle bg color bug @okwme
 * import seed focus bug @okwme
 * fixed trying to subscribe to transaction rpc events multiple times (prevent unexpected side effects doing so) @faboweb
 * Refactored main process. @NodeGuy
