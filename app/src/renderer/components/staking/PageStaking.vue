@@ -13,15 +13,15 @@ tm-page(title='Staking')
     tm-data-empty(v-else-if="delegates.delegates.length === 0")
     data-empty-search(v-else-if="sortedFilteredEnrichedDelegates.length === 0")
     template(v-else)
-      panel-sort(:sort='sort')
+      panel-sort(:sort='sort', :properties="properties")
       li-delegate(v-for='i in sortedFilteredEnrichedDelegates' :key='i.id' :delegate='i')
 
   .fixed-button-bar(v-if="!delegates.loading")
     template(v-if="userCanDelegate")
-      .label #[strong {{ shoppingCart.length }}] delegates selected
+      .label #[strong {{ shoppingCart.length }}] validators selected
       tm-btn(id="go-to-bonding-btn" type="link" to="/staking/bond" :disabled="shoppingCart.length === 0" icon="chevron_right" icon-pos="right" value="Next" color="primary")
     template(v-else)
-      .label You do not have any ATOMs to delegate.
+      .label You do not have any {{bondingDenom}}s to stake.
       tm-btn(disabled icon="chevron_right" icon-pos="right" value="Next" color="primary")
 </template>
 
@@ -50,14 +50,23 @@ export default {
     PanelSort,
     ToolBar
   },
+  data: () => ({
+    num: num,
+    query: "",
+    sort: {
+      property: "percent_of_vote",
+      order: "desc"
+    }
+  }),
   computed: {
     ...mapGetters([
       "delegates",
       "filters",
       "shoppingCart",
       "committedDelegations",
-      "config",
-      "user"
+      "user",
+      "connected",
+      "bondingDenom"
     ]),
     address() {
       return this.user.address
@@ -103,46 +112,44 @@ export default {
     },
     userCanDelegate() {
       return this.shoppingCart.length > 0 || this.user.atoms > 0
-    }
-  },
-  data: () => ({
-    num: num,
-    query: "",
-    sort: {
-      property: "percent_of_vote",
-      order: "desc",
-      properties: [
+    },
+    properties() {
+      return [
         {
-          title: "Name",
+          title: "Moniker",
           value: "small_moniker",
-          tooltip: "The unique moniker of this delegate.",
+          tooltip: "The validator's moniker",
           class: "name"
         },
         {
-          title: "% of Vote",
+          title: `% of ${this.bondingDenom}`,
           value: "percent_of_vote",
-          tooltip:
-            "The delegate controls this percentage of voting power on the network.",
+          tooltip: `Percentage of ${
+            this.bondingDenom
+          } the validator has on The Cosmos Hub`,
           class: "percent_of_vote"
         },
         {
-          title: "Total Votes",
+          title: `Total ${this.bondingDenom}`,
           value: "voting_power",
-          tooltip: "The delegate stakes this many atoms on the network.",
+          tooltip: `Total number of ${
+            this.bondingDenom
+          } the validator has on The Cosmos Hub`,
           class: "voting_power"
         },
         {
-          title: "Your Votes",
+          title: `Your ${this.bondingDenom}`,
           value: "your_votes",
-          tooltip:
-            "You have personally staked this many atoms to the delegate.",
+          tooltip: `Number of ${
+            this.bondingDenom
+          } you have staked to the validator`,
           class: "your-votes"
         },
         {
           title: "Status",
           value: "isValidator",
           tooltip:
-            "The delegate is either a validator or a validator candidate.",
+            "The validator's current state: validating, candidate, or jailed",
           class: "status"
         },
         {
@@ -152,7 +159,7 @@ export default {
         }
       ]
     }
-  }),
+  },
   watch: {
     address: function(address) {
       address && this.updateDelegates()

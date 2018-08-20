@@ -47,6 +47,11 @@ const MOCK =
     ? JSON.parse(process.env.COSMOS_MOCKED)
     : false
 global.config.mocked = MOCK // persist resolved mock setting also in config used by view thread
+const gaiaVersion = fs
+  .readFileSync(networkPath + "/gaiaversion.txt")
+  .toString()
+  .split("-")[0]
+process.env.GAIA_VERSION = gaiaVersion
 
 let LCD_BINARY_NAME = "gaiacli" + (WIN ? ".exe" : "")
 
@@ -446,20 +451,6 @@ if (!TEST) {
   })
 }
 
-function consistentConfigDir(
-  appVersionPath,
-  genesisPath,
-  configPath,
-  gaiacliVersionPath
-) {
-  return (
-    exists(genesisPath) &&
-    exists(appVersionPath) &&
-    exists(configPath) &&
-    exists(gaiacliVersionPath)
-  )
-}
-
 const eventHandlers = {
   booted: () => {
     log("View has booted")
@@ -614,6 +605,78 @@ async function reconnect() {
   await pickAndConnect(addressbook)
 }
 
+function checkConsistentConfigDir(
+  appVersionPath,
+  genesisPath,
+  configPath,
+  gaiacliVersionPath
+) {
+  if (
+    exists(genesisPath) &&
+    exists(appVersionPath) &&
+    exists(configPath) &&
+    exists(gaiacliVersionPath)
+  ) {
+    let existingVersion = fs.readFileSync(appVersionPath, "utf8").trim()
+    let semverDiff = semver.diff(existingVersion, pkg.version)
+    let compatible = semverDiff !== "major" && semverDiff !== "minor"
+    if (compatible) {
+      log("configs are compatible with current app version")
+    } else {
+      // TODO: versions of the app with different data formats will need to learn how to
+      // migrate old data
+      throw Error(`Data was created with an incompatible app version
+        data=${existingVersion} app=${pkg.version}`)
+    }
+  } else {
+    throw Error(`The data directory (${root}) has missing files`)
+  }
+}
+
+const checkGaiaCompatibility = async gaiacliVersionPath => {
+  // XXX: currently ignores commit hash
+  let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
+
+  expectedGaiaCliVersion = fs
+    .readFileSync(gaiacliVersionPath, "utf8")
+    .trim()
+    .split("-")[0]
+
+  log(
+    `gaiacli version: "${gaiacliVersion}", expected: "${expectedGaiaCliVersion}"`
+  )
+
+  let compatible =
+    semver.major(gaiacliVersion) == semver.major(expectedGaiaCliVersion) &&
+    semver.minor(gaiacliVersion) == semver.minor(expectedGaiaCliVersion)
+
+  if (!compatible) {
+    throw Error(`Requires gaia ${expectedGaiaCliVersion}, but got ${gaiacliVersion}.
+      Please update your gaiacli installation or build with a newer binary.`)
+  }
+}
+
+const getPersistentPeers = configPath => {
+  // TODO: user-specified nodes, support switching?
+  // TODO: use address to prevent MITM if specified
+
+  let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
+  let configTOML = toml.parse(configText)
+
+  const persistent_peers = _.uniq(
+    (configTOML.p2p.persistent_peers + "," + configTOML.p2p.seeds)
+      .split(",")
+      .filter(x => x !== "")
+      .map(x => (x.indexOf("@") !== -1 ? x.split("@")[1] : x))
+  )
+
+  if (persistent_peers.length === 0) {
+    throw new Error("No seeds specified in config.toml")
+  } else {
+    return persistent_peers
+  }
+}
+
 async function main() {
   // we only enable error collection after users opted in
   Raven.config("", { captureUnhandledRejections: false }).install()
@@ -628,7 +691,6 @@ async function main() {
 
   setupLogging(root)
 
-  let init = true
   if (rootExists) {
     log(`root exists (${root})`)
 
@@ -640,52 +702,31 @@ async function main() {
 
     // check if the existing data came from a compatible app version
     // if not, fail with an error
-    if (
-      consistentConfigDir(
-        appVersionPath,
-        genesisPath,
-        configPath,
-        gaiacliVersionPath
-      )
-    ) {
-      let existingVersion = fs.readFileSync(appVersionPath, "utf8").trim()
-      let semverDiff = semver.diff(existingVersion, pkg.version)
-      let compatible = semverDiff !== "major" && semverDiff !== "minor"
-      if (compatible) {
-        log("configs are compatible with current app version")
-        init = false
-      } else {
-        // TODO: versions of the app with different data formats will need to learn how to
-        // migrate old data
-        throw Error(`Data was created with an incompatible app version
-          data=${existingVersion} app=${pkg.version}`)
-      }
-    } else {
-      throw Error(`The data directory (${root}) has missing files`)
-    }
+    checkConsistentConfigDir(
+      appVersionPath,
+      genesisPath,
+      configPath,
+      gaiacliVersionPath
+    )
 
     // check to make sure the genesis.json we want to use matches the one
     // we already have. if it has changed, replace it with the new one
-    if (!init) {
-      let existingGenesis = fs.readFileSync(genesisPath, "utf8")
-      let genesisJSON = JSON.parse(existingGenesis)
-      // skip this check for local testnet
-      if (genesisJSON.chain_id !== "local") {
-        let specifiedGenesis = fs.readFileSync(
-          join(networkPath, "genesis.json"),
-          "utf8"
+    let existingGenesis = fs.readFileSync(genesisPath, "utf8")
+    let genesisJSON = JSON.parse(existingGenesis)
+    // skip this check for local testnet
+    if (genesisJSON.chain_id !== "local") {
+      let specifiedGenesis = fs.readFileSync(
+        join(networkPath, "genesis.json"),
+        "utf8"
+      )
+      if (existingGenesis.trim() !== specifiedGenesis.trim()) {
+        fs.copySync(networkPath, root)
+        log(
+          `genesis.json at "${genesisPath}" was overridden by genesis.json from "${networkPath}"`
         )
-        if (existingGenesis.trim() !== specifiedGenesis.trim()) {
-          fs.copySync(networkPath, root)
-          log(
-            `genesis.json at "${genesisPath}" was overridden by genesis.json from "${networkPath}"`
-          )
-        }
       }
     }
-  }
-
-  if (init) {
+  } else {
     log(`initializing data directory (${root})`)
     await fs.ensureDir(root)
 
@@ -696,22 +737,7 @@ async function main() {
     fs.writeFileSync(appVersionPath, pkg.version)
   }
 
-  // XXX: currently ignores commit hash
-  let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
-  expectedGaiaCliVersion = fs
-    .readFileSync(gaiacliVersionPath, "utf8")
-    .trim()
-    .split("-")[0]
-  log(
-    `gaiacli version: "${gaiacliVersion}", expected: "${expectedGaiaCliVersion}"`
-  )
-  let compatible =
-    semver.major(gaiacliVersion) == semver.major(expectedGaiaCliVersion) &&
-    semver.minor(gaiacliVersion) == semver.minor(expectedGaiaCliVersion)
-  if (!compatible) {
-    throw Error(`Requires gaia ${expectedGaiaCliVersion}, but got ${gaiacliVersion}.
-      Please update your gaiacli installation or build with a newer binary.`)
-  }
+  checkGaiaCompatibility(gaiacliVersionPath)
 
   // read chainId from genesis.json
   let genesisText = fs.readFileSync(genesisPath, "utf8")
@@ -719,22 +745,9 @@ async function main() {
   chainId = genesis.chain_id // is set globaly
 
   // pick a random seed node from config.toml if not using COSMOS_NODE envvar
-  // TODO: user-specified nodes, support switching?
-  // TODO: use address to prevent MITM if specified
-  let persistent_peers = []
-  if (!process.env.COSMOS_NODE) {
-    let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
-    let configTOML = toml.parse(configText)
-    persistent_peers = _.uniq(
-      (configTOML.p2p.persistent_peers + "," + configTOML.p2p.seeds)
-        .split(",")
-        .filter(x => x !== "")
-        .map(x => (x.indexOf("@") !== -1 ? x.split("@")[1] : x))
-    )
-    if (persistent_peers.length === 0) {
-      throw new Error("No seeds specified in config.toml")
-    }
-  }
+  const persistent_peers = process.env.COSMOS_NODE
+    ? []
+    : getPersistentPeers(configPath)
 
   addressbook = new Addressbook(config, root, {
     persistent_peers,

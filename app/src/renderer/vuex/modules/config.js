@@ -11,7 +11,7 @@ export default () => {
         ? JSON.parse(process.env.PREVIEW)
         : process.env.NODE_ENV === "development",
     // TODO: change to atom
-    bondingDenom: "steak",
+    bondingDenom: "Steak",
     modals: {
       error: { active: false },
       help: { active: false },

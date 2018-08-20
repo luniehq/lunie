@@ -3,12 +3,14 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import Chart from "chart.js"
 import shortid from "shortid"
 export default {
   name: "chart-power",
   props: ["votes", "size"],
   computed: {
+    ...mapGetters(["bondingDenom"]),
     chartData() {
       return {
         labels: [
@@ -27,7 +29,7 @@ export default {
         ],
         datasets: [
           {
-            label: "Delegated ATOM",
+            label: "Delegated " + this.bondingDenom,
             lineTension: 0,
             borderColor: "hsl(330,100%,30%)",
             borderWidth: 2,
@@ -51,7 +53,7 @@ export default {
             ]
           },
           {
-            label: "Solo ATOM",
+            label: "Solo " + this.bondingDenom.toUpperCase(),
             lineTension: 0,
             borderColor: "hsl(210,50%,30%)",
             borderWidth: 2,
