@@ -1,8 +1,8 @@
 <template lang="pug">
 tm-page(title='Validator')
   div(slot="menu"): tm-tool-bar
-    router-link(to="/validators" exact): i.material-icons arrow_back
-    anchor-copy(:value="validator.address" icon="content_copy")
+    router-link(to="/staking" exact): i.material-icons arrow_back
+    anchor-copy(:value="validator.owner" icon="content_copy")
 
   tm-part(title='!!! CRITICAL ALERT !!!' v-if="validator.revoked")
     tm-list-item(title="This validator is revoked!" subtitle="Are you the owner? Go fix it!" type="anchor" href="https://cosmos.network/docs/validators/validator-setup.html#common-problems")

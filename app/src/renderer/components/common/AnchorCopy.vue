@@ -1,5 +1,5 @@
 <template lang="pug">
-a.anchor-copy(:data-clipboard-text="value")
+a.anchor-copy(@click="click")
   i.material-icons {{ icon }}
   | {{ label }}
 </template>
@@ -15,17 +15,18 @@ export default {
     },
     notifyBody() {
       if (this.body) return this.body
-      else
-        return `"${this.trunc(this.value)}" has been copied to your clipboard.`
+      else return `"${this.value}" has been copied to your clipboard.`
     }
   },
-  mounted() {
-    clipboard.writeText(this.value)
+  methods: {
+    click() {
+      clipboard.writeText(this.value)
 
-    this.$store.commit("notify", {
-      title: this.notifyTitle,
-      body: this.notifyBody
-    })
+      this.$store.commit("notify", {
+        title: this.notifyTitle,
+        body: this.notifyBody
+      })
+    }
   },
   props: ["value", "label", "icon", "body"]
 }
