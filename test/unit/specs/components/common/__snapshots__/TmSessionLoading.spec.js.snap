@@ -8,8 +8,8 @@ exports[`TmSessionLoading has the expected html structure 1`] = `
             Connecting to 'mock-net'…
          </div>
 </div>
-<div class=\\"tm-session-main\\">
-   &nbsp;
+<div class=\\"tm-session-main tm-session-main--loading\\">
+   <img src=\\"~assets/images/loader.svg\\"><br>HALLO WORLD &nbsp;
 </div>
 <div class=\\"tm-session-footer\\">
    &nbsp;
