@@ -27,10 +27,10 @@ tm-page(title='Validator')
     tm-list-item(dt="Bond Height" :dd="`Block ${validator.bond_height}`")
 
   tm-part(title='Commission')
-    tm-list-item(dt="Commission" :dd="validator.commission")
-    tm-list-item(dt="Commission Maximum" :dd="validator.commission_max")
-    tm-list-item(dt="Commission Change-Rate" :dd="validator.commission_change_rate")
-    tm-list-item(dt="Commission Change-Rate Today" :dd="validator.commission_change_today")
+    tm-list-item(dt="Commission" :dd="pretty(validator.commission) + ' %'")
+    tm-list-item(dt="Commission Maximum" :dd="pretty(validator.commission_max) + ' %'")
+    tm-list-item(dt="Commission Change-Rate" :dd="pretty(validator.commission_change_rate) + ' %'")
+    tm-list-item(dt="Commission Change-Rate Today" :dd="pretty(validator.commission_change_today) + ' %'")
 </template>
 
 <script>
