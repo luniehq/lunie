@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * import seed focus bug @okwme
 * fixed trying to subscribe to transaction rpc events multiple times (prevent unexpected side effects doing so) @faboweb
 * Refactored main process. @NodeGuy
+* CircleCI no longer runs test during a push to `release`. @NodeGuy
 
 ## [0.9.4] - 2018-08-08
 
