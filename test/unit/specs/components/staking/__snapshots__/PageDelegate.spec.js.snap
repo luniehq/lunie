@@ -277,7 +277,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
           class="tm-part-main"
         >
           <div
-            class="tm-li proposal-enter proposal-enter-active"
+            class="tm-li"
           >
             <div
               class="tm-li-container"

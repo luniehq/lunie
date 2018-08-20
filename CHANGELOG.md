@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 * cache per network to not have side effects between networks @faboweb
+* removed animation from TmLi @okwme
 
 ### Fixed
 

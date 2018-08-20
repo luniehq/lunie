@@ -124,7 +124,7 @@ exports[`PageWallet has the expected html structure 1`] = `
           class="tm-part-main"
         >
           <div
-            class="tm-li tm-li-receive proposal-enter proposal-enter-active"
+            class="tm-li tm-li-receive"
           >
             <div
               class="tm-li-container"
@@ -201,7 +201,7 @@ exports[`PageWallet has the expected html structure 1`] = `
         >
           <!---->
           <a
-            class="tm-li tm-li-link tm-li-balance proposal-enter proposal-enter-active"
+            class="tm-li tm-li-link tm-li-balance"
             href="#/wallet/send/FERMION"
           >
             <div
@@ -249,8 +249,8 @@ exports[`PageWallet has the expected html structure 1`] = `
             </div>
           </a>
           <a
-            class="tm-li tm-li-link tm-li-balance proposal-enter proposal-enter-active"
-            href="#/wallet/send/ATOM"
+            class="tm-li tm-li-link tm-li-balance"
+            href="#/wallet/send/STEAK"
           >
             <div
               class="tm-li-container"
@@ -266,7 +266,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dt"
                 >
-                  ATOM
+                  STEAK
                 </div>
                 <div
                   class="tm-li-dd"
@@ -525,7 +525,7 @@ exports[`PageWallet should filter the balances 1`] = `
           class="tm-part-main"
         >
           <div
-            class="tm-li tm-li-receive proposal-enter proposal-enter-active"
+            class="tm-li tm-li-receive"
           >
             <div
               class="tm-li-container"
@@ -602,8 +602,8 @@ exports[`PageWallet should filter the balances 1`] = `
         >
           <!---->
           <a
-            class="tm-li tm-li-link tm-li-balance proposal-enter proposal-enter-active"
-            href="#/wallet/send/ATOM"
+            class="tm-li tm-li-link tm-li-balance"
+            href="#/wallet/send/STEAK"
           >
             <div
               class="tm-li-container"
@@ -619,60 +619,12 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="tm-li-dt"
                 >
-                  ATOM
+                  STEAK
                 </div>
                 <div
                   class="tm-li-dd"
                 >
                   123
-                </div>
-              </div>
-              <button
-                class="tm-btn"
-              >
-                <span
-                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Send
-                  </span>
-                </span>
-              </button>
-            </div>
-          </a>
-          <a
-            class="tm-li tm-li-link tm-li-balance proposal-leave proposal-leave-active"
-            href="#/wallet/send/FERMION"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  FERMION
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  456
                 </div>
               </div>
               <button

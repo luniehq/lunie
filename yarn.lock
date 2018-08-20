@@ -43,6 +43,24 @@
     vue-router "^3.0.1"
     vuex "^3.0.1"
 
+"@tendermint/ui@https://github.com/tendermint/ui.git#b7812e0452468a9d40b9c084d1359b438aec9b75":
+  version "0.2.18"
+  resolved "https://github.com/tendermint/ui.git#b7812e0452468a9d40b9c084d1359b438aec9b75"
+  dependencies:
+    axios "^0.18.0"
+    cookieconsent "^3.0.6"
+    js-base64 "^2.4.5"
+    markdown-it "^8.4.1"
+    markdown-it-anchor "^5.0.2"
+    moment "2.22.1"
+    moment-timezone "0.5.16"
+    nib "^1.1.2"
+    numeral "^2.0.6"
+    perfect-scrollbar "^1.4.0"
+    vue "^2.5.16"
+    vue-router "^3.0.1"
+    vuex "^3.0.1"
+
 "@types/babel-types@*", "@types/babel-types@^7.0.0":
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/@types/babel-types/-/babel-types-7.0.4.tgz#bfd5b0d0d1ba13e351dff65b6e52783b816826c8"
