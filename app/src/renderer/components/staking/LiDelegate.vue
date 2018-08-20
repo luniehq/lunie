@@ -1,7 +1,7 @@
 <template lang='pug'>
 .li-delegate(:class='styles'): .li-delegate__values
   .li-delegate__value.name
-    router-link(:to="{ name: 'delegate', params: { delegate: delegate.id }}") {{ delegate.moniker }}
+    router-link(:to="{ name: 'validator', params: { validator: delegate.id }}") {{ delegate.moniker }}
   .li-delegate__value.percent_of_vote
     span {{ delegate.percent_of_vote }}
   .li-delegate__value.number_of_votes.num.bar
