@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageDelegate has the expected html structure 1`] = `
+exports[`PageValidator has the expected html structure 1`] = `
 <div
   class="tm-page"
 >
@@ -17,7 +17,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
           class="tm-page-header-title"
         >
           <h2>
-            Validator Profile
+            Validator
           </h2>
         </div>
         <div
@@ -43,7 +43,8 @@ exports[`PageDelegate has the expected html structure 1`] = `
                   class="main"
                 >
                   <a
-                    class="back"
+                    class=""
+                    href="#/staking"
                   >
                     <i
                       class="material-icons"
@@ -52,22 +53,14 @@ exports[`PageDelegate has the expected html structure 1`] = `
                     </i>
                   </a>
                   <a
-                    class="help"
+                    class="anchor-copy"
                   >
                     <i
                       class="material-icons"
                     >
-                      help_outline
+                      content_copy
                     </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
+                    
                   </a>
                 </div>
               </div>
@@ -95,7 +88,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
             <div
               class="tm-part-title h5"
             >
-              Validator Info
+              !!! CRITICAL ALERT !!!
             </div>
             <menu
               class="tm-part-menu"
@@ -105,8 +98,9 @@ exports[`PageDelegate has the expected html structure 1`] = `
         <main
           class="tm-part-main"
         >
-          <div
-            class="tm-li"
+          <a
+            class="tm-li tm-li-link"
+            href="https://cosmos.network/docs/validators/validator-setup.html#common-problems"
           >
             <div
               class="tm-li-container"
@@ -117,98 +111,193 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <!---->
               </div>
               <div
-                class="tm-li-dl"
+                class="tm-li-label"
               >
                 <div
-                  class="tm-li-dt"
+                  class="tm-li-title"
                 >
-                  Moniker
+                  This validator is revoked!
                 </div>
                 <div
-                  class="tm-li-dd"
+                  class="tm-li-subtitle"
                 >
-                  JB
+                  Are you the owner? Go fix it!
+                </div>
+              </div>
+              <div
+                class="tm-li-icon"
+              >
+                <i
+                  class="material-icons inactive"
+                >
+                  chevron_right
+                </i>
+                <i
+                  class="material-icons active"
+                >
+                  my_location
+                </i>
+              </div>
+            </div>
+          </a>
+        </main>
+      </div>
+    </section>
+    <section
+      class="tm-part"
+      id="validator-profile"
+    >
+      <div
+        class="tm-part-container"
+      >
+        <header
+          class="tm-part-header"
+        >
+          <div
+            class="tm-part-header-container"
+          >
+            <div
+              class="tm-part-title h5"
+            >
+              Validator Profile
+            </div>
+            <menu
+              class="tm-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="tm-part-main"
+        >
+          <img
+            class="avatar"
+            height="192"
+            width="192\`"
+          />
+          <div
+            class="list-items"
+          >
+            <div
+              class="tm-li"
+            >
+              <div
+                class="tm-li-container"
+              >
+                <div
+                  class="tm-li-thumb"
+                >
+                  <!---->
+                </div>
+                <div
+                  class="tm-li-dl"
+                >
+                  <div
+                    class="tm-li-dt"
+                  >
+                    Moniker
+                  </div>
+                  <div
+                    class="tm-li-dd"
+                  >
+                    herr_schmidt_revoked
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
+            <a
+              class="tm-li tm-li-link"
+              href="https://cosmos.network/docs/validators/validator-setup.html#edit-validator-description"
+              target="_blank"
             >
               <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
+                class="tm-li-container"
               >
                 <div
-                  class="tm-li-dt"
+                  class="tm-li-thumb"
                 >
-                  Website
+                  <!---->
                 </div>
                 <div
-                  class="tm-li-dd"
+                  class="tm-li-dl"
                 >
-                  https://the.zone
+                  <div
+                    class="tm-li-dt"
+                  >
+                    Identity
+                  </div>
+                  <div
+                    class="tm-li-dd"
+                  >
+                    add your avatar
+                  </div>
+                </div>
+                <div
+                  class="tm-li-icon"
+                >
+                  <i
+                    class="material-icons inactive"
+                  >
+                    chevron_right
+                  </i>
+                  <i
+                    class="material-icons active"
+                  >
+                    my_location
+                  </i>
+                </div>
+              </div>
+            </a>
+            <div
+              class="tm-li"
+            >
+              <div
+                class="tm-li-container"
+              >
+                <div
+                  class="tm-li-thumb"
+                >
+                  <!---->
+                </div>
+                <div
+                  class="tm-li-dl"
+                >
+                  <div
+                    class="tm-li-dt"
+                  >
+                    Website
+                  </div>
+                  <div
+                    class="tm-li-dd"
+                  >
+                    
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            class="tm-li"
-          >
             <div
-              class="tm-li-container"
+              class="tm-li"
             >
               <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
+                class="tm-li-container"
               >
                 <div
-                  class="tm-li-dt"
+                  class="tm-li-thumb"
                 >
-                  Address
+                  <!---->
                 </div>
                 <div
-                  class="tm-li-dd"
+                  class="tm-li-dl"
                 >
-                  helloaddr
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Public Key
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  123pubkeyforme
+                  <div
+                    class="tm-li-dt"
+                  >
+                    Details
+                  </div>
+                  <div
+                    class="tm-li-dd"
+                  >
+                    
+                  </div>
                 </div>
               </div>
             </div>
@@ -231,7 +320,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
             <div
               class="tm-part-title h5"
             >
-              Validator Description
+              Validator Keys
             </div>
             <menu
               class="tm-part-menu"
@@ -242,42 +331,7 @@ exports[`PageDelegate has the expected html structure 1`] = `
           class="tm-part-main"
         >
           <div
-            class="text-block"
-          >
-            <pre>
-              No description available.
-            </pre>
-          </div>
-        </main>
-      </div>
-    </section>
-    <section
-      class="tm-part"
-    >
-      <div
-        class="tm-part-container"
-      >
-        <header
-          class="tm-part-header"
-        >
-          <div
-            class="tm-part-header-container"
-          >
-            <div
-              class="tm-part-title h5"
-            >
-              Validator Details
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <div
-            class="tm-li proposal-enter proposal-enter-active"
+            class="tm-li"
           >
             <div
               class="tm-li-container"
@@ -293,12 +347,179 @@ exports[`PageDelegate has the expected html structure 1`] = `
                 <div
                   class="tm-li-dt"
                 >
-                  Total Vote Power
+                  Owner
                 </div>
                 <div
                   class="tm-li-dd"
                 >
-                  1000
+                  1a2b3c
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tm-li"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-dl"
+              >
+                <div
+                  class="tm-li-dt"
+                >
+                  Pub Key
+                </div>
+                <div
+                  class="tm-li-dd"
+                >
+                  {
+  "type": "AC26791624DE60",
+  "data": "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0="
+}
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
+    <!---->
+    <section
+      class="tm-part"
+    >
+      <div
+        class="tm-part-container"
+      >
+        <header
+          class="tm-part-header"
+        >
+          <div
+            class="tm-part-header-container"
+          >
+            <div
+              class="tm-part-title h5"
+            >
+              Commission
+            </div>
+            <menu
+              class="tm-part-menu"
+            />
+          </div>
+        </header>
+        <main
+          class="tm-part-main"
+        >
+          <div
+            class="tm-li"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-dl"
+              >
+                <div
+                  class="tm-li-dt"
+                >
+                  Commission
+                </div>
+                <div
+                  class="tm-li-dd"
+                >
+                  0
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tm-li"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-dl"
+              >
+                <div
+                  class="tm-li-dt"
+                >
+                  Commission Maximum
+                </div>
+                <div
+                  class="tm-li-dd"
+                >
+                  0
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tm-li"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-dl"
+              >
+                <div
+                  class="tm-li-dt"
+                >
+                  Commission Change-Rate
+                </div>
+                <div
+                  class="tm-li-dd"
+                >
+                  0
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tm-li"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-dl"
+              >
+                <div
+                  class="tm-li-dt"
+                >
+                  Commission Change-Rate Today
+                </div>
+                <div
+                  class="tm-li-dd"
+                >
+                  0
                 </div>
               </div>
             </div>

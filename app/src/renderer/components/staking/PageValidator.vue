@@ -24,6 +24,12 @@ tm-page(title='Validator')
     tm-list-item(dt="Voting Power" :dd="pretty(validator.tokens) + ' ' + this.config.bondingDenom")
     tm-list-item(dt="Self Bonded" :dd="pretty(selfBond) + ' ' + this.config.bondingDenom")
     tm-list-item(dt="Bond Height" :dd="`Block ${validator.bond_height}`")
+
+  tm-part(title='Commission')
+    tm-list-item(dt="Commission" :dd="validator.commission")
+    tm-list-item(dt="Commission Maximum" :dd="validator.commission_max")
+    tm-list-item(dt="Commission Change-Rate" :dd="validator.commission_change_rate")
+    tm-list-item(dt="Commission Change-Rate Today" :dd="validator.commission_change_today")
 </template>
 
 <script>
