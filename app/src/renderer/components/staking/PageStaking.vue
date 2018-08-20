@@ -64,6 +64,7 @@ export default {
       "filters",
       "shoppingCart",
       "committedDelegations",
+      "config",
       "user",
       "connected",
       "bondingDenom"
