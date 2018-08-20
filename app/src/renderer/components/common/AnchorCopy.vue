@@ -28,6 +28,6 @@ export default {
       })
     }
   },
-  props: ["value", "label", "icon", "body"]
+  props: ["value", "label", "icon", "title", "body"]
 }
 </script>
