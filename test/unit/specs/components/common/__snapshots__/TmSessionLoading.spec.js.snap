@@ -9,7 +9,7 @@ exports[`TmSessionLoading has the expected html structure 1`] = `
          </div>
 </div>
 <div class=\\"tm-session-main tm-session-main--loading\\">
-   <img src=\\"~assets/images/loader.svg\\"><br> &nbsp;
+   <img src=\\"~assets/images/loader.svg\\"><br>HALLO WORLD &nbsp;
 </div>
 <div class=\\"tm-session-footer\\">
    &nbsp;
