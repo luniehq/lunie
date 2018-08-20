@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * using a variable for determining staking denomination @jbibla
 * changed ATOM to bondingDenom getter @okwme
 * more bondingDenom and copy updates @jbibla
+* restored loading animation on start @faboweb
 
 ### Fixed
 
