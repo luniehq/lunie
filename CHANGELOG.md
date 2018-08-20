@@ -18,10 +18,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* solved parsing error with decimals in delegators voting power @fedekunze
 * now resetting most store information on signing out to not have side effects between sessions @faboweb
+* fixed toggle bg color bug @okwme
 * import seed focus bug @okwme
 * fixed trying to subscribe to transaction rpc events multiple times (prevent unexpected side effects doing so) @faboweb
 * Reduce CHANGELOG.md conflicts. @NodeGuy
+* Refactored main process. @NodeGuy
+* CircleCI no longer runs test during a push to `release`. @NodeGuy
+* Wallet balances updating after staking @okwme
+
 
 ## [0.9.4] - 2018-08-08
 

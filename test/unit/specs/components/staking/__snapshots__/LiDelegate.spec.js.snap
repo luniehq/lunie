@@ -28,7 +28,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
       class="li-delegate__value number_of_votes num bar"
     >
       <span>
-        14
+        14.00
       </span>
       <div
         class="bar"

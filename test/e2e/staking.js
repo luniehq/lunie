@@ -1,7 +1,7 @@
 let test = require("tape-promise/tape")
 let { getApp, restart } = require("./launch.js")
 let { navigate, waitForValue, login } = require("./common.js")
-
+let num = require("../../app/src/renderer/scripts/num")
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
 */
@@ -27,13 +27,13 @@ test("staking", async function(t) {
 
     await t.equal(
       await app.client.$(".li-delegate__value.number_of_votes").getText(),
-      bondedStake + "",
+      num.pretty(bondedStake),
       "show validators stake"
     )
 
     await t.equal(
       await app.client.$(".li-delegate__value.your-votes").getText(),
-      bondedStake + "",
+      bondedStake.toString(),
       "show my stake in the validator"
     )
 
@@ -89,7 +89,7 @@ test("staking", async function(t) {
 
     t.equal(
       await app.client.$(".li-delegate__value.number_of_votes").getText(),
-      bondedStake.toString(),
+      num.pretty(bondedStake),
       "Validator total steak updated correctly"
     )
 
@@ -157,7 +157,7 @@ test("staking", async function(t) {
 
     t.equal(
       await app.client.$(".li-delegate__value.number_of_votes").getText(),
-      bondedStake.toString(),
+      num.pretty(bondedStake),
       "Validator total steak updated correctly"
     )
 

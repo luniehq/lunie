@@ -140,15 +140,27 @@ workflows:
 
   gaia-test-and-publish:
     jobs:
-      - changelogUpdated
+      - changelogUpdated:
+          filters:
+            branches:
+              ignore: release
 
-      - buildGaia
+      - buildGaia:
+          filters:
+            branches:
+              ignore: release
 
-      - testUnit
+      - testUnit:
+          filters:
+            branches:
+              ignore: release
 
       - testE2e:
           requires:
             - buildGaia
+          filters:
+            branches:
+              ignore: release
 
       - publish:
           requires:
