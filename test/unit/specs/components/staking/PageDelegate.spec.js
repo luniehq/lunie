@@ -2,7 +2,7 @@ import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 
 describe("PageValidator", () => {
-  let wrapper, router
+  let wrapper
   let { mount } = setup()
 
   beforeEach(() => {
@@ -43,7 +43,6 @@ describe("PageValidator", () => {
       }
     })
     wrapper = instance.wrapper
-    router = instance.router
   })
 
   it("has the expected html structure", async () => {
