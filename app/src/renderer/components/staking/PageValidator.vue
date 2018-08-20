@@ -8,10 +8,11 @@ tm-page(title='Validator')
     tm-list-item(title="This validator is revoked!" subtitle="Are you the owner? Go fix it!" type="anchor" href="https://cosmos.network/docs/validators/validator-setup.html#common-problems")
 
   tm-part#validator-profile(title='Validator Profile')
-    img.avatar(:src="validator.avatarUrl" width="192`" height="192")
+    img.avatar(v-if="validator.avatarUrl" :src="validator.avatarUrl" width="192" height="192")
+    img.avatar(v-else src="~assets/images/validator-icon.svg" width="192" height="192")
     .list-items
       tm-list-item(dt="Moniker" :dd="validator.description.moniker")
-      tm-list-item(v-if="validator.description.identity" dt="Identity" :dd="validator.description.identity")
+      tm-list-item(v-if="validator.keybaseUrl" dt="Identity" :dd="validator.keybaseUserName" :href="validator.keybaseUrl")
       tm-list-item(v-else dt="Identity" dd="add your avatar" href="https://cosmos.network/docs/validators/validator-setup.html#edit-validator-description" target="_blank")
       tm-list-item(dt="Website" :dd="validator.description.website")
       tm-list-item(dt="Details" :dd="validator.description.details")

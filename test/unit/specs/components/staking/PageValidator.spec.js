@@ -58,4 +58,8 @@ describe("PageValidator", () => {
   it("should return one delegate based on route params", () => {
     expect(wrapper.vm.validator.owner).toEqual("1a2b3c")
   })
+
+  it("shows a default avatar", () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
 })

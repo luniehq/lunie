@@ -1,3 +1,5 @@
+import axios from "axios"
+
 export default ({ node }) => {
   const emptyState = {
     delegates: [],
@@ -28,6 +30,15 @@ export default ({ node }) => {
       }
 
       state.delegates.push(delegate)
+    },
+    setKeybaseIdentity(
+      state,
+      { validatorOwner, avatarUrl, profileUrl, userName }
+    ) {
+      let validator = state.delegates.find(v => v.owner === validatorOwner)
+      validator.avatarUrl = avatarUrl
+      validator.keybaseUrl = profileUrl
+      validator.keybaseUserName = userName
     }
   }
 
@@ -40,7 +51,7 @@ export default ({ node }) => {
     resetSessionData({ rootState }) {
       rootState.delegates = JSON.parse(JSON.stringify(emptyState))
     },
-    async getDelegates({ state, commit }) {
+    async getDelegates({ state, commit, dispatch }) {
       commit("setDelegateLoading", true)
       let candidates = await node.getCandidates()
       let { validators } = await node.getValidatorSet()
@@ -53,8 +64,30 @@ export default ({ node }) => {
 
       commit("setDelegates", candidates)
       commit("setDelegateLoading", false)
+      dispatch("updateValidatorAvatars")
 
       return state.delegates
+    },
+    async updateValidatorAvatars({ state, commit }) {
+      state.delegates.map(async validator => {
+        if (validator.description.identity) {
+          let urlPrefix =
+            "https://keybase.io/_/api/1.0/user/lookup.json?key_suffix="
+          let fullUrl = urlPrefix + validator.description.identity
+          let json = await axios.get(fullUrl)
+          if (json.data.status.name === "OK") {
+            let user = json.data.them[0]
+            if (user.pictures && user.pictures.primary) {
+              commit("setKeybaseIdentity", {
+                validatorOwner: validator.owner,
+                avatarUrl: user.pictures.primary.url,
+                userName: user.basics.username,
+                profileUrl: "https://keybase.io/" + user.basics.username
+              })
+            }
+          }
+        }
+      })
     }
   }
 
