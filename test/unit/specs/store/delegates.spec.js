@@ -109,12 +109,14 @@ describe("Module: Delegates", () => {
   it("should query for the keybase identity", async () => {
     store.commit("addDelegate", {
       owner: "no-keybase",
+      tokens: "1",
       description: {
         identity: null
       }
     })
     store.commit("addDelegate", {
       owner: "keybase",
+      tokens: "1",
       description: {
         identity: "abcd"
       }
@@ -129,12 +131,14 @@ describe("Module: Delegates", () => {
   it("should query only once for the keybase identity", async () => {
     store.commit("addDelegate", {
       owner: "no-keybase",
+      tokens: "1",
       description: {
         identity: null
       }
     })
     store.commit("addDelegate", {
       owner: "keybase",
+      tokens: "1",
       description: {
         identity: "abcd"
       }
