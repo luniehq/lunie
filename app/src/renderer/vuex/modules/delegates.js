@@ -69,25 +69,27 @@ export default ({ node }) => {
       return state.delegates
     },
     async updateValidatorAvatars({ state, commit }) {
-      state.delegates.map(async validator => {
-        if (validator.description.identity && !validator.keybase) {
-          let urlPrefix =
-            "https://keybase.io/_/api/1.0/user/lookup.json?key_suffix="
-          let fullUrl = urlPrefix + validator.description.identity
-          let json = await axios.get(fullUrl)
-          if (json.data.status.name === "OK") {
-            let user = json.data.them[0]
-            if (user.pictures && user.pictures.primary) {
-              commit("setKeybaseIdentity", {
-                validatorOwner: validator.owner,
-                avatarUrl: user.pictures.primary.url,
-                userName: user.basics.username,
-                profileUrl: "https://keybase.io/" + user.basics.username
-              })
+      return Promise.all(
+        state.delegates.map(async validator => {
+          if (validator.description.identity && !validator.keybase) {
+            let urlPrefix =
+              "https://keybase.io/_/api/1.0/user/lookup.json?key_suffix="
+            let fullUrl = urlPrefix + validator.description.identity
+            let json = await axios.get(fullUrl)
+            if (json.data.status.name === "OK") {
+              let user = json.data.them[0]
+              if (user.pictures && user.pictures.primary) {
+                commit("setKeybaseIdentity", {
+                  validatorOwner: validator.owner,
+                  avatarUrl: user.pictures.primary.url,
+                  userName: user.basics.username,
+                  profileUrl: "https://keybase.io/" + user.basics.username
+                })
+              }
             }
           }
-        }
-      })
+        })
+      )
     }
   }
 

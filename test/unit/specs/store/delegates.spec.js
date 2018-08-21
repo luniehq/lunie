@@ -67,4 +67,67 @@ describe("Module: Delegates", () => {
     store.dispatch("reconnected")
     expect(axios.get.mock.calls.length).toBe(0)
   })
+
+  function mockKeybaseLookup(axios) {
+    axios.get = jest.fn(() =>
+      Promise.resolve({
+        data: {
+          status: { name: "OK" },
+          them: [
+            {
+              basics: {
+                username: "keybaseUser"
+              },
+              pictures: {
+                primary: {
+                  url: "pictureUrl"
+                }
+              }
+            }
+          ]
+        }
+      })
+    )
+  }
+
+  it("should query for the keybase identity", async () => {
+    store.commit("addDelegate", {
+      owner: "no-keybase",
+      description: {
+        identity: null
+      }
+    })
+    store.commit("addDelegate", {
+      owner: "keybase",
+      description: {
+        identity: "abcd"
+      }
+    })
+    let axios = require("axios")
+    mockKeybaseLookup(axios)
+    await store.dispatch("updateValidatorAvatars")
+    expect(axios.get).toHaveBeenCalledTimes(1)
+    expect(axios.get.mock.calls).toMatchSnapshot()
+  })
+
+  it("should query only once for the keybase identity", async () => {
+    store.commit("addDelegate", {
+      owner: "no-keybase",
+      description: {
+        identity: null
+      }
+    })
+    store.commit("addDelegate", {
+      owner: "keybase",
+      description: {
+        identity: "abcd"
+      }
+    })
+    let axios = require("axios")
+    mockKeybaseLookup(axios)
+    await store.dispatch("updateValidatorAvatars")
+    await store.dispatch("updateValidatorAvatars")
+    expect(axios.get).toHaveBeenCalledTimes(1)
+    expect(axios.get.mock.calls).toMatchSnapshot()
+  })
 })

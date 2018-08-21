@@ -62,4 +62,64 @@ describe("PageValidator", () => {
   it("shows a default avatar", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
+
+  it("shows a default value if no moniker is set", () => {
+    let instance = mount(PageValidator, {
+      doBefore: ({ router }) => {
+        router.push("/staking/validators/1a2b3c")
+      },
+      getters: {
+        config: () => ({ desktop: false }),
+        delegates: () => ({
+          delegates: [
+            {
+              owner: "1a2b3c",
+              pub_key: {
+                type: "AC26791624DE60",
+                data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0="
+              },
+              tokens: "19",
+              delegator_shares: "19",
+              description: {
+                description: "Herr Schmidt",
+                moniker: null,
+                country: "DE"
+              },
+              revoked: true,
+              status: 2,
+              bond_height: "0",
+              bond_intra_tx_counter: 6,
+              proposer_reward_pool: null,
+              commission: "0",
+              commission_max: "0",
+              commission_change_rate: "0",
+              commission_change_today: "0",
+              prev_bonded_shares: "0"
+            }
+          ]
+        })
+      }
+    })
+    wrapper = instance.wrapper
+
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it("shows an error if the validator couldn't be found", () => {
+    let instance = mount(PageValidator, {
+      doBefore: ({ router }) => {
+        router.push("/staking/validators/1a2b3c")
+      },
+      getters: {
+        config: () => ({ desktop: false }),
+        delegates: () => ({
+          delegates: []
+        })
+      }
+    })
+
+    wrapper = instance.wrapper
+
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
 })
