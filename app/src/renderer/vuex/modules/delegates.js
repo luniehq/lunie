@@ -35,9 +35,10 @@ export default ({ node }) => {
       { validatorOwner, avatarUrl, profileUrl, userName }
     ) {
       let validator = state.delegates.find(v => v.owner === validatorOwner)
-      validator.avatarUrl = avatarUrl
-      validator.keybaseUrl = profileUrl
-      validator.keybaseUserName = userName
+      if (!validator.keybase) validator.keybase = {}
+      validator.keybase.avatarUrl = avatarUrl
+      validator.keybase.profileUrl = profileUrl
+      validator.keybase.userName = userName
     }
   }
 
@@ -69,7 +70,7 @@ export default ({ node }) => {
     },
     async updateValidatorAvatars({ state, commit }) {
       state.delegates.map(async validator => {
-        if (validator.description.identity) {
+        if (validator.description.identity && !validator.keybase) {
           let urlPrefix =
             "https://keybase.io/_/api/1.0/user/lookup.json?key_suffix="
           let fullUrl = urlPrefix + validator.description.identity
