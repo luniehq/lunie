@@ -98,7 +98,7 @@
     "webpack-dev-server": "2.11.2"
   },
   "dependencies": {
-    "@tendermint/ui": "https://github.com/tendermint/ui.git#b7812e0452468a9d40b9c084d1359b438aec9b75",
+    "@tendermint/ui": "0.2.19",
     "@vue/test-utils": "1.0.0-beta.11",
     "autosize": "4.0.2",
     "axios": "0.18.0",
