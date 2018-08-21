@@ -12,6 +12,7 @@ describe("TmSessionLoading", () => {
       }
     }
     wrapper = mount(TmSessionLoading)
+    wrapper.update()
   })
 
   it("has the expected html structure", () => {
