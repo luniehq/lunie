@@ -73,7 +73,7 @@ exports[`PageStaking has the expected html structure 1`] = `
       <span>57.58%</span>
    </div>
    <div class=\\"li-delegate__value number_of_votes num bar\\">
-      <span>19</span>
+      <span>19.00</span>
       <div class=\\"bar\\" style=\\"width: 100%;\\"></div>
 </div>
    <div class=\\"li-delegate__value your-votes\\">
@@ -96,7 +96,7 @@ exports[`PageStaking has the expected html structure 1`] = `
       <span>42.42%</span>
    </div>
    <div class=\\"li-delegate__value number_of_votes num bar\\">
-      <span>14</span>
+      <span>14.00</span>
       <div class=\\"bar\\" style=\\"width: 74%;\\"></div>
 </div>
    <div class=\\"li-delegate__value your-votes\\">
@@ -119,7 +119,7 @@ exports[`PageStaking has the expected html structure 1`] = `
       <span>0.00%</span>
    </div>
    <div class=\\"li-delegate__value number_of_votes num bar\\">
-      <span>0</span>
+      <span>0.00</span>
       <div class=\\"bar\\" style=\\"width: 0%;\\"></div>
 </div>
    <div class=\\"li-delegate__value your-votes\\">
@@ -381,7 +381,7 @@ exports[`PageStaking should filter the delegates 1`] = `
             class="li-delegate__value number_of_votes num bar"
           >
             <span>
-              14
+              14.00
             </span>
             <div
               class="bar"

@@ -5,7 +5,7 @@
   .li-delegate__value.percent_of_vote
     span {{ delegate.percent_of_vote }}
   .li-delegate__value.number_of_votes.num.bar
-    span {{ num.prettyInt(delegate.voting_power) }}
+    span {{ num.pretty(delegate.voting_power) }}
     .bar(:style='vpStyles')
   .li-delegate__value.your-votes
     span {{ yourVotes }}
