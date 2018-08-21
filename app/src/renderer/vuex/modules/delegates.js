@@ -16,7 +16,6 @@ export default ({ node }) => {
     },
     addDelegate(state, delegate) {
       delegate.id = delegate.owner
-      Object.assign(delegate, delegate.description)
 
       // TODO: calculate voting power
       delegate.voting_power = delegate.tokens

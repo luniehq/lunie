@@ -89,7 +89,7 @@ export default {
       return !this.somethingToSearch
         ? []
         : this.delegates.delegates.map(v => {
-            v.small_moniker = v.moniker.toLowerCase()
+            v.small_moniker = v.description.moniker.toLowerCase()
             v.percent_of_vote = num.percent(v.voting_power / this.vpTotal)
             v.your_votes = this.num.prettyInt(this.committedDelegations[v.id])
             return v
