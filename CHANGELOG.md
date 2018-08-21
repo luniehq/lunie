@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* added more information on validators page @faboweb
+
 ### Changed
 
 * cache per network to not have side effects between networks @faboweb
@@ -17,7 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * changed ATOM to bondingDenom getter @okwme
 * more bondingDenom and copy updates @jbibla
 * restored loading animation on start @faboweb
-
 
 ### Fixed
 
@@ -30,7 +33,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Refactored main process. @NodeGuy
 * CircleCI no longer runs test during a push to `release`. @NodeGuy
 * Wallet balances updating after staking @okwme
-
 
 ## [0.9.4] - 2018-08-08
 

@@ -145,7 +145,16 @@ let state = {
         description: "Mr Mounty",
         moniker: "mr_mounty",
         country: "Canada"
-      }
+      },
+      status: 2,
+      bond_height: "0",
+      bond_intra_tx_counter: 6,
+      proposer_reward_pool: null,
+      commission: "0",
+      commission_max: "0",
+      commission_change_rate: "0",
+      commission_change_today: "0",
+      prev_bonded_shares: "0"
     },
     {
       owner: validators[1],
@@ -159,7 +168,16 @@ let state = {
         description: "Good Guy Greg",
         moniker: "good_greg",
         country: "USA"
-      }
+      },
+      status: 2,
+      bond_height: "0",
+      bond_intra_tx_counter: 6,
+      proposer_reward_pool: null,
+      commission: "0",
+      commission_max: "0",
+      commission_change_rate: "0",
+      commission_change_today: "0",
+      prev_bonded_shares: "0"
     },
     {
       owner: validators[2],
@@ -174,7 +192,16 @@ let state = {
         moniker: "herr_schmidt_revoked",
         country: "DE"
       },
-      revoked: true
+      revoked: true,
+      status: 2,
+      bond_height: "0",
+      bond_intra_tx_counter: 6,
+      proposer_reward_pool: null,
+      commission: "0",
+      commission_max: "0",
+      commission_change_rate: "0",
+      commission_change_today: "0",
+      prev_bonded_shares: "0"
     }
   ],
   sendHeight: 2
