@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ ! -f $(pwd)/../../../builds/gaia/linux_amd64/gaiad ]; then
+if [ ! -f $(pwd)/../../../builds/Gaia/linux_amd64/gaiad ]; then
   printf "Gaia missing; building first.\n"
   (cd ../../.. && yarn build:gaia)
 fi
