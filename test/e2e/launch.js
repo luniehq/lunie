@@ -23,11 +23,11 @@ const osFolderName = (function() {
 })()
 let binary =
   process.env.BINARY_PATH ||
-  join(__dirname, "../../builds/gaia/", osFolderName, "gaiacli")
+  join(__dirname, "../../builds/Gaia/", osFolderName, "gaiacli")
 
 let nodeBinary =
   process.env.NODE_BINARY_PATH ||
-  join(__dirname, "../../builds/gaia/", osFolderName, "gaiad")
+  join(__dirname, "../../builds/Gaia/", osFolderName, "gaiad")
 
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
@@ -63,7 +63,6 @@ function launch(t) {
         path: electron,
         args: [
           join(__dirname, "../../app/dist/main.js"),
-          JSON.parse(process.env.CI || "false") ? "--headless" : "",
           "--disable-gpu",
           "--no-sandbox"
         ],
@@ -211,10 +210,8 @@ async function handleCrash(app) {
   if (process.env.CI && app && app.browserWindow) {
     const screenshotLocation = join(testDir, "snapshot.png")
     await app.browserWindow.capturePage().then(function(imageBuffer) {
-      if (!imageBuffer.length) {
-        console.log("saving screenshot to ", screenshotLocation)
-        fs.writeFileSync(screenshotLocation, imageBuffer)
-      }
+      console.log("saving screenshot to ", screenshotLocation)
+      fs.writeFileSync(screenshotLocation, imageBuffer)
     })
   }
 
@@ -248,7 +245,7 @@ function startLocalNode() {
 
 function initLocalNode() {
   return new Promise((resolve, reject) => {
-    const command = `${nodeBinary} init --home ${nodeHome} --name local --owk`
+    const command = `${nodeBinary} init --home ${nodeHome} --name local --owk --overwrite`
     console.log(command)
     const localnodeProcess = spawn(command, { shell: true })
     localnodeProcess.stderr.pipe(process.stderr)
