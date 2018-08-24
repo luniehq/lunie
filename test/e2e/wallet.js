@@ -40,8 +40,6 @@ test("wallet", async function(t) {
     async function goToSendPage() {
       await navigate(app, "Wallet")
 
-      throw Error("Expected")
-
       await $("#part-available-balances")
         .$(".tm-li-dt=LOCALTOKEN")
         .$("..")
