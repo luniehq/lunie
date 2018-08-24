@@ -37,8 +37,7 @@ function launch(t) {
   if (!started) {
     // tape doesn't exit properly on uncaught promise rejections
     process.on("unhandledRejection", async error => {
-      console.error("unhandledRejection", error)
-      return handleCrash(app)
+      return handleCrash(app, error)
     })
 
     started = new Promise(async resolve => {
@@ -50,8 +49,8 @@ function launch(t) {
       console.error(`ui home: ${cliHome}`)
       console.error(`node home: ${nodeHome}`)
 
-      fs.emptyDirSync(cliHome)
-      fs.emptyDirSync(nodeHome)
+      fs.removeSync(cliHome)
+      fs.removeSync(nodeHome)
 
       const initValues = await initLocalNode()
       reduceTimeouts()
@@ -80,43 +79,10 @@ function launch(t) {
         }
       })
 
-      // TODO: use approval element once we restore initting
-      //       (".tm-modal-lcd-approval")
-      let initialElement = ".tm-session-wrapper"
-      await startApp(app, initialElement)
-      t.ok(app.isRunning(), "app is running")
-
-      // TODO: uncomment below once we restore initting
-
-      // accept node hash
-      // await app.client.$("#tm-modal-lcd-approval__btn-approve").click()
-      // await app.client.waitForExist(
-      //   ".tm-session-title=Sign in to Cosmos Voyager",
-      //   5000
-      // )
-
-      // test if app restores from unitialized gaia folder
+      await startApp(app)
       await stop(app)
-      fs.removeSync(cliHome)
-      await startApp(app, initialElement)
-      t.ok(app.isRunning(), "app recovers from uninitialized gaia")
 
-      // accept node hash
-      // await app.client.$("#tm-modal-lcd-approval__btn-approve").click()
-      // await app.client.waitForExist(
-      //   ".tm-session-title=Sign in to Cosmos Voyager",
-      //   5000
-      // )
-      // console.log("approved hash")
-
-      await stop(app)
-      let accounts = []
-      // testkey account needs to match genesis to own tokens for testing
-      accounts.push(
-        await createAccount("testkey", initValues.app_message.secret)
-      )
-      accounts.push(await createAccount("testreceiver"))
-      console.log("setup test accounts", accounts)
+      let accounts = await setupAccounts(initValues)
 
       await startApp(app, ".tm-session-title=Sign In")
       t.ok(app.isRunning(), "app is running")
@@ -127,7 +93,12 @@ function launch(t) {
         value: "false"
       })
 
-      resolve({ app, cliHome, accounts })
+      resolve({
+        app,
+        cliHome,
+        accounts,
+        setupAccounts: setupAccounts.bind(this, initValues) // we need to export this because we are testing removal of the config folder including the keys in one test
+      })
     })
   }
 
@@ -136,14 +107,24 @@ function launch(t) {
 
 test.onFinish(async () => {
   console.log("DONE: cleaning up")
-  if (app) await app.stop()
+  stop(app)
   // tape doesn't finish properly because of open processes like gaia
   process.exit(0)
 })
 
+async function setupAccounts(initValues) {
+  let accounts = []
+  // testkey account needs to match genesis to own tokens for testing
+  accounts.push(await createAccount("testkey", initValues.app_message.secret))
+  accounts.push(await createAccount("testreceiver"))
+  console.log("setup test accounts", accounts)
+
+  return accounts
+}
+
 async function stop(app) {
   console.log("Stopping app")
-  await app.stop()
+  if (app && app.isRunning()) await app.stop()
   console.log("App stopped")
 }
 
@@ -154,9 +135,11 @@ async function printAppLog(app) {
   }
 
   await app.client.getMainProcessLogs().then(function(logs) {
-    logs.forEach(function(log) {
-      console.log(log)
-    })
+    logs
+      .filter(line => !/CONSOLE\(/g.test(line)) // ignore renderer process output, which is also written to main process logs
+      .forEach(function(log) {
+        console.log(log)
+      })
   })
   await app.client.getRenderProcessLogs().then(function(logs) {
     logs.forEach(function(log) {
@@ -171,7 +154,9 @@ async function writeLogs(app, location) {
   fs.ensureFileSync(mainProcessLogLocation)
   fs.ensureFileSync(rendererProcessLogLocation)
 
-  const mainProcessLogs = await app.client.getMainProcessLogs()
+  const mainProcessLogs = (await app.client.getMainProcessLogs()).filter(
+    log => !/CONSOLE\(/g.test(log)
+  ) // ignore renderer process output, which is also written to main process logs
   const rendererProcessLogs = await app.client.getRenderProcessLogs()
   fs.writeFileSync(mainProcessLogLocation, mainProcessLogs.join("\n"), "utf8")
   fs.writeFileSync(
@@ -184,20 +169,25 @@ async function writeLogs(app, location) {
 }
 
 async function startApp(app, awaitingSelector = ".tm-session") {
+  console.log("Starting app")
   await app.start()
 
   await app.client.waitForExist(awaitingSelector, 10 * 1000).catch(async e => {
-    await handleCrash(app)
+    await handleCrash(app, e)
     throw e
   })
+  console.log("Started app")
 }
 
-async function handleCrash(app) {
+async function handleCrash(app, error) {
   // only write logs once even if writing them fails to not recursively call this function
   if (crashed) {
     return
   }
   crashed = true
+
+  console.error("-- App crashed --")
+  console.error(error)
 
   // show or persist logs
   if (process.env.CI) {
@@ -360,5 +350,7 @@ module.exports = {
     console.log("refreshing app")
     await app.restart()
     await app.client.waitForExist(awaitingSelector, 5000)
-  }
+  },
+  startApp,
+  stop
 }
