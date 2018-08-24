@@ -44,7 +44,7 @@ tm-page(title='Wallet')
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapActions } from "vuex"
 import { clipboard } from "electron"
 import { sum, includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
@@ -118,12 +118,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["updateDelegates", "queryWalletState"]),
     setSearch(bool = !this.filters["balances"].search.visible) {
       if (!this.somethingToSearch) return false
       this.$store.commit("setSearchVisible", ["balances", bool])
     },
     updateBalances() {
-      this.$store.dispatch("queryWalletState")
+      this.queryWalletState()
     },
     copy() {
       clipboard.writeText(this.wallet.address)
@@ -138,7 +139,8 @@ export default {
   mounted() {
     Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
     Mousetrap.bind("esc", () => this.setSearch(false))
-    this.$store.dispatch("updateDelegates")
+    this.updateDelegates()
+    this.queryWalletState()
   }
 }
 </script>

@@ -336,7 +336,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                       <label
                         class="bond-bar__label revoked"
                       >
-                        herr_schmidt_revoked
+                        aChileanValidator
                       </label>
                       <label
                         class="bond-bar__revoked"

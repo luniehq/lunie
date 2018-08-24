@@ -2,7 +2,10 @@
 .tm-session: .tm-session-container.tm-session-loading
   .tm-session-header
     .tm-session-title Connecting to '{{config.default_network}}'&hellip;
-  .tm-session-main {{message}} &nbsp
+  .tm-session-main.tm-session-main--loading
+    img(src="~assets/images/loader.svg")
+    br
+    | {{message}} &nbsp
   .tm-session-footer &nbsp;
 </template>
 
@@ -26,4 +29,9 @@ export default {
 .tm-session-loading
   .tm-session-main
     text-align center
+
+.tm-session-main--loading
+  display flex
+  flex-direction column
+  justify-content center
 </style>
