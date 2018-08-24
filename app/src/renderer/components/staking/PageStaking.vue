@@ -64,6 +64,7 @@ export default {
       "filters",
       "shoppingCart",
       "committedDelegations",
+      "config",
       "user",
       "connected",
       "bondingDenom"
@@ -78,7 +79,7 @@ export default {
       return this.delegates.delegates
         .slice(0)
         .map(v => {
-          v.voting_power = v.voting_power ? parseInt(v.voting_power) : 0
+          v.voting_power = v.voting_power ? Number(v.voting_power) : 0
           return v
         })
         .sort((a, b) => b.voting_power - a.voting_power)
@@ -89,7 +90,7 @@ export default {
       return !this.somethingToSearch
         ? []
         : this.delegates.delegates.map(v => {
-            v.small_moniker = v.moniker.toLowerCase()
+            v.small_moniker = v.description.moniker.toLowerCase()
             v.percent_of_vote = num.percent(v.voting_power / this.vpTotal)
             v.your_votes = this.num.prettyInt(this.committedDelegations[v.id])
             return v
