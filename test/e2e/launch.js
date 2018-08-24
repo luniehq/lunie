@@ -222,9 +222,9 @@ async function handleCrash(app) {
   }
 }
 
-function startLocalNode() {
+function startLocalNode(suffix = "1") {
   return new Promise((resolve, reject) => {
-    const command = `${nodeBinary} start --home ${nodeHome}`
+    const command = `${nodeBinary} start --home ${nodeHome}_${suffix}`
     console.log(command)
     const localnodeProcess = spawn(command, { shell: true })
     localnodeProcess.stderr.pipe(process.stderr)
@@ -243,9 +243,9 @@ function startLocalNode() {
   })
 }
 
-function initLocalNode() {
+function initLocalNode(suffix = "1") {
   return new Promise((resolve, reject) => {
-    const command = `${nodeBinary} init --home ${nodeHome} --name local --owk --overwrite`
+    const command = `${nodeBinary} init --home ${nodeHome}_${suffix} --chain-id=test_chain --name local_${suffix} --owk --overwrite`
     console.log(command)
     const localnodeProcess = spawn(command, { shell: true })
     localnodeProcess.stderr.pipe(process.stderr)
@@ -264,6 +264,15 @@ function initLocalNode() {
 
     localnodeProcess.once("exit", reject)
   })
+}
+
+function getValidatorFromGenesis(node_home) {
+  let genesis = fs.readJsonSync(join(node_home, "config/genesis.json"))
+  stake
+}
+
+function delegate(validator, account = "testkey") {
+  const command = `${nodeBinary} stake delegate --amount=10steak --address-validator=${validator} --from=${account} --chain-id=test_chain`
 }
 
 function reduceTimeouts() {
