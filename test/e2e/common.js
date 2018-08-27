@@ -128,7 +128,10 @@ module.exports = {
   },
   async selectOption(app, selectSelector, text) {
     await app.client.$(selectSelector).click()
-    await app.client.keys(text.split())
+    for (let letter of text.split()) {
+      if ((await app.client.$(selectSelector).getValue()) === text) break
+      await app.client.keys(letter)
+    }
     await app.client.keys("Enter")
   }
 }
