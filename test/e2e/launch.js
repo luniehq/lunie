@@ -61,7 +61,7 @@ function launch(t) {
       let genesis = fs.readJSONSync(
         join(nodeHome + "_1", "config/genesis.json")
       )
-      addValidator(genesis, nodeTwoPubKey, nodeTwoOwner)
+      addValidator(genesis, nodeTwoPubKey, nodeTwoOwner, 2)
       updateGenesis(genesis, nodeHome + "_1")
       updateGenesis(genesis, nodeHome + "_2")
       reduceTimeouts(nodeHome + "_1")
@@ -304,7 +304,7 @@ function getValidatorOwner(node_home) {
   return genesis.app_state.stake.validators[0].owner
 }
 
-function addValidator(genesis, pub_key, owner) {
+function addValidator(genesis, pub_key, owner, number) {
   genesis.validators.push({
     pub_key,
     power: "50",
@@ -315,6 +315,9 @@ function addValidator(genesis, pub_key, owner) {
   )
   newStakeValidator.pub_key = pub_key
   newStakeValidator.owner = owner
+  newStakeValidator.tokens = "50"
+  newStakeValidator.delegator_shares = "50"
+  newStakeValidator.description.moniker = "local_" + number
   genesis.app_state.stake.validators.push(newStakeValidator)
   genesis.app_state.stake.pool.loose_tokens += 50
 }

@@ -16,13 +16,20 @@ test("staking", async function(t) {
 
   let totalUserStake = 150
   let bondedStake = 100
-  let defaultValidatorMoniker = "local_1"
 
   t.test("overview", async function(t) {
-    await t.equal(
-      await app.client.$(".li-delegate__value.name").getText(),
-      defaultValidatorMoniker, // moniker of the local node set in launch.js
-      "show validators"
+    t.equal(
+      (await app.client.$$(".li-delegate")).length,
+      2,
+      "it shows both validators"
+    )
+    await t.ok(
+      await app.client.$(".name=local_1").isVisible(),
+      "show validator 1"
+    )
+    await t.ok(
+      await app.client.$(".name=local_2").isVisible(),
+      "show validator 2"
     )
 
     await t.equal(
