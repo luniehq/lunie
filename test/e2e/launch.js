@@ -248,26 +248,24 @@ function startLocalNode(number = 1, nodeOneId = "") {
         (number - 1) * 3 +
         1} --rpc.laddr=tcp://0.0.0.0:${defaultStartPort -
         (number - 1) * 3 +
-        2} --p2p.persistent_peers="${nodeOneId}@localhost:${defaultStartPort +
-        1}"`
+        2} --p2p.persistent_peers="${nodeOneId}@localhost:${defaultStartPort}"`
     }
     console.log(command)
     const localnodeProcess = spawn(command, { shell: true })
-    if (number > 1) localnodeProcess.stdout.pipe(process.stdout)
     localnodeProcess.stderr.pipe(process.stderr)
 
     function listener(data) {
       let msg = data.toString()
 
-      console.log(msg)
+      console.log("NODE_" + number + "\n" + msg)
       if (msg.includes("Block{")) {
         localnodeProcess.stdout.removeListener("data", listener)
         resolve()
       }
 
-      // if (msg.includes("Failed") || msg.includes("Error")) {
-      //   reject(msg)
-      // }
+      if (msg.includes("Failed") || msg.includes("Error")) {
+        reject(msg)
+      }
     }
     localnodeProcess.stdout.on("data", listener)
 
