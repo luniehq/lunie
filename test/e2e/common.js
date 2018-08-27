@@ -132,6 +132,7 @@ module.exports = {
       if ((await app.client.$(selectSelector).getValue()) === text) break
       await app.client.keys(letter)
     }
-    await app.client.keys("Enter")
+    // defocus select to close selection
+    await app.client.$("body").click()
   }
 }
