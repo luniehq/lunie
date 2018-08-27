@@ -41,7 +41,7 @@ Vue.use(Vuelidate)
 
 async function main() {
   let lcdPort = getQueryParameter("lcd_port")
-  console.log("Expecting lcd-server on port:", lcdPort)
+  console.log("Expecting lcd-server on port: " + lcdPort)
   node = Node(lcdPort, config.mocked)
 
   store = Store({ node })

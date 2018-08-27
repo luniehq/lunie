@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Reduce CHANGELOG.md conflicts. @NodeGuy
 * Refactored main process. @NodeGuy
 * CircleCI no longer runs test during a push to `release`. @NodeGuy
+* E2E tests not producing screenshots and not logging certain values @faboweb
 * Wallet balances updating after staking @okwme
 * Updated testnet build process @okwme
 

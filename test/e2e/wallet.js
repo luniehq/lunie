@@ -39,6 +39,7 @@ test("wallet", async function(t) {
   t.test("send", async function(t) {
     async function goToSendPage() {
       await navigate(app, "Wallet")
+
       await $("#part-available-balances")
         .$(".tm-li-dt=LOCALTOKEN")
         .$("..")
