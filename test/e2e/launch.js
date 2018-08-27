@@ -70,6 +70,7 @@ function launch(t) {
       writeGenesis(genesis, nodeHome + "_2")
       writeGenesis(genesis, nodeHome + "_3")
 
+      // wait until all nodes are showing blocks, so we know they are running
       await Promise.all([
         startLocalNode(1),
         startLocalNode(2, nodeOneId),
@@ -231,7 +232,9 @@ async function handleCrash(app, error) {
   }
 }
 
+// start a node and connect it to nodeOne
 // nodeOne is used as a persistent peer for all the other nodes
+// wait for blocks to show as a proof, the node is running correctly
 function startLocalNode(number, nodeOneId = "") {
   return new Promise((resolve, reject) => {
     const defaultStartPort = 26656
