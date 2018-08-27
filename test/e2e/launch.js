@@ -96,8 +96,7 @@ function launch(t) {
       resolve({
         app,
         cliHome,
-        accounts,
-        setupAccounts: setupAccounts.bind(this, initValues) // we need to export this because we are testing removal of the config folder including the keys in one test
+        accounts
       })
     })
   }
@@ -107,7 +106,7 @@ function launch(t) {
 
 test.onFinish(async () => {
   console.log("DONE: cleaning up")
-  stop(app)
+  await stop(app)
   // tape doesn't finish properly because of open processes like gaia
   process.exit(0)
 })
@@ -197,7 +196,7 @@ async function handleCrash(app, error) {
   }
 
   // save a screenshot
-  if (process.env.CI && app && app.browserWindow) {
+  if (app && app.browserWindow) {
     const screenshotLocation = join(testDir, "snapshot.png")
     await app.browserWindow.capturePage().then(function(imageBuffer) {
       console.log("saving screenshot to ", screenshotLocation)
