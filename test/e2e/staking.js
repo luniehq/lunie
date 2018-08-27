@@ -20,7 +20,7 @@ test("staking", async function(t) {
   t.test("overview", async function(t) {
     t.equal(
       (await app.client.$$(".li-delegate")).length,
-      2,
+      3,
       "it shows both validators"
     )
     await t.ok(
@@ -30,6 +30,10 @@ test("staking", async function(t) {
     await t.ok(
       await app.client.$(".name=local_2").isVisible(),
       "show validator 2"
+    )
+    await t.ok(
+      await app.client.$(".name=local_3").isVisible(),
+      "show validator 3"
     )
 
     await t.equal(

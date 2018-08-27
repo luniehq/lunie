@@ -53,23 +53,28 @@ function launch(t) {
 
       fs.removeSync("testArtifacts")
 
+      // setup first node
       const initValues = await initLocalNode(1)
-      const nodeOneId = await getNodeId(nodeHome + "_1")
-      await initLocalNode(2)
-      const nodeTwoPubKey = getValidatorPublicKey(nodeHome + "_2")
-      const nodeTwoOwner = getValidatorOwner(nodeHome + "_2")
-      let genesis = fs.readJSONSync(
-        join(nodeHome + "_1", "config/genesis.json")
-      )
-      addValidator(genesis, nodeTwoPubKey, nodeTwoOwner, 2)
-      updateGenesis(genesis, nodeHome + "_1")
-      updateGenesis(genesis, nodeHome + "_2")
-      reduceTimeouts(nodeHome + "_1")
-      reduceTimeouts(nodeHome + "_2")
-      disableStrictAddressbook(nodeHome + "_1")
-      disableStrictAddressbook(nodeHome + "_2")
+      const nodeOneHome = nodeHome + "_1"
+      let genesis = fs.readJSONSync(join(nodeOneHome, "config/genesis.json"))
+      const nodeOneId = await getNodeId(nodeOneHome)
+      reduceTimeouts(nodeOneHome)
+      disableStrictAddressbook(nodeOneHome)
 
-      await Promise.all([startLocalNode(), startLocalNode(2, nodeOneId)])
+      // setup additional nodes
+      genesis = await addValidatorNode(2, genesis)
+      genesis = await addValidatorNode(3, genesis)
+
+      // we need to write back the updated genesis
+      writeGenesis(genesis, nodeOneHome)
+      writeGenesis(genesis, nodeHome + "_2")
+      writeGenesis(genesis, nodeHome + "_3")
+
+      await Promise.all([
+        startLocalNode(1),
+        startLocalNode(2, nodeOneId),
+        startLocalNode(3, nodeOneId)
+      ])
       console.log(`Started local nodes.`)
       await saveVersion(nodeHome + "_1")
 
@@ -226,7 +231,8 @@ async function handleCrash(app, error) {
   }
 }
 
-function startLocalNode(number = 1, nodeOneId = "") {
+// nodeOne is used as a persistent peer for all the other nodes
+function startLocalNode(number, nodeOneId = "") {
   return new Promise((resolve, reject) => {
     const defaultStartPort = 26656
     let command = `${nodeBinary} start --home ${nodeHome}_${number}`
@@ -284,6 +290,22 @@ function initLocalNode(number = 1) {
   })
 }
 
+// init a node and define it as a validator
+async function addValidatorNode(number, genesis) {
+  let newNodeHome = nodeHome + "_" + number
+
+  await initLocalNode(number)
+
+  const newNodePubKey = getValidatorPublicKey(newNodeHome)
+  const newNodeOwner = getValidatorOwner(newNodeHome)
+
+  addValidator(genesis, newNodePubKey, newNodeOwner, number)
+  reduceTimeouts(newNodeHome)
+  disableStrictAddressbook(newNodeHome)
+
+  return genesis
+}
+
 async function getNodeId(node_home) {
   let command = `${nodeBinary} tendermint show_node_id --home ${node_home}`
   console.log(command)
@@ -322,7 +344,7 @@ function addValidator(genesis, pub_key, owner, number) {
   genesis.app_state.stake.pool.loose_tokens += 50
 }
 
-function updateGenesis(genesis, node_home) {
+function writeGenesis(genesis, node_home) {
   fs.writeJSONSync(join(node_home, "config/genesis.json"), genesis)
 }
 
