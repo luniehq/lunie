@@ -70,6 +70,7 @@ describe("Module: Wallet", () => {
   })
 
   it("should query wallet balances", async () => {
+    store.commit("setWalletAddress", "abcd")
     node.queryAccount = () =>
       Promise.resolve({
         coins: [

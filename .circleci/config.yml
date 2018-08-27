@@ -48,8 +48,8 @@ jobs:
 
       - restore_cache:
           keys:
-            - v2-dependencies-root-{{ checksum "package.json" }}
-            - v2-dependencies-root-
+            - v3-dependencies-root-{{ checksum "package.json" }}
+            - v3-dependencies-root-
 
       - run: yarn install
 
@@ -57,7 +57,7 @@ jobs:
           paths:
             - yarn.lock
             - node_modules
-          key: v2-dependencies-root-{{ checksum "package.json" }}
+          key: v3-dependencies-root-{{ checksum "package.json" }}
 
       - run:
           name: Test
@@ -102,6 +102,7 @@ jobs:
 
       - store_artifacts:
           path: testArtifacts
+          when: on_fail
 
   # Create release.
   release:

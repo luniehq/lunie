@@ -27,18 +27,27 @@ export default () => {
   const state = []
 
   const mutations = {
+    addNotification(state, note) {
+      // log notifications so we can see the notifications in the log to debug
+      console.log(
+        `[${note.type ? note.type.toUpperCase() : "INFO"}] ${note.title}: ${
+          note.body
+        }`
+      )
+      state.push(note)
+    },
     notify(state, data) {
       let note = data
       note.icon = "check_circle"
       note.time = Date.now()
-      state.push(note)
+      mutations.addNotification(state, note)
     },
     notifyWarn(state, data) {
       let note = data
       note.icon = "warning"
       note.time = Date.now()
       note.type = "warning"
-      state.push(note)
+      mutations.addNotification(state, note)
     },
     notifyError(state, data) {
       let note = data
@@ -46,28 +55,28 @@ export default () => {
       note.time = Date.now()
       note.layout = "alert"
       note.type = "error"
-      state.push(note)
+      mutations.addNotification(state, note)
     },
     notifySignUp(state) {
       let note = JSON.parse(JSON.stringify(noteSignUp))
       note.time = Date.now()
-      state.push(note)
+      mutations.addNotification(state, note)
     },
     notifySignIn(state) {
       let note = JSON.parse(JSON.stringify(noteSignIn))
       note.time = Date.now()
-      state.push(note)
+      mutations.addNotification(state, note)
     },
     notifySignOut(state) {
       let note = JSON.parse(JSON.stringify(noteSignOut))
       note.time = Date.now()
-      state.push(note)
+      mutations.addNotification(state, note)
     },
     notifyAuthRequired(state, body) {
       let note = JSON.parse(JSON.stringify(noteAuthRequired))
       note.time = Date.now()
       if (body) note.body = body
-      state.push(note)
+      mutations.addNotification(state, note)
     }
   }
 

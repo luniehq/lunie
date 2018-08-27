@@ -29,7 +29,7 @@ module.exports = function setRpcWrapper(container) {
         rpcWrapper.rpcDisconnect()
       }
 
-      console.log("init rpc with", nodeIP)
+      console.log("init rpc with " + nodeIP)
       let newRpc = new RpcClient(`ws://${nodeIP}`)
       rpcWrapper.rpcInfo.connected = true
       // we need to check immediately if the connection fails. later we will not be able to check this error
