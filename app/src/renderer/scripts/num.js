@@ -1,5 +1,4 @@
-import numeral from "numeral"
-
+const numeral = require("numeral")
 function usd(num) {
   return numeral(num).format("$0,0.00")
 }
@@ -40,7 +39,7 @@ function percent(x) {
   return numeral(x).format("0.00%")
 }
 
-export default {
+module.exports = {
   usd,
   usdInt,
   full,

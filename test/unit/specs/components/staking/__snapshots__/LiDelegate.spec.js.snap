@@ -12,7 +12,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
     >
       <a
         class=""
-        href="#/staking/delegates/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+        href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
       >
         mr_mounty
       </a>
@@ -28,7 +28,7 @@ exports[`LiDelegate has the expected html structure 1`] = `
       class="li-delegate__value number_of_votes num bar"
     >
       <span>
-        14
+        14.00
       </span>
       <div
         class="bar"
