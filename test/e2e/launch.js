@@ -57,10 +57,11 @@ function launch(t) {
       const nodeOneId = await getNodeId(nodeHome + "_1")
       await initLocalNode(2)
       const nodeTwoPubKey = getValidatorPublicKey(nodeHome + "_2")
+      const nodeTwoOwner = getValidatorOwner(nodeHome + "_2")
       let genesis = fs.readJSONSync(
         join(nodeHome + "_1", "config/genesis.json")
       )
-      addValidator(genesis, nodeTwoPubKey)
+      addValidator(genesis, nodeTwoPubKey, nodeTwoOwner)
       updateGenesis(genesis, nodeHome + "_1")
       updateGenesis(genesis, nodeHome + "_2")
       reduceTimeouts(nodeHome + "_1")
@@ -68,10 +69,8 @@ function launch(t) {
       disableStrictAddressbook(nodeHome + "_1")
       disableStrictAddressbook(nodeHome + "_2")
 
-      await startLocalNode()
-      console.log(`Started local node.`)
-      await startLocalNode(2, nodeOneId)
-      console.log(`Started local node 2.`)
+      await Promise.all([startLocalNode(), startLocalNode(2, nodeOneId)])
+      console.log(`Started local nodes.`)
       await saveVersion(nodeHome + "_1")
 
       app = new Application({
@@ -299,12 +298,25 @@ function getValidatorPublicKey(node_home) {
   return privValidatorKeys.pub_key
 }
 
-function addValidator(genesis, pub_key) {
+function getValidatorOwner(node_home) {
+  let genesis = fs.readJSONSync(join(node_home, "config/genesis.json"))
+
+  return genesis.app_state.stake.validators[0].owner
+}
+
+function addValidator(genesis, pub_key, owner) {
   genesis.validators.push({
     pub_key,
     power: "50",
     name: ""
   })
+  let newStakeValidator = JSON.parse(
+    JSON.stringify(genesis.app_state.stake.validators[0])
+  )
+  newStakeValidator.pub_key = pub_key
+  newStakeValidator.owner = owner
+  genesis.app_state.stake.validators.push(newStakeValidator)
+  genesis.app_state.stake.pool.loose_tokens += 50
 }
 
 function updateGenesis(genesis, node_home) {
