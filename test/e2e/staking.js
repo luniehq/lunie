@@ -16,7 +16,7 @@ test("staking", async function(t) {
 
   let totalUserStake = 150
   let bondedStake = 100
-  let defaultValidatorMoniker = "local"
+  let defaultValidatorMoniker = "local_1"
 
   t.test("overview", async function(t) {
     await t.equal(

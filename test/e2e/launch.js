@@ -5,6 +5,8 @@ let test = require("tape-promise/tape")
 let electron = require("electron")
 let { join } = require("path")
 let { spawn } = require("child_process")
+const util = require("util")
+const exec = util.promisify(require("child_process").exec)
 let fs = require("fs-extra")
 
 const testDir = join(__dirname, "../../testArtifacts")
@@ -50,14 +52,28 @@ function launch(t) {
       console.error(`ui home: ${cliHome}`)
       console.error(`node home: ${nodeHome}`)
 
-      fs.emptyDirSync(cliHome)
-      fs.emptyDirSync(nodeHome)
+      fs.removeSync("testArtifacts")
 
-      const initValues = await initLocalNode()
-      reduceTimeouts()
+      const initValues = await initLocalNode(1)
+      const nodeOneId = await getNodeId(nodeHome + "_1")
+      await initLocalNode(2)
+      const nodeTwoPubKey = getValidatorPublicKey(nodeHome + "_2")
+      let genesis = fs.readJSONSync(
+        join(nodeHome + "_1", "config/genesis.json")
+      )
+      addValidator(genesis, nodeTwoPubKey)
+      updateGenesis(genesis, nodeHome + "_1")
+      updateGenesis(genesis, nodeHome + "_2")
+      reduceTimeouts(nodeHome + "_1")
+      reduceTimeouts(nodeHome + "_2")
+      disableStrictAddressbook(nodeHome + "_1")
+      disableStrictAddressbook(nodeHome + "_2")
+
       await startLocalNode()
       console.log(`Started local node.`)
-      await saveVersion()
+      await startLocalNode(2, nodeOneId)
+      console.log(`Started local node 2.`)
+      await saveVersion(nodeHome + "_1")
 
       app = new Application({
         path: electron,
@@ -74,7 +90,7 @@ function launch(t) {
           PREVIEW: "true",
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
           COSMOS_HOME: cliHome,
-          COSMOS_NETWORK: join(nodeHome, "config"),
+          COSMOS_NETWORK: join(nodeHome + "_1", "config"),
           COSMOS_MOCKED: false, // the e2e tests expect mocking to be switched off
           BINARY_PATH: binary
         }
@@ -222,30 +238,46 @@ async function handleCrash(app) {
   }
 }
 
-function startLocalNode(suffix = "1") {
+function startLocalNode(number = 1, nodeOneId = "") {
   return new Promise((resolve, reject) => {
-    const command = `${nodeBinary} start --home ${nodeHome}_${suffix}`
+    const defaultStartPort = 26656
+    let command = `${nodeBinary} start --home ${nodeHome}_${number}`
+    if (number > 1) {
+      command += ` --p2p.laddr=tcp://0.0.0.0:${defaultStartPort -
+        (number - 1) * 3} --address=tcp://0.0.0.0:${defaultStartPort -
+        (number - 1) * 3 +
+        1} --rpc.laddr=tcp://0.0.0.0:${defaultStartPort -
+        (number - 1) * 3 +
+        2} --p2p.persistent_peers="${nodeOneId}@localhost:${defaultStartPort +
+        1}"`
+    }
     console.log(command)
     const localnodeProcess = spawn(command, { shell: true })
+    if (number > 1) localnodeProcess.stdout.pipe(process.stdout)
     localnodeProcess.stderr.pipe(process.stderr)
 
-    localnodeProcess.stdout.once("data", data => {
+    function listener(data) {
       let msg = data.toString()
 
-      if (!msg.includes("Failed") && !msg.includes("Error")) {
+      console.log(msg)
+      if (msg.includes("Block{")) {
+        localnodeProcess.stdout.removeListener("data", listener)
         resolve()
-      } else {
-        reject(msg)
       }
-    })
+
+      // if (msg.includes("Failed") || msg.includes("Error")) {
+      //   reject(msg)
+      // }
+    }
+    localnodeProcess.stdout.on("data", listener)
 
     localnodeProcess.once("exit", reject)
   })
 }
 
-function initLocalNode(suffix = "1") {
+function initLocalNode(number = 1) {
   return new Promise((resolve, reject) => {
-    const command = `${nodeBinary} init --home ${nodeHome}_${suffix} --chain-id=test_chain --name local_${suffix} --owk --overwrite`
+    const command = `${nodeBinary} init --home ${nodeHome}_${number} --chain-id=test_chain --name local_${number} --owk --overwrite`
     console.log(command)
     const localnodeProcess = spawn(command, { shell: true })
     localnodeProcess.stderr.pipe(process.stderr)
@@ -266,16 +298,33 @@ function initLocalNode(suffix = "1") {
   })
 }
 
-function getValidatorFromGenesis(node_home) {
-  let genesis = fs.readJsonSync(join(node_home, "config/genesis.json"))
-  stake
+async function getNodeId(node_home) {
+  let command = `${nodeBinary} tendermint show_node_id --home ${node_home}`
+  console.log(command)
+  const { stdout } = await exec(command)
+  return stdout.trim()
 }
 
-function delegate(validator, account = "testkey") {
-  const command = `${nodeBinary} stake delegate --amount=10steak --address-validator=${validator} --from=${account} --chain-id=test_chain`
+function getValidatorPublicKey(node_home) {
+  let privValidatorKeys = fs.readJSONSync(
+    join(node_home, "config/priv_validator.json")
+  )
+  return privValidatorKeys.pub_key
 }
 
-function reduceTimeouts() {
+function addValidator(genesis, pub_key) {
+  genesis.validators.push({
+    pub_key,
+    power: "50",
+    name: ""
+  })
+}
+
+function updateGenesis(genesis, node_home) {
+  fs.writeJSONSync(join(node_home, "config/genesis.json"), genesis)
+}
+
+function reduceTimeouts(nodeHome) {
   const configPath = join(nodeHome, "config", "config.toml")
   let configToml = fs.readFileSync(configPath, "utf8")
 
@@ -303,8 +352,23 @@ function reduceTimeouts() {
   fs.writeFileSync(configPath, updatedConfigToml, "utf8")
 }
 
+function disableStrictAddressbook(nodeHome) {
+  const configPath = join(nodeHome, "config", "config.toml")
+  let configToml = fs.readFileSync(configPath, "utf8")
+
+  const updatedConfigToml = configToml
+    .split("\n")
+    .map(line => {
+      if (line.startsWith("addr_book_strict")) return "addr_book_strict = false"
+      return line
+    })
+    .join("\n")
+
+  fs.writeFileSync(configPath, updatedConfigToml, "utf8")
+}
+
 // save the version of the currently used gaia into the newly created network config folder
-function saveVersion() {
+function saveVersion(nodeHome) {
   return new Promise((resolve, reject) => {
     let versionFilePath = join(nodeHome, "config", "gaiaversion.txt") // nodeHome/config is used to copy created config files from, therefor we copy the version file in there
     const command = `${nodeBinary} version`
