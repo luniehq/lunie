@@ -2,7 +2,7 @@
 
 exports[`TmUserPane has the expected html structure 1`] = `
 <a
-  class="tm-li tm-li-link tm-li-user"
+  class="tm-li tm-li-link tm-li-user proposal-enter proposal-enter-active"
   href="#/preferences"
 >
   <div

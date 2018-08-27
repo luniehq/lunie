@@ -79,7 +79,7 @@ exports[`AppMenu has the expected html structure 1`] = `
       Connecting to network…
    </div>
 </div>
-   <a href=\\"#/preferences\\" class=\\"tm-li tm-li-link tm-li-user\\">
+   <a href=\\"#/preferences\\" class=\\"tm-li tm-li-link tm-li-user proposal-enter proposal-enter-active\\">
    <div class=\\"tm-li-container\\">
       <div class=\\"tm-li-thumb\\">
          <!---->
