@@ -73,6 +73,8 @@ export default ({ node }) => {
       // dispatch("queryWalletHistory") // is done on mounting transactions
     },
     async queryWalletBalances({ state, rootState, commit }) {
+      if (!state.address) return
+
       let res = await node.queryAccount(state.address)
       if (!res) {
         state.balancesLoading = false
