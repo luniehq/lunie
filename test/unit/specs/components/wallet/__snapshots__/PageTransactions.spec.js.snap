@@ -37,6 +37,16 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 <div
                   class="main"
                 >
+                  <a
+                    class="back"
+                    disabled="disabled"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
                   <a>
                     <i
                       class="material-icons"
@@ -52,22 +62,22 @@ exports[`PageTransactions has the expected html structure 1`] = `
                     </i>
                   </a>
                   <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
                     class="help"
                   >
                     <i
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
@@ -177,6 +187,16 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 <div
                   class="main"
                 >
+                  <a
+                    class="back"
+                    disabled="disabled"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
                   <a>
                     <i
                       class="material-icons"
@@ -192,22 +212,22 @@ exports[`PageTransactions should filter the transactions 1`] = `
                     </i>
                   </a>
                   <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
                     class="help"
                   >
                     <i
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a

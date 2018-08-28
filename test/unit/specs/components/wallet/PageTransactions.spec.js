@@ -83,7 +83,7 @@ describe("PageTransactions", () => {
   it("should show the search on click", () => {
     wrapper
       .findAll(".tm-tool-bar i")
-      .at(1)
+      .at(2)
       .trigger("click")
     wrapper.update()
     expect(wrapper.contains(".tm-modal-search")).toBe(true)
@@ -93,7 +93,7 @@ describe("PageTransactions", () => {
     wrapper.vm.refreshTransactions = jest.fn()
     wrapper
       .findAll(".tm-tool-bar i")
-      .at(0)
+      .at(1)
       .trigger("click")
     expect(wrapper.vm.refreshTransactions).toHaveBeenCalled()
   })

@@ -56,6 +56,16 @@ exports[`PageBond disables bonding if not connected 1`] = `
                     </i>
                   </a>
                   <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
+                    </i>
+                  </a>
+                  <a
                     id="signOut-btn"
                   >
                     <i
@@ -534,6 +544,16 @@ exports[`PageBond has the expected html structure 1`] = `
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
@@ -1034,6 +1054,16 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
