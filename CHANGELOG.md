@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.9.5] - 2018-08-28
+
 ### Added
 
 * added more information on validators page @faboweb
