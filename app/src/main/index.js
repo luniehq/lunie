@@ -744,7 +744,7 @@ async function main() {
     fs.writeFileSync(appVersionPath, pkg.version)
   }
 
-  checkGaiaCompatibility(gaiacliVersionPath)
+  await checkGaiaCompatibility(gaiacliVersionPath)
 
   // read chainId from genesis.json
   let genesisText = fs.readFileSync(genesisPath, "utf8")
