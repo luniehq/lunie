@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* added more information on validators page @faboweb
+* E2E environment for a multi validator setup @faboweb
+
 ### Changed
 
 * cache per network to not have side effects between networks @faboweb
+* removed animation from TmLi @okwme
 * publish script on CI now requires all tests to pass, so we are sure that the published Version runs @ƒaboweb
 * disable interaction buttons if not connected to the network, so user do not expect working interaction @faboweb
 * using a variable for determining staking denomination @jbibla
@@ -24,9 +30,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * fixed toggle bg color bug @okwme
 * import seed focus bug @okwme
 * fixed trying to subscribe to transaction rpc events multiple times (prevent unexpected side effects doing so) @faboweb
+* Reduce CHANGELOG.md conflicts. @NodeGuy
 * Refactored main process. @NodeGuy
 * CircleCI no longer runs test during a push to `release`. @NodeGuy
+* E2E tests not producing screenshots and not logging certain values @faboweb
 * Wallet balances updating after staking @okwme
+* Updated testnet build process @okwme
 
 ## [0.9.4] - 2018-08-08
 

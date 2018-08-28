@@ -1,3 +1,5 @@
+import axios from "axios"
+
 export default ({ node }) => {
   const emptyState = {
     delegates: [],
@@ -14,7 +16,6 @@ export default ({ node }) => {
     },
     addDelegate(state, delegate) {
       delegate.id = delegate.owner
-      Object.assign(delegate, delegate.description)
 
       // TODO: calculate voting power
       let divIdx = delegate.tokens.indexOf("/")
@@ -37,6 +38,16 @@ export default ({ node }) => {
       }
 
       state.delegates.push(delegate)
+    },
+    setKeybaseIdentity(
+      state,
+      { validatorOwner, avatarUrl, profileUrl, userName }
+    ) {
+      let validator = state.delegates.find(v => v.owner === validatorOwner)
+      if (!validator.keybase) validator.keybase = {}
+      validator.keybase.avatarUrl = avatarUrl
+      validator.keybase.profileUrl = profileUrl
+      validator.keybase.userName = userName
     }
   }
 
@@ -49,7 +60,7 @@ export default ({ node }) => {
     resetSessionData({ rootState }) {
       rootState.delegates = JSON.parse(JSON.stringify(emptyState))
     },
-    async getDelegates({ state, commit }) {
+    async getDelegates({ state, commit, dispatch }) {
       commit("setDelegateLoading", true)
       let candidates = await node.getCandidates()
       let { validators } = await node.getValidatorSet()
@@ -62,8 +73,32 @@ export default ({ node }) => {
 
       commit("setDelegates", candidates)
       commit("setDelegateLoading", false)
+      dispatch("updateValidatorAvatars")
 
       return state.delegates
+    },
+    async updateValidatorAvatars({ state, commit }) {
+      return Promise.all(
+        state.delegates.map(async validator => {
+          if (validator.description.identity && !validator.keybase) {
+            let urlPrefix =
+              "https://keybase.io/_/api/1.0/user/lookup.json?key_suffix="
+            let fullUrl = urlPrefix + validator.description.identity
+            let json = await axios.get(fullUrl)
+            if (json.data.status.name === "OK") {
+              let user = json.data.them[0]
+              if (user && user.pictures && user.pictures.primary) {
+                commit("setKeybaseIdentity", {
+                  validatorOwner: validator.owner,
+                  avatarUrl: user.pictures.primary.url,
+                  userName: user.basics.username,
+                  profileUrl: "https://keybase.io/" + user.basics.username
+                })
+              }
+            }
+          }
+        })
+      )
     }
   }
 

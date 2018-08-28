@@ -16,13 +16,24 @@ test("staking", async function(t) {
 
   let totalUserStake = 150
   let bondedStake = 100
-  let defaultValidatorMoniker = "local"
 
   t.test("overview", async function(t) {
-    await t.equal(
-      await app.client.$(".li-delegate__value.name").getText(),
-      defaultValidatorMoniker, // moniker of the local node set in launch.js
-      "show validators"
+    t.equal(
+      (await app.client.$$(".li-delegate")).length,
+      3,
+      "it shows both validators"
+    )
+    await t.ok(
+      await app.client.$(".name=local_1").isVisible(),
+      "show validator 1"
+    )
+    await t.ok(
+      await app.client.$(".name=local_2").isVisible(),
+      "show validator 2"
+    )
+    await t.ok(
+      await app.client.$(".name=local_3").isVisible(),
+      "show validator 3"
     )
 
     await t.equal(
@@ -75,17 +86,17 @@ test("staking", async function(t) {
     await app.client.$("#btn-bond").click()
 
     // should fail
-    t.ok(await app.client.isExisting(".tm-form-msg--error"), "shows error")
+    t.ok(await app.client.isVisible(".tm-form-msg--error"), "shows error")
 
     await app.client.$("#bond-confirm").click()
     await app.client.$("#btn-bond").click()
 
-    t.ok(!(await app.client.isExisting(".tm-form-msg--error")), "hides error")
+    t.ok(!(await app.client.isVisible(".tm-form-msg--error")), "hides error")
 
     bondedStake += 20
 
     // wait until the validators are showing again
-    await app.client.waitForExist("#go-to-bonding-btn", 10000)
+    await app.client.waitForVisible("#go-to-bonding-btn", 30000)
 
     t.equal(
       await app.client.$(".li-delegate__value.number_of_votes").getText(),
@@ -143,17 +154,17 @@ test("staking", async function(t) {
     await app.client.$("#btn-bond").click()
 
     // should fail
-    t.ok(await app.client.isExisting(".tm-form-msg--error"), "shows error")
+    t.ok(await app.client.isVisible(".tm-form-msg--error"), "shows error")
 
     await app.client.$("#bond-confirm").click()
     await app.client.$("#btn-bond").click()
 
-    t.ok(!(await app.client.isExisting(".tm-form-msg--error")), "hides error")
+    t.ok(!(await app.client.isVisible(".tm-form-msg--error")), "hides error")
 
     bondedStake -= 20
 
     // wait until the validators are showing again
-    await app.client.waitForExist("#go-to-bonding-btn", 10000)
+    await app.client.waitForVisible("#go-to-bonding-btn", 30000)
 
     t.equal(
       await app.client.$(".li-delegate__value.number_of_votes").getText(),

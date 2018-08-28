@@ -2,7 +2,7 @@
 
 let { app, BrowserWindow, ipcMain } = require("electron")
 let fs = require("fs-extra")
-let { join } = require("path")
+let { join, relative } = require("path")
 let { spawn } = require("child_process")
 let semver = require("semver")
 let toml = require("toml")
@@ -591,12 +591,16 @@ function checkConsistentConfigDir(
   configPath,
   gaiacliVersionPath
 ) {
-  if (
-    exists(genesisPath) &&
-    exists(appVersionPath) &&
-    exists(configPath) &&
-    exists(gaiacliVersionPath)
-  ) {
+  let missingFile =
+    (!exists(genesisPath) && genesisPath) ||
+    (!exists(appVersionPath) && appVersionPath) ||
+    (!exists(configPath) && configPath) ||
+    (!exists(gaiacliVersionPath) && gaiacliVersionPath)
+  if (missingFile) {
+    throw Error(
+      `The data directory (${root}) is missing ${relative(root, missingFile)}`
+    )
+  } else {
     let existingVersion = fs.readFileSync(appVersionPath, "utf8").trim()
     let semverDiff = semver.diff(existingVersion, pkg.version)
     let compatible = semverDiff !== "major" && semverDiff !== "minor"
@@ -608,8 +612,6 @@ function checkConsistentConfigDir(
       throw Error(`Data was created with an incompatible app version
         data=${existingVersion} app=${pkg.version}`)
     }
-  } else {
-    throw Error(`The data directory (${root}) has missing files`)
   }
 }
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo ###############################################################################
-echo Copying testnet configuration files.
+echo Copying testnet configuration files...
 echo ###############################################################################
 
 # Generate config.toml for each network.
