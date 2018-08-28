@@ -20,13 +20,8 @@ exports[`PageValidator has the expected html structure 1`] = `
             herr_schmidt_revoked - (a2b3c)
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -572,13 +567,8 @@ exports[`PageValidator shows a default avatar 1`] = `
             herr_schmidt_revoked - (a2b3c)
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -1104,13 +1094,8 @@ exports[`PageValidator shows a default value if no moniker is set 1`] = `
             Anonymous - (a2b3c)
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -1636,13 +1621,8 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
             Validator Not Found
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"

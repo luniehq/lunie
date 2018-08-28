@@ -13,19 +13,97 @@ exports[`PageWallet has the expected html structure 1`] = `
       <div
         class="tm-page-header-text"
       >
+        <!---->
+        <!---->
         <div
-          class="tm-page-header-title"
+          class="tm-page-header-body"
         >
-          <h2>
-            Wallet
-          </h2>
-        </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <img
+                class="icon"
+                src="~assets/images/cosmos-logo.png"
+              />
+              <div
+                class="total-atoms"
+              >
+                <div
+                  class="h3"
+                >
+                  Total Steak
+                </div>
+                <div
+                  class="h2"
+                >
+                  123
+                </div>
+              </div>
+              <div
+                class="unstaked-atoms"
+              >
+                <div
+                  class="h3"
+                >
+                  Unstaked Steak
+                </div>
+                <div
+                  class="h2"
+                >
+                  ---
+                </div>
+              </div>
+              <!---->
+              <div
+                class="total-rewards"
+              >
+                <div
+                  class="h3"
+                >
+                  Total Rewards
+                </div>
+                <div
+                  class="group"
+                >
+                  <div
+                    class="h2"
+                  >
+                    ---
+                  </div>
+                  <a
+                    class=""
+                    href="#/claim"
+                  >
+                    Claim
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="bottom"
+            >
+              <div
+                class="address"
+              >
+                
+              </div>
+              <div
+                class="success"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <menu
@@ -414,19 +492,97 @@ exports[`PageWallet should filter the balances 1`] = `
       <div
         class="tm-page-header-text"
       >
+        <!---->
+        <!---->
         <div
-          class="tm-page-header-title"
+          class="tm-page-header-body"
         >
-          <h2>
-            Wallet
-          </h2>
-        </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <img
+                class="icon"
+                src="~assets/images/cosmos-logo.png"
+              />
+              <div
+                class="total-atoms"
+              >
+                <div
+                  class="h3"
+                >
+                  Total Steak
+                </div>
+                <div
+                  class="h2"
+                >
+                  123
+                </div>
+              </div>
+              <div
+                class="unstaked-atoms"
+              >
+                <div
+                  class="h3"
+                >
+                  Unstaked Steak
+                </div>
+                <div
+                  class="h2"
+                >
+                  ---
+                </div>
+              </div>
+              <!---->
+              <div
+                class="total-rewards"
+              >
+                <div
+                  class="h3"
+                >
+                  Total Rewards
+                </div>
+                <div
+                  class="group"
+                >
+                  <div
+                    class="h2"
+                  >
+                    ---
+                  </div>
+                  <a
+                    class=""
+                    href="#/claim"
+                  >
+                    Claim
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="bottom"
+            >
+              <div
+                class="address"
+              >
+                
+              </div>
+              <div
+                class="success"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <menu

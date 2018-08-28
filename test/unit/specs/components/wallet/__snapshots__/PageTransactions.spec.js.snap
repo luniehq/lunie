@@ -20,13 +20,8 @@ exports[`PageTransactions has the expected html structure 1`] = `
             Transactions
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -165,13 +160,8 @@ exports[`PageTransactions should filter the transactions 1`] = `
             Transactions
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
