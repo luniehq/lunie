@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmToolBar has the expected html structure 1`] = `"<div class=\\"tm-tool-bar\\"><div class=\\"tm-tool-bar-container\\"><div class=\\"main\\"><a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a></div></div></div>"`;
+
+exports[`VmToolBar has the expected html structure 1`] = `"<div class=\\"tm-tool-bar\\"><div class=\\"tm-tool-bar-container\\"><div class=\\"main\\"><a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a></div></div></div>"`;

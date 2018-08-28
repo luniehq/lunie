@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page(title="Preferences")
-  div(slot="menu"): tool-bar
+  div(slot="menu"): vm-tool-bar
 
   tm-modal(:close="setAbout", v-if="showAbout")
     div(slot="title") About Cosmos Voyager
@@ -55,7 +55,7 @@ tm-page(title="Preferences")
 import { mapGetters, mapMutations } from "vuex"
 import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
 import { remote } from "electron"
-import ToolBar from "common/TmToolBar"
+import VmToolBar from "common/VmToolBar"
 import TmModal from "common/TmModal"
 
 export default {
@@ -66,7 +66,7 @@ export default {
     TmListItem,
     TmPage,
     TmPart,
-    ToolBar,
+    VmToolBar,
     TmModal
   },
   computed: {
