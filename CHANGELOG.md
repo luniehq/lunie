@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * added more information on validators page @faboweb
+* E2E environment for a multi validator setup @faboweb
 
 ### Changed
 
