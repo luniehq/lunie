@@ -3,6 +3,8 @@ let fs = require("fs-extra")
 let { join } = require("path")
 let { getApp, startApp, stop } = require("./launch.js")
 
+// !!!!!! NEEDS TO BE LAST TEST AS IT MESSES WITH THE KEYS AND LOGS
+
 // tests for initialization and failover over the application as well as handling of configuration files
 test("initialization", async function(t) {
   let { app, cliHome } = await getApp(t)
