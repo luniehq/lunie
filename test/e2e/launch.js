@@ -238,7 +238,8 @@ async function handleCrash(app, error) {
 function startLocalNode(number, nodeOneId = "") {
   return new Promise((resolve, reject) => {
     const defaultStartPort = 26656
-    let command = `${nodeBinary} start --home ${nodeHome}_${number}`
+    const thisNodeHome = `${nodeHome}_${number}`
+    let command = `${nodeBinary} start --home ${thisNodeHome}`
     if (number > 1) {
       command += ` --p2p.laddr=tcp://0.0.0.0:${defaultStartPort -
         (number - 1) * 3} --address=tcp://0.0.0.0:${defaultStartPort -
@@ -249,14 +250,23 @@ function startLocalNode(number, nodeOneId = "") {
     }
     console.log(command)
     const localnodeProcess = spawn(command, { shell: true })
+
+    // log output for debugging
+    const logPath = join(thisNodeHome, "process.log")
+    console.log("Redirecting node " + number + " output to " + logPath)
+    fs.createFileSync(logPath)
+    let logStream = fs.createWriteStream(logPath, { flags: "a" })
+    localnodeProcess.stdout.pipe(logStream)
+
     localnodeProcess.stderr.pipe(process.stderr)
 
+    // wait for a message about a block being produced
     function listener(data) {
       let msg = data.toString()
 
-      console.log("NODE_" + number + "\n" + msg)
       if (msg.includes("Block{")) {
         localnodeProcess.stdout.removeListener("data", listener)
+        console.log("Node " + number + " is running")
         resolve()
       }
 
@@ -264,6 +274,8 @@ function startLocalNode(number, nodeOneId = "") {
         reject(msg)
       }
     }
+
+    console.log("Waiting for first block on node " + number)
     localnodeProcess.stdout.on("data", listener)
 
     localnodeProcess.once("exit", reject)
