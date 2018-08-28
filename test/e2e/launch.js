@@ -157,8 +157,8 @@ async function writeLogs(app, location) {
     log => !/CONSOLE\(/g.test(log)
   ) // ignore renderer process output, which is also written to main process logs
   const rendererProcessLogs = await app.client.getRenderProcessLogs()
-  fs.writeFileSync(mainProcessLogLocation, mainProcessLogs.join("\n"), "utf8")
-  fs.writeFileSync(
+  fs.appendFileSync(mainProcessLogLocation, mainProcessLogs.join("\n"), "utf8")
+  fs.appendFileSync(
     rendererProcessLogLocation,
     rendererProcessLogs.map(log => log.message).join("\n"),
     "utf8"
@@ -342,6 +342,10 @@ module.exports = {
   getApp: launch,
   restart: async function(app, awaitingSelector = ".tm-session-title=Sign In") {
     console.log("restarting app")
+    console.log("collecting app logs")
+    if (process.env.CI) {
+      await writeLogs(app, testDir)
+    }
     await stop(app)
     await startApp(app, awaitingSelector)
   },
