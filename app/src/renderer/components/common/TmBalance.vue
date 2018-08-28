@@ -33,15 +33,15 @@ export default {
     }
   },
   props: {
-    "unstaked-atoms": {
+    unstakedAtoms: {
       type: Boolean,
       default: false
     },
-    "total-rewards": {
+    totalEarnings: {
       type: Boolean,
       default: false
     },
-    "total-earnings": {
+    totalRewards: {
       type: Boolean,
       default: false
     }
@@ -52,13 +52,13 @@ export default {
       return this.user.atoms || "---"
     },
     totalRewardsVal() {
-      return null || "---"
+      return null || "---" // TODO: where do these come from?
     },
     address() {
       return this.user.address
     },
     totalEarningsVal() {
-      return null || "---"
+      return null || "---" // TODO: where do these come from?
     }
   },
   methods: {
