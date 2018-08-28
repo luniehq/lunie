@@ -10,7 +10,7 @@ let Raven = require("raven")
 let _ = require("lodash")
 let axios = require("axios")
 
-let Addressbook = require("./addressbook.js")
+const gaiaLite = require(`./gaiaLite`)
 let pkg = require("../../../package.json")
 let addMenu = require("./menu.js")
 let config = require("../config.js")
@@ -526,60 +526,40 @@ async function getNodeVersion() {
   return nodeVersion
 }
 
-// test an actual node version against the expected one and flag the node if incompatible
-async function testNodeVersion(nodeIP, expectedGaiaVersion, addressbook) {
-  let nodeVersion = await getNodeVersion(nodeIP)
-  let semverDiff = semver.diff(nodeVersion, expectedGaiaVersion)
-  if (semverDiff === "patch" || semverDiff === null) {
-    return { compatible: true, nodeVersion }
+// pick a random node and check if the SDK version is compatible with ours
+async function pickAndConnect(nodes) {
+  while (nodes.length > 0) {
+    connecting = true
+
+    // pick a random node
+    const nodeIndex = Math.floor(Math.random() * nodes.length)
+    const nodeIP = nodes[nodeIndex]
+
+    await connect(nodeIP)
+    let nodeVersion
+
+    try {
+      nodeVersion = getNodeVersion()
+    } catch (err) {
+      logError(
+        "Error in getting node SDK version, assuming node is incompatible. Error:",
+        err
+      )
+    }
+
+    if (gaiaLite.nodeVersionCompatible(expectedGaiaCliVersion, nodeVersion)) {
+      return
+    } else {
+      let message = `Node ${nodeIP} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
+      log(message)
+      mainWindow.webContents.send("connection-status", message)
+
+      // Remove incompatible node from pool.
+      nodes.splice(nodeIndex, 1)
+    }
   }
 
-  addressbook.flagNodeIncompatible(nodeIP)
-  return { compatible: false, nodeVersion }
-}
-
-// pick a random node from the addressbook and check if the SDK version is compatible with ours
-async function pickAndConnect(addressbook) {
-  let nodeIP
-  connecting = true
-
-  try {
-    nodeIP = await addressbook.pickNode()
-  } catch (err) {
-    connecting = false
-    signalNoNodesAvailable()
-    return
-  }
-
-  await connect(nodeIP)
-
-  let compatible, nodeVersion
-  try {
-    const out = await testNodeVersion(
-      nodeIP,
-      expectedGaiaCliVersion,
-      addressbook
-    )
-    compatible = out.compatible
-    nodeVersion = out.nodeVersion
-  } catch (err) {
-    logError(
-      "Error in getting node SDK version, assuming node is incompatible. Error:",
-      err
-    )
-    addressbook.flagNodeIncompatible(nodeIP)
-    return await pickAndConnect(addressbook)
-  }
-
-  if (!compatible) {
-    let message = `Node ${nodeIP} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
-    log(message)
-    mainWindow.webContents.send("connection-status", message)
-
-    return await pickAndConnect(addressbook)
-  }
-
-  return nodeIP
+  signalNoNodesAvailable()
 }
 
 async function connect(nodeIP) {
@@ -635,6 +615,57 @@ function checkConsistentConfigDir(
   }
 }
 
+const ensureCorrectGenesisFile = (
+  appVersionPath,
+  genesisPath,
+  configPath,
+  gaiacliVersionPath
+) => {
+  // NOTE: when changing this code, always make sure the app can never
+  // overwrite/delete existing data without at least backing it up,
+  // since it may contain the user's private keys and they might not
+  // have written down their seed words.
+  // they might get pretty mad if the app deletes their money!
+
+  // check if the existing data came from a compatible app version
+  // if not, fail with an error
+  checkConsistentConfigDir(
+    appVersionPath,
+    genesisPath,
+    configPath,
+    gaiacliVersionPath
+  )
+
+  // check to make sure the genesis.json we want to use matches the one
+  // we already have. if it has changed, replace it with the new one
+  let existingGenesis = fs.readFileSync(genesisPath, "utf8")
+  let genesisJSON = JSON.parse(existingGenesis)
+  // skip this check for local testnet
+  if (genesisJSON.chain_id !== "local") {
+    let specifiedGenesis = fs.readFileSync(
+      join(networkPath, "genesis.json"),
+      "utf8"
+    )
+    if (existingGenesis.trim() !== specifiedGenesis.trim()) {
+      fs.copySync(networkPath, root)
+      log(
+        `genesis.json at "${genesisPath}" was overridden by genesis.json from "${networkPath}"`
+      )
+    }
+  }
+}
+
+const initializeDataDirectory = async appVersionPath => {
+  log(`initializing data directory (${root})`)
+  await fs.ensureDir(root)
+
+  // copy predefined genesis.json and config.toml into root
+  fs.accessSync(networkPath) // crash if invalid path
+  fs.copySync(networkPath, root)
+
+  fs.writeFileSync(appVersionPath, pkg.version)
+}
+
 const checkGaiaCompatibility = async gaiacliVersionPath => {
   // XXX: currently ignores commit hash
   let gaiacliVersion = (await getGaiacliVersion()).split("-")[0]
@@ -658,25 +689,55 @@ const checkGaiaCompatibility = async gaiacliVersionPath => {
   }
 }
 
-const getPersistentPeers = configPath => {
+const getSeedNodes = configPath => {
   // TODO: user-specified nodes, support switching?
   // TODO: use address to prevent MITM if specified
 
   let configText = fs.readFileSync(configPath, "utf8") // checked before if the file exists
   let configTOML = toml.parse(configText)
 
-  const persistent_peers = _.uniq(
+  const seeds = _.uniq(
     (configTOML.p2p.persistent_peers + "," + configTOML.p2p.seeds)
       .split(",")
       .filter(x => x !== "")
       .map(x => (x.indexOf("@") !== -1 ? x.split("@")[1] : x))
   )
 
-  if (persistent_peers.length === 0) {
+  if (seeds.length === 0) {
     throw new Error("No seeds specified in config.toml")
   } else {
-    return persistent_peers
+    return seeds
   }
+}
+
+const nodePeers = async node =>
+  gaiaLite.peersFromNodeResponse(
+    await axios.get(`http://${node}:${config.default_tendermint_port}/net_info`)
+  )
+
+const onConnectionMessage = message => {
+  log(message)
+  mainWindow.webContents.send("connection-status", message)
+}
+
+// Get a list of nodes from which to choose.
+const getNodes = async configPath => {
+  const seeds = getSeedNodes(configPath)
+
+  // Load nodes we've seen before.
+  const cachedNodesPath = join(root, "cachedNodes.json")
+  const cachedNodes = JSON.parse(fs.readFileSync(cachedNodesPath))
+
+  const nodes = await gaiaLite.discoverResponsiveNodes({
+    nodePeers,
+    onConnectionMessage,
+    seeds: seeds.concat(cachedNodes)
+  })
+
+  // Remember the nodes we discover.
+  fs.writeFile(cachedNodesPath, JSON.stringify(nodes))
+
+  return nodes
 }
 
 async function main() {
@@ -696,71 +757,29 @@ async function main() {
   if (rootExists) {
     log(`root exists (${root})`)
 
-    // NOTE: when changing this code, always make sure the app can never
-    // overwrite/delete existing data without at least backing it up,
-    // since it may contain the user's private keys and they might not
-    // have written down their seed words.
-    // they might get pretty mad if the app deletes their money!
-
-    // check if the existing data came from a compatible app version
-    // if not, fail with an error
-    checkConsistentConfigDir(
+    ensureCorrectGenesisFile(
       appVersionPath,
       genesisPath,
       configPath,
       gaiacliVersionPath
     )
-
-    // check to make sure the genesis.json we want to use matches the one
-    // we already have. if it has changed, replace it with the new one
-    let existingGenesis = fs.readFileSync(genesisPath, "utf8")
-    let genesisJSON = JSON.parse(existingGenesis)
-    // skip this check for local testnet
-    if (genesisJSON.chain_id !== "local") {
-      let specifiedGenesis = fs.readFileSync(
-        join(networkPath, "genesis.json"),
-        "utf8"
-      )
-      if (existingGenesis.trim() !== specifiedGenesis.trim()) {
-        fs.copySync(networkPath, root)
-        log(
-          `genesis.json at "${genesisPath}" was overridden by genesis.json from "${networkPath}"`
-        )
-      }
-    }
   } else {
-    log(`initializing data directory (${root})`)
-    await fs.ensureDir(root)
-
-    // copy predefined genesis.json and config.toml into root
-    fs.accessSync(networkPath) // crash if invalid path
-    fs.copySync(networkPath, root)
-
-    fs.writeFileSync(appVersionPath, pkg.version)
+    await initializeDataDirectory(appVersionPath)
   }
 
-  checkGaiaCompatibility(gaiacliVersionPath)
+  await checkGaiaCompatibility(gaiacliVersionPath)
 
   // read chainId from genesis.json
   let genesisText = fs.readFileSync(genesisPath, "utf8")
   let genesis = JSON.parse(genesisText)
   chainId = genesis.chain_id // is set globaly
 
-  // pick a random seed node from config.toml if not using COSMOS_NODE envvar
-  const persistent_peers = process.env.COSMOS_NODE
-    ? []
-    : getPersistentPeers(configPath)
-
-  addressbook = new Addressbook(config, root, {
-    persistent_peers,
-    onConnectionMessage: message => {
-      log(message)
-      mainWindow.webContents.send("connection-status", message)
-    }
-  })
+  const nodes = process.env.COSMOS_NODE
+    ? [process.env.COSMOS_NODE]
+    : getNodes(configPath)
 
   // choose one random node to start from
-  await pickAndConnect(addressbook)
+  await pickAndConnect(nodes)
 
   // TODO reenable when we need LCD init
   // let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))

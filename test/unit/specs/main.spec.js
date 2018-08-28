@@ -195,15 +195,9 @@ describe("Startup Process", () => {
       let { send } = require("electron")
       send.mockClear()
 
-      jest.doMock(
-        "app/src/main/addressbook.js",
-        () =>
-          class MockAddressbook {
-            async pickNode() {
-              throw Error("no nodes")
-            }
-          }
-      )
+      jest.doMock("app/src/main/gaiaLite.js", () => ({
+        discoverResponsiveNodes: async () => []
+      }))
 
       // run main
       main = await require(appRoot + "src/main/index.js")
@@ -217,53 +211,6 @@ describe("Startup Process", () => {
       expect(
         send.mock.calls.filter(([type]) => type === "error")[0][1].code
       ).toBe("NO_NODES_AVAILABLE")
-    })
-
-    it("should look for a node with a compatible SDK version", async () => {
-      main.shutdown()
-      prepareMain()
-      const mockAxiosGet = jest
-        .fn()
-        .mockReturnValueOnce(Promise.resolve({ data: "0.1.0" })) // should fail as expected version is 0.13.0
-        .mockReturnValueOnce(Promise.resolve({ data: "0.13.2" })) // should succeed as in semver range
-      // mock the version check request
-      jest.doMock("axios", () => ({
-        get: mockAxiosGet
-      }))
-      let { send } = require("electron")
-      send.mockClear()
-
-      // run main
-      main = await require(appRoot + "src/main/index.js")
-
-      expect(mockAxiosGet).toHaveBeenCalledTimes(2)
-      expect(send).toHaveBeenCalledWith("connected", "127.0.0.1:46657")
-    })
-
-    it("should mark a version incompatible if getting the SDK version fails", async () => {
-      main.shutdown()
-      prepareMain()
-
-      // TODO replace with mockRejectOnce when updated jest
-      let i = 0
-      jest.doMock("axios", () => ({
-        get: async () => {
-          if (i++ === 0) {
-            return Promise.reject("X")
-          }
-          return Promise.resolve({ data: "0.13.2" })
-        }
-      }))
-      let nodeIncompatibleSpy = jest.fn()
-      require("app/src/main/addressbook.js").prototype.flagNodeIncompatible = nodeIncompatibleSpy
-      let { send } = require("electron")
-      send.mockClear()
-
-      // run main
-      main = await require(appRoot + "src/main/index.js")
-
-      expect(nodeIncompatibleSpy).toHaveBeenCalledWith("127.0.0.1:46657")
-      expect(send).toHaveBeenCalledWith("connected", "127.0.0.1:46657") // check we still connect to a node. it shows the same node as pickNode always returns "127.0.0.1:46657" in tests
     })
   })
 
