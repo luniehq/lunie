@@ -5,6 +5,8 @@ let test = require("tape-promise/tape")
 let electron = require("electron")
 let { join } = require("path")
 let { spawn } = require("child_process")
+const util = require("util")
+const exec = util.promisify(require("child_process").exec)
 let fs = require("fs-extra")
 
 const testDir = join(__dirname, "../../testArtifacts")
@@ -49,14 +51,33 @@ function launch(t) {
       console.error(`ui home: ${cliHome}`)
       console.error(`node home: ${nodeHome}`)
 
-      fs.removeSync(cliHome)
-      fs.removeSync(nodeHome)
+      fs.removeSync("testArtifacts")
 
-      const initValues = await initLocalNode()
-      reduceTimeouts()
-      await startLocalNode()
-      console.log(`Started local node.`)
-      await saveVersion()
+      // setup first node
+      const initValues = await initLocalNode(1)
+      const nodeOneHome = nodeHome + "_1"
+      let genesis = fs.readJSONSync(join(nodeOneHome, "config/genesis.json"))
+      const nodeOneId = await getNodeId(nodeOneHome)
+      reduceTimeouts(nodeOneHome)
+      disableStrictAddressbook(nodeOneHome)
+
+      // setup additional nodes
+      genesis = await addValidatorNode(2, genesis)
+      genesis = await addValidatorNode(3, genesis)
+
+      // we need to write back the updated genesis
+      writeGenesis(genesis, nodeOneHome)
+      writeGenesis(genesis, nodeHome + "_2")
+      writeGenesis(genesis, nodeHome + "_3")
+
+      // wait until all nodes are showing blocks, so we know they are running
+      await Promise.all([
+        startLocalNode(1),
+        startLocalNode(2, nodeOneId),
+        startLocalNode(3, nodeOneId)
+      ])
+      console.log(`Started local nodes.`)
+      await saveVersion(nodeHome + "_1")
 
       app = new Application({
         path: electron,
@@ -73,7 +94,7 @@ function launch(t) {
           PREVIEW: "true",
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
           COSMOS_HOME: cliHome,
-          COSMOS_NETWORK: join(nodeHome, "config"),
+          COSMOS_NETWORK: join(nodeHome + "_1", "config"),
           COSMOS_MOCKED: false, // the e2e tests expect mocking to be switched off
           BINARY_PATH: binary
         }
@@ -218,30 +239,59 @@ async function handleCrash(app, error) {
   }
 }
 
-function startLocalNode() {
+// start a node and connect it to nodeOne
+// nodeOne is used as a persistent peer for all the other nodes
+// wait for blocks to show as a proof, the node is running correctly
+function startLocalNode(number, nodeOneId = "") {
   return new Promise((resolve, reject) => {
-    const command = `${nodeBinary} start --home ${nodeHome}`
+    const defaultStartPort = 26656
+    const thisNodeHome = `${nodeHome}_${number}`
+    let command = `${nodeBinary} start --home ${thisNodeHome}`
+    if (number > 1) {
+      command += ` --p2p.laddr=tcp://0.0.0.0:${defaultStartPort -
+        (number - 1) * 3} --address=tcp://0.0.0.0:${defaultStartPort -
+        (number - 1) * 3 +
+        1} --rpc.laddr=tcp://0.0.0.0:${defaultStartPort -
+        (number - 1) * 3 +
+        2} --p2p.persistent_peers="${nodeOneId}@localhost:${defaultStartPort}"`
+    }
     console.log(command)
     const localnodeProcess = spawn(command, { shell: true })
+
+    // log output for debugging
+    const logPath = join(thisNodeHome, "process.log")
+    console.log("Redirecting node " + number + " output to " + logPath)
+    fs.createFileSync(logPath)
+    let logStream = fs.createWriteStream(logPath, { flags: "a" })
+    localnodeProcess.stdout.pipe(logStream)
+
     localnodeProcess.stderr.pipe(process.stderr)
 
-    localnodeProcess.stdout.once("data", data => {
+    // wait for a message about a block being produced
+    function listener(data) {
       let msg = data.toString()
 
-      if (!msg.includes("Failed") && !msg.includes("Error")) {
+      if (msg.includes("Block{")) {
+        localnodeProcess.stdout.removeListener("data", listener)
+        console.log("Node " + number + " is running")
         resolve()
-      } else {
+      }
+
+      if (msg.includes("Failed") || msg.includes("Error")) {
         reject(msg)
       }
-    })
+    }
+
+    console.log("Waiting for first block on node " + number)
+    localnodeProcess.stdout.on("data", listener)
 
     localnodeProcess.once("exit", reject)
   })
 }
 
-function initLocalNode() {
+function initLocalNode(number = 1) {
   return new Promise((resolve, reject) => {
-    const command = `${nodeBinary} init --home ${nodeHome} --name local --owk --overwrite`
+    const command = `${nodeBinary} init --home ${nodeHome}_${number} --chain-id=test_chain --name local_${number} --owk --overwrite`
     console.log(command)
     const localnodeProcess = spawn(command, { shell: true })
     localnodeProcess.stderr.pipe(process.stderr)
@@ -262,7 +312,65 @@ function initLocalNode() {
   })
 }
 
-function reduceTimeouts() {
+// init a node and define it as a validator
+async function addValidatorNode(number, genesis) {
+  let newNodeHome = nodeHome + "_" + number
+
+  await initLocalNode(number)
+
+  const newNodePubKey = getValidatorPublicKey(newNodeHome)
+  const newNodeOwner = getValidatorOwner(newNodeHome)
+
+  addValidator(genesis, newNodePubKey, newNodeOwner, number)
+  reduceTimeouts(newNodeHome)
+  disableStrictAddressbook(newNodeHome)
+
+  return genesis
+}
+
+async function getNodeId(node_home) {
+  let command = `${nodeBinary} tendermint show_node_id --home ${node_home}`
+  console.log(command)
+  const { stdout } = await exec(command)
+  return stdout.trim()
+}
+
+function getValidatorPublicKey(node_home) {
+  let privValidatorKeys = fs.readJSONSync(
+    join(node_home, "config/priv_validator.json")
+  )
+  return privValidatorKeys.pub_key
+}
+
+function getValidatorOwner(node_home) {
+  let genesis = fs.readJSONSync(join(node_home, "config/genesis.json"))
+
+  return genesis.app_state.stake.validators[0].owner
+}
+
+function addValidator(genesis, pub_key, owner, number) {
+  genesis.validators.push({
+    pub_key,
+    power: "50",
+    name: ""
+  })
+  let newStakeValidator = JSON.parse(
+    JSON.stringify(genesis.app_state.stake.validators[0])
+  )
+  newStakeValidator.pub_key = pub_key
+  newStakeValidator.owner = owner
+  newStakeValidator.tokens = "50"
+  newStakeValidator.delegator_shares = "50"
+  newStakeValidator.description.moniker = "local_" + number
+  genesis.app_state.stake.validators.push(newStakeValidator)
+  genesis.app_state.stake.pool.loose_tokens += 50
+}
+
+function writeGenesis(genesis, node_home) {
+  fs.writeJSONSync(join(node_home, "config/genesis.json"), genesis)
+}
+
+function reduceTimeouts(nodeHome) {
   const configPath = join(nodeHome, "config", "config.toml")
   let configToml = fs.readFileSync(configPath, "utf8")
 
@@ -290,8 +398,23 @@ function reduceTimeouts() {
   fs.writeFileSync(configPath, updatedConfigToml, "utf8")
 }
 
+function disableStrictAddressbook(nodeHome) {
+  const configPath = join(nodeHome, "config", "config.toml")
+  let configToml = fs.readFileSync(configPath, "utf8")
+
+  const updatedConfigToml = configToml
+    .split("\n")
+    .map(line => {
+      if (line.startsWith("addr_book_strict")) return "addr_book_strict = false"
+      return line
+    })
+    .join("\n")
+
+  fs.writeFileSync(configPath, updatedConfigToml, "utf8")
+}
+
 // save the version of the currently used gaia into the newly created network config folder
-function saveVersion() {
+function saveVersion(nodeHome) {
   return new Promise((resolve, reject) => {
     let versionFilePath = join(nodeHome, "config", "gaiaversion.txt") // nodeHome/config is used to copy created config files from, therefor we copy the version file in there
     const command = `${nodeBinary} version`
