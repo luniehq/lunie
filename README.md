@@ -265,6 +265,8 @@ $ rm -rf package-lock.json
 
 - If `yarn test:e2e` outputs an error about ChromeDriver timeout, remove your node_modules folder and reinstall all dependencies.
 
+* The version mismatch (`The network you are trying to connect to requires gaia X, but the version Voyager is using is Y.`) is testing the gaia version in `/builds/Gaia/...` against the one specified in the config dir `~/.cosmos-voyager[-dev]/{NETWORK}/gaiaversion.txt`. If you now, that you have the correct version, change the version in `gaiaversion.txt`.
+
 ---
 
 ## ✌️
