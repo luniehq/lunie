@@ -653,8 +653,13 @@ const checkGaiaCompatibility = async gaiacliVersionPath => {
     semver.minor(gaiacliVersion) == semver.minor(expectedGaiaCliVersion)
 
   if (!compatible) {
-    throw Error(`Requires gaia ${expectedGaiaCliVersion}, but got ${gaiacliVersion}.
-      Please update your gaiacli installation or build with a newer binary.`)
+    throw Error(
+      `The network you are trying to connect to requires gaia ${expectedGaiaCliVersion}, but the version Voyager is using is ${gaiacliVersion}.${
+        DEV
+          ? ' Please update "tasks/build/Gaia/COMMIT.sh" with the required version and run "yarn build:gaia".'
+          : ""
+      }`
+    )
   }
 }
 
