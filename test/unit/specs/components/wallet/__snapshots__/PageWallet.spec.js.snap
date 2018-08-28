@@ -3,6 +3,7 @@
 exports[`PageWallet has the expected html structure 1`] = `
 <div
   class="tm-page"
+  data-title="Wallet"
 >
   <header
     class="tm-page-header"
@@ -469,6 +470,7 @@ exports[`PageWallet has the expected html structure 1`] = `
 exports[`PageWallet should filter the balances 1`] = `
 <div
   class="tm-page"
+  data-title="Wallet"
 >
   <header
     class="tm-page-header"
