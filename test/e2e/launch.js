@@ -123,7 +123,14 @@ async function setupAccounts(initValues) {
 
 async function stop(app) {
   console.log("Stopping app")
-  if (app && app.isRunning()) await app.stop()
+  if (app && app.isRunning()) {
+    if (process.env.CI) {
+      // we need to collect the app process output as it will be reset when the app is stopped
+      console.log("collecting app logs")
+      await writeLogs(app, testDir)
+    }
+    await app.stop()
+  }
   console.log("App stopped")
 }
 
@@ -342,10 +349,6 @@ module.exports = {
   getApp: launch,
   restart: async function(app, awaitingSelector = ".tm-session-title=Sign In") {
     console.log("restarting app")
-    if (process.env.CI && app.isRunning()) {
-      console.log("collecting app logs")
-      await writeLogs(app, testDir)
-    }
     await stop(app)
     await startApp(app, awaitingSelector)
   },
