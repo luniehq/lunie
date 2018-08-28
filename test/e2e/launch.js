@@ -342,8 +342,8 @@ module.exports = {
   getApp: launch,
   restart: async function(app, awaitingSelector = ".tm-session-title=Sign In") {
     console.log("restarting app")
-    console.log("collecting app logs")
-    if (process.env.CI) {
+    if (process.env.CI && app.isRunning()) {
+      console.log("collecting app logs")
       await writeLogs(app, testDir)
     }
     await stop(app)
