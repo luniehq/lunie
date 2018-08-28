@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page
+tm-page(data-title="Wallet")
   template(slot="menu-body"): tm-balance(unstakedAtoms, :totalRewards="totalRewards")
   div(slot="menu")
     vm-tool-bar

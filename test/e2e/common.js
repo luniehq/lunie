@@ -48,7 +48,12 @@ module.exports = {
     await module.exports.openMenu(app)
     // click link
     await app.client.$(`a*=${linkText}`).click()
-    await app.client.waitUntilTextExists(".tm-page-header-title", titleText)
+    try {
+      await app.client.waitUntilTextExists(".tm-page-header-title", titleText)
+    } catch (error) {
+      console.log(error)
+      await app.client.waitForExist(`[data-title='${titleText}']`)
+    }
     console.log(`navigated to "${linkText}"`)
   },
   async navigateToPreferences(app) {
