@@ -2,7 +2,7 @@ import setup from "../../../helpers/vuex-setup"
 import TmBalance from "common/TmBalance"
 
 describe("TmBalance", () => {
-  let wrapper, store
+  let wrapper
   let { mount } = setup()
 
   beforeEach(() => {
@@ -20,7 +20,6 @@ describe("TmBalance", () => {
       }
     })
     wrapper = instance.wrapper
-    store = instance.store
     wrapper.update()
   })
 

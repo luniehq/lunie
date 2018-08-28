@@ -57,30 +57,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 </div>
               </div>
               <!---->
-              <div
-                class="total-rewards"
-              >
-                <div
-                  class="h3"
-                >
-                  Total Rewards
-                </div>
-                <div
-                  class="group"
-                >
-                  <div
-                    class="h2"
-                  >
-                    ---
-                  </div>
-                  <a
-                    class=""
-                    href="#/claim"
-                  >
-                    Claim
-                  </a>
-                </div>
-              </div>
+              <!---->
             </div>
             <div
               class="bottom"
@@ -536,30 +513,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 </div>
               </div>
               <!---->
-              <div
-                class="total-rewards"
-              >
-                <div
-                  class="h3"
-                >
-                  Total Rewards
-                </div>
-                <div
-                  class="group"
-                >
-                  <div
-                    class="h2"
-                  >
-                    ---
-                  </div>
-                  <a
-                    class=""
-                    href="#/claim"
-                  >
-                    Claim
-                  </a>
-                </div>
-              </div>
+              <!---->
             </div>
             <div
               class="bottom"

@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page
-  template(slot="menu-body"): tm-balance(unstakedAtoms, totalRewards)
+  template(slot="menu-body"): tm-balance(unstakedAtoms, :totalRewards="totalRewards")
   div(slot="menu")
     vm-tool-bar
       a(@click='connected && updateBalances()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
