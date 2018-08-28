@@ -96,7 +96,7 @@ test("staking", async function(t) {
     bondedStake += 20
 
     // wait until the validators are showing again
-    await app.client.waitForVisible("#go-to-bonding-btn", 10000)
+    await app.client.waitForVisible("#go-to-bonding-btn", 30000)
 
     t.equal(
       await app.client.$(".li-delegate__value.number_of_votes").getText(),
@@ -164,7 +164,7 @@ test("staking", async function(t) {
     bondedStake -= 20
 
     // wait until the validators are showing again
-    await app.client.waitForVisible("#go-to-bonding-btn", 10000)
+    await app.client.waitForVisible("#go-to-bonding-btn", 30000)
 
     t.equal(
       await app.client.$(".li-delegate__value.number_of_votes").getText(),
