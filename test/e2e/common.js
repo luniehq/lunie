@@ -51,6 +51,7 @@ module.exports = {
     try {
       await app.client.waitUntilTextExists(".tm-page-header-title", titleText)
     } catch (error) {
+      console.log("failed trying to navigate to " + titleText)
       console.log(error)
       await app.client.waitForExist(`[data-title='${titleText}']`)
     }
