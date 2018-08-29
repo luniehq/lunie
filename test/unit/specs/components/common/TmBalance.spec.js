@@ -29,17 +29,17 @@ describe("TmBalance", () => {
 
   it("shows correct stats depending on props", () => {
     expect(wrapper.contains(".unstaked-atoms")).toBe(false)
-    wrapper.setProps({ unstakedAtoms: true })
+    wrapper.setProps({ unstakedAtoms: 1337 })
     wrapper.update()
     expect(wrapper.contains(".unstaked-atoms")).toBe(true)
 
     expect(wrapper.contains(".total-earnings")).toBe(false)
-    wrapper.setProps({ totalEarnings: true })
+    wrapper.setProps({ totalEarnings: 1337 })
     wrapper.update()
     expect(wrapper.contains(".total-earnings")).toBe(true)
 
     expect(wrapper.contains(".total-rewards")).toBe(false)
-    wrapper.setProps({ totalRewards: true })
+    wrapper.setProps({ totalRewards: 1337 })
     wrapper.update()
     expect(wrapper.contains(".total-rewards")).toBe(true)
 
