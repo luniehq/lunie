@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * E2E tests not producing screenshots and not logging certain values @faboweb
 * Wallet balances updating after staking @okwme
 * Updated testnet build process @okwme
+* E2E tests now correctly logs everything (before it was only showing the last app start logs) @faboweb
 
 ## [0.9.4] - 2018-08-08
 

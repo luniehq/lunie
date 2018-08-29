@@ -144,7 +144,14 @@ async function setupAccounts(initValues) {
 
 async function stop(app) {
   console.log("Stopping app")
-  if (app && app.isRunning()) await app.stop()
+  if (app && app.isRunning()) {
+    if (process.env.CI) {
+      // we need to collect the app process output as it will be reset when the app is stopped
+      console.log("collecting app logs")
+      await writeLogs(app, testDir)
+    }
+    await app.stop()
+  }
   console.log("App stopped")
 }
 
@@ -178,8 +185,8 @@ async function writeLogs(app, location) {
     log => !/CONSOLE\(/g.test(log)
   ) // ignore renderer process output, which is also written to main process logs
   const rendererProcessLogs = await app.client.getRenderProcessLogs()
-  fs.writeFileSync(mainProcessLogLocation, mainProcessLogs.join("\n"), "utf8")
-  fs.writeFileSync(
+  fs.appendFileSync(mainProcessLogLocation, mainProcessLogs.join("\n"), "utf8")
+  fs.appendFileSync(
     rendererProcessLogLocation,
     rendererProcessLogs.map(log => log.message).join("\n"),
     "utf8"
@@ -470,6 +477,13 @@ module.exports = {
   },
   refresh: async function(app, awaitingSelector = ".tm-session-title=Sign In") {
     console.log("refreshing app")
+    if (app && app.isRunning()) {
+      if (process.env.CI) {
+        // we need to collect the app process output as it will be reset when the app is stopped
+        console.log("collecting app logs")
+        await writeLogs(app, testDir)
+      }
+    }
     await app.restart()
     await app.client.waitForExist(awaitingSelector, 5000)
   },
