@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Wallet balances updating after staking @okwme
 * Updated testnet build process @okwme
 * Release process now creates Git tag during publish. @NodeGuy
+* E2E tests now correctly logs everything (before it was only showing the last app start logs) @faboweb
 
 ## [0.9.4] - 2018-08-08
 
