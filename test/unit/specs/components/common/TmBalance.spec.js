@@ -1,4 +1,5 @@
 import setup from "../../../helpers/vuex-setup"
+import htmlBeautify from "html-beautify"
 import TmBalance from "common/TmBalance"
 
 describe("TmBalance", () => {
@@ -24,7 +25,7 @@ describe("TmBalance", () => {
   })
 
   it("has the expected html structure before adding props", () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
   it("shows correct stats depending on props", () => {
@@ -43,7 +44,7 @@ describe("TmBalance", () => {
     wrapper.update()
     expect(wrapper.contains(".total-rewards")).toBe(true)
 
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
   it("clicking copy copies the address", async () => {

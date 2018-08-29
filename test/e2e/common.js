@@ -51,8 +51,9 @@ module.exports = {
     try {
       await app.client.waitUntilTextExists(".tm-page-header-title", titleText)
     } catch (error) {
-      console.log("failed trying to navigate to " + titleText)
-      console.log(error)
+      // if .tm-page-header-title doeesn't exist with titleText it may be using
+      // the new UI. if that's the case it should use a data-title parameter
+      // with the same titleText.
       await app.client.waitForExist(`[data-title='${titleText}']`)
     }
     console.log(`navigated to "${linkText}"`)
