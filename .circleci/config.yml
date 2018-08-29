@@ -178,11 +178,6 @@ workflows:
             - buildGaia
             - testUnit
             - testE2e
-          filters:
-            branches:
-              only: develop
-            tags:
-              only: /.+/
 
   release:
     jobs:
