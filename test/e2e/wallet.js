@@ -41,7 +41,7 @@ test("wallet", async function(t) {
       await navigate(app, "Wallet")
 
       await $("#part-available-balances")
-        .$(".tm-li-dt=LOCALTOKEN")
+        .$(".tm-li-dt=LOCAL_1TOKEN")
         .$("..")
         .$("..")
         .click()
@@ -53,14 +53,14 @@ test("wallet", async function(t) {
     let addressInput = () => $("#send-address")
     let amountInput = () => $("#send-amount")
     let defaultBalance = 1000
-    t.test("localToken balance before sending", async function(t) {
+    t.test("LOCAL_1TOKEN balance before sending", async function(t) {
       await app.client.waitForExist(
         `//span[contains(text(), "Send")]`,
         15 * 1000
       )
 
-      let localTokenEl = balanceEl("LOCALTOKEN")
-      await waitForText(() => localTokenEl, defaultBalance.toString())
+      let LOCAL_1TOKENEl = balanceEl("LOCAL_1TOKEN")
+      await waitForText(() => LOCAL_1TOKENEl, defaultBalance.toString())
       t.end()
     })
 
@@ -155,7 +155,7 @@ test("wallet", async function(t) {
     t.test("own balance updated", async function(t) {
       await navigate(app, "Wallet")
 
-      let mycoinEl = () => balanceEl("LOCALTOKEN")
+      let mycoinEl = () => balanceEl("LOCAL_1TOKEN")
       await waitForText(mycoinEl, (defaultBalance - 100).toString(), 10000)
       t.pass("balance is reduced by 100")
       t.end()
@@ -165,18 +165,18 @@ test("wallet", async function(t) {
   })
 
   t.test("receive", async function(t) {
-    t.test("localToken balance after receiving", async function(t) {
+    t.test("LOCAL_1TOKEN balance after receiving", async function(t) {
       await restart(app)
       await login(app, "testreceiver")
       await navigate(app, "Wallet")
 
-      let localTokenEl = () => balanceEl("LOCALTOKEN")
+      let LOCAL_1TOKENEl = () => balanceEl("LOCAL_1TOKEN")
       await app.client.waitForExist(
         `//span[contains(text(), "Send")]`,
         15 * 1000
       )
 
-      await waitForText(localTokenEl, "100", 5000)
+      await waitForText(LOCAL_1TOKENEl, "100", 5000)
       t.pass("received mycoin transaction")
       t.end()
     })
