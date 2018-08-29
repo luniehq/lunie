@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* test if build Voyager actually starts @faboweb
+
 ### Fixed
 
 * use correct set of seed nodes @ƒaboweb
