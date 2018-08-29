@@ -141,7 +141,7 @@ jobs:
 
       # test linux build
       - run: tar -zxvf ./builds/Voyager/Cosmos_Voyager-*-Linux.tar.gz
-      - run: yarn test:exe "./builds/Voyager/Cosmos Voyager"
+      - run: yarn test:exe "./Cosmos Voyager"
 
       - run: node tasks/publish.js
 
