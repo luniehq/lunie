@@ -47,6 +47,7 @@ async function main() {
   const tag = getTag(
     JSON.parse(fs.readFileSync(path.join(__dirname, `../package.json`), "utf8"))
   )
+
   console.log("--- Releasing tag", tag, "---")
 
   await publishRelease({
@@ -61,7 +62,8 @@ async function main() {
     `https://${process.env.GIT_BOT_TOKEN}@github.com/cosmos/voyager.git`
   )
 
-  await git.push("bot", "HEAD:master")
+  await git.tag([tag])
+  await git.push("bot", "HEAD:master", { tags: true })
 
   console.log("--- Done releasing ---")
 }
