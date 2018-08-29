@@ -105,6 +105,7 @@
     node-fetch "^2.1.1"
     url-template "^2.0.8"
 
+
 "@tendermint/ui@https://github.com/tendermint/ui.git#5493de3544dae62dfd8f8cc565076a2f161ce909":
   version "0.2.21"
   resolved "https://github.com/tendermint/ui.git#5493de3544dae62dfd8f8cc565076a2f161ce909"
