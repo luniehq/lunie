@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.10.1] - 2018-08-29
+
 ### Added
 
 * added more information on validators page @faboweb
@@ -23,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * changed ATOM to bondingDenom getter @okwme
 * more bondingDenom and copy updates @jbibla
 * restored loading animation on start @faboweb
+* improved error message for gaia version imcompatibility in development @faboweb
 
 ### Fixed
 
@@ -37,6 +40,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * E2E tests not producing screenshots and not logging certain values @faboweb
 * Wallet balances updating after staking @okwme
 * Updated testnet build process @okwme
+* Release process now creates Git tag during publish. @NodeGuy
+* fixed link to wallet on tx index page @faboweb
+* E2E tests now correctly logs everything (before it was only showing the last app start logs) @faboweb
 
 ## [0.9.4] - 2018-08-08
 

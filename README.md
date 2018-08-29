@@ -101,7 +101,7 @@ First [Build Gaia](#build-gaia) and [Download the testnet configurations](#downl
 Here's an example build command:
 
 ```bash
-yarn run build --commit=HEAD --network=gaia-7005
+yarn run build --commit=HEAD --network=gaia-8001
 ```
 
 You can specify `--help` to see all options with explanations.
@@ -264,6 +264,8 @@ $ rm -rf package-lock.json
 * If starting the development server fails with the error: `Error: listen EADDRINUSE 127.0.0.1:9080`, you have still a development server process running. Kill it with `kill $(lsof -t -i:9080)` on Unix systems. On Windows Powershell first look for the processes with `netstat -a -o -n | Select-String -Pattern "9080"` then kill them with `taskkill /F /PID {PID}`.
 
 - If `yarn test:e2e` outputs an error about ChromeDriver timeout, remove your node_modules folder and reinstall all dependencies.
+
+* The version mismatch (`The network you are trying to connect to requires gaia X, but the version Voyager is using is Y.`) is testing the gaia version in `/builds/Gaia/...` against the one specified in the config dir `~/.cosmos-voyager[-dev]/{NETWORK}/gaiaversion.txt`. If you know that you have the correct version, change it in `gaiaversion.txt`.
 
 ---
 

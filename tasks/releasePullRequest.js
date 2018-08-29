@@ -33,8 +33,6 @@ const pushCommit = async ({ token, tag, head }) => {
     __dirname + "/../CHANGELOG.md"
   ])
 
-  await git.tag([tag])
-
   // needed to authenticate properly
   await git.addRemote("bot", `https://${token}@github.com/cosmos/voyager.git`)
 
