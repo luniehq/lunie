@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.10.2] - 2018-08-29
+
 ### Added
 
 * test if build Voyager actually starts @faboweb
