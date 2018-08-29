@@ -35,9 +35,6 @@ export default {
   props: ["unstakedAtoms", "totalEarnings", "totalRewards"],
   computed: {
     ...mapGetters(["bondingDenom", "user", "totalAtoms"]),
-    unstakedAtomsVal() {
-      return this.user.atoms
-    },
     address() {
       return this.user.address
     }
