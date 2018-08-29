@@ -43,20 +43,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                   123
                 </div>
               </div>
-              <div
-                class="unstaked-atoms"
-              >
-                <div
-                  class="h3"
-                >
-                  Unstaked Steak
-                </div>
-                <div
-                  class="h2"
-                >
-                  ---
-                </div>
-              </div>
+              <!---->
               <!---->
               <!---->
             </div>
@@ -510,20 +497,7 @@ exports[`PageWallet should filter the balances 1`] = `
                   123
                 </div>
               </div>
-              <div
-                class="unstaked-atoms"
-              >
-                <div
-                  class="h3"
-                >
-                  Unstaked Steak
-                </div>
-                <div
-                  class="h2"
-                >
-                  ---
-                </div>
-              </div>
+              <!---->
               <!---->
               <!---->
             </div>

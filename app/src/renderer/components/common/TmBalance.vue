@@ -7,14 +7,14 @@
         .h2 {{totalAtoms || "---"}}
       .unstaked-atoms(v-if="unstakedAtoms")
         .h3 Unstaked {{bondingDenom}}
-        .h2 {{unstakedAtomsVal}}
+        .h2 {{unstakedAtoms}}
       .total-earnings(v-if="totalEarnings")
         .h3 Total Earnings
-        .h2 {{totalEarningsVal}}
+        .h2 {{totalEarnings}}
       .total-rewards(v-if="totalRewards")
         .h3 Total Rewards
         .group
-          .h2 {{totalRewardsVal}}
+          .h2 {{totalRewards}}
           router-link(to="claim") Claim
     .bottom
       .address(@click="copy") {{address}}
@@ -32,33 +32,14 @@ export default {
       showSuccess: false
     }
   },
-  props: {
-    unstakedAtoms: {
-      type: Boolean,
-      default: false
-    },
-    totalEarnings: {
-      type: Boolean,
-      default: false
-    },
-    totalRewards: {
-      type: Boolean,
-      default: false
-    }
-  },
+  props: ["unstakedAtoms", "totalEarnings", "totalRewards"],
   computed: {
     ...mapGetters(["bondingDenom", "user", "totalAtoms"]),
     unstakedAtomsVal() {
-      return this.user.atoms || "---"
-    },
-    totalRewardsVal() {
-      return null || "---" // TODO: where do these come from?
+      return this.user.atoms
     },
     address() {
       return this.user.address
-    },
-    totalEarningsVal() {
-      return null || "---" // TODO: where do these come from?
     }
   },
   methods: {
