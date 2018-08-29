@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * E2E tests not producing screenshots and not logging certain values @faboweb
 * Wallet balances updating after staking @okwme
 * Updated testnet build process @okwme
+* fixed link to wallet on tx index page @faboweb
 
 ## [0.9.4] - 2018-08-08
 
