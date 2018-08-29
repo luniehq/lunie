@@ -133,11 +133,17 @@ jobs:
       - attach_workspace:
           at: builds/Gaia
 
+      # download network configs
       - run: tasks/build/testnets/build.sh
-      - run: node tasks/publish.js
 
+      # build Voyager
+      - run: node -e 'require("./tasks/build/build.js").buildAllPlatforms()'
+
+      # test linux build
       - run: tar -zxvf ./builds/Voyager/Cosmos_Voyager-*-Linux.tar.gz
       - run: yarn test:exe "./builds/Voyager/Cosmos Voyager"
+
+      - run: node tasks/publish.js
 
 workflows:
   version: 2

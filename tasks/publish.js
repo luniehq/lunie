@@ -36,8 +36,6 @@ const publishRelease = ({ notes, tag, token }) =>
   })
 
 async function main() {
-  await build.buildAllPlatforms()
-
   console.log("--- Publishing release ---")
 
   const notes = createNotes(
