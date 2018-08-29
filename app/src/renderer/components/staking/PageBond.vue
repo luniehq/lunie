@@ -163,17 +163,6 @@ export default {
       "oldBondedAtoms",
       "oldUnbondingAtoms"
     ]),
-    // totalAtoms() {
-    //   return (
-    //     parseInt(this.user.atoms) + this.oldBondedAtoms + this.oldUnbondingAtoms
-    //   )
-    // },
-    // oldBondedAtoms() {
-    //   return Object.values(this.delegation.committedDelegates).reduce(
-    //     (sum, d) => sum + parseInt(d),
-    //     0
-    //   )
-    // },
     oldUnbondedAtoms() {
       return this.totalAtoms - this.oldBondedAtoms
     },
@@ -186,14 +175,6 @@ export default {
         return atoms
       }, this.oldUnbondedAtoms)
     },
-    // oldUnbondingAtoms() {
-    //   return Object.values(this.delegation.unbondingDelegations).reduce(
-    //     (atoms, value) => {
-    //       return atoms + value
-    //     },
-    //     0
-    //   )
-    // },
     newUnbondingAtoms() {
       return this.fields.delegates.reduce((atoms, d) => {
         let delta = d.oldAtoms - d.atoms
