@@ -136,6 +136,9 @@ jobs:
       - run: tasks/build/testnets/build.sh
       - run: node tasks/publish.js
 
+      - run: tar -zxvf ./builds/Voyager/Cosmos_Voyager-*-Linux.tar.gz
+      - run: yarn test:exe "./builds/Voyager/Cosmos Voyager"
+
 workflows:
   version: 2
 
