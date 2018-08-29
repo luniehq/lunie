@@ -10,16 +10,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * added more information on validators page @faboweb
+* E2E environment for a multi validator setup @faboweb
 
 ### Changed
 
 * cache per network to not have side effects between networks @faboweb
+* removed animation from TmLi @okwme
 * publish script on CI now requires all tests to pass, so we are sure that the published Version runs @ƒaboweb
 * disable interaction buttons if not connected to the network, so user do not expect working interaction @faboweb
 * using a variable for determining staking denomination @jbibla
 * changed ATOM to bondingDenom getter @okwme
 * more bondingDenom and copy updates @jbibla
 * restored loading animation on start @faboweb
+* improved error message for gaia version imcompatibility in development @faboweb
 
 ### Fixed
 
@@ -35,6 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Wallet balances updating after staking @okwme
 * Updated testnet build process @okwme
 * fixed link to wallet on tx index page @faboweb
+* E2E tests now correctly logs everything (before it was only showing the last app start logs) @faboweb
 
 ## [0.9.4] - 2018-08-08
 
