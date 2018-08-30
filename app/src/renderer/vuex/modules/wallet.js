@@ -100,7 +100,7 @@ export default ({ node }) => {
         transactions.map(async t => {
           let blockMetaInfo = await dispatch("queryBlockInfo", t.height)
           t.time = blockMetaInfo && blockMetaInfo.header.time
-          return transactions
+          return t
         })
       )
       return transactions
