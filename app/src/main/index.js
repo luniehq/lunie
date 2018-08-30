@@ -17,6 +17,8 @@ let config = require("../config.js")
 let LcdClient = require("../renderer/connectors/lcdClient.js")
 global.config = config // to make the config accessable from renderer
 
+require("electron-debug")()
+
 let shuttingDown = false
 let mainWindow
 let lcdProcess
