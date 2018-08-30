@@ -19,12 +19,29 @@ export default (opts = {}) => {
     }
   })
 
+  let pending = null
   store.subscribe((mutation, state) => {
+    // since persisting the state is costly we should only do it on mutations that change the data
+    const updatingMutations = [
+      "setWalletBalances",
+      "setWalletHistory",
+      "setCommittedDelegation",
+      "setDelegates",
+      "setKeybaseIdentities"
+    ]
+    if (updatingMutations.indexOf(mutation.type) === -1) return
+
     // if the user is logged in cache the balances and the tx-history for that user
     // skip persisting the state before the potentially persisted state has been loaded
-    if (state.user.stateLoaded && state.user.account && state.user.password) {
-      persistState(state)
+    if (!state.user.stateLoaded || !state.user.account || !state.user.password)
+      return
+
+    if (pending) {
+      clearTimeout(pending)
     }
+    pending = setTimeout(() => {
+      persistState(state)
+    }, 5000)
   })
 
   return store
@@ -42,6 +59,9 @@ function persistState(state) {
       },
       delegates: {
         delegates: state.delegates.delegates
+      },
+      keybase: {
+        identities: state.keybase.identities
       }
     }),
     state.user.password

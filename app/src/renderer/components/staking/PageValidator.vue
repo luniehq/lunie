@@ -42,6 +42,7 @@ import { TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
+import { keybase } from "../../vuex/getters"
 export default {
   name: "page-validator",
   components: {
@@ -53,11 +54,13 @@ export default {
     TmDataError
   },
   computed: {
-    ...mapGetters(["delegates", "config"]),
+    ...mapGetters(["delegates", "config", "keybase"]),
     validator() {
-      return this.delegates.delegates.find(
+      let validator = this.delegates.delegates.find(
         v => this.$route.params.validator === v.owner
       )
+      validator.keybase = this.keybase[validator.description.identity]
+      return validator
     },
     selfBond() {
       parseFloat(this.validator.tokens) -
