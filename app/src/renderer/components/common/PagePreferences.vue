@@ -40,7 +40,6 @@ tm-page(title="Preferences")
 <script>
 import { mapGetters, mapMutations } from "vuex"
 import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
-import { remote } from "electron"
 import ToolBar from "common/TmToolBar"
 import TmModal from "common/TmModal"
 

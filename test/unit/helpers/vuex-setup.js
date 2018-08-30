@@ -3,7 +3,7 @@ import VueRouter from "vue-router"
 import { shallow, mount, createLocalVue } from "@vue/test-utils"
 import { getCommits, getDispatches } from "./vuex-helpers.js"
 
-import routesConstructor from "renderer/routes"
+import routes from "renderer/routes"
 
 const Modules = require("renderer/vuex/modules").default
 const Getters = require("renderer/vuex/getters")
@@ -36,7 +36,6 @@ export default function vuexSetup() {
     store.getCommits = getCommits.bind(this, store)
     store.getDispatches = getDispatches.bind(this, store)
 
-    const routes = routesConstructor(store)
     let router = new VueRouter({ routes })
     router.beforeEach((to, from, next) => {
       if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)

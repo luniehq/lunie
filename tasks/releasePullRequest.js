@@ -22,7 +22,7 @@ function updateChangeLog(changeLog, newVersion, now) {
 const updatePackageJson = (packageJson, version) =>
   Object.assign({}, packageJson, { version })
 
-const pushCommit = async ({ token, tag, head }) => {
+const pushCommit = async ({ token, head }) => {
   await Promise.all([
     git.addConfig("user.name", "Voyager Bot"),
     git.addConfig("user.email", "voyager_bot@tendermint.com")

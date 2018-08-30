@@ -1,7 +1,7 @@
 const { app, Menu, shell, dialog } = require("electron")
 const { join } = require("path")
 
-module.exports = function(mainWindow) {
+module.exports = function() {
   let template = [
     {
       label: "Cosmos Voyager",
