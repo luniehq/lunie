@@ -72,9 +72,6 @@ async function main() {
     console.log(hash)
     store.commit("setNodeApprovalRequired", hash)
   })
-  ipcRenderer.on("open-about-menu", () => {
-    router.push("/about")
-  })
 
   let firstStart = true
   ipcRenderer.on("connected", (event, nodeIP) => {

@@ -38,7 +38,7 @@ tm-page(title="Preferences")
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex"
+import { mapGetters } from "vuex"
 import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
 import ToolBar from "common/TmToolBar"
 import TmModal from "common/TmModal"
@@ -86,7 +86,6 @@ export default {
     this.themeSelectActive = this.themes.active
   },
   methods: {
-    ...mapMutations(["setAbout"]),
     signOut() {
       this.$store.dispatch("signOut")
       this.$store.commit("notifySignOut")
@@ -119,9 +118,4 @@ export default {
 }
 </script>
 <style lang="stylus">
-.about-popup
-  text-align center
-
-  img
-    max-width 150px
 </style>
