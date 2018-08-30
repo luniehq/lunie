@@ -1,4 +1,5 @@
-const { app, Menu, shell } = require("electron")
+const { app, Menu, shell, dialog } = require("electron")
+const { join } = require("path")
 
 module.exports = function(mainWindow) {
   let template = [
@@ -8,7 +9,7 @@ module.exports = function(mainWindow) {
         {
           label: "About Cosmos Voyager",
           selector: "orderFrontStandardAboutPanel:",
-          click: () => openAboutMenu(mainWindow)
+          click: () => openAboutMenu()
         },
         { type: "separator" },
         {
@@ -61,6 +62,20 @@ module.exports = function(mainWindow) {
   Menu.setApplicationMenu(menu)
 }
 
-function openAboutMenu(mainWindow) {
-  mainWindow.webContents.send("open-about-menu")
+function openAboutMenu() {
+  const voyagerVersion = require("../../../package.json").version
+  const gaiaVersion = process.env.GAIA_VERSION
+  const electronVersion = app.getVersion()
+
+  const imageLocation =
+    process.env.NODE_ENV === "development"
+      ? join(__dirname, "../renderer/assets/images")
+      : join(__dirname, "./imgs")
+
+  dialog.showMessageBox({
+    type: "info",
+    title: "About Voyager",
+    message: `Versions\n\nVoyager ${voyagerVersion}\nCosmos SDK ${gaiaVersion}\nElectron ${electronVersion}`,
+    icon: join(imageLocation, "cosmos-logo.png")
+  })
 }
