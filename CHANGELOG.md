@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * use correct set of seed nodes @ƒaboweb
 * validator page showed incorrect voting power @faboweb
+* improves poor performance at start by throttling the updates of the cached store @faboweb
 
 ## [0.10.1] - 2018-08-29
 
