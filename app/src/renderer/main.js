@@ -7,7 +7,7 @@ import Raven from "raven-js"
 import { ipcRenderer, remote } from "electron"
 
 import App from "./App"
-import routesConstructor from "./routes"
+import routes from "./routes"
 import Node from "./connectors/node"
 import Store from "./vuex/store"
 
@@ -47,7 +47,6 @@ async function main() {
   store = Store({ node })
   store.dispatch("loadTheme")
 
-  const routes = routesConstructor(store)
   router = new Router({
     scrollBehavior: () => ({ y: 0 }),
     routes
@@ -72,9 +71,6 @@ async function main() {
   ipcRenderer.on("approve-hash", (event, hash) => {
     console.log(hash)
     store.commit("setNodeApprovalRequired", hash)
-  })
-  ipcRenderer.on("open-about-menu", () => {
-    router.push("/about")
   })
 
   let firstStart = true

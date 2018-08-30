@@ -98,20 +98,4 @@ describe("PagePreferences", () => {
     wrapper.vm.setMockedConnector()
     expect(store.dispatch).toHaveBeenCalledWith("setMockedConnector", false)
   })
-
-  it("shows versions", () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
-    wrapper.vm.setAbout()
-    wrapper.update()
-    expect(store.state.config.showAbout).toBe(true)
-    expect(wrapper.vm.$el.outerHTML).toContain(
-      "Voyager " + wrapper.vm.voyagerVersion
-    )
-    expect(wrapper.vm.$el.outerHTML).toContain(
-      "Cosmos SDK " + wrapper.vm.gaiaVersion
-    )
-    expect(wrapper.vm.$el).toMatchSnapshot()
-    wrapper.vm.setAbout(false)
-    expect(store.state.config.showAbout).toBe(false)
-  })
 })

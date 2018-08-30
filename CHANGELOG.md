@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.10.2] - 2018-08-29
 
+### Changed
+
+* moved about Window to be a native menu so it would display from the application toolbar at any time @faboweb
+
 ### Fixed
 
 * use correct set of seed nodes @ƒaboweb
