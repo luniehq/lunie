@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 * use correct set of seed nodes @ƒaboweb
+* validator page showed incorrect voting power @faboweb
 
 ## [0.10.1] - 2018-08-29
 
