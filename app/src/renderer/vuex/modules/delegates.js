@@ -38,16 +38,6 @@ export default ({ node }) => {
       }
 
       state.delegates.push(delegate)
-    },
-    setKeybaseIdentity(
-      state,
-      { validatorOwner, avatarUrl, profileUrl, userName }
-    ) {
-      let validator = state.delegates.find(v => v.owner === validatorOwner)
-      if (!validator.keybase) validator.keybase = {}
-      validator.keybase.avatarUrl = avatarUrl
-      validator.keybase.profileUrl = profileUrl
-      validator.keybase.userName = userName
     }
   }
 
