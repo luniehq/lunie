@@ -25,7 +25,7 @@ tm-page(:title='validatorTitle(this.validator)')
       tm-list-item(dt="Pub Key" :dd="validator.pub_key")
 
     tm-part(title='Validator Stake' v-if="!validator.revoked")
-      tm-list-item(dt="Voting Power" :dd="pretty(validator.tokens) + ' ' + this.config.bondingDenom")
+      tm-list-item(dt="Voting Power" :dd="pretty(validator.voting_power) + ' ' + this.config.bondingDenom")
       tm-list-item(dt="Self Bonded" :dd="pretty(selfBond) + ' ' + this.config.bondingDenom")
       tm-list-item(dt="Bond Height" :dd="`Block ${validator.bond_height}`")
 
