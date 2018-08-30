@@ -53,16 +53,6 @@ export default function(store) {
     },
 
     {
-      path: "/about",
-      redirect: () => {
-        store.commit("setAbout", true)
-
-        return "/preferences"
-      },
-      name: "about"
-    },
-
-    {
       path: "/",
       name: "wallet",
       component: wallet("Wallet")

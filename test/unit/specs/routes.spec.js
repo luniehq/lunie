@@ -40,19 +40,4 @@ describe("Routes", () => {
     document.body.innerHTML = '<div id="app"></div>'
     jest.resetModules()
   })
-
-  it("activates the about window when navigating to /about", async done => {
-    const { store, router } = require("renderer/main.js")
-
-    router.push(
-      "/about",
-      () => {
-        expect(store.state.config.showAbout).toBe(true)
-        done()
-      },
-      err => {
-        done.fail(err)
-      }
-    )
-  })
 })
