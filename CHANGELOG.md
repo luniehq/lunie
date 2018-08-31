@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* Added staking transactions and fixed 100% height txs. Refactored modules/blockchain.js @okwme
+
 ### Changed
 
 * moved about Window to be a native menu so it would display from the application toolbar at any time @faboweb
