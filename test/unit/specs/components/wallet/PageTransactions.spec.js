@@ -51,7 +51,7 @@ describe("PageTransactions", () => {
   beforeEach(async () => {
     let instance = mount(PageTransactions, {
       stubs: {
-        "tm-li-transaction": "<tm-li-transaction />",
+        "tm-li-any-transaction": "<tm-li-any-transaction />",
         "tm-li-staking-transaction": "<tm-li-staking-transaction />",
         "data-empty-tx": "<data-empty-tx />"
       },
@@ -98,7 +98,7 @@ describe("PageTransactions", () => {
   })
 
   it("should show transactions", () => {
-    expect(wrapper.findAll(".tm-li-tx").length).toBe(5)
+    expect(wrapper.findAll("tm-li-any-transaction").length).toBe(5)
   })
 
   it("should sort the transaction by time", () => {

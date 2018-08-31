@@ -96,217 +96,36 @@ exports[`PageTransactions has the expected html structure 1`] = `
     class="tm-page-main ps"
   >
     <!---->
-    <div
-      class="tm-li-tx"
-    >
-      <div
-        class="tm-li-tx__icon"
-      >
-        <img
-          src="../../assets/cosmos-logo.png"
-        />
-      </div>
-      <div
-        class="tm-li-tx__content"
-      >
-        <p
-          class="tm-li-tx__content__caption"
-        >
-          <span>
-            Unknown Transaction Type
-          </span>
-        </p>
-        <div
-          class="tm-li-tx__content__information"
-        >
-          <div
-            class="tm-li-tx__content__information__details"
-          />
-          <div
-            class="tm-li-tx__content__information__block"
-          >
-            <a
-              href="https://explorecosmos.network/blocks/3438"
-            >
-              Block #3438 
-            </a>
-            @ 1:00 am
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="tm-li-tx"
-    >
-      <div
-        class="tm-li-tx__icon"
-      >
-        <img
-          src="../../assets/cosmos-logo.png"
-        />
-      </div>
-      <div
-        class="tm-li-tx__content"
-      >
-        <p
-          class="tm-li-tx__content__caption"
-        >
-          <span>
-            Unknown Transaction Type
-          </span>
-        </p>
-        <div
-          class="tm-li-tx__content__information"
-        >
-          <div
-            class="tm-li-tx__content__information__details"
-          />
-          <div
-            class="tm-li-tx__content__information__block"
-          >
-            <a
-              href="https://explorecosmos.network/blocks/3436"
-            >
-              Block #3436 
-            </a>
-            @ 1:00 am
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="tm-li-tx"
-    >
-      <div
-        class="tm-li-tx__icon"
-      >
-        <img
-          src="../../assets/cosmos-logo.png"
-        />
-      </div>
-      <div
-        class="tm-li-tx__content"
-      >
-        <p
-          class="tm-li-tx__content__caption"
-        >
-          <span>
-            Unknown Transaction Type
-          </span>
-        </p>
-        <div
-          class="tm-li-tx__content__information"
-        >
-          <div
-            class="tm-li-tx__content__information__details"
-          />
-          <div
-            class="tm-li-tx__content__information__block"
-          >
-            <a
-              href="https://explorecosmos.network/blocks/466"
-            >
-              Block #466 
-            </a>
-            @ 1:00 am
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="tm-li-tx"
-    >
-      <div
-        class="tm-li-tx__icon"
-      >
-        <img
-          src="../../assets/cosmos-logo.png"
-        />
-      </div>
-      <div
-        class="tm-li-tx__content"
-      >
-        <p
-          class="tm-li-tx__content__caption"
-        >
-          <span>
-            Unknown Transaction Type
-          </span>
-        </p>
-        <div
-          class="tm-li-tx__content__information"
-        >
-          <div
-            class="tm-li-tx__content__information__details"
-          />
-          <div
-            class="tm-li-tx__content__information__block"
-          >
-            <a
-              href="https://explorecosmos.network/blocks/170"
-            >
-              Block #170 
-            </a>
-            @ 1:00 am
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="tm-li-tx"
-    >
-      <div
-        class="tm-li-tx__icon"
-      >
-        <img
-          src="../../assets/cosmos-logo.png"
-          style="border-color: #512584;"
-        />
-      </div>
-      <div
-        class="tm-li-tx__content"
-      >
-        <p
-          class="tm-li-tx__content__caption"
-        >
-          <div>
-            Delegated 
-            <b>
-              24
-            </b>
-            <span>
-               steak
-            </span>
-          </div>
-        </p>
-        <div
-          class="tm-li-tx__content__information"
-        >
-          <div
-            class="tm-li-tx__content__information__details"
-          >
-            <div>
-              To 
-              <a
-                href="https://explorecosmos.network/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-              >
-                cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
-              </a>
-            </div>
-          </div>
-          <div
-            class="tm-li-tx__content__information__block"
-          >
-            <a
-              href="https://explorecosmos.network/blocks/160"
-            >
-              Block #160 
-            </a>
-            @ 1:00 am
-          </div>
-        </div>
-      </div>
-    </div>
+    <tm-li-any-transaction
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      transaction="[object Object]"
+      validators=""
+      validatorurl="https://explorecosmos.network/validators"
+    />
+    <tm-li-any-transaction
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      transaction="[object Object]"
+      validators=""
+      validatorurl="https://explorecosmos.network/validators"
+    />
+    <tm-li-any-transaction
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      transaction="[object Object]"
+      validators=""
+      validatorurl="https://explorecosmos.network/validators"
+    />
+    <tm-li-any-transaction
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      transaction="[object Object]"
+      validators=""
+      validatorurl="https://explorecosmos.network/validators"
+    />
+    <tm-li-any-transaction
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      transaction="[object Object]"
+      validators=""
+      validatorurl="https://explorecosmos.network/validators"
+    />
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
@@ -470,45 +289,12 @@ exports[`PageTransactions should filter the transactions 1`] = `
         </div>
       </div>
     </div>
-    <div
-      class="tm-li-tx"
-    >
-      <div
-        class="tm-li-tx__icon"
-      >
-        <img
-          src="../../assets/cosmos-logo.png"
-        />
-      </div>
-      <div
-        class="tm-li-tx__content"
-      >
-        <p
-          class="tm-li-tx__content__caption"
-        >
-          <span>
-            Unknown Transaction Type
-          </span>
-        </p>
-        <div
-          class="tm-li-tx__content__information"
-        >
-          <div
-            class="tm-li-tx__content__information__details"
-          />
-          <div
-            class="tm-li-tx__content__information__block"
-          >
-            <a
-              href="https://explorecosmos.network/blocks/466"
-            >
-              Block #466 
-            </a>
-            @ 1:00 am
-          </div>
-        </div>
-      </div>
-    </div>
+    <tm-li-any-transaction
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      transaction="[object Object]"
+      validators=""
+      validatorurl="https://explorecosmos.network/validators"
+    />
   </main>
 </div>
 `;
