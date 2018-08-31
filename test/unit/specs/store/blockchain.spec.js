@@ -11,14 +11,14 @@ describe("Module: Blockchain", () => {
       time: 42
     }
   }
-  const block = {
-    test: "test",
-    height: 42,
-    time: "Good Morning",
-    data: {
-      txs: []
-    }
-  }
+  // const block = {
+  //   test: "test",
+  //   height: 42,
+  //   time: "Good Morning",
+  //   data: {
+  //     txs: []
+  //   }
+  // }
 
   beforeEach(() => {
     let test = instance.shallow()

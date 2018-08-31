@@ -67,7 +67,7 @@ export default ({ node }) => {
     //   })
     //   commit("setHistoryLoading", false)
     // },
-    async getTx({ commit, rootState }, type) {
+    async getTx({ rootState }, type) {
       let address = rootState.user.address
       let res
       switch (type) {

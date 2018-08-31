@@ -1,5 +1,3 @@
-import { getTxHash } from "../../scripts/tx-utils.js"
-
 export default ({ node }) => {
   const state = {
     blocks: [],
