@@ -59,6 +59,8 @@ jobs:
             - node_modules
           key: v3-dependencies-root-{{ checksum "package.json" }}
 
+      - run: yarn run lint
+
       - run:
           name: Test
           command: yarn run test:unit
