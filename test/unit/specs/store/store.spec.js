@@ -34,7 +34,7 @@ describe("Store", () => {
       password: "1234567890"
     })
     store.commit("setWalletBalances", [{ denom: "fabocoin", amount: 42 }])
-    store.commit("setWalletHistory", [{}])
+    store.commit("setWalletTxs", [{}])
     await store.dispatch("signOut")
     await store.dispatch("signIn", {
       account: "default",
@@ -42,6 +42,6 @@ describe("Store", () => {
     })
 
     expect(store.state.wallet.balances).toHaveLength(1)
-    expect(store.state.wallet.history).toHaveLength(1)
+    expect(store.state.transactions.wallet).toHaveLength(1)
   })
 })

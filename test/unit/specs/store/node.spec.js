@@ -272,16 +272,4 @@ describe("Module: Node", () => {
     expect(store.state.config.modals.session.state).toBe("loading")
     expect(store.state.user.signedIn).toBe(false)
   })
-
-  it("should reset blocks in explorer if switched mocked mode", () => {
-    store.state.blockchain.blocks = [
-      {
-        x: "y"
-      }
-    ]
-
-    store.dispatch("setMockedConnector", true)
-
-    expect(store.state.blockchain.blocks).toEqual([])
-  })
 })

@@ -7,8 +7,7 @@ export default ({ node }) => {
 
     // our delegations which are already on the blockchain
     committedDelegates: {},
-    unbondingDelegations: {},
-    delegationTxs: []
+    unbondingDelegations: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -48,9 +47,6 @@ export default ({ node }) => {
         unbondingDelegations[candidateId] = value
       }
       state.unbondingDelegations = unbondingDelegations
-    },
-    setDelegationTxs(state, txs) {
-      state.delegationTxs = txs
     }
   }
 
@@ -97,11 +93,6 @@ export default ({ node }) => {
         )
       }
       state.loading = false
-    },
-    async getDelegationTxs({ commit, rootState }) {
-      let address = rootState.user.address
-      let txs = await node.getDelegatorTxs(address)
-      commit("setDelegationTxs", txs)
     },
     async updateDelegates({ dispatch }) {
       let candidates = await dispatch("getDelegates")

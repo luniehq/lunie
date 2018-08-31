@@ -34,8 +34,8 @@ describe("Module: Wallet", () => {
 
   it("should set wallet history", () => {
     const history = ["once", "upon", "a", "time"]
-    store.commit("setWalletHistory", history)
-    expect(store.state.wallet.history).toBe(history)
+    store.commit("setWalletTxs", history)
+    expect(store.state.transactions.wallet).toBe(history)
   })
 
   it("should set denoms", () => {
@@ -49,9 +49,13 @@ describe("Module: Wallet", () => {
     const time = 1234567890
     const history = [{ height: blockHeight }]
     const blockMetaInfo = { header: { time: time } }
-    store.commit("setWalletHistory", history)
-    store.commit("setTransactionTime", { blockHeight, blockMetaInfo })
-    expect(store.state.wallet.history[0].time).toBe(time)
+    store.commit("setWalletTxs", history)
+    store.commit("setTransactionTime", {
+      scope: "wallet",
+      blockHeight,
+      blockMetaInfo
+    })
+    expect(store.state.transactions.wallet[0].time).toBe(time)
   })
 
   // ACTIONS
@@ -65,7 +69,7 @@ describe("Module: Wallet", () => {
   it("should query wallet state", async () => {
     store.dispatch("queryWalletState")
     expect(store.state.wallet.balances).toEqual([])
-    expect(store.state.wallet.history).toEqual([])
+    expect(store.state.transactions.wallet).toEqual([])
     expect(store.state.send.nonce).toBe("0")
   })
 
@@ -90,7 +94,7 @@ describe("Module: Wallet", () => {
   })
 
   describe("query meta info", () => {
-    let height = 100
+    let blockHeight = 100
     let blockMeta = {
       header: {
         height: 100,
@@ -100,14 +104,17 @@ describe("Module: Wallet", () => {
 
     beforeEach(() => {
       // prefill history
-      store.commit("setWalletHistory", [{ height }])
+      store.commit("setWalletTxs", [{ height: blockHeight }])
       // prefill block metas
-      store.state.blockchain.blockMetas[height] = blockMeta
+      store.state.blockchain.blockMetas[blockHeight] = blockMeta
     })
 
     it("should query transaction time", async () => {
-      await store.dispatch("queryTransactionTime", height)
-      expect(store.state.wallet.history[0].time).toBe(42)
+      await store.dispatch("queryTransactionTime", {
+        blockHeight,
+        scopes: ["wallet"]
+      })
+      expect(store.state.transactions.wallet[0].time).toBe(42)
     })
   })
 
@@ -145,10 +152,10 @@ describe("Module: Wallet", () => {
       })
     }
     jest.spyOn(node.rpc, "blockchain")
-    await store.dispatch("queryWalletHistory")
+    await store.dispatch("getAllTxs")
     expect(node.rpc.blockchain.mock.calls.length).toBe(2)
-    expect(store.state.wallet.history[0].time).toBe(1)
-    expect(store.state.wallet.history[1].time).toBe(2)
+    expect(store.state.transactions.wallet[0].time).toBe(1)
+    expect(store.state.transactions.wallet[1].time).toBe(2)
   })
 
   it("should query the balances on reconnection", () => {
@@ -170,7 +177,7 @@ describe("Module: Wallet", () => {
 
   xit("should query the history on reconnection", () => {
     store.state.node.stopConnecting = true
-    store.state.wallet.historyLoading = true
+    store.state.transactions.loading = true
     jest.spyOn(node, "coinTxs")
     store.dispatch("reconnected")
     expect(node.coinTxs).toHaveBeenCalled()
@@ -178,7 +185,7 @@ describe("Module: Wallet", () => {
 
   xit("should not query the history on reconnection if not stuck in loading", () => {
     store.state.node.stopConnecting = true
-    store.state.wallet.historyLoading = false
+    store.state.transactions.loading = false
     jest.spyOn(node, "coinTxs")
     store.dispatch("reconnected")
     expect(node.coinTxs).not.toHaveBeenCalled()

@@ -30,21 +30,6 @@ describe("Module: Blockchain", () => {
     store.state.blockchain.blockMetas[height] = blockMeta
   })
 
-  it("sets block", () => {
-    store.commit("setBlock", { test: "test" })
-    expect(store.state.blockchain.block).toEqual({ test: "test" })
-  })
-  it("sets blocks", () => {
-    let payload = [{ foo: "bar" }, { hello: "world" }]
-    store.commit("setBlocks", payload)
-    expect(store.state.blockchain.blocks).toEqual(payload)
-  })
-
-  it("sets block meta info", () => {
-    store.commit("setBlockMetaInfo", { test: "test" })
-    expect(store.state.blockchain.blockMetaInfo).toEqual({ test: "test" })
-  })
-
   it("should query block info", async () => {
     store.state.blockchain.blockMetas = {}
     node.rpc.blockchain = jest.fn((ignored, cb) => {
@@ -76,96 +61,19 @@ describe("Module: Blockchain", () => {
     expect(store.state.notifications[0]).toMatchSnapshot()
   })
 
-  it("should show an info if block is unavailable", async () => {
-    store.state.blockchain.block = []
-    node.rpc.block = (props, cb) => cb("Error")
-    let height = 42
-    let output = await store.dispatch("queryBlock", height)
-    expect(output).toEqual(null)
-    expect(store.state.notifications.length).toBe(1)
-    expect(store.state.notifications[0]).toMatchSnapshot()
-  })
-
-  it("queries a block and info for a certain height", async () => {
-    node.rpc.block = (query, cb) => {
-      cb(null, {
-        block
-      })
-    }
-    let bc = {
-      test: "test2",
-      header: {
-        time: "Good Morning"
-      }
-    }
-    node.rpc.blockchain = (query, cb) => {
-      cb(null, { block_metas: [bc] })
-    }
-    await store.dispatch("getBlock", 42)
-    expect(store.state.blockchain.block).toEqual(block)
-    expect(store.state.blockchain.blockMetaInfo).toEqual(bc)
-  })
-
-  it("should remember the block height for the queried block", async () => {
-    await store.dispatch("getBlock", 42)
-    expect(store.state.blockchain.blockHeight).toBe(42)
-  })
-
-  it("should show that querying the block has finished", async () => {
-    node.rpc.block = (query, cb) => {
-      cb(null, { block })
-    }
-    let bc = {
-      test: "test2",
-      header: {
-        time: "Good Morning"
-      }
-    }
-    node.rpc.blockchain = (query, cb) => {
-      cb(null, { block_metas: [bc] })
-    }
-    store.state.blockchain.blockLoading = true
-    await store.dispatch("getBlock", 42)
-    expect(store.state.blockchain.blockLoading).toBe(false)
-  })
-
-  it("should hide loading on an error", async () => {
-    node.rpc.block = (query, cb) => {
-      cb({ message: "expected" }, block)
-    }
-
-    let bc = {
-      test: "test2",
-      header: {
-        time: "Good Morning"
-      }
-    }
-    node.rpc.blockchain = (query, cb) => {
-      cb(null, { block_metas: [bc] })
-    }
-    store.state.blockchain.blockLoading = true
-    await store.dispatch("getBlock", 42)
-    expect(store.state.blockchain.blockLoading).toBe(false)
-  })
-
-  it("should query for blocks on reconnection", () => {
-    store.state.node.stopConnecting = true
-    store.state.blockchain.blockLoading = true
-    store.dispatch("reconnected")
-  })
-
-  it("should not query for blocks on reconnection if not stuck in loading", () => {
-    store.state.node.stopConnecting = true
-    store.state.blockchain.blockLoading = false
-    store.dispatch("reconnected")
-  })
-
   it("should subscribe to new blocks", () => {
     node.rpc.subscribe = (query, cb) => {
       cb(null, { data: { value: { block: { test: "test" } } } })
     }
     store.dispatch("subscribeToBlocks")
     expect(store.state.blockchain.blocks[0]).toEqual({ test: "test" })
+  })
+
+  it("should not subscribe twice", async () => {
+    let firstResponse = await store.dispatch("subscribeToBlocks")
+    expect(firstResponse).toBe(true)
+    let secondResponse = await store.dispatch("subscribeToBlocks")
+    expect(secondResponse).toBe(false)
   })
 
   it("should subscribe to new blocks", () => {
@@ -232,67 +140,5 @@ describe("Module: Blockchain", () => {
       "4wHwYl3uCloqLIf6CikKFIPMHcOoYjqQbmtzFFdU3g967Y0/EhEKCmxvY2FsVG9rZW4SAzEwMBIpChSDzB3DqGI6kG5rcxRXVN4Peu2NPxIRCgpsb2NhbFRva2VuEgMxMDASCQoDEgEwEMCEPRp2CibrWumHIQLUKUS5mPDRAdBIB5lAw9AIh/aaAL9PTqArOWGO5fpsphJMf8SklUcwRQIhAM9qzjJSTxzXatI3ncHcb1cwIdCTU+oVP4V8RO6lzjcXAiAoS9XZ4e3I/1e/HonfHucRNYE65ioGk88q4dWPs9Z5LA=="
     let hash = await getTxHash(txString)
     expect(hash).toBe(expectedHash)
-  })
-
-  it("should query txs", async () => {
-    let txString =
-      "5wEPKiyH+w4DAQoU2cEstRhv4AGBeXQv0xEO5TTGNGAWAwEKBXN0ZWFrEQAAAAAAAAABBAQWAwEKFO85c4xpK5f28LYmEaY7OdYfuYuxFgMBCgVzdGVhaxEAAAAAAAAAAQQEBBMRAAAAAAAAAAAEHgMBDxYk3mIggDMizvgRs6nMKxBEfkMszfCU2ds6N9b9QxnzU6bNzXsXPaHbKkCLqwKfTYiuSPRjyqMROHd4T1oLM2sdduX7o81C9a8EbUTOCoXFRmYM8L50NBhtYOunMK0gsCSL1474TOLU6TMBGQAAAAAAAAAGBAQ="
-    node.rpc.block = (query, cb) => {
-      cb(null, {
-        block: {
-          test: "test",
-          header: {
-            time: "Good Morning"
-          },
-          height: 42,
-          data: {
-            txs: [txString]
-          }
-        }
-      })
-    }
-    node.tx = () => {
-      return new Promise(resolve => {
-        resolve({
-          height: 42,
-          test: "test"
-        })
-      })
-    }
-    expect(Object.keys(store.state.blockchain.blockTxs).length).toBe(0)
-    await store.dispatch("getBlock", 42)
-    let blockTxInfo = await store.dispatch("queryTxInfo", 42)
-    expect(blockTxInfo[0].test).toBe("test")
-    expect(Object.keys(store.state.blockchain.blockTxs).length).toBe(1)
-  })
-
-  it("should handle tx error", async () => {
-    // store.state.blockchain.blockTxs = {}
-    let txString =
-      "5wEPKiyH+w4DAQoU2cEstRhv4AGBeXQv0xEO5TTGNGAWAwEKBXN0ZWFrEQAAAAAAAAABBAQWAwEKFO85c4xpK5f28LYmEaY7OdYfuYuxFgMBCgVzdGVhaxEAAAAAAAAAAQQEBBMRAAAAAAAAAAAEHgMBDxYk3mIggDMizvgRs6nMKxBEfkMszfCU2ds6N9b9QxnzU6bNzXsXPaHbKkCLqwKfTYiuSPRjyqMROHd4T1oLM2sdduX7o81C9a8EbUTOCoXFRmYM8L50NBhtYOunMK0gsCSL1474TOLU6TMBGQAAAAAAAAAGBAQ="
-    node.rpc.block = (query, cb) => {
-      cb(null, {
-        block: {
-          test: "test",
-          height: 42,
-          data: {
-            txs: [txString]
-          }
-        }
-      })
-    }
-    node.tx = () => {
-      return new Promise((resolve, reject) => {
-        reject("asdf")
-      })
-    }
-
-    try {
-      await store.dispatch("getBlock", 42)
-      await store.dispatch("queryBlock", 42)
-      expect(true).toBe(false)
-    } catch (error) {
-      expect(error).toBe("asdf")
-    }
   })
 })
