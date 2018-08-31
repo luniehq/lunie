@@ -59,6 +59,8 @@ jobs:
             - node_modules
           key: v3-dependencies-root-{{ checksum "package.json" }}
 
+      - run: yarn run lint
+
       - run:
           name: Test
           command: yarn run test:unit
@@ -133,7 +135,16 @@ jobs:
       - attach_workspace:
           at: builds/Gaia
 
+      # download network configs
       - run: tasks/build/testnets/build.sh
+
+      # build Voyager
+      - run: node -e 'require("./tasks/build/build.js").buildAllPlatforms()'
+
+      # test linux build
+      - run: tar -zxvf ./builds/Voyager/Cosmos_Voyager-*-Linux.tar.gz
+      - run: yarn test:exe "./Cosmos Voyager"
+
       - run: node tasks/publish.js
 
 workflows:
