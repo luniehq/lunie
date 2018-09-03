@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* test if build Voyager actually starts @faboweb
+
+### Fixed
+
+* Do not try to publish a release on every push to `develop`. @NodeGuy
+
+## [0.10.2] - 2018-08-29
+
 ### Changed
 
 * moved about Window to be a native menu so it would display from the application toolbar at any time @faboweb
@@ -16,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * use correct set of seed nodes @ƒaboweb
 * validator page showed incorrect voting power @faboweb
 * improves poor performance at start by throttling the updates of the cached store @faboweb
+* Run lint test in CI. @NodeGuy
 
 ## [0.10.1] - 2018-08-29
 

@@ -27,7 +27,7 @@ function test(executablePath) {
         reject()
       }, 5000)
     } catch (err) {
-      await cleanExitChild(child)
+      if (child) await cleanExitChild(child)
       console.error("Unexpected error", err)
       reject(err)
     }
