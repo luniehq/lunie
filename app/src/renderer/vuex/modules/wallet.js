@@ -36,9 +36,6 @@ export default ({ node }) => {
       if (state.balancesLoading && state.address) {
         dispatch("queryWalletBalances")
       }
-      if (rootState.transactions.loading) {
-        dispatch("getAllTxs") // modules/transactions.js
-      }
     },
     initializeWallet({ commit, dispatch }, address) {
       commit("setWalletAddress", address)
