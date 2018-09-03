@@ -32,7 +32,7 @@ export default ({ node }) => {
   }
 
   let actions = {
-    reconnected({ rootState, state, dispatch }) {
+    reconnected({ state, dispatch }) {
       if (state.balancesLoading && state.address) {
         dispatch("queryWalletBalances")
       }

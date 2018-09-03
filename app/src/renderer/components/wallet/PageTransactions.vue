@@ -83,7 +83,7 @@ export default {
       property: "height",
       order: "desc"
     },
-    validatorURL: "https://explorecosmos.network/validators"
+    validatorURL: `${window.location.hostname}/staking/validators`
   }),
   methods: {
     refreshTransactions() {
