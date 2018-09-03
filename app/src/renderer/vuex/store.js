@@ -14,7 +14,7 @@ export default (opts = {}) => {
     getters,
     // strict: true,
     modules: modules(opts),
-    mutations: {
+    actions: {
       loadPersistedState
     }
   })
@@ -74,7 +74,7 @@ function getStorageKey(state) {
   return `store_${chainId}_${address}`
 }
 
-function loadPersistedState(state, { password }) {
+function loadPersistedState({ state, commit }, { password }) {
   const cachedState = localStorage.getItem(getStorageKey(state))
   if (cachedState) {
     const bytes = CryptoJS.AES.decrypt(cachedState, password)
@@ -93,5 +93,12 @@ function loadPersistedState(state, { password }) {
       }
     })
     this.replaceState(state)
+
+    // add all delegates the user has bond with already to the cart
+    state.delegates.delegates
+      .filter(d => state.delegation.committedDelegates[d.id])
+      .forEach(d => {
+        commit("addToCart", d)
+      })
   }
 }
