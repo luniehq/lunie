@@ -32,9 +32,7 @@ export default (opts = {}) => {
     if (updatingMutations.indexOf(mutation.type) === -1) return
 
     // if the user is logged in cache the balances and the tx-history for that user
-    // skip persisting the state before the potentially persisted state has been loaded
-    if (!state.user.stateLoaded || !state.user.account || !state.user.password)
-      return
+    if (!state.user.account || !state.user.password) return
 
     if (pending) {
       clearTimeout(pending)
@@ -96,6 +94,4 @@ function loadPersistedState(state, { password }) {
     })
     this.replaceState(state)
   }
-
-  state.user.stateLoaded = true
 }
