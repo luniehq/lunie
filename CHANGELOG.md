@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Added staking transactions and fixed 100% height txs. Refactored modules/blockchain.js @okwme
 * test if build Voyager actually starts @faboweb
 
+### Fixed
+
+* Do not try to publish a release on every push to `develop`. @NodeGuy
+
 ## [0.10.2] - 2018-08-29
 
 ### Changed
