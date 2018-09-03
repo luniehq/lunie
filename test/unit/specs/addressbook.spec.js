@@ -138,12 +138,14 @@ describe("Addressbook", () => {
               peers: [
                 {
                   node_info: {
-                    listen_addr: "323.456.123.456"
+                    listen_addr: "323.456.123.456",
+                    other: ["", "", "", "", "tx_index=on"]
                   }
                 },
                 {
                   node_info: {
-                    listen_addr: "423.456.123.456"
+                    listen_addr: "423.456.123.456",
+                    other: ["", "", "", "", "tx_index=off"]
                   }
                 }
               ]
@@ -154,19 +156,18 @@ describe("Addressbook", () => {
     }))
     jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
-
     let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
     })
     await addressbook.discoverPeers("123.456.123.456")
     expect(addressbook.peers.map(p => p.host)).toContain("323.456.123.456")
-    expect(addressbook.peers.map(p => p.host)).toContain("423.456.123.456")
+    expect(addressbook.peers.map(p => p.host)).not.toContain("423.456.123.456")
 
     const fs = require("fs-extra")
     let content = fs.readFileSync("./addressbook.json")
     let storedNodes = JSON.parse(content)
     expect(storedNodes).toContain("323.456.123.456")
-    expect(storedNodes).toContain("423.456.123.456")
+    expect(storedNodes).not.toContain("423.456.123.456")
   })
 
   it("should provide the ability to reset the state of the nodes to try to reconnect to all, i.e. after an internet outage", async done => {
