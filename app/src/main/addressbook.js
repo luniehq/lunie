@@ -64,6 +64,11 @@ module.exports = class Addressbook {
     })
   }
 
+  isIndexingNode(peer) {
+    let tx_index = peer.node_info.other[4].split("=")[1]
+    return tx_index === "on"
+  }
+
   loadFromDisc() {
     // if there is no address book file yet, there are no peers stored yet
     // the file will be created when persisting any peers to disc
@@ -139,8 +144,12 @@ module.exports = class Addressbook {
     let subPeers = (await axios.get(
       `http://${peerIP}:${this.config.default_tendermint_port}/net_info`
     )).data.result.peers
-    let subPeersHostnames = subPeers.map(peer => peer.node_info.listen_addr)
-
+    let subPeersHostnames = subPeers.map(peer => {
+      // skip non-indexing nodes
+      if (this.isIndexingNode(peer)) {
+        return peer.node_info.listen_addr
+      }
+    })
     subPeersHostnames
       // check if we already know the peer
       .filter(subPeerHostname => !this.peerIsKnown(subPeerHostname))
