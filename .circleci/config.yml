@@ -120,7 +120,7 @@ jobs:
             - v2-dependencies-root-
 
       - run: yarn install
-      - run: node tasks/releasePullRequest.js
+      - run: node tasks/createReleasePR.js
 
   # Publish the release to GitHub.
   publish:
@@ -184,7 +184,7 @@ workflows:
             branches:
               only: develop
             tags:
-              only: /.+/
+              only: /^v.*/
 
   release:
     jobs:

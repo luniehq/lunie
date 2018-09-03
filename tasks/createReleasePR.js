@@ -36,7 +36,7 @@ const pushCommit = async ({ token, head }) => {
   // needed to authenticate properly
   await git.addRemote("bot", `https://${token}@github.com/cosmos/voyager.git`)
 
-  await git.push("bot", `HEAD:${head}`, { "--tags": null })
+  await git.push("bot", `HEAD:${head}`)
 }
 
 const recentChanges = changeLog =>
