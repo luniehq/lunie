@@ -14,6 +14,7 @@ describe("Store", () => {
   // DEFAULT
 
   it("should persist balances et al if the user is logged in", async () => {
+    jest.useFakeTimers()
     await store.dispatch("setLastHeader", {
       height: 42,
       chain_id: "test-net"
@@ -23,18 +24,21 @@ describe("Store", () => {
       password: "1234567890"
     })
     store.commit("setWalletBalances", [{ denom: "fabocoin", amount: 42 }])
+    jest.runAllTimers()
     expect(
       localStorage.getItem("store_test-net_" + lcdClientMock.addresses[0])
     ).toBeTruthy()
   })
 
   it("should restore balances et al after logging in", async () => {
+    jest.useFakeTimers()
     await store.dispatch("signIn", {
       account: "default",
       password: "1234567890"
     })
     store.commit("setWalletBalances", [{ denom: "fabocoin", amount: 42 }])
     store.commit("setWalletHistory", [{}])
+    jest.runAllTimers()
     await store.dispatch("signOut")
     await store.dispatch("signIn", {
       account: "default",

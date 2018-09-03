@@ -59,7 +59,8 @@ export default {
       let validator = this.delegates.delegates.find(
         v => this.$route.params.validator === v.owner
       )
-      validator.keybase = this.keybase[validator.description.identity]
+      if (validator)
+        validator.keybase = this.keybase[validator.description.identity]
       return validator
     },
     selfBond() {
