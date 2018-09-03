@@ -11,14 +11,6 @@ describe("Module: Blockchain", () => {
       time: 42
     }
   }
-  // const block = {
-  //   test: "test",
-  //   height: 42,
-  //   time: "Good Morning",
-  //   data: {
-  //     txs: []
-  //   }
-  // }
 
   beforeEach(() => {
     let test = instance.shallow()
@@ -61,30 +53,11 @@ describe("Module: Blockchain", () => {
     expect(store.state.notifications[0]).toMatchSnapshot()
   })
 
-  it("should subscribe to new blocks", () => {
-    node.rpc.subscribe = (query, cb) => {
-      cb(null, { data: { value: { block: { test: "test" } } } })
-    }
-    store.dispatch("subscribeToBlocks")
-    expect(store.state.blockchain.blocks[0]).toEqual({ test: "test" })
-  })
-
   it("should not subscribe twice", async () => {
     let firstResponse = await store.dispatch("subscribeToBlocks")
     expect(firstResponse).toBe(true)
     let secondResponse = await store.dispatch("subscribeToBlocks")
     expect(secondResponse).toBe(false)
-  })
-
-  it("should subscribe to new blocks", () => {
-    node.rpc.subscribe = (query, cb) => {
-      for (let i = 0; i < 25; i++) {
-        cb(null, { data: { value: { block: { test: "test" } } } })
-      }
-    }
-    store.dispatch("subscribeToBlocks")
-    expect(store.state.blockchain.blocks[0]).toEqual({ test: "test" })
-    expect(store.state.blockchain.blocks.length).toBe(19)
   })
 
   it("should handle errors", () => {

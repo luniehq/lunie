@@ -165,10 +165,6 @@ export default {
         })
         // resets send transaction form
         this.resetForm()
-        // refreshes user transaction history
-        this.$store.dispatch("getAllTxs")
-        // TODO: is this ^^ necessary since it's
-        // queried on transaction page mounted anyway?
       } catch (err) {
         this.sending = false
         this.$store.commit("notifyError", {

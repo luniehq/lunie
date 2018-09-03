@@ -17,9 +17,8 @@ export const themes = state => state.themes
 export const onboarding = state => state.onboarding
 
 // wallet
-export const allTransactions = state => {
-  return state.transactions.wallet.concat(state.transactions.staking)
-}
+export const allTransactions = state =>
+  state.transactions.wallet.concat(state.transactions.staking)
 export const wallet = state => state.wallet
 
 // staking

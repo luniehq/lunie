@@ -52,9 +52,6 @@ export default {
       "connected",
       "validators"
     ]),
-    validatorURL() {
-      return "https://explorecosmos.network/validators"
-    },
     somethingToSearch() {
       return !this.transactions.loading && !!this.allTransactions.length
     },
@@ -85,7 +82,8 @@ export default {
     sort: {
       property: "height",
       order: "desc"
-    }
+    },
+    validatorURL: "https://explorecosmos.network/validators"
   }),
   methods: {
     refreshTransactions() {

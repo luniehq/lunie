@@ -1,5 +1,5 @@
-let { uniqBy } = require("lodash")
-
+const fp = require(`lodash/fp`)
+import { uniqBy } from "lodash"
 export default ({ node }) => {
   let state = {
     loading: false,
@@ -18,11 +18,10 @@ export default ({ node }) => {
       state.loading = loading
     },
     setTransactionTime(state, { scope, blockHeight, blockMetaInfo }) {
-      state[scope] = state[scope].map(t => {
+      state[scope].forEach(t => {
         if (t.height === blockHeight) {
           t.time = blockMetaInfo && blockMetaInfo.header.time
         }
-        return t
       })
     }
   }
@@ -43,59 +42,31 @@ export default ({ node }) => {
       })
       commit("setHistoryLoading", false)
     },
-    // after creating getAllTxs, getStakingTxs and getWalletTxs are no longer
-    // referenced anywhere. keeping them here in case there is need for them later
-    // async getStakingTxs({ commit, dispatch, rootState }) {
-    //   commit("setHistoryLoading", true)
-    //   const transactions = await dispatch("getTx", "staking")
-    //   commit("setStakingTxs", transactions)
-    //
-    //   await dispatch("enrichTransactions", {
-    //     transactions,
-    //     scopes: ["staking"]
-    //   })
-    //   commit("setHistoryLoading", false)
-    // },
-    // async getWalletTxs({ rootState, commit, dispatch }) {
-    //   commit("setHistoryLoading", true)
-    //   const transactions = await dispatch("getTx", "wallet")
-    //   commit("setStakingTxs", transactions)
-    //
-    //   await dispatch("enrichTransactions", {
-    //     transactions,
-    //     scopes: ["wallet"]
-    //   })
-    //   commit("setHistoryLoading", false)
-    // },
-    async getTx({ rootState }, type) {
-      let address = rootState.user.address
-      let res
+    async getTx(
+      {
+        rootState: {
+          user: { address }
+        }
+      },
+      type
+    ) {
+      let response
       switch (type) {
         case "staking":
-          res = await node.getDelegatorTxs(address)
+          response = await node.getDelegatorTxs(address)
           break
         case "wallet":
-          res = await node.txs(rootState.user.address)
+          response = await node.txs(address)
           break
         default:
           throw new Error("Unknown transaction type")
       }
-      if (!res) return []
-      res = res.map(r => {
-        r.type = type
-        return r
-      })
-      return uniqBy(res, "hash")
+      return response ? uniqBy(response.map(fp.set(`type`, type)), "hash") : []
     },
     async enrichTransactions({ dispatch }, { transactions, scopes = [] }) {
-      let blockHeights = []
-      transactions.forEach(t => {
-        if (!blockHeights.find(h => h === t.height)) {
-          blockHeights.push(t.height)
-        }
-      })
+      const blockHeights = new Set(transactions.map(({ height }) => height))
       await Promise.all(
-        blockHeights.map(blockHeight =>
+        [...blockHeights].map(blockHeight =>
           dispatch("queryTransactionTime", { blockHeight, scopes })
         )
       )

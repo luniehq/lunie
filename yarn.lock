@@ -25,24 +25,6 @@
     node-fetch "^2.1.1"
     url-template "^2.0.8"
 
-"@tendermint/ui@0.2.20":
-  version "0.2.20"
-  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.20.tgz#8bea9c77c391375ff478eaf57d4d0ff06f8e309a"
-  dependencies:
-    axios "^0.18.0"
-    cookieconsent "^3.0.6"
-    js-base64 "^2.4.5"
-    markdown-it "^8.4.1"
-    markdown-it-anchor "^5.0.2"
-    moment "2.22.1"
-    moment-timezone "0.5.16"
-    nib "^1.1.2"
-    numeral "^2.0.6"
-    perfect-scrollbar "^1.4.0"
-    vue "^2.5.16"
-    vue-router "^3.0.1"
-    vuex "^3.0.1"
-
 "@tendermint/ui@https://github.com/tendermint/ui.git#dd88c5d141a19e8b89771499405f64ffcf0787be":
   version "0.2.20"
   resolved "https://github.com/tendermint/ui.git#dd88c5d141a19e8b89771499405f64ffcf0787be"
