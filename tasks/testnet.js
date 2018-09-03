@@ -5,7 +5,7 @@ async function main() {
   const network = process.argv[2] || config.default_network
 
   // run Voyager in a development environment
-  runDev(`./app/networks/${network}/`)
+  runDev(`./builds/testnets/${network}/`)
 }
 
 main().catch(function(err) {

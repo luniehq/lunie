@@ -7,11 +7,15 @@ tm-page(title='Staking')
       i.search.material-icons search
 
   modal-search(type="delegates" v-if="somethingToSearch")
-
+  .delegates-tabs
+    .tab(v-for="(tab, i) in tabs",
+      :key="'tab-' + i",
+      :class="{'tab-selected': i === tabIndex}",
+      @click="tabIndex = i") {{tab}}
   .delegates-container
-    tm-data-loading(v-if="delegates.loading && delegates.delegates.length === 0")
-    tm-data-empty(v-else-if="delegates.delegates.length === 0")
-    data-empty-search(v-else-if="sortedFilteredEnrichedDelegates.length === 0")
+    tm-data-loading(v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
+    tm-data-empty(v-else-if="!delegates.loading && delegates.delegates.length === 0")
+    data-empty-search(v-else-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
     template(v-else)
       panel-sort(:sort='sort', :properties="properties")
       li-delegate(v-for='i in sortedFilteredEnrichedDelegates' :key='i.id' :delegate='i')
@@ -56,7 +60,9 @@ export default {
     sort: {
       property: "percent_of_vote",
       order: "desc"
-    }
+    },
+    tabIndex: 0,
+    tabs: ["My Stake", "Validators"]
   }),
   computed: {
     ...mapGetters([
@@ -73,7 +79,7 @@ export default {
       return this.user.address
     },
     somethingToSearch() {
-      return !this.delegates.loading && !!this.delegates.delegates.length
+      return !!this.delegates.delegates.length
     },
     vpTotal() {
       return this.delegates.delegates

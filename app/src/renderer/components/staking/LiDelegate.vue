@@ -1,7 +1,12 @@
 <template lang='pug'>
 .li-delegate(:class='styles'): .li-delegate__values
+  .li-delegate__value.keybase
+    img.avatar(v-if="delegate.keybase" :src="delegate.keybase.avatarUrl" width="48" height="48")
+    img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
   .li-delegate__value.name
-    router-link(:to="{ name: 'validator', params: { validator: delegate.id }}") {{ delegate.description.moniker }}
+    router-link(:to="{ name: 'validator', params: { validator: delegate.id }}")
+      .top {{ delegate.description.moniker }}
+      .bottom {{ shortAddress(delegate.id)}}
   .li-delegate__value.percent_of_vote
     span {{ delegate.percent_of_vote }}
   .li-delegate__value.number_of_votes.num.bar
@@ -26,6 +31,9 @@
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { maxBy } from "lodash"
+import { shortAddress } from "scripts/common"
+console.log(shortAddress)
+console.log(shortAddress("asdf1asdf"))
 export default {
   name: "li-delegate",
   props: ["delegate"],
@@ -76,7 +84,7 @@ export default {
           : "Candidate"
     }
   },
-  data: () => ({ num: num }),
+  data: () => ({ num, shortAddress }),
   methods: {
     add(delegate) {
       this.$store.commit("addToCart", delegate)
@@ -116,7 +124,9 @@ export default {
 
 .li-delegate__values
   display flex
-  height 3rem
+  height 5rem
+  padding 12px 16px
+  background-color var(--app-nav)
 
 .li-delegate__value
   flex 1
@@ -126,7 +136,9 @@ export default {
 
   &:last-child
     flex 0.5
-
+  &.keybase
+    img
+      border-radius 100%
   &.name
     flex 2
     padding-left 1rem
