@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export default ({ node }) => {
+export default ({}) => {
   const emptyState = {
     identities: {},
     loading: false

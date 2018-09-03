@@ -42,7 +42,6 @@ import { TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
-import { keybase } from "../../vuex/getters"
 export default {
   name: "page-validator",
   components: {

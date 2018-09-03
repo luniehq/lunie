@@ -1,5 +1,3 @@
-import axios from "axios"
-
 export default ({ node }) => {
   const emptyState = {
     delegates: [],
