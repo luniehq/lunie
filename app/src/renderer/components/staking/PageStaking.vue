@@ -129,23 +129,7 @@ export default {
           class: "name"
         },
         {
-          title: `% of ${this.bondingDenom}`,
-          value: "percent_of_vote",
-          tooltip: `Percentage of ${
-            this.bondingDenom
-          } the validator has on The Cosmos Hub`,
-          class: "percent_of_vote"
-        },
-        {
-          title: `Total ${this.bondingDenom}`,
-          value: "voting_power",
-          tooltip: `Total number of ${
-            this.bondingDenom
-          } the validator has on The Cosmos Hub`,
-          class: "voting_power"
-        },
-        {
-          title: `Your ${this.bondingDenom}`,
+          title: `My Stake`,
           value: "your_votes",
           tooltip: `Number of ${
             this.bondingDenom
@@ -153,16 +137,38 @@ export default {
           class: "your-votes"
         },
         {
-          title: "Status",
-          value: "isValidator",
-          tooltip:
-            "The validator's current state: validating, candidate, or jailed",
-          class: "status"
+          title: `My Rewards`,
+          value: "your_rewards", // TODO: use real rewards
+          tooltip: `Rewards of ${
+            this.bondingDenom
+          } you have gained from the validator`,
+          class: "your-rewards" // TODO: use real rewards
         },
         {
-          title: "",
-          value: "",
-          class: "action hidden"
+          title: `Voting Power`,
+          value: "percent_of_vote",
+          tooltip: `Percentage of ${
+            this.bondingDenom
+          } the validator has on The Cosmos Hub`,
+          class: "percent_of_vote"
+        },
+        {
+          title: "Uptime",
+          value: "uptime", // TODO: use real uptime
+          tooltip: "The validator's uptime",
+          class: "uptime"
+        },
+        {
+          title: "Commission",
+          value: "commission", // TODO: use real commission
+          tooltip: "The validator's commission",
+          class: "commission"
+        },
+        {
+          title: "Slashes",
+          value: "slashes", // TODO: use real slashes
+          tooltip: "The validator's slashes",
+          class: "slashes"
         }
       ]
     }

@@ -1,9 +1,9 @@
 <template lang="pug">
 .panel-sort: .panel-sort-container: .sort-by(
-  v-for="property in properties",
+  v-for="(property, i) in properties",
   @click="orderBy(property.value, $event)",
   :class="property.class")
-  .label(v-tooltip.top="property.tooltip") {{ property.title }}
+  .label(v-tooltip.top="property.tooltip" v-if="i !== 0") {{ property.title }}
 </template>
 
 <script>
@@ -79,7 +79,7 @@ export default {
       color var(--tertiary)
 
   &.name
-    flex 2
+    flex 3
 
   &.action
     flex 0.5
