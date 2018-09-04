@@ -58,14 +58,9 @@ export default {
     content '\f0d8'
   &:nth-of-type(4)
     padding-left 1em
-    & ~ .sort-by .label
-      // margin-left auto
   .label
     display inline-block
     margin auto
-    &:first-of-type .label-text:after
-      // content ''
-
     .label-text
       display: inline
       color var(--link)
