@@ -67,7 +67,8 @@ export default {
       "config",
       "user",
       "connected",
-      "bondingDenom"
+      "bondingDenom",
+      "keybase"
     ]),
     address() {
       return this.user.address
@@ -93,6 +94,7 @@ export default {
             v.small_moniker = v.description.moniker.toLowerCase()
             v.percent_of_vote = num.percent(v.voting_power / this.vpTotal)
             v.your_votes = this.num.prettyInt(this.committedDelegations[v.id])
+            v.keybase = this.keybase[v.description.identity]
             return v
           })
     },

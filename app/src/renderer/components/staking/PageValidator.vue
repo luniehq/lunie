@@ -53,11 +53,14 @@ export default {
     TmDataError
   },
   computed: {
-    ...mapGetters(["delegates", "config"]),
+    ...mapGetters(["delegates", "config", "keybase"]),
     validator() {
-      return this.delegates.delegates.find(
+      let validator = this.delegates.delegates.find(
         v => this.$route.params.validator === v.owner
       )
+      if (validator)
+        validator.keybase = this.keybase[validator.description.identity]
+      return validator
     },
     selfBond() {
       parseFloat(this.validator.tokens) -
