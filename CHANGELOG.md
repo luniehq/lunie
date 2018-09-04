@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * validator page showed incorrect voting power @faboweb
 * improves poor performance at start by throttling the updates of the cached store @faboweb
 * Run lint test in CI. @NodeGuy
+* current atoms in PageBond still showed old atoms right after staking @ƒaboweb
 
 ## [0.10.1] - 2018-08-29
 
