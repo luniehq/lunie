@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page(title="Proposal: Amend Constitution")
-  div(slot="menu"): tool-bar
+  div(slot="menu"): vm-tool-bar
     router-link(to="/proposals/new" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
   tm-form-struct(:submit="onSubmit")
@@ -41,7 +41,7 @@ import {
   TmField,
   TmFormMsg
 } from "@tendermint/ui"
-import ToolBar from "common/TmToolBar"
+import VmToolBar from "common/VmToolBar"
 export default {
   name: "page-proposals-new-amend",
   components: {
@@ -51,7 +51,7 @@ export default {
     TmFormMsg,
     TmFormStruct,
     TmPage,
-    ToolBar
+    VmToolBar
   },
   data: () => ({
     titleMinLength: 10,

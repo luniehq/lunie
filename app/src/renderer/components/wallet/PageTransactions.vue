@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page(title='Transactions')
-  div(slot="menu"): tool-bar
+  div(slot="menu"): vm-tool-bar
     a(@click='connected && refreshTransactions()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
       i.material-icons refresh
     a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
@@ -29,7 +29,7 @@ import DataEmptySearch from "common/TmDataEmptySearch"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import ModalSearch from "common/TmModalSearch"
 import { TmPage, TmDataLoading, TmLiAnyTransaction } from "@tendermint/ui"
-import ToolBar from "common/TmToolBar"
+import VmToolBar from "common/VmToolBar"
 export default {
   name: "page-transactions",
   components: {
@@ -39,7 +39,7 @@ export default {
     DataEmptyTx,
     ModalSearch,
     TmPage,
-    ToolBar
+    VmToolBar
   },
   computed: {
     ...mapState(["transactions", "node"]),
