@@ -34,6 +34,19 @@ describe("Store", () => {
     ).toBeTruthy()
   })
 
+  it("should not update cache if not logged in", async () => {
+    jest.useFakeTimers()
+    await store.dispatch("setLastHeader", {
+      height: 42,
+      chain_id: "test-net"
+    })
+    store.commit("setWalletBalances", [{ denom: "fabocoin", amount: 42 }])
+    jest.runAllTimers() // updating is waiting if more updates coming in, this skips the waiting
+    expect(
+      localStorage.getItem("store_test-net_" + lcdClientMock.addresses[0])
+    ).toBeFalsy()
+  })
+
   it("should restore balances et al after logging in", async () => {
     jest.useFakeTimers()
     await store.dispatch("setLastHeader", {
