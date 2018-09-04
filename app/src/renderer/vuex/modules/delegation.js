@@ -158,15 +158,10 @@ export default ({ node }) => {
         .reduce((sum, diff) => sum + diff, 0)
       commit("setAtoms", rootState.user.atoms + atomsDiff)
 
-      // usually I would just query the new state through the LCD but at this point we still get the old shares
-      dispatch("updateDelegates").then(() => {
-        for (let delegation of delegations) {
-          commit("setCommittedDelegation", {
-            candidateId: delegation.delegate.owner,
-            value: delegation.atoms
-          })
-        }
-      })
+      // we optimistically update the committed delegations
+      updateCommittedDelegations(delegations, commit)
+      // TODO usually I would just query the new state through the LCD and update the state with the result, but at this point we still get the old shares
+      // dispatch("updateDelegates")
     }
   }
 
@@ -174,5 +169,14 @@ export default ({ node }) => {
     state,
     mutations,
     actions
+  }
+}
+
+function updateCommittedDelegations(delegations, commit) {
+  for (let delegation of delegations) {
+    commit("setCommittedDelegation", {
+      candidateId: delegation.delegate.owner,
+      value: delegation.atoms
+    })
   }
 }
