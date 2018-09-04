@@ -20,13 +20,8 @@ exports[`PageWallet has the expected html structure 1`] = `
             Wallet
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -421,13 +416,8 @@ exports[`PageWallet should filter the balances 1`] = `
             Wallet
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"

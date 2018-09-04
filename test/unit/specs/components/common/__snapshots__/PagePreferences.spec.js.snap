@@ -20,13 +20,8 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
             Preferences
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
