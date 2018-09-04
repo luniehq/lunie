@@ -29,8 +29,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Run lint test in CI. @NodeGuy
 * current atoms in PageBond still showed old atoms right after staking @ƒaboweb
 * fix showing undefined for bonding denom in staking sucess message @faboweb
-
-- fix not showing a lock (I have stake with this one) on a validator if stake is less then 1 @faboweb
+* fix not showing a lock (I have stake with this one) on a validator if stake is less then 1 @faboweb
+* fix showing wrong error on pagebond validation @okwme
 
 ## [0.10.1] - 2018-08-29
 
