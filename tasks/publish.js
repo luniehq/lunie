@@ -59,7 +59,7 @@ async function main() {
     `https://${process.env.GIT_BOT_TOKEN}@github.com/cosmos/voyager.git`
   )
 
-  await git.tag([tag])
+  await git.tag([tag], { annotate: true })
   await git.push("bot", "HEAD:master", { tags: true })
 
   console.log("--- Done releasing ---")
