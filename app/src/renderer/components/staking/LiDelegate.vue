@@ -121,9 +121,8 @@ export default {
 @require '~variables'
 
 .li-delegate
-  border-left 1px solid var(--bc)
-  border-right 1px solid var(--bc)
-
+  border 1px solid var(--bc)
+  margin-bottom 1em
   &:nth-of-type(2n-1)
     background var(--app-fg)
 

@@ -24,34 +24,22 @@ test("staking", async function(t) {
       "it shows both validators"
     )
     await t.ok(
-      await app.client.$(".name=local_1").isVisible(),
+      await app.client.$(".top=local_1").isVisible(),
       "show validator 1"
     )
     await t.ok(
-      await app.client.$(".name=local_2").isVisible(),
+      await app.client.$(".top=local_2").isVisible(),
       "show validator 2"
     )
     await t.ok(
-      await app.client.$(".name=local_3").isVisible(),
+      await app.client.$(".top=local_3").isVisible(),
       "show validator 3"
-    )
-
-    await t.equal(
-      await app.client.$(".li-delegate__value.number_of_votes").getText(),
-      num.pretty(bondedStake),
-      "show validators stake"
     )
 
     await t.equal(
       await app.client.$(".li-delegate__value.your-votes").getText(),
       bondedStake.toString(),
       "show my stake in the validator"
-    )
-
-    await t.equal(
-      await app.client.$(".li-delegate__value.status").getText(),
-      "Validator",
-      "show candidate is a validator"
     )
 
     t.end()
@@ -97,12 +85,6 @@ test("staking", async function(t) {
 
     // wait until the validators are showing again
     await app.client.waitForVisible("#go-to-bonding-btn", 30000)
-
-    t.equal(
-      await app.client.$(".li-delegate__value.number_of_votes").getText(),
-      num.pretty(bondedStake),
-      "Validator total steak updated correctly"
-    )
 
     t.equal(
       await app.client.$(".li-delegate__value.your-votes").getText(),
@@ -165,12 +147,6 @@ test("staking", async function(t) {
 
     // wait until the validators are showing again
     await app.client.waitForVisible("#go-to-bonding-btn", 30000)
-
-    t.equal(
-      await app.client.$(".li-delegate__value.number_of_votes").getText(),
-      num.pretty(bondedStake),
-      "Validator total steak updated correctly"
-    )
 
     t.equal(
       await app.client.$(".li-delegate__value.your-votes").getText(),
