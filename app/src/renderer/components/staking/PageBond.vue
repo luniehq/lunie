@@ -248,7 +248,7 @@ export default {
           await this.$store.dispatch("submitDelegation", this.fields.delegates)
           this.$store.commit("notify", {
             title: "Successful Staking!",
-            body: `You have successfully staked your ${this.denom}s.`
+            body: `You have successfully staked your ${this.bondingDenom}s.`
           })
           this.$router.push("/staking")
         } catch (err) {
