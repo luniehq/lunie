@@ -61,6 +61,7 @@ function startRendererServer() {
 }
 
 module.exports = async function(networkPath) {
+  console.log(networkPath)
   if (!fs.existsSync(networkPath)) {
     console.error(
       "The network configuration for the network you want to connect to doesn't exist. Have you run `yarn build:testnets` to download the latest configurations?"

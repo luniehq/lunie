@@ -1,23 +1,25 @@
 <template lang='pug'>
 .li-delegate(:class='styles'): .li-delegate__values
   .li-delegate__value.name
-    img.avatar(v-if="delegate.keybase" :src="delegate.keybase.avatarUrl" width="48" height="48")
-    img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
     router-link(:to="{ name: 'validator', params: { validator: delegate.id }}")
-      .top {{ delegate.description.moniker }}
-      .bottom {{ shortAddress(delegate.id)}}
+      img.avatar(v-if="delegate.keybase" :src="delegate.keybase.avatarUrl" width="48" height="48")
+      img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
+      .vert
+        .top {{ delegate.description.moniker }}
+        .bottom {{ shortAddress(delegate.id)}}
   .li-delegate__value.your-votes
-    span.green {{ yourVotes }}
+    span {{ yourVotes }}
   .li-delegate__value.your-rewards
-    span.red {{ yourRewards }}
+    span {{ yourRewards }}
+  .li-delegate__break: span
   .li-delegate__value.percent_of_vote
-    span.orange {{ delegate.percent_of_vote }}
+    span {{ delegate.percent_of_vote }}
   .li-delegate__value.uptime
-    span {{ uptime }}
+    span.green {{ uptime }}
   .li-delegate__value.commission
-    span {{ commission }}
+    span.orange {{ commission }}
   .li-delegate__value.slashes
-    span {{ slashes }}
+    span.red {{ slashes }}
 </template>
 
 <script>
@@ -128,7 +130,7 @@ export default {
 .li-delegate__values
   display flex
   height 5rem
-  padding 12px 0px
+  padding 12px 1em
   background-color var(--app-nav)
 
   & > .li-delegate__value:not(:first-of-type) span
@@ -155,29 +157,39 @@ export default {
       color var(--red)
       background-color var(--red-fade-1)
       border 1px solid var(--red-fade-2)
+.li-delegate__break
+  flex 0
+  display flex
+  align-items center
+  min-width 1
+  span
+    margin 0 0.5em
+    width 1px
+    background-color var(--white-fade-1)
+    height 2rem
 
 .li-delegate__value
   flex 1
   display flex
   align-items center
   min-width 0
-
   &.name
     flex 3
-    padding-left 1em
-    img
-      border-radius 100%
-      margin-right 1em
     a
       display flex
-      flex-direction column
-      color var(--bright)
-      .top
-        font-size h5
-        padding-bottom 6px
-      .bottom
-        font-size h6
-        color var(--dim)
+      img
+        border-radius 100%
+        margin-right 1em
+      .vert
+        display flex
+        flex-direction column
+        color var(--bright)
+        .top
+          font-size h5
+          padding-bottom 6px
+        .bottom
+          font-size h6
+          color var(--dim)
 
 
     .li-delegate__icon

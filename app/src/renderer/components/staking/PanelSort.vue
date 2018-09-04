@@ -44,7 +44,7 @@ export default {
   display flex
   height 2rem
   border-bottom px solid var(--bc)
-
+  padding 0 1em
 .sort-by
   flex 1
   cursor pointer
@@ -54,22 +54,28 @@ export default {
   position relative
   min-width 0
 
+  &:nth-of-type(4)
+    padding-left 1em
+    & ~ .sort-by .label
+      margin-left auto
   .label
     color var(--link)
     white-space nowrap
     text-overflow ellipsis
     overflow hidden
+    display inline-block
 
   &:after
     display block
     font-family FontAwesome
     color var(--dim)
-    padding-left 0.25rem
-
+    padding-left 0.3rem
+  &:first-of-type:after
+    content ''
   &.asc:after
     content '\f0d8'
 
-  &.desc:after
+  &:after
     content '\f0d7'
 
   &.active
