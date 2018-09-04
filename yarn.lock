@@ -25,9 +25,9 @@
     node-fetch "^2.1.1"
     url-template "^2.0.8"
 
-"@tendermint/ui@https://github.com/tendermint/ui.git#dd88c5d141a19e8b89771499405f64ffcf0787be":
-  version "0.2.20"
-  resolved "https://github.com/tendermint/ui.git#dd88c5d141a19e8b89771499405f64ffcf0787be"
+"@tendermint/ui@0.2.21":
+  version "0.2.21"
+  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.21.tgz#ca12995bf6c828fef15378becc36b545f7cd2185"
   dependencies:
     axios "^0.18.0"
     cookieconsent "^3.0.6"
@@ -39,7 +39,7 @@
     nib "^1.1.2"
     numeral "^2.0.6"
     perfect-scrollbar "^1.4.0"
-    vue "^2.5.16"
+    vue "^2.5.17"
     vue-router "^3.0.1"
     vuex "^3.0.1"
 
@@ -7963,7 +7963,7 @@ vue@2.5.16:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
 
-vue@^2.5.16:
+vue@^2.5.17:
   version "2.5.17"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
 
