@@ -1,10 +1,12 @@
 <template lang="pug">
   tm-tool-bar
-    slot
     a.back(@click="back" :disabled="user.history.length === 0" v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
+    slot
     a.help(@click="enableModalHelp" v-tooltip.bottom="'Help'")
       i.material-icons help_outline
+    router-link.settings(to="/preferences" v-tooltip.bottom="'Preferences'")
+      i.material-icons settings
     a#signOut-btn(@click="signOut" v-tooltip.bottom.end="'Sign Out'")
       i.material-icons exit_to_app
 </template>

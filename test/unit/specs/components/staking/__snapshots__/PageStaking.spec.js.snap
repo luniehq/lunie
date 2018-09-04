@@ -19,7 +19,7 @@ exports[`PageStaking has the expected html structure 1`] = `
             <div class=\\"tm-tool-bar\\">
                <div class=\\"tm-tool-bar-container\\">
                   <div class=\\"main\\">
-                     <a><i class=\\"material-icons\\">refresh</i></a><a><i class=\\"search material-icons\\">search</i></a><a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+                     <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a><i class=\\"search material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
                   </div>
 </div>
 </div>
@@ -186,6 +186,16 @@ exports[`PageStaking should filter the delegates 1`] = `
                 <div
                   class="main"
                 >
+                  <a
+                    class="back"
+                    disabled="disabled"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
                   <a>
                     <i
                       class="material-icons"
@@ -201,22 +211,22 @@ exports[`PageStaking should filter the delegates 1`] = `
                     </i>
                   </a>
                   <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
                     class="help"
                   >
                     <i
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a

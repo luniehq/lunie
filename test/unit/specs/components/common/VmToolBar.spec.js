@@ -1,12 +1,12 @@
 import setup from "../../../helpers/vuex-setup"
-import TmToolBar from "common/TmToolBar"
-
-describe("TmToolBar", () => {
+import htmlBeautify from "html-beautify"
+import VmToolBar from "common/VmToolBar"
+describe("VmToolBar", () => {
   let wrapper, store, router
   let { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(TmToolBar)
+    let instance = mount(VmToolBar)
     router = instance.router
     wrapper = instance.wrapper
     store = instance.store
@@ -14,7 +14,7 @@ describe("TmToolBar", () => {
   })
 
   it("has the expected html structure", () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
   it("sets the helper modal", () => {

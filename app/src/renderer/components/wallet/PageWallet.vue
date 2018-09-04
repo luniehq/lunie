@@ -1,7 +1,8 @@
 <template lang="pug">
-tm-page(title='Wallet')
+tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
+  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unstakedAtoms="user.atoms")
   div(slot="menu")
-    tm-tool-bar
+    vm-tool-bar
       a(@click='connected && updateBalances()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
         i.material-icons refresh
       a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
@@ -58,11 +59,13 @@ import {
   TmDataLoading,
   TmDataMsg
 } from "@tendermint/ui"
+import TmBalance from "common/TmBalance"
 import ModalSearch from "common/TmModalSearch"
-import TmToolBar from "common/TmToolBar"
+import VmToolBar from "common/VmToolBar"
 export default {
   name: "page-wallet",
   components: {
+    TmBalance,
     TmDataLoading,
     TmDataMsg,
     DataEmptySearch,
@@ -71,7 +74,7 @@ export default {
     ModalSearch,
     TmPage,
     TmPart,
-    TmToolBar,
+    VmToolBar,
     BtnReceive
   },
   computed: {
@@ -80,7 +83,8 @@ export default {
       "wallet",
       "committedDelegations",
       "config",
-      "connected"
+      "connected",
+      "user"
     ]),
     somethingToSearch() {
       return !this.wallet.balancesLoading && !!this.wallet.balances.length

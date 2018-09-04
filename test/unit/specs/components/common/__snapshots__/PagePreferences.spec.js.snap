@@ -57,6 +57,16 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                     </i>
                   </a>
                   <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
+                    </i>
+                  </a>
+                  <a
                     id="signOut-btn"
                   >
                     <i

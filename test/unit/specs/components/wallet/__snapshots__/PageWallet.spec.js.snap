@@ -3,6 +3,7 @@
 exports[`PageWallet has the expected html structure 1`] = `
 <div
   class="tm-page"
+  data-title="Wallet"
 >
   <header
     class="tm-page-header"
@@ -13,15 +14,62 @@ exports[`PageWallet has the expected html structure 1`] = `
       <div
         class="tm-page-header-text"
       >
+        <!---->
+        <!---->
         <div
-          class="tm-page-header-title"
+          class="tm-page-header-body"
         >
-          <h2>
-            Wallet
-          </h2>
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <img
+                class="icon"
+                src="~assets/images/cosmos-logo.png"
+              />
+              <div
+                class="total-atoms"
+              >
+                <div
+                  class="h3"
+                >
+                  Total Steak
+                </div>
+                <div
+                  class="h2"
+                >
+                  123
+                </div>
+              </div>
+              <!---->
+              <!---->
+              <!---->
+            </div>
+            <div
+              class="bottom"
+            >
+              <div
+                class="address"
+              >
+                
+              </div>
+              <div
+                class="success"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-        <!---->
-        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -37,6 +85,16 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="main"
                 >
+                  <a
+                    class="back"
+                    disabled="disabled"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
                   <a>
                     <i
                       class="material-icons"
@@ -52,22 +110,22 @@ exports[`PageWallet has the expected html structure 1`] = `
                     </i>
                   </a>
                   <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
                     class="help"
                   >
                     <i
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
@@ -399,6 +457,7 @@ exports[`PageWallet has the expected html structure 1`] = `
 exports[`PageWallet should filter the balances 1`] = `
 <div
   class="tm-page"
+  data-title="Wallet"
 >
   <header
     class="tm-page-header"
@@ -409,15 +468,62 @@ exports[`PageWallet should filter the balances 1`] = `
       <div
         class="tm-page-header-text"
       >
+        <!---->
+        <!---->
         <div
-          class="tm-page-header-title"
+          class="tm-page-header-body"
         >
-          <h2>
-            Wallet
-          </h2>
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <img
+                class="icon"
+                src="~assets/images/cosmos-logo.png"
+              />
+              <div
+                class="total-atoms"
+              >
+                <div
+                  class="h3"
+                >
+                  Total Steak
+                </div>
+                <div
+                  class="h2"
+                >
+                  123
+                </div>
+              </div>
+              <!---->
+              <!---->
+              <!---->
+            </div>
+            <div
+              class="bottom"
+            >
+              <div
+                class="address"
+              >
+                
+              </div>
+              <div
+                class="success"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-        <!---->
-        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -433,6 +539,16 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="main"
                 >
+                  <a
+                    class="back"
+                    disabled="disabled"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
                   <a>
                     <i
                       class="material-icons"
@@ -448,22 +564,22 @@ exports[`PageWallet should filter the balances 1`] = `
                     </i>
                   </a>
                   <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
                     class="help"
                   >
                     <i
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
