@@ -38,8 +38,8 @@ tm-page.page-bond(title="Staking")
       :class="bondGroupClass(delta(d.atoms, d.oldAtoms))")
       .bond-group__fields
         .bond-bar
-          label.bond-bar__label(v-if="!d.delegate.revoked") {{ d.delegate.small_moniker }}
-          label.bond-bar__label.revoked(v-if="d.delegate.revoked") {{ d.delegate.small_moniker }}
+          label.bond-bar__label(v-if="!d.delegate.revoked") {{ moniker(d) }}
+          label.bond-bar__label.revoked(v-if="d.delegate.revoked") {{ moniker(d) }}
           label.bond-bar__revoked(v-if="d.delegate.revoked") REVOKED
           .bond-bar__input
             .bond-bar-old__outer
@@ -231,6 +231,13 @@ export default {
     num: num
   }),
   methods: {
+    moniker(d) {
+      return (
+        d.delegate.moniker ||
+        d.delegate.small_moniker ||
+        d.delegate.description.moniker
+      )
+    },
     async onSubmit() {
       if (this.newUnbondedAtoms < 0) {
         this.$store.commit("notifyError", {

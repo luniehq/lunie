@@ -97,8 +97,6 @@ describe("PageStaking", () => {
 
     store.commit("setDelegates", delegates)
     expect(wrapper.vm.somethingToSearch).toBe(true)
-    store.commit("setDelegateLoading", true)
-    expect(wrapper.vm.somethingToSearch).toBe(false)
   })
 
   it("should show placeholder if delegates are loading", () => {

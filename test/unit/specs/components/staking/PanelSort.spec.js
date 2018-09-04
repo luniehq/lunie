@@ -30,10 +30,6 @@ describe("PanelSort", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it("should show the title", () => {
-    expect(wrapper.html()).toContain("ID")
-  })
-
   it("should show an arrow according to ordering", () => {
     let firstCol = wrapper.vm.$el.querySelector(".sort-by")
     expect(firstCol.className.split(" ")).not.toContain("asc")

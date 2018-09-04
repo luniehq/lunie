@@ -15,11 +15,11 @@
   .li-delegate__value.percent_of_vote
     span {{ delegate.percent_of_vote }}
   .li-delegate__value.uptime
-    span.green {{ uptime }}
+    span.NOT_green {{ uptime }}
   .li-delegate__value.commission
-    span.orange {{ commission }}
+    span.NOT_orange {{ commission }}
   .li-delegate__value.slashes
-    span.red {{ slashes }}
+    span.NOT_red {{ slashes }}
   template(v-if="userCanDelegate")
     .li-delegate__value.checkbox(v-if="yourVotes > 0")
       i.material-icons lock
