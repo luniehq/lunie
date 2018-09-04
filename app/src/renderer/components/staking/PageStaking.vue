@@ -11,7 +11,7 @@ tm-page(title='Staking')
     .tab(v-for="(tab, i) in tabs",
       :key="'tab-' + i",
       :class="{'tab-selected': i === tabIndex}",
-      @click="tabIndex = i") {{tab}}
+      @click="tabIndex = 1") {{tab}}
   .delegates-container
     tm-data-loading(v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
     tm-data-empty(v-else-if="!delegates.loading && delegates.delegates.length === 0")
@@ -169,6 +169,11 @@ export default {
           value: "slashes", // TODO: use real slashes
           tooltip: "The validator's slashes",
           class: "slashes"
+        },
+        {
+          title: "",
+          value: "",
+          class: "action hidden"
         }
       ]
     }
@@ -198,6 +203,20 @@ export default {
 </script>
 <style lang="stylus">
 @require '~variables'
+
+.delegates-tabs
+  display flex
+
+  .tab
+    cursor pointer
+    margin 0 .5em
+    padding-bottom 0.5em
+    margin-bottom 1em
+    &:first-of-type
+      cursor not-allowed
+    &.tab-selected
+      color var(--bright)
+      border-bottom 2px solid var(--tertiary)
 
 .delegates-container
   padding-bottom 3rem

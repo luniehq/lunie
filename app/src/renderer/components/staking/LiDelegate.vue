@@ -20,6 +20,15 @@
     span.orange {{ commission }}
   .li-delegate__value.slashes
     span.red {{ slashes }}
+  template(v-if="userCanDelegate")
+    .li-delegate__value.checkbox(v-if="yourVotes > 0")
+      i.material-icons lock
+    .li-delegate__value.checkbox#remove-from-cart(v-else-if="inCart" @click='rm(delegate)')
+      i.material-icons check_box
+    .li-delegate__value.checkbox#add-to-cart(v-else @click='add(delegate)')
+      i.material-icons check_box_outline_blank
+  template(v-else)
+    .li-delegate__value
 </template>
 
 <script>
