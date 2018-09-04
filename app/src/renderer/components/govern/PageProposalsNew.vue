@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page(title='New Proposal')
-  div(slot="menu"): tool-bar
+  div(slot="menu"): vm-tool-bar
     router-link(to="/proposals" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
   tm-part(title='Choose a Type')
@@ -14,7 +14,7 @@ tm-page(title='New Proposal')
 <script>
 import { mapGetters } from "vuex"
 import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
-import ToolBar from "common/TmToolBar"
+import VmToolBar from "common/VmToolBar"
 export default {
   name: "page-proposals-new",
   computed: {
@@ -24,7 +24,7 @@ export default {
     TmListItem,
     TmPage,
     TmPart,
-    ToolBar
+    VmToolBar
   }
 }
 </script>

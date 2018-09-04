@@ -20,13 +20,8 @@ exports[`PageSend disables sending if not connected 1`] = `
             Send
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -59,6 +54,16 @@ exports[`PageSend disables sending if not connected 1`] = `
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
@@ -358,13 +363,8 @@ exports[`PageSend has the expected html structure 1`] = `
             Send
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -397,6 +397,16 @@ exports[`PageSend has the expected html structure 1`] = `
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
@@ -724,13 +734,8 @@ exports[`PageSend should show address required error 1`] = `
             Send
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -763,6 +768,16 @@ exports[`PageSend should show address required error 1`] = `
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
@@ -1060,13 +1075,8 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
             Send
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -1099,6 +1109,16 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
@@ -1396,13 +1416,8 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
             Send
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -1435,6 +1450,16 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
@@ -1732,13 +1757,8 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
             Send
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -1771,6 +1791,16 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
@@ -2079,13 +2109,8 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
             Send
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -2118,6 +2143,16 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
@@ -2505,13 +2540,8 @@ exports[`PageSend should work without providing a default denom 1`] = `
             Send
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -2544,6 +2574,16 @@ exports[`PageSend should work without providing a default denom 1`] = `
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a

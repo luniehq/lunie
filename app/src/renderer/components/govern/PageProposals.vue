@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page(title='Proposals')
-  div(slot="menu"): tool-bar
+  div(slot="menu"): vm-tool-bar
     router-link(to="/proposals/new" exact v-tooltip.bottom="'New Proposal'")
       i.material-icons add
     a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
@@ -24,7 +24,7 @@ import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import LiProposal from "govern/LiProposal"
 import ModalSearch from "common/TmModalSearch"
-import ToolBar from "common/TmToolBar"
+import VmToolBar from "common/VmToolBar"
 import { TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 export default {
   name: "page-proposals",
@@ -35,7 +35,7 @@ export default {
     LiProposal,
     ModalSearch,
     TmPage,
-    ToolBar
+    VmToolBar
   },
   computed: {
     ...mapGetters(["proposals", "filters"]),
