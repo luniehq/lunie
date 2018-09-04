@@ -1,6 +1,5 @@
 "use strict"
 
-const build = require(`./build/build`)
 const fs = require("fs")
 const path = require("path")
 const release = require("publish-release")
@@ -36,8 +35,6 @@ const publishRelease = ({ notes, tag, token }) =>
   })
 
 async function main() {
-  await build.buildAllPlatforms()
-
   console.log("--- Publishing release ---")
 
   const notes = createNotes(
@@ -62,7 +59,7 @@ async function main() {
     `https://${process.env.GIT_BOT_TOKEN}@github.com/cosmos/voyager.git`
   )
 
-  await git.tag([tag])
+  await git.tag([tag], { annotate: true })
   await git.push("bot", "HEAD:master", { tags: true })
 
   console.log("--- Done releasing ---")

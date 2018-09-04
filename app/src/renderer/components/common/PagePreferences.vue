@@ -2,13 +2,6 @@
 tm-page(title="Preferences")
   div(slot="menu"): vm-tool-bar
 
-  tm-modal(:close="setAbout", v-if="showAbout")
-    div(slot="title") About Cosmos Voyager
-    .about-popup
-      img(src="~@/assets/images/onboarding/step-0.png")
-      div(v-if="voyagerVersion") Voyager {{voyagerVersion}}
-      div(v-if="gaiaVersion") Cosmos SDK {{gaiaVersion}}
-
   tm-part(title='Settings')
     tm-list-item(type="field" title="Select network to connect to")
       tm-field#select-network(
@@ -42,19 +35,11 @@ tm-page(title="Preferences")
         type='button'
         @click.native="signOut"
         value='Sign Out')
-  tm-part(title="About")
-    tm-list-item(type="field"
-      title="Version Information")
-      tm-btn#toggle-onboarding(
-        @click.native="setAbout"
-        value="Show Versions"
-        icon="info")
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex"
+import { mapGetters } from "vuex"
 import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
-import { remote } from "electron"
 import VmToolBar from "common/VmToolBar"
 import TmModal from "common/TmModal"
 
@@ -70,22 +55,7 @@ export default {
     TmModal
   },
   computed: {
-    ...mapGetters([
-      "user",
-      "themes",
-      "onboarding",
-      "mockedConnector",
-      "config"
-    ]),
-    showAbout() {
-      return this.config.showAbout
-    },
-    voyagerVersion() {
-      return remote.app.getVersion()
-    },
-    gaiaVersion() {
-      return process.env.GAIA_VERSION
-    }
+    ...mapGetters(["user", "themes", "onboarding", "mockedConnector", "config"])
   },
   data: () => ({
     themeSelectActive: null,
@@ -116,7 +86,6 @@ export default {
     this.themeSelectActive = this.themes.active
   },
   methods: {
-    ...mapMutations(["setAbout"]),
     signOut() {
       this.$store.dispatch("signOut")
       this.$store.commit("notifySignOut")
@@ -149,9 +118,4 @@ export default {
 }
 </script>
 <style lang="stylus">
-.about-popup
-  text-align center
-
-  img
-    max-width 150px
 </style>

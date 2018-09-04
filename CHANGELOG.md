@@ -7,11 +7,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* test if build Voyager actually starts @faboweb
+
+### Fixed
+
+* Do not try to publish a release on every push to `develop`! @NodeGuy
+
 ## [0.10.2] - 2018-08-29
+
+### Changed
+
+* moved about Window to be a native menu so it would display from the application toolbar at any time @faboweb
 
 ### Fixed
 
 * use correct set of seed nodes @ƒaboweb
+* validator page showed incorrect voting power @faboweb
+* Run lint test in CI. @NodeGuy
 
 ## [0.10.1] - 2018-08-29
 
@@ -20,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * added more information on validators page @faboweb
 * added new balance header for wallet @okwme
 * E2E environment for a multi validator setup @faboweb
+* added dev tools @okwme
 
 ### Changed
 

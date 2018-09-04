@@ -59,6 +59,8 @@ jobs:
             - node_modules
           key: v3-dependencies-root-{{ checksum "package.json" }}
 
+      - run: yarn run lint
+
       - run:
           name: Test
           command: yarn run test:unit
@@ -118,7 +120,7 @@ jobs:
             - v2-dependencies-root-
 
       - run: yarn install
-      - run: node tasks/releasePullRequest.js
+      - run: node tasks/createReleasePR.js
 
   # Publish the release to GitHub.
   publish:
@@ -127,14 +129,33 @@ jobs:
 
     steps:
       - checkout
-      - run: sudo tasks/build/installWine.sh
-      - run: yarn install
 
       - attach_workspace:
           at: builds/Gaia
 
-      - run: tasks/build/testnets/build.sh
-      - run: node tasks/publish.js
+      - run:
+          command: |
+            mostRecentTag=$(git describe --abbrev=0 --tags)
+
+            if [ $mostRecentTag = release-candidate ]; then
+              sudo tasks/build/installWine.sh
+              yarn install
+
+              # download network configs
+              tasks/build/testnets/build.sh
+
+              # build Voyager
+              node -e 'require("./tasks/build/build.js").buildAllPlatforms()'
+
+              # Delete the tag before testing the build in case it fails.
+              git push --delete origin release-candidate
+
+              # test linux build
+              tar -zxvf ./builds/Voyager/Cosmos_Voyager-*-Linux.tar.gz
+              yarn test:exe "./Cosmos Voyager"
+
+              node tasks/publish.js
+            fi
 
 workflows:
   version: 2
@@ -172,8 +193,6 @@ workflows:
           filters:
             branches:
               only: develop
-            tags:
-              only: /.+/
 
   release:
     jobs:
