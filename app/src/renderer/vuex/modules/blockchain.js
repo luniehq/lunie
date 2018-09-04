@@ -1,6 +1,5 @@
 export default ({ node }) => {
   const state = {
-    blocks: [],
     blockMetaInfo: { block_id: {} },
     blockHeight: null, // we remember the height so we can requery the block, if querying failed
     subscription: false,
@@ -24,12 +23,6 @@ export default ({ node }) => {
     },
     setSubscription(state, subscription) {
       state.subscription = subscription
-    },
-    unshiftBlock(state, block) {
-      state.blocks.unshift(block)
-    },
-    popBlock(state) {
-      state.blocks.pop()
     }
   }
 
