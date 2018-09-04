@@ -20,13 +20,8 @@ exports[`PageBond disables bonding if not connected 1`] = `
             Staking
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -58,6 +53,16 @@ exports[`PageBond disables bonding if not connected 1`] = `
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
@@ -505,13 +510,8 @@ exports[`PageBond has the expected html structure 1`] = `
             Staking
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -544,6 +544,16 @@ exports[`PageBond has the expected html structure 1`] = `
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
@@ -1011,13 +1021,8 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
             Staking
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -1049,6 +1054,16 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a

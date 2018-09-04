@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page(title='Staking')
-  div(slot="menu"): tool-bar
+  div(slot="menu"): vm-tool-bar
     a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
       i.material-icons refresh
     a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
@@ -36,7 +36,7 @@ import DataEmptySearch from "common/TmDataEmptySearch"
 
 import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
-import ToolBar from "common/TmToolBar"
+import VmToolBar from "common/VmToolBar"
 export default {
   name: "page-staking",
   components: {
@@ -48,7 +48,7 @@ export default {
     ModalSearch,
     TmPage,
     PanelSort,
-    ToolBar
+    VmToolBar
   },
   data: () => ({
     num: num,
