@@ -161,7 +161,9 @@ export default ({ node }) => {
       // we optimistically update the committed delegations
       updateCommittedDelegations(delegations, commit)
       // TODO usually I would just query the new state through the LCD and update the state with the result, but at this point we still get the old shares
-      // dispatch("updateDelegates")
+      dispatch("updateDelegates").then(() =>
+        updateCommittedDelegations(delegations, commit)
+      )
     }
   }
 
