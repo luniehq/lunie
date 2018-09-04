@@ -57,7 +57,7 @@ describe("Store", () => {
     expect(store.state.wallet.history).toHaveLength(1)
   })
 
-  it("should restore delegates and put commited once in the cart", async () => {
+  it("should restore delegates and put committed ones in the cart", async () => {
     jest.useFakeTimers()
     await store.dispatch("setLastHeader", {
       height: 42,
@@ -69,11 +69,18 @@ describe("Store", () => {
     })
     store.commit("setDelegates", lcdClientMock.state.candidates)
     store.commit("setCommittedDelegation", {
-      candidateId: lcdClientMock.state.candidates[0].owner,
+      candidateId: lcdClientMock.validators[0],
       value: 1
     })
     jest.runAllTimers() // updating is waiting if more updates coming in, this skips the waiting
     await store.dispatch("signOut")
+
+    expect(store.state.delegates.delegates).toHaveLength(0)
+    expect(
+      store.state.delegation.committedDelegates[lcdClientMock.validators[0]]
+    ).toBeFalsy()
+    expect(store.state.delegation.delegates).toHaveLength(0)
+
     await store.dispatch("signIn", {
       account: "default",
       password: "1234567890"
@@ -81,10 +88,9 @@ describe("Store", () => {
 
     expect(store.state.delegates.delegates).toHaveLength(3)
     expect(
-      store.state.delegation.committedDelegates[
-        lcdClientMock.state.candidates[0].owner
-      ]
+      store.state.delegation.committedDelegates[lcdClientMock.validators[0]]
     ).toBe(1)
+    expect(store.state.delegation.delegates).toHaveLength(1)
   })
 
   it("should throttle updating the store cache", async () => {

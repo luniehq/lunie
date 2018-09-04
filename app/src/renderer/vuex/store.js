@@ -96,7 +96,7 @@ function loadPersistedState({ state, commit }, { password }) {
 
     // add all delegates the user has bond with already to the cart
     state.delegates.delegates
-      .filter(d => state.delegation.committedDelegates[d.id])
+      .filter(d => state.delegation.committedDelegates[d.owner])
       .forEach(d => {
         commit("addToCart", d)
       })
