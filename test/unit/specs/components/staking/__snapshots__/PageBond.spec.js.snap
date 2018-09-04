@@ -356,7 +356,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                         >
                           <div
                             class="bond-bar__inner"
-                            id="delegate-pubkeyZ"
+                            id="delegate-cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
                             style="width: 0px;"
                           />
                         </div>
