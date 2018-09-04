@@ -111,6 +111,17 @@ module.exports = class Addressbook {
       return this.pickNode()
     }
 
+    let nodeStatus = (await axios.get(
+      `http://${curNode.host}:${this.config.default_tendermint_port}/status`
+    )).data.result
+
+    if (!this.isIndexingNode(nodeStatus)) {
+      console.log(`Node ${curNode.host} is not indexing transactions`)
+      this.flagNodeNotIndexing(curNode.host)
+
+      return this.pickNode()
+    }
+
     this.onConnectionMessage("Picked node: " + curNode.host)
 
     // we skip discovery for fixed nodes as we want to always return the same node
@@ -132,6 +143,11 @@ module.exports = class Addressbook {
     this.peers.find(p => p.host === host).state = "incompatible"
   }
 
+  flagNodeNotIndexing(nodeIP) {
+    const host = nodeIP.split(":")[0]
+    this.peers.find(p => p.host === host).indexing = false
+  }
+
   resetNodes() {
     this.peers = this.peers.map(peer =>
       Object.assign({}, peer, {
@@ -141,13 +157,12 @@ module.exports = class Addressbook {
   }
 
   async discoverPeers(peerIP) {
-    let subPeers = (await axios.get(
+    let subPeersResult = (await axios.get(
       `http://${peerIP}:${this.config.default_tendermint_port}/net_info`
     )).data.result.peers
 
-    let subPeersHostnames = subPeers
+    let subPeersHostnames = subPeersResult
       // skip non-indexing nodes
-      .filter(peer => this.isIndexingNode(peer))
       .map(peer => peer.node_info.listen_addr)
 
     subPeersHostnames
