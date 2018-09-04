@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page.page-bond(title="Staking")
-  div(slot="menu"): tool-bar
+  div(slot="menu"): vm-tool-bar
   tm-part(:title="`Stake your ${totalAtoms} ${bondingDenom}`"): tm-form-struct( :submit="onSubmit")
     .bond-group(:class="bondGroupClass(unbondedAtomsDelta)")
       .bond-group__fields
@@ -138,7 +138,7 @@ import {
 } from "@tendermint/ui"
 
 import FieldAddon from "common/TmFieldAddon"
-import ToolBar from "common/TmToolBar"
+import VmToolBar from "common/VmToolBar"
 export default {
   name: "page-bond",
   components: {
@@ -150,7 +150,7 @@ export default {
     TmFormStruct,
     TmPage,
     TmPart,
-    ToolBar
+    VmToolBar
   },
   computed: {
     ...mapGetters([
@@ -158,19 +158,11 @@ export default {
       "user",
       "delegation",
       "connected",
-      "bondingDenom"
+      "bondingDenom",
+      "totalAtoms",
+      "oldBondedAtoms",
+      "oldUnbondingAtoms"
     ]),
-    totalAtoms() {
-      return (
-        parseInt(this.user.atoms) + this.oldBondedAtoms + this.oldUnbondingAtoms
-      )
-    },
-    oldBondedAtoms() {
-      return Object.values(this.delegation.committedDelegates).reduce(
-        (sum, d) => sum + parseInt(d),
-        0
-      )
-    },
     oldUnbondedAtoms() {
       return this.totalAtoms - this.oldBondedAtoms
     },
@@ -182,14 +174,6 @@ export default {
         }
         return atoms
       }, this.oldUnbondedAtoms)
-    },
-    oldUnbondingAtoms() {
-      return Object.values(this.delegation.unbondingDelegations).reduce(
-        (atoms, value) => {
-          return atoms + value
-        },
-        0
-      )
     },
     newUnbondingAtoms() {
       return this.fields.delegates.reduce((atoms, d) => {
