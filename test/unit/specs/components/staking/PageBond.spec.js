@@ -471,9 +471,9 @@ describe("PageBond", () => {
 
   it("disables bonding if not connected", async () => {
     store.commit("setConnected", false)
+    wrapper.update()
     wrapper.vm.onSubmit = jest.fn()
-    wrapper.findAll("#btn-bond").trigger("click")
-    expect(wrapper.vm.onSubmit).not.toHaveBeenCalled()
+    expect(wrapper.find("#btn-bond").exists()).toBeFalsy()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

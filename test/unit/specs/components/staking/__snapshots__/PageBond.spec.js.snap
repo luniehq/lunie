@@ -356,7 +356,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                         >
                           <div
                             class="bond-bar__inner"
-                            id="delegate-cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+                            id="delegate-pubkeyZ"
                             style="width: 0px;"
                           />
                         </div>
@@ -399,7 +399,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                 </div>
                 <!---->
                 <div
-                  class="tm-form-group tm-form-group--error"
+                  class="tm-form-group"
                 >
                   <!---->
                   <!---->
