@@ -72,7 +72,7 @@ tm-page.page-bond(title="Staking")
 
       tm-form-msg(:name="bondingDenom + 's'" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
-      tm-form-msg(name="bondingDenom + 's'" type="numeric"
+      tm-form-msg(:name="bondingDenom + 's'" type="numeric"
         v-if="!$v.fields.delegates.$each[index].atoms.numeric")
 
     .bond-group.bond-group--unbonding(
