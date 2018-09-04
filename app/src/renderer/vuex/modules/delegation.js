@@ -147,6 +147,17 @@ export default ({ node }) => {
         begin_unbondings: unbond
       })
 
+      // (optimistic update) we update the atoms of the user before we get the new values from chain
+      let atomsDiff = delegations
+        // compare old and new delegations and diff against old atoms
+        .map(
+          delegation =>
+            state.committedDelegates[delegation.delegate.owner] -
+            delegation.atoms
+        )
+        .reduce((sum, diff) => sum + diff, 0)
+      commit("setAtoms", rootState.user.atoms + atomsDiff)
+
       // usually I would just query the new state through the LCD but at this point we still get the old shares
       dispatch("updateDelegates").then(() => {
         for (let delegation of delegations) {

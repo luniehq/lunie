@@ -135,14 +135,6 @@ test("staking", async function(t) {
       .$(".bond-candidate .bond-value__input")
       .setValue(bondedStake - 20)
 
-    t.ok(
-      await waitForValue(
-        () => app.client.$("#new-unbonded-atoms"),
-        (totalUserStake - bondedStake + 20).toString()
-      ),
-      "Left over steak shows correctly after adjusting bond"
-    )
-
     t.equal(
       await app.client.$("#new-unbonding-atoms").getValue(),
       (20).toString(),
