@@ -32,30 +32,10 @@ describe("Module: Wallet", () => {
     expect(store.state.wallet.balances).toEqual([])
   })
 
-  it("should set wallet history", () => {
-    const history = ["once", "upon", "a", "time"]
-    store.commit("setWalletTxs", history)
-    expect(store.state.transactions.wallet).toBe(history)
-  })
-
   it("should set denoms", () => {
     const denoms = ["acoin", "bcoin", "ccoin"]
     store.commit("setDenoms", denoms)
     expect(store.state.wallet.denoms).toBe(denoms)
-  })
-
-  it("should set transaction time", async () => {
-    const blockHeight = 31337
-    const time = 1234567890
-    const history = [{ height: blockHeight }]
-    const blockMetaInfo = { header: { time: time } }
-    store.commit("setWalletTxs", history)
-    store.commit("setTransactionTime", {
-      scope: "wallet",
-      blockHeight,
-      blockMetaInfo
-    })
-    expect(store.state.transactions.wallet[0].time).toBe(time)
   })
 
   // ACTIONS
@@ -96,41 +76,6 @@ describe("Module: Wallet", () => {
   it("should load denoms", async () => {
     await store.dispatch("loadDenoms")
     expect(store.state.wallet.denoms).toEqual(["mycoin", "fermion", "gregcoin"])
-  })
-
-  xit("should enrich transaction times", async () => {
-    node.coinTxs = () =>
-      Promise.resolve([
-        {
-          tx: {},
-          height: 1
-        },
-        {
-          tx: {},
-          height: 2
-        },
-        {
-          tx: {},
-          height: 2
-        }
-      ])
-    node.rpc.blockchain = ({ minHeight }, cb) => {
-      cb(null, {
-        block_metas: [
-          {
-            header: {
-              height: minHeight,
-              time: minHeight
-            }
-          }
-        ]
-      })
-    }
-    jest.spyOn(node.rpc, "blockchain")
-    await store.dispatch("getAllTxs")
-    expect(node.rpc.blockchain.mock.calls.length).toBe(2)
-    expect(store.state.transactions.wallet[0].time).toBe(1)
-    expect(store.state.transactions.wallet[1].time).toBe(2)
   })
 
   it("should query the balances on reconnection", () => {
