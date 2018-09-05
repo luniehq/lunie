@@ -7,6 +7,9 @@ export default ({ node }) => {
     staking: []
   }
 
+  // properties under which txs of different categories are store
+  const txCategories = ["staking", "wallet"]
+
   let mutations = {
     setWalletTxs(state, txs) {
       state.wallet = txs
@@ -17,8 +20,8 @@ export default ({ node }) => {
     setHistoryLoading(state, loading) {
       state.loading = loading
     },
-    setTransactionTime(state, { scope, blockHeight, blockMetaInfo }) {
-      state[scope].forEach(t => {
+    setTransactionTime(state, { category, blockHeight, blockMetaInfo }) {
+      state[category].forEach(t => {
         if (t.height === blockHeight) {
           t.time = blockMetaInfo && blockMetaInfo.header.time
         }
@@ -37,8 +40,7 @@ export default ({ node }) => {
 
       const allTxs = stakingTxs.concat(walletTxs)
       await dispatch("enrichTransactions", {
-        transactions: allTxs,
-        scopes: ["staking", "wallet"]
+        transactions: allTxs
       })
       commit("setHistoryLoading", false)
     },
@@ -64,22 +66,19 @@ export default ({ node }) => {
       const transactionsPlusType = response.map(fp.set(`type`, type))
       return response ? uniqBy(transactionsPlusType, "hash") : []
     },
-    async enrichTransactions({ dispatch }, { transactions, scopes = [] }) {
+    async enrichTransactions({ dispatch }, { transactions }) {
       const blockHeights = new Set(transactions.map(({ height }) => height))
       await Promise.all(
         [...blockHeights].map(blockHeight =>
-          dispatch("queryTransactionTime", { blockHeight, scopes })
+          dispatch("queryTransactionTime", { blockHeight })
         )
       )
     },
-    async queryTransactionTime(
-      { commit, dispatch },
-      { blockHeight, scopes = [] }
-    ) {
+    async queryTransactionTime({ commit, dispatch }, { blockHeight }) {
       let blockMetaInfo = await dispatch("queryBlockInfo", blockHeight)
-      scopes.forEach(scope => {
+      txCategories.forEach(category => {
         commit("setTransactionTime", {
-          scope,
+          category,
           blockHeight,
           blockMetaInfo
         })
