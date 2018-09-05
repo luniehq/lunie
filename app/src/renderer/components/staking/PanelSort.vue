@@ -1,9 +1,10 @@
 <template lang="pug">
 .panel-sort: .panel-sort-container: .sort-by(
-  v-for="property in properties",
+  v-for="(property, i) in properties",
   @click="orderBy(property.value, $event)",
   :class="property.class")
-  .label(v-tooltip.top="property.tooltip") {{ property.title }}
+  .label(v-tooltip.top="property.tooltip" v-if="i !== 0")
+    .label-text {{ property.title }}
 </template>
 
 <script>
@@ -44,7 +45,7 @@ export default {
   display flex
   height 2rem
   border-bottom px solid var(--bc)
-
+  padding 0 1em
 .sort-by
   flex 1
   cursor pointer
@@ -53,36 +54,38 @@ export default {
   align-items center
   position relative
   min-width 0
-
-  .label
-    color var(--link)
-    white-space nowrap
-    text-overflow ellipsis
-    overflow hidden
-
-  &:after
-    display block
-    font-family FontAwesome
-    color var(--dim)
-    padding-left 0.25rem
-
-  &.asc:after
+  &.asc .label .label-text:after
     content '\f0d8'
+  &:nth-of-type(4)
+    padding-left 1em
+  .label
+    display inline-block
+    margin auto
+    .label-text
+      display: inline
+      color var(--link)
+      white-space nowrap
+      text-overflow ellipsis
+      overflow hidden
+      &:after
+        content '\f0d7'
+        display inline-block
+        font-family FontAwesome
+        color var(--dim)
+        padding-left 0.3rem
 
-  &.desc:after
-    content '\f0d7'
 
   &.active
-    .label
+    .label-text
       color var(--tertiary)
-    &:after
-      color var(--tertiary)
+      &:after
+        color var(--tertiary)
 
   &.name
-    flex 2
+    flex 3
 
   &.action
-    flex 0.5
+    flex 1
 
   &.hidden
     visibility hidden

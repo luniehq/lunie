@@ -10,11 +10,7 @@ exports[`PanelSort has the expected html structure 1`] = `
     <div
       class="sort-by"
     >
-      <div
-        class="label"
-      >
-        ID
-      </div>
+      <!---->
     </div>
     <div
       class="sort-by"
@@ -22,7 +18,11 @@ exports[`PanelSort has the expected html structure 1`] = `
       <div
         class="label"
       >
-        AMOUNT
+        <div
+          class="label-text"
+        >
+          AMOUNT
+        </div>
       </div>
     </div>
   </div>
