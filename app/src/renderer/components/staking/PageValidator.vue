@@ -4,7 +4,7 @@ tm-page(:title='validatorTitle(this.validator)')
     router-link(to="/staking" exact): i.material-icons arrow_back
     anchor-copy(v-if="validator" :value="validator.owner" icon="content_copy")
 
-  
+
   tm-data-error(v-if="!validator")
   template(v-else)
     tm-part(title='!!! CRITICAL ALERT !!!' v-if="validator.revoked")

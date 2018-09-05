@@ -14,26 +14,27 @@ exports[`LiDelegate has the expected html structure 1`] = `
         class=""
         href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
       >
-        mr_mounty
+        <img
+          class="avatar"
+          height="48"
+          src="~assets/images/validator-icon.svg"
+          width="48"
+        />
+        <div
+          class="vert"
+        >
+          <div
+            class="top"
+          >
+            mr_mounty
+          </div>
+          <div
+            class="bottom"
+          >
+            cosmosvaladdr…8yqw
+          </div>
+        </div>
       </a>
-    </div>
-    <div
-      class="li-delegate__value percent_of_vote"
-    >
-      <span>
-        22%
-      </span>
-    </div>
-    <div
-      class="li-delegate__value number_of_votes num bar"
-    >
-      <span>
-        14.00
-      </span>
-      <div
-        class="bar"
-        style="width: 74%;"
-      />
     </div>
     <div
       class="li-delegate__value your-votes"
@@ -43,10 +44,43 @@ exports[`LiDelegate has the expected html structure 1`] = `
       </span>
     </div>
     <div
-      class="li-delegate__value status"
+      class="li-delegate__value your-rewards"
     >
       <span>
-        Validator
+        n/a
+      </span>
+    </div>
+    <div
+      class="li-delegate__break"
+    >
+      <span />
+    </div>
+    <div
+      class="li-delegate__value percent_of_vote"
+    >
+      <span>
+        22%
+      </span>
+    </div>
+    <div
+      class="li-delegate__value uptime"
+    >
+      <span>
+        n/a
+      </span>
+    </div>
+    <div
+      class="li-delegate__value commission"
+    >
+      <span>
+        n/a
+      </span>
+    </div>
+    <div
+      class="li-delegate__value slashes"
+    >
+      <span>
+        n/a
       </span>
     </div>
     <div
@@ -62,5 +96,3 @@ exports[`LiDelegate has the expected html structure 1`] = `
   </div>
 </div>
 `;
-
-exports[`LiDelegate should show the relative voting power as a bar 1`] = `"74%"`;

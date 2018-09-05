@@ -7,11 +7,15 @@ tm-page(title='Staking')
       i.search.material-icons search
 
   modal-search(type="delegates" v-if="somethingToSearch")
-
+  .delegates-tabs
+    .tab(v-for="(tab, i) in tabs",
+      :key="'tab-' + i",
+      :class="{'tab-selected': i === tabIndex}",
+      @click="tabIndex = 1") {{tab}}
   .delegates-container
-    tm-data-loading(v-if="delegates.loading && delegates.delegates.length === 0")
-    tm-data-empty(v-else-if="delegates.delegates.length === 0")
-    data-empty-search(v-else-if="sortedFilteredEnrichedDelegates.length === 0")
+    tm-data-loading(v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
+    tm-data-empty(v-else-if="!delegates.loading && delegates.delegates.length === 0")
+    data-empty-search(v-else-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
     template(v-else)
       panel-sort(:sort='sort', :properties="properties")
       li-delegate(v-for='i in sortedFilteredEnrichedDelegates' :key='i.id' :delegate='i')
@@ -56,7 +60,9 @@ export default {
     sort: {
       property: "percent_of_vote",
       order: "desc"
-    }
+    },
+    tabIndex: 0,
+    tabs: ["My Stake", "Validators"]
   }),
   computed: {
     ...mapGetters([
@@ -74,7 +80,7 @@ export default {
       return this.user.address
     },
     somethingToSearch() {
-      return !this.delegates.loading && !!this.delegates.delegates.length
+      return !!this.delegates.delegates.length
     },
     vpTotal() {
       return this.delegates.delegates
@@ -125,23 +131,7 @@ export default {
           class: "name"
         },
         {
-          title: `% of ${this.bondingDenom}`,
-          value: "percent_of_vote",
-          tooltip: `Percentage of ${
-            this.bondingDenom
-          } the validator has on The Cosmos Hub`,
-          class: "percent_of_vote"
-        },
-        {
-          title: `Total ${this.bondingDenom}`,
-          value: "voting_power",
-          tooltip: `Total number of ${
-            this.bondingDenom
-          } the validator has on The Cosmos Hub`,
-          class: "voting_power"
-        },
-        {
-          title: `Your ${this.bondingDenom}`,
+          title: `My Stake`,
           value: "your_votes",
           tooltip: `Number of ${
             this.bondingDenom
@@ -149,11 +139,38 @@ export default {
           class: "your-votes"
         },
         {
-          title: "Status",
-          value: "isValidator",
-          tooltip:
-            "The validator's current state: validating, candidate, or jailed",
-          class: "status"
+          title: `My Rewards`,
+          value: "your_rewards", // TODO: use real rewards
+          tooltip: `Rewards of ${
+            this.bondingDenom
+          } you have gained from the validator`,
+          class: "your-rewards" // TODO: use real rewards
+        },
+        {
+          title: `Voting Power`,
+          value: "percent_of_vote",
+          tooltip: `Percentage of ${
+            this.bondingDenom
+          } the validator has on The Cosmos Hub`,
+          class: "percent_of_vote"
+        },
+        {
+          title: "Uptime",
+          value: "uptime", // TODO: use real uptime
+          tooltip: "The validator's uptime",
+          class: "uptime"
+        },
+        {
+          title: "Commission",
+          value: "commission", // TODO: use real commission
+          tooltip: "The validator's commission",
+          class: "commission"
+        },
+        {
+          title: "Slashes",
+          value: "slashes", // TODO: use real slashes
+          tooltip: "The validator's slashes",
+          class: "slashes"
         },
         {
           title: "",
@@ -188,6 +205,20 @@ export default {
 </script>
 <style lang="stylus">
 @require '~variables'
+
+.delegates-tabs
+  display flex
+
+  .tab
+    cursor pointer
+    margin 0 .5em
+    padding-bottom 0.5em
+    margin-bottom 1em
+    &:first-of-type
+      cursor not-allowed
+    &.tab-selected
+      color var(--bright)
+      border-bottom 2px solid var(--tertiary)
 
 .delegates-container
   padding-bottom 3rem
