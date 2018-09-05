@@ -37,6 +37,11 @@ export default ({ node }) => {
       // clear previous account state
       rootState.transactions = JSON.parse(JSON.stringify(emptyState))
     },
+    async reconnected({ dispatch }) {
+      if (state.loading) {
+        await dispatch("getAllTxs")
+      }
+    },
     async getAllTxs({ commit, dispatch }) {
       commit("setHistoryLoading", true)
       const stakingTxs = await dispatch("getTx", "staking")

@@ -132,4 +132,20 @@ describe("Module: Transactions", () => {
   it("should fail if trying to get transactions of wrong type", async done => {
     await store.dispatch("getTx", "unknown").catch(() => done())
   })
+
+  it("should query the txs on reconnection", async () => {
+    store.state.node.stopConnecting = true
+    store.state.transactions.loading = true
+    jest.spyOn(node, "txs")
+    await store.dispatch("reconnected")
+    expect(node.txs).toHaveBeenCalled()
+  })
+
+  it("should not query the txs on reconnection if not stuck in loading", async () => {
+    store.state.node.stopConnecting = true
+    store.state.transactions.loading = false
+    jest.spyOn(node, "txs")
+    await store.dispatch("reconnected")
+    expect(node.txs).not.toHaveBeenCalled()
+  })
 })

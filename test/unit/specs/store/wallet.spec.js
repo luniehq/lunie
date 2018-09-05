@@ -95,22 +95,6 @@ describe("Module: Wallet", () => {
     expect(node.queryAccount).not.toHaveBeenCalled()
   })
 
-  xit("should query the history on reconnection", () => {
-    store.state.node.stopConnecting = true
-    store.state.transactions.loading = true
-    jest.spyOn(node, "coinTxs")
-    store.dispatch("reconnected")
-    expect(node.coinTxs).toHaveBeenCalled()
-  })
-
-  xit("should not query the history on reconnection if not stuck in loading", () => {
-    store.state.node.stopConnecting = true
-    store.state.transactions.loading = false
-    jest.spyOn(node, "coinTxs")
-    store.dispatch("reconnected")
-    expect(node.coinTxs).not.toHaveBeenCalled()
-  })
-
   it("should be in loading state before querying account, and not in loading state after", async () => {
     node.queryAccount = () =>
       Promise.resolve({
