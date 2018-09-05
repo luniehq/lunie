@@ -101,30 +101,35 @@ exports[`PageTransactions has the expected html structure 1`] = `
     class="tm-page-main ps"
   >
     <!---->
-    <tm-li-transaction
+    <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      validators=""
+      validatorurl="https://explorecosmos.network/validators"
     />
-    <!---->
-    <tm-li-transaction
+    <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      validators=""
+      validatorurl="https://explorecosmos.network/validators"
     />
-    <!---->
-    <tm-li-transaction
+    <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      validators=""
+      validatorurl="https://explorecosmos.network/validators"
     />
-    <!---->
-    <!---->
-    <tm-li-staking-transaction
+    <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      validators=""
+      validatorurl="https://explorecosmos.network/validators"
     />
-    <!---->
-    <tm-li-staking-transaction
+    <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      validators=""
+      validatorurl="https://explorecosmos.network/validators"
     />
     <div
       class="ps__rail-x"
@@ -294,11 +299,12 @@ exports[`PageTransactions should filter the transactions 1`] = `
         </div>
       </div>
     </div>
-    <tm-li-transaction
+    <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      validators=""
+      validatorurl="https://explorecosmos.network/validators"
     />
-    <!---->
   </main>
 </div>
 `;

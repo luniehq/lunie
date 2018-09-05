@@ -1,0 +1,597 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Module: Transactions should have an empty state by default 1`] = `
+Object {
+  "loading": false,
+  "staking": Array [
+    Object {
+      "hash": "A7C6DE5CB923AF08E6088F1348047F16BABB9F48",
+      "height": 160,
+      "tx": Object {
+        "value": Object {
+          "msg": Array [
+            Object {
+              "type": "cosmos-sdk/MsgDelegate",
+              "value": Object {
+                "delegation": Object {
+                  "amount": "24",
+                  "denom": "steak",
+                },
+                "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+                "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+              },
+            },
+          ],
+        },
+      },
+    },
+    Object {
+      "hash": "A7C6FDE5CA923AF08E6088F1348047F16BABB9F48",
+      "height": 170,
+      "tx": Object {
+        "value": Object {
+          "msg": Array [
+            Object {
+              "type": "cosmos-sdk/BeginUnbonding",
+              "value": Object {
+                "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+                "shares": "5",
+                "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+              },
+            },
+          ],
+        },
+      },
+    },
+  ],
+  "wallet": Array [
+    Object {
+      "hash": "not a real hash",
+      "height": "3436",
+      "tx": Object {
+        "result": Object {
+          "fee": Object {},
+          "gasUsed": "3324",
+          "tags": Array [
+            Object {
+              "key": "c2VuZGVy",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+            Object {
+              "key": "cmVjaXBpZW50",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+          ],
+        },
+        "type": "8EFE47F0625DE8",
+        "value": Object {
+          "fee": Object {
+            "amount": Array [
+              Object {
+                "amount": 0,
+                "denom": "",
+              },
+            ],
+            "gas": 500000,
+          },
+          "gas": 500000,
+          "msg": Array [
+            Object {
+              "type": "EAFDE32A2C87F8",
+              "value": Object {
+                "inputs": Array [
+                  Object {
+                    "address": "tb1da6xsetjg9jxgun9wdesexv05j",
+                    "coins": Array [
+                      Object {
+                        "amount": 1234,
+                        "denom": "jbcoins",
+                      },
+                    ],
+                  },
+                ],
+                "outputs": Array [
+                  Object {
+                    "address": "tb1d4u5zerywfjhxuc9nudvw",
+                    "coins": Array [
+                      Object {
+                        "amount": 1234,
+                        "denom": "jbcoins",
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+          "signatures": Array [
+            Object {
+              "account_number": 28,
+              "pub_key": Object {
+                "type": "AC26791624DE60",
+                "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
+              },
+              "sequence": 0,
+              "signature": Object {
+                "type": "6BF5903DA1DB28",
+                "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
+              },
+            },
+          ],
+        },
+      },
+    },
+    Object {
+      "hash": "not a real hash2",
+      "height": "3438",
+      "tx": Object {
+        "result": Object {
+          "fee": Object {},
+          "gasUsed": "3324",
+          "tags": Array [
+            Object {
+              "key": "c2VuZGVy",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+            Object {
+              "key": "cmVjaXBpZW50",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+          ],
+        },
+        "type": "8EFE47F0625DE8",
+        "value": Object {
+          "fee": Object {
+            "amount": Array [
+              Object {
+                "amount": 0,
+                "denom": "",
+              },
+            ],
+            "gas": 500000,
+          },
+          "gas": 500000,
+          "msg": Array [
+            Object {
+              "type": "EAFDE32A2C87F8",
+              "value": Object {
+                "inputs": Array [
+                  Object {
+                    "address": "tb1d4u5zerywfjhxuc9nudvw",
+                    "coins": Array [
+                      Object {
+                        "amount": 1234,
+                        "denom": "jbcoins",
+                      },
+                    ],
+                  },
+                ],
+                "outputs": Array [
+                  Object {
+                    "address": "tb1da6xsetjg9jxgun9wdesexv05j",
+                    "coins": Array [
+                      Object {
+                        "amount": 1234,
+                        "denom": "jbcoins",
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+          "signatures": Array [
+            Object {
+              "account_number": 28,
+              "pub_key": Object {
+                "type": "AC26791624DE60",
+                "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
+              },
+              "sequence": 0,
+              "signature": Object {
+                "type": "6BF5903DA1DB28",
+                "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
+              },
+            },
+          ],
+        },
+      },
+    },
+    Object {
+      "hash": "not a real hash3",
+      "height": "466",
+      "tx": Object {
+        "result": Object {
+          "fee": Object {},
+          "gasUsed": "3324",
+          "tags": Array [
+            Object {
+              "key": "c2VuZGVy",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+            Object {
+              "key": "cmVjaXBpZW50",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+          ],
+        },
+        "type": "8EFE47F0625DE8",
+        "value": Object {
+          "fee": Object {
+            "amount": Array [
+              Object {
+                "amount": 0,
+                "denom": "",
+              },
+            ],
+            "gas": 500000,
+          },
+          "gas": 500000,
+          "msg": Array [
+            Object {
+              "type": "EAFDE32A2C87F8",
+              "value": Object {
+                "inputs": Array [
+                  Object {
+                    "address": "tb1da6xsetjg9jxgun9wdesexv05j",
+                    "coins": Array [
+                      Object {
+                        "amount": 1234,
+                        "denom": "jbcoins",
+                      },
+                      Object {
+                        "amount": 1,
+                        "denom": "fabocoins",
+                      },
+                      Object {
+                        "amount": 42,
+                        "denom": "mattcoins",
+                      },
+                    ],
+                  },
+                ],
+                "outputs": Array [
+                  Object {
+                    "address": "tb1d4u5zerywfjhxuc9nudvw",
+                    "coins": Array [
+                      Object {
+                        "amount": 1234,
+                        "denom": "jbcoins",
+                      },
+                      Object {
+                        "amount": 1,
+                        "denom": "fabocoins",
+                      },
+                      Object {
+                        "amount": 42,
+                        "denom": "mattcoins",
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+          "signatures": Array [
+            Object {
+              "account_number": 28,
+              "pub_key": Object {
+                "type": "AC26791624DE60",
+                "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
+              },
+              "sequence": 0,
+              "signature": Object {
+                "type": "6BF5903DA1DB28",
+                "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
+              },
+            },
+          ],
+        },
+      },
+    },
+  ],
+}
+`;
+
+exports[`Module: Transactions should load and enrich txs 1`] = `
+Array [
+  Object {
+    "hash": "A7C6DE5CB923AF08E6088F1348047F16BABB9F48",
+    "height": 160,
+    "time": 10160,
+    "tx": Object {
+      "value": Object {
+        "msg": Array [
+          Object {
+            "type": "cosmos-sdk/MsgDelegate",
+            "value": Object {
+              "delegation": Object {
+                "amount": "24",
+                "denom": "steak",
+              },
+              "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+              "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+            },
+          },
+        ],
+      },
+    },
+    "type": "wallet",
+  },
+  Object {
+    "hash": "A7C6FDE5CA923AF08E6088F1348047F16BABB9F48",
+    "height": 170,
+    "time": 10170,
+    "tx": Object {
+      "value": Object {
+        "msg": Array [
+          Object {
+            "type": "cosmos-sdk/BeginUnbonding",
+            "value": Object {
+              "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+              "shares": "5",
+              "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+            },
+          },
+        ],
+      },
+    },
+    "type": "wallet",
+  },
+]
+`;
+
+exports[`Module: Transactions should load and enrich txs 2`] = `
+Array [
+  Object {
+    "hash": "not a real hash",
+    "height": "3436",
+    "time": 103436,
+    "tx": Object {
+      "result": Object {
+        "fee": Object {},
+        "gasUsed": "3324",
+        "tags": Array [
+          Object {
+            "key": "c2VuZGVy",
+            "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+          },
+          Object {
+            "key": "cmVjaXBpZW50",
+            "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+          },
+        ],
+      },
+      "type": "8EFE47F0625DE8",
+      "value": Object {
+        "fee": Object {
+          "amount": Array [
+            Object {
+              "amount": 0,
+              "denom": "",
+            },
+          ],
+          "gas": 500000,
+        },
+        "gas": 500000,
+        "msg": Array [
+          Object {
+            "type": "EAFDE32A2C87F8",
+            "value": Object {
+              "inputs": Array [
+                Object {
+                  "address": "tb1da6xsetjg9jxgun9wdesexv05j",
+                  "coins": Array [
+                    Object {
+                      "amount": 1234,
+                      "denom": "jbcoins",
+                    },
+                  ],
+                },
+              ],
+              "outputs": Array [
+                Object {
+                  "address": "tb1d4u5zerywfjhxuc9nudvw",
+                  "coins": Array [
+                    Object {
+                      "amount": 1234,
+                      "denom": "jbcoins",
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        ],
+        "signatures": Array [
+          Object {
+            "account_number": 28,
+            "pub_key": Object {
+              "type": "AC26791624DE60",
+              "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
+            },
+            "sequence": 0,
+            "signature": Object {
+              "type": "6BF5903DA1DB28",
+              "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
+            },
+          },
+        ],
+      },
+    },
+    "type": "staking",
+  },
+  Object {
+    "hash": "not a real hash2",
+    "height": "3438",
+    "time": 103438,
+    "tx": Object {
+      "result": Object {
+        "fee": Object {},
+        "gasUsed": "3324",
+        "tags": Array [
+          Object {
+            "key": "c2VuZGVy",
+            "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+          },
+          Object {
+            "key": "cmVjaXBpZW50",
+            "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+          },
+        ],
+      },
+      "type": "8EFE47F0625DE8",
+      "value": Object {
+        "fee": Object {
+          "amount": Array [
+            Object {
+              "amount": 0,
+              "denom": "",
+            },
+          ],
+          "gas": 500000,
+        },
+        "gas": 500000,
+        "msg": Array [
+          Object {
+            "type": "EAFDE32A2C87F8",
+            "value": Object {
+              "inputs": Array [
+                Object {
+                  "address": "tb1d4u5zerywfjhxuc9nudvw",
+                  "coins": Array [
+                    Object {
+                      "amount": 1234,
+                      "denom": "jbcoins",
+                    },
+                  ],
+                },
+              ],
+              "outputs": Array [
+                Object {
+                  "address": "tb1da6xsetjg9jxgun9wdesexv05j",
+                  "coins": Array [
+                    Object {
+                      "amount": 1234,
+                      "denom": "jbcoins",
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        ],
+        "signatures": Array [
+          Object {
+            "account_number": 28,
+            "pub_key": Object {
+              "type": "AC26791624DE60",
+              "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
+            },
+            "sequence": 0,
+            "signature": Object {
+              "type": "6BF5903DA1DB28",
+              "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
+            },
+          },
+        ],
+      },
+    },
+    "type": "staking",
+  },
+  Object {
+    "hash": "not a real hash3",
+    "height": "466",
+    "time": 10466,
+    "tx": Object {
+      "result": Object {
+        "fee": Object {},
+        "gasUsed": "3324",
+        "tags": Array [
+          Object {
+            "key": "c2VuZGVy",
+            "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+          },
+          Object {
+            "key": "cmVjaXBpZW50",
+            "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+          },
+        ],
+      },
+      "type": "8EFE47F0625DE8",
+      "value": Object {
+        "fee": Object {
+          "amount": Array [
+            Object {
+              "amount": 0,
+              "denom": "",
+            },
+          ],
+          "gas": 500000,
+        },
+        "gas": 500000,
+        "msg": Array [
+          Object {
+            "type": "EAFDE32A2C87F8",
+            "value": Object {
+              "inputs": Array [
+                Object {
+                  "address": "tb1da6xsetjg9jxgun9wdesexv05j",
+                  "coins": Array [
+                    Object {
+                      "amount": 1234,
+                      "denom": "jbcoins",
+                    },
+                    Object {
+                      "amount": 1,
+                      "denom": "fabocoins",
+                    },
+                    Object {
+                      "amount": 42,
+                      "denom": "mattcoins",
+                    },
+                  ],
+                },
+              ],
+              "outputs": Array [
+                Object {
+                  "address": "tb1d4u5zerywfjhxuc9nudvw",
+                  "coins": Array [
+                    Object {
+                      "amount": 1234,
+                      "denom": "jbcoins",
+                    },
+                    Object {
+                      "amount": 1,
+                      "denom": "fabocoins",
+                    },
+                    Object {
+                      "amount": 42,
+                      "denom": "mattcoins",
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        ],
+        "signatures": Array [
+          Object {
+            "account_number": 28,
+            "pub_key": Object {
+              "type": "AC26791624DE60",
+              "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
+            },
+            "sequence": 0,
+            "signature": Object {
+              "type": "6BF5903DA1DB28",
+              "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
+            },
+          },
+        ],
+      },
+    },
+    "type": "staking",
+  },
+]
+`;

@@ -58,7 +58,7 @@ describe("Store", () => {
       password: "1234567890"
     })
     store.commit("setWalletBalances", [{ denom: "fabocoin", amount: 42 }])
-    store.commit("setWalletHistory", [{}])
+    store.commit("setWalletTxs", [{}])
     jest.runAllTimers() // updating is waiting if more updates coming in, this skips the waiting
     await store.dispatch("signOut")
     await store.dispatch("signIn", {
@@ -67,7 +67,7 @@ describe("Store", () => {
     })
 
     expect(store.state.wallet.balances).toHaveLength(1)
-    expect(store.state.wallet.history).toHaveLength(1)
+    expect(store.state.transactions.wallet).toHaveLength(1)
   })
 
   it("should restore delegates and put committed ones in the cart", async () => {
@@ -123,7 +123,6 @@ describe("Store", () => {
       localStorage.getItem("store_test-net_" + lcdClientMock.addresses[0])
     ).toBeFalsy()
 
-    store.commit("setWalletHistory", [{}])
     jest.runAllTimers()
 
     expect(

@@ -165,8 +165,6 @@ export default {
         })
         // resets send transaction form
         this.resetForm()
-        // refreshes user transaction history
-        this.$store.dispatch("queryWalletHistory")
       } catch (err) {
         this.sending = false
         this.$store.commit("notifyError", {

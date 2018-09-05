@@ -105,9 +105,9 @@
     node-fetch "^2.1.1"
     url-template "^2.0.8"
 
-"@tendermint/ui@0.2.21":
-  version "0.2.21"
-  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.21.tgz#ca12995bf6c828fef15378becc36b545f7cd2185"
+"@tendermint/ui@0.2.22":
+  version "0.2.22"
+  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.22.tgz#83d43154d212e8faf0ece05800d7ad5e3d3b1d9d"
   dependencies:
     axios "^0.18.0"
     cookieconsent "^3.0.6"

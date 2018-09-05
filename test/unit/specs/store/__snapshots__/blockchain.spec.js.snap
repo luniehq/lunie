@@ -10,14 +10,3 @@ Object {
   "type": "error",
 }
 `;
-
-exports[`Module: Blockchain should show an info if block is unavailable 1`] = `
-Object {
-  "body": undefined,
-  "icon": "error",
-  "layout": "alert",
-  "time": 42000,
-  "title": "Couldn't query block",
-  "type": "error",
-}
-`;

@@ -1,16 +1,10 @@
-import { getTxHash } from "../../scripts/tx-utils.js"
-
 export default ({ node }) => {
   const state = {
-    blocks: [],
-    block: null,
     blockMetaInfo: { block_id: {} },
     blockHeight: null, // we remember the height so we can requery the block, if querying failed
-    blockLoading: false,
     subscription: false,
     syncing: true,
     blockMetas: {},
-    blockTxs: {},
     subscribedRPC: null
   }
 
@@ -18,101 +12,25 @@ export default ({ node }) => {
     setBlockHeight(state, height) {
       state.blockHeight = height
     },
-    setBlocks(state, blocks) {
-      state.blocks = blocks
+    setSyncing(state, syncing) {
+      state.syncing = syncing
     },
-    setBlock(state, block) {
-      state.block = block
+    setBlockMetas(state, blockMetas) {
+      state.blockMetas = blockMetas
     },
-    setBlockMetaInfo(state, blockMetaInfo) {
-      state.blockMetaInfo = blockMetaInfo
+    setSubscribedRPC(state, subscribedRPC) {
+      state.subscribedRPC = subscribedRPC
     },
-    setBlockTxInfo(state, blockTxInfo) {
-      state.blockTxInfo = blockTxInfo
+    setSubscription(state, subscription) {
+      state.subscription = subscription
     }
   }
 
   const actions = {
-    reconnected({ state, dispatch }) {
-      if (state.blockLoading) {
-        dispatch("getBlock", state.blockHeight)
-      }
+    reconnected({ commit, dispatch }) {
       //on a reconnect we assume, that the rpc connector changed, so we can safely resubscribe to blocks
-      state.subscription = false
+      commit("setSubscription", false)
       dispatch("subscribeToBlocks")
-    },
-    async getBlock({ state, commit, dispatch }, height) {
-      try {
-        state.blockLoading = true
-        commit("setBlockHeight", height)
-
-        const [block, blockMetaInfo] = await Promise.all([
-          dispatch("queryBlock", height),
-          dispatch("queryBlockInfo", height)
-        ])
-        commit("setBlock", block)
-        commit("setBlockMetaInfo", blockMetaInfo)
-        state.blockLoading = false
-        const blockTxInfo = await dispatch("queryTxInfo", height)
-        commit("setBlockTxInfo", blockTxInfo)
-      } catch (error) {
-        state.blockLoading = false
-        return Promise.reject(error)
-      }
-    },
-    queryBlock({ commit }, height) {
-      return new Promise(resolve => {
-        node.rpc.block({ height: height && height.toString() }, (err, data) => {
-          if (err) {
-            commit("notifyError", {
-              title: `Couldn't query block`,
-              body: err.message
-            })
-            resolve(null)
-          } else {
-            resolve(data.block)
-          }
-        })
-      })
-    },
-    async queryTxInfo({ state, dispatch }, height) {
-      if (!height || !state.block) {
-        return {}
-      }
-      let blockTxInfo = state.blockTxs[height]
-      if (blockTxInfo) {
-        return blockTxInfo
-      }
-      blockTxInfo = await dispatch("getTxs", {
-        key: 0,
-        len: state.block.data.txs ? state.block.data.txs.length : 0,
-        txs: state.block.data.txs ? state.block.data.txs.slice(0) : []
-      })
-      state.blockTxs = { ...state.blockTxs, [height]: blockTxInfo }
-      return blockTxInfo
-    },
-    async getTxs({ commit, dispatch }, { key, len, txs }) {
-      //  this function queries txs recursively. it's called from queryTxInfo as series of synchronous
-      // calls. it could also be called as a Promise.all to make the calls asynchronous but block with
-      // many transactions might overload the tx endpoint with too many simultaneous calls.
-      try {
-        if (key >= len) return txs
-        let txstring = atob(txs[key])
-        let hash = await getTxHash(txs[key])
-        let data = await node.tx(hash)
-        data.string = txstring
-        data.time =
-          state.blockMetas[data.height] &&
-          state.blockMetas[data.height].header.time
-        txs[key] = data
-        return await dispatch("getTxs", { key: key + 1, len, txs })
-      } catch (error) {
-        commit("notifyError", {
-          title: `Couldn't query block`,
-          body: error.message
-        })
-        return Promise.reject(error)
-      }
     },
     async queryBlockInfo({ state, commit }, height) {
       if (!height) {
@@ -137,20 +55,20 @@ export default ({ node }) => {
               })
               resolve(null)
             } else {
-              resolve(data.block_metas ? data.block_metas[0] : null)
+              resolve(data.block_metas && data.block_metas[0])
             }
           }
         )
       })
-      state.blockMetas = { ...state.blockMetas, [height]: blockMetaInfo }
+
+      commit("setBlockMetas", { ...state.blockMetas, [height]: blockMetaInfo })
       return blockMetaInfo
     },
     subscribeToBlocks({ state, commit, dispatch }) {
       // ensure we never subscribe twice
-      if (state.subscription) return
-      if (state.subscribedRPC === node.rpc) return
-
-      state.subscribedRPC = node.rpc
+      if (state.subscription) return false
+      if (state.subscribedRPC === node.rpc) return false
+      commit("setSubscribedRPC", node.rpc)
 
       function error(err) {
         dispatch("nodeHasHalted")
@@ -164,27 +82,22 @@ export default ({ node }) => {
         commit("setBlockHeight", status.sync_info.latest_block_height)
         if (status.sync_info.catching_up) {
           // still syncing, let's try subscribing again in 30 seconds
-          state.syncing = true
-          state.subscription = false
+          commit("setSyncing", true)
+          commit("setSubscription", false)
           setTimeout(() => dispatch("subscribeToBlocks"), 30e3)
-          return
+          return false
         }
 
-        state.syncing = false
+        commit("setSyncing", false)
 
         // only subscribe if the node is not catching up anymore
-        node.rpc.subscribe({ query: "tm.event = 'NewBlock'" }, (err, event) => {
-          state.subscription = true
+        node.rpc.subscribe({ query: "tm.event = 'NewBlock'" }, err => {
+          commit("setSubscription", true)
 
           if (err) return error(err)
-
-          state.blocks.unshift(event.data.value.block)
-
-          if (state.blocks.length === 20) {
-            state.blocks.pop()
-          }
         })
       })
+      return true
     }
   }
 

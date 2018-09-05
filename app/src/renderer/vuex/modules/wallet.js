@@ -1,6 +1,5 @@
 let fs = require("fs-extra")
 let { join } = require("path")
-let { uniqBy } = require("lodash")
 const { remote } = require("electron")
 const root = remote.getGlobal("root")
 let { sleep } = require("scripts/common.js")
@@ -9,8 +8,6 @@ export default ({ node }) => {
   let emptyState = {
     balances: [],
     balancesLoading: true,
-    history: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
-    historyLoading: false,
     denoms: [],
     address: null,
     zoneIds: ["basecoind-demo1", "basecoind-demo2"],
@@ -19,9 +16,6 @@ export default ({ node }) => {
   let state = JSON.parse(JSON.stringify(emptyState))
 
   let mutations = {
-    setHistoryLoading(state, loading) {
-      state.historyLoading = loading
-    },
     setWalletBalances(state, balances) {
       state.balances = balances
       state.balancesLoading = false
@@ -32,9 +26,6 @@ export default ({ node }) => {
     setAccountNumber(state, accountNumber) {
       state.accountNumber = accountNumber
     },
-    setWalletHistory(state, history) {
-      state.history = history
-    },
     setDenoms(state, denoms) {
       state.denoms = denoms
     }
@@ -44,9 +35,6 @@ export default ({ node }) => {
     reconnected({ state, dispatch }) {
       if (state.balancesLoading && state.address) {
         dispatch("queryWalletBalances")
-      }
-      if (state.historyLoading) {
-        dispatch("queryWalletHistory")
       }
     },
     initializeWallet({ commit, dispatch }, address) {
@@ -61,7 +49,6 @@ export default ({ node }) => {
     },
     queryWalletState({ dispatch }) {
       dispatch("queryWalletBalances")
-      // dispatch("queryWalletHistory") // is done on mounting transactions
     },
     async queryWalletBalances({ state, rootState, commit }) {
       if (!state.address) return
@@ -83,27 +70,6 @@ export default ({ node }) => {
       }
 
       state.balancesLoading = false
-    },
-    async queryWalletHistory({ state, commit, dispatch }) {
-      commit("setHistoryLoading", true)
-      const res = await node.txs(state.address)
-      if (!res) return
-
-      const uniqueTransactions = uniqBy(res, "hash")
-      await dispatch("enrichTransactions", uniqueTransactions)
-      commit("setWalletHistory", uniqueTransactions)
-
-      commit("setHistoryLoading", false)
-    },
-    async enrichTransactions({ dispatch }, transactions) {
-      transactions = await Promise.all(
-        transactions.map(async t => {
-          let blockMetaInfo = await dispatch("queryBlockInfo", t.height)
-          t.time = blockMetaInfo && blockMetaInfo.header.time
-          return t
-        })
-      )
-      return transactions
     },
     async loadDenoms({ commit }) {
       // read genesis.json to get default denoms

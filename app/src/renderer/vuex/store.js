@@ -48,8 +48,11 @@ export default (opts = {}) => {
 function persistState(state) {
   const encryptedState = CryptoJS.AES.encrypt(
     JSON.stringify({
+      transactions: {
+        wallet: state.transactions.wallet,
+        staking: state.transactions.staking
+      },
       wallet: {
-        history: state.wallet.history,
         balances: state.wallet.balances
       },
       delegation: {
@@ -84,8 +87,10 @@ function loadPersistedState({ state, commit }, { password }) {
     let oldState = JSON.parse(plaintext)
     _.merge(state, oldState, {
       // set loading indicators to false
+      transactions: {
+        loading: false
+      },
       wallet: {
-        historyLoading: false,
         balancesLoading: false
       },
       delegates: {
