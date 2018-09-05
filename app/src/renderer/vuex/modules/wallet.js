@@ -37,15 +37,6 @@ export default ({ node }) => {
     },
     setDenoms(state, denoms) {
       state.denoms = denoms
-    },
-    setTransactionTime(state, { blockHeight, blockMetaInfo }) {
-      state.history = state.history.map(t => {
-        if (t.height === blockHeight) {
-          // console.log("blockMetaInfo", blockMetaInfo)
-          t.time = blockMetaInfo && blockMetaInfo.header.time
-        }
-        return t
-      })
     }
   }
 
@@ -99,30 +90,20 @@ export default ({ node }) => {
       if (!res) return
 
       const uniqueTransactions = uniqBy(res, "hash")
-      commit("setWalletHistory", uniqueTransactions)
-
       await dispatch("enrichTransactions", uniqueTransactions)
+      commit("setWalletHistory", uniqueTransactions)
 
       commit("setHistoryLoading", false)
     },
     async enrichTransactions({ dispatch }, transactions) {
-      let blockHeights = []
-      transactions.forEach(t => {
-        if (!blockHeights.find(h => h === t.height)) {
-          blockHeights.push(t.height)
-        }
-      })
-      await Promise.all(
-        blockHeights.map(h => dispatch("queryTransactionTime", h))
+      transactions = await Promise.all(
+        transactions.map(async t => {
+          let blockMetaInfo = await dispatch("queryBlockInfo", t.height)
+          t.time = blockMetaInfo && blockMetaInfo.header.time
+          return t
+        })
       )
-    },
-    async queryTransactionTime({ commit, dispatch }, blockHeight) {
-      let blockMetaInfo = await dispatch("queryBlockInfo", blockHeight)
-      // console.log(
-      //   "received blockMetaInfo at height " + blockHeight,
-      //   blockMetaInfo
-      // )
-      commit("setTransactionTime", { blockHeight, blockMetaInfo })
+      return transactions
     },
     async loadDenoms({ commit }) {
       // read genesis.json to get default denoms

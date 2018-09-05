@@ -44,7 +44,11 @@ export default function({ node }) {
         rootState.wallet.zoneIds.unshift(header.chain_id)
       }
 
-      await dispatch("maybeUpdateValidators", header)
+      // updating the header is done even while the user is not logged in
+      // to prevent errors popping up from the LCD before the user is signed on, we skip updating validators before
+      // TODO identify why rest calls fail at this point
+      if (rootState.user.signedIn)
+        await dispatch("maybeUpdateValidators", header)
     },
     async reconnect({ commit }) {
       if (state.stopConnecting) return

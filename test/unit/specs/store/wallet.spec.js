@@ -44,14 +44,16 @@ describe("Module: Wallet", () => {
     expect(store.state.wallet.denoms).toBe(denoms)
   })
 
-  it("should set transaction time", () => {
+  it("should set transaction time", async () => {
     const blockHeight = 31337
     const time = 1234567890
     const history = [{ height: blockHeight }]
     const blockMetaInfo = { header: { time: time } }
-    store.commit("setWalletHistory", history)
-    store.commit("setTransactionTime", { blockHeight, blockMetaInfo })
-    expect(store.state.wallet.history[0].time).toBe(time)
+    store.state.blockchain.blockMetas = {
+      [blockHeight]: blockMetaInfo
+    }
+    let transactions = await store.dispatch("enrichTransactions", history)
+    expect(transactions[0].time).toBe(time)
   })
 
   // ACTIONS
@@ -87,28 +89,6 @@ describe("Module: Wallet", () => {
         denom: "fermion"
       }
     ])
-  })
-
-  describe("query meta info", () => {
-    let height = 100
-    let blockMeta = {
-      header: {
-        height: 100,
-        time: 42
-      }
-    }
-
-    beforeEach(() => {
-      // prefill history
-      store.commit("setWalletHistory", [{ height }])
-      // prefill block metas
-      store.state.blockchain.blockMetas[height] = blockMeta
-    })
-
-    it("should query transaction time", async () => {
-      await store.dispatch("queryTransactionTime", height)
-      expect(store.state.wallet.history[0].time).toBe(42)
-    })
   })
 
   it("should load denoms", async () => {

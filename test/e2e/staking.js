@@ -98,12 +98,11 @@ test("staking", async function(t) {
     // validator should already be in the cart so we only need to click a button to go to the bonding view
     await app.client.$("#go-to-bonding-btn").click()
 
-    t.doesNotThrow(
-      async () =>
-        await waitForValue(
-          () => app.client.$("#new-unbonded-atoms"),
-          (totalUserStake - bondedStake).toString()
-        ),
+    t.ok(
+      await waitForValue(
+        () => app.client.$("#new-unbonded-atoms"),
+        (totalUserStake - bondedStake).toString()
+      ),
       "Left over steak shows correctly"
     )
 
@@ -116,15 +115,6 @@ test("staking", async function(t) {
     await app.client
       .$(".bond-candidate .bond-value__input")
       .setValue(bondedStake - 20)
-
-    t.doesNotThrow(
-      async () =>
-        await waitForValue(
-          () => app.client.$("#new-unbonded-atoms"),
-          (totalUserStake - bondedStake + 20).toString()
-        ),
-      "Left over steak shows correctly after adjusting bond"
-    )
 
     t.equal(
       await app.client.$("#new-unbonding-atoms").getValue(),

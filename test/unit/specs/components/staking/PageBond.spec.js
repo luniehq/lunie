@@ -22,9 +22,11 @@ describe("PageBond", () => {
           },
           voting_power: 10000,
           shares: 5000,
-          description: "descriptionX",
-          country: "USA",
-          moniker: "someValidator"
+          description: {
+            description: "descriptionX",
+            country: "USA",
+            moniker: "someValidator"
+          }
         })
         store.commit("addToCart", {
           id: "pubkeyY",
@@ -34,23 +36,24 @@ describe("PageBond", () => {
           },
           voting_power: 30000,
           shares: 10000,
-          description: "descriptionY",
-          country: "Canada",
-          moniker: "someOtherValidator"
+          description: {
+            description: "descriptionY",
+            country: "Canada",
+            moniker: "someOtherValidator"
+          }
         })
 
-        store.commit(
-          "addToCart",
-          Object.assign(
-            {
-              id: "pubkeyZ",
-              voting_power: 20000,
-              shares: 75000,
-              moniker: "aChileanValidator"
-            },
-            candidates[2] // this is the revoked one
-          )
+        let chileanValidator = Object.assign(
+          {
+            id: "pubkeyZ",
+            voting_power: 20000,
+            shares: 75000
+          },
+          candidates[2] // this is the revoked one
         )
+        chileanValidator.description.moniker = "aChileanValidator"
+
+        store.commit("addToCart", chileanValidator)
 
         store.commit("setUnbondingDelegations", {
           candidateId: "pubkeyY",
@@ -468,9 +471,9 @@ describe("PageBond", () => {
 
   it("disables bonding if not connected", async () => {
     store.commit("setConnected", false)
+    wrapper.update()
     wrapper.vm.onSubmit = jest.fn()
-    wrapper.findAll("#btn-bond").trigger("click")
-    expect(wrapper.vm.onSubmit).not.toHaveBeenCalled()
+    expect(wrapper.find("#btn-bond").exists()).toBeFalsy()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })
