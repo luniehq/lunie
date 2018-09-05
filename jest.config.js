@@ -33,12 +33,5 @@ module.exports = {
     "/test/",
     "/app/src/config.js"
   ],
-  testURL: "http://localhost",
-  setupFiles: [
-    "./test/unit/helpers/fixed_time.js",
-    "./test/unit/helpers/console_error_throw.js",
-    "./test/unit/helpers/genesis_mock.js",
-    "./test/unit/helpers/electron_mock.js",
-    "jest-localstorage-mock"
-  ]
+  testURL: "http://localhost"
 }

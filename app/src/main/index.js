@@ -21,13 +21,13 @@ let shuttingDown = false
 let mainWindow
 let lcdProcess
 let streams = []
-let connecting = true
+let connecting = false
 let chainId
 let booted = false
-let addressbook
 let expectedGaiaCliVersion
 
 const root = require("../root.js")
+let configPath = join(root, "config.toml")
 global.root = root // to make the root accessable from renderer
 const networkPath = require("../network.js").path
 
@@ -469,13 +469,7 @@ const eventHandlers = {
     global.config.mocked = value
   },
 
-  reconnect: () => reconnect(addressbook),
-
-  "retry-connection": () => {
-    log("Retrying to connect to nodes")
-    addressbook.resetNodes()
-    reconnect(addressbook)
-  },
+  reconnect,
 
   "stop-lcd": () => {
     stopLCD()
@@ -527,10 +521,14 @@ async function getNodeVersion() {
 }
 
 // pick a random node and check if the SDK version is compatible with ours
-async function pickAndConnect(nodes) {
-  while (nodes.length > 0) {
-    connecting = true
+async function reconnect() {
+  log("Starting reconnect")
 
+  const nodes = process.env.COSMOS_NODE
+    ? [process.env.COSMOS_NODE]
+    : getNodes(configPath)
+
+  while (nodes.length > 0) {
     // pick a random node
     const nodeIndex = Math.floor(Math.random() * nodes.length)
     const nodeIP = nodes[nodeIndex]
@@ -563,26 +561,19 @@ async function pickAndConnect(nodes) {
 }
 
 async function connect(nodeIP) {
-  log(`starting gaia rest server with nodeIP ${nodeIP}`)
-  lcdProcess = await startLCD(lcdHome, nodeIP)
-  log("gaia rest server ready")
+  if (!connecting) {
+    connecting = true
+    await stopLCD()
+    log(`starting gaia rest server with nodeIP ${nodeIP}`)
+    lcdProcess = await startLCD(lcdHome, nodeIP)
+    connecting = false
+    log("gaia rest server ready")
 
-  afterBooted(() => {
-    log("Signaling connected node")
-    mainWindow.webContents.send("connected", nodeIP)
-  })
-
-  connecting = false
-}
-
-async function reconnect() {
-  if (connecting) return
-  log("Starting reconnect")
-  connecting = true
-
-  await stopLCD()
-
-  await pickAndConnect(addressbook)
+    afterBooted(() => {
+      log("Signaling connected node")
+      mainWindow.webContents.send("connected", nodeIP)
+    })
+  }
 }
 
 function checkConsistentConfigDir(
@@ -724,7 +715,11 @@ const getNodes = async configPath => {
 
   // Load nodes we've seen before.
   const cachedNodesPath = join(root, "cachedNodes.json")
-  const cachedNodes = JSON.parse(fs.readFileSync(cachedNodesPath))
+  let cachedNodes = []
+
+  try {
+    cachedNodes = JSON.parse(fs.readFileSync(cachedNodesPath))
+  } catch (exception) {}
 
   const nodes = await gaiaLite.discoverResponsiveNodes({
     nodePeers,
@@ -744,7 +739,6 @@ async function main() {
 
   let appVersionPath = join(root, "app_version")
   let genesisPath = join(root, "genesis.json")
-  let configPath = join(root, "config.toml")
   let gaiacliVersionPath = join(root, "gaiaversion.txt")
 
   let rootExists = exists(root)
@@ -772,12 +766,8 @@ async function main() {
   let genesis = JSON.parse(genesisText)
   chainId = genesis.chain_id // is set globaly
 
-  const nodes = process.env.COSMOS_NODE
-    ? [process.env.COSMOS_NODE]
-    : getNodes(configPath)
-
   // choose one random node to start from
-  await pickAndConnect(nodes)
+  await reconnect()
 
   // TODO reenable when we need LCD init
   // let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))

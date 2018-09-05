@@ -6,6 +6,12 @@
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/7zip/-/7zip-0.0.6.tgz#9cafb171af82329490353b4816f03347aa150a30"
 
+"@nodeguy/channel@0.6.3":
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/@nodeguy/channel/-/channel-0.6.3.tgz#136d093131098ca475c3e6531f65af26c7dbbdc8"
+  dependencies:
+    setimmediate "1.0.5"
+
 "@nodeguy/cli@0.2.2":
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/@nodeguy/cli/-/cli-0.2.2.tgz#f0946d1c6a69b19ebbff5ddf8e09fa9843952d0a"
@@ -6873,7 +6879,7 @@ set-value@^2.0.0:
     is-plain-object "^2.0.3"
     split-string "^3.0.1"
 
-setimmediate@^1.0.4:
+setimmediate@1.0.5, setimmediate@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/setimmediate/-/setimmediate-1.0.5.tgz#290cbb232e306942d7d7ea9b83732ab7856f8285"
 

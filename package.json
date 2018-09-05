@@ -98,6 +98,7 @@
     "webpack-dev-server": "2.11.2"
   },
   "dependencies": {
+    "@nodeguy/channel": "0.6.3",
     "@tendermint/ui": "0.2.17",
     "@vue/test-utils": "1.0.0-beta.11",
     "autosize": "4.0.2",

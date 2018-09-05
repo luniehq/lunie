@@ -1,5 +1,7 @@
 "use strict"
 
+const Channel = require(`@nodeguy/channel`)
+const fp = require("lodash/fp")
 const gaiaLite = require(`../../../app/src/main/gaiaLite`)
 
 const mockFunction = (done, vector) => async input => {
@@ -22,6 +24,18 @@ const mockFunction = (done, vector) => async input => {
   }
 }
 
+test(`random from pool`, async () => {
+  const choose = pool => pool.length - 1
+
+  const output = gaiaLite.bufferAndChoose({
+    choose,
+    input: Channel.from(fp.range(0, 10)),
+    maximum: 5
+  })
+
+  expect(await output.values()).toEqual([5])
+})
+
 describe(`discoverResponsiveNodes`, () => {
   test(`return only responsive nodes`, async done => {
     const nodePeers = mockFunction(done, [
@@ -29,12 +43,12 @@ describe(`discoverResponsiveNodes`, () => {
       [`5.6.7.8`, []]
     ])
 
-    const nodes = await gaiaLite.discoverResponsiveNodes({
+    const nodes = gaiaLite.discoverResponsiveNodes({
       nodePeers,
       seeds: [`1.2.3.4`, `5.6.7.8`]
     })
 
-    expect(nodes).toEqual([`5.6.7.8`])
+    expect(await nodes.values()).toEqual([`5.6.7.8`])
     done()
   })
 
@@ -50,7 +64,7 @@ describe(`discoverResponsiveNodes`, () => {
       seeds: [`1.2.3.4`]
     })
 
-    expect(nodes).toEqual([`1.2.3.4`, `5.6.7.8`, `9.10.11.12`])
+    expect(await nodes.values()).toEqual([`1.2.3.4`, `5.6.7.8`, `9.10.11.12`])
     done()
   })
 

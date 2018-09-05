@@ -20,7 +20,7 @@ describe("TmModalNoNodes", () => {
     let { ipcRenderer } = require("electron")
     wrapper.vm.retry()
     let spy = jest.spyOn(ipcRenderer, "send")
-    expect(spy).toHaveBeenCalledWith("retry-connection")
+    expect(spy).toHaveBeenCalledWith("reconnect")
 
     // also closing the modal
     expect(store.state.config.modals.noNodes.active).toBe(false)
