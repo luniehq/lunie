@@ -101,8 +101,8 @@ describe("Module: Transactions", () => {
   })
 
   it("should load and enrich txs", async () => {
-    node.getDelegatorTxs = jest.fn(address => walletTxs)
-    node.txs = jest.fn(address => stakingTxs)
+    node.getDelegatorTxs = jest.fn(() => walletTxs)
+    node.txs = jest.fn(() => stakingTxs)
 
     // loading will enrich txs with block meta information. we set the info here so we can check if it was used in the snapshot
     store.state.blockchain.blockMetas = {
@@ -130,6 +130,6 @@ describe("Module: Transactions", () => {
   })
 
   it("should fail if trying to get transactions of wrong type", async done => {
-    await store.dispatch("getTx", "unknown").catch(e => done())
+    await store.dispatch("getTx", "unknown").catch(() => done())
   })
 })
