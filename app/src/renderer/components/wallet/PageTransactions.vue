@@ -83,7 +83,7 @@ export default {
       property: "height",
       order: "desc"
     },
-    validatorURL: "/validators"
+    validatorURL: "/staking/validators"
   }),
   methods: {
     refreshTransactions() {
