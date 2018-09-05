@@ -12,7 +12,7 @@
   .li-delegate__value.status
     span {{ delegateType }}
   template(v-if="userCanDelegate")
-    .li-delegate__value.checkbox(v-if="yourVotes > 0")
+    .li-delegate__value.checkbox(v-if="committedDelegations[delegate.id]")
       i.material-icons lock
     .li-delegate__value.checkbox#remove-from-cart(v-else-if="inCart" @click='rm(delegate)')
       i.material-icons check_box

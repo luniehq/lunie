@@ -88,6 +88,8 @@ module.exports = {
       }
       await sleep(100)
     }
+
+    return true
   },
   async login(app, account = "default") {
     console.log("logging into " + account)

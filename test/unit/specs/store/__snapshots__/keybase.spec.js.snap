@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Module: Keybase should query for the keybase identity 1`] = `
+Array [
+  Array [
+    "https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=abcdabcdabcdabcd",
+  ],
+]
+`;
+
+exports[`Module: Keybase should query only once for the keybase identity 1`] = `
+Array [
+  Array [
+    "https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=abcdabcdabcdabcd",
+  ],
+]
+`;

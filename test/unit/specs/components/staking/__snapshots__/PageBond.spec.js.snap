@@ -404,7 +404,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                 </div>
                 <!---->
                 <div
-                  class="tm-form-group tm-form-group--error"
+                  class="tm-form-group"
                 >
                   <!---->
                   <!---->

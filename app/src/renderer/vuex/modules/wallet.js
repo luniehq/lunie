@@ -71,7 +71,6 @@ export default ({ node }) => {
 
       state.balancesLoading = false
     },
-
     async loadDenoms({ commit }) {
       // read genesis.json to get default denoms
 

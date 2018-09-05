@@ -34,8 +34,13 @@ describe("Module: Node", () => {
     expect(store.state.node.lastHeader.chain_id).toBe("test-chain")
   })
 
-  it("checks for new validators", done => {
+  it("checks for new validators", async done => {
     node.getValidatorSet = () => done()
+    // checks for validators only after having signed in
+    await store.dispatch("signIn", {
+      account: "default",
+      password: "1234567890"
+    })
     store.dispatch("setLastHeader", {
       height: 5,
       chain_id: "test-chain",

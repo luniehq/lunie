@@ -38,8 +38,8 @@ tm-page.page-bond(title="Staking")
       :class="bondGroupClass(delta(d.atoms, d.oldAtoms))")
       .bond-group__fields
         .bond-bar
-          label.bond-bar__label(v-if="!d.delegate.revoked") {{ d.delegate.moniker }}
-          label.bond-bar__label.revoked(v-if="d.delegate.revoked") {{ d.delegate.moniker }}
+          label.bond-bar__label(v-if="!d.delegate.revoked") {{ d.delegate.description.moniker }}
+          label.bond-bar__label.revoked(v-if="d.delegate.revoked") {{ d.delegate.description.moniker }}
           label.bond-bar__revoked(v-if="d.delegate.revoked") REVOKED
           .bond-bar__input
             .bond-bar-old__outer
@@ -72,7 +72,7 @@ tm-page.page-bond(title="Staking")
 
       tm-form-msg(:name="bondingDenom + 's'" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
-      tm-form-msg(name="bondingDenom + 's'" type="numeric"
+      tm-form-msg(:name="bondingDenom + 's'" type="numeric"
         v-if="!$v.fields.delegates.$each[index].atoms.numeric")
 
     .bond-group.bond-group--unbonding(
@@ -232,7 +232,7 @@ export default {
           await this.$store.dispatch("submitDelegation", this.fields.delegates)
           this.$store.commit("notify", {
             title: "Successful Staking!",
-            body: `You have successfully staked your ${this.denom}s.`
+            body: `You have successfully staked your ${this.bondingDenom}s.`
           })
           this.$router.push("/staking")
         } catch (err) {
