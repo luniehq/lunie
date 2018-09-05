@@ -15,11 +15,14 @@
   .li-delegate__value.percent_of_vote
     span {{ delegate.percent_of_vote }}
   .li-delegate__value.uptime
-    span.NOT_green {{ uptime }}
+    // add .green .yellow or .red class to this span to trigger inidication by color
+    span {{ uptime }}
   .li-delegate__value.commission
-    span.NOT_orange {{ commission }}
+    // add .green .yellow or .red class to this span to trigger inidication by color
+    span {{ commission }}
   .li-delegate__value.slashes
-    span.NOT_red {{ slashes }}
+    // add .green .yellow or .red class to this span to trigger inidication by color
+    span {{ slashes }}
   template(v-if="userCanDelegate")
     .li-delegate__value.checkbox(v-if="committedDelegations[delegate.id]")
       i.material-icons lock
@@ -123,6 +126,7 @@ export default {
 .li-delegate
   border 1px solid var(--bc)
   margin-bottom 1em
+
   &:nth-of-type(2n-1)
     background var(--app-fg)
 
@@ -153,23 +157,28 @@ export default {
     line-height h5
     text-align right
     padding 4px 4px
+
     &.green
       color var(--green)
       background-color var(--green-fade-1)
       border 1px solid var(--green-fade-2)
+
     &.orange
       color var(--orange)
       background-color var(--orange-fade-1)
       border 1px solid var(--orange-fade-2)
+
     &.red
       color var(--red)
       background-color var(--red-fade-1)
       border 1px solid var(--red-fade-2)
+
 .li-delegate__break
   flex 0
   display flex
   align-items center
   min-width 1
+
   span
     margin 0 0.5em
     width 1px
@@ -181,24 +190,29 @@ export default {
   display flex
   align-items center
   min-width 0
+
   &.name
     flex 3
+
     a
       display flex
+
       img
         border-radius 100%
         margin-right 1em
+
       .vert
         display flex
         flex-direction column
         color var(--bright)
+
         .top
           font-size h5
           padding-bottom 6px
+
         .bottom
           font-size h6
           color var(--dim)
-
 
     .li-delegate__icon
       width 1.5rem

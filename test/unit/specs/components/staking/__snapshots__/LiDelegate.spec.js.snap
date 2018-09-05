@@ -65,27 +65,21 @@ exports[`LiDelegate has the expected html structure 1`] = `
     <div
       class="li-delegate__value uptime"
     >
-      <span
-        class="NOT_green"
-      >
+      <span>
         n/a
       </span>
     </div>
     <div
       class="li-delegate__value commission"
     >
-      <span
-        class="NOT_orange"
-      >
+      <span>
         n/a
       </span>
     </div>
     <div
       class="li-delegate__value slashes"
     >
-      <span
-        class="NOT_red"
-      >
+      <span>
         n/a
       </span>
     </div>
