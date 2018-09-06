@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * test if build Voyager actually starts @faboweb
 * added new validator component @okwme
 
+### Changed
+
+* Refactored Addressbook. @NodeGuy
+
 ### Fixed
 
 * Do not try to publish a release on every push to `develop`! @NodeGuy
