@@ -35,18 +35,6 @@ module.exports = class Addressbook {
     }
   }
 
-  async ping(peerURL) {
-    let pingURL = `http://${peerURL}:${this.config.default_tendermint_port}`
-    this.onConnectionMessage(`pinging node: ${pingURL}`)
-    let nodeAlive = await axios
-      .get(pingURL, { timeout: 3000 })
-      .then(() => true, () => false)
-    this.onConnectionMessage(
-      `Node ${peerURL} is ${nodeAlive ? "alive" : "down"}`
-    )
-    return nodeAlive
-  }
-
   peerIsKnown(peerURL) {
     // we only store the hostname as we want to set protocol and port ourselfs
     let peerHost = getHostname(peerURL)
@@ -91,29 +79,39 @@ module.exports = class Addressbook {
 
   // returns an available node or throws if it can't find any
   async pickNode() {
-    let availableNodes = this.peers.filter(node => node.state === "available")
-    if (availableNodes.length === 0) {
-      throw Error("No nodes available to connect to")
-    }
-    // pick a random node
-    let curNode =
-      availableNodes[Math.floor(Math.random() * availableNodes.length)]
+    let curNode
 
-    let nodeAlive = await this.ping(curNode.host)
-    if (!nodeAlive) {
-      this.flagNodeOffline(curNode.host)
+    if (FIXED_NODE) {
+      // we skip discovery for fixed nodes as we want to always return the same
+      // node
+      curNode = { host: FIXED_NODE }
+    } else {
+      let availableNodes = this.peers.filter(node => node.state === "available")
+      if (availableNodes.length === 0) {
+        throw Error("No nodes available to connect to")
+      }
+      // pick a random node
+      curNode =
+        availableNodes[Math.floor(Math.random() * availableNodes.length)]
 
-      return this.pickNode()
+      try {
+        await this.discoverPeers(curNode.host)
+      } catch (exception) {
+        console.warn(
+          `Unable to discover peers from node ${require(`util`).inspect(
+            curNode
+          )}: ${exception}`
+        )
+
+        this.flagNodeOffline(curNode.host)
+        return this.pickNode()
+      }
+
+      // remember the peers of the node and store them in the addressbook
+      this.persistToDisc()
     }
 
     this.onConnectionMessage("Picked node: " + curNode.host)
-
-    // we skip discovery for fixed nodes as we want to always return the same node
-    if (!FIXED_NODE) {
-      // remember the peers of the node and store them in the addressbook
-      this.discoverPeers(curNode.host)
-    }
-
     return curNode.host + ":" + this.config.default_tendermint_port
   }
 
@@ -136,9 +134,15 @@ module.exports = class Addressbook {
   }
 
   async discoverPeers(peerIP) {
+    this.onConnectionMessage(`Querying node: ${peerIP}`)
+
     let subPeers = (await axios.get(
-      `http://${peerIP}:${this.config.default_tendermint_port}/net_info`
+      `http://${peerIP}:${this.config.default_tendermint_port}/net_info`,
+      { timeout: 3000 }
     )).data.result.peers
+
+    this.onConnectionMessage(`Node ${peerIP} is alive.`)
+
     let subPeersHostnames = subPeers.map(peer => peer.node_info.listen_addr)
 
     subPeersHostnames
