@@ -1,7 +1,6 @@
 const fs = require("fs-extra")
 const { join } = require("path")
 const axios = require("axios")
-const url = require("url")
 
 const LOGGING = JSON.parse(process.env.LOGGING || "true") !== false
 const FIXED_NODE = process.env.COSMOS_NODE
@@ -34,15 +33,12 @@ module.exports = class Addressbook {
   }
 
   // adds the new peer to the list of peers
-  addPeer(peerURL) {
-    let peerHost = getHostname(peerURL)
-
+  addPeer(peerHost) {
     const peerIsKnown = this.peers.find(
       peer => peer.host.indexOf(peerHost) !== -1
     )
 
     if (!peerIsKnown) {
-      let peerHost = getHostname(peerURL)
       LOGGING && console.log("Adding new peer:", peerHost)
       this.peers.push({
         host: peerHost,
@@ -115,13 +111,11 @@ module.exports = class Addressbook {
     return curNode.host + ":" + this.config.default_tendermint_port
   }
 
-  flagNodeOffline(nodeIP) {
-    const host = nodeIP.split(":")[0]
+  flagNodeOffline(host) {
     this.peers.find(p => p.host === host).state = "down"
   }
 
-  flagNodeIncompatible(nodeIP) {
-    const host = nodeIP.split(":")[0]
+  flagNodeIncompatible(host) {
     this.peers.find(p => p.host === host).state = "incompatible"
   }
 
@@ -155,11 +149,4 @@ module.exports = class Addressbook {
       this.persistToDisc()
     }
   }
-}
-
-function getHostname(peerURL) {
-  // some urls like from peers do not have a protocol specified and are therefor not correctly parsed
-  peerURL = peerURL.startsWith("http") ? peerURL : "http://" + peerURL
-  peerURL = url.parse(peerURL)
-  return peerURL.hostname
 }
