@@ -37,7 +37,7 @@ import Mousetrap from "mousetrap"
 import LiDelegate from "staking/LiDelegate"
 import { TmBtn, TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 import DataEmptySearch from "common/TmDataEmptySearch"
-
+import { calculateTokens } from "scripts/common"
 import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
 import VmToolBar from "common/VmToolBar"
@@ -61,7 +61,7 @@ export default {
       property: "percent_of_vote",
       order: "desc"
     },
-    tabIndex: 0,
+    tabIndex: 1,
     tabs: ["My Stake", "Validators"]
   }),
   computed: {
@@ -99,7 +99,9 @@ export default {
         : this.delegates.delegates.map(v => {
             v.small_moniker = v.description.moniker.toLowerCase()
             v.percent_of_vote = num.percent(v.voting_power / this.vpTotal)
-            v.your_votes = this.num.prettyInt(this.committedDelegations[v.id])
+            v.your_votes = this.num.pretty(
+              calculateTokens(v, this.committedDelegations[v.id])
+            )
             v.keybase = this.keybase[v.description.identity]
             return v
           })

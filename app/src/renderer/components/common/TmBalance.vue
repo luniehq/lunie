@@ -4,7 +4,7 @@
       img.icon(src="~assets/images/cosmos-logo.png")
       .total-atoms
         .h3 Total {{bondingDenom}}
-        .h2 {{totalAtoms || "---"}}
+        .h2 {{num.pretty(totalAtoms) || "---"}}
       .unstaked-atoms(v-if="unstakedAtoms")
         .h3 Unstaked {{bondingDenom}}
         .h2 {{unstakedAtoms}}
@@ -23,12 +23,14 @@
         span Copied
 </template>
 <script>
+import num from "scripts/num"
 import { clipboard } from "electron"
 import { mapGetters } from "vuex"
 export default {
   name: "tm-balance",
   data() {
     return {
+      num,
       showSuccess: false
     }
   },

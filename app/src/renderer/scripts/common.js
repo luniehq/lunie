@@ -1,3 +1,5 @@
+import BN from "bignumber.js"
+
 module.exports.sleep = function(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
@@ -15,4 +17,19 @@ module.exports.shortAddress = function(address, length = 4) {
     if (length > address.split("1")[1].length) return address
     return address.split("1")[0] + "…" + address.slice(-1 * length)
   }
+}
+
+module.exports.calculateTokens = function(delegator, shares) {
+  let myShares = new BN(shares || 0)
+
+  let totalSharesN = new BN(delegator.delegator_shares.split("/")[0])
+  let totalSharesD = new BN(delegator.delegator_shares.split("/")[1])
+
+  let totalTokensN = new BN(delegator.tokens.split("/")[0])
+  let totalTokensD = new BN(delegator.tokens.split("/")[1])
+
+  return myShares
+    .times(totalSharesD)
+    .times(totalTokensN)
+    .div(totalSharesN.times(totalTokensD))
 }

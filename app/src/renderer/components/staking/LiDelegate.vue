@@ -38,7 +38,7 @@
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { maxBy } from "lodash"
-import { shortAddress } from "scripts/common"
+import { shortAddress, calculateTokens } from "scripts/common"
 export default {
   name: "li-delegate",
   props: ["delegate"],
@@ -63,11 +63,14 @@ export default {
       return "n/a"
     },
     yourVotes() {
-      let yourVotes = this.num.prettyInt(
+      return this.num.pretty(
         this.committedDelegations[this.delegate.id]
+          ? calculateTokens(
+              this.delegate,
+              this.committedDelegations[this.delegate.id]
+            ).toString()
+          : "0"
       )
-
-      return yourVotes
     },
     styles() {
       let value = ""

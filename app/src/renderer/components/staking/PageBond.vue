@@ -72,8 +72,8 @@ tm-page.page-bond(title="Staking")
 
       tm-form-msg(:name="bondingDenom + 's'" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
-      tm-form-msg(:name="bondingDenom + 's'" type="numeric"
-        v-if="!$v.fields.delegates.$each[index].atoms.numeric")
+      //- tm-form-msg(:name="bondingDenom + 's'" type="decimal"
+        v-if="!$v.fields.delegates.$each[index].atoms.decimal")
 
     .bond-group.bond-group--unbonding(
       v-if="oldBondedAtoms > 0"
@@ -124,7 +124,10 @@ tm-page.page-bond(title="Staking")
 </template>
 
 <script>
-import { between, numeric, required } from "vuelidate/lib/validators"
+import BN from "bignumber.js"
+BN.config({ DECIMAL_PLACES: 10, ROUNDING_MODE: 8 })
+
+import { between, required, decimal } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import {
@@ -216,6 +219,7 @@ export default {
   }),
   methods: {
     async onSubmit() {
+      console.log("???")
       if (this.newUnbondedAtoms < 0) {
         this.$store.commit("notifyError", {
           title: `Too Many Allocated ${this.bondingDenom}`,
@@ -225,6 +229,7 @@ export default {
         })
         return
       }
+      console.log("?")
       this.$v.$touch()
       if (!this.$v.$error) {
         try {
@@ -262,8 +267,19 @@ export default {
         JSON.parse(JSON.stringify(c))
       )
       this.fields.delegates = this.fields.delegates.map(d => {
-        let atoms = committedDelegations[d.delegate.id] || 0
-        d.atoms = parseFloat(atoms)
+        let myShares = new BN(committedDelegations[d.delegate.id] || 0)
+        let totalSharesN = new BN(d.delegate.delegator_shares.split("/")[0])
+        let totalSharesD = new BN(d.delegate.delegator_shares.split("/")[1])
+
+        let totalTokensN = new BN(d.delegate.tokens.split("/")[0])
+        let totalTokensD = new BN(d.delegate.tokens.split("/")[1])
+
+        d.atoms = myShares
+          .times(totalSharesD)
+          .times(totalTokensN)
+          .div(totalSharesN.times(totalTokensD))
+          .toString()
+
         d.oldAtoms = d.atoms
         d.bondedRatio = d.atoms / totalAtoms
         d.deltaAtoms = 0
@@ -365,6 +381,7 @@ export default {
       return value + "%"
     },
     limitMax(delegate, max) {
+      console.log("limit max")
       delegate.atoms = parseFloat(delegate.atoms) // for stuff like 0-101-9
       if (delegate.atoms >= max) {
         delegate.atoms = max
@@ -395,7 +412,7 @@ export default {
         $each: {
           atoms: {
             required,
-            numeric,
+            // decimal,
             between(atoms, parentVm) {
               let otherDelegates = this.fields.delegates.filter(
                 d => d.id !== parentVm.id

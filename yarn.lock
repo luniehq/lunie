@@ -105,9 +105,9 @@
     node-fetch "^2.1.1"
     url-template "^2.0.8"
 
-"@tendermint/ui@0.2.23":
-  version "0.2.23"
-  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.23.tgz#d9e817fa151f29cf477678c60caaca705dfb6a01"
+"@tendermint/ui@0.2.24":
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.24.tgz#11b5dc2f2ce47b430d892e0550b55a21f0076519"
   dependencies:
     axios "^0.18.0"
     cookieconsent "^3.0.6"
@@ -1246,6 +1246,10 @@ before-after-hook@^1.1.0:
 big.js@^3.1.3:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/big.js/-/big.js-3.2.0.tgz#a5fc298b81b9e0dca2e458824784b65c52ba588e"
+
+bignumber.js@7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-7.2.1.tgz#80c048759d826800807c4bfd521e50edbba57a5f"
 
 binary-extensions@^1.0.0:
   version "1.11.0"
@@ -8101,9 +8105,9 @@ vue@^2.5.17:
   version "2.5.17"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
 
-vuelidate@0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.6.2.tgz#b417f5367407b047a2548119b25db56fe2bd5753"
+vuelidate@0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.7.4.tgz#5a0e54be09ac0192f1aa3387d74b92e0945bf8aa"
 
 vuex@3.0.1, vuex@^3.0.1:
   version "3.0.1"
