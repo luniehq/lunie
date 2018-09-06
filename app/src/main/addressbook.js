@@ -26,30 +26,30 @@ module.exports = class Addressbook {
     this.loadFromDisc()
 
     // add persistent peers to already stored peers
-    persistent_peers
-      .filter(peer => !this.peerIsKnown(peer))
-      .forEach(peer => this.addPeer(peer))
+    persistent_peers.forEach(peer => this.addPeer(peer))
 
     if (persistent_peers.length > 0) {
       this.persistToDisc()
     }
   }
 
-  peerIsKnown(peerURL) {
-    // we only store the hostname as we want to set protocol and port ourselfs
-    let peerHost = getHostname(peerURL)
-    return this.peers.find(peer => peer.host.indexOf(peerHost) !== -1)
-  }
-
   // adds the new peer to the list of peers
   addPeer(peerURL) {
     let peerHost = getHostname(peerURL)
-    LOGGING && console.log("Adding new peer:", peerHost)
-    this.peers.push({
-      host: peerHost,
-      // assume that new peers are available
-      state: "available"
-    })
+
+    const peerIsKnown = this.peers.find(
+      peer => peer.host.indexOf(peerHost) !== -1
+    )
+
+    if (!peerIsKnown) {
+      let peerHost = getHostname(peerURL)
+      LOGGING && console.log("Adding new peer:", peerHost)
+      this.peers.push({
+        host: peerHost,
+        // assume that new peers are available
+        state: "available"
+      })
+    }
   }
 
   loadFromDisc() {
@@ -146,8 +146,6 @@ module.exports = class Addressbook {
     let subPeersHostnames = subPeers.map(peer => peer.node_info.listen_addr)
 
     subPeersHostnames
-      // check if we already know the peer
-      .filter(subPeerHostname => !this.peerIsKnown(subPeerHostname))
       // add new peers to state
       .forEach(subPeerHostname => {
         this.addPeer(subPeerHostname)
