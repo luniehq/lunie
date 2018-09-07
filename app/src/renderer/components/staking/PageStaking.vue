@@ -67,6 +67,7 @@ export default {
   computed: {
     ...mapGetters([
       "delegates",
+      "delegation",
       "filters",
       "shoppingCart",
       "committedDelegations",
@@ -120,7 +121,10 @@ export default {
       }
     },
     userCanDelegate() {
-      return this.shoppingCart.length > 0 || this.user.atoms > 0
+      return (
+        (this.shoppingCart.length > 0 || this.user.atoms > 0) &&
+        this.delegation.loadedOnce
+      )
     },
     properties() {
       return [
@@ -211,11 +215,13 @@ export default {
 
   .tab
     cursor pointer
-    margin 0 .5em
+    margin 0 0.5em
     padding-bottom 0.5em
     margin-bottom 1em
+
     &:first-of-type
       cursor not-allowed
+
     &.tab-selected
       color var(--bright)
       border-bottom 2px solid var(--tertiary)
