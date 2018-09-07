@@ -26,6 +26,7 @@ export default (opts = {}) => {
       "setWalletBalances",
       "setWalletHistory",
       "setCommittedDelegation",
+      "setUnbondingDelegations",
       "setDelegates",
       "setKeybaseIdentities"
     ]
@@ -56,7 +57,8 @@ function persistState(state) {
         balances: state.wallet.balances
       },
       delegation: {
-        committedDelegates: state.delegation.committedDelegates
+        committedDelegates: state.delegation.committedDelegates,
+        unbondingDelegations: state.delegation.unbondingDelegations
       },
       delegates: {
         delegates: state.delegates.delegates
