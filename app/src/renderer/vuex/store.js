@@ -57,6 +57,7 @@ function persistState(state) {
         balances: state.wallet.balances
       },
       delegation: {
+        loadedOnce: state.delegation.loadedOnce,
         committedDelegates: state.delegation.committedDelegates,
         unbondingDelegations: state.delegation.unbondingDelegations
       },
