@@ -19,6 +19,21 @@ module.exports.shortAddress = function(address, length = 4) {
   }
 }
 
+module.exports.calculateShares = function(delegator, tokens) {
+  let myTokens = new BN(tokens || 0)
+
+  let totalSharesN = new BN(delegator.delegator_shares.split("/")[0])
+  let totalSharesD = new BN(delegator.delegator_shares.split("/")[1])
+
+  let totalTokensN = new BN(delegator.tokens.split("/")[0])
+  let totalTokensD = new BN(delegator.tokens.split("/")[1])
+
+  return myTokens
+    .times(totalSharesN)
+    .times(totalTokensD)
+    .div(totalSharesD.times(totalTokensN))
+}
+
 module.exports.calculateTokens = function(delegator, shares) {
   let myShares = new BN(shares || 0)
 
@@ -32,4 +47,10 @@ module.exports.calculateTokens = function(delegator, shares) {
     .times(totalSharesD)
     .times(totalTokensN)
     .div(totalSharesN.times(totalTokensD))
+}
+
+module.exports.sleep = function(amount) {
+  return new Promise(resolve => {
+    setTimeout(resolve, amount)
+  })
 }

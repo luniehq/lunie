@@ -1,3 +1,4 @@
+import { calculateTokens, calculateShares } from "scripts/common"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
@@ -106,9 +107,18 @@ export default ({ node }) => {
       let unbond = []
       for (let delegation of delegations) {
         let candidateId = delegation.delegate.owner
-        let currentlyDelegated =
-          parseInt(state.committedDelegates[candidateId]) || 0
-        let amountChange = parseInt(delegation.atoms) - currentlyDelegated
+        let currentlyDelegated = 0
+        try {
+          currentlyDelegated = calculateTokens(
+            delegation.delegate,
+            state.committedDelegates[candidateId] || 0
+          )
+        } catch (error) {
+          console.error(error)
+          return
+        }
+        let amountChange =
+          parseInt(delegation.atoms) - currentlyDelegated.toNumber()
 
         let isBond = amountChange > 0
         // skip if no change
@@ -137,24 +147,30 @@ export default ({ node }) => {
         delegations: delegate,
         begin_unbondings: unbond
       })
-
       // (optimistic update) we update the atoms of the user before we get the new values from chain
       let atomsDiff = delegations
         // compare old and new delegations and diff against old atoms
         .map(
           delegation =>
-            state.committedDelegates[delegation.delegate.owner] -
-            delegation.atoms
+            calculateTokens(
+              delegation.delegate,
+              state.committedDelegates[delegation.delegate.owner]
+            ) - delegation.atoms
         )
         .reduce((sum, diff) => sum + diff, 0)
       commit("setAtoms", rootState.user.atoms + atomsDiff)
 
       // we optimistically update the committed delegations
-      updateCommittedDelegations(delegations, commit)
+      // updateCommittedDelegations(delegations, commit)
       // TODO usually I would just query the new state through the LCD and update the state with the result, but at this point we still get the old shares
-      dispatch("updateDelegates").then(() =>
-        updateCommittedDelegations(delegations, commit)
-      )
+      setTimeout(async () => {
+        dispatch("updateDelegates") //.then(() =>
+        // updateCommittedDelegations(
+        //   delegations,
+        //   commit
+        // )
+        // )
+      }, 15000)
     }
   }
 

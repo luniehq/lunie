@@ -62,7 +62,7 @@ tm-page.page-bond(title="Staking")
           tm-field.bond-value__input(
             type="number"
             placeholder="0"
-            step="1"
+            step="any"
             min="0"
             :max="totalAtoms"
             v-model.number="d.atoms"
@@ -72,8 +72,8 @@ tm-page.page-bond(title="Staking")
 
       tm-form-msg(:name="bondingDenom + 's'" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
-      //- tm-form-msg(:name="bondingDenom + 's'" type="decimal"
-        v-if="!$v.fields.delegates.$each[index].atoms.decimal")
+      tm-form-msg(:name="bondingDenom + 's'" type="numerical"
+        v-if="!$v.fields.delegates.$each[index].atoms.numerical")
 
     .bond-group.bond-group--unbonding(
       v-if="oldBondedAtoms > 0"
@@ -126,10 +126,11 @@ tm-page.page-bond(title="Staking")
 <script>
 import BN from "bignumber.js"
 BN.config({ DECIMAL_PLACES: 10, ROUNDING_MODE: 8 })
-
-import { between, required, decimal } from "vuelidate/lib/validators"
+import { between, required } from "vuelidate/lib/validators"
+import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
+import { sleep } from "scripts/common"
 import {
   TmBtn,
   TmFormGroup,
@@ -171,7 +172,7 @@ export default {
     },
     newUnbondedAtoms() {
       return this.fields.delegates.reduce((atoms, d) => {
-        let delta = parseInt(d.oldAtoms) - parseInt(d.atoms)
+        let delta = parseFloat(d.oldAtoms) - parseFloat(d.atoms)
         if (delta < 0) {
           return atoms + delta
         }
@@ -219,7 +220,6 @@ export default {
   }),
   methods: {
     async onSubmit() {
-      console.log("???")
       if (this.newUnbondedAtoms < 0) {
         this.$store.commit("notifyError", {
           title: `Too Many Allocated ${this.bondingDenom}`,
@@ -229,9 +229,8 @@ export default {
         })
         return
       }
-      console.log("?")
       this.$v.$touch()
-      if (!this.$v.$error) {
+      if (!this.$v.$invalid) {
         try {
           this.delegating = true
           await this.$store.dispatch("submitDelegation", this.fields.delegates)
@@ -267,18 +266,10 @@ export default {
         JSON.parse(JSON.stringify(c))
       )
       this.fields.delegates = this.fields.delegates.map(d => {
-        let myShares = new BN(committedDelegations[d.delegate.id] || 0)
-        let totalSharesN = new BN(d.delegate.delegator_shares.split("/")[0])
-        let totalSharesD = new BN(d.delegate.delegator_shares.split("/")[1])
-
-        let totalTokensN = new BN(d.delegate.tokens.split("/")[0])
-        let totalTokensD = new BN(d.delegate.tokens.split("/")[1])
-
-        d.atoms = myShares
-          .times(totalSharesD)
-          .times(totalTokensN)
-          .div(totalSharesN.times(totalTokensD))
-          .toString()
+        d.atoms = calculateTokens(
+          d.delegate,
+          committedDelegations[d.delegate.id]
+        ).toNumber()
 
         d.oldAtoms = d.atoms
         d.bondedRatio = d.atoms / totalAtoms
@@ -381,8 +372,7 @@ export default {
       return value + "%"
     },
     limitMax(delegate, max) {
-      console.log("limit max")
-      delegate.atoms = parseFloat(delegate.atoms) // for stuff like 0-101-9
+      delegate.atoms = delegate.atoms // for stuff like 0-101-9
       if (delegate.atoms >= max) {
         delegate.atoms = max
       } else if (delegate.atoms < 0) {
@@ -400,6 +390,9 @@ export default {
     this.setBondBarOuterWidth()
   },
   watch: {
+    oldBondedAtoms() {
+      this.resetFields()
+    },
     shoppingCart(newVal) {
       this.leaveIfEmpty(newVal.length)
       this.resetFields()
@@ -412,7 +405,9 @@ export default {
         $each: {
           atoms: {
             required,
-            // decimal,
+            numerical(value, parentVm) {
+              return !isNaN(value)
+            },
             between(atoms, parentVm) {
               let otherDelegates = this.fields.delegates.filter(
                 d => d.id !== parentVm.id
@@ -422,7 +417,8 @@ export default {
                 0
               )
               let maximumAtoms = this.totalAtoms - otherBondedAtoms
-              return between(this.minimumAtoms, maximumAtoms)(atoms)
+              let foo = between(this.minimumAtoms, maximumAtoms)(atoms)
+              return foo
             }
           }
         }
