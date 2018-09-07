@@ -68,6 +68,7 @@ module.exports = class Addressbook {
 
   isIndexingNode(peer) {
     let tx_index = peer.node_info.other && peer.node_info.other[4].split("=")[1]
+    console.log(tx_index)
     return tx_index === "on"
   }
 
@@ -118,10 +119,11 @@ module.exports = class Addressbook {
     )).data.result
 
     if (!this.isIndexingNode(nodeStatus)) {
-      LOGGING &&
-        console.log(`Node ${curNode.host} is not indexing transactions`)
+      console.log(`Node ${curNode.host} is NOT indexing transactions`)
 
       return this.pickNode()
+    } else {
+      console.log(`Node ${curNode.host} IS indexing transactions`)
     }
 
     this.onConnectionMessage("Picked node: " + curNode.host)
