@@ -12,8 +12,81 @@ describe("Addressbook", () => {
     Addressbook = require("src/main/addressbook.js")
 
     jest.mock("axios", () => ({
-      get: async () => {
-        return { data: { result: { peers: [] } } }
+      get: async endpoint => {
+        if (endpoint.endsWith("/status")) {
+          return {
+            data: {
+              result: {
+                node_info: {
+                  id: "562dd7f579f0ecee8c94a11a3c1e378c1876f433",
+                  listen_addr: "192.168.1.2:26656",
+                  network: "test-chain-I6zScH",
+                  version: "0.19.0",
+                  channels: "4020212223303800",
+                  moniker: "Ethans-MacBook-Pro.local",
+                  other: [
+                    "amino_version=0.9.8",
+                    "p2p_version=0.5.0",
+                    "consensus_version=v1/0.2.2",
+                    "rpc_version=0.7.0/3",
+                    "tx_index=on",
+                    "rpc_addr=tcp://0.0.0.0:26657"
+                  ]
+                },
+                sync_info: {
+                  latest_block_hash: "2D4D7055BE685E3CB2410603C92AD37AE557AC59",
+                  latest_app_hash: "0000000000000000",
+                  latest_block_height: 231,
+                  latest_block_time: "2018-04-27T23:18:08.459766485-04:00",
+                  syncing: false
+                },
+                validator_info: {
+                  address: "5875562FF0FFDECC895C20E32FC14988952E99E7",
+                  pub_key: {
+                    type: "AC26791624DE60",
+                    value: "PpDJRUrLG2RgFqYYjawfn/AcAgacSXpLFrmfYYQnuzE="
+                  },
+                  voting_power: 10
+                }
+              }
+            }
+          }
+        } else if (endpoint.endsWith("/net_info")) {
+          return {
+            data: {
+              result: {
+                peers: [
+                  {
+                    node_info: {
+                      listen_addr: "323.456.123.456",
+                      other: [
+                        "amino_version=0.9.8",
+                        "p2p_version=0.5.0",
+                        "consensus_version=v1/0.2.2",
+                        "rpc_version=0.7.0/3",
+                        "tx_index=on",
+                        "rpc_addr=tcp://0.0.0.0:26657"
+                      ]
+                    }
+                  },
+                  {
+                    node_info: {
+                      listen_addr: "423.456.123.456",
+                      other: [
+                        "amino_version=0.9.8",
+                        "p2p_version=0.5.0",
+                        "consensus_version=v1/0.2.2",
+                        "rpc_version=0.7.0/3",
+                        "tx_index=off",
+                        "rpc_addr=tcp://0.0.0.0:26657"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
       }
     }))
   })
@@ -46,14 +119,7 @@ describe("Addressbook", () => {
   })
 
   it("should return node", async () => {
-    jest.doMock("axios", () => ({
-      get: async () => {
-        return { data: { result: { peers: [] } } }
-      }
-    }))
-    jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
-
     let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456"]
     })
@@ -67,7 +133,6 @@ describe("Addressbook", () => {
       jest.resetModules()
       Addressbook = require("src/main/addressbook.js")
       let addressbook = new Addressbook(mockConfig, "./config")
-
       expect(await addressbook.pickNode()).toMatchSnapshot()
     } catch (err) {
       throw err
@@ -77,17 +142,8 @@ describe("Addressbook", () => {
   })
 
   it("should cycle though nodes until it finds one that is available", async () => {
-    jest.doMock("axios", () => ({
-      get: async url => {
-        if (url.indexOf("123.456.123.456") !== -1) return Promise.reject()
-        return Promise.resolve({
-          data: { result: { peers: [] } }
-        })
-      }
-    }))
     jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
-
     let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
     })
@@ -114,12 +170,6 @@ describe("Addressbook", () => {
   })
 
   it("should query peers on connecting to a node", async () => {
-    jest.doMock("axios", () => ({
-      get: async () => {
-        return { data: { result: { peers: [] } } }
-      }
-    }))
-    jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
     let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
@@ -130,31 +180,7 @@ describe("Addressbook", () => {
   })
 
   it("should query and store peers of connected node", async () => {
-    jest.doMock("axios", () => ({
-      get: async () => {
-        return {
-          data: {
-            result: {
-              peers: [
-                {
-                  node_info: {
-                    listen_addr: "323.456.123.456"
-                  }
-                },
-                {
-                  node_info: {
-                    listen_addr: "423.456.123.456"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
-    }))
-    jest.resetModules()
     Addressbook = require("src/main/addressbook.js")
-
     let addressbook = new Addressbook(mockConfig, "./", {
       persistent_peers: ["123.456.123.456", "223.456.123.456"]
     })

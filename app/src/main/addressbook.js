@@ -39,7 +39,9 @@ module.exports = class Addressbook {
     let pingURL = `http://${peerURL}:${this.config.default_tendermint_port}`
     this.onConnectionMessage(`pinging node: ${pingURL}`)
     let nodeAlive = await axios
-      .get(pingURL, { timeout: 3000 })
+      .get(pingURL, {
+        timeout: 3000
+      })
       .then(() => true, () => false)
     this.onConnectionMessage(
       `Node ${peerURL} is ${nodeAlive ? "alive" : "down"}`
@@ -62,6 +64,12 @@ module.exports = class Addressbook {
       // assume that new peers are available
       state: "available"
     })
+  }
+
+  isIndexingNode(peer) {
+    let tx_index = peer.node_info.other && peer.node_info.other[4].split("=")[1]
+    console.log(tx_index)
+    return tx_index === "on"
   }
 
   loadFromDisc() {
@@ -106,6 +114,18 @@ module.exports = class Addressbook {
       return this.pickNode()
     }
 
+    let nodeStatus = (await axios.get(
+      `http://${curNode.host}:${this.config.default_tendermint_port}/status`
+    )).data.result
+
+    if (!this.isIndexingNode(nodeStatus)) {
+      console.log(`Node ${curNode.host} is NOT indexing transactions`)
+
+      return this.pickNode()
+    } else {
+      console.log(`Node ${curNode.host} IS indexing transactions`)
+    }
+
     this.onConnectionMessage("Picked node: " + curNode.host)
 
     // we skip discovery for fixed nodes as we want to always return the same node
@@ -136,10 +156,13 @@ module.exports = class Addressbook {
   }
 
   async discoverPeers(peerIP) {
-    let subPeers = (await axios.get(
+    let subPeersResult = (await axios.get(
       `http://${peerIP}:${this.config.default_tendermint_port}/net_info`
     )).data.result.peers
-    let subPeersHostnames = subPeers.map(peer => peer.node_info.listen_addr)
+
+    let subPeersHostnames = subPeersResult
+      // skip non-indexing nodes
+      .map(peer => peer.node_info.listen_addr)
 
     subPeersHostnames
       // check if we already know the peer
