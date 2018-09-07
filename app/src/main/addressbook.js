@@ -39,7 +39,9 @@ module.exports = class Addressbook {
     let pingURL = `http://${peerURL}:${this.config.default_tendermint_port}`
     this.onConnectionMessage(`pinging node: ${pingURL}`)
     let nodeAlive = await axios
-      .get(pingURL, { timeout: 3000 })
+      .get(pingURL, {
+        timeout: 3000
+      })
       .then(() => true, () => false)
     this.onConnectionMessage(
       `Node ${peerURL} is ${nodeAlive ? "alive" : "down"}`
@@ -116,8 +118,8 @@ module.exports = class Addressbook {
     )).data.result
 
     if (!this.isIndexingNode(nodeStatus)) {
-      console.log(`Node ${curNode.host} is not indexing transactions`)
-      this.flagNodeNotIndexing(curNode.host)
+      LOGGING &&
+        console.log(`Node ${curNode.host} is not indexing transactions`)
 
       return this.pickNode()
     }
@@ -141,11 +143,6 @@ module.exports = class Addressbook {
   flagNodeIncompatible(nodeIP) {
     const host = nodeIP.split(":")[0]
     this.peers.find(p => p.host === host).state = "incompatible"
-  }
-
-  flagNodeNotIndexing(nodeIP) {
-    const host = nodeIP.split(":")[0]
-    this.peers.find(p => p.host === host).indexing = false
   }
 
   resetNodes() {

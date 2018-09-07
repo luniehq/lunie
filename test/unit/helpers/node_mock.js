@@ -6,7 +6,9 @@ module.exports = {
   relayPort: "9060",
   lcdPort: "9070",
   lcdConnected: () => Promise.resolve(true),
-  getKey: () => ({ address: "someaddress" }),
+  getKey: () => ({
+    address: "someaddress"
+  }),
   generateSeed: () => "a b c d e f g h i j k l",
   updateKey: () => {},
   listKeys: () => [],
@@ -19,20 +21,29 @@ module.exports = {
   buildDelegate: () => Promise.resolve(null),
   buildUnbond: () => Promise.resolve(null),
   coinTxs: () => Promise.resolve([]),
-  candidates: () => Promise.resolve({ data: [] }),
+  candidates: () =>
+    Promise.resolve({
+      data: []
+    }),
   send: () => Promise.resolve({}),
   ibcSend: () => Promise.resolve({}),
   candidate: () =>
     Promise.resolve({
       data: {
-        pub_key: { data: "" },
-        description: { name: "test" }
+        pub_key: {
+          data: ""
+        },
+        description: {
+          name: "test"
+        }
       }
     }),
   bondingsByDelegator: () =>
     Promise.resolve({
       data: {
-        PubKey: { data: "" },
+        PubKey: {
+          data: ""
+        },
         Shares: 0
       }
     }),
@@ -41,7 +52,10 @@ module.exports = {
   rpc: {
     on: () => {},
     subscribe: () => {},
-    validators: cb => cb(null, { validators: mockValidators }),
+    validators: cb =>
+      cb(null, {
+        validators: mockValidators
+      }),
     block: (args, cb) =>
       cb(null, {
         block: {
@@ -80,7 +94,7 @@ module.exports = {
           },
           header: {
             app_hash: "",
-            chain_id: "test-chain-6UTNIN",
+            chain_id: "test-net",
             height: 10,
             time: "2017-05-29T15:05:53.877Z",
             num_txs: 0,
@@ -99,7 +113,7 @@ module.exports = {
         block_meta: {
           header: {
             app_hash: "",
-            chain_id: "test-chain-6UTNIN",
+            chain_id: "test-net",
             height: 10,
             time: "2017-05-29T15:05:53.877Z",
             num_txs: 0,
@@ -129,7 +143,7 @@ module.exports = {
           {
             header: {
               app_hash: "",
-              chain_id: "test-chain-6UTNIN",
+              chain_id: "test-net",
               height: 10,
               time: "2017-05-29T15:05:53.877Z",
               num_txs: 0,
@@ -160,7 +174,7 @@ module.exports = {
         node_info: {
           id: "562dd7f579f0ecee8c94a11a3c1e378c1876f433",
           listen_addr: "192.168.1.2:26656",
-          network: "test-chain-I6zScH",
+          network: "test-net",
           version: "0.19.0",
           channels: "4020212223303800",
           moniker: "Ethans-MacBook-Pro.local",
@@ -176,7 +190,7 @@ module.exports = {
         sync_info: {
           latest_block_hash: "2D4D7055BE685E3CB2410603C92AD37AE557AC59",
           latest_app_hash: "0000000000000000",
-          latest_block_height: 231,
+          latest_block_height: 42,
           latest_block_time: "2018-04-27T23:18:08.459766485-04:00",
           syncing: false
         },

@@ -4,6 +4,6 @@ exports[`Addressbook should allow http addresses as peer addresses 1`] = `"123.4
 
 exports[`Addressbook should always return a specified node 1`] = `"123.456.123.456:26657"`;
 
-exports[`Addressbook should cycle though nodes until it finds one that is available 1`] = `"223.456.123.456:26657"`;
+exports[`Addressbook should cycle though nodes until it finds one that is available 1`] = `"123.456.123.456:26657"`;
 
 exports[`Addressbook should return node 1`] = `"123.456.123.456:26657"`;
