@@ -1,5 +1,4 @@
 import setup from "../../helpers/vuex-setup"
-import { reject } from "when"
 
 let instance = setup()
 
@@ -152,7 +151,7 @@ describe("Module: Delegations", () => {
 
     // mock returning some delegations
     node.getDelegator = () =>
-      new Promise((resolve, reject) => {
+      new Promise(resolve => {
         resolveDelegationRequest = () =>
           resolve({
             delegations: [
