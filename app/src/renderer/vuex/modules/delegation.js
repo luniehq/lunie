@@ -1,4 +1,4 @@
-import { calculateTokens, calculateShares } from "scripts/common"
+import { calculateTokens } from "scripts/common"
 export default ({ node }) => {
   let emptyState = {
     loading: false,

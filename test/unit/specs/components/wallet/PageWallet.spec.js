@@ -1,6 +1,6 @@
 import setup from "../../../helpers/vuex-setup"
 import PageWallet from "renderer/components/wallet/PageWallet"
-
+import { candidates } from "renderer/connectors/lcdClientMock.js"
 describe("PageWallet", () => {
   let wrapper, store
   let { mount } = setup()
@@ -11,11 +11,9 @@ describe("PageWallet", () => {
     })
     wrapper = instance.wrapper
     store = instance.store
-
     store.commit("setConnected", true)
     store.commit("setDenoms", ["STEAK", "FERMION", "TEST"])
     store.commit("setWalletAddress", "tb1zgatc3tdauv2m0uf")
-
     store.commit("setWalletBalances", [
       {
         denom: "STEAK",
@@ -118,6 +116,9 @@ describe("PageWallet", () => {
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
     wrapper.update()
+
+    console.log(wrapper.vm.$store.getters.delegation.committedDelegates)
+    console.log(wrapper.vm.$store.getters.delegates.delegates)
     expect(
       wrapper
         .find("#part-staked-balances .tm-li-dd")

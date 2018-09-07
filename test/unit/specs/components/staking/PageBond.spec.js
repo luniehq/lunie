@@ -7,6 +7,49 @@ describe("PageBond", () => {
   let wrapper, store, router
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
+  const firstDelegate = {
+    id: "pubkeyX",
+    pub_key: {
+      type: "ed25519",
+      data: "pubkeyX"
+    },
+    delegator_shares: "10000/1",
+    voting_power: 10000,
+    tokens: "5000/1",
+    shares: 5000,
+    description: {
+      description: "descriptionX",
+      country: "USA",
+      moniker: "someValidator"
+    }
+  }
+  const secondDelegate = {
+    id: "pubkeyY",
+    pub_key: {
+      type: "ed25519",
+      data: "pubkeyY"
+    },
+    delegator_shares: "10000/1",
+    tokens: "30000/1",
+    voting_power: 30000,
+    shares: 10000,
+    description: {
+      description: "descriptionY",
+      country: "Canada",
+      moniker: "someOtherValidator"
+    }
+  }
+  let chileanValidator = Object.assign(
+    {
+      id: "pubkeyZ",
+      voting_power: 20000,
+      delegator_shares: "75000/1",
+      tokens: "20000/1",
+      shares: 75000
+    },
+    candidates[2] // this is the revoked one
+  )
+  chileanValidator.description.moniker = "aChileanValidator"
 
   beforeEach(async () => {
     let test = mount(PageBond, {
@@ -14,45 +57,8 @@ describe("PageBond", () => {
         store.commit("setConnected", true)
         store.commit("setAtoms", 101)
 
-        store.commit("addToCart", {
-          id: "pubkeyX",
-          pub_key: {
-            type: "ed25519",
-            data: "pubkeyX"
-          },
-          voting_power: 10000,
-          shares: 5000,
-          description: {
-            description: "descriptionX",
-            country: "USA",
-            moniker: "someValidator"
-          }
-        })
-        store.commit("addToCart", {
-          id: "pubkeyY",
-          pub_key: {
-            type: "ed25519",
-            data: "pubkeyY"
-          },
-          voting_power: 30000,
-          shares: 10000,
-          description: {
-            description: "descriptionY",
-            country: "Canada",
-            moniker: "someOtherValidator"
-          }
-        })
-
-        let chileanValidator = Object.assign(
-          {
-            id: "pubkeyZ",
-            voting_power: 20000,
-            shares: 75000
-          },
-          candidates[2] // this is the revoked one
-        )
-        chileanValidator.description.moniker = "aChileanValidator"
-
+        store.commit("addToCart", firstDelegate)
+        store.commit("addToCart", secondDelegate)
         store.commit("addToCart", chileanValidator)
 
         store.commit("setUnbondingDelegations", {
@@ -80,19 +86,31 @@ describe("PageBond", () => {
 
   it("shows number of total atoms", () => {
     store.commit("setAtoms", 1337)
-    expect(wrapper.vm.totalAtoms).toBe(1437) // plus unbonding atoms
+    expect(wrapper.vm.totalAtoms).toBe("1437") // plus unbonding atoms
   })
 
   it("shows old bonded atoms ", () => {
+    // wrapper.vm.$store.getters.delegates = () => {
+    //   return {
+    //     delegates: [firstDelegate, secondDelegate]
+    //   }
+    // }
+    store.state.delegates.delegates = [firstDelegate, secondDelegate]
     store.commit("setCommittedDelegation", {
       candidateId: "pubkeyX",
-      value: 13
+      value: 13,
+      delegator_shares: "10/1",
+      tokens: "5/1"
     })
     store.commit("setCommittedDelegation", {
       candidateId: "pubkeyY",
-      value: 26
+      value: 26,
+      delegator_shares: "10/1",
+      tokens: "50/1"
     })
-    expect(wrapper.vm.oldBondedAtoms).toBe(39)
+    wrapper.update()
+
+    expect(wrapper.vm.oldBondedAtoms).toMatchSnapshot()
   })
 
   it("shows bond bar percent", () => {
@@ -151,10 +169,6 @@ describe("PageBond", () => {
     expect(delegate.atoms).toBe(10)
 
     delegate.atoms = -1
-    wrapper.vm.limitMax(delegate, 10)
-    expect(delegate.atoms).toBe(0)
-
-    delegate.atoms = "0-101-9"
     wrapper.vm.limitMax(delegate, 10)
     expect(delegate.atoms).toBe(0)
   })
@@ -278,7 +292,6 @@ describe("PageBond", () => {
       }
     })
     expect(wrapper.vm.newUnbondingAtoms).toBe(120) // plus old unbonding atoms
-    expect(wrapper.find("#new-unbonding-atoms").vnode.elm._value).toBe(120)
   })
 
   it("shows an error if confirmation is not checked", () => {
@@ -418,7 +431,7 @@ describe("PageBond", () => {
   })
 
   it("does not show the unbonding bar if user has no atoms", () => {
-    expect(wrapper.vm.oldBondedAtoms).toBe(0)
+    expect(wrapper.vm.oldBondedAtoms).toBe("0")
     expect(
       wrapper.vm.$el.querySelector(".bond-group.bond-group--unbonding")
     ).toBeNull()

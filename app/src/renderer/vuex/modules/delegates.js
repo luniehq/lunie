@@ -49,23 +49,7 @@ export default ({ node }) => {
     resetSessionData({ rootState }) {
       rootState.delegates = JSON.parse(JSON.stringify(emptyState))
     },
-    async getDelegate({ rootState, commit }, validatorAddress) {
-      console.log(validatorAddress)
 
-      // let address = decode(validatorAddress)
-      // console.log("address", address)
-      //
-      // let encoded = encode(address, "cosmosval")
-      // console.log("cosmosval", encoded)
-      //
-      // let encoded2 = encode(address, "cosmosvaladdr")
-      // console.log("cosmosvaladdr", encoded2)
-
-      let delegate = await node.getCandidate(validatorAddress)
-      console.log(delegate)
-
-      commit("addDelegate", encoded)
-    },
     async getDelegates({ state, commit, dispatch }) {
       commit("setDelegateLoading", true)
       let candidates = await node.getCandidates()

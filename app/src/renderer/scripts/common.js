@@ -19,29 +19,29 @@ module.exports.shortAddress = function(address, length = 4) {
   }
 }
 
-module.exports.calculateShares = function(delegator, tokens) {
-  let myTokens = new BN(tokens || 0)
-
-  let totalSharesN = new BN(delegator.delegator_shares.split("/")[0])
-  let totalSharesD = new BN(delegator.delegator_shares.split("/")[1])
-
-  let totalTokensN = new BN(delegator.tokens.split("/")[0])
-  let totalTokensD = new BN(delegator.tokens.split("/")[1])
-
-  return myTokens
-    .times(totalSharesN)
-    .times(totalTokensD)
-    .div(totalSharesD.times(totalTokensN))
-}
+// module.exports.calculateShares = function(delegator, tokens) {
+//   let myTokens = new BN(tokens || 0)
+//
+//   let totalSharesN = new BN(delegator.delegator_shares.split("/")[0])
+//   let totalSharesD = new BN(delegator.delegator_shares.split("/")[1])
+//
+//   let totalTokensN = new BN(delegator.tokens.split("/")[0])
+//   let totalTokensD = new BN(delegator.tokens.split("/")[1])
+//
+//   return myTokens
+//     .times(totalSharesN)
+//     .times(totalTokensD)
+//     .div(totalSharesD.times(totalTokensN))
+// }
 
 module.exports.calculateTokens = function(delegator, shares) {
   let myShares = new BN(shares || 0)
-
+  // return myShares
   let totalSharesN = new BN(delegator.delegator_shares.split("/")[0])
-  let totalSharesD = new BN(delegator.delegator_shares.split("/")[1])
+  let totalSharesD = new BN(delegator.delegator_shares.split("/")[1] || 1)
 
   let totalTokensN = new BN(delegator.tokens.split("/")[0])
-  let totalTokensD = new BN(delegator.tokens.split("/")[1])
+  let totalTokensD = new BN(delegator.tokens.split("/")[1] || 1)
 
   return myShares
     .times(totalSharesD)
