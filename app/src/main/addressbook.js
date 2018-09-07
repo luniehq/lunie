@@ -93,7 +93,7 @@ module.exports = class Addressbook {
       try {
         await this.discoverPeers(curNode.host)
       } catch (exception) {
-        console.warn(
+        console.log(
           `Unable to discover peers from node ${require(`util`).inspect(
             curNode
           )}: ${exception}`
