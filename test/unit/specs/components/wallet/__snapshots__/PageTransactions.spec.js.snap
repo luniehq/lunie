@@ -20,13 +20,8 @@ exports[`PageTransactions has the expected html structure 1`] = `
             Transactions
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -42,6 +37,16 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 <div
                   class="main"
                 >
+                  <a
+                    class="back"
+                    disabled="disabled"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
                   <a>
                     <i
                       class="material-icons"
@@ -57,22 +62,22 @@ exports[`PageTransactions has the expected html structure 1`] = `
                     </i>
                   </a>
                   <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
                     class="help"
                   >
                     <i
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
@@ -96,30 +101,35 @@ exports[`PageTransactions has the expected html structure 1`] = `
     class="tm-page-main ps"
   >
     <!---->
-    <tm-li-transaction
+    <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      validators=""
+      validatorurl="/staking/validators"
     />
-    <!---->
-    <tm-li-transaction
+    <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      validators=""
+      validatorurl="/staking/validators"
     />
-    <!---->
-    <tm-li-transaction
+    <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      validators=""
+      validatorurl="/staking/validators"
     />
-    <!---->
-    <!---->
-    <tm-li-staking-transaction
+    <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      validators=""
+      validatorurl="/staking/validators"
     />
-    <!---->
-    <tm-li-staking-transaction
+    <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      validators=""
+      validatorurl="/staking/validators"
     />
     <div
       class="ps__rail-x"
@@ -165,13 +175,8 @@ exports[`PageTransactions should filter the transactions 1`] = `
             Transactions
           </h2>
         </div>
-        <div
-          class="tm-page-header-subtitle"
-        >
-          <h3>
-            
-          </h3>
-        </div>
+        <!---->
+        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -187,6 +192,16 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 <div
                   class="main"
                 >
+                  <a
+                    class="back"
+                    disabled="disabled"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
                   <a>
                     <i
                       class="material-icons"
@@ -202,22 +217,22 @@ exports[`PageTransactions should filter the transactions 1`] = `
                     </i>
                   </a>
                   <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
                     class="help"
                   >
                     <i
                       class="material-icons"
                     >
                       help_outline
+                    </i>
+                  </a>
+                  <a
+                    class="settings"
+                    href="#/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      settings
                     </i>
                   </a>
                   <a
@@ -284,11 +299,12 @@ exports[`PageTransactions should filter the transactions 1`] = `
         </div>
       </div>
     </div>
-    <tm-li-transaction
+    <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      validators=""
+      validatorurl="/staking/validators"
     />
-    <!---->
   </main>
 </div>
 `;

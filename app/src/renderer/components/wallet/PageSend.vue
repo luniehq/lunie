@@ -1,6 +1,6 @@
 <template lang='pug'>
 tm-page(title='Send')
-  div(slot="menu"): tool-bar
+  div(slot="menu"): vm-tool-bar
   tm-form-struct(:submit="onSubmit")
     tm-part(title='Denomination Options')
       tm-form-group(:error='$v.fields.denom.$error'
@@ -75,7 +75,7 @@ import {
 } from "@tendermint/ui"
 
 import FieldAddon from "common/TmFieldAddon"
-import ToolBar from "common/TmToolBar"
+import VmToolBar from "common/VmToolBar"
 import TmModalSendConfirmation from "wallet/TmModalSendConfirmation"
 export default {
   components: {
@@ -88,7 +88,7 @@ export default {
     TmFormStruct,
     TmPage,
     TmPart,
-    ToolBar,
+    VmToolBar,
     TmModalSendConfirmation
   },
   computed: {
@@ -165,8 +165,6 @@ export default {
         })
         // resets send transaction form
         this.resetForm()
-        // refreshes user transaction history
-        this.$store.dispatch("queryWalletHistory")
       } catch (err) {
         this.sending = false
         this.$store.commit("notifyError", {

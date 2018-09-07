@@ -23,7 +23,7 @@ export default function vuexSetup() {
     let store = new Vuex.Store({
       getters: Object.assign({}, Getters, getters),
       modules,
-      mutations: {
+      actions: {
         loadPersistedState: () => {}
       }
     })

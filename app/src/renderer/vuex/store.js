@@ -14,17 +14,33 @@ export default (opts = {}) => {
     getters,
     // strict: true,
     modules: modules(opts),
-    mutations: {
+    actions: {
       loadPersistedState
     }
   })
 
+  let pending = null
   store.subscribe((mutation, state) => {
+    // since persisting the state is costly we should only do it on mutations that change the data
+    const updatingMutations = [
+      "setWalletBalances",
+      "setWalletHistory",
+      "setCommittedDelegation",
+      "setUnbondingDelegations",
+      "setDelegates",
+      "setKeybaseIdentities"
+    ]
+    if (updatingMutations.indexOf(mutation.type) === -1) return
+
     // if the user is logged in cache the balances and the tx-history for that user
-    // skip persisting the state before the potentially persisted state has been loaded
-    if (state.user.stateLoaded && state.user.account && state.user.password) {
-      persistState(state)
+    if (!state.user.account || !state.user.password) return
+
+    if (pending) {
+      clearTimeout(pending)
     }
+    pending = setTimeout(() => {
+      persistState(state)
+    }, 5000)
   })
 
   return store
@@ -33,15 +49,22 @@ export default (opts = {}) => {
 function persistState(state) {
   const encryptedState = CryptoJS.AES.encrypt(
     JSON.stringify({
+      transactions: {
+        wallet: state.transactions.wallet,
+        staking: state.transactions.staking
+      },
       wallet: {
-        history: state.wallet.history,
         balances: state.wallet.balances
       },
       delegation: {
-        committedDelegates: state.delegation.committedDelegates
+        committedDelegates: state.delegation.committedDelegates,
+        unbondingDelegations: state.delegation.unbondingDelegations
       },
       delegates: {
         delegates: state.delegates.delegates
+      },
+      keybase: {
+        identities: state.keybase.identities
       }
     }),
     state.user.password
@@ -56,7 +79,7 @@ function getStorageKey(state) {
   return `store_${chainId}_${address}`
 }
 
-function loadPersistedState(state, { password }) {
+function loadPersistedState({ state, commit }, { password }) {
   const cachedState = localStorage.getItem(getStorageKey(state))
   if (cachedState) {
     const bytes = CryptoJS.AES.decrypt(cachedState, password)
@@ -66,8 +89,10 @@ function loadPersistedState(state, { password }) {
     let oldState = JSON.parse(plaintext)
     _.merge(state, oldState, {
       // set loading indicators to false
+      transactions: {
+        loading: false
+      },
       wallet: {
-        historyLoading: false,
         balancesLoading: false
       },
       delegates: {
@@ -75,7 +100,12 @@ function loadPersistedState(state, { password }) {
       }
     })
     this.replaceState(state)
-  }
 
-  state.user.stateLoaded = true
+    // add all delegates the user has bond with already to the cart
+    state.delegates.delegates
+      .filter(d => state.delegation.committedDelegates[d.owner])
+      .forEach(d => {
+        commit("addToCart", d)
+      })
+  }
 }

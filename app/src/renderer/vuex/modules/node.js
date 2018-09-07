@@ -44,7 +44,11 @@ export default function({ node }) {
         rootState.wallet.zoneIds.unshift(header.chain_id)
       }
 
-      await dispatch("maybeUpdateValidators", header)
+      // updating the header is done even while the user is not logged in
+      // to prevent errors popping up from the LCD before the user is signed on, we skip updating validators before
+      // TODO identify why rest calls fail at this point
+      if (rootState.user.signedIn)
+        await dispatch("maybeUpdateValidators", header)
     },
     async reconnect({ commit }) {
       if (state.stopConnecting) return
@@ -158,10 +162,6 @@ export default function({ node }) {
 
       // Tell the main process our status in case of reload.
       ipcRenderer.send(`mocked`, mocked)
-
-      // IDEA let's have an event 'networkSwitched' and bundle those action under this one
-      // remove blocks from block explorer as it should not show blocks of another network
-      commit("setBlocks", [])
 
       // disable updates from the live node
       node.rpcDisconnect()

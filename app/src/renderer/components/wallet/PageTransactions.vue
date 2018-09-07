@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page(title='Transactions')
-  div(slot="menu"): tool-bar
+  div(slot="menu"): vm-tool-bar
     a(@click='connected && refreshTransactions()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
       i.material-icons refresh
     a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
@@ -8,69 +8,52 @@ tm-page(title='Transactions')
 
   modal-search(type="transactions" v-if="somethingToSearch")
 
-  tm-data-loading(v-if="wallet.historyLoading")
+  tm-data-loading(v-if="transactions.loading")
   data-empty-tx(v-else-if='allTransactions.length === 0')
   data-empty-search(v-else-if="filteredTransactions.length === 0")
-  template(v-else v-for="i in filteredTransactions")
-    tm-li-transaction(
-      v-if="i.type === 'wallet'"
+  template(v-else v-for="(tx, i) in filteredTransactions")
+    tm-li-any-transaction(
+      :validators="validators"
+      :validatorURL='validatorURL'
       :key="shortid.generate()"
-      :transaction="i"
-      :address="wallet.address")
-    tm-li-staking-transaction(
-      v-if="i.type === 'staking'"
-      :key="shortid.generate()"
-      :transaction="i"
+      :transaction="tx"
       :address="wallet.address")
 </template>
 
 <script>
 import shortid from "shortid"
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import ModalSearch from "common/TmModalSearch"
-import { TmPage, TmDataLoading } from "@tendermint/ui"
-import TmLiTransaction from "./TmLiTransaction"
-import TmLiStakingTransaction from "./TmLiStakingTransaction"
-import ToolBar from "common/TmToolBar"
+import { TmPage, TmDataLoading, TmLiAnyTransaction } from "@tendermint/ui"
+import VmToolBar from "common/VmToolBar"
 export default {
   name: "page-transactions",
   components: {
-    TmLiTransaction,
-    TmLiStakingTransaction,
+    TmLiAnyTransaction,
     TmDataLoading,
     DataEmptySearch,
     DataEmptyTx,
     ModalSearch,
     TmPage,
-    ToolBar
+    VmToolBar
   },
   computed: {
+    ...mapState(["transactions", "node"]),
     ...mapGetters([
       "filters",
-      "transactions",
+      "allTransactions",
       "wallet",
       "config",
       "delegation",
-      "connected"
+      "connected",
+      "validators"
     ]),
     somethingToSearch() {
-      return !this.wallet.historyLoading && !!this.allTransactions.length
-    },
-    allTransactions() {
-      return [].concat(
-        this.transactions.map(t => {
-          t.type = "wallet"
-          return t
-        }),
-        this.delegation.delegationTxs.map(t => {
-          t.type = "staking"
-          return t
-        })
-      )
+      return !this.transactions.loading && !!this.allTransactions.length
     },
     orderedTransactions() {
       return orderBy(
@@ -99,12 +82,12 @@ export default {
     sort: {
       property: "height",
       order: "desc"
-    }
+    },
+    validatorURL: "/staking/validators"
   }),
   methods: {
     refreshTransactions() {
-      this.$store.dispatch("queryWalletHistory")
-      this.$store.dispatch("getDelegationTxs")
+      this.$store.dispatch("getAllTxs")
     },
     setSearch(bool = !this.filters["transactions"].search.visible) {
       if (!this.somethingToSearch) return false

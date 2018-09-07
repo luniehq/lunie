@@ -1,18 +1,30 @@
 <template lang='pug'>
 .li-delegate(:class='styles'): .li-delegate__values
   .li-delegate__value.name
-    router-link(:to="{ name: 'validator', params: { validator: delegate.id }}") {{ delegate.description.moniker }}
-  .li-delegate__value.percent_of_vote
-    span {{ delegate.percent_of_vote }}
-  .li-delegate__value.number_of_votes.num.bar
-    span {{ num.pretty(delegate.voting_power) }}
-    .bar(:style='vpStyles')
+    router-link(:to="{ name: 'validator', params: { validator: delegate.id }}")
+      img.avatar(v-if="delegate.keybase" :src="delegate.keybase.avatarUrl" width="48" height="48")
+      img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
+      .vert
+        .top {{ delegate.description.moniker }}
+        .bottom {{ shortAddress(delegate.id)}}
   .li-delegate__value.your-votes
     span {{ yourVotes }}
-  .li-delegate__value.status
-    span {{ delegateType }}
+  .li-delegate__value.your-rewards
+    span {{ yourRewards }}
+  .li-delegate__break: span
+  .li-delegate__value.percent_of_vote
+    span {{ delegate.percent_of_vote }}
+  .li-delegate__value.uptime
+    // add .green .yellow or .red class to this span to trigger inidication by color
+    span {{ uptime }}
+  .li-delegate__value.commission
+    // add .green .yellow or .red class to this span to trigger inidication by color
+    span {{ commission }}
+  .li-delegate__value.slashes
+    // add .green .yellow or .red class to this span to trigger inidication by color
+    span {{ slashes }}
   template(v-if="userCanDelegate")
-    .li-delegate__value.checkbox(v-if="yourVotes > 0")
+    .li-delegate__value.checkbox(v-if="committedDelegations[delegate.id]")
       i.material-icons lock
     .li-delegate__value.checkbox#remove-from-cart(v-else-if="inCart" @click='rm(delegate)')
       i.material-icons check_box
@@ -26,6 +38,7 @@
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { maxBy } from "lodash"
+import { shortAddress } from "scripts/common"
 export default {
   name: "li-delegate",
   props: ["delegate"],
@@ -37,6 +50,18 @@ export default {
       "committedDelegations",
       "user"
     ]),
+    slashes() {
+      return "n/a" //TODO: add slashes
+    },
+    commission() {
+      return "n/a" //TODO: add commission
+    },
+    uptime() {
+      return "n/a" //TODO: add real uptime
+    },
+    yourRewards() {
+      return "n/a"
+    },
     yourVotes() {
       let yourVotes = this.num.prettyInt(
         this.committedDelegations[this.delegate.id]
@@ -76,7 +101,7 @@ export default {
           : "Candidate"
     }
   },
-  data: () => ({ num: num }),
+  data: () => ({ num, shortAddress }),
   methods: {
     add(delegate) {
       this.$store.commit("addToCart", delegate)
@@ -99,8 +124,8 @@ export default {
 @require '~variables'
 
 .li-delegate
-  border-left 1px solid var(--bc)
-  border-right 1px solid var(--bc)
+  border 1px solid var(--bc)
+  margin-bottom 1em
 
   &:nth-of-type(2n-1)
     background var(--app-fg)
@@ -116,7 +141,49 @@ export default {
 
 .li-delegate__values
   display flex
-  height 3rem
+  height 5rem
+  padding 12px 1em
+  background-color var(--app-nav)
+
+  & > .li-delegate__value:not(:first-of-type) span
+    color var(--dim)
+    background-color var(--white-fade-1)
+    border 1px solid var(--white-fade-2)
+    border-radius 4px
+    display block
+    width 100%
+    margin 0 0.5em
+    font-size h5
+    line-height h5
+    text-align right
+    padding 4px 4px
+
+    &.green
+      color var(--green)
+      background-color var(--green-fade-1)
+      border 1px solid var(--green-fade-2)
+
+    &.orange
+      color var(--orange)
+      background-color var(--orange-fade-1)
+      border 1px solid var(--orange-fade-2)
+
+    &.red
+      color var(--red)
+      background-color var(--red-fade-1)
+      border 1px solid var(--red-fade-2)
+
+.li-delegate__break
+  flex 0
+  display flex
+  align-items center
+  min-width 1
+
+  span
+    margin 0 0.5em
+    width 1px
+    background-color var(--white-fade-1)
+    height 2rem
 
 .li-delegate__value
   flex 1
@@ -124,15 +191,28 @@ export default {
   align-items center
   min-width 0
 
-  &:last-child
-    flex 0.5
-
   &.name
-    flex 2
-    padding-left 1rem
+    flex 3
 
-    span a
+    a
       display flex
+
+      img
+        border-radius 100%
+        margin-right 1em
+
+      .vert
+        display flex
+        flex-direction column
+        color var(--bright)
+
+        .top
+          font-size h5
+          padding-bottom 6px
+
+        .bottom
+          font-size h6
+          color var(--dim)
 
     .li-delegate__icon
       width 1.5rem

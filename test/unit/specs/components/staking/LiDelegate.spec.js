@@ -32,16 +32,6 @@ describe("LiDelegate", () => {
     expect(wrapper.html()).toContain("22%")
   })
 
-  it("should show the number of bonded atoms", () => {
-    expect(wrapper.html()).toContain("14")
-  })
-
-  it("should show the relative voting power as a bar", () => {
-    expect(
-      wrapper.vm.$el.querySelector(".number_of_votes .bar").style.width
-    ).toMatchSnapshot()
-  })
-
   it("should add to cart", () => {
     expect(wrapper.vm.shoppingCart).toEqual([])
     expect(wrapper.vm.inCart).toBeFalsy()

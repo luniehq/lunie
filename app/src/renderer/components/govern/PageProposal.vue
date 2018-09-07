@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page(:title='proposal.title')
-  div(slot="menu"): tool-bar
+  div(slot="menu"): vm-tool-bar
     a(@click="commentOnProposal(proposal.id)"): i.material-icons comment
     a(@click="proposalIsSpam(proposal.id)"): i.material-icons error
 
@@ -31,7 +31,7 @@ import { mapGetters } from "vuex"
 import { TmBtn, TmFormStruct, TmPage, TmPart } from "@tendermint/ui"
 import FieldVote from "common/TmFieldVote"
 import TextBlock from "common/TextBlock"
-import ToolBar from "common/TmToolBar"
+import VmToolBar from "common/VmToolBar"
 export default {
   name: "page-proposal",
   components: {
@@ -41,7 +41,7 @@ export default {
     TmPage,
     TmPart,
     TextBlock,
-    ToolBar
+    VmToolBar
   },
   computed: {
     ...mapGetters(["proposals"]),

@@ -17,15 +17,39 @@ export const themes = state => state.themes
 export const onboarding = state => state.onboarding
 
 // wallet
-export const transactions = state => state.wallet.history
+export const allTransactions = state =>
+  state.transactions.wallet.concat(state.transactions.staking)
 export const wallet = state => state.wallet
 
 // staking
 export const delegation = state => state.delegation
+export const totalAtoms = (state, getters) => {
+  return (
+    parseInt(getters.user.atoms) +
+    getters.oldBondedAtoms +
+    getters.oldUnbondingAtoms
+  )
+}
+export const oldBondedAtoms = (state, getters) => {
+  return Object.values(getters.delegation.committedDelegates).reduce(
+    (sum, d) => sum + parseInt(d),
+    0
+  )
+}
+
+export const oldUnbondingAtoms = (state, getters) => {
+  return Object.values(getters.delegation.unbondingDelegations).reduce(
+    (atoms, value) => {
+      return atoms + value
+    },
+    0
+  )
+}
 export const committedDelegations = state => state.delegation.committedDelegates
 export const delegates = state => state.delegates
 export const shoppingCart = state => state.delegation.delegates
 export const validators = state => state.validators.validators
+export const keybase = state => state.keybase.identities
 
 // govern
 export const proposals = state => state.proposals

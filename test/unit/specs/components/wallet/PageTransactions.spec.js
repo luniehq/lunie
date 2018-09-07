@@ -3,7 +3,7 @@ import PageTransactions from "renderer/components/wallet/PageTransactions"
 import mockTransactions from "../../store/json/txs.js"
 import lcdclientMock from "renderer/connectors/lcdClientMock.js"
 
-let delegationTxs = [
+let stakingTxs = [
   {
     tx: {
       value: {
@@ -51,7 +51,7 @@ describe("PageTransactions", () => {
   beforeEach(async () => {
     let instance = mount(PageTransactions, {
       stubs: {
-        "tm-li-transaction": "<tm-li-transaction />",
+        "tm-li-any-transaction": "<tm-li-any-transaction />",
         "tm-li-staking-transaction": "<tm-li-staking-transaction />",
         "data-empty-tx": "<data-empty-tx />"
       },
@@ -64,9 +64,8 @@ describe("PageTransactions", () => {
 
     store.commit("setConnected", true)
     store.commit("setWalletAddress", "tb1d4u5zerywfjhxuc9nudvw")
-    store.commit("setWalletHistory", mockTransactions)
-    store.commit("setDelegationTxs", delegationTxs)
-
+    store.commit("setWalletTxs", mockTransactions)
+    store.commit("setStakingTxs", stakingTxs)
     wrapper.update()
   })
 
@@ -83,7 +82,7 @@ describe("PageTransactions", () => {
   it("should show the search on click", () => {
     wrapper
       .findAll(".tm-tool-bar i")
-      .at(1)
+      .at(2)
       .trigger("click")
     wrapper.update()
     expect(wrapper.contains(".tm-modal-search")).toBe(true)
@@ -93,13 +92,13 @@ describe("PageTransactions", () => {
     wrapper.vm.refreshTransactions = jest.fn()
     wrapper
       .findAll(".tm-tool-bar i")
-      .at(0)
+      .at(1)
       .trigger("click")
     expect(wrapper.vm.refreshTransactions).toHaveBeenCalled()
   })
 
   it("should show transactions", () => {
-    expect(wrapper.findAll("tm-li-transaction").length).toBe(3)
+    expect(wrapper.findAll("tm-li-any-transaction").length).toBe(5)
   })
 
   it("should sort the transaction by time", () => {
@@ -125,18 +124,18 @@ describe("PageTransactions", () => {
 
   it("should update 'somethingToSearch' when there's nothing to search", () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
-    store.commit("setWalletHistory", [])
-    store.commit("setDelegationTxs", [])
+    store.commit("setWalletTxs", [])
+    store.commit("setStakingTxs", [])
     expect(wrapper.vm.somethingToSearch).toBe(false)
-    store.commit("setWalletHistory", mockTransactions)
+    store.commit("setWalletTxs", mockTransactions)
     expect(wrapper.vm.somethingToSearch).toBe(true)
     store.commit("setHistoryLoading", true)
     expect(wrapper.vm.somethingToSearch).toBe(false)
   })
 
   it("should show an error if there are no transactions", () => {
-    store.commit("setWalletHistory", [])
-    store.commit("setDelegationTxs", [])
+    store.commit("setWalletTxs", [])
+    store.commit("setStakingTxs", [])
     wrapper.update()
     expect(wrapper.contains("data-empty-tx")).toBe(true)
   })
@@ -148,8 +147,8 @@ describe("PageTransactions", () => {
         "data-empty-tx": "<data-empty-tx />"
       }
     })
-    store.commit("setWalletHistory", [])
-    store.commit("setDelegationTxs", [])
+    store.commit("setWalletTxs", [])
+    store.commit("setStakingTxs", [])
     wrapper.update()
     expect(wrapper.vm.setSearch()).toEqual(false)
   })

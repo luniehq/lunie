@@ -9,12 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* Added staking transactions and fixed 100% height txs. Refactored modules/blockchain.js @okwme
 * test if build Voyager actually starts @faboweb
 * skip non-indexing nodes \#988 @fedekunze
+* added new validator component @okwme
 
 ### Fixed
 
 * Do not try to publish a release on every push to `develop`! @NodeGuy
+* validator url on txs leading to explorer @faboweb
+* cache undelegations @faboweb
 
 ## [0.10.2] - 2018-08-29
 
@@ -26,13 +30,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * use correct set of seed nodes @ƒaboweb
 * validator page showed incorrect voting power @faboweb
+* improves poor performance at start by throttling the updates of the cached store @faboweb
 * Run lint test in CI. @NodeGuy
+* current atoms in PageBond still showed old atoms right after staking @ƒaboweb
+* fix showing undefined for bonding denom in staking sucess message @faboweb
+* fix not showing a lock (I have stake with this one) on a validator if stake is less then 1 @faboweb
+* fix showing wrong error on pagebond validation @okwme
 
 ## [0.10.1] - 2018-08-29
 
 ### Added
 
 * added more information on validators page @faboweb
+* added new balance header for wallet @okwme
 * E2E environment for a multi validator setup @faboweb
 * added dev tools @okwme
 

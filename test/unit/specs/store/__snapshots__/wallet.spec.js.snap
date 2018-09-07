@@ -19,8 +19,6 @@ Object {
   "balances": Array [],
   "balancesLoading": true,
   "denoms": Array [],
-  "history": Array [],
-  "historyLoading": false,
   "subscribedRPC": null,
   "zoneIds": Array [
     "basecoind-demo1",

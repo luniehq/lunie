@@ -48,7 +48,14 @@ module.exports = {
     await module.exports.openMenu(app)
     // click link
     await app.client.$(`a*=${linkText}`).click()
-    await app.client.waitUntilTextExists(".tm-page-header-title", titleText)
+    try {
+      await app.client.waitUntilTextExists(".tm-page-header-title", titleText)
+    } catch (error) {
+      // if .tm-page-header-title doeesn't exist with titleText it may be using
+      // the new UI. if that's the case it should use a data-title parameter
+      // with the same titleText.
+      await app.client.waitForExist(`[data-title='${titleText}']`)
+    }
     console.log(`navigated to "${linkText}"`)
   },
   async navigateToPreferences(app) {
@@ -81,6 +88,8 @@ module.exports = {
       }
       await sleep(100)
     }
+
+    return true
   },
   async login(app, account = "default") {
     console.log("logging into " + account)

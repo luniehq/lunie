@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page.page-bond(title="Staking")
-  div(slot="menu"): tool-bar
+  div(slot="menu"): vm-tool-bar
   tm-part(:title="`Stake your ${totalAtoms} ${bondingDenom}`"): tm-form-struct( :submit="onSubmit")
     .bond-group(:class="bondGroupClass(unbondedAtomsDelta)")
       .bond-group__fields
@@ -38,8 +38,8 @@ tm-page.page-bond(title="Staking")
       :class="bondGroupClass(delta(d.atoms, d.oldAtoms))")
       .bond-group__fields
         .bond-bar
-          label.bond-bar__label(v-if="!d.delegate.revoked") {{ d.delegate.moniker }}
-          label.bond-bar__label.revoked(v-if="d.delegate.revoked") {{ d.delegate.moniker }}
+          label.bond-bar__label(v-if="!d.delegate.revoked") {{ d.delegate.description.moniker }}
+          label.bond-bar__label.revoked(v-if="d.delegate.revoked") {{ d.delegate.description.moniker }}
           label.bond-bar__revoked(v-if="d.delegate.revoked") REVOKED
           .bond-bar__input
             .bond-bar-old__outer
@@ -72,7 +72,7 @@ tm-page.page-bond(title="Staking")
 
       tm-form-msg(:name="bondingDenom + 's'" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
-      tm-form-msg(name="bondingDenom + 's'" type="numeric"
+      tm-form-msg(:name="bondingDenom + 's'" type="numeric"
         v-if="!$v.fields.delegates.$each[index].atoms.numeric")
 
     .bond-group.bond-group--unbonding(
@@ -138,7 +138,7 @@ import {
 } from "@tendermint/ui"
 
 import FieldAddon from "common/TmFieldAddon"
-import ToolBar from "common/TmToolBar"
+import VmToolBar from "common/VmToolBar"
 export default {
   name: "page-bond",
   components: {
@@ -150,7 +150,7 @@ export default {
     TmFormStruct,
     TmPage,
     TmPart,
-    ToolBar
+    VmToolBar
   },
   computed: {
     ...mapGetters([
@@ -158,19 +158,11 @@ export default {
       "user",
       "delegation",
       "connected",
-      "bondingDenom"
+      "bondingDenom",
+      "totalAtoms",
+      "oldBondedAtoms",
+      "oldUnbondingAtoms"
     ]),
-    totalAtoms() {
-      return (
-        parseInt(this.user.atoms) + this.oldBondedAtoms + this.oldUnbondingAtoms
-      )
-    },
-    oldBondedAtoms() {
-      return Object.values(this.delegation.committedDelegates).reduce(
-        (sum, d) => sum + parseInt(d),
-        0
-      )
-    },
     oldUnbondedAtoms() {
       return this.totalAtoms - this.oldBondedAtoms
     },
@@ -182,14 +174,6 @@ export default {
         }
         return atoms
       }, this.oldUnbondedAtoms)
-    },
-    oldUnbondingAtoms() {
-      return Object.values(this.delegation.unbondingDelegations).reduce(
-        (atoms, value) => {
-          return atoms + value
-        },
-        0
-      )
     },
     newUnbondingAtoms() {
       return this.fields.delegates.reduce((atoms, d) => {
@@ -248,7 +232,7 @@ export default {
           await this.$store.dispatch("submitDelegation", this.fields.delegates)
           this.$store.commit("notify", {
             title: "Successful Staking!",
-            body: `You have successfully staked your ${this.denom}s.`
+            body: `You have successfully staked your ${this.bondingDenom}s.`
           })
           this.$router.push("/staking")
         } catch (err) {
