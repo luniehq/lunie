@@ -1,4 +1,3 @@
-import { decode, encode } from "scripts/b32"
 export default ({ node }) => {
   const emptyState = {
     delegates: [],

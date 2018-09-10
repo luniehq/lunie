@@ -119,7 +119,6 @@ export default ({ node }) => {
         }
         let amountChange =
           parseInt(delegation.atoms) - currentlyDelegated.toNumber()
-
         let isBond = amountChange > 0
         // skip if no change
         if (amountChange === 0) continue
@@ -140,7 +139,6 @@ export default ({ node }) => {
           })
         }
       }
-
       await dispatch("sendTx", {
         type: "updateDelegations",
         to: rootState.wallet.address, // TODO strange syntax
@@ -180,12 +178,12 @@ export default ({ node }) => {
     actions
   }
 }
-
-function updateCommittedDelegations(delegations, commit) {
-  for (let delegation of delegations) {
-    commit("setCommittedDelegation", {
-      candidateId: delegation.delegate.owner,
-      value: delegation.atoms
-    })
-  }
-}
+// needed for optimistic updates, uncomment or delete this when that issue is addressed
+// function updateCommittedDelegations(delegations, commit) {
+//   for (let delegation of delegations) {
+//     commit("setCommittedDelegation", {
+//       candidateId: delegation.delegate.owner,
+//       value: delegation.atoms
+//     })
+//   }
+// }

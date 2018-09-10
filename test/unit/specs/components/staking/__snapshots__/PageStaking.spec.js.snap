@@ -31,10 +31,10 @@ exports[`PageStaking has the expected html structure 1`] = `
 <main class=\\"tm-page-main ps\\">
    <!---->
    <div class=\\"delegates-tabs\\">
-      <div class=\\"tab tab-selected\\">
+      <div class=\\"tab\\">
          My Stake
       </div>
-   <div class=\\"tab\\">
+   <div class=\\"tab tab-selected\\">
       Validators
    </div>
 </div>
@@ -108,7 +108,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    </a>
 </div>
    <div class=\\"li-delegate__value your-votes\\">
-      <span>0</span>
+      <span>0.00</span>
    </div>
    <div class=\\"li-delegate__value your-rewards\\">
       <span>n/a</span>
@@ -148,7 +148,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    </a>
 </div>
    <div class=\\"li-delegate__value your-votes\\">
-      <span>14</span>
+      <span>14.00</span>
    </div>
    <div class=\\"li-delegate__value your-rewards\\">
       <span>n/a</span>
@@ -188,7 +188,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    </a>
 </div>
    <div class=\\"li-delegate__value your-votes\\">
-      <span>0</span>
+      <span>0.00</span>
    </div>
    <div class=\\"li-delegate__value your-rewards\\">
       <span>n/a</span>
@@ -378,12 +378,12 @@ exports[`PageStaking should filter the delegates 1`] = `
       class="delegates-tabs"
     >
       <div
-        class="tab tab-selected"
+        class="tab"
       >
         My Stake
       </div>
       <div
-        class="tab"
+        class="tab tab-selected"
       >
         Validators
       </div>
@@ -534,7 +534,7 @@ exports[`PageStaking should filter the delegates 1`] = `
             class="li-delegate__value your-votes"
           >
             <span>
-              14
+              14.00
             </span>
           </div>
           <div

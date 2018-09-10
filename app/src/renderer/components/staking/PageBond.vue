@@ -130,7 +130,6 @@ import { between, required } from "vuelidate/lib/validators"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { sleep } from "scripts/common"
 import {
   TmBtn,
   TmFormGroup,
@@ -405,7 +404,7 @@ export default {
         $each: {
           atoms: {
             required,
-            numerical(value, parentVm) {
+            numerical(value) {
               return !isNaN(value)
             },
             between(atoms, parentVm) {

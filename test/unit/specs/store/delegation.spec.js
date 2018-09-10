@@ -95,15 +95,12 @@ describe("Module: Delegations", () => {
     await store.dispatch("getBondedDelegates")
 
     jest.spyOn(store._actions.sendTx, "0")
-
-    let bondings = [50, 100, 0]
+    let bondings = [10, 100, 0]
     const delegations = store.state.delegates.delegates.map((delegate, i) => ({
       delegate,
       atoms: bondings[i]
     }))
-
     await store.dispatch("submitDelegation", delegations)
-
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
 

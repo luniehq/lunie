@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Do not try to publish a release on every push to `develop`! @NodeGuy
 * validator url on txs leading to explorer @faboweb
+* lots of incorrect calculations & bugs on bond page @okwme
 
 ## [0.10.2] - 2018-08-29
 

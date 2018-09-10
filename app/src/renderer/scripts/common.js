@@ -1,5 +1,4 @@
-import BN from "bignumber.js"
-
+const BN = require("bignumber.js")
 module.exports.sleep = function(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
@@ -18,7 +17,7 @@ module.exports.shortAddress = function(address, length = 4) {
     return address.split("1")[0] + "…" + address.slice(-1 * length)
   }
 }
-
+// could be used in optimistic update PR, pls uncomment or delete when addressed
 // module.exports.calculateShares = function(delegator, tokens) {
 //   let myTokens = new BN(tokens || 0)
 //
@@ -42,7 +41,7 @@ module.exports.calculateTokens = function(delegator, shares) {
 
   let totalTokensN = new BN(delegator.tokens.split("/")[0])
   let totalTokensD = new BN(delegator.tokens.split("/")[1] || 1)
-
+  if (totalSharesN.eq(0)) return new BN(0)
   return myShares
     .times(totalSharesD)
     .times(totalTokensN)
