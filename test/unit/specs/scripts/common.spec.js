@@ -8,6 +8,11 @@ describe("shortAddress", () => {
     const shortString = shortAddress(bech32ish)
     expect(shortString.toLowerCase()).toBe("asdf…hjkl")
   })
+  it("should return short bech32ish ", () => {
+    const shortBech32ish = "as1d"
+    const shortString = shortAddress(shortBech32ish)
+    expect(shortString.toLowerCase()).toBe("as1d")
+  })
 
   it("should shorten string by default", () => {
     const shortString = shortAddress(longString)
