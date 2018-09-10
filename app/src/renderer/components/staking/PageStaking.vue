@@ -18,14 +18,15 @@ tm-page(title='Staking')
     data-empty-search(v-else-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
     template(v-else)
       panel-sort(:sort='sort', :properties="properties")
-      li-delegate(v-for='i in sortedFilteredEnrichedDelegates' :key='i.id' :delegate='i')
+      li-delegate(v-for='i in sortedFilteredEnrichedDelegates' :disabled="!userCanDelegate" :key='i.id' :delegate='i')
 
   .fixed-button-bar(v-if="!delegates.loading")
     template(v-if="userCanDelegate")
       .label #[strong {{ shoppingCart.length }}] validators selected
       tm-btn(id="go-to-bonding-btn" type="link" to="/staking/bond" :disabled="shoppingCart.length === 0" icon="chevron_right" icon-pos="right" value="Next" color="primary")
     template(v-else)
-      .label You do not have any {{bondingDenom}}s to stake.
+      .label(v-if="!delegation.loadedOnce && delegation.loading") Loading delegations...
+      .label(v-else) You do not have any {{bondingDenom}}s to stake.
       tm-btn(disabled icon="chevron_right" icon-pos="right" value="Next" color="primary")
 </template>
 
@@ -67,6 +68,7 @@ export default {
   computed: {
     ...mapGetters([
       "delegates",
+      "delegation",
       "filters",
       "shoppingCart",
       "committedDelegations",
@@ -123,7 +125,10 @@ export default {
       }
     },
     userCanDelegate() {
-      return this.shoppingCart.length > 0 || this.user.atoms > 0
+      return (
+        (this.shoppingCart.length > 0 || this.user.atoms > 0) &&
+        this.delegation.loadedOnce
+      )
     },
     properties() {
       return [
@@ -214,11 +219,13 @@ export default {
 
   .tab
     cursor pointer
-    margin 0 .5em
+    margin 0 0.5em
     padding-bottom 0.5em
     margin-bottom 1em
+
     &:first-of-type
       cursor not-allowed
+
     &.tab-selected
       color var(--bright)
       border-bottom 2px solid var(--tertiary)

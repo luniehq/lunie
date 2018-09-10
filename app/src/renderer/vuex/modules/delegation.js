@@ -2,6 +2,7 @@ import { calculateTokens } from "scripts/common"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
+    loadedOnce: false,
 
     // our delegations, maybe not yet committed
     delegates: [],
@@ -93,6 +94,7 @@ export default ({ node }) => {
           }
         )
       }
+      state.loadedOnce = true
       state.loading = false
     },
     async updateDelegates({ dispatch }) {
