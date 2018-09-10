@@ -69,7 +69,13 @@ export default ({ node }) => {
       state.loading = true
       let address = rootState.user.address
       candidates = candidates || (await dispatch("getDelegates"))
+
       let delegator = await node.getDelegator(address)
+      // the request runs that long, that the user might sign out and back in again
+      // the result is, that the new users state gets updated by the old users request
+      // here we check if the user is still the same
+      if (rootState.user.address !== address) return
+
       if (delegator.delegations) {
         delegator.delegations.forEach(({ validator_addr, shares }) => {
           commit("setCommittedDelegation", {
@@ -84,6 +90,7 @@ export default ({ node }) => {
           }
         })
       }
+
       if (delegator.unbonding_delegations) {
         delegator.unbonding_delegations.forEach(
           ({ validator_addr, balance: { amount } }) => {

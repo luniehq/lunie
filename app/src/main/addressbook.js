@@ -1,7 +1,6 @@
 const fs = require("fs-extra")
 const { join } = require("path")
 const axios = require("axios")
-const url = require("url")
 
 const LOGGING = JSON.parse(process.env.LOGGING || "true") !== false
 const FIXED_NODE = process.env.COSMOS_NODE
@@ -26,42 +25,27 @@ module.exports = class Addressbook {
     this.loadFromDisc()
 
     // add persistent peers to already stored peers
-    persistent_peers
-      .filter(peer => !this.peerIsKnown(peer))
-      .forEach(peer => this.addPeer(peer))
+    persistent_peers.forEach(peer => this.addPeer(peer))
 
     if (persistent_peers.length > 0) {
       this.persistToDisc()
     }
   }
 
-  async ping(peerURL) {
-    let pingURL = `http://${peerURL}:${this.config.default_tendermint_port}`
-    this.onConnectionMessage(`pinging node: ${pingURL}`)
-    let nodeAlive = await axios
-      .get(pingURL, { timeout: 3000 })
-      .then(() => true, () => false)
-    this.onConnectionMessage(
-      `Node ${peerURL} is ${nodeAlive ? "alive" : "down"}`
-    )
-    return nodeAlive
-  }
-
-  peerIsKnown(peerURL) {
-    // we only store the hostname as we want to set protocol and port ourselfs
-    let peerHost = getHostname(peerURL)
-    return this.peers.find(peer => peer.host.indexOf(peerHost) !== -1)
-  }
-
   // adds the new peer to the list of peers
-  addPeer(peerURL) {
-    let peerHost = getHostname(peerURL)
-    LOGGING && console.log("Adding new peer:", peerHost)
-    this.peers.push({
-      host: peerHost,
-      // assume that new peers are available
-      state: "available"
-    })
+  addPeer(peerHost) {
+    const peerIsKnown = this.peers.find(
+      peer => peer.host.indexOf(peerHost) !== -1
+    )
+
+    if (!peerIsKnown) {
+      LOGGING && console.log("Adding new peer:", peerHost)
+      this.peers.push({
+        host: peerHost,
+        // assume that new peers are available
+        state: "available"
+      })
+    }
   }
 
   loadFromDisc() {
@@ -91,39 +75,47 @@ module.exports = class Addressbook {
 
   // returns an available node or throws if it can't find any
   async pickNode() {
-    let availableNodes = this.peers.filter(node => node.state === "available")
-    if (availableNodes.length === 0) {
-      throw Error("No nodes available to connect to")
-    }
-    // pick a random node
-    let curNode =
-      availableNodes[Math.floor(Math.random() * availableNodes.length)]
+    let curNode
 
-    let nodeAlive = await this.ping(curNode.host)
-    if (!nodeAlive) {
-      this.flagNodeOffline(curNode.host)
+    if (FIXED_NODE) {
+      // we skip discovery for fixed nodes as we want to always return the same
+      // node
+      curNode = { host: FIXED_NODE }
+    } else {
+      let availableNodes = this.peers.filter(node => node.state === "available")
+      if (availableNodes.length === 0) {
+        throw Error("No nodes available to connect to")
+      }
+      // pick a random node
+      curNode =
+        availableNodes[Math.floor(Math.random() * availableNodes.length)]
 
-      return this.pickNode()
+      try {
+        await this.discoverPeers(curNode.host)
+      } catch (exception) {
+        console.log(
+          `Unable to discover peers from node ${require(`util`).inspect(
+            curNode
+          )}: ${exception}`
+        )
+
+        this.flagNodeOffline(curNode.host)
+        return this.pickNode()
+      }
+
+      // remember the peers of the node and store them in the addressbook
+      this.persistToDisc()
     }
 
     this.onConnectionMessage("Picked node: " + curNode.host)
-
-    // we skip discovery for fixed nodes as we want to always return the same node
-    if (!FIXED_NODE) {
-      // remember the peers of the node and store them in the addressbook
-      this.discoverPeers(curNode.host)
-    }
-
     return curNode.host + ":" + this.config.default_tendermint_port
   }
 
-  flagNodeOffline(nodeIP) {
-    const host = nodeIP.split(":")[0]
+  flagNodeOffline(host) {
     this.peers.find(p => p.host === host).state = "down"
   }
 
-  flagNodeIncompatible(nodeIP) {
-    const host = nodeIP.split(":")[0]
+  flagNodeIncompatible(host) {
     this.peers.find(p => p.host === host).state = "incompatible"
   }
 
@@ -136,14 +128,18 @@ module.exports = class Addressbook {
   }
 
   async discoverPeers(peerIP) {
+    this.onConnectionMessage(`Querying node: ${peerIP}`)
+
     let subPeers = (await axios.get(
-      `http://${peerIP}:${this.config.default_tendermint_port}/net_info`
+      `http://${peerIP}:${this.config.default_tendermint_port}/net_info`,
+      { timeout: 3000 }
     )).data.result.peers
+
+    this.onConnectionMessage(`Node ${peerIP} is alive.`)
+
     let subPeersHostnames = subPeers.map(peer => peer.node_info.listen_addr)
 
     subPeersHostnames
-      // check if we already know the peer
-      .filter(subPeerHostname => !this.peerIsKnown(subPeerHostname))
       // add new peers to state
       .forEach(subPeerHostname => {
         this.addPeer(subPeerHostname)
@@ -153,11 +149,4 @@ module.exports = class Addressbook {
       this.persistToDisc()
     }
   }
-}
-
-function getHostname(peerURL) {
-  // some urls like from peers do not have a protocol specified and are therefor not correctly parsed
-  peerURL = peerURL.startsWith("http") ? peerURL : "http://" + peerURL
-  peerURL = url.parse(peerURL)
-  return peerURL.hostname
 }

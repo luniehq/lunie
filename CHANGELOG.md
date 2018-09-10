@@ -14,11 +14,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * added new validator component @okwme
 * simple loading indicator for page staking @faboweb
 
+### Changed
+
+* Refactored Addressbook. @NodeGuy
+
 ### Fixed
 
 * Do not try to publish a release on every push to `develop`! @NodeGuy
 * validator url on txs leading to explorer @faboweb
 * lots of incorrect calculations & bugs on bond page @okwme
+* delegations request would update state of next user after sign out sign in @ƒaboweb
 * enable user to stake only after the request for his current delegations has returned @ƒaboweb
 * cache undelegations @faboweb
 
