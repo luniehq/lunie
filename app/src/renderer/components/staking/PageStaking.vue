@@ -103,6 +103,7 @@ export default {
               calculateTokens(v, this.committedDelegations[v.id])
             )
             v.keybase = this.keybase[v.description.identity]
+            console.log(v)
             return v
           })
     },

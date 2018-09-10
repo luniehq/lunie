@@ -1,4 +1,4 @@
-const BN = require("bignumber.js")
+const BN = require("bignumber.js").BigNumber
 module.exports.sleep = function(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
