@@ -3,11 +3,12 @@ import setup from "../../helpers/vuex-setup"
 let instance = setup()
 
 describe("Module: Delegations", () => {
-  let store
+  let store, node
 
   beforeEach(async () => {
     let test = instance.shallow()
     store = test.store
+    node = test.node
 
     store.dispatch("signIn", { password: "bar", account: "default" })
     await store.dispatch("getDelegates")
@@ -142,5 +143,44 @@ describe("Module: Delegations", () => {
     jest.spyOn(axios, "get")
     store.dispatch("reconnected")
     expect(axios.get.mock.calls.length).toBe(0)
+  })
+
+  it("updating delegations should not update another users state after signing out and in again", async () => {
+    jest.resetModules()
+    let resolveDelegationRequest
+
+    // mock returning some delegations
+    node.getDelegator = () =>
+      new Promise(resolve => {
+        resolveDelegationRequest = () =>
+          resolve({
+            delegations: [
+              {
+                delegator_addr: "abc",
+                validator_addr: "def",
+                shares: "14",
+                height: 123
+              }
+            ]
+          })
+      })
+
+    // trigger the get call
+    let getDelegationsPromise = store.dispatch(
+      "getBondedDelegates",
+      store.state.delegates.delegates
+    )
+
+    // sign out - sign in
+    store.state.user.address = "some other address"
+
+    // finish the request
+    resolveDelegationRequest()
+    await getDelegationsPromise
+
+    // expect the delegations to not be updated, as the address changed
+    expect(Object.keys(store.state.delegation.committedDelegates)).toHaveLength(
+      0
+    )
   })
 })

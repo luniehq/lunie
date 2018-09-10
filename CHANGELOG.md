@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Do not try to publish a release on every push to `develop`! @NodeGuy
 * validator url on txs leading to explorer @faboweb
+* delegations request would update state of next user after sign out sign in @ƒaboweb
 * enable user to stake only after the request for his current delegations has returned @ƒaboweb
 * cache undelegations @faboweb
 
