@@ -34,24 +34,42 @@ tm-page(:title='validatorTitle(this.validator)')
       tm-list-item(dt="Commission Maximum" :dd="pretty(validator.commission_max) + ' %'")
       tm-list-item(dt="Commission Change-Rate" :dd="pretty(validator.commission_change_rate) + ' %'")
       tm-list-item(dt="Commission Change Today" :dd="pretty(validator.commission_change_today) + ' %'")
+
+    modal-stake(
+      v-if="showModalStake"
+      :showModalStake.sync="showModalStake"
+      :to="validator.owner"
+    )
+
+    tm-btn(
+      @click.native="showModalStake = true"
+      color="primary"
+      value="Stake"
+    )
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import { TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
+import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
+import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
 export default {
   name: "page-validator",
   components: {
     AnchorCopy,
+    "modal-stake": ModalStake,
+    TmBtn,
     TmListItem,
     TmPage,
     TmPart,
     TmToolBar,
     TmDataError
   },
+  data: () => ({
+    showModalStake: false
+  }),
   computed: {
     ...mapGetters(["delegates", "config", "keybase"]),
     validator() {
@@ -91,9 +109,9 @@ export default {
 <style lang="stylus">
 @media screen and (min-width: 640px)
   #validator-profile .tm-part-main
-    display flex
-    flex-flow row-reverse nowrap
+    display: flex
+    flex-flow: row-reverse nowrap
 
     .list-items
-      flex 1
+      flex: 1
 </style>
