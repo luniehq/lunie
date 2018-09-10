@@ -34,26 +34,56 @@ tm-page(:title='validatorTitle(this.validator)')
       tm-list-item(dt="Commission Maximum" :dd="pretty(validator.commission_max) + ' %'")
       tm-list-item(dt="Commission Change-Rate" :dd="pretty(validator.commission_change_rate) + ' %'")
       tm-list-item(dt="Commission Change Today" :dd="pretty(validator.commission_change_today) + ' %'")
+
+    modal-stake(
+      v-if="showModalStake"
+      v-on:stake="onStake"
+      :showModalStake.sync="showModalStake"
+      :fromOptions="[{ key: `My Wallet - ${this.wallet.address}`, value: 0 }]"
+      :maximum="this.totalAtoms - this.oldBondedAtoms"
+      :to="validator.owner"
+    )
+
+    tm-btn(
+      @click.native="showModalStake = true"
+      color="primary"
+      value="Stake"
+    )
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import { TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
+import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
+import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
 export default {
   name: "page-validator",
   components: {
     AnchorCopy,
+    "modal-stake": ModalStake,
+    TmBtn,
     TmListItem,
     TmPage,
     TmPart,
     TmToolBar,
     TmDataError
   },
+  data: () => ({
+    showModalStake: false
+  }),
   computed: {
-    ...mapGetters(["delegates", "config", "keybase"]),
+    ...mapGetters([
+      `bondingDenom`,
+      "delegates",
+      `delegation`,
+      "config",
+      "keybase",
+      `oldBondedAtoms`,
+      `totalAtoms`,
+      `wallet`
+    ]),
     validator() {
       let validator = this.delegates.delegates.find(
         v => this.$route.params.validator === v.owner
@@ -68,6 +98,45 @@ export default {
     }
   },
   methods: {
+    // submit a delegation
+    async onStake({ amount }) {
+      const to = this.validator.owner
+
+      const currentlyDelegated =
+        parseInt(this.delegation.committedDelegates[to]) || 0
+
+      const delegation = [
+        {
+          atoms: currentlyDelegated + amount,
+          delegate: { owner: to }
+        }
+      ]
+
+      try {
+        await this.$store.dispatch("submitDelegation", delegation)
+
+        this.$store.commit("notify", {
+          title: "Successful Staking!",
+          body: `You have successfully staked your ${this.bondingDenom}s.`
+        })
+      } catch ({ message }) {
+        let errData = message.split("\n")[5]
+
+        if (errData) {
+          let parsedErr = errData.split('"')[1]
+
+          this.$store.commit("notifyError", {
+            title: `Error While Staking ${this.bondingDenom}s`,
+            body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
+          })
+        } else {
+          this.$store.commit("notifyError", {
+            title: `Error While Staking ${this.bondingDenom}s`,
+            body: message
+          })
+        }
+      }
+    },
     validatorTitle(validator) {
       if (!validator) return "Validator Not Found"
       let title
@@ -91,9 +160,9 @@ export default {
 <style lang="stylus">
 @media screen and (min-width: 640px)
   #validator-profile .tm-part-main
-    display flex
-    flex-flow row-reverse nowrap
+    display: flex
+    flex-flow: row-reverse nowrap
 
     .list-items
-      flex 1
+      flex: 1
 </style>
