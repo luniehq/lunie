@@ -58,7 +58,6 @@ export default ({ node }) => {
     },
     resetSessionData({ rootState }) {
       rootState.delegation = JSON.parse(JSON.stringify(emptyState))
-      console.log("rest", rootState.delegation)
     },
     // load committed delegations from LCD
     async getBondedDelegates(
