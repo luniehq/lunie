@@ -23,7 +23,7 @@
   .li-delegate__value.slashes
     // add .green .yellow or .red class to this span to trigger inidication by color
     span {{ slashes }}
-  template(v-if="userCanDelegate")
+  template(v-if="!disabled")
     .li-delegate__value.checkbox(v-if="committedDelegations[delegate.id]")
       i.material-icons lock
     .li-delegate__value.checkbox#remove-from-cart(v-else-if="inCart" @click='rm(delegate)')
@@ -41,7 +41,7 @@ import { maxBy } from "lodash"
 import { shortAddress, calculateTokens } from "scripts/common"
 export default {
   name: "li-delegate",
-  props: ["delegate"],
+  props: ["delegate", "disabled"],
   computed: {
     ...mapGetters([
       "shoppingCart",
@@ -92,9 +92,6 @@ export default {
     },
     inCart() {
       return this.shoppingCart.find(c => c.id === this.delegate.id)
-    },
-    userCanDelegate() {
-      return this.shoppingCart.length > 0 || this.user.atoms > 0
     },
     delegateType() {
       return this.delegate.revoked
