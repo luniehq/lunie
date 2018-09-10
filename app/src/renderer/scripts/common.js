@@ -32,6 +32,9 @@ module.exports.shortAddress = function(address, length = 4) {
 // }
 
 module.exports.calculateTokens = function(delegator, shares) {
+  // this is the based on the idea that tokens should equal
+  // (myShares / totalShares) * totalTokens where totalShares
+  // and totalTokens are both represented as fractions
   let myShares = new BN(shares || 0)
   // return myShares
   let totalSharesN = new BN(delegator.delegator_shares.split("/")[0])
