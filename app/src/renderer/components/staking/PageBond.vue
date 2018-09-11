@@ -371,7 +371,6 @@ export default {
       return value + "%"
     },
     limitMax(delegate, max) {
-      delegate.atoms = delegate.atoms // for stuff like 0-101-9
       if (delegate.atoms >= max) {
         delegate.atoms = max
       } else if (delegate.atoms < 0) {
