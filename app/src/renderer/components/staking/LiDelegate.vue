@@ -37,7 +37,6 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { maxBy } from "lodash"
 import { shortAddress, calculateTokens } from "scripts/common"
 export default {
   name: "li-delegate",
