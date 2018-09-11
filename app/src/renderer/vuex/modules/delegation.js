@@ -117,15 +117,10 @@ export default ({ node }) => {
       for (let delegation of delegations) {
         let candidateId = delegation.delegate.owner
         let currentlyDelegated = 0
-        try {
-          currentlyDelegated = calculateTokens(
-            delegation.delegate,
-            state.committedDelegates[candidateId] || 0
-          )
-        } catch (error) {
-          console.error(error)
-          return
-        }
+        currentlyDelegated = calculateTokens(
+          delegation.delegate,
+          state.committedDelegates[candidateId] || 0
+        )
         let amountChange =
           parseInt(delegation.atoms) - currentlyDelegated.toNumber()
         let isBond = amountChange > 0
