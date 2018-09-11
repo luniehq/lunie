@@ -78,18 +78,6 @@ export default {
       if (this.delegate.isValidator) value += "li-delegate-validator "
       return value
     },
-    vpMax() {
-      if (this.delegates.delegates.length > 0) {
-        let richestDelegate = maxBy(this.delegates.delegates, "voting_power")
-        return richestDelegate.voting_power
-      } else {
-        return 0
-      }
-    },
-    vpStyles() {
-      let percentage = Math.round(this.delegate.voting_power / this.vpMax * 100)
-      return { width: percentage + "%" }
-    },
     inCart() {
       return this.shoppingCart.find(c => c.id === this.delegate.id)
     },
