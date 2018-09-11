@@ -17,7 +17,9 @@ tm-page(title='Transactions')
       :validatorURL='validatorURL'
       :key="shortid.generate()"
       :transaction="tx"
-      :address="wallet.address")
+      :address="wallet.address"
+      :unbonding_time="unbondingTime"
+      v-on:end-unbonding="endUnbonding(tx)")
 </template>
 
 <script>
@@ -25,6 +27,7 @@ import shortid from "shortid"
 import { mapGetters, mapState } from "vuex"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
+import moment from "moment"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import ModalSearch from "common/TmModalSearch"
@@ -55,9 +58,12 @@ export default {
     somethingToSearch() {
       return !this.transactions.loading && !!this.allTransactions.length
     },
+    enrichedTransactions() {
+      return this.allTransactions.map(this.setStateOnUnbondingTransactions)
+    },
     orderedTransactions() {
       return orderBy(
-        this.allTransactions.map(t => {
+        this.enrichedTransactions.map(t => {
           t.height = parseInt(t.height)
           return t // TODO what happens if block height is bigger then int?
         }),
@@ -75,6 +81,9 @@ export default {
       } else {
         return this.orderedTransactions
       }
+    },
+    unbondingTime() {
+      return "259200000" // 72h TODO get from stake params
     }
   },
   data: () => ({
@@ -88,6 +97,35 @@ export default {
   methods: {
     refreshTransactions() {
       this.$store.dispatch("getAllTxs")
+    },
+    endUnbonding(transaction) {
+      let validatorAddr = transaction.tx.value.msg[0].value.validator_addr
+      this.$store.dispatch("endUnbonding", validatorAddr)
+    },
+    setStateOnUnbondingTransactions(transaction) {
+      let type = transaction.tx.value.msg[0].type
+      if (type === "cosmos-sdk/BeginUnbonding") {
+        let tx = transaction.tx.value.msg[0].value
+        // check if the undelegation is still pending
+        if (
+          this.delegation.unbondingDelegations[tx.validator_addr] !==
+          parseInt(tx.shares_amount)
+        ) {
+          transaction.state = "ended"
+          return transaction
+        }
+        // check if unbonding period is over
+        if (
+          moment(transaction.time).valueOf() + parseInt(this.unbondingTime) <=
+          Date.now()
+        ) {
+          transaction.state = "ready"
+          return transaction
+        }
+        transaction.state = "locked"
+        return transaction
+      }
+      return transaction
     },
     setSearch(bool = !this.filters["transactions"].search.visible) {
       if (!this.somethingToSearch) return false

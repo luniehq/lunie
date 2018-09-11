@@ -89,6 +89,19 @@ export default ({ node }) => {
           }
         })
       }
+      // delete delegations not present anymore
+      Object.keys(state.committedDelegates).forEach(validatorAddr => {
+        if (
+          !delegator.delegations ||
+          !delegator.delegations.find(
+            ({ validator_addr }) => validator_addr === validatorAddr
+          )
+        )
+          commit("setCommittedDelegation", {
+            candidateId: validatorAddr,
+            value: 0
+          })
+      })
 
       if (delegator.unbonding_delegations) {
         delegator.unbonding_delegations.forEach(
@@ -100,6 +113,20 @@ export default ({ node }) => {
           }
         )
       }
+      // delete undelegations not present anymore
+      Object.keys(state.unbondingDelegations).forEach(validatorAddr => {
+        if (
+          !delegator.unbonding_delegations ||
+          !delegator.unbonding_delegations.find(
+            ({ validator_addr }) => validator_addr === validatorAddr
+          )
+        )
+          commit("setUnbondingDelegations", {
+            candidateId: validatorAddr,
+            value: 0
+          })
+      })
+
       state.loadedOnce = true
       state.loading = false
     },
@@ -164,6 +191,38 @@ export default ({ node }) => {
       dispatch("updateDelegates").then(() =>
         updateCommittedDelegations(delegations, commit)
       )
+    },
+    async endUnbonding({ rootState, dispatch, commit }, validatorAddr) {
+      try {
+        await dispatch("sendTx", {
+          type: "updateDelegations",
+          to: rootState.wallet.address, // TODO strange syntax
+          complete_unbondings: [
+            {
+              delegator_addr: rootState.wallet.address,
+              validator_addr: validatorAddr
+            }
+          ]
+        })
+
+        commit("setCommittedDelegation", {
+          candidateId: validatorAddr,
+          value: 0
+        })
+        commit("setUnbondingDelegations", {
+          candidateId: validatorAddr,
+          value: 0
+        })
+      } catch (err) {
+        commit("notifyError", {
+          title: "Ending undelegation failed",
+          body: err
+        })
+      }
+    },
+    async getStakeParameters({ commit }) {
+      let parameters = await node.getParameters()
+      commit("setStakeParameters", parameters)
     }
   }
 
