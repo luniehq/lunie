@@ -85,12 +85,18 @@ describe("Store", () => {
       candidateId: lcdClientMock.validators[0],
       value: 1
     })
+    store.commit("setUnbondingDelegations", {
+      candidateId: lcdClientMock.validators[1],
+      value: 1
+    })
     jest.runAllTimers() // updating is waiting if more updates coming in, this skips the waiting
     await store.dispatch("signOut")
 
-    expect(store.state.delegates.delegates).toHaveLength(0)
     expect(
       store.state.delegation.committedDelegates[lcdClientMock.validators[0]]
+    ).toBeFalsy()
+    expect(
+      store.state.delegation.unbondingDelegations[lcdClientMock.validators[1]]
     ).toBeFalsy()
     expect(store.state.delegation.delegates).toHaveLength(0)
 
@@ -102,6 +108,9 @@ describe("Store", () => {
     expect(store.state.delegates.delegates).toHaveLength(3)
     expect(
       store.state.delegation.committedDelegates[lcdClientMock.validators[0]]
+    ).toBe(1)
+    expect(
+      store.state.delegation.unbondingDelegations[lcdClientMock.validators[1]]
     ).toBe(1)
     expect(store.state.delegation.delegates).toHaveLength(1)
   })
