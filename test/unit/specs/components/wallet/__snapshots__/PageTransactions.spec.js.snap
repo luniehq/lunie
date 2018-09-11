@@ -104,30 +104,35 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      unbonding_time="259200000"
       validators=""
       validatorurl="/staking/validators"
     />
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      unbonding_time="259200000"
       validators=""
       validatorurl="/staking/validators"
     />
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      unbonding_time="259200000"
       validators=""
       validatorurl="/staking/validators"
     />
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      unbonding_time="259200000"
       validators=""
       validatorurl="/staking/validators"
     />
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      unbonding_time="259200000"
       validators=""
       validatorurl="/staking/validators"
     />
@@ -302,6 +307,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       transaction="[object Object]"
+      unbonding_time="259200000"
       validators=""
       validatorurl="/staking/validators"
     />
