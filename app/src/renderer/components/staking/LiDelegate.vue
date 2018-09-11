@@ -106,13 +106,6 @@ export default {
     rm(delegate) {
       this.$store.commit("removeFromCart", delegate.id)
     }
-  },
-  watch: {
-    yourVotes(newVal) {
-      if (newVal > 0) {
-        this.$store.commit("addToCart", this.delegate)
-      }
-    }
   }
 }
 </script>
