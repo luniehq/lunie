@@ -188,18 +188,10 @@ describe("Addressbook", () => {
     await addressbook.pickNode().then(() => done(), done.fail)
   })
 
-  it("should allow http addresses as peer addresses", async () => {
-    let addressbook = new Addressbook(mockConfig, "./", {
-      persistent_peers: ["http://123.456.123.456"]
-    })
-    let node = await addressbook.pickNode()
-    expect(node).toMatchSnapshot()
-  })
-
   it("should call back on connection", async () => {
     let spy = jest.fn()
     let addressbook = new Addressbook(mockConfig, "./config", {
-      persistent_peers: ["http://123.456.123.456"],
+      persistent_peers: ["123.456.123.456"],
       onConnectionMessage: spy
     })
     await addressbook.pickNode()
@@ -208,7 +200,7 @@ describe("Addressbook", () => {
 
   it("should flag nodes incompatible", async done => {
     let addressbook = new Addressbook(mockConfig, "./config", {
-      persistent_peers: ["http://123.456.123.456"]
+      persistent_peers: ["123.456.123.456"]
     })
     addressbook.flagNodeIncompatible("123.456.123.456")
     await addressbook

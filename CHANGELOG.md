@@ -12,11 +12,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Added staking transactions and fixed 100% height txs. Refactored modules/blockchain.js @okwme
 * test if build Voyager actually starts @faboweb
 * added new validator component @okwme
+* simple loading indicator for page staking @faboweb
+
+### Changed
+
+* Refactored Addressbook. @NodeGuy
 
 ### Fixed
 
 * Do not try to publish a release on every push to `develop`! @NodeGuy
 * validator url on txs leading to explorer @faboweb
+* removed unnecessary watcher for filling the shopping cart from LiDelegate @faboweb
+* delegations request would update state of next user after sign out sign in @ƒaboweb
+* enable user to stake only after the request for his current delegations has returned @ƒaboweb
+* cache undelegations @faboweb
 
 ## [0.10.2] - 2018-08-29
 
