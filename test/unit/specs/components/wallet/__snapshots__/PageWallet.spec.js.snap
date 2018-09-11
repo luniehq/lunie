@@ -40,10 +40,23 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="h2"
                 >
-                  123
+                  1014
                 </div>
               </div>
-              <!---->
+              <div
+                class="unstaked-atoms"
+              >
+                <div
+                  class="h3"
+                >
+                  Unstaked Steak
+                </div>
+                <div
+                  class="h2"
+                >
+                  1000
+                </div>
+              </div>
               <!---->
               <!---->
             </div>
@@ -53,7 +66,7 @@ exports[`PageWallet has the expected html structure 1`] = `
               <div
                 class="address"
               >
-                
+                cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
               </div>
               <div
                 class="success"
@@ -193,7 +206,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-title"
                 >
-                  tb1zgatc3tdauv2m0uf
+                  cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
                 </div>
                 <div
                   class="tm-li-subtitle"
@@ -255,7 +268,7 @@ exports[`PageWallet has the expected html structure 1`] = `
           <!---->
           <a
             class="tm-li tm-li-link tm-li-balance"
-            href="#/wallet/send/FERMION"
+            href="#/wallet/send/fermion"
           >
             <div
               class="tm-li-container"
@@ -276,7 +289,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  456
+                  2300
                 </div>
               </div>
               <button
@@ -303,7 +316,7 @@ exports[`PageWallet has the expected html structure 1`] = `
           </a>
           <a
             class="tm-li tm-li-link tm-li-balance"
-            href="#/wallet/send/STEAK"
+            href="#/wallet/send/mycoin"
           >
             <div
               class="tm-li-container"
@@ -319,12 +332,12 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dt"
                 >
-                  STEAK
+                  MYCOIN
                 </div>
                 <div
                   class="tm-li-dd"
                 >
-                  123
+                  1000
                 </div>
               </div>
               <button
@@ -349,7 +362,54 @@ exports[`PageWallet has the expected html structure 1`] = `
               </button>
             </div>
           </a>
-          <!---->
+          <a
+            class="tm-li tm-li-link tm-li-balance"
+            href="#/wallet/send/steak"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-dl"
+              >
+                <div
+                  class="tm-li-dt"
+                >
+                  STEAK
+                </div>
+                <div
+                  class="tm-li-dd"
+                >
+                  1000
+                </div>
+              </div>
+              <button
+                class="tm-btn"
+              >
+                <span
+                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="tm-btn__icon material-icons"
+                  >
+                    chevron_right
+                  </i>
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Send
+                  </span>
+                </span>
+              </button>
+            </div>
+          </a>
         </main>
       </div>
     </section>
@@ -402,7 +462,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  123
+                  14
                 </div>
               </div>
               <button
@@ -494,10 +554,23 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="h2"
                 >
-                  123
+                  1014
                 </div>
               </div>
-              <!---->
+              <div
+                class="unstaked-atoms"
+              >
+                <div
+                  class="h3"
+                >
+                  Unstaked Steak
+                </div>
+                <div
+                  class="h2"
+                >
+                  1000
+                </div>
+              </div>
               <!---->
               <!---->
             </div>
@@ -507,7 +580,7 @@ exports[`PageWallet should filter the balances 1`] = `
               <div
                 class="address"
               >
-                
+                cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
               </div>
               <div
                 class="success"
@@ -647,7 +720,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="tm-li-title"
                 >
-                  tb1zgatc3tdauv2m0uf
+                  cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
                 </div>
                 <div
                   class="tm-li-subtitle"
@@ -709,7 +782,7 @@ exports[`PageWallet should filter the balances 1`] = `
           <!---->
           <a
             class="tm-li tm-li-link tm-li-balance"
-            href="#/wallet/send/STEAK"
+            href="#/wallet/send/steak"
           >
             <div
               class="tm-li-container"
@@ -730,7 +803,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  123
+                  1000
                 </div>
               </div>
               <button
@@ -807,7 +880,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  123
+                  14
                 </div>
               </div>
               <button
