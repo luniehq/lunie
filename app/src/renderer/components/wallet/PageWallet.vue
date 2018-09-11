@@ -65,11 +65,7 @@ import ModalSearch from "common/TmModalSearch"
 import VmToolBar from "common/VmToolBar"
 export default {
   name: "page-wallet",
-  data: () => {
-    return {
-      num
-    }
-  },
+  data: () => ({ num }),
   components: {
     TmBalance,
     TmDataLoading,

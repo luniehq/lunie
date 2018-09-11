@@ -36,7 +36,6 @@ module.exports.calculateTokens = function(delegator, shares) {
   // (myShares / totalShares) * totalTokens where totalShares
   // and totalTokens are both represented as fractions
   let myShares = new BN(shares || 0)
-  // return myShares
   let totalSharesN = new BN(delegator.delegator_shares.split("/")[0])
   let totalSharesD = new BN(delegator.delegator_shares.split("/")[1] || 1)
 

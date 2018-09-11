@@ -90,11 +90,6 @@ describe("PageBond", () => {
   })
 
   it("shows old bonded atoms ", () => {
-    // wrapper.vm.$store.getters.delegates = () => {
-    //   return {
-    //     delegates: [firstDelegate, secondDelegate]
-    //   }
-    // }
     store.state.delegates.delegates = [firstDelegate, secondDelegate]
     store.commit("setCommittedDelegation", {
       candidateId: "pubkeyX",

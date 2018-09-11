@@ -163,7 +163,6 @@ export default ({ node }) => {
       commit("setAtoms", rootState.user.atoms + atomsDiff)
 
       // we optimistically update the committed delegations
-      // updateCommittedDelegations(delegations, commit)
       // TODO usually I would just query the new state through the LCD and update the state with the result, but at this point we still get the old shares
       setTimeout(async () => {
         dispatch("updateDelegates") //.then(() =>

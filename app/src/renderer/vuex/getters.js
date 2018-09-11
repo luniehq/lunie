@@ -41,7 +41,6 @@ export const oldBondedAtoms = (state, getters) => {
       )
       if (!delegator) {
         return
-        // throw new Error("no delegator with id: " + delegatorAddress)
       }
       totalOldBondedAtoms = totalOldBondedAtoms.plus(
         calculateTokens(delegator, shares)
