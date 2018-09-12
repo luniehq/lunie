@@ -18,7 +18,6 @@ tm-page(title='Transactions')
       :key="shortid.generate()"
       :transaction="tx"
       :address="wallet.address"
-      :unbonding_time="unbondingTime"
       v-on:end-unbonding="endUnbonding(tx)")
 </template>
 
@@ -59,7 +58,7 @@ export default {
       return !this.transactions.loading && !!this.allTransactions.length
     },
     enrichedTransactions() {
-      return this.allTransactions.map(this.setStateOnUnbondingTransactions)
+      return this.allTransactions.map(this.enrichUnbondingTransactions)
     },
     orderedTransactions() {
       return orderBy(
@@ -102,28 +101,13 @@ export default {
       let validatorAddr = transaction.tx.value.msg[0].value.validator_addr
       this.$store.dispatch("endUnbonding", validatorAddr)
     },
-    setStateOnUnbondingTransactions(transaction) {
+    enrichUnbondingTransactions(transaction) {
       let type = transaction.tx.value.msg[0].type
       if (type === "cosmos-sdk/BeginUnbonding") {
         let tx = transaction.tx.value.msg[0].value
-        // check if the undelegation is still pending
-        if (
-          this.delegation.unbondingDelegations[tx.validator_addr] !==
-          parseInt(tx.shares_amount)
-        ) {
-          transaction.state = "ended"
-          return transaction
-        }
-        // check if unbonding period is over
-        if (
-          moment(transaction.time).valueOf() + parseInt(this.unbondingTime) <=
-          Date.now()
-        ) {
-          transaction.state = "ready"
-          return transaction
-        }
-        transaction.state = "locked"
-        return transaction
+        transaction.unbondingDelegation = this.delegation.unbondingDelegations[
+          tx.validator_addr
+        ]
       }
       return transaction
     },

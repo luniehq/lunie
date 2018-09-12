@@ -41,12 +41,12 @@ export default ({ node }) => {
       }
       state.committedDelegates = committedDelegates
     },
-    setUnbondingDelegations(state, { candidateId, value }) {
+    setUnbondingDelegations(state, { validator_addr, min_time, balance }) {
       let unbondingDelegations = Object.assign({}, state.unbondingDelegations)
-      if (value === 0) {
-        delete unbondingDelegations[candidateId]
+      if (balance.amount === 0) {
+        delete unbondingDelegations[validator_addr]
       } else {
-        unbondingDelegations[candidateId] = value
+        unbondingDelegations[validator_addr] = { min_time, balance }
       }
       state.unbondingDelegations = unbondingDelegations
     }
@@ -106,10 +106,11 @@ export default ({ node }) => {
 
       if (delegator.unbonding_delegations) {
         delegator.unbonding_delegations.forEach(
-          ({ validator_addr, balance: { amount } }) => {
+          ({ validator_addr, balance, min_time }) => {
             commit("setUnbondingDelegations", {
-              candidateId: validator_addr,
-              value: parseFloat(amount)
+              validator_addr,
+              balance,
+              min_time
             })
           }
         )
@@ -123,8 +124,8 @@ export default ({ node }) => {
           )
         )
           commit("setUnbondingDelegations", {
-            candidateId: validatorAddr,
-            value: 0
+            validator_addr: validatorAddr,
+            balance: { amount: 0 }
           })
       })
 
@@ -213,9 +214,16 @@ export default ({ node }) => {
           ]
         })
 
+        let balance = state.unbondingDelegations[validatorAddr].balance
         commit("setUnbondingDelegations", {
-          candidateId: validatorAddr,
-          value: 0
+          validator_addr: validatorAddr,
+          balance: { amount: 0 }
+        })
+        commit("notify", {
+          title: "Ending undelegation successful",
+          body: `You successfully undelegated ${balance.amount} ${
+            balance.denom
+          }s from ${validatorAddr}`
         })
       } catch (err) {
         commit("notifyError", {

@@ -114,8 +114,8 @@ describe("Module: Delegations", () => {
   it("deletes undelegations that are 0", async () => {
     await store.dispatch("getBondedDelegates", store.state.delegates.delegates)
     store.commit("setUnbondingDelegations", {
-      candidateId: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-      value: 0
+      validator_addr: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+      balance: { amount: 0 }
     })
     expect(
       store.state.delegation.unbondingDelegations
@@ -190,8 +190,8 @@ describe("Module: Delegations", () => {
       shares: 100
     })
     store.commit("setUnbondingDelegations", {
-      candidateId: lcdClientMock.validators[0],
-      value: 100
+      validator_addr: lcdClientMock.validators[0],
+      balance: { amount: 100 }
     })
     await store.dispatch("endUnbonding", lcdClientMock.validators[0])
     expect(
