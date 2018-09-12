@@ -168,7 +168,9 @@ export default ({ node }) => {
             delegator_addr: rootState.wallet.address,
             validator_addr: candidateId,
             shares: String(
-              Math.abs(calculateShares(delegation.delegate, amountChange))
+              Math.abs(
+                calculateShares(delegation.delegate, amountChange)
+              ).toFixed(8) // TODO change to 10 when available or we switch back to rationals
             )
           })
         }
@@ -201,9 +203,9 @@ export default ({ node }) => {
         //   commit
         // )
         // )
-      }, 15000)
+      }, 5000)
     },
-    async endUnbonding({ rootState, dispatch, commit }, validatorAddr) {
+    async endUnbonding({ rootState, state, dispatch, commit }, validatorAddr) {
       try {
         await dispatch("sendTx", {
           type: "updateDelegations",
@@ -227,11 +229,13 @@ export default ({ node }) => {
             balance.denom
           }s from ${validatorAddr}`
         })
+        return true
       } catch (err) {
         commit("notifyError", {
           title: "Ending undelegation failed",
           body: err
         })
+        return false
       }
     }
   }
