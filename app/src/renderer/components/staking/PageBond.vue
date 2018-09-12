@@ -62,7 +62,7 @@ tm-page.page-bond(title="Staking")
           tm-field.bond-value__input(
             type="number"
             placeholder="0"
-            step="any"
+            step="0.00000001"
             min="0"
             :max="totalAtoms"
             v-model.number="d.atoms"
