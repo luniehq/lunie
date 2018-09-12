@@ -125,7 +125,7 @@ tm-page.page-bond(title="Staking")
 
 <script>
 import BN from "bignumber.js"
-BN.config({ DECIMAL_PLACES: 10, ROUNDING_MODE: 8 })
+BN.config({ DECIMAL_PLACES: 8, ROUNDING_MODE: 8 }) // amino only decodes decimals with 8 decimal places
 import { between, required } from "vuelidate/lib/validators"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
