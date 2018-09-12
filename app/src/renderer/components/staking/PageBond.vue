@@ -62,7 +62,7 @@ tm-page.page-bond(title="Staking")
           tm-field.bond-value__input(
             type="number"
             placeholder="0"
-            step="1"
+            step="0.00000001"
             min="0"
             :max="totalAtoms"
             v-model.number="d.atoms"
@@ -72,8 +72,8 @@ tm-page.page-bond(title="Staking")
 
       tm-form-msg(:name="bondingDenom + 's'" type="required"
         v-if="!$v.fields.delegates.$each[index].atoms.required")
-      tm-form-msg(:name="bondingDenom + 's'" type="numeric"
-        v-if="!$v.fields.delegates.$each[index].atoms.numeric")
+      tm-form-msg(:name="bondingDenom + 's'" type="numerical"
+        v-if="!$v.fields.delegates.$each[index].atoms.numerical")
 
     .bond-group.bond-group--unbonding(
       v-if="oldBondedAtoms > 0"
@@ -124,7 +124,10 @@ tm-page.page-bond(title="Staking")
 </template>
 
 <script>
-import { between, numeric, required } from "vuelidate/lib/validators"
+import BN from "bignumber.js"
+BN.config({ DECIMAL_PLACES: 8, ROUNDING_MODE: 8 }) // amino only decodes decimals with 8 decimal places
+import { between, required } from "vuelidate/lib/validators"
+import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import {
@@ -168,7 +171,7 @@ export default {
     },
     newUnbondedAtoms() {
       return this.fields.delegates.reduce((atoms, d) => {
-        let delta = parseInt(d.oldAtoms) - parseInt(d.atoms)
+        let delta = parseFloat(d.oldAtoms) - parseFloat(d.atoms)
         if (delta < 0) {
           return atoms + delta
         }
@@ -226,7 +229,7 @@ export default {
         return
       }
       this.$v.$touch()
-      if (!this.$v.$error) {
+      if (!this.$v.$invalid) {
         try {
           this.delegating = true
           await this.$store.dispatch("submitDelegation", this.fields.delegates)
@@ -262,8 +265,11 @@ export default {
         JSON.parse(JSON.stringify(c))
       )
       this.fields.delegates = this.fields.delegates.map(d => {
-        let atoms = committedDelegations[d.delegate.id] || 0
-        d.atoms = parseFloat(atoms)
+        d.atoms = calculateTokens(
+          d.delegate,
+          committedDelegations[d.delegate.id]
+        ).toNumber()
+
         d.oldAtoms = d.atoms
         d.bondedRatio = d.atoms / totalAtoms
         d.deltaAtoms = 0
@@ -365,7 +371,6 @@ export default {
       return value + "%"
     },
     limitMax(delegate, max) {
-      delegate.atoms = parseFloat(delegate.atoms) // for stuff like 0-101-9
       if (delegate.atoms >= max) {
         delegate.atoms = max
       } else if (delegate.atoms < 0) {
@@ -383,6 +388,9 @@ export default {
     this.setBondBarOuterWidth()
   },
   watch: {
+    oldBondedAtoms() {
+      this.resetFields()
+    },
     shoppingCart(newVal) {
       this.leaveIfEmpty(newVal.length)
       this.resetFields()
@@ -395,7 +403,9 @@ export default {
         $each: {
           atoms: {
             required,
-            numeric,
+            numerical(value) {
+              return !isNaN(value)
+            },
             between(atoms, parentVm) {
               let otherDelegates = this.fields.delegates.filter(
                 d => d.id !== parentVm.id
@@ -405,7 +415,8 @@ export default {
                 0
               )
               let maximumAtoms = this.totalAtoms - otherBondedAtoms
-              return between(this.minimumAtoms, maximumAtoms)(atoms)
+              let foo = between(this.minimumAtoms, maximumAtoms)(atoms)
+              return foo
             }
           }
         }

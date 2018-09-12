@@ -37,8 +37,7 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { maxBy } from "lodash"
-import { shortAddress } from "scripts/common"
+import { shortAddress, calculateTokens } from "scripts/common"
 export default {
   name: "li-delegate",
   props: ["delegate", "disabled"],
@@ -63,29 +62,20 @@ export default {
       return "n/a"
     },
     yourVotes() {
-      let yourVotes = this.num.prettyInt(
+      return this.num.pretty(
         this.committedDelegations[this.delegate.id]
+          ? calculateTokens(
+              this.delegate,
+              this.committedDelegations[this.delegate.id]
+            ).toString()
+          : "0"
       )
-
-      return yourVotes
     },
     styles() {
       let value = ""
       if (this.inCart || this.yourVotes > 0) value += "li-delegate-active "
       if (this.delegate.isValidator) value += "li-delegate-validator "
       return value
-    },
-    vpMax() {
-      if (this.delegates.delegates.length > 0) {
-        let richestDelegate = maxBy(this.delegates.delegates, "voting_power")
-        return richestDelegate.voting_power
-      } else {
-        return 0
-      }
-    },
-    vpStyles() {
-      let percentage = Math.round(this.delegate.voting_power / this.vpMax * 100)
-      return { width: percentage + "%" }
     },
     inCart() {
       return this.shoppingCart.find(c => c.id === this.delegate.id)
