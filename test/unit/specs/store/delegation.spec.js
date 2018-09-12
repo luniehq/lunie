@@ -1,4 +1,5 @@
 import setup from "../../helpers/vuex-setup"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 let instance = setup()
 
@@ -10,7 +11,7 @@ describe("Module: Delegations", () => {
     store = test.store
     node = test.node
 
-    store.dispatch("signIn", { password: "bar", account: "default" })
+    await store.dispatch("signIn", { password: "bar", account: "default" })
     await store.dispatch("getDelegates")
   })
 
@@ -182,5 +183,22 @@ describe("Module: Delegations", () => {
     expect(Object.keys(store.state.delegation.committedDelegates)).toHaveLength(
       0
     )
+  })
+
+  it.only("should undelegate", async () => {
+    lcdClientMock.state.stake[
+      lcdClientMock.addresses[0]
+    ].unbonding_delegations.push({
+      validator_addr: lcdClientMock.validators[0],
+      shares: 100
+    })
+    store.commit("setUnbondingDelegations", {
+      candidateId: lcdClientMock.validators[0],
+      value: 100
+    })
+    await store.dispatch("endUnbonding", lcdClientMock.validators[0])
+    expect(
+      store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
+    ).toBeFalsy()
   })
 })

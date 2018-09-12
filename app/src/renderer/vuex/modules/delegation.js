@@ -205,10 +205,6 @@ export default ({ node }) => {
           ]
         })
 
-        commit("setCommittedDelegation", {
-          candidateId: validatorAddr,
-          value: 0
-        })
         commit("setUnbondingDelegations", {
           candidateId: validatorAddr,
           value: 0
@@ -219,10 +215,6 @@ export default ({ node }) => {
           body: err
         })
       }
-    },
-    async getStakeParameters({ commit }) {
-      let parameters = await node.getParameters()
-      commit("setStakeParameters", parameters)
     }
   }
 
