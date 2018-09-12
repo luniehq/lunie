@@ -79,9 +79,6 @@ export default {
       } else {
         return this.orderedTransactions
       }
-    },
-    unbondingTime() {
-      return "259200000" // 72h TODO get from stake params
     }
   },
   data: () => ({
