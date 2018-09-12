@@ -37,7 +37,10 @@ tm-page(:title='validatorTitle(this.validator)')
 
     modal-stake(
       v-if="showModalStake"
+      v-on:stake="onStake"
       :showModalStake.sync="showModalStake"
+      :fromOptions="[{address: this.wallet.address, key: `My Wallet - ${shortAddr(this.wallet.address)}`, value: 0 }]"
+      :maximum="this.totalAtoms - this.oldBondedAtoms"
       :to="validator.owner"
     )
 
@@ -55,6 +58,7 @@ import { TmDataError } from "common/TmDataError"
 import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
+import { shortAddress } from "scripts/common"
 export default {
   name: "page-validator",
   components: {
@@ -71,7 +75,16 @@ export default {
     showModalStake: false
   }),
   computed: {
-    ...mapGetters(["delegates", "config", "keybase"]),
+    ...mapGetters([
+      `bondingDenom`,
+      "delegates",
+      `delegation`,
+      "config",
+      "keybase",
+      `oldBondedAtoms`,
+      `totalAtoms`,
+      `wallet`
+    ]),
     validator() {
       let validator = this.delegates.delegates.find(
         v => this.$route.params.validator === v.owner
@@ -86,6 +99,44 @@ export default {
     }
   },
   methods: {
+    async onStake({ amount }) {
+      const to = this.validator.owner
+
+      const currentlyDelegated =
+        parseInt(this.delegation.committedDelegates[to]) || 0
+
+      const delegation = [
+        {
+          atoms: currentlyDelegated + amount,
+          delegate: { owner: to }
+        }
+      ]
+
+      try {
+        await this.$store.dispatch("submitDelegation", delegation)
+
+        this.$store.commit("notify", {
+          title: "Successful Staking!",
+          body: `You have successfully staked your ${this.bondingDenom}s.`
+        })
+      } catch ({ message }) {
+        let errData = message.split("\n")[5]
+
+        if (errData) {
+          let parsedErr = errData.split('"')[1]
+
+          this.$store.commit("notifyError", {
+            title: `Error While Staking ${this.bondingDenom}s`,
+            body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
+          })
+        } else {
+          this.$store.commit("notifyError", {
+            title: `Error While Staking ${this.bondingDenom}s`,
+            body: message
+          })
+        }
+      }
+    },
     validatorTitle(validator) {
       if (!validator) return "Validator Not Found"
       let title
@@ -94,13 +145,15 @@ export default {
       } else {
         title = "Anonymous"
       }
-      let shortOwner = validator.owner.split(1)[1]
-      shortOwner = shortOwner.slice(0, 8)
+      let shortOwner = shortAddress(validator.owner)
       title += ` - (${shortOwner})`
       return title
     },
     pretty(num) {
       return numeral(num).format("0,0.00")
+    },
+    shortAddr(address) {
+      return shortAddress(address)
     }
   }
 }
