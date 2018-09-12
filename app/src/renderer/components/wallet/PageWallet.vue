@@ -41,11 +41,12 @@ tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
     tm-list-item(
       btn="Stake"
       :dt="stakingDenom"
-      :dd="stakedTokens"
+      :dd="num.pretty(oldBondedAtoms)"
       :to="{name: 'staking'}")
 </template>
 
 <script>
+import num from "scripts/num"
 import { mapGetters, mapActions } from "vuex"
 import { clipboard } from "electron"
 import { sum, includes, orderBy } from "lodash"
@@ -65,6 +66,7 @@ import ModalSearch from "common/TmModalSearch"
 import VmToolBar from "common/VmToolBar"
 export default {
   name: "page-wallet",
+  data: () => ({ num }),
   components: {
     TmBalance,
     TmDataLoading,
@@ -83,6 +85,7 @@ export default {
       "filters",
       "wallet",
       "committedDelegations",
+      "oldBondedAtoms",
       "config",
       "connected",
       "user"

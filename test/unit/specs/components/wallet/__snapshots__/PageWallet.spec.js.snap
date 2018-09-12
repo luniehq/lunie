@@ -40,7 +40,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="h2"
                 >
-                  1014
+                  1,014.00
                 </div>
               </div>
               <div
@@ -462,7 +462,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  14
+                  14.00
                 </div>
               </div>
               <button
@@ -554,7 +554,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="h2"
                 >
-                  1014
+                  1,014.00
                 </div>
               </div>
               <div
@@ -880,7 +880,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  14
+                  14.00
                 </div>
               </div>
               <button

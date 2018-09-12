@@ -1,6 +1,5 @@
 import setup from "../../../helpers/vuex-setup"
 import PageWallet from "renderer/components/wallet/PageWallet"
-
 describe("PageWallet", () => {
   let wrapper, store
   let { mount } = setup()
@@ -108,12 +107,17 @@ describe("PageWallet", () => {
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
     wrapper.update()
+
+    console.log(wrapper.vm.$store.getters.delegation.committedDelegates)
+    console.log(wrapper.vm.$store.getters.delegates.delegates.map(d => d.id))
     expect(
-      wrapper
-        .find("#part-staked-balances .tm-li-dd")
-        .text()
-        .trim()
-    ).toBe("14")
+      parseFloat(
+        wrapper
+          .find("#part-staked-balances .tm-li-dd")
+          .text()
+          .trim()
+      )
+    ).toBe(14)
   })
 
   it("should update 'somethingToSearch' when there's nothing to search", () => {

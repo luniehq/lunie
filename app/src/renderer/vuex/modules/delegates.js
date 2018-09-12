@@ -48,6 +48,7 @@ export default ({ node }) => {
     resetSessionData({ rootState }) {
       rootState.delegates = JSON.parse(JSON.stringify(emptyState))
     },
+
     async getDelegates({ state, commit, dispatch }) {
       commit("setDelegateLoading", true)
       let candidates = await node.getCandidates()
