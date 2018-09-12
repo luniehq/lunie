@@ -97,19 +97,28 @@ export default {
     refreshTransactions() {
       this.$store.dispatch("getAllTxs")
     },
-    endUnbonding(transaction) {
+    async endUnbonding(transaction) {
       let validatorAddr = transaction.tx.value.msg[0].value.validator_addr
-      this.$store.dispatch("endUnbonding", validatorAddr)
+      await this.$store.dispatch("endUnbonding", validatorAddr)
     },
     enrichUnbondingTransactions(transaction) {
-      let type = transaction.tx.value.msg[0].type
+      let copiedTransaction = JSON.parse(JSON.stringify(transaction))
+      let type = copiedTransaction.tx.value.msg[0].type
       if (type === "cosmos-sdk/BeginUnbonding") {
-        let tx = transaction.tx.value.msg[0].value
-        transaction.unbondingDelegation = this.delegation.unbondingDelegations[
+        let tx = copiedTransaction.tx.value.msg[0].value
+        let unbondingDelegation = this.delegation.unbondingDelegations[
           tx.validator_addr
         ]
+        // TODO hack, use creation_height when https://github.com/cosmos/cosmos-sdk/issues/2314 is resolved
+        if (
+          unbondingDelegation &&
+          new Date(unbondingDelegation.min_time).getTime() -
+            new Date(copiedTransaction.time).getTime() ===
+            0
+        )
+          copiedTransaction.unbondingDelegation = unbondingDelegation
       }
-      return transaction
+      return copiedTransaction
     },
     setSearch(bool = !this.filters["transactions"].search.visible) {
       if (!this.somethingToSearch) return false
