@@ -16,20 +16,20 @@ module.exports.shortAddress = function(address, length = 4) {
   }
 }
 // could be used in optimistic update PR, pls uncomment or delete when addressed
-// module.exports.calculateShares = function(delegator, tokens) {
-//   let myTokens = new BN(tokens || 0)
-//
-//   let totalSharesN = new BN(delegator.delegator_shares.split("/")[0])
-//   let totalSharesD = new BN(delegator.delegator_shares.split("/")[1])
-//
-//   let totalTokensN = new BN(delegator.tokens.split("/")[0])
-//   let totalTokensD = new BN(delegator.tokens.split("/")[1])
-//
-//   return myTokens
-//     .times(totalSharesN)
-//     .times(totalTokensD)
-//     .div(totalSharesD.times(totalTokensN))
-// }
+module.exports.calculateShares = function(delegator, tokens) {
+  let myTokens = new BN(tokens || 0)
+
+  let totalSharesN = new BN(delegator.delegator_shares.split("/")[0])
+  let totalSharesD = new BN(delegator.delegator_shares.split("/")[1])
+
+  let totalTokensN = new BN(delegator.tokens.split("/")[0])
+  let totalTokensD = new BN(delegator.tokens.split("/")[1])
+
+  return myTokens
+    .times(totalSharesN)
+    .times(totalTokensD)
+    .div(totalSharesD.times(totalTokensN))
+}
 
 module.exports.calculateTokens = function(delegator, shares) {
   // this is the based on the idea that tokens should equal
