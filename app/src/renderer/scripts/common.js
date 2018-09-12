@@ -20,11 +20,12 @@ module.exports.calculateShares = function(delegator, tokens) {
   let myTokens = new BN(tokens || 0)
 
   let totalSharesN = new BN(delegator.delegator_shares.split("/")[0])
-  let totalSharesD = new BN(delegator.delegator_shares.split("/")[1])
+  let totalSharesD = new BN(delegator.delegator_shares.split("/")[1] || 1)
 
   let totalTokensN = new BN(delegator.tokens.split("/")[0])
-  let totalTokensD = new BN(delegator.tokens.split("/")[1])
+  let totalTokensD = new BN(delegator.tokens.split("/")[1] || 1)
 
+  if (totalTokensN.eq(0)) return new BN(0)
   return myTokens
     .times(totalSharesN)
     .times(totalTokensD)
