@@ -11,13 +11,17 @@
     )
       tm-field#amount(
         type="number"
-        v-model="amount")
-      tm-form-msg(name='Amount' type='between' :min='1' :max='maximum'
+        :max="this.maximum"
+        :min="0"
+        v-model="amount"
+        v-focus)
+      tm-form-msg(name='Amount' type='between' :min='0' :max='maximum'
         v-if='$v.amount.$invalid')
 
     tm-form-group.stake-form-group(
       field-id='to' field-label='To')
       tm-field#to(v-model="to" readonly)
+      tm-form-msg(v-if='false')
 
     tm-form-group.stake-form-group(
       field-id='from' field-label='From')
@@ -27,9 +31,15 @@
         :options="fromOptions"
         v-model="fromIndex"
       )
+      tm-form-msg(v-if='false')
 
     .stake-footer
-      tm-btn(@click.native="onStake" color="primary" value="Stake" size="lg")
+      tm-btn(
+        @click.native="onStake"
+        :disabled="$v.amount.$invalid"
+        color="primary"
+        value="Stake"
+        size="lg")
 </template>
 
 <script>
@@ -47,13 +57,14 @@ export default {
     TmFormMsg
   },
   data: () => ({
+    focused: false,
     amount: 1,
     fromIndex: 0
   }),
   validations() {
     return {
       amount: {
-        between: between(1, this.maximum)
+        between: between(0.0000000001, this.maximum)
       }
     }
   },

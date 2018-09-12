@@ -39,6 +39,13 @@ Vue.use(Router)
 Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
 
+// directive to focus form fields
+Vue.directive("focus", {
+  inserted: function(el) {
+    el.focus()
+  }
+})
+
 async function main() {
   let lcdPort = getQueryParameter("lcd_port")
   console.log("Expecting lcd-server on port: " + lcdPort)

@@ -10,7 +10,8 @@
         type="select"
         v-model="fields.signInName"
         placeholder="Select account…"
-        :options="accounts")
+        :options="accounts"
+        vue-focus)
       tm-form-msg(name='Name' type='required' v-if='!$v.fields.signInName.required')
 
     tm-form-group(:error='$v.fields.signInPassword.$error'
