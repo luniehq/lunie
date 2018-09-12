@@ -12,13 +12,15 @@
       )
         tm-field#amount(
           type="number"
-          v-model="amount")
+          v-model="amount"
+          class="has-feedback")
         tm-form-msg(name='Amount' type='between' :min='1' :max='unbondedAtoms'
-          v-if='!$v.amount.between')
+          display="inline-block" v-if='!$v.amount.between')
+        .label(class="has-feedback" display="inline-block") Atoms
 
       tm-form-group.stake-form-group(
         field-id='to' field-label='To')
-        tm-field#to(v-model="to")
+        tm-field#to(v-model="to" readonly)
 
       tm-form-group.stake-form-group(
         field-id='from' field-label='From')
@@ -26,6 +28,7 @@
           type="select"
           :options="fromOptions()"
           v-model="fromActive"
+          :title="fromActive"
         )
 
       .stake-footer
@@ -33,8 +36,9 @@
 </template>
 
 <script>
-import { between } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
+import { between } from "vuelidate/lib/validators"
+import { shortAddress } from "scripts/common"
 import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 export default {
@@ -76,7 +80,12 @@ export default {
       this.$emit("update:showModalStake", false)
     },
     fromOptions() {
-      return [{ key: `My Wallet - ${this.wallet.address}`, value: `wallet` }]
+      return [
+        {
+          key: `My Wallet - ${shortAddress(this.wallet.address)}`,
+          value: `wallet`
+        }
+      ]
     },
     async stake() {
       this.$v.$touch()
