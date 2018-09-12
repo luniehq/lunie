@@ -1,6 +1,5 @@
 import setup from "../../../helpers/vuex-setup"
 import PageWallet from "renderer/components/wallet/PageWallet"
-
 describe("PageWallet", () => {
   let wrapper, store
   let { mount } = setup()
@@ -11,11 +10,9 @@ describe("PageWallet", () => {
     })
     wrapper = instance.wrapper
     store = instance.store
-
     store.commit("setConnected", true)
     store.commit("setDenoms", ["STEAK", "FERMION", "TEST"])
     store.commit("setWalletAddress", "tb1zgatc3tdauv2m0uf")
-
     store.commit("setWalletBalances", [
       {
         denom: "STEAK",
@@ -26,7 +23,10 @@ describe("PageWallet", () => {
         amount: 456
       }
     ])
-    store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })
+    store.commit("setCommittedDelegation", {
+      candidateId: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+      value: 123
+    })
     store.commit("setSearchQuery", ["balances", ""])
 
     wrapper.update()
@@ -118,12 +118,17 @@ describe("PageWallet", () => {
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
     wrapper.update()
+
+    console.log(wrapper.vm.$store.getters.delegation.committedDelegates)
+    console.log(wrapper.vm.$store.getters.delegates.delegates.map(d => d.id))
     expect(
-      wrapper
-        .find("#part-staked-balances .tm-li-dd")
-        .text()
-        .trim()
-    ).toBe("123")
+      parseFloat(
+        wrapper
+          .find("#part-staked-balances .tm-li-dd")
+          .text()
+          .trim()
+      )
+    ).toBe(123)
   })
 
   it("should update 'somethingToSearch' when there's nothing to search", () => {

@@ -250,7 +250,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                         max="201"
                         min="0"
                         placeholder="0"
-                        step="1"
+                        step="any"
                         type="number"
                       />
                     </div>
@@ -320,7 +320,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                         max="201"
                         min="0"
                         placeholder="0"
-                        step="1"
+                        step="any"
                         type="number"
                       />
                     </div>
@@ -361,7 +361,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                         >
                           <div
                             class="bond-bar__inner"
-                            id="delegate-cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+                            id="delegate-pubkeyZ"
                             style="width: 0px;"
                           />
                         </div>
@@ -394,7 +394,7 @@ exports[`PageBond disables bonding if not connected 1`] = `
                         max="201"
                         min="0"
                         placeholder="0"
-                        step="1"
+                        step="any"
                         type="number"
                       />
                     </div>
@@ -741,7 +741,7 @@ exports[`PageBond has the expected html structure 1`] = `
                         max="201"
                         min="0"
                         placeholder="0"
-                        step="1"
+                        step="any"
                         type="number"
                       />
                     </div>
@@ -811,7 +811,7 @@ exports[`PageBond has the expected html structure 1`] = `
                         max="201"
                         min="0"
                         placeholder="0"
-                        step="1"
+                        step="any"
                         type="number"
                       />
                     </div>
@@ -885,7 +885,7 @@ exports[`PageBond has the expected html structure 1`] = `
                         max="201"
                         min="0"
                         placeholder="0"
-                        step="1"
+                        step="any"
                         type="number"
                       />
                     </div>
@@ -1259,7 +1259,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                         max="201"
                         min="0"
                         placeholder="0"
-                        step="1"
+                        step="any"
                         type="number"
                       />
                     </div>
@@ -1333,7 +1333,7 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
                         max="201"
                         min="0"
                         placeholder="0"
-                        step="1"
+                        step="any"
                         type="number"
                       />
                     </div>
@@ -1428,3 +1428,5 @@ exports[`PageBond shows a message if there are revoked candidates 1`] = `
   </main>
 </div>
 `;
+
+exports[`PageBond shows old bonded atoms  1`] = `"84.5"`;
