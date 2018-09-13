@@ -1,4 +1,4 @@
-import { calculateTokens } from "scripts/common"
+import { calculateTokens, calculateShares } from "scripts/common"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
@@ -122,7 +122,7 @@ export default ({ node }) => {
           state.committedDelegates[candidateId] || 0
         )
         let amountChange =
-          parseInt(delegation.atoms) - currentlyDelegated.toNumber()
+          parseFloat(delegation.atoms) - currentlyDelegated.toNumber()
         let isBond = amountChange > 0
         // skip if no change
         if (amountChange === 0) continue
@@ -139,7 +139,9 @@ export default ({ node }) => {
           unbond.push({
             delegator_addr: rootState.wallet.address,
             validator_addr: candidateId,
-            shares: String(Math.abs(amountChange))
+            shares: String(
+              Math.abs(calculateShares(delegation.delegate, amountChange))
+            )
           })
         }
       }
