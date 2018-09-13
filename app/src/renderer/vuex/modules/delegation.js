@@ -170,7 +170,7 @@ export default ({ node }) => {
             shares: String(
               Math.abs(
                 calculateShares(delegation.delegate, amountChange)
-              ).toFixed(8) // TODO change to 10 when available or we switch back to rationals
+              ).toFixed(8) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
             )
           })
         }
@@ -229,13 +229,11 @@ export default ({ node }) => {
             balance.denom
           }s from ${validatorAddr}`
         })
-        return true
       } catch (err) {
         commit("notifyError", {
           title: "Ending undelegation failed",
           body: err
         })
-        return false
       }
     }
   }

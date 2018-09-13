@@ -182,17 +182,27 @@ describe("Module: Delegations", () => {
     )
   })
 
-  it.only("should undelegate", async () => {
-    lcdClientMock.state.stake[
-      lcdClientMock.addresses[0]
-    ].unbonding_delegations.push({
-      validator_addr: lcdClientMock.validators[0],
-      shares: 100
-    })
+  it("should undelegate", async () => {
+    // store the unbondingDelegation in the lcdclientmock
+    await store.dispatch("submitDelegation", [
+      {
+        delegate: {
+          owner: lcdClientMock.validators[0],
+          delegator_shares: "100",
+          tokens: "100"
+        },
+        balance: {
+          amount: "100"
+        }
+      }
+    ])
     store.commit("setUnbondingDelegations", {
       validator_addr: lcdClientMock.validators[0],
-      balance: { amount: 100 }
+      balance: { amount: "100" }
     })
+    expect(
+      store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
+    ).toBeTruthy()
     await store.dispatch("endUnbonding", lcdClientMock.validators[0])
     expect(
       store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
