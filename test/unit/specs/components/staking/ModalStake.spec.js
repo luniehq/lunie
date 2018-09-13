@@ -31,15 +31,6 @@ test(`display the 'To' address`, () => {
   )
 })
 
-test(`an error message is displayed if amount exceeds the maximum`, () => {
-  const wrapper = Wrapper()
-  wrapper.setData({ amount: 200 })
-
-  expect(wrapper.text().includes(`Amount must be between 1 and 100`)).toEqual(
-    true
-  )
-})
-
 test(`Stake button emits stake and close signals`, () => {
   const wrapper = Wrapper()
   wrapper.setData({ amount: 50 })
@@ -47,7 +38,7 @@ test(`Stake button emits stake and close signals`, () => {
 
   expect(wrapper.emittedByOrder()).toEqual([
     {
-      name: `stake`,
+      name: `submitDelegation`,
       args: [
         {
           amount: 50,

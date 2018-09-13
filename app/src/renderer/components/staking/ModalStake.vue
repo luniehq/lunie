@@ -1,24 +1,28 @@
 <template lang="pug">
   .modal-stake
+    //- Header
     .stake-header
       img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
       span.tm-modal-title Stake
 
+    //- Amount
     tm-form-group.stake-form-group(
-      :error='$v.amount.$invalid'
       field-id='amount'
       field-label='Amount'
     )
       tm-field#amount(
+        :max="maximum"
+        :min="1"
         type="number"
+        v-focus
         v-model="amount")
-      tm-form-msg(name='Amount' type='between' :min='1' :max='maximum'
-        v-if='$v.amount.$invalid')
 
+    //- To
     tm-form-group.stake-form-group(
       field-id='to' field-label='To')
-      tm-field#to(v-model="to")
+      tm-field#to(readonly v-model="to")
 
+    //- From
     tm-form-group.stake-form-group(
       field-id='from' field-label='From')
       tm-field#from(
@@ -27,18 +31,17 @@
         v-model="fromIndex"
       )
 
+    //- Footer
     .stake-footer
       tm-btn(
         @click.native="onStake"
         color="primary"
-        :disabled="$v.amount.$invalid"
         size="lg"
         value="Stake"
       )
 </template>
 
 <script>
-import { between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
@@ -55,19 +58,12 @@ export default {
     amount: 1,
     fromIndex: 0
   }),
-  validations() {
-    return {
-      amount: {
-        between: between(1, this.maximum)
-      }
-    }
-  },
   methods: {
     close() {
       this.$emit("update:showModalStake", false)
     },
     onStake() {
-      this.$emit(`stake`, {
+      this.$emit(`submitDelegation`, {
         amount: this.amount,
         from: this.fromOptions[this.fromIndex]
       })
@@ -82,31 +78,31 @@ export default {
 @import '~variables'
 
 .modal-stake
-  background: var(--app-nav)
-  display: flex
-  flex-direction: column
-  height: 50%
-  justify-content: space-between
-  left: 50%
-  position: fixed
-  top: 50%
-  width: 40%
-  z-index: z(modal)
+  background var(--app-nav)
+  display flex
+  flex-direction column
+  height 50%
+  justify-content space-between
+  left 50%
   padding 2em
+  position fixed
+  top 50%
+  width 40%
+  z-index z(modal)
 
   .stake-header
-    align-items: center
-    display: flex
+    align-items center
+    display flex
 
     .stake-atom
-      height: 3em
-      width: 3em
+      height 3em
+      width 3em
 
   .stake-form-group
-    display: block
-    padding: 0
+    display block
+    padding 0
 
   .stake-footer
-    display: flex
-    justify-content: flex-end
+    display flex
+    justify-content flex-end
 </style>

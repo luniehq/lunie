@@ -524,8 +524,10 @@ exports[`PageValidator has the expected html structure 1`] = `
       </div>
     </section>
     <!---->
+    <!---->
     <button
       class="tm-btn"
+      id="Stake"
     >
       <span
         class="tm-btn__container tm-btn--primary"
@@ -1087,8 +1089,10 @@ exports[`PageValidator shows a default avatar 1`] = `
       </div>
     </section>
     <!---->
+    <!---->
     <button
       class="tm-btn"
+      id="Stake"
     >
       <span
         class="tm-btn__container tm-btn--primary"
@@ -1630,8 +1634,10 @@ exports[`PageValidator shows a default value if no moniker is set 1`] = `
       </div>
     </section>
     <!---->
+    <!---->
     <button
       class="tm-btn"
+      id="Stake"
     >
       <span
         class="tm-btn__container tm-btn--primary"

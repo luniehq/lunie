@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js"
 import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import { mount } from "@vue/test-utils"
@@ -8,42 +9,44 @@ const mockGetters = values =>
     ...Object.entries(values).map(([key, value]) => ({ [key]: () => value }))
   )
 
+const delegate = {
+  owner: "1a2b3c",
+  pub_key: {
+    type: "AC26791624DE60",
+    data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0="
+  },
+  tokens: "19",
+  delegator_shares: "19",
+  description: {
+    description: "Herr Schmidt",
+    moniker: "herr_schmidt_revoked",
+    country: "DE"
+  },
+  revoked: true,
+  status: 2,
+  bond_height: "0",
+  bond_intra_tx_counter: 6,
+  proposer_reward_pool: null,
+  commission: "0",
+  commission_max: "0",
+  commission_change_rate: "0",
+  commission_change_today: "0",
+  prev_bonded_shares: "0"
+}
+
 const getterValues = {
   bondingDenom: `atom`,
   config: { desktop: false },
   delegates: {
-    delegates: [
-      {
-        owner: "1a2b3c",
-        pub_key: {
-          type: "AC26791624DE60",
-          data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0="
-        },
-        tokens: "19",
-        delegator_shares: "19",
-        description: {
-          description: "Herr Schmidt",
-          moniker: "herr_schmidt_revoked",
-          country: "DE"
-        },
-        revoked: true,
-        status: 2,
-        bond_height: "0",
-        bond_intra_tx_counter: 6,
-        proposer_reward_pool: null,
-        commission: "0",
-        commission_max: "0",
-        commission_change_rate: "0",
-        commission_change_today: "0",
-        prev_bonded_shares: "0"
-      }
-    ]
+    delegates: [delegate]
   },
   delegation: {
     committedDelegates: { "1a2b3c": 0 },
     unbondingDelegations: {}
   },
-  keybase: `keybase`
+  keybase: `keybase`,
+  totalAtoms: 100,
+  wallet: { address: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` }
 }
 
 describe("PageValidator", () => {
@@ -143,6 +146,24 @@ describe(`onStake`, () => {
   // Create our own PageValidator here because the one above contains way too
   // much magic.
 
+  it(`not enough atoms`, () => {
+    const $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: Object.assign({}, getterValues, { oldBondedAtoms: 100 })
+    }
+
+    const wrapper = mount(PageValidator, {
+      mocks: {
+        $route: { params: { validator: `1a2b3c` } },
+        $store
+      }
+    })
+
+    wrapper.find(`#Stake`).trigger(`click`)
+    expect(wrapper.text().includes(`You have no atoms to stake.`)).toEqual(true)
+  })
+
   it(`success`, async () => {
     const $store = {
       commit: jest.fn(),
@@ -151,7 +172,7 @@ describe(`onStake`, () => {
     }
 
     const {
-      vm: { onStake }
+      vm: { submitDelegation }
     } = mount(PageValidator, {
       mocks: {
         $route: { params: { validator: `1a2b3c` } },
@@ -159,10 +180,10 @@ describe(`onStake`, () => {
       }
     })
 
-    await onStake({ amount: 10 })
+    await submitDelegation({ amount: 10 })
 
     expect($store.dispatch.mock.calls).toEqual([
-      [`submitDelegation`, [{ atoms: 10, delegate: { owner: `1a2b3c` } }]]
+      [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
     ])
 
     expect($store.commit.mock.calls).toEqual([
@@ -186,7 +207,7 @@ describe(`onStake`, () => {
     }
 
     const {
-      vm: { onStake }
+      vm: { submitDelegation }
     } = mount(PageValidator, {
       mocks: {
         $route: { params: { validator: `1a2b3c` } },
@@ -194,10 +215,10 @@ describe(`onStake`, () => {
       }
     })
 
-    await onStake({ amount: 10 })
+    await submitDelegation({ amount: 10 })
 
     expect($store.dispatch.mock.calls).toEqual([
-      [`submitDelegation`, [{ atoms: 10, delegate: { owner: `1a2b3c` } }]]
+      [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
     ])
 
     expect($store.commit.mock.calls).toEqual([
@@ -221,7 +242,7 @@ describe(`onStake`, () => {
     }
 
     const {
-      vm: { onStake }
+      vm: { submitDelegation }
     } = mount(PageValidator, {
       mocks: {
         $route: { params: { validator: `1a2b3c` } },
@@ -229,10 +250,10 @@ describe(`onStake`, () => {
       }
     })
 
-    await onStake({ amount: 10 })
+    await submitDelegation({ amount: 10 })
 
     expect($store.dispatch.mock.calls).toEqual([
-      [`submitDelegation`, [{ atoms: 10, delegate: { owner: `1a2b3c` } }]]
+      [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
     ])
 
     expect($store.commit.mock.calls).toEqual([
