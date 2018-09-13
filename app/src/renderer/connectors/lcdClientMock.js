@@ -281,11 +281,6 @@ module.exports = {
       )
     return send(to, fromKey.address, req)
   },
-  ibcSend(to, req) {
-    // XXX ignores chainId, treated as normal send
-    to = to.split("/")[1]
-    return module.exports.send(to, req)
-  },
 
   // staking
   async updateDelegations(
