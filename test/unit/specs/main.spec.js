@@ -644,6 +644,15 @@ describe("Startup Process", () => {
   describe("Error handling on init", () => {
     // testFailingChildProcess("gaiacli", "init")
     testFailingChildProcess("gaiacli", "rest-server")
+
+    it("should error on gaiacli crashing on reconnect instead of breaking", async () => {
+      let { send } = require("electron")
+      childProcess.spawn = jest.fn(() => {
+        throw Error("Expected")
+      })
+      await main.eventHandlers.reconnect()
+      expect(send.mock.calls.find(([type]) => type === "error")).toBeTruthy()
+    })
   })
 })
 

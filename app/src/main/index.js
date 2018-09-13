@@ -586,13 +586,17 @@ async function pickAndConnect(addressbook) {
 
 async function connect(nodeIP) {
   log(`starting gaia rest server with nodeIP ${nodeIP}`)
-  lcdProcess = await startLCD(lcdHome, nodeIP)
-  log("gaia rest server ready")
+  try {
+    lcdProcess = await startLCD(lcdHome, nodeIP)
+    log("gaia rest server ready")
 
-  afterBooted(() => {
-    log("Signaling connected node")
-    mainWindow.webContents.send("connected", nodeIP)
-  })
+    afterBooted(() => {
+      log("Signaling connected node")
+      mainWindow.webContents.send("connected", nodeIP)
+    })
+  } catch (err) {
+    handleCrash(err)
+  }
 
   connecting = false
 }
@@ -784,5 +788,6 @@ module.exports = main()
   })
   .then(() => ({
     shutdown,
-    processes: { lcdProcess }
+    processes: { lcdProcess },
+    eventHandlers
   }))
