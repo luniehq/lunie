@@ -88,11 +88,11 @@ export default {
   height: 50%
   justify-content: space-between
   left: 50%
-  padding: 3%
   position: fixed
   top: 50%
   width: 40%
   z-index: z(modal)
+  padding 2em
 
   .stake-header
     align-items: center
