@@ -540,9 +540,25 @@ describe("LCD Client Mock", () => {
     ).toHaveLength(0)
   })
 
+  it("fails unbondings if account doesn't exist", async () => {
+    delete client.state.stake[lcdClientMock.addresses[0]]
+    let res = await client.updateDelegations(lcdClientMock.addresses[0], {
+      sequence: 1,
+      name: "default",
+      begin_unbondings: [
+        {
+          validator_addr: lcdClientMock.validators[0]
+        }
+      ]
+    })
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.code).toBe(2)
+  })
+
   it("fails ends unbondings if account doesn't exist", async () => {
-    let res = await client.updateDelegations(lcdClientMock.addresses[1], {
-      sequence: 2,
+    delete client.state.stake[lcdClientMock.addresses[0]]
+    let res = await client.updateDelegations(lcdClientMock.addresses[0], {
+      sequence: 1,
       name: "default",
       complete_unbondings: [
         {
