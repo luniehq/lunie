@@ -160,9 +160,9 @@ export default {
 <style lang="stylus">
 @media screen and (min-width: 640px)
   #validator-profile .tm-part-main
-    display: flex
-    flex-flow: row-reverse nowrap
+    display flex
+    flex-flow row-reverse nowrap
 
     .list-items
-      flex: 1
+      flex 1
 </style>
