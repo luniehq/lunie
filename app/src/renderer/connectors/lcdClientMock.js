@@ -281,20 +281,22 @@ module.exports = {
       )
     return send(to, fromKey.address, req)
   },
-  ibcSend(to, req) {
-    // XXX ignores chainId, treated as normal send
-    to = to.split("/")[1]
-    return module.exports.send(to, req)
-  },
 
   // staking
   async updateDelegations(
     delegatorAddr,
-    { name, sequence, delegations, begin_unbondings }
+    {
+      name,
+      sequence,
+      delegations = [],
+      begin_unbondings = [],
+      complete_unbondings = []
+    }
   ) {
     let results = []
     let fromKey = state.keys.find(a => a.name === name)
     let fromAccount = state.accounts[fromKey.address]
+    let delegator = state.stake[fromKey.address]
     if (fromAccount == null) {
       results.push(txResult(1, "Nonexistent account"))
       return results
@@ -323,8 +325,8 @@ module.exports = {
       // update sender account
       incrementSequence(fromAccount)
       fromAccount.coins.find(c => c.denom === denom).amount -= amount
+
       // update stake
-      let delegator = state.stake[fromKey.address]
       if (!delegator) {
         state.stake[fromKey.address] = {
           delegations: [],
@@ -380,7 +382,6 @@ module.exports = {
       coinBalance.amount = String(parseInt(coinBalance) + amount)
 
       // update stake
-      let delegator = state.stake[fromKey.address]
       if (!delegator) {
         results.push(txResult(2, "Nonexistent delegator"))
         return results
@@ -407,6 +408,34 @@ module.exports = {
       )
 
       storeTx("cosmos-sdk/BeginUnbonding", tx)
+      results.push(txResult(0))
+    }
+
+    for (let tx of complete_unbondings) {
+      incrementSequence(fromAccount)
+
+      if (!delegator) {
+        results.push(txResult(2, "Nonexistent delegator"))
+        return results
+      }
+
+      // remove undelegation
+      let unbondingDelegation = delegator.unbonding_delegations.find(
+        ({ validator_addr }) => validator_addr === tx.validator_addr
+      )
+      delegator.unbonding_delegations = delegator.unbonding_delegations.filter(
+        d => d !== unbondingDelegation
+      )
+
+      // put money back in the account
+      // we treat shares as atoms (1:1)
+      let amount = unbondingDelegation.shares
+
+      // update sender balance
+      let coinBalance = fromAccount.coins.find(c => c.denom === "steak")
+      coinBalance.amount = String(parseInt(coinBalance) + amount)
+
+      storeTx("cosmos-sdk/CompleteUnbonding", tx)
       results.push(txResult(0))
     }
 

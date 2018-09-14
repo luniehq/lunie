@@ -4,29 +4,18 @@ describe("PageWallet", () => {
   let wrapper, store
   let { mount } = setup()
 
-  beforeEach(() => {
+  beforeEach(async () => {
     let instance = mount(PageWallet, {
       stubs: { "modal-search": "<modal-search />" }
     })
     wrapper = instance.wrapper
     store = instance.store
-    store.commit("setConnected", true)
-    store.commit("setDenoms", ["STEAK", "FERMION", "TEST"])
-    store.commit("setWalletAddress", "tb1zgatc3tdauv2m0uf")
-    store.commit("setWalletBalances", [
-      {
-        denom: "STEAK",
-        amount: 123
-      },
-      {
-        denom: "FERMION",
-        amount: 456
-      }
-    ])
-    store.commit("setCommittedDelegation", {
-      candidateId: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-      value: 123
+
+    await store.dispatch("signIn", {
+      account: "default",
+      password: "1234567890"
     })
+    store.commit("setConnected", true)
     store.commit("setSearchQuery", ["balances", ""])
 
     wrapper.update()
@@ -44,9 +33,9 @@ describe("PageWallet", () => {
 
   it("should sort the balances by denom", () => {
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([
-      "FERMION",
-      "STEAK",
-      "TEST"
+      "fermion",
+      "mycoin",
+      "steak"
     ])
   })
 
@@ -59,7 +48,7 @@ describe("PageWallet", () => {
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
     wrapper.update()
-    expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual(["STEAK"])
+    expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual(["steak"])
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -77,7 +66,7 @@ describe("PageWallet", () => {
   })
 
   it("should list the denoms that are available", () => {
-    expect(wrapper.findAll(".tm-li-balance").length).toBe(2)
+    expect(wrapper.findAll(".tm-li-balance").length).toBe(3)
   })
 
   it("should show the n/a message if there are no denoms", () => {
@@ -128,7 +117,7 @@ describe("PageWallet", () => {
           .text()
           .trim()
       )
-    ).toBe(123)
+    ).toBe(14)
   })
 
   it("should update 'somethingToSearch' when there's nothing to search", () => {
@@ -144,7 +133,7 @@ describe("PageWallet", () => {
   })
 
   it("has a number of staked tokens", () => {
-    expect(wrapper.vm.stakedTokens).toBe(123)
+    expect(wrapper.vm.stakedTokens).toBe(14)
   })
 
   it("has a label for the staking denomination", () => {
