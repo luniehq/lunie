@@ -18,7 +18,7 @@ tm-page(title='Staking')
     data-empty-search(v-else-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
     template(v-else)
       panel-sort(:sort='sort', :properties="properties")
-      li-delegate(v-for='i in sortedFilteredEnrichedDelegates' :disabled="!userCanDelegate" :key='i.id' :delegate='i')
+      LiValidator(v-for='i in sortedFilteredEnrichedDelegates' :disabled="!userCanDelegate" :key='i.id' :delegate='i')
 
   .fixed-button-bar(v-if="!delegates.loading")
     template(v-if="userCanDelegate")
@@ -35,7 +35,7 @@ import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
-import LiDelegate from "staking/LiDelegate"
+import LiValidator from "staking/LiValidator"
 import { TmBtn, TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import { calculateTokens } from "scripts/common"
@@ -45,7 +45,7 @@ import VmToolBar from "common/VmToolBar"
 export default {
   name: "page-staking",
   components: {
-    LiDelegate,
+    LiValidator,
     TmBtn,
     TmDataEmpty,
     DataEmptySearch,

@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LiDelegate has the expected html structure 1`] = `
+exports[`LiValidator has the expected html structure 1`] = `
 <div
-  class="li-delegate li-delegate-validator "
+  class="LiValidator LiValidator-validator "
 >
   <div
-    class="li-delegate__values"
+    class="LiValidator__values"
   >
     <div
-      class="li-delegate__value name"
+      class="LiValidator__value name"
     >
       <a
         class=""
@@ -37,54 +37,54 @@ exports[`LiDelegate has the expected html structure 1`] = `
       </a>
     </div>
     <div
-      class="li-delegate__value your-votes"
+      class="LiValidator__value your-votes"
     >
       <span>
         0.00
       </span>
     </div>
     <div
-      class="li-delegate__value your-rewards"
+      class="LiValidator__value your-rewards"
     >
       <span>
         n/a
       </span>
     </div>
     <div
-      class="li-delegate__break"
+      class="LiValidator__break"
     >
       <span />
     </div>
     <div
-      class="li-delegate__value percent_of_vote"
+      class="LiValidator__value percent_of_vote"
     >
       <span>
         22%
       </span>
     </div>
     <div
-      class="li-delegate__value uptime"
+      class="LiValidator__value uptime"
     >
       <span>
         n/a
       </span>
     </div>
     <div
-      class="li-delegate__value commission"
+      class="LiValidator__value commission"
     >
       <span>
         n/a
       </span>
     </div>
     <div
-      class="li-delegate__value slashes"
+      class="LiValidator__value slashes"
     >
       <span>
         n/a
       </span>
     </div>
     <div
-      class="li-delegate__value checkbox"
+      class="LiValidator__value checkbox"
       id="add-to-cart"
     >
       <i

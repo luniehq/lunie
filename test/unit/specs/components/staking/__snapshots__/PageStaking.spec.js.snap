@@ -93,9 +93,9 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
 </div>
 </div>
-   <div class=\\"li-delegate li-delegate-validator \\">
-      <div class=\\"li-delegate__values\\">
-         <div class=\\"li-delegate__value name\\">
+   <div class=\\"LiValidator LiValidator-validator \\">
+      <div class=\\"LiValidator__values\\">
+         <div class=\\"LiValidator__value name\\">
             <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
             <div class=\\"vert\\">
                <div class=\\"top\\">
@@ -107,35 +107,35 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
    </a>
 </div>
-   <div class=\\"li-delegate__value your-votes\\">
+   <div class=\\"LiValidator__value your-votes\\">
       <span>0.00</span>
    </div>
-   <div class=\\"li-delegate__value your-rewards\\">
+   <div class=\\"LiValidator__value your-rewards\\">
       <span>n/a</span>
    </div>
-   <div class=\\"li-delegate__break\\">
+   <div class=\\"LiValidator__break\\">
       <span></span>
    </div>
-   <div class=\\"li-delegate__value percent_of_vote\\">
+   <div class=\\"LiValidator__value percent_of_vote\\">
       <span>57.58%</span>
    </div>
-   <div class=\\"li-delegate__value uptime\\">
+   <div class=\\"LiValidator__value uptime\\">
       <span>n/a</span>
    </div>
-   <div class=\\"li-delegate__value commission\\">
+   <div class=\\"LiValidator__value commission\\">
       <span>n/a</span>
    </div>
-   <div class=\\"li-delegate__value slashes\\">
+   <div class=\\"LiValidator__value slashes\\">
       <span>n/a</span>
    </div>
-   <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
+   <div id=\\"add-to-cart\\" class=\\"LiValidator__value checkbox\\">
       <i class=\\"material-icons\\">check_box_outline_blank</i>
    </div>
 </div>
 </div>
-   <div class=\\"li-delegate li-delegate-active li-delegate-validator \\">
-      <div class=\\"li-delegate__values\\">
-         <div class=\\"li-delegate__value name\\">
+   <div class=\\"LiValidator LiValidator-active LiValidator-validator \\">
+      <div class=\\"LiValidator__values\\">
+         <div class=\\"LiValidator__value name\\">
             <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
             <div class=\\"vert\\">
                <div class=\\"top\\">
@@ -147,35 +147,35 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
    </a>
 </div>
-   <div class=\\"li-delegate__value your-votes\\">
+   <div class=\\"LiValidator__value your-votes\\">
       <span>14.00</span>
    </div>
-   <div class=\\"li-delegate__value your-rewards\\">
+   <div class=\\"LiValidator__value your-rewards\\">
       <span>n/a</span>
    </div>
-   <div class=\\"li-delegate__break\\">
+   <div class=\\"LiValidator__break\\">
       <span></span>
    </div>
-   <div class=\\"li-delegate__value percent_of_vote\\">
+   <div class=\\"LiValidator__value percent_of_vote\\">
       <span>42.42%</span>
    </div>
-   <div class=\\"li-delegate__value uptime\\">
+   <div class=\\"LiValidator__value uptime\\">
       <span>n/a</span>
    </div>
-   <div class=\\"li-delegate__value commission\\">
+   <div class=\\"LiValidator__value commission\\">
       <span>n/a</span>
    </div>
-   <div class=\\"li-delegate__value slashes\\">
+   <div class=\\"LiValidator__value slashes\\">
       <span>n/a</span>
    </div>
-   <div class=\\"li-delegate__value checkbox\\">
+   <div class=\\"LiValidator__value checkbox\\">
       <i class=\\"material-icons\\">lock</i>
    </div>
 </div>
 </div>
-   <div class=\\"li-delegate li-delegate-validator \\">
-      <div class=\\"li-delegate__values\\">
-         <div class=\\"li-delegate__value name\\">
+   <div class=\\"LiValidator LiValidator-validator \\">
+      <div class=\\"LiValidator__values\\">
+         <div class=\\"LiValidator__value name\\">
             <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
             <div class=\\"vert\\">
                <div class=\\"top\\">
@@ -187,28 +187,28 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
    </a>
 </div>
-   <div class=\\"li-delegate__value your-votes\\">
+   <div class=\\"LiValidator__value your-votes\\">
       <span>0.00</span>
    </div>
-   <div class=\\"li-delegate__value your-rewards\\">
+   <div class=\\"LiValidator__value your-rewards\\">
       <span>n/a</span>
    </div>
-   <div class=\\"li-delegate__break\\">
+   <div class=\\"LiValidator__break\\">
       <span></span>
    </div>
-   <div class=\\"li-delegate__value percent_of_vote\\">
+   <div class=\\"LiValidator__value percent_of_vote\\">
       <span>0.00%</span>
    </div>
-   <div class=\\"li-delegate__value uptime\\">
+   <div class=\\"LiValidator__value uptime\\">
       <span>n/a</span>
    </div>
-   <div class=\\"li-delegate__value commission\\">
+   <div class=\\"LiValidator__value commission\\">
       <span>n/a</span>
    </div>
-   <div class=\\"li-delegate__value slashes\\">
+   <div class=\\"LiValidator__value slashes\\">
       <span>n/a</span>
    </div>
-   <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
+   <div id=\\"add-to-cart\\" class=\\"LiValidator__value checkbox\\">
       <i class=\\"material-icons\\">check_box_outline_blank</i>
    </div>
 </div>
@@ -496,13 +496,13 @@ exports[`PageStaking should filter the delegates 1`] = `
         </div>
       </div>
       <div
-        class="li-delegate li-delegate-active li-delegate-validator "
+        class="LiValidator LiValidator-active LiValidator-validator "
       >
         <div
-          class="li-delegate__values"
+          class="LiValidator__values"
         >
           <div
-            class="li-delegate__value name"
+            class="LiValidator__value name"
           >
             <a
               class=""
@@ -531,54 +531,54 @@ exports[`PageStaking should filter the delegates 1`] = `
             </a>
           </div>
           <div
-            class="li-delegate__value your-votes"
+            class="LiValidator__value your-votes"
           >
             <span>
               14.00
             </span>
           </div>
           <div
-            class="li-delegate__value your-rewards"
+            class="LiValidator__value your-rewards"
           >
             <span>
               n/a
             </span>
           </div>
           <div
-            class="li-delegate__break"
+            class="LiValidator__break"
           >
             <span />
           </div>
           <div
-            class="li-delegate__value percent_of_vote"
+            class="LiValidator__value percent_of_vote"
           >
             <span>
               42.42%
             </span>
           </div>
           <div
-            class="li-delegate__value uptime"
+            class="LiValidator__value uptime"
           >
             <span>
               n/a
             </span>
           </div>
           <div
-            class="li-delegate__value commission"
+            class="LiValidator__value commission"
           >
             <span>
               n/a
             </span>
           </div>
           <div
-            class="li-delegate__value slashes"
+            class="LiValidator__value slashes"
           >
             <span>
               n/a
             </span>
           </div>
           <div
-            class="li-delegate__value checkbox"
+            class="LiValidator__value checkbox"
           >
             <i
               class="material-icons"
