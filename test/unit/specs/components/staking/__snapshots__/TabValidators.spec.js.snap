@@ -1,0 +1,388 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageStaking has the expected html structure 1`] = `
+"<div>
+   <div class=\\"delegates-container\\">
+      <div class=\\"panel-sort\\">
+         <div class=\\"panel-sort-container\\">
+            <div class=\\"sort-by name\\">
+               <!---->
+            </div>
+<div class=\\"sort-by your-votes\\">
+   <div class=\\"label\\">
+      <div class=\\"label-text\\">
+         My Stake
+      </div>
+</div>
+</div>
+<div class=\\"sort-by your-rewards\\">
+   <div class=\\"label\\">
+      <div class=\\"label-text\\">
+         My Rewards
+      </div>
+</div>
+</div>
+<div class=\\"sort-by percent_of_vote\\">
+   <div class=\\"label\\">
+      <div class=\\"label-text\\">
+         Voting Power
+      </div>
+</div>
+</div>
+<div class=\\"sort-by uptime\\">
+   <div class=\\"label\\">
+      <div class=\\"label-text\\">
+         Uptime
+      </div>
+</div>
+</div>
+<div class=\\"sort-by commission\\">
+   <div class=\\"label\\">
+      <div class=\\"label-text\\">
+         Commission
+      </div>
+</div>
+</div>
+<div class=\\"sort-by slashes\\">
+   <div class=\\"label\\">
+      <div class=\\"label-text\\">
+         Slashes
+      </div>
+</div>
+</div>
+<div class=\\"sort-by action hidden\\">
+   <div class=\\"label\\">
+      <div class=\\"label-text\\"></div>
+</div>
+</div>
+</div>
+</div>
+<div class=\\"li-delegate li-delegate-validator \\">
+   <div class=\\"li-delegate__values\\">
+      <div class=\\"li-delegate__value name\\">
+         <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <div class=\\"vert\\">
+            <div class=\\"top\\">
+               herr_schmidt_revoked
+            </div>
+<div class=\\"bottom\\">
+   cosmosvaladdr…rg7n
+</div>
+</div>
+</a>
+</div>
+<div class=\\"li-delegate__value your-votes\\">
+   <span>0.00</span>
+</div>
+<div class=\\"li-delegate__value your-rewards\\">
+   <span>n/a</span>
+</div>
+<div class=\\"li-delegate__break\\">
+   <span></span>
+</div>
+<div class=\\"li-delegate__value percent_of_vote\\">
+   <span>57.58%</span>
+</div>
+<div class=\\"li-delegate__value uptime\\">
+   <span>n/a</span>
+</div>
+<div class=\\"li-delegate__value commission\\">
+   <span>n/a</span>
+</div>
+<div class=\\"li-delegate__value slashes\\">
+   <span>n/a</span>
+</div>
+<div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
+   <i class=\\"material-icons\\">check_box_outline_blank</i>
+</div>
+</div>
+</div>
+<div class=\\"li-delegate li-delegate-active li-delegate-validator \\">
+   <div class=\\"li-delegate__values\\">
+      <div class=\\"li-delegate__value name\\">
+         <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <div class=\\"vert\\">
+            <div class=\\"top\\">
+               mr_mounty
+            </div>
+<div class=\\"bottom\\">
+   cosmosvaladdr…8yqw
+</div>
+</div>
+</a>
+</div>
+<div class=\\"li-delegate__value your-votes\\">
+   <span>14.00</span>
+</div>
+<div class=\\"li-delegate__value your-rewards\\">
+   <span>n/a</span>
+</div>
+<div class=\\"li-delegate__break\\">
+   <span></span>
+</div>
+<div class=\\"li-delegate__value percent_of_vote\\">
+   <span>42.42%</span>
+</div>
+<div class=\\"li-delegate__value uptime\\">
+   <span>n/a</span>
+</div>
+<div class=\\"li-delegate__value commission\\">
+   <span>n/a</span>
+</div>
+<div class=\\"li-delegate__value slashes\\">
+   <span>n/a</span>
+</div>
+<div class=\\"li-delegate__value checkbox\\">
+   <i class=\\"material-icons\\">lock</i>
+</div>
+</div>
+</div>
+<div class=\\"li-delegate li-delegate-validator \\">
+   <div class=\\"li-delegate__values\\">
+      <div class=\\"li-delegate__value name\\">
+         <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <div class=\\"vert\\">
+            <div class=\\"top\\">
+               good_greg
+            </div>
+<div class=\\"bottom\\">
+   cosmosvaladdr…n3au
+</div>
+</div>
+</a>
+</div>
+<div class=\\"li-delegate__value your-votes\\">
+   <span>0.00</span>
+</div>
+<div class=\\"li-delegate__value your-rewards\\">
+   <span>n/a</span>
+</div>
+<div class=\\"li-delegate__break\\">
+   <span></span>
+</div>
+<div class=\\"li-delegate__value percent_of_vote\\">
+   <span>0.00%</span>
+</div>
+<div class=\\"li-delegate__value uptime\\">
+   <span>n/a</span>
+</div>
+<div class=\\"li-delegate__value commission\\">
+   <span>n/a</span>
+</div>
+<div class=\\"li-delegate__value slashes\\">
+   <span>n/a</span>
+</div>
+<div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
+   <i class=\\"material-icons\\">check_box_outline_blank</i>
+</div>
+</div>
+</div>
+</div>
+</div>"
+`;
+
+exports[`PageStaking should filter the delegates 1`] = `
+<div>
+  <div
+    class="delegates-container"
+  >
+    <div
+      class="panel-sort"
+    >
+      <div
+        class="panel-sort-container"
+      >
+        <div
+          class="sort-by name"
+        >
+          <!---->
+        </div>
+        <div
+          class="sort-by your-votes"
+        >
+          <div
+            class="label"
+          >
+            <div
+              class="label-text"
+            >
+              My Stake
+            </div>
+          </div>
+        </div>
+        <div
+          class="sort-by your-rewards"
+        >
+          <div
+            class="label"
+          >
+            <div
+              class="label-text"
+            >
+              My Rewards
+            </div>
+          </div>
+        </div>
+        <div
+          class="sort-by percent_of_vote"
+        >
+          <div
+            class="label"
+          >
+            <div
+              class="label-text"
+            >
+              Voting Power
+            </div>
+          </div>
+        </div>
+        <div
+          class="sort-by uptime"
+        >
+          <div
+            class="label"
+          >
+            <div
+              class="label-text"
+            >
+              Uptime
+            </div>
+          </div>
+        </div>
+        <div
+          class="sort-by commission"
+        >
+          <div
+            class="label"
+          >
+            <div
+              class="label-text"
+            >
+              Commission
+            </div>
+          </div>
+        </div>
+        <div
+          class="sort-by slashes"
+        >
+          <div
+            class="label"
+          >
+            <div
+              class="label-text"
+            >
+              Slashes
+            </div>
+          </div>
+        </div>
+        <div
+          class="sort-by action hidden"
+        >
+          <div
+            class="label"
+          >
+            <div
+              class="label-text"
+            >
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="li-delegate li-delegate-active li-delegate-validator "
+    >
+      <div
+        class="li-delegate__values"
+      >
+        <div
+          class="li-delegate__value name"
+        >
+          <a
+            class=""
+            href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+          >
+            <img
+              class="avatar"
+              height="48"
+              src="~assets/images/validator-icon.svg"
+              width="48"
+            />
+            <div
+              class="vert"
+            >
+              <div
+                class="top"
+              >
+                mr_mounty
+              </div>
+              <div
+                class="bottom"
+              >
+                cosmosvaladdr…8yqw
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          class="li-delegate__value your-votes"
+        >
+          <span>
+            14.00
+          </span>
+        </div>
+        <div
+          class="li-delegate__value your-rewards"
+        >
+          <span>
+            n/a
+          </span>
+        </div>
+        <div
+          class="li-delegate__break"
+        >
+          <span />
+        </div>
+        <div
+          class="li-delegate__value percent_of_vote"
+        >
+          <span>
+            42.42%
+          </span>
+        </div>
+        <div
+          class="li-delegate__value uptime"
+        >
+          <span>
+            n/a
+          </span>
+        </div>
+        <div
+          class="li-delegate__value commission"
+        >
+          <span>
+            n/a
+          </span>
+        </div>
+        <div
+          class="li-delegate__value slashes"
+        >
+          <span>
+            n/a
+          </span>
+        </div>
+        <div
+          class="li-delegate__value checkbox"
+        >
+          <i
+            class="material-icons"
+          >
+            lock
+          </i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

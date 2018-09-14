@@ -1,31 +1,31 @@
 <template lang="pug">
-tm-page(title='Staking')
-  div(slot="menu"): vm-tool-bar
-    a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
-      i.material-icons refresh
-    a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
-      i.search.material-icons search
+  div
+    //- Your Validators
+    .delegates-container
+      h3
+        | Your Validators
+        |
+        i.material-icons.info-button info_outline
+      panel-sort(:sort='sort', :properties="properties")
+      data-empty-search(v-if="yourValidators.length === 0")
+      template(v-else)
+        li-delegate(v-for='validator in yourValidators' :key='validator.id' :delegate='validator')
+      .check-out-message
+        | Check out
+        |
+        router-link(:to="{name: 'Validators'}") the validator list
+        |
+        | to spread some of your Atoms around.
 
-  modal-search(type="delegates" v-if="somethingToSearch")
-
-  .delegates-tabs
-    .tab(
-      v-for="tab in tabs",
-      :class="{'tab-selected': $route.name === tab}",
-    )
-      span(v-if="$route.name === tab") {{ tab }}
-      router-link(v-else :to="{name: tab}") {{ tab }}
-
-  router-view
-
-  .fixed-button-bar(v-if="!delegates.loading")
-    template(v-if="userCanDelegate")
-      .label #[strong {{ shoppingCart.length }}] validators selected
-      tm-btn(id="go-to-bonding-btn" type="link" to="/staking/bond" :disabled="shoppingCart.length === 0" icon="chevron_right" icon-pos="right" value="Next" color="primary")
-    template(v-else)
-      .label(v-if="!delegation.loadedOnce && delegation.loading") Loading delegations...
-      .label(v-else) You do not have any {{bondingDenom}}s to stake.
-      tm-btn(disabled icon="chevron_right" icon-pos="right" value="Next" color="primary")
+    //- Unstaked Validators
+    .delegates-container
+      h3
+        | Unstaked Validators
+        |
+        i.material-icons.info-button info_outline
+      data-empty-search(v-if="unstakedValidators.length === 0")
+      template(v-else)
+        li-delegate(v-for='validator in unstakedValidators' :key='validator.id' :delegate='validator')
 </template>
 
 <script>
@@ -59,8 +59,7 @@ export default {
     sort: {
       property: "percent_of_vote",
       order: "desc"
-    },
-    tabs: ["My Stake", "Validators"]
+    }
   }),
   computed: {
     ...mapGetters([
@@ -75,6 +74,9 @@ export default {
       "bondingDenom",
       "keybase"
     ]),
+    address() {
+      return this.user.address
+    },
     somethingToSearch() {
       return !!this.delegates.delegates.length
     },
@@ -116,6 +118,13 @@ export default {
       } else {
         return sortedEnrichedDelegates
       }
+    },
+    unstakedValidators() {
+      const unbonding = new Set(
+        Object.keys(this.delegation.unbondingDelegations)
+      )
+
+      return this.delegates.delegates.filter(({ id }) => unbonding.has(id))
     },
     userCanDelegate() {
       return (
@@ -179,9 +188,21 @@ export default {
           class: "action hidden"
         }
       ]
+    },
+    yourValidators() {
+      const commited = new Set(Object.keys(this.committedDelegations))
+      return this.delegates.delegates.filter(({ id }) => commited.has(id))
+    }
+  },
+  watch: {
+    address: function(address) {
+      address && this.updateDelegates()
     }
   },
   methods: {
+    updateDelegates() {
+      this.$store.dispatch("updateDelegates")
+    },
     setSearch(bool = !this.filters["delegates"].search.visible) {
       if (!this.somethingToSearch) return false
       this.$store.commit("setSearchVisible", ["delegates", bool])
@@ -202,42 +223,10 @@ export default {
 .info-button
   color var(--link)
 
-.delegates-tabs
-  display flex
-
-  .tab
-    cursor pointer
-    margin-bottom 1em
-    margin-right 1em
-    padding-bottom 0.5em
-
-    &.tab-selected
-      border-bottom 2px solid var(--tertiary)
-      color var(--bright)
-
-.delegates-container
-  padding-bottom 3rem
-
-  h3
-    padding-bottom 1em
-
-.fixed-button-bar
-  background var(--app-fg)
-  bottom 3rem + px
-  display flex
-  justify-content space-between
-  left 0
-  padding 0.5rem 1rem
-  position fixed
-  right 0
-  z-index z(toolBar)
-
-  .label
-    color var(--txt)
-    line-height 2rem
-
-    strong
-      font-weight bold
+.check-out-message
+  background var(--app-nav)
+  padding 1em
+  text-align center
 
 @media screen and (min-width: 768px)
   padding-bottom 4rem

@@ -32,7 +32,20 @@ export default [
   {
     path: "/staking",
     name: "staking",
-    component: staking("Staking")
+    component: staking("Staking"),
+    redirect: "/staking/My Stake/",
+    children: [
+      {
+        path: "My Stake",
+        name: "My Stake",
+        component: require(`./components/staking/TabMyStake`).default
+      },
+      {
+        path: "Validators",
+        name: "Validators",
+        component: require(`./components/staking/TabValidators`).default
+      }
+    ]
   },
   {
     path: "/staking/bond",

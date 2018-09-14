@@ -32,199 +32,166 @@ exports[`PageStaking has the expected html structure 1`] = `
    <!---->
    <div class=\\"delegates-tabs\\">
       <div class=\\"tab\\">
-         My Stake
+         <a href=\\"#/staking/My Stake\\" class=\\"\\">My Stake</a>
       </div>
-   <div class=\\"tab tab-selected\\">
-      Validators
+   <div class=\\"tab\\">
+      <a href=\\"#/staking/Validators\\" class=\\"\\">Validators</a>
    </div>
 </div>
-   <div class=\\"delegates-container\\">
-      <div class=\\"panel-sort\\">
-         <div class=\\"panel-sort-container\\">
-            <div class=\\"sort-by name\\">
+   <div class=\\"tm-page\\" data-title=\\"Wallet\\">
+      <header class=\\"tm-page-header\\">
+         <div class=\\"tm-page-header-container\\">
+            <div class=\\"tm-page-header-text\\">
                <!---->
-            </div>
-   <div class=\\"sort-by your-votes\\">
-      <div class=\\"label\\">
-         <div class=\\"label-text\\">
-            My Stake
-         </div>
-</div>
-</div>
-   <div class=\\"sort-by your-rewards\\">
-      <div class=\\"label\\">
-         <div class=\\"label-text\\">
-            My Rewards
-         </div>
-</div>
-</div>
-   <div class=\\"sort-by percent_of_vote\\">
-      <div class=\\"label\\">
-         <div class=\\"label-text\\">
-            Voting Power
-         </div>
-</div>
-</div>
-   <div class=\\"sort-by uptime\\">
-      <div class=\\"label\\">
-         <div class=\\"label-text\\">
-            Uptime
-         </div>
-</div>
-</div>
-   <div class=\\"sort-by commission\\">
-      <div class=\\"label\\">
-         <div class=\\"label-text\\">
-            Commission
-         </div>
-</div>
-</div>
-   <div class=\\"sort-by slashes\\">
-      <div class=\\"label\\">
-         <div class=\\"label-text\\">
-            Slashes
-         </div>
-</div>
-</div>
-   <div class=\\"sort-by action hidden\\">
-      <div class=\\"label\\">
-         <div class=\\"label-text\\"></div>
-</div>
-</div>
-</div>
-</div>
-   <div class=\\"li-delegate li-delegate-validator \\">
-      <div class=\\"li-delegate__values\\">
-         <div class=\\"li-delegate__value name\\">
-            <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
-            <div class=\\"vert\\">
-               <div class=\\"top\\">
-                  herr_schmidt_revoked
-               </div>
-   <div class=\\"bottom\\">
-      cosmosvaladdr…rg7n
-   </div>
-</div>
-   </a>
-</div>
-   <div class=\\"li-delegate__value your-votes\\">
-      <span>0.00</span>
-   </div>
-   <div class=\\"li-delegate__value your-rewards\\">
-      <span>n/a</span>
-   </div>
-   <div class=\\"li-delegate__break\\">
-      <span></span>
-   </div>
-   <div class=\\"li-delegate__value percent_of_vote\\">
-      <span>57.58%</span>
-   </div>
-   <div class=\\"li-delegate__value uptime\\">
-      <span>n/a</span>
-   </div>
-   <div class=\\"li-delegate__value commission\\">
-      <span>n/a</span>
-   </div>
-   <div class=\\"li-delegate__value slashes\\">
-      <span>n/a</span>
-   </div>
-   <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
-      <i class=\\"material-icons\\">check_box_outline_blank</i>
-   </div>
-</div>
-</div>
-   <div class=\\"li-delegate li-delegate-active li-delegate-validator \\">
-      <div class=\\"li-delegate__values\\">
-         <div class=\\"li-delegate__value name\\">
-            <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
-            <div class=\\"vert\\">
-               <div class=\\"top\\">
-                  mr_mounty
-               </div>
-   <div class=\\"bottom\\">
-      cosmosvaladdr…8yqw
-   </div>
-</div>
-   </a>
-</div>
-   <div class=\\"li-delegate__value your-votes\\">
-      <span>14.00</span>
-   </div>
-   <div class=\\"li-delegate__value your-rewards\\">
-      <span>n/a</span>
-   </div>
-   <div class=\\"li-delegate__break\\">
-      <span></span>
-   </div>
-   <div class=\\"li-delegate__value percent_of_vote\\">
-      <span>42.42%</span>
-   </div>
-   <div class=\\"li-delegate__value uptime\\">
-      <span>n/a</span>
-   </div>
-   <div class=\\"li-delegate__value commission\\">
-      <span>n/a</span>
-   </div>
-   <div class=\\"li-delegate__value slashes\\">
-      <span>n/a</span>
-   </div>
-   <div class=\\"li-delegate__value checkbox\\">
-      <i class=\\"material-icons\\">lock</i>
-   </div>
-</div>
-</div>
-   <div class=\\"li-delegate li-delegate-validator \\">
-      <div class=\\"li-delegate__values\\">
-         <div class=\\"li-delegate__value name\\">
-            <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
-            <div class=\\"vert\\">
-               <div class=\\"top\\">
-                  good_greg
-               </div>
-   <div class=\\"bottom\\">
-      cosmosvaladdr…n3au
-   </div>
-</div>
-   </a>
-</div>
-   <div class=\\"li-delegate__value your-votes\\">
-      <span>0.00</span>
-   </div>
-   <div class=\\"li-delegate__value your-rewards\\">
-      <span>n/a</span>
-   </div>
-   <div class=\\"li-delegate__break\\">
-      <span></span>
-   </div>
-   <div class=\\"li-delegate__value percent_of_vote\\">
-      <span>0.00%</span>
-   </div>
-   <div class=\\"li-delegate__value uptime\\">
-      <span>n/a</span>
-   </div>
-   <div class=\\"li-delegate__value commission\\">
-      <span>n/a</span>
-   </div>
-   <div class=\\"li-delegate__value slashes\\">
-      <span>n/a</span>
-   </div>
-   <div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
-      <i class=\\"material-icons\\">check_box_outline_blank</i>
-   </div>
-</div>
-</div>
-</div>
-   <div class=\\"fixed-button-bar\\">
-      <div class=\\"label\\">
-         <strong>1</strong> validators selected
+               <!---->
+               <div class=\\"tm-page-header-body\\">
+                  <div class=\\"header-balance\\">
+                     <div class=\\"top\\">
+                        <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
+                        <div class=\\"total-atoms\\">
+                           <div class=\\"h3\\">
+                              Total Steak
+                           </div>
+      <div class=\\"h2\\">
+         1,351.00
       </div>
-   <a href=\\"#/staking/bond\\" class=\\"tm-btn\\" id=\\"go-to-bonding-btn\\"><span class=\\"tm-btn__container tm-btn__icon-right tm-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">chevron_right</i><span class=\\"tm-btn__value\\">Next</span></span></a>
 </div>
-   <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
-      <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
+      <div class=\\"unstaked-atoms\\">
+         <div class=\\"h3\\">
+            Unstaked Steak
+         </div>
+      <div class=\\"h2\\">
+         1337
+      </div>
 </div>
-   <div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
-      <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
+      <!---->
+      <!---->
+   </div>
+      <div class=\\"bottom\\">
+         <div class=\\"address\\">
+            cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+         </div>
+      <div class=\\"success\\">
+         <i class=\\"material-icons\\">check</i><span>Copied</span>
+      </div>
+</div>
+</div>
+</div>
+</div>
+      <menu class=\\"tm-page-header-menu\\">
+         <div>
+            <div>
+               <div class=\\"tm-tool-bar\\">
+                  <div class=\\"tm-tool-bar-container\\">
+                     <div class=\\"main\\">
+                        <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a disabled=\\"disabled\\"><i class=\\"material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+                     </div>
+</div>
+</div>
+</div>
+</div>
+</menu>
+</div>
+</header>
+   <main class=\\"tm-page-main ps\\">
+      <!---->
+      <section class=\\"tm-part\\">
+         <div class=\\"tm-part-container\\">
+            <header class=\\"tm-part-header\\">
+               <div class=\\"tm-part-header-container\\">
+                  <div class=\\"tm-part-title h5\\">
+                     Your Address
+                  </div>
+            <menu class=\\"tm-part-menu\\"></menu>
+</div>
+</header>
+         <main class=\\"tm-part-main\\">
+            <!---->
+         </main>
+</div>
+</section>
+<section class=\\"tm-part\\" id=\\"part-available-balances\\">
+   <div class=\\"tm-part-container\\">
+      <header class=\\"tm-part-header\\">
+         <div class=\\"tm-part-header-container\\">
+            <div class=\\"tm-part-title h5\\">
+               Available Balances
+            </div>
+      <menu class=\\"tm-part-menu\\"></menu>
+</div>
+</header>
+   <main class=\\"tm-part-main\\">
+      <div class=\\"tm-data-msg\\">
+         <div class=\\"tm-data-msg__icon\\">
+            <i class=\\"material-icons fa-spin\\">rotate_right</i>
+         </div>
+      <div class=\\"tm-data-msg__text\\">
+         <div class=\\"tm-data-msg__title\\">
+            <div>
+               Data is loading…
+            </div>
+</div>
+      <div class=\\"tm-data-msg__subtitle\\">
+         <div>
+            Please wait a moment.
+         </div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</section>
+<section class=\\"tm-part\\" id=\\"part-staked-balances\\">
+   <div class=\\"tm-part-container\\">
+      <header class=\\"tm-part-header\\">
+         <div class=\\"tm-part-header-container\\">
+            <div class=\\"tm-part-title h5\\">
+               Staked Balances
+            </div>
+      <menu class=\\"tm-part-menu\\"></menu>
+</div>
+</header>
+   <main class=\\"tm-part-main\\">
+      <a href=\\"#/staking\\" class=\\"tm-li tm-li-link\\">
+      <div class=\\"tm-li-container\\">
+         <div class=\\"tm-li-thumb\\">
+            <!---->
+         </div>
+      <div class=\\"tm-li-dl\\">
+         <div class=\\"tm-li-dt\\">
+            Steak
+         </div>
+      <div class=\\"tm-li-dd\\">
+         14.00
+      </div>
+</div>
+      <button class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn__icon-right tm-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">chevron_right</i>
+      <!---->
+      <span class=\\"tm-btn__value\\">Stake</span></span></button>
+   </div>
+      </a>
+   </main>
+</div>
+</section>
+<div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
+   <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
+</div>
+<div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
+   <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
+</div>
+</main>
+</div>
+<div class=\\"fixed-button-bar\\">
+   <div class=\\"label\\">
+      <strong>1</strong> validators selected
+   </div>
+<a href=\\"#/staking/bond\\" class=\\"tm-btn\\" id=\\"go-to-bonding-btn\\"><span class=\\"tm-btn__container tm-btn__icon-right tm-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">chevron_right</i><span class=\\"tm-btn__value\\">Next</span></span></a>
+</div>
+<div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
+   <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
+</div>
+<div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
+   <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </main>
 </div>"
@@ -380,214 +347,354 @@ exports[`PageStaking should filter the delegates 1`] = `
       <div
         class="tab"
       >
-        My Stake
+        <a
+          class=""
+          href="#/staking/My Stake"
+        >
+          My Stake
+        </a>
       </div>
       <div
-        class="tab tab-selected"
+        class="tab"
       >
-        Validators
+        <a
+          class=""
+          href="#/staking/Validators"
+        >
+          Validators
+        </a>
       </div>
     </div>
     <div
-      class="delegates-container"
+      class="tm-page"
+      data-title="Wallet"
     >
-      <div
-        class="panel-sort"
+      <header
+        class="tm-page-header"
       >
         <div
-          class="panel-sort-container"
+          class="tm-page-header-container"
         >
           <div
-            class="sort-by name"
+            class="tm-page-header-text"
           >
             <!---->
-          </div>
-          <div
-            class="sort-by your-votes"
-          >
+            <!---->
             <div
-              class="label"
+              class="tm-page-header-body"
             >
               <div
-                class="label-text"
-              >
-                My Stake
-              </div>
-            </div>
-          </div>
-          <div
-            class="sort-by your-rewards"
-          >
-            <div
-              class="label"
-            >
-              <div
-                class="label-text"
-              >
-                My Rewards
-              </div>
-            </div>
-          </div>
-          <div
-            class="sort-by percent_of_vote"
-          >
-            <div
-              class="label"
-            >
-              <div
-                class="label-text"
-              >
-                Voting Power
-              </div>
-            </div>
-          </div>
-          <div
-            class="sort-by uptime"
-          >
-            <div
-              class="label"
-            >
-              <div
-                class="label-text"
-              >
-                Uptime
-              </div>
-            </div>
-          </div>
-          <div
-            class="sort-by commission"
-          >
-            <div
-              class="label"
-            >
-              <div
-                class="label-text"
-              >
-                Commission
-              </div>
-            </div>
-          </div>
-          <div
-            class="sort-by slashes"
-          >
-            <div
-              class="label"
-            >
-              <div
-                class="label-text"
-              >
-                Slashes
-              </div>
-            </div>
-          </div>
-          <div
-            class="sort-by action hidden"
-          >
-            <div
-              class="label"
-            >
-              <div
-                class="label-text"
-              >
-                
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="li-delegate li-delegate-active li-delegate-validator "
-      >
-        <div
-          class="li-delegate__values"
-        >
-          <div
-            class="li-delegate__value name"
-          >
-            <a
-              class=""
-              href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-            >
-              <img
-                class="avatar"
-                height="48"
-                src="~assets/images/validator-icon.svg"
-                width="48"
-              />
-              <div
-                class="vert"
+                class="header-balance"
               >
                 <div
                   class="top"
                 >
-                  mr_mounty
+                  <img
+                    class="icon"
+                    src="~assets/images/cosmos-logo.png"
+                  />
+                  <div
+                    class="total-atoms"
+                  >
+                    <div
+                      class="h3"
+                    >
+                      Total Steak
+                    </div>
+                    <div
+                      class="h2"
+                    >
+                      1,351.00
+                    </div>
+                  </div>
+                  <div
+                    class="unstaked-atoms"
+                  >
+                    <div
+                      class="h3"
+                    >
+                      Unstaked Steak
+                    </div>
+                    <div
+                      class="h2"
+                    >
+                      1337
+                    </div>
+                  </div>
+                  <!---->
+                  <!---->
                 </div>
                 <div
                   class="bottom"
                 >
-                  cosmosvaladdr…8yqw
+                  <div
+                    class="address"
+                  >
+                    cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+                  </div>
+                  <div
+                    class="success"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      check
+                    </i>
+                    <span>
+                      Copied
+                    </span>
+                  </div>
                 </div>
               </div>
-            </a>
+            </div>
           </div>
-          <div
-            class="li-delegate__value your-votes"
+          <menu
+            class="tm-page-header-menu"
           >
-            <span>
-              14.00
-            </span>
-          </div>
-          <div
-            class="li-delegate__value your-rewards"
-          >
-            <span>
-              n/a
-            </span>
-          </div>
-          <div
-            class="li-delegate__break"
-          >
-            <span />
-          </div>
-          <div
-            class="li-delegate__value percent_of_vote"
-          >
-            <span>
-              42.42%
-            </span>
-          </div>
-          <div
-            class="li-delegate__value uptime"
-          >
-            <span>
-              n/a
-            </span>
-          </div>
-          <div
-            class="li-delegate__value commission"
-          >
-            <span>
-              n/a
-            </span>
-          </div>
-          <div
-            class="li-delegate__value slashes"
-          >
-            <span>
-              n/a
-            </span>
-          </div>
-          <div
-            class="li-delegate__value checkbox"
-          >
-            <i
-              class="material-icons"
-            >
-              lock
-            </i>
-          </div>
+            <div>
+              <div>
+                <div
+                  class="tm-tool-bar"
+                >
+                  <div
+                    class="tm-tool-bar-container"
+                  >
+                    <div
+                      class="main"
+                    >
+                      <a
+                        class="back"
+                        disabled="disabled"
+                      >
+                        <i
+                          class="material-icons"
+                        >
+                          arrow_back
+                        </i>
+                      </a>
+                      <a>
+                        <i
+                          class="material-icons"
+                        >
+                          refresh
+                        </i>
+                      </a>
+                      <a
+                        disabled="disabled"
+                      >
+                        <i
+                          class="material-icons"
+                        >
+                          search
+                        </i>
+                      </a>
+                      <a
+                        class="help"
+                      >
+                        <i
+                          class="material-icons"
+                        >
+                          help_outline
+                        </i>
+                      </a>
+                      <a
+                        class="settings"
+                        href="#/preferences"
+                      >
+                        <i
+                          class="material-icons"
+                        >
+                          settings
+                        </i>
+                      </a>
+                      <a
+                        id="signOut-btn"
+                      >
+                        <i
+                          class="material-icons"
+                        >
+                          exit_to_app
+                        </i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </menu>
         </div>
-      </div>
+      </header>
+      <main
+        class="tm-page-main"
+      >
+        <!---->
+        <section
+          class="tm-part"
+        >
+          <div
+            class="tm-part-container"
+          >
+            <header
+              class="tm-part-header"
+            >
+              <div
+                class="tm-part-header-container"
+              >
+                <div
+                  class="tm-part-title h5"
+                >
+                  Your Address
+                </div>
+                <menu
+                  class="tm-part-menu"
+                />
+              </div>
+            </header>
+            <main
+              class="tm-part-main"
+            >
+              <!---->
+            </main>
+          </div>
+        </section>
+        <section
+          class="tm-part"
+          id="part-available-balances"
+        >
+          <div
+            class="tm-part-container"
+          >
+            <header
+              class="tm-part-header"
+            >
+              <div
+                class="tm-part-header-container"
+              >
+                <div
+                  class="tm-part-title h5"
+                >
+                  Available Balances
+                </div>
+                <menu
+                  class="tm-part-menu"
+                />
+              </div>
+            </header>
+            <main
+              class="tm-part-main"
+            >
+              <div
+                class="tm-data-msg"
+              >
+                <div
+                  class="tm-data-msg__icon"
+                >
+                  <i
+                    class="material-icons fa-spin"
+                  >
+                    rotate_right
+                  </i>
+                </div>
+                <div
+                  class="tm-data-msg__text"
+                >
+                  <div
+                    class="tm-data-msg__title"
+                  >
+                    <div>
+                      Data is loading…
+                    </div>
+                  </div>
+                  <div
+                    class="tm-data-msg__subtitle"
+                  >
+                    <div>
+                      Please wait a moment.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </div>
+        </section>
+        <section
+          class="tm-part"
+          id="part-staked-balances"
+        >
+          <div
+            class="tm-part-container"
+          >
+            <header
+              class="tm-part-header"
+            >
+              <div
+                class="tm-part-header-container"
+              >
+                <div
+                  class="tm-part-title h5"
+                >
+                  Staked Balances
+                </div>
+                <menu
+                  class="tm-part-menu"
+                />
+              </div>
+            </header>
+            <main
+              class="tm-part-main"
+            >
+              <a
+                class="tm-li tm-li-link"
+                href="#/staking"
+              >
+                <div
+                  class="tm-li-container"
+                >
+                  <div
+                    class="tm-li-thumb"
+                  >
+                    <!---->
+                  </div>
+                  <div
+                    class="tm-li-dl"
+                  >
+                    <div
+                      class="tm-li-dt"
+                    >
+                      Steak
+                    </div>
+                    <div
+                      class="tm-li-dd"
+                    >
+                      14.00
+                    </div>
+                  </div>
+                  <button
+                    class="tm-btn"
+                  >
+                    <span
+                      class="tm-btn__container tm-btn__icon-right tm-btn--primary"
+                    >
+                      <i
+                        aria-hidden="true"
+                        class="tm-btn__icon material-icons"
+                      >
+                        chevron_right
+                      </i>
+                      <!---->
+                      <span
+                        class="tm-btn__value"
+                      >
+                        Stake
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </a>
+            </main>
+          </div>
+        </section>
+      </main>
     </div>
     <div
       class="fixed-button-bar"

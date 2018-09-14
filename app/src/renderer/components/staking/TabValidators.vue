@@ -1,31 +1,12 @@
 <template lang="pug">
-tm-page(title='Staking')
-  div(slot="menu"): vm-tool-bar
-    a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
-      i.material-icons refresh
-    a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
-      i.search.material-icons search
-
-  modal-search(type="delegates" v-if="somethingToSearch")
-
-  .delegates-tabs
-    .tab(
-      v-for="tab in tabs",
-      :class="{'tab-selected': $route.name === tab}",
-    )
-      span(v-if="$route.name === tab") {{ tab }}
-      router-link(v-else :to="{name: tab}") {{ tab }}
-
-  router-view
-
-  .fixed-button-bar(v-if="!delegates.loading")
-    template(v-if="userCanDelegate")
-      .label #[strong {{ shoppingCart.length }}] validators selected
-      tm-btn(id="go-to-bonding-btn" type="link" to="/staking/bond" :disabled="shoppingCart.length === 0" icon="chevron_right" icon-pos="right" value="Next" color="primary")
-    template(v-else)
-      .label(v-if="!delegation.loadedOnce && delegation.loading") Loading delegations...
-      .label(v-else) You do not have any {{bondingDenom}}s to stake.
-      tm-btn(disabled icon="chevron_right" icon-pos="right" value="Next" color="primary")
+  div
+    .delegates-container
+      tm-data-loading(v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
+      tm-data-empty(v-else-if="!delegates.loading && delegates.delegates.length === 0")
+      data-empty-search(v-else-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
+      template(v-else)
+        panel-sort(:sort='sort', :properties="properties")
+        li-delegate(v-for='i in sortedFilteredEnrichedDelegates' :disabled="!userCanDelegate" :key='i.id' :delegate='i')
 </template>
 
 <script>
@@ -59,8 +40,7 @@ export default {
     sort: {
       property: "percent_of_vote",
       order: "desc"
-    },
-    tabs: ["My Stake", "Validators"]
+    }
   }),
   computed: {
     ...mapGetters([
@@ -75,6 +55,9 @@ export default {
       "bondingDenom",
       "keybase"
     ]),
+    address() {
+      return this.user.address
+    },
     somethingToSearch() {
       return !!this.delegates.delegates.length
     },
@@ -181,7 +164,15 @@ export default {
       ]
     }
   },
+  watch: {
+    address: function(address) {
+      address && this.updateDelegates()
+    }
+  },
   methods: {
+    updateDelegates() {
+      this.$store.dispatch("updateDelegates")
+    },
     setSearch(bool = !this.filters["delegates"].search.visible) {
       if (!this.somethingToSearch) return false
       this.$store.commit("setSearchVisible", ["delegates", bool])
@@ -198,46 +189,6 @@ export default {
 </script>
 <style lang="stylus">
 @require '~variables'
-
-.info-button
-  color var(--link)
-
-.delegates-tabs
-  display flex
-
-  .tab
-    cursor pointer
-    margin-bottom 1em
-    margin-right 1em
-    padding-bottom 0.5em
-
-    &.tab-selected
-      border-bottom 2px solid var(--tertiary)
-      color var(--bright)
-
-.delegates-container
-  padding-bottom 3rem
-
-  h3
-    padding-bottom 1em
-
-.fixed-button-bar
-  background var(--app-fg)
-  bottom 3rem + px
-  display flex
-  justify-content space-between
-  left 0
-  padding 0.5rem 1rem
-  position fixed
-  right 0
-  z-index z(toolBar)
-
-  .label
-    color var(--txt)
-    line-height 2rem
-
-    strong
-      font-weight bold
 
 @media screen and (min-width: 768px)
   padding-bottom 4rem
