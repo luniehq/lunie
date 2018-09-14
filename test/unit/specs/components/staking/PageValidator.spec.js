@@ -1,4 +1,5 @@
 import BigNumber from "bignumber.js"
+import ModalStake from "staking/ModalStake"
 import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import { mount } from "@vue/test-utils"
@@ -45,6 +46,7 @@ const getterValues = {
     unbondingDelegations: {}
   },
   keybase: `keybase`,
+  oldBondedAtoms: 50,
   totalAtoms: 100,
   wallet: { address: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` }
 }
@@ -143,127 +145,155 @@ describe("PageValidator", () => {
 })
 
 describe(`onStake`, () => {
-  // Create our own PageValidator here because the one above contains way too
-  // much magic.
-
-  it(`not enough atoms`, () => {
-    const $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      getters: Object.assign({}, getterValues, { oldBondedAtoms: 100 })
-    }
-
-    const wrapper = mount(PageValidator, {
-      mocks: {
-        $route: { params: { validator: `1a2b3c` } },
-        $store
+  describe(`make sure we have enough atoms to stake`, () => {
+    it(`is enough`, () => {
+      const $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: getterValues
       }
+
+      const wrapper = mount(PageValidator, {
+        mocks: {
+          $route: { params: { validator: `1a2b3c` } },
+          $store
+        }
+      })
+
+      wrapper.find(`#Stake`).trigger(`click`)
+      expect(wrapper.contains(ModalStake)).toEqual(true)
     })
 
-    wrapper.find(`#Stake`).trigger(`click`)
-    expect(wrapper.text().includes(`You have no atoms to stake.`)).toEqual(true)
+    it(`is not enough`, () => {
+      const $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: Object.assign({}, getterValues, { oldBondedAtoms: 100 })
+      }
+
+      const wrapper = mount(PageValidator, {
+        mocks: {
+          $route: { params: { validator: `1a2b3c` } },
+          $store
+        }
+      })
+
+      wrapper.find(`#Stake`).trigger(`click`)
+
+      expect(wrapper.text().includes(`You have no atoms to stake.`)).toEqual(
+        true
+      )
+
+      wrapper.find(`button`).trigger(`click`)
+
+      expect(wrapper.text().includes(`You have no atoms to stake.`)).toEqual(
+        false
+      )
+    })
   })
 
-  it(`success`, async () => {
-    const $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      getters: getterValues
-    }
-
-    const {
-      vm: { submitDelegation }
-    } = mount(PageValidator, {
-      mocks: {
-        $route: { params: { validator: `1a2b3c` } },
-        $store
+  describe(`submitDelegation`, () => {
+    it(`success`, async () => {
+      const $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: getterValues
       }
+
+      const {
+        vm: { submitDelegation }
+      } = mount(PageValidator, {
+        mocks: {
+          $route: { params: { validator: `1a2b3c` } },
+          $store
+        }
+      })
+
+      await submitDelegation({ amount: 10 })
+
+      expect($store.dispatch.mock.calls).toEqual([
+        [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+      ])
+
+      expect($store.commit.mock.calls).toEqual([
+        [
+          `notify`,
+          {
+            body: `You have successfully staked your atoms.`,
+            title: `Successful Staking!`
+          }
+        ]
+      ])
     })
 
-    await submitDelegation({ amount: 10 })
-
-    expect($store.dispatch.mock.calls).toEqual([
-      [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
-    ])
-
-    expect($store.commit.mock.calls).toEqual([
-      [
-        `notify`,
-        {
-          body: `You have successfully staked your atoms.`,
-          title: `Successful Staking!`
-        }
-      ]
-    ])
-  })
-
-  it(`error`, async () => {
-    const $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(() => {
-        throw new Error(`message`)
-      }),
-      getters: getterValues
-    }
-
-    const {
-      vm: { submitDelegation }
-    } = mount(PageValidator, {
-      mocks: {
-        $route: { params: { validator: `1a2b3c` } },
-        $store
+    it(`error`, async () => {
+      const $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(() => {
+          throw new Error(`message`)
+        }),
+        getters: getterValues
       }
+
+      const {
+        vm: { submitDelegation }
+      } = mount(PageValidator, {
+        mocks: {
+          $route: { params: { validator: `1a2b3c` } },
+          $store
+        }
+      })
+
+      await submitDelegation({ amount: 10 })
+
+      expect($store.dispatch.mock.calls).toEqual([
+        [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+      ])
+
+      expect($store.commit.mock.calls).toEqual([
+        [
+          `notifyError`,
+          {
+            body: `message`,
+            title: `Error While Staking atoms`
+          }
+        ]
+      ])
     })
 
-    await submitDelegation({ amount: 10 })
-
-    expect($store.dispatch.mock.calls).toEqual([
-      [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
-    ])
-
-    expect($store.commit.mock.calls).toEqual([
-      [
-        `notifyError`,
-        {
-          body: `message`,
-          title: `Error While Staking atoms`
-        }
-      ]
-    ])
-  })
-
-  it(`error with data`, async () => {
-    const $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(() => {
-        throw new Error(`one\ntwo\nthree\nfour\nfive\nsix"seven`)
-      }),
-      getters: getterValues
-    }
-
-    const {
-      vm: { submitDelegation }
-    } = mount(PageValidator, {
-      mocks: {
-        $route: { params: { validator: `1a2b3c` } },
-        $store
+    it(`error with data`, async () => {
+      const $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(() => {
+          throw new Error(`one\ntwo\nthree\nfour\nfive\nsix"seven`)
+        }),
+        getters: getterValues
       }
-    })
 
-    await submitDelegation({ amount: 10 })
-
-    expect($store.dispatch.mock.calls).toEqual([
-      [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
-    ])
-
-    expect($store.commit.mock.calls).toEqual([
-      [
-        `notifyError`,
-        {
-          body: `Seven`,
-          title: `Error While Staking atoms`
+      const {
+        vm: { submitDelegation }
+      } = mount(PageValidator, {
+        mocks: {
+          $route: { params: { validator: `1a2b3c` } },
+          $store
         }
-      ]
-    ])
+      })
+
+      await submitDelegation({ amount: 10 })
+
+      expect($store.dispatch.mock.calls).toEqual([
+        [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+      ])
+
+      expect($store.commit.mock.calls).toEqual([
+        [
+          `notifyError`,
+          {
+            body: `Seven`,
+            title: `Error While Staking atoms`
+          }
+        ]
+      ])
+    })
   })
 })
