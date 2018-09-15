@@ -33,7 +33,6 @@ describe("Module: Send", () => {
       let account = "default"
       let password = "1234567890"
       node.send = jest.fn(node.send)
-      node.ibcSend = jest.fn(node.ibcSend)
       await store.dispatch("signIn", { account, password })
       store.dispatch("setLastHeader", {
         height: 5,
@@ -57,16 +56,6 @@ describe("Module: Send", () => {
         amount: [{ denom: "mycoin", amount: 123 }]
       }
       store.dispatch("sendTx", args).then(done.fail, () => done())
-    })
-
-    it("should send an IBC transaction", async () => {
-      const args = {
-        to: "zone/address",
-        amount: [{ denom: "mycoin", amount: 123 }],
-        type: "ibcSend"
-      }
-      await store.dispatch("sendTx", args)
-      expect(node.ibcSend.mock.calls).toMatchSnapshot()
     })
 
     it("should send a transaction after failing", async () => {

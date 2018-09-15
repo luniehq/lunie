@@ -112,11 +112,13 @@ module.exports = class Addressbook {
   }
 
   flagNodeOffline(host) {
-    this.peers.find(p => p.host === host).state = "down"
+    let peer = this.peers.find(p => p.host === host)
+    if (peer) peer.state = "down"
   }
 
   flagNodeIncompatible(host) {
-    this.peers.find(p => p.host === host).state = "incompatible"
+    let peer = this.peers.find(p => p.host === host)
+    if (peer) peer.state = "incompatible"
   }
 
   resetNodes() {
