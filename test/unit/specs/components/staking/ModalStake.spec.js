@@ -1,16 +1,11 @@
 "use strict"
 
-import { createLocalVue, mount } from "@vue/test-utils"
+import { mount } from "@vue/test-utils"
 import ModalStake from "staking/ModalStake"
-import Vuelidate from "vuelidate"
 
 // Create an example stake modal window.
 const Wrapper = () => {
-  const localVue = createLocalVue()
-  localVue.use(Vuelidate)
-
   return mount(ModalStake, {
-    localVue,
     propsData: {
       fromOptions: [
         `My Wallet - cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
