@@ -22,7 +22,7 @@ tm-page(:title='validatorTitle(this.validator)')
     tm-part(title='!!! CRITICAL ALERT !!!' v-if="validator.revoked")
       tm-list-item(title="This validator is revoked!" subtitle="Are you the owner? Go fix it!" type="anchor" href="https://cosmos.network/docs/validators/validator-setup.html#common-problems")
 
-    .validator-profile__header.container
+    .validator-profile__header.validator-profile__section
       .column
         img.avatar(v-if="validator.keybase" :src="validator.keybase.avatarUrl")
         img.avatar(v-else src="~assets/images/validator-icon.svg")
@@ -56,7 +56,7 @@ tm-page(:title='validatorTitle(this.validator)')
             dt Slashes
             dd n/a
 
-    .container.validator-profile__details
+    .validator-profile__details.validator-profile__section
       .row
         .column
           dl.info_dl
@@ -274,11 +274,11 @@ export default {
     .list-items
       flex 1
 
-.container
+.validator-profile__section
   display flex
   width 100%
   background-color var(--app-fg)
-  padding 1rem
+  padding 2rem
   margin-bottom 1rem
 
 .column
@@ -295,7 +295,10 @@ export default {
     .avatar
       height 178px
       width 178px
-      margin-right 1rem
+      margin-right 2rem
+      background var(--app-nav)
+      border-radius 50%
+      padding 16px
 
     &__info
       flex 1
@@ -366,7 +369,6 @@ export default {
     border-radius 4px
     display block
     width 100%
-    // margin 0 0.5em
     font-size h5
     line-height h5
     text-align right
