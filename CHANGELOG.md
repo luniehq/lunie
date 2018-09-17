@@ -18,10 +18,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 * Refactored Addressbook. @NodeGuy
-
-### Changed
-
 * Created new modal window for staking to a validator. @NodeGuy
+* Added new validator profile page @faboweb
+* cleaning up new validator profile page and balance header @jbibla
 
 ### Fixed
 
