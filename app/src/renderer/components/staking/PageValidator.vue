@@ -3,15 +3,19 @@ mixin dl(label, value, color)
   dl.colored_dl
     dt= label
     dd(style={borderColor: color})= value
-mixin info(label, value)
-  dl.info_dl
-    dt= label
-    dd= value
 tm-page(:title='validatorTitle(this.validator)')
   div(slot="menu"): tm-tool-bar
     router-link(to="/staking" exact): i.material-icons arrow_back
     anchor-copy(v-if="validator" :value="validator.owner" icon="content_copy")
   template(slot="menu-body", v-if="config.devMode"): tm-balance(:unstakedAtoms="user.atoms")
+  .delegates-tabs
+    .tab(v-for="(tab, i) in tabs",
+      :key="'tab-' + i",
+      :class="{'tab-selected': i === tabIndex}",
+      @click="tabIndex = 1") {{tab}}
+
+  h1 Validator Profile&nbsp;
+    i.material-icons info outline
 
   tm-data-error(v-if="!validator")
   template(v-else)
@@ -32,20 +36,32 @@ tm-page(:title='validatorTitle(this.validator)')
             tm-btn(value="Stake" color="primary" @click.native="onStake()")
             tm-btn(v-if="config.devMode" value="Unstake" color="secondary")
         .row.validator-profile__header__data
-          +dl('My Stake', 12300)
-          +dl('My Rewards', 3456)
+          dl.colored_dl
+            dt My Stake
+            dd {{myBond < 0.01 ? '< ' + 0.01 : myBond.toFixed(2)}}
+          dl.colored_dl(v-if="config.devMode")
+            dt My Rewards
+            dd n/a
+          dl.colored_dl
+            dt Voting Power
+            dd(v-bind:class="[powerRatioLevel]") {{(powerRatio * 100).toFixed(2)}} %
           .validator-profile__header__data__break
-          +dl('Voting Power', 12300)
-          +dl('Uptime', 3456)
-          +dl('Commission', 12300)
-          +dl('Slashes', 3456)
+          dl.colored_dl(v-if="config.devMode")
+            dt Uptime
+            dd n/a
+          dl.colored_dl
+            dt Commission
+            dd(v-bind:class="[commissionLevel]") {{validator.commission}} %
+          dl.colored_dl(v-if="config.devMode")
+            dt Slashes
+            dd n/a
 
     .container.validator-profile__details
       .row
         .column
           dl.info_dl
             dt Owner / Address
-            dd {{shortAddress(validator.owner)}}
+            dd(v-tooltip="validator.owner") {{shortAddress(validator.owner)}}
           dl.info_dl
             dt Keybase ID
             dd {{validator.description.identity || 'n/a'}}
@@ -101,6 +117,7 @@ import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
 import TmModal from "common/TmModal"
+import { validators } from "../../vuex/getters"
 
 export default {
   name: "page-validator",
@@ -119,7 +136,9 @@ export default {
   data: () => ({
     showCannotStake: false,
     showModalStake: false,
-    shortAddress
+    shortAddress,
+    tabIndex: 1,
+    tabs: ["My Stake", "Validators"]
   }),
   computed: {
     ...mapGetters([
@@ -142,14 +161,27 @@ export default {
       return validator
     },
     selfBond() {
+      return this.validator.selfBond
+        ? (this.validator.selfBond * 100).toFixed(2)
+        : 0
+    },
+    myBond() {
+      return this.delegation.committedDelegates[this.validator.owner] || 0
+    },
+    powerRatio() {
       return ratToBigNumber(this.validator.tokens)
-        .minus(
-          calculateTokens(
-            this.validator,
-            ratToBigNumber(this.validator.delegator_shares).toNumber()
-          )
-        )
-        .toFixed(2)
+        .div(this.delegates.globalPower)
+        .toNumber()
+    },
+    powerRatioLevel() {
+      if (this.powerRatio < 0.01) return "green"
+      if (this.powerRatio < 0.03) return "yellow"
+      return "red"
+    },
+    commissionLevel() {
+      if (this.validator.commission < 0.01) return "green"
+      if (this.validator.commission < 0.03) return "yellow"
+      return "red"
     }
   },
   methods: {
@@ -224,6 +256,9 @@ export default {
     pretty(num) {
       return numeral(num).format("0,0.00")
     }
+  },
+  mounted() {
+    this.$store.dispatch("getSelfBond", this.validator)
   }
 }
 </script>
@@ -336,4 +371,35 @@ export default {
     line-height h5
     text-align right
     padding 4px 4px
+
+    &.red
+      color #ff0200
+      background-color rgba(209, 2, 0, 0.15)
+      border solid 0.5px rgba(209, 2, 0, 0.25)
+
+    &.yellow
+      color #ff9502
+      background-color rgba(255, 149, 2, 0.15)
+      border solid 0.5px rgba(255, 149, 2, 0.25)
+
+    &.green
+      color #2ea42d
+      background-color rgba(46, 164, 45, 0.15)
+      border solid 0.5px rgba(46, 164, 45, 0.25)
+
+.delegates-tabs
+  display flex
+
+  .tab
+    cursor pointer
+    margin 0 0.5em
+    padding-bottom 0.5em
+    margin-bottom 1em
+
+    &:first-of-type
+      cursor not-allowed
+
+    &.tab-selected
+      color var(--bright)
+      border-bottom 2px solid var(--tertiary)
 </style>

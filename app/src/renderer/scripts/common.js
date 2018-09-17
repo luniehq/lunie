@@ -15,15 +15,23 @@ module.exports.shortAddress = function(address, length = 4) {
     return address.split("1")[0] + "…" + address.slice(-1 * length)
   }
 }
+
+// convert rat format ('123/456') to big number
+module.exports.ratToBigNumber = function(rat) {
+  let n = new BN(rat.split("/")[0])
+  let d = new BN(rat.split("/")[1] || 1)
+  return n.div(d)
+}
+
 // could be used in optimistic update PR, pls uncomment or delete when addressed
-module.exports.calculateShares = function(delegator, tokens) {
+module.exports.calculateShares = function(validator, tokens) {
   let myTokens = new BN(tokens || 0)
 
-  let totalSharesN = new BN(delegator.delegator_shares.split("/")[0])
-  let totalSharesD = new BN(delegator.delegator_shares.split("/")[1] || 1)
+  let totalSharesN = new BN(validator.delegator_shares.split("/")[0])
+  let totalSharesD = new BN(validator.delegator_shares.split("/")[1] || 1)
 
-  let totalTokensN = new BN(delegator.tokens.split("/")[0])
-  let totalTokensD = new BN(delegator.tokens.split("/")[1] || 1)
+  let totalTokensN = new BN(validator.tokens.split("/")[0])
+  let totalTokensD = new BN(validator.tokens.split("/")[1] || 1)
 
   if (totalTokensN.eq(0)) return new BN(0)
   return myTokens
@@ -32,16 +40,16 @@ module.exports.calculateShares = function(delegator, tokens) {
     .div(totalSharesD.times(totalTokensN))
 }
 
-module.exports.calculateTokens = function(delegator, shares) {
+module.exports.calculateTokens = function(validator, shares) {
   // this is the based on the idea that tokens should equal
   // (myShares / totalShares) * totalTokens where totalShares
   // and totalTokens are both represented as fractions
   let myShares = new BN(shares || 0)
-  let totalSharesN = new BN(delegator.delegator_shares.split("/")[0])
-  let totalSharesD = new BN(delegator.delegator_shares.split("/")[1] || 1)
+  let totalSharesN = new BN(validator.delegator_shares.split("/")[0])
+  let totalSharesD = new BN(validator.delegator_shares.split("/")[1] || 1)
 
-  let totalTokensN = new BN(delegator.tokens.split("/")[0])
-  let totalTokensD = new BN(delegator.tokens.split("/")[1] || 1)
+  let totalTokensN = new BN(validator.tokens.split("/")[0])
+  let totalTokensD = new BN(validator.tokens.split("/")[1] || 1)
   if (totalSharesN.eq(0)) return new BN(0)
   return myShares
     .times(totalSharesD)

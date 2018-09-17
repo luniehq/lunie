@@ -39,7 +39,7 @@ import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { shortAddress, calculateTokens } from "scripts/common"
 export default {
-  name: "LiValidator",
+  name: "li-validator",
   props: ["delegate", "disabled"],
   computed: {
     ...mapGetters([
@@ -73,8 +73,8 @@ export default {
     },
     styles() {
       let value = ""
-      if (this.inCart || this.yourVotes > 0) value += "LiValidator-active "
-      if (this.delegate.isValidator) value += "LiValidator-validator "
+      if (this.inCart || this.yourVotes > 0) value += ".li-validator-active "
+      if (this.delegate.isValidator) value += ".li-validator-validator "
       return value
     },
     inCart() {

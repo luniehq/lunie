@@ -2,13 +2,13 @@
 
 exports[`LiValidator has the expected html structure 1`] = `
 <div
-  class="LiValidator LiValidator-validator "
+  class=".li-validator .li-validator-validator "
 >
   <div
-    class="LiValidator__values"
+    class=".li-validator__values"
   >
     <div
-      class="LiValidator__value name"
+      class=".li-validator__value name"
     >
       <a
         class=""
@@ -37,54 +37,54 @@ exports[`LiValidator has the expected html structure 1`] = `
       </a>
     </div>
     <div
-      class="LiValidator__value your-votes"
+      class=".li-validator__value your-votes"
     >
       <span>
         0.00
       </span>
     </div>
     <div
-      class="LiValidator__value your-rewards"
+      class=".li-validator__value your-rewards"
     >
       <span>
         n/a
       </span>
     </div>
     <div
-      class="LiValidator__break"
+      class=".li-validator__break"
     >
       <span />
     </div>
     <div
-      class="LiValidator__value percent_of_vote"
+      class=".li-validator__value percent_of_vote"
     >
       <span>
         22%
       </span>
     </div>
     <div
-      class="LiValidator__value uptime"
+      class=".li-validator__value uptime"
     >
       <span>
         n/a
       </span>
     </div>
     <div
-      class="LiValidator__value commission"
+      class=".li-validator__value commission"
     >
       <span>
         n/a
       </span>
     </div>
     <div
-      class="LiValidator__value slashes"
+      class=".li-validator__value slashes"
     >
       <span>
         n/a
       </span>
     </div>
     <div
-      class="LiValidator__value checkbox"
+      class=".li-validator__value checkbox"
       id="add-to-cart"
     >
       <i
