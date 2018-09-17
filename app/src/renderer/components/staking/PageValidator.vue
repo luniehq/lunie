@@ -29,8 +29,8 @@ tm-page(:title='validatorTitle(this.validator)')
             //- TODO replace with address component when ready
             anchor-copy.validator-profile__header__name__address(:value="validator.owner" :label="shortAddress(validator.owner)")
           .column.validator-profile__header__actions
-            tm-btn(value="Stake" color="primary")
-            tm-btn(value="Unstake" color="secondary")
+            tm-btn(value="Stake" color="primary" @click.native="onStake()")
+            tm-btn(v-if="config.devMode" value="Unstake" color="secondary")
         .row.validator-profile__header__data
           +dl('My Stake', 12300)
           +dl('My Rewards', 3456)
@@ -39,78 +39,77 @@ tm-page(:title='validatorTitle(this.validator)')
           +dl('Uptime', 3456)
           +dl('Commission', 12300)
           +dl('Slashes', 3456)
-        //- .li-validator__break: span
-        //-   .li-validator__value.your-votes
-        //-     span {{ yourVotes }}
-        //-   .li-validator__value.your-rewards
-        //-     span {{ yourRewards }}
-        //-   .li-validator__value.percent_of_vote
-        //-     span {{ validator.percent_of_vote }}
-        //-   .li-validator__value.uptime
-        //-     // add .green .yellow or .red class to this span to trigger inidication by color
-        //-     span {{ uptime }}
-        //-   .li-validator__value.commission
-        //-     // add .green .yellow or .red class to this span to trigger inidication by color
-        //-     span {{ commission }}
-        //-   .li-validator__value.slashes
-        //-     // add .green .yellow or .red class to this span to trigger inidication by color
-        //-     span {{ slashes }}
 
     .container.validator-profile__details
       .row
         .column
-          +info('Owner / Address', 'shortAddress(validator.owner)')
-          +info('Keybase ID', 'B536B81DDA4323BB')
-          +info('First Seen', 'December 16, 2018')
-          +info('Keybase ID', 'B536B81DDA4323BB')
-          +info('Details', 'Hello from Staking Facilities!')
+          dl.info_dl
+            dt Owner / Address
+            dd {{shortAddress(validator.owner)}}
+          dl.info_dl
+            dt Keybase ID
+            dd {{validator.description.identity || 'n/a'}}
+          dl.info_dl(v-if="config.devMode")
+            dt First Seen
+            dd December 16, 2018
+          dl.info_dl
+            dt Details
+            dd.info_dl__text-box {{validator.description.details}}
         .column
-          +info('Commission', '1.3%')
-          +info('Max Commission Rate', '1.3%')
-          +info('Max Daily Commission Change', '1.3%')
-          +info('Commission Change Today', '1.3%')
+          dl.info_dl
+            dt Commission Rate
+            dd {{validator.commission}} %
+          dl.info_dl
+            dt Max Commission Rate
+            dd {{validator.commission_max}} %
+          dl.info_dl
+            dt Commission Change Today
+            dd {{validator.commission_change_today}} %
+          dl.info_dl
+            dt Max Daily Commission Change
+            dd {{validator.commission_change_rate}} %
+          dl.info_dl
+            dt Self Stake
+            dd {{selfBond}} %
+          dl.info_dl(v-if="config.devMode")
+            dt Minimum Self Stake
+            dd 6 %
 
+    modal-stake(
+      v-if="showModalStake"
+      v-on:submitDelegation="submitDelegation"
+      :showModalStake.sync="showModalStake"
+      :fromOptions="[{ key: `My Wallet - ${this.wallet.address}`, value: 0 }]"
+      :maximum="availableAtoms()"
+      :to="validator.owner"
+    )
 
-    //- tm-part#validator-profile(title='Validator Profile')
-    //-   img.avatar(v-if="validator.keybase" :src="validator.keybase.avatarUrl" width="192" height="192")
-    //-   img.avatar(v-else src="~assets/images/validator-icon.svg" width="192" height="192")
-    //-   .list-items
-    //-     tm-list-item(dt="Moniker" :dd="validator.description.moniker")
-    //-     tm-list-item(v-if="validator.keybase" dt="Keybase" :dd="validator.keybase.userName" :href="validator.keybase.profileUrl")
-    //-     tm-list-item(v-else dt="Keybase" dd="add your avatar" href="https://cosmos.network/docs/validators/validator-setup.html#edit-validator-description" target="_blank")
-    //-     tm-list-item(dt="Website" :dd="validator.description.website")
-    //-     tm-list-item(dt="Details" :dd="validator.description.details")
-
-    //- tm-part(title='Validator Keys')
-    //-   tm-list-item(dt="Owner" :dd="validator.owner")
-    //-   tm-list-item(dt="Pub Key" :dd="validator.pub_key")
-
-    //- tm-part(title='Validator Stake' v-if="!validator.revoked")
-    //-   tm-list-item(dt="Voting Power" :dd="pretty(validator.voting_power) + ' ' + this.config.bondingDenom")
-    //-   tm-list-item(dt="Self Bonded" :dd="pretty(selfBond) + ' ' + this.config.bondingDenom")
-    //-   tm-list-item(dt="Bond Height" :dd="`Block ${validator.bond_height}`")
-
-    //- tm-part(title='Commission')
-    //-   tm-list-item(dt="Commission" :dd="pretty(validator.commission) + ' %'")
-    //-   tm-list-item(dt="Commission Maximum" :dd="pretty(validator.commission_max) + ' %'")
-    //-   tm-list-item(dt="Commission Change-Rate" :dd="pretty(validator.commission_change_rate) + ' %'")
-    //-   tm-list-item(dt="Commission Change Today" :dd="pretty(validator.commission_change_today) + ' %'")
+    tm-modal(:close="closeCannotStake" icon="warning" v-if="showCannotStake")
+      div(slot='title') Cannot Stake
+      p You have no {{ bondingDenom }}s to stake.
+      div(slot='footer')
+        tmBtn(@click.native="closeCannotStake()" value="OK")
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import { TmListItem, TmPage, TmPart, TmToolBar, TmBtn } from "@tendermint/ui"
-import { shortAddress } from "scripts/common"
-import { TmDataError } from "common/TmDataError"
+import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import TmBalance from "common/TmBalance"
+import { TmDataError } from "common/TmDataError"
+import { calculateTokens, shortAddress, ratToBigNumber } from "scripts/common"
+import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
+import TmModal from "common/TmModal"
+
 export default {
   name: "page-validator",
   components: {
     AnchorCopy,
-    TmListItem,
+    ModalStake,
     TmBtn,
+    TmListItem,
+    TmModal,
     TmPage,
     TmPart,
     TmToolBar,
@@ -118,10 +117,22 @@ export default {
     TmBalance
   },
   data: () => ({
+    showCannotStake: false,
+    showModalStake: false,
     shortAddress
   }),
   computed: {
-    ...mapGetters(["delegates", "config", "keybase", "user"]),
+    ...mapGetters([
+      `bondingDenom`,
+      "delegates",
+      `delegation`,
+      "config",
+      "keybase",
+      `oldBondedAtoms`,
+      `totalAtoms`,
+      `wallet`,
+      `user`
+    ]),
     validator() {
       let validator = this.delegates.delegates.find(
         v => this.$route.params.validator === v.owner
@@ -131,11 +142,72 @@ export default {
       return validator
     },
     selfBond() {
-      parseFloat(this.validator.tokens) -
-        parseFloat(this.validator.delegator_shares)
+      return ratToBigNumber(this.validator.tokens)
+        .minus(
+          calculateTokens(
+            this.validator,
+            ratToBigNumber(this.validator.delegator_shares).toNumber()
+          )
+        )
+        .toFixed(2)
     }
   },
   methods: {
+    availableAtoms() {
+      return this.totalAtoms - this.oldBondedAtoms
+    },
+    closeCannotStake() {
+      this.showCannotStake = false
+    },
+    onStake() {
+      if (this.availableAtoms() > 0) {
+        this.showModalStake = true
+      } else {
+        this.showCannotStake = true
+      }
+    },
+    async submitDelegation({ amount }) {
+      const candidateId = this.validator.owner
+
+      const currentlyDelegated = calculateTokens(
+        this.validator,
+        this.delegation.committedDelegates[candidateId] || 0
+      )
+
+      const delegation = [
+        {
+          atoms: currentlyDelegated.plus(amount),
+          delegate: this.validator
+        }
+      ]
+
+      try {
+        await this.$store.dispatch("submitDelegation", delegation)
+
+        this.$store.commit("notify", {
+          title: "Successful Staking!",
+          body: `You have successfully staked your ${this.bondingDenom}s.`
+        })
+      } catch (exception) {
+        const { message } = exception
+        console.log(exception.stack)
+        let errData = message.split("\n")[5]
+
+        if (errData) {
+          let parsedErr = errData.split('"')[1]
+
+          this.$store.commit("notifyError", {
+            title: `Error While Staking ${this.bondingDenom}s`,
+            body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
+          })
+        } else {
+          this.$store.commit("notifyError", {
+            title: `Error While Staking ${this.bondingDenom}s`,
+            body: message
+          })
+        }
+      }
+    },
     validatorTitle(validator) {
       if (!validator) return "Validator Not Found"
       let title
@@ -181,6 +253,7 @@ export default {
 .row
   display flex
   flex-direction row
+  width 100%
 
 .validator-profile
   &__header
@@ -231,6 +304,9 @@ export default {
     font-size 1rem
     line-height 1rem
     padding 0.5rem
+
+    &.info_dl__text-box
+      min-height 6.91rem
 
 .colored_dl
   display flex

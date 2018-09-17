@@ -17,7 +17,8 @@ tm-page(title='Transactions')
       :validatorURL='validatorURL'
       :key="shortid.generate()"
       :transaction="tx"
-      :address="wallet.address")
+      :address="wallet.address"
+      v-on:end-unbonding="endUnbonding(tx)")
 </template>
 
 <script>
@@ -55,9 +56,12 @@ export default {
     somethingToSearch() {
       return !this.transactions.loading && !!this.allTransactions.length
     },
+    enrichedTransactions() {
+      return this.allTransactions.map(this.enrichUnbondingTransactions)
+    },
     orderedTransactions() {
       return orderBy(
-        this.allTransactions.map(t => {
+        this.enrichedTransactions.map(t => {
           t.height = parseInt(t.height)
           return t // TODO what happens if block height is bigger then int?
         }),
@@ -88,6 +92,29 @@ export default {
   methods: {
     refreshTransactions() {
       this.$store.dispatch("getAllTxs")
+    },
+    async endUnbonding(transaction) {
+      let validatorAddr = transaction.tx.value.msg[0].value.validator_addr
+      await this.$store.dispatch("endUnbonding", validatorAddr)
+    },
+    enrichUnbondingTransactions(transaction) {
+      let copiedTransaction = JSON.parse(JSON.stringify(transaction))
+      let type = copiedTransaction.tx.value.msg[0].type
+      if (type === "cosmos-sdk/BeginUnbonding") {
+        let tx = copiedTransaction.tx.value.msg[0].value
+        let unbondingDelegation = this.delegation.unbondingDelegations[
+          tx.validator_addr
+        ]
+        // TODO hack, use creation_height when https://github.com/cosmos/cosmos-sdk/issues/2314 is resolved
+        if (
+          unbondingDelegation &&
+          new Date(unbondingDelegation.min_time).getTime() -
+            new Date(copiedTransaction.time).getTime() ===
+            0
+        )
+          copiedTransaction.unbondingDelegation = unbondingDelegation
+      }
+      return copiedTransaction
     },
     setSearch(bool = !this.filters["transactions"].search.visible) {
       if (!this.somethingToSearch) return false

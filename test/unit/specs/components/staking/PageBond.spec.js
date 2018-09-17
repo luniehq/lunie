@@ -62,8 +62,8 @@ describe("PageBond", () => {
         store.commit("addToCart", chileanValidator)
 
         store.commit("setUnbondingDelegations", {
-          candidateId: "pubkeyY",
-          value: 100
+          validator_addr: "pubkeyY",
+          balance: { amount: 100 }
         })
       }
     })

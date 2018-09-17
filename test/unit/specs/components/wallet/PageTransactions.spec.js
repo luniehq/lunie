@@ -152,4 +152,23 @@ describe("PageTransactions", () => {
     wrapper.update()
     expect(wrapper.vm.setSearch()).toEqual(false)
   })
+
+  it("triggers end unbondings", async () => {
+    let tx = {
+      tx: {
+        value: {
+          msg: [
+            {
+              value: {
+                validator_addr: "abc"
+              }
+            }
+          ]
+        }
+      }
+    }
+    store._actions.endUnbonding = [jest.fn(() => {})]
+    await wrapper.vm.endUnbonding(tx)
+    expect(store._actions.endUnbonding[0]).toHaveBeenCalledWith("abc")
+  })
 })

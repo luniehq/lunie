@@ -52,8 +52,8 @@ export const oldBondedAtoms = (state, getters) => {
 
 export const oldUnbondingAtoms = (state, getters) => {
   return Object.values(getters.delegation.unbondingDelegations).reduce(
-    (atoms, value) => {
-      return atoms + value
+    (atoms, { balance }) => {
+      return atoms + balance.amount
     },
     0
   )
