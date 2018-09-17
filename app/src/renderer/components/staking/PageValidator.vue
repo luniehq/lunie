@@ -37,21 +37,9 @@ tm-page(:title='validatorTitle(this.validator)')
 
     modal-stake(
       v-if="showModalStake"
-<<<<<<< HEAD
-      v-on:stake="onStake"
-      :showModalStake.sync="showModalStake"
-      :fromOptions="modalOptions()"
-      :to="validator.owner"
-    )
-
-    tm-btn(
-      @click.native="showModalStake = true"
-      color="primary"
-=======
       v-on:submitDelegation="submitDelegation"
       :showModalStake.sync="showModalStake"
-      :fromOptions="[{ key: `My Wallet - ${this.wallet.address}`, value: 0 }]"
-      :maximum="availableAtoms()"
+      :fromOptions="modalOptions()"
       :to="validator.owner"
     )
 
@@ -61,13 +49,16 @@ tm-page(:title='validatorTitle(this.validator)')
       div(slot='footer')
         tmBtn(@click.native="closeCannotStake()" value="OK")
 
+
     tm-btn(
       @click.native="onStake()"
       color="primary"
       id="Stake"
->>>>>>> eb01ebfefce94212f642fe087b0daae49eed03ec
       value="Stake"
     )
+
+
+
 </template>
 
 <script>
@@ -100,15 +91,15 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      `bondingDenom`,
+      "bondingDenom",
       "delegates",
+      "delegation",
       "committedDelegations",
-      `delegation`,
       "config",
       "keybase",
-      `oldBondedAtoms`,
-      `totalAtoms`,
-      `wallet`
+      "oldBondedAtoms",
+      "totalAtoms",
+      "wallet"
     ]),
     validator() {
       let validator = this.delegates.delegates.find(

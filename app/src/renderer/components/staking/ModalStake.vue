@@ -12,27 +12,32 @@
     )
       tm-field#amount(
         type="number"
-        :max="fromOptions[fromIndex].maximum"
+        :max="fromOptions[selectedIndex].maximum"
         :min="0"
         v-model="amount"
         v-focus)
-      tm-form-msg(name='Amount' type='between' :min='0' :max='fromOptions[fromIndex].maximum'
-        v-if='$v.amount.$invalid')
 
+    //-To
     tm-form-group.stake-form-group(
       field-id='to' field-label='To')
       tm-field#to(v-model="to" readonly)
 
+    //-From
     tm-form-group.stake-form-group(
       field-id='from' field-label='From')
       tm-field#from(
         type="select"
-        :title="fromOptions[fromIndex].address"
+        v-model="selectedOption"
+        :title="fromOptions[selectedIndex].address"
         :options="fromOptions"
-        v-model="fromIndex"
       )
 
     .stake-footer
+      tm-btn(
+        @click.native="close"
+        value="Close"
+        size="lg"
+        icon="close")
       tm-btn(
         @click.native="onStake"
         :disabled="$v.amount.$invalid"
@@ -57,12 +62,13 @@ export default {
   },
   data: () => ({
     amount: 0,
-    fromIndex: 0
+    selectedIndex: 0,
+    selectedOption: {}
   }),
   validations() {
     return {
       amount: {
-        between: between(0, this.fromOptions[this.fromIndex].maximum)
+        between: between(1, 25)
       }
     }
   },
@@ -70,11 +76,18 @@ export default {
     close() {
       this.$emit("update:showModalStake", false)
     },
+    changeIdx() {
+      this.selectedIndex += 1
+    },
+    onChange(e) {
+      console.log(selectedOption)
+      console.log(this.selectedOption)
+    },
     onStake() {
       if (!this.$v.$invalid) {
-        this.$emit(`stake`, {
+        this.$emit(`submitDelegation`, {
           amount: this.amount,
-          from: this.fromOptions[this.fromIndex]
+          from: this.fromOptions[this.selectedOption]
         })
 
         this.close()
@@ -115,4 +128,5 @@ export default {
   .stake-footer
     display flex
     justify-content flex-end
+
 </style>
