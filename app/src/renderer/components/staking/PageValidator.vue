@@ -48,17 +48,17 @@ tm-page
       .row
         .column
           dl.info_dl
-            dt Owner / Address
-            dd(v-tooltip="validator.owner") {{shortAddress(validator.owner)}}
+            dt Public Key
+            dd {{validator.owner}}
           dl.info_dl
             dt Keybase ID
             dd {{validator.description.identity || 'n/a'}}
           dl.info_dl(v-if="config.devMode")
             dt First Seen
-            dd December 16, 2018
+            dd n/a
           dl.info_dl
             dt Details
-            dd.info_dl__text-box {{validator.description.details}}
+            dd.info_dl__text-box {{validator.description.details || 'n/a'}}
         .column
           dl.info_dl
             dt Commission Rate
@@ -77,7 +77,7 @@ tm-page
             dd {{selfBond}} %
           dl.info_dl(v-if="config.devMode")
             dt Minimum Self Stake
-            dd 6 %
+            dd 0 %
 
     modal-stake(
       v-if="showModalStake"
