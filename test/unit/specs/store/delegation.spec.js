@@ -1,4 +1,5 @@
 import setup from "../../helpers/vuex-setup"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 let instance = setup()
 
@@ -10,7 +11,7 @@ describe("Module: Delegations", () => {
     store = test.store
     node = test.node
 
-    store.dispatch("signIn", { password: "bar", account: "default" })
+    await store.dispatch("signIn", { password: "bar", account: "default" })
     await store.dispatch("getDelegates")
   })
 
@@ -113,8 +114,8 @@ describe("Module: Delegations", () => {
   it("deletes undelegations that are 0", async () => {
     await store.dispatch("getBondedDelegates", store.state.delegates.delegates)
     store.commit("setUnbondingDelegations", {
-      candidateId: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-      value: 0
+      validator_addr: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+      balance: { amount: 0 }
     })
     expect(
       store.state.delegation.unbondingDelegations
@@ -179,5 +180,65 @@ describe("Module: Delegations", () => {
     expect(Object.keys(store.state.delegation.committedDelegates)).toHaveLength(
       0
     )
+  })
+
+  it("should undelegate", async () => {
+    // store the unbondingDelegation in the lcdclientmock
+    await store.dispatch("submitDelegation", [
+      {
+        delegate: {
+          owner: lcdClientMock.validators[0],
+          delegator_shares: "100",
+          tokens: "100"
+        },
+        balance: {
+          amount: "100"
+        }
+      }
+    ])
+    store.commit("setUnbondingDelegations", {
+      validator_addr: lcdClientMock.validators[0],
+      balance: { amount: "100" }
+    })
+    expect(
+      store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
+    ).toBeTruthy()
+    await store.dispatch("endUnbonding", lcdClientMock.validators[0])
+    expect(
+      store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
+    ).toBeFalsy()
+  })
+
+  it("should remove dead delegations and undelegations", async () => {
+    store.commit("setCommittedDelegation", {
+      candidateId: lcdClientMock.validators[1],
+      value: 1
+    })
+    store.commit("setUnbondingDelegations", {
+      validator_addr: lcdClientMock.validators[1],
+      balance: {
+        amount: 1
+      }
+    })
+    expect(
+      store.state.delegation.committedDelegates[lcdClientMock.validators[1]]
+    ).toBeTruthy()
+    expect(
+      store.state.delegation.unbondingDelegations[lcdClientMock.validators[1]]
+    ).toBeTruthy()
+    await store.dispatch("getBondedDelegates") // lcdclientmock doesn't have the delegations we set above so they should be deleted locally
+
+    expect(
+      store.state.delegation.committedDelegates[lcdClientMock.validators[1]]
+    ).toBeFalsy()
+    expect(
+      store.state.delegation.unbondingDelegations[lcdClientMock.validators[1]]
+    ).toBeFalsy()
+  })
+
+  it("should update delegation status", async () => {
+    store.state.delegation.committedDelegates = {}
+    await store.dispatch("updateDelegates")
+    expect(store.state.delegation.committedDelegates).toBeTruthy()
   })
 })

@@ -16,6 +16,7 @@ tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
       :btn="'Receive'"
       :overflow="true"
       @click.native="copy")
+      
       btn-receive(slot="btn-receive")
 
   tm-part#part-available-balances(title="Available Balances")
