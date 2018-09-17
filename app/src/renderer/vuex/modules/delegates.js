@@ -59,7 +59,6 @@ export default ({ node }) => {
         }
         commit("addDelegate", delegate)
       }
-
       commit("setDelegates", candidates)
       commit("setDelegateLoading", false)
       dispatch("getKeybaseIdentities", candidates)

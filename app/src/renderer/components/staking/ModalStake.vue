@@ -11,7 +11,7 @@
     )
       tm-field#amount(
         type="number"
-        :max="this.maximum"
+        :max="fromOptions[fromIndex].maximum"
         :min="0"
         v-model="amount"
         v-focus)
@@ -21,7 +21,6 @@
     tm-form-group.stake-form-group(
       field-id='to' field-label='To')
       tm-field#to(v-model="to" readonly)
-      tm-form-msg(v-if='false')
 
     tm-form-group.stake-form-group(
       field-id='from' field-label='From')
@@ -31,7 +30,6 @@
         :options="fromOptions"
         v-model="fromIndex"
       )
-      tm-form-msg(v-if='false')
 
     .stake-footer
       tm-btn(
@@ -48,7 +46,7 @@ import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
-  props: [`fromOptions`, `maximum`, `to`],
+  props: [`fromOptions`, `to`],
   components: {
     Modal,
     TmBtn,
@@ -58,13 +56,13 @@ export default {
   },
   data: () => ({
     focused: false,
-    amount: 1,
+    amount: 0,
     fromIndex: 0
   }),
   validations() {
     return {
       amount: {
-        between: between(0.0000000001, this.maximum)
+        between: between(0, this.fromOptions[this.fromIndex].maximum)
       }
     }
   },

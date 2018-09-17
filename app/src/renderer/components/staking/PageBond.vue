@@ -239,7 +239,7 @@ export default {
           })
           this.$router.push("/staking")
         } catch (err) {
-          let errData = err.message.split("\n")[5]
+          let errData = err.message && err.message.split("\n")[5]
           if (errData) {
             let parsedErr = errData.split('"')[1]
             this.$store.commit("notifyError", {

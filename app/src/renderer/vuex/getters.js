@@ -63,6 +63,7 @@ export const delegates = state => state.delegates
 export const shoppingCart = state => state.delegation.delegates
 export const validators = state => state.validators.validators
 export const keybase = state => state.keybase.identities
+// export const myDelegates = state => state.myDelegates // all validators the user is bonded to
 
 // govern
 export const proposals = state => state.proposals

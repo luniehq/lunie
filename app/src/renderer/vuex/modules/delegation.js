@@ -49,6 +49,9 @@ export default ({ node }) => {
         unbondingDelegations[candidateId] = value
       }
       state.unbondingDelegations = unbondingDelegations
+    },
+    setDelegatorValidators(state, validators) {
+      state.myDelegates = validators
     }
   }
 
@@ -107,6 +110,22 @@ export default ({ node }) => {
     async updateDelegates({ dispatch }) {
       let candidates = await dispatch("getDelegates")
       return dispatch("getBondedDelegates", candidates)
+    },
+    async getMyDelegates({ rootState, commit }) {
+      state.loading = true
+      try {
+        let validators = await node.getDelegatorValidators(
+          rootState.user.address
+        )
+        console.log(validators)
+        commit("setDelegatorValidators", validators)
+      } catch (err) {
+        commit("notifyError", {
+          title: "Error fetching all your bonded validators",
+          body: err.message
+        })
+      }
+      state.loading = false
     },
     async submitDelegation(
       { rootState, state, dispatch, commit },

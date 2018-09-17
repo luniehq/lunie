@@ -39,8 +39,7 @@ tm-page(:title='validatorTitle(this.validator)')
       v-if="showModalStake"
       v-on:stake="onStake"
       :showModalStake.sync="showModalStake"
-      :fromOptions="[{address: this.wallet.address, key: `My Wallet - ${shortAddr(this.wallet.address)}`, value: 0 }]"
-      :maximum="this.totalAtoms - this.oldBondedAtoms"
+      :fromOptions="modalOptions()"
       :to="validator.owner"
     )
 
@@ -59,6 +58,7 @@ import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
 import { shortAddress } from "scripts/common"
+import { isEmpty } from "lodash"
 export default {
   name: "page-validator",
   components: {
@@ -78,6 +78,7 @@ export default {
     ...mapGetters([
       `bondingDenom`,
       "delegates",
+      "committedDelegations",
       `delegation`,
       "config",
       "keybase",
@@ -152,8 +153,34 @@ export default {
     pretty(num) {
       return numeral(num).format("0,0.00")
     },
-    shortAddr(address) {
-      return shortAddress(address)
+    modalOptions() {
+      let myWallet = [
+        {
+          address: this.wallet.address,
+          maximum: this.totalAtoms - this.oldBondedAtoms,
+          key: `My Wallet - ${shortAddress(this.wallet.address, 8)}`,
+          value: 0
+        }
+      ]
+      let bondedValidators = Object.keys(this.committedDelegations)
+      if (isEmpty(bondedValidators)) {
+        return myWallet
+      }
+      let redelegationOptions = bondedValidators.map(address => {
+        let delegate = this.delegates.delegates.find(function(validator) {
+          return validator.owner === address
+        })
+        return {
+          address: address,
+          maximum: this.committedDelegations[address],
+          key: `${delegate.description.moniker} - ${shortAddress(
+            delegate.owner,
+            8
+          )}`,
+          value: 0
+        }
+      })
+      return myWallet.concat(redelegationOptions)
     }
   }
 }

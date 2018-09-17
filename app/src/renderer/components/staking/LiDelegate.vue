@@ -6,7 +6,7 @@
       img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
       .vert
         .top {{ delegate.description.moniker }}
-        .bottom {{ shortAddress(delegate.id)}}
+        .bottom {{ shortAddress(delegate.id, 8)}}
   .li-delegate__value.your-votes
     span {{ yourVotes }}
   .li-delegate__value.your-rewards
