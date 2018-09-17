@@ -27,7 +27,7 @@
       field-id='from' field-label='From')
       tm-field#from(
         type="select"
-        v-model="selectedOption"
+        v-model="selectedIndex"
         :title="fromOptions[selectedIndex].address"
         :options="fromOptions"
       )
@@ -62,8 +62,7 @@ export default {
   },
   data: () => ({
     amount: 0,
-    selectedIndex: 0,
-    selectedOption: {}
+    selectedIndex: 0
   }),
   validations() {
     return {
@@ -87,7 +86,7 @@ export default {
       if (!this.$v.$invalid) {
         this.$emit(`submitDelegation`, {
           amount: this.amount,
-          from: this.fromOptions[this.selectedOption]
+          from: this.fromOptions[this.selectedIndex].address
         })
 
         this.close()
@@ -128,5 +127,4 @@ export default {
   .stake-footer
     display flex
     justify-content flex-end
-
 </style>

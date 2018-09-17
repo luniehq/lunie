@@ -198,7 +198,7 @@ export default {
       if (isEmpty(bondedValidators)) {
         return myWallet
       }
-      let redelegationOptions = bondedValidators.map(address => {
+      let redelegationOptions = bondedValidators.map((address, index) => {
         let delegate = this.delegates.delegates.find(function(validator) {
           return validator.owner === address
         })
@@ -209,7 +209,7 @@ export default {
             delegate.owner,
             8
           )}`,
-          value: 0
+          value: index + 1
         }
       })
       return myWallet.concat(redelegationOptions)
@@ -221,9 +221,9 @@ export default {
 <style lang="stylus">
 @media screen and (min-width: 640px)
   #validator-profile .tm-part-main
-    display: flex
-    flex-flow: row-reverse nowrap
+    display flex
+    flex-flow row-reverse nowrap
 
     .list-items
-      flex: 1
+      flex 1
 </style>
