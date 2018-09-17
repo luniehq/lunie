@@ -1,23 +1,12 @@
 <template lang="pug">
-mixin dl(label, value, color)
-  dl.colored_dl
-    dt= label
-    dd(style={borderColor: color})= value
-tm-page(:title='validatorTitle(this.validator)')
+tm-page
+  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unstakedAtoms="user.atoms" :tabs="tabs")
   div(slot="menu"): tm-tool-bar
     router-link(to="/staking" exact): i.material-icons arrow_back
     anchor-copy(v-if="validator" :value="validator.owner" icon="content_copy")
-  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unstakedAtoms="user.atoms")
-  .delegates-tabs
-    .tab(v-for="(tab, i) in tabs",
-      :key="'tab-' + i",
-      :class="{'tab-selected': i === tabIndex}",
-      @click="tabIndex = 1") {{tab}}
-
-  h1 Validator Profile&nbsp;
-    i.material-icons info outline
 
   tm-data-error(v-if="!validator")
+
   template(v-else)
     tm-part(title='!!! CRITICAL ALERT !!!' v-if="validator.revoked")
       tm-list-item(title="This validator is revoked!" subtitle="Are you the owner? Go fix it!" type="anchor" href="https://cosmos.network/docs/validators/validator-setup.html#common-problems")
@@ -110,15 +99,12 @@ tm-page(:title='validatorTitle(this.validator)')
 <script>
 import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
-import TmBalance from "common/TmBalance"
 import { TmDataError } from "common/TmDataError"
 import { calculateTokens, shortAddress, ratToBigNumber } from "scripts/common"
 import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
-import TmModal from "common/TmModal"
-import { validators } from "../../vuex/getters"
-
+import TmBalance from "common/TmBalance"
 export default {
   name: "page-validator",
   components: {
@@ -126,7 +112,7 @@ export default {
     ModalStake,
     TmBtn,
     TmListItem,
-    TmModal,
+    TmBalance,
     TmPage,
     TmPart,
     TmToolBar,
@@ -222,7 +208,6 @@ export default {
         })
       } catch (exception) {
         const { message } = exception
-        console.log(exception.stack)
         let errData = message.split("\n")[5]
 
         if (errData) {
