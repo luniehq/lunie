@@ -15,7 +15,7 @@
         :min="0"
         v-model="amount"
         v-focus)
-      tm-form-msg(name='Amount' type='between' :min='0' :max='maximum'
+      tm-form-msg(name='Amount' type='between' :min='0' :max='fromOptions[fromIndex].maximum'
         v-if='$v.amount.$invalid')
 
     tm-form-group.stake-form-group(
