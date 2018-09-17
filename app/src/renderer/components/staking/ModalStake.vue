@@ -1,11 +1,12 @@
 <template lang="pug">
   .modal-stake
+    //- Header
     .stake-header
       img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
       span.tm-modal-title Stake
 
+    //- Amount
     tm-form-group.stake-form-group(
-      :error='$v.amount.$invalid'
       field-id='amount'
       field-label='Amount'
     )
@@ -55,7 +56,6 @@ export default {
     TmFormMsg
   },
   data: () => ({
-    focused: false,
     amount: 0,
     fromIndex: 0
   }),
@@ -88,31 +88,31 @@ export default {
 @import '~variables'
 
 .modal-stake
-  background: var(--app-nav)
-  display: flex
-  flex-direction: column
-  height: 50%
-  justify-content: space-between
-  left: 50%
-  padding: 3%
-  position: fixed
-  top: 50%
-  width: 40%
-  z-index: z(modal)
+  background var(--app-nav)
+  display flex
+  flex-direction column
+  height 50%
+  justify-content space-between
+  left 50%
+  padding 2em
+  position fixed
+  top 50%
+  width 40%
+  z-index z(modal)
 
   .stake-header
-    align-items: center
-    display: flex
+    align-items center
+    display flex
 
     .stake-atom
-      height: 3em
-      width: 3em
+      height 3em
+      width 3em
 
   .stake-form-group
-    display: block
-    padding: 0
+    display block
+    padding 0
 
   .stake-footer
-    display: flex
-    justify-content: flex-end
+    display flex
+    justify-content flex-end
 </style>

@@ -37,6 +37,7 @@ tm-page(:title='validatorTitle(this.validator)')
 
     modal-stake(
       v-if="showModalStake"
+<<<<<<< HEAD
       v-on:stake="onStake"
       :showModalStake.sync="showModalStake"
       :fromOptions="modalOptions()"
@@ -46,6 +47,25 @@ tm-page(:title='validatorTitle(this.validator)')
     tm-btn(
       @click.native="showModalStake = true"
       color="primary"
+=======
+      v-on:submitDelegation="submitDelegation"
+      :showModalStake.sync="showModalStake"
+      :fromOptions="[{ key: `My Wallet - ${this.wallet.address}`, value: 0 }]"
+      :maximum="availableAtoms()"
+      :to="validator.owner"
+    )
+
+    tm-modal(:close="closeCannotStake" icon="warning" v-if="showCannotStake")
+      div(slot='title') Cannot Stake
+      p You have no {{ bondingDenom }}s to stake.
+      div(slot='footer')
+        tmBtn(@click.native="closeCannotStake()" value="OK")
+
+    tm-btn(
+      @click.native="onStake()"
+      color="primary"
+      id="Stake"
+>>>>>>> eb01ebfefce94212f642fe087b0daae49eed03ec
       value="Stake"
     )
 </template>
@@ -54,24 +74,28 @@ tm-page(:title='validatorTitle(this.validator)')
 import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
+import { calculateTokens, shortAddress } from "scripts/common"
 import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
-import { shortAddress } from "scripts/common"
+import TmModal from "common/TmModal"
 import { isEmpty } from "lodash"
+
 export default {
   name: "page-validator",
   components: {
     AnchorCopy,
-    "modal-stake": ModalStake,
+    ModalStake,
     TmBtn,
     TmListItem,
+    TmModal,
     TmPage,
     TmPart,
     TmToolBar,
     TmDataError
   },
   data: () => ({
+    showCannotStake: false,
     showModalStake: false
   }),
   computed: {
@@ -100,16 +124,31 @@ export default {
     }
   },
   methods: {
-    async onStake({ amount }) {
-      const to = this.validator.owner
+    availableAtoms() {
+      return this.totalAtoms - this.oldBondedAtoms
+    },
+    closeCannotStake() {
+      this.showCannotStake = false
+    },
+    onStake() {
+      if (this.availableAtoms() > 0) {
+        this.showModalStake = true
+      } else {
+        this.showCannotStake = true
+      }
+    },
+    async submitDelegation({ amount }) {
+      const candidateId = this.validator.owner
 
-      const currentlyDelegated =
-        parseInt(this.delegation.committedDelegates[to]) || 0
+      const currentlyDelegated = calculateTokens(
+        this.validator,
+        this.delegation.committedDelegates[candidateId] || 0
+      )
 
       const delegation = [
         {
-          atoms: currentlyDelegated + amount,
-          delegate: { owner: to }
+          atoms: currentlyDelegated.plus(amount),
+          delegate: this.validator
         }
       ]
 
@@ -120,7 +159,9 @@ export default {
           title: "Successful Staking!",
           body: `You have successfully staked your ${this.bondingDenom}s.`
         })
-      } catch ({ message }) {
+      } catch (exception) {
+        const { message } = exception
+        console.log(exception.stack)
         let errData = message.split("\n")[5]
 
         if (errData) {
