@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * added new validator component @okwme
 * simple loading indicator for page staking @faboweb
 * possibility to end unbonding transactions @faboweb
+* add option in staking modal to redelegate tokens from previosly bonded validators @fedekunze
 
 ### Changed
 
