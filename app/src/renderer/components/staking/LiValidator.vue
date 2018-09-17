@@ -1,37 +1,37 @@
 <template lang='pug'>
-.LiValidator(:class='styles'): .LiValidator__values
-  .LiValidator__value.name
+.li-validator(:class='styles'): .li-validator__values
+  .li-validator__value.name
     router-link(:to="{ name: 'validator', params: { validator: delegate.id }}")
       img.avatar(v-if="delegate.keybase" :src="delegate.keybase.avatarUrl" width="48" height="48")
       img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
       .vert
         .top {{ delegate.description.moniker }}
         .bottom {{ shortAddress(delegate.id)}}
-  .LiValidator__value.your-votes
+  .li-validator__value.your-votes
     span {{ yourVotes }}
-  .LiValidator__value.your-rewards
+  .li-validator__value.your-rewards
     span {{ yourRewards }}
-  .LiValidator__break: span
-  .LiValidator__value.percent_of_vote
+  .li-validator__break: span
+  .li-validator__value.percent_of_vote
     span {{ delegate.percent_of_vote }}
-  .LiValidator__value.uptime
+  .li-validator__value.uptime
     // add .green .yellow or .red class to this span to trigger inidication by color
     span {{ uptime }}
-  .LiValidator__value.commission
+  .li-validator__value.commission
     // add .green .yellow or .red class to this span to trigger inidication by color
     span {{ commission }}
-  .LiValidator__value.slashes
+  .li-validator__value.slashes
     // add .green .yellow or .red class to this span to trigger inidication by color
     span {{ slashes }}
   template(v-if="!disabled")
-    .LiValidator__value.checkbox(v-if="committedDelegations[delegate.id]")
+    .li-validator__value.checkbox(v-if="committedDelegations[delegate.id]")
       i.material-icons lock
-    .LiValidator__value.checkbox#remove-from-cart(v-else-if="inCart" @click='rm(delegate)')
+    .li-validator__value.checkbox#remove-from-cart(v-else-if="inCart" @click='rm(delegate)')
       i.material-icons check_box
-    .LiValidator__value.checkbox#add-to-cart(v-else @click='add(delegate)')
+    .li-validator__value.checkbox#add-to-cart(v-else @click='add(delegate)')
       i.material-icons check_box_outline_blank
   template(v-else)
-    .LiValidator__value
+    .li-validator__value
 </template>
 
 <script>
@@ -103,29 +103,29 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.LiValidator
+.li-validator
   border 1px solid var(--bc)
   margin-bottom 1em
 
   &:nth-of-type(2n-1)
     background var(--app-fg)
 
-  &.LiValidator-active
+  &.li-validator-active
     background var(--app-bg-alpha)
 
-    .LiValidator__value i
+    .li-validator__value i
       color var(--link)
 
   &:hover
     background var(--hover-bg)
 
-.LiValidator__values
+.li-validator__values
   display flex
   height 5rem
   padding 12px 1em
   background-color var(--app-nav)
 
-  & > .LiValidator__value:not(:first-of-type) span
+  & > .li-validator__value:not(:first-of-type) span
     color var(--dim)
     background-color var(--white-fade-1)
     border 1px solid var(--white-fade-2)
@@ -153,7 +153,7 @@ export default {
       background-color var(--red-fade-1)
       border 1px solid var(--red-fade-2)
 
-.LiValidator__break
+.li-validator__break
   flex 0
   display flex
   align-items center
@@ -165,7 +165,7 @@ export default {
     background-color var(--white-fade-1)
     height 2rem
 
-.LiValidator__value
+.li-validator__value
   flex 1
   display flex
   align-items center
@@ -194,7 +194,7 @@ export default {
           font-size h6
           color var(--dim)
 
-    .LiValidator__icon
+    .li-validator__icon
       width 1.5rem
       display flex
       align-items center

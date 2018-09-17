@@ -39,20 +39,20 @@ tm-page(:title='validatorTitle(this.validator)')
           +dl('Uptime', 3456)
           +dl('Commission', 12300)
           +dl('Slashes', 3456)
-        //- .LiValidator__break: span
-        //-   .LiValidator__value.your-votes
+        //- .li-validator__break: span
+        //-   .li-validator__value.your-votes
         //-     span {{ yourVotes }}
-        //-   .LiValidator__value.your-rewards
+        //-   .li-validator__value.your-rewards
         //-     span {{ yourRewards }}
-        //-   .LiValidator__value.percent_of_vote
+        //-   .li-validator__value.percent_of_vote
         //-     span {{ validator.percent_of_vote }}
-        //-   .LiValidator__value.uptime
+        //-   .li-validator__value.uptime
         //-     // add .green .yellow or .red class to this span to trigger inidication by color
         //-     span {{ uptime }}
-        //-   .LiValidator__value.commission
+        //-   .li-validator__value.commission
         //-     // add .green .yellow or .red class to this span to trigger inidication by color
         //-     span {{ commission }}
-        //-   .LiValidator__value.slashes
+        //-   .li-validator__value.slashes
         //-     // add .green .yellow or .red class to this span to trigger inidication by color
         //-     span {{ slashes }}
 
