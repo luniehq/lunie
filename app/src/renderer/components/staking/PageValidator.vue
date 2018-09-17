@@ -8,9 +8,6 @@ tm-page
   tm-data-error(v-if="!validator")
 
   template(v-else)
-    tm-part(title='!!! CRITICAL ALERT !!!' v-if="validator.revoked")
-      tm-list-item(title="This validator is revoked!" subtitle="Are you the owner? Go fix it!" type="anchor" href="https://cosmos.network/docs/validators/validator-setup.html#common-problems")
-
     .validator-profile__header.validator-profile__section
       .column
         img.avatar(v-if="validator.keybase" :src="validator.keybase.avatarUrl")
@@ -18,7 +15,9 @@ tm-page
       .column.validator-profile__header__info
         .row.validator-profile__header__name
           .column
-            .validator-profile__header__name__title {{ validator.description.moniker || 'Anonymous' }}
+            div.validator-profile__status-and-title
+              span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
+              .validator-profile__header__name__title {{ validator.description.moniker || 'Anonymous' }}
             //- TODO replace with address component when ready
             anchor-copy.validator-profile__header__name__address(:value="validator.owner" :label="shortAddress(validator.owner)")
           .column.validator-profile__header__actions
@@ -31,10 +30,10 @@ tm-page
           dl.colored_dl(v-if="config.devMode")
             dt My Rewards
             dd n/a
+          .validator-profile__header__data__break
           dl.colored_dl
             dt Voting Power
             dd(v-bind:class="[powerRatioLevel]") {{(powerRatio * 100).toFixed(2)}} %
-          .validator-profile__header__data__break
           dl.colored_dl(v-if="config.devMode")
             dt Uptime
             dd n/a
@@ -168,6 +167,28 @@ export default {
       if (this.validator.commission < 0.01) return "green"
       if (this.validator.commission < 0.03) return "yellow"
       return "red"
+    },
+    status() {
+      // status: jailed
+      if (this.validator.revoked)
+        return "This validator has been jailed and is not currently validating"
+
+      // status: candidate
+      if (this.validator.voting_power === 0)
+        return "This validator has declared candidacy but does not have enough voting power yet"
+
+      // status: validator
+      return "This validator is actively validating"
+    },
+    statusColor() {
+      // status: jailed
+      if (this.validator.revoked) return "red"
+
+      // status: candidate
+      if (this.validator.voting_power === 0) return "yellow"
+
+      // status: validator
+      return "green"
     }
   },
   methods: {
@@ -269,6 +290,7 @@ export default {
 .column
   display flex
   flex-flow column
+  position relative
 
 .row
   display flex
@@ -278,12 +300,12 @@ export default {
 .validator-profile
   &__header
     .avatar
-      height 178px
-      width 178px
+      height 155px
+      width 155px
       margin-right 2rem
       background var(--app-nav)
       border-radius 50%
-      padding 16px
+      padding 1rem
 
     &__info
       flex 1
@@ -293,7 +315,10 @@ export default {
 
       &__title
         font-size h1
+        line-height h1
         color white
+        padding 0 0.5rem 0.5rem 0
+        display inline-block
 
       &__address
         font-size small
@@ -305,6 +330,31 @@ export default {
       button:not(:last-child)
         margin-bottom 0.5rem
 
+  &__header__data__break
+    border-right 1px solid var(--bc-dim)
+    margin-right 1rem
+
+  &__status
+    display inline-block
+    width 0.5rem
+    height 0.5rem
+    border-radius 50%
+    position absolute
+    left -1rem
+
+    &.red
+      background var(--danger)
+
+    &.yellow
+      background var(--warning)
+
+    &.green
+      background var(--success)
+
+  &__status-and-title
+    display flex
+    align-items center
+
   &__details
     > .row
       > .column
@@ -314,11 +364,11 @@ export default {
   display flex
   flex-flow column
   margin-right 1rem
-  margin-bottom 1rem
+  margin-bottom 1.5rem
 
   dt
     color var(--dim)
-    margin-bottom 0.5rem
+    margin-bottom 4px
     font-size small
 
   dd
@@ -333,7 +383,6 @@ export default {
 
 .colored_dl
   display flex
-  height 5rem
   width 5.1rem
   flex-direction column
   align-items center
@@ -354,8 +403,8 @@ export default {
     border-radius 4px
     display block
     width 100%
-    font-size h5
-    line-height h5
+    font-size h6
+    line-height h6
     text-align right
     padding 4px 4px
 
