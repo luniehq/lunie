@@ -93,6 +93,8 @@ export default {
       "config",
       "keybase",
       `oldBondedAtoms`,
+      "parameters",
+      "pool",
       `totalAtoms`,
       `wallet`
     ]),
