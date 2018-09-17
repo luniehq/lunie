@@ -86,8 +86,9 @@ describe("Store", () => {
       value: 1
     })
     store.commit("setUnbondingDelegations", {
-      candidateId: lcdClientMock.validators[1],
-      value: 1
+      validator_addr: lcdClientMock.validators[1],
+      balance: { amount: 1 },
+      min_time: new Date().toUTCString()
     })
     jest.runAllTimers() // updating is waiting if more updates coming in, this skips the waiting
     await store.dispatch("signOut")
@@ -111,7 +112,10 @@ describe("Store", () => {
     ).toBe(1)
     expect(
       store.state.delegation.unbondingDelegations[lcdClientMock.validators[1]]
-    ).toBe(1)
+    ).toEqual({
+      balance: { amount: 1 },
+      min_time: new Date().toUTCString()
+    })
     expect(store.state.delegation.delegates).toHaveLength(1)
   })
 

@@ -41,12 +41,12 @@ export default ({ node }) => {
       }
       state.committedDelegates = committedDelegates
     },
-    setUnbondingDelegations(state, { candidateId, value }) {
+    setUnbondingDelegations(state, { validator_addr, min_time, balance }) {
       let unbondingDelegations = Object.assign({}, state.unbondingDelegations)
-      if (value === 0) {
-        delete unbondingDelegations[candidateId]
+      if (balance.amount === 0) {
+        delete unbondingDelegations[validator_addr]
       } else {
-        unbondingDelegations[candidateId] = value
+        unbondingDelegations[validator_addr] = { min_time, balance }
       }
       state.unbondingDelegations = unbondingDelegations
     },
@@ -93,17 +93,45 @@ export default ({ node }) => {
           }
         })
       }
+      // delete delegations not present anymore
+      Object.keys(state.committedDelegates).forEach(validatorAddr => {
+        if (
+          !delegator.delegations ||
+          !delegator.delegations.find(
+            ({ validator_addr }) => validator_addr === validatorAddr
+          )
+        )
+          commit("setCommittedDelegation", {
+            candidateId: validatorAddr,
+            value: 0
+          })
+      })
 
       if (delegator.unbonding_delegations) {
         delegator.unbonding_delegations.forEach(
-          ({ validator_addr, balance: { amount } }) => {
+          ({ validator_addr, balance, min_time }) => {
             commit("setUnbondingDelegations", {
-              candidateId: validator_addr,
-              value: parseFloat(amount)
+              validator_addr,
+              balance,
+              min_time
             })
           }
         )
       }
+      // delete undelegations not present anymore
+      Object.keys(state.unbondingDelegations).forEach(validatorAddr => {
+        if (
+          !delegator.unbonding_delegations ||
+          !delegator.unbonding_delegations.find(
+            ({ validator_addr }) => validator_addr === validatorAddr
+          )
+        )
+          commit("setUnbondingDelegations", {
+            validator_addr: validatorAddr,
+            balance: { amount: 0 }
+          })
+      })
+
       state.loadedOnce = true
       state.loading = false
     },
@@ -159,7 +187,9 @@ export default ({ node }) => {
             delegator_addr: rootState.wallet.address,
             validator_addr: candidateId,
             shares: String(
-              Math.abs(calculateShares(delegation.delegate, amountChange))
+              Math.abs(
+                calculateShares(delegation.delegate, amountChange)
+              ).toFixed(8) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
             )
           })
         }
@@ -192,7 +222,38 @@ export default ({ node }) => {
         //   commit
         // )
         // )
-      }, 15000)
+      }, 5000)
+    },
+    async endUnbonding({ rootState, state, dispatch, commit }, validatorAddr) {
+      try {
+        await dispatch("sendTx", {
+          type: "updateDelegations",
+          to: rootState.wallet.address, // TODO strange syntax
+          complete_unbondings: [
+            {
+              delegator_addr: rootState.wallet.address,
+              validator_addr: validatorAddr
+            }
+          ]
+        })
+
+        let balance = state.unbondingDelegations[validatorAddr].balance
+        commit("setUnbondingDelegations", {
+          validator_addr: validatorAddr,
+          balance: { amount: 0 }
+        })
+        commit("notify", {
+          title: "Ending undelegation successful",
+          body: `You successfully undelegated ${balance.amount} ${
+            balance.denom
+          }s from ${validatorAddr}`
+        })
+      } catch (err) {
+        commit("notifyError", {
+          title: "Ending undelegation failed",
+          body: err
+        })
+      }
     }
   }
 
