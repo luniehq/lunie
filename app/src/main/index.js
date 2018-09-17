@@ -269,6 +269,12 @@ async function startLCD(home, nodeIP) {
     ])
     logProcess(child, join(home, "lcd.log"))
 
+    child.on("exit", () => {
+      console.log("exit")
+      reject()
+      handleCrash(`The ${LCD_BINARY_NAME} rest-server (LCD) exited unplanned`)
+    })
+
     // poll until LCD is started
     let client = new LcdClient(`http://localhost:${LCD_PORT}`)
     while (true) {
@@ -280,20 +286,6 @@ async function startLCD(home, nodeIP) {
       }
     }
     resolve(child)
-
-    child.on("exit", () => {
-      reject()
-      afterBooted(() => {
-        if (mainWindow) {
-          // TODO unify/refactor logError and webContents.send
-          logError(`The ${LCD_BINARY_NAME} rest-server (LCD) exited unplanned`)
-          mainWindow.webContents.send(
-            "error",
-            Error(`The ${LCD_BINARY_NAME} rest-server (LCD) exited unplanned`)
-          )
-        }
-      })
-    })
   })
 }
 
@@ -303,11 +295,17 @@ function stopLCD() {
       resolve()
     }
     log("Stopping the LCD server")
-    // prevent the exit to signal bad termination warnings
-    lcdProcess.removeAllListeners("exit")
-    lcdProcess.on("exit", resolve)
-    lcdProcess.kill("SIGKILL")
-    lcdProcess = null
+    try {
+      // prevent the exit to signal bad termination warnings
+      lcdProcess.removeAllListeners("exit")
+      lcdProcess.on("exit", resolve)
+      lcdProcess.kill("SIGKILL")
+      lcdProcess = null
+      resolve()
+    } catch (err) {
+      handleCrash(err)
+      reject()
+    }
   })
 }
 
@@ -553,7 +551,12 @@ async function pickAndConnect(addressbook) {
     return
   }
 
-  await connect(nodeIP)
+  try {
+    await connect(nodeIP)
+  } catch (err) {
+    handleCrash(err)
+    return
+  }
 
   let compatible, nodeVersion
   try {
@@ -586,17 +589,13 @@ async function pickAndConnect(addressbook) {
 
 async function connect(nodeIP) {
   log(`starting gaia rest server with nodeIP ${nodeIP}`)
-  try {
-    lcdProcess = await startLCD(lcdHome, nodeIP)
-    log("gaia rest server ready")
+  lcdProcess = await startLCD(lcdHome, nodeIP)
+  log("gaia rest server ready")
 
-    afterBooted(() => {
-      log("Signaling connected node")
-      mainWindow.webContents.send("connected", nodeIP)
-    })
-  } catch (err) {
-    handleCrash(err)
-  }
+  afterBooted(() => {
+    log("Signaling connected node")
+    mainWindow.webContents.send("connected", nodeIP)
+  })
 
   connecting = false
 }

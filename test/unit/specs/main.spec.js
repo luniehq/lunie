@@ -564,6 +564,28 @@ describe("Startup Process", () => {
       main.shutdown()
     })
 
+    it.only("should error on gaiacli crashing on reconnect instead of breaking", async () => {
+      prepareMain()
+      // jest.resetModules()
+      let connectionAttempt = 0
+      childProcessMock(() => {
+        connectionAttempt++
+        console.log(connectionAttempt)
+        return {
+          on: (type, cb) => {
+            console.log(connectionAttempt)
+            if (connectionAttempt === 2 && type === "exit") cb(2)
+          }
+        }
+      })
+      childProcess = require("child_process")
+      main = await require(appRoot + "src/main/index.js")
+      let { send } = require("electron")
+      await main.eventHandlers.reconnect()
+      console.log(send.mock.calls.find(([type]) => type === "error"))
+      expect(send.mock.calls.find(([type]) => type === "error")).toBeTruthy()
+    })
+
     it("should fail if config.toml has no seeds", async () => {
       main = await initMain()
       main.shutdown()
@@ -644,15 +666,6 @@ describe("Startup Process", () => {
   describe("Error handling on init", () => {
     // testFailingChildProcess("gaiacli", "init")
     testFailingChildProcess("gaiacli", "rest-server")
-
-    it("should error on gaiacli crashing on reconnect instead of breaking", async () => {
-      let { send } = require("electron")
-      childProcess.spawn = jest.fn(() => {
-        throw Error("Expected")
-      })
-      await main.eventHandlers.reconnect()
-      expect(send.mock.calls.find(([type]) => type === "error")).toBeTruthy()
-    })
   })
 })
 
