@@ -73,8 +73,8 @@ export default {
     },
     styles() {
       let value = ""
-      if (this.inCart || this.yourVotes > 0) value += ".li-validator-active "
-      if (this.delegate.isValidator) value += ".li-validator-validator "
+      if (this.inCart || this.yourVotes > 0) value += "li-validator-active "
+      if (this.delegate.isValidator) value += "li-validator-validator "
       return value
     },
     inCart() {
