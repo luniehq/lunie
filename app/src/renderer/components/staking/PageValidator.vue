@@ -186,6 +186,7 @@ export default {
       return numeral(num).format("0,0.00")
     },
     modalOptions() {
+      //- First option should always be your wallet (i.e normal delegation)
       let myWallet = [
         {
           address: this.wallet.address,
@@ -198,20 +199,24 @@ export default {
       if (isEmpty(bondedValidators)) {
         return myWallet
       }
-      let redelegationOptions = bondedValidators.map((address, index) => {
-        let delegate = this.delegates.delegates.find(function(validator) {
-          return validator.owner === address
+      //- The rest of the options are from your other bonded validators
+      //- We skip the option of redelegating to the same address
+      let redelegationOptions = bondedValidators
+        .filter(address => address != this.$route.params.validator)
+        .map((address, index) => {
+          let delegate = this.delegates.delegates.find(function(validator) {
+            return validator.owner === address
+          })
+          return {
+            address: address,
+            maximum: this.committedDelegations[address],
+            key: `${delegate.description.moniker} - ${shortAddress(
+              delegate.owner,
+              20
+            )}`,
+            value: index + 1
+          }
         })
-        return {
-          address: address,
-          maximum: this.committedDelegations[address],
-          key: `${delegate.description.moniker} - ${shortAddress(
-            delegate.owner,
-            20
-          )}`,
-          value: index + 1
-        }
-      })
       return myWallet.concat(redelegationOptions)
     }
   }
