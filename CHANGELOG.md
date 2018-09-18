@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * test if build Voyager actually starts @faboweb
 * added new validator component @okwme
 * simple loading indicator for page staking @faboweb
+* possibility to end unbonding transactions @faboweb
 
 ### Changed
 
@@ -22,12 +23,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Do not try to publish a release on every push to `develop`! @NodeGuy
 * validator url on txs leading to explorer @faboweb
-* fixed lots of incorrect calculations & bugs on bond page @okwme
+* fixed a lot of incorrect calculations & bugs on bond page @okwme @faboweb
 * removed unnecessary watcher for filling the shopping cart from LiDelegate @faboweb
 * delegations request would update state of next user after sign out sign in @ƒaboweb
 * enable user to stake only after the request for his current delegations has returned @ƒaboweb
 * cache undelegations @faboweb
 * show error instead of breaking Voyager if reconnection fails @faboweb
+* reconnection errors did not show up correctly in view @faboweb
 
 ## [0.10.2] - 2018-08-29
 
