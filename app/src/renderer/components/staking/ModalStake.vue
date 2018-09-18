@@ -4,8 +4,14 @@
     .stake-header
       img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
       span.tm-modal-title Stake
+      .tm-modal-icon.tm-modal-close(@click="close()")
+        i.material-icons close
 
     //- Amount
+    //- TODO we should handle decimals later as well, specially when the amount
+    //- value is equal to the floor(:max) and the up button is pressed. Which
+    //- means you're always left with a remaining between 0-1 when trying to bond
+    //- the max amount
     tm-form-group.stake-form-group(
       field-id='amount'
       field-label='Amount'
@@ -67,7 +73,7 @@ export default {
   validations() {
     return {
       amount: {
-        between: between(1, 25)
+        between: between(1, this.fromOptions[this.selectedIndex].maximum)
       }
     }
   },
@@ -75,20 +81,12 @@ export default {
     close() {
       this.$emit("update:showModalStake", false)
     },
-    changeIdx() {
-      this.selectedIndex += 1
-    },
-    onChange(e) {
-      console.log(selectedOption)
-      console.log(this.selectedOption)
-    },
     onStake() {
       if (!this.$v.$invalid) {
         this.$emit(`submitDelegation`, {
           amount: this.amount,
           from: this.fromOptions[this.selectedIndex].address
         })
-
         this.close()
       }
     }
@@ -117,8 +115,8 @@ export default {
     display flex
 
     .stake-atom
-      height 3em
-      width 3em
+      height 4em
+      width 4em
 
   .stake-form-group
     display block

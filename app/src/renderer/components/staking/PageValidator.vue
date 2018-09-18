@@ -190,7 +190,7 @@ export default {
         {
           address: this.wallet.address,
           maximum: this.totalAtoms - this.oldBondedAtoms,
-          key: `My Wallet - ${shortAddress(this.wallet.address, 8)}`,
+          key: `My Wallet - ${shortAddress(this.wallet.address, 20)}`,
           value: 0
         }
       ]
@@ -207,7 +207,7 @@ export default {
           maximum: this.committedDelegations[address],
           key: `${delegate.description.moniker} - ${shortAddress(
             delegate.owner,
-            8
+            20
           )}`,
           value: index + 1
         }
