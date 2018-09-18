@@ -13,15 +13,76 @@ exports[`PageValidator has the expected html structure 1`] = `
       <div
         class="tm-page-header-text"
       >
+        <!---->
+        <!---->
         <div
-          class="tm-page-header-title"
+          class="tm-page-header-body"
         >
-          <h2>
-            herr_schmidt_revoked - (a2b3c)
-          </h2>
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <img
+                class="icon"
+                src="~assets/images/cosmos-logo.png"
+              />
+              <div
+                class="total-atoms top-section"
+              >
+                <div
+                  class="h3"
+                >
+                  Total Steak
+                </div>
+                <div
+                  class="h2"
+                >
+                  0.00
+                </div>
+              </div>
+              <!---->
+              <!---->
+              <!---->
+            </div>
+            <div
+              class="bottom"
+            >
+              <div
+                class="address"
+              >
+                
+              </div>
+              <div
+                class="success"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+            <div
+              class="tabs"
+            >
+              <div
+                class="tab"
+              >
+                My Stake
+              </div>
+              <div
+                class="tab tab-selected"
+              >
+                Validators
+              </div>
+            </div>
+          </div>
         </div>
-        <!---->
-        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -68,479 +129,282 @@ exports[`PageValidator has the expected html structure 1`] = `
   <main
     class="tm-page-main ps"
   >
-    <section
-      class="tm-part"
+    <div
+      class="validator-profile__header validator-profile__section"
     >
       <div
-        class="tm-part-container"
+        class="column"
       >
-        <header
-          class="tm-part-header"
-        >
-          <div
-            class="tm-part-header-container"
-          >
-            <div
-              class="tm-part-title h5"
-            >
-              !!! CRITICAL ALERT !!!
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <a
-            class="tm-li tm-li-link"
-            href="https://cosmos.network/docs/validators/validator-setup.html#common-problems"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-label"
-              >
-                <div
-                  class="tm-li-title"
-                >
-                  This validator is revoked!
-                </div>
-                <div
-                  class="tm-li-subtitle"
-                >
-                  Are you the owner? Go fix it!
-                </div>
-              </div>
-              <div
-                class="tm-li-icon"
-              >
-                <i
-                  class="material-icons inactive"
-                >
-                  chevron_right
-                </i>
-                <i
-                  class="material-icons active"
-                >
-                  my_location
-                </i>
-              </div>
-            </div>
-          </a>
-        </main>
+        <img
+          class="avatar"
+          src="~assets/images/validator-icon.svg"
+        />
       </div>
-    </section>
-    <section
-      class="tm-part"
-      id="validator-profile"
-    >
       <div
-        class="tm-part-container"
+        class="column validator-profile__header__info"
       >
-        <header
-          class="tm-part-header"
+        <div
+          class="row validator-profile__header__name"
         >
           <div
-            class="tm-part-header-container"
+            class="column"
           >
             <div
-              class="tm-part-title h5"
+              class="validator-profile__status-and-title"
             >
-              Validator Profile
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <img
-            class="avatar"
-            height="192"
-            src="~assets/images/validator-icon.svg"
-            width="192"
-          />
-          <div
-            class="list-items"
-          >
-            <div
-              class="tm-li"
-            >
+              <span
+                class="validator-profile__status green"
+              />
               <div
-                class="tm-li-container"
+                class="validator-profile__header__name__title"
               >
-                <div
-                  class="tm-li-thumb"
-                >
-                  <!---->
-                </div>
-                <div
-                  class="tm-li-dl"
-                >
-                  <div
-                    class="tm-li-dt"
-                  >
-                    Moniker
-                  </div>
-                  <div
-                    class="tm-li-dd"
-                  >
-                    herr_schmidt_revoked
-                  </div>
-                </div>
+                herr_schmidt_revoked - (a2b3c)
               </div>
             </div>
             <a
-              class="tm-li tm-li-link"
-              href="https://cosmos.network/docs/validators/validator-setup.html#edit-validator-description"
-              target="_blank"
+              class="anchor-copy validator-profile__header__name__address"
             >
-              <div
-                class="tm-li-container"
+              <i
+                class="material-icons"
               >
-                <div
-                  class="tm-li-thumb"
-                >
-                  <!---->
-                </div>
-                <div
-                  class="tm-li-dl"
-                >
-                  <div
-                    class="tm-li-dt"
-                  >
-                    Keybase
-                  </div>
-                  <div
-                    class="tm-li-dd"
-                  >
-                    add your avatar
-                  </div>
-                </div>
-                <div
-                  class="tm-li-icon"
-                >
-                  <i
-                    class="material-icons inactive"
-                  >
-                    chevron_right
-                  </i>
-                  <i
-                    class="material-icons active"
-                  >
-                    my_location
-                  </i>
-                </div>
-              </div>
+                
+              </i>
+              …2b3c
             </a>
-            <div
-              class="tm-li"
-            >
-              <div
-                class="tm-li-container"
-              >
-                <div
-                  class="tm-li-thumb"
-                >
-                  <!---->
-                </div>
-                <div
-                  class="tm-li-dl"
-                >
-                  <div
-                    class="tm-li-dt"
-                  >
-                    Website
-                  </div>
-                  <div
-                    class="tm-li-dd"
-                  >
-                    
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="tm-li"
-            >
-              <div
-                class="tm-li-container"
-              >
-                <div
-                  class="tm-li-thumb"
-                >
-                  <!---->
-                </div>
-                <div
-                  class="tm-li-dl"
-                >
-                  <div
-                    class="tm-li-dt"
-                  >
-                    Details
-                  </div>
-                  <div
-                    class="tm-li-dd"
-                  >
-                    
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
-        </main>
-      </div>
-    </section>
-    <section
-      class="tm-part"
-    >
-      <div
-        class="tm-part-container"
-      >
-        <header
-          class="tm-part-header"
-        >
           <div
-            class="tm-part-header-container"
+            class="column validator-profile__header__actions"
           >
-            <div
-              class="tm-part-title h5"
+            <button
+              class="tm-btn"
+              id="stake-btn"
             >
-              Validator Keys
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
+              <span
+                class="tm-btn__container tm-btn--primary"
               >
                 <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
+                <!---->
+                <span
+                  class="tm-btn__value"
                 >
-                  Owner
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  1a2b3c
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
+                  Stake
+                </span>
+              </span>
+            </button>
+            <button
+              class="tm-btn"
             >
-              <div
-                class="tm-li-thumb"
+              <span
+                class="tm-btn__container tm-btn--secondary"
               >
                 <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
+                <!---->
+                <span
+                  class="tm-btn__value"
                 >
-                  Pub Key
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  {
-  "type": "AC26791624DE60",
-  "data": "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0="
-}
-                </div>
-              </div>
-            </div>
+                  Unstake
+                </span>
+              </span>
+            </button>
           </div>
-        </main>
-      </div>
-    </section>
-    <!---->
-    <section
-      class="tm-part"
-    >
-      <div
-        class="tm-part-container"
-      >
-        <header
-          class="tm-part-header"
+        </div>
+        <div
+          class="row validator-profile__header__data"
         >
-          <div
-            class="tm-part-header-container"
+          <dl
+            class="colored_dl"
           >
-            <div
-              class="tm-part-title h5"
+            <dt>
+              My Stake
+            </dt>
+            <dd>
+              &lt; 0.01
+            </dd>
+          </dl>
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              My Rewards
+            </dt>
+            <dd>
+              n/a
+            </dd>
+          </dl>
+          <div
+            class="validator-profile__header__data__break"
+          />
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Voting Power
+            </dt>
+            <dd
+              class="red"
+              id="validator-profile__power"
             >
+              100.00 %
+            </dd>
+          </dl>
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+            <dd>
+              n/a
+            </dd>
+          </dl>
+          <dl
+            class="colored_dl"
+          >
+            <dt>
               Commission
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
+            </dt>
+            <dd
+              class="red"
+              id="validator-profile__commission"
             >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Commission
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  0.00 %
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tm-li"
+              0.05 %
+            </dd>
+          </dl>
+          <dl
+            class="colored_dl"
           >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Commission Maximum
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  0.00 %
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Commission Change-Rate
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  0.00 %
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Commission Change Today
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  0.00 %
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
+            <dt>
+              Slashes
+            </dt>
+            <dd>
+              n/a
+            </dd>
+          </dl>
+        </div>
       </div>
-    </section>
-    <!---->
-    <!---->
-    <button
-      class="tm-btn"
-      id="Stake"
+    </div>
+    <div
+      class="validator-profile__details validator-profile__section"
     >
-      <span
-        class="tm-btn__container tm-btn--primary"
+      <div
+        class="row"
       >
-        <!---->
-        <!---->
-        <span
-          class="tm-btn__value"
+        <div
+          class="column"
         >
-          Stake
-        </span>
-      </span>
-    </button>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Public Key
+            </dt>
+            <dd>
+              1a2b3c
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Keybase ID
+            </dt>
+            <dd>
+              n/a
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              First Seen
+            </dt>
+            <dd>
+              n/a
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Details
+            </dt>
+            <dd
+              class="info_dl__text-box"
+            >
+              n/a
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Commission Rate
+            </dt>
+            <dd>
+              0.05 %
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Commission Rate
+            </dt>
+            <dd>
+              0.1 %
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Commission Change Today
+            </dt>
+            <dd>
+              0.005 %
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Daily Commission Change
+            </dt>
+            <dd>
+              0.01 %
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Self Stake
+            </dt>
+            <dd
+              id="validator-profile__self-bond"
+            >
+              0 %
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Minimum Self Stake
+            </dt>
+            <dd>
+              0 %
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <!---->
+    <!---->
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
@@ -578,15 +442,76 @@ exports[`PageValidator shows a default avatar 1`] = `
       <div
         class="tm-page-header-text"
       >
+        <!---->
+        <!---->
         <div
-          class="tm-page-header-title"
+          class="tm-page-header-body"
         >
-          <h2>
-            herr_schmidt_revoked - (a2b3c)
-          </h2>
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <img
+                class="icon"
+                src="~assets/images/cosmos-logo.png"
+              />
+              <div
+                class="total-atoms top-section"
+              >
+                <div
+                  class="h3"
+                >
+                  Total Steak
+                </div>
+                <div
+                  class="h2"
+                >
+                  0.00
+                </div>
+              </div>
+              <!---->
+              <!---->
+              <!---->
+            </div>
+            <div
+              class="bottom"
+            >
+              <div
+                class="address"
+              >
+                
+              </div>
+              <div
+                class="success"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+            <div
+              class="tabs"
+            >
+              <div
+                class="tab"
+              >
+                My Stake
+              </div>
+              <div
+                class="tab tab-selected"
+              >
+                Validators
+              </div>
+            </div>
+          </div>
         </div>
-        <!---->
-        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -633,479 +558,282 @@ exports[`PageValidator shows a default avatar 1`] = `
   <main
     class="tm-page-main"
   >
-    <section
-      class="tm-part"
+    <div
+      class="validator-profile__header validator-profile__section"
     >
       <div
-        class="tm-part-container"
+        class="column"
       >
-        <header
-          class="tm-part-header"
-        >
-          <div
-            class="tm-part-header-container"
-          >
-            <div
-              class="tm-part-title h5"
-            >
-              !!! CRITICAL ALERT !!!
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <a
-            class="tm-li tm-li-link"
-            href="https://cosmos.network/docs/validators/validator-setup.html#common-problems"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-label"
-              >
-                <div
-                  class="tm-li-title"
-                >
-                  This validator is revoked!
-                </div>
-                <div
-                  class="tm-li-subtitle"
-                >
-                  Are you the owner? Go fix it!
-                </div>
-              </div>
-              <div
-                class="tm-li-icon"
-              >
-                <i
-                  class="material-icons inactive"
-                >
-                  chevron_right
-                </i>
-                <i
-                  class="material-icons active"
-                >
-                  my_location
-                </i>
-              </div>
-            </div>
-          </a>
-        </main>
+        <img
+          class="avatar"
+          src="~assets/images/validator-icon.svg"
+        />
       </div>
-    </section>
-    <section
-      class="tm-part"
-      id="validator-profile"
-    >
       <div
-        class="tm-part-container"
+        class="column validator-profile__header__info"
       >
-        <header
-          class="tm-part-header"
+        <div
+          class="row validator-profile__header__name"
         >
           <div
-            class="tm-part-header-container"
+            class="column"
           >
             <div
-              class="tm-part-title h5"
+              class="validator-profile__status-and-title"
             >
-              Validator Profile
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <img
-            class="avatar"
-            height="192"
-            src="~assets/images/validator-icon.svg"
-            width="192"
-          />
-          <div
-            class="list-items"
-          >
-            <div
-              class="tm-li"
-            >
+              <span
+                class="validator-profile__status green"
+              />
               <div
-                class="tm-li-container"
+                class="validator-profile__header__name__title"
               >
-                <div
-                  class="tm-li-thumb"
-                >
-                  <!---->
-                </div>
-                <div
-                  class="tm-li-dl"
-                >
-                  <div
-                    class="tm-li-dt"
-                  >
-                    Moniker
-                  </div>
-                  <div
-                    class="tm-li-dd"
-                  >
-                    herr_schmidt_revoked
-                  </div>
-                </div>
+                herr_schmidt_revoked - (a2b3c)
               </div>
             </div>
             <a
-              class="tm-li tm-li-link"
-              href="https://cosmos.network/docs/validators/validator-setup.html#edit-validator-description"
-              target="_blank"
+              class="anchor-copy validator-profile__header__name__address"
             >
-              <div
-                class="tm-li-container"
+              <i
+                class="material-icons"
               >
-                <div
-                  class="tm-li-thumb"
-                >
-                  <!---->
-                </div>
-                <div
-                  class="tm-li-dl"
-                >
-                  <div
-                    class="tm-li-dt"
-                  >
-                    Keybase
-                  </div>
-                  <div
-                    class="tm-li-dd"
-                  >
-                    add your avatar
-                  </div>
-                </div>
-                <div
-                  class="tm-li-icon"
-                >
-                  <i
-                    class="material-icons inactive"
-                  >
-                    chevron_right
-                  </i>
-                  <i
-                    class="material-icons active"
-                  >
-                    my_location
-                  </i>
-                </div>
-              </div>
+                
+              </i>
+              …2b3c
             </a>
-            <div
-              class="tm-li"
-            >
-              <div
-                class="tm-li-container"
-              >
-                <div
-                  class="tm-li-thumb"
-                >
-                  <!---->
-                </div>
-                <div
-                  class="tm-li-dl"
-                >
-                  <div
-                    class="tm-li-dt"
-                  >
-                    Website
-                  </div>
-                  <div
-                    class="tm-li-dd"
-                  >
-                    
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="tm-li"
-            >
-              <div
-                class="tm-li-container"
-              >
-                <div
-                  class="tm-li-thumb"
-                >
-                  <!---->
-                </div>
-                <div
-                  class="tm-li-dl"
-                >
-                  <div
-                    class="tm-li-dt"
-                  >
-                    Details
-                  </div>
-                  <div
-                    class="tm-li-dd"
-                  >
-                    
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
-        </main>
-      </div>
-    </section>
-    <section
-      class="tm-part"
-    >
-      <div
-        class="tm-part-container"
-      >
-        <header
-          class="tm-part-header"
-        >
           <div
-            class="tm-part-header-container"
+            class="column validator-profile__header__actions"
           >
-            <div
-              class="tm-part-title h5"
+            <button
+              class="tm-btn"
+              id="stake-btn"
             >
-              Validator Keys
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
+              <span
+                class="tm-btn__container tm-btn--primary"
               >
                 <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
+                <!---->
+                <span
+                  class="tm-btn__value"
                 >
-                  Owner
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  1a2b3c
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
+                  Stake
+                </span>
+              </span>
+            </button>
+            <button
+              class="tm-btn"
             >
-              <div
-                class="tm-li-thumb"
+              <span
+                class="tm-btn__container tm-btn--secondary"
               >
                 <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
+                <!---->
+                <span
+                  class="tm-btn__value"
                 >
-                  Pub Key
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  {
-  "type": "AC26791624DE60",
-  "data": "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0="
-}
-                </div>
-              </div>
-            </div>
+                  Unstake
+                </span>
+              </span>
+            </button>
           </div>
-        </main>
-      </div>
-    </section>
-    <!---->
-    <section
-      class="tm-part"
-    >
-      <div
-        class="tm-part-container"
-      >
-        <header
-          class="tm-part-header"
+        </div>
+        <div
+          class="row validator-profile__header__data"
         >
-          <div
-            class="tm-part-header-container"
+          <dl
+            class="colored_dl"
           >
-            <div
-              class="tm-part-title h5"
+            <dt>
+              My Stake
+            </dt>
+            <dd>
+              &lt; 0.01
+            </dd>
+          </dl>
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              My Rewards
+            </dt>
+            <dd>
+              n/a
+            </dd>
+          </dl>
+          <div
+            class="validator-profile__header__data__break"
+          />
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Voting Power
+            </dt>
+            <dd
+              class="red"
+              id="validator-profile__power"
             >
+              100.00 %
+            </dd>
+          </dl>
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+            <dd>
+              n/a
+            </dd>
+          </dl>
+          <dl
+            class="colored_dl"
+          >
+            <dt>
               Commission
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
+            </dt>
+            <dd
+              class="red"
+              id="validator-profile__commission"
             >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Commission
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  0.00 %
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tm-li"
+              0.05 %
+            </dd>
+          </dl>
+          <dl
+            class="colored_dl"
           >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Commission Maximum
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  0.00 %
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Commission Change-Rate
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  0.00 %
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Commission Change Today
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  0.00 %
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
+            <dt>
+              Slashes
+            </dt>
+            <dd>
+              n/a
+            </dd>
+          </dl>
+        </div>
       </div>
-    </section>
-    <!---->
-    <!---->
-    <button
-      class="tm-btn"
-      id="Stake"
+    </div>
+    <div
+      class="validator-profile__details validator-profile__section"
     >
-      <span
-        class="tm-btn__container tm-btn--primary"
+      <div
+        class="row"
       >
-        <!---->
-        <!---->
-        <span
-          class="tm-btn__value"
+        <div
+          class="column"
         >
-          Stake
-        </span>
-      </span>
-    </button>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Public Key
+            </dt>
+            <dd>
+              1a2b3c
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Keybase ID
+            </dt>
+            <dd>
+              n/a
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              First Seen
+            </dt>
+            <dd>
+              n/a
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Details
+            </dt>
+            <dd
+              class="info_dl__text-box"
+            >
+              n/a
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Commission Rate
+            </dt>
+            <dd>
+              0.05 %
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Commission Rate
+            </dt>
+            <dd>
+              0.1 %
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Commission Change Today
+            </dt>
+            <dd>
+              0.005 %
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Daily Commission Change
+            </dt>
+            <dd>
+              0.01 %
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Self Stake
+            </dt>
+            <dd
+              id="validator-profile__self-bond"
+            >
+              0 %
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Minimum Self Stake
+            </dt>
+            <dd>
+              0 %
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <!---->
+    <!---->
   </main>
 </div>
 `;
@@ -1123,13 +851,7 @@ exports[`PageValidator shows a default value if no moniker is set 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Anonymous - (a2b3c)
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -1178,479 +900,224 @@ exports[`PageValidator shows a default value if no moniker is set 1`] = `
   <main
     class="tm-page-main"
   >
-    <section
-      class="tm-part"
+    <!---->
+    <div
+      class="validator-profile__header validator-profile__section"
     >
       <div
-        class="tm-part-container"
+        class="column"
       >
-        <header
-          class="tm-part-header"
-        >
-          <div
-            class="tm-part-header-container"
-          >
-            <div
-              class="tm-part-title h5"
-            >
-              !!! CRITICAL ALERT !!!
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <a
-            class="tm-li tm-li-link"
-            href="https://cosmos.network/docs/validators/validator-setup.html#common-problems"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-label"
-              >
-                <div
-                  class="tm-li-title"
-                >
-                  This validator is revoked!
-                </div>
-                <div
-                  class="tm-li-subtitle"
-                >
-                  Are you the owner? Go fix it!
-                </div>
-              </div>
-              <div
-                class="tm-li-icon"
-              >
-                <i
-                  class="material-icons inactive"
-                >
-                  chevron_right
-                </i>
-                <i
-                  class="material-icons active"
-                >
-                  my_location
-                </i>
-              </div>
-            </div>
-          </a>
-        </main>
+        <img
+          class="avatar"
+          src="~assets/images/validator-icon.svg"
+        />
       </div>
-    </section>
-    <section
-      class="tm-part"
-      id="validator-profile"
-    >
       <div
-        class="tm-part-container"
+        class="column validator-profile__header__info"
       >
-        <header
-          class="tm-part-header"
+        <div
+          class="row validator-profile__header__name"
         >
           <div
-            class="tm-part-header-container"
+            class="column"
           >
             <div
-              class="tm-part-title h5"
+              class="validator-profile__status-and-title"
             >
-              Validator Profile
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <img
-            class="avatar"
-            height="192"
-            src="~assets/images/validator-icon.svg"
-            width="192"
-          />
-          <div
-            class="list-items"
-          >
-            <div
-              class="tm-li"
-            >
+              <span
+                class="validator-profile__status red"
+              />
               <div
-                class="tm-li-container"
+                class="validator-profile__header__name__title"
               >
-                <div
-                  class="tm-li-thumb"
-                >
-                  <!---->
-                </div>
-                <div
-                  class="tm-li-dl"
-                >
-                  <div
-                    class="tm-li-dt"
-                  >
-                    Moniker
-                  </div>
-                  <div
-                    class="tm-li-dd"
-                  >
-                    
-                  </div>
-                </div>
+                Anonymous - (a2b3c)
               </div>
             </div>
             <a
-              class="tm-li tm-li-link"
-              href="https://cosmos.network/docs/validators/validator-setup.html#edit-validator-description"
-              target="_blank"
+              class="anchor-copy validator-profile__header__name__address"
             >
-              <div
-                class="tm-li-container"
+              <i
+                class="material-icons"
               >
-                <div
-                  class="tm-li-thumb"
-                >
-                  <!---->
-                </div>
-                <div
-                  class="tm-li-dl"
-                >
-                  <div
-                    class="tm-li-dt"
-                  >
-                    Keybase
-                  </div>
-                  <div
-                    class="tm-li-dd"
-                  >
-                    add your avatar
-                  </div>
-                </div>
-                <div
-                  class="tm-li-icon"
-                >
-                  <i
-                    class="material-icons inactive"
-                  >
-                    chevron_right
-                  </i>
-                  <i
-                    class="material-icons active"
-                  >
-                    my_location
-                  </i>
-                </div>
-              </div>
+                
+              </i>
+              …2b3c
             </a>
-            <div
-              class="tm-li"
-            >
-              <div
-                class="tm-li-container"
-              >
-                <div
-                  class="tm-li-thumb"
-                >
-                  <!---->
-                </div>
-                <div
-                  class="tm-li-dl"
-                >
-                  <div
-                    class="tm-li-dt"
-                  >
-                    Website
-                  </div>
-                  <div
-                    class="tm-li-dd"
-                  >
-                    
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="tm-li"
-            >
-              <div
-                class="tm-li-container"
-              >
-                <div
-                  class="tm-li-thumb"
-                >
-                  <!---->
-                </div>
-                <div
-                  class="tm-li-dl"
-                >
-                  <div
-                    class="tm-li-dt"
-                  >
-                    Details
-                  </div>
-                  <div
-                    class="tm-li-dd"
-                  >
-                    
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
-        </main>
-      </div>
-    </section>
-    <section
-      class="tm-part"
-    >
-      <div
-        class="tm-part-container"
-      >
-        <header
-          class="tm-part-header"
-        >
           <div
-            class="tm-part-header-container"
+            class="column validator-profile__header__actions"
           >
-            <div
-              class="tm-part-title h5"
+            <button
+              class="tm-btn"
+              id="stake-btn"
             >
-              Validator Keys
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
+              <span
+                class="tm-btn__container tm-btn--primary"
               >
                 <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Owner
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  1a2b3c
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
                 <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
+                <span
+                  class="tm-btn__value"
                 >
-                  Pub Key
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  {
-  "type": "AC26791624DE60",
-  "data": "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0="
-}
-                </div>
-              </div>
-            </div>
+                  Stake
+                </span>
+              </span>
+            </button>
+            <!---->
           </div>
-        </main>
-      </div>
-    </section>
-    <!---->
-    <section
-      class="tm-part"
-    >
-      <div
-        class="tm-part-container"
-      >
-        <header
-          class="tm-part-header"
+        </div>
+        <div
+          class="row validator-profile__header__data"
         >
-          <div
-            class="tm-part-header-container"
+          <dl
+            class="colored_dl"
           >
-            <div
-              class="tm-part-title h5"
+            <dt>
+              My Stake
+            </dt>
+            <dd>
+              &lt; 0.01
+            </dd>
+          </dl>
+          <!---->
+          <div
+            class="validator-profile__header__data__break"
+          />
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Voting Power
+            </dt>
+            <dd
+              class="red"
+              id="validator-profile__power"
             >
+              0.00 %
+            </dd>
+          </dl>
+          <!---->
+          <dl
+            class="colored_dl"
+          >
+            <dt>
               Commission
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
+            </dt>
+            <dd
+              class="green"
+              id="validator-profile__commission"
             >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Commission
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  0.00 %
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Commission Maximum
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  0.00 %
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Commission Change-Rate
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  0.00 %
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tm-li"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Commission Change Today
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  0.00 %
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
+              0.00 %
+            </dd>
+          </dl>
+          <!---->
+        </div>
       </div>
-    </section>
-    <!---->
-    <!---->
-    <button
-      class="tm-btn"
-      id="Stake"
+    </div>
+    <div
+      class="validator-profile__details validator-profile__section"
     >
-      <span
-        class="tm-btn__container tm-btn--primary"
+      <div
+        class="row"
       >
-        <!---->
-        <!---->
-        <span
-          class="tm-btn__value"
+        <div
+          class="column"
         >
-          Stake
-        </span>
-      </span>
-    </button>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Public Key
+            </dt>
+            <dd>
+              1a2b3c
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Keybase ID
+            </dt>
+            <dd>
+              n/a
+            </dd>
+          </dl>
+          <!---->
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Details
+            </dt>
+            <dd
+              class="info_dl__text-box"
+            >
+              n/a
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Commission Rate
+            </dt>
+            <dd>
+              0 %
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Commission Rate
+            </dt>
+            <dd>
+              0 %
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Commission Change Today
+            </dt>
+            <dd>
+              0 %
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Daily Commission Change
+            </dt>
+            <dd>
+              0 %
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Self Stake
+            </dt>
+            <dd
+              id="validator-profile__self-bond"
+            >
+              0 %
+            </dd>
+          </dl>
+          <!---->
+        </div>
+      </div>
+    </div>
+    <!---->
+    <!---->
   </main>
 </div>
 `;
@@ -1668,13 +1135,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Validator Not Found
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -1714,6 +1175,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
   <main
     class="tm-page-main"
   >
+    <!---->
     <tm-data-error />
   </main>
 </div>

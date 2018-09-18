@@ -443,7 +443,10 @@ module.exports = {
   },
   async queryDelegation(delegatorAddress, validatorAddress) {
     let delegator = state.stake[delegatorAddress]
-    if (!delegator) return {}
+    if (!delegator)
+      return {
+        shares: "0"
+      }
     return delegator.delegations.find(
       ({ validator_addr }) => validator_addr === validatorAddress
     )

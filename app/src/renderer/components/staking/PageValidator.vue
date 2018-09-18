@@ -17,29 +17,29 @@ tm-page
           .column
             div.validator-profile__status-and-title
               span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
-              .validator-profile__header__name__title {{ validator.description.moniker || 'Anonymous' }}
+              .validator-profile__header__name__title {{ validatorTitle(validator) }}
             //- TODO replace with address component when ready
             anchor-copy.validator-profile__header__name__address(:value="validator.owner" :label="shortAddress(validator.owner)")
           .column.validator-profile__header__actions
-            tm-btn(value="Stake" color="primary" @click.native="onStake()")
+            tm-btn(id="stake-btn" value="Stake" color="primary" @click.native="onStake()")
             tm-btn(v-if="config.devMode" value="Unstake" color="secondary")
         .row.validator-profile__header__data
           dl.colored_dl
             dt My Stake
-            dd {{myBond < 0.01 ? '< ' + 0.01 : myBond.toFixed(2)}}
+            dd {{myBond < 0.01 ? '< ' + 0.01 : pretty(myBond)}}
           dl.colored_dl(v-if="config.devMode")
             dt My Rewards
             dd n/a
           .validator-profile__header__data__break
           dl.colored_dl
             dt Voting Power
-            dd(v-bind:class="[powerRatioLevel]") {{(powerRatio * 100).toFixed(2)}} %
+            dd(id="validator-profile__power" v-bind:class="[powerRatioLevel]") {{pretty(powerRatio * 100)}} %
           dl.colored_dl(v-if="config.devMode")
             dt Uptime
             dd n/a
           dl.colored_dl
             dt Commission
-            dd(v-bind:class="[commissionLevel]") {{validator.commission}} %
+            dd(id="validator-profile__commission" v-bind:class="[commissionLevel]") {{pretty(validator.commission)}} %
           dl.colored_dl(v-if="config.devMode")
             dt Slashes
             dd n/a
@@ -74,7 +74,7 @@ tm-page
             dd {{validator.commission_change_rate}} %
           dl.info_dl
             dt Self Stake
-            dd {{selfBond}} %
+            dd(id="validator-profile__self-bond") {{selfBond}} %
           dl.info_dl(v-if="config.devMode")
             dt Minimum Self Stake
             dd 0 %
@@ -84,7 +84,7 @@ tm-page
       v-on:submitDelegation="submitDelegation"
       :showModalStake.sync="showModalStake"
       :fromOptions="[{ key: `My Wallet - ${this.wallet.address}`, value: 0 }]"
-      :maximum="availableAtoms()"
+      :maximum="availableAtoms"
       :to="validator.owner"
     )
 
@@ -92,7 +92,7 @@ tm-page
       div(slot='title') Cannot Stake
       p You have no {{ bondingDenom }}s to stake.
       div(slot='footer')
-        tmBtn(@click.native="closeCannotStake()" value="OK")
+        tmBtn(id="no-atoms-modal__btn" @click.native="closeCannotStake()" value="OK")
 </template>
 
 <script>
@@ -174,7 +174,7 @@ export default {
         return "This validator has been jailed and is not currently validating"
 
       // status: candidate
-      if (this.validator.voting_power === 0)
+      if (parseFloat(this.validator.voting_power) === 0)
         return "This validator has declared candidacy but does not have enough voting power yet"
 
       // status: validator
@@ -185,21 +185,21 @@ export default {
       if (this.validator.revoked) return "red"
 
       // status: candidate
-      if (this.validator.voting_power === 0) return "yellow"
+      if (parseFloat(this.validator.voting_power) === 0) return "yellow"
 
       // status: validator
       return "green"
+    },
+    availableAtoms() {
+      return this.totalAtoms - this.oldBondedAtoms
     }
   },
   methods: {
-    availableAtoms() {
-      return this.totalAtoms - this.oldBondedAtoms
-    },
     closeCannotStake() {
       this.showCannotStake = false
     },
     onStake() {
-      if (this.availableAtoms() > 0) {
+      if (this.availableAtoms > 0) {
         this.showModalStake = true
       } else {
         this.showCannotStake = true
@@ -247,7 +247,6 @@ export default {
       }
     },
     validatorTitle(validator) {
-      if (!validator) return "Validator Not Found"
       let title
       if (validator.description.moniker) {
         title = validator.description.moniker
@@ -263,8 +262,10 @@ export default {
       return numeral(num).format("0,0.00")
     }
   },
-  mounted() {
-    this.$store.dispatch("getSelfBond", this.validator)
+  watch: {
+    validator(validator) {
+      this.$store.dispatch("getSelfBond", this.validator)
+    }
   }
 }
 </script>

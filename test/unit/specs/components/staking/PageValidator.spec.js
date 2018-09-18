@@ -23,23 +23,25 @@ const delegate = {
     moniker: "herr_schmidt_revoked",
     country: "DE"
   },
-  revoked: true,
+  revoked: false,
   status: 2,
   bond_height: "0",
   bond_intra_tx_counter: 6,
   proposer_reward_pool: null,
-  commission: "0",
-  commission_max: "0",
-  commission_change_rate: "0",
-  commission_change_today: "0",
-  prev_bonded_shares: "0"
+  commission: "0.05",
+  commission_max: "0.1",
+  commission_change_rate: "0.01",
+  commission_change_today: "0.005",
+  prev_bonded_shares: "0",
+  voting_power: "10"
 }
 
 const getterValues = {
   bondingDenom: `atom`,
   config: { desktop: false },
   delegates: {
-    delegates: [delegate]
+    delegates: [delegate],
+    globalPower: 4200
   },
   delegation: {
     committedDelegates: { "1a2b3c": 0 },
@@ -48,21 +50,26 @@ const getterValues = {
   keybase: `keybase`,
   oldBondedAtoms: 50,
   totalAtoms: 100,
-  wallet: { address: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` }
+  wallet: { address: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
+  user: {
+    atoms: 42
+  }
 }
 
 describe("PageValidator", () => {
-  let wrapper
+  let wrapper, store
   let { mount } = setup()
 
   beforeEach(() => {
     let instance = mount(PageValidator, {
-      doBefore: ({ router }) => {
+      doBefore: ({ router, store }) => {
         router.push("/staking/validators/1a2b3c")
-      },
-      getters: mockGetters(getterValues)
+        store.commit("setDelegates", [delegate])
+      }
+      // getters: mockGetters(getterValues)
     })
     wrapper = instance.wrapper
+    store = instance.store
   })
 
   it("has the expected html structure", async () => {
@@ -142,6 +149,93 @@ describe("PageValidator", () => {
 
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
+
+  it("shows the selfBond", async () => {
+    await store.commit("setSelfBond", {
+      validator: {
+        owner: "1a2b3c",
+        delegator_shares: "4242"
+      },
+      ratio: 0.01
+    })
+    wrapper.update()
+    expect(wrapper.find("#validator-profile__self-bond").text()).toBe("1.00 %")
+  })
+
+  it("switches color indicators", async () => {
+    store.state.delegates.delegates = [
+      Object.assign({}, delegate, {
+        commission: "0"
+      })
+    ]
+    wrapper.update()
+    expect(wrapper.find("#validator-profile__commission").classes()).toContain(
+      "green"
+    )
+
+    store.state.delegates.delegates = [
+      Object.assign({}, delegate, {
+        commission: "0.02"
+      })
+    ]
+    wrapper.update()
+    expect(wrapper.find("#validator-profile__commission").classes()).toContain(
+      "yellow"
+    )
+
+    store.state.delegates.delegates = [
+      Object.assign({}, delegate, {
+        commission: "1"
+      })
+    ]
+    wrapper.update()
+    expect(wrapper.find("#validator-profile__commission").classes()).toContain(
+      "red"
+    )
+
+    store.state.delegates.globalPower = 1000
+    store.state.delegates.delegates = [
+      Object.assign({}, delegate, {
+        tokens: "1000"
+      })
+    ]
+    wrapper.update()
+    expect(wrapper.find("#validator-profile__power").classes()).toContain("red")
+
+    store.state.delegates.delegates = [
+      Object.assign({}, delegate, {
+        tokens: "10"
+      })
+    ]
+    wrapper.update()
+    expect(wrapper.find("#validator-profile__power").classes()).toContain(
+      "yellow"
+    )
+
+    store.state.delegates.delegates = [
+      Object.assign({}, delegate, {
+        tokens: "1"
+      })
+    ]
+    wrapper.update()
+    expect(wrapper.find("#validator-profile__power").classes()).toContain(
+      "green"
+    )
+  })
+
+  it("shows a validator as candidate if he has no voting_power", () => {
+    store.state.delegates.delegates = [
+      Object.assign({}, delegate, {
+        voting_power: "0"
+      })
+    ]
+    wrapper.update()
+    wrapper.vm.status =
+      "This validator has declared candidacy but does not have enough voting power yet"
+    expect(wrapper.find(".validator-profile__status").classes()).toContain(
+      "yellow"
+    )
+  })
 })
 
 describe(`onStake`, () => {
@@ -160,7 +254,7 @@ describe(`onStake`, () => {
         }
       })
 
-      wrapper.find(`#Stake`).trigger(`click`)
+      wrapper.find(`#stake-btn`).trigger(`click`)
       expect(wrapper.contains(ModalStake)).toEqual(true)
     })
 
@@ -178,13 +272,13 @@ describe(`onStake`, () => {
         }
       })
 
-      wrapper.find(`#Stake`).trigger(`click`)
+      wrapper.find(`#stake-btn`).trigger(`click`)
 
       expect(wrapper.text().includes(`You have no atoms to stake.`)).toEqual(
         true
       )
 
-      wrapper.find(`button`).trigger(`click`)
+      wrapper.find(`#no-atoms-modal__btn`).trigger(`click`)
 
       expect(wrapper.text().includes(`You have no atoms to stake.`)).toEqual(
         false
