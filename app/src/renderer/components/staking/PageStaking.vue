@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page
+tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
   template(slot="menu-body", v-if="config.devMode"): tm-balance(:unstakedAtoms="user.atoms" :tabs="tabs")
 
   div(slot="menu"): vm-tool-bar
