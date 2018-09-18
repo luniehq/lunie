@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * delegations request would update state of next user after sign out sign in @ƒaboweb
 * enable user to stake only after the request for his current delegations has returned @ƒaboweb
 * cache undelegations @faboweb
+* show error instead of breaking Voyager if reconnection fails @faboweb
 
 ## [0.10.2] - 2018-08-29
 
