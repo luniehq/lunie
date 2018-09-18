@@ -564,26 +564,60 @@ describe("Startup Process", () => {
       main.shutdown()
     })
 
-    it.only("should error on gaiacli crashing on reconnect instead of breaking", async () => {
-      prepareMain()
-      // jest.resetModules()
-      let connectionAttempt = 0
-      childProcessMock(() => {
-        connectionAttempt++
-        console.log(connectionAttempt)
-        return {
-          on: (type, cb) => {
-            console.log(connectionAttempt)
-            if (connectionAttempt === 2 && type === "exit") cb(2)
-          }
-        }
-      })
-      childProcess = require("child_process")
-      main = await require(appRoot + "src/main/index.js")
+    it("should error on gaiacli crashing on reconnect instead of breaking", async () => {
+      await initMain()
       let { send } = require("electron")
+      childProcess.spawn = () => ({
+        stdout: {
+          on: () => {},
+          pipe: () => {}
+        },
+        stderr: {
+          on: () => {},
+          pipe: () => {}
+        },
+        on: (type, cb) => {
+          if (type === "exit") cb(2)
+        },
+        kill: () => {},
+        removeAllListeners: () => {}
+      })
       await main.eventHandlers.reconnect()
-      console.log(send.mock.calls.find(([type]) => type === "error"))
-      expect(send.mock.calls.find(([type]) => type === "error")).toBeTruthy()
+      expect(
+        send.mock.calls.find(([type]) => type === "error")
+      ).toMatchSnapshot()
+    })
+
+    it("should error on gaiacli crashing async instead of breaking", async () => {
+      await initMain()
+      let { send } = require("electron")
+      let exitCB
+      childProcess.spawn = () => ({
+        stdout: {
+          on: () => {},
+          pipe: () => {}
+        },
+        stderr: {
+          on: () => {},
+          pipe: () => {}
+        },
+        on: (type, cb) => {
+          if (type === "exit") exitCB = cb
+        },
+        kill: () => {},
+        removeAllListeners: () => {}
+      })
+      await main.eventHandlers.reconnect()
+      expect(send.mock.calls.find(([type]) => type === "error")).toBeUndefined()
+
+      exitCB(2)
+
+      expect(
+        send.mock.calls.find(([type]) => type === "error")
+      ).not.toBeUndefined()
+      expect(
+        send.mock.calls.find(([type]) => type === "error")
+      ).toMatchSnapshot()
     })
 
     it("should fail if config.toml has no seeds", async () => {

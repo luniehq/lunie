@@ -3,7 +3,7 @@
 let { app, BrowserWindow, ipcMain } = require("electron")
 let fs = require("fs-extra")
 let { join, relative } = require("path")
-let { spawn } = require("child_process")
+let childProcess = require("child_process")
 let semver = require("semver")
 let toml = require("toml")
 let Raven = require("raven")
@@ -98,7 +98,11 @@ function handleCrash(error) {
   afterBooted(() => {
     if (mainWindow) {
       mainWindow.webContents.send("error", {
-        message: error ? error.message : undefined
+        message: error
+          ? error.message
+            ? error.message
+            : error
+          : "An unspecified error occurred"
       })
     }
   })
@@ -204,7 +208,7 @@ function startProcess(name, args, env) {
   log(`spawning ${binPath} with args "${argString}"`)
   let child
   try {
-    child = spawn(binPath, args, env)
+    child = childProcess.spawn(binPath, args, env)
   } catch (err) {
     log(`Err: Spawning ${name} failed`, err)
     throw err
@@ -253,6 +257,7 @@ app.on("ready", () => createWindow())
 
 // start lcd REST API
 async function startLCD(home, nodeIP) {
+  let lcdStarted = false // remember if the lcd has started to toggle the right error handling if it crashes async
   return new Promise(async (resolve, reject) => {
     log("startLCD", home)
     let child = startProcess(LCD_BINARY_NAME, [
@@ -270,9 +275,10 @@ async function startLCD(home, nodeIP) {
     logProcess(child, join(home, "lcd.log"))
 
     child.on("exit", () => {
-      console.log("exit")
-      reject()
-      handleCrash(`The ${LCD_BINARY_NAME} rest-server (LCD) exited unplanned`)
+      let msg = `The ${LCD_BINARY_NAME} rest-server (LCD) exited unplanned`
+      lcdStarted
+        ? handleCrash(msg) // if fails later
+        : reject(msg) // if fails immediatly
     })
 
     // poll until LCD is started
@@ -285,6 +291,7 @@ async function startLCD(home, nodeIP) {
         await sleep(1000)
       }
     }
+    lcdStarted = true
     resolve(child)
   })
 }
@@ -589,13 +596,17 @@ async function pickAndConnect(addressbook) {
 
 async function connect(nodeIP) {
   log(`starting gaia rest server with nodeIP ${nodeIP}`)
-  lcdProcess = await startLCD(lcdHome, nodeIP)
-  log("gaia rest server ready")
+  try {
+    lcdProcess = await startLCD(lcdHome, nodeIP)
+    log("gaia rest server ready")
 
-  afterBooted(() => {
-    log("Signaling connected node")
-    mainWindow.webContents.send("connected", nodeIP)
-  })
+    afterBooted(() => {
+      log("Signaling connected node")
+      mainWindow.webContents.send("connected", nodeIP)
+    })
+  } catch (err) {
+    throw err
+  }
 
   connecting = false
 }

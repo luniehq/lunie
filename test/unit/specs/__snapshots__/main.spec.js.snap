@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Startup Process Error handling should error on gaiacli crashing async instead of breaking 1`] = `
+Array [
+  "error",
+  Object {
+    "message": "The gaiacli rest-server (LCD) exited unplanned",
+  },
+]
+`;
+
+exports[`Startup Process Error handling should error on gaiacli crashing on reconnect instead of breaking 1`] = `
+Array [
+  "error",
+  Object {
+    "message": "The gaiacli rest-server (LCD) exited unplanned",
+  },
+]
+`;
+
+exports[`Startup Process Error handling should error on gaiacli crashing on reconnect instead of breaking 2`] = `
+Array [
+  "error",
+  Object {
+    "message": "The gaiacli rest-server (LCD) exited unplanned",
+  },
+]
+`;
