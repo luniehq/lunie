@@ -17,7 +17,7 @@ exports[`PageValidator has the expected html structure 1`] = `
           class="tm-page-header-title"
         >
           <h2>
-            herr_schmidt_revoked - (a2b3c)
+            herr_schmidt_revoked - (…2b3c)
           </h2>
         </div>
         <!---->
@@ -55,7 +55,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                     >
                       content_copy
                     </i>
-
+                    
                   </a>
                 </div>
               </div>
@@ -265,7 +265,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                   <div
                     class="tm-li-dd"
                   >
-
+                    
                   </div>
                 </div>
               </div>
@@ -292,7 +292,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                   <div
                     class="tm-li-dd"
                   >
-
+                    
                   </div>
                 </div>
               </div>
@@ -582,7 +582,7 @@ exports[`PageValidator shows a default avatar 1`] = `
           class="tm-page-header-title"
         >
           <h2>
-            herr_schmidt_revoked - (a2b3c)
+            herr_schmidt_revoked - (…2b3c)
           </h2>
         </div>
         <!---->
@@ -620,7 +620,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                     >
                       content_copy
                     </i>
-
+                    
                   </a>
                 </div>
               </div>
@@ -830,7 +830,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                   <div
                     class="tm-li-dd"
                   >
-
+                    
                   </div>
                 </div>
               </div>
@@ -857,7 +857,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                   <div
                     class="tm-li-dd"
                   >
-
+                    
                   </div>
                 </div>
               </div>
@@ -1127,7 +1127,7 @@ exports[`PageValidator shows a default value if no moniker is set 1`] = `
           class="tm-page-header-title"
         >
           <h2>
-            Anonymous - (a2b3c)
+            Anonymous - (…2b3c)
           </h2>
         </div>
         <!---->
@@ -1165,7 +1165,7 @@ exports[`PageValidator shows a default value if no moniker is set 1`] = `
                     >
                       content_copy
                     </i>
-
+                    
                   </a>
                 </div>
               </div>
@@ -1305,7 +1305,7 @@ exports[`PageValidator shows a default value if no moniker is set 1`] = `
                   <div
                     class="tm-li-dd"
                   >
-
+                    
                   </div>
                 </div>
               </div>
@@ -1375,7 +1375,7 @@ exports[`PageValidator shows a default value if no moniker is set 1`] = `
                   <div
                     class="tm-li-dd"
                   >
-
+                    
                   </div>
                 </div>
               </div>
@@ -1402,7 +1402,7 @@ exports[`PageValidator shows a default value if no moniker is set 1`] = `
                   <div
                     class="tm-li-dd"
                   >
-
+                    
                   </div>
                 </div>
               </div>

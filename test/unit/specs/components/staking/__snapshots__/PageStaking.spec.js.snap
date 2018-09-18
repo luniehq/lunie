@@ -102,7 +102,7 @@ exports[`PageStaking has the expected html structure 1`] = `
                   herr_schmidt_revoked
                </div>
    <div class=\\"bottom\\">
-      cosmosvaladdr…rg7n
+      cosmosvaladdr…tgurrg7n
    </div>
 </div>
    </a>
@@ -142,7 +142,7 @@ exports[`PageStaking has the expected html structure 1`] = `
                   mr_mounty
                </div>
    <div class=\\"bottom\\">
-      cosmosvaladdr…8yqw
+      cosmosvaladdr…tqzh8yqw
    </div>
 </div>
    </a>
@@ -182,7 +182,7 @@ exports[`PageStaking has the expected html structure 1`] = `
                   good_greg
                </div>
    <div class=\\"bottom\\">
-      cosmosvaladdr…n3au
+      cosmosvaladdr…tplpn3au
    </div>
 </div>
    </a>
@@ -525,7 +525,7 @@ exports[`PageStaking should filter the delegates 1`] = `
                 <div
                   class="bottom"
                 >
-                  cosmosvaladdr…8yqw
+                  cosmosvaladdr…tqzh8yqw
                 </div>
               </div>
             </a>
