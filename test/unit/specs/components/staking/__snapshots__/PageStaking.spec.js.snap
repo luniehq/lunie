@@ -5,13 +5,49 @@ exports[`PageStaking has the expected html structure 1`] = `
    <header class=\\"tm-page-header\\">
       <div class=\\"tm-page-header-container\\">
          <div class=\\"tm-page-header-text\\">
-            <div class=\\"tm-page-header-title\\">
-               <h2>
-                  Staking
-               </h2>
+            <!---->
+            <!---->
+            <div class=\\"tm-page-header-body\\">
+               <div class=\\"header-balance\\">
+                  <div class=\\"top\\">
+                     <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
+                     <div class=\\"total-atoms top-section\\">
+                        <div class=\\"h3\\">
+                           Total Steak
+                        </div>
+   <div class=\\"h2\\">
+      1,351.00
+   </div>
 </div>
-               <!---->
-               <!---->
+   <div class=\\"unstaked-atoms top-section\\">
+      <div class=\\"h3\\">
+         Unstaked Steak
+      </div>
+   <div class=\\"h2\\">
+      1337
+   </div>
+</div>
+   <!---->
+   <!---->
+</div>
+   <div class=\\"bottom\\">
+      <div class=\\"address\\">
+         cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+      </div>
+   <div class=\\"success\\">
+      <i class=\\"material-icons\\">check</i><span>Copied</span>
+   </div>
+</div>
+   <div class=\\"tabs\\">
+      <div class=\\"tab\\">
+         My Stake
+      </div>
+   <div class=\\"tab tab-selected\\">
+      Validators
+   </div>
+</div>
+</div>
+</div>
 </div>
    <menu class=\\"tm-page-header-menu\\">
       <div>
@@ -30,14 +66,6 @@ exports[`PageStaking has the expected html structure 1`] = `
 </header>
 <main class=\\"tm-page-main ps\\">
    <!---->
-   <div class=\\"delegates-tabs\\">
-      <div class=\\"tab\\">
-         My Stake
-      </div>
-   <div class=\\"tab tab-selected\\">
-      Validators
-   </div>
-</div>
    <div class=\\"delegates-container\\">
       <div class=\\"panel-sort\\">
          <div class=\\"panel-sort-container\\">
@@ -243,15 +271,89 @@ exports[`PageStaking should filter the delegates 1`] = `
       <div
         class="tm-page-header-text"
       >
+        <!---->
+        <!---->
         <div
-          class="tm-page-header-title"
+          class="tm-page-header-body"
         >
-          <h2>
-            Staking
-          </h2>
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <img
+                class="icon"
+                src="~assets/images/cosmos-logo.png"
+              />
+              <div
+                class="total-atoms top-section"
+              >
+                <div
+                  class="h3"
+                >
+                  Total Steak
+                </div>
+                <div
+                  class="h2"
+                >
+                  1,351.00
+                </div>
+              </div>
+              <div
+                class="unstaked-atoms top-section"
+              >
+                <div
+                  class="h3"
+                >
+                  Unstaked Steak
+                </div>
+                <div
+                  class="h2"
+                >
+                  1337
+                </div>
+              </div>
+              <!---->
+              <!---->
+            </div>
+            <div
+              class="bottom"
+            >
+              <div
+                class="address"
+              >
+                cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+              </div>
+              <div
+                class="success"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+            <div
+              class="tabs"
+            >
+              <div
+                class="tab"
+              >
+                My Stake
+              </div>
+              <div
+                class="tab tab-selected"
+              >
+                Validators
+              </div>
+            </div>
+          </div>
         </div>
-        <!---->
-        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -372,20 +474,6 @@ exports[`PageStaking should filter the delegates 1`] = `
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div
-      class="delegates-tabs"
-    >
-      <div
-        class="tab"
-      >
-        My Stake
-      </div>
-      <div
-        class="tab tab-selected"
-      >
-        Validators
       </div>
     </div>
     <div
