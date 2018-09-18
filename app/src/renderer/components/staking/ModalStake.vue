@@ -16,6 +16,12 @@
       field-id='amount'
       field-label='Amount'
     )
+      tm-field#denom(
+        type="number"
+        :placeholder="bondingDenom"
+        readonly
+        )
+
       tm-field#amount(
         type="number"
         :max="fromOptions[selectedIndex].maximum"
@@ -39,11 +45,12 @@
       )
 
     .stake-footer
-      tm-btn(
+      tm-btn#closeBtn(
         @click.native="close"
         value="Close"
         size="lg"
         icon="close")
+
       tm-btn(
         @click.native="onStake"
         :disabled="$v.amount.$invalid"
@@ -58,7 +65,7 @@ import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
-  props: [`fromOptions`, `to`],
+  props: ["bondingDenom", "fromOptions", "to"],
   components: {
     Modal,
     TmBtn,
@@ -122,7 +129,19 @@ export default {
     display block
     padding 0
 
+    #amount
+      margin-top -32px
+
+    #denom
+      text-align right
+      width 72px
+      margin-left 80%
+      border none
+
   .stake-footer
     display flex
     justify-content flex-end
+
+    #closeBtn
+      margin-right 60% 
 </style>

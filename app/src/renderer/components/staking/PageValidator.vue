@@ -38,6 +38,7 @@ tm-page(:title='validatorTitle(this.validator)')
     modal-stake(
       v-if="showModalStake"
       v-on:submitDelegation="submitDelegation"
+      :bondingDenom="this.config.bondingDenom"
       :showModalStake.sync="showModalStake"
       :fromOptions="modalOptions()"
       :to="validator.owner"
