@@ -4,12 +4,6 @@ import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import { mount } from "@vue/test-utils"
 
-// Create a getters object from an object of simple values.
-const mockGetters = values =>
-  Object.assign(
-    ...Object.entries(values).map(([key, value]) => ({ [key]: () => value }))
-  )
-
 const delegate = {
   owner: "1a2b3c",
   pub_key: {
@@ -66,7 +60,6 @@ describe("PageValidator", () => {
         router.push("/staking/validators/1a2b3c")
         store.commit("setDelegates", [delegate])
       }
-      // getters: mockGetters(getterValues)
     })
     wrapper = instance.wrapper
     store = instance.store

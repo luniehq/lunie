@@ -264,7 +264,7 @@ export default {
   },
   watch: {
     validator(validator) {
-      this.$store.dispatch("getSelfBond", this.validator)
+      this.$store.dispatch("getSelfBond", validator)
     }
   }
 }
