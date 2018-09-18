@@ -297,7 +297,7 @@ async function startLCD(home, nodeIP) {
 }
 
 function stopLCD() {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     if (!lcdProcess) {
       resolve()
     }
