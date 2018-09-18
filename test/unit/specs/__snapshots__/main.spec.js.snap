@@ -17,12 +17,3 @@ Array [
   },
 ]
 `;
-
-exports[`Startup Process Error handling should error on gaiacli crashing on reconnect instead of breaking 2`] = `
-Array [
-  "error",
-  Object {
-    "message": "The gaiacli rest-server (LCD) exited unplanned",
-  },
-]
-`;
