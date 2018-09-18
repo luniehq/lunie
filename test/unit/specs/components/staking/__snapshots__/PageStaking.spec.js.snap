@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageStaking has the expected html structure 1`] = `
-"<div class=\\"tm-page\\">
+"<div class=\\"tm-page\\" data-title=\\"Staking\\">
    <header class=\\"tm-page-header\\">
       <div class=\\"tm-page-header-container\\">
          <div class=\\"tm-page-header-text\\">
@@ -261,6 +261,7 @@ exports[`PageStaking has the expected html structure 1`] = `
 exports[`PageStaking should filter the delegates 1`] = `
 <div
   class="tm-page"
+  data-title="Staking"
 >
   <header
     class="tm-page-header"
