@@ -39,7 +39,9 @@ Vue.use(Router)
 Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
 
-// directive to focus form fields
+// Directives
+
+// focus form fields
 Vue.directive("focus", {
   inserted: function(el) {
     el.focus()

@@ -1,5 +1,5 @@
 <template lang="pug">
-  .modal-stake
+  .modal-stake(v-click-outside="close")
     //- Header
     .stake-header
       img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
@@ -45,13 +45,13 @@
       )
 
     .stake-footer
+
       tm-btn#closeBtn(
         @click.native="close"
         value="Close"
-        size="lg"
-        icon="close")
+        size="lg")
 
-      tm-btn(
+      tm-btn#stake(
         @click.native="onStake"
         :disabled="$v.amount.$invalid"
         color="primary"
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import ClickOutside from "vue-click-outside"
 import { between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
@@ -97,6 +98,9 @@ export default {
         this.close()
       }
     }
+  },
+  directives: {
+    ClickOutside
   }
 }
 </script>
@@ -138,10 +142,23 @@ export default {
       margin-left 80%
       border none
 
+    #from
+      option
+        background-color #161932 !important
+        color rgba(102, 161, 255, 0.6) !important
+
   .stake-footer
     display flex
     justify-content flex-end
 
     #closeBtn
-      margin-right 60% 
+      color #b1b3bb !important
+      margin-right 10%
+      border none !important
+      background none !important
+      border-radius 1px
+
+    #stake
+      width 120px
+      border-radius 1px
 </style>
