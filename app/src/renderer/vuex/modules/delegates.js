@@ -1,6 +1,9 @@
+import BN from "bignumber.js"
+import { ratToBigNumber } from "scripts/common"
 export default ({ node }) => {
   const emptyState = {
     delegates: [],
+    globalPower: null,
     loading: false
   }
   const state = JSON.parse(JSON.stringify(emptyState))
@@ -11,6 +14,13 @@ export default ({ node }) => {
     },
     setDelegates(state, delegates) {
       state.delegates = delegates
+
+      // update global power for quick access
+      state.globalPower = state.delegates
+        .reduce((sum, validator) => {
+          return sum.plus(ratToBigNumber(validator.tokens))
+        }, new BN(0))
+        .toNumber()
     },
     addDelegate(state, delegate) {
       delegate.id = delegate.owner
@@ -36,6 +46,9 @@ export default ({ node }) => {
       }
 
       state.delegates.push(delegate)
+    },
+    setSelfBond(state, { validator, ratio }) {
+      state.delegates.find(c => c.owner === validator.owner).selfBond = ratio
     }
   }
 
@@ -65,6 +78,21 @@ export default ({ node }) => {
       dispatch("getKeybaseIdentities", candidates)
 
       return state.delegates
+    },
+    async getSelfBond({ commit }, validator) {
+      if (validator.selfBond) return validator.selfBond
+      else {
+        let delegation = await node.queryDelegation(
+          validator.owner,
+          validator.owner
+        )
+        let ratio = new BN(delegation.shares)
+          .div(ratToBigNumber(validator.delegator_shares))
+          .toNumber()
+
+        commit("setSelfBond", { validator, ratio })
+        return ratio
+      }
     }
   }
 

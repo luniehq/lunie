@@ -1,5 +1,7 @@
 <template lang="pug">
-tm-page(title='Staking')
+tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
+  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unstakedAtoms="user.atoms" :tabs="tabs")
+
   div(slot="menu"): vm-tool-bar
     a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
       i.material-icons refresh
@@ -7,18 +9,14 @@ tm-page(title='Staking')
       i.search.material-icons search
 
   modal-search(type="delegates" v-if="somethingToSearch")
-  .delegates-tabs
-    .tab(v-for="(tab, i) in tabs",
-      :key="'tab-' + i",
-      :class="{'tab-selected': i === tabIndex}",
-      @click="tabIndex = 1") {{tab}}
+
   .delegates-container
     tm-data-loading(v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
     tm-data-empty(v-else-if="!delegates.loading && delegates.delegates.length === 0")
     data-empty-search(v-else-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
     template(v-else)
       panel-sort(:sort='sort', :properties="properties")
-      li-delegate(v-for='i in sortedFilteredEnrichedDelegates' :disabled="!userCanDelegate" :key='i.id' :delegate='i')
+      li-validator(v-for='i in sortedFilteredEnrichedDelegates' :disabled="!userCanDelegate" :key='i.id' :delegate='i')
 
   .fixed-button-bar(v-if="!delegates.loading")
     template(v-if="userCanDelegate")
@@ -35,23 +33,25 @@ import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
-import LiDelegate from "staking/LiDelegate"
+import LiValidator from "staking/LiValidator"
 import { TmBtn, TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import { calculateTokens } from "scripts/common"
 import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
 import VmToolBar from "common/VmToolBar"
+import TmBalance from "common/TmBalance"
 export default {
   name: "page-staking",
   components: {
-    LiDelegate,
+    LiValidator,
     TmBtn,
     TmDataEmpty,
     DataEmptySearch,
     TmDataLoading,
     ModalSearch,
     TmPage,
+    TmBalance,
     PanelSort,
     VmToolBar
   },
@@ -212,22 +212,6 @@ export default {
 </script>
 <style lang="stylus">
 @require '~variables'
-
-.delegates-tabs
-  display flex
-
-  .tab
-    cursor pointer
-    margin 0 0.5em
-    padding-bottom 0.5em
-    margin-bottom 1em
-
-    &:first-of-type
-      cursor not-allowed
-
-    &.tab-selected
-      color var(--bright)
-      border-bottom 2px solid var(--tertiary)
 
 .delegates-container
   padding-bottom 3rem

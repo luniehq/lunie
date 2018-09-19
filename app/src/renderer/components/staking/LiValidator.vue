@@ -1,37 +1,37 @@
 <template lang='pug'>
-.li-delegate(:class='styles'): .li-delegate__values
-  .li-delegate__value.name
+.li-validator(:class='styles'): .li-validator__values
+  .li-validator__value.name
     router-link(:to="{ name: 'validator', params: { validator: delegate.id }}")
       img.avatar(v-if="delegate.keybase" :src="delegate.keybase.avatarUrl" width="48" height="48")
       img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
       .vert
         .top {{ delegate.description.moniker }}
         .bottom {{ shortAddress(delegate.id)}}
-  .li-delegate__value.your-votes
+  .li-validator__value.your-votes
     span {{ yourVotes }}
-  .li-delegate__value.your-rewards
+  .li-validator__value.your-rewards
     span {{ yourRewards }}
-  .li-delegate__break: span
-  .li-delegate__value.percent_of_vote
+  .li-validator__break: span
+  .li-validator__value.percent_of_vote
     span {{ delegate.percent_of_vote }}
-  .li-delegate__value.uptime
+  .li-validator__value.uptime
     // add .green .yellow or .red class to this span to trigger inidication by color
     span {{ uptime }}
-  .li-delegate__value.commission
+  .li-validator__value.commission
     // add .green .yellow or .red class to this span to trigger inidication by color
     span {{ commission }}
-  .li-delegate__value.slashes
+  .li-validator__value.slashes
     // add .green .yellow or .red class to this span to trigger inidication by color
     span {{ slashes }}
   template(v-if="!disabled")
-    .li-delegate__value.checkbox(v-if="committedDelegations[delegate.id]")
+    .li-validator__value.checkbox(v-if="committedDelegations[delegate.id]")
       i.material-icons lock
-    .li-delegate__value.checkbox#remove-from-cart(v-else-if="inCart" @click='rm(delegate)')
+    .li-validator__value.checkbox#remove-from-cart(v-else-if="inCart" @click='rm(delegate)')
       i.material-icons check_box
-    .li-delegate__value.checkbox#add-to-cart(v-else @click='add(delegate)')
+    .li-validator__value.checkbox#add-to-cart(v-else @click='add(delegate)')
       i.material-icons check_box_outline_blank
   template(v-else)
-    .li-delegate__value
+    .li-validator__value
 </template>
 
 <script>
@@ -39,7 +39,7 @@ import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { shortAddress, calculateTokens } from "scripts/common"
 export default {
-  name: "li-delegate",
+  name: "li-validator",
   props: ["delegate", "disabled"],
   computed: {
     ...mapGetters([
@@ -73,8 +73,8 @@ export default {
     },
     styles() {
       let value = ""
-      if (this.inCart || this.yourVotes > 0) value += "li-delegate-active "
-      if (this.delegate.isValidator) value += "li-delegate-validator "
+      if (this.inCart || this.yourVotes > 0) value += "li-validator-active "
+      if (this.delegate.isValidator) value += "li-validator-validator "
       return value
     },
     inCart() {
@@ -103,29 +103,29 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.li-delegate
+.li-validator
   border 1px solid var(--bc)
   margin-bottom 1em
 
   &:nth-of-type(2n-1)
     background var(--app-fg)
 
-  &.li-delegate-active
+  &.li-validator-active
     background var(--app-bg-alpha)
 
-    .li-delegate__value i
+    .li-validator__value i
       color var(--link)
 
   &:hover
     background var(--hover-bg)
 
-.li-delegate__values
+.li-validator__values
   display flex
   height 5rem
   padding 12px 1em
   background-color var(--app-nav)
 
-  & > .li-delegate__value:not(:first-of-type) span
+  & > .li-validator__value:not(:first-of-type) span
     color var(--dim)
     background-color var(--white-fade-1)
     border 1px solid var(--white-fade-2)
@@ -153,7 +153,7 @@ export default {
       background-color var(--red-fade-1)
       border 1px solid var(--red-fade-2)
 
-.li-delegate__break
+.li-validator__break
   flex 0
   display flex
   align-items center
@@ -165,7 +165,7 @@ export default {
     background-color var(--white-fade-1)
     height 2rem
 
-.li-delegate__value
+.li-validator__value
   flex 1
   display flex
   align-items center
@@ -194,7 +194,7 @@ export default {
           font-size h6
           color var(--dim)
 
-    .li-delegate__icon
+    .li-validator__icon
       width 1.5rem
       display flex
       align-items center
