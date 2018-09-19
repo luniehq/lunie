@@ -182,10 +182,22 @@ describe("PageValidator", () => {
       })
     ]
     wrapper.update()
-    wrapper.vm.status =
-      "This validator has declared candidacy but does not have enough voting power yet"
+    expect(wrapper.vm.status).toMatchSnapshot()
     expect(wrapper.find(".validator-profile__status").classes()).toContain(
       "yellow"
+    )
+  })
+
+  it("shows that a validator is revoked", () => {
+    store.state.delegates.delegates = [
+      Object.assign({}, delegate, {
+        revoked: true
+      })
+    ]
+    wrapper.update()
+    wrapper.vm.status = expect(wrapper.vm.status).toMatchSnapshot()
+    expect(wrapper.find(".validator-profile__status").classes()).toContain(
+      "red"
     )
   })
 })
