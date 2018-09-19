@@ -4,7 +4,8 @@ exports[`Startup Process Error handling should error on gaiacli crashing async i
 Array [
   "error",
   Object {
-    "message": "The gaiacli rest-server (LCD) exited unplanned",
+    "message": "The gaiacli rest-server (LCD) experienced an error:
+Gaiacli errord asynchronous",
   },
 ]
 `;
@@ -13,7 +14,8 @@ exports[`Startup Process Error handling should error on gaiacli crashing on reco
 Array [
   "error",
   Object {
-    "message": "The gaiacli rest-server (LCD) exited unplanned",
+    "message": "The gaiacli rest-server (LCD) experienced an error:
+Some error",
   },
 ]
 `;

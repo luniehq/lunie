@@ -94,24 +94,6 @@ let stdoutMocks = (path, args) => ({
     }
   }
 })
-let stderrMocks = (path, args) => ({
-  on: (type, cb) => {
-    // test for init of gaiacli
-    if (type === "data" && args.includes("init") && args.length === 4) {
-      cb({ toString: () => "already is initialized" })
-    }
-    if (
-      path.includes("gaiacli") &&
-      args.includes("rest-server") &&
-      type === "data"
-    ) {
-      cb("Not yet serving the lcd")
-      setImmediate(() => {
-        cb("Serving on")
-      })
-    }
-  }
-})
 childProcessMock((path, args) => ({
   on: (type, cb) => {
     // init processes always should return with 0
@@ -121,7 +103,7 @@ childProcessMock((path, args) => ({
   },
   stdin: { write: () => {} },
   stdout: stdoutMocks(path, args),
-  stderr: stderrMocks(path, args),
+  stderr: { on: () => {} },
   mocked: true
 }))
 mockConfig()
@@ -573,12 +555,13 @@ describe("Startup Process", () => {
           pipe: () => {}
         },
         stderr: {
-          on: () => {},
+          on: (type, cb) => {
+            // type is always 'data'
+            cb(Buffer.from("Some error"))
+          },
           pipe: () => {}
         },
-        on: (type, cb) => {
-          if (type === "exit") cb(2)
-        },
+        on: () => {},
         kill: () => {},
         removeAllListeners: () => {}
       })
@@ -591,26 +574,27 @@ describe("Startup Process", () => {
     it("should error on gaiacli crashing async instead of breaking", async () => {
       await initMain()
       let { send } = require("electron")
-      let exitCB
+      let errorCB
       childProcess.spawn = () => ({
         stdout: {
           on: () => {},
           pipe: () => {}
         },
         stderr: {
-          on: () => {},
+          on: (type, cb) => {
+            // type is always 'data'
+            errorCB = cb
+          },
           pipe: () => {}
         },
-        on: (type, cb) => {
-          if (type === "exit") exitCB = cb
-        },
+        on: () => {},
         kill: () => {},
         removeAllListeners: () => {}
       })
       await main.eventHandlers.reconnect()
       expect(send.mock.calls.find(([type]) => type === "error")).toBeUndefined()
 
-      exitCB(2)
+      errorCB(Buffer.from("Gaiacli errord asynchronous"))
 
       expect(
         send.mock.calls.find(([type]) => type === "error")
@@ -812,7 +796,13 @@ function failingChildProcess(mockName, mockCmd) {
     },
     stdin: { write: () => {} },
     stdout: stdoutMocks(path, args),
-    stderr: stderrMocks(path, args),
+    stderr: {
+      on: (type, cb) => {
+        // type is always 'data'
+        cb(Buffer.from(`${mockName} produced an unexpected error`))
+      },
+      pipe: () => {}
+    },
     mocked: true
   }))
 }

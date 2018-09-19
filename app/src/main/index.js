@@ -274,11 +274,13 @@ async function startLCD(home, nodeIP) {
     ])
     logProcess(child, join(home, "lcd.log"))
 
-    child.on("exit", () => {
-      let msg = `The ${LCD_BINARY_NAME} rest-server (LCD) exited unplanned`
+    child.stderr.on("data", error => {
+      let errorMessage = `The gaiacli rest-server (LCD) experienced an error:\n${error.toString(
+        "utf8"
+      )}`
       lcdStarted
-        ? handleCrash(msg) // if fails later
-        : reject(msg) // if fails immediatly
+        ? handleCrash(errorMessage) // if fails later
+        : reject(errorMessage) // if fails immediatly
     })
 
     // poll until LCD is started
