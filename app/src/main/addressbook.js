@@ -84,7 +84,7 @@ module.exports = class Addressbook {
 
       // ping fixed node
       let alive = !!(await axios.get(
-        `http://${peerIP}:${this.config.default_tendermint_port}/net_info`,
+        `http://${FIXED_NODE}:${this.config.default_tendermint_port}/net_info`,
         { timeout: 3000 }
       ))
       if (!alive)
