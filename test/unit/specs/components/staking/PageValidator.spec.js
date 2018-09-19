@@ -45,6 +45,9 @@ const getterValues = {
     committedDelegates: { "1a2b3c": 0 },
     unbondingDelegations: {}
   },
+  committedDelegations: {
+    "1a2b3c": 0
+  },
   keybase: `keybase`,
   oldBondedAtoms: 50,
   totalAtoms: 100,

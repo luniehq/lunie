@@ -51,10 +51,9 @@ tm-page(:title='validatorTitle(this.validator)')
         tmBtn(@click.native="closeCannotStake()" value="OK")
 
 
-    tm-btn(
+    tm-btn#Stake(
       @click.native="onStake()"
       color="primary"
-      id="Stake"
       value="Stake"
     )
 

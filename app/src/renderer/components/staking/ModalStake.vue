@@ -13,7 +13,6 @@
     //- means you're always left with a remaining between 0-1 when trying to bond
     //- the max amount
     tm-form-group.stake-form-group(
-      field-id='amount'
       field-label='Amount'
     )
       tm-field#denom(
