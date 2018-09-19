@@ -37,7 +37,12 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { shortAddress, calculateTokens } from "scripts/common"
+import {
+  shortAddress,
+  calculateTokens,
+  calculateShares,
+  parseValidatorShares
+} from "scripts/common"
 export default {
   name: "li-validator",
   props: ["delegate", "disabled"],
@@ -53,13 +58,27 @@ export default {
       return "n/a" //TODO: add slashes
     },
     commission() {
-      return "n/a" //TODO: add commission
+      return `${this.delegate.commission}%` //TODO: add commission
     },
     uptime() {
       return "n/a" //TODO: add real uptime
     },
     yourRewards() {
-      return "n/a"
+      if (
+        this.committedDelegations[this.delegate.id] &&
+        this.delegate.proposer_reward_pool > 0
+      ) {
+        let myShares = calculateShares(
+          this.delegate,
+          this.committedDelegations[this.delegate.id]
+        )
+        let shareRatio = myShares.div(parseValidatorShares(this.delegate))
+        let rewardsInShares = shareRatio.times(
+          this.delegate.proposer_reward_pool
+        )
+        let rewardsInTokens = calculateTokens(rewardsInShares)
+        return this.num.pretty(rewardsInTokens).toString()
+      } else return "0"
     },
     yourVotes() {
       return this.num.pretty(
