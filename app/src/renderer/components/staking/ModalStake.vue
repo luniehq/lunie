@@ -5,18 +5,6 @@
       img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
       span.tm-modal-title Stake
 
-    //- Amount
-    tm-form-group.stake-form-group(
-      field-id='amount'
-      field-label='Amount'
-    )
-      tm-field#amount(
-        :max="maximum"
-        :min="1"
-        type="number"
-        v-focus
-        v-model="amount")
-
     //- To
     tm-form-group.stake-form-group(
       field-id='to' field-label='To')
@@ -30,6 +18,18 @@
         :options="fromOptions"
         v-model="fromIndex"
       )
+
+    //- Amount
+    tm-form-group.stake-form-group(
+      field-id='amount'
+      field-label='Amount'
+    )
+      tm-field#amount(
+        :max="maximum"
+        :min="1"
+        type="number"
+        v-focus
+        v-model="amount")
 
     //- Footer
     .stake-footer
