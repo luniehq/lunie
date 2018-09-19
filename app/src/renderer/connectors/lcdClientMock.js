@@ -142,7 +142,8 @@ let state = {
       tokens: "14",
       delegator_shares: "14",
       description: {
-        description: "Mr Mounty",
+        website: "www.monty.ca",
+        details: "Mr Mounty",
         moniker: "mr_mounty",
         country: "Canada"
       },
@@ -165,7 +166,8 @@ let state = {
       tokens: "0",
       delegator_shares: "0",
       description: {
-        description: "Good Guy Greg",
+        website: "www.greg.com",
+        details: "Good Guy Greg",
         moniker: "good_greg",
         country: "USA"
       },
@@ -188,7 +190,8 @@ let state = {
       tokens: "19",
       delegator_shares: "19",
       description: {
-        description: "Herr Schmidt",
+        details: "Herr Schmidt",
+        website: "www.schmidt.de",
         moniker: "herr_schmidt_revoked",
         country: "DE"
       },
@@ -460,7 +463,10 @@ module.exports = {
   },
   async queryDelegation(delegatorAddress, validatorAddress) {
     let delegator = state.stake[delegatorAddress]
-    if (!delegator) return {}
+    if (!delegator)
+      return {
+        shares: "0"
+      }
     return delegator.delegations.find(
       ({ validator_addr }) => validator_addr === validatorAddress
     )

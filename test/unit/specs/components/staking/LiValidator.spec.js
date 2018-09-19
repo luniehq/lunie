@@ -1,12 +1,12 @@
 import setup from "../../../helpers/vuex-setup"
-import LiDelegate from "renderer/components/staking/LiDelegate"
+import LiValidator from "renderer/components/staking/LiValidator"
 
-describe("LiDelegate", () => {
+describe("LiValidator", () => {
   let wrapper, store, delegate
   let instance = setup()
 
   beforeEach(async () => {
-    let test = instance.mount(LiDelegate, {
+    let test = instance.mount(LiValidator, {
       propsData: {
         delegate: {
           id: "abc",
@@ -35,14 +35,14 @@ describe("LiDelegate", () => {
   it("should add to cart", () => {
     expect(wrapper.vm.shoppingCart).toEqual([])
     expect(wrapper.vm.inCart).toBeFalsy()
-    expect(wrapper.html()).not.toContain("li-delegate-active")
+    expect(wrapper.html()).not.toContain("li-validator-active")
     wrapper.find("#add-to-cart").trigger("click")
     expect(wrapper.vm.inCart).toBeTruthy()
     expect(store.commit).toHaveBeenCalledWith(
       "addToCart",
       store.state.delegates.delegates[0]
     )
-    expect(wrapper.html()).toContain("li-delegate-active")
+    expect(wrapper.html()).toContain("li-validator-active")
   })
 
   it("should remove from cart", () => {
@@ -53,7 +53,7 @@ describe("LiDelegate", () => {
     expect(store.commit).toHaveBeenCalledWith("removeFromCart", delegate.id)
     expect(wrapper.vm.shoppingCart).toEqual([])
     expect(wrapper.vm.inCart).toBeFalsy()
-    expect(wrapper.html()).not.toContain("li-delegate-active")
+    expect(wrapper.html()).not.toContain("li-validator-active")
   })
 
   it("should show the type of the candidate", () => {

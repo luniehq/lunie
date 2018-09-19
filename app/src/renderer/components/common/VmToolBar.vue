@@ -42,3 +42,7 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+.tm-tool-bar-container a
+  margin-top 0 !important
+</style>

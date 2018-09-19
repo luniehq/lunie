@@ -4,7 +4,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
 "<div class=\\"header-balance\\">
    <div class=\\"top\\">
       <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
-      <div class=\\"total-atoms\\">
+      <div class=\\"total-atoms top-section\\">
          <div class=\\"h3\\">
             Total Steak
          </div>
@@ -24,6 +24,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
    <i class=\\"material-icons\\">check</i><span>Copied</span>
 </div>
 </div>
+<div class=\\"tabs\\"></div>
 </div>"
 `;
 
@@ -31,7 +32,7 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
 "<div class=\\"header-balance\\">
    <div class=\\"top\\">
       <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
-      <div class=\\"total-atoms\\">
+      <div class=\\"total-atoms top-section\\">
          <div class=\\"h3\\">
             Total Steak
          </div>
@@ -39,7 +40,7 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
    321.00
 </div>
 </div>
-<div class=\\"unstaked-atoms\\">
+<div class=\\"unstaked-atoms top-section\\">
    <div class=\\"h3\\">
       Unstaked Steak
    </div>
@@ -47,7 +48,7 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
    1337
 </div>
 </div>
-<div class=\\"total-earnings\\">
+<div class=\\"total-earnings top-section\\">
    <div class=\\"h3\\">
       Total Earnings
    </div>
@@ -55,7 +56,7 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
    1337
 </div>
 </div>
-<div class=\\"total-rewards\\">
+<div class=\\"total-rewards top-section\\">
    <div class=\\"h3\\">
       Total Rewards
    </div>
@@ -75,5 +76,6 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
    <i class=\\"material-icons\\">check</i><span>Copied</span>
 </div>
 </div>
+<div class=\\"tabs\\"></div>
 </div>"
 `;
