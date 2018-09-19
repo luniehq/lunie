@@ -49,7 +49,7 @@ const getterValues = {
   keybase: `keybase`,
   oldBondedAtoms: 50,
   totalAtoms: 100,
-  user: { atoms: 50 },
+  user: { atoms: 42 },
   wallet: { address: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` }
 }
 
@@ -399,15 +399,16 @@ describe(`onStake`, () => {
                 delegate: {
                   bond_height: "0",
                   bond_intra_tx_counter: 6,
-                  commission: "0",
-                  commission_change_rate: "0",
-                  commission_change_today: "0",
-                  commission_max: "0",
+                  commission: "0.05",
+                  commission_change_rate: "0.01",
+                  commission_change_today: "0.005",
+                  commission_max: "0.1",
                   delegator_shares: "19",
                   description: {
                     country: "DE",
-                    description: "Herr Schmidt",
-                    moniker: "herr_schmidt_revoked"
+                    details: "Herr Schmidt",
+                    moniker: "herr_schmidt_revoked",
+                    website: "www.schmidt.de"
                   },
                   keybase: undefined,
                   owner: "1a2b3c",
@@ -417,9 +418,11 @@ describe(`onStake`, () => {
                     data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=",
                     type: "AC26791624DE60"
                   },
-                  revoked: true,
+                  revoked: false,
+                  selfBond: 0.01,
                   status: 2,
-                  tokens: "19"
+                  tokens: "19",
+                  voting_power: "10"
                 }
               }
             ]
@@ -443,7 +446,7 @@ describe(`onStake`, () => {
         ])
 
         expect($store.commit.mock.calls).toEqual([
-          ["setAtoms", 40],
+          ["setAtoms", 32],
           [
             "notify",
             {

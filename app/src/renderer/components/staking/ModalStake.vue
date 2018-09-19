@@ -4,6 +4,8 @@
     .stake-header
       img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
       span.tm-modal-title Stake
+      .tm-modal-icon.tm-modal-close(@click="close()")
+        i.material-icons close
 
     //- To
     tm-form-group.stake-form-group(
@@ -33,6 +35,11 @@
 
     //- Footer
     .stake-footer
+      tm-btn(
+        @click.native="close"
+        size="lg"
+        value="Cancel"
+      )
       tm-btn(
         @click.native="onStake"
         color="primary"
@@ -105,4 +112,7 @@ export default {
   .stake-footer
     display flex
     justify-content flex-end
+
+    button
+      margin-left 1em
 </style>
