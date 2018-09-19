@@ -313,7 +313,7 @@ function stopLCD() {
       resolve()
     } catch (err) {
       handleCrash(err)
-      reject()
+      reject("Stopping the LCD resulted in an error: " + err.message)
     }
   })
 }
