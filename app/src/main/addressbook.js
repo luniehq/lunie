@@ -83,10 +83,14 @@ module.exports = class Addressbook {
       curNode = { host: FIXED_NODE }
 
       // ping fixed node
-      let alive = !!(await axios.get(
-        `http://${FIXED_NODE}:${this.config.default_tendermint_port}/net_info`,
-        { timeout: 3000 }
-      ))
+      let alive = await axios
+        .get(
+          `http://${FIXED_NODE}:${
+            this.config.default_tendermint_port
+          }/net_info`,
+          { timeout: 3000 }
+        )
+        .then(() => true, () => false)
       if (!alive)
         throw Error("The fixed node you tried to connect to is not reachable.")
     } else {
