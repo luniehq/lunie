@@ -158,7 +158,7 @@ exports[`PageValidator has the expected html structure 1`] = `
               <div
                 class="validator-profile__header__name__title"
               >
-                herr_schmidt_revoked - (a2b3c)
+                herr_schmidt_revoked
               </div>
             </div>
             <a
@@ -296,7 +296,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Public Key
+              Owner
             </dt>
             <dd>
               1a2b3c
@@ -326,12 +326,22 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
+              Website
+            </dt>
+            <dd>
+              www.schmidt.de
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
               Details
             </dt>
             <dd
               class="info_dl__text-box"
             >
-              n/a
+              Herr Schmidt
             </dd>
           </dl>
         </div>
@@ -587,7 +597,7 @@ exports[`PageValidator shows a default avatar 1`] = `
               <div
                 class="validator-profile__header__name__title"
               >
-                herr_schmidt_revoked - (a2b3c)
+                herr_schmidt_revoked
               </div>
             </div>
             <a
@@ -725,7 +735,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Public Key
+              Owner
             </dt>
             <dd>
               1a2b3c
@@ -755,12 +765,22 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
+              Website
+            </dt>
+            <dd>
+              www.schmidt.de
+            </dd>
+          </dl>
+          <dl
+            class="info_dl"
+          >
+            <dt>
               Details
             </dt>
             <dd
               class="info_dl__text-box"
             >
-              n/a
+              Herr Schmidt
             </dd>
           </dl>
         </div>
@@ -829,290 +849,6 @@ exports[`PageValidator shows a default avatar 1`] = `
               0 %
             </dd>
           </dl>
-        </div>
-      </div>
-    </div>
-    <!---->
-    <!---->
-  </main>
-</div>
-`;
-
-exports[`PageValidator shows a default value if no moniker is set 1`] = `
-<div
-  class="tm-page"
->
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-        <!---->
-        <!---->
-      </div>
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <div
-                class="tm-tool-bar-container"
-              >
-                <div
-                  class="main"
-                >
-                  <a
-                    class=""
-                    href="#/staking"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
-                    class="anchor-copy"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      content_copy
-                    </i>
-                    
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </menu>
-    </div>
-  </header>
-  <main
-    class="tm-page-main"
-  >
-    <!---->
-    <div
-      class="validator-profile__header validator-profile__section"
-    >
-      <div
-        class="column"
-      >
-        <img
-          class="avatar"
-          src="~assets/images/validator-icon.svg"
-        />
-      </div>
-      <div
-        class="column validator-profile__header__info"
-      >
-        <div
-          class="row validator-profile__header__name"
-        >
-          <div
-            class="column"
-          >
-            <div
-              class="validator-profile__status-and-title"
-            >
-              <span
-                class="validator-profile__status red"
-              />
-              <div
-                class="validator-profile__header__name__title"
-              >
-                Anonymous - (a2b3c)
-              </div>
-            </div>
-            <a
-              class="anchor-copy validator-profile__header__name__address"
-            >
-              <i
-                class="material-icons"
-              >
-                
-              </i>
-              …2b3c
-            </a>
-          </div>
-          <div
-            class="column validator-profile__header__actions"
-          >
-            <button
-              class="tm-btn"
-              id="stake-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Stake
-                </span>
-              </span>
-            </button>
-            <!---->
-          </div>
-        </div>
-        <div
-          class="row validator-profile__header__data"
-        >
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              My Stake
-            </dt>
-            <dd>
-              &lt; 0.01
-            </dd>
-          </dl>
-          <!---->
-          <div
-            class="validator-profile__header__data__break"
-          />
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              Voting Power
-            </dt>
-            <dd
-              class="red"
-              id="validator-profile__power"
-            >
-              0.00 %
-            </dd>
-          </dl>
-          <!---->
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              Commission
-            </dt>
-            <dd
-              class="green"
-              id="validator-profile__commission"
-            >
-              0.00 %
-            </dd>
-          </dl>
-          <!---->
-        </div>
-      </div>
-    </div>
-    <div
-      class="validator-profile__details validator-profile__section"
-    >
-      <div
-        class="row"
-      >
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Public Key
-            </dt>
-            <dd>
-              1a2b3c
-            </dd>
-          </dl>
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Keybase ID
-            </dt>
-            <dd>
-              n/a
-            </dd>
-          </dl>
-          <!---->
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Details
-            </dt>
-            <dd
-              class="info_dl__text-box"
-            >
-              n/a
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Commission Rate
-            </dt>
-            <dd>
-              0 %
-            </dd>
-          </dl>
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Commission Rate
-            </dt>
-            <dd>
-              0 %
-            </dd>
-          </dl>
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Commission Change Today
-            </dt>
-            <dd>
-              0 %
-            </dd>
-          </dl>
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Daily Commission Change
-            </dt>
-            <dd>
-              0 %
-            </dd>
-          </dl>
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Self Stake
-            </dt>
-            <dd
-              id="validator-profile__self-bond"
-            >
-              0 %
-            </dd>
-          </dl>
-          <!---->
         </div>
       </div>
     </div>

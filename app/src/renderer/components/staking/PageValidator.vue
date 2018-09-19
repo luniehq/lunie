@@ -17,7 +17,7 @@ tm-page
           .column
             div.validator-profile__status-and-title
               span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
-              .validator-profile__header__name__title {{ validatorTitle(validator) }}
+              .validator-profile__header__name__title {{ validator.description.moniker }}
             //- TODO replace with address component when ready
             anchor-copy.validator-profile__header__name__address(:value="validator.owner" :label="shortAddress(validator.owner)")
           .column.validator-profile__header__actions
@@ -48,17 +48,20 @@ tm-page
       .row
         .column
           dl.info_dl
-            dt Public Key
+            dt Owner
             dd {{validator.owner}}
           dl.info_dl
             dt Keybase ID
-            dd {{validator.description.identity || 'n/a'}}
+            dd {{translateEmptyDescription(validator.description.identity)}}
           dl.info_dl(v-if="config.devMode")
             dt First Seen
             dd n/a
           dl.info_dl
+            dt Website
+            dd {{translateEmptyDescription(validator.description.website)}}
+          dl.info_dl
             dt Details
-            dd.info_dl__text-box {{validator.description.details || 'n/a'}}
+            dd.info_dl__text-box {{translateEmptyDescription(validator.description.details)}}
         .column
           dl.info_dl
             dt Commission Rate
@@ -246,20 +249,13 @@ export default {
         }
       }
     },
-    validatorTitle(validator) {
-      let title
-      if (validator.description.moniker) {
-        title = validator.description.moniker
-      } else {
-        title = "Anonymous"
-      }
-      let shortOwner = validator.owner.split(1)[1]
-      shortOwner = shortOwner.slice(0, 8)
-      title += ` - (${shortOwner})`
-      return title
-    },
     pretty(num) {
       return numeral(num).format("0,0.00")
+    },
+    // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
+    translateEmptyDescription(value) {
+      if (!value || value === "[do-not-modify]") return "n/a"
+      return value
     }
   },
   watch: {
