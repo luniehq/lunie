@@ -48,6 +48,7 @@ export default {
   props: ["delegate", "disabled"],
   computed: {
     ...mapGetters([
+      "lastHeader",
       "shoppingCart",
       "delegates",
       "config",
@@ -58,14 +59,22 @@ export default {
       return "n/a" //TODO: add slashes
     },
     commission() {
-      return `${this.delegate.commission}%` //TODO: add commission
+      return `${this.delegate.commission}%`
     },
     uptime() {
-      return "n/a" //TODO: add real uptime
+      let info = this.delegate.signing_info
+      if (info) {
+        let uptime =
+          info.signed_blocks_counter /
+          (this.lastHeader.height - this.delegate.bond_height)
+        return `${this.num.pretty(uptime * 100)}%`
+      }
+      return "n/a"
     },
     yourRewards() {
       if (
         this.committedDelegations[this.delegate.id] &&
+        this.committedDelegations[this.delegate.id].isValidator &&
         this.delegate.proposer_reward_pool > 0
       ) {
         let myShares = calculateShares(

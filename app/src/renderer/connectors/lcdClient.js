@@ -148,6 +148,12 @@ Object.assign(Client.prototype, {
       "GET",
       `/stake/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`
     ).call(this)
+  },
+
+  /* ============ Slashing ============ */
+
+  queryValidatorSigningInfo: function(validatorAddr) {
+    return req("GET", `/slashing/signing_info/${validatorAddr}`).call(this)
   }
 })
 

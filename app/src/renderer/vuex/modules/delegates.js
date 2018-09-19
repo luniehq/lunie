@@ -1,5 +1,6 @@
 import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
+import { isEmpty } from "lodash"
 export default ({ node }) => {
   const emptyState = {
     delegates: [],
@@ -70,6 +71,10 @@ export default ({ node }) => {
         if (validators.find(v => v.pub_key === delegate.pub_key)) {
           delegate.isValidator = true
         }
+        let signing_info = await node.queryValidatorSigningInfo(
+          delegate.pub_key
+        )
+        if (!isEmpty(signing_info)) delegate.signing_info = signing_info
         commit("addDelegate", delegate)
       }
 
