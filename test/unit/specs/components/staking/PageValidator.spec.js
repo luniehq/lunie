@@ -2,7 +2,8 @@ import BigNumber from "bignumber.js"
 import ModalStake from "staking/ModalStake"
 import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
-import { mount } from "@vue/test-utils"
+import { createLocalVue, mount } from "@vue/test-utils"
+import Vuelidate from "vuelidate"
 
 const delegate = {
   owner: "1a2b3c",
@@ -58,8 +59,12 @@ describe("PageValidator", () => {
   let wrapper, store
   let { mount } = setup()
 
+  const localVue = createLocalVue()
+  localVue.use(Vuelidate)
+
   beforeEach(() => {
     let instance = mount(PageValidator, {
+      localVue,
       doBefore: ({ router, store }) => {
         router.push("/staking/validators/1a2b3c")
         store.commit("setDelegates", [delegate])
@@ -208,6 +213,9 @@ describe("PageValidator", () => {
 describe(`onStake`, () => {
   describe(`make sure we have enough atoms to stake`, () => {
     it(`is enough`, () => {
+      const localVue = createLocalVue()
+      localVue.use(Vuelidate)
+
       const $store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
@@ -215,6 +223,7 @@ describe(`onStake`, () => {
       }
 
       const wrapper = mount(PageValidator, {
+        localVue,
         mocks: {
           $route: { params: { validator: `1a2b3c` } },
           $store

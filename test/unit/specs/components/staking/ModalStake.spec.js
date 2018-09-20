@@ -39,12 +39,12 @@ const Wrapper = () => {
 }
 
 test("the 'amount' field defaults to 0", () => {
-  let amountField = Wrapper().find(`#amount`)
-  expect(amountField.element.value).toEqual(0)
+  let amountField = Wrapper().find("#amount")
+  expect(Number(amountField.element.value)).toEqual(0)
 })
 
 test("display the 'To' address", () => {
-  let toField = Wrapper().find(`#to`)
+  let toField = Wrapper().find("#to")
   expect(toField.element.value).toEqual(
     `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
   )
