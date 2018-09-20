@@ -95,7 +95,11 @@ describe("Module: Delegations", () => {
     }
     let type = "delegation"
 
-    await store.dispatch("submitDelegation", { type, stakeTransactions })
+    try {
+      await store.dispatch("submitDelegation", { type, stakeTransactions })
+    } catch (err) {
+      console.log(err)
+    }
 
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
@@ -126,7 +130,11 @@ describe("Module: Delegations", () => {
     }
     let type = "delegation"
 
-    await store.dispatch("submitDelegation", { type, stakeTransactions })
+    try {
+      await store.dispatch("submitDelegation", { type, stakeTransactions })
+    } catch (err) {
+      console.log(err)
+    }
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
 
@@ -221,7 +229,11 @@ describe("Module: Delegations", () => {
       ]
     }
     let type = "delegation"
-    await store.dispatch("submitDelegation", { type, stakingTransactions })
+    try {
+      await store.dispatch("submitDelegation", { type, stakingTransactions })
+    } catch (err) {
+      console.log(err)
+    }
     store.commit("setUnbondingDelegations", {
       validator_addr: lcdClientMock.validators[0],
       balance: { amount: "100" }
