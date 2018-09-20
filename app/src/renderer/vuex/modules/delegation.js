@@ -1,4 +1,4 @@
-import { calculateTokens, calculateShares } from "scripts/common"
+import { calculateTokens } from "scripts/common"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
@@ -12,6 +12,13 @@ export default ({ node }) => {
     unbondingDelegations: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
+
+  // Staking Msgs
+  const msgDelegation = "delegation"
+  const msgBeginUnbonding = "begin_unbonding"
+  const msgCompleteUnbonding = "complete_unbonding"
+  const msgBeginRedelegation = "begin_redelegation"
+  const msgCompleteRedelegation = "complete_redelegation"
 
   const mutations = {
     addToCart(state, delegate) {
@@ -157,62 +164,42 @@ export default ({ node }) => {
     },
     async submitDelegation(
       { rootState, state, dispatch, commit },
-      delegations
+      { type, stakeTransactions }
     ) {
-      let delegate = []
-      let unbond = []
-      for (let delegation of delegations) {
-        let candidateId = delegation.delegate.owner
-        let currentlyDelegated = 0
-        currentlyDelegated = calculateTokens(
-          delegation.delegate,
-          state.committedDelegates[candidateId] || 0
-        )
-        let amountChange =
-          parseFloat(delegation.atoms) - currentlyDelegated.toNumber()
-        let isBond = amountChange > 0
-        // skip if no change
-        if (amountChange === 0) continue
-        if (isBond) {
-          delegate.push({
-            delegator_addr: rootState.wallet.address,
-            validator_addr: candidateId,
-            delegation: {
-              denom: rootState.config.bondingDenom.toLowerCase(),
-              amount: String(amountChange)
-            }
-          })
-        } else {
-          unbond.push({
-            delegator_addr: rootState.wallet.address,
-            validator_addr: candidateId,
-            shares: String(
-              Math.abs(
-                calculateShares(delegation.delegate, amountChange)
-              ).toFixed(8) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
-            )
-          })
-        }
-      }
+      console.log("Try")
+      console.log(type)
+      console.log(stakeTransactions)
       await dispatch("sendTx", {
         type: "updateDelegations",
         to: rootState.wallet.address, // TODO strange syntax
-        delegations: delegate,
-        begin_unbondings: unbond
+        ...stakeTransactions
       })
-      // (optimistic update) we update the atoms of the user before we get the new values from chain
-      let atomsDiff = delegations
-        // compare old and new delegations and diff against old atoms
-        .map(
-          delegation =>
-            calculateTokens(
-              delegation.delegate,
-              state.committedDelegates[delegation.delegate.owner]
-            ) - delegation.atoms
-        )
-        .reduce((sum, diff) => sum + diff, 0)
-      commit("setAtoms", rootState.user.atoms + atomsDiff)
 
+      console.log("switch")
+      switch (type) {
+        case msgDelegation:
+          // (optimistic update) we update the atoms of the user before we get the new values from chain
+          let atomsDiff = stakeTransactions.delegations
+            // compare old and new delegations and diff against old atoms
+            .map(delegationObj => {
+              // Get the validator to calculate the tokens
+              let validator = state.delegates.find(validator => {
+                return validator.owner === delegationObj.validator_addr
+              })
+              console.log("calculateTokens")
+              return (
+                calculateTokens(
+                  validator,
+                  state.committedDelegates[validator.owner]
+                ) - Number(delegationObj.delegation.amount)
+              )
+            })
+            .reduce((sum, diff) => sum + diff, 0)
+          console.log("setAtoms")
+          commit("setAtoms", rootState.user.atoms + atomsDiff)
+          break
+      }
+      console.log("update vals")
       // we optimistically update the committed delegations
       // TODO usually I would just query the new state through the LCD and update the state with the result, but at this point we still get the old shares
       setTimeout(async () => {

@@ -102,7 +102,12 @@ tm-page
 import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
-import { calculateTokens, shortAddress, ratToBigNumber } from "scripts/common"
+import {
+  calculateTokens,
+  calculateShares,
+  shortAddress,
+  ratToBigNumber
+} from "scripts/common"
 import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
@@ -210,23 +215,54 @@ export default {
         this.showCannotStake = true
       }
     },
-    async submitDelegation({ amount }) {
-      const candidateId = this.validator.owner
+    async submitDelegation({ amount, from }) {
+      let stakeTransactions = {}
+      let type
+
+      const delegatorAddr = this.wallet.address
+      const validatorAddr = this.validator.owner
 
       const currentlyDelegated = calculateTokens(
         this.validator,
-        this.delegation.committedDelegates[candidateId] || 0
+        this.delegation.committedDelegates[validatorAddr] || 0
       )
 
-      const delegation = [
-        {
-          atoms: currentlyDelegated.plus(amount),
-          delegate: this.validator
-        }
-      ]
+      // TODO Split delegation and redelegation (begin & complete) into ≠ functions
+      if (from === delegatorAddr) {
+        type = "delegation"
+        stakeTransactions.delegations = [
+          {
+            delegator_addr: delegatorAddr,
+            validator_addr: validatorAddr,
+            delegation: {
+              denom: this.bondingDenom.toLowerCase(),
+              amount: String(amount)
+            }
+          }
+        ]
+      } else {
+        type = "begin_redelegation"
+
+        let validatorFrom = this.delegates.delegates.find(validator => {
+          return validator.owner === from
+        })
+        let shares = calculateShares(validatorFrom, amount)
+        stakeTransactions.begin_redelegates = [
+          {
+            delegator_addr: delegatorAddr,
+            shares: String(shares.toFixed(8)), // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
+            validator_src_addr: from,
+            validator_dst_addr: validatorAddr
+          }
+        ]
+      }
+      console.log(stakeTransactions)
 
       try {
-        await this.$store.dispatch("submitDelegation", delegation)
+        await this.$store.dispatch("submitDelegation", {
+          type,
+          stakeTransactions
+        })
 
         this.$store.commit("notify", {
           title: "Successful Staking!",

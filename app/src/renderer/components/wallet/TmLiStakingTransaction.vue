@@ -20,6 +20,17 @@
     div
       .tx-element.tx-date(v-if="devMode") {{ date }}
       .tx-element.tx-address Started unbonding from {{ tx.validator_addr }}
+
+.tm-li-tx.tm-li-tx-sent(v-else-if="type === 'cosmos-sdk/BeginRedelegate'" @click="() => devMode && viewTransaction()")
+  .tx-icon: i.material-icons add_circle
+  .tx-container
+    .tx-element.tx-coins
+      .tx-coin
+        .key {{ tx.redelegation.denom.toUpperCase() }}
+        .value {{ pretty(tx.shares_amount) }}
+    div
+      .tx-element.tx-date(v-if="devMode") {{ date }}
+      .tx-element.tx-address Redelegated from {{ tx.validator_src_addr }} to {{ tx.validator_dst_addr }}
 </template>
 
 <script>
