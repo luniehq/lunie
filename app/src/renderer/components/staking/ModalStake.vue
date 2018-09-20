@@ -44,12 +44,6 @@
       )
 
     .stake-footer
-
-      tm-btn#closeBtn(
-        @click.native="close"
-        value="Close"
-        size="lg")
-
       tm-btn#stake(
         @click.native="onStake"
         :disabled="$v.amount.$invalid"
@@ -141,21 +135,9 @@ export default {
       margin-left 80%
       border none
 
-    #from
-      option
-        background-color #161932 !important
-        color rgba(102, 161, 255, 0.6) !important
-
   .stake-footer
     display flex
     justify-content flex-end
-
-    #closeBtn
-      color #b1b3bb !important
-      margin-right 10%
-      border none !important
-      background none !important
-      border-radius 1px
 
     #stake
       width 120px
