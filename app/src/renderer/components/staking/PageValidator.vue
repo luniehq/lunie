@@ -107,7 +107,6 @@ import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
 import TmBalance from "common/TmBalance"
-import TmModal from "common/TmModal"
 import { isEmpty } from "lodash"
 export default {
   name: "page-validator",
