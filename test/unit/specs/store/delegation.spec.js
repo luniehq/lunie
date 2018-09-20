@@ -77,14 +77,25 @@ describe("Module: Delegations", () => {
     await store.dispatch("getBondedDelegates")
 
     jest.spyOn(store._actions.sendTx, "0")
-
     let bondings = [123, 456, 0]
-    const delegations = store.state.delegates.delegates.map((delegate, i) => ({
-      delegate,
-      atoms: bondings[i]
-    }))
+    const delegations = store.state.delegates.delegates
+      .filter(validator => {
+        !validator.revoked
+      })
+      .map((delegate, i) => ({
+        validator_addr: delegate.owner,
+        delegator_addr: store.state.wallet.address,
+        delegation: {
+          denom: store.state.config.bondingDenom.toLowerCase(),
+          amount: String(bondings[i])
+        }
+      }))
+    let stakeTransactions = {
+      delegations
+    }
+    let type = "delegation"
 
-    await store.dispatch("submitDelegation", delegations)
+    await store.dispatch("submitDelegation", { type, stakeTransactions })
 
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
@@ -98,11 +109,24 @@ describe("Module: Delegations", () => {
 
     jest.spyOn(store._actions.sendTx, "0")
     let bondings = [10, 100, 0]
-    const delegations = store.state.delegates.delegates.map((delegate, i) => ({
-      delegate,
-      atoms: bondings[i]
-    }))
-    await store.dispatch("submitDelegation", delegations)
+    const delegations = store.state.delegates.delegates
+      .filter(validator => {
+        !validator.revoked
+      })
+      .map((delegate, i) => ({
+        validator_addr: delegate.owner,
+        delegator_addr: store.state.wallet.address,
+        delegation: {
+          denom: store.state.config.bondingDenom.toLowerCase(),
+          amount: String(bondings[i])
+        }
+      }))
+    let stakeTransactions = {
+      delegations
+    }
+    let type = "delegation"
+
+    await store.dispatch("submitDelegation", { type, stakeTransactions })
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
 
@@ -184,18 +208,20 @@ describe("Module: Delegations", () => {
 
   it("should undelegate", async () => {
     // store the unbondingDelegation in the lcdclientmock
-    await store.dispatch("submitDelegation", [
-      {
-        delegate: {
-          owner: lcdClientMock.validators[0],
-          delegator_shares: "100",
-          tokens: "100"
-        },
-        balance: {
-          amount: "100"
+    let stakingTransactions = {
+      delegations: [
+        {
+          validator_addr: lcdClientMock.validators[0],
+          delegator_addr: store.state.wallet.address,
+          delegation: {
+            denom: store.state.config.bondingDenom.toLowerCase(),
+            amount: String(100)
+          }
         }
-      }
-    ])
+      ]
+    }
+    let type = "delegation"
+    await store.dispatch("submitDelegation", { type, stakingTransactions })
     store.commit("setUnbondingDelegations", {
       validator_addr: lcdClientMock.validators[0],
       balance: { amount: "100" }

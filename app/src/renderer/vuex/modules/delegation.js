@@ -166,16 +166,12 @@ export default ({ node }) => {
       { rootState, state, dispatch, commit },
       { type, stakeTransactions }
     ) {
-      console.log("Try")
-      console.log(type)
-      console.log(stakeTransactions)
       await dispatch("sendTx", {
         type: "updateDelegations",
         to: rootState.wallet.address, // TODO strange syntax
         ...stakeTransactions
       })
 
-      console.log("switch")
       switch (type) {
         case msgDelegation:
           // (optimistic update) we update the atoms of the user before we get the new values from chain
@@ -186,7 +182,6 @@ export default ({ node }) => {
               let validator = state.delegates.find(validator => {
                 return validator.owner === delegationObj.validator_addr
               })
-              console.log("calculateTokens")
               return (
                 calculateTokens(
                   validator,
@@ -195,11 +190,9 @@ export default ({ node }) => {
               )
             })
             .reduce((sum, diff) => sum + diff, 0)
-          console.log("setAtoms")
           commit("setAtoms", rootState.user.atoms + atomsDiff)
           break
       }
-      console.log("update vals")
       // we optimistically update the committed delegations
       // TODO usually I would just query the new state through the LCD and update the state with the result, but at this point we still get the old shares
       setTimeout(async () => {

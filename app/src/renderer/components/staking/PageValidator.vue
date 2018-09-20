@@ -256,7 +256,6 @@ export default {
           }
         ]
       }
-      console.log(stakeTransactions)
 
       try {
         await this.$store.dispatch("submitDelegation", {
@@ -274,16 +273,29 @@ export default {
 
         if (errData) {
           let parsedErr = errData.split('"')[1]
-
-          this.$store.commit("notifyError", {
-            title: `Error While Staking ${this.bondingDenom}s`,
-            body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
-          })
+          if (type === "delegation") {
+            this.$store.commit("notifyError", {
+              title: `Error while delegating ${this.bondingDenom}s`,
+              body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
+            })
+          } else {
+            this.$store.commit("notifyError", {
+              title: `Error while redelegating ${this.bondingDenom}s`,
+              body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
+            })
+          }
         } else {
-          this.$store.commit("notifyError", {
-            title: `Error While Staking ${this.bondingDenom}s`,
-            body: message
-          })
+          if (type === "delegation") {
+            this.$store.commit("notifyError", {
+              title: `Error while delegating ${this.bondingDenom}s`,
+              body: message
+            })
+          } else {
+            this.$store.commit("notifyError", {
+              title: `Error while redelegating ${this.bondingDenom}s`,
+              body: message
+            })
+          }
         }
       }
     },

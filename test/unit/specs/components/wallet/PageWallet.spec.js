@@ -107,9 +107,6 @@ describe("PageWallet", () => {
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
     wrapper.update()
-
-    console.log(wrapper.vm.$store.getters.delegation.committedDelegates)
-    console.log(wrapper.vm.$store.getters.delegates.delegates.map(d => d.id))
     expect(
       parseFloat(
         wrapper

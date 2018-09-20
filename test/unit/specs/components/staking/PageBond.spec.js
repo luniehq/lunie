@@ -474,9 +474,7 @@ describe("PageBond", () => {
     await sleep(1000)
     let lastErr =
       store.state.notifications[store.state.notifications.length - 1]
-    expect(lastErr.body).toContain(
-      "Validator for this address is currently revoked"
-    )
+    expect(lastErr.body).toContain("Error sending transaction.")
   })
 
   it("disables bonding if not connected", async () => {

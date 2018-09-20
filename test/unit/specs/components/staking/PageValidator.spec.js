@@ -55,6 +55,27 @@ const getterValues = {
   }
 }
 
+const delegationTx = [
+  {
+    atoms: "10",
+    delegation: {
+      stakeTransactions: {
+        delegations: [
+          {
+            delegation: {
+              amount: "10",
+              denom: "atom"
+            },
+            delegator_addr: getterValues.wallet.address,
+            validator_addr: delegate.owner
+          }
+        ]
+      }
+    },
+    type: "delegation"
+  }
+]
+
 describe("PageValidator", () => {
   let wrapper, store
   let { mount } = setup()
@@ -274,15 +295,21 @@ describe(`onStake`, () => {
         vm: { submitDelegation }
       } = mount(PageValidator, {
         mocks: {
-          $route: { params: { validator: `1a2b3c` } },
+          $route: { params: { validator: "1a2b3c", delegator_shares: "19" } },
           $store
         }
       })
 
-      await submitDelegation({ amount: 10 })
+      await submitDelegation({
+        amount: 10,
+        from: "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      })
 
       expect($store.dispatch.mock.calls).toEqual([
-        [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+        [
+          `submitDelegation`,
+          [{ atoms: BigNumber(10), delegation: delegationTx }]
+        ]
       ])
 
       expect($store.commit.mock.calls).toEqual([
@@ -309,15 +336,21 @@ describe(`onStake`, () => {
         vm: { submitDelegation }
       } = mount(PageValidator, {
         mocks: {
-          $route: { params: { validator: `1a2b3c` } },
+          $route: { params: { validator: "1a2b3c", delegator_shares: "19" } },
           $store
         }
       })
 
-      await submitDelegation({ amount: 10 })
+      await submitDelegation({
+        amount: 10,
+        from: "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      })
 
       expect($store.dispatch.mock.calls).toEqual([
-        [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+        [
+          `submitDelegation`,
+          [{ atoms: BigNumber(10), delegation: delegationTx }]
+        ]
       ])
 
       expect($store.commit.mock.calls).toEqual([
@@ -325,7 +358,7 @@ describe(`onStake`, () => {
           `notifyError`,
           {
             body: `message`,
-            title: `Error While Staking atoms`
+            title: `Error while staking atoms`
           }
         ]
       ])
@@ -335,7 +368,7 @@ describe(`onStake`, () => {
       const $store = {
         commit: jest.fn(),
         dispatch: jest.fn(() => {
-          throw new Error(`one\ntwo\nthree\nfour\nfive\nsix"seven`)
+          throw new Error(`one\ntwo\nthree\nfour\nfive\nsix\nseven`)
         }),
         getters: getterValues
       }
@@ -344,15 +377,21 @@ describe(`onStake`, () => {
         vm: { submitDelegation }
       } = mount(PageValidator, {
         mocks: {
-          $route: { params: { validator: `1a2b3c` } },
+          $route: { params: { validator: "1a2b3c", delegator_shares: "19" } },
           $store
         }
       })
 
-      await submitDelegation({ amount: 10 })
+      await submitDelegation({
+        amount: 10,
+        from: "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      })
 
       expect($store.dispatch.mock.calls).toEqual([
-        [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+        [
+          `submitDelegation`,
+          [{ atoms: BigNumber(10), delegation: delegationTx }]
+        ]
       ])
 
       expect($store.commit.mock.calls).toEqual([
@@ -360,7 +399,7 @@ describe(`onStake`, () => {
           `notifyError`,
           {
             body: `Seven`,
-            title: `Error While Staking atoms`
+            title: `Error while staking atoms`
           }
         ]
       ])
