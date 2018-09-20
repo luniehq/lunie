@@ -18,8 +18,9 @@ describe("PageBond", () => {
     tokens: "5000/1",
     shares: 5000,
     description: {
-      description: "descriptionX",
+      details: "descriptionX",
       country: "USA",
+      website: "www.validator.com",
       moniker: "someValidator"
     }
   }
@@ -34,8 +35,9 @@ describe("PageBond", () => {
     voting_power: 30000,
     shares: 10000,
     description: {
-      description: "descriptionY",
+      details: "descriptionY",
       country: "Canada",
+      website: "www.validator.ca",
       moniker: "someOtherValidator"
     }
   }

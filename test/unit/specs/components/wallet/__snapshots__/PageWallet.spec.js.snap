@@ -30,7 +30,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 src="~assets/images/cosmos-logo.png"
               />
               <div
-                class="total-atoms"
+                class="total-atoms top-section"
               >
                 <div
                   class="h3"
@@ -44,7 +44,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 </div>
               </div>
               <div
-                class="unstaked-atoms"
+                class="unstaked-atoms top-section"
               >
                 <div
                   class="h3"
@@ -81,6 +81,9 @@ exports[`PageWallet has the expected html structure 1`] = `
                 </span>
               </div>
             </div>
+            <div
+              class="tabs"
+            />
           </div>
         </div>
       </div>
@@ -544,7 +547,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 src="~assets/images/cosmos-logo.png"
               />
               <div
-                class="total-atoms"
+                class="total-atoms top-section"
               >
                 <div
                   class="h3"
@@ -558,7 +561,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 </div>
               </div>
               <div
-                class="unstaked-atoms"
+                class="unstaked-atoms top-section"
               >
                 <div
                   class="h3"
@@ -595,6 +598,9 @@ exports[`PageWallet should filter the balances 1`] = `
                 </span>
               </div>
             </div>
+            <div
+              class="tabs"
+            />
           </div>
         </div>
       </div>
