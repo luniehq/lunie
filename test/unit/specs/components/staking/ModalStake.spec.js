@@ -38,12 +38,12 @@ const Wrapper = () => {
   })
 }
 
-test(`the "amount" field defaults to 0`, () => {
+test("the 'amount' field defaults to 0", () => {
   let amountField = Wrapper().find(`#amount`)
   expect(amountField.element.value).toEqual(0)
 })
 
-test(`display the 'To' address`, () => {
+test("display the 'To' address", () => {
   let toField = Wrapper().find(`#to`)
   expect(toField.element.value).toEqual(
     `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
@@ -57,28 +57,28 @@ test(`Stake button emits stake and close signals`, () => {
 
   expect(wrapper.emittedByOrder()).toEqual([
     {
-      name: `submitDelegation`,
+      name: "submitDelegation",
       args: [
         {
           amount: 50,
-          from: `My Wallet - cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+          from: "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
         }
       ]
     },
     {
-      name: `update:showModalStake`,
+      name: "update:showModalStake",
       args: [false]
     }
   ])
 })
 
-test(`X and Close buttons emit close signal`, () => {
+test("X and Close buttons emit close signal", () => {
   const wrapper = Wrapper()
   wrapper.vm.close()
 
   expect(wrapper.emittedByOrder()).toEqual([
     {
-      name: `update:showModalStake`,
+      name: "update:showModalStake",
       args: [false]
     }
   ])

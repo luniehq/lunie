@@ -257,7 +257,7 @@ export default {
       let myWallet = [
         {
           address: this.wallet.address,
-          maximum: this.totalAtoms - this.oldBondedAtoms,
+          maximum: Math.floor(this.totalAtoms - this.oldBondedAtoms),
           key: `My Wallet - ${shortAddress(this.wallet.address, 20)}`,
           value: 0
         }
@@ -276,7 +276,7 @@ export default {
           })
           return {
             address: address,
-            maximum: this.committedDelegations[address],
+            maximum: Math.floor(this.committedDelegations[address]),
             key: `${delegate.description.moniker} - ${shortAddress(
               delegate.owner,
               20

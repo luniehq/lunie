@@ -25,6 +25,7 @@
         type="number"
         :max="fromOptions[selectedIndex].maximum"
         :min="0"
+        step="1"
         v-model="amount"
         v-focus)
 
@@ -54,7 +55,7 @@
 
 <script>
 import ClickOutside from "vue-click-outside"
-import { between } from "vuelidate/lib/validators"
+import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
@@ -74,6 +75,8 @@ export default {
   validations() {
     return {
       amount: {
+        required,
+        integer: value => Number.isInteger(value),
         between: between(1, this.fromOptions[this.selectedIndex].maximum)
       }
     }
