@@ -7,7 +7,6 @@
     app-header
     #app-content
       router-view
-      app-footer
     modal-receive
   tm-notifications(:notifications='notifications' theme='cosmos')
   modal-error(v-if='config.modals.error.active' :body='config.modals.error.message')
@@ -19,7 +18,6 @@
 <script>
 import { mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
-import AppFooter from "common/AppFooter"
 import { TmNotifications } from "@tendermint/ui"
 import ModalError from "common/TmModalError"
 import ModalHelp from "common/TmModalHelp"
@@ -34,7 +32,6 @@ export default {
   name: "app",
   components: {
     AppHeader,
-    AppFooter,
     ModalError,
     ModalHelp,
     ModalLcdApproval,
