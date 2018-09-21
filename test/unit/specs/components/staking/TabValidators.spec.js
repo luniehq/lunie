@@ -1,6 +1,6 @@
 import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
-import PageStaking from "renderer/components/staking/PageStaking"
+import TabValidators from "renderer/components/staking/TabValidators"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe("PageStaking", () => {
@@ -8,7 +8,7 @@ describe("PageStaking", () => {
   let { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(PageStaking)
+    let instance = mount(TabValidators)
     wrapper = instance.wrapper
     store = instance.store
 
@@ -26,19 +26,6 @@ describe("PageStaking", () => {
     await wrapper.vm.$nextTick()
     wrapper.update()
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
-  })
-
-  it("should show the search on click", () => {
-    wrapper.find(".tm-tool-bar i.search").trigger("click")
-    expect(wrapper.contains(".tm-modal-search")).toBe(true)
-  })
-
-  it("should refresh candidates on click", () => {
-    wrapper
-      .findAll(".tm-tool-bar i")
-      .at(1)
-      .trigger("click")
-    expect(store.dispatch).toHaveBeenCalledWith("updateDelegates")
   })
 
   it("should sort the delegates by selected property", () => {
@@ -77,18 +64,6 @@ describe("PageStaking", () => {
     ).toEqual([lcdClientMock.validators[1]])
   })
 
-  it("should show the amount of selected delegates", () => {
-    store.commit("addToCart", store.state.delegates.delegates[0])
-    store.commit("addToCart", store.state.delegates.delegates[1])
-    wrapper.update()
-    expect(
-      wrapper
-        .find(".fixed-button-bar strong")
-        .text()
-        .trim()
-    ).toMatchSnapshot()
-  })
-
   it("should update 'somethingToSearch' when there's nothing to search", () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
     let delegates = store.state.delegates.delegates
@@ -99,8 +74,23 @@ describe("PageStaking", () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
   })
 
+  it("should show placeholder if delegates are loading", () => {
+    let { wrapper } = mount(TabValidators, {
+      getters: {
+        delegates: () => ({
+          delegates: [],
+          loading: true
+        })
+      },
+      stubs: { "tm-data-loading": "<data-loading />" }
+    })
+
+    console.log(htmlBeautify(wrapper.html()))
+    expect(wrapper.contains("data-loading")).toBe(true)
+  })
+
   it("should not show search when there is nothing to search", () => {
-    let { wrapper } = mount(PageStaking, {
+    let { wrapper } = mount(TabValidators, {
       getters: {
         delegates: () => ({
           delegates: [],

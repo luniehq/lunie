@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * test if build Voyager actually starts @faboweb
 * added new validator component @okwme
 * simple loading indicator for page staking @faboweb
+* Created new "My Stake" tab. @NodeGuy
 * possibility to end unbonding transactions @faboweb
 
 ### Changed
