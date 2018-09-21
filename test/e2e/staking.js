@@ -23,7 +23,7 @@ test("staking", async function(t) {
     await app.client.$(`.delegates-tabs`).click("a=Validators")
 
     t.equal(
-      (await app.client.$$(".li-delegate")).length,
+      (await app.client.$$(".li-validator")).length,
       3,
       "it shows all three validators"
     )
@@ -41,7 +41,7 @@ test("staking", async function(t) {
     )
     await t.equal(
       parseFloat(
-        await app.client.$(".li-delegate__value.your-votes").getText()
+        await app.client.$(".li-validator__value.your-votes").getText()
       ),
       parseFloat(bondedStake),
       "show my stake in the validator"
@@ -90,7 +90,7 @@ test("staking", async function(t) {
     await app.client.waitForVisible("#go-to-bonding-btn", 30000)
     // TODO: re-enable once we've added back optimistic updates
     // t.equal(
-    //   await app.client.$(".li-delegate__value.your-votes").getText(),
+    //   await app.client.$(".li-validator__value.your-votes").getText(),
     //   bondedStake.toString(),
     //   "Delegate steak in validator updated correctly"
     // )
@@ -145,7 +145,7 @@ test("staking", async function(t) {
     // await app.client.waitForVisible("#go-to-bonding-btn", 30000)
     // TODO: Update when we fix the optimistic ui changes again
     // t.equal(
-    //   await app.client.$(".li-delegate__value.your-votes").getText(),
+    //   await app.client.$(".li-validator__value.your-votes").getText(),
     //   bondedStake.toString(),
     //   "Delegate steak in validator updated correctly"
     // )

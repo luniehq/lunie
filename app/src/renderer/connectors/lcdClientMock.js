@@ -142,7 +142,8 @@ let state = {
       tokens: "14",
       delegator_shares: "14",
       description: {
-        description: "Mr Mounty",
+        website: "www.monty.ca",
+        details: "Mr Mounty",
         moniker: "mr_mounty",
         country: "Canada"
       },
@@ -165,7 +166,8 @@ let state = {
       tokens: "0",
       delegator_shares: "0",
       description: {
-        description: "Good Guy Greg",
+        website: "www.greg.com",
+        details: "Good Guy Greg",
         moniker: "good_greg",
         country: "USA"
       },
@@ -188,7 +190,8 @@ let state = {
       tokens: "19",
       delegator_shares: "19",
       description: {
-        description: "Herr Schmidt",
+        details: "Herr Schmidt",
+        website: "www.schmidt.de",
         moniker: "herr_schmidt_revoked",
         country: "DE"
       },
@@ -281,20 +284,22 @@ module.exports = {
       )
     return send(to, fromKey.address, req)
   },
-  ibcSend(to, req) {
-    // XXX ignores chainId, treated as normal send
-    to = to.split("/")[1]
-    return module.exports.send(to, req)
-  },
 
   // staking
   async updateDelegations(
     delegatorAddr,
-    { name, sequence, delegations, begin_unbondings }
+    {
+      name,
+      sequence,
+      delegations = [],
+      begin_unbondings = [],
+      complete_unbondings = []
+    }
   ) {
     let results = []
     let fromKey = state.keys.find(a => a.name === name)
     let fromAccount = state.accounts[fromKey.address]
+    let delegator = state.stake[fromKey.address]
     if (fromAccount == null) {
       results.push(txResult(1, "Nonexistent account"))
       return results
@@ -323,8 +328,8 @@ module.exports = {
       // update sender account
       incrementSequence(fromAccount)
       fromAccount.coins.find(c => c.denom === denom).amount -= amount
+
       // update stake
-      let delegator = state.stake[fromKey.address]
       if (!delegator) {
         state.stake[fromKey.address] = {
           delegations: [],
@@ -380,7 +385,6 @@ module.exports = {
       coinBalance.amount = String(parseInt(coinBalance) + amount)
 
       // update stake
-      let delegator = state.stake[fromKey.address]
       if (!delegator) {
         results.push(txResult(2, "Nonexistent delegator"))
         return results
@@ -410,11 +414,42 @@ module.exports = {
       results.push(txResult(0))
     }
 
+    for (let tx of complete_unbondings) {
+      incrementSequence(fromAccount)
+
+      if (!delegator) {
+        results.push(txResult(2, "Nonexistent delegator"))
+        return results
+      }
+
+      // remove undelegation
+      let unbondingDelegation = delegator.unbonding_delegations.find(
+        ({ validator_addr }) => validator_addr === tx.validator_addr
+      )
+      delegator.unbonding_delegations = delegator.unbonding_delegations.filter(
+        d => d !== unbondingDelegation
+      )
+
+      // put money back in the account
+      // we treat shares as atoms (1:1)
+      let amount = unbondingDelegation.shares
+
+      // update sender balance
+      let coinBalance = fromAccount.coins.find(c => c.denom === "steak")
+      coinBalance.amount = String(parseInt(coinBalance) + amount)
+
+      storeTx("cosmos-sdk/CompleteUnbonding", tx)
+      results.push(txResult(0))
+    }
+
     return results
   },
   async queryDelegation(delegatorAddress, validatorAddress) {
     let delegator = state.stake[delegatorAddress]
-    if (!delegator) return {}
+    if (!delegator)
+      return {
+        shares: "0"
+      }
     return delegator.delegations.find(
       ({ validator_addr }) => validator_addr === validatorAddress
     )

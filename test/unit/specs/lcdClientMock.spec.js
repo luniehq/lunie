@@ -505,6 +505,71 @@ describe("LCD Client Mock", () => {
     expect(res[0].check_tx.code).toBe(2)
   })
 
+  it("ends unbondings", async () => {
+    await client.updateDelegations(lcdClientMock.addresses[0], {
+      sequence: 1,
+      name: "default",
+      delegations: [],
+      begin_unbondings: [
+        {
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[0],
+          shares: "5"
+        }
+      ]
+    })
+    expect(
+      lcdClientMock.state.stake[lcdClientMock.addresses[0]]
+        .unbonding_delegations
+    ).toHaveLength(1)
+    let res = await client.updateDelegations(lcdClientMock.addresses[0], {
+      sequence: 2,
+      name: "default",
+      complete_unbondings: [
+        {
+          validator_addr: lcdClientMock.validators[0]
+        }
+      ]
+    })
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.log).toBe("")
+    expect(res[0].check_tx.code).toBe(0)
+    expect(
+      lcdClientMock.state.stake[lcdClientMock.addresses[0]]
+        .unbonding_delegations
+    ).toHaveLength(0)
+  })
+
+  it("fails unbondings if account doesn't exist", async () => {
+    delete client.state.stake[lcdClientMock.addresses[0]]
+    let res = await client.updateDelegations(lcdClientMock.addresses[0], {
+      sequence: 1,
+      name: "default",
+      begin_unbondings: [
+        {
+          validator_addr: lcdClientMock.validators[0]
+        }
+      ]
+    })
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.code).toBe(2)
+  })
+
+  it("fails ends unbondings if account doesn't exist", async () => {
+    delete client.state.stake[lcdClientMock.addresses[0]]
+    let res = await client.updateDelegations(lcdClientMock.addresses[0], {
+      sequence: 1,
+      name: "default",
+      complete_unbondings: [
+        {
+          validator_addr: lcdClientMock.validators[0]
+        }
+      ]
+    })
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.code).toBe(2)
+  })
+
   it("queries for summary of delegation information for a delegator", async () => {
     let delegation = await client.getDelegator(lcdClientMock.addresses[0])
     expect(Object.keys(delegation)).toEqual([

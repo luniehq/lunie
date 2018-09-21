@@ -9,7 +9,7 @@
       panel-sort(:sort='sort', :properties="properties")
       data-empty-search(v-if="yourValidators.length === 0")
       template(v-else)
-        li-delegate(v-for='validator in yourValidators' :key='validator.id' :delegate='validator')
+        li-validator(v-for='validator in yourValidators' :key='validator.id' :delegate='validator')
       .check-out-message
         | Check out
         |
@@ -25,7 +25,7 @@
         i.material-icons.info-button info_outline
       data-empty-search(v-if="unstakedValidators.length === 0")
       template(v-else)
-        li-delegate(v-for='validator in unstakedValidators' :key='validator.id' :delegate='validator')
+        li-validator(v-for='validator in unstakedValidators' :key='validator.id' :delegate='validator')
 </template>
 
 <script>
@@ -33,7 +33,7 @@ import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
-import LiDelegate from "staking/LiDelegate"
+import LiValidator from "staking/LiValidator"
 import { TmBtn, TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import { calculateTokens } from "scripts/common"
@@ -43,7 +43,7 @@ import VmToolBar from "common/VmToolBar"
 export default {
   name: "page-staking",
   components: {
-    LiDelegate,
+    LiValidator,
     TmBtn,
     TmDataEmpty,
     DataEmptySearch,

@@ -57,9 +57,9 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
 </div>
 </div>
-<div class=\\"li-delegate li-delegate-validator \\">
-   <div class=\\"li-delegate__values\\">
-      <div class=\\"li-delegate__value name\\">
+<div class=\\"li-validator li-validator-validator \\">
+   <div class=\\"li-validator__values\\">
+      <div class=\\"li-validator__value name\\">
          <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
             <div class=\\"top\\">
@@ -71,35 +71,35 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
 </a>
 </div>
-<div class=\\"li-delegate__value your-votes\\">
+<div class=\\"li-validator__value your-votes\\">
    <span>0.00</span>
 </div>
-<div class=\\"li-delegate__value your-rewards\\">
+<div class=\\"li-validator__value your-rewards\\">
    <span>n/a</span>
 </div>
-<div class=\\"li-delegate__break\\">
+<div class=\\"li-validator__break\\">
    <span></span>
 </div>
-<div class=\\"li-delegate__value percent_of_vote\\">
+<div class=\\"li-validator__value percent_of_vote\\">
    <span>57.58%</span>
 </div>
-<div class=\\"li-delegate__value uptime\\">
+<div class=\\"li-validator__value uptime\\">
    <span>n/a</span>
 </div>
-<div class=\\"li-delegate__value commission\\">
+<div class=\\"li-validator__value commission\\">
    <span>n/a</span>
 </div>
-<div class=\\"li-delegate__value slashes\\">
+<div class=\\"li-validator__value slashes\\">
    <span>n/a</span>
 </div>
-<div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
+<div id=\\"add-to-cart\\" class=\\"li-validator__value checkbox\\">
    <i class=\\"material-icons\\">check_box_outline_blank</i>
 </div>
 </div>
 </div>
-<div class=\\"li-delegate li-delegate-active li-delegate-validator \\">
-   <div class=\\"li-delegate__values\\">
-      <div class=\\"li-delegate__value name\\">
+<div class=\\"li-validator li-validator-active li-validator-validator \\">
+   <div class=\\"li-validator__values\\">
+      <div class=\\"li-validator__value name\\">
          <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
             <div class=\\"top\\">
@@ -111,35 +111,35 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
 </a>
 </div>
-<div class=\\"li-delegate__value your-votes\\">
+<div class=\\"li-validator__value your-votes\\">
    <span>14.00</span>
 </div>
-<div class=\\"li-delegate__value your-rewards\\">
+<div class=\\"li-validator__value your-rewards\\">
    <span>n/a</span>
 </div>
-<div class=\\"li-delegate__break\\">
+<div class=\\"li-validator__break\\">
    <span></span>
 </div>
-<div class=\\"li-delegate__value percent_of_vote\\">
+<div class=\\"li-validator__value percent_of_vote\\">
    <span>42.42%</span>
 </div>
-<div class=\\"li-delegate__value uptime\\">
+<div class=\\"li-validator__value uptime\\">
    <span>n/a</span>
 </div>
-<div class=\\"li-delegate__value commission\\">
+<div class=\\"li-validator__value commission\\">
    <span>n/a</span>
 </div>
-<div class=\\"li-delegate__value slashes\\">
+<div class=\\"li-validator__value slashes\\">
    <span>n/a</span>
 </div>
-<div class=\\"li-delegate__value checkbox\\">
+<div class=\\"li-validator__value checkbox\\">
    <i class=\\"material-icons\\">lock</i>
 </div>
 </div>
 </div>
-<div class=\\"li-delegate li-delegate-validator \\">
-   <div class=\\"li-delegate__values\\">
-      <div class=\\"li-delegate__value name\\">
+<div class=\\"li-validator li-validator-validator \\">
+   <div class=\\"li-validator__values\\">
+      <div class=\\"li-validator__value name\\">
          <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
             <div class=\\"top\\">
@@ -151,28 +151,28 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
 </a>
 </div>
-<div class=\\"li-delegate__value your-votes\\">
+<div class=\\"li-validator__value your-votes\\">
    <span>0.00</span>
 </div>
-<div class=\\"li-delegate__value your-rewards\\">
+<div class=\\"li-validator__value your-rewards\\">
    <span>n/a</span>
 </div>
-<div class=\\"li-delegate__break\\">
+<div class=\\"li-validator__break\\">
    <span></span>
 </div>
-<div class=\\"li-delegate__value percent_of_vote\\">
+<div class=\\"li-validator__value percent_of_vote\\">
    <span>0.00%</span>
 </div>
-<div class=\\"li-delegate__value uptime\\">
+<div class=\\"li-validator__value uptime\\">
    <span>n/a</span>
 </div>
-<div class=\\"li-delegate__value commission\\">
+<div class=\\"li-validator__value commission\\">
    <span>n/a</span>
 </div>
-<div class=\\"li-delegate__value slashes\\">
+<div class=\\"li-validator__value slashes\\">
    <span>n/a</span>
 </div>
-<div id=\\"add-to-cart\\" class=\\"li-delegate__value checkbox\\">
+<div id=\\"add-to-cart\\" class=\\"li-validator__value checkbox\\">
    <i class=\\"material-icons\\">check_box_outline_blank</i>
 </div>
 </div>
@@ -291,13 +291,13 @@ exports[`PageStaking should filter the delegates 1`] = `
       </div>
     </div>
     <div
-      class="li-delegate li-delegate-active li-delegate-validator "
+      class="li-validator li-validator-active li-validator-validator "
     >
       <div
-        class="li-delegate__values"
+        class="li-validator__values"
       >
         <div
-          class="li-delegate__value name"
+          class="li-validator__value name"
         >
           <a
             class=""
@@ -326,54 +326,54 @@ exports[`PageStaking should filter the delegates 1`] = `
           </a>
         </div>
         <div
-          class="li-delegate__value your-votes"
+          class="li-validator__value your-votes"
         >
           <span>
             14.00
           </span>
         </div>
         <div
-          class="li-delegate__value your-rewards"
+          class="li-validator__value your-rewards"
         >
           <span>
             n/a
           </span>
         </div>
         <div
-          class="li-delegate__break"
+          class="li-validator__break"
         >
           <span />
         </div>
         <div
-          class="li-delegate__value percent_of_vote"
+          class="li-validator__value percent_of_vote"
         >
           <span>
             42.42%
           </span>
         </div>
         <div
-          class="li-delegate__value uptime"
+          class="li-validator__value uptime"
         >
           <span>
             n/a
           </span>
         </div>
         <div
-          class="li-delegate__value commission"
+          class="li-validator__value commission"
         >
           <span>
             n/a
           </span>
         </div>
         <div
-          class="li-delegate__value slashes"
+          class="li-validator__value slashes"
         >
           <span>
             n/a
           </span>
         </div>
         <div
-          class="li-delegate__value checkbox"
+          class="li-validator__value checkbox"
         >
           <i
             class="material-icons"

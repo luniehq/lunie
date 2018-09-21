@@ -1,5 +1,8 @@
 <template lang="pug">
-tm-page(title='Staking')
+tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
+  template(slot="menu-body", v-if="config.devMode")
+    tm-balance(:unstakedAtoms="user.atoms")
+
   div(slot="menu"): vm-tool-bar
     a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
       i.material-icons refresh
@@ -33,23 +36,23 @@ import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
-import LiDelegate from "staking/LiDelegate"
 import { TmBtn, TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import { calculateTokens } from "scripts/common"
 import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
 import VmToolBar from "common/VmToolBar"
+import TmBalance from "common/TmBalance"
 export default {
   name: "page-staking",
   components: {
-    LiDelegate,
     TmBtn,
     TmDataEmpty,
     DataEmptySearch,
     TmDataLoading,
     ModalSearch,
     TmPage,
+    TmBalance,
     PanelSort,
     VmToolBar
   },
@@ -199,9 +202,6 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.info-button
-  color var(--link)
-
 .delegates-tabs
   display flex
 
@@ -214,12 +214,6 @@ export default {
     &.tab-selected
       border-bottom 2px solid var(--tertiary)
       color var(--bright)
-
-.delegates-container
-  padding-bottom 3rem
-
-  h3
-    padding-bottom 1em
 
 .fixed-button-bar
   background var(--app-fg)
