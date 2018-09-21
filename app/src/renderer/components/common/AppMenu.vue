@@ -23,7 +23,6 @@ menu.app-menu
       title="Proposals"
       v-if="config.devMode")
   connected-network
-  user-pane
 </template>
 
 <script>
@@ -134,7 +133,4 @@ export default {
 @media screen and (min-width: 1024px)
   .app-menu
     flex 1
-
-    .tm-connected-network
-      display none
 </style>
