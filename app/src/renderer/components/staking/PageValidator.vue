@@ -102,12 +102,7 @@ tm-page
 import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
-import {
-  calculateTokens,
-  calculateShares,
-  shortAddress,
-  ratToBigNumber
-} from "scripts/common"
+import { calculateShares, shortAddress, ratToBigNumber } from "scripts/common"
 import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"

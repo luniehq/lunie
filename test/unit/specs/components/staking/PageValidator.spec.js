@@ -1,4 +1,3 @@
-import BigNumber from "bignumber.js"
 import ModalStake from "staking/ModalStake"
 import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
