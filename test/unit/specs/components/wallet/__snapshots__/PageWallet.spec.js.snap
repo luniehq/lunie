@@ -81,9 +81,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                 </span>
               </div>
             </div>
-            <div
-              class="tabs"
-            />
           </div>
         </div>
       </div>
@@ -598,9 +595,6 @@ exports[`PageWallet should filter the balances 1`] = `
                 </span>
               </div>
             </div>
-            <div
-              class="tabs"
-            />
           </div>
         </div>
       </div>
