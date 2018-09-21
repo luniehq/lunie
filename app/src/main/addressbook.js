@@ -81,6 +81,18 @@ module.exports = class Addressbook {
       // we skip discovery for fixed nodes as we want to always return the same
       // node
       curNode = { host: FIXED_NODE }
+
+      // ping fixed node
+      let alive = await axios
+        .get(
+          `http://${FIXED_NODE}:${
+            this.config.default_tendermint_port
+          }/net_info`,
+          { timeout: 3000 }
+        )
+        .then(() => true, () => false)
+      if (!alive)
+        throw Error("The fixed node you tried to connect to is not reachable.")
     } else {
       let availableNodes = this.peers.filter(node => node.state === "available")
       if (availableNodes.length === 0) {
