@@ -176,7 +176,7 @@ describe("PageBond", () => {
         store.commit("setAtoms", 101)
       }
     })
-    expect(router.currentRoute.fullPath).toBe("/staking")
+    expect(router.currentRoute.fullPath).toBe("/staking/My Stake/")
   })
 
   it("leaves if no atoms available", () => {
@@ -186,7 +186,7 @@ describe("PageBond", () => {
       }
     })
     router = test.router
-    expect(router.currentRoute.fullPath).toBe("/staking")
+    expect(router.currentRoute.fullPath).toBe("/staking/My Stake/")
   })
 
   it("shows selected candidates", () => {
@@ -360,7 +360,7 @@ describe("PageBond", () => {
     })
     await wrapper.vm.onSubmit()
     expect(store.getCommits("notify")).toHaveLength(1)
-    expect(router.currentRoute.fullPath).toBe("/staking")
+    expect(router.currentRoute.fullPath).toBe("/staking/My Stake/")
   })
 
   it("shows an error if unbonding too many atoms", async () => {
