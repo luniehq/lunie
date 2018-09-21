@@ -1,3 +1,5 @@
+"use strict"
+
 const numeral = require("numeral")
 function usd(num) {
   return numeral(num).format("$0,0.00")

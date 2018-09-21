@@ -1,3 +1,5 @@
+"use strict"
+
 const bech32 = require("bech32")
 
 module.exports = {
