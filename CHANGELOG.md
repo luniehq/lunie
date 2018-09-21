@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * reconnection errors did not show up correctly in view @faboweb
 * fixed crash when reconnecting @faboweb
 * fixed crash when using an offline fixed node @faboweb
+* layout bugs in PageStaking @NodeGuy
 
 ## [0.10.2] - 2018-08-29
 
