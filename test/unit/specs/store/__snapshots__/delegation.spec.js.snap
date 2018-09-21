@@ -31,8 +31,8 @@ Array [
   Array [
     Object {
       "account_number": "1",
+      "begin_unbondings": Array [],
       "chain_id": "test-chain",
-      "delegations": Array [],
       "gas": "50000000",
       "name": "default",
       "password": "bar",

@@ -4,7 +4,7 @@
     .stake-header
       img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
       span.tm-modal-title Stake
-      .tm-modal-icon.tm-modal-close(@click="close()")
+      .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
         i.material-icons close
 
     //- Amount
@@ -29,12 +29,12 @@
         v-model="amount"
         v-focus)
 
-    //-To
+    //- To
     tm-form-group.stake-form-group(
       field-id='to' field-label='To')
-      tm-field#to(v-model="to" readonly)
+      tm-field#to(readonly v-model="to")
 
-    //-From
+    //- From
     tm-form-group.stake-form-group(
       field-id='from' field-label='From')
       tm-field#from(
@@ -45,7 +45,7 @@
       )
 
     .stake-footer
-      tm-btn#stake(
+      tm-btn(
         @click.native="onStake"
         :disabled="$v.amount.$invalid"
         color="primary"
@@ -87,7 +87,7 @@ export default {
     },
     onStake() {
       if (!this.$v.$invalid) {
-        this.$emit(`submitDelegation`, {
+        this.$emit("submitDelegation", {
           amount: this.amount,
           from: this.fromOptions[this.selectedIndex].address
         })
@@ -141,8 +141,4 @@ export default {
   .stake-footer
     display flex
     justify-content flex-end
-
-    #stake
-      width 120px
-      border-radius 1px
 </style>

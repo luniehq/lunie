@@ -37,7 +37,7 @@ exports[`LiValidator has the expected html structure 1`] = `
       </a>
     </div>
     <div
-      class="li-delegate__value your-votes"
+      class="li-validator__value your-votes"
     >
       <span>
         0.00

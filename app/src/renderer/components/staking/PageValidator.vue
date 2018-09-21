@@ -222,11 +222,6 @@ export default {
       const delegatorAddr = this.wallet.address
       const validatorAddr = this.validator.owner
 
-      const currentlyDelegated = calculateTokens(
-        this.validator,
-        this.delegation.committedDelegates[validatorAddr] || 0
-      )
-
       // TODO Split delegation and redelegation (begin & complete) into ≠ functions
       if (from === delegatorAddr) {
         type = "delegation"
@@ -276,12 +271,16 @@ export default {
           if (type === "delegation") {
             this.$store.commit("notifyError", {
               title: `Error while delegating ${this.bondingDenom}s`,
-              body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
+              body: parsedErr
+                ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
+                : errData
             })
           } else {
             this.$store.commit("notifyError", {
               title: `Error while redelegating ${this.bondingDenom}s`,
-              body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
+              body: parsedErr
+                ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
+                : errData
             })
           }
         } else {

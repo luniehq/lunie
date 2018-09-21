@@ -15,10 +15,10 @@ export default ({ node }) => {
 
   // Staking Msgs
   const msgDelegation = "delegation"
-  const msgBeginUnbonding = "begin_unbonding"
-  const msgCompleteUnbonding = "complete_unbonding"
-  const msgBeginRedelegation = "begin_redelegation"
-  const msgCompleteRedelegation = "complete_redelegation"
+  // const msgBeginUnbonding = "begin_unbonding"
+  // const msgCompleteUnbonding = "complete_unbonding"
+  // const msgBeginRedelegation = "begin_redelegation"
+  // const msgCompleteRedelegation = "complete_redelegation"
 
   const mutations = {
     addToCart(state, delegate) {
@@ -152,7 +152,6 @@ export default ({ node }) => {
         let validators = await node.getDelegatorValidators(
           rootState.user.address
         )
-        console.log(validators)
         commit("setDelegatorValidators", validators)
       } catch (err) {
         commit("notifyError", {

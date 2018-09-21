@@ -72,7 +72,7 @@ test(`Stake button emits stake and close signals`, () => {
   ])
 })
 
-test("X and Close buttons emit close signal", () => {
+test("X button emits close signal", () => {
   const wrapper = Wrapper()
   wrapper.vm.close()
 

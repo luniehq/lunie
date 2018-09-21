@@ -55,26 +55,21 @@ const getterValues = {
   }
 }
 
-const delegationTx = [
-  {
-    atoms: "10",
-    delegation: {
-      stakeTransactions: {
-        delegations: [
-          {
-            delegation: {
-              amount: "10",
-              denom: "atom"
-            },
-            delegator_addr: getterValues.wallet.address,
-            validator_addr: delegate.owner
-          }
-        ]
+const delegationTx = {
+  stakeTransactions: {
+    delegations: [
+      {
+        delegation: {
+          amount: "10",
+          denom: "atom"
+        },
+        delegator_addr: getterValues.wallet.address,
+        validator_addr: delegate.owner
       }
-    },
-    type: "delegation"
-  }
-]
+    ]
+  },
+  type: "delegation"
+}
 
 describe("PageValidator", () => {
   let wrapper, store
@@ -306,15 +301,12 @@ describe(`onStake`, () => {
       })
 
       expect($store.dispatch.mock.calls).toEqual([
-        [
-          `submitDelegation`,
-          [{ atoms: BigNumber(10), delegation: delegationTx }]
-        ]
+        ["submitDelegation", delegationTx]
       ])
 
       expect($store.commit.mock.calls).toEqual([
         [
-          `notify`,
+          "notify",
           {
             body: `You have successfully staked your atoms.`,
             title: `Successful Staking!`
@@ -347,18 +339,15 @@ describe(`onStake`, () => {
       })
 
       expect($store.dispatch.mock.calls).toEqual([
-        [
-          `submitDelegation`,
-          [{ atoms: BigNumber(10), delegation: delegationTx }]
-        ]
+        ["submitDelegation", delegationTx]
       ])
 
       expect($store.commit.mock.calls).toEqual([
         [
-          `notifyError`,
+          "notifyError",
           {
-            body: `message`,
-            title: `Error while staking atoms`
+            body: "message",
+            title: "Error while delegating atoms"
           }
         ]
       ])
@@ -388,18 +377,15 @@ describe(`onStake`, () => {
       })
 
       expect($store.dispatch.mock.calls).toEqual([
-        [
-          `submitDelegation`,
-          [{ atoms: BigNumber(10), delegation: delegationTx }]
-        ]
+        [`submitDelegation`, delegationTx]
       ])
 
       expect($store.commit.mock.calls).toEqual([
         [
           `notifyError`,
           {
-            body: `Seven`,
-            title: `Error while staking atoms`
+            body: `six`,
+            title: "Error while delegating atoms"
           }
         ]
       ])

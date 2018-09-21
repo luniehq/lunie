@@ -93,13 +93,10 @@ describe("Module: Delegations", () => {
     let stakeTransactions = {
       delegations
     }
+
     let type = "delegation"
 
-    try {
-      await store.dispatch("submitDelegation", { type, stakeTransactions })
-    } catch (err) {
-      console.log(err)
-    }
+    await store.dispatch("submitDelegation", { type, stakeTransactions })
 
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
@@ -113,28 +110,26 @@ describe("Module: Delegations", () => {
 
     jest.spyOn(store._actions.sendTx, "0")
     let bondings = [10, 100, 0]
-    const delegations = store.state.delegates.delegates
+    const begin_unbondings = store.state.delegates.delegates
       .filter(validator => {
         !validator.revoked
       })
       .map((delegate, i) => ({
         validator_addr: delegate.owner,
         delegator_addr: store.state.wallet.address,
-        delegation: {
-          denom: store.state.config.bondingDenom.toLowerCase(),
-          amount: String(bondings[i])
-        }
+        shares: String(bondings[i])
       }))
     let stakeTransactions = {
-      delegations
+      begin_unbondings
     }
-    let type = "delegation"
 
+    let type = "begin_unbonding"
     try {
       await store.dispatch("submitDelegation", { type, stakeTransactions })
     } catch (err) {
       console.log(err)
     }
+
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
 

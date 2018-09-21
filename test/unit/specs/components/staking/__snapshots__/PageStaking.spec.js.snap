@@ -135,7 +135,7 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
    </a>
 </div>
-   <div class=\\"li-delegate__value your-votes\\">
+   <div class=\\"li-validator__value your-votes\\">
       <span>0.00</span>
    </div>
    <div class=\\"li-validator__value your-rewards\\">
@@ -175,7 +175,7 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
    </a>
 </div>
-   <div class=\\"li-delegate__value your-votes\\">
+   <div class=\\"li-validator__value your-votes\\">
       <span>14.00</span>
    </div>
    <div class=\\"li-validator__value your-rewards\\">
@@ -215,7 +215,7 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
    </a>
 </div>
-   <div class=\\"li-delegate__value your-votes\\">
+   <div class=\\"li-validator__value your-votes\\">
       <span>0.00</span>
    </div>
    <div class=\\"li-validator__value your-rewards\\">
@@ -620,7 +620,7 @@ exports[`PageStaking should filter the delegates 1`] = `
             </a>
           </div>
           <div
-            class="li-delegate__value your-votes"
+            class="li-validator__value your-votes"
           >
             <span>
               14.00

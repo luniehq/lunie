@@ -7,7 +7,7 @@
       .vert
         .top {{ delegate.description.moniker }}
         .bottom {{ shortAddress(delegate.id)}}
-  .li-delegate__value.your-votes
+  .li-validator__value.your-votes
     span {{ yourVotes }}
   .li-validator__value.your-rewards
     span {{ yourRewards }}
