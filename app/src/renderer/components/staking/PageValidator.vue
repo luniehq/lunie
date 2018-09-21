@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page
-  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unstakedAtoms="user.atoms" :tabs="tabs")
+  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unstakedAtoms="user.atoms")
   div(slot="menu"): tm-tool-bar
     router-link(to="/staking" exact): i.material-icons arrow_back
     anchor-copy(v-if="validator" :value="validator.owner" icon="content_copy")
@@ -125,8 +125,7 @@ export default {
     showCannotStake: false,
     showModalStake: false,
     shortAddress,
-    tabIndex: 1,
-    tabs: ["My Stake", "Validators"]
+    tabIndex: 1
   }),
   computed: {
     ...mapGetters([
