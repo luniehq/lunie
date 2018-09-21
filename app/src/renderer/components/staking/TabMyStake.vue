@@ -189,9 +189,9 @@ export default {
         }
       ]
     },
-    yourValidators() {
-      const commited = new Set(Object.keys(this.committedDelegations))
-      return this.delegates.delegates.filter(({ id }) => commited.has(id))
+    yourValidators({ committedDelegations, delegates: { delegates } } = this) {
+      const commited = new Set(Object.keys(committedDelegations))
+      return delegates.filter(({ id }) => commited.has(id))
     }
   },
   watch: {

@@ -1,5 +1,4 @@
 import TabMyStake from "renderer/components/staking/TabMyStake"
-import { mount } from "@vue/test-utils"
 
 const delegates = [
   {
@@ -82,37 +81,14 @@ const delegates = [
 ]
 
 test(`yourValidators`, () => {
-  const $store = {
-    commit: jest.fn(),
-    dispatch: jest.fn(),
-    getters: {
-      bondingDenom: `atom`,
+  expect(
+    TabMyStake.computed.yourValidators({
       committedDelegations: {
-        cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: 14
+        cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 3
       },
-      delegates: {
-        delegates
-      },
-      delegation: {
-        committedDelegates: {
-          cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 3
-        },
-        unbondingDelegations: {}
-      },
-      shoppingCart: [],
-      user: {}
-    }
-  }
-
-  const {
-    vm: { yourValidators }
-  } = mount(TabMyStake, {
-    mocks: {
-      $store
-    }
-  })
-
-  expect(yourValidators).toEqual([
+      delegates: { delegates }
+    })
+  ).toEqual([
     {
       bond_height: "0",
       bond_intra_tx_counter: 6,
@@ -120,24 +96,23 @@ test(`yourValidators`, () => {
       commission_change_rate: "0",
       commission_change_today: "0",
       commission_max: "0",
-      delegator_shares: "14",
+      delegator_shares: "0",
       description: {
-        country: "Canada",
-        details: "Mr Mounty",
-        moniker: "mr_mounty",
-        website: "www.monty.ca"
+        country: "USA",
+        details: "Good Guy Greg",
+        moniker: "good_greg",
+        website: "www.greg.com"
       },
-      id: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-      owner: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+      id: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+      owner: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
       prev_bonded_shares: "0",
       proposer_reward_pool: null,
       pub_key: {
-        data: "t3zVnKU42WNH+NtYFcstZRLFVULWV8VagoP0HwW43Pk=",
+        data: "9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w=",
         type: "AC26791624DE60"
       },
-      revoked: false,
       status: 2,
-      tokens: "14"
+      tokens: "0"
     }
   ])
 })
