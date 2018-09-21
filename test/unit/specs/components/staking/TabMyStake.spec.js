@@ -80,6 +80,45 @@ const delegates = [
   }
 ]
 
+test(`unstakedValidators`, () => {
+  expect(
+    TabMyStake.computed.unstakedValidators({
+      delegation: {
+        unbondingDelegations: {
+          cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 3
+        }
+      },
+      delegates: { delegates }
+    })
+  ).toEqual([
+    {
+      bond_height: "0",
+      bond_intra_tx_counter: 6,
+      commission: "0",
+      commission_change_rate: "0",
+      commission_change_today: "0",
+      commission_max: "0",
+      delegator_shares: "0",
+      description: {
+        country: "USA",
+        details: "Good Guy Greg",
+        moniker: "good_greg",
+        website: "www.greg.com"
+      },
+      id: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+      owner: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+      prev_bonded_shares: "0",
+      proposer_reward_pool: null,
+      pub_key: {
+        data: "9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w=",
+        type: "AC26791624DE60"
+      },
+      status: 2,
+      tokens: "0"
+    }
+  ])
+})
+
 test(`yourValidators`, () => {
   expect(
     TabMyStake.computed.yourValidators({

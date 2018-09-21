@@ -117,12 +117,11 @@ export default {
         return sortedEnrichedDelegates
       }
     },
-    unstakedValidators() {
-      const unbonding = new Set(
-        Object.keys(this.delegation.unbondingDelegations)
-      )
-
-      return this.delegates.delegates.filter(({ id }) => unbonding.has(id))
+    unstakedValidators(
+      { delegates: { delegates }, delegation: { unbondingDelegations } } = this
+    ) {
+      const unbonding = new Set(Object.keys(unbondingDelegations))
+      return delegates.filter(({ id }) => unbonding.has(id))
     },
     userCanDelegate() {
       return (
