@@ -8,10 +8,6 @@
         i.material-icons close
 
     //- Amount
-    //- TODO we should handle decimals later as well, specially when the amount
-    //- value is equal to the floor(:max) and the up button is pressed. Which
-    //- means you're always left with a remaining between 0-1 when trying to bond
-    //- the max amount
     tm-form-group.stake-form-group(
       field-label='Amount'
     )

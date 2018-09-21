@@ -163,6 +163,7 @@ let state = {
         type: "AC26791624DE60",
         data: "9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w="
       },
+      revoked: false,
       tokens: "0",
       delegator_shares: "0",
       description: {

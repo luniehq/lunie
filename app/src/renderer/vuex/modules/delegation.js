@@ -178,9 +178,12 @@ export default ({ node }) => {
             // compare old and new delegations and diff against old atoms
             .map(delegationObj => {
               // Get the validator to calculate the tokens
-              let validator = state.delegates.find(validator => {
-                return validator.owner === delegationObj.validator_addr
-              })
+              let validator = state.delegates.find(validators => {
+                return (
+                  validators.delegate.owner === delegationObj.validator_addr
+                )
+              }).delegate
+
               return (
                 calculateTokens(
                   validator,

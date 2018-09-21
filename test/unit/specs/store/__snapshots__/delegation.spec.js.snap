@@ -6,7 +6,16 @@ Object {
 }
 `;
 
-exports[`Module: Delegations fetches current undelegations 1`] = `Object {}`;
+exports[`Module: Delegations fetches current undelegations 1`] = `
+Object {
+  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw": Object {
+    "balance": Object {
+      "amount": "10",
+    },
+    "min_time": undefined,
+  },
+}
+`;
 
 exports[`Module: Delegations should query delegated atoms on reconnection 1`] = `Array []`;
 
@@ -16,7 +25,16 @@ Array [
     Object {
       "account_number": "1",
       "chain_id": "test-chain",
-      "delegations": Array [],
+      "delegations": Array [
+        Object {
+          "delegation": Object {
+            "amount": "123",
+            "denom": "steak",
+          },
+          "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+        },
+      ],
       "gas": "50000000",
       "name": "default",
       "password": "bar",
@@ -31,12 +49,18 @@ Array [
   Array [
     Object {
       "account_number": "1",
-      "begin_unbondings": Array [],
+      "begin_unbondings": Array [
+        Object {
+          "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+          "shares": "10",
+          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+        },
+      ],
       "chain_id": "test-chain",
       "gas": "50000000",
       "name": "default",
       "password": "bar",
-      "sequence": "1",
+      "sequence": "2",
     },
   ],
 ]
