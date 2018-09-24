@@ -1,3 +1,5 @@
+"use strict"
+
 export default ({ node }) => {
   const emptyState = {
     validators: [],

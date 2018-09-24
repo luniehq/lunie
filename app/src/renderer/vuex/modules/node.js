@@ -1,3 +1,5 @@
+"use strict"
+
 import { setTimeout } from "timers"
 import { ipcRenderer, remote } from "electron"
 import { sleep } from "scripts/common.js"

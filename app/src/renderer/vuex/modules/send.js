@@ -1,3 +1,5 @@
+"use strict"
+
 export default ({ node }) => {
   let lock = null
 

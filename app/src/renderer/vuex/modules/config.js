@@ -1,3 +1,5 @@
+"use strict"
+
 import noScroll from "no-scroll"
 
 export default () => {
