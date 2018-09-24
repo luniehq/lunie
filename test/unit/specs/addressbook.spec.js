@@ -76,6 +76,27 @@ describe("Addressbook", () => {
     }
   })
 
+  it("should error if fixed node is unavailable", async done => {
+    process.env.COSMOS_NODE = "123.456.123.456"
+    try {
+      jest.doMock("axios", () => ({
+        get: async () => {
+          return Promise.reject()
+        }
+      }))
+      jest.resetModules()
+      Addressbook = require("src/main/addressbook.js")
+      let addressbook = new Addressbook(mockConfig, "./config")
+
+      await addressbook.pickNode()
+      done.fail()
+    } catch (err) {
+      done()
+    } finally {
+      delete process.env.COSMOS_NODE
+    }
+  })
+
   it("should cycle though nodes until it finds one that is available", async () => {
     jest.doMock("axios", () => ({
       get: async url => {

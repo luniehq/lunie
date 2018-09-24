@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * test if build Voyager actually starts @faboweb
 * added new validator component @okwme
 * simple loading indicator for page staking @faboweb
+* Created new "My Stake" tab. @NodeGuy
 * possibility to end unbonding transactions @faboweb
 * close buttons to Staking modal @NodeGuy
 
@@ -22,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Created new modal window for staking to a validator. @NodeGuy
 * Added new validator profile page @faboweb
 * cleaning up new validator profile page and balance header @jbibla
+* Changed a bunch of JavaScript files to strict mode. @NodeGuy
 
 ### Fixed
 
@@ -34,6 +36,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * cache undelegations @faboweb
 * show error instead of breaking Voyager if reconnection fails @faboweb
 * reconnection errors did not show up correctly in view @faboweb
+* fixed crash when reconnecting @faboweb
+* fixed crash when using an offline fixed node @faboweb
 
 ## [0.10.2] - 2018-08-29
 

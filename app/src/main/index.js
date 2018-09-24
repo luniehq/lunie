@@ -277,7 +277,7 @@ async function startLCD(home, nodeIP) {
     child.stderr.on("data", error => {
       let errorMessage = `The gaiacli rest-server (LCD) experienced an error:\n${error.toString(
         "utf8"
-      )}`
+      )}`.substr(0, 1000)
       lcdStarted
         ? handleCrash(errorMessage) // if fails later
         : reject(errorMessage) // if fails immediatly
@@ -302,6 +302,7 @@ function stopLCD() {
   return new Promise((resolve, reject) => {
     if (!lcdProcess) {
       resolve()
+      return
     }
     log("Stopping the LCD server")
     try {

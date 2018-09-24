@@ -18,7 +18,10 @@ test("staking", async function(t) {
   let totalUserStake = 150
   let bondedStake = 100
 
-  t.test("overview", async function(t) {
+  t.test("Validators", async function(t) {
+    // Select the Validators tab.
+    await app.client.$(`.delegates-tabs`).click("a=Validators")
+
     t.equal(
       (await app.client.$$(".li-validator")).length,
       3,
