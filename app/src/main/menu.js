@@ -1,3 +1,5 @@
+"use strict"
+
 const { app, Menu, shell, dialog } = require("electron")
 const { join } = require("path")
 

@@ -1,3 +1,5 @@
+"use strict"
+
 /**
  * This file is used specifically and only for development. It enables the use of ES6+
  * features for the main process and installs `electron-debug` & `vue-devtools`. There
