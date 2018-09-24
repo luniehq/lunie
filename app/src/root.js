@@ -1,3 +1,5 @@
+"use strict"
+
 const { COSMOS_HOME, NODE_ENV } = process.env
 
 if (COSMOS_HOME) {
