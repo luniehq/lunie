@@ -72,11 +72,9 @@ export default ({ node }) => {
       for (let delegate of candidates) {
         if (validators.find(v => v.pub_key === delegate.pub_key)) {
           delegate.isValidator = true
+        } else {
+          delegate.isValidator = false
         }
-        let signing_info = await node.queryValidatorSigningInfo(
-          delegate.pub_key
-        )
-        if (!isEmpty(signing_info)) delegate.signing_info = signing_info
         commit("addDelegate", delegate)
       }
 

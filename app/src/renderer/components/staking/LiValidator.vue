@@ -2,6 +2,7 @@
 .li-validator(:class='styles'): .li-validator__values
   .li-validator__value.name
     router-link(:to="{ name: 'validator', params: { validator: delegate.id }}")
+      span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
       img.avatar(v-if="delegate.keybase" :src="delegate.keybase.avatarUrl" width="48" height="48")
       img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
       .vert
@@ -13,25 +14,16 @@
     span {{ yourRewards }}
   .li-validator__break: span
   .li-validator__value.percent_of_vote
-    span {{ delegate.percent_of_vote }}
+    span(v-bind:class="[powerRatioLevel]") {{ delegate.percent_of_vote }}
   .li-validator__value.uptime
     // add .green .yellow or .red class to this span to trigger inidication by color
     span {{ uptime }}
   .li-validator__value.commission
     // add .green .yellow or .red class to this span to trigger inidication by color
-    span {{ commission }}
+    span(v-bind:class="[commissionLevel]") {{ commission }}
   .li-validator__value.slashes
     // add .green .yellow or .red class to this span to trigger inidication by color
     span {{ slashes }}
-  template(v-if="!disabled")
-    .li-validator__value.checkbox(v-if="committedDelegations[delegate.id]")
-      i.material-icons lock
-    .li-validator__value.checkbox#remove-from-cart(v-else-if="inCart" @click='rm(delegate)')
-      i.material-icons check_box
-    .li-validator__value.checkbox#add-to-cart(v-else @click='add(delegate)')
-      i.material-icons check_box_outline_blank
-  template(v-else)
-    .li-validator__value
 </template>
 
 <script>
@@ -41,7 +33,8 @@ import {
   shortAddress,
   calculateTokens,
   calculateShares,
-  parseValidatorShares
+  parseValidatorShares,
+  ratToBigNumber
 } from "scripts/common"
 export default {
   name: "li-validator",
@@ -62,13 +55,6 @@ export default {
       return `${this.delegate.commission}%`
     },
     uptime() {
-      let info = this.delegate.signing_info
-      if (info) {
-        let uptime =
-          info.signed_blocks_counter /
-          (this.lastHeader.height - this.delegate.bond_height)
-        return `${this.num.pretty(uptime * 100)}%`
-      }
       return "n/a"
     },
     yourRewards() {
@@ -114,6 +100,44 @@ export default {
         : this.delegate.isValidator
           ? "Validator"
           : "Candidate"
+    },
+    powerRatio() {
+      return ratToBigNumber(this.delegate.tokens)
+        .div(this.delegates.globalPower)
+        .toNumber()
+    },
+    powerRatioLevel() {
+      console.log(this.powerRatio)
+      if (this.powerRatio < 0.01) return "green"
+      if (this.powerRatio < 0.03) return "yellow"
+      else if (this.powerRatio >= 0.03) return "red"
+    },
+    commissionLevel() {
+      if (this.delegate.commission < 0.01) return "green"
+      if (this.delegate.commission < 0.03) return "yellow"
+      else if (this.powerRatio >= 0.03) return "red"
+    },
+    status() {
+      // status: jailed
+      if (this.delegate.revoked)
+        return "This validator has been jailed and is not currently validating"
+
+      // status: candidate
+      if (parseFloat(this.delegate.voting_power) === 0)
+        return "This validator has declared candidacy but does not have enough voting power yet"
+
+      // status: validator
+      return "This validator is actively validating"
+    },
+    statusColor() {
+      // status: jailed
+      if (this.delegate.revoked) return "red"
+
+      // status: candidate
+      if (parseFloat(this.delegate.voting_power) === 0) return "yellow"
+
+      // status: validator
+      return "green"
     }
   },
   data: () => ({ num, shortAddress }),
@@ -166,20 +190,20 @@ export default {
     text-align right
     padding 4px 4px
 
-    &.green
-      color var(--green)
-      background-color var(--green-fade-1)
-      border 1px solid var(--green-fade-2)
-
-    &.orange
-      color var(--orange)
-      background-color var(--orange-fade-1)
-      border 1px solid var(--orange-fade-2)
-
     &.red
-      color var(--red)
-      background-color var(--red-fade-1)
-      border 1px solid var(--red-fade-2)
+      background-color rgba(209, 2, 0, 0.15)
+      border solid 0.5px rgba(209, 2, 0, 0.25)
+      color #ff0200
+
+    &.yellow
+      background-color rgba(255, 149, 2, 0.15)
+      border solid 0.5px rgba(255, 149, 2, 0.25)
+      color #ff9502
+
+    &.green
+      background-color rgba(46, 164, 45, 0.15)
+      border solid 0.5px rgba(46, 164, 45, 0.25)
+      color #2ea42d
 
 .li-validator__break
   flex 0

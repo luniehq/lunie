@@ -114,7 +114,7 @@ export default {
           class: "name"
         },
         {
-          title: `My Stake`,
+          title: "My Stake",
           value: "your_votes",
           tooltip: `Number of ${
             this.bondingDenom
@@ -122,7 +122,7 @@ export default {
           class: "your-votes"
         },
         {
-          title: `My Rewards`,
+          title: "My Rewards",
           value: "your_rewards", // TODO: use real rewards
           tooltip: `Rewards of ${
             this.bondingDenom
@@ -130,7 +130,7 @@ export default {
           class: "your-rewards" // TODO: use real rewards
         },
         {
-          title: `Voting Power`,
+          title: "Voting Power",
           value: "percent_of_vote",
           tooltip: `Percentage of ${
             this.bondingDenom
@@ -154,11 +154,6 @@ export default {
           value: "slashes", // TODO: use real slashes
           tooltip: "The validator's slashes",
           class: "slashes"
-        },
-        {
-          title: "",
-          value: "",
-          class: "action hidden"
         }
       ]
     }
