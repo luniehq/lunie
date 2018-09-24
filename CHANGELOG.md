@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * simple loading indicator for page staking @faboweb
 * Created new "My Stake" tab. @NodeGuy
 * possibility to end unbonding transactions @faboweb
+* close buttons to Staking modal @NodeGuy
 
 ### Changed
 
