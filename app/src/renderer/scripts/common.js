@@ -1,3 +1,5 @@
+"use strict"
+
 const BN = require("bignumber.js").BigNumber
 
 // if given a valid address this will return the prefix plus some parameter

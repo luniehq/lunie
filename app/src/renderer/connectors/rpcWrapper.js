@@ -1,3 +1,5 @@
+"use strict"
+
 const RpcClient = require("tendermint")
 const { ipcRenderer } = require("electron")
 

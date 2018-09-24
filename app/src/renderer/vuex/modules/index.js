@@ -1,3 +1,5 @@
+"use strict"
+
 export default opts => ({
   blockchain: require("./blockchain.js").default(opts),
   transactions: require("./transactions.js").default(opts),
