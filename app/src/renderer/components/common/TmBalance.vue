@@ -21,11 +21,6 @@
       .success(:class="{showSuccess:showSuccess}")
         i.material-icons check
         span Copied
-    .tabs
-      .tab(v-for="(tab, i) in tabs",
-        :key="'tab-' + i",
-        :class="{'tab-selected': i === tabIndex}",
-        @click="tabIndex = 1") {{tab}}
 </template>
 <script>
 import num from "scripts/num"
@@ -40,7 +35,7 @@ export default {
       showSuccess: false
     }
   },
-  props: ["unstakedAtoms", "totalEarnings", "totalRewards", "tabs"],
+  props: ["unstakedAtoms", "totalEarnings", "totalRewards"],
   computed: {
     ...mapGetters(["bondingDenom", "user", "totalAtoms"]),
     address() {
@@ -59,13 +54,13 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-@import '~variables';
+@import '~variables'
 
 .header-balance
-  display flex
-  flex-grow 1
-  flex-direction column
   align-items baseline
+  display flex
+  flex-direction column
+  flex-grow 1
   padding-top 1rem
 
   .top
@@ -79,76 +74,61 @@ export default {
       border-right none
 
     .h3
-      font-size 14px
       color var(--txt)
+      font-size 14px
 
     .h2
-      font-size: h1
       color var(--bright)
+      font-size h1
       font-weight 400
 
     .icon
-      width 60px
-      height 60px
-      padding 0
-      margin 0 1rem 0 2rem
       border-right none
+      height 60px
+      margin 0 1rem 0 2rem
+      padding 0
+      width 60px
 
     .total-rewards .group
-      display flex
       align-items baseline
-      flex-direction: row
+      display flex
+      flex-direction row
+
       a
         padding-left 10px
 
   .bottom
+    align-items flex-start
     display flex
-    align-items flex-start;
-    padding-top 1rem
     padding-bottom 1.5rem
+    padding-top 1rem
 
     .address
-      font-size sm
-      padding-left 142px
       color var(--dim)
       cursor pointer
+      font-size sm
+      padding-left 142px
 
       &:hover
         color var(--link)
 
     .success
-      font-size sm
-      display flex
       align-items flex-end
+      display flex
+      font-size sm
       opacity 0
-      transition opacity 500ms ease
       padding-left 10px
+      transition opacity 500ms ease
 
       &.showSuccess
         opacity 1
+
       i
-        font-size m
-        padding-right 0
-        padding-bottom 2px
         color var(--success)
+        font-size m
+        padding-bottom 2px
+        padding-right 0
 
 .top-section
   padding 0 2rem
-
-.tabs
-  display flex
-  margin 1rem 2rem 0
-
-  .tab
-    cursor pointer
-    margin 0 1rem
-    padding-bottom 1rem
-
-    &:first-of-type
-      cursor not-allowed
-      margin-left 0
-
-    &.tab-selected
-      color var(--bright)
-      border-bottom 2px solid var(--tertiary)
 </style>

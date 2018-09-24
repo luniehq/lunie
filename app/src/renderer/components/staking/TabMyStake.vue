@@ -1,31 +1,29 @@
 <template lang="pug">
   div
     //- Your Validators
-    .delegates-container
-      h3
-        | Your Validators
-        |
-        i.material-icons.info-button info_outline
-      panel-sort(:sort='sort', :properties="properties")
-      data-empty-search(v-if="yourValidators.length === 0")
-      template(v-else)
-        li-validator(v-for='validator in yourValidators' :key='validator.id' :delegate='validator')
-      .check-out-message
-        | Check out
-        |
-        router-link(:to="{name: 'Validators'}") the validator list
-        |
-        | to spread some of your Atoms around.
+    h3
+      | Your Validators
+      |
+      i.material-icons.info-button info_outline
+    panel-sort(:sort='sort', :properties="properties")
+    data-empty-search(v-if="yourValidators.length === 0")
+    template(v-else)
+      li-validator(v-for='validator in yourValidators' :key='validator.id' :delegate='validator')
+    .check-out-message
+      | Check out
+      |
+      router-link(:to="{name: 'Validators'}") the validator list
+      |
+      | to spread some of your Atoms around.
 
     //- Unstaked Validators
-    .delegates-container
-      h3
-        | Unstaked Validators
-        |
-        i.material-icons.info-button info_outline
-      data-empty-search(v-if="unstakedValidators.length === 0")
-      template(v-else)
-        li-validator(v-for='validator in unstakedValidators' :key='validator.id' :delegate='validator')
+    h3
+      | Unstaked Validators
+      |
+      i.material-icons.info-button info_outline
+    data-empty-search(v-if="unstakedValidators.length === 0")
+    template(v-else)
+      li-validator(v-for='validator in unstakedValidators' :key='validator.id' :delegate='validator')
 </template>
 
 <script>
@@ -119,12 +117,11 @@ export default {
         return sortedEnrichedDelegates
       }
     },
-    unstakedValidators() {
-      const unbonding = new Set(
-        Object.keys(this.delegation.unbondingDelegations)
-      )
-
-      return this.delegates.delegates.filter(({ id }) => unbonding.has(id))
+    unstakedValidators(
+      { delegates: { delegates }, delegation: { unbondingDelegations } } = this
+    ) {
+      const unbonding = new Set(Object.keys(unbondingDelegations))
+      return delegates.filter(({ id }) => unbonding.has(id))
     },
     userCanDelegate() {
       return (
@@ -189,9 +186,9 @@ export default {
         }
       ]
     },
-    yourValidators() {
-      const commited = new Set(Object.keys(this.committedDelegations))
-      return this.delegates.delegates.filter(({ id }) => commited.has(id))
+    yourValidators({ committedDelegations, delegates: { delegates } } = this) {
+      const committed = new Set(Object.keys(committedDelegations))
+      return delegates.filter(({ id }) => committed.has(id))
     }
   },
   watch: {
@@ -220,11 +217,15 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
+h3
+  margin 1em auto
+
 .info-button
   color var(--link)
 
 .check-out-message
   background var(--app-nav)
+  margin-bottom 2em
   padding 1em
   text-align center
 

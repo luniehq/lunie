@@ -67,20 +67,6 @@ exports[`PageValidator has the expected html structure 1`] = `
                 </span>
               </div>
             </div>
-            <div
-              class="tabs"
-            >
-              <div
-                class="tab"
-              >
-                My Stake
-              </div>
-              <div
-                class="tab tab-selected"
-              >
-                Validators
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -504,20 +490,6 @@ exports[`PageValidator shows a default avatar 1`] = `
                 <span>
                   Copied
                 </span>
-              </div>
-            </div>
-            <div
-              class="tabs"
-            >
-              <div
-                class="tab"
-              >
-                My Stake
-              </div>
-              <div
-                class="tab tab-selected"
-              >
-                Validators
               </div>
             </div>
           </div>
