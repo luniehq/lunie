@@ -1,3 +1,5 @@
+"use strict"
+
 import dark from "../json/theme-dark.json"
 
 export default () => {

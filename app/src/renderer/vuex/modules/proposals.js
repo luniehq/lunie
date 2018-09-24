@@ -1,3 +1,5 @@
+"use strict"
+
 import data from "../json/proposals.json"
 
 export default () => {
