@@ -1,3 +1,5 @@
+"use strict"
+
 let { join } = require("path")
 let { readFileSync } = require("fs-extra")
 let config = require("./config.js")
