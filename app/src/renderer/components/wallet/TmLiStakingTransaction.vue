@@ -21,21 +21,22 @@
       .tx-element.tx-date(v-if="devMode") {{ date }}
       .tx-element.tx-address Started unbonding from {{ tx.validator_addr }}
 
-.tm-li-tx.tm-li-tx-sent(v-else-if="type === 'cosmos-sdk/BeginRedelegate'" @click="() => devMode && viewTransaction()")
+.tm-li-tx(v-else-if="type === 'cosmos-sdk/BeginRedelegate'" @click="() => devMode && viewTransaction()")
   .tx-icon: i.material-icons add_circle
   .tx-container
     .tx-element.tx-coins
       .tx-coin
-        .key {{ tx.redelegation.denom.toUpperCase() }}
-        .value {{ pretty(tx.shares_amount) }}
+        .key STEAK
+        .value {{ pretty(calculateTokens(validator(tx.validator_src_addr), tx.shares_amount)) }}
     div
       .tx-element.tx-date(v-if="devMode") {{ date }}
-      .tx-element.tx-address Redelegated from {{ tx.validator_src_addr }} to {{ tx.validator_dst_addr }}
+      .tx-element.tx-address Redelegated atoms from {{ moniker(tx.validator_src_addr) }} to {{  moniker(tx.validator_dst_addr) }}
 </template>
 
 <script>
 import moment from "moment"
 import numeral from "numeral"
+import { calculateTokens } from "scripts/common"
 
 export default {
   name: "tm-li-staking-transaction",
@@ -63,6 +64,15 @@ export default {
   methods: {
     pretty(num) {
       return numeral(num).format("0,0.00")
+    },
+    validator(address) {
+      return this.validators.find(validator => {
+        validator.owner === address
+      })
+    },
+    moniker(address) {
+      let validator = this.validator(address)
+      return (validator && validator.description.moniker) || address
     },
     viewTransaction() {
       // console.log("TODO: implement tx viewer")
