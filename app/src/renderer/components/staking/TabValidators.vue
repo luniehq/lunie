@@ -1,12 +1,11 @@
 <template lang="pug">
   div
-    .delegates-container
-      tm-data-loading(v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
-      tm-data-empty(v-else-if="!delegates.loading && delegates.delegates.length === 0")
-      data-empty-search(v-else-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
-      template(v-else)
-        panel-sort(:sort='sort', :properties="properties")
-        li-validator(v-for='i in sortedFilteredEnrichedDelegates' :disabled="!userCanDelegate" :key='i.id' :delegate='i')
+    tm-data-loading(v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
+    tm-data-empty(v-else-if="!delegates.loading && delegates.delegates.length === 0")
+    data-empty-search(v-else-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
+    template(v-else)
+      panel-sort(:sort='sort', :properties="properties")
+      li-validator(v-for='i in sortedFilteredEnrichedDelegates' :disabled="!userCanDelegate" :key='i.id' :delegate='i')
 </template>
 
 <script>
