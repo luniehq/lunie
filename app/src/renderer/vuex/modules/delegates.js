@@ -65,15 +65,21 @@ export default ({ node }) => {
       rootState.delegates = JSON.parse(JSON.stringify(emptyState))
     },
 
-    async getDelegates({ state, commit, dispatch }) {
+    async getDelegates({ rootState, state, commit, dispatch }) {
       commit("setDelegateLoading", true)
       let candidates = await node.getCandidates()
       let { validators } = await node.getValidatorSet()
       for (let delegate of candidates) {
+        delegate.isValidator = false
         if (validators.find(v => v.pub_key === delegate.pub_key)) {
           delegate.isValidator = true
-        } else {
-          delegate.isValidator = false
+        }
+        // Update validator signing info every 10 blocks (~1 min)
+        if (rootState.blockchain.blockHeight % 10) {
+          let signing_info = await node.queryValidatorSigningInfo(
+            delegate.pub_key
+          )
+          if (!isEmpty(signing_info)) delegate.signing_info = signing_info
         }
         commit("addDelegate", delegate)
       }

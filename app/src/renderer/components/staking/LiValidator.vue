@@ -14,13 +14,12 @@
     span {{ yourRewards }}
   .li-validator__break: span
   .li-validator__value.percent_of_vote
-    span(v-bind:class="[powerRatioLevel]") {{ delegate.percent_of_vote }}
+    span {{ delegate.percent_of_vote }}
   .li-validator__value.uptime
     // add .green .yellow or .red class to this span to trigger inidication by color
     span {{ uptime }}
   .li-validator__value.commission
-    // add .green .yellow or .red class to this span to trigger inidication by color
-    span(v-bind:class="[commissionLevel]") {{ commission }}
+    span {{ commission }}
   .li-validator__value.slashes
     // add .green .yellow or .red class to this span to trigger inidication by color
     span {{ slashes }}
@@ -55,6 +54,16 @@ export default {
       return `${this.delegate.commission}%`
     },
     uptime() {
+      const rollingWindow = 10000 // param of slashing period
+      let info = this.delegate.signing_info
+      if (info) {
+        // TODO move to validator profile page
+        // let uptime = info.index_offset / this.lastHeader.height
+
+        // uptime in the past 10k blocks
+        let uptimeRollingWindow = info.signed_blocks_counter / rollingWindow
+        return `${this.num.pretty(uptimeRollingWindow * 100)}%`
+      }
       return "n/a"
     },
     yourRewards() {
@@ -107,14 +116,8 @@ export default {
         .toNumber()
     },
     powerRatioLevel() {
-      console.log(this.powerRatio)
       if (this.powerRatio < 0.01) return "green"
       if (this.powerRatio < 0.03) return "yellow"
-      else if (this.powerRatio >= 0.03) return "red"
-    },
-    commissionLevel() {
-      if (this.delegate.commission < 0.01) return "green"
-      if (this.delegate.commission < 0.03) return "yellow"
       else if (this.powerRatio >= 0.03) return "red"
     },
     status() {
