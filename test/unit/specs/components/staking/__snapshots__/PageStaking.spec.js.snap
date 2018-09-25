@@ -58,7 +58,7 @@ exports[`PageStaking has the expected html structure 1`] = `
 </header>
 <main class=\\"tm-page-main ps\\">
    <!---->
-   <div class=\\"delegates-tabs\\">
+   <div class=\\"staking-tabs\\">
       <div class=\\"tab\\">
          <a href=\\"#/staking/My Stake\\" class=\\"\\">My Stake</a>
       </div>
@@ -425,7 +425,7 @@ exports[`PageStaking should filter the delegates 1`] = `
       </div>
     </div>
     <div
-      class="delegates-tabs"
+      class="staking-tabs"
     >
       <div
         class="tab"
