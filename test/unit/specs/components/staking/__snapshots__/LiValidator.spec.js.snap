@@ -69,7 +69,7 @@ exports[`LiValidator has the expected html structure 1`] = `
       class="li-validator__value uptime"
     >
       <span>
-        n/a
+        98.78%
       </span>
     </div>
     <div
