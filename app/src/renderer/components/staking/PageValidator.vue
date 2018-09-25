@@ -33,13 +33,13 @@ tm-page
           .validator-profile__header__data__break
           dl.colored_dl
             dt Voting Power
-            dd(id="validator-profile__power" v-bind:class="[powerRatioLevel]") {{pretty(powerRatio * 100)}} %
+            dd(id="validator-profile__power") {{ pretty(powerRatio * 100)}} %
           dl.colored_dl(v-if="config.devMode")
             dt Uptime
-            dd n/a
+            dd(id="validator-profile__uptime") {{ validator.signing_info ? pretty(validator.signing_info.signed_blocks_counter/100) : `n/a`}} %
           dl.colored_dl
             dt Commission
-            dd(id="validator-profile__commission" v-bind:class="[commissionLevel]") {{pretty(validator.commission)}} %
+            dd(id="validator-profile__commission") {{ validator.commission }} %
           dl.colored_dl(v-if="config.devMode")
             dt Slashes
             dd n/a
@@ -103,6 +103,7 @@ import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
 import { calculateTokens, shortAddress, ratToBigNumber } from "scripts/common"
+import num from "scripts/num"
 import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"

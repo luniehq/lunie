@@ -11,7 +11,7 @@
   .li-validator__value.your-votes
     span {{ yourVotes }}
   .li-validator__value.your-rewards
-    span {{ yourRewards }}
+    span n/a
   .li-validator__break: span
   .li-validator__value.percent_of_vote
     span {{ delegate.percent_of_vote }}
@@ -51,15 +51,12 @@ export default {
       return "n/a" //TODO: add slashes
     },
     commission() {
-      return `${this.delegate.commission}%`
+      return `${this.num.pretty(this.delegate.commission)}%`
     },
     uptime() {
-      const rollingWindow = 10000 // param of slashing period
+      let rollingWindow = 10000 // param of slashing period
       let info = this.delegate.signing_info
       if (info) {
-        // TODO move to validator profile page
-        // let uptime = info.index_offset / this.lastHeader.height
-
         // uptime in the past 10k blocks
         let uptimeRollingWindow = info.signed_blocks_counter / rollingWindow
         return `${this.num.pretty(uptimeRollingWindow * 100)}%`

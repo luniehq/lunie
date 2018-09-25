@@ -152,8 +152,8 @@ Object.assign(Client.prototype, {
 
   /* ============ Slashing ============ */
 
-  queryValidatorSigningInfo: function(validatorAddr) {
-    return req("GET", `/slashing/signing_info/${validatorAddr}`).call(this)
+  queryValidatorSigningInfo: function(pubKey) {
+    return req("GET", `/slashing/signing_info/${pubKey}`).call(this)
   }
 })
 
