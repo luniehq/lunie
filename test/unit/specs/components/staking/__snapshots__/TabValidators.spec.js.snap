@@ -69,7 +69,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <span>0.00</span>
 </div>
 <div class=\\"li-validator__value your-rewards\\">
-   <span>0</span>
+   <span>n/a</span>
 </div>
 <div class=\\"li-validator__break\\">
    <span></span>
@@ -81,7 +81,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <span>n/a</span>
 </div>
 <div class=\\"li-validator__value commission\\">
-   <span>0%</span>
+   <span>0.00%</span>
 </div>
 <div class=\\"li-validator__value slashes\\">
    <span>n/a</span>
@@ -106,7 +106,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <span>14.00</span>
 </div>
 <div class=\\"li-validator__value your-rewards\\">
-   <span>0</span>
+   <span>n/a</span>
 </div>
 <div class=\\"li-validator__break\\">
    <span></span>
@@ -118,7 +118,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <span>n/a</span>
 </div>
 <div class=\\"li-validator__value commission\\">
-   <span>0%</span>
+   <span>0.00%</span>
 </div>
 <div class=\\"li-validator__value slashes\\">
    <span>n/a</span>
@@ -143,7 +143,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <span>0.00</span>
 </div>
 <div class=\\"li-validator__value your-rewards\\">
-   <span>0</span>
+   <span>n/a</span>
 </div>
 <div class=\\"li-validator__break\\">
    <span></span>
@@ -155,7 +155,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <span>n/a</span>
 </div>
 <div class=\\"li-validator__value commission\\">
-   <span>0%</span>
+   <span>0.00%</span>
 </div>
 <div class=\\"li-validator__value slashes\\">
    <span>n/a</span>
@@ -307,7 +307,7 @@ exports[`PageStaking should filter the delegates 1`] = `
         class="li-validator__value your-rewards"
       >
         <span>
-          0
+          n/a
         </span>
       </div>
       <div
@@ -333,7 +333,7 @@ exports[`PageStaking should filter the delegates 1`] = `
         class="li-validator__value commission"
       >
         <span>
-          0%
+          0.00%
         </span>
       </div>
       <div

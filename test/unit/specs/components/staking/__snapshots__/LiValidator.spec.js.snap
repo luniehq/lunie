@@ -50,7 +50,7 @@ exports[`LiValidator has the expected html structure 1`] = `
       class="li-validator__value your-rewards"
     >
       <span>
-        0
+        n/a
       </span>
     </div>
     <div
@@ -76,7 +76,7 @@ exports[`LiValidator has the expected html structure 1`] = `
       class="li-validator__value commission"
     >
       <span>
-        0%
+        0.00%
       </span>
     </div>
     <div
