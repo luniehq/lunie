@@ -1,3 +1,5 @@
+import BigNumber from "bignumber.js"
+import Delegation from "renderer/vuex/modules/delegation"
 import ModalStake from "staking/ModalStake"
 import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
@@ -33,7 +35,10 @@ const delegate = {
 
 const getterValues = {
   bondingDenom: `atom`,
-  config: { desktop: false },
+  config: {
+    bondingDenom: `atom`,
+    desktop: false
+  },
   delegates: {
     delegates: [delegate],
     globalPower: 4200
@@ -48,10 +53,8 @@ const getterValues = {
   keybase: `keybase`,
   oldBondedAtoms: 50,
   totalAtoms: 100,
-  wallet: { address: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
-  user: {
-    atoms: 42
-  }
+  user: { atoms: 42 },
+  wallet: { address: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` }
 }
 
 const delegationTx = {
@@ -278,116 +281,155 @@ describe(`onStake`, () => {
   })
 
   describe(`submitDelegation`, () => {
-    it(`success`, async () => {
-      const $store = {
-        commit: jest.fn(),
-        dispatch: jest.fn(),
-        getters: getterValues
-      }
-
-      const {
-        vm: { submitDelegation }
-      } = mount(PageValidator, {
-        mocks: {
-          $route: { params: { validator: "1a2b3c", delegator_shares: "19" } },
-          $store
+    describe(`unit`, () => {
+      it(`success`, async () => {
+        const $store = {
+          commit: jest.fn(),
+          dispatch: jest.fn(),
+          getters: getterValues
         }
-      })
 
-      await submitDelegation({
-        amount: 10,
-        from: "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-      })
-
-      expect($store.dispatch.mock.calls).toEqual([
-        ["submitDelegation", delegationTx]
-      ])
-
-      expect($store.commit.mock.calls).toEqual([
-        [
-          "notify",
-          {
-            body: `You have successfully staked your atoms.`,
-            title: `Successful Staking!`
+        const {
+          vm: { submitDelegation }
+        } = mount(PageValidator, {
+          mocks: {
+            $route: { params: { validator: "1a2b3c", delegator_shares: "19" } },
+            $store
           }
-        ]
-      ])
+        })
+
+        await submitDelegation({
+          amount: BigNumber(10),
+          from: "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+        })
+
+        expect($store.dispatch.mock.calls).toEqual([
+          ["submitDelegation", delegationTx]
+        ])
+
+        expect($store.commit.mock.calls).toEqual([
+          [
+            "notify",
+            {
+              body: `You have successfully staked your atoms.`,
+              title: `Successful Staking!`
+            }
+          ]
+        ])
+      })
+
+      it(`error`, async () => {
+        const $store = {
+          commit: jest.fn(),
+          dispatch: jest.fn(() => {
+            throw new Error(`message`)
+          }),
+          getters: getterValues
+        }
+
+        const {
+          vm: { submitDelegation }
+        } = mount(PageValidator, {
+          mocks: {
+            $route: { params: { validator: "1a2b3c", delegator_shares: "19" } },
+            $store
+          }
+        })
+
+        await submitDelegation({
+          amount: BigNumber(10),
+          from: "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+        })
+
+        expect($store.dispatch.mock.calls).toEqual([
+          ["submitDelegation", delegationTx]
+        ])
+
+        expect($store.commit.mock.calls).toEqual([
+          [
+            "notifyError",
+            {
+              body: "message",
+              title: "Error while delegating atoms"
+            }
+          ]
+        ])
+      })
+
+      it(`error with data`, async () => {
+        const $store = {
+          commit: jest.fn(),
+          dispatch: jest.fn(() => {
+            throw new Error(`one\ntwo\nthree\nfour\nfive\nsix\nseven`)
+          }),
+          getters: getterValues
+        }
+
+        const {
+          vm: { submitDelegation }
+        } = mount(PageValidator, {
+          mocks: {
+            $route: { params: { validator: "1a2b3c", delegator_shares: "19" } },
+            $store
+          }
+        })
+
+        await submitDelegation({
+          amount: 10,
+          from: "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+        })
+
+        expect($store.dispatch.mock.calls).toEqual([
+          [`submitDelegation`, delegationTx]
+        ])
+
+        expect($store.commit.mock.calls).toEqual([
+          [
+            `notifyError`,
+            {
+              body: `six`,
+              title: "Error while delegating atoms"
+            }
+          ]
+        ])
+      })
     })
 
-    it(`error`, async () => {
-      const $store = {
-        commit: jest.fn(),
-        dispatch: jest.fn(() => {
-          throw new Error(`message`)
-        }),
-        getters: getterValues
-      }
-
-      const {
-        vm: { submitDelegation }
-      } = mount(PageValidator, {
-        mocks: {
-          $route: { params: { validator: "1a2b3c", delegator_shares: "19" } },
-          $store
-        }
-      })
-
-      await submitDelegation({
-        amount: 10,
-        from: "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-      })
-
-      expect($store.dispatch.mock.calls).toEqual([
-        ["submitDelegation", delegationTx]
-      ])
-
-      expect($store.commit.mock.calls).toEqual([
-        [
-          "notifyError",
-          {
-            body: "message",
-            title: "Error while delegating atoms"
-          }
-        ]
-      ])
-    })
-
-    it(`error with data`, async () => {
-      const $store = {
-        commit: jest.fn(),
-        dispatch: jest.fn(() => {
-          throw new Error(`one\ntwo\nthree\nfour\nfive\nsix\nseven`)
-        }),
-        getters: getterValues
-      }
-
-      const {
-        vm: { submitDelegation }
-      } = mount(PageValidator, {
-        mocks: {
-          $route: { params: { validator: "1a2b3c", delegator_shares: "19" } },
-          $store
-        }
-      })
-
-      await submitDelegation({
-        amount: 10,
-        from: "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-      })
-
-      expect($store.dispatch.mock.calls).toEqual([
-        [`submitDelegation`, delegationTx]
-      ])
-
-      expect($store.commit.mock.calls).toEqual([
-        [
-          `notifyError`,
-          {
-            body: `six`,
-            title: "Error while delegating atoms"
-          }
-        ]
-      ])
-    })
+    // TODO update
+    // describe(`composition`, () => {
+    //   it(`delegation.submitDelegation`, async () => {
+    //     const delegation = Delegation({})
+    //
+    //     const dispatch = jest.fn((type, payload) => {
+    //       if (type === `submitDelegation`) {
+    //         delegation.actions[type]($store, payload)
+    //       }
+    //     })
+    //
+    //     const $store = {
+    //       commit: jest.fn(),
+    //       dispatch,
+    //       getters: getterValues,
+    //       rootState: getterValues,
+    //       state: {
+    //         committedDelegates: { "1a2b3c": 0 },
+    //         unbondingDelegations: {}
+    //       }
+    //     }
+    //
+    //     const {
+    //       vm: { submitDelegation }
+    //     } = mount(PageValidator, {
+    //       mocks: {
+    //         $route: { params: { validator: `1a2b3c`, delegator_shares: "19" } },
+    //         $store
+    //       }
+    //     })
+    //
+    //     await submitDelegation({ amount: 10 })
+    //
+    //     expect($store.dispatch.mock.calls).toEqual("hello")
+    //   })
+    // })
   })
 })

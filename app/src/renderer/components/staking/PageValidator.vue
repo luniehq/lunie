@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page
-  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unstakedAtoms="user.atoms" :tabs="tabs")
+  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unstakedAtoms="user.atoms")
   div(slot="menu"): tm-tool-bar
     router-link(to="/staking" exact): i.material-icons arrow_back
     anchor-copy(v-if="validator" :value="validator.owner" icon="content_copy")
@@ -126,8 +126,7 @@ export default {
     showCannotStake: false,
     showModalStake: false,
     shortAddress,
-    tabIndex: 1,
-    tabs: ["My Stake", "Validators"]
+    tabIndex: 1
   }),
   computed: {
     ...mapGetters([
@@ -356,11 +355,11 @@ export default {
       flex 1
 
 .validator-profile__section
-  display flex
-  width 100%
   background-color var(--app-fg)
-  padding 2rem
+  display flex
   margin-bottom 1rem
+  padding 2rem
+  width 100%
 
 .column
   display flex
@@ -375,12 +374,12 @@ export default {
 .validator-profile
   &__header
     .avatar
-      height 155px
-      width 155px
-      margin-right 2rem
       background var(--app-nav)
       border-radius 50%
+      height 155px
+      margin-right 2rem
       padding 1rem
+      width 155px
 
     &__info
       flex 1
@@ -389,11 +388,11 @@ export default {
       margin-bottom 2rem
 
       &__title
+        color white
+        display inline-block
         font-size h1
         line-height h1
-        color white
         padding 0 0.5rem 0.5rem 0
-        display inline-block
 
       &__address
         font-size small
@@ -410,12 +409,12 @@ export default {
     margin-right 1rem
 
   &__status
-    display inline-block
-    width 0.5rem
-    height 0.5rem
     border-radius 50%
-    position absolute
+    display inline-block
+    height 0.5rem
     left -1rem
+    position absolute
+    width 0.5rem
 
     &.red
       background var(--danger)
@@ -427,8 +426,8 @@ export default {
       background var(--success)
 
   &__status-and-title
-    display flex
     align-items center
+    display flex
 
   &__details
     > .row
@@ -438,17 +437,17 @@ export default {
 .info_dl
   display flex
   flex-flow column
-  margin-right 1rem
   margin-bottom 1.5rem
+  margin-right 1rem
 
   dt
     color var(--dim)
-    margin-bottom 4px
     font-size small
+    margin-bottom 4px
 
   dd
-    border-radius 2px
     border solid 1px #31354e
+    border-radius 2px
     font-size 1rem
     line-height 1rem
     padding 0.5rem
@@ -457,10 +456,10 @@ export default {
       min-height 6.91rem
 
 .colored_dl
-  display flex
-  width 5.1rem
-  flex-direction column
   align-items center
+  display flex
+  flex-direction column
+  width 5.1rem
 
   &:not(:last-child)
     margin-right 1rem
@@ -468,49 +467,33 @@ export default {
   dt
     color var(--dim)
     font-size small
-    text-align center
     margin-bottom 0.5rem
+    text-align center
 
   dd
-    color var(--dim)
     background-color var(--white-fade-1)
     border 1px solid var(--white-fade-2)
     border-radius 4px
+    color var(--dim)
     display block
-    width 100%
     font-size h6
     line-height h6
-    text-align right
     padding 4px 4px
+    text-align right
+    width 100%
 
     &.red
-      color #ff0200
       background-color rgba(209, 2, 0, 0.15)
       border solid 0.5px rgba(209, 2, 0, 0.25)
+      color #ff0200
 
     &.yellow
-      color #ff9502
       background-color rgba(255, 149, 2, 0.15)
       border solid 0.5px rgba(255, 149, 2, 0.25)
+      color #ff9502
 
     &.green
-      color #2ea42d
       background-color rgba(46, 164, 45, 0.15)
       border solid 0.5px rgba(46, 164, 45, 0.25)
-
-.delegates-tabs
-  display flex
-
-  .tab
-    cursor pointer
-    margin 0 0.5em
-    padding-bottom 0.5em
-    margin-bottom 1em
-
-    &:first-of-type
-      cursor not-allowed
-
-    &.tab-selected
-      color var(--bright)
-      border-bottom 2px solid var(--tertiary)
+      color #2ea42d
 </style>

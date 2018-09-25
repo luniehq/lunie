@@ -1,5 +1,5 @@
 <template lang="pug">
-  .modal-stake(v-click-outside="close")
+  .modal-stake#modal-stake(v-click-outside="close")
     //- Header
     .stake-header
       img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
@@ -41,6 +41,11 @@
       )
 
     .stake-footer
+      tm-btn(
+        @click.native="close"
+        size="lg"
+        value="Cancel"
+      )
       tm-btn(
         @click.native="onStake"
         :disabled="$v.amount.$invalid"
@@ -137,4 +142,7 @@ export default {
   .stake-footer
     display flex
     justify-content flex-end
+
+    button
+      margin-left 1em
 </style>

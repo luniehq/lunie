@@ -1,3 +1,5 @@
+"use strict"
+
 import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
 export default ({ node }) => {

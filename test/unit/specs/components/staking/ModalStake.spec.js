@@ -1,5 +1,6 @@
 "use strict"
 
+import htmlBeautify from "html-beautify"
 import { createLocalVue, mount } from "@vue/test-utils"
 import ModalStake from "staking/ModalStake"
 import Vuelidate from "vuelidate"
@@ -37,6 +38,10 @@ const Wrapper = () => {
     }
   })
 }
+
+test(`renders correctly`, () => {
+  expect(htmlBeautify(Wrapper().html())).toMatchSnapshot()
+})
 
 test("the 'amount' field defaults to 0", () => {
   let amountField = Wrapper().find("#amount")

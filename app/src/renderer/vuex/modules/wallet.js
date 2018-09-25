@@ -1,3 +1,5 @@
+"use strict"
+
 let fs = require("fs-extra")
 let { join } = require("path")
 const { remote } = require("electron")

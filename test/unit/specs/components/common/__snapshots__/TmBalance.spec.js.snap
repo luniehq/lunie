@@ -24,7 +24,6 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
    <i class=\\"material-icons\\">check</i><span>Copied</span>
 </div>
 </div>
-<div class=\\"tabs\\"></div>
 </div>"
 `;
 
@@ -76,6 +75,5 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
    <i class=\\"material-icons\\">check</i><span>Copied</span>
 </div>
 </div>
-<div class=\\"tabs\\"></div>
 </div>"
 `;

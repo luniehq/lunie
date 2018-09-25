@@ -1,3 +1,5 @@
+"use strict"
+
 import enableGoogleAnalytics from "../../google-analytics.js"
 import Raven from "raven-js"
 const { ipcRenderer, remote } = require("electron")
