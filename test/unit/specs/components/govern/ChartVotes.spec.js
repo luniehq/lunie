@@ -6,9 +6,9 @@ import ChartVotes from "renderer/components/govern/ChartVotes"
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-jest.mock("chart.js")
+jest.mock(`chart.js`)
 
-describe("ChartVotes", () => {
+describe(`ChartVotes`, () => {
   let wrapper, store, getters
 
   let propsData = {
@@ -18,7 +18,7 @@ describe("ChartVotes", () => {
       reject: 5,
       abstain: 15
     },
-    size: "lg"
+    size: `lg`
   }
 
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe("ChartVotes", () => {
     wrapper = mount(ChartVotes, { propsData, localVue, store })
   })
 
-  it("has the expected html structure", () => {
+  it(`has the expected html structure`, () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 })

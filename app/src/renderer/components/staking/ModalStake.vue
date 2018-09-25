@@ -67,7 +67,7 @@ export default {
   }),
   methods: {
     close() {
-      this.$emit("update:showModalStake", false)
+      this.$emit(`update:showModalStake`, false)
     },
     onStake() {
       this.$emit(`submitDelegation`, {

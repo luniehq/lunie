@@ -143,7 +143,7 @@ import {
 import FieldAddon from "common/TmFieldAddon"
 import VmToolBar from "common/VmToolBar"
 export default {
-  name: "page-bond",
+  name: `page-bond`,
   components: {
     TmBtn,
     TmField,
@@ -157,14 +157,14 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "shoppingCart",
-      "user",
-      "delegation",
-      "connected",
-      "bondingDenom",
-      "totalAtoms",
-      "oldBondedAtoms",
-      "oldUnbondingAtoms"
+      `shoppingCart`,
+      `user`,
+      `delegation`,
+      `connected`,
+      `bondingDenom`,
+      `totalAtoms`,
+      `oldBondedAtoms`,
+      `oldUnbondingAtoms`
     ]),
     oldUnbondedAtoms() {
       return this.totalAtoms - this.oldBondedAtoms
@@ -220,7 +220,7 @@ export default {
   methods: {
     async onSubmit() {
       if (this.newUnbondedAtoms < 0) {
-        this.$store.commit("notifyError", {
+        this.$store.commit(`notifyError`, {
           title: `Too Many Allocated ${this.bondingDenom}`,
           body: `You've tried to stake ${this.newUnbondedAtoms * -1} more ${
             this.bondingDenom
@@ -232,22 +232,22 @@ export default {
       if (!this.$v.$invalid) {
         try {
           this.delegating = true
-          await this.$store.dispatch("submitDelegation", this.fields.delegates)
-          this.$store.commit("notify", {
-            title: "Successful Staking!",
+          await this.$store.dispatch(`submitDelegation`, this.fields.delegates)
+          this.$store.commit(`notify`, {
+            title: `Successful Staking!`,
             body: `You have successfully staked your ${this.bondingDenom}s.`
           })
-          this.$router.push("/staking")
+          this.$router.push(`/staking`)
         } catch (err) {
-          let errData = err.message.split("\n")[5]
+          let errData = err.message.split(`\n`)[5]
           if (errData) {
-            let parsedErr = errData.split('"')[1]
-            this.$store.commit("notifyError", {
+            let parsedErr = errData.split(`"`)[1]
+            this.$store.commit(`notifyError`, {
               title: `Error While Staking ${this.bondingDenom}s`,
               body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
             })
           } else {
-            this.$store.commit("notifyError", {
+            this.$store.commit(`notifyError`, {
               title: `Error While Staking ${this.bondingDenom}s`,
               body: err.message
             })
@@ -273,35 +273,35 @@ export default {
         d.oldAtoms = d.atoms
         d.bondedRatio = d.atoms / totalAtoms
         d.deltaAtoms = 0
-        d.deltaAtomsPercent = "0%"
+        d.deltaAtomsPercent = `0%`
         return d
       })
     },
     leaveIfBroke() {
       if (!this.userCanDelegate) {
-        this.$store.commit("notifyError", {
+        this.$store.commit(`notifyError`, {
           title: `Cannot Stake Without ${this.bondingDenom}s`,
           body: `You do not have any ${
             this.bondingDenom
           } to stake to validators.`
         })
-        this.$router.push("/staking")
+        this.$router.push(`/staking`)
       }
     },
     leaveIfEmpty(count) {
       if (count === 0) {
-        this.$store.commit("notifyError", {
-          title: "No Validators Selected",
+        this.$store.commit(`notifyError`, {
+          title: `No Validators Selected`,
           body: `Select one or more validators before proceeding.`
         })
-        this.$router.push("/staking")
+        this.$router.push(`/staking`)
       }
     },
     bondBarPercent(dividend) {
       let divisor = this.totalAtoms
       let ratio = Math.round(dividend / divisor * 100)
       if (isNaN(ratio)) ratio = 0
-      return ratio + "%"
+      return ratio + `%`
     },
     bondBarInnerWidth(dividend) {
       let offset = this.bondBarScrubWidth
@@ -310,18 +310,18 @@ export default {
       let ratio = Math.round(dividend / divisor * 100) / 100
       let width = ratio * (maxWidth - offset) + offset
       if (width > maxWidth) width = maxWidth
-      return width + "px"
+      return width + `px`
     },
     styleBondBarInner(dividend) {
       return { width: this.bondBarInnerWidth(dividend) }
     },
     bondGroupClass(delta) {
       if (delta > 0) {
-        return "bond-group--positive"
+        return `bond-group--positive`
       } else if (delta < 0) {
-        return "bond-group--negative"
+        return `bond-group--negative`
       } else {
-        return "bond-group--neutral"
+        return `bond-group--neutral`
       }
     },
     handleResize(element, width) {
@@ -331,15 +331,15 @@ export default {
         100
       let rawAtoms = ratio * this.totalAtoms
 
-      element.style.width = width + "px"
+      element.style.width = width + `px`
 
-      return this.updateDelegateAtoms(element.id.split("-")[1], rawAtoms)
+      return this.updateDelegateAtoms(element.id.split(`-`)[1], rawAtoms)
     },
     updateDelegateAtoms(delegateId, rawAtoms) {
       let d = this.fields.delegates.find(d => d.id === delegateId)
       d.bondedRatio = rawAtoms / this.totalAtoms
       d.atoms = Math.round(rawAtoms)
-      d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, "int")
+      d.deltaAtoms = this.delta(rawAtoms, d.oldAtoms, `int`)
       d.deltaAtomsPercent = this.percent(
         this.delta(d.atoms, d.oldAtoms),
         this.totalAtoms
@@ -347,12 +347,12 @@ export default {
       return d
     },
     setBondBarOuterWidth() {
-      let outerBar = this.$el.querySelector(".bond-bar__outer")
+      let outerBar = this.$el.querySelector(`.bond-bar__outer`)
       this.bondBarOuterWidth = outerBar.clientWidth
     },
     delta(current, previous, fmt) {
       let x = current - previous
-      if (fmt === "int") {
+      if (fmt === `int`) {
         return Math.round(x)
       } else {
         return x
@@ -368,7 +368,7 @@ export default {
       } else {
         value = Math.round(ratio * 100)
       }
-      return value + "%"
+      return value + `%`
     },
     limitMax(delegate, max) {
       if (delegate.atoms >= max) {

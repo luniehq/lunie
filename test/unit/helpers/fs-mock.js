@@ -1,5 +1,5 @@
-const { Writable } = require("stream")
-const { normalize, sep } = require("path")
+const { Writable } = require(`stream`)
+const { normalize, sep } = require(`path`)
 
 /*
 * this mock implements every function (all used in this project for now) in fs-extra so that the file system is just represented by a json file holding file content as strings
@@ -56,7 +56,7 @@ export default function mockFsExtra(fileSystem = {}) {
 
   // all methods are synchronous in tests
   Object.keys(fsExtraMock).forEach(key => {
-    fsExtraMock[key + "Sync"] = fsExtraMock[key]
+    fsExtraMock[key + `Sync`] = fsExtraMock[key]
   })
 
   // for debugging
@@ -68,10 +68,10 @@ export default function mockFsExtra(fileSystem = {}) {
     // clone
     fs = JSON.parse(JSON.stringify(fs))
     Object.keys(fs).forEach(key => {
-      if (typeof fs[key] === "object") {
+      if (typeof fs[key] === `object`) {
         fs[key] = fsToString(fs[key])
       } else {
-        fs[key] = "#CONTENT#"
+        fs[key] = `#CONTENT#`
       }
     })
     return fs
@@ -79,18 +79,18 @@ export default function mockFsExtra(fileSystem = {}) {
 
   function throwENOENT(path) {
     let error = new Error(
-      "Path " +
+      `Path ` +
         path +
-        " doesnt exist.\nFS:" +
+        ` doesnt exist.\nFS:` +
         JSON.stringify(fsToString(fileSystem), null, 2)
     )
-    error.code = "ENOENT"
+    error.code = `ENOENT`
     throw error
   }
 
   function get(path, fs) {
     path = normalize(path)
-    let pathArr = path.split(sep).filter(x => x !== "")
+    let pathArr = path.split(sep).filter(x => x !== ``)
     let current = pathArr.shift()
 
     if (fs[current]) {
@@ -101,7 +101,7 @@ export default function mockFsExtra(fileSystem = {}) {
           parent: fs
         }
       }
-      return get(pathArr.join("/"), fs[current])
+      return get(pathArr.join(`/`), fs[current])
     }
     return {
       file: null,
@@ -112,14 +112,14 @@ export default function mockFsExtra(fileSystem = {}) {
 
   function create(path, fs, file = {}) {
     path = normalize(path)
-    let pathArr = path.split(sep).filter(x => x !== "")
+    let pathArr = path.split(sep).filter(x => x !== ``)
     let current = pathArr.shift()
 
     if (!fs[current]) {
       fs[current] = {}
     }
     if (pathArr.length === 0) {
-      if (typeof file === "object") {
+      if (typeof file === `object`) {
         // clone object
         fs[current] = JSON.parse(JSON.stringify(file))
       } else {
@@ -127,7 +127,7 @@ export default function mockFsExtra(fileSystem = {}) {
       }
       return true
     }
-    return create(pathArr.join("/"), fs[current], file)
+    return create(pathArr.join(`/`), fs[current], file)
   }
 
   return fsExtraMock

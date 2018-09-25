@@ -22,16 +22,16 @@
 import { ipcRenderer } from "electron"
 import { TmBtn } from "@tendermint/ui"
 export default {
-  name: "modal-node-halted",
+  name: `modal-node-halted`,
   components: { TmBtn },
   methods: {
     switchNode() {
-      ipcRenderer.send("reconnect")
-      this.$store.commit("setModalNodeHalted", false)
+      ipcRenderer.send(`reconnect`)
+      this.$store.commit(`setModalNodeHalted`, false)
     },
     useMock() {
-      this.$store.dispatch("setMockedConnector", true)
-      this.$store.commit("setModalNodeHalted", false)
+      this.$store.dispatch(`setMockedConnector`, true)
+      this.$store.commit(`setModalNodeHalted`, false)
     }
   }
 }

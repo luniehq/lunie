@@ -39,27 +39,27 @@ import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { shortAddress, calculateTokens } from "scripts/common"
 export default {
-  name: "li-validator",
-  props: ["delegate", "disabled"],
+  name: `li-validator`,
+  props: [`delegate`, `disabled`],
   computed: {
     ...mapGetters([
-      "shoppingCart",
-      "delegates",
-      "config",
-      "committedDelegations",
-      "user"
+      `shoppingCart`,
+      `delegates`,
+      `config`,
+      `committedDelegations`,
+      `user`
     ]),
     slashes() {
-      return "n/a" //TODO: add slashes
+      return `n/a` //TODO: add slashes
     },
     commission() {
-      return "n/a" //TODO: add commission
+      return `n/a` //TODO: add commission
     },
     uptime() {
-      return "n/a" //TODO: add real uptime
+      return `n/a` //TODO: add real uptime
     },
     yourRewards() {
-      return "n/a"
+      return `n/a`
     },
     yourVotes() {
       return this.num.pretty(
@@ -68,13 +68,13 @@ export default {
               this.delegate,
               this.committedDelegations[this.delegate.id]
             ).toString()
-          : "0"
+          : `0`
       )
     },
     styles() {
-      let value = ""
-      if (this.inCart || this.yourVotes > 0) value += "li-validator-active "
-      if (this.delegate.isValidator) value += "li-validator-validator "
+      let value = ``
+      if (this.inCart || this.yourVotes > 0) value += `li-validator-active `
+      if (this.delegate.isValidator) value += `li-validator-validator `
       return value
     },
     inCart() {
@@ -82,19 +82,19 @@ export default {
     },
     delegateType() {
       return this.delegate.revoked
-        ? "Revoked"
+        ? `Revoked`
         : this.delegate.isValidator
-          ? "Validator"
-          : "Candidate"
+          ? `Validator`
+          : `Candidate`
     }
   },
   data: () => ({ num, shortAddress }),
   methods: {
     add(delegate) {
-      this.$store.commit("addToCart", delegate)
+      this.$store.commit(`addToCart`, delegate)
     },
     rm(delegate) {
-      this.$store.commit("removeFromCart", delegate.id)
+      this.$store.commit(`removeFromCart`, delegate.id)
     }
   }
 }

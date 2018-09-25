@@ -9,7 +9,7 @@ export default ({ node }) => {
   let state = JSON.parse(JSON.stringify(emptyState))
 
   // properties under which txs of different categories are store
-  const txCategories = ["staking", "wallet"]
+  const txCategories = [`staking`, `wallet`]
 
   let mutations = {
     setWalletTxs(state, txs) {
@@ -39,22 +39,22 @@ export default ({ node }) => {
     },
     async reconnected({ dispatch }) {
       if (state.loading) {
-        await dispatch("getAllTxs")
+        await dispatch(`getAllTxs`)
       }
     },
     async getAllTxs({ commit, dispatch }) {
-      commit("setHistoryLoading", true)
-      const stakingTxs = await dispatch("getTx", "staking")
-      commit("setStakingTxs", stakingTxs)
+      commit(`setHistoryLoading`, true)
+      const stakingTxs = await dispatch(`getTx`, `staking`)
+      commit(`setStakingTxs`, stakingTxs)
 
-      const walletTxs = await dispatch("getTx", "wallet")
-      commit("setWalletTxs", walletTxs)
+      const walletTxs = await dispatch(`getTx`, `wallet`)
+      commit(`setWalletTxs`, walletTxs)
 
       const allTxs = stakingTxs.concat(walletTxs)
-      await dispatch("enrichTransactions", {
+      await dispatch(`enrichTransactions`, {
         transactions: allTxs
       })
-      commit("setHistoryLoading", false)
+      commit(`setHistoryLoading`, false)
     },
     async getTx(
       {
@@ -66,29 +66,29 @@ export default ({ node }) => {
     ) {
       let response
       switch (type) {
-        case "staking":
+        case `staking`:
           response = await node.getDelegatorTxs(address)
           break
-        case "wallet":
+        case `wallet`:
           response = await node.txs(address)
           break
         default:
-          throw new Error("Unknown transaction type")
+          throw new Error(`Unknown transaction type`)
       }
       const transactionsPlusType = response.map(fp.set(`type`, type))
-      return response ? uniqBy(transactionsPlusType, "hash") : []
+      return response ? uniqBy(transactionsPlusType, `hash`) : []
     },
     async enrichTransactions({ dispatch }, { transactions }) {
       const blockHeights = new Set(transactions.map(({ height }) => height))
       await Promise.all(
         [...blockHeights].map(blockHeight =>
-          dispatch("queryTransactionTime", { blockHeight })
+          dispatch(`queryTransactionTime`, { blockHeight })
         )
       )
     },
     async queryTransactionTime({ commit, dispatch }, { blockHeight }) {
-      let blockMetaInfo = await dispatch("queryBlockInfo", blockHeight)
-      commit("setTransactionTime", {
+      let blockMetaInfo = await dispatch(`queryBlockInfo`, blockHeight)
+      commit(`setTransactionTime`, {
         blockHeight,
         blockMetaInfo
       })

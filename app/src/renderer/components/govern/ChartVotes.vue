@@ -25,15 +25,15 @@
 import { mapGetters } from "vuex"
 import Chart from "chart.js"
 export default {
-  name: "chart-votes",
-  props: ["votes", "size"],
+  name: `chart-votes`,
+  props: [`votes`, `size`],
   computed: {
-    ...mapGetters(["themes"]),
+    ...mapGetters([`themes`]),
     cssClass() {
-      if (this.size === "lg") {
-        return "chart-votes-size-lg"
+      if (this.size === `lg`) {
+        return `chart-votes-size-lg`
       } else {
-        return "chart-votes-size-sm"
+        return `chart-votes-size-sm`
       }
     },
     chartLabel() {
@@ -45,31 +45,31 @@ export default {
       let index = data.indexOf(Math.max.apply(Math, data))
       switch (index) {
         case 0:
-          return "yes"
+          return `yes`
         case 1:
-          return "no"
+          return `no`
         default:
-          return "reject"
+          return `reject`
       }
     },
     chartData() {
       let abstainBgColor
-      if (this.themes.active === "dark") {
-        abstainBgColor = "#FFFFFF"
+      if (this.themes.active === `dark`) {
+        abstainBgColor = `#FFFFFF`
       } else {
-        abstainBgColor = "#000000"
+        abstainBgColor = `#000000`
       }
       return {
-        labels: ["Yes", "No", "Reject", "Abstain"],
+        labels: [`Yes`, `No`, `Reject`, `Abstain`],
         datasets: [
           {
             borderWidth: 0,
             data: this.chartValues,
             backgroundColor: [
               abstainBgColor,
-              "hsl(233,96%,60%)",
-              "hsl(326,96%,59%)",
-              "hsl(233,13%,50%)"
+              `hsl(233,96%,60%)`,
+              `hsl(326,96%,59%)`,
+              `hsl(233,13%,50%)`
             ]
           }
         ]
@@ -94,10 +94,10 @@ export default {
   }),
   methods: {
     drawChart() {
-      let ctx = this.$el.querySelector("canvas")
+      let ctx = this.$el.querySelector(`canvas`)
       // eslint-disable-next-line
       new Chart(ctx, {
-        type: "doughnut",
+        type: `doughnut`,
         data: this.chartData,
         options: this.chartOptions
       })

@@ -45,17 +45,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 test(`updatePackageJson`, () => {
   const previous = {
-    name: "cosmos-voyager",
-    productName: "Cosmos Voyager",
-    version: "0.6.1"
+    name: `cosmos-voyager`,
+    productName: `Cosmos Voyager`,
+    version: `0.6.1`
   }
 
   const newVersion = `0.6.2`
 
   const updated = {
-    name: "cosmos-voyager",
-    productName: "Cosmos Voyager",
-    version: "0.6.2"
+    name: `cosmos-voyager`,
+    productName: `Cosmos Voyager`,
+    version: `0.6.2`
   }
 
   expect(release.updatePackageJson(previous, newVersion)).toEqual(updated)

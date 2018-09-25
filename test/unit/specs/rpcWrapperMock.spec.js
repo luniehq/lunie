@@ -1,15 +1,15 @@
-describe("RPC Wrapper Mock", () => {
+describe(`RPC Wrapper Mock`, () => {
   let node = {}
   let wrapper
 
   beforeEach(() => {
     jest.resetModules()
-    let mockedRpcWrapper = require("renderer/connectors/rpcWrapperMock.js")
+    let mockedRpcWrapper = require(`renderer/connectors/rpcWrapperMock.js`)
     wrapper = mockedRpcWrapper(node)
-    wrapper.rpcConnect("localhost")
+    wrapper.rpcConnect(`localhost`)
   })
 
-  it("outputs validators", done => {
+  it(`outputs validators`, done => {
     node.rpc.validators((err, data) => {
       expect(err).toBeNull()
       expect(data.validators).toBeDefined()
@@ -17,7 +17,7 @@ describe("RPC Wrapper Mock", () => {
     })
   })
 
-  it("outputs a block", done => {
+  it(`outputs a block`, done => {
     let height = 5
     node.rpc.block({ height: height, maxHeight: height }, (err, data) => {
       expect(err).toBeNull()
@@ -26,7 +26,7 @@ describe("RPC Wrapper Mock", () => {
     })
   })
 
-  it("outputs a block header", done => {
+  it(`outputs a block header`, done => {
     let height = 5
     node.rpc.blockchain(
       { minHeight: height, maxHeight: height },
@@ -38,7 +38,7 @@ describe("RPC Wrapper Mock", () => {
     )
   })
 
-  it("outputs a status", done => {
+  it(`outputs a status`, done => {
     node.rpc.status((err, data) => {
       expect(err).toBeNull()
       expect(data.sync_info.latest_block_height).toBeDefined()
@@ -46,9 +46,9 @@ describe("RPC Wrapper Mock", () => {
     })
   })
 
-  it("receives a stream of blocks", done => {
+  it(`receives a stream of blocks`, done => {
     let blocks = []
-    node.rpc.subscribe({ query: "tm.event = 'NewBlock'" }, (err, data) => {
+    node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, (err, data) => {
       expect(err).toBeNull()
       expect(data.data.value.block).toBeDefined()
       blocks.push(data.data.value.block)
@@ -58,10 +58,10 @@ describe("RPC Wrapper Mock", () => {
     })
   })
 
-  it("receives a stream of block headers", done => {
+  it(`receives a stream of block headers`, done => {
     let headers = []
     node.rpc.subscribe(
-      { query: "tm.event = 'NewBlockHeader'" },
+      { query: `tm.event = 'NewBlockHeader'` },
       (err, data) => {
         expect(err).toBeNull()
         expect(data.data.value.header).toBeDefined()

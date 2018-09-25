@@ -1,7 +1,7 @@
 "use strict"
 
-const RpcClient = require("tendermint")
-const { ipcRenderer } = require("electron")
+const RpcClient = require(`tendermint`)
+const { ipcRenderer } = require(`electron`)
 
 module.exports = function setRpcWrapper(container) {
   let rpcWrapper = {
@@ -14,11 +14,11 @@ module.exports = function setRpcWrapper(container) {
     rpcDisconnect() {
       if (!container.rpc) return
 
-      console.log("removing old websocket")
+      console.log(`removing old websocket`)
 
       // ignore disconnect error
-      container.rpc.removeAllListeners("error")
-      container.rpc.on("error", () => {})
+      container.rpc.removeAllListeners(`error`)
+      container.rpc.on(`error`, () => {})
 
       container.rpc.ws.destroy()
 
@@ -31,13 +31,13 @@ module.exports = function setRpcWrapper(container) {
         rpcWrapper.rpcDisconnect()
       }
 
-      console.log("init rpc with " + nodeIP)
+      console.log(`init rpc with ` + nodeIP)
       let newRpc = new RpcClient(`ws://${nodeIP}`)
       rpcWrapper.rpcInfo.connected = true
       // we need to check immediately if the connection fails. later we will not be able to check this error
-      newRpc.on("error", err => {
-        console.log("rpc error", err)
-        if (err.code === "ECONNREFUSED" || err.code === "ENETUNREACH") {
+      newRpc.on(`error`, err => {
+        console.log(`rpc error`, err)
+        if (err.code === `ECONNREFUSED` || err.code === `ENETUNREACH`) {
           rpcWrapper.rpcInfo.connected = false
         }
       })
@@ -49,9 +49,9 @@ module.exports = function setRpcWrapper(container) {
       if (alreadyConnecting) return
       rpcWrapper.rpcInfo.connecting = true
 
-      console.log("trying to reconnect")
+      console.log(`trying to reconnect`)
 
-      ipcRenderer.send("reconnect")
+      ipcRenderer.send(`reconnect`)
     }
   }
 

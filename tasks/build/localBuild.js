@@ -8,8 +8,8 @@ const path = require(`path`)
 const untildify = require(`untildify`)
 
 const optionsSpecification = {
-  commit: ["commit from which to build"],
-  network: ["name of the default network to use"]
+  commit: [`commit from which to build`],
+  network: [`name of the default network to use`]
 }
 
 // Show the exec commands for easier debugging if something goes wrong.
@@ -37,7 +37,7 @@ cli(optionsSpecification, async options => {
 
   // Expand '~' if preset and resolve to absolute pathnames for Docker.
   const resolved = fp.mapValues(fp.pipe(untildify, path.resolve), {
-    git: path.join(__dirname, "../../.git"),
+    git: path.join(__dirname, `../../.git`),
     builds
   })
 

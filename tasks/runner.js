@@ -1,15 +1,15 @@
 "use strict"
-const fs = require("fs")
-const config = require("../app/src/config")
-const spawn = require("child_process").spawn
-const path = require("path")
-const { cleanExitChild } = require("./common.js")
+const fs = require(`fs`)
+const config = require(`../app/src/config`)
+const spawn = require(`child_process`).spawn
+const path = require(`path`)
+const { cleanExitChild } = require(`./common.js`)
 
-let YELLOW = "\x1b[33m"
-let BLUE = "\x1b[34m"
-let END = "\x1b[0m"
+let YELLOW = `\x1b[33m`
+let BLUE = `\x1b[34m`
+let END = `\x1b[0m`
 
-let NPM_BIN = path.join(path.dirname(__dirname), "node_modules", ".bin")
+let NPM_BIN = path.join(path.dirname(__dirname), `node_modules`, `.bin`)
 let PATH = `${NPM_BIN}:${process.env.PATH}`
 
 function format(command, data, color) {
@@ -17,26 +17,26 @@ function format(command, data, color) {
     color +
     command +
     END +
-    "  " + // Two space offset
+    `  ` + // Two space offset
     data
       .toString()
       .trim()
-      .replace(/\n/g, "\n" + " ".repeat(command.length + 2)) +
-    "\n"
+      .replace(/\n/g, `\n` + ` `.repeat(command.length + 2)) +
+    `\n`
   )
 }
 
 function run(command, color, name, env) {
   env = Object.assign({ PATH }, env)
   let child = spawn(command, { env, shell: true })
-  child.stdout.on("data", data => {
+  child.stdout.on(`data`, data => {
     console.log(format(name, data, color))
   })
-  child.stderr.on("data", data => {
+  child.stderr.on(`data`, data => {
     console.error(format(name, data, color))
   })
-  child.on("exit", code => {
-    console.log("exited", command, code)
+  child.on(`exit`, code => {
+    console.log(`exited`, command, code)
   })
   return child
 }
@@ -49,21 +49,21 @@ function startRendererServer() {
         config.wds_port
       } --content-base app/dist`,
       YELLOW,
-      "webpack"
+      `webpack`
     )
     let waitForCompile = data => {
-      if (!data.toString().includes("Compiled")) return
-      child.stdout.removeListener("data", waitForCompile)
+      if (!data.toString().includes(`Compiled`)) return
+      child.stdout.removeListener(`data`, waitForCompile)
       resolve(child)
     }
-    child.stdout.on("data", waitForCompile)
+    child.stdout.on(`data`, waitForCompile)
   })
 }
 
 module.exports = async function(networkPath) {
   if (!fs.existsSync(networkPath)) {
     console.error(
-      "The network configuration for the network you want to connect to doesn't exist. Have you run `yarn build:testnets` to download the latest configurations?"
+      `The network configuration for the network you want to connect to doesn't exist. Have you run \`yarn build:testnets\` to download the latest configurations?`
     )
     process.exit()
   }
@@ -73,16 +73,16 @@ module.exports = async function(networkPath) {
   console.log(
     `${BLUE}Starting electron...\n  (network path: ${networkPath})\n${END}`
   )
-  const packageJSON = require("../package.json")
+  const packageJSON = require(`../package.json`)
   const voyagerVersion = packageJSON.version
   const gaiaVersion = fs
-    .readFileSync(networkPath + "gaiaversion.txt")
+    .readFileSync(networkPath + `gaiaversion.txt`)
     .toString()
-    .split("-")[0]
+    .split(`-`)[0]
   let env = Object.assign(
     {},
     {
-      NODE_ENV: "development",
+      NODE_ENV: `development`,
       COSMOS_NETWORK: networkPath,
       GAIA_VERSION: gaiaVersion,
       VOYAGER_VERSION: voyagerVersion
@@ -90,14 +90,14 @@ module.exports = async function(networkPath) {
     process.env
   )
   let mainProcess = run(
-    "electron app/src/main/index.dev.js",
+    `electron app/src/main/index.dev.js`,
     BLUE,
-    "electron",
+    `electron`,
     env
   )
 
   // terminate running processes on exit of main process
-  mainProcess.on("exit", async () => {
+  mainProcess.on(`exit`, async () => {
     await cleanExitChild(renderProcess)
     // webpack-dev-server spins up an own process we have no access to. so we kill all processes on our port
     process.exit(0)

@@ -10,20 +10,20 @@ import { mapGetters } from "vuex"
 import Modal from "common/TmModal"
 import { TmListItem } from "@tendermint/ui"
 export default {
-  name: "tm-modal-help",
+  name: `tm-modal-help`,
   components: {
     TmListItem,
     Modal
   },
   computed: {
-    ...mapGetters(["config"]),
+    ...mapGetters([`config`]),
     active() {
       return this.config.modals.help.active
     }
   },
   methods: {
     close() {
-      this.$store.commit("setModalHelp", false)
+      this.$store.commit(`setModalHelp`, false)
     }
   }
 }

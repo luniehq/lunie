@@ -8,7 +8,7 @@ const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
 
-describe("TmSessionAccountDelete", () => {
+describe(`TmSessionAccountDelete`, () => {
   let wrapper, store
 
   beforeEach(() => {
@@ -22,77 +22,77 @@ describe("TmSessionAccountDelete", () => {
     wrapper.update()
   })
 
-  it("has the expected html structure", () => {
+  it(`has the expected html structure`, () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it("should go back to the login screen on click", () => {
+  it(`should go back to the login screen on click`, () => {
     wrapper
-      .findAll(".tm-session-header a")
+      .findAll(`.tm-session-header a`)
       .at(0)
-      .trigger("click")
+      .trigger(`click`)
     expect(store.commit.mock.calls[0]).toEqual([
-      "setModalSessionState",
-      "sign-in"
+      `setModalSessionState`,
+      `sign-in`
     ])
   })
 
-  it("should open the help modal on click", () => {
+  it(`should open the help modal on click`, () => {
     wrapper
-      .findAll(".tm-session-header a")
+      .findAll(`.tm-session-header a`)
       .at(1)
-      .trigger("click")
-    expect(store.commit.mock.calls[0]).toEqual(["setModalHelp", true])
+      .trigger(`click`)
+    expect(store.commit.mock.calls[0]).toEqual([`setModalHelp`, true])
   })
 
-  it("should go back on successful deletion", async () => {
+  it(`should go back on successful deletion`, async () => {
     wrapper.setData({
       fields: {
-        deletionPassword: "1234567890",
+        deletionPassword: `1234567890`,
         deletionWarning: true
       }
     })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toEqual([
-      "setModalSessionState",
-      "welcome"
+      `setModalSessionState`,
+      `welcome`
     ])
   })
 
-  it("should show error if password not 10 long", async () => {
+  it(`should show error if password not 10 long`, async () => {
     wrapper.setData({
       fields: {
-        deletionPassword: "123",
+        deletionPassword: `123`,
         deletionWarning: true
       }
     })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(".tm-form-msg-error")).toBeDefined()
+    expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
   })
 
-  it("should show error if deletionWarning is not acknowledged", async () => {
+  it(`should show error if deletionWarning is not acknowledged`, async () => {
     wrapper.setData({
       fields: {
-        deletionPassword: "1234567890",
+        deletionPassword: `1234567890`,
         deletionWarning: false
       }
     })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(".tm-form-msg-error")).toBeDefined()
+    expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
   })
 
-  it("should show a notification if deletion failed", async () => {
-    store.dispatch = jest.fn(() => Promise.reject("Planned rejection"))
+  it(`should show a notification if deletion failed`, async () => {
+    store.dispatch = jest.fn(() => Promise.reject(`Planned rejection`))
     wrapper.setData({
       fields: {
-        deletionPassword: "1234567890",
+        deletionPassword: `1234567890`,
         deletionWarning: true
       }
     })
     await wrapper.vm.onSubmit()
     expect(store.commit).toHaveBeenCalled()
-    expect(store.commit.mock.calls[0][0]).toBe("notifyError")
+    expect(store.commit.mock.calls[0][0]).toBe(`notifyError`)
   })
 })

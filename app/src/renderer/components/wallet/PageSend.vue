@@ -93,11 +93,11 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "wallet",
-      "lastHeader",
-      "config",
-      "mockedConnector",
-      "connected"
+      `wallet`,
+      `lastHeader`,
+      `config`,
+      `mockedConnector`,
+      `connected`
     ]),
     max() {
       let denom = this.wallet.balances.find(b => b.denom === this.denom)
@@ -116,17 +116,17 @@ export default {
   data: () => ({
     bech32error: null,
     fields: {
-      address: "",
+      address: ``,
       amount: null,
-      denom: "",
-      zoneId: "cosmos-hub-1"
+      denom: ``,
+      zoneId: `cosmos-hub-1`
     },
     confirmationPending: false,
     sending: false
   }),
   methods: {
     resetForm() {
-      this.fields.address = ""
+      this.fields.address = ``
       this.fields.amount = null
       this.sending = false
       this.$v.$reset()
@@ -145,7 +145,7 @@ export default {
       let denom = this.fields.denom
       try {
         // if address has a slash, it is IBC address format
-        let type = "send"
+        let type = `send`
         // TODO reenable when we have IBC
         // if (this.lastHeader.chain_id !== zoneId) {
         //   type = "ibcSend"
@@ -159,16 +159,16 @@ export default {
           amount: [{ denom, amount: amount.toString() }]
         })
         this.sending = false
-        this.$store.commit("notify", {
-          title: "Successfully Sent",
+        this.$store.commit(`notify`, {
+          title: `Successfully Sent`,
           body: `Successfully sent ${amount} ${denom} to ${address}`
         })
         // resets send transaction form
         this.resetForm()
       } catch (err) {
         this.sending = false
-        this.$store.commit("notifyError", {
-          title: "Error Sending",
+        this.$store.commit(`notifyError`, {
+          title: `Error Sending`,
           body: `An error occurred while trying to send: "${err.message}"`
         })
       }
@@ -186,9 +186,9 @@ export default {
         return false
       }
     },
-    ...mapActions(["sendTx"])
+    ...mapActions([`sendTx`])
   },
-  props: ["denom"],
+  props: [`denom`],
   mounted() {
     if (this.denom) {
       this.fields.denom = this.denom

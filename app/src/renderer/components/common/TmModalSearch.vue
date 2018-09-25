@@ -31,7 +31,7 @@ import { between, numeric } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
 import { TmBtn, TmFormGroup, TmField, TmFormMsg } from "@tendermint/ui"
 export default {
-  name: "modal-search",
+  name: `modal-search`,
   components: {
     TmBtn,
     TmField,
@@ -39,7 +39,7 @@ export default {
     TmFormMsg
   },
   computed: {
-    ...mapGetters(["filters", "lastHeader"]),
+    ...mapGetters([`filters`, `lastHeader`]),
     open() {
       return this.filters[this.type].search.visible
     },
@@ -48,17 +48,17 @@ export default {
         return this.filters[this.type].search.query
       },
       set(string) {
-        this.$store.commit("setSearchQuery", [this.type, string])
+        this.$store.commit(`setSearchQuery`, [this.type, string])
       }
     }
   },
   methods: {
     close() {
-      this.$store.commit("setSearchVisible", [this.type, false])
+      this.$store.commit(`setSearchVisible`, [this.type, false])
     },
     gotoBlock() {
       this.$router.push({
-        name: "block",
+        name: `block`,
         params: { block: this.filters.blocks.search.query }
       })
     }
@@ -81,13 +81,13 @@ export default {
     open(open) {
       if (open) {
         setTimeout(() => {
-          let el = this.$el.querySelector(".tm-field")
+          let el = this.$el.querySelector(`.tm-field`)
           el.select()
         })
       }
     }
   },
-  props: ["type"]
+  props: [`type`]
 }
 </script>
 

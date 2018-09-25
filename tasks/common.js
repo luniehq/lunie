@@ -3,15 +3,15 @@ module.exports.cleanExitChild = function(child) {
   return new Promise(resolve => {
     var isWin = /^win/.test(process.platform)
     if (!isWin) {
-      child.kill("SIGTERM")
+      child.kill(`SIGTERM`)
     } else {
-      var cp = require("child_process")
-      cp.exec("taskkill /PID " + child.pid + " /T /F", function(error) {
+      var cp = require(`child_process`)
+      cp.exec(`taskkill /PID ` + child.pid + ` /T /F`, function(error) {
         if (error !== null) {
-          console.log("exec error: " + error)
+          console.log(`exec error: ` + error)
         }
       })
     }
-    child.on("exit", resolve)
+    child.on(`exit`, resolve)
   })
 }

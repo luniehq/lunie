@@ -28,7 +28,7 @@ export default ({ node }) => {
       delegate.id = delegate.owner
 
       // TODO: calculate voting power
-      let divIdx = delegate.tokens.indexOf("/")
+      let divIdx = delegate.tokens.indexOf(`/`)
       let tokens
       if (divIdx == -1) {
         tokens = Number(delegate.tokens)
@@ -57,7 +57,7 @@ export default ({ node }) => {
   const actions = {
     reconnected({ state, dispatch }) {
       if (state.loading) {
-        dispatch("getDelegates")
+        dispatch(`getDelegates`)
       }
     },
     resetSessionData({ rootState }) {
@@ -65,19 +65,19 @@ export default ({ node }) => {
     },
 
     async getDelegates({ state, commit, dispatch }) {
-      commit("setDelegateLoading", true)
+      commit(`setDelegateLoading`, true)
       let candidates = await node.getCandidates()
       let { validators } = await node.getValidatorSet()
       for (let delegate of candidates) {
         if (validators.find(v => v.pub_key === delegate.pub_key)) {
           delegate.isValidator = true
         }
-        commit("addDelegate", delegate)
+        commit(`addDelegate`, delegate)
       }
 
-      commit("setDelegates", candidates)
-      commit("setDelegateLoading", false)
-      dispatch("getKeybaseIdentities", candidates)
+      commit(`setDelegates`, candidates)
+      commit(`setDelegateLoading`, false)
+      dispatch(`getKeybaseIdentities`, candidates)
 
       return state.delegates
     },
@@ -92,7 +92,7 @@ export default ({ node }) => {
           .div(ratToBigNumber(validator.delegator_shares))
           .toNumber()
 
-        commit("setSelfBond", { validator, ratio })
+        commit(`setSelfBond`, { validator, ratio })
         return ratio
       }
     }
