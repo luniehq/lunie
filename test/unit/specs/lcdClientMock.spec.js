@@ -633,9 +633,7 @@ describe("LCD Client Mock", () => {
   })
 
   it("queries for validator signing information", async () => {
-    let signing_info = await client.queryValidatorSigningInfo(
-      lcdClientMock.candidates[0].pub_key.data
-    )
+    let signing_info = await client.queryValidatorSigningInfo()
     expect(Object.keys(signing_info)).toContain(
       "start_height",
       "index_offset",

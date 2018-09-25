@@ -492,8 +492,8 @@ module.exports = {
   async getCandidate(addr) {
     return state.candidates.find(c => c.owner === addr)
   },
-  async queryValidatorSigningInfo(pubKey) {
-    // eslint-disable-line no-unused-vars
+  // TODO query with bech32 pubKey
+  async queryValidatorSigningInfo() {
     return state.signing_info
   },
   // exports to be used in tests
