@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Created new "My Stake" tab. @NodeGuy
 * possibility to end unbonding transactions @faboweb
 * close buttons to Staking modal @NodeGuy
+* more tests for new staking modal @NodeGuy
 
 ### Changed
 

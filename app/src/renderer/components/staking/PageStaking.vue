@@ -11,7 +11,7 @@ tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
 
   modal-search(type="delegates" v-if="somethingToSearch")
 
-  .delegates-tabs
+  .staking-tabs
     .tab(
       v-for="tab in tabs",
       :class="{'tab-selected': $route.name === tab}",
@@ -202,7 +202,7 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.delegates-tabs
+.staking-tabs
   display flex
 
   .tab
