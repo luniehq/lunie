@@ -782,5 +782,3 @@ exports[`PageStaking should filter the delegates 1`] = `
   </main>
 </div>
 `;
-
-exports[`PageStaking should show the amount of selected delegates 1`] = `"2"`;

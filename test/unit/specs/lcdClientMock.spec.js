@@ -631,4 +631,16 @@ describe("LCD Client Mock", () => {
     expect(txs).toHaveLength(1)
     expect(txs[0].tx.value.msg[0].type).toBe("cosmos-sdk/BeginUnbonding")
   })
+
+  it("queries for validator signing information", async () => {
+    let signing_info = await client.queryValidatorSigningInfo(
+      lcdClientMock.candidates[0].pub_key.data
+    )
+    expect(Object.keys(signing_info)).toContain(
+      "start_height",
+      "index_offset",
+      "jailed_until",
+      "signed_blocks_counter"
+    )
+  })
 })

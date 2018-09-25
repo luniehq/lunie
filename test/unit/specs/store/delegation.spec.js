@@ -15,54 +15,54 @@ describe("Module: Delegations", () => {
     await store.dispatch("getDelegates")
   })
 
-  it("adds delegate to cart", () => {
-    store.commit("addToCart", { id: "foo", x: 1 })
-    expect(store.state.delegation.delegates[0]).toEqual({
-      id: "foo",
-      delegate: { id: "foo", x: 1 },
-      atoms: 0
-    })
-    expect(store.state.delegation.delegates.length).toBe(1)
-  })
-
-  it("does not add delegate to cart if already exists", () => {
-    store.commit("addToCart", { id: "foo" })
-    store.commit("addToCart", { id: "foo", x: 1 })
-    expect(store.state.delegation.delegates[0].id).toBe("foo")
-    expect(store.state.delegation.delegates[0].x).toBe(undefined)
-    expect(store.state.delegation.delegates.length).toBe(1)
-  })
-
-  it("removes delegate from cart", () => {
-    store.commit("addToCart", { id: "foo" })
-    store.commit("addToCart", { id: "bar" })
-    store.commit("removeFromCart", "foo")
-    expect(store.state.delegation.delegates[0]).toEqual({
-      id: "bar",
-      delegate: { id: "bar" },
-      atoms: 0
-    })
-    expect(store.state.delegation.delegates.length).toBe(1)
-  })
-
-  it("sets atoms for delegate", () => {
-    store.commit("addToCart", { id: "foo" })
-    store.commit("setShares", { candidateId: "foo", value: 123 })
-    expect(store.state.delegation.delegates[0].atoms).toBe(123)
-  })
-
-  it("sets committed atoms for delegate", () => {
-    store.commit("addToCart", { id: "foo" })
-    store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })
-    expect(store.state.delegation.committedDelegates).toEqual({ foo: 123 })
-  })
-
-  it("sets committed atoms for delegate to 0", () => {
-    store.commit("addToCart", { id: "foo" })
-    store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })
-    store.commit("setCommittedDelegation", { candidateId: "foo", value: 0 })
-    expect(store.state.delegation.committedDelegates).toEqual({})
-  })
+  // it("adds delegate to cart", () => {
+  //   store.commit("addToCart", { id: "foo", x: 1 })
+  //   expect(store.state.delegation.delegates[0]).toEqual({
+  //     id: "foo",
+  //     delegate: { id: "foo", x: 1 },
+  //     atoms: 0
+  //   })
+  //   expect(store.state.delegation.delegates.length).toBe(1)
+  // })
+  //
+  // it("does not add delegate to cart if already exists", () => {
+  //   store.commit("addToCart", { id: "foo" })
+  //   store.commit("addToCart", { id: "foo", x: 1 })
+  //   expect(store.state.delegation.delegates[0].id).toBe("foo")
+  //   expect(store.state.delegation.delegates[0].x).toBe(undefined)
+  //   expect(store.state.delegation.delegates.length).toBe(1)
+  // })
+  //
+  // it("removes delegate from cart", () => {
+  //   store.commit("addToCart", { id: "foo" })
+  //   store.commit("addToCart", { id: "bar" })
+  //   store.commit("removeFromCart", "foo")
+  //   expect(store.state.delegation.delegates[0]).toEqual({
+  //     id: "bar",
+  //     delegate: { id: "bar" },
+  //     atoms: 0
+  //   })
+  //   expect(store.state.delegation.delegates.length).toBe(1)
+  // })
+  //
+  // it("sets atoms for delegate", () => {
+  //   store.commit("addToCart", { id: "foo" })
+  //   store.commit("setShares", { candidateId: "foo", value: 123 })
+  //   expect(store.state.delegation.delegates[0].atoms).toBe(123)
+  // })
+  //
+  // it("sets committed atoms for delegate", () => {
+  //   store.commit("addToCart", { id: "foo" })
+  //   store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })
+  //   expect(store.state.delegation.committedDelegates).toEqual({ foo: 123 })
+  // })
+  //
+  // it("sets committed atoms for delegate to 0", () => {
+  //   store.commit("addToCart", { id: "foo" })
+  //   store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })
+  //   store.commit("setCommittedDelegation", { candidateId: "foo", value: 0 })
+  //   expect(store.state.delegation.committedDelegates).toEqual({})
+  // })
 
   it("fetches bonded delegates", async () => {
     await store.dispatch("getBondedDelegates", store.state.delegates.delegates)

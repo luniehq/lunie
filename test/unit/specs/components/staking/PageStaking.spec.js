@@ -77,18 +77,6 @@ describe("PageStaking", () => {
     ).toEqual([lcdClientMock.validators[1]])
   })
 
-  it("should show the amount of selected delegates", () => {
-    store.commit("addToCart", store.state.delegates.delegates[0])
-    store.commit("addToCart", store.state.delegates.delegates[1])
-    wrapper.update()
-    expect(
-      wrapper
-        .find(".fixed-button-bar strong")
-        .text()
-        .trim()
-    ).toMatchSnapshot()
-  })
-
   it("should update 'somethingToSearch' when there's nothing to search", () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
     let delegates = store.state.delegates.delegates

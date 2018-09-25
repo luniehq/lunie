@@ -14,6 +14,9 @@ exports[`LiValidator has the expected html structure 1`] = `
         class=""
         href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
       >
+        <span
+          class="validator-profile__status green"
+        />
         <img
           class="avatar"
           height="48"
@@ -47,7 +50,7 @@ exports[`LiValidator has the expected html structure 1`] = `
       class="li-validator__value your-rewards"
     >
       <span>
-        n/a
+        0
       </span>
     </div>
     <div
@@ -73,7 +76,7 @@ exports[`LiValidator has the expected html structure 1`] = `
       class="li-validator__value commission"
     >
       <span>
-        n/a
+        0%
       </span>
     </div>
     <div
@@ -82,16 +85,6 @@ exports[`LiValidator has the expected html structure 1`] = `
       <span>
         n/a
       </span>
-    </div>
-    <div
-      class="li-validator__value checkbox"
-      id="add-to-cart"
-    >
-      <i
-        class="material-icons"
-      >
-        check_box_outline_blank
-      </i>
     </div>
   </div>
 </div>

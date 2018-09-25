@@ -207,7 +207,13 @@ let state = {
       prev_bonded_shares: "0"
     }
   ],
-  sendHeight: 2
+  sendHeight: 2,
+  signing_info: {
+    start_height: 2,
+    index_offset: 1,
+    jailed_until: "1970-01-01T00:00:00Z",
+    signed_blocks_counter: 1
+  }
 }
 
 module.exports = {
@@ -485,6 +491,10 @@ module.exports = {
   },
   async getCandidate(addr) {
     return state.candidates.find(c => c.owner === addr)
+  },
+  async queryValidatorSigningInfo(pubKey) {
+    // eslint-disable-line no-unused-vars
+    return state.signing_info
   },
   // exports to be used in tests
   state,

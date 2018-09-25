@@ -32,30 +32,6 @@ describe("LiValidator", () => {
     expect(wrapper.html()).toContain("22%")
   })
 
-  it("should add to cart", () => {
-    expect(wrapper.vm.shoppingCart).toEqual([])
-    expect(wrapper.vm.inCart).toBeFalsy()
-    expect(wrapper.html()).not.toContain("li-validator-active")
-    wrapper.find("#add-to-cart").trigger("click")
-    expect(wrapper.vm.inCart).toBeTruthy()
-    expect(store.commit).toHaveBeenCalledWith(
-      "addToCart",
-      store.state.delegates.delegates[0]
-    )
-    expect(wrapper.html()).toContain("li-validator-active")
-  })
-
-  it("should remove from cart", () => {
-    store.commit("addToCart", store.state.delegates.delegates[0])
-    wrapper.update()
-    expect(wrapper.vm.inCart).toBeTruthy()
-    wrapper.find("#remove-from-cart").trigger("click")
-    expect(store.commit).toHaveBeenCalledWith("removeFromCart", delegate.id)
-    expect(wrapper.vm.shoppingCart).toEqual([])
-    expect(wrapper.vm.inCart).toBeFalsy()
-    expect(wrapper.html()).not.toContain("li-validator-active")
-  })
-
   it("should show the type of the candidate", () => {
     wrapper.vm.delegate = {
       revoked: false,
