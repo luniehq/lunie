@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * possibility to end unbonding transactions @faboweb
 * close buttons to Staking modal @NodeGuy
 * more tests for new staking modal @NodeGuy
+* Add commission and uptime to LiValidator @fedekunze
+* Delete old bonding page @fedekunze
+* Added validator status to LiValidator @fedekunze
 
 ### Changed
 
