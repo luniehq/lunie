@@ -23,7 +23,6 @@ module.exports = {
   transformIgnorePatterns: [`node_modules/(?!@tendermint/ui|.*vue)`],
 
   collectCoverage: true,
-  mapCoverage: true,
   coverageDirectory: `./test/unit/coverage`,
   coverageReporters: [`lcov`],
   coveragePathIgnorePatterns: [
