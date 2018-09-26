@@ -78,7 +78,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <span>57.58%</span>
 </div>
 <div class=\\"li-validator__value uptime\\">
-   <span>n/a</span>
+   <span>0.01%</span>
 </div>
 <div class=\\"li-validator__value commission\\">
    <span>0.00%</span>
@@ -115,7 +115,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <span>42.42%</span>
 </div>
 <div class=\\"li-validator__value uptime\\">
-   <span>n/a</span>
+   <span>0.01%</span>
 </div>
 <div class=\\"li-validator__value commission\\">
    <span>0.00%</span>
@@ -152,7 +152,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <span>0.00%</span>
 </div>
 <div class=\\"li-validator__value uptime\\">
-   <span>n/a</span>
+   <span>0.01%</span>
 </div>
 <div class=\\"li-validator__value commission\\">
    <span>0.00%</span>
@@ -326,7 +326,7 @@ exports[`PageStaking should filter the delegates 1`] = `
         class="li-validator__value uptime"
       >
         <span>
-          n/a
+          0.01%
         </span>
       </div>
       <div

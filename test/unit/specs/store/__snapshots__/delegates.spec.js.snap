@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Module: Delegates fetches the signing information from all delegates 1`] = `Array []`;
+
 exports[`Module: Delegates should query for delegates on reconnection 1`] = `Array []`;

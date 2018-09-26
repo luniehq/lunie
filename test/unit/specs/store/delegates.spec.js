@@ -64,6 +64,14 @@ describe("Module: Delegates", () => {
     )
   })
 
+  it("fetches the signing information from all delegates", async () => {
+    let axios = require("axios")
+    let validators = store.state.delegates.delegates
+    await store.dispatch("updateSigningInfo", validators)
+    jest.spyOn(axios, "get")
+    expect(axios.get.mock.calls).toMatchSnapshot()
+  })
+
   it("should query for delegates on reconnection", () => {
     jest.resetModules()
     let axios = require("axios")

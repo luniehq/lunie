@@ -64,8 +64,16 @@ export default ({ node }) => {
     resetSessionData({ rootState }) {
       rootState.delegates = JSON.parse(JSON.stringify(emptyState))
     },
-
-    async getDelegates({ rootState, state, commit, dispatch }) {
+    async updateSigningInfo({ commit }, validators) {
+      for (let validator of validators) {
+        let signing_info = await node.queryValidatorSigningInfo(
+          validator.pub_key
+        )
+        if (!isEmpty(signing_info)) validator.signing_info = signing_info
+        commit("addDelegate", validator)
+      }
+    },
+    async getDelegates({ state, commit, dispatch }) {
       commit("setDelegateLoading", true)
       let candidates = await node.getCandidates()
       let { validators } = await node.getValidatorSet()
@@ -74,19 +82,13 @@ export default ({ node }) => {
         if (validators.find(v => v.pub_key === delegate.pub_key)) {
           delegate.isValidator = true
         }
-        // Update validator signing info every 10 blocks (~1 min)
-        if (rootState.blockchain.blockHeight % 10) {
-          let signing_info = await node.queryValidatorSigningInfo(
-            delegate.pub_key
-          )
-          if (!isEmpty(signing_info)) delegate.signing_info = signing_info
-        }
         commit("addDelegate", delegate)
       }
 
       commit("setDelegates", candidates)
       commit("setDelegateLoading", false)
       dispatch("getKeybaseIdentities", candidates)
+      dispatch("updateSigningInfo", candidates)
 
       return state.delegates
     },

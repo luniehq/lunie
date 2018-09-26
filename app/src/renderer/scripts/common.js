@@ -24,7 +24,7 @@ module.exports.ratToBigNumber = function(rat) {
   let d = new BN(rat.split("/")[1] || 1)
   return n.div(d)
 }
-
+// TODO uncomment when validator comission is done
 // module.exports.parseValidatorShares = function(validator) {
 //   let totalSharesN = new BN(validator.delegator_shares.split("/")[0])
 //   let totalSharesD = new BN(validator.delegator_shares.split("/")[1] || 1)

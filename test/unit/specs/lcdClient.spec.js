@@ -187,5 +187,6 @@ describe("LCD Client", () => {
     it("queries a validator signing information", async () => {
       axios.get = jest.fn().mockReturnValue({})
       client.queryValidatorSigningInfo("pubKey")
+      expect(axios.get.mock.calls).toMatchSnapshot()
     })
 })

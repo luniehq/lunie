@@ -14,7 +14,7 @@
     span n/a
   .li-validator__break: span
   .li-validator__value.percent_of_vote
-    span {{ delegate.percent_of_vote }}
+    span {{ delegate.percent_of_vote ? delegate.percent_of_vote : `n/a` }}
   .li-validator__value.uptime
     // add .green .yellow or .red class to this span to trigger inidication by color
     span {{ uptime }}
