@@ -31,9 +31,6 @@ export default ({ node }) => {
     removeFromCart(state, delegate) {
       state.delegates = state.delegates.filter(c => c.id !== delegate)
     },
-    setShares(state, { candidateId, value }) {
-      state.delegates.find(c => c.id === candidateId).atoms = value
-    },
     setCommittedDelegation(state, { candidateId, value }) {
       let committedDelegates = Object.assign({}, state.committedDelegates)
       if (value === 0) {

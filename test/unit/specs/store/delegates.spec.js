@@ -64,6 +64,23 @@ describe("Module: Delegates", () => {
     )
   })
 
+  it("fetches the signing information from all delegates", async () => {
+    store.commit("addDelegate", {
+      owner: "foo",
+      tokens: "10"
+    })
+    let validators = store.state.delegates.delegates
+    expect(validators).not.toContainEqual(
+      expect.objectContaining({ signing_info: expect.anything() })
+    )
+    await store.dispatch("updateSigningInfo", validators)
+    validators = store.state.delegates.delegates
+
+    expect(validators).toContainEqual(
+      expect.objectContaining({ signing_info: expect.anything() })
+    )
+  })
+
   it("should query for delegates on reconnection", () => {
     jest.resetModules()
     let axios = require("axios")

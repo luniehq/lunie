@@ -1,5 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`LCD Client queries a validator signing information 1`] = `
+Array [
+  Array [
+    "http://localhost:8998/slashing/signing_info/pubKey",
+    undefined,
+  ],
+]
+`;
+
 exports[`LCD Client queries for a candidate 1`] = `
 Array [
   Array [
