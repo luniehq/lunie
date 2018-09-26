@@ -45,12 +45,6 @@ describe("Module: Delegations", () => {
     expect(store.state.delegation.delegates.length).toBe(1)
   })
 
-  it("sets atoms for delegate", () => {
-    store.commit("addToCart", { id: "foo" })
-    store.commit("setShares", { candidateId: "foo", value: 123 })
-    expect(store.state.delegation.delegates[0].atoms).toBe(123)
-  })
-
   it("sets committed atoms for delegate", () => {
     store.commit("addToCart", { id: "foo" })
     store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })

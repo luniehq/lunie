@@ -4,7 +4,7 @@
     h3
       | Your Validators
       |
-      i.material-icons.info-button info_outline
+      i.material-icons.info-button(v-tooltip.top="bondInfo") info_outline
     panel-sort(:sort='sort', :properties="properties")
     data-empty-search(v-if="yourValidators.length === 0")
     template(v-else)
@@ -20,7 +20,7 @@
     h3
       | Unstaked Validators
       |
-      i.material-icons.info-button info_outline
+      i.material-icons.info-button(v-tooltip.top="unbondInfo") info_outline
     data-empty-search(v-if="unstakedValidators.length === 0")
     template(v-else)
       li-validator(v-for='validator in unstakedValidators' :key='validator.id' :delegate='validator')
@@ -57,7 +57,9 @@ export default {
     sort: {
       property: "percent_of_vote",
       order: "desc"
-    }
+    },
+    bondInfo: "Validators you are currently bonded to",
+    unbondInfo: "Your bonded validators in unbonding process"
   }),
   computed: {
     ...mapGetters([
@@ -138,7 +140,7 @@ export default {
           class: "name"
         },
         {
-          title: `My Stake`,
+          title: "My Stake",
           value: "your_votes",
           tooltip: `Number of ${
             this.bondingDenom
@@ -146,7 +148,7 @@ export default {
           class: "your-votes"
         },
         {
-          title: `My Rewards`,
+          title: "My Rewards",
           value: "your_rewards", // TODO: use real rewards
           tooltip: `Rewards of ${
             this.bondingDenom
@@ -154,7 +156,7 @@ export default {
           class: "your-rewards" // TODO: use real rewards
         },
         {
-          title: `Voting Power`,
+          title: "Voting Power",
           value: "percent_of_vote",
           tooltip: `Percentage of ${
             this.bondingDenom
@@ -163,13 +165,13 @@ export default {
         },
         {
           title: "Uptime",
-          value: "uptime", // TODO: use real uptime
-          tooltip: "The validator's uptime",
+          value: "uptime",
+          tooltip: "Ratio of blocks signed within the last 10k blocks",
           class: "uptime"
         },
         {
           title: "Commission",
-          value: "commission", // TODO: use real commission
+          value: "commission",
           tooltip: "The validator's commission",
           class: "commission"
         },
@@ -178,11 +180,6 @@ export default {
           value: "slashes", // TODO: use real slashes
           tooltip: "The validator's slashes",
           class: "slashes"
-        },
-        {
-          title: "",
-          value: "",
-          class: "action hidden"
         }
       ]
     },
