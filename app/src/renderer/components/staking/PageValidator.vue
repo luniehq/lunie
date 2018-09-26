@@ -22,7 +22,14 @@ tm-page
             anchor-copy.validator-profile__header__name__address(:value="validator.owner" :label="shortAddress(validator.owner)")
           .column.validator-profile__header__actions
             tm-btn(id="stake-btn" value="Stake" color="primary" @click.native="onStake()")
-            tm-btn(v-if="config.devMode" value="Unstake" color="secondary" @click.native="onUnstake()")
+
+            tm-btn(
+              id="unstake-btn"
+              value="Unstake"
+              color="secondary"
+              @click.native="onUnstake()"
+            )
+
         .row.validator-profile__header__data
           dl.colored_dl
             dt My Stake
@@ -90,11 +97,11 @@ tm-page
       :maximum="availableAtoms"
       :to="validator.owner"
     )
+
     modal-unstake(
       v-if="showModalUnstake"
       v-on:submitUndelegation="submitUndelegation"
       :showModalUnstake.sync="showModalUnstake"
-      :from="validator.description.moniker"
       :maximum="myBond"
       :to="this.wallet.address"
     )
@@ -103,7 +110,25 @@ tm-page
       div(slot='title') Cannot Stake
       p You have no {{ bondingDenom }}s to stake.
       div(slot='footer')
-        tmBtn(id="no-atoms-modal__btn" @click.native="closeCannotStake()" value="OK")
+        tmBtn(
+          id="no-atoms-modal__btn"
+          @click.native="closeCannotStake()"
+          value="OK"
+        )
+
+    tm-modal(
+      :close="closeCannotUnstake"
+      icon="warning"
+      v-if="showCannotUnstake"
+    )
+      div(slot='title') Cannot Unstake
+      p You have no {{ bondingDenom }}s staked with this validator.
+      div(slot='footer')
+        tmBtn(
+          id="no-bond-modal__btn"
+          @click.native="closeCannotUnstake()"
+          value="OK"
+        )
 </template>
 
 <script>
@@ -222,7 +247,11 @@ export default {
       }
     },
     onUnstake() {
-      this.showModalUnstake = true
+      if (this.myBond === BigNumber(0)) {
+        this.showCannotUnstake = true
+      } else {
+        this.showModalUnstake = true
+      }
     },
     async submitDelegation({ amount }) {
       const candidateId = this.validator.owner

@@ -1,6 +1,7 @@
 import BigNumber from "bignumber.js"
 import Delegation from "renderer/vuex/modules/delegation"
 import ModalStake from "staking/ModalStake"
+import ModalUnstake from "staking/ModalUnstake"
 import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import { mount } from "@vue/test-utils"
@@ -249,6 +250,266 @@ describe(`onStake`, () => {
       expect(wrapper.text().includes(`You have no atoms to stake.`)).toEqual(
         false
       )
+    })
+  })
+
+  describe(`submitDelegation`, () => {
+    describe(`unit`, () => {
+      it(`success`, async () => {
+        const $store = {
+          commit: jest.fn(),
+          dispatch: jest.fn(),
+          getters: getterValues
+        }
+
+        const {
+          vm: { submitDelegation }
+        } = mount(PageValidator, {
+          mocks: {
+            $route: { params: { validator: `1a2b3c` } },
+            $store
+          }
+        })
+
+        await submitDelegation({ amount: 10 })
+
+        expect($store.dispatch.mock.calls).toEqual([
+          [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+        ])
+
+        expect($store.commit.mock.calls).toEqual([
+          [
+            `notify`,
+            {
+              body: `You have successfully staked your atoms.`,
+              title: `Successful Staking!`
+            }
+          ]
+        ])
+      })
+
+      it(`error`, async () => {
+        const $store = {
+          commit: jest.fn(),
+          dispatch: jest.fn(() => {
+            throw new Error(`message`)
+          }),
+          getters: getterValues
+        }
+
+        const {
+          vm: { submitDelegation }
+        } = mount(PageValidator, {
+          mocks: {
+            $route: { params: { validator: `1a2b3c` } },
+            $store
+          }
+        })
+
+        await submitDelegation({ amount: 10 })
+
+        expect($store.dispatch.mock.calls).toEqual([
+          [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+        ])
+
+        expect($store.commit.mock.calls).toEqual([
+          [
+            `notifyError`,
+            {
+              body: `message`,
+              title: `Error While Staking atoms`
+            }
+          ]
+        ])
+      })
+
+      it(`error with data`, async () => {
+        const $store = {
+          commit: jest.fn(),
+          dispatch: jest.fn(() => {
+            throw new Error(`one\ntwo\nthree\nfour\nfive\nsix"seven`)
+          }),
+          getters: getterValues
+        }
+
+        const {
+          vm: { submitDelegation }
+        } = mount(PageValidator, {
+          mocks: {
+            $route: { params: { validator: `1a2b3c` } },
+            $store
+          }
+        })
+
+        await submitDelegation({ amount: 10 })
+
+        expect($store.dispatch.mock.calls).toEqual([
+          [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+        ])
+
+        expect($store.commit.mock.calls).toEqual([
+          [
+            `notifyError`,
+            {
+              body: `Seven`,
+              title: `Error While Staking atoms`
+            }
+          ]
+        ])
+      })
+    })
+
+    describe(`composition`, () => {
+      it(`delegation.submitDelegation`, async () => {
+        const delegation = Delegation({})
+
+        const dispatch = jest.fn((type, payload) => {
+          if (type === `submitDelegation`) {
+            delegation.actions[type]($store, payload)
+          }
+        })
+
+        const $store = {
+          commit: jest.fn(),
+          dispatch,
+          getters: getterValues,
+          rootState: getterValues,
+          state: {
+            committedDelegates: { "1a2b3c": 0 },
+            unbondingDelegations: {}
+          }
+        }
+
+        const {
+          vm: { submitDelegation }
+        } = mount(PageValidator, {
+          mocks: {
+            $route: { params: { validator: `1a2b3c` } },
+            $store
+          }
+        })
+
+        await submitDelegation({ amount: 10 })
+
+        expect($store.dispatch.mock.calls).toEqual([
+          [
+            "submitDelegation",
+            [
+              {
+                atoms: BigNumber(10),
+                delegate: {
+                  bond_height: "0",
+                  bond_intra_tx_counter: 6,
+                  commission: "0.05",
+                  commission_change_rate: "0.01",
+                  commission_change_today: "0.005",
+                  commission_max: "0.1",
+                  delegator_shares: "19",
+                  description: {
+                    country: "DE",
+                    details: "Herr Schmidt",
+                    moniker: "herr_schmidt_revoked",
+                    website: "www.schmidt.de"
+                  },
+                  keybase: undefined,
+                  owner: "1a2b3c",
+                  prev_bonded_shares: "0",
+                  proposer_reward_pool: null,
+                  pub_key: {
+                    data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=",
+                    type: "AC26791624DE60"
+                  },
+                  revoked: false,
+                  selfBond: 0.01,
+                  status: 2,
+                  tokens: "19",
+                  voting_power: "10"
+                }
+              }
+            ]
+          ],
+          [
+            "sendTx",
+            {
+              begin_unbondings: [],
+              delegations: [
+                {
+                  delegation: { amount: "10", denom: "atom" },
+                  delegator_addr:
+                    "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+                  validator_addr: "1a2b3c"
+                }
+              ],
+              to: "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+              type: "updateDelegations"
+            }
+          ]
+        ])
+
+        expect($store.commit.mock.calls).toEqual([
+          ["setAtoms", 32],
+          [
+            "notify",
+            {
+              body: "You have successfully staked your atoms.",
+              title: "Successful Staking!"
+            }
+          ]
+        ])
+      })
+    })
+  })
+})
+
+describe(`onUnstake`, () => {
+  describe(`make sure we have enough atoms to unstake`, () => {
+    it(`is enough`, () => {
+      const $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: getterValues
+      }
+
+      const wrapper = mount(PageValidator, {
+        mocks: {
+          $route: { params: { validator: `1a2b3c` } },
+          $store
+        }
+      })
+
+      wrapper.find(`#unstake-btn`).trigger(`click`)
+      expect(wrapper.contains(ModalUnstake)).toEqual(true)
+    })
+
+    it(`is not enough`, () => {
+      const $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: Object.assign({}, getterValues, {
+          delegation: { committedDelegates: {} }
+        })
+      }
+
+      const wrapper = mount(PageValidator, {
+        mocks: {
+          $route: { params: { validator: `1a2b3c` } },
+          $store
+        }
+      })
+
+      wrapper.find(`#unstake-btn`).trigger(`click`)
+
+      expect(wrapper.vm.myBond).toEqual(BigNumber(0))
+
+      expect(
+        wrapper.text().includes(`You have no atoms staked with this validator.`)
+      ).toEqual(true)
+
+      wrapper.find(`#no-bond-modal__btn`).trigger(`click`)
+
+      expect(
+        wrapper.text().includes(`You have no atoms staked with this validator.`)
+      ).toEqual(false)
     })
   })
 

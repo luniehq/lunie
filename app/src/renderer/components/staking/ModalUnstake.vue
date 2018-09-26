@@ -7,13 +7,6 @@
       .tm-modal-icon.tm-modal-close(@click="close()")
         i.material-icons close
 
-    //- From
-    tm-form-group.stake-form-group(
-      field-id='from' field-label='From')
-      tm-field#from(
-        readonly v-model="from"
-      )
-
     //- To
     tm-form-group.stake-form-group(
       field-id='to' field-label='To')
@@ -52,7 +45,7 @@ import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
-  props: [`from`, `maximum`, `to`],
+  props: [`maximum`, `to`],
   components: {
     Modal,
     TmBtn,
@@ -61,8 +54,7 @@ export default {
     TmFormMsg
   },
   data: () => ({
-    amount: 0,
-    fromIndex: 0
+    amount: 0
   }),
   methods: {
     close() {
@@ -70,8 +62,7 @@ export default {
     },
     onUnstake() {
       this.$emit(`submitUndelegation`, {
-        amount: this.amount,
-        from: this.from
+        amount: this.amount
       })
 
       this.close()

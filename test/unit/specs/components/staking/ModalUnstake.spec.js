@@ -18,8 +18,8 @@ test(`renders correctly`, () => {
   expect(htmlBeautify(Wrapper().html())).toMatchSnapshot()
 })
 
-test(`the "amount" field defaults to 1`, () => {
-  expect(Wrapper().vm.amount).toEqual(1)
+test(`the "amount" field defaults to 0`, () => {
+  expect(Wrapper().vm.amount).toEqual(0)
 })
 
 test(`display the 'To' address`, () => {
@@ -28,23 +28,22 @@ test(`display the 'To' address`, () => {
   )
 })
 
-test(`Stake button emits stake and close signals`, () => {
+test(`unstake button emits the unstake signal`, () => {
   const wrapper = Wrapper()
   wrapper.setData({ amount: 50 })
-  wrapper.vm.onStake()
+  wrapper.vm.onUnstake()
 
   expect(wrapper.emittedByOrder()).toEqual([
     {
-      name: `submitDelegation`,
+      name: `submitUndelegation`,
       args: [
         {
-          amount: 50,
-          from: `My Wallet - cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+          amount: 50
         }
       ]
     },
     {
-      name: `update:showModalStake`,
+      name: `update:showModalUnstake`,
       args: [false]
     }
   ])

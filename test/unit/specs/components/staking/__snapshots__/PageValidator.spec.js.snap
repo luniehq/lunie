@@ -179,6 +179,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             </button>
             <button
               class="tm-btn"
+              id="unstake-btn"
             >
               <span
                 class="tm-btn__container tm-btn--secondary"
@@ -399,6 +400,8 @@ exports[`PageValidator has the expected html structure 1`] = `
         </div>
       </div>
     </div>
+    <!---->
+    <!---->
     <!---->
     <!---->
     <div
@@ -604,6 +607,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             </button>
             <button
               class="tm-btn"
+              id="unstake-btn"
             >
               <span
                 class="tm-btn__container tm-btn--secondary"
@@ -824,6 +828,8 @@ exports[`PageValidator shows a default avatar 1`] = `
         </div>
       </div>
     </div>
+    <!---->
+    <!---->
     <!---->
     <!---->
   </main>
