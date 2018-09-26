@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Created new "My Stake" tab. @NodeGuy
 * possibility to end unbonding transactions @faboweb
 * close buttons to Staking modal @NodeGuy
+* more tests for new staking modal @NodeGuy
 
 ### Changed
 
@@ -40,6 +41,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * fixed crash when reconnecting @faboweb
 * fixed crash when using an offline fixed node @faboweb
 * layout bugs in PageStaking @NodeGuy
+* all seeds offline -> added random new ones @ƒaboweb
 
 ## [0.10.2] - 2018-08-29
 

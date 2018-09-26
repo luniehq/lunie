@@ -1,5 +1,5 @@
 <template lang="pug">
-  .modal-stake
+  .modal-stake#modal-stake
     //- Header
     .stake-header
       img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")

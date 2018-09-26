@@ -1,6 +1,6 @@
 let test = require(`tape-promise/tape`)
 let { getApp, restart } = require(`./launch.js`)
-let { navigate, login } = require(`./common.js`)
+let { navigate, login, sleep } = require(`./common.js`)
 // let { navigate, waitForValue, login } = require("./common.js") // removed because of linting, add back when optimistic updates come
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
@@ -15,12 +15,11 @@ test(`staking`, async function(t) {
   await navigate(app, `Staking`)
 
   // default values from e2e mounted node
-  let totalUserStake = 150
   let bondedStake = 100
 
   t.test(`Validators`, async function(t) {
     // Select the Validators tab.
-    await app.client.$(`.delegates-tabs`).click(`a=Validators`)
+    await app.client.click(`//a[. = 'Validators']`)
 
     t.equal(
       (await app.client.$$(`.li-validator`)).length,
@@ -50,106 +49,33 @@ test(`staking`, async function(t) {
     t.end()
   })
 
-  t.test(`bonding`, async function(t) {
-    // validator should already be in the cart so we only need to click a button to go to the bonding view
-    await app.client.$(`#go-to-bonding-btn`).click()
-    // the unbonded atoms are equal to the total owned stake minus the bonded atoms (150 - 100 == 50)
-    t.equal(
-      await app.client.$(`#new-unbonded-atoms`).getValue(),
-      (totalUserStake - bondedStake).toString(),
-      `Left over steak shows correctly`
-    )
-    t.equal(
-      await app.client.$(`.bond-candidate .bond-value__input`).getValue(),
-      bondedStake.toString(),
-      `Candidate bond matches current bond`
-    )
+  t.test(`Stake`, async t => {
+    // Select the second validator.
+    await app.client.click(`//*[. = 'local_2']`)
+
+    // For some reason we need to sleep at this point in order to prevent the
+    // following error:
+    //
+    // Element <span class="tm-btn__container tm-btn--primary">...</span> is not
+    // clickable at point (960, 219). Other element would receive the click:
+    // <div class="ps__rail-y" style="top: 0px; height: 557px; right:
+    // 0px;">...</div>
+    await sleep(500)
 
     await app.client
-      .$(`.bond-candidate .bond-value__input`)
-      .setValue(bondedStake + 20)
-    t.equal(
-      await app.client.$(`#new-unbonded-atoms`).getValue(),
-      (totalUserStake - bondedStake - 20).toString(),
-      `Left over steak shows correctly after adjusting bond`
-    )
+      .click(`//button/*[. = 'Stake']`)
+      .setValue(`#amount`, 10)
+      .click(`//*[@id = 'modal-stake']//button//*[. = 'Stake']`)
+      .waitForVisible(
+        `//*[. = 'You have successfully staked your Steaks.']`,
+        5 * 1000
+      )
 
-    await app.client.$(`#btn-bond`).click()
+      // Go back to Staking page.
+      .click(`//a//*[. = 'Staking']`)
 
-    // should fail
-    t.ok(await app.client.isVisible(`.tm-form-msg--error`), `shows error`)
-
-    await app.client.$(`#bond-confirm`).click()
-    await app.client.$(`#btn-bond`).click()
-
-    t.ok(!(await app.client.isVisible(`.tm-form-msg--error`)), `hides error`)
-
-    bondedStake += 20
-
-    // wait until the validators are showing again
-    await app.client.waitForVisible(`#go-to-bonding-btn`, 30000)
-    // TODO: re-enable once we've added back optimistic updates
-    // t.equal(
-    //   await app.client.$(".li-validator__value.your-votes").getText(),
-    //   bondedStake.toString(),
-    //   "Delegate steak in validator updated correctly"
-    // )
-
-    t.end()
-  })
-
-  t.test(`unbonding`, async function(t) {
-    // validator should already be in the cart so we only need to click a button to go to the bonding view
-    await app.client.$(`#go-to-bonding-btn`).click()
-    // the unbonded atoms are equal to the total owned stake minus the bonded atoms (150 - 100 == 50)
-    //TOD: re-enable after optimistic loading (or actual loading) update
-    // t.ok(
-    //   await waitForValue(
-    //     () => app.client.$("#new-unbonded-atoms"),
-    //     (totalUserStake - bondedStake).toString()
-    //   ),
-    //   "Left over steak shows correctly"
-    // )
-    // the bonded amount should show 120
-    // t.equal(
-    //   await app.client.$(".bond-candidate .bond-value__input").getValue(),
-    //   bondedStake.toString(),
-    //   "Candidate bond matches current bond"
-    // )
-
-    // the bonded candidate is lowered by 20 stake
-    // this is reflected correctly in the unbonded atoms section (50 - 20 === 30)
-    await app.client
-      .$(`.bond-candidate .bond-value__input`)
-      .setValue(bondedStake - 20)
-    //TOD: re-enable after optimistic loading (or actual loading) update
-    // t.equal(
-    //   await app.client.$("#new-unbonding-atoms").getValue(),
-    //   (20).toString(),
-    //   "Unbonding steak shows correctly"
-    // )
-
-    await app.client.$(`#btn-bond`).click()
-
-    // should fail
-    t.ok(await app.client.isVisible(`.tm-form-msg--error`), `shows error`)
-
-    await app.client.$(`#bond-confirm`).click()
-    await app.client.$(`#btn-bond`).click()
-
-    t.ok(!(await app.client.isVisible(`.tm-form-msg--error`)), `hides error`)
-
-    bondedStake -= 20
-
-    // wait until the validators are showing again
-    // await app.client.waitForVisible("#go-to-bonding-btn", 30000)
-    // TODO: Update when we fix the optimistic ui changes again
-    // t.equal(
-    //   await app.client.$(".li-validator__value.your-votes").getText(),
-    //   bondedStake.toString(),
-    //   "Delegate steak in validator updated correctly"
-    // )
-
+    // Why is this necessary?  See
+    // https://github.com/jprichardson/tape-promise#example-asyncawait
     t.end()
   })
 
