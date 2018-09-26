@@ -63,24 +63,25 @@ export default {
       }
       return "n/a"
     },
-    yourRewards() {
-      if (
-        this.committedDelegations[this.delegate.id] &&
-        this.committedDelegations[this.delegate.id].isValidator &&
-        this.delegate.proposer_reward_pool > 0
-      ) {
-        let myShares = calculateShares(
-          this.delegate,
-          this.committedDelegations[this.delegate.id]
-        )
-        let shareRatio = myShares.div(parseValidatorShares(this.delegate))
-        let rewardsInShares = shareRatio.times(
-          this.delegate.proposer_reward_pool
-        )
-        let rewardsInTokens = calculateTokens(rewardsInShares)
-        return this.num.pretty(rewardsInTokens).toString()
-      } else return "0"
-    },
+    // TODO uncomment when distribution is done
+    // yourRewards() {
+    //   if (
+    //     this.committedDelegations[this.delegate.id] &&
+    //     this.committedDelegations[this.delegate.id].isValidator &&
+    //     this.delegate.proposer_reward_pool > 0
+    //   ) {
+    //     let myShares = calculateShares(
+    //       this.delegate,
+    //       this.committedDelegations[this.delegate.id]
+    //     )
+    //     let shareRatio = myShares.div(parseValidatorShares(this.delegate))
+    //     let rewardsInShares = shareRatio.times(
+    //       this.delegate.proposer_reward_pool
+    //     )
+    //     let rewardsInTokens = calculateTokens(rewardsInShares)
+    //     return this.num.pretty(rewardsInTokens).toString()
+    //   } else return "0"
+    // },
     yourVotes() {
       return this.num.pretty(
         this.committedDelegations[this.delegate.id]
@@ -142,15 +143,7 @@ export default {
     //   return "green"
     // }
   },
-  data: () => ({ num, shortAddress }),
-  methods: {
-    add(delegate) {
-      this.$store.commit("addToCart", delegate)
-    },
-    rm(delegate) {
-      this.$store.commit("removeFromCart", delegate.id)
-    }
-  }
+  data: () => ({ num, shortAddress })
 }
 </script>
 
