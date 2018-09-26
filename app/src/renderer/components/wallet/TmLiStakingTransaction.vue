@@ -36,7 +36,6 @@
 <script>
 import moment from "moment"
 import numeral from "numeral"
-import { calculateTokens } from "scripts/common"
 
 export default {
   name: "tm-li-staking-transaction",
