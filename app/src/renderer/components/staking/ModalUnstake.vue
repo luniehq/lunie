@@ -3,23 +3,22 @@
     //- Header
     .stake-header
       img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Stake
+      span.tm-modal-title Unstake
       .tm-modal-icon.tm-modal-close(@click="close()")
         i.material-icons close
-
-    //- To
-    tm-form-group.stake-form-group(
-      field-id='to' field-label='To')
-      tm-field#to(readonly v-model="to")
 
     //- From
     tm-form-group.stake-form-group(
       field-id='from' field-label='From')
       tm-field#from(
-        type="select"
-        :options="fromOptions"
-        v-model="fromIndex"
+        readonly v-model="from"
       )
+
+    //- To
+    tm-form-group.stake-form-group(
+      field-id='to' field-label='To')
+      tm-field#to(
+        readonly v-model="to")
 
     //- Amount
     tm-form-group.stake-form-group(
@@ -28,7 +27,7 @@
     )
       tm-field#amount(
         :max="maximum"
-        :min="1"
+        :min="0"
         type="number"
         v-focus
         v-model="amount")
@@ -41,10 +40,10 @@
         value="Cancel"
       )
       tm-btn(
-        @click.native="onStake"
+        @click.native="onUnstake"
         color="primary"
         size="lg"
-        value="Stake"
+        value="Unstake"
       )
 </template>
 
@@ -53,7 +52,7 @@ import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
-  props: [`fromOptions`, `maximum`, `to`],
+  props: [`from`, `maximum`, `to`],
   components: {
     Modal,
     TmBtn,
@@ -62,17 +61,17 @@ export default {
     TmFormMsg
   },
   data: () => ({
-    amount: 1,
+    amount: 0,
     fromIndex: 0
   }),
   methods: {
     close() {
-      this.$emit("update:showModalStake", false)
+      this.$emit("update:showModalUnstake", false)
     },
-    onStake() {
-      this.$emit(`submitDelegation`, {
+    onUnstake() {
+      this.$emit(`submitUndelegation`, {
         amount: this.amount,
-        from: this.fromOptions[this.fromIndex]
+        from: this.from
       })
 
       this.close()

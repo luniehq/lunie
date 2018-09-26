@@ -22,7 +22,7 @@ tm-page
             anchor-copy.validator-profile__header__name__address(:value="validator.owner" :label="shortAddress(validator.owner)")
           .column.validator-profile__header__actions
             tm-btn(id="stake-btn" value="Stake" color="primary" @click.native="onStake()")
-            tm-btn(v-if="config.devMode" value="Unstake" color="secondary")
+            tm-btn(v-if="config.devMode" value="Unstake" color="secondary" @click.native="onUnstake()")
         .row.validator-profile__header__data
           dl.colored_dl
             dt My Stake
@@ -90,6 +90,14 @@ tm-page
       :maximum="availableAtoms"
       :to="validator.owner"
     )
+    modal-unstake(
+      v-if="showModalUnstake"
+      v-on:submitUndelegation="submitUndelegation"
+      :showModalUnstake.sync="showModalUnstake"
+      :from="validator.description.moniker"
+      :maximum="myBond"
+      :to="this.wallet.address"
+    )
 
     tm-modal(:close="closeCannotStake" icon="warning" v-if="showCannotStake")
       div(slot='title') Cannot Stake
@@ -104,6 +112,7 @@ import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
 import { calculateTokens, shortAddress, ratToBigNumber } from "scripts/common"
 import ModalStake from "staking/ModalStake"
+import ModalUnstake from "staking/ModalUnstake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
 import TmBalance from "common/TmBalance"
@@ -112,6 +121,7 @@ export default {
   components: {
     AnchorCopy,
     ModalStake,
+    ModalUnstake,
     TmBtn,
     TmListItem,
     TmBalance,
@@ -124,6 +134,7 @@ export default {
   data: () => ({
     showCannotStake: false,
     showModalStake: false,
+    showModalUnstake: false,
     shortAddress,
     tabIndex: 1
   }),
@@ -153,7 +164,10 @@ export default {
         : 0
     },
     myBond() {
-      return this.delegation.committedDelegates[this.validator.owner] || 0
+      return calculateTokens(
+        this.validator,
+        this.delegation.committedDelegates[this.validator.owner] || 0
+      )
     },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)
@@ -207,6 +221,9 @@ export default {
         this.showCannotStake = true
       }
     },
+    onUnstake() {
+      this.showModalUnstake = true
+    },
     async submitDelegation({ amount }) {
       const candidateId = this.validator.owner
 
@@ -243,6 +260,50 @@ export default {
         } else {
           this.$store.commit("notifyError", {
             title: `Error While Staking ${this.bondingDenom}s`,
+            body: message
+          })
+        }
+      }
+    },
+    async submitUndelegation({ amount }) {
+      const candidateId = this.validator.owner
+
+      const currentlyDelegated = calculateTokens(
+        this.validator,
+        this.delegation.committedDelegates[candidateId] || 0
+      )
+
+      const delegation = [
+        {
+          atoms: currentlyDelegated.minus(amount),
+          delegate: this.validator
+        }
+      ]
+      console.log(delegation)
+
+      try {
+        await this.$store.dispatch("submitDelegation", delegation)
+
+        this.$store.commit("notify", {
+          title: "Successful Unstaking!",
+          body: `You have successfully unstaked your ${amount} ${
+            this.bondingDenom
+          }s.`
+        })
+      } catch (exception) {
+        const { message } = exception
+        let errData = message.split("\n")[5]
+
+        if (errData) {
+          let parsedErr = errData.split('"')[1]
+
+          this.$store.commit("notifyError", {
+            title: `Error While Unstaking ${this.bondingDenom}s`,
+            body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
+          })
+        } else {
+          this.$store.commit("notifyError", {
+            title: `Error While Unstaking ${this.bondingDenom}s`,
             body: message
           })
         }
