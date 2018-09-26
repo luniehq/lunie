@@ -25,17 +25,17 @@ module.exports.ratToBigNumber = function(rat) {
   return n.div(d)
 }
 
-module.exports.parseValidatorShares = function(validator) {
-  let totalSharesN = new BN(validator.delegator_shares.split("/")[0])
-  let totalSharesD = new BN(validator.delegator_shares.split("/")[1] || 1)
-  return totalSharesN.div(totalSharesD)
-}
-
-module.exports.parseValidatorShares = function(validator) {
-  let totalTokensN = new BN(validator.tokens.split("/")[0])
-  let totalTokensD = new BN(validator.tokens.split("/")[1] || 1)
-  return totalTokensN.div(totalTokensD)
-}
+// module.exports.parseValidatorShares = function(validator) {
+//   let totalSharesN = new BN(validator.delegator_shares.split("/")[0])
+//   let totalSharesD = new BN(validator.delegator_shares.split("/")[1] || 1)
+//   return totalSharesN.div(totalSharesD)
+// }
+//
+// module.exports.parseValidatorShares = function(validator) {
+//   let totalTokensN = new BN(validator.tokens.split("/")[0])
+//   let totalTokensD = new BN(validator.tokens.split("/")[1] || 1)
+//   return totalTokensN.div(totalTokensD)
+// }
 
 // could be used in optimistic update PR, pls uncomment or delete when addressed
 module.exports.calculateShares = function(validator, tokens) {
