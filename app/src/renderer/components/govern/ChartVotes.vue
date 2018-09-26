@@ -95,7 +95,6 @@ export default {
   methods: {
     drawChart() {
       let ctx = this.$el.querySelector(`canvas`)
-      // eslint-disable-next-line
       new Chart(ctx, {
         type: `doughnut`,
         data: this.chartData,
@@ -114,6 +113,7 @@ export default {
 
 .chart-votes
   position relative
+
   .chart-canvas
     position relative
     display flex
@@ -121,7 +121,6 @@ export default {
     justify-content center
 
   &.chart-votes-size-sm
-
     .chart-canvas
       width 4rem
       height 4rem
@@ -130,10 +129,8 @@ export default {
       position absolute
       top 0
       left 0
-
       width 4rem
       height 4rem
-
       display flex
       flex-flow row wrap
       align-items center
@@ -149,15 +146,17 @@ export default {
 
         &.abstain
           color var(--dim)
+
         &.yes
           color var(--success)
+
         &.no
           color var(--danger)
+
         &.reject
           color var(--warning)
 
   &.chart-votes-size-lg
-
     .chart-canvas
       width 18rem
       height 18rem
@@ -172,6 +171,7 @@ export default {
       display flex
       flex-flow row wrap
       border-radius 6rem
+
       .kv
         flex 0 0 50%
         display flex
@@ -179,8 +179,10 @@ export default {
 
         &.yes .value
           color var(--success)
+
         &.no .value
           color var(--warning)
+
         &.reject .value
           color var(--danger)
 
@@ -194,13 +196,11 @@ export default {
 
         .key
           border-bottom px dotted var(--bc)
-          height 2rem - 4*px
+          height 2rem - 4 * px
           width 100%
-
           display flex
           align-items center
           justify-content center
-
           font-size xs
           color var(--dim)
           text-transform uppercase
@@ -209,7 +209,6 @@ export default {
           flex 1
           color var(--txt)
           font-size xl
-
           display flex
           align-items center
           justify-content center
