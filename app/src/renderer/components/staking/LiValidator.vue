@@ -112,11 +112,12 @@ export default {
         .div(this.delegates.globalPower)
         .toNumber()
     },
-    powerRatioLevel() {
-      if (this.powerRatio < 0.01) return "green"
-      if (this.powerRatio < 0.03) return "yellow"
-      else if (this.powerRatio >= 0.03) return "red"
-    },
+    // TODO enable once we decide on limits
+    // powerRatioLevel() {
+    //   if (this.powerRatio < 0.01) return "green"
+    //   if (this.powerRatio < 0.03) return "yellow"
+    //   else if (this.powerRatio >= 0.03) return "red"
+    // },
     status() {
       // status: jailed
       if (this.delegate.revoked)
@@ -128,17 +129,18 @@ export default {
 
       // status: validator
       return "This validator is actively validating"
-    },
-    statusColor() {
-      // status: jailed
-      if (this.delegate.revoked) return "red"
-
-      // status: candidate
-      if (parseFloat(this.delegate.voting_power) === 0) return "yellow"
-
-      // status: validator
-      return "green"
     }
+    // TODO enable once we decide on limits
+    // statusColor() {
+    //   // status: jailed
+    //   if (this.delegate.revoked) return "red"
+    //
+    //   // status: candidate
+    //   if (parseFloat(this.delegate.voting_power) === 0) return "yellow"
+    //
+    //   // status: validator
+    //   return "green"
+    // }
   },
   data: () => ({ num, shortAddress }),
   methods: {

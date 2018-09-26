@@ -34,12 +34,35 @@ describe("LiValidator", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it("should calculate the validator's power ratio", () => {
+    let ratio = wrapper.vm.delegate.tokens / wrapper.vm.delegates.globalPower
+    expect(wrapper.vm.powerRatio).toBe(ratio)
+  })
+
   it("should show the voting power", () => {
     expect(wrapper.html()).toContain("22%")
   })
 
+  it("should show the validator status", () => {
+    expect(wrapper.vm.status).toBe("This validator is actively validating")
+    // Jailed
+    wrapper.vm.delegate = {
+      revoked: true
+    }
+    expect(wrapper.vm.status).toBe(
+      "This validator has been jailed and is not currently validating"
+    )
+    // Is not a validator
+    wrapper.vm.delegate = {
+      voting_power: 0
+    }
+    expect(wrapper.vm.status).toBe(
+      "This validator has declared candidacy but does not have enough voting power yet"
+    )
+  })
+
   it("should show the validator's uptime", () => {
-    expect(wrapper.vm.delegate.signing_info).toBeDefined()
+    expect(wrapper.vm.uptime).toBe("98.78%")
     expect(wrapper.html()).toContain("98.78%")
   })
 

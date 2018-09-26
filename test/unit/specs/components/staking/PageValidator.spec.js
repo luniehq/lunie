@@ -116,7 +116,31 @@ describe("PageValidator", () => {
     expect(wrapper.find("#validator-profile__self-bond").text()).toBe("1.00 %")
   })
 
-  // TODO enable when the right values are defined
+  it("should show the validator status", () => {
+    expect(wrapper.vm.status).toBe("This validator is actively validating")
+    // Jailed
+    store.state.delegates.delegates = [
+      Object.assign({}, delegate, {
+        revoked: true
+      })
+    ]
+    wrapper.update()
+    expect(wrapper.vm.status).toBe(
+      "This validator has been jailed and is not currently validating"
+    )
+    // Is not a validator
+    store.state.delegates.delegates = [
+      Object.assign({}, delegate, {
+        voting_power: 0
+      })
+    ]
+    wrapper.update()
+    expect(wrapper.vm.status).toBe(
+      "This validator has declared candidacy but does not have enough voting power yet"
+    )
+  })
+
+  // TODO enable when we decide on limits are defined
   // it("switches color indicators", async () => {
   //   store.state.delegates.delegates = [
   //     Object.assign({}, delegate, {
@@ -186,9 +210,9 @@ describe("PageValidator", () => {
     ]
     wrapper.update()
     expect(wrapper.vm.status).toMatchSnapshot()
-    expect(wrapper.find(".validator-profile__status").classes()).toContain(
-      "yellow"
-    )
+    // expect(wrapper.find(".validator-profile__status").classes()).toContain(
+    //   "yellow"
+    // )
   })
 
   it("shows that a validator is revoked", () => {
@@ -199,9 +223,9 @@ describe("PageValidator", () => {
     ]
     wrapper.update()
     wrapper.vm.status = expect(wrapper.vm.status).toMatchSnapshot()
-    expect(wrapper.find(".validator-profile__status").classes()).toContain(
-      "red"
-    )
+    // expect(wrapper.find(".validator-profile__status").classes()).toContain(
+    //   "red"
+    // )
   })
 })
 

@@ -160,16 +160,18 @@ export default {
         .div(this.delegates.globalPower)
         .toNumber()
     },
-    powerRatioLevel() {
-      if (this.powerRatio < 0.01) return "green"
-      if (this.powerRatio < 0.03) return "yellow"
-      return "red"
-    },
-    commissionLevel() {
-      if (this.validator.commission < 0.01) return "green"
-      if (this.validator.commission < 0.03) return "yellow"
-      return "red"
-    },
+    // TODO enable once we decide on limits
+    // powerRatioLevel() {
+    //   if (this.powerRatio < 0.01) return "green"
+    //   if (this.powerRatio < 0.03) return "yellow"
+    //   return "red"
+    // },
+    // TODO enable once we decide on limits
+    // commissionLevel() {
+    //   if (this.validator.commission < 0.01) return "green"
+    //   if (this.validator.commission < 0.03) return "yellow"
+    //   return "red"
+    // },
     status() {
       // status: jailed
       if (this.validator.revoked)
