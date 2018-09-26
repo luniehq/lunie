@@ -65,30 +65,39 @@ describe("Module: Delegates", () => {
   })
 
   it("fetches the signing information from all delegates", async () => {
-    let axios = require("axios")
+    store.commit("addDelegate", {
+      owner: "foo",
+      tokens: "10"
+    })
     let validators = store.state.delegates.delegates
+    expect(validators).not.toContainEqual(
+      expect.objectContaining({ signing_info: expect.anything() })
+    )
     await store.dispatch("updateSigningInfo", validators)
-    jest.spyOn(axios, "get")
-    expect(axios.get.mock.calls).toMatchSnapshot()
+    validators = store.state.delegates.delegates
+
+    expect(validators).toContainEqual(
+      expect.objectContaining({ signing_info: expect.anything() })
+    )
   })
 
-  it("should query for delegates on reconnection", () => {
+  it("should query for delegates on reconnection", async () => {
     jest.resetModules()
     let axios = require("axios")
     store.state.node.stopConnecting = true
     store.state.delegates.loading = true
     jest.spyOn(axios, "get")
-    store.dispatch("reconnected")
+    await store.dispatch("reconnected")
     expect(axios.get.mock.calls).toMatchSnapshot()
   })
 
-  it("should not query for delegates on reconnection if not stuck in loading", () => {
+  it("should not query for delegates on reconnection if not stuck in loading", async () => {
     jest.resetModules()
     let axios = require("axios")
     store.state.node.stopConnecting = true
     store.state.delegates.loading = false
     jest.spyOn(axios, "get")
-    store.dispatch("reconnected")
+    await store.dispatch("reconnected")
     expect(axios.get.mock.calls.length).toBe(0)
   })
 })
