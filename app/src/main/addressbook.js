@@ -105,7 +105,8 @@ module.exports = class Addressbook {
         availableNodes[Math.floor(Math.random() * availableNodes.length)]
 
       try {
-        await this.discoverPeers(curNode.host)
+        let peerIP = curNode.host.split(":")[0]
+        await this.discoverPeers(peerIP)
       } catch (exception) {
         console.log(
           `Unable to discover peers from node ${require(`util`).inspect(
@@ -122,7 +123,9 @@ module.exports = class Addressbook {
     }
 
     this.onConnectionMessage("Picked node: " + curNode.host)
-    return curNode.host + ":" + this.config.default_tendermint_port
+    return (
+      curNode.host.split(":")[0] + ":" + this.config.default_tendermint_port // export the picked node with the correct tendermint port
+    )
   }
 
   flagNodeOffline(host) {
