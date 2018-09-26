@@ -81,23 +81,23 @@ describe("Module: Delegates", () => {
     )
   })
 
-  it("should query for delegates on reconnection", async () => {
+  it("should query for delegates on reconnection", () => {
     jest.resetModules()
     let axios = require("axios")
     store.state.node.stopConnecting = true
     store.state.delegates.loading = true
     jest.spyOn(axios, "get")
-    await store.dispatch("reconnected")
+    store.dispatch("reconnected")
     expect(axios.get.mock.calls).toMatchSnapshot()
   })
 
-  it("should not query for delegates on reconnection if not stuck in loading", async () => {
+  it("should not query for delegates on reconnection if not stuck in loading", () => {
     jest.resetModules()
     let axios = require("axios")
     store.state.node.stopConnecting = true
     store.state.delegates.loading = false
     jest.spyOn(axios, "get")
-    await store.dispatch("reconnected")
+    store.dispatch("reconnected")
     expect(axios.get.mock.calls.length).toBe(0)
   })
 })
