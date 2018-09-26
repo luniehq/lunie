@@ -28,13 +28,7 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import {
-  shortAddress,
-  calculateTokens,
-  calculateShares,
-  parseValidatorShares,
-  ratToBigNumber
-} from "scripts/common"
+import { shortAddress, calculateTokens, ratToBigNumber } from "scripts/common"
 export default {
   name: "li-validator",
   props: ["delegate", "disabled"],
