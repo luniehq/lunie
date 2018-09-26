@@ -72,13 +72,20 @@ describe("Module: Delegations", () => {
 
     jest.spyOn(store._actions.sendTx, "0")
 
-    let bondings = [123, 456, 0]
-    const delegations = store.state.delegates.delegates.map((delegate, i) => ({
-      delegate,
-      atoms: bondings[i]
-    }))
+    const delegates = store.state.delegates.delegates
 
-    await store.dispatch("submitDelegation", delegations)
+    const delegations = [
+      {
+        delegate: delegates[0],
+        atoms: 109
+      },
+      {
+        delegate: delegates[1],
+        atoms: 456
+      }
+    ]
+
+    await store.dispatch("submitDelegation", { delegations })
 
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
@@ -91,12 +98,20 @@ describe("Module: Delegations", () => {
     await store.dispatch("getBondedDelegates")
 
     jest.spyOn(store._actions.sendTx, "0")
-    let bondings = [10, 100, 0]
-    const delegations = store.state.delegates.delegates.map((delegate, i) => ({
-      delegate,
-      atoms: bondings[i]
-    }))
-    await store.dispatch("submitDelegation", delegations)
+    const delegates = store.state.delegates.delegates
+
+    const unbondings = [
+      {
+        delegate: delegates[0],
+        atoms: -113
+      },
+      {
+        delegate: delegates[1],
+        atoms: -356
+      }
+    ]
+
+    await store.dispatch("submitDelegation", { unbondings })
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
 
@@ -178,18 +193,20 @@ describe("Module: Delegations", () => {
 
   it("should undelegate", async () => {
     // store the unbondingDelegation in the lcdclientmock
-    await store.dispatch("submitDelegation", [
-      {
-        delegate: {
-          owner: lcdClientMock.validators[0],
-          delegator_shares: "100",
-          tokens: "100"
-        },
-        balance: {
-          amount: "100"
+    await store.dispatch("submitDelegation", {
+      unbondings: [
+        {
+          delegate: {
+            owner: lcdClientMock.validators[0],
+            delegator_shares: "100",
+            tokens: "100"
+          },
+          balance: {
+            amount: "100"
+          }
         }
-      }
-    ])
+      ]
+    })
     store.commit("setUnbondingDelegations", {
       validator_addr: lcdClientMock.validators[0],
       balance: { amount: "100" }
