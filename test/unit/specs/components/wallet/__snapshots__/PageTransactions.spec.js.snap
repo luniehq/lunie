@@ -71,8 +71,9 @@ exports[`PageTransactions has the expected html structure 1`] = `
                     </i>
                   </a>
                   <a
-                    class="settings"
+                    class=""
                     href="#/preferences"
+                    id="settings"
                   >
                     <i
                       class="material-icons"
@@ -226,8 +227,9 @@ exports[`PageTransactions should filter the transactions 1`] = `
                     </i>
                   </a>
                   <a
-                    class="settings"
+                    class=""
                     href="#/preferences"
+                    id="settings"
                   >
                     <i
                       class="material-icons"

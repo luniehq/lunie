@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppFooter has the expected html structure if connected 1`] = `
+<footer
+  class="app-footer"
+>
+  <!---->
+</footer>
+`;
