@@ -5,20 +5,20 @@ const stream = require(`stream`)
 const util = require(`util`)
 const childProcess = require(`child_process`)
 const { cli } = require(`@nodeguy/cli`)
-const { createHash } = require("crypto")
+const { createHash } = require(`crypto`)
 const fp = require(`lodash/fp`)
 const zip = require(`deterministic-zip`)
-const path = require("path")
-const packager = util.promisify(require("electron-packager"))
-const fs = require("fs-extra")
-var glob = require("glob")
-const zlib = require("zlib")
-var tar = require("tar-stream")
-var duplexer = require("duplexer")
-const packageJson = require("../../package.json")
+const path = require(`path`)
+const packager = util.promisify(require(`electron-packager`))
+const fs = require(`fs-extra`)
+var glob = require(`glob`)
+const zlib = require(`zlib`)
+var tar = require(`tar-stream`)
+var duplexer = require(`duplexer`)
+const packageJson = require(`../../package.json`)
 
 const optionsSpecification = {
-  network: ["name of the default network to use"]
+  network: [`name of the default network to use`]
 }
 
 const generateAppPackageJson = packageJson =>
@@ -46,7 +46,7 @@ const copyGaia = (buildPath, electronVersion, platform, arch, callback) => {
  * Build webpack in production
  */
 const pack = () => {
-  console.log("\x1b[33mBuilding webpack in production mode...\n\x1b[0m")
+  console.log(`\x1b[33mBuilding webpack in production mode...\n\x1b[0m`)
   childProcess.execSync(`npm run pack`, { stdio: `inherit` })
 }
 
@@ -73,7 +73,7 @@ async function tarFolder(inDir, outDir) {
   let outFile = path.join(outDir, `${path.basename(inDir)}.tar.gz`)
   var pack = tar.pack()
 
-  let files = glob(inDir + "/**", { sync: true })
+  let files = glob(inDir + `/**`, { sync: true })
 
   // add files to tar
   for (let file of files) {
@@ -85,10 +85,10 @@ async function tarFolder(inDir, outDir) {
         continue
       } else if (stats.isSymbolicLink()) {
         linkname = fs.readlinkSync(file)
-        type = "symlink"
+        type = `symlink`
       } else {
         contents = fs.readFileSync(file)
-        type = "file"
+        type = `file`
       }
       await new Promise(resolve => {
         pack.entry(
@@ -128,20 +128,20 @@ function deterministicTar() {
 
   var extract = tar
     .extract()
-    .on("entry", function(header, stream, cb) {
+    .on(`entry`, function(header, stream, cb) {
       header.mtime = header.atime = header.ctime = UNIXZERO
       header.uid = header.gid = 0
 
       delete header.uname
       delete header.gname
 
-      if (header.type === "file") {
+      if (header.type === `file`) {
         stream.pipe(pack.entry(header, cb))
       } else {
         pack.entry(header, cb)
       }
     })
-    .on("finish", function() {
+    .on(`finish`, function() {
       pack.finalize()
     })
 
@@ -180,14 +180,14 @@ const build = async platform => {
   // Docs: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/building_your_app.html
   const options = {
     afterCopy: [copyGaia],
-    arch: "x64",
+    arch: `x64`,
     asar: false,
-    dir: path.join(__dirname, "../../app"),
-    icon: path.join(__dirname, "../../app/icons/icon"),
+    dir: path.join(__dirname, `../../app`),
+    icon: path.join(__dirname, `../../app/icons/icon`),
     ignore: /^\/(src|index\.ejs|icons)/,
-    out: path.join(__dirname, "../../builds/Voyager"),
+    out: path.join(__dirname, `../../builds/Voyager`),
     overwrite: true,
-    packageManager: "yarn",
+    packageManager: `yarn`,
     platform
   }
 
@@ -196,9 +196,9 @@ const build = async platform => {
   )
 
   const appPath = await packagerWrapper(packageJson, options)
-  console.log("Build(s) successful!")
+  console.log(`Build(s) successful!`)
   console.log(appPath)
-  console.log("\n\x1b[34mArchiving files...\n\x1b[0m")
+  console.log(`\n\x1b[34mArchiving files...\n\x1b[0m`)
 
   const outFile = await (platform === `linux` ? tarFolder : zipFolder)(
     appPath,
@@ -206,8 +206,8 @@ const build = async platform => {
   )
 
   const hash = await sha256(fs.createReadStream(outFile))
-  console.log("Archive successful!", outFile, "SHA256:", hash)
-  console.log("\n\x1b[34mDONE\n\x1b[0m")
+  console.log(`Archive successful!`, outFile, `SHA256:`, hash)
+  console.log(`\n\x1b[34mDONE\n\x1b[0m`)
   return hash
 }
 
@@ -241,7 +241,7 @@ const copyNetworks = root => {
 
 const buildAllPlatforms = async (options = {}) => {
   const start = new Date()
-  console.log("--- Building all platforms ---")
+  console.log(`--- Building all platforms ---`)
 
   const gaiaVersionHash = await sha256(
     fs.createReadStream(path.join(__dirname, `Gaia/COMMIT.sh`))

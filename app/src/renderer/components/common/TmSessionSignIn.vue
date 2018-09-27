@@ -38,7 +38,7 @@ import {
   TmFormMsg
 } from "@tendermint/ui"
 export default {
-  name: "tm-session-sign-in",
+  name: `tm-session-sign-in`,
   components: {
     TmBtn,
     TmField,
@@ -48,49 +48,49 @@ export default {
   },
   data: () => ({
     fields: {
-      signInName: "",
-      signInPassword: ""
+      signInName: ``,
+      signInPassword: ``
     }
   }),
   computed: {
-    ...mapGetters(["user", "mockedConnector", "lastHeader", "connected"]),
+    ...mapGetters([`user`, `mockedConnector`, `lastHeader`, `connected`]),
     accounts() {
       let accounts = this.user.accounts
-      accounts = accounts.filter(({ name }) => name !== "trunk")
+      accounts = accounts.filter(({ name }) => name !== `trunk`)
       return accounts.map(({ name }) => ({ key: name, value: name }))
     }
   },
   methods: {
     help() {
-      this.$store.commit("setModalHelp", true)
+      this.$store.commit(`setModalHelp`, true)
     },
     setState(value) {
-      this.$store.commit("setModalSessionState", value)
+      this.$store.commit(`setModalSessionState`, value)
     },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        await this.$store.dispatch("testLogin", {
+        await this.$store.dispatch(`testLogin`, {
           password: this.fields.signInPassword,
           account: this.fields.signInName
         })
-        this.$store.dispatch("signIn", {
+        this.$store.dispatch(`signIn`, {
           password: this.fields.signInPassword,
           account: this.fields.signInName
         })
-        localStorage.setItem("prevAccountKey", this.fields.signInName)
-        this.$router.push("/")
-        this.$store.commit("setModalSession", false)
+        localStorage.setItem(`prevAccountKey`, this.fields.signInName)
+        this.$router.push(`/`)
+        this.$store.commit(`setModalSession`, false)
       } catch (err) {
-        this.$store.commit("notifyError", {
-          title: "Signing In Failed",
+        this.$store.commit(`notifyError`, {
+          title: `Signing In Failed`,
           body: err.message
         })
       }
     },
     setDefaultAccount() {
-      let prevAccountKey = localStorage.getItem("prevAccountKey")
+      let prevAccountKey = localStorage.getItem(`prevAccountKey`)
       let prevAccountExists = this.accounts.find(a => a.key === prevAccountKey)
 
       if (this.accounts.length === 1) {
@@ -100,16 +100,16 @@ export default {
       }
 
       if (this.fields.signInName) {
-        this.$el.querySelector("#sign-in-password").focus()
+        this.$el.querySelector(`#sign-in-password`).focus()
       } else {
-        this.$el.querySelector("#sign-in-name").focus()
+        this.$el.querySelector(`#sign-in-name`).focus()
       }
     }
   },
   mounted() {
     this.setDefaultAccount(this.accounts)
     if (this.mockedConnector) {
-      this.fields.signInPassword = "1234567890"
+      this.fields.signInPassword = `1234567890`
     }
   },
   validations: () => ({

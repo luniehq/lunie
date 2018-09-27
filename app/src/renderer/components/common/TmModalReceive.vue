@@ -10,21 +10,21 @@ import { mapGetters } from "vuex"
 import LiCopy from "common/TmLiCopy"
 import Modal from "common/TmModal"
 export default {
-  name: "tm-modal-receive",
-  props: ["value"],
+  name: `tm-modal-receive`,
+  props: [`value`],
   components: {
     LiCopy,
     Modal
   },
   computed: {
-    ...mapGetters(["config", "wallet"]),
+    ...mapGetters([`config`, `wallet`]),
     active() {
       return this.config.modals.receive.active
     }
   },
   methods: {
     close() {
-      this.$store.commit("setModalReceive", false)
+      this.$store.commit(`setModalReceive`, false)
     }
   }
 }

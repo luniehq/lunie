@@ -20,7 +20,7 @@ export default ({ node }) => {
   const actions = {
     reconnected({ state, dispatch }) {
       if (state.loading) {
-        dispatch("getValidators")
+        dispatch(`getValidators`)
       }
     },
     resetSessionData({ rootState }) {
@@ -31,10 +31,10 @@ export default ({ node }) => {
       state.loading = true
       try {
         let validators = (await node.getValidatorSet()).validators
-        commit("setValidators", validators)
+        commit(`setValidators`, validators)
       } catch (err) {
-        commit("notifyError", {
-          title: "Error fetching validator set",
+        commit(`notifyError`, {
+          title: `Error fetching validator set`,
           body: err.message
         })
       }
@@ -43,8 +43,8 @@ export default ({ node }) => {
     async maybeUpdateValidators({ state, commit, dispatch }, header) {
       let validatorHash = header.validators_hash
       if (validatorHash === state.validatorHash) return
-      commit("setValidatorHash", validatorHash)
-      await dispatch("getValidators")
+      commit(`setValidatorHash`, validatorHash)
+      await dispatch(`getValidators`)
     }
   }
 

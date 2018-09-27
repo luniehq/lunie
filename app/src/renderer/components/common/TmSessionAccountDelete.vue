@@ -36,7 +36,7 @@ import {
   TmFormMsg
 } from "@tendermint/ui"
 export default {
-  name: "tm-session-account-delete",
+  name: `tm-session-account-delete`,
   components: {
     TmBtn,
     TmField,
@@ -44,38 +44,38 @@ export default {
     TmFormMsg,
     TmFormStruct
   },
-  data: () => ({ fields: { deletionPassword: "" } }),
+  data: () => ({ fields: { deletionPassword: `` } }),
   methods: {
     help() {
-      this.$store.commit("setModalHelp", true)
+      this.$store.commit(`setModalHelp`, true)
     },
     setState(value) {
-      this.$store.commit("setModalSessionState", value)
+      this.$store.commit(`setModalSessionState`, value)
     },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        let success = await this.$store.dispatch("deleteKey", {
+        let success = await this.$store.dispatch(`deleteKey`, {
           password: this.fields.deletionPassword
         })
         if (success) {
-          this.setState("welcome")
-          this.$store.commit("notify", {
-            title: "Account Deleted",
+          this.setState(`welcome`)
+          this.$store.commit(`notify`, {
+            title: `Account Deleted`,
             body: `You have successfully deleted the account 'default'`
           })
         }
       } catch (err) {
-        this.$store.commit("notifyError", {
-          title: "Account Deletion Failed",
+        this.$store.commit(`notifyError`, {
+          title: `Account Deletion Failed`,
           body: err.message
         })
       }
     }
   },
   mounted() {
-    this.$el.querySelector("#sign-in-password").focus()
+    this.$el.querySelector(`#sign-in-password`).focus()
   },
   validations: () => ({
     fields: {

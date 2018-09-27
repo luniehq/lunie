@@ -2,42 +2,42 @@ import { mount } from "@vue/test-utils"
 import htmlBeautify from "html-beautify"
 import TmDataError from "common/TmDataError"
 
-describe("TmDataError", () => {
+describe(`TmDataError`, () => {
   let wrapper
   beforeEach(() => {
     wrapper = mount(TmDataError)
   })
 
-  it("has the expected html structure", () => {
+  it(`has the expected html structure`, () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it("has an icon", () => {
+  it(`has an icon`, () => {
     expect(
       wrapper
-        .find(".tm-data-msg__icon i.material-icons")
+        .find(`.tm-data-msg__icon i.material-icons`)
         .text()
         .trim()
-    ).toBe("sentiment_very_dissatisfied")
+    ).toBe(`sentiment_very_dissatisfied`)
   })
 
-  it("has a title", () => {
+  it(`has a title`, () => {
     expect(
       wrapper
-        .find(".tm-data-msg__title div")
+        .find(`.tm-data-msg__title div`)
         .text()
         .trim()
-    ).toBe("Aw shucks!")
+    ).toBe(`Aw shucks!`)
   })
 
-  it("has a subtitle", () => {
+  it(`has a subtitle`, () => {
     expect(
       wrapper
-        .find(".tm-data-msg__subtitle div")
+        .find(`.tm-data-msg__subtitle div`)
         .text()
         .trim()
     ).toContain(
-      "Even though you're connected a full node, we can't display this data for you right now."
+      `Even though you're connected a full node, we can't display this data for you right now.`
     )
   })
 })

@@ -7,36 +7,36 @@ import { mapGetters } from "vuex"
 import Chart from "chart.js"
 import shortid from "shortid"
 export default {
-  name: "chart-power",
-  props: ["votes", "size"],
+  name: `chart-power`,
+  props: [`votes`, `size`],
   computed: {
-    ...mapGetters(["bondingDenom"]),
+    ...mapGetters([`bondingDenom`]),
     chartData() {
       return {
         labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec"
+          `Jan`,
+          `Feb`,
+          `Mar`,
+          `Apr`,
+          `May`,
+          `Jun`,
+          `Jul`,
+          `Aug`,
+          `Sep`,
+          `Oct`,
+          `Nov`,
+          `Dec`
         ],
         datasets: [
           {
-            label: "Delegated " + this.bondingDenom,
+            label: `Delegated ` + this.bondingDenom,
             lineTension: 0,
-            borderColor: "hsl(330,100%,30%)",
+            borderColor: `hsl(330,100%,30%)`,
             borderWidth: 2,
-            backgroundColor: "hsla(330,100%,10%, 0.33)",
-            pointBackgroundColor: "hsl(330,100%,50%)",
+            backgroundColor: `hsla(330,100%,10%, 0.33)`,
+            pointBackgroundColor: `hsl(330,100%,50%)`,
             pointBorderWidth: 0,
-            pointStyle: "rect",
+            pointStyle: `rect`,
             data: [
               2.13,
               2.43,
@@ -53,14 +53,14 @@ export default {
             ]
           },
           {
-            label: "Solo " + this.bondingDenom.toUpperCase(),
+            label: `Solo ` + this.bondingDenom.toUpperCase(),
             lineTension: 0,
-            borderColor: "hsl(210,50%,30%)",
+            borderColor: `hsl(210,50%,30%)`,
             borderWidth: 2,
-            backgroundColor: "hsla(210,100%,10%, 0.33)",
-            pointBackgroundColor: "hsl(210,50%,50%)",
+            backgroundColor: `hsla(210,100%,10%, 0.33)`,
+            pointBackgroundColor: `hsl(210,50%,50%)`,
             pointBorderWidth: 0,
-            pointStyle: "rect",
+            pointStyle: `rect`,
             data: [
               0.56,
               0.6,
@@ -81,7 +81,7 @@ export default {
     }
   },
   data: () => ({
-    id: "chart-power-" + shortid.generate(),
+    id: `chart-power-` + shortid.generate(),
     chartOptions: {
       responsive: true,
       maintainAspectRatio: false,
@@ -95,30 +95,28 @@ export default {
       },
       legend: {
         display: false,
-        position: "top",
+        position: `top`,
         labels: {
           boxWidth: 20,
-          fontColor: "hsl(210, 32%, 50%)"
+          fontColor: `hsl(210, 32%, 50%)`
         }
       },
       scales: {
         xAxes: [
           {
-            gridLines: { color: "hsl(210, 18%, 12%)" },
+            gridLines: { color: `hsl(210, 18%, 12%)` },
             ticks: {
-              fontColor: "hsl(210, 32%, 50%)",
-              fontFamily:
-                '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif'
+              fontColor: `hsl(210, 32%, 50%)`,
+              fontFamily: `-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif`
             }
           }
         ],
         yAxes: [
           {
-            gridLines: { color: "hsl(210, 18%, 12%)" },
+            gridLines: { color: `hsl(210, 18%, 12%)` },
             ticks: {
-              fontColor: "hsl(210, 32%, 50%)",
-              fontFamily:
-                '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif'
+              fontColor: `hsl(210, 32%, 50%)`,
+              fontFamily: `-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif`
             },
             stacked: true
           }
@@ -126,15 +124,15 @@ export default {
       },
       tooltips: {
         enabled: true,
-        mode: "single"
+        mode: `single`
       }
     }
   }),
   mounted() {
-    let ctx = document.querySelector("#" + this.id)
+    let ctx = document.querySelector(`#` + this.id)
     // eslint-disable-next-line
     let chart = new Chart(ctx, {
-      type: "line",
+      type: `line`,
       data: this.chartData,
       options: this.chartOptions,
       height: 256

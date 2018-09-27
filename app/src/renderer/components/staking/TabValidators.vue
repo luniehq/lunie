@@ -21,7 +21,7 @@ import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
 import VmToolBar from "common/VmToolBar"
 export default {
-  name: "page-staking",
+  name: `page-staking`,
   components: {
     LiValidator,
     TmBtn,
@@ -35,24 +35,24 @@ export default {
   },
   data: () => ({
     num: num,
-    query: "",
+    query: ``,
     sort: {
-      property: "percent_of_vote",
-      order: "desc"
+      property: `percent_of_vote`,
+      order: `desc`
     }
   }),
   computed: {
     ...mapGetters([
-      "delegates",
-      "delegation",
-      "filters",
-      "shoppingCart",
-      "committedDelegations",
-      "config",
-      "user",
-      "connected",
-      "bondingDenom",
-      "keybase"
+      `delegates`,
+      `delegation`,
+      `filters`,
+      `shoppingCart`,
+      `committedDelegations`,
+      `config`,
+      `user`,
+      `connected`,
+      `bondingDenom`,
+      `keybase`
     ]),
     address() {
       return this.user.address
@@ -85,11 +85,11 @@ export default {
           })
     },
     sortedFilteredEnrichedDelegates() {
-      let query = this.filters.delegates.search.query || ""
+      let query = this.filters.delegates.search.query || ``
       let sortedEnrichedDelegates = orderBy(
         this.enrichedDelegates.slice(0),
-        [this.sort.property, "small_moniker"],
-        [this.sort.order, "asc"]
+        [this.sort.property, `small_moniker`],
+        [this.sort.order, `asc`]
       )
       if (this.filters.delegates.search.visible) {
         return sortedEnrichedDelegates.filter(i =>
@@ -108,52 +108,52 @@ export default {
     properties() {
       return [
         {
-          title: "Moniker",
-          value: "small_moniker",
-          tooltip: "The validator's moniker",
-          class: "name"
+          title: `Moniker`,
+          value: `small_moniker`,
+          tooltip: `The validator's moniker`,
+          class: `name`
         },
         {
-          title: "My Stake",
-          value: "your_votes",
+          title: `My Stake`,
+          value: `your_votes`,
           tooltip: `Number of ${
             this.bondingDenom
           } you have staked to the validator`,
-          class: "your-votes"
+          class: `your-votes`
         },
         {
-          title: "My Rewards",
-          value: "your_rewards", // TODO: use real rewards
+          title: `My Rewards`,
+          value: `your_rewards`, // TODO: use real rewards
           tooltip: `Rewards of ${
             this.bondingDenom
           } you have gained from the validator`,
-          class: "your-rewards" // TODO: use real rewards
+          class: `your-rewards` // TODO: use real rewards
         },
         {
-          title: "Voting Power",
-          value: "percent_of_vote",
+          title: `Voting Power`,
+          value: `percent_of_vote`,
           tooltip: `Percentage of ${
             this.bondingDenom
           } the validator has on The Cosmos Hub`,
-          class: "percent_of_vote"
+          class: `percent_of_vote`
         },
         {
-          title: "Uptime",
-          value: "uptime",
-          tooltip: "Ratio of blocks signed within the last 10k blocks",
-          class: "uptime"
+          title: `Uptime`,
+          value: `uptime`,
+          tooltip: `Ratio of blocks signed within the last 10k blocks`,
+          class: `uptime`
         },
         {
-          title: "Commission",
-          value: "commission",
-          tooltip: "The validator's commission",
-          class: "commission"
+          title: `Commission`,
+          value: `commission`,
+          tooltip: `The validator's commission`,
+          class: `commission`
         },
         {
-          title: "Slashes",
-          value: "slashes", // TODO: use real slashes
-          tooltip: "The validator's slashes",
-          class: "slashes"
+          title: `Slashes`,
+          value: `slashes`, // TODO: use real slashes
+          tooltip: `The validator's slashes`,
+          class: `slashes`
         }
       ]
     }
@@ -165,16 +165,16 @@ export default {
   },
   methods: {
     updateDelegates() {
-      this.$store.dispatch("updateDelegates")
+      this.$store.dispatch(`updateDelegates`)
     },
-    setSearch(bool = !this.filters["delegates"].search.visible) {
+    setSearch(bool = !this.filters[`delegates`].search.visible) {
       if (!this.somethingToSearch) return false
-      this.$store.commit("setSearchVisible", ["delegates", bool])
+      this.$store.commit(`setSearchVisible`, [`delegates`, bool])
     }
   },
   async mounted() {
-    Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
-    Mousetrap.bind("esc", () => this.setSearch(false))
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
 
     // XXX temporary because querying the shares shows old shares after bonding
     // this.updateDelegates()

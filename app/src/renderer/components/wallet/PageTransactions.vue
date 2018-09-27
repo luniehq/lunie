@@ -32,7 +32,7 @@ import ModalSearch from "common/TmModalSearch"
 import { TmPage, TmDataLoading, TmLiAnyTransaction } from "@tendermint/ui"
 import VmToolBar from "common/VmToolBar"
 export default {
-  name: "page-transactions",
+  name: `page-transactions`,
   components: {
     TmLiAnyTransaction,
     TmDataLoading,
@@ -43,15 +43,15 @@ export default {
     VmToolBar
   },
   computed: {
-    ...mapState(["transactions", "node"]),
+    ...mapState([`transactions`, `node`]),
     ...mapGetters([
-      "filters",
-      "allTransactions",
-      "wallet",
-      "config",
-      "delegation",
-      "connected",
-      "validators"
+      `filters`,
+      `allTransactions`,
+      `wallet`,
+      `config`,
+      `delegation`,
+      `connected`,
+      `validators`
     ]),
     somethingToSearch() {
       return !this.transactions.loading && !!this.allTransactions.length
@@ -84,23 +84,23 @@ export default {
   data: () => ({
     shortid: shortid,
     sort: {
-      property: "height",
-      order: "desc"
+      property: `height`,
+      order: `desc`
     },
-    validatorURL: "/staking/validators"
+    validatorURL: `/staking/validators`
   }),
   methods: {
     refreshTransactions() {
-      this.$store.dispatch("getAllTxs")
+      this.$store.dispatch(`getAllTxs`)
     },
     async endUnbonding(transaction) {
       let validatorAddr = transaction.tx.value.msg[0].value.validator_addr
-      await this.$store.dispatch("endUnbonding", validatorAddr)
+      await this.$store.dispatch(`endUnbonding`, validatorAddr)
     },
     enrichUnbondingTransactions(transaction) {
       let copiedTransaction = JSON.parse(JSON.stringify(transaction))
       let type = copiedTransaction.tx.value.msg[0].type
-      if (type === "cosmos-sdk/BeginUnbonding") {
+      if (type === `cosmos-sdk/BeginUnbonding`) {
         let tx = copiedTransaction.tx.value.msg[0].value
         let unbondingDelegation = this.delegation.unbondingDelegations[
           tx.validator_addr
@@ -116,14 +116,14 @@ export default {
       }
       return copiedTransaction
     },
-    setSearch(bool = !this.filters["transactions"].search.visible) {
+    setSearch(bool = !this.filters[`transactions`].search.visible) {
       if (!this.somethingToSearch) return false
-      this.$store.commit("setSearchVisible", ["transactions", bool])
+      this.$store.commit(`setSearchVisible`, [`transactions`, bool])
     }
   },
   mounted() {
-    Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
-    Mousetrap.bind("esc", () => this.setSearch(false))
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
     this.refreshTransactions()
   }
 }

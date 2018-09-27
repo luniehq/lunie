@@ -27,7 +27,7 @@ import ModalSearch from "common/TmModalSearch"
 import VmToolBar from "common/VmToolBar"
 import { TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 export default {
-  name: "page-proposals",
+  name: `page-proposals`,
   components: {
     TmDataLoading,
     TmDataEmpty,
@@ -38,7 +38,7 @@ export default {
     VmToolBar
   },
   computed: {
-    ...mapGetters(["proposals", "filters"]),
+    ...mapGetters([`proposals`, `filters`]),
     somethingToSearch() {
       return !this.proposals.loading && !!this.proposals.length
     },
@@ -62,63 +62,63 @@ export default {
   },
   data: () => ({
     sort: {
-      property: "created_at",
-      order: "desc",
+      property: `created_at`,
+      order: `desc`,
       properties: [
         {
           id: 1,
-          title: "Title",
-          value: "title"
+          title: `Title`,
+          value: `title`
         },
         {
           id: 2,
-          title: "Type",
-          value: "type"
+          title: `Type`,
+          value: `type`
         },
         {
           id: 3,
-          title: "Created At",
-          value: "created_at",
+          title: `Created At`,
+          value: `created_at`,
           initial: true
         },
         {
           id: 4,
-          title: "Activated At",
-          value: "active_at"
+          title: `Activated At`,
+          value: `active_at`
         },
         {
           id: 5,
-          title: "Proposer",
-          value: "entity_id"
+          title: `Proposer`,
+          value: `entity_id`
         }
       ]
     }
   }),
   methods: {
     gotoPrevote() {
-      this.$store.commit("notify", {
-        title: "TODO: Prevote Proposals",
-        body: "Work in progress."
+      this.$store.commit(`notify`, {
+        title: `TODO: Prevote Proposals`,
+        body: `Work in progress.`
       })
     },
     gotoArchive() {
-      this.$store.commit("notify", {
-        title: "TODO: Archive Proposals",
-        body: "Work in progress."
+      this.$store.commit(`notify`, {
+        title: `TODO: Archive Proposals`,
+        body: `Work in progress.`
       })
     },
     gotoNewProposal() {
-      this.$router.push("/proposals/new")
+      this.$router.push(`/proposals/new`)
     },
-    setSearch(bool = !this.filters["proposals"].search.visible) {
+    setSearch(bool = !this.filters[`proposals`].search.visible) {
       if (!this.somethingToSearch) return false
-      this.$store.commit("setSearchVisible", ["proposals", bool])
+      this.$store.commit(`setSearchVisible`, [`proposals`, bool])
     }
   },
   mounted() {
-    Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
-    Mousetrap.bind(["command+n", "ctrl+n"], () => this.gotoNewProposal())
-    Mousetrap.bind("esc", () => this.setSearch(false))
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind([`command+n`, `ctrl+n`], () => this.gotoNewProposal())
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
   }
 }
 </script>

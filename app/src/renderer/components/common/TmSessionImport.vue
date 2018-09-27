@@ -65,7 +65,7 @@ import {
 import FieldSeed from "common/TmFieldSeed"
 import { mapGetters } from "vuex"
 export default {
-  name: "tm-session-import",
+  name: `tm-session-import`,
   components: {
     TmBtn,
     TmField,
@@ -75,49 +75,49 @@ export default {
     TmFormStruct
   },
   computed: {
-    ...mapGetters(["connected"])
+    ...mapGetters([`connected`])
   },
   data: () => ({
     fields: {
-      importName: "",
-      importPassword: "",
-      importPasswordConfirm: "",
-      importSeed: ""
+      importName: ``,
+      importPassword: ``,
+      importPasswordConfirm: ``,
+      importSeed: ``
     }
   }),
   methods: {
     help() {
-      this.$store.commit("setModalHelp", true)
+      this.$store.commit(`setModalHelp`, true)
     },
     setState(value) {
-      this.$store.commit("setModalSessionState", value)
+      this.$store.commit(`setModalSessionState`, value)
     },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        let key = await this.$store.dispatch("createKey", {
+        let key = await this.$store.dispatch(`createKey`, {
           seedPhrase: this.fields.importSeed,
           password: this.fields.importPassword,
           name: this.fields.importName
         })
         if (key) {
-          this.$store.dispatch("setErrorCollection", {
+          this.$store.dispatch(`setErrorCollection`, {
             account: this.fields.importName,
             optin: this.fields.errorCollection
           })
-          this.$store.commit("setModalSession", false)
-          this.$store.commit("notify", {
-            title: "Welcome back!",
-            body: "Your account has been successfully imported."
+          this.$store.commit(`setModalSession`, false)
+          this.$store.commit(`notify`, {
+            title: `Welcome back!`,
+            body: `Your account has been successfully imported.`
           })
-          this.$store.dispatch("signIn", {
+          this.$store.dispatch(`signIn`, {
             account: this.fields.importName,
             password: this.fields.importPassword
           })
         }
       } catch (err) {
-        this.$store.commit("notifyError", {
+        this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,
           body: err.message
         })
@@ -125,20 +125,20 @@ export default {
     }
   },
   mounted() {
-    this.$el.querySelector("#import-name").focus()
-    new PerfectScrollbar(this.$el.querySelector(".tm-session-main"))
+    this.$el.querySelector(`#import-name`).focus()
+    new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
   },
   validations: () => ({
     fields: {
       importName: { required, minLength: minLength(5) },
       importPassword: { required, minLength: minLength(10) },
-      importPasswordConfirm: { sameAsPassword: sameAs("importPassword") },
+      importPasswordConfirm: { sameAsPassword: sameAs(`importPassword`) },
       importSeed: { required, words24 },
       errorCollection: false
     }
   })
 }
 const words24 = param => {
-  return param && param.split(" ").length === 24
+  return param && param.split(` `).length === 24
 }
 </script>

@@ -31,7 +31,7 @@ import Onboarding from "common/TmOnboarding"
 import Session from "common/TmSession"
 import store from "./vuex/store"
 export default {
-  name: "app",
+  name: `app`,
   components: {
     AppHeader,
     AppFooter,
@@ -47,16 +47,16 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "notifications",
-      "config",
-      "themes",
-      "approvalRequired",
-      "onboarding"
+      `notifications`,
+      `config`,
+      `themes`,
+      `approvalRequired`,
+      `onboarding`
     ])
   },
   mounted() {
-    this.$store.commit("loadOnboarding")
-    this.$store.commit("setTheme", "dark")
+    this.$store.commit(`loadOnboarding`)
+    this.$store.commit(`setTheme`, `dark`)
   },
   store
 }

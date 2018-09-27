@@ -1,23 +1,23 @@
 "use strict"
-const b32 = require("../scripts/b32.js")
-const { getHeight } = require("./rpcWrapperMock.js")
+const b32 = require(`../scripts/b32.js`)
+const { getHeight } = require(`./rpcWrapperMock.js`)
 
-const botAddress = "cosmosaccaddr1p6zajjw6xged056andyhn62lm7axwzyspkzjq0"
+const botAddress = `cosmosaccaddr1p6zajjw6xged056andyhn62lm7axwzyspkzjq0`
 const addresses = [
-  "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-  "cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546",
+  `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+  `cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`,
   botAddress
 ]
 const validators = [
-  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+  `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+  `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+  `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`
 ]
 let state = {
   keys: [
     {
-      name: "default",
-      password: "1234567890",
+      name: `default`,
+      password: `1234567890`,
       address: addresses[0]
     }
   ],
@@ -25,20 +25,20 @@ let state = {
     [addresses[0]]: {
       coins: [
         {
-          denom: "mycoin",
-          amount: "1000"
+          denom: `mycoin`,
+          amount: `1000`
         },
         {
-          denom: "fermion",
-          amount: "2300"
+          denom: `fermion`,
+          amount: `2300`
         },
         {
-          denom: "steak",
-          amount: "1000"
+          denom: `steak`,
+          amount: `1000`
         }
       ],
-      sequence: "1",
-      account_number: "1"
+      sequence: `1`,
+      account_number: `1`
     }
   },
   nonces: { [addresses[0]]: 0 },
@@ -48,14 +48,14 @@ let state = {
         value: {
           msg: [
             {
-              type: "cosmos-sdk/Send",
+              type: `cosmos-sdk/Send`,
               value: {
                 inputs: [
                   {
                     coins: [
                       {
-                        denom: "jbcoins",
-                        amount: "1234"
+                        denom: `jbcoins`,
+                        amount: `1234`
                       }
                     ],
                     address: makeHash()
@@ -65,8 +65,8 @@ let state = {
                   {
                     coins: [
                       {
-                        denom: "jbcoins",
-                        amount: "1234"
+                        denom: `jbcoins`,
+                        amount: `1234`
                       }
                     ],
                     address: addresses[0]
@@ -77,7 +77,7 @@ let state = {
           ]
         }
       },
-      hash: "999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A",
+      hash: `999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A`,
       height: 1
     },
     {
@@ -85,14 +85,14 @@ let state = {
         value: {
           msg: [
             {
-              type: "cosmos-sdk/Send",
+              type: `cosmos-sdk/Send`,
               value: {
                 inputs: [
                   {
                     coins: [
                       {
-                        denom: "fabocoins",
-                        amount: "1234"
+                        denom: `fabocoins`,
+                        amount: `1234`
                       }
                     ],
                     address: addresses[0]
@@ -102,8 +102,8 @@ let state = {
                   {
                     coins: [
                       {
-                        denom: "fabocoins",
-                        amount: "1234"
+                        denom: `fabocoins`,
+                        amount: `1234`
                       }
                     ],
                     address: makeHash()
@@ -114,7 +114,7 @@ let state = {
           ]
         }
       },
-      hash: "A7C6DE5CA923AF08E6088F1348047F16BABB9F48",
+      hash: `A7C6DE5CA923AF08E6088F1348047F16BABB9F48`,
       height: 150
     }
   ],
@@ -124,7 +124,7 @@ let state = {
         {
           delegator_addr: addresses[0],
           validator_addr: validators[0],
-          shares: "14",
+          shares: `14`,
           height: 123
         }
       ],
@@ -135,83 +135,83 @@ let state = {
     {
       owner: validators[0],
       pub_key: {
-        type: "AC26791624DE60",
-        data: "t3zVnKU42WNH+NtYFcstZRLFVULWV8VagoP0HwW43Pk="
+        type: `AC26791624DE60`,
+        data: `t3zVnKU42WNH+NtYFcstZRLFVULWV8VagoP0HwW43Pk=`
       },
       revoked: false,
-      tokens: "14",
-      delegator_shares: "14",
+      tokens: `14`,
+      delegator_shares: `14`,
       description: {
-        website: "www.monty.ca",
-        details: "Mr Mounty",
-        moniker: "mr_mounty",
-        country: "Canada"
+        website: `www.monty.ca`,
+        details: `Mr Mounty`,
+        moniker: `mr_mounty`,
+        country: `Canada`
       },
       status: 2,
-      bond_height: "0",
+      bond_height: `0`,
       bond_intra_tx_counter: 6,
       proposer_reward_pool: null,
-      commission: "0",
-      commission_max: "0",
-      commission_change_rate: "0",
-      commission_change_today: "0",
-      prev_bonded_shares: "0"
+      commission: `0`,
+      commission_max: `0`,
+      commission_change_rate: `0`,
+      commission_change_today: `0`,
+      prev_bonded_shares: `0`
     },
     {
       owner: validators[1],
       pub_key: {
-        type: "AC26791624DE60",
-        data: "9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w="
+        type: `AC26791624DE60`,
+        data: `9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w=`
       },
-      tokens: "0",
-      delegator_shares: "0",
+      tokens: `0`,
+      delegator_shares: `0`,
       description: {
-        website: "www.greg.com",
-        details: "Good Guy Greg",
-        moniker: "good_greg",
-        country: "USA"
+        website: `www.greg.com`,
+        details: `Good Guy Greg`,
+        moniker: `good_greg`,
+        country: `USA`
       },
       status: 2,
-      bond_height: "0",
+      bond_height: `0`,
       bond_intra_tx_counter: 6,
       proposer_reward_pool: null,
-      commission: "0",
-      commission_max: "0",
-      commission_change_rate: "0",
-      commission_change_today: "0",
-      prev_bonded_shares: "0"
+      commission: `0`,
+      commission_max: `0`,
+      commission_change_rate: `0`,
+      commission_change_today: `0`,
+      prev_bonded_shares: `0`
     },
     {
       owner: validators[2],
       pub_key: {
-        type: "AC26791624DE60",
-        data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0="
+        type: `AC26791624DE60`,
+        data: `dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=`
       },
-      tokens: "19",
-      delegator_shares: "19",
+      tokens: `19`,
+      delegator_shares: `19`,
       description: {
-        details: "Herr Schmidt",
-        website: "www.schmidt.de",
-        moniker: "herr_schmidt_revoked",
-        country: "DE"
+        details: `Herr Schmidt`,
+        website: `www.schmidt.de`,
+        moniker: `herr_schmidt_revoked`,
+        country: `DE`
       },
       revoked: true,
       status: 2,
-      bond_height: "0",
+      bond_height: `0`,
       bond_intra_tx_counter: 6,
       proposer_reward_pool: null,
-      commission: "0",
-      commission_max: "0",
-      commission_change_rate: "0",
-      commission_change_today: "0",
-      prev_bonded_shares: "0"
+      commission: `0`,
+      commission_max: `0`,
+      commission_change_rate: `0`,
+      commission_change_today: `0`,
+      prev_bonded_shares: `0`
     }
   ],
   sendHeight: 2,
   signing_info: {
     start_height: 2,
     index_offset: 1,
-    jailed_until: "1970-01-01T00:00:00Z",
+    jailed_until: `1970-01-01T00:00:00Z`,
     signed_blocks_counter: 1
   }
 }
@@ -225,7 +225,7 @@ module.exports = {
 
   // keys
   async generateSeed() {
-    return "grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon grace admit inherit female grant pledge shine inquiry"
+    return `grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon grace admit inherit female grant pledge shine inquiry`
   },
   async storeKey({ name, password, seed }) {
     let key = {
@@ -250,7 +250,7 @@ module.exports = {
     let key = state.keys.find(k => k.name === name)
     if (key.password !== old_password) {
       // eslint-disable-line camelcase
-      throw new Error("Passwords do not match")
+      throw new Error(`Passwords do not match`)
     }
     key.password = new_password // eslint-disable-line camelcase
   },
@@ -258,7 +258,7 @@ module.exports = {
   async deleteKey(account, { name, password }) {
     let key = state.keys.find(k => k.name === name)
     if (key.password !== password) {
-      throw new Error("Passwords do not match")
+      throw new Error(`Passwords do not match`)
     }
     state.keys = state.keys.filter(k => k.name !== name)
   },
@@ -286,7 +286,7 @@ module.exports = {
     let fromKey = state.keys.find(a => a.name === req.name)
     if (!fromKey)
       throw Error(
-        "Key you want to send from does not exist in the lcd connection mock"
+        `Key you want to send from does not exist in the lcd connection mock`
       )
     return send(to, fromKey.address, req)
   },
@@ -307,7 +307,7 @@ module.exports = {
     let fromAccount = state.accounts[fromKey.address]
     let delegator = state.stake[fromKey.address]
     if (fromAccount == null) {
-      results.push(txResult(1, "Nonexistent account"))
+      results.push(txResult(1, `Nonexistent account`))
       return results
     }
     // check nonce
@@ -324,11 +324,11 @@ module.exports = {
       let { denom } = tx.delegation
       let amount = parseInt(tx.delegation.amount)
       if (amount < 0) {
-        results.push(txResult(1, "Amount cannot be negative"))
+        results.push(txResult(1, `Amount cannot be negative`))
         return results
       }
       if (fromAccount.coins.find(c => c.denom === denom).amount < amount) {
-        results.push(txResult(1, "Not enough coins in your account"))
+        results.push(txResult(1, `Not enough coins in your account`))
         return results
       }
       // update sender account
@@ -350,7 +350,7 @@ module.exports = {
         delegation = {
           delegator_addr: fromKey.address,
           validator_addr: tx.validator_addr,
-          shares: "0",
+          shares: `0`,
           height: 0
         }
         delegator.delegations.push(delegation)
@@ -377,7 +377,7 @@ module.exports = {
         parseInt(candidate.delegator_shares) + amount
       ).toString()
 
-      storeTx("cosmos-sdk/MsgDelegate", tx)
+      storeTx(`cosmos-sdk/MsgDelegate`, tx)
       results.push(txResult(0))
     }
 
@@ -387,19 +387,19 @@ module.exports = {
       let amount = parseInt(tx.shares)
 
       // update sender balance
-      let coinBalance = fromAccount.coins.find(c => c.denom === "steak")
+      let coinBalance = fromAccount.coins.find(c => c.denom === `steak`)
       coinBalance.amount = String(parseInt(coinBalance) + amount)
 
       // update stake
       if (!delegator) {
-        results.push(txResult(2, "Nonexistent delegator"))
+        results.push(txResult(2, `Nonexistent delegator`))
         return results
       }
       let delegation = delegator.delegations.find(
         d => d.validator_addr === tx.validator_addr
       )
       if (!delegation) {
-        results.push(txResult(2, "Nonexistent delegation"))
+        results.push(txResult(2, `Nonexistent delegation`))
         return results
       }
       let shares = parseInt(delegation.shares)
@@ -416,7 +416,7 @@ module.exports = {
         })
       )
 
-      storeTx("cosmos-sdk/BeginUnbonding", tx)
+      storeTx(`cosmos-sdk/BeginUnbonding`, tx)
       results.push(txResult(0))
     }
 
@@ -424,7 +424,7 @@ module.exports = {
       incrementSequence(fromAccount)
 
       if (!delegator) {
-        results.push(txResult(2, "Nonexistent delegator"))
+        results.push(txResult(2, `Nonexistent delegator`))
         return results
       }
 
@@ -441,10 +441,10 @@ module.exports = {
       let amount = unbondingDelegation.shares
 
       // update sender balance
-      let coinBalance = fromAccount.coins.find(c => c.denom === "steak")
+      let coinBalance = fromAccount.coins.find(c => c.denom === `steak`)
       coinBalance.amount = String(parseInt(coinBalance) + amount)
 
-      storeTx("cosmos-sdk/CompleteUnbonding", tx)
+      storeTx(`cosmos-sdk/CompleteUnbonding`, tx)
       results.push(txResult(0))
     }
 
@@ -454,7 +454,7 @@ module.exports = {
     let delegator = state.stake[delegatorAddress]
     if (!delegator)
       return {
-        shares: "0"
+        shares: `0`
       }
     return delegator.delegations.find(
       ({ validator_addr }) => validator_addr === validatorAddress
@@ -473,10 +473,10 @@ module.exports = {
     return delegator
   },
   getDelegatorTxs(addr, types = []) {
-    if (types.length === 0) types = ["bonding", "unbonding"]
+    if (types.length === 0) types = [`bonding`, `unbonding`]
     types = types.map(type => {
-      if (type === "bonding") return "cosmos-sdk/MsgDelegate"
-      if (type === "unbonding") return "cosmos-sdk/BeginUnbonding"
+      if (type === `bonding`) return `cosmos-sdk/MsgDelegate`
+      if (type === `unbonding`) return `cosmos-sdk/BeginUnbonding`
     })
     return getTxs(types)
   },
@@ -503,8 +503,8 @@ module.exports = {
 }
 
 function makeHash() {
-  var text = ""
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+  var text = ``
+  var possible = `ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`
 
   for (var i = 0; i < 40; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length))
@@ -515,17 +515,17 @@ function makeHash() {
 function send(to, from, req) {
   let fromAccount = state.accounts[from]
   if (fromAccount == null) {
-    return txResult(1, "Nonexistent account")
+    return txResult(1, `Nonexistent account`)
   }
 
   for (let { denom, amount } of req.amount) {
     if (parseInt(amount) < 0) {
-      return txResult(1, "Amount cannot be negative")
+      return txResult(1, `Amount cannot be negative`)
     }
     if (
       fromAccount.coins.find(c => c.denom === denom).amount < parseInt(amount)
     ) {
-      return txResult(1, "Not enough coins in your account")
+      return txResult(1, `Not enough coins in your account`)
     }
   }
 
@@ -551,13 +551,13 @@ function send(to, from, req) {
   if (!receiverAccount) {
     receiverAccount = state.accounts[to] = {
       coins: [],
-      sequence: "0"
+      sequence: `0`
     }
   }
   for (let { denom, amount } of req.amount) {
     let receiverBalance = receiverAccount.coins.find(c => c.denom === denom)
     if (!receiverBalance) {
-      receiverBalance = { amount: "0", denom }
+      receiverBalance = { amount: `0`, denom }
       receiverAccount.coins.push(receiverBalance)
     }
     receiverBalance.amount = String(
@@ -566,7 +566,7 @@ function send(to, from, req) {
   }
 
   // log tx
-  storeTx("cosmos-sdk/Send", {
+  storeTx(`cosmos-sdk/Send`, {
     inputs: [
       {
         coins: req.amount,
@@ -641,22 +641,22 @@ function getTxs(types) {
 //   return txResult()
 // }
 
-function txResult(code = 0, message = "") {
+function txResult(code = 0, message = ``) {
   return {
     check_tx: {
       code: code,
-      data: "",
+      data: ``,
       log: message,
-      gas: "0",
-      fee: "0"
+      gas: `0`,
+      fee: `0`
     },
     deliver_tx: {
       code: 0,
-      data: "",
-      log: "",
+      data: ``,
+      log: ``,
       tags: []
     },
-    hash: "999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A",
+    hash: `999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A`,
     height: 0
   }
 }

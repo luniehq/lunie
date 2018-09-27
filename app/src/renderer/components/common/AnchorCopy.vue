@@ -7,11 +7,11 @@ a.anchor-copy(@click="click")
 <script>
 import { clipboard } from "electron"
 export default {
-  name: "anchor-copy",
+  name: `anchor-copy`,
   computed: {
     notifyTitle() {
       if (this.title) return this.title
-      else return "Copy Success!"
+      else return `Copy Success!`
     },
     notifyBody() {
       if (this.body) return this.body
@@ -22,12 +22,12 @@ export default {
     click() {
       clipboard.writeText(this.value)
 
-      this.$store.commit("notify", {
+      this.$store.commit(`notify`, {
         title: this.notifyTitle,
         body: this.notifyBody
       })
     }
   },
-  props: ["value", "label", "icon", "title", "body"]
+  props: [`value`, `label`, `icon`, `title`, `body`]
 }
 </script>

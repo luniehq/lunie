@@ -44,7 +44,7 @@ import {
 
 import VmToolBar from "common/VmToolBar"
 export default {
-  name: "page-proposals-new-upgrade",
+  name: `page-proposals-new-upgrade`,
   components: {
     TmBtn,
     TmField,
@@ -60,26 +60,26 @@ export default {
     bodyMinLength: 10,
     bodyMaxLength: 40000,
     fields: {
-      title: "",
-      body: ""
+      title: ``,
+      body: ``
     }
   }),
   methods: {
     onSubmit() {
       this.$v.$touch()
       if (!this.$v.$error) {
-        this.$store.commit("notify", {
-          title: "TODO: Create Text Proposal",
-          body: "You will have successfully created a text proposal"
+        this.$store.commit(`notify`, {
+          title: `TODO: Create Text Proposal`,
+          body: `You will have successfully created a text proposal`
         })
         this.resetForm()
-        this.$router.push({ name: "proposals" })
+        this.$router.push({ name: `proposals` })
       }
     },
     resetForm() {
       this.fields = {
-        title: "",
-        body: ""
+        title: ``,
+        body: ``
       }
     }
   },

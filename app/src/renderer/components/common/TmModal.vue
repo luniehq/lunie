@@ -18,14 +18,14 @@ div(:class='cssClass' @click.self="close()")
 export default {
   computed: {
     cssClass() {
-      let value = "tm-modal"
-      if (this.size === "fullscreen" || this.size === "fs") {
-        value += " tm-modal-fullscreen"
+      let value = `tm-modal`
+      if (this.size === `fullscreen` || this.size === `fs`) {
+        value += ` tm-modal-fullscreen`
       }
       return value
     }
   },
-  props: ["size", "icon", "close"]
+  props: [`size`, `icon`, `close`]
 }
 </script>
 
