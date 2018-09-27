@@ -4,18 +4,18 @@
   .tx-container
     .tx-element.tx-coins
       .tx-coin
-        .key {{ tx.delegation.denom.toUpperCase() }}
+        .key {{ tx.delegation.denom }}
         .value {{ pretty(tx.delegation.amount) }}
     div
       .tx-element.tx-date(v-if="devMode") {{ date }}
-      .tx-element.tx-address Staked to {{ tx.validator_addr }}
+      .tx-element.tx-address Staked {{ denom }}s to {{ tx.validator_addr }}
 
 .tm-li-tx.tm-li-tx-sent(v-else-if="type === 'cosmos-sdk/BeginUnbonding'" @click="() => devMode && viewTransaction()")
   .tx-icon: i.material-icons add_circle
   .tx-container
     .tx-element.tx-coins
       .tx-coin
-        .key STEAK
+        .key {{ denom }}
         .value {{ pretty(tx.shares_amount) }}
     div
       .tx-element.tx-date(v-if="devMode") {{ date }}
@@ -26,11 +26,11 @@
   .tx-container
     .tx-element.tx-coins
       .tx-coin
-        .key STEAK
+        .key {{ denom }}
         .value {{ pretty(calculateTokens(validator(tx.validator_src_addr), tx.shares_amount)) }}
     div
       .tx-element.tx-date(v-if="devMode") {{ date }}
-      .tx-element.tx-address Redelegated atoms from {{ moniker(tx.validator_src_addr) }} to {{  moniker(tx.validator_dst_addr) }}
+      .tx-element.tx-address Redelegated {{ denom }}s from {{ moniker(tx.validator_src_addr) }} to {{  moniker(tx.validator_dst_addr) }}
 </template>
 
 <script>
@@ -40,11 +40,15 @@ import numeral from "numeral"
 export default {
   name: "tm-li-staking-transaction",
   computed: {
+    ...mapGetters(["config"]),
     tx() {
       return this.transaction.tx.value.msg[0].value
     },
     type() {
       return this.transaction.tx.value.msg[0].type
+    },
+    denom() {
+      return this.config.bondingDenom.toLowerCase()
     },
     date() {
       try {
@@ -62,6 +66,7 @@ export default {
   }),
   methods: {
     pretty(num) {
+      console.log(this.config.denom)
       return numeral(num).format("0,0.00")
     },
     validator(address) {
