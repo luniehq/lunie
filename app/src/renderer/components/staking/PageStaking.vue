@@ -20,15 +20,6 @@ tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
       router-link(v-else :to="{name: tab}") {{ tab }}
 
   router-view
-
-  .fixed-button-bar(v-if="!delegates.loading")
-    template(v-if="userCanDelegate")
-      .label #[strong {{ shoppingCart.length }}] validators selected
-      tm-btn(id="go-to-bonding-btn" type="link" to="/staking/bond" :disabled="shoppingCart.length === 0" icon="chevron_right" icon-pos="right" value="Next" color="primary")
-    template(v-else)
-      .label(v-if="!delegation.loadedOnce && delegation.loading") Loading delegations...
-      .label(v-else) You do not have any {{bondingDenom}}s to stake.
-      tm-btn(disabled icon="chevron_right" icon-pos="right" value="Next" color="primary")
 </template>
 
 <script>
@@ -175,11 +166,6 @@ export default {
           value: `slashes`, // TODO: use real slashes
           tooltip: `The validator's slashes`,
           class: `slashes`
-        },
-        {
-          title: ``,
-          value: ``,
-          class: `action hidden`
         }
       ]
     }

@@ -49,17 +49,12 @@ exports[`PageStaking has the expected html structure 1`] = `
       </div>
 </div>
 </div>
-<div class=\\"sort-by action hidden\\">
-   <div class=\\"label\\">
-      <div class=\\"label-text\\"></div>
-</div>
-</div>
 </div>
 </div>
 <div class=\\"li-validator li-validator-validator \\">
    <div class=\\"li-validator__values\\">
       <div class=\\"li-validator__value name\\">
-         <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"\\"><span class=\\"validator-profile__status\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
             <div class=\\"top\\">
                herr_schmidt_revoked
@@ -83,23 +78,20 @@ exports[`PageStaking has the expected html structure 1`] = `
    <span>57.58%</span>
 </div>
 <div class=\\"li-validator__value uptime\\">
-   <span>n/a</span>
+   <span>0.01%</span>
 </div>
 <div class=\\"li-validator__value commission\\">
-   <span>n/a</span>
+   <span>0.00%</span>
 </div>
 <div class=\\"li-validator__value slashes\\">
    <span>n/a</span>
-</div>
-<div id=\\"add-to-cart\\" class=\\"li-validator__value checkbox\\">
-   <i class=\\"material-icons\\">check_box_outline_blank</i>
 </div>
 </div>
 </div>
 <div class=\\"li-validator li-validator-active li-validator-validator \\">
    <div class=\\"li-validator__values\\">
       <div class=\\"li-validator__value name\\">
-         <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"\\"><span class=\\"validator-profile__status\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
             <div class=\\"top\\">
                mr_mounty
@@ -123,23 +115,20 @@ exports[`PageStaking has the expected html structure 1`] = `
    <span>42.42%</span>
 </div>
 <div class=\\"li-validator__value uptime\\">
-   <span>n/a</span>
+   <span>0.01%</span>
 </div>
 <div class=\\"li-validator__value commission\\">
-   <span>n/a</span>
+   <span>0.00%</span>
 </div>
 <div class=\\"li-validator__value slashes\\">
    <span>n/a</span>
-</div>
-<div class=\\"li-validator__value checkbox\\">
-   <i class=\\"material-icons\\">lock</i>
 </div>
 </div>
 </div>
 <div class=\\"li-validator li-validator-validator \\">
    <div class=\\"li-validator__values\\">
       <div class=\\"li-validator__value name\\">
-         <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"\\"><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"\\"><span class=\\"validator-profile__status\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
             <div class=\\"top\\">
                good_greg
@@ -163,16 +152,13 @@ exports[`PageStaking has the expected html structure 1`] = `
    <span>0.00%</span>
 </div>
 <div class=\\"li-validator__value uptime\\">
-   <span>n/a</span>
+   <span>0.01%</span>
 </div>
 <div class=\\"li-validator__value commission\\">
-   <span>n/a</span>
+   <span>0.00%</span>
 </div>
 <div class=\\"li-validator__value slashes\\">
    <span>n/a</span>
-</div>
-<div id=\\"add-to-cart\\" class=\\"li-validator__value checkbox\\">
-   <i class=\\"material-icons\\">check_box_outline_blank</i>
 </div>
 </div>
 </div>
@@ -270,19 +256,6 @@ exports[`PageStaking should filter the delegates 1`] = `
           </div>
         </div>
       </div>
-      <div
-        class="sort-by action hidden"
-      >
-        <div
-          class="label"
-        >
-          <div
-            class="label-text"
-          >
-            
-          </div>
-        </div>
-      </div>
     </div>
   </div>
   <div
@@ -298,6 +271,9 @@ exports[`PageStaking should filter the delegates 1`] = `
           class=""
           href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
         >
+          <span
+            class="validator-profile__status"
+          />
           <img
             class="avatar"
             height="48"
@@ -350,14 +326,14 @@ exports[`PageStaking should filter the delegates 1`] = `
         class="li-validator__value uptime"
       >
         <span>
-          n/a
+          0.01%
         </span>
       </div>
       <div
         class="li-validator__value commission"
       >
         <span>
-          n/a
+          0.00%
         </span>
       </div>
       <div
@@ -366,15 +342,6 @@ exports[`PageStaking should filter the delegates 1`] = `
         <span>
           n/a
         </span>
-      </div>
-      <div
-        class="li-validator__value checkbox"
-      >
-        <i
-          class="material-icons"
-        >
-          lock
-        </i>
       </div>
     </div>
   </div>

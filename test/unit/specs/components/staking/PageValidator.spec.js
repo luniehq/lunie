@@ -1,4 +1,3 @@
-import BigNumber from "bignumber.js"
 import Delegation from "renderer/vuex/modules/delegation"
 import ModalStake from "staking/ModalStake"
 import setup from "../../../helpers/vuex-setup"
@@ -116,66 +115,91 @@ describe(`PageValidator`, () => {
     expect(wrapper.find(`#validator-profile__self-bond`).text()).toBe(`1.00 %`)
   })
 
-  it(`switches color indicators`, async () => {
+  it(`should show the validator status`, () => {
+    expect(wrapper.vm.status).toBe(`This validator is actively validating`)
+    // Jailed
     store.state.delegates.delegates = [
       Object.assign({}, delegate, {
-        commission: `0`
+        revoked: true
       })
     ]
     wrapper.update()
-    expect(wrapper.find(`#validator-profile__commission`).classes()).toContain(
-      `green`
+    expect(wrapper.vm.status).toBe(
+      `This validator has been jailed and is not currently validating`
     )
-
+    // Is not a validator
     store.state.delegates.delegates = [
       Object.assign({}, delegate, {
-        commission: `0.02`
+        voting_power: 0
       })
     ]
     wrapper.update()
-    expect(wrapper.find(`#validator-profile__commission`).classes()).toContain(
-      `yellow`
-    )
-
-    store.state.delegates.delegates = [
-      Object.assign({}, delegate, {
-        commission: `1`
-      })
-    ]
-    wrapper.update()
-    expect(wrapper.find(`#validator-profile__commission`).classes()).toContain(
-      `red`
-    )
-
-    store.state.delegates.globalPower = 1000
-    store.state.delegates.delegates = [
-      Object.assign({}, delegate, {
-        tokens: `1000`
-      })
-    ]
-    wrapper.update()
-    expect(wrapper.find(`#validator-profile__power`).classes()).toContain(`red`)
-
-    store.state.delegates.delegates = [
-      Object.assign({}, delegate, {
-        tokens: `10`
-      })
-    ]
-    wrapper.update()
-    expect(wrapper.find(`#validator-profile__power`).classes()).toContain(
-      `yellow`
-    )
-
-    store.state.delegates.delegates = [
-      Object.assign({}, delegate, {
-        tokens: `1`
-      })
-    ]
-    wrapper.update()
-    expect(wrapper.find(`#validator-profile__power`).classes()).toContain(
-      `green`
+    expect(wrapper.vm.status).toBe(
+      `This validator has declared candidacy but does not have enough voting power yet`
     )
   })
+
+  // TODO enable when we decide on limits are defined
+  // it("switches color indicators", async () => {
+  //   store.state.delegates.delegates = [
+  //     Object.assign({}, delegate, {
+  //       commission: "0"
+  //     })
+  //   ]
+  //   wrapper.update()
+  //   expect(wrapper.find("#validator-profile__commission").classes()).toContain(
+  //     "green"
+  //   )
+  //
+  //   store.state.delegates.delegates = [
+  //     Object.assign({}, delegate, {
+  //       commission: "0.02"
+  //     })
+  //   ]
+  //   wrapper.update()
+  //   expect(wrapper.find("#validator-profile__commission").classes()).toContain(
+  //     "yellow"
+  //   )
+  //
+  //   store.state.delegates.delegates = [
+  //     Object.assign({}, delegate, {
+  //       commission: "1"
+  //     })
+  //   ]
+  //   wrapper.update()
+  //   expect(wrapper.find("#validator-profile__commission").classes()).toContain(
+  //     "red"
+  //   )
+  //
+  //   store.state.delegates.globalPower = 1000
+  //   store.state.delegates.delegates = [
+  //     Object.assign({}, delegate, {
+  //       tokens: "1000"
+  //     })
+  //   ]
+  //   wrapper.update()
+  //   expect(wrapper.find("#validator-profile__power").classes()).toContain("red")
+  //
+  //   store.state.delegates.delegates = [
+  //     Object.assign({}, delegate, {
+  //       tokens: "10"
+  //     })
+  //   ]
+  //   wrapper.update()
+  //   expect(wrapper.find("#validator-profile__power").classes()).toContain(
+  //     "yellow"
+  //   )
+  //
+  //   store.state.delegates.delegates = [
+  //     Object.assign({}, delegate, {
+  //       tokens: "1"
+  //     })
+  //   ]
+  //   wrapper.update()
+  //   expect(wrapper.find("#validator-profile__power").classes()).toContain(
+  //     "green"
+  //   )
+  // })
 
   it(`shows a validator as candidate if he has no voting_power`, () => {
     store.state.delegates.delegates = [
@@ -185,9 +209,9 @@ describe(`PageValidator`, () => {
     ]
     wrapper.update()
     expect(wrapper.vm.status).toMatchSnapshot()
-    expect(wrapper.find(`.validator-profile__status`).classes()).toContain(
-      `yellow`
-    )
+    // expect(wrapper.find(".validator-profile__status").classes()).toContain(
+    //   "yellow"
+    // )
   })
 
   it(`shows that a validator is revoked`, () => {
@@ -198,9 +222,9 @@ describe(`PageValidator`, () => {
     ]
     wrapper.update()
     wrapper.vm.status = expect(wrapper.vm.status).toMatchSnapshot()
-    expect(wrapper.find(`.validator-profile__status`).classes()).toContain(
-      `red`
-    )
+    // expect(wrapper.find(".validator-profile__status").classes()).toContain(
+    //   "red"
+    // )
   })
 })
 
@@ -273,7 +297,7 @@ describe(`onStake`, () => {
         await submitDelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
-          [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+          [`submitDelegation`, { delegations: [{ atoms: 10, delegate }] }]
         ])
 
         expect($store.commit.mock.calls).toEqual([
@@ -308,7 +332,7 @@ describe(`onStake`, () => {
         await submitDelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
-          [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+          [`submitDelegation`, { delegations: [{ atoms: 10, delegate }] }]
         ])
 
         expect($store.commit.mock.calls).toEqual([
@@ -343,7 +367,7 @@ describe(`onStake`, () => {
         await submitDelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
-          [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+          [`submitDelegation`, { delegations: [{ atoms: 10, delegate }] }]
         ])
 
         expect($store.commit.mock.calls).toEqual([
@@ -393,39 +417,41 @@ describe(`onStake`, () => {
         expect($store.dispatch.mock.calls).toEqual([
           [
             `submitDelegation`,
-            [
-              {
-                atoms: BigNumber(10),
-                delegate: {
-                  bond_height: `0`,
-                  bond_intra_tx_counter: 6,
-                  commission: `0.05`,
-                  commission_change_rate: `0.01`,
-                  commission_change_today: `0.005`,
-                  commission_max: `0.1`,
-                  delegator_shares: `19`,
-                  description: {
-                    country: `DE`,
-                    details: `Herr Schmidt`,
-                    moniker: `herr_schmidt_revoked`,
-                    website: `www.schmidt.de`
-                  },
-                  keybase: undefined,
-                  owner: `1a2b3c`,
-                  prev_bonded_shares: `0`,
-                  proposer_reward_pool: null,
-                  pub_key: {
-                    data: `dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=`,
-                    type: `AC26791624DE60`
-                  },
-                  revoked: false,
-                  selfBond: 0.01,
-                  status: 2,
-                  tokens: `19`,
-                  voting_power: `10`
+            {
+              delegations: [
+                {
+                  atoms: 10,
+                  delegate: {
+                    bond_height: `0`,
+                    bond_intra_tx_counter: 6,
+                    commission: `0.05`,
+                    commission_change_rate: `0.01`,
+                    commission_change_today: `0.005`,
+                    commission_max: `0.1`,
+                    delegator_shares: `19`,
+                    description: {
+                      country: `DE`,
+                      details: `Herr Schmidt`,
+                      moniker: `herr_schmidt_revoked`,
+                      website: `www.schmidt.de`
+                    },
+                    keybase: undefined,
+                    owner: `1a2b3c`,
+                    prev_bonded_shares: `0`,
+                    proposer_reward_pool: null,
+                    pub_key: {
+                      data: `dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=`,
+                      type: `AC26791624DE60`
+                    },
+                    revoked: false,
+                    selfBond: 0.01,
+                    status: 2,
+                    tokens: `19`,
+                    voting_power: `10`
+                  }
                 }
-              }
-            ]
+              ]
+            }
           ],
           [
             `sendTx`,

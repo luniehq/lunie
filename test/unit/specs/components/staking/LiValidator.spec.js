@@ -21,6 +21,12 @@ describe(`LiValidator`, () => {
     await store.dispatch(`getDelegates`)
     delegate = store.state.delegates.delegates[0]
     delegate.percent_of_vote = `22%`
+    delegate.signing_info = {
+      start_height: 0,
+      index_offset: 465400,
+      jailed_until: `1970-01-01T00:00:00Z`,
+      signed_blocks_counter: 9878
+    }
     wrapper.setData({ delegate })
   })
 
@@ -28,32 +34,40 @@ describe(`LiValidator`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it(`should calculate the validator's power ratio`, () => {
+    let ratio = wrapper.vm.delegate.tokens / wrapper.vm.delegates.globalPower
+    expect(wrapper.vm.powerRatio).toBe(ratio)
+  })
+
   it(`should show the voting power`, () => {
     expect(wrapper.html()).toContain(`22%`)
   })
 
-  it(`should add to cart`, () => {
-    expect(wrapper.vm.shoppingCart).toEqual([])
-    expect(wrapper.vm.inCart).toBeFalsy()
-    expect(wrapper.html()).not.toContain(`li-validator-active`)
-    wrapper.find(`#add-to-cart`).trigger(`click`)
-    expect(wrapper.vm.inCart).toBeTruthy()
-    expect(store.commit).toHaveBeenCalledWith(
-      `addToCart`,
-      store.state.delegates.delegates[0]
+  it(`should show the validator status`, () => {
+    expect(wrapper.vm.status).toBe(`This validator is actively validating`)
+    // Jailed
+    wrapper.vm.delegate = {
+      revoked: true
+    }
+    expect(wrapper.vm.status).toBe(
+      `This validator has been jailed and is not currently validating`
     )
-    expect(wrapper.html()).toContain(`li-validator-active`)
+    // Is not a validator
+    wrapper.vm.delegate = {
+      voting_power: 0
+    }
+    expect(wrapper.vm.status).toBe(
+      `This validator has declared candidacy but does not have enough voting power yet`
+    )
   })
 
-  it(`should remove from cart`, () => {
-    store.commit(`addToCart`, store.state.delegates.delegates[0])
-    wrapper.update()
-    expect(wrapper.vm.inCart).toBeTruthy()
-    wrapper.find(`#remove-from-cart`).trigger(`click`)
-    expect(store.commit).toHaveBeenCalledWith(`removeFromCart`, delegate.id)
-    expect(wrapper.vm.shoppingCart).toEqual([])
-    expect(wrapper.vm.inCart).toBeFalsy()
-    expect(wrapper.html()).not.toContain(`li-validator-active`)
+  it(`should show the validator's uptime`, () => {
+    expect(wrapper.vm.uptime).toBe(`98.78%`)
+    expect(wrapper.html()).toContain(`98.78%`)
+  })
+
+  it(`should show the validator's comission`, () => {
+    expect(wrapper.html()).toContain(`0%`)
   })
 
   it(`should show the type of the candidate`, () => {

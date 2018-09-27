@@ -139,13 +139,13 @@ export default {
         },
         {
           title: `Uptime`,
-          value: `uptime`, // TODO: use real uptime
-          tooltip: `The validator's uptime`,
+          value: `uptime`,
+          tooltip: `Ratio of blocks signed within the last 10k blocks`,
           class: `uptime`
         },
         {
           title: `Commission`,
-          value: `commission`, // TODO: use real commission
+          value: `commission`,
           tooltip: `The validator's commission`,
           class: `commission`
         },
@@ -154,11 +154,6 @@ export default {
           value: `slashes`, // TODO: use real slashes
           tooltip: `The validator's slashes`,
           class: `slashes`
-        },
-        {
-          title: ``,
-          value: ``,
-          class: `action hidden`
         }
       ]
     }

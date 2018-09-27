@@ -31,9 +31,6 @@ export default ({ node }) => {
     removeFromCart(state, delegate) {
       state.delegates = state.delegates.filter(c => c.id !== delegate)
     },
-    setShares(state, { candidateId, value }) {
-      state.delegates.find(c => c.id === candidateId).atoms = value
-    },
     setCommittedDelegation(state, { candidateId, value }) {
       let committedDelegates = Object.assign({}, state.committedDelegates)
       if (value === 0) {
@@ -139,49 +136,40 @@ export default ({ node }) => {
       return dispatch(`getBondedDelegates`, candidates)
     },
     async submitDelegation(
-      { rootState, state, dispatch, commit },
-      delegations
+      {
+        rootState: { config, user, wallet },
+        state,
+        dispatch,
+        commit
+      },
+      { delegations = [], unbondings = [] }
     ) {
-      let delegate = []
-      let unbond = []
-      for (let delegation of delegations) {
-        let candidateId = delegation.delegate.owner
-        let currentlyDelegated = 0
-        currentlyDelegated = calculateTokens(
-          delegation.delegate,
-          state.committedDelegates[candidateId] || 0
+      const denom = config.bondingDenom.toLowerCase()
+
+      const mappedDelegations = delegations.map(
+        ({ atoms, delegate: { owner } }) => ({
+          delegator_addr: wallet.address,
+          validator_addr: owner,
+          delegation: {
+            denom,
+            amount: String(atoms)
+          }
+        })
+      )
+
+      const mappedUnbondings = unbondings.map(({ atoms, delegate }) => ({
+        delegator_addr: wallet.address,
+        validator_addr: delegate.owner,
+        shares: String(
+          Math.abs(calculateShares(delegate, atoms)).toFixed(8) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
         )
-        let amountChange =
-          parseFloat(delegation.atoms) - currentlyDelegated.toNumber()
-        let isBond = amountChange > 0
-        // skip if no change
-        if (amountChange === 0) continue
-        if (isBond) {
-          delegate.push({
-            delegator_addr: rootState.wallet.address,
-            validator_addr: candidateId,
-            delegation: {
-              denom: rootState.config.bondingDenom.toLowerCase(),
-              amount: String(amountChange)
-            }
-          })
-        } else {
-          unbond.push({
-            delegator_addr: rootState.wallet.address,
-            validator_addr: candidateId,
-            shares: String(
-              Math.abs(
-                calculateShares(delegation.delegate, amountChange)
-              ).toFixed(8) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
-            )
-          })
-        }
-      }
+      }))
+
       await dispatch(`sendTx`, {
         type: `updateDelegations`,
-        to: rootState.wallet.address, // TODO strange syntax
-        delegations: delegate,
-        begin_unbondings: unbond
+        to: wallet.address, // TODO strange syntax
+        delegations: mappedDelegations,
+        begin_unbondings: mappedUnbondings
       })
       // (optimistic update) we update the atoms of the user before we get the new values from chain
       let atomsDiff = delegations
@@ -194,7 +182,7 @@ export default ({ node }) => {
             ) - delegation.atoms
         )
         .reduce((sum, diff) => sum + diff, 0)
-      commit(`setAtoms`, rootState.user.atoms + atomsDiff)
+      commit(`setAtoms`, user.atoms + atomsDiff)
 
       // we optimistically update the committed delegations
       // TODO usually I would just query the new state through the LCD and update the state with the result, but at this point we still get the old shares

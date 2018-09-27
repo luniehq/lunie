@@ -227,7 +227,6 @@ exports[`PageValidator has the expected html structure 1`] = `
               Voting Power
             </dt>
             <dd
-              class="red"
               id="validator-profile__power"
             >
               100.00 %
@@ -239,8 +238,10 @@ exports[`PageValidator has the expected html structure 1`] = `
             <dt>
               Uptime
             </dt>
-            <dd>
-              n/a
+            <dd
+              id="validator-profile__uptime"
+            >
+              n/a %
             </dd>
           </dl>
           <dl
@@ -250,7 +251,6 @@ exports[`PageValidator has the expected html structure 1`] = `
               Commission
             </dt>
             <dd
-              class="red"
               id="validator-profile__commission"
             >
               0.05 %
@@ -652,7 +652,6 @@ exports[`PageValidator shows a default avatar 1`] = `
               Voting Power
             </dt>
             <dd
-              class="red"
               id="validator-profile__power"
             >
               100.00 %
@@ -664,8 +663,10 @@ exports[`PageValidator shows a default avatar 1`] = `
             <dt>
               Uptime
             </dt>
-            <dd>
-              n/a
+            <dd
+              id="validator-profile__uptime"
+            >
+              n/a %
             </dd>
           </dl>
           <dl
@@ -675,7 +676,6 @@ exports[`PageValidator shows a default avatar 1`] = `
               Commission
             </dt>
             <dd
-              class="red"
               id="validator-profile__commission"
             >
               0.05 %

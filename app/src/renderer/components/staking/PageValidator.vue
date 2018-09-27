@@ -33,13 +33,13 @@ tm-page
           .validator-profile__header__data__break
           dl.colored_dl
             dt Voting Power
-            dd(id="validator-profile__power" v-bind:class="[powerRatioLevel]") {{pretty(powerRatio * 100)}} %
+            dd(id="validator-profile__power") {{ pretty(powerRatio * 100)}} %
           dl.colored_dl(v-if="config.devMode")
             dt Uptime
-            dd n/a
+            dd(id="validator-profile__uptime") {{ validator.signing_info ? pretty(validator.signing_info.signed_blocks_counter/100) : `n/a`}} %
           dl.colored_dl
             dt Commission
-            dd(id="validator-profile__commission" v-bind:class="[commissionLevel]") {{pretty(validator.commission)}} %
+            dd(id="validator-profile__commission") {{ validator.commission }} %
           dl.colored_dl(v-if="config.devMode")
             dt Slashes
             dd n/a
@@ -102,7 +102,7 @@ tm-page
 import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
-import { calculateTokens, shortAddress, ratToBigNumber } from "scripts/common"
+import { shortAddress, ratToBigNumber } from "scripts/common"
 import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
@@ -160,16 +160,18 @@ export default {
         .div(this.delegates.globalPower)
         .toNumber()
     },
-    powerRatioLevel() {
-      if (this.powerRatio < 0.01) return `green`
-      if (this.powerRatio < 0.03) return `yellow`
-      return `red`
-    },
-    commissionLevel() {
-      if (this.validator.commission < 0.01) return `green`
-      if (this.validator.commission < 0.03) return `yellow`
-      return `red`
-    },
+    // TODO enable once we decide on limits
+    // powerRatioLevel() {
+    //   if (this.powerRatio < 0.01) return "green"
+    //   if (this.powerRatio < 0.03) return "yellow"
+    //   return "red"
+    // },
+    // TODO enable once we decide on limits
+    // commissionLevel() {
+    //   if (this.validator.commission < 0.01) return "green"
+    //   if (this.validator.commission < 0.03) return "yellow"
+    //   return "red"
+    // },
     status() {
       // status: jailed
       if (this.validator.revoked)
@@ -208,22 +210,15 @@ export default {
       }
     },
     async submitDelegation({ amount }) {
-      const candidateId = this.validator.owner
-
-      const currentlyDelegated = calculateTokens(
-        this.validator,
-        this.delegation.committedDelegates[candidateId] || 0
-      )
-
-      const delegation = [
-        {
-          atoms: currentlyDelegated.plus(amount),
-          delegate: this.validator
-        }
-      ]
-
       try {
-        await this.$store.dispatch(`submitDelegation`, delegation)
+        await this.$store.dispatch(`submitDelegation`, {
+          delegations: [
+            {
+              atoms: amount,
+              delegate: this.validator
+            }
+          ]
+        })
 
         this.$store.commit(`notify`, {
           title: `Successful Staking!`,
