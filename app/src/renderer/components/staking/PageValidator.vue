@@ -102,7 +102,7 @@ tm-page
 import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
-import { calculateTokens, shortAddress, ratToBigNumber } from "scripts/common"
+import { shortAddress, ratToBigNumber } from "scripts/common"
 import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
@@ -210,22 +210,15 @@ export default {
       }
     },
     async submitDelegation({ amount }) {
-      const candidateId = this.validator.owner
-
-      const currentlyDelegated = calculateTokens(
-        this.validator,
-        this.delegation.committedDelegates[candidateId] || 0
-      )
-
-      const delegation = [
-        {
-          atoms: currentlyDelegated.plus(amount),
-          delegate: this.validator
-        }
-      ]
-
       try {
-        await this.$store.dispatch("submitDelegation", delegation)
+        await this.$store.dispatch("submitDelegation", {
+          delegations: [
+            {
+              atoms: amount,
+              delegate: this.validator
+            }
+          ]
+        })
 
         this.$store.commit("notify", {
           title: "Successful Staking!",
