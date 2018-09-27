@@ -1,4 +1,3 @@
-import BigNumber from "bignumber.js"
 import Delegation from "renderer/vuex/modules/delegation"
 import ModalStake from "staking/ModalStake"
 import ModalUnstake from "staking/ModalUnstake"
@@ -299,7 +298,7 @@ describe(`onStake`, () => {
         await submitDelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
-          [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+          [`submitDelegation`, { delegations: [{ atoms: 10, delegate }] }]
         ])
 
         expect($store.commit.mock.calls).toEqual([
@@ -334,7 +333,7 @@ describe(`onStake`, () => {
         await submitDelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
-          [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+          [`submitDelegation`, { delegations: [{ atoms: 10, delegate }] }]
         ])
 
         expect($store.commit.mock.calls).toEqual([
@@ -369,7 +368,7 @@ describe(`onStake`, () => {
         await submitDelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
-          [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+          [`submitDelegation`, { delegations: [{ atoms: 10, delegate }] }]
         ])
 
         expect($store.commit.mock.calls).toEqual([
@@ -419,39 +418,41 @@ describe(`onStake`, () => {
         expect($store.dispatch.mock.calls).toEqual([
           [
             "submitDelegation",
-            [
-              {
-                atoms: BigNumber(10),
-                delegate: {
-                  bond_height: "0",
-                  bond_intra_tx_counter: 6,
-                  commission: "0.05",
-                  commission_change_rate: "0.01",
-                  commission_change_today: "0.005",
-                  commission_max: "0.1",
-                  delegator_shares: "19",
-                  description: {
-                    country: "DE",
-                    details: "Herr Schmidt",
-                    moniker: "herr_schmidt_revoked",
-                    website: "www.schmidt.de"
-                  },
-                  keybase: undefined,
-                  owner: "1a2b3c",
-                  prev_bonded_shares: "0",
-                  proposer_reward_pool: null,
-                  pub_key: {
-                    data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=",
-                    type: "AC26791624DE60"
-                  },
-                  revoked: false,
-                  selfBond: 0.01,
-                  status: 2,
-                  tokens: "19",
-                  voting_power: "10"
+            {
+              delegations: [
+                {
+                  atoms: 10,
+                  delegate: {
+                    bond_height: "0",
+                    bond_intra_tx_counter: 6,
+                    commission: "0.05",
+                    commission_change_rate: "0.01",
+                    commission_change_today: "0.005",
+                    commission_max: "0.1",
+                    delegator_shares: "19",
+                    description: {
+                      country: "DE",
+                      details: "Herr Schmidt",
+                      moniker: "herr_schmidt_revoked",
+                      website: "www.schmidt.de"
+                    },
+                    keybase: undefined,
+                    owner: "1a2b3c",
+                    prev_bonded_shares: "0",
+                    proposer_reward_pool: null,
+                    pub_key: {
+                      data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=",
+                      type: "AC26791624DE60"
+                    },
+                    revoked: false,
+                    selfBond: 0.01,
+                    status: 2,
+                    tokens: "19",
+                    voting_power: "10"
+                  }
                 }
-              }
-            ]
+              ]
+            }
           ],
           [
             "sendTx",
