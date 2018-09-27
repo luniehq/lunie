@@ -33,13 +33,13 @@ tm-page
           .validator-profile__header__data__break
           dl.colored_dl
             dt Voting Power
-            dd(id="validator-profile__power" v-bind:class="[powerRatioLevel]") {{pretty(powerRatio * 100)}} %
+            dd(id="validator-profile__power") {{ pretty(powerRatio * 100)}} %
           dl.colored_dl(v-if="config.devMode")
             dt Uptime
-            dd n/a
+            dd(id="validator-profile__uptime") {{ validator.signing_info ? pretty(validator.signing_info.signed_blocks_counter/100) : `n/a`}} %
           dl.colored_dl
             dt Commission
-            dd(id="validator-profile__commission" v-bind:class="[commissionLevel]") {{pretty(validator.commission)}} %
+            dd(id="validator-profile__commission") {{ validator.commission }} %
           dl.colored_dl(v-if="config.devMode")
             dt Slashes
             dd n/a
@@ -102,7 +102,11 @@ tm-page
 import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
+<<<<<<< HEAD
 import { calculateShares, shortAddress, ratToBigNumber } from "scripts/common"
+=======
+import { shortAddress, ratToBigNumber } from "scripts/common"
+>>>>>>> bafdd043d69598a72c6d258e400e843e1f57416a
 import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
@@ -162,16 +166,18 @@ export default {
         .div(this.delegates.globalPower)
         .toNumber()
     },
-    powerRatioLevel() {
-      if (this.powerRatio < 0.01) return "green"
-      if (this.powerRatio < 0.03) return "yellow"
-      return "red"
-    },
-    commissionLevel() {
-      if (this.validator.commission < 0.01) return "green"
-      if (this.validator.commission < 0.03) return "yellow"
-      return "red"
-    },
+    // TODO enable once we decide on limits
+    // powerRatioLevel() {
+    //   if (this.powerRatio < 0.01) return "green"
+    //   if (this.powerRatio < 0.03) return "yellow"
+    //   return "red"
+    // },
+    // TODO enable once we decide on limits
+    // commissionLevel() {
+    //   if (this.validator.commission < 0.01) return "green"
+    //   if (this.validator.commission < 0.03) return "yellow"
+    //   return "red"
+    // },
     status() {
       // status: jailed
       if (this.validator.revoked)
@@ -210,46 +216,18 @@ export default {
       }
     },
     async submitDelegation({ amount, from }) {
-      let stakeTransactions = {}
+      const delegatorAddr = this.wallet.address
       let type
 
-      const delegatorAddr = this.wallet.address
-      const validatorAddr = this.validator.owner
-
-      // TODO Split delegation and redelegation (begin & complete) into ≠ functions
       if (from === delegatorAddr) {
-        type = "delegation"
-        stakeTransactions.delegations = [
-          {
-            delegator_addr: delegatorAddr,
-            validator_addr: validatorAddr,
-            delegation: {
-              denom: this.bondingDenom.toLowerCase(),
-              amount: String(amount)
-            }
-          }
-        ]
-      } else {
-        type = "begin_redelegation"
-
-        let validatorFrom = this.delegates.delegates.find(validator => {
-          return validator.owner === from
-        })
-        let shares = calculateShares(validatorFrom, amount)
-        stakeTransactions.begin_redelegates = [
-          {
-            delegator_addr: delegatorAddr,
-            shares: String(shares.toFixed(8)), // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
-            validator_src_addr: from,
-            validator_dst_addr: validatorAddr
-          }
-        ]
-      }
-
-      try {
-        await this.$store.dispatch("submitDelegation", {
-          type,
-          stakeTransactions
+        try {
+          await this.$store.dispatch("submitDelegation", {
+            delegations: [
+              {
+                atoms: amount,
+                validator: this.validator
+              }
+            ]
         })
 
         this.$store.commit("notify", {
@@ -259,30 +237,49 @@ export default {
       } catch (exception) {
         const { message } = exception
         let errData = message.split("\n")[5]
-
         if (errData) {
           let parsedErr = errData.split('"')[1]
-          if (type === "delegation") {
+          this.$store.commit("notifyError", {
+            title: `Error while delegating ${this.bondingDenom}s`,
+            body: parsedErr
+              ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
+              : errData
+          })
+        } else {
             this.$store.commit("notifyError", {
               title: `Error while delegating ${this.bondingDenom}s`,
-              body: parsedErr
-                ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
-                : errData
+              body: message
             })
-          } else {
+          }
+        }
+      } else {
+        try {
+          await this.$store.dispatch("submitDelegation", {
+            redelegations: [
+              {
+                atoms: amount,
+                validatorSrc: from,
+                validatorDst: this.validator
+              }
+            ]
+          })
+
+          this.$store.commit("notify", {
+            title: "Successful redelegation!",
+            body: `You have successfully redelegated your ${this.bondingDenom}s.`
+          })
+        } catch (exception) {
+          const { message } = exception
+          let errData = message.split("\n")[5]
+          if (errData) {
+            let parsedErr = errData.split('"')[1]
             this.$store.commit("notifyError", {
               title: `Error while redelegating ${this.bondingDenom}s`,
               body: parsedErr
                 ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
                 : errData
             })
-          }
-        } else {
-          if (type === "delegation") {
-            this.$store.commit("notifyError", {
-              title: `Error while delegating ${this.bondingDenom}s`,
-              body: message
-            })
+
           } else {
             this.$store.commit("notifyError", {
               title: `Error while redelegating ${this.bondingDenom}s`,

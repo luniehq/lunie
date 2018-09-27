@@ -48,11 +48,6 @@ export default [
     ]
   },
   {
-    path: "/staking/bond",
-    name: "bond",
-    component: staking("Bond")
-  },
-  {
     path: "/staking/validators/:validator",
     name: "validator",
     component: staking("Validator")

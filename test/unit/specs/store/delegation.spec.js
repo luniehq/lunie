@@ -45,12 +45,6 @@ describe("Module: Delegations", () => {
     expect(store.state.delegation.delegates.length).toBe(1)
   })
 
-  it("sets atoms for delegate", () => {
-    store.commit("addToCart", { id: "foo" })
-    store.commit("setShares", { candidateId: "foo", value: 123 })
-    expect(store.state.delegation.delegates[0].atoms).toBe(123)
-  })
-
   it("sets committed atoms for delegate", () => {
     store.commit("addToCart", { id: "foo" })
     store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })
@@ -90,12 +84,20 @@ describe("Module: Delegations", () => {
         }
       }))
 
-    let stakeTransactions = {
-      delegations
-    }
+    const delegates = store.state.delegates.delegates
 
-    let type = "delegation"
-    await store.dispatch("submitDelegation", { type, stakeTransactions })
+    const delegations = [
+      {
+        delegate: delegates[0],
+        atoms: 109
+      },
+      {
+        delegate: delegates[1],
+        atoms: 456
+      }
+    ]
+
+    await store.dispatch("submitDelegation", { delegations })
 
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
@@ -108,22 +110,20 @@ describe("Module: Delegations", () => {
     await store.dispatch("getBondedDelegates")
 
     jest.spyOn(store._actions.sendTx, "0")
-    let bondings = [10, 100]
-    const begin_unbondings = store.state.delegates.delegates
-      .slice(0, 1)
-      .map((delegate, i) => ({
-        validator_addr: delegate.owner,
-        delegator_addr: store.state.wallet.address,
-        shares: String(bondings[i])
-      }))
 
-    let stakeTransactions = {
-      begin_unbondings
-    }
+    const delegates = store.state.delegates.delegates
+    const unbondings = [
+      {
+        delegate: delegates[0],
+        atoms: -113
+      },
+      {
+        delegate: delegates[1],
+        atoms: -356
+      }
+    ]
 
-    let type = "begin_unbonding"
-    await store.dispatch("submitDelegation", { type, stakeTransactions })
-
+    await store.dispatch("submitDelegation", { unbondings })
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
 
@@ -205,19 +205,21 @@ describe("Module: Delegations", () => {
 
   it("should undelegate", async () => {
     // store the unbondingDelegation in the lcdclientmock
-    let stakeTransactions = {
-      begin_unbondings: [
+    await store.dispatch("submitDelegation", {
+      unbondings: [
         {
-          validator_addr: lcdClientMock.validators[0],
-          delegator_addr: store.state.wallet.address,
-          shares: String(100)
+          delegate: {
+            owner: lcdClientMock.validators[0],
+            delegator_shares: "100",
+            tokens: "100"
+          },
+          balance: {
+            amount: "100"
+          }
         }
       ]
-    }
-    let type = "begin_unbonding"
-    await store.dispatch("submitDelegation", { type, stakeTransactions })
+    })
 
-    // unbond
     store.commit("setUnbondingDelegations", {
       validator_addr: lcdClientMock.validators[0],
       balance: { amount: "100" }

@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * add option in staking modal to redelegate tokens from previosly bonded validators @fedekunze
 * close buttons to Staking modal @NodeGuy
 * more tests for new staking modal @NodeGuy
+* Add commission and uptime to LiValidator @fedekunze
+* Delete old bonding page @fedekunze
 
 ### Changed
 
@@ -26,6 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Added new validator profile page @faboweb
 * cleaning up new validator profile page and balance header @jbibla
 * Changed a bunch of JavaScript files to strict mode. @NodeGuy @faboweb
+* Refactord submitDelegation. @NodeGuy
 
 ### Fixed
 

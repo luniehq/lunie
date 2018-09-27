@@ -1,6 +1,6 @@
 "use strict"
 
-import { calculateTokens } from "scripts/common"
+import { calculateShares, calculateTokens } from "scripts/common"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
@@ -14,13 +14,6 @@ export default ({ node }) => {
     unbondingDelegations: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
-
-  // Staking Msgs
-  const msgDelegation = "delegation"
-  // const msgBeginUnbonding = "begin_unbonding"
-  // const msgCompleteUnbonding = "complete_unbonding"
-  // const msgBeginRedelegation = "begin_redelegation"
-  // const msgCompleteRedelegation = "complete_redelegation"
 
   const mutations = {
     addToCart(state, delegate) {
@@ -37,9 +30,6 @@ export default ({ node }) => {
     },
     removeFromCart(state, delegate) {
       state.delegates = state.delegates.filter(c => c.id !== delegate)
-    },
-    setShares(state, { candidateId, value }) {
-      state.delegates.find(c => c.id === candidateId).atoms = value
     },
     setCommittedDelegation(state, { candidateId, value }) {
       let committedDelegates = Object.assign({}, state.committedDelegates)
@@ -164,39 +154,61 @@ export default ({ node }) => {
       state.loading = false
     },
     async submitDelegation(
-      { rootState, state, dispatch, commit },
-      { type, stakeTransactions }
+      {
+        rootState: { config, user, wallet },
+        state,
+        dispatch,
+        commit
+      },
+      { delegations = [], unbondings = [], redelegations = [] }
     ) {
+      const denom = config.bondingDenom.toLowerCase()
+      const delegatorAddr = this.wallet.address
+
+      const mappedDelegations = delegations.map(({ atoms, validator }) => ({
+        delegator_addr: delegatorAddr,
+        validator_addr: validator.owner,
+        delegation: {
+          denom,
+          amount: String(atoms)
+        }
+      }))
+
+      const mappedUnbondings = unbondings.map(({ atoms, validator }) => ({
+        delegator_addr: delegatorAddr,
+        validator_addr: validator.owner,
+        shares: String(calculateShares(validator, atoms).toFixed(8)) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
+      }))
+
+      const mappedRedelegations = redelegations.map(
+        ({ atoms, validatorSrc, validatorDst }) => ({
+          delegator_addr: delegatorAddr,
+          validator_src_addr: validatorSrc.owner,
+          validator_dst_addr: validatorDst.owner,
+          shares: String(calculateShares(validatorSrc, atoms).toFixed(8)) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
+        })
+      )
+
       await dispatch("sendTx", {
         type: "updateDelegations",
-        to: rootState.wallet.address, // TODO strange syntax
-        ...stakeTransactions
+        to: wallet.address, // TODO strange syntax
+        delegations: mappedDelegations,
+        begin_unbondings: mappedUnbondings,
+        begin_redelegates: mappedRedelegations
       })
+      // (optimistic update) we update the atoms of the user before we get the new values from chain
+      let atomsDiff = delegations
+        // compare old and new delegations and diff against old atoms
+        .map(
+          delegation =>
+            calculateTokens(
+              delegation.delegate,
+              state.committedDelegates[delegation.delegate.owner]
+            ) - delegation.atoms
+        )
+        .reduce((sum, diff) => sum + diff, 0)
+      commit("setAtoms", user.atoms + atomsDiff)
 
-      switch (type) {
-        case msgDelegation:
-          // (optimistic update) we update the atoms of the user before we get the new values from chain
-          let atomsDiff = stakeTransactions.delegations
-            // compare old and new delegations and diff against old atoms
-            .map(delegationObj => {
-              // Get the validator to calculate the tokens
-              let validator = state.delegates.find(validators => {
-                return (
-                  validators.delegate.owner === delegationObj.validator_addr
-                )
-              }).delegate
-
-              return (
-                calculateTokens(
-                  validator,
-                  state.committedDelegates[validator.owner]
-                ) - Number(delegationObj.delegation.amount)
-              )
-            })
-            .reduce((sum, diff) => sum + diff, 0)
-          commit("setAtoms", rootState.user.atoms + atomsDiff)
-          break
-      }
       // we optimistically update the committed delegations
       // TODO usually I would just query the new state through the LCD and update the state with the result, but at this point we still get the old shares
       setTimeout(async () => {

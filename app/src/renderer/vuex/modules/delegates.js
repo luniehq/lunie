@@ -2,6 +2,7 @@
 
 import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
+import { isEmpty } from "lodash"
 export default ({ node }) => {
   const emptyState = {
     delegates: [],
@@ -63,12 +64,21 @@ export default ({ node }) => {
     resetSessionData({ rootState }) {
       rootState.delegates = JSON.parse(JSON.stringify(emptyState))
     },
-
+    async updateSigningInfo({ commit }, validators) {
+      for (let validator of validators) {
+        let signing_info = await node.queryValidatorSigningInfo(
+          validator.pub_key
+        )
+        if (!isEmpty(signing_info)) validator.signing_info = signing_info
+        commit("addDelegate", validator)
+      }
+    },
     async getDelegates({ state, commit, dispatch }) {
       commit("setDelegateLoading", true)
       let candidates = await node.getCandidates()
       let { validators } = await node.getValidatorSet()
       for (let delegate of candidates) {
+        delegate.isValidator = false
         if (validators.find(v => v.pub_key === delegate.pub_key)) {
           delegate.isValidator = true
         }
@@ -77,6 +87,7 @@ export default ({ node }) => {
       commit("setDelegates", candidates)
       commit("setDelegateLoading", false)
       dispatch("getKeybaseIdentities", candidates)
+      dispatch("updateSigningInfo", candidates)
 
       return state.delegates
     },
