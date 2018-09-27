@@ -213,75 +213,61 @@ export default {
     },
     async submitDelegation({ amount, from }) {
       const delegatorAddr = this.wallet.address
+      let stakingTransactions = {}
+      let txTitle,
+        txBody,
+        txAction = ``
 
       if (from === delegatorAddr) {
-        try {
-          await this.$store.dispatch("submitDelegation", {
-            delegations: [
-              {
-                atoms: amount,
-                validator: this.validator
-              }
-            ]
-          })
+        txTitle = `Staking`
+        txBody = `staked`
+        txAction = `delegating`
 
-          this.$store.commit("notify", {
-            title: "Successful Staking!",
-            body: `You have successfully staked your ${this.bondingDenom}s.`
-          })
-        } catch (exception) {
-          const { message } = exception
-          let errData = message.split("\n")[5]
-          if (errData) {
-            let parsedErr = errData.split('"')[1]
-            this.$store.commit("notifyError", {
-              title: `Error while delegating ${this.bondingDenom}s`,
-              body: parsedErr
-                ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
-                : errData
-            })
-          } else {
-            this.$store.commit("notifyError", {
-              title: `Error while delegating ${this.bondingDenom}s`,
-              body: message
-            })
+        stakingTransactions.delegations = [
+          {
+            atoms: amount,
+            validator: this.validator
           }
-        }
+        ]
       } else {
-        try {
-          await this.$store.dispatch("submitDelegation", {
-            redelegations: [
-              {
-                atoms: amount,
-                validatorSrc: from,
-                validatorDst: this.validator
-              }
-            ]
-          })
+        txTitle = `redelegation`
+        txBody = `redelegated`
+        txAction = `redelegating`
 
-          this.$store.commit("notify", {
-            title: "Successful redelegation!",
-            body: `You have successfully redelegated your ${
-              this.bondingDenom
-            }s.`
-          })
-        } catch (exception) {
-          const { message } = exception
-          let errData = message.split("\n")[5]
-          if (errData) {
-            let parsedErr = errData.split('"')[1]
-            this.$store.commit("notifyError", {
-              title: `Error while redelegating ${this.bondingDenom}s`,
-              body: parsedErr
-                ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
-                : errData
-            })
-          } else {
-            this.$store.commit("notifyError", {
-              title: `Error while redelegating ${this.bondingDenom}s`,
-              body: message
-            })
+        stakingTransactions.redelegations = [
+          {
+            atoms: amount,
+            validatorSrc: from,
+            validatorDst: this.validator
           }
+        ]
+      }
+
+      try {
+        await this.$store.dispatch("submitDelegation", {
+          stakingTransactions
+        })
+
+        this.$store.commit("notify", {
+          title: `Successful ${txTitle}!`,
+          body: `You have successfully ${txBody} your ${this.bondingDenom}s.`
+        })
+      } catch (exception) {
+        const { message } = exception
+        let errData = message.split("\n")[5]
+        if (errData) {
+          let parsedErr = errData.split('"')[1]
+          this.$store.commit("notifyError", {
+            title: `Error while ${txAction} ${this.bondingDenom}s`,
+            body: parsedErr
+              ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
+              : errData
+          })
+        } else {
+          this.$store.commit("notifyError", {
+            title: `Error while ${txAction} ${this.bondingDenom}s`,
+            body: message
+          })
         }
       }
     },

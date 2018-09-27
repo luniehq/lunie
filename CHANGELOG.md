@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Added new validator profile page @faboweb
 * cleaning up new validator profile page and balance header @jbibla
 * Changed a bunch of JavaScript files to strict mode. @NodeGuy @faboweb
-* Refactord submitDelegation. @NodeGuy
+* Refactored submitDelegation. @NodeGuy
 
 ### Fixed
 

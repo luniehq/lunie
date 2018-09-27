@@ -160,34 +160,41 @@ export default ({ node }) => {
         dispatch,
         commit
       },
-      { delegations = [], unbondings = [], redelegations = [] }
+      { stakingTransactions }
     ) {
       const denom = config.bondingDenom.toLowerCase()
-      const delegatorAddr = this.wallet.address
+      const delegatorAddr = wallet.address
+      // delegations = [], unbondings = [], redelegations = []
 
-      const mappedDelegations = delegations.map(({ atoms, validator }) => ({
-        delegator_addr: delegatorAddr,
-        validator_addr: validator.owner,
-        delegation: {
-          denom,
-          amount: String(atoms)
-        }
-      }))
-
-      const mappedUnbondings = unbondings.map(({ atoms, validator }) => ({
-        delegator_addr: delegatorAddr,
-        validator_addr: validator.owner,
-        shares: String(calculateShares(validator, atoms).toFixed(8)) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
-      }))
-
-      const mappedRedelegations = redelegations.map(
-        ({ atoms, validatorSrc, validatorDst }) => ({
+      const mappedDelegations =
+        stakingTransactions.delegations &&
+        stakingTransactions.delegations.map(({ atoms, validator }) => ({
           delegator_addr: delegatorAddr,
-          validator_src_addr: validatorSrc.owner,
-          validator_dst_addr: validatorDst.owner,
-          shares: String(calculateShares(validatorSrc, atoms).toFixed(8)) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
-        })
-      )
+          validator_addr: validator.owner,
+          delegation: {
+            denom,
+            amount: String(atoms)
+          }
+        }))
+
+      const mappedUnbondings =
+        stakingTransactions.unbondings &&
+        stakingTransactions.unbondings.map(({ atoms, validator }) => ({
+          delegator_addr: delegatorAddr,
+          validator_addr: validator.owner,
+          shares: String(calculateShares(validator, atoms).toFixed(8)) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
+        }))
+
+      const mappedRedelegations =
+        stakingTransactions.redelegations &&
+        stakingTransactions.redelegations.map(
+          ({ atoms, validatorSrc, validatorDst }) => ({
+            delegator_addr: delegatorAddr,
+            validator_src_addr: validatorSrc.owner,
+            validator_dst_addr: validatorDst.owner,
+            shares: String(calculateShares(validatorSrc, atoms).toFixed(8)) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
+          })
+        )
 
       await dispatch("sendTx", {
         type: "updateDelegations",
@@ -197,16 +204,18 @@ export default ({ node }) => {
         begin_redelegates: mappedRedelegations
       })
       // (optimistic update) we update the atoms of the user before we get the new values from chain
-      let atomsDiff = delegations
-        // compare old and new delegations and diff against old atoms
-        .map(
-          delegation =>
-            calculateTokens(
-              delegation.delegate,
-              state.committedDelegates[delegation.delegate.owner]
-            ) - delegation.atoms
-        )
-        .reduce((sum, diff) => sum + diff, 0)
+      let atomsDiff =
+        stakingTransactions.delegations &&
+        stakingTransactions.delegations
+          // compare old and new delegations and diff against old atoms
+          .map(
+            delegation =>
+              calculateTokens(
+                delegation.validator,
+                state.committedDelegates[delegation.validator.owner]
+              ) - delegation.atoms
+          )
+          .reduce((sum, diff) => sum + diff, 0)
       commit("setAtoms", user.atoms + atomsDiff)
 
       // we optimistically update the committed delegations
