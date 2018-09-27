@@ -1,6 +1,6 @@
 let test = require(`tape-promise/tape`)
 let { getApp, refresh } = require(`./launch.js`)
-let { openMenu, login, sleep, navigateToPreferences } = require(`./common.js`)
+let { login, sleep, navigateToPreferences } = require(`./common.js`)
 
 /*
 * NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
