@@ -29,14 +29,14 @@ export default ({ node }) => {
   const actions = {
     reconnected({ commit, dispatch }) {
       //on a reconnect we assume, that the rpc connector changed, so we can safely resubscribe to blocks
-      commit("setSubscription", false)
-      dispatch("subscribeToBlocks")
+      commit(`setSubscription`, false)
+      dispatch(`subscribeToBlocks`)
     },
     async queryBlockInfo({ state, commit }, height) {
       if (!height) {
-        commit("notifyError", {
+        commit(`notifyError`, {
           title: `Couldn't query block`,
-          body: "No Height Provided"
+          body: `No Height Provided`
         })
         return
       }
@@ -49,7 +49,7 @@ export default ({ node }) => {
           { minHeight: height, maxHeight: height },
           (err, data) => {
             if (err) {
-              commit("notifyError", {
+              commit(`notifyError`, {
                 title: `Couldn't query block`,
                 body: err.message
               })
@@ -61,38 +61,38 @@ export default ({ node }) => {
         )
       })
 
-      commit("setBlockMetas", { ...state.blockMetas, [height]: blockMetaInfo })
+      commit(`setBlockMetas`, { ...state.blockMetas, [height]: blockMetaInfo })
       return blockMetaInfo
     },
     subscribeToBlocks({ state, commit, dispatch }) {
       // ensure we never subscribe twice
       if (state.subscription) return false
       if (state.subscribedRPC === node.rpc) return false
-      commit("setSubscribedRPC", node.rpc)
+      commit(`setSubscribedRPC`, node.rpc)
 
       function error(err) {
-        dispatch("nodeHasHalted")
+        dispatch(`nodeHasHalted`)
         console.error(
-          `Error subscribing to new blocks: ${err.message} ${err.data || ""}`
+          `Error subscribing to new blocks: ${err.message} ${err.data || ``}`
         )
       }
 
       node.rpc.status((err, status) => {
         if (err) return error(err)
-        commit("setBlockHeight", status.sync_info.latest_block_height)
+        commit(`setBlockHeight`, status.sync_info.latest_block_height)
         if (status.sync_info.catching_up) {
           // still syncing, let's try subscribing again in 30 seconds
-          commit("setSyncing", true)
-          commit("setSubscription", false)
-          setTimeout(() => dispatch("subscribeToBlocks"), 30e3)
+          commit(`setSyncing`, true)
+          commit(`setSubscription`, false)
+          setTimeout(() => dispatch(`subscribeToBlocks`), 30e3)
           return false
         }
 
-        commit("setSyncing", false)
+        commit(`setSyncing`, false)
 
         // only subscribe if the node is not catching up anymore
-        node.rpc.subscribe({ query: "tm.event = 'NewBlock'" }, err => {
-          commit("setSubscription", true)
+        node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, err => {
+          commit(`setSubscription`, true)
 
           if (err) return error(err)
         })

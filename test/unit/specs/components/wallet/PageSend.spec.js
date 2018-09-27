@@ -2,19 +2,19 @@ import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
 import PageSend from "renderer/components/wallet/PageSend"
 
-describe("PageSend", () => {
+describe(`PageSend`, () => {
   let wrapper, store, node
-  const name = "default"
-  const password = "1234567890"
-  const address = "tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l"
+  const name = `default`
+  const password = `1234567890`
+  const address = `tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l`
 
   const coins = [
     {
-      denom: "mycoin",
+      denom: `mycoin`,
       amount: 1000
     },
     {
-      denom: "fermion",
+      denom: `fermion`,
       amount: 2300
     }
   ]
@@ -25,29 +25,29 @@ describe("PageSend", () => {
   beforeEach(async () => {
     let test = mount(PageSend, {
       propsData: {
-        denom: "fermion"
+        denom: `fermion`
       }
     })
     wrapper = test.wrapper
     store = test.store
     node = test.node
-    store.commit("setAccounts", [
+    store.commit(`setAccounts`, [
       {
         address,
         name,
         password
       }
     ])
-    store.commit("setConnected", true)
-    await store.dispatch("signIn", {
+    store.commit(`setConnected`, true)
+    await store.dispatch(`signIn`, {
       account: name,
       password
     })
-    store.commit("setWalletBalances", coins)
-    store.commit("setNonce", "1")
+    store.commit(`setWalletBalances`, coins)
+    store.commit(`setNonce`, `1`)
   })
 
-  it("has the expected html structure", async () => {
+  it(`has the expected html structure`, async () => {
     // after importing the @tendermint/ui components from modules
     // the perfect scroll plugin needs a $nextTick and a wrapper.update
     // to work properly in the tests (snapshots weren't matching)
@@ -57,61 +57,61 @@ describe("PageSend", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it("should populate the select options with denoms", () => {
+  it(`should populate the select options with denoms`, () => {
     wrapper.update()
     expect(
       wrapper
-        .findAll("option")
+        .findAll(`option`)
         .at(0)
         .text()
-    ).toBe("Select token...")
+    ).toBe(`Select token...`)
     expect(
       wrapper
-        .findAll("option")
+        .findAll(`option`)
         .at(1)
         .text()
     ).toBe(coins[0].denom.toUpperCase())
     expect(
       wrapper
-        .findAll("option")
+        .findAll(`option`)
         .at(2)
         .text()
     ).toBe(coins[1].denom.toUpperCase())
   })
 
-  it("should populate the select options with networks", () => {
+  it(`should populate the select options with networks`, () => {
     wrapper.update()
 
     expect(
       wrapper
-        .findAll("option")
+        .findAll(`option`)
         .at(3)
         .text()
-    ).toBe("Select zone...")
+    ).toBe(`Select zone...`)
     expect(
       wrapper
-        .findAll("option")
+        .findAll(`option`)
         .at(4)
         .text()
-    ).toBe("basecoind-demo1")
+    ).toBe(`basecoind-demo1`)
   })
 
-  it("should work without providing a default denom", () => {
+  it(`should work without providing a default denom`, () => {
     let { wrapper, store } = mount(PageSend)
-    store.commit("setConnected", true)
+    store.commit(`setConnected`, true)
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it("should show address required error", async () => {
+  it(`should show address required error`, async () => {
     let { wrapper, store } = mount(PageSend)
-    store.commit("setConnected", true)
+    store.commit(`setConnected`, true)
     wrapper.setData({
       fields: {
-        denom: "mycoin",
-        address: "",
+        denom: `mycoin`,
+        address: ``,
         amount: 2,
-        zoneId: "cosmos-hub-1"
+        zoneId: `cosmos-hub-1`
       }
     })
     wrapper.vm.onSubmit()
@@ -119,15 +119,15 @@ describe("PageSend", () => {
     expect(wrapper.vm.$v.$error).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-  it("should show bech32 error when address length is too short", async () => {
+  it(`should show bech32 error when address length is too short`, async () => {
     let { wrapper, store } = mount(PageSend)
-    store.commit("setConnected", true)
+    store.commit(`setConnected`, true)
     wrapper.setData({
       fields: {
-        denom: "mycoin",
-        address: "asdf",
+        denom: `mycoin`,
+        address: `asdf`,
         amount: 2,
-        zoneId: "cosmos-hub-1"
+        zoneId: `cosmos-hub-1`
       }
     })
     wrapper.vm.onSubmit()
@@ -135,30 +135,30 @@ describe("PageSend", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it("should show bech32 error when address length is too long", async () => {
+  it(`should show bech32 error when address length is too long`, async () => {
     let { wrapper, store } = mount(PageSend)
-    store.commit("setConnected", true)
+    store.commit(`setConnected`, true)
     wrapper.setData({
       fields: {
-        denom: "mycoin",
-        address: "asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf",
+        denom: `mycoin`,
+        address: `asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf`,
         amount: 2,
-        zoneId: "cosmos-hub-1"
+        zoneId: `cosmos-hub-1`
       }
     })
     wrapper.vm.onSubmit()
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-  it("should show bech32 error when alphanumeric is wrong", async () => {
+  it(`should show bech32 error when alphanumeric is wrong`, async () => {
     let { wrapper, store } = mount(PageSend)
-    store.commit("setConnected", true)
+    store.commit(`setConnected`, true)
     wrapper.setData({
       fields: {
-        denom: "mycoin",
-        address: "!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$",
+        denom: `mycoin`,
+        address: `!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$`,
         amount: 2,
-        zoneId: "cosmos-hub-1"
+        zoneId: `cosmos-hub-1`
       }
     })
     wrapper.vm.onSubmit()
@@ -166,20 +166,20 @@ describe("PageSend", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it("should trigger confirmation modal if form is corect", async () => {
+  it(`should trigger confirmation modal if form is corect`, async () => {
     let { wrapper, store } = mount(PageSend, {
       propsData: {
-        denom: "mycoin"
+        denom: `mycoin`
       }
     })
-    store.commit("setConnected", true)
-    store.commit("setWalletBalances", coins)
+    store.commit(`setConnected`, true)
+    store.commit(`setWalletBalances`, coins)
     wrapper.setData({
       fields: {
-        denom: "mycoin",
+        denom: `mycoin`,
         address,
         amount: 2,
-        zoneId: "cosmos-hub-1"
+        zoneId: `cosmos-hub-1`
       }
     })
     wrapper.vm.onSubmit()
@@ -188,67 +188,67 @@ describe("PageSend", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it("should close confirmation modal on cancel", async () => {
+  it(`should close confirmation modal on cancel`, async () => {
     wrapper.vm.onCancel()
     expect(wrapper.vm.confirmationPending).toBe(false)
   })
 
-  it("should show notification for successful send", async () => {
+  it(`should show notification for successful send`, async () => {
     wrapper.setData({
       fields: {
-        denom: "mycoin",
+        denom: `mycoin`,
         address,
         amount: 2,
-        zoneId: "cosmos-hub-1"
+        zoneId: `cosmos-hub-1`
       }
     })
     await wrapper.vm.onApproved()
     // walletSend is async so we need to wait until it is resolved
-    expect(store.commit).toHaveBeenCalledWith("notify", expect.any(Object))
+    expect(store.commit).toHaveBeenCalledWith(`notify`, expect.any(Object))
   })
 
-  it("should show notification for unsuccessful send", async () => {
+  it(`should show notification for unsuccessful send`, async () => {
     wrapper.setData({
       fields: {
-        denom: "notmycoin",
+        denom: `notmycoin`,
         address,
         amount: 2,
-        zoneId: "cosmos-hub-1"
+        zoneId: `cosmos-hub-1`
       }
     })
     node.sign = () => Promise.reject()
     await wrapper.vm.onApproved()
     expect(store.state.notifications.length).toBe(1)
-    expect(store.state.notifications[0].title).toBe("Error Sending")
+    expect(store.state.notifications[0].title).toBe(`Error Sending`)
     expect(store.state.notifications[0]).toMatchSnapshot()
   })
 
-  it("validates bech32 addresses", () => {
+  it(`validates bech32 addresses`, () => {
     expect(
       wrapper.vm.bech32Validate(
-        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+        `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       )
     ).toBe(true)
     expect(
       wrapper.vm.bech32Validate(
-        "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqprm5ctpesxxn9"
+        `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqprm5ctpesxxn9`
       )
     ).toBe(false)
   })
 
-  it("disables sending if not connected", async () => {
+  it(`disables sending if not connected`, async () => {
     wrapper.setData({
       fields: {
-        denom: "mycoin",
+        denom: `mycoin`,
         address,
         amount: 2,
-        zoneId: "cosmos-hub-1"
+        zoneId: `cosmos-hub-1`
       }
     })
-    expect(wrapper.find("#send-btn").exists()).toBe(true)
-    store.commit("setConnected", false)
+    expect(wrapper.find(`#send-btn`).exists()).toBe(true)
+    store.commit(`setConnected`, false)
     wrapper.update()
-    expect(wrapper.find("#send-btn").exists()).toBe(false)
+    expect(wrapper.find(`#send-btn`).exists()).toBe(false)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

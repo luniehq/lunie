@@ -1,10 +1,10 @@
 "use strict"
 
-const fs = require("fs-extra")
-const { join } = require("path")
-const axios = require("axios")
+const fs = require(`fs-extra`)
+const { join } = require(`path`)
+const axios = require(`axios`)
 
-const LOGGING = JSON.parse(process.env.LOGGING || "true") !== false
+const LOGGING = JSON.parse(process.env.LOGGING || `true`) !== false
 const FIXED_NODE = process.env.COSMOS_NODE
 
 module.exports = class Addressbook {
@@ -23,7 +23,7 @@ module.exports = class Addressbook {
       return
     }
 
-    this.addressbookPath = join(configPath, "addressbook.json")
+    this.addressbookPath = join(configPath, `addressbook.json`)
     this.loadFromDisc()
 
     // add persistent peers to already stored peers
@@ -41,11 +41,11 @@ module.exports = class Addressbook {
     )
 
     if (!peerIsKnown) {
-      LOGGING && console.log("Adding new peer:", peerHost)
+      LOGGING && console.log(`Adding new peer:`, peerHost)
       this.peers.push({
         host: peerHost,
         // assume that new peers are available
-        state: "available"
+        state: `available`
       })
     }
   }
@@ -58,21 +58,21 @@ module.exports = class Addressbook {
       this.peers = []
       return
     }
-    let content = fs.readFileSync(this.addressbookPath, "utf8")
+    let content = fs.readFileSync(this.addressbookPath, `utf8`)
     let peers = JSON.parse(content)
     this.peers = peers.map(host => ({
       host,
-      state: "available"
+      state: `available`
     }))
   }
 
   persistToDisc() {
     let peers = this.peers
       // only remember available nodes
-      .filter(p => p.state === "available")
+      .filter(p => p.state === `available`)
       .map(p => p.host)
     fs.ensureFileSync(this.addressbookPath)
-    fs.writeFileSync(this.addressbookPath, JSON.stringify(peers), "utf8")
+    fs.writeFileSync(this.addressbookPath, JSON.stringify(peers), `utf8`)
   }
 
   // returns an available node or throws if it can't find any
@@ -94,18 +94,18 @@ module.exports = class Addressbook {
         )
         .then(() => true, () => false)
       if (!alive)
-        throw Error("The fixed node you tried to connect to is not reachable.")
+        throw Error(`The fixed node you tried to connect to is not reachable.`)
     } else {
-      let availableNodes = this.peers.filter(node => node.state === "available")
+      let availableNodes = this.peers.filter(node => node.state === `available`)
       if (availableNodes.length === 0) {
-        throw Error("No nodes available to connect to")
+        throw Error(`No nodes available to connect to`)
       }
       // pick a random node
       curNode =
         availableNodes[Math.floor(Math.random() * availableNodes.length)]
 
       try {
-        let peerIP = curNode.host.split(":")[0]
+        let peerIP = curNode.host.split(`:`)[0]
         await this.discoverPeers(peerIP)
       } catch (exception) {
         console.log(
@@ -122,26 +122,26 @@ module.exports = class Addressbook {
       this.persistToDisc()
     }
 
-    this.onConnectionMessage("Picked node: " + curNode.host)
-    return (
-      curNode.host.split(":")[0] + ":" + this.config.default_tendermint_port // export the picked node with the correct tendermint port
-    )
+    this.onConnectionMessage(`Picked node: ` + curNode.host)
+    return `${curNode.host.split(`:`)[0]}:${
+      this.config.default_tendermint_port
+    }` // export the picked node with the correct tendermint port
   }
 
   flagNodeOffline(host) {
     let peer = this.peers.find(p => p.host === host)
-    if (peer) peer.state = "down"
+    if (peer) peer.state = `down`
   }
 
   flagNodeIncompatible(host) {
     let peer = this.peers.find(p => p.host === host)
-    if (peer) peer.state = "incompatible"
+    if (peer) peer.state = `incompatible`
   }
 
   resetNodes() {
     this.peers = this.peers.map(peer =>
       Object.assign({}, peer, {
-        state: "available"
+        state: `available`
       })
     )
   }

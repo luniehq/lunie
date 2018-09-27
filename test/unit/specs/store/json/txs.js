@@ -1,35 +1,35 @@
 module.exports = [
   {
-    hash: "not a real hash",
+    hash: `not a real hash`,
     time: Date.now() + 1000, // set by Voyager
-    height: "3436",
+    height: `3436`,
     tx: {
-      type: "8EFE47F0625DE8",
+      type: `8EFE47F0625DE8`,
       value: {
         msg: [
           {
-            type: "EAFDE32A2C87F8",
+            type: `EAFDE32A2C87F8`,
             value: {
               inputs: [
                 {
                   coins: [
                     {
-                      denom: "jbcoins",
+                      denom: `jbcoins`,
                       amount: 1234
                     }
                   ],
-                  address: "tb1da6xsetjg9jxgun9wdesexv05j"
+                  address: `tb1da6xsetjg9jxgun9wdesexv05j`
                 }
               ],
               outputs: [
                 {
                   coins: [
                     {
-                      denom: "jbcoins",
+                      denom: `jbcoins`,
                       amount: 1234
                     }
                   ],
-                  address: "tb1d4u5zerywfjhxuc9nudvw"
+                  address: `tb1d4u5zerywfjhxuc9nudvw`
                 }
               ]
             }
@@ -38,7 +38,7 @@ module.exports = [
         fee: {
           amount: [
             {
-              denom: "",
+              denom: ``,
               amount: 0
             }
           ],
@@ -48,13 +48,12 @@ module.exports = [
         signatures: [
           {
             pub_key: {
-              type: "AC26791624DE60",
-              value: "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU="
+              type: `AC26791624DE60`,
+              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
             },
             signature: {
-              type: "6BF5903DA1DB28",
-              value:
-                "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA=="
+              type: `6BF5903DA1DB28`,
+              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
             },
             account_number: 28,
             sequence: 0
@@ -62,15 +61,15 @@ module.exports = [
         ]
       },
       result: {
-        gasUsed: "3324",
+        gasUsed: `3324`,
         tags: [
           {
-            key: "c2VuZGVy",
-            value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
+            key: `c2VuZGVy`,
+            value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
-            key: "cmVjaXBpZW50",
-            value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
+            key: `cmVjaXBpZW50`,
+            value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
         ],
         fee: {}
@@ -78,37 +77,37 @@ module.exports = [
     }
   },
   {
-    hash: "not a real hash2",
+    hash: `not a real hash2`,
     time: Date.now() + 1010, // set by Voyager
-    height: "3438",
+    height: `3438`,
     tx: {
-      type: "8EFE47F0625DE8",
+      type: `8EFE47F0625DE8`,
 
       value: {
         msg: [
           {
-            type: "EAFDE32A2C87F8",
+            type: `EAFDE32A2C87F8`,
             value: {
               inputs: [
                 {
                   coins: [
                     {
-                      denom: "jbcoins",
+                      denom: `jbcoins`,
                       amount: 1234
                     }
                   ],
-                  address: "tb1d4u5zerywfjhxuc9nudvw"
+                  address: `tb1d4u5zerywfjhxuc9nudvw`
                 }
               ],
               outputs: [
                 {
                   coins: [
                     {
-                      denom: "jbcoins",
+                      denom: `jbcoins`,
                       amount: 1234
                     }
                   ],
-                  address: "tb1da6xsetjg9jxgun9wdesexv05j"
+                  address: `tb1da6xsetjg9jxgun9wdesexv05j`
                 }
               ]
             }
@@ -117,7 +116,7 @@ module.exports = [
         fee: {
           amount: [
             {
-              denom: "",
+              denom: ``,
               amount: 0
             }
           ],
@@ -127,13 +126,12 @@ module.exports = [
         signatures: [
           {
             pub_key: {
-              type: "AC26791624DE60",
-              value: "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU="
+              type: `AC26791624DE60`,
+              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
             },
             signature: {
-              type: "6BF5903DA1DB28",
-              value:
-                "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA=="
+              type: `6BF5903DA1DB28`,
+              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
             },
             account_number: 28,
             sequence: 0
@@ -141,15 +139,15 @@ module.exports = [
         ]
       },
       result: {
-        gasUsed: "3324",
+        gasUsed: `3324`,
         tags: [
           {
-            key: "c2VuZGVy",
-            value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
+            key: `c2VuZGVy`,
+            value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
-            key: "cmVjaXBpZW50",
-            value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
+            key: `cmVjaXBpZW50`,
+            value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
         ],
         fee: {}
@@ -157,53 +155,53 @@ module.exports = [
     }
   },
   {
-    hash: "not a real hash3",
+    hash: `not a real hash3`,
 
     time: Date.now() + 100, // set by Voyager
-    height: "466",
+    height: `466`,
     tx: {
-      type: "8EFE47F0625DE8",
+      type: `8EFE47F0625DE8`,
       value: {
         msg: [
           {
-            type: "EAFDE32A2C87F8",
+            type: `EAFDE32A2C87F8`,
             value: {
               inputs: [
                 {
                   coins: [
                     {
-                      denom: "jbcoins",
+                      denom: `jbcoins`,
                       amount: 1234
                     },
                     {
-                      denom: "fabocoins",
+                      denom: `fabocoins`,
                       amount: 1
                     },
                     {
-                      denom: "mattcoins",
+                      denom: `mattcoins`,
                       amount: 42
                     }
                   ],
-                  address: "tb1da6xsetjg9jxgun9wdesexv05j"
+                  address: `tb1da6xsetjg9jxgun9wdesexv05j`
                 }
               ],
               outputs: [
                 {
                   coins: [
                     {
-                      denom: "jbcoins",
+                      denom: `jbcoins`,
                       amount: 1234
                     },
                     {
-                      denom: "fabocoins",
+                      denom: `fabocoins`,
                       amount: 1
                     },
                     {
-                      denom: "mattcoins",
+                      denom: `mattcoins`,
                       amount: 42
                     }
                   ],
-                  address: "tb1d4u5zerywfjhxuc9nudvw"
+                  address: `tb1d4u5zerywfjhxuc9nudvw`
                 }
               ]
             }
@@ -212,7 +210,7 @@ module.exports = [
         fee: {
           amount: [
             {
-              denom: "",
+              denom: ``,
               amount: 0
             }
           ],
@@ -222,13 +220,12 @@ module.exports = [
         signatures: [
           {
             pub_key: {
-              type: "AC26791624DE60",
-              value: "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU="
+              type: `AC26791624DE60`,
+              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
             },
             signature: {
-              type: "6BF5903DA1DB28",
-              value:
-                "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA=="
+              type: `6BF5903DA1DB28`,
+              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
             },
             account_number: 28,
             sequence: 0
@@ -236,15 +233,15 @@ module.exports = [
         ]
       },
       result: {
-        gasUsed: "3324",
+        gasUsed: `3324`,
         tags: [
           {
-            key: "c2VuZGVy",
-            value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
+            key: `c2VuZGVy`,
+            value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
-            key: "cmVjaXBpZW50",
-            value: "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg=="
+            key: `cmVjaXBpZW50`,
+            value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
         ],
         fee: {}

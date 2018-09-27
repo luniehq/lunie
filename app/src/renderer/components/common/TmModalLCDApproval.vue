@@ -26,7 +26,7 @@
 <script>
 import { TmBtn, TmField } from "@tendermint/ui"
 export default {
-  name: "modal-lcd-approval",
+  name: `modal-lcd-approval`,
   components: {
     TmBtn,
     TmField
@@ -34,13 +34,13 @@ export default {
   computed: {},
   methods: {
     approve() {
-      this.$store.dispatch("approveNodeHash", this.hash)
+      this.$store.dispatch(`approveNodeHash`, this.hash)
     },
     newNode() {
-      this.$store.dispatch("disapproveNodeHash", this.hash)
+      this.$store.dispatch(`disapproveNodeHash`, this.hash)
     }
   },
-  props: ["hash"]
+  props: [`hash`]
 }
 </script>
 

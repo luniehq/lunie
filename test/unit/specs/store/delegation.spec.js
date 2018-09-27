@@ -3,7 +3,7 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 let instance = setup()
 
-describe("Module: Delegations", () => {
+describe(`Module: Delegations`, () => {
   let store, node
 
   beforeEach(async () => {
@@ -11,66 +11,66 @@ describe("Module: Delegations", () => {
     store = test.store
     node = test.node
 
-    await store.dispatch("signIn", { password: "bar", account: "default" })
-    await store.dispatch("getDelegates")
+    await store.dispatch(`signIn`, { password: `bar`, account: `default` })
+    await store.dispatch(`getDelegates`)
   })
 
-  it("adds delegate to cart", () => {
-    store.commit("addToCart", { id: "foo", x: 1 })
+  it(`adds delegate to cart`, () => {
+    store.commit(`addToCart`, { id: `foo`, x: 1 })
     expect(store.state.delegation.delegates[0]).toEqual({
-      id: "foo",
-      delegate: { id: "foo", x: 1 },
+      id: `foo`,
+      delegate: { id: `foo`, x: 1 },
       atoms: 0
     })
     expect(store.state.delegation.delegates.length).toBe(1)
   })
 
-  it("does not add delegate to cart if already exists", () => {
-    store.commit("addToCart", { id: "foo" })
-    store.commit("addToCart", { id: "foo", x: 1 })
-    expect(store.state.delegation.delegates[0].id).toBe("foo")
+  it(`does not add delegate to cart if already exists`, () => {
+    store.commit(`addToCart`, { id: `foo` })
+    store.commit(`addToCart`, { id: `foo`, x: 1 })
+    expect(store.state.delegation.delegates[0].id).toBe(`foo`)
     expect(store.state.delegation.delegates[0].x).toBe(undefined)
     expect(store.state.delegation.delegates.length).toBe(1)
   })
 
-  it("removes delegate from cart", () => {
-    store.commit("addToCart", { id: "foo" })
-    store.commit("addToCart", { id: "bar" })
-    store.commit("removeFromCart", "foo")
+  it(`removes delegate from cart`, () => {
+    store.commit(`addToCart`, { id: `foo` })
+    store.commit(`addToCart`, { id: `bar` })
+    store.commit(`removeFromCart`, `foo`)
     expect(store.state.delegation.delegates[0]).toEqual({
-      id: "bar",
-      delegate: { id: "bar" },
+      id: `bar`,
+      delegate: { id: `bar` },
       atoms: 0
     })
     expect(store.state.delegation.delegates.length).toBe(1)
   })
 
-  it("sets committed atoms for delegate", () => {
-    store.commit("addToCart", { id: "foo" })
-    store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })
+  it(`sets committed atoms for delegate`, () => {
+    store.commit(`addToCart`, { id: `foo` })
+    store.commit(`setCommittedDelegation`, { candidateId: `foo`, value: 123 })
     expect(store.state.delegation.committedDelegates).toEqual({ foo: 123 })
   })
 
-  it("sets committed atoms for delegate to 0", () => {
-    store.commit("addToCart", { id: "foo" })
-    store.commit("setCommittedDelegation", { candidateId: "foo", value: 123 })
-    store.commit("setCommittedDelegation", { candidateId: "foo", value: 0 })
+  it(`sets committed atoms for delegate to 0`, () => {
+    store.commit(`addToCart`, { id: `foo` })
+    store.commit(`setCommittedDelegation`, { candidateId: `foo`, value: 123 })
+    store.commit(`setCommittedDelegation`, { candidateId: `foo`, value: 0 })
     expect(store.state.delegation.committedDelegates).toEqual({})
   })
 
-  it("fetches bonded delegates", async () => {
-    await store.dispatch("getBondedDelegates", store.state.delegates.delegates)
+  it(`fetches bonded delegates`, async () => {
+    await store.dispatch(`getBondedDelegates`, store.state.delegates.delegates)
     expect(store.state.delegation.committedDelegates).toMatchSnapshot()
   })
 
-  it("submits delegation transaction", async () => {
-    store.dispatch("setLastHeader", {
+  it(`submits delegation transaction`, async () => {
+    store.dispatch(`setLastHeader`, {
       height: 42,
-      chain_id: "test-chain"
+      chain_id: `test-chain`
     })
-    await store.dispatch("getBondedDelegates")
+    await store.dispatch(`getBondedDelegates`)
 
-    jest.spyOn(store._actions.sendTx, "0")
+    jest.spyOn(store._actions.sendTx, `0`)
 
     const delegates = store.state.delegates.delegates
 
@@ -86,19 +86,19 @@ describe("Module: Delegations", () => {
       }
     ]
 
-    await store.dispatch("submitDelegation", { stakingTransactions })
+    await store.dispatch(`submitDelegation`, { stakingTransactions })
 
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
 
-  it("submits undelegation transaction", async () => {
-    store.dispatch("setLastHeader", {
+  it(`submits undelegation transaction`, async () => {
+    store.dispatch(`setLastHeader`, {
       height: 42,
-      chain_id: "test-chain"
+      chain_id: `test-chain`
     })
-    await store.dispatch("getBondedDelegates")
+    await store.dispatch(`getBondedDelegates`)
 
-    jest.spyOn(store._actions.sendTx, "0")
+    jest.spyOn(store._actions.sendTx, `0`)
 
     const delegates = store.state.delegates.delegates
     let stakingTransactions = {}
@@ -113,19 +113,19 @@ describe("Module: Delegations", () => {
       }
     ]
 
-    await store.dispatch("submitDelegation", { stakingTransactions })
+    await store.dispatch(`submitDelegation`, { stakingTransactions })
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
 
-  it("fetches current undelegations", async () => {
-    await store.dispatch("getBondedDelegates", store.state.delegates.delegates)
+  it(`fetches current undelegations`, async () => {
+    await store.dispatch(`getBondedDelegates`, store.state.delegates.delegates)
     expect(store.state.delegation.unbondingDelegations).toMatchSnapshot()
   })
 
-  it("deletes undelegations that are 0", async () => {
-    await store.dispatch("getBondedDelegates", store.state.delegates.delegates)
-    store.commit("setUnbondingDelegations", {
-      validator_addr: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+  it(`deletes undelegations that are 0`, async () => {
+    await store.dispatch(`getBondedDelegates`, store.state.delegates.delegates)
+    store.commit(`setUnbondingDelegations`, {
+      validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
       balance: { amount: 0 }
     })
     expect(
@@ -134,27 +134,27 @@ describe("Module: Delegations", () => {
     ).toBeUndefined()
   })
 
-  it("should query delegated atoms on reconnection", () => {
+  it(`should query delegated atoms on reconnection`, () => {
     jest.resetModules()
-    let axios = require("axios")
+    let axios = require(`axios`)
     store.state.node.stopConnecting = true
     store.state.delegation.loading = true
-    jest.spyOn(axios, "get")
-    store.dispatch("reconnected")
+    jest.spyOn(axios, `get`)
+    store.dispatch(`reconnected`)
     expect(axios.get.mock.calls).toMatchSnapshot()
   })
 
-  it("should not query delegated atoms on reconnection if not stuck in loading", () => {
+  it(`should not query delegated atoms on reconnection if not stuck in loading`, () => {
     jest.resetModules()
-    let axios = require("axios")
+    let axios = require(`axios`)
     store.state.node.stopConnecting = true
     store.state.delegation.loading = false
-    jest.spyOn(axios, "get")
-    store.dispatch("reconnected")
+    jest.spyOn(axios, `get`)
+    store.dispatch(`reconnected`)
     expect(axios.get.mock.calls.length).toBe(0)
   })
 
-  it("updating delegations should not update another users state after signing out and in again", async () => {
+  it(`updating delegations should not update another users state after signing out and in again`, async () => {
     jest.resetModules()
     let resolveDelegationRequest
 
@@ -165,9 +165,9 @@ describe("Module: Delegations", () => {
           resolve({
             delegations: [
               {
-                delegator_addr: "abc",
-                validator_addr: "def",
-                shares: "14",
+                delegator_addr: `abc`,
+                validator_addr: `def`,
+                shares: `14`,
                 height: 123
               }
             ]
@@ -176,12 +176,12 @@ describe("Module: Delegations", () => {
 
     // trigger the get call
     let getDelegationsPromise = store.dispatch(
-      "getBondedDelegates",
+      `getBondedDelegates`,
       store.state.delegates.delegates
     )
 
     // sign out - sign in
-    store.state.user.address = "some other address"
+    store.state.user.address = `some other address`
 
     // finish the request
     resolveDelegationRequest()
@@ -193,42 +193,42 @@ describe("Module: Delegations", () => {
     )
   })
 
-  it("should undelegate", async () => {
+  it(`should undelegate`, async () => {
     // store the unbondingDelegation in the lcdclientmock
     let stakingTransactions = {}
     stakingTransactions.unbondings = [
       {
         validator: {
           owner: lcdClientMock.validators[0],
-          delegator_shares: "100",
-          tokens: "100"
+          delegator_shares: `100`,
+          tokens: `100`
         },
         balance: {
-          amount: "100"
+          amount: `100`
         }
       }
     ]
-    await store.dispatch("submitDelegation", { stakingTransactions })
+    await store.dispatch(`submitDelegation`, { stakingTransactions })
 
-    store.commit("setUnbondingDelegations", {
+    store.commit(`setUnbondingDelegations`, {
       validator_addr: lcdClientMock.validators[0],
-      balance: { amount: "100" }
+      balance: { amount: `100` }
     })
     expect(
       store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
     ).toBeTruthy()
-    await store.dispatch("endUnbonding", lcdClientMock.validators[0])
+    await store.dispatch(`endUnbonding`, lcdClientMock.validators[0])
     expect(
       store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
     ).toBeFalsy()
   })
 
-  it("should remove dead delegations and undelegations", async () => {
-    store.commit("setCommittedDelegation", {
+  it(`should remove dead delegations and undelegations`, async () => {
+    store.commit(`setCommittedDelegation`, {
       candidateId: lcdClientMock.validators[1],
       value: 1
     })
-    store.commit("setUnbondingDelegations", {
+    store.commit(`setUnbondingDelegations`, {
       validator_addr: lcdClientMock.validators[1],
       balance: {
         amount: 1
@@ -240,7 +240,7 @@ describe("Module: Delegations", () => {
     expect(
       store.state.delegation.unbondingDelegations[lcdClientMock.validators[1]]
     ).toBeTruthy()
-    await store.dispatch("getBondedDelegates") // lcdclientmock doesn't have the delegations we set above so they should be deleted locally
+    await store.dispatch(`getBondedDelegates`) // lcdclientmock doesn't have the delegations we set above so they should be deleted locally
 
     expect(
       store.state.delegation.committedDelegates[lcdClientMock.validators[1]]
@@ -250,9 +250,9 @@ describe("Module: Delegations", () => {
     ).toBeFalsy()
   })
 
-  it("should update delegation status", async () => {
+  it(`should update delegation status`, async () => {
     store.state.delegation.committedDelegates = {}
-    await store.dispatch("updateDelegates")
+    await store.dispatch(`updateDelegates`)
     expect(store.state.delegation.committedDelegates).toBeTruthy()
   })
 })

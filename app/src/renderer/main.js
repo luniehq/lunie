@@ -13,7 +13,7 @@ import routes from "./routes"
 import Node from "./connectors/node"
 import Store from "./vuex/store"
 
-const config = remote.getGlobal("config")
+const config = remote.getGlobal(`config`)
 
 // exporting this for testing
 let store
@@ -21,13 +21,13 @@ let node
 let router
 
 // Raven serves automatic error reporting. It is turned off by default
-Raven.config("").install()
+Raven.config(``).install()
 
 // handle uncaught errors
-window.addEventListener("unhandledrejection", function(event) {
+window.addEventListener(`unhandledrejection`, function(event) {
   Raven.captureException(event.reason)
 })
-window.addEventListener("error", function(event) {
+window.addEventListener(`error`, function(event) {
   Raven.captureException(event.reason)
 })
 Vue.config.errorHandler = error => {
@@ -41,22 +41,20 @@ Vue.use(Router)
 Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
 
-// Directives
-
-// focus form fields
-Vue.directive("focus", {
+// directive to focus form fields
+Vue.directive(`focus`, {
   inserted: function(el) {
     el.focus()
   }
 })
 
 async function main() {
-  let lcdPort = getQueryParameter("lcd_port")
-  console.log("Expecting lcd-server on port: " + lcdPort)
+  let lcdPort = getQueryParameter(`lcd_port`)
+  console.log(`Expecting lcd-server on port: ` + lcdPort)
   node = Node(lcdPort, config.mocked)
 
   store = Store({ node })
-  store.dispatch("loadTheme")
+  store.dispatch(`loadTheme`)
 
   router = new Router({
     scrollBehavior: () => ({ y: 0 }),
@@ -65,54 +63,54 @@ async function main() {
 
   router.beforeEach((to, from, next) => {
     if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)
-      store.commit("addHistory", from.fullPath)
+      store.commit(`addHistory`, from.fullPath)
     next()
   })
 
-  ipcRenderer.on("error", (event, error) => {
+  ipcRenderer.on(`error`, (event, error) => {
     switch (error.code) {
-      case "NO_NODES_AVAILABLE":
-        store.commit("setModalNoNodes", true)
+      case `NO_NODES_AVAILABLE`:
+        store.commit(`setModalNoNodes`, true)
         break
       default:
-        store.commit("setModalError", true)
-        store.commit("setModalErrorMessage", error.message)
+        store.commit(`setModalError`, true)
+        store.commit(`setModalErrorMessage`, error.message)
     }
   })
-  ipcRenderer.on("approve-hash", (event, hash) => {
+  ipcRenderer.on(`approve-hash`, (event, hash) => {
     console.log(hash)
-    store.commit("setNodeApprovalRequired", hash)
+    store.commit(`setNodeApprovalRequired`, hash)
   })
 
   let firstStart = true
-  ipcRenderer.on("connected", (event, nodeIP) => {
+  ipcRenderer.on(`connected`, (event, nodeIP) => {
     node.rpcConnect(nodeIP)
-    store.dispatch("rpcSubscribe")
-    store.dispatch("subscribeToBlocks")
+    store.dispatch(`rpcSubscribe`)
+    store.dispatch(`subscribeToBlocks`)
 
     if (firstStart) {
-      store.dispatch("showInitialScreen")
+      store.dispatch(`showInitialScreen`)
 
       // test connection
       node.lcdConnected().then(connected => {
         if (connected) {
-          ipcRenderer.send("successful-launch")
+          ipcRenderer.send(`successful-launch`)
         }
       })
 
       firstStart = false
     } else {
-      store.dispatch("reconnected")
+      store.dispatch(`reconnected`)
     }
   })
 
-  ipcRenderer.send("booted")
+  ipcRenderer.send(`booted`)
 
   return new Vue({
     router,
     ...App,
     store
-  }).$mount("#app")
+  }).$mount(`#app`)
 }
 
 main()
@@ -125,8 +123,8 @@ module.exports.router = router
 function getQueryParameter(name) {
   let queryString = window.location.search.substring(1)
   let pairs = queryString
-    .split("&")
-    .map(pair => pair.split("="))
+    .split(`&`)
+    .map(pair => pair.split(`=`))
     .filter(pair => pair[0] === name)
   if (pairs.length > 0) {
     return pairs[0][1]

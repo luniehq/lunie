@@ -61,7 +61,7 @@ import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
-  props: ["bondingDenom", "fromOptions", "to"],
+  props: [`bondingDenom`, `fromOptions`, `to`],
   components: {
     Modal,
     TmBtn,
@@ -84,11 +84,11 @@ export default {
   },
   methods: {
     close() {
-      this.$emit("update:showModalStake", false)
+      this.$emit(`update:showModalStake`, false)
     },
     onStake() {
       if (!this.$v.$invalid) {
-        this.$emit("submitDelegation", {
+        this.$emit(`submitDelegation`, {
           amount: this.amount,
           from: this.fromOptions[this.selectedIndex].address
         })

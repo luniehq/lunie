@@ -5,8 +5,8 @@ import { getCommits, getDispatches } from "./vuex-helpers.js"
 
 import routes from "renderer/routes"
 
-const Modules = require("renderer/vuex/modules").default
-const Getters = require("renderer/vuex/getters")
+const Modules = require(`renderer/vuex/modules`).default
+const Getters = require(`renderer/vuex/getters`)
 
 export default function vuexSetup() {
   const localVue = createLocalVue()
@@ -18,7 +18,7 @@ export default function vuexSetup() {
     testType = shallow,
     { stubs, getters = {}, propsData, methods, doBefore = () => {} } // doBefore receives router and store
   ) {
-    const node = Object.assign({}, require("../helpers/node_mock"))
+    const node = Object.assign({}, require(`../helpers/node_mock`))
     const modules = Modules({ node })
     let store = new Vuex.Store({
       getters: Object.assign({}, Getters, getters),
@@ -27,10 +27,10 @@ export default function vuexSetup() {
         loadPersistedState: () => {}
       }
     })
-    store.commit("setDevMode", true)
+    store.commit(`setDevMode`, true)
 
-    jest.spyOn(store, "dispatch")
-    jest.spyOn(store, "commit")
+    jest.spyOn(store, `dispatch`)
+    jest.spyOn(store, `commit`)
 
     // helpers to make it easier to search events
     store.getCommits = getCommits.bind(this, store)
@@ -39,7 +39,7 @@ export default function vuexSetup() {
     let router = new VueRouter({ routes })
     router.beforeEach((to, from, next) => {
       if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)
-        store.commit("addHistory", from.fullPath)
+        store.commit(`addHistory`, from.fullPath)
       next()
     })
 

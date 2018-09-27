@@ -9,32 +9,32 @@
 
 <script>
 export default {
-  name: "panel-sort",
+  name: `panel-sort`,
   methods: {
     orderBy(property) {
-      let sortBys = this.$el.querySelectorAll(".sort-by")
-      sortBys.forEach(el => el.classList.remove("active", "desc", "asc"))
+      let sortBys = this.$el.querySelectorAll(`.sort-by`)
+      sortBys.forEach(el => el.classList.remove(`active`, `desc`, `asc`))
       let index = this.properties.findIndex(p => p.value === property)
       let el = sortBys[index]
 
       if (this.sort.property === property) {
-        if (this.sort.order === "asc") {
-          this.sort.order = "desc"
+        if (this.sort.order === `asc`) {
+          this.sort.order = `desc`
         } else {
-          this.sort.order = "asc"
+          this.sort.order = `asc`
         }
       } else {
         this.sort.property = property
       }
-      if (this.sort.order === "asc") {
-        el.classList.add("asc")
+      if (this.sort.order === `asc`) {
+        el.classList.add(`asc`)
       } else {
-        el.classList.add("desc")
+        el.classList.add(`desc`)
       }
-      el.classList.add("active")
+      el.classList.add(`active`)
     }
   },
-  props: ["sort", "properties"]
+  props: [`sort`, `properties`]
 }
 </script>
 

@@ -1,35 +1,35 @@
 "use strict"
 
-let { Application } = require("spectron")
-let test = require("tape-promise/tape")
-let electron = require("electron")
-let { join } = require("path")
-let { spawn } = require("child_process")
-const util = require("util")
-const exec = util.promisify(require("child_process").exec)
-let fs = require("fs-extra")
+let { Application } = require(`spectron`)
+let test = require(`tape-promise/tape`)
+let electron = require(`electron`)
+let { join } = require(`path`)
+let { spawn } = require(`child_process`)
+const util = require(`util`)
+const exec = util.promisify(require(`child_process`).exec)
+let fs = require(`fs-extra`)
 
-const testDir = join(__dirname, "../../testArtifacts")
+const testDir = join(__dirname, `../../testArtifacts`)
 
 let app, cliHome, nodeHome, started, crashed
 
 const osFolderName = (function() {
   switch (process.platform) {
-    case "win32":
-      return "windows_amd64"
-    case "darwin":
-      return "darwin_amd64"
-    case "linux":
-      return "linux_amd64"
+    case `win32`:
+      return `windows_amd64`
+    case `darwin`:
+      return `darwin_amd64`
+    case `linux`:
+      return `linux_amd64`
   }
 })()
 let binary =
   process.env.BINARY_PATH ||
-  join(__dirname, "../../builds/Gaia/", osFolderName, "gaiacli")
+  join(__dirname, `../../builds/Gaia/`, osFolderName, `gaiacli`)
 
 let nodeBinary =
   process.env.NODE_BINARY_PATH ||
-  join(__dirname, "../../builds/Gaia/", osFolderName, "gaiad")
+  join(__dirname, `../../builds/Gaia/`, osFolderName, `gaiad`)
 
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
@@ -38,25 +38,25 @@ let nodeBinary =
 function launch(t) {
   if (!started) {
     // tape doesn't exit properly on uncaught promise rejections
-    process.on("unhandledRejection", async error => {
+    process.on(`unhandledRejection`, async error => {
       return handleCrash(app, error)
     })
 
     started = new Promise(async resolve => {
-      console.log("using cli binary", binary)
-      console.log("using node binary", nodeBinary)
+      console.log(`using cli binary`, binary)
+      console.log(`using node binary`, nodeBinary)
 
-      cliHome = join(testDir, "cli_home")
-      nodeHome = join(testDir, "node_home")
+      cliHome = join(testDir, `cli_home`)
+      nodeHome = join(testDir, `node_home`)
       console.error(`ui home: ${cliHome}`)
       console.error(`node home: ${nodeHome}`)
 
-      fs.removeSync("testArtifacts")
+      fs.removeSync(`testArtifacts`)
 
       // setup first node
       const initValues = await initLocalNode(1)
-      const nodeOneHome = nodeHome + "_1"
-      let genesis = fs.readJSONSync(join(nodeOneHome, "config/genesis.json"))
+      const nodeOneHome = nodeHome + `_1`
+      let genesis = fs.readJSONSync(join(nodeOneHome, `config/genesis.json`))
       const nodeOneId = await getNodeId(nodeOneHome)
       reduceTimeouts(nodeOneHome)
       disableStrictAddressbook(nodeOneHome)
@@ -67,8 +67,8 @@ function launch(t) {
 
       // we need to write back the updated genesis
       writeGenesis(genesis, nodeOneHome)
-      writeGenesis(genesis, nodeHome + "_2")
-      writeGenesis(genesis, nodeHome + "_3")
+      writeGenesis(genesis, nodeHome + `_2`)
+      writeGenesis(genesis, nodeHome + `_3`)
 
       // wait until all nodes are showing blocks, so we know they are running
       await Promise.all([
@@ -77,24 +77,24 @@ function launch(t) {
         startLocalNode(3, nodeOneId)
       ])
       console.log(`Started local nodes.`)
-      await saveVersion(nodeHome + "_1")
+      await saveVersion(nodeHome + `_1`)
 
       app = new Application({
         path: electron,
         args: [
-          join(__dirname, "../../app/dist/main.js"),
-          "--disable-gpu",
-          "--no-sandbox"
+          join(__dirname, `../../app/dist/main.js`),
+          `--disable-gpu`,
+          `--no-sandbox`
         ],
         startTimeout: 10000,
         waitTimeout: 10000,
         env: {
-          COSMOS_NODE: "localhost",
-          NODE_ENV: "production",
-          PREVIEW: "true",
+          COSMOS_NODE: `localhost`,
+          NODE_ENV: `production`,
+          PREVIEW: `true`,
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
           COSMOS_HOME: cliHome,
-          COSMOS_NETWORK: join(nodeHome + "_1", "config"),
+          COSMOS_NETWORK: join(nodeHome + `_1`, `config`),
           COSMOS_MOCKED: false, // the e2e tests expect mocking to be switched off
           BINARY_PATH: binary
         }
@@ -105,13 +105,13 @@ function launch(t) {
 
       let accounts = await setupAccounts(initValues)
 
-      await startApp(app, ".tm-session-title=Sign In")
-      t.ok(app.isRunning(), "app is running")
+      await startApp(app, `.tm-session-title=Sign In`)
+      t.ok(app.isRunning(), `app is running`)
 
       // disable the onboarding wizard
-      await app.client.localStorage("POST", {
-        key: "appOnboardingActive",
-        value: "false"
+      await app.client.localStorage(`POST`, {
+        key: `appOnboardingActive`,
+        value: `false`
       })
 
       resolve({
@@ -126,7 +126,7 @@ function launch(t) {
 }
 
 test.onFinish(async () => {
-  console.log("DONE: cleaning up")
+  console.log(`DONE: cleaning up`)
   await stop(app)
   // tape doesn't finish properly because of open processes like gaia
   process.exit(0)
@@ -135,29 +135,29 @@ test.onFinish(async () => {
 async function setupAccounts(initValues) {
   let accounts = []
   // testkey account needs to match genesis to own tokens for testing
-  accounts.push(await createAccount("testkey", initValues.app_message.secret))
-  accounts.push(await createAccount("testreceiver"))
-  console.log("setup test accounts", accounts)
+  accounts.push(await createAccount(`testkey`, initValues.app_message.secret))
+  accounts.push(await createAccount(`testreceiver`))
+  console.log(`setup test accounts`, accounts)
 
   return accounts
 }
 
 async function stop(app) {
-  console.log("Stopping app")
+  console.log(`Stopping app`)
   if (app && app.isRunning()) {
     if (process.env.CI) {
       // we need to collect the app process output as it will be reset when the app is stopped
-      console.log("collecting app logs")
+      console.log(`collecting app logs`)
       await writeLogs(app, testDir)
     }
     await app.stop()
   }
-  console.log("App stopped")
+  console.log(`App stopped`)
 }
 
 async function printAppLog(app) {
   if (!app) {
-    console.log("Not printing logs as app has not started yet")
+    console.log(`Not printing logs as app has not started yet`)
     return
   }
 
@@ -170,14 +170,14 @@ async function printAppLog(app) {
   })
   await app.client.getRenderProcessLogs().then(function(logs) {
     logs.forEach(function(log) {
-      console.log(log.message.replace("\\n", "\n"))
+      console.log(log.message.replace(`\\n`, `\n`))
     })
   })
 }
 
 async function writeLogs(app, location) {
-  const mainProcessLogLocation = join(location, "main-process.log")
-  const rendererProcessLogLocation = join(location, "renderer-process.log")
+  const mainProcessLogLocation = join(location, `main-process.log`)
+  const rendererProcessLogLocation = join(location, `renderer-process.log`)
   fs.ensureFileSync(mainProcessLogLocation)
   fs.ensureFileSync(rendererProcessLogLocation)
 
@@ -185,25 +185,25 @@ async function writeLogs(app, location) {
     log => !/CONSOLE\(/g.test(log)
   ) // ignore renderer process output, which is also written to main process logs
   const rendererProcessLogs = await app.client.getRenderProcessLogs()
-  fs.appendFileSync(mainProcessLogLocation, mainProcessLogs.join("\n"), "utf8")
+  fs.appendFileSync(mainProcessLogLocation, mainProcessLogs.join(`\n`), `utf8`)
   fs.appendFileSync(
     rendererProcessLogLocation,
-    rendererProcessLogs.map(log => log.message).join("\n"),
-    "utf8"
+    rendererProcessLogs.map(log => log.message).join(`\n`),
+    `utf8`
   )
-  console.log("Wrote main process log to", mainProcessLogLocation)
-  console.log("Wrote renderer process log to", rendererProcessLogLocation)
+  console.log(`Wrote main process log to`, mainProcessLogLocation)
+  console.log(`Wrote renderer process log to`, rendererProcessLogLocation)
 }
 
-async function startApp(app, awaitingSelector = ".tm-session") {
-  console.log("Starting app")
+async function startApp(app, awaitingSelector = `.tm-session`) {
+  console.log(`Starting app`)
   await app.start()
 
   await app.client.waitForExist(awaitingSelector, 10 * 1000).catch(async e => {
     await handleCrash(app, e)
     throw e
   })
-  console.log("Started app")
+  console.log(`Started app`)
 }
 
 async function handleCrash(app, error) {
@@ -213,7 +213,7 @@ async function handleCrash(app, error) {
   }
   crashed = true
 
-  console.error("-- App crashed --")
+  console.error(`-- App crashed --`)
   console.error(error)
 
   // show or persist logs
@@ -225,9 +225,9 @@ async function handleCrash(app, error) {
 
   // save a screenshot
   if (app && app.browserWindow) {
-    const screenshotLocation = join(testDir, "snapshot.png")
+    const screenshotLocation = join(testDir, `snapshot.png`)
     await app.browserWindow.capturePage().then(function(imageBuffer) {
-      console.log("saving screenshot to ", screenshotLocation)
+      console.log(`saving screenshot to `, screenshotLocation)
       fs.writeFileSync(screenshotLocation, imageBuffer)
     })
   }
@@ -242,7 +242,7 @@ async function handleCrash(app, error) {
 // start a node and connect it to nodeOne
 // nodeOne is used as a persistent peer for all the other nodes
 // wait for blocks to show as a proof, the node is running correctly
-function startLocalNode(number, nodeOneId = "") {
+function startLocalNode(number, nodeOneId = ``) {
   return new Promise((resolve, reject) => {
     const defaultStartPort = 26656
     const thisNodeHome = `${nodeHome}_${number}`
@@ -259,10 +259,10 @@ function startLocalNode(number, nodeOneId = "") {
     const localnodeProcess = spawn(command, { shell: true })
 
     // log output for debugging
-    const logPath = join(thisNodeHome, "process.log")
-    console.log("Redirecting node " + number + " output to " + logPath)
+    const logPath = join(thisNodeHome, `process.log`)
+    console.log(`Redirecting node ` + number + ` output to ` + logPath)
     fs.createFileSync(logPath)
-    let logStream = fs.createWriteStream(logPath, { flags: "a" })
+    let logStream = fs.createWriteStream(logPath, { flags: `a` })
     localnodeProcess.stdout.pipe(logStream)
 
     localnodeProcess.stderr.pipe(process.stderr)
@@ -271,21 +271,21 @@ function startLocalNode(number, nodeOneId = "") {
     function listener(data) {
       let msg = data.toString()
 
-      if (msg.includes("Block{")) {
-        localnodeProcess.stdout.removeListener("data", listener)
-        console.log("Node " + number + " is running")
+      if (msg.includes(`Block{`)) {
+        localnodeProcess.stdout.removeListener(`data`, listener)
+        console.log(`Node ` + number + ` is running`)
         resolve()
       }
 
-      if (msg.includes("Failed") || msg.includes("Error")) {
+      if (msg.includes(`Failed`) || msg.includes(`Error`)) {
         reject(msg)
       }
     }
 
-    console.log("Waiting for first block on node " + number)
-    localnodeProcess.stdout.on("data", listener)
+    console.log(`Waiting for first block on node ` + number)
+    localnodeProcess.stdout.on(`data`, listener)
 
-    localnodeProcess.once("exit", reject)
+    localnodeProcess.once(`exit`, reject)
   })
 }
 
@@ -296,25 +296,25 @@ function initLocalNode(number = 1) {
     const localnodeProcess = spawn(command, { shell: true })
     localnodeProcess.stderr.pipe(process.stderr)
 
-    localnodeProcess.stdin.write("12345678\n")
+    localnodeProcess.stdin.write(`12345678\n`)
 
-    localnodeProcess.stdout.once("data", data => {
+    localnodeProcess.stdout.once(`data`, data => {
       let msg = data.toString()
 
-      if (!msg.includes("Failed") && !msg.includes("Error")) {
+      if (!msg.includes(`Failed`) && !msg.includes(`Error`)) {
         resolve(JSON.parse(msg))
       } else {
         reject(msg)
       }
     })
 
-    localnodeProcess.once("exit", reject)
+    localnodeProcess.once(`exit`, reject)
   })
 }
 
 // init a node and define it as a validator
 async function addValidatorNode(number, genesis) {
-  let newNodeHome = nodeHome + "_" + number
+  let newNodeHome = nodeHome + `_` + number
 
   await initLocalNode(number)
 
@@ -337,13 +337,13 @@ async function getNodeId(node_home) {
 
 function getValidatorPublicKey(node_home) {
   let privValidatorKeys = fs.readJSONSync(
-    join(node_home, "config/priv_validator.json")
+    join(node_home, `config/priv_validator.json`)
   )
   return privValidatorKeys.pub_key
 }
 
 function getValidatorOwner(node_home) {
-  let genesis = fs.readJSONSync(join(node_home, "config/genesis.json"))
+  let genesis = fs.readJSONSync(join(node_home, `config/genesis.json`))
 
   return genesis.app_state.stake.validators[0].owner
 }
@@ -351,82 +351,82 @@ function getValidatorOwner(node_home) {
 function addValidator(genesis, pub_key, owner, number) {
   genesis.validators.push({
     pub_key,
-    power: "50",
-    name: ""
+    power: `50`,
+    name: ``
   })
   let newStakeValidator = JSON.parse(
     JSON.stringify(genesis.app_state.stake.validators[0])
   )
   newStakeValidator.pub_key = pub_key
   newStakeValidator.owner = owner
-  newStakeValidator.tokens = "50"
-  newStakeValidator.delegator_shares = "50"
-  newStakeValidator.description.moniker = "local_" + number
+  newStakeValidator.tokens = `50`
+  newStakeValidator.delegator_shares = `50`
+  newStakeValidator.description.moniker = `local_` + number
   genesis.app_state.stake.validators.push(newStakeValidator)
   genesis.app_state.stake.pool.loose_tokens += 50
 }
 
 function writeGenesis(genesis, node_home) {
-  fs.writeJSONSync(join(node_home, "config/genesis.json"), genesis)
+  fs.writeJSONSync(join(node_home, `config/genesis.json`), genesis)
 }
 
 function reduceTimeouts(nodeHome) {
-  const configPath = join(nodeHome, "config", "config.toml")
-  let configToml = fs.readFileSync(configPath, "utf8")
+  const configPath = join(nodeHome, `config`, `config.toml`)
+  let configToml = fs.readFileSync(configPath, `utf8`)
 
   const timeouts = [
-    "timeout_propose",
-    "timeout_propose_delta",
-    "timeout_prevote",
-    "timeout_prevote_delta",
-    "timeout_precommit",
-    "timeout_precommit_delta",
-    "timeout_commit",
-    "flush_throttle_timeout"
+    `timeout_propose`,
+    `timeout_propose_delta`,
+    `timeout_prevote`,
+    `timeout_prevote_delta`,
+    `timeout_precommit`,
+    `timeout_precommit_delta`,
+    `timeout_commit`,
+    `flush_throttle_timeout`
   ]
   const updatedConfigToml = configToml
-    .split("\n")
+    .split(`\n`)
     .map(line => {
-      let [key, value] = line.split(" = ")
+      let [key, value] = line.split(` = `)
       if (timeouts.indexOf(key) !== -1) {
         return `${key} = ${parseInt(value) / 50}`
       }
       return line
     })
-    .join("\n")
+    .join(`\n`)
 
-  fs.writeFileSync(configPath, updatedConfigToml, "utf8")
+  fs.writeFileSync(configPath, updatedConfigToml, `utf8`)
 }
 
 function disableStrictAddressbook(nodeHome) {
-  const configPath = join(nodeHome, "config", "config.toml")
-  let configToml = fs.readFileSync(configPath, "utf8")
+  const configPath = join(nodeHome, `config`, `config.toml`)
+  let configToml = fs.readFileSync(configPath, `utf8`)
 
   const updatedConfigToml = configToml
-    .split("\n")
+    .split(`\n`)
     .map(line => {
-      if (line.startsWith("addr_book_strict")) return "addr_book_strict = false"
+      if (line.startsWith(`addr_book_strict`)) return `addr_book_strict = false`
       return line
     })
-    .join("\n")
+    .join(`\n`)
 
-  fs.writeFileSync(configPath, updatedConfigToml, "utf8")
+  fs.writeFileSync(configPath, updatedConfigToml, `utf8`)
 }
 
 // save the version of the currently used gaia into the newly created network config folder
 function saveVersion(nodeHome) {
   return new Promise((resolve, reject) => {
-    let versionFilePath = join(nodeHome, "config", "gaiaversion.txt") // nodeHome/config is used to copy created config files from, therefor we copy the version file in there
+    let versionFilePath = join(nodeHome, `config`, `gaiaversion.txt`) // nodeHome/config is used to copy created config files from, therefor we copy the version file in there
     const command = `${nodeBinary} version`
-    console.log(command, ">", versionFilePath)
+    console.log(command, `>`, versionFilePath)
     let child = spawn(command, { shell: true })
     child.stderr.pipe(process.stderr)
-    child.stdout.once("data", data => {
+    child.stdout.once(`data`, data => {
       let msg = data.toString()
 
-      if (!msg.includes("Failed") && !msg.includes("Error")) {
+      if (!msg.includes(`Failed`) && !msg.includes(`Error`)) {
         fs.ensureFileSync(versionFilePath)
-        fs.writeFileSync(versionFilePath, msg, "utf8")
+        fs.writeFileSync(versionFilePath, msg, `utf8`)
         resolve()
       } else {
         reject(msg)
@@ -440,29 +440,29 @@ function createAccount(name, seed) {
     let child = spawn(
       binary,
       [
-        "keys",
-        "add",
+        `keys`,
+        `add`,
         name,
-        seed ? "--recover" : null,
-        "--home",
-        join(cliHome, "lcd"),
-        "--output",
-        "json"
+        seed ? `--recover` : null,
+        `--home`,
+        join(cliHome, `lcd`),
+        `--output`,
+        `json`
       ].filter(x => x !== null)
     )
 
-    child.stdout.once("data", data => {
+    child.stdout.once(`data`, data => {
       let msg = data.toString()
 
-      if (msg.startsWith("{")) {
+      if (msg.startsWith(`{`)) {
         resolve(JSON.parse(msg))
       }
     })
 
-    child.stdin.write("1234567890\n")
-    seed && child.stdin.write(seed + "\n")
+    child.stdin.write(`1234567890\n`)
+    seed && child.stdin.write(seed + `\n`)
     child.stderr.pipe(process.stdout)
-    child.once("exit", code => {
+    child.once(`exit`, code => {
       if (code !== 0) reject()
     })
   })
@@ -470,17 +470,17 @@ function createAccount(name, seed) {
 
 module.exports = {
   getApp: launch,
-  restart: async function(app, awaitingSelector = ".tm-session-title=Sign In") {
-    console.log("restarting app")
+  restart: async function(app, awaitingSelector = `.tm-session-title=Sign In`) {
+    console.log(`restarting app`)
     await stop(app)
     await startApp(app, awaitingSelector)
   },
-  refresh: async function(app, awaitingSelector = ".tm-session-title=Sign In") {
-    console.log("refreshing app")
+  refresh: async function(app, awaitingSelector = `.tm-session-title=Sign In`) {
+    console.log(`refreshing app`)
     if (app && app.isRunning()) {
       if (process.env.CI) {
         // we need to collect the app process output as it will be reset when the app is stopped
-        console.log("collecting app logs")
+        console.log(`collecting app logs`)
         await writeLogs(app, testDir)
       }
     }

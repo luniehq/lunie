@@ -109,7 +109,7 @@ import AnchorCopy from "common/AnchorCopy"
 import TmBalance from "common/TmBalance"
 import { isEmpty } from "lodash"
 export default {
-  name: "page-validator",
+  name: `page-validator`,
   components: {
     AnchorCopy,
     ModalStake,
@@ -130,16 +130,16 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      "bondingDenom",
-      "delegates",
-      "delegation",
-      "committedDelegations",
-      "config",
-      "keybase",
-      "oldBondedAtoms",
-      "totalAtoms",
-      "wallet",
-      "user"
+      `bondingDenom`,
+      `delegates`,
+      `delegation`,
+      `committedDelegations`,
+      `config`,
+      `keybase`,
+      `oldBondedAtoms`,
+      `totalAtoms`,
+      `wallet`,
+      `user`
     ]),
     validator() {
       let validator = this.delegates.delegates.find(
@@ -164,37 +164,37 @@ export default {
     },
     // TODO enable once we decide on limits
     // powerRatioLevel() {
-    //   if (this.powerRatio < 0.01) return "green"
-    //   if (this.powerRatio < 0.03) return "yellow"
-    //   return "red"
+    //   if (this.powerRatio < 0.01) return `green`
+    //   if (this.powerRatio < 0.03) return `yellow`
+    //   return `red`
     // },
     // TODO enable once we decide on limits
     // commissionLevel() {
-    //   if (this.validator.commission < 0.01) return "green"
-    //   if (this.validator.commission < 0.03) return "yellow"
-    //   return "red"
+    //   if (this.validator.commission < 0.01) return `green`
+    //   if (this.validator.commission < 0.03) return `yellow`
+    //   return `red`
     // },
     status() {
       // status: jailed
       if (this.validator.revoked)
-        return "This validator has been jailed and is not currently validating"
+        return `This validator has been jailed and is not currently validating`
 
       // status: candidate
       if (parseFloat(this.validator.voting_power) === 0)
-        return "This validator has declared candidacy but does not have enough voting power yet"
+        return `This validator has declared candidacy but does not have enough voting power yet`
 
       // status: validator
-      return "This validator is actively validating"
+      return `This validator is actively validating`
     },
     statusColor() {
       // status: jailed
-      if (this.validator.revoked) return "red"
+      if (this.validator.revoked) return `red`
 
       // status: candidate
-      if (parseFloat(this.validator.voting_power) === 0) return "yellow"
+      if (parseFloat(this.validator.voting_power) === 0) return `yellow`
 
       // status: validator
-      return "green"
+      return `green`
     },
     availableAtoms() {
       return this.totalAtoms - this.oldBondedAtoms
@@ -244,27 +244,27 @@ export default {
       }
 
       try {
-        await this.$store.dispatch("submitDelegation", {
+        await this.$store.dispatch(`submitDelegation`, {
           stakingTransactions
         })
 
-        this.$store.commit("notify", {
+        this.$store.commit(`notify`, {
           title: `Successful ${txTitle}!`,
           body: `You have successfully ${txBody} your ${this.bondingDenom}s.`
         })
       } catch (exception) {
         const { message } = exception
-        let errData = message.split("\n")[5]
+        let errData = message.split(`\n`)[5]
         if (errData) {
-          let parsedErr = errData.split('"')[1]
-          this.$store.commit("notifyError", {
+          let parsedErr = errData.split(`"`)[1]
+          this.$store.commit(`notifyError`, {
             title: `Error while ${txAction} ${this.bondingDenom}s`,
             body: parsedErr
               ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
               : errData
           })
         } else {
-          this.$store.commit("notifyError", {
+          this.$store.commit(`notifyError`, {
             title: `Error while ${txAction} ${this.bondingDenom}s`,
             body: message
           })
@@ -306,17 +306,17 @@ export default {
       return myWallet.concat(redelegationOptions)
     },
     pretty(num) {
-      return numeral(num).format("0,0.00")
+      return numeral(num).format(`0,0.00`)
     },
     // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
     translateEmptyDescription(value) {
-      if (!value || value === "[do-not-modify]") return "n/a"
+      if (!value || value === `[do-not-modify]`) return `n/a`
       return value
     }
   },
   watch: {
     validator(validator) {
-      this.$store.dispatch("getSelfBond", validator)
+      this.$store.dispatch(`getSelfBond`, validator)
     }
   }
 }

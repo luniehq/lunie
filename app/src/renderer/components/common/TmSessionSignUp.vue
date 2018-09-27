@@ -70,7 +70,7 @@ import {
 import FieldSeed from "common/TmFieldSeed"
 import { mapGetters } from "vuex"
 export default {
-  name: "tm-session-sign-up",
+  name: `tm-session-sign-up`,
   components: {
     TmBtn,
     TmField,
@@ -80,51 +80,51 @@ export default {
     TmFormStruct
   },
   computed: {
-    ...mapGetters(["connected"])
+    ...mapGetters([`connected`])
   },
   data: () => ({
     creating: true,
     fields: {
-      signUpName: "",
-      signUpSeed: "Creating seed...",
-      signUpPassword: "",
-      signUpPasswordConfirm: "",
+      signUpName: ``,
+      signUpSeed: `Creating seed...`,
+      signUpPassword: ``,
+      signUpPasswordConfirm: ``,
       signUpWarning: false
     }
   }),
   methods: {
     help() {
-      this.$store.commit("setModalHelp", true)
+      this.$store.commit(`setModalHelp`, true)
     },
     setState(value) {
-      this.$store.commit("setModalSessionState", value)
+      this.$store.commit(`setModalSessionState`, value)
     },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        let key = await this.$store.dispatch("createKey", {
+        let key = await this.$store.dispatch(`createKey`, {
           seedPhrase: this.fields.signUpSeed,
           password: this.fields.signUpPassword,
           name: this.fields.signUpName
         })
         if (key) {
-          this.$store.dispatch("setErrorCollection", {
+          this.$store.dispatch(`setErrorCollection`, {
             account: this.fields.signUpName,
             optin: this.fields.errorCollection
           })
-          this.$store.commit("setModalSession", false)
-          this.$store.commit("notify", {
-            title: "Signed Up",
-            body: "Your account has been created."
+          this.$store.commit(`setModalSession`, false)
+          this.$store.commit(`notify`, {
+            title: `Signed Up`,
+            body: `Your account has been created.`
           })
-          this.$store.dispatch("signIn", {
+          this.$store.dispatch(`signIn`, {
             password: this.fields.signUpPassword,
             account: this.fields.signUpName
           })
         }
       } catch (err) {
-        this.$store.commit("notifyError", {
+        this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,
           body: err.message
         })
@@ -132,18 +132,18 @@ export default {
     }
   },
   mounted() {
-    this.$el.querySelector("#sign-up-name").focus()
-    this.$store.dispatch("createSeed").then(seedPhrase => {
+    this.$el.querySelector(`#sign-up-name`).focus()
+    this.$store.dispatch(`createSeed`).then(seedPhrase => {
       this.creating = false
       this.fields.signUpSeed = seedPhrase
     })
-    new PerfectScrollbar(this.$el.querySelector(".tm-session-main"))
+    new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
   },
   validations: () => ({
     fields: {
       signUpName: { required, minLength: minLength(5) },
       signUpPassword: { required, minLength: minLength(10) },
-      signUpPasswordConfirm: { sameAsPassword: sameAs("signUpPassword") },
+      signUpPasswordConfirm: { sameAsPassword: sameAs(`signUpPassword`) },
       signUpWarning: { required },
       errorCollection: false
     }

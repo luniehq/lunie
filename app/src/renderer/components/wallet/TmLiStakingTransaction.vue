@@ -39,9 +39,9 @@ import moment from "moment"
 import numeral from "numeral"
 
 export default {
-  name: "tm-li-staking-transaction",
+  name: `tm-li-staking-transaction`,
   computed: {
-    ...mapGetters(["config"]),
+    ...mapGetters([`config`]),
     tx() {
       return this.transaction.tx.value.msg[0].value
     },
@@ -53,7 +53,7 @@ export default {
     },
     date() {
       try {
-        return moment(this.transaction.time).format("MMMM Do YYYY, h:mm:ss a")
+        return moment(this.transaction.time).format(`MMMM Do YYYY, h:mm:ss a`)
       } catch (error) {
         return null
       }
@@ -63,12 +63,11 @@ export default {
     devMode:
       process.env.PREVIEW !== undefined
         ? JSON.parse(process.env.PREVIEW)
-        : process.env.NODE_ENV === "development"
+        : process.env.NODE_ENV === `development`
   }),
   methods: {
     pretty(num) {
-      console.log(this.config.denom)
-      return numeral(num).format("0,0.00")
+      return numeral(num).format(`0,0.00`)
     },
     validator(address) {
       return this.validators.find(validator => {

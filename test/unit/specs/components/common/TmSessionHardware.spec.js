@@ -8,7 +8,7 @@ const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
 
-describe("NISessionHardware", () => {
+describe(`NISessionHardware`, () => {
   let wrapper, store
 
   beforeEach(() => {
@@ -20,37 +20,37 @@ describe("NISessionHardware", () => {
     store.commit = jest.fn()
   })
 
-  it("has the expected html structure", () => {
+  it(`has the expected html structure`, () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it("should go back to the welcome screen on click", () => {
+  it(`should go back to the welcome screen on click`, () => {
     wrapper
-      .findAll(".tm-session-header a")
+      .findAll(`.tm-session-header a`)
       .at(0)
-      .trigger("click")
-    expect(store.commit.mock.calls[0][0]).toBe("setModalSessionState")
-    expect(store.commit.mock.calls[0][1]).toBe("welcome")
+      .trigger(`click`)
+    expect(store.commit.mock.calls[0][0]).toBe(`setModalSessionState`)
+    expect(store.commit.mock.calls[0][1]).toBe(`welcome`)
   })
 
-  it("should open the help modal on click", () => {
+  it(`should open the help modal on click`, () => {
     wrapper
-      .findAll(".tm-session-header a")
+      .findAll(`.tm-session-header a`)
       .at(1)
-      .trigger("click")
-    expect(store.commit.mock.calls[0]).toEqual(["setModalHelp", true])
+      .trigger(`click`)
+    expect(store.commit.mock.calls[0]).toEqual([`setModalHelp`, true])
   })
 
-  it("should show a state indicator for different states of the hardware connection", () => {
-    wrapper.setData({ status: "connect" })
+  it(`should show a state indicator for different states of the hardware connection`, () => {
+    wrapper.setData({ status: `connect` })
     wrapper.update()
     expect(wrapper.html()).toMatchSnapshot()
 
-    wrapper.setData({ status: "detect" })
+    wrapper.setData({ status: `detect` })
     wrapper.update()
     expect(wrapper.html()).toMatchSnapshot()
 
-    wrapper.setData({ status: "success" })
+    wrapper.setData({ status: `success` })
     wrapper.update()
     expect(wrapper.html()).toMatchSnapshot()
   })

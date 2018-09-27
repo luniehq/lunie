@@ -20,18 +20,17 @@ export default ({}) => {
       if (!/.{16}/.test(keybaseId)) return // the keybase id is not correct
       if (state.identities[keybaseId]) return // we already have this identity
 
-      let urlPrefix =
-        "https://keybase.io/_/api/1.0/user/lookup.json?key_suffix="
+      let urlPrefix = `https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=`
       let fullUrl = urlPrefix + keybaseId
       let json = await axios.get(fullUrl)
-      if (json.data.status.name === "OK") {
+      if (json.data.status.name === `OK`) {
         let user = json.data.them[0]
         if (user && user.pictures && user.pictures.primary) {
           return {
             keybaseId,
             avatarUrl: user.pictures.primary.url,
             userName: user.basics.username,
-            profileUrl: "https://keybase.io/" + user.basics.username
+            profileUrl: `https://keybase.io/` + user.basics.username
           }
         }
       }
@@ -41,13 +40,13 @@ export default ({}) => {
         validators.map(async validator => {
           if (validator.description.identity) {
             return dispatch(
-              "getKeybaseIdentity",
+              `getKeybaseIdentity`,
               validator.description.identity
             )
           }
         })
       ).then(identities => {
-        commit("setKeybaseIdentities", identities.filter(x => !!x))
+        commit(`setKeybaseIdentities`, identities.filter(x => !!x))
       })
     }
   }

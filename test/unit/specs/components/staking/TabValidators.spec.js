@@ -3,7 +3,7 @@ import htmlBeautify from "html-beautify"
 import TabValidators from "renderer/components/staking/TabValidators"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-describe("PageStaking", () => {
+describe(`PageStaking`, () => {
   let wrapper, store
   let { mount } = setup()
 
@@ -12,13 +12,13 @@ describe("PageStaking", () => {
     wrapper = instance.wrapper
     store = instance.store
 
-    store.commit("setConnected", true)
+    store.commit(`setConnected`, true)
     store.state.user.address = lcdClientMock.addresses[0]
-    store.commit("setAtoms", 1337)
+    store.commit(`setAtoms`, 1337)
     wrapper.update()
   })
 
-  it("has the expected html structure", async () => {
+  it(`has the expected html structure`, async () => {
     // after importing the @tendermint/ui components from modules
     // the perfect scroll plugin needs a $nextTick and a wrapper.update
     // to work properly in the tests (snapshots weren't matching)
@@ -28,26 +28,26 @@ describe("PageStaking", () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it("should sort the delegates by selected property", () => {
-    wrapper.vm.sort.property = "owner"
-    wrapper.vm.sort.order = "desc"
+  it(`should sort the delegates by selected property`, () => {
+    wrapper.vm.sort.property = `owner`
+    wrapper.vm.sort.order = `desc`
 
     expect(
       wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.owner)
     ).toEqual(lcdClientMock.validators)
 
-    wrapper.vm.sort.property = "owner"
-    wrapper.vm.sort.order = "asc"
+    wrapper.vm.sort.property = `owner`
+    wrapper.vm.sort.order = `asc`
 
     expect(
       wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.owner)
     ).toEqual(lcdClientMock.validators.reverse())
   })
 
-  it("should filter the delegates", () => {
-    store.commit("setSearchVisible", ["delegates", true])
-    store.commit("setSearchQuery", [
-      "delegates",
+  it(`should filter the delegates`, () => {
+    store.commit(`setSearchVisible`, [`delegates`, true])
+    store.commit(`setSearchQuery`, [
+      `delegates`,
       lcdClientMock.validators[2].substr(20, 26)
     ])
     expect(
@@ -55,8 +55,8 @@ describe("PageStaking", () => {
     ).toEqual([lcdClientMock.validators[2]])
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
-    store.commit("setSearchQuery", [
-      "delegates",
+    store.commit(`setSearchQuery`, [
+      `delegates`,
       lcdClientMock.validators[1].substr(20, 26)
     ])
     expect(
@@ -64,17 +64,17 @@ describe("PageStaking", () => {
     ).toEqual([lcdClientMock.validators[1]])
   })
 
-  it("should update 'somethingToSearch' when there's nothing to search", () => {
+  it(`should update 'somethingToSearch' when there's nothing to search`, () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
     let delegates = store.state.delegates.delegates
-    store.commit("setDelegates", [])
+    store.commit(`setDelegates`, [])
     expect(wrapper.vm.somethingToSearch).toBe(false)
 
-    store.commit("setDelegates", delegates)
+    store.commit(`setDelegates`, delegates)
     expect(wrapper.vm.somethingToSearch).toBe(true)
   })
 
-  it("should show placeholder if delegates are loading", () => {
+  it(`should show placeholder if delegates are loading`, () => {
     let { wrapper } = mount(TabValidators, {
       getters: {
         delegates: () => ({
@@ -82,14 +82,14 @@ describe("PageStaking", () => {
           loading: true
         })
       },
-      stubs: { "tm-data-loading": "<data-loading />" }
+      stubs: { "tm-data-loading": `<data-loading />` }
     })
 
     console.log(htmlBeautify(wrapper.html()))
-    expect(wrapper.contains("data-loading")).toBe(true)
+    expect(wrapper.contains(`data-loading`)).toBe(true)
   })
 
-  it("should not show search when there is nothing to search", () => {
+  it(`should not show search when there is nothing to search`, () => {
     let { wrapper } = mount(TabValidators, {
       getters: {
         delegates: () => ({
@@ -97,7 +97,7 @@ describe("PageStaking", () => {
           loading: true
         })
       },
-      stubs: { "tm-data-loading": "<data-loading />" }
+      stubs: { "tm-data-loading": `<data-loading />` }
     })
     wrapper.update()
 
