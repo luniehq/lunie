@@ -5,7 +5,7 @@
     slot
     a.help(@click="enableModalHelp" v-tooltip.bottom="'Help'")
       i.material-icons help_outline
-    router-link.settings(to="/preferences" v-tooltip.bottom="'Preferences'")
+    router-link#settings(to="/preferences" v-tooltip.bottom="'Preferences'")
       i.material-icons settings
     a#signOut-btn(@click="signOut" v-tooltip.bottom.end="'Sign Out'")
       i.material-icons exit_to_app

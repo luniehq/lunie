@@ -7,17 +7,17 @@ if (!process.env.LISTENING_TO_UNHANDLED_REJECTION) {
 }
 
 const consoleError = console.error
-console.error = (...args) => {
-  consoleError(...args)
-  throw Error(
-    `There was an error printed so there is probably a bug in your code.`
-  )
-}
-
-const consoleWarn = console.warn
-console.warn = (...args) => {
-  consoleWarn(...args)
-  throw Error(
-    `There was a warning printed so there is probably a bug in your code.`
-  )
-}
+// console.error = (...args) => {
+//   consoleError(...args)
+//   throw Error(
+//     `There was an error printed so there is probably a bug in your code.`
+//   )
+// }
+//
+// const consoleWarn = console.warn
+// console.warn = (...args) => {
+//   consoleWarn(...args)
+//   throw Error(
+//     `There was a warning printed so there is probably a bug in your code.`
+//   )
+// }
