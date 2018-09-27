@@ -229,7 +229,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             <dd
               id="validator-profile__power"
             >
-              100.00 %
+              65.52 %
             </dd>
           </dl>
           <dl
@@ -654,7 +654,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             <dd
               id="validator-profile__power"
             >
-              100.00 %
+              65.52 %
             </dd>
           </dl>
           <dl

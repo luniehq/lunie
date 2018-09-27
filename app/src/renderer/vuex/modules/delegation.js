@@ -203,20 +203,23 @@ export default ({ node }) => {
         begin_unbondings: mappedUnbondings,
         begin_redelegates: mappedRedelegations
       })
-      // (optimistic update) we update the atoms of the user before we get the new values from chain
-      let atomsDiff =
-        stakingTransactions.delegations &&
-        stakingTransactions.delegations
-          // compare old and new delegations and diff against old atoms
-          .map(
-            delegation =>
-              calculateTokens(
-                delegation.validator,
-                state.committedDelegates[delegation.validator.owner]
-              ) - delegation.atoms
-          )
-          .reduce((sum, diff) => sum + diff, 0)
-      commit(`setAtoms`, user.atoms + atomsDiff)
+
+      if (mappedDelegations) {
+        // (optimistic update) we update the atoms of the user before we get the new values from chain
+        let atomsDiff =
+          stakingTransactions.delegations &&
+          stakingTransactions.delegations
+            // compare old and new delegations and diff against old atoms
+            .map(
+              delegation =>
+                calculateTokens(
+                  delegation.validator,
+                  state.committedDelegates[delegation.validator.owner]
+                ) - delegation.atoms
+            )
+            .reduce((sum, diff) => sum + diff, 0)
+        commit(`setAtoms`, user.atoms + atomsDiff)
+      }
 
       // we optimistically update the committed delegations
       // TODO usually I would just query the new state through the LCD and update the state with the result, but at this point we still get the old shares

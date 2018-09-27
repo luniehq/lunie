@@ -219,8 +219,8 @@ export default {
         txAction = ``
 
       if (from === delegatorAddr) {
-        txTitle = `Staking`
-        txBody = `staked`
+        txTitle = `delegation`
+        txBody = `delegated`
         txAction = `delegating`
 
         stakingTransactions.delegations = [
@@ -234,10 +234,12 @@ export default {
         txBody = `redelegated`
         txAction = `redelegating`
 
+        let validatorFrom = this.delegates.delegates.find(v => from === v.owner)
+
         stakingTransactions.redelegations = [
           {
             atoms: amount,
-            validatorSrc: from,
+            validatorSrc: validatorFrom,
             validatorDst: this.validator
           }
         ]
@@ -250,7 +252,7 @@ export default {
 
         this.$store.commit(`notify`, {
           title: `Successful ${txTitle}!`,
-          body: `You have successfully ${txBody} your ${this.bondingDenom}s.`
+          body: `You have successfully ${txBody} your ${this.bondingDenom}s`
         })
       } catch (exception) {
         const { message } = exception
