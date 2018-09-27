@@ -1,6 +1,6 @@
 let test = require(`tape-promise/tape`)
 let { getApp, refresh } = require(`./launch.js`)
-let { openMenu, login, sleep } = require(`./common.js`)
+let { login, sleep, navigateToPreferences } = require(`./common.js`)
 
 /*
 * NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
@@ -151,10 +151,8 @@ test(`sign in`, async function(t) {
 
       // checking if user is logged in
       await app.client.waitForExist(`#app-content`, 10000)
-      await openMenu(app)
-      let activeUser = await app.client
-        .$(`.tm-li-user .tm-li-subtitle`)
-        .getText()
+      await navigateToPreferences(app)
+      let activeUser = await app.client.$(`#account-name`).getText()
       t.ok(activeUser === `signin_test`, `user is logged in`)
 
       t.end()
@@ -300,11 +298,10 @@ test(`sign in`, async function(t) {
       await clickContinue()
 
       // checking if user is logged in
-      await app.client.waitForExist(`#app-content`, 5000)
-      await openMenu(app)
-      let activeUser = await app.client
-        .$(`.tm-li-user .tm-li-subtitle`)
-        .getText()
+      await app.client.waitForExist(`#app-content`, 10000)
+      await navigateToPreferences(app)
+      let activeUser = await app.client.$(`#account-name`).getText()
+
       t.equal(activeUser, `seed_test`, `user is logged in`)
 
       t.end()

@@ -57,8 +57,9 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                     </i>
                   </a>
                   <a
-                    class="settings"
+                    class=""
                     href="#/preferences"
+                    id="settings"
                   >
                     <i
                       class="material-icons"
@@ -128,6 +129,43 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 <div
                   class="tm-li-title"
                 >
+                  Account Name
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <input
+                  class="tm-field"
+                  disabled="disabled"
+                  id="account-name"
+                  type="input"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
                   Select network to connect to
                 </div>
                 <div
@@ -162,7 +200,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                     <option
                       value="mock"
                     >
-                      Mock Testnet
+                      Offline Mode
                     </option>
                   </select>
                   <div
@@ -175,6 +213,54 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                     </i>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tm-li tm-li-field"
+          >
+            <div
+              class="tm-li-container"
+            >
+              <div
+                class="tm-li-thumb"
+              >
+                <!---->
+              </div>
+              <div
+                class="tm-li-label"
+              >
+                <div
+                  class="tm-li-title"
+                >
+                  Node IP
+                </div>
+                <div
+                  class="tm-li-subtitle"
+                >
+                  
+                </div>
+              </div>
+              <div
+                class="tm-li-input"
+              >
+                <button
+                  class="tm-btn"
+                  type="button"
+                >
+                  <span
+                    class="tm-btn__container"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="tm-btn__icon material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                    <!---->
+                    <!---->
+                  </span>
+                </button>
               </div>
             </div>
           </div>

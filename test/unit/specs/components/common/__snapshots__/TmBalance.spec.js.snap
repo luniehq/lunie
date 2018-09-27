@@ -17,7 +17,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
 <!---->
 </div>
 <div class=\\"bottom\\">
-   <div class=\\"address\\">
+   <div id=\\"address\\" class=\\"address\\">
       useraddress16876876876876876786876876876876876
    </div>
 <div class=\\"success\\">
@@ -68,7 +68,7 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
 </div>
 </div>
 <div class=\\"bottom\\">
-   <div class=\\"address\\">
+   <div id=\\"address\\" class=\\"address\\">
       useraddress16876876876876876786876876876876876
    </div>
 <div class=\\"success\\">

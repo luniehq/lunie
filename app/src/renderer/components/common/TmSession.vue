@@ -8,10 +8,12 @@
   session-account-delete(v-if="config.modals.session.state == 'delete'")
   session-hardware(v-if="config.modals.session.state == 'hardware'")
   session-import(v-if="config.modals.session.state == 'import'")
+  connected-network
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import ConnectedNetwork from "common/TmConnectedNetwork"
 import SessionLoading from "common/TmSessionLoading"
 import SessionWelcome from "common/TmSessionWelcome"
 import SessionSignUp from "common/TmSessionSignUp"
@@ -22,6 +24,7 @@ import SessionAccountDelete from "common/TmSessionAccountDelete"
 export default {
   name: `tm-session`,
   components: {
+    ConnectedNetwork,
     SessionLoading,
     SessionWelcome,
     SessionSignUp,
@@ -47,6 +50,11 @@ export default {
     left -10vw
     width 50vw
     opacity 0.25
+
+  .tm-connected-network
+    position absolute
+    left 0
+    bottom 0
 
 .tm-field-checkbox
   display flex
@@ -78,6 +86,7 @@ export default {
   left 0
   z-index z(default)
   background var(--app-fg)
+  border-radius 0.25rem
 
 .tm-session-container
   &:not(.tm-form)
@@ -100,6 +109,8 @@ export default {
   margin-top 1.5rem // for macos traffic signals
   padding 1rem 2rem;
   border-bottom: 0.125rem solid var(--bc-dim);
+  border-top-left-radius 0.25rem
+  border-top-right-radius 0.25rem
 
   a
     display flex
@@ -154,6 +165,8 @@ export default {
   display flex
   align-items center
   justify-content flex-end
+  border-bottom-left-radius 0.25rem
+  border-bottom-right-radius 0.25rem
 
   button
     margin-left 1rem

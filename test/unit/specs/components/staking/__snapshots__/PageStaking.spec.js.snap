@@ -31,7 +31,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <!---->
 </div>
    <div class=\\"bottom\\">
-      <div class=\\"address\\">
+      <div id=\\"address\\" class=\\"address\\">
          cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
       </div>
    <div class=\\"success\\">
@@ -47,7 +47,7 @@ exports[`PageStaking has the expected html structure 1`] = `
             <div class=\\"tm-tool-bar\\">
                <div class=\\"tm-tool-bar-container\\">
                   <div class=\\"main\\">
-                     <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a><i class=\\"search material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+                     <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a><i class=\\"search material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"\\" id=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
                   </div>
 </div>
 </div>
@@ -96,7 +96,7 @@ exports[`PageStaking has the expected html structure 1`] = `
       <!---->
    </div>
       <div class=\\"bottom\\">
-         <div class=\\"address\\">
+         <div id=\\"address\\" class=\\"address\\">
             cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
          </div>
       <div class=\\"success\\">
@@ -112,7 +112,7 @@ exports[`PageStaking has the expected html structure 1`] = `
                <div class=\\"tm-tool-bar\\">
                   <div class=\\"tm-tool-bar-container\\">
                      <div class=\\"main\\">
-                        <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a disabled=\\"disabled\\"><i class=\\"material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+                        <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a disabled=\\"disabled\\"><i class=\\"material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"\\" id=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
                      </div>
 </div>
 </div>
@@ -284,6 +284,7 @@ exports[`PageStaking should filter the delegates 1`] = `
             >
               <div
                 class="address"
+                id="address"
               >
                 cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
               </div>
@@ -351,8 +352,9 @@ exports[`PageStaking should filter the delegates 1`] = `
                     </i>
                   </a>
                   <a
-                    class="settings"
+                    class=""
                     href="#/preferences"
+                    id="settings"
                   >
                     <i
                       class="material-icons"
@@ -512,6 +514,7 @@ exports[`PageStaking should filter the delegates 1`] = `
                 >
                   <div
                     class="address"
+                    id="address"
                   >
                     cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
                   </div>
@@ -581,8 +584,9 @@ exports[`PageStaking should filter the delegates 1`] = `
                         </i>
                       </a>
                       <a
-                        class="settings"
+                        class=""
                         href="#/preferences"
+                        id="settings"
                       >
                         <i
                           class="material-icons"

@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Changed a bunch of JavaScript files to strict mode. @NodeGuy @faboweb
 * prefer backquotes in code @ƒaboweb
 * Refactord submitDelegation. @NodeGuy
+* network connectivity bar improvements @jbibla
 
 ### Fixed
 

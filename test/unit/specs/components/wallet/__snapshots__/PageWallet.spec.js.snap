@@ -65,6 +65,7 @@ exports[`PageWallet has the expected html structure 1`] = `
             >
               <div
                 class="address"
+                id="address"
               >
                 cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
               </div>
@@ -132,8 +133,9 @@ exports[`PageWallet has the expected html structure 1`] = `
                     </i>
                   </a>
                   <a
-                    class="settings"
+                    class=""
                     href="#/preferences"
+                    id="settings"
                   >
                     <i
                       class="material-icons"
@@ -579,6 +581,7 @@ exports[`PageWallet should filter the balances 1`] = `
             >
               <div
                 class="address"
+                id="address"
               >
                 cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
               </div>
@@ -646,8 +649,9 @@ exports[`PageWallet should filter the balances 1`] = `
                     </i>
                   </a>
                   <a
-                    class="settings"
+                    class=""
                     href="#/preferences"
+                    id="settings"
                   >
                     <i
                       class="material-icons"

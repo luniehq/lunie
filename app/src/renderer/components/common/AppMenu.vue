@@ -23,7 +23,6 @@ menu.app-menu
       title="Proposals"
       v-if="config.devMode")
   connected-network
-  user-pane
 </template>
 
 <script>
@@ -32,13 +31,11 @@ import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import { TmListItem } from "@tendermint/ui"
-import UserPane from "common/TmUserPane"
 export default {
   name: `app-menu`,
   components: {
     ConnectedNetwork,
-    TmListItem,
-    UserPane
+    TmListItem
   },
   computed: {
     ...mapGetters([
@@ -134,7 +131,4 @@ export default {
 @media screen and (min-width: 1024px)
   .app-menu
     flex 1
-
-    .tm-connected-network
-      display none
 </style>

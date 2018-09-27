@@ -4,19 +4,20 @@ exports[`TmConnectedNetwork has the expected html structure 1`] = `
 "<div id=\\"tm-connected-network\\" class=\\"tm-connected-network tm-connected-network--mocked\\">
    <div class=\\"tm-connected-network__connection\\">
       <div id=\\"tm-connected-network__icon\\" class=\\"tm-connected-network__icon\\">
-         <i class=\\"material-icons\\">wifi</i>
+         <i class=\\"material-icons\\">lock</i>
       </div>
 <div id=\\"tm-connected-network__string\\" class=\\"tm-connected-network__string\\">
-   <span class=\\"desktop-only\\">Connected to</span><span class=\\"chain-id\\"> test-net</span> via <span>127.0.0.1</span><a href=\\"#/preferences\\" class=\\"desktop-only\\" id=\\"tm-connected-network_preferences-link\\"> (change network)</a>
+   <span class=\\"chain-id\\">Test Net</span>
 </div>
 </div>
 <div class=\\"tm-connected-network__string\\" id=\\"tm-connected-network__block\\">
-   <span class=\\"desktop-only\\">Current Block:</span><a href=\\"https://explorecosmos.network/blocks/42\\"> #42<i class=\\"material-icons\\">exit_to_app</i></a>
+   <span>#42</span>
+   <!---->
 </div>
 </div>"
 `;
 
-exports[`TmConnectedNetwork shows the connected node 1`] = `
+exports[`TmConnectedNetwork shows the connected network 1`] = `
 <div
   class="tm-connected-network"
   id="tm-connected-network"
@@ -31,7 +32,7 @@ exports[`TmConnectedNetwork shows the connected node 1`] = `
       <i
         class="material-icons"
       >
-        wifi
+        lock
       </i>
     </div>
     <div
@@ -39,43 +40,23 @@ exports[`TmConnectedNetwork shows the connected node 1`] = `
       id="tm-connected-network__string"
     >
       <span
-        class="desktop-only"
-      >
-        Connected to
-      </span>
-      <span
         class="chain-id"
       >
-         
+        gaia-43000
       </span>
-       via 
-      <span>
-        123.123.123.123
-      </span>
-      <a
-        class="desktop-only router-link-exact-active router-link-active"
-        href="#/preferences"
-        id="tm-connected-network_preferences-link"
-      >
-         (change network)
-      </a>
     </div>
   </div>
   <div
     class="tm-connected-network__string"
     id="tm-connected-network__block"
   >
-    <span
-      class="desktop-only"
-    >
-      Current Block:
-    </span>
+    <!---->
     <a
       href="https://explorecosmos.network/blocks/0"
     >
-       #0
+      #0
       <i
-        class="material-icons"
+        class="material-icons exit"
       >
         exit_to_app
       </i>

@@ -3,6 +3,11 @@ tm-page(title="Preferences")
   div(slot="menu"): vm-tool-bar
 
   tm-part(title='Settings')
+    tm-list-item(type="field" title="Account Name")
+      tm-field#account-name(
+        type="input"
+        v-model="username"
+        disabled)
     tm-list-item(type="field" title="Select network to connect to")
       tm-field#select-network(
         type="select"
@@ -10,6 +15,12 @@ tm-page(title="Preferences")
         :options="networkSelectOptions"
         placeholder="Select network..."
         @change.native="setMockedConnector")
+    tm-list-item(type="field" title="Node IP")
+      tm-btn(
+        icon='exit_to_app'
+        type='button'
+        @click.native=""
+        :value='nodeIP')
     tm-list-item(type="field" title="View tutorial for Voyager")
       tm-btn#toggle-onboarding(
         @click.native="setOnboarding"
@@ -55,7 +66,17 @@ export default {
     TmModal
   },
   computed: {
-    ...mapGetters([`user`, `themes`, `onboarding`, `mockedConnector`, `config`])
+    ...mapGetters([
+      `user`,
+      `themes`,
+      `onboarding`,
+      `mockedConnector`,
+      `config`,
+      `nodeIP`
+    ]),
+    username() {
+      return this.user.account
+    }
   },
   data: () => ({
     themeSelectActive: null,
@@ -77,7 +98,7 @@ export default {
       },
       {
         value: `mock`,
-        key: `Mock Testnet`
+        key: `Offline Mode`
       }
     ]
   }),

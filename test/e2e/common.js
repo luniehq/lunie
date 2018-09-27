@@ -61,7 +61,8 @@ module.exports = {
   async navigateToPreferences(app) {
     await module.exports.openMenu(app)
     // click link
-    await app.client.$(`.tm-li-user`).click()
+    await sleep(5000) // wait for notify to disappear
+    await app.client.$(`#settings`).click()
     console.log(`navigated to preferences`)
   },
   sleep,
@@ -110,11 +111,9 @@ module.exports = {
 
     // checking if user is logged in
     await module.exports.openMenu(app)
-    let activeUser = await app.client.$(`.tm-li-user .tm-li-subtitle`).getText()
-    if (account !== activeUser) {
-      throw new Error(
-        `Incorrect user logged in (` + account + `, ` + activeUser + `)`
-      )
+    let address = await app.client.$(`#address`).getText()
+    if (!address) {
+      throw new Error(`User not logged in`)
     }
 
     console.log(`logged in`)
@@ -136,6 +135,7 @@ module.exports = {
       .click()
   },
   async selectOption(app, selectSelector, text) {
+    console.log(app, selectSelector, text)
     await app.client.$(selectSelector).click()
     for (let letter of text.split()) {
       if ((await app.client.$(selectSelector).getValue()) === text) break
