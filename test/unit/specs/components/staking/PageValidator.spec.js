@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js"
 import Delegation from "renderer/vuex/modules/delegation"
 import ModalStake from "staking/ModalStake"
 import ModalUnstake from "staking/ModalUnstake"
@@ -422,34 +423,7 @@ describe(`onStake`, () => {
               delegations: [
                 {
                   atoms: 10,
-                  delegate: {
-                    bond_height: "0",
-                    bond_intra_tx_counter: 6,
-                    commission: "0.05",
-                    commission_change_rate: "0.01",
-                    commission_change_today: "0.005",
-                    commission_max: "0.1",
-                    delegator_shares: "19",
-                    description: {
-                      country: "DE",
-                      details: "Herr Schmidt",
-                      moniker: "herr_schmidt_revoked",
-                      website: "www.schmidt.de"
-                    },
-                    keybase: undefined,
-                    owner: "1a2b3c",
-                    prev_bonded_shares: "0",
-                    proposer_reward_pool: null,
-                    pub_key: {
-                      data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=",
-                      type: "AC26791624DE60"
-                    },
-                    revoked: false,
-                    selfBond: 0.01,
-                    status: 2,
-                    tokens: "19",
-                    voting_power: "10"
-                  }
+                  delegate
                 }
               ]
             }
@@ -488,12 +462,14 @@ describe(`onStake`, () => {
 })
 
 describe(`onUnstake`, () => {
-  describe(`make sure we have enough atoms to unstake`, () => {
+  describe(`make sure there are enough atoms to unstake`, () => {
     it(`is enough`, () => {
       const $store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
-        getters: getterValues
+        getters: Object.assign({}, getterValues, {
+          delegation: { committedDelegates: { "1a2b3c": 10 } }
+        })
       }
 
       const wrapper = mount(PageValidator, {
@@ -525,8 +501,6 @@ describe(`onUnstake`, () => {
 
       wrapper.find(`#unstake-btn`).trigger(`click`)
 
-      expect(wrapper.vm.myBond).toEqual(BigNumber(0))
-
       expect(
         wrapper.text().includes(`You have no atoms staked with this validator.`)
       ).toEqual(true)
@@ -539,7 +513,7 @@ describe(`onUnstake`, () => {
     })
   })
 
-  describe(`submitDelegation`, () => {
+  describe(`submitUndelegation`, () => {
     describe(`unit`, () => {
       it(`success`, async () => {
         const $store = {
@@ -549,7 +523,7 @@ describe(`onUnstake`, () => {
         }
 
         const {
-          vm: { submitDelegation }
+          vm: { submitUndelegation }
         } = mount(PageValidator, {
           mocks: {
             $route: { params: { validator: `1a2b3c` } },
@@ -557,18 +531,18 @@ describe(`onUnstake`, () => {
           }
         })
 
-        await submitDelegation({ amount: 10 })
+        await submitUndelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
-          [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+          [`submitDelegation`, { unbondings: [{ atoms: -10, delegate }] }]
         ])
 
         expect($store.commit.mock.calls).toEqual([
           [
             `notify`,
             {
-              body: `You have successfully staked your atoms.`,
-              title: `Successful Staking!`
+              body: `You have successfully unstaked 10 atoms.`,
+              title: `Successful Unstaking!`
             }
           ]
         ])
@@ -584,7 +558,7 @@ describe(`onUnstake`, () => {
         }
 
         const {
-          vm: { submitDelegation }
+          vm: { submitUndelegation }
         } = mount(PageValidator, {
           mocks: {
             $route: { params: { validator: `1a2b3c` } },
@@ -592,10 +566,10 @@ describe(`onUnstake`, () => {
           }
         })
 
-        await submitDelegation({ amount: 10 })
+        await submitUndelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
-          [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+          [`submitDelegation`, { unbondings: [{ atoms: -10, delegate }] }]
         ])
 
         expect($store.commit.mock.calls).toEqual([
@@ -603,7 +577,7 @@ describe(`onUnstake`, () => {
             `notifyError`,
             {
               body: `message`,
-              title: `Error While Staking atoms`
+              title: `Error While Unstaking atoms`
             }
           ]
         ])
@@ -619,7 +593,7 @@ describe(`onUnstake`, () => {
         }
 
         const {
-          vm: { submitDelegation }
+          vm: { submitUndelegation }
         } = mount(PageValidator, {
           mocks: {
             $route: { params: { validator: `1a2b3c` } },
@@ -627,10 +601,10 @@ describe(`onUnstake`, () => {
           }
         })
 
-        await submitDelegation({ amount: 10 })
+        await submitUndelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
-          [`submitDelegation`, [{ atoms: BigNumber(10), delegate }]]
+          [`submitDelegation`, { unbondings: [{ atoms: -10, delegate }] }]
         ])
 
         expect($store.commit.mock.calls).toEqual([
@@ -638,7 +612,7 @@ describe(`onUnstake`, () => {
             `notifyError`,
             {
               body: `Seven`,
-              title: `Error While Staking atoms`
+              title: `Error While Unstaking atoms`
             }
           ]
         ])
@@ -661,13 +635,13 @@ describe(`onUnstake`, () => {
           getters: getterValues,
           rootState: getterValues,
           state: {
-            committedDelegates: { "1a2b3c": 0 },
+            committedDelegates: { "1a2b3c": 10 },
             unbondingDelegations: {}
           }
         }
 
         const {
-          vm: { submitDelegation }
+          vm: { submitUndelegation }
         } = mount(PageValidator, {
           mocks: {
             $route: { params: { validator: `1a2b3c` } },
@@ -675,57 +649,32 @@ describe(`onUnstake`, () => {
           }
         })
 
-        await submitDelegation({ amount: 10 })
+        await submitUndelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
           [
             "submitDelegation",
-            [
-              {
-                atoms: BigNumber(10),
-                delegate: {
-                  bond_height: "0",
-                  bond_intra_tx_counter: 6,
-                  commission: "0.05",
-                  commission_change_rate: "0.01",
-                  commission_change_today: "0.005",
-                  commission_max: "0.1",
-                  delegator_shares: "19",
-                  description: {
-                    country: "DE",
-                    details: "Herr Schmidt",
-                    moniker: "herr_schmidt_revoked",
-                    website: "www.schmidt.de"
-                  },
-                  keybase: undefined,
-                  owner: "1a2b3c",
-                  prev_bonded_shares: "0",
-                  proposer_reward_pool: null,
-                  pub_key: {
-                    data: "dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=",
-                    type: "AC26791624DE60"
-                  },
-                  revoked: false,
-                  selfBond: 0.01,
-                  status: 2,
-                  tokens: "19",
-                  voting_power: "10"
+            {
+              unbondings: [
+                {
+                  atoms: -10,
+                  delegate
                 }
-              }
-            ]
+              ]
+            }
           ],
           [
             "sendTx",
             {
-              begin_unbondings: [],
-              delegations: [
+              begin_unbondings: [
                 {
-                  delegation: { amount: "10", denom: "atom" },
                   delegator_addr:
                     "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+                  shares: "10.00000000",
                   validator_addr: "1a2b3c"
                 }
               ],
+              delegations: [],
               to: "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
               type: "updateDelegations"
             }
@@ -733,12 +682,12 @@ describe(`onUnstake`, () => {
         ])
 
         expect($store.commit.mock.calls).toEqual([
-          ["setAtoms", 32],
+          ["setAtoms", 42],
           [
             "notify",
             {
-              body: "You have successfully staked your atoms.",
-              title: "Successful Staking!"
+              body: "You have successfully unstaked 10 atoms.",
+              title: "Successful Unstaking!"
             }
           ]
         ])

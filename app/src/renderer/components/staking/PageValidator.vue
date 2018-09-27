@@ -21,13 +21,13 @@ tm-page
             //- TODO replace with address component when ready
             anchor-copy.validator-profile__header__name__address(:value="validator.owner" :label="shortAddress(validator.owner)")
           .column.validator-profile__header__actions
-            tm-btn(id="stake-btn" value="Stake" color="primary" @click.native="onStake()")
+            tm-btn(id="stake-btn" value="Stake" color="primary" @click.native="onStake")
 
             tm-btn(
               id="unstake-btn"
               value="Unstake"
               color="secondary"
-              @click.native="onUnstake()"
+              @click.native="onUnstake"
             )
 
         .row.validator-profile__header__data
@@ -112,7 +112,7 @@ tm-page
       div(slot='footer')
         tmBtn(
           id="no-atoms-modal__btn"
-          @click.native="closeCannotStake()"
+          @click.native="closeCannotStake"
           value="OK"
         )
 
@@ -126,12 +126,14 @@ tm-page
       div(slot='footer')
         tmBtn(
           id="no-bond-modal__btn"
-          @click.native="closeCannotUnstake()"
+          @click.native="closeCannotUnstake"
           value="OK"
         )
 </template>
 
 <script>
+import BigNumber from "bignumber.js"
+import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
@@ -141,6 +143,7 @@ import ModalUnstake from "staking/ModalUnstake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
 import TmBalance from "common/TmBalance"
+import TmModal from "common/TmModal"
 export default {
   name: "page-validator",
   components: {
@@ -149,7 +152,7 @@ export default {
     ModalUnstake,
     TmBtn,
     TmListItem,
-    TmBalance,
+    TmModal,
     TmPage,
     TmPart,
     TmToolBar,
@@ -158,6 +161,7 @@ export default {
   },
   data: () => ({
     showCannotStake: false,
+    showCannotUnstake: false,
     showModalStake: false,
     showModalUnstake: false,
     shortAddress,
@@ -241,6 +245,9 @@ export default {
     closeCannotStake() {
       this.showCannotStake = false
     },
+    closeCannotUnstake() {
+      this.showCannotUnstake = false
+    },
     onStake() {
       if (this.availableAtoms > 0) {
         this.showModalStake = true
@@ -249,7 +256,7 @@ export default {
       }
     },
     onUnstake() {
-      if (this.myBond === BigNumber(0)) {
+      if (this.myBond.isEqualTo(BigNumber(0))) {
         this.showCannotUnstake = true
       } else {
         this.showModalUnstake = true
@@ -290,27 +297,19 @@ export default {
       }
     },
     async submitUndelegation({ amount }) {
-      const candidateId = this.validator.owner
-
-      const currentlyDelegated = calculateTokens(
-        this.validator,
-        this.delegation.committedDelegates[candidateId] || 0
-      )
-
-      const delegation = [
-        {
-          atoms: currentlyDelegated.minus(amount),
-          delegate: this.validator
-        }
-      ]
-      console.log(delegation)
-
       try {
-        await this.$store.dispatch("submitDelegation", delegation)
+        await this.$store.dispatch("submitDelegation", {
+          unbondings: [
+            {
+              atoms: -amount,
+              delegate: this.validator
+            }
+          ]
+        })
 
         this.$store.commit("notify", {
           title: "Successful Unstaking!",
-          body: `You have successfully unstaked your ${amount} ${
+          body: `You have successfully unstaked ${amount} ${
             this.bondingDenom
           }s.`
         })
