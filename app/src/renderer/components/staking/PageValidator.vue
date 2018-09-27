@@ -26,7 +26,7 @@ tm-page
         .row.validator-profile__header__data
           dl.colored_dl
             dt My Stake
-            dd {{myBond < 0.01 ? '< ' + 0.01 : pretty(myBond)}}
+            dd {{ myBond < 0.01 ? '< ' + 0.01 : pretty(myBond)}}
           dl.colored_dl(v-if="config.devMode")
             dt My Rewards
             dd n/a
@@ -102,11 +102,7 @@ tm-page
 import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
-<<<<<<< HEAD
-import { calculateShares, shortAddress, ratToBigNumber } from "scripts/common"
-=======
 import { shortAddress, ratToBigNumber } from "scripts/common"
->>>>>>> bafdd043d69598a72c6d258e400e843e1f57416a
 import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
@@ -217,7 +213,6 @@ export default {
     },
     async submitDelegation({ amount, from }) {
       const delegatorAddr = this.wallet.address
-      let type
 
       if (from === delegatorAddr) {
         try {
@@ -228,24 +223,24 @@ export default {
                 validator: this.validator
               }
             ]
-        })
-
-        this.$store.commit("notify", {
-          title: "Successful Staking!",
-          body: `You have successfully staked your ${this.bondingDenom}s.`
-        })
-      } catch (exception) {
-        const { message } = exception
-        let errData = message.split("\n")[5]
-        if (errData) {
-          let parsedErr = errData.split('"')[1]
-          this.$store.commit("notifyError", {
-            title: `Error while delegating ${this.bondingDenom}s`,
-            body: parsedErr
-              ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
-              : errData
           })
-        } else {
+
+          this.$store.commit("notify", {
+            title: "Successful Staking!",
+            body: `You have successfully staked your ${this.bondingDenom}s.`
+          })
+        } catch (exception) {
+          const { message } = exception
+          let errData = message.split("\n")[5]
+          if (errData) {
+            let parsedErr = errData.split('"')[1]
+            this.$store.commit("notifyError", {
+              title: `Error while delegating ${this.bondingDenom}s`,
+              body: parsedErr
+                ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
+                : errData
+            })
+          } else {
             this.$store.commit("notifyError", {
               title: `Error while delegating ${this.bondingDenom}s`,
               body: message
@@ -266,7 +261,9 @@ export default {
 
           this.$store.commit("notify", {
             title: "Successful redelegation!",
-            body: `You have successfully redelegated your ${this.bondingDenom}s.`
+            body: `You have successfully redelegated your ${
+              this.bondingDenom
+            }s.`
           })
         } catch (exception) {
           const { message } = exception
@@ -279,7 +276,6 @@ export default {
                 ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
                 : errData
             })
-
           } else {
             this.$store.commit("notifyError", {
               title: `Error while redelegating ${this.bondingDenom}s`,

@@ -57,22 +57,6 @@ const getterValues = {
   wallet: { address: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` }
 }
 
-const delegationTx = {
-  stakeTransactions: {
-    delegations: [
-      {
-        delegation: {
-          amount: "10",
-          denom: "atom"
-        },
-        delegator_addr: getterValues.wallet.address,
-        validator_addr: delegate.owner
-      }
-    ]
-  },
-  type: "delegation"
-}
-
 describe("PageValidator", () => {
   let wrapper, store
   let { mount } = setup()
