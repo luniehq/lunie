@@ -137,6 +137,18 @@ describe(`PageValidator`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it(`shows the selfBond`, async () => {
+    await store.commit(`setSelfBond`, {
+      validator: {
+        owner: `1a2b3c`,
+        delegator_shares: `4242`
+      },
+      ratio: 0.01
+    })
+    wrapper.update()
+    expect(wrapper.find(`#validator-profile__self-bond`).text()).toBe(`1.00 %`)
+  })
+
   it(`should show the validator status`, () => {
     expect(wrapper.vm.status).toBe(`This validator is actively validating`)
     // Jailed
@@ -492,6 +504,7 @@ describe(`onStake`, () => {
                           moniker: `herr_schmidt_revoked`,
                           website: `www.schmidt.de`
                         },
+                        selfBond: 0.01,
                         keybase: undefined,
                         owner: `1a2b3c`,
                         prev_bonded_shares: `0`,
@@ -692,7 +705,7 @@ describe(`onStake`, () => {
       })
 
       describe(`composition`, () => {
-        it(`delegation.submitDelegation`, async () => {
+        it(`redelegation.submitDelegation`, async () => {
           const delegation = Delegation({})
 
           const dispatch = jest.fn((type, payload) => {

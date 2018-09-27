@@ -49,6 +49,9 @@ export default ({ node }) => {
       }
 
       state.delegates.push(delegate)
+    },
+    setSelfBond(state, { validator, ratio }) {
+      state.delegates.find(c => c.owner === validator.owner).selfBond = ratio
     }
   }
 
