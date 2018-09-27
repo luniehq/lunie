@@ -17,7 +17,7 @@
           .h2 {{totalRewards}}
           router-link(to="claim") Claim
     .bottom
-      .address(@click="copy") {{address}}
+      .address(@click="copy")#address {{address}}
       .success(:class="{showSuccess:showSuccess}")
         i.material-icons check
         span Copied

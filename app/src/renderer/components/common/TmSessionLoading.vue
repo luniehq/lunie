@@ -1,7 +1,7 @@
 <template lang="pug">
 .tm-session: .tm-session-container.tm-session-loading
   .tm-session-header
-    .tm-session-title Connecting to '{{config.default_network}}'&hellip;
+    .tm-session-title Connecting to {{config.default_network}}&hellip;
   .tm-session-main.tm-session-main--loading
     img(src="~assets/images/loader.svg")
     br

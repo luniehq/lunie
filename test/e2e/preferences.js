@@ -20,7 +20,7 @@ test("preferences", async function(t) {
   await login(app, "testkey")
 
   t.test("change", async function(t) {
-    await navigateToPreferences(app) //should click preferences link with username
+    await navigateToPreferences(app)
 
     let networkSelect = () => $("#select-network select")
 
@@ -29,12 +29,13 @@ test("preferences", async function(t) {
       t.equal(option.toString(), "live", "Live Testnet is correct")
       t.end()
     })
+
     t.test("mock network", async function(t) {
       await selectOption(app, "#select-network select", "mock")
       await app.client.waitForVisible(".tm-session-wrapper", 5000)
 
       await login(app, "default")
-      await navigateToPreferences(app) //should click preferences link with username
+      await navigateToPreferences(app)
 
       await sleep(1000)
       let network = await app.client

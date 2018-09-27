@@ -24,7 +24,8 @@ describe("TmSessionWelcome", () => {
         "session-sign-in": "<session-sign-in />",
         "session-hardware": "<session-hardware />",
         "session-import": "<session-import />",
-        "session-account-delete": "<session-account-delete />"
+        "session-account-delete": "<session-account-delete />",
+        "connected-network": "<connected-network />"
       }
     })
   })
