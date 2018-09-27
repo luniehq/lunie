@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import moment from "moment"
 import numeral from "numeral"
 
@@ -48,6 +49,7 @@ export default {
       return this.transaction.tx.value.msg[0].type
     },
     denom() {
+      console.log(this.config.bondingDenom)
       return this.config.bondingDenom.toLowerCase()
     },
     date() {
