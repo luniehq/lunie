@@ -30,7 +30,7 @@ test(`preferences`, async function(t) {
       t.end()
     })
     t.test(`mock network`, async function(t) {
-      await selectOption(app, `#select-network select`, `mock`)
+      await selectOption(app, `#select-network select`, `Off`)
       await app.client.waitForVisible(`.tm-session-wrapper`, 5000)
 
       await login(app, `default`)

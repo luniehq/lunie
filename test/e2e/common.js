@@ -61,7 +61,7 @@ module.exports = {
   async navigateToPreferences(app) {
     await module.exports.openMenu(app)
     // click link
-    await sleep(100)
+    await sleep(5000) // wait for notify to disappear
     await app.client.$(`#settings`).click()
     console.log(`navigated to preferences`)
   },
