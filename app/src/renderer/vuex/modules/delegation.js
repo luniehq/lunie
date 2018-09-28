@@ -49,10 +49,6 @@ export default ({ node }) => {
       }
       state.unbondingDelegations = unbondingDelegations
     }
-    // TODO uncomment on refactoring for commitedDelegates
-    // setDelegatorValidators(state, validators) {
-    //   state.myDelegates = validators
-    // }
   }
 
   let actions = {
@@ -139,22 +135,6 @@ export default ({ node }) => {
       let candidates = await dispatch(`getDelegates`)
       return dispatch(`getBondedDelegates`, candidates)
     },
-    // TODO uncomment on refactoring for commitedDelegates
-    // async getMyDelegates({ rootState, commit }) {
-    //   state.loading = true
-    //   try {
-    //     let validators = await node.getDelegatorValidators(
-    //       rootState.user.address
-    //     )
-    //     commit(`setDelegatorValidators`, validators)
-    //   } catch (err) {
-    //     commit(`notifyError`, {
-    //       title: `Error fetching all your bonded validators`,
-    //       body: err.message
-    //     })
-    //   }
-    //   state.loading = false
-    // },
     async submitDelegation(
       {
         rootState: { config, user, wallet },
