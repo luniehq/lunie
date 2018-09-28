@@ -23,10 +23,7 @@ exports[`renders correctly 1`] = `
    </div>
 </div>
 <div class=\\"stake-footer\\">
-   <button class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn--size-lg\\">
-   <!---->
-   <!---->
-   <span class=\\"tm-btn__value\\">Cancel</span></span></button><button class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn--size-lg tm-btn--primary\\">
+   <button class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn--size-lg tm-btn--primary\\">
    <!---->
    <!---->
    <span class=\\"tm-btn__value\\">Unstake</span></span></button>

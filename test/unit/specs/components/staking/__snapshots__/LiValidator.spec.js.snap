@@ -15,7 +15,7 @@ exports[`LiValidator has the expected html structure 1`] = `
         href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
       >
         <span
-          class="validator-profile__status"
+          class="validator-profile__status green"
         />
         <img
           class="avatar"
