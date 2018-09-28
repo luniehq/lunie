@@ -5,7 +5,7 @@ footer.app-footer: connected-network
 <script>
 import ConnectedNetwork from "common/TmConnectedNetwork"
 export default {
-  name: "app-footer",
+  name: `app-footer`,
   components: { ConnectedNetwork }
 }
 </script>

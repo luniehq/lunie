@@ -3,7 +3,7 @@
 </template>
 
 <script>
-export default { name: "tm-field-addon" }
+export default { name: `tm-field-addon` }
 </script>
 
 <style lang="stylus">

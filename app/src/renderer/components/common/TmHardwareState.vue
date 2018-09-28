@@ -9,11 +9,11 @@ export default {
   computed: {
     iconClass() {
       if (this.spin) {
-        return "fa-spin"
+        return `fa-spin`
       }
     }
   },
-  props: ["icon", "value", "spin"]
+  props: [`icon`, `value`, `spin`]
 }
 </script>
 

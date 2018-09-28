@@ -65,7 +65,7 @@ import TmBalance from "common/TmBalance"
 import ModalSearch from "common/TmModalSearch"
 import VmToolBar from "common/VmToolBar"
 export default {
-  name: "page-wallet",
+  name: `page-wallet`,
   data: () => ({ num }),
   components: {
     TmBalance,
@@ -82,13 +82,13 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "filters",
-      "wallet",
-      "committedDelegations",
-      "oldBondedAtoms",
-      "config",
-      "connected",
-      "user"
+      `filters`,
+      `wallet`,
+      `committedDelegations`,
+      `oldBondedAtoms`,
+      `config`,
+      `connected`,
+      `user`
     ]),
     somethingToSearch() {
       return !this.wallet.balancesLoading && !!this.wallet.balances.length
@@ -109,8 +109,8 @@ export default {
       let query = this.filters.balances.search.query
       let list = orderBy(
         this.allDenomBalances,
-        ["amount", "denom"],
-        ["desc", "asc"]
+        [`amount`, `denom`],
+        [`desc`, `asc`]
       )
       if (this.filters.balances.search.visible) {
         return list.filter(i => includes(i.denom.toLowerCase(), query))
@@ -126,10 +126,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["updateDelegates", "queryWalletState"]),
-    setSearch(bool = !this.filters["balances"].search.visible) {
+    ...mapActions([`updateDelegates`, `queryWalletState`]),
+    setSearch(bool = !this.filters[`balances`].search.visible) {
       if (!this.somethingToSearch) return false
-      this.$store.commit("setSearchVisible", ["balances", bool])
+      this.$store.commit(`setSearchVisible`, [`balances`, bool])
     },
     updateBalances() {
       this.queryWalletState()
@@ -137,16 +137,15 @@ export default {
     copy() {
       clipboard.writeText(this.wallet.address)
 
-      this.$store.commit("notify", {
-        title: "Copied your address to clipboard.",
-        body:
-          "You can receive Cosmos tokens of any denomination by sharing this address."
+      this.$store.commit(`notify`, {
+        title: `Copied your address to clipboard.`,
+        body: `You can receive Cosmos tokens of any denomination by sharing this address.`
       })
     }
   },
   mounted() {
-    Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
-    Mousetrap.bind("esc", () => this.setSearch(false))
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
     this.updateDelegates()
     this.queryWalletState()
   }

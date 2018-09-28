@@ -25,12 +25,12 @@ export default (opts = {}) => {
   store.subscribe((mutation, state) => {
     // since persisting the state is costly we should only do it on mutations that change the data
     const updatingMutations = [
-      "setWalletBalances",
-      "setWalletHistory",
-      "setCommittedDelegation",
-      "setUnbondingDelegations",
-      "setDelegates",
-      "setKeybaseIdentities"
+      `setWalletBalances`,
+      `setWalletHistory`,
+      `setCommittedDelegation`,
+      `setUnbondingDelegations`,
+      `setDelegates`,
+      `setKeybaseIdentities`
     ]
     if (updatingMutations.indexOf(mutation.type) === -1) return
 
@@ -108,7 +108,7 @@ function loadPersistedState({ state, commit }, { password }) {
     state.delegates.delegates
       .filter(d => state.delegation.committedDelegates[d.owner])
       .forEach(d => {
-        commit("addToCart", d)
+        commit(`addToCart`, d)
       })
   }
 }

@@ -20,7 +20,7 @@ import SessionHardware from "common/TmSessionHardware"
 import SessionImport from "common/TmSessionImport"
 import SessionAccountDelete from "common/TmSessionAccountDelete"
 export default {
-  name: "tm-session",
+  name: `tm-session`,
   components: {
     SessionLoading,
     SessionWelcome,
@@ -30,7 +30,7 @@ export default {
     SessionImport,
     SessionAccountDelete
   },
-  computed: { ...mapGetters(["config"]) }
+  computed: { ...mapGetters([`config`]) }
 }
 </script>
 

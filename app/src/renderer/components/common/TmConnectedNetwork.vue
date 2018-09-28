@@ -21,24 +21,24 @@
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 export default {
-  name: "tm-connected-network",
+  name: `tm-connected-network`,
   computed: {
-    ...mapGetters(["lastHeader", "nodeIP", "connected", "mockedConnector"]),
+    ...mapGetters([`lastHeader`, `nodeIP`, `connected`, `mockedConnector`]),
     cssClass() {
       if (this.mockedConnector) {
-        return "tm-connected-network--mocked"
+        return `tm-connected-network--mocked`
       }
     },
     networkTooltip() {
       if (this.mockedConnector) {
-        return "Note: `offline demo` does not have real peers."
+        return `Note: \`offline demo\` does not have real peers.`
       } else {
-        return "This testnet is a blockchain with live peers."
+        return `This testnet is a blockchain with live peers.`
       }
     },
     nodeAddress() {
       if (this.mockedConnector) {
-        return "127.0.0.1"
+        return `127.0.0.1`
       }
 
       return this.nodeIP
@@ -47,10 +47,10 @@ export default {
       return this.lastHeader.chain_id
     },
     blockHeight() {
-      return "#" + num.prettyInt(this.lastHeader.height)
+      return `#` + num.prettyInt(this.lastHeader.height)
     },
     explorerLink() {
-      return "https://explorecosmos.network/blocks/" + this.lastHeader.height
+      return `https://explorecosmos.network/blocks/` + this.lastHeader.height
     }
   },
   data: () => ({
@@ -59,13 +59,13 @@ export default {
   }),
   methods: {
     closeMenu() {
-      console.log("closing menu")
-      this.$store.commit("setActiveMenu", "")
+      console.log(`closing menu`)
+      this.$store.commit(`setActiveMenu`, ``)
     }
   },
   watch: {
     "$route.name"(newName) {
-      this.onPreferencesPage = newName === "preferences"
+      this.onPreferencesPage = newName === `preferences`
     }
   }
 }

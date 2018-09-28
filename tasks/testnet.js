@@ -1,5 +1,5 @@
-let runDev = require("./runner.js")
-let config = require("../app/src/config.js")
+let runDev = require(`./runner.js`)
+let config = require(`../app/src/config.js`)
 
 async function main() {
   const network = process.argv[2] || config.default_network
@@ -9,5 +9,5 @@ async function main() {
 }
 
 main().catch(function(err) {
-  console.error("Starting the application failed", err)
+  console.error(`Starting the application failed`, err)
 })

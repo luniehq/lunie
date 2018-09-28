@@ -24,27 +24,27 @@ import { remote, shell } from "electron"
 import { mapGetters } from "vuex"
 import { TmBtn } from "@tendermint/ui"
 export default {
-  name: "tm-modal-error",
+  name: `tm-modal-error`,
   components: { TmBtn },
   computed: {
-    ...mapGetters(["config", "lastHeader"]),
+    ...mapGetters([`config`, `lastHeader`]),
     errorIcon() {
       if (this.icon) return this.icon
-      else return "error_outline"
+      else return `error_outline`
     },
     errorTitle() {
       if (this.title) return this.title
-      else return "Voyager ran into an error"
+      else return `Voyager ran into an error`
     },
     errorBody() {
       if (this.body) return this.body
       else
-        return "Voyager has encountered a critical error that blocks the app from running. Please create an issue and include a copy of the app logs."
+        return `Voyager has encountered a critical error that blocks the app from running. Please create an issue and include a copy of the app logs.`
     }
   },
   data: () => ({
-    logPath: "",
-    issueUrl: "https://github.com/cosmos/voyager/issues"
+    logPath: ``,
+    issueUrl: `https://github.com/cosmos/voyager/issues`
   }),
   methods: {
     viewLogs() {
@@ -52,9 +52,9 @@ export default {
     }
   },
   mounted() {
-    this.logPath = remote.getGlobal("root") + "/main.log"
+    this.logPath = remote.getGlobal(`root`) + `/main.log`
   },
-  props: ["icon", "title", "body"]
+  props: [`icon`, `title`, `body`]
 }
 </script>
 

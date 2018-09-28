@@ -1,5 +1,5 @@
-const spawn = require("child_process").spawn
-const { cleanExitChild } = require("./common.js")
+const spawn = require(`child_process`).spawn
+const { cleanExitChild } = require(`./common.js`)
 
 function test(executablePath) {
   return new Promise(async (resolve, reject) => {
@@ -7,15 +7,15 @@ function test(executablePath) {
     try {
       child = spawn(executablePath, {
         env: {
-          ELECTRON_ENABLE_LOGGING: "true"
+          ELECTRON_ENABLE_LOGGING: `true`
         }
       })
 
       child.stdout.pipe(process.stdout)
 
-      child.stdout.on("data", async data => {
-        let msg = new Buffer(data, "utf-8").toString()
-        if (msg.indexOf("[START SUCCESS]") !== -1) {
+      child.stdout.on(`data`, async data => {
+        let msg = new Buffer(data, `utf-8`).toString()
+        if (msg.indexOf(`[START SUCCESS]`) !== -1) {
           clearTimeout(wait)
           await cleanExitChild(child)
           resolve()
@@ -28,7 +28,7 @@ function test(executablePath) {
       }, 5000)
     } catch (err) {
       if (child) await cleanExitChild(child)
-      console.error("Unexpected error", err)
+      console.error(`Unexpected error`, err)
       reject(err)
     }
   })
@@ -39,13 +39,13 @@ async function main() {
 
   if (!executablePath) {
     console.error(
-      '\nPlease define the executable you want to test like "yarn run test:exe ./Cosmos Voyager.exe"\n'
+      `\nPlease define the executable you want to test like "yarn run test:exe ./Cosmos Voyager.exe"\n`
     )
     process.exit(-1)
   }
   await test(executablePath)
-    .then(() => console.log(executablePath, "starts as expected"))
-    .catch(() => console.error(executablePath, "did not start as expected"))
+    .then(() => console.log(executablePath, `starts as expected`))
+    .catch(() => console.error(executablePath, `did not start as expected`))
 }
 
 main()

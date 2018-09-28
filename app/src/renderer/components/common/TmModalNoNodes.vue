@@ -22,16 +22,16 @@
 import { ipcRenderer } from "electron"
 import { TmBtn } from "@tendermint/ui"
 export default {
-  name: "modal-no-nodes",
+  name: `modal-no-nodes`,
   components: { TmBtn },
   methods: {
     retry() {
-      ipcRenderer.send("retry-connection")
-      this.$store.commit("setModalNoNodes", false)
+      ipcRenderer.send(`retry-connection`)
+      this.$store.commit(`setModalNoNodes`, false)
     },
     useMock() {
-      this.$store.dispatch("setMockedConnector", true)
-      this.$store.commit("setModalNoNodes", false)
+      this.$store.dispatch(`setMockedConnector`, true)
+      this.$store.commit(`setModalNoNodes`, false)
     }
   }
 }

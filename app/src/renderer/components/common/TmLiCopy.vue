@@ -8,9 +8,9 @@
 <script>
 import BtnCopy from "common/TmBtnCopy"
 export default {
-  name: "tm-li-copy",
+  name: `tm-li-copy`,
   components: { BtnCopy },
-  props: ["value"]
+  props: [`value`]
 }
 </script>
 

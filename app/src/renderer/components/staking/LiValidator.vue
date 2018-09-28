@@ -30,19 +30,19 @@ import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { shortAddress, calculateTokens, ratToBigNumber } from "scripts/common"
 export default {
-  name: "li-validator",
-  props: ["delegate", "disabled"],
+  name: `li-validator`,
+  props: [`delegate`, `disabled`],
   computed: {
     ...mapGetters([
-      "lastHeader",
-      "shoppingCart",
-      "delegates",
-      "config",
-      "committedDelegations",
-      "user"
+      `lastHeader`,
+      `shoppingCart`,
+      `delegates`,
+      `config`,
+      `committedDelegations`,
+      `user`
     ]),
     slashes() {
-      return "n/a" //TODO: add slashes
+      return `n/a` //TODO: add slashes
     },
     commission() {
       return `${this.num.pretty(this.delegate.commission)}%`
@@ -55,7 +55,7 @@ export default {
         let uptimeRollingWindow = info.signed_blocks_counter / rollingWindow
         return `${this.num.pretty(uptimeRollingWindow * 100)}%`
       }
-      return "n/a"
+      return `n/a`
     },
     // TODO uncomment when distribution is done
     // yourRewards() {
@@ -83,13 +83,13 @@ export default {
               this.delegate,
               this.committedDelegations[this.delegate.id]
             ).toString()
-          : "0"
+          : `0`
       )
     },
     styles() {
-      let value = ""
-      if (this.inCart || this.yourVotes > 0) value += "li-validator-active "
-      if (this.delegate.isValidator) value += "li-validator-validator "
+      let value = ``
+      if (this.inCart || this.yourVotes > 0) value += `li-validator-active `
+      if (this.delegate.isValidator) value += `li-validator-validator `
       return value
     },
     inCart() {
@@ -97,10 +97,10 @@ export default {
     },
     delegateType() {
       return this.delegate.revoked
-        ? "Revoked"
+        ? `Revoked`
         : this.delegate.isValidator
-          ? "Validator"
-          : "Candidate"
+          ? `Validator`
+          : `Candidate`
     },
     powerRatio() {
       return ratToBigNumber(this.delegate.tokens)
@@ -116,11 +116,11 @@ export default {
     status() {
       // status: jailed
       if (this.delegate.revoked)
-        return "This validator has been jailed and is not currently validating"
+        return `This validator has been jailed and is not currently validating`
 
       // status: candidate
       if (parseFloat(this.delegate.voting_power) === 0)
-        return "This validator has declared candidacy but does not have enough voting power yet"
+        return `This validator has declared candidacy but does not have enough voting power yet`
 
       // status: validator
       return "This validator is actively validating"

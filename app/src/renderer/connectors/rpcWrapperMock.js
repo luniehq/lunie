@@ -1,7 +1,7 @@
 "use strict"
 
-const mockValidators = require("../../helpers/json/mock_validators.json")
-const { sleep } = require("../scripts/common.js")
+const mockValidators = require(`../../helpers/json/mock_validators.json`)
+const { sleep } = require(`../scripts/common.js`)
 
 let state = { blockMetas: [], blocks: [], connected: true }
 createBlockMetas(state)
@@ -9,10 +9,10 @@ createBlockMetas(state)
 const RpcClientMock = {
   on: () => {},
   subscribe: (args, cb) => {
-    if (args.query === "tm.event = 'NewBlock'") {
+    if (args.query === `tm.event = 'NewBlock'`) {
       produceBlocks(cb)
     }
-    if (args.query === "tm.event = 'NewBlockHeader'") {
+    if (args.query === `tm.event = 'NewBlockHeader'`) {
       produceBlockHeaders(cb)
     }
   },
@@ -28,7 +28,7 @@ const RpcClientMock = {
       sync_info: {
         latest_block_height: 42
       },
-      node_info: { network: "offline demo" }
+      node_info: { network: `offline demo` }
     }),
   removeAllListeners: () => {},
   ws: {
@@ -41,7 +41,7 @@ module.exports = function setRPCWrapperMock(container) {
     // RPC
     // made this a subobject so we can manipulate it in here while assigning it to the outer node object
     rpcInfo: {
-      nodeIP: "127.0.0.1",
+      nodeIP: `127.0.0.1`,
       connecting: false,
       connected: true
     },
@@ -56,7 +56,7 @@ module.exports = function setRPCWrapperMock(container) {
     },
     rpcReconnect: async () => {
       rpcWrapper.rpcConnect()
-      return "127.0.0.1"
+      return `127.0.0.1`
     }
   }
 
@@ -72,7 +72,7 @@ function createBlockMeta(time, height) {
     header: { time, height },
     block_id: { hash: makeBlockHash() },
     height,
-    chain_id: "offline demo",
+    chain_id: `offline demo`,
     last_block_id: { hash: makeBlockHash() }
   }
 }
@@ -82,7 +82,7 @@ function createBlock(height) {
     hash: makeBlockHash(),
     header: {
       height,
-      chain_id: "offline demo",
+      chain_id: `offline demo`,
       last_block_id: {
         hash: makeBlockHash(),
         parts: { total: 0, hash: makeBlockHash() }
@@ -129,8 +129,8 @@ async function produceBlocks(cb) {
 }
 
 function makeBlockHash() {
-  var text = ""
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+  var text = ``
+  var possible = `ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`
 
   for (var i = 0; i < 40; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length))

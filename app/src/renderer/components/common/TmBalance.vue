@@ -27,7 +27,7 @@ import num from "scripts/num"
 import { clipboard } from "electron"
 import { mapGetters } from "vuex"
 export default {
-  name: "tm-balance",
+  name: `tm-balance`,
   data() {
     return {
       num,
@@ -35,9 +35,9 @@ export default {
       showSuccess: false
     }
   },
-  props: ["unstakedAtoms", "totalEarnings", "totalRewards"],
+  props: [`unstakedAtoms`, `totalEarnings`, `totalRewards`],
   computed: {
-    ...mapGetters(["bondingDenom", "user", "totalAtoms"]),
+    ...mapGetters([`bondingDenom`, `user`, `totalAtoms`]),
     address() {
       return this.user.address
     }

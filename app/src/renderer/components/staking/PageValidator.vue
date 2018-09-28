@@ -145,7 +145,7 @@ import AnchorCopy from "common/AnchorCopy"
 import TmBalance from "common/TmBalance"
 import TmModal from "common/TmModal"
 export default {
-  name: "page-validator",
+  name: `page-validator`,
   components: {
     AnchorCopy,
     ModalStake,
@@ -170,10 +170,10 @@ export default {
   computed: {
     ...mapGetters([
       `bondingDenom`,
-      "delegates",
+      `delegates`,
       `delegation`,
-      "config",
-      "keybase",
+      `config`,
+      `keybase`,
       `oldBondedAtoms`,
       `totalAtoms`,
       `wallet`,
@@ -218,24 +218,24 @@ export default {
     status() {
       // status: jailed
       if (this.validator.revoked)
-        return "This validator has been jailed and is not currently validating"
+        return `This validator has been jailed and is not currently validating`
 
       // status: candidate
       if (parseFloat(this.validator.voting_power) === 0)
-        return "This validator has declared candidacy but does not have enough voting power yet"
+        return `This validator has declared candidacy but does not have enough voting power yet`
 
       // status: validator
-      return "This validator is actively validating"
+      return `This validator is actively validating`
     },
     statusColor() {
       // status: jailed
-      if (this.validator.revoked) return "red"
+      if (this.validator.revoked) return `red`
 
       // status: candidate
-      if (parseFloat(this.validator.voting_power) === 0) return "yellow"
+      if (parseFloat(this.validator.voting_power) === 0) return `yellow`
 
       // status: validator
-      return "green"
+      return `green`
     },
     availableAtoms() {
       return this.totalAtoms - this.oldBondedAtoms
@@ -264,7 +264,7 @@ export default {
     },
     async submitDelegation({ amount }) {
       try {
-        await this.$store.dispatch("submitDelegation", {
+        await this.$store.dispatch(`submitDelegation`, {
           delegations: [
             {
               atoms: amount,
@@ -273,23 +273,23 @@ export default {
           ]
         })
 
-        this.$store.commit("notify", {
-          title: "Successful Staking!",
+        this.$store.commit(`notify`, {
+          title: `Successful Staking!`,
           body: `You have successfully staked your ${this.bondingDenom}s.`
         })
       } catch (exception) {
         const { message } = exception
-        let errData = message.split("\n")[5]
+        let errData = message.split(`\n`)[5]
 
         if (errData) {
-          let parsedErr = errData.split('"')[1]
+          let parsedErr = errData.split(`"`)[1]
 
-          this.$store.commit("notifyError", {
+          this.$store.commit(`notifyError`, {
             title: `Error While Staking ${this.bondingDenom}s`,
             body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
           })
         } else {
-          this.$store.commit("notifyError", {
+          this.$store.commit(`notifyError`, {
             title: `Error While Staking ${this.bondingDenom}s`,
             body: message
           })
@@ -333,17 +333,17 @@ export default {
       }
     },
     pretty(num) {
-      return numeral(num).format("0,0.00")
+      return numeral(num).format(`0,0.00`)
     },
     // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
     translateEmptyDescription(value) {
-      if (!value || value === "[do-not-modify]") return "n/a"
+      if (!value || value === `[do-not-modify]`) return `n/a`
       return value
     }
   },
   watch: {
     validator(validator) {
-      this.$store.dispatch("getSelfBond", validator)
+      this.$store.dispatch(`getSelfBond`, validator)
     }
   }
 }

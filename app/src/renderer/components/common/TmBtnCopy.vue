@@ -13,7 +13,7 @@ export default {
   computed: {
     notifyTitle() {
       if (this.title) return this.title
-      else return "Copy Success!"
+      else return `Copy Success!`
     },
     notifyBody() {
       if (this.body) return this.body
@@ -23,18 +23,18 @@ export default {
   },
   methods: {
     trunc(value) {
-      if (value.length > 20) value = value.substring(0, 10) + "..."
+      if (value.length > 20) value = value.substring(0, 10) + `...`
       return value
     },
     click() {
       clipboard.writeText(this.value)
 
-      this.$store.commit("notify", {
+      this.$store.commit(`notify`, {
         title: this.notifyTitle,
         body: this.notifyBody
       })
     }
   },
-  props: ["value", "title", "body"]
+  props: [`value`, `title`, `body`]
 }
 </script>

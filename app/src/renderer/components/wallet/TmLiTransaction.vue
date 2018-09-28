@@ -60,7 +60,7 @@ const defaultTransaction = {
 }
 
 export default {
-  name: "tm-li-transaction",
+  name: `tm-li-transaction`,
   computed: {
     tx() {
       return this.transaction.tx.value.msg[0].value
@@ -90,7 +90,7 @@ export default {
     },
     date() {
       try {
-        return moment(this.transaction.time).format("MMMM Do YYYY, h:mm:ss a")
+        return moment(this.transaction.time).format(`MMMM Do YYYY, h:mm:ss a`)
       } catch (error) {
         return null
       }
@@ -100,11 +100,11 @@ export default {
     devMode:
       process.env.PREVIEW !== undefined
         ? JSON.parse(process.env.PREVIEW)
-        : process.env.NODE_ENV === "development"
+        : process.env.NODE_ENV === `development`
   }),
   methods: {
     pretty(num) {
-      return numeral(num).format("0,0.00")
+      return numeral(num).format(`0,0.00`)
     },
     viewTransaction() {
       // console.log("TODO: implement tx viewer")

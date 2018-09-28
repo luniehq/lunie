@@ -2,7 +2,7 @@ import setup from "../../helpers/vuex-setup"
 
 let instance = setup()
 
-describe("Module: Keybase", () => {
+describe(`Module: Keybase`, () => {
   let store
 
   beforeEach(() => {
@@ -14,15 +14,15 @@ describe("Module: Keybase", () => {
     axios.get = jest.fn(() =>
       Promise.resolve({
         data: {
-          status: { name: "OK" },
+          status: { name: `OK` },
           them: [
             {
               basics: {
-                username: "keybaseUser"
+                username: `keybaseUser`
               },
               pictures: {
                 primary: {
-                  url: "pictureUrl"
+                  url: `pictureUrl`
                 }
               }
             }
@@ -32,33 +32,33 @@ describe("Module: Keybase", () => {
     )
   }
 
-  it("should query for the keybase identity", async () => {
-    let axios = require("axios")
+  it(`should query for the keybase identity`, async () => {
+    let axios = require(`axios`)
     mockKeybaseLookup(axios)
 
-    await store.dispatch("getKeybaseIdentity", "abcdabcdabcdabcd")
+    await store.dispatch(`getKeybaseIdentity`, `abcdabcdabcdabcd`)
     expect(axios.get).toHaveBeenCalledTimes(1)
     expect(axios.get.mock.calls).toMatchSnapshot()
   })
 
-  it("should bulk update the validators", async () => {
-    let axios = require("axios")
+  it(`should bulk update the validators`, async () => {
+    let axios = require(`axios`)
     mockKeybaseLookup(axios)
 
-    let validators = [{ description: { identity: "abcdabcdabcdabcd" } }]
+    let validators = [{ description: { identity: `abcdabcdabcdabcd` } }]
 
-    await store.dispatch("getKeybaseIdentities", validators)
+    await store.dispatch(`getKeybaseIdentities`, validators)
     expect(store.state.keybase.identities.abcdabcdabcdabcd).toBeTruthy()
   })
 
-  it("should query only once for the keybase identity", async () => {
-    let axios = require("axios")
+  it(`should query only once for the keybase identity`, async () => {
+    let axios = require(`axios`)
     mockKeybaseLookup(axios)
 
-    let validators = [{ description: { identity: "abcdabcdabcdabcd" } }]
+    let validators = [{ description: { identity: `abcdabcdabcdabcd` } }]
 
-    await store.dispatch("getKeybaseIdentities", validators)
-    await store.dispatch("getKeybaseIdentities", validators)
+    await store.dispatch(`getKeybaseIdentities`, validators)
+    await store.dispatch(`getKeybaseIdentities`, validators)
     expect(axios.get).toHaveBeenCalledTimes(1)
     expect(axios.get.mock.calls).toMatchSnapshot()
   })

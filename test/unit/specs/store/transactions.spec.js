@@ -8,20 +8,20 @@ let stakingTxs = [
       value: {
         msg: [
           {
-            type: "cosmos-sdk/MsgDelegate",
+            type: `cosmos-sdk/MsgDelegate`,
             value: {
               validator_addr: lcdclientMock.validators[0],
               delegator_addr: lcdclientMock.addresses[0],
               delegation: {
-                amount: "24",
-                denom: "steak"
+                amount: `24`,
+                denom: `steak`
               }
             }
           }
         ]
       }
     },
-    hash: "A7C6DE5CB923AF08E6088F1348047F16BABB9F48",
+    hash: `A7C6DE5CB923AF08E6088F1348047F16BABB9F48`,
     height: 160
   },
   {
@@ -29,24 +29,24 @@ let stakingTxs = [
       value: {
         msg: [
           {
-            type: "cosmos-sdk/BeginUnbonding",
+            type: `cosmos-sdk/BeginUnbonding`,
             value: {
               validator_addr: lcdclientMock.validators[0],
               delegator_addr: lcdclientMock.addresses[0],
-              shares: "5"
+              shares: `5`
             }
           }
         ]
       }
     },
-    hash: "A7C6FDE5CA923AF08E6088F1348047F16BABB9F48",
+    hash: `A7C6FDE5CA923AF08E6088F1348047F16BABB9F48`,
     height: 170
   }
 ]
 
 let instance = setup()
 
-describe("Module: Transactions", () => {
+describe(`Module: Transactions`, () => {
   let store, node
 
   beforeEach(async () => {
@@ -54,35 +54,35 @@ describe("Module: Transactions", () => {
     store = test.store
     node = test.node
 
-    await store.dispatch("signIn", {
-      account: "default",
-      password: "1234567890"
+    await store.dispatch(`signIn`, {
+      account: `default`,
+      password: `1234567890`
     })
 
     // the mock txs are used at other places as well. there we simulate them already being enriched with time. here we want the pure txs to simulate enriching.
     store.commit(
-      "setWalletTxs",
+      `setWalletTxs`,
       walletTxs.map(tx => {
         delete tx.time
         return tx
       })
     )
-    store.commit("setStakingTxs", stakingTxs)
+    store.commit(`setStakingTxs`, stakingTxs)
   })
 
   // DEFAULT
 
-  it("should have an empty state by default", () => {
+  it(`should have an empty state by default`, () => {
     expect(store.state.transactions).toMatchSnapshot()
   })
 
-  it("should update transaction times", () => {
+  it(`should update transaction times`, () => {
     expect(
-      store.state.transactions.wallet.find(tx => tx.height === "3436").time
+      store.state.transactions.wallet.find(tx => tx.height === `3436`).time
     ).toBeUndefined()
     // enrich one wallet tx
-    store.commit("setTransactionTime", {
-      blockHeight: "3436",
+    store.commit(`setTransactionTime`, {
+      blockHeight: `3436`,
       blockMetaInfo: {
         header: {
           time: 1042
@@ -90,17 +90,17 @@ describe("Module: Transactions", () => {
       }
     })
     expect(
-      store.state.transactions.wallet.find(tx => tx.height === "3436").time
+      store.state.transactions.wallet.find(tx => tx.height === `3436`).time
     ).toBe(1042)
   })
 
-  it("should clear session data", () => {
-    store.dispatch("resetSessionData")
+  it(`should clear session data`, () => {
+    store.dispatch(`resetSessionData`)
     expect(store.state.transactions.wallet).toHaveLength(0)
     expect(store.state.transactions.staking).toHaveLength(0)
   })
 
-  it("should load and enrich txs", async () => {
+  it(`should load and enrich txs`, async () => {
     node.getDelegatorTxs = jest.fn(() => walletTxs)
     node.txs = jest.fn(() => stakingTxs)
 
@@ -123,29 +123,29 @@ describe("Module: Transactions", () => {
       }
     }
 
-    store.dispatch("resetSessionData")
-    await store.dispatch("getAllTxs")
+    store.dispatch(`resetSessionData`)
+    await store.dispatch(`getAllTxs`)
     expect(store.state.transactions.wallet).toMatchSnapshot()
     expect(store.state.transactions.staking).toMatchSnapshot()
   })
 
-  it("should fail if trying to get transactions of wrong type", async done => {
-    await store.dispatch("getTx", "unknown").catch(() => done())
+  it(`should fail if trying to get transactions of wrong type`, async done => {
+    await store.dispatch(`getTx`, `unknown`).catch(() => done())
   })
 
-  it("should query the txs on reconnection", async () => {
+  it(`should query the txs on reconnection`, async () => {
     store.state.node.stopConnecting = true
     store.state.transactions.loading = true
-    jest.spyOn(node, "txs")
-    await store.dispatch("reconnected")
+    jest.spyOn(node, `txs`)
+    await store.dispatch(`reconnected`)
     expect(node.txs).toHaveBeenCalled()
   })
 
-  it("should not query the txs on reconnection if not stuck in loading", async () => {
+  it(`should not query the txs on reconnection if not stuck in loading`, async () => {
     store.state.node.stopConnecting = true
     store.state.transactions.loading = false
-    jest.spyOn(node, "txs")
-    await store.dispatch("reconnected")
+    jest.spyOn(node, `txs`)
+    await store.dispatch(`reconnected`)
     expect(node.txs).not.toHaveBeenCalled()
   })
 })

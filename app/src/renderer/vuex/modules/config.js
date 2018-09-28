@@ -5,21 +5,21 @@ import noScroll from "no-scroll"
 export default () => {
   const emptyState = {
     maxValidators: 100,
-    activeMenu: "",
+    activeMenu: ``,
     desktop: false,
     devMode:
       process.env.PREVIEW !== undefined
         ? JSON.parse(process.env.PREVIEW)
-        : process.env.NODE_ENV === "development",
+        : process.env.NODE_ENV === `development`,
     // TODO: change to atom
-    bondingDenom: "Steak",
+    bondingDenom: `Steak`,
     modals: {
       error: { active: false },
       help: { active: false },
       receive: { active: false },
       session: {
         active: true,
-        state: "loading"
+        state: `loading`
       },
       noNodes: { active: false },
       nodeHalted: { active: false }
@@ -48,7 +48,7 @@ export default () => {
       if (value) {
         noScroll.on()
       } else {
-        state.modals.session.state = "loading"
+        state.modals.session.state = `loading`
         noScroll.off()
       }
       state.modals.session.active = value

@@ -1,13 +1,13 @@
-let test = require("tape-promise/tape")
-let fs = require("fs-extra")
-let { join } = require("path")
-let { getApp, startApp, stop } = require("./launch.js")
+let test = require(`tape-promise/tape`)
+let fs = require(`fs-extra`)
+let { join } = require(`path`)
+let { getApp, startApp, stop } = require(`./launch.js`)
 
 // tests for initialization and failover over the application as well as handling of configuration files
-test("initialization", async function(t) {
+test(`initialization`, async function(t) {
   let { app, cliHome } = await getApp(t)
 
-  t.test("survive config folder mess up", async function(t) {
+  t.test(`survive config folder mess up`, async function(t) {
     // TODO: uncomment below once we restore initting
 
     // accept node hash
@@ -20,11 +20,11 @@ test("initialization", async function(t) {
     // test if app restores from unitialized gaia folder
     await stop(app)
 
-    fs.moveSync(join(cliHome, "lcd/keys"), "./testArtifacts/oldKeys")
+    fs.moveSync(join(cliHome, `lcd/keys`), `./testArtifacts/oldKeys`)
 
     fs.removeSync(cliHome)
     await startApp(app)
-    t.ok(app.isRunning(), "app recovers from uninitialized gaia")
+    t.ok(app.isRunning(), `app recovers from uninitialized gaia`)
 
     // accept node hash
     // await app.client.$("#tm-modal-lcd-approval__btn-approve").click()
@@ -37,8 +37,8 @@ test("initialization", async function(t) {
     await stop(app)
 
     // we are prior removing the config folder with the keys so we need to restore the default accounts we communicating from launch.js
-    fs.removeSync(join(cliHome, "lcd/keys"))
-    fs.moveSync("./testArtifacts/oldKeys", join(cliHome, "lcd/keys"))
+    fs.removeSync(join(cliHome, `lcd/keys`))
+    fs.moveSync(`./testArtifacts/oldKeys`, join(cliHome, `lcd/keys`))
 
     t.end()
   })

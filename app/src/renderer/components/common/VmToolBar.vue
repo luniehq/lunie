@@ -16,12 +16,12 @@ import { TmToolBar } from "@tendermint/ui"
 import { mapGetters, mapMutations } from "vuex"
 export default {
   // the name needs to be different from TmToolBar (tm-tool-bar) or else recursive rendering takes place
-  name: "vm-tool-bar",
+  name: `vm-tool-bar`,
   components: {
     TmToolBar
   },
   methods: {
-    ...mapMutations(["pauseHistory", "popHistory"]),
+    ...mapMutations([`pauseHistory`, `popHistory`]),
     back() {
       if (!this.lastPage) return
       this.pauseHistory(true)
@@ -31,14 +31,14 @@ export default {
       })
     },
     enableModalHelp() {
-      this.$store.commit("setModalHelp", true)
+      this.$store.commit(`setModalHelp`, true)
     },
     signOut() {
-      this.$store.dispatch("signOut")
+      this.$store.dispatch(`signOut`)
     }
   },
   computed: {
-    ...mapGetters(["user", "lastPage"])
+    ...mapGetters([`user`, `lastPage`])
   }
 }
 </script>

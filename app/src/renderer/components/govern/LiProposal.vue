@@ -13,19 +13,19 @@ transition(name="proposal")
 import ChartVotes from "govern/ChartVotes"
 import moment from "moment"
 export default {
-  name: "li-proposal",
+  name: `li-proposal`,
   components: { ChartVotes },
   computed: {
     proposalLink() {
-      return { name: "proposal", params: { proposal: this.proposal.id } }
+      return { name: `proposal`, params: { proposal: this.proposal.id } }
     }
   },
   methods: {
     timeAgo(date) {
-      return moment(date, "x").fromNow()
+      return moment(date, `x`).fromNow()
     }
   },
-  props: ["proposal"]
+  props: [`proposal`]
 }
 </script>
 
