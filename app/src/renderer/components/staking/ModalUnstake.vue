@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     close() {
-      this.$emit("update:showModalUnstake", false)
+      this.$emit(`update:showModalUnstake`, false)
     },
     onUnstake() {
       this.$emit(`submitUndelegation`, {

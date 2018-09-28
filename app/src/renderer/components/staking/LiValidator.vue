@@ -123,17 +123,17 @@ export default {
         return `This validator has declared candidacy but does not have enough voting power yet`
 
       // status: validator
-      return "This validator is actively validating"
+      return `This validator is actively validating`
     },
     statusColor() {
       // status: jailed
-      if (this.delegate.revoked) return "red"
+      if (this.delegate.revoked) return `red`
 
       // status: candidate
-      if (parseFloat(this.delegate.voting_power) === 0) return "yellow"
+      if (parseFloat(this.delegate.voting_power) === 0) return `yellow`
 
       // status: validator
-      return "green"
+      return `green`
     }
   },
   data: () => ({ num, shortAddress })

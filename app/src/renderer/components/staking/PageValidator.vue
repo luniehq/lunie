@@ -298,7 +298,7 @@ export default {
     },
     async submitUndelegation({ amount }) {
       try {
-        await this.$store.dispatch("submitDelegation", {
+        await this.$store.dispatch(`submitDelegation`, {
           unbondings: [
             {
               atoms: -amount,
@@ -307,25 +307,25 @@ export default {
           ]
         })
 
-        this.$store.commit("notify", {
-          title: "Successful Unstaking!",
+        this.$store.commit(`notify`, {
+          title: `Successful Unstaking!`,
           body: `You have successfully unstaked ${amount} ${
             this.bondingDenom
           }s.`
         })
       } catch (exception) {
         const { message } = exception
-        let errData = message.split("\n")[5]
+        let errData = message.split(`\n`)[5]
 
         if (errData) {
-          let parsedErr = errData.split('"')[1]
+          let parsedErr = errData.split(`"`)[1]
 
-          this.$store.commit("notifyError", {
+          this.$store.commit(`notifyError`, {
             title: `Error While Unstaking ${this.bondingDenom}s`,
             body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
           })
         } else {
-          this.$store.commit("notifyError", {
+          this.$store.commit(`notifyError`, {
             title: `Error While Unstaking ${this.bondingDenom}s`,
             body: message
           })

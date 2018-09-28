@@ -1,4 +1,3 @@
-import BigNumber from "bignumber.js"
 import Delegation from "renderer/vuex/modules/delegation"
 import ModalStake from "staking/ModalStake"
 import ModalUnstake from "staking/ModalUnstake"
