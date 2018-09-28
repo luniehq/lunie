@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
   template(slot="menu-body", v-if="config.devMode")
-    tm-balance(:unstakedAtoms="user.atoms")
+    tm-balance(:unbondedAtoms="user.atoms")
 
   div(slot="menu"): vm-tool-bar
     a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")

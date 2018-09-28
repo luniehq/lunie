@@ -19,9 +19,9 @@ exports[`PageStaking has the expected html structure 1`] = `
       1,351.00
    </div>
 </div>
-   <div class=\\"unstaked-atoms top-section\\">
+   <div class=\\"unbonded-atoms top-section\\">
       <div class=\\"h3\\">
-         Unstaked Steak
+         Unbonded Steak
       </div>
    <div class=\\"h2\\">
       1337
@@ -84,9 +84,9 @@ exports[`PageStaking has the expected html structure 1`] = `
          1,351.00
       </div>
 </div>
-      <div class=\\"unstaked-atoms top-section\\">
+      <div class=\\"unbonded-atoms top-section\\">
          <div class=\\"h3\\">
-            Unstaked Steak
+            Unbonded Steak
          </div>
       <div class=\\"h2\\">
          1337
@@ -263,12 +263,12 @@ exports[`PageStaking should filter the delegates 1`] = `
                 </div>
               </div>
               <div
-                class="unstaked-atoms top-section"
+                class="unbonded-atoms top-section"
               >
                 <div
                   class="h3"
                 >
-                  Unstaked Steak
+                  Unbonded Steak
                 </div>
                 <div
                   class="h2"
@@ -493,12 +493,12 @@ exports[`PageStaking should filter the delegates 1`] = `
                     </div>
                   </div>
                   <div
-                    class="unstaked-atoms top-section"
+                    class="unbonded-atoms top-section"
                   >
                     <div
                       class="h3"
                     >
-                      Unstaked Steak
+                      Unbonded Steak
                     </div>
                     <div
                       class="h2"

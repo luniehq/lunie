@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
-  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unstakedAtoms="user.atoms")
+  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unbondedAtoms="user.atoms")
   div(slot="menu")
     vm-tool-bar
       a(@click='connected && updateBalances()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
@@ -16,7 +16,7 @@ tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
       :btn="'Receive'"
       :overflow="true"
       @click.native="copy")
-      
+
       btn-receive(slot="btn-receive")
 
   tm-part#part-available-balances(title="Available Balances")
