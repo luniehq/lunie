@@ -33,7 +33,7 @@ export default {
       const nodes = [
         `This is a quick tour of the primary features of Cosmos Voyager.`,
         `You can send and receive Cosmos tokens from anyone around the world.`,
-        `You can stake your ${
+        `You can delegate your ${
           this.bondingDenom
         } to Cosmos Validators to earn even more ${this.bondingDenom}.`,
         `Through governance, you can vote on the future of the Cosmos Network.`,
