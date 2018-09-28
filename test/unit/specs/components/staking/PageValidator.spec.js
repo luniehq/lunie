@@ -3,6 +3,7 @@ import ModalStake from "staking/ModalStake"
 import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import { createLocalVue, mount } from "@vue/test-utils"
+import { shortAddress } from "renderer/scripts/common"
 import Vuelidate from "vuelidate"
 
 const delegate = {
@@ -259,6 +260,160 @@ describe(`PageValidator`, () => {
     // expect(wrapper.find(".validator-profile__status").classes()).toContain(
     //   "red"
     // )
+  })
+})
+
+describe(`modalOptions`, () => {
+  it(`always shows wallet in the first position`, () => {
+    const $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: getterValues
+    }
+
+    const {
+      vm: { modalOptions }
+    } = mount(PageValidator, {
+      mocks: {
+        $route: {
+          params: { validator: delegate.owner }
+        },
+        $store
+      }
+    })
+
+    const myWallet = {
+      address: $store.getters.wallet.address,
+      maximum: Math.floor(
+        $store.getters.totalAtoms - $store.getters.oldBondedAtoms
+      ),
+      key: `My Wallet - ${shortAddress($store.getters.wallet.address, 20)}`,
+      value: 0
+    }
+
+    let options = modalOptions()
+    expect(options).toHaveLength(1)
+    expect(options[0]).toEqual(myWallet)
+  })
+
+  it(`only shows wallet if the only bonded validator is the same displayed on page`, () => {
+    const $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        ...getterValues,
+        committedDelegations: {
+          "1a2b3c": 10
+        },
+        delegation: {
+          committedDelegates: {
+            "1a2b3c": 10
+          },
+          unbondingDelegations: {}
+        }
+      }
+    }
+
+    const {
+      vm: { modalOptions }
+    } = mount(PageValidator, {
+      mocks: {
+        $route: {
+          params: { validator: delegate.owner }
+        },
+        $store
+      }
+    })
+
+    const myWallet = {
+      address: $store.getters.wallet.address,
+      maximum: Math.floor(
+        $store.getters.totalAtoms - $store.getters.oldBondedAtoms
+      ),
+      key: `My Wallet - ${shortAddress($store.getters.wallet.address, 20)}`,
+      value: 0
+    }
+
+    const validatorFromPageOption = {
+      address: delegate.owner,
+      maximum: Math.floor(10),
+      key: `${delegate.description.moniker} - ${shortAddress(
+        delegate.owner,
+        20
+      )}`,
+      value: expect.anything()
+    }
+
+    let options = modalOptions()
+    expect(options).toHaveLength(1)
+    expect(options).not.toContain(validatorFromPageOption)
+    expect(options[0]).toEqual(myWallet)
+  })
+
+  it(`shows bonded validators for redelegation options`, () => {
+    const $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        ...getterValues,
+        committedDelegations: {
+          "1a2b3c": 10,
+          cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 5
+        },
+        delegation: {
+          committedDelegates: {
+            "1a2b3c": 10,
+            cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 5
+          },
+          unbondingDelegations: {}
+        }
+      }
+    }
+
+    const {
+      vm: { modalOptions }
+    } = mount(PageValidator, {
+      mocks: {
+        $route: {
+          params: { validator: delegate.owner }
+        },
+        $store
+      }
+    })
+
+    const myWallet = {
+      address: $store.getters.wallet.address,
+      maximum: Math.floor(
+        $store.getters.totalAtoms - $store.getters.oldBondedAtoms
+      ),
+      key: `My Wallet - ${shortAddress($store.getters.wallet.address, 20)}`,
+      value: 0
+    }
+    const validatorFromPageOption = {
+      address: delegate.owner,
+      maximum: Math.floor(10),
+      key: `${delegate.description.moniker} - ${shortAddress(
+        delegate.owner,
+        20
+      )}`,
+      value: expect.anything()
+    }
+
+    const bondOption = {
+      address: validatorTo.owner,
+      maximum: Math.floor(5),
+      key: `${validatorTo.description.moniker} - ${shortAddress(
+        validatorTo.owner,
+        20
+      )}`,
+      value: 1
+    }
+
+    let options = modalOptions()
+    expect(options).toHaveLength(2)
+    expect(options).not.toContain(validatorFromPageOption)
+    expect(options[0]).toEqual(myWallet)
+    expect(options[1]).toEqual(bondOption)
   })
 })
 
