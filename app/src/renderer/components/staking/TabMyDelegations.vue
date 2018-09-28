@@ -1,6 +1,5 @@
 <template lang="pug">
   div
-    //- Your Validators
     h3
       | Your Validators
       |
@@ -16,14 +15,13 @@
       |
       | to spread some of your Atoms around.
 
-    //- Unstaked Validators
     h3
-      | Unstaked Validators
+      | Your Undelegated Validators
       |
       i.material-icons.info-button(v-tooltip.top="unbondInfo") info_outline
-    data-empty-search(v-if="unstakedValidators.length === 0")
+    data-empty-search(v-if="undelegatedValidators.length === 0")
     template(v-else)
-      li-validator(v-for='validator in unstakedValidators' :key='validator.id' :delegate='validator')
+      li-validator(v-for='validator in undelegatedValidators' :key='validator.id' :delegate='validator')
 </template>
 
 <script>
@@ -39,7 +37,7 @@ import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
 import VmToolBar from "common/VmToolBar"
 export default {
-  name: `page-staking`,
+  name: `tab-my-delegations`,
   components: {
     LiValidator,
     TmBtn,
@@ -119,7 +117,7 @@ export default {
         return sortedEnrichedDelegates
       }
     },
-    unstakedValidators(
+    undelegatedValidators(
       { delegates: { delegates }, delegation: { unbondingDelegations } } = this
     ) {
       const unbonding = new Set(Object.keys(unbondingDelegations))
@@ -140,15 +138,15 @@ export default {
           class: `name`
         },
         {
-          title: `My Stake`,
+          title: `Bonded ${this.bondingDenom}`,
           value: `your_votes`,
           tooltip: `Number of ${
             this.bondingDenom
-          } you have staked to the validator`,
+          } you have delegated to the validator`,
           class: `your-votes`
         },
         {
-          title: `My Rewards`,
+          title: `Rewards`,
           value: `your_rewards`, // TODO: use real rewards
           tooltip: `Rewards of ${
             this.bondingDenom

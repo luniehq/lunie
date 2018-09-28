@@ -114,15 +114,15 @@ export default {
           class: `name`
         },
         {
-          title: `My Stake`,
+          title: `Bonded ${this.bondingDenom}`,
           value: `your_votes`,
           tooltip: `Number of ${
             this.bondingDenom
-          } you have staked to the validator`,
+          } you have delegated to the validator`,
           class: `your-votes`
         },
         {
-          title: `My Rewards`,
+          title: `Rewards`,
           value: `your_rewards`, // TODO: use real rewards
           tooltip: `Rewards of ${
             this.bondingDenom

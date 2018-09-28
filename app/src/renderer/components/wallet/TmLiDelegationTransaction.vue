@@ -8,7 +8,7 @@
         .value {{ pretty(tx.delegation.amount) }}
     div
       .tx-element.tx-date(v-if="devMode") {{ date }}
-      .tx-element.tx-address Staked {{ denom }}s to {{ tx.validator_addr }}
+      .tx-element.tx-address Delegated {{ denom }}s to {{ tx.validator_addr }}
 
 .tm-li-tx.tm-li-tx-sent(v-else-if="type === 'cosmos-sdk/BeginUnbonding'" @click="() => devMode && viewTransaction()")
   .tx-icon: i.material-icons add_circle
