@@ -62,6 +62,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                   >
                     <i
                       class="material-icons"
+                      id="settings"
                     >
                       settings
                     </i>
