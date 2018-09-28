@@ -65,7 +65,7 @@ test(`staking`, async function(t) {
     await app.client
       .click(`//button/*[. = 'Stake']`)
       .setValue(`#amount`, 10)
-      .click(`//*[@id = 'modal-stake']//button//*[. = 'Stake']`)
+      .click(`//*[@id = 'delegation-modal']//button//*[. = 'Stake']`)
       .waitForVisible(
         `//*[. = 'You have successfully delegated your Steaks']`,
         5 * 1000

@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * prefer backquotes in code @ƒaboweb
 * Refactord submitDelegation. @NodeGuy
 * Improved network connectivity bar @jbibla
+* refactored words around staking and delegation @jbibla
 
 ### Fixed
 

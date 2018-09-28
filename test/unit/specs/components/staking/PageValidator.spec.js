@@ -1,5 +1,5 @@
 import Delegation from "renderer/vuex/modules/delegation"
-import ModalStake from "staking/ModalStake"
+import DelegationModal from "staking/DelegationModal"
 import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import { createLocalVue, mount } from "@vue/test-utils"
@@ -400,7 +400,7 @@ describe(`onStake`, () => {
       })
 
       wrapper.find(`#stake-btn`).trigger(`click`)
-      expect(wrapper.contains(ModalStake)).toEqual(true)
+      expect(wrapper.contains(DelegationModal)).toEqual(true)
     })
 
     it(`is not enough`, () => {

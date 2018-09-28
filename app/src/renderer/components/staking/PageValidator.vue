@@ -82,11 +82,11 @@ tm-page
             dt Minimum Self Stake
             dd 0 %
 
-    modal-stake(
-      v-if="showModalStake"
+    delegation-modal(
+      v-if="showDelegationModal"
       v-on:submitDelegation="submitDelegation"
       :bondingDenom="this.config.bondingDenom"
-      :showModalStake.sync="showModalStake"
+      :showDelegationModal.sync="showDelegationModal"
       :fromOptions="modalOptions()"
       :to="validator.owner"
     )
@@ -103,7 +103,7 @@ import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
 import { shortAddress, ratToBigNumber } from "scripts/common"
-import ModalStake from "staking/ModalStake"
+import DelegationModal from "staking/DelegationModal"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
 import TmBalance from "common/TmBalance"
@@ -112,7 +112,7 @@ export default {
   name: `page-validator`,
   components: {
     AnchorCopy,
-    ModalStake,
+    DelegationModal,
     TmBtn,
     TmListItem,
     TmBalance,
@@ -124,7 +124,7 @@ export default {
   },
   data: () => ({
     showCannotStake: false,
-    showModalStake: false,
+    showDelegationModal: false,
     shortAddress,
     tabIndex: 1
   }),
@@ -206,7 +206,7 @@ export default {
     },
     onStake() {
       if (this.availableAtoms > 0) {
-        this.showModalStake = true
+        this.showDelegationModal = true
       } else {
         this.showCannotStake = true
       }
