@@ -67,7 +67,7 @@ test(`staking`, async function(t) {
       .setValue(`#amount`, 10)
       .click(`//*[@id = 'modal-stake']//button//*[. = 'Stake']`)
       .waitForVisible(
-        `//*[. = 'You have successfully delegated your Steaks.']`,
+        `//*[. = 'You have successfully delegated your Steaks']`,
         5 * 1000
       )
 
