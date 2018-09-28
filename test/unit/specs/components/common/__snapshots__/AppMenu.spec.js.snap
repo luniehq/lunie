@@ -71,31 +71,19 @@ exports[`AppMenu has the expected html structure 1`] = `
       <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
-   <div id=\\"tm-disconnected-network\\" class=\\"tm-connected-network tm-disconnected-network\\">
-      <div class=\\"tm-connected-network__icon\\">
-         <i class=\\"material-icons fa-spin\\">rotate_right</i>
-      </div>
-   <div class=\\"tm-connected-network__string\\">
-      Connecting to network…
+   <div id=\\"tm-connected-network\\" class=\\"tm-connected-network\\">
+      <div class=\\"tm-connected-network__connection\\">
+         <div id=\\"tm-connected-network__icon\\" class=\\"tm-connected-network__icon\\">
+            <i class=\\"material-icons\\">lock</i>
+         </div>
+   <div id=\\"tm-connected-network__string\\" class=\\"tm-connected-network__string\\">
+      <span class=\\"chain-id\\">chain_id</span>
    </div>
 </div>
-   <a href=\\"#/preferences\\" class=\\"tm-li tm-li-link tm-li-user\\">
-   <div class=\\"tm-li-container\\">
-      <div class=\\"tm-li-thumb\\">
-         <!---->
-      </div>
-   <div class=\\"tm-li-label\\">
-      <div class=\\"tm-li-title\\">
-         Preferences
-      </div>
-   <div class=\\"tm-li-subtitle\\">
-      default
+   <div class=\\"tm-connected-network__string\\" id=\\"tm-connected-network__block\\">
+      <!---->
+      <a href=\\"https://explorecosmos.network/blocks/0\\">#0<i class=\\"material-icons exit\\">exit_to_app</i></a>
    </div>
 </div>
-   <div class=\\"tm-li-icon\\">
-      <i class=\\"material-icons inactive\\">chevron_right</i><i class=\\"material-icons active\\">my_location</i>
-   </div>
-</div>
-   </a>
 </menu>"
 `;
