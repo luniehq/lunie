@@ -87,13 +87,11 @@ export default {
       this.$emit(`update:showModalStake`, false)
     },
     onStake() {
-      if (!this.$v.$invalid) {
-        this.$emit(`submitDelegation`, {
-          amount: this.amount,
-          from: this.fromOptions[this.selectedIndex].address
-        })
-        this.close()
-      }
+      this.$emit(`submitDelegation`, {
+        amount: this.amount,
+        from: this.fromOptions[this.selectedIndex].address
+      })
+      this.close()
     }
   },
   directives: {
