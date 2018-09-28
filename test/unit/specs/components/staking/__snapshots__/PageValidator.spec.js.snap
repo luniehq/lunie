@@ -51,6 +51,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             >
               <div
                 class="address"
+                id="address"
               >
                 
               </div>
@@ -476,6 +477,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             >
               <div
                 class="address"
+                id="address"
               >
                 
               </div>

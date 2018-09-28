@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Refactored submitDelegation. @NodeGuy
 * prefer backquotes in code @ƒaboweb
 * Refactord submitDelegation. @NodeGuy
+* Improved network connectivity bar @jbibla
 
 ### Fixed
 

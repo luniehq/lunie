@@ -61,7 +61,7 @@ module.exports = {
   async navigateToPreferences(app) {
     await module.exports.openMenu(app)
     // click link
-    await app.client.$(`.tm-li-user`).click()
+    await app.client.$(`#settings`).click()
     console.log(`navigated to preferences`)
   },
   sleep,
@@ -110,8 +110,8 @@ module.exports = {
 
     // checking if user is logged in
     await module.exports.openMenu(app)
-    let activeUser = await app.client.$(`.tm-li-user .tm-li-subtitle`).getText()
-    if (account !== activeUser) {
+    let activeUser = await app.client.$(`#address`).getText()
+    if (!activeUser) {
       throw new Error(
         `Incorrect user logged in (` + account + `, ` + activeUser + `)`
       )
@@ -128,7 +128,7 @@ module.exports = {
     }
     await module.exports.openMenu(app)
 
-    await app.client.$(`.tm-li-user`).click()
+    await app.client.$(`#settings`).click()
     await sleep(300)
     await app.client
       .$(`.material-icons=exit_to_app`)

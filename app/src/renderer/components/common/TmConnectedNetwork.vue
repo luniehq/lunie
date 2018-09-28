@@ -1,25 +1,22 @@
 <template lang='pug'>
 .tm-connected-network#tm-connected-network(v-if='connected' :class="cssClass")
   .tm-connected-network__connection
-    .tm-connected-network__icon#tm-connected-network__icon: i.material-icons wifi
+    .tm-connected-network__icon#tm-connected-network__icon: i.material-icons lock
     .tm-connected-network__string#tm-connected-network__string
-      span.desktop-only Connected to
-      span.chain-id(v-tooltip.top="networkTooltip")  {{ chainId }}
-      |  via #[span {{ nodeAddress }}]
-      router-link#tm-connected-network_preferences-link.desktop-only(to="/preferences" @click.native="closeMenu" v-if="!onPreferencesPage")
-        |  (change network)
+      span.chain-id(v-tooltip.top="networkTooltip") {{ chainId }}
   .tm-connected-network__string#tm-connected-network__block
-    span.desktop-only Current Block:
-    a(:href="explorerLink" v-tooltip.top="'View Block'")  {{ blockHeight }}
-      i.material-icons exit_to_app
+    span(v-if="mockedConnector" v-tooltip.top="'Current block number'") {{ blockHeight }}
+    a(:href="explorerLink" v-if="!mockedConnector" v-tooltip.top="'View block details on the Cosmos explorer.'") {{ blockHeight }}
+      i.material-icons.exit exit_to_app
 .tm-connected-network.tm-disconnected-network#tm-disconnected-network(v-else)
-  .tm-connected-network__icon: i.material-icons.fa-spin rotate_right
-  .tm-connected-network__string Connecting to network&hellip;
+  img(class="tm-connected-network-loader" src="~assets/images/loader.svg")
+  .tm-connected-network__string.tm-connected-network__string--connecting(v-tooltip.top="networkTooltip") Connecting to {{ chainId }}&hellip;
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
+import { startCase, toLower } from "lodash"
 export default {
   name: `tm-connected-network`,
   computed: {
@@ -29,21 +26,22 @@ export default {
         return `tm-connected-network--mocked`
       }
     },
-    networkTooltip() {
-      if (this.mockedConnector) {
-        return `Note: \`offline demo\` does not have real peers.`
-      } else {
-        return `This testnet is a blockchain with live peers.`
+
+    networkTooltip({ mockedConnector, connected, nodeIP, chainId } = this) {
+      if (mockedConnector) {
+        return `You\'re using the offline demo and are not connected to any real nodes.`
+      } else if (connected) {
+        return `You\'re connected to the ${chainId} testnet via node ${nodeIP}.`
+      } else if (!mockedConnector && !connected) {
+        return `We\'re pinging nodes to try to connect you to ${chainId}.`
       }
     },
-    nodeAddress() {
+
+    chainId() {
       if (this.mockedConnector) {
-        return `127.0.0.1`
+        return startCase(toLower(this.lastHeader.chain_id))
       }
 
-      return this.nodeIP
-    },
-    chainId() {
       return this.lastHeader.chain_id
     },
     blockHeight() {
@@ -59,7 +57,6 @@ export default {
   }),
   methods: {
     closeMenu() {
-      console.log(`closing menu`)
       this.$store.commit(`setActiveMenu`, ``)
     }
   },
@@ -75,40 +72,36 @@ export default {
 @require '~variables'
 
 .tm-connected-network
-  font-size 0.75rem
-  background var(--app-nav)
+  align-items center
+  background var(--app-fg)
+  border-radius 0.25rem
   color var(--dim)
   display flex
-  align-items center
+  font-size sm
   justify-content space-between
-  padding 0.5rem 1rem
-  margin 0.25rem 1rem
+  margin 0.5rem
+  padding 0.5rem
 
-  a, .chain-id
+  .chain-id
     font-weight 500
+    padding-right 1rem
 
-  .material-icons
-    padding-left 2px
-    font-size 14px
+  .exit
+    font-size sm
 
 .tm-connected-network__icon
-  background var(--success-bc)
-  padding 0.5rem
-  display flex
   align-items center
+  color var(--success-bc)
+  display flex
+  font-size m
   justify-content center
-  color var(--txt)
-  border-radius 2px
+  padding-right 0.25rem
 
-.tm-connected-network__string
-  padding 0 1em
-  line-height 2rem
+  .fa-spin
+    color var(--warning)
 
 .tm-connected-network--mocked
   .tm-connected-network__icon
-    background var(--warning)
-
-  .chain-id
     color var(--warning)
 
 .tm-connected-network__connection
@@ -116,4 +109,12 @@ export default {
 
 .tm-disconnected-network
   justify-content start
+
+.tm-connected-network__string--connecting
+  color var(--warning)
+
+.tm-connected-network-loader
+  height 1rem
+  margin-right 0.5rem
+  width 1rem
 </style>

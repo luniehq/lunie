@@ -25,7 +25,7 @@ describe(`TmConnectedNetwork`, () => {
         .find(`#tm-connected-network__icon i.material-icons`)
         .text()
         .trim()
-    ).toBe(`wifi`)
+    ).toBe(`lock`)
   })
 
   it(`has a network string`, () => {
@@ -34,7 +34,7 @@ describe(`TmConnectedNetwork`, () => {
         .find(`#tm-connected-network__string`)
         .text()
         .trim()
-    ).toBe(`Connected to test-net via 127.0.0.1 (change network)`)
+    ).toBe(`Test Net`)
   })
 
   it(`has a block string`, () => {
@@ -43,7 +43,7 @@ describe(`TmConnectedNetwork`, () => {
         .find(`#tm-connected-network__block`)
         .text()
         .trim()
-    ).toContain(`Current Block: #42`)
+    ).toContain(`#42`)
   })
 
   it(`has a certain style for mockedConnector`, () => {
@@ -53,16 +53,12 @@ describe(`TmConnectedNetwork`, () => {
   })
   it(`has a network tooltip for mockedConnector`, () => {
     expect(wrapper.vm.networkTooltip).toBe(
-      `Note: \`offline demo\` does not have real peers.`
+      `You're using the offline demo and are not connected to any real nodes.`
     )
   })
 
-  it(`has a node address for mockedConnector`, () => {
-    expect(wrapper.vm.nodeAddress).toBe(`127.0.0.1`)
-  })
-
   it(`has a chain id for mockedConnector`, () => {
-    expect(wrapper.vm.chainId).toBe(`test-net`)
+    expect(wrapper.vm.chainId).toBe(`Test Net`)
   })
 
   it(`has a block height for mockedConnector`, () => {
@@ -78,18 +74,7 @@ describe(`TmConnectedNetwork`, () => {
   it(`has a connecting state`, async () => {
     await store.commit(`setConnected`, false)
     wrapper.update()
-    expect(
-      wrapper
-        .find(
-          `#tm-disconnected-network .tm-connected-network__icon i.material-icons`
-        )
-        .text()
-    ).toBe(`rotate_right`)
-    expect(
-      wrapper
-        .find(`#tm-disconnected-network .tm-connected-network__string`)
-        .text()
-    ).toBe(`Connecting to network…`)
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows a link to the preferences page if not on the preferences page`, () => {
@@ -107,24 +92,39 @@ describe(`TmConnectedNetwork`, () => {
     store = instance.store
     router = instance.router
     wrapper = instance.wrapper
-    store.state.node.mocked = false
-    store.state.node.nodeIP = `123.123.123.123`
-    store.state.node.connected = true
+
+    Object.assign(store.state.node, {
+      mocked: false,
+      nodeIP: `123.123.123.123`,
+      lastHeader: Object.assign(store.state.node.lastHeader, {
+        chain_id: `chain_id`
+      }),
+      connected: true
+    })
+
     wrapper.update()
-    expect(wrapper.vm.nodeAddress).toBe(`123.123.123.123`)
     expect(wrapper.vm.$el).toMatchSnapshot()
-    expect(wrapper.vm.$el.outerHTML).toContain(`123.123.123.123`)
   })
 
-  it(`should close the menu if clicking on switch to live network intent`, async () => {
-    store.commit(`setActiveMenu`, `app`)
-    wrapper.update()
-    expect(store.state.config.activeMenu).toBe(`app`)
-    let spy = jest.spyOn(wrapper.vm, `closeMenu`)
-    wrapper.vm.$el
-      .querySelector(`#tm-connected-network_preferences-link`)
-      .click()
-    expect(spy).toHaveBeenCalled()
-    expect(store.state.config.activeMenu).not.toBe(`app`)
+  it(`networkTooltip`, () => {
+    expect(
+      TmConnectedNetwork.computed.networkTooltip({ mockedConnector: true })
+    ).toEqual(
+      `You\'re using the offline demo and are not connected to any real nodes.`
+    )
+
+    expect(
+      TmConnectedNetwork.computed.networkTooltip({
+        chainId: `chainId`,
+        connected: true,
+        nodeIP: `nodeIP`
+      })
+    ).toEqual(`You\'re connected to the chainId testnet via node nodeIP.`)
+
+    expect(
+      TmConnectedNetwork.computed.networkTooltip({
+        chainId: `chainId`
+      })
+    ).toEqual(`We\'re pinging nodes to try to connect you to chainId.`)
   })
 })
