@@ -124,18 +124,17 @@ export default {
 
       // status: validator
       return "This validator is actively validating"
+    },
+    statusColor() {
+      // status: jailed
+      if (this.delegate.revoked) return "red"
+
+      // status: candidate
+      if (parseFloat(this.delegate.voting_power) === 0) return "yellow"
+
+      // status: validator
+      return "green"
     }
-    // TODO enable once we decide on limits
-    // statusColor() {
-    //   // status: jailed
-    //   if (this.delegate.revoked) return "red"
-    //
-    //   // status: candidate
-    //   if (parseFloat(this.delegate.voting_power) === 0) return "yellow"
-    //
-    //   // status: validator
-    //   return "green"
-    // }
   },
   data: () => ({ num, shortAddress })
 }
