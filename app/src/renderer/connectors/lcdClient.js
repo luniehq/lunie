@@ -106,10 +106,12 @@ Object.assign(Client.prototype, {
       )
     }
   },
-  // // Query all validators that a delegator is bonded to
-  // getDelegatorValidators: function(delegatorAddr) {
-  //   return req("GET", `/stake/delegators/${delegatorAddr}/validators`).call(this)
-  // },
+  // Query all validators that a delegator is bonded to
+  getDelegatorValidators: function(delegatorAddr) {
+    return req(`GET`, `/stake/delegators/${delegatorAddr}/validators`).call(
+      this
+    )
+  },
   // // Query a validator info that a delegator is bonded to
   // getDelegatorValidator: function(delegatorAddr, validatorAddr) {
   //   return req("GET", `/stake/delegators/${delegatorAddr}/validators/${validatorAddr}`).call(this)

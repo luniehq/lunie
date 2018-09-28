@@ -1,11 +1,29 @@
 <template lang="pug">
-  .modal-stake#modal-stake
+  .modal-stake#modal-stake(v-click-outside="close")
     //- Header
     .stake-header
       img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
       span.tm-modal-title Stake
-      .tm-modal-icon.tm-modal-close(@click="close()")
+      .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
         i.material-icons close
+
+    //- Amount
+    tm-form-group.stake-form-group(
+      field-label='Amount'
+    )
+      tm-field#denom(
+        type="number"
+        :placeholder="bondingDenom"
+        readonly
+        )
+
+      tm-field#amount(
+        type="number"
+        :max="fromOptions[selectedIndex].maximum"
+        :min="0"
+        step="1"
+        v-model="amount"
+        v-focus)
 
     //- To
     tm-form-group.stake-form-group(
@@ -17,23 +35,11 @@
       field-id='from' field-label='From')
       tm-field#from(
         type="select"
+        v-model="selectedIndex"
+        :title="fromOptions[selectedIndex].address"
         :options="fromOptions"
-        v-model="fromIndex"
       )
 
-    //- Amount
-    tm-form-group.stake-form-group(
-      field-id='amount'
-      field-label='Amount'
-    )
-      tm-field#amount(
-        :max="maximum"
-        :min="1"
-        type="number"
-        v-focus
-        v-model="amount")
-
-    //- Footer
     .stake-footer
       tm-btn(
         @click.native="close"
@@ -42,18 +48,20 @@
       )
       tm-btn(
         @click.native="onStake"
+        :disabled="$v.amount.$invalid"
         color="primary"
-        size="lg"
         value="Stake"
-      )
+        size="lg")
 </template>
 
 <script>
+import ClickOutside from "vue-click-outside"
+import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
-  props: [`fromOptions`, `maximum`, `to`],
+  props: [`bondingDenom`, `fromOptions`, `to`],
   components: {
     Modal,
     TmBtn,
@@ -62,9 +70,18 @@ export default {
     TmFormMsg
   },
   data: () => ({
-    amount: 1,
-    fromIndex: 0
+    amount: 0,
+    selectedIndex: 0
   }),
+  validations() {
+    return {
+      amount: {
+        required,
+        integer: value => Number.isInteger(value),
+        between: between(1, this.fromOptions[this.selectedIndex].maximum)
+      }
+    }
+  },
   methods: {
     close() {
       this.$emit(`update:showModalStake`, false)
@@ -72,11 +89,13 @@ export default {
     onStake() {
       this.$emit(`submitDelegation`, {
         amount: this.amount,
-        from: this.fromOptions[this.fromIndex]
+        from: this.fromOptions[this.selectedIndex].address
       })
-
       this.close()
     }
+  },
+  directives: {
+    ClickOutside
   }
 }
 </script>
@@ -102,12 +121,21 @@ export default {
     display flex
 
     .stake-atom
-      height 3em
-      width 3em
+      height 4em
+      width 4em
 
   .stake-form-group
     display block
     padding 0
+
+    #amount
+      margin-top -32px
+
+    #denom
+      text-align right
+      width 72px
+      margin-left 80%
+      border none
 
   .stake-footer
     display flex

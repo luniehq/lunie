@@ -26,7 +26,7 @@ tm-page
         .row.validator-profile__header__data
           dl.colored_dl
             dt My Stake
-            dd {{myBond < 0.01 ? '< ' + 0.01 : pretty(myBond)}}
+            dd {{ myBond < 0.01 ? '< ' + 0.01 : pretty(myBond)}}
           dl.colored_dl(v-if="config.devMode")
             dt My Rewards
             dd n/a
@@ -85,9 +85,9 @@ tm-page
     modal-stake(
       v-if="showModalStake"
       v-on:submitDelegation="submitDelegation"
+      :bondingDenom="this.config.bondingDenom"
       :showModalStake.sync="showModalStake"
-      :fromOptions="[{ key: `My Wallet - ${this.wallet.address}`, value: 0 }]"
-      :maximum="availableAtoms"
+      :fromOptions="modalOptions()"
       :to="validator.owner"
     )
 
@@ -107,6 +107,7 @@ import ModalStake from "staking/ModalStake"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
 import TmBalance from "common/TmBalance"
+import { isEmpty } from "lodash"
 export default {
   name: `page-validator`,
   components: {
@@ -132,6 +133,7 @@ export default {
       `bondingDenom`,
       `delegates`,
       `delegation`,
+      `committedDelegations`,
       `config`,
       `keybase`,
       `oldBondedAtoms`,
@@ -162,15 +164,15 @@ export default {
     },
     // TODO enable once we decide on limits
     // powerRatioLevel() {
-    //   if (this.powerRatio < 0.01) return "green"
-    //   if (this.powerRatio < 0.03) return "yellow"
-    //   return "red"
+    //   if (this.powerRatio < 0.01) return `green`
+    //   if (this.powerRatio < 0.03) return `yellow`
+    //   return `red`
     // },
     // TODO enable once we decide on limits
     // commissionLevel() {
-    //   if (this.validator.commission < 0.01) return "green"
-    //   if (this.validator.commission < 0.03) return "yellow"
-    //   return "red"
+    //   if (this.validator.commission < 0.01) return `green`
+    //   if (this.validator.commission < 0.03) return `yellow`
+    //   return `red`
     // },
     status() {
       // status: jailed
@@ -209,39 +211,101 @@ export default {
         this.showCannotStake = true
       }
     },
-    async submitDelegation({ amount }) {
+    async submitDelegation({ amount, from }) {
+      const delegatorAddr = this.wallet.address
+      let stakingTransactions = {}
+      let txTitle,
+        txBody,
+        txAction = ``
+
+      if (from === delegatorAddr) {
+        txTitle = `delegation`
+        txBody = `delegated`
+        txAction = `delegating`
+
+        stakingTransactions.delegations = [
+          {
+            atoms: amount,
+            validator: this.validator
+          }
+        ]
+      } else {
+        txTitle = `redelegation`
+        txBody = `redelegated`
+        txAction = `redelegating`
+
+        let validatorFrom = this.delegates.delegates.find(v => from === v.owner)
+
+        stakingTransactions.redelegations = [
+          {
+            atoms: amount,
+            validatorSrc: validatorFrom,
+            validatorDst: this.validator
+          }
+        ]
+      }
+
       try {
         await this.$store.dispatch(`submitDelegation`, {
-          delegations: [
-            {
-              atoms: amount,
-              delegate: this.validator
-            }
-          ]
+          stakingTransactions
         })
 
         this.$store.commit(`notify`, {
-          title: `Successful Staking!`,
-          body: `You have successfully staked your ${this.bondingDenom}s.`
+          title: `Successful ${txTitle}!`,
+          body: `You have successfully ${txBody} your ${this.bondingDenom}s`
         })
       } catch (exception) {
         const { message } = exception
         let errData = message.split(`\n`)[5]
-
         if (errData) {
           let parsedErr = errData.split(`"`)[1]
-
           this.$store.commit(`notifyError`, {
-            title: `Error While Staking ${this.bondingDenom}s`,
-            body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
+            title: `Error while ${txAction} ${this.bondingDenom}s`,
+            body: parsedErr
+              ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
+              : errData
           })
         } else {
           this.$store.commit(`notifyError`, {
-            title: `Error While Staking ${this.bondingDenom}s`,
+            title: `Error while ${txAction} ${this.bondingDenom}s`,
             body: message
           })
         }
       }
+    },
+    modalOptions() {
+      //- First option should always be your wallet (i.e normal delegation)
+      let myWallet = [
+        {
+          address: this.wallet.address,
+          maximum: Math.floor(this.totalAtoms - this.oldBondedAtoms),
+          key: `My Wallet - ${shortAddress(this.wallet.address, 20)}`,
+          value: 0
+        }
+      ]
+      let bondedValidators = Object.keys(this.committedDelegations)
+      if (isEmpty(bondedValidators)) {
+        return myWallet
+      }
+      //- The rest of the options are from your other bonded validators
+      //- We skip the option of redelegating to the same address
+      let redelegationOptions = bondedValidators
+        .filter(address => address != this.$route.params.validator)
+        .map((address, index) => {
+          let delegate = this.delegates.delegates.find(function(validator) {
+            return validator.owner === address
+          })
+          return {
+            address: address,
+            maximum: Math.floor(this.committedDelegations[address]),
+            key: `${delegate.description.moniker} - ${shortAddress(
+              delegate.owner,
+              20
+            )}`,
+            value: index + 1
+          }
+        })
+      return myWallet.concat(redelegationOptions)
     },
     pretty(num) {
       return numeral(num).format(`0,0.00`)
