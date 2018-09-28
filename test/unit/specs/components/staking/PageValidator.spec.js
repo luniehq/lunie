@@ -379,8 +379,8 @@ describe(`modalOptions`, () => {
   })
 })
 
-describe(`onStake`, () => {
-  describe(`make sure we have enough atoms to stake`, () => {
+describe(`onDelegation`, () => {
+  describe(`make sure we have enough atoms to delegate`, () => {
     it(`is enough`, () => {
       const localVue = createLocalVue()
       localVue.use(Vuelidate)
@@ -399,7 +399,7 @@ describe(`onStake`, () => {
         }
       })
 
-      wrapper.find(`#stake-btn`).trigger(`click`)
+      wrapper.find(`#delegation-btn`).trigger(`click`)
       expect(wrapper.contains(DelegationModal)).toEqual(true)
     })
 
@@ -417,15 +417,15 @@ describe(`onStake`, () => {
         }
       })
 
-      wrapper.find(`#stake-btn`).trigger(`click`)
+      wrapper.find(`#delegation-btn`).trigger(`click`)
 
-      expect(wrapper.text().includes(`You have no atoms to stake.`)).toEqual(
+      expect(wrapper.text().includes(`You have no atoms to delegate.`)).toEqual(
         true
       )
 
       wrapper.find(`#no-atoms-modal__btn`).trigger(`click`)
 
-      expect(wrapper.text().includes(`You have no atoms to stake.`)).toEqual(
+      expect(wrapper.text().includes(`You have no atoms to delegate.`)).toEqual(
         false
       )
     })

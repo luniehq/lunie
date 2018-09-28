@@ -46,7 +46,7 @@
         @click.native="onDelegation"
         :disabled="$v.amount.$invalid"
         color="primary"
-        value="Stake"
+        value="Confirm Delegation"
         size="lg")
 </template>
 

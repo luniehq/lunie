@@ -164,7 +164,7 @@ exports[`PageValidator has the expected html structure 1`] = `
           >
             <button
               class="tm-btn"
-              id="stake-btn"
+              id="delegation-btn"
             >
               <span
                 class="tm-btn__container tm-btn--primary"
@@ -174,12 +174,13 @@ exports[`PageValidator has the expected html structure 1`] = `
                 <span
                   class="tm-btn__value"
                 >
-                  Stake
+                  Delegate
                 </span>
               </span>
             </button>
             <button
               class="tm-btn"
+              id="undelegation-btn"
             >
               <span
                 class="tm-btn__container tm-btn--secondary"
@@ -189,7 +190,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                 <span
                   class="tm-btn__value"
                 >
-                  Unstake
+                  Undelegate
                 </span>
               </span>
             </button>
@@ -202,7 +203,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="colored_dl"
           >
             <dt>
-              My Stake
+              My Bonded Steak
             </dt>
             <dd>
               &lt; 0.01
@@ -379,7 +380,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Self Stake
+              Self Bonded Steak
             </dt>
             <dd
               id="validator-profile__self-bond"
@@ -391,7 +392,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Minimum Self Stake
+              Minimum Self Bonded Steak
             </dt>
             <dd>
               0 %
@@ -590,7 +591,7 @@ exports[`PageValidator shows a default avatar 1`] = `
           >
             <button
               class="tm-btn"
-              id="stake-btn"
+              id="delegation-btn"
             >
               <span
                 class="tm-btn__container tm-btn--primary"
@@ -600,12 +601,13 @@ exports[`PageValidator shows a default avatar 1`] = `
                 <span
                   class="tm-btn__value"
                 >
-                  Stake
+                  Delegate
                 </span>
               </span>
             </button>
             <button
               class="tm-btn"
+              id="undelegation-btn"
             >
               <span
                 class="tm-btn__container tm-btn--secondary"
@@ -615,7 +617,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                 <span
                   class="tm-btn__value"
                 >
-                  Unstake
+                  Undelegate
                 </span>
               </span>
             </button>
@@ -628,7 +630,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="colored_dl"
           >
             <dt>
-              My Stake
+              My Bonded Steak
             </dt>
             <dd>
               &lt; 0.01
@@ -805,7 +807,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Self Stake
+              Self Bonded Steak
             </dt>
             <dd
               id="validator-profile__self-bond"
@@ -817,7 +819,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Minimum Self Stake
+              Minimum Self Bonded Steak
             </dt>
             <dd>
               0 %

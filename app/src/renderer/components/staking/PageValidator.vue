@@ -21,11 +21,11 @@ tm-page
             //- TODO replace with address component when ready
             anchor-copy.validator-profile__header__name__address(:value="validator.owner" :label="shortAddress(validator.owner)")
           .column.validator-profile__header__actions
-            tm-btn(id="stake-btn" value="Stake" color="primary" @click.native="onStake()")
-            tm-btn(v-if="config.devMode" value="Unstake" color="secondary")
+            tm-btn(value="Delegate" color="primary" @click.native="onDelegation()")#delegation-btn
+            tm-btn(v-if="config.devMode" value="Undelegate" color="secondary")#undelegation-btn
         .row.validator-profile__header__data
           dl.colored_dl
-            dt My Stake
+            dt My Bonded {{bondingDenom}}
             dd {{ myBond < 0.01 ? '< ' + 0.01 : pretty(myBond)}}
           dl.colored_dl(v-if="config.devMode")
             dt My Rewards
@@ -76,26 +76,26 @@ tm-page
             dt Max Daily Commission Change
             dd {{validator.commission_change_rate}} %
           dl.info_dl
-            dt Self Stake
+            dt Self Bonded {{bondingDenom}}
             dd(id="validator-profile__self-bond") {{selfBond}} %
           dl.info_dl(v-if="config.devMode")
-            dt Minimum Self Stake
+            dt Minimum Self Bonded {{bondingDenom}}
             dd 0 %
 
     delegation-modal(
       v-if="showDelegationModal"
       v-on:submitDelegation="submitDelegation"
-      :bondingDenom="this.config.bondingDenom"
+      :bondingDenom="bondingDenom"
       :showDelegationModal.sync="showDelegationModal"
       :fromOptions="modalOptions()"
       :to="validator.owner"
     )
 
-    tm-modal(:close="closeCannotStake" icon="warning" v-if="showCannotStake")
-      div(slot='title') Cannot Stake
-      p You have no {{ bondingDenom }}s to stake.
+    tm-modal(:close="closeCannotDelegate" icon="warning" v-if="showCannotDelegate")
+      div(slot='title') Cannot Complete Delegation
+      p You have no {{ bondingDenom }}s to delegate.
       div(slot='footer')
-        tmBtn(id="no-atoms-modal__btn" @click.native="closeCannotStake()" value="OK")
+        tmBtn(id="no-atoms-modal__btn" @click.native="closeCannotDelegate()" value="OK")
 </template>
 
 <script>
@@ -123,7 +123,7 @@ export default {
     TmBalance
   },
   data: () => ({
-    showCannotStake: false,
+    showCannotDelegate: false,
     showDelegationModal: false,
     shortAddress,
     tabIndex: 1
@@ -201,14 +201,14 @@ export default {
     }
   },
   methods: {
-    closeCannotStake() {
-      this.showCannotStake = false
+    closeCannotDelegate() {
+      this.showCannotDelegate = false
     },
-    onStake() {
+    onDelegation() {
       if (this.availableAtoms > 0) {
         this.showDelegationModal = true
       } else {
-        this.showCannotStake = true
+        this.showCannotDelegate = true
       }
     },
     async submitDelegation({ amount, from }) {
