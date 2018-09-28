@@ -3,7 +3,8 @@ import ModalStake from "staking/ModalStake"
 import ModalUnstake from "staking/ModalUnstake"
 import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
-import { mount } from "@vue/test-utils"
+import { createLocalVue, mount } from "@vue/test-utils"
+import Vuelidate from "vuelidate"
 
 const delegate = {
   owner: `1a2b3c`,
@@ -462,6 +463,9 @@ describe(`onStake`, () => {
 describe(`onUnstake`, () => {
   describe(`make sure there are enough atoms to unstake`, () => {
     it(`is enough`, () => {
+      const localVue = createLocalVue()
+      localVue.use(Vuelidate)
+
       const $store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
@@ -471,6 +475,7 @@ describe(`onUnstake`, () => {
       }
 
       const wrapper = mount(PageValidator, {
+        localVue,
         mocks: {
           $route: { params: { validator: `1a2b3c` } },
           $store

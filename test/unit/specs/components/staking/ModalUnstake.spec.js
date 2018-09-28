@@ -1,12 +1,17 @@
 "use strict"
 
 import htmlBeautify from "html-beautify"
-import { mount } from "@vue/test-utils"
+import { createLocalVue, mount } from "@vue/test-utils"
+import Vuelidate from "vuelidate"
 import ModalUnstake from "staking/ModalUnstake"
 
 // Create an example stake modal window.
 const Wrapper = () => {
+  const localVue = createLocalVue()
+  localVue.use(Vuelidate)
+
   return mount(ModalUnstake, {
+    localVue,
     propsData: {
       maximum: 100,
       to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
