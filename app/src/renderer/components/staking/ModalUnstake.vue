@@ -1,5 +1,5 @@
 <template lang="pug">
-  .modal-stake#modal-stake
+  .modal-stake#modal-stake(v-click-outside="close")
     //- Header
     .stake-header
       img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
@@ -28,12 +28,8 @@
     //- Footer
     .stake-footer
       tm-btn(
-        @click.native="close"
-        size="lg"
-        value="Cancel"
-      )
-      tm-btn(
         @click.native="onUnstake"
+        :disabled="$v.amount.$invalid"
         color="primary"
         size="lg"
         value="Unstake"
@@ -41,6 +37,8 @@
 </template>
 
 <script>
+import ClickOutside from "vue-click-outside"
+import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
@@ -56,6 +54,14 @@ export default {
   data: () => ({
     amount: 0
   }),
+  validations() {
+    return {
+      amount: {
+        required,
+        between: between(0, this.maximum)
+      }
+    }
+  },
   methods: {
     close() {
       this.$emit("update:showModalUnstake", false)
@@ -67,6 +73,9 @@ export default {
 
       this.close()
     }
+  },
+  directives: {
+    ClickOutside
   }
 }
 </script>
