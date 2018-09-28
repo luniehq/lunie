@@ -291,6 +291,8 @@ describe(`modalOptions`, () => {
     let options = modalOptions()
     expect(options).toHaveLength(1)
     expect(options[0].address).toEqual($store.getters.wallet.address)
+
+    expect(options).toMatchSnapshot()
   })
 
   it(`hides displayed validator if bonded`, () => {
@@ -328,6 +330,8 @@ describe(`modalOptions`, () => {
       expect.objectContaining({ address: delegate.owner })
     )
     expect(options[0].address).toEqual($store.getters.wallet.address)
+
+    expect(options).toMatchSnapshot()
   })
 
   it(`shows bonded validators for redelegation options`, () => {
@@ -370,6 +374,8 @@ describe(`modalOptions`, () => {
     expect(options).toContainEqual(
       expect.objectContaining({ address: validatorTo.owner })
     )
+
+    expect(options).toMatchSnapshot()
   })
 })
 

@@ -10,13 +10,13 @@ exports[`Module: Delegations fetches current undelegations 1`] = `
 Object {
   "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au": Object {
     "balance": Object {
-      "amount": "-356.00000000",
+      "amount": "356.00000000",
     },
     "min_time": undefined,
   },
   "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw": Object {
     "balance": Object {
-      "amount": "-113.00000000",
+      "amount": "113.00000000",
     },
     "min_time": undefined,
   },
@@ -69,12 +69,12 @@ Array [
       "begin_unbondings": Array [
         Object {
           "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "shares": "-113.00000000",
+          "shares": "113.00000000",
           "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
         },
         Object {
           "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "shares": "-356.00000000",
+          "shares": "356.00000000",
           "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
         },
       ],
