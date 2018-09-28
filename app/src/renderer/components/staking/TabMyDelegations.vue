@@ -7,7 +7,7 @@
     panel-sort(:sort='sort', :properties="properties")
     data-empty-search(v-if="yourValidators.length === 0")
     template(v-else)
-      li-validator(v-for='validator in yourValidators' :key='validator.id' :delegate='validator')
+      li-validator(v-for='validator in yourValidators' :key='validator.id' :validator='validator')
     .check-out-message
       | Check out
       |
@@ -21,7 +21,7 @@
       i.material-icons.info-button(v-tooltip.top="unbondInfo") info_outline
     data-empty-search(v-if="undelegatedValidators.length === 0")
     template(v-else)
-      li-validator(v-for='validator in undelegatedValidators' :key='validator.id' :delegate='validator')
+      li-validator(v-for='validator in undelegatedValidators' :key='validator.id' :validator='validator')
 </template>
 
 <script>
