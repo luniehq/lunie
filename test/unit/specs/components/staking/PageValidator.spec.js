@@ -268,7 +268,14 @@ describe(`modalOptions`, () => {
     const $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: getterValues
+      getters: {
+        ...getterValues,
+        committedDelegations: {},
+        delegation: {
+          committedDelegates: {},
+          unbondingDelegations: {}
+        }
+      }
     }
 
     const {
