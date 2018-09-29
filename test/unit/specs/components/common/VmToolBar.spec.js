@@ -34,7 +34,7 @@ describe(`VmToolBar`, () => {
 
     router.push(`/staking`)
     expect(store.state.user.history.length).toBe(1)
-    expect(router.currentRoute.fullPath).toBe(`/staking/My Stake/`)
+    expect(router.currentRoute.fullPath).toBe(`/staking/my-delegations/`)
 
     wrapper.vm.back()
     expect(store.state.user.history.length).toBe(0)

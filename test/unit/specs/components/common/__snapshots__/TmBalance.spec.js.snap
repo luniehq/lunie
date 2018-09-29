@@ -39,9 +39,9 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
    321.00
 </div>
 </div>
-<div class=\\"unstaked-atoms top-section\\">
+<div class=\\"unbonded-atoms top-section\\">
    <div class=\\"h3\\">
-      Unstaked Steak
+      Unbonded Steak
    </div>
 <div class=\\"h2\\">
    1337

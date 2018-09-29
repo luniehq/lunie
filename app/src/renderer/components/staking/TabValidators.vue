@@ -5,7 +5,7 @@
     data-empty-search(v-else-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
     template(v-else)
       panel-sort(:sort='sort', :properties="properties")
-      li-validator(v-for='i in sortedFilteredEnrichedDelegates' :disabled="!userCanDelegate" :key='i.id' :delegate='i')
+      li-validator(v-for='i in sortedFilteredEnrichedDelegates' :disabled="!userCanDelegate" :key='i.id' :validator='i')
 </template>
 
 <script>
@@ -114,15 +114,15 @@ export default {
           class: `name`
         },
         {
-          title: `My Stake`,
+          title: `Bonded ${this.bondingDenom}`,
           value: `your_votes`,
           tooltip: `Number of ${
             this.bondingDenom
-          } you have staked to the validator`,
+          } you have delegated to the validator`,
           class: `your-votes`
         },
         {
-          title: `My Rewards`,
+          title: `Rewards`,
           value: `your_rewards`, // TODO: use real rewards
           tooltip: `Rewards of ${
             this.bondingDenom

@@ -5,9 +5,9 @@
       .total-atoms.top-section
         .h3 Total {{bondingDenom}}
         .h2 {{num.pretty(totalAtoms) || "---"}}
-      .unstaked-atoms.top-section(v-if="unstakedAtoms")
-        .h3 Unstaked {{bondingDenom}}
-        .h2 {{unstakedAtoms}}
+      .unbonded-atoms.top-section(v-if="unbondedAtoms")
+        .h3 Unbonded {{bondingDenom}}
+        .h2 {{unbondedAtoms}}
       .total-earnings.top-section(v-if="totalEarnings")
         .h3 Total Earnings
         .h2 {{totalEarnings}}
@@ -35,7 +35,7 @@ export default {
       showSuccess: false
     }
   },
-  props: [`unstakedAtoms`, `totalEarnings`, `totalRewards`],
+  props: [`unbondedAtoms`, `totalEarnings`, `totalRewards`],
   computed: {
     ...mapGetters([`bondingDenom`, `user`, `totalAtoms`]),
     address() {

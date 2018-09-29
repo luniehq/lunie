@@ -1,14 +1,12 @@
 <template lang="pug">
-  .modal-stake#modal-stake(v-click-outside="close")
-    //- Header
-    .stake-header
-      img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Stake
+  .delegation-modal#delegation-modal(v-click-outside="close")
+    .delegation-modal-header
+      img.icon(class='delegation-modal-atom' src="~assets/images/cosmos-logo.png")
+      span.tm-modal-title Delegation
       .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
         i.material-icons close
 
-    //- Amount
-    tm-form-group.stake-form-group(
+    tm-form-group.delegation-modal-form-group(
       field-label='Amount'
     )
       tm-field#denom(
@@ -25,13 +23,11 @@
         v-model="amount"
         v-focus)
 
-    //- To
-    tm-form-group.stake-form-group(
+    tm-form-group.delegation-modal-form-group(
       field-id='to' field-label='To')
       tm-field#to(readonly v-model="to")
 
-    //- From
-    tm-form-group.stake-form-group(
+    tm-form-group.delegation-modal-form-group(
       field-id='from' field-label='From')
       tm-field#from(
         type="select"
@@ -40,17 +36,17 @@
         :options="fromOptions"
       )
 
-    .stake-footer
+    .delegation-modal-footer
       tm-btn(
         @click.native="close"
         size="lg"
         value="Cancel"
       )
       tm-btn(
-        @click.native="onStake"
+        @click.native="onDelegation"
         :disabled="$v.amount.$invalid"
         color="primary"
-        value="Stake"
+        value="Confirm Delegation"
         size="lg")
 </template>
 
@@ -61,6 +57,7 @@ import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
+  name: `delegation-modal`,
   props: [`bondingDenom`, `fromOptions`, `to`],
   components: {
     Modal,
@@ -84,9 +81,9 @@ export default {
   },
   methods: {
     close() {
-      this.$emit(`update:showModalStake`, false)
+      this.$emit(`update:showDelegationModal`, false)
     },
-    onStake() {
+    onDelegation() {
       this.$emit(`submitDelegation`, {
         amount: this.amount,
         from: this.fromOptions[this.selectedIndex].address
@@ -103,44 +100,44 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
-.modal-stake
+.delegation-modal
   background var(--app-nav)
   display flex
   flex-direction column
   height 50%
   justify-content space-between
   left 50%
-  padding 2em
+  padding 2rem
   position fixed
   top 50%
   width 40%
   z-index z(modal)
 
-  .stake-header
+  &-header
     align-items center
     display flex
 
-    .stake-atom
-      height 4em
-      width 4em
+  &-atom
+    height 4rem
+    width 4rem
 
-  .stake-form-group
+  &-form-group
     display block
     padding 0
 
-    #amount
-      margin-top -32px
+  #amount
+    margin-top -32px
 
-    #denom
-      text-align right
-      width 72px
-      margin-left 80%
-      border none
+  #denom
+    text-align right
+    width 72px
+    margin-left 80%
+    border none
 
-  .stake-footer
+  &-footer
     display flex
     justify-content flex-end
 
     button
-      margin-left 1em
+      margin-left 1rem
 </style>

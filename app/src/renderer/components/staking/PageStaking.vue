@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
   template(slot="menu-body", v-if="config.devMode")
-    tm-balance(:unstakedAtoms="user.atoms")
+    tm-balance(:unbondedAtoms="user.atoms")
 
   div(slot="menu"): vm-tool-bar
     a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
@@ -11,7 +11,7 @@ tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
 
   modal-search(type="delegates" v-if="somethingToSearch")
 
-  .staking-tabs
+  .tabs
     .tab(
       v-for="tab in tabs",
       :class="{'tab-selected': $route.name === tab}",
@@ -54,7 +54,7 @@ export default {
       property: `percent_of_vote`,
       order: `desc`
     },
-    tabs: [`My Stake`, `Validators`]
+    tabs: [`My Delegations`, `Validators`]
   }),
   computed: {
     ...mapGetters([
@@ -126,15 +126,15 @@ export default {
           class: `name`
         },
         {
-          title: `My Stake`,
+          title: `Bonded ${this.bondingDenom}`,
           value: `your_votes`,
           tooltip: `Number of ${
             this.bondingDenom
-          } you have staked to the validator`,
+          } you have delegated to the validator`,
           class: `your-votes`
         },
         {
-          title: `My Rewards`,
+          title: `Rewards`,
           value: `your_rewards`, // TODO: use real rewards
           tooltip: `Rewards of ${
             this.bondingDenom
@@ -188,7 +188,7 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-.staking-tabs
+.tabs
   display flex
 
   .tab

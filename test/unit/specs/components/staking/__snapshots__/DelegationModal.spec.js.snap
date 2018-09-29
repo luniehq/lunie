@@ -1,28 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-"<div id=\\"modal-stake\\" class=\\"modal-stake\\">
-   <div class=\\"stake-header\\">
-      <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon stake-atom\\"><span class=\\"tm-modal-title\\">Stake</span>
+"<div id=\\"delegation-modal\\" class=\\"delegation-modal\\">
+   <div class=\\"delegation-modal-header\\">
+      <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon delegation-modal-atom\\"><span class=\\"tm-modal-title\\">Delegation</span>
       <div id=\\"closeBtn\\" class=\\"tm-modal-icon tm-modal-close\\">
          <i class=\\"material-icons\\">close</i>
       </div>
 </div>
-<div class=\\"stake-form-group tm-form-group\\">
+<div class=\\"delegation-modal-form-group tm-form-group\\">
    <!---->
    <!---->
    <div class=\\"tm-form-group__field\\">
       <input type=\\"number\\" placeholder=\\"Stake\\" class=\\"tm-field\\" id=\\"denom\\" readonly=\\"readonly\\"><input type=\\"number\\" max=\\"100\\" min=\\"0\\" class=\\"tm-field\\" id=\\"amount\\" step=\\"1\\">
    </div>
 </div>
-<div class=\\"stake-form-group tm-form-group\\">
+<div class=\\"delegation-modal-form-group tm-form-group\\">
    <!---->
    <label for=\\"to\\" class=\\"tm-form-group__label\\">To</label>
    <div class=\\"tm-form-group__field\\">
       <input class=\\"tm-field\\" id=\\"to\\" readonly=\\"readonly\\">
    </div>
 </div>
-<div class=\\"stake-form-group tm-form-group\\">
+<div class=\\"delegation-modal-form-group tm-form-group\\">
    <!---->
    <label for=\\"from\\" class=\\"tm-form-group__label\\">From</label>
    <div class=\\"tm-form-group__field\\">
@@ -47,14 +47,14 @@ exports[`renders correctly 1`] = `
 </div>
 </div>
 </div>
-<div class=\\"stake-footer\\">
+<div class=\\"delegation-modal-footer\\">
    <button class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn--size-lg\\">
    <!---->
    <!---->
    <span class=\\"tm-btn__value\\">Cancel</span></span></button><button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container tm-btn--size-lg tm-btn--primary\\">
    <!---->
    <!---->
-   <span class=\\"tm-btn__value\\">Stake</span></span></button>
+   <span class=\\"tm-btn__value\\">Confirm Delegation</span></span></button>
 </div>
 </div>"
 `;

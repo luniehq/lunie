@@ -2,15 +2,14 @@
 
 import htmlBeautify from "html-beautify"
 import { createLocalVue, mount } from "@vue/test-utils"
-import ModalStake from "staking/ModalStake"
+import DelegationModal from "staking/DelegationModal"
 import Vuelidate from "vuelidate"
 
-// Create an example stake modal window.
 const Wrapper = () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
 
-  return mount(ModalStake, {
+  return mount(DelegationModal, {
     localVue,
     propsData: {
       fromOptions: [
@@ -55,10 +54,10 @@ test(`display the 'To' address`, () => {
   )
 })
 
-test(`Stake button emits stake and close signals`, () => {
+test(`Delegation button submits delegation and closes modal`, () => {
   const wrapper = Wrapper()
   wrapper.setData({ amount: 50 })
-  wrapper.vm.onStake()
+  wrapper.vm.onDelegation()
 
   expect(wrapper.emittedByOrder()).toEqual([
     {
@@ -71,7 +70,7 @@ test(`Stake button emits stake and close signals`, () => {
       ]
     },
     {
-      name: `update:showModalStake`,
+      name: `update:showDelegationModal`,
       args: [false]
     }
   ])
@@ -83,7 +82,7 @@ test(`X button emits close signal`, () => {
 
   expect(wrapper.emittedByOrder()).toEqual([
     {
-      name: `update:showModalStake`,
+      name: `update:showDelegationModal`,
       args: [false]
     }
   ])
