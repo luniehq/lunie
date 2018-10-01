@@ -36,7 +36,8 @@
     "release": "node ./tasks/releasePullRequest.js",
     "precommit": "pretty-quick --staged",
     "prepush": "bash ./tasks/changelog-changed-check.sh && yarn lint && yarn test:unit",
-    "postcheckout": "yarn"
+    "postcheckout": "yarn",
+    "watch": "tasks/watch.sh"
   },
   "devDependencies": {
     "@nodeguy/cli": "0.2.2",
