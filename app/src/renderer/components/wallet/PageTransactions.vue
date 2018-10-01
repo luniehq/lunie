@@ -13,11 +13,12 @@ tm-page(title='Transactions')
   data-empty-search(v-else-if="filteredTransactions.length === 0")
   template(v-else v-for="(tx, i) in filteredTransactions")
     tm-li-any-transaction(
-      :validators="validators"
+      :validators="delegates.delegates"
       :validatorURL='validatorURL'
       :key="shortid.generate()"
       :transaction="tx"
       :address="wallet.address"
+      :bondingDenom="bondingDenom"
       v-on:end-unbonding="endUnbonding(tx)")
 </template>
 
@@ -48,8 +49,9 @@ export default {
       `filters`,
       `allTransactions`,
       `wallet`,
-      `config`,
+      `bondingDenom`,
       `delegation`,
+      `delegates`,
       `connected`,
       `validators`
     ]),
