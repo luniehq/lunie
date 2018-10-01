@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page
-  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unstakedAtoms="user.atoms")
+  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unbondedAtoms="user.atoms")
   div(slot="menu"): tm-tool-bar
     router-link(to="/staking" exact): i.material-icons arrow_back
     anchor-copy(v-if="validator" :value="validator.owner" icon="content_copy")
@@ -21,18 +21,17 @@ tm-page
             //- TODO replace with address component when ready
             anchor-copy.validator-profile__header__name__address(:value="validator.owner" :label="shortAddress(validator.owner)")
           .column.validator-profile__header__actions
-            tm-btn(id="stake-btn" value="Stake" color="primary" @click.native="onStake")
+            tm-btn#delegation-btn(value="Delegate" color="primary" @click.native="onDelegation")
 
-            tm-btn(
-              id="unstake-btn"
-              value="Unstake"
+            tm-btn#undelegation-btn(
+              value="Undelegate"
               color="secondary"
-              @click.native="onUnstake"
+              @click.native="onUndelegation"
             )
 
         .row.validator-profile__header__data
           dl.colored_dl
-            dt My Stake
+            dt My Bonded {{bondingDenom}}
             dd {{myBond.isLessThan(0.01) && myBond.isGreaterThan(0) ? '< ' + 0.01 : pretty(myBond)}}
           dl.colored_dl(v-if="config.devMode")
             dt My Rewards
@@ -83,50 +82,48 @@ tm-page
             dt Max Daily Commission Change
             dd {{validator.commission_change_rate}} %
           dl.info_dl
-            dt Self Stake
+            dt Self Bonded {{bondingDenom}}
             dd(id="validator-profile__self-bond") {{selfBond}} %
           dl.info_dl(v-if="config.devMode")
-            dt Minimum Self Stake
+            dt Minimum Self Bonded {{bondingDenom}}
             dd 0 %
 
-    modal-stake(
-      v-if="showModalStake"
+    delegation-modal(
+      v-if="showDelegationModal"
       v-on:submitDelegation="submitDelegation"
-      :showModalStake.sync="showModalStake"
-      :fromOptions="[{ key: `My Wallet - ${this.wallet.address}`, value: 0 }]"
-      :maximum="availableAtoms"
+      :bondingDenom="bondingDenom"
+      :showDelegationModal.sync="showDelegationModal"
+      :fromOptions="delegationTargetOptions()"
       :to="validator.owner"
     )
 
-    modal-unstake(
-      v-if="showModalUnstake"
+    undelegation-modal(
+      v-if="showUndelegationModal"
       v-on:submitUndelegation="submitUndelegation"
-      :showModalUnstake.sync="showModalUnstake"
       :maximum="myBond"
       :to="this.wallet.address"
     )
 
-    tm-modal(:close="closeCannotStake" icon="warning" v-if="showCannotStake")
-      div(slot='title') Cannot Stake
-      p You have no {{ bondingDenom }}s to stake.
+    tm-modal(:close="closeCannotDelegate" icon="warning" v-if="showCannotDelegate")
+      div(slot='title') Cannot Complete Delegation
+      p You have no {{ bondingDenom }}s to delegate.
       div(slot='footer')
         tmBtn(
           id="no-atoms-modal__btn"
-          @click.native="closeCannotStake"
+          @click.native="closeCannotDelegate"
           value="OK"
         )
 
     tm-modal(
-      :close="closeCannotUnstake"
+      :close="closeCannotUndelegate"
       icon="warning"
-      v-if="showCannotUnstake"
+      v-if="showCannotUndelegate"
     )
-      div(slot='title') Cannot Unstake
-      p You have no {{ bondingDenom }}s staked with this validator.
+      div(slot='title') Cannot Complete Undelegation
+      p You have no {{ bondingDenom }}s delegated to this validator.
       div(slot='footer')
-        tmBtn(
-          id="no-bond-modal__btn"
-          @click.native="closeCannotUnstake"
+        tmBtn#no-bond-modal__btn(
+          @click.native="closeCannotUndelegate"
           value="OK"
         )
 </template>
@@ -135,21 +132,28 @@ tm-page
 import BigNumber from "bignumber.js"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
-import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
+import {
+  TmBtn,
+  TmListItem,
+  TmPage,
+  TmPart,
+  TmToolBar,
+  TmModal
+} from "@tendermint/ui"
 import { TmDataError } from "common/TmDataError"
 import { shortAddress, ratToBigNumber } from "scripts/common"
-import ModalStake from "staking/ModalStake"
-import ModalUnstake from "staking/ModalUnstake"
+import DelegationModal from "staking/DelegationModal"
+import UndelegationModal from "staking/UndelegationModal"
 import numeral from "numeral"
 import AnchorCopy from "common/AnchorCopy"
 import TmBalance from "common/TmBalance"
-import TmModal from "common/TmModal"
+import { isEmpty } from "lodash"
 export default {
   name: `page-validator`,
   components: {
     AnchorCopy,
-    ModalStake,
-    ModalUnstake,
+    DelegationModal,
+    UndelegationModal,
     TmBtn,
     TmListItem,
     TmModal,
@@ -160,10 +164,10 @@ export default {
     TmBalance
   },
   data: () => ({
-    showCannotStake: false,
-    showCannotUnstake: false,
-    showModalStake: false,
-    showModalUnstake: false,
+    showCannotDelegate: false,
+    showCannotUndelegate: false,
+    showDelegationModal: false,
+    showUndelegationModal: false,
     shortAddress,
     tabIndex: 1
   }),
@@ -172,6 +176,7 @@ export default {
       `bondingDenom`,
       `delegates`,
       `delegation`,
+      `committedDelegations`,
       `config`,
       `keybase`,
       `oldBondedAtoms`,
@@ -195,7 +200,7 @@ export default {
     myBond() {
       return calculateTokens(
         this.validator,
-        this.delegation.committedDelegates[this.validator.owner] || 0
+        this.committedDelegations[this.validator.owner] || 0
       )
     },
     powerRatio() {
@@ -205,15 +210,15 @@ export default {
     },
     // TODO enable once we decide on limits
     // powerRatioLevel() {
-    //   if (this.powerRatio < 0.01) return "green"
-    //   if (this.powerRatio < 0.03) return "yellow"
-    //   return "red"
+    //   if (this.powerRatio < 0.01) return `green`
+    //   if (this.powerRatio < 0.03) return `yellow`
+    //   return `red`
     // },
     // TODO enable once we decide on limits
     // commissionLevel() {
-    //   if (this.validator.commission < 0.01) return "green"
-    //   if (this.validator.commission < 0.03) return "yellow"
-    //   return "red"
+    //   if (this.validator.commission < 0.01) return `green`
+    //   if (this.validator.commission < 0.03) return `yellow`
+    //   return `red`
     // },
     status() {
       // status: jailed
@@ -242,55 +247,83 @@ export default {
     }
   },
   methods: {
-    closeCannotStake() {
-      this.showCannotStake = false
+    closeCannotDelegate() {
+      this.showCannotDelegate = false
     },
-    closeCannotUnstake() {
-      this.showCannotUnstake = false
+    closeCannotUndelegate() {
+      this.showCannotUndelegate = false
     },
-    onStake() {
+    onDelegation() {
       if (this.availableAtoms > 0) {
-        this.showModalStake = true
+        this.showDelegationModal = true
       } else {
-        this.showCannotStake = true
+        this.showCannotDelegate = true
       }
     },
-    onUnstake() {
-      if (this.myBond.isEqualTo(BigNumber(0))) {
-        this.showCannotUnstake = true
+    onUndelegation() {
+      if (this.myBond.isGreaterThan(0)) {
+        this.showUndelegationModal = true
       } else {
-        this.showModalUnstake = true
+        this.showCannotUndelegate = true
       }
     },
-    async submitDelegation({ amount }) {
+    async submitDelegation({ amount, from }) {
+      const delegatorAddr = this.wallet.address
+      let stakingTransactions = {}
+      let txTitle,
+        txBody,
+        txAction = ``
+
+      if (from === delegatorAddr) {
+        txTitle = `delegation`
+        txBody = `delegated`
+        txAction = `delegating`
+
+        stakingTransactions.delegations = [
+          {
+            atoms: amount,
+            validator: this.validator
+          }
+        ]
+      } else {
+        txTitle = `redelegation`
+        txBody = `redelegated`
+        txAction = `redelegating`
+
+        let validatorFrom = this.delegates.delegates.find(v => from === v.owner)
+
+        stakingTransactions.redelegations = [
+          {
+            atoms: amount,
+            validatorSrc: validatorFrom,
+            validatorDst: this.validator
+          }
+        ]
+      }
+
       try {
         await this.$store.dispatch(`submitDelegation`, {
-          delegations: [
-            {
-              atoms: amount,
-              delegate: this.validator
-            }
-          ]
+          stakingTransactions
         })
 
         this.$store.commit(`notify`, {
-          title: `Successful Staking!`,
-          body: `You have successfully staked your ${this.bondingDenom}s.`
+          title: `Successful ${txTitle}!`,
+          body: `You have successfully ${txBody} your ${this.bondingDenom}s`
         })
       } catch (exception) {
         const { message } = exception
         let errData = message.split(`\n`)[5]
-
         if (errData) {
           let parsedErr = errData.split(`"`)[1]
-
           this.$store.commit(`notifyError`, {
-            title: `Error While Staking ${this.bondingDenom}s`,
-            body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
+            title: `Error while ${txAction} ${this.bondingDenom}s`,
+            body: parsedErr
+              ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
+              : errData
           })
         } else {
           this.$store.commit(`notifyError`, {
-            title: `Error While Staking ${this.bondingDenom}s`,
+            title: `Error while ${txAction} ${this.bondingDenom}s`,
             body: message
           })
         }
@@ -299,17 +332,19 @@ export default {
     async submitUndelegation({ amount }) {
       try {
         await this.$store.dispatch(`submitDelegation`, {
-          unbondings: [
-            {
-              atoms: -amount,
-              delegate: this.validator
-            }
-          ]
+          stakingTransactions: {
+            unbondings: [
+              {
+                atoms: -amount,
+                validator: this.validator
+              }
+            ]
+          }
         })
 
         this.$store.commit(`notify`, {
-          title: `Successful Unstaking!`,
-          body: `You have successfully unstaked ${amount} ${
+          title: `Successful Undelegation!`,
+          body: `You have successfully undelegated ${amount} ${
             this.bondingDenom
           }s.`
         })
@@ -321,16 +356,50 @@ export default {
           let parsedErr = errData.split(`"`)[1]
 
           this.$store.commit(`notifyError`, {
-            title: `Error While Unstaking ${this.bondingDenom}s`,
+            title: `Error while undelegating ${this.bondingDenom}s`,
             body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
           })
         } else {
           this.$store.commit(`notifyError`, {
-            title: `Error While Unstaking ${this.bondingDenom}s`,
+            title: `Error while undelegating ${this.bondingDenom}s`,
             body: message
           })
         }
       }
+    },
+    delegationTargetOptions() {
+      //- First option should always be your wallet (i.e normal delegation)
+      let myWallet = [
+        {
+          address: this.wallet.address,
+          maximum: Math.floor(this.totalAtoms - this.oldBondedAtoms),
+          key: `My Wallet - ${shortAddress(this.wallet.address, 20)}`,
+          value: 0
+        }
+      ]
+      let bondedValidators = Object.keys(this.committedDelegations)
+      if (isEmpty(bondedValidators)) {
+        return myWallet
+      }
+      //- The rest of the options are from your other bonded validators
+      //- We skip the option of redelegating to the same address
+      let redelegationOptions = bondedValidators
+        .filter(address => address != this.$route.params.validator)
+        .map((address, index) => {
+          let delegate = this.delegates.delegates.find(function(validator) {
+            return validator.owner === address
+          })
+          return {
+            address: address,
+            maximum: Math.floor(this.committedDelegations[address]),
+            key: `${delegate.description.moniker} - ${shortAddress(
+              delegate.owner,
+              20
+            )}`,
+            value: index + 1
+          }
+        })
+      return myWallet.concat(redelegationOptions)
     },
     pretty(num) {
       return numeral(num).format(`0,0.00`)

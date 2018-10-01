@@ -1,20 +1,20 @@
 <template lang='pug'>
 .li-validator(:class='styles'): .li-validator__values
   .li-validator__value.name
-    router-link(:to="{ name: 'validator', params: { validator: delegate.id }}")
+    router-link(:to="{ name: 'validator', params: { validator: validator.id }}")
       span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
-      img.avatar(v-if="delegate.keybase" :src="delegate.keybase.avatarUrl" width="48" height="48")
+      img.avatar(v-if="validator.keybase" :src="validator.keybase.avatarUrl" width="48" height="48")
       img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
       .vert
-        .top {{ delegate.description.moniker }}
-        .bottom {{ shortAddress(delegate.id)}}
+        .top {{ validator.description.moniker }}
+        .bottom {{ shortAddress(validator.id)}}
   .li-validator__value.your-votes
     span {{ yourVotes }}
   .li-validator__value.your-rewards
     span n/a
   .li-validator__break: span
   .li-validator__value.percent_of_vote
-    span {{ delegate.percent_of_vote ? delegate.percent_of_vote : `n/a` }}
+    span {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
   .li-validator__value.uptime
     // add .green .yellow or .red class to this span to trigger inidication by color
     span {{ uptime }}
@@ -31,7 +31,7 @@ import num from "scripts/num"
 import { shortAddress, calculateTokens, ratToBigNumber } from "scripts/common"
 export default {
   name: `li-validator`,
-  props: [`delegate`, `disabled`],
+  props: [`validator`, `disabled`],
   computed: {
     ...mapGetters([
       `lastHeader`,
@@ -45,11 +45,11 @@ export default {
       return `n/a` //TODO: add slashes
     },
     commission() {
-      return `${this.num.pretty(this.delegate.commission)}%`
+      return `${this.num.pretty(this.validator.commission)}%`
     },
     uptime() {
       let rollingWindow = 10000 // param of slashing period
-      let info = this.delegate.signing_info
+      let info = this.validator.signing_info
       if (info) {
         // uptime in the past 10k blocks
         let uptimeRollingWindow = info.signed_blocks_counter / rollingWindow
@@ -60,17 +60,17 @@ export default {
     // TODO uncomment when distribution is done
     // yourRewards() {
     //   if (
-    //     this.committedDelegations[this.delegate.id] &&
-    //     this.committedDelegations[this.delegate.id].isValidator &&
-    //     this.delegate.proposer_reward_pool > 0
+    //     this.committedDelegations[this.validator.id] &&
+    //     this.committedDelegations[this.validator.id].isValidator &&
+    //     this.validator.proposer_reward_pool > 0
     //   ) {
     //     let myShares = calculateShares(
-    //       this.delegate,
-    //       this.committedDelegations[this.delegate.id]
+    //       this.validator,
+    //       this.committedDelegations[this.validator.id]
     //     )
-    //     let shareRatio = myShares.div(parseValidatorShares(this.delegate))
+    //     let shareRatio = myShares.div(parseValidatorShares(this.validator))
     //     let rewardsInShares = shareRatio.times(
-    //       this.delegate.proposer_reward_pool
+    //       this.validator.proposer_reward_pool
     //     )
     //     let rewardsInTokens = calculateTokens(rewardsInShares)
     //     return this.num.pretty(rewardsInTokens).toString()
@@ -78,10 +78,10 @@ export default {
     // },
     yourVotes() {
       return this.num.pretty(
-        this.committedDelegations[this.delegate.id]
+        this.committedDelegations[this.validator.id]
           ? calculateTokens(
-              this.delegate,
-              this.committedDelegations[this.delegate.id]
+              this.validator,
+              this.committedDelegations[this.validator.id]
             ).toString()
           : `0`
       )
@@ -89,21 +89,21 @@ export default {
     styles() {
       let value = ``
       if (this.inCart || this.yourVotes > 0) value += `li-validator-active `
-      if (this.delegate.isValidator) value += `li-validator-validator `
+      if (this.validator.isValidator) value += `li-validator-validator `
       return value
     },
     inCart() {
-      return this.shoppingCart.find(c => c.id === this.delegate.id)
+      return this.shoppingCart.find(c => c.id === this.validator.id)
     },
     delegateType() {
-      return this.delegate.revoked
+      return this.validator.revoked
         ? `Revoked`
-        : this.delegate.isValidator
+        : this.validator.isValidator
           ? `Validator`
           : `Candidate`
     },
     powerRatio() {
-      return ratToBigNumber(this.delegate.tokens)
+      return ratToBigNumber(this.validator.tokens)
         .div(this.delegates.globalPower)
         .toNumber()
     },
@@ -115,11 +115,11 @@ export default {
     // },
     status() {
       // status: jailed
-      if (this.delegate.revoked)
+      if (this.validator.revoked)
         return `This validator has been jailed and is not currently validating`
 
       // status: candidate
-      if (parseFloat(this.delegate.voting_power) === 0)
+      if (parseFloat(this.validator.voting_power) === 0)
         return `This validator has declared candidacy but does not have enough voting power yet`
 
       // status: validator
@@ -127,10 +127,10 @@ export default {
     },
     statusColor() {
       // status: jailed
-      if (this.delegate.revoked) return `red`
+      if (this.validator.revoked) return `red`
 
       // status: candidate
-      if (parseFloat(this.delegate.voting_power) === 0) return `yellow`
+      if (parseFloat(this.validator.voting_power) === 0) return `yellow`
 
       // status: validator
       return `green`

@@ -3,14 +3,14 @@
 import htmlBeautify from "html-beautify"
 import { createLocalVue, mount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
-import ModalUnstake from "staking/ModalUnstake"
+import UndelegationModal from "staking/UndelegationModal"
 
 // Create an example stake modal window.
 const Wrapper = () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
 
-  return mount(ModalUnstake, {
+  return mount(UndelegationModal, {
     localVue,
     propsData: {
       maximum: 100,
@@ -36,7 +36,7 @@ test(`display the 'To' address`, () => {
 test(`unstake button emits the unstake signal`, () => {
   const wrapper = Wrapper()
   wrapper.setData({ amount: 50 })
-  wrapper.vm.onUnstake()
+  wrapper.vm.unUndelegate()
 
   expect(wrapper.emittedByOrder()).toEqual([
     {
@@ -48,7 +48,7 @@ test(`unstake button emits the unstake signal`, () => {
       ]
     },
     {
-      name: `update:showModalUnstake`,
+      name: `update:showUndelegationModal`,
       args: [false]
     }
   ])

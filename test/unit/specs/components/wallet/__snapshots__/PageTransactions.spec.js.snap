@@ -76,6 +76,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
                   >
                     <i
                       class="material-icons"
+                      id="settings"
                     >
                       settings
                     </i>
@@ -231,6 +232,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                   >
                     <i
                       class="material-icons"
+                      id="settings"
                     >
                       settings
                     </i>

@@ -1,5 +1,5 @@
 <template lang="pug">
-  .modal-unstake#modal-unstake(v-click-outside="close")
+  .modal-undelegation#modal-undelegation(v-click-outside="close")
     //- Header
     .stake-header
       img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
@@ -28,7 +28,7 @@
     //- Footer
     .stake-footer
       tm-btn(
-        @click.native="onUnstake"
+        @click.native="unUndelegate"
         :disabled="$v.amount.$invalid"
         color="primary"
         size="lg"
@@ -43,6 +43,7 @@ import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
+  name: `undelegation-modal`,
   props: [`maximum`, `to`],
   components: {
     Modal,
@@ -64,9 +65,9 @@ export default {
   },
   methods: {
     close() {
-      this.$emit(`update:showModalUnstake`, false)
+      this.$emit(`update:showUndelegationModal`, false)
     },
-    onUnstake() {
+    unUndelegate() {
       this.$emit(`submitUndelegation`, {
         amount: this.amount
       })

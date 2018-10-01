@@ -91,35 +91,6 @@ describe(`PageWallet`, () => {
     ).toBe(`Available Balances`)
   })
 
-  it(`has a title for staked balances`, () => {
-    expect(
-      wrapper
-        .find(`#part-staked-balances .tm-part-title`)
-        .text()
-        .trim()
-    ).toBe(`Staked Balances`)
-  })
-
-  it(`has shows the correct number of staked tokens`, async () => {
-    // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
-    await wrapper.vm.$nextTick()
-    wrapper.update()
-
-    console.log(wrapper.vm.$store.getters.delegation.committedDelegates)
-    console.log(wrapper.vm.$store.getters.delegates.delegates.map(d => d.id))
-    expect(
-      parseFloat(
-        wrapper
-          .find(`#part-staked-balances .tm-li-dd`)
-          .text()
-          .trim()
-      )
-    ).toBe(14)
-  })
-
   it(`should update 'somethingToSearch' when there's nothing to search`, () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
     store.commit(`setWalletBalances`, [])
@@ -130,13 +101,5 @@ describe(`PageWallet`, () => {
     store.commit(`setWalletBalances`, [])
     wrapper.update()
     expect(wrapper.vm.setSearch()).toEqual(false)
-  })
-
-  it(`has a number of staked tokens`, () => {
-    expect(wrapper.vm.stakedTokens).toBe(14)
-  })
-
-  it(`has a label for the staking denomination`, () => {
-    expect(wrapper.vm.stakingDenom).toBe(`Steak`)
   })
 })

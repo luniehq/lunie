@@ -1,4 +1,4 @@
-import TabMyStake from "renderer/components/staking/TabMyStake"
+import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
 
 const delegates = [
   {
@@ -80,9 +80,9 @@ const delegates = [
   }
 ]
 
-test(`unstakedValidators`, () => {
+test(`undelegatedValidators`, () => {
   expect(
-    TabMyStake.computed.unstakedValidators({
+    TabMyDelegations.computed.undelegatedValidators({
       delegation: {
         unbondingDelegations: {
           cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 3
@@ -121,7 +121,7 @@ test(`unstakedValidators`, () => {
 
 test(`yourValidators`, () => {
   expect(
-    TabMyStake.computed.yourValidators({
+    TabMyDelegations.computed.yourValidators({
       committedDelegations: {
         cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 3
       },
