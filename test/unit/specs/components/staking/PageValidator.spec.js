@@ -5,7 +5,6 @@ import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import { createLocalVue, mount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
-import BigNumber from "bignumber.js"
 
 const validator = {
   owner: `1a2b3c`,

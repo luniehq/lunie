@@ -129,7 +129,6 @@ tm-page
 </template>
 
 <script>
-import BigNumber from "bignumber.js"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import {
