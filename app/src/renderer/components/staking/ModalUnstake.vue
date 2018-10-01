@@ -1,5 +1,5 @@
 <template lang="pug">
-  .modal-stake#modal-stake(v-click-outside="close")
+  .modal-unstake#modal-unstake(v-click-outside="close")
     //- Header
     .stake-header
       img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
@@ -83,7 +83,7 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
-.modal-stake
+.modal-unstake
   background var(--app-nav)
   display flex
   flex-direction column
