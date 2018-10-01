@@ -30,10 +30,24 @@ window.addEventListener(`unhandledrejection`, function(event) {
 window.addEventListener(`error`, function(event) {
   Raven.captureException(event.reason)
 })
-Vue.config.errorHandler = error => {
+
+Vue.config.errorHandler = (error, vm, info) => {
+  console.error(`An error has occurred: ${error}
+
+Guru Meditation #${info}`)
+
   Raven.captureException(error)
+  throw error
   // shrinkStacktrace(error)
   // return true
+}
+
+Vue.config.warnHandler = (msg, vm, trace) => {
+  console.warn(`A warning has occurred: ${msg}
+
+Guru Meditation #${trace}`)
+
+  throw new Error(msg)
 }
 
 Vue.use(Electron)
