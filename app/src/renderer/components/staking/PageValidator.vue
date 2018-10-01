@@ -104,7 +104,6 @@ tm-page
       :showModalUnstake.sync="showModalUnstake"
       :maximum="myBond"
       :to="this.wallet.address"
-      :disable="!hasBond"
     )
 
     tm-modal(:close="closeCannotStake" icon="warning" v-if="showCannotStake")
@@ -198,9 +197,6 @@ export default {
         this.validator,
         this.delegation.committedDelegates[this.validator.owner] || 0
       )
-    },
-    hasBond() {
-      return this.myBond === BigNumber(0)
     },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)
