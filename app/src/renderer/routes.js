@@ -33,12 +33,12 @@ export default [
     path: `/staking`,
     name: `staking`,
     component: staking(`Staking`),
-    redirect: `/staking/My Stake/`,
+    redirect: `/staking/my-delegations/`,
     children: [
       {
-        path: `My Stake`,
-        name: `My Stake`,
-        component: require(`./components/staking/TabMyStake`).default
+        path: `my-delegations`,
+        name: `My Delegations`,
+        component: require(`./components/staking/TabMyDelegations`).default
       },
       {
         path: `Validators`,

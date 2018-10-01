@@ -17,7 +17,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
 <!---->
 </div>
 <div class=\\"bottom\\">
-   <div class=\\"address\\">
+   <div id=\\"address\\" class=\\"address\\">
       useraddress16876876876876876786876876876876876
    </div>
 <div class=\\"success\\">
@@ -39,9 +39,9 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
    321.00
 </div>
 </div>
-<div class=\\"unstaked-atoms top-section\\">
+<div class=\\"unbonded-atoms top-section\\">
    <div class=\\"h3\\">
-      Unstaked Steak
+      Unbonded Steak
    </div>
 <div class=\\"h2\\">
    1337
@@ -68,7 +68,7 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
 </div>
 </div>
 <div class=\\"bottom\\">
-   <div class=\\"address\\">
+   <div id=\\"address\\" class=\\"address\\">
       useraddress16876876876876876786876876876876876
    </div>
 <div class=\\"success\\">

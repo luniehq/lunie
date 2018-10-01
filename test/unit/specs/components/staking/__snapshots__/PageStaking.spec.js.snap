@@ -19,9 +19,9 @@ exports[`PageStaking has the expected html structure 1`] = `
       1,351.00
    </div>
 </div>
-   <div class=\\"unstaked-atoms top-section\\">
+   <div class=\\"unbonded-atoms top-section\\">
       <div class=\\"h3\\">
-         Unstaked Steak
+         Unbonded Steak
       </div>
    <div class=\\"h2\\">
       1337
@@ -31,7 +31,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <!---->
 </div>
    <div class=\\"bottom\\">
-      <div class=\\"address\\">
+      <div id=\\"address\\" class=\\"address\\">
          cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
       </div>
    <div class=\\"success\\">
@@ -47,7 +47,7 @@ exports[`PageStaking has the expected html structure 1`] = `
             <div class=\\"tm-tool-bar\\">
                <div class=\\"tm-tool-bar-container\\">
                   <div class=\\"main\\">
-                     <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a><i class=\\"search material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+                     <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a><i class=\\"search material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"settings\\"><i id=\\"settings\\" class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
                   </div>
 </div>
 </div>
@@ -58,9 +58,9 @@ exports[`PageStaking has the expected html structure 1`] = `
 </header>
 <main class=\\"tm-page-main ps\\">
    <!---->
-   <div class=\\"staking-tabs\\">
+   <div class=\\"tabs\\">
       <div class=\\"tab\\">
-         <a href=\\"#/staking/My Stake\\" class=\\"\\">My Stake</a>
+         <a href=\\"#/staking/my-delegations\\" class=\\"\\">My Delegations</a>
       </div>
    <div class=\\"tab\\">
       <a href=\\"#/staking/Validators\\" class=\\"\\">Validators</a>
@@ -84,9 +84,9 @@ exports[`PageStaking has the expected html structure 1`] = `
          1,351.00
       </div>
 </div>
-      <div class=\\"unstaked-atoms top-section\\">
+      <div class=\\"unbonded-atoms top-section\\">
          <div class=\\"h3\\">
-            Unstaked Steak
+            Unbonded Steak
          </div>
       <div class=\\"h2\\">
          1337
@@ -96,7 +96,7 @@ exports[`PageStaking has the expected html structure 1`] = `
       <!---->
    </div>
       <div class=\\"bottom\\">
-         <div class=\\"address\\">
+         <div id=\\"address\\" class=\\"address\\">
             cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
          </div>
       <div class=\\"success\\">
@@ -112,7 +112,7 @@ exports[`PageStaking has the expected html structure 1`] = `
                <div class=\\"tm-tool-bar\\">
                   <div class=\\"tm-tool-bar-container\\">
                      <div class=\\"main\\">
-                        <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a disabled=\\"disabled\\"><i class=\\"material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+                        <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a disabled=\\"disabled\\"><i class=\\"material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"settings\\"><i id=\\"settings\\" class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
                      </div>
 </div>
 </div>
@@ -167,38 +167,6 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
 </div>
 </main>
-</div>
-</section>
-<section class=\\"tm-part\\" id=\\"part-staked-balances\\">
-   <div class=\\"tm-part-container\\">
-      <header class=\\"tm-part-header\\">
-         <div class=\\"tm-part-header-container\\">
-            <div class=\\"tm-part-title h5\\">
-               Staked Balances
-            </div>
-      <menu class=\\"tm-part-menu\\"></menu>
-</div>
-</header>
-   <main class=\\"tm-part-main\\">
-      <a href=\\"#/staking\\" class=\\"tm-li tm-li-link\\">
-      <div class=\\"tm-li-container\\">
-         <div class=\\"tm-li-thumb\\">
-            <!---->
-         </div>
-      <div class=\\"tm-li-dl\\">
-         <div class=\\"tm-li-dt\\">
-            Steak
-         </div>
-      <div class=\\"tm-li-dd\\">
-         14.00
-      </div>
-</div>
-      <button class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn__icon-right tm-btn--primary\\"><i aria-hidden=\\"true\\" class=\\"tm-btn__icon material-icons\\">chevron_right</i>
-      <!---->
-      <span class=\\"tm-btn__value\\">Stake</span></span></button>
-   </div>
-      </a>
-   </main>
 </div>
 </section>
 <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
@@ -263,12 +231,12 @@ exports[`PageStaking should filter the delegates 1`] = `
                 </div>
               </div>
               <div
-                class="unstaked-atoms top-section"
+                class="unbonded-atoms top-section"
               >
                 <div
                   class="h3"
                 >
-                  Unstaked Steak
+                  Unbonded Steak
                 </div>
                 <div
                   class="h2"
@@ -284,6 +252,7 @@ exports[`PageStaking should filter the delegates 1`] = `
             >
               <div
                 class="address"
+                id="address"
               >
                 cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
               </div>
@@ -356,6 +325,7 @@ exports[`PageStaking should filter the delegates 1`] = `
                   >
                     <i
                       class="material-icons"
+                      id="settings"
                     >
                       settings
                     </i>
@@ -425,16 +395,16 @@ exports[`PageStaking should filter the delegates 1`] = `
       </div>
     </div>
     <div
-      class="staking-tabs"
+      class="tabs"
     >
       <div
         class="tab"
       >
         <a
           class=""
-          href="#/staking/My Stake"
+          href="#/staking/my-delegations"
         >
-          My Stake
+          My Delegations
         </a>
       </div>
       <div
@@ -491,12 +461,12 @@ exports[`PageStaking should filter the delegates 1`] = `
                     </div>
                   </div>
                   <div
-                    class="unstaked-atoms top-section"
+                    class="unbonded-atoms top-section"
                   >
                     <div
                       class="h3"
                     >
-                      Unstaked Steak
+                      Unbonded Steak
                     </div>
                     <div
                       class="h2"
@@ -512,6 +482,7 @@ exports[`PageStaking should filter the delegates 1`] = `
                 >
                   <div
                     class="address"
+                    id="address"
                   >
                     cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
                   </div>
@@ -586,6 +557,7 @@ exports[`PageStaking should filter the delegates 1`] = `
                       >
                         <i
                           class="material-icons"
+                          id="settings"
                         >
                           settings
                         </i>
@@ -697,83 +669,6 @@ exports[`PageStaking should filter the delegates 1`] = `
                   </div>
                 </div>
               </div>
-            </main>
-          </div>
-        </section>
-        <section
-          class="tm-part"
-          id="part-staked-balances"
-        >
-          <div
-            class="tm-part-container"
-          >
-            <header
-              class="tm-part-header"
-            >
-              <div
-                class="tm-part-header-container"
-              >
-                <div
-                  class="tm-part-title h5"
-                >
-                  Staked Balances
-                </div>
-                <menu
-                  class="tm-part-menu"
-                />
-              </div>
-            </header>
-            <main
-              class="tm-part-main"
-            >
-              <a
-                class="tm-li tm-li-link"
-                href="#/staking"
-              >
-                <div
-                  class="tm-li-container"
-                >
-                  <div
-                    class="tm-li-thumb"
-                  >
-                    <!---->
-                  </div>
-                  <div
-                    class="tm-li-dl"
-                  >
-                    <div
-                      class="tm-li-dt"
-                    >
-                      Steak
-                    </div>
-                    <div
-                      class="tm-li-dd"
-                    >
-                      14.00
-                    </div>
-                  </div>
-                  <button
-                    class="tm-btn"
-                  >
-                    <span
-                      class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-                    >
-                      <i
-                        aria-hidden="true"
-                        class="tm-btn__icon material-icons"
-                      >
-                        chevron_right
-                      </i>
-                      <!---->
-                      <span
-                        class="tm-btn__value"
-                      >
-                        Stake
-                      </span>
-                    </span>
-                  </button>
-                </div>
-              </a>
             </main>
           </div>
         </section>

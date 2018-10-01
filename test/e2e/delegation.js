@@ -6,7 +6,7 @@ let { navigate, login, sleep } = require(`./common.js`)
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
 */
 
-test(`staking`, async function(t) {
+test(`delegation`, async function(t) {
   let { app } = await getApp(t)
   // app.env.COSMOS_MOCKED = false
   await restart(app)
@@ -63,11 +63,13 @@ test(`staking`, async function(t) {
     await sleep(500)
 
     await app.client
-      .click(`//button/*[. = 'Stake']`)
+      .click(`//button/*[. = 'Delegate']`)
       .setValue(`#amount`, 10)
-      .click(`//*[@id = 'modal-stake']//button//*[. = 'Stake']`)
+      .click(
+        `//*[@id = 'delegation-modal']//button//*[. = 'Confirm Delegation']`
+      )
       .waitForVisible(
-        `//*[. = 'You have successfully staked your Steaks.']`,
+        `//*[. = 'You have successfully delegated your Steaks']`,
         5 * 1000
       )
 

@@ -51,6 +51,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             >
               <div
                 class="address"
+                id="address"
               >
                 
               </div>
@@ -163,7 +164,7 @@ exports[`PageValidator has the expected html structure 1`] = `
           >
             <button
               class="tm-btn"
-              id="stake-btn"
+              id="delegation-btn"
             >
               <span
                 class="tm-btn__container tm-btn--primary"
@@ -173,13 +174,13 @@ exports[`PageValidator has the expected html structure 1`] = `
                 <span
                   class="tm-btn__value"
                 >
-                  Stake
+                  Delegate
                 </span>
               </span>
             </button>
             <button
               class="tm-btn"
-              id="unstake-btn"
+              id="undelegation-btn"
             >
               <span
                 class="tm-btn__container tm-btn--secondary"
@@ -189,7 +190,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                 <span
                   class="tm-btn__value"
                 >
-                  Unstake
+                  Undelegate
                 </span>
               </span>
             </button>
@@ -202,7 +203,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="colored_dl"
           >
             <dt>
-              My Stake
+              My Bonded Steak
             </dt>
             <dd>
               0.00
@@ -230,7 +231,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             <dd
               id="validator-profile__power"
             >
-              100.00 %
+              65.52 %
             </dd>
           </dl>
           <dl
@@ -379,7 +380,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Self Stake
+              Self Bonded Steak
             </dt>
             <dd
               id="validator-profile__self-bond"
@@ -391,7 +392,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Minimum Self Stake
+              Minimum Self Bonded Steak
             </dt>
             <dd>
               0 %
@@ -479,6 +480,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             >
               <div
                 class="address"
+                id="address"
               >
                 
               </div>
@@ -591,7 +593,7 @@ exports[`PageValidator shows a default avatar 1`] = `
           >
             <button
               class="tm-btn"
-              id="stake-btn"
+              id="delegation-btn"
             >
               <span
                 class="tm-btn__container tm-btn--primary"
@@ -601,13 +603,13 @@ exports[`PageValidator shows a default avatar 1`] = `
                 <span
                   class="tm-btn__value"
                 >
-                  Stake
+                  Delegate
                 </span>
               </span>
             </button>
             <button
               class="tm-btn"
-              id="unstake-btn"
+              id="undelegation-btn"
             >
               <span
                 class="tm-btn__container tm-btn--secondary"
@@ -617,7 +619,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                 <span
                   class="tm-btn__value"
                 >
-                  Unstake
+                  Undelegate
                 </span>
               </span>
             </button>
@@ -630,7 +632,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="colored_dl"
           >
             <dt>
-              My Stake
+              My Bonded Steak
             </dt>
             <dd>
               0.00
@@ -658,7 +660,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             <dd
               id="validator-profile__power"
             >
-              100.00 %
+              65.52 %
             </dd>
           </dl>
           <dl
@@ -807,7 +809,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Self Stake
+              Self Bonded Steak
             </dt>
             <dd
               id="validator-profile__self-bond"
@@ -819,7 +821,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Minimum Self Stake
+              Minimum Self Bonded Steak
             </dt>
             <dd>
               0 %
@@ -898,3 +900,42 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
 `;
 
 exports[`PageValidator shows that a validator is revoked 1`] = `"This validator has been jailed and is not currently validating"`;
+
+exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
+Array [
+  Object {
+    "address": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmosaccaddr…3p4mqpjyrm5ctpesxxn9",
+    "maximum": 50,
+    "value": 0,
+  },
+]
+`;
+
+exports[`delegationTargetOptions hides displayed validator if bonded 1`] = `
+Array [
+  Object {
+    "address": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmosaccaddr…3p4mqpjyrm5ctpesxxn9",
+    "maximum": 50,
+    "value": 0,
+  },
+]
+`;
+
+exports[`delegationTargetOptions shows bonded validators for redelegation options 1`] = `
+Array [
+  Object {
+    "address": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmosaccaddr…3p4mqpjyrm5ctpesxxn9",
+    "maximum": 50,
+    "value": 0,
+  },
+  Object {
+    "address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+    "key": "good_greg - cosmosvaladdr…3p4mqpjyrm5ctplpn3au",
+    "maximum": 5,
+    "value": 1,
+  },
+]
+`;

@@ -152,10 +152,8 @@ test(`sign in`, async function(t) {
       // checking if user is logged in
       await app.client.waitForExist(`#app-content`, 10000)
       await openMenu(app)
-      let activeUser = await app.client
-        .$(`.tm-li-user .tm-li-subtitle`)
-        .getText()
-      t.ok(activeUser === `signin_test`, `user is logged in`)
+      let activeUser = await app.client.$(`#address`).getText()
+      t.ok(activeUser.indexOf(`cosmosaccaddr1`) !== -1, `user is logged in`)
 
       t.end()
     })
@@ -302,10 +300,8 @@ test(`sign in`, async function(t) {
       // checking if user is logged in
       await app.client.waitForExist(`#app-content`, 5000)
       await openMenu(app)
-      let activeUser = await app.client
-        .$(`.tm-li-user .tm-li-subtitle`)
-        .getText()
-      t.equal(activeUser, `seed_test`, `user is logged in`)
+      let activeUser = await app.client.$(`#address`).getText()
+      t.ok(activeUser.indexOf(`cosmosaccaddr1`) !== -1, `user is logged in`)
 
       t.end()
     })

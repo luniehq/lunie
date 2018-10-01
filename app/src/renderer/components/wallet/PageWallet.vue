@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
-  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unstakedAtoms="user.atoms")
+  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unbondedAtoms="user.atoms")
   div(slot="menu")
     vm-tool-bar
       a(@click='connected && updateBalances()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
@@ -16,7 +16,7 @@ tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
       :btn="'Receive'"
       :overflow="true"
       @click.native="copy")
-      
+
       btn-receive(slot="btn-receive")
 
   tm-part#part-available-balances(title="Available Balances")
@@ -36,20 +36,13 @@ tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
       :dt="i.denom.toUpperCase()"
       :dd="i.amount"
       :to="{name: 'send', params: {denom: i.denom}}")
-
-  tm-part#part-staked-balances(title="Staked Balances")
-    tm-list-item(
-      btn="Stake"
-      :dt="stakingDenom"
-      :dd="num.pretty(oldBondedAtoms)"
-      :to="{name: 'staking'}")
 </template>
 
 <script>
 import num from "scripts/num"
 import { mapGetters, mapActions } from "vuex"
 import { clipboard } from "electron"
-import { sum, includes, orderBy } from "lodash"
+import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import LiCopy from "common/TmLiCopy"
@@ -117,12 +110,6 @@ export default {
       } else {
         return list
       }
-    },
-    stakedTokens() {
-      return sum(Object.values(this.committedDelegations).map(parseFloat))
-    },
-    stakingDenom() {
-      return this.config.bondingDenom
     }
   },
   methods: {

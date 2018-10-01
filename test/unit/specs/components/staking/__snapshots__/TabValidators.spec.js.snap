@@ -10,14 +10,14 @@ exports[`PageStaking has the expected html structure 1`] = `
 <div class=\\"sort-by your-votes\\">
    <div class=\\"label\\">
       <div class=\\"label-text\\">
-         My Stake
+         Bonded Steak
       </div>
 </div>
 </div>
 <div class=\\"sort-by your-rewards\\">
    <div class=\\"label\\">
       <div class=\\"label-text\\">
-         My Rewards
+         Rewards
       </div>
 </div>
 </div>
@@ -187,7 +187,7 @@ exports[`PageStaking should filter the delegates 1`] = `
           <div
             class="label-text"
           >
-            My Stake
+            Bonded Steak
           </div>
         </div>
       </div>
@@ -200,7 +200,7 @@ exports[`PageStaking should filter the delegates 1`] = `
           <div
             class="label-text"
           >
-            My Rewards
+            Rewards
           </div>
         </div>
       </div>

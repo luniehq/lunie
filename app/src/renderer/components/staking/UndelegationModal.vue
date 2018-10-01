@@ -1,20 +1,19 @@
 <template lang="pug">
-  .modal-unstake#modal-unstake(v-click-outside="close")
-    //- Header
-    .stake-header
-      img.icon(class='stake-atom' src="~assets/images/cosmos-logo.png")
+  .delegation-modal#undelegation-modal(v-click-outside="close")
+    .delegation-modal-header
+      img.icon(class='delegation-modal-atom' src="~assets/images/cosmos-logo.png")
       span.tm-modal-title Unstake
       .tm-modal-icon.tm-modal-close(@click="close()")
         i.material-icons close
 
     //- To
-    tm-form-group.stake-form-group(
+    tm-form-group.delegation-modal-form-group(
       field-id='to' field-label='To')
       tm-field#to(
         readonly v-model="to")
 
     //- Amount
-    tm-form-group.stake-form-group(
+    tm-form-group.delegation-modal-form-group(
       field-id='amount'
       field-label='Amount'
     )
@@ -26,9 +25,9 @@
         v-model="amount")
 
     //- Footer
-    .stake-footer
+    .delegation-modal-footer
       tm-btn(
-        @click.native="onUnstake"
+        @click.native="unUndelegate"
         :disabled="$v.amount.$invalid"
         color="primary"
         size="lg"
@@ -43,6 +42,7 @@ import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
+  name: `undelegation-modal`,
   props: [`maximum`, `to`],
   components: {
     Modal,
@@ -64,9 +64,9 @@ export default {
   },
   methods: {
     close() {
-      this.$emit(`update:showModalUnstake`, false)
+      this.$emit(`update:showUndelegationModal`, false)
     },
-    onUnstake() {
+    unUndelegate() {
       this.$emit(`submitUndelegation`, {
         amount: this.amount
       })
@@ -83,35 +83,41 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
-.modal-unstake
+.undelegation-modal
   background var(--app-nav)
   display flex
   flex-direction column
   height 50%
   justify-content space-between
   left 50%
-  padding 2em
+  padding 2rem
   position fixed
   top 50%
   width 40%
   z-index z(modal)
 
-  .stake-header
+  &-header
     align-items center
     display flex
 
-    .stake-atom
-      height 3em
-      width 3em
+  &-atom
+    height 4rem
+    width 4rem
 
-  .stake-form-group
+  &-form-group
     display block
     padding 0
 
-  .stake-footer
+  #denom
+    text-align right
+    width 72px
+    margin-left 80%
+    border none
+
+  &-footer
     display flex
     justify-content flex-end
 
     button
-      margin-left 1em
+      margin-left 1rem
 </style>
