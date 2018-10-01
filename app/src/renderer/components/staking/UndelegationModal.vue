@@ -2,7 +2,7 @@
   .delegation-modal#undelegation-modal(v-click-outside="close")
     .delegation-modal-header
       img.icon(class='delegation-modal-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Unstake
+      span.tm-modal-title Undelegate
       .tm-modal-icon.tm-modal-close(@click="close()")
         i.material-icons close
 

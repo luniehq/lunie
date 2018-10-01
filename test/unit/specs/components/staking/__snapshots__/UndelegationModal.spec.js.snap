@@ -3,7 +3,7 @@
 exports[`renders correctly 1`] = `
 "<div id=\\"undelegation-modal\\" class=\\"delegation-modal\\">
    <div class=\\"delegation-modal-header\\">
-      <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon delegation-modal-atom\\"><span class=\\"tm-modal-title\\">Unstake</span>
+      <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon delegation-modal-atom\\"><span class=\\"tm-modal-title\\">Undelegate</span>
       <div class=\\"tm-modal-icon tm-modal-close\\">
          <i class=\\"material-icons\\">close</i>
       </div>
