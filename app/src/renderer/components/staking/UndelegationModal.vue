@@ -31,7 +31,7 @@
         :disabled="$v.amount.$invalid"
         color="primary"
         size="lg"
-        value="Unstake"
+        value="Undelegate"
       )
 </template>
 
