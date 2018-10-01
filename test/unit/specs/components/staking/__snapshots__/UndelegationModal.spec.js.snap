@@ -26,7 +26,7 @@ exports[`renders correctly 1`] = `
    <button class=\\"tm-btn\\"><span class=\\"tm-btn__container tm-btn--size-lg tm-btn--primary\\">
    <!---->
    <!---->
-   <span class=\\"tm-btn__value\\">Unstake</span></span></button>
+   <span class=\\"tm-btn__value\\">Undelegate</span></span></button>
 </div>
 </div>"
 `;
