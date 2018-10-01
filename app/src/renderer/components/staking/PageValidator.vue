@@ -33,7 +33,7 @@ tm-page
         .row.validator-profile__header__data
           dl.colored_dl
             dt My Stake
-            dd {{myBond < 0.01 ? '< ' + 0.01 : pretty(myBond)}}
+            dd {{myBond.isLessThan(0.01) && myBond.isGreaterThan(0) ? '< ' + 0.01 : pretty(myBond)}}
           dl.colored_dl(v-if="config.devMode")
             dt My Rewards
             dd n/a
@@ -104,6 +104,7 @@ tm-page
       :showModalUnstake.sync="showModalUnstake"
       :maximum="myBond"
       :to="this.wallet.address"
+      :disable="!hasBond"
     )
 
     tm-modal(:close="closeCannotStake" icon="warning" v-if="showCannotStake")
@@ -197,6 +198,9 @@ export default {
         this.validator,
         this.delegation.committedDelegates[this.validator.owner] || 0
       )
+    },
+    hasBond() {
+      return this.myBond === BigNumber(0)
     },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)

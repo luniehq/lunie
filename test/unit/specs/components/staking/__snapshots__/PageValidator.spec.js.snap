@@ -205,7 +205,7 @@ exports[`PageValidator has the expected html structure 1`] = `
               My Stake
             </dt>
             <dd>
-              &lt; 0.01
+              0.00
             </dd>
           </dl>
           <dl
@@ -633,7 +633,7 @@ exports[`PageValidator shows a default avatar 1`] = `
               My Stake
             </dt>
             <dd>
-              &lt; 0.01
+              0.00
             </dd>
           </dl>
           <dl
