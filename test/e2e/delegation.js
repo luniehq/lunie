@@ -81,7 +81,7 @@ test(`delegation`, async function(t) {
     t.end()
   })
 
-  t.test(`Unstake`, async t => {
+  t.test(`Undelegate`, async t => {
     await app.client
       // Select the Validators tab.
       .click(`//a[. = 'Validators']`)
@@ -99,11 +99,11 @@ test(`delegation`, async function(t) {
     await sleep(500)
 
     await app.client
-      .click(`//button/*[. = 'Unstake']`)
+      .click(`//button/*[. = 'Undelegate']`)
       .setValue(`#amount`, 5)
-      .click(`//*[@id = 'modal-unstake']//button//*[. = 'Unstake']`)
+      .click(`//*[@id = 'undelegation-modal']//button//*[. = 'Undelegate']`)
       .waitForVisible(
-        `//*[. = 'You have successfully unstaked 5 Steaks.']`,
+        `//*[. = 'You have successfully undelegated 5 Steaks.']`,
         5 * 1000
       )
 
