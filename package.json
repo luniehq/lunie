@@ -80,7 +80,6 @@
     "publish-release": "1.5.1",
     "pug": "2.0.3",
     "pug-plain-loader": "1.0.0",
-    "simple-git": "1.95.0",
     "spectron": "https://github.com/electron/spectron.git#c527b4e5fd8ab89ed0c6454a4dfb69f0980e9e1d",
     "style-loader": "0.21.0",
     "stylus": "0.54.5",

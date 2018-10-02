@@ -52,6 +52,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * all seeds offline -> added random new ones @ƒaboweb
 * styling around LiValidators @jbibla
 * deleted duplicated tx components `TmLiDelegationTransaction.vue` and `TmLiTransaction.vue` @fedekunze
+* bugs in the automatic release process @NodeGuy
 
 ## [0.10.2] - 2018-08-29
 
