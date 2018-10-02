@@ -199,31 +199,21 @@ describe(`Module: Node`, () => {
     expect(store.state.node.nodeTimeout).toBeDefined()
   })
 
-  it(`should reconnect if pinging node timesout`, done => {
-    node.rpcReconnect = () => done()
+  it(`should signal if the rpc connection times out`, () => {
+    jest.useFakeTimers()
     node.rpc.status = () => {}
     store.dispatch(`pollRPCConnection`, 10)
+    jest.runAllTimers()
+    expect(store.state.node.connected).toBe(false)
   })
 
-  it(`should reconnect if pinging node fails`, done => {
-    node.rpcReconnect = () => {
-      // restore status hook as it crashes the rest if not
-      node.rpc.status = () => {}
-      done()
-    }
-    node.rpc.status = cb => cb(`Error`)
-    store.dispatch(`pollRPCConnection`, 10)
-  })
-
-  it(`should not reconnect if pinging node is successful`, () => {
+  it(`should signal connected state if pinging rpc endpoint is successful`, () => {
     node.rpc.status = cb => {
       store.commit(`stopConnecting`, true)
       cb(null, { node_info: {} })
     }
-    node.rpcReconnect = () => {
-      throw Error(`Shouldnt reconnect`)
-    }
     store.dispatch(`pollRPCConnection`, 50)
+    expect(store.state.node.connected).toBe(true)
   })
 
   it(`should not subscribe if stopConnecting active`, () => {
