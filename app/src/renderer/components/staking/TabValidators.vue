@@ -3,9 +3,10 @@
     tm-data-loading(v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
     tm-data-empty(v-else-if="!delegates.loading && delegates.delegates.length === 0")
     data-empty-search(v-else-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
-    template(v-else)
+    div(v-else)
       panel-sort(:sort='sort', :properties="properties")
-      li-validator(v-for='i in sortedFilteredEnrichedDelegates' :disabled="!userCanDelegate" :key='i.id' :validator='i')
+      ol(type="1")
+        li-validator(v-for='i in sortedFilteredEnrichedDelegates' :disabled="!userCanDelegate" :key='i.id' :validator='i')
 </template>
 
 <script>
@@ -14,7 +15,7 @@ import num from "scripts/num"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import LiValidator from "staking/LiValidator"
-import { TmBtn, TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
+import { TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import { calculateTokens } from "scripts/common"
 import ModalSearch from "common/TmModalSearch"
@@ -24,12 +25,10 @@ export default {
   name: `page-staking`,
   components: {
     LiValidator,
-    TmBtn,
     TmDataEmpty,
     DataEmptySearch,
     TmDataLoading,
     ModalSearch,
-    TmPage,
     PanelSort,
     VmToolBar
   },
