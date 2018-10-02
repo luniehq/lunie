@@ -1,43 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LiValidator has the expected html structure 1`] = `
-<div
+<li
   class="li-validator li-validator-validator "
 >
-  <div
-    class="li-validator__values"
+  <a
+    class=""
+    href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
   >
     <div
       class="li-validator__value name"
     >
-      <a
-        class=""
-        href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      <span
+        class="validator-profile__status green"
+      />
+      <img
+        class="avatar"
+        height="48"
+        src="~assets/images/validator-icon.svg"
+        width="48"
+      />
+      <div
+        class="vert"
       >
-        <span
-          class="validator-profile__status green"
-        />
-        <img
-          class="avatar"
-          height="48"
-          src="~assets/images/validator-icon.svg"
-          width="48"
-        />
         <div
-          class="vert"
+          class="top"
         >
-          <div
-            class="top"
-          >
-            mr_mounty
-          </div>
-          <div
-            class="bottom"
-          >
-            cosmosvaladdr…8yqw
-          </div>
+          mr_mounty
         </div>
-      </a>
+        <div
+          class="bottom"
+        >
+          cosmosvaladdr…8yqw
+        </div>
+      </div>
     </div>
     <div
       class="li-validator__value your-votes"
@@ -86,6 +82,6 @@ exports[`LiValidator has the expected html structure 1`] = `
         n/a
       </span>
     </div>
-  </div>
-</div>
+  </a>
+</li>
 `;

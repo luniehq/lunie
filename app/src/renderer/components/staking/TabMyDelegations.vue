@@ -7,7 +7,8 @@
     panel-sort(:sort='sort', :properties="properties")
     data-empty-search(v-if="yourValidators.length === 0")
     template(v-else)
-      li-validator(v-for='validator in yourValidators' :key='validator.id' :validator='validator')
+      ol
+        li-validator(v-for='validator in yourValidators' :key='validator.id' :validator='validator')
     .check-out-message
       | Check out
       |
@@ -15,11 +16,11 @@
       |
       | to spread some of your Atoms around.
 
-    h3
-      | Your Undelegated Validators
-      |
-      i.material-icons.info-button(v-tooltip.top="unbondInfo") info_outline
-    data-empty-search(v-if="undelegatedValidators.length === 0")
+    div(v-if="undelegatedValidators.length")
+      h3
+        | Your Undelegated Validators
+        |
+        i.material-icons.info-button(v-tooltip.top="unbondInfo") info_outline
     template(v-else)
       li-validator(v-for='validator in undelegatedValidators' :key='validator.id' :validator='validator')
 </template>
@@ -219,10 +220,14 @@ h3
   color var(--link)
 
 .check-out-message
-  background var(--app-nav)
-  margin-bottom 2em
-  padding 1em
+  background var(--app-fg)
+  margin-bottom 4rem
+  margin-left 2rem
+  padding 0.5rem
   text-align center
+  font-size sm
+  border-radius 0.25rem
+  border 1px solid var(--bc-dim)
 
 @media screen and (min-width: 768px)
   padding-bottom 4rem
