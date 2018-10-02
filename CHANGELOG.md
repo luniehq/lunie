@@ -34,6 +34,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Refactord submitDelegation. @NodeGuy
 * Improved network connectivity bar @jbibla
 * refactored words around staking and delegation @jbibla
+* the remote lcd and rpc endpoints can now be specified individually in the config.toml and via environment variables @faboweb
+* most endpoints use the remote lcd directly to improve performance @faboweb
 
 ### Fixed
 
