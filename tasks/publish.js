@@ -1,9 +1,9 @@
 "use strict"
 
+const { cli, shell } = require(`@nodeguy/cli`)
 const fs = require(`fs`)
 const path = require(`path`)
 const release = require(`publish-release`)
-const git = require(`simple-git/promise`)()
 const util = require(`util`)
 
 const assetsDir = path.join(__dirname, `../builds/Voyager`)
@@ -34,41 +34,37 @@ const publishRelease = ({ notes, tag, token }) =>
     assets: fs.readdirSync(assetsDir).map(file => path.join(assetsDir, file))
   })
 
-async function main() {
-  console.log(`--- Publishing release ---`)
-
-  const notes = createNotes(
-    fs.readFileSync(path.join(__dirname, `../CHANGELOG.md`), `utf8`)
-  )
-
-  const tag = getTag(
-    JSON.parse(fs.readFileSync(path.join(__dirname, `../package.json`), `utf8`))
-  )
-
-  console.log(`--- Releasing tag`, tag, `---`)
-
-  await publishRelease({
-    notes,
-    token: process.env.GIT_BOT_TOKEN,
-    tag
-  })
-
-  // after we created the release we push the released tag to master
-  await git.addRemote(
-    `bot`,
-    `https://${process.env.GIT_BOT_TOKEN}@github.com/cosmos/voyager.git`
-  )
-
-  await git.tag([tag], { annotate: true })
-  await git.push(`bot`, `HEAD:master`, { tags: true })
-
-  console.log(`--- Done releasing ---`)
-}
-
 if (require.main === module) {
-  main().catch(reason => {
-    console.error(reason)
-    process.exit(1)
+  cli({}, async () => {
+    console.log(`--- Publishing release ---`)
+
+    const notes = createNotes(
+      fs.readFileSync(path.join(__dirname, `../CHANGELOG.md`), `utf8`)
+    )
+
+    const tag = getTag(
+      JSON.parse(
+        fs.readFileSync(path.join(__dirname, `../package.json`), `utf8`)
+      )
+    )
+
+    console.log(`--- Releasing tag`, tag, `---`)
+    const token = process.env.GIT_BOT_TOKEN
+    await publishRelease({ notes, token, tag })
+
+    // after we created the release we push the released tag to master
+    shell(`
+set -o verbose
+git remote add bot https://${token}@github.com/cosmos/voyager.git
+git tag --delete release-candidate
+git tag --annotate ${tag}
+git push --tags bot HEAD:master
+
+# Delete release candidate branch.
+git push bot release-candidate/${tag}:
+`)
+
+    console.log(`--- Done releasing ---`)
   })
 } else {
   module.exports = {
