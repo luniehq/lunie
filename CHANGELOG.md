@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * more tests for new staking modal @NodeGuy
 * Add commission and uptime to LiValidator @fedekunze
 * Delete old bonding page @fedekunze
+* `watch` script for running unit tests @faboweb @NodeGuy
 
 ### Changed
 
