@@ -235,11 +235,19 @@ export default {
     display flex
     align-items center
     justify-content center
+<<<<<<< HEAD
 
     img, span
       height 1rem
       width 1rem
 
+=======
+
+    img, span
+      height 1rem
+      width 1rem
+
+>>>>>>> origin/develop
     &.bar
       position relative
 
@@ -278,7 +286,11 @@ ol li
   height 82px
 
 ol li:before
+<<<<<<< HEAD
   content counter(counter) ''
+=======
+  content counter(counter) ""
+>>>>>>> origin/develop
   color var(--dim)
   font-size sm
   position absolute
