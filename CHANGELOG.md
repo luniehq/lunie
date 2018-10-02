@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * more tests for new staking modal @NodeGuy
 * Add commission and uptime to LiValidator @fedekunze
 * Delete old bonding page @fedekunze
+* `watch` script for running unit tests @faboweb @NodeGuy
 * added unstake modal @faboweb
 
 ### Changed
@@ -50,6 +51,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * fixed crash when using an offline fixed node @faboweb
 * layout bugs in PageStaking @NodeGuy
 * all seeds offline -> added random new ones @ƒaboweb
+* deleted duplicated tx components `TmLiDelegationTransaction.vue` and `TmLiTransaction.vue` @fedekunze
 
 ## [0.10.2] - 2018-08-29
 

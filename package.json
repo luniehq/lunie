@@ -36,7 +36,8 @@
     "release": "node ./tasks/releasePullRequest.js",
     "precommit": "pretty-quick --staged",
     "prepush": "bash ./tasks/changelog-changed-check.sh && yarn lint && yarn test:unit",
-    "postcheckout": "yarn"
+    "postcheckout": "yarn",
+    "watch": "tasks/watch.sh"
   },
   "devDependencies": {
     "@nodeguy/cli": "0.2.2",
@@ -98,7 +99,7 @@
     "webpack-dev-server": "2.11.2"
   },
   "dependencies": {
-    "@tendermint/ui": "0.2.27",
+    "@tendermint/ui": "0.2.28",
     "@vue/test-utils": "1.0.0-beta.11",
     "autosize": "4.0.2",
     "axios": "0.18.0",
