@@ -44,8 +44,7 @@ export default {
 .panel-sort-container
   display flex
   height 2rem
-  border-bottom px solid var(--bc)
-  padding 0 1em
+  padding 0 1rem
 .sort-by
   flex 1
   cursor pointer
@@ -61,6 +60,7 @@ export default {
   .label
     display inline-block
     margin auto
+    font-size sm
     .label-text
       display: inline
       color var(--link)
@@ -73,7 +73,8 @@ export default {
         font-family FontAwesome
         color var(--dim)
         padding-left 0.3rem
-
+  .name
+    padding-left 1rem
 
   &.active
     .label-text
@@ -82,7 +83,7 @@ export default {
         color var(--tertiary)
 
   &.name
-    flex 3
+    flex 3.5
 
   &.action
     flex 1
