@@ -1,28 +1,28 @@
 <template lang='pug'>
-.li-validator(:class='styles'): .li-validator__values
-  .li-validator__value.name
-    router-link(:to="{ name: 'validator', params: { validator: validator.id }}")
+li.li-validator(:class='styles')
+  router-link(:to="{ name: 'validator', params: { validator: validator.id }}")
+    .li-validator__value.name
       span.validator-profile__status(v-tooltip.top="status")
       img.avatar(v-if="validator.keybase" :src="validator.keybase.avatarUrl" width="48" height="48")
       img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
       .vert
         .top {{ validator.description.moniker }}
         .bottom {{ shortAddress(validator.id)}}
-  .li-validator__value.your-votes
-    span {{ yourVotes }}
-  .li-validator__value.your-rewards
-    span n/a
-  .li-validator__break: span
-  .li-validator__value.percent_of_vote
-    span {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
-  .li-validator__value.uptime
-    // add .green .yellow or .red class to this span to trigger inidication by color
-    span {{ uptime }}
-  .li-validator__value.commission
-    span {{ commission }}
-  .li-validator__value.slashes
-    // add .green .yellow or .red class to this span to trigger inidication by color
-    span {{ slashes }}
+    .li-validator__value.your-votes
+      span {{ yourVotes }}
+    .li-validator__value.your-rewards
+      span n/a
+    .li-validator__break: span
+    .li-validator__value.percent_of_vote
+      span {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
+    .li-validator__value.uptime
+      // add .green .yellow or .red class to this span to trigger inidication by color
+      span {{ uptime }}
+    .li-validator__value.commission
+      span {{ commission }}
+    .li-validator__value.slashes
+      // add .green .yellow or .red class to this span to trigger inidication by color
+      span {{ slashes }}
 </template>
 
 <script>
@@ -145,39 +145,31 @@ export default {
 @require '~variables'
 
 .li-validator
-  border 1px solid var(--bc)
-  margin-bottom 1em
+  margin 0.5rem 0rem 0.5rem 2rem
 
-  &:nth-of-type(2n-1)
-    background var(--app-fg)
-
-  &.li-validator-active
-    background var(--app-bg-alpha)
-
-    .li-validator__value i
-      color var(--link)
+.li-validator a
+  display flex
+  align-items center
+  padding 1rem
+  background-color var(--app-fg)
+  border-radius 0.25rem
+  border 1px solid var(--bc-dim)
 
   &:hover
     background var(--hover-bg)
 
-.li-validator__values
-  display flex
-  height 5rem
-  padding 12px 1em
-  background-color var(--app-nav)
-
-  & > .li-validator__value:not(:first-of-type) span
+  .li-validator__value:not(:first-of-type) span
     color var(--dim)
     background-color var(--white-fade-1)
     border 1px solid var(--white-fade-2)
     border-radius 4px
     display block
     width 100%
-    margin 0 0.5em
-    font-size h5
-    line-height h5
+    margin 0 0.5rem
+    font-size sm
+    line-height sm
     text-align right
-    padding 4px 4px
+    padding 0.25rem 0.5rem
 
     &.red
       background-color rgba(209, 2, 0, 0.15)
@@ -194,89 +186,105 @@ export default {
       border solid 0.5px rgba(46, 164, 45, 0.25)
       color #2ea42d
 
-.li-validator__break
-  flex 0
-  display flex
-  align-items center
-  min-width 1
-
-  span
-    margin 0 0.5em
-    width 1px
-    background-color var(--white-fade-1)
-    height 2rem
-
-.li-validator__value
-  flex 1
-  display flex
-  align-items center
-  min-width 0
-
-  &.name
-    flex 3
-
-    a
-      display flex
-
-      img
-        border-radius 100%
-        margin-right 1em
-
-      .vert
-        display flex
-        flex-direction column
-        color var(--bright)
-
-        .top
-          font-size h5
-          padding-bottom 6px
-
-        .bottom
-          font-size h6
-          color var(--dim)
-
-    .li-validator__icon
-      width 1.5rem
-      display flex
-      align-items center
-      justify-content center
-
-      img, span
-        height 1rem
-        width 1rem
-
-  &.bar
-    position relative
+  .li-validator__break
+    flex 0
+    display flex
+    align-items center
+    min-width 1
 
     span
-      display block
-      position absolute
-      top 0
-      left 0
-      z-index z(listItem)
-      line-height 3rem
-      color var(--txt)
+      margin 0 0.5rem
+      width 1px
+      background-color var(--white-fade-1)
+      height 2rem
 
-    .bar
-      height 1.5rem
-      position relative
-      left -0.25rem
-      background var(--accent-alpha)
+  .li-validator__value
+    flex 1
+    display flex
+    align-items center
+    min-width 0
 
-  &.checkbox
+    &.name
+      flex 3
+
+      a
+        display flex
+
+        img
+          border-radius 100%
+          margin-right 1rem
+
+  .vert
+    display flex
+    flex-direction column
+    color var(--bright)
+    padding-left 1rem
+
+    .top
+      padding-bottom 0.5rem
+      line-height 1rem
+      font-size 1rem
+      font-weight 500
+
+    .bottom
+      font-size sm
+      line-height sm
+      color var(--dim)
+
+  .li-validator__icon
+    width 1.5rem
+    display flex
+    align-items center
     justify-content center
-    cursor pointer
 
-  span
-    white-space nowrap
-    overflow hidden
-    text-overflow ellipsis
-    padding-right 1rem
+    img, span
+      height 1rem
+      width 1rem
 
-.sort-by.name
-  padding-left 1rem
+    &.bar
+      position relative
 
-.sort-by
-  .label
-    font-size sm
+      span
+        display block
+        position absolute
+        top 0
+        left 0
+        z-index z(listItem)
+        line-height 3rem
+        color var(--txt)
+
+      .bar
+        height 1.5rem
+        position relative
+        left -0.25rem
+        background var(--accent-alpha)
+
+    &.checkbox
+      justify-content center
+      cursor pointer
+
+    span
+      white-space nowrap
+      overflow hidden
+      text-overflow ellipsis
+      padding-right 1rem
+
+ol
+  list-style none
+  counter-reset counter
+
+ol li
+  counter-increment counter
+  position relative
+  height 82px
+
+ol li:before
+  content counter(counter) ""
+  color var(--dim)
+  font-size sm
+  position absolute
+  display block
+  left -1.5rem
+  line-height 82px
+  height 100%
 </style>
