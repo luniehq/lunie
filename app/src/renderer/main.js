@@ -84,7 +84,7 @@ async function main() {
   })
 
   let firstStart = true
-  ipcRenderer.on(`connected`, (event, { lcdURL, rpcURL }) => {
+  ipcRenderer.on(`connected`, (event, { rpcURL }) => {
     node.rpcConnect(rpcURL)
     store.dispatch(`rpcSubscribe`)
     store.dispatch(`subscribeToBlocks`)

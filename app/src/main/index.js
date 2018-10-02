@@ -587,7 +587,7 @@ async function pickAndConnect() {
   return nodeURL
 }
 
-async function connect(nodeURL) {
+async function connect() {
   log(`starting gaia rest server with nodeURL ${config.lcd_rpc}`)
   try {
     lcdProcess = await startLCD(lcdHome, config.node_rpc)
@@ -672,27 +672,6 @@ const checkGaiaCompatibility = async gaiacliVersionPath => {
           : ``
       }`
     )
-  }
-}
-
-const getPersistentPeers = configPath => {
-  // TODO: user-specified nodes, support switching?
-  // TODO: use address to prevent MITM if specified
-
-  let configText = fs.readFileSync(configPath, `utf8`) // checked before if the file exists
-  let configTOML = toml.parse(configText)
-
-  const persistent_peers = _.uniq(
-    (configTOML.p2p.persistent_peers + `,` + configTOML.p2p.seeds)
-      .split(`,`)
-      .filter(x => x !== ``)
-      .map(x => (x.indexOf(`@`) !== -1 ? x.split(`@`)[1] : x))
-  )
-
-  if (persistent_peers.length === 0) {
-    throw new Error(`No seeds specified in config.toml`)
-  } else {
-    return persistent_peers
   }
 }
 
