@@ -607,32 +607,6 @@ describe(`Startup Process`, () => {
       ).toMatchSnapshot()
     })
 
-    it(`should fail if config.toml has no seeds`, async () => {
-      main = await initMain()
-      main.shutdown()
-      let configText = fs.readFileSync(join(testRoot, `config.toml`), `utf8`)
-      configText = configText
-        .split(`\n`)
-        .map(line => {
-          if (line.startsWith(`seeds`)) {
-            return `seeds = ""`
-          } else if (line.startsWith(`persistent_peers`)) {
-            return `persistent_peers = ""`
-          } else {
-            return line
-          }
-        })
-        .join(`\n`)
-      fs.writeFileSync(join(testRoot, `config.toml`), configText, `utf8`)
-
-      resetModulesKeepingFS()
-      let { send } = require(`electron`)
-      main = await require(appRoot + `src/main/index.js`)
-
-      expect(send.mock.calls[0][0]).toBe(`error`)
-      expect(send.mock.calls[0][1].message).toContain(`seeds`)
-    })
-
     describe(`missing files`, () => {
       let send
 

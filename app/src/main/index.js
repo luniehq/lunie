@@ -481,7 +481,7 @@ const eventHandlers = {
     global.config.mocked = value
   },
 
-  // reconnect: () => reconnect(addressbook),
+  reconnect: () => reconnect(),
 
   // "retry-connection": () => {
   //   log(`Retrying to connect to nodes`)
@@ -607,15 +607,15 @@ async function connect(nodeURL) {
   connecting = false
 }
 
-// async function reconnect() {
-//   if (connecting) return
-//   log(`Starting reconnect`)
-//   connecting = true
+async function reconnect() {
+  if (connecting) return
+  log(`Starting reconnect`)
+  connecting = true
 
-//   await stopLCD()
+  await stopLCD()
 
-//   await pickAndConnect(addressbook)
-// }
+  await pickAndConnect()
+}
 
 function checkConsistentConfigDir(
   appVersionPath,
