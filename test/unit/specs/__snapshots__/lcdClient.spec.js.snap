@@ -3,7 +3,7 @@
 exports[`LCD Client queries a validator signing information 1`] = `
 Array [
   Array [
-    "http://localhost:8998/slashing/signing_info/pubKey",
+    "http://awesomenode.de:12345/slashing/signing_info/pubKey",
     undefined,
   ],
 ]
@@ -12,7 +12,7 @@ Array [
 exports[`LCD Client queries for a candidate 1`] = `
 Array [
   Array [
-    "http://localhost:8998/stake/validators/abc",
+    "http://awesomenode.de:12345/stake/validators/abc",
     undefined,
   ],
 ]
@@ -21,7 +21,7 @@ Array [
 exports[`LCD Client queries for a delegation summary for a delegator 1`] = `
 Array [
   Array [
-    "http://localhost:8998/stake/delegators/abc",
+    "http://awesomenode.de:12345/stake/delegators/abc",
     undefined,
   ],
 ]
@@ -30,15 +30,15 @@ Array [
 exports[`LCD Client queries for a delegation txs 1`] = `
 Array [
   Array [
-    "http://localhost:8998/stake/delegators/abc/txs",
+    "http://awesomenode.de:12345/stake/delegators/abc/txs",
     undefined,
   ],
   Array [
-    "http://localhost:8998/stake/delegators/abc/txs?type=bonding",
+    "http://awesomenode.de:12345/stake/delegators/abc/txs?type=bonding",
     undefined,
   ],
   Array [
-    "http://localhost:8998/stake/delegators/abc/txs?type=unbonding",
+    "http://awesomenode.de:12345/stake/delegators/abc/txs?type=unbonding",
     undefined,
   ],
 ]
@@ -47,7 +47,7 @@ Array [
 exports[`LCD Client queries for shares for a validator and delegate 1`] = `
 Array [
   Array [
-    "http://localhost:8998/stake/delegators/abc/delegations/efg",
+    "http://awesomenode.de:12345/stake/delegators/abc/delegations/efg",
     undefined,
   ],
 ]
@@ -56,7 +56,7 @@ Array [
 exports[`LCD Client queries for undelegations between a delegator and a validator 1`] = `
 Array [
   Array [
-    "http://localhost:8998/stake/delegators/abc/unbonding_delegations/def",
+    "http://awesomenode.de:12345/stake/delegators/abc/unbonding_delegations/def",
     undefined,
   ],
 ]

@@ -10,10 +10,12 @@ let Raven = require(`raven`)
 let _ = require(`lodash`)
 let axios = require(`axios`)
 
-let Addressbook = require(`./addressbook.js`)
+// let Addressbook = require(`./addressbook.js`)
 let pkg = require(`../../../package.json`)
 let addMenu = require(`./menu.js`)
 let config = require(`../config.js`)
+config.node_lcd = process.env.LCD_URL || config.node_lcd
+config.node_rpc = process.env.RPC_URL || config.node_rpc
 let LcdClient = require(`../renderer/connectors/lcdClient.js`)
 global.config = config // to make the config accessable from renderer
 
@@ -26,7 +28,7 @@ let streams = []
 let connecting = true
 let chainId
 let booted = false
-let addressbook
+// let addressbook
 let expectedGaiaCliVersion
 
 const root = require(`../root.js`)
@@ -256,7 +258,7 @@ app.on(`activate`, () => {
 app.on(`ready`, () => createWindow())
 
 // start lcd REST API
-async function startLCD(home, nodeIP) {
+async function startLCD(home, nodeURL) {
   let lcdStarted = false // remember if the lcd has started to toggle the right error handling if it crashes async
   return new Promise(async (resolve, reject) => {
     log(`startLCD`, home)
@@ -268,7 +270,7 @@ async function startLCD(home, nodeIP) {
       `--home`,
       home,
       `--node`,
-      nodeIP,
+      nodeURL,
       `--chain-id`,
       chainId
     ])
@@ -479,13 +481,13 @@ const eventHandlers = {
     global.config.mocked = value
   },
 
-  reconnect: () => reconnect(addressbook),
+  // reconnect: () => reconnect(addressbook),
 
-  "retry-connection": () => {
-    log(`Retrying to connect to nodes`)
-    addressbook.resetNodes()
-    reconnect(addressbook)
-  },
+  // "retry-connection": () => {
+  //   log(`Retrying to connect to nodes`)
+  //   addressbook.resetNodes()
+  //   reconnect(addressbook)
+  // },
 
   "stop-lcd": () => {
     stopLCD()
@@ -526,8 +528,8 @@ Object.entries(eventHandlers).forEach(([event, handler]) => {
 // }
 
 // query version of the used SDK via LCD
-async function getNodeVersion() {
-  let versionURL = `http://localhost:${LCD_PORT}/node_version`
+async function getNodeVersion(nodeURL) {
+  let versionURL = `${nodeURL}/node_version`
   let nodeVersion = await axios
     .get(versionURL, { timeout: 3000 })
     .then(res => res.data)
@@ -537,32 +539,23 @@ async function getNodeVersion() {
 }
 
 // test an actual node version against the expected one and flag the node if incompatible
-async function testNodeVersion(nodeIP, expectedGaiaVersion, addressbook) {
-  let nodeVersion = await getNodeVersion(nodeIP)
+async function testNodeVersion(nodeURL, expectedGaiaVersion) {
+  let nodeVersion = await getNodeVersion(nodeURL)
   let semverDiff = semver.diff(nodeVersion, expectedGaiaVersion)
   if (semverDiff === `patch` || semverDiff === null) {
     return { compatible: true, nodeVersion }
   }
 
-  addressbook.flagNodeIncompatible(nodeIP)
+  // addressbook.flagNodeIncompatible(nodeURL)
   return { compatible: false, nodeVersion }
 }
 
 // pick a random node from the addressbook and check if the SDK version is compatible with ours
-async function pickAndConnect(addressbook) {
-  let nodeIP
+async function pickAndConnect() {
+  let nodeURL = config.node_lcd
   connecting = true
-
   try {
-    nodeIP = await addressbook.pickNode()
-  } catch (err) {
-    connecting = false
-    signalNoNodesAvailable()
-    return
-  }
-
-  try {
-    await connect(nodeIP)
+    await connect(nodeURL)
   } catch (err) {
     handleCrash(err)
     return
@@ -570,11 +563,7 @@ async function pickAndConnect(addressbook) {
 
   let compatible, nodeVersion
   try {
-    const out = await testNodeVersion(
-      nodeIP,
-      expectedGaiaCliVersion,
-      addressbook
-    )
+    const out = await testNodeVersion(config.node_lcd, expectedGaiaCliVersion)
     compatible = out.compatible
     nodeVersion = out.nodeVersion
   } catch (err) {
@@ -582,30 +571,34 @@ async function pickAndConnect(addressbook) {
       `Error in getting node SDK version, assuming node is incompatible. Error:`,
       err
     )
-    addressbook.flagNodeIncompatible(nodeIP)
-    return await pickAndConnect(addressbook)
+    signalNoNodesAvailable()
+    return
   }
 
   if (!compatible) {
-    let message = `Node ${nodeIP} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
+    let message = `Node ${nodeURL} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
     log(message)
     mainWindow.webContents.send(`connection-status`, message)
 
-    return await pickAndConnect(addressbook)
+    signalNoNodesAvailable()
+    return
   }
 
-  return nodeIP
+  return nodeURL
 }
 
-async function connect(nodeIP) {
-  log(`starting gaia rest server with nodeIP ${nodeIP}`)
+async function connect(nodeURL) {
+  log(`starting gaia rest server with nodeURL ${config.lcd_rpc}`)
   try {
-    lcdProcess = await startLCD(lcdHome, nodeIP)
+    lcdProcess = await startLCD(lcdHome, config.node_rpc)
     log(`gaia rest server ready`)
 
     afterBooted(() => {
       log(`Signaling connected node`)
-      mainWindow.webContents.send(`connected`, nodeIP)
+      mainWindow.webContents.send(`connected`, {
+        lcdURL: config.node_lcd,
+        rpcURL: config.node_rpc
+      })
     })
   } catch (err) {
     throw err
@@ -614,15 +607,15 @@ async function connect(nodeIP) {
   connecting = false
 }
 
-async function reconnect() {
-  if (connecting) return
-  log(`Starting reconnect`)
-  connecting = true
+// async function reconnect() {
+//   if (connecting) return
+//   log(`Starting reconnect`)
+//   connecting = true
 
-  await stopLCD()
+//   await stopLCD()
 
-  await pickAndConnect(addressbook)
-}
+//   await pickAndConnect(addressbook)
+// }
 
 function checkConsistentConfigDir(
   appVersionPath,
@@ -770,21 +763,21 @@ async function main() {
   let genesis = JSON.parse(genesisText)
   chainId = genesis.chain_id // is set globaly
 
-  // pick a random seed node from config.toml if not using COSMOS_NODE envvar
-  const persistent_peers = process.env.COSMOS_NODE
-    ? []
-    : getPersistentPeers(configPath)
+  // // pick a random seed node from config.toml if not using COSMOS_NODE envvar
+  // const persistent_peers = process.env.COSMOS_NODE
+  //   ? []
+  //   : getPersistentPeers(configPath)
 
-  addressbook = new Addressbook(config, root, {
-    persistent_peers,
-    onConnectionMessage: message => {
-      log(message)
-      mainWindow.webContents.send(`connection-status`, message)
-    }
-  })
+  // addressbook = new Addressbook(config, root, {
+  //   persistent_peers,
+  //   onConnectionMessage: message => {
+  //     log(message)
+  //     mainWindow.webContents.send(`connection-status`, message)
+  //   }
+  // })
 
   // choose one random node to start from
-  await pickAndConnect(addressbook)
+  await pickAndConnect()
 
   // TODO reenable when we need LCD init
   // let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))

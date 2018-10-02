@@ -2,7 +2,9 @@ let axios = require(`axios`)
 let LcdClient = require(`renderer/connectors/lcdClient.js`)
 
 describe(`LCD Client`, () => {
-  let client = new LcdClient()
+  const remoteLcdURL = `http://awesomenode.de:12345`
+  const localLcdURL = `https://localhost:9876`
+  let client = new LcdClient(localLcdURL, remoteLcdURL)
 
   it(`makes a GET request with no args`, async () => {
     axios.get = jest
@@ -11,10 +13,7 @@ describe(`LCD Client`, () => {
 
     let res = await client.listKeys()
     expect(res).toEqual({ foo: `bar` })
-    expect(axios.get.mock.calls[0]).toEqual([
-      `http://localhost:8998/keys`,
-      undefined
-    ])
+    expect(axios.get.mock.calls[0]).toEqual([`${localLcdURL}/keys`, undefined])
   })
 
   it(`makes a GET request with one arg`, async () => {
@@ -25,7 +24,7 @@ describe(`LCD Client`, () => {
     let res = await client.getKey(`myKey`)
     expect(res).toEqual({ foo: `bar` })
     expect(axios.get.mock.calls[0]).toEqual([
-      `http://localhost:8998/keys/myKey`,
+      `${localLcdURL}/keys/myKey`,
       undefined
     ])
   })
@@ -37,10 +36,7 @@ describe(`LCD Client`, () => {
 
     let res = await client.storeKey()
     expect(res).toEqual({ foo: `bar` })
-    expect(axios.post.mock.calls[0]).toEqual([
-      `http://localhost:8998/keys`,
-      undefined
-    ])
+    expect(axios.post.mock.calls[0]).toEqual([`${localLcdURL}/keys`, undefined])
   })
 
   it(`makes a POST request with args and data`, async () => {
@@ -51,7 +47,7 @@ describe(`LCD Client`, () => {
     let res = await client.updateKey(`myKey`, { abc: 123 })
     expect(res).toEqual({ foo: `bar` })
     expect(axios.put.mock.calls[0]).toEqual([
-      `http://localhost:8998/keys/myKey`,
+      `${localLcdURL}/keys/myKey`,
       { abc: 123 }
     ])
   })
@@ -70,10 +66,7 @@ describe(`LCD Client`, () => {
     } catch (err) {
       expect(err.message).toBe(`foo`)
     }
-    expect(axios.get.mock.calls[0]).toEqual([
-      `http://localhost:8998/keys`,
-      undefined
-    ])
+    expect(axios.get.mock.calls[0]).toEqual([`${localLcdURL}/keys`, undefined])
   })
 
   it(`delete requests have the correct format for data`, async () => {
@@ -82,6 +75,7 @@ describe(`LCD Client`, () => {
       return Promise.resolve({ data: { foo: `bar` } })
     }
 
+    // doesn't throw
     await client.deleteKey(`test`, { password: `abc` })
   })
 

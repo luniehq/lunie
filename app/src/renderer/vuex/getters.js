@@ -71,5 +71,6 @@ export const proposals = state => state.proposals
 export const approvalRequired = state => state.node.approvalRequired
 export const connected = state => state.node.connected
 export const lastHeader = state => state.node.lastHeader
-export const nodeIP = state => state.node.nodeIP
+export const nodeURL = state =>
+  state.node.node ? state.node.node.remoteLcdURL : undefined
 export const mockedConnector = state => state.node.mocked

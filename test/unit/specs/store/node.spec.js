@@ -11,7 +11,6 @@ describe(`Module: Node`, () => {
     store = test.store
     node = test.node
 
-    node.rpcInfo.nodeIP = `234.234.234.234`
     node.rpcInfo.connected = true
     node.rpcReconnect = jest.fn(() => {
       node.rpcInfo.connected = true
@@ -55,9 +54,15 @@ describe(`Module: Node`, () => {
   })
 
   it(`sets the connected node`, () => {
-    expect(store.state.node.nodeIP).toBe(null)
-    store.commit(`setNode`, `123.123.123.123`)
-    expect(store.state.node.nodeIP).toBe(`123.123.123.123`)
+    expect(store.state.node.node).toBe(null)
+    store.commit(`setNode`, {
+      remoteLcdURL: `123.123.123.123`,
+      localLcdURL: `124.124.124.124`
+    })
+    expect(store.state.node.node).toEqual({
+      remoteLcdURL: `123.123.123.123`,
+      localLcdURL: `124.124.124.124`
+    })
   })
 
   it(`triggers a reconnect`, () => {
@@ -118,7 +123,9 @@ describe(`Module: Node`, () => {
       })
     store.dispatch(`rpcSubscribe`)
     expect(store.state.node.connected).toBe(true)
-    expect(store.state.node.nodeIP).toBe(`234.234.234.234`)
+    expect(store.state.node.node.remoteLcdURL).toBe(
+      `http://awesomenode.de:12345`
+    )
     expect(store.state.node.lastHeader.height).toBe(42)
     expect(store.state.node.lastHeader.chain_id).toBe(`test-net`)
   })

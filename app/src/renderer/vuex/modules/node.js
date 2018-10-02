@@ -11,7 +11,7 @@ export default function({ node }) {
   // get tendermint RPC client from basecoin client
 
   const state = {
-    nodeIP: null,
+    node: null,
     stopConnecting: false,
     connected: false,
     lastHeader: {
@@ -29,8 +29,8 @@ export default function({ node }) {
     setConnected(state, connected) {
       state.connected = connected
     },
-    setNode(state, nodeIP) {
-      state.nodeIP = nodeIP
+    setNode(state, node) {
+      state.node = node
     },
     setNodeApprovalRequired(state, hash) {
       state.approvalRequired = hash
@@ -71,7 +71,7 @@ export default function({ node }) {
       }
 
       commit(`setConnected`, true)
-      commit(`setNode`, node.rpcInfo.nodeIP)
+      commit(`setNode`, node)
 
       // TODO: get event from light-client websocket instead of RPC connection (once that exists)
       node.rpc.on(`error`, err => {
@@ -138,17 +138,19 @@ export default function({ node }) {
       state.nodeTimeout = setTimeout(() => {
         // clear timeout doesn't work
         if (state.nodeTimeout && !state.mocked) {
+          state.connected = false
           state.nodeTimeout = null
-          dispatch(`reconnect`)
+          dispatch(`pollRPCConnection`)
         }
       }, timeout)
       node.rpc.status(err => {
-        if (!err) {
-          state.nodeTimeout = null
-          setTimeout(() => {
-            dispatch(`pollRPCConnection`)
-          }, timeout)
-        }
+        if (err) return console.error(`Couldn't get status via RPC:`, err)
+
+        state.nodeTimeout = null
+        state.connected = true
+        setTimeout(() => {
+          dispatch(`pollRPCConnection`)
+        }, timeout)
       })
     },
     approveNodeHash({ state }, hash) {
