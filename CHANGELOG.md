@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.10.3] - 2018-10-02
+
 ### Added
 
 * Added staking transactions and fixed 100% height txs. Refactored modules/blockchain.js @okwme
