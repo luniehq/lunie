@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.10.4] - 2018-10-03
+
 ### Fixed
 
 * automatic release process bugs @NodeGuy
