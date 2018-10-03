@@ -4,7 +4,7 @@
 
 "use strict"
 
-const build = require(`../../../tasks/build/build`)
+const build = require(`../../../../tasks/build/build`)
 const stream = require(`stream`)
 
 test(`generateAppPackageJson`, () => {

@@ -4,7 +4,7 @@
 
 "use strict"
 
-const release = require(`../../../tasks/releasePullRequest`)
+const release = require(`../../../../tasks/createReleasePR`)
 
 test(`bumpVersion`, () => {
   expect(release.bumpVersion(`0.6.1`)).toEqual(`0.6.2`)
