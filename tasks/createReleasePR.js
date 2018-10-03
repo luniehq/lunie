@@ -85,10 +85,10 @@ if (require.main === module) {
       head: branch
     })
   })
-} else {
-  module.exports = {
-    bumpVersion,
-    updateChangeLog,
-    updatePackageJson
-  }
+}
+
+module.exports = {
+  bumpVersion,
+  updateChangeLog,
+  updatePackageJson
 }

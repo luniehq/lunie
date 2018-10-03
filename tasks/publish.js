@@ -8,8 +8,6 @@ const util = require(`util`)
 
 const assetsDir = path.join(__dirname, `../builds/Voyager`)
 
-const getTag = packageJson => `v` + packageJson.version
-
 const recentChanges = changeLog =>
   changeLog.match(/.+?## .+?\n## .+?\n\n(.+?)\n## /s)[1]
 
@@ -42,12 +40,8 @@ if (require.main === module) {
       fs.readFileSync(path.join(__dirname, `../CHANGELOG.md`), `utf8`)
     )
 
-    const tag = getTag(
-      JSON.parse(
-        fs.readFileSync(path.join(__dirname, `../package.json`), `utf8`)
-      )
-    )
-
+    const version = require(path.join(__dirname, `../package.json`)).version
+    const tag = `v` + version
     console.log(`--- Releasing tag`, tag, `---`)
     const token = process.env.GIT_BOT_TOKEN
     await publishRelease({ notes, token, tag })
@@ -56,18 +50,14 @@ if (require.main === module) {
     shell(`
 set -o verbose
 git remote add bot https://${token}@github.com/cosmos/voyager.git
-git tag --delete release-candidate
 git tag --annotate ${tag}
 git push --tags bot HEAD:master
-
-# Delete release candidate branch.
-git push bot release-candidate/${tag}:
 `)
 
     console.log(`--- Done releasing ---`)
   })
-} else {
-  module.exports = {
-    createNotes
-  }
+}
+
+module.exports = {
+  createNotes
 }
