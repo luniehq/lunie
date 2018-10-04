@@ -22,14 +22,13 @@
         i.material-icons check
         span Copied
 
-    <tabs />
-    //- .tabs
-    //-   .tab(
-    //-     v-for="tab in tabs",
-    //-     :class="{'tab-selected': $route.name === tab}",
-    //-   )
-    //-     span(v-if="$route.name === tab") {{ tab }}
-    //-     router-link(v-else :to="{name: tab}") {{ tab }}
+    .tabs
+      .tab(
+        v-for="tab in tabs",
+        :class="{'tab-selected': $route.name === tab}",
+      )
+        span(v-if="$route.name === tab") {{ tab }}
+        router-link(v-else :to="{name: tab}") {{ tab }}
 </template>
 <script>
 import num from "scripts/num"
