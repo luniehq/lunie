@@ -17,10 +17,6 @@ var tar = require(`tar-stream`)
 var duplexer = require(`duplexer`)
 const packageJson = require(`../../package.json`)
 
-const optionsSpecification = {
-  network: [`name of the default network to use`]
-}
-
 const generateAppPackageJson = packageJson =>
   Object.assign({}, fp.pick([`productName`, `version`], packageJson), {
     main: `./dist/main.js`
@@ -239,7 +235,7 @@ const copyNetworks = root => {
   fs.copySync(path.join(root, `builds/testnets`), networksPath)
 }
 
-const buildAllPlatforms = async (options = {}) => {
+const buildAllPlatforms = async options => {
   const start = new Date()
   console.log(`--- Building all platforms ---`)
 
@@ -265,25 +261,28 @@ const buildAllPlatforms = async (options = {}) => {
   )
 }
 
-const main = () =>
-  cli(optionsSpecification, async options => {
-    // Rewrite config file.
-    const configFile = path.join(__dirname, `../../app`, `config.toml`)
-    const config = fs.readFileSync(configFile, { encoding: `utf8` })
-    fs.writeFileSync(configFile, updateConfig(config, options))
-
-    buildAllPlatforms(options)
-  })
+const optionsSpecification = {
+  network: [`name of the default network to use`, `unspecified`]
+}
 
 if (require.main === module) {
-  main()
-} else {
-  module.exports = {
-    buildAllPlatforms,
-    generateAppPackageJson,
-    sanitizeAssetName,
-    sha256,
-    summary,
-    updateConfig
-  }
+  cli(optionsSpecification, async options => {
+    if (options.network !== `unspecified`) {
+      // Rewrite config file.
+      const configFile = path.join(__dirname, `../../app`, `config.toml`)
+      const config = fs.readFileSync(configFile, { encoding: `utf8` })
+      fs.writeFileSync(configFile, updateConfig(config, options))
+    }
+
+    await buildAllPlatforms(options)
+  })
+}
+
+module.exports = {
+  buildAllPlatforms,
+  generateAppPackageJson,
+  sanitizeAssetName,
+  sha256,
+  summary,
+  updateConfig
 }
