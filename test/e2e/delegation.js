@@ -49,6 +49,13 @@ test(`delegation`, async function(t) {
     t.end()
   })
 
+  t.test(`Parameters`, async function(t) {
+    // Select the Parameters tab.
+    await app.client.click(`//a[. = 'staking-parameters']`)
+
+    t.end()
+  })
+
   t.test(`Stake`, async t => {
     // Select the second validator.
     await app.client.click(`//*[. = 'local_2']`)
