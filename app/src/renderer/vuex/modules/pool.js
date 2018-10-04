@@ -1,9 +1,11 @@
+"use strict"
+
 export default ({ node }) => {
   const emptyState = {
     pool: {},
     loading: false
   }
-  let state = JSON.parse(JSON.stringify(emptyState))
+  const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
     setPool(state, pool) {

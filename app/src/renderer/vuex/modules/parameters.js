@@ -3,7 +3,7 @@ export default ({ node }) => {
     parameters: {},
     loading: false
   }
-  let state = JSON.parse(JSON.stringify(emptyState))
+  const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
     setParameters(state, parameters) {
