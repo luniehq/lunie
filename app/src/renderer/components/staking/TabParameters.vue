@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import moment from "moment"
 import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 export default {
