@@ -16,7 +16,6 @@ export default ({ node }) => {
       state.loading = true
       try {
         let parameters = await node.getParameters()
-        console.log(parameters)
         commit(`setParameters`, parameters)
       } catch (err) {
         commit(`notifyError`, {

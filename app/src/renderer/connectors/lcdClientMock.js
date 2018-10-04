@@ -217,7 +217,6 @@ let state = {
     prev_bonded_shares: 0
   },
   parameters: {
-    inflation_rate_change: `1300000000`,
     inflation_max: `2000000000`,
     inflation_min: `700000000`,
     goal_bonded: `6700000000`,
@@ -514,9 +513,12 @@ module.exports = {
   async queryValidatorSigningInfo() {
     return state.signing_info
   },
-  // async getPool() {
-  //   return
-  // },
+  async getPool() {
+    return state.pool
+  },
+  async getParameters() {
+    return state.parameters
+  },
   // exports to be used in tests
   state,
   addresses,

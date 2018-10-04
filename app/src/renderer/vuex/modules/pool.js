@@ -16,7 +16,6 @@ export default ({ node }) => {
       state.loading = true
       try {
         let pool = await node.getPool()
-        console.log(pool)
         commit(`setPool`, pool)
       } catch (err) {
         commit(`notifyError`, {
