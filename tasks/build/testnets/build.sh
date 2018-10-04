@@ -6,8 +6,9 @@ echo ###########################################################################
 
 # Generate config.toml for each network.
 
-## Create config.toml file.
-builds/Gaia/linux_amd64/gaiad init --name Voyager
+## Create config.toml file.  Supply 12345678 as a password for the Voyager
+## account.
+echo 12345678 | builds/Gaia/linux_amd64/gaiad init --name Voyager
 
 ### Add seed nodes from
 ### https://github.com/cosmos/cosmos-sdk/tree/5c8791743411cac58c502f3b18bfe8a1970e830e/cmd/gaia/testnets#add-seed-nodes
