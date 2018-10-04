@@ -13,29 +13,29 @@
                 | Inflation Rate Change
                 |
                 i.material-icons.info-button(v-tooltip.top="paramsTooltips.inflation_rate_change") info_outline
-              dd n/a
+              dd {{ parameters.inflation_rate_change ? parameters.inflation_rate_change : `n/a` }}
             dl.info_dl
               dt Minimum Inflation Rate
-              dd n/a
+              dd {{ parameters.inflation_min ? parameters.inflation_min : `n/a` }}
             dl.info_dl
               dt Maximum Inflation Rate
-              dd n/a
+              dd {{ parameters.inflation_max ? parameters.inflation_max : `n/a` }}
             dl.info_dl
               dt Goal for bonded {{ bondingDenom }}s
-              dd n/a
+              dd {{ parameters.goal_bonded ? parameters.goal_bonded : `n/a` }}
           .column
             dl.info_dl
               dt
                 | Unbonding time
                 |
                 i.material-icons.info-button(v-tooltip.top="paramsTooltips.unbonding_time") info_outline
-              dd n/a
+              dd {{ parameters.unbonding_time ? parameters.unbonding_time : `n/a` }}
             dl.info_dl
               dt Max number of Validators
-              dd n/a
+              dd {{ parameters.max_validators ? parameters.max_validators : `n/a` }}
             dl.info_dl
               dt Bondable coin denomination
-              dd n/a
+              dd {{ parameters.bond_denom ? parameters.bond_denom : `n/a` }}
     div
       h3
         | Staking Pool
@@ -49,38 +49,38 @@
                 | Inflation
                 |
                 i.material-icons.info-button(v-tooltip.top="poolTooltips.inflation") info_outline
-              dd n/a
+              dd {{ pool.inflation ? pool.inflation : `n/a` }}
             dl.info_dl
               dt
-                | Inflation last time
+                | Inflation last block
                 |
                 i.material-icons.info-button(v-tooltip.top="poolTooltips.inflation_last_time") info_outline
-              dd n/a
+              dd {{ pool.inflation_last_time ? pool.inflation_last_time : `n/a` }}
             dl.info_dl
               dt
                 | Date of last commission reset
                 |
                 i.material-icons.info-button(v-tooltip.top="poolTooltips.date_last_commission_reset") info_outline
-              dd n/a
+              dd {{ pool.date_last_commission_reset ? timeAgo(pool.date_last_commission_reset) : `n/a` }}
           .column
             dl.info_dl
               dt
                 | Loose {{ bondingDenom }}
                 |
                 i.material-icons.info-button(v-tooltip.top="poolTooltips.loose_tokens") info_outline
-              dd n/a
+              dd {{ pool.loose_tokens ? pool.loose_tokens : `n/a` }}
             dl.info_dl
               dt
                 | Bonded {{ bondingDenom }}
                 |
                 i.material-icons.info-button(v-tooltip.top="poolTooltips.bonded_tokens") info_outline
-              dd n/a
+              dd {{ pool.bonded_tokens ? pool.bonded_tokens : `n/a` }}
             dl.info_dl
               dt
                 | Previous bonded shares
                 |
                 i.material-icons.info-button(v-tooltip.top="poolTooltips.prev_bonded_shares") info_outline
-              dd n/a
+              dd {{ pool.prev_bonded_shares ? pool.prev_bonded_shares : `n/a` }}
 </template>
 
 <script>
@@ -121,15 +121,25 @@ export default {
       `bondingDenom`,
       `config`,
       `user`,
-      // `parameters`,
-      // `pool`,
+      `parameters`,
+      `pool`,
       `connected`
     ])
   },
-  methods: {},
+  methods: {
+    timeAgo(date) {
+      return moment(date, `x`).fromNow()
+    },
+    getStakingParameters() {
+      this.$store.dispatch(`getParameters`)
+    },
+    getStakingPool() {
+      this.$store.dispatch(`getPool`)
+    }
+  },
   async mounted() {
-    //GET POOL and PARAMS
-    // this.updateDelegates()
+    this.getStakingParameters()
+    this.getStakingPool()
   }
 }
 </script>
