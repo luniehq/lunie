@@ -7,7 +7,7 @@ li.li-validator(:class='styles')
       img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
       .vert
         .top {{ validator.description.moniker }}
-        .bottom {{ shortAddress(validator.id)}}
+        short-address(:address="validator.pub_key")
     .li-validator__value.your-votes
       span {{ yourVotes }}
     .li-validator__value.your-rewards
@@ -29,9 +29,13 @@ li.li-validator(:class='styles')
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { shortAddress, calculateTokens, ratToBigNumber } from "scripts/common"
+import ShortAddress from "common/ShortAddress"
 export default {
   name: `li-validator`,
   props: [`validator`, `disabled`],
+  components: {
+    ShortAddress
+  },
   computed: {
     ...mapGetters([
       `lastHeader`,
