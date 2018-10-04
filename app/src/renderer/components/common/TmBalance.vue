@@ -3,24 +3,33 @@
     .top
       img.icon(src="~assets/images/cosmos-logo.png")
       .total-atoms.top-section
-        .h3 Total {{bondingDenom}}
-        .h2 {{num.pretty(totalAtoms) || "---"}}
+        h3 Total {{bondingDenom}}
+        h2 {{num.pretty(totalAtoms) || "---"}}
       .unbonded-atoms.top-section(v-if="unbondedAtoms")
-        .h3 Unbonded {{bondingDenom}}
-        .h2 {{unbondedAtoms}}
+        h3 Unbonded {{bondingDenom}}
+        h2 {{unbondedAtoms}}
       .total-earnings.top-section(v-if="totalEarnings")
-        .h3 Total Earnings
-        .h2 {{totalEarnings}}
+        h3 Total Earnings
+        h2 {{totalEarnings}}
       .total-rewards.top-section(v-if="totalRewards")
-        .h3 Total Rewards
+        h3 Total Rewards
         .group
-          .h2 {{totalRewards}}
+          h2 {{totalRewards}}
           router-link(to="claim") Claim
     .bottom
       .address(@click="copy")#address {{address}}
       .success(:class="{showSuccess:showSuccess}")
         i.material-icons check
         span Copied
+
+    <tabs />
+    //- .tabs
+    //-   .tab(
+    //-     v-for="tab in tabs",
+    //-     :class="{'tab-selected': $route.name === tab}",
+    //-   )
+    //-     span(v-if="$route.name === tab") {{ tab }}
+    //-     router-link(v-else :to="{name: tab}") {{ tab }}
 </template>
 <script>
 import num from "scripts/num"
@@ -35,7 +44,7 @@ export default {
       showSuccess: false
     }
   },
-  props: [`unbondedAtoms`, `totalEarnings`, `totalRewards`],
+  props: [`unbondedAtoms`, `totalEarnings`, `totalRewards`, `tabs`],
   computed: {
     ...mapGetters([`bondingDenom`, `user`, `totalAtoms`]),
     address() {
@@ -73,14 +82,16 @@ export default {
     > div:last-of-type
       border-right none
 
-    .h3
-      color var(--txt)
+    h3
+      color var(--dim)
       font-size 14px
+      margin 0
+      font-weight 400
 
-    .h2
+    h2
       color var(--bright)
       font-size h1
-      font-weight 400
+      font-weight 500
 
     .icon
       border-right none
@@ -100,13 +111,12 @@ export default {
   .bottom
     align-items flex-start
     display flex
-    padding-bottom 1.5rem
-    padding-top 1rem
+    padding 0.5rem 0
 
     .address
       color var(--dim)
       cursor pointer
-      font-size sm
+      font-size 14px
       padding-left 142px
 
       &:hover
@@ -131,4 +141,26 @@ export default {
 
 .top-section
   padding 0 2rem
+
+.tabs
+  display flex
+  margin-left 2rem
+  margin-top 2rem
+
+  .tab
+    cursor pointer
+    margin-right 2rem
+    font-size 1rem
+
+    a
+      color var(--dim)
+      display block
+      padding-bottom 1rem
+
+    a:hover
+      color var(--link)
+
+    &.tab-selected
+      border-bottom 2px solid var(--tertiary)
+      color var(--bright)
 </style>
