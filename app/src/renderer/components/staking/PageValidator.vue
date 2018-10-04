@@ -137,8 +137,8 @@ export default {
       `config`,
       `keybase`,
       `oldBondedAtoms`,
-      `parameters`,
-      `pool`,
+      // `parameters`,
+      // `pool`,
       `totalAtoms`,
       `wallet`,
       `user`
