@@ -125,8 +125,7 @@ export default {
   data: () => ({
     showCannotDelegate: false,
     showDelegationModal: false,
-    shortAddress,
-    tabIndex: 1
+    shortAddress
   }),
   computed: {
     ...mapGetters([
@@ -137,8 +136,6 @@ export default {
       `config`,
       `keybase`,
       `oldBondedAtoms`,
-      // `parameters`,
-      // `pool`,
       `totalAtoms`,
       `wallet`,
       `user`

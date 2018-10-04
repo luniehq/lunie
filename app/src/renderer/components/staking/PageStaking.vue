@@ -46,7 +46,7 @@ export default {
       property: `percent_of_vote`,
       order: `desc`
     },
-    tabs: [`My Delegations`, `Validators`]
+    tabs: [`My Delegations`, `Validators`, `Parameters`]
   }),
   computed: {
     ...mapGetters([
