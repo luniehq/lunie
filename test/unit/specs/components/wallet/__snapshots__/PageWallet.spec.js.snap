@@ -32,30 +32,22 @@ exports[`PageWallet has the expected html structure 1`] = `
               <div
                 class="total-atoms top-section"
               >
-                <div
-                  class="h3"
-                >
+                <h3>
                   Total Steak
-                </div>
-                <div
-                  class="h2"
-                >
+                </h3>
+                <h2>
                   1,014.00
-                </div>
+                </h2>
               </div>
               <div
                 class="unbonded-atoms top-section"
               >
-                <div
-                  class="h3"
-                >
+                <h3>
                   Unbonded Steak
-                </div>
-                <div
-                  class="h2"
-                >
+                </h3>
+                <h2>
                   1000
-                </div>
+                </h2>
               </div>
               <!---->
               <!---->
@@ -82,6 +74,9 @@ exports[`PageWallet has the expected html structure 1`] = `
                 </span>
               </div>
             </div>
+            <div
+              class="tabs"
+            />
           </div>
         </div>
       </div>
@@ -471,30 +466,22 @@ exports[`PageWallet should filter the balances 1`] = `
               <div
                 class="total-atoms top-section"
               >
-                <div
-                  class="h3"
-                >
+                <h3>
                   Total Steak
-                </div>
-                <div
-                  class="h2"
-                >
+                </h3>
+                <h2>
                   1,014.00
-                </div>
+                </h2>
               </div>
               <div
                 class="unbonded-atoms top-section"
               >
-                <div
-                  class="h3"
-                >
+                <h3>
                   Unbonded Steak
-                </div>
-                <div
-                  class="h2"
-                >
+                </h3>
+                <h2>
                   1000
-                </div>
+                </h2>
               </div>
               <!---->
               <!---->
@@ -521,6 +508,9 @@ exports[`PageWallet should filter the balances 1`] = `
                 </span>
               </div>
             </div>
+            <div
+              class="tabs"
+            />
           </div>
         </div>
       </div>

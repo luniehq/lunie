@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
-  template(slot="menu-body", v-if="config.devMode")
-    tm-balance(:unbondedAtoms="user.atoms")
+  template(slot="menu-body")
+    tm-balance(:unbondedAtoms="user.atoms" :tabs="tabs")
 
   div(slot="menu"): vm-tool-bar
     a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
@@ -10,14 +10,6 @@ tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
       i.search.material-icons search
 
   modal-search(type="delegates" v-if="somethingToSearch")
-
-  .tabs
-    .tab(
-      v-for="tab in tabs",
-      :class="{'tab-selected': $route.name === tab}",
-    )
-      span(v-if="$route.name === tab") {{ tab }}
-      router-link(v-else :to="{name: tab}") {{ tab }}
 
   router-view
 </template>
@@ -187,19 +179,6 @@ export default {
 </script>
 <style lang="stylus">
 @require '~variables'
-
-.tabs
-  display flex
-
-  .tab
-    cursor pointer
-    margin-bottom 1em
-    margin-right 1em
-    padding-bottom 0.5em
-
-    &.tab-selected
-      border-bottom 2px solid var(--tertiary)
-      color var(--bright)
 
 .fixed-button-bar
   background var(--app-fg)

@@ -12,23 +12,23 @@ exports[`PageStaking has the expected html structure 1`] = `
                   <div class=\\"top\\">
                      <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
                      <div class=\\"total-atoms top-section\\">
-                        <div class=\\"h3\\">
+                        <h3>
                            Total Steak
-                        </div>
-   <div class=\\"h2\\">
-      1,351.00
-   </div>
+                        </h3>
+                        <h2>
+                           1,351.00
+                        </h2>
 </div>
    <div class=\\"unbonded-atoms top-section\\">
-      <div class=\\"h3\\">
+      <h3>
          Unbonded Steak
-      </div>
-   <div class=\\"h2\\">
-      1337
-   </div>
+      </h3>
+      <h2>
+         1337
+      </h2>
 </div>
-   <!---->
-   <!---->
+      <!---->
+      <!---->
 </div>
    <div class=\\"bottom\\">
       <div id=\\"address\\" class=\\"address\\">
@@ -36,6 +36,14 @@ exports[`PageStaking has the expected html structure 1`] = `
       </div>
    <div class=\\"success\\">
       <i class=\\"material-icons\\">check</i><span>Copied</span>
+   </div>
+</div>
+   <div class=\\"tabs\\">
+      <div class=\\"tab\\">
+         <a href=\\"#/staking/my-delegations\\" class=\\"\\">My Delegations</a>
+      </div>
+   <div class=\\"tab\\">
+      <a href=\\"#/staking/Validators\\" class=\\"\\">Validators</a>
    </div>
 </div>
 </div>
@@ -58,14 +66,6 @@ exports[`PageStaking has the expected html structure 1`] = `
 </header>
 <main class=\\"tm-page-main ps\\">
    <!---->
-   <div class=\\"tabs\\">
-      <div class=\\"tab\\">
-         <a href=\\"#/staking/my-delegations\\" class=\\"\\">My Delegations</a>
-      </div>
-   <div class=\\"tab\\">
-      <a href=\\"#/staking/Validators\\" class=\\"\\">Validators</a>
-   </div>
-</div>
    <div class=\\"tm-page\\" data-title=\\"Wallet\\">
       <header class=\\"tm-page-header\\">
          <div class=\\"tm-page-header-container\\">
@@ -77,23 +77,23 @@ exports[`PageStaking has the expected html structure 1`] = `
                      <div class=\\"top\\">
                         <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
                         <div class=\\"total-atoms top-section\\">
-                           <div class=\\"h3\\">
+                           <h3>
                               Total Steak
-                           </div>
-      <div class=\\"h2\\">
-         1,351.00
-      </div>
+                           </h3>
+                           <h2>
+                              1,351.00
+                           </h2>
 </div>
       <div class=\\"unbonded-atoms top-section\\">
-         <div class=\\"h3\\">
+         <h3>
             Unbonded Steak
-         </div>
-      <div class=\\"h2\\">
-         1337
-      </div>
+         </h3>
+         <h2>
+            1337
+         </h2>
 </div>
-      <!---->
-      <!---->
+         <!---->
+         <!---->
    </div>
       <div class=\\"bottom\\">
          <div id=\\"address\\" class=\\"address\\">
@@ -103,6 +103,7 @@ exports[`PageStaking has the expected html structure 1`] = `
          <i class=\\"material-icons\\">check</i><span>Copied</span>
       </div>
 </div>
+      <div class=\\"tabs\\"></div>
 </div>
 </div>
 </div>
@@ -219,30 +220,22 @@ exports[`PageStaking should filter the delegates 1`] = `
               <div
                 class="total-atoms top-section"
               >
-                <div
-                  class="h3"
-                >
+                <h3>
                   Total Steak
-                </div>
-                <div
-                  class="h2"
-                >
+                </h3>
+                <h2>
                   1,351.00
-                </div>
+                </h2>
               </div>
               <div
                 class="unbonded-atoms top-section"
               >
-                <div
-                  class="h3"
-                >
+                <h3>
                   Unbonded Steak
-                </div>
-                <div
-                  class="h2"
-                >
+                </h3>
+                <h2>
                   1337
-                </div>
+                </h2>
               </div>
               <!---->
               <!---->
@@ -267,6 +260,30 @@ exports[`PageStaking should filter the delegates 1`] = `
                 <span>
                   Copied
                 </span>
+              </div>
+            </div>
+            <div
+              class="tabs"
+            >
+              <div
+                class="tab"
+              >
+                <a
+                  class=""
+                  href="#/staking/my-delegations"
+                >
+                  My Delegations
+                </a>
+              </div>
+              <div
+                class="tab"
+              >
+                <a
+                  class=""
+                  href="#/staking/Validators"
+                >
+                  Validators
+                </a>
               </div>
             </div>
           </div>
@@ -395,30 +412,6 @@ exports[`PageStaking should filter the delegates 1`] = `
       </div>
     </div>
     <div
-      class="tabs"
-    >
-      <div
-        class="tab"
-      >
-        <a
-          class=""
-          href="#/staking/my-delegations"
-        >
-          My Delegations
-        </a>
-      </div>
-      <div
-        class="tab"
-      >
-        <a
-          class=""
-          href="#/staking/Validators"
-        >
-          Validators
-        </a>
-      </div>
-    </div>
-    <div
       class="tm-page"
       data-title="Wallet"
     >
@@ -449,30 +442,22 @@ exports[`PageStaking should filter the delegates 1`] = `
                   <div
                     class="total-atoms top-section"
                   >
-                    <div
-                      class="h3"
-                    >
+                    <h3>
                       Total Steak
-                    </div>
-                    <div
-                      class="h2"
-                    >
+                    </h3>
+                    <h2>
                       1,351.00
-                    </div>
+                    </h2>
                   </div>
                   <div
                     class="unbonded-atoms top-section"
                   >
-                    <div
-                      class="h3"
-                    >
+                    <h3>
                       Unbonded Steak
-                    </div>
-                    <div
-                      class="h2"
-                    >
+                    </h3>
+                    <h2>
                       1337
-                    </div>
+                    </h2>
                   </div>
                   <!---->
                   <!---->
@@ -499,6 +484,9 @@ exports[`PageStaking should filter the delegates 1`] = `
                     </span>
                   </div>
                 </div>
+                <div
+                  class="tabs"
+                />
               </div>
             </div>
           </div>

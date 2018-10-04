@@ -31,16 +31,12 @@ exports[`PageValidator has the expected html structure 1`] = `
               <div
                 class="total-atoms top-section"
               >
-                <div
-                  class="h3"
-                >
+                <h3>
                   Total Steak
-                </div>
-                <div
-                  class="h2"
-                >
+                </h3>
+                <h2>
                   0.00
-                </div>
+                </h2>
               </div>
               <!---->
               <!---->
@@ -68,6 +64,9 @@ exports[`PageValidator has the expected html structure 1`] = `
                 </span>
               </div>
             </div>
+            <div
+              class="tabs"
+            />
           </div>
         </div>
       </div>
@@ -458,16 +457,12 @@ exports[`PageValidator shows a default avatar 1`] = `
               <div
                 class="total-atoms top-section"
               >
-                <div
-                  class="h3"
-                >
+                <h3>
                   Total Steak
-                </div>
-                <div
-                  class="h2"
-                >
+                </h3>
+                <h2>
                   0.00
-                </div>
+                </h2>
               </div>
               <!---->
               <!---->
@@ -495,6 +490,9 @@ exports[`PageValidator shows a default avatar 1`] = `
                 </span>
               </div>
             </div>
+            <div
+              class="tabs"
+            />
           </div>
         </div>
       </div>
