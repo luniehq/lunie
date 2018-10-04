@@ -1,7 +1,7 @@
 {
   "name": "cosmos-voyager",
   "productName": "Cosmos Voyager",
-  "version": "0.10.2",
+  "version": "0.10.4",
   "description": "Voyager is an electron-based user interface for the Cosmos Network.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
@@ -80,7 +80,6 @@
     "publish-release": "1.5.1",
     "pug": "2.0.3",
     "pug-plain-loader": "1.0.0",
-    "simple-git": "1.95.0",
     "spectron": "https://github.com/electron/spectron.git#c527b4e5fd8ab89ed0c6454a4dfb69f0980e9e1d",
     "style-loader": "0.21.0",
     "stylus": "0.54.5",

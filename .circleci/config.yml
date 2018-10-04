@@ -145,7 +145,7 @@ jobs:
               tasks/build/testnets/build.sh
 
               # build Voyager
-              node -e 'require("./tasks/build/build.js").buildAllPlatforms()'
+              node tasks/build/build.js
 
               # Delete the tag before testing the build in case it fails.
               git push --delete origin release-candidate
