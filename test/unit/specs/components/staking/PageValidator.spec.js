@@ -95,6 +95,10 @@ describe(`PageValidator`, () => {
       localVue,
       doBefore: ({ router, store }) => {
         router.push(`/staking/validators/1a2b3c`)
+        store.commit(`setCommittedDelegation`, {
+          candidateId: `1a2b3c`,
+          value: `123.45678`
+        })
         store.commit(`setDelegates`, [validator, validatorTo])
       }
     })

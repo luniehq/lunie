@@ -82,7 +82,7 @@ export default {
         ? calculateTokens(
             this.validator,
             this.committedDelegations[this.validator.id]
-          ).toString()
+          )
         : BigNumber(0)
     },
     styles() {

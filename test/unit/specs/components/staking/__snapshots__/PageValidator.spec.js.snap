@@ -206,7 +206,7 @@ exports[`PageValidator has the expected html structure 1`] = `
               My Bonded Steak
             </dt>
             <dd>
-              0.00
+              123.46
             </dd>
           </dl>
           <dl
@@ -635,7 +635,7 @@ exports[`PageValidator shows a default avatar 1`] = `
               My Bonded Steak
             </dt>
             <dd>
-              0.00
+              123.46
             </dd>
           </dl>
           <dl
