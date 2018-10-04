@@ -49,13 +49,6 @@ test(`delegation`, async function(t) {
     t.end()
   })
 
-  t.test(`Parameters`, async function(t) {
-    // Select the Parameters tab.
-    await app.client.click(`//a[. = 'staking-parameters']`)
-
-    t.end()
-  })
-
   t.test(`Stake`, async t => {
     // Select the second validator.
     await app.client.click(`//*[. = 'local_2']`)
@@ -85,6 +78,18 @@ test(`delegation`, async function(t) {
 
     // Why is this necessary?  See
     // https://github.com/jprichardson/tape-promise#example-asyncawait
+    t.end()
+  })
+
+  t.test(`Parameters`, async function(t) {
+    // Select the Parameters tab.
+    await app.client.click(`//a[. = 'Parameters']`)
+
+    await t.notOk(
+      await app.client.waitForExist(`.tm-notification`, 2 * 1000),
+      `should not get an notification error while fetching params and pool`
+    )
+
     t.end()
   })
 
