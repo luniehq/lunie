@@ -9,7 +9,7 @@ li.li-validator(:class='styles')
         .top {{ validator.description.moniker }}
         .bottom {{ shortAddress(validator.id)}}
     .li-validator__value.your-votes
-      span {{ yourVotes }}
+      span {{ yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0) ? '< ' + num.pretty(0.01) : num.pretty(yourVotes) }}
     .li-validator__value.your-rewards
       span n/a
     .li-validator__break: span
@@ -29,6 +29,7 @@ li.li-validator(:class='styles')
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { shortAddress, calculateTokens, ratToBigNumber } from "scripts/common"
+import BigNumber from "bignumber.js"
 export default {
   name: `li-validator`,
   props: [`validator`, `disabled`],
@@ -77,14 +78,12 @@ export default {
     //   } else return "0"
     // },
     yourVotes() {
-      return this.num.pretty(
-        this.committedDelegations[this.validator.id]
-          ? calculateTokens(
-              this.validator,
-              this.committedDelegations[this.validator.id]
-            ).toString()
-          : `0`
-      )
+      return this.committedDelegations[this.validator.id]
+        ? calculateTokens(
+            this.validator,
+            this.committedDelegations[this.validator.id]
+          ).toString()
+        : BigNumber(0)
     },
     styles() {
       let value = ``
