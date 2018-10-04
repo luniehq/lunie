@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
-  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unstakedAtoms="user.atoms")
+  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unbondedAtoms="user.atoms")
   div(slot="menu")
     vm-tool-bar
       a(@click='connected && updateBalances()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
@@ -16,7 +16,7 @@ tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
       :btn="'Receive'"
       :overflow="true"
       @click.native="copy")
-      
+
       btn-receive(slot="btn-receive")
 
   tm-part#part-available-balances(title="Available Balances")
@@ -36,20 +36,13 @@ tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
       :dt="i.denom.toUpperCase()"
       :dd="i.amount"
       :to="{name: 'send', params: {denom: i.denom}}")
-
-  tm-part#part-staked-balances(title="Staked Balances")
-    tm-list-item(
-      btn="Stake"
-      :dt="stakingDenom"
-      :dd="num.pretty(oldBondedAtoms)"
-      :to="{name: 'staking'}")
 </template>
 
 <script>
 import num from "scripts/num"
 import { mapGetters, mapActions } from "vuex"
 import { clipboard } from "electron"
-import { sum, includes, orderBy } from "lodash"
+import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import LiCopy from "common/TmLiCopy"
@@ -65,7 +58,7 @@ import TmBalance from "common/TmBalance"
 import ModalSearch from "common/TmModalSearch"
 import VmToolBar from "common/VmToolBar"
 export default {
-  name: "page-wallet",
+  name: `page-wallet`,
   data: () => ({ num }),
   components: {
     TmBalance,
@@ -82,13 +75,13 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "filters",
-      "wallet",
-      "committedDelegations",
-      "oldBondedAtoms",
-      "config",
-      "connected",
-      "user"
+      `filters`,
+      `wallet`,
+      `committedDelegations`,
+      `oldBondedAtoms`,
+      `config`,
+      `connected`,
+      `user`
     ]),
     somethingToSearch() {
       return !this.wallet.balancesLoading && !!this.wallet.balances.length
@@ -109,27 +102,21 @@ export default {
       let query = this.filters.balances.search.query
       let list = orderBy(
         this.allDenomBalances,
-        ["amount", "denom"],
-        ["desc", "asc"]
+        [`amount`, `denom`],
+        [`desc`, `asc`]
       )
       if (this.filters.balances.search.visible) {
         return list.filter(i => includes(i.denom.toLowerCase(), query))
       } else {
         return list
       }
-    },
-    stakedTokens() {
-      return sum(Object.values(this.committedDelegations).map(parseFloat))
-    },
-    stakingDenom() {
-      return this.config.bondingDenom
     }
   },
   methods: {
-    ...mapActions(["updateDelegates", "queryWalletState"]),
-    setSearch(bool = !this.filters["balances"].search.visible) {
+    ...mapActions([`updateDelegates`, `queryWalletState`]),
+    setSearch(bool = !this.filters[`balances`].search.visible) {
       if (!this.somethingToSearch) return false
-      this.$store.commit("setSearchVisible", ["balances", bool])
+      this.$store.commit(`setSearchVisible`, [`balances`, bool])
     },
     updateBalances() {
       this.queryWalletState()
@@ -137,16 +124,15 @@ export default {
     copy() {
       clipboard.writeText(this.wallet.address)
 
-      this.$store.commit("notify", {
-        title: "Copied your address to clipboard.",
-        body:
-          "You can receive Cosmos tokens of any denomination by sharing this address."
+      this.$store.commit(`notify`, {
+        title: `Copied your address to clipboard.`,
+        body: `You can receive Cosmos tokens of any denomination by sharing this address.`
       })
     }
   },
   mounted() {
-    Mousetrap.bind(["command+f", "ctrl+f"], () => this.setSearch(true))
-    Mousetrap.bind("esc", () => this.setSearch(false))
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
     this.updateDelegates()
     this.queryWalletState()
   }

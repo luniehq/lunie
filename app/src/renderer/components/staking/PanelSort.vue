@@ -9,32 +9,32 @@
 
 <script>
 export default {
-  name: "panel-sort",
+  name: `panel-sort`,
   methods: {
     orderBy(property) {
-      let sortBys = this.$el.querySelectorAll(".sort-by")
-      sortBys.forEach(el => el.classList.remove("active", "desc", "asc"))
+      let sortBys = this.$el.querySelectorAll(`.sort-by`)
+      sortBys.forEach(el => el.classList.remove(`active`, `desc`, `asc`))
       let index = this.properties.findIndex(p => p.value === property)
       let el = sortBys[index]
 
       if (this.sort.property === property) {
-        if (this.sort.order === "asc") {
-          this.sort.order = "desc"
+        if (this.sort.order === `asc`) {
+          this.sort.order = `desc`
         } else {
-          this.sort.order = "asc"
+          this.sort.order = `asc`
         }
       } else {
         this.sort.property = property
       }
-      if (this.sort.order === "asc") {
-        el.classList.add("asc")
+      if (this.sort.order === `asc`) {
+        el.classList.add(`asc`)
       } else {
-        el.classList.add("desc")
+        el.classList.add(`desc`)
       }
-      el.classList.add("active")
+      el.classList.add(`active`)
     }
   },
-  props: ["sort", "properties"]
+  props: [`sort`, `properties`]
 }
 </script>
 
@@ -44,8 +44,7 @@ export default {
 .panel-sort-container
   display flex
   height 2rem
-  border-bottom px solid var(--bc)
-  padding 0 1em
+  padding 0 1rem
 .sort-by
   flex 1
   cursor pointer
@@ -61,6 +60,7 @@ export default {
   .label
     display inline-block
     margin auto
+    font-size sm
     .label-text
       display: inline
       color var(--link)
@@ -73,7 +73,8 @@ export default {
         font-family FontAwesome
         color var(--dim)
         padding-left 0.3rem
-
+  .name
+    padding-left 1rem
 
   &.active
     .label-text
@@ -82,7 +83,7 @@ export default {
         color var(--tertiary)
 
   &.name
-    flex 3
+    flex 3.5
 
   &.action
     flex 1

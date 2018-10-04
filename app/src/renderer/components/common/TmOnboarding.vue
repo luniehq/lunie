@@ -22,22 +22,22 @@ import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import { TmBarDiscrete, TmBtn } from "@tendermint/ui"
 export default {
-  name: "tm-onboarding",
+  name: `tm-onboarding`,
   components: { TmBtn, TmBarDiscrete },
   computed: {
-    ...mapGetters(["onboarding", "bondingDenom"]),
+    ...mapGetters([`onboarding`, `bondingDenom`]),
     activeKey() {
       return this.onboarding.state
     },
     nodes() {
       const nodes = [
-        "This is a quick tour of the primary features of Cosmos Voyager.",
-        "You can send and receive Cosmos tokens from anyone around the world.",
-        `You can stake your ${
+        `This is a quick tour of the primary features of Cosmos Voyager.`,
+        `You can send and receive Cosmos tokens from anyone around the world.`,
+        `You can delegate your ${
           this.bondingDenom
         } to Cosmos Validators to earn even more ${this.bondingDenom}.`,
-        "Through governance, you can vote on the future of the Cosmos Network.",
-        "Start using Voyager to explore the Cosmos Network!"
+        `Through governance, you can vote on the future of the Cosmos Network.`,
+        `Start using Voyager to explore the Cosmos Network!`
       ]
       return nodes
     },
@@ -52,22 +52,22 @@ export default {
   },
   methods: {
     go(state) {
-      this.$store.commit("setOnboardingState", state)
+      this.$store.commit(`setOnboardingState`, state)
     },
     next() {
       let nextState = this.onboarding.state + 1
-      this.$store.commit("setOnboardingState", nextState)
+      this.$store.commit(`setOnboardingState`, nextState)
     },
     restart() {
-      this.$store.commit("setOnboardingState", 0)
+      this.$store.commit(`setOnboardingState`, 0)
     },
     finish() {
-      this.$store.commit("setOnboardingActive", false)
-      this.$store.commit("setOnboardingState", 0)
+      this.$store.commit(`setOnboardingActive`, false)
+      this.$store.commit(`setOnboardingState`, 0)
     }
   },
   mounted() {
-    new PerfectScrollbar(this.$el.querySelector("#onboarding .tm-session-main"))
+    new PerfectScrollbar(this.$el.querySelector(`#onboarding .tm-session-main`))
   }
 }
 </script>

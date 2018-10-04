@@ -7,7 +7,6 @@
     app-header
     #app-content
       router-view
-      app-footer
     modal-receive
   tm-notifications(:notifications='notifications' theme='cosmos')
   modal-error(v-if='config.modals.error.active' :body='config.modals.error.message')
@@ -19,7 +18,6 @@
 <script>
 import { mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
-import AppFooter from "common/AppFooter"
 import { TmNotifications } from "@tendermint/ui"
 import ModalError from "common/TmModalError"
 import ModalHelp from "common/TmModalHelp"
@@ -31,10 +29,9 @@ import Onboarding from "common/TmOnboarding"
 import Session from "common/TmSession"
 import store from "./vuex/store"
 export default {
-  name: "app",
+  name: `app`,
   components: {
     AppHeader,
-    AppFooter,
     ModalError,
     ModalHelp,
     ModalLcdApproval,
@@ -47,16 +44,16 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "notifications",
-      "config",
-      "themes",
-      "approvalRequired",
-      "onboarding"
+      `notifications`,
+      `config`,
+      `themes`,
+      `approvalRequired`,
+      `onboarding`
     ])
   },
   mounted() {
-    this.$store.commit("loadOnboarding")
-    this.$store.commit("setTheme", "dark")
+    this.$store.commit(`loadOnboarding`)
+    this.$store.commit(`setTheme`, `dark`)
   },
   store
 }

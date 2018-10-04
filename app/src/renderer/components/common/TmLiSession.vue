@@ -8,8 +8,8 @@
 
 <script>
 export default {
-  name: "tm-li-session",
-  props: ["icon", "title", "subtitle"]
+  name: `tm-li-session`,
+  props: [`icon`, `title`, `subtitle`]
 }
 </script>
 

@@ -13,12 +13,12 @@ import { mapGetters } from "vuex"
 import noScroll from "no-scroll"
 import { TmListItem } from "@tendermint/ui"
 export default {
-  name: "tm-user-pane",
+  name: `tm-user-pane`,
   components: { TmListItem },
-  computed: { ...mapGetters(["user", "config"]) },
+  computed: { ...mapGetters([`user`, `config`]) },
   methods: {
     close() {
-      this.$store.commit("setActiveMenu", "")
+      this.$store.commit(`setActiveMenu`, ``)
       noScroll.off()
     }
   }

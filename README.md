@@ -126,6 +126,13 @@ Voyager is using [Jest](https://facebook.github.io/jest) to run unit tests.
 $ yarn test
 ```
 
+You can run the unit tests for a single file (e.g.,
+PageValidator.spec.js) whenever there are changes like this:
+
+```shell
+$ yarn watch PageValidator
+```
+
 To check test coverage locally run following. It will spin up a webserver and provide you with a link to the coverage report web page.
 
 ```bash

@@ -33,7 +33,7 @@ import FieldVote from "common/TmFieldVote"
 import TextBlock from "common/TextBlock"
 import VmToolBar from "common/VmToolBar"
 export default {
-  name: "page-proposal",
+  name: `page-proposal`,
   components: {
     TmBtn,
     FieldVote,
@@ -44,7 +44,7 @@ export default {
     VmToolBar
   },
   computed: {
-    ...mapGetters(["proposals"]),
+    ...mapGetters([`proposals`]),
     proposal() {
       if (this.proposals) {
         return this.proposals.items.find(
@@ -76,7 +76,7 @@ export default {
     }
   },
   data: () => ({
-    votePick: "abstain",
+    votePick: `abstain`,
     voteVisible: false
   }),
   methods: {
@@ -84,20 +84,20 @@ export default {
       this.votePick = choice
     },
     confirmVote() {
-      this.$store.commit("notify", {
+      this.$store.commit(`notify`, {
         title: `Voted '${this.votePick}'`,
-        body: "Your vote has been submitted."
+        body: `Your vote has been submitted.`
       })
     },
     commentOnProposal(proposalId) {
-      this.$store.commit("notify", {
-        title: "View Discussion Thread",
+      this.$store.commit(`notify`, {
+        title: `View Discussion Thread`,
         body: `TODO: Discuss ${proposalId} proposal on the forum.`
       })
     },
     proposalIsSpam(proposalId) {
-      this.$store.commit("notify", {
-        title: "Mark Proposal As Spam",
+      this.$store.commit(`notify`, {
+        title: `Mark Proposal As Spam`,
         body: `TODO: Mark ${proposalId} proposal as a spam attack.`
       })
     },

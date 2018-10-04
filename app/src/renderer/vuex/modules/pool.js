@@ -17,10 +17,10 @@ export default ({ node }) => {
       try {
         let pool = await node.getPool()
         console.log(pool)
-        commit("setPool", pool)
+        commit(`setPool`, pool)
       } catch (err) {
-        commit("notifyError", {
-          title: "Error fetching staking pool",
+        commit(`notifyError`, {
+          title: `Error fetching staking pool`,
           body: err.message
         })
       }

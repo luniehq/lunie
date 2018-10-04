@@ -17,10 +17,10 @@ export default ({ node }) => {
       try {
         let parameters = await node.getParameters()
         console.log(parameters)
-        commit("setParameters", parameters)
+        commit(`setParameters`, parameters)
       } catch (err) {
-        commit("notifyError", {
-          title: "Error fetching staking parameters",
+        commit(`notifyError`, {
+          title: `Error fetching staking parameters`,
           body: err.message
         })
       }

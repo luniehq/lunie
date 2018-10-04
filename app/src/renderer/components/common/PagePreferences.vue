@@ -10,6 +10,13 @@ tm-page(title="Preferences")
         :options="networkSelectOptions"
         placeholder="Select network..."
         @change.native="setMockedConnector")
+
+    tm-list-item(type="field" title="Node IP")
+      tm-btn(
+        icon='exit_to_app'
+        type='button'
+        @click.native=""
+        :value='nodeIP')
     tm-list-item(type="field" title="View tutorial for Voyager")
       tm-btn#toggle-onboarding(
         @click.native="setOnboarding"
@@ -44,7 +51,7 @@ import VmToolBar from "common/VmToolBar"
 import TmModal from "common/TmModal"
 
 export default {
-  name: "page-preferences",
+  name: `page-preferences`,
   components: {
     TmBtn,
     TmField,
@@ -55,63 +62,70 @@ export default {
     TmModal
   },
   computed: {
-    ...mapGetters(["user", "themes", "onboarding", "mockedConnector", "config"])
+    ...mapGetters([
+      `user`,
+      `themes`,
+      `onboarding`,
+      `mockedConnector`,
+      `config`,
+      `nodeIP`
+    ])
   },
   data: () => ({
     themeSelectActive: null,
     themeSelectOptions: [
       {
-        value: "light",
-        key: "Light"
+        value: `light`,
+        key: `Light`
       },
       {
-        value: "dark",
-        key: "Dark"
+        value: `dark`,
+        key: `Dark`
       }
     ],
     networkSelectActive: null,
     networkSelectOptions: [
       {
-        value: "live",
-        key: "Live Testnet"
+        value: `live`,
+        key: `Live Testnet`
       },
       {
-        value: "mock",
-        key: "Mock Testnet"
+        value: `mock`,
+        key: `Offline Mode`
       }
     ]
   }),
   mounted() {
-    this.networkSelectActive = this.mockedConnector ? "mock" : "live"
+    this.networkSelectActive = this.mockedConnector ? `mock` : `live`
     this.themeSelectActive = this.themes.active
   },
   methods: {
     signOut() {
-      this.$store.dispatch("signOut")
-      this.$store.commit("notifySignOut")
+      this.$store.dispatch(`signOut`)
+      this.$store.commit(`notifySignOut`)
     },
     setAppTheme() {
-      if (this.themes.active === "dark") {
-        this.$store.commit("setTheme", "light")
+      if (this.themes.active === `dark`) {
+        this.$store.commit(`setTheme`, `light`)
       } else {
-        this.$store.commit("setTheme", "dark")
+        this.$store.commit(`setTheme`, `dark`)
       }
     },
     setErrorCollection() {
-      this.$store.dispatch("setErrorCollection", {
+      this.$store.dispatch(`setErrorCollection`, {
         account: this.user.account,
         optin: !this.user.errorCollection
       })
     },
     setOnboarding() {
-      this.$store.commit("setOnboardingState", 0)
-      this.$store.commit("setOnboardingActive", true)
+      this.$store.commit(`setOnboardingState`, 0)
+      this.$store.commit(`setOnboardingActive`, true)
     },
     setMockedConnector() {
-      if (this.networkSelectActive === "mock" && !this.mockedConnector) {
-        this.$store.dispatch("setMockedConnector", true)
-      } else if (this.networkSelectActive === "live" && this.mockedConnector) {
-        this.$store.dispatch("setMockedConnector", false)
+      if (this.networkSelectActive === `mock` && !this.mockedConnector) {
+        this.$store.dispatch(`setMockedConnector`, true)
+      } else if (this.networkSelectActive === `live` && this.mockedConnector) {
+        this.$store.dispatch(`setMockedConnector`, false)
       }
     }
   }

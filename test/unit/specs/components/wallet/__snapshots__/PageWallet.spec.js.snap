@@ -30,32 +30,24 @@ exports[`PageWallet has the expected html structure 1`] = `
                 src="~assets/images/cosmos-logo.png"
               />
               <div
-                class="total-atoms"
+                class="total-atoms top-section"
               >
-                <div
-                  class="h3"
-                >
+                <h3>
                   Total Steak
-                </div>
-                <div
-                  class="h2"
-                >
+                </h3>
+                <h2>
                   1,014.00
-                </div>
+                </h2>
               </div>
               <div
-                class="unstaked-atoms"
+                class="unbonded-atoms top-section"
               >
-                <div
-                  class="h3"
-                >
-                  Unstaked Steak
-                </div>
-                <div
-                  class="h2"
-                >
+                <h3>
+                  Unbonded Steak
+                </h3>
+                <h2>
                   1000
-                </div>
+                </h2>
               </div>
               <!---->
               <!---->
@@ -65,6 +57,7 @@ exports[`PageWallet has the expected html structure 1`] = `
             >
               <div
                 class="address"
+                id="address"
               >
                 cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
               </div>
@@ -81,6 +74,9 @@ exports[`PageWallet has the expected html structure 1`] = `
                 </span>
               </div>
             </div>
+            <div
+              class="tabs"
+            />
           </div>
         </div>
       </div>
@@ -137,6 +133,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                   >
                     <i
                       class="material-icons"
+                      id="settings"
                     >
                       settings
                     </i>
@@ -413,83 +410,6 @@ exports[`PageWallet has the expected html structure 1`] = `
         </main>
       </div>
     </section>
-    <section
-      class="tm-part"
-      id="part-staked-balances"
-    >
-      <div
-        class="tm-part-container"
-      >
-        <header
-          class="tm-part-header"
-        >
-          <div
-            class="tm-part-header-container"
-          >
-            <div
-              class="tm-part-title h5"
-            >
-              Staked Balances
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <a
-            class="tm-li tm-li-link"
-            href="#/staking"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Steak
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  14.00
-                </div>
-              </div>
-              <button
-                class="tm-btn"
-              >
-                <span
-                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Stake
-                  </span>
-                </span>
-              </button>
-            </div>
-          </a>
-        </main>
-      </div>
-    </section>
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
@@ -544,32 +464,24 @@ exports[`PageWallet should filter the balances 1`] = `
                 src="~assets/images/cosmos-logo.png"
               />
               <div
-                class="total-atoms"
+                class="total-atoms top-section"
               >
-                <div
-                  class="h3"
-                >
+                <h3>
                   Total Steak
-                </div>
-                <div
-                  class="h2"
-                >
+                </h3>
+                <h2>
                   1,014.00
-                </div>
+                </h2>
               </div>
               <div
-                class="unstaked-atoms"
+                class="unbonded-atoms top-section"
               >
-                <div
-                  class="h3"
-                >
-                  Unstaked Steak
-                </div>
-                <div
-                  class="h2"
-                >
+                <h3>
+                  Unbonded Steak
+                </h3>
+                <h2>
                   1000
-                </div>
+                </h2>
               </div>
               <!---->
               <!---->
@@ -579,6 +491,7 @@ exports[`PageWallet should filter the balances 1`] = `
             >
               <div
                 class="address"
+                id="address"
               >
                 cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
               </div>
@@ -595,6 +508,9 @@ exports[`PageWallet should filter the balances 1`] = `
                 </span>
               </div>
             </div>
+            <div
+              class="tabs"
+            />
           </div>
         </div>
       </div>
@@ -651,6 +567,7 @@ exports[`PageWallet should filter the balances 1`] = `
                   >
                     <i
                       class="material-icons"
+                      id="settings"
                     >
                       settings
                     </i>
@@ -823,83 +740,6 @@ exports[`PageWallet should filter the balances 1`] = `
                     class="tm-btn__value"
                   >
                     Send
-                  </span>
-                </span>
-              </button>
-            </div>
-          </a>
-        </main>
-      </div>
-    </section>
-    <section
-      class="tm-part"
-      id="part-staked-balances"
-    >
-      <div
-        class="tm-part-container"
-      >
-        <header
-          class="tm-part-header"
-        >
-          <div
-            class="tm-part-header-container"
-          >
-            <div
-              class="tm-part-title h5"
-            >
-              Staked Balances
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <a
-            class="tm-li tm-li-link"
-            href="#/staking"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  Steak
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  14.00
-                </div>
-              </div>
-              <button
-                class="tm-btn"
-              >
-                <span
-                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Stake
                   </span>
                 </span>
               </button>

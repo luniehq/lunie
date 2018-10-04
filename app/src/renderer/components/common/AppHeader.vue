@@ -22,21 +22,21 @@ import { mapGetters } from "vuex"
 import noScroll from "no-scroll"
 import AppMenu from "common/AppMenu"
 export default {
-  name: "app-header",
+  name: `app-header`,
   components: { AppMenu },
   computed: {
-    ...mapGetters(["config", "themes"]),
+    ...mapGetters([`config`, `themes`]),
     isWin() {
-      return navigator.platform.toUpperCase().indexOf("WIN") >= 0
+      return navigator.platform.toUpperCase().indexOf(`WIN`) >= 0
     }
   },
   methods: {
     close() {
-      this.$store.commit("setActiveMenu", "")
+      this.$store.commit(`setActiveMenu`, ``)
       noScroll.off()
     },
     enableMenu() {
-      this.$store.commit("setActiveMenu", "app")
+      this.$store.commit(`setActiveMenu`, `app`)
       noScroll.on()
     },
     watchWindowSize() {
@@ -47,10 +47,10 @@ export default {
 
       if (w >= 1024) {
         this.close()
-        this.$store.commit("setConfigDesktop", true)
+        this.$store.commit(`setConfigDesktop`, true)
         return
       } else {
-        this.$store.commit("setConfigDesktop", false)
+        this.$store.commit(`setConfigDesktop`, false)
       }
     }
   },

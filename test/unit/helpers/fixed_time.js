@@ -1,7 +1,7 @@
 /* globals jest */
-require("moment")
-const mockMomentTz = require("moment-timezone")
-jest.mock("moment", () => time => mockMomentTz(time).tz("Etc/UTC"))
+require(`moment`)
+const mockMomentTz = require(`moment-timezone`)
+jest.mock(`moment`, () => time => mockMomentTz(time).tz(`Etc/UTC`))
 
 const DATE_TO_USE = new Date(Date.UTC(1970, 0, 1, 0, 0, 42))
 global._Date = Date

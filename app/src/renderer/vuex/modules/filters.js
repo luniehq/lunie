@@ -1,39 +1,41 @@
+"use strict"
+
 export default () => {
   const emptyState = {
     balances: {
       search: {
         visible: false,
-        query: ""
+        query: ``
       }
     },
     blocks: {
       search: {
         visible: false,
-        query: ""
+        query: ``
       }
     },
     delegates: {
       search: {
         visible: false,
-        query: ""
+        query: ``
       }
     },
     proposals: {
       search: {
         visible: false,
-        query: ""
+        query: ``
       }
     },
     transactions: {
       search: {
         visible: false,
-        query: ""
+        query: ``
       }
     },
     validators: {
       search: {
         visible: false,
-        query: ""
+        query: ``
       }
     }
   }
@@ -42,7 +44,7 @@ export default () => {
   const mutations = {
     resetSearch(state, type) {
       state[type].search.visible = false
-      state[type].search.query = ""
+      state[type].search.query = ``
     },
     setSearchVisible(state, [type, bool]) {
       state[type].search.visible = bool

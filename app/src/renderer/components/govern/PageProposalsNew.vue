@@ -16,9 +16,9 @@ import { mapGetters } from "vuex"
 import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
 import VmToolBar from "common/VmToolBar"
 export default {
-  name: "page-proposals-new",
+  name: `page-proposals-new`,
   computed: {
-    ...mapGetters(["bondingDenom"])
+    ...mapGetters([`bondingDenom`])
   },
   components: {
     TmListItem,

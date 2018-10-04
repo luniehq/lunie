@@ -1,3 +1,5 @@
+"use strict"
+
 module.exports = {
   root: true,
   parser: "babel-eslint",
@@ -15,6 +17,7 @@ module.exports = {
     // allow debugger during development
     "no-debugger": process.env.NODE_ENV === "production" ? 2 : 0,
     "no-undef": "error",
-    "no-unused-vars": "error"
+    "no-unused-vars": "error",
+    quotes: ["error", "backtick"]
   }
 }

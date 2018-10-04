@@ -1,8 +1,10 @@
+"use strict"
+
 import dark from "../json/theme-dark.json"
 
 export default () => {
   const state = {
-    active: "dark",
+    active: `dark`,
     options: {
       dark: dark
     }
@@ -10,12 +12,12 @@ export default () => {
   const mutations = {
     setTheme(state, theme) {
       state.active = theme
-      localStorage.setItem("appTheme", theme)
+      localStorage.setItem(`appTheme`, theme)
       mutations.updateTheme(state, theme)
     },
     updateTheme(state, theme) {
       const newTheme = state.options[theme]
-      const isWin = navigator.platform.toUpperCase().indexOf("WIN") >= 0
+      const isWin = navigator.platform.toUpperCase().indexOf(`WIN`) >= 0
       if (isWin) {
         document.documentElement.style.setProperty(`--font-weight`, 400)
       }
@@ -27,8 +29,8 @@ export default () => {
 
   const actions = {
     loadTheme({ commit }) {
-      const theme = localStorage.getItem("appTheme")
-      commit("setTheme", theme)
+      const theme = localStorage.getItem(`appTheme`)
+      commit(`setTheme`, theme)
     }
   }
 

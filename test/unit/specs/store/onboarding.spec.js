@@ -2,7 +2,7 @@ import setup from "../../helpers/vuex-setup"
 
 let instance = setup()
 
-describe("Module: Onboarding", () => {
+describe(`Module: Onboarding`, () => {
   let store, state
 
   beforeEach(() => {
@@ -10,33 +10,33 @@ describe("Module: Onboarding", () => {
     state = store.state.onboarding
   })
 
-  it("toggles onboarding active state", () => {
+  it(`toggles onboarding active state`, () => {
     expect(state.active).toBe(true)
-    store.commit("setOnboardingActive", false)
+    store.commit(`setOnboardingActive`, false)
     expect(state.active).toBe(false)
-    store.commit("setOnboardingActive", true)
+    store.commit(`setOnboardingActive`, true)
     expect(state.active).toBe(true)
   })
 
-  it("toggles onboarding state", () => {
+  it(`toggles onboarding state`, () => {
     expect(state.state).toBe(0)
-    store.commit("setOnboardingState", 3)
+    store.commit(`setOnboardingState`, 3)
     expect(state.state).toBe(3)
-    store.commit("setOnboardingState", 0)
+    store.commit(`setOnboardingState`, 0)
     expect(state.state).toBe(0)
   })
 
-  it("loads the onboarding active state from localStorage", () => {
-    store.commit("setOnboardingActive", false)
+  it(`loads the onboarding active state from localStorage`, () => {
+    store.commit(`setOnboardingActive`, false)
     state.active = true
-    store.commit("loadOnboarding")
+    store.commit(`loadOnboarding`)
     expect(state.active).toBe(false)
   })
 
-  it("loads the onboarding state from localStorage", () => {
-    store.commit("setOnboardingState", 3)
+  it(`loads the onboarding state from localStorage`, () => {
+    store.commit(`setOnboardingState`, 3)
     state.state = 1
-    store.commit("loadOnboarding")
+    store.commit(`loadOnboarding`)
     expect(state.state).toBe(3)
   })
 })

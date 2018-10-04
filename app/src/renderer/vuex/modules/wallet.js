@@ -1,8 +1,10 @@
-let fs = require("fs-extra")
-let { join } = require("path")
-const { remote } = require("electron")
-const root = remote.getGlobal("root")
-let { sleep } = require("scripts/common.js")
+"use strict"
+
+let fs = require(`fs-extra`)
+let { join } = require(`path`)
+const { remote } = require(`electron`)
+const root = remote.getGlobal(`root`)
+let { sleep } = require(`scripts/common.js`)
 
 export default ({ node }) => {
   let emptyState = {
@@ -10,7 +12,7 @@ export default ({ node }) => {
     balancesLoading: true,
     denoms: [],
     address: null,
-    zoneIds: ["basecoind-demo1", "basecoind-demo2"],
+    zoneIds: [`basecoind-demo1`, `basecoind-demo2`],
     subscribedRPC: null
   }
   let state = JSON.parse(JSON.stringify(emptyState))
@@ -34,21 +36,21 @@ export default ({ node }) => {
   let actions = {
     reconnected({ state, dispatch }) {
       if (state.balancesLoading && state.address) {
-        dispatch("queryWalletBalances")
+        dispatch(`queryWalletBalances`)
       }
     },
     initializeWallet({ commit, dispatch }, address) {
-      commit("setWalletAddress", address)
-      dispatch("loadDenoms")
-      dispatch("queryWalletState")
-      dispatch("walletSubscribe")
+      commit(`setWalletAddress`, address)
+      dispatch(`loadDenoms`)
+      dispatch(`queryWalletState`)
+      dispatch(`walletSubscribe`)
     },
     resetSessionData({ rootState }) {
       // clear previous account state
       rootState.wallet = JSON.parse(JSON.stringify(emptyState))
     },
     queryWalletState({ dispatch }) {
-      dispatch("queryWalletBalances")
+      dispatch(`queryWalletBalances`)
     },
     async queryWalletBalances({ state, rootState, commit }) {
       if (!state.address) return
@@ -59,12 +61,12 @@ export default ({ node }) => {
         return
       }
       let coins = res.coins || []
-      commit("setNonce", res.sequence)
-      commit("setAccountNumber", res.account_number)
-      commit("setWalletBalances", coins)
+      commit(`setNonce`, res.sequence)
+      commit(`setAccountNumber`, res.account_number)
+      commit(`setWalletBalances`, coins)
       for (let coin of coins) {
         if (coin.denom === rootState.config.bondingDenom.toLowerCase()) {
-          commit("setAtoms", parseFloat(coin.amount))
+          commit(`setAtoms`, parseFloat(coin.amount))
           break
         }
       }
@@ -75,13 +77,13 @@ export default ({ node }) => {
       // read genesis.json to get default denoms
 
       // wait for genesis.json to exist
-      let genesisPath = join(root, "genesis.json")
+      let genesisPath = join(root, `genesis.json`)
       while (true) {
         try {
           await fs.pathExists(genesisPath)
           break
         } catch (err) {
-          console.log("waiting for genesis", err, genesisPath)
+          console.log(`waiting for genesis`, err, genesisPath)
           await sleep(500)
         }
       }
@@ -96,7 +98,7 @@ export default ({ node }) => {
         }
       }
 
-      commit("setDenoms", denoms)
+      commit(`setDenoms`, denoms)
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {
@@ -104,7 +106,7 @@ export default ({ node }) => {
         let interval = setInterval(() => {
           if (rootState.node.lastHeader.height < height) return
           clearInterval(interval)
-          dispatch("queryWalletState")
+          dispatch(`queryWalletState`)
           resolve()
         }, 1000)
       })
@@ -119,10 +121,10 @@ export default ({ node }) => {
 
       function onTx(err, event) {
         if (err) {
-          return console.error("error subscribing to transactions", err)
+          return console.error(`error subscribing to transactions`, err)
         }
         dispatch(
-          "queryWalletStateAfterHeight",
+          `queryWalletStateAfterHeight`,
           event.data.value.TxResult.height + 1
         )
       }

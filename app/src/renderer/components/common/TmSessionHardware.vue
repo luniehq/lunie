@@ -17,26 +17,26 @@
 <script>
 import HardwareState from "common/TmHardwareState"
 export default {
-  name: "tm-session-hardware",
+  name: `tm-session-hardware`,
   components: { HardwareState },
-  data: () => ({ status: "connect" }),
+  data: () => ({ status: `connect` }),
   methods: {
     help() {
-      this.$store.commit("setModalHelp", true)
+      this.$store.commit(`setModalHelp`, true)
     },
     setState(value) {
-      this.$store.commit("setModalSessionState", value)
+      this.$store.commit(`setModalSessionState`, value)
     },
     setStatus(value) {
       this.status = value
     },
     onSubmit() {
-      this.$store.commit("setModalSession", false)
-      this.$store.commit("notify", {
-        title: "Welcome back!",
-        body: "You are now signed in to your Cosmos account."
+      this.$store.commit(`setModalSession`, false)
+      this.$store.commit(`notify`, {
+        title: `Welcome back!`,
+        body: `You are now signed in to your Cosmos account.`
       })
-      this.$store.dispatch("signIn", { password: this.fields.signInPassword })
+      this.$store.dispatch(`signIn`, { password: this.fields.signInPassword })
     }
   }
 }

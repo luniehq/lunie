@@ -7,21 +7,45 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* tabs now live inside the balance header @jbibla
+
+## [0.10.4] - 2018-10-03
+
+### Fixed
+
+* automatic release process bugs @NodeGuy
+
+## [0.10.3] - 2018-10-02
+
 ### Added
 
 * Added staking transactions and fixed 100% height txs. Refactored modules/blockchain.js @okwme
 * test if build Voyager actually starts @faboweb
 * added new validator component @okwme
 * simple loading indicator for page staking @faboweb
+* Created new "My Stake" tab. @NodeGuy
 * possibility to end unbonding transactions @faboweb
+* add option in staking modal to redelegate tokens from previosly bonded validators @fedekunze
+* close buttons to Staking modal @NodeGuy
+* more tests for new staking modal @NodeGuy
+* Add commission and uptime to LiValidator @fedekunze
+* Delete old bonding page @fedekunze
+* `watch` script for running unit tests @faboweb @NodeGuy
 
 ### Changed
 
 * Refactored Addressbook. @NodeGuy
-
-### Changed
-
 * Created new modal window for staking to a validator. @NodeGuy
+* Added new validator profile page @faboweb
+* cleaning up new validator profile page and balance header @jbibla
+* Changed a bunch of JavaScript files to strict mode. @NodeGuy @faboweb
+* Refactored submitDelegation. @NodeGuy
+* prefer backquotes in code @ƒaboweb
+* Refactord submitDelegation. @NodeGuy
+* Improved network connectivity bar @jbibla
+* refactored words around staking and delegation @jbibla
 
 ### Fixed
 
@@ -32,6 +56,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * delegations request would update state of next user after sign out sign in @ƒaboweb
 * enable user to stake only after the request for his current delegations has returned @ƒaboweb
 * cache undelegations @faboweb
+* show error instead of breaking Voyager if reconnection fails @faboweb
+* reconnection errors did not show up correctly in view @faboweb
+* fixed crash when reconnecting @faboweb
+* fixed crash when using an offline fixed node @faboweb
+* layout bugs in PageStaking @NodeGuy
+* all seeds offline -> added random new ones @ƒaboweb
+* styling around LiValidators @jbibla
+* deleted duplicated tx components `TmLiDelegationTransaction.vue` and `TmLiTransaction.vue` @fedekunze
+* bugs in the automatic release process @NodeGuy
 
 ## [0.10.2] - 2018-08-29
 

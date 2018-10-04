@@ -11,15 +11,15 @@
 
 <script>
 import { remote, ipcRenderer } from "electron"
-const config = remote.getGlobal("config")
+const config = remote.getGlobal(`config`)
 export default {
-  name: "tm-session-loading",
+  name: `tm-session-loading`,
   data: () => ({
     config,
-    message: ""
+    message: ``
   }),
   mounted: function() {
-    ipcRenderer.on("connection-status", (event, message) => {
+    ipcRenderer.on(`connection-status`, (event, message) => {
       this.message = message
     })
   }

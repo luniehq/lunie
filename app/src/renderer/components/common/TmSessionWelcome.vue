@@ -37,27 +37,27 @@ import PerfectScrollbar from "perfect-scrollbar"
 import FundraiserWarning from "common/FundraiserWarning"
 import LiSession from "common/TmLiSession"
 export default {
-  name: "tm-session-welcome",
+  name: `tm-session-welcome`,
   components: {
     FundraiserWarning,
     LiSession
   },
   computed: {
-    ...mapGetters(["config", "user"]),
+    ...mapGetters([`config`, `user`]),
     accountExists() {
       return this.user.accounts.length > 0
     }
   },
   methods: {
     help() {
-      this.$store.commit("setModalHelp", true)
+      this.$store.commit(`setModalHelp`, true)
     },
     setState(value) {
-      this.$store.commit("setModalSessionState", value)
+      this.$store.commit(`setModalSessionState`, value)
     }
   },
   mounted() {
-    new PerfectScrollbar(this.$el.querySelector(".tm-session-main"))
+    new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
   }
 }
 </script>

@@ -1,8 +1,10 @@
+"use strict"
+
 export default ({ node }) => {
   let lock = null
 
   let state = {
-    nonce: "0"
+    nonce: `0`
   }
 
   const mutations = {
@@ -14,7 +16,7 @@ export default ({ node }) => {
   }
 
   async function doSend({ state, dispatch, commit, rootState }, args) {
-    await dispatch("queryWalletBalances") // the nonce was getting out of sync, this is to force a sync
+    await dispatch(`queryWalletBalances`) // the nonce was getting out of sync, this is to force a sync
     args.sequence = state.nonce
     args.name = rootState.user.account
     args.password = rootState.user.password
@@ -26,13 +28,13 @@ export default ({ node }) => {
     // args.src_chain_id = chainId // for IBC transfer
 
     // extract type
-    let type = args.type || "send"
+    let type = args.type || `send`
     delete args.type
 
     // extract "to" address
     let to = args.to
     delete args.to
-    args.gas = "50000000"
+    args.gas = `50000000`
     // submit to LCD to build, sign, and broadcast
     let req = to ? node[type](to, args) : node[type](args)
 
@@ -43,7 +45,7 @@ export default ({ node }) => {
     // check response code
     assertOk(res)
 
-    commit("setNonce", (parseInt(state.nonce) + 1).toString())
+    commit(`setNonce`, (parseInt(state.nonce) + 1).toString())
   }
 
   let actions = {
@@ -72,7 +74,7 @@ export default ({ node }) => {
       }
     },
     resetSessionData({ state }) {
-      state.nonce = "0"
+      state.nonce = `0`
     }
   }
 
@@ -85,13 +87,13 @@ export default ({ node }) => {
 
 function assertOk(res) {
   if (Array.isArray(res)) {
-    if (res.length === 0) throw new Error("Error sending transaction.")
+    if (res.length === 0) throw new Error(`Error sending transaction.`)
 
     return res.forEach(assertOk)
   }
 
   if (res.check_tx.code || res.deliver_tx.code) {
     let message = res.check_tx.log || res.deliver_tx.log
-    throw new Error("Error sending transaction: " + message)
+    throw new Error(`Error sending transaction: ` + message)
   }
 }

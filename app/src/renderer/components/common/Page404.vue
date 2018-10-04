@@ -8,7 +8,7 @@ tm-page(title='404 - Page Not Found')
 <script>
 import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
 export default {
-  name: "page-404",
+  name: `page-404`,
   components: {
     TmListItem,
     TmPage,

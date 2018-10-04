@@ -13,7 +13,7 @@ export default {
   components: { TmBtn },
   methods: {
     openModal() {
-      this.$store.commit("setModalReceive", true)
+      this.$store.commit(`setModalReceive`, true)
     }
   }
 }

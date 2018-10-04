@@ -23,7 +23,6 @@ menu.app-menu
       title="Proposals"
       v-if="config.devMode")
   connected-network
-  user-pane
 </template>
 
 <script>
@@ -34,7 +33,7 @@ import ConnectedNetwork from "common/TmConnectedNetwork"
 import { TmListItem } from "@tendermint/ui"
 import UserPane from "common/TmUserPane"
 export default {
-  name: "app-menu",
+  name: `app-menu`,
   components: {
     ConnectedNetwork,
     TmListItem,
@@ -42,11 +41,11 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "proposals",
-      "validators",
-      "config",
-      "lastHeader",
-      "mockedConnector"
+      `proposals`,
+      `validators`,
+      `config`,
+      `lastHeader`,
+      `mockedConnector`
     ]),
     isValidatorPage() {
       return this.$route.params.validator
@@ -57,12 +56,12 @@ export default {
   }),
   methods: {
     close() {
-      this.$store.commit("setActiveMenu", "")
+      this.$store.commit(`setActiveMenu`, ``)
       noScroll.off()
     }
   },
   mounted() {
-    this.ps = new PerfectScrollbar(this.$el.querySelector(".app-menu-main"))
+    this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
   }
 }
 </script>
@@ -134,7 +133,4 @@ export default {
 @media screen and (min-width: 1024px)
   .app-menu
     flex 1
-
-    .tm-connected-network
-      display none
 </style>
