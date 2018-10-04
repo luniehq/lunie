@@ -37,7 +37,10 @@ Vue.config.errorHandler = (error, vm, info) => {
 Guru Meditation #${info}`)
 
   Raven.captureException(error)
-  throw error
+
+  if (store.state.devMode) {
+    throw error
+  }
   // shrinkStacktrace(error)
   // return true
 }
@@ -47,7 +50,9 @@ Vue.config.warnHandler = (msg, vm, trace) => {
 
 Guru Meditation #${trace}`)
 
-  throw new Error(msg)
+  if (store.state.devMode) {
+    throw new Error(msg)
+  }
 }
 
 Vue.use(Electron)
