@@ -2,11 +2,12 @@
 
 exports[`PageStaking has the expected html structure 1`] = `
 "<div>
-   <div class=\\"panel-sort\\">
-      <div class=\\"panel-sort-container\\">
-         <div class=\\"sort-by name\\">
-            <!---->
-         </div>
+   <div>
+      <div class=\\"panel-sort\\">
+         <div class=\\"panel-sort-container\\">
+            <div class=\\"sort-by name\\">
+               <!---->
+            </div>
 <div class=\\"sort-by your-votes\\">
    <div class=\\"label\\">
       <div class=\\"label-text\\">
@@ -51,299 +52,301 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
 </div>
 </div>
-<div class=\\"li-validator li-validator-validator \\">
-   <div class=\\"li-validator__values\\">
+<ol type=\\"1\\">
+   <li class=\\"li-validator li-validator-validator \\">
+      <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"\\">
       <div class=\\"li-validator__value name\\">
-         <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"\\"><span class=\\"validator-profile__status\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <span class=\\"validator-profile__status\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
             <div class=\\"top\\">
                herr_schmidt_revoked
             </div>
-<div class=\\"bottom\\">
-   cosmosvaladdr…rg7n
+      <div class=\\"bottom\\">
+         cosmosvaladdr…rg7n
+      </div>
 </div>
 </div>
-</a>
-</div>
-<div class=\\"li-validator__value your-votes\\">
-   <span>0.00</span>
-</div>
-<div class=\\"li-validator__value your-rewards\\">
-   <span>n/a</span>
-</div>
-<div class=\\"li-validator__break\\">
-   <span></span>
-</div>
-<div class=\\"li-validator__value percent_of_vote\\">
-   <span>57.58%</span>
-</div>
-<div class=\\"li-validator__value uptime\\">
-   <span>0.01%</span>
-</div>
-<div class=\\"li-validator__value commission\\">
-   <span>0.00%</span>
-</div>
-<div class=\\"li-validator__value slashes\\">
-   <span>n/a</span>
-</div>
-</div>
-</div>
-<div class=\\"li-validator li-validator-active li-validator-validator \\">
-   <div class=\\"li-validator__values\\">
+      <div class=\\"li-validator__value your-votes\\">
+         <span>0.00</span>
+      </div>
+      <div class=\\"li-validator__value your-rewards\\">
+         <span>n/a</span>
+      </div>
+      <div class=\\"li-validator__break\\">
+         <span></span>
+      </div>
+      <div class=\\"li-validator__value percent_of_vote\\">
+         <span>57.58%</span>
+      </div>
+      <div class=\\"li-validator__value uptime\\">
+         <span>0.01%</span>
+      </div>
+      <div class=\\"li-validator__value commission\\">
+         <span>0.00%</span>
+      </div>
+      <div class=\\"li-validator__value slashes\\">
+         <span>n/a</span>
+      </div>
+      </a>
+   </li>
+   <li class=\\"li-validator li-validator-active li-validator-validator \\">
+      <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"\\">
       <div class=\\"li-validator__value name\\">
-         <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"\\"><span class=\\"validator-profile__status\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <span class=\\"validator-profile__status\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
             <div class=\\"top\\">
                mr_mounty
             </div>
-<div class=\\"bottom\\">
-   cosmosvaladdr…8yqw
+      <div class=\\"bottom\\">
+         cosmosvaladdr…8yqw
+      </div>
 </div>
 </div>
-</a>
-</div>
-<div class=\\"li-validator__value your-votes\\">
-   <span>14.00</span>
-</div>
-<div class=\\"li-validator__value your-rewards\\">
-   <span>n/a</span>
-</div>
-<div class=\\"li-validator__break\\">
-   <span></span>
-</div>
-<div class=\\"li-validator__value percent_of_vote\\">
-   <span>42.42%</span>
-</div>
-<div class=\\"li-validator__value uptime\\">
-   <span>0.01%</span>
-</div>
-<div class=\\"li-validator__value commission\\">
-   <span>0.00%</span>
-</div>
-<div class=\\"li-validator__value slashes\\">
-   <span>n/a</span>
-</div>
-</div>
-</div>
-<div class=\\"li-validator li-validator-validator \\">
-   <div class=\\"li-validator__values\\">
+      <div class=\\"li-validator__value your-votes\\">
+         <span>14.00</span>
+      </div>
+      <div class=\\"li-validator__value your-rewards\\">
+         <span>n/a</span>
+      </div>
+      <div class=\\"li-validator__break\\">
+         <span></span>
+      </div>
+      <div class=\\"li-validator__value percent_of_vote\\">
+         <span>42.42%</span>
+      </div>
+      <div class=\\"li-validator__value uptime\\">
+         <span>0.01%</span>
+      </div>
+      <div class=\\"li-validator__value commission\\">
+         <span>0.00%</span>
+      </div>
+      <div class=\\"li-validator__value slashes\\">
+         <span>n/a</span>
+      </div>
+      </a>
+   </li>
+   <li class=\\"li-validator li-validator-validator \\">
+      <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"\\">
       <div class=\\"li-validator__value name\\">
-         <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"\\"><span class=\\"validator-profile__status\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <span class=\\"validator-profile__status\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
             <div class=\\"top\\">
                good_greg
             </div>
-<div class=\\"bottom\\">
-   cosmosvaladdr…n3au
+      <div class=\\"bottom\\">
+         cosmosvaladdr…n3au
+      </div>
 </div>
 </div>
-</a>
-</div>
-<div class=\\"li-validator__value your-votes\\">
-   <span>0.00</span>
-</div>
-<div class=\\"li-validator__value your-rewards\\">
-   <span>n/a</span>
-</div>
-<div class=\\"li-validator__break\\">
-   <span></span>
-</div>
-<div class=\\"li-validator__value percent_of_vote\\">
-   <span>0.00%</span>
-</div>
-<div class=\\"li-validator__value uptime\\">
-   <span>0.01%</span>
-</div>
-<div class=\\"li-validator__value commission\\">
-   <span>0.00%</span>
-</div>
-<div class=\\"li-validator__value slashes\\">
-   <span>n/a</span>
-</div>
-</div>
+      <div class=\\"li-validator__value your-votes\\">
+         <span>0.00</span>
+      </div>
+      <div class=\\"li-validator__value your-rewards\\">
+         <span>n/a</span>
+      </div>
+      <div class=\\"li-validator__break\\">
+         <span></span>
+      </div>
+      <div class=\\"li-validator__value percent_of_vote\\">
+         <span>0.00%</span>
+      </div>
+      <div class=\\"li-validator__value uptime\\">
+         <span>0.01%</span>
+      </div>
+      <div class=\\"li-validator__value commission\\">
+         <span>0.00%</span>
+      </div>
+      <div class=\\"li-validator__value slashes\\">
+         <span>n/a</span>
+      </div>
+      </a>
+   </li>
+</ol>
 </div>
 </div>"
 `;
 
 exports[`PageStaking should filter the delegates 1`] = `
 <div>
-  <div
-    class="panel-sort"
-  >
+  <div>
     <div
-      class="panel-sort-container"
+      class="panel-sort"
     >
       <div
-        class="sort-by name"
-      >
-        <!---->
-      </div>
-      <div
-        class="sort-by your-votes"
+        class="panel-sort-container"
       >
         <div
-          class="label"
+          class="sort-by name"
+        >
+          <!---->
+        </div>
+        <div
+          class="sort-by your-votes"
         >
           <div
-            class="label-text"
+            class="label"
           >
-            Bonded Steak
+            <div
+              class="label-text"
+            >
+              Bonded Steak
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        class="sort-by your-rewards"
-      >
         <div
-          class="label"
+          class="sort-by your-rewards"
         >
           <div
-            class="label-text"
+            class="label"
           >
-            Rewards
+            <div
+              class="label-text"
+            >
+              Rewards
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        class="sort-by percent_of_vote"
-      >
         <div
-          class="label"
+          class="sort-by percent_of_vote"
         >
           <div
-            class="label-text"
+            class="label"
           >
-            Voting Power
+            <div
+              class="label-text"
+            >
+              Voting Power
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        class="sort-by uptime"
-      >
         <div
-          class="label"
+          class="sort-by uptime"
         >
           <div
-            class="label-text"
+            class="label"
           >
-            Uptime
+            <div
+              class="label-text"
+            >
+              Uptime
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        class="sort-by commission"
-      >
         <div
-          class="label"
+          class="sort-by commission"
         >
           <div
-            class="label-text"
+            class="label"
           >
-            Commission
+            <div
+              class="label-text"
+            >
+              Commission
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        class="sort-by slashes"
-      >
         <div
-          class="label"
+          class="sort-by slashes"
         >
           <div
-            class="label-text"
+            class="label"
           >
-            Slashes
+            <div
+              class="label-text"
+            >
+              Slashes
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    class="li-validator li-validator-active li-validator-validator "
-  >
-    <div
-      class="li-validator__values"
+    <ol
+      type="1"
     >
-      <div
-        class="li-validator__value name"
+      <li
+        class="li-validator li-validator-active li-validator-validator "
       >
         <a
           class=""
           href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
         >
-          <span
-            class="validator-profile__status"
-          />
-          <img
-            class="avatar"
-            height="48"
-            src="~assets/images/validator-icon.svg"
-            width="48"
-          />
           <div
-            class="vert"
+            class="li-validator__value name"
           >
+            <span
+              class="validator-profile__status"
+            />
+            <img
+              class="avatar"
+              height="48"
+              src="~assets/images/validator-icon.svg"
+              width="48"
+            />
             <div
-              class="top"
+              class="vert"
             >
-              mr_mounty
-            </div>
-            <div
-              class="bottom"
-            >
-              cosmosvaladdr…8yqw
+              <div
+                class="top"
+              >
+                mr_mounty
+              </div>
+              <div
+                class="bottom"
+              >
+                cosmosvaladdr…8yqw
+              </div>
             </div>
           </div>
+          <div
+            class="li-validator__value your-votes"
+          >
+            <span>
+              14.00
+            </span>
+          </div>
+          <div
+            class="li-validator__value your-rewards"
+          >
+            <span>
+              n/a
+            </span>
+          </div>
+          <div
+            class="li-validator__break"
+          >
+            <span />
+          </div>
+          <div
+            class="li-validator__value percent_of_vote"
+          >
+            <span>
+              42.42%
+            </span>
+          </div>
+          <div
+            class="li-validator__value uptime"
+          >
+            <span>
+              0.01%
+            </span>
+          </div>
+          <div
+            class="li-validator__value commission"
+          >
+            <span>
+              0.00%
+            </span>
+          </div>
+          <div
+            class="li-validator__value slashes"
+          >
+            <span>
+              n/a
+            </span>
+          </div>
         </a>
-      </div>
-      <div
-        class="li-validator__value your-votes"
-      >
-        <span>
-          14.00
-        </span>
-      </div>
-      <div
-        class="li-validator__value your-rewards"
-      >
-        <span>
-          n/a
-        </span>
-      </div>
-      <div
-        class="li-validator__break"
-      >
-        <span />
-      </div>
-      <div
-        class="li-validator__value percent_of_vote"
-      >
-        <span>
-          42.42%
-        </span>
-      </div>
-      <div
-        class="li-validator__value uptime"
-      >
-        <span>
-          0.01%
-        </span>
-      </div>
-      <div
-        class="li-validator__value commission"
-      >
-        <span>
-          0.00%
-        </span>
-      </div>
-      <div
-        class="li-validator__value slashes"
-      >
-        <span>
-          n/a
-        </span>
-      </div>
-    </div>
+      </li>
+    </ol>
   </div>
 </div>
 `;
