@@ -41,7 +41,7 @@ if (require.main === module) {
     )
 
     const version = require(path.join(__dirname, `../package.json`)).version
-    const tag = `v` + version
+    const tag = `v${version}`
     console.log(`--- Releasing tag`, tag, `---`)
     const token = process.env.GIT_BOT_TOKEN
     await publishRelease({ notes, token, tag })
