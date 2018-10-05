@@ -1,41 +1,43 @@
 <template lang="pug">
-  .delegation-modal#undelegation-modal(v-click-outside="close")
-    .delegation-modal-header
-      img.icon(class='delegation-modal-atom' src="~assets/images/cosmos-logo.png")
+  .undelegation-modal#undelegation-modal(v-click-outside="close")
+    .undelegation-modal-header
+      img.icon(class='undelegation-modal-atom' src="~assets/images/cosmos-logo.png")
       span.tm-modal-title Undelegate
       .tm-modal-icon.tm-modal-close(@click="close()")
         i.material-icons close
 
-    //- To
-    tm-form-group.delegation-modal-form-group(
-      field-id='to' field-label='To')
-      tm-field#to(
-        readonly v-model="to")
-
-    //- Amount
-    tm-form-group.delegation-modal-form-group(
-      field-id='amount'
+    tm-form-group.undelegation-modal-form-group(
       field-label='Amount'
     )
+      tm-field#denom(
+        type="text"
+        :placeholder="bondingDenom"
+        readonly)
+
       tm-field#amount(
         :max="maximum"
         :min="0"
         type="number"
-        v-focus
-        v-model="amount")
+        v-model="amount"
+        v-focus)
+
+    //- To
+    tm-form-group.undelegation-modal-form-group(
+      field-id='to' field-label='To')
+      tm-field#to(readonly v-model="to")
 
     //- Footer
-    .delegation-modal-footer
+    .undelegation-modal-footer
       tm-btn(
-        @click.native="unUndelegate"
+        @click.native="onUndelegate"
         :disabled="$v.amount.$invalid"
         color="primary"
-        size="lg"
         value="Undelegate"
-      )
+        size="lg")
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
 import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
@@ -44,6 +46,9 @@ import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 export default {
   name: `undelegation-modal`,
   props: [`maximum`, `to`],
+  computed: {
+    ...mapGetters([`bondingDenom`])
+  },
   components: {
     Modal,
     TmBtn,
@@ -58,7 +63,7 @@ export default {
     return {
       amount: {
         required,
-        between: between(0, this.maximum)
+        between: between(0.0000000001, this.maximum)
       }
     }
   },
@@ -66,11 +71,10 @@ export default {
     close() {
       this.$emit(`update:showUndelegationModal`, false)
     },
-    unUndelegate() {
+    onUndelegate() {
       this.$emit(`submitUndelegation`, {
         amount: this.amount
       })
-
       this.close()
     }
   },
@@ -107,6 +111,9 @@ export default {
   &-form-group
     display block
     padding 0
+
+  #amount
+    margin-top -32px
 
   #denom
     text-align right

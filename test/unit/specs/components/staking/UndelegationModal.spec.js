@@ -6,7 +6,17 @@ import Vuelidate from "vuelidate"
 import UndelegationModal from "staking/UndelegationModal"
 
 // Create an example stake modal window.
+const getters = {
+  bondingDenom: `atom`
+}
+
 const Wrapper = () => {
+  const $store = {
+    commit: jest.fn(),
+    dispatch: jest.fn(),
+    getters
+  }
+
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
 
@@ -15,6 +25,9 @@ const Wrapper = () => {
     propsData: {
       maximum: 100,
       to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
+    },
+    mocks: {
+      $store
     }
   })
 }
@@ -24,7 +37,7 @@ test(`renders correctly`, () => {
 })
 
 test(`the "amount" field defaults to 0`, () => {
-  expect(Wrapper().vm.amount).toEqual(0)
+  expect(Number(Wrapper().vm.amount)).toEqual(0)
 })
 
 test(`display the 'To' address`, () => {
@@ -36,7 +49,7 @@ test(`display the 'To' address`, () => {
 test(`unstake button emits the unstake signal`, () => {
   const wrapper = Wrapper()
   wrapper.setData({ amount: 50 })
-  wrapper.vm.unUndelegate()
+  wrapper.vm.onUndelegate()
 
   expect(wrapper.emittedByOrder()).toEqual([
     {
@@ -47,6 +60,18 @@ test(`unstake button emits the unstake signal`, () => {
         }
       ]
     },
+    {
+      name: `update:showUndelegationModal`,
+      args: [false]
+    }
+  ])
+})
+
+test(`X button emits close signal`, () => {
+  const wrapper = Wrapper()
+  wrapper.vm.close()
+
+  expect(wrapper.emittedByOrder()).toEqual([
     {
       name: `update:showUndelegationModal`,
       args: [false]

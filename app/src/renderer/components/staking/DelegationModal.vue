@@ -12,8 +12,7 @@
       tm-field#denom(
         type="number"
         :placeholder="bondingDenom"
-        readonly
-        )
+        readonly)
 
       tm-field#amount(
         type="number"
@@ -38,11 +37,6 @@
 
     .delegation-modal-footer
       tm-btn(
-        @click.native="close"
-        size="lg"
-        value="Cancel"
-      )
-      tm-btn(
         @click.native="onDelegation"
         :disabled="$v.amount.$invalid"
         color="primary"
@@ -51,6 +45,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
 import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
@@ -58,7 +53,10 @@ import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
   name: `delegation-modal`,
-  props: [`bondingDenom`, `fromOptions`, `to`],
+  props: [`fromOptions`, `to`],
+  computed: {
+    ...mapGetters([`bondingDenom`])
+  },
   components: {
     Modal,
     TmBtn,

@@ -91,7 +91,6 @@ tm-page
     delegation-modal(
       v-if="showDelegationModal"
       v-on:submitDelegation="submitDelegation"
-      :bondingDenom="bondingDenom"
       :showDelegationModal.sync="showDelegationModal"
       :fromOptions="delegationTargetOptions()"
       :to="validator.owner"
@@ -100,6 +99,7 @@ tm-page
     undelegation-modal(
       v-if="showUndelegationModal"
       v-on:submitUndelegation="submitUndelegation"
+      :showUndelegationModal.sync="showUndelegationModal"
       :maximum="myBond"
       :to="this.wallet.address"
     )
