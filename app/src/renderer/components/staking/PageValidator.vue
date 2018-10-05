@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page
-  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unbondedAtoms="user.atoms")
+  template(slot="menu-body", v-if="config.devMode"): tm-balance
   div(slot="menu"): tm-tool-bar
     router-link(to="/staking" exact): i.material-icons arrow_back
     anchor-copy(v-if="validator" :value="validator.owner" icon="content_copy")
@@ -25,7 +25,7 @@ tm-page
             tm-btn(v-if="config.devMode" value="Undelegate" color="secondary")#undelegation-btn
         .row.validator-profile__header__data
           dl.colored_dl
-            dt My Bonded {{bondingDenom}}
+            dt Bonded {{bondingDenom}}
             dd {{ myBond < 0.01 ? '< ' + 0.01 : pretty(myBond)}}
           dl.colored_dl(v-if="config.devMode")
             dt My Rewards
@@ -138,8 +138,7 @@ export default {
       `keybase`,
       `oldBondedAtoms`,
       `totalAtoms`,
-      `wallet`,
-      `user`
+      `wallet`
     ]),
     validator() {
       let validator = this.delegates.delegates.find(
@@ -440,7 +439,7 @@ export default {
   align-items center
   display flex
   flex-direction column
-  width 5.1rem
+  width 6rem
 
   &:not(:last-child)
     margin-right 1rem
