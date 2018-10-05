@@ -70,6 +70,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Refactord submitDelegation. @NodeGuy
 * Improved network connectivity bar @jbibla
 * refactored words around staking and delegation @jbibla
+* Moved Vue error handling code from console_error_throw.js to main.js @NodeGuy
 
 ### Fixed
 
