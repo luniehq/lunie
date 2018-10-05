@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* updates to how addresses are displayed and how they can be copied @jbibla
+
 ## [0.10.6] - 2018-10-04
 
 ### Fixed
