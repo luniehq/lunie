@@ -82,6 +82,11 @@ describe(`LiValidator`, () => {
   it(`should show the validator's uptime`, () => {
     expect(wrapper.vm.uptime).toBe(`98.78%`)
     expect(wrapper.html()).toContain(`98.78%`)
+
+    wrapper.vm.validator.signing_info = null
+    wrapper.update()
+
+    expect(wrapper.vm.uptime).toBe(`n/a`)
   })
 
   it(`should show the validator's commission`, () => {

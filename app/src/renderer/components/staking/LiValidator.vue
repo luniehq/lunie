@@ -37,14 +37,7 @@ export default {
     ShortAddress
   },
   computed: {
-    ...mapGetters([
-      `lastHeader`,
-      `shoppingCart`,
-      `delegates`,
-      `config`,
-      `committedDelegations`,
-      `user`
-    ]),
+    ...mapGetters([`delegates`, `committedDelegations`]),
     slashes() {
       return `n/a` //TODO: add slashes
     },
@@ -92,12 +85,8 @@ export default {
     },
     styles() {
       let value = ``
-      if (this.inCart || this.yourVotes > 0) value += `li-validator-active `
       if (this.validator.isValidator) value += `li-validator-validator `
       return value
-    },
-    inCart() {
-      return this.shoppingCart.find(c => c.id === this.validator.id)
     },
     delegateType() {
       return this.validator.revoked
