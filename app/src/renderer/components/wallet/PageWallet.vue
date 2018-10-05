@@ -119,14 +119,6 @@ export default {
     },
     updateBalances() {
       this.queryWalletState()
-    },
-    copy() {
-      clipboard.writeText(this.wallet.address)
-
-      this.$store.commit(`notify`, {
-        title: `Copied your address to clipboard.`,
-        body: `You can receive Cosmos tokens of any denomination by sharing this address.`
-      })
     }
   },
   mounted() {

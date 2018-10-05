@@ -10,27 +10,14 @@
 import { clipboard } from "electron"
 export default {
   name: `short-address`,
-  computed: {
-    notifyTitle() {
-      if (this.title) return this.title
-      else return `Copy Success!`
-    },
-    notifyBody() {
-      if (this.body) return this.body
-      else return `"${this.value}" has been copied to your clipboard.`
-    }
-  },
+  props: [`address`],
   data: () => ({
     showSuccess: false
   }),
   computed: {
-    // if given a valid address this will return the prefix plus some parameter
-    // length of the end. if it is not an address it will take that parameter
-    // length and return half of it as the beginning of the "address" and hald the end
     shortAddress({ address } = this, length = 4) {
+      if (!address) return "Address Not Found"
       if (address.indexOf(`1`) === -1) {
-        console.log(address.length)
-        console.log(typeof address)
         return address.length <= length * 2
           ? address
           : address.slice(0, Math.floor(length)) +
@@ -50,8 +37,7 @@ export default {
         this.showSuccess = false
       }, 3000)
     }
-  },
-  props: [`address`]
+  }
 }
 </script>
 <style lang="stylus">

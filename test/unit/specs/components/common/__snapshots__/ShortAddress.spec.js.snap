@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShortAddress has the expected html structure 1`] = `"<div class=\\"short-address\\"><div id=\\"address\\" class=\\"address\\">cosmosftw…6789</div><div class=\\"success\\"><i class=\\"material-icons\\">check</i><span>Copied</span></div></div>"`;

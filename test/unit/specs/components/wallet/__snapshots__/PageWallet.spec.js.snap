@@ -25,10 +25,14 @@ exports[`PageWallet has the expected html structure 1`] = `
             <div
               class="top"
             >
-              <img
-                class="icon"
-                src="~assets/images/cosmos-logo.png"
-              />
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
               <div
                 class="total-atoms top-section"
               >
@@ -53,13 +57,13 @@ exports[`PageWallet has the expected html structure 1`] = `
               <!---->
             </div>
             <div
-              class="bottom"
+              class="short-address"
             >
               <div
                 class="address"
                 id="address"
               >
-                cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+                cosmosaccaddr…xxn9
               </div>
               <div
                 class="success"
@@ -459,10 +463,14 @@ exports[`PageWallet should filter the balances 1`] = `
             <div
               class="top"
             >
-              <img
-                class="icon"
-                src="~assets/images/cosmos-logo.png"
-              />
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
               <div
                 class="total-atoms top-section"
               >
@@ -487,13 +495,13 @@ exports[`PageWallet should filter the balances 1`] = `
               <!---->
             </div>
             <div
-              class="bottom"
+              class="short-address"
             >
               <div
                 class="address"
                 id="address"
               >
-                cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+                cosmosaccaddr…xxn9
               </div>
               <div
                 class="success"

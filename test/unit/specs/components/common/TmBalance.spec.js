@@ -46,29 +46,6 @@ describe(`TmBalance`, () => {
 
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
-
-  // it(`clicking copy copies the address`, async () => {
-  //   expect(
-  //     wrapper
-  //       .find(`.success`)
-  //       .classes()
-  //       .includes(`showSuccess`)
-  //   ).toBe(false)
-  //   wrapper.find(`.address`).trigger(`click`)
-  //   expect(
-  //     wrapper
-  //       .find(`.success`)
-  //       .classes()
-  //       .includes(`showSuccess`)
-  //   ).toBe(true)
-  //   await sleep(3500)
-  //   expect(
-  //     wrapper
-  //       .find(`.success`)
-  //       .classes()
-  //       .includes(`showSuccess`)
-  //   ).toBe(false)
-  // })
 })
 
 function sleep(ms) {
