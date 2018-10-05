@@ -4,8 +4,10 @@ exports[`TextBlock has the expected html structure 1`] = `
 <div
   class="text-block"
 >
-  <pre>
+  <p>
     Hello World
-  </pre>
+  </p>
+  
+
 </div>
 `;

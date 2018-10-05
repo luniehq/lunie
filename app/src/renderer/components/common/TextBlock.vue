@@ -1,6 +1,5 @@
 <template lang="pug">
-.text-block: pre {{ content }}
-  slot
+.text-block(v-html="htmlContent")
 </template>
 
 <script>
