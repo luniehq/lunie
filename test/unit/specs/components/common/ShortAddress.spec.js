@@ -16,6 +16,34 @@ describe(`ShortAddress`, () => {
     expect(wrapper.html()).toMatchSnapshot()
   })
 
+  it(`should return 'address not found'`, () => {
+    wrapper.setProps({ address: null })
+    wrapper.update()
+    expect(wrapper.vm.shortAddress).toBe(`Address Not Found`)
+  })
+
+  it(`should return the address as received`, () => {
+    wrapper.setProps({ address: `add1asd` })
+    wrapper.update()
+    expect(wrapper.vm.shortAddress).toBe(`add1asd`)
+
+    wrapper.setProps({ address: `add2asd` })
+    wrapper.update()
+    expect(wrapper.vm.shortAddress).toBe(`add2asd`)
+  })
+
+  it(`should return a short address with the first 4 letters`, () => {
+    wrapper.setProps({ address: `cosmosaddress2asdfasdfasdf` })
+    wrapper.update()
+    expect(wrapper.vm.shortAddress).toBe(`cosm…asdf`)
+  })
+
+  it(`should return a short address with everything before the 1`, () => {
+    wrapper.setProps({ address: `cosmosaddress1asdfasdfasdf` })
+    wrapper.update()
+    expect(wrapper.vm.shortAddress).toBe(`cosmosaddress…asdf`)
+  })
+
   it(`clicking copy copies the address`, async () => {
     expect(
       wrapper
