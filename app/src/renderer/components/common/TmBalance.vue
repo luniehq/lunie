@@ -30,13 +30,13 @@
 </template>
 <script>
 import num from "scripts/num"
+import ShortAddress from "common/ShortAddress"
 import { clipboard } from "electron"
 import { mapGetters } from "vuex"
-import shortAddress from "common/shortAddress"
 export default {
   name: `tm-balance`,
   components: {
-    shortAddress
+    ShortAddress
   },
   data() {
     return {
