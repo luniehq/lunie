@@ -28,7 +28,7 @@ li.li-validator(:class='styles')
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { shortAddress, calculateTokens, ratToBigNumber } from "scripts/common"
+import { calculateTokens, ratToBigNumber } from "scripts/common"
 import ShortAddress from "common/ShortAddress"
 export default {
   name: `li-validator`,
@@ -141,7 +141,7 @@ export default {
     //   return "green"
     // }
   },
-  data: () => ({ num, shortAddress })
+  data: () => ({ num })
 }
 </script>
 
