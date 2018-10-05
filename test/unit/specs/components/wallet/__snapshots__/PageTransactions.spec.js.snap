@@ -3,6 +3,7 @@
 exports[`PageTransactions has the expected html structure 1`] = `
 <div
   class="tm-page"
+  data-title="Transactions"
 >
   <header
     class="tm-page-header"
@@ -13,15 +14,62 @@ exports[`PageTransactions has the expected html structure 1`] = `
       <div
         class="tm-page-header-text"
       >
+        <!---->
+        <!---->
         <div
-          class="tm-page-header-title"
+          class="tm-page-header-body"
         >
-          <h2>
-            Transactions
-          </h2>
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <img
+                class="icon"
+                src="~assets/images/cosmos-logo.png"
+              />
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                <h2>
+                  0.00
+                </h2>
+              </div>
+              <!---->
+              <!---->
+              <!---->
+            </div>
+            <div
+              class="bottom"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+              </div>
+              <div
+                class="success"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+            <div
+              class="tabs"
+            />
+          </div>
         </div>
-        <!---->
-        <!---->
       </div>
       <menu
         class="tm-page-header-menu"
@@ -164,6 +212,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
 exports[`PageTransactions should filter the transactions 1`] = `
 <div
   class="tm-page"
+  data-title="Transactions"
 >
   <header
     class="tm-page-header"
@@ -174,15 +223,62 @@ exports[`PageTransactions should filter the transactions 1`] = `
       <div
         class="tm-page-header-text"
       >
+        <!---->
+        <!---->
         <div
-          class="tm-page-header-title"
+          class="tm-page-header-body"
         >
-          <h2>
-            Transactions
-          </h2>
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <img
+                class="icon"
+                src="~assets/images/cosmos-logo.png"
+              />
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                <h2>
+                  0.00
+                </h2>
+              </div>
+              <!---->
+              <!---->
+              <!---->
+            </div>
+            <div
+              class="bottom"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+              </div>
+              <div
+                class="success"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+            <div
+              class="tabs"
+            />
+          </div>
         </div>
-        <!---->
-        <!---->
       </div>
       <menu
         class="tm-page-header-menu"

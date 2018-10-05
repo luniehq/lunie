@@ -1,10 +1,12 @@
 <template lang="pug">
-tm-page(title='Transactions')
-  div(slot="menu"): vm-tool-bar
-    a(@click='connected && refreshTransactions()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
-      i.material-icons refresh
-    a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
-      i.material-icons search
+tm-page(data-title='Transactions')
+  template(slot="menu-body"): tm-balance
+  div(slot="menu")
+    vm-tool-bar
+      a(@click='connected && refreshTransactions()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
+        i.material-icons refresh
+      a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
+        i.material-icons search
 
   modal-search(type="transactions" v-if="somethingToSearch")
 
@@ -30,11 +32,13 @@ import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import ModalSearch from "common/TmModalSearch"
+import TmBalance from "common/TmBalance"
 import { TmPage, TmDataLoading, TmLiAnyTransaction } from "@tendermint/ui"
 import VmToolBar from "common/VmToolBar"
 export default {
   name: `page-transactions`,
   components: {
+    TmBalance,
     TmLiAnyTransaction,
     TmDataLoading,
     DataEmptySearch,
