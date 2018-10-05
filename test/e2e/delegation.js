@@ -76,8 +76,42 @@ test(`delegation`, async function(t) {
       // Go back to Staking page.
       .click(`//a//*[. = 'Staking']`)
 
-    // Why is this necessary?  See
-    // https://github.com/jprichardson/tape-promise#example-asyncawait
+    // Shouldn't be necessary but see
+    // https://github.com/jprichardson/tape-promise/issues/17#issuecomment-425276035.
+    t.end()
+  })
+
+  t.test(`Undelegate`, async t => {
+    await app.client
+      // Select the Validators tab.
+      .click(`//a[. = 'Validators']`)
+
+      // Select the second validator.
+      .click(`//*[. = 'local_1']`)
+
+    // For some reason we need to sleep at this point in order to prevent the
+    // following error:
+    //
+    // Element <span class="tm-btn__container tm-btn--primary">...</span> is not
+    // clickable at point (960, 219). Other element would receive the click:
+    // <div class="ps__rail-y" style="top: 0px; height: 557px; right:
+    // 0px;">...</div>
+    await sleep(500)
+
+    await app.client
+      .click(`//button/*[. = 'Undelegate']`)
+      .setValue(`#amount`, 5)
+      .click(`//*[@id = 'undelegation-modal']//button//*[. = 'Undelegate']`)
+      .waitForVisible(
+        `//*[. = 'You have successfully undelegated 5 Steaks.']`,
+        5 * 1000
+      )
+
+      // Go back to Staking page.
+      .click(`//a//*[. = 'Staking']`)
+
+    // Shouldn't be necessary but see
+    // https://github.com/jprichardson/tape-promise/issues/17#issuecomment-425276035.
     t.end()
   })
 
