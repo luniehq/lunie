@@ -30,7 +30,6 @@
 </template>
 <script>
 import num from "scripts/num"
-import { clipboard } from "electron"
 import ShortAddress from "common/ShortAddress"
 import { mapGetters } from "vuex"
 export default {
@@ -52,15 +51,6 @@ export default {
     },
     unbondedAtoms() {
       return this.user.atoms
-    }
-  },
-  methods: {
-    copy() {
-      clipboard.writeText(this.user.address)
-      this.showSuccess = true
-      setTimeout(() => {
-        this.showSuccess = false
-      }, 3000)
     }
   }
 }
