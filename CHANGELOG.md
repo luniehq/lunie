@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 * set width for validator stats to avoid styling bugs @jbibla
+* Test setMockedConnector without starting an endless loop. @NodeGuy
 
 ## [0.10.6] - 2018-10-04
 
