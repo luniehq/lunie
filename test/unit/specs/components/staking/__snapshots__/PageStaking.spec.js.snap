@@ -32,7 +32,14 @@ exports[`PageStaking has the expected html structure 1`] = `
       <!---->
       <!---->
 </div>
-   <short-address address=\\"cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9\\"></short-address>
+   <div class=\\"short-address\\">
+      <div id=\\"address\\" class=\\"address\\">
+         cosmosaccaddr…xxn9
+      </div>
+   <div class=\\"success\\">
+      <i class=\\"material-icons\\">check</i><span>Copied</span>
+   </div>
+</div>
    <div class=\\"tabs\\">
       <div class=\\"tab\\">
          <a href=\\"#/staking/my-delegations\\" class=\\"\\">My Delegations</a>
@@ -92,7 +99,14 @@ exports[`PageStaking has the expected html structure 1`] = `
          <!---->
          <!---->
    </div>
-      <short-address address=\\"cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9\\"></short-address>
+      <div class=\\"short-address\\">
+         <div id=\\"address\\" class=\\"address\\">
+            cosmosaccaddr…xxn9
+         </div>
+      <div class=\\"success\\">
+         <i class=\\"material-icons\\">check</i><span>Copied</span>
+      </div>
+</div>
       <div class=\\"tabs\\"></div>
 </div>
 </div>
@@ -234,9 +248,28 @@ exports[`PageStaking should filter the delegates 1`] = `
               <!---->
               <!---->
             </div>
-            <short-address
-              address="cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-            />
+            <div
+              class="short-address"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                cosmosaccaddr…xxn9
+              </div>
+              <div
+                class="success"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
             <div
               class="tabs"
             >
@@ -441,9 +474,28 @@ exports[`PageStaking should filter the delegates 1`] = `
                   <!---->
                   <!---->
                 </div>
-                <short-address
-                  address="cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-                />
+                <div
+                  class="short-address"
+                >
+                  <div
+                    class="address"
+                    id="address"
+                  >
+                    cosmosaccaddr…xxn9
+                  </div>
+                  <div
+                    class="success"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      check
+                    </i>
+                    <span>
+                      Copied
+                    </span>
+                  </div>
+                </div>
                 <div
                   class="tabs"
                 />
