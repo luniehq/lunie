@@ -29,9 +29,6 @@ describe(`TmBalance`, () => {
   })
 
   it(`shows correct stats depending on props`, () => {
-    expect(wrapper.contains(`.unbonded-atoms`)).toBe(false)
-    wrapper.setProps({ unbondedAtoms: 1337 })
-    wrapper.update()
     expect(wrapper.contains(`.unbonded-atoms`)).toBe(true)
 
     expect(wrapper.contains(`.total-earnings`)).toBe(false)
