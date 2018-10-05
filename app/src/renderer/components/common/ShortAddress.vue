@@ -1,14 +1,13 @@
 <template lang="pug">
 .short-address
-  .address(@click.prevent.stop="copy" v-tooltip.top="address")#address {{ shortAddress(address) }}
-  .success(:class="{showSuccess:showSuccess}")
+  .address(@click.prevent.stop="copy" v-tooltip.top="address")#address {{ shortAddress }}
+  .success(:class="{active:showSuccess}")
     i.material-icons check
     span Copied
 </template>
 
 <script>
 import { clipboard } from "electron"
-import { shortAddress } from "scripts/common"
 export default {
   name: `short-address`,
   computed: {
@@ -22,9 +21,27 @@ export default {
     }
   },
   data: () => ({
-    shortAddress,
     showSuccess: false
   }),
+  computed: {
+    // if given a valid address this will return the prefix plus some parameter
+    // length of the end. if it is not an address it will take that parameter
+    // length and return half of it as the beginning of the "address" and hald the end
+    shortAddress({ address } = this, length = 4) {
+      if (address.indexOf(`1`) === -1) {
+        console.log(address.length)
+        console.log(typeof address)
+        return address.length <= length * 2
+          ? address
+          : address.slice(0, Math.floor(length)) +
+              `…` +
+              address.slice(-1 * Math.ceil(length))
+      } else {
+        if (length > address.split(`1`)[1].length) return address
+        return address.split(`1`)[0] + `…` + address.slice(-1 * length)
+      }
+    }
+  },
   methods: {
     copy() {
       clipboard.writeText(this.address)
@@ -65,7 +82,7 @@ export default {
     position relative
     top -2px
 
-    &.showSuccess
+    &.active
       opacity 1
 
     i
