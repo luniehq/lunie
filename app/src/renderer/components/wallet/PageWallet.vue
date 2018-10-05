@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
-  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unbondedAtoms="user.atoms")
+  template(slot="menu-body", v-if="config.devMode"): tm-balance
   div(slot="menu")
     vm-tool-bar
       a(@click='connected && updateBalances()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
@@ -80,8 +80,7 @@ export default {
       `committedDelegations`,
       `oldBondedAtoms`,
       `config`,
-      `connected`,
-      `user`
+      `connected`
     ]),
     somethingToSearch() {
       return !this.wallet.balancesLoading && !!this.wallet.balances.length
