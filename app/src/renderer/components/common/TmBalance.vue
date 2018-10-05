@@ -43,9 +43,24 @@ export default {
       tabIndex: 1
     }
   },
-  props: [`unbondedAtoms`, `totalEarnings`, `totalRewards`, `tabs`],
+  props: [`totalEarnings`, `totalRewards`, `tabs`],
   computed: {
-    ...mapGetters([`bondingDenom`, `user`, `totalAtoms`])
+    ...mapGetters([`bondingDenom`, `user`, `totalAtoms`]),
+    address() {
+      return this.user.address
+    },
+    unbondedAtoms() {
+      return this.user.atoms
+    }
+  },
+  methods: {
+    copy() {
+      clipboard.writeText(this.user.address)
+      this.showSuccess = true
+      setTimeout(() => {
+        this.showSuccess = false
+      }, 3000)
+    }
   }
 }
 </script>

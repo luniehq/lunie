@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page
-  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unbondedAtoms="user.atoms")
+  template(slot="menu-body", v-if="config.devMode"): tm-balance
   div(slot="menu"): tm-tool-bar
     router-link(to="/staking" exact): i.material-icons arrow_back
 
@@ -136,8 +136,7 @@ export default {
       `keybase`,
       `oldBondedAtoms`,
       `totalAtoms`,
-      `wallet`,
-      `user`
+      `wallet`
     ]),
     validator() {
       let validator = this.delegates.delegates.find(

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* TmBalance to transaction history page @jbibla
+
+### Changed
+
+* TmBalance no longer expects unbondedAtoms prop @jbibla
+
 ### Fixed
 
 * set width for validator stats to avoid styling bugs @jbibla
