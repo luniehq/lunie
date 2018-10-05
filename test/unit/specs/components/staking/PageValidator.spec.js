@@ -1,6 +1,7 @@
 import Delegation from "renderer/vuex/modules/delegation"
 import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
+import TmModal from "common/TmModal"
 import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import { createLocalVue, mount } from "@vue/test-utils"
@@ -423,14 +424,16 @@ describe(`onDelegation`, () => {
       })
 
       wrapper.find(`#delegation-btn`).trigger(`click`)
-
-      expect(wrapper.text().includes(`You have no atoms to delegate.`)).toEqual(
+      expect(wrapper.vm.showCannotModal).toBe(true)
+      expect(wrapper.contains(TmModal)).toEqual(true)
+      expect(wrapper.text().includes(`have no atoms to delegate.OK`)).toEqual(
         true
       )
 
       wrapper.find(`#no-atoms-modal__btn`).trigger(`click`)
-
-      expect(wrapper.text().includes(`You have no atoms to delegate.`)).toEqual(
+      expect(wrapper.vm.showCannotModal).toBe(false)
+      expect(wrapper.contains(TmModal)).toEqual(false)
+      expect(wrapper.text().includes(`have no atoms to delegate.OK`)).toEqual(
         false
       )
     })
@@ -966,13 +969,12 @@ describe(`onUnstake`, () => {
       })
 
       wrapper.find(`#undelegation-btn`).trigger(`click`)
-      expect(wrapper.vm.showCannotUndelegate).toBe(true)
-
+      expect(wrapper.vm.showCannotModal).toBe(true)
       expect(wrapper.text()).toContain(
         `You have no atoms delegated to this validator.`
       )
 
-      wrapper.find(`#no-bond-modal__btn`).trigger(`click`)
+      wrapper.find(`#no-atoms-modal__btn`).trigger(`click`)
 
       expect(wrapper.text()).not.toContain(
         `You have no atoms delegated to this validator.`

@@ -403,7 +403,6 @@ exports[`PageValidator has the expected html structure 1`] = `
     <!---->
     <!---->
     <!---->
-    <!---->
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
@@ -828,7 +827,6 @@ exports[`PageValidator shows a default avatar 1`] = `
         </div>
       </div>
     </div>
-    <!---->
     <!---->
     <!---->
     <!---->

@@ -16,6 +16,7 @@ div(:class='cssClass' @click.self="close()")
 
 <script>
 export default {
+  name: `tm-modal`,
   computed: {
     cssClass() {
       let value = `tm-modal`

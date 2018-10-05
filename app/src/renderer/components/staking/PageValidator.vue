@@ -103,27 +103,13 @@ tm-page
       :maximum="myBond"
       :to="this.wallet.address"
     )
-
-    tm-modal(:close="closeCannotDelegate" icon="warning" v-if="showCannotDelegate")
-      div(slot='title') Cannot Complete Delegation
-      p You have no {{ bondingDenom }}s to delegate.
+    tm-modal(:close="closeCannotModal" icon="warning" v-if="showCannotModal")
+      div(slot='title') Cannot Complete {{ action == `delegate`? `Delegation` : `Undelegation` }}
+      p You have no {{ bondingDenom }}s {{ action == `undelegate` ? `delegated `: `` }}to {{ action == `delegate` ? `delegate.` : `this validator.` }}
       div(slot='footer')
         tmBtn(
           id="no-atoms-modal__btn"
-          @click.native="closeCannotDelegate"
-          value="OK"
-        )
-
-    tm-modal(
-      :close="closeCannotUndelegate"
-      icon="warning"
-      v-if="showCannotUndelegate"
-    )
-      div(slot='title') Cannot Complete Undelegation
-      p You have no {{ bondingDenom }}s delegated to this validator.
-      div(slot='footer')
-        tmBtn#no-bond-modal__btn(
-          @click.native="closeCannotUndelegate"
+          @click.native="closeCannotModal"
           value="OK"
         )
 </template>
@@ -131,14 +117,8 @@ tm-page
 <script>
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
-import {
-  TmBtn,
-  TmListItem,
-  TmPage,
-  TmPart,
-  TmToolBar,
-  TmModal
-} from "@tendermint/ui"
+import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
+import TmModal from "common/TmModal"
 import { TmDataError } from "common/TmDataError"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
@@ -163,12 +143,12 @@ export default {
     TmBalance
   },
   data: () => ({
-    showCannotDelegate: false,
-    showCannotUndelegate: false,
+    showCannotModal: false,
     showDelegationModal: false,
     showUndelegationModal: false,
     shortAddress,
-    tabIndex: 1
+    tabIndex: 1,
+    action: ``
   }),
   computed: {
     ...mapGetters([
@@ -246,24 +226,23 @@ export default {
     }
   },
   methods: {
-    closeCannotDelegate() {
-      this.showCannotDelegate = false
-    },
-    closeCannotUndelegate() {
-      this.showCannotUndelegate = false
+    closeCannotModal() {
+      this.showCannotModal = false
     },
     onDelegation() {
+      this.action = `delegate`
       if (this.availableAtoms > 0) {
         this.showDelegationModal = true
       } else {
-        this.showCannotDelegate = true
+        this.showCannotModal = true
       }
     },
     onUndelegation() {
+      this.action = `undelegate`
       if (this.myBond.isGreaterThan(0)) {
         this.showUndelegationModal = true
       } else {
-        this.showCannotUndelegate = true
+        this.showCannotModal = true
       }
     },
     async submitDelegation({ amount, from }) {
