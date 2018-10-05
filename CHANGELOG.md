@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+* set width for validator stats to avoid styling bugs @jbibla
+
 ### Changed
 
 * updates to how addresses are displayed and how they can be copied @jbibla

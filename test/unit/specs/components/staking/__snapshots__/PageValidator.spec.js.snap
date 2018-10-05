@@ -208,7 +208,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="colored_dl"
           >
             <dt>
-              My Bonded Steak
+              Bonded Steak
             </dt>
             <dd>
               &lt; 0.01
@@ -640,7 +640,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="colored_dl"
           >
             <dt>
-              My Bonded Steak
+              Bonded Steak
             </dt>
             <dd>
               &lt; 0.01
