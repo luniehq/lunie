@@ -30,6 +30,7 @@
 </template>
 <script>
 import num from "scripts/num"
+import { clipboard } from "electron"
 import ShortAddress from "common/ShortAddress"
 import { mapGetters } from "vuex"
 export default {
