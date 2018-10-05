@@ -46,7 +46,8 @@ export default {
       property: `percent_of_vote`,
       order: `desc`
     },
-    tabs: [`My Delegations`, `Validators`, `Parameters`]
+    //TODO add `Parameters` tab
+    tabs: [`My Delegations`, `Validators`]
   }),
   computed: {
     ...mapGetters([

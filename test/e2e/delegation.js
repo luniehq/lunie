@@ -81,17 +81,18 @@ test(`delegation`, async function(t) {
     t.end()
   })
 
-  t.test(`Parameters`, async function(t) {
-    // Select the Parameters tab.
-    await app.client.click(`//a[. = 'Parameters']`)
-
-    await t.notOk(
-      await app.client.waitForExist(`.tm-notification`, 2 * 1000),
-      `should not get an notification error while fetching params and pool`
-    )
-
-    t.end()
-  })
+  // TODO uncomment when redelegation tab is added again
+  // t.test(`Parameters`, async function(t) {
+  //   // Select the Parameters tab.
+  //   await app.client.click(`//a[. = 'Parameters']`)
+  //
+  //   await t.notOk(
+  //     await app.client.waitForExist(`.tm-notification`, 2 * 1000),
+  //     `should not get an notification error while fetching params and pool`
+  //   )
+  //
+  //   t.end()
+  // })
 
   t.end()
 })

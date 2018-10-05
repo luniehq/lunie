@@ -45,9 +45,6 @@ exports[`PageStaking has the expected html structure 1`] = `
    <div class=\\"tab\\">
       <a href=\\"#/staking/Validators\\" class=\\"\\">Validators</a>
    </div>
-   <div class=\\"tab\\">
-      <a href=\\"#/staking/staking-parameters\\" class=\\"\\">Parameters</a>
-   </div>
 </div>
 </div>
 </div>
@@ -286,16 +283,6 @@ exports[`PageStaking should filter the delegates 1`] = `
                   href="#/staking/Validators"
                 >
                   Validators
-                </a>
-              </div>
-              <div
-                class="tab"
-              >
-                <a
-                  class=""
-                  href="#/staking/staking-parameters"
-                >
-                  Parameters
                 </a>
               </div>
             </div>
