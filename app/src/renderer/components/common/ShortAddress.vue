@@ -16,7 +16,7 @@ export default {
   }),
   computed: {
     shortAddress({ address } = this, length = 4) {
-      if (!address) return "Address Not Found"
+      if (!address) return `Address Not Found`
       if (address.indexOf(`1`) === -1) {
         return address.length <= length * 2
           ? address

@@ -31,7 +31,6 @@
 <script>
 import num from "scripts/num"
 import ShortAddress from "common/ShortAddress"
-import { clipboard } from "electron"
 import { mapGetters } from "vuex"
 export default {
   name: `tm-balance`,

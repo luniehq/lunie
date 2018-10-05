@@ -40,7 +40,6 @@ tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
 <script>
 import num from "scripts/num"
 import { mapGetters, mapActions } from "vuex"
-import { clipboard } from "electron"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"

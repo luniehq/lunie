@@ -2,7 +2,7 @@ import setup from "../../../helpers/vuex-setup"
 import ShortAddress from "renderer/components/common/ShortAddress"
 
 describe(`ShortAddress`, () => {
-  let wrapper, store
+  let wrapper
   let instance = setup()
 
   beforeEach(() => {
@@ -10,7 +10,6 @@ describe(`ShortAddress`, () => {
       propsData: { address: `cosmosftw123456789` }
     })
     wrapper = test.wrapper
-    store = test.store
   })
 
   it(`has the expected html structure`, () => {
@@ -39,4 +38,8 @@ describe(`ShortAddress`, () => {
   //       .includes(`showSuccess`)
   //   ).toBe(false)
   // })
+
+  // function sleep(ms) {
+  //   return new Promise(resolve => setTimeout(resolve, ms))
+  // }
 })
