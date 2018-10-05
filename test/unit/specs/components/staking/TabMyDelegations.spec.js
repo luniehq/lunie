@@ -4,10 +4,7 @@ const delegates = [
   {
     id: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
     owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-    pub_key: {
-      type: `AC26791624DE60`,
-      data: `t3zVnKU42WNH+NtYFcstZRLFVULWV8VagoP0HwW43Pk=`
-    },
+    pub_key: `valpub123456789`,
     revoked: false,
     tokens: `14`,
     delegator_shares: `14`,
@@ -30,10 +27,7 @@ const delegates = [
   {
     id: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
     owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-    pub_key: {
-      type: `AC26791624DE60`,
-      data: `9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w=`
-    },
+    pub_key: `pubsub1234567891234`,
     tokens: `0`,
     delegator_shares: `0`,
     description: {
@@ -55,10 +49,7 @@ const delegates = [
   {
     id: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`,
     owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`,
-    pub_key: {
-      type: `AC26791624DE60`,
-      data: `dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=`
-    },
+    pub_key: `subpump987654321`,
     tokens: `19`,
     delegator_shares: `19`,
     description: {
@@ -109,10 +100,7 @@ test(`undelegatedValidators`, () => {
       owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
       prev_bonded_shares: `0`,
       proposer_reward_pool: null,
-      pub_key: {
-        data: `9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w=`,
-        type: `AC26791624DE60`
-      },
+      pub_key: `pubsub1234567891234`,
       status: 2,
       tokens: `0`
     }
@@ -146,10 +134,7 @@ test(`yourValidators`, () => {
       owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
       prev_bonded_shares: `0`,
       proposer_reward_pool: null,
-      pub_key: {
-        data: `9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w=`,
-        type: `AC26791624DE60`
-      },
+      pub_key: `pubsub1234567891234`,
       status: 2,
       tokens: `0`
     }

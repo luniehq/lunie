@@ -134,10 +134,7 @@ let state = {
   candidates: [
     {
       owner: validators[0],
-      pub_key: {
-        type: `AC26791624DE60`,
-        data: `t3zVnKU42WNH+NtYFcstZRLFVULWV8VagoP0HwW43Pk=`
-      },
+      pub_key: `cosmosvalpub1234`,
       revoked: false,
       tokens: `14`,
       delegator_shares: `14`,
@@ -159,10 +156,7 @@ let state = {
     },
     {
       owner: validators[1],
-      pub_key: {
-        type: `AC26791624DE60`,
-        data: `9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w=`
-      },
+      pub_key: `cosmosvalpub5678`,
       revoked: false,
       tokens: `0`,
       delegator_shares: `0`,
@@ -184,10 +178,7 @@ let state = {
     },
     {
       owner: validators[2],
-      pub_key: {
-        type: `AC26791624DE60`,
-        data: `dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=`
-      },
+      pub_key: `cosmosvalpub8910`,
       tokens: `19`,
       delegator_shares: `19`,
       description: {
