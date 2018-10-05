@@ -10,10 +10,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Display staking parameters and pool @fedekunze
+* TmBalance to transaction history page @jbibla
+
+### Changed
+
+* TmBalance no longer expects unbondedAtoms prop @jbibla
+
+### Fixed
+
+* set width for validator stats to avoid styling bugs @jbibla
+
+## [0.10.6] - 2018-10-04
+
+### Fixed
+
+* automatic release process bugs @NodeGuy
+
+## [0.10.5] - 2018-10-04
 
 ### Changed
 
 * tabs now live inside the balance header @jbibla
+
+### Fixed
+
+* automatic release process bugs @NodeGuy
 
 ## [0.10.4] - 2018-10-03
 
@@ -50,6 +71,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Refactord submitDelegation. @NodeGuy
 * Improved network connectivity bar @jbibla
 * refactored words around staking and delegation @jbibla
+* Moved Vue error handling code from console_error_throw.js to main.js @NodeGuy
 
 ### Fixed
 
