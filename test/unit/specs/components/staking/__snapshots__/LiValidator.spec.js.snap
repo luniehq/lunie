@@ -12,7 +12,7 @@ exports[`LiValidator has the expected html structure 1`] = `
       class="li-validator__value name"
     >
       <span
-        class="validator-profile__status"
+        class="validator-profile__status green"
       />
       <img
         class="avatar"
