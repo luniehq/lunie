@@ -17,27 +17,14 @@ module.exports = {
   },
   async openMenu(app) {
     console.log(`opening menu`)
-    let time = Date.now()
     if (await app.client.isExisting(`.app-menu`)) {
       return
     }
-    console.log(time - Date.now())
-    time = Date.now()
     await module.exports.closeNotifications(app)
-    console.log(time - Date.now())
-    time = Date.now()
     await app.client.waitForExist(`.material-icons=menu`, 1000)
-    console.log(time - Date.now())
-    time = Date.now()
     await sleep(100)
-    console.log(time - Date.now())
-    time = Date.now()
     await app.client.$(`.material-icons=menu`).click()
-    console.log(time - Date.now())
-    time = Date.now()
     await app.client.waitForExist(`.app-menu`, 1000)
-    console.log(time - Date.now())
-    time = Date.now()
   },
   async closeMenu(app) {
     console.log(`closing menu`)
