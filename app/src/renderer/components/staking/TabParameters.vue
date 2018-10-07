@@ -190,7 +190,7 @@ h3
     margin-bottom 4px
 
   dd
-    border solid 1px #31354e
+    border 1px solid var(--white-fade-2)
     border-radius 2px
     font-size 1rem
     line-height 1rem
