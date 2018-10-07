@@ -17,14 +17,27 @@ module.exports = {
   },
   async openMenu(app) {
     console.log(`opening menu`)
+    let time = Date.now()
     if (await app.client.isExisting(`.app-menu`)) {
       return
     }
+    console.log(time - Date.now())
+    time = Date.now()
     await module.exports.closeNotifications(app)
+    console.log(time - Date.now())
+    time = Date.now()
     await app.client.waitForExist(`.material-icons=menu`, 1000)
+    console.log(time - Date.now())
+    time = Date.now()
     await sleep(100)
+    console.log(time - Date.now())
+    time = Date.now()
     await app.client.$(`.material-icons=menu`).click()
+    console.log(time - Date.now())
+    time = Date.now()
     await app.client.waitForExist(`.app-menu`, 1000)
+    console.log(time - Date.now())
+    time = Date.now()
   },
   async closeMenu(app) {
     console.log(`closing menu`)
@@ -48,14 +61,12 @@ module.exports = {
     await module.exports.openMenu(app)
     // click link
     await app.client.$(`a*=${linkText}`).click()
-    try {
-      await app.client.waitUntilTextExists(`.tm-page-header-title`, titleText)
-    } catch (error) {
-      // if .tm-page-header-title doeesn't exist with titleText it may be using
-      // the new UI. if that's the case it should use a data-title parameter
-      // with the same titleText.
-      await app.client.waitForExist(`[data-title='${titleText}']`)
-    }
+    await app.client.waitForExist(`[data-title='${titleText}']`).catch(err => {
+      console.error(
+        `Couldn't approve that current page is correct. Does the target page has a 'data-title' attribute with the name of the link from the menu?`
+      )
+      throw err
+    })
     console.log(`navigated to "${linkText}"`)
   },
   async navigateToPreferences(app) {
