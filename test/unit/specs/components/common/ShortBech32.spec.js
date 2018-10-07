@@ -1,12 +1,12 @@
 import setup from "../../../helpers/vuex-setup"
-import ShortAddress from "renderer/components/common/ShortAddress"
+import ShortBech32 from "renderer/components/common/ShortBech32"
 
-describe(`ShortAddress`, () => {
+describe(`ShortBech32`, () => {
   let wrapper
   let instance = setup()
 
   beforeEach(() => {
-    let test = instance.mount(ShortAddress, {
+    let test = instance.mount(ShortBech32, {
       propsData: { address: `cosmosftw123456789` }
     })
     wrapper = test.wrapper
@@ -19,29 +19,29 @@ describe(`ShortAddress`, () => {
   it(`should return 'address not found'`, () => {
     wrapper.setProps({ address: null })
     wrapper.update()
-    expect(wrapper.vm.shortAddress).toBe(`Address Not Found`)
+    expect(wrapper.vm.shortBech32).toBe(`Address Not Found`)
   })
 
   it(`should return the address as received`, () => {
     wrapper.setProps({ address: `add1asd` })
     wrapper.update()
-    expect(wrapper.vm.shortAddress).toBe(`add1asd`)
+    expect(wrapper.vm.shortBech32).toBe(`add1asd`)
 
     wrapper.setProps({ address: `add2asd` })
     wrapper.update()
-    expect(wrapper.vm.shortAddress).toBe(`add2asd`)
+    expect(wrapper.vm.shortBech32).toBe(`add2asd`)
   })
 
   it(`should return a short address with the first 4 letters`, () => {
     wrapper.setProps({ address: `cosmosaddress2asdfasdfasdf` })
     wrapper.update()
-    expect(wrapper.vm.shortAddress).toBe(`cosm…asdf`)
+    expect(wrapper.vm.shortBech32).toBe(`cosm…asdf`)
   })
 
   it(`should return a short address with everything before the 1`, () => {
     wrapper.setProps({ address: `cosmosaddress1asdfasdfasdf` })
     wrapper.update()
-    expect(wrapper.vm.shortAddress).toBe(`cosmosaddress…asdf`)
+    expect(wrapper.vm.shortBech32).toBe(`cosmosaddress…asdf`)
   })
 
   it(`clicking copy copies the address`, async () => {

@@ -32,7 +32,7 @@ exports[`PageStaking has the expected html structure 1`] = `
       <!---->
       <!---->
 </div>
-   <div class=\\"short-address\\">
+   <div class=\\"short-bech32\\">
       <div id=\\"address\\" class=\\"address\\">
          cosmosaccaddr…xxn9
       </div>
@@ -99,7 +99,7 @@ exports[`PageStaking has the expected html structure 1`] = `
          <!---->
          <!---->
    </div>
-      <div class=\\"short-address\\">
+      <div class=\\"short-bech32\\">
          <div id=\\"address\\" class=\\"address\\">
             cosmosaccaddr…xxn9
          </div>
@@ -249,7 +249,7 @@ exports[`PageStaking should filter the delegates 1`] = `
               <!---->
             </div>
             <div
-              class="short-address"
+              class="short-bech32"
             >
               <div
                 class="address"
@@ -475,7 +475,7 @@ exports[`PageStaking should filter the delegates 1`] = `
                   <!---->
                 </div>
                 <div
-                  class="short-address"
+                  class="short-bech32"
                 >
                   <div
                     class="address"

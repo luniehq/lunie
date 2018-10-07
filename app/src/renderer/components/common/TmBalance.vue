@@ -18,7 +18,7 @@
           h2 {{totalRewards}}
           router-link(to="claim") Claim
 
-    short-address(:address="user.address")
+    short-bech32(:address="user.address")
 
     .tabs
       .tab(
@@ -30,12 +30,12 @@
 </template>
 <script>
 import num from "scripts/num"
-import ShortAddress from "common/ShortAddress"
+import ShortBech32 from "common/ShortBech32"
 import { mapGetters } from "vuex"
 export default {
   name: `tm-balance`,
   components: {
-    ShortAddress
+    ShortBech32
   },
   data() {
     return {
@@ -106,7 +106,7 @@ export default {
       a
         padding-left 10px
 
-  .short-address
+  .short-bech32
     padding 0.5rem 0 0.5rem 109px
 
 .top-section

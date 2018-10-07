@@ -48,7 +48,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
               <!---->
             </div>
             <div
-              class="short-address"
+              class="short-bech32"
             >
               <div
                 class="address"
@@ -261,7 +261,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
               <!---->
             </div>
             <div
-              class="short-address"
+              class="short-bech32"
             >
               <div
                 class="address"

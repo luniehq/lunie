@@ -8,7 +8,7 @@ describe(`PageWallet`, () => {
     let instance = mount(PageWallet, {
       stubs: {
         "modal-search": `<modal-search />`,
-        "short-address": `<short-address />`
+        "short-bech32": `<short-bech32 />`
       }
     })
     wrapper = instance.wrapper

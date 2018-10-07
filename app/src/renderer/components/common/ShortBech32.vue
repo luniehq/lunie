@@ -1,6 +1,6 @@
 <template lang="pug">
-.short-address
-  .address(@click.prevent.stop="copy" v-tooltip.top="address")#address {{ shortAddress }}
+.short-bech32
+  .address(@click.prevent.stop="copy" v-tooltip.top="address")#address {{ shortBech32 }}
   .success(:class="{active:showSuccess}")
     i.material-icons check
     span Copied
@@ -9,13 +9,13 @@
 <script>
 import { clipboard } from "electron"
 export default {
-  name: `short-address`,
+  name: `short-bech32`,
   props: [`address`],
   data: () => ({
     showSuccess: false
   }),
   computed: {
-    shortAddress({ address } = this, length = 4) {
+    shortBech32({ address } = this, length = 4) {
       if (!address) return `Address Not Found`
       if (address.indexOf(`1`) === -1) {
         return address.length <= length * 2
@@ -43,7 +43,7 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
-.short-address
+.short-bech32
   align-items flex-start
   display flex
   padding 0

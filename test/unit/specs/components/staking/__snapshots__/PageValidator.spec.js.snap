@@ -47,7 +47,7 @@ exports[`PageValidator has the expected html structure 1`] = `
               <!---->
             </div>
             <div
-              class="short-address"
+              class="short-bech32"
             >
               <div
                 class="address"
@@ -142,7 +142,7 @@ exports[`PageValidator has the expected html structure 1`] = `
               </div>
             </div>
             <div
-              class="short-address"
+              class="short-bech32"
             >
               <div
                 class="address"
@@ -480,7 +480,7 @@ exports[`PageValidator shows a default avatar 1`] = `
               <!---->
             </div>
             <div
-              class="short-address"
+              class="short-bech32"
             >
               <div
                 class="address"
@@ -575,7 +575,7 @@ exports[`PageValidator shows a default avatar 1`] = `
               </div>
             </div>
             <div
-              class="short-address"
+              class="short-bech32"
             >
               <div
                 class="address"

@@ -29,7 +29,7 @@ exports[`LiValidator has the expected html structure 1`] = `
           herr_schmidt_revoked
         </div>
         <div
-          class="short-address"
+          class="short-bech32"
         >
           <div
             class="address"

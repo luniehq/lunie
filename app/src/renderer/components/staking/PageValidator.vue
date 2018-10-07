@@ -17,7 +17,7 @@ tm-page
             div.validator-profile__status-and-title
               span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
               .validator-profile__header__name__title {{ validator.description.moniker }}
-            short-address(:address="validator.pub_key")
+            short-bech32(:address="validator.pub_key")
           .column.validator-profile__header__actions
             tm-btn#delegation-btn(value="Delegate" color="primary" @click.native="onDelegation")
 
@@ -122,13 +122,13 @@ import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
 import numeral from "numeral"
-import ShortAddress from "common/ShortAddress"
+import ShortBech32 from "common/ShortBech32"
 import TmBalance from "common/TmBalance"
 import { isEmpty } from "lodash"
 export default {
   name: `page-validator`,
   components: {
-    ShortAddress,
+    ShortBech32,
     DelegationModal,
     UndelegationModal,
     TmBtn,
