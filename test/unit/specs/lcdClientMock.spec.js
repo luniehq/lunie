@@ -632,6 +632,30 @@ describe(`LCD Client Mock`, () => {
     expect(txs[0].tx.value.msg[0].type).toBe(`cosmos-sdk/BeginUnbonding`)
   })
 
+  it(`queries for staking parameters`, async () => {
+    let parameters = await client.getParameters()
+    expect(Object.keys(parameters)).toContain(
+      `inflation_max`,
+      `inflation_min`,
+      `goal_bonded`,
+      `unbonding_time`,
+      `max_validators`,
+      `bond_denom`
+    )
+  })
+
+  it(`queries for staking pool`, async () => {
+    let pool = await client.getPool()
+    expect(Object.keys(pool)).toContain(
+      `loose_tokens`,
+      `bonded_tokens`,
+      `inflation_last_time`,
+      `inflation`,
+      `date_last_commission_reset`,
+      `prev_bonded_shares`
+    )
+  })
+
   it(`queries for validator signing information`, async () => {
     let signing_info = await client.queryValidatorSigningInfo()
     expect(Object.keys(signing_info)).toContain(

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* Display staking parameters and pool @fedekunze
 * TmBalance to transaction history page @jbibla
 
 ### Changed

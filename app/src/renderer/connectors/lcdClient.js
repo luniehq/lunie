@@ -151,6 +151,8 @@ Object.assign(Client.prototype, {
       `/stake/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`
     ).call(this)
   },
+  getPool: req(`GET`, `/stake/pool`),
+  getParameters: req(`GET`, `/stake/parameters`),
 
   /* ============ Slashing ============ */
 
