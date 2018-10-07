@@ -46,6 +46,7 @@ export default {
       property: `percent_of_vote`,
       order: `desc`
     },
+    //TODO add `Parameters` tab
     tabs: [`My Delegations`, `Validators`]
   }),
   computed: {
