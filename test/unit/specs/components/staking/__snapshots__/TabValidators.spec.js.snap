@@ -56,7 +56,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <li class=\\"li-validator li-validator-validator \\">
       <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"\\">
       <div class=\\"li-validator__value name\\">
-         <span class=\\"validator-profile__status\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <span class=\\"validator-profile__status red\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
             <div class=\\"top\\">
                herr_schmidt_revoked
@@ -92,7 +92,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <li class=\\"li-validator li-validator-active li-validator-validator \\">
       <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"\\">
       <div class=\\"li-validator__value name\\">
-         <span class=\\"validator-profile__status\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <span class=\\"validator-profile__status green\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
             <div class=\\"top\\">
                mr_mounty
@@ -128,7 +128,7 @@ exports[`PageStaking has the expected html structure 1`] = `
    <li class=\\"li-validator li-validator-validator \\">
       <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"\\">
       <div class=\\"li-validator__value name\\">
-         <span class=\\"validator-profile__status\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <span class=\\"validator-profile__status yellow\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
             <div class=\\"top\\">
                good_greg
@@ -274,7 +274,7 @@ exports[`PageStaking should filter the delegates 1`] = `
             class="li-validator__value name"
           >
             <span
-              class="validator-profile__status"
+              class="validator-profile__status green"
             />
             <img
               class="avatar"

@@ -5,7 +5,17 @@ import { createLocalVue, mount } from "@vue/test-utils"
 import DelegationModal from "staking/DelegationModal"
 import Vuelidate from "vuelidate"
 
+const getters = {
+  bondingDenom: `atom`
+}
+
 const Wrapper = () => {
+  const $store = {
+    commit: jest.fn(),
+    dispatch: jest.fn(),
+    getters
+  }
+
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
 
@@ -32,8 +42,10 @@ const Wrapper = () => {
           value: 2
         }
       ],
-      to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-      bondingDenom: `Stake`
+      to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
+    },
+    mocks: {
+      $store
     }
   })
 }
