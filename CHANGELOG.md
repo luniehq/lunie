@@ -9,6 +9,42 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* TmBalance to transaction history page @jbibla
+
+### Changed
+
+* TmBalance no longer expects unbondedAtoms prop @jbibla
+
+### Fixed
+
+* set width for validator stats to avoid styling bugs @jbibla
+
+## [0.10.6] - 2018-10-04
+
+### Fixed
+
+* automatic release process bugs @NodeGuy
+
+## [0.10.5] - 2018-10-04
+
+### Changed
+
+* tabs now live inside the balance header @jbibla
+
+### Fixed
+
+* automatic release process bugs @NodeGuy
+
+## [0.10.4] - 2018-10-03
+
+### Fixed
+
+* automatic release process bugs @NodeGuy
+
+## [0.10.3] - 2018-10-02
+
+### Added
+
 * Added staking transactions and fixed 100% height txs. Refactored modules/blockchain.js @okwme
 * test if build Voyager actually starts @faboweb
 * added new validator component @okwme
@@ -20,6 +56,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * more tests for new staking modal @NodeGuy
 * Add commission and uptime to LiValidator @fedekunze
 * Delete old bonding page @fedekunze
+* `watch` script for running unit tests @faboweb @NodeGuy
+* added unstake modal @faboweb
 * `watch` script for running unit tests @faboweb @NodeGuy
 
 ### Changed
@@ -36,6 +74,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * refactored words around staking and delegation @jbibla
 * the remote lcd and rpc endpoints can now be specified individually in the config.toml and via environment variables @faboweb
 * most endpoints use the remote lcd directly to improve performance @faboweb
+* Moved Vue error handling code from console_error_throw.js to main.js @NodeGuy
 
 ### Fixed
 
@@ -54,6 +93,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * all seeds offline -> added random new ones @ƒaboweb
 * styling around LiValidators @jbibla
 * deleted duplicated tx components `TmLiDelegationTransaction.vue` and `TmLiTransaction.vue` @fedekunze
+* bugs in the automatic release process @NodeGuy
 
 ## [0.10.2] - 2018-08-29
 

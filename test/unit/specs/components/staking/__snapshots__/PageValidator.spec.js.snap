@@ -31,16 +31,12 @@ exports[`PageValidator has the expected html structure 1`] = `
               <div
                 class="total-atoms top-section"
               >
-                <div
-                  class="h3"
-                >
+                <h3>
                   Total Steak
-                </div>
-                <div
-                  class="h2"
-                >
+                </h3>
+                <h2>
                   0.00
-                </div>
+                </h2>
               </div>
               <!---->
               <!---->
@@ -68,6 +64,9 @@ exports[`PageValidator has the expected html structure 1`] = `
                 </span>
               </div>
             </div>
+            <div
+              class="tabs"
+            />
           </div>
         </div>
       </div>
@@ -203,10 +202,10 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="colored_dl"
           >
             <dt>
-              My Bonded Steak
+              Bonded Steak
             </dt>
             <dd>
-              &lt; 0.01
+              123.46
             </dd>
           </dl>
           <dl
@@ -403,6 +402,7 @@ exports[`PageValidator has the expected html structure 1`] = `
     </div>
     <!---->
     <!---->
+    <!---->
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
@@ -458,16 +458,12 @@ exports[`PageValidator shows a default avatar 1`] = `
               <div
                 class="total-atoms top-section"
               >
-                <div
-                  class="h3"
-                >
+                <h3>
                   Total Steak
-                </div>
-                <div
-                  class="h2"
-                >
+                </h3>
+                <h2>
                   0.00
-                </div>
+                </h2>
               </div>
               <!---->
               <!---->
@@ -495,6 +491,9 @@ exports[`PageValidator shows a default avatar 1`] = `
                 </span>
               </div>
             </div>
+            <div
+              class="tabs"
+            />
           </div>
         </div>
       </div>
@@ -630,10 +629,10 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="colored_dl"
           >
             <dt>
-              My Bonded Steak
+              Bonded Steak
             </dt>
             <dd>
-              &lt; 0.01
+              123.46
             </dd>
           </dl>
           <dl
@@ -830,6 +829,7 @@ exports[`PageValidator shows a default avatar 1`] = `
     </div>
     <!---->
     <!---->
+    <!---->
   </main>
 </div>
 `;
@@ -897,7 +897,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
 
 exports[`PageValidator shows that a validator is revoked 1`] = `"This validator has been jailed and is not currently validating"`;
 
-exports[`modalOptions always shows wallet in the first position 1`] = `
+exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
 Array [
   Object {
     "address": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
@@ -908,7 +908,7 @@ Array [
 ]
 `;
 
-exports[`modalOptions hides displayed validator if bonded 1`] = `
+exports[`delegationTargetOptions hides displayed validator if bonded 1`] = `
 Array [
   Object {
     "address": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
@@ -919,7 +919,7 @@ Array [
 ]
 `;
 
-exports[`modalOptions shows bonded validators for redelegation options 1`] = `
+exports[`delegationTargetOptions shows bonded validators for redelegation options 1`] = `
 Array [
   Object {
     "address": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",

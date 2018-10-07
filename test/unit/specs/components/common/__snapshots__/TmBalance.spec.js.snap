@@ -5,16 +5,23 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
    <div class=\\"top\\">
       <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
       <div class=\\"total-atoms top-section\\">
-         <div class=\\"h3\\">
+         <h3>
             Total Steak
-         </div>
-<div class=\\"h2\\">
-   321.00
+         </h3>
+         <h2>
+            321.00
+         </h2>
 </div>
+<div class=\\"unbonded-atoms top-section\\">
+   <h3>
+      Unbonded Steak
+   </h3>
+   <h2>
+      123
+   </h2>
 </div>
-<!---->
-<!---->
-<!---->
+   <!---->
+   <!---->
 </div>
 <div class=\\"bottom\\">
    <div id=\\"address\\" class=\\"address\\">
@@ -24,6 +31,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
    <i class=\\"material-icons\\">check</i><span>Copied</span>
 </div>
 </div>
+<div class=\\"tabs\\"></div>
 </div>"
 `;
 
@@ -32,39 +40,39 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
    <div class=\\"top\\">
       <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
       <div class=\\"total-atoms top-section\\">
-         <div class=\\"h3\\">
+         <h3>
             Total Steak
-         </div>
-<div class=\\"h2\\">
-   321.00
-</div>
+         </h3>
+         <h2>
+            321.00
+         </h2>
 </div>
 <div class=\\"unbonded-atoms top-section\\">
-   <div class=\\"h3\\">
+   <h3>
       Unbonded Steak
-   </div>
-<div class=\\"h2\\">
-   1337
-</div>
+   </h3>
+   <h2>
+      123
+   </h2>
 </div>
 <div class=\\"total-earnings top-section\\">
-   <div class=\\"h3\\">
+   <h3>
       Total Earnings
-   </div>
-<div class=\\"h2\\">
-   1337
-</div>
+   </h3>
+   <h2>
+      1337
+   </h2>
 </div>
 <div class=\\"total-rewards top-section\\">
-   <div class=\\"h3\\">
+   <h3>
       Total Rewards
+   </h3>
+   <div class=\\"group\\">
+      <h2>
+         1337
+      </h2>
+      <a href=\\"#/claim\\" class=\\"\\">Claim</a>
    </div>
-<div class=\\"group\\">
-   <div class=\\"h2\\">
-      1337
-   </div>
-<a href=\\"#/claim\\" class=\\"\\">Claim</a>
-</div>
 </div>
 </div>
 <div class=\\"bottom\\">
@@ -75,5 +83,6 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
    <i class=\\"material-icons\\">check</i><span>Copied</span>
 </div>
 </div>
+<div class=\\"tabs\\"></div>
 </div>"
 `;

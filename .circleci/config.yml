@@ -138,6 +138,12 @@ jobs:
             mostRecentTag=$(git describe --abbrev=0 --tags)
 
             if [ $mostRecentTag = release-candidate ]; then
+              set -o verbose
+
+              # Delete the tag before testing the build in case it fails.
+              git remote add bot https://${GIT_BOT_TOKEN}@github.com/cosmos/voyager.git
+              git push --delete bot release-candidate
+
               sudo tasks/build/installWine.sh
               yarn install
 
@@ -145,10 +151,7 @@ jobs:
               tasks/build/testnets/build.sh
 
               # build Voyager
-              node -e 'require("./tasks/build/build.js").buildAllPlatforms()'
-
-              # Delete the tag before testing the build in case it fails.
-              git push --delete origin release-candidate
+              node tasks/build/build.js
 
               # test linux build
               tar -zxvf ./builds/Voyager/Cosmos_Voyager-*-Linux.tar.gz
