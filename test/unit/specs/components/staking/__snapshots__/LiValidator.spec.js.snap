@@ -35,7 +35,7 @@ exports[`LiValidator has the expected html structure 1`] = `
             class="address"
             id="address"
           >
-            valpub…6789
+            cosmosvaladdr…n3au
           </div>
           <div
             class="success"

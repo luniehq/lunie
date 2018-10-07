@@ -1,4 +1,5 @@
 import setup from "../../../helpers/vuex-setup"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import LiValidator from "renderer/components/staking/LiValidator"
 
 describe(`LiValidator`, () => {
@@ -10,7 +11,7 @@ describe(`LiValidator`, () => {
       propsData: {
         validator: {
           id: `abc`,
-          pub_key: `valpub123456789`,
+          pub_key: lcdClientMock.validators[1],
           owner: `1a2b3c`,
           tokens: `19`,
           delegator_shares: `19`,
