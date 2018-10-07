@@ -35,7 +35,7 @@ exports[`TabParameters has the expected html structure 1`] = `
 </dl>
                <dl class=\\"info_dl\\">
                   <dt>
-                     Goal for bonded Steaks
+                     Goal For Bonded Steaks
                   </dt>
                   <dd>
                      n/a
@@ -45,7 +45,7 @@ exports[`TabParameters has the expected html structure 1`] = `
 <div class=\\"column\\">
    <dl class=\\"info_dl\\">
       <dt>
-         Unbonding time<i class=\\"material-icons info-button\\">info_outline</i>
+         Unbonding Time<i class=\\"material-icons info-button\\">info_outline</i>
       </dt>
       <dd>
          n/a
@@ -53,7 +53,7 @@ exports[`TabParameters has the expected html structure 1`] = `
 </dl>
    <dl class=\\"info_dl\\">
       <dt>
-         Max number of Validators
+         Max Number of Validators
       </dt>
       <dd>
          n/a
@@ -61,7 +61,7 @@ exports[`TabParameters has the expected html structure 1`] = `
 </dl>
    <dl class=\\"info_dl\\">
       <dt>
-         Bondable coin denomination
+         Current Staking Denomination
       </dt>
       <dd>
          n/a
@@ -88,7 +88,7 @@ exports[`TabParameters has the expected html structure 1`] = `
 </dl>
             <dl class=\\"info_dl\\">
                <dt>
-                  Inflation last block<i class=\\"material-icons info-button\\">info_outline</i>
+                  Inflation Last Block<i class=\\"material-icons info-button\\">info_outline</i>
                </dt>
                <dd>
                   n/a
@@ -96,7 +96,7 @@ exports[`TabParameters has the expected html structure 1`] = `
 </dl>
             <dl class=\\"info_dl\\">
                <dt>
-                  Date of last commission reset<i class=\\"material-icons info-button\\">info_outline</i>
+                  Date of Last Commission Reset<i class=\\"material-icons info-button\\">info_outline</i>
                </dt>
                <dd>
                   n/a

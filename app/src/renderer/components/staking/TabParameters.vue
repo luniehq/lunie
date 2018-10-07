@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  div(v-if="config.devMode")
     div
       h3
         | Staking Parameters
@@ -21,20 +21,20 @@
               dt Maximum Inflation Rate
               dd {{ parameters.inflation_max ? parameters.inflation_max : `n/a` }}
             dl.info_dl
-              dt Goal for bonded {{ bondingDenom }}s
+              dt Goal For Bonded {{ bondingDenom }}s
               dd {{ parameters.goal_bonded ? parameters.goal_bonded : `n/a` }}
           .column
             dl.info_dl
               dt
-                | Unbonding time
+                | Unbonding Time
                 |
                 i.material-icons.info-button(v-tooltip.top="paramsTooltips.unbonding_time") info_outline
               dd {{ parameters.unbonding_time ? parameters.unbonding_time : `n/a` }}
             dl.info_dl
-              dt Max number of Validators
+              dt Max Number of Validators
               dd {{ parameters.max_validators ? parameters.max_validators : `n/a` }}
             dl.info_dl
-              dt Bondable coin denomination
+              dt Current Staking Denomination
               dd {{ parameters.bond_denom ? parameters.bond_denom : `n/a` }}
     div
       h3
@@ -52,13 +52,13 @@
               dd {{ pool.inflation ? pool.inflation : `n/a` }}
             dl.info_dl
               dt
-                | Inflation last block
+                | Inflation Last Block
                 |
                 i.material-icons.info-button(v-tooltip.top="poolTooltips.inflation_last_time") info_outline
               dd {{ pool.inflation_last_time ? pool.inflation_last_time : `n/a` }}
             dl.info_dl
               dt
-                | Date of last commission reset
+                | Date of Last Commission Reset
                 |
                 i.material-icons.info-button(v-tooltip.top="poolTooltips.date_last_commission_reset") info_outline
               dd {{ pool.date_last_commission_reset ? timeAgo(pool.date_last_commission_reset) : `n/a` }}
@@ -99,33 +99,26 @@ export default {
   data: () => ({
     paramsTooltips: {
       description: `Staking parameters define the high level settings for staking`,
-      inflation_rate_change: `maximum annual change in inflation rate`,
-      inflation_max: `maximum inflation rate`,
-      inflation_min: `minimum inflation rate`,
-      goal_bonded: `goal of percent bonded atoms`,
-      unbonding_time: `time to complete an unbonding delegetion and claim bonds`,
-      max_validators: `maximum number of validators for the chain`,
-      bond_denom: `bondable coin denomination`
+      inflation_rate_change: `Maximum annual change in inflation rate`,
+      inflation_max: `Maximum inflation rate`,
+      inflation_min: `Minimum inflation rate`,
+      goal_bonded: `Goal for percentage of bonded atoms`,
+      unbonding_time: `Time to complete an unbonding delegation and claim rewards`,
+      max_validators: `Maximum number of validators in the validator set`,
+      bond_denom: `The token being used for staking`
     },
     poolTooltips: {
-      description: `The staking pool represents the dynamic parameters of the current state`,
-      loose_tokens: `tokens which are not bonded in a validator`,
-      bonded_tokens: `reserve of bonded tokens`,
-      inflation_last_time: `block which the last inflation was processed`,
-      inflation: `current annual inflation rate`,
-      date_last_commission_reset: `UNIX timestamp for last commission accounting reset (daily)`,
-      prev_bonded_shares: `last recorded bonded shares; used for fee calculations`
+      description: `The staking pool represents the dynamic parameters of the Cosmos Hub`,
+      loose_tokens: `Total tokens which are not currently bonded to a validator`,
+      bonded_tokens: `Total tokens which are currently bonded to a validator`,
+      inflation_last_time: `The block where inflation was last processed`,
+      inflation: `Current annual inflation rate`,
+      date_last_commission_reset: `Timestamp for last commission accounting reset (daily)`,
+      prev_bonded_shares: `Last recorded bonded shares; used for fee calculations`
     }
   }),
   computed: {
-    ...mapGetters([
-      `bondingDenom`,
-      `config`,
-      `user`,
-      `parameters`,
-      `pool`,
-      `connected`
-    ])
+    ...mapGetters([`bondingDenom`, `config`, `parameters`, `pool`])
   },
   methods: {
     timeAgo(date) {
