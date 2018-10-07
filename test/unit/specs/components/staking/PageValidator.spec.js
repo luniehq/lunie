@@ -1,11 +1,13 @@
 import Delegation from "renderer/vuex/modules/delegation"
 import DelegationModal from "staking/DelegationModal"
+import UndelegationModal from "staking/UndelegationModal"
+import TmModal from "common/TmModal"
 import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import { createLocalVue, mount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 
-const delegate = {
+const validator = {
   owner: `1a2b3c`,
   pub_key: `cosmoschiapudding123456789`,
   tokens: `19`,
@@ -59,7 +61,7 @@ const getterValues = {
     desktop: false
   },
   delegates: {
-    delegates: [delegate, validatorTo],
+    delegates: [validator, validatorTo],
     globalPower: 4200
   },
   delegation: {
@@ -88,7 +90,11 @@ describe(`PageValidator`, () => {
       localVue,
       doBefore: ({ router, store }) => {
         router.push(`/staking/validators/1a2b3c`)
-        store.commit(`setDelegates`, [delegate, validatorTo])
+        store.commit(`setCommittedDelegation`, {
+          candidateId: `1a2b3c`,
+          value: `123.45678`
+        })
+        store.commit(`setDelegates`, [validator, validatorTo])
       }
     })
     wrapper = instance.wrapper
@@ -147,7 +153,7 @@ describe(`PageValidator`, () => {
     expect(wrapper.vm.status).toBe(`This validator is actively validating`)
     // Jailed
     store.state.delegates.delegates = [
-      Object.assign({}, delegate, {
+      Object.assign({}, validator, {
         revoked: true
       })
     ]
@@ -157,7 +163,7 @@ describe(`PageValidator`, () => {
     )
     // Is not a validator
     store.state.delegates.delegates = [
-      Object.assign({}, delegate, {
+      Object.assign({}, validator, {
         voting_power: 0
       })
     ]
@@ -231,7 +237,7 @@ describe(`PageValidator`, () => {
 
   it(`shows a validator as candidate if he has no voting_power`, () => {
     store.state.delegates.delegates = [
-      Object.assign({}, delegate, {
+      Object.assign({}, validator, {
         voting_power: `0`
       })
     ]
@@ -244,7 +250,7 @@ describe(`PageValidator`, () => {
 
   it(`shows that a validator is revoked`, () => {
     store.state.delegates.delegates = [
-      Object.assign({}, delegate, {
+      Object.assign({}, validator, {
         revoked: true
       })
     ]
@@ -256,7 +262,7 @@ describe(`PageValidator`, () => {
   })
 })
 
-describe(`modalOptions`, () => {
+describe(`delegationTargetOptions`, () => {
   it(`always shows wallet in the first position`, () => {
     const $store = {
       commit: jest.fn(),
@@ -272,17 +278,17 @@ describe(`modalOptions`, () => {
     }
 
     const {
-      vm: { modalOptions }
+      vm: { delegationTargetOptions }
     } = mount(PageValidator, {
       mocks: {
         $route: {
-          params: { validator: delegate.owner }
+          params: { validator: validator.owner }
         },
         $store
       }
     })
 
-    let options = modalOptions()
+    let options = delegationTargetOptions()
     expect(options).toHaveLength(1)
     expect(options[0].address).toEqual($store.getters.wallet.address)
 
@@ -308,20 +314,20 @@ describe(`modalOptions`, () => {
     }
 
     const {
-      vm: { modalOptions }
+      vm: { delegationTargetOptions }
     } = mount(PageValidator, {
       mocks: {
         $route: {
-          params: { validator: delegate.owner }
+          params: { validator: validator.owner }
         },
         $store
       }
     })
 
-    let options = modalOptions()
+    let options = delegationTargetOptions()
     expect(options).toHaveLength(1)
     expect(options).not.toContainEqual(
-      expect.objectContaining({ address: delegate.owner })
+      expect.objectContaining({ address: validator.owner })
     )
     expect(options[0].address).toEqual($store.getters.wallet.address)
 
@@ -349,20 +355,20 @@ describe(`modalOptions`, () => {
     }
 
     const {
-      vm: { modalOptions }
+      vm: { delegationTargetOptions }
     } = mount(PageValidator, {
       mocks: {
         $route: {
-          params: { validator: delegate.owner }
+          params: { validator: validator.owner }
         },
         $store
       }
     })
 
-    let options = modalOptions()
+    let options = delegationTargetOptions()
     expect(options).toHaveLength(2)
     expect(options).not.toContainEqual(
-      expect.objectContaining({ address: delegate.owner })
+      expect.objectContaining({ address: validator.owner })
     )
     expect(options[0].address).toEqual($store.getters.wallet.address)
     expect(options).toContainEqual(
@@ -412,14 +418,16 @@ describe(`onDelegation`, () => {
       })
 
       wrapper.find(`#delegation-btn`).trigger(`click`)
-
-      expect(wrapper.text().includes(`You have no atoms to delegate.`)).toEqual(
+      expect(wrapper.vm.showCannotModal).toBe(true)
+      expect(wrapper.contains(TmModal)).toEqual(true)
+      expect(wrapper.text().includes(`have no atoms to delegate.OK`)).toEqual(
         true
       )
 
       wrapper.find(`#no-atoms-modal__btn`).trigger(`click`)
-
-      expect(wrapper.text().includes(`You have no atoms to delegate.`)).toEqual(
+      expect(wrapper.vm.showCannotModal).toBe(false)
+      expect(wrapper.contains(TmModal)).toEqual(false)
+      expect(wrapper.text().includes(`have no atoms to delegate.OK`)).toEqual(
         false
       )
     })
@@ -447,7 +455,9 @@ describe(`onDelegation`, () => {
           })
 
           let stakingTransactions = {}
-          stakingTransactions.delegations = [{ atoms: 10, validator: delegate }]
+          stakingTransactions.delegations = [
+            { atoms: 10, validator: validator }
+          ]
 
           await submitDelegation({
             amount: 10,
@@ -492,7 +502,9 @@ describe(`onDelegation`, () => {
           })
 
           let stakingTransactions = {}
-          stakingTransactions.delegations = [{ atoms: 10, validator: delegate }]
+          stakingTransactions.delegations = [
+            { atoms: 10, validator: validator }
+          ]
 
           await submitDelegation({
             amount: 10,
@@ -535,7 +547,9 @@ describe(`onDelegation`, () => {
           })
 
           let stakingTransactions = {}
-          stakingTransactions.delegations = [{ atoms: 10, validator: delegate }]
+          stakingTransactions.delegations = [
+            { atoms: 10, validator: validator }
+          ]
 
           await submitDelegation({
             amount: 10,
@@ -690,7 +704,7 @@ describe(`onDelegation`, () => {
 
           let stakingTransactions = {}
           stakingTransactions.redelegations = [
-            { atoms: 5, validatorSrc: delegate, validatorDst: validatorTo }
+            { atoms: 5, validatorSrc: validator, validatorDst: validatorTo }
           ]
 
           await submitDelegation({
@@ -740,7 +754,7 @@ describe(`onDelegation`, () => {
 
           let stakingTransactions = {}
           stakingTransactions.redelegations = [
-            { atoms: 5, validatorSrc: delegate, validatorDst: validatorTo }
+            { atoms: 5, validatorSrc: validator, validatorDst: validatorTo }
           ]
 
           await submitDelegation({
@@ -788,7 +802,7 @@ describe(`onDelegation`, () => {
 
           let stakingTransactions = {}
           stakingTransactions.redelegations = [
-            { atoms: 5, validatorSrc: delegate, validatorDst: validatorTo }
+            { atoms: 5, validatorSrc: validator, validatorDst: validatorTo }
           ]
 
           await submitDelegation({
@@ -859,7 +873,7 @@ describe(`onDelegation`, () => {
                   redelegations: [
                     {
                       atoms: 5,
-                      validatorSrc: delegate,
+                      validatorSrc: validator,
                       validatorDst: validatorTo
                     }
                   ]
@@ -895,6 +909,259 @@ describe(`onDelegation`, () => {
             ]
           ])
         })
+      })
+    })
+  })
+})
+
+describe(`onUnstake`, () => {
+  const localVue = createLocalVue()
+  localVue.use(Vuelidate)
+
+  describe(`make sure there are enough atoms to unstake`, () => {
+    it(`is enough`, () => {
+      const $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: Object.assign({}, getterValues, {
+          committedDelegations: { "1a2b3c": 10 }
+        })
+      }
+
+      const wrapper = mount(PageValidator, {
+        localVue,
+        mocks: {
+          $route: { params: { validator: `1a2b3c` } },
+          $store
+        }
+      })
+
+      wrapper.find(`#undelegation-btn`).trigger(`click`)
+      expect(wrapper.vm.myBond.isGreaterThan(0)).toBe(true)
+      expect(wrapper.vm.showUndelegationModal).toBe(true)
+      expect(wrapper.contains(UndelegationModal)).toEqual(true)
+    })
+
+    it(`is not enough`, () => {
+      const $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: Object.assign({}, getterValues, {
+          committedDelegations: {}
+        })
+      }
+
+      const wrapper = mount(PageValidator, {
+        localVue,
+        mocks: {
+          $route: { params: { validator: `1a2b3c` } },
+          $store
+        }
+      })
+
+      wrapper.find(`#undelegation-btn`).trigger(`click`)
+      expect(wrapper.vm.showCannotModal).toBe(true)
+      expect(wrapper.text()).toContain(
+        `You have no atoms delegated to this validator.`
+      )
+
+      wrapper.find(`#no-atoms-modal__btn`).trigger(`click`)
+
+      expect(wrapper.text()).not.toContain(
+        `You have no atoms delegated to this validator.`
+      )
+    })
+  })
+
+  describe(`submitUndelegation`, () => {
+    describe(`unit`, () => {
+      it(`success`, async () => {
+        const $store = {
+          commit: jest.fn(),
+          dispatch: jest.fn(),
+          getters: getterValues
+        }
+
+        const {
+          vm: { submitUndelegation }
+        } = mount(PageValidator, {
+          mocks: {
+            $route: { params: { validator: `1a2b3c` } },
+            $store
+          }
+        })
+
+        await submitUndelegation({ amount: 10 })
+
+        expect($store.dispatch.mock.calls).toEqual([
+          [
+            `submitDelegation`,
+            { stakingTransactions: { unbondings: [{ atoms: -10, validator }] } }
+          ]
+        ])
+
+        expect($store.commit.mock.calls).toEqual([
+          [
+            `notify`,
+            {
+              body: `You have successfully undelegated 10 atoms.`,
+              title: `Successful Undelegation!`
+            }
+          ]
+        ])
+      })
+
+      it(`error`, async () => {
+        const $store = {
+          commit: jest.fn(),
+          dispatch: jest.fn(() => {
+            throw new Error(`message`)
+          }),
+          getters: getterValues
+        }
+
+        const {
+          vm: { submitUndelegation }
+        } = mount(PageValidator, {
+          mocks: {
+            $route: { params: { validator: `1a2b3c` } },
+            $store
+          }
+        })
+
+        await submitUndelegation({ amount: 10 })
+
+        expect($store.dispatch.mock.calls).toEqual([
+          [
+            `submitDelegation`,
+            { stakingTransactions: { unbondings: [{ atoms: -10, validator }] } }
+          ]
+        ])
+
+        expect($store.commit.mock.calls).toEqual([
+          [
+            `notifyError`,
+            {
+              body: `message`,
+              title: `Error while undelegating atoms`
+            }
+          ]
+        ])
+      })
+
+      it(`error with data`, async () => {
+        const $store = {
+          commit: jest.fn(),
+          dispatch: jest.fn(() => {
+            throw new Error(`one\ntwo\nthree\nfour\nfive\nsix"seven`)
+          }),
+          getters: getterValues
+        }
+
+        const {
+          vm: { submitUndelegation }
+        } = mount(PageValidator, {
+          mocks: {
+            $route: { params: { validator: `1a2b3c` } },
+            $store
+          }
+        })
+
+        await submitUndelegation({ amount: 10 })
+
+        expect($store.dispatch.mock.calls).toEqual([
+          [
+            `submitDelegation`,
+            {
+              stakingTransactions: { unbondings: [{ atoms: -10, validator }] }
+            }
+          ]
+        ])
+
+        expect($store.commit.mock.calls).toEqual([
+          [
+            `notifyError`,
+            {
+              body: `Seven`,
+              title: `Error while undelegating atoms`
+            }
+          ]
+        ])
+      })
+    })
+
+    describe(`composition`, () => {
+      it(`delegation.submitDelegation`, async () => {
+        const delegation = Delegation({})
+
+        const dispatch = jest.fn((type, payload) => {
+          if (type === `submitDelegation`) {
+            delegation.actions[type]($store, payload)
+          }
+        })
+
+        const $store = {
+          commit: jest.fn(),
+          dispatch,
+          getters: getterValues,
+          rootState: getterValues,
+          state: {
+            committedDelegates: { "1a2b3c": 10 },
+            unbondingDelegations: {}
+          }
+        }
+
+        const {
+          vm: { submitUndelegation }
+        } = mount(PageValidator, {
+          mocks: {
+            $route: { params: { validator: `1a2b3c` } },
+            $store
+          }
+        })
+
+        await submitUndelegation({ amount: 10 })
+
+        expect($store.dispatch.mock.calls).toEqual([
+          [
+            `submitDelegation`,
+            {
+              stakingTransactions: {
+                unbondings: [
+                  {
+                    atoms: -10,
+                    validator
+                  }
+                ]
+              }
+            }
+          ],
+          [
+            `sendTx`,
+            {
+              begin_unbondings: [
+                {
+                  delegator_addr: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+                  shares: `10.00000000`,
+                  validator_addr: `1a2b3c`
+                }
+              ],
+              delegations: undefined,
+              to: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+              type: `updateDelegations`
+            }
+          ]
+        ])
+
+        expect($store.commit.mock.calls).toEqual([
+          [
+            `notify`,
+            {
+              body: `You have successfully undelegated 10 atoms.`,
+              title: `Successful Undelegation!`
+            }
+          ]
+        ])
       })
     })
   })

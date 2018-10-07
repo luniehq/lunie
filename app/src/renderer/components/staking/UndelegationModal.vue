@@ -1,46 +1,38 @@
 <template lang="pug">
-  .delegation-modal#delegation-modal(v-click-outside="close")
-    .delegation-modal-header
-      img.icon(class='delegation-modal-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Delegation
-      .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
+  .undelegation-modal#undelegation-modal(v-click-outside="close")
+    .undelegation-modal-header
+      img.icon(class='undelegation-modal-atom' src="~assets/images/cosmos-logo.png")
+      span.tm-modal-title Undelegate
+      .tm-modal-icon.tm-modal-close(@click="close()")
         i.material-icons close
 
-    tm-form-group.delegation-modal-form-group(
+    tm-form-group.undelegation-modal-form-group(
       field-label='Amount'
     )
       tm-field#denom(
-        type="number"
+        type="text"
         :placeholder="bondingDenom"
         readonly)
 
       tm-field#amount(
-        type="number"
-        :max="fromOptions[selectedIndex].maximum"
+        :max="maximum"
         :min="0"
-        step="1"
+        type="number"
         v-model="amount"
         v-focus)
 
-    tm-form-group.delegation-modal-form-group(
+    //- To
+    tm-form-group.undelegation-modal-form-group(
       field-id='to' field-label='To')
       tm-field#to(readonly v-model="to")
 
-    tm-form-group.delegation-modal-form-group(
-      field-id='from' field-label='From')
-      tm-field#from(
-        type="select"
-        v-model="selectedIndex"
-        :title="fromOptions[selectedIndex].address"
-        :options="fromOptions"
-      )
-
-    .delegation-modal-footer
+    //- Footer
+    .undelegation-modal-footer
       tm-btn(
-        @click.native="onDelegation"
+        @click.native="onUndelegate"
         :disabled="$v.amount.$invalid"
         color="primary"
-        value="Confirm Delegation"
+        value="Undelegate"
         size="lg")
 </template>
 
@@ -52,8 +44,8 @@ import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
-  name: `delegation-modal`,
-  props: [`fromOptions`, `to`],
+  name: `undelegation-modal`,
+  props: [`maximum`, `to`],
   computed: {
     ...mapGetters([`bondingDenom`])
   },
@@ -65,26 +57,23 @@ export default {
     TmFormMsg
   },
   data: () => ({
-    amount: 0,
-    selectedIndex: 0
+    amount: 0
   }),
   validations() {
     return {
       amount: {
         required,
-        integer: value => Number.isInteger(value),
-        between: between(1, this.fromOptions[this.selectedIndex].maximum)
+        between: between(0.0000000001, this.maximum)
       }
     }
   },
   methods: {
     close() {
-      this.$emit(`update:showDelegationModal`, false)
+      this.$emit(`update:showUndelegationModal`, false)
     },
-    onDelegation() {
-      this.$emit(`submitDelegation`, {
-        amount: this.amount,
-        from: this.fromOptions[this.selectedIndex].address
+    onUndelegate() {
+      this.$emit(`submitUndelegation`, {
+        amount: this.amount
       })
       this.close()
     }
@@ -98,7 +87,7 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
-.delegation-modal
+.undelegation-modal
   background var(--app-nav)
   display flex
   flex-direction column

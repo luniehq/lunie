@@ -84,8 +84,6 @@ describe(`TabValidators`, () => {
       },
       stubs: { "tm-data-loading": `<data-loading />` }
     })
-
-    console.log(htmlBeautify(wrapper.html()))
     expect(wrapper.contains(`data-loading`)).toBe(true)
   })
 

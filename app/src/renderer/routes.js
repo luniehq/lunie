@@ -44,6 +44,11 @@ export default [
         path: `Validators`,
         name: `Validators`,
         component: require(`./components/staking/TabValidators`).default
+      },
+      {
+        path: `staking-parameters`,
+        name: `Parameters`,
+        component: require(`./components/staking/TabParameters`).default
       }
     ]
   },
