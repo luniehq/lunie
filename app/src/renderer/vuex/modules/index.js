@@ -16,5 +16,7 @@ export default opts => ({
   user: require(`./user.js`).default(opts),
   validators: require(`./validators.js`).default(opts),
   wallet: require(`./wallet.js`).default(opts),
-  keybase: require(`./keybase.js`).default(opts)
+  keybase: require(`./keybase.js`).default(opts),
+  parameters: require(`./parameters.js`).default(opts),
+  pool: require(`./pool.js`).default(opts)
 })
