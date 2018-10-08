@@ -140,17 +140,6 @@ describe(`Startup Process`, () => {
       expect(fs.existsSync(testRoot)).toBe(true)
     })
 
-    xit(`should init lcd server with correct testnet`, async function() {
-      expect(
-        childProcess.spawn.mock.calls.find(
-          ([path, args]) =>
-            path.includes(`gaiacli`) &&
-            args.includes(`init`) &&
-            args.join(`=`).includes(`--chain-id=gaia-6002`)
-        )
-      ).toBeDefined()
-    })
-
     it(`should start lcd server`, async function() {
       expect(
         childProcess.spawn.mock.calls.find(
@@ -266,17 +255,6 @@ describe(`Startup Process`, () => {
 
     it(`should create the config dir`, async function() {
       expect(fs.existsSync(testRoot)).toBe(true)
-    })
-
-    xit(`should init lcd server with correct testnet`, async function() {
-      expect(
-        childProcess.spawn.mock.calls.find(
-          ([path, args]) =>
-            path.includes(`gaiacli`) &&
-            args.includes(`init`) &&
-            args.join(`=`).includes(`--chain-id=gaia-6002`)
-        )
-      ).toBeDefined()
     })
 
     it(`should start lcd server`, async function() {
@@ -640,20 +618,6 @@ describe(`Startup Process`, () => {
         main = await require(appRoot + `src/main/index.js`)
 
         expect(send.mock.calls[0][0]).toBe(`error`)
-      })
-      xit(`should survive the lcd folder being removed`, async () => {
-        fs.removeSync(join(testRoot, `lcd`))
-        resetModulesKeepingFS()
-        let { send } = require(`electron`)
-        main = await require(appRoot + `src/main/index.js`)
-
-        expect(
-          childProcess.spawn.mock.calls.find(
-            ([path, args]) => path.includes(`gaiacli`) && args.includes(`init`)
-          ).length
-        ).toBe(3) // one to check in first round, one to check + one to init in the second round
-
-        expect(send.mock.calls[0][0]).toBe(`connected`)
       })
     })
   })
