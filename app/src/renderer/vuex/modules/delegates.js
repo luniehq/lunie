@@ -53,7 +53,7 @@ export default ({ node }) => {
       }
       commit(`setDelegates`, validators)
     },
-    async getDelegates({ state, commit, dispatch }) {
+    async getDelegates({ commit, dispatch }) {
       commit(`setDelegateLoading`, true)
       let candidates = await node.getCandidates()
       let { validators } = await node.getValidatorSet()
