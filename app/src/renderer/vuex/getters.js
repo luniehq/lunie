@@ -63,6 +63,8 @@ export const delegates = state => state.delegates
 export const shoppingCart = state => state.delegation.delegates
 export const validators = state => state.validators.validators
 export const keybase = state => state.keybase.identities
+export const pool = state => state.pool
+export const parameters = state => state.parameters
 
 // govern
 export const proposals = state => state.proposals
