@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* Display staking parameters and pool @fedekunze
 * TmBalance to transaction history page @jbibla
 
 ### Changed
@@ -19,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * set width for validator stats to avoid styling bugs @jbibla
 * Test setMockedConnector without starting an endless loop. @NodeGuy
+* speed up of e2e tests removing an expected timeout happening on navigate @faboweb
 
 ## [0.10.6] - 2018-10-04
 
