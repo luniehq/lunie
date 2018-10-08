@@ -83,17 +83,6 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-// function expectCleanExit(process, errorMessage = "Process exited unplanned") {
-//   return new Promise((resolve, reject) => {
-//     process.on("exit", code => {
-//       if (code !== 0 && !shuttingDown) {
-//         reject(Error(errorMessage))
-//       }
-//       resolve()
-//     })
-//   })
-// }
-
 function handleCrash(error) {
   afterBooted(() => {
     if (mainWindow) {
@@ -337,66 +326,6 @@ function exists(path) {
   }
 }
 
-// TODO readd when needed
-// async function initLCD(chainId, home, node) {
-//   // let the user in the view approve the hash we get from the node
-//   return new Promise((resolve, reject) => {
-//     // `gaiacli client init` to generate config
-//     let child = startProcess(LCD_BINARY_NAME, [
-//       "init",
-//       "--home",
-//       home,
-//       "--chain-id",
-//       chainId,
-//       "--node",
-//       node
-//     ])
-
-//     child.stdout.on("data", async data => {
-//       let hashMatch = /\w{40}/g.exec(data)
-//       if (hashMatch) {
-//         handleHashVerification(hashMatch[0])
-//           .then(
-//             async () => {
-//               log("approved hash", hashMatch[0])
-//               if (shuttingDown) return
-//               // answer 'y' to the prompt about trust seed. we can trust this is correct
-//               // since the LCD is talking to our own full node
-//               child.stdin.write("y\n")
-
-//               expectCleanExit(child, "gaiacli init exited unplanned").then(
-//                 resolve,
-//                 reject
-//               )
-//             },
-//             async () => {
-//               // kill process as we will spin up a new init process
-//               child.kill("SIGTERM")
-
-//               if (shuttingDown) return
-
-//               // select a new node to try out
-//               nodeIP = await pickNode()
-//               if (!nodeIP) {
-//                 signalNoNodesAvailable()
-//                 return
-//               }
-
-//               // initLCD(chainId, home, nodeIP).then(resolve, reject)
-//             }
-//           )
-//           .catch(reject)
-
-//         // execute after registering handlers via handleHashVerification so that in the synchronous test they are available to answer the request
-//         afterBooted(() => {
-//           mainWindow.webContents.send("approve-hash", hashMatch[0])
-//         })
-//       }
-//     })
-//   })
-//   await expectCleanExit(child, "gaiacli init exited unplanned")
-// }
-
 // this function will call the passed in callback when the view is booted
 // the purpose is to send events to the view thread only after it is ready to receive those events
 // if we don't do this, the view thread misses out on those (i.e. an error that occures before the view is ready)
@@ -481,12 +410,6 @@ const eventHandlers = {
 
   reconnect: () => reconnect(),
 
-  // "retry-connection": () => {
-  //   log(`Retrying to connect to nodes`)
-  //   addressbook.resetNodes()
-  //   reconnect(addressbook)
-  // },
-
   "stop-lcd": () => {
     stopLCD()
   },
@@ -500,30 +423,6 @@ const eventHandlers = {
 Object.entries(eventHandlers).forEach(([event, handler]) => {
   ipcMain.on(event, handler)
 })
-
-// TODO readd when needed
-// check if LCD is initialized as the configs could be corrupted
-// we need to parse the error on initialization as there is no way to just get this status programmatically
-// function lcdInitialized(home) {
-//   log("Testing if LCD is already initialized")
-//   return new Promise((resolve, reject) => {
-//     let child = startProcess(LCD_BINARY_NAME, [
-//       "init",
-//       "--home",
-//       home
-//       // '--trust-node'
-//     ])
-//     child.stderr.on("data", data => {
-//       if (data.toString().includes("already is initialized")) {
-//         return resolve(true)
-//       }
-//       if (data.toString().includes('"--chain-id" required')) {
-//         return resolve(false)
-//       }
-//       reject("Unknown state for Gaia initialization: " + data.toString())
-//     })
-//   })
-// }
 
 // query version of the used SDK via LCD
 async function getNodeVersion(nodeURL) {
@@ -740,29 +639,8 @@ async function main() {
   let genesis = JSON.parse(genesisText)
   chainId = genesis.chain_id // is set globaly
 
-  // // pick a random seed node from config.toml if not using COSMOS_NODE envvar
-  // const persistent_peers = process.env.COSMOS_NODE
-  //   ? []
-  //   : getPersistentPeers(configPath)
-
-  // addressbook = new Addressbook(config, root, {
-  //   persistent_peers,
-  //   onConnectionMessage: message => {
-  //     log(message)
-  //     mainWindow.webContents.send(`connection-status`, message)
-  //   }
-  // })
-
   // choose one random node to start from
   await pickAndConnect()
-
-  // TODO reenable when we need LCD init
-  // let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))
-  // log("LCD is" + (_lcdInitialized ? "" : " not") + " initialized")
-  // if (init || !_lcdInitialized) {
-  //   log(`Trying to initialize lcd with remote node ${nodeIP}`)
-  //   // await initLCD(chainId, lcdHome, nodeIP)
-  // }
 }
 module.exports = main()
   .catch(err => {
