@@ -8,7 +8,6 @@ let semver = require(`semver`)
 let Raven = require(`raven`)
 let axios = require(`axios`)
 
-// let Addressbook = require(`./addressbook.js`)
 let pkg = require(`../../../package.json`)
 let addMenu = require(`./menu.js`)
 let config = require(`../config.js`)
@@ -26,7 +25,6 @@ let streams = []
 let connecting = true
 let chainId
 let booted = false
-// let addressbook
 let expectedGaiaCliVersion
 
 const root = require(`../root.js`)
@@ -446,7 +444,7 @@ async function testNodeVersion(nodeURL, expectedGaiaVersion) {
   return { compatible: false, nodeVersion }
 }
 
-// pick a random node from the addressbook and check if the SDK version is compatible with ours
+// check if our node is reachable and the SDK version is compatible with the local one
 async function pickAndConnect() {
   let nodeURL = config.node_lcd
   connecting = true
