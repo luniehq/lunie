@@ -443,7 +443,6 @@ async function testNodeVersion(nodeURL, expectedGaiaVersion) {
     return { compatible: true, nodeVersion }
   }
 
-  // addressbook.flagNodeIncompatible(nodeURL)
   return { compatible: false, nodeVersion }
 }
 
