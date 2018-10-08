@@ -160,8 +160,8 @@ Object.assign(Client.prototype, {
       true
     ).call(this)
   },
-  getPool: req(`GET`, `/stake/pool`),
-  getParameters: req(`GET`, `/stake/parameters`),
+  getPool: req(`GET`, `/stake/pool`, true),
+  getParameters: req(`GET`, `/stake/parameters`, true),
 
   /* ============ Slashing ============ */
 

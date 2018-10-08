@@ -104,7 +104,7 @@ describe(`LCD Client`, () => {
     )
     await client.queryDelegation(`abc`, `efg`)
     expect(axios.get.mock.calls[0]).toEqual([
-      `http://localhost:8998/stake/delegators/abc/delegations/efg`,
+      `${remoteLcdURL}/stake/delegators/abc/delegations/efg`,
       undefined
     ])
   })
@@ -161,7 +161,7 @@ describe(`LCD Client`, () => {
     axios.get = jest.fn().mockReturnValue({})
     await client.getDelegator(`abc`)
     expect(axios.get.mock.calls[0]).toEqual([
-      `http://localhost:8998/stake/delegators/abc`,
+      `${remoteLcdURL}/stake/delegators/abc`,
       undefined
     ])
   })
@@ -175,19 +175,10 @@ describe(`LCD Client`, () => {
     await client.getDelegatorTxs(`abc`, [`unbonding`])
     await client.getDelegatorTxs(`abc`, [`redelegate`])
     expect(axios.get.mock.calls).toEqual([
-      [`http://localhost:8998/stake/delegators/abc/txs`, undefined],
-      [
-        `http://localhost:8998/stake/delegators/abc/txs?type=bonding`,
-        undefined
-      ],
-      [
-        `http://localhost:8998/stake/delegators/abc/txs?type=unbonding`,
-        undefined
-      ],
-      [
-        `http://localhost:8998/stake/delegators/abc/txs?type=redelegate`,
-        undefined
-      ]
+      [`${remoteLcdURL}/stake/delegators/abc/txs`, undefined],
+      [`${remoteLcdURL}/stake/delegators/abc/txs?type=bonding`, undefined],
+      [`${remoteLcdURL}/stake/delegators/abc/txs?type=unbonding`, undefined],
+      [`${remoteLcdURL}/stake/delegators/abc/txs?type=redelegate`, undefined]
     ])
   })
 
@@ -195,7 +186,7 @@ describe(`LCD Client`, () => {
     axios.get = jest.fn().mockReturnValue({})
     await client.queryUnbonding(`abc`, `def`)
     expect(axios.get.mock.calls[0]).toEqual([
-      `http://localhost:8998/stake/delegators/abc/unbonding_delegations/def`,
+      `${remoteLcdURL}/stake/delegators/abc/unbonding_delegations/def`,
       undefined
     ])
   })
@@ -204,7 +195,7 @@ describe(`LCD Client`, () => {
     axios.get = jest.fn().mockReturnValue({})
     await client.getCandidate(`abc`)
     expect(axios.get.mock.calls[0]).toEqual([
-      `http://localhost:8998/stake/validators/abc`,
+      `${remoteLcdURL}/stake/validators/abc`,
       undefined
     ])
   })
@@ -213,7 +204,7 @@ describe(`LCD Client`, () => {
     axios.get = jest.fn().mockReturnValue({})
     await client.getParameters()
     expect(axios.get.mock.calls[0]).toEqual([
-      `http://localhost:8998/stake/parameters`,
+      `${remoteLcdURL}/stake/parameters`,
       undefined
     ])
   })
@@ -222,7 +213,7 @@ describe(`LCD Client`, () => {
     axios.get = jest.fn().mockReturnValue({})
     await client.getPool()
     expect(axios.get.mock.calls[0]).toEqual([
-      `http://localhost:8998/stake/pool`,
+      `${remoteLcdURL}/stake/pool`,
       undefined
     ])
   })
@@ -231,7 +222,7 @@ describe(`LCD Client`, () => {
     axios.get = jest.fn().mockReturnValue({})
     await client.queryValidatorSigningInfo(`pubKey`)
     expect(axios.get.mock.calls[0]).toEqual([
-      `http://localhost:8998/slashing/signing_info/pubKey`,
+      `${remoteLcdURL}/slashing/signing_info/pubKey`,
       undefined
     ])
   })
