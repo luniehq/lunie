@@ -179,7 +179,7 @@ describe(`Startup Process`, () => {
       })
     })
 
-    it(`should look for a node with a compatible SDK version`, async () => {
+    it(`should check if our node has a compatible SDK version`, async () => {
       main.shutdown()
       prepareMain()
       const mockAxiosGet = jest
