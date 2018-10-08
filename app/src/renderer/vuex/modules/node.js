@@ -1,6 +1,5 @@
 "use strict"
 
-import { setTimeout } from "timers"
 import { ipcRenderer, remote } from "electron"
 import { sleep } from "scripts/common.js"
 
@@ -103,15 +102,20 @@ export default function({ node }) {
       dispatch(`checkNodeHalted`)
       dispatch(`pollRPCConnection`)
     },
-    checkNodeHalted({ state, dispatch }) {
+    checkNodeHalted(
+      { state, dispatch },
+      nodeHaltedTimeout = NODE_HALTED_TIMEOUT
+    ) {
       state.nodeHaltedTimeout = setTimeout(() => {
         if (!state.lastHeader.height) {
           dispatch(`nodeHasHalted`)
         }
-      }, NODE_HALTED_TIMEOUT) // default 30s
+      }, nodeHaltedTimeout) // default 30s
     },
     nodeHasHalted({ commit }) {
+      console.log(`node has halted`)
       clearTimeout(state.nodeHaltedTimeout)
+      state.nodeHaltedTimeout = undefined
       commit(`setModalNodeHalted`, true)
     },
     async checkConnection({ commit }) {
