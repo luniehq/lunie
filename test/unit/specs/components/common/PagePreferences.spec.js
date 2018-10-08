@@ -66,25 +66,9 @@ describe(`PagePreferences`, () => {
     expect(wrapper.find(`#onboarding`)).toBeDefined()
   })
 
-  describe(`switches mocked mode`, () => {
-    it(`mock`, () => {
+  describe(`Select network to connect to`, () => {
+    it(`Live Testnet`, () => {
       const instance = {
-        networkSelectActive: `mock`,
-        $store: {
-          dispatch: jest.fn()
-        }
-      }
-
-      PagePreferences.methods.setMockedConnector.call(instance)
-
-      expect(instance.$store.dispatch.mock.calls).toEqual([
-        [`setMockedConnector`, true]
-      ])
-    })
-
-    it(`live`, () => {
-      const instance = {
-        mockedConnector: true,
         networkSelectActive: `live`,
         $store: {
           dispatch: jest.fn()
@@ -97,10 +81,9 @@ describe(`PagePreferences`, () => {
         [`setMockedConnector`, false]
       ])
     })
-
-    // dont update without switch
-    it(`neither`, () => {
+    it(`Offline Mode`, () => {
       const instance = {
+        networkSelectActive: `mock`,
         $store: {
           dispatch: jest.fn()
         }
@@ -108,7 +91,9 @@ describe(`PagePreferences`, () => {
 
       PagePreferences.methods.setMockedConnector.call(instance)
 
-      expect(instance.$store.dispatch.mock.calls).toEqual([])
+      expect(instance.$store.dispatch.mock.calls).toEqual([
+        [`setMockedConnector`, true]
+      ])
     })
   })
 
