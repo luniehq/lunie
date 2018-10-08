@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 * TmBalance no longer expects unbondedAtoms prop @jbibla
+* updated delegates module tests @faboweb
 
 ### Fixed
 
