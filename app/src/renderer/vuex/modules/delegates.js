@@ -16,12 +16,11 @@ export default ({ node }) => {
       state.loading = loading
     },
     setDelegates(state, validators) {
-      state.delegates = validators.map(validator => {
+      validators.forEach(validator => {
         validator.id = validator.owner
         validator.voting_power = ratToBigNumber(validator.tokens)
-
-        return validator
       })
+      state.delegates = validators
 
       // update global power for quick access
       state.globalPower = state.delegates
