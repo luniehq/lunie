@@ -22,20 +22,10 @@ describe(`ShortBech32`, () => {
     expect(wrapper.vm.shortBech32).toBe(`Address Not Found`)
   })
 
-  it(`should return the address as received`, () => {
-    wrapper.setProps({ address: `add1asd` })
-    wrapper.update()
-    expect(wrapper.vm.shortBech32).toBe(`add1asd`)
-
-    wrapper.setProps({ address: `add2asd` })
-    wrapper.update()
-    expect(wrapper.vm.shortBech32).toBe(`add2asd`)
-  })
-
-  it(`should return a short address with the first 4 letters`, () => {
+  it(`should return a validation error message`, () => {
     wrapper.setProps({ address: `cosmosaddress2asdfasdfasdf` })
     wrapper.update()
-    expect(wrapper.vm.shortBech32).toBe(`cosm…asdf`)
+    expect(wrapper.vm.shortBech32).toBe(`Not A Valid Bech32 Address`)
   })
 
   it(`should return a short address with everything before the 1`, () => {

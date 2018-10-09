@@ -18,13 +18,8 @@ export default {
     shortBech32({ address } = this, length = 4) {
       if (!address) return `Address Not Found`
       if (address.indexOf(`1`) === -1) {
-        return address.length <= length * 2
-          ? address
-          : address.slice(0, Math.floor(length)) +
-              `…` +
-              address.slice(-1 * Math.ceil(length))
+        return `Not A Valid Bech32 Address`
       } else {
-        if (length > address.split(`1`)[1].length) return address
         return address.split(`1`)[0] + `…` + address.slice(-1 * length)
       }
     }

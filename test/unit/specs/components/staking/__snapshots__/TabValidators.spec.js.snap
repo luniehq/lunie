@@ -63,7 +63,7 @@ exports[`TabValidators has the expected html structure 1`] = `
             </div>
       <div class=\\"short-bech32\\">
          <div id=\\"address\\" class=\\"address\\">
-            cosmosvalpub8910
+            cosmosvalpub89…8910
          </div>
       <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>
@@ -104,7 +104,7 @@ exports[`TabValidators has the expected html structure 1`] = `
             </div>
       <div class=\\"short-bech32\\">
          <div id=\\"address\\" class=\\"address\\">
-            cosmosvalpub1234
+            cosmosvalpub…1234
          </div>
       <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>
@@ -145,7 +145,7 @@ exports[`TabValidators has the expected html structure 1`] = `
             </div>
       <div class=\\"short-bech32\\">
          <div id=\\"address\\" class=\\"address\\">
-            cosm…5678
+            Not A Valid Bech32 Address
          </div>
       <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>
@@ -312,7 +312,7 @@ exports[`TabValidators should filter the delegates 1`] = `
                   class="address"
                   id="address"
                 >
-                  cosmosvalpub1234
+                  cosmosvalpub…1234
                 </div>
                 <div
                   class="copied"
