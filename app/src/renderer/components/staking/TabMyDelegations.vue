@@ -8,7 +8,11 @@
     data-empty-search(v-if="yourValidators.length === 0")
     template(v-else)
       ol
-        li-validator(v-for='validator in yourValidators' :key='validator.id' :validator='validator')
+        li-validator(
+          v-for='validator in yourValidators'
+          :key='`Your/${validator.id}`'
+          :validator='validator'
+        )
     .check-out-message
       | Check out
       |
@@ -21,8 +25,11 @@
         | Your Undelegated Validators
         |
         i.material-icons.info-button(v-tooltip.top="unbondInfo") info_outline
-    template(v-else)
-      li-validator(v-for='validator in undelegatedValidators' :key='validator.id' :validator='validator')
+      li-validator(
+        v-for='validator in undelegatedValidators'
+        :key='`Undelegated/${validator.id}`'
+        :validator='validator'
+      )
 </template>
 
 <script>
@@ -221,13 +228,13 @@ h3
 
 .check-out-message
   background var(--app-fg)
+  border 1px solid var(--bc-dim)
+  border-radius 0.25rem
+  font-size sm
   margin-bottom 4rem
   margin-left 2rem
   padding 0.5rem
   text-align center
-  font-size sm
-  border-radius 0.25rem
-  border 1px solid var(--bc-dim)
 
 @media screen and (min-width: 768px)
   padding-bottom 4rem
