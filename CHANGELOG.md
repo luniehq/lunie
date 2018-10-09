@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * set width for validator stats to avoid styling bugs @jbibla
 * speed up of e2e tests removing an expected timeout happening on navigate @faboweb
+* Use unique keys in validator lists. @NodeGuy
 
 ## [0.10.6] - 2018-10-04
 
