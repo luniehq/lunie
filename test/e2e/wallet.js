@@ -52,15 +52,15 @@ test(`wallet`, async function(t) {
     let sendBtn = () => $(`.tm-form-footer button`)
     let addressInput = () => $(`#send-address`)
     let amountInput = () => $(`#send-amount`)
-    let defaultBalance = 1000
+    let defaultBalance = 1000.0
     t.test(`LOCAL_1TOKEN balance before sending`, async function(t) {
       await app.client.waitForExist(
         `//span[contains(text(), "Send")]`,
-        15 * 1000
+        15 * defaultBalance
       )
 
       let LOCAL_1TOKENEl = balanceEl(`LOCAL_1TOKEN`)
-      await waitForText(() => LOCAL_1TOKENEl, defaultBalance.toString())
+      await waitForText(() => LOCAL_1TOKENEl, `1,000.0000000000`)
       t.end()
     })
 
@@ -156,7 +156,7 @@ test(`wallet`, async function(t) {
       await navigate(app, `Wallet`)
 
       let mycoinEl = () => balanceEl(`LOCAL_1TOKEN`)
-      await waitForText(mycoinEl, (defaultBalance - 100).toString(), 10000)
+      await waitForText(mycoinEl, `900.0000000000`, 10000)
       t.pass(`balance is reduced by 100`)
       t.end()
     })
@@ -176,7 +176,7 @@ test(`wallet`, async function(t) {
         15 * 1000
       )
 
-      await waitForText(LOCAL_1TOKENEl, `100`, 5000)
+      await waitForText(LOCAL_1TOKENEl, `100.0000000000`, 5000)
       t.pass(`received mycoin transaction`)
       t.end()
     })
