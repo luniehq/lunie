@@ -15,12 +15,12 @@ export default ({ node }) => {
     setDelegateLoading(state, loading) {
       state.loading = loading
     },
-    setDelegates(state, delegates) {
-      state.delegates = delegates.map(delegate => {
-        delegate.id = delegate.owner
-        delegate.voting_power = ratToBigNumber(delegate.tokens)
+    setDelegates(state, validators) {
+      state.delegates = validators.map(validator => {
+        validator.id = validator.owner
+        validator.voting_power = ratToBigNumber(validator.tokens)
 
-        return delegate
+        return validator
       })
 
       // update global power for quick access
@@ -30,8 +30,16 @@ export default ({ node }) => {
         }, new BN(0))
         .toNumber()
     },
-    setSelfBond(state, { validator, ratio }) {
-      state.delegates.find(c => c.owner === validator.owner).selfBond = ratio
+    setSelfBond(
+      state,
+      {
+        validator: { owner },
+        ratio
+      }
+    ) {
+      state.delegates.find(
+        validator => validator.owner === owner
+      ).selfBond = ratio
     }
   }
 
@@ -55,21 +63,21 @@ export default ({ node }) => {
     },
     async getDelegates({ commit, dispatch }) {
       commit(`setDelegateLoading`, true)
-      let candidates = await node.getCandidates()
-      let { validators } = await node.getValidatorSet()
-      for (let delegate of candidates) {
-        delegate.isValidator = false
-        if (validators.find(v => v.pub_key === delegate.pub_key)) {
-          delegate.isValidator = true
+      let validators = await node.getCandidates()
+      let { validators: validatorSet } = await node.getValidatorSet()
+      for (let validator of validators) {
+        validator.isValidator = false
+        if (validatorSet.find(v => v.pub_key === validator.pub_key)) {
+          validator.isValidator = true
         }
       }
 
-      commit(`setDelegates`, candidates)
+      commit(`setDelegates`, validators)
       commit(`setDelegateLoading`, false)
-      dispatch(`getKeybaseIdentities`, candidates)
-      dispatch(`updateSigningInfo`, candidates)
+      dispatch(`getKeybaseIdentities`, validators)
+      dispatch(`updateSigningInfo`, validators)
 
-      return candidates
+      return validators
     },
     async getSelfBond({ commit }, validator) {
       if (validator.selfBond) return validator.selfBond
