@@ -4,10 +4,10 @@ import TmBalance from "common/TmBalance"
 
 describe(`TmBalance`, () => {
   let wrapper
-  let { shallow } = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
-    let instance = shallow(TmBalance, {
+    let instance = mount(TmBalance, {
       getters: {
         user: () => {
           return {
