@@ -9,10 +9,10 @@
       router-view
     modal-receive
   tm-notifications(:notifications='notifications' theme='cosmos')
-  modal-error(v-if='config.modals.error.active' :body='config.modals.error.message')
+  modal-error(v-if='config.modals.error.active', :body='config.modals.error.message')
   modal-no-nodes(v-if='config.modals.noNodes.active')
   modal-node-halted(v-if='config.modals.nodeHalted.active')
-  modal-lcd-approval(v-if='approvalRequired' :hash='approvalRequired')
+  modal-lcd-approval(v-if='approvalRequired', :hash='approvalRequired')
 </template>
 
 <script>
