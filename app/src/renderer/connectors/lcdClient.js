@@ -138,11 +138,10 @@ Object.assign(Client.prototype, {
   getValidatorSet: req(`GET`, `/validatorsets/latest`, true),
 
   updateDelegations: function(delegatorAddr, data) {
-    return req(
-      `POST`,
-      `/stake/delegators/${delegatorAddr}/delegations`,
-      true
-    ).call(this, data)
+    return req(`POST`, `/stake/delegators/${delegatorAddr}/delegations`).call(
+      this,
+      data
+    )
   },
 
   // Query a delegation between a delegator and a validator
