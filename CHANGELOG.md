@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 * TmBalance no longer expects unbondedAtoms prop @jbibla
+* showing 10 decimal places where bonding denom balance is displayed @jbibla
 
 ### Fixed
 
