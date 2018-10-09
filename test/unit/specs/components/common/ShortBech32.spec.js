@@ -44,6 +44,7 @@ describe(`ShortBech32`, () => {
     expect(wrapper.vm.shortBech32).toBe(`cosmosaddress…asdf`)
   })
 
+  jest.useFakeTimers()
   it(`clicking copy copies the address`, async () => {
     expect(
       wrapper
@@ -51,6 +52,7 @@ describe(`ShortBech32`, () => {
         .classes()
         .includes(`active`)
     ).toBe(false)
+
     wrapper.find(`.address`).trigger(`click`)
     expect(
       wrapper
@@ -58,7 +60,7 @@ describe(`ShortBech32`, () => {
         .classes()
         .includes(`active`)
     ).toBe(true)
-    await sleep(3500)
+    jest.runAllTimers()
     expect(
       wrapper
         .find(`.success`)
@@ -66,8 +68,4 @@ describe(`ShortBech32`, () => {
         .includes(`active`)
     ).toBe(false)
   })
-
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-  }
 })
