@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 * set width for validator stats to avoid styling bugs @jbibla
+* Test setMockedConnector without starting an endless loop. @NodeGuy 
 * speed up of e2e tests removing an expected timeout happening on navigate @faboweb
 * Use unique keys in validator lists. @NodeGuy
 
