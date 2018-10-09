@@ -36,7 +36,7 @@ exports[`PageStaking has the expected html structure 1`] = `
       <div id=\\"address\\" class=\\"address\\">
          cosmosaccaddr…xxn9
       </div>
-   <div class=\\"success\\">
+   <div class=\\"copied\\">
       <i class=\\"material-icons\\">check</i><span>Copied</span>
    </div>
 </div>
@@ -103,7 +103,7 @@ exports[`PageStaking has the expected html structure 1`] = `
          <div id=\\"address\\" class=\\"address\\">
             cosmosaccaddr…xxn9
          </div>
-      <div class=\\"success\\">
+      <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>
       </div>
 </div>
@@ -258,7 +258,7 @@ exports[`PageStaking should filter the delegates 1`] = `
                 cosmosaccaddr…xxn9
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -484,7 +484,7 @@ exports[`PageStaking should filter the delegates 1`] = `
                     cosmosaccaddr…xxn9
                   </div>
                   <div
-                    class="success"
+                    class="copied"
                   >
                     <i
                       class="material-icons"

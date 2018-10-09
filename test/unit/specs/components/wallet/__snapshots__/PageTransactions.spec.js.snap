@@ -57,7 +57,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 Address Not Found
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -270,7 +270,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 Address Not Found
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"

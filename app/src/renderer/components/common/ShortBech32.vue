@@ -1,7 +1,7 @@
 <template lang="pug">
 .short-bech32
   .address(@click.prevent.stop="copy" v-tooltip.top="address")#address {{ shortBech32 }}
-  .success(:class="{active:showSuccess}")
+  .copied(:class="{active:showSuccess}")
     i.material-icons check
     span Copied
 </template>
@@ -58,7 +58,7 @@ export default {
     &:hover
       color var(--link)
 
-  .success
+  .copied
     align-items flex-end
     display flex
     font-size sm

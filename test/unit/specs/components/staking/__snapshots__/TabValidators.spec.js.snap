@@ -65,7 +65,7 @@ exports[`TabValidators has the expected html structure 1`] = `
          <div id=\\"address\\" class=\\"address\\">
             cosmosvalpub8910
          </div>
-      <div class=\\"success\\">
+      <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>
       </div>
 </div>
@@ -106,7 +106,7 @@ exports[`TabValidators has the expected html structure 1`] = `
          <div id=\\"address\\" class=\\"address\\">
             cosmosvalpub1234
          </div>
-      <div class=\\"success\\">
+      <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>
       </div>
 </div>
@@ -147,7 +147,7 @@ exports[`TabValidators has the expected html structure 1`] = `
          <div id=\\"address\\" class=\\"address\\">
             cosm…5678
          </div>
-      <div class=\\"success\\">
+      <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>
       </div>
 </div>
@@ -315,7 +315,7 @@ exports[`TabValidators should filter the delegates 1`] = `
                   cosmosvalpub1234
                 </div>
                 <div
-                  class="success"
+                  class="copied"
                 >
                   <i
                     class="material-icons"

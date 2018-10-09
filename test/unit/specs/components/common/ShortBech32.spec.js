@@ -48,7 +48,7 @@ describe(`ShortBech32`, () => {
   it(`clicking copy copies the address`, async () => {
     expect(
       wrapper
-        .find(`.success`)
+        .find(`.copied`)
         .classes()
         .includes(`active`)
     ).toBe(false)
@@ -56,14 +56,14 @@ describe(`ShortBech32`, () => {
     wrapper.find(`.address`).trigger(`click`)
     expect(
       wrapper
-        .find(`.success`)
+        .find(`.copied`)
         .classes()
         .includes(`active`)
     ).toBe(true)
     jest.runAllTimers()
     expect(
       wrapper
-        .find(`.success`)
+        .find(`.copied`)
         .classes()
         .includes(`active`)
     ).toBe(false)

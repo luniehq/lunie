@@ -29,7 +29,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
    <div id=\\"address\\" class=\\"address\\">
       useraddress…6876
    </div>
-<div class=\\"success\\">
+<div class=\\"copied\\">
    <i class=\\"material-icons\\">check</i><span>Copied</span>
 </div>
 </div>
@@ -83,7 +83,7 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
    <div id=\\"address\\" class=\\"address\\">
       useraddress…6876
    </div>
-<div class=\\"success\\">
+<div class=\\"copied\\">
    <i class=\\"material-icons\\">check</i><span>Copied</span>
 </div>
 </div>

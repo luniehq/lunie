@@ -38,7 +38,7 @@ exports[`LiValidator has the expected html structure 1`] = `
             cosmosvaladdr…n3au
           </div>
           <div
-            class="success"
+            class="copied"
           >
             <i
               class="material-icons"

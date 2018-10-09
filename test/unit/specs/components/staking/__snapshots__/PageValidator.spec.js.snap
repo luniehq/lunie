@@ -56,7 +56,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                 Address Not Found
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -151,7 +151,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                 cosmoschiapudding…6789
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -489,7 +489,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                 Address Not Found
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -584,7 +584,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                 cosmoschiapudding…6789
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
