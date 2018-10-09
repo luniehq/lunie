@@ -32,7 +32,7 @@ tm-page
         .row.validator-profile__header__data
           dl.colored_dl
             dt Bonded {{bondingDenom}}
-            dd {{myBond.isLessThan(0.01) && myBond.isGreaterThan(0) ? '< ' + 0.01 : pretty(myBond)}}
+            dd {{myBond.isLessThan(0.01) && myBond.isGreaterThan(0) ? '< ' + 0.01 : num.full(myBond)}}
           dl.colored_dl(v-if="config.devMode")
             dt My Rewards
             dd n/a
@@ -117,6 +117,7 @@ tm-page
 <script>
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
+import num from "scripts/num"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import TmModal from "common/TmModal"
 import { TmDataError } from "common/TmDataError"
@@ -143,6 +144,7 @@ export default {
     TmBalance
   },
   data: () => ({
+    num,
     showCannotModal: false,
     showDelegationModal: false,
     showUndelegationModal: false,

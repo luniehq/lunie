@@ -34,7 +34,7 @@ tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
       :btn="'Send'"
       :key="i.denom"
       :dt="i.denom.toUpperCase()"
-      :dd="i.amount"
+      :dd="num.full(i.amount)"
       :to="{name: 'send', params: {denom: i.denom}}")
 </template>
 

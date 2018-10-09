@@ -80,7 +80,7 @@ export default {
         : this.delegates.delegates.map(v => {
             v.small_moniker = v.description.moniker.toLowerCase()
             v.percent_of_vote = num.percent(v.voting_power / this.vpTotal)
-            v.your_votes = this.num.pretty(
+            v.your_votes = this.num.full(
               calculateTokens(v, this.committedDelegations[v.id])
             )
             v.keybase = this.keybase[v.description.identity]
