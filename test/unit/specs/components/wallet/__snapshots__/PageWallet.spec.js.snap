@@ -36,7 +36,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  1,014.00
+                  1,014.0000000000
                 </h2>
               </div>
               <div
@@ -46,7 +46,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                   Unbonded Steak
                 </h3>
                 <h2>
-                  1000
+                  1,000.0000000000
                 </h2>
               </div>
               <!---->
@@ -286,7 +286,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  2300
+                  2,300.0000000000
                 </div>
               </div>
               <button
@@ -334,7 +334,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  1000
+                  1,000.0000000000
                 </div>
               </div>
               <button
@@ -382,7 +382,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  1000
+                  1,000.0000000000
                 </div>
               </div>
               <button
@@ -470,7 +470,7 @@ exports[`PageWallet should filter the balances 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  1,014.00
+                  1,014.0000000000
                 </h2>
               </div>
               <div
@@ -480,7 +480,7 @@ exports[`PageWallet should filter the balances 1`] = `
                   Unbonded Steak
                 </h3>
                 <h2>
-                  1000
+                  1,000.0000000000
                 </h2>
               </div>
               <!---->
@@ -720,7 +720,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  1000
+                  1,000.0000000000
                 </div>
               </div>
               <button

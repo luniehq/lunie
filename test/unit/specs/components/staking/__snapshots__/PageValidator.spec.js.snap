@@ -35,10 +35,19 @@ exports[`PageValidator has the expected html structure 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  123.46
+                  123.4567800000
                 </h2>
               </div>
-              <!---->
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Unbonded Steak
+                </h3>
+                <h2>
+                  0.0000000000
+                </h2>
+              </div>
               <!---->
               <!---->
             </div>
@@ -205,7 +214,7 @@ exports[`PageValidator has the expected html structure 1`] = `
               Bonded Steak
             </dt>
             <dd>
-              123.46
+              123.4567800000
             </dd>
           </dl>
           <dl
@@ -462,10 +471,19 @@ exports[`PageValidator shows a default avatar 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  123.46
+                  123.4567800000
                 </h2>
               </div>
-              <!---->
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Unbonded Steak
+                </h3>
+                <h2>
+                  0.0000000000
+                </h2>
+              </div>
               <!---->
               <!---->
             </div>
@@ -632,7 +650,7 @@ exports[`PageValidator shows a default avatar 1`] = `
               Bonded Steak
             </dt>
             <dd>
-              123.46
+              123.4567800000
             </dd>
           </dl>
           <dl

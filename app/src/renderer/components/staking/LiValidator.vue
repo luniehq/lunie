@@ -9,7 +9,7 @@ li.li-validator(:class='styles')
         .top {{ validator.description.moniker }}
         .bottom {{ shortAddress(validator.id)}}
     .li-validator__value.your-votes
-      span {{ yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0) ? '< ' + num.pretty(0.01) : num.pretty(yourVotes) }}
+      span {{ yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0) ? '< ' + num.full(0.01) : num.full(yourVotes) }}
     .li-validator__value.your-rewards
       span n/a
     .li-validator__break: span
@@ -74,7 +74,7 @@ export default {
     //       this.validator.proposer_reward_pool
     //     )
     //     let rewardsInTokens = calculateTokens(rewardsInShares)
-    //     return this.num.pretty(rewardsInTokens).toString()
+    //     return this.num.full(rewardsInTokens).toString()
     //   } else return "0"
     // },
     yourVotes() {

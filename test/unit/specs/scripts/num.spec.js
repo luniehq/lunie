@@ -10,7 +10,7 @@ describe(`number helper`, () => {
   })
 
   it(`should format numbers showing many decimals`, () => {
-    expect(num.full(1001950.123456)).toBe(`1,001,950.12345600`)
+    expect(num.full(1001950.123456)).toBe(`1,001,950.1234560000`)
   })
 
   it(`should format numbers showing few decimals`, () => {
