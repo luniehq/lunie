@@ -39,7 +39,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  0.0000000000
+                  123.4567800000
                 </h2>
               </div>
               <div
@@ -481,7 +481,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  0.0000000000
+                  123.4567800000
                 </h2>
               </div>
               <div
@@ -841,7 +841,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             <dd
               id="validator-profile__self-bond"
             >
-              0 %
+              0.00 %
             </dd>
           </dl>
           <dl

@@ -6,6 +6,7 @@ import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import { createLocalVue, mount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
+import BigNumber from "bignumber.js"
 
 const validator = {
   owner: `1a2b3c`,
@@ -630,6 +631,7 @@ describe(`onDelegation`, () => {
                           website: `www.schmidt.de`
                         },
                         selfBond: 0.01,
+                        id: `1a2b3c`,
                         keybase: undefined,
                         owner: `1a2b3c`,
                         prev_bonded_shares: `0`,
@@ -638,7 +640,7 @@ describe(`onDelegation`, () => {
                         revoked: false,
                         status: 2,
                         tokens: `19`,
-                        voting_power: `10`
+                        voting_power: BigNumber(19)
                       }
                     }
                   ]
