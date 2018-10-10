@@ -6,13 +6,13 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
       <div class=\\"icon-container\\">
          <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
       </div>
-      <div class=\\"total-atoms top-section\\">
-         <h3>
-            Total Steak
-         </h3>
-         <h2>
-            321.0000000000
-         </h2>
+<div class=\\"total-atoms top-section\\">
+   <h3>
+      Total Steak
+   </h3>
+   <h2>
+      321.0000000000
+   </h2>
 </div>
 <div class=\\"unbonded-atoms top-section\\">
    <h3>
@@ -43,13 +43,13 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
       <div class=\\"icon-container\\">
          <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
       </div>
-      <div class=\\"total-atoms top-section\\">
-         <h3>
-            Total Steak
-         </h3>
-         <h2>
-            321.0000000000
-         </h2>
+<div class=\\"total-atoms top-section\\">
+   <h3>
+      Total Steak
+   </h3>
+   <h2>
+      321.0000000000
+   </h2>
 </div>
 <div class=\\"unbonded-atoms top-section\\">
    <h3>
