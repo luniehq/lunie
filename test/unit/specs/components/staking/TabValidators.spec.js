@@ -3,7 +3,7 @@ import htmlBeautify from "html-beautify"
 import TabValidators from "renderer/components/staking/TabValidators"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-describe(`PageStaking`, () => {
+describe(`TabValidators`, () => {
   let wrapper, store
   let { mount } = setup()
 
@@ -13,7 +13,7 @@ describe(`PageStaking`, () => {
     store = instance.store
 
     store.commit(`setConnected`, true)
-    store.state.user.address = lcdClientMock.addresses[0]
+    store.state.user.address = `address1234`
     store.commit(`setAtoms`, 1337)
     wrapper.update()
   })

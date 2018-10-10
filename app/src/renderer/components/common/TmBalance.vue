@@ -1,7 +1,8 @@
 <template lang="pug">
   .header-balance
     .top
-      img.icon(src="~assets/images/cosmos-logo.png")
+      .icon-container
+        img.icon(src="~assets/images/cosmos-logo.png")
       .total-atoms.top-section
         h3 Total {{bondingDenom}}
         h2 {{this.num.full(totalAtoms)}}
@@ -16,11 +17,8 @@
         .group
           h2 {{totalRewards}}
           router-link(to="claim") Claim
-    .bottom
-      .address(@click="copy")#address {{address}}
-      .success(:class="{showSuccess:showSuccess}")
-        i.material-icons check
-        span Copied
+
+    short-bech32(:address="user.address")
 
     .tabs
       .tab(
@@ -32,15 +30,17 @@
 </template>
 <script>
 import num from "scripts/num"
-import { clipboard } from "electron"
+import ShortBech32 from "common/ShortBech32"
 import { mapGetters } from "vuex"
 export default {
   name: `tm-balance`,
+  components: {
+    ShortBech32
+  },
   data() {
     return {
       num,
-      tabIndex: 1,
-      showSuccess: false
+      tabIndex: 1
     }
   },
   props: [`totalEarnings`, `totalRewards`, `tabs`],
@@ -51,15 +51,6 @@ export default {
     },
     unbondedAtoms() {
       return this.num.full(this.user.atoms)
-    }
-  },
-  methods: {
-    copy() {
-      clipboard.writeText(this.user.address)
-      this.showSuccess = true
-      setTimeout(() => {
-        this.showSuccess = false
-      }, 3000)
     }
   }
 }
@@ -73,12 +64,13 @@ export default {
   flex-direction column
   flex-grow 1
   padding-top 1rem
+  padding-left 2rem
 
   .top
     display flex
     flex-direction row
 
-    > *
+    > .top-section
       border-right var(--bc-dim) 1px solid
 
     > div:last-of-type
@@ -95,10 +87,14 @@ export default {
       font-size h1
       font-weight 500
 
+    .icon-container
+      display block
+      height 100%
+
     .icon
       border-right none
       height 60px
-      margin 0 1rem 0 2rem
+      margin 0 1rem 0 0
       padding 0
       width 60px
 
@@ -110,36 +106,8 @@ export default {
       a
         padding-left 10px
 
-  .bottom
-    align-items flex-start
-    display flex
-    padding 0.5rem 0
-
-    .address
-      color var(--dim)
-      cursor pointer
-      font-size 14px
-      padding-left 142px
-
-      &:hover
-        color var(--link)
-
-    .success
-      align-items flex-end
-      display flex
-      font-size sm
-      opacity 0
-      padding-left 10px
-      transition opacity 500ms ease
-
-      &.showSuccess
-        opacity 1
-
-      i
-        color var(--success)
-        font-size m
-        padding-bottom 2px
-        padding-right 0
+  .short-bech32
+    padding 0.5rem 0 0.5rem 109px
 
 .top-section
   padding 0 2rem

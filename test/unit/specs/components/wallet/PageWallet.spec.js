@@ -6,7 +6,9 @@ describe(`PageWallet`, () => {
 
   beforeEach(async () => {
     let instance = mount(PageWallet, {
-      stubs: { "modal-search": `<modal-search />` }
+      stubs: {
+        "modal-search": `<modal-search />`
+      }
     })
     wrapper = instance.wrapper
     store = instance.store

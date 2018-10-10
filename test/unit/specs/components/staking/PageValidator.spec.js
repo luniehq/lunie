@@ -10,10 +10,7 @@ import BigNumber from "bignumber.js"
 
 const validator = {
   owner: `1a2b3c`,
-  pub_key: {
-    type: `AC26791624DE60`,
-    data: `dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=`
-  },
+  pub_key: `cosmoschiapudding123456789`,
   tokens: `19`,
   delegator_shares: `19`,
   description: {
@@ -37,10 +34,7 @@ const validator = {
 
 const validatorTo = {
   owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-  pub_key: {
-    type: `AC26791624DE60`,
-    data: `9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w=`
-  },
+  pub_key: `cosmosvalpub123456789`,
   tokens: `10`,
   delegator_shares: `10`,
   description: {
@@ -642,10 +636,7 @@ describe(`onDelegation`, () => {
                         owner: `1a2b3c`,
                         prev_bonded_shares: `0`,
                         proposer_reward_pool: null,
-                        pub_key: {
-                          data: `dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=`,
-                          type: `AC26791624DE60`
-                        },
+                        pub_key: `cosmoschiapudding123456789`,
                         revoked: false,
                         status: 2,
                         tokens: `19`,
