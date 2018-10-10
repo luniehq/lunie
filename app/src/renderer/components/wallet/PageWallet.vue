@@ -14,8 +14,7 @@ tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
     tm-list-item(
       :title="wallet.address"
       :btn="'Receive'"
-      :overflow="true"
-      @click.native="copy")
+      :overflow="true")
 
       btn-receive(slot="btn-receive")
 
@@ -34,14 +33,13 @@ tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
       :btn="'Send'"
       :key="i.denom"
       :dt="i.denom.toUpperCase()"
-      :dd="i.amount"
+      :dd="num.full(i.amount)"
       :to="{name: 'send', params: {denom: i.denom}}")
 </template>
 
 <script>
 import num from "scripts/num"
 import { mapGetters, mapActions } from "vuex"
-import { clipboard } from "electron"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
@@ -119,14 +117,6 @@ export default {
     },
     updateBalances() {
       this.queryWalletState()
-    },
-    copy() {
-      clipboard.writeText(this.wallet.address)
-
-      this.$store.commit(`notify`, {
-        title: `Copied your address to clipboard.`,
-        body: `You can receive Cosmos tokens of any denomination by sharing this address.`
-      })
     }
   },
   mounted() {

@@ -3,31 +3,33 @@
 exports[`TmBalance has the expected html structure before adding props 1`] = `
 "<div class=\\"header-balance\\">
    <div class=\\"top\\">
-      <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
-      <div class=\\"total-atoms top-section\\">
-         <h3>
-            Total Steak
-         </h3>
-         <h2>
-            321.00
-         </h2>
+      <div class=\\"icon-container\\">
+         <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
+      </div>
+<div class=\\"total-atoms top-section\\">
+   <h3>
+      Total Steak
+   </h3>
+   <h2>
+      321.0000000000
+   </h2>
 </div>
 <div class=\\"unbonded-atoms top-section\\">
    <h3>
       Unbonded Steak
    </h3>
    <h2>
-      123
+      123.0000000000
    </h2>
 </div>
    <!---->
    <!---->
 </div>
-<div class=\\"bottom\\">
+<div class=\\"short-bech32\\">
    <div id=\\"address\\" class=\\"address\\">
-      useraddress16876876876876876786876876876876876
+      useraddress…6876
    </div>
-<div class=\\"success\\">
+<div class=\\"copied\\">
    <i class=\\"material-icons\\">check</i><span>Copied</span>
 </div>
 </div>
@@ -38,21 +40,23 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
 exports[`TmBalance shows correct stats depending on props 1`] = `
 "<div class=\\"header-balance\\">
    <div class=\\"top\\">
-      <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
-      <div class=\\"total-atoms top-section\\">
-         <h3>
-            Total Steak
-         </h3>
-         <h2>
-            321.00
-         </h2>
+      <div class=\\"icon-container\\">
+         <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
+      </div>
+<div class=\\"total-atoms top-section\\">
+   <h3>
+      Total Steak
+   </h3>
+   <h2>
+      321.0000000000
+   </h2>
 </div>
 <div class=\\"unbonded-atoms top-section\\">
    <h3>
       Unbonded Steak
    </h3>
    <h2>
-      123
+      123.0000000000
    </h2>
 </div>
 <div class=\\"total-earnings top-section\\">
@@ -75,11 +79,11 @@ exports[`TmBalance shows correct stats depending on props 1`] = `
    </div>
 </div>
 </div>
-<div class=\\"bottom\\">
+<div class=\\"short-bech32\\">
    <div id=\\"address\\" class=\\"address\\">
-      useraddress16876876876876876786876876876876876
+      useraddress…6876
    </div>
-<div class=\\"success\\">
+<div class=\\"copied\\">
    <i class=\\"material-icons\\">check</i><span>Copied</span>
 </div>
 </div>

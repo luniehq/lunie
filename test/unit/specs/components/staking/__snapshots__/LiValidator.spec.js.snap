@@ -2,11 +2,11 @@
 
 exports[`LiValidator has the expected html structure 1`] = `
 <li
-  class="li-validator li-validator-validator "
+  class="li-validator"
 >
   <a
     class=""
-    href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    href="#/staking/validators/abc"
   >
     <div
       class="li-validator__value name"
@@ -26,12 +26,29 @@ exports[`LiValidator has the expected html structure 1`] = `
         <div
           class="top"
         >
-          mr_mounty
+          herr_schmidt_revoked
         </div>
         <div
-          class="bottom"
+          class="short-bech32"
         >
-          cosmosvaladdr…8yqw
+          <div
+            class="address"
+            id="address"
+          >
+            cosmosvaladdr…n3au
+          </div>
+          <div
+            class="copied"
+          >
+            <i
+              class="material-icons"
+            >
+              check
+            </i>
+            <span>
+              Copied
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -39,7 +56,7 @@ exports[`LiValidator has the expected html structure 1`] = `
       class="li-validator__value your-votes"
     >
       <span>
-        0.00
+        0.0000000000
       </span>
     </div>
     <div
@@ -72,7 +89,7 @@ exports[`LiValidator has the expected html structure 1`] = `
       class="li-validator__value commission"
     >
       <span>
-        0.00%
+        0.05%
       </span>
     </div>
     <div
