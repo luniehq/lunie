@@ -13,20 +13,20 @@ exports[`PageStaking has the expected html structure 1`] = `
                      <div class=\\"icon-container\\">
                         <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
                      </div>
-   <div class=\\"total-atoms top-section\\">
-      <h3>
-         Total Steak
-      </h3>
-      <h2>
-         1,351.00
-      </h2>
+                     <div class=\\"total-atoms top-section\\">
+                        <h3>
+                           Total Steak
+                        </h3>
+                        <h2>
+                           1,351.0000000000
+                        </h2>
 </div>
    <div class=\\"unbonded-atoms top-section\\">
       <h3>
          Unbonded Steak
       </h3>
       <h2>
-         1337
+         1,337.0000000000
       </h2>
 </div>
       <!---->
@@ -80,20 +80,20 @@ exports[`PageStaking has the expected html structure 1`] = `
                         <div class=\\"icon-container\\">
                            <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
                         </div>
-      <div class=\\"total-atoms top-section\\">
-         <h3>
-            Total Steak
-         </h3>
-         <h2>
-            1,351.00
-         </h2>
+                        <div class=\\"total-atoms top-section\\">
+                           <h3>
+                              Total Steak
+                           </h3>
+                           <h2>
+                              1,351.0000000000
+                           </h2>
 </div>
       <div class=\\"unbonded-atoms top-section\\">
          <h3>
             Unbonded Steak
          </h3>
          <h2>
-            1337
+            1,337.0000000000
          </h2>
 </div>
          <!---->
@@ -232,7 +232,7 @@ exports[`PageStaking should filter the delegates 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  1,351.00
+                  1,351.0000000000
                 </h2>
               </div>
               <div
@@ -242,7 +242,7 @@ exports[`PageStaking should filter the delegates 1`] = `
                   Unbonded Steak
                 </h3>
                 <h2>
-                  1337
+                  1,337.0000000000
                 </h2>
               </div>
               <!---->
@@ -458,7 +458,7 @@ exports[`PageStaking should filter the delegates 1`] = `
                       Total Steak
                     </h3>
                     <h2>
-                      1,351.00
+                      1,351.0000000000
                     </h2>
                   </div>
                   <div
@@ -468,7 +468,7 @@ exports[`PageStaking should filter the delegates 1`] = `
                       Unbonded Steak
                     </h3>
                     <h2>
-                      1337
+                      1,337.0000000000
                     </h2>
                   </div>
                   <!---->

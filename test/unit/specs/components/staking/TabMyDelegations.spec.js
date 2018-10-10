@@ -22,7 +22,8 @@ const delegates = [
     commission_max: `0`,
     commission_change_rate: `0`,
     commission_change_today: `0`,
-    prev_bonded_shares: `0`
+    prev_bonded_shares: `0`,
+    voting_power: `8`
   },
   {
     id: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
@@ -44,7 +45,8 @@ const delegates = [
     commission_max: `0`,
     commission_change_rate: `0`,
     commission_change_today: `0`,
-    prev_bonded_shares: `0`
+    prev_bonded_shares: `0`,
+    voting_power: `7`
   },
   {
     id: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`,
@@ -67,7 +69,8 @@ const delegates = [
     commission_max: `0`,
     commission_change_rate: `0`,
     commission_change_today: `0`,
-    prev_bonded_shares: `0`
+    prev_bonded_shares: `0`,
+    voting_power: `6`
   }
 ]
 
@@ -102,7 +105,8 @@ test(`undelegatedValidators`, () => {
       proposer_reward_pool: null,
       pub_key: `pubsub1234567891234`,
       status: 2,
-      tokens: `0`
+      tokens: `0`,
+      voting_power: `7`
     }
   ])
 })
@@ -136,7 +140,77 @@ test(`yourValidators`, () => {
       proposer_reward_pool: null,
       pub_key: `pubsub1234567891234`,
       status: 2,
-      tokens: `0`
+      tokens: `0`,
+      voting_power: `7`
     }
   ])
+})
+
+test(`address`, () => {
+  expect(
+    TabMyDelegations.computed.address({
+      user: {
+        address: `cosmos1asdfasdf`
+      }
+    })
+  ).toEqual(`cosmos1asdfasdf`)
+})
+
+test(`properties`, () => {
+  expect(
+    TabMyDelegations.computed.properties({
+      bondingDenom: `tofu-steaks`
+    })
+  ).toEqual([
+    {
+      title: `Moniker`,
+      value: `small_moniker`,
+      tooltip: `The validator's moniker`,
+      class: `name`
+    },
+    {
+      title: `Bonded tofu-steaks`,
+      value: `your_votes`,
+      tooltip: `Number of tofu-steaks you have delegated to the validator`,
+      class: `your-votes`
+    },
+    {
+      title: `Rewards`,
+      value: `your_rewards`,
+      tooltip: `Rewards of tofu-steaks you have gained from the validator`,
+      class: `your-rewards`
+    },
+    {
+      title: `Voting Power`,
+      value: `percent_of_vote`,
+      tooltip: `Percentage of tofu-steaks the validator has on The Cosmos Hub`,
+      class: `percent_of_vote`
+    },
+    {
+      title: `Uptime`,
+      value: `uptime`,
+      tooltip: `Ratio of blocks signed within the last 10k blocks`,
+      class: `uptime`
+    },
+    {
+      title: `Commission`,
+      value: `commission`,
+      tooltip: `The validator's commission`,
+      class: `commission`
+    },
+    {
+      title: `Slashes`,
+      value: `slashes`,
+      tooltip: `The validator's slashes`,
+      class: `slashes`
+    }
+  ])
+})
+
+test(`sort`, () => {
+  expect(TabMyDelegations.data()).toEqual({
+    bondInfo: `Validators you are currently bonded to`,
+    sort: { order: `desc`, property: `percent_of_vote` },
+    unbondInfo: `Your bonded validators in unbonding process`
+  })
 })

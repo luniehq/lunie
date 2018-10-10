@@ -5,7 +5,7 @@
         img.icon(src="~assets/images/cosmos-logo.png")
       .total-atoms.top-section
         h3 Total {{bondingDenom}}
-        h2 {{num.pretty(totalAtoms) || "---"}}
+        h2 {{this.num.full(totalAtoms)}}
       .unbonded-atoms.top-section(v-if="unbondedAtoms")
         h3 Unbonded {{bondingDenom}}
         h2 {{unbondedAtoms}}
@@ -50,7 +50,7 @@ export default {
       return this.user.address
     },
     unbondedAtoms() {
-      return this.user.atoms
+      return this.num.full(this.user.atoms)
     }
   }
 }
