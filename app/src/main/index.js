@@ -261,8 +261,8 @@ async function startLCD(home, nodeIP) {
   return new Promise(async (resolve, reject) => {
     log(`startLCD`, home)
     let child = startProcess(LCD_BINARY_NAME, [
-      `advanced`,
       `rest-server`,
+      `--insecure`,
       `--laddr`,
       `tcp://localhost:${LCD_PORT}`,
       `--home`,

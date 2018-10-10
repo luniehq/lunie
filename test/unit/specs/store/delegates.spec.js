@@ -12,12 +12,12 @@ describe(`Module: Delegates`, () => {
 
   it(`adds delegate to state`, () => {
     store.commit(`addDelegate`, {
-      owner: `foo`,
+      operator_address: `foo`,
       tokens: `10`
     })
     expect(store.state.delegates.delegates[0]).toEqual({
       id: `foo`,
-      owner: `foo`,
+      operator_address: `foo`,
       tokens: `10`,
       voting_power: `10.00`
     })
@@ -26,13 +26,13 @@ describe(`Module: Delegates`, () => {
 
   it(`replaces existing delegate with same id`, () => {
     store.commit(`addDelegate`, {
-      owner: `foo`,
+      operator_address: `foo`,
       tokens: `12`,
       updated: true
     })
     expect(store.state.delegates.delegates[0]).toEqual({
       id: `foo`,
-      owner: `foo`,
+      operator_address: `foo`,
       tokens: `12`,
       updated: true,
       voting_power: `12.00`
@@ -42,13 +42,13 @@ describe(`Module: Delegates`, () => {
 
   it(`parses delegate tokens with fraction value`, () => {
     store.commit(`addDelegate`, {
-      owner: `foo`,
+      operator_address: `foo`,
       tokens: `4000/40`,
       updated: true
     })
     expect(store.state.delegates.delegates[0]).toEqual({
       id: `foo`,
-      owner: `foo`,
+      operator_address: `foo`,
       tokens: `4000/40`,
       updated: true,
       voting_power: `100.00`
@@ -59,14 +59,14 @@ describe(`Module: Delegates`, () => {
   it(`fetches all candidates`, async () => {
     await store.dispatch(`getDelegates`)
     let lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
-    expect(store.state.delegates.delegates.map(x => x.owner)).toEqual(
-      lcdClientMock.validators
-    )
+    expect(
+      store.state.delegates.delegates.map(x => x.operator_address)
+    ).toEqual(lcdClientMock.validators)
   })
 
   it(`fetches the signing information from all delegates`, async () => {
     store.commit(`addDelegate`, {
-      owner: `foo`,
+      operator_address: `foo`,
       tokens: `10`
     })
     let validators = store.state.delegates.delegates

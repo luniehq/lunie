@@ -26,7 +26,7 @@ export default ({ node }) => {
         .toNumber()
     },
     addDelegate(state, delegate) {
-      delegate.id = delegate.owner
+      delegate.id = delegate.operator_address
 
       // TODO: calculate voting power
       let divIdx = delegate.tokens.indexOf(`/`)
@@ -51,7 +51,9 @@ export default ({ node }) => {
       state.delegates.push(delegate)
     },
     setSelfBond(state, { validator, ratio }) {
-      state.delegates.find(c => c.owner === validator.owner).selfBond = ratio
+      state.delegates.find(
+        c => c.operator_address === validator.operator_address
+      ).selfBond = ratio
     }
   }
 
@@ -67,7 +69,7 @@ export default ({ node }) => {
     async updateSigningInfo({ commit }, validators) {
       for (let validator of validators) {
         let signing_info = await node.queryValidatorSigningInfo(
-          validator.pub_key
+          validator.consensus_pubkey
         )
         if (!isEmpty(signing_info)) validator.signing_info = signing_info
         commit(`addDelegate`, validator)
@@ -96,8 +98,8 @@ export default ({ node }) => {
       if (validator.selfBond) return validator.selfBond
       else {
         let delegation = await node.queryDelegation(
-          validator.owner,
-          validator.owner
+          validator.operator_address,
+          validator.operator_address
         )
         let ratio = new BN(delegation.shares)
           .div(ratToBigNumber(validator.delegator_shares))

@@ -42,18 +42,18 @@ describe(`PageStaking`, () => {
   })
 
   it(`should sort the delegates by selected property`, () => {
-    wrapper.vm.sort.property = `owner`
+    wrapper.vm.sort.property = `operator_address`
     wrapper.vm.sort.order = `desc`
 
     expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.owner)
+      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
     ).toEqual(lcdClientMock.validators)
 
-    wrapper.vm.sort.property = `owner`
+    wrapper.vm.sort.property = `operator_address`
     wrapper.vm.sort.order = `asc`
 
     expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.owner)
+      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
     ).toEqual(lcdClientMock.validators.reverse())
   })
 
@@ -64,7 +64,7 @@ describe(`PageStaking`, () => {
       lcdClientMock.validators[2].substr(20, 26)
     ])
     expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.owner)
+      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
     ).toEqual([lcdClientMock.validators[2]])
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
@@ -73,7 +73,7 @@ describe(`PageStaking`, () => {
       lcdClientMock.validators[1].substr(20, 26)
     ])
     expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.owner)
+      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
     ).toEqual([lcdClientMock.validators[1]])
   })
 

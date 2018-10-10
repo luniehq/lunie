@@ -46,7 +46,7 @@ export default {
       return `n/a` //TODO: add slashes
     },
     commission() {
-      return `${this.num.pretty(this.validator.commission)}%`
+      return `${this.num.pretty(this.validator.commission.rate)}%`
     },
     uptime() {
       let rollingWindow = 10000 // param of slashing period

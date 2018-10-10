@@ -83,7 +83,7 @@ export default ({ node }) => {
           })
           if (shares > 0) {
             const delegate = candidates.find(
-              ({ owner }) => owner === validator_addr // this should change to address instead of owner
+              ({ operator_address }) => operator_address === validator_addr // this should change to address instead of operator_address
             )
             commit(`addToCart`, delegate)
           }
@@ -152,7 +152,7 @@ export default ({ node }) => {
         stakingTransactions.delegations &&
         stakingTransactions.delegations.map(({ atoms, validator }) => ({
           delegator_addr: delegatorAddr,
-          validator_addr: validator.owner,
+          validator_addr: validator.operator_address,
           delegation: {
             denom,
             amount: String(atoms)
@@ -163,7 +163,7 @@ export default ({ node }) => {
         stakingTransactions.unbondings &&
         stakingTransactions.unbondings.map(({ atoms, validator }) => ({
           delegator_addr: delegatorAddr,
-          validator_addr: validator.owner,
+          validator_addr: validator.operator_address,
           shares: String(Math.abs(calculateShares(validator, atoms)).toFixed(8)) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
         }))
 
@@ -172,8 +172,8 @@ export default ({ node }) => {
         stakingTransactions.redelegations.map(
           ({ atoms, validatorSrc, validatorDst }) => ({
             delegator_addr: delegatorAddr,
-            validator_src_addr: validatorSrc.owner,
-            validator_dst_addr: validatorDst.owner,
+            validator_src_addr: validatorSrc.operator_address,
+            validator_dst_addr: validatorDst.operator_address,
             shares: String(calculateShares(validatorSrc, atoms).toFixed(8)) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
           })
         )
@@ -196,7 +196,9 @@ export default ({ node }) => {
               delegation =>
                 calculateTokens(
                   delegation.validator,
-                  state.committedDelegates[delegation.validator.owner]
+                  state.committedDelegates[
+                    delegation.validator.operator_address
+                  ]
                 ) - delegation.atoms
             )
             .reduce((sum, diff) => sum + diff, 0)
@@ -257,7 +259,7 @@ export default ({ node }) => {
 // function updateCommittedDelegations(delegations, commit) {
 //   for (let delegation of delegations) {
 //     commit("setCommittedDelegation", {
-//       candidateId: delegation.delegate.owner,
+//       candidateId: delegation.delegate.operator_address,
 //       value: delegation.atoms
 //     })
 //   }

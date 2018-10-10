@@ -8,7 +8,7 @@ import { createLocalVue, mount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 
 const validator = {
-  owner: `1a2b3c`,
+  operator_address: `1a2b3c`,
   pub_key: {
     type: `AC26791624DE60`,
     data: `dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=`
@@ -35,7 +35,7 @@ const validator = {
 }
 
 const validatorTo = {
-  owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+  operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
   pub_key: {
     type: `AC26791624DE60`,
     data: `9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w=`
@@ -118,7 +118,7 @@ describe(`PageValidator`, () => {
   })
 
   it(`should return one delegate based on route params`, () => {
-    expect(wrapper.vm.validator.owner).toEqual(`1a2b3c`)
+    expect(wrapper.vm.validator.operator_address).toEqual(`1a2b3c`)
   })
 
   it(`shows a default avatar`, () => {
@@ -146,7 +146,7 @@ describe(`PageValidator`, () => {
   it(`shows the selfBond`, async () => {
     await store.commit(`setSelfBond`, {
       validator: {
-        owner: `1a2b3c`,
+        operator_address: `1a2b3c`,
         delegator_shares: `4242`
       },
       ratio: 0.01
@@ -288,7 +288,7 @@ describe(`delegationTargetOptions`, () => {
     } = mount(PageValidator, {
       mocks: {
         $route: {
-          params: { validator: validator.owner }
+          params: { validator: validator.operator_address }
         },
         $store
       }
@@ -324,7 +324,7 @@ describe(`delegationTargetOptions`, () => {
     } = mount(PageValidator, {
       mocks: {
         $route: {
-          params: { validator: validator.owner }
+          params: { validator: validator.operator_address }
         },
         $store
       }
@@ -333,7 +333,7 @@ describe(`delegationTargetOptions`, () => {
     let options = delegationTargetOptions()
     expect(options).toHaveLength(1)
     expect(options).not.toContainEqual(
-      expect.objectContaining({ address: validator.owner })
+      expect.objectContaining({ address: validator.operator_address })
     )
     expect(options[0].address).toEqual($store.getters.wallet.address)
 
@@ -365,7 +365,7 @@ describe(`delegationTargetOptions`, () => {
     } = mount(PageValidator, {
       mocks: {
         $route: {
-          params: { validator: validator.owner }
+          params: { validator: validator.operator_address }
         },
         $store
       }
@@ -374,11 +374,11 @@ describe(`delegationTargetOptions`, () => {
     let options = delegationTargetOptions()
     expect(options).toHaveLength(2)
     expect(options).not.toContainEqual(
-      expect.objectContaining({ address: validator.owner })
+      expect.objectContaining({ address: validator.operator_address })
     )
     expect(options[0].address).toEqual($store.getters.wallet.address)
     expect(options).toContainEqual(
-      expect.objectContaining({ address: validatorTo.owner })
+      expect.objectContaining({ address: validatorTo.operator_address })
     )
 
     expect(options).toMatchSnapshot()
@@ -637,7 +637,7 @@ describe(`onDelegation`, () => {
                         },
                         selfBond: 0.01,
                         keybase: undefined,
-                        owner: `1a2b3c`,
+                        operator_address: `1a2b3c`,
                         prev_bonded_shares: `0`,
                         proposer_reward_pool: null,
                         pub_key: {

@@ -133,7 +133,7 @@ let state = {
   },
   candidates: [
     {
-      owner: validators[0],
+      operator_address: validators[0],
       pub_key: {
         type: `AC26791624DE60`,
         data: `t3zVnKU42WNH+NtYFcstZRLFVULWV8VagoP0HwW43Pk=`
@@ -158,7 +158,7 @@ let state = {
       prev_bonded_shares: `0`
     },
     {
-      owner: validators[1],
+      operator_address: validators[1],
       pub_key: {
         type: `AC26791624DE60`,
         data: `9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w=`
@@ -183,7 +183,7 @@ let state = {
       prev_bonded_shares: `0`
     },
     {
-      owner: validators[2],
+      operator_address: validators[2],
       pub_key: {
         type: `AC26791624DE60`,
         data: `dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=`
@@ -359,7 +359,9 @@ module.exports = {
 
       let shares = parseInt(delegation.shares)
       delegation.shares = (shares + amount).toString()
-      let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
+      let candidate = state.candidates.find(
+        c => c.operator_address === tx.validator_addr
+      )
       if (candidate.revoked) {
         throw new Error(`checkTx failed: (262245) Msg 0 failed: === ABCI Log ===
   Codespace: 4
@@ -406,7 +408,9 @@ module.exports = {
       let shares = parseInt(delegation.shares)
       delegation.shares = (+shares - amount).toString()
 
-      let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
+      let candidate = state.candidates.find(
+        c => c.operator_address === tx.validator_addr
+      )
       shares = parseInt(candidate.tokens)
       candidate.tokens = (+shares - amount).toString()
       delegator.unbonding_delegations.push(
@@ -491,7 +495,7 @@ module.exports = {
     }
   },
   async getCandidate(addr) {
-    return state.candidates.find(c => c.owner === addr)
+    return state.candidates.find(c => c.operator_address === addr)
   },
   // TODO query with bech32 pubKey
   async queryValidatorSigningInfo() {

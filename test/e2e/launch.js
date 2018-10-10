@@ -345,10 +345,10 @@ function getValidatorPublicKey(node_home) {
 function getValidatorOwner(node_home) {
   let genesis = fs.readJSONSync(join(node_home, `config/genesis.json`))
 
-  return genesis.app_state.stake.validators[0].owner
+  return genesis.app_state.stake.validators[0].operator_address
 }
 
-function addValidator(genesis, pub_key, owner, number) {
+function addValidator(genesis, pub_key, operator_address, number) {
   genesis.validators.push({
     pub_key,
     power: `50`,
@@ -358,7 +358,7 @@ function addValidator(genesis, pub_key, owner, number) {
     JSON.stringify(genesis.app_state.stake.validators[0])
   )
   newStakeValidator.pub_key = pub_key
-  newStakeValidator.owner = owner
+  newStakeValidator.operator_address = operator_address
   newStakeValidator.tokens = `50`
   newStakeValidator.delegator_shares = `50`
   newStakeValidator.description.moniker = `local_` + number

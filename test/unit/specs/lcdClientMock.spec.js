@@ -268,7 +268,7 @@ describe(`LCD Client Mock`, () => {
     let validator = await client.getCandidate(lcdClientMock.validators[0])
     expect(validator).toBe(
       lcdClientMock.state.candidates.find(
-        v => v.owner === lcdClientMock.validators[0]
+        v => v.operator_address === lcdClientMock.validators[0]
       )
     )
   })

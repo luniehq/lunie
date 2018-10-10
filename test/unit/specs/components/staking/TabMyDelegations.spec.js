@@ -3,7 +3,7 @@ import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
 const delegates = [
   {
     id: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-    owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+    operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
     pub_key: {
       type: `AC26791624DE60`,
       data: `t3zVnKU42WNH+NtYFcstZRLFVULWV8VagoP0HwW43Pk=`
@@ -29,7 +29,7 @@ const delegates = [
   },
   {
     id: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-    owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+    operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
     pub_key: {
       type: `AC26791624DE60`,
       data: `9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w=`
@@ -54,7 +54,7 @@ const delegates = [
   },
   {
     id: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`,
-    owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`,
+    operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`,
     pub_key: {
       type: `AC26791624DE60`,
       data: `dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=`
@@ -106,7 +106,7 @@ test(`undelegatedValidators`, () => {
         website: `www.greg.com`
       },
       id: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-      owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+      operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
       prev_bonded_shares: `0`,
       proposer_reward_pool: null,
       pub_key: {
@@ -143,7 +143,7 @@ test(`yourValidators`, () => {
         website: `www.greg.com`
       },
       id: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-      owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+      operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
       prev_bonded_shares: `0`,
       proposer_reward_pool: null,
       pub_key: {

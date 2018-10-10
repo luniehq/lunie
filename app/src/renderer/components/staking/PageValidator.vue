@@ -3,7 +3,7 @@ tm-page
   template(slot="menu-body", v-if="config.devMode"): tm-balance
   div(slot="menu"): tm-tool-bar
     router-link(to="/staking" exact): i.material-icons arrow_back
-    anchor-copy(v-if="validator" :value="validator.owner" icon="content_copy")
+    anchor-copy(v-if="validator" :value="validator.operator_address" icon="content_copy")
 
   tm-data-error(v-if="!validator")
 
@@ -19,7 +19,7 @@ tm-page
               span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
               .validator-profile__header__name__title {{ validator.description.moniker }}
             //- TODO replace with address component when ready
-            anchor-copy.validator-profile__header__name__address(:value="validator.owner" :label="shortAddress(validator.owner)")
+            anchor-copy.validator-profile__header__name__address(:value="validator.operator_address" :label="shortAddress(validator.operator_address)")
           .column.validator-profile__header__actions
             tm-btn#delegation-btn(value="Delegate" color="primary" @click.native="onDelegation")
 
@@ -45,7 +45,7 @@ tm-page
             dd(id="validator-profile__uptime") {{ validator.signing_info ? pretty(validator.signing_info.signed_blocks_counter/100) : `n/a`}} %
           dl.colored_dl
             dt Commission
-            dd(id="validator-profile__commission") {{ validator.commission }} %
+            dd(id="validator-profile__commission") {{ validator.commission.rate }} %
           dl.colored_dl(v-if="config.devMode")
             dt Slashes
             dd n/a
@@ -55,7 +55,7 @@ tm-page
         .column
           dl.info_dl
             dt Owner
-            dd {{validator.owner}}
+            dd {{validator.operator_address}}
           dl.info_dl
             dt Keybase ID
             dd {{translateEmptyDescription(validator.description.identity)}}
@@ -71,16 +71,16 @@ tm-page
         .column
           dl.info_dl
             dt Commission Rate
-            dd {{validator.commission}} %
+            dd {{validator.commission.rate}} %
           dl.info_dl
             dt Max Commission Rate
-            dd {{validator.commission_max}} %
-          dl.info_dl
-            dt Commission Change Today
-            dd {{validator.commission_change_today}} %
+            dd {{validator.commission.max_rate}} %
           dl.info_dl
             dt Max Daily Commission Change
-            dd {{validator.commission_change_rate}} %
+            dd {{validator.commission.max_change_rate}} %
+          dl.info_dl
+            dt Last Commission Change 
+            dd {{new Date(validator.commission.update_time).getTime() === 0 ? 'Never' : moment(validator.commission.update_time).fromNow() }}
           dl.info_dl
             dt Self Bonded {{bondingDenom}}
             dd(id="validator-profile__self-bond") {{selfBond}} %
@@ -93,7 +93,7 @@ tm-page
       v-on:submitDelegation="submitDelegation"
       :showDelegationModal.sync="showDelegationModal"
       :fromOptions="delegationTargetOptions()"
-      :to="validator.owner"
+      :to="validator.operator_address"
     )
 
     undelegation-modal(
@@ -115,6 +115,7 @@ tm-page
 </template>
 
 <script>
+import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
@@ -164,7 +165,7 @@ export default {
     ]),
     validator() {
       let validator = this.delegates.delegates.find(
-        v => this.$route.params.validator === v.owner
+        v => this.$route.params.validator === v.operator_address
       )
       if (validator)
         validator.keybase = this.keybase[validator.description.identity]
@@ -178,7 +179,7 @@ export default {
     myBond() {
       return calculateTokens(
         this.validator,
-        this.committedDelegations[this.validator.owner] || 0
+        this.committedDelegations[this.validator.operator_address] || 0
       )
     },
     powerRatio() {
@@ -267,7 +268,9 @@ export default {
         txBody = `redelegated`
         txAction = `redelegating`
 
-        let validatorFrom = this.delegates.delegates.find(v => from === v.owner)
+        let validatorFrom = this.delegates.delegates.find(
+          v => from === v.operator_address
+        )
 
         stakingTransactions.redelegations = [
           {
@@ -364,13 +367,13 @@ export default {
         .filter(address => address != this.$route.params.validator)
         .map((address, index) => {
           let delegate = this.delegates.delegates.find(function(validator) {
-            return validator.owner === address
+            return validator.operator_address === address
           })
           return {
             address: address,
             maximum: Math.floor(this.committedDelegations[address]),
             key: `${delegate.description.moniker} - ${shortAddress(
-              delegate.owner,
+              delegate.operator_address,
               20
             )}`,
             value: index + 1
