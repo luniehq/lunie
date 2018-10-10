@@ -299,7 +299,7 @@ module.exports = {
     return send(to, fromKey.address, req)
   },
 
-  // staking
+  /* ============ Staking ============ */
   async updateDelegations(
     delegatorAddr,
     {
@@ -510,6 +510,67 @@ module.exports = {
   async getParameters() {
     return state.parameters
   },
+  /* ============ Governance ============ */
+  async getProposals() {
+    return state.proposals
+  },
+  async getProposal(proposalID) {
+    return state.proposals.find(proposal => proposal.proposal_id === proposalID)
+  },
+  // TODO double-check response
+  async getProposalVotes(proposalID) {
+    let proposal = await this.getProposal(proposalID)
+    return proposal.tally_result
+  },
+  async getProposalVote(proposalID, address) {
+    let votes = await this.getProposalVotes(proposalID)
+    return votes.find(vote => vote.voter === address)
+  },
+  // TODO double-check response
+  async getProposalDeposit(proposalID, address) {
+    let proposal = await this.getProposal(proposalID)
+    return proposal.deposits.find(deposit => deposit.depositer === address)
+  },
+  async getProposalDeposit(proposalID, address) {
+    let proposal = await this.getProposal(proposalID)
+    return proposal.deposits.find(deposit => deposit.depositer === address)
+  },
+  // async postProposal(
+  //   delegatorAddr,
+  //   {
+  //     name,
+  //     sequence,
+  //     title,
+  //     description,
+  //     proposalType,
+  //     proposer,
+  //     initialDeposit,
+  //   }
+  // ) {
+  //   let results = []
+  //   let fromKey = state.keys.find(a => a.name === name)
+  //   let fromAccount = state.accounts[fromKey.address]
+  //   if (fromAccount == null) {
+  //     results.push(txResult(1, `Nonexistent account`))
+  //     return results
+  //   }
+  //   // check nonce
+  //   if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
+  //     results.push(
+  //       txResult(
+  //         2,
+  //         `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
+  //       )
+  //     )
+  //     return results
+  //   }
+  //   // check proposalType
+  //   if (proposalType !== `PlainTextProposal`)  {
+  //     results.push(txResult(1, `Invalid proposal type: ${proposalType}`))
+  //     return results
+  //   }
+  // },
+
   // exports to be used in tests
   state,
   addresses,
