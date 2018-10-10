@@ -158,6 +158,35 @@ Object.assign(Client.prototype, {
 
   queryValidatorSigningInfo: function(pubKey) {
     return req(`GET`, `/slashing/signing_info/${pubKey}`).call(this)
+  },
+
+  /* ============ Governance ============ */
+
+  queryProposals: req(`GET`, `/gov/proposals`),
+  queryProposal: function(proposalID) {
+    return req(`GET`, `/gov/proposals/${proposalID}`).call(this)
+  },
+  queryProposalVotes: function(proposalID) {
+    return req(`GET`, `/gov/proposals/${proposalID}/votes`).call(this)
+  },
+  queryProposalVote: function(proposalID, address) {
+    return req(`GET`, `/gov/proposals/${proposalID}/votes/${address}`).call(
+      this
+    )
+  },
+  queryProposalDeposit: function(proposalID, address) {
+    return req(`GET`, `/gov/proposals/${proposalID}/deposits/${address}`).call(
+      this
+    )
+  },
+  submitProposal: function(data) {
+    return req(`POST`, `/gov/proposals`).call(this, data)
+  },
+  submitVote: function(proposalID, data) {
+    return req(`POST`, `/gov/proposals/${proposalID}/votes`).call(this, data)
+  },
+  submitDeposit: function(proposalID, data) {
+    return req(`POST`, `/gov/proposals/${proposalID}/deposits`).call(this, data)
   }
 })
 
