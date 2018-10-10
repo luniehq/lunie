@@ -29,9 +29,6 @@ describe(`TmBalance`, () => {
   })
 
   it(`shows correct stats depending on props`, () => {
-    expect(wrapper.contains(`.unbonded-atoms`)).toBe(false)
-    wrapper.setProps({ unbondedAtoms: 1337 })
-    wrapper.update()
     expect(wrapper.contains(`.unbonded-atoms`)).toBe(true)
 
     expect(wrapper.contains(`.total-earnings`)).toBe(false)
@@ -46,31 +43,4 @@ describe(`TmBalance`, () => {
 
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
-
-  it(`clicking copy copies the address`, async () => {
-    expect(
-      wrapper
-        .find(`.success`)
-        .classes()
-        .includes(`showSuccess`)
-    ).toBe(false)
-    wrapper.find(`.address`).trigger(`click`)
-    expect(
-      wrapper
-        .find(`.success`)
-        .classes()
-        .includes(`showSuccess`)
-    ).toBe(true)
-    await sleep(3500)
-    expect(
-      wrapper
-        .find(`.success`)
-        .classes()
-        .includes(`showSuccess`)
-    ).toBe(false)
-  })
 })
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}

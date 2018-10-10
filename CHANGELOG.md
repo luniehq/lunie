@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* Display staking parameters and pool @fedekunze
+* TmBalance to transaction history page @jbibla
+
+### Changed
+
+* TmBalance no longer expects unbondedAtoms prop @jbibla
+* updated delegates module tests @faboweb
+* showing 10 decimal places where bonding denom balance is displayed @jbibla
+
+### Fixed
+
+* set width for validator stats to avoid styling bugs @jbibla
+* Test setMockedConnector without starting an endless loop. @NodeGuy
+* speed up of e2e tests removing an expected timeout happening on navigate @faboweb
+* Use unique keys in validator lists. @NodeGuy
+
+### Changed
+
+* updates to how addresses are displayed and how they can be copied @jbibla
+
+## [0.10.6] - 2018-10-04
+
 ### Fixed
 
 * automatic release process bugs @NodeGuy
@@ -43,6 +67,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Add commission and uptime to LiValidator @fedekunze
 * Delete old bonding page @fedekunze
 * `watch` script for running unit tests @faboweb @NodeGuy
+* added unstake modal @faboweb
+* `watch` script for running unit tests @faboweb @NodeGuy
 
 ### Changed
 
@@ -56,6 +82,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Refactord submitDelegation. @NodeGuy
 * Improved network connectivity bar @jbibla
 * refactored words around staking and delegation @jbibla
+* Moved Vue error handling code from console_error_throw.js to main.js @NodeGuy
 
 ### Fixed
 

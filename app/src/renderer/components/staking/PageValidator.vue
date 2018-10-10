@@ -1,9 +1,8 @@
 <template lang="pug">
 tm-page
-  template(slot="menu-body", v-if="config.devMode"): tm-balance(:unbondedAtoms="user.atoms")
+  template(slot="menu-body", v-if="config.devMode"): tm-balance
   div(slot="menu"): tm-tool-bar
     router-link(to="/staking" exact): i.material-icons arrow_back
-    anchor-copy(v-if="validator" :value="validator.owner" icon="content_copy")
 
   tm-data-error(v-if="!validator")
 
@@ -18,15 +17,20 @@ tm-page
             div.validator-profile__status-and-title
               span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
               .validator-profile__header__name__title {{ validator.description.moniker }}
-            //- TODO replace with address component when ready
-            anchor-copy.validator-profile__header__name__address(:value="validator.owner" :label="shortAddress(validator.owner)")
+            short-bech32(:address="validator.pub_key")
           .column.validator-profile__header__actions
-            tm-btn(value="Delegate" color="primary" @click.native="onDelegation()")#delegation-btn
-            tm-btn(v-if="config.devMode" value="Undelegate" color="secondary")#undelegation-btn
+            tm-btn#delegation-btn(value="Delegate" color="primary" @click.native="onDelegation")
+
+            tm-btn#undelegation-btn(
+              value="Undelegate"
+              color="secondary"
+              @click.native="onUndelegation"
+            )
+
         .row.validator-profile__header__data
           dl.colored_dl
-            dt My Bonded {{bondingDenom}}
-            dd {{ myBond < 0.01 ? '< ' + 0.01 : pretty(myBond)}}
+            dt Bonded {{bondingDenom}}
+            dd {{myBond.isLessThan(0.01) && myBond.isGreaterThan(0) ? '< ' + 0.01 : num.full(myBond)}}
           dl.colored_dl(v-if="config.devMode")
             dt My Rewards
             dd n/a
@@ -85,37 +89,52 @@ tm-page
     delegation-modal(
       v-if="showDelegationModal"
       v-on:submitDelegation="submitDelegation"
-      :bondingDenom="bondingDenom"
       :showDelegationModal.sync="showDelegationModal"
-      :fromOptions="modalOptions()"
+      :fromOptions="delegationTargetOptions()"
       :to="validator.owner"
     )
 
-    tm-modal(:close="closeCannotDelegate" icon="warning" v-if="showCannotDelegate")
-      div(slot='title') Cannot Complete Delegation
-      p You have no {{ bondingDenom }}s to delegate.
+    undelegation-modal(
+      v-if="showUndelegationModal"
+      v-on:submitUndelegation="submitUndelegation"
+      :showUndelegationModal.sync="showUndelegationModal"
+      :maximum="myBond"
+      :to="this.wallet.address"
+    )
+    tm-modal(:close="closeCannotModal" icon="warning" v-if="showCannotModal")
+      div(slot='title') Cannot Complete {{ action == `delegate`? `Delegation` : `Undelegation` }}
+      p You have no {{ bondingDenom }}s {{ action == `undelegate` ? `delegated `: `` }}to {{ action == `delegate` ? `delegate.` : `this validator.` }}
       div(slot='footer')
-        tmBtn(id="no-atoms-modal__btn" @click.native="closeCannotDelegate()" value="OK")
+        tmBtn(
+          id="no-atoms-modal__btn"
+          @click.native="closeCannotModal"
+          value="OK"
+        )
 </template>
 
 <script>
+import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
+import num from "scripts/num"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
+import TmModal from "common/TmModal"
 import { TmDataError } from "common/TmDataError"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
+import UndelegationModal from "staking/UndelegationModal"
 import numeral from "numeral"
-import AnchorCopy from "common/AnchorCopy"
+import ShortBech32 from "common/ShortBech32"
 import TmBalance from "common/TmBalance"
 import { isEmpty } from "lodash"
 export default {
   name: `page-validator`,
   components: {
-    AnchorCopy,
+    ShortBech32,
     DelegationModal,
+    UndelegationModal,
     TmBtn,
     TmListItem,
-    TmBalance,
+    TmModal,
     TmPage,
     TmPart,
     TmToolBar,
@@ -123,10 +142,13 @@ export default {
     TmBalance
   },
   data: () => ({
-    showCannotDelegate: false,
+    num,
+    showCannotModal: false,
     showDelegationModal: false,
+    showUndelegationModal: false,
     shortAddress,
-    tabIndex: 1
+    tabIndex: 1,
+    action: ``
   }),
   computed: {
     ...mapGetters([
@@ -138,8 +160,7 @@ export default {
       `keybase`,
       `oldBondedAtoms`,
       `totalAtoms`,
-      `wallet`,
-      `user`
+      `wallet`
     ]),
     validator() {
       let validator = this.delegates.delegates.find(
@@ -155,7 +176,10 @@ export default {
         : 0
     },
     myBond() {
-      return this.delegation.committedDelegates[this.validator.owner] || 0
+      return calculateTokens(
+        this.validator,
+        this.committedDelegations[this.validator.owner] || 0
+      )
     },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)
@@ -201,14 +225,23 @@ export default {
     }
   },
   methods: {
-    closeCannotDelegate() {
-      this.showCannotDelegate = false
+    closeCannotModal() {
+      this.showCannotModal = false
     },
     onDelegation() {
+      this.action = `delegate`
       if (this.availableAtoms > 0) {
         this.showDelegationModal = true
       } else {
-        this.showCannotDelegate = true
+        this.showCannotModal = true
+      }
+    },
+    onUndelegation() {
+      this.action = `undelegate`
+      if (this.myBond.isGreaterThan(0)) {
+        this.showUndelegationModal = true
+      } else {
+        this.showCannotModal = true
       }
     },
     async submitDelegation({ amount, from }) {
@@ -273,7 +306,45 @@ export default {
         }
       }
     },
-    modalOptions() {
+    async submitUndelegation({ amount }) {
+      try {
+        await this.$store.dispatch(`submitDelegation`, {
+          stakingTransactions: {
+            unbondings: [
+              {
+                atoms: -amount,
+                validator: this.validator
+              }
+            ]
+          }
+        })
+
+        this.$store.commit(`notify`, {
+          title: `Successful Undelegation!`,
+          body: `You have successfully undelegated ${amount} ${
+            this.bondingDenom
+          }s.`
+        })
+      } catch (exception) {
+        const { message } = exception
+        let errData = message.split(`\n`)[5]
+
+        if (errData) {
+          let parsedErr = errData.split(`"`)[1]
+
+          this.$store.commit(`notifyError`, {
+            title: `Error while undelegating ${this.bondingDenom}s`,
+            body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
+          })
+        } else {
+          this.$store.commit(`notifyError`, {
+            title: `Error while undelegating ${this.bondingDenom}s`,
+            body: message
+          })
+        }
+      }
+    },
+    delegationTargetOptions() {
       //- First option should always be your wallet (i.e normal delegation)
       let myWallet = [
         {
@@ -440,7 +511,7 @@ export default {
   align-items center
   display flex
   flex-direction column
-  width 5.1rem
+  width 6rem
 
   &:not(:last-child)
     margin-right 1rem

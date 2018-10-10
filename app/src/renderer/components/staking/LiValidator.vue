@@ -2,14 +2,14 @@
 li.li-validator(:class='styles')
   router-link(:to="{ name: 'validator', params: { validator: validator.id }}")
     .li-validator__value.name
-      span.validator-profile__status(v-tooltip.top="status")
+      span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
       img.avatar(v-if="validator.keybase" :src="validator.keybase.avatarUrl" width="48" height="48")
       img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
       .vert
         .top {{ validator.description.moniker }}
-        .bottom {{ shortAddress(validator.id)}}
+        short-bech32(:address="validator.pub_key")
     .li-validator__value.your-votes
-      span {{ yourVotes }}
+      span {{ yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0) ? '< ' + num.full(0.01) : num.full(yourVotes) }}
     .li-validator__value.your-rewards
       span n/a
     .li-validator__break: span
@@ -28,19 +28,17 @@ li.li-validator(:class='styles')
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { shortAddress, calculateTokens, ratToBigNumber } from "scripts/common"
+import { calculateTokens, ratToBigNumber } from "scripts/common"
+import ShortBech32 from "common/ShortBech32"
+import BigNumber from "bignumber.js"
 export default {
   name: `li-validator`,
   props: [`validator`, `disabled`],
+  components: {
+    ShortBech32
+  },
   computed: {
-    ...mapGetters([
-      `lastHeader`,
-      `shoppingCart`,
-      `delegates`,
-      `config`,
-      `committedDelegations`,
-      `user`
-    ]),
+    ...mapGetters([`delegates`, `committedDelegations`]),
     slashes() {
       return `n/a` //TODO: add slashes
     },
@@ -73,27 +71,21 @@ export default {
     //       this.validator.proposer_reward_pool
     //     )
     //     let rewardsInTokens = calculateTokens(rewardsInShares)
-    //     return this.num.pretty(rewardsInTokens).toString()
+    //     return this.num.full(rewardsInTokens).toString()
     //   } else return "0"
     // },
     yourVotes() {
-      return this.num.pretty(
-        this.committedDelegations[this.validator.id]
-          ? calculateTokens(
-              this.validator,
-              this.committedDelegations[this.validator.id]
-            ).toString()
-          : `0`
-      )
+      return this.committedDelegations[this.validator.id]
+        ? calculateTokens(
+            this.validator,
+            this.committedDelegations[this.validator.id]
+          )
+        : BigNumber(0)
     },
     styles() {
       let value = ``
-      if (this.inCart || this.yourVotes > 0) value += `li-validator-active `
       if (this.validator.isValidator) value += `li-validator-validator `
       return value
-    },
-    inCart() {
-      return this.shoppingCart.find(c => c.id === this.validator.id)
     },
     delegateType() {
       return this.validator.revoked
@@ -124,20 +116,19 @@ export default {
 
       // status: validator
       return `This validator is actively validating`
+    },
+    statusColor() {
+      // status: jailed
+      if (this.validator.revoked) return `red`
+
+      // status: candidate
+      if (parseFloat(this.validator.voting_power) === 0) return `yellow`
+
+      // status: validator
+      return `green`
     }
-    // TODO enable once we decide on limits
-    // statusColor() {
-    //   // status: jailed
-    //   if (this.validator.revoked) return "red"
-    //
-    //   // status: candidate
-    //   if (parseFloat(this.validator.voting_power) === 0) return "yellow"
-    //
-    //   // status: validator
-    //   return "green"
-    // }
   },
-  data: () => ({ num, shortAddress })
+  data: () => ({ num })
 }
 </script>
 
@@ -279,7 +270,7 @@ ol li
   height 82px
 
 ol li:before
-  content counter(counter) ""
+  content counter(counter) ''
   color var(--dim)
   font-size sm
   position absolute

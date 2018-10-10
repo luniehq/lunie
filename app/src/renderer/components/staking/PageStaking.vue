@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
   template(slot="menu-body")
-    tm-balance(:unbondedAtoms="user.atoms" :tabs="tabs")
+    tm-balance(:tabs="tabs")
 
   div(slot="menu"): vm-tool-bar
     a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
@@ -46,6 +46,7 @@ export default {
       property: `percent_of_vote`,
       order: `desc`
     },
+    //TODO add `Parameters` tab
     tabs: [`My Delegations`, `Validators`]
   }),
   computed: {
@@ -53,10 +54,8 @@ export default {
       `delegates`,
       `delegation`,
       `filters`,
-      `shoppingCart`,
       `committedDelegations`,
       `config`,
-      `user`,
       `connected`,
       `bondingDenom`,
       `keybase`
@@ -81,7 +80,7 @@ export default {
         : this.delegates.delegates.map(v => {
             v.small_moniker = v.description.moniker.toLowerCase()
             v.percent_of_vote = num.percent(v.voting_power / this.vpTotal)
-            v.your_votes = this.num.pretty(
+            v.your_votes = this.num.full(
               calculateTokens(v, this.committedDelegations[v.id])
             )
             v.keybase = this.keybase[v.description.identity]
@@ -102,12 +101,6 @@ export default {
       } else {
         return sortedEnrichedDelegates
       }
-    },
-    userCanDelegate() {
-      return (
-        (this.shoppingCart.length > 0 || this.user.atoms > 0) &&
-        this.delegation.loadedOnce
-      )
     },
     properties() {
       return [
