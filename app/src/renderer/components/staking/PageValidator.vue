@@ -3,7 +3,6 @@ tm-page
   template(slot="menu-body", v-if="config.devMode"): tm-balance
   div(slot="menu"): tm-tool-bar
     router-link(to="/staking" exact): i.material-icons arrow_back
-    anchor-copy(v-if="validator" :value="validator.owner" icon="content_copy")
 
   tm-data-error(v-if="!validator")
 
@@ -18,8 +17,7 @@ tm-page
             div.validator-profile__status-and-title
               span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
               .validator-profile__header__name__title {{ validator.description.moniker }}
-            //- TODO replace with address component when ready
-            anchor-copy.validator-profile__header__name__address(:value="validator.owner" :label="shortAddress(validator.owner)")
+            short-bech32(:address="validator.pub_key")
           .column.validator-profile__header__actions
             tm-btn#delegation-btn(value="Delegate" color="primary" @click.native="onDelegation")
 
@@ -125,13 +123,13 @@ import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
 import numeral from "numeral"
-import AnchorCopy from "common/AnchorCopy"
+import ShortBech32 from "common/ShortBech32"
 import TmBalance from "common/TmBalance"
 import { isEmpty } from "lodash"
 export default {
   name: `page-validator`,
   components: {
-    AnchorCopy,
+    ShortBech32,
     DelegationModal,
     UndelegationModal,
     TmBtn,

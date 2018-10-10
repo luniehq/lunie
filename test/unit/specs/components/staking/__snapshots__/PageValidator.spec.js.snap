@@ -24,10 +24,14 @@ exports[`PageValidator has the expected html structure 1`] = `
             <div
               class="top"
             >
-              <img
-                class="icon"
-                src="~assets/images/cosmos-logo.png"
-              />
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
               <div
                 class="total-atoms top-section"
               >
@@ -52,16 +56,16 @@ exports[`PageValidator has the expected html structure 1`] = `
               <!---->
             </div>
             <div
-              class="bottom"
+              class="short-bech32"
             >
               <div
                 class="address"
                 id="address"
               >
-                
+                Address Not Found
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -102,16 +106,6 @@ exports[`PageValidator has the expected html structure 1`] = `
                     >
                       arrow_back
                     </i>
-                  </a>
-                  <a
-                    class="anchor-copy"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      content_copy
-                    </i>
-                    
                   </a>
                 </div>
               </div>
@@ -156,16 +150,28 @@ exports[`PageValidator has the expected html structure 1`] = `
                 herr_schmidt_revoked
               </div>
             </div>
-            <a
-              class="anchor-copy validator-profile__header__name__address"
+            <div
+              class="short-bech32"
             >
-              <i
-                class="material-icons"
+              <div
+                class="address"
+                id="address"
               >
-                
-              </i>
-              …2b3c
-            </a>
+                cosmoschiapudding…6789
+              </div>
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
           </div>
           <div
             class="column validator-profile__header__actions"
@@ -460,10 +466,14 @@ exports[`PageValidator shows a default avatar 1`] = `
             <div
               class="top"
             >
-              <img
-                class="icon"
-                src="~assets/images/cosmos-logo.png"
-              />
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
               <div
                 class="total-atoms top-section"
               >
@@ -488,16 +498,16 @@ exports[`PageValidator shows a default avatar 1`] = `
               <!---->
             </div>
             <div
-              class="bottom"
+              class="short-bech32"
             >
               <div
                 class="address"
                 id="address"
               >
-                
+                Address Not Found
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -538,16 +548,6 @@ exports[`PageValidator shows a default avatar 1`] = `
                     >
                       arrow_back
                     </i>
-                  </a>
-                  <a
-                    class="anchor-copy"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      content_copy
-                    </i>
-                    
                   </a>
                 </div>
               </div>
@@ -592,16 +592,28 @@ exports[`PageValidator shows a default avatar 1`] = `
                 herr_schmidt_revoked
               </div>
             </div>
-            <a
-              class="anchor-copy validator-profile__header__name__address"
+            <div
+              class="short-bech32"
             >
-              <i
-                class="material-icons"
+              <div
+                class="address"
+                id="address"
               >
-                
-              </i>
-              …2b3c
-            </a>
+                cosmoschiapudding…6789
+              </div>
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
           </div>
           <div
             class="column validator-profile__header__actions"
@@ -895,7 +907,6 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
                       arrow_back
                     </i>
                   </a>
-                  <!---->
                 </div>
               </div>
             </div>

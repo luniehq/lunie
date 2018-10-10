@@ -7,7 +7,7 @@ li.li-validator(:class='styles')
       img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
       .vert
         .top {{ validator.description.moniker }}
-        .bottom {{ shortAddress(validator.id)}}
+        short-bech32(:address="validator.pub_key")
     .li-validator__value.your-votes
       span {{ yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0) ? '< ' + num.full(0.01) : num.full(yourVotes) }}
     .li-validator__value.your-rewards
@@ -28,20 +28,17 @@ li.li-validator(:class='styles')
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { shortAddress, calculateTokens, ratToBigNumber } from "scripts/common"
+import { calculateTokens, ratToBigNumber } from "scripts/common"
+import ShortBech32 from "common/ShortBech32"
 import BigNumber from "bignumber.js"
 export default {
   name: `li-validator`,
   props: [`validator`, `disabled`],
+  components: {
+    ShortBech32
+  },
   computed: {
-    ...mapGetters([
-      `lastHeader`,
-      `shoppingCart`,
-      `delegates`,
-      `config`,
-      `committedDelegations`,
-      `user`
-    ]),
+    ...mapGetters([`delegates`, `committedDelegations`]),
     slashes() {
       return `n/a` //TODO: add slashes
     },
@@ -87,12 +84,8 @@ export default {
     },
     styles() {
       let value = ``
-      if (this.inCart || this.yourVotes > 0) value += `li-validator-active `
       if (this.validator.isValidator) value += `li-validator-validator `
       return value
-    },
-    inCart() {
-      return this.shoppingCart.find(c => c.id === this.validator.id)
     },
     delegateType() {
       return this.validator.revoked
@@ -135,7 +128,7 @@ export default {
       return `green`
     }
   },
-  data: () => ({ num, shortAddress })
+  data: () => ({ num })
 }
 </script>
 

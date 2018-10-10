@@ -10,14 +10,16 @@ exports[`PageStaking has the expected html structure 1`] = `
             <div class=\\"tm-page-header-body\\">
                <div class=\\"header-balance\\">
                   <div class=\\"top\\">
-                     <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
-                     <div class=\\"total-atoms top-section\\">
-                        <h3>
-                           Total Steak
-                        </h3>
-                        <h2>
-                           1,351.0000000000
-                        </h2>
+                     <div class=\\"icon-container\\">
+                        <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
+                     </div>
+   <div class=\\"total-atoms top-section\\">
+      <h3>
+         Total Steak
+      </h3>
+      <h2>
+         1,351.0000000000
+      </h2>
 </div>
    <div class=\\"unbonded-atoms top-section\\">
       <h3>
@@ -30,11 +32,11 @@ exports[`PageStaking has the expected html structure 1`] = `
       <!---->
       <!---->
 </div>
-   <div class=\\"bottom\\">
+   <div class=\\"short-bech32\\">
       <div id=\\"address\\" class=\\"address\\">
-         cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+         cosmosaccaddr…xxn9
       </div>
-   <div class=\\"success\\">
+   <div class=\\"copied\\">
       <i class=\\"material-icons\\">check</i><span>Copied</span>
    </div>
 </div>
@@ -75,14 +77,16 @@ exports[`PageStaking has the expected html structure 1`] = `
                <div class=\\"tm-page-header-body\\">
                   <div class=\\"header-balance\\">
                      <div class=\\"top\\">
-                        <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
-                        <div class=\\"total-atoms top-section\\">
-                           <h3>
-                              Total Steak
-                           </h3>
-                           <h2>
-                              1,351.0000000000
-                           </h2>
+                        <div class=\\"icon-container\\">
+                           <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
+                        </div>
+      <div class=\\"total-atoms top-section\\">
+         <h3>
+            Total Steak
+         </h3>
+         <h2>
+            1,351.0000000000
+         </h2>
 </div>
       <div class=\\"unbonded-atoms top-section\\">
          <h3>
@@ -95,11 +99,11 @@ exports[`PageStaking has the expected html structure 1`] = `
          <!---->
          <!---->
    </div>
-      <div class=\\"bottom\\">
+      <div class=\\"short-bech32\\">
          <div id=\\"address\\" class=\\"address\\">
-            cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+            cosmosaccaddr…xxn9
          </div>
-      <div class=\\"success\\">
+      <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>
       </div>
 </div>
@@ -213,10 +217,14 @@ exports[`PageStaking should filter the delegates 1`] = `
             <div
               class="top"
             >
-              <img
-                class="icon"
-                src="~assets/images/cosmos-logo.png"
-              />
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
               <div
                 class="total-atoms top-section"
               >
@@ -241,16 +249,16 @@ exports[`PageStaking should filter the delegates 1`] = `
               <!---->
             </div>
             <div
-              class="bottom"
+              class="short-bech32"
             >
               <div
                 class="address"
                 id="address"
               >
-                cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+                cosmosaccaddr…xxn9
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -435,10 +443,14 @@ exports[`PageStaking should filter the delegates 1`] = `
                 <div
                   class="top"
                 >
-                  <img
-                    class="icon"
-                    src="~assets/images/cosmos-logo.png"
-                  />
+                  <div
+                    class="icon-container"
+                  >
+                    <img
+                      class="icon"
+                      src="~assets/images/cosmos-logo.png"
+                    />
+                  </div>
                   <div
                     class="total-atoms top-section"
                   >
@@ -463,16 +475,16 @@ exports[`PageStaking should filter the delegates 1`] = `
                   <!---->
                 </div>
                 <div
-                  class="bottom"
+                  class="short-bech32"
                 >
                   <div
                     class="address"
                     id="address"
                   >
-                    cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+                    cosmosaccaddr…xxn9
                   </div>
                   <div
-                    class="success"
+                    class="copied"
                   >
                     <i
                       class="material-icons"
