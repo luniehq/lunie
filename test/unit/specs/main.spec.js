@@ -510,40 +510,6 @@ describe(`Startup Process`, () => {
       expect(send.mock.calls[0][0]).toEqual(`error`)
       expect(send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
     })
-
-    // Skip for now because this test takes 2 seconds and we're not making use
-    // of it yet.
-    it.skip(`should try another node if user disapproved the hash`, async () => {
-      await main.shutdown()
-      prepareMain()
-
-      const { ipcMain } = require(`electron`)
-      ipcMain.on = (type, cb) => {
-        // the booted signal needs to be sent (from the view) for the main thread to signal events to the view
-        if (type === `booted`) {
-          cb()
-          return
-        }
-        // disapprove first hash
-        if (type === `hash-disapproved`) {
-          cb(null, `1234567890123456789012345678901234567890`)
-
-          // approve second hash
-          ipcMain.on = (type, cb) => {
-            if (type === `hash-approved`) {
-              cb(null, `1234567890123456789012345678901234567890`)
-              return
-            }
-          }
-        }
-      }
-
-      // run main
-      main = await require(appRoot + `src/main/index.js`)
-      expect(
-        send.mock.calls.filter(([type]) => type === `connected`).length
-      ).toBe(1)
-    })
   })
 
   describe(`Error handling`, function() {
