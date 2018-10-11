@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.10.7] - 2018-10-10
+
 ### Added
 
 * Display staking parameters and pool @fedekunze
@@ -15,11 +17,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 * TmBalance no longer expects unbondedAtoms prop @jbibla
+* updated delegates module tests @faboweb
+* showing 10 decimal places where bonding denom balance is displayed @jbibla
 
 ### Fixed
 
 * set width for validator stats to avoid styling bugs @jbibla
+* Test setMockedConnector without starting an endless loop. @NodeGuy
 * speed up of e2e tests removing an expected timeout happening on navigate @faboweb
+* Use unique keys in validator lists. @NodeGuy
+
+### Changed
+
+* updates to how addresses are displayed and how they can be copied @jbibla
 
 ## [0.10.6] - 2018-10-04
 
