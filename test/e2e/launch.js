@@ -8,6 +8,7 @@ let { spawn } = require(`child_process`)
 const util = require(`util`)
 const exec = util.promisify(require(`child_process`).exec)
 let fs = require(`fs-extra`)
+let b32 = require(`../../app/src/renderer/scripts/b32.js`)
 
 const testDir = join(__dirname, `../../testArtifacts`)
 
@@ -317,11 +318,10 @@ async function addValidatorNode(number, genesis) {
   let newNodeHome = nodeHome + `_` + number
 
   await initLocalNode(number)
+  const newValidatorRecord = getValidatorRecord(newNodeHome)
+  const newValidatorStakingRecord = getValidatorStakingRecord(newNodeHome)
 
-  const newNodePubKey = getValidatorPublicKey(newNodeHome)
-  const newNodeOwner = getValidatorOwner(newNodeHome)
-
-  addValidator(genesis, newNodePubKey, newNodeOwner, number)
+  addValidator(genesis, newValidatorRecord, newValidatorStakingRecord, number)
   reduceTimeouts(newNodeHome)
   disableStrictAddressbook(newNodeHome)
 
@@ -329,40 +329,44 @@ async function addValidatorNode(number, genesis) {
 }
 
 async function getNodeId(node_home) {
-  let command = `${nodeBinary} tendermint show_node_id --home ${node_home}`
+  let command = `${nodeBinary} tendermint show-node-id --home ${node_home}`
   console.log(command)
   const { stdout } = await exec(command)
   return stdout.trim()
 }
 
-function getValidatorPublicKey(node_home) {
-  let privValidatorKeys = fs.readJSONSync(
-    join(node_home, `config/priv_validator.json`)
-  )
-  return privValidatorKeys.pub_key
-}
-
-function getValidatorOwner(node_home) {
+function getValidatorRecord(node_home) {
   let genesis = fs.readJSONSync(join(node_home, `config/genesis.json`))
 
-  return genesis.app_state.stake.validators[0].operator_address
+  return genesis.validators[0]
 }
 
-function addValidator(genesis, pub_key, operator_address, number) {
-  genesis.validators.push({
-    pub_key,
-    power: `50`,
-    name: ``
-  })
-  let newStakeValidator = JSON.parse(
-    JSON.stringify(genesis.app_state.stake.validators[0])
+function getValidatorStakingRecord(node_home) {
+  let genesis = fs.readJSONSync(join(node_home, `config/genesis.json`))
+
+  return genesis.app_state.stake.validators[0]
+}
+
+function addValidator(
+  genesis,
+  validatorRecord,
+  validatorStakingRecord,
+  number
+) {
+  genesis.validators.push(
+    Object.assign({}, validatorRecord, {
+      power: `50`
+    })
   )
-  newStakeValidator.pub_key = pub_key
-  newStakeValidator.operator_address = operator_address
-  newStakeValidator.tokens = `50`
-  newStakeValidator.delegator_shares = `50`
-  newStakeValidator.description.moniker = `local_` + number
-  genesis.app_state.stake.validators.push(newStakeValidator)
+  genesis.app_state.stake.validators.push(
+    Object.assign({}, validatorStakingRecord, {
+      tokens: `50`,
+      delegator_shares: `50`,
+      description: Object.assign({}, validatorStakingRecord.description, {
+        moniker: `local_` + number
+      })
+    })
+  )
   genesis.app_state.stake.pool.loose_tokens += 50
 }
 
