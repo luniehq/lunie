@@ -52,7 +52,7 @@ describe(`Module: User`, () => {
   })
 
   it(`should show an error if loading accounts fails`, async () => {
-    node.listKeys = () => Promise.reject(`Expected Error`)
+    node.keys.values = () => Promise.reject(`Expected Error`)
     await store.dispatch(`loadAccounts`)
     expect(store.state.notifications[0].title).toBe(`Couldn't read keys`)
   })
@@ -63,21 +63,23 @@ describe(`Module: User`, () => {
   })
 
   it(`should prepare the signin`, async () => {
-    node.listKeys = () => Promise.resolve(accounts)
+    node.keys.values = () => Promise.resolve(accounts)
     await store.dispatch(`showInitialScreen`)
     expect(store.state.config.modals.session.state).toBe(`sign-in`)
     expect(store.state.config.modals.session.active).toBe(true)
   })
 
   it(`should show a welcome screen if there are no accounts yet`, async () => {
-    node.listKeys = () => Promise.resolve([])
+    const previousValues = node.keys.values
+    node.keys.values = () => Promise.resolve([])
     await store.dispatch(`showInitialScreen`)
     expect(store.state.config.modals.session.state).toBe(`welcome`)
     expect(store.state.config.modals.session.active).toBe(true)
+    node.keys.values = previousValues
   })
 
   it(`should test if the login works`, async () => {
-    node.updateKey = (account, { name, old_password, new_password }) => {
+    node.keys.set = (account, { name, old_password, new_password }) => {
       expect(account).toBe(name)
       expect(old_password).toBe(new_password)
       return true
@@ -90,7 +92,7 @@ describe(`Module: User`, () => {
   })
 
   it(`should raise an error if login test fails`, done => {
-    node.updateKey = () => Promise.reject(`Expected error`)
+    node.keys.set = () => Promise.reject(`Expected error`)
     store.dispatch(`testLogin`, {}).catch(() => done())
   })
 
@@ -104,13 +106,13 @@ describe(`Module: User`, () => {
     let seedPhrase = `abc`
     let password = `123`
     let name = `def`
-    node.storeKey = jest.fn(node.storeKey)
+    node.keys.add = jest.fn(node.keys.add)
     let address = await store.dispatch(`createKey`, {
       seedPhrase,
       password,
       name
     })
-    expect(node.storeKey).toHaveBeenCalledWith({
+    expect(node.keys.add).toHaveBeenCalledWith({
       seed: seedPhrase,
       password,
       name
@@ -123,19 +125,19 @@ describe(`Module: User`, () => {
   it(`should delete a key`, async () => {
     let password = `123`
     let name = `def`
-    node.deleteKey = jest.fn()
+    node.keys.delete = jest.fn()
     await store.dispatch(`deleteKey`, { password, name })
-    expect(node.deleteKey).toHaveBeenCalledWith(name, { password, name })
+    expect(node.keys.delete).toHaveBeenCalledWith(name, { password, name })
   })
 
   it(`should sign in`, async () => {
     let password = `123`
     let account = `def`
-    node.getKey = jest.fn(() =>
+    node.keys.get = jest.fn(() =>
       Promise.resolve({ address: `tb1wdhk6efqv9jxgun9wdesd6m8k8` })
     )
     await store.dispatch(`signIn`, { password, account })
-    expect(node.getKey).toHaveBeenCalledWith(account)
+    expect(node.keys.get).toHaveBeenCalledWith(account)
     expect(store.state.user.signedIn).toBe(true)
 
     // initialize wallet
@@ -197,7 +199,6 @@ describe(`Module: User`, () => {
     store.dispatch(`loadErrorCollection`, `abc`)
     expect(store.state.user.errorCollection).toBe(false)
   })
-
   it(`should reload accounts on reconnect as this could be triggered by a switch from a mocked connection`, async () => {
     store.state.user.accounts = []
     await store.dispatch(`reconnected`)

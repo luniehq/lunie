@@ -224,18 +224,8 @@ let state = {
   }
 }
 
-module.exports = {
-  candidates: state.candidates,
-
-  async lcdConnected() {
-    return true
-  },
-
-  // keys
-  async generateSeed() {
-    return `grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon grace admit inherit female grant pledge shine inquiry`
-  },
-  async storeKey({ name, password, seed }) {
+const keys = {
+  add: async ({ name, password, seed }) => {
     let key = {
       name,
       password,
@@ -244,16 +234,21 @@ module.exports = {
     state.keys.push(key)
     return { name, password, seed, address: key.address }
   },
-  async listKeys() {
-    return state.keys.map(k => ({
-      name: k.name,
-      address: k.address
-    }))
+
+  delete: async (account, { name, password }) => {
+    let key = state.keys.find(k => k.name === name)
+    if (key.password !== password) {
+      throw new Error(`Passwords do not match`)
+    }
+    state.keys = state.keys.filter(k => k.name !== name)
   },
-  async getKey(name) {
-    return state.keys.find(k => k.name === name)
-  },
-  async updateKey(account, { name, old_password, new_password }) {
+
+  get: async name =>
+    name === `seed`
+      ? `grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon grace admit inherit female grant pledge shine inquiry`
+      : state.keys.find(k => k.name === name),
+
+  set: async (account, { name, old_password, new_password }) => {
     // eslint-disable-line camelcase
     let key = state.keys.find(k => k.name === name)
     if (key.password !== old_password) {
@@ -262,14 +257,22 @@ module.exports = {
     }
     key.password = new_password // eslint-disable-line camelcase
   },
-  // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prop data
-  async deleteKey(account, { name, password }) {
-    let key = state.keys.find(k => k.name === name)
-    if (key.password !== password) {
-      throw new Error(`Passwords do not match`)
-    }
-    state.keys = state.keys.filter(k => k.name !== name)
+
+  values: async () =>
+    state.keys.map(k => ({
+      name: k.name,
+      address: k.address
+    }))
+}
+
+module.exports = {
+  candidates: state.candidates,
+
+  async lcdConnected() {
+    return true
   },
+
+  keys,
 
   // coins
   async queryAccount(address) {

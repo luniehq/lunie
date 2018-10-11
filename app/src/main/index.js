@@ -284,10 +284,10 @@ async function startLCD(home, nodeIP) {
     })
 
     // poll until LCD is started
-    let client = new LcdClient(`http://localhost:${LCD_PORT}`)
+    let client = LcdClient(`http://localhost:${LCD_PORT}`)
     while (true) {
       try {
-        await client.listKeys()
+        await client.keys.values()
         break // request succeeded
       } catch (err) {
         await sleep(1000)

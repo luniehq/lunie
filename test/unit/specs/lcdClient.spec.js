@@ -3,14 +3,14 @@ let LcdClient = require(`renderer/connectors/lcdClient.js`)
 let lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
 
 describe(`LCD Client`, () => {
-  let client = new LcdClient()
+  let client = LcdClient()
 
   it(`makes a GET request with no args`, async () => {
     axios.get = jest
       .fn()
       .mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
 
-    let res = await client.listKeys()
+    let res = await client.keys.values()
     expect(res).toEqual({ foo: `bar` })
     expect(axios.get.mock.calls[0]).toEqual([
       `http://localhost:8998/keys`,
@@ -23,7 +23,7 @@ describe(`LCD Client`, () => {
       .fn()
       .mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
 
-    let res = await client.getKey(`myKey`)
+    let res = await client.keys.get(`myKey`)
     expect(res).toEqual({ foo: `bar` })
     expect(axios.get.mock.calls[0]).toEqual([
       `http://localhost:8998/keys/myKey`,
@@ -36,7 +36,7 @@ describe(`LCD Client`, () => {
       .fn()
       .mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
 
-    let res = await client.storeKey()
+    let res = await client.keys.add()
     expect(res).toEqual({ foo: `bar` })
     expect(axios.post.mock.calls[0]).toEqual([
       `http://localhost:8998/keys`,
@@ -49,7 +49,7 @@ describe(`LCD Client`, () => {
       .fn()
       .mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
 
-    let res = await client.updateKey(`myKey`, { abc: 123 })
+    let res = await client.keys.set(`myKey`, { abc: 123 })
     expect(res).toEqual({ foo: `bar` })
     expect(axios.put.mock.calls[0]).toEqual([
       `http://localhost:8998/keys/myKey`,
@@ -67,7 +67,7 @@ describe(`LCD Client`, () => {
     )
 
     try {
-      await await client.listKeys()
+      await await client.keys.values()
     } catch (err) {
       expect(err.message).toBe(`foo`)
     }
@@ -83,7 +83,7 @@ describe(`LCD Client`, () => {
       return Promise.resolve({ data: { foo: `bar` } })
     }
 
-    await client.deleteKey(`test`, { password: `abc` })
+    await client.keys.delete(`test`, { password: `abc` })
   })
 
   it(`does not throw error for empty results`, async () => {
@@ -143,10 +143,10 @@ describe(`LCD Client`, () => {
   })
 
   it(`checks for the connection with the lcd by performing a simple request`, async () => {
-    client.listKeys = () => Promise.resolve()
+    client.keys.values = () => Promise.resolve()
     expect(await client.lcdConnected()).toBeTruthy()
 
-    client.listKeys = () => Promise.reject()
+    client.keys.values = () => Promise.reject()
     expect(await client.lcdConnected()).toBeFalsy()
   })
 
@@ -159,7 +159,7 @@ describe(`LCD Client`, () => {
     let result = await client.txs(`abc`)
 
     expect(axios.get).toHaveBeenCalledTimes(2)
-    client.listKeys = () => Promise.resolve()
+    client.keys.values = () => Promise.resolve()
     expect(result).toEqual([`abc`])
   })
 
