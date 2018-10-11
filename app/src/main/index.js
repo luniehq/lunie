@@ -199,7 +199,7 @@ function startProcess(name, args, env) {
           return `linux_amd64`
       }
     })()
-    binPath = join(__dirname, `../../../builds/gaia`, osFolderName, name)
+    binPath = join(__dirname, `../../../builds/Gaia`, osFolderName, name)
   } else {
     // in production mode, use binaries packaged with app
     binPath = join(__dirname, `..`, `bin`, name)
