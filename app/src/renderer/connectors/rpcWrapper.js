@@ -24,7 +24,10 @@ module.exports = function setRpcWrapper(container) {
       rpcWrapper.rpcInfo.connected = false
     },
     rpcConnect(rpcURL) {
-      let rpcHost = rpcURL.startsWith(`http`) ? rpcURL.split(`//`)[1] : rpcURL
+      let rpcHost =
+        rpcURL.startsWith(`http`) && rpcURL.indexOf(`//`) !== -1
+          ? rpcURL.split(`//`)[1]
+          : rpcURL
 
       if (container.rpc) {
         rpcWrapper.rpcDisconnect()
