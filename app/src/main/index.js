@@ -1,5 +1,6 @@
 "use strict"
 
+const assert = require(`assert`)
 let { app, BrowserWindow, ipcMain } = require(`electron`)
 let fs = require(`fs-extra`)
 let { join, relative } = require(`path`)
@@ -117,14 +118,14 @@ function signalNoNodesAvailable() {
   })
 }
 
-function shutdown() {
+async function shutdown() {
   if (shuttingDown) return
 
   mainWindow = null
   shuttingDown = true
 
   if (lcdProcess) {
-    stopLCD()
+    await stopLCD()
   }
 
   return Promise.all(
@@ -257,6 +258,12 @@ app.on(`ready`, () => createWindow())
 
 // start lcd REST API
 async function startLCD(home, nodeIP) {
+  assert.equal(
+    lcdProcess,
+    null,
+    `Can't start Gaia Lite because it's already running.  Call StopLCD first.`
+  )
+
   let lcdStarted = false // remember if the lcd has started to toggle the right error handling if it crashes async
   return new Promise(async (resolve, reject) => {
     log(`startLCD`, home)
@@ -308,10 +315,13 @@ function stopLCD() {
     try {
       // prevent the exit to signal bad termination warnings
       lcdProcess.removeAllListeners(`exit`)
-      lcdProcess.on(`exit`, resolve)
+
+      lcdProcess.on(`exit`, () => {
+        lcdProcess = null
+        resolve()
+      })
+
       lcdProcess.kill(`SIGKILL`)
-      lcdProcess = null
-      resolve()
     } catch (err) {
       handleCrash(err)
       reject(`Stopping the LCD resulted in an error: ` + err.message)
@@ -583,6 +593,7 @@ async function pickAndConnect(addressbook) {
       err
     )
     addressbook.flagNodeIncompatible(nodeIP)
+    await stopLCD()
     return await pickAndConnect(addressbook)
   }
 
@@ -590,7 +601,7 @@ async function pickAndConnect(addressbook) {
     let message = `Node ${nodeIP} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
     log(message)
     mainWindow.webContents.send(`connection-status`, message)
-
+    await stopLCD()
     return await pickAndConnect(addressbook)
   }
 
