@@ -45,7 +45,7 @@ class Client {
   }
 }
 
-let fetchAccount = argReq(`GET`, `/accounts`)
+let fetchAccount = argReq(`GET`, `/auth/accounts`)
 
 Object.assign(Client.prototype, {
   // meta
@@ -66,8 +66,7 @@ Object.assign(Client.prototype, {
   deleteKey: argReq(`DELETE`, `/keys`),
 
   // coins
-  send: argReq(`POST`, `/accounts`, `/send`),
-  ibcSend: argReq(`POST`, `/ibc`, `/send`),
+  send: argReq(`POST`, `/bank/accounts`, `/transfers`),
   queryAccount(address) {
     return fetchAccount
       .call(this, address)
