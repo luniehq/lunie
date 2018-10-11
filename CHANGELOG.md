@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Changed minor component of version number to match testnet version. @NodeGuy
 
+### Fixed
+
+* Fixed gaia binary not be found on linux and windows in development @faboweb
+
 ## [0.10.7] - 2018-10-10
 
 ### Added
