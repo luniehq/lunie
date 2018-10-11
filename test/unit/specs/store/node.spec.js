@@ -18,13 +18,7 @@ describe(`Module: Node`, () => {
       node.rpcInfo.connected = true
       return Promise.resolve()
     })
-
-    // jest.useFakeTimers()
   })
-
-  // afterEach(() => {
-  //   jest.runAllTimers()
-  // })
 
   it(`sets the header`, () => {
     store.dispatch(`setLastHeader`, {
