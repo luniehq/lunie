@@ -8,7 +8,7 @@ let { spawn } = require(`child_process`)
 const util = require(`util`)
 const exec = util.promisify(require(`child_process`).exec)
 let fs = require(`fs-extra`)
-let b32 = require(`../../app/src/renderer/scripts/b32.js`)
+let BN = require(`bignumber.js`)
 
 const testDir = join(__dirname, `../../testArtifacts`)
 
@@ -314,18 +314,17 @@ function initLocalNode(number = 1) {
 }
 
 // init a node and define it as a validator
-async function addValidatorNode(number, genesis) {
+async function addValidatorNode(number, mainGenesis) {
   let newNodeHome = nodeHome + `_` + number
 
   await initLocalNode(number)
-  const newValidatorRecord = getValidatorRecord(newNodeHome)
-  const newValidatorStakingRecord = getValidatorStakingRecord(newNodeHome)
+  let newNodeGenesis = fs.readJSONSync(join(newNodeHome, `config/genesis.json`))
 
-  addValidator(genesis, newValidatorRecord, newValidatorStakingRecord, number)
+  mergeGenesis(mainGenesis, newNodeGenesis, number)
   reduceTimeouts(newNodeHome)
   disableStrictAddressbook(newNodeHome)
 
-  return genesis
+  return mainGenesis
 }
 
 async function getNodeId(node_home) {
@@ -335,39 +334,30 @@ async function getNodeId(node_home) {
   return stdout.trim()
 }
 
-function getValidatorRecord(node_home) {
-  let genesis = fs.readJSONSync(join(node_home, `config/genesis.json`))
-
-  return genesis.validators[0]
-}
-
-function getValidatorStakingRecord(node_home) {
-  let genesis = fs.readJSONSync(join(node_home, `config/genesis.json`))
-
-  return genesis.app_state.stake.validators[0]
-}
-
-function addValidator(
-  genesis,
-  validatorRecord,
-  validatorStakingRecord,
-  number
-) {
-  genesis.validators.push(
-    Object.assign({}, validatorRecord, {
-      power: `50`
+function mergeGenesis(mainGenesis, addingGenesis, number) {
+  let otherValidatorPower = `50000000000`
+  mainGenesis.validators.push(
+    Object.assign({}, addingGenesis.validators[0], {
+      power: otherValidatorPower
     })
   )
-  genesis.app_state.stake.validators.push(
+  let validatorStakingRecord = addingGenesis.app_state.stake.validators[0]
+  mainGenesis.app_state.stake.validators.push(
     Object.assign({}, validatorStakingRecord, {
-      tokens: `50`,
-      delegator_shares: `50`,
+      tokens: otherValidatorPower,
+      delegator_shares: otherValidatorPower,
       description: Object.assign({}, validatorStakingRecord.description, {
         moniker: `local_` + number
       })
     })
   )
-  genesis.app_state.stake.pool.loose_tokens += 50
+  mainGenesis.app_state.stake.pool.loose_tokens = BN(
+    mainGenesis.app_state.stake.pool.loose_tokens
+  )
+    .plus(otherValidatorPower)
+    .toString()
+
+  mainGenesis.app_state.stake.bonds.push(addingGenesis.app_state.stake.bonds[0])
 }
 
 function writeGenesis(genesis, node_home) {
