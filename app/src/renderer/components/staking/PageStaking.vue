@@ -60,6 +60,7 @@ export default {
       `bondingDenom`,
       `keybase`
     ]),
+    ...mapActions([`updateDelegates`]),
     somethingToSearch() {
       return !!this.delegates.delegates.length
     },
