@@ -8,7 +8,6 @@ let { spawn } = require(`child_process`)
 const util = require(`util`)
 const exec = util.promisify(require(`child_process`).exec)
 let fs = require(`fs-extra`)
-let BN = require(`bignumber.js`)
 let { sleep } = require(`../e2e/common.js`)
 
 const testDir = join(__dirname, `../../testArtifacts`)
@@ -438,10 +437,6 @@ async function sendTokens(
     child.stdout.once(`data`, resolve)
     child.stderr.once(`data`, reject)
   })
-}
-
-function writeGenesis(genesis, node_home) {
-  fs.writeJSONSync(join(node_home, `config/genesis.json`), genesis)
 }
 
 function reduceTimeouts(nodeHome) {
