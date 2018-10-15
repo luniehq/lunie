@@ -19,6 +19,110 @@ const createMiddleware = require(`swagger-express-middleware`)
 const { promisify } = require(`util`)
 
 describe(`LCD Client`, () => {
+  describe(`helper functions`, () => {
+    let axios
+    let client
+
+    beforeEach(() => {
+      axios = {}
+      client = LcdClient(axios, `http://localhost`, `http://remotehost`)
+    })
+
+    it(`makes a GET request with no args`, async () => {
+      axios.get = jest
+        .fn()
+        .mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+
+      let res = await client.keys.values()
+      expect(res).toEqual({ foo: `bar` })
+      expect(axios.get.mock.calls[0]).toEqual([
+        `http://localhost/keys`,
+        undefined
+      ])
+    })
+
+    it(`makes a GET request with one arg`, async () => {
+      axios.get = jest
+        .fn()
+        .mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+
+      let res = await client.keys.get(`myKey`)
+      expect(res).toEqual({ foo: `bar` })
+      expect(axios.get.mock.calls[0]).toEqual([
+        `http://localhost/keys/myKey`,
+        undefined
+      ])
+    })
+
+    it(`makes a POST request`, async () => {
+      axios.post = jest
+        .fn()
+        .mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+
+      let res = await client.keys.add()
+      expect(res).toEqual({ foo: `bar` })
+      expect(axios.post.mock.calls[0]).toEqual([
+        `http://localhost/keys`,
+        undefined
+      ])
+    })
+
+    it(`makes a POST request with args and data`, async () => {
+      axios.put = jest
+        .fn()
+        .mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+
+      let res = await client.keys.set(`myKey`, { abc: 123 })
+      expect(res).toEqual({ foo: `bar` })
+      expect(axios.put.mock.calls[0]).toEqual([
+        `http://localhost/keys/myKey`,
+        { abc: 123 }
+      ])
+    })
+
+    it(`makes a GET request with an error`, async () => {
+      axios.get = jest.fn().mockReturnValueOnce(
+        Promise.reject({
+          response: {
+            data: `foo`
+          }
+        })
+      )
+
+      try {
+        await await client.keys.values()
+      } catch (err) {
+        expect(err.message).toBe(`foo`)
+      }
+      expect(axios.get.mock.calls[0]).toEqual([
+        `http://localhost/keys`,
+        undefined
+      ])
+    })
+
+    it(`delete requests have the correct format for data`, async () => {
+      axios.delete = (path, config) => {
+        expect(config).toEqual({ data: { password: `abc` } })
+        return Promise.resolve({ data: { foo: `bar` } })
+      }
+
+      // doesn't throw
+      await client.keys.delete(`test`, { password: `abc` })
+    })
+
+    it(`does not throw error for empty results`, async () => {
+      axios.get = jest.fn().mockReturnValueOnce(
+        Promise.reject({
+          response: {
+            data: `account bytes are empty`
+          }
+        })
+      )
+      let res = await client.queryAccount(`address`)
+      expect(res).toBe(null)
+    })
+  })
+
   let client
   let mockServer
   let remoteLcdURL
@@ -54,7 +158,7 @@ describe(`LCD Client`, () => {
     await promisify(mockServer.listen.bind(mockServer))(0, `localhost`)
     const localLcdURL = `http://localhost:${mockServer.address().port}`
     remoteLcdURL = `http://awesomenode.de:12345`
-    client = LcdClient(localLcdURL, remoteLcdURL)
+    client = LcdClient(axios, localLcdURL, remoteLcdURL)
   })
 
   afterAll(done => {

@@ -271,7 +271,7 @@ async function startLCD(home, nodeURL) {
     })
 
     // poll until LCD is started
-    let client = LcdClient(`http://localhost:${LCD_PORT}`)
+    let client = LcdClient(axios, `http://localhost:${LCD_PORT}`)
     while (true) {
       try {
         await client.keys.values()

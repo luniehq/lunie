@@ -1,8 +1,6 @@
 "use strict"
 
-const axios = require(`axios`)
-
-const Client = (localLcdURL, remoteLcdURL) => {
+const Client = (axios, localLcdURL, remoteLcdURL) => {
   async function request(method, path, data, useRemote) {
     const url = useRemote ? remoteLcdURL : localLcdURL
 
