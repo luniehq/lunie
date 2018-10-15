@@ -1,8 +1,11 @@
 let axios = require(`axios`)
 let LcdClient = require(`renderer/connectors/lcdClient.js`)
+let lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
 
 describe(`LCD Client`, () => {
-  let client = new LcdClient()
+  const remoteLcdURL = `http://awesomenode.de:12345`
+  const localLcdURL = `https://localhost:9876`
+  let client = new LcdClient(localLcdURL, remoteLcdURL)
 
   it(`makes a GET request with no args`, async () => {
     axios.get = jest
@@ -11,10 +14,7 @@ describe(`LCD Client`, () => {
 
     let res = await client.listKeys()
     expect(res).toEqual({ foo: `bar` })
-    expect(axios.get.mock.calls[0]).toEqual([
-      `http://localhost:8998/keys`,
-      undefined
-    ])
+    expect(axios.get.mock.calls[0]).toEqual([`${localLcdURL}/keys`, undefined])
   })
 
   it(`makes a GET request with one arg`, async () => {
@@ -25,7 +25,7 @@ describe(`LCD Client`, () => {
     let res = await client.getKey(`myKey`)
     expect(res).toEqual({ foo: `bar` })
     expect(axios.get.mock.calls[0]).toEqual([
-      `http://localhost:8998/keys/myKey`,
+      `${localLcdURL}/keys/myKey`,
       undefined
     ])
   })
@@ -37,10 +37,7 @@ describe(`LCD Client`, () => {
 
     let res = await client.storeKey()
     expect(res).toEqual({ foo: `bar` })
-    expect(axios.post.mock.calls[0]).toEqual([
-      `http://localhost:8998/keys`,
-      undefined
-    ])
+    expect(axios.post.mock.calls[0]).toEqual([`${localLcdURL}/keys`, undefined])
   })
 
   it(`makes a POST request with args and data`, async () => {
@@ -51,7 +48,7 @@ describe(`LCD Client`, () => {
     let res = await client.updateKey(`myKey`, { abc: 123 })
     expect(res).toEqual({ foo: `bar` })
     expect(axios.put.mock.calls[0]).toEqual([
-      `http://localhost:8998/keys/myKey`,
+      `${localLcdURL}/keys/myKey`,
       { abc: 123 }
     ])
   })
@@ -70,10 +67,7 @@ describe(`LCD Client`, () => {
     } catch (err) {
       expect(err.message).toBe(`foo`)
     }
-    expect(axios.get.mock.calls[0]).toEqual([
-      `http://localhost:8998/keys`,
-      undefined
-    ])
+    expect(axios.get.mock.calls[0]).toEqual([`${localLcdURL}/keys`, undefined])
   })
 
   it(`delete requests have the correct format for data`, async () => {
@@ -82,6 +76,7 @@ describe(`LCD Client`, () => {
       return Promise.resolve({ data: { foo: `bar` } })
     }
 
+    // doesn't throw
     await client.deleteKey(`test`, { password: `abc` })
   })
 
@@ -107,8 +102,11 @@ describe(`LCD Client`, () => {
         }
       })
     )
-    client.queryDelegation(`abc`, `efg`)
-    expect(axios.get.mock.calls).toMatchSnapshot()
+    await client.queryDelegation(`abc`, `efg`)
+    expect(axios.get.mock.calls[0]).toEqual([
+      `${remoteLcdURL}/stake/delegators/abc/delegations/efg`,
+      undefined
+    ])
   })
 
   it(`does not throw error for empty results`, async () => {
@@ -161,32 +159,71 @@ describe(`LCD Client`, () => {
 
   it(`queries for a delegation summary for a delegator`, async () => {
     axios.get = jest.fn().mockReturnValue({})
-    client.getDelegator(`abc`)
-    expect(axios.get.mock.calls).toMatchSnapshot()
+    await client.getDelegator(`abc`)
+    expect(axios.get.mock.calls[0]).toEqual([
+      `${remoteLcdURL}/stake/delegators/abc`,
+      undefined
+    ])
   })
 
   it(`queries for a delegation txs`, async () => {
-    axios.get = jest.fn().mockReturnValue({})
-    client.getDelegatorTxs(`abc`)
-    client.getDelegatorTxs(`abc`, [`bonding`])
-    client.getDelegatorTxs(`abc`, [`unbonding`])
-    expect(axios.get.mock.calls).toMatchSnapshot()
+    axios.get = jest
+      .fn()
+      .mockReturnValue(Promise.resolve({ data: lcdClientMock.txs }))
+    await client.getDelegatorTxs(`abc`)
+    await client.getDelegatorTxs(`abc`, [`bonding`])
+    await client.getDelegatorTxs(`abc`, [`unbonding`])
+    await client.getDelegatorTxs(`abc`, [`redelegate`])
+    expect(axios.get.mock.calls).toEqual([
+      [`${remoteLcdURL}/stake/delegators/abc/txs`, undefined],
+      [`${remoteLcdURL}/stake/delegators/abc/txs?type=bonding`, undefined],
+      [`${remoteLcdURL}/stake/delegators/abc/txs?type=unbonding`, undefined],
+      [`${remoteLcdURL}/stake/delegators/abc/txs?type=redelegate`, undefined]
+    ])
   })
 
   it(`queries for undelegations between a delegator and a validator`, async () => {
     axios.get = jest.fn().mockReturnValue({})
-    client.queryUnbonding(`abc`, `def`)
-    expect(axios.get.mock.calls).toMatchSnapshot()
+    await client.queryUnbonding(`abc`, `def`)
+    expect(axios.get.mock.calls[0]).toEqual([
+      `${remoteLcdURL}/stake/delegators/abc/unbonding_delegations/def`,
+      undefined
+    ])
   })
 
-  it(`queries for a candidate`, async () => {
+  it(`queries for a validator`, async () => {
     axios.get = jest.fn().mockReturnValue({})
-    client.getCandidate(`abc`)
-    expect(axios.get.mock.calls).toMatchSnapshot()
-  }),
-    it(`queries a validator signing information`, async () => {
-      axios.get = jest.fn().mockReturnValue({})
-      client.queryValidatorSigningInfo(`pubKey`)
-      expect(axios.get.mock.calls).toMatchSnapshot()
-    })
+    await client.getCandidate(`abc`)
+    expect(axios.get.mock.calls[0]).toEqual([
+      `${remoteLcdURL}/stake/validators/abc`,
+      undefined
+    ])
+  })
+
+  it(`queries for staking parameters`, async () => {
+    axios.get = jest.fn().mockReturnValue({})
+    await client.getParameters()
+    expect(axios.get.mock.calls[0]).toEqual([
+      `${remoteLcdURL}/stake/parameters`,
+      undefined
+    ])
+  })
+
+  it(`queries for staking pool`, async () => {
+    axios.get = jest.fn().mockReturnValue({})
+    await client.getPool()
+    expect(axios.get.mock.calls[0]).toEqual([
+      `${remoteLcdURL}/stake/pool`,
+      undefined
+    ])
+  })
+
+  it(`queries a validator signing information`, async () => {
+    axios.get = jest.fn().mockReturnValue({})
+    await client.queryValidatorSigningInfo(`pubKey`)
+    expect(axios.get.mock.calls[0]).toEqual([
+      `${remoteLcdURL}/slashing/signing_info/pubKey`,
+      undefined
+    ])
+  })
 })

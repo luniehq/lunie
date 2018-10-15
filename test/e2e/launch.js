@@ -99,7 +99,9 @@ function launch(t) {
           COSMOS_HOME: cliHome,
           COSMOS_NETWORK: join(nodeOneHome, `config`),
           COSMOS_MOCKED: false, // the e2e tests expect mocking to be switched off
-          BINARY_PATH: cliBinary
+          BINARY_PATH: cliBinary,
+          LCD_URL: `http://localhost:9071`,
+          RPC_URL: `http://localhost:26657`
         }
       })
 

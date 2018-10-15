@@ -3,7 +3,6 @@ tm-page
   template(slot="menu-body", v-if="config.devMode"): tm-balance
   div(slot="menu"): tm-tool-bar
     router-link(to="/staking" exact): i.material-icons arrow_back
-    anchor-copy(v-if="validator" :value="validator.operator_address" icon="content_copy")
 
   tm-data-error(v-if="!validator")
 
@@ -18,8 +17,7 @@ tm-page
             div.validator-profile__status-and-title
               span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
               .validator-profile__header__name__title {{ validator.description.moniker }}
-            //- TODO replace with address component when ready
-            anchor-copy.validator-profile__header__name__address(:value="validator.operator_address" :label="shortAddress(validator.operator_address)")
+            short-bech32(:address="validator.operator_address")
           .column.validator-profile__header__actions
             tm-btn#delegation-btn(value="Delegate" color="primary" @click.native="onDelegation")
 
@@ -32,7 +30,7 @@ tm-page
         .row.validator-profile__header__data
           dl.colored_dl
             dt Bonded {{bondingDenom}}
-            dd {{myBond.isLessThan(0.01) && myBond.isGreaterThan(0) ? '< ' + 0.01 : pretty(myBond)}}
+            dd {{myBond.isLessThan(0.01) && myBond.isGreaterThan(0) ? '< ' + 0.01 : num.full(myBond)}}
           dl.colored_dl(v-if="config.devMode")
             dt My Rewards
             dd n/a
@@ -118,6 +116,7 @@ tm-page
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
+import num from "scripts/num"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import TmModal from "common/TmModal"
 import { TmDataError } from "common/TmDataError"
@@ -125,13 +124,13 @@ import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
 import numeral from "numeral"
-import AnchorCopy from "common/AnchorCopy"
+import ShortBech32 from "common/ShortBech32"
 import TmBalance from "common/TmBalance"
 import { isEmpty } from "lodash"
 export default {
   name: `page-validator`,
   components: {
-    AnchorCopy,
+    ShortBech32,
     DelegationModal,
     UndelegationModal,
     TmBtn,
@@ -144,6 +143,7 @@ export default {
     TmBalance
   },
   data: () => ({
+    num,
     showCannotModal: false,
     showDelegationModal: false,
     showUndelegationModal: false,

@@ -134,10 +134,7 @@ let state = {
   candidates: [
     {
       operator_address: validators[0],
-      pub_key: {
-        type: `AC26791624DE60`,
-        data: `t3zVnKU42WNH+NtYFcstZRLFVULWV8VagoP0HwW43Pk=`
-      },
+      pub_key: `cosmosvalpub1234`,
       revoked: false,
       tokens: `14`,
       delegator_shares: `14`,
@@ -159,10 +156,7 @@ let state = {
     },
     {
       operator_address: validators[1],
-      pub_key: {
-        type: `AC26791624DE60`,
-        data: `9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w=`
-      },
+      pub_key: `cosmosvalpub5678`,
       revoked: false,
       tokens: `0`,
       delegator_shares: `0`,
@@ -184,10 +178,7 @@ let state = {
     },
     {
       operator_address: validators[2],
-      pub_key: {
-        type: `AC26791624DE60`,
-        data: `dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=`
-      },
+      pub_key: `cosmosvalpub8910`,
       tokens: `19`,
       delegator_shares: `19`,
       description: {
@@ -208,6 +199,22 @@ let state = {
       prev_bonded_shares: `0`
     }
   ],
+  pool: {
+    loose_tokens: 0,
+    bonded_tokens: 0,
+    inflation_last_time: `1970-01-01 01:00:00 +0100 CET`,
+    inflation: `700000000`,
+    date_last_commission_reset: 0,
+    prev_bonded_shares: 0
+  },
+  parameters: {
+    inflation_max: `2000000000`,
+    inflation_min: `700000000`,
+    goal_bonded: `6700000000`,
+    unbonding_time: `72h0m0s`,
+    max_validators: 100,
+    bond_denom: `steak`
+  },
   sendHeight: 2,
   signing_info: {
     start_height: 2,
@@ -500,6 +507,12 @@ module.exports = {
   // TODO query with bech32 pubKey
   async queryValidatorSigningInfo() {
     return state.signing_info
+  },
+  async getPool() {
+    return state.pool
+  },
+  async getParameters() {
+    return state.parameters
   },
   // exports to be used in tests
   state,

@@ -16,7 +16,7 @@ tm-page(title="Preferences")
         icon='exit_to_app'
         type='button'
         @click.native=""
-        :value='nodeIP')
+        :value='nodeURL')
     tm-list-item(type="field" title="View tutorial for Voyager")
       tm-btn#toggle-onboarding(
         @click.native="setOnboarding"
@@ -68,7 +68,7 @@ export default {
       `onboarding`,
       `mockedConnector`,
       `config`,
-      `nodeIP`
+      `nodeURL`
     ])
   },
   data: () => ({
@@ -121,12 +121,12 @@ export default {
       this.$store.commit(`setOnboardingState`, 0)
       this.$store.commit(`setOnboardingActive`, true)
     },
+
     setMockedConnector() {
-      if (this.networkSelectActive === `mock` && !this.mockedConnector) {
-        this.$store.dispatch(`setMockedConnector`, true)
-      } else if (this.networkSelectActive === `live` && this.mockedConnector) {
-        this.$store.dispatch(`setMockedConnector`, false)
-      }
+      this.$store.dispatch(
+        `setMockedConnector`,
+        this.networkSelectActive === `mock`
+      )
     }
   }
 }

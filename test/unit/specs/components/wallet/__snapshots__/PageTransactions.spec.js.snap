@@ -25,10 +25,14 @@ exports[`PageTransactions has the expected html structure 1`] = `
             <div
               class="top"
             >
-              <img
-                class="icon"
-                src="~assets/images/cosmos-logo.png"
-              />
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
               <div
                 class="total-atoms top-section"
               >
@@ -36,24 +40,33 @@ exports[`PageTransactions has the expected html structure 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  0.00
+                  0.0000000000
+                </h2>
+              </div>
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Unbonded Steak
+                </h3>
+                <h2>
+                  0.0000000000
                 </h2>
               </div>
               <!---->
               <!---->
-              <!---->
             </div>
             <div
-              class="bottom"
+              class="short-bech32"
             >
               <div
                 class="address"
                 id="address"
               >
-                
+                Address Not Found
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -234,10 +247,14 @@ exports[`PageTransactions should filter the transactions 1`] = `
             <div
               class="top"
             >
-              <img
-                class="icon"
-                src="~assets/images/cosmos-logo.png"
-              />
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
               <div
                 class="total-atoms top-section"
               >
@@ -245,24 +262,33 @@ exports[`PageTransactions should filter the transactions 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  0.00
+                  0.0000000000
+                </h2>
+              </div>
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Unbonded Steak
+                </h3>
+                <h2>
+                  0.0000000000
                 </h2>
               </div>
               <!---->
               <!---->
-              <!---->
             </div>
             <div
-              class="bottom"
+              class="short-bech32"
             >
               <div
                 class="address"
                 id="address"
               >
-                
+                Address Not Found
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"

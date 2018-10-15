@@ -22,11 +22,6 @@ describe(`RPC Connector`, () => {
     newConnector()
   })
 
-  it(`should provide the nodeIP`, () => {
-    connector.rpcConnect(`1.1.1.1`)
-    expect(connector.rpcInfo.nodeIP).toBe(`1.1.1.1`)
-  })
-
   it(`should init the rpc connection`, () => {
     connector.rpcConnect(`localhost`)
     expect(connector.rpc).toBeDefined()

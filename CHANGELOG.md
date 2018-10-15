@@ -7,17 +7,37 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+* Changed minor component of version number to match testnet version. @NodeGuy
+
+### Fixed
+
+* Fixed gaia binary not be found on linux and windows in development @faboweb
+
+## [0.10.7] - 2018-10-10
+
 ### Added
 
+* Display staking parameters and pool @fedekunze
 * TmBalance to transaction history page @jbibla
 
 ### Changed
 
 * TmBalance no longer expects unbondedAtoms prop @jbibla
+* updated delegates module tests @faboweb
+* showing 10 decimal places where bonding denom balance is displayed @jbibla
 
 ### Fixed
 
 * set width for validator stats to avoid styling bugs @jbibla
+* Test setMockedConnector without starting an endless loop. @NodeGuy
+* speed up of e2e tests removing an expected timeout happening on navigate @faboweb
+* Use unique keys in validator lists. @NodeGuy
+
+### Changed
+
+* updates to how addresses are displayed and how they can be copied @jbibla
 
 ## [0.10.6] - 2018-10-04
 
@@ -72,6 +92,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Refactord submitDelegation. @NodeGuy
 * Improved network connectivity bar @jbibla
 * refactored words around staking and delegation @jbibla
+* the remote lcd and rpc endpoints can now be specified individually in the config.toml and via environment variables @faboweb
+* most endpoints use the remote lcd directly to improve performance @faboweb
 * Moved Vue error handling code from console_error_throw.js to main.js @NodeGuy
 
 ### Fixed

@@ -48,14 +48,12 @@ module.exports = {
     await module.exports.openMenu(app)
     // click link
     await app.client.$(`a*=${linkText}`).click()
-    try {
-      await app.client.waitUntilTextExists(`.tm-page-header-title`, titleText)
-    } catch (error) {
-      // if .tm-page-header-title doeesn't exist with titleText it may be using
-      // the new UI. if that's the case it should use a data-title parameter
-      // with the same titleText.
-      await app.client.waitForExist(`[data-title='${titleText}']`)
-    }
+    await app.client.waitForExist(`[data-title='${titleText}']`).catch(err => {
+      console.error(
+        `Couldn't approve that current page is correct. Does the target page has a 'data-title' attribute with the name of the link from the menu?`
+      )
+      throw err
+    })
     console.log(`navigated to "${linkText}"`)
   },
   async navigateToPreferences(app) {

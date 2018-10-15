@@ -6,13 +6,11 @@ import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import { createLocalVue, mount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
+import BigNumber from "bignumber.js"
 
 const validator = {
-  operator_address: `1a2b3c`,
-  pub_key: {
-    type: `AC26791624DE60`,
-    data: `dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=`
-  },
+  owner: `1a2b3c`,
+  pub_key: `cosmoschiapudding123456789`,
   tokens: `19`,
   delegator_shares: `19`,
   description: {
@@ -35,11 +33,8 @@ const validator = {
 }
 
 const validatorTo = {
-  operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-  pub_key: {
-    type: `AC26791624DE60`,
-    data: `9M4oaDArXKVU5ffqjq2TkynTCMJlyLzpzZLNjHtqM+w=`
-  },
+  owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+  pub_key: `cosmosvalpub123456789`,
   tokens: `10`,
   delegator_shares: `10`,
   description: {
@@ -636,18 +631,16 @@ describe(`onDelegation`, () => {
                           website: `www.schmidt.de`
                         },
                         selfBond: 0.01,
+                        id: `1a2b3c`,
                         keybase: undefined,
                         operator_address: `1a2b3c`,
                         prev_bonded_shares: `0`,
                         proposer_reward_pool: null,
-                        pub_key: {
-                          data: `dlN5SLqeT3LT9WsUK5iuVq1eLQV2Q1JQAuyN0VwSWK0=`,
-                          type: `AC26791624DE60`
-                        },
+                        pub_key: `cosmoschiapudding123456789`,
                         revoked: false,
                         status: 2,
                         tokens: `19`,
-                        voting_power: `10`
+                        voting_power: BigNumber(19)
                       }
                     }
                   ]

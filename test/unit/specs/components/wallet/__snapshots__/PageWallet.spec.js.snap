@@ -25,10 +25,14 @@ exports[`PageWallet has the expected html structure 1`] = `
             <div
               class="top"
             >
-              <img
-                class="icon"
-                src="~assets/images/cosmos-logo.png"
-              />
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
               <div
                 class="total-atoms top-section"
               >
@@ -36,7 +40,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  1,014.00
+                  1,014.0000000000
                 </h2>
               </div>
               <div
@@ -46,23 +50,23 @@ exports[`PageWallet has the expected html structure 1`] = `
                   Unbonded Steak
                 </h3>
                 <h2>
-                  1000
+                  1,000.0000000000
                 </h2>
               </div>
               <!---->
               <!---->
             </div>
             <div
-              class="bottom"
+              class="short-bech32"
             >
               <div
                 class="address"
                 id="address"
               >
-                cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+                cosmosaccaddr…xxn9
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -286,7 +290,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  2300
+                  2,300.0000000000
                 </div>
               </div>
               <button
@@ -334,7 +338,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  1000
+                  1,000.0000000000
                 </div>
               </div>
               <button
@@ -382,7 +386,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  1000
+                  1,000.0000000000
                 </div>
               </div>
               <button
@@ -459,10 +463,14 @@ exports[`PageWallet should filter the balances 1`] = `
             <div
               class="top"
             >
-              <img
-                class="icon"
-                src="~assets/images/cosmos-logo.png"
-              />
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
               <div
                 class="total-atoms top-section"
               >
@@ -470,7 +478,7 @@ exports[`PageWallet should filter the balances 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  1,014.00
+                  1,014.0000000000
                 </h2>
               </div>
               <div
@@ -480,23 +488,23 @@ exports[`PageWallet should filter the balances 1`] = `
                   Unbonded Steak
                 </h3>
                 <h2>
-                  1000
+                  1,000.0000000000
                 </h2>
               </div>
               <!---->
               <!---->
             </div>
             <div
-              class="bottom"
+              class="short-bech32"
             >
               <div
                 class="address"
                 id="address"
               >
-                cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+                cosmosaccaddr…xxn9
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -720,7 +728,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  1000
+                  1,000.0000000000
                 </div>
               </div>
               <button

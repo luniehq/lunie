@@ -20,18 +20,18 @@ import { startCase, toLower } from "lodash"
 export default {
   name: `tm-connected-network`,
   computed: {
-    ...mapGetters([`lastHeader`, `nodeIP`, `connected`, `mockedConnector`]),
+    ...mapGetters([`lastHeader`, `nodeURL`, `connected`, `mockedConnector`]),
     cssClass() {
       if (this.mockedConnector) {
         return `tm-connected-network--mocked`
       }
     },
 
-    networkTooltip({ mockedConnector, connected, nodeIP, chainId } = this) {
+    networkTooltip({ mockedConnector, connected, nodeURL, chainId } = this) {
       if (mockedConnector) {
         return `You\'re using the offline demo and are not connected to any real nodes.`
       } else if (connected) {
-        return `You\'re connected to the ${chainId} testnet via node ${nodeIP}.`
+        return `You\'re connected to the ${chainId} testnet via node ${nodeURL}.`
       } else if (!mockedConnector && !connected) {
         return `We\'re pinging nodes to try to connect you to ${chainId}.`
       }

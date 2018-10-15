@@ -69,8 +69,9 @@ Vue.directive(`focus`, {
 
 async function main() {
   let lcdPort = getQueryParameter(`lcd_port`)
+  let localLcdURL = `http://localhost:${lcdPort}`
   console.log(`Expecting lcd-server on port: ` + lcdPort)
-  node = Node(lcdPort, config.mocked)
+  node = Node(localLcdURL, config.node_lcd, config.mocked)
 
   store = Store({ node })
   store.dispatch(`loadTheme`)
@@ -102,8 +103,8 @@ async function main() {
   })
 
   let firstStart = true
-  ipcRenderer.on(`connected`, (event, nodeIP) => {
-    node.rpcConnect(nodeIP)
+  ipcRenderer.on(`connected`, (event, { rpcURL }) => {
+    node.rpcConnect(rpcURL)
     store.dispatch(`rpcSubscribe`)
     store.dispatch(`subscribeToBlocks`)
 
