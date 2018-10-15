@@ -164,7 +164,9 @@ export default ({ node }) => {
         stakingTransactions.unbondings.map(({ atoms, validator }) => ({
           delegator_addr: delegatorAddr,
           validator_addr: validator.operator_address,
-          shares: String(Math.abs(calculateShares(validator, atoms)).toFixed(8)) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
+          shares: String(
+            Math.abs(calculateShares(validator, atoms)).toFixed(10)
+          ) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
         }))
 
       const mappedRedelegations =
@@ -174,7 +176,7 @@ export default ({ node }) => {
             delegator_addr: delegatorAddr,
             validator_src_addr: validatorSrc.operator_address,
             validator_dst_addr: validatorDst.operator_address,
-            shares: String(calculateShares(validatorSrc, atoms).toFixed(8)) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
+            shares: String(calculateShares(validatorSrc, atoms).toFixed(10)) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
           })
         )
 

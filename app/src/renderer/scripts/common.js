@@ -39,6 +39,7 @@ module.exports.ratToBigNumber = function(rat) {
 
 // could be used in optimistic update PR, pls uncomment or delete when addressed
 module.exports.calculateShares = function(validator, tokens) {
+  console.log(typeof tokens)
   let myTokens = new BN(tokens || 0)
 
   let totalSharesN = new BN(validator.delegator_shares.split(`/`)[0])
