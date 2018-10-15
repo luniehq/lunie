@@ -127,7 +127,7 @@ function launch(t) {
 
       resolve({
         app,
-        cliHome: nodeOneCliHome,
+        cliHome,
         accounts
       })
     })
