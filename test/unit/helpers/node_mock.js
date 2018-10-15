@@ -5,6 +5,8 @@ module.exports = {
   // REST
   relayPort: `9060`,
   lcdPort: `9070`,
+  remoteLcdURL: `http://awesomenode.de:12345`,
+  localLcdURL: `https://localhost:9876`,
   lcdConnected: () => Promise.resolve(true),
   keys: {
     add: () => ({
@@ -58,8 +60,7 @@ module.exports = {
   },
   rpcInfo: {
     connected: true,
-    connecting: false,
-    nodeIP: `127.0.0.1`
+    connecting: false
   },
   rpcConnect: () => {},
   rpcDisconnect: () => {},

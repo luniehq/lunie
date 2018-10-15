@@ -140,17 +140,6 @@ describe(`Startup Process`, () => {
       expect(fs.existsSync(testRoot)).toBe(true)
     })
 
-    xit(`should init lcd server with correct testnet`, async function() {
-      expect(
-        childProcess.spawn.mock.calls.find(
-          ([path, args]) =>
-            path.includes(`gaiacli`) &&
-            args.includes(`init`) &&
-            args.join(`=`).includes(`--chain-id=gaia-6002`)
-        )
-      ).toBeDefined()
-    })
-
     it(`should start lcd server`, async function() {
       expect(
         childProcess.spawn.mock.calls.find(
@@ -171,43 +160,31 @@ describe(`Startup Process`, () => {
   describe(`Connection`, function() {
     mainSetup()
 
-    it(`should error if it can't find a node to connect to`, async () => {
+    it(`should error if it can't connect to the node`, async () => {
       main.shutdown()
       prepareMain()
+      // mock the version check request
+      jest.doMock(`axios`, () => ({
+        get: jest.fn(() => Promise.reject())
+      }))
       let { send } = require(`electron`)
       send.mockClear()
-
-      jest.doMock(
-        `app/src/main/addressbook.js`,
-        () =>
-          class MockAddressbook {
-            async pickNode() {
-              throw Error(`no nodes`)
-            }
-          }
-      )
 
       // run main
       main = await require(appRoot + `src/main/index.js`)
 
-      expect(
-        send.mock.calls.filter(([type]) => type === `connected`).length
-      ).toBe(0) // doesn't connect
-      expect(send.mock.calls.filter(([type]) => type === `error`).length).toBe(
-        1
-      )
-      expect(
-        send.mock.calls.filter(([type]) => type === `error`)[0][1].code
-      ).toBe(`NO_NODES_AVAILABLE`)
+      expect(send).toHaveBeenCalledWith(`error`, {
+        code: `NO_NODES_AVAILABLE`,
+        message: `No nodes available to connect to.`
+      })
     })
 
-    it(`should look for a node with a compatible SDK version`, async () => {
+    it(`should check if our node has a compatible SDK version`, async () => {
       main.shutdown()
       prepareMain()
       const mockAxiosGet = jest
         .fn()
         .mockReturnValueOnce(Promise.resolve({ data: `0.1.0` })) // should fail as expected version is 0.13.0
-        .mockReturnValueOnce(Promise.resolve({ data: `0.13.2` })) // should succeed as in semver range
       // mock the version check request
       jest.doMock(`axios`, () => ({
         get: mockAxiosGet
@@ -218,34 +195,11 @@ describe(`Startup Process`, () => {
       // run main
       main = await require(appRoot + `src/main/index.js`)
 
-      expect(mockAxiosGet).toHaveBeenCalledTimes(2)
-      expect(send).toHaveBeenCalledWith(`connected`, `127.0.0.1:46657`)
-    })
-
-    it(`should mark a version incompatible if getting the SDK version fails`, async () => {
-      main.shutdown()
-      prepareMain()
-
-      // TODO replace with mockRejectOnce when updated jest
-      let i = 0
-      jest.doMock(`axios`, () => ({
-        get: async () => {
-          if (i++ === 0) {
-            return Promise.reject(`X`)
-          }
-          return Promise.resolve({ data: `0.13.2` })
-        }
-      }))
-      let nodeIncompatibleSpy = jest.fn()
-      require(`app/src/main/addressbook.js`).prototype.flagNodeIncompatible = nodeIncompatibleSpy
-      let { send } = require(`electron`)
-      send.mockClear()
-
-      // run main
-      main = await require(appRoot + `src/main/index.js`)
-
-      expect(nodeIncompatibleSpy).toHaveBeenCalledWith(`127.0.0.1:46657`)
-      expect(send).toHaveBeenCalledWith(`connected`, `127.0.0.1:46657`) // check we still connect to a node. it shows the same node as pickNode always returns "127.0.0.1:46657" in tests
+      expect(mockAxiosGet).toHaveBeenCalledTimes(1)
+      expect(send).toHaveBeenCalledWith(`error`, {
+        code: `NO_NODES_AVAILABLE`,
+        message: `No nodes available to connect to.`
+      })
     })
   })
 
@@ -266,17 +220,6 @@ describe(`Startup Process`, () => {
 
     it(`should create the config dir`, async function() {
       expect(fs.existsSync(testRoot)).toBe(true)
-    })
-
-    xit(`should init lcd server with correct testnet`, async function() {
-      expect(
-        childProcess.spawn.mock.calls.find(
-          ([path, args]) =>
-            path.includes(`gaiacli`) &&
-            args.includes(`init`) &&
-            args.join(`=`).includes(`--chain-id=gaia-6002`)
-        )
-      ).toBeDefined()
     })
 
     it(`should start lcd server`, async function() {
@@ -427,29 +370,6 @@ describe(`Startup Process`, () => {
       await registeredIPCListeners[`stop-lcd`]()
 
       expect(killSpy).toHaveBeenCalled()
-    })
-
-    it(`should report connection messages`, async () => {
-      prepareMain()
-
-      jest.doMock(
-        `app/src/main/addressbook.js`,
-        () =>
-          class MockAddressbook {
-            constructor(config, root, { onConnectionMessage }) {
-              this.onConnectionMessage = onConnectionMessage
-            }
-            async pickNode() {
-              this.onConnectionMessage(`HALLO WORLD`)
-              return `127.0.0.1:46657`
-            }
-          }
-      )
-      let { send } = require(`electron`)
-      send.mockClear()
-
-      await require(appRoot + `src/main/index.js`)
-      expect(send).toHaveBeenCalledWith(`connection-status`, `HALLO WORLD`)
     })
 
     it(`should not start reconnecting again if already trying to reconnect`, async done => {
@@ -604,32 +524,6 @@ describe(`Startup Process`, () => {
       ).toMatchSnapshot()
     })
 
-    it(`should fail if config.toml has no seeds`, async () => {
-      main = await initMain()
-      main.shutdown()
-      let configText = fs.readFileSync(join(testRoot, `config.toml`), `utf8`)
-      configText = configText
-        .split(`\n`)
-        .map(line => {
-          if (line.startsWith(`seeds`)) {
-            return `seeds = ""`
-          } else if (line.startsWith(`persistent_peers`)) {
-            return `persistent_peers = ""`
-          } else {
-            return line
-          }
-        })
-        .join(`\n`)
-      fs.writeFileSync(join(testRoot, `config.toml`), configText, `utf8`)
-
-      resetModulesKeepingFS()
-      let { send } = require(`electron`)
-      main = await require(appRoot + `src/main/index.js`)
-
-      expect(send.mock.calls[0][0]).toBe(`error`)
-      expect(send.mock.calls[0][1].message).toContain(`seeds`)
-    })
-
     describe(`missing files`, () => {
       let send
 
@@ -663,20 +557,6 @@ describe(`Startup Process`, () => {
         main = await require(appRoot + `src/main/index.js`)
 
         expect(send.mock.calls[0][0]).toBe(`error`)
-      })
-      xit(`should survive the lcd folder being removed`, async () => {
-        fs.removeSync(join(testRoot, `lcd`))
-        resetModulesKeepingFS()
-        let { send } = require(`electron`)
-        main = await require(appRoot + `src/main/index.js`)
-
-        expect(
-          childProcess.spawn.mock.calls.find(
-            ([path, args]) => path.includes(`gaiacli`) && args.includes(`init`)
-          ).length
-        ).toBe(3) // one to check in first round, one to check + one to init in the second round
-
-        expect(send.mock.calls[0][0]).toBe(`connected`)
       })
     })
   })
@@ -828,6 +708,9 @@ function mockConfig() {
     lcd_port_prod: 9071,
     relay_port: 9060,
     relay_port_prod: 9061,
+
+    node_lcd: `http://awesomenode.de:1317`,
+    node_rpc: `http://awesomenode.de:26657`,
 
     default_network: `gaia-5001`,
     mocked: false,

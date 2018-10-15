@@ -21,6 +21,7 @@ const { promisify } = require(`util`)
 describe(`LCD Client`, () => {
   let client
   let mockServer
+  let remoteLcdURL
 
   beforeAll(async () => {
     const application = Express()
@@ -51,7 +52,9 @@ describe(`LCD Client`, () => {
 
     mockServer = http.createServer(application)
     await promisify(mockServer.listen.bind(mockServer))(0, `localhost`)
-    client = LcdClient(`http://localhost:${mockServer.address().port}`)
+    const localLcdURL = `http://localhost:${mockServer.address().port}`
+    remoteLcdURL = `http://awesomenode.de:12345`
+    client = LcdClient(localLcdURL, remoteLcdURL)
   })
 
   afterAll(done => {
@@ -157,9 +160,7 @@ describe(`LCD Client`, () => {
       )
       await client.queryDelegation(`abc`, `efg`)
       expect(axios.get.mock.calls[0]).toEqual([
-        `http://localhost:${
-          mockServer.address().port
-        }/stake/delegators/abc/delegations/efg`,
+        `${remoteLcdURL}/stake/delegators/abc/delegations/efg`,
         undefined
       ])
     })
@@ -216,7 +217,7 @@ describe(`LCD Client`, () => {
       axios.get = jest.fn().mockReturnValue({})
       await client.getDelegator(`abc`)
       expect(axios.get.mock.calls[0]).toEqual([
-        `http://localhost:${mockServer.address().port}/stake/delegators/abc`,
+        `${remoteLcdURL}/stake/delegators/abc`,
         undefined
       ])
     })
@@ -230,30 +231,10 @@ describe(`LCD Client`, () => {
       await client.getDelegatorTxs(`abc`, [`unbonding`])
       await client.getDelegatorTxs(`abc`, [`redelegate`])
       expect(axios.get.mock.calls).toEqual([
-        [
-          `http://localhost:${
-            mockServer.address().port
-          }/stake/delegators/abc/txs`,
-          undefined
-        ],
-        [
-          `http://localhost:${
-            mockServer.address().port
-          }/stake/delegators/abc/txs?type=bonding`,
-          undefined
-        ],
-        [
-          `http://localhost:${
-            mockServer.address().port
-          }/stake/delegators/abc/txs?type=unbonding`,
-          undefined
-        ],
-        [
-          `http://localhost:${
-            mockServer.address().port
-          }/stake/delegators/abc/txs?type=redelegate`,
-          undefined
-        ]
+        [`${remoteLcdURL}/stake/delegators/abc/txs`, undefined],
+        [`${remoteLcdURL}/stake/delegators/abc/txs?type=bonding`, undefined],
+        [`${remoteLcdURL}/stake/delegators/abc/txs?type=unbonding`, undefined],
+        [`${remoteLcdURL}/stake/delegators/abc/txs?type=redelegate`, undefined]
       ])
     })
 
@@ -261,9 +242,7 @@ describe(`LCD Client`, () => {
       axios.get = jest.fn().mockReturnValue({})
       await client.queryUnbonding(`abc`, `def`)
       expect(axios.get.mock.calls[0]).toEqual([
-        `http://localhost:${
-          mockServer.address().port
-        }/stake/delegators/abc/unbonding_delegations/def`,
+        `${remoteLcdURL}/stake/delegators/abc/unbonding_delegations/def`,
         undefined
       ])
     })
@@ -272,7 +251,7 @@ describe(`LCD Client`, () => {
       axios.get = jest.fn().mockReturnValue({})
       await client.getCandidate(`abc`)
       expect(axios.get.mock.calls[0]).toEqual([
-        `http://localhost:${mockServer.address().port}/stake/validators/abc`,
+        `${remoteLcdURL}/stake/validators/abc`,
         undefined
       ])
     })
@@ -281,7 +260,7 @@ describe(`LCD Client`, () => {
       axios.get = jest.fn().mockReturnValue({})
       await client.getParameters()
       expect(axios.get.mock.calls[0]).toEqual([
-        `http://localhost:${mockServer.address().port}/stake/parameters`,
+        `${remoteLcdURL}/stake/parameters`,
         undefined
       ])
     })
@@ -290,7 +269,7 @@ describe(`LCD Client`, () => {
       axios.get = jest.fn().mockReturnValue({})
       await client.getPool()
       expect(axios.get.mock.calls[0]).toEqual([
-        `http://localhost:${mockServer.address().port}/stake/pool`,
+        `${remoteLcdURL}/stake/pool`,
         undefined
       ])
     })
@@ -299,9 +278,7 @@ describe(`LCD Client`, () => {
       axios.get = jest.fn().mockReturnValue({})
       await client.queryValidatorSigningInfo(`pubKey`)
       expect(axios.get.mock.calls[0]).toEqual([
-        `http://localhost:${
-          mockServer.address().port
-        }/slashing/signing_info/pubKey`,
+        `${remoteLcdURL}/slashing/signing_info/pubKey`,
         undefined
       ])
     })

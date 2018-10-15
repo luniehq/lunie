@@ -2,10 +2,12 @@
 
 const axios = require(`axios`)
 
-const Client = (server = `http://localhost:8998`) => {
-  async function request(method, path, data) {
+const Client = (localLcdURL, remoteLcdURL) => {
+  async function request(method, path, data, useRemote) {
+    const url = useRemote ? remoteLcdURL : localLcdURL
+
     try {
-      let res = await axios[method.toLowerCase()](server + path, data)
+      let res = await axios[method.toLowerCase()](url + path, data)
       return res.data
     } catch (resError) {
       if (!resError.response || !resError.response.data) {
@@ -18,16 +20,16 @@ const Client = (server = `http://localhost:8998`) => {
 
   // returns an async function which makes a request for the given
   // HTTP method (GET/POST/DELETE/etc) and path (/foo/bar)
-  function req(method, path) {
+  function req(method, path, useRemote) {
     return async function(data) {
-      return await request(method, path, data)
+      return await request(method, path, data, useRemote)
     }
   }
 
   // returns an async function which makes a request for the given
   // HTTP method and path, which accepts arguments to be appended
   // to the path (/foo/{arg}/...)
-  function argReq(method, prefix, suffix = ``) {
+  function argReq(method, prefix, suffix = ``, useRemote) {
     return function(args, data) {
       // `args` can either be a single value or an array
       if (Array.isArray(args)) {
@@ -36,7 +38,7 @@ const Client = (server = `http://localhost:8998`) => {
       if (method === `DELETE`) {
         data = { data }
       }
-      return request(method, `${prefix}/${args}${suffix}`, data)
+      return request(method, `${prefix}/${args}${suffix}`, data, useRemote)
     }
   }
 
@@ -82,29 +84,29 @@ const Client = (server = `http://localhost:8998`) => {
     },
     txs: function(addr) {
       return Promise.all([
-        req(`GET`, `/txs?tag=sender_bech32='${addr}'`)(),
-        req(`GET`, `/txs?tag=recipient_bech32='${addr}'`)()
+        req(`GET`, `/txs?tag=sender_bech32='${addr}'`, true)(),
+        req(`GET`, `/txs?tag=recipient_bech32='${addr}'`, true)()
       ]).then(([senderTxs, recipientTxs]) => [].concat(senderTxs, recipientTxs))
     },
-    tx: argReq(`GET`, `/txs`),
+    tx: argReq(`GET`, `/txs`, ``, true),
 
     /* ============ STAKE ============ */
 
     // Get all delegations information from a delegator
     getDelegator: function(addr) {
-      return req(`GET`, `/stake/delegators/${addr}`)()
+      return req(`GET`, `/stake/delegators/${addr}`, true)()
     },
     // Get all txs from a delegator
     getDelegatorTxs: function(addr, types) {
       if (!types) {
-        return req(`GET`, `/stake/delegators/${addr}/txs`)()
+        return req(`GET`, `/stake/delegators/${addr}/txs`, true)()
       } else {
-        return req(`GET`, `/stake/delegators/${addr}/txs?type=${types}`)()
+        return req(`GET`, `/stake/delegators/${addr}/txs?type=${types}`, true)()
       }
     },
     // Query all validators that a delegator is bonded to
     getDelegatorValidators: function(delegatorAddr) {
-      return req(`GET`, `/stake/delegators/${delegatorAddr}/validators`)()
+      return req(`GET`, `/stake/delegators/${delegatorAddr}/validators`, true)()
     },
     // // Query a validator info that a delegator is bonded to
     // getDelegatorValidator: function(delegatorAddr, validatorAddr) {
@@ -112,10 +114,10 @@ const Client = (server = `http://localhost:8998`) => {
     // },
 
     // Get a list containing all the validator candidates
-    getCandidates: req(`GET`, `/stake/validators`),
+    getCandidates: req(`GET`, `/stake/validators`, true),
     // Get information from a validator
     getCandidate: function(addr) {
-      return req(`GET`, `/stake/validators/${addr}`)()
+      return req(`GET`, `/stake/validators/${addr}`, true)()
     },
     // // Get all of the validator bonded delegators
     // getValidatorDelegators: function(addr) {
@@ -123,7 +125,7 @@ const Client = (server = `http://localhost:8998`) => {
     // },
 
     // Get the list of the validators in the latest validator set
-    getValidatorSet: req(`GET`, `/validatorsets/latest`),
+    getValidatorSet: req(`GET`, `/validatorsets/latest`, true),
 
     updateDelegations: function(delegatorAddr, data) {
       return req(`POST`, `/stake/delegators/${delegatorAddr}/delegations`)(data)
@@ -133,22 +135,24 @@ const Client = (server = `http://localhost:8998`) => {
     queryDelegation: function(delegatorAddr, validatorAddr) {
       return req(
         `GET`,
-        `/stake/delegators/${delegatorAddr}/delegations/${validatorAddr}`
+        `/stake/delegators/${delegatorAddr}/delegations/${validatorAddr}`,
+        true
       )()
     },
     queryUnbonding: function(delegatorAddr, validatorAddr) {
       return req(
         `GET`,
-        `/stake/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`
+        `/stake/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`,
+        true
       )()
     },
-    getPool: req(`GET`, `/stake/pool`),
-    getParameters: req(`GET`, `/stake/parameters`),
+    getPool: req(`GET`, `/stake/pool`, true),
+    getParameters: req(`GET`, `/stake/parameters`, true),
 
     /* ============ Slashing ============ */
 
     queryValidatorSigningInfo: function(pubKey) {
-      return req(`GET`, `/slashing/signing_info/${pubKey}`)()
+      return req(`GET`, `/slashing/signing_info/${pubKey}`, true)()
     }
   }
 }
