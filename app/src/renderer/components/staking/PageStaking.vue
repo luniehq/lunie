@@ -15,7 +15,7 @@ tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapActions } from "vuex"
 import num from "scripts/num"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
