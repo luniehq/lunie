@@ -149,7 +149,8 @@ export default {
     showUndelegationModal: false,
     shortAddress,
     tabIndex: 1,
-    action: ``
+    action: ``,
+    moment
   }),
   computed: {
     ...mapGetters([

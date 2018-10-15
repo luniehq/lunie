@@ -64,15 +64,16 @@ function launch(t) {
       const nodeOneId = await getNodeId(nodeOneHome)
       reduceTimeouts(nodeOneHome)
       disableStrictAddressbook(nodeOneHome)
+      await saveVersion(nodeHome + `_1`)
+
       // get address to delegate staking tokens to 2nd and 3rd validator
       let { address } = await getDefaultKey(nodeOneCliHome)
       // wait till the first node produces blocks
       await startLocalNode(1)
-      console.log(JSON.stringify(await getBalance(nodeOneCliHome, address)))
 
       // setup additional nodes
-      await addValidatorNode(2, genesis, address)
-      await addValidatorNode(3, genesis, address)
+      await initSecondaryLocalNode(2, genesis, address)
+      await initSecondaryLocalNode(3, genesis, address)
 
       // wait until all nodes are showing blocks, so we know they are running
       await Promise.all([
@@ -80,7 +81,12 @@ function launch(t) {
         startLocalNode(3, nodeOneId)
       ])
       console.log(`Started local nodes.`)
-      await saveVersion(nodeHome + `_1`)
+
+      // make our secondary nodes also to validators
+      // await sleep(2000) // TODO identify why this timeout is needed
+      await makeValidator(2)
+      await makeValidator(3)
+      console.log(`Declared secondary nodes to be a validator.`)
 
       app = new Application({
         path: electron,
@@ -322,19 +328,33 @@ function initLocalNode(number = 1) {
 }
 
 // init a node and define it as a validator
-async function addValidatorNode(number, mainGenesis) {
+async function initSecondaryLocalNode(number, mainGenesis) {
   let newNodeHome = nodeHome + `_` + number
-  let newCliHome = cliHome + `_` + number
 
   await initLocalNode(number)
   fs.writeJSONSync(join(newNodeHome, `config/genesis.json`), mainGenesis)
   reduceTimeouts(newNodeHome)
   disableStrictAddressbook(newNodeHome)
+}
+
+// declare candidacy for node
+async function makeValidator(number) {
+  let newNodeHome = nodeHome + `_` + number
+  let newCliHome = cliHome + `_` + number
 
   let valPubKey = await getValPubKey(newNodeHome)
   let { address } = await getDefaultKey(newCliHome)
   await sendTokens(cliHome + `_1`, `10steak`, `local_1`, address)
-  await sleep(1000)
+  while (true) {
+    console.log(`Waiting for funds to delegate`)
+    try {
+      await sleep(1000) // TODO identify why this timeout is needed
+      await getBalance(cliHome + `_1`, address)
+    } catch (err) {
+      continue
+    }
+    break
+  }
   await declareValidator(
     cliHome + `_` + number,
     `local_${number}`,
@@ -420,32 +440,6 @@ async function sendTokens(
   })
 }
 
-function mergeGenesis(mainGenesis, addingGenesis, number) {
-  let otherValidatorPower = `50000000000`
-  mainGenesis.validators.push(
-    Object.assign({}, addingGenesis.validators[0], {
-      power: otherValidatorPower
-    })
-  )
-  let validatorStakingRecord = addingGenesis.app_state.stake.validators[0]
-  mainGenesis.app_state.stake.validators.push(
-    Object.assign({}, validatorStakingRecord, {
-      tokens: otherValidatorPower,
-      delegator_shares: otherValidatorPower,
-      description: Object.assign({}, validatorStakingRecord.description, {
-        moniker: `local_` + number
-      })
-    })
-  )
-  mainGenesis.app_state.stake.pool.loose_tokens = BN(
-    mainGenesis.app_state.stake.pool.loose_tokens
-  )
-    .plus(otherValidatorPower)
-    .toString()
-
-  mainGenesis.app_state.stake.bonds.push(addingGenesis.app_state.stake.bonds[0])
-}
-
 function writeGenesis(genesis, node_home) {
   fs.writeJSONSync(join(node_home, `config/genesis.json`), genesis)
 }
@@ -469,7 +463,7 @@ function reduceTimeouts(nodeHome) {
     .map(line => {
       let [key, value] = line.split(` = `)
       if (timeouts.indexOf(key) !== -1) {
-        return `${key} = ${parseInt(value) / 50}`
+        return `${key} = ${parseInt(value) / 10}`
       }
       return line
     })

@@ -53,7 +53,6 @@ export default {
       `bondingDenom`,
       `keybase`
     ]),
-    ...mapActions([`updateDelegates`]),
     address() {
       return this.user.address
     },
@@ -81,6 +80,7 @@ export default {
               calculateTokens(v, this.committedDelegations[v.id])
             )
             v.keybase = this.keybase[v.description.identity]
+            console.log(v)
             return v
           })
     },
@@ -167,7 +167,8 @@ export default {
     setSearch(bool = !this.filters[`delegates`].search.visible) {
       if (!this.somethingToSearch) return false
       this.$store.commit(`setSearchVisible`, [`delegates`, bool])
-    }
+    },
+    ...mapActions([`updateDelegates`])
   },
   async mounted() {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))

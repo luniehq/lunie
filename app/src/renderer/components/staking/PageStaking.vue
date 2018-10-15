@@ -60,7 +60,6 @@ export default {
       `bondingDenom`,
       `keybase`
     ]),
-    ...mapActions([`updateDelegates`]),
     somethingToSearch() {
       return !!this.delegates.delegates.length
     },
@@ -160,7 +159,8 @@ export default {
     setSearch(bool = !this.filters[`delegates`].search.visible) {
       if (!this.somethingToSearch) return false
       this.$store.commit(`setSearchVisible`, [`delegates`, bool])
-    }
+    },
+    ...mapActions([`updateDelegates`])
   },
   async mounted() {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))

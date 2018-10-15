@@ -17,14 +17,6 @@ export GOOS
 platforms="darwin linux windows"
 
 for GOOS in $platforms; do
-  ls -la
-  cd client
-  ls -la
-  cd utils
-  ls -la
-
-  cd ../../
-
   echo ###############################################################################
   echo Building Cosmos SDK for $GOOS platform.
   echo ###############################################################################

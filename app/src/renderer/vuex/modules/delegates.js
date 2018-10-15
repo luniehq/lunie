@@ -17,7 +17,7 @@ export default ({ node }) => {
     },
     setDelegates(state, validators) {
       validators.forEach(validator => {
-        validator.id = validator.owner
+        validator.id = validator.operator_address
         validator.voting_power = ratToBigNumber(validator.tokens)
       })
       state.delegates = validators
