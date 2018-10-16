@@ -52,7 +52,7 @@ tm-page
       .row
         .column
           dl.info_dl
-            dt Owner
+            dt Operator
             dd {{validator.operator_address}}
           dl.info_dl
             dt Keybase ID
@@ -78,7 +78,7 @@ tm-page
             dd {{validator.commission.max_change_rate}} %
           dl.info_dl
             dt Last Commission Change 
-            dd {{new Date(validator.commission.update_time).getTime() === 0 ? 'Never' : moment(validator.commission.update_time).fromNow() }}
+            dd {{new Date(validator.commission.update_time).getTime() === 0 ? 'Never' : moment(new Date(validator.commission.update_time)).fromNow() }}
           dl.info_dl
             dt Self Bonded {{bondingDenom}}
             dd(id="validator-profile__self-bond") {{selfBond}} %

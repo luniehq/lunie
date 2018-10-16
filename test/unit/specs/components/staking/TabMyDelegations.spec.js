@@ -3,7 +3,7 @@ import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
 const delegates = [
   {
     id: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-    owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+    operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
     pub_key: `valpub123456789`,
     revoked: false,
     tokens: `14`,
@@ -18,16 +18,18 @@ const delegates = [
     bond_height: `0`,
     bond_intra_tx_counter: 6,
     proposer_reward_pool: null,
-    commission: `0`,
-    commission_max: `0`,
-    commission_change_rate: `0`,
-    commission_change_today: `0`,
+    commission: {
+      rate: `0`,
+      max_rate: `0`,
+      max_change_rate: `0`,
+      update_time: `1970-01-01T00:00:00Z`
+    },
     prev_bonded_shares: `0`,
     voting_power: `8`
   },
   {
     id: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-    owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+    operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
     pub_key: `pubsub1234567891234`,
     tokens: `0`,
     delegator_shares: `0`,
@@ -41,16 +43,18 @@ const delegates = [
     bond_height: `0`,
     bond_intra_tx_counter: 6,
     proposer_reward_pool: null,
-    commission: `0`,
-    commission_max: `0`,
-    commission_change_rate: `0`,
-    commission_change_today: `0`,
+    commission: {
+      rate: `0`,
+      max_rate: `0`,
+      max_change_rate: `0`,
+      update_time: `1970-01-01T00:00:00Z`
+    },
     prev_bonded_shares: `0`,
     voting_power: `7`
   },
   {
     id: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`,
-    owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`,
+    operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`,
     pub_key: `subpump987654321`,
     tokens: `19`,
     delegator_shares: `19`,
@@ -65,10 +69,12 @@ const delegates = [
     bond_height: `0`,
     bond_intra_tx_counter: 6,
     proposer_reward_pool: null,
-    commission: `0`,
-    commission_max: `0`,
-    commission_change_rate: `0`,
-    commission_change_today: `0`,
+    commission: {
+      rate: `0`,
+      max_rate: `0`,
+      max_change_rate: `0`,
+      update_time: `1970-01-01T00:00:00Z`
+    },
     prev_bonded_shares: `0`,
     voting_power: `6`
   }
@@ -88,10 +94,12 @@ test(`undelegatedValidators`, () => {
     {
       bond_height: `0`,
       bond_intra_tx_counter: 6,
-      commission: `0`,
-      commission_change_rate: `0`,
-      commission_change_today: `0`,
-      commission_max: `0`,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: `1970-01-01T00:00:00Z`
+      },
       delegator_shares: `0`,
       description: {
         country: `USA`,
@@ -123,10 +131,12 @@ test(`yourValidators`, () => {
     {
       bond_height: `0`,
       bond_intra_tx_counter: 6,
-      commission: `0`,
-      commission_change_rate: `0`,
-      commission_change_today: `0`,
-      commission_max: `0`,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: `1970-01-01T00:00:00Z`
+      },
       delegator_shares: `0`,
       description: {
         country: `USA`,

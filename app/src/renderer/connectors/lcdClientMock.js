@@ -148,10 +148,12 @@ let state = {
       bond_height: `0`,
       bond_intra_tx_counter: 6,
       proposer_reward_pool: null,
-      commission: `0`,
-      commission_max: `0`,
-      commission_change_rate: `0`,
-      commission_change_today: `0`,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: `1970-01-01T00:00:00Z`
+      },
       prev_bonded_shares: `0`
     },
     {
@@ -170,10 +172,12 @@ let state = {
       bond_height: `0`,
       bond_intra_tx_counter: 6,
       proposer_reward_pool: null,
-      commission: `0`,
-      commission_max: `0`,
-      commission_change_rate: `0`,
-      commission_change_today: `0`,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: `1970-01-01T00:00:00Z`
+      },
       prev_bonded_shares: `0`
     },
     {
@@ -192,10 +196,12 @@ let state = {
       bond_height: `0`,
       bond_intra_tx_counter: 6,
       proposer_reward_pool: null,
-      commission: `0`,
-      commission_max: `0`,
-      commission_change_rate: `0`,
-      commission_change_today: `0`,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: `1970-01-01T00:00:00Z`
+      },
       prev_bonded_shares: `0`
     }
   ],
@@ -291,7 +297,7 @@ module.exports = {
     return state.txs.find(tx => tx.hash === hash)
   },
   async send(to, req) {
-    let fromKey = state.keys.find(a => a.name === req.name)
+    let fromKey = state.keys.find(a => a.name === req.base_req.name)
     if (!fromKey)
       throw Error(
         `Key you want to send from does not exist in the lcd connection mock`
@@ -303,8 +309,7 @@ module.exports = {
   async updateDelegations(
     delegatorAddr,
     {
-      name,
-      sequence,
+      base_req: { name, sequence },
       delegations = [],
       begin_unbondings = [],
       complete_unbondings = []
@@ -540,18 +545,19 @@ function send(to, from, req) {
     if (parseInt(amount) < 0) {
       return txResult(1, `Amount cannot be negative`)
     }
-    if (
-      fromAccount.coins.find(c => c.denom === denom).amount < parseInt(amount)
-    ) {
+    let coins = fromAccount.coins.find(c => c.denom === denom)
+    if (!coins || coins.amount < parseInt(amount)) {
       return txResult(1, `Not enough coins in your account`)
     }
   }
 
   // check/update nonce
-  if (parseInt(fromAccount.sequence) !== parseInt(req.sequence)) {
+  if (parseInt(fromAccount.sequence) !== parseInt(req.base_req.sequence)) {
     return txResult(
       2,
-      `Expected sequence "${fromAccount.sequence}", got "${req.sequence}"`
+      `Expected sequence "${fromAccount.sequence}", got "${
+        req.base_req.sequence
+      }"`
     )
   }
   incrementSequence(fromAccount)

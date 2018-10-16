@@ -9,7 +9,7 @@ import Vuelidate from "vuelidate"
 import BigNumber from "bignumber.js"
 
 const validator = {
-  owner: `1a2b3c`,
+  operator_address: `1a2b3c`,
   pub_key: `cosmoschiapudding123456789`,
   tokens: `19`,
   delegator_shares: `19`,
@@ -24,16 +24,18 @@ const validator = {
   bond_height: `0`,
   bond_intra_tx_counter: 6,
   proposer_reward_pool: null,
-  commission: `0.05`,
-  commission_max: `0.1`,
-  commission_change_rate: `0.01`,
-  commission_change_today: `0.005`,
+  commission: {
+    rate: `0.05`,
+    max_rate: `0.1`,
+    max_change_rate: `0.005`,
+    update_time: `1970-01-01T00:00:00Z`
+  },
   prev_bonded_shares: `0`,
   voting_power: `10`
 }
 
 const validatorTo = {
-  owner: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+  operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
   pub_key: `cosmosvalpub123456789`,
   tokens: `10`,
   delegator_shares: `10`,
@@ -48,10 +50,12 @@ const validatorTo = {
   bond_height: `0`,
   bond_intra_tx_counter: 6,
   proposer_reward_pool: null,
-  commission: `0`,
-  commission_max: `0`,
-  commission_change_rate: `0`,
-  commission_change_today: `0`,
+  commission: {
+    rate: `0`,
+    max_rate: `0`,
+    max_change_rate: `0`,
+    update_time: `1970-01-01T00:00:00Z`
+  },
   prev_bonded_shares: `0`
 }
 
@@ -619,10 +623,12 @@ describe(`onDelegation`, () => {
                       validator: {
                         bond_height: `0`,
                         bond_intra_tx_counter: 6,
-                        commission: `0.05`,
-                        commission_change_rate: `0.01`,
-                        commission_change_today: `0.005`,
-                        commission_max: `0.1`,
+                        commission: {
+                          rate: `0.05`,
+                          max_rate: `0.1`,
+                          max_change_rate: `0.005`,
+                          update_time: `1970-01-01T00:00:00Z`
+                        },
                         delegator_shares: `19`,
                         description: {
                           country: `DE`,
@@ -892,7 +898,7 @@ describe(`onDelegation`, () => {
                     delegator_addr: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
                     validator_src_addr: `1a2b3c`,
                     validator_dst_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-                    shares: `5.00000000`
+                    shares: `5.0000000000`
                   }
                 ],
                 to: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -1144,7 +1150,7 @@ describe(`onUnstake`, () => {
               begin_unbondings: [
                 {
                   delegator_addr: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-                  shares: `10.00000000`,
+                  shares: `10.0000000000`,
                   validator_addr: `1a2b3c`
                 }
               ],
