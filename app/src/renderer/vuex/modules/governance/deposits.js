@@ -7,9 +7,12 @@ export default ({ node }) => {
   }
 
   const mutations = {
-    setProposalDeposits(state, proposalId, deposits) {
-      if (state.proposals.length >= proposalId) {
-        // exit and notify error ?
+    setProposalDeposits({ state, dispatch }, proposalId, deposits) {
+      if (
+        state.proposals.length >= proposalId ||
+        state.proposals[proposalId] == undefined
+      ) {
+        dispatch(`getProposals`)
       }
       state.proposals[proposalId].deposits = deposits
     }

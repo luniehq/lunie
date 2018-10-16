@@ -10,16 +10,7 @@ export default ({ node }) => {
   // TODO get deposits?
   const mutations = {
     setProposal(state, proposal) {
-      const proposalID = Number(proposal.proposal_id)
-      if (state.proposals.length >= proposalID) {
-        state.proposals.push(proposal)
-      } else {
-        state.proposals[proposalID] = proposal
-      }
-    },
-    // Double check
-    setProposals(state, proposals) {
-      state.proposals = proposals
+      state.proposals[proposal.proposal_id] = proposal
     }
   }
   const actions = {
@@ -35,15 +26,16 @@ export default ({ node }) => {
       state.loading = true
       let proposals = await node.queryProposals()
       if (proposals.length > 0) {
-        commit(`setProposals`, proposals)
-      }
-      state.loading = false
-    },
-    async getProposal({ state, commit }, proposalId) {
-      state.loading = true
-      let proposal = await node.queryProposal(proposalId)
-      if (proposal) {
-        commit(`setProposals`, proposal)
+        proposals.forEach(proposal => {
+          let proposalID = Number(proposal.proposal_id)
+          if (
+            state.proposals[proposalID] &&
+            state.proposals[proposalID].proposal_id === proposalID &&
+            state.proposals[proposalID] !== proposal
+          ) {
+            commit(`setProposal`, proposal)
+          }
+        })
       }
       state.loading = false
     },
