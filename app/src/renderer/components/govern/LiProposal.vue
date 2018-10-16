@@ -1,30 +1,25 @@
 <template lang="pug">
 transition(name="proposal")
-  router-link.card-proposal(:to="proposalLink")
-    .chart: chart-votes(:votes="proposal.votes")
+  .card-proposal
+    .chart: chart-votes(:votes="this.proposal.tally_result")
     .text
-      .title #[span {{ proposal.type }}] {{ proposal.title }}
-      .meta
-        .author {{ proposal.validatorId }}
-        .date {{ timeAgo(this.proposal.createdAt) }}
+      .title #[span {{ this.proposal.type }}] {{ this.proposal.title }}
+        .author Status: {{ this.proposal.proposal_status }}
+        .date Submit Block: {{ this.proposal.submit_block }}
 </template>
-
 <script>
-import ChartVotes from "govern/ChartVotes"
 import moment from "moment"
+import ChartVotes from "govern/ChartVotes"
 export default {
   name: `li-proposal`,
-  components: { ChartVotes },
-  computed: {
-    proposalLink() {
-      return { name: `proposal`, params: { proposal: this.proposal.id } }
-    }
+  components: {
+    ChartVotes
   },
-  methods: {
-    timeAgo(date) {
-      return moment(date, `x`).fromNow()
-    }
-  },
+  // computed: {
+  //   proposalLink() {
+  //     return { name: `proposal`, params: { proposal: this.proposal.proposal_id } }
+  //   }
+  // },
   props: [`proposal`]
 }
 </script>
@@ -68,7 +63,6 @@ export default {
       border px solid var(--bc)
 
   .meta
-    display flex
     font-size sm
     .author
       margin-right 0.25rem

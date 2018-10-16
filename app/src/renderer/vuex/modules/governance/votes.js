@@ -2,23 +2,22 @@
 
 export default ({ node }) => {
   const state = {
-    loading: false,
-    votes: []
+    loading: false
   }
 
   const mutations = {
-    setProposalVote({ state }, proposalId, votes) {
+    setProposalVotes({ state }, proposalId, votes) {
       state.proposals[proposalId].votes = votes
     }
   }
-  const actions = {
+  let actions = {
     async getProposalVotes({ state, commit }, proposalId) {
       state.loading = true
       let votes = await node.queryProposalVotes(proposalId)
       commit(`setProposalVotes`, proposalId, votes)
       state.loading = false
     },
-    async submitDeposit(
+    async submitVote(
       {
         rootState: { wallet },
         dispatch

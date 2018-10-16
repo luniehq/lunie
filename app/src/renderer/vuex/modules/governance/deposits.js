@@ -11,7 +11,7 @@ export default ({ node }) => {
       state.proposals[proposalId].deposits = deposits
     }
   }
-  const actions = {
+  let actions = {
     async getProposalDeposits({ state, commit }, proposalId) {
       state.loading = true
       let deposits = await node.queryProposalDeposits(proposalId)

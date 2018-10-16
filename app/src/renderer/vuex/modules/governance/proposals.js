@@ -3,7 +3,7 @@
 export default ({ node }) => {
   let emptyState = {
     loading: false,
-    proposals: []
+    proposals: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -13,13 +13,14 @@ export default ({ node }) => {
       state.proposals[proposal.proposal_id] = proposal
     }
   }
-  const actions = {
+  let actions = {
     async reconnected({ state, dispatch }) {
       if (state.loading) {
         await dispatch(`getProposals`)
       }
     },
     resetSessionData({ rootState }) {
+      // clear previous account state
       rootState.proposals = JSON.parse(JSON.stringify(emptyState))
     },
     async getProposals({ state, commit, dispatch }) {
@@ -27,17 +28,13 @@ export default ({ node }) => {
       let proposals = await node.queryProposals()
       if (proposals.length > 0) {
         proposals.forEach(proposal => {
-          let proposalId = Number(proposal.proposal_id)
-          if (
-            state.proposals[proposalId] &&
-            state.proposals[proposalId].proposal_id === proposalId &&
-            state.proposals[proposalId] !== proposal
-          ) {
-            commit(`setProposal`, proposal)
-            dispatch(`getVotes`, proposalId)
-            // TODO disable when upgrade gaia to SDK develop or v.0.25
-            // dispatch(`getDeposits`, proposalId)
+          let proposalId = Number(proposal.value.proposal_id)
+          commit(`setProposal`, proposal.value)
+          if (proposal.value.proposal_status === `VotingPeriod`) {
+            dispatch(`getProposalVotes`, proposalId)
           }
+          // TODO disable when upgrade gaia to SDK develop or v.0.25
+          // dispatch(`getProposalDeposits`, proposalId)
         })
       }
       state.loading = false

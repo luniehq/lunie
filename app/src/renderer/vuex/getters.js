@@ -66,8 +66,8 @@ export const keybase = state => state.keybase.identities
 export const pool = state => state.pool
 export const parameters = state => state.parameters
 
-// govern
-export const proposals = state => state.proposals
+// governance
+export const proposals = state => state.proposals.proposals
 
 // status
 export const approvalRequired = state => state.node.approvalRequired

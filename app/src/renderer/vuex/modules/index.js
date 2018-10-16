@@ -12,7 +12,7 @@ export default opts => ({
   onboarding: require(`./onboarding.js`).default(opts),
   proposals: require(`./governance/proposals.js`).default(opts),
   votes: require(`./governance/votes.js`).default(opts),
-  // deposits: require(`./governance/deposits.js`).default(opts),
+  deposits: require(`./governance/deposits.js`).default(opts),
   send: require(`./send.js`).default(opts),
   themes: require(`./themes.js`).default(opts),
   user: require(`./user.js`).default(opts),
