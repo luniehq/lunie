@@ -31,29 +31,27 @@ window.addEventListener(`error`, function(event) {
   Raven.captureException(event.reason)
 })
 
-// Vue.config.errorHandler = (error, vm, info) => {
-//   console.error(`An error has occurred: ${error}
+Vue.config.errorHandler = (error, vm, info) => {
+  console.error(`An error has occurred: ${error}
 
-// Guru Meditation #${info}`)
+Guru Meditation #${info}`)
 
-//   Raven.captureException(error)
+  Raven.captureException(error)
 
-//   if (store.state.devMode) {
-//     throw error
-//   }
-//   // shrinkStacktrace(error)
-//   // return true
-// }
+  if (store.state.devMode) {
+    throw error
+  }
+}
 
-// Vue.config.warnHandler = (msg, vm, trace) => {
-//   console.warn(`A warning has occurred: ${msg}
+Vue.config.warnHandler = (msg, vm, trace) => {
+  console.warn(`A warning has occurred: ${msg}
 
-// Guru Meditation #${trace}`)
+Guru Meditation #${trace}`)
 
-//   if (store.state.devMode) {
-//     throw new Error(msg)
-//   }
-// }
+  if (store.state.devMode) {
+    throw new Error(msg)
+  }
+}
 
 Vue.use(Electron)
 Vue.use(Router)
