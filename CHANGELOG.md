@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Changed minor component of version number to match testnet version. @NodeGuy
 * Updated contribution guidelines. @faboweb
+* #1183 Changed a bunch of JavaScript files to strict mode. @NodeGuy
 
 ### Fixed
 
