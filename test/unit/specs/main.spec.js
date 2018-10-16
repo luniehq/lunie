@@ -1,3 +1,4 @@
+const EventEmitter = require(`events`)
 const { join } = require(`path`)
 const mockFsExtra = require(`../helpers/fs-mock`).default
 
@@ -75,6 +76,25 @@ jest.mock(`electron`, () => {
   return electron
 })
 
+const mockSpawnReturnValue = () => {
+  const emitter = new EventEmitter()
+
+  return Object.assign(emitter, {
+    kill: () => {
+      emitter.emit(`exit`, 0)
+    },
+    mocked: true,
+    stdout: {
+      on: () => {},
+      pipe: () => {}
+    },
+    stderr: {
+      on: () => {},
+      pipe: () => {}
+    }
+  })
+}
+
 let stdoutMocks = (path, args) => ({
   on: (type, cb) => {
     if (args[0] === `version` && type === `data`) {
@@ -95,16 +115,8 @@ let stdoutMocks = (path, args) => ({
   }
 })
 childProcessMock((path, args) => ({
-  on: (type, cb) => {
-    // init processes always should return with 0
-    if (type === `exit` && args.includes(`init`) && args.length > 4) {
-      cb(0)
-    }
-  },
   stdin: { write: () => {} },
-  stdout: stdoutMocks(path, args),
-  stderr: { on: () => {} },
-  mocked: true
+  stdout: stdoutMocks(path, args)
 }))
 mockConfig()
 
@@ -161,7 +173,7 @@ describe(`Startup Process`, () => {
     mainSetup()
 
     it(`should error if it can't connect to the node`, async () => {
-      main.shutdown()
+      await main.shutdown()
       prepareMain()
       // mock the version check request
       jest.doMock(`axios`, () => ({
@@ -180,7 +192,7 @@ describe(`Startup Process`, () => {
     })
 
     it(`should check if our node has a compatible SDK version`, async () => {
-      main.shutdown()
+      await main.shutdown()
       prepareMain()
       const mockAxiosGet = jest
         .fn()
@@ -339,8 +351,8 @@ describe(`Startup Process`, () => {
       main = await require(appRoot + `src/main/index.js`)
     })
 
-    afterEach(function() {
-      main.shutdown()
+    afterEach(async function() {
+      await main.shutdown()
       registeredIPCListeners = {}
     })
 
@@ -354,10 +366,6 @@ describe(`Startup Process`, () => {
     })
 
     it(`should reconnect on IPC call`, async () => {
-      // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
-      main.processes.lcdProcess.on = (type, cb) => {
-        if (type === `exit`) cb()
-      }
       await registeredIPCListeners[`reconnect`]()
 
       expect(
@@ -373,11 +381,6 @@ describe(`Startup Process`, () => {
     })
 
     it(`should not start reconnecting again if already trying to reconnect`, async done => {
-      // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
-      main.processes.lcdProcess.on = (type, cb) => {
-        if (type === `exit`) cb()
-      }
-
       jest.doMock(
         `app/src/main/addressbook.js`,
         () =>
@@ -411,7 +414,7 @@ describe(`Startup Process`, () => {
     })
 
     it(`should provide the error if the main process failed before the view has booted`, async () => {
-      main.shutdown()
+      await main.shutdown()
 
       // simulate error by deleting a file
       resetModulesKeepingFS()
@@ -427,64 +430,28 @@ describe(`Startup Process`, () => {
       expect(send.mock.calls[0][0]).toEqual(`error`)
       expect(send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
     })
-
-    it(`should try another node if user disapproved the hash`, async () => {
-      main.shutdown()
-      prepareMain()
-
-      const { ipcMain } = require(`electron`)
-      ipcMain.on = (type, cb) => {
-        // the booted signal needs to be sent (from the view) for the main thread to signal events to the view
-        if (type === `booted`) {
-          cb()
-          return
-        }
-        // disapprove first hash
-        if (type === `hash-disapproved`) {
-          cb(null, `1234567890123456789012345678901234567890`)
-
-          // approve second hash
-          ipcMain.on = (type, cb) => {
-            if (type === `hash-approved`) {
-              cb(null, `1234567890123456789012345678901234567890`)
-              return
-            }
-          }
-        }
-      }
-
-      // run main
-      main = await require(appRoot + `src/main/index.js`)
-      expect(
-        send.mock.calls.filter(([type]) => type === `connected`).length
-      ).toBe(1)
-    })
   })
 
   describe(`Error handling`, function() {
-    afterEach(function() {
-      main.shutdown()
+    afterEach(async function() {
+      await main.shutdown()
     })
 
     it(`should error on gaiacli crashing on reconnect instead of breaking`, async () => {
       await initMain()
       let { send } = require(`electron`)
-      childProcess.spawn = () => ({
-        stdout: {
-          on: () => {},
-          pipe: () => {}
-        },
-        stderr: {
-          on: (type, cb) => {
-            // type is always 'data'
-            cb(Buffer.from(`Some error`))
-          },
-          pipe: () => {}
-        },
-        on: () => {},
-        kill: () => {},
-        removeAllListeners: () => {}
-      })
+
+      childProcess.spawn = () =>
+        Object.assign(mockSpawnReturnValue(), {
+          stderr: {
+            on: (type, cb) => {
+              // type is always 'data'
+              cb(Buffer.from(`Some error`))
+            },
+            pipe: () => {}
+          }
+        })
+
       await main.eventHandlers.reconnect()
       expect(
         send.mock.calls.find(([type]) => type === `error`)
@@ -495,22 +462,18 @@ describe(`Startup Process`, () => {
       await initMain()
       let { send } = require(`electron`)
       let errorCB
-      childProcess.spawn = () => ({
-        stdout: {
-          on: () => {},
-          pipe: () => {}
-        },
-        stderr: {
-          on: (type, cb) => {
-            // type is always 'data'
-            errorCB = cb
-          },
-          pipe: () => {}
-        },
-        on: () => {},
-        kill: () => {},
-        removeAllListeners: () => {}
-      })
+
+      childProcess.spawn = () =>
+        Object.assign(mockSpawnReturnValue(), {
+          stderr: {
+            on: (type, cb) => {
+              // type is always 'data'
+              errorCB = cb
+            },
+            pipe: () => {}
+          }
+        })
+
       await main.eventHandlers.reconnect()
       expect(send.mock.calls.find(([type]) => type === `error`)).toBeUndefined()
 
@@ -531,14 +494,14 @@ describe(`Startup Process`, () => {
         // make sure it is initialized
         jest.resetModules()
         main = await initMain()
-        main.shutdown()
+        await main.shutdown()
 
         resetModulesKeepingFS()
         let { send: _send } = require(`electron`)
         send = _send
       })
       afterEach(async () => {
-        main.shutdown()
+        await main.shutdown()
       })
       it(`should error if the genesis.json being removed`, async () => {
         fs.removeSync(join(testRoot, `genesis.json`))
@@ -572,8 +535,8 @@ function mainSetup() {
     main = await initMain()
   })
 
-  afterAll(function() {
-    main.shutdown()
+  afterAll(async function() {
+    await main.shutdown()
   })
 }
 
@@ -638,23 +601,7 @@ function testFailingChildProcess(name, cmd) {
 function childProcessMock(mockExtend = () => ({})) {
   jest.doMock(`child_process`, () => ({
     spawn: jest.fn((path, args) =>
-      Object.assign(
-        {},
-        {
-          stdout: {
-            on: () => {},
-            pipe: () => {}
-          },
-          stderr: {
-            on: () => {},
-            pipe: () => {}
-          },
-          on: () => {},
-          kill: () => {},
-          removeAllListeners: () => {}
-        },
-        mockExtend(path, args)
-      )
+      Object.assign(mockSpawnReturnValue(), mockExtend(path, args))
     )
   }))
 }
@@ -682,8 +629,7 @@ function failingChildProcess(mockName, mockCmd) {
         cb(Buffer.from(`${mockName} produced an unexpected error`))
       },
       pipe: () => {}
-    },
-    mocked: true
+    }
   }))
 }
 
