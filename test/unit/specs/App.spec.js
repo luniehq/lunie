@@ -19,7 +19,10 @@ describe(`App without analytics`, () => {
   jest.mock(`renderer/google-analytics.js`, () => () => {})
   jest.mock(`electron`, () => ({
     remote: {
-      getGlobal: () => ({ mocked: false }),
+      getGlobal: () => ({
+        mocked: false,
+        node_lcd: `https://awesomenode.de:12345`
+      }),
       app: {
         getPath: () => {
           return `$HOME`
@@ -45,21 +48,20 @@ describe(`App without analytics`, () => {
     await require(`renderer/main.js`)
   })
 
-  it(`reads the lcd port from the url`, async () => {
-    let Node = require(`renderer/connectors/node.js`)
-    require(`renderer/main.js`)
-    expect(Node).toHaveBeenCalledWith(`8080`, false) // second argument is a switch for a mocked node implementation
-  })
-
   it(`uses a mocked connector implementation if set in config`, async () => {
     let electron = require(`electron`)
     electron.remote.getGlobal = () => ({
       env: { NODE_ENV: `test` },
-      mocked: true
+      mocked: true,
+      node_lcd: `https://awesomenode.de:12345`
     })
     let Node = require(`renderer/connectors/node.js`)
     require(`renderer/main.js`)
-    expect(Node).toHaveBeenCalledWith(`8080`, true)
+    expect(Node).toHaveBeenCalledWith(
+      `http://localhost:8080`,
+      `https://awesomenode.de:12345`,
+      true
+    )
     jest.resetModules()
   })
 

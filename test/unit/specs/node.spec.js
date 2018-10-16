@@ -1,7 +1,8 @@
 let Node
 
 describe(`Connector`, () => {
-  let lcdServerPort = `1234`
+  const remoteLcdURL = `http://awesomenode.de:12345`
+  const localLcdURL = `https://localhost:9876`
 
   beforeAll(() => {
     jest.mock(
@@ -29,18 +30,19 @@ describe(`Connector`, () => {
   })
 
   it(`should hold the lcdPort`, () => {
-    let node = Node(lcdServerPort)
-    expect(node.lcdPort).toBe(lcdServerPort)
+    let node = Node(localLcdURL, remoteLcdURL)
+    expect(node.remoteLcdURL).toBe(remoteLcdURL)
+    expect(node.localLcdURL).toBe(localLcdURL)
   })
 
   it(`should setup the connectors`, () => {
-    let node = Node(lcdServerPort)
+    let node = Node(localLcdURL, remoteLcdURL)
     expect(node.fooRpc).toBe(`rpcBar`)
     expect(node.fooLcd()).toBe(`lcdBar`)
   })
 
   it(`should setup the mock connectors`, () => {
-    let node = Node(lcdServerPort, true)
+    let node = Node(localLcdURL, remoteLcdURL, true)
     expect(node.fooRpc).toBe(`rpcBarMock`)
     expect(node.fooLcd()).toBe(`lcdBarMock`)
   })
