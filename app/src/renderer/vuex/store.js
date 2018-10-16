@@ -31,8 +31,10 @@ export default (opts = {}) => {
       `setCommittedDelegation`,
       `setUnbondingDelegations`,
       `setDelegates`,
+      `setProposal`,
       `setKeybaseIdentities`
     ]
+
     if (updatingMutations.indexOf(mutation.type) === -1) return
 
     // if the user is logged in cache the balances and the tx-history for that user
@@ -70,7 +72,8 @@ function persistState(state) {
         },
         keybase: {
           identities: state.keybase.identities
-        }
+        },
+        proposals: state.proposals
       }),
       state.user.password
     )
@@ -107,6 +110,9 @@ function loadPersistedState({ state, commit }, { password }) {
         balancesLoading: false
       },
       delegates: {
+        loading: false
+      },
+      proposals: {
         loading: false
       }
     })

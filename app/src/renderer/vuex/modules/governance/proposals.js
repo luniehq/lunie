@@ -14,9 +14,9 @@ export default ({ node }) => {
     }
   }
   const actions = {
-    reconnected({ state, dispatch }) {
+    async reconnected({ state, dispatch }) {
       if (state.loading) {
-        dispatch(`getProposals`)
+        await dispatch(`getProposals`)
       }
     },
     resetSessionData({ rootState }) {
