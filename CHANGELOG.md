@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 * Fixed gaia binary not be found on linux and windows in development @faboweb
+* #1419 Restored "Amount" label to delegation modal. @NodeGuy
 
 ## [0.10.7] - 2018-10-10
 
