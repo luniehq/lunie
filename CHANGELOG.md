@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* catching errors on cache encryption. @faboweb
+
 ### Changed
 
 * Changed minor component of version number to match testnet version. @NodeGuy
