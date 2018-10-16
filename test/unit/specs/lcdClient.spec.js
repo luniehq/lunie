@@ -389,18 +389,6 @@ describe(`LCD Client`, () => {
         expect(res).toBe(null)
       })
 
-      it(`does not throw error for empty results`, async () => {
-        axios.get = jest.fn().mockReturnValueOnce(
-          Promise.reject({
-            response: {
-              data: `account bytes are empty`
-            }
-          })
-        )
-        let res = await client.queryAccount(`address`)
-        expect(res).toBe(null)
-      })
-
       it(`throws error for error other than empty account`, async () => {
         axios.get = jest.fn().mockReturnValueOnce(
           Promise.reject({
