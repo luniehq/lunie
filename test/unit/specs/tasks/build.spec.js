@@ -1,3 +1,5 @@
+"use strict"
+
 // This is necessary because another file corrupts the behavior of Date.  We
 // really should fix that.
 /*global _Date */

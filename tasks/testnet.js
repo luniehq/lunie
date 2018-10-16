@@ -1,3 +1,5 @@
+"use strict"
+
 let runDev = require(`./runner.js`)
 let config = require(`../app/src/config.js`)
 
