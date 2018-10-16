@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Protected Gaia Lite process with a mutex to prevent locking error. @NodeGuy
+* catching errors on cache encryption. @faboweb
+
 ### Changed
 
 * Changed minor component of version number to match testnet version. @NodeGuy
@@ -95,6 +97,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Refactord submitDelegation. @NodeGuy
 * Improved network connectivity bar @jbibla
 * refactored words around staking and delegation @jbibla
+* the remote lcd and rpc endpoints can now be specified individually in the config.toml and via environment variables @faboweb
+* most endpoints use the remote lcd directly to improve performance @faboweb
 * Moved Vue error handling code from console_error_throw.js to main.js @NodeGuy
 
 ### Fixed
