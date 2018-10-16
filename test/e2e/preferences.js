@@ -1,3 +1,5 @@
+"use strict"
+
 let test = require(`tape-promise/tape`)
 let { getApp, restart } = require(`./launch.js`)
 let {

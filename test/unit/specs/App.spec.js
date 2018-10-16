@@ -1,3 +1,5 @@
+"use strict"
+
 /* mocking electron differently in one file apparently didn't work so I had to split the App tests in 2 files */
 
 jest.mock(
