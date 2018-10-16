@@ -1,3 +1,5 @@
+"use strict"
+
 const mockFsExtra = require(`../helpers/fs-mock`).default
 let Addressbook
 

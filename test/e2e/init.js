@@ -1,3 +1,5 @@
+"use strict"
+
 let test = require(`tape-promise/tape`)
 let fs = require(`fs-extra`)
 let { join } = require(`path`)
