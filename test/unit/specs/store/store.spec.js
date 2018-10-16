@@ -154,9 +154,10 @@ describe(`Store`, () => {
       }
     }))
     let Raven = require(`raven-js`)
+
     let spy = jest.spyOn(Raven, `captureException`)
     let opts = { node: { getKey: () => ({}) } }
-    let store = require(`renderer/vuex/store.js`).default(opts)
+    require(`renderer/vuex/store.js`).default(opts)
 
     // only triggers encryption if signed in
     await opts.dispatch(`signIn`, {
