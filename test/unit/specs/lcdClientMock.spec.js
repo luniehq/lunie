@@ -389,7 +389,7 @@ describe(`LCD Client Mock`, () => {
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[1],
-          delegation: { denom: `mycoin`, amount: `100000` }
+          delegation: { denom: `mycoin`, amount: String(100000 * 10000000000) }
         }
       ],
       begin_unbondings: []

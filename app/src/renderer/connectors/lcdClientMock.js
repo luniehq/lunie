@@ -2,10 +2,10 @@
 const b32 = require(`../scripts/b32.js`)
 const { getHeight } = require(`./rpcWrapperMock.js`)
 
-const botAddress = `cosmosaccaddr1p6zajjw6xged056andyhn62lm7axwzyspkzjq0`
+const botAddress = `cosmos1p6zajjw6xged056andyhn62lm7axwzyspkzjq0`
 const addresses = [
-  `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-  `cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`,
+  `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+  `cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`,
   botAddress
 ]
 const validators = [
@@ -124,7 +124,7 @@ let state = {
         {
           delegator_addr: addresses[0],
           validator_addr: validators[0],
-          shares: `14`,
+          shares: `14000000000`,
           height: 123
         }
       ],
@@ -136,8 +136,8 @@ let state = {
       operator_address: validators[0],
       pub_key: `cosmosvalpub1234`,
       revoked: false,
-      tokens: `14`,
-      delegator_shares: `14`,
+      tokens: `14000000000`,
+      delegator_shares: `14000000000`,
       description: {
         website: `www.monty.ca`,
         details: `Mr Mounty`,
@@ -183,8 +183,8 @@ let state = {
     {
       operator_address: validators[2],
       pub_key: `cosmosvalpub8910`,
-      tokens: `19`,
-      delegator_shares: `19`,
+      tokens: `19000000000`,
+      delegator_shares: `19000000000`,
       description: {
         details: `Herr Schmidt`,
         website: `www.schmidt.de`,

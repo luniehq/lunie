@@ -80,7 +80,7 @@ const getterValues = {
   oldBondedAtoms: 50,
   totalAtoms: 100,
   user: { atoms: 42 },
-  wallet: { address: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` }
+  wallet: { address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` }
 }
 
 describe(`PageValidator`, () => {
@@ -466,7 +466,7 @@ describe(`onDelegation`, () => {
 
           await submitDelegation({
             amount: 10,
-            from: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+            from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
           })
 
           expect($store.dispatch.mock.calls).toEqual([
@@ -513,7 +513,7 @@ describe(`onDelegation`, () => {
 
           await submitDelegation({
             amount: 10,
-            from: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+            from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
           })
 
           expect($store.dispatch.mock.calls).toEqual([
@@ -558,7 +558,7 @@ describe(`onDelegation`, () => {
 
           await submitDelegation({
             amount: 10,
-            from: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+            from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
           })
 
           expect($store.dispatch.mock.calls).toEqual([
@@ -609,7 +609,7 @@ describe(`onDelegation`, () => {
 
           await submitDelegation({
             amount: 10,
-            from: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+            from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
           })
 
           expect($store.dispatch.mock.calls).toEqual([
@@ -661,11 +661,11 @@ describe(`onDelegation`, () => {
                 delegations: [
                   {
                     delegation: { amount: `10`, denom: `atom` },
-                    delegator_addr: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+                    delegator_addr: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
                     validator_addr: `1a2b3c`
                   }
                 ],
-                to: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+                to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
                 type: `updateDelegations`
               }
             ]
@@ -895,13 +895,13 @@ describe(`onDelegation`, () => {
                 begin_unbondings: undefined,
                 begin_redelegates: [
                   {
-                    delegator_addr: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+                    delegator_addr: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
                     validator_src_addr: `1a2b3c`,
                     validator_dst_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
                     shares: `5.0000000000`
                   }
                 ],
-                to: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+                to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
                 type: `updateDelegations`
               }
             ]
@@ -1149,13 +1149,13 @@ describe(`onUnstake`, () => {
             {
               begin_unbondings: [
                 {
-                  delegator_addr: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+                  delegator_addr: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
                   shares: `10.0000000000`,
                   validator_addr: `1a2b3c`
                 }
               ],
               delegations: undefined,
-              to: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+              to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
               type: `updateDelegations`
             }
           ]

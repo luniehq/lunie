@@ -929,8 +929,8 @@ exports[`PageValidator shows that a validator is revoked 1`] = `"This validator 
 exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
 Array [
   Object {
-    "address": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmosaccaddr…3p4mqpjyrm5ctpesxxn9",
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
     "maximum": 50,
     "value": 0,
   },
@@ -940,8 +940,8 @@ Array [
 exports[`delegationTargetOptions hides displayed validator if bonded 1`] = `
 Array [
   Object {
-    "address": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmosaccaddr…3p4mqpjyrm5ctpesxxn9",
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
     "maximum": 50,
     "value": 0,
   },
@@ -951,8 +951,8 @@ Array [
 exports[`delegationTargetOptions shows bonded validators for redelegation options 1`] = `
 Array [
   Object {
-    "address": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmosaccaddr…3p4mqpjyrm5ctpesxxn9",
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
     "maximum": 50,
     "value": 0,
   },

@@ -11,10 +11,10 @@ describe(`LiValidator`, () => {
       propsData: {
         validator: {
           id: `abc`,
-          pub_key: lcdClientMock.validators[1],
-          operator_address: `1a2b3c`,
-          tokens: `19`,
-          delegator_shares: `19`,
+          pub_key: `12345`,
+          operator_address: lcdClientMock.validators[1],
+          tokens: `19000000000`,
+          delegator_shares: `19000000000`,
           description: {
             details: `Herr Schmidt`,
             website: `www.schmidt.de`,

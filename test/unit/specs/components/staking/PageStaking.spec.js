@@ -41,42 +41,6 @@ describe(`PageStaking`, () => {
     expect(store.dispatch).toHaveBeenCalledWith(`updateDelegates`)
   })
 
-  it(`should sort the delegates by selected property`, () => {
-    wrapper.vm.sort.property = `operator_address`
-    wrapper.vm.sort.order = `desc`
-
-    expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
-    ).toEqual(lcdClientMock.validators)
-
-    wrapper.vm.sort.property = `operator_address`
-    wrapper.vm.sort.order = `asc`
-
-    expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
-    ).toEqual(lcdClientMock.validators.reverse())
-  })
-
-  it(`should filter the delegates`, () => {
-    store.commit(`setSearchVisible`, [`delegates`, true])
-    store.commit(`setSearchQuery`, [
-      `delegates`,
-      lcdClientMock.validators[2].substr(20, 26)
-    ])
-    expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
-    ).toEqual([lcdClientMock.validators[2]])
-    wrapper.update()
-    expect(wrapper.vm.$el).toMatchSnapshot()
-    store.commit(`setSearchQuery`, [
-      `delegates`,
-      lcdClientMock.validators[1].substr(20, 26)
-    ])
-    expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
-    ).toEqual([lcdClientMock.validators[1]])
-  })
-
   it(`should update 'somethingToSearch' when there's nothing to search`, () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
     let delegates = store.state.delegates.delegates
