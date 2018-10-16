@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Contract tests for `keys` endpoints in lcdClient. @NodeGuy
+* catching errors on cache encryption. @faboweb
 
 ### Changed
 
