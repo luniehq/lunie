@@ -31,6 +31,7 @@ let cliBinary =
 let nodeBinary =
   process.env.NODE_BINARY_PATH ||
   join(__dirname, `../../builds/Gaia/`, osFolderName, `gaiad`)
+const defaultStartPort = 26656
 
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
@@ -75,10 +76,8 @@ function launch(t) {
       await initSecondaryLocalNode(3, genesis, address)
 
       // wait until all nodes are showing blocks, so we know they are running
-      await Promise.all([
-        startLocalNode(2, nodeOneId),
-        startLocalNode(3, nodeOneId)
-      ])
+      await startLocalNode(2, nodeOneId)
+      await startLocalNode(3, nodeOneId)
       console.log(`Started local nodes.`)
 
       // make our secondary nodes also to validators
@@ -106,7 +105,7 @@ function launch(t) {
           COSMOS_MOCKED: false, // the e2e tests expect mocking to be switched off
           BINARY_PATH: cliBinary,
           LCD_URL: `http://localhost:9071`,
-          RPC_URL: `http://localhost:26657`
+          RPC_URL: `http://localhost:${defaultStartPort + 1}`
         }
       })
 
@@ -254,16 +253,16 @@ async function handleCrash(app, error) {
 // wait for blocks to show as a proof, the node is running correctly
 function startLocalNode(number, nodeOneId = ``) {
   return new Promise((resolve, reject) => {
-    const defaultStartPort = 26656
     const thisNodeHome = `${nodeHome}_${number}`
     let command = `${nodeBinary} start --home ${thisNodeHome}`
     if (number > 1) {
+      // setup different ports
       command += ` --p2p.laddr=tcp://0.0.0.0:${defaultStartPort -
         (number - 1) * 3} --address=tcp://0.0.0.0:${defaultStartPort -
         (number - 1) * 3 +
-        1} --rpc.laddr=tcp://0.0.0.0:${defaultStartPort -
-        (number - 1) * 3 +
-        2} --p2p.persistent_peers="${nodeOneId}@localhost:${defaultStartPort}"`
+        1} --rpc.laddr=tcp://0.0.0.0:${defaultStartPort - (number - 1) * 3 + 2}`
+      // set the first node as a persistent peer
+      command += ` --p2p.persistent_peers="${nodeOneId}@localhost:${defaultStartPort}"`
     }
     console.log(command)
     const localnodeProcess = spawn(command, { shell: true })
