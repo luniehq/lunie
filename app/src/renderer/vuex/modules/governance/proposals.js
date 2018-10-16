@@ -22,18 +22,21 @@ export default ({ node }) => {
     resetSessionData({ rootState }) {
       rootState.proposals = JSON.parse(JSON.stringify(emptyState))
     },
-    async getProposals({ state, commit }) {
+    async getProposals({ state, commit, dispatch }) {
       state.loading = true
       let proposals = await node.queryProposals()
       if (proposals.length > 0) {
         proposals.forEach(proposal => {
-          let proposalID = Number(proposal.proposal_id)
+          let proposalId = Number(proposal.proposal_id)
           if (
-            state.proposals[proposalID] &&
-            state.proposals[proposalID].proposal_id === proposalID &&
-            state.proposals[proposalID] !== proposal
+            state.proposals[proposalId] &&
+            state.proposals[proposalId].proposal_id === proposalId &&
+            state.proposals[proposalId] !== proposal
           ) {
             commit(`setProposal`, proposal)
+            dispatch(`getVotes`, proposalId)
+            // TODO disable when upgrade gaia to SDK develop or v.0.25
+            // dispatch(`getDeposits`, proposalId)
           }
         })
       }

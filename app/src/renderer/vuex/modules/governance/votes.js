@@ -7,13 +7,7 @@ export default ({ node }) => {
   }
 
   const mutations = {
-    setProposalVote({ state, dispatch }, proposalId, votes) {
-      if (
-        state.proposals.length >= proposalId ||
-        state.proposals[proposalId] == undefined
-      ) {
-        dispatch(`getProposals`)
-      }
+    setProposalVote({ state }, proposalId, votes) {
       state.proposals[proposalId].votes = votes
     }
   }
@@ -33,6 +27,7 @@ export default ({ node }) => {
     ) {
       await dispatch(`sendTx`, {
         type: `submitVote`,
+        proposalID: proposalId,
         voter: wallet.address,
         option
       })
