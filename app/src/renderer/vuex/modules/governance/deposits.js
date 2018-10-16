@@ -21,23 +21,24 @@ export default ({ node }) => {
       commit(`setProposalDeposits`, proposalId, deposits)
       state.loading = false
     },
-    async getProposalDeposit({ state, commit }, proposalId, address) {
-      state.loading = true
-      let deposit = await node.queryProposalDeposit(proposalId, address)
-      commit(`setProposalDeposits`, proposalId, deposit)
-      state.loading = false
-    },
     async submitDeposit(
       {
         rootState: { config, wallet },
         dispatch
       },
-      { proposalId, deposit }
+      { proposalId, depositAmount }
     ) {
-      // const denom = config.bondingDenom.toLowerCase()
+      const denom = config.bondingDenom.toLowerCase()
 
-      await dispatch(`submitProposal`, {
-        depositer: wallet.address
+      await dispatch(`sendTx`, {
+        type: `submitDeposit`,
+        depositer: wallet.address,
+        amount: [
+          {
+            denom: denom,
+            amount: depositAmount
+          }
+        ]
       })
       setTimeout(async () => {
         dispatch(`getProposalDeposits`, proposalId)
