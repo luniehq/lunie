@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page(data-title="Proposal: Adjust Parameters")
+tm-page(data-title="Parameters Change Proposal")
   div(slot="menu"): vm-tool-bar
     router-link(to="/proposals/new" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
