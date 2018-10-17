@@ -303,6 +303,44 @@ let state = {
         option: `abstain`
       }
     ]
+  },
+  deposits: {
+    1: [
+      {
+        proposal_id: `1`,
+        depositer: validators[0],
+        amount: {
+          denom: `stake`,
+          amount: `15`
+        }
+      },
+      {
+        proposal_id: `1`,
+        depositer: validators[1],
+        amount: {
+          denom: `stake`,
+          amount: `5`
+        }
+      }
+    ],
+    5: [
+      {
+        proposal_id: `5`,
+        depositer: validators[0],
+        amount: {
+          denom: `stake`,
+          amount: `11`
+        }
+      },
+      {
+        proposal_id: `5`,
+        depositer: validators[1],
+        amount: {
+          denom: `stake`,
+          amount: `150`
+        }
+      }
+    ]
   }
 }
 

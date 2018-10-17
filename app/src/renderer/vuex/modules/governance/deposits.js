@@ -3,12 +3,12 @@
 export default ({ node }) => {
   const state = {
     loading: false,
-    deposits: []
+    deposits: {}
   }
 
   const mutations = {
-    setProposalDeposits({ state }, proposalId, deposits) {
-      state.proposals[proposalId].deposits = deposits
+    setProposalDeposits(state, proposalId, deposits) {
+      state.deposits[proposalId] = deposits
     }
   }
   let actions = {
