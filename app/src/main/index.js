@@ -1,19 +1,19 @@
 "use strict"
 
+const assert = require(`assert`)
 let { app, BrowserWindow, ipcMain } = require(`electron`)
 let fs = require(`fs-extra`)
 let { join, relative } = require(`path`)
 let childProcess = require(`child_process`)
 let semver = require(`semver`)
-let toml = require(`toml`)
 let Raven = require(`raven`)
-let _ = require(`lodash`)
 let axios = require(`axios`)
 
-let Addressbook = require(`./addressbook.js`)
 let pkg = require(`../../../package.json`)
 let addMenu = require(`./menu.js`)
 let config = require(`../config.js`)
+config.node_lcd = process.env.LCD_URL || config.node_lcd
+config.node_rpc = process.env.RPC_URL || config.node_rpc
 let LcdClient = require(`../renderer/connectors/lcdClient.js`)
 global.config = config // to make the config accessable from renderer
 
@@ -26,7 +26,6 @@ let streams = []
 let connecting = true
 let chainId
 let booted = false
-let addressbook
 let expectedGaiaCliVersion
 
 const root = require(`../root.js`)
@@ -83,17 +82,6 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-// function expectCleanExit(process, errorMessage = "Process exited unplanned") {
-//   return new Promise((resolve, reject) => {
-//     process.on("exit", code => {
-//       if (code !== 0 && !shuttingDown) {
-//         reject(Error(errorMessage))
-//       }
-//       resolve()
-//     })
-//   })
-// }
-
 function handleCrash(error) {
   afterBooted(() => {
     if (mainWindow) {
@@ -117,14 +105,14 @@ function signalNoNodesAvailable() {
   })
 }
 
-function shutdown() {
+async function shutdown() {
   if (shuttingDown) return
 
   mainWindow = null
   shuttingDown = true
 
   if (lcdProcess) {
-    stopLCD()
+    await stopLCD()
   }
 
   return Promise.all(
@@ -198,7 +186,7 @@ function startProcess(name, args, env) {
           return `linux_amd64`
       }
     })()
-    binPath = join(__dirname, `../../../builds/gaia`, osFolderName, name)
+    binPath = join(__dirname, `../../../builds/Gaia`, osFolderName, name)
   } else {
     // in production mode, use binaries packaged with app
     binPath = join(__dirname, `..`, `bin`, name)
@@ -256,7 +244,13 @@ app.on(`activate`, () => {
 app.on(`ready`, () => createWindow())
 
 // start lcd REST API
-async function startLCD(home, nodeIP) {
+async function startLCD(home, nodeURL) {
+  assert.equal(
+    lcdProcess,
+    null,
+    `Can't start Gaia Lite because it's already running.  Call StopLCD first.`
+  )
+
   let lcdStarted = false // remember if the lcd has started to toggle the right error handling if it crashes async
   return new Promise(async (resolve, reject) => {
     log(`startLCD`, home)
@@ -268,7 +262,7 @@ async function startLCD(home, nodeIP) {
       `--home`,
       home,
       `--node`,
-      nodeIP,
+      nodeURL,
       `--chain-id`,
       chainId
     ])
@@ -308,10 +302,13 @@ function stopLCD() {
     try {
       // prevent the exit to signal bad termination warnings
       lcdProcess.removeAllListeners(`exit`)
-      lcdProcess.on(`exit`, resolve)
+
+      lcdProcess.on(`exit`, () => {
+        lcdProcess = null
+        resolve()
+      })
+
       lcdProcess.kill(`SIGKILL`)
-      lcdProcess = null
-      resolve()
     } catch (err) {
       handleCrash(err)
       reject(`Stopping the LCD resulted in an error: ` + err.message)
@@ -336,66 +333,6 @@ function exists(path) {
     return false
   }
 }
-
-// TODO readd when needed
-// async function initLCD(chainId, home, node) {
-//   // let the user in the view approve the hash we get from the node
-//   return new Promise((resolve, reject) => {
-//     // `gaiacli client init` to generate config
-//     let child = startProcess(LCD_BINARY_NAME, [
-//       "init",
-//       "--home",
-//       home,
-//       "--chain-id",
-//       chainId,
-//       "--node",
-//       node
-//     ])
-
-//     child.stdout.on("data", async data => {
-//       let hashMatch = /\w{40}/g.exec(data)
-//       if (hashMatch) {
-//         handleHashVerification(hashMatch[0])
-//           .then(
-//             async () => {
-//               log("approved hash", hashMatch[0])
-//               if (shuttingDown) return
-//               // answer 'y' to the prompt about trust seed. we can trust this is correct
-//               // since the LCD is talking to our own full node
-//               child.stdin.write("y\n")
-
-//               expectCleanExit(child, "gaiacli init exited unplanned").then(
-//                 resolve,
-//                 reject
-//               )
-//             },
-//             async () => {
-//               // kill process as we will spin up a new init process
-//               child.kill("SIGTERM")
-
-//               if (shuttingDown) return
-
-//               // select a new node to try out
-//               nodeIP = await pickNode()
-//               if (!nodeIP) {
-//                 signalNoNodesAvailable()
-//                 return
-//               }
-
-//               // initLCD(chainId, home, nodeIP).then(resolve, reject)
-//             }
-//           )
-//           .catch(reject)
-
-//         // execute after registering handlers via handleHashVerification so that in the synchronous test they are available to answer the request
-//         afterBooted(() => {
-//           mainWindow.webContents.send("approve-hash", hashMatch[0])
-//         })
-//       }
-//     })
-//   })
-//   await expectCleanExit(child, "gaiacli init exited unplanned")
-// }
 
 // this function will call the passed in callback when the view is booted
 // the purpose is to send events to the view thread only after it is ready to receive those events
@@ -479,13 +416,7 @@ const eventHandlers = {
     global.config.mocked = value
   },
 
-  reconnect: () => reconnect(addressbook),
-
-  "retry-connection": () => {
-    log(`Retrying to connect to nodes`)
-    addressbook.resetNodes()
-    reconnect(addressbook)
-  },
+  reconnect: () => reconnect(),
 
   "stop-lcd": () => {
     stopLCD()
@@ -501,33 +432,9 @@ Object.entries(eventHandlers).forEach(([event, handler]) => {
   ipcMain.on(event, handler)
 })
 
-// TODO readd when needed
-// check if LCD is initialized as the configs could be corrupted
-// we need to parse the error on initialization as there is no way to just get this status programmatically
-// function lcdInitialized(home) {
-//   log("Testing if LCD is already initialized")
-//   return new Promise((resolve, reject) => {
-//     let child = startProcess(LCD_BINARY_NAME, [
-//       "init",
-//       "--home",
-//       home
-//       // '--trust-node'
-//     ])
-//     child.stderr.on("data", data => {
-//       if (data.toString().includes("already is initialized")) {
-//         return resolve(true)
-//       }
-//       if (data.toString().includes('"--chain-id" required')) {
-//         return resolve(false)
-//       }
-//       reject("Unknown state for Gaia initialization: " + data.toString())
-//     })
-//   })
-// }
-
 // query version of the used SDK via LCD
-async function getNodeVersion() {
-  let versionURL = `http://localhost:${LCD_PORT}/node_version`
+async function getNodeVersion(nodeURL) {
+  let versionURL = `${nodeURL}/node_version`
   let nodeVersion = await axios
     .get(versionURL, { timeout: 3000 })
     .then(res => res.data)
@@ -537,32 +444,22 @@ async function getNodeVersion() {
 }
 
 // test an actual node version against the expected one and flag the node if incompatible
-async function testNodeVersion(nodeIP, expectedGaiaVersion, addressbook) {
-  let nodeVersion = await getNodeVersion(nodeIP)
+async function testNodeVersion(nodeURL, expectedGaiaVersion) {
+  let nodeVersion = await getNodeVersion(nodeURL)
   let semverDiff = semver.diff(nodeVersion, expectedGaiaVersion)
   if (semverDiff === `patch` || semverDiff === null) {
     return { compatible: true, nodeVersion }
   }
 
-  addressbook.flagNodeIncompatible(nodeIP)
   return { compatible: false, nodeVersion }
 }
 
-// pick a random node from the addressbook and check if the SDK version is compatible with ours
-async function pickAndConnect(addressbook) {
-  let nodeIP
+// check if our node is reachable and the SDK version is compatible with the local one
+async function pickAndConnect() {
+  let nodeURL = config.node_lcd
   connecting = true
-
   try {
-    nodeIP = await addressbook.pickNode()
-  } catch (err) {
-    connecting = false
-    signalNoNodesAvailable()
-    return
-  }
-
-  try {
-    await connect(nodeIP)
+    await connect(nodeURL)
   } catch (err) {
     handleCrash(err)
     return
@@ -570,11 +467,7 @@ async function pickAndConnect(addressbook) {
 
   let compatible, nodeVersion
   try {
-    const out = await testNodeVersion(
-      nodeIP,
-      expectedGaiaCliVersion,
-      addressbook
-    )
+    const out = await testNodeVersion(config.node_lcd, expectedGaiaCliVersion)
     compatible = out.compatible
     nodeVersion = out.nodeVersion
   } catch (err) {
@@ -582,30 +475,35 @@ async function pickAndConnect(addressbook) {
       `Error in getting node SDK version, assuming node is incompatible. Error:`,
       err
     )
-    addressbook.flagNodeIncompatible(nodeIP)
-    return await pickAndConnect(addressbook)
+    signalNoNodesAvailable()
+    await stopLCD()
+    return
   }
 
   if (!compatible) {
-    let message = `Node ${nodeIP} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
+    let message = `Node ${nodeURL} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
     log(message)
     mainWindow.webContents.send(`connection-status`, message)
-
-    return await pickAndConnect(addressbook)
+    signalNoNodesAvailable()
+    await stopLCD()
+    return
   }
 
-  return nodeIP
+  return nodeURL
 }
 
-async function connect(nodeIP) {
-  log(`starting gaia rest server with nodeIP ${nodeIP}`)
+async function connect() {
+  log(`starting gaia rest server with nodeURL ${config.lcd_rpc}`)
   try {
-    lcdProcess = await startLCD(lcdHome, nodeIP)
+    lcdProcess = await startLCD(lcdHome, config.node_rpc)
     log(`gaia rest server ready`)
 
     afterBooted(() => {
       log(`Signaling connected node`)
-      mainWindow.webContents.send(`connected`, nodeIP)
+      mainWindow.webContents.send(`connected`, {
+        lcdURL: config.node_lcd,
+        rpcURL: config.node_rpc
+      })
     })
   } catch (err) {
     throw err
@@ -621,7 +519,7 @@ async function reconnect() {
 
   await stopLCD()
 
-  await pickAndConnect(addressbook)
+  await pickAndConnect()
 }
 
 function checkConsistentConfigDir(
@@ -679,27 +577,6 @@ const checkGaiaCompatibility = async gaiacliVersionPath => {
           : ``
       }`
     )
-  }
-}
-
-const getPersistentPeers = configPath => {
-  // TODO: user-specified nodes, support switching?
-  // TODO: use address to prevent MITM if specified
-
-  let configText = fs.readFileSync(configPath, `utf8`) // checked before if the file exists
-  let configTOML = toml.parse(configText)
-
-  const persistent_peers = _.uniq(
-    (configTOML.p2p.persistent_peers + `,` + configTOML.p2p.seeds)
-      .split(`,`)
-      .filter(x => x !== ``)
-      .map(x => (x.indexOf(`@`) !== -1 ? x.split(`@`)[1] : x))
-  )
-
-  if (persistent_peers.length === 0) {
-    throw new Error(`No seeds specified in config.toml`)
-  } else {
-    return persistent_peers
   }
 }
 
@@ -770,29 +647,8 @@ async function main() {
   let genesis = JSON.parse(genesisText)
   chainId = genesis.chain_id // is set globaly
 
-  // pick a random seed node from config.toml if not using COSMOS_NODE envvar
-  const persistent_peers = process.env.COSMOS_NODE
-    ? []
-    : getPersistentPeers(configPath)
-
-  addressbook = new Addressbook(config, root, {
-    persistent_peers,
-    onConnectionMessage: message => {
-      log(message)
-      mainWindow.webContents.send(`connection-status`, message)
-    }
-  })
-
   // choose one random node to start from
-  await pickAndConnect(addressbook)
-
-  // TODO reenable when we need LCD init
-  // let _lcdInitialized = true // await lcdInitialized(join(root, 'lcd'))
-  // log("LCD is" + (_lcdInitialized ? "" : " not") + " initialized")
-  // if (init || !_lcdInitialized) {
-  //   log(`Trying to initialize lcd with remote node ${nodeIP}`)
-  //   // await initLCD(chainId, lcdHome, nodeIP)
-  // }
+  await pickAndConnect()
 }
 module.exports = main()
   .catch(err => {

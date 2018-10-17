@@ -41,7 +41,6 @@ module.exports = function setRPCWrapperMock(container) {
     // RPC
     // made this a subobject so we can manipulate it in here while assigning it to the outer node object
     rpcInfo: {
-      nodeIP: `127.0.0.1`,
       connecting: false,
       connected: true
     },

@@ -1,3 +1,5 @@
+"use strict"
+
 // on windows some processes are not exiting when using child.kill so we use a windows specific comand
 module.exports.cleanExitChild = function(child) {
   return new Promise(resolve => {

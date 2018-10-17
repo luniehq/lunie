@@ -1,3 +1,5 @@
+"use strict"
+
 module.exports = {
   testMatch: [`**/unit/specs/**/*spec.js`],
   moduleFileExtensions: [`js`, `vue`],
