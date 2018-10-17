@@ -1,0 +1,384 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableValidators has the expected html structure 1`] = `
+"<div>
+   <div>
+      <div class=\\"panel-sort\\">
+         <div class=\\"panel-sort-container\\">
+            <div class=\\"sort-by name\\">
+               <!---->
+            </div>
+<div class=\\"sort-by your-votes\\">
+   <div class=\\"label\\">
+      <div class=\\"label-text\\">
+         Bonded Steak
+      </div>
+</div>
+</div>
+<div class=\\"sort-by your-rewards\\">
+   <div class=\\"label\\">
+      <div class=\\"label-text\\">
+         Rewards
+      </div>
+</div>
+</div>
+<div class=\\"sort-by percent_of_vote\\">
+   <div class=\\"label\\">
+      <div class=\\"label-text\\">
+         Voting Power
+      </div>
+</div>
+</div>
+<div class=\\"sort-by uptime\\">
+   <div class=\\"label\\">
+      <div class=\\"label-text\\">
+         Uptime
+      </div>
+</div>
+</div>
+<div class=\\"sort-by commission\\">
+   <div class=\\"label\\">
+      <div class=\\"label-text\\">
+         Commission
+      </div>
+</div>
+</div>
+<div class=\\"sort-by slashes\\">
+   <div class=\\"label\\">
+      <div class=\\"label-text\\">
+         Slashes
+      </div>
+</div>
+</div>
+</div>
+</div>
+<ol type=\\"1\\">
+   <li class=\\"li-validator li-validator-validator \\">
+      <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"\\">
+      <div class=\\"li-validator__value name\\">
+         <span class=\\"validator-profile__status red\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <div class=\\"vert\\">
+            <div class=\\"top\\">
+               herr_schmidt_revoked
+            </div>
+      <div class=\\"short-bech32\\">
+         <div id=\\"address\\" class=\\"address\\">
+            cosmosvalpub89…8910
+         </div>
+      <div class=\\"copied\\">
+         <i class=\\"material-icons\\">check</i><span>Copied</span>
+      </div>
+</div>
+</div>
+</div>
+      <div class=\\"li-validator__value your-votes\\">
+         <span>0.0000000000</span>
+      </div>
+      <div class=\\"li-validator__value your-rewards\\">
+         <span>n/a</span>
+      </div>
+      <div class=\\"li-validator__break\\">
+         <span></span>
+      </div>
+      <div class=\\"li-validator__value percent_of_vote\\">
+         <span>57.58%</span>
+      </div>
+      <div class=\\"li-validator__value uptime\\">
+         <span>0.01%</span>
+      </div>
+      <div class=\\"li-validator__value commission\\">
+         <span>0.00%</span>
+      </div>
+      <div class=\\"li-validator__value slashes\\">
+         <span>n/a</span>
+      </div>
+      </a>
+   </li>
+   <li class=\\"li-validator li-validator-validator \\">
+      <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"\\">
+      <div class=\\"li-validator__value name\\">
+         <span class=\\"validator-profile__status green\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <div class=\\"vert\\">
+            <div class=\\"top\\">
+               mr_mounty
+            </div>
+      <div class=\\"short-bech32\\">
+         <div id=\\"address\\" class=\\"address\\">
+            cosmosvalpub…1234
+         </div>
+      <div class=\\"copied\\">
+         <i class=\\"material-icons\\">check</i><span>Copied</span>
+      </div>
+</div>
+</div>
+</div>
+      <div class=\\"li-validator__value your-votes\\">
+         <span>0.0000000000</span>
+      </div>
+      <div class=\\"li-validator__value your-rewards\\">
+         <span>n/a</span>
+      </div>
+      <div class=\\"li-validator__break\\">
+         <span></span>
+      </div>
+      <div class=\\"li-validator__value percent_of_vote\\">
+         <span>42.42%</span>
+      </div>
+      <div class=\\"li-validator__value uptime\\">
+         <span>0.01%</span>
+      </div>
+      <div class=\\"li-validator__value commission\\">
+         <span>0.00%</span>
+      </div>
+      <div class=\\"li-validator__value slashes\\">
+         <span>n/a</span>
+      </div>
+      </a>
+   </li>
+   <li class=\\"li-validator li-validator-validator \\">
+      <a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"\\">
+      <div class=\\"li-validator__value name\\">
+         <span class=\\"validator-profile__status yellow\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <div class=\\"vert\\">
+            <div class=\\"top\\">
+               good_greg
+            </div>
+      <div class=\\"short-bech32\\">
+         <div id=\\"address\\" class=\\"address\\">
+            Not A Valid Bech32 Address
+         </div>
+      <div class=\\"copied\\">
+         <i class=\\"material-icons\\">check</i><span>Copied</span>
+      </div>
+</div>
+</div>
+</div>
+      <div class=\\"li-validator__value your-votes\\">
+         <span>0.0000000000</span>
+      </div>
+      <div class=\\"li-validator__value your-rewards\\">
+         <span>n/a</span>
+      </div>
+      <div class=\\"li-validator__break\\">
+         <span></span>
+      </div>
+      <div class=\\"li-validator__value percent_of_vote\\">
+         <span>0.00%</span>
+      </div>
+      <div class=\\"li-validator__value uptime\\">
+         <span>0.01%</span>
+      </div>
+      <div class=\\"li-validator__value commission\\">
+         <span>0.00%</span>
+      </div>
+      <div class=\\"li-validator__value slashes\\">
+         <span>n/a</span>
+      </div>
+      </a>
+   </li>
+</ol>
+</div>
+</div>"
+`;
+
+exports[`TableValidators should filter the delegates 1`] = `
+<div>
+  <div>
+    <div
+      class="panel-sort"
+    >
+      <div
+        class="panel-sort-container"
+      >
+        <div
+          class="sort-by name"
+        >
+          <!---->
+        </div>
+        <div
+          class="sort-by your-votes"
+        >
+          <div
+            class="label"
+          >
+            <div
+              class="label-text"
+            >
+              Bonded Steak
+            </div>
+          </div>
+        </div>
+        <div
+          class="sort-by your-rewards"
+        >
+          <div
+            class="label"
+          >
+            <div
+              class="label-text"
+            >
+              Rewards
+            </div>
+          </div>
+        </div>
+        <div
+          class="sort-by percent_of_vote"
+        >
+          <div
+            class="label"
+          >
+            <div
+              class="label-text"
+            >
+              Voting Power
+            </div>
+          </div>
+        </div>
+        <div
+          class="sort-by uptime"
+        >
+          <div
+            class="label"
+          >
+            <div
+              class="label-text"
+            >
+              Uptime
+            </div>
+          </div>
+        </div>
+        <div
+          class="sort-by commission"
+        >
+          <div
+            class="label"
+          >
+            <div
+              class="label-text"
+            >
+              Commission
+            </div>
+          </div>
+        </div>
+        <div
+          class="sort-by slashes"
+        >
+          <div
+            class="label"
+          >
+            <div
+              class="label-text"
+            >
+              Slashes
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ol
+      type="1"
+    >
+      <li
+        class="li-validator li-validator-validator "
+      >
+        <a
+          class=""
+          href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+        >
+          <div
+            class="li-validator__value name"
+          >
+            <span
+              class="validator-profile__status green"
+            />
+            <img
+              class="avatar"
+              height="48"
+              src="~assets/images/validator-icon.svg"
+              width="48"
+            />
+            <div
+              class="vert"
+            >
+              <div
+                class="top"
+              >
+                mr_mounty
+              </div>
+              <div
+                class="short-bech32"
+              >
+                <div
+                  class="address"
+                  id="address"
+                >
+                  cosmosvalpub…1234
+                </div>
+                <div
+                  class="copied"
+                >
+                  <i
+                    class="material-icons"
+                  >
+                    check
+                  </i>
+                  <span>
+                    Copied
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="li-validator__value your-votes"
+          >
+            <span>
+              0.0000000000
+            </span>
+          </div>
+          <div
+            class="li-validator__value your-rewards"
+          >
+            <span>
+              n/a
+            </span>
+          </div>
+          <div
+            class="li-validator__break"
+          >
+            <span />
+          </div>
+          <div
+            class="li-validator__value percent_of_vote"
+          >
+            <span>
+              42.42%
+            </span>
+          </div>
+          <div
+            class="li-validator__value uptime"
+          >
+            <span>
+              0.01%
+            </span>
+          </div>
+          <div
+            class="li-validator__value commission"
+          >
+            <span>
+              0.00%
+            </span>
+          </div>
+          <div
+            class="li-validator__value slashes"
+          >
+            <span>
+              n/a
+            </span>
+          </div>
+        </a>
+      </li>
+    </ol>
+  </div>
+</div>
+`;
