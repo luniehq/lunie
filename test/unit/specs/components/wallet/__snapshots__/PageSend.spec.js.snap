@@ -3,6 +3,7 @@
 exports[`PageSend disables sending if not connected 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -13,13 +14,7 @@ exports[`PageSend disables sending if not connected 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -347,6 +342,7 @@ exports[`PageSend disables sending if not connected 1`] = `
 exports[`PageSend has the expected html structure 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -357,13 +353,7 @@ exports[`PageSend has the expected html structure 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -719,6 +709,7 @@ exports[`PageSend has the expected html structure 1`] = `
 exports[`PageSend should show address required error 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -729,13 +720,7 @@ exports[`PageSend should show address required error 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -1061,6 +1046,7 @@ exports[`PageSend should show address required error 1`] = `
 exports[`PageSend should show bech32 error when address length is too long 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -1071,13 +1057,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -1403,6 +1383,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
 exports[`PageSend should show bech32 error when address length is too short 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -1413,13 +1394,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -1745,6 +1720,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
 exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -1755,13 +1731,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -2098,6 +2068,7 @@ Object {
 exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -2108,13 +2079,7 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -2530,6 +2495,7 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
 exports[`PageSend should work without providing a default denom 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -2540,13 +2506,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>

@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page(title="Preferences")
+tm-page(data-title="Preferences")
   div(slot="menu"): vm-tool-bar
 
   tm-part(title='Settings')
@@ -16,7 +16,7 @@ tm-page(title="Preferences")
         icon='exit_to_app'
         type='button'
         @click.native=""
-        :value='nodeIP')
+        :value='nodeURL')
     tm-list-item(type="field" title="View tutorial for Voyager")
       tm-btn#toggle-onboarding(
         @click.native="setOnboarding"
@@ -68,7 +68,7 @@ export default {
       `onboarding`,
       `mockedConnector`,
       `config`,
-      `nodeIP`
+      `nodeURL`
     ])
   },
   data: () => ({

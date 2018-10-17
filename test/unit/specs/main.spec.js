@@ -1,3 +1,4 @@
+const EventEmitter = require(`events`)
 const { join } = require(`path`)
 const mockFsExtra = require(`../helpers/fs-mock`).default
 
@@ -75,6 +76,25 @@ jest.mock(`electron`, () => {
   return electron
 })
 
+const mockSpawnReturnValue = () => {
+  const emitter = new EventEmitter()
+
+  return Object.assign(emitter, {
+    kill: () => {
+      emitter.emit(`exit`, 0)
+    },
+    mocked: true,
+    stdout: {
+      on: () => {},
+      pipe: () => {}
+    },
+    stderr: {
+      on: () => {},
+      pipe: () => {}
+    }
+  })
+}
+
 let stdoutMocks = (path, args) => ({
   on: (type, cb) => {
     if (args[0] === `version` && type === `data`) {
@@ -95,16 +115,8 @@ let stdoutMocks = (path, args) => ({
   }
 })
 childProcessMock((path, args) => ({
-  on: (type, cb) => {
-    // init processes always should return with 0
-    if (type === `exit` && args.includes(`init`) && args.length > 4) {
-      cb(0)
-    }
-  },
   stdin: { write: () => {} },
-  stdout: stdoutMocks(path, args),
-  stderr: { on: () => {} },
-  mocked: true
+  stdout: stdoutMocks(path, args)
 }))
 mockConfig()
 
@@ -140,17 +152,6 @@ describe(`Startup Process`, () => {
       expect(fs.existsSync(testRoot)).toBe(true)
     })
 
-    xit(`should init lcd server with correct testnet`, async function() {
-      expect(
-        childProcess.spawn.mock.calls.find(
-          ([path, args]) =>
-            path.includes(`gaiacli`) &&
-            args.includes(`init`) &&
-            args.join(`=`).includes(`--chain-id=gaia-6002`)
-        )
-      ).toBeDefined()
-    })
-
     it(`should start lcd server`, async function() {
       expect(
         childProcess.spawn.mock.calls.find(
@@ -171,43 +172,31 @@ describe(`Startup Process`, () => {
   describe(`Connection`, function() {
     mainSetup()
 
-    it(`should error if it can't find a node to connect to`, async () => {
-      main.shutdown()
+    it(`should error if it can't connect to the node`, async () => {
+      await main.shutdown()
       prepareMain()
+      // mock the version check request
+      jest.doMock(`axios`, () => ({
+        get: jest.fn(() => Promise.reject())
+      }))
       let { send } = require(`electron`)
       send.mockClear()
-
-      jest.doMock(
-        `app/src/main/addressbook.js`,
-        () =>
-          class MockAddressbook {
-            async pickNode() {
-              throw Error(`no nodes`)
-            }
-          }
-      )
 
       // run main
       main = await require(appRoot + `src/main/index.js`)
 
-      expect(
-        send.mock.calls.filter(([type]) => type === `connected`).length
-      ).toBe(0) // doesn't connect
-      expect(send.mock.calls.filter(([type]) => type === `error`).length).toBe(
-        1
-      )
-      expect(
-        send.mock.calls.filter(([type]) => type === `error`)[0][1].code
-      ).toBe(`NO_NODES_AVAILABLE`)
+      expect(send).toHaveBeenCalledWith(`error`, {
+        code: `NO_NODES_AVAILABLE`,
+        message: `No nodes available to connect to.`
+      })
     })
 
-    it(`should look for a node with a compatible SDK version`, async () => {
-      main.shutdown()
+    it(`should check if our node has a compatible SDK version`, async () => {
+      await main.shutdown()
       prepareMain()
       const mockAxiosGet = jest
         .fn()
         .mockReturnValueOnce(Promise.resolve({ data: `0.1.0` })) // should fail as expected version is 0.13.0
-        .mockReturnValueOnce(Promise.resolve({ data: `0.13.2` })) // should succeed as in semver range
       // mock the version check request
       jest.doMock(`axios`, () => ({
         get: mockAxiosGet
@@ -218,34 +207,11 @@ describe(`Startup Process`, () => {
       // run main
       main = await require(appRoot + `src/main/index.js`)
 
-      expect(mockAxiosGet).toHaveBeenCalledTimes(2)
-      expect(send).toHaveBeenCalledWith(`connected`, `127.0.0.1:46657`)
-    })
-
-    it(`should mark a version incompatible if getting the SDK version fails`, async () => {
-      main.shutdown()
-      prepareMain()
-
-      // TODO replace with mockRejectOnce when updated jest
-      let i = 0
-      jest.doMock(`axios`, () => ({
-        get: async () => {
-          if (i++ === 0) {
-            return Promise.reject(`X`)
-          }
-          return Promise.resolve({ data: `0.13.2` })
-        }
-      }))
-      let nodeIncompatibleSpy = jest.fn()
-      require(`app/src/main/addressbook.js`).prototype.flagNodeIncompatible = nodeIncompatibleSpy
-      let { send } = require(`electron`)
-      send.mockClear()
-
-      // run main
-      main = await require(appRoot + `src/main/index.js`)
-
-      expect(nodeIncompatibleSpy).toHaveBeenCalledWith(`127.0.0.1:46657`)
-      expect(send).toHaveBeenCalledWith(`connected`, `127.0.0.1:46657`) // check we still connect to a node. it shows the same node as pickNode always returns "127.0.0.1:46657" in tests
+      expect(mockAxiosGet).toHaveBeenCalledTimes(1)
+      expect(send).toHaveBeenCalledWith(`error`, {
+        code: `NO_NODES_AVAILABLE`,
+        message: `No nodes available to connect to.`
+      })
     })
   })
 
@@ -266,17 +232,6 @@ describe(`Startup Process`, () => {
 
     it(`should create the config dir`, async function() {
       expect(fs.existsSync(testRoot)).toBe(true)
-    })
-
-    xit(`should init lcd server with correct testnet`, async function() {
-      expect(
-        childProcess.spawn.mock.calls.find(
-          ([path, args]) =>
-            path.includes(`gaiacli`) &&
-            args.includes(`init`) &&
-            args.join(`=`).includes(`--chain-id=gaia-6002`)
-        )
-      ).toBeDefined()
     })
 
     it(`should start lcd server`, async function() {
@@ -396,8 +351,8 @@ describe(`Startup Process`, () => {
       main = await require(appRoot + `src/main/index.js`)
     })
 
-    afterEach(function() {
-      main.shutdown()
+    afterEach(async function() {
+      await main.shutdown()
       registeredIPCListeners = {}
     })
 
@@ -411,10 +366,6 @@ describe(`Startup Process`, () => {
     })
 
     it(`should reconnect on IPC call`, async () => {
-      // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
-      main.processes.lcdProcess.on = (type, cb) => {
-        if (type === `exit`) cb()
-      }
       await registeredIPCListeners[`reconnect`]()
 
       expect(
@@ -429,35 +380,7 @@ describe(`Startup Process`, () => {
       expect(killSpy).toHaveBeenCalled()
     })
 
-    it(`should report connection messages`, async () => {
-      prepareMain()
-
-      jest.doMock(
-        `app/src/main/addressbook.js`,
-        () =>
-          class MockAddressbook {
-            constructor(config, root, { onConnectionMessage }) {
-              this.onConnectionMessage = onConnectionMessage
-            }
-            async pickNode() {
-              this.onConnectionMessage(`HALLO WORLD`)
-              return `127.0.0.1:46657`
-            }
-          }
-      )
-      let { send } = require(`electron`)
-      send.mockClear()
-
-      await require(appRoot + `src/main/index.js`)
-      expect(send).toHaveBeenCalledWith(`connection-status`, `HALLO WORLD`)
-    })
-
     it(`should not start reconnecting again if already trying to reconnect`, async done => {
-      // the lcd process gets terminated and waits for the exit to continue so we need to trigger this event in our mocked process as well
-      main.processes.lcdProcess.on = (type, cb) => {
-        if (type === `exit`) cb()
-      }
-
       jest.doMock(
         `app/src/main/addressbook.js`,
         () =>
@@ -491,7 +414,7 @@ describe(`Startup Process`, () => {
     })
 
     it(`should provide the error if the main process failed before the view has booted`, async () => {
-      main.shutdown()
+      await main.shutdown()
 
       // simulate error by deleting a file
       resetModulesKeepingFS()
@@ -507,64 +430,28 @@ describe(`Startup Process`, () => {
       expect(send.mock.calls[0][0]).toEqual(`error`)
       expect(send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
     })
-
-    it(`should try another node if user disapproved the hash`, async () => {
-      main.shutdown()
-      prepareMain()
-
-      const { ipcMain } = require(`electron`)
-      ipcMain.on = (type, cb) => {
-        // the booted signal needs to be sent (from the view) for the main thread to signal events to the view
-        if (type === `booted`) {
-          cb()
-          return
-        }
-        // disapprove first hash
-        if (type === `hash-disapproved`) {
-          cb(null, `1234567890123456789012345678901234567890`)
-
-          // approve second hash
-          ipcMain.on = (type, cb) => {
-            if (type === `hash-approved`) {
-              cb(null, `1234567890123456789012345678901234567890`)
-              return
-            }
-          }
-        }
-      }
-
-      // run main
-      main = await require(appRoot + `src/main/index.js`)
-      expect(
-        send.mock.calls.filter(([type]) => type === `connected`).length
-      ).toBe(1)
-    })
   })
 
   describe(`Error handling`, function() {
-    afterEach(function() {
-      main.shutdown()
+    afterEach(async function() {
+      await main.shutdown()
     })
 
     it(`should error on gaiacli crashing on reconnect instead of breaking`, async () => {
       await initMain()
       let { send } = require(`electron`)
-      childProcess.spawn = () => ({
-        stdout: {
-          on: () => {},
-          pipe: () => {}
-        },
-        stderr: {
-          on: (type, cb) => {
-            // type is always 'data'
-            cb(Buffer.from(`Some error`))
-          },
-          pipe: () => {}
-        },
-        on: () => {},
-        kill: () => {},
-        removeAllListeners: () => {}
-      })
+
+      childProcess.spawn = () =>
+        Object.assign(mockSpawnReturnValue(), {
+          stderr: {
+            on: (type, cb) => {
+              // type is always 'data'
+              cb(Buffer.from(`Some error`))
+            },
+            pipe: () => {}
+          }
+        })
+
       await main.eventHandlers.reconnect()
       expect(
         send.mock.calls.find(([type]) => type === `error`)
@@ -575,22 +462,18 @@ describe(`Startup Process`, () => {
       await initMain()
       let { send } = require(`electron`)
       let errorCB
-      childProcess.spawn = () => ({
-        stdout: {
-          on: () => {},
-          pipe: () => {}
-        },
-        stderr: {
-          on: (type, cb) => {
-            // type is always 'data'
-            errorCB = cb
-          },
-          pipe: () => {}
-        },
-        on: () => {},
-        kill: () => {},
-        removeAllListeners: () => {}
-      })
+
+      childProcess.spawn = () =>
+        Object.assign(mockSpawnReturnValue(), {
+          stderr: {
+            on: (type, cb) => {
+              // type is always 'data'
+              errorCB = cb
+            },
+            pipe: () => {}
+          }
+        })
+
       await main.eventHandlers.reconnect()
       expect(send.mock.calls.find(([type]) => type === `error`)).toBeUndefined()
 
@@ -604,32 +487,6 @@ describe(`Startup Process`, () => {
       ).toMatchSnapshot()
     })
 
-    it(`should fail if config.toml has no seeds`, async () => {
-      main = await initMain()
-      main.shutdown()
-      let configText = fs.readFileSync(join(testRoot, `config.toml`), `utf8`)
-      configText = configText
-        .split(`\n`)
-        .map(line => {
-          if (line.startsWith(`seeds`)) {
-            return `seeds = ""`
-          } else if (line.startsWith(`persistent_peers`)) {
-            return `persistent_peers = ""`
-          } else {
-            return line
-          }
-        })
-        .join(`\n`)
-      fs.writeFileSync(join(testRoot, `config.toml`), configText, `utf8`)
-
-      resetModulesKeepingFS()
-      let { send } = require(`electron`)
-      main = await require(appRoot + `src/main/index.js`)
-
-      expect(send.mock.calls[0][0]).toBe(`error`)
-      expect(send.mock.calls[0][1].message).toContain(`seeds`)
-    })
-
     describe(`missing files`, () => {
       let send
 
@@ -637,14 +494,14 @@ describe(`Startup Process`, () => {
         // make sure it is initialized
         jest.resetModules()
         main = await initMain()
-        main.shutdown()
+        await main.shutdown()
 
         resetModulesKeepingFS()
         let { send: _send } = require(`electron`)
         send = _send
       })
       afterEach(async () => {
-        main.shutdown()
+        await main.shutdown()
       })
       it(`should error if the genesis.json being removed`, async () => {
         fs.removeSync(join(testRoot, `genesis.json`))
@@ -664,20 +521,6 @@ describe(`Startup Process`, () => {
 
         expect(send.mock.calls[0][0]).toBe(`error`)
       })
-      xit(`should survive the lcd folder being removed`, async () => {
-        fs.removeSync(join(testRoot, `lcd`))
-        resetModulesKeepingFS()
-        let { send } = require(`electron`)
-        main = await require(appRoot + `src/main/index.js`)
-
-        expect(
-          childProcess.spawn.mock.calls.find(
-            ([path, args]) => path.includes(`gaiacli`) && args.includes(`init`)
-          ).length
-        ).toBe(3) // one to check in first round, one to check + one to init in the second round
-
-        expect(send.mock.calls[0][0]).toBe(`connected`)
-      })
     })
   })
 
@@ -692,8 +535,8 @@ function mainSetup() {
     main = await initMain()
   })
 
-  afterAll(function() {
-    main.shutdown()
+  afterAll(async function() {
+    await main.shutdown()
   })
 }
 
@@ -758,23 +601,7 @@ function testFailingChildProcess(name, cmd) {
 function childProcessMock(mockExtend = () => ({})) {
   jest.doMock(`child_process`, () => ({
     spawn: jest.fn((path, args) =>
-      Object.assign(
-        {},
-        {
-          stdout: {
-            on: () => {},
-            pipe: () => {}
-          },
-          stderr: {
-            on: () => {},
-            pipe: () => {}
-          },
-          on: () => {},
-          kill: () => {},
-          removeAllListeners: () => {}
-        },
-        mockExtend(path, args)
-      )
+      Object.assign(mockSpawnReturnValue(), mockExtend(path, args))
     )
   }))
 }
@@ -802,8 +629,7 @@ function failingChildProcess(mockName, mockCmd) {
         cb(Buffer.from(`${mockName} produced an unexpected error`))
       },
       pipe: () => {}
-    },
-    mocked: true
+    }
   }))
 }
 
@@ -828,6 +654,9 @@ function mockConfig() {
     lcd_port_prod: 9071,
     relay_port: 9060,
     relay_port_prod: 9061,
+
+    node_lcd: `http://awesomenode.de:1317`,
+    node_rpc: `http://awesomenode.de:26657`,
 
     default_network: `gaia-5001`,
     mocked: false,

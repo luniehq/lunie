@@ -1,5 +1,5 @@
 <template lang='pug'>
-tm-page(title='Send')
+tm-page(data-title='Send')
   div(slot="menu"): vm-tool-bar
   tm-form-struct(:submit="onSubmit")
     tm-part(title='Denomination Options')

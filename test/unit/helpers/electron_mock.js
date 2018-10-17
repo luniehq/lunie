@@ -1,3 +1,5 @@
+"use strict"
+
 // this mocks the IPC layer and isolates the mainthread from the renderer thread in tests
 jest.mock(`electron`, () => ({
   clipboard: { writeText: jest.fn() },
