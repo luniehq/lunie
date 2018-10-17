@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Protected Gaia Lite process with a mutex to prevent locking error. @NodeGuy
 * catching errors on cache encryption. @faboweb
+* #1436 governance endpoints and vuex module @fedekunze
 
 ### Changed
 
