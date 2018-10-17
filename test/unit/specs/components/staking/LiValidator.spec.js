@@ -13,8 +13,8 @@ describe(`LiValidator`, () => {
           id: `abc`,
           pub_key: `12345`,
           operator_address: lcdClientMock.validators[1],
-          tokens: `19000000000`,
-          delegator_shares: `19000000000`,
+          tokens: `190000000000`,
+          delegator_shares: `190000000000`,
           description: {
             details: `Herr Schmidt`,
             website: `www.schmidt.de`,

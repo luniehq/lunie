@@ -79,7 +79,7 @@ export default ({ node }) => {
         delegator.delegations.forEach(({ validator_addr, shares }) => {
           commit(`setCommittedDelegation`, {
             candidateId: validator_addr,
-            value: parseFloat(shares) / 1000000000
+            value: parseFloat(shares) / 10000000000
           })
           if (shares > 0) {
             const delegate = candidates.find(

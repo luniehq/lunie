@@ -124,7 +124,7 @@ let state = {
         {
           delegator_addr: addresses[0],
           validator_addr: validators[0],
-          shares: `14000000000`,
+          shares: `140000000000`,
           height: 123
         }
       ],
@@ -136,8 +136,8 @@ let state = {
       operator_address: validators[0],
       pub_key: `cosmosvalpub1234`,
       revoked: false,
-      tokens: `14000000000`,
-      delegator_shares: `14000000000`,
+      tokens: `140000000000`,
+      delegator_shares: `140000000000`,
       description: {
         website: `www.monty.ca`,
         details: `Mr Mounty`,
@@ -183,8 +183,8 @@ let state = {
     {
       operator_address: validators[2],
       pub_key: `cosmosvalpub8910`,
-      tokens: `19000000000`,
-      delegator_shares: `19000000000`,
+      tokens: `190000000000`,
+      delegator_shares: `190000000000`,
       description: {
         details: `Herr Schmidt`,
         website: `www.schmidt.de`,
@@ -214,7 +214,7 @@ let state = {
     prev_bonded_shares: 0
   },
   parameters: {
-    inflation_max: `2000000000`,
+    inflation_max: `20000000000`,
     inflation_min: `700000000`,
     goal_bonded: `6700000000`,
     unbonding_time: `72h0m0s`,
@@ -369,6 +369,9 @@ module.exports = {
         delegator.delegations.push(delegation)
       }
 
+      // TODO remove after sdk.Dec parsing is fixed
+      amount = amount * 10000000000
+
       let shares = parseInt(delegation.shares)
       delegation.shares = (shares + amount).toString()
       let candidate = state.candidates.find(
@@ -417,6 +420,10 @@ module.exports = {
         results.push(txResult(2, `Nonexistent delegation`))
         return results
       }
+
+      // TODO remove after sdk.Dec parsing is fixed
+      amount = amount * 10000000000
+
       let shares = parseInt(delegation.shares)
       delegation.shares = (+shares - amount).toString()
 

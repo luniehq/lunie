@@ -326,7 +326,7 @@ describe(`LCD Client Mock`, () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
-    expect(updatedStake.shares).toBe(`10`)
+    expect(updatedStake.shares).toBe(`100000000000`)
   })
 
   it(`executes an unbond tx`, async () => {
@@ -352,7 +352,7 @@ describe(`LCD Client Mock`, () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
-    expect(initialStake.shares).toBe(`10`)
+    expect(initialStake.shares).toBe(`100000000000`)
 
     res = await client.updateDelegations(lcdClientMock.addresses[0], {
       base_req: {
@@ -376,7 +376,7 @@ describe(`LCD Client Mock`, () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
-    expect(updatedStake.shares).toBe(`5`)
+    expect(updatedStake.shares).toBe(`50000000000`)
   })
 
   it(`can not stake fermions you dont have`, async () => {

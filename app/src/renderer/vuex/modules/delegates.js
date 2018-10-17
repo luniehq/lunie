@@ -74,10 +74,10 @@ export default ({ node }) => {
       validators = validators.map(validator => {
         return Object.assign(JSON.parse(JSON.stringify(validator)), {
           tokens: ratToBigNumber(validator.tokens)
-            .div(1000000000)
+            .div(10000000000)
             .toString(),
           delegator_shares: ratToBigNumber(validator.delegator_shares)
-            .div(1000000000)
+            .div(10000000000)
             .toString()
         })
       })
