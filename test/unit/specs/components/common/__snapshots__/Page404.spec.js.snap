@@ -3,6 +3,7 @@
 exports[`Page404 has the expected html structure 1`] = `
 <div
   class="tm-page"
+  data-title="404"
 >
   <header
     class="tm-page-header"
@@ -13,13 +14,7 @@ exports[`Page404 has the expected html structure 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            404 - Page Not Found
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>

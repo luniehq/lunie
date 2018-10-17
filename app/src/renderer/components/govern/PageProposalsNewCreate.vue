@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page(:title="`Proposal: Create ${bondingDenom}s`")
+tm-page(data-title="` Create ${bondingDenom}s` Proposal")
   div(slot="menu"): vm-tool-bar
     router-link(to="/proposals/new" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
