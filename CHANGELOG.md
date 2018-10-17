@@ -7,10 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* Protected Gaia Lite process with a mutex to prevent locking error. @NodeGuy
+* catching errors on cache encryption. @faboweb
+
 ### Changed
 
 * Changed minor component of version number to match testnet version. @NodeGuy
-* Migrated to latest SDK commit 6c9e71b654995b22e3ba4d121553ab20432616a9. @faboweb
+* #1433 Migrated to latest SDK commit 6c9e71b654995b22e3ba4d121553ab20432616a9. @faboweb
+* Updated contribution guidelines. @faboweb
+* #1183 Changed a bunch of JavaScript files to strict mode. @NodeGuy
 
 ### Fixed
 

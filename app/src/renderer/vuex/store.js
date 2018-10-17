@@ -6,6 +6,7 @@ import CryptoJS from "crypto-js"
 import _ from "lodash"
 import * as getters from "./getters"
 import modules from "./modules"
+import Raven from "raven-js"
 
 Vue.use(Vuex)
 
@@ -49,31 +50,38 @@ export default (opts = {}) => {
 }
 
 function persistState(state) {
-  const encryptedState = CryptoJS.AES.encrypt(
-    JSON.stringify({
-      transactions: {
-        wallet: state.transactions.wallet,
-        staking: state.transactions.staking
-      },
-      wallet: {
-        balances: state.wallet.balances
-      },
-      delegation: {
-        loadedOnce: state.delegation.loadedOnce,
-        committedDelegates: state.delegation.committedDelegates,
-        unbondingDelegations: state.delegation.unbondingDelegations
-      },
-      delegates: {
-        delegates: state.delegates.delegates
-      },
-      keybase: {
-        identities: state.keybase.identities
-      }
-    }),
-    state.user.password
-  )
-  // Store the state object as a JSON string
-  localStorage.setItem(getStorageKey(state), encryptedState)
+  try {
+    const encryptedState = CryptoJS.AES.encrypt(
+      JSON.stringify({
+        transactions: {
+          wallet: state.transactions.wallet,
+          staking: state.transactions.staking
+        },
+        wallet: {
+          balances: state.wallet.balances
+        },
+        delegation: {
+          loadedOnce: state.delegation.loadedOnce,
+          committedDelegates: state.delegation.committedDelegates,
+          unbondingDelegations: state.delegation.unbondingDelegations
+        },
+        delegates: {
+          delegates: state.delegates.delegates
+        },
+        keybase: {
+          identities: state.keybase.identities
+        }
+      }),
+      state.user.password
+    )
+    // Store the state object as a JSON string
+    localStorage.setItem(getStorageKey(state), encryptedState)
+  } catch (err) {
+    console.error(`Encrypting the state failed, removing cached state.`)
+    Raven.captureException(err)
+    // if encrypting the state fails, we cleanup
+    localStorage.removeItem(getStorageKey(state))
+  }
 }
 
 function getStorageKey(state) {

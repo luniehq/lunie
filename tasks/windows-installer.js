@@ -1,3 +1,5 @@
+"use strict"
+
 var electronInstaller = require(`electron-winstaller`)
 var { author, version } = require(`../package.json`)
 
