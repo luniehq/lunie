@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page(title='New Proposal')
+tm-page(data-title='New Proposal')
   div(slot="menu"): vm-tool-bar
     router-link(to="/proposals" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back

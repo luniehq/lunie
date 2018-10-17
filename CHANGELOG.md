@@ -15,8 +15,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 * Changed minor component of version number to match testnet version. @NodeGuy
+* [\#1183](https://github.com/cosmos/voyager/issues/1183) Changed a bunch of JavaScript files to strict mode. @NodeGuy
 * Updated contribution guidelines. @faboweb
-* #1183 Changed a bunch of JavaScript files to strict mode. @NodeGuy
+* [\#1447](https://github.com/cosmos/voyager/issues/1447) Removed titles from all pages. @faboweb
+* Updated PR template @fedekunze
 
 ### Fixed
 

@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
+tm-page(data-title="Staking")
   template(slot="menu-body")
     tm-balance(:tabs="tabs")
 

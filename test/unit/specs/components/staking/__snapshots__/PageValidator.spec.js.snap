@@ -3,6 +3,7 @@
 exports[`PageValidator has the expected html structure 1`] = `
 <div
   class="tm-page"
+  data-title="Validator"
 >
   <header
     class="tm-page-header"
@@ -445,6 +446,7 @@ exports[`PageValidator has the expected html structure 1`] = `
 exports[`PageValidator shows a default avatar 1`] = `
 <div
   class="tm-page"
+  data-title="Validator"
 >
   <header
     class="tm-page-header"
@@ -869,6 +871,7 @@ exports[`PageValidator shows a validator as candidate if he has no voting_power 
 exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
 <div
   class="tm-page"
+  data-title="Validator"
 >
   <header
     class="tm-page-header"
