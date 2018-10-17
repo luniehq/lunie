@@ -277,7 +277,8 @@ let state = {
         abstain: `0`
       }
     }
-  ]
+  ],
+  votes: []
 }
 
 module.exports = {

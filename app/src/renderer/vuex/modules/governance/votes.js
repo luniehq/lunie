@@ -2,12 +2,13 @@
 
 export default ({ node }) => {
   const state = {
-    loading: false
+    loading: false,
+    votes: {}
   }
 
   const mutations = {
-    setProposalVotes({ state }, proposalId, votes) {
-      state.proposals[proposalId].votes = votes
+    setProposalVotes(state, proposalId, votes) {
+      state.votes[proposalId] = votes
     }
   }
   let actions = {
