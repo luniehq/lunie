@@ -109,7 +109,6 @@ export default {
     ratToNumber(rat) {
       let idx = rat.indexOf(`/`)
       if (idx == -1) {
-        console.log(`no dec`, rat)
         return Number(rat)
       }
       rat = rat.split("/")

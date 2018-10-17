@@ -221,7 +221,63 @@ let state = {
     index_offset: 1,
     jailed_until: `1970-01-01T00:00:00Z`,
     signed_blocks_counter: 1
-  }
+  },
+  proposals: [
+    {
+      proposal_id: `1`,
+      proposal_type: `Text`,
+      title: `Proposal Title`,
+      description: `Proposal description`,
+      initial_deposit: [
+        {
+          denom: `stake`,
+          amount: `100`
+        }
+      ],
+      total_deposit: [
+        {
+          denom: `stake`,
+          amount: `100`
+        }
+      ],
+      submit_block: `120`,
+      voting_start_block: `135`,
+      proposal_status: `Passed`,
+      tally_result: {
+        yes: `500`,
+        no: `25`,
+        no_with_veto: `10`,
+        abstain: `56`
+      }
+    },
+    {
+      proposal_id: `5`,
+      proposal_type: `Text`,
+      title: `Custom text proposal`,
+      description: `custom text proposal description`,
+      initial_deposit: [
+        {
+          denom: `stake`,
+          amount: `15`
+        }
+      ],
+      total_deposit: [
+        {
+          denom: `stake`,
+          amount: `15`
+        }
+      ],
+      submit_block: `10`,
+      voting_start_block: `-1`,
+      proposal_status: `DepositPeriod`,
+      tally_result: {
+        yes: `0`,
+        no: `0`,
+        no_with_veto: `0`,
+        abstain: `0`
+      }
+    }
+  ]
 }
 
 module.exports = {
