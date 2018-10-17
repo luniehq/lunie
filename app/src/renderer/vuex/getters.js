@@ -68,6 +68,8 @@ export const parameters = state => state.parameters
 
 // governance
 export const proposals = state => state.proposals.proposals
+export const votes = state => state.votes.votes
+export const deposits = state => state.deposits.deposits
 
 // status
 export const approvalRequired = state => state.node.approvalRequired

@@ -32,6 +32,8 @@ export default (opts = {}) => {
       `setUnbondingDelegations`,
       `setDelegates`,
       `setProposal`,
+      `setProposalDeposits`,
+      `setProposalVotes`,
       `setKeybaseIdentities`
     ]
 
@@ -73,7 +75,9 @@ function persistState(state) {
         keybase: {
           identities: state.keybase.identities
         },
-        proposals: state.proposals
+        proposals: state.proposals,
+        deposits: state.deposits,
+        votes: state.votes
       }),
       state.user.password
     )
