@@ -278,7 +278,32 @@ let state = {
       }
     }
   ],
-  votes: []
+  votes: {
+    1: [
+      {
+        proposal_id: `1`,
+        voter: validators[0],
+        option: `yes`
+      },
+      {
+        proposal_id: `1`,
+        voter: validators[1],
+        option: `no_with_veto`
+      }
+    ],
+    5: [
+      {
+        proposal_id: `5`,
+        voter: validators[0],
+        option: `no`
+      },
+      {
+        proposal_id: `5`,
+        voter: validators[1],
+        option: `abstain`
+      }
+    ]
+  }
 }
 
 module.exports = {

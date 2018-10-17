@@ -1,6 +1,5 @@
 import proposalsModule from "renderer/vuex/modules/governance/proposals.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-import nodeMock from "../../../helpers/node_mock.js"
 let proposals = lcdClientMock.state.proposals
 
 describe(`Module: Delegates`, () => {
