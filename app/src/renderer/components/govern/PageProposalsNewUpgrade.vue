@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page(title="Proposal: Upgrade Code")
+tm-page(data-title="Proposal: Upgrade Code")
   div(slot="menu"): vm-tool-bar
     router-link(to="/proposals/new" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back

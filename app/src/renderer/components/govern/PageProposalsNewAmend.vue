@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page(title="Proposal: Amend Constitution")
+tm-page(data-title="Proposal: Amend Constitution")
   div(slot="menu"): vm-tool-bar
     router-link(to="/proposals/new" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back

@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page(title="Preferences")
+tm-page(data-title="Preferences")
   div(slot="menu"): vm-tool-bar
 
   tm-part(title='Settings')
