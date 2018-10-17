@@ -1,87 +1,60 @@
 import proposalsModule from "renderer/vuex/modules/governance/proposals.js"
-import nodeMock from "../../helpers/node_mock.js"
-import BN from "bignumber.js"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import nodeMock from "../../../helpers/node_mock.js"
+let proposals = lcdClientMock.state.proposals
 
 describe(`Module: Delegates`, () => {
   let module
-  let node
 
   beforeEach(() => {
-    node = Object.assign({}, nodeMock)
-    module = proposalsModule({ node })
+    module = proposalsModule({ node: {} })
   })
 
   it(`adds proposals to state`, () => {
     let { mutations, state } = module
-    mutations.setProposals(state, [
-      {
-        owner: `foo`,
-        tokens: `10`
-      }
-    ])
-    expect(state.proposals).toEqual([
-      {
-        id: `foo`,
-        owner: `foo`,
-        tokens: `10`,
-        voting_power: BN(10)
-      }
-    ])
-  })
-
-  it(`adds a new proposal to state`, () => {
-    let { mutations, state } = module
-    mutations.setProposal(state, {
-      owner: `foo`,
-      tokens: `12`,
-      updated: true
-    })
-    expect(state.proposals).toEqual([
-      {
-        id: `foo`,
-        owner: `foo`,
-        tokens: `12`,
-        updated: true,
-        voting_power: BN(12)
-      }
-    ])
+    mutations.setProposal(state, proposals[0])
+    expect(state.proposals[proposals[0].proposal_id]).toEqual(proposals[0])
   })
 
   it(`replaces existing proposal with same id`, () => {
     let { mutations, state } = module
-    mutations.setProposal(state, {
-      proposal_type: `Text`,
-      proposer: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      title: `Custom text proposal`,
-      description: `a very important proposal. Please everyone vote on it!`,
-      initial_deposit: [
-        {
-          denom: `atom`,
-          amount: 10
-        }
-      ]
-    })
-    expect(state.proposals).toEqual([
+    mutations.setProposal(state, proposals[0])
+    let newProposal = JSON.parse(JSON.stringify(proposals[0]))
+    newProposal.tally_result = {
+      yes: `10`,
+      no: `3`,
+      no_with_veto: `1`,
+      abstain: `4`
+    }
+    mutations.setProposal(state, newProposal)
+    expect(state.proposals[proposals[0].proposal_id]).toHaveProperty(
+      `tally_result`,
       {
-        proposal_id: 1,
-        proposal_type: `Text`,
-        proposer: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-        title: `Custom text proposal`,
-        description: `a very important proposal. Please everyone vote on it!`,
-        initial_deposit: [
-          {
-            denom: `atom`,
-            amount: 10
-          }
-        ]
+        yes: `10`,
+        no: `3`,
+        no_with_veto: `1`,
+        abstain: `4`
       }
-    ])
+    )
   })
 
   it(`fetches all proposals`, async () => {
+    module = proposalsModule({
+      node: {
+        queryProposals: () =>
+          Promise.resolve(
+            proposals.map(proposal => ({
+              value: proposal
+            }))
+          )
+      }
+    })
     let { actions, state } = module
     let commit = jest.fn()
-    let proposals = await actions.getProposals({ state, commit })
-    expect(commit.mock.calls).toEqual([[`setProposals`, proposals]])
+    await actions.getProposals({ state, commit })
+    expect(commit.mock.calls).toEqual([
+      [`setProposal`, proposals[0]],
+      [`setProposal`, proposals[1]]
+    ])
   })
 })
