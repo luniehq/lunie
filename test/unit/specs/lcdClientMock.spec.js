@@ -14,12 +14,12 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`generates seeds`, async () => {
-    let seed = await client.keys.get(`seed`)
+    let seed = await client.keys.seed()
     expect(seed.split(` `).length).toBe(24)
   })
 
   it(`persists keys`, async () => {
-    let seed = await client.keys.get(`seed`)
+    let seed = await client.keys.seed()
     let res = await client.keys.add({
       name: `foo`,
       password: `1234567890`,

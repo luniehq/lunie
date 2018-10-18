@@ -11,11 +11,13 @@
 
 let axios = require(`axios`)
 const Express = require(`express`)
+const mung = require(`express-mung`)
 const http = require(`http`)
 let LcdClient = require(`renderer/connectors/lcdClient.js`)
 let lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
 const path = require(`path`)
 const createMiddleware = require(`swagger-express-middleware`)
+const { MemoryDataStore, Resource } = createMiddleware
 const { promisify } = require(`util`)
 
 describe(`LCD Client`, () => {
@@ -92,7 +94,7 @@ describe(`LCD Client`, () => {
       try {
         await await client.keys.values()
       } catch (err) {
-        expect(err.message).toBe(`foo`)
+        expect(err.response.data).toBe(`foo`)
       }
       expect(axios.get.mock.calls[0]).toEqual([
         `http://localhost/keys`,
@@ -112,6 +114,7 @@ describe(`LCD Client`, () => {
   })
 
   let client
+  const dataStore = new MemoryDataStore()
   let mockServer
   let remoteLcdURL
 
@@ -133,13 +136,34 @@ describe(`LCD Client`, () => {
       response.send(request.swagger.path.get.responses[`200`].example)
     })
 
+    // Don't return passwords.
+    application.get(
+      `/keys`,
+      mung.json(body => {
+        body.forEach(key => {
+          delete key.password
+        })
+
+        return body
+      })
+    )
+
+    // Don't return passwords.
+    application.get(
+      `/keys/:name`,
+      mung.json(body => {
+        delete body.password
+        return body
+      })
+    )
+
     application.use(
       // Why is this necessary?
       middleware.CORS(),
 
       middleware.parseRequest(),
       middleware.validateRequest(),
-      middleware.mock()
+      middleware.mock(dataStore)
     )
 
     mockServer = http.createServer(application)
@@ -154,8 +178,33 @@ describe(`LCD Client`, () => {
   })
 
   describe(`Gaia-Lite`, () => {
+    beforeEach(done => {
+      const initialState = [
+        {
+          collection: `/keys`,
+          name: `Main`,
+          data: {
+            address: `cosmoszgnkwr7eyyv643dllwfpdwensmgdtz89yu73zq`,
+            name: `Main Account`,
+            password: `password`,
+            pub_key: `cosmospub1addwnpepqfgv3pakxazq2fgs8tmmhmzsrs94fptl7kyztyxprjpf0mkus3h7cxqe70s`,
+            seed: `blossom pool issue kidney elevator blame furnace winter account merry vessel security depend exact travel bargain problem jelly rural net again mask roast chest`,
+            type: `local`
+          }
+        }
+      ]
+
+      dataStore.save(Resource.parse(initialState), done)
+    })
+
+    afterEach(done => {
+      dataStore.deleteCollection(`/keys`, done)
+    })
+
     describe(`keys`, () => {
       it(`add`, async () => {
+        expect(await client.keys.get(`foo`)).toEqual(undefined)
+
         await client.keys.add({
           name: `foo`,
           password: `1234567890`,
@@ -165,7 +214,6 @@ describe(`LCD Client`, () => {
         expect(await client.keys.get(`foo`)).toEqual({
           address: `cosmoszgnkwr7eyyv643dllwfpdwensmgdtz89yu73zq`,
           name: `foo`,
-          password: `1234567890`,
           pub_key: `cosmospub1addwnpepqfgv3pakxazq2fgs8tmmhmzsrs94fptl7kyztyxprjpf0mkus3h7cxqe70s`,
           seed: `seed some thin`,
           type: `local`
@@ -173,40 +221,16 @@ describe(`LCD Client`, () => {
       })
 
       it(`delete`, async () => {
-        await client.keys.add({
-          name: `foo`,
-          password: `1234567890`,
-          seed: `seed some thin`
-        })
-
-        expect(await client.keys.values()).toEqual([
-          {
-            address: `cosmoszgnkwr7eyyv643dllwfpdwensmgdtz89yu73zq`,
-            name: `foo`,
-            password: `1234567890`,
-            pub_key: `cosmospub1addwnpepqfgv3pakxazq2fgs8tmmhmzsrs94fptl7kyztyxprjpf0mkus3h7cxqe70s`,
-            seed: `seed some thin`,
-            type: `local`
-          }
-        ])
-
-        await client.keys.delete(`foo`, { name: `foo`, password: `___` })
+        await client.keys.delete(`Main`, { password: `password` })
         expect(await client.keys.values()).toEqual([])
       })
 
       it(`get`, async () => {
-        await client.keys.add({
-          name: `foo`,
-          password: `1234567890`,
-          seed: `seed some thin`
-        })
-
-        expect(await client.keys.get(`foo`)).toEqual({
+        expect(await client.keys.get(`Main`)).toEqual({
           address: `cosmoszgnkwr7eyyv643dllwfpdwensmgdtz89yu73zq`,
-          name: `foo`,
-          password: `1234567890`,
+          name: `Main Account`,
           pub_key: `cosmospub1addwnpepqfgv3pakxazq2fgs8tmmhmzsrs94fptl7kyztyxprjpf0mkus3h7cxqe70s`,
-          seed: `seed some thin`,
+          seed: `blossom pool issue kidney elevator blame furnace winter account merry vessel security depend exact travel bargain problem jelly rural net again mask roast chest`,
           type: `local`
         })
       })
@@ -220,20 +244,25 @@ describe(`LCD Client`, () => {
         )
       })
 
-      it(`values`, async () => {
-        await client.keys.add({
-          name: `foo`,
-          password: `1234567890`,
-          seed: `seed some thin`
+      it(`set`, async () => {
+        await client.keys.set(`Main`, {
+          new_password: `new password`,
+          old_password: `password`
         })
 
+        expect(
+          (await promisify(dataStore.get.bind(dataStore))(`/keys/Main`)).data
+            .new_password
+        ).toEqual(`new password`)
+      })
+
+      it(`values`, async () => {
         expect(await client.keys.values()).toEqual([
           {
             address: `cosmoszgnkwr7eyyv643dllwfpdwensmgdtz89yu73zq`,
-            name: `foo`,
-            password: `1234567890`,
+            name: `Main Account`,
             pub_key: `cosmospub1addwnpepqfgv3pakxazq2fgs8tmmhmzsrs94fptl7kyztyxprjpf0mkus3h7cxqe70s`,
-            seed: `seed some thin`,
+            seed: `blossom pool issue kidney elevator blame furnace winter account merry vessel security depend exact travel bargain problem jelly rural net again mask roast chest`,
             type: `local`
           }
         ])
@@ -400,7 +429,7 @@ describe(`LCD Client`, () => {
         try {
           await client.queryAccount(`address`)
         } catch (err) {
-          expect(err.message).toBe(`something failed`)
+          expect(err.response.data).toBe(`something failed`)
         }
       })
     })

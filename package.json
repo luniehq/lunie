@@ -64,6 +64,7 @@
     "eslint-friendly-formatter": "2.0.7",
     "eslint-plugin-html": "4.0.3",
     "express": "4.16.4",
+    "express-mung": "0.5.1",
     "file-loader": "1.1.11",
     "html-beautify": "1.0.4",
     "html-webpack-plugin": "2.30.1",

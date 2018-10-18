@@ -3,17 +3,7 @@
 const Client = (axios, localLcdURL, remoteLcdURL) => {
   async function request(method, path, data, useRemote) {
     const url = useRemote ? remoteLcdURL : localLcdURL
-
-    try {
-      let res = await axios[method.toLowerCase()](url + path, data)
-      return res.data
-    } catch (resError) {
-      if (!resError.response || !resError.response.data) {
-        throw resError
-      }
-      // server responded with error message, create an Error from that
-      throw Error(resError.response.data)
-    }
+    return (await axios[method.toLowerCase()](url + path, data)).data
   }
 
   // returns an async function which makes a request for the given
@@ -48,7 +38,16 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prop data
     delete: argReq(`DELETE`, `/keys`),
 
-    get: argReq(`GET`, `/keys`),
+    get: async key => {
+      try {
+        return await req(`GET`, `/keys/${key}`)()
+      } catch (exception) {
+        if (exception.response.status !== 404) {
+          throw exception
+        }
+      }
+    },
+
     seed: () => keys.get(`seed`),
     set: argReq(`PUT`, `/keys`),
     values: req(`GET`, `/keys`)
@@ -75,7 +74,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
         })
         .catch(err => {
           // if account not found, return null instead of throwing
-          if (err.message.includes(`account bytes are empty`)) {
+          if (err.response.data.includes(`account bytes are empty`)) {
             return null
           }
           throw err

@@ -243,10 +243,10 @@ const keys = {
     state.keys = state.keys.filter(k => k.name !== name)
   },
 
-  get: async name =>
-    name === `seed`
-      ? `grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon grace admit inherit female grant pledge shine inquiry`
-      : state.keys.find(k => k.name === name),
+  get: async name => state.keys.find(k => k.name === name),
+
+  seed: () =>
+    `blossom pool issue kidney elevator blame furnace winter account merry vessel security depend exact travel bargain problem jelly rural net again mask roast chest`,
 
   set: async (account, { name, old_password, new_password }) => {
     // eslint-disable-line camelcase
