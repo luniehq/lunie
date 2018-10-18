@@ -12,9 +12,9 @@ tm-page(data-title='Proposals')
   data-empty-search(v-else-if="filteredProposals.length === 0")
   li-proposal(
     v-else
-    v-for="(value, key) in proposals"
-    :key="key"
-    :proposal="value")
+    v-for="p in filteredProposals"
+    :key="p.id"
+    :proposal="p")
 </template>
 
 <script>
@@ -40,14 +40,13 @@ export default {
   computed: {
     ...mapGetters([`proposals`, `filters`]),
     somethingToSearch() {
-      console.log(this.proposals)
-      return !this.proposals && !Object.keys(this.proposals).length
+      return !this.proposals.loading && !!this.proposals.length
     },
     filteredProposals() {
-      if (this.proposals && this.filters) {
+      if (this.proposals.items && this.filters) {
         let query = this.filters.proposals.search.query
         let proposals = orderBy(
-          this.proposals,
+          this.proposals.items,
           [this.sort.property],
           [this.sort.order]
         )
@@ -96,9 +95,6 @@ export default {
     }
   }),
   methods: {
-    getProposals() {
-      this.$store.dispatch(`getProposals`)
-    },
     gotoPrevote() {
       this.$store.commit(`notify`, {
         title: `TODO: Prevote Proposals`,
@@ -120,7 +116,6 @@ export default {
     }
   },
   mounted() {
-    this.getProposals()
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind([`command+n`, `ctrl+n`], () => this.gotoNewProposal())
     Mousetrap.bind(`esc`, () => this.setSearch(false))

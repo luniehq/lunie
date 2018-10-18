@@ -1,22 +1,22 @@
 <template lang="pug">
 tm-page(data-title='Proposal')
   div(slot="menu"): vm-tool-bar
-    a(@click="commentOnProposal(proposal.proposal_id)"): i.material-icons comment
-    a(@click="proposalIsSpam(proposal.proposal_id)"): i.material-icons error
+    a(@click="commentOnProposal(proposal.id)"): i.material-icons comment
+    a(@click="proposalIsSpam(proposal.id)"): i.material-icons error
 
-  tm-part(v-if="proposal.type === 'Text' && proposal.proposal_status === 'VotingPeriod'")
-    div(slot='title') Proposed by #[router-link(:to="{ name: 'delegate', params: { delegate: proposal.proposer }}") {{ proposal.proposer }}]
-    text-block(:content="proposal.title")
+  tm-part(v-if="proposal.type === 'text'")
+    div(slot='title') Proposed by #[router-link(:to="{ name: 'delegate', params: { delegate: proposal.validatorId }}") {{ proposal.validatorId }}]
+    text-block(:content="proposal.data.text")
 
-  tm-part(title='Time to vote: 13D 23H 27M' v-if="proposal.proposal_status === 'VotingPeriod'"): tm-form-struct(:submit='confirmVote')
+  tm-part(title='Time to vote: 13D 23H 27M'): tm-form-struct(:submit='confirmVote')
     field-vote(@click.native="vote('yes')" dt='Yes' :dd='yesPct'
       color='hsl(120,50%,35%)' :active="votePick === 'yes'" :results="voteVisible")
 
     field-vote(@click.native="vote('no')" dt='No' :dd="noPct"
       color='hsl(0,50%,35%)' :active="votePick === 'no'" :results="voteVisible")
 
-    field-vote(@click.native="vote('no_with_veto')" dt='No with veto' :dd="rejectPct"
-      color='hsl(330,50%,35%)' :active="votePick === 'no_with_veto'" :results="voteVisible")
+    field-vote(@click.native="vote('reject')" dt='Reject' :dd="rejectPct"
+      color='hsl(330,50%,35%)' :active="votePick === 'reject'" :results="voteVisible")
 
     field-vote(@click.native="vote('abstain')" dt='Abstain' :dd="abstainPct"
       color='hsl(0,0%,35%)' :active="votePick === 'abstain'" :results="voteVisible")
@@ -44,37 +44,39 @@ export default {
     VmToolBar
   },
   computed: {
+    ...mapGetters([`proposals`]),
     proposal() {
       if (this.proposals) {
-        return this.proposals[this.$route.params.proposal]
+        return this.proposals.items.find(
+          p => p.id === this.$route.params.proposal
+        )
       } else {
         return {}
       }
     },
     totalVotes() {
-      console.log(this.proposal.tally_result)
       return (
-        this.proposal.tally_result.yes +
-        this.proposal.tally_result.no +
-        this.proposal.tally_result.no_with_veto +
-        this.proposal.tally_result.abstain
+        this.proposal.votes.yes +
+        this.proposal.votes.no +
+        this.proposal.votes.reject +
+        this.proposal.votes.abstain
       )
     },
     yesPct() {
-      return this.proposal.tally_result.yes / this.totalVotes
+      return this.proposal.votes.yes / this.totalVotes
     },
     noPct() {
-      return this.proposal.tally_result.no / this.totalVotes
+      return this.proposal.votes.no / this.totalVotes
     },
     rejectPct() {
-      return this.proposal.tally_result.no_with_veto / this.totalVotes
+      return this.proposal.votes.reject / this.totalVotes
     },
     abstainPct() {
-      return this.proposal.tally_result.abstain / this.totalVotes
+      return this.proposal.votes.abstain / this.totalVotes
     }
   },
   data: () => ({
-    votePick: `no_with_veto`,
+    votePick: `abstain`,
     voteVisible: false
   }),
   methods: {

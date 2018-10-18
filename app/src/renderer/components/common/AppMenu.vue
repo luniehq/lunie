@@ -40,7 +40,13 @@ export default {
     UserPane
   },
   computed: {
-    ...mapGetters([`validators`, `config`, `lastHeader`, `mockedConnector`]),
+    ...mapGetters([
+      `proposals`,
+      `validators`,
+      `config`,
+      `lastHeader`,
+      `mockedConnector`
+    ]),
     isValidatorPage() {
       return this.$route.params.validator
     }

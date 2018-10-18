@@ -4,44 +4,31 @@
   .chart-legend(v-if="size === 'lg'" :class="chartLabelClass")
     .kv.abstain: .container
       .key Abstain
-      .value {{ this.ratToNumber(votes.abstain) }}
+      .value {{ votes.abstain }}
     .kv.yes: .container
       .key Yes
-      .value {{ this.ratToNumber(votes.yes) }}
+      .value {{ votes.yes }}
+    .kv.reject: .container
+      .key Reject
+      .value {{ votes.reject }}
     .kv.no: .container
       .key No
-      .value {{ this.ratToNumber(votes.no) }}
-    .kv.no_with_veto: .container
-      .key No With Veto
-      .value {{ this.ratToNumber(votes.no_with_veto) }}
+      .value {{ votes.no }}
   .chart-legend(v-else :class="chartLabelClass")
-    .kv.abstain {{ this.ratToNumber(votes.abstain) }}
-    .kv.yes {{ this.ratToNumber(votes.yes) }}
-    .kv.no_with_veto {{ this.ratToNumber(votes.no_with_veto) }}
-    .kv.no {{ this.ratToNumber(votes.no) }}
+    .kv.abstain {{ votes.abstain }}
+    .kv.yes {{ votes.yes }}
+    .kv.reject {{ votes.reject }}
+    .kv.no {{ votes.no }}
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import Chart from "chart.js"
-const BN = require(`bignumber.js`).BigNumber
 export default {
   name: `chart-votes`,
   props: [`votes`, `size`],
   computed: {
     ...mapGetters([`themes`]),
-    yes() {
-      return this.ratToNumber(votes.yes)
-    },
-    no() {
-      return this.ratToNumber(votes.no)
-    },
-    abstain() {
-      return this.ratToNumber(votes.abstain)
-    },
-    noWithVeto() {
-      return this.ratToNumber(votes.no_with_veto)
-    },
     cssClass() {
       if (this.size === `lg`) {
         return `chart-votes-size-lg`
@@ -62,7 +49,7 @@ export default {
         case 1:
           return `no`
         default:
-          return `no_with_veto`
+          return `reject`
       }
     },
     chartData() {
@@ -73,7 +60,7 @@ export default {
         abstainBgColor = `#000000`
       }
       return {
-        labels: [`Yes`, `No`, `No with veto`, `Abstain`],
+        labels: [`Yes`, `No`, `Reject`, `Abstain`],
         datasets: [
           {
             borderWidth: 0,
@@ -106,20 +93,6 @@ export default {
     }
   }),
   methods: {
-    ratToNumber(rat) {
-      let idx = rat.indexOf(`/`)
-      if (idx == -1) {
-        return Number(rat)
-      }
-      rat = rat.split("/")
-      let n = new BN(rat[0])
-      let d = new BN(rat[1])
-
-      return n
-        .div(d)
-        .toNumber()
-        .toFixed(0)
-    },
     drawChart() {
       let ctx = this.$el.querySelector(`canvas`)
       new Chart(ctx, {
@@ -149,20 +122,20 @@ export default {
 
   &.chart-votes-size-sm
     .chart-canvas
-      width 6rem
-      height 6rem
+      width 4rem
+      height 4rem
 
     .chart-legend
       position absolute
       top 0
       left 0
-      width 6rem
-      height 6rem
+      width 4rem
+      height 4rem
       display flex
       flex-flow row wrap
       align-items center
       justify-content center
-      padding-right 8rem
+      padding 1rem
 
       .kv
         width 1rem
@@ -180,13 +153,13 @@ export default {
         &.no
           color var(--danger)
 
-        &.no_with_veto
-          color var(--darkred)
+        &.reject
+          color var(--warning)
 
   &.chart-votes-size-lg
     .chart-canvas
-      width 15rem
-      height 15rem
+      width 18rem
+      height 18rem
       border-radius 9rem
 
     .legend
@@ -208,10 +181,10 @@ export default {
           color var(--success)
 
         &.no .value
-          color var(--danger)
+          color var(--warning)
 
-        &.no_with_veto .value
-          color var(--danger-bc)
+        &.reject .value
+          color var(--danger)
 
         .container
           flex 1
