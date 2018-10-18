@@ -199,7 +199,7 @@ describe(`Module: Delegations`, () => {
     stakingTransactions.unbondings = [
       {
         validator: {
-          owner: lcdClientMock.validators[0],
+          operator_address: lcdClientMock.validators[0],
           delegator_shares: `100`,
           tokens: `100`
         },

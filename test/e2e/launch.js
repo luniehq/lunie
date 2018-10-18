@@ -8,6 +8,7 @@ let { spawn } = require(`child_process`)
 const util = require(`util`)
 const exec = util.promisify(require(`child_process`).exec)
 let fs = require(`fs-extra`)
+let { sleep } = require(`../e2e/common.js`)
 
 const testDir = join(__dirname, `../../testArtifacts`)
 
@@ -23,13 +24,14 @@ const osFolderName = (function() {
       return `linux_amd64`
   }
 })()
-let binary =
+let cliBinary =
   process.env.BINARY_PATH ||
   join(__dirname, `../../builds/Gaia/`, osFolderName, `gaiacli`)
 
 let nodeBinary =
   process.env.NODE_BINARY_PATH ||
   join(__dirname, `../../builds/Gaia/`, osFolderName, `gaiad`)
+const defaultStartPort = 26656
 
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
@@ -43,41 +45,46 @@ function launch(t) {
     })
 
     started = new Promise(async resolve => {
-      console.log(`using cli binary`, binary)
+      console.log(`using cli binary`, cliBinary)
       console.log(`using node binary`, nodeBinary)
 
       cliHome = join(testDir, `cli_home`)
       nodeHome = join(testDir, `node_home`)
-      console.error(`ui home: ${cliHome}`)
-      console.error(`node home: ${nodeHome}`)
 
       fs.removeSync(`testArtifacts`)
 
       // setup first node
       const initValues = await initLocalNode(1)
       const nodeOneHome = nodeHome + `_1`
+      const nodeOneCliHome = cliHome + `_1`
+      console.error(`ui home: ${cliHome}`)
+      console.error(`node home: ${nodeOneHome}`)
       let genesis = fs.readJSONSync(join(nodeOneHome, `config/genesis.json`))
+      fs.writeJSONSync(join(nodeOneCliHome, `genesis.json`), genesis)
       const nodeOneId = await getNodeId(nodeOneHome)
       reduceTimeouts(nodeOneHome)
       disableStrictAddressbook(nodeOneHome)
+      await saveVersion(nodeHome + `_1`)
+
+      // get address to delegate staking tokens to 2nd and 3rd validator
+      let { address } = await getDefaultKey(nodeOneCliHome)
+      // wait till the first node produces blocks
+      await startLocalNode(1)
 
       // setup additional nodes
-      genesis = await addValidatorNode(2, genesis)
-      genesis = await addValidatorNode(3, genesis)
-
-      // we need to write back the updated genesis
-      writeGenesis(genesis, nodeOneHome)
-      writeGenesis(genesis, nodeHome + `_2`)
-      writeGenesis(genesis, nodeHome + `_3`)
+      await initSecondaryLocalNode(2, genesis, address)
+      await initSecondaryLocalNode(3, genesis, address)
 
       // wait until all nodes are showing blocks, so we know they are running
-      await Promise.all([
-        startLocalNode(1),
-        startLocalNode(2, nodeOneId),
-        startLocalNode(3, nodeOneId)
-      ])
+      await startLocalNode(2, nodeOneId)
+      await startLocalNode(3, nodeOneId)
       console.log(`Started local nodes.`)
-      await saveVersion(nodeHome + `_1`)
+
+      // make our secondary nodes also to validators
+      // await sleep(2000) // TODO identify why this timeout is needed
+      await makeValidator(2)
+      await makeValidator(3)
+      console.log(`Declared secondary nodes to be a validator.`)
 
       app = new Application({
         path: electron,
@@ -94,11 +101,11 @@ function launch(t) {
           PREVIEW: `true`,
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
           COSMOS_HOME: cliHome,
-          COSMOS_NETWORK: join(nodeHome + `_1`, `config`),
+          COSMOS_NETWORK: join(nodeOneHome, `config`),
           COSMOS_MOCKED: false, // the e2e tests expect mocking to be switched off
+          BINARY_PATH: cliBinary,
           LCD_URL: `http://localhost:9071`,
-          RPC_URL: `http://localhost:26657`,
-          BINARY_PATH: binary
+          RPC_URL: `http://localhost:${defaultStartPort + 1}`
         }
       })
 
@@ -246,16 +253,16 @@ async function handleCrash(app, error) {
 // wait for blocks to show as a proof, the node is running correctly
 function startLocalNode(number, nodeOneId = ``) {
   return new Promise((resolve, reject) => {
-    const defaultStartPort = 26656
     const thisNodeHome = `${nodeHome}_${number}`
     let command = `${nodeBinary} start --home ${thisNodeHome}`
     if (number > 1) {
+      // setup different ports
       command += ` --p2p.laddr=tcp://0.0.0.0:${defaultStartPort -
         (number - 1) * 3} --address=tcp://0.0.0.0:${defaultStartPort -
         (number - 1) * 3 +
-        1} --rpc.laddr=tcp://0.0.0.0:${defaultStartPort -
-        (number - 1) * 3 +
-        2} --p2p.persistent_peers="${nodeOneId}@localhost:${defaultStartPort}"`
+        1} --rpc.laddr=tcp://0.0.0.0:${defaultStartPort - (number - 1) * 3 + 2}`
+      // set the first node as a persistent peer
+      command += ` --p2p.persistent_peers="${nodeOneId}@localhost:${defaultStartPort}"`
     }
     console.log(command)
     const localnodeProcess = spawn(command, { shell: true })
@@ -293,12 +300,16 @@ function startLocalNode(number, nodeOneId = ``) {
 
 function initLocalNode(number = 1) {
   return new Promise((resolve, reject) => {
-    const command = `${nodeBinary} init --home ${nodeHome}_${number} --chain-id=test_chain --name local_${number} --owk --overwrite`
+    const command =
+      `${nodeBinary} init --home ${nodeHome}_${number} --name local_${number} --owk --overwrite --chain-id=test_chain` +
+      // this command stores the keys and address of the default account in a predictable ways
+      ` --home-client ${cliHome}_${number}`
+
     console.log(command)
     const localnodeProcess = spawn(command, { shell: true })
     localnodeProcess.stderr.pipe(process.stderr)
 
-    localnodeProcess.stdin.write(`12345678\n`)
+    localnodeProcess.stdin.write(`1234567890\n`)
 
     localnodeProcess.stdout.once(`data`, data => {
       let msg = data.toString()
@@ -315,61 +326,116 @@ function initLocalNode(number = 1) {
 }
 
 // init a node and define it as a validator
-async function addValidatorNode(number, genesis) {
+async function initSecondaryLocalNode(number, mainGenesis) {
   let newNodeHome = nodeHome + `_` + number
 
   await initLocalNode(number)
-
-  const newNodePubKey = getValidatorPublicKey(newNodeHome)
-  const newNodeOwner = getValidatorOwner(newNodeHome)
-
-  addValidator(genesis, newNodePubKey, newNodeOwner, number)
+  fs.writeJSONSync(join(newNodeHome, `config/genesis.json`), mainGenesis)
   reduceTimeouts(newNodeHome)
   disableStrictAddressbook(newNodeHome)
-
-  return genesis
 }
 
-async function getNodeId(node_home) {
-  let command = `${nodeBinary} tendermint show_node_id --home ${node_home}`
+// declare candidacy for node
+async function makeValidator(number) {
+  let newNodeHome = nodeHome + `_` + number
+  let newCliHome = cliHome + `_` + number
+
+  let valPubKey = await getValPubKey(newNodeHome)
+  let { address } = await getDefaultKey(newCliHome)
+  await sendTokens(cliHome + `_1`, `10steak`, `local_1`, address)
+  while (true) {
+    console.log(`Waiting for funds to delegate`)
+    try {
+      await sleep(1000) // TODO identify why this timeout is needed
+      await getBalance(cliHome + `_1`, address)
+    } catch (err) {
+      continue
+    }
+    break
+  }
+  await declareValidator(
+    cliHome + `_` + number,
+    `local_${number}`,
+    valPubKey,
+    address,
+    `local_${number}`
+  )
+}
+
+async function getValPubKey(node_home) {
+  let command = `${nodeBinary} tendermint show-validator --home ${node_home}`
   console.log(command)
   const { stdout } = await exec(command)
   return stdout.trim()
 }
-
-function getValidatorPublicKey(node_home) {
-  let privValidatorKeys = fs.readJSONSync(
-    join(node_home, `config/priv_validator.json`)
-  )
-  return privValidatorKeys.pub_key
+async function getNodeId(node_home) {
+  let command = `${nodeBinary} tendermint show-node-id --home ${node_home}`
+  console.log(command)
+  const { stdout } = await exec(command)
+  return stdout.trim()
 }
-
-function getValidatorOwner(node_home) {
-  let genesis = fs.readJSONSync(join(node_home, `config/genesis.json`))
-
-  return genesis.app_state.stake.validators[0].owner
+async function getDefaultKey(cliHome) {
+  let command = `${cliBinary} keys list --home ${cliHome} --output "json"`
+  console.log(command)
+  const { stdout } = await exec(command)
+  return JSON.parse(stdout.trim())[0]
 }
-
-function addValidator(genesis, pub_key, owner, number) {
-  genesis.validators.push({
-    pub_key,
-    power: `50`,
-    name: ``
+async function getBalance(cliHome, address) {
+  let command = `${cliBinary} query account ${address} --home ${cliHome} --output "json" --trust-node`
+  console.log(command)
+  const { stdout } = await exec(command)
+  return JSON.parse(stdout.trim())
+}
+async function declareValidator(
+  mainCliHome,
+  moniker,
+  valPubKey,
+  operatorAddress,
+  coinHolderAccountName
+) {
+  let command =
+    `${cliBinary} tx create-validator` +
+    ` --home ${mainCliHome}` +
+    ` --from ${coinHolderAccountName}` +
+    ` --amount=10steak` +
+    ` --pubkey=${valPubKey}` +
+    ` --address-delegator=${operatorAddress}` +
+    ` --moniker="${moniker}"` +
+    ` --chain-id=test_chain` +
+    ` --commission-max-change-rate=0` +
+    ` --commission-max-rate=0` +
+    ` --commission-rate=0`
+  console.log(command)
+  const child = await spawn(command, { shell: true })
+  child.stderr.pipe(process.stderr)
+  child.stdin.write(`1234567890\n`) // unlock signing key
+  return new Promise((resolve, reject) => {
+    child.stdout.once(`data`, resolve)
+    child.stderr.once(`data`, reject)
   })
-  let newStakeValidator = JSON.parse(
-    JSON.stringify(genesis.app_state.stake.validators[0])
-  )
-  newStakeValidator.pub_key = pub_key
-  newStakeValidator.owner = owner
-  newStakeValidator.tokens = `50`
-  newStakeValidator.delegator_shares = `50`
-  newStakeValidator.description.moniker = `local_` + number
-  genesis.app_state.stake.validators.push(newStakeValidator)
-  genesis.app_state.stake.pool.loose_tokens += 50
 }
 
-function writeGenesis(genesis, node_home) {
-  fs.writeJSONSync(join(node_home, `config/genesis.json`), genesis)
+async function sendTokens(
+  mainCliHome,
+  tokenString,
+  fromAccountName,
+  toAddress
+) {
+  let command =
+    `${cliBinary} tx send` +
+    ` --home ${mainCliHome}` +
+    ` --from ${fromAccountName}` +
+    ` --amount=${tokenString}` +
+    ` --to=${toAddress}` +
+    ` --chain-id=test_chain`
+  console.log(command)
+  const child = await spawn(command, { shell: true })
+  child.stderr.pipe(process.stderr)
+  child.stdin.write(`1234567890\n`) // unlock signing key
+  return new Promise((resolve, reject) => {
+    child.stdout.once(`data`, resolve)
+    child.stderr.once(`data`, reject)
+  })
 }
 
 function reduceTimeouts(nodeHome) {
@@ -391,7 +457,7 @@ function reduceTimeouts(nodeHome) {
     .map(line => {
       let [key, value] = line.split(` = `)
       if (timeouts.indexOf(key) !== -1) {
-        return `${key} = ${parseInt(value) / 50}`
+        return `${key} = ${parseInt(value) / 10}`
       }
       return line
     })
@@ -440,7 +506,7 @@ function saveVersion(nodeHome) {
 function createAccount(name, seed) {
   return new Promise((resolve, reject) => {
     let child = spawn(
-      binary,
+      cliBinary,
       [
         `keys`,
         `add`,

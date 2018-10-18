@@ -24,20 +24,20 @@ const Wrapper = () => {
     propsData: {
       fromOptions: [
         {
-          address: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-          key: `My Wallet - cosmosaccaddr…3p4mqpjyrm5ctpesxxn9`,
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+          key: `My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9`,
           maximum: 100,
           value: 0
         },
         {
-          address: `cosmosaccaddr126ayk3hse5zvk9gxfmpsjr9565ef72pv9g20yx`,
-          key: `Billy the Bill - cosmosaccaddr…psjr9565ef72pv9g20yx`,
+          address: `cosmos126ayk3hse5zvk9gxfmpsjr9565ef72pv9g20yx`,
+          key: `Billy the Bill - cosmos…psjr9565ef72pv9g20yx`,
           maximum: 23.0484375481,
           value: 1
         },
         {
-          address: `cosmosaccaddr18thamkhnj9wz8pa4nhnp9rldprgant57ryzag7`,
-          key: `Kentucky - cosmosaccaddr…np9rldprgant57ryzag7`,
+          address: `cosmos18thamkhnj9wz8pa4nhnp9rldprgant57ryzag7`,
+          key: `Kentucky - cosmos…np9rldprgant57ryzag7`,
           maximum: 1.3788878447,
           value: 2
         }
@@ -77,7 +77,7 @@ test(`Delegation button submits delegation and closes modal`, () => {
       args: [
         {
           amount: 50,
-          from: `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+          from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
         }
       ]
     },

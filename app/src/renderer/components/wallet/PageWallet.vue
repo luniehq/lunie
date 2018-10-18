@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page(data-title="Wallet", :title="config.devMode ? '' : 'Wallet'")
+tm-page(data-title="Wallet")
   template(slot="menu-body", v-if="config.devMode"): tm-balance
   div(slot="menu")
     vm-tool-bar

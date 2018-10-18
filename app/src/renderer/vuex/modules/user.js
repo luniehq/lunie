@@ -63,7 +63,10 @@ export default ({ node }) => {
     },
     async loadAccounts({ commit }) {
       try {
-        let keys = await node.listKeys()
+        let keys = await node.listKeys().then(res => {
+          if (res === `[]`) return []
+          return res
+        })
         commit(`setAccounts`, keys)
       } catch (err) {
         commit(`notifyError`, {

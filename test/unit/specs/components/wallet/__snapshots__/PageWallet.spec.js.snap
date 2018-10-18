@@ -63,7 +63,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="address"
                 id="address"
               >
-                cosmosaccaddr…xxn9
+                cosmos…xxn9
               </div>
               <div
                 class="copied"
@@ -207,7 +207,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-title"
                 >
-                  cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+                  cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
                 </div>
                 <div
                   class="tm-li-subtitle"
@@ -501,7 +501,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 class="address"
                 id="address"
               >
-                cosmosaccaddr…xxn9
+                cosmos…xxn9
               </div>
               <div
                 class="copied"
@@ -645,7 +645,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="tm-li-title"
                 >
-                  cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+                  cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
                 </div>
                 <div
                   class="tm-li-subtitle"

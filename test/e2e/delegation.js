@@ -38,10 +38,13 @@ test(`delegation`, async function(t) {
       await app.client.$(`.top=local_3`).isVisible(),
       `show validator 3`
     )
+    let myVotesText = await app.client
+      .$(`.li-validator__value.your-votes`)
+      .getText()
+    let myVotes = parseFloat(myVotesText.replace(/,/g, ``))
+    console.log(myVotesText, myVotes)
     await t.equal(
-      parseFloat(
-        await app.client.$(`.li-validator__value.your-votes`).getText()
-      ),
+      myVotes,
       parseFloat(bondedStake),
       `show my stake in the validator`
     )
