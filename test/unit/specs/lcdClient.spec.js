@@ -214,8 +214,8 @@ describe(`LCD Client`, () => {
       // In the future we'll use the SDK's Swagger file instead of our own copy
       // and this test will dependend on
       // https://github.com/cosmos/cosmos-sdk/pull/2496 being merged.
-      it(`get('seed')`, async () => {
-        expect(await client.keys.get(`seed`)).toEqual(
+      it(`seed`, async () => {
+        expect(await client.keys.seed()).toEqual(
           `blossom pool issue kidney elevator blame furnace winter account merry vessel security depend exact travel bargain problem jelly rural net again mask roast chest`
         )
       })

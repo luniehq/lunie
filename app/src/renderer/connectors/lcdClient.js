@@ -49,6 +49,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     delete: argReq(`DELETE`, `/keys`),
 
     get: argReq(`GET`, `/keys`),
+    seed: () => keys.get(`seed`),
     set: argReq(`PUT`, `/keys`),
     values: req(`GET`, `/keys`)
   }
