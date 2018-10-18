@@ -155,7 +155,7 @@ test(`sign in`, async function(t) {
       await app.client.waitForExist(`#app-content`, 10000)
       await openMenu(app)
       let activeUser = await app.client.$(`#address`).getText()
-      t.ok(activeUser.indexOf(`cosmos`) !== -1, `user is logged in`)
+      t.ok(!activeUser.startsWith(`cosmos`), `user is logged in`)
 
       t.end()
     })
