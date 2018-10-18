@@ -3,6 +3,7 @@
 exports[`PagePreferences has the expected html structure if connected 1`] = `
 <div
   class="tm-page"
+  data-title="Preferences"
 >
   <header
     class="tm-page-header"
@@ -13,13 +14,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Preferences
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>

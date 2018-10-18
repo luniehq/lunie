@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page(:title='proposal.title')
+tm-page(data-title='Proposal')
   div(slot="menu"): vm-tool-bar
     a(@click="commentOnProposal(proposal.id)"): i.material-icons comment
     a(@click="proposalIsSpam(proposal.id)"): i.material-icons error

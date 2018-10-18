@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page
+tm-page(data-title="Validator")
   template(slot="menu-body", v-if="config.devMode"): tm-balance
   div(slot="menu"): tm-tool-bar
     router-link(to="/staking" exact): i.material-icons arrow_back
