@@ -4,12 +4,13 @@ import UndelegationModal from "staking/UndelegationModal"
 import TmModal from "common/TmModal"
 import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import { createLocalVue, mount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import BigNumber from "bignumber.js"
 
 const validator = {
-  operator_address: `1a2b3c`,
+  operator_address: lcdClientMock.validators[0],
   pub_key: `cosmoschiapudding123456789`,
   tokens: `19`,
   delegator_shares: `19`,
@@ -70,11 +71,11 @@ const getterValues = {
     globalPower: 4200
   },
   delegation: {
-    committedDelegates: { "1a2b3c": 0 },
+    committedDelegates: { [lcdClientMock.validators[0]]: 0 },
     unbondingDelegations: {}
   },
   committedDelegations: {
-    "1a2b3c": 0
+    [lcdClientMock.validators[0]]: 0
   },
   keybase: `keybase`,
   oldBondedAtoms: 50,
@@ -94,9 +95,9 @@ describe(`PageValidator`, () => {
     let instance = mount(PageValidator, {
       localVue,
       doBefore: ({ router, store }) => {
-        router.push(`/staking/validators/1a2b3c`)
+        router.push(`/staking/validators/${lcdClientMock.validators[0]}`)
         store.commit(`setCommittedDelegation`, {
-          candidateId: `1a2b3c`,
+          candidateId: lcdClientMock.validators[0],
           value: `123.45678`
         })
         store.commit(`setDelegates`, [validator, validatorTo])
@@ -117,7 +118,9 @@ describe(`PageValidator`, () => {
   })
 
   it(`should return one delegate based on route params`, () => {
-    expect(wrapper.vm.validator.operator_address).toEqual(`1a2b3c`)
+    expect(wrapper.vm.validator.operator_address).toEqual(
+      lcdClientMock.validators[0]
+    )
   })
 
   it(`shows a default avatar`, () => {
@@ -127,7 +130,7 @@ describe(`PageValidator`, () => {
   it(`shows an error if the validator couldn't be found`, () => {
     let instance = mount(PageValidator, {
       doBefore: ({ router }) => {
-        router.push(`/staking/validators/1a2b3c`)
+        router.push(`/staking/validators/${lcdClientMock.validators[0]}`)
       },
       getters: {
         config: () => ({ desktop: false }),
@@ -145,7 +148,7 @@ describe(`PageValidator`, () => {
   it(`shows the selfBond`, async () => {
     await store.commit(`setSelfBond`, {
       validator: {
-        operator_address: `1a2b3c`,
+        operator_address: lcdClientMock.validators[0],
         delegator_shares: `4242`
       },
       ratio: 0.01
@@ -307,11 +310,11 @@ describe(`delegationTargetOptions`, () => {
       getters: {
         ...getterValues,
         committedDelegations: {
-          "1a2b3c": 10
+          [lcdClientMock.validators[0]]: 10
         },
         delegation: {
           committedDelegates: {
-            "1a2b3c": 10
+            [lcdClientMock.validators[0]]: 10
           },
           unbondingDelegations: {}
         }
@@ -346,12 +349,12 @@ describe(`delegationTargetOptions`, () => {
       getters: {
         ...getterValues,
         committedDelegations: {
-          "1a2b3c": 10,
+          [lcdClientMock.validators[0]]: 10,
           cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 5
         },
         delegation: {
           committedDelegates: {
-            "1a2b3c": 10,
+            [lcdClientMock.validators[0]]: 10,
             cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 5
           },
           unbondingDelegations: {}
@@ -399,7 +402,7 @@ describe(`onDelegation`, () => {
       const wrapper = mount(PageValidator, {
         localVue,
         mocks: {
-          $route: { params: { validator: `1a2b3c` } },
+          $route: { params: { validator: lcdClientMock.validators[0] } },
           $store
         }
       })
@@ -417,7 +420,7 @@ describe(`onDelegation`, () => {
 
       const wrapper = mount(PageValidator, {
         mocks: {
-          $route: { params: { validator: `1a2b3c` } },
+          $route: { params: { validator: lcdClientMock.validators[0] } },
           $store
         }
       })
@@ -453,7 +456,10 @@ describe(`onDelegation`, () => {
           } = mount(PageValidator, {
             mocks: {
               $route: {
-                params: { validator: `1a2b3c`, delegator_shares: `19` }
+                params: {
+                  validator: lcdClientMock.validators[0],
+                  delegator_shares: `19`
+                }
               },
               $store
             }
@@ -500,7 +506,10 @@ describe(`onDelegation`, () => {
           } = mount(PageValidator, {
             mocks: {
               $route: {
-                params: { validator: `1a2b3c`, delegator_shares: `19` }
+                params: {
+                  validator: lcdClientMock.validators[0],
+                  delegator_shares: `19`
+                }
               },
               $store
             }
@@ -545,7 +554,10 @@ describe(`onDelegation`, () => {
           } = mount(PageValidator, {
             mocks: {
               $route: {
-                params: { validator: `1a2b3c`, delegator_shares: `19` }
+                params: {
+                  validator: lcdClientMock.validators[0],
+                  delegator_shares: `19`
+                }
               },
               $store
             }
@@ -593,7 +605,7 @@ describe(`onDelegation`, () => {
             getters: getterValues,
             rootState: getterValues,
             state: {
-              committedDelegates: { "1a2b3c": 0 },
+              committedDelegates: { [lcdClientMock.validators[0]]: 0 },
               unbondingDelegations: {}
             }
           }
@@ -602,7 +614,7 @@ describe(`onDelegation`, () => {
             vm: { submitDelegation }
           } = mount(PageValidator, {
             mocks: {
-              $route: { params: { validator: `1a2b3c` } },
+              $route: { params: { validator: lcdClientMock.validators[0] } },
               $store
             }
           })
@@ -637,9 +649,9 @@ describe(`onDelegation`, () => {
                           website: `www.schmidt.de`
                         },
                         selfBond: 0.01,
-                        id: `1a2b3c`,
+                        id: lcdClientMock.validators[0],
                         keybase: undefined,
-                        operator_address: `1a2b3c`,
+                        operator_address: lcdClientMock.validators[0],
                         prev_bonded_shares: `0`,
                         proposer_reward_pool: null,
                         pub_key: `cosmoschiapudding123456789`,
@@ -662,7 +674,7 @@ describe(`onDelegation`, () => {
                   {
                     delegation: { amount: `10`, denom: `atom` },
                     delegator_addr: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-                    validator_addr: `1a2b3c`
+                    validator_addr: lcdClientMock.validators[0]
                   }
                 ],
                 to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -717,7 +729,7 @@ describe(`onDelegation`, () => {
 
           await submitDelegation({
             amount: 5,
-            from: `1a2b3c`
+            from: lcdClientMock.validators[0]
           })
 
           expect($store.dispatch.mock.calls).toEqual([
@@ -767,7 +779,7 @@ describe(`onDelegation`, () => {
 
           await submitDelegation({
             amount: 5,
-            from: `1a2b3c`
+            from: lcdClientMock.validators[0]
           })
 
           expect($store.dispatch.mock.calls).toEqual([
@@ -815,7 +827,7 @@ describe(`onDelegation`, () => {
 
           await submitDelegation({
             amount: 5,
-            from: `1a2b3c`
+            from: lcdClientMock.validators[0]
           })
 
           expect($store.dispatch.mock.calls).toEqual([
@@ -850,7 +862,7 @@ describe(`onDelegation`, () => {
             getters: getterValues,
             rootState: getterValues,
             state: {
-              committedDelegates: { "1a2b3c": 10 },
+              committedDelegates: { [lcdClientMock.validators[0]]: 10 },
               unbondingDelegations: {}
             }
           }
@@ -870,7 +882,7 @@ describe(`onDelegation`, () => {
 
           await submitDelegation({
             amount: 5,
-            from: `1a2b3c`
+            from: lcdClientMock.validators[0]
           })
 
           expect($store.dispatch.mock.calls).toEqual([
@@ -896,7 +908,7 @@ describe(`onDelegation`, () => {
                 begin_redelegates: [
                   {
                     delegator_addr: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-                    validator_src_addr: `1a2b3c`,
+                    validator_src_addr: lcdClientMock.validators[0],
                     validator_dst_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
                     shares: `5.0000000000`
                   }
@@ -932,14 +944,14 @@ describe(`onUnstake`, () => {
         commit: jest.fn(),
         dispatch: jest.fn(),
         getters: Object.assign({}, getterValues, {
-          committedDelegations: { "1a2b3c": 10 }
+          committedDelegations: { [lcdClientMock.validators[0]]: 10 }
         })
       }
 
       const wrapper = mount(PageValidator, {
         localVue,
         mocks: {
-          $route: { params: { validator: `1a2b3c` } },
+          $route: { params: { validator: lcdClientMock.validators[0] } },
           $store
         }
       })
@@ -962,7 +974,7 @@ describe(`onUnstake`, () => {
       const wrapper = mount(PageValidator, {
         localVue,
         mocks: {
-          $route: { params: { validator: `1a2b3c` } },
+          $route: { params: { validator: lcdClientMock.validators[0] } },
           $store
         }
       })
@@ -994,7 +1006,7 @@ describe(`onUnstake`, () => {
           vm: { submitUndelegation }
         } = mount(PageValidator, {
           mocks: {
-            $route: { params: { validator: `1a2b3c` } },
+            $route: { params: { validator: lcdClientMock.validators[0] } },
             $store
           }
         })
@@ -1032,7 +1044,7 @@ describe(`onUnstake`, () => {
           vm: { submitUndelegation }
         } = mount(PageValidator, {
           mocks: {
-            $route: { params: { validator: `1a2b3c` } },
+            $route: { params: { validator: lcdClientMock.validators[0] } },
             $store
           }
         })
@@ -1070,7 +1082,7 @@ describe(`onUnstake`, () => {
           vm: { submitUndelegation }
         } = mount(PageValidator, {
           mocks: {
-            $route: { params: { validator: `1a2b3c` } },
+            $route: { params: { validator: lcdClientMock.validators[0] } },
             $store
           }
         })
@@ -1114,7 +1126,7 @@ describe(`onUnstake`, () => {
           getters: getterValues,
           rootState: getterValues,
           state: {
-            committedDelegates: { "1a2b3c": 10 },
+            committedDelegates: { [lcdClientMock.validators[0]]: 10 },
             unbondingDelegations: {}
           }
         }
@@ -1123,7 +1135,7 @@ describe(`onUnstake`, () => {
           vm: { submitUndelegation }
         } = mount(PageValidator, {
           mocks: {
-            $route: { params: { validator: `1a2b3c` } },
+            $route: { params: { validator: lcdClientMock.validators[0] } },
             $store
           }
         })
@@ -1151,7 +1163,7 @@ describe(`onUnstake`, () => {
                 {
                   delegator_addr: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
                   shares: `10.0000000000`,
-                  validator_addr: `1a2b3c`
+                  validator_addr: lcdClientMock.validators[0]
                 }
               ],
               delegations: undefined,

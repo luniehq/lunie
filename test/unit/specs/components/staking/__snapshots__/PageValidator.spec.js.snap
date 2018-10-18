@@ -158,7 +158,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                 class="address"
                 id="address"
               >
-                …2b3c
+                cosmosvaladdr…8yqw
               </div>
               <div
                 class="copied"
@@ -302,7 +302,7 @@ exports[`PageValidator has the expected html structure 1`] = `
               Operator
             </dt>
             <dd>
-              1a2b3c
+              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
             </dd>
           </dl>
           <dl
@@ -601,7 +601,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                 class="address"
                 id="address"
               >
-                …2b3c
+                cosmosvaladdr…8yqw
               </div>
               <div
                 class="copied"
@@ -745,7 +745,7 @@ exports[`PageValidator shows a default avatar 1`] = `
               Operator
             </dt>
             <dd>
-              1a2b3c
+              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
             </dd>
           </dl>
           <dl
