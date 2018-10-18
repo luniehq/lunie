@@ -11,10 +11,10 @@ describe(`LiValidator`, () => {
       propsData: {
         validator: {
           id: `abc`,
-          pub_key: lcdClientMock.validators[1],
-          owner: `1a2b3c`,
-          tokens: `19`,
-          delegator_shares: `19`,
+          pub_key: `12345`,
+          operator_address: lcdClientMock.validators[1],
+          tokens: `190000000000`,
+          delegator_shares: `190000000000`,
           description: {
             details: `Herr Schmidt`,
             website: `www.schmidt.de`,
@@ -26,10 +26,12 @@ describe(`LiValidator`, () => {
           bond_height: `0`,
           bond_intra_tx_counter: 6,
           proposer_reward_pool: null,
-          commission: `0.05`,
-          commission_max: `0.1`,
-          commission_change_rate: `0.01`,
-          commission_change_today: `0.005`,
+          commission: {
+            rate: `0.05`,
+            max_rate: `0.1`,
+            max_change_rate: `0.005`,
+            update_time: `1970-01-01T00:00:00Z`
+          },
           prev_bonded_shares: `0`,
           voting_power: `10`,
           percent_of_vote: `22%`,
@@ -91,7 +93,7 @@ describe(`LiValidator`, () => {
   })
 
   it(`should show the validator's commission`, () => {
-    expect(wrapper.html()).toContain(wrapper.vm.validator.commission)
+    expect(wrapper.html()).toContain(wrapper.vm.validator.commission.rate)
   })
 
   it(`should show the type of the candidate`, () => {
