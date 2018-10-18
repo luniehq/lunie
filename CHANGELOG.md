@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 * Fixed gaia binary not be found on linux and windows in development @faboweb
+* Fixed upstream cross compilation issue from SDK @faboweb
 
 ## [0.10.7] - 2018-10-10
 
