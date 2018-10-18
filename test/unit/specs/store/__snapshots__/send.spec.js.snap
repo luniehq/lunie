@@ -5,18 +5,20 @@ Array [
   Array [
     "mock_address",
     Object {
-      "account_number": "1",
       "amount": Array [
         Object {
           "amount": 123,
           "denom": "mycoin",
         },
       ],
-      "chain_id": "test-chain",
+      "base_req": Object {
+        "account_number": "1",
+        "chain_id": "test-chain",
+        "name": "default",
+        "password": "1234567890",
+        "sequence": "1",
+      },
       "gas": "50000000",
-      "name": "default",
-      "password": "1234567890",
-      "sequence": "1",
     },
   ],
 ]

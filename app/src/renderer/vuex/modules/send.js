@@ -17,15 +17,14 @@ export default ({ node }) => {
 
   async function doSend({ state, dispatch, commit, rootState }, args) {
     await dispatch(`queryWalletBalances`) // the nonce was getting out of sync, this is to force a sync
-    args.sequence = state.nonce
-    args.name = rootState.user.account
-    args.password = rootState.user.password
-    args.account_number = rootState.wallet.accountNumber // TODO move into LCD?
-
-    let chainId = rootState.node.lastHeader.chain_id
-    args.chain_id = chainId
-    // TODO enable again when IBC is enabled
-    // args.src_chain_id = chainId // for IBC transfer
+    let requestMetaData = {
+      sequence: state.nonce,
+      name: rootState.user.account,
+      password: rootState.user.password,
+      account_number: rootState.wallet.accountNumber, // TODO move into LCD?
+      chain_id: rootState.node.lastHeader.chain_id
+    }
+    args.base_req = requestMetaData
 
     // extract type
     let type = args.type || `send`

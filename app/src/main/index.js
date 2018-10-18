@@ -255,8 +255,8 @@ async function startLCD(home, nodeURL) {
   return new Promise(async (resolve, reject) => {
     log(`startLCD`, home)
     let child = startProcess(LCD_BINARY_NAME, [
-      `advanced`,
       `rest-server`,
+      `--insecure`,
       `--laddr`,
       `tcp://localhost:${LCD_PORT}`,
       `--home`,
@@ -264,7 +264,9 @@ async function startLCD(home, nodeURL) {
       `--node`,
       nodeURL,
       `--chain-id`,
-      chainId
+      chainId,
+      `--trust-node`,
+      true
     ])
     logProcess(child, join(home, `lcd.log`))
 
@@ -493,7 +495,7 @@ async function pickAndConnect() {
 }
 
 async function connect() {
-  log(`starting gaia rest server with nodeURL ${config.lcd_rpc}`)
+  log(`starting gaia rest server with nodeURL ${config.node_lcd}`)
   try {
     lcdProcess = await startLCD(lcdHome, config.node_rpc)
     log(`gaia rest server ready`)

@@ -7,7 +7,7 @@ li.li-validator(:class='styles')
       img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
       .vert
         .top {{ validator.description.moniker }}
-        short-bech32(:address="validator.pub_key")
+        short-bech32(:address="validator.operator_address")
     .li-validator__value.your-votes
       span {{ yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0) ? '< ' + num.full(0.01) : num.full(yourVotes) }}
     .li-validator__value.your-rewards
@@ -43,7 +43,7 @@ export default {
       return `n/a` //TODO: add slashes
     },
     commission() {
-      return `${this.num.pretty(this.validator.commission)}%`
+      return `${this.num.pretty(this.validator.commission.rate)}%`
     },
     uptime() {
       let rollingWindow = 10000 // param of slashing period

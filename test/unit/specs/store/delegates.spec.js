@@ -15,14 +15,14 @@ describe(`Module: Delegates`, () => {
     let { mutations, state } = module
     mutations.setDelegates(state, [
       {
-        owner: `foo`,
+        operator_address: `foo`,
         tokens: `10`
       }
     ])
     expect(state.delegates).toEqual([
       {
         id: `foo`,
-        owner: `foo`,
+        operator_address: `foo`,
         tokens: `10`,
         voting_power: BN(10)
       }
@@ -33,7 +33,7 @@ describe(`Module: Delegates`, () => {
     let { mutations, state } = module
     mutations.setDelegates(state, [
       {
-        owner: `foo`,
+        operator_address: `foo`,
         tokens: `12`,
         updated: true
       }
@@ -41,7 +41,7 @@ describe(`Module: Delegates`, () => {
     expect(state.delegates).toEqual([
       {
         id: `foo`,
-        owner: `foo`,
+        operator_address: `foo`,
         tokens: `12`,
         updated: true,
         voting_power: BN(12)
@@ -53,7 +53,7 @@ describe(`Module: Delegates`, () => {
     let { mutations, state } = module
     mutations.setDelegates(state, [
       {
-        owner: `foo`,
+        operator_address: `foo`,
         tokens: `4000/40`,
         updated: true
       }
@@ -61,7 +61,7 @@ describe(`Module: Delegates`, () => {
     expect(state.delegates).toEqual([
       {
         id: `foo`,
-        owner: `foo`,
+        operator_address: `foo`,
         tokens: `4000/40`,
         updated: true,
         voting_power: BN(100)
@@ -98,7 +98,7 @@ describe(`Module: Delegates`, () => {
     let dispatch = jest.fn()
     mutations.setDelegates(state, [
       {
-        owner: `foo`,
+        operator_address: `foo`,
         tokens: `10`
       }
     ])
@@ -142,7 +142,10 @@ describe(`Module: Delegates`, () => {
   it(`should query self bond of a validator`, async () => {
     let { actions } = module
     let commit = jest.fn()
-    let validator = { owner: nodeMock.validators[0], delegator_shares: `120` }
+    let validator = {
+      operator_address: nodeMock.validators[0],
+      delegator_shares: `120`
+    }
     node.queryDelegation = jest.fn(() => ({ shares: `12` }))
 
     await actions.getSelfBond({ commit }, validator)
@@ -156,7 +159,7 @@ describe(`Module: Delegates`, () => {
     let { actions } = module
     let commit = jest.fn()
     let validator = {
-      owner: nodeMock.validators[0],
+      operator_address: nodeMock.validators[0],
       delegator_shares: `120`,
       selfBond: BN(1)
     }
@@ -169,7 +172,7 @@ describe(`Module: Delegates`, () => {
   it(`should set self bond of a validator`, async () => {
     let { state, mutations } = module
     let validator = {
-      owner: nodeMock.validators[0],
+      operator_address: nodeMock.validators[0],
       delegator_shares: `120`
     }
     state.delegates = [validator]
@@ -179,7 +182,9 @@ describe(`Module: Delegates`, () => {
       ratio: BN(0.1)
     })
     expect(
-      state.delegates.find(({ owner }) => owner === nodeMock.validators[0])
+      state.delegates.find(
+        ({ operator_address }) => operator_address === nodeMock.validators[0]
+      )
     ).toHaveProperty(`selfBond`, BN(0.1))
   })
 })
