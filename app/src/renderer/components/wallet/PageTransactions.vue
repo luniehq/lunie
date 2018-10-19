@@ -17,6 +17,7 @@ tm-page(data-title='Transactions')
     tm-li-any-transaction(
       :validators="delegates.delegates"
       :validatorURL='validatorURL'
+      :proposalsURL='proposalsURL'
       :key="shortid.generate()"
       :transaction="tx"
       :address="wallet.address"
@@ -93,7 +94,8 @@ export default {
       property: `height`,
       order: `desc`
     },
-    validatorURL: `/staking/validators`
+    validatorURL: `/staking/validators`,
+    proposalsURL: `/proposals`
   }),
   methods: {
     refreshTransactions() {
