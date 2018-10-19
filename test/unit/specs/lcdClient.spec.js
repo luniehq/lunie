@@ -136,7 +136,8 @@ describe(`LCD Client`, () => {
       response.send(request.swagger.path.get.responses[`200`].example)
     })
 
-    // Don't return passwords.
+    // Don't return passwords.  This is a workaround to
+    // https://github.com/APIDevTools/swagger-express-middleware/issues/18
     application.get(
       `/keys`,
       mung.json(body => {
@@ -148,7 +149,8 @@ describe(`LCD Client`, () => {
       })
     )
 
-    // Don't return passwords.
+    // Don't return passwords.  This is a workaround to
+    // https://github.com/APIDevTools/swagger-express-middleware/issues/18
     application.get(
       `/keys/:name`,
       mung.json(body => {
