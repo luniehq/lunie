@@ -23,11 +23,12 @@ export default ({ node }) => {
         rootState: { wallet },
         dispatch
       },
-      { proposalId, option }
+      proposalId,
+      option
     ) {
       await dispatch(`sendTx`, {
         type: `submitVote`,
-        proposalID: proposalId,
+        proposal_id: proposalId,
         voter: wallet.address,
         option
       })

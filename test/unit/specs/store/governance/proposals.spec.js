@@ -1,6 +1,7 @@
 import proposalsModule from "renderer/vuex/modules/governance/proposals.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 let proposals = lcdClientMock.state.proposals
+let addresses = lcdClientMock.addresses
 
 describe(`Module: Delegates`, () => {
   let module
@@ -55,5 +56,29 @@ describe(`Module: Delegates`, () => {
       [`setProposal`, proposals[0]],
       [`setProposal`, proposals[1]]
     ])
+  })
+
+  it(`submits a new proposal`, async () => {
+    let { actions } = module
+    const rootState = {
+      wallet: {
+        address: addresses[0]
+      }
+    }
+    let dispatch = jest.fn()
+    proposals.forEach(async (proposal, i) => {
+      await actions.submitProposal({ rootState, dispatch }, proposal)
+      expect(dispatch.mock.calls[i]).toEqual([
+        `sendTx`,
+        {
+          type: `submitProposal`,
+          proposer: addresses[0],
+          proposal_type: proposal.proposal_type,
+          title: proposal.title,
+          description: proposal.description,
+          initial_deposit: proposal.initial_deposit
+        }
+      ])
+    })
   })
 })

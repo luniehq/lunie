@@ -1,7 +1,7 @@
 import depositsModule from "renderer/vuex/modules/governance/deposits.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-let proposals = lcdClientMock.state.proposals
-let deposits = lcdClientMock.state.deposits
+let { proposals, deposits } = lcdClientMock.state
+let addresses = lcdClientMock.addresses
 
 describe(`Module: Deposits`, () => {
   let module
@@ -32,6 +32,41 @@ describe(`Module: Deposits`, () => {
         `setProposalDeposits`,
         proposalID,
         deposits[proposalID]
+      ])
+    })
+  })
+
+  it(`submits a deposit to a proposal`, async () => {
+    let { actions } = module
+    const rootState = {
+      config: {
+        bondingDenom: `stake`
+      },
+      wallet: {
+        address: addresses[0]
+      }
+    }
+    let dispatch = jest.fn()
+    const amount = 15
+    proposals.forEach(async (proposal, i) => {
+      await actions.submitDeposit(
+        { rootState, dispatch },
+        proposal.proposal_id,
+        amount
+      )
+      expect(dispatch.mock.calls[i]).toEqual([
+        `sendTx`,
+        {
+          type: `submitDeposit`,
+          proposal_id: proposal.proposal_id,
+          depositer: addresses[0],
+          amount: [
+            {
+              denom: rootState.config.bondingDenom,
+              amount
+            }
+          ]
+        }
       ])
     })
   })

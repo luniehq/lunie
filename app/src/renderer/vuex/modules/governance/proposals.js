@@ -41,25 +41,18 @@ export default ({ node }) => {
     },
     async submitProposal(
       {
-        rootState: { config, wallet },
+        rootState: { wallet },
         dispatch
       },
-      { proposal }
+      proposal
     ) {
-      const denom = config.bondingDenom.toLowerCase()
-
       await dispatch(`sendTx`, {
         type: `submitProposal`,
         proposer: wallet.address,
-        proposal_type: proposal.type,
+        proposal_type: proposal.proposal_type,
         title: proposal.title,
         description: proposal.description,
-        initial_deposit: [
-          {
-            denom,
-            amount: proposal.deposit
-          }
-        ]
+        initial_deposit: proposal.initial_deposit
       })
       setTimeout(async () => {
         dispatch(`getProposals`)
