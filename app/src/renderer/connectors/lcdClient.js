@@ -47,7 +47,7 @@ class Client {
   }
 }
 
-let fetchAccount = argReq(`GET`, `/accounts`)
+let fetchAccount = argReq(`GET`, `/auth/accounts`)
 
 Object.assign(Client.prototype, {
   // meta
@@ -68,8 +68,7 @@ Object.assign(Client.prototype, {
   deleteKey: argReq(`DELETE`, `/keys`),
 
   // coins
-  send: argReq(`POST`, `/accounts`, `/send`),
-  ibcSend: argReq(`POST`, `/ibc`, `/send`),
+  send: argReq(`POST`, `/bank/accounts`, `/transfers`),
   queryAccount(address) {
     return fetchAccount
       .call(this, address)
@@ -166,6 +165,48 @@ Object.assign(Client.prototype, {
 
   queryValidatorSigningInfo: function(pubKey) {
     return req(`GET`, `/slashing/signing_info/${pubKey}`, true).call(this)
+  },
+
+  /* ============ Governance ============ */
+
+  queryProposals: req(`GET`, `/gov/proposals`, true),
+  queryProposal: function(proposalId) {
+    return req(`GET`, `/gov/proposals/${proposalId}`, true).call(this)
+  },
+  queryProposalVotes: function(proposalId) {
+    return req(`GET`, `/gov/proposals/${proposalId}/votes`, true).call(this)
+  },
+  queryProposalVote: function(proposalId, address) {
+    return req(
+      `GET`,
+      `/gov/proposals/${proposalId}/votes/${address}`,
+      true
+    ).call(this)
+  },
+  queryProposalDeposits: function(proposalId) {
+    return req(`GET`, `/gov/proposals/${proposalId}/deposits`, true).call(this)
+  },
+  queryProposalDeposit: function(proposalId, address) {
+    return req(
+      `GET`,
+      `/gov/proposals/${proposalId}/deposits/${address}`,
+      true
+    ).call(this)
+  },
+  submitProposal: function(data) {
+    return req(`POST`, `/gov/proposals`, true).call(this, data)
+  },
+  submitVote: function(proposalId, data) {
+    return req(`POST`, `/gov/proposals/${proposalId}/votes`, true).call(
+      this,
+      data
+    )
+  },
+  submitDeposit: function(proposalId, data) {
+    return req(`POST`, `/gov/proposals/${proposalId}/deposits`, true).call(
+      this,
+      data
+    )
   }
 })
 

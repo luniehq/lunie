@@ -225,14 +225,10 @@ describe(`PageSend`, () => {
 
   it(`validates bech32 addresses`, () => {
     expect(
-      wrapper.vm.bech32Validate(
-        `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-      )
+      wrapper.vm.bech32Validate(`cosmos1x7wzdumfj8pncd99mqc0mkqfrrps3l3pjz8tk6`)
     ).toBe(true)
     expect(
-      wrapper.vm.bech32Validate(
-        `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqprm5ctpesxxn9`
-      )
+      wrapper.vm.bech32Validate(`cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`)
     ).toBe(false)
   })
 

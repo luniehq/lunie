@@ -38,11 +38,15 @@ export default {
       { delegates: { delegates }, delegation: { unbondingDelegations } } = this
     ) {
       const unbonding = Object.keys(unbondingDelegations)
-      return delegates.filter(({ owner }) => unbonding.includes(owner))
+      return delegates.filter(({ operator_address }) =>
+        unbonding.includes(operator_address)
+      )
     },
     yourValidators({ committedDelegations, delegates: { delegates } } = this) {
       const committed = Object.keys(committedDelegations)
-      return delegates.filter(({ owner }) => committed.includes(owner))
+      return delegates.filter(({ operator_address }) =>
+        committed.includes(operator_address)
+      )
     }
   }
 }

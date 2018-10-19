@@ -10,7 +10,7 @@ exports[`renders correctly 1`] = `
 </div>
 <div class=\\"delegation-modal-form-group tm-form-group\\">
    <!---->
-   <!---->
+   <label for=\\"amount\\" class=\\"tm-form-group__label\\">Amount</label>
    <div class=\\"tm-form-group__field\\">
       <input type=\\"number\\" placeholder=\\"atom\\" class=\\"tm-field\\" id=\\"denom\\" readonly=\\"readonly\\"><input type=\\"number\\" max=\\"100\\" min=\\"0\\" class=\\"tm-field\\" id=\\"amount\\" step=\\"1\\">
    </div>
@@ -26,19 +26,19 @@ exports[`renders correctly 1`] = `
    <!---->
    <label for=\\"from\\" class=\\"tm-form-group__label\\">From</label>
    <div class=\\"tm-form-group__field\\">
-      <div class=\\"tm-select\\" id=\\"from\\" title=\\"cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9\\">
+      <div class=\\"tm-select\\" id=\\"from\\" title=\\"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9\\">
          <select class=\\"tm-field tm-field-select\\">
          <option value=\\"\\" disabled=\\"disabled\\" selected=\\"selected\\" hidden=\\"hidden\\">
             Select option...
          </option>
          <option value=\\"0\\">
-            My Wallet - cosmosaccaddr…3p4mqpjyrm5ctpesxxn9
+            My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9
          </option>
          <option value=\\"1\\">
-            Billy the Bill - cosmosaccaddr…psjr9565ef72pv9g20yx
+            Billy the Bill - cosmos…psjr9565ef72pv9g20yx
          </option>
          <option value=\\"2\\">
-            Kentucky - cosmosaccaddr…np9rldprgant57ryzag7
+            Kentucky - cosmos…np9rldprgant57ryzag7
          </option>
          </select>
          <div class=\\"tm-field-select-addon\\">

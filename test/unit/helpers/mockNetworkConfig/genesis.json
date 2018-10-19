@@ -778,7 +778,7 @@
       ],
       "validators": [
         {
-          "owner": "04F01D5AF8DD248130BBE1D0780EA219CE479A9B",
+          "operator_address": "04F01D5AF8DD248130BBE1D0780EA219CE479A9B",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "PyFJmNrUres3QOkj2BjxplCxrOF+HDFGohi3tRKsToY="
@@ -804,7 +804,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "109720515B4F8C0858DA3521E448262334534FFD",
+          "operator_address": "109720515B4F8C0858DA3521E448262334534FFD",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "pY7eLF0Ez3yq495kIjag8mD67Q131np/ssagpEvlV2A="
@@ -830,7 +830,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "10B0899E05A486AE4E5589C39587DF7E9A185872",
+          "operator_address": "10B0899E05A486AE4E5589C39587DF7E9A185872",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "RpX+xkwnCNw5DpBelscz4//TiODyC9RDiyIuD6NEwx0="
@@ -856,7 +856,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "328FBB8EA315D070DF908982A5F91A3618001D20",
+          "operator_address": "328FBB8EA315D070DF908982A5F91A3618001D20",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "dcmCn+RZTBdwbCa4YqSnw/Va7xQloBw6vF87ItLwdM0="
@@ -882,7 +882,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "4062DAFB9ACD4D91051B569CD4B19A26524B314B",
+          "operator_address": "4062DAFB9ACD4D91051B569CD4B19A26524B314B",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "QYONAknaJqx3OKPSKraDrOPkx6xssezYtXVS84nZvZE="
@@ -908,7 +908,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "42D76AF31E36EE23CA5366FBB9CE18610CCB9820",
+          "operator_address": "42D76AF31E36EE23CA5366FBB9CE18610CCB9820",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "TNPLvN6f6QoSLJqGHzIfbraBoSw3emr9Sk2Us94M4gM="
@@ -934,7 +934,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "4B5BE759EB23B0D76C6A60636BD0E3111178794E",
+          "operator_address": "4B5BE759EB23B0D76C6A60636BD0E3111178794E",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "7SaH/LyM+qdz9ovD/pvqIf2q7LC7tc5v0ZJxsA2CGTw="
@@ -960,7 +960,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "5A007B81A25AF34B829B79DA508A26E12180BCDB",
+          "operator_address": "5A007B81A25AF34B829B79DA508A26E12180BCDB",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "SW12+WpGKUCO9oT2CV0CD5kUclbXjJHV1MjerLWB7Oc="
@@ -986,7 +986,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "83C2788B74E1A410A4E62F1040EAE15F4B6EA3F5",
+          "operator_address": "83C2788B74E1A410A4E62F1040EAE15F4B6EA3F5",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "s4ER09+WeX10euzGyK7xDW7+myQVXt3Plup8IHUE4nk="
@@ -1012,7 +1012,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "935E04662697134905706A4CCDB822AC6FC11C2E",
+          "operator_address": "935E04662697134905706A4CCDB822AC6FC11C2E",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "bIvXwf0qlOy0rO0SY/h8FfsqyW/AMpGL2yUhUNOY7hs="
@@ -1038,7 +1038,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "935E48ED79F1006ED135553768E1D9A768747CF6",
+          "operator_address": "935E48ED79F1006ED135553768E1D9A768747CF6",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "0aNTDL49987ZNRi3FtJIi0jk93ybHuYg1FjWrfP9H2o="
@@ -1064,7 +1064,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "9D5723057702E2090405AB5D3B48C45B9ABF4377",
+          "operator_address": "9D5723057702E2090405AB5D3B48C45B9ABF4377",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "NjjEQKUsq8F0gWxl3BoU2Li5n7hEz9H/LX80rfMxVyE="
@@ -1090,7 +1090,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "A323EC45243D600204BA3D298E3C20322D08C84C",
+          "operator_address": "A323EC45243D600204BA3D298E3C20322D08C84C",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "OPxj9edXgufNEjYNhZKqLgmYnK4A3nGw3rxaFQrHn24="
@@ -1116,7 +1116,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "A9A3DADDC8BFFAD52BA51C8F4F2E9F62709412DC",
+          "operator_address": "A9A3DADDC8BFFAD52BA51C8F4F2E9F62709412DC",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "Hi2rtbdJdQtOe3Kq4OoD/xkWJbIjIsUI9qgLQ6TlhiM="
@@ -1142,7 +1142,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "B6834D914FE50F0C743E6A012AB20438CFADFB95",
+          "operator_address": "B6834D914FE50F0C743E6A012AB20438CFADFB95",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "ah3JtmBA7gbxSiimPsLqQlV85gpNOUBJMvnxGx8eVlo="
@@ -1168,7 +1168,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "B75C2C4309475C91E8DE271BC52CBAC408365B83",
+          "operator_address": "B75C2C4309475C91E8DE271BC52CBAC408365B83",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "VfOsmcON77auerRc9zKwOR+CvL0sj1nA45hS2WqX1xE="
@@ -1194,7 +1194,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "C0D0CA58C50B7B02A841E1B27D9A21D939754AC7",
+          "operator_address": "C0D0CA58C50B7B02A841E1B27D9A21D939754AC7",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "KOdWpo4aQFrLxVlkyc66p7m6mBNnPLmGuO4Z4L+CI1Y="
@@ -1220,7 +1220,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "C5033FCFB67D7BD7B8546389F125710462D4FB6C",
+          "operator_address": "C5033FCFB67D7BD7B8546389F125710462D4FB6C",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "p5ijoVwp2zmA7RkXXvPl+yqdnlaWMwoV2pYIN8bDyFs="
@@ -1246,7 +1246,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "C6CB038C98026D2F17241A3B3166AE7E9488D9AD",
+          "operator_address": "C6CB038C98026D2F17241A3B3166AE7E9488D9AD",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "vSr94aI+zfF3D8Cr2VtCXPpfgj7t2ck8SlZxRsfn7gk="
@@ -1272,7 +1272,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "D0861E3F22339C507B716102FDD5CA681EDE4F8E",
+          "operator_address": "D0861E3F22339C507B716102FDD5CA681EDE4F8E",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "S9urD5q7je21qp5vEobiURdWrtJwvqMsfZGQhb8GOBQ="
@@ -1298,7 +1298,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "D6545CB14FCA7840A295FB0566C27E4B9D526993",
+          "operator_address": "D6545CB14FCA7840A295FB0566C27E4B9D526993",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "rcl+kuM69Un/a7e+fQsQrCEtT1g04tFviOeq2GygSIw="
@@ -1324,7 +1324,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "D841E0DACF3994E6A40126F023F6F32F98A5D89E",
+          "operator_address": "D841E0DACF3994E6A40126F023F6F32F98A5D89E",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "kol7Gj60Fct4X8T1rHLJQ0z/b14UqqSae8h1e37rLL8="
@@ -1350,7 +1350,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "FD8DA5F512A59A30F8698E3CA638D384A68DF977",
+          "operator_address": "FD8DA5F512A59A30F8698E3CA638D384A68DF977",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "TZTQnfqOsi89SeoXVnIw+tnFJnr4X8qVC0U8AsEmFk4="
@@ -1376,7 +1376,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "ECE57661F0CDCF28EED257B72F86240E57F4A612",
+          "operator_address": "ECE57661F0CDCF28EED257B72F86240E57F4A612",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "CDF/8aD8Lt+ikR3LyCg9c7DwWBA51NH+MUkH7tzxrfY="
@@ -1402,7 +1402,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "EFE597F7A90D3F3E7599B25259449628E2C4AFAD",
+          "operator_address": "EFE597F7A90D3F3E7599B25259449628E2C4AFAD",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "cvGYknYP9XMUzqlXZde7lRpvAp/kZiSRYHg66krJNxQ="
@@ -1428,7 +1428,7 @@
           "prev_bonded_shares": "0/1"
         },
         {
-          "owner": "FA929191B04C5DB222AFC6F15C63EF48CCC864C5",
+          "operator_address": "FA929191B04C5DB222AFC6F15C63EF48CCC864C5",
           "pub_key": {
             "type": "AC26791624DE60",
             "value": "RMwWTZsVdkq1heicNJb2fosy9Fls4NHxAHReiJvHl+8="

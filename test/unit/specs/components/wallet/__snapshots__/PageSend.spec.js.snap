@@ -2056,7 +2056,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
 
 exports[`PageSend should show notification for unsuccessful send 1`] = `
 Object {
-  "body": "An error occurred while trying to send: \\"Cannot read property 'amount' of undefined\\"",
+  "body": "An error occurred while trying to send: \\"Error sending transaction: Not enough coins in your account\\"",
   "icon": "error",
   "layout": "alert",
   "time": 42000,

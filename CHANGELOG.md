@@ -11,10 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Protected Gaia Lite process with a mutex to prevent locking error. @NodeGuy
 * catching errors on cache encryption. @faboweb
+* #1436 governance endpoints and vuex module @fedekunze
 
 ### Changed
 
 * Changed minor component of version number to match testnet version. @NodeGuy
+* [\#1433](https://github.com/cosmos/voyager/issues/1433) Migrated to latest SDK commit 6c9e71b654995b22e3ba4d121553ab20432616a9. @faboweb
 * [\#1183](https://github.com/cosmos/voyager/issues/1183) Changed a bunch of JavaScript files to strict mode. @NodeGuy
 * Updated contribution guidelines. @faboweb
 * [\#1447](https://github.com/cosmos/voyager/issues/1447) Removed titles from all pages. @faboweb
@@ -23,6 +25,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 * Fixed gaia binary not be found on linux and windows in development @faboweb
+* [\#1419](https://github.com/cosmos/voyager/issues/1419) Restored "Amount" label to delegation modal. @NodeGuy
+* Fixed upstream cross compilation issue from SDK @faboweb
 
 ## [0.10.7] - 2018-10-10
 

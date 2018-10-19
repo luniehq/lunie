@@ -15,13 +15,9 @@ tm-page(data-title="Staking")
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import num from "scripts/num"
-import { includes, orderBy } from "lodash"
+import { mapGetters, mapActions } from "vuex"
 import Mousetrap from "mousetrap"
 import { TmPage } from "@tendermint/ui"
-import DataEmptySearch from "common/TmDataEmptySearch"
-import { calculateTokens } from "scripts/common"
 import ModalSearch from "common/TmModalSearch"
 import VmToolBar from "common/VmToolBar"
 import TmBalance from "common/TmBalance"
@@ -44,9 +40,7 @@ export default {
     setSearch(bool = !this.filters[`delegates`].search.visible) {
       this.$store.commit(`setSearchVisible`, [`delegates`, bool])
     },
-    updateDelegates() {
-      this.$store.dispatch(`updateDelegates`)
-    }
+    ...mapActions([`updateDelegates`])
   },
   async mounted() {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
