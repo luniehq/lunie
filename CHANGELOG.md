@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Protected Gaia Lite process with a mutex to prevent locking error. @NodeGuy
 * catching errors on cache encryption. @faboweb
+* [\#1464](https://github.com/cosmos/voyager/issues/1464) Added governance transactions to tx history page @fedekunze
 
 ### Changed
 
