@@ -37,9 +37,9 @@ describe(`Module: Deposits`, () => {
   })
 
   it(`submits a deposit to a proposal`, async () => {
+    let { actions } = module
     jest.useFakeTimers()
 
-    let { actions } = module
     const rootState = {
       config: {
         bondingDenom: `stake`
