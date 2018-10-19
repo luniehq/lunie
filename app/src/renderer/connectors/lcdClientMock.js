@@ -2,10 +2,10 @@
 const b32 = require(`../scripts/b32.js`)
 const { getHeight } = require(`./rpcWrapperMock.js`)
 
-const botAddress = `cosmosaccaddr1p6zajjw6xged056andyhn62lm7axwzyspkzjq0`
+const botAddress = `cosmos1p6zajjw6xged056andyhn62lm7axwzyspkzjq0`
 const addresses = [
-  `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-  `cosmosaccaddr1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`,
+  `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+  `cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`,
   botAddress
 ]
 const validators = [
@@ -124,7 +124,7 @@ let state = {
         {
           delegator_addr: addresses[0],
           validator_addr: validators[0],
-          shares: `14`,
+          shares: `140000000000`,
           height: 123
         }
       ],
@@ -133,11 +133,11 @@ let state = {
   },
   candidates: [
     {
-      owner: validators[0],
+      operator_address: validators[0],
       pub_key: `cosmosvalpub1234`,
       revoked: false,
-      tokens: `14`,
-      delegator_shares: `14`,
+      tokens: `140000000000`,
+      delegator_shares: `140000000000`,
       description: {
         website: `www.monty.ca`,
         details: `Mr Mounty`,
@@ -148,14 +148,16 @@ let state = {
       bond_height: `0`,
       bond_intra_tx_counter: 6,
       proposer_reward_pool: null,
-      commission: `0`,
-      commission_max: `0`,
-      commission_change_rate: `0`,
-      commission_change_today: `0`,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: `1970-01-01T00:00:00Z`
+      },
       prev_bonded_shares: `0`
     },
     {
-      owner: validators[1],
+      operator_address: validators[1],
       pub_key: `cosmosvalpub5678`,
       revoked: false,
       tokens: `0`,
@@ -170,17 +172,19 @@ let state = {
       bond_height: `0`,
       bond_intra_tx_counter: 6,
       proposer_reward_pool: null,
-      commission: `0`,
-      commission_max: `0`,
-      commission_change_rate: `0`,
-      commission_change_today: `0`,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: `1970-01-01T00:00:00Z`
+      },
       prev_bonded_shares: `0`
     },
     {
-      owner: validators[2],
+      operator_address: validators[2],
       pub_key: `cosmosvalpub8910`,
-      tokens: `19`,
-      delegator_shares: `19`,
+      tokens: `190000000000`,
+      delegator_shares: `190000000000`,
       description: {
         details: `Herr Schmidt`,
         website: `www.schmidt.de`,
@@ -192,10 +196,12 @@ let state = {
       bond_height: `0`,
       bond_intra_tx_counter: 6,
       proposer_reward_pool: null,
-      commission: `0`,
-      commission_max: `0`,
-      commission_change_rate: `0`,
-      commission_change_today: `0`,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: `1970-01-01T00:00:00Z`
+      },
       prev_bonded_shares: `0`
     }
   ],
@@ -208,7 +214,7 @@ let state = {
     prev_bonded_shares: 0
   },
   parameters: {
-    inflation_max: `2000000000`,
+    inflation_max: `20000000000`,
     inflation_min: `700000000`,
     goal_bonded: `6700000000`,
     unbonding_time: `72h0m0s`,
@@ -294,7 +300,7 @@ module.exports = {
     return state.txs.find(tx => tx.hash === hash)
   },
   async send(to, req) {
-    let fromKey = state.keys.find(a => a.name === req.name)
+    let fromKey = state.keys.find(a => a.name === req.base_req.name)
     if (!fromKey)
       throw Error(
         `Key you want to send from does not exist in the lcd connection mock`
@@ -306,8 +312,7 @@ module.exports = {
   async updateDelegations(
     delegatorAddr,
     {
-      name,
-      sequence,
+      base_req: { name, sequence },
       delegations = [],
       begin_unbondings = [],
       complete_unbondings = []
@@ -367,9 +372,14 @@ module.exports = {
         delegator.delegations.push(delegation)
       }
 
+      // TODO remove after sdk.Dec parsing is fixed
+      amount = amount * 10000000000
+
       let shares = parseInt(delegation.shares)
       delegation.shares = (shares + amount).toString()
-      let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
+      let candidate = state.candidates.find(
+        c => c.operator_address === tx.validator_addr
+      )
       if (candidate.revoked) {
         throw new Error(`checkTx failed: (262245) Msg 0 failed: === ABCI Log ===
   Codespace: 4
@@ -413,10 +423,16 @@ module.exports = {
         results.push(txResult(2, `Nonexistent delegation`))
         return results
       }
+
+      // TODO remove after sdk.Dec parsing is fixed
+      amount = amount * 10000000000
+
       let shares = parseInt(delegation.shares)
       delegation.shares = (+shares - amount).toString()
 
-      let candidate = state.candidates.find(c => c.owner === tx.validator_addr)
+      let candidate = state.candidates.find(
+        c => c.operator_address === tx.validator_addr
+      )
       shares = parseInt(candidate.tokens)
       candidate.tokens = (+shares - amount).toString()
       delegator.unbonding_delegations.push(
@@ -501,7 +517,7 @@ module.exports = {
     }
   },
   async getCandidate(addr) {
-    return state.candidates.find(c => c.owner === addr)
+    return state.candidates.find(c => c.operator_address === addr)
   },
   // TODO query with bech32 pubKey
   async queryValidatorSigningInfo() {
@@ -539,18 +555,19 @@ function send(to, from, req) {
     if (parseInt(amount) < 0) {
       return txResult(1, `Amount cannot be negative`)
     }
-    if (
-      fromAccount.coins.find(c => c.denom === denom).amount < parseInt(amount)
-    ) {
+    let coins = fromAccount.coins.find(c => c.denom === denom)
+    if (!coins || coins.amount < parseInt(amount)) {
       return txResult(1, `Not enough coins in your account`)
     }
   }
 
   // check/update nonce
-  if (parseInt(fromAccount.sequence) !== parseInt(req.sequence)) {
+  if (parseInt(fromAccount.sequence) !== parseInt(req.base_req.sequence)) {
     return txResult(
       2,
-      `Expected sequence "${fromAccount.sequence}", got "${req.sequence}"`
+      `Expected sequence "${fromAccount.sequence}", got "${
+        req.base_req.sequence
+      }"`
     )
   }
   incrementSequence(fromAccount)

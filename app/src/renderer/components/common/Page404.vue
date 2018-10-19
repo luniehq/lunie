@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page(title='404 - Page Not Found')
+tm-page(data-title='404')
   tm-part(title='Try another page...')
     tm-list-item(to='/' title='Wallet')
     tm-list-item(to='/staking' title='Staking')

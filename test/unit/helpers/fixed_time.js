@@ -1,3 +1,5 @@
+"use strict"
+
 /* globals jest */
 require(`moment`)
 const mockMomentTz = require(`moment-timezone`)

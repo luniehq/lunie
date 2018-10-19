@@ -1,3 +1,5 @@
+"use strict"
+
 const { Writable } = require(`stream`)
 const { normalize, sep } = require(`path`)
 

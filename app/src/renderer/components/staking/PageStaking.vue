@@ -1,5 +1,5 @@
 <template lang="pug">
-tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
+tm-page(data-title="Staking")
   template(slot="menu-body")
     tm-balance(:tabs="tabs")
 
@@ -15,13 +15,11 @@ tm-page(data-title="Staking", :title="config.devMode ? '' : 'Staking'")
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapActions } from "vuex"
 import num from "scripts/num"
-import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import { TmBtn, TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 import DataEmptySearch from "common/TmDataEmptySearch"
-import { calculateTokens } from "scripts/common"
 import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
 import VmToolBar from "common/VmToolBar"
@@ -62,45 +60,6 @@ export default {
     ]),
     somethingToSearch() {
       return !!this.delegates.delegates.length
-    },
-    vpTotal() {
-      return this.delegates.delegates
-        .slice(0)
-        .map(v => {
-          v.voting_power = v.voting_power ? Number(v.voting_power) : 0
-          return v
-        })
-        .sort((a, b) => b.voting_power - a.voting_power)
-        .slice(0, 100)
-        .reduce((sum, v) => sum + v.voting_power, 0)
-    },
-    enrichedDelegates() {
-      return !this.somethingToSearch
-        ? []
-        : this.delegates.delegates.map(v => {
-            v.small_moniker = v.description.moniker.toLowerCase()
-            v.percent_of_vote = num.percent(v.voting_power / this.vpTotal)
-            v.your_votes = this.num.full(
-              calculateTokens(v, this.committedDelegations[v.id])
-            )
-            v.keybase = this.keybase[v.description.identity]
-            return v
-          })
-    },
-    sortedFilteredEnrichedDelegates() {
-      let query = this.filters.delegates.search.query || ``
-      let sortedEnrichedDelegates = orderBy(
-        this.enrichedDelegates.slice(0),
-        [this.sort.property, `small_moniker`],
-        [this.sort.order, `asc`]
-      )
-      if (this.filters.delegates.search.visible) {
-        return sortedEnrichedDelegates.filter(i =>
-          includes(JSON.stringify(i).toLowerCase(), query.toLowerCase())
-        )
-      } else {
-        return sortedEnrichedDelegates
-      }
     },
     properties() {
       return [
@@ -159,7 +118,8 @@ export default {
     setSearch(bool = !this.filters[`delegates`].search.visible) {
       if (!this.somethingToSearch) return false
       this.$store.commit(`setSearchVisible`, [`delegates`, bool])
-    }
+    },
+    ...mapActions([`updateDelegates`])
   },
   async mounted() {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))

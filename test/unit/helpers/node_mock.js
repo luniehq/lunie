@@ -1,3 +1,5 @@
+"use strict"
+
 let mockValidators = require(`src/helpers/json/mock_validators.json`)
 let mockLcd = require(`../../../app/src/renderer/connectors/lcdClientMock.js`)
 

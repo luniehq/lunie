@@ -41,8 +41,6 @@ Guru Meditation #${info}`)
   if (store.state.devMode) {
     throw error
   }
-  // shrinkStacktrace(error)
-  // return true
 }
 
 Vue.config.warnHandler = (msg, vm, trace) => {

@@ -17,7 +17,7 @@ export default ({ node }) => {
     },
     setDelegates(state, validators) {
       validators.forEach(validator => {
-        validator.id = validator.owner
+        validator.id = validator.operator_address
         validator.voting_power = ratToBigNumber(validator.tokens)
       })
       state.delegates = validators
@@ -32,12 +32,12 @@ export default ({ node }) => {
     setSelfBond(
       state,
       {
-        validator: { owner },
+        validator: { operator_address },
         ratio
       }
     ) {
       state.delegates.find(
-        validator => validator.owner === owner
+        validator => validator.operator_address === operator_address
       ).selfBond = ratio
     }
   }
@@ -54,7 +54,7 @@ export default ({ node }) => {
     async updateSigningInfo({ commit }, validators) {
       for (let validator of validators) {
         let signing_info = await node.queryValidatorSigningInfo(
-          validator.pub_key
+          validator.consensus_pubkey
         )
         if (!isEmpty(signing_info)) validator.signing_info = signing_info
       }
@@ -70,6 +70,17 @@ export default ({ node }) => {
           validator.isValidator = true
         }
       }
+      // the tokens and shares are currently served in a weird format that is a amino representation of a float value
+      validators = validators.map(validator => {
+        return Object.assign(JSON.parse(JSON.stringify(validator)), {
+          tokens: ratToBigNumber(validator.tokens)
+            .div(10000000000)
+            .toString(),
+          delegator_shares: ratToBigNumber(validator.delegator_shares)
+            .div(10000000000)
+            .toString()
+        })
+      })
 
       commit(`setDelegates`, validators)
       commit(`setDelegateLoading`, false)
@@ -82,8 +93,8 @@ export default ({ node }) => {
       if (validator.selfBond) return validator.selfBond
       else {
         let delegation = await node.queryDelegation(
-          validator.owner,
-          validator.owner
+          validator.operator_address,
+          validator.operator_address
         )
         let ratio = new BN(delegation.shares).div(
           ratToBigNumber(validator.delegator_shares)

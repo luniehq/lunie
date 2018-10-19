@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapActions } from "vuex"
 import num from "scripts/num"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
@@ -163,13 +163,11 @@ export default {
     }
   },
   methods: {
-    updateDelegates() {
-      this.$store.dispatch(`updateDelegates`)
-    },
     setSearch(bool = !this.filters[`delegates`].search.visible) {
       if (!this.somethingToSearch) return false
       this.$store.commit(`setSearchVisible`, [`delegates`, bool])
-    }
+    },
+    ...mapActions([`updateDelegates`])
   },
   async mounted() {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))

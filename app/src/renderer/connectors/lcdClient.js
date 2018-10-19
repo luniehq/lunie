@@ -30,7 +30,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     }
   }
 
-  let fetchAccount = argReq(`GET`, `/accounts`)
+  let fetchAccount = argReq(`GET`, `/auth/accounts`)
 
   const keys = {
     add: req(`POST`, `/keys`),
@@ -65,8 +65,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     keys,
 
     // coins
-    send: argReq(`POST`, `/accounts`, `/send`),
-    ibcSend: argReq(`POST`, `/ibc`, `/send`),
+    send: argReq(`POST`, `/bank/accounts`, `/transfers`),
     queryAccount(address) {
       return fetchAccount(address)
         .then(res => {

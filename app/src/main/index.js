@@ -1,5 +1,6 @@
 "use strict"
 
+const assert = require(`assert`)
 let { app, BrowserWindow, ipcMain } = require(`electron`)
 let fs = require(`fs-extra`)
 let { join, relative } = require(`path`)
@@ -104,14 +105,14 @@ function signalNoNodesAvailable() {
   })
 }
 
-function shutdown() {
+async function shutdown() {
   if (shuttingDown) return
 
   mainWindow = null
   shuttingDown = true
 
   if (lcdProcess) {
-    stopLCD()
+    await stopLCD()
   }
 
   return Promise.all(
@@ -244,12 +245,18 @@ app.on(`ready`, () => createWindow())
 
 // start lcd REST API
 async function startLCD(home, nodeURL) {
+  assert.equal(
+    lcdProcess,
+    null,
+    `Can't start Gaia Lite because it's already running.  Call StopLCD first.`
+  )
+
   let lcdStarted = false // remember if the lcd has started to toggle the right error handling if it crashes async
   return new Promise(async (resolve, reject) => {
     log(`startLCD`, home)
     let child = startProcess(LCD_BINARY_NAME, [
-      `advanced`,
       `rest-server`,
+      `--insecure`,
       `--laddr`,
       `tcp://localhost:${LCD_PORT}`,
       `--home`,
@@ -257,7 +264,9 @@ async function startLCD(home, nodeURL) {
       `--node`,
       nodeURL,
       `--chain-id`,
-      chainId
+      chainId,
+      `--trust-node`,
+      true
     ])
     logProcess(child, join(home, `lcd.log`))
 
@@ -295,10 +304,13 @@ function stopLCD() {
     try {
       // prevent the exit to signal bad termination warnings
       lcdProcess.removeAllListeners(`exit`)
-      lcdProcess.on(`exit`, resolve)
+
+      lcdProcess.on(`exit`, () => {
+        lcdProcess = null
+        resolve()
+      })
+
       lcdProcess.kill(`SIGKILL`)
-      lcdProcess = null
-      resolve()
     } catch (err) {
       handleCrash(err)
       reject(`Stopping the LCD resulted in an error: ` + err.message)
@@ -466,6 +478,7 @@ async function pickAndConnect() {
       err
     )
     signalNoNodesAvailable()
+    await stopLCD()
     return
   }
 
@@ -473,8 +486,8 @@ async function pickAndConnect() {
     let message = `Node ${nodeURL} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
     log(message)
     mainWindow.webContents.send(`connection-status`, message)
-
     signalNoNodesAvailable()
+    await stopLCD()
     return
   }
 
@@ -482,7 +495,7 @@ async function pickAndConnect() {
 }
 
 async function connect() {
-  log(`starting gaia rest server with nodeURL ${config.lcd_rpc}`)
+  log(`starting gaia rest server with nodeURL ${config.node_lcd}`)
   try {
     lcdProcess = await startLCD(lcdHome, config.node_rpc)
     log(`gaia rest server ready`)
