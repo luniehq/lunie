@@ -150,6 +150,38 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
 
     queryValidatorSigningInfo: function(pubKey) {
       return req(`GET`, `/slashing/signing_info/${pubKey}`, true)()
+    },
+
+    /* ============ Governance ============ */
+
+    queryProposals: req(`GET`, `/gov/proposals`, true),
+    queryProposal: function(proposalId) {
+      return req(`GET`, `/gov/proposals/${proposalId}`, true)()
+    },
+    queryProposalVotes: function(proposalId) {
+      return req(`GET`, `/gov/proposals/${proposalId}/votes`, true)()
+    },
+    queryProposalVote: function(proposalId, address) {
+      return req(`GET`, `/gov/proposals/${proposalId}/votes/${address}`, true)()
+    },
+    queryProposalDeposits: function(proposalId) {
+      return req(`GET`, `/gov/proposals/${proposalId}/deposits`, true)()
+    },
+    queryProposalDeposit: function(proposalId, address) {
+      return req(
+        `GET`,
+        `/gov/proposals/${proposalId}/deposits/${address}`,
+        true
+      )()
+    },
+    submitProposal: function(data) {
+      return req(`POST`, `/gov/proposals`, true)(data)
+    },
+    submitVote: function(proposalId, data) {
+      return req(`POST`, `/gov/proposals/${proposalId}/votes`, true)(data)
+    },
+    submitDeposit: function(proposalId, data) {
+      return req(`POST`, `/gov/proposals/${proposalId}/deposits`, true)(data)
     }
   }
 }
