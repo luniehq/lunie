@@ -7,7 +7,6 @@ export default ({ node }) => {
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
-  // TODO get deposits?
   const mutations = {
     setProposal(state, proposal) {
       state.proposals[proposal.proposal_id] = proposal
@@ -30,7 +29,7 @@ export default ({ node }) => {
         proposals.forEach(proposal => {
           let proposalId = Number(proposal.value.proposal_id)
           commit(`setProposal`, proposal.value)
-          if (proposal.value.proposal_status === `VotingPeriod`) {
+          if (proposal.value.proposal_status !== `DepositPeriod`) {
             dispatch(`getProposalVotes`, proposalId)
           }
           // TODO disable when upgrade gaia to SDK develop or v.0.25

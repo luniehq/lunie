@@ -51,10 +51,14 @@ describe(`Module: Proposals`, () => {
     })
     let { actions, state } = module
     let commit = jest.fn()
-    await actions.getProposals({ state, commit })
+    let dispatch = jest.fn()
+    await actions.getProposals({ state, commit, dispatch })
     expect(commit.mock.calls).toEqual([
       [`setProposal`, proposals[0]],
       [`setProposal`, proposals[1]]
+    ])
+    expect(dispatch.mock.calls).toEqual([
+      [`getProposalVotes`, Number(proposals[0].proposal_id)]
     ])
   })
 
