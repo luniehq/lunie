@@ -3,7 +3,7 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 let proposals = lcdClientMock.state.proposals
 let addresses = lcdClientMock.addresses
 
-describe(`Module: Delegates`, () => {
+describe(`Module: Proposals`, () => {
   let module
 
   beforeEach(() => {

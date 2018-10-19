@@ -646,6 +646,28 @@ module.exports = {
   async getParameters() {
     return state.parameters
   },
+  async getProposals() {
+    return state.proposals
+  },
+  async getProposal(proposalId) {
+    return state.proposals.find(
+      proposal => proposal.proposal_id === String(proposalId)
+    )
+  },
+  async getProposalDeposits(proposalId) {
+    return state.deposits[proposalId]
+  },
+  async getProposalDeposit(proposalId, address) {
+    return state.deposits[proposalId].find(
+      deposit => deposit.depositer === address
+    )
+  },
+  async getProposalVotes(proposalId) {
+    return state.votes[proposalId]
+  },
+  async getProposalVote(proposalId, address) {
+    return state.votes[proposalId].find(vote => vote.voter === address)
+  },
   // exports to be used in tests
   state,
   addresses,
