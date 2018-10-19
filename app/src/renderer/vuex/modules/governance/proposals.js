@@ -32,8 +32,7 @@ export default ({ node }) => {
           if (proposal.value.proposal_status !== `DepositPeriod`) {
             dispatch(`getProposalVotes`, proposalId)
           }
-          // TODO disable when upgrade gaia to SDK develop or v.0.25
-          // dispatch(`getProposalDeposits`, proposalId)
+          dispatch(`getProposalDeposits`, proposalId)
         })
       }
       state.loading = false
