@@ -7,6 +7,7 @@
         i.material-icons close
 
     tm-form-group.delegation-modal-form-group(
+      field-id='amount'
       field-label='Amount'
     )
       tm-field#denom(
@@ -127,10 +128,10 @@ export default {
     margin-top -32px
 
   #denom
+    border none
+    margin-left 80%
     text-align right
     width 72px
-    margin-left 80%
-    border none
 
   &-footer
     display flex
