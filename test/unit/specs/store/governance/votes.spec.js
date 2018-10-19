@@ -37,6 +37,8 @@ describe(`Module: Votes`, () => {
 
   it(`submits a vote on a proposal`, async () => {
     let { actions } = module
+    jest.useFakeTimers()
+
     const rootState = {
       config: {
         bondingDenom: `stake`
@@ -60,6 +62,12 @@ describe(`Module: Votes`, () => {
           voter: addresses[0],
           option: votes[proposal.proposal_id].option
         }
+      ])
+
+      jest.runAllTimers()
+      expect(dispatch.mock.calls[i + 2]).toEqual([
+        `getProposalVotes`,
+        proposal.proposal_id
       ])
     })
   })

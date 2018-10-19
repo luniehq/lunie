@@ -37,6 +37,8 @@ describe(`Module: Deposits`, () => {
   })
 
   it(`submits a deposit to a proposal`, async () => {
+    jest.useFakeTimers()
+
     let { actions } = module
     const rootState = {
       config: {
@@ -46,14 +48,17 @@ describe(`Module: Deposits`, () => {
         address: addresses[0]
       }
     }
+
     let dispatch = jest.fn()
     const amount = 15
+
     proposals.forEach(async (proposal, i) => {
       await actions.submitDeposit(
         { rootState, dispatch },
         proposal.proposal_id,
         amount
       )
+
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
@@ -67,6 +72,12 @@ describe(`Module: Deposits`, () => {
             }
           ]
         }
+      ])
+
+      jest.runAllTimers()
+      expect(dispatch.mock.calls[i + 2]).toEqual([
+        `getProposalDeposits`,
+        proposal.proposal_id
       ])
     })
   })

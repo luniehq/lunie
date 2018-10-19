@@ -61,9 +61,11 @@ describe(`Module: Proposals`, () => {
           )
       }
     })
+
     let { actions, state } = module
     let commit = jest.fn()
     let dispatch = jest.fn()
+
     await actions.getProposals({ state, commit, dispatch })
     expect(commit.mock.calls).toEqual([
       [`setProposal`, proposals[0]],
@@ -78,6 +80,8 @@ describe(`Module: Proposals`, () => {
 
   it(`submits a new proposal`, async () => {
     let { actions } = module
+    jest.useFakeTimers()
+
     const rootState = {
       wallet: {
         address: addresses[0]
@@ -97,6 +101,9 @@ describe(`Module: Proposals`, () => {
           initial_deposit: proposal.initial_deposit
         }
       ])
+
+      jest.runAllTimers()
+      expect(dispatch.mock.calls[i + 2]).toEqual([`getProposals`])
     })
   })
 })
