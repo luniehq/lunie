@@ -10,6 +10,18 @@ describe(`Module: Proposals`, () => {
     module = proposalsModule({ node: {} })
   })
 
+  it(`should query for proposals on reconnection if was loading before`, async () => {
+    let { actions } = module
+    let instance = {
+      state: {
+        loading: true
+      },
+      dispatch: jest.fn()
+    }
+    await actions.reconnected(instance)
+    expect(instance.dispatch).toHaveBeenCalledWith(`getProposals`)
+  })
+
   it(`adds proposals to state`, () => {
     let { mutations, state } = module
     mutations.setProposal(state, proposals[0])
