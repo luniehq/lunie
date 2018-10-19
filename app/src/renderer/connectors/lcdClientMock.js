@@ -227,6 +227,126 @@ let state = {
     index_offset: 1,
     jailed_until: `1970-01-01T00:00:00Z`,
     signed_blocks_counter: 1
+  },
+  proposals: [
+    {
+      proposal_id: `1`,
+      proposal_type: `Text`,
+      title: `Proposal Title`,
+      description: `Proposal description`,
+      initial_deposit: [
+        {
+          denom: `stake`,
+          amount: `100`
+        }
+      ],
+      total_deposit: [
+        {
+          denom: `stake`,
+          amount: `100`
+        }
+      ],
+      submit_block: `120`,
+      voting_start_block: `135`,
+      proposal_status: `Passed`,
+      tally_result: {
+        yes: `500`,
+        no: `25`,
+        no_with_veto: `10`,
+        abstain: `56`
+      }
+    },
+    {
+      proposal_id: `5`,
+      proposal_type: `Text`,
+      title: `Custom text proposal`,
+      description: `custom text proposal description`,
+      initial_deposit: [
+        {
+          denom: `stake`,
+          amount: `15`
+        }
+      ],
+      total_deposit: [
+        {
+          denom: `stake`,
+          amount: `15`
+        }
+      ],
+      submit_block: `10`,
+      voting_start_block: `-1`,
+      proposal_status: `DepositPeriod`,
+      tally_result: {
+        yes: `0`,
+        no: `0`,
+        no_with_veto: `0`,
+        abstain: `0`
+      }
+    }
+  ],
+  votes: {
+    1: [
+      {
+        proposal_id: `1`,
+        voter: validators[0],
+        option: `yes`
+      },
+      {
+        proposal_id: `1`,
+        voter: validators[1],
+        option: `no_with_veto`
+      }
+    ],
+    5: [
+      {
+        proposal_id: `5`,
+        voter: validators[0],
+        option: `no`
+      },
+      {
+        proposal_id: `5`,
+        voter: validators[1],
+        option: `abstain`
+      }
+    ]
+  },
+  deposits: {
+    1: [
+      {
+        proposal_id: `1`,
+        depositer: validators[0],
+        amount: {
+          denom: `stake`,
+          amount: `15`
+        }
+      },
+      {
+        proposal_id: `1`,
+        depositer: validators[1],
+        amount: {
+          denom: `stake`,
+          amount: `5`
+        }
+      }
+    ],
+    5: [
+      {
+        proposal_id: `5`,
+        depositer: validators[0],
+        amount: {
+          denom: `stake`,
+          amount: `11`
+        }
+      },
+      {
+        proposal_id: `5`,
+        depositer: validators[1],
+        amount: {
+          denom: `stake`,
+          amount: `150`
+        }
+      }
+    ]
   }
 }
 
@@ -525,6 +645,28 @@ module.exports = {
   },
   async getParameters() {
     return state.parameters
+  },
+  async getProposals() {
+    return state.proposals
+  },
+  async getProposal(proposalId) {
+    return state.proposals.find(
+      proposal => proposal.proposal_id === String(proposalId)
+    )
+  },
+  async getProposalDeposits(proposalId) {
+    return state.deposits[proposalId]
+  },
+  async getProposalDeposit(proposalId, address) {
+    return state.deposits[proposalId].find(
+      deposit => deposit.depositer === address
+    )
+  },
+  async getProposalVotes(proposalId) {
+    return state.votes[proposalId]
+  },
+  async getProposalVote(proposalId, address) {
+    return state.votes[proposalId].find(vote => vote.voter === address)
   },
   // exports to be used in tests
   state,

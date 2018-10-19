@@ -713,4 +713,45 @@ describe(`LCD Client Mock`, () => {
       `signed_blocks_counter`
     )
   })
+
+  /* ============ Governance ============ */
+
+  it(`fetches all governance proposals`, async () => {
+    let proposals = lcdClientMock.state.proposals
+    let proposalsRes = await client.getProposals()
+    expect(proposalsRes).toEqual(proposals)
+  })
+
+  it(`queries a single proposal`, async () => {
+    let proposals = lcdClientMock.state.proposals
+    let proposalRes = await client.getProposal(1)
+    expect(proposalRes).toEqual(proposals[0])
+  })
+
+  it(`queries a proposal votes`, async () => {
+    let { votes } = lcdClientMock.state
+    let votesRes = await client.getProposalVotes(1)
+    expect(votesRes).toEqual(votes[1])
+  })
+
+  it(`queries a proposal vote from an address`, async () => {
+    let { votes } = lcdClientMock.state
+    let voteRes = await client.getProposalVote(1, votes[1][0].voter)
+    expect(voteRes).toEqual(votes[1][0])
+  })
+
+  it(`queries a proposal deposits`, async () => {
+    let { deposits } = lcdClientMock.state
+    let depositsRes = await client.getProposalDeposits(1)
+    expect(depositsRes).toEqual(deposits[1])
+  })
+
+  it(`queries a proposal deposit from an address`, async () => {
+    let { deposits } = lcdClientMock.state
+    let depositRes = await client.getProposalDeposit(
+      1,
+      deposits[1][0].depositer
+    )
+    expect(depositRes).toEqual(deposits[1][0])
+  })
 })
