@@ -8,21 +8,23 @@ test(`undelegatedValidators`, () => {
     TabMyDelegations.computed.undelegatedValidators({
       delegation: {
         unbondingDelegations: {
-          cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 3
+          [delegates[1].operator_address]: 1,
+          [delegates[2].operator_address]: 2
         }
       },
       delegates: { delegates }
     })
-  ).toEqual([delegates[1]])
+  ).toEqual([delegates[1], delegates[2]])
 })
 
 test(`yourValidators`, () => {
   expect(
     TabMyDelegations.computed.yourValidators({
       committedDelegations: {
-        cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 3
+        [delegates[0].operator_address]: 1,
+        [delegates[2].operator_address]: 2
       },
       delegates: { delegates }
     })
-  ).toEqual([delegates[1]])
+  ).toEqual([delegates[0], delegates[2]])
 })
