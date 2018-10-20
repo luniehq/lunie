@@ -161,9 +161,13 @@ export default {
     updateDelegates() {
       this.$store.dispatch(`updateDelegates`)
     },
-    setSearch(bool = !this.filters[`delegates`].search.visible) {
-      if (!this.somethingToSearch) return false
-      this.$store.commit(`setSearchVisible`, [`delegates`, bool])
+    setSearch(
+      bool = !this.filters[`delegates`].search.visible,
+      { somethingToSearch, $store } = this
+    ) {
+      if (somethingToSearch) {
+        $store.commit(`setSearchVisible`, [`delegates`, bool])
+      }
     }
   },
   async mounted() {

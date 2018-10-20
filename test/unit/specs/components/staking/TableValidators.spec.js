@@ -87,19 +87,33 @@ describe(`TableValidators`, () => {
     expect(wrapper.contains(`data-loading`)).toBe(true)
   })
 
-  it(`should not show search when there is nothing to search`, () => {
-    let { wrapper } = mount(TableValidators, {
-      getters: {
-        delegates: () => ({
-          delegates: [],
-          loading: true
-        })
-      },
-      propsData: { validators: [] },
-      stubs: { "tm-data-loading": `<data-loading />` }
-    })
-    wrapper.update()
+  describe(`setSearch`, () => {
+    it(`should show search when there is something to search`, () => {
+      const $store = {
+        commit: jest.fn()
+      }
 
-    expect(wrapper.vm.setSearch()).toEqual(false)
+      TableValidators.methods.setSearch(true, {
+        somethingToSearch: true,
+        $store
+      })
+
+      expect($store.commit.mock.calls).toEqual([
+        [`setSearchVisible`, [`delegates`, true]]
+      ])
+    })
+
+    it(`should not show search when there is nothing to search`, () => {
+      const $store = {
+        commit: jest.fn()
+      }
+
+      TableValidators.methods.setSearch(true, {
+        somethingToSearch: false,
+        $store
+      })
+
+      expect($store.commit.mock.calls).toEqual([])
+    })
   })
 })
