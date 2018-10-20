@@ -10,15 +10,6 @@ module.exports = {
   remoteLcdURL: `http://awesomenode.de:12345`,
   localLcdURL: `https://localhost:9876`,
   lcdConnected: () => Promise.resolve(true),
-  getKey: () => ({ address: `someaddress` }),
-  generateSeed: () => `a b c d e f g h i j k l`,
-  updateKey: () => {},
-  listKeys: () => [],
-  storeKey: () => ({
-    key: `123`,
-    password: `1234567890`,
-    seed_phrase: `a b c d e f g h i j k l`
-  }),
   queryAccount: () => null,
   buildDelegate: () => Promise.resolve(null),
   buildUnbond: () => Promise.resolve(null),
