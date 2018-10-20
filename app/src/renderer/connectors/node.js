@@ -1,4 +1,6 @@
 "use strict"
+
+const axios = require(`axios`)
 const RestClient = require(`./lcdClient.js`)
 const mockedRestClient = require(`./lcdClientMock.js`)
 const RpcWrapper = require(`./rpcWrapper.js`)
@@ -14,7 +16,7 @@ module.exports = function(localLcdURL, remoteLcdURL, mocked = false) {
       console.log(`Setting connector to state:` + (mocked ? `mocked` : `live`))
       let newRestClient = mocked
         ? mockedRestClient
-        : new RestClient(localLcdURL, remoteLcdURL)
+        : new RestClient(axios, localLcdURL, remoteLcdURL)
       let newRpcClient = mocked
         ? MockedRpcWrapper(connector)
         : RpcWrapper(connector)

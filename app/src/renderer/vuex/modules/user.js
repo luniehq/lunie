@@ -63,10 +63,7 @@ export default ({ node }) => {
     },
     async loadAccounts({ commit }) {
       try {
-        let keys = await node.listKeys().then(res => {
-          if (res === `[]`) return []
-          return res
-        })
+        let keys = await node.keys.values()
         commit(`setAccounts`, keys)
       } catch (err) {
         commit(`notifyError`, {
@@ -77,7 +74,7 @@ export default ({ node }) => {
     },
     async testLogin(state, { password, account }) {
       try {
-        return await node.updateKey(account, {
+        return await node.keys.set(account, {
           name: account,
           new_password: password,
           old_password: password
@@ -88,10 +85,10 @@ export default ({ node }) => {
     },
     createSeed() {
       // generate seed phrase
-      return node.generateSeed()
+      return node.keys.seed()
     },
     async createKey({ dispatch }, { seedPhrase, password, name }) {
-      let { address } = await node.storeKey({
+      let { address } = await node.keys.add({
         name,
         password,
         seed: seedPhrase
@@ -100,7 +97,7 @@ export default ({ node }) => {
       return address
     },
     async deleteKey(ignore, { password, name }) {
-      await node.deleteKey(name, { name, password })
+      await node.keys.delete(name, { name, password })
       return true
     },
     async signIn({ state, commit, dispatch }, { password, account }) {
@@ -108,7 +105,7 @@ export default ({ node }) => {
       state.account = account
       state.signedIn = true
 
-      let { address } = await node.getKey(account)
+      let { address } = await node.keys.get(account)
       state.address = address
 
       dispatch(`loadPersistedState`, { password })
