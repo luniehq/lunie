@@ -11,10 +11,10 @@ const zip = require(`deterministic-zip`)
 const path = require(`path`)
 const packager = util.promisify(require(`electron-packager`))
 const fs = require(`fs-extra`)
-var glob = require(`glob`)
+const glob = require(`glob`)
 const zlib = require(`zlib`)
-var tar = require(`tar-stream`)
-var duplexer = require(`duplexer`)
+const tar = require(`tar-stream`)
+const duplexer = require(`duplexer`)
 const packageJson = require(`../../package.json`)
 
 const generateAppPackageJson = packageJson =>
@@ -67,7 +67,7 @@ const zipFolder = async (inDir, outDir) => {
 
 async function tarFolder(inDir, outDir) {
   let outFile = path.join(outDir, `${path.basename(inDir)}.tar.gz`)
-  var pack = tar.pack()
+  const pack = tar.pack()
 
   let files = glob(inDir + `/**`, { sync: true })
 
@@ -118,11 +118,11 @@ async function tarFolder(inDir, outDir) {
 }
 
 function deterministicTar() {
-  var UNIXZERO = new Date(new Date().getTimezoneOffset() * -1)
+  const UNIXZERO = new Date(new Date().getTimezoneOffset() * -1)
 
-  var pack = tar.pack()
+  const pack = tar.pack()
 
-  var extract = tar
+  const extract = tar
     .extract()
     .on(`entry`, function(header, stream, cb) {
       header.mtime = header.atime = header.ctime = UNIXZERO
