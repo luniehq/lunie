@@ -13,7 +13,7 @@ Vue.use(Vuex)
 export default (opts = {}) => {
   opts.commit = (...args) => store.commit(...args)
   opts.dispatch = (...args) => store.dispatch(...args)
-  var store = new Vuex.Store({
+  const store = new Vuex.Store({
     getters,
     // strict: true,
     modules: modules(opts),

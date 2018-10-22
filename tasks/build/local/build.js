@@ -3,7 +3,7 @@
 const os = require(`os`)
 const fs = require(`fs-extra`)
 const { cli } = require(`@nodeguy/cli`)
-var path = require(`path`)
+const path = require(`path`)
 const homeDir = require(`os`).homedir()
 const appDir = path.resolve(__dirname + `/../../../`)
 
