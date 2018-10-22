@@ -435,7 +435,8 @@ module.exports = {
       base_req: { name, sequence },
       delegations = [],
       begin_unbondings = [],
-      complete_unbondings = []
+      complete_unbondings = [],
+      begin_redelegates = []
     }
   ) {
     let results = []
@@ -594,6 +595,58 @@ module.exports = {
       storeTx(`cosmos-sdk/CompleteUnbonding`, tx)
       results.push(txResult(0))
     }
+
+    // for (let tx of begin_redelegates) {
+    //   incrementSequence(fromAccount)
+    //
+    //   let amount = parseInt(tx.shares)
+    //
+    //   // update sender balance
+    //   let coinBalance = fromAccount.coins.find(c => c.denom === `steak`)
+    //   coinBalance.amount = String(parseInt(coinBalance) + amount)
+    //
+    //   if (!delegator) {
+    //     results.push(txResult(3, `Nonexistent delegator`))
+    //     return results
+    //   }
+    //   let delegation = delegator.delegations.find(
+    //     d => d.validator_addr === tx.validator_src_addr
+    //   )
+    //   if (!delegation) {
+    //     results.push(txResult(3, `Nonexistent delegation`))
+    //     return results
+    //   }
+    //
+    //   // TODO remove after sdk.Dec parsing is fixed
+    //   amount = amount * 10000000000
+    //
+    //   let shares = parseInt(delegation.shares)
+    //   delegation.shares = (+shares - amount).toString()
+    //
+    //   let srcValidator = state.candidates.find(
+    //     c => c.operator_address === tx.validator_src_addr
+    //   )
+    //
+    //   let dstValidator = state.candidates.find(
+    //     c => c.operator_address === tx.validator_dst_addr
+    //   )
+    //
+    //
+    //   shares = parseInt(srcValidator.tokens)
+    //   srcValidator.tokens = (+shares - amount).toString()
+    //
+    //
+    //   delegator.redelegations.push(
+    //     Object.assign({}, tx, {
+    //       balance: {
+    //         amount: tx.shares
+    //       }
+    //     })
+    //   )
+    //
+    //   storeTx(`"cosmos-sdk/BeginRedelegate"`, tx)
+    //   results.push(txResult(0))
+    // }
 
     return results
   },
