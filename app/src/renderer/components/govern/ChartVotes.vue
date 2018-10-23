@@ -8,17 +8,17 @@
     .kv.yes: .container
       .key Yes
       .value {{ votes.yes }}
-    .kv.reject: .container
-      .key Reject
-      .value {{ votes.reject }}
     .kv.no: .container
       .key No
       .value {{ votes.no }}
+    .kv.reject: .container
+      .key No with Veto
+      .value {{ votes.no_with_veto }}
   .chart-legend(v-else :class="chartLabelClass")
     .kv.abstain {{ votes.abstain }}
     .kv.yes {{ votes.yes }}
-    .kv.reject {{ votes.reject }}
     .kv.no {{ votes.no }}
+    .kv.no_with_veto {{ votes.no_with_veto }}
 </template>
 
 <script>
@@ -60,7 +60,7 @@ export default {
         abstainBgColor = `#000000`
       }
       return {
-        labels: [`Yes`, `No`, `Reject`, `Abstain`],
+        labels: [`Yes`, `No`, `No with veto`, `Abstain`],
         datasets: [
           {
             borderWidth: 0,
@@ -153,7 +153,7 @@ export default {
         &.no
           color var(--danger)
 
-        &.reject
+        &.no_with_veto
           color var(--warning)
 
   &.chart-votes-size-lg
@@ -183,7 +183,7 @@ export default {
         &.no .value
           color var(--warning)
 
-        &.reject .value
+        &.no_with_veto .value
           color var(--danger)
 
         .container
