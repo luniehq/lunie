@@ -128,7 +128,8 @@ let state = {
           height: 123
         }
       ],
-      unbonding_delegations: []
+      unbonding_delegations: [],
+      redelegations: []
     }
   },
   candidates: [
@@ -435,7 +436,6 @@ module.exports = {
       base_req: { name, sequence },
       delegations = [],
       begin_unbondings = [],
-      complete_unbondings = [],
       begin_redelegates = []
     }
   ) {
@@ -565,34 +565,6 @@ module.exports = {
       )
 
       storeTx(`cosmos-sdk/BeginUnbonding`, tx)
-      results.push(txResult(0))
-    }
-
-    for (let tx of complete_unbondings) {
-      incrementSequence(fromAccount)
-
-      if (!delegator) {
-        results.push(txResult(2, `Nonexistent delegator`))
-        return results
-      }
-
-      // remove undelegation
-      let unbondingDelegation = delegator.unbonding_delegations.find(
-        ({ validator_addr }) => validator_addr === tx.validator_addr
-      )
-      delegator.unbonding_delegations = delegator.unbonding_delegations.filter(
-        d => d !== unbondingDelegation
-      )
-
-      // put money back in the account
-      // we treat shares as atoms (1:1)
-      let amount = unbondingDelegation.shares
-
-      // update sender balance
-      let coinBalance = fromAccount.coins.find(c => c.denom === `steak`)
-      coinBalance.amount = String(parseInt(coinBalance) + amount)
-
-      storeTx(`cosmos-sdk/CompleteUnbonding`, tx)
       results.push(txResult(0))
     }
 

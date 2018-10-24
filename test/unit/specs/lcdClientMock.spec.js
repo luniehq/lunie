@@ -541,45 +541,6 @@ describe(`LCD Client Mock`, () => {
     expect(res[0].check_tx.code).toBe(2)
   })
 
-  it(`ends unbondings`, async () => {
-    await client.updateDelegations(lcdClientMock.addresses[0], {
-      base_req: {
-        name: `default`,
-        sequence: 1
-      },
-      delegations: [],
-      begin_unbondings: [
-        {
-          delegator_addr: lcdClientMock.addresses[0],
-          validator_addr: lcdClientMock.validators[0],
-          shares: `5`
-        }
-      ]
-    })
-    expect(
-      lcdClientMock.state.stake[lcdClientMock.addresses[0]]
-        .unbonding_delegations
-    ).toHaveLength(1)
-    let res = await client.updateDelegations(lcdClientMock.addresses[0], {
-      base_req: {
-        name: `default`,
-        sequence: 2
-      },
-      complete_unbondings: [
-        {
-          validator_addr: lcdClientMock.validators[0]
-        }
-      ]
-    })
-    expect(res.length).toBe(1)
-    expect(res[0].check_tx.log).toBe(``)
-    expect(res[0].check_tx.code).toBe(0)
-    expect(
-      lcdClientMock.state.stake[lcdClientMock.addresses[0]]
-        .unbonding_delegations
-    ).toHaveLength(0)
-  })
-
   it(`fails unbondings if account doesn't exist`, async () => {
     delete client.state.stake[lcdClientMock.addresses[0]]
     let res = await client.updateDelegations(lcdClientMock.addresses[0], {
@@ -597,16 +558,41 @@ describe(`LCD Client Mock`, () => {
     expect(res[0].check_tx.code).toBe(2)
   })
 
-  it(`fails ends unbondings if account doesn't exist`, async () => {
+  it(`errors relegation with no delegation`, async () => {
+    let res = await client.updateDelegations(lcdClientMock.addresses[0], {
+      base_req: {
+        name: `default`,
+        sequence: 1
+      },
+      delegations: [],
+      begin_unbondings: [],
+      begin_redelegates: [
+        {
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_src_addr: lcdClientMock.validators[0],
+          validator_dst_addr: lcdClientMock.validators[1],
+          shares: `10`
+        }
+      ]
+    })
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.log).toBe(`Nonexistent delegation`)
+    expect(res[0].check_tx.code).toBe(2)
+  })
+
+  it(`fails redelegation if account doesn't exist`, async () => {
     delete client.state.stake[lcdClientMock.addresses[0]]
     let res = await client.updateDelegations(lcdClientMock.addresses[0], {
       base_req: {
         name: `default`,
         sequence: 1
       },
-      complete_unbondings: [
+      begin_unbondings: [],
+      begin_redelegates: [
         {
-          validator_addr: lcdClientMock.validators[0]
+          validator_src_addr: lcdClientMock.validators[0],
+          validator_dst_addr: lcdClientMock.validators[1],
+          shares: `10`
         }
       ]
     })
@@ -615,10 +601,11 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`queries for summary of delegation information for a delegator`, async () => {
-    let delegation = await client.getDelegator(lcdClientMock.addresses[0])
-    expect(Object.keys(delegation)).toEqual([
+    let summary = await client.getDelegator(lcdClientMock.addresses[0])
+    expect(Object.keys(summary)).toEqual([
       `delegations`,
-      `unbonding_delegations`
+      `unbonding_delegations`,
+      `redelegations`
     ])
   })
 
@@ -643,6 +630,51 @@ describe(`LCD Client Mock`, () => {
     )
 
     expect(undelegations.shares).toBe(`10`)
+  })
+
+  it(`queries for an unbonding delegation between a validator and a delegator`, async () => {
+    await client.updateDelegations(lcdClientMock.addresses[0], {
+      base_req: {
+        name: `default`,
+        sequence: 1
+      },
+      delegations: [],
+      begin_unbondings: [
+        {
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_addr: lcdClientMock.validators[0],
+          shares: `10`
+        }
+      ]
+    })
+    let undelegations = await client.queryUnbonding(
+      lcdClientMock.addresses[0],
+      lcdClientMock.validators[0]
+    )
+
+    expect(undelegations.shares).toBe(`10`)
+  })
+
+  it(`queries for a redelegation from the delegator summary`, async () => {
+    await client.updateDelegations(lcdClientMock.addresses[0], {
+      base_req: {
+        name: `default`,
+        sequence: 1
+      },
+      delegations: [],
+      begin_unbondings: [],
+      begin_redelegates: [
+        {
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_src_addr: lcdClientMock.validators[0],
+          validator_dst_addr: lcdClientMock.validators[1],
+          shares: `10`
+        }
+      ]
+    })
+
+    let summary = await client.getDelegator(lcdClientMock.addresses[0])
+    expect(summary.redelegations.shares).toBe(`10`)
   })
 
   it(`queries for staking txs`, async () => {
