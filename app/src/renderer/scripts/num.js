@@ -10,6 +10,9 @@ function usdInt(num) {
 function full(num) {
   return numeral(num).format(`0,0.0000000000`)
 }
+function shortNumber(num) {
+  return numeral(num).format(`0,0.0000`) + `…`
+}
 function pretty(num) {
   return numeral(num).format(`0,0.00`)
 }
@@ -45,6 +48,7 @@ module.exports = {
   usd,
   usdInt,
   full,
+  shortNumber,
   pretty,
   prettyInt,
   short,
