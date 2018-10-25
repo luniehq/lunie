@@ -179,7 +179,7 @@ test(`properties`, () => {
       class: `name`
     },
     {
-      title: `Bonded tofu-steaks`,
+      title: `Delegated tofu-steaks`,
       value: `your_votes`,
       tooltip: `Number of tofu-steaks you have delegated to the validator`,
       class: `your-votes`
@@ -219,8 +219,8 @@ test(`properties`, () => {
 
 test(`sort`, () => {
   expect(TabMyDelegations.data()).toEqual({
-    bondInfo: `Validators you are currently bonded to`,
+    bondInfo: `Validators you have delegated to`,
     sort: { order: `desc`, property: `percent_of_vote` },
-    unbondInfo: `Your bonded validators in unbonding process`
+    unbondInfo: `Validators you have undelegated from`
   })
 })
