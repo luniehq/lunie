@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     h3.tab-header
-      | Your Validators
+      | Active Delegations
       |
       i.material-icons.info-button(v-tooltip.top="bondInfo") info_outline
     panel-sort(:sort='sort', :properties="properties")
@@ -22,7 +22,7 @@
 
     div(v-if="undelegatedValidators.length")
       h3.tab-header
-        | Your Undelegated Validators
+        | Inactive Delegations
         |
         i.material-icons.info-button(v-tooltip.top="unbondInfo") info_outline
       ol
@@ -52,8 +52,8 @@ export default {
       property: `percent_of_vote`,
       order: `desc`
     },
-    bondInfo: `Validators you are currently bonded to`,
-    unbondInfo: `Your bonded validators in unbonding process`
+    bondInfo: `Validators you have delegated to`,
+    unbondInfo: `Validators you have undelegated from`
   }),
   computed: {
     ...mapGetters([
@@ -81,7 +81,7 @@ export default {
           class: `name`
         },
         {
-          title: `Bonded ${bondingDenom}`,
+          title: `Delegated ${bondingDenom}`,
           value: `your_votes`,
           tooltip: `Number of ${bondingDenom} you have delegated to the validator`,
           class: `your-votes`
