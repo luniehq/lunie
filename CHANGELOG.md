@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Updated contribution guidelines. @faboweb
 * [\#1447](https://github.com/cosmos/voyager/issues/1447) Removed titles from all pages. @faboweb
 * Updated PR template @fedekunze
+* [\#1454](https://github.com/cosmos/voyager/issues/1454) Updated a bunch of words to (hopefully) be clearer. @jbibla
 
 ### Fixed
 
