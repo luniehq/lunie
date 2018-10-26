@@ -11,8 +11,6 @@ const getters = {
 
 const Wrapper = () => {
   const $store = {
-    commit: jest.fn(),
-    dispatch: jest.fn(),
     getters
   }
 

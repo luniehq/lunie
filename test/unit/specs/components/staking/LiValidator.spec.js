@@ -82,6 +82,20 @@ describe(`LiValidator`, () => {
     )
   })
 
+  it(`should show the validator status with color`, () => {
+    expect(wrapper.vm.statusColor).toBe(`green`)
+    // Jailed
+    wrapper.vm.validator = {
+      revoked: true
+    }
+    expect(wrapper.vm.statusColor).toBe(`red`)
+    // Is not a validator
+    wrapper.vm.validator = {
+      voting_power: 0
+    }
+    expect(wrapper.vm.statusColor).toBe(`yellow`)
+  })
+
   it(`should show the validator's uptime`, () => {
     expect(wrapper.vm.uptime).toBe(`98.78%`)
     expect(wrapper.html()).toContain(`98.78%`)
