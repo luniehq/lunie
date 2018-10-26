@@ -20,3 +20,4 @@ exports[`TabValidators has the expected html structure 1`] = `
 </div>
 </div>
 </div>"
+`;
