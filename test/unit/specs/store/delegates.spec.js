@@ -16,6 +16,7 @@ describe(`Module: Delegates`, () => {
     mutations.setDelegates(state, [
       {
         operator_address: `foo`,
+        percent_of_vote: `100.00%`,
         tokens: `10`
       }
     ])
@@ -23,6 +24,7 @@ describe(`Module: Delegates`, () => {
       {
         id: `foo`,
         operator_address: `foo`,
+        percent_of_vote: `100.00%`,
         tokens: `10`,
         voting_power: BN(10)
       }
@@ -42,6 +44,7 @@ describe(`Module: Delegates`, () => {
       {
         id: `foo`,
         operator_address: `foo`,
+        percent_of_vote: `100.00%`,
         tokens: `12`,
         updated: true,
         voting_power: BN(12)
@@ -62,6 +65,7 @@ describe(`Module: Delegates`, () => {
       {
         id: `foo`,
         operator_address: `foo`,
+        percent_of_vote: `100.00%`,
         tokens: `4000/40`,
         updated: true,
         voting_power: BN(100)
