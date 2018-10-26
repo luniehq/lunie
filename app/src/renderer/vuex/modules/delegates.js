@@ -2,6 +2,7 @@
 
 import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
+import num from "scripts/num"
 import { isEmpty } from "lodash"
 export default ({ node }) => {
   const emptyState = {
@@ -16,18 +17,21 @@ export default ({ node }) => {
       state.loading = loading
     },
     setDelegates(state, validators) {
-      validators.forEach(validator => {
-        validator.id = validator.operator_address
-        validator.voting_power = ratToBigNumber(validator.tokens)
-      })
-      state.delegates = validators
-
       // update global power for quick access
-      state.globalPower = state.delegates
+      state.globalPower = validators
         .reduce((sum, validator) => {
           return sum.plus(ratToBigNumber(validator.tokens))
         }, new BN(0))
         .toNumber()
+
+      validators.forEach(validator => {
+        validator.id = validator.operator_address
+        validator.voting_power = ratToBigNumber(validator.tokens)
+        validator.percent_of_vote = num.percent(
+          validator.voting_power / state.globalPower
+        )
+      })
+      state.delegates = validators
     },
     setSelfBond(
       state,

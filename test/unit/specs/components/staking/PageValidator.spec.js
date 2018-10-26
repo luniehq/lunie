@@ -652,6 +652,7 @@ describe(`onDelegation`, () => {
                         id: lcdClientMock.validators[0],
                         keybase: undefined,
                         operator_address: lcdClientMock.validators[0],
+                        percent_of_vote: `65.52%`,
                         prev_bonded_shares: `0`,
                         proposer_reward_pool: null,
                         pub_key: `cosmoschiapudding123456789`,
