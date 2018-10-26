@@ -21,7 +21,7 @@ menu.app-menu
       to="/proposals"
       exact @click.native="close"
       title="Proposals"
-      v-if="config.devMode")
+      v-if="config.devMode || mockedConnector")
   connected-network
 </template>
 

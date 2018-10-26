@@ -98,18 +98,6 @@ export default {
     getProposals() {
       this.$store.dispatch(`getProposals`)
     },
-    gotoPrevote() {
-      this.$store.commit(`notify`, {
-        title: `TODO: Prevote Proposals`,
-        body: `Work in progress.`
-      })
-    },
-    gotoArchive() {
-      this.$store.commit(`notify`, {
-        title: `TODO: Archive Proposals`,
-        body: `Work in progress.`
-      })
-    },
     gotoNewProposal() {
       this.$router.push(`/proposals/new`)
     },

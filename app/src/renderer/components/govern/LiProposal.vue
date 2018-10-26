@@ -11,11 +11,14 @@ transition(name="proposal")
 import moment from "moment"
 export default {
   name: `li-proposal`,
-  // computed: {
-  //   proposalLink() {
-  //     return { name: `proposal`, params: { proposal: this.proposal.id } }
-  //   }
-  // },
+  computed: {
+    proposalLink() {
+      return {
+        name: `proposal`,
+        params: { proposal: this.proposal.proposal_id }
+      }
+    }
+  },
   methods: {
     timeAgo(date) {
       return moment(date, `x`).fromNow()
