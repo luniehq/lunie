@@ -568,57 +568,87 @@ module.exports = {
       results.push(txResult(0))
     }
 
-    // for (let tx of begin_redelegates) {
-    //   incrementSequence(fromAccount)
-    //
-    //   let amount = parseInt(tx.shares)
-    //
-    //   // update sender balance
-    //   let coinBalance = fromAccount.coins.find(c => c.denom === `steak`)
-    //   coinBalance.amount = String(parseInt(coinBalance) + amount)
-    //
-    //   if (!delegator) {
-    //     results.push(txResult(3, `Nonexistent delegator`))
-    //     return results
-    //   }
-    //   let delegation = delegator.delegations.find(
-    //     d => d.validator_addr === tx.validator_src_addr
-    //   )
-    //   if (!delegation) {
-    //     results.push(txResult(3, `Nonexistent delegation`))
-    //     return results
-    //   }
-    //
-    //   // TODO remove after sdk.Dec parsing is fixed
-    //   amount = amount * 10000000000
-    //
-    //   let shares = parseInt(delegation.shares)
-    //   delegation.shares = (+shares - amount).toString()
-    //
-    //   let srcValidator = state.candidates.find(
-    //     c => c.operator_address === tx.validator_src_addr
-    //   )
-    //
-    //   let dstValidator = state.candidates.find(
-    //     c => c.operator_address === tx.validator_dst_addr
-    //   )
-    //
-    //
-    //   shares = parseInt(srcValidator.tokens)
-    //   srcValidator.tokens = (+shares - amount).toString()
-    //
-    //
-    //   delegator.redelegations.push(
-    //     Object.assign({}, tx, {
-    //       balance: {
-    //         amount: tx.shares
-    //       }
-    //     })
-    //   )
-    //
-    //   storeTx(`"cosmos-sdk/BeginRedelegate"`, tx)
-    //   results.push(txResult(0))
-    // }
+    for (let tx of begin_redelegates) {
+      incrementSequence(fromAccount)
+
+      // check if source validator exist
+      let srcValidator = state.candidates.find(
+        c => c.operator_address === tx.validator_src_addr
+      )
+
+      if (!srcValidator) {
+        results.push(txResult(3, `Nonexistent source validator`))
+        return results
+      }
+
+      // check if dest validator exist
+      let dstValidator = state.candidates.find(
+        c => c.operator_address === tx.validator_dst_addr
+      )
+
+      if (dstValidator.revoked) {
+        throw new Error(`checkTx failed: (262245) Msg 0 failed: === ABCI Log ===
+  Codespace: 4
+  Code:      101
+  ABCICode:  262245
+  Error:     --= Error =--
+  Data: common.FmtError{format:"validator for this address is currently revoked", args:[]interface {}(nil)}
+  Msg Traces:
+  --= /Error =--
+
+  === /ABCI Log ===`)
+      }
+
+      // check if delegation exists
+      let delegation = delegator.delegations.find(
+        d => d.validator_addr === tx.validator_src_addr
+      )
+      if (!delegation) {
+        results.push(
+          txResult(3, `Nonexistent delegation with source validator`)
+        )
+        return results
+      }
+
+      // check if there's an existing redelegation
+      let summary = this.getDelegator(tx.delegator_addr)
+      let red = summary.redelegations.find(
+        red =>
+          red.validator_src_addr === tx.validator_src_addr &&
+          red.validator_dst_addr === tx.validator_dst_addr
+      )
+
+      if (red) {
+        throw new Error(`conflicting redelegation`)
+      }
+
+      // unbond shares from source validator
+
+      // delegate to dst validator
+      // let shares = parseInt(tx.shares)
+      // sharesCreated = delegate()
+
+      // creation_height =
+      // candidate.tokens = (parseInt(candidate.tokens) + amount).toString()
+      // shares = parseInt(srcValidator.tokens)
+      // srcValidator.tokens = (+shares - amount).toString()
+      let minTime = Date.now()
+      red = {
+        delegator_addr: tx.delegator_addr,
+        validator_src_addr: tx.validator_src_addr,
+        validator_dst_addr: tx.validator_dst_addr,
+        shares_src: tx.shares,
+        // shares_dst: sharesCreated,
+        min_time: minTime.setSeconds(minTime.getSeconds() + 60 * 60 * 24 * 3),
+        creation_height: 100,
+        initial_balance: state.accounts.coins[2]
+      }
+
+      delegator.redelegations.push(red)
+
+      storeTx(`"cosmos-sdk/BeginRedelegate"`, tx)
+      results.push(txResult(0))
+    }
 
     return results
   },
