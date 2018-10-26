@@ -30,7 +30,7 @@ tm-page(data-title="Validator")
         .row.validator-profile__header__data
           dl.colored_dl
             dt Bonded {{bondingDenom}}
-            dd {{myBond.isLessThan(0.01) && myBond.isGreaterThan(0) ? '< ' + 0.01 : num.full(myBond)}}
+            dd {{myBond.isLessThan(0.01) && myBond.isGreaterThan(0) ? '< ' + 0.01 : num.shortNumber(myBond)}}
           dl.colored_dl(v-if="config.devMode")
             dt My Rewards
             dd n/a
@@ -77,7 +77,7 @@ tm-page(data-title="Validator")
             dt Max Daily Commission Change
             dd {{validator.commission.max_change_rate}} %
           dl.info_dl
-            dt Last Commission Change 
+            dt Last Commission Change
             dd {{new Date(validator.commission.update_time).getTime() === 0 ? 'Never' : moment(new Date(validator.commission.update_time)).fromNow() }}
           dl.info_dl
             dt Self Bonded {{bondingDenom}}

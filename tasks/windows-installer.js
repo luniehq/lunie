@@ -1,7 +1,7 @@
 "use strict"
 
-var electronInstaller = require(`electron-winstaller`)
-var { author, version } = require(`../package.json`)
+const electronInstaller = require(`electron-winstaller`)
+const { author, version } = require(`../package.json`)
 
 // Installer is customizable: https://github.com/electron/windows-installer
 let resultPromise = electronInstaller.createWindowsInstaller({
