@@ -108,7 +108,7 @@ export default {
           class: `name`
         },
         {
-          title: `Bonded ${this.bondingDenom}`,
+          title: `Delegated ${this.bondingDenom}`,
           value: `your_votes`,
           tooltip: `Number of ${
             this.bondingDenom
