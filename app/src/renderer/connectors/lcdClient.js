@@ -50,7 +50,12 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
 
     seed: () => keys.get(`seed`),
     set: argReq(`PUT`, `/keys`),
-    values: req(`GET`, `/keys`)
+
+    values: async () => {
+      const values = await req(`GET`, `/keys`)()
+      // Workaround for https://github.com/cosmos/cosmos-sdk/issues/2470
+      return values === `[]` ? [] : values
+    }
   }
 
   return {

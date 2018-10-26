@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * catching errors on cache encryption. @faboweb
 * #1436 governance endpoints and vuex module @fedekunze
 * [\#1482](https://github.com/cosmos/voyager/issues/1482) Added ESLint errors: no-var. @sgobotta
+* [\#1449](https://github.com/cosmos/voyager/issues/1449) shortNumber to num scripts for more readable numbers. @jbibla
 
 ### Changed
 
@@ -23,12 +24,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Updated contribution guidelines. @faboweb
 * [\#1447](https://github.com/cosmos/voyager/issues/1447) Removed titles from all pages. @faboweb
 * Updated PR template @fedekunze
+* [\#1473](https://github.com/cosmos/voyager/issues/1473) added "percent of vote" to validator in vuex module instead of in component @jbibla
 
 ### Fixed
 
 * Fixed gaia binary not be found on linux and windows in development @faboweb
 * [\#1419](https://github.com/cosmos/voyager/issues/1419) Restored "Amount" label to delegation modal. @NodeGuy
 * Fixed upstream cross compilation issue from SDK @faboweb
+* [\#1487](https://github.com/cosmos/voyager/issues/1487) Fixed running of local testnet. @NodeGuy
 
 ## [0.10.7] - 2018-10-10
 

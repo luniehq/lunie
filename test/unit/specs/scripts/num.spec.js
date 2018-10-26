@@ -13,6 +13,10 @@ describe(`number helper`, () => {
     expect(num.full(1001950.123456)).toBe(`1,001,950.1234560000`)
   })
 
+  it(`should format numbers showing many decimals`, () => {
+    expect(num.shortNumber(1.123456789)).toBe(`1.1235…`)
+  })
+
   it(`should format numbers showing few decimals`, () => {
     expect(num.pretty(1001950.123456)).toBe(`1,001,950.12`)
   })
