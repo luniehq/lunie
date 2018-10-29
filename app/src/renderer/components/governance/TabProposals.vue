@@ -20,7 +20,7 @@ import Mousetrap from "mousetrap"
 import LiProposal from "./LiProposal"
 import { TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 import DataEmptySearch from "common/TmDataEmptySearch"
-import { calculateTokens } from "scripts/common"
+import { calculateTokens, ratToBigNumber } from "scripts/common"
 import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
 import VmToolBar from "common/VmToolBar"
@@ -39,22 +39,43 @@ export default {
     num: num,
     query: ``,
     sort: {
-      property: `percent_of_vote`,
+      property: `proposal_id`,
       order: `desc`
     }
   }),
   computed: {
     ...mapGetters([`proposals`, `filters`, `config`]),
+    parsedProposals() {
+      return !this.proposals || this.proposals.length === 0
+        ? []
+        : Object.values(this.proposals).map(p => {
+            p.tally_result.yes = Math.round(
+              ratToBigNumber(p.tally_result.yes).toNumber()
+            )
+            p.tally_result.no = Math.round(
+              ratToBigNumber(p.tally_result.no).toNumber()
+            )
+            p.tally_result.no_with_veto = Math.round(
+              ratToBigNumber(p.tally_result.no_with_veto).toNumber()
+            )
+            p.tally_result.abstain = Math.round(
+              ratToBigNumber(p.tally_result.abstain).toNumber()
+            )
+            return p
+          })
+    },
     filteredProposals() {
       if (this.proposals && this.filters) {
         let query = this.filters.proposals.search.query
         let proposals = orderBy(
-          this.proposals,
+          this.parsedProposals,
           [this.sort.property],
           [this.sort.order]
         )
         if (this.filters.proposals.search.visible) {
-          return proposals.filter(p => includes(p.title.toLowerCase(), query))
+          return proposals.filter(p =>
+            includes(p.title.toLowerCase(), query.toLowerCase())
+          )
         } else {
           return proposals
         }
@@ -65,26 +86,32 @@ export default {
     properties() {
       return [
         {
+          title: `Proposal ID`,
+          value: `proposal_id`,
+          tooltip: `The ID of the proposal`,
+          class: `proposal_id`
+        },
+        {
           title: `Yes`,
-          value: `yes_votes`,
+          value: `tally_result.yes`,
           tooltip: `Yes votes`,
-          class: `name`
+          class: `yes_votes`
         },
         {
           title: `No`,
-          value: `no_votes`,
+          value: `tally_result.no`,
           tooltip: `No votes`,
-          class: `your-votes`
+          class: `no_votes`
         },
         {
           title: `No with Veto`,
-          value: `no_with_veto_votes`, // TODO: use real rewards
+          value: `tally_result.no_with_veto`,
           tooltip: `No with veto votes`,
-          class: `your-rewards` // TODO: use real rewards
+          class: `no_veto_votes`
         },
         {
           title: `Abstain`,
-          value: `abstain_votes`,
+          value: `tally_result.abstain`,
           tooltip: `Abstain votes`,
           class: `abstain_votes`
         }

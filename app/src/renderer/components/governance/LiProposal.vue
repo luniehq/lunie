@@ -5,7 +5,7 @@ li.li-proposal
       span.proposal-profile__status(v-bind:class="statusColor" v-tooltip.top="proposal.proposal_status")
       .vert
         .top {{ proposal.title }}
-        span Status: {{ this.proposal.proposal_status }}
+        span Status: {{ proposal.proposal_status }}
     .li-proposal__value.yes
       span {{ proposal.tally_result.yes }}
     .li-proposal__value.no
@@ -58,7 +58,7 @@ export default {
     border 1px solid var(--white-fade-2)
     border-radius 4px
     display block
-    width 100%
+    width 150%
     margin 0 0.5rem
     font-size sm
     line-height sm
@@ -74,18 +74,6 @@ export default {
       background-color rgba(46, 164, 45, 0.15)
       border solid 0.5px rgba(46, 164, 45, 0.25)
       color #2ea42d
-
-  .li-proposal__break
-    flex 0
-    display flex
-    align-items center
-    min-width 1
-
-    span
-      margin 0 0.5rem
-      width 1px
-      background-color var(--white-fade-1)
-      height 2rem
 
   .li-proposal__value
     flex 1
