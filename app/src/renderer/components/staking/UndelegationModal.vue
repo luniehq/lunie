@@ -50,11 +50,8 @@ export default {
   computed: {
     ...mapGetters([`bondingDenom`]),
     updateAmount() {
-      if (
-        this.fromOptions[selectedIndex].maximum < 0 ||
-        this.amount > Math.floor(this.fromOptions[selectedIndex].maximum)
-      ) {
-        this.amount = this.fromOptions[selectedIndex].maximum
+      if (this.maximum < 0 || this.amount > Math.floor(this.maximum)) {
+        this.amount = this.maximum
       }
     }
   },
