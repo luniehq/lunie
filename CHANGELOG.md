@@ -12,9 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Contract tests for `keys` endpoints in lcdClient. @NodeGuy
 * Protected Gaia Lite process with a mutex to prevent locking error. @NodeGuy
 * catching errors on cache encryption. @faboweb
-* #1436 governance endpoints and vuex module @fedekunze
+* [\#1436](https://github.com/cosmos/voyager/issues/1436) governance endpoints and vuex module @fedekunze
 * [\#1482](https://github.com/cosmos/voyager/issues/1482) Added ESLint errors: no-var. @sgobotta
 * [\#1449](https://github.com/cosmos/voyager/issues/1449) shortNumber to num scripts for more readable numbers. @jbibla
+* [\1401](https://github.com/cosmos/voyager/issues/1401) Display governance proposals index. @fedekunze
 
 ### Changed
 
