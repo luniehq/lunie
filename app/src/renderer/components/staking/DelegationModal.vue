@@ -11,7 +11,7 @@
       field-label='Amount'
     )
       tm-field#denom(
-        type="number"
+        type="text"
         :placeholder="bondingDenom"
         readonly)
 
@@ -19,7 +19,7 @@
         type="number"
         :max="fromOptions[selectedIndex].maximum"
         :min="0"
-        step="1"
+        step="any"
         v-model="amount"
         v-focus)
 
@@ -56,7 +56,15 @@ export default {
   name: `delegation-modal`,
   props: [`fromOptions`, `to`],
   computed: {
-    ...mapGetters([`bondingDenom`])
+    ...mapGetters([`bondingDenom`]),
+    updateAmount() {
+      if (
+        this.fromOptions[selectedIndex].maximum < 0 ||
+        this.amount > Math.floor(this.fromOptions[selectedIndex].maximum)
+      ) {
+        this.amount = this.fromOptions[selectedIndex].maximum
+      }
+    }
   },
   components: {
     Modal,
@@ -73,8 +81,10 @@ export default {
     return {
       amount: {
         required,
-        integer: value => Number.isInteger(value),
-        between: between(1, this.fromOptions[this.selectedIndex].maximum)
+        between: between(
+          0.0000000001,
+          this.fromOptions[this.selectedIndex].maximum
+        )
       }
     }
   },

@@ -17,6 +17,7 @@
       tm-field#amount(
         :max="maximum"
         :min="0"
+        step="any"
         type="number"
         v-model="amount"
         v-focus)
@@ -47,7 +48,15 @@ export default {
   name: `undelegation-modal`,
   props: [`maximum`, `to`],
   computed: {
-    ...mapGetters([`bondingDenom`])
+    ...mapGetters([`bondingDenom`]),
+    updateAmount() {
+      if (
+        this.fromOptions[selectedIndex].maximum < 0 ||
+        this.amount > Math.floor(this.fromOptions[selectedIndex].maximum)
+      ) {
+        this.amount = this.fromOptions[selectedIndex].maximum
+      }
+    }
   },
   components: {
     Modal,
