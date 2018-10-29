@@ -26,11 +26,11 @@ export default [
   { path: `proposals/new/amend`, component: governance(`ProposalsNewAmend`) },
   { path: `proposals/new/create`, component: governance(`ProposalsNewCreate`) },
   { path: `proposals/new/text`, component: governance(`ProposalsNewText`) },
-  {
-    path: `proposals/:proposal`,
-    name: `proposal`,
-    component: governance(`Proposal`)
-  },
+  // {
+  //   path: `proposals/:proposal`,
+  //   name: `proposal`,
+  //   component: governance(`Proposal`)
+  // },
 
   // STAKE
   {

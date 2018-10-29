@@ -26,10 +26,10 @@ export default {
       else if (this.proposal.proposal_status === `Passed`) return `green`
       return `yellow`
     },
+    // TODO redirect to proposal page
     proposalLink() {
       return {
-        name: `proposal`,
-        params: { proposal: this.proposal.proposal_id }
+        name: ``
       }
     }
   },

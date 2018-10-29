@@ -19,11 +19,4 @@ describe(`LiProposal`, () => {
   it(`has the right title`, () => {
     expect(wrapper.find(`.title`).text()).toBe(propsData.proposal.title)
   })
-
-  it(`has a link to the proposal page`, () => {
-    expect(wrapper.vm.proposalLink).toEqual({
-      name: `proposal`,
-      params: { proposal: `1` }
-    })
-  })
 })
