@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(data-title='New Proposal')
   div(slot="menu"): vm-tool-bar
-    router-link(to="/proposals" exact v-tooltip.bottom="'Back'")
+    router-link(to="/governance" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
   tm-part(title='Choose a Type')
     tm-list-item(title='Adjust Parameters' to="/proposals/new/adjust")

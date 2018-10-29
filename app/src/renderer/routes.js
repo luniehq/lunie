@@ -3,29 +3,33 @@ function r(type, pageName) {
 }
 
 let common = r.bind(null, `common`)
-let govern = r.bind(null, `govern`)
+let governance = r.bind(null, `governance`)
 let staking = r.bind(null, `staking`)
 let wallet = r.bind(null, `wallet`)
 
 export default [
   {
-    path: `/proposals`,
-    name: `proposals`,
-    component: govern(`Proposals`)
+    path: `/governance`,
+    name: `Governance`,
+    component: governance(`Governance`),
+    redirect: `proposals/`,
+    children: [
+      {
+        path: `/proposals`,
+        name: `Proposals`,
+        component: require(`./components/governance/TabProposals`).default
+      }
+    ]
   },
-  { path: `/proposals/new`, component: govern(`ProposalsNew`) },
-  { path: `/proposals/new/adjust`, component: govern(`ProposalsNewAdjust`) },
-  { path: `/proposals/new/amend`, component: govern(`ProposalsNewAmend`) },
-  { path: `/proposals/new/create`, component: govern(`ProposalsNewCreate`) },
-  { path: `/proposals/new/text`, component: govern(`ProposalsNewText`) },
+  { path: `proposals/new`, component: governance(`ProposalsNew`) },
+  { path: `proposals/new/adjust`, component: governance(`ProposalsNewAdjust`) },
+  { path: `proposals/new/amend`, component: governance(`ProposalsNewAmend`) },
+  { path: `proposals/new/create`, component: governance(`ProposalsNewCreate`) },
+  { path: `proposals/new/text`, component: governance(`ProposalsNewText`) },
   {
-    path: `/proposals/new/upgrade`,
-    component: govern(`ProposalsNewUpgrade`)
-  },
-  {
-    path: `/proposals/:proposal`,
+    path: `proposals/:proposal`,
     name: `proposal`,
-    component: govern(`Proposal`)
+    component: governance(`Proposal`)
   },
 
   // STAKE
