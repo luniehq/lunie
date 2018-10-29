@@ -45,6 +45,7 @@ export default {
   }),
   computed: {
     ...mapGetters([`proposals`, `filters`, `config`]),
+    // TODO delete once tally is changed from Rat --> Dec
     parsedProposals() {
       return !this.proposals || this.proposals.length === 0
         ? []

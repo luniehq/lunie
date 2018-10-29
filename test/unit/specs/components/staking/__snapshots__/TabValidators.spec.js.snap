@@ -84,7 +84,7 @@ exports[`TabValidators has the expected html structure 1`] = `
          <span>57.58%</span>
       </div>
       <div class=\\"li-validator__value uptime\\">
-         <span>0.01%</span>
+         <span>n/a</span>
       </div>
       <div class=\\"li-validator__value commission\\">
          <span>0.00%</span>
@@ -125,7 +125,7 @@ exports[`TabValidators has the expected html structure 1`] = `
          <span>42.42%</span>
       </div>
       <div class=\\"li-validator__value uptime\\">
-         <span>0.01%</span>
+         <span>n/a</span>
       </div>
       <div class=\\"li-validator__value commission\\">
          <span>0.00%</span>
@@ -166,7 +166,7 @@ exports[`TabValidators has the expected html structure 1`] = `
          <span>0.00%</span>
       </div>
       <div class=\\"li-validator__value uptime\\">
-         <span>0.01%</span>
+         <span>n/a</span>
       </div>
       <div class=\\"li-validator__value commission\\">
          <span>0.00%</span>
@@ -359,7 +359,7 @@ exports[`TabValidators should filter the delegates 1`] = `
             class="li-validator__value uptime"
           >
             <span>
-              0.01%
+              n/a
             </span>
           </div>
           <div

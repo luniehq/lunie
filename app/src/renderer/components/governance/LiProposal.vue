@@ -1,10 +1,10 @@
 <template lang="pug">
 li.li-proposal
-  router-link(:to="{ name: 'proposal', params: { proposal: proposal.proposal_id }}")
-    .li-proposal__value.title
+  router-link(:to="proposalLink")
+    .li-proposal__value
       span.proposal-profile__status(v-bind:class="statusColor" v-tooltip.top="proposal.proposal_status")
       .vert
-        .top {{ proposal.title }}
+        .top.title {{ proposal.title }}
         span Status: {{ proposal.proposal_status }}
     .li-proposal__value.yes
       span {{ proposal.tally_result.yes }}
@@ -24,6 +24,13 @@ export default {
     statusColor() {
       if (this.proposal.proposal_status === `Rejected`) return `red`
       else if (this.proposal.proposal_status === `Passed`) return `green`
+      return `yellow`
+    },
+    proposalLink() {
+      return {
+        name: `proposal`,
+        params: { proposal: this.proposal.proposal_id }
+      }
     }
   },
   methods: {
@@ -58,7 +65,7 @@ export default {
     border 1px solid var(--white-fade-2)
     border-radius 4px
     display block
-    width 150%
+    width 100%
     margin 0 0.5rem
     font-size sm
     line-height sm
