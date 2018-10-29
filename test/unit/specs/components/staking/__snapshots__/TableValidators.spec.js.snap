@@ -6,8 +6,12 @@ exports[`TableValidators has the expected html structure 1`] = `
       <div class=\\"panel-sort\\">
          <div class=\\"panel-sort-container\\">
             <div class=\\"sort-by name\\">
-               <!---->
-            </div>
+               <div class=\\"label\\">
+                  <div class=\\"label-text\\">
+                     Moniker
+                  </div>
+</div>
+</div>
 <div class=\\"sort-by your-votes\\">
    <div class=\\"label\\">
       <div class=\\"label-text\\">
@@ -56,14 +60,15 @@ exports[`TableValidators has the expected html structure 1`] = `
    <li class=\\"li-validator li-validator-validator \\">
       <a href=\\"#/\\" class=\\"router-link-exact-active router-link-active\\">
       <div class=\\"li-validator__value name\\">
-         <span class=\\"validator-profile__status green\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
+            <span class=\\"validator-profile__status green\\"></span>
             <div class=\\"top\\">
                good_greg
             </div>
       <div class=\\"short-bech32\\">
          <div id=\\"address\\" class=\\"address\\">
-            cosmosvaladdr…n3au
+            Not A Valid Bech32 Address
          </div>
       <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>
@@ -97,14 +102,15 @@ exports[`TableValidators has the expected html structure 1`] = `
    <li class=\\"li-validator li-validator-validator \\">
       <a href=\\"#/\\" class=\\"router-link-exact-active router-link-active\\">
       <div class=\\"li-validator__value name\\">
-         <span class=\\"validator-profile__status red\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
+            <span class=\\"validator-profile__status red\\"></span>
             <div class=\\"top\\">
                herr_schmidt_revoked
             </div>
       <div class=\\"short-bech32\\">
          <div id=\\"address\\" class=\\"address\\">
-            cosmosvaladdr…rg7n
+            cosmosvalpub89…8910
          </div>
       <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>
@@ -138,14 +144,15 @@ exports[`TableValidators has the expected html structure 1`] = `
    <li class=\\"li-validator li-validator-validator \\">
       <a href=\\"#/\\" class=\\"router-link-exact-active router-link-active\\">
       <div class=\\"li-validator__value name\\">
-         <span class=\\"validator-profile__status green\\"></span><img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
+         <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"avatar\\">
          <div class=\\"vert\\">
+            <span class=\\"validator-profile__status green\\"></span>
             <div class=\\"top\\">
                mr_mounty
             </div>
       <div class=\\"short-bech32\\">
          <div id=\\"address\\" class=\\"address\\">
-            cosmosvaladdr…8yqw
+            cosmosvalpub…1234
          </div>
       <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>
@@ -193,7 +200,15 @@ exports[`TableValidators should filter the delegates 1`] = `
         <div
           class="sort-by name"
         >
-          <!---->
+          <div
+            class="label"
+          >
+            <div
+              class="label-text"
+            >
+              Moniker
+            </div>
+          </div>
         </div>
         <div
           class="sort-by your-votes"
@@ -288,9 +303,6 @@ exports[`TableValidators should filter the delegates 1`] = `
           <div
             class="li-validator__value name"
           >
-            <span
-              class="validator-profile__status green"
-            />
             <img
               class="avatar"
               height="48"
@@ -300,6 +312,9 @@ exports[`TableValidators should filter the delegates 1`] = `
             <div
               class="vert"
             >
+              <span
+                class="validator-profile__status green"
+              />
               <div
                 class="top"
               >
@@ -312,7 +327,7 @@ exports[`TableValidators should filter the delegates 1`] = `
                   class="address"
                   id="address"
                 >
-                  cosmosvaladdr…8yqw
+                  cosmosvalpub…1234
                 </div>
                 <div
                   class="copied"

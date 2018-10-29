@@ -158,7 +158,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                 class="address"
                 id="address"
               >
-                cosmosvaladdr…8yqw
+                cosmoschiapudding…6789
               </div>
               <div
                 class="copied"
@@ -601,7 +601,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                 class="address"
                 id="address"
               >
-                cosmosvaladdr…8yqw
+                cosmoschiapudding…6789
               </div>
               <div
                 class="copied"
@@ -922,7 +922,43 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
     class="tm-page-main"
   >
     <!---->
-    <tm-data-error />
+    <div
+      class="tm-data-msg"
+    >
+      <div
+        class="tm-data-msg__icon"
+      >
+        <i
+          class="material-icons"
+        >
+          sentiment_very_dissatisfied
+        </i>
+      </div>
+      <div
+        class="tm-data-msg__text"
+      >
+        <div
+          class="tm-data-msg__title"
+        >
+          <div>
+            Aw shucks!
+          </div>
+        </div>
+        <div
+          class="tm-data-msg__subtitle"
+        >
+          <div>
+            Even though you're connected a full node, we can't display this data for you right now. Please try again later or 
+            <a
+              href="https://github.com/cosmos/voyager/issues"
+            >
+              file a bug report
+            </a>
+            . Apologies!
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 </div>
 `;
