@@ -16,7 +16,6 @@ tm-page(data-title='Proposals')
 
 <script>
 import { mapGetters } from "vuex"
-import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import ModalSearch from "common/TmModalSearch"

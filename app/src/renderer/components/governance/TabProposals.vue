@@ -13,14 +13,13 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
+import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { includes, orderBy } from "lodash"
-import Mousetrap from "mousetrap"
 import LiProposal from "./LiProposal"
 import { TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 import DataEmptySearch from "common/TmDataEmptySearch"
-import { calculateTokens, ratToBigNumber } from "scripts/common"
+import { ratToBigNumber } from "scripts/common"
 import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
 import VmToolBar from "common/VmToolBar"
