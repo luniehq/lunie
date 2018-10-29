@@ -1,5 +1,6 @@
 <template lang="pug">
 tm-page(data-title='Proposals')
+  template(slot="menu-body", v-if="config.devMode"): tm-balance
   div(slot="menu"): vm-tool-bar
     router-link(to="/proposals/new" exact v-tooltip.bottom="'New Proposal'")
       i.material-icons add
@@ -25,10 +26,12 @@ import DataEmptySearch from "common/TmDataEmptySearch"
 import LiProposal from "govern/LiProposal"
 import ModalSearch from "common/TmModalSearch"
 import VmToolBar from "common/VmToolBar"
+import TmBalance from "common/TmBalance"
 import { TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 export default {
   name: `page-proposals`,
   components: {
+    TmBalance,
     TmDataLoading,
     TmDataEmpty,
     DataEmptySearch,
@@ -38,7 +41,7 @@ export default {
     VmToolBar
   },
   computed: {
-    ...mapGetters([`proposals`, `filters`]),
+    ...mapGetters([`config`, `proposals`, `filters`]),
     somethingToSearch() {
       return !this.proposals && Object.keys(this.proposals).length > 0
     },

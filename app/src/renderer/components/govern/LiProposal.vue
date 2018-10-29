@@ -3,8 +3,8 @@ transition(name="proposal")
   .card-proposal
     .text
       .title #[span {{ this.proposal.type }}] {{ this.proposal.title }}
-        .author Status: {{ this.proposal.proposal_status }}
-        .date Submit Block: {{ this.proposal.submit_block }}
+      .author Status: {{ this.proposal.proposal_status }}
+      .date Submit Block: {{ this.proposal.submit_block }}
 </template>
 
 <script>
@@ -54,9 +54,12 @@ export default {
     flex-flow column nowrap
 
   .title
-    flex 1
-    overflow hidden
-    text-overflow ellipsis
+    flex-direction column
+    color var(--bright)
+    padding-left 1rem
+    padding-bottom 0.5rem
+    font-size 1rem
+    font-weight 500
 
     span
       color dim
