@@ -24,18 +24,12 @@ export default {
     statusColor() {
       if (this.proposal.proposal_status === `Rejected`) return `red`
       else if (this.proposal.proposal_status === `Passed`) return `green`
-      return `yellow`
     },
     // TODO redirect to proposal page
     proposalLink() {
       return {
         name: ``
       }
-    }
-  },
-  methods: {
-    timeAgo(date) {
-      return moment(date, `x`).fromNow()
     }
   },
   props: [`proposal`]
