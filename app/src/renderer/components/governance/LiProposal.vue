@@ -17,7 +17,6 @@ li.li-proposal
 </template>
 
 <script>
-import moment from "moment"
 export default {
   name: `li-proposal`,
   computed: {
