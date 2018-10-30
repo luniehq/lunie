@@ -7,7 +7,7 @@
         h3 Total {{bondingDenom}}
         h2 {{this.num.shortNumber(totalAtoms)}}
       .unbonded-atoms.top-section(v-if="unbondedAtoms")
-        h3 Unbonded {{bondingDenom}}
+        h3 Available {{bondingDenom}}
         h2 {{unbondedAtoms}}
       .total-earnings.top-section(v-if="totalEarnings")
         h3 Total Earnings
