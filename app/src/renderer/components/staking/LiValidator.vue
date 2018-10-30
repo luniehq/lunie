@@ -110,21 +110,21 @@ export default {
       if (this.validator.revoked)
         return `This validator has been jailed and is not currently validating`
 
-      // status: candidate
+      // status: inactive
       if (parseFloat(this.validator.voting_power) === 0)
-        return `This validator has declared candidacy but does not have enough voting power yet`
+        return `This validator does not have enough voting power yet and is inactive`
 
-      // status: validator
+      // status: active
       return `This validator is actively validating`
     },
     statusColor() {
       // status: jailed
       if (this.validator.revoked) return `red`
 
-      // status: candidate
+      // status: inactive
       if (parseFloat(this.validator.voting_power) === 0) return `yellow`
 
-      // status: validator
+      // status: active
       return `green`
     }
   },

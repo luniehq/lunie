@@ -47,7 +47,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Unbonded Steak
+                  Available Steak
                 </h3>
                 <h2>
                   1,000.0000…
@@ -485,7 +485,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Unbonded Steak
+                  Available Steak
                 </h3>
                 <h2>
                   1,000.0000…

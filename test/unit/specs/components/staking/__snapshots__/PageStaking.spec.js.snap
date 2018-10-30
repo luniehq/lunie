@@ -23,7 +23,7 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
    <div class=\\"unbonded-atoms top-section\\">
       <h3>
-         Unbonded Steak
+         Available Steak
       </h3>
       <h2>
          1,337.0000…
@@ -90,7 +90,7 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
       <div class=\\"unbonded-atoms top-section\\">
          <h3>
-            Unbonded Steak
+            Available Steak
          </h3>
          <h2>
             1,337.0000…

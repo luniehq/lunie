@@ -78,7 +78,7 @@ describe(`LiValidator`, () => {
       voting_power: 0
     }
     expect(wrapper.vm.status).toBe(
-      `This validator has declared candidacy but does not have enough voting power yet`
+      `This validator does not have enough voting power yet and is inactive`
     )
   })
 
