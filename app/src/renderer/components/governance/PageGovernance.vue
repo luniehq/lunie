@@ -46,7 +46,7 @@ export default {
     getProposals() {
       this.$store.dispatch(`getProposals`)
     },
-    gotoNewProposal() {
+    newProposal() {
       this.$router.push(`/proposals/new`)
     },
     setSearch(bool = !this.filters[`proposals`].search.visible) {
@@ -57,7 +57,7 @@ export default {
   mounted() {
     this.getProposals()
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind([`command+n`, `ctrl+n`], () => this.gotoNewProposal())
+    Mousetrap.bind([`command+n`, `ctrl+n`], () => this.newProposal())
     Mousetrap.bind(`esc`, () => this.setSearch(false))
   }
 }
