@@ -21,7 +21,7 @@
               dt Maximum Inflation Rate
               dd {{ parameters.inflation_max ? parameters.inflation_max : `n/a` }}
             dl.info_dl
-              dt Goal For Bonded {{ bondingDenom }}s
+              dt Goal For Delegated {{ bondingDenom }}s
               dd {{ parameters.goal_bonded ? parameters.goal_bonded : `n/a` }}
           .column
             dl.info_dl
@@ -71,13 +71,13 @@
               dd {{ pool.loose_tokens ? pool.loose_tokens : `n/a` }}
             dl.info_dl
               dt
-                | Bonded {{ bondingDenom }}
+                | Delegated {{ bondingDenom }}
                 |
                 i.material-icons.info-button(v-tooltip.top="poolTooltips.bonded_tokens") info_outline
               dd {{ pool.bonded_tokens ? pool.bonded_tokens : `n/a` }}
             dl.info_dl
               dt
-                | Previous bonded shares
+                | Previous delegated shares
                 |
                 i.material-icons.info-button(v-tooltip.top="poolTooltips.prev_bonded_shares") info_outline
               dd {{ pool.prev_bonded_shares ? pool.prev_bonded_shares : `n/a` }}
@@ -102,19 +102,19 @@ export default {
       inflation_rate_change: `Maximum annual change in inflation rate`,
       inflation_max: `Maximum inflation rate`,
       inflation_min: `Minimum inflation rate`,
-      goal_bonded: `Goal for percentage of bonded atoms`,
-      unbonding_time: `Time to complete an unbonding delegation and claim rewards`,
+      goal_bonded: `Goal for percentage of delegated atoms`,
+      unbonding_time: `Time to complete an undelegation transaction and claim rewards`,
       max_validators: `Maximum number of validators in the validator set`,
       bond_denom: `The token being used for staking`
     },
     poolTooltips: {
       description: `The staking pool represents the dynamic parameters of the Cosmos Hub`,
-      loose_tokens: `Total tokens which are not currently bonded to a validator`,
-      bonded_tokens: `Total tokens which are currently bonded to a validator`,
+      loose_tokens: `Total tokens which are not currently delegated to a validator`,
+      bonded_tokens: `Total tokens which are currently delegated to a validator`,
       inflation_last_time: `The block where inflation was last processed`,
       inflation: `Current annual inflation rate`,
       date_last_commission_reset: `Timestamp for last commission accounting reset (daily)`,
-      prev_bonded_shares: `Last recorded bonded shares; used for fee calculations`
+      prev_bonded_shares: `Last recorded delegated shares; used for fee calculations`
     }
   }),
   computed: {

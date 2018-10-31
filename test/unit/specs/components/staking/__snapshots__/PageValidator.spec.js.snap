@@ -47,7 +47,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Unbonded Steak
+                  Available Steak
                 </h3>
                 <h2>
                   0.0000…
@@ -218,7 +218,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="colored_dl"
           >
             <dt>
-              Bonded Steak
+              Delegated Steak
             </dt>
             <dd>
               123.4568…
@@ -395,7 +395,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Self Bonded Steak
+              Self Delegated Steak
             </dt>
             <dd
               id="validator-profile__self-bond"
@@ -407,7 +407,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Minimum Self Bonded Steak
+              Minimum Self Delegated Steak
             </dt>
             <dd>
               0 %
@@ -490,7 +490,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Unbonded Steak
+                  Available Steak
                 </h3>
                 <h2>
                   0.0000…
@@ -661,7 +661,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="colored_dl"
           >
             <dt>
-              Bonded Steak
+              Delegated Steak
             </dt>
             <dd>
               123.4568…
@@ -838,7 +838,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Self Bonded Steak
+              Self Delegated Steak
             </dt>
             <dd
               id="validator-profile__self-bond"
@@ -850,7 +850,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Minimum Self Bonded Steak
+              Minimum Self Delegated Steak
             </dt>
             <dd>
               0 %
@@ -866,7 +866,7 @@ exports[`PageValidator shows a default avatar 1`] = `
 </div>
 `;
 
-exports[`PageValidator shows a validator as candidate if he has no voting_power 1`] = `"This validator has declared candidacy but does not have enough voting power yet"`;
+exports[`PageValidator shows a validator as candidate if he has no voting_power 1`] = `"This validator does not have enough voting power yet and is inactive"`;
 
 exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
 <div

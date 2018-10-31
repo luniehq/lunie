@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     h3.tab-header
-      | Your Validators
+      | Active Delegations
       |
       i.material-icons.info-button(v-tooltip.top="bondInfo") info_outline
     table-validators(:validators="yourValidators")
@@ -15,7 +15,7 @@
 
     div(v-if="undelegatedValidators.length")
       h3.tab-header
-        | Your Undelegated Validators
+        | Inactive Delegations
         |
         i.material-icons.info-button(v-tooltip.top="unbondInfo") info_outline
       table-validators(:validators="undelegatedValidators")

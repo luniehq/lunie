@@ -277,6 +277,11 @@ function startLocalNode(number, nodeOneId = ``) {
 
     localnodeProcess.stderr.pipe(process.stderr)
 
+    // wait 20s for the first block or assume the node has failed
+    const timeout = setTimeout(() => {
+      reject(`Timed out waiting for block for node ${number}`)
+    }, 20000)
+
     // wait for a message about a block being produced
     function listener(data) {
       let msg = data.toString()
@@ -284,11 +289,8 @@ function startLocalNode(number, nodeOneId = ``) {
       if (msg.includes(`Block{`)) {
         localnodeProcess.stdout.removeListener(`data`, listener)
         console.log(`Node ` + number + ` is running`)
+        clearTimeout(timeout)
         resolve()
-      }
-
-      if (msg.includes(`Failed`) || msg.includes(`Error`)) {
-        reject(msg)
       }
     }
 

@@ -29,7 +29,7 @@ tm-page(data-title="Validator")
 
         .row.validator-profile__header__data
           dl.colored_dl
-            dt Bonded {{bondingDenom}}
+            dt Delegated {{bondingDenom}}
             dd {{myBond.isLessThan(0.01) && myBond.isGreaterThan(0) ? '< ' + 0.01 : num.shortNumber(myBond)}}
           dl.colored_dl(v-if="config.devMode")
             dt My Rewards
@@ -80,10 +80,10 @@ tm-page(data-title="Validator")
             dt Last Commission Change
             dd {{new Date(validator.commission.update_time).getTime() === 0 ? 'Never' : moment(new Date(validator.commission.update_time)).fromNow() }}
           dl.info_dl
-            dt Self Bonded {{bondingDenom}}
+            dt Self Delegated {{bondingDenom}}
             dd(id="validator-profile__self-bond") {{selfBond}} %
           dl.info_dl(v-if="config.devMode")
-            dt Minimum Self Bonded {{bondingDenom}}
+            dt Minimum Self Delegated {{bondingDenom}}
             dd 0 %
 
     delegation-modal(
@@ -205,21 +205,21 @@ export default {
       if (this.validator.revoked)
         return `This validator has been jailed and is not currently validating`
 
-      // status: candidate
+      // status: inactive
       if (parseFloat(this.validator.voting_power) === 0)
-        return `This validator has declared candidacy but does not have enough voting power yet`
+        return `This validator does not have enough voting power yet and is inactive`
 
-      // status: validator
+      // status: active
       return `This validator is actively validating`
     },
     statusColor() {
       // status: jailed
       if (this.validator.revoked) return `red`
 
-      // status: candidate
+      // status: inactive
       if (parseFloat(this.validator.voting_power) === 0) return `yellow`
 
-      // status: validator
+      // status: active
       return `green`
     },
     availableAtoms() {
