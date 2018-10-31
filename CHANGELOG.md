@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1446](https://github.com/cosmos/voyager/issues/1446) and [\#1445](https://github.com/cosmos/voyager/issues/1445) Fixed sorting in validator tables. @NodeGuy
 * [\#1487](https://github.com/cosmos/voyager/issues/1487) Fixed running of local testnet. @NodeGuy
 * [\#1480](https://github.com/cosmos/voyager/issues/1480) Fixed "duplicate CONN" errors in E2E tests. @NodeGuy
+* [\#1451](https://github.com/cosmos/voyager/issues/1451) Provide better sourcemaps to make debugging easier. @faboweb
 
 ## [0.10.7] - 2018-10-10
 
