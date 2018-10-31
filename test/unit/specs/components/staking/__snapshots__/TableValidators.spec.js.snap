@@ -68,7 +68,7 @@ exports[`TableValidators has the expected html structure 1`] = `
             </div>
       <div class=\\"short-bech32\\">
          <div id=\\"address\\" class=\\"address\\">
-            Not A Valid Bech32 Address
+            cosmosvaladdr…n3au
          </div>
       <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>
@@ -110,7 +110,7 @@ exports[`TableValidators has the expected html structure 1`] = `
             </div>
       <div class=\\"short-bech32\\">
          <div id=\\"address\\" class=\\"address\\">
-            cosmosvalpub89…8910
+            cosmosvaladdr…rg7n
          </div>
       <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>
@@ -152,7 +152,7 @@ exports[`TableValidators has the expected html structure 1`] = `
             </div>
       <div class=\\"short-bech32\\">
          <div id=\\"address\\" class=\\"address\\">
-            cosmosvalpub…1234
+            cosmosvaladdr…8yqw
          </div>
       <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>
@@ -327,7 +327,7 @@ exports[`TableValidators should filter the delegates 1`] = `
                   class="address"
                   id="address"
                 >
-                  cosmosvalpub…1234
+                  cosmosvaladdr…8yqw
                 </div>
                 <div
                   class="copied"

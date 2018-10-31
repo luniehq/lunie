@@ -17,7 +17,7 @@ tm-page(data-title="Validator")
             div.validator-profile__status-and-title
               span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
               .validator-profile__header__name__title {{ validator.description.moniker }}
-            short-bech32(:address="validator.pub_key")
+            short-bech32(:address="validator.operator_address")
           .column.validator-profile__header__actions
             tm-btn#delegation-btn(value="Delegate" color="primary" @click.native="onDelegation")
 

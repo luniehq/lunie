@@ -158,7 +158,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                 class="address"
                 id="address"
               >
-                cosmoschiapudding…6789
+                cosmosvaladdr…8yqw
               </div>
               <div
                 class="copied"
@@ -601,7 +601,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                 class="address"
                 id="address"
               >
-                cosmoschiapudding…6789
+                cosmosvaladdr…8yqw
               </div>
               <div
                 class="copied"

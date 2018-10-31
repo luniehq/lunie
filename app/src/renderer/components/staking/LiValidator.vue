@@ -7,7 +7,7 @@ li.li-validator(:class='styles')
       .vert
         span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
         .top {{ validator.description.moniker }}
-        short-bech32(:address="validator.pub_key")
+        short-bech32(:address="validator.operator_address")
     .li-validator__value.your-votes
       span {{ yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0) ? '< ' + num.shortNumber(0.01) : num.shortNumber(yourVotes) }}
     .li-validator__value.your-rewards
