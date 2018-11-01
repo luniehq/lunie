@@ -67,6 +67,33 @@ test(`unstake button emits the unstake signal`, () => {
   ])
 })
 
+test(`only allow maximum owned atoms`, () => {
+  const wrapper = Wrapper()
+  wrapper.setProps({ maximum: 4.2 })
+
+  wrapper.find(`#amount`).element.value = 50
+  wrapper.find(`#amount`).trigger(`input`)
+  wrapper.update()
+  expect(wrapper.find(`#amount`).element.value).toBe(`4.2`)
+
+  wrapper.vm.onUndelegate()
+
+  expect(wrapper.emittedByOrder()).toEqual([
+    {
+      name: `submitUndelegation`,
+      args: [
+        {
+          amount: 4.2
+        }
+      ]
+    },
+    {
+      name: `update:showUndelegationModal`,
+      args: [false]
+    }
+  ])
+})
+
 test(`X button emits close signal`, () => {
   const wrapper = Wrapper()
   wrapper.vm.close()
