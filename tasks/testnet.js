@@ -15,16 +15,17 @@ async function main() {
       LCD_URL: `http://localhost:9070`,
       RPC_URL: `http://localhost:26657`
     })
-    let nodeProcess = startLocalNode()
+    startLocalNode()
   }
 
   // run Voyager in a development environment
-  let processes = runDev(`./app/networks/${network}/`)
+  let children = await runDev(`./app/networks/${network}/`)
 
   // kill all development processes if master process fails
   process.on(`exit`, () => {
-    processes.forEach(process => process.send(`SIGKILL`))
+    children.forEach(child => child.kill(`SIGKILL`))
   })
+  children.forEach(child => child.on(`exit`, () => process.exit()))
 }
 
 main().catch(function(err) {
