@@ -102,4 +102,6 @@ module.exports = async function(networkPath) {
     // webpack-dev-server spins up an own process we have no access to. so we kill all processes on our port
     process.exit(0)
   })
+
+  return [renderProcess, mainProcess]
 }

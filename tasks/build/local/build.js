@@ -11,7 +11,7 @@ let { spawn, exec } = require(`child_process`)
 
 const optionsSpecification = {
   overwrite: [`overwrite ~/.gaiad-testnet/`, false],
-  password: [`custom password, default is 12345678`, 12345678]
+  password: [`custom password, default is 1234567890`, 1234567890]
 }
 
 cli(optionsSpecification, async options => {
@@ -93,7 +93,7 @@ function init(options, environment) {
       out && console.log(out)
     }
 
-    let command = `builds/Gaia/${environment}/gaiad init --home ${homeDir}/.gaiad-testnet --name local`
+    let command = `builds/Gaia/${environment}/gaiad init --home ${homeDir}/.gaiad-testnet --home-client builds/testnets/local-testnet/lcd --name local`
     if (options.overwrite) {
       command += ` -o --owk`
     }
