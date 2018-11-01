@@ -61,6 +61,10 @@ export default {
 .info-button
   color var(--link)
 
+.staking
+  .tm-data-msg
+    margin 1rem 0 0 2rem
+
 .check-out-message
   background var(--app-fg)
   border 1px solid var(--bc-dim)
