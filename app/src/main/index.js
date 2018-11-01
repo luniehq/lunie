@@ -8,6 +8,7 @@ let childProcess = require(`child_process`)
 let semver = require(`semver`)
 let Raven = require(`raven`)
 let axios = require(`axios`)
+const userHome = require(`user-home`)
 
 let pkg = require(`../../../package.json`)
 let addMenu = require(`./menu.js`)
@@ -582,6 +583,63 @@ const checkGaiaCompatibility = async gaiacliVersionPath => {
   }
 }
 
+const initLCD = async lcdHome => {
+  log(`initialising the LCD config dir`)
+  await new Promise((resolve, reject) => {
+    const NODE_BINARY_NAME = WIN ? `gaiad.exe` : `gaiad`
+    const tempNodeDir = join(lcdHome, `.temp_node_home`)
+
+    const child = startProcess(NODE_BINARY_NAME, [
+      `init`,
+      `--home`,
+      tempNodeDir,
+      `--home-client`,
+      lcdHome,
+      `--name`,
+      `default`
+    ])
+
+    child.stdin.write(`1234567890\n`)
+
+    child.on(`exit`, code => {
+      if (code === 0) {
+        resolve()
+      } else {
+        reject()
+      }
+
+      fs.remove(tempNodeDir)
+    })
+  })
+
+  log(`deleting forced default account`)
+  // initLCD always needs to create one key, we don't want to confuse
+  // the user with this key, so we throw it away
+  await deleteKey(`default`, `1234567890`, lcdHome)
+}
+
+const deleteKey = (name, password, lcdHome) => {
+  return new Promise((resolve, reject) => {
+    const child = startProcess(LCD_BINARY_NAME, [
+      `keys`,
+      `delete`,
+      name,
+      `--home`,
+      lcdHome
+    ])
+
+    child.stdin.write(`${password}\n`)
+
+    child.on(`exit`, code => {
+      if (code === 0) {
+        resolve()
+      } else {
+        reject()
+      }
+    })
+  })
+}
+
 async function main() {
   // we only enable error collection after users opted in
   Raven.config(``, { captureUnhandledRejections: false }).install()
@@ -640,6 +698,10 @@ async function main() {
     fs.copySync(networkPath, root)
 
     fs.writeFileSync(appVersionPath, pkg.version)
+  }
+
+  if (!fs.existsSync(lcdHome)) {
+    await initLCD(lcdHome)
   }
 
   await checkGaiaCompatibility(gaiacliVersionPath)
