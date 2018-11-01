@@ -87,20 +87,15 @@ async function moveFiles(options, environment) {
 
 function init(options, environment) {
   return new Promise(async (resolve, reject) => {
-    if (options.overwrite && fs.existsSync(homeDir + `/.gaiad-testnet`)) {
-      let out = await makeExec(`rm -r ${homeDir}/.gaiad-testnet`)
-      out && console.log(out)
-    }
-
     let command = `builds/Gaia/${environment}/gaiad init --home ${homeDir}/.gaiad-testnet --home-client builds/testnets/local-testnet/lcd --name local`
     if (options.overwrite) {
-      command += ` -o --owk`
+      command += ` -o --overwrite-key`
     }
     console.log(`$ ` + command)
     const localnodeProcess = spawn(command, { shell: true })
-    localnodeProcess.stdout.on(`data`, resolve)
     localnodeProcess.stdin.write(`${options.password}\n`)
-    localnodeProcess.stderr.on(`data`, reject)
-    localnodeProcess.once(`exit`, reject)
+    localnodeProcess.once(`exit`, code => {
+      code === 0 ? resolve() : reject()
+    })
   })
 }
