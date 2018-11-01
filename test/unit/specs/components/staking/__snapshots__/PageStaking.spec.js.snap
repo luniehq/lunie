@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageStaking has the expected html structure 1`] = `
-"<div class=\\"tm-page\\" data-title=\\"Staking\\">
+"<div class=\\"tm-page staking\\" data-title=\\"Staking\\">
    <header class=\\"tm-page-header\\">
       <div class=\\"tm-page-header-container\\">
          <div class=\\"tm-page-header-text\\">
@@ -18,15 +18,15 @@ exports[`PageStaking has the expected html structure 1`] = `
          Total Steak
       </h3>
       <h2>
-         1,351.0000000000
+         1,351.0000…
       </h2>
 </div>
    <div class=\\"unbonded-atoms top-section\\">
       <h3>
-         Unbonded Steak
+         Available Steak
       </h3>
       <h2>
-         1,337.0000000000
+         1,337.0000…
       </h2>
 </div>
       <!---->
@@ -85,15 +85,15 @@ exports[`PageStaking has the expected html structure 1`] = `
             Total Steak
          </h3>
          <h2>
-            1,351.0000000000
+            1,351.0000…
          </h2>
 </div>
       <div class=\\"unbonded-atoms top-section\\">
          <h3>
-            Unbonded Steak
+            Available Steak
          </h3>
          <h2>
-            1,337.0000000000
+            1,337.0000…
          </h2>
 </div>
          <!---->

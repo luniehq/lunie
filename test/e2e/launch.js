@@ -1,5 +1,6 @@
 "use strict"
 
+const { shell } = require(`@nodeguy/cli`)
 let { Application } = require(`spectron`)
 let test = require(`tape-promise/tape`)
 let electron = require(`electron`)
@@ -276,6 +277,11 @@ function startLocalNode(number, nodeOneId = ``) {
 
     localnodeProcess.stderr.pipe(process.stderr)
 
+    // wait 20s for the first block or assume the node has failed
+    const timeout = setTimeout(() => {
+      reject(`Timed out waiting for block for node ${number}`)
+    }, 20000)
+
     // wait for a message about a block being produced
     function listener(data) {
       let msg = data.toString()
@@ -283,11 +289,8 @@ function startLocalNode(number, nodeOneId = ``) {
       if (msg.includes(`Block{`)) {
         localnodeProcess.stdout.removeListener(`data`, listener)
         console.log(`Node ` + number + ` is running`)
+        clearTimeout(timeout)
         resolve()
-      }
-
-      if (msg.includes(`Failed`) || msg.includes(`Error`)) {
-        reject(msg)
       }
     }
 
@@ -298,31 +301,36 @@ function startLocalNode(number, nodeOneId = ``) {
   })
 }
 
-function initLocalNode(number = 1) {
-  return new Promise((resolve, reject) => {
-    const command =
-      `${nodeBinary} init --home ${nodeHome}_${number} --name local_${number} --owk --overwrite --chain-id=test_chain` +
-      // this command stores the keys and address of the default account in a predictable ways
-      ` --home-client ${cliHome}_${number}`
+async function initLocalNode(number = 1) {
+  const home = `${nodeHome}_${number}`
 
-    console.log(command)
-    const localnodeProcess = spawn(command, { shell: true })
-    localnodeProcess.stderr.pipe(process.stderr)
+  // this command stores the keys and address of the default account in a
+  // predictable ways
+  const command = `echo 1234567890 | ${nodeBinary} init \
+    --home ${home} \
+    --name local_${number} \
+    --owk \
+    --overwrite \
+    --chain-id=test_chain \
+    --home-client ${cliHome}_${number}`
 
-    localnodeProcess.stdin.write(`1234567890\n`)
+  console.log(command)
+  const parsed = JSON.parse(await shell(command))
 
-    localnodeProcess.stdout.once(`data`, data => {
-      let msg = data.toString()
+  // Tendermint won't talk to nodes with the same IP address by default.  We're
+  // running multiple nodes on localhost so we have to allow duplicate IP
+  // addresses.
+  const configPath = join(home, `config/config.toml`)
+  const config = fs.readFileSync(configPath, `utf8`)
 
-      if (!msg.includes(`Failed`) && !msg.includes(`Error`)) {
-        resolve(JSON.parse(msg))
-      } else {
-        reject(msg)
-      }
-    })
+  const newConfig = config.replace(
+    `[p2p]`,
+    `[p2p]
+allow_duplicate_ip = true`
+  )
 
-    localnodeProcess.once(`exit`, reject)
-  })
+  fs.writeFileSync(configPath, newConfig)
+  return parsed
 }
 
 // init a node and define it as a validator

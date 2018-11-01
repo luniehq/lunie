@@ -1,171 +1,194 @@
 "use strict"
 
-const axios = require(`axios`)
-
-// returns an async function which makes a request for the given
-// HTTP method (GET/POST/DELETE/etc) and path (/foo/bar)
-function req(method, path, useRemote) {
-  return async function(data) {
-    return await this.request(method, path, data, useRemote)
+const Client = (axios, localLcdURL, remoteLcdURL) => {
+  async function request(method, path, data, useRemote) {
+    const url = useRemote ? remoteLcdURL : localLcdURL
+    return (await axios[method.toLowerCase()](url + path, data)).data
   }
-}
 
-// returns an async function which makes a request for the given
-// HTTP method and path, which accepts arguments to be appended
-// to the path (/foo/{arg}/...)
-function argReq(method, prefix, suffix = ``, useRemote) {
-  return function(args, data) {
-    // `args` can either be a single value or an array
-    if (Array.isArray(args)) {
-      args = args.join(`/`)
+  // returns an async function which makes a request for the given
+  // HTTP method (GET/POST/DELETE/etc) and path (/foo/bar)
+  function req(method, path, useRemote) {
+    return async function(data) {
+      return await request(method, path, data, useRemote)
     }
-    if (method === `DELETE`) {
-      data = { data }
-    }
-    return this.request(method, `${prefix}/${args}${suffix}`, data, useRemote)
-  }
-}
-
-class Client {
-  constructor(localLcdURL, remoteLcdURL) {
-    this.localLcdURL = localLcdURL
-    this.remoteLcdURL = remoteLcdURL
   }
 
-  async request(method, path, data, useRemote) {
-    let url = useRemote ? this.remoteLcdURL : this.localLcdURL
-    try {
-      let res = await axios[method.toLowerCase()](url + path, data)
-      return res.data
-    } catch (resError) {
-      if (!resError.response || !resError.response.data) {
-        throw resError
+  // returns an async function which makes a request for the given
+  // HTTP method and path, which accepts arguments to be appended
+  // to the path (/foo/{arg}/...)
+  function argReq(method, prefix, suffix = ``, useRemote) {
+    return function(args, data) {
+      // `args` can either be a single value or an array
+      if (Array.isArray(args)) {
+        args = args.join(`/`)
       }
-      // server responded with error message, create an Error from that
-      throw Error(resError.response.data)
+      if (method === `DELETE`) {
+        data = { data }
+      }
+      return request(method, `${prefix}/${args}${suffix}`, data, useRemote)
     }
   }
-}
 
-let fetchAccount = argReq(`GET`, `/auth/accounts`)
+  let fetchAccount = argReq(`GET`, `/auth/accounts`)
 
-Object.assign(Client.prototype, {
-  // meta
-  lcdConnected: function() {
-    return this.listKeys().then(() => true, () => false)
-  },
+  const keys = {
+    add: req(`POST`, `/keys`),
 
-  // tx
-  postTx: req(`POST`, `/tx`),
+    // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prop data
+    delete: argReq(`DELETE`, `/keys`),
 
-  // keys
-  generateSeed: req(`GET`, `/keys/seed`),
-  listKeys: req(`GET`, `/keys`),
-  storeKey: req(`POST`, `/keys`),
-  getKey: argReq(`GET`, `/keys`),
-  updateKey: argReq(`PUT`, `/keys`),
-  // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prop data
-  deleteKey: argReq(`DELETE`, `/keys`),
-
-  // coins
-  send: argReq(`POST`, `/bank/accounts`, `/transfers`),
-  queryAccount(address) {
-    return fetchAccount
-      .call(this, address)
-      .then(res => {
-        return res.value
-      })
-      .catch(err => {
-        // if account not found, return null instead of throwing
-        if (err.message.includes(`account bytes are empty`)) {
-          return null
+    get: async key => {
+      try {
+        return await req(`GET`, `/keys/${key}`)()
+      } catch (exception) {
+        if (exception.response.status !== 404) {
+          throw exception
         }
-        throw err
-      })
-  },
-  txs: function(addr) {
-    return Promise.all([
-      req(`GET`, `/txs?tag=sender_bech32='${addr}'`, true).call(this),
-      req(`GET`, `/txs?tag=recipient_bech32='${addr}'`, true).call(this)
-    ]).then(([senderTxs, recipientTxs]) => [].concat(senderTxs, recipientTxs))
-  },
-  tx: argReq(`GET`, `/txs`, ``, true),
+      }
+    },
 
-  /* ============ STAKE ============ */
+    seed: () => keys.get(`seed`),
+    set: argReq(`PUT`, `/keys`),
 
-  // Get all delegations information from a delegator
-  getDelegator: function(addr) {
-    return req(`GET`, `/stake/delegators/${addr}`, true).call(this)
-  },
-  // Get all txs from a delegator
-  getDelegatorTxs: function(addr, types) {
-    if (!types) {
-      return req(`GET`, `/stake/delegators/${addr}/txs`, true).call(this)
-    } else {
+    values: async () => {
+      const values = await req(`GET`, `/keys`)()
+      // Workaround for https://github.com/cosmos/cosmos-sdk/issues/2470
+      return values === `[]` ? [] : values
+    }
+  }
+
+  return {
+    // meta
+    lcdConnected: function() {
+      return keys.values().then(() => true, () => false)
+    },
+
+    // tx
+    postTx: req(`POST`, `/tx`),
+
+    keys,
+
+    // coins
+    send: argReq(`POST`, `/bank/accounts`, `/transfers`),
+    queryAccount(address) {
+      return fetchAccount(address)
+        .then(res => {
+          return res.value
+        })
+        .catch(err => {
+          // if account not found, return null instead of throwing
+          if (err.response.data.includes(`account bytes are empty`)) {
+            return null
+          }
+          throw err
+        })
+    },
+    txs: function(addr) {
+      return Promise.all([
+        req(`GET`, `/txs?tag=sender_bech32='${addr}'`, true)(),
+        req(`GET`, `/txs?tag=recipient_bech32='${addr}'`, true)()
+      ]).then(([senderTxs, recipientTxs]) => [].concat(senderTxs, recipientTxs))
+    },
+    tx: argReq(`GET`, `/txs`, ``, true),
+
+    /* ============ STAKE ============ */
+
+    // Get all delegations information from a delegator
+    getDelegator: function(addr) {
+      return req(`GET`, `/stake/delegators/${addr}`, true)()
+    },
+    // Get all txs from a delegator
+    getDelegatorTxs: function(addr, types) {
+      if (!types) {
+        return req(`GET`, `/stake/delegators/${addr}/txs`, true)()
+      } else {
+        return req(`GET`, `/stake/delegators/${addr}/txs?type=${types}`, true)()
+      }
+    },
+    // Query all validators that a delegator is bonded to
+    getDelegatorValidators: function(delegatorAddr) {
+      return req(`GET`, `/stake/delegators/${delegatorAddr}/validators`, true)()
+    },
+    // // Query a validator info that a delegator is bonded to
+    // getDelegatorValidator: function(delegatorAddr, validatorAddr) {
+    //   return req("GET", `/stake/delegators/${delegatorAddr}/validators/${validatorAddr}`)()
+    // },
+
+    // Get a list containing all the validator candidates
+    getCandidates: req(`GET`, `/stake/validators`, true),
+    // Get information from a validator
+    getCandidate: function(addr) {
+      return req(`GET`, `/stake/validators/${addr}`, true)()
+    },
+    // // Get all of the validator bonded delegators
+    // getValidatorDelegators: function(addr) {
+    //   return req("GET", `/stake/validator/${addr}/delegators`)()
+    // },
+
+    // Get the list of the validators in the latest validator set
+    getValidatorSet: req(`GET`, `/validatorsets/latest`, true),
+
+    updateDelegations: function(delegatorAddr, data) {
+      return req(`POST`, `/stake/delegators/${delegatorAddr}/delegations`)(data)
+    },
+
+    // Query a delegation between a delegator and a validator
+    queryDelegation: function(delegatorAddr, validatorAddr) {
       return req(
         `GET`,
-        `/stake/delegators/${addr}/txs?type=${types}`,
+        `/stake/delegators/${delegatorAddr}/delegations/${validatorAddr}`,
         true
-      ).call(this)
+      )()
+    },
+    queryUnbonding: function(delegatorAddr, validatorAddr) {
+      return req(
+        `GET`,
+        `/stake/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`,
+        true
+      )()
+    },
+    getPool: req(`GET`, `/stake/pool`, true),
+    getParameters: req(`GET`, `/stake/parameters`, true),
+
+    /* ============ Slashing ============ */
+
+    queryValidatorSigningInfo: function(pubKey) {
+      return req(`GET`, `/slashing/signing_info/${pubKey}`, true)()
+    },
+
+    /* ============ Governance ============ */
+
+    queryProposals: req(`GET`, `/gov/proposals`, true),
+    queryProposal: function(proposalId) {
+      return req(`GET`, `/gov/proposals/${proposalId}`, true)()
+    },
+    queryProposalVotes: function(proposalId) {
+      return req(`GET`, `/gov/proposals/${proposalId}/votes`, true)()
+    },
+    queryProposalVote: function(proposalId, address) {
+      return req(`GET`, `/gov/proposals/${proposalId}/votes/${address}`, true)()
+    },
+    queryProposalDeposits: function(proposalId) {
+      return req(`GET`, `/gov/proposals/${proposalId}/deposits`, true)()
+    },
+    queryProposalDeposit: function(proposalId, address) {
+      return req(
+        `GET`,
+        `/gov/proposals/${proposalId}/deposits/${address}`,
+        true
+      )()
+    },
+    submitProposal: function(data) {
+      return req(`POST`, `/gov/proposals`, true)(data)
+    },
+    submitVote: function(proposalId, data) {
+      return req(`POST`, `/gov/proposals/${proposalId}/votes`, true)(data)
+    },
+    submitDeposit: function(proposalId, data) {
+      return req(`POST`, `/gov/proposals/${proposalId}/deposits`, true)(data)
     }
-  },
-  // Query all validators that a delegator is bonded to
-  getDelegatorValidators: function(delegatorAddr) {
-    return req(
-      `GET`,
-      `/stake/delegators/${delegatorAddr}/validators`,
-      true
-    ).call(this)
-  },
-  // // Query a validator info that a delegator is bonded to
-  // getDelegatorValidator: function(delegatorAddr, validatorAddr) {
-  //   return req("GET", `/stake/delegators/${delegatorAddr}/validators/${validatorAddr}`).call(this)
-  // },
-
-  // Get a list containing all the validator candidates
-  getCandidates: req(`GET`, `/stake/validators`, true),
-  // Get information from a validator
-  getCandidate: function(addr) {
-    return req(`GET`, `/stake/validators/${addr}`, true).call(this)
-  },
-  // // Get all of the validator bonded delegators
-  // getValidatorDelegators: function(addr) {
-  //   return req("GET", `/stake/validator/${addr}/delegators`).call(this)
-  // },
-
-  // Get the list of the validators in the latest validator set
-  getValidatorSet: req(`GET`, `/validatorsets/latest`, true),
-
-  updateDelegations: function(delegatorAddr, data) {
-    return req(`POST`, `/stake/delegators/${delegatorAddr}/delegations`).call(
-      this,
-      data
-    )
-  },
-
-  // Query a delegation between a delegator and a validator
-  queryDelegation: function(delegatorAddr, validatorAddr) {
-    return req(
-      `GET`,
-      `/stake/delegators/${delegatorAddr}/delegations/${validatorAddr}`,
-      true
-    ).call(this)
-  },
-  queryUnbonding: function(delegatorAddr, validatorAddr) {
-    return req(
-      `GET`,
-      `/stake/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`,
-      true
-    ).call(this)
-  },
-  getPool: req(`GET`, `/stake/pool`, true),
-  getParameters: req(`GET`, `/stake/parameters`, true),
-
-  /* ============ Slashing ============ */
-
-  queryValidatorSigningInfo: function(pubKey) {
-    return req(`GET`, `/slashing/signing_info/${pubKey}`, true).call(this)
   }
-})
+}
 
 module.exports = Client

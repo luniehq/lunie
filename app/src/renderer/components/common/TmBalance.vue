@@ -5,9 +5,9 @@
         img.icon(src="~assets/images/cosmos-logo.png")
       .total-atoms.top-section
         h3 Total {{bondingDenom}}
-        h2 {{this.num.full(totalAtoms)}}
+        h2 {{this.num.shortNumber(totalAtoms)}}
       .unbonded-atoms.top-section(v-if="unbondedAtoms")
-        h3 Unbonded {{bondingDenom}}
+        h3 Available {{bondingDenom}}
         h2 {{unbondedAtoms}}
       .total-earnings.top-section(v-if="totalEarnings")
         h3 Total Earnings
@@ -50,7 +50,7 @@ export default {
       return this.user.address
     },
     unbondedAtoms() {
-      return this.num.full(this.user.atoms)
+      return this.num.shortNumber(this.user.atoms)
     }
   }
 }
@@ -114,7 +114,6 @@ export default {
 
 .tabs
   display flex
-  margin-left 2rem
   margin-top 2rem
 
   .tab

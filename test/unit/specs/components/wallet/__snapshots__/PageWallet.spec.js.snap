@@ -40,17 +40,17 @@ exports[`PageWallet has the expected html structure 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  1,014.0000000000
+                  1,014.0000…
                 </h2>
               </div>
               <div
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Unbonded Steak
+                  Available Steak
                 </h3>
                 <h2>
-                  1,000.0000000000
+                  1,000.0000…
                 </h2>
               </div>
               <!---->
@@ -478,17 +478,17 @@ exports[`PageWallet should filter the balances 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  1,014.0000000000
+                  1,014.0000…
                 </h2>
               </div>
               <div
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Unbonded Steak
+                  Available Steak
                 </h3>
                 <h2>
-                  1,000.0000000000
+                  1,000.0000…
                 </h2>
               </div>
               <!---->

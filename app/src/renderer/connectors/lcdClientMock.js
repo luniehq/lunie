@@ -227,7 +227,168 @@ let state = {
     index_offset: 1,
     jailed_until: `1970-01-01T00:00:00Z`,
     signed_blocks_counter: 1
+  },
+  proposals: [
+    {
+      proposal_id: `1`,
+      proposal_type: `Text`,
+      title: `Proposal Title`,
+      description: `Proposal description`,
+      initial_deposit: [
+        {
+          denom: `stake`,
+          amount: `100`
+        }
+      ],
+      total_deposit: [
+        {
+          denom: `stake`,
+          amount: `100`
+        }
+      ],
+      submit_block: `120`,
+      voting_start_block: `135`,
+      proposal_status: `Passed`,
+      tally_result: {
+        yes: `500`,
+        no: `25`,
+        no_with_veto: `10`,
+        abstain: `56`
+      }
+    },
+    {
+      proposal_id: `5`,
+      proposal_type: `Text`,
+      title: `Custom text proposal`,
+      description: `custom text proposal description`,
+      initial_deposit: [
+        {
+          denom: `stake`,
+          amount: `15`
+        }
+      ],
+      total_deposit: [
+        {
+          denom: `stake`,
+          amount: `15`
+        }
+      ],
+      submit_block: `10`,
+      voting_start_block: `-1`,
+      proposal_status: `DepositPeriod`,
+      tally_result: {
+        yes: `0`,
+        no: `0`,
+        no_with_veto: `0`,
+        abstain: `0`
+      }
+    }
+  ],
+  votes: {
+    1: [
+      {
+        proposal_id: `1`,
+        voter: validators[0],
+        option: `yes`
+      },
+      {
+        proposal_id: `1`,
+        voter: validators[1],
+        option: `no_with_veto`
+      }
+    ],
+    5: [
+      {
+        proposal_id: `5`,
+        voter: validators[0],
+        option: `no`
+      },
+      {
+        proposal_id: `5`,
+        voter: validators[1],
+        option: `abstain`
+      }
+    ]
+  },
+  deposits: {
+    1: [
+      {
+        proposal_id: `1`,
+        depositer: validators[0],
+        amount: {
+          denom: `stake`,
+          amount: `15`
+        }
+      },
+      {
+        proposal_id: `1`,
+        depositer: validators[1],
+        amount: {
+          denom: `stake`,
+          amount: `5`
+        }
+      }
+    ],
+    5: [
+      {
+        proposal_id: `5`,
+        depositer: validators[0],
+        amount: {
+          denom: `stake`,
+          amount: `11`
+        }
+      },
+      {
+        proposal_id: `5`,
+        depositer: validators[1],
+        amount: {
+          denom: `stake`,
+          amount: `150`
+        }
+      }
+    ]
   }
+}
+
+const keys = {
+  add: async ({ name, password, seed }) => {
+    let key = {
+      name,
+      password,
+      address: makeHash()
+    }
+    state.keys.push(key)
+    return { name, password, seed, address: key.address }
+  },
+
+  delete: async (account, { name, password }) => {
+    let key = state.keys.find(k => k.name === name)
+    if (key.password !== password) {
+      throw new Error(`Passwords do not match`)
+    }
+    state.keys = state.keys.filter(k => k.name !== name)
+  },
+
+  get: async name => state.keys.find(k => k.name === name),
+
+  seed: () =>
+    `blossom pool issue kidney elevator blame furnace winter account merry vessel security depend exact travel bargain problem jelly rural net again mask roast chest`,
+
+  set: async (account, { name, old_password, new_password }) => {
+    // eslint-disable-line camelcase
+    let key = state.keys.find(k => k.name === name)
+    if (key.password !== old_password) {
+      // eslint-disable-line camelcase
+      throw new Error(`Passwords do not match`)
+    }
+    key.password = new_password // eslint-disable-line camelcase
+  },
+
+  values: async () =>
+    state.keys.map(k => ({
+      name: k.name,
+      address: k.address
+    }))
 }
 
 module.exports = {
@@ -237,45 +398,7 @@ module.exports = {
     return true
   },
 
-  // keys
-  async generateSeed() {
-    return `grace admit inherit female grant pledge shine inquiry pencil acid capable damage elegant voice aunt abandon grace admit inherit female grant pledge shine inquiry`
-  },
-  async storeKey({ name, password, seed }) {
-    let key = {
-      name,
-      password,
-      address: makeHash()
-    }
-    state.keys.push(key)
-    return { name, password, seed, address: key.address }
-  },
-  async listKeys() {
-    return state.keys.map(k => ({
-      name: k.name,
-      address: k.address
-    }))
-  },
-  async getKey(name) {
-    return state.keys.find(k => k.name === name)
-  },
-  async updateKey(account, { name, old_password, new_password }) {
-    // eslint-disable-line camelcase
-    let key = state.keys.find(k => k.name === name)
-    if (key.password !== old_password) {
-      // eslint-disable-line camelcase
-      throw new Error(`Passwords do not match`)
-    }
-    key.password = new_password // eslint-disable-line camelcase
-  },
-  // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prop data
-  async deleteKey(account, { name, password }) {
-    let key = state.keys.find(k => k.name === name)
-    if (key.password !== password) {
-      throw new Error(`Passwords do not match`)
-    }
-    state.keys = state.keys.filter(k => k.name !== name)
-  },
+  keys,
 
   // coins
   async queryAccount(address) {
@@ -526,6 +649,28 @@ module.exports = {
   async getParameters() {
     return state.parameters
   },
+  async getProposals() {
+    return state.proposals
+  },
+  async getProposal(proposalId) {
+    return state.proposals.find(
+      proposal => proposal.proposal_id === String(proposalId)
+    )
+  },
+  async getProposalDeposits(proposalId) {
+    return state.deposits[proposalId]
+  },
+  async getProposalDeposit(proposalId, address) {
+    return state.deposits[proposalId].find(
+      deposit => deposit.depositer === address
+    )
+  },
+  async getProposalVotes(proposalId) {
+    return state.votes[proposalId]
+  },
+  async getProposalVote(proposalId, address) {
+    return state.votes[proposalId].find(vote => vote.voter === address)
+  },
   // exports to be used in tests
   state,
   addresses,
@@ -533,10 +678,10 @@ module.exports = {
 }
 
 function makeHash() {
-  var text = ``
-  var possible = `ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`
+  let text = ``
+  const possible = `ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`
 
-  for (var i = 0; i < 40; i++) {
+  for (let i = 0; i < 40; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length))
   }
   return b32.encode(text)

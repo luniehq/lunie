@@ -18,6 +18,7 @@ module.exports = {
     "no-debugger": process.env.NODE_ENV === "production" ? 2 : 0,
     "no-undef": "error",
     "no-unused-vars": "error",
-    quotes: ["error", "backtick"]
+    quotes: ["error", "backtick"],
+    "no-var": "error"
   }
 }

@@ -2,14 +2,14 @@
 li.li-validator(:class='styles')
   router-link(:to="{ name: 'validator', params: { validator: validator.id }}")
     .li-validator__value.name
-      span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
       img.avatar(v-if="validator.keybase" :src="validator.keybase.avatarUrl" width="48" height="48")
       img.avatar(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
       .vert
+        span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
         .top {{ validator.description.moniker }}
         short-bech32(:address="validator.operator_address")
     .li-validator__value.your-votes
-      span {{ yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0) ? '< ' + num.full(0.01) : num.full(yourVotes) }}
+      span {{ yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0) ? '< ' + num.shortNumber(0.01) : num.shortNumber(yourVotes) }}
     .li-validator__value.your-rewards
       span n/a
     .li-validator__break: span
@@ -110,21 +110,21 @@ export default {
       if (this.validator.revoked)
         return `This validator has been jailed and is not currently validating`
 
-      // status: candidate
+      // status: inactive
       if (parseFloat(this.validator.voting_power) === 0)
-        return `This validator has declared candidacy but does not have enough voting power yet`
+        return `This validator does not have enough voting power yet and is inactive`
 
-      // status: validator
+      // status: active
       return `This validator is actively validating`
     },
     statusColor() {
       // status: jailed
       if (this.validator.revoked) return `red`
 
-      // status: candidate
+      // status: inactive
       if (parseFloat(this.validator.voting_power) === 0) return `yellow`
 
-      // status: validator
+      // status: active
       return `green`
     }
   },
@@ -137,6 +137,7 @@ export default {
 
 .li-validator
   margin 0.5rem 0rem 0.5rem 2rem
+  width 100%
 
 .li-validator a
   display flex
@@ -209,13 +210,19 @@ export default {
     display flex
     flex-direction column
     color var(--bright)
+    margin-left 1rem
     padding-left 1rem
+    position relative
 
     .top
       padding-bottom 0.5rem
       line-height 1rem
       font-size 1rem
       font-weight 500
+
+    .validator-profile__status
+      left 0
+      top 5px
 
     .bottom
       font-size sm

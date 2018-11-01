@@ -13,7 +13,7 @@ Vue.use(Vuex)
 export default (opts = {}) => {
   opts.commit = (...args) => store.commit(...args)
   opts.dispatch = (...args) => store.dispatch(...args)
-  var store = new Vuex.Store({
+  const store = new Vuex.Store({
     getters,
     // strict: true,
     modules: modules(opts),
@@ -31,8 +31,12 @@ export default (opts = {}) => {
       `setCommittedDelegation`,
       `setUnbondingDelegations`,
       `setDelegates`,
+      `setProposal`,
+      `setProposalDeposits`,
+      `setProposalVotes`,
       `setKeybaseIdentities`
     ]
+
     if (updatingMutations.indexOf(mutation.type) === -1) return
 
     // if the user is logged in cache the balances and the tx-history for that user
@@ -70,7 +74,10 @@ function persistState(state) {
         },
         keybase: {
           identities: state.keybase.identities
-        }
+        },
+        proposals: state.proposals,
+        deposits: state.deposits,
+        votes: state.votes
       }),
       state.user.password
     )
@@ -107,6 +114,9 @@ function loadPersistedState({ state, commit }, { password }) {
         balancesLoading: false
       },
       delegates: {
+        loading: false
+      },
+      proposals: {
         loading: false
       }
     })

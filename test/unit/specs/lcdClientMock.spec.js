@@ -14,13 +14,13 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`generates seeds`, async () => {
-    let seed = await client.generateSeed()
+    let seed = await client.keys.seed()
     expect(seed.split(` `).length).toBe(24)
   })
 
   it(`persists keys`, async () => {
-    let seed = await client.generateSeed()
-    let res = await client.storeKey({
+    let seed = await client.keys.seed()
+    let res = await client.keys.add({
       name: `foo`,
       password: `1234567890`,
       seed
@@ -28,49 +28,49 @@ describe(`LCD Client Mock`, () => {
 
     b32.decode(res.address)
 
-    res = await client.listKeys()
+    res = await client.keys.values()
     expect(res.find(k => k.name === `foo`)).toBeDefined()
 
-    res = await client.getKey(`foo`)
+    res = await client.keys.get(`foo`)
     expect(res.name).toBe(`foo`)
   })
 
   it(`updates keys`, async () => {
-    let res = await client.storeKey({
+    let res = await client.keys.add({
       name: `foo`,
       password: `1234567890`,
       seed_phrase: `seed some thin`
     })
 
-    res = await client.updateKey(`foo`, {
+    res = await client.keys.set(`foo`, {
       name: `foo`,
       old_password: `1234567890`,
       new_password: `12345678901`
     })
     await expect(
-      client.updateKey(`foo`, {
+      client.keys.set(`foo`, {
         name: `foo`,
         old_password: `1234567890`,
         new_password: `12345678901`
       })
     ).rejects.toMatchSnapshot()
 
-    res = await client.getKey(`foo`)
+    res = await client.keys.get(`foo`)
     expect(res.name).toBe(`foo`)
   })
 
   it(`deletes keys`, async () => {
-    let res = await client.storeKey({
+    let res = await client.keys.add({
       name: `foo`,
       password: `1234567890`,
       seed_phrase: `seed some thin`
     })
 
     await expect(
-      client.deleteKey(`foo`, { name: `foo`, password: `___` })
+      client.keys.delete(`foo`, { name: `foo`, password: `___` })
     ).rejects.toMatchSnapshot()
-    await client.deleteKey(`foo`, { name: `foo`, password: `1234567890` })
-    res = await client.getKey(`foo`)
+    await client.keys.delete(`foo`, { name: `foo`, password: `1234567890` })
+    res = await client.keys.get(`foo`)
     expect(res).toBeUndefined()
   })
 
@@ -78,7 +78,7 @@ describe(`LCD Client Mock`, () => {
     let res = await client.txs(lcdClientMock.addresses[0])
     expect(res.length).toBe(2) // predefined txs
 
-    let { address: toAddr } = await client.storeKey({
+    let { address: toAddr } = await client.keys.add({
       name: `bar`,
       password: `1234567890`,
       seed_phrase: `seed some thin`
@@ -111,7 +111,7 @@ describe(`LCD Client Mock`, () => {
     let { sequence } = await client.queryAccount(lcdClientMock.addresses[0])
     expect(sequence).toBe(`1`)
 
-    let { address: toAddr } = await client.storeKey({
+    let { address: toAddr } = await client.keys.add({
       name: `bar`,
       password: `1234567890`,
       seed_phrase: `seed some thin`
@@ -209,7 +209,7 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`fails to send coins you dont have`, async () => {
-    let { address: toAddr } = await client.storeKey({
+    let { address: toAddr } = await client.keys.add({
       name: `bar`,
       password: `1234567890`,
       seed_phrase: `seed some thin`
@@ -232,7 +232,7 @@ describe(`LCD Client Mock`, () => {
 
   it(`fails to send coins from a nonexistent account`, async () => {
     let toAddr = `tb1424xlh5d8q86tv4dyrdjjckg9h02rmd2c4v7dc`
-    await client.storeKey({
+    await client.keys.add({
       name: `somekey`,
       password: `1234567890`,
       seed_phrase: `seed some thin test lol`
@@ -254,7 +254,7 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`fails to send negative amounts`, async () => {
-    let { address: toAddr } = await client.storeKey({
+    let { address: toAddr } = await client.keys.add({
       name: `bar`,
       password: `1234567890`,
       seed: `seed some thin`
@@ -712,5 +712,46 @@ describe(`LCD Client Mock`, () => {
       `jailed_until`,
       `signed_blocks_counter`
     )
+  })
+
+  /* ============ Governance ============ */
+
+  it(`fetches all governance proposals`, async () => {
+    let proposals = lcdClientMock.state.proposals
+    let proposalsRes = await client.getProposals()
+    expect(proposalsRes).toEqual(proposals)
+  })
+
+  it(`queries a single proposal`, async () => {
+    let proposals = lcdClientMock.state.proposals
+    let proposalRes = await client.getProposal(1)
+    expect(proposalRes).toEqual(proposals[0])
+  })
+
+  it(`queries a proposal votes`, async () => {
+    let { votes } = lcdClientMock.state
+    let votesRes = await client.getProposalVotes(1)
+    expect(votesRes).toEqual(votes[1])
+  })
+
+  it(`queries a proposal vote from an address`, async () => {
+    let { votes } = lcdClientMock.state
+    let voteRes = await client.getProposalVote(1, votes[1][0].voter)
+    expect(voteRes).toEqual(votes[1][0])
+  })
+
+  it(`queries a proposal deposits`, async () => {
+    let { deposits } = lcdClientMock.state
+    let depositsRes = await client.getProposalDeposits(1)
+    expect(depositsRes).toEqual(deposits[1])
+  })
+
+  it(`queries a proposal deposit from an address`, async () => {
+    let { deposits } = lcdClientMock.state
+    let depositRes = await client.getProposalDeposit(
+      1,
+      deposits[1][0].depositer
+    )
+    expect(depositRes).toEqual(deposits[1][0])
   })
 })
