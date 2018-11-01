@@ -11,7 +11,7 @@ describe(`LiValidator`, () => {
       propsData: {
         validator: {
           id: `abc`,
-          pub_key: `12345`,
+          pub_key: `cosmosvalpub12345`,
           operator_address: lcdClientMock.validators[1],
           tokens: `190000000000`,
           delegator_shares: `190000000000`,
