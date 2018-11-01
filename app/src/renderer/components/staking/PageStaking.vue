@@ -51,34 +51,3 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-@require '~variables'
-
-.fixed-button-bar
-  background var(--app-fg)
-  bottom 3rem + px
-  display flex
-  justify-content space-between
-  left 0
-  padding 0.5rem 1rem
-  position fixed
-  right 0
-  z-index z(toolBar)
-
-  .label
-    color var(--txt)
-    line-height 2rem
-
-    strong
-      font-weight bold
-
-@media screen and (min-width: 768px)
-  padding-bottom 4rem
-
-.fixed-button-bar
-  padding 1rem 1rem 1rem 2rem
-
-@media screen and (min-width: 1024px)
-  .fixed-button-bar
-    margin-left width-side
-</style>
