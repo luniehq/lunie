@@ -114,7 +114,6 @@ export default {
 
 .tabs
   display flex
-  margin-left 2rem
   margin-top 2rem
 
   .tab

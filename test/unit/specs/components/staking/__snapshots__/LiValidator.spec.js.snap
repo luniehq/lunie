@@ -11,9 +11,6 @@ exports[`LiValidator has the expected html structure 1`] = `
     <div
       class="li-validator__value name"
     >
-      <span
-        class="validator-profile__status green"
-      />
       <img
         class="avatar"
         height="48"
@@ -23,6 +20,9 @@ exports[`LiValidator has the expected html structure 1`] = `
       <div
         class="vert"
       >
+        <span
+          class="validator-profile__status green"
+        />
         <div
           class="top"
         >
