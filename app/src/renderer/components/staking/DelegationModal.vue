@@ -56,15 +56,7 @@ export default {
   name: `delegation-modal`,
   props: [`fromOptions`, `to`],
   computed: {
-    ...mapGetters([`bondingDenom`]),
-    updateAmount() {
-      if (
-        this.fromOptions[this.selectedIndex].maximum < 0 ||
-        this.amount > Math.floor(this.fromOptions[this.selectedIndex].maximum)
-      ) {
-        this.amount = this.fromOptions[this.selectedIndex].maximum
-      }
-    }
+    ...mapGetters([`bondingDenom`])
   },
   components: {
     Modal,

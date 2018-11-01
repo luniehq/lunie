@@ -48,12 +48,7 @@ export default {
   name: `undelegation-modal`,
   props: [`maximum`, `to`],
   computed: {
-    ...mapGetters([`bondingDenom`]),
-    updateAmount() {
-      if (this.maximum < 0 || this.amount > Math.floor(this.maximum)) {
-        this.amount = this.maximum
-      }
-    }
+    ...mapGetters([`bondingDenom`])
   },
   components: {
     Modal,
