@@ -5,6 +5,7 @@ let config = require(`../app/src/config.js`)
 const path = require(`path`)
 const childProcess = require(`child_process`)
 const userHome = require(`user-home`)
+const fs = require(`fs-extra`)
 
 async function main() {
   const network = process.argv[2] || config.default_network
@@ -51,9 +52,17 @@ async function startLocalNode() {
     `--home`,
     TESTNET_NODE_FOLDER
   ])
-  child.stdout.pipe(process.stdout)
+
+  // log output
+  const PROCESS_LOG = path.join(TESTNET_NODE_FOLDER, `process.log`)
+  const log = fs.createWriteStream(PROCESS_LOG, { flags: `a` })
+  console.log(`Find the node process logs at: ${PROCESS_LOG}`)
+  child.stdout.pipe(log)
   child.stderr.pipe(process.stderr)
+
+  // handle node crashed
   child.on(`exit`, () => {
-    throw Error(`Local node crashed`)
+    console.error(`Local node crashed`)
+    process.exit()
   })
 }

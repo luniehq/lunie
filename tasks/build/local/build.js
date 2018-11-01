@@ -23,18 +23,25 @@ cli(optionsSpecification, async options => {
         ? `windows_amd64`
         : `linux_amd64`
   try {
-    const secret = await init(options, environment)
+    // remove existing config
+    if (
+      options.overwrite &&
+      fs.existsSync(appDir + `/builds/testnets/local-testnet`)
+    ) {
+      let out = await makeExec(`rm -r builds/testnets/local-testnet`)
+      out && console.log(out)
+    }
+
+    await init(options, environment)
     await moveFiles(options, environment)
     console.log(`\n    🎉  SUCCESS 🎉\n`)
     console.log(
-      `To begin your local node please run:
-  ./builds/Gaia/${environment}/gaiad start --home ~/.gaiad-testnet
-
-To begin Voyager please run:
+      `To start Voyager with a local node please run:
   yarn start local-testnet
 
-Your secret is:
-${secret}
+Default account:
+  username: 'local'
+  password: '1234567890'
 `
     )
   } catch (error) {
@@ -55,16 +62,8 @@ function makeExec(command) {
 }
 async function moveFiles(options, environment) {
   let out
-  if (
-    options.overwrite &&
-    fs.existsSync(appDir + `/builds/testnets/local-testnet`)
-  ) {
-    out = await makeExec(`rm -r builds/testnets/local-testnet`)
-    out && console.log(out)
-  }
+  fs.ensureDirSync(`builds/testnets/local-testnet`)
 
-  out = await makeExec(`mkdir builds/testnets/local-testnet`)
-  out && console.log(out)
   out = await makeExec(
     `cp ~/.gaiad-testnet/config/{genesis.json,config.toml} builds/testnets/local-testnet/`
   )
@@ -99,10 +98,7 @@ function init(options, environment) {
     }
     console.log(`$ ` + command)
     const localnodeProcess = spawn(command, { shell: true })
-    localnodeProcess.stdout.on(`data`, data => {
-      let dataJson = JSON.parse(data.toString())
-      resolve(dataJson.app_message.secret)
-    })
+    localnodeProcess.stdout.on(`data`, resolve)
     localnodeProcess.stdin.write(`${options.password}\n`)
     localnodeProcess.stderr.on(`data`, reject)
     localnodeProcess.once(`exit`, reject)
