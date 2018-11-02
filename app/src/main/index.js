@@ -3,10 +3,12 @@
 const assert = require(`assert`)
 let { app, BrowserWindow, ipcMain } = require(`electron`)
 let fs = require(`fs-extra`)
+const https = require(`https`)
 let { join, relative } = require(`path`)
 let childProcess = require(`child_process`)
 let semver = require(`semver`)
 let Raven = require(`raven`)
+const readline = require(`readline`)
 let axios = require(`axios`)
 
 let pkg = require(`../../../package.json`)
@@ -203,6 +205,17 @@ function startProcess(name, args, env) {
   }
   child.stdout.on(`data`, data => !shuttingDown && log(`${name}: ${data}`))
   child.stderr.on(`data`, data => !shuttingDown && log(`${name}: ${data}`))
+
+  // Make stdout more useful by emitting a line at a time.
+  readline.createInterface({ input: child.stdout }).on(`line`, line => {
+    child.stdout.emit(`line`, line)
+  })
+
+  // Make stderr more useful by emitting a line at a time.
+  readline.createInterface({ input: child.stderr }).on(`line`, line => {
+    child.stderr.emit(`line`, line)
+  })
+
   child.on(
     `exit`,
     code => !shuttingDown && log(`${name} exited with code ${code}`)
@@ -256,7 +269,6 @@ async function startLCD(home, nodeURL) {
     log(`startLCD`, home)
     let child = startProcess(LCD_BINARY_NAME, [
       `rest-server`,
-      `--insecure`,
       `--laddr`,
       `tcp://localhost:${LCD_PORT}`,
       `--home`,
@@ -270,7 +282,12 @@ async function startLCD(home, nodeURL) {
     ])
     logProcess(child, join(home, `lcd.log`))
 
-    child.stderr.on(`data`, error => {
+    child.stdout.once(`line`, async line => {
+      const certPath = /\(cert: "(.+?)"/.exec(line)[1]
+      resolve({ ca: fs.readFileSync(certPath, `utf8`), process: child })
+    })
+
+    child.stderr.on(`line`, error => {
       let errorMessage = `The gaiacli rest-server (LCD) experienced an error:\n${error.toString(
         `utf8`
       )}`.substr(0, 1000)
@@ -278,19 +295,6 @@ async function startLCD(home, nodeURL) {
         ? handleCrash(errorMessage) // if fails later
         : reject(errorMessage) // if fails immediatly
     })
-
-    // poll until LCD is started
-    let client = LcdClient(axios, `http://localhost:${LCD_PORT}`)
-    while (true) {
-      try {
-        await client.keys.values()
-        break // request succeeded
-      } catch (err) {
-        await sleep(1000)
-      }
-    }
-    lcdStarted = true
-    resolve(child)
   })
 }
 
@@ -434,20 +438,9 @@ Object.entries(eventHandlers).forEach(([event, handler]) => {
   ipcMain.on(event, handler)
 })
 
-// query version of the used SDK via LCD
-async function getNodeVersion(nodeURL) {
-  let versionURL = `${nodeURL}/node_version`
-  let nodeVersion = await axios
-    .get(versionURL, { timeout: 3000 })
-    .then(res => res.data)
-    .then(fullversion => fullversion.split(`-`)[0])
-
-  return nodeVersion
-}
-
 // test an actual node version against the expected one and flag the node if incompatible
-async function testNodeVersion(nodeURL, expectedGaiaVersion) {
-  let nodeVersion = await getNodeVersion(nodeURL)
+async function testNodeVersion(client, expectedGaiaVersion) {
+  let nodeVersion = (await client.nodeVersion()).split(`-`)[0]
   let semverDiff = semver.diff(nodeVersion, expectedGaiaVersion)
   if (semverDiff === `patch` || semverDiff === null) {
     return { compatible: true, nodeVersion }
@@ -456,20 +449,48 @@ async function testNodeVersion(nodeURL, expectedGaiaVersion) {
   return { compatible: false, nodeVersion }
 }
 
+// Proxy requests to Axios through the main process because we need
+// Node.js in order to support self-signed TLS certificates.
+const AxiosListener = axios => {
+  return async (event, id, options) => {
+    let response
+
+    try {
+      response = {
+        value: await axios(options)
+      }
+    } catch (exception) {
+      response = { exception }
+    }
+
+    event.sender.send(`Axios/${id}`, response)
+  }
+}
+
 // check if our node is reachable and the SDK version is compatible with the local one
 async function pickAndConnect() {
   let nodeURL = config.node_lcd
   connecting = true
+  let gaiaLite
+
   try {
-    await connect(nodeURL)
+    gaiaLite = await connect(nodeURL)
   } catch (err) {
     handleCrash(err)
     return
   }
 
+  const axiosInstance = axios.create({
+    httpsAgent: new https.Agent({ ca: gaiaLite.ca })
+  })
+
   let compatible, nodeVersion
   try {
-    const out = await testNodeVersion(config.node_lcd, expectedGaiaCliVersion)
+    const out = await testNodeVersion(
+      LcdClient(axiosInstance, config.node_lcd),
+      expectedGaiaCliVersion
+    )
+
     compatible = out.compatible
     nodeVersion = out.nodeVersion
   } catch (err) {
@@ -491,27 +512,27 @@ async function pickAndConnect() {
     return
   }
 
-  return nodeURL
+  ipcMain.removeAllListeners(`Axios`)
+  ipcMain.on(`Axios`, AxiosListener(axiosInstance))
 }
 
 async function connect() {
   log(`starting gaia rest server with nodeURL ${config.node_lcd}`)
-  try {
-    lcdProcess = await startLCD(lcdHome, config.node_rpc)
-    log(`gaia rest server ready`)
 
-    afterBooted(() => {
-      log(`Signaling connected node`)
-      mainWindow.webContents.send(`connected`, {
-        lcdURL: config.node_lcd,
-        rpcURL: config.node_rpc
-      })
+  const gaiaLite = await startLCD(lcdHome, config.node_rpc)
+  lcdProcess = gaiaLite.process
+  log(`gaia rest server ready`)
+
+  afterBooted(() => {
+    log(`Signaling connected node`)
+    mainWindow.webContents.send(`connected`, {
+      lcdURL: config.node_lcd,
+      rpcURL: config.node_rpc
     })
-  } catch (err) {
-    throw err
-  }
+  })
 
   connecting = false
+  return gaiaLite
 }
 
 async function reconnect() {
