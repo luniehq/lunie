@@ -28,6 +28,9 @@ exports[`LiValidator has the expected html structure 1`] = `
       <div
         class="short-bech32 li-validator__address"
       >
+        <span
+          class="validator-profile__status green"
+        />
         <div
           class="address"
           id="address"
