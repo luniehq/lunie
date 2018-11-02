@@ -3,7 +3,7 @@ tr.panel-sort-container
   th.sort-by(
     v-for="(property, i) in properties",
     :class="property.class")
-      a(v-tooltip.top="property.tooltip", @click="orderBy(property.value, $event)") {{ property.title }}
+      a.sort-by-link(v-tooltip.top="property.tooltip", @click="orderBy(property.value)") {{ property.title }}
 </template>
 
 <script>
