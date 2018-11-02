@@ -39,7 +39,7 @@ test(`delegation`, async function(t) {
       `show validator 3`
     )
     let myVotesText = await app.client
-      .$(`..li-validator__delegated-steak`)
+      .$(`.li-validator__delegated-steak`)
       .getText()
     let myVotes = parseFloat(myVotesText.replace(/,/g, ``))
     console.log(myVotesText, myVotes)
