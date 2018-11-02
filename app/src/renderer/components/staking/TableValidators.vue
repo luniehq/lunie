@@ -198,10 +198,10 @@ table tr td:first-child::before
   content counter(rowNumber)
   position absolute
   font-size sm
-  width 100%
+  width 2rem
   text-align right
   color var(--dim)
-  right 105%
+  left -3rem
 
 table th
   min-width 130px
