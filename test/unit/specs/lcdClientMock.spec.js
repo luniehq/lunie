@@ -326,7 +326,7 @@ describe(`LCD Client Mock`, () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
-    expect(updatedStake.shares).toBe(`100000000000`)
+    expect(updatedStake.shares).toBe(`10`)
   })
 
   it(`executes an unbond tx`, async () => {
@@ -352,7 +352,7 @@ describe(`LCD Client Mock`, () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
-    expect(initialStake.shares).toBe(`100000000000`)
+    expect(initialStake.shares).toBe(`10`)
 
     res = await client.updateDelegations(lcdClientMock.addresses[0], {
       base_req: {
@@ -389,7 +389,7 @@ describe(`LCD Client Mock`, () => {
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[1],
-          delegation: { denom: `mycoin`, amount: String(100000 * 10000000000) }
+          delegation: { denom: `mycoin`, amount: String(100000) }
         }
       ],
       begin_unbondings: []

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LCD Client Mock delegates to multiple validators at once 1`] = `"100000000000"`;
+exports[`LCD Client Mock delegates to multiple validators at once 1`] = `"10"`;
 
 exports[`LCD Client Mock delegates to multiple validators at once 2`] = `"240000000000"`;
 

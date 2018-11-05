@@ -492,9 +492,6 @@ module.exports = {
         delegator.delegations.push(delegation)
       }
 
-      // TODO remove after sdk.Dec parsing is fixed
-      amount = amount * 10000000000
-
       let shares = parseInt(delegation.shares)
       delegation.shares = (shares + amount).toString()
       let candidate = state.candidates.find(
@@ -543,9 +540,6 @@ module.exports = {
         results.push(txResult(2, `Nonexistent delegation`))
         return results
       }
-
-      // TODO remove after sdk.Dec parsing is fixed
-      amount = amount * 10000000000
 
       let shares = parseInt(delegation.shares)
       delegation.shares = (+shares - amount).toString()
