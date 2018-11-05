@@ -24,12 +24,19 @@ cli(optionsSpecification, async options => {
         : `linux_amd64`
   try {
     // remove existing config
-    if (
-      options.overwrite &&
-      fs.existsSync(appDir + `/builds/testnets/local-testnet`)
-    ) {
-      let out = await makeExec(`rm -r builds/testnets/local-testnet`)
-      out && console.log(out)
+    if (options.overwrite) {
+      if (fs.existsSync(appDir + `/builds/testnets/local-testnet`)) {
+        let out = await makeExec(`rm -r builds/testnets/local-testnet`)
+        out && console.log(out)
+      }
+      if (fs.existsSync(homeDir + `/.gaiad-testnet`)) {
+        let out = await makeExec(`rm -r ~/.gaiad-testnet`)
+        out && console.log(out)
+      }
+      if (fs.existsSync(homeDir + `/.cosmos-voyager-dev/local-testnet`)) {
+        let out = await makeExec(`rm -r ~/.cosmos-voyager-dev/local-testnet`)
+        out && console.log(out)
+      }
     }
 
     await init(options, environment)
