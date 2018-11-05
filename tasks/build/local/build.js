@@ -96,7 +96,7 @@ function init(options, environment) {
     console.log(`$ ` + command)
     const localnodeProcess = spawn(command, { shell: true })
     localnodeProcess.stdin.write(`${options.password}\n`)
-    // localnodeProcess.stderr.pipe(process.stderr)
+    localnodeProcess.stderr.pipe(process.stderr)
     localnodeProcess.once(`exit`, code => {
       code === 0 ? resolve() : reject()
     })
