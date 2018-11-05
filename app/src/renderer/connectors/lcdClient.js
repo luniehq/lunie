@@ -3,7 +3,12 @@
 const Client = (axios, localLcdURL, remoteLcdURL) => {
   async function request(method, path, data, useRemote) {
     const url = useRemote ? remoteLcdURL : localLcdURL
-    return (await axios[method.toLowerCase()](url + path, data)).data
+
+    return (await axios({
+      method: method.toLowerCase(),
+      url: url + path,
+      data
+    })).data
   }
 
   // returns an async function which makes a request for the given
@@ -63,6 +68,8 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     lcdConnected: function() {
       return keys.values().then(() => true, () => false)
     },
+
+    nodeVersion: req(`GET`, `/node_version`),
 
     // tx
     postTx: req(`POST`, `/tx`),
