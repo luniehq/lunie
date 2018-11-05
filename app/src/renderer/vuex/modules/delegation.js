@@ -40,12 +40,19 @@ export default ({ node }) => {
       }
       state.committedDelegates = committedDelegates
     },
-    setUnbondingDelegations(state, { validator_addr, min_time, balance }) {
+    setUnbondingDelegations(
+      state,
+      { validator_addr, min_time, balance, creation_height }
+    ) {
       let unbondingDelegations = Object.assign({}, state.unbondingDelegations)
       if (balance.amount === 0) {
         delete unbondingDelegations[validator_addr]
       } else {
-        unbondingDelegations[validator_addr] = { min_time, balance }
+        unbondingDelegations[validator_addr] = {
+          min_time,
+          balance,
+          creation_height
+        }
       }
       state.unbondingDelegations = unbondingDelegations
     }
@@ -111,15 +118,9 @@ export default ({ node }) => {
       })
 
       if (delegator.unbonding_delegations) {
-        delegator.unbonding_delegations.forEach(
-          ({ validator_addr, balance, min_time }) => {
-            commit(`setUnbondingDelegations`, {
-              validator_addr,
-              balance,
-              min_time
-            })
-          }
-        )
+        delegator.unbonding_delegations.forEach(ubd => {
+          commit(`setUnbondingDelegations`, ubd)
+        })
       }
       // delete undelegations not present anymore
       Object.keys(state.unbondingDelegations).forEach(validatorAddr => {
