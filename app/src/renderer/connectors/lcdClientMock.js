@@ -124,7 +124,7 @@ let state = {
         {
           delegator_addr: addresses[0],
           validator_addr: validators[0],
-          shares: `140000000000`,
+          shares: `14`,
           height: 123
         }
       ],
@@ -136,8 +136,8 @@ let state = {
       operator_address: validators[0],
       pub_key: `cosmosvalpub1234`,
       revoked: false,
-      tokens: `140000000000`,
-      delegator_shares: `140000000000`,
+      tokens: `14`,
+      delegator_shares: `14`,
       description: {
         website: `www.monty.ca`,
         details: `Mr Mounty`,
@@ -183,8 +183,8 @@ let state = {
     {
       operator_address: validators[2],
       pub_key: `cosmosvalpub8910`,
-      tokens: `190000000000`,
-      delegator_shares: `190000000000`,
+      tokens: `19`,
+      delegator_shares: `19`,
       description: {
         details: `Herr Schmidt`,
         website: `www.schmidt.de`,
@@ -609,9 +609,17 @@ module.exports = {
     )
   },
   // Get all delegations information from a delegator
-  getDelegator(delegatorAddress) {
+  getDelegations(delegatorAddress) {
     let delegator = state.stake[delegatorAddress] || {}
-    return delegator
+    return delegator.delegations || []
+  },
+  getUndelegations(delegatorAddress) {
+    let delegator = state.stake[delegatorAddress] || {}
+    return delegator.unbonding_delegations || []
+  },
+  getRedelegations(delegatorAddress) {
+    let delegator = state.stake[delegatorAddress] || {}
+    return delegator.redelegations || []
   },
   getDelegatorTxs(addr, types = []) {
     if (types.length === 0) types = [`bonding`, `unbonding`]

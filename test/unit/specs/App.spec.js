@@ -60,7 +60,7 @@ describe(`App without analytics`, () => {
     let Node = require(`renderer/connectors/node.js`)
     require(`renderer/main.js`)
     expect(Node).toHaveBeenCalledWith(
-      `http://localhost:8080`,
+      `https://localhost:8080`,
       `https://awesomenode.de:12345`,
       true
     )
