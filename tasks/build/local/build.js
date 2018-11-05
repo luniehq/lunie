@@ -33,6 +33,8 @@ cli(optionsSpecification, async options => {
     }
 
     await init(options, environment)
+    const { address } = await createKey(options, environment)
+    await initGenesis(options, environment, address)
     await moveFiles(options, environment)
     console.log(`\n    🎉  SUCCESS 🎉\n`)
     console.log(
@@ -87,16 +89,84 @@ async function moveFiles(options, environment) {
 
 function init(options, environment) {
   return new Promise(async (resolve, reject) => {
-    let command = `builds/Gaia/${environment}/gaiad init --home ${homeDir}/.gaiad-testnet --moniker local`
+    let command = `builds/Gaia/${environment}/gaiad init --home ${homeDir}/.gaiad-testnet --moniker local --chain-id local-testnet`
     if (options.overwrite) {
       command += ` -o`
     }
     console.log(`$ ` + command)
     const localnodeProcess = spawn(command, { shell: true })
     localnodeProcess.stdin.write(`${options.password}\n`)
-    localnodeProcess.stderr.pipe(process.stderr)
+    // localnodeProcess.stderr.pipe(process.stderr)
     localnodeProcess.once(`exit`, code => {
       code === 0 ? resolve() : reject()
     })
   })
+}
+
+function createKey(options, environment) {
+  return new Promise(async (resolve, reject) => {
+    let command = `builds/Gaia/${environment}/gaiacli keys add local --home ./builds/testnets/local-testnet/lcd -o json`
+    console.log(`$ ` + command)
+    const child = spawn(command, { shell: true })
+
+    child.stdin.write(`${options.password}\n`)
+    child.stdin.write(`${options.password}\n`)
+
+    child.stdout.once(`data`, data => {
+      resolve(JSON.parse(data))
+    })
+
+    child.once(`exit`, code => {
+      code !== 0 && reject()
+    })
+  })
+}
+
+async function initGenesis(options, environment, address) {
+  const genesisLocation = path.join(
+    homeDir,
+    `.gaiad-testnet/config`,
+    `genesis.json`
+  )
+  let genesis = fs.readJSONSync(genesisLocation)
+  genesis.app_state.accounts = [
+    {
+      address,
+      coins: [
+        {
+          denom: `steak`,
+          amount: `150`
+        },
+        {
+          denom: `localcoin`,
+          amount: `1000`
+        }
+      ]
+    }
+  ]
+  fs.writeJSONSync(genesisLocation, genesis)
+
+  await new Promise((resolve, reject) => {
+    const child = spawn(`builds/Gaia/${environment}/gaiad`, [
+      `gentx`,
+      `--name`,
+      `local`,
+      `--home`,
+      path.join(homeDir, `.gaiad-testnet`),
+      `--home-client`,
+      `./builds/testnets/local-testnet/lcd`
+    ])
+    child.stderr.pipe(process.stderr)
+    child.stdin.write(`${options.password}\n`)
+    child.once(`exit`, code => {
+      code === 0 ? resolve() : reject()
+    })
+  })
+
+  exec(
+    `builds/Gaia/${environment}/gaiad collect-gentxs --home ${path.join(
+      homeDir,
+      `.gaiad-testnet`
+    )}`
+  )
 }
