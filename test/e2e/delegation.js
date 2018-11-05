@@ -27,19 +27,19 @@ test(`delegation`, async function(t) {
       `it shows all three validators`
     )
     await t.ok(
-      await app.client.$(`.top=local_1`).isVisible(),
+      await app.client.$(`.li-validator__moniker=local_1`).isVisible(),
       `show validator 1`
     )
     await t.ok(
-      await app.client.$(`.top=local_2`).isVisible(),
+      await app.client.$(`.li-validator__moniker=local_2`).isVisible(),
       `show validator 2`
     )
     await t.ok(
-      await app.client.$(`.top=local_3`).isVisible(),
+      await app.client.$(`.li-validator__moniker=local_3`).isVisible(),
       `show validator 3`
     )
     let myVotesText = await app.client
-      .$(`.li-validator__value.your-votes`)
+      .$(`.li-validator__delegated-steak`)
       .getText()
     let myVotes = parseFloat(myVotesText.replace(/,/g, ``))
     console.log(myVotesText, myVotes)
