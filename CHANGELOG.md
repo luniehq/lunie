@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1496](https://github.com/cosmos/voyager/issues/1496) display validator pub_key instead of operator_address on livalidator and validator profile @jbibla
 * made running a local node easier by reducing it to 2 commands and presetting an account. @faboweb
 * [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library @faboweb
+* [\#1410](https://github.com/cosmos/voyager/issues/1410) removed end undelegations as not needed in the SDK anymore
 
 ### Fixed
 

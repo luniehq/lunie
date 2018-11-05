@@ -217,10 +217,6 @@ describe(`Module: Delegations`, () => {
     expect(
       store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
     ).toBeTruthy()
-    await store.dispatch(`endUnbonding`, lcdClientMock.validators[0])
-    expect(
-      store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
-    ).toBeFalsy()
   })
 
   it(`should remove dead delegations and undelegations`, async () => {
