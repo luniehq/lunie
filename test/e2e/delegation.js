@@ -1,7 +1,6 @@
 let test = require(`tape-promise/tape`)
 let { getApp, restart } = require(`./launch.js`)
-let { navigate, login, sleep } = require(`./common.js`)
-// let { navigate, waitForValue, login } = require("./common.js") // removed because of linting, add back when optimistic updates come
+let { navigate, login, sleep, waitForText } = require(`./common.js`)
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
 */
@@ -53,6 +52,13 @@ test(`delegation`, async function(t) {
   })
 
   t.test(`Stake`, async t => {
+    let totalAtoms = (await app.client
+      .$(`.header-balance .total-atoms h2`)
+      .getText()).split(`.`)[0] // 130.000...
+    let unbondedAtoms = (await app.client
+      .$(`.header-balance .unbonded-atoms h2`)
+      .getText()).split(`.`)[0] // 30.000...
+
     // Select the second validator.
     await app.client.click(`//*[. = 'local_2']`)
 
@@ -79,19 +85,23 @@ test(`delegation`, async function(t) {
       // Go back to Staking page.
       .click(`//a//*[. = 'Staking']`)
 
+    // there was a bug that updated the balances in a way that it would show more atoms,
+    // then the users has
+    await waitForText(
+      () => app.client.$(`.header-balance .total-atoms h2`),
+      `${totalAtoms}.0000…`
+    )
+    await waitForText(
+      () => app.client.$(`.header-balance .unbonded-atoms h2`),
+      `${unbondedAtoms - 10}.0000…`
+    )
+
     // Shouldn't be necessary but see
     // https://github.com/jprichardson/tape-promise/issues/17#issuecomment-425276035.
     t.end()
   })
 
   t.test(`Undelegate`, async t => {
-    let totalAtoms = await app.client
-      .$(`.header-balance .total-atoms`)
-      .getText()
-    let unbondedAtoms = await app.client
-      .$(`.header-balance .unbonded-atoms`)
-      .getText()
-
     await app.client
       // Select the Validators tab.
       .click(`//a[. = 'Validators']`)
@@ -119,17 +129,6 @@ test(`delegation`, async function(t) {
 
       // Go back to Staking page.
       .click(`//a//*[. = 'Staking']`)
-
-    // there was a bug that updated the balances in a way that it would show more atoms,
-    // then the users has
-    t.equal(
-      await app.client.$(`.header-balance .total-atoms`).getText(),
-      totalAtoms
-    )
-    t.equal(
-      await app.client.$(`.header-balance .unbonded-atoms`).getText(),
-      unbondedAtoms
-    )
 
     // Shouldn't be necessary but see
     // https://github.com/jprichardson/tape-promise/issues/17#issuecomment-425276035.
