@@ -44,6 +44,9 @@ export default {
   }),
   computed: {
     ...mapGetters([`filters`, `config`]),
+    somethingToSearch() {
+      return !!this.proposals.length
+    },
     // TODO delete once tally is changed from Rat --> Dec
     parsedProposals() {
       return !this.proposals || this.proposals.length === 0
@@ -117,6 +120,21 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    setSearch(
+      bool = !this.filters[`proposals`].search.visible,
+      { somethingToSearch, $store } = this
+    ) {
+      if (somethingToSearch) {
+        $store.commit(`setSearchVisible`, [`proposals`, bool])
+      }
+    }
+  },
+  mounted() {
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind([`command+n`, `ctrl+n`], () => this.newProposal())
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
   }
 }
 </script>

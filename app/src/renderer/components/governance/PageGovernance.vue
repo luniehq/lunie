@@ -1,21 +1,21 @@
 <template lang="pug">
-tm-page(data-title='Proposals')
-  template(slot="menu-body", v-if="config.devMode")
+tm-page(data-title='Governance').governance
+  template(slot="menu-body")
     tm-balance(:tabs="tabs")
 
   div(slot="menu"): vm-tool-bar
     router-link(to="/proposals/new" exact v-tooltip.bottom="'New Proposal'")
       i.material-icons add
-    a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
+    a(@click='setSearch()' v-tooltip.bottom="'Search'")
       i.material-icons search
 
-  modal-search(type="proposals" v-if="somethingToSearch")
+  modal-search(type="proposals")
 
   router-view
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapActions } from "vuex"
 import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import ModalSearch from "common/TmModalSearch"
@@ -34,31 +34,19 @@ export default {
     VmToolBar
   },
   computed: {
-    ...mapGetters([`config`, `proposals`, `filters`])
+    ...mapGetters([`config`, `proposals`])
   },
   data: () => ({
     tabs: [`Proposals`]
   }),
   methods: {
-    somethingToSearch() {
-      return !this.proposals && Object.keys(this.proposals).length > 0
-    },
-    getProposals() {
-      this.$store.dispatch(`getProposals`)
-    },
+    ...mapActions([`getProposals`]),
     newProposal() {
       this.$router.push(`/proposals/new`)
-    },
-    setSearch(bool = !this.filters[`proposals`].search.visible) {
-      if (!this.somethingToSearch) return false
-      this.$store.commit(`setSearchVisible`, [`proposals`, bool])
     }
   },
   mounted() {
     this.getProposals()
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind([`command+n`, `ctrl+n`], () => this.newProposal())
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
   }
 }
 </script>

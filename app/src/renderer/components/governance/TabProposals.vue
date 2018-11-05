@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import TableProposals from "governance/TableProposals"
+import TableProposals from "./TableProposals"
 import { mapGetters } from "vuex"
 export default {
   name: `tab-proposals`,
