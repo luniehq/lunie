@@ -85,6 +85,13 @@ test(`delegation`, async function(t) {
   })
 
   t.test(`Undelegate`, async t => {
+    let totalAtoms = await app.client
+      .$(`.header-balance .total-atoms`)
+      .getText()
+    let unbondedAtoms = await app.client
+      .$(`.header-balance .unbonded-atoms`)
+      .getText()
+
     await app.client
       // Select the Validators tab.
       .click(`//a[. = 'Validators']`)
@@ -112,6 +119,17 @@ test(`delegation`, async function(t) {
 
       // Go back to Staking page.
       .click(`//a//*[. = 'Staking']`)
+
+    // there was a bug that updated the balances in a way that it would show more atoms,
+    // then the users has
+    t.equal(
+      await app.client.$(`.header-balance .total-atoms`).getText(),
+      totalAtoms
+    )
+    t.equal(
+      await app.client.$(`.header-balance .unbonded-atoms`).getText(),
+      unbondedAtoms
+    )
 
     // Shouldn't be necessary but see
     // https://github.com/jprichardson/tape-promise/issues/17#issuecomment-425276035.
