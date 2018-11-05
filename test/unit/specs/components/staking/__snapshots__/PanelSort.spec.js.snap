@@ -1,38 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PanelSort has the expected html structure 1`] = `
-<div
-  class="panel-sort"
+<tr
+  class="panel-sort-container"
 >
-  <div
-    class="panel-sort-container"
+  <th
+    class="sort-by"
   >
-    <div
-      class="sort-by"
+    <a
+      class="sort-by-link"
     >
-      <div
-        class="label"
-      >
-        <div
-          class="label-text"
-        >
-          ID
-        </div>
-      </div>
-    </div>
-    <div
-      class="sort-by"
+      ID
+    </a>
+  </th>
+  <th
+    class="sort-by"
+  >
+    <a
+      class="sort-by-link"
     >
-      <div
-        class="label"
-      >
-        <div
-          class="label-text"
-        >
-          AMOUNT
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+      AMOUNT
+    </a>
+  </th>
+</tr>
 `;
