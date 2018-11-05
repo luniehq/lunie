@@ -12,7 +12,7 @@ async function main() {
 
   if (network === `local-testnet`) {
     Object.assign(process.env, {
-      LCD_URL: `http://localhost:9070`,
+      LCD_URL: `https://localhost:9070`,
       RPC_URL: `http://localhost:26657`
     })
     startLocalNode()

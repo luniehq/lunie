@@ -67,7 +67,8 @@ Vue.directive(`focus`, {
 
 async function main() {
   let lcdPort = getQueryParameter(`lcd_port`)
-  let localLcdURL = `http://localhost:${lcdPort}`
+  // TODO get from process.env
+  let localLcdURL = `https://localhost:${lcdPort}`
   console.log(`Expecting lcd-server on port: ` + lcdPort)
   node = Node(localLcdURL, config.node_lcd, config.mocked)
 

@@ -102,8 +102,18 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     /* ============ STAKE ============ */
 
     // Get all delegations information from a delegator
-    getDelegator: function(addr) {
-      return req(`GET`, `/stake/delegators/${addr}`, true)()
+    getDelegations: function(addr) {
+      return req(`GET`, `/stake/delegators/${addr}/delegations`, true)()
+    },
+    getUndelegations: function(addr) {
+      return req(
+        `GET`,
+        `/stake/delegators/${addr}/unbonding_delegations`,
+        true
+      )()
+    },
+    getRedelegations: function(addr) {
+      return req(`GET`, `/stake/delegators/${addr}/redelegations`, true)()
     },
     // Get all txs from a delegator
     getDelegatorTxs: function(addr, types) {
@@ -161,7 +171,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     /* ============ Slashing ============ */
 
     queryValidatorSigningInfo: function(pubKey) {
-      return req(`GET`, `/slashing/signing_info/${pubKey}`, true)()
+      return req(`GET`, `/slashing/validators/${pubKey}/signing_info`, true)()
     },
 
     /* ============ Governance ============ */

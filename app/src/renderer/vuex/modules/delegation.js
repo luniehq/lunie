@@ -69,7 +69,14 @@ export default ({ node }) => {
       let address = rootState.user.address
       candidates = candidates || (await dispatch(`getDelegates`))
 
-      let delegator = await node.getDelegator(address)
+      let delegations = await node.getDelegations(address)
+      let unbonding_delegations = await node.getUndelegations(address)
+      let redelegations = await node.getRedelegations(address)
+      let delegator = {
+        delegations,
+        unbonding_delegations,
+        redelegations
+      }
       // the request runs that long, that the user might sign out and back in again
       // the result is, that the new users state gets updated by the old users request
       // here we check if the user is still the same
