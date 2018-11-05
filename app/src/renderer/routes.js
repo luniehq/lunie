@@ -22,6 +22,7 @@ export default [
     ]
   },
   { path: `proposals/new`, component: governance(`ProposalsNewText`) },
+  // TODO: enable once PageProposal is finished
   // {
   //   path: `proposals/:proposal`,
   //   name: `proposal`,

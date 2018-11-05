@@ -14,7 +14,6 @@
 
 <script>
 import { mapGetters } from "vuex"
-import num from "scripts/num"
 import { includes, orderBy } from "lodash"
 import LiProposal from "./LiProposal"
 import { TmDataEmpty, TmDataLoading } from "@tendermint/ui"
@@ -35,7 +34,6 @@ export default {
     VmToolBar
   },
   data: () => ({
-    num: num,
     query: ``,
     sort: {
       property: `proposal_id`,
