@@ -699,6 +699,29 @@ describe(`LCD Client Mock`, () => {
     expect(res[0].check_tx.log).toBe(`conflicting redelegation`)
   })
 
+  it(`fails redelegation if redelegated shares is greater than the current balance`, async () => {
+    let res = await client.updateDelegations(lcdClientMock.addresses[0], {
+      base_req: {
+        name: `default`,
+        sequence: 1
+      },
+      begin_unbondings: [],
+      begin_redelegates: [
+        {
+          delegator_addr: lcdClientMock.addresses[0],
+          validator_src_addr: lcdClientMock.validators[0],
+          validator_dst_addr: lcdClientMock.validators[1],
+          shares: `500000000000`
+        }
+      ]
+    })
+    expect(res.length).toBe(1)
+    expect(res[0].check_tx.code).toBe(3)
+    expect(res[0].check_tx.log).toBe(
+      `cannot redelegate more shares than the current delegated shares amount`
+    )
+  })
+
   it(`queries for summary of delegation information for a delegator`, async () => {
     let summary = await client.getDelegator(lcdClientMock.addresses[0])
     expect(Object.keys(summary)).toEqual([
