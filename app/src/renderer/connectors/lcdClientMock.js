@@ -506,6 +506,7 @@ module.exports = {
       let candidate = state.candidates.find(
         c => c.operator_address === tx.validator_addr
       )
+      // TODO: Update error msg
       if (candidate.revoked) {
         throw new Error(`checkTx failed: (262245) Msg 0 failed: === ABCI Log ===
   Codespace: 4
@@ -540,7 +541,15 @@ module.exports = {
       }
 
       // update sender balance
-      let coinBalance = fromAccount.coins.find(c => c.denom === `steak`)
+      let coinBalance = fromAccount.coins.find(
+        c => c.denom === state.parameters.bond_denom
+      )
+
+      if (!coinBalance) {
+        results.push(txResult(2, `Nonexistent ${state.parameters.bond_denom}`))
+        return results
+      }
+
       coinBalance.amount = String(parseInt(coinBalance.amount) + amount)
 
       // TODO remove after sdk.Dec parsing is fixed
@@ -581,6 +590,12 @@ module.exports = {
         c => c.operator_address === tx.validator_dst_addr
       )
 
+      if (!dstValidator) {
+        results.push(txResult(3, `Nonexistent destination validator`))
+        return results
+      }
+
+      // TODO: Update error msg
       if (dstValidator.revoked) {
         throw new Error(`checkTx failed: (262245) Msg 0 failed: === ABCI Log ===
   Codespace: 4
@@ -595,10 +610,10 @@ module.exports = {
       }
 
       // check if delegation exists
-      let src_delegation = delegator.delegations.find(
+      let srcDelegation = delegator.delegations.find(
         d => d.validator_addr === tx.validator_src_addr
       )
-      if (!src_delegation) {
+      if (!srcDelegation) {
         results.push(
           txResult(3, `Nonexistent delegation with source validator`)
         )
@@ -619,18 +634,27 @@ module.exports = {
       }
 
       let height = getHeight()
+
+      // check if amount of shares redelegated is valid
+      if (Number(srcDelegation.shares) < tx.shares) {
+        results.push(
+          txResult(
+            3,
+            `cannot redelegate more shares than the current delegated shares amount`
+          )
+        )
+        return results
+      }
       // unbond shares from source validator
-      src_delegation.shares = String(Number(src_delegation.shares) - tx.shares)
-      src_delegation.height = height
+      srcDelegation.shares = String(Number(srcDelegation.shares) - tx.shares)
+      srcDelegation.height = height
 
       // delegate to dst validator
-      let dst_delegation = delegator.delegations.find(
+      let dstDelegation = delegator.delegations.find(
         d => d.validator_addr === tx.validator_dst_addr
       )
-      if (dst_delegation) {
-        dst_delegation.shares = String(
-          Number(dst_delegation.shares) + tx.shares
-        )
+      if (dstDelegation) {
+        dstDelegation.shares = String(Number(dstDelegation.shares) + tx.shares)
       } else {
         delegator.delegations.push({
           delegator_addr: tx.delegator_addr,
@@ -643,7 +667,7 @@ module.exports = {
       // add redelegation object
       let coins = {
         amount: tx.shares, // in mock mode we assume 1 share = 1 token
-        denom: `steak`
+        denom: state.parameters.bond_denom
       }
       let minTime = Date.now()
       red = {
