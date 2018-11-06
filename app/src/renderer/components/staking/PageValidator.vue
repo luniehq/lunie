@@ -486,6 +486,9 @@ export default {
     &.green
       background var(--success)
 
+    &.blue
+      background var(--primary)
+
   &__status-and-title
     align-items center
     display flex
