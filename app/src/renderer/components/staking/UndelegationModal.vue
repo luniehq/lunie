@@ -17,6 +17,7 @@
       tm-field#amount(
         :max="maximum"
         :min="0"
+        step="any"
         type="number"
         v-model="amount"
         v-focus)

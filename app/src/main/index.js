@@ -141,6 +141,8 @@ function createWindow() {
       mainWindow.show()
       if (DEV || JSON.parse(process.env.COSMOS_DEVTOOLS || `false`)) {
         mainWindow.webContents.openDevTools()
+        // we need to reload at this point to make sure sourcemaps are loaded correctly
+        mainWindow.reload()
       }
       if (DEV) {
         mainWindow.maximize()

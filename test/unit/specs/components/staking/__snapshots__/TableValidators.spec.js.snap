@@ -1,0 +1,294 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableValidators has the expected html structure 1`] = `
+"<div>
+   <table>
+      <thead>
+         <tr class=\\"panel-sort-container\\">
+            <th class=\\"sort-by name\\">
+               <a class=\\"sort-by-link\\">Moniker</a>
+            </th>
+            <th class=\\"sort-by your-votes\\">
+               <a class=\\"sort-by-link\\">Delegated Steak</a>
+            </th>
+            <th class=\\"sort-by your-rewards\\">
+               <a class=\\"sort-by-link\\">Rewards</a>
+            </th>
+            <th class=\\"sort-by percent_of_vote\\">
+               <a class=\\"sort-by-link\\">Voting Power</a>
+            </th>
+            <th class=\\"sort-by uptime\\">
+               <a class=\\"sort-by-link\\">Uptime</a>
+            </th>
+            <th class=\\"sort-by commission\\">
+               <a class=\\"sort-by-link\\">Commission</a>
+            </th>
+            <th class=\\"sort-by slashes\\">
+               <a class=\\"sort-by-link\\">Slashes</a>
+            </th>
+</tr>
+</thead>
+      <tbody>
+         <tr class=\\"li-validator\\">
+            <td class=\\"li-validator__moniker-container\\">
+               <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"li-validator__avatar no-img\\">
+               <div class=\\"li-validator__name-container\\">
+                  <span class=\\"validator-profile__status green\\"></span><a href=\\"#/\\" class=\\"li-validator__moniker router-link-exact-active router-link-active li-validator-validator \\">good_greg</a>
+                  <div class=\\"short-bech32 li-validator__address\\">
+                     <div id=\\"address\\" class=\\"address\\">
+                        cosmosvaladdr…n3au
+                     </div>
+            <div class=\\"copied\\">
+               <i class=\\"material-icons\\">check</i><span>Copied</span>
+            </div>
+</div>
+</div>
+</td>
+         <td class=\\"li-validator__delegated-steak\\">
+            0.0000…
+         </td>
+         <td class=\\"li-validator__rewards\\">
+            n/a
+         </td>
+         <td class=\\"li-validator__voting-power\\">
+            0.00%
+         </td>
+         <td class=\\"li-validator__uptime\\">
+            n/a
+         </td>
+         <td class=\\"li-validator__commission\\">
+            0.00%
+         </td>
+         <td class=\\"li-validator__slashes\\">
+            n/a
+         </td>
+</tr>
+      <tr class=\\"li-validator\\">
+         <td class=\\"li-validator__moniker-container\\">
+            <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"li-validator__avatar no-img\\">
+            <div class=\\"li-validator__name-container\\">
+               <span class=\\"validator-profile__status red\\"></span><a href=\\"#/\\" class=\\"li-validator__moniker router-link-exact-active router-link-active li-validator-validator \\">herr_schmidt_revoked</a>
+               <div class=\\"short-bech32 li-validator__address\\">
+                  <div id=\\"address\\" class=\\"address\\">
+                     cosmosvaladdr…rg7n
+                  </div>
+            <div class=\\"copied\\">
+               <i class=\\"material-icons\\">check</i><span>Copied</span>
+            </div>
+</div>
+</div>
+</td>
+         <td class=\\"li-validator__delegated-steak\\">
+            0.0000…
+         </td>
+         <td class=\\"li-validator__rewards\\">
+            n/a
+         </td>
+         <td class=\\"li-validator__voting-power\\">
+            0.00%
+         </td>
+         <td class=\\"li-validator__uptime\\">
+            n/a
+         </td>
+         <td class=\\"li-validator__commission\\">
+            0.00%
+         </td>
+         <td class=\\"li-validator__slashes\\">
+            n/a
+         </td>
+</tr>
+      <tr class=\\"li-validator\\">
+         <td class=\\"li-validator__moniker-container\\">
+            <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"li-validator__avatar no-img\\">
+            <div class=\\"li-validator__name-container\\">
+               <span class=\\"validator-profile__status green\\"></span><a href=\\"#/\\" class=\\"li-validator__moniker router-link-exact-active router-link-active li-validator-validator \\">mr_mounty</a>
+               <div class=\\"short-bech32 li-validator__address\\">
+                  <div id=\\"address\\" class=\\"address\\">
+                     cosmosvaladdr…8yqw
+                  </div>
+            <div class=\\"copied\\">
+               <i class=\\"material-icons\\">check</i><span>Copied</span>
+            </div>
+</div>
+</div>
+</td>
+         <td class=\\"li-validator__delegated-steak\\">
+            0.0000…
+         </td>
+         <td class=\\"li-validator__rewards\\">
+            n/a
+         </td>
+         <td class=\\"li-validator__voting-power\\">
+            0.00%
+         </td>
+         <td class=\\"li-validator__uptime\\">
+            n/a
+         </td>
+         <td class=\\"li-validator__commission\\">
+            0.00%
+         </td>
+         <td class=\\"li-validator__slashes\\">
+            n/a
+         </td>
+</tr>
+</tbody>
+</table>
+</div>"
+`;
+
+exports[`TableValidators should filter the delegates 1`] = `
+<div>
+  <table>
+    <thead>
+      <tr
+        class="panel-sort-container"
+      >
+        <th
+          class="sort-by name"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Moniker
+          </a>
+        </th>
+        <th
+          class="sort-by your-votes"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Delegated Steak
+          </a>
+        </th>
+        <th
+          class="sort-by your-rewards"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Rewards
+          </a>
+        </th>
+        <th
+          class="sort-by percent_of_vote"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Voting Power
+          </a>
+        </th>
+        <th
+          class="sort-by uptime"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Uptime
+          </a>
+        </th>
+        <th
+          class="sort-by commission"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Commission
+          </a>
+        </th>
+        <th
+          class="sort-by slashes"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Slashes
+          </a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="li-validator"
+      >
+        <td
+          class="li-validator__moniker-container"
+        >
+          <img
+            class="li-validator__avatar no-img"
+            height="48"
+            src="~assets/images/validator-icon.svg"
+            width="48"
+          />
+          <div
+            class="li-validator__name-container"
+          >
+            <span
+              class="validator-profile__status green"
+            />
+            <a
+              class="li-validator__moniker router-link-exact-active router-link-active li-validator-validator "
+              href="#/"
+            >
+              mr_mounty
+            </a>
+            <div
+              class="short-bech32 li-validator__address"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                cosmosvaladdr…8yqw
+              </div>
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td
+          class="li-validator__delegated-steak"
+        >
+          0.0000…
+        </td>
+        <td
+          class="li-validator__rewards"
+        >
+          n/a
+        </td>
+        <td
+          class="li-validator__voting-power"
+        >
+          0.00%
+        </td>
+        <td
+          class="li-validator__uptime"
+        >
+          n/a
+        </td>
+        <td
+          class="li-validator__commission"
+        >
+          0.00%
+        </td>
+        <td
+          class="li-validator__slashes"
+        >
+          n/a
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;

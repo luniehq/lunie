@@ -47,7 +47,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Unbonded Steak
+                  Available Steak
                 </h3>
                 <h2>
                   0.0000…
@@ -269,7 +269,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Unbonded Steak
+                  Available Steak
                 </h3>
                 <h2>
                   0.0000…

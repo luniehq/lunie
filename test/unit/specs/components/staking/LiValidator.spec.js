@@ -11,7 +11,7 @@ describe(`LiValidator`, () => {
       propsData: {
         validator: {
           id: `abc`,
-          pub_key: `12345`,
+          pub_key: `cosmosvalpub12345`,
           operator_address: lcdClientMock.validators[1],
           tokens: `190000000000`,
           delegator_shares: `190000000000`,
@@ -78,8 +78,22 @@ describe(`LiValidator`, () => {
       voting_power: 0
     }
     expect(wrapper.vm.status).toBe(
-      `This validator has declared candidacy but does not have enough voting power yet`
+      `This validator does not have enough voting power yet and is inactive`
     )
+  })
+
+  it(`should show the validator status with color`, () => {
+    expect(wrapper.vm.statusColor).toBe(`green`)
+    // Jailed
+    wrapper.vm.validator = {
+      revoked: true
+    }
+    expect(wrapper.vm.statusColor).toBe(`red`)
+    // Is not a validator
+    wrapper.vm.validator = {
+      voting_power: 0
+    }
+    expect(wrapper.vm.statusColor).toBe(`yellow`)
   })
 
   it(`should show the validator's uptime`, () => {
