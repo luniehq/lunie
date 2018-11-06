@@ -614,7 +614,8 @@ module.exports = {
       )
 
       if (red) {
-        throw new Error(`conflicting redelegation`)
+        results.push(txResult(3, `conflicting redelegation`))
+        return results
       }
 
       let height = getHeight()
