@@ -71,7 +71,7 @@ export default {
     },
     filteredProposals() {
       if (this.proposals && this.filters) {
-        let query = this.filters.proposals.search.query
+        let query = this.filters.proposals.search.query || ``
         let proposals = orderBy(
           this.parsedProposals,
           [this.sort.property],

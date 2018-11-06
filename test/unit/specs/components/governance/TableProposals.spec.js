@@ -34,45 +34,46 @@ describe(`TableProposals`, () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it(`should sort the delegates by selected property`, () => {
-    wrapper.vm.sort.property = `operator_address`
+  it(`should sort the proposals by selected property`, () => {
+    wrapper.vm.sort.property = `proposal_id`
     wrapper.vm.sort.order = `desc`
 
-    expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
-    ).toEqual(lcdClientMock.validators)
+    expect(wrapper.vm.filteredProposals).toEqual(lcdClientMock.state.proposals)
 
     wrapper.vm.sort.property = `operator_address`
     wrapper.vm.sort.order = `asc`
 
-    expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
-    ).toEqual(lcdClientMock.validators.reverse())
+    expect(wrapper.vm.filteredProposals).toEqual(
+      lcdClientMock.state.proposals.reverse()
+    )
   })
 
-  it(`should filter the delegates`, () => {
-    store.commit(`setSearchVisible`, [`delegates`, true])
+  it(`should filter the proposals`, () => {
+    store.commit(`setSearchVisible`, [`proposals`, true])
     store.commit(`setSearchQuery`, [
-      `delegates`,
-      lcdClientMock.validators[2].substr(20, 26)
+      `proposals`,
+      lcdClientMock.state.proposals[2]
     ])
-    expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
-    ).toEqual([lcdClientMock.validators[2]])
+    expect(wrapper.vm.filteredProposals).toEqual([
+      lcdClientMock.state.proposals[2]
+    ])
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit(`setSearchQuery`, [
-      `delegates`,
-      lcdClientMock.validators[1].substr(20, 26)
+      `proposals`,
+      lcdClientMock.state.proposals[1]
     ])
-    expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
-    ).toEqual([lcdClientMock.validators[1]])
+    expect(wrapper.vm.filteredProposals).toEqual([
+      lcdClientMock.state.proposals[1]
+    ])
   })
 
   it(`should update 'somethingToSearch' when there's nothing to search`, () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
-    wrapper.setProps({ validators: [] })
+    wrapper.setProps({
+      proposals: [],
+      loading: true
+    })
     expect(wrapper.vm.somethingToSearch).toBe(false)
   })
 
