@@ -88,7 +88,7 @@ tm-page(data-title="Validator")
 
     delegation-modal(
       v-if="showDelegationModal"
-      v-on:submitDelegation="onSubmitDelegation"
+      v-on:submitDelegation="submitDelegation"
       :showDelegationModal.sync="showDelegationModal"
       :fromOptions="delegationTargetOptions()"
       :to="validator.operator_address"
@@ -96,7 +96,7 @@ tm-page(data-title="Validator")
 
     undelegation-modal(
       v-if="showUndelegationModal"
-      v-on:onSubmitUndelegation="onSubmitUndelegation"
+      v-on:submitUndelegation="submitUndelegation"
       :showUndelegationModal.sync="showUndelegationModal"
       :maximum="myBond"
       :to="this.wallet.address"
@@ -115,7 +115,7 @@ tm-page(data-title="Validator")
 <script>
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
-import { mapGetters, mapActions } from "vuex"
+import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import TmModal from "common/TmModal"
@@ -227,7 +227,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions([`submitDelegation`]),
     closeCannotModal() {
       this.showCannotModal = false
     },
@@ -247,7 +246,7 @@ export default {
         this.showCannotModal = true
       }
     },
-    async onSubmitDelegation({ amount, from }) {
+    async submitDelegation({ amount, from }) {
       const delegatorAddr = this.wallet.address
       let stakingTransactions = {}
       let txTitle,
@@ -284,7 +283,7 @@ export default {
       }
 
       try {
-        await this.submitDelegation({
+        await this.$store.dispatch(`submitDelegation`, {
           stakingTransactions
         })
 
@@ -311,9 +310,9 @@ export default {
         }
       }
     },
-    async onSubmitUndelegation({ amount }) {
+    async submitUndelegation({ amount }) {
       try {
-        await this.submitDelegation({
+        await this.$store.dispatch(`submitDelegation`, {
           stakingTransactions: {
             unbondings: [
               {

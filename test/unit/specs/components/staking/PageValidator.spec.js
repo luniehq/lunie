@@ -452,7 +452,7 @@ describe(`onDelegation`, () => {
           }
 
           const {
-            vm: { onSubmitDelegation }
+            vm: { submitDelegation }
           } = mount(PageValidator, {
             mocks: {
               $route: {
@@ -472,7 +472,7 @@ describe(`onDelegation`, () => {
 
           $store.dispatch.mockClear()
 
-          await onSubmitDelegation({
+          await submitDelegation({
             amount: 10,
             from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
           })
@@ -502,7 +502,7 @@ describe(`onDelegation`, () => {
           }
 
           const {
-            vm: { onSubmitDelegation }
+            vm: { submitDelegation }
           } = mount(PageValidator, {
             mocks: {
               $route: {
@@ -525,7 +525,7 @@ describe(`onDelegation`, () => {
             throw new Error(`message`)
           })
 
-          await onSubmitDelegation({
+          await submitDelegation({
             amount: 10,
             from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
           })
@@ -553,7 +553,7 @@ describe(`onDelegation`, () => {
           }
 
           const {
-            vm: { onSubmitDelegation }
+            vm: { submitDelegation }
           } = mount(PageValidator, {
             mocks: {
               $route: {
@@ -576,7 +576,7 @@ describe(`onDelegation`, () => {
             throw new Error(`one\ntwo\nthree\nfour\nfive\nsix\nseven`)
           })
 
-          await onSubmitDelegation({
+          await submitDelegation({
             amount: 10,
             from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
           })
@@ -619,7 +619,7 @@ describe(`onDelegation`, () => {
           }
 
           const {
-            vm: { onSubmitDelegation }
+            vm: { submitDelegation }
           } = mount(PageValidator, {
             mocks: {
               $route: { params: { validator: lcdClientMock.validators[0] } },
@@ -629,7 +629,7 @@ describe(`onDelegation`, () => {
 
           $store.dispatch.mockClear()
 
-          await onSubmitDelegation({
+          await submitDelegation({
             amount: 10,
             from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
           })
@@ -720,7 +720,7 @@ describe(`onDelegation`, () => {
           }
 
           const {
-            vm: { onSubmitDelegation }
+            vm: { submitDelegation }
           } = mount(PageValidator, {
             mocks: {
               $route: {
@@ -740,7 +740,7 @@ describe(`onDelegation`, () => {
 
           $store.dispatch.mockClear()
 
-          await onSubmitDelegation({
+          await submitDelegation({
             amount: 5,
             from: lcdClientMock.validators[0]
           })
@@ -770,7 +770,7 @@ describe(`onDelegation`, () => {
           }
 
           const {
-            vm: { onSubmitDelegation }
+            vm: { submitDelegation }
           } = mount(PageValidator, {
             mocks: {
               $route: {
@@ -793,7 +793,7 @@ describe(`onDelegation`, () => {
             throw new Error(`message`)
           })
 
-          await onSubmitDelegation({
+          await submitDelegation({
             amount: 5,
             from: lcdClientMock.validators[0]
           })
@@ -821,7 +821,7 @@ describe(`onDelegation`, () => {
           }
 
           const {
-            vm: { onSubmitDelegation }
+            vm: { submitDelegation }
           } = mount(PageValidator, {
             mocks: {
               $route: {
@@ -844,7 +844,7 @@ describe(`onDelegation`, () => {
             throw new Error(`one\ntwo\nthree\nfour\nfive\nsix\nseven`)
           })
 
-          await onSubmitDelegation({
+          await submitDelegation({
             amount: 5,
             from: lcdClientMock.validators[0]
           })
@@ -887,7 +887,7 @@ describe(`onDelegation`, () => {
           }
 
           const {
-            vm: { onSubmitDelegation }
+            vm: { submitDelegation }
           } = mount(PageValidator, {
             mocks: {
               $route: {
@@ -901,7 +901,7 @@ describe(`onDelegation`, () => {
 
           $store.dispatch.mockClear()
 
-          await onSubmitDelegation({
+          await submitDelegation({
             amount: 5,
             from: lcdClientMock.validators[0]
           })
@@ -1014,7 +1014,7 @@ describe(`onUnstake`, () => {
     })
   })
 
-  describe(`onSubmitUndelegation`, () => {
+  describe(`submitUndelegation`, () => {
     describe(`unit`, () => {
       it(`success`, async () => {
         const $store = {
@@ -1024,7 +1024,7 @@ describe(`onUnstake`, () => {
         }
 
         const {
-          vm: { onSubmitUndelegation }
+          vm: { submitUndelegation }
         } = mount(PageValidator, {
           mocks: {
             $route: { params: { validator: lcdClientMock.validators[0] } },
@@ -1034,7 +1034,7 @@ describe(`onUnstake`, () => {
 
         $store.dispatch.mockClear()
 
-        await onSubmitUndelegation({ amount: 10 })
+        await submitUndelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
           [
@@ -1062,7 +1062,7 @@ describe(`onUnstake`, () => {
         }
 
         const {
-          vm: { onSubmitUndelegation }
+          vm: { submitUndelegation }
         } = mount(PageValidator, {
           mocks: {
             $route: { params: { validator: lcdClientMock.validators[0] } },
@@ -1075,7 +1075,7 @@ describe(`onUnstake`, () => {
           throw new Error(`message`)
         })
 
-        await onSubmitUndelegation({ amount: 10 })
+        await submitUndelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
           [
@@ -1103,7 +1103,7 @@ describe(`onUnstake`, () => {
         }
 
         const {
-          vm: { onSubmitUndelegation }
+          vm: { submitUndelegation }
         } = mount(PageValidator, {
           mocks: {
             $route: { params: { validator: lcdClientMock.validators[0] } },
@@ -1116,7 +1116,7 @@ describe(`onUnstake`, () => {
           throw new Error(`one\ntwo\nthree\nfour\nfive\nsix"seven`)
         })
 
-        await onSubmitUndelegation({ amount: 10 })
+        await submitUndelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
           [
@@ -1161,7 +1161,7 @@ describe(`onUnstake`, () => {
         }
 
         const {
-          vm: { onSubmitUndelegation }
+          vm: { submitUndelegation }
         } = mount(PageValidator, {
           mocks: {
             $route: { params: { validator: lcdClientMock.validators[0] } },
@@ -1171,7 +1171,7 @@ describe(`onUnstake`, () => {
 
         $store.dispatch.mockClear()
 
-        await onSubmitUndelegation({ amount: 10 })
+        await submitUndelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
           [
