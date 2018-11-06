@@ -68,9 +68,10 @@ export default {
     onSubmit() {
       this.$v.$touch()
       if (!this.$v.$error) {
-        this.$store.commit(`notify`, {
-          title: `TODO: Create Text Proposal`,
-          body: `You will have successfully created a text proposal`
+        this.$store.dispatch(`submitProposal`, {
+          description: this.fields.body,
+          proposal_type: `Text`,
+          title: this.fields.title
         })
         this.resetForm()
         this.$router.push({ name: `proposals` })

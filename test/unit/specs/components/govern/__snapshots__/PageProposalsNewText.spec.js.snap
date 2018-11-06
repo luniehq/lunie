@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageProposalsNewText has the expected HTML structure 1`] = `
+<div
+  class="tm-page"
+  data-title="Text Proposal"
+>
+  <header
+    class="tm-page-header"
+  >
+    <div
+      class="tm-page-header-container"
+    >
+      <div
+        class="tm-page-header-text"
+      >
+        <!---->
+        <!---->
+        <!---->
+      </div>
+      <menu
+        class="tm-page-header-menu"
+      >
+        <div>
+          <div>
+            <div
+              class="tm-tool-bar"
+            >
+              <div
+                class="tm-tool-bar-container"
+              >
+                <div
+                  class="main"
+                >
+                  <a
+                    class="back"
+                    disabled="disabled"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                  <router-link
+                    exact="exact"
+                    to="/proposals/new"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </router-link>
+                  <a
+                    class="help"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      help_outline
+                    </i>
+                  </a>
+                  <router-link
+                    class="settings"
+                    to="/preferences"
+                  >
+                    <i
+                      class="material-icons"
+                      id="settings"
+                    >
+                      settings
+                    </i>
+                  </router-link>
+                  <a
+                    id="signOut-btn"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      exit_to_app
+                    </i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </menu>
+    </div>
+  </header>
+  <main
+    class="tm-page-main"
+  >
+    <form
+      class="tm-form"
+    >
+      <div
+        class="tm-form-container"
+      >
+        <!---->
+        <main
+          class="tm-form-main"
+        >
+          <div
+            class="tm-form-group"
+          >
+            <!---->
+            <label
+              class="tm-form-group__label"
+              for="proposal-title"
+            >
+              Proposal Title
+            </label>
+            <div
+              class="tm-form-group__field"
+            >
+              <input
+                class="tm-field"
+                id="proposal-title"
+                placeholder="Proposal Title"
+                type="text"
+              />
+              <div
+                class="tm-form-msg sm tm-form-msg--error"
+              >
+                Proposal Title is required
+              </div>
+              <!---->
+            </div>
+          </div>
+          <div
+            class="tm-form-group"
+          >
+            <!---->
+            <label
+              class="tm-form-group__label"
+              for="proposal-body"
+            >
+              Proposal Body
+            </label>
+            <div
+              class="tm-form-group__field"
+            >
+              <textarea
+                class="tm-field"
+                id="proposal-body"
+                placeholder="Write your proposal here..."
+              />
+              <div
+                class="tm-form-msg sm tm-form-msg--error"
+              >
+                Proposal Body is required
+              </div>
+              <!---->
+            </div>
+          </div>
+        </main>
+        <footer
+          class="tm-form-footer"
+        >
+          <div>
+            <div />
+            <button
+              class="tm-btn"
+              type="submit"
+            >
+              <span
+                class="tm-btn__container"
+              >
+                <i
+                  aria-hidden="true"
+                  class="tm-btn__icon material-icons"
+                >
+                  send
+                </i>
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Propose
+                </span>
+              </span>
+            </button>
+          </div>
+        </footer>
+      </div>
+    </form>
+  </main>
+</div>
+`;
