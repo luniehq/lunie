@@ -50,23 +50,24 @@ export default {
     },
     // TODO delete once tally is changed from Rat --> Dec
     parsedProposals() {
-      return !this.proposals || this.proposals.length === 0
-        ? []
-        : Object.values(this.proposals).map(p => {
-            p.tally_result.yes = Math.round(
-              ratToBigNumber(p.tally_result.yes).toNumber()
-            )
-            p.tally_result.no = Math.round(
-              ratToBigNumber(p.tally_result.no).toNumber()
-            )
-            p.tally_result.no_with_veto = Math.round(
-              ratToBigNumber(p.tally_result.no_with_veto).toNumber()
-            )
-            p.tally_result.abstain = Math.round(
-              ratToBigNumber(p.tally_result.abstain).toNumber()
-            )
-            return p
-          })
+      if (!this.proposals || this.proposals.length === 0) return []
+
+      let copiedProposals = JSON.parse(JSON.stringify(this.proposals))
+      return Object.values(copiedProposals).map(p => {
+        p.tally_result.yes = Math.round(
+          ratToBigNumber(p.tally_result.yes).toNumber()
+        )
+        p.tally_result.no = Math.round(
+          ratToBigNumber(p.tally_result.no).toNumber()
+        )
+        p.tally_result.no_with_veto = Math.round(
+          ratToBigNumber(p.tally_result.no_with_veto).toNumber()
+        )
+        p.tally_result.abstain = Math.round(
+          ratToBigNumber(p.tally_result.abstain).toNumber()
+        )
+        return p
+      })
     },
     filteredProposals() {
       if (this.proposals && this.filters) {
@@ -185,5 +186,4 @@ table tr td:nth-child(3):after
   top 1.5rem
   right 2rem
   background var(--bc-dim)
-
 </style>
