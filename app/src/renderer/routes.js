@@ -23,11 +23,12 @@ export default [
   },
   { path: `proposals/new`, component: governance(`ProposalsNewText`) },
   // TODO: enable once PageProposal is finished
-  // {
-  //   path: `proposals/:proposal`,
-  //   name: `proposal`,
-  //   component: governance(`Proposal`)
-  // },
+  {
+    path: `proposals/:proposalId`,
+    name: `proposal`,
+    component: require(`./components/governance/PageProposal`).default,
+    props: true
+  },
 
   // STAKE
   {

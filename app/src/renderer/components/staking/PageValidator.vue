@@ -452,6 +452,7 @@ export default {
         display inline-block
         font-size h1
         line-height h1
+        font-weight 400
         padding 0 0.5rem 0.5rem 0
 
       &__address
@@ -519,7 +520,7 @@ export default {
   align-items center
   display flex
   flex-direction column
-  width 6rem
+  width 6.3rem
 
   &:not(:last-child)
     margin-right 1rem
