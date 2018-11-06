@@ -36,15 +36,17 @@ describe(`TableProposals`, () => {
 
   it(`should sort the proposals by selected property`, () => {
     wrapper.vm.sort.property = `proposal_id`
-    wrapper.vm.sort.order = `desc`
-
-    expect(wrapper.vm.filteredProposals).toEqual(lcdClientMock.state.proposals)
-
-    wrapper.vm.sort.property = `operator_address`
     wrapper.vm.sort.order = `asc`
 
-    expect(wrapper.vm.filteredProposals).toEqual(
-      lcdClientMock.state.proposals.reverse()
+    expect(wrapper.vm.filteredProposals[0].title).toEqual(
+      lcdClientMock.state.proposals[0].title
+    )
+
+    wrapper.vm.sort.property = `proposal_id`
+    wrapper.vm.sort.order = `desc`
+
+    expect(wrapper.vm.filteredProposals[0].title).toEqual(
+      lcdClientMock.state.proposals.reverse()[0].title
     )
   })
 
@@ -52,20 +54,20 @@ describe(`TableProposals`, () => {
     store.commit(`setSearchVisible`, [`proposals`, true])
     store.commit(`setSearchQuery`, [
       `proposals`,
-      lcdClientMock.state.proposals[2]
+      lcdClientMock.state.proposals[0].title
     ])
-    expect(wrapper.vm.filteredProposals).toEqual([
-      lcdClientMock.state.proposals[2]
-    ])
+    expect(wrapper.vm.filteredProposals[0].description).toBe(
+      lcdClientMock.state.proposals[0].description
+    )
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit(`setSearchQuery`, [
       `proposals`,
-      lcdClientMock.state.proposals[1]
+      lcdClientMock.state.proposals[1].title
     ])
-    expect(wrapper.vm.filteredProposals).toEqual([
-      lcdClientMock.state.proposals[1]
-    ])
+    expect(wrapper.vm.filteredProposals[0].description).toBe(
+      lcdClientMock.state.proposals[1].description
+    )
   })
 
   it(`should update 'somethingToSearch' when there's nothing to search`, () => {

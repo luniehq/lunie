@@ -15,8 +15,4 @@ describe(`LiProposal`, () => {
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-
-  it(`has the right title`, () => {
-    expect(wrapper.find(`.title`).text()).toBe(propsData.proposal.title)
-  })
 })

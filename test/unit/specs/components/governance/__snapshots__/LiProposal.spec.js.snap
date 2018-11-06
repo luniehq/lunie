@@ -1,59 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LiProposal has the expected html structure 1`] = `
-<li
-  class="li-proposal"
+<tr
+  class="li-proposal li-validator"
 >
-  <router-link
-    to="[object Object]"
+  <td
+    class="li-proposal__value"
   >
-    <div
-      class="li-proposal__value"
-    >
-      <span
-        class="proposal-profile__status green"
-      />
-      <div
-        class="vert"
-      >
-        <div
-          class="top title"
-        >
-          Proposal Title
-        </div>
-        <span>
-          Status: Passed
-        </span>
-      </div>
-    </div>
-    <div
-      class="li-proposal__value yes"
-    >
-      <span>
-        500
-      </span>
-    </div>
-    <div
-      class="li-proposal__value no"
-    >
-      <span>
-        25
-      </span>
-    </div>
-    <div
-      class="li-proposal__value no_with_veto"
-    >
-      <span>
-        10
-      </span>
-    </div>
-    <div
-      class="li-proposal__value abstain"
-    >
-      <span>
-        56
-      </span>
-    </div>
-  </router-link>
-</li>
+    <h2>
+      Proposal Title
+    </h2>
+    <p>
+      Status: Passed
+    </p>
+  </td>
+  <td
+    class="li-proposal__value yes"
+  >
+    500
+  </td>
+  <td
+    class="li-proposal__value no"
+  >
+    25
+  </td>
+  <td
+    class="li-proposal__value no_with_veto"
+  >
+    10
+  </td>
+  <td
+    class="li-proposal__value abstain"
+  >
+    56
+  </td>
+</tr>
 `;

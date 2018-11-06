@@ -91,10 +91,10 @@ export default {
     properties() {
       return [
         {
-          title: `Proposal ID`,
-          value: `proposal_id`,
-          tooltip: `The ID of the proposal`,
-          class: `proposal_id`
+          title: `Title`,
+          value: `title`,
+          tooltip: `The title of the proposal`,
+          class: `proposal_title`
         },
         {
           title: `Yes`,
