@@ -15,6 +15,7 @@ div
 
 <script>
 import { mapGetters } from "vuex"
+import Mousetrap from "mousetrap"
 import { includes, orderBy } from "lodash"
 import LiProposal from "./LiProposal"
 import { TmDataEmpty, TmDataLoading } from "@tendermint/ui"
