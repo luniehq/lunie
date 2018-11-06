@@ -545,11 +545,6 @@ module.exports = {
         c => c.denom === state.parameters.bond_denom
       )
 
-      if (!coinBalance) {
-        results.push(txResult(2, `Nonexistent ${state.parameters.bond_denom}`))
-        return results
-      }
-
       coinBalance.amount = String(parseInt(coinBalance.amount) + amount)
 
       // TODO remove after sdk.Dec parsing is fixed
