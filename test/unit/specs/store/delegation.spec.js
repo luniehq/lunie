@@ -214,13 +214,14 @@ describe(`Module: Delegations`, () => {
       validator_addr: lcdClientMock.validators[0],
       balance: { amount: `100` }
     })
-    expect(
-      store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
-    ).toBeTruthy()
-    await store.dispatch(`endUnbonding`, lcdClientMock.validators[0])
-    expect(
-      store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
-    ).toBeFalsy()
+    // end unbonding is deprecated
+    // expect(
+    //   store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
+    // ).toBeTruthy()
+    // await store.dispatch(`endUnbonding`, lcdClientMock.validators[0])
+    // expect(
+    //   store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
+    // ).toBeFalsy()
   })
 
   it(`should remove dead delegations and undelegations`, async () => {

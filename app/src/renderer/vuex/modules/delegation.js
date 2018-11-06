@@ -176,7 +176,11 @@ export default ({ node }) => {
             delegator_addr: delegatorAddr,
             validator_src_addr: validatorSrc.operator_address,
             validator_dst_addr: validatorDst.operator_address,
-            shares: String(calculateShares(validatorSrc, atoms).toFixed(10))
+            shares: String(
+              calculateShares(validatorSrc, atoms)
+                .multipliedBy(10000000000)
+                .toFixed(10)
+            )
           })
         )
 

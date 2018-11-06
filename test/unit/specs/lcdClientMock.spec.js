@@ -569,15 +569,17 @@ describe(`LCD Client Mock`, () => {
       begin_redelegates: [
         {
           delegator_addr: lcdClientMock.addresses[0],
-          validator_src_addr: lcdClientMock.validators[0],
+          validator_src_addr: lcdClientMock.validators[2],
           validator_dst_addr: lcdClientMock.validators[1],
-          shares: `10`
+          shares: `100000000000`
         }
       ]
     })
     expect(res.length).toBe(1)
-    expect(res[0].check_tx.log).toBe(`Nonexistent delegation`)
-    expect(res[0].check_tx.code).toBe(2)
+    expect(res[0].check_tx.code).toBe(3)
+    expect(res[0].check_tx.log).toBe(
+      `Nonexistent delegation with source validator`
+    )
   })
 
   it(`fails redelegation if account doesn't exist`, async () => {
@@ -592,12 +594,15 @@ describe(`LCD Client Mock`, () => {
         {
           validator_src_addr: lcdClientMock.validators[0],
           validator_dst_addr: lcdClientMock.validators[1],
-          shares: `10`
+          shares: `100000000000`
         }
       ]
     })
     expect(res.length).toBe(1)
-    expect(res[0].check_tx.code).toBe(2)
+    expect(res[0].check_tx.code).toBe(3)
+    expect(res[0].check_tx.log).toBe(
+      `Nonexistent delegation with source validator`
+    )
   })
 
   it(`queries for summary of delegation information for a delegator`, async () => {
@@ -620,7 +625,7 @@ describe(`LCD Client Mock`, () => {
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[0],
-          shares: `10`
+          shares: `100000000000`
         }
       ]
     })
@@ -629,7 +634,7 @@ describe(`LCD Client Mock`, () => {
       lcdClientMock.validators[0]
     )
 
-    expect(undelegations.shares).toBe(`10`)
+    expect(undelegations.shares).toBe(`100000000000`)
   })
 
   it(`queries for an unbonding delegation between a validator and a delegator`, async () => {
@@ -643,7 +648,7 @@ describe(`LCD Client Mock`, () => {
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[0],
-          shares: `10`
+          shares: `100000000000`
         }
       ]
     })
@@ -652,7 +657,7 @@ describe(`LCD Client Mock`, () => {
       lcdClientMock.validators[0]
     )
 
-    expect(undelegations.shares).toBe(`10`)
+    expect(undelegations.shares).toBe(`100000000000`)
   })
 
   it(`queries for a redelegation from the delegator summary`, async () => {
@@ -674,11 +679,11 @@ describe(`LCD Client Mock`, () => {
     })
 
     let summary = await client.getDelegator(lcdClientMock.addresses[0])
-    expect(summary.redelegations.shares).toBe(`10`)
+    expect(summary.redelegations[0].balance.amount).toBe(`10`)
   })
 
   it(`queries for staking txs`, async () => {
-    await client.updateDelegations(lcdClientMock.addresses[0], {
+    let res = await client.updateDelegations(lcdClientMock.addresses[0], {
       base_req: {
         name: `default`,
         sequence: 1
@@ -694,10 +699,14 @@ describe(`LCD Client Mock`, () => {
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[0],
-          shares: `10`
+          shares: `100000000000`
         }
       ]
     })
+
+    expect(res[0].check_tx.code).toBe(0)
+    expect(res[1].check_tx.code).toBe(0)
+
     let txs = await client.getDelegatorTxs(lcdClientMock.addresses[0])
     expect(txs).toHaveLength(2)
 
