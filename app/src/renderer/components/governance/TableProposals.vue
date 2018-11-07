@@ -70,22 +70,20 @@ export default {
       })
     },
     filteredProposals() {
-      if (this.proposals && this.filters) {
-        let query = this.filters.proposals.search.query || ``
-        let proposals = orderBy(
-          this.parsedProposals,
-          [this.sort.property],
-          [this.sort.order]
+      if (!this.proposals || this.proposals.length === 0) return []
+
+      let query = this.filters.proposals.search.query || ``
+      let proposals = orderBy(
+        this.parsedProposals,
+        [this.sort.property],
+        [this.sort.order]
+      )
+      if (this.filters.proposals.search.visible) {
+        return proposals.filter(p =>
+          includes(p.title.toLowerCase(), query.toLowerCase())
         )
-        if (this.filters.proposals.search.visible) {
-          return proposals.filter(p =>
-            includes(p.title.toLowerCase(), query.toLowerCase())
-          )
-        } else {
-          return proposals
-        }
       } else {
-        return []
+        return proposals
       }
     },
     properties() {
