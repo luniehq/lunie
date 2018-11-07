@@ -22,10 +22,9 @@ export default [
     ]
   },
   { path: `proposals/new`, component: governance(`ProposalsNewText`) },
-  // TODO: enable once PageProposal is finished
   {
-    path: `proposals/:proposalId`,
-    name: `proposal`,
+    path: `/proposals/:proposalId`,
+    name: `Proposal`,
     component: require(`./components/governance/PageProposal`).default,
     props: true
   },
@@ -33,7 +32,7 @@ export default [
   // STAKE
   {
     path: `/staking`,
-    name: `staking`,
+    name: `Staking`,
     component: staking(`Staking`),
     redirect: `/staking/my-delegations/`,
     children: [
