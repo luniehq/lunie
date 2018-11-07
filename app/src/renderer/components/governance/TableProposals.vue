@@ -135,6 +135,8 @@ export default {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind([`command+n`, `ctrl+n`], () => this.newProposal())
     Mousetrap.bind(`esc`, () => this.setSearch(false))
+
+    this.$store.dispatch(`getProposals`)
   }
 }
 </script>
