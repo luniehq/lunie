@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * #1436 governance endpoints and vuex module @fedekunze
 * [\#1482](https://github.com/cosmos/voyager/issues/1482) Added ESLint errors: no-var. @sgobotta
 * [\#1449](https://github.com/cosmos/voyager/issues/1449) shortNumber to num scripts for more readable numbers. @jbibla
+* [\#1472](https://github.com/cosmos/voyager/issues/1472) Added mock functionality for redelegation @fedekunze + @faboweb
 
 ### Changed
 
@@ -26,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Updated PR template @fedekunze
 * [\#1454](https://github.com/cosmos/voyager/issues/1454) Updated a bunch of words to (hopefully) be clearer. @jbibla
 * [\#1473](https://github.com/cosmos/voyager/issues/1473) added "percent of vote" to validator in vuex module instead of in component @jbibla
+* [\#1497](https://github.com/cosmos/voyager/issues/1451) Using an html table for table validators component @jbibla
 * [\#1496](https://github.com/cosmos/voyager/issues/1496) display validator pub_key instead of operator_address on livalidator and validator profile @jbibla
 * made running a local node easier by reducing it to 2 commands and presetting an account. @faboweb
 * [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library @faboweb
@@ -42,6 +44,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1480](https://github.com/cosmos/voyager/issues/1480) Fixed false detection of node crash in e2e test start. @faboweb
 * [\#1451](https://github.com/cosmos/voyager/issues/1451) Provide better sourcemaps to make debugging easier. @faboweb
 * [\#1409](https://github.com/cosmos/voyager/issues/1409) Fixed disabled unbond and redelegation button when delegation amount was less than 1 @fedekunze
+* [\#1503](https://github.com/cosmos/voyager/issues/1503) Added e2e test for balance updates after delegation @faboweb
 
 ## [0.10.7] - 2018-10-10
 

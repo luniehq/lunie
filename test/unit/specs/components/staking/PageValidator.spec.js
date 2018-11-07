@@ -911,7 +911,7 @@ describe(`onDelegation`, () => {
                     delegator_addr: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
                     validator_src_addr: lcdClientMock.validators[0],
                     validator_dst_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-                    shares: `5.0000000000`
+                    shares: `50000000000.0000000000`
                   }
                 ],
                 to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,

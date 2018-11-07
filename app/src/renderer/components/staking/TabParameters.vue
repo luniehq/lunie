@@ -202,7 +202,4 @@ h3
 @media screen and (min-width: 768px)
   padding-bottom 4rem
 
-@media screen and (min-width: 1024px)
-  .fixed-button-bar
-    margin-left width-side
 </style>

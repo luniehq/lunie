@@ -1,10 +1,9 @@
 <template lang="pug">
-.panel-sort: .panel-sort-container: .sort-by(
-  v-for="(property, i) in properties",
-  @click="orderBy(property.value, $event)",
-  :class="property.class")
-  .label(v-tooltip.top="property.tooltip")
-    .label-text {{ property.title }}
+tr.panel-sort-container
+  th.sort-by(
+    v-for="(property, i) in properties",
+    :class="property.class")
+      a.sort-by-link(v-tooltip.top="property.tooltip", @click="orderBy(property.value)") {{ property.title }}
 </template>
 
 <script>
@@ -42,57 +41,27 @@ export default {
 @require '~variables'
 
 .panel-sort-container
-  display flex
-  height 2rem
-  padding 0 1rem
+  padding 1rem
+
 .sort-by
-  flex 1
-  cursor pointer
-  user-select none
-  display flex
-  align-items center
-  position relative
-  min-width 0
-  &.asc .label .label-text:after
+  font-size sm
+
+  a
+    cursor pointer
+    user-select none
+
+  &:after
     content '\f0d8'
-  &:nth-of-type(4)
-    padding-left 1em
-  .label
+    color var(--link)
     display inline-block
-    margin auto
-    font-size sm
-    .label-text
-      display: inline
-      color var(--link)
-      white-space nowrap
-      text-overflow ellipsis
-      overflow hidden
-      &:after
-        content '\f0d7'
-        display inline-block
-        font-family FontAwesome
-        color var(--dim)
-        padding-left 0.3rem
-  .name
-    padding-left 1rem
+    font-family FontAwesome
+    padding-left 4px
 
-  &.active
-    .label-text
-      color var(--tertiary)
-      &:after
-        color var(--tertiary)
+  &.asc:after
+    color var(--tertiary)
 
-  &.name
-    flex 3.5
+  &.desc:after
+    content '\f0d7'
+    color var(--tertiary)
 
-  &.action
-    flex 1
-
-  &.hidden
-    visibility hidden
-
-@media screen and (max-width: 768px)
-  .sort-by
-    &.id
-      display none
 </style>
