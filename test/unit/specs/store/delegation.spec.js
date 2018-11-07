@@ -257,7 +257,7 @@ describe(`Module: Delegations`, () => {
     expect(store.state.delegation.committedDelegates).toBeTruthy()
   })
 
-  it.only(`should update the atoms on a delegation optimistically`, async () => {
+  it(`should update the atoms on a delegation optimistically`, async () => {
     const commit = jest.fn()
     const delegates = store.state.delegates.delegates
     let stakingTransactions = {}
