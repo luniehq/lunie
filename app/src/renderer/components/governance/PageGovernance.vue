@@ -41,9 +41,6 @@ export default {
   methods: {
     setSearch(bool = !this.filters[`proposals`].search.visible) {
       this.$store.commit(`setSearchVisible`, [`proposals`, bool])
-    },
-    newProposal() {
-      this.$router.push(`/proposals/new`)
     }
   }
 }
