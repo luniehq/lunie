@@ -47,7 +47,6 @@ tm-page(data-title='Proposal')
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { TmBtn, TmFormStruct, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 import TmBalance from "common/TmBalance"
@@ -61,6 +60,7 @@ export default {
     TmBtn,
     FieldVote,
     TmFormStruct,
+    TmToolBar,
     TmPage,
     TmPart,
     TextBlock
@@ -80,32 +80,32 @@ export default {
       }
     },
     button() {
-      if (this.proposal.proposal_status === "Passed") return null
+      if (this.proposal.proposal_status === `Passed`) return null
 
-      if (this.proposal.proposal_status === "Rejected") return null
+      if (this.proposal.proposal_status === `Rejected`) return null
 
-      if (this.proposal.proposal_status === "Active") return `vote`
+      if (this.proposal.proposal_status === `Active`) return `vote`
 
-      if (this.proposal.proposal_status === "Pending") return `deposit`
+      if (this.proposal.proposal_status === `Pending`) return `deposit`
     },
     status() {
-      if (this.proposal.proposal_status === "Passed")
+      if (this.proposal.proposal_status === `Passed`)
         return `This proposal has passed`
 
-      if (this.proposal.proposal_status === "Rejected")
+      if (this.proposal.proposal_status === `Rejected`)
         return `This proposal has been rejected and voting is closed`
 
-      if (this.proposal.proposal_status === "Active")
+      if (this.proposal.proposal_status === `Active`)
         return `Voting for this proposal is open`
 
-      if (this.proposal.proposal_status === "Pending")
+      if (this.proposal.proposal_status === `Pending`)
         return `Deposits are open for this proposal`
     },
     statusColor() {
-      if (this.proposal.proposal_status === "Passed") return `green`
-      if (this.proposal.proposal_status === "Rejected") return `red`
-      if (this.proposal.proposal_status === "Active") return `blue`
-      if (this.proposal.proposal_status === "Pending") return `yellow`
+      if (this.proposal.proposal_status === `Passed`) return `green`
+      if (this.proposal.proposal_status === `Rejected`) return `red`
+      if (this.proposal.proposal_status === `Active`) return `blue`
+      if (this.proposal.proposal_status === `Pending`) return `yellow`
     },
     totalVotes() {
       return (

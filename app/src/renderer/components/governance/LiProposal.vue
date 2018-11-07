@@ -18,22 +18,22 @@ export default {
   name: `li-proposal`,
   computed: {
     statusColor() {
-      if (this.proposal.proposal_status === "Passed") return `green`
-      if (this.proposal.proposal_status === "Rejected") return `red`
-      if (this.proposal.proposal_status === "Active") return `blue`
-      if (this.proposal.proposal_status === "Pending") return `yellow`
+      if (this.proposal.proposal_status === `Passed`) return `green`
+      if (this.proposal.proposal_status === `Rejected`) return `red`
+      if (this.proposal.proposal_status === `Active`) return `blue`
+      if (this.proposal.proposal_status === `Pending`) return `yellow`
     },
     status() {
-      if (this.proposal.proposal_status === "Passed")
+      if (this.proposal.proposal_status === `Passed`)
         return `This proposal has passed`
 
-      if (this.proposal.proposal_status === "Rejected")
+      if (this.proposal.proposal_status === `Rejected`)
         return `This proposal has been rejected and voting is closed`
 
-      if (this.proposal.proposal_status === "Active")
+      if (this.proposal.proposal_status === `Active`)
         return `Voting for this proposal is open`
 
-      if (this.proposal.proposal_status === "Pending")
+      if (this.proposal.proposal_status === `Pending`)
         return `Deposits are open for this proposal`
     },
     description() {
