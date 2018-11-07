@@ -379,6 +379,114 @@ describe(`LCD Client`, () => {
       })
     })
 
+    describe(`governance`, () => {
+      it(`fetches all governance proposals`, async () => {
+        axios.get = jest.fn().mockReturnValue({})
+        await client.queryProposals()
+        expect(axios.get.mock.calls[0]).toEqual([
+          `${remoteLcdURL}/gov/proposals`,
+          undefined
+        ])
+      })
+
+      it(`queries a single proposal`, async () => {
+        axios.get = jest.fn().mockReturnValue({})
+        await client.queryProposal(1)
+        expect(axios.get.mock.calls[0]).toEqual([
+          `${remoteLcdURL}/gov/proposals/1`,
+          undefined
+        ])
+      })
+
+      it(`queries a proposal votes`, async () => {
+        axios.get = jest.fn().mockReturnValue({})
+        await client.queryProposalVotes(1)
+        expect(axios.get.mock.calls[0]).toEqual([
+          `${remoteLcdURL}/gov/proposals/1/votes`,
+          undefined
+        ])
+      })
+
+      it(`queries a proposal vote from an address`, async () => {
+        axios.get = jest.fn().mockReturnValue({})
+        await client.queryProposalVote(
+          1,
+          `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+        )
+        expect(axios.get.mock.calls[0]).toEqual([
+          `${remoteLcdURL}/gov/proposals/1/votes/cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+          undefined
+        ])
+      })
+
+      it(`queries a proposal deposits`, async () => {
+        axios.get = jest.fn().mockReturnValue({})
+        await client.queryProposalDeposits(1)
+        expect(axios.get.mock.calls[0]).toEqual([
+          `${remoteLcdURL}/gov/proposals/1/deposits`,
+          undefined
+        ])
+      })
+
+      it(`queries a proposal deposit from an address`, async () => {
+        axios.get = jest.fn().mockReturnValue({})
+        await client.queryProposalDeposit(
+          1,
+          `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+        )
+        expect(axios.get.mock.calls[0]).toEqual([
+          `${remoteLcdURL}/gov/proposals/1/deposits/cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+          undefined
+        ])
+      })
+
+      it(`submits a new proposal`, async () => {
+        axios.post = jest.fn().mockReturnValue({})
+        await client.submitProposal(proposals[0])
+        expect(axios.post.mock.calls[0]).toEqual([
+          `${remoteLcdURL}/gov/proposals`,
+          proposals[0]
+        ])
+      })
+
+      it(`submits a new vote to a proposal`, async () => {
+        axios.post = jest.fn().mockReturnValue({})
+        await client.submitVote(proposals[0].proposal_id, votes[0])
+        expect(axios.post.mock.calls[0]).toEqual([
+          `${remoteLcdURL}/gov/proposals/${proposals[0].proposal_id}/votes`,
+          votes[0]
+        ])
+      })
+
+      it(`submits a new deposit to a proposal`, async () => {
+        axios.post = jest.fn().mockReturnValue({})
+        await client.submitDeposit(proposals[0].proposal_id, deposits[0])
+        expect(axios.post.mock.calls[0]).toEqual([
+          `${remoteLcdURL}/gov/proposals/${proposals[0].proposal_id}/deposits`,
+          deposits[0]
+        ])
+      })
+
+      it(`queries for governance txs`, async () => {
+        axios.get = jest.fn().mockReturnValue({})
+        await client.getGovernanceTxs(lcdClientMock.addresses[0])
+        expect(axios.get.mock.calls).toEqual([
+          [
+            `${remoteLcdURL}/txs?tag=action=submit-proposal&proposer='${
+              lcdClientMock.addresses[0]
+            }'`,
+            undefined
+          ],
+          [
+            `${remoteLcdURL}/txs?tag=action=deposit&depositer='${
+              lcdClientMock.addresses[0]
+            }'`,
+            undefined
+          ]
+        ])
+      })
+    })
+
     describe(`queryAccount`, () => {
       it(`returns an account`, async () => {
         axios.get = jest.fn().mockReturnValueOnce(
@@ -476,94 +584,5 @@ describe(`LCD Client`, () => {
         undefined
       ])
     })
-  })
-
-  /* ============ Governance ============ */
-
-  it(`fetches all governance proposals`, async () => {
-    axios.get = jest.fn().mockReturnValue({})
-    await client.queryProposals()
-    expect(axios.get.mock.calls[0]).toEqual([
-      `${remoteLcdURL}/gov/proposals`,
-      undefined
-    ])
-  })
-
-  it(`queries a single proposal`, async () => {
-    axios.get = jest.fn().mockReturnValue({})
-    await client.queryProposal(1)
-    expect(axios.get.mock.calls[0]).toEqual([
-      `${remoteLcdURL}/gov/proposals/1`,
-      undefined
-    ])
-  })
-
-  it(`queries a proposal votes`, async () => {
-    axios.get = jest.fn().mockReturnValue({})
-    await client.queryProposalVotes(1)
-    expect(axios.get.mock.calls[0]).toEqual([
-      `${remoteLcdURL}/gov/proposals/1/votes`,
-      undefined
-    ])
-  })
-
-  it(`queries a proposal vote from an address`, async () => {
-    axios.get = jest.fn().mockReturnValue({})
-    await client.queryProposalVote(
-      1,
-      `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-    )
-    expect(axios.get.mock.calls[0]).toEqual([
-      `${remoteLcdURL}/gov/proposals/1/votes/cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      undefined
-    ])
-  })
-
-  it(`queries a proposal deposits`, async () => {
-    axios.get = jest.fn().mockReturnValue({})
-    await client.queryProposalDeposits(1)
-    expect(axios.get.mock.calls[0]).toEqual([
-      `${remoteLcdURL}/gov/proposals/1/deposits`,
-      undefined
-    ])
-  })
-
-  it(`queries a proposal deposit from an address`, async () => {
-    axios.get = jest.fn().mockReturnValue({})
-    await client.queryProposalDeposit(
-      1,
-      `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-    )
-    expect(axios.get.mock.calls[0]).toEqual([
-      `${remoteLcdURL}/gov/proposals/1/deposits/cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      undefined
-    ])
-  })
-
-  it(`submits a new proposal`, async () => {
-    axios.post = jest.fn().mockReturnValue({})
-    await client.submitProposal(proposals[0])
-    expect(axios.post.mock.calls[0]).toEqual([
-      `${remoteLcdURL}/gov/proposals`,
-      proposals[0]
-    ])
-  })
-
-  it(`submits a new vote to a proposal`, async () => {
-    axios.post = jest.fn().mockReturnValue({})
-    await client.submitVote(proposals[0].proposal_id, votes[0])
-    expect(axios.post.mock.calls[0]).toEqual([
-      `${remoteLcdURL}/gov/proposals/${proposals[0].proposal_id}/votes`,
-      votes[0]
-    ])
-  })
-
-  it(`submits a new deposit to a proposal`, async () => {
-    axios.post = jest.fn().mockReturnValue({})
-    await client.submitDeposit(proposals[0].proposal_id, deposits[0])
-    expect(axios.post.mock.calls[0]).toEqual([
-      `${remoteLcdURL}/gov/proposals/${proposals[0].proposal_id}/deposits`,
-      deposits[0]
-    ])
   })
 })

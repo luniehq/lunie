@@ -392,8 +392,12 @@ export default {
     }
   },
   watch: {
-    validator(validator) {
-      this.$store.dispatch(`getSelfBond`, validator)
+    validator: {
+      immediate: true,
+      handler(validator) {
+        if (!validator) return
+        this.$store.dispatch(`getSelfBond`, validator)
+      }
     }
   }
 }

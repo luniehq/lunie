@@ -103,6 +103,7 @@ describe(`Module: Delegates`, () => {
     mutations.setDelegates(state, [
       {
         operator_address: `foo`,
+        consensus_pubkey: `bar`,
         tokens: `10`
       }
     ])

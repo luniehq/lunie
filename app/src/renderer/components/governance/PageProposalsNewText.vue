@@ -1,7 +1,7 @@
 <template lang="pug">
-tm-page(data-title="Amend Constitution Proposal")
+tm-page(data-title="Text Proposal")
   div(slot="menu"): vm-tool-bar
-    router-link(to="/proposals/new" exact v-tooltip.bottom="'Back'")
+    router-link(to="/governance/proposals/new" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
   tm-form-struct(:submit="onSubmit")
     tm-form-group(:error="$v.fields.title.$error"
@@ -41,9 +41,10 @@ import {
   TmField,
   TmFormMsg
 } from "@tendermint/ui"
+
 import VmToolBar from "common/VmToolBar"
 export default {
-  name: `page-proposals-new-amend`,
+  name: `page-proposals-text`,
   components: {
     TmBtn,
     TmField,
@@ -67,9 +68,10 @@ export default {
     onSubmit() {
       this.$v.$touch()
       if (!this.$v.$error) {
-        this.$store.commit(`notify`, {
-          title: `TODO: Create Text Proposal`,
-          body: `You will have successfully created a text proposal`
+        this.$store.dispatch(`submitProposal`, {
+          description: this.fields.body,
+          proposal_type: `Text`,
+          title: this.fields.title
         })
         this.resetForm()
         this.$router.push({ name: `proposals` })
