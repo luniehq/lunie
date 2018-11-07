@@ -29,7 +29,7 @@ exports[`TabProposals has the expected html structure 1`] = `
          <tr class=\\"li-proposal li-validator\\">
             <td class=\\"li-proposal__value\\">
                <h2>
-                  <a href=\\"#/proposals/5\\" class=\\"\\">Custom text proposal</a>
+                  <a href=\\"#/governance/5\\" class=\\"\\">Custom text proposal</a>
                </h2>
                <span class=\\"validator-profile__status\\"></span>
                <p>
@@ -55,7 +55,7 @@ exports[`TabProposals has the expected html structure 1`] = `
          <tr class=\\"li-proposal li-validator\\">
             <td class=\\"li-proposal__value\\">
                <h2>
-                  <a href=\\"#/proposals/1\\" class=\\"\\">Proposal Title</a>
+                  <a href=\\"#/governance/1\\" class=\\"\\">Proposal Title</a>
                </h2>
                <span class=\\"validator-profile__status green\\"></span>
                <p>
