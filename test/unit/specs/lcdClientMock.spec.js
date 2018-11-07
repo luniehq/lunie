@@ -912,4 +912,14 @@ describe(`LCD Client Mock`, () => {
     )
     expect(depositRes).toEqual(deposits[1][0])
   })
+
+  it(`queries for governance txs`, async () => {
+    let govTxs = await client.getGovernaceTxs(lcdClientMock.addresses[0])
+    expect(govTxs).toHaveLength(2)
+    expect(govTxs[0]).toEqual(lcdClientMock.state.txs[2])
+    expect(govTxs[1]).toEqual(lcdClientMock.state.txs[3])
+
+    govTxs = await client.getGovernaceTxs(lcdClientMock.addresses[1])
+    expect(govTxs).toHaveLength(0)
+  })
 })

@@ -116,6 +116,56 @@ let state = {
       },
       hash: `A7C6DE5CA923AF08E6088F1348047F16BABB9F48`,
       height: 150
+    },
+    {
+      hash: `QSDFGE5CA923AF08E6088F1348047F16BAHH8K31`,
+      height: 56673,
+      tx: {
+        type: `8EFE47F0625DE8`,
+        value: {
+          msg: [
+            {
+              type: `cosmos-sdk/MsgSubmitProposal`,
+              value: {
+                proposer: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+                proposal_type: `Text`,
+                title: `Test Proposal`,
+                description: `This is a test proposal`,
+                initial_deposit: [
+                  {
+                    denom: `stake`,
+                    amount: `100`
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      hash: `QASDE5CA923AF08EEE38F1348047F16BAHH8K31`,
+      height: 213,
+      tx: {
+        type: `8EFE47F0625DE8`,
+        value: {
+          msg: [
+            {
+              type: `cosmos-sdk/MsgDeposit`,
+              value: {
+                depositer: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+                proposal_id: `1`,
+                amount: [
+                  {
+                    denom: `stake`,
+                    amount: `100`
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   stake: {
@@ -787,6 +837,19 @@ module.exports = {
         value: JSON.parse(JSON.stringify(proposal)),
         type: `gov/TextProposal`
       }
+    })
+  },
+  async getGovernaceTxs(addr) {
+    return state.txs.filter(tx => {
+      let type = tx.tx.value.msg[0].type
+
+      if (type === `cosmos-sdk/MsgSubmitProposal`) {
+        return tx.tx.value.msg[0].value.proposer === addr
+      } else if (type === `cosmos-sdk/MsgDeposit`) {
+        return tx.tx.value.msg[0].value.depositer === addr
+      }
+
+      return false
     })
   },
   // exports to be used in tests
