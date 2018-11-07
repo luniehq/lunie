@@ -27,7 +27,7 @@ export default [
   },
   // TODO: enable once PageProposal is finished
   // {
-  //   path: `goververnance/proposals/:proposal`,
+  //   path: `governance/proposals/:proposal`,
   //   name: `proposal`,
   //   component: governance(`Proposal`)
   // },

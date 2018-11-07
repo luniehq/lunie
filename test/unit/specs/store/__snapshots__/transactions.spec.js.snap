@@ -2,9 +2,7 @@
 
 exports[`Module: Transactions should have an empty state by default 1`] = `
 Object {
-  "governance": Array [],
-  "loading": false,
-  "staking": Array [
+  "governance": Array [
     Object {
       "hash": "QSDFGE5CA923AF08E6088F1348047F16BAHH8K31",
       "height": 56673,
@@ -49,6 +47,48 @@ Object {
                 ],
                 "depositer": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
                 "proposal_id": "1",
+              },
+            },
+          ],
+        },
+      },
+    },
+  ],
+  "loading": false,
+  "staking": Array [
+    Object {
+      "hash": "A7C6DE5CB923AF08E6088F1348047F16BABB9F48",
+      "height": 160,
+      "tx": Object {
+        "value": Object {
+          "msg": Array [
+            Object {
+              "type": "cosmos-sdk/MsgDelegate",
+              "value": Object {
+                "delegation": Object {
+                  "amount": "24",
+                  "denom": "steak",
+                },
+                "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+                "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+              },
+            },
+          ],
+        },
+      },
+    },
+    Object {
+      "hash": "A7C6FDE5CA923AF08E6088F1348047F16BABB9F48",
+      "height": 170,
+      "tx": Object {
+        "value": Object {
+          "msg": Array [
+            Object {
+              "type": "cosmos-sdk/BeginUnbonding",
+              "value": Object {
+                "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+                "shares": "5",
+                "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
               },
             },
           ],
@@ -319,7 +359,7 @@ Array [
             "value": Object {
               "inputs": Array [
                 Object {
-                  "address": "tb1cy0q7p",
+                  "address": "tb155vsqy6n",
                   "coins": Array [
                     Object {
                       "amount": "1234",

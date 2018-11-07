@@ -26,7 +26,7 @@ describe(`Module: Transactions`, () => {
       })
     )
     store.commit(`setStakingTxs`, lcdClientMock.state.txs.slice(4))
-    store.commit(`setStakingTxs`, lcdClientMock.state.txs.slice(2, 4))
+    store.commit(`setGovernanceTxs`, lcdClientMock.state.txs.slice(2, 4))
   })
 
   // DEFAULT
