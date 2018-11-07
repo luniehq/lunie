@@ -179,6 +179,18 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
         true
       )()
     },
+    getGovernanceTxs: function(addr) {
+      return Promise.all([
+        req(
+          `GET`,
+          `/txs?tag=action=submit-proposal AND proposer='${addr}'`,
+          true
+        )(),
+        req(`GET`, `/txs?tag=action=deposit AND depositer='${addr}''`, true)()
+      ]).then(([submitProposalTxs, submitDepositTxs]) =>
+        [].concat(submitProposalTxs, submitDepositTxs)
+      )
+    },
     submitProposal: function(data) {
       return req(`POST`, `/gov/proposals`, true)(data)
     },

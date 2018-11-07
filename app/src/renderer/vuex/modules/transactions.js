@@ -9,7 +9,7 @@ export default ({ node }) => {
   }
   let state = JSON.parse(JSON.stringify(emptyState))
 
-  // properties under which txs of different categories are storedß
+  // properties under which txs of different categories are stored
   const txCategories = [`staking`, `wallet`, `governance`]
 
   let mutations = {
@@ -77,7 +77,7 @@ export default ({ node }) => {
           response = await node.getDelegatorTxs(address)
           break
         case `governance`:
-          response = await node.txs(address)
+          response = await node.getGovernanceTxs(address)
         case `wallet`:
           response = await node.txs(address)
           break
