@@ -1,7 +1,6 @@
 let test = require(`tape-promise/tape`)
 let { getApp, restart } = require(`./launch.js`)
-let { navigate, login, sleep } = require(`./common.js`)
-// let { navigate, waitForValue, login } = require("./common.js") // removed because of linting, add back when optimistic updates come
+let { navigate, login, sleep, waitForText } = require(`./common.js`)
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
 */
@@ -27,19 +26,19 @@ test(`delegation`, async function(t) {
       `it shows all three validators`
     )
     await t.ok(
-      await app.client.$(`.top=local_1`).isVisible(),
+      await app.client.$(`.li-validator__moniker=local_1`).isVisible(),
       `show validator 1`
     )
     await t.ok(
-      await app.client.$(`.top=local_2`).isVisible(),
+      await app.client.$(`.li-validator__moniker=local_2`).isVisible(),
       `show validator 2`
     )
     await t.ok(
-      await app.client.$(`.top=local_3`).isVisible(),
+      await app.client.$(`.li-validator__moniker=local_3`).isVisible(),
       `show validator 3`
     )
     let myVotesText = await app.client
-      .$(`.li-validator__value.your-votes`)
+      .$(`.li-validator__delegated-steak`)
       .getText()
     let myVotes = parseFloat(myVotesText.replace(/,/g, ``))
     console.log(myVotesText, myVotes)
@@ -53,6 +52,13 @@ test(`delegation`, async function(t) {
   })
 
   t.test(`Stake`, async t => {
+    let totalAtoms = (await app.client
+      .$(`.header-balance .total-atoms h2`)
+      .getText()).split(`.`)[0] // 130.000...
+    let unbondedAtoms = (await app.client
+      .$(`.header-balance .unbonded-atoms h2`)
+      .getText()).split(`.`)[0] // 30.000...
+
     // Select the second validator.
     await app.client.click(`//*[. = 'local_2']`)
 
@@ -78,6 +84,17 @@ test(`delegation`, async function(t) {
 
       // Go back to Staking page.
       .click(`//a//*[. = 'Staking']`)
+
+    // there was a bug that updated the balances in a way that it would show more atoms,
+    // then the users has
+    await waitForText(
+      () => app.client.$(`.header-balance .total-atoms h2`),
+      `${totalAtoms}.0000…`
+    )
+    await waitForText(
+      () => app.client.$(`.header-balance .unbonded-atoms h2`),
+      `${unbondedAtoms - 10}.0000…`
+    )
 
     // Shouldn't be necessary but see
     // https://github.com/jprichardson/tape-promise/issues/17#issuecomment-425276035.

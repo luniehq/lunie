@@ -470,6 +470,8 @@ describe(`onDelegation`, () => {
             { atoms: 10, validator: validator }
           ]
 
+          $store.dispatch.mockClear()
+
           await submitDelegation({
             amount: 10,
             from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
@@ -495,9 +497,7 @@ describe(`onDelegation`, () => {
         it(`error`, async () => {
           const $store = {
             commit: jest.fn(),
-            dispatch: jest.fn(() => {
-              throw new Error(`message`)
-            }),
+            dispatch: jest.fn(),
             getters: getterValues
           }
 
@@ -519,6 +519,11 @@ describe(`onDelegation`, () => {
           stakingTransactions.delegations = [
             { atoms: 10, validator: validator }
           ]
+
+          $store.dispatch.mockClear()
+          $store.dispatch = jest.fn(() => {
+            throw new Error(`message`)
+          })
 
           await submitDelegation({
             amount: 10,
@@ -543,9 +548,7 @@ describe(`onDelegation`, () => {
         it(`error with data`, async () => {
           const $store = {
             commit: jest.fn(),
-            dispatch: jest.fn(() => {
-              throw new Error(`one\ntwo\nthree\nfour\nfive\nsix\nseven`)
-            }),
+            dispatch: jest.fn(),
             getters: getterValues
           }
 
@@ -567,6 +570,11 @@ describe(`onDelegation`, () => {
           stakingTransactions.delegations = [
             { atoms: 10, validator: validator }
           ]
+
+          $store.dispatch.mockClear()
+          $store.dispatch = jest.fn(() => {
+            throw new Error(`one\ntwo\nthree\nfour\nfive\nsix\nseven`)
+          })
 
           await submitDelegation({
             amount: 10,
@@ -618,6 +626,8 @@ describe(`onDelegation`, () => {
               $store
             }
           })
+
+          $store.dispatch.mockClear()
 
           await submitDelegation({
             amount: 10,
@@ -728,6 +738,8 @@ describe(`onDelegation`, () => {
             { atoms: 5, validatorSrc: validator, validatorDst: validatorTo }
           ]
 
+          $store.dispatch.mockClear()
+
           await submitDelegation({
             amount: 5,
             from: lcdClientMock.validators[0]
@@ -753,9 +765,7 @@ describe(`onDelegation`, () => {
         it(`error`, async () => {
           const $store = {
             commit: jest.fn(),
-            dispatch: jest.fn(() => {
-              throw new Error(`message`)
-            }),
+            dispatch: jest.fn(),
             getters: getterValues
           }
 
@@ -777,6 +787,11 @@ describe(`onDelegation`, () => {
           stakingTransactions.redelegations = [
             { atoms: 5, validatorSrc: validator, validatorDst: validatorTo }
           ]
+
+          $store.dispatch.mockClear()
+          $store.dispatch = jest.fn(() => {
+            throw new Error(`message`)
+          })
 
           await submitDelegation({
             amount: 5,
@@ -801,9 +816,7 @@ describe(`onDelegation`, () => {
         it(`error with data`, async () => {
           const $store = {
             commit: jest.fn(),
-            dispatch: jest.fn(() => {
-              throw new Error(`one\ntwo\nthree\nfour\nfive\nsix\nseven`)
-            }),
+            dispatch: jest.fn(),
             getters: getterValues
           }
 
@@ -825,6 +838,11 @@ describe(`onDelegation`, () => {
           stakingTransactions.redelegations = [
             { atoms: 5, validatorSrc: validator, validatorDst: validatorTo }
           ]
+
+          $store.dispatch.mockClear()
+          $store.dispatch = jest.fn(() => {
+            throw new Error(`one\ntwo\nthree\nfour\nfive\nsix\nseven`)
+          })
 
           await submitDelegation({
             amount: 5,
@@ -881,6 +899,8 @@ describe(`onDelegation`, () => {
             }
           })
 
+          $store.dispatch.mockClear()
+
           await submitDelegation({
             amount: 5,
             from: lcdClientMock.validators[0]
@@ -911,7 +931,7 @@ describe(`onDelegation`, () => {
                     delegator_addr: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
                     validator_src_addr: lcdClientMock.validators[0],
                     validator_dst_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-                    shares: `5.0000000000`
+                    shares: `50000000000.0000000000`
                   }
                 ],
                 to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -1012,6 +1032,8 @@ describe(`onUnstake`, () => {
           }
         })
 
+        $store.dispatch.mockClear()
+
         await submitUndelegation({ amount: 10 })
 
         expect($store.dispatch.mock.calls).toEqual([
@@ -1035,9 +1057,7 @@ describe(`onUnstake`, () => {
       it(`error`, async () => {
         const $store = {
           commit: jest.fn(),
-          dispatch: jest.fn(() => {
-            throw new Error(`message`)
-          }),
+          dispatch: jest.fn(),
           getters: getterValues
         }
 
@@ -1048,6 +1068,11 @@ describe(`onUnstake`, () => {
             $route: { params: { validator: lcdClientMock.validators[0] } },
             $store
           }
+        })
+
+        $store.dispatch.mockClear()
+        $store.dispatch = jest.fn(() => {
+          throw new Error(`message`)
         })
 
         await submitUndelegation({ amount: 10 })
@@ -1073,9 +1098,7 @@ describe(`onUnstake`, () => {
       it(`error with data`, async () => {
         const $store = {
           commit: jest.fn(),
-          dispatch: jest.fn(() => {
-            throw new Error(`one\ntwo\nthree\nfour\nfive\nsix"seven`)
-          }),
+          dispatch: jest.fn(),
           getters: getterValues
         }
 
@@ -1086,6 +1109,11 @@ describe(`onUnstake`, () => {
             $route: { params: { validator: lcdClientMock.validators[0] } },
             $store
           }
+        })
+
+        $store.dispatch.mockClear()
+        $store.dispatch = jest.fn(() => {
+          throw new Error(`one\ntwo\nthree\nfour\nfive\nsix"seven`)
         })
 
         await submitUndelegation({ amount: 10 })
@@ -1140,6 +1168,8 @@ describe(`onUnstake`, () => {
             $store
           }
         })
+
+        $store.dispatch.mockClear()
 
         await submitUndelegation({ amount: 10 })
 

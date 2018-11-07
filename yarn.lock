@@ -28,10 +28,10 @@
     node-fetch "^2.1.1"
     url-template "^2.0.8"
 
-"@tendermint/ui@0.2.28":
-  version "0.2.28"
-  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.2.28.tgz#da4f9576acf801ded4158d1b7ce5d88f790217cc"
-  integrity sha512-EO7Jn/CTmJuAqdLxu7W0cewGgJycxXLMb2qel1o+wyJol0LzWp7vAjKuMbzzB1UVORzFqMwjd0SPy0Ms2nffZg==
+"@tendermint/ui@0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.3.1.tgz#277dd6b52a1791be54dfec2c2b84047747c34e95"
+  integrity sha512-QNL6hBkBUaBzckS57Zl/v3UhiCaK+HQ2+QhkmeQz1NxOKv4o0QmbnzuZ4WyboC5yF35SS59L3BqWdfI8TbhEcg==
   dependencies:
     axios "^0.18.0"
     bignumber.js "^7.2.1"

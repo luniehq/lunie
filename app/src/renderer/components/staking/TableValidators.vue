@@ -3,10 +3,11 @@
     tm-data-loading(v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
     tm-data-empty(v-else-if="!delegates.loading && validators.length === 0")
     data-empty-search(v-else-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
-    div(v-else)
-      panel-sort(:sort='sort', :properties="properties")
-      ol(type="1")
-        li-validator(v-for='i in sortedFilteredEnrichedDelegates' :disabled="!userCanDelegate" :key='i.id' :validator='i')
+    table(v-else)
+      thead
+        panel-sort(:sort='sort', :properties="properties")
+      tbody
+        li-validator(v-for='i in sortedFilteredEnrichedDelegates', :disabled="!userCanDelegate" :key='i.id' :validator='i')
 </template>
 
 <script>
@@ -22,6 +23,7 @@ import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
 import VmToolBar from "common/VmToolBar"
 export default {
+  name: `table-validators`,
   props: [`validators`],
   components: {
     LiValidator,
@@ -59,7 +61,7 @@ export default {
       return !!this.validators.length
     },
     vpTotal() {
-      return this.delegates.delegates
+      return this.validators
         .slice(0)
         .map(v => {
           v.voting_power = v.voting_power ? Number(v.voting_power) : 0
@@ -182,13 +184,48 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-@media screen and (min-width: 768px)
-  padding-bottom 4rem
+table
+  border-spacing 0 0.25rem
+  margin 0 0 0 2rem
+  min-width
+  padding 0
+  table-layout auto
+  counter-reset rowNumber + 1
 
-.fixed-button-bar
-  padding 1rem 1rem 1rem 2rem
+table tr
+  counter-increment rowNumber
 
-@media screen and (min-width: 1024px)
-  .fixed-button-bar
-    margin-left width-side
+table tr td:first-child::before
+  content counter(rowNumber)
+  position absolute
+  font-size sm
+  width 2rem
+  text-align right
+  color var(--dim)
+  left -3rem
+
+table th
+  min-width 130px
+  width 100%
+  padding 0.5rem
+
+table td
+  min-width 130px
+  width 100%
+  padding 0 0.5rem
+  position relative
+
+  a
+    display inline-block
+
+table tr td:nth-child(3):after
+  display block
+  position absolute
+  content ''
+  height 2rem
+  width 2px
+  top 1.5rem
+  right 2rem
+  background var(--bc-dim)
+
 </style>
