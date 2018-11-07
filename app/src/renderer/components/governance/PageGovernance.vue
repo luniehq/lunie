@@ -7,7 +7,7 @@ tm-page(data-title='Governance').governance
     router-link(to="/proposals/new" exact v-tooltip.bottom="'New Proposal'")
       i.material-icons add
     a(@click='setSearch()' v-tooltip.bottom="'Search'")
-      i.material-icons search
+      i.search.material-icons search
 
   modal-search(type="proposals")
 
@@ -33,19 +33,18 @@ export default {
     VmToolBar
   },
   computed: {
-    ...mapGetters([`config`, `proposals`])
+    ...mapGetters([`config`, `proposals`, `filters`])
   },
   data: () => ({
     tabs: [`Proposals`]
   }),
   methods: {
-    ...mapActions([`getProposals`]),
+    setSearch(bool = !this.filters[`proposals`].search.visible) {
+      this.$store.commit(`setSearchVisible`, [`proposals`, bool])
+    },
     newProposal() {
       this.$router.push(`/proposals/new`)
     }
-  },
-  mounted() {
-    this.getProposals()
   }
 }
 </script>
