@@ -1,48 +1,6 @@
 import setup from "../../helpers/vuex-setup"
-import lcdclientMock from "renderer/connectors/lcdClientMock.js"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import walletTxs from "./json/txs.js"
-
-let stakingTxs = [
-  {
-    tx: {
-      value: {
-        msg: [
-          {
-            type: `cosmos-sdk/MsgDelegate`,
-            value: {
-              validator_addr: lcdclientMock.validators[0],
-              delegator_addr: lcdclientMock.addresses[0],
-              delegation: {
-                amount: `24`,
-                denom: `steak`
-              }
-            }
-          }
-        ]
-      }
-    },
-    hash: `A7C6DE5CB923AF08E6088F1348047F16BABB9F48`,
-    height: 160
-  },
-  {
-    tx: {
-      value: {
-        msg: [
-          {
-            type: `cosmos-sdk/BeginUnbonding`,
-            value: {
-              validator_addr: lcdclientMock.validators[0],
-              delegator_addr: lcdclientMock.addresses[0],
-              shares: `5`
-            }
-          }
-        ]
-      }
-    },
-    hash: `A7C6FDE5CA923AF08E6088F1348047F16BABB9F48`,
-    height: 170
-  }
-]
 
 let instance = setup()
 
@@ -67,7 +25,8 @@ describe(`Module: Transactions`, () => {
         return tx
       })
     )
-    store.commit(`setStakingTxs`, stakingTxs)
+    store.commit(`setStakingTxs`, lcdClientMock.state.txs.slice(4))
+    store.commit(`setGovernanceTxs`, lcdClientMock.state.txs.slice(2, 4))
   })
 
   // DEFAULT
@@ -101,8 +60,9 @@ describe(`Module: Transactions`, () => {
   })
 
   it(`should load and enrich txs`, async () => {
-    node.getDelegatorTxs = jest.fn(() => walletTxs)
-    node.txs = jest.fn(() => stakingTxs)
+    node.getDelegatorTxs = jest.fn(() => lcdClientMock.state.txs.slice(4))
+    node.getGovernanceTxs = jest.fn(() => lcdClientMock.state.txs.slice(2, 4))
+    node.txs = jest.fn(() => lcdClientMock.state.txs.slice(0, 2))
 
     // loading will enrich txs with block meta information. we set the info here so we can check if it was used in the snapshot
     store.state.blockchain.blockMetas = {
@@ -127,6 +87,7 @@ describe(`Module: Transactions`, () => {
     await store.dispatch(`getAllTxs`)
     expect(store.state.transactions.wallet).toMatchSnapshot()
     expect(store.state.transactions.staking).toMatchSnapshot()
+    expect(store.state.transactions.governance).toMatchSnapshot()
   })
 
   it(`should fail if trying to get transactions of wrong type`, async done => {
@@ -135,6 +96,7 @@ describe(`Module: Transactions`, () => {
 
   it(`should query the txs on reconnection`, async () => {
     store.state.node.stopConnecting = true
+    node.getGovernanceTxs = jest.fn(() => lcdClientMock.state.txs.slice(2, 4))
     store.state.transactions.loading = true
     jest.spyOn(node, `txs`)
     await store.dispatch(`reconnected`)

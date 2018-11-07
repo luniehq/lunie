@@ -12,19 +12,22 @@ export default [
     path: `/governance`,
     name: `Governance`,
     component: governance(`Governance`),
-    redirect: `proposals/`,
+    redirect: `/governance/proposals`,
     children: [
       {
-        path: `/proposals`,
+        path: `proposals`,
         name: `Proposals`,
         component: require(`./components/governance/TabProposals`).default
       }
     ]
   },
-  { path: `proposals/new`, component: governance(`ProposalsNewText`) },
+  {
+    path: `/governance/proposals/new`,
+    component: governance(`ProposalsNewText`)
+  },
   // TODO: enable once PageProposal is finished
   // {
-  //   path: `proposals/:proposal`,
+  //   path: `governance/proposals/:proposal`,
   //   name: `proposal`,
   //   component: governance(`Proposal`)
   // },
