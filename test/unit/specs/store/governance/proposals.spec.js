@@ -71,11 +71,6 @@ describe(`Module: Proposals`, () => {
       [`setProposal`, proposals[0]],
       [`setProposal`, proposals[1]]
     ])
-    expect(dispatch.mock.calls).toEqual([
-      [`getProposalVotes`, Number(proposals[0].proposal_id)],
-      [`getProposalDeposits`, Number(proposals[0].proposal_id)],
-      [`getProposalDeposits`, Number(proposals[1].proposal_id)]
-    ])
   })
 
   it(`submits a new proposal`, async () => {

@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(data-title="Text Proposal")
   div(slot="menu"): vm-tool-bar
-    router-link(to="/proposals/new" exact v-tooltip.bottom="'Back'")
+    router-link(to="/governance/proposals/new" exact v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
   tm-form-struct(:submit="onSubmit")
     tm-form-group(:error="$v.fields.title.$error"
