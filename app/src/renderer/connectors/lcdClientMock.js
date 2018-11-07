@@ -398,7 +398,6 @@ module.exports = {
   async lcdConnected() {
     return true
   },
-
   keys,
 
   // coins
@@ -779,6 +778,16 @@ module.exports = {
   },
   async getProposalVote(proposalId, address) {
     return state.votes[proposalId].find(vote => vote.voter === address)
+  },
+  async queryProposals() {
+    // TODO: return only value of the `value` property when https://github.com/cosmos/cosmos-sdk/issues/2507 is solved
+    let proposals = state.proposals
+    return proposals.map(proposal => {
+      return {
+        value: JSON.parse(JSON.stringify(proposal)),
+        type: `gov/TextProposal`
+      }
+    })
   },
   // exports to be used in tests
   state,

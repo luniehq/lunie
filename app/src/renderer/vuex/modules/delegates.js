@@ -58,10 +58,12 @@ export default ({ node }) => {
     },
     async updateSigningInfo({ commit }, validators) {
       for (let validator of validators) {
-        let signing_info = await node.queryValidatorSigningInfo(
-          validator.consensus_pubkey
-        )
-        if (!isEmpty(signing_info)) validator.signing_info = signing_info
+        if (validator.consensus_pubkey) {
+          let signing_info = await node.queryValidatorSigningInfo(
+            validator.consensus_pubkey
+          )
+          if (!isEmpty(signing_info)) validator.signing_info = signing_info
+        }
       }
       commit(`setDelegates`, validators)
     },
