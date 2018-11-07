@@ -190,21 +190,21 @@ export default ({ node }) => {
 
       if (mappedDelegations) {
         // (optimistic update) we update the atoms of the user before we get the new values from chain
-        let atomsDiff =
-          stakingTransactions.delegations &&
-          stakingTransactions.delegations
-            // compare old and new delegations and diff against old atoms
-            .map(
-              delegation =>
-                calculateTokens(
-                  delegation.validator,
-                  state.committedDelegates[
-                    delegation.validator.operator_address
-                  ]
-                ) - delegation.atoms
-            )
-            .reduce((sum, diff) => sum + diff, 0)
-        commit(`setAtoms`, user.atoms + atomsDiff)
+
+        // check if we have an existing delegation
+
+        // let existingDelegations = state.committedDelegates.get()
+        let atomsSum = stakingTransactions.delegations.reduce(
+          (sum, delegation) => sum + delegation.atoms,
+          0
+        )
+        commit(`setAtoms`, user.atoms - atomsSum)
+
+        // optimistically update the committed delegations
+        stakingTransactions.delegations.forEach(delegation => {
+          state.committedDelegates[delegation.validator.operator_address] +=
+            delegation.atoms
+        })
       }
 
       // we optimistically update the committed delegations
