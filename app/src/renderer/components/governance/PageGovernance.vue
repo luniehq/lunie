@@ -15,7 +15,7 @@ tm-page(data-title='Governance').governance
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
+import { mapGetters } from "vuex"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import ModalSearch from "common/TmModalSearch"
 import VmToolBar from "common/VmToolBar"
