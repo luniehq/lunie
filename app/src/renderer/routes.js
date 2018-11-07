@@ -12,23 +12,25 @@ export default [
     path: `/governance`,
     name: `Governance`,
     component: governance(`Governance`),
-    redirect: `proposals/`,
+    redirect: `/governance/proposals`,
     children: [
       {
-        path: `/proposals`,
+        path: `proposals`,
         name: `Proposals`,
         component: require(`./components/governance/TabProposals`).default
       }
     ]
   },
-  { path: `proposals/new`, component: governance(`ProposalsNewText`) },
   {
-    path: `/proposals/:proposalId`,
+    path: `/governance/proposals/new`,
+    component: governance(`ProposalsNewText`)
+  },
+  {
+    path: `/governance/:proposalId`,
     name: `Proposal`,
     component: require(`./components/governance/PageProposal`).default,
     props: true
   },
-
   // STAKE
   {
     path: `/staking`,

@@ -4,12 +4,13 @@ export default ({ node }) => {
   let emptyState = {
     loading: false,
     wallet: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
-    staking: []
+    staking: [],
+    governance: []
   }
   let state = JSON.parse(JSON.stringify(emptyState))
 
-  // properties under which txs of different categories are store
-  const txCategories = [`staking`, `wallet`]
+  // properties under which txs of different categories are stored
+  const txCategories = [`staking`, `wallet`, `governance`]
 
   let mutations = {
     setWalletTxs(state, txs) {
@@ -17,6 +18,9 @@ export default ({ node }) => {
     },
     setStakingTxs(state, txs) {
       state.staking = txs
+    },
+    setGovernanceTxs(state, txs) {
+      state.governance = txs
     },
     setHistoryLoading(state, loading) {
       state.loading = loading
@@ -47,10 +51,13 @@ export default ({ node }) => {
       const stakingTxs = await dispatch(`getTx`, `staking`)
       commit(`setStakingTxs`, stakingTxs)
 
+      const governanceTxs = await dispatch(`getTx`, `governance`)
+      commit(`setGovernanceTxs`, governanceTxs)
+
       const walletTxs = await dispatch(`getTx`, `wallet`)
       commit(`setWalletTxs`, walletTxs)
 
-      const allTxs = stakingTxs.concat(walletTxs)
+      const allTxs = stakingTxs.concat(governanceTxs.concat(walletTxs))
       await dispatch(`enrichTransactions`, {
         transactions: allTxs
       })
@@ -68,6 +75,9 @@ export default ({ node }) => {
       switch (type) {
         case `staking`:
           response = await node.getDelegatorTxs(address)
+          break
+        case `governance`:
+          response = await node.getGovernanceTxs(address)
           break
         case `wallet`:
           response = await node.txs(address)
