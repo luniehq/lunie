@@ -94,15 +94,11 @@ export default {
       order: `desc`
     },
     validatorURL: `/staking/validators`,
-    proposalsURL: `/proposals`
+    proposalsURL: `/governance/proposals`
   }),
   methods: {
     refreshTransactions() {
       this.$store.dispatch(`getAllTxs`)
-    },
-    async endUnbonding(transaction) {
-      let validatorAddr = transaction.tx.value.msg[0].value.validator_addr
-      await this.$store.dispatch(`endUnbonding`, validatorAddr)
     },
     enrichUnbondingTransactions(transaction) {
       let copiedTransaction = JSON.parse(JSON.stringify(transaction))

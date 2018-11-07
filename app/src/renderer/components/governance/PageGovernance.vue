@@ -4,7 +4,7 @@ tm-page(data-title='Governance').governance
     tm-balance(:tabs="tabs")
 
   div(slot="menu"): vm-tool-bar
-    router-link(to="/proposals/new" exact v-tooltip.bottom="'New Proposal'")
+    router-link(to="/governance/proposals/new" exact v-tooltip.bottom="'New Proposal'")
       i.material-icons add
     a(@click='setSearch()' v-tooltip.bottom="'Search'")
       i.search.material-icons search

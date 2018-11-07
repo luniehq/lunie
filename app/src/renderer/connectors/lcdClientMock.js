@@ -166,6 +166,45 @@ let state = {
           ]
         }
       }
+    },
+    {
+      tx: {
+        value: {
+          msg: [
+            {
+              type: `cosmos-sdk/MsgDelegate`,
+              value: {
+                validator_addr: validators[0],
+                delegator_addr: addresses[0],
+                delegation: {
+                  amount: `24`,
+                  denom: `steak`
+                }
+              }
+            }
+          ]
+        }
+      },
+      hash: `A7C6DE5CB923AF08E6088F1348047F16BABB9F48`,
+      height: 160
+    },
+    {
+      tx: {
+        value: {
+          msg: [
+            {
+              type: `cosmos-sdk/BeginUnbonding`,
+              value: {
+                validator_addr: validators[0],
+                delegator_addr: addresses[0],
+                shares: `5`
+              }
+            }
+          ]
+        }
+      },
+      hash: `A7C6FDE5CA923AF08E6088F1348047F16BABB9F48`,
+      height: 170
     }
   ],
   stake: {

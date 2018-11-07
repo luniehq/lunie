@@ -78,6 +78,7 @@ export default ({ node }) => {
           break
         case `governance`:
           response = await node.getGovernanceTxs(address)
+          break
         case `wallet`:
           response = await node.txs(address)
           break

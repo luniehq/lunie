@@ -800,30 +800,6 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`queries for staking txs`, async () => {
-    let res = await client.updateDelegations(lcdClientMock.addresses[0], {
-      base_req: {
-        name: `default`,
-        sequence: 1
-      },
-      delegations: [
-        {
-          delegator_addr: lcdClientMock.addresses[0],
-          validator_addr: lcdClientMock.validators[1],
-          delegation: { denom: `mycoin`, amount: `10` }
-        }
-      ],
-      begin_unbondings: [
-        {
-          delegator_addr: lcdClientMock.addresses[0],
-          validator_addr: lcdClientMock.validators[0],
-          shares: `100000000000`
-        }
-      ]
-    })
-
-    expect(res[0].check_tx.code).toBe(0)
-    expect(res[1].check_tx.code).toBe(0)
-
     let txs = await client.getDelegatorTxs(lcdClientMock.addresses[0])
     expect(txs).toHaveLength(2)
 

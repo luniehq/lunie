@@ -186,7 +186,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
           `/txs?tag=action=submit-proposal&proposer='${addr}'`,
           true
         )(),
-        req(`GET`, `/txs?tag=action=deposit&depositer='${addr}''`, true)()
+        req(`GET`, `/txs?tag=action=deposit&depositer='${addr}'`, true)()
       ]).then(([proposalTxs, depositTxs]) => [].concat(proposalTxs, depositTxs))
     },
     submitProposal: function(data) {
