@@ -4,6 +4,7 @@ import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
 import num from "scripts/num"
 import { isEmpty } from "lodash"
+import b32 from "scripts/b32"
 export default ({ node }) => {
   const emptyState = {
     delegates: [],
@@ -98,8 +99,10 @@ export default ({ node }) => {
     async getSelfBond({ commit }, validator) {
       if (validator.selfBond) return validator.selfBond
       else {
+        let hexAddr = b32.decode(validator.operator_address)
+        let operatorCosmosAddr = b32.encode(hexAddr, `cosmos`)
         let delegation = await node.queryDelegation(
-          validator.operator_address,
+          operatorCosmosAddr,
           validator.operator_address
         )
         let ratio = new BN(delegation.shares).div(

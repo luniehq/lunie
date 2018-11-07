@@ -20,8 +20,7 @@ tm-page(data-title='Transactions')
       :key="shortid.generate()"
       :transaction="tx"
       :address="wallet.address"
-      :bondingDenom="bondingDenom"
-      v-on:end-unbonding="endUnbonding(tx)")
+      :bondingDenom="bondingDenom")
 </template>
 
 <script>
