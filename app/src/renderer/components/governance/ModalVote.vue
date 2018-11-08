@@ -9,24 +9,28 @@
     tm-form-group.modal-vote-form-group.options
       tm-btn#vote-yes(
         @click.native="voteYes"
+        :disabled="option != `yes` && option != ``"
         color="secondary"
         value="Yes"
         size="md")
 
       tm-btn#vote-no(
         @click.native="voteNo"
+        :disabled="option != `no` && option != ``"
         color="secondary"
         value="No"
         size="md")
 
       tm-btn#vote-veto(
         @click.native="voteVeto"
+        :disabled="option != `no_with_veto` && option != ``"
         color="secondary"
         value="No With Veto"
         size="md")
 
       tm-btn#vote-abstain(
         @click.native="voteAbstain"
+        :disabled="option != `abstain` && option != ``"
         color="secondary"
         value="Abstain"
         size="md")
