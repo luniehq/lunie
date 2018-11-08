@@ -31,9 +31,9 @@ exports[`TableProposals has the expected html structure 1`] = `
                <h2>
                   <a href=\\"#/governance/5\\" class=\\"\\">Custom text proposal</a>
                </h2>
-               <span class=\\"validator-profile__status\\"></span>
+               <span class=\\"validator-profile__status grey\\"></span>
                <p>
-                  custom text proposal description
+                  custom text proposal description…
                </p>
 </td>
             <td>
@@ -59,7 +59,7 @@ exports[`TableProposals has the expected html structure 1`] = `
                </h2>
                <span class=\\"validator-profile__status green\\"></span>
                <p>
-                  Proposal description
+                  Proposal description…
                </p>
 </td>
             <td>
@@ -162,10 +162,10 @@ exports[`TableProposals should filter the proposals 1`] = `
             </a>
           </h2>
           <span
-            class="validator-profile__status"
+            class="validator-profile__status grey"
           />
           <p>
-            custom text proposal description
+            custom text proposal description…
           </p>
         </td>
         <td>
