@@ -409,7 +409,7 @@ Array [
               ],
               "outputs": Array [
                 Object {
-                  "address": "tb1cy0q7p",
+                  "address": "cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546",
                   "coins": Array [
                     Object {
                       "amount": "1234",
