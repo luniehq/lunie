@@ -77,6 +77,22 @@ test(`enables the 'Vote' button if the user selected a valid option`, () => {
   expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
 })
 
+test(`updates the selected option on click`, () => {
+  const wrapper = Wrapper()
+
+  wrapper.vm.voteYes()
+  expect(wrapper.vm.option).toEqual(`yes`)
+
+  wrapper.vm.voteNo()
+  expect(wrapper.vm.option).toEqual(`no`)
+
+  wrapper.vm.voteVeto()
+  expect(wrapper.vm.option).toEqual(`no_with_veto`)
+
+  wrapper.vm.voteAbstain()
+  expect(wrapper.vm.option).toEqual(`abstain`)
+})
+
 test(`Vote button casts a vote and closes modal`, () => {
   const wrapper = Wrapper()
   wrapper.setData({ option: `yes`, approve: true })
