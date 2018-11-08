@@ -26,38 +26,13 @@ exports[`TableProposals has the expected html structure 1`] = `
 </tr>
 </thead>
       <tbody>
-         <tr class=\\"li-proposal li-validator\\">
+         <!---->
+         <tr class=\\"li-proposal\\">
             <td class=\\"li-proposal__value\\">
-               <h2>
-                  <a href=\\"#/governance/5\\" class=\\"\\">Custom text proposal</a>
-               </h2>
-               <span class=\\"validator-profile__status grey\\"></span>
-               <p>
-                  custom text proposal description…
-               </p>
-</td>
-            <td>
-               #10
-            </td>
-            <td class=\\"li-proposal__value yes\\">
-               0
-            </td>
-            <td class=\\"li-proposal__value no\\">
-               0
-            </td>
-            <td class=\\"li-proposal__value no_with_veto\\">
-               0
-            </td>
-            <td class=\\"li-proposal__value abstain\\">
-               0
-            </td>
-</tr>
-         <tr class=\\"li-proposal li-validator\\">
-            <td class=\\"li-proposal__value\\">
+               <span class=\\"validator-profile__status green\\"></span>
                <h2>
                   <a href=\\"#/governance/1\\" class=\\"\\">Proposal Title</a>
                </h2>
-               <span class=\\"validator-profile__status green\\"></span>
                <p>
                   Proposal description…
                </p>
@@ -147,51 +122,7 @@ exports[`TableProposals should filter the proposals 1`] = `
       </tr>
     </thead>
     <tbody>
-      <tr
-        class="li-proposal li-validator"
-      >
-        <td
-          class="li-proposal__value"
-        >
-          <h2>
-            <a
-              class=""
-              href="#/governance/5"
-            >
-              Custom text proposal
-            </a>
-          </h2>
-          <span
-            class="validator-profile__status grey"
-          />
-          <p>
-            custom text proposal description…
-          </p>
-        </td>
-        <td>
-          #10
-        </td>
-        <td
-          class="li-proposal__value yes"
-        >
-          0
-        </td>
-        <td
-          class="li-proposal__value no"
-        >
-          0
-        </td>
-        <td
-          class="li-proposal__value no_with_veto"
-        >
-          0
-        </td>
-        <td
-          class="li-proposal__value abstain"
-        >
-          0
-        </td>
-      </tr>
+      <!---->
     </tbody>
   </table>
 </div>

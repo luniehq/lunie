@@ -81,19 +81,4 @@ describe(`LiProposal`, () => {
       color: `yellow`
     })
   })
-
-  it(`should return an error message when proposal status is unknown`, () => {
-    proposal.proposal_status = undefined
-    let { wrapper } = mount(LiProposal, {
-      propsData: {
-        proposal
-      }
-    })
-    wrapper.update()
-    expect(wrapper.vm.status).toEqual({
-      button: null,
-      message: `There was an error determining the status of this proposal`,
-      color: `grey`
-    })
-  })
 })
