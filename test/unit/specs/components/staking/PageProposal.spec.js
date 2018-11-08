@@ -1,12 +1,11 @@
 import setup from "../../../helpers/vuex-setup"
 import PageProposal from "renderer/components/governance/PageProposal"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-import { createLocalVue, mount } from "@vue/test-utils"
 
 let proposal = lcdClientMock.state.proposals[0]
 
 describe(`PageProposal`, () => {
-  let wrapper, store
+  let wrapper
   let { mount } = setup()
 
   beforeEach(() => {
