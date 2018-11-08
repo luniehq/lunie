@@ -115,6 +115,14 @@ test(`Vote button casts a vote and closes modal`, () => {
   ])
 })
 
+test(`Avoids submitting a vote if the user hasn't selected the checkbox`, () => {
+  const wrapper = Wrapper()
+  wrapper.setData({ option: `yes`, approve: false })
+  wrapper.vm.onVote()
+
+  expect(wrapper.emittedByOrder()).toEqual([])
+})
+
 test(`X button emits close signal`, () => {
   const wrapper = Wrapper()
   wrapper.vm.close()
