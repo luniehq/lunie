@@ -523,7 +523,7 @@ export default {
   align-items center
   display flex
   flex-direction column
-  width 6.3rem
+  width 6rem
 
   &:not(:last-child)
     margin-right 1rem
