@@ -176,7 +176,11 @@ export default ({ node }) => {
             delegator_addr: delegatorAddr,
             validator_src_addr: validatorSrc.operator_address,
             validator_dst_addr: validatorDst.operator_address,
-            shares: String(calculateShares(validatorSrc, atoms).toFixed(10))
+            shares: String(
+              calculateShares(validatorSrc, atoms)
+                .multipliedBy(10000000000)
+                .toFixed(10)
+            )
           })
         )
 
@@ -191,9 +195,6 @@ export default ({ node }) => {
       if (mappedDelegations) {
         // (optimistic update) we update the atoms of the user before we get the new values from chain
 
-        // check if we have an existing delegation
-
-        // let existingDelegations = state.committedDelegates.get()
         let atomsSum = stakingTransactions.delegations.reduce(
           (sum, delegation) => sum + delegation.atoms,
           0
@@ -210,45 +211,41 @@ export default ({ node }) => {
       // we optimistically update the committed delegations
       // TODO usually I would just query the new state through the LCD and update the state with the result, but at this point we still get the old shares
       setTimeout(async () => {
-        dispatch(`updateDelegates`) //.then(() =>
-        // updateCommittedDelegations(
-        //   delegations,
-        //   commit
-        // )
-        // )
+        dispatch(`updateDelegates`)
       }, 5000)
-    },
-    async endUnbonding({ rootState, state, dispatch, commit }, validatorAddr) {
-      try {
-        await dispatch(`sendTx`, {
-          type: `updateDelegations`,
-          to: rootState.wallet.address, // TODO strange syntax
-          complete_unbondings: [
-            {
-              delegator_addr: rootState.wallet.address,
-              validator_addr: validatorAddr
-            }
-          ]
-        })
-
-        let balance = state.unbondingDelegations[validatorAddr].balance
-        commit(`setUnbondingDelegations`, {
-          validator_addr: validatorAddr,
-          balance: { amount: 0 }
-        })
-        commit(`notify`, {
-          title: `Ending undelegation successful`,
-          body: `You successfully undelegated ${balance.amount} ${
-            balance.denom
-          }s from ${validatorAddr}`
-        })
-      } catch (err) {
-        commit(`notifyError`, {
-          title: `Ending undelegation failed`,
-          body: err
-        })
-      }
     }
+    // deprecated
+    // async endUnbonding({ rootState, state, dispatch, commit }, validatorAddr) {
+    //   try {
+    //     await dispatch(`sendTx`, {
+    //       type: `updateDelegations`,
+    //       to: rootState.wallet.address, // TODO strange syntax
+    //       complete_unbondings: [
+    //         {
+    //           delegator_addr: rootState.wallet.address,
+    //           validator_addr: validatorAddr
+    //         }
+    //       ]
+    //     })
+
+    //     let balance = state.unbondingDelegations[validatorAddr].balance
+    //     commit(`setUnbondingDelegations`, {
+    //       validator_addr: validatorAddr,
+    //       balance: { amount: 0 }
+    //     })
+    //     commit(`notify`, {
+    //       title: `Ending undelegation successful`,
+    //       body: `You successfully undelegated ${balance.amount} ${
+    //         balance.denom
+    //       }s from ${validatorAddr}`
+    //     })
+    //   } catch (err) {
+    //     commit(`notifyError`, {
+    //       title: `Ending undelegation failed`,
+    //       body: err
+    //     })
+    //   }
+    // }
   }
 
   return {
@@ -257,12 +254,3 @@ export default ({ node }) => {
     actions
   }
 }
-// needed for optimistic updates, uncomment or delete this when that issue is addressed
-// function updateCommittedDelegations(delegations, commit) {
-//   for (let delegation of delegations) {
-//     commit("setCommittedDelegation", {
-//       candidateId: delegation.delegate.operator_address,
-//       value: delegation.atoms
-//     })
-//   }
-// }

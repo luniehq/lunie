@@ -225,7 +225,7 @@ exports[`TableValidators should filter the delegates 1`] = `
             class="li-validator__name-container"
           >
             <span
-              class="validator-profile__status green"
+              class="validator-profile__status yellow"
             />
             <a
               class="li-validator__moniker li-validator-validator "

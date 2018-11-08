@@ -400,7 +400,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             <dd
               id="validator-profile__self-bond"
             >
-              0 %
+              0.00 %
             </dd>
           </dl>
           <dl

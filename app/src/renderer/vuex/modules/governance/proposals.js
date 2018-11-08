@@ -22,17 +22,12 @@ export default ({ node }) => {
       // clear previous account state
       rootState.proposals = JSON.parse(JSON.stringify(emptyState))
     },
-    async getProposals({ state, commit, dispatch }) {
+    async getProposals({ state, commit }) {
       state.loading = true
       let proposals = await node.queryProposals()
       if (proposals.length > 0) {
         proposals.forEach(proposal => {
-          let proposalId = Number(proposal.value.proposal_id)
           commit(`setProposal`, proposal.value)
-          if (proposal.value.proposal_status !== `DepositPeriod`) {
-            dispatch(`getProposalVotes`, proposalId)
-          }
-          dispatch(`getProposalDeposits`, proposalId)
         })
       }
       state.loading = false

@@ -218,10 +218,6 @@ describe(`Module: Delegations`, () => {
     expect(
       store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
     ).toBeTruthy()
-    await store.dispatch(`endUnbonding`, lcdClientMock.validators[0])
-    expect(
-      store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
-    ).toBeFalsy()
   })
 
   it(`should remove dead delegations and undelegations`, async () => {
@@ -257,7 +253,7 @@ describe(`Module: Delegations`, () => {
     expect(store.state.delegation.committedDelegates).toBeTruthy()
   })
 
-  it.only(`should update the atoms on a delegation optimistically`, async () => {
+  it(`should update the atoms on a delegation optimistically`, async () => {
     const commit = jest.fn()
     const delegates = store.state.delegates.delegates
     let stakingTransactions = {}
@@ -301,5 +297,27 @@ describe(`Module: Delegations`, () => {
       [delegates[0].operator_address]: 119,
       [delegates[1].operator_address]: 506
     })
+  })
+
+  it(`should update updateDelegates after delegation`, async () => {
+    jest.useFakeTimers()
+    let stakingTransactions = {}
+    stakingTransactions.unbondings = [
+      {
+        validator: {
+          operator_address: lcdClientMock.validators[0],
+          delegator_shares: `100`,
+          tokens: `100`
+        },
+        balance: {
+          amount: `100`
+        }
+      }
+    ]
+    jest.spyOn(store._actions.updateDelegates, `0`)
+
+    await store.dispatch(`submitDelegation`, { stakingTransactions })
+    jest.runAllTimers()
+    expect(store._actions.updateDelegates[0].mock.calls).toHaveLength(1)
   })
 })

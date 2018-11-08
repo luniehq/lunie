@@ -23,6 +23,7 @@ import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
 import VmToolBar from "common/VmToolBar"
 export default {
+  name: `table-validators`,
   props: [`validators`],
   components: {
     LiValidator,
@@ -60,7 +61,7 @@ export default {
       return !!this.validators.length
     },
     vpTotal() {
-      return this.delegates.delegates
+      return this.validators
         .slice(0)
         .map(v => {
           v.voting_power = v.voting_power ? Number(v.voting_power) : 0

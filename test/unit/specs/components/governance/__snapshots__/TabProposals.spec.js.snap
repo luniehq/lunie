@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TabProposals has the expected html structure 1`] = `
+"<div>
+   <table>
+      <thead>
+         <tr class=\\"panel-sort-container\\">
+            <th class=\\"sort-by proposal_title\\">
+               <a class=\\"sort-by-link\\">Title</a>
+            </th>
+            <th class=\\"sort-by yes_votes\\">
+               <a class=\\"sort-by-link\\">Yes</a>
+            </th>
+            <th class=\\"sort-by no_votes\\">
+               <a class=\\"sort-by-link\\">No</a>
+            </th>
+            <th class=\\"sort-by no_veto_votes\\">
+               <a class=\\"sort-by-link\\">No with Veto</a>
+            </th>
+            <th class=\\"sort-by abstain_votes\\">
+               <a class=\\"sort-by-link\\">Abstain</a>
+            </th>
+</tr>
+</thead>
+      <tbody>
+         <tr class=\\"li-proposal li-validator\\">
+            <td class=\\"li-proposal__value\\">
+               <h2>
+                  Custom text proposal
+               </h2>
+               <p>
+                  Status: DepositPeriod
+               </p>
+</td>
+            <td class=\\"li-proposal__value yes\\">
+               0
+            </td>
+            <td class=\\"li-proposal__value no\\">
+               0
+            </td>
+            <td class=\\"li-proposal__value no_with_veto\\">
+               0
+            </td>
+            <td class=\\"li-proposal__value abstain\\">
+               0
+            </td>
+</tr>
+         <tr class=\\"li-proposal li-validator\\">
+            <td class=\\"li-proposal__value\\">
+               <h2>
+                  Proposal Title
+               </h2>
+               <p>
+                  Status: Passed
+               </p>
+</td>
+            <td class=\\"li-proposal__value yes\\">
+               500
+            </td>
+            <td class=\\"li-proposal__value no\\">
+               25
+            </td>
+            <td class=\\"li-proposal__value no_with_veto\\">
+               10
+            </td>
+            <td class=\\"li-proposal__value abstain\\">
+               56
+            </td>
+</tr>
+</tbody>
+</table>
+</div>"
+`;
