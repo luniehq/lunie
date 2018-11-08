@@ -82,15 +82,23 @@ test(`updates the selected option on click`, () => {
 
   wrapper.vm.voteYes()
   expect(wrapper.vm.option).toEqual(`yes`)
+  wrapper.vm.voteYes()
+  expect(wrapper.vm.option).toEqual(``)
 
   wrapper.vm.voteNo()
   expect(wrapper.vm.option).toEqual(`no`)
+  wrapper.vm.voteNo()
+  expect(wrapper.vm.option).toEqual(``)
 
   wrapper.vm.voteVeto()
   expect(wrapper.vm.option).toEqual(`no_with_veto`)
+  wrapper.vm.voteVeto()
+  expect(wrapper.vm.option).toEqual(``)
 
   wrapper.vm.voteAbstain()
   expect(wrapper.vm.option).toEqual(`abstain`)
+  wrapper.vm.voteAbstain()
+  expect(wrapper.vm.option).toEqual(``)
 })
 
 test(`Vote button casts a vote and closes modal`, () => {

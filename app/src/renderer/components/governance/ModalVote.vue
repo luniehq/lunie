@@ -99,16 +99,32 @@ export default {
       this.$emit(`update:showModalVote`, false)
     },
     voteYes() {
-      this.option = `yes`
+      if (this.option === `yes`) {
+        this.option = ``
+      } else {
+        this.option = `yes`
+      }
     },
     voteNo() {
-      this.option = `no`
+      if (this.option === `no`) {
+        this.option = ``
+      } else {
+        this.option = `no`
+      }
     },
     voteVeto() {
-      this.option = `no_with_veto`
+      if (this.option === `no_with_veto`) {
+        this.option = ``
+      } else {
+        this.option = `no_with_veto`
+      }
     },
     voteAbstain() {
-      this.option = `abstain`
+      if (this.option === `abstain`) {
+        this.option = ``
+      } else {
+        this.option = `abstain`
+      }
     },
     onVote() {
       if (this.approve) {
