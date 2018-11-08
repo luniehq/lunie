@@ -93,6 +93,6 @@ function assertOk(res) {
 
   if (res.check_tx.code || res.deliver_tx.code) {
     let message = res.check_tx.log || res.deliver_tx.log
-    throw new Error(`Error sending transaction: ` + message)
+    throw new Error(`Error sending transaction: ${message}`)
   }
 }
