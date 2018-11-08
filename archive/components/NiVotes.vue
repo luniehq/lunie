@@ -39,10 +39,10 @@ export default {
           rootId: this.parent.rootId, // for comments
           userUid: this.user.uid
         })
-        .then(null, error => {
+        .then(null, err => {
           this.$store.commit("notifyError", {
             title: "Updating vote failed",
-            body: error.message
+            body: err.message
           })
         })
     }
