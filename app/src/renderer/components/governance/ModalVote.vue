@@ -146,8 +146,6 @@ export default {
     display block
     padding 0
 
-    .options
-
   &-footer
     display flex
     justify-content flex-end
