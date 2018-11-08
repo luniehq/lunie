@@ -27,32 +27,55 @@ test(`the 'option' defaults to an empty string`, () => {
   expect(wrapper.vm.option).toEqual(``)
 })
 
-test(`display the approval checkbox`, () => {
-  let checkbox = Wrapper().find(`#checkbox`)
+test(`checkbox value default to false`, () => {
+  const wrapper = Wrapper()
+  let checkbox = wrapper.find(`#checkbox`)
   expect(JSON.parse(checkbox.element.value)).toBe(false) // value is returned as string (`false`)
+  expect(wrapper.vm.approve).toEqual(false)
 })
 
 test(`disables the 'Vote' button`, () => {
   const wrapper = Wrapper()
 
+  // default values
   let voteBtn = wrapper.find(`#cast-vote`)
   expect(voteBtn.html()).toContain(`disabled="disabled"`)
 
+  // selected option but hasn't approved checkbox
   wrapper.setData({ option: `yes`, approve: false })
   voteBtn = wrapper.find(`#cast-vote`)
   expect(voteBtn.html()).toContain(`disabled="disabled"`)
 
+  // approved checkbox but hasn't selected option
   wrapper.setData({ option: ``, approve: true })
+  voteBtn = wrapper.find(`#cast-vote`)
+  expect(voteBtn.html()).toContain(`disabled="disabled"`)
+
+  // non valid option value
+  wrapper.setData({ option: `other`, approve: true })
   voteBtn = wrapper.find(`#cast-vote`)
   expect(voteBtn.html()).toContain(`disabled="disabled"`)
 })
 
-// test(`enables the 'Vote' button if the user selected a valid option`, () => {
-//
-//
-//   let voteBtn =  Wrapper().find(`#cast-vote`)
-//   expect(voteBtn.html()).toContain(`disabled="disabled"`)
-// })
+test(`enables the 'Vote' button if the user selected a valid option`, () => {
+  const wrapper = Wrapper()
+
+  wrapper.setData({ option: `yes`, approve: true })
+  let voteBtn = wrapper.find(`#cast-vote`)
+  expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+
+  wrapper.setData({ option: `no`, approve: true })
+  voteBtn = wrapper.find(`#cast-vote`)
+  expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+
+  wrapper.setData({ option: `no_with_veto`, approve: true })
+  voteBtn = wrapper.find(`#cast-vote`)
+  expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+
+  wrapper.setData({ option: `abstain`, approve: true })
+  voteBtn = wrapper.find(`#cast-vote`)
+  expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+})
 
 test(`Vote button casts a vote and closes modal`, () => {
   const wrapper = Wrapper()
