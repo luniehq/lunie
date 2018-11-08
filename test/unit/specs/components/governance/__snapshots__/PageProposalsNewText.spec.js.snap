@@ -44,7 +44,7 @@ exports[`PageProposalsNewText has the expected HTML structure 1`] = `
                   </a>
                   <router-link
                     exact="exact"
-                    to="/proposals/new"
+                    to="/governance/proposals/new"
                   >
                     <i
                       class="material-icons"

@@ -1,4 +1,4 @@
-"use strict"
+import axios from "axios"
 
 /* mocking electron differently in one file apparently didn't work so I had to split the App tests in 2 files */
 
@@ -59,11 +59,11 @@ describe(`App without analytics`, () => {
     })
     let Node = require(`renderer/connectors/node.js`)
     require(`renderer/main.js`)
-    expect(Node).toHaveBeenCalledWith(
+    expect(Node.mock.calls[0].slice(1)).toEqual([
       `http://localhost:8080`,
       `https://awesomenode.de:12345`,
       true
-    )
+    ])
     jest.resetModules()
   })
 

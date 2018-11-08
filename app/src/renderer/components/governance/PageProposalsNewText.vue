@@ -74,7 +74,7 @@ export default {
           title: this.fields.title
         })
         this.resetForm()
-        this.$router.push({ name: `proposals` })
+        this.$router.push({ name: `Governance` })
       }
     },
     resetForm() {

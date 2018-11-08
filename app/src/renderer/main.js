@@ -1,5 +1,6 @@
 "use strict"
 
+import axios from "axios"
 import Vue from "vue"
 import Electron from "vue-electron"
 import Router from "vue-router"
@@ -69,7 +70,7 @@ async function main() {
   let lcdPort = getQueryParameter(`lcd_port`)
   let localLcdURL = `http://localhost:${lcdPort}`
   console.log(`Expecting lcd-server on port: ` + lcdPort)
-  node = Node(localLcdURL, config.node_lcd, config.mocked)
+  node = Node(axios, localLcdURL, config.node_lcd, config.mocked)
 
   store = Store({ node })
   store.dispatch(`loadTheme`)
