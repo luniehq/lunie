@@ -168,8 +168,8 @@ export default {
       } catch (err) {
         this.sending = false
         this.$store.commit(`notifyError`, {
-          title: `Error Sending`,
-          body: `An error occurred while trying to send: "${err.message}"`
+          title: `Error Sending transaction`,
+          body: err.message
         })
       }
     },
@@ -181,8 +181,8 @@ export default {
         b32.decode(param)
         this.bech32error = null
         return true
-      } catch (error) {
-        this.bech32error = error.message
+      } catch (err) {
+        this.bech32error = err.message
         return false
       }
     },
