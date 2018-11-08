@@ -58,7 +58,7 @@ let state = {
                         amount: `1234`
                       }
                     ],
-                    address: makeHash()
+                    address: addresses[1]
                   }
                 ],
                 outputs: [
@@ -106,7 +106,7 @@ let state = {
                         amount: `1234`
                       }
                     ],
-                    address: makeHash()
+                    address: addresses[1]
                   }
                 ]
               }
