@@ -85,14 +85,14 @@ async function main() {
     next()
   })
 
-  ipcRenderer.on(`error`, (event, error) => {
-    switch (error.code) {
+  ipcRenderer.on(`error`, (event, err) => {
+    switch (err.code) {
       case `NO_NODES_AVAILABLE`:
         store.commit(`setModalNoNodes`, true)
         break
       default:
         store.commit(`setModalError`, true)
-        store.commit(`setModalErrorMessage`, error.message)
+        store.commit(`setModalErrorMessage`, err.message)
     }
   })
   ipcRenderer.on(`approve-hash`, (event, hash) => {
