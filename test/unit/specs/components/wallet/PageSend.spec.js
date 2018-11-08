@@ -219,7 +219,7 @@ describe(`PageSend`, () => {
     node.sign = () => Promise.reject()
     await wrapper.vm.onApproved()
     expect(store.state.notifications.length).toBe(1)
-    expect(store.state.notifications[0].title).toBe(`Error Sending`)
+    expect(store.state.notifications[0].title).toBe(`Error Sending transaction`)
     expect(store.state.notifications[0]).toMatchSnapshot()
   })
 

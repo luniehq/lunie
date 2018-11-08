@@ -1,6 +1,6 @@
 "use strict"
 
-import { calculateShares, calculateTokens } from "scripts/common"
+import { calculateShares } from "scripts/common"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
@@ -194,32 +194,24 @@ export default ({ node }) => {
 
       if (mappedDelegations) {
         // (optimistic update) we update the atoms of the user before we get the new values from chain
-        let atomsDiff =
-          stakingTransactions.delegations &&
-          stakingTransactions.delegations
-            // compare old and new delegations and diff against old atoms
-            .map(
-              delegation =>
-                calculateTokens(
-                  delegation.validator,
-                  state.committedDelegates[
-                    delegation.validator.operator_address
-                  ]
-                ) - delegation.atoms
-            )
-            .reduce((sum, diff) => sum + diff, 0)
-        commit(`setAtoms`, user.atoms + atomsDiff)
+
+        let atomsSum = stakingTransactions.delegations.reduce(
+          (sum, delegation) => sum + delegation.atoms,
+          0
+        )
+        commit(`setAtoms`, user.atoms - atomsSum)
+
+        // optimistically update the committed delegations
+        stakingTransactions.delegations.forEach(delegation => {
+          state.committedDelegates[delegation.validator.operator_address] +=
+            delegation.atoms
+        })
       }
 
       // we optimistically update the committed delegations
       // TODO usually I would just query the new state through the LCD and update the state with the result, but at this point we still get the old shares
       setTimeout(async () => {
-        dispatch(`updateDelegates`) //.then(() =>
-        // updateCommittedDelegations(
-        //   delegations,
-        //   commit
-        // )
-        // )
+        dispatch(`updateDelegates`)
       }, 5000)
     }
     // deprecated
@@ -262,12 +254,3 @@ export default ({ node }) => {
     actions
   }
 }
-// needed for optimistic updates, uncomment or delete this when that issue is addressed
-// function updateCommittedDelegations(delegations, commit) {
-//   for (let delegation of delegations) {
-//     commit("setCommittedDelegation", {
-//       candidateId: delegation.delegate.operator_address,
-//       value: delegation.atoms
-//     })
-//   }
-// }

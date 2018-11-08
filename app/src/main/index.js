@@ -82,14 +82,14 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-function handleCrash(error) {
+function handleCrash(err) {
   afterBooted(() => {
     if (mainWindow) {
       mainWindow.webContents.send(`error`, {
-        message: error
-          ? error.message
-            ? error.message
-            : error
+        message: err
+          ? err.message
+            ? err.message
+            : err
           : `An unspecified error occurred`
       })
     }
@@ -315,7 +315,7 @@ function stopLCD() {
       lcdProcess.kill(`SIGKILL`)
     } catch (err) {
       handleCrash(err)
-      reject(`Stopping the LCD resulted in an error: ` + err.message)
+      reject(`Stopping the LCD resulted in an error: ${err.message}`)
     }
   })
 }
