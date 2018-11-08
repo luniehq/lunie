@@ -12,12 +12,12 @@ tm-page(data-title='Proposal')
         .row.validator-profile__header__name
           .top.column
             div.validator-profile__status-and-title
-              span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
+              span.validator-profile__status(v-bind:class="status.color" v-tooltip.top="status.message")
               .validator-profile__header__name__title {{ proposal.title }}
           .column.validator-profile__header__actions
-            tm-btn(v-if="button === 'vote'" value="Vote" color="primary" @click.native="vote")
-            tm-btn(v-if="button === 'deposit'" value="Deposit" color="primary" @click.native="deposit")
-            tm-btn(v-if="!button" disabled value="Deposit / Vote" color="primary")
+            tm-btn(v-if="status.button === 'vote'" value="Vote" color="primary")
+            tm-btn(v-if="status.button === 'deposit'" value="Deposit" color="primary")
+            tm-btn(v-if="!status.button" disabled value="Deposit / Vote" color="primary")
 
         .row.description
           p This {{ proposalType }} proposal ({{ `#` + proposal.proposal_id }}) was submitted at block {{ submitBlock }} and voting started at {{ voteBlock }}.
@@ -77,33 +77,43 @@ export default {
         return `block #` + num.prettyInt(this.proposal.voting_start_block)
       }
     },
-    button() {
-      if (this.proposal.proposal_status === `Passed`) return null
-
-      if (this.proposal.proposal_status === `Rejected`) return null
-
-      if (this.proposal.proposal_status === `Active`) return `vote`
-
-      if (this.proposal.proposal_status === `Pending`) return `deposit`
-    },
     status() {
-      if (this.proposal.proposal_status === `Passed`)
-        return `This proposal has passed`
-
-      if (this.proposal.proposal_status === `Rejected`)
-        return `This proposal has been rejected and voting is closed`
-
-      if (this.proposal.proposal_status === `Active`)
-        return `Voting for this proposal is open`
-
-      if (this.proposal.proposal_status === `Pending`)
-        return `Deposits are open for this proposal`
-    },
-    statusColor() {
-      if (this.proposal.proposal_status === `Passed`) return `green`
-      if (this.proposal.proposal_status === `Rejected`) return `red`
-      if (this.proposal.proposal_status === `Active`) return `blue`
-      if (this.proposal.proposal_status === `Pending`) return `yellow`
+      switch (this.proposal.proposal_status) {
+        case `Passed`:
+          return {
+            button: null,
+            message: `This proposal has passed`,
+            color: `green`
+          }
+          break
+        case `Rejected`:
+          return {
+            button: null,
+            message: `This proposal has been rejected and voting is closed`,
+            color: `red`
+          }
+          break
+        case `Active`:
+          return {
+            button: `vote`,
+            message: `Voting for this proposal is open`,
+            color: `blue`
+          }
+          break
+        case `Pending`:
+          return {
+            button: `deposit`,
+            message: `Deposits are open for this proposal`,
+            color: `yellow`
+          }
+          break
+        default:
+          return {
+            button: null,
+            message: `There was an error determining the status of this proposal`,
+            color: `grey`
+          }
+      }
     },
     totalVotes() {
       return (
