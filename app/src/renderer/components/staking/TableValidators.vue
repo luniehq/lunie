@@ -226,5 +226,4 @@ table tr td:nth-child(3):after
   top 1.5rem
   right 2rem
   background var(--bc-dim)
-
 </style>

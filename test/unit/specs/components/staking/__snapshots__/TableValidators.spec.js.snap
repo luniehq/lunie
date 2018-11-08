@@ -33,7 +33,7 @@ exports[`TableValidators has the expected html structure 1`] = `
             <td class=\\"li-validator__moniker-container\\">
                <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"li-validator__avatar no-img\\">
                <div class=\\"li-validator__name-container\\">
-                  <span class=\\"validator-profile__status green\\"></span><a href=\\"#/\\" class=\\"li-validator__moniker router-link-exact-active router-link-active li-validator-validator \\">good_greg</a>
+                  <span class=\\"validator-profile__status green\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"li-validator__moniker li-validator-validator \\">good_greg</a>
                   <div class=\\"short-bech32 li-validator__address\\">
                      <div id=\\"address\\" class=\\"address\\">
                         cosmosvaladdr…n3au
@@ -67,7 +67,7 @@ exports[`TableValidators has the expected html structure 1`] = `
          <td class=\\"li-validator__moniker-container\\">
             <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"li-validator__avatar no-img\\">
             <div class=\\"li-validator__name-container\\">
-               <span class=\\"validator-profile__status red\\"></span><a href=\\"#/\\" class=\\"li-validator__moniker router-link-exact-active router-link-active li-validator-validator \\">herr_schmidt_revoked</a>
+               <span class=\\"validator-profile__status red\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"li-validator__moniker li-validator-validator \\">herr_schmidt_revoked</a>
                <div class=\\"short-bech32 li-validator__address\\">
                   <div id=\\"address\\" class=\\"address\\">
                      cosmosvaladdr…rg7n
@@ -101,7 +101,7 @@ exports[`TableValidators has the expected html structure 1`] = `
          <td class=\\"li-validator__moniker-container\\">
             <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"li-validator__avatar no-img\\">
             <div class=\\"li-validator__name-container\\">
-               <span class=\\"validator-profile__status green\\"></span><a href=\\"#/\\" class=\\"li-validator__moniker router-link-exact-active router-link-active li-validator-validator \\">mr_mounty</a>
+               <span class=\\"validator-profile__status green\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"li-validator__moniker li-validator-validator \\">mr_mounty</a>
                <div class=\\"short-bech32 li-validator__address\\">
                   <div id=\\"address\\" class=\\"address\\">
                      cosmosvaladdr…8yqw
@@ -228,8 +228,8 @@ exports[`TableValidators should filter the delegates 1`] = `
               class="validator-profile__status green"
             />
             <a
-              class="li-validator__moniker router-link-exact-active router-link-active li-validator-validator "
-              href="#/"
+              class="li-validator__moniker li-validator-validator "
+              href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
             >
               mr_mounty
             </a>
