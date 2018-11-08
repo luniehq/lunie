@@ -42,9 +42,9 @@
 
     tm-form-group.modal-vote-form-group
     .modal-vote-footer
-      tm-btn(
+      tm-btn#cast-vote(
         @click.native="onVote"
-        :disabled="$v.option.$invalid"
+        :disabled="$v.option.$invalid || $v.approve.$invalid"
         color="primary"
         value="Vote"
         size="lg")
@@ -58,10 +58,10 @@ import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 const isValid = option =>
-  option === `Yes` ||
-  option === `No` ||
-  option === `No With Veto` ||
-  option === `Abstain`
+  option === `yes` ||
+  option === `no` ||
+  option === `no_with_veto` ||
+  option === `abstain`
 
 const checked = value => !!value
 

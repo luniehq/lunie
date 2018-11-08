@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+"<div id=\\"modal-vote\\" class=\\"modal-vote\\">
+   <div class=\\"modal-vote-header\\">
+      <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon modal-vote-atom\\"><span class=\\"tm-modal-title\\">Cast Vote</span>
+      <div id=\\"closeBtn\\" class=\\"tm-modal-icon tm-modal-close\\">
+         <i class=\\"material-icons\\">close</i>
+      </div>
+</div>
+<div class=\\"modal-vote-form-group options tm-form-group\\">
+   <!---->
+   <!---->
+   <div class=\\"tm-form-group__field\\">
+      <button class=\\"tm-btn\\" id=\\"vote-yes\\"><span class=\\"tm-btn__container tm-btn--size-md tm-btn--secondary\\">
+      <!---->
+      <!---->
+      <span class=\\"tm-btn__value\\">Yes</span></span></button><button class=\\"tm-btn\\" id=\\"vote-no\\"><span class=\\"tm-btn__container tm-btn--size-md tm-btn--secondary\\">
+      <!---->
+      <!---->
+      <span class=\\"tm-btn__value\\">No</span></span></button><button class=\\"tm-btn\\" id=\\"vote-veto\\"><span class=\\"tm-btn__container tm-btn--size-md tm-btn--secondary\\">
+      <!---->
+      <!---->
+      <span class=\\"tm-btn__value\\">No With Veto</span></span></button><button class=\\"tm-btn\\" id=\\"vote-abstain\\"><span class=\\"tm-btn__container tm-btn--size-md tm-btn--secondary\\">
+      <!---->
+      <!---->
+      <span class=\\"tm-btn__value\\">Abstain</span></span></button>
+   </div>
+</div>
+<div class=\\"modal-vote-form-group tm-form-group\\">
+   <!---->
+   <!---->
+   <div class=\\"tm-form-group__field\\">
+      <input type=\\"checkbox\\" class=\\"tm-field\\" id=\\"checkbox\\">
+   </div>
+</div>
+<div class=\\"modal-vote-form-group tm-form-group\\">
+   <!---->
+   <!---->
+   <div class=\\"tm-form-group__field\\"></div>
+</div>
+<div class=\\"modal-vote-footer\\">
+   <button class=\\"tm-btn\\" id=\\"cast-vote\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container tm-btn--size-lg tm-btn--primary\\">
+   <!---->
+   <!---->
+   <span class=\\"tm-btn__value\\">Vote</span></span></button>
+</div>
+</div>"
+`;
