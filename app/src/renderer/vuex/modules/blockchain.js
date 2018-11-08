@@ -72,9 +72,7 @@ export default ({ node }) => {
 
       function error(err) {
         dispatch(`nodeHasHalted`)
-        console.error(
-          `Error subscribing to new blocks: ${err.message} ${err.data || ``}`
-        )
+        console.error(err.message)
       }
 
       node.rpc.status((err, status) => {
