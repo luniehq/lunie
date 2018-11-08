@@ -19,7 +19,7 @@ exports[`LiProposal has the expected html structure 1`] = `
       class="validator-profile__status green"
     />
     <p>
-      Proposal description
+      Proposal description…
     </p>
   </td>
   <td>

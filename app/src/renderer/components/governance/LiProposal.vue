@@ -3,7 +3,7 @@ tr.li-proposal.li-validator
   td.li-proposal__value
     h2
       router-link(:to="{ name: 'Proposal', params: { proposalId, proposal, status }}") {{ proposal.title }}
-    span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
+    span.validator-profile__status(v-bind:class="status.color" v-tooltip.top="status.message")
     p {{ description }}
   td {{ submitBlock }}
   td.li-proposal__value.yes {{ proposal.tally_result.yes }}
@@ -17,12 +17,6 @@ import num from "scripts/num"
 export default {
   name: `li-proposal`,
   computed: {
-    statusColor() {
-      if (this.proposal.proposal_status === `Passed`) return `green`
-      if (this.proposal.proposal_status === `Rejected`) return `red`
-      if (this.proposal.proposal_status === `Active`) return `blue`
-      if (this.proposal.proposal_status === `Pending`) return `yellow`
-    },
     status() {
       switch (this.proposal.proposal_status) {
         case `Passed`:
@@ -62,7 +56,7 @@ export default {
       }
     },
     description() {
-      return this.proposal.description.substring(0, 100)
+      return this.proposal.description.substring(0, 100) + `…`
     },
     submitBlock() {
       return `#` + num.prettyInt(this.proposal.submit_block)
