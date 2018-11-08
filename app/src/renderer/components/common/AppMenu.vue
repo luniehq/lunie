@@ -18,10 +18,10 @@ menu.app-menu
       @click.native="close" title="Staking"
       v-bind:class="{ 'active': isValidatorPage }")
     tm-list-item#app-menu__proposals(
-      to="/proposals"
+      to="/governance"
       exact @click.native="close"
-      title="Proposals"
-      v-if="config.devMode")
+      title="Governance"
+      v-if="config.devMode || mockedConnector")
   connected-network
 </template>
 
@@ -40,13 +40,7 @@ export default {
     UserPane
   },
   computed: {
-    ...mapGetters([
-      `proposals`,
-      `validators`,
-      `config`,
-      `lastHeader`,
-      `mockedConnector`
-    ]),
+    ...mapGetters([`validators`, `config`, `lastHeader`, `mockedConnector`]),
     isValidatorPage() {
       return this.$route.params.validator
     }

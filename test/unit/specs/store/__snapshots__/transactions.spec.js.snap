@@ -2,6 +2,58 @@
 
 exports[`Module: Transactions should have an empty state by default 1`] = `
 Object {
+  "governance": Array [
+    Object {
+      "hash": "QSDFGE5CA923AF08E6088F1348047F16BAHH8K31",
+      "height": 56673,
+      "tx": Object {
+        "type": "8EFE47F0625DE8",
+        "value": Object {
+          "msg": Array [
+            Object {
+              "type": "cosmos-sdk/MsgSubmitProposal",
+              "value": Object {
+                "description": "This is a test proposal",
+                "initial_deposit": Array [
+                  Object {
+                    "amount": "100",
+                    "denom": "stake",
+                  },
+                ],
+                "proposal_type": "Text",
+                "proposer": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+                "title": "Test Proposal",
+              },
+            },
+          ],
+        },
+      },
+    },
+    Object {
+      "hash": "QASDE5CA923AF08EEE38F1348047F16BAHH8K31",
+      "height": 213,
+      "tx": Object {
+        "type": "8EFE47F0625DE8",
+        "value": Object {
+          "msg": Array [
+            Object {
+              "type": "cosmos-sdk/MsgDeposit",
+              "value": Object {
+                "amount": Array [
+                  Object {
+                    "amount": "100",
+                    "denom": "stake",
+                  },
+                ],
+                "depositer": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+                "proposal_id": "1",
+              },
+            },
+          ],
+        },
+      },
+    },
+  ],
   "loading": false,
   "staking": Array [
     Object {
@@ -296,6 +348,89 @@ Object {
 exports[`Module: Transactions should load and enrich txs 1`] = `
 Array [
   Object {
+    "hash": "999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A",
+    "height": 1,
+    "time": undefined,
+    "tx": Object {
+      "value": Object {
+        "msg": Array [
+          Object {
+            "type": "cosmos-sdk/Send",
+            "value": Object {
+              "inputs": Array [
+                Object {
+                  "address": "tb1cy0q7p",
+                  "coins": Array [
+                    Object {
+                      "amount": "1234",
+                      "denom": "jbcoins",
+                    },
+                  ],
+                },
+              ],
+              "outputs": Array [
+                Object {
+                  "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+                  "coins": Array [
+                    Object {
+                      "amount": "1234",
+                      "denom": "jbcoins",
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    "type": "wallet",
+  },
+  Object {
+    "hash": "A7C6DE5CA923AF08E6088F1348047F16BABB9F48",
+    "height": 150,
+    "time": undefined,
+    "tx": Object {
+      "value": Object {
+        "msg": Array [
+          Object {
+            "type": "cosmos-sdk/Send",
+            "value": Object {
+              "inputs": Array [
+                Object {
+                  "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+                  "coins": Array [
+                    Object {
+                      "amount": "1234",
+                      "denom": "fabocoins",
+                    },
+                  ],
+                },
+              ],
+              "outputs": Array [
+                Object {
+                  "address": "tb1cy0q7p",
+                  "coins": Array [
+                    Object {
+                      "amount": "1234",
+                      "denom": "fabocoins",
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    "type": "wallet",
+  },
+]
+`;
+
+exports[`Module: Transactions should load and enrich txs 2`] = `
+Array [
+  Object {
     "hash": "A7C6DE5CB923AF08E6088F1348047F16BABB9F48",
     "height": 160,
     "time": 10160,
@@ -316,7 +451,7 @@ Array [
         ],
       },
     },
-    "type": "wallet",
+    "type": "staking",
   },
   Object {
     "hash": "A7C6FDE5CA923AF08E6088F1348047F16BABB9F48",
@@ -336,262 +471,66 @@ Array [
         ],
       },
     },
-    "type": "wallet",
+    "type": "staking",
   },
 ]
 `;
 
-exports[`Module: Transactions should load and enrich txs 2`] = `
+exports[`Module: Transactions should load and enrich txs 3`] = `
 Array [
   Object {
-    "hash": "not a real hash",
-    "height": "3436",
-    "time": 103436,
+    "hash": "QSDFGE5CA923AF08E6088F1348047F16BAHH8K31",
+    "height": 56673,
+    "time": undefined,
     "tx": Object {
-      "result": Object {
-        "fee": Object {},
-        "gasUsed": "3324",
-        "tags": Array [
-          Object {
-            "key": "c2VuZGVy",
-            "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
-          },
-          Object {
-            "key": "cmVjaXBpZW50",
-            "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
-          },
-        ],
-      },
       "type": "8EFE47F0625DE8",
       "value": Object {
-        "fee": Object {
-          "amount": Array [
-            Object {
-              "amount": 0,
-              "denom": "",
-            },
-          ],
-          "gas": 500000,
-        },
-        "gas": 500000,
         "msg": Array [
           Object {
-            "type": "EAFDE32A2C87F8",
+            "type": "cosmos-sdk/MsgSubmitProposal",
             "value": Object {
-              "inputs": Array [
+              "description": "This is a test proposal",
+              "initial_deposit": Array [
                 Object {
-                  "address": "tb1da6xsetjg9jxgun9wdesexv05j",
-                  "coins": Array [
-                    Object {
-                      "amount": 1234,
-                      "denom": "jbcoins",
-                    },
-                  ],
+                  "amount": "100",
+                  "denom": "stake",
                 },
               ],
-              "outputs": Array [
-                Object {
-                  "address": "tb1d4u5zerywfjhxuc9nudvw",
-                  "coins": Array [
-                    Object {
-                      "amount": 1234,
-                      "denom": "jbcoins",
-                    },
-                  ],
-                },
-              ],
-            },
-          },
-        ],
-        "signatures": Array [
-          Object {
-            "account_number": 28,
-            "pub_key": Object {
-              "type": "AC26791624DE60",
-              "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
-            },
-            "sequence": 0,
-            "signature": Object {
-              "type": "6BF5903DA1DB28",
-              "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
+              "proposal_type": "Text",
+              "proposer": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+              "title": "Test Proposal",
             },
           },
         ],
       },
     },
-    "type": "staking",
+    "type": "governance",
   },
   Object {
-    "hash": "not a real hash2",
-    "height": "3438",
-    "time": 103438,
+    "hash": "QASDE5CA923AF08EEE38F1348047F16BAHH8K31",
+    "height": 213,
+    "time": undefined,
     "tx": Object {
-      "result": Object {
-        "fee": Object {},
-        "gasUsed": "3324",
-        "tags": Array [
-          Object {
-            "key": "c2VuZGVy",
-            "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
-          },
-          Object {
-            "key": "cmVjaXBpZW50",
-            "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
-          },
-        ],
-      },
       "type": "8EFE47F0625DE8",
       "value": Object {
-        "fee": Object {
-          "amount": Array [
-            Object {
-              "amount": 0,
-              "denom": "",
-            },
-          ],
-          "gas": 500000,
-        },
-        "gas": 500000,
         "msg": Array [
           Object {
-            "type": "EAFDE32A2C87F8",
+            "type": "cosmos-sdk/MsgDeposit",
             "value": Object {
-              "inputs": Array [
+              "amount": Array [
                 Object {
-                  "address": "tb1d4u5zerywfjhxuc9nudvw",
-                  "coins": Array [
-                    Object {
-                      "amount": 1234,
-                      "denom": "jbcoins",
-                    },
-                  ],
+                  "amount": "100",
+                  "denom": "stake",
                 },
               ],
-              "outputs": Array [
-                Object {
-                  "address": "tb1da6xsetjg9jxgun9wdesexv05j",
-                  "coins": Array [
-                    Object {
-                      "amount": 1234,
-                      "denom": "jbcoins",
-                    },
-                  ],
-                },
-              ],
-            },
-          },
-        ],
-        "signatures": Array [
-          Object {
-            "account_number": 28,
-            "pub_key": Object {
-              "type": "AC26791624DE60",
-              "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
-            },
-            "sequence": 0,
-            "signature": Object {
-              "type": "6BF5903DA1DB28",
-              "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
+              "depositer": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+              "proposal_id": "1",
             },
           },
         ],
       },
     },
-    "type": "staking",
-  },
-  Object {
-    "hash": "not a real hash3",
-    "height": "466",
-    "time": 10466,
-    "tx": Object {
-      "result": Object {
-        "fee": Object {},
-        "gasUsed": "3324",
-        "tags": Array [
-          Object {
-            "key": "c2VuZGVy",
-            "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
-          },
-          Object {
-            "key": "cmVjaXBpZW50",
-            "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
-          },
-        ],
-      },
-      "type": "8EFE47F0625DE8",
-      "value": Object {
-        "fee": Object {
-          "amount": Array [
-            Object {
-              "amount": 0,
-              "denom": "",
-            },
-          ],
-          "gas": 500000,
-        },
-        "gas": 500000,
-        "msg": Array [
-          Object {
-            "type": "EAFDE32A2C87F8",
-            "value": Object {
-              "inputs": Array [
-                Object {
-                  "address": "tb1da6xsetjg9jxgun9wdesexv05j",
-                  "coins": Array [
-                    Object {
-                      "amount": 1234,
-                      "denom": "jbcoins",
-                    },
-                    Object {
-                      "amount": 1,
-                      "denom": "fabocoins",
-                    },
-                    Object {
-                      "amount": 42,
-                      "denom": "mattcoins",
-                    },
-                  ],
-                },
-              ],
-              "outputs": Array [
-                Object {
-                  "address": "tb1d4u5zerywfjhxuc9nudvw",
-                  "coins": Array [
-                    Object {
-                      "amount": 1234,
-                      "denom": "jbcoins",
-                    },
-                    Object {
-                      "amount": 1,
-                      "denom": "fabocoins",
-                    },
-                    Object {
-                      "amount": 42,
-                      "denom": "mattcoins",
-                    },
-                  ],
-                },
-              ],
-            },
-          },
-        ],
-        "signatures": Array [
-          Object {
-            "account_number": 28,
-            "pub_key": Object {
-              "type": "AC26791624DE60",
-              "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
-            },
-            "sequence": 0,
-            "signature": Object {
-              "type": "6BF5903DA1DB28",
-              "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
-            },
-          },
-        ],
-      },
-    },
-    "type": "staking",
+    "type": "governance",
   },
 ]
 `;

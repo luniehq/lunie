@@ -1,6 +1,6 @@
 "use strict"
 
-import { calculateShares, calculateTokens } from "scripts/common"
+import { calculateShares } from "scripts/common"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
@@ -176,7 +176,11 @@ export default ({ node }) => {
             delegator_addr: delegatorAddr,
             validator_src_addr: validatorSrc.operator_address,
             validator_dst_addr: validatorDst.operator_address,
-            shares: String(calculateShares(validatorSrc, atoms).toFixed(10))
+            shares: String(
+              calculateShares(validatorSrc, atoms)
+                .multipliedBy(10000000000)
+                .toFixed(10)
+            )
           })
         )
 
@@ -217,38 +221,39 @@ export default ({ node }) => {
         // )
         // )
       }, 5000)
-    },
-    async endUnbonding({ rootState, state, dispatch, commit }, validatorAddr) {
-      try {
-        await dispatch(`sendTx`, {
-          type: `updateDelegations`,
-          to: rootState.wallet.address, // TODO strange syntax
-          complete_unbondings: [
-            {
-              delegator_addr: rootState.wallet.address,
-              validator_addr: validatorAddr
-            }
-          ]
-        })
-
-        let balance = state.unbondingDelegations[validatorAddr].balance
-        commit(`setUnbondingDelegations`, {
-          validator_addr: validatorAddr,
-          balance: { amount: 0 }
-        })
-        commit(`notify`, {
-          title: `Ending undelegation successful`,
-          body: `You successfully undelegated ${balance.amount} ${
-            balance.denom
-          }s from ${validatorAddr}`
-        })
-      } catch (err) {
-        commit(`notifyError`, {
-          title: `Ending undelegation failed`,
-          body: err
-        })
-      }
     }
+    // deprecated
+    // async endUnbonding({ rootState, state, dispatch, commit }, validatorAddr) {
+    //   try {
+    //     await dispatch(`sendTx`, {
+    //       type: `updateDelegations`,
+    //       to: rootState.wallet.address, // TODO strange syntax
+    //       complete_unbondings: [
+    //         {
+    //           delegator_addr: rootState.wallet.address,
+    //           validator_addr: validatorAddr
+    //         }
+    //       ]
+    //     })
+
+    //     let balance = state.unbondingDelegations[validatorAddr].balance
+    //     commit(`setUnbondingDelegations`, {
+    //       validator_addr: validatorAddr,
+    //       balance: { amount: 0 }
+    //     })
+    //     commit(`notify`, {
+    //       title: `Ending undelegation successful`,
+    //       body: `You successfully undelegated ${balance.amount} ${
+    //         balance.denom
+    //       }s from ${validatorAddr}`
+    //     })
+    //   } catch (err) {
+    //     commit(`notifyError`, {
+    //       title: `Ending undelegation failed`,
+    //       body: err
+    //     })
+    //   }
+    // }
   }
 
   return {

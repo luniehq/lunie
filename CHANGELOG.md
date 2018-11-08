@@ -12,9 +12,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Contract tests for `keys` endpoints in lcdClient. @NodeGuy
 * Protected Gaia Lite process with a mutex to prevent locking error. @NodeGuy
 * catching errors on cache encryption. @faboweb
-* #1436 governance endpoints and vuex module @fedekunze
+* [\#1436](https://github.com/cosmos/voyager/issues/1436) governance endpoints and vuex module @fedekunze
 * [\#1482](https://github.com/cosmos/voyager/issues/1482) Added ESLint errors: no-var. @sgobotta
 * [\#1449](https://github.com/cosmos/voyager/issues/1449) shortNumber to num scripts for more readable numbers. @jbibla
+* [\#1464](https://github.com/cosmos/voyager/issues/1464) Added governance transactions to tx history page @fedekunze
+* [\1401](https://github.com/cosmos/voyager/issues/1401) Display governance proposals index. @fedekunze
+* [\#1472](https://github.com/cosmos/voyager/issues/1472) Added mock functionality for redelegation @fedekunze + @faboweb
 
 ### Changed
 
@@ -30,6 +33,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1496](https://github.com/cosmos/voyager/issues/1496) display validator pub_key instead of operator_address on livalidator and validator profile @jbibla
 * made running a local node easier by reducing it to 2 commands and presetting an account. @faboweb
 * [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library to 0.4.1 @faboweb
+* [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library @faboweb
+* [\#1410](https://github.com/cosmos/voyager/issues/1410) removed end undelegations as not needed in the SDK anymore
 
 ### Fixed
 
@@ -43,6 +48,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1451](https://github.com/cosmos/voyager/issues/1451) Provide better sourcemaps to make debugging easier. @faboweb
 * [\#1409](https://github.com/cosmos/voyager/issues/1409) Fixed disabled unbond and redelegation button when delegation amount was less than 1 @fedekunze
 * [\#1500](https://github.com/cosmos/voyager/issues/1500) Fixed wrong optimistic updates to the atom balance after staking @faboweb @fedekunze
+* [\#1517](https://github.com/cosmos/voyager/issues/1517) Fixed wrong account format used for querying selfBond @faboweb
+* [\#1503](https://github.com/cosmos/voyager/issues/1503) Added e2e test for balance updates after delegation @faboweb
+* [\#1440](https://github.com/cosmos/voyager/issues/1440) Fixed an error that prevented disconnecting from the RPC websocket if it wasn't defined @fedekunze
 
 ## [0.10.7] - 2018-10-10
 

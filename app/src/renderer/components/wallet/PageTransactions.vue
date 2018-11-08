@@ -17,11 +17,11 @@ tm-page(data-title='Transactions')
     tm-li-any-transaction(
       :validators="delegates.delegates"
       :validatorURL='validatorURL'
+      :proposalsURL='proposalsURL'
       :key="shortid.generate()"
       :transaction="tx"
       :address="wallet.address"
-      :bondingDenom="bondingDenom"
-      v-on:end-unbonding="endUnbonding(tx)")
+      :bondingDenom="bondingDenom")
 </template>
 
 <script>
@@ -93,15 +93,12 @@ export default {
       property: `height`,
       order: `desc`
     },
-    validatorURL: `/staking/validators`
+    validatorURL: `/staking/validators`,
+    proposalsURL: `/governance/proposals`
   }),
   methods: {
     refreshTransactions() {
       this.$store.dispatch(`getAllTxs`)
-    },
-    async endUnbonding(transaction) {
-      let validatorAddr = transaction.tx.value.msg[0].value.validator_addr
-      await this.$store.dispatch(`endUnbonding`, validatorAddr)
     },
     enrichUnbondingTransactions(transaction) {
       let copiedTransaction = JSON.parse(JSON.stringify(transaction))
