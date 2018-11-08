@@ -208,9 +208,10 @@ describe(`PageSend`, () => {
   })
 
   it(`should show notification for unsuccessful send`, async () => {
+    let denom = `notmycoin`
     wrapper.setData({
       fields: {
-        denom: `notmycoin`,
+        denom,
         address,
         amount: 2,
         zoneId: `cosmos-hub-1`
@@ -219,7 +220,7 @@ describe(`PageSend`, () => {
     node.sign = () => Promise.reject()
     await wrapper.vm.onApproved()
     expect(store.state.notifications.length).toBe(1)
-    expect(store.state.notifications[0].title).toBe(`Error Sending`)
+    expect(store.state.notifications[0].title).toBe(`Error Sending ${denom}s`)
     expect(store.state.notifications[0]).toMatchSnapshot()
   })
 

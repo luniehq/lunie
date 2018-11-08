@@ -168,7 +168,7 @@ export default {
       } catch (err) {
         this.sending = false
         this.$store.commit(`notifyError`, {
-          title: `Error Sending ${denom}`,
+          title: `Error Sending ${denom}s`,
           body: err.message
         })
       }
