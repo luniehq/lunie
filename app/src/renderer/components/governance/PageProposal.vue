@@ -48,7 +48,7 @@ tm-page(data-title='Proposal')
 
 <script>
 import num from "scripts/num"
-import { TmBtn, TmFormStruct, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
+import { TmBtn, TmPage, TmToolBar } from "@tendermint/ui"
 import TmBalance from "common/TmBalance"
 import FieldVote from "common/TmFieldVote"
 import TextBlock from "common/TextBlock"
@@ -59,10 +59,8 @@ export default {
     TmBalance,
     TmBtn,
     FieldVote,
-    TmFormStruct,
     TmToolBar,
     TmPage,
-    TmPart,
     TextBlock
   },
   computed: {
@@ -130,36 +128,6 @@ export default {
       return num.percentInt(
         this.proposal.tally_result.abstain / this.totalVotes
       )
-    }
-  },
-  data: () => ({
-    votePick: `abstain`,
-    voteVisible: false
-  }),
-  methods: {
-    vote(choice) {
-      this.votePick = choice
-    },
-    confirmVote() {
-      this.$store.commit(`notify`, {
-        title: `Voted '${this.votePick}'`,
-        body: `Your vote has been submitted.`
-      })
-    },
-    commentOnProposal(proposalId) {
-      this.$store.commit(`notify`, {
-        title: `View Discussion Thread`,
-        body: `TODO: Discuss ${proposalId} proposal on the forum.`
-      })
-    },
-    proposalIsSpam(proposalId) {
-      this.$store.commit(`notify`, {
-        title: `Mark Proposal As Spam`,
-        body: `TODO: Mark ${proposalId} proposal as a spam attack.`
-      })
-    },
-    toggleVoteVisible() {
-      this.voteVisible = !this.voteVisible
     }
   }
 }
