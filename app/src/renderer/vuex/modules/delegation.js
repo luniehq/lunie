@@ -1,6 +1,6 @@
 "use strict"
 
-import { calculateShares, calculateTokens } from "scripts/common"
+import { calculateShares } from "scripts/common"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
