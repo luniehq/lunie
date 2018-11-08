@@ -16,13 +16,13 @@ if (!process.env.ALLOW_CONSOLE) {
   global.console.error = (...args) => {
     originalError(...args)
     fail(
-      `console.error: ${args}, run with ALLOW_CONSOLE=true to show the console.error without failing `
+      `console.error in tests are forbidden (run with ALLOW_CONSOLE=true to show the console.error without failing)\n${args}`
     )
   }
   global.console.warn = (...args) => {
     originalWarn(...args)
     fail(
-      `console.warn: ${args}, run with ALLOW_CONSOLE=true to show the console.warn without failing`
+      `console.warn in tests are forbidden (run with ALLOW_CONSOLE=true to show the console.warn without failing)\n${args}`
     )
   }
 }
