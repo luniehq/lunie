@@ -51,9 +51,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
-import { required, helpers } from "vuelidate/lib/validators"
+import { required } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
@@ -87,7 +86,7 @@ export default {
       },
       approve: {
         required,
-        isValid
+        checked
       }
     }
   },
