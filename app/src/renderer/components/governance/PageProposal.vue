@@ -54,7 +54,7 @@ import FieldVote from "common/TmFieldVote"
 import TextBlock from "common/TextBlock"
 export default {
   name: `page-proposal`,
-  props: [`proposal`],
+  props: [`proposal`, `status`],
   components: {
     TmBalance,
     TmBtn,
@@ -75,44 +75,6 @@ export default {
         return `the same block`
       } else {
         return `block #` + num.prettyInt(this.proposal.voting_start_block)
-      }
-    },
-    status() {
-      switch (this.proposal.proposal_status) {
-        case `Passed`:
-          return {
-            button: null,
-            message: `This proposal has passed`,
-            color: `green`
-          }
-          break
-        case `Rejected`:
-          return {
-            button: null,
-            message: `This proposal has been rejected and voting is closed`,
-            color: `red`
-          }
-          break
-        case `Active`:
-          return {
-            button: `vote`,
-            message: `Voting for this proposal is open`,
-            color: `blue`
-          }
-          break
-        case `Pending`:
-          return {
-            button: `deposit`,
-            message: `Deposits are open for this proposal`,
-            color: `yellow`
-          }
-          break
-        default:
-          return {
-            button: null,
-            message: `There was an error determining the status of this proposal`,
-            color: `grey`
-          }
       }
     },
     totalVotes() {

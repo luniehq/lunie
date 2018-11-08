@@ -2,7 +2,7 @@
 tr.li-proposal.li-validator
   td.li-proposal__value
     h2
-      router-link(:to="{ name: 'Proposal', params: { proposalId, proposal }}") {{ proposal.title }}
+      router-link(:to="{ name: 'Proposal', params: { proposalId, proposal, status }}") {{ proposal.title }}
     span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
     p {{ description }}
   td {{ submitBlock }}
@@ -24,17 +24,42 @@ export default {
       if (this.proposal.proposal_status === `Pending`) return `yellow`
     },
     status() {
-      if (this.proposal.proposal_status === `Passed`)
-        return `This proposal has passed`
-
-      if (this.proposal.proposal_status === `Rejected`)
-        return `This proposal has been rejected and voting is closed`
-
-      if (this.proposal.proposal_status === `Active`)
-        return `Voting for this proposal is open`
-
-      if (this.proposal.proposal_status === `Pending`)
-        return `Deposits are open for this proposal`
+      switch (this.proposal.proposal_status) {
+        case `Passed`:
+          return {
+            button: null,
+            message: `This proposal has passed`,
+            color: `green`
+          }
+          break
+        case `Rejected`:
+          return {
+            button: null,
+            message: `This proposal has been rejected and voting is closed`,
+            color: `red`
+          }
+          break
+        case `Active`:
+          return {
+            button: `vote`,
+            message: `Voting for this proposal is open`,
+            color: `blue`
+          }
+          break
+        case `Pending`:
+          return {
+            button: `deposit`,
+            message: `Deposits are open for this proposal`,
+            color: `yellow`
+          }
+          break
+        default:
+          return {
+            button: null,
+            message: `There was an error determining the status of this proposal`,
+            color: `grey`
+          }
+      }
     },
     description() {
       return this.proposal.description.substring(0, 100)
