@@ -3,12 +3,7 @@
 const Client = (axios, localLcdURL, remoteLcdURL) => {
   async function request(method, path, data, useRemote) {
     const url = useRemote ? remoteLcdURL : localLcdURL
-
-    return (await axios({
-      method: method.toLowerCase(),
-      url: url + path,
-      data
-    })).data
+    return (await axios({ data, method, url: url + path })).data
   }
 
   // returns an async function which makes a request for the given
@@ -28,9 +23,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
       if (Array.isArray(args)) {
         args = args.join(`/`)
       }
-      if (method === `DELETE`) {
-        data = { data }
-      }
+
       return request(method, `${prefix}/${args}${suffix}`, data, useRemote)
     }
   }
