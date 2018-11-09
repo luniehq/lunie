@@ -1,8 +1,10 @@
 <template lang="pug">
 tm-page(data-title="Text Proposal")
+  template(slot="menu-body")
+    tm-balance
+
   div(slot="menu"): vm-tool-bar
-    router-link(to="/governance/proposals/new" exact v-tooltip.bottom="'Back'")
-      i.material-icons arrow_back
+
   tm-form-struct(:submit="onSubmit")
     tm-form-group(:error="$v.fields.title.$error"
       field-id='proposal-title' field-label='Proposal Title')
@@ -32,6 +34,7 @@ tm-page(data-title="Text Proposal")
 </template>
 
 <script>
+import TmBalance from "common/TmBalance"
 import { minLength, maxLength, required } from "vuelidate/lib/validators"
 import {
   TmBtn,
@@ -46,6 +49,7 @@ import VmToolBar from "common/VmToolBar"
 export default {
   name: `page-proposals-text`,
   components: {
+    TmBalance,
     TmBtn,
     TmField,
     TmFormGroup,
