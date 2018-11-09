@@ -84,9 +84,9 @@ export default {
       return `#` + num.prettyInt(this.proposal.submit_block)
     },
     voteBlock() {
-      if (this.proposal.submit_block === this.proposal.voting_start_block) {
+      if (this.proposal.submit_block === this.proposal.voting_start_block)
         return `the same block`
-      } else {
+      else {
         return `block #` + num.prettyInt(this.proposal.voting_start_block)
       }
     },
