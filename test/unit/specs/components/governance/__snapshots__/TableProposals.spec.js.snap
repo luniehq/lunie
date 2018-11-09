@@ -34,7 +34,7 @@ exports[`TableProposals has the expected html structure 1`] = `
                   <a href=\\"#/governance/1\\" class=\\"\\">Proposal Title</a>
                </h2>
                <p>
-                  Proposal description…
+                  Proposal description
                </p>
 </td>
             <td>

@@ -19,7 +19,7 @@ exports[`LiProposal has the expected html structure 1`] = `
       </a>
     </h2>
     <p>
-      Proposal description…
+      Proposal description
     </p>
   </td>
   <td>

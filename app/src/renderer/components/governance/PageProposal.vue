@@ -79,10 +79,10 @@ export default {
     },
     totalVotes() {
       return (
-        this.proposal.tally_result.yes +
-        this.proposal.tally_result.no +
-        this.proposal.tally_result.no_with_veto +
-        this.proposal.tally_result.abstain
+        Number(this.proposal.tally_result.yes) +
+        Number(this.proposal.tally_result.no) +
+        Number(this.proposal.tally_result.no_with_veto) +
+        Number(this.proposal.tally_result.abstain)
       )
     },
     yesPercentage() {

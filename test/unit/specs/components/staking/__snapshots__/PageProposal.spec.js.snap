@@ -197,7 +197,7 @@ exports[`PageProposal has the expected html structure 1`] = `
               Yes
             </dt>
             <dd>
-              500 / 0%
+              500 / 85%
             </dd>
           </dl>
           <dl
@@ -207,7 +207,7 @@ exports[`PageProposal has the expected html structure 1`] = `
               No
             </dt>
             <dd>
-              25 / 0%
+              25 / 4%
             </dd>
           </dl>
           <dl
@@ -217,7 +217,7 @@ exports[`PageProposal has the expected html structure 1`] = `
               No with Veto
             </dt>
             <dd>
-              10 / 0%
+              10 / 2%
             </dd>
           </dl>
           <dl
@@ -227,7 +227,7 @@ exports[`PageProposal has the expected html structure 1`] = `
               Abstain
             </dt>
             <dd>
-              56 / 0%
+              56 / 9%
             </dd>
           </dl>
         </div>

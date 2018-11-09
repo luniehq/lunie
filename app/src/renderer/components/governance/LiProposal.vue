@@ -44,7 +44,9 @@ export default {
         }
     },
     description() {
-      return this.proposal.description.substring(0, 100) + `…`
+      return this.proposal.description.length > 100
+        ? this.proposal.description.substring(0, 100) + `…`
+        : this.proposal.description.substring(0, 100)
     },
     submitBlock() {
       return `#` + num.prettyInt(this.proposal.submit_block)
