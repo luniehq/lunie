@@ -2,53 +2,48 @@
   .modal-vote#modal-vote(v-click-outside="close")
     .modal-vote-header
       img.icon(class='modal-vote-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Cast Vote on proposal {{ `#` + proposalId }}
+      span.tm-modal-title Vote
       .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
         i.material-icons close
+
+    div
+      h2 Title: {{ proposalTitle }}
+      h3 Proposal ID: {{ `#` + proposalId }}
 
     tm-form-group.modal-vote-form-group.options
       tm-btn#vote-yes(
         @click.native="voteYes"
-        :disabled="option != `yes` && option != ``"
+        :class="[option ===  `yes` ? 'active' : '']"
         color="secondary"
         value="Yes"
         size="md")
 
       tm-btn#vote-no(
         @click.native="voteNo"
-        :disabled="option != `no` && option != ``"
+        :class="[option === `no` ? 'active' : '']"
         color="secondary"
         value="No"
         size="md")
 
       tm-btn#vote-veto(
         @click.native="voteVeto"
-        :disabled="option != `no_with_veto` && option != ``"
+        :class="[option === `no_with_veto` ? 'active' : '']"
         color="secondary"
         value="No With Veto"
         size="md")
 
       tm-btn#vote-abstain(
         @click.native="voteAbstain"
-        :disabled="option != `abstain` && option != ``"
+        :class="[option === `abstain` ? 'active' : '']"
         color="secondary"
         value="Abstain"
         size="md")
-
-    tm-form-group.modal-vote-form-group(
-      field-id='checkbox'
-    )
-
-      tm-field#checkbox(
-        type="checkbox"
-        v-model="approve"
-        )
 
     tm-form-group.modal-vote-form-group
     .modal-vote-footer
       tm-btn#cast-vote(
         @click.native="onVote"
-        :disabled="$v.option.$invalid || $v.approve.$invalid"
+        :disabled="$v.option.$invalid"
         color="primary"
         value="Vote"
         size="lg")
@@ -70,7 +65,7 @@ const checked = value => !!value
 
 export default {
   name: `modal-vote`,
-  props: [`proposalId`],
+  props: [`proposalId`, `proposalTitle`],
   components: {
     Modal,
     TmBtn,
@@ -87,10 +82,6 @@ export default {
       option: {
         required,
         isValid
-      },
-      approve: {
-        required,
-        checked
       }
     }
   },
@@ -127,10 +118,8 @@ export default {
       }
     },
     onVote() {
-      if (this.approve) {
-        this.$emit(`castVote`, { option: this.option })
-        this.close()
-      }
+      this.$emit(`castVote`, { option: this.option })
+      this.close()
     }
   },
   directives: {
@@ -159,6 +148,10 @@ export default {
     align-items center
     display flex
 
+  &-atom
+    height 4rem
+    width 4rem
+
   &-form-group
     display block
     padding 0
@@ -167,6 +160,20 @@ export default {
     display flex
     justify-content flex-end
 
-    button
-      margin-left 1rem
+  h3
+    margin 0
+
+  button
+    margin 0
+    min-width 50%
+
+    span
+      margin 0.25rem
+
+    &.active
+      span
+        background var(--tertiary)
+
+    .tm-btn__container
+      padding 0.5rem
 </style>
