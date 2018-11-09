@@ -25,17 +25,16 @@ export default [
     path: `/governance/proposals/new`,
     component: governance(`ProposalsNewText`)
   },
-  // TODO: enable once PageProposal is finished
-  // {
-  //   path: `governance/proposals/:proposal`,
-  //   name: `proposal`,
-  //   component: governance(`Proposal`)
-  // },
-
+  {
+    path: `/governance/:proposalId`,
+    name: `Proposal`,
+    component: require(`./components/governance/PageProposal`).default,
+    props: true
+  },
   // STAKE
   {
     path: `/staking`,
-    name: `staking`,
+    name: `Staking`,
     component: staking(`Staking`),
     redirect: `/staking/my-delegations/`,
     children: [
