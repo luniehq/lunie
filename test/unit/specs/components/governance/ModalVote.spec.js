@@ -14,7 +14,8 @@ describe(`ModalVote`, () => {
     let instance = mount(ModalVote, {
       localVue,
       propsData: {
-        proposalId: lcdClientMock.state.proposals[0].proposal_id
+        proposalId: lcdClientMock.state.proposals[0].proposal_id,
+        proposalTitle: lcdClientMock.state.proposals[0].title
       }
     })
     wrapper = instance.wrapper
@@ -33,52 +34,40 @@ describe(`ModalVote`, () => {
     it(`the 'option' defaults to an empty string`, () => {
       expect(wrapper.vm.option).toEqual(``)
     })
-
-    it(`checkbox value default to false`, () => {
-      let checkbox = wrapper.find(`#checkbox`)
-      expect(JSON.parse(checkbox.element.value)).toBe(false) // value is returned as string (`false`)
-      expect(wrapper.vm.approve).toEqual(false)
-    })
   })
 
   describe(`enables or disables Vote correctly`, () => {
     it(`disables the 'Vote' button`, () => {
       // default values
       let voteBtn = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
-
-      // selected option but hasn't approved checkbox
-      wrapper.setData({ option: `yes`, approve: false })
-      voteBtn = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
-
-      // approved checkbox but hasn't selected option
-      wrapper.setData({ option: ``, approve: true })
-      voteBtn = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+      expect(voteBtn.html()).not.toContain(`active`)
 
       // non valid option value
-      wrapper.setData({ option: `other`, approve: true })
-      voteBtn = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+      wrapper.setData({ option: `other` })
+      expect(voteBtn.html()).not.toContain(`active`)
     })
 
     it(`enables the 'Vote' button if the user selected a valid option`, () => {
-      wrapper.setData({ option: `yes`, approve: true })
-      let voteBtn = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      wrapper.setData({ option: `yes` })
+      let voteBtn = wrapper.find(`#vote-yes`)
+      let submitButton = wrapper.find(`#cast-vote`)
+      expect(voteBtn.html()).toContain(`active`)
+      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
 
-      wrapper.setData({ option: `no`, approve: true })
-      voteBtn = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      wrapper.setData({ option: `no` })
+      voteBtn = wrapper.find(`#vote-no`)
+      expect(voteBtn.html()).toContain(`active`)
+      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
 
-      wrapper.setData({ option: `no_with_veto`, approve: true })
-      voteBtn = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      wrapper.setData({ option: `no_with_veto` })
+      voteBtn = wrapper.find(`#vote-veto`)
+      expect(voteBtn.html()).toContain(`active`)
+      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
 
-      wrapper.setData({ option: `abstain`, approve: true })
-      voteBtn = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      wrapper.setData({ option: `abstain` })
+      voteBtn = wrapper.find(`#vote-abstain`)
+      expect(voteBtn.html()).toContain(`active`)
+      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
     })
   })
 
@@ -119,7 +108,7 @@ describe(`ModalVote`, () => {
     })
 
     it(`Vote button casts a vote and closes modal`, () => {
-      wrapper.setData({ option: `yes`, approve: true })
+      wrapper.setData({ option: `yes` })
       wrapper.vm.onVote()
 
       expect(wrapper.emittedByOrder()).toEqual([
@@ -132,13 +121,6 @@ describe(`ModalVote`, () => {
           args: [false]
         }
       ])
-    })
-
-    it(`Avoids submitting a vote if the user hasn't selected the checkbox`, () => {
-      wrapper.setData({ option: `yes`, approve: false })
-      wrapper.vm.onVote()
-
-      expect(wrapper.emittedByOrder()).toEqual([])
     })
   })
 })

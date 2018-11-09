@@ -61,8 +61,6 @@ const isValid = option =>
   option === `no_with_veto` ||
   option === `abstain`
 
-const checked = value => !!value
-
 export default {
   name: `modal-vote`,
   props: [`proposalId`, `proposalTitle`],
