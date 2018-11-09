@@ -248,12 +248,13 @@ exports[`PageProposal has the expected html structure 1`] = `
             <p>
               Proposal description
             </p>
-
+            
 
           </div>
         </div>
       </div>
     </div>
+    <!---->
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"

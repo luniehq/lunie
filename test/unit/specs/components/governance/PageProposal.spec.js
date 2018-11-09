@@ -83,7 +83,7 @@ describe(`PageProposal`, () => {
     })
   })
 
-  describe.only(`Vote`, () => {
+  describe(`Vote`, () => {
     describe(`unit`, () => {
       it(`success`, async () => {
         let option = `no_with_veto`
