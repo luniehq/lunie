@@ -15,9 +15,9 @@ tm-page(data-title='Proposal')
               span.validator-profile__status(v-bind:class="status.color" v-tooltip.top="status.message")
               .validator-profile__header__name__title {{ proposal.title }}
           .column.validator-profile__header__actions
-            tm-btn#vote-btn(value="Vote" color="primary" @click.native="onVote")
-            //- tm-btn(v-if="status.button === 'deposit'" value="Deposit" color="primary")
-            //- tm-btn(v-if="!status.button" disabled value="Deposit / Vote" color="primary")
+            tm-btn#vote-btn(v-if="status.button === 'vote'" value="Vote" color="primary" @click.native="onVote")
+            tm-btn(v-if="status.button === 'deposit'" value="Deposit" color="primary")
+            tm-btn(v-if="!status.button" disabled value="Deposit / Vote" color="primary")
 
         .row.description
           p This {{ proposalType }} proposal ({{ `#` + proposal.proposal_id }}) was submitted at block {{ submitBlock }} and voting started at {{ voteBlock }}.
