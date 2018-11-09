@@ -37,7 +37,7 @@ describe(`Module: Votes`, () => {
   })
 
   it(`submits a vote on a proposal`, async () => {
-    let { actions, state } = module
+    let { actions } = module
     jest.useFakeTimers()
 
     const rootState = {
