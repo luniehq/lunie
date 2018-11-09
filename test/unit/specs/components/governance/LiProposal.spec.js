@@ -82,6 +82,21 @@ describe(`LiProposal`, () => {
     })
   })
 
+  it(`should return status info for an unknown proposal type`, () => {
+    proposal.proposal_status = `Unknown`
+    let { wrapper } = mount(LiProposal, {
+      propsData: {
+        proposal
+      }
+    })
+    wrapper.update()
+    expect(wrapper.vm.status).toEqual({
+      button: null,
+      message: `There was an error determining the status of this proposal.`,
+      color: `grey`
+    })
+  })
+
   it(`should not truncate the description or add an ellipsis`, () => {
     expect(wrapper.vm.description).toEqual(`Proposal description`)
   })
