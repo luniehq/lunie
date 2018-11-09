@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\1401](https://github.com/cosmos/voyager/issues/1401) Display governance proposals index. @fedekunze
 * [\#1472](https://github.com/cosmos/voyager/issues/1472) Added mock functionality for redelegation @fedekunze + @faboweb
 * [\#1501](https://github.com/cosmos/voyager/issues/1501) Vote on proposals through modal @fedekunze + @jbibla
+* [\1502](https://github.com/cosmos/voyager/issues/1502) A page for each proposal. @jbibla
 
 ### Changed
 

@@ -365,7 +365,7 @@ let state = {
       ],
       submit_block: `10`,
       voting_start_block: `-1`,
-      proposal_status: `DepositPeriod`,
+      proposal_status: `Pending`,
       tally_result: {
         yes: `0`,
         no: `0`,

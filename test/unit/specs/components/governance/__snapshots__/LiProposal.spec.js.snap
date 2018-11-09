@@ -2,17 +2,28 @@
 
 exports[`LiProposal has the expected html structure 1`] = `
 <tr
-  class="li-proposal li-validator"
+  class="li-proposal"
 >
   <td
     class="li-proposal__value"
   >
+    <span
+      class="validator-profile__status green"
+    />
     <h2>
-      Proposal Title
+      <a
+        class=""
+        href="#/governance/1"
+      >
+        Proposal Title
+      </a>
     </h2>
     <p>
-      Status: Passed
+      Proposal description
     </p>
+  </td>
+  <td>
+    #120
   </td>
   <td
     class="li-proposal__value yes"

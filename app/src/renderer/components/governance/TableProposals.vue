@@ -95,6 +95,12 @@ export default {
           class: `proposal_title`
         },
         {
+          title: `Submitted Block`,
+          value: `submit_block`,
+          tooltip: `Block height when proposal was submitted`,
+          class: `submit_block`
+        },
+        {
           title: `Yes`,
           value: `tally_result.yes`,
           tooltip: `Yes votes`,
