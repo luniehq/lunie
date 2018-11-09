@@ -2,7 +2,7 @@
   .modal-vote#modal-vote(v-click-outside="close")
     .modal-vote-header
       img.icon(class='modal-vote-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Cast Vote
+      span.tm-modal-title Cast Vote on proposal {{ `#` + proposalId }}
       .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
         i.material-icons close
 
@@ -128,10 +128,7 @@ export default {
     },
     onVote() {
       if (this.approve) {
-        this.$emit(`submitVote`, {
-          proposal_id: this.proposalId,
-          option: this.option
-        })
+        this.$emit(`castVote`, { option: this.option })
         this.close()
       }
     }

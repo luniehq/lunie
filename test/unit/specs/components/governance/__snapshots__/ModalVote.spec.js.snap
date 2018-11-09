@@ -3,7 +3,7 @@
 exports[`renders correctly 1`] = `
 "<div id=\\"modal-vote\\" class=\\"modal-vote\\">
    <div class=\\"modal-vote-header\\">
-      <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon modal-vote-atom\\"><span class=\\"tm-modal-title\\">Cast Vote</span>
+      <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon modal-vote-atom\\"><span class=\\"tm-modal-title\\">Cast Vote on proposal #1</span>
       <div id=\\"closeBtn\\" class=\\"tm-modal-icon tm-modal-close\\">
          <i class=\\"material-icons\\">close</i>
       </div>

@@ -108,11 +108,10 @@ test(`Vote button casts a vote and closes modal`, () => {
 
   expect(wrapper.emittedByOrder()).toEqual([
     {
-      name: `submitVote`,
+      name: `castVote`,
       args: [
         {
-          option: `yes`,
-          proposal_id: lcdClientMock.state.proposals[0].proposal_id
+          option: `yes`
         }
       ]
     },
