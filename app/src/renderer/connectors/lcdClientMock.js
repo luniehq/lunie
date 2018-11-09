@@ -21,6 +21,9 @@ let state = {
       address: addresses[0]
     }
   ],
+  wallet: {
+    address: addresses[0]
+  },
   accounts: {
     [addresses[0]]: {
       coins: [
@@ -865,8 +868,64 @@ module.exports = {
   async getProposalVotes(proposalId) {
     return state.votes[proposalId]
   },
-  async getProposalVote(proposalId, address) {
-    return state.votes[proposalId].find(vote => vote.voter === address)
+  async submitProposalVote({
+    proposal_id,
+    base_req: { name, sequence },
+    option,
+    voter
+  }) {
+    console.log(proposal_id, name, sequence, option, voter)
+    let results = []
+    let fromKey = state.keys.find(a => a.name === name)
+    let fromAccount = state.accounts[fromKey.address]
+
+    if (fromAccount == null) {
+      results.push(txResult(1, `Nonexistent account`))
+      return results
+    }
+    // check nonce
+    if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
+      results.push(
+        txResult(
+          2,
+          `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
+        )
+      )
+      return results
+    }
+
+    let proposal = state.proposals.find(
+      proposal => proposal.proposal_id === proposal_id
+    )
+
+    if (!proposal) {
+      results.push(txResult(3, `Nonexistent proposal`))
+      return results
+    } else if (proposal.proposal_status != `Active`) {
+      results.push(txResult(3, `Proposal #${proposal_id} is inactive`))
+      return results
+    } else if (
+      option !== `yes` ||
+      option != `no` ||
+      option != `no_with_veto` ||
+      option != `abstain`
+    ) {
+      results.push(txResult(3, `Invalid option ${option}`))
+      return results
+    }
+
+    let vote = {
+      proposal_id,
+      option,
+      voter
+    }
+    state.votes[proposal_id].push(vote)
+    storeTx(`cosmos-sdk/MsgVote`, vote)
+    results.push(txResult(0))
+    return results
+  },
+  async getProposalVote(proposal_id, address) {
+    return state.votes[proposal_id].find(vote => vote.voter === address)
   },
   async queryProposals() {
     // TODO: return only value of the `value` property when https://github.com/cosmos/cosmos-sdk/issues/2507 is solved

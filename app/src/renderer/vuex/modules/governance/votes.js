@@ -18,18 +18,12 @@ export default ({ node }) => {
       commit(`setProposalVotes`, proposalId, votes)
       state.loading = false
     },
-    async submitVote(
-      {
-        rootState: { wallet },
-        dispatch
-      },
-      proposalId,
-      option
-    ) {
+    async submitVote({ rootState, dispatch }, { proposalId, option }) {
+      console.log(rootState.wallet.address)
       await dispatch(`sendTx`, {
-        type: `submitVote`,
+        type: `submitProposalVote`,
         proposal_id: proposalId,
-        voter: wallet.address,
+        voter: rootState.wallet.address,
         option
       })
       setTimeout(async () => {

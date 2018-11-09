@@ -119,13 +119,10 @@ export default {
       this.showModalVote = true
     },
     async castVote({ option }) {
-      let vote = {
-        proposalId: this.proposal.proposal_id,
-        option
-      }
+      let proposalId = this.proposal.proposal_id
 
       try {
-        await this.$store.dispatch(`submitVote`, { vote })
+        await this.$store.dispatch(`submitVote`, { proposalId, option })
 
         this.$store.commit(`notify`, {
           title: `Successful vote!`,

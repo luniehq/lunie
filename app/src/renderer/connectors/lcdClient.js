@@ -192,7 +192,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     submitProposal: function(data) {
       return req(`POST`, `/gov/proposals`, true)(data)
     },
-    submitVote: function(proposalId, data) {
+    submitProposalVote: function(proposalId, data) {
       return req(`POST`, `/gov/proposals/${proposalId}/votes`, true)(data)
     },
     submitDeposit: function(proposalId, data) {
