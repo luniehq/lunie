@@ -254,7 +254,10 @@ exports[`PageProposal has the expected html structure 1`] = `
         </div>
       </div>
     </div>
+<<<<<<< HEAD
     <!---->
+=======
+>>>>>>> 2786be11626534f7ded62b7f0ff4561458702bf4
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
