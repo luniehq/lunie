@@ -81,4 +81,21 @@ describe(`LiProposal`, () => {
       color: `yellow`
     })
   })
+
+  it(`should not truncate the description or add an ellipsis`, () => {
+    expect(wrapper.vm.description).toEqual(`Proposal description`)
+  })
+
+  it(`should truncate the description and add an ellipsis`, () => {
+    proposal.description = `this is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncation.`
+    let { wrapper } = mount(LiProposal, {
+      propsData: {
+        proposal
+      }
+    })
+    wrapper.update()
+    expect(wrapper.vm.description).toEqual(
+      `this is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncati…`
+    )
+  })
 })
