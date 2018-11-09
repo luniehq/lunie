@@ -12,6 +12,7 @@ describe(`Module: Votes`, () => {
 
   it(`adds votes to state`, () => {
     let { mutations, state } = module
+    console.log(proposals)
     mutations.setProposalVotes(state, proposals[0].proposal_id, votes)
     expect(state.votes[proposals[0].proposal_id]).toEqual(votes)
   })
@@ -36,7 +37,7 @@ describe(`Module: Votes`, () => {
   })
 
   it(`submits a vote on a proposal`, async () => {
-    let { actions } = module
+    let { actions, state } = module
     jest.useFakeTimers()
 
     const rootState = {
@@ -52,15 +53,15 @@ describe(`Module: Votes`, () => {
       await actions.submitVote(
         { rootState, dispatch },
         proposal.proposal_id,
-        votes[proposal.proposal_id].option
+        `yes`
       )
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
-          type: `submitVote`,
+          type: `submitProposalVote`,
           proposal_id: proposal.proposal_id,
           voter: addresses[0],
-          option: votes[proposal.proposal_id].option
+          option: `yes`
         }
       ])
 
