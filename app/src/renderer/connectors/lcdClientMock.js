@@ -910,7 +910,7 @@ module.exports = {
       option != `no_with_veto` ||
       option != `abstain`
     ) {
-      results.push(txResult(3, `Invalid option ${option}`))
+      results.push(txResult(3, `Invalid option '${option}'`))
       return results
     }
 
