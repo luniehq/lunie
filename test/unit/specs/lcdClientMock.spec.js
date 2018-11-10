@@ -855,12 +855,14 @@ describe(`LCD Client Mock`, () => {
       it(`fetches all governance proposals`, async () => {
         let proposals = lcdClientMock.state.proposals
         let proposalsRes = await client.getProposals()
+        expect(proposalsRes).toBeDefined()
         expect(proposalsRes).toEqual(proposals)
       })
 
       it(`queries a single proposal`, async () => {
         let proposals = lcdClientMock.state.proposals
-        let proposalRes = await client.getProposal(1)
+        let proposalRes = await client.getProposal(`1`)
+        expect(proposalRes).toBeDefined()
         expect(proposalRes).toEqual(proposals[0])
       })
     })
@@ -868,53 +870,58 @@ describe(`LCD Client Mock`, () => {
     describe(`Deposits`, () => {
       it(`queries a proposal deposits`, async () => {
         let { deposits } = lcdClientMock.state
-        let depositsRes = await client.getProposalDeposits(1)
-        expect(depositsRes).toEqual(deposits[1])
+        let depositsRes = await client.getProposalDeposits(`1`)
+        expect(depositsRes).toBeDefined()
+        expect(depositsRes).toEqual(deposits[`1`])
       })
 
       it(`queries a proposal deposit from an address`, async () => {
         let { deposits } = lcdClientMock.state
         let depositRes = await client.getProposalDeposit(
-          1,
-          deposits[1][0].depositer
+          `1`,
+          deposits[`1`][0].depositer
         )
-        expect(depositRes).toEqual(deposits[1][0])
+        expect(depositRes).toBeDefined()
+        expect(depositRes).toEqual(deposits[`1`][0])
       })
     })
 
     describe(`Votes`, () => {
       it(`queries a proposal votes`, async () => {
         let { votes } = lcdClientMock.state
-        let votesRes = await client.getProposalVotes(1)
-        expect(votesRes).toEqual(votes[1])
+        let votesRes = await client.getProposalVotes(`1`)
+        expect(votesRes).toBeDefined()
+        expect(votesRes).toEqual(votes[`1`])
       })
 
       it(`queries a proposal vote from an address`, async () => {
         let { votes } = lcdClientMock.state
-        let voteRes = await client.getProposalVote(1, votes[1][0].voter)
-        expect(voteRes).toEqual(votes[1][0])
+        let voteRes = await client.getProposalVote(`1`, votes[`1`][0].voter)
+        expect(voteRes).toBeDefined()
+        expect(voteRes).toEqual(votes[`1`][0])
       })
 
       it(`votes successfully on an active proposal`, async () => {
-        let proposalBefore = await client.getProposal(1)
-        const option = `no_with_veto`
+        let proposalBefore = await client.getProposal(`2`)
+        let option = `no_with_veto`
         await client.submitProposalVote({
           base_req: {
             name: `default`,
             sequence: 1
           },
-          proposal_id: 1,
-          option,
+          proposal_id: `2`,
+          option: option,
           voter: lcdClientMock.addresses[0]
         })
 
-        let res = await client.getProposalVote(1, lcdClientMock.addresses[0])
+        let res = await client.getProposalVote(`2`, lcdClientMock.addresses[0])
+        expect(res).toBeDefined()
         expect(res.option).toEqual(option)
 
         // check if the tally was updated
-        let proposalAfter = await client.getProposal(1)
+        let proposalAfter = await client.getProposal(`2`)
         expect(proposalAfter.tally_result[option]).toEqual(
-          proposalBefore.tally_result[option] + 1
+          String(parseInt(proposalBefore.tally_result[option]) + 1)
         )
       })
 
@@ -924,7 +931,7 @@ describe(`LCD Client Mock`, () => {
             name: `default`,
             sequence: 1
           },
-          proposal_id: 17,
+          proposal_id: `17`,
           option: `yes`,
           voter: lcdClientMock.addresses[0]
         })
@@ -939,7 +946,7 @@ describe(`LCD Client Mock`, () => {
             name: `default`,
             sequence: 1
           },
-          proposal_id: 1,
+          proposal_id: `1`,
           option: `yes`,
           voter: lcdClientMock.addresses[0]
         })
@@ -954,7 +961,7 @@ describe(`LCD Client Mock`, () => {
             name: `default`,
             sequence: 1
           },
-          proposal_id: 1,
+          proposal_id: `2`,
           option: `other`,
           voter: lcdClientMock.addresses[0]
         })

@@ -124,7 +124,7 @@ describe(`PageProposal`, () => {
 
         it(`error`, async () => {
           const dispatch = jest.fn(() => {
-            throw new Error(`one\ntwo\nthree\nfour\nfive\nsix\nseven`)
+            throw new Error(`unexpected error`)
           })
 
           const $store = {
@@ -154,7 +154,10 @@ describe(`PageProposal`, () => {
           expect($store.commit.mock.calls).toEqual([
             [
               `notifyError`,
-              { body: `six`, title: `Error while voting on proposal #1` }
+              {
+                body: `unexpected error`,
+                title: `Error while voting on proposal #1`
+              }
             ]
           ])
         })

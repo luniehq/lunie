@@ -350,6 +350,33 @@ let state = {
       }
     },
     {
+      proposal_id: `2`,
+      proposal_type: `Text`,
+      title: `Active proposal`,
+      description: `custom text proposal description`,
+      initial_deposit: [
+        {
+          denom: `stake`,
+          amount: `200`
+        }
+      ],
+      total_deposit: [
+        {
+          denom: `stake`,
+          amount: `200`
+        }
+      ],
+      submit_block: `10`,
+      voting_start_block: `10`,
+      proposal_status: `Active`,
+      tally_result: {
+        yes: `0`,
+        no: `0`,
+        no_with_veto: `0`,
+        abstain: `0`
+      }
+    },
+    {
       proposal_id: `5`,
       proposal_type: `Text`,
       title: `Custom text proposal`,
@@ -390,6 +417,7 @@ let state = {
         option: `no_with_veto`
       }
     ],
+    2: [],
     5: [
       {
         proposal_id: `5`,
@@ -422,6 +450,7 @@ let state = {
         }
       }
     ],
+    2: [],
     5: [
       {
         proposal_id: `5`,
@@ -874,7 +903,6 @@ module.exports = {
     option,
     voter
   }) {
-    console.log(proposal_id, name, sequence, option, voter)
     let results = []
     let fromKey = state.keys.find(a => a.name === name)
     let fromAccount = state.accounts[fromKey.address]
@@ -905,10 +933,10 @@ module.exports = {
       results.push(txResult(3, `Proposal #${proposal_id} is inactive`))
       return results
     } else if (
-      option !== `yes` ||
-      option != `no` ||
-      option != `no_with_veto` ||
-      option != `abstain`
+      option !== `yes` &&
+      option !== `no` &&
+      option !== `no_with_veto` &&
+      option !== `abstain`
     ) {
       results.push(txResult(3, `Invalid option '${option}'`))
       return results
@@ -919,8 +947,14 @@ module.exports = {
       option,
       voter
     }
+
     state.votes[proposal_id].push(vote)
-    state.proposals[proposal_id].tally_result[option]++
+    let intTallyResult = parseInt(
+      state.proposals[proposal_id].tally_result[option]
+    )
+    state.proposals[proposal_id].tally_result[option] = String(
+      intTallyResult + 1
+    )
     storeTx(`cosmos-sdk/MsgVote`, vote)
     results.push(txResult(0))
     return results
