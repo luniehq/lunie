@@ -66,7 +66,7 @@ describe(`Module: Votes`, () => {
       ])
 
       jest.runAllTimers()
-      expect(dispatch.mock.calls[i + 2]).toEqual([
+      expect(dispatch.mock.calls[i + proposals.length]).toEqual([
         `getProposalVotes`,
         proposal.proposal_id
       ])
