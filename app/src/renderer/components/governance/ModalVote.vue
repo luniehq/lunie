@@ -72,8 +72,7 @@ export default {
     TmFormMsg
   },
   data: () => ({
-    option: ``,
-    approve: false
+    option: ``
   }),
   validations() {
     return {

@@ -895,7 +895,7 @@ describe(`LCD Client Mock`, () => {
         expect(voteRes).toEqual(votes[1][0])
       })
 
-      it(`casts a vote on an active proposal`, async () => {
+      it(`votes successfully on an active proposal`, async () => {
         let proposalBefore = await client.getProposal(1)
         const option = `no_with_veto`
         await client.submitProposalVote({
@@ -918,7 +918,7 @@ describe(`LCD Client Mock`, () => {
         )
       })
 
-      it(`fails to cast a vote on an invalid proposal`, async () => {
+      it(`fails to vote on an invalid proposal`, async () => {
         let res = await client.submitProposalVote({
           base_req: {
             name: `default`,
@@ -933,7 +933,7 @@ describe(`LCD Client Mock`, () => {
         expect(res[0].check_tx.log).toBe(`Nonexistent proposal`)
       })
 
-      it(`fails to cast a vote on an inactive proposal`, async () => {
+      it(`fails to vote on an inactive proposal`, async () => {
         let res = await client.submitProposalVote({
           base_req: {
             name: `default`,
@@ -948,7 +948,7 @@ describe(`LCD Client Mock`, () => {
         expect(res[0].check_tx.log).toBe(`Proposal #1 is inactive`)
       })
 
-      it(`fails to cast a vote if the selected option is invalid`, async () => {
+      it(`fails to vote if the selected option is invalid`, async () => {
         let res = await client.submitProposalVote({
           base_req: {
             name: `default`,
