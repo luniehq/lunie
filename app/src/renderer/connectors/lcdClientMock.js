@@ -920,6 +920,7 @@ module.exports = {
       voter
     }
     state.votes[proposal_id].push(vote)
+    state.proposals[proposal_id].tally_result[option]++
     storeTx(`cosmos-sdk/MsgVote`, vote)
     results.push(txResult(0))
     return results

@@ -35,7 +35,6 @@ export default ({ node }) => {
     delete args.to
     args.gas = `50000000`
 
-    console.log(args)
     // submit to LCD to build, sign, and broadcast
     let req = to ? node[type](to, args) : node[type](args)
 

@@ -133,25 +133,10 @@ export default {
         })
       } catch (exception) {
         const { message } = exception
-        let errData = message.split(`\n`)[5]
-        if (errData) {
-          let parsedErr = errData.split(`"`)[1]
-          this.$store.commit(`notifyError`, {
-            title: `Error while voting on proposal #${
-              this.proposal.proposal_id
-            }`,
-            body: parsedErr
-              ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
-              : errData
-          })
-        } else {
-          this.$store.commit(`notifyError`, {
-            title: `Error while voting on proposal #${
-              this.proposal.proposal_id
-            }`,
-            body: message
-          })
-        }
+        this.$store.commit(`notifyError`, {
+          title: `Error while voting on proposal #${this.proposal.proposal_id}`,
+          body: message
+        })
       }
     }
   }
