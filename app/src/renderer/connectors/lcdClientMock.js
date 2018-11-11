@@ -1,4 +1,6 @@
 "use strict"
+
+import moment from "moment"
 const b32 = require(`../scripts/b32.js`)
 const { getHeight } = require(`./rpcWrapperMock.js`)
 
@@ -861,6 +863,135 @@ module.exports = {
     return state.deposits[proposalId].find(
       deposit => deposit.depositer === address
     )
+  },
+  async submitProposalDeposit({
+    proposal_id,
+    base_req: { name, sequence },
+    depositer,
+    amount
+  }) {
+    let results = []
+    let fromKey = state.keys.find(a => a.name === name)
+    let fromAccount = state.accounts[fromKey.address]
+    if (fromAccount == null) {
+      results.push(txResult(1, `Nonexistent account`))
+      return results
+    }
+    // check nonce
+    if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
+      results.push(
+        txResult(
+          2,
+          `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
+        )
+      )
+      return results
+    }
+
+    let proposal = state.proposals.find(
+      proposal => proposal.proposal_id === proposal_id
+    )
+    if (!proposal) {
+      results.push(txResult(3, `Nonexistent proposal`))
+      return results
+    } else if (
+      proposal.proposal_status != `Pending` ||
+      proposal.proposal_status != `Active`
+    ) {
+      results.push(txResult(3, `Proposal #${proposal_id} already finished`))
+      return results
+    }
+
+    // update depositer's balance
+
+    let submittedDeposit = {
+      proposal_id,
+      depositer,
+      amount
+    }
+
+    for (let coin in amount) {
+      let depositCoinAmt = parseInt(coin.amount)
+      let coinBalance = fromAccount.coins.find(c => c.denom === coin.denom)
+
+      if (depositCoinAmt < 0) {
+        results.push(txResult(1, `Amount of ${coin.denom}s cannot be negative`))
+        return results
+      } else if (coinBalance.amount < depositCoinAmt) {
+        results.push(txResult(1, `Not enough ${coin.denom}s in your account`))
+        return results
+      }
+
+      coinBalance.amount -= depositCoinAmt
+
+      // Increment total deposit of the proposal
+      let depositIndex = proposal.total_deposit.findIndex(
+        deposit => deposit.denom === coin.denom
+      )
+      if (depositIndex === -1) {
+        // if there's no previous deposit in that denom we just append it to the total deposit
+        proposal.total_deposit.push(coin)
+      } else {
+        // if there's an existing deposit with that denom we add the submited deposit amount to it
+        let newAmt = String(
+          parseInt(proposal.total_deposit[depositIndex].amount) +
+            parseInt(amount.amount)
+        )
+        proposal.total_deposit[depositIndex].amount = newAmt
+      }
+
+      // check if there's an existing deposit by the depositer with the same denom
+      let prevDepositIndex = state.deposits[proposal_id].findIndex(
+        deposit => deposit.depositer === depositer
+      )
+
+      if (prevDepositIndex === -1) {
+        // if no previous deposit by the depositer we add it to the existing deposits
+        state.deposits[proposal_id].push(submittedDeposit)
+        break
+      } else {
+        // if there's a prev deposit, add the new amount to the corresponding coin
+        let prevDepCoinIdx = state.deposits[proposal_id][
+          prevDepositIndex
+        ].findIndex(prevDepCoin => {
+          return prevDepCoin.denom === coin.denom
+        })
+        if (prevDepCoinIdx === -1) {
+          state.deposits[proposal_id][prevDepositIndex].amount.push(coin)
+        } else {
+          let newAmt = String(
+            parseInt(
+              state.deposits[proposal_id][prevDepositIndex].amount[
+                prevDepCoinIdx
+              ].amount
+            ) + parseInt(coin.amount)
+          )
+          state.deposits[proposal_id][prevDepositIndex].amount[
+            prevDepCoinIdx
+          ].amount = newAmt
+        }
+      }
+    }
+    // TODO: double check if we need to update it inside the loop
+    incrementSequence(fromAccount)
+
+    // check if the propoposal is now active
+    if (proposal.proposal_status === `Pending`) {
+      // TODO: get min deposit coin from gov params instead of stake params
+      let depositCoinAmt =
+        proposal.total_deposit[state.parameters.bond_denom].amount
+      if (parseInt(depositCoinAmt) >= 10) {
+        proposal.proposal_status = `Active`
+        // TODO: get voting time from gov proposal
+        proposal.voting_start_block = Date.now()
+        proposal.voting_end_block = moment(proposal.voting_start_block)
+          .add(86400000000000, `ms`)
+          .toDate()
+      }
+    }
+    storeTx(`cosmos-sdk/MsgDeposit`, submittedDeposit)
+    results.push(txResult(0))
+    return results
   },
   async getProposalVotes(proposalId) {
     return state.votes[proposalId]
