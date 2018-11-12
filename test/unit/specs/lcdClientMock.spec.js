@@ -926,6 +926,42 @@ describe(`LCD Client Mock`, () => {
         expect(optionAfter).toEqual(String(parseInt(optionBefore) + 1))
       })
 
+      it(`errors when voting with nonexistent account`, async () => {
+        client.state.keys.push({
+          name: `nonexistent_account`,
+          password: `1234567890`,
+          address: lcdClientMock.addresses[1]
+        })
+
+        let res = await client.submitProposalVote({
+          base_req: {
+            name: `nonexistent_account`,
+            sequence: 1
+          },
+          proposal_id: `2`,
+          option: `abstain`,
+          voter: lcdClientMock.addresses[0]
+        })
+        expect(res.length).toBe(1)
+        expect(res[0].check_tx.log).toBe(`Nonexistent account`)
+        expect(res[0].check_tx.code).toBe(1)
+      })
+
+      it(`fails to vote if sequence is invalid`, async () => {
+        let res = await client.submitProposalVote({
+          base_req: {
+            name: `default`,
+            sequence: 0
+          },
+          proposal_id: `2`,
+          option: `yes`,
+          voter: lcdClientMock.addresses[0]
+        })
+        expect(res.length).toBe(1)
+        expect(res[0].check_tx.code).toBe(2)
+        expect(res[0].check_tx.log).toBe(`Expected sequence "1", got "0"`)
+      })
+
       it(`fails to vote on an invalid proposal`, async () => {
         let res = await client.submitProposalVote({
           base_req: {
