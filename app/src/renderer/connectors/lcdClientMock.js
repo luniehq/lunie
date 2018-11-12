@@ -21,9 +21,6 @@ let state = {
       address: addresses[0]
     }
   ],
-  wallet: {
-    address: addresses[0]
-  },
   accounts: {
     [addresses[0]]: {
       coins: [
@@ -879,7 +876,7 @@ module.exports = {
     return state.parameters
   },
   async getProposals() {
-    return state.proposals
+    return state.proposals || []
   },
   async getProposal(proposalId) {
     return state.proposals.find(
@@ -887,7 +884,7 @@ module.exports = {
     )
   },
   async getProposalDeposits(proposalId) {
-    return state.deposits[proposalId]
+    return state.deposits[proposalId] || []
   },
   async getProposalDeposit(proposalId, address) {
     return state.deposits[proposalId].find(
@@ -895,7 +892,7 @@ module.exports = {
     )
   },
   async getProposalVotes(proposalId) {
-    return state.votes[proposalId]
+    return state.votes[proposalId] || []
   },
   async submitProposalVote({
     proposal_id,

@@ -131,8 +131,7 @@ export default {
             this.proposal.proposal_id
           }`
         })
-      } catch (exception) {
-        const { message } = exception
+      } catch ({ message }) {
         this.$store.commit(`notifyError`, {
           title: `Error while voting on proposal #${this.proposal.proposal_id}`,
           body: message

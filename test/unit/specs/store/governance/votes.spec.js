@@ -12,7 +12,6 @@ describe(`Module: Votes`, () => {
 
   it(`adds votes to state`, () => {
     let { mutations, state } = module
-    console.log(proposals)
     mutations.setProposalVotes(state, proposals[0].proposal_id, votes)
     expect(state.votes[proposals[0].proposal_id]).toEqual(votes)
   })
