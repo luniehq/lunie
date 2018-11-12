@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1472](https://github.com/cosmos/voyager/issues/1472) Added mock functionality for redelegation @fedekunze + @faboweb
 * [\#1501](https://github.com/cosmos/voyager/issues/1501) Vote on proposals through modal @fedekunze + @jbibla
 * [\1502](https://github.com/cosmos/voyager/issues/1502) A page for each proposal. @jbibla
+* [\1552](https://github.com/cosmos/voyager/issues/1522) Deposit on proposals through modal @fedekunze
 
 ### Changed
 
