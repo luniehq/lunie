@@ -75,7 +75,7 @@ describe(`Module: Deposits`, () => {
       ])
 
       jest.runAllTimers()
-      expect(dispatch.mock.calls[i + 2]).toEqual([
+      expect(dispatch.mock.calls[i + proposals.length]).toEqual([
         `getProposalDeposits`,
         proposal.proposal_id
       ])
