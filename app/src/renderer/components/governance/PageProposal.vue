@@ -88,6 +88,8 @@ export default {
     showModalVote: false
   }),
   computed: {
+    // TODO: get denom from governance params
+    ...mapGetters([`bondingDenom`]),
     proposalType() {
       return this.proposal.proposal_type.toLowerCase()
     },
@@ -133,22 +135,24 @@ export default {
     onDeposit() {
       this.showModalDeposit = true
     },
-    async deposit({ coin }) {
+    async deposit({ amount }) {
       let proposalId = this.proposal.proposal_id
 
       try {
         // TODO: support multiple coins
-        await this.$store.dispatch(`submitVote`, { proposalId, [coin] })
+        await this.$store.dispatch(`submitVote`, { proposalId, amount })
 
         this.$store.commit(`notify`, {
           title: `Successful deposit!`,
-          body: `You have successfully deposit your ${coin.denom}s on proposal #${
+          body: `You have successfully deposit your ${amount}s on proposal #${
             this.proposal.proposal_id
           }`
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
-          title: `Error while submitting a deposit on proposal #${this.proposal.proposal_id}`,
+          title: `Error while submitting a deposit on proposal #${
+            this.proposal.proposal_id
+          }`,
           body: message
         })
       }

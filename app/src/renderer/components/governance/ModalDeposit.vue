@@ -16,7 +16,7 @@
     )
       tm-field#denom(
         type="text"
-        :placeholder="bondingDenom"
+        :placeholder="denom"
         readonly)
 
       tm-field#amount(
@@ -45,10 +45,19 @@ import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
   name: `modal-deposit`,
-  props: [`proposalId`, `proposalTitle`],
+  props: [`proposalId`, `proposalTitle`, `denom`],
   computed: {
     // TODO: get denom from governance params
-    ...mapGetters([`bondingDenom`, `wallet`])
+    ...mapGetters([`wallet`]),
+    balance() {
+      if (!this.wallet.balancesLoading && !!this.wallet.balances.length) {
+        let balance = this.wallet.balances.find(coin => {
+          coin.denom === this.denom
+        })
+        if (balance && balance.amount) return parseFloat(balance.amount)
+      }
+      return 0
+    }
   },
   components: {
     Modal,
@@ -64,19 +73,11 @@ export default {
     return {
       amount: {
         required,
-        between: this.balance > between(0.0000000001, this.balance)
+        between: between(
+          0.0000000001,
+          this.balance > 0 this.balance : 0.0000000001 // TODO: doublecheck this
+        )
       }
-    }
-  },
-  computed: {
-    balance() {
-      if (!this.wallet.balancesLoading && !!this.wallet.balances.length) {
-        let balance = this.wallet.balances.find(coin => {
-          coin.denom === this.bondingDenom.toLowerCase()
-        })
-        if (balance && balance.amount) return parseFloat(balance.amount)
-      }
-      return 0
     }
   },
   methods: {

@@ -15,7 +15,8 @@ describe(`ModalDeposit`, () => {
       localVue,
       propsData: {
         proposalId: lcdClientMock.state.proposals[0].proposal_id,
-        proposalTitle: lcdClientMock.state.proposals[0].title
+        proposalTitle: lcdClientMock.state.proposals[0].title,
+        denom: `stake`
       }
     })
     wrapper = instance.wrapper
