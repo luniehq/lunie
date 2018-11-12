@@ -924,7 +924,7 @@ module.exports = {
       results.push(txResult(3, `Nonexistent proposal`))
       return results
     } else if (
-      proposal.proposal_status != `Pending` ||
+      proposal.proposal_status != `Pending` &&
       proposal.proposal_status != `Active`
     ) {
       results.push(txResult(3, `Proposal #${proposal_id} already finished`))
@@ -932,21 +932,23 @@ module.exports = {
     }
 
     // update depositer's balance
-
+    let coin
     let submittedDeposit = {
       proposal_id,
       depositer,
       amount
     }
 
-    for (let coin in amount) {
+    // javascript's forEach doesn't support break, so using classi for loop...
+    for (let i = 0; i < amount.length; i++) {
+      coin = amount[i]
       let depositCoinAmt = parseInt(coin.amount)
       let coinBalance = fromAccount.coins.find(c => c.denom === coin.denom)
 
       if (depositCoinAmt < 0) {
         results.push(txResult(1, `Amount of ${coin.denom}s cannot be negative`))
         return results
-      } else if (coinBalance.amount < depositCoinAmt) {
+      } else if (!coinBalance || coinBalance.amount < depositCoinAmt) {
         results.push(txResult(1, `Not enough ${coin.denom}s in your account`))
         return results
       }
@@ -1007,11 +1009,13 @@ module.exports = {
     // check if the propoposal is now active
     if (proposal.proposal_status === `Pending`) {
       // TODO: get min deposit coin from gov params instead of stake params
-      let depositCoinAmt =
-        proposal.total_deposit[state.parameters.bond_denom].amount
+      console.log(proposal.total_deposit)
+      let depositCoinAmt = proposal.total_deposit.find(coin => {
+        return coin.denom === `steak`
+      }).amount
       if (parseInt(depositCoinAmt) >= 10) {
         proposal.proposal_status = `Active`
-        // TODO: get voting time from gov proposal
+        // TODO: get voting time from gov params
         proposal.voting_start_block = Date.now()
         proposal.voting_end_block = moment(proposal.voting_start_block)
           .add(86400000000000, `ms`)
