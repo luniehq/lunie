@@ -63,6 +63,7 @@ tm-page(data-title='Proposal')
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { TmBtn, TmPage, TmToolBar } from "@tendermint/ui"
 import TmBalance from "common/TmBalance"

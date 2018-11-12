@@ -41,13 +41,13 @@ describe(`ModalDeposit`, () => {
     it(`disables the 'Deposit' button`, () => {
       // default values
       let depositBtn = wrapper.find(`#submit-deposit`)
-      expect(depositBtn.html()).not.toContain(`disabled="disabled"`)
+      expect(depositBtn.html()).toContain(`disabled="disabled"`)
 
       // amount deposited less than the user's balance
       wrapper.setData({ amount: 1 })
       // TODO get wallet balance
       depositBtn = wrapper.find(`#submit-deposit`)
-      expect(depositBtn.html()).not.toContain(`disabled="disabled"`)
+      expect(depositBtn.html()).toContain(`disabled="disabled"`)
     })
 
     it(`enables the 'Deposit' button if the user has enough balance`, () => {

@@ -75,7 +75,7 @@ export default {
         required,
         between: between(
           0.0000000001,
-          this.balance > 0 this.balance : 0.0000000001 // TODO: doublecheck this
+          this.balance > 0 ? this.balance : 0.0000000001 // TODO: doublecheck this
         )
       }
     }
