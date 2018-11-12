@@ -1044,7 +1044,7 @@ module.exports = {
         // TODO: get voting time from gov params
         proposal.voting_start_block = Date.now()
         proposal.voting_end_block = moment(proposal.voting_start_block)
-          .add(86400000000000, `ms`)
+          .add(86400000, `ms`)
           .toDate()
       }
     }
