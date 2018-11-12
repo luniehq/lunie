@@ -1027,7 +1027,6 @@ module.exports = {
           state.deposits[proposal_id][prevDepositIndex].amount[
             prevDepCoinIdx
           ].amount = String(newAmt)
-          console.log(state.deposits[proposal_id][prevDepositIndex].amount)
         }
       }
     }

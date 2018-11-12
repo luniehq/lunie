@@ -1037,7 +1037,7 @@ describe(`LCD Client Mock`, () => {
         })
       })
 
-      describe.only(`submits successfully a deposit on an active proposal`, () => {
+      describe(`submits successfully a deposit on an active proposal`, () => {
         it(`when user hasn't submitted a previous deposit`, async () => {
           let proposalBefore = await client.getProposal(`5`)
           let totalDepositBefore = proposalBefore.total_deposit.find(coin => {
@@ -1112,6 +1112,14 @@ describe(`LCD Client Mock`, () => {
             depositer: lcdClientMock.validators[0]
           }
 
+          let newTotalAmt =
+            parseInt(totalSteakBefore.amount) +
+            parseInt(deposit.amount[0].amount)
+
+          let newDepositAmt =
+            parseInt(userDepositBefore.amount[0].amount) +
+            parseInt(deposit.amount[0].amount)
+
           let res = await client.submitProposalDeposit({
             base_req: {
               name: `default`,
@@ -1126,26 +1134,17 @@ describe(`LCD Client Mock`, () => {
           let totalSteakAfter = proposalAfter.total_deposit.find(coin => {
             return coin.denom === `steak`
           })
-
-          console.log(totalSteakBefore.amount)
-          let newAmt =
-            parseInt(totalSteakBefore.amount) +
-            parseInt(deposit.amount[0].amount)
-
-          console.log(totalSteakAfter)
-          expect(totalSteakAfter.amount).toEqual(String(newAmt))
+          expect(totalSteakAfter.amount).toEqual(String(newTotalAmt))
 
           // should have updated the deposit from the depositer
           let userDepositAfter = await client.getProposalDeposit(
             `2`,
-            lcdClientMock.addresses[0]
+            lcdClientMock.validators[0]
           )
           expect(userDepositAfter).toBeDefined()
-          console.log(userDepositAfter)
-          newAmt =
-            parseInt(userDepositBefore.amount) +
-            parseInt(deposit.amount[0].amount)
-          expect(userDepositAfter.amount).toEqual(String(newAmt))
+          expect(userDepositAfter.amount[0].amount).toEqual(
+            String(newDepositAmt)
+          )
         })
       })
     })
