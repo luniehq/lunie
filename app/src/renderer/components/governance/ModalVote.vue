@@ -12,28 +12,28 @@
 
     tm-form-group.modal-vote-form-group.options
       tm-btn#vote-yes(
-        @click.native="voteYes"
+        @click.native="vote('yes')"
         :class="[option ===  `yes` ? 'active' : '']"
         color="secondary"
         value="Yes"
         size="md")
 
       tm-btn#vote-no(
-        @click.native="voteNo"
+        @click.native="vote('no')"
         :class="[option === `no` ? 'active' : '']"
         color="secondary"
         value="No"
         size="md")
 
       tm-btn#vote-veto(
-        @click.native="voteVeto"
+        @click.native="vote('no_with_veto')"
         :class="[option === `no_with_veto` ? 'active' : '']"
         color="secondary"
         value="No With Veto"
         size="md")
 
       tm-btn#vote-abstain(
-        @click.native="voteAbstain"
+        @click.native="vote('abstain')"
         :class="[option === `abstain` ? 'active' : '']"
         color="secondary"
         value="Abstain"
@@ -86,32 +86,11 @@ export default {
     close() {
       this.$emit(`update:showModalVote`, false)
     },
-    voteYes() {
-      if (this.option === `yes`) {
+    vote(option) {
+      if (this.option === option) {
         this.option = ``
       } else {
-        this.option = `yes`
-      }
-    },
-    voteNo() {
-      if (this.option === `no`) {
-        this.option = ``
-      } else {
-        this.option = `no`
-      }
-    },
-    voteVeto() {
-      if (this.option === `no_with_veto`) {
-        this.option = ``
-      } else {
-        this.option = `no_with_veto`
-      }
-    },
-    voteAbstain() {
-      if (this.option === `abstain`) {
-        this.option = ``
-      } else {
-        this.option = `abstain`
+        this.option = option
       }
     },
     onVote() {
