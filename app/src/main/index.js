@@ -81,10 +81,6 @@ function logProcess(process, logPath) {
   }
 }
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
-
 function handleCrash(error) {
   afterBooted(() => {
     if (mainWindow) {
@@ -309,12 +305,10 @@ function stopLCD() {
     try {
       // prevent the exit to signal bad termination warnings
       lcdProcess.removeAllListeners(`exit`)
-
       lcdProcess.on(`exit`, () => {
         lcdProcess = null
         resolve()
       })
-
       lcdProcess.kill(`SIGKILL`)
     } catch (err) {
       handleCrash(err)
@@ -425,9 +419,7 @@ const eventHandlers = {
 
   reconnect: () => reconnect(),
 
-  "stop-lcd": () => {
-    stopLCD()
-  },
+  "stop-lcd": () => stopLCD(),
 
   "successful-launch": () => {
     console.log(`[START SUCCESS] Vue app successfuly started`)
@@ -441,7 +433,14 @@ Object.entries(eventHandlers).forEach(([event, handler]) => {
 
 // test an actual node version against the expected one and flag the node if incompatible
 async function testNodeVersion(client, expectedGaiaVersion) {
-  let nodeVersion = (await client.nodeVersion()).split(`-`)[0]
+  let result
+  try {
+    result = await client.nodeVersion()
+  } catch (err) {
+    debugger
+    return { compatible: false, nodeVersion: null }
+  }
+  let nodeVersion = result.split(`-`)[0]
   let semverDiff = semver.diff(nodeVersion, expectedGaiaVersion)
   if (semverDiff === `patch` || semverDiff === null) {
     return { compatible: true, nodeVersion }
@@ -487,10 +486,8 @@ async function pickAndConnect() {
 
   let compatible, nodeVersion
   try {
-    const out = await testNodeVersion(
-      LcdClient(axiosInstance, config.node_lcd),
-      expectedGaiaCliVersion
-    )
+    const client = LcdClient(axiosInstance, config.node_lcd)
+    const out = await testNodeVersion(client, expectedGaiaCliVersion)
 
     compatible = out.compatible
     nodeVersion = out.nodeVersion
@@ -743,5 +740,6 @@ module.exports = main()
   .then(() => ({
     shutdown,
     processes: { lcdProcess },
-    eventHandlers
+    eventHandlers,
+    getLCDProcess: () => lcdProcess
   }))

@@ -1,6 +1,17 @@
-const EventEmitter = require(`events`)
+// const EventEmitter = require(`events`)
 const { join } = require(`path`)
 const mockFsExtra = require(`../helpers/fs-mock`).default
+jest.mock(`readline`, () => ({
+  createInterface: () => ({
+    on: () => {}
+  })
+}))
+
+jest.mock(`raven`, () => ({
+  config: () => ({ install: () => {} }),
+  uninstall: () => ({ config: () => ({ install: () => {} }) }),
+  captureException: () => {}
+}))
 
 // prevents warnings from repeated event handling
 process.setMaxListeners(1000)
@@ -26,15 +37,10 @@ jest.mock(`fs-extra`, () => {
       `utf8`
     )
   )
+  mockFs.writeFile(`./cert/cert.txt`, `super-cert`)
   return mockFs
 })
 let fs = require(`fs-extra`)
-
-jest.mock(`../../../app/src/renderer/connectors/lcdClient.js`, () => {
-  return () => ({
-    keys: { values: jest.fn().mockReturnValueOnce(Promise.reject()) }
-  })
-})
 
 jest.mock(`electron`, () => {
   let electron = {
@@ -77,22 +83,25 @@ jest.mock(`electron`, () => {
 })
 
 const mockSpawnReturnValue = () => {
-  const emitter = new EventEmitter()
-
-  return Object.assign(emitter, {
-    kill: () => {
-      emitter.emit(`exit`, 0)
-    },
-    mocked: true,
-    stdout: {
+  return Object.assign(
+    {},
+    {
       on: () => {},
-      pipe: () => {}
-    },
-    stderr: {
-      on: () => {},
-      pipe: () => {}
+      kill: () => {},
+      removeAllListeners: () => {},
+      mocked: true,
+      stdout: {
+        on: () => {},
+        once: () => {},
+        pipe: () => {}
+      },
+      stderr: {
+        on: () => {},
+        once: () => {},
+        pipe: () => {}
+      }
     }
-  })
+  )
 }
 
 let stdoutMocks = (path, args) => ({
@@ -100,24 +109,13 @@ let stdoutMocks = (path, args) => ({
     if (args[0] === `version` && type === `data`) {
       cb({ toString: () => `0.13.0` })
     }
-    // mock gaiacli init approval request
-    if (
-      type === `data` &&
-      path.includes(`gaiacli`) &&
-      args.includes(`init`) &&
-      args.length > 4
-    ) {
-      cb(`No hash yet`)
-      setImmediate(() => {
-        cb(`1234567890123456789012345678901234567890`)
-      })
+  },
+  once: (type, cb) => {
+    if (type === `line`) {
+      cb(`(cert: "cert/cert.txt"...`)
     }
   }
 })
-childProcessMock((path, args) => ({
-  stdin: { write: () => {} },
-  stdout: stdoutMocks(path, args)
-}))
 mockConfig()
 
 let main
@@ -175,9 +173,8 @@ describe(`Startup Process`, () => {
     it(`should error if it can't connect to the node`, async () => {
       await main.shutdown()
       prepareMain()
-      // mock the version check request
-      jest.doMock(`axios`, () => ({
-        get: jest.fn(() => Promise.reject())
+      jest.doMock(`renderer/connectors/lcdClient.js`, () => () => ({
+        nodeVersion: async () => Promise.reject(`X`)
       }))
       let { send } = require(`electron`)
       send.mockClear()
@@ -194,12 +191,9 @@ describe(`Startup Process`, () => {
     it(`should check if our node has a compatible SDK version`, async () => {
       await main.shutdown()
       prepareMain()
-      const mockAxiosGet = jest
-        .fn()
-        .mockReturnValueOnce(Promise.resolve({ data: `0.1.0` })) // should fail as expected version is 0.13.0
-      // mock the version check request
-      jest.doMock(`axios`, () => ({
-        get: mockAxiosGet
+      const nodeVersionSpy = jest.fn(() => `0.1.0`)
+      jest.doMock(`renderer/connectors/lcdClient.js`, () => () => ({
+        nodeVersion: nodeVersionSpy
       }))
       let { send } = require(`electron`)
       send.mockClear()
@@ -207,7 +201,7 @@ describe(`Startup Process`, () => {
       // run main
       main = await require(appRoot + `src/main/index.js`)
 
-      expect(mockAxiosGet).toHaveBeenCalledTimes(1)
+      expect(nodeVersionSpy).toHaveBeenCalledTimes(1)
       expect(send).toHaveBeenCalledWith(`error`, {
         code: `NO_NODES_AVAILABLE`,
         message: `No nodes available to connect to.`
@@ -374,10 +368,15 @@ describe(`Startup Process`, () => {
     })
 
     it(`should stop the LCD on IPC call`, async () => {
-      let killSpy = jest.spyOn(main.processes.lcdProcess, `kill`)
+      let process
+      while (!process) {
+        await new Promise(resolve => setTimeout(resolve, 100))
+        process = main.getLCDProcess()
+      }
+      process.kill = jest.fn()
       await registeredIPCListeners[`stop-lcd`]()
 
-      expect(killSpy).toHaveBeenCalled()
+      expect(process.kill).toHaveBeenCalled()
     })
 
     it(`should not start reconnecting again if already trying to reconnect`, async done => {
@@ -443,11 +442,18 @@ describe(`Startup Process`, () => {
 
       childProcess.spawn = () =>
         Object.assign(mockSpawnReturnValue(), {
+          on: (type, cb) => {
+            if (type === `exit`) {
+              cb(0)
+            }
+          },
           stderr: {
             on: (type, cb) => {
-              // type is always 'data'
-              cb(Buffer.from(`Some error`))
+              if (type === `line`) {
+                cb(Buffer.from(`Some error`))
+              }
             },
+            once: () => {},
             pipe: () => {}
           }
         })
@@ -459,24 +465,43 @@ describe(`Startup Process`, () => {
     })
 
     it(`should error on gaiacli crashing async instead of breaking`, async () => {
-      await initMain()
-      let { send } = require(`electron`)
       let errorCB
 
-      childProcess.spawn = () =>
-        Object.assign(mockSpawnReturnValue(), {
-          stderr: {
-            on: (type, cb) => {
-              // type is always 'data'
+      jest.resetModules()
+      childProcessMock((path, args) => ({
+        stdin: { write: () => {} },
+        stdout: stdoutMocks(path, args),
+        stderr: {
+          on: (type, cb) => {
+            if (args[0] === `rest-server` && type === `line`) {
               errorCB = cb
-            },
-            pipe: () => {}
+            }
+          },
+          once: () => {}
+        },
+        on: (type, cb) => {
+          if (args[0] === `init` && type === `exit`) {
+            cb(0)
           }
-        })
+          if (args[0] === `rest-server` && type === `exit`) {
+            setImmediate(() => {
+              cb(0)
+            })
+          }
+          if (args[0] === `keys` && args[1] === `delete` && type === `exit`) {
+            cb(0)
+          }
+        }
+      }))
 
-      await main.eventHandlers.reconnect()
+      await initMain()
+      let { send } = require(`electron`)
+
       expect(send.mock.calls.find(([type]) => type === `error`)).toBeUndefined()
 
+      while (!errorCB) {
+        await new Promise(resolve => setTimeout(resolve, 500))
+      }
       errorCB(Buffer.from(`Gaiacli errord asynchronous`))
 
       expect(
@@ -525,8 +550,41 @@ describe(`Startup Process`, () => {
   })
 
   describe(`Error handling on init`, () => {
-    // testFailingChildProcess("gaiacli", "init")
-    testFailingChildProcess(`gaiacli`, `rest-server`)
+    it(`should fail if there is a not handled error in the rest-server process`, async function() {
+      // TODO refactor standout on responses
+      jest.resetModules()
+      childProcessMock((path, args) => ({
+        stdin: { write: () => {} },
+        stdout: Object.assign({}, stdoutMocks(path, args), { once: () => {} }),
+        stderr: {
+          on: (type, cb) => {
+            if (args[0] === `rest-server` && type === `line`) {
+              cb(Buffer.from(`Some error`))
+            }
+          },
+          once: () => {}
+        },
+        on: (type, cb) => {
+          if (args[0] === `init` && type === `exit`) {
+            cb(0)
+          }
+          if (args[0] === `rest-server` && type === `exit`) {
+            setImmediate(() => {
+              cb(1)
+            })
+          }
+          if (args[0] === `keys` && args[1] === `delete` && type === `exit`) {
+            cb(0)
+          }
+        }
+      }))
+      let { send } = require(`electron`)
+      await require(appRoot + `src/main/index.js`)
+
+      expect(send).toHaveBeenCalledWith(`error`, {
+        message: `The gaiacli rest-server (LCD) experienced an error:\nSome error`
+      })
+    })
   })
 })
 
@@ -536,7 +594,7 @@ function mainSetup() {
   })
 
   afterAll(async function() {
-    await main.shutdown()
+    // await main.shutdown()
   })
 }
 
@@ -544,33 +602,35 @@ function mainSetup() {
 function prepareMain() {
   // restart main with a now initialized state
   jest.resetModules()
-  childProcess = require(`child_process`)
-  // have the same mocked fs as main uses
-  // this is reset with jest.resetModules
-  fs = require(`fs-extra`)
 
-  const Raven = require(`raven`)
-  Raven.disableConsoleAlerts()
-
-  jest.mock(
-    `app/src/main/addressbook.js`,
-    () =>
-      class MockAddressbook {
-        async pickNode() {
-          return `127.0.0.1:46657`
-        }
-        flagNodeIncompatible() {}
+  childProcessMock((path, args) => ({
+    stdin: { write: () => {} },
+    stdout: stdoutMocks(path, args),
+    on: (type, cb) => {
+      if (args[0] === `init` && type === `exit`) {
+        cb(0)
       }
-  )
-
-  // mock the version check request
-  jest.mock(`axios`, () => ({
-    get: async url => {
-      if (url.indexOf(`node_version`) !== -1) {
-        return { data: `0.13.0` }
+      if (args[0] === `rest-server` && type === `exit`) {
+        // needs to be deferred because the callback overrides a variable
+        setImmediate(() => {
+          cb(0)
+        })
+      }
+      if (args[0] === `keys` && args[1] === `delete` && type === `exit`) {
+        cb(0)
       }
     }
   }))
+  childProcess = require(`child_process`)
+  jest.doMock(`renderer/connectors/lcdClient.js`, () => {
+    return () => ({
+      nodeVersion: async () => `0.13.0`
+    })
+  })
+
+  // have the same mocked fs as main uses
+  // this is reset with jest.resetModules
+  fs = require(`fs-extra`)
 }
 
 async function initMain() {
@@ -584,8 +644,8 @@ async function initMain() {
 function testFailingChildProcess(name, cmd) {
   return it(`should fail if there is a not handled error in the ${name} ${cmd ||
     ``} process`, async function() {
-    failingChildProcess(name, cmd)
     prepareMain()
+    failingChildProcess(name, cmd)
     let { send } = require(`electron`)
     await require(appRoot + `src/main/index.js`)
 
@@ -606,33 +666,6 @@ function childProcessMock(mockExtend = () => ({})) {
   }))
 }
 
-function failingChildProcess(mockName, mockCmd) {
-  childProcessMock((path, args) => ({
-    on: (type, cb) => {
-      if (type === `exit`) {
-        if (
-          path.includes(mockName) &&
-          (mockCmd === undefined || args.find(x => x === mockCmd))
-        ) {
-          cb(-1)
-          // init processes always should return with 0
-        } else if (args.find(x => x === `init`)) {
-          cb(0)
-        }
-      }
-    },
-    stdin: { write: () => {} },
-    stdout: stdoutMocks(path, args),
-    stderr: {
-      on: (type, cb) => {
-        // type is always 'data'
-        cb(Buffer.from(`${mockName} produced an unexpected error`))
-      },
-      pipe: () => {}
-    }
-  }))
-}
-
 // sometime we want to simulate a sequential run of the UI
 // usualy we want to clean up all the modules after each run but in this case, we want to persist the mocked filesystem
 function resetModulesKeepingFS() {
@@ -640,10 +673,6 @@ function resetModulesKeepingFS() {
   jest.resetModules()
   fs = require(`fs-extra`)
   fs.fs = fileSystem
-
-  // we want to keep Raven quiet
-  const Raven = require(`raven`)
-  Raven.disableConsoleAlerts()
 }
 
 function mockConfig() {
