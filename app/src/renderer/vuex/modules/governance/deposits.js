@@ -27,6 +27,7 @@ export default ({ node }) => {
       depositAmount
     ) {
       const denom = config.bondingDenom.toLowerCase()
+      console.log(depositAmount)
       await dispatch(`sendTx`, {
         type: `submitDeposit`,
         proposal_id: proposalId,
