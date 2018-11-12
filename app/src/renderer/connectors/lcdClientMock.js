@@ -347,6 +347,33 @@ let state = {
       }
     },
     {
+      proposal_id: `2`,
+      proposal_type: `Text`,
+      title: `Active proposal`,
+      description: `custom text proposal description`,
+      initial_deposit: [
+        {
+          denom: `stake`,
+          amount: `200`
+        }
+      ],
+      total_deposit: [
+        {
+          denom: `stake`,
+          amount: `200`
+        }
+      ],
+      submit_block: `10`,
+      voting_start_block: `10`,
+      proposal_status: `Active`,
+      tally_result: {
+        yes: `0`,
+        no: `0`,
+        no_with_veto: `0`,
+        abstain: `0`
+      }
+    },
+    {
       proposal_id: `5`,
       proposal_type: `Text`,
       title: `Custom text proposal`,
@@ -387,6 +414,7 @@ let state = {
         option: `no_with_veto`
       }
     ],
+    2: [],
     5: [
       {
         proposal_id: `5`,
@@ -419,6 +447,7 @@ let state = {
         }
       }
     ],
+    2: [],
     5: [
       {
         proposal_id: `5`,
@@ -847,7 +876,7 @@ module.exports = {
     return state.parameters
   },
   async getProposals() {
-    return state.proposals
+    return state.proposals || []
   },
   async getProposal(proposalId) {
     return state.proposals.find(
@@ -855,7 +884,7 @@ module.exports = {
     )
   },
   async getProposalDeposits(proposalId) {
-    return state.deposits[proposalId]
+    return state.deposits[proposalId] || []
   },
   async getProposalDeposit(proposalId, address) {
     return state.deposits[proposalId].find(
@@ -863,10 +892,69 @@ module.exports = {
     )
   },
   async getProposalVotes(proposalId) {
-    return state.votes[proposalId]
+    return state.votes[proposalId] || []
   },
-  async getProposalVote(proposalId, address) {
-    return state.votes[proposalId].find(vote => vote.voter === address)
+  async submitProposalVote({
+    proposal_id,
+    base_req: { name, sequence },
+    option,
+    voter
+  }) {
+    let results = []
+    let fromKey = state.keys.find(a => a.name === name)
+    let fromAccount = state.accounts[fromKey.address]
+
+    if (fromAccount == null) {
+      results.push(txResult(1, `Nonexistent account`))
+      return results
+    }
+    // check nonce
+    if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
+      results.push(
+        txResult(
+          2,
+          `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
+        )
+      )
+      return results
+    }
+
+    let proposal = state.proposals.find(
+      proposal => proposal.proposal_id === proposal_id
+    )
+
+    if (!proposal) {
+      results.push(txResult(3, `Nonexistent proposal`))
+      return results
+    } else if (proposal.proposal_status != `Active`) {
+      results.push(txResult(3, `Proposal #${proposal_id} is inactive`))
+      return results
+    } else if (
+      option !== `yes` &&
+      option !== `no` &&
+      option !== `no_with_veto` &&
+      option !== `abstain`
+    ) {
+      results.push(txResult(3, `Invalid option '${option}'`))
+      return results
+    }
+
+    let vote = {
+      proposal_id,
+      option,
+      voter
+    }
+
+    state.votes[proposal_id].push(vote)
+    let intTallyResult = parseInt(proposal.tally_result[option])
+    proposal.tally_result[option] = String(intTallyResult + 1)
+
+    storeTx(`cosmos-sdk/MsgVote`, vote)
+    results.push(txResult(0))
+    return results
+  },
+  async getProposalVote(proposal_id, address) {
+    return state.votes[proposal_id].find(vote => vote.voter === address)
   },
   async queryProposals() {
     // TODO: return only value of the `value` property when https://github.com/cosmos/cosmos-sdk/issues/2507 is solved

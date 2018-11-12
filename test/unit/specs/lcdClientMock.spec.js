@@ -850,52 +850,172 @@ describe(`LCD Client Mock`, () => {
 
   /* ============ Governance ============ */
 
-  it(`fetches all governance proposals`, async () => {
-    let proposals = lcdClientMock.state.proposals
-    let proposalsRes = await client.getProposals()
-    expect(proposalsRes).toEqual(proposals)
-  })
+  describe(`Governance`, () => {
+    describe(`Proposals`, () => {
+      it(`fetches all governance proposals`, async () => {
+        let proposals = lcdClientMock.state.proposals
+        let proposalsRes = await client.getProposals()
+        expect(proposalsRes).toBeDefined()
+        expect(proposalsRes).toEqual(proposals)
+      })
 
-  it(`queries a single proposal`, async () => {
-    let proposals = lcdClientMock.state.proposals
-    let proposalRes = await client.getProposal(1)
-    expect(proposalRes).toEqual(proposals[0])
-  })
+      it(`queries a single proposal`, async () => {
+        let proposals = lcdClientMock.state.proposals
+        let proposalRes = await client.getProposal(`1`)
+        expect(proposalRes).toBeDefined()
+        expect(proposalRes).toEqual(proposals[0])
+      })
+    })
 
-  it(`queries a proposal votes`, async () => {
-    let { votes } = lcdClientMock.state
-    let votesRes = await client.getProposalVotes(1)
-    expect(votesRes).toEqual(votes[1])
-  })
+    describe(`Deposits`, () => {
+      it(`queries a proposal deposits`, async () => {
+        let { deposits } = lcdClientMock.state
+        let depositsRes = await client.getProposalDeposits(`1`)
+        expect(depositsRes).toBeDefined()
+        expect(depositsRes).toEqual(deposits[`1`])
+      })
 
-  it(`queries a proposal vote from an address`, async () => {
-    let { votes } = lcdClientMock.state
-    let voteRes = await client.getProposalVote(1, votes[1][0].voter)
-    expect(voteRes).toEqual(votes[1][0])
-  })
+      it(`queries a proposal deposit from an address`, async () => {
+        let { deposits } = lcdClientMock.state
+        let depositRes = await client.getProposalDeposit(
+          `1`,
+          deposits[`1`][0].depositer
+        )
+        expect(depositRes).toBeDefined()
+        expect(depositRes).toEqual(deposits[`1`][0])
+      })
+    })
 
-  it(`queries a proposal deposits`, async () => {
-    let { deposits } = lcdClientMock.state
-    let depositsRes = await client.getProposalDeposits(1)
-    expect(depositsRes).toEqual(deposits[1])
-  })
+    describe(`Votes`, () => {
+      it(`queries a proposal votes`, async () => {
+        let { votes } = lcdClientMock.state
+        let votesRes = await client.getProposalVotes(`1`)
+        expect(votesRes).toBeDefined()
+        expect(votesRes).toEqual(votes[`1`])
+      })
 
-  it(`queries a proposal deposit from an address`, async () => {
-    let { deposits } = lcdClientMock.state
-    let depositRes = await client.getProposalDeposit(
-      1,
-      deposits[1][0].depositer
-    )
-    expect(depositRes).toEqual(deposits[1][0])
-  })
+      it(`queries a proposal vote from an address`, async () => {
+        let { votes } = lcdClientMock.state
+        let voteRes = await client.getProposalVote(`1`, votes[`1`][0].voter)
+        expect(voteRes).toBeDefined()
+        expect(voteRes).toEqual(votes[`1`][0])
+      })
 
-  it(`queries for governance txs`, async () => {
-    let govTxs = await client.getGovernaceTxs(lcdClientMock.addresses[0])
-    expect(govTxs).toHaveLength(2)
-    expect(govTxs[0]).toEqual(lcdClientMock.state.txs[2])
-    expect(govTxs[1]).toEqual(lcdClientMock.state.txs[3])
+      it(`votes successfully on an active proposal`, async () => {
+        let option = `no_with_veto`
+        let proposalBefore = await client.getProposal(`2`)
+        let optionBefore = proposalBefore.tally_result[option]
 
-    govTxs = await client.getGovernaceTxs(lcdClientMock.addresses[1])
-    expect(govTxs).toHaveLength(0)
+        await client.submitProposalVote({
+          base_req: {
+            name: `default`,
+            sequence: 1
+          },
+          proposal_id: `2`,
+          option: option,
+          voter: lcdClientMock.addresses[0]
+        })
+
+        let res = await client.getProposalVote(`2`, lcdClientMock.addresses[0])
+        expect(res).toBeDefined()
+        expect(res.option).toEqual(option)
+
+        // check if the tally was updated
+        let proposalAfter = await client.getProposal(`2`)
+        let optionAfter = proposalAfter.tally_result[option]
+        expect(optionAfter).toEqual(String(parseInt(optionBefore) + 1))
+      })
+
+      it(`errors when voting with nonexistent account`, async () => {
+        client.state.keys.push({
+          name: `nonexistent_account`,
+          password: `1234567890`,
+          address: lcdClientMock.addresses[1]
+        })
+
+        let res = await client.submitProposalVote({
+          base_req: {
+            name: `nonexistent_account`,
+            sequence: 1
+          },
+          proposal_id: `2`,
+          option: `abstain`,
+          voter: lcdClientMock.addresses[0]
+        })
+        expect(res.length).toBe(1)
+        expect(res[0].check_tx.log).toBe(`Nonexistent account`)
+        expect(res[0].check_tx.code).toBe(1)
+      })
+
+      it(`fails to vote if sequence is invalid`, async () => {
+        let res = await client.submitProposalVote({
+          base_req: {
+            name: `default`,
+            sequence: 0
+          },
+          proposal_id: `2`,
+          option: `yes`,
+          voter: lcdClientMock.addresses[0]
+        })
+        expect(res.length).toBe(1)
+        expect(res[0].check_tx.code).toBe(2)
+        expect(res[0].check_tx.log).toBe(`Expected sequence "1", got "0"`)
+      })
+
+      it(`fails to vote on an invalid proposal`, async () => {
+        let res = await client.submitProposalVote({
+          base_req: {
+            name: `default`,
+            sequence: 1
+          },
+          proposal_id: `17`,
+          option: `yes`,
+          voter: lcdClientMock.addresses[0]
+        })
+        expect(res.length).toBe(1)
+        expect(res[0].check_tx.code).toBe(3)
+        expect(res[0].check_tx.log).toBe(`Nonexistent proposal`)
+      })
+
+      it(`fails to vote on an inactive proposal`, async () => {
+        let res = await client.submitProposalVote({
+          base_req: {
+            name: `default`,
+            sequence: 1
+          },
+          proposal_id: `1`,
+          option: `yes`,
+          voter: lcdClientMock.addresses[0]
+        })
+        expect(res.length).toBe(1)
+        expect(res[0].check_tx.code).toBe(3)
+        expect(res[0].check_tx.log).toBe(`Proposal #1 is inactive`)
+      })
+
+      it(`fails to vote if the selected option is invalid`, async () => {
+        let res = await client.submitProposalVote({
+          base_req: {
+            name: `default`,
+            sequence: 1
+          },
+          proposal_id: `2`,
+          option: `other`,
+          voter: lcdClientMock.addresses[0]
+        })
+        expect(res.length).toBe(1)
+        expect(res[0].check_tx.code).toBe(3)
+        expect(res[0].check_tx.log).toBe(`Invalid option 'other'`)
+      })
+    })
+
+    it(`queries for governance txs`, async () => {
+      let govTxs = await client.getGovernaceTxs(lcdClientMock.addresses[0])
+      expect(govTxs).toHaveLength(2)
+      expect(govTxs[0]).toEqual(lcdClientMock.state.txs[2])
+      expect(govTxs[1]).toEqual(lcdClientMock.state.txs[3])
+
+      govTxs = await client.getGovernaceTxs(lcdClientMock.addresses[1])
+      expect(govTxs).toHaveLength(0)
+    })
   })
 })
