@@ -435,18 +435,26 @@ let state = {
       {
         proposal_id: `1`,
         depositer: validators[0],
-        amount: {
-          denom: `stake`,
-          amount: `15`
-        }
+        amount: [
+          {
+            denom: `stake`,
+            amount: `15`
+          },
+          {
+            denom: `stake`,
+            amount: `5`
+          }
+        ]
       },
       {
         proposal_id: `1`,
         depositer: validators[1],
-        amount: {
-          denom: `stake`,
-          amount: `5`
-        }
+        amount: [
+          {
+            denom: `stake`,
+            amount: `5`
+          }
+        ]
       }
     ],
     2: [],
@@ -454,18 +462,22 @@ let state = {
       {
         proposal_id: `5`,
         depositer: validators[0],
-        amount: {
-          denom: `stake`,
-          amount: `11`
-        }
+        amount: [
+          {
+            denom: `stake`,
+            amount: `11`
+          }
+        ]
       },
       {
         proposal_id: `5`,
         depositer: validators[1],
-        amount: {
-          denom: `stake`,
-          amount: `150`
-        }
+        amount: [
+          {
+            denom: `stake`,
+            amount: `150`
+          }
+        ]
       }
     ]
   }
@@ -982,9 +994,10 @@ module.exports = {
         break
       } else {
         // if there's a prev deposit, add the new amount to the corresponding coin
+
         let prevDepCoinIdx = state.deposits[proposal_id][
           prevDepositIndex
-        ].findIndex(prevDepCoin => {
+        ].amount.findIndex(prevDepCoin => {
           return prevDepCoin.denom === coin.denom
         })
         if (prevDepCoinIdx === -1) {
