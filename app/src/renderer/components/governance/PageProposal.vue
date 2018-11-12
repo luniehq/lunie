@@ -58,6 +58,7 @@ tm-page(data-title='Proposal')
 import num from "scripts/num"
 import { TmBtn, TmPage, TmToolBar } from "@tendermint/ui"
 import TmBalance from "common/TmBalance"
+import TmDataError from "common/TmDataError"
 import FieldVote from "common/TmFieldVote"
 import TextBlock from "common/TextBlock"
 import ModalVote from "./ModalVote"
@@ -70,6 +71,7 @@ export default {
     FieldVote,
     ModalVote,
     TmToolBar,
+    TmDataError,
     TmPage,
     TextBlock
   },

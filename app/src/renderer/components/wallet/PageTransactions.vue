@@ -33,6 +33,7 @@ import DataEmptySearch from "common/TmDataEmptySearch"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import ModalSearch from "common/TmModalSearch"
 import TmBalance from "common/TmBalance"
+import TmDataError from "common/TmDataError"
 import { TmPage, TmDataLoading, TmLiAnyTransaction } from "@tendermint/ui"
 import VmToolBar from "common/VmToolBar"
 export default {
@@ -41,6 +42,7 @@ export default {
     TmBalance,
     TmLiAnyTransaction,
     TmDataLoading,
+    TmDataError,
     DataEmptySearch,
     DataEmptyTx,
     ModalSearch,
