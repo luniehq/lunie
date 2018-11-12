@@ -949,12 +949,9 @@ module.exports = {
     }
 
     state.votes[proposal_id].push(vote)
-    let intTallyResult = parseInt(
-      state.proposals[proposal_id].tally_result[option]
-    )
-    state.proposals[proposal_id].tally_result[option] = String(
-      intTallyResult + 1
-    )
+    let intTallyResult = parseInt(proposal.tally_result[option])
+    proposal.tally_result[option] = String(intTallyResult + 1)
+
     storeTx(`cosmos-sdk/MsgVote`, vote)
     results.push(txResult(0))
     return results

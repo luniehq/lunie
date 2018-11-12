@@ -902,8 +902,10 @@ describe(`LCD Client Mock`, () => {
       })
 
       it(`votes successfully on an active proposal`, async () => {
-        let proposalBefore = await client.getProposal(`2`)
         let option = `no_with_veto`
+        let proposalBefore = await client.getProposal(`2`)
+        let optionBefore = proposalBefore.tally_result[option]
+
         await client.submitProposalVote({
           base_req: {
             name: `default`,
@@ -920,9 +922,8 @@ describe(`LCD Client Mock`, () => {
 
         // check if the tally was updated
         let proposalAfter = await client.getProposal(`2`)
-        expect(proposalAfter.tally_result[option]).toEqual(
-          String(parseInt(proposalBefore.tally_result[option]) + 1)
-        )
+        let optionAfter = proposalAfter.tally_result[option]
+        expect(optionAfter).toEqual(String(parseInt(optionBefore) + 1))
       })
 
       it(`fails to vote on an invalid proposal`, async () => {
