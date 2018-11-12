@@ -1,6 +1,6 @@
 "use strict"
 
-import moment from "moment"
+const moment = require(`moment`)
 const b32 = require(`../scripts/b32.js`)
 const { getHeight } = require(`./rpcWrapperMock.js`)
 
@@ -355,13 +355,13 @@ let state = {
       description: `custom text proposal description`,
       initial_deposit: [
         {
-          denom: `stake`,
+          denom: `steak`,
           amount: `200`
         }
       ],
       total_deposit: [
         {
-          denom: `stake`,
+          denom: `steak`,
           amount: `200`
         }
       ],
@@ -383,13 +383,13 @@ let state = {
       initial_deposit: [
         {
           denom: `stake`,
-          amount: `15`
+          amount: `20`
         }
       ],
       total_deposit: [
         {
           denom: `stake`,
-          amount: `15`
+          amount: `170`
         }
       ],
       submit_block: `10`,
@@ -457,7 +457,18 @@ let state = {
         ]
       }
     ],
-    2: [],
+    2: [
+      {
+        proposal_id: `2`,
+        depositer: validators[0],
+        amount: [
+          {
+            denom: `steak`,
+            amount: `200`
+          }
+        ]
+      }
+    ],
     5: [
       {
         proposal_id: `5`,
@@ -465,7 +476,7 @@ let state = {
         amount: [
           {
             denom: `stake`,
-            amount: `11`
+            amount: `20`
           }
         ]
       },
@@ -951,7 +962,7 @@ module.exports = {
       amount
     }
 
-    // javascript's forEach doesn't support break, so using classi for loop...
+    // javascript's forEach doesn't support break, so using classic for loop...
     for (let i = 0; i < amount.length; i++) {
       coin = amount[i]
       let depositCoinAmt = parseInt(coin.amount)
@@ -967,6 +978,7 @@ module.exports = {
 
       coinBalance.amount -= depositCoinAmt
 
+      // ============= TOTAL PROPOSAL's DEPOSIT =============
       // Increment total deposit of the proposal
       let depositIndex = proposal.total_deposit.findIndex(
         deposit => deposit.denom === coin.denom
@@ -978,23 +990,24 @@ module.exports = {
         // if there's an existing deposit with that denom we add the submited deposit amount to it
         let newAmt = String(
           parseInt(proposal.total_deposit[depositIndex].amount) +
-            parseInt(amount.amount)
+            parseInt(coin.amount)
         )
         proposal.total_deposit[depositIndex].amount = newAmt
       }
 
-      // check if there's an existing deposit by the depositer with the same denom
+      // ============= USER'S DEPOSITS =============
+      // check if there's an existing deposit by the depositer
       let prevDepositIndex = state.deposits[proposal_id].findIndex(
         deposit => deposit.depositer === depositer
       )
 
       if (prevDepositIndex === -1) {
-        // if no previous deposit by the depositer we add it to the existing deposits
+        // if no previous deposit by the depositer, we add it to the existing deposits
         state.deposits[proposal_id].push(submittedDeposit)
-        break
+        break // break since no need to iterate over other coins
       } else {
+        // ============= USER'S DEPOSITS WITH SAME COIN DENOM =============
         // if there's a prev deposit, add the new amount to the corresponding coin
-
         let prevDepCoinIdx = state.deposits[proposal_id][
           prevDepositIndex
         ].amount.findIndex(prevDepCoin => {
@@ -1003,16 +1016,18 @@ module.exports = {
         if (prevDepCoinIdx === -1) {
           state.deposits[proposal_id][prevDepositIndex].amount.push(coin)
         } else {
-          let newAmt = String(
+          // there's a previous deposit from the depositer with the same coin
+          let newAmt =
             parseInt(
               state.deposits[proposal_id][prevDepositIndex].amount[
                 prevDepCoinIdx
               ].amount
             ) + parseInt(coin.amount)
-          )
+
           state.deposits[proposal_id][prevDepositIndex].amount[
             prevDepCoinIdx
-          ].amount = newAmt
+          ].amount = String(newAmt)
+          console.log(state.deposits[proposal_id][prevDepositIndex].amount)
         }
       }
     }
@@ -1022,7 +1037,6 @@ module.exports = {
     // check if the propoposal is now active
     if (proposal.proposal_status === `Pending`) {
       // TODO: get min deposit coin from gov params instead of stake params
-      console.log(proposal.total_deposit)
       let depositCoinAmt = proposal.total_deposit.find(coin => {
         return coin.denom === `steak`
       }).amount
