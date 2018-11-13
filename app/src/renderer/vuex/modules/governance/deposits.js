@@ -29,7 +29,7 @@ export default ({ node }) => {
       const denom = config.bondingDenom.toLowerCase()
       console.log(depositAmount)
       await dispatch(`sendTx`, {
-        type: `submitDeposit`,
+        type: `submitProposalDeposit`,
         proposal_id: proposalId,
         depositer: wallet.address,
         amount: [

@@ -141,11 +141,12 @@ export default {
 
       try {
         // TODO: support multiple coins
-        await this.$store.dispatch(`submitVote`, { proposalId, amount })
+        await this.$store.dispatch(`submitDeposit`, { proposalId, amount })
 
+        // TODO: get min deposit denom from gov params
         this.$store.commit(`notify`, {
           title: `Successful deposit!`,
-          body: `You have successfully deposit your ${amount}s on proposal #${
+          body: `You have successfully deposited your ${this.bondingDenom.toLowerCase()}s on proposal #${
             this.proposal.proposal_id
           }`
         })
