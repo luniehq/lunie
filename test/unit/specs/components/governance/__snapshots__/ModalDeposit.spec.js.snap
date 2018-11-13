@@ -59,7 +59,7 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
       <input
         class="tm-field"
         id="amount"
-        max="0"
+        max="20"
         min="0"
         step="any"
         type="number"

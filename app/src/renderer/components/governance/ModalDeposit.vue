@@ -41,20 +41,20 @@ import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
 import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
-import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
+import { TmBtn, TmField, TmFormGroup } from "@tendermint/ui"
 
 export default {
   name: `modal-deposit`,
   props: [`proposalId`, `proposalTitle`, `denom`],
   computed: {
-    // TODO: get denom from governance params
+    // TODO: get coin denom from governance params
     ...mapGetters([`wallet`]),
     balance() {
       if (!this.wallet.balancesLoading && !!this.wallet.balances.length) {
-        let balance = this.wallet.balances.find(coin => {
-          coin.denom === this.denom
-        })
-        if (balance && balance.amount) return parseFloat(balance.amount)
+        let balance = this.wallet.balances.find(
+          coin => coin.denom === this.denom
+        )
+        if (balance) return parseFloat(balance.amount)
       }
       return 0
     }
@@ -63,8 +63,7 @@ export default {
     Modal,
     TmBtn,
     TmField,
-    TmFormGroup,
-    TmFormMsg
+    TmFormGroup
   },
   data: () => ({
     amount: 0
@@ -75,7 +74,7 @@ export default {
         required,
         between: between(
           0.0000000001,
-          this.balance > 0 ? this.balance : 0.0000000001 // TODO: doublecheck this
+          this.balance > 0 ? this.balance : 0.0000000001
         )
       }
     }

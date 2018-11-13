@@ -6,11 +6,17 @@ import ModalDeposit from "renderer/components/governance/ModalDeposit"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`ModalDeposit`, () => {
-  let wrapper
+  let wrapper, store
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
 
   beforeEach(() => {
+    const coins = [
+      {
+        amount: `20`,
+        denom: `stake`
+      }
+    ]
     let instance = mount(ModalDeposit, {
       localVue,
       propsData: {
@@ -20,6 +26,8 @@ describe(`ModalDeposit`, () => {
       }
     })
     wrapper = instance.wrapper
+    store = instance.store
+    store.commit(`setWalletBalances`, coins)
     wrapper.update()
   })
 
@@ -44,14 +52,14 @@ describe(`ModalDeposit`, () => {
       expect(depositBtn.html()).toContain(`disabled="disabled"`)
 
       // amount deposited less than the user's balance
-      wrapper.setData({ amount: 1 })
+      wrapper.setData({ amount: 25 })
       // TODO get wallet balance
       depositBtn = wrapper.find(`#submit-deposit`)
       expect(depositBtn.html()).toContain(`disabled="disabled"`)
     })
 
     it(`enables the 'Deposit' button if the user has enough balance`, () => {
-      wrapper.setData({ amount: 100 })
+      wrapper.setData({ amount: 15 })
       let submitButton = wrapper.find(`#submit-deposit`)
       expect(submitButton.html()).not.toContain(`disabled="disabled"`)
     })
