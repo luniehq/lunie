@@ -46,22 +46,39 @@ describe(`ModalDeposit`, () => {
   })
 
   describe(`enables or disables 'Deposit' button correctly`, () => {
-    it(`disables the 'Deposit' button`, () => {
-      // default values
-      let depositBtn = wrapper.find(`#submit-deposit`)
-      expect(depositBtn.html()).toContain(`disabled="disabled"`)
+    describe(`disables the 'Deposit' button`, () => {
+      it(`with default values`, () => {
+        let depositBtn = wrapper.find(`#submit-deposit`)
+        expect(depositBtn.html()).toContain(`disabled="disabled"`)
+      })
 
-      // amount deposited less than the user's balance
-      wrapper.setData({ amount: 25 })
-      // TODO get wallet balance
-      depositBtn = wrapper.find(`#submit-deposit`)
-      expect(depositBtn.html()).toContain(`disabled="disabled"`)
+      it(`amount deposited less than the user's balance`, () => {
+        wrapper.setData({ amount: 25 })
+        let depositBtn = wrapper.find(`#submit-deposit`)
+        expect(depositBtn.html()).toContain(`disabled="disabled"`)
+      })
+
+      // TODO: delete when multicoin deposit is enabled
+      it(`when the user doesn't have the deposit coin`, () => {
+        const otherCoins = [
+          {
+            amount: `20`,
+            denom: `otherCoin`
+          }
+        ]
+        store.commit(`setWalletBalances`, otherCoins)
+        wrapper.setData({ amount: 25 })
+        let depositBtn = wrapper.find(`#submit-deposit`)
+        expect(depositBtn.html()).toContain(`disabled="disabled"`)
+      })
     })
 
-    it(`enables the 'Deposit' button if the user has enough balance`, () => {
-      wrapper.setData({ amount: 15 })
-      let submitButton = wrapper.find(`#submit-deposit`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+    describe(`enables the 'Deposit' button`, () => {
+      it(`when the user has enough balance to submit a deposit`, () => {
+        wrapper.setData({ amount: 15 })
+        let submitButton = wrapper.find(`#submit-deposit`)
+        expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+      })
     })
   })
 
