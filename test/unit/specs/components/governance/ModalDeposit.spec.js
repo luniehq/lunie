@@ -58,8 +58,7 @@ describe(`ModalDeposit`, () => {
         expect(depositBtn.html()).toContain(`disabled="disabled"`)
       })
 
-      // TODO: delete when multicoin deposit is enabled
-      it(`when the user doesn't have the deposit coin`, () => {
+      it(`when the user doesn't have the deposited coin`, () => {
         const otherCoins = [
           {
             amount: `20`,
