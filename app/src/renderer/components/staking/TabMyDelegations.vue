@@ -5,7 +5,7 @@
         | Active Delegations
         |
         i.material-icons.info-button(v-tooltip.top="bondInfo") info_outline
-      table-validators(v-if="yourValidators > 0", :validators="yourValidators")
+      table-validators(:validators="yourValidators")
 
     tm-data-msg(v-if="yourValidators < 1", icon="info_outline")
       div(slot="title") No Active Delegations
