@@ -3,7 +3,7 @@
 const Client = (axios, localLcdURL, remoteLcdURL) => {
   async function request(method, path, data, useRemote) {
     const url = useRemote ? remoteLcdURL : localLcdURL
-    return (await axios[method.toLowerCase()](url + path, data)).data
+    return (await axios({ data, method, url: url + path })).data
   }
 
   // returns an async function which makes a request for the given
@@ -23,9 +23,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
       if (Array.isArray(args)) {
         args = args.join(`/`)
       }
-      if (method === `DELETE`) {
-        data = { data }
-      }
+
       return request(method, `${prefix}/${args}${suffix}`, data, useRemote)
     }
   }
@@ -34,8 +32,6 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
 
   const keys = {
     add: req(`POST`, `/keys`),
-
-    // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prop data
     delete: argReq(`DELETE`, `/keys`),
 
     get: async key => {
