@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\1502](https://github.com/cosmos/voyager/issues/1502) A page for each proposal. @jbibla
 * [\1548](https://github.com/cosmos/voyager/issues/1548) Add mocked deposit for testing @fedekunze
 * [\1116](https://github.com/cosmos/voyager/issues/1116) Elaborate a bit about the release process. @NodeGuy
+* [\1568](https://github.com/cosmos/voyager/issues/1568) Add mocked submit deposit for testing @fedekunze
 
 ### Changed
 
