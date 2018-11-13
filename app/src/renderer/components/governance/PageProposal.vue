@@ -16,7 +16,7 @@ tm-page(data-title='Proposal')
               .validator-profile__header__name__title {{ proposal.title }}
           .column.validator-profile__header__actions
             tm-btn#vote-btn(v-if="status.button === 'vote'" value="Vote" color="primary" @click.native="onVote")
-            tm-btn(v-if="status.button === 'deposit'" value="Deposit" color="primary")
+            tm-btn#deposit-btn(v-if="status.button === 'deposit'" value="Deposit" color="primary" @click.native="onDeposit")
             tm-btn(v-if="!status.button" disabled value="Deposit / Vote" color="primary")
 
         .row.description
@@ -45,6 +45,14 @@ tm-page(data-title='Proposal')
         .row
           text-block(:content="proposal.description")
 
+    modal-deposit(
+      v-if="showModalDeposit"
+      v-on:castVote="deposit"
+      :showModalVote.sync="showModalVote"
+      :proposalId="proposal.proposal_id"
+      :proposalTitle="proposal.title"
+    )
+
     modal-vote(
       v-if="showModalVote"
       v-on:castVote="castVote"
@@ -55,11 +63,13 @@ tm-page(data-title='Proposal')
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { TmBtn, TmPage, TmToolBar } from "@tendermint/ui"
 import TmBalance from "common/TmBalance"
 import FieldVote from "common/TmFieldVote"
 import TextBlock from "common/TextBlock"
+import ModalDeposit from "./ModalDeposit"
 import ModalVote from "./ModalVote"
 export default {
   name: `page-proposal`,
@@ -68,15 +78,19 @@ export default {
     TmBalance,
     TmBtn,
     FieldVote,
+    ModalDeposit,
     ModalVote,
     TmToolBar,
     TmPage,
     TextBlock
   },
   data: () => ({
+    showModalDeposit: false,
     showModalVote: false
   }),
   computed: {
+    // TODO: get denom from governance params
+    ...mapGetters([`bondingDenom`]),
     proposalType() {
       return this.proposal.proposal_type.toLowerCase()
     },
@@ -118,6 +132,32 @@ export default {
   methods: {
     onVote() {
       this.showModalVote = true
+    },
+    onDeposit() {
+      this.showModalDeposit = true
+    },
+    async deposit({ amount }) {
+      let proposalId = this.proposal.proposal_id
+
+      try {
+        // TODO: support multiple coins
+        await this.$store.dispatch(`submitDeposit`, { proposalId, amount })
+
+        // TODO: get min deposit denom from gov params
+        this.$store.commit(`notify`, {
+          title: `Successful deposit!`,
+          body: `You have successfully deposited your ${this.bondingDenom.toLowerCase()}s on proposal #${
+            this.proposal.proposal_id
+          }`
+        })
+      } catch ({ message }) {
+        this.$store.commit(`notifyError`, {
+          title: `Error while submitting a deposit on proposal #${
+            this.proposal.proposal_id
+          }`,
+          body: message
+        })
+      }
     },
     async castVote({ option }) {
       let proposalId = this.proposal.proposal_id

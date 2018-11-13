@@ -255,6 +255,7 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
       </div>
     </div>
     <!---->
+    <!---->
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
