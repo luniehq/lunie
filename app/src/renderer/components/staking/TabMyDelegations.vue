@@ -1,12 +1,17 @@
 <template lang="pug">
   div
-    h3.tab-header
-      | Active Delegations
-      |
-      i.material-icons.info-button(v-tooltip.top="bondInfo") info_outline
-    table-validators(:validators="yourValidators")
+    div(v-if="yourValidators > 0")
+      h3.tab-header
+        | Active Delegations
+        |
+        i.material-icons.info-button(v-tooltip.top="bondInfo") info_outline
+      table-validators(v-if="yourValidators > 0", :validators="yourValidators")
 
-    .check-out-message
+    tm-data-msg(v-if="yourValidators < 1", icon="info_outline")
+      div(slot="title") No Active Delegations
+      div(slot="subtitle") Looks like you haven't delegated any Atoms yet. Head over to the #[router-link(:to="{name: 'Validators'}") validator list] to make your first delegation!
+
+    .check-out-message(v-if="yourValidators > 0")
       | Check out
       |
       router-link(:to="{name: 'Validators'}") the validator list
@@ -23,11 +28,12 @@
 
 <script>
 import { mapGetters } from "vuex"
+import { TmPart, TmDataMsg } from "@tendermint/ui"
 import TableValidators from "staking/TableValidators"
 
 export default {
   name: `tab-my-delegations`,
-  components: { TableValidators },
+  components: { TableValidators, TmDataMsg },
   data: () => ({
     bondInfo: `Validators you are currently bonded to`,
     unbondInfo: `Your bonded validators in unbonding process`
@@ -60,10 +66,6 @@ export default {
 
 .info-button
   color var(--link)
-
-.staking
-  .tm-data-msg
-    margin 1rem 0 0 2rem
 
 .check-out-message
   background var(--app-fg)
