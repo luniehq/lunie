@@ -884,6 +884,269 @@ describe(`LCD Client Mock`, () => {
         expect(depositRes).toBeDefined()
         expect(depositRes).toEqual(deposits[`1`][0])
       })
+
+      describe(`fails to submit deposit on proposal`, () => {
+        it(`if account is nonexistent`, async () => {
+          client.state.keys.push({
+            name: `nonexistent_account`,
+            password: `1234567890`,
+            address: lcdClientMock.addresses[1]
+          })
+
+          let res = await client.submitProposalDeposit({
+            base_req: {
+              name: `nonexistent_account`,
+              sequence: 1
+            },
+            proposal_id: `5`,
+            amount: [
+              {
+                denom: `stake`,
+                amount: `1`
+              }
+            ],
+            depositer: lcdClientMock.addresses[0]
+          })
+          expect(res).toHaveLength(1)
+          expect(res[0].check_tx.log).toBe(`Nonexistent account`)
+          expect(res[0].check_tx.code).toBe(1)
+        })
+
+        it(`if sequence is invalid`, async () => {
+          let res = await client.submitProposalDeposit({
+            base_req: {
+              name: `default`,
+              sequence: 0
+            },
+            proposal_id: `5`,
+            amount: [
+              {
+                denom: `stake`,
+                amount: `1`
+              }
+            ],
+            depositer: lcdClientMock.addresses[0]
+          })
+          expect(res).toHaveLength(1)
+          expect(res[0].check_tx.code).toBe(2)
+          expect(res[0].check_tx.log).toBe(`Expected sequence "1", got "0"`)
+        })
+
+        it(`if proposal is invalid`, async () => {
+          let res = await client.submitProposalDeposit({
+            base_req: {
+              name: `default`,
+              sequence: 1
+            },
+            proposal_id: `17`,
+            amount: [
+              {
+                denom: `stake`,
+                amount: `1`
+              }
+            ],
+            depositer: lcdClientMock.addresses[0]
+          })
+          expect(res).toHaveLength(1)
+          expect(res[0].check_tx.code).toBe(3)
+          expect(res[0].check_tx.log).toBe(`Nonexistent proposal`)
+        })
+
+        it(`if proposal is inactive`, async () => {
+          let res = await client.submitProposalDeposit({
+            base_req: {
+              name: `default`,
+              sequence: 1
+            },
+            proposal_id: `1`,
+            amount: [
+              {
+                denom: `stake`,
+                amount: `1`
+              }
+            ],
+            depositer: lcdClientMock.addresses[0]
+          })
+          expect(res).toHaveLength(1)
+          expect(res[0].check_tx.code).toBe(3)
+          expect(res[0].check_tx.log).toEqual(`Proposal #1 already finished`)
+        })
+
+        it(`if amount is negative`, async () => {
+          let res = await client.submitProposalDeposit({
+            base_req: {
+              name: `default`,
+              sequence: 1
+            },
+            proposal_id: `5`,
+            amount: [
+              {
+                denom: `steak`,
+                amount: `-10`
+              }
+            ],
+            depositer: lcdClientMock.addresses[0]
+          })
+          expect(res).toHaveLength(1)
+          expect(res[0].check_tx.code).toBe(1)
+          expect(res[0].check_tx.log).toBe(
+            `Amount of steaks cannot be negative`
+          )
+        })
+
+        it(`if the user doesn't have enough balance`, async () => {
+          // user doesn't have any balance of the coin
+          let res = await client.submitProposalDeposit({
+            base_req: {
+              name: `default`,
+              sequence: 1
+            },
+            proposal_id: `5`,
+            amount: [
+              {
+                denom: `pump&DumpCoin`,
+                amount: `10`
+              }
+            ],
+            depositer: lcdClientMock.addresses[0]
+          })
+          expect(res).toHaveLength(1)
+          expect(res[0].check_tx.code).toBe(1)
+          expect(res[0].check_tx.log).toBe(
+            `Not enough pump&DumpCoins in your account`
+          )
+
+          // user has not enough coins
+          res = await client.submitProposalDeposit({
+            base_req: {
+              name: `default`,
+              sequence: 1
+            },
+            proposal_id: `5`,
+            amount: [
+              {
+                denom: `steak`,
+                amount: `1500`
+              }
+            ],
+            depositer: lcdClientMock.addresses[0]
+          })
+          expect(res).toHaveLength(1)
+          expect(res[0].check_tx.code).toBe(1)
+          expect(res[0].check_tx.log).toBe(`Not enough steaks in your account`)
+        })
+      })
+
+      describe(`submits successfully a deposit on an active proposal`, () => {
+        it(`when user hasn't submitted a previous deposit`, async () => {
+          let proposalBefore = await client.getProposal(`5`)
+          let totalDepositBefore = proposalBefore.total_deposit.find(coin => {
+            return coin.denom === `steak`
+          })
+
+          let userDepositBefore = await client.getProposalDeposit(
+            `5`,
+            lcdClientMock.addresses[0]
+          )
+          expect(totalDepositBefore).not.toBeDefined()
+          expect(userDepositBefore).not.toBeDefined()
+
+          let deposit = {
+            proposal_id: `5`,
+            amount: [
+              {
+                denom: `steak`,
+                amount: `200`
+              }
+            ],
+            depositer: lcdClientMock.addresses[0]
+          }
+
+          let res = await client.submitProposalDeposit({
+            base_req: {
+              name: `default`,
+              sequence: 1
+            },
+            ...deposit
+          })
+          expect(res).toBeDefined()
+
+          // sshould have added the deposit to the proposal's total deposit
+          let proposalAfter = await client.getProposal(`5`)
+          let totalDepositAfter = proposalAfter.total_deposit.find(coin => {
+            return coin.denom === `steak`
+          })
+          expect(totalDepositAfter).toEqual(deposit.amount[0])
+
+          // should have updated the status of the proposal from `Pending` to `Active`
+          expect(proposalAfter.proposal_status).toEqual(`Active`)
+
+          // should have added the deposit from the depositer
+          let userDepositAfter = await client.getProposalDeposit(
+            `5`,
+            lcdClientMock.addresses[0]
+          )
+          expect(userDepositAfter).toEqual(deposit)
+        })
+
+        it(`when user has previous deposit`, async () => {
+          let proposalBefore = await client.getProposal(`2`)
+          let totalSteakBefore = proposalBefore.total_deposit.find(coin => {
+            return coin.denom === `steak`
+          })
+          let userDepositBefore = await client.getProposalDeposit(
+            `2`,
+            lcdClientMock.validators[0]
+          )
+          expect(totalSteakBefore).toBeDefined()
+          expect(userDepositBefore).toBeDefined()
+
+          let deposit = {
+            proposal_id: `2`,
+            amount: [
+              {
+                denom: `steak`,
+                amount: `200`
+              }
+            ],
+            depositer: lcdClientMock.validators[0]
+          }
+
+          let newTotalAmt =
+            parseInt(totalSteakBefore.amount) +
+            parseInt(deposit.amount[0].amount)
+
+          let newDepositAmt =
+            parseInt(userDepositBefore.amount[0].amount) +
+            parseInt(deposit.amount[0].amount)
+
+          let res = await client.submitProposalDeposit({
+            base_req: {
+              name: `default`,
+              sequence: 1
+            },
+            ...deposit
+          })
+          expect(res).toBeDefined()
+
+          // should have increased total deposit of the proposal
+          let proposalAfter = await client.getProposal(`2`)
+          let totalSteakAfter = proposalAfter.total_deposit.find(coin => {
+            return coin.denom === `steak`
+          })
+          expect(totalSteakAfter.amount).toEqual(String(newTotalAmt))
+
+          // should have updated the deposit from the depositer
+          let userDepositAfter = await client.getProposalDeposit(
+            `2`,
+            lcdClientMock.validators[0]
+          )
+          expect(userDepositAfter).toBeDefined()
+          expect(userDepositAfter.amount[0].amount).toEqual(
+            String(newDepositAmt)
+          )
+        })
+      })
     })
 
     describe(`Votes`, () => {

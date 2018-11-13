@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1501](https://github.com/cosmos/voyager/issues/1501) Vote on proposals through modal @fedekunze + @jbibla
 * [\1502](https://github.com/cosmos/voyager/issues/1502) A page for each proposal. @jbibla
 * [\1552](https://github.com/cosmos/voyager/issues/1522) Deposit on proposals through modal @fedekunze
+* [\1548](https://github.com/cosmos/voyager/issues/1548) Add mocked deposit for testing @fedekunze
 
 ### Changed
 
