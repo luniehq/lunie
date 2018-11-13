@@ -100,7 +100,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                 >
                   <a
                     class=""
-                    href="#/staking"
+                    href="#/staking/validators"
                   >
                     <i
                       class="material-icons"
@@ -543,7 +543,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                 >
                   <a
                     class=""
-                    href="#/staking"
+                    href="#/staking/validators"
                   >
                     <i
                       class="material-icons"
@@ -968,7 +968,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
                 >
                   <a
                     class=""
-                    href="#/staking"
+                    href="#/staking/validators"
                   >
                     <i
                       class="material-icons"
