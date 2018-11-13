@@ -12,12 +12,14 @@ Object {
     "balance": Object {
       "amount": "356.0000000000",
     },
+    "creation_height": undefined,
     "min_time": undefined,
   },
   "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw": Object {
     "balance": Object {
       "amount": "113.0000000000",
     },
+    "creation_height": undefined,
     "min_time": undefined,
   },
 }

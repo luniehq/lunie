@@ -283,16 +283,46 @@ describe(`LCD Client`, () => {
         ])
       })
 
-      it(`queries for a delegation summary for a delegator`, async () => {
+      it(`queries for a delegations of a delegator`, async () => {
         axios.mockReturnValue({})
-        await client.getDelegator(`abc`)
+        await client.getDelegations(`abc`)
 
         expect(axios.mock.calls).toEqual([
           [
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/stake/delegators/abc`
+              url: `http://remotehost/stake/delegators/abc/delegations`
+            }
+          ]
+        ])
+      })
+
+      it(`queries for a undelegations of a delegator`, async () => {
+        axios.mockReturnValue({})
+        await client.getUndelegations(`abc`)
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/stake/delegators/abc/unbonding_delegations`
+            }
+          ]
+        ])
+      })
+
+      it(`queries for a redelegations of a delegator`, async () => {
+        axios.mockReturnValue({})
+        await client.getRedelegations(`abc`)
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/stake/delegators/abc/redelegations`
             }
           ]
         ])
@@ -699,7 +729,7 @@ describe(`LCD Client`, () => {
           {
             data: undefined,
             method: `GET`,
-            url: `http://remotehost/slashing/signing_info/pubKey`
+            url: `http://remotehost/slashing/validators/pubKey/signing_info`
           }
         ]
       ])
