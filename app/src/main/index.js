@@ -20,6 +20,7 @@ global.config = config // to make the config accessable from renderer
 require(`electron-debug`)()
 
 let shuttingDown = false
+let createAccountWindow
 let mainWindow
 let lcdProcess
 let streams = []
@@ -122,6 +123,19 @@ async function shutdown() {
   })
 }
 
+const showCreateAccountWindow = parent => {
+  createAccountWindow = new BrowserWindow({
+    center: true,
+    modal: true,
+    parent,
+    webPreferences: {
+      devTools: false
+    }
+  })
+
+  createAccountWindow.loadURL(`${winURL}/createAccount.html`)
+}
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     show: false,
@@ -139,6 +153,8 @@ function createWindow() {
   mainWindow.once(`ready-to-show`, () => {
     setTimeout(() => {
       mainWindow.show()
+      showCreateAccountWindow(mainWindow)
+
       if (DEV || JSON.parse(process.env.COSMOS_DEVTOOLS || `false`)) {
         mainWindow.webContents.openDevTools()
         // we need to reload at this point to make sure sourcemaps are loaded correctly
@@ -428,6 +444,11 @@ const eventHandlers = {
 
   "successful-launch": () => {
     console.log(`[START SUCCESS] Vue app successfuly started`)
+  },
+
+  createAccount: (event, name) => {
+    createAccountWindow.close()
+    console.log(`Received name for creating account: ${name}`)
   }
 }
 
