@@ -28,7 +28,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { TmPart, TmDataMsg } from "@tendermint/ui"
+import { TmDataMsg } from "@tendermint/ui"
 import TableValidators from "staking/TableValidators"
 
 export default {
