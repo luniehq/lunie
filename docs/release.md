@@ -2,7 +2,10 @@
 
 ### Automatic Release
 
-There is an automatic release process setup. Just push to release and the CI will create a release candidate PR. If this is merged the CI will create and publish the release.
+When you're ready to publish a release, push code to the `release` branch.
+CircleCI will notice and automatically increment the patch level of the version
+number, create a tag, and generate a pull request. If the pull request is
+merged then CircleCI will use it to build applications for all three platforms and publish a release on GitHub.
 
 ### Manual Release
 
@@ -21,7 +24,7 @@ Now you publish the release:
 
 ### Verifying Builds with the Team
 
-**TODO:** _Work on this process, automate as much as possible_
+> **Note:** This is a work in progress
 
 As a team, we should verify that we all independently arrived at the same result
 for each of the builds, which greatly increases security by reducing the chances
@@ -36,7 +39,9 @@ machines. (When dealing with huge sums of money, we can never be too careful).
 1.  Enjoy the dopamine and serotonin flooding your brain.
 1.  🎊🎉
 
-### TODO: Signing Builds
+### Signing Builds
+
+> **Note:** This is a work in progress
 
 In the future, we will each have private keys to sign the builds, so that users
 can trust new versions when updating (either manually or with an auto-update
