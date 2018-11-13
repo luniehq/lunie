@@ -2,7 +2,10 @@
 
 ### Automatic Release
 
-There is an automatic release process setup. Just push to release and the CI will create a release candidate PR. If this is merged the CI will create and publish the release.
+When you're ready to publish a release, push code to the `release` branch.
+CircleCI will notice and automatically increment the patch level of the version
+number, create a tag, and generate a pull request. If the pull request is
+merged then CircleCI will use it to build applications for all three platforms and publish a release on GitHub.
 
 ### Manual Release
 
