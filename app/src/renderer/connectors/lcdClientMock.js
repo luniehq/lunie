@@ -1017,7 +1017,7 @@ module.exports = {
         }
       }
     }
-    // TODO: double check if we need to update it inside the loop
+
     incrementSequence(fromAccount)
 
     // check if the propoposal is now active
