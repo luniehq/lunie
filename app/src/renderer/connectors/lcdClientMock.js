@@ -954,7 +954,6 @@ module.exports = {
       return results
     }
 
-    // update depositer's balance
     let coin
     let submittedDeposit = {
       proposal_id,
@@ -976,69 +975,58 @@ module.exports = {
         return results
       }
 
+      // update depositer's balance
       coinBalance.amount -= depositCoinAmt
 
       // ============= TOTAL PROPOSAL's DEPOSIT =============
       // Increment total deposit of the proposal
-      let depositIndex = proposal.total_deposit.findIndex(
+      let deposit = proposal.total_deposit.find(
         deposit => deposit.denom === coin.denom
       )
-      if (depositIndex === -1) {
+      if (!deposit) {
         // if there's no previous deposit in that denom we just append it to the total deposit
         proposal.total_deposit.push(coin)
       } else {
         // if there's an existing deposit with that denom we add the submited deposit amount to it
-        let newAmt = String(
-          parseInt(proposal.total_deposit[depositIndex].amount) +
-            parseInt(coin.amount)
-        )
-        proposal.total_deposit[depositIndex].amount = newAmt
+        let newAmt = String(parseInt(deposit.amount) + parseInt(coin.amount))
+        deposit.amount = newAmt
       }
 
       // ============= USER'S DEPOSITS =============
       // check if there's an existing deposit by the depositer
-      let prevDepositIndex = state.deposits[proposal_id].findIndex(
+      let prevDeposit = state.deposits[proposal_id].find(
         deposit => deposit.depositer === depositer
       )
 
-      if (prevDepositIndex === -1) {
+      if (!prevDeposit) {
         // if no previous deposit by the depositer, we add it to the existing deposits
         state.deposits[proposal_id].push(submittedDeposit)
         break // break since no need to iterate over other coins
       } else {
         // ============= USER'S DEPOSITS WITH SAME COIN DENOM =============
         // if there's a prev deposit, add the new amount to the corresponding coin
-        let prevDepCoinIdx = state.deposits[proposal_id][
-          prevDepositIndex
-        ].amount.findIndex(prevDepCoin => {
+        let prevDepCoin = prevDeposit.amount.find(prevDepCoin => {
           return prevDepCoin.denom === coin.denom
         })
-        if (prevDepCoinIdx === -1) {
-          state.deposits[proposal_id][prevDepositIndex].amount.push(coin)
+        if (!prevDepCoin) {
+          prevDeposit.amount.push(coin)
         } else {
           // there's a previous deposit from the depositer with the same coin
-          let newAmt =
-            parseInt(
-              state.deposits[proposal_id][prevDepositIndex].amount[
-                prevDepCoinIdx
-              ].amount
-            ) + parseInt(coin.amount)
-
-          state.deposits[proposal_id][prevDepositIndex].amount[
-            prevDepCoinIdx
-          ].amount = String(newAmt)
+          let newAmt = parseInt(prevDepCoin.amount) + parseInt(coin.amount)
+          prevDepCoin.amount = String(newAmt)
         }
       }
     }
-    // TODO: double check if we need to update it inside the loop
+
     incrementSequence(fromAccount)
 
     // check if the propoposal is now active
     if (proposal.proposal_status === `Pending`) {
-      // TODO: get min deposit coin from gov params instead of stake params
+      // TODO: get min deposit denom from gov params instead of stake params
       let depositCoinAmt = proposal.total_deposit.find(coin => {
         return coin.denom === `steak`
       }).amount
+      // TODO: get min deposit amount from gov params
       if (parseInt(depositCoinAmt) >= 10) {
         proposal.proposal_status = `Active`
         // TODO: get voting time from gov params
