@@ -30,13 +30,13 @@ export default {
           message: `This proposal has been rejected and voting is closed`,
           color: `red`
         }
-      if (this.proposal.proposal_status === `Pending`)
+      if (this.proposal.proposal_status === `DepositPeriod`)
         return {
           button: `deposit`,
           message: `Deposits are open for this proposal`,
           color: `yellow`
         }
-      if (this.proposal.proposal_status === `Active`)
+      if (this.proposal.proposal_status === `VotingPeriod`)
         return {
           button: `vote`,
           message: `Voting for this proposal is open`,

@@ -351,7 +351,7 @@ let state = {
     {
       proposal_id: `2`,
       proposal_type: `Text`,
-      title: `Active proposal`,
+      title: `VotingPeriod proposal`,
       description: `custom text proposal description`,
       initial_deposit: [
         {
@@ -367,7 +367,7 @@ let state = {
       ],
       submit_block: `10`,
       voting_start_block: `10`,
-      proposal_status: `Active`,
+      proposal_status: `VotingPeriod`,
       tally_result: {
         yes: `0`,
         no: `0`,
@@ -394,7 +394,7 @@ let state = {
       ],
       submit_block: `10`,
       voting_start_block: `-1`,
-      proposal_status: `Pending`,
+      proposal_status: `DepositPeriod`,
       tally_result: {
         yes: `0`,
         no: `0`,
@@ -903,6 +903,67 @@ module.exports = {
   async getProposals() {
     return state.proposals || []
   },
+  async submitProposal({
+    base_req,
+    title,
+    description,
+    proposal_type,
+    proposer,
+    initial_deposit
+  }) {
+    let results = []
+    // get new proposal id
+    let proposal_id = `0`
+    if (state.proposals && state.proposals.length > 0) {
+      proposal_id = String(parseInt(state.proposals[-1].proposal_id) + 1)
+    }
+
+    if (
+      proposal_type !== `Text` &&
+      proposal_type !== `ParameterChange` &&
+      proposal_type !== `SoftwareUpgrade`
+    ) {
+      results.push(txResult(2, `${proposal_type} is not a valid proposal type`))
+      return results
+    }
+
+    let tally_result = {
+      yes: `0`,
+      no: `0`,
+      no_with_veto: `0`,
+      abstain: `0`
+    }
+    let submit_time = Date.now()
+    let deposit_end_time = moment(submit_time)
+      .add(86400000, `ms`)
+      .toDate()
+
+    let proposal = {
+      proposal_id,
+      title,
+      description,
+      proposal_type,
+      proposal_status: `DepositPeriod`,
+      tally_result,
+      submit_time,
+      deposit_end_time,
+      voting_start_time: undefined,
+      voting_end_time: undefined
+    }
+
+    // we add the proposal to the state to make it available for the submitProposalDeposit function
+    state.proposals.push(proposal)
+    let res = this.submitProposalDeposit({
+      base_req,
+      depositer: proposer,
+      deposit: initial_deposit
+    })
+    // remove proposal from state if it fails
+    if (res[0].check_tx.code !== 0) {
+      state.proposals.pop()
+    }
+    return res
+  },
   async getProposal(proposalId) {
     return state.proposals.find(
       proposal => proposal.proposal_id === String(proposalId)
@@ -947,8 +1008,8 @@ module.exports = {
       results.push(txResult(3, `Nonexistent proposal`))
       return results
     } else if (
-      proposal.proposal_status != `Pending` &&
-      proposal.proposal_status != `Active`
+      proposal.proposal_status != `DepositPeriod` &&
+      proposal.proposal_status != `VotingPeriod`
     ) {
       results.push(txResult(3, `Proposal #${proposal_id} already finished`))
       return results
@@ -1021,14 +1082,14 @@ module.exports = {
     incrementSequence(fromAccount)
 
     // check if the propoposal is now active
-    if (proposal.proposal_status === `Pending`) {
+    if (proposal.proposal_status === `DepositPeriod`) {
       // TODO: get min deposit denom from gov params instead of stake params
       let depositCoinAmt = proposal.total_deposit.find(coin => {
         return coin.denom === `steak`
       }).amount
       // TODO: get min deposit amount from gov params
       if (parseInt(depositCoinAmt) >= 10) {
-        proposal.proposal_status = `Active`
+        proposal.proposal_status = `VotingPeriod`
         // TODO: get voting time from gov params
         proposal.voting_start_block = Date.now()
         proposal.voting_end_block = moment(proposal.voting_start_block)
@@ -1075,7 +1136,7 @@ module.exports = {
     if (!proposal) {
       results.push(txResult(3, `Nonexistent proposal`))
       return results
-    } else if (proposal.proposal_status != `Active`) {
+    } else if (proposal.proposal_status != `VotingPeriod`) {
       results.push(txResult(3, `Proposal #${proposal_id} is inactive`))
       return results
     } else if (

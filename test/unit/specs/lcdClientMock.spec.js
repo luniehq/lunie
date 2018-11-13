@@ -1078,8 +1078,8 @@ describe(`LCD Client Mock`, () => {
           })
           expect(totalDepositAfter).toEqual(deposit.amount[0])
 
-          // should have updated the status of the proposal from `Pending` to `Active`
-          expect(proposalAfter.proposal_status).toEqual(`Active`)
+          // should have updated the status of the proposal from `DepositPeriod` to `VotingPeriod`
+          expect(proposalAfter.proposal_status).toEqual(`VotingPeriod`)
 
           // should have added the deposit from the depositer
           let userDepositAfter = await client.getProposalDeposit(
