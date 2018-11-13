@@ -5212,7 +5212,7 @@ mkdirp@0.5.1, mkdirp@0.5.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@
 
 mkdirp@~0.3.5:
   version "0.3.5"
-  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.3.5.tgz#de3e5f8961c88c787ee1368df849ac4413eca8d7"
+  resolved "http://registry.npmjs.org/mkdirp/-/mkdirp-0.3.5.tgz#de3e5f8961c88c787ee1368df849ac4413eca8d7"
 
 mkpath@^0.1.0:
   version "0.1.0"
@@ -5254,7 +5254,7 @@ ms@2.0.0:
 
 multer@^0.1.8:
   version "0.1.8"
-  resolved "https://registry.yarnpkg.com/multer/-/multer-0.1.8.tgz#551b8a6015093701bcacc964916b1ae06578f37b"
+  resolved "http://registry.npmjs.org/multer/-/multer-0.1.8.tgz#551b8a6015093701bcacc964916b1ae06578f37b"
   dependencies:
     busboy "~0.2.9"
     mkdirp "~0.3.5"
@@ -5643,7 +5643,7 @@ onetime@^2.0.0:
 
 ono@^1.0.22:
   version "1.0.22"
-  resolved "https://registry.yarnpkg.com/ono/-/ono-1.0.22.tgz#5f4ecbea7e3d3e972c0a03a3fd7f361368604a68"
+  resolved "http://registry.npmjs.org/ono/-/ono-1.0.22.tgz#5f4ecbea7e3d3e972c0a03a3fd7f361368604a68"
 
 ono@^4.0.5, ono@^4.0.6:
   version "4.0.10"
@@ -7577,7 +7577,7 @@ swagger-methods@^1.0.0, swagger-methods@^1.0.4:
 
 swagger-parser@^4.1.0:
   version "4.1.0"
-  resolved "https://registry.yarnpkg.com/swagger-parser/-/swagger-parser-4.1.0.tgz#5fb08ccc0c5abb8f9de7cba6c5e437736d8a10f5"
+  resolved "http://registry.npmjs.org/swagger-parser/-/swagger-parser-4.1.0.tgz#5fb08ccc0c5abb8f9de7cba6c5e437736d8a10f5"
   dependencies:
     call-me-maybe "^1.0.1"
     debug "^3.1.0"
