@@ -494,7 +494,7 @@ describe(`Startup Process`, () => {
         }
       }))
 
-      await initMain()
+      main = await require(appRoot + `src/main/index.js`)
       let { send } = require(`electron`)
 
       expect(send.mock.calls.find(([type]) => type === `error`)).toBeUndefined()

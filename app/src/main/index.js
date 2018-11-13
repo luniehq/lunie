@@ -282,6 +282,7 @@ async function startLCD(home, nodeURL) {
     child.stdout.once(`line`, async line => {
       const certPath = /\(cert: "(.+?)"/.exec(line)[1]
       resolve({ ca: fs.readFileSync(certPath, `utf8`), process: child })
+      lcdStarted = true
     })
 
     child.stderr.on(`line`, error => {
