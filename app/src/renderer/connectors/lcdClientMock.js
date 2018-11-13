@@ -954,7 +954,6 @@ module.exports = {
       return results
     }
 
-    // update depositer's balance
     let coin
     let submittedDeposit = {
       proposal_id,
@@ -976,6 +975,7 @@ module.exports = {
         return results
       }
 
+      // update depositer's balance
       coinBalance.amount -= depositCoinAmt
 
       // ============= TOTAL PROPOSAL's DEPOSIT =============
@@ -1013,7 +1013,6 @@ module.exports = {
         } else {
           // there's a previous deposit from the depositer with the same coin
           let newAmt = parseInt(prevDepCoin.amount) + parseInt(coin.amount)
-
           prevDepCoin.amount = String(newAmt)
         }
       }
@@ -1023,10 +1022,11 @@ module.exports = {
 
     // check if the propoposal is now active
     if (proposal.proposal_status === `Pending`) {
-      // TODO: get min deposit coin from gov params instead of stake params
+      // TODO: get min deposit denom from gov params instead of stake params
       let depositCoinAmt = proposal.total_deposit.find(coin => {
         return coin.denom === `steak`
       }).amount
+      // TODO: get min deposit amount from gov params
       if (parseInt(depositCoinAmt) >= 10) {
         proposal.proposal_status = `Active`
         // TODO: get voting time from gov params
