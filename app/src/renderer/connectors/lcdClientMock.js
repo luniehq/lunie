@@ -913,9 +913,12 @@ module.exports = {
   }) {
     let results = []
     // get new proposal id
-    let proposal_id = `0`
-    if (state.proposals && state.proposals.length > 0) {
-      proposal_id = String(parseInt(state.proposals[-1].proposal_id) + 1)
+    let proposal_id = `1`
+    let proposalsLen = state.proposals.length
+    if (state.proposals && proposalsLen > 0) {
+      proposal_id = String(
+        parseInt(state.proposals[proposalsLen - 1].proposal_id) + 1
+      )
     }
 
     if (
@@ -948,26 +951,26 @@ module.exports = {
       submit_time,
       deposit_end_time,
       voting_start_time: undefined,
-      voting_end_time: undefined
+      voting_end_time: undefined,
+      total_deposit: []
     }
 
     // we add the proposal to the state to make it available for the submitProposalDeposit function
     state.proposals.push(proposal)
-    let res = this.submitProposalDeposit({
+    results = await this.submitProposalDeposit({
       base_req,
+      proposal_id,
       depositer: proposer,
-      deposit: initial_deposit
+      amount: initial_deposit
     })
     // remove proposal from state if it fails
-    if (res[0].check_tx.code !== 0) {
+    if (results[0].check_tx.code !== 0) {
       state.proposals.pop()
     }
-    return res
+    return results
   },
   async getProposal(proposalId) {
-    return state.proposals.find(
-      proposal => proposal.proposal_id === String(proposalId)
-    )
+    return state.proposals.find(proposal => proposal.proposal_id === proposalId)
   },
   async getProposalDeposits(proposalId) {
     return state.deposits[proposalId] || []
@@ -1055,12 +1058,15 @@ module.exports = {
 
       // ============= USER'S DEPOSITS =============
       // check if there's an existing deposit by the depositer
-      let prevDeposit = state.deposits[proposal_id].find(
-        deposit => deposit.depositer === depositer
-      )
+      let prevDeposit =
+        state.deposits[proposal_id] &&
+        state.deposits[proposal_id].find(
+          deposit => deposit.depositer === depositer
+        )
 
       if (!prevDeposit) {
         // if no previous deposit by the depositer, we add it to the existing deposits
+        if (!state.deposits[proposal_id]) state.deposits[proposal_id] = []
         state.deposits[proposal_id].push(submittedDeposit)
         break // break since no need to iterate over other coins
       } else {

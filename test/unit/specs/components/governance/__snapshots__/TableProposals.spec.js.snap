@@ -56,7 +56,7 @@ exports[`TableProposals has the expected html structure 1`] = `
             <td class=\\"li-proposal__value\\">
                <span class=\\"validator-profile__status blue\\"></span>
                <h2>
-                  <a href=\\"#/governance/2\\" class=\\"\\">Active proposal</a>
+                  <a href=\\"#/governance/2\\" class=\\"\\">VotingPeriod proposal</a>
                </h2>
                <p>
                   custom text proposal description
