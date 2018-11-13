@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library to 0.4.1 @faboweb
 * [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library @faboweb
 * [\#1410](https://github.com/cosmos/voyager/issues/1410) removed end undelegations as not needed in the SDK anymore
+* [\#1556](https://github.com/cosmos/voyager/issues/1556) messages for transaction history and delegations tab @jbibla
 
 ### Fixed
 
@@ -54,6 +55,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1503](https://github.com/cosmos/voyager/issues/1503) Added e2e test for balance updates after delegation @faboweb
 * [\#1131](https://github.com/cosmos/voyager/issues/1131) Display only error message on notifications @fedekunze
 * [\#1440](https://github.com/cosmos/voyager/issues/1440) Fixed an error that prevented disconnecting from the RPC websocket if it wasn't defined @fedekunze
+* [\#1556](https://github.com/cosmos/voyager/issues/1556) Validator back button bug @jbibla
 
 ## [0.10.7] - 2018-10-10
 
