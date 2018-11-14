@@ -1,4 +1,6 @@
 "use strict"
+
+const moment = require(`moment`)
 const b32 = require(`../scripts/b32.js`)
 const { getHeight } = require(`./rpcWrapperMock.js`)
 
@@ -347,6 +349,33 @@ let state = {
       }
     },
     {
+      proposal_id: `2`,
+      proposal_type: `Text`,
+      title: `VotingPeriod proposal`,
+      description: `custom text proposal description`,
+      initial_deposit: [
+        {
+          denom: `steak`,
+          amount: `200`
+        }
+      ],
+      total_deposit: [
+        {
+          denom: `steak`,
+          amount: `200`
+        }
+      ],
+      submit_block: `10`,
+      voting_start_block: `10`,
+      proposal_status: `VotingPeriod`,
+      tally_result: {
+        yes: `0`,
+        no: `0`,
+        no_with_veto: `0`,
+        abstain: `0`
+      }
+    },
+    {
       proposal_id: `5`,
       proposal_type: `Text`,
       title: `Custom text proposal`,
@@ -354,18 +383,18 @@ let state = {
       initial_deposit: [
         {
           denom: `stake`,
-          amount: `15`
+          amount: `20`
         }
       ],
       total_deposit: [
         {
           denom: `stake`,
-          amount: `15`
+          amount: `170`
         }
       ],
       submit_block: `10`,
       voting_start_block: `-1`,
-      proposal_status: `Pending`,
+      proposal_status: `DepositPeriod`,
       tally_result: {
         yes: `0`,
         no: `0`,
@@ -387,6 +416,7 @@ let state = {
         option: `no_with_veto`
       }
     ],
+    2: [],
     5: [
       {
         proposal_id: `5`,
@@ -405,36 +435,60 @@ let state = {
       {
         proposal_id: `1`,
         depositer: validators[0],
-        amount: {
-          denom: `stake`,
-          amount: `15`
-        }
+        amount: [
+          {
+            denom: `stake`,
+            amount: `15`
+          },
+          {
+            denom: `stake`,
+            amount: `5`
+          }
+        ]
       },
       {
         proposal_id: `1`,
         depositer: validators[1],
-        amount: {
-          denom: `stake`,
-          amount: `5`
-        }
+        amount: [
+          {
+            denom: `stake`,
+            amount: `5`
+          }
+        ]
+      }
+    ],
+    2: [
+      {
+        proposal_id: `2`,
+        depositer: validators[0],
+        amount: [
+          {
+            denom: `steak`,
+            amount: `200`
+          }
+        ]
       }
     ],
     5: [
       {
         proposal_id: `5`,
         depositer: validators[0],
-        amount: {
-          denom: `stake`,
-          amount: `11`
-        }
+        amount: [
+          {
+            denom: `stake`,
+            amount: `20`
+          }
+        ]
       },
       {
         proposal_id: `5`,
         depositer: validators[1],
-        amount: {
-          denom: `stake`,
-          amount: `150`
-        }
+        amount: [
+          {
+            denom: `stake`,
+            amount: `150`
+          }
+        ]
       }
     ]
   }
@@ -847,26 +901,276 @@ module.exports = {
     return state.parameters
   },
   async getProposals() {
-    return state.proposals
+    return state.proposals || []
+  },
+  async submitProposal({
+    base_req,
+    title,
+    description,
+    proposal_type,
+    proposer,
+    initial_deposit
+  }) {
+    let results = []
+    // get new proposal id
+    let proposal_id = `1`
+    let proposalsLen = state.proposals.length
+    if (state.proposals && proposalsLen > 0) {
+      proposal_id = String(
+        parseInt(state.proposals[proposalsLen - 1].proposal_id) + 1
+      )
+    }
+
+    if (
+      proposal_type !== `Text` &&
+      proposal_type !== `ParameterChange` &&
+      proposal_type !== `SoftwareUpgrade`
+    ) {
+      results.push(txResult(2, `${proposal_type} is not a valid proposal type`))
+      return results
+    }
+
+    let tally_result = {
+      yes: `0`,
+      no: `0`,
+      no_with_veto: `0`,
+      abstain: `0`
+    }
+    let submit_time = Date.now()
+    let deposit_end_time = moment(submit_time)
+      .add(86400000, `ms`)
+      .toDate()
+
+    let proposal = {
+      proposal_id,
+      title,
+      description,
+      proposal_type,
+      proposal_status: `DepositPeriod`,
+      tally_result,
+      submit_time,
+      deposit_end_time,
+      voting_start_time: undefined,
+      voting_end_time: undefined,
+      total_deposit: []
+    }
+
+    // we add the proposal to the state to make it available for the submitProposalDeposit function
+    state.proposals.push(proposal)
+    results = await this.submitProposalDeposit({
+      base_req,
+      proposal_id,
+      depositer: proposer,
+      amount: initial_deposit
+    })
+    // remove proposal from state if it fails
+    if (results[0].check_tx.code !== 0) {
+      state.proposals.pop()
+    }
+    return results
   },
   async getProposal(proposalId) {
-    return state.proposals.find(
-      proposal => proposal.proposal_id === String(proposalId)
-    )
+    return state.proposals.find(proposal => proposal.proposal_id === proposalId)
   },
   async getProposalDeposits(proposalId) {
-    return state.deposits[proposalId]
+    return state.deposits[proposalId] || []
   },
   async getProposalDeposit(proposalId, address) {
     return state.deposits[proposalId].find(
       deposit => deposit.depositer === address
     )
   },
-  async getProposalVotes(proposalId) {
-    return state.votes[proposalId]
+  async submitProposalDeposit({
+    proposal_id,
+    base_req: { name, sequence },
+    depositer,
+    amount
+  }) {
+    let results = []
+    let fromKey = state.keys.find(a => a.name === name)
+    let fromAccount = state.accounts[fromKey.address]
+    if (fromAccount == null) {
+      results.push(txResult(1, `Nonexistent account`))
+      return results
+    }
+    // check nonce
+    if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
+      results.push(
+        txResult(
+          2,
+          `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
+        )
+      )
+      return results
+    }
+
+    let proposal = state.proposals.find(
+      proposal => proposal.proposal_id === proposal_id
+    )
+    if (!proposal) {
+      results.push(txResult(3, `Nonexistent proposal`))
+      return results
+    } else if (
+      proposal.proposal_status != `DepositPeriod` &&
+      proposal.proposal_status != `VotingPeriod`
+    ) {
+      results.push(txResult(3, `Proposal #${proposal_id} already finished`))
+      return results
+    }
+
+    let coin
+    let submittedDeposit = {
+      proposal_id,
+      depositer,
+      amount
+    }
+
+    // javascript's forEach doesn't support break, so using classic for loop...
+    for (let i = 0; i < amount.length; i++) {
+      coin = amount[i]
+      let depositCoinAmt = parseInt(coin.amount)
+      let coinBalance = fromAccount.coins.find(c => c.denom === coin.denom)
+
+      if (depositCoinAmt < 0) {
+        results.push(txResult(1, `Amount of ${coin.denom}s cannot be negative`))
+        return results
+      } else if (!coinBalance || coinBalance.amount < depositCoinAmt) {
+        results.push(txResult(1, `Not enough ${coin.denom}s in your account`))
+        return results
+      }
+
+      // update depositer's balance
+      coinBalance.amount -= depositCoinAmt
+
+      // ============= TOTAL PROPOSAL's DEPOSIT =============
+      // Increment total deposit of the proposal
+      let deposit = proposal.total_deposit.find(
+        deposit => deposit.denom === coin.denom
+      )
+      if (!deposit) {
+        // if there's no previous deposit in that denom we just append it to the total deposit
+        proposal.total_deposit.push(coin)
+      } else {
+        // if there's an existing deposit with that denom we add the submited deposit amount to it
+        let newAmt = String(parseInt(deposit.amount) + parseInt(coin.amount))
+        deposit.amount = newAmt
+      }
+
+      // ============= USER'S DEPOSITS =============
+      // check if there's an existing deposit by the depositer
+      let prevDeposit =
+        state.deposits[proposal_id] &&
+        state.deposits[proposal_id].find(
+          deposit => deposit.depositer === depositer
+        )
+
+      if (!prevDeposit) {
+        // if no previous deposit by the depositer, we add it to the existing deposits
+        if (!state.deposits[proposal_id]) state.deposits[proposal_id] = []
+        state.deposits[proposal_id].push(submittedDeposit)
+        break // break since no need to iterate over other coins
+      } else {
+        // ============= USER'S DEPOSITS WITH SAME COIN DENOM =============
+        // if there's a prev deposit, add the new amount to the corresponding coin
+        let prevDepCoin = prevDeposit.amount.find(prevDepCoin => {
+          return prevDepCoin.denom === coin.denom
+        })
+        if (!prevDepCoin) {
+          prevDeposit.amount.push(coin)
+        } else {
+          // there's a previous deposit from the depositer with the same coin
+          let newAmt = parseInt(prevDepCoin.amount) + parseInt(coin.amount)
+          prevDepCoin.amount = String(newAmt)
+        }
+      }
+    }
+
+    incrementSequence(fromAccount)
+
+    // check if the propoposal is now active
+    if (proposal.proposal_status === `DepositPeriod`) {
+      // TODO: get min deposit denom from gov params instead of stake params
+      let depositCoinAmt = proposal.total_deposit.find(coin => {
+        return coin.denom === `steak`
+      }).amount
+      // TODO: get min deposit amount from gov params
+      if (parseInt(depositCoinAmt) >= 10) {
+        proposal.proposal_status = `VotingPeriod`
+        // TODO: get voting time from gov params
+        proposal.voting_start_block = Date.now()
+        proposal.voting_end_block = moment(proposal.voting_start_block)
+          .add(86400000, `ms`)
+          .toDate()
+      }
+    }
+    storeTx(`cosmos-sdk/MsgDeposit`, submittedDeposit)
+    results.push(txResult(0))
+    return results
   },
-  async getProposalVote(proposalId, address) {
-    return state.votes[proposalId].find(vote => vote.voter === address)
+  async getProposalVotes(proposalId) {
+    return state.votes[proposalId] || []
+  },
+  async submitProposalVote({
+    proposal_id,
+    base_req: { name, sequence },
+    option,
+    voter
+  }) {
+    let results = []
+    let fromKey = state.keys.find(a => a.name === name)
+    let fromAccount = state.accounts[fromKey.address]
+
+    if (fromAccount == null) {
+      results.push(txResult(1, `Nonexistent account`))
+      return results
+    }
+    // check nonce
+    if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
+      results.push(
+        txResult(
+          2,
+          `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
+        )
+      )
+      return results
+    }
+
+    let proposal = state.proposals.find(
+      proposal => proposal.proposal_id === proposal_id
+    )
+
+    if (!proposal) {
+      results.push(txResult(3, `Nonexistent proposal`))
+      return results
+    } else if (proposal.proposal_status != `VotingPeriod`) {
+      results.push(txResult(3, `Proposal #${proposal_id} is inactive`))
+      return results
+    } else if (
+      option !== `yes` &&
+      option !== `no` &&
+      option !== `no_with_veto` &&
+      option !== `abstain`
+    ) {
+      results.push(txResult(3, `Invalid option '${option}'`))
+      return results
+    }
+
+    let vote = {
+      proposal_id,
+      option,
+      voter
+    }
+
+    state.votes[proposal_id].push(vote)
+    let intTallyResult = parseInt(proposal.tally_result[option])
+    proposal.tally_result[option] = String(intTallyResult + 1)
+
+    storeTx(`cosmos-sdk/MsgVote`, vote)
+    results.push(txResult(0))
+    return results
+  },
+  async getProposalVote(proposal_id, address) {
+    return state.votes[proposal_id].find(vote => vote.voter === address)
   },
   async queryProposals() {
     // TODO: return only value of the `value` property when https://github.com/cosmos/cosmos-sdk/issues/2507 is solved

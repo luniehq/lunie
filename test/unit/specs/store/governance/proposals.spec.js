@@ -69,7 +69,8 @@ describe(`Module: Proposals`, () => {
     await actions.getProposals({ state, commit, dispatch })
     expect(commit.mock.calls).toEqual([
       [`setProposal`, proposals[0]],
-      [`setProposal`, proposals[1]]
+      [`setProposal`, proposals[1]],
+      [`setProposal`, proposals[2]]
     ])
   })
 
@@ -98,7 +99,9 @@ describe(`Module: Proposals`, () => {
       ])
 
       jest.runAllTimers()
-      expect(dispatch.mock.calls[i + 2]).toEqual([`getProposals`])
+      expect(dispatch.mock.calls[i + proposals.length]).toEqual([
+        `getProposals`
+      ])
     })
   })
 })

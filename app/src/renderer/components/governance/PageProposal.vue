@@ -15,8 +15,8 @@ tm-page(data-title='Proposal')
               span.validator-profile__status(v-bind:class="status.color" v-tooltip.top="status.message")
               .validator-profile__header__name__title {{ proposal.title }}
           .column.validator-profile__header__actions
-            tm-btn(v-if="status.button === 'vote'" value="Vote" color="primary")
-            tm-btn(v-if="status.button === 'deposit'" value="Deposit" color="primary")
+            tm-btn#vote-btn(v-if="status.button === 'vote'" value="Vote" color="primary" @click.native="onVote")
+            tm-btn#deposit-btn(v-if="status.button === 'deposit'" value="Deposit" color="primary" @click.native="onDeposit")
             tm-btn(v-if="!status.button" disabled value="Deposit / Vote" color="primary")
 
         .row.description
@@ -44,14 +44,33 @@ tm-page(data-title='Proposal')
       .column
         .row
           text-block(:content="proposal.description")
+
+    modal-deposit(
+      v-if="showModalDeposit"
+      v-on:castVote="deposit"
+      :showModalVote.sync="showModalVote"
+      :proposalId="proposal.proposal_id"
+      :proposalTitle="proposal.title"
+    )
+
+    modal-vote(
+      v-if="showModalVote"
+      v-on:castVote="castVote"
+      :showModalVote.sync="showModalVote"
+      :proposalId="proposal.proposal_id"
+      :proposalTitle="proposal.title"
+    )
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { TmBtn, TmPage, TmToolBar } from "@tendermint/ui"
 import TmBalance from "common/TmBalance"
 import FieldVote from "common/TmFieldVote"
 import TextBlock from "common/TextBlock"
+import ModalDeposit from "./ModalDeposit"
+import ModalVote from "./ModalVote"
 export default {
   name: `page-proposal`,
   props: [`proposal`, `status`],
@@ -59,11 +78,19 @@ export default {
     TmBalance,
     TmBtn,
     FieldVote,
+    ModalDeposit,
+    ModalVote,
     TmToolBar,
     TmPage,
     TextBlock
   },
+  data: () => ({
+    showModalDeposit: false,
+    showModalVote: false
+  }),
   computed: {
+    // TODO: get denom from governance params
+    ...mapGetters([`bondingDenom`]),
     proposalType() {
       return this.proposal.proposal_type.toLowerCase()
     },
@@ -71,9 +98,9 @@ export default {
       return `#` + num.prettyInt(this.proposal.submit_block)
     },
     voteBlock() {
-      if (this.proposal.submit_block === this.proposal.voting_start_block) {
+      if (this.proposal.submit_block === this.proposal.voting_start_block)
         return `the same block`
-      } else {
+      else {
         return `block #` + num.prettyInt(this.proposal.voting_start_block)
       }
     },
@@ -100,6 +127,56 @@ export default {
       return num.percentInt(
         this.proposal.tally_result.abstain / this.totalVotes
       )
+    }
+  },
+  methods: {
+    onVote() {
+      this.showModalVote = true
+    },
+    onDeposit() {
+      this.showModalDeposit = true
+    },
+    async deposit({ amount }) {
+      let proposalId = this.proposal.proposal_id
+
+      try {
+        // TODO: support multiple coins
+        await this.$store.dispatch(`submitDeposit`, { proposalId, amount })
+
+        // TODO: get min deposit denom from gov params
+        this.$store.commit(`notify`, {
+          title: `Successful deposit!`,
+          body: `You have successfully deposited your ${this.bondingDenom.toLowerCase()}s on proposal #${
+            this.proposal.proposal_id
+          }`
+        })
+      } catch ({ message }) {
+        this.$store.commit(`notifyError`, {
+          title: `Error while submitting a deposit on proposal #${
+            this.proposal.proposal_id
+          }`,
+          body: message
+        })
+      }
+    },
+    async castVote({ option }) {
+      let proposalId = this.proposal.proposal_id
+
+      try {
+        await this.$store.dispatch(`submitVote`, { proposalId, option })
+
+        this.$store.commit(`notify`, {
+          title: `Successful vote!`,
+          body: `You have successfully voted ${option} on proposal #${
+            this.proposal.proposal_id
+          }`
+        })
+      } catch ({ message }) {
+        this.$store.commit(`notifyError`, {
+          title: `Error while voting on proposal #${this.proposal.proposal_id}`,
+          body: message
+        })
+      }
     }
   }
 }

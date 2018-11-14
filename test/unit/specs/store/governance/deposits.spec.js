@@ -62,7 +62,7 @@ describe(`Module: Deposits`, () => {
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
-          type: `submitDeposit`,
+          type: `submitProposalDeposit`,
           proposal_id: proposal.proposal_id,
           depositer: addresses[0],
           amount: [
@@ -75,7 +75,7 @@ describe(`Module: Deposits`, () => {
       ])
 
       jest.runAllTimers()
-      expect(dispatch.mock.calls[i + 2]).toEqual([
+      expect(dispatch.mock.calls[i + proposals.length]).toEqual([
         `getProposalDeposits`,
         proposal.proposal_id
       ])
