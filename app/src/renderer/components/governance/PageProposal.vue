@@ -47,10 +47,11 @@ tm-page(data-title='Proposal')
 
     modal-deposit(
       v-if="showModalDeposit"
-      v-on:castVote="deposit"
-      :showModalVote.sync="showModalVote"
+      v-on:submitDeposit="deposit"
+      :showModalDeposit.sync="showModalDeposit"
       :proposalId="proposal.proposal_id"
       :proposalTitle="proposal.title"
+      :denom="bondingDenom.toLowerCase()"
     )
 
     modal-vote(
