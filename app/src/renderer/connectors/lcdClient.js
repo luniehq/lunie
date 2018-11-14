@@ -179,10 +179,10 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
       return Promise.all([
         req(
           `GET`,
-          `/txs?tag=action='submit-proposal'&tx=proposer='${addr}'`,
+          `/txs?tag=action='submit-proposal'&tag=proposer='${addr}'`,
           true
         )(),
-        req(`GET`, `/txs?tag=action='deposit'&depositer='${addr}'`, true)()
+        req(`GET`, `/txs?tag=action='deposit'&tag=depositer='${addr}'`, true)()
       ]).then(([proposalTxs, depositTxs]) => [].concat(proposalTxs, depositTxs))
     },
     submitProposal: function(data) {
