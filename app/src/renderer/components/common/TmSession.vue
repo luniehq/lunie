@@ -8,6 +8,7 @@
   session-account-delete(v-if="config.modals.session.state == 'delete'")
   session-hardware(v-if="config.modals.session.state == 'hardware'")
   session-import(v-if="config.modals.session.state == 'import'")
+  connected-network
 </template>
 
 <script>
@@ -19,6 +20,7 @@ import SessionSignIn from "common/TmSessionSignIn"
 import SessionHardware from "common/TmSessionHardware"
 import SessionImport from "common/TmSessionImport"
 import SessionAccountDelete from "common/TmSessionAccountDelete"
+import ConnectedNetwork from "common/TmConnectedNetwork"
 export default {
   name: `tm-session`,
   components: {
@@ -28,7 +30,8 @@ export default {
     SessionSignIn,
     SessionHardware,
     SessionImport,
-    SessionAccountDelete
+    SessionAccountDelete,
+    ConnectedNetwork
   },
   computed: { ...mapGetters([`config`]) }
 }
@@ -203,4 +206,9 @@ export default {
 
     .tm-form-group
       display block !important
+
+.tm-connected-network
+  position absolute
+  bottom 0
+  left 0
 </style>
