@@ -42,7 +42,7 @@
         @click.native="onPropose"
         :disabled="$v.$invalid"
         color="primary"
-        value="Create"
+        value="Submit proposal"
         size="lg")
 </template>
 
@@ -158,12 +158,11 @@ export default {
   background var(--app-nav)
   display flex
   flex-direction column
-  height 50%
   justify-content space-between
   left 50%
   padding 2rem
   position fixed
-  top 50%
+  bottom 0
   width 50%
   z-index z(modal)
 
@@ -194,4 +193,15 @@ export default {
 
     button
       margin-left 1rem
+      margin-top 1rem
+
+  .page-proposal-form-group
+    display block
+    padding 0
+
+    textarea
+      min-height 300px
+
+  .tm-form-group
+    margin 0.5rem 0
 </style>
