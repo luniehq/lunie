@@ -23,7 +23,7 @@ ${recentChanges(changeLog)}`
 const publishRelease = ({ notes, tag, token }) =>
   util.promisify(release)({
     token,
-    operator_address: `cosmos`,
+    owner: `cosmos`,
     repo: `voyager`,
     tag,
     name: `Cosmos Voyager Alpha ${tag} (UNSAFE)`,
