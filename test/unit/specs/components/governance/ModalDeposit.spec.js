@@ -40,7 +40,7 @@ describe(`ModalDeposit`, () => {
   })
 
   describe(`default values are set correctly`, () => {
-    it(`the 'amount' defaults to an empty string`, () => {
+    it(`the 'amount' defaults to 0`, () => {
       expect(wrapper.vm.amount).toEqual(0)
     })
   })

@@ -39,7 +39,7 @@
         v-focus)
 
     .modal-propose-footer
-      tm-btn#submit-deposit(
+      tm-btn#submit-proposal(
         @click.native="onPropose"
         :disabled="$v.$invalid"
         color="primary"
@@ -89,13 +89,13 @@ export default {
     TmFormGroup
   },
   data: () => ({
-    titleMinLength: 5,
+    titleMinLength: 1,
     titleMaxLength: 64,
-    descriptionMinLength: 5,
+    descriptionMinLength: 1,
     descriptionMaxLength: 200,
     title: ``,
     description: ``,
-    proposal_type: `Text`,
+    type: `Text`,
     amount: 0
   }),
   validations() {
@@ -120,7 +120,7 @@ export default {
         },
         notBlank
       },
-      proposal_type: {
+      type: {
         isValid
       },
       amount: {
@@ -136,8 +136,13 @@ export default {
     close() {
       this.$emit(`update:showModalPropose`, false)
     },
-    onDeposit() {
-      this.$emit(`createProposal`, { amount: this.amount })
+    onPropose() {
+      this.$emit(`createProposal`, {
+        title: this.title,
+        description: this.description,
+        type: this.type,
+        amount: this.amount
+      })
       this.close()
     }
   },
