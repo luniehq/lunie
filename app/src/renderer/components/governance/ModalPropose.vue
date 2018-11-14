@@ -50,18 +50,20 @@
 <script>
 import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
-import { minLength, maxLength, required, between } from "vuelidate/lib/validators"
+import {
+  minLength,
+  maxLength,
+  required,
+  between
+} from "vuelidate/lib/validators"
 import { isEmpty, trim } from "lodash"
 import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup } from "@tendermint/ui"
 
 const isValid = type =>
-  type === `Text` ||
-  type === `ParameterChange` ||
-  type === `SoftwareUpgrade`
+  type === `Text` || type === `ParameterChange` || type === `SoftwareUpgrade`
 
-const notBlank = text =>
-  !isEmpty(trim(text))
+const notBlank = text => !isEmpty(trim(text))
 
 export default {
   name: `modal-propose`,
@@ -87,10 +89,10 @@ export default {
     TmFormGroup
   },
   data: () => ({
-    titleMinLength: 10,
-    titleMaxLength: 254,
-    descriptionMinLength: 10,
-    descriptionMaxLength: 40000,
+    titleMinLength: 5,
+    titleMaxLength: 64,
+    descriptionMinLength: 5,
+    descriptionMaxLength: 200,
     title: ``,
     description: ``,
     proposal_type: `Text`,
@@ -100,14 +102,22 @@ export default {
     return {
       title: {
         required,
-        minLength(x) => minLength(this.titleMinLength)(x),
-        maxLength(x) => maxLength(this.titleMaxLength)(x),
+        minLength(x) {
+          return minLength(this.titleMinLength)(x)
+        },
+        maxLength(x) {
+          return maxLength(this.titleMaxLength)(x)
+        },
         notBlank
       },
       description: {
         required,
-        minLength(x) =>minLength(this.descriptionMinLength)(x),
-        maxLength(x) => maxLength(this.descriptionMaxLength)(x),
+        minLength(x) {
+          return minLength(this.descriptionMinLength)(x)
+        },
+        maxLength(x) {
+          return maxLength(this.descriptionMaxLength)(x)
+        },
         notBlank
       },
       proposal_type: {
