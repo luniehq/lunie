@@ -112,15 +112,14 @@ describe(`Module: Transactions`, () => {
   })
 
   it(`should set error to true if dispatches fail`, async () => {
-    let err = `unexpected error`
+    let err = new Error(`unexpected error`)
     const dispatch = jest.fn(() => {
-      store.commit(`setError`, err)
-      throw new Error(err)
+      store.state.error = err.message.slice(0)
+      throw err
     })
     store.dispatch = dispatch
     node.getGovernanceTxs = jest.fn(() => lcdClientMock.state.txs.slice(2, 4))
     expect(store.dispatch).toThrow(err)
-    // TODO: this fails
-    // expect(store.state.error).toEqual(err)
+    expect(store.state.error).toEqual(`unexpected error`)
   })
 })
