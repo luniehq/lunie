@@ -66,7 +66,7 @@ describe(`PageProposal`, () => {
     })
 
     describe(`Modal onVote`, () => {
-      it(`enables voting if the proposal is either 'Active' or 'Pending'`, () => {
+      it(`enables voting if the proposal is on the 'VotingPeriod'`, () => {
         let status = { button: `vote` }
         wrapper.setProps({ status })
 
@@ -76,7 +76,7 @@ describe(`PageProposal`, () => {
         expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
       })
 
-      it(`disables voting if the proposal is Pending deposits`, () => {
+      it(`disables voting if the proposal is on the 'DepositPeriod'`, () => {
         let status = { button: `deposit` }
         wrapper.setProps({ status })
         expect(wrapper.find(`#vote-btn`).exists()).toEqual(false)
