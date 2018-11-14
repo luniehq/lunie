@@ -611,11 +611,7 @@ const initLCD = async lcdHome => {
     const child = startProcess(NODE_BINARY_NAME, [
       `init`,
       `--home`,
-      tempNodeDir,
-      `--home-client`,
-      lcdHome,
-      `--name`,
-      `default`
+      tempNodeDir
     ])
 
     child.stdin.write(`1234567890\n`)
@@ -719,9 +715,9 @@ async function main() {
     fs.writeFileSync(appVersionPath, pkg.version)
   }
 
-  if (!fs.existsSync(lcdHome)) {
-    await initLCD(lcdHome)
-  }
+  // if (!fs.existsSync(lcdHome)) {
+  //   await initLCD(lcdHome)
+  // }
 
   await checkGaiaCompatibility(gaiacliVersionPath)
 
