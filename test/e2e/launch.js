@@ -162,7 +162,10 @@ test.onFinish(async () => {
 })
 
 async function setupAccounts(nodeOneClientDir, voyagerCLIDir) {
+  // use the master account that holds funds from node 1
   fs.copySync(nodeOneClientDir, voyagerCLIDir)
+
+  // this account is later used to send funds to, to test token sending
   await createKey(`testreceiver`, `1234567890`, voyagerCLIDir)
 
   let accounts = await getKeys(voyagerCLIDir)

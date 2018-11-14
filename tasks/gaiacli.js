@@ -51,6 +51,7 @@ module.exports.getKeys = async function getKeys(clientHomeDir) {
   return JSON.parse(accounts)
 }
 
+// init a genesis file with an account that has funds
 module.exports.initGenesis = async function initGenesis(
   password,
   address,
@@ -97,6 +98,7 @@ module.exports.getGenesis = function getGenesis(homeDir) {
   return genesis
 }
 
+// make it so that one initialized node will become a validator
 module.exports.makeValidator = async function makeValidator(
   nodeHome,
   cliHome,
@@ -153,6 +155,8 @@ module.exports.getBalance = async function getBalance(cliHome, address) {
   const stdout = await makeExec(command)
   return JSON.parse(stdout.trim())
 }
+
+// sends a create-validator tx
 module.exports.declareValidator = async function declareValidator(
   mainCliHome,
   moniker,
