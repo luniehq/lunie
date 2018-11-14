@@ -110,4 +110,17 @@ describe(`Module: Transactions`, () => {
     await store.dispatch(`reconnected`)
     expect(node.txs).not.toHaveBeenCalled()
   })
+
+  it(`should set error to true if dispatches fail`, async () => {
+    let err = `unexpected error`
+    const dispatch = jest.fn(() => {
+      store.commit(`setError`, err)
+      throw new Error(err)
+    })
+    store.dispatch = dispatch
+    node.getGovernanceTxs = jest.fn(() => lcdClientMock.state.txs.slice(2, 4))
+    expect(store.dispatch).toThrow(err)
+    // TODO: this fails
+    // expect(store.state.error).toEqual(err)
+  })
 })

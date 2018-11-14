@@ -68,9 +68,7 @@ export default ({ node }) => {
           transactions: allTxs
         })
       } catch (error) {
-        commit(`setHistoryLoading`, false)
-        commit(`setError`, true)
-        return console.log(error)
+        commit(`setError`, error)
       }
       commit(`setHistoryLoading`, false)
     },

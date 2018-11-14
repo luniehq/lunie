@@ -9,7 +9,7 @@
 
     tm-data-msg(v-if="yourValidators < 1", icon="info_outline")
       div(slot="title") No Active Delegations
-      div(slot="subtitle") Looks like you haven't delegated any Atoms yet. Head over to the #[router-link(:to="{name: 'Validators'}") validator list] to make your first delegation!
+      div(slot="subtitle") Looks like you haven't delegated any {{ this.bondingDenom }}s yet. Head over to the #[router-link(:to="{name: 'Validators'}") validator list] to make your first delegation!
 
     .check-out-message(v-if="yourValidators > 0")
       | Check out
@@ -39,7 +39,12 @@ export default {
     unbondInfo: `Your bonded validators in unbonding process`
   }),
   computed: {
-    ...mapGetters([`delegates`, `delegation`, `committedDelegations`]),
+    ...mapGetters([
+      `delegates`,
+      `delegation`,
+      `committedDelegations`,
+      `bondingDenom`
+    ]),
     undelegatedValidators(
       { delegates: { delegates }, delegation: { unbondingDelegations } } = this
     ) {
