@@ -14,7 +14,7 @@ tm-page(data-title='Governance').governance
   modal-propose(
     v-if="showModalPropose"
     v-on:createProposal="propose"
-    :showModalVote.sync="showModalVote"
+    :showModalPropose.sync="showModalPropose"
     :denom="bondingDenom.toLowerCase()"
   )
   router-view
@@ -27,7 +27,7 @@ import ModalSearch from "common/TmModalSearch"
 import ModalPropose from "./ModalPropose"
 import VmToolBar from "common/VmToolBar"
 import TmBalance from "common/TmBalance"
-import { TmPage, TmDataEmpty, TmDataLoading } from "@tendermint/ui"
+import { TmPage, TmDataEmpty, TmDataLoading, TmBtn } from "@tendermint/ui"
 export default {
   name: `page-governance`,
   components: {
@@ -38,6 +38,7 @@ export default {
     ModalSearch,
     ModalPropose,
     TmPage,
+    TmBtn,
     VmToolBar
   },
   computed: {
@@ -65,13 +66,14 @@ export default {
             }
           ]
         })
+        console.log(type.toLowerCase())
         this.$store.commit(`notify`, {
           title: `Successful proposal submission!`,
-          body: `You have successfully submitted a new ${this.proposal_type.toLowercase()} proposal`
+          body: `You have successfully submitted a new ${type.toLowercase()} proposal`
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
-          title: `Error while submitting a new ${this.proposal_type.toLowercase()} proposal`,
+          title: `Error while submitting a new ${type.toLowercase()} proposal`,
           body: message
         })
       }

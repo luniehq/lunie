@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageGovernance has the expected html structure 1`] = `
+exports[`PageGovernance with magic has the expected html structure 1`] = `
 "<div class=\\"tm-page governance\\" data-title=\\"Governance\\">
    <header class=\\"tm-page-header\\">
       <div class=\\"tm-page-header-container\\">
@@ -46,7 +46,10 @@ exports[`PageGovernance has the expected html structure 1`] = `
       </div>
 </div>
 </div>
-   <tm-btn id=\\"propose-btn\\" value=\\"Create Proposal\\" color=\\"primary\\"></tm-btn>
+   <button class=\\"tm-btn\\" id=\\"propose-btn\\"><span class=\\"tm-btn__container tm-btn--primary\\">
+   <!---->
+   <!---->
+   <span class=\\"tm-btn__value\\">Create Proposal</span></span></button>
 </div>
 </div>
    <menu class=\\"tm-page-header-menu\\">

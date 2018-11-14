@@ -6,25 +6,24 @@
       .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
         i.material-icons close
 
-    tm-form-group.page-proposal-form-group(:error="$v.title.$error"
-      field-id="title" field-label="Proposal Title")
+    tm-form-group.page-proposal-form-group
+      span Title
       tm-field#title(
         type="text"
         placeholder="Proposal title"
         v-model="title"
         v-focus)
 
-    tm-form-group.page-proposal-form-group(:error="$v.description.$error"
-      field-id="description" field-label="Proposal Body")
+    tm-form-group.page-proposal-form-group
+      span Description
       tm-field#description(
         type="textarea"
         placeholder="Write your proposal here..."
         v-model="description")
 
     tm-form-group.modal-propose-form-group(
-      field-id='amount'
-      field-label='Amount'
-    )
+      field-id='amount')
+      span Deposit amount
       tm-field#denom(
         type="text"
         :placeholder="denom"
@@ -165,7 +164,7 @@ export default {
   padding 2rem
   position fixed
   top 50%
-  width 40%
+  width 50%
   z-index z(modal)
 
   &-header
