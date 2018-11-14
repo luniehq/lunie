@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(data-title='Transactions')
-  template(slot="menu-body"): tm-balance
-  div(slot="menu")
+  template(slot="menu-body")
+    tm-balance
     vm-tool-bar
       a(@click='connected && refreshTransactions()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
         i.material-icons refresh
