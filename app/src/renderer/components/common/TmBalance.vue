@@ -130,5 +130,7 @@ export default {
 
     &.tab-selected
       border-bottom 2px solid var(--tertiary)
-      color var(--bright)
+
+      a
+        color var(--bright)
 </style>

@@ -454,7 +454,7 @@ describe(`LCD Client`, () => {
 
       it(`submits a new vote to a proposal`, async () => {
         axios.post = jest.fn().mockReturnValue({})
-        await client.submitVote(proposals[0].proposal_id, votes[0])
+        await client.submitProposalVote(proposals[0].proposal_id, votes[0])
         expect(axios.post.mock.calls[0]).toEqual([
           `${remoteLcdURL}/gov/proposals/${proposals[0].proposal_id}/votes`,
           votes[0]
@@ -463,7 +463,10 @@ describe(`LCD Client`, () => {
 
       it(`submits a new deposit to a proposal`, async () => {
         axios.post = jest.fn().mockReturnValue({})
-        await client.submitDeposit(proposals[0].proposal_id, deposits[0])
+        await client.submitProposalDeposit(
+          proposals[0].proposal_id,
+          deposits[0]
+        )
         expect(axios.post.mock.calls[0]).toEqual([
           `${remoteLcdURL}/gov/proposals/${proposals[0].proposal_id}/deposits`,
           deposits[0]

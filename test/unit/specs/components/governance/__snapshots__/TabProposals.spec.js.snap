@@ -8,6 +8,9 @@ exports[`TabProposals has the expected html structure 1`] = `
             <th class=\\"sort-by proposal_title\\">
                <a class=\\"sort-by-link\\">Title</a>
             </th>
+            <th class=\\"sort-by submit_block\\">
+               <a class=\\"sort-by-link\\">Submitted Block</a>
+            </th>
             <th class=\\"sort-by yes_votes\\">
                <a class=\\"sort-by-link\\">Yes</a>
             </th>
@@ -23,15 +26,19 @@ exports[`TabProposals has the expected html structure 1`] = `
 </tr>
 </thead>
       <tbody>
-         <tr class=\\"li-proposal li-validator\\">
+         <tr class=\\"li-proposal\\">
             <td class=\\"li-proposal__value\\">
+               <span class=\\"validator-profile__status yellow\\"></span>
                <h2>
-                  Custom text proposal
+                  <a href=\\"#/governance/5\\" class=\\"\\">Custom text proposal</a>
                </h2>
                <p>
-                  Status: DepositPeriod
+                  custom text proposal description
                </p>
 </td>
+            <td>
+               #10
+            </td>
             <td class=\\"li-proposal__value yes\\">
                0
             </td>
@@ -45,15 +52,45 @@ exports[`TabProposals has the expected html structure 1`] = `
                0
             </td>
 </tr>
-         <tr class=\\"li-proposal li-validator\\">
+         <tr class=\\"li-proposal\\">
             <td class=\\"li-proposal__value\\">
+               <span class=\\"validator-profile__status blue\\"></span>
                <h2>
-                  Proposal Title
+                  <a href=\\"#/governance/2\\" class=\\"\\">VotingPeriod proposal</a>
                </h2>
                <p>
-                  Status: Passed
+                  custom text proposal description
                </p>
 </td>
+            <td>
+               #10
+            </td>
+            <td class=\\"li-proposal__value yes\\">
+               0
+            </td>
+            <td class=\\"li-proposal__value no\\">
+               0
+            </td>
+            <td class=\\"li-proposal__value no_with_veto\\">
+               0
+            </td>
+            <td class=\\"li-proposal__value abstain\\">
+               0
+            </td>
+</tr>
+         <tr class=\\"li-proposal\\">
+            <td class=\\"li-proposal__value\\">
+               <span class=\\"validator-profile__status green\\"></span>
+               <h2>
+                  <a href=\\"#/governance/1\\" class=\\"\\">Proposal Title</a>
+               </h2>
+               <p>
+                  Proposal description
+               </p>
+</td>
+            <td>
+               #120
+            </td>
             <td class=\\"li-proposal__value yes\\">
                500
             </td>
