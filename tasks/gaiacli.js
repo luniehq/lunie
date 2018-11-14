@@ -100,19 +100,28 @@ module.exports.makeValidator = async function makeValidator(
   nodeHome,
   cliHome,
   number,
-  accountName, // account name to sign delegation
-  address // address of that account with coins to delegate
+  accountName // account name that has funds
 ) {
   let newNodeHome = nodeHome + `_` + number
   let newCliHome = cliHome + `_` + number
 
   let valPubKey = await module.exports.getValPubKey(newNodeHome)
-  await module.exports.sendTokens(newCliHome, `10steak`, accountName, address)
+  let { address: operatorAddress } = await module.exports.createKey(
+    `local`,
+    `1234567890`,
+    newCliHome
+  )
+  await module.exports.sendTokens(
+    cliHome + `_1`, // main validator home with the key with funds
+    `10steak`,
+    accountName,
+    operatorAddress
+  )
   while (true) {
     console.log(`Waiting for funds to delegate`)
     try {
       await sleep(1000) // TODO identify why this timeout is needed
-      await module.exports.getBalance(newCliHome, address)
+      await module.exports.getBalance(newCliHome, operatorAddress)
     } catch (err) {
       console.error(err)
       continue
@@ -123,8 +132,8 @@ module.exports.makeValidator = async function makeValidator(
     newCliHome,
     `local_${number}`,
     valPubKey,
-    address,
-    `local_${number}`
+    operatorAddress,
+    `local` // key name that holds funds and is the same address as the operator address
   )
 }
 
@@ -148,28 +157,23 @@ module.exports.declareValidator = async function declareValidator(
   moniker,
   valPubKey,
   operatorAddress,
-  coinHolderAccountName
+  operatorAccountName // key name that holds funds and is the same address as the operator address
 ) {
   let command =
     `${cliBinary} tx create-validator` +
     ` --home ${mainCliHome}` +
-    ` --from ${coinHolderAccountName}` +
+    ` --from ${operatorAccountName}` +
     ` --amount=10steak` +
     ` --pubkey=${valPubKey}` +
     ` --address-delegator=${operatorAddress}` +
-    ` --moniker="${moniker}"` +
+    ` --moniker=${moniker}` +
     ` --chain-id=test_chain` +
     ` --commission-max-change-rate=0` +
     ` --commission-max-rate=0` +
-    ` --commission-rate=0`
-  console.log(command)
-  const child = await spawn(command, { shell: true })
-  child.stderr.pipe(process.stderr)
-  child.stdin.write(`1234567890\n`) // unlock signing key
-  return new Promise((resolve, reject) => {
-    child.stdout.once(`data`, resolve)
-    child.stderr.once(`data`, reject)
-  })
+    ` --commission-rate=0` +
+    ` --json`
+
+  return makeExecWithInputs(command, [`1234567890`])
 }
 
 module.exports.sendTokens = async function sendTokens(
