@@ -69,7 +69,7 @@ export default {
         console.log(type.toLowerCase())
         this.$store.commit(`notify`, {
           title: `Successful proposal submission!`,
-          body: `You have successfully submitted a new ${type.toLowercase()} proposal`
+          body: `You have successfully submitted a new ${type.toLowerCase()} proposal`
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
