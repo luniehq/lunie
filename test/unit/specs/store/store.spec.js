@@ -154,6 +154,8 @@ describe(`Store`, () => {
       }
     }))
     let Raven = require(`raven-js`)
+    // the error will be logged, which is confusing in the test output
+    jest.spyOn(console, `error`).mockImplementation(() => {})
 
     let spy = jest.spyOn(Raven, `captureException`)
     let opts = { node: { keys: { get: () => ({}) } } }
@@ -168,5 +170,6 @@ describe(`Store`, () => {
     jest.runAllTimers()
 
     expect(spy).toHaveBeenCalled()
+    console.error.mockReset()
   })
 })
