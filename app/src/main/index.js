@@ -10,7 +10,6 @@ let semver = require(`semver`)
 let Raven = require(`raven`)
 const readline = require(`readline`)
 let axios = require(`axios`)
-const userHome = require(`user-home`)
 
 let pkg = require(`../../../package.json`)
 let addMenu = require(`./menu.js`)
@@ -600,59 +599,6 @@ const checkGaiaCompatibility = async gaiacliVersionPath => {
       }`
     )
   }
-}
-
-const initLCD = async lcdHome => {
-  log(`initialising the LCD config dir`)
-  await new Promise((resolve, reject) => {
-    const NODE_BINARY_NAME = WIN ? `gaiad.exe` : `gaiad`
-    const tempNodeDir = join(lcdHome, `.temp_node_home`)
-
-    const child = startProcess(NODE_BINARY_NAME, [
-      `init`,
-      `--home`,
-      tempNodeDir
-    ])
-
-    child.stdin.write(`1234567890\n`)
-
-    child.on(`exit`, code => {
-      if (code === 0) {
-        resolve()
-      } else {
-        reject()
-      }
-
-      fs.remove(tempNodeDir)
-    })
-  })
-
-  log(`deleting forced default account`)
-  // initLCD always needs to create one key, we don't want to confuse
-  // the user with this key, so we throw it away
-  await deleteKey(`default`, `1234567890`, lcdHome)
-}
-
-const deleteKey = (name, password, lcdHome) => {
-  return new Promise((resolve, reject) => {
-    const child = startProcess(LCD_BINARY_NAME, [
-      `keys`,
-      `delete`,
-      name,
-      `--home`,
-      lcdHome
-    ])
-
-    child.stdin.write(`${password}\n`)
-
-    child.on(`exit`, code => {
-      if (code === 0) {
-        resolve()
-      } else {
-        reject()
-      }
-    })
-  })
 }
 
 async function main() {

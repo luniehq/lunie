@@ -641,23 +641,6 @@ async function initMain() {
   return main
 }
 
-function testFailingChildProcess(name, cmd) {
-  return it(`should fail if there is a not handled error in the ${name} ${cmd ||
-    ``} process`, async function() {
-    prepareMain()
-    failingChildProcess(name, cmd)
-    let { send } = require(`electron`)
-    await require(appRoot + `src/main/index.js`)
-
-    expect(send.mock.calls.find(([type]) => type === `error`)).toBeTruthy()
-    expect(
-      send.mock.calls
-        .find(([type]) => type === `error`)[1]
-        .message.toLowerCase()
-    ).toContain(name)
-  })
-}
-
 function childProcessMock(mockExtend = () => ({})) {
   jest.doMock(`child_process`, () => ({
     spawn: jest.fn((path, args) =>

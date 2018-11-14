@@ -263,9 +263,8 @@ module.exports.startLocalNode = function startLocalNode(
 function makeExec(command) {
   console.log(`$ ` + command)
   return new Promise((resolve, reject) => {
-    exec(command, (err, stdout, stderr) => {
+    exec(command, (err, stdout) => {
       if (err) return reject(err)
-      // if (stderr) return reject(stderr)
       resolve(stdout)
     })
   })
