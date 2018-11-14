@@ -53,7 +53,7 @@ describe(`LiProposal`, () => {
   })
 
   it(`should return status info for active proposals`, () => {
-    proposal.proposal_status = `Active`
+    proposal.proposal_status = `VotingPeriod`
     let { wrapper } = mount(LiProposal, {
       propsData: {
         proposal
@@ -67,8 +67,8 @@ describe(`LiProposal`, () => {
     })
   })
 
-  it(`should return status info for pending proposals`, () => {
-    proposal.proposal_status = `Pending`
+  it(`should return status info for 'DepositPeriod' proposals`, () => {
+    proposal.proposal_status = `DepositPeriod`
     let { wrapper } = mount(LiProposal, {
       propsData: {
         proposal
