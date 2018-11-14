@@ -57,11 +57,11 @@ describe(`App without analytics`, () => {
     })
     let Node = require(`renderer/connectors/node.js`)
     require(`renderer/main.js`)
-    expect(Node).toHaveBeenCalledWith(
+    expect(Node.mock.calls[0].slice(1)).toEqual([
       `http://localhost:8080`,
       `https://awesomenode.de:12345`,
       true
-    )
+    ])
     jest.resetModules()
   })
 
