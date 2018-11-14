@@ -207,6 +207,7 @@ describe(`LCD Client`, () => {
 
     describe(`keys`, () => {
       it(`add`, async () => {
+        jest.spyOn(console, `error`).mockImplementation(() => {})
         expect(await client.keys.get(`foo`)).toEqual(undefined)
 
         await client.keys.add({
@@ -222,6 +223,8 @@ describe(`LCD Client`, () => {
           seed: `seed some thin`,
           type: `local`
         })
+
+        console.error.mockReset()
       })
 
       it(`delete`, async () => {
