@@ -43,6 +43,7 @@ export default {
     ...mapGetters([`proposals`, `filters`, `bondingDenom`])
   },
   data: () => ({
+    query: ``,
     tabs: [`Proposals`],
     showModalPropose: false
   }),
@@ -52,7 +53,7 @@ export default {
     },
     async propose({ title, description, type, amount }) {
       try {
-        this.$store.dispatch(`submitProposal`, {
+        await this.$store.dispatch(`submitProposal`, {
           title,
           description,
           type,
@@ -63,7 +64,6 @@ export default {
             }
           ]
         })
-        console.log(type.toLowerCase())
         this.$store.commit(`notify`, {
           title: `Successful proposal submission!`,
           body: `You have successfully submitted a new ${type.toLowerCase()} proposal`

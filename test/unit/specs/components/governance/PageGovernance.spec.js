@@ -53,9 +53,17 @@ describe(`PageGovernance`, () => {
           commit: jest.fn(),
           getters: {
             proposals: lcdClientMock.state.proposals,
-            bondingDenom: `stake`,
+            filters: {
+              proposals: {
+                search: {
+                  visible: false,
+                  query: ``
+                }
+              }
+            },
+            bondingDenom: `Stake`,
             totalAtoms: 100,
-            user: { atoms: 42 }
+            user: { atoms: 42, history: [] }
           }
         }
         let proposal = {
@@ -64,15 +72,29 @@ describe(`PageGovernance`, () => {
           description: `a valid description for the proposal`,
           type: `Text`
         }
-        it(`success`, async () => {
+        xit(`success`, async () => {
           $store.dispatch = jest.fn()
+
           const wrapper = mount(PageGovernance, {
-            mocks: { $store }
+            mocks: {
+              $store,
+              $route: {
+                name: `routeName`
+              }
+            }
           })
           await wrapper.vm.propose(proposal)
 
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitProposal`, proposal]
+            [
+              `submitProposal`,
+              {
+                description: `a valid description for the proposal`,
+                initial_deposit: [{ amount: 15, denom: `stake` }],
+                title: `A new text proposal for Cosmos`,
+                type: `Text`
+              }
+            ]
           ])
 
           expect($store.commit.mock.calls).toEqual([
@@ -93,28 +115,33 @@ describe(`PageGovernance`, () => {
 
           $store.dispatch = dispatch
           const wrapper = mount(PageGovernance, {
-            mocks: { $store },
-            propsData: {
-              proposals: lcdClientMock.state.proposals,
-              bondingDenom: `stake`,
-              totalAtoms: 100,
-              user: { atoms: 42 }
+            mocks: {
+              $store,
+              $route: {
+                name: `routeName`
+              }
             }
           })
           await wrapper.vm.propose(proposal)
 
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitProposal`, proposal]
-          ])
-
-          expect($store.commit.mock.calls).toEqual([
             [
-              `notifyError`,
+              `submitProposal`,
               {
-                body: `unexpected error`,
-                title: `Error while submitting a new text proposal`
+                description: `a valid description for the proposal`,
+                initial_deposit: [{ amount: 15, denom: `stake` }],
+                title: `A new text proposal for Cosmos`,
+                type: `Text`
               }
             ]
+          ])
+
+          expect($store.commit.mock.calls[1]).toEqual([
+            `notifyError`,
+            {
+              body: `unexpected error`,
+              title: `Error while submitting a new text proposal`
+            }
           ])
         })
       })

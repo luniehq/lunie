@@ -26,53 +26,45 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
+                disabled="disabled"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+              <a
+                class="settings"
+                href="#/preferences"
+              >
+                <i
+                  class="material-icons"
+                  id="settings"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
