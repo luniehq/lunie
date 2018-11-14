@@ -47,7 +47,10 @@ const MOCK =
   process.env.COSMOS_MOCKED !== undefined
     ? JSON.parse(process.env.COSMOS_MOCKED)
     : false
-global.config.mocked = MOCK // persist resolved mock setting also in config used by view thread
+
+// persist resolved mock setting also in config used by view thread
+global.config.mocked = MOCK
+
 const gaiaVersion = fs
   .readFileSync(networkPath + `/gaiaversion.txt`)
   .toString()
@@ -69,9 +72,12 @@ function logError(...args) {
 
 function logProcess(process, logPath) {
   fs.ensureFileSync(logPath)
-  // Writestreams are blocking fs cleanup in tests, if you get errors, disable logging
+  // Writestreams are blocking fs cleanup in tests, if you get errors, disable
+  // logging
   if (LOGGING) {
-    let logStream = fs.createWriteStream(logPath, { flags: `a` }) // 'a' means appending (old data will be preserved)
+    // 'a' means appending (old data will be preserved)
+    let logStream = fs.createWriteStream(logPath, { flags: `a` })
+
     streams.push(logStream)
     process.stdout.pipe(logStream)
     process.stderr.pipe(logStream)
@@ -141,7 +147,8 @@ function createWindow() {
       mainWindow.show()
       if (DEV || JSON.parse(process.env.COSMOS_DEVTOOLS || `false`)) {
         mainWindow.webContents.openDevTools()
-        // we need to reload at this point to make sure sourcemaps are loaded correctly
+        // we need to reload at this point to make sure sourcemaps are loaded
+        // correctly
         mainWindow.reload()
       }
       if (DEV) {
@@ -219,7 +226,10 @@ function startProcess(name, args, env) {
         err
       ]
       logError(...errorMessage)
-      console.error(...errorMessage) // also output to console for easier debugging
+
+      // also output to console for easier debugging
+      console.error(...errorMessage)
+
       handleCrash(err)
 
       Raven.captureException(err)
@@ -253,7 +263,10 @@ async function startLCD(home, nodeURL) {
     `Can't start Gaia Lite because it's already running.  Call StopLCD first.`
   )
 
-  let lcdStarted = false // remember if the lcd has started to toggle the right error handling if it crashes async
+  // remember if the lcd has started to toggle the right error qhandling if it
+  // crashes async
+  let lcdStarted = false
+
   return new Promise(async (resolve, reject) => {
     log(`startLCD`, home)
     let child = startProcess(LCD_BINARY_NAME, [
@@ -273,9 +286,8 @@ async function startLCD(home, nodeURL) {
     logProcess(child, join(home, `lcd.log`))
 
     child.stderr.on(`data`, error => {
-      let errorMessage = `The gaiacli rest-server (LCD) experienced an error:\n${error.toString(
-        `utf8`
-      )}`.substr(0, 1000)
+      let errorMessage = `The gaiacli rest-server (LCD) experienced an error:
+${error.toString(`utf8`)}`.substr(0, 1000)
       lcdStarted
         ? handleCrash(errorMessage) // if fails later
         : reject(errorMessage) // if fails immediatly
@@ -338,12 +350,14 @@ function exists(path) {
   }
 }
 
-// this function will call the passed in callback when the view is booted
-// the purpose is to send events to the view thread only after it is ready to receive those events
-// if we don't do this, the view thread misses out on those (i.e. an error that occures before the view is ready)
+// this function will call the passed in callback when the view is booted the
+// purpose is to send events to the view thread only after it is ready to
+// receive those events if we don't do this, the view thread misses out on those
+// (i.e. an error that occures before the view is ready)
 function afterBooted(cb) {
-  // in tests we trigger the booted callback always, this causes those events to be sent twice
-  // this is why we skip the callback if the message was sent already
+  // in tests we trigger the booted callback always, this causes those events to
+  // be sent twice this is why we skip the callback if the message was sent
+  // already
   let sent = false
   ipcMain.on(`booted`, () => {
     cb()
@@ -363,15 +377,18 @@ function setupLogging(root) {
   // initialize log file
   let logFilePath = join(root, `main.log`)
   fs.ensureFileSync(logFilePath)
-  let mainLog = fs.createWriteStream(logFilePath, { flags: `a` }) // 'a' means appending (old data will be preserved)
+
+  // 'a' means appending (old data will be preserved)
+  let mainLog = fs.createWriteStream(logFilePath, { flags: `a` })
+
   mainLog.write(`${new Date()} Running Cosmos-UI\r\n`)
-  // mainLog.write(`${new Date()} Environment: ${JSON.stringify(process.env)}\r\n`) // TODO should be filtered before adding it to the log
   streams.push(mainLog)
 
   log(`Redirecting console output to logfile`, logFilePath)
   // redirect stdout/err to logfile
-  // TODO overwriting console.log sounds like a bad idea, can we find an alternative?
-  // eslint-disable-next-line no-func-assign
+
+  // TODO overwriting console.log sounds like a bad idea, can we find an
+  // alternative? eslint-disable-next-line no-func-assign
   log = function(...args) {
     if (DEV) {
       console.log(...args)
@@ -447,7 +464,8 @@ async function getNodeVersion(nodeURL) {
   return nodeVersion
 }
 
-// test an actual node version against the expected one and flag the node if incompatible
+// test an actual node version against the expected one and flag the node if
+// incompatible
 async function testNodeVersion(nodeURL, expectedGaiaVersion) {
   let nodeVersion = await getNodeVersion(nodeURL)
   let semverDiff = semver.diff(nodeVersion, expectedGaiaVersion)
@@ -458,7 +476,8 @@ async function testNodeVersion(nodeURL, expectedGaiaVersion) {
   return { compatible: false, nodeVersion }
 }
 
-// check if our node is reachable and the SDK version is compatible with the local one
+// check if our node is reachable and the SDK version is compatible with the
+// local one
 async function pickAndConnect() {
   let nodeURL = config.node_lcd
   connecting = true
@@ -548,8 +567,8 @@ function checkConsistentConfigDir(
     if (compatible) {
       log(`configs are compatible with current app version`)
     } else {
-      // TODO: versions of the app with different data formats will need to learn how to
-      // migrate old data
+      // TODO: versions of the app with different data formats will need to
+      // learn how to migrate old data
       throw Error(`Data was created with an incompatible app version
         data=${existingVersion} app=${pkg.version}`)
     }
