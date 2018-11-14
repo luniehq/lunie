@@ -142,6 +142,7 @@ jobs:
 
               # Delete the tag before testing the build in case it fails.
               git remote add bot https://${GIT_BOT_TOKEN}@github.com/cosmos/voyager.git
+              git tag -d release-candidate
               git push --delete bot release-candidate
 
               sudo tasks/build/installWine.sh

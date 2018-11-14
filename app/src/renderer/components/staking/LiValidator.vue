@@ -5,7 +5,7 @@ tr.li-validator
     img.li-validator__avatar.no-img(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
     .li-validator__name-container
       span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
-      router-link.li-validator__moniker(:to="{ name: 'validator', params: { validator: validator.id }}", :class='styles') {{ validator.description.moniker }}
+      router-link.li-validator__moniker(:to="{ name: 'validator', params: { validator: validator.operator_address }}", :class='styles') {{ validator.description.moniker }}
       short-bech32.li-validator__address(:address="validator.operator_address")
   td.li-validator__delegated-steak {{ yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0) ? '< ' + num.shortNumber(0.01) : num.shortNumber(yourVotes) }}
   td.li-validator__rewards n/a
@@ -142,5 +142,4 @@ export default {
 .li-validator__address
   .address
     font-size sm
-
 </style>

@@ -21,7 +21,7 @@ exports[`LiValidator has the expected html structure 1`] = `
       />
       <a
         class="li-validator__moniker"
-        href="#/staking/validators/abc"
+        href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
       >
         herr_schmidt_revoked
       </a>
