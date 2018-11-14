@@ -47,7 +47,8 @@ module.exports.createKey = async function createKey(
 
 module.exports.getKeys = async function getKeys(clientHomeDir) {
   let command = `${cliBinary} keys list --home ${clientHomeDir} -o json`
-  return makeExec(command)
+  let accounts = await makeExec(command)
+  return JSON.parse(accounts)
 }
 
 module.exports.initGenesis = async function initGenesis(
