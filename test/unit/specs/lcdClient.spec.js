@@ -23,165 +23,71 @@ const { MemoryDataStore, Resource } = createMiddleware
 const { promisify } = require(`util`)
 
 describe(`LCD Client`, () => {
-  describe(`helper functions`, () => {
-    let axios
+  describe(`Gaia-Lite`, () => {
     let client
+    const dataStore = new MemoryDataStore()
+    let mockServer
 
-    beforeEach(() => {
-      axios = {}
-      client = LcdClient(axios, `http://localhost`, `http://remotehost`)
-    })
+    beforeAll(async () => {
+      const application = Express()
 
-    it(`makes a GET request with no args`, async () => {
-      axios.get = jest
-        .fn()
-        .mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+      const middleware = await promisify(createMiddleware)(
+        path.join(__dirname, `../helpers/Gaia-Lite.yaml`),
+        application
+      )
 
-      let res = await client.keys.values()
-      expect(res).toEqual({ foo: `bar` })
-      expect(axios.get.mock.calls[0]).toEqual([
-        `http://localhost/keys`,
-        undefined
-      ])
-    })
+      application.use(middleware.metadata())
 
-    it(`makes a GET request with one arg`, async () => {
-      axios.get = jest
-        .fn()
-        .mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+      // The fact that /keys is a collection but /keys/seed is not a resource in
+      // that collection confuses the Swagger middleware so we have to mock it
+      // separately.
 
-      let res = await client.keys.get(`myKey`)
-      expect(res).toEqual({ foo: `bar` })
-      expect(axios.get.mock.calls[0]).toEqual([
-        `http://localhost/keys/myKey`,
-        undefined
-      ])
-    })
+      application.get(`/keys/seed`, (request, response) => {
+        response.send(request.swagger.path.get.responses[`200`].example)
+      })
 
-    it(`makes a POST request`, async () => {
-      axios.post = jest
-        .fn()
-        .mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+      // Don't return passwords.  This is a workaround to
+      // https://github.com/APIDevTools/swagger-express-middleware/issues/18
+      application.get(
+        `/keys`,
+        mung.json(body => {
+          body.forEach(key => {
+            delete key.password
+          })
 
-      let res = await client.keys.add()
-      expect(res).toEqual({ foo: `bar` })
-      expect(axios.post.mock.calls[0]).toEqual([
-        `http://localhost/keys`,
-        undefined
-      ])
-    })
-
-    it(`makes a POST request with args and data`, async () => {
-      axios.put = jest
-        .fn()
-        .mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
-
-      let res = await client.keys.set(`myKey`, { abc: 123 })
-      expect(res).toEqual({ foo: `bar` })
-      expect(axios.put.mock.calls[0]).toEqual([
-        `http://localhost/keys/myKey`,
-        { abc: 123 }
-      ])
-    })
-
-    it(`makes a GET request with an error`, async () => {
-      axios.get = jest.fn().mockReturnValueOnce(
-        Promise.reject({
-          response: {
-            data: `foo`
-          }
+          return body
         })
       )
 
-      try {
-        await await client.keys.values()
-      } catch (err) {
-        expect(err.response.data).toBe(`foo`)
-      }
-      expect(axios.get.mock.calls[0]).toEqual([
-        `http://localhost/keys`,
-        undefined
-      ])
-    })
-
-    it(`delete requests have the correct format for data`, async () => {
-      axios.delete = (path, config) => {
-        expect(config).toEqual({ data: { password: `abc` } })
-        return Promise.resolve({ data: { foo: `bar` } })
-      }
-
-      // doesn't throw
-      await client.keys.delete(`test`, { password: `abc` })
-    })
-  })
-
-  let client
-  const dataStore = new MemoryDataStore()
-  let mockServer
-  let remoteLcdURL
-
-  beforeAll(async () => {
-    const application = Express()
-
-    const middleware = await promisify(createMiddleware)(
-      path.join(__dirname, `../helpers/Gaia-Lite.yaml`),
-      application
-    )
-
-    application.use(middleware.metadata())
-
-    // The fact that /keys is a collection but /keys/seed is not a resource in
-    // that collection confuses the Swagger middleware so we have to mock it
-    // separately.
-
-    application.get(`/keys/seed`, (request, response) => {
-      response.send(request.swagger.path.get.responses[`200`].example)
-    })
-
-    // Don't return passwords.  This is a workaround to
-    // https://github.com/APIDevTools/swagger-express-middleware/issues/18
-    application.get(
-      `/keys`,
-      mung.json(body => {
-        body.forEach(key => {
-          delete key.password
+      // Don't return passwords.  This is a workaround to
+      // https://github.com/APIDevTools/swagger-express-middleware/issues/18
+      application.get(
+        `/keys/:name`,
+        mung.json(body => {
+          delete body.password
+          return body
         })
+      )
 
-        return body
-      })
-    )
+      application.use(
+        // Why is this necessary?
+        middleware.CORS(),
 
-    // Don't return passwords.  This is a workaround to
-    // https://github.com/APIDevTools/swagger-express-middleware/issues/18
-    application.get(
-      `/keys/:name`,
-      mung.json(body => {
-        delete body.password
-        return body
-      })
-    )
+        middleware.parseRequest(),
+        middleware.validateRequest(),
+        middleware.mock(dataStore)
+      )
 
-    application.use(
-      // Why is this necessary?
-      middleware.CORS(),
+      mockServer = http.createServer(application)
+      await promisify(mockServer.listen.bind(mockServer))(0, `localhost`)
+      const localLcdURL = `http://localhost:${mockServer.address().port}`
+      client = LcdClient(axios, localLcdURL, `http://remotehost`)
+    })
 
-      middleware.parseRequest(),
-      middleware.validateRequest(),
-      middleware.mock(dataStore)
-    )
+    afterAll(done => {
+      mockServer.close(done)
+    })
 
-    mockServer = http.createServer(application)
-    await promisify(mockServer.listen.bind(mockServer))(0, `localhost`)
-    const localLcdURL = `http://localhost:${mockServer.address().port}`
-    remoteLcdURL = `http://awesomenode.de:12345`
-    client = LcdClient(axios, localLcdURL, remoteLcdURL)
-  })
-
-  afterAll(done => {
-    mockServer.close(done)
-  })
-
-  describe(`Gaia-Lite`, () => {
     beforeEach(done => {
       const initialState = [
         {
@@ -239,9 +145,6 @@ describe(`LCD Client`, () => {
         })
       })
 
-      // In the future we'll use the SDK's Swagger file instead of our own copy
-      // and this test will dependend on
-      // https://github.com/cosmos/cosmos-sdk/pull/2496 being merged.
       it(`seed`, async () => {
         expect(await client.keys.seed()).toEqual(
           `blossom pool issue kidney elevator blame furnace winter account merry vessel security depend exact travel bargain problem jelly rural net again mask roast chest`
@@ -272,10 +175,93 @@ describe(`LCD Client`, () => {
         ])
       })
     })
+  })
+
+  describe(`unit tests`, () => {
+    let axios
+    let client
+
+    beforeEach(() => {
+      axios = jest.fn()
+      client = LcdClient(axios, `http://localhost`, `http://remotehost`)
+    })
+
+    describe(`helper functions`, () => {
+      it(`makes a GET request with no args`, async () => {
+        axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+        let res = await client.keys.values()
+        expect(res).toEqual({ foo: `bar` })
+
+        expect(axios.mock.calls).toEqual([
+          [{ data: undefined, method: `GET`, url: `http://localhost/keys` }]
+        ])
+      })
+
+      it(`makes a GET request with one arg`, async () => {
+        axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+        let res = await client.keys.get(`myKey`)
+        expect(res).toEqual({ foo: `bar` })
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://localhost/keys/myKey`
+            }
+          ]
+        ])
+      })
+
+      it(`makes a POST request`, async () => {
+        axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+        let res = await client.keys.add()
+        expect(res).toEqual({ foo: `bar` })
+
+        expect(axios.mock.calls).toEqual([
+          [{ data: undefined, method: `POST`, url: `http://localhost/keys` }]
+        ])
+      })
+
+      it(`makes a PUT request with args and data`, async () => {
+        axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+        let res = await client.keys.set(`myKey`, { abc: 123 })
+        expect(res).toEqual({ foo: `bar` })
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: { abc: 123 },
+              method: `PUT`,
+              url: `http://localhost/keys/myKey`
+            }
+          ]
+        ])
+      })
+
+      it(`makes a GET request with an error`, async () => {
+        axios.mockReturnValueOnce(
+          Promise.reject({
+            response: {
+              data: `foo`
+            }
+          })
+        )
+
+        try {
+          await await client.keys.values()
+        } catch (err) {
+          expect(err.response.data).toBe(`foo`)
+        }
+        expect(axios.mock.calls).toEqual([
+          [{ data: undefined, method: `GET`, url: `http://localhost/keys` }]
+        ])
+      })
+    })
 
     describe(`stake`, () => {
       it(`queries for shares for a validator and delegate`, async () => {
-        axios.get = jest.fn().mockReturnValueOnce(
+        axios.mockReturnValueOnce(
           Promise.resolve({
             response: {
               data: {
@@ -285,206 +271,330 @@ describe(`LCD Client`, () => {
           })
         )
         await client.queryDelegation(`abc`, `efg`)
-        expect(axios.get.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/stake/delegators/abc/delegations/efg`,
-          undefined
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/stake/delegators/abc/delegations/efg`
+            }
+          ]
         ])
       })
 
       it(`queries for a delegation summary for a delegator`, async () => {
-        axios.get = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.getDelegator(`abc`)
-        expect(axios.get.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/stake/delegators/abc`,
-          undefined
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/stake/delegators/abc`
+            }
+          ]
         ])
       })
 
       it(`queries for a delegation txs`, async () => {
-        axios.get = jest
-          .fn()
-          .mockReturnValue(Promise.resolve({ data: lcdClientMock.txs }))
+        axios.mockReturnValue(Promise.resolve({ data: lcdClientMock.txs }))
         await client.getDelegatorTxs(`abc`)
         await client.getDelegatorTxs(`abc`, [`bonding`])
         await client.getDelegatorTxs(`abc`, [`unbonding`])
         await client.getDelegatorTxs(`abc`, [`redelegate`])
-        expect(axios.get.mock.calls).toEqual([
-          [`${remoteLcdURL}/stake/delegators/abc/txs`, undefined],
-          [`${remoteLcdURL}/stake/delegators/abc/txs?type=bonding`, undefined],
+
+        expect(axios.mock.calls).toEqual([
           [
-            `${remoteLcdURL}/stake/delegators/abc/txs?type=unbonding`,
-            undefined
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/stake/delegators/abc/txs`
+            }
           ],
           [
-            `${remoteLcdURL}/stake/delegators/abc/txs?type=redelegate`,
-            undefined
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/stake/delegators/abc/txs?type=bonding`
+            }
+          ],
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/stake/delegators/abc/txs?type=unbonding`
+            }
+          ],
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/stake/delegators/abc/txs?type=redelegate`
+            }
           ]
         ])
       })
 
       it(`queries all validators that a delegator is bonded to`, async () => {
-        axios.get = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.getDelegatorValidators(`abc`)
-        expect(axios.get.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/stake/delegators/abc/validators`,
-          undefined
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/stake/delegators/abc/validators`
+            }
+          ]
         ])
       })
 
       it(`queries for undelegations between a delegator and a validator`, async () => {
-        axios.get = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.queryUnbonding(`abc`, `def`)
-        expect(axios.get.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/stake/delegators/abc/unbonding_delegations/def`,
-          undefined
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/stake/delegators/abc/unbonding_delegations/def`
+            }
+          ]
         ])
       })
 
       it(`queries for a validator`, async () => {
-        axios.get = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.getCandidate(`abc`)
-        expect(axios.get.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/stake/validators/abc`,
-          undefined
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/stake/validators/abc`
+            }
+          ]
         ])
       })
 
       it(`updateDelegations`, async () => {
-        axios.post = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.updateDelegations(`abc`)
-        expect(axios.post.mock.calls[0]).toEqual([
-          `http://localhost:${
-            mockServer.address().port
-          }/stake/delegators/abc/delegations`,
-          undefined
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `POST`,
+              url: `http://localhost/stake/delegators/abc/delegations`
+            }
+          ]
         ])
       })
 
       it(`queries for staking parameters`, async () => {
-        axios.get = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.getParameters()
-        expect(axios.get.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/stake/parameters`,
-          undefined
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/stake/parameters`
+            }
+          ]
         ])
       })
 
       it(`queries for staking pool`, async () => {
-        axios.get = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.getPool()
-        expect(axios.get.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/stake/pool`,
-          undefined
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/stake/pool`
+            }
+          ]
         ])
       })
     })
 
     describe(`governance`, () => {
       it(`fetches all governance proposals`, async () => {
-        axios.get = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.queryProposals()
-        expect(axios.get.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/gov/proposals`,
-          undefined
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/gov/proposals`
+            }
+          ]
         ])
       })
 
       it(`queries a single proposal`, async () => {
-        axios.get = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.queryProposal(1)
-        expect(axios.get.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/gov/proposals/1`,
-          undefined
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/gov/proposals/1`
+            }
+          ]
         ])
       })
 
       it(`queries a proposal votes`, async () => {
-        axios.get = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.queryProposalVotes(1)
-        expect(axios.get.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/gov/proposals/1/votes`,
-          undefined
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/gov/proposals/1/votes`
+            }
+          ]
         ])
       })
 
       it(`queries a proposal vote from an address`, async () => {
-        axios.get = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.queryProposalVote(
           1,
           `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
         )
-        expect(axios.get.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/gov/proposals/1/votes/cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-          undefined
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/gov/proposals/1/votes/cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+            }
+          ]
         ])
       })
 
       it(`queries a proposal deposits`, async () => {
-        axios.get = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.queryProposalDeposits(1)
-        expect(axios.get.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/gov/proposals/1/deposits`,
-          undefined
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/gov/proposals/1/deposits`
+            }
+          ]
         ])
       })
 
       it(`queries a proposal deposit from an address`, async () => {
-        axios.get = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.queryProposalDeposit(
           1,
           `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
         )
-        expect(axios.get.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/gov/proposals/1/deposits/cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-          undefined
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/gov/proposals/1/deposits/cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+            }
+          ]
         ])
       })
 
       it(`submits a new proposal`, async () => {
-        axios.post = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.submitProposal(proposals[0])
-        expect(axios.post.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/gov/proposals`,
-          proposals[0]
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: proposals[0],
+              method: `POST`,
+              url: `http://remotehost/gov/proposals`
+            }
+          ]
         ])
       })
 
       it(`submits a new vote to a proposal`, async () => {
-        axios.post = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.submitProposalVote(proposals[0].proposal_id, votes[0])
-        expect(axios.post.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/gov/proposals/${proposals[0].proposal_id}/votes`,
-          votes[0]
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `POST`,
+              url: `http://remotehost/gov/proposals/1/votes`
+            }
+          ]
         ])
       })
 
       it(`submits a new deposit to a proposal`, async () => {
-        axios.post = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.submitProposalDeposit(
           proposals[0].proposal_id,
           deposits[0]
         )
-        expect(axios.post.mock.calls[0]).toEqual([
-          `${remoteLcdURL}/gov/proposals/${proposals[0].proposal_id}/deposits`,
-          deposits[0]
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `POST`,
+              url: `http://remotehost/gov/proposals/1/deposits`
+            }
+          ]
         ])
       })
 
       it(`queries for governance txs`, async () => {
-        axios.get = jest.fn().mockReturnValue({})
+        axios.mockReturnValue({})
         await client.getGovernanceTxs(lcdClientMock.addresses[0])
-        expect(axios.get.mock.calls).toEqual([
+
+        expect(axios.mock.calls).toEqual([
           [
-            `${remoteLcdURL}/txs?tag=action=submit-proposal&proposer='${
-              lcdClientMock.addresses[0]
-            }'`,
-            undefined
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/txs?tag=action=submit-proposal&proposer='${
+                lcdClientMock.addresses[0]
+              }'`
+            }
           ],
           [
-            `${remoteLcdURL}/txs?tag=action=deposit&depositer='${
-              lcdClientMock.addresses[0]
-            }'`,
-            undefined
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/txs?tag=action=deposit&depositer='${
+                lcdClientMock.addresses[0]
+              }'`
+            }
           ]
         ])
       })
@@ -492,7 +602,7 @@ describe(`LCD Client`, () => {
 
     describe(`queryAccount`, () => {
       it(`returns an account`, async () => {
-        axios.get = jest.fn().mockReturnValueOnce(
+        axios.mockReturnValueOnce(
           Promise.resolve({
             data: {
               value: {
@@ -522,7 +632,7 @@ describe(`LCD Client`, () => {
       })
 
       it(`does not throw error for empty results`, async () => {
-        axios.get = jest.fn().mockReturnValueOnce(
+        axios.mockReturnValueOnce(
           Promise.reject({
             response: {
               data: `account bytes are empty`
@@ -534,7 +644,7 @@ describe(`LCD Client`, () => {
       })
 
       it(`throws error for error other than empty account`, async () => {
-        axios.get = jest.fn().mockReturnValueOnce(
+        axios.mockReturnValueOnce(
           Promise.reject({
             response: {
               data: `something failed`
@@ -558,33 +668,43 @@ describe(`LCD Client`, () => {
     })
 
     it(`queries for indexed transactions`, async () => {
-      let axios = require(`axios`)
-      axios.get = jest
-        .fn()
+      axios
         .mockReturnValueOnce(Promise.resolve({ data: [] }))
         .mockReturnValueOnce(Promise.resolve({ data: [`abc`] }))
       let result = await client.txs(`abc`)
 
-      expect(axios.get).toHaveBeenCalledTimes(2)
+      expect(axios).toHaveBeenCalledTimes(2)
       client.keys.values = () => Promise.resolve()
       expect(result).toEqual([`abc`])
     })
 
     it(`gets the list of the validators in the latest validator set`, async () => {
-      axios.get = jest.fn().mockReturnValue({})
+      axios.mockReturnValue({})
       await client.getValidatorSet()
-      expect(axios.get.mock.calls[0]).toEqual([
-        `${remoteLcdURL}/validatorsets/latest`,
-        undefined
+
+      expect(axios.mock.calls).toEqual([
+        [
+          {
+            data: undefined,
+            method: `GET`,
+            url: `http://remotehost/validatorsets/latest`
+          }
+        ]
       ])
     })
 
     it(`queries a validator signing information`, async () => {
-      axios.get = jest.fn().mockReturnValue({})
+      axios.mockReturnValue({})
       await client.queryValidatorSigningInfo(`pubKey`)
-      expect(axios.get.mock.calls[0]).toEqual([
-        `${remoteLcdURL}/slashing/signing_info/pubKey`,
-        undefined
+
+      expect(axios.mock.calls).toEqual([
+        [
+          {
+            data: undefined,
+            method: `GET`,
+            url: `http://remotehost/slashing/signing_info/pubKey`
+          }
+        ]
       ])
     })
   })

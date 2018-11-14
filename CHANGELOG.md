@@ -16,14 +16,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1482](https://github.com/cosmos/voyager/issues/1482) Added ESLint errors: no-var. @sgobotta
 * [\#1449](https://github.com/cosmos/voyager/issues/1449) shortNumber to num scripts for more readable numbers. @jbibla
 * [\#1464](https://github.com/cosmos/voyager/issues/1464) Added governance transactions to tx history page @fedekunze
-* [\1401](https://github.com/cosmos/voyager/issues/1401) Display governance proposals index. @fedekunze
+* [\#1401](https://github.com/cosmos/voyager/issues/1401) Display governance proposals index. @fedekunze
 * [\#1472](https://github.com/cosmos/voyager/issues/1472) Added mock functionality for redelegation @fedekunze + @faboweb
 * [\#1501](https://github.com/cosmos/voyager/issues/1501) Vote on proposals through modal @fedekunze + @jbibla
-* [\1502](https://github.com/cosmos/voyager/issues/1502) A page for each proposal. @jbibla
-* [\1552](https://github.com/cosmos/voyager/issues/1522) Deposit on proposals through modal @fedekunze
-* [\1548](https://github.com/cosmos/voyager/issues/1548) Add mocked deposit for testing @fedekunze
-* [\1116](https://github.com/cosmos/voyager/issues/1116) Elaborate a bit about the release process. @NodeGuy
-* [\1568](https://github.com/cosmos/voyager/issues/1568) Add mocked submit deposit for testing @fedekunze
+* [\#1567](https://github.com/cosmos/voyager/pull/1567) Various refactors on `main`, `node` and `lcdClient`. @NodeGuy
+* [\#1502](https://github.com/cosmos/voyager/issues/1502) A page for each proposal. @jbibla
+* [\#1552](https://github.com/cosmos/voyager/issues/1522) Deposit on proposals through modal @fedekunze
+* [\#1548](https://github.com/cosmos/voyager/issues/1548) Add mocked deposit for testing @fedekunze
+* [\#1116](https://github.com/cosmos/voyager/issues/1116) Elaborate a bit about the release process. @NodeGuy
+* [\#1568](https://github.com/cosmos/voyager/issues/1568) Add mocked submit proposal for testing @fedekunze
 
 ### Changed
 
