@@ -70,7 +70,7 @@ export default {
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
-          title: `Error while submitting a new ${type.toLowercase()} proposal`,
+          title: `Error while submitting a new ${type.toLowerCase()} proposal`,
           body: message
         })
       }
