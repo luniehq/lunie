@@ -68,7 +68,7 @@ describe(`Module: Deposits`, () => {
           amount: [
             {
               denom: rootState.config.bondingDenom,
-              amount
+              amount: String(amount)
             }
           ]
         }

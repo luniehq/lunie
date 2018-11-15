@@ -137,34 +137,28 @@ export default {
     onDeposit() {
       this.showModalDeposit = true
     },
-    async deposit({ amount }) {
-      let proposalId = this.proposal.proposal_id
-
+    async deposit(amount) {
+      let proposal_id = this.proposal.proposal_id
       try {
         // TODO: support multiple coins
-        await this.$store.dispatch(`submitDeposit`, { proposalId, amount })
+        await this.$store.dispatch(`submitDeposit`, { proposal_id, amount })
 
         // TODO: get min deposit denom from gov params
         this.$store.commit(`notify`, {
           title: `Successful deposit!`,
-          body: `You have successfully deposited your ${this.bondingDenom.toLowerCase()}s on proposal #${
-            this.proposal.proposal_id
-          }`
+          body: `You have successfully deposited your ${this.bondingDenom.toLowerCase()}s on proposal #${proposal_id}`
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
-          title: `Error while submitting a deposit on proposal #${
-            this.proposal.proposal_id
-          }`,
+          title: `Error while submitting a deposit on proposal #${proposal_id}`,
           body: message
         })
       }
     },
     async castVote({ option }) {
-      let proposalId = this.proposal.proposal_id
-
+      let proposal_id = this.proposal.proposal_id
       try {
-        await this.$store.dispatch(`submitVote`, { proposalId, option })
+        await this.$store.dispatch(`submitVote`, { proposal_id, option })
 
         this.$store.commit(`notify`, {
           title: `Successful vote!`,
@@ -174,7 +168,7 @@ export default {
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
-          title: `Error while voting on proposal #${this.proposal.proposal_id}`,
+          title: `Error while voting on proposal #${proposal_id}`,
           body: message
         })
       }
