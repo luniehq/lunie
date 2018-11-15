@@ -1392,12 +1392,12 @@ describe(`LCD Client Mock`, () => {
     })
 
     it(`queries for governance txs`, async () => {
-      let govTxs = await client.getGovernaceTxs(lcdClientMock.addresses[0])
+      let govTxs = await client.getGovernanceTxs(lcdClientMock.addresses[0])
       expect(govTxs).toHaveLength(2)
       expect(govTxs[0]).toEqual(lcdClientMock.state.txs[2])
       expect(govTxs[1]).toEqual(lcdClientMock.state.txs[3])
 
-      govTxs = await client.getGovernaceTxs(lcdClientMock.addresses[1])
+      govTxs = await client.getGovernanceTxs(lcdClientMock.addresses[1])
       expect(govTxs).toHaveLength(0)
     })
   })
