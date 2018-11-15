@@ -6,6 +6,13 @@ import ModalPropose from "renderer/components/governance/ModalPropose"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import { mount } from "@vue/test-utils"
 
+const proposal = {
+  amount: 15,
+  title: `A new text proposal for Cosmos`,
+  description: `a valid description for the proposal`,
+  type: `Text`
+}
+
 describe(`PageGovernance`, () => {
   describe(`with magic`, () => {
     let wrapper, store
@@ -20,16 +27,6 @@ describe(`PageGovernance`, () => {
       store.state.user.address = lcdClientMock.addresses[0]
       store.commit(`setAtoms`, 1337)
       wrapper.update()
-    })
-
-    it(`has the expected html structure`, async () => {
-      // after importing the @tendermint/ui components from modules
-      // the perfect scroll plugin needs a $nextTick and a wrapper.update
-      // to work properly in the tests (snapshots weren't matching)
-      // this has occured across multiple tests
-      await wrapper.vm.$nextTick()
-      wrapper.update()
-      expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
     })
 
     it(`should show the search on click`, () => {
@@ -47,47 +44,62 @@ describe(`PageGovernance`, () => {
   })
 
   describe(`without magic`, () => {
-    describe(`Propose`, () => {
-      describe(`unit`, () => {
-        let proposal = {
-          amount: 15,
-          title: `A new text proposal for Cosmos`,
-          description: `a valid description for the proposal`,
-          type: `Text`
-        }
-        it(`success`, async () => {
-          let $store = {
-            commit: jest.fn(),
-            dispatch: jest.fn(),
-            getters: {
-              proposals: lcdClientMock.state.proposals,
-              filters: {
-                proposals: {
-                  search: {
-                    visible: false,
-                    query: ``
-                  }
-                }
-              },
-              bondingDenom: `Stake`,
-              totalAtoms: 100,
-              user: { atoms: 42, history: [] }
-            }
-          }
-
-          const wrapper = mount(PageGovernance, {
-            mocks: {
-              $store,
-              $route: {
-                name: `Governance`,
-                path: `/governance`,
-                fullPath: `/governance`
+    const mountWrapper = (
+      { commit, dispatch } = { commit: jest.fn(), dispatch: jest.fn() }
+    ) => {
+      let $store = {
+        commit,
+        dispatch,
+        getters: {
+          lastHeader: null,
+          lastPage: null,
+          proposals: lcdClientMock.state.proposals,
+          filters: {
+            proposals: {
+              search: {
+                visible: false,
+                query: ``
               }
             }
-          })
+          },
+          bondingDenom: `Stake`,
+          totalAtoms: 100,
+          user: { atoms: 42, history: [] }
+        }
+      }
+
+      return mount(PageGovernance, {
+        mocks: {
+          $store,
+          $route: {
+            name: `Governance`,
+            path: `/governance`,
+            fullPath: `/governance`
+          }
+        }
+      })
+    }
+
+    it(`has the expected html structure`, async () => {
+      // after importing the @tendermint/ui components from modules
+      // the perfect scroll plugin needs a $nextTick and a wrapper.update
+      // to work properly in the tests (snapshots weren't matching)
+      // this has occured across multiple tests
+      const wrapper = mountWrapper()
+      await wrapper.vm.$nextTick()
+      wrapper.update()
+      expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    })
+
+    describe(`Propose`, () => {
+      describe(`unit`, () => {
+        it(`success`, async () => {
+          const commit = jest.fn()
+          const dispatch = jest.fn()
+          const wrapper = mountWrapper({ commit, dispatch })
           await wrapper.vm.propose(proposal)
 
-          expect($store.dispatch.mock.calls).toEqual([
+          expect(dispatch.mock.calls).toEqual([
             [
               `submitProposal`,
               {
@@ -99,7 +111,7 @@ describe(`PageGovernance`, () => {
             ]
           ])
 
-          expect($store.commit.mock.calls).toEqual([
+          expect(commit.mock.calls).toEqual([
             [
               `notify`,
               {
@@ -111,43 +123,16 @@ describe(`PageGovernance`, () => {
         })
 
         it(`error`, async () => {
+          const commit = jest.fn()
+
           const dispatch = jest.fn(() => {
             throw new Error(`unexpected error`)
           })
 
-          let $store = {
-            commit: jest.fn(),
-            dispatch,
-            getters: {
-              proposals: lcdClientMock.state.proposals,
-              filters: {
-                proposals: {
-                  search: {
-                    visible: false,
-                    query: ``
-                  }
-                }
-              },
-              bondingDenom: `Stake`,
-              totalAtoms: 100,
-              user: { atoms: 42, history: [] }
-            }
-          }
-
-          const wrapper = mount(PageGovernance, {
-            mocks: {
-              $store,
-              $route: {
-                name: `Governance`,
-                path: `/governance`,
-                fullPath: `/governance`
-              }
-            }
-          })
-
+          const wrapper = mountWrapper({ commit, dispatch })
           await wrapper.vm.propose(proposal)
 
-          expect($store.dispatch.mock.calls).toEqual([
+          expect(dispatch.mock.calls).toEqual([
             [
               `submitProposal`,
               {
@@ -159,7 +144,7 @@ describe(`PageGovernance`, () => {
             ]
           ])
 
-          expect($store.commit.mock.calls).toEqual([
+          expect(commit.mock.calls).toEqual([
             [
               `notifyError`,
               {
