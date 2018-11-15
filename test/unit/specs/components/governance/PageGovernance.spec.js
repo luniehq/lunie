@@ -49,23 +49,6 @@ describe(`PageGovernance`, () => {
   describe(`without magic`, () => {
     describe(`Propose`, () => {
       describe(`unit`, () => {
-        let $store = {
-          commit: jest.fn(),
-          getters: {
-            proposals: lcdClientMock.state.proposals,
-            filters: {
-              proposals: {
-                search: {
-                  visible: false,
-                  query: ``
-                }
-              }
-            },
-            bondingDenom: `Stake`,
-            totalAtoms: 100,
-            user: { atoms: 42, history: [] }
-          }
-        }
         let proposal = {
           amount: 15,
           title: `A new text proposal for Cosmos`,
@@ -73,13 +56,32 @@ describe(`PageGovernance`, () => {
           type: `Text`
         }
         it(`success`, async () => {
-          $store.dispatch = jest.fn()
+          let $store = {
+            commit: jest.fn(),
+            dispatch: jest.fn(),
+            getters: {
+              proposals: lcdClientMock.state.proposals,
+              filters: {
+                proposals: {
+                  search: {
+                    visible: false,
+                    query: ``
+                  }
+                }
+              },
+              bondingDenom: `Stake`,
+              totalAtoms: 100,
+              user: { atoms: 42, history: [] }
+            }
+          }
 
           const wrapper = mount(PageGovernance, {
             mocks: {
               $store,
               $route: {
-                name: `routeName`
+                name: `Governance`,
+                path: `/governance`,
+                fullPath: `/governance`
               }
             }
           })
@@ -113,12 +115,32 @@ describe(`PageGovernance`, () => {
             throw new Error(`unexpected error`)
           })
 
-          $store.dispatch = dispatch
+          let $store = {
+            commit: jest.fn(),
+            dispatch,
+            getters: {
+              proposals: lcdClientMock.state.proposals,
+              filters: {
+                proposals: {
+                  search: {
+                    visible: false,
+                    query: ``
+                  }
+                }
+              },
+              bondingDenom: `Stake`,
+              totalAtoms: 100,
+              user: { atoms: 42, history: [] }
+            }
+          }
+
           const wrapper = mount(PageGovernance, {
             mocks: {
               $store,
               $route: {
-                name: `routeName`
+                name: `Governance`,
+                path: `/governance`,
+                fullPath: `/governance`
               }
             }
           })
@@ -137,12 +159,14 @@ describe(`PageGovernance`, () => {
             ]
           ])
 
-          expect($store.commit.mock.calls[1]).toEqual([
-            `notifyError`,
-            {
-              body: `unexpected error`,
-              title: `Error while submitting a new text proposal`
-            }
+          expect($store.commit.mock.calls).toEqual([
+            [
+              `notifyError`,
+              {
+                body: `unexpected error`,
+                title: `Error while submitting a new text proposal`
+              }
+            ]
           ])
         })
       })
