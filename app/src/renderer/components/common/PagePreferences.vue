@@ -1,6 +1,8 @@
 <template lang="pug">
 tm-page(data-title="Preferences")
-  div(slot="menu"): vm-tool-bar
+  template(slot="menu-body")
+    tm-balance
+    vm-tool-bar
 
   tm-part(title='Settings')
     tm-list-item(type="field" title="Select network to connect to")
@@ -48,11 +50,13 @@ tm-page(data-title="Preferences")
 import { mapGetters } from "vuex"
 import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
 import VmToolBar from "common/VmToolBar"
+import TmBalance from "common/TmBalance"
 import TmModal from "common/TmModal"
 
 export default {
   name: `page-preferences`,
   components: {
+    TmBalance,
     TmBtn,
     TmField,
     TmListItem,
