@@ -29,7 +29,7 @@
 
     //- Footer
     .undelegation-modal-footer
-      tm-btn(
+      tm-btn#submit-undelegation(
         @click.native="onUndelegate"
         :disabled="$v.amount.$invalid"
         color="primary"
