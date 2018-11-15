@@ -980,6 +980,29 @@ describe(`LCD Client Mock`, () => {
       })
     })
 
+    describe(`Parameters`, () => {
+      it(`queries for governance deposit parameters`, async () => {
+        let depositParams = lcdClientMock.state.govParameters.deposit
+        let res = await client.getGovDepositParameters()
+        expect(res).toBeDefined()
+        expect(res).toEqual(depositParams)
+      })
+
+      it(`queries for governance tallying parameters`, async () => {
+        let tallyingParams = lcdClientMock.state.govParameters.tallying
+        let res = await client.getGovTallyingParameters()
+        expect(res).toBeDefined()
+        expect(res).toEqual(tallyingParams)
+      })
+
+      it(`queries for governance voting parameters`, async () => {
+        let votingParams = lcdClientMock.state.govParameters.voting
+        let res = await client.getGovVotingParameters()
+        expect(res).toBeDefined()
+        expect(res).toEqual(votingParams)
+      })
+    })
+
     describe(`Deposits`, () => {
       it(`queries a proposal deposits`, async () => {
         let { deposits } = lcdClientMock.state
@@ -1392,12 +1415,12 @@ describe(`LCD Client Mock`, () => {
     })
 
     it(`queries for governance txs`, async () => {
-      let govTxs = await client.getGovernaceTxs(lcdClientMock.addresses[0])
+      let govTxs = await client.getGovernanceTxs(lcdClientMock.addresses[0])
       expect(govTxs).toHaveLength(2)
       expect(govTxs[0]).toEqual(lcdClientMock.state.txs[2])
       expect(govTxs[1]).toEqual(lcdClientMock.state.txs[3])
 
-      govTxs = await client.getGovernaceTxs(lcdClientMock.addresses[1])
+      govTxs = await client.getGovernanceTxs(lcdClientMock.addresses[1])
       expect(govTxs).toHaveLength(0)
     })
   })

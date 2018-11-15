@@ -313,6 +313,25 @@ let state = {
     max_validators: 100,
     bond_denom: `steak`
   },
+  govParameters: {
+    deposit: {
+      min_deposit: [
+        {
+          denom: `stake`,
+          amount: `coin`
+        }
+      ],
+      max_deposit_period: `86400000000000`
+    },
+    tallying: {
+      threshold: `0.5000000000`,
+      veto: `0.3340000000`,
+      governance_penalty: `0.0100000000`
+    },
+    voting: {
+      voting_period: `86400000000000`
+    }
+  },
   sendHeight: 2,
   signing_info: {
     start_height: 2,
@@ -1182,18 +1201,29 @@ module.exports = {
       }
     })
   },
-  async getGovernaceTxs(addr) {
-    return state.txs.filter(tx => {
-      let type = tx.tx.value.msg[0].type
+  async getGovernanceTxs(addr) {
+    return (
+      state.txs.filter(tx => {
+        let type = tx.tx.value.msg[0].type
 
-      if (type === `cosmos-sdk/MsgSubmitProposal`) {
-        return tx.tx.value.msg[0].value.proposer === addr
-      } else if (type === `cosmos-sdk/MsgDeposit`) {
-        return tx.tx.value.msg[0].value.depositer === addr
-      }
+        if (type === `cosmos-sdk/MsgSubmitProposal`) {
+          return tx.tx.value.msg[0].value.proposer === addr
+        } else if (type === `cosmos-sdk/MsgDeposit`) {
+          return tx.tx.value.msg[0].value.depositer === addr
+        }
 
-      return false
-    })
+        return false
+      }) || []
+    )
+  },
+  async getGovDepositParameters() {
+    return state.govParameters.deposit
+  },
+  async getGovTallyingParameters() {
+    return state.govParameters.tallying
+  },
+  async getGovVotingParameters() {
+    return state.govParameters.voting
   },
   // exports to be used in tests
   state,

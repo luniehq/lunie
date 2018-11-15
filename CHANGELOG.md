@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1116](https://github.com/cosmos/voyager/issues/1116) Elaborate a bit about the release process. @NodeGuy
 * [\#1568](https://github.com/cosmos/voyager/issues/1568) Add mocked submit proposal for testing @fedekunze
 * [\#1388](https://github.com/cosmos/voyager/issues/1388) Added TmConnectedNetwork to session pages @jbibla
+* [\#1564](https://github.com/cosmos/voyager/issues/1564) Add support to query governance proposals on `lcdClient(Mock).js` @fedekunze
 
 ### Changed
 
@@ -62,6 +63,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1131](https://github.com/cosmos/voyager/issues/1131) Display only error message on notifications @fedekunze
 * [\#1440](https://github.com/cosmos/voyager/issues/1440) Fixed an error that prevented disconnecting from the RPC websocket if it wasn't defined @fedekunze
 * [\#1460](https://github.com/cosmos/voyager/issues/1460) Removing release-candidate tag when publishing @faboweb
+* [\#1574](https://github.com/cosmos/voyager/issues/1574) Fixed typo on mocked governance txs that prevented the execution of the query @fedekunze
+* [\#1575](https://github.com/cosmos/voyager/issues/1575) Fixed tags on governace transactions query @fedekunze
 
 ## [0.10.7] - 2018-10-10
 

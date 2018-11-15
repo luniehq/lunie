@@ -585,7 +585,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?tag=action=submit-proposal&proposer='${
+              url: `http://remotehost/txs?tag=action='submit-proposal'&tag=proposer='${
                 lcdClientMock.addresses[0]
               }'`
             }
@@ -594,12 +594,59 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?tag=action=deposit&depositer='${
+              url: `http://remotehost/txs?tag=action='deposit'&tag=depositer='${
                 lcdClientMock.addresses[0]
               }'`
             }
           ]
         ])
+      })
+
+      describe(`Parameters`, function() {
+        it(`queries for governance deposit parameters`, async () => {
+          axios.mockReturnValue({})
+          await client.getGovDepositParameters()
+
+          expect(axios.mock.calls).toEqual([
+            [
+              {
+                data: undefined,
+                method: `GET`,
+                url: `http://remotehost/gov/parameters/deposit`
+              }
+            ]
+          ])
+        })
+
+        it(`queries for governance tallying parameters`, async () => {
+          axios.mockReturnValue({})
+          await client.getGovTallyingParameters()
+
+          expect(axios.mock.calls).toEqual([
+            [
+              {
+                data: undefined,
+                method: `GET`,
+                url: `http://remotehost/gov/parameters/tallying`
+              }
+            ]
+          ])
+        })
+
+        it(`queries for governance voting parameters`, async () => {
+          axios.mockReturnValue({})
+          await client.getGovVotingParameters()
+
+          expect(axios.mock.calls).toEqual([
+            [
+              {
+                data: undefined,
+                method: `GET`,
+                url: `http://remotehost/gov/parameters/voting`
+              }
+            ]
+          ])
+        })
       })
     })
 
