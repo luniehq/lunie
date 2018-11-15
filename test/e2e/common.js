@@ -11,6 +11,7 @@ function sleep(ms) {
 module.exports = {
   async closeNotifications(app) {
     // close notifications as they overlay the menu button
+    console.log(`closing notifications`)
     await sleep(100)
     while (await app.client.isExisting(`.tm-notification`)) {
       await app.client.$(`.tm-notification`).click()
@@ -61,7 +62,12 @@ module.exports = {
   async navigateToPreferences(app) {
     await module.exports.openMenu(app)
     // click link
-    await app.client.$(`#settings`).click()
+    await app.client.waitForExist(`#settings`, 1000)
+    try {
+      await app.client.$(`#settings`).click()
+    } catch (err) {
+      console.log(`error on clicking settings: ${err}`)
+    }
     console.log(`navigated to preferences`)
   },
   sleep,
