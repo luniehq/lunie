@@ -72,7 +72,7 @@ describe(`PageGovernance`, () => {
           description: `a valid description for the proposal`,
           type: `Text`
         }
-        xit(`success`, async () => {
+        it(`success`, async () => {
           $store.dispatch = jest.fn()
 
           const wrapper = mount(PageGovernance, {
@@ -122,6 +122,7 @@ describe(`PageGovernance`, () => {
               }
             }
           })
+
           await wrapper.vm.propose(proposal)
 
           expect($store.dispatch.mock.calls).toEqual([

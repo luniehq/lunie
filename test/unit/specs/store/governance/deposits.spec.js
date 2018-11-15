@@ -26,12 +26,12 @@ describe(`Module: Deposits`, () => {
     let { actions, state } = module
     let commit = jest.fn()
     proposals.forEach(async (proposal, i) => {
-      let proposalID = proposal.proposal_id
-      await actions.getProposalDeposits({ state, commit }, proposalID)
+      let proposalId = proposal.proposal_id
+      await actions.getProposalDeposits({ state, commit }, proposalId)
       expect(commit.mock.calls[i]).toEqual([
         `setProposalDeposits`,
-        proposalID,
-        deposits[proposalID]
+        proposalId,
+        deposits[proposalId]
       ])
     })
   })
@@ -41,36 +41,33 @@ describe(`Module: Deposits`, () => {
     jest.useFakeTimers()
 
     const rootState = {
-      config: {
-        bondingDenom: `stake`
-      },
       wallet: {
         address: addresses[0]
       }
     }
 
     let dispatch = jest.fn()
-    const amount = 15
+    const amount = [
+      {
+        denom: `stake`,
+        amount: `15`
+      }
+    ]
 
     proposals.forEach(async (proposal, i) => {
       await actions.submitDeposit(
         { rootState, dispatch },
-        proposal.proposal_id,
-        amount
+        { proposal_id: proposal.proposal_id, amount }
       )
 
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
           type: `submitProposalDeposit`,
+          to: proposal.proposal_id,
           proposal_id: proposal.proposal_id,
           depositer: addresses[0],
-          amount: [
-            {
-              denom: rootState.config.bondingDenom,
-              amount: String(amount)
-            }
-          ]
+          amount
         }
       ])
 

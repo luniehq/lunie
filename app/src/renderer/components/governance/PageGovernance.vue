@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(data-title='Governance').governance
   template(slot="menu-body")
-    tm-balance(:tabs="tabs"): tm-btn#propose-btn(value="Create Proposal" color="secondary" @click.native="onPropose")
+    tm-balance(:tabs="tabs"): tm-btn#propose-btn(value="Create Proposal" color="primary" @click.native="onPropose")
 
     vm-tool-bar
       a(@click='setSearch()' v-tooltip.bottom="'Search'")

@@ -45,7 +45,7 @@ exports[`PageGovernance with magic has the expected html structure 1`] = `
          <a href=\\"#/governance/proposals\\" class=\\"\\">Proposals</a>
       </div>
 </div>
-   <button class=\\"tm-btn\\" id=\\"propose-btn\\"><span class=\\"tm-btn__container tm-btn--secondary\\">
+   <button class=\\"tm-btn\\" id=\\"propose-btn\\"><span class=\\"tm-btn__container tm-btn--primary\\">
    <!---->
    <!---->
    <span class=\\"tm-btn__value\\">Create Proposal</span></span></button>

@@ -101,7 +101,16 @@ describe(`ModalDeposit`, () => {
       expect(wrapper.emittedByOrder()).toEqual([
         {
           name: `submitDeposit`,
-          args: [{ amount: 10 }]
+          args: [
+            {
+              amount: [
+                {
+                  amount: `10`,
+                  denom: `stake`
+                }
+              ]
+            }
+          ]
         },
         {
           name: `update:showModalDeposit`,

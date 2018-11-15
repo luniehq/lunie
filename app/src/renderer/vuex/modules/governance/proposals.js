@@ -47,9 +47,7 @@ export default ({ node }) => {
         description,
         initial_deposit
       })
-      setTimeout(async () => {
-        dispatch(`getProposals`)
-      }, 5000)
+      await dispatch(`getProposals`)
     }
   }
   return {

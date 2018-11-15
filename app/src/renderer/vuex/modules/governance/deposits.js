@@ -32,9 +32,7 @@ export default ({ node }) => {
         depositer: wallet.address,
         amount
       })
-      setTimeout(async () => {
-        dispatch(`getProposalDeposits`, proposal_id)
-      }, 5000)
+      await dispatch(`getProposalDeposits`, proposal_id)
     }
   }
   return {

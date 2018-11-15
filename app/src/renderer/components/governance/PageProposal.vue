@@ -137,7 +137,7 @@ export default {
     onDeposit() {
       this.showModalDeposit = true
     },
-    async deposit(amount) {
+    async deposit({ amount }) {
       let proposal_id = this.proposal.proposal_id
       try {
         // TODO: support multiple coins

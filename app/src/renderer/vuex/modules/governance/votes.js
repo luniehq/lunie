@@ -26,7 +26,7 @@ export default ({ node }) => {
         voter: rootState.wallet.address,
         option
       })
-      dispatch(`getProposalVotes`, proposal_id)
+      await dispatch(`getProposalVotes`, proposal_id)
     }
   }
   return {

@@ -13,28 +13,28 @@
     tm-form-group.modal-vote-form-group.options
       tm-btn#vote-yes(
         @click.native="vote('Yes')"
-        :class="[option ===  `yes` ? 'active' : '']"
+        :class="[option ===  `Yes` ? 'active' : '']"
         color="secondary"
         value="Yes"
         size="md")
 
       tm-btn#vote-no(
         @click.native="vote('No')"
-        :class="[option === `no` ? 'active' : '']"
+        :class="[option === `No` ? 'active' : '']"
         color="secondary"
         value="No"
         size="md")
 
       tm-btn#vote-veto(
         @click.native="vote('NoWithVeto')"
-        :class="[option === `no_with_veto` ? 'active' : '']"
+        :class="[option === `NoWithVeto` ? 'active' : '']"
         color="secondary"
         value="No With Veto"
         size="md")
 
       tm-btn#vote-abstain(
         @click.native="vote('Abstain')"
-        :class="[option === `abstain` ? 'active' : '']"
+        :class="[option === `Abstain` ? 'active' : '']"
         color="secondary"
         value="Abstain"
         size="md")

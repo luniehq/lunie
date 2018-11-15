@@ -124,17 +124,17 @@ describe(`PageProposal`, () => {
             }
           })
 
-          await wrapper.vm.castVote({ option: `no_with_veto` })
+          await wrapper.vm.castVote({ option: `NoWithVeto` })
 
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitVote`, { option: `no_with_veto`, proposalId: `1` }]
+            [`submitVote`, { option: `NoWithVeto`, proposal_id: `1` }]
           ])
 
           expect($store.commit.mock.calls).toEqual([
             [
               `notify`,
               {
-                body: `You have successfully voted no_with_veto on proposal #1`,
+                body: `You have successfully voted NoWithVeto on proposal #1`,
                 title: `Successful vote!`
               }
             ]
@@ -164,10 +164,10 @@ describe(`PageProposal`, () => {
             }
           })
 
-          await wrapper.vm.castVote({ option: `abstain` })
+          await wrapper.vm.castVote({ option: `Abstain` })
 
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitVote`, { option: `abstain`, proposalId: `1` }]
+            [`submitVote`, { option: `Abstain`, proposal_id: `1` }]
           ])
 
           expect($store.commit.mock.calls).toEqual([
@@ -204,10 +204,23 @@ describe(`PageProposal`, () => {
             }
           })
 
-          await wrapper.vm.deposit({ amount: 15 })
+          let amount = [
+            {
+              amount: `15`,
+              denom: `atom`
+            }
+          ]
+
+          await wrapper.vm.deposit({ amount })
 
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitDeposit`, { amount: 15, proposalId: `2` }]
+            [
+              `submitDeposit`,
+              {
+                amount,
+                proposal_id: `2`
+              }
+            ]
           ])
 
           expect($store.commit.mock.calls).toEqual([
@@ -243,11 +256,23 @@ describe(`PageProposal`, () => {
               status: { message: `message` }
             }
           })
+          let amount = [
+            {
+              amount: `9`,
+              denom: `atom`
+            }
+          ]
 
-          await wrapper.vm.deposit({ amount: 9 })
+          await wrapper.vm.deposit({ amount })
 
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitDeposit`, { amount: 9, proposalId: `2` }]
+            [
+              `submitDeposit`,
+              {
+                amount,
+                proposal_id: `2`
+              }
+            ]
           ])
 
           expect($store.commit.mock.calls).toEqual([
