@@ -2,7 +2,7 @@
 
 const release = require(`../../../tasks/publish`)
 
-test(`createNotes`, () => {
+it(`createNotes`, () => {
   const changeLog = `# Changelog
 
 All notable changes to this project will be documented in this file.

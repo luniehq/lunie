@@ -43,6 +43,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library to 0.4.1 @faboweb
 * [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library @faboweb
 * [\#1410](https://github.com/cosmos/voyager/issues/1410) removed end undelegations as not needed in the SDK anymore
+* [\#1543](https://github.com/cosmos/voyager/issues/1543) updated unit tests to use `describe` and `it` instead of `test` @fedekunze
+*
 
 ### Fixed
 
