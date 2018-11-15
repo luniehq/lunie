@@ -1182,18 +1182,20 @@ module.exports = {
       }
     })
   },
-  async getGovernaceTxs(addr) {
-    return state.txs.filter(tx => {
-      let type = tx.tx.value.msg[0].type
+  async getGovernanceTxs(addr) {
+    return (
+      state.txs.filter(tx => {
+        let type = tx.tx.value.msg[0].type
 
-      if (type === `cosmos-sdk/MsgSubmitProposal`) {
-        return tx.tx.value.msg[0].value.proposer === addr
-      } else if (type === `cosmos-sdk/MsgDeposit`) {
-        return tx.tx.value.msg[0].value.depositer === addr
-      }
+        if (type === `cosmos-sdk/MsgSubmitProposal`) {
+          return tx.tx.value.msg[0].value.proposer === addr
+        } else if (type === `cosmos-sdk/MsgDeposit`) {
+          return tx.tx.value.msg[0].value.depositer === addr
+        }
 
-      return false
-    })
+        return false
+      }) || []
+    )
   },
   // exports to be used in tests
   state,
