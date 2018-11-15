@@ -185,6 +185,9 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
         req(`GET`, `/txs?tag=action='deposit'&tag=depositer='${addr}'`, true)()
       ]).then(([proposalTxs, depositTxs]) => [].concat(proposalTxs, depositTxs))
     },
+    getGovDepositParameters: req(`GET`, `/gov/parameters/deposit`, true),
+    getGovTallyingParameters: req(`GET`, `/gov/parameters/tallying`, true),
+    getGovVotingParameters: req(`GET`, `/gov/parameters/voting`, true),
     submitProposal: function(data) {
       return req(`POST`, `/gov/proposals`, true)(data)
     },
