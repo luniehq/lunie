@@ -259,6 +259,8 @@ function makeExecWithInputs(command, inputs = [], json = true) {
   let args = command.split(` `).slice(1)
   return new Promise((resolve, reject) => {
     const child = spawn(binary, args)
+
+    // needed so commands don't fail on Ubuntu
     child.stderr.on(`error`, console.error)
     child.stdout.on(`error`, console.error)
     child.stdin.on(`error`, console.error)
