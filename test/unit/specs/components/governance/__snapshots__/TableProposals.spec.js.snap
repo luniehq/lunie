@@ -1,0 +1,224 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableProposals has the expected html structure 1`] = `
+"<div>
+   <table>
+      <thead>
+         <tr class=\\"panel-sort-container\\">
+            <th class=\\"sort-by proposal_title\\">
+               <a class=\\"sort-by-link\\">Title</a>
+            </th>
+            <th class=\\"sort-by submit_block\\">
+               <a class=\\"sort-by-link\\">Submitted Block</a>
+            </th>
+            <th class=\\"sort-by yes_votes\\">
+               <a class=\\"sort-by-link\\">Yes</a>
+            </th>
+            <th class=\\"sort-by no_votes\\">
+               <a class=\\"sort-by-link\\">No</a>
+            </th>
+            <th class=\\"sort-by no_veto_votes\\">
+               <a class=\\"sort-by-link\\">No with Veto</a>
+            </th>
+            <th class=\\"sort-by abstain_votes\\">
+               <a class=\\"sort-by-link\\">Abstain</a>
+            </th>
+</tr>
+</thead>
+      <tbody>
+         <tr class=\\"li-proposal\\">
+            <td class=\\"li-proposal__value\\">
+               <span class=\\"validator-profile__status yellow\\"></span>
+               <h2>
+                  <a href=\\"#/governance/5\\" class=\\"\\">Custom text proposal</a>
+               </h2>
+               <p>
+                  custom text proposal description
+               </p>
+</td>
+            <td>
+               #10
+            </td>
+            <td class=\\"li-proposal__value yes\\">
+               0
+            </td>
+            <td class=\\"li-proposal__value no\\">
+               0
+            </td>
+            <td class=\\"li-proposal__value no_with_veto\\">
+               0
+            </td>
+            <td class=\\"li-proposal__value abstain\\">
+               0
+            </td>
+</tr>
+         <tr class=\\"li-proposal\\">
+            <td class=\\"li-proposal__value\\">
+               <span class=\\"validator-profile__status blue\\"></span>
+               <h2>
+                  <a href=\\"#/governance/2\\" class=\\"\\">VotingPeriod proposal</a>
+               </h2>
+               <p>
+                  custom text proposal description
+               </p>
+</td>
+            <td>
+               #10
+            </td>
+            <td class=\\"li-proposal__value yes\\">
+               0
+            </td>
+            <td class=\\"li-proposal__value no\\">
+               0
+            </td>
+            <td class=\\"li-proposal__value no_with_veto\\">
+               0
+            </td>
+            <td class=\\"li-proposal__value abstain\\">
+               0
+            </td>
+</tr>
+         <tr class=\\"li-proposal\\">
+            <td class=\\"li-proposal__value\\">
+               <span class=\\"validator-profile__status green\\"></span>
+               <h2>
+                  <a href=\\"#/governance/1\\" class=\\"\\">Proposal Title</a>
+               </h2>
+               <p>
+                  Proposal description
+               </p>
+</td>
+            <td>
+               #120
+            </td>
+            <td class=\\"li-proposal__value yes\\">
+               500
+            </td>
+            <td class=\\"li-proposal__value no\\">
+               25
+            </td>
+            <td class=\\"li-proposal__value no_with_veto\\">
+               10
+            </td>
+            <td class=\\"li-proposal__value abstain\\">
+               56
+            </td>
+</tr>
+</tbody>
+</table>
+</div>"
+`;
+
+exports[`TableProposals should filter the proposals 1`] = `
+<div>
+  <table>
+    <thead>
+      <tr
+        class="panel-sort-container"
+      >
+        <th
+          class="sort-by proposal_title"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Title
+          </a>
+        </th>
+        <th
+          class="sort-by submit_block"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Submitted Block
+          </a>
+        </th>
+        <th
+          class="sort-by yes_votes"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Yes
+          </a>
+        </th>
+        <th
+          class="sort-by no_votes"
+        >
+          <a
+            class="sort-by-link"
+          >
+            No
+          </a>
+        </th>
+        <th
+          class="sort-by no_veto_votes"
+        >
+          <a
+            class="sort-by-link"
+          >
+            No with Veto
+          </a>
+        </th>
+        <th
+          class="sort-by abstain_votes"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Abstain
+          </a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="li-proposal"
+      >
+        <td
+          class="li-proposal__value"
+        >
+          <span
+            class="validator-profile__status yellow"
+          />
+          <h2>
+            <a
+              class=""
+              href="#/governance/5"
+            >
+              Custom text proposal
+            </a>
+          </h2>
+          <p>
+            custom text proposal description
+          </p>
+        </td>
+        <td>
+          #10
+        </td>
+        <td
+          class="li-proposal__value yes"
+        >
+          0
+        </td>
+        <td
+          class="li-proposal__value no"
+        >
+          0
+        </td>
+        <td
+          class="li-proposal__value no_with_veto"
+        >
+          0
+        </td>
+        <td
+          class="li-proposal__value abstain"
+        >
+          0
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;

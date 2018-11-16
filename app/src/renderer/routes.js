@@ -3,35 +3,38 @@ function r(type, pageName) {
 }
 
 let common = r.bind(null, `common`)
-let govern = r.bind(null, `govern`)
+let governance = r.bind(null, `governance`)
 let staking = r.bind(null, `staking`)
 let wallet = r.bind(null, `wallet`)
 
 export default [
   {
-    path: `/proposals`,
-    name: `proposals`,
-    component: govern(`Proposals`)
+    path: `/governance`,
+    name: `Governance`,
+    component: governance(`Governance`),
+    redirect: `/governance/proposals`,
+    children: [
+      {
+        path: `proposals`,
+        name: `Proposals`,
+        component: require(`./components/governance/TabProposals`).default
+      }
+    ]
   },
-  { path: `/proposals/new`, component: govern(`ProposalsNew`) },
-  { path: `/proposals/new/adjust`, component: govern(`ProposalsNewAdjust`) },
-  { path: `/proposals/new/amend`, component: govern(`ProposalsNewAmend`) },
-  { path: `/proposals/new/create`, component: govern(`ProposalsNewCreate`) },
-  { path: `/proposals/new/text`, component: govern(`ProposalsNewText`) },
   {
-    path: `/proposals/new/upgrade`,
-    component: govern(`ProposalsNewUpgrade`)
+    path: `/governance/proposals/new`,
+    component: governance(`ProposalsNewText`)
   },
   {
-    path: `/proposals/:proposal`,
-    name: `proposal`,
-    component: govern(`Proposal`)
+    path: `/governance/:proposalId`,
+    name: `Proposal`,
+    component: require(`./components/governance/PageProposal`).default,
+    props: true
   },
-
   // STAKE
   {
     path: `/staking`,
-    name: `staking`,
+    name: `Staking`,
     component: staking(`Staking`),
     redirect: `/staking/my-delegations/`,
     children: [

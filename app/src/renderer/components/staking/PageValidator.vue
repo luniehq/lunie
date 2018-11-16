@@ -1,6 +1,6 @@
 <template lang="pug">
 tm-page(data-title="Validator")
-  template(slot="menu-body", v-if="config.devMode"): tm-balance
+  template(slot="menu-body"): tm-balance
   div(slot="menu"): tm-tool-bar
     router-link(to="/staking" exact): i.material-icons arrow_back
 
@@ -392,8 +392,12 @@ export default {
     }
   },
   watch: {
-    validator(validator) {
-      this.$store.dispatch(`getSelfBond`, validator)
+    validator: {
+      immediate: true,
+      handler(validator) {
+        if (!validator) return
+        this.$store.dispatch(`getSelfBond`, validator)
+      }
     }
   }
 }
@@ -448,6 +452,7 @@ export default {
         display inline-block
         font-size h1
         line-height h1
+        font-weight 400
         padding 0 0.5rem 0.5rem 0
 
       &__address
@@ -480,6 +485,9 @@ export default {
 
     &.green
       background var(--success)
+
+    &.blue
+      background var(--primary)
 
   &__status-and-title
     align-items center

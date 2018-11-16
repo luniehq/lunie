@@ -4,6 +4,7 @@ import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
 import num from "scripts/num"
 import { isEmpty } from "lodash"
+import b32 from "scripts/b32"
 export default ({ node }) => {
   const emptyState = {
     delegates: [],
@@ -57,10 +58,12 @@ export default ({ node }) => {
     },
     async updateSigningInfo({ commit }, validators) {
       for (let validator of validators) {
-        let signing_info = await node.queryValidatorSigningInfo(
-          validator.consensus_pubkey
-        )
-        if (!isEmpty(signing_info)) validator.signing_info = signing_info
+        if (validator.consensus_pubkey) {
+          let signing_info = await node.queryValidatorSigningInfo(
+            validator.consensus_pubkey
+          )
+          if (!isEmpty(signing_info)) validator.signing_info = signing_info
+        }
       }
       commit(`setDelegates`, validators)
     },
@@ -94,8 +97,10 @@ export default ({ node }) => {
     async getSelfBond({ commit }, validator) {
       if (validator.selfBond) return validator.selfBond
       else {
+        let hexAddr = b32.decode(validator.operator_address)
+        let operatorCosmosAddr = b32.encode(hexAddr, `cosmos`)
         let delegation = await node.queryDelegation(
-          validator.operator_address,
+          operatorCosmosAddr,
           validator.operator_address
         )
         let ratio = new BN(delegation.shares).div(

@@ -52,20 +52,20 @@ describe(`Module: Votes`, () => {
       await actions.submitVote(
         { rootState, dispatch },
         proposal.proposal_id,
-        votes[proposal.proposal_id].option
+        `yes`
       )
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
-          type: `submitVote`,
+          type: `submitProposalVote`,
           proposal_id: proposal.proposal_id,
           voter: addresses[0],
-          option: votes[proposal.proposal_id].option
+          option: `yes`
         }
       ])
 
       jest.runAllTimers()
-      expect(dispatch.mock.calls[i + 2]).toEqual([
+      expect(dispatch.mock.calls[i + proposals.length]).toEqual([
         `getProposalVotes`,
         proposal.proposal_id
       ])

@@ -1,5 +1,3 @@
-"use strict"
-
 /* mocking electron differently in one file apparently didn't work so I had to split the App tests in 2 files */
 
 jest.mock(
@@ -63,7 +61,7 @@ describe(`App without analytics`, () => {
       `https://localhost:8080`,
       `https://awesomenode.de:12345`,
       true
-    )
+    ])
     jest.resetModules()
   })
 

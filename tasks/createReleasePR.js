@@ -43,7 +43,7 @@ const createPullRequest = async ({ changeLog, token, tag, head }) => {
   })
 
   await octokit.pullRequests.create({
-    operator_address: `cosmos`,
+    owner: `cosmos`,
     repo: `voyager`,
     title: `automatic release created for ${tag}`,
     head,

@@ -1,5 +1,6 @@
 "use strict"
 
+import axios from "axios"
 import Vue from "vue"
 import Electron from "vue-electron"
 import Router from "vue-router"
@@ -70,7 +71,7 @@ async function main() {
   // TODO get from process.env
   let localLcdURL = `https://localhost:${lcdPort}`
   console.log(`Expecting lcd-server on port: ` + lcdPort)
-  node = Node(localLcdURL, config.node_lcd, config.mocked)
+  node = Node(axios, localLcdURL, config.node_lcd, config.mocked)
 
   store = Store({ node })
   store.dispatch(`loadTheme`)
@@ -86,14 +87,14 @@ async function main() {
     next()
   })
 
-  ipcRenderer.on(`error`, (event, error) => {
-    switch (error.code) {
+  ipcRenderer.on(`error`, (event, err) => {
+    switch (err.code) {
       case `NO_NODES_AVAILABLE`:
         store.commit(`setModalNoNodes`, true)
         break
       default:
         store.commit(`setModalError`, true)
-        store.commit(`setModalErrorMessage`, error.message)
+        store.commit(`setModalErrorMessage`, err.message)
     }
   })
   ipcRenderer.on(`approve-hash`, (event, hash) => {

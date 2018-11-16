@@ -60,7 +60,7 @@ function startRendererServer() {
   })
 }
 
-module.exports = async function(networkPath) {
+module.exports = async function(networkPath, extendedEnv = {}) {
   if (!fs.existsSync(networkPath)) {
     console.error(
       `The network configuration for the network you want to connect to doesn't exist. Have you run \`yarn build:testnets\` to download the latest configurations?`
@@ -87,6 +87,7 @@ module.exports = async function(networkPath) {
       GAIA_VERSION: gaiaVersion,
       VOYAGER_VERSION: voyagerVersion
     },
+    extendedEnv,
     process.env
   )
   let mainProcess = run(

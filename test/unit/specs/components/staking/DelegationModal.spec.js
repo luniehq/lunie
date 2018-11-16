@@ -86,6 +86,33 @@ test(`Delegation button submits delegation and closes modal`, () => {
   ])
 })
 
+test(`only allow maximum owned atoms`, () => {
+  const wrapper = Wrapper()
+
+  wrapper.find(`#amount`).element.value = 142
+  wrapper.find(`#amount`).trigger(`input`)
+  wrapper.update()
+  expect(wrapper.find(`#amount`).element.value).toBe(`100`)
+
+  wrapper.vm.onDelegation()
+
+  expect(wrapper.emittedByOrder()).toEqual([
+    {
+      name: `submitDelegation`,
+      args: [
+        {
+          amount: 100,
+          from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+        }
+      ]
+    },
+    {
+      name: `update:showDelegationModal`,
+      args: [false]
+    }
+  ])
+})
+
 test(`X button emits close signal`, () => {
   const wrapper = Wrapper()
   wrapper.vm.close()

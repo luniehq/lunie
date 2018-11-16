@@ -10,16 +10,18 @@ const fs = require(`fs-extra`)
 async function main() {
   const network = process.argv[2] || config.default_network
 
+  let extendedEnv = {}
+
   if (network === `local-testnet`) {
-    Object.assign(process.env, {
+    extendedEnv = {
       LCD_URL: `https://localhost:9070`,
       RPC_URL: `http://localhost:26657`
-    })
+    }
     startLocalNode()
   }
 
   // run Voyager in a development environment
-  let children = await runDev(`./app/networks/${network}/`)
+  let children = await runDev(`./app/networks/${network}/`, extendedEnv)
 
   // kill all development processes if master process fails
   process.on(`exit`, () => {
@@ -34,16 +36,11 @@ main().catch(function(err) {
 
 async function startLocalNode() {
   const TESTNET_NODE_FOLDER = path.join(userHome, `.gaiad-testnet`)
-  const osFolderName = (function() {
-    switch (process.platform) {
-      case `win32`:
-        return `windows_amd64`
-      case `darwin`:
-        return `darwin_amd64`
-      case `linux`:
-        return `linux_amd64`
-    }
-  })()
+  const osFolderName = {
+    win32: `windows_amd64`,
+    darwin: `darwin_amd64`,
+    linux: `linux_amd64`
+  }[process.platform]
   const gaiadFileName = process.platform === `win32` ? `gaiad.exe` : `gaiad`
   const gaiadPath = path.join(`./builds/Gaia`, osFolderName, gaiadFileName)
 

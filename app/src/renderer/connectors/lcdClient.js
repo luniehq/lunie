@@ -32,8 +32,6 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
 
   const keys = {
     add: req(`POST`, `/keys`),
-
-    // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prop data
     delete: argReq(`DELETE`, `/keys`),
 
     get: async key => {
@@ -189,13 +187,26 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
         true
       )()
     },
+    getGovernanceTxs: function(addr) {
+      return Promise.all([
+        req(
+          `GET`,
+          `/txs?tag=action='submit-proposal'&tag=proposer='${addr}'`,
+          true
+        )(),
+        req(`GET`, `/txs?tag=action='deposit'&tag=depositer='${addr}'`, true)()
+      ]).then(([proposalTxs, depositTxs]) => [].concat(proposalTxs, depositTxs))
+    },
+    getGovDepositParameters: req(`GET`, `/gov/parameters/deposit`, true),
+    getGovTallyingParameters: req(`GET`, `/gov/parameters/tallying`, true),
+    getGovVotingParameters: req(`GET`, `/gov/parameters/voting`, true),
     submitProposal: function(data) {
       return req(`POST`, `/gov/proposals`, true)(data)
     },
-    submitVote: function(proposalId, data) {
+    submitProposalVote: function(proposalId, data) {
       return req(`POST`, `/gov/proposals/${proposalId}/votes`, true)(data)
     },
-    submitDeposit: function(proposalId, data) {
+    submitProposalDeposit: function(proposalId, data) {
       return req(`POST`, `/gov/proposals/${proposalId}/deposits`, true)(data)
     },
     getGovernanceTxs: function(address) {

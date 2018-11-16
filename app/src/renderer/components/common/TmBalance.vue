@@ -25,8 +25,7 @@
         v-for="tab in tabs",
         :class="{'tab-selected': $route.name === tab}",
       )
-        span(v-if="$route.name === tab") {{ tab }}
-        router-link(v-else :to="{name: tab}") {{ tab }}
+        router-link(:to="{name: tab}") {{ tab }}
 </template>
 <script>
 import num from "scripts/num"
@@ -131,5 +130,7 @@ export default {
 
     &.tab-selected
       border-bottom 2px solid var(--tertiary)
-      color var(--bright)
+
+      a
+        color var(--bright)
 </style>

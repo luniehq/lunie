@@ -113,6 +113,7 @@ describe(`LCD Client`, () => {
 
     describe(`keys`, () => {
       it(`add`, async () => {
+        jest.spyOn(console, `error`).mockImplementation(() => {})
         expect(await client.keys.get(`foo`)).toEqual(undefined)
 
         await client.keys.add({
@@ -128,6 +129,8 @@ describe(`LCD Client`, () => {
           seed: `seed some thin`,
           type: `local`
         })
+
+        console.error.mockReset()
       })
 
       it(`delete`, async () => {
@@ -624,6 +627,225 @@ describe(`LCD Client`, () => {
             }
           ]
         ])
+      })
+    })
+
+    describe(`governance`, () => {
+      it(`fetches all governance proposals`, async () => {
+        axios.mockReturnValue({})
+        await client.queryProposals()
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/gov/proposals`
+            }
+          ]
+        ])
+      })
+
+      it(`queries a single proposal`, async () => {
+        axios.mockReturnValue({})
+        await client.queryProposal(1)
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/gov/proposals/1`
+            }
+          ]
+        ])
+      })
+
+      it(`queries a proposal votes`, async () => {
+        axios.mockReturnValue({})
+        await client.queryProposalVotes(1)
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/gov/proposals/1/votes`
+            }
+          ]
+        ])
+      })
+
+      it(`queries a proposal vote from an address`, async () => {
+        axios.mockReturnValue({})
+        await client.queryProposalVote(
+          1,
+          `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+        )
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/gov/proposals/1/votes/cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+            }
+          ]
+        ])
+      })
+
+      it(`queries a proposal deposits`, async () => {
+        axios.mockReturnValue({})
+        await client.queryProposalDeposits(1)
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/gov/proposals/1/deposits`
+            }
+          ]
+        ])
+      })
+
+      it(`queries a proposal deposit from an address`, async () => {
+        axios.mockReturnValue({})
+        await client.queryProposalDeposit(
+          1,
+          `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+        )
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/gov/proposals/1/deposits/cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+            }
+          ]
+        ])
+      })
+
+      it(`submits a new proposal`, async () => {
+        axios.mockReturnValue({})
+        await client.submitProposal(proposals[0])
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: proposals[0],
+              method: `POST`,
+              url: `http://remotehost/gov/proposals`
+            }
+          ]
+        ])
+      })
+
+      it(`submits a new vote to a proposal`, async () => {
+        axios.mockReturnValue({})
+        await client.submitProposalVote(proposals[0].proposal_id, votes[0])
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `POST`,
+              url: `http://remotehost/gov/proposals/1/votes`
+            }
+          ]
+        ])
+      })
+
+      it(`submits a new deposit to a proposal`, async () => {
+        axios.mockReturnValue({})
+        await client.submitProposalDeposit(
+          proposals[0].proposal_id,
+          deposits[0]
+        )
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `POST`,
+              url: `http://remotehost/gov/proposals/1/deposits`
+            }
+          ]
+        ])
+      })
+
+      it(`queries for governance txs`, async () => {
+        axios.mockReturnValue({})
+        await client.getGovernanceTxs(lcdClientMock.addresses[0])
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/txs?tag=action='submit-proposal'&tag=proposer='${
+                lcdClientMock.addresses[0]
+              }'`
+            }
+          ],
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/txs?tag=action='deposit'&tag=depositer='${
+                lcdClientMock.addresses[0]
+              }'`
+            }
+          ]
+        ])
+      })
+
+      describe(`Parameters`, function() {
+        it(`queries for governance deposit parameters`, async () => {
+          axios.mockReturnValue({})
+          await client.getGovDepositParameters()
+
+          expect(axios.mock.calls).toEqual([
+            [
+              {
+                data: undefined,
+                method: `GET`,
+                url: `http://remotehost/gov/parameters/deposit`
+              }
+            ]
+          ])
+        })
+
+        it(`queries for governance tallying parameters`, async () => {
+          axios.mockReturnValue({})
+          await client.getGovTallyingParameters()
+
+          expect(axios.mock.calls).toEqual([
+            [
+              {
+                data: undefined,
+                method: `GET`,
+                url: `http://remotehost/gov/parameters/tallying`
+              }
+            ]
+          ])
+        })
+
+        it(`queries for governance voting parameters`, async () => {
+          axios.mockReturnValue({})
+          await client.getGovVotingParameters()
+
+          expect(axios.mock.calls).toEqual([
+            [
+              {
+                data: undefined,
+                method: `GET`,
+                url: `http://remotehost/gov/parameters/voting`
+              }
+            ]
+          ])
+        })
       })
     })
 
