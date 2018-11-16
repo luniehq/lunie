@@ -771,8 +771,8 @@ module.exports = {
       }
 
       // check if there's an existing redelegation
-      let summary = this.getDelegator(tx.delegator_addr)
-      let red = summary.redelegations.find(
+      let redelegations = this.getRedelegations(tx.delegator_addr)
+      let red = redelegations.find(
         red =>
           red.validator_src_addr === tx.validator_src_addr &&
           red.validator_dst_addr === tx.validator_dst_addr

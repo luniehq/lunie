@@ -801,8 +801,10 @@ describe(`LCD Client Mock`, () => {
       ]
     })
 
-    let summary = await client.getDelegator(lcdClientMock.addresses[0])
-    expect(summary.redelegations[0].balance.amount).toBe(`10`)
+    let redelegations = await client.getRedelegations(
+      lcdClientMock.addresses[0]
+    )
+    expect(redelegations[0].balance.amount).toBe(`10`)
   })
 
   it(`queries for staking txs`, async () => {

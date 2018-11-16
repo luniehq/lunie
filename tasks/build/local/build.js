@@ -9,7 +9,7 @@ const appDir = path.resolve(__dirname + `/../../../`)
 
 let { exec } = require(`child_process`)
 
-let { initNode, createKey, initGenesis } = require(`../../gaia-wrapper.js`)
+let { initNode, createKey, initGenesis } = require(`../../gaia.js`)
 
 const optionsSpecification = {
   overwrite: [`overwrite ~/.gaiad-testnet/`, false],

@@ -22,7 +22,8 @@ let nodeBinary =
   path.join(__dirname, `../builds/Gaia/`, osFolderName, `gaiad`)
 const defaultStartPort = 26656
 
-module.exports.initNode = async function initNode(
+// initialise the node config folder and genesis
+async function initNode(
   chainId,
   moniker,
   homeDir,
@@ -36,30 +37,25 @@ module.exports.initNode = async function initNode(
   await makeExecWithInputs(command, [password])
 }
 
-module.exports.createKey = async function createKey(
-  name,
-  password,
-  clientHomeDir
-) {
-  let command = `${cliBinary} keys add ${name} --home ${clientHomeDir} -o json`
+async function createKey({ keyName, password, clientHomeDir }) {
+  let command = `${cliBinary} keys add ${keyName} --home ${clientHomeDir} -o json`
   return makeExecWithInputs(command, [password, password])
 }
 
-module.exports.getKeys = async function getKeys(clientHomeDir) {
+async function getKeys(clientHomeDir) {
   let command = `${cliBinary} keys list --home ${clientHomeDir} -o json`
   let accounts = await makeExec(command)
   return JSON.parse(accounts)
 }
 
 // init a genesis file with an account that has funds
-module.exports.initGenesis = async function initGenesis(
-  password,
-  address,
-  homeDir,
-  clientHomeDir,
-  operatorKeyName
+// creates a key to access this address in the clientHomeDir
+async function initGenesis(
+  { keyName, password, clientHomeDir }, // operator sign info
+  address, // this address will have funds after initialization
+  nodeHomeDir
 ) {
-  const genesisLocation = path.join(homeDir, `config/genesis.json`)
+  const genesisLocation = path.join(nodeHomeDir, `config/genesis.json`)
   let genesis = fs.readJSONSync(genesisLocation)
   console.log(
     `Adding tokens to genesis at ${genesisLocation} for address ${address}`
@@ -81,93 +77,86 @@ module.exports.initGenesis = async function initGenesis(
   fs.writeJSONSync(genesisLocation, genesis)
 
   await makeExecWithInputs(
-    `${nodeBinary} gentx --name ${operatorKeyName} --home ${homeDir} --home-client ${clientHomeDir}`,
+    `${nodeBinary} gentx --name ${keyName} --home ${nodeHomeDir} --home-client ${clientHomeDir}`,
     [password]
   )
 
-  await makeExec(`${nodeBinary} collect-gentxs --home ${homeDir}`)
+  await makeExec(`${nodeBinary} collect-gentxs --home ${nodeHomeDir}`)
 
   genesis = fs.readJSONSync(genesisLocation)
-  console.log(`X`, genesis)
   return genesis
 }
 
-module.exports.getGenesis = function getGenesis(homeDir) {
+function getGenesis(homeDir) {
   const genesisLocation = path.join(homeDir, `config/genesis.json`)
   let genesis = fs.readJSONSync(genesisLocation)
   return genesis
 }
 
 // make it so that one initialized node will become a validator
-module.exports.makeValidator = async function makeValidator(
+// the operator of that validator needs to declare the validator
+// therefor the operator needs funds to do initial staking
+// therefor we need to send some tokens from another account to the operator account
+async function makeValidator(
+  mainSignInfo, // main account that holds funds
   nodeHome,
   cliHome,
-  number,
-  accountName // account name that has funds
+  moniker,
+  operatorSignInfo = {
+    keyName: `local`,
+    password: `1234567890`,
+    clientHomeDir: cliHome
+  }
 ) {
-  let newNodeHome = nodeHome + `_` + number
-  let newCliHome = cliHome + `_` + number
-
-  let valPubKey = await module.exports.getValPubKey(newNodeHome)
-  let { address: operatorAddress } = await module.exports.createKey(
-    `local`,
-    `1234567890`,
-    newCliHome
-  )
-  await module.exports.sendTokens(
-    cliHome + `_1`, // main validator home with the key with funds
-    `10steak`,
-    accountName,
-    operatorAddress
-  )
+  let valPubKey = await getValPubKey(nodeHome)
+  let { address: operatorAddress } = await createKey(operatorSignInfo)
+  await sendTokens(mainSignInfo, `10steak`, operatorAddress)
   while (true) {
     console.log(`Waiting for funds to delegate`)
     try {
-      await sleep(1000) // TODO identify why this timeout is needed
-      await module.exports.getBalance(newCliHome, operatorAddress)
+      await sleep(1000)
+      await getBalance(cliHome, operatorAddress)
     } catch (err) {
-      console.error(err)
+      console.error(err) // kept in here to see if something unexpected fails
       continue
     }
     break
   }
-  await module.exports.declareValidator(
-    newCliHome,
-    `local_${number}`,
+  await declareValidator(
+    operatorSignInfo, // key name that holds funds and is the same address as the operator address
+    moniker,
     valPubKey,
-    operatorAddress,
-    `local` // key name that holds funds and is the same address as the operator address
+    operatorAddress
   )
 }
 
-module.exports.getValPubKey = async function getValPubKey(node_home) {
+async function getValPubKey(node_home) {
   let command = `${nodeBinary} tendermint show-validator --home ${node_home}`
   const stdout = await makeExec(command)
   return stdout.trim()
 }
-module.exports.getNodeId = async function getNodeId(node_home) {
+async function getNodeId(node_home) {
   let command = `${nodeBinary} tendermint show-node-id --home ${node_home}`
   const stdout = await makeExec(command)
   return stdout.trim()
 }
-module.exports.getBalance = async function getBalance(cliHome, address) {
+async function getBalance(cliHome, address) {
   let command = `${cliBinary} query account ${address} --home ${cliHome} --output "json" --trust-node`
   const stdout = await makeExec(command)
   return JSON.parse(stdout.trim())
 }
 
 // sends a create-validator tx
-module.exports.declareValidator = async function declareValidator(
-  mainCliHome,
+async function declareValidator(
+  { keyName, password, clientHomeDir }, // operatorSignInfo
   moniker,
   valPubKey,
-  operatorAddress,
-  operatorAccountName // key name that holds funds and is the same address as the operator address
+  operatorAddress
 ) {
   let command =
     `${cliBinary} tx create-validator` +
-    ` --home ${mainCliHome}` +
-    ` --from ${operatorAccountName}` +
+    ` --home ${clientHomeDir}` +
+    ` --from ${keyName}` +
     ` --amount=10steak` +
     ` --pubkey=${valPubKey}` +
     ` --address-delegator=${operatorAddress}` +
@@ -178,43 +167,34 @@ module.exports.declareValidator = async function declareValidator(
     ` --commission-rate=0` +
     ` --json`
 
-  return makeExecWithInputs(command, [`1234567890`])
+  return makeExecWithInputs(command, [password])
 }
 
-module.exports.sendTokens = async function sendTokens(
-  mainCliHome,
-  tokenString,
-  fromAccountName,
+async function sendTokens(
+  { keyName, password, clientHomeDir }, // senderSignInfo
+  tokenString, // like "10stake" <- amount followed by denomination
   toAddress
 ) {
   let command =
     `${cliBinary} tx send` +
-    ` --home ${mainCliHome}` +
-    ` --from ${fromAccountName}` +
+    ` --home ${clientHomeDir}` +
+    ` --from ${keyName}` +
     ` --amount=${tokenString}` +
     ` --to=${toAddress}` +
     ` --chain-id=test_chain`
-  console.log(command)
-  const child = await spawn(command, { shell: true })
-  child.stderr.pipe(process.stderr)
-  child.stdin.write(`1234567890\n`) // unlock signing key
-  return new Promise((resolve, reject) => {
-    child.stdout.once(`data`, resolve)
-    child.stderr.once(`data`, reject)
-  })
+  return makeExecWithInputs(command, [password], false)
 }
 
 // start a node and connect it to nodeOne
 // nodeOne is used as a persistent peer for all the other nodes
 // wait for blocks to show as a proof, the node is running correctly
-module.exports.startLocalNode = function startLocalNode(
-  nodeHome, //prefix
-  number,
+function startLocalNode(
+  nodeHome,
+  number, // number is used to prevent conflicting ports when running multiple nodes
   nodeOneId = ``
 ) {
   return new Promise((resolve, reject) => {
-    const thisNodeHome = `${nodeHome}_${number}`
-    let command = `${nodeBinary} start --home ${thisNodeHome}`
+    let command = `${nodeBinary} start --home ${nodeHome}`
     if (number > 1) {
       // setup different ports
       command += ` --p2p.laddr=tcp://0.0.0.0:${defaultStartPort -
@@ -228,7 +208,7 @@ module.exports.startLocalNode = function startLocalNode(
     const localnodeProcess = spawn(command, { shell: true })
 
     // log output for debugging
-    const logPath = path.join(thisNodeHome, `process.log`)
+    const logPath = path.join(nodeHome, `process.log`)
     console.log(`Redirecting node ` + number + ` output to ` + logPath)
     fs.createFileSync(logPath)
     let logStream = fs.createWriteStream(logPath, { flags: `a` })
@@ -260,6 +240,7 @@ module.exports.startLocalNode = function startLocalNode(
   })
 }
 
+// execute command and return stdout
 function makeExec(command) {
   console.log(`$ ` + command)
   return new Promise((resolve, reject) => {
@@ -270,7 +251,8 @@ function makeExec(command) {
   })
 }
 
-function makeExecWithInputs(command, inputs = []) {
+// execute command, write all inputs followed by enter to stdin and return stdout
+function makeExecWithInputs(command, inputs = [], json = true) {
   console.log(`$ ` + command)
 
   let binary = command.split(` `)[0]
@@ -287,7 +269,7 @@ function makeExecWithInputs(command, inputs = []) {
     child.stdout.once(`data`, data => {
       if (resolved) return
       resolved = true
-      resolve(JSON.parse(data))
+      resolve(json ? JSON.parse(data) : data)
     })
 
     child.once(`exit`, code => {
@@ -296,4 +278,19 @@ function makeExecWithInputs(command, inputs = []) {
       code === 0 ? resolve() : reject(`Process exited with code ${code}`)
     })
   })
+}
+
+module.exports = {
+  initNode,
+  createKey,
+  getKeys,
+  initGenesis,
+  getGenesis,
+  startLocalNode,
+  makeValidator,
+  getNodeId,
+
+  cliBinary,
+  nodeBinary,
+  defaultStartPort
 }

@@ -16,29 +16,14 @@ let {
   getGenesis,
   startLocalNode,
   makeValidator,
-  getNodeId
-} = require(`../../tasks/gaiacli.js`)
+  getNodeId,
 
-let app, cliHome, nodeHome, started, crashed
+  cliBinary,
+  nodeBinary,
+  defaultStartPort
+} = require(`../../tasks/gaia.js`)
 
-const osFolderName = (function() {
-  switch (process.platform) {
-    case `win32`:
-      return `windows_amd64`
-    case `darwin`:
-      return `darwin_amd64`
-    case `linux`:
-      return `linux_amd64`
-  }
-})()
-let cliBinary =
-  process.env.BINARY_PATH ||
-  join(__dirname, `../../builds/Gaia/`, osFolderName, `gaiacli`)
-
-let nodeBinary =
-  process.env.NODE_BINARY_PATH ||
-  join(__dirname, `../../builds/Gaia/`, osFolderName, `gaiad`)
-const defaultStartPort = 26656
+let app, started, crashed
 
 /*
 * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
@@ -55,56 +40,64 @@ function launch(t) {
       console.log(`using cli binary`, cliBinary)
       console.log(`using node binary`, nodeBinary)
 
-      cliHome = join(testDir, `cli_home`)
-      nodeHome = join(testDir, `node_home`)
+      const cliHomePrefix = join(testDir, `cli_home`)
+      const nodeHomePrefix = join(testDir, `node_home`)
 
       fs.removeSync(`testArtifacts`)
 
       // setup first node
-      await initLocalNode(nodeHome, 1)
-      const nodeOneHome = nodeHome + `_1`
-      const nodeOneCliHome = cliHome + `_1`
+      const nodeOneHome = nodeHomePrefix + `_1`
+      const nodeOneCliHome = cliHomePrefix + `_1`
       const operatorKeyName = `testkey`
       console.error(`ui home: ${nodeOneCliHome}`)
       console.error(`node home: ${nodeOneHome}`)
 
-      // let genesis = fs.readJSONSync(join(nodeOneHome, `config/genesis.json`))
-      // fs.writeJSONSync(join(nodeOneCliHome, `genesis.json`), genesis)
+      await initLocalNode(nodeOneHome, 1)
       const nodeOneId = await getNodeId(nodeOneHome)
       reduceTimeouts(nodeOneHome)
       disableStrictAddressbook(nodeOneHome)
-      await saveVersion(nodeHome + `_1`)
+      await saveVersion(nodeHomePrefix + `_1`)
 
       // create address to delegate staking tokens to 2nd and 3rd validator
-      let { address } = await createKey(
-        operatorKeyName,
-        `1234567890`,
-        nodeOneCliHome
-      )
+      let mainAccountSignInfo = {
+        keyName: operatorKeyName,
+        password: `1234567890`,
+        clientHomeDir: nodeOneCliHome
+      }
+      let { address } = await createKey(mainAccountSignInfo)
       const genesis = await initGenesis(
-        `1234567890`,
+        mainAccountSignInfo,
         address,
-        nodeOneHome,
-        nodeOneCliHome,
-        operatorKeyName
+        nodeOneHome
       )
 
       // wait till the first node produces blocks
-      await startLocalNode(nodeHome, 1)
+      await startLocalNode(nodeOneHome, 1)
 
       // setup additional nodes
-      await initSecondaryLocalNode(nodeHome, 2, genesis, address)
-      await initSecondaryLocalNode(nodeHome, 3, genesis, address)
+      await initSecondaryLocalNode(`${nodeHomePrefix}_2`, 2, genesis, address)
+      await initSecondaryLocalNode(`${nodeHomePrefix}_3`, 3, genesis, address)
 
+      // start secondary nodes and connect to node one
       // wait until all nodes are showing blocks, so we know they are running
-      await startLocalNode(nodeHome, 2, nodeOneId)
-      await startLocalNode(nodeHome, 3, nodeOneId)
+      await startLocalNode(`${nodeHomePrefix}_2`, 2, nodeOneId)
+      await startLocalNode(`${nodeHomePrefix}_3`, 3, nodeOneId)
       console.log(`Started local nodes.`)
 
       // make our secondary nodes also to validators
-      await makeValidator(nodeHome, cliHome, 2, operatorKeyName, address)
-      await makeValidator(nodeHome, cliHome, 3, operatorKeyName, address)
-      console.log(`Declared secondary nodes to be a validator.`)
+      await makeValidator(
+        mainAccountSignInfo,
+        `${nodeHomePrefix}_2`,
+        `${cliHomePrefix}_2`,
+        `local_2`
+      )
+      await makeValidator(
+        mainAccountSignInfo,
+        `${nodeHomePrefix}_3`,
+        `${cliHomePrefix}_3`,
+        `local_3`
+      )
+      console.log(`Declared secondary nodes to be validators.`)
 
       app = new Application({
         path: electron,
@@ -120,7 +113,7 @@ function launch(t) {
           NODE_ENV: `production`,
           PREVIEW: `true`,
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
-          COSMOS_HOME: cliHome,
+          COSMOS_HOME: cliHomePrefix,
           COSMOS_NETWORK: join(nodeOneHome, `config`),
           COSMOS_MOCKED: false, // the e2e tests expect mocking to be switched off
           BINARY_PATH: cliBinary,
@@ -132,7 +125,11 @@ function launch(t) {
       await startApp(app)
       await stop(app)
 
-      let accounts = await setupAccounts(nodeOneCliHome, join(cliHome, `lcd`))
+      // setup additional accounts for testing
+      let accounts = await setupAccounts(
+        nodeOneCliHome,
+        join(cliHomePrefix, `lcd`)
+      )
 
       await startApp(app, `.tm-session-title=Sign In`)
       t.ok(app.isRunning(), `app is running`)
@@ -145,7 +142,7 @@ function launch(t) {
 
       resolve({
         app,
-        cliHome,
+        cliHomePrefix,
         accounts
       })
     })
@@ -163,10 +160,15 @@ test.onFinish(async () => {
 
 async function setupAccounts(nodeOneClientDir, voyagerCLIDir) {
   // use the master account that holds funds from node 1
+  // to use it, we copy the key database from node one to our Voyager cli config folde
   fs.copySync(nodeOneClientDir, voyagerCLIDir)
 
   // this account is later used to send funds to, to test token sending
-  await createKey(`testreceiver`, `1234567890`, voyagerCLIDir)
+  await createKey({
+    keyName: `testreceiver`,
+    password: `1234567890`,
+    clientHomeDir: voyagerCLIDir
+  })
 
   let accounts = await getKeys(voyagerCLIDir)
   console.log(`setup test accounts`, accounts)
@@ -272,21 +274,17 @@ async function handleCrash(app, error) {
 }
 
 async function initLocalNode(nodeHome, number = 1) {
-  const home = `${nodeHome}_${number}`
+  await initNode(`test_chain`, `local_${number}`, nodeHome, `1234567890`, true)
 
-  await initNode(`test_chain`, `local_${number}`, home, `1234567890`, true)
-
-  return getGenesis(home)
+  return getGenesis(nodeHome)
 }
 
 // init a node and define it as a validator
 async function initSecondaryLocalNode(nodeHome, number, mainGenesis) {
-  let newNodeHome = nodeHome + `_` + number
-
   await initLocalNode(nodeHome, number)
-  fs.writeJSONSync(join(newNodeHome, `config/genesis.json`), mainGenesis)
-  reduceTimeouts(newNodeHome)
-  disableStrictAddressbook(newNodeHome)
+  fs.writeJSONSync(join(nodeHome, `config/genesis.json`), mainGenesis)
+  reduceTimeouts(nodeHome)
+  disableStrictAddressbook(nodeHome)
 }
 
 // declare candidacy for node

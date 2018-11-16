@@ -575,7 +575,7 @@ describe(`LCD Client`, () => {
 
       it(`submits a new vote to a proposal`, async () => {
         axios.mockReturnValue({})
-        await client.submitVote(proposals[0].proposal_id, votes[0])
+        await client.submitProposalVote(proposals[0].proposal_id, votes[0])
 
         expect(axios.mock.calls).toEqual([
           [
@@ -590,7 +590,10 @@ describe(`LCD Client`, () => {
 
       it(`submits a new deposit to a proposal`, async () => {
         axios.mockReturnValue({})
-        await client.submitDeposit(proposals[0].proposal_id, deposits[0])
+        await client.submitProposalDeposit(
+          proposals[0].proposal_id,
+          deposits[0]
+        )
 
         expect(axios.mock.calls).toEqual([
           [
@@ -612,7 +615,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?tag=action=submit-proposal&proposer='${
+              url: `http://remotehost/txs?tag=action='submit-proposal'&tag=proposer='${
                 lcdClientMock.addresses[0]
               }'`
             }
@@ -621,7 +624,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?tag=action=deposit&depositer='${
+              url: `http://remotehost/txs?tag=action='deposit'&tag=depositer='${
                 lcdClientMock.addresses[0]
               }'`
             }
