@@ -16,6 +16,8 @@ test(`sign in`, async function(t) {
   let { app } = await getApp(t)
   await refresh(app)
   let el = (...args) => app.client.$(...args)
+  app.browserWindow.setBounds({ x: 0, y: 0, width: 1600, height: 1024 })
+  app.browserWindow.setSize(1600, 1024)
   // clicking the button does fail in webdriver as there is no actual click handler on the button
   async function clickContinue() {
     return app.client.submitForm(`.tm-session form`)
@@ -163,6 +165,8 @@ test(`sign in`, async function(t) {
 
   t.test(`sign out`, async function(t) {
     await refresh(app)
+    app.browserWindow.setBounds({ x: 0, y: 0, width: 1600, height: 1024 })
+    app.browserWindow.setSize(1600, 1024)
     await login(app, `testkey`)
     await app.client.waitForExist(`#signOut-btn`, 1000)
     await app.client.$(`#signOut-btn`).click()

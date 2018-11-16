@@ -555,6 +555,8 @@ module.exports = {
     console.log(`restarting app`)
     await stop(app)
     await startApp(app, awaitingSelector)
+    app.browserWindow.setBounds({ x: 0, y: 0, width: 1600, height: 1024 })
+    app.browserWindow.setSize(1600, 1024)
   },
   refresh: async function(app, awaitingSelector = `.tm-session-title=Sign In`) {
     console.log(`refreshing app`)
