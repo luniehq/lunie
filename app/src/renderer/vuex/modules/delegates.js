@@ -80,10 +80,8 @@ export default ({ node }) => {
       // the tokens and shares are currently served in a weird format that is a amino representation of a float value
       validators = validators.map(validator => {
         return Object.assign(JSON.parse(JSON.stringify(validator)), {
-          tokens: ratToBigNumber(validator.tokens).toString(),
-          delegator_shares: ratToBigNumber(
-            validator.delegator_shares
-          ).toString()
+          tokens: validator.tokens,
+          delegator_shares: validator.delegator_shares
         })
       })
 
