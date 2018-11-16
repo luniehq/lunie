@@ -119,12 +119,10 @@ exports[`PageWallet has the expected html structure 1`] = `
               </i>
             </a>
             <a
-              class="settings"
-              href="#/preferences"
+              id="settings"
             >
               <i
                 class="material-icons"
-                id="settings"
               >
                 settings
               </i>
@@ -546,12 +544,10 @@ exports[`PageWallet should filter the balances 1`] = `
               </i>
             </a>
             <a
-              class="settings"
-              href="#/preferences"
+              id="settings"
             >
               <i
                 class="material-icons"
-                id="settings"
               >
                 settings
               </i>

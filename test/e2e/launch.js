@@ -114,7 +114,6 @@ function launch(t) {
       await stop(app)
 
       let accounts = await setupAccounts(initValues)
-
       await startApp(app, `.tm-session-title=Sign In`)
       t.ok(app.isRunning(), `app is running`)
 
@@ -208,6 +207,12 @@ async function writeLogs(app, location) {
 async function startApp(app, awaitingSelector = `.tm-session`) {
   console.log(`Starting app`)
   await app.start()
+  if (!app.browserWindow) {
+    console.log(`No browser window`)
+    return
+  }
+  app.browserWindow.setBounds({ x: 0, y: 0, width: 1600, height: 1024 })
+  app.browserWindow.setSize(1600, 1024)
 
   await app.client.waitForExist(awaitingSelector, 10 * 1000).catch(async e => {
     await handleCrash(app, e)

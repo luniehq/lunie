@@ -14,7 +14,6 @@ let { openMenu, login, sleep } = require(`./common.js`)
 
 test(`sign in`, async function(t) {
   let { app } = await getApp(t)
-
   await refresh(app)
   let el = (...args) => app.client.$(...args)
   // clicking the button does fail in webdriver as there is no actual click handler on the button
@@ -167,7 +166,6 @@ test(`sign in`, async function(t) {
     await login(app, `testkey`)
     await app.client.waitForExist(`#signOut-btn`, 1000)
     await app.client.$(`#signOut-btn`).click()
-
     await app.client.waitForExist(`.tm-session`, 1000)
 
     t.end()
