@@ -43,9 +43,13 @@ cli(optionsSpecification, async options => {
 
     const chainId = `local-testnet`
     const moniker = `local`
-    const operatorKeyName = `local`
     const clientHome = `./builds/testnets/local-testnet/lcd`
     const nodeHome = `${homeDir}/.gaiad-testnet`
+    const defaultAccountInfo = {
+      keyName: `local`,
+      password: options.password,
+      clientHomeDir: clientHome
+    }
     await initNode(
       chainId,
       moniker,
@@ -53,14 +57,8 @@ cli(optionsSpecification, async options => {
       options.password,
       options.overwrite
     )
-    const { address } = await createKey(`local`, options.password, clientHome)
-    await initGenesis(
-      options.password,
-      address,
-      nodeHome,
-      clientHome,
-      operatorKeyName
-    )
+    const { address } = await createKey(defaultAccountInfo)
+    await initGenesis(defaultAccountInfo, address, nodeHome)
     await moveFiles(options, environment)
     console.log(`\n    🎉  SUCCESS 🎉\n`)
     console.log(
@@ -68,8 +66,8 @@ cli(optionsSpecification, async options => {
   yarn start local-testnet
 
 Default account:
-  username: 'local'
-  password: '1234567890'
+  username: '${defaultAccountInfo.keyName}'
+  password: '${defaultAccountInfo.password}'
 `
     )
   } catch (error) {

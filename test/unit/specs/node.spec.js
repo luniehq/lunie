@@ -33,19 +33,19 @@ describe(`Connector`, () => {
   })
 
   it(`should hold the lcdPort`, () => {
-    let node = Node(axios, localLcdURL, remoteLcdURL)
+    let node = Node(localLcdURL, remoteLcdURL)
     expect(node.remoteLcdURL).toBe(remoteLcdURL)
     expect(node.localLcdURL).toBe(localLcdURL)
   })
 
   it(`should setup the connectors`, () => {
-    let node = Node(axios, localLcdURL, remoteLcdURL)
+    let node = Node(localLcdURL, remoteLcdURL)
     expect(node.fooRpc).toBe(`rpcBar`)
     expect(node.fooLcd()).toBe(`lcdBar`)
   })
 
   it(`should setup the mock connectors`, () => {
-    let node = Node(axios, localLcdURL, remoteLcdURL, true)
+    let node = Node(localLcdURL, remoteLcdURL, true)
     expect(node.fooRpc).toBe(`rpcBarMock`)
     expect(node.fooLcd()).toBe(`lcdBarMock`)
   })
