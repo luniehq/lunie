@@ -190,7 +190,7 @@ async function sendTokens(
 // wait for blocks to show as a proof, the node is running correctly
 function startLocalNode(
   nodeHome,
-  number, // number is used to prevent conflicting ports when running multiple nodes
+  number = 1, // number is used to prevent conflicting ports when running multiple nodes
   nodeOneId = ``
 ) {
   return new Promise((resolve, reject) => {
