@@ -44,4 +44,9 @@ describe(`VmToolBar`, () => {
     expect(store.state.user.history.length).toBe(0)
     expect(router.currentRoute.fullPath).toBe(`/`)
   })
+
+  it(`redirects to preferences`, () => {
+    wrapper.vm.goToPreferences()
+    expect(router.currentRoute.fullPath).toBe(`/preferences`)
+  })
 })
