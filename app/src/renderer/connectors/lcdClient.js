@@ -19,11 +19,6 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
   // to the path (/foo/{arg}/...)
   function argReq(method, prefix, suffix = ``, useRemote) {
     return function(args, data) {
-      // `args` can either be a single value or an array
-      if (Array.isArray(args)) {
-        args = args.join(`/`)
-      }
-
       return request(method, `${prefix}/${args}${suffix}`, data, useRemote)
     }
   }
@@ -186,16 +181,6 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
         `/gov/proposals/${proposalId}/deposits/${address}`,
         true
       )()
-    },
-    getGovernanceTxs: function(addr) {
-      return Promise.all([
-        req(
-          `GET`,
-          `/txs?tag=action='submit-proposal'&tag=proposer='${addr}'`,
-          true
-        )(),
-        req(`GET`, `/txs?tag=action='deposit'&tag=depositer='${addr}'`, true)()
-      ]).then(([proposalTxs, depositTxs]) => [].concat(proposalTxs, depositTxs))
     },
     getGovDepositParameters: req(`GET`, `/gov/parameters/deposit`, true),
     getGovTallyingParameters: req(`GET`, `/gov/parameters/tallying`, true),
