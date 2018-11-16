@@ -1,6 +1,5 @@
 "use strict"
 
-import axios from "axios"
 import Vue from "vue"
 import Electron from "vue-electron"
 import Router from "vue-router"
@@ -13,7 +12,6 @@ import App from "./App"
 import routes from "./routes"
 import Node from "./connectors/node"
 import Store from "./vuex/store"
-const https = require(`https`)
 
 const config = remote.getGlobal(`config`)
 
@@ -73,10 +71,7 @@ async function main() {
   let localLcdURL = `https://localhost:${lcdPort}`
   console.log(`Expecting lcd-server on port: ` + lcdPort)
 
-  const axiosInstance = axios.create({
-    httpsAgent: new https.Agent({ ca: config.ca })
-  })
-  node = Node(axiosInstance, localLcdURL, config.node_lcd, config.mocked)
+  node = Node(localLcdURL, config.node_lcd, config.mocked)
 
   store = Store({ node })
   store.dispatch(`loadTheme`)
