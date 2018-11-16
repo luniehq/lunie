@@ -6,11 +6,11 @@
 
 const release = require(`../../../../tasks/createReleasePR`)
 
-test(`bumpVersion`, () => {
+it(`bumps version`, () => {
   expect(release.bumpVersion(`0.6.1`)).toEqual(`0.6.2`)
 })
 
-test(`updateChangeLog`, () => {
+it(`updates CHANGELOG`, () => {
   const previous = `# Changelog
 
 All notable changes to this project will be documented in this file.
@@ -43,7 +43,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   expect(release.updateChangeLog(previous, newVersion, now)).toEqual(updated)
 })
 
-test(`updatePackageJson`, () => {
+it(`updates package.json`, () => {
   const previous = {
     name: `cosmos-voyager`,
     productName: `Cosmos Voyager`,

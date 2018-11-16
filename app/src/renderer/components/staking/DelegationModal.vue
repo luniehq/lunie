@@ -37,7 +37,7 @@
       )
 
     .delegation-modal-footer
-      tm-btn(
+      tm-btn#submit-delegation(
         @click.native="onDelegation"
         :disabled="$v.amount.$invalid"
         color="primary"
