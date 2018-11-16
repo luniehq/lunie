@@ -56,7 +56,7 @@ async function initGenesis(
   nodeHomeDir
 ) {
   const genesisLocation = path.join(nodeHomeDir, `config/genesis.json`)
-  let genesis = fs.readJSONSync(genesisLocation)
+  let genesis = require(genesisLocation)
   console.log(
     `Adding tokens to genesis at ${genesisLocation} for address ${address}`
   )
