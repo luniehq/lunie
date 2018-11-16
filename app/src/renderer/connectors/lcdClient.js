@@ -207,7 +207,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
           true
         )()
       ]).then(([depositerTxs, proposerTxs]) =>
-        [].concat(depositerTxs, proposerTxs)
+        depositerTxs.concat(proposerTxs)
       )
     }
   }
