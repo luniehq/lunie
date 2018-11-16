@@ -142,7 +142,7 @@ function launch(t) {
 
       resolve({
         app,
-        cliHomePrefix,
+        cliHome: cliHomePrefix, // the Voyager instance will have another folder outside of the nodes config folders
         accounts
       })
     })
