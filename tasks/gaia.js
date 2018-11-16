@@ -258,29 +258,29 @@ function makeExecWithInputs(command, inputs = [], json = true) {
   let binary = command.split(` `)[0]
   let args = command.split(` `).slice(1)
   return new Promise((resolve, reject) => {
-    try {
-      const child = spawn(binary, args)
-      child.stderr.pipe(process.stderr)
-      child.stdout.pipe(process.stdout)
-      inputs.forEach(input => {
-        child.stdin.write(`${input}\n`)
-      })
+    const child = spawn(binary, args)
+    child.stderr.on(`error`, console.error)
+    child.stdout.on(`error`, console.error)
+    child.stdin.on(`error`, console.error)
 
-      let resolved = false
-      child.stdout.once(`data`, data => {
-        if (resolved) return
-        resolved = true
-        resolve(json ? JSON.parse(data) : data)
-      })
+    child.stderr.pipe(process.stderr)
+    child.stdout.pipe(process.stdout)
+    inputs.forEach(input => {
+      child.stdin.write(`${input}\n`)
+    })
 
-      child.once(`exit`, code => {
-        if (resolved) return
-        resolved = true
-        code === 0 ? resolve() : reject(`Process exited with code ${code}`)
-      })
-    } catch (err) {
-      reject(err)
-    }
+    let resolved = false
+    child.stdout.once(`data`, data => {
+      if (resolved) return
+      resolved = true
+      resolve(json ? JSON.parse(data) : data)
+    })
+
+    child.once(`exit`, code => {
+      if (resolved) return
+      resolved = true
+      code === 0 ? resolve() : reject(`Process exited with code ${code}`)
+    })
   })
 }
 
