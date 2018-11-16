@@ -1,13 +1,10 @@
 let Node
 
 describe(`Connector`, () => {
-  let axios
   const remoteLcdURL = `http://awesomenode.de:12345`
   const localLcdURL = `https://localhost:9876`
 
   beforeAll(() => {
-    axios = jest.fn()
-
     jest.mock(
       `renderer/connectors/lcdClient`,
       () =>
