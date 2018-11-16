@@ -149,7 +149,7 @@ function createWindow() {
   })
 
   // start vue app
-  mainWindow.loadURL(winURL + `?lcd_port=` + LCD_PORT)
+  mainWindow.loadURL(winURL)
 
   mainWindow.on(`closed`, shutdown)
 
@@ -664,10 +664,6 @@ async function main() {
 
     fs.writeFileSync(appVersionPath, pkg.version)
   }
-
-  // if (!fs.existsSync(lcdHome)) {
-  //   await initLCD(lcdHome)
-  // }
 
   await checkGaiaCompatibility(gaiacliVersionPath)
 

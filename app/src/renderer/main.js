@@ -66,8 +66,7 @@ Vue.directive(`focus`, {
 })
 
 async function main() {
-  let lcdPort = getQueryParameter(`lcd_port`)
-  // TODO get from process.env
+  let lcdPort = config.development ? config.lcd_port : config.lcd_port_prod
   let localLcdURL = `https://localhost:${lcdPort}`
   console.log(`Expecting lcd-server on port: ` + lcdPort)
 
@@ -139,15 +138,3 @@ main()
 module.exports.store = store
 module.exports.node = node
 module.exports.router = router
-
-function getQueryParameter(name) {
-  let queryString = window.location.search.substring(1)
-  let pairs = queryString
-    .split(`&`)
-    .map(pair => pair.split(`=`))
-    .filter(pair => pair[0] === name)
-  if (pairs.length > 0) {
-    return pairs[0][1]
-  }
-  return null
-}

@@ -53,7 +53,9 @@ describe(`App without analytics`, () => {
     electron.remote.getGlobal = () => ({
       env: { NODE_ENV: `test` },
       mocked: true,
-      node_lcd: `https://awesomenode.de:12345`
+      node_lcd: `https://awesomenode.de:12345`,
+      development: false,
+      lcd_port_prod: `8080`
     })
     let Node = require(`renderer/connectors/node.js`)
     require(`renderer/main.js`)
