@@ -60,7 +60,8 @@ describe(`App without analytics`, () => {
     let Node = require(`renderer/connectors/node.js`)
     require(`renderer/main.js`)
     expect(Node).toHaveBeenCalledWith(
-      `https://localhost:8080`,
+      expect.any(Function),
+      `https://localhost:8080`, // axios or axios proxy
       `https://awesomenode.de:12345`,
       true
     )

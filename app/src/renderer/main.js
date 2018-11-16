@@ -12,6 +12,7 @@ import App from "./App"
 import routes from "./routes"
 import Node from "./connectors/node"
 import Store from "./vuex/store"
+import AxiosProxy from "./scripts/axiosProxy"
 
 const config = remote.getGlobal(`config`)
 
@@ -70,7 +71,7 @@ async function main() {
   let localLcdURL = `https://localhost:${lcdPort}`
   console.log(`Expecting lcd-server on port: ` + lcdPort)
 
-  node = Node(localLcdURL, config.node_lcd, config.mocked)
+  node = Node(AxiosProxy(), localLcdURL, config.node_lcd, config.mocked)
 
   store = Store({ node })
   store.dispatch(`loadTheme`)
