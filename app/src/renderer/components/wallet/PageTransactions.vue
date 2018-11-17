@@ -108,12 +108,10 @@ export default {
         let unbondingDelegation = this.delegation.unbondingDelegations[
           tx.validator_addr
         ]
-        // TODO hack, use creation_height when https://github.com/cosmos/cosmos-sdk/issues/2314 is resolved
         if (
           unbondingDelegation &&
-          new Date(unbondingDelegation.min_time).getTime() -
-            new Date(copiedTransaction.time).getTime() ===
-            0
+          unbondingDelegation.creation_height ===
+            String(copiedTransaction.height)
         )
           copiedTransaction.unbondingDelegation = unbondingDelegation
       }

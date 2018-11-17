@@ -350,7 +350,7 @@ describe(`LCD Client Mock`, () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
-    expect(updatedStake.shares).toBe(`100000000000`)
+    expect(updatedStake.shares).toBe(`10`)
   })
 
   it(`executes an unbond tx`, async () => {
@@ -376,7 +376,7 @@ describe(`LCD Client Mock`, () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
-    expect(initialStake.shares).toBe(`100000000000`)
+    expect(initialStake.shares).toBe(`10`)
 
     res = await client.updateDelegations(lcdClientMock.addresses[0], {
       base_req: {
@@ -400,7 +400,7 @@ describe(`LCD Client Mock`, () => {
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
-    expect(updatedStake.shares).toBe(`50000000000`)
+    expect(updatedStake.shares).toBe(`5`)
   })
 
   it(`can not stake fermions you dont have`, async () => {
@@ -413,7 +413,7 @@ describe(`LCD Client Mock`, () => {
         {
           delegator_addr: lcdClientMock.addresses[0],
           validator_addr: lcdClientMock.validators[1],
-          delegation: { denom: `mycoin`, amount: String(100000 * 10000000000) }
+          delegation: { denom: `mycoin`, amount: String(100000) }
         }
       ],
       begin_unbondings: []
@@ -722,13 +722,19 @@ describe(`LCD Client Mock`, () => {
     )
   })
 
-  it(`queries for summary of delegation information for a delegator`, async () => {
-    let summary = await client.getDelegator(lcdClientMock.addresses[0])
-    expect(Object.keys(summary)).toEqual([
-      `delegations`,
-      `unbonding_delegations`,
-      `redelegations`
-    ])
+  it(`queries for delegation information for a delegator`, async () => {
+    let delegations = await client.getDelegations(lcdClientMock.addresses[0])
+    expect(Array.isArray(delegations)).toBe(true)
+  })
+
+  it(`queries for undelegation information for a delegator`, async () => {
+    let delegations = await client.getUndelegations(lcdClientMock.addresses[0])
+    expect(Array.isArray(delegations)).toBe(true)
+  })
+
+  it(`queries for redelegation information for a delegator`, async () => {
+    let delegations = await client.getRedelegations(lcdClientMock.addresses[0])
+    expect(Array.isArray(delegations)).toBe(true)
   })
 
   it(`queries for an unbonding delegation between a validator and a delegator`, async () => {
@@ -795,8 +801,10 @@ describe(`LCD Client Mock`, () => {
       ]
     })
 
-    let summary = await client.getDelegator(lcdClientMock.addresses[0])
-    expect(summary.redelegations[0].balance.amount).toBe(`10`)
+    let redelegations = await client.getRedelegations(
+      lcdClientMock.addresses[0]
+    )
+    expect(redelegations[0].balance.amount).toBe(`10`)
   })
 
   it(`queries for staking txs`, async () => {

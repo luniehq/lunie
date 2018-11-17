@@ -40,12 +40,19 @@ export default ({ node }) => {
       }
       state.committedDelegates = committedDelegates
     },
-    setUnbondingDelegations(state, { validator_addr, min_time, balance }) {
+    setUnbondingDelegations(
+      state,
+      { validator_addr, min_time, balance, creation_height }
+    ) {
       let unbondingDelegations = Object.assign({}, state.unbondingDelegations)
       if (balance.amount === 0) {
         delete unbondingDelegations[validator_addr]
       } else {
-        unbondingDelegations[validator_addr] = { min_time, balance }
+        unbondingDelegations[validator_addr] = {
+          min_time,
+          balance,
+          creation_height
+        }
       }
       state.unbondingDelegations = unbondingDelegations
     }
@@ -69,7 +76,14 @@ export default ({ node }) => {
       let address = rootState.user.address
       candidates = candidates || (await dispatch(`getDelegates`))
 
-      let delegator = await node.getDelegator(address)
+      let delegations = await node.getDelegations(address)
+      let unbonding_delegations = await node.getUndelegations(address)
+      let redelegations = await node.getRedelegations(address)
+      let delegator = {
+        delegations,
+        unbonding_delegations,
+        redelegations
+      }
       // the request runs that long, that the user might sign out and back in again
       // the result is, that the new users state gets updated by the old users request
       // here we check if the user is still the same
@@ -79,7 +93,7 @@ export default ({ node }) => {
         delegator.delegations.forEach(({ validator_addr, shares }) => {
           commit(`setCommittedDelegation`, {
             candidateId: validator_addr,
-            value: parseFloat(shares) / 10000000000
+            value: parseFloat(shares)
           })
           if (shares > 0) {
             const delegate = candidates.find(
@@ -104,15 +118,9 @@ export default ({ node }) => {
       })
 
       if (delegator.unbonding_delegations) {
-        delegator.unbonding_delegations.forEach(
-          ({ validator_addr, balance, min_time }) => {
-            commit(`setUnbondingDelegations`, {
-              validator_addr,
-              balance,
-              min_time
-            })
-          }
-        )
+        delegator.unbonding_delegations.forEach(ubd => {
+          commit(`setUnbondingDelegations`, ubd)
+        })
       }
       // delete undelegations not present anymore
       Object.keys(state.unbondingDelegations).forEach(validatorAddr => {

@@ -215,7 +215,7 @@ let state = {
         {
           delegator_addr: addresses[0],
           validator_addr: validators[0],
-          shares: `140000000000`,
+          shares: `14`,
           height: 123
         }
       ],
@@ -228,8 +228,8 @@ let state = {
       operator_address: validators[0],
       pub_key: `cosmosvalpub1234`,
       revoked: false,
-      tokens: `140000000000`,
-      delegator_shares: `140000000000`,
+      tokens: `14`,
+      delegator_shares: `14`,
       description: {
         website: `www.monty.ca`,
         details: `Mr Mounty`,
@@ -275,8 +275,8 @@ let state = {
     {
       operator_address: validators[2],
       pub_key: `cosmosvalpub8910`,
-      tokens: `190000000000`,
-      delegator_shares: `190000000000`,
+      tokens: `19`,
+      delegator_shares: `19`,
       description: {
         details: `Herr Schmidt`,
         website: `www.schmidt.de`,
@@ -659,9 +659,6 @@ module.exports = {
         delegator.delegations.push(delegation)
       }
 
-      // TODO remove after sdk.Dec parsing is fixed
-      amount = amount * 10000000000
-
       let shares = parseInt(delegation.shares)
       delegation.shares = (shares + amount).toString()
       let candidate = state.candidates.find(
@@ -707,9 +704,6 @@ module.exports = {
       )
 
       coinBalance.amount = String(parseInt(coinBalance.amount) + amount)
-
-      // TODO remove after sdk.Dec parsing is fixed
-      amount = amount * 10000000000
 
       let shares = parseInt(delegation.shares)
       delegation.shares = (+shares - amount).toString()
@@ -777,8 +771,8 @@ module.exports = {
       }
 
       // check if there's an existing redelegation
-      let summary = this.getDelegator(tx.delegator_addr)
-      let red = summary.redelegations.find(
+      let redelegations = this.getRedelegations(tx.delegator_addr)
+      let red = redelegations.find(
         red =>
           red.validator_src_addr === tx.validator_src_addr &&
           red.validator_dst_addr === tx.validator_dst_addr
@@ -867,9 +861,17 @@ module.exports = {
     )
   },
   // Get all delegations information from a delegator
-  getDelegator(delegatorAddress) {
+  getDelegations(delegatorAddress) {
     let delegator = state.stake[delegatorAddress] || {}
-    return delegator
+    return delegator.delegations || []
+  },
+  getUndelegations(delegatorAddress) {
+    let delegator = state.stake[delegatorAddress] || {}
+    return delegator.unbonding_delegations || []
+  },
+  getRedelegations(delegatorAddress) {
+    let delegator = state.stake[delegatorAddress] || {}
+    return delegator.redelegations || []
   },
   async getDelegatorTxs(addr, types = []) {
     // filter for transactions belonging to that delegator and are staking
