@@ -308,7 +308,7 @@ function reduceTimeouts(nodeHome) {
     .map(line => {
       let [key, value] = line.split(` = `)
 
-      if (timeouts.indexOf(key) === -1) {
+      if (!timeouts.includes(key)) {
         return line
       }
 
