@@ -3,7 +3,9 @@
 const Client = (axios, localLcdURL, remoteLcdURL) => {
   async function request(method, path, data, useRemote) {
     const url = useRemote ? remoteLcdURL : localLcdURL
-    return (await axios({ data, method, url: url + path })).data
+    const result = await axios({ data, method, url: url + path })
+    console.log(method, path, data, result.data)
+    return result.data
   }
 
   // returns an async function which makes a request for the given
@@ -194,8 +196,8 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     submitProposalDeposit: function(proposalId, data) {
       return req(`POST`, `/gov/proposals/${proposalId}/deposits`, true)(data)
     },
-    getGovernanceTxs: function(address) {
-      return Promise.all([
+    getGovernanceTxs: async function(address) {
+      let [depositerTxs, proposerTxs] = await Promise.all([
         req(
           `GET`,
           `/txs?tag=action='submit-proposal'&tag=proposer='${address}'`,
@@ -206,7 +208,8 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
           `/txs?tag=action='deposit'&tag=depositer='${address}'`,
           true
         )()
-      ]).then(([depositerTxs, proposerTxs]) => depositerTxs.concat(proposerTxs))
+      ])
+      return depositerTxs.concat(proposerTxs)
     }
   }
 }
