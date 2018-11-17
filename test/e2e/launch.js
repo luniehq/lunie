@@ -49,8 +49,8 @@ function launch(t) {
       const nodeOneHome = nodeHomePrefix + `_1`
       const nodeOneCliHome = cliHomePrefix + `_1`
       const operatorKeyName = `testkey`
-      console.error(`ui home: ${nodeOneCliHome}`)
-      console.error(`node home: ${nodeOneHome}`)
+      console.log(`ui home: ${nodeOneCliHome}`)
+      console.log(`node home: ${nodeOneHome}`)
 
       await initLocalNode(nodeOneHome, 1)
       const nodeOneId = await getNodeId(nodeOneHome)

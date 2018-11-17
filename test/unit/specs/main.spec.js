@@ -1,4 +1,3 @@
-// const EventEmitter = require(`events`)
 const { join } = require(`path`)
 const mockFsExtra = require(`../helpers/fs-mock`).default
 jest.mock(`readline`, () => ({
@@ -591,10 +590,6 @@ describe(`Startup Process`, () => {
 function mainSetup() {
   beforeAll(async function() {
     main = await initMain()
-  })
-
-  afterAll(async function() {
-    // await main.shutdown()
   })
 }
 

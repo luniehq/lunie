@@ -206,9 +206,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
           `/txs?tag=action='deposit'&tag=depositer='${address}'`,
           true
         )()
-      ]).then(([depositerTxs, proposerTxs]) =>
-        depositerTxs.concat(proposerTxs)
-      )
+      ]).then(([depositerTxs, proposerTxs]) => depositerTxs.concat(proposerTxs))
     }
   }
 }

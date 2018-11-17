@@ -1,18 +1,14 @@
 const path = require(`path`)
 const fs = require(`fs-extra`)
+const util = require(`util`)
 const { spawn, exec } = require(`child_process`)
 let { sleep } = require(`../test/e2e/common.js`)
 
-const osFolderName = (function() {
-  switch (process.platform) {
-    case `win32`:
-      return `windows_amd64`
-    case `darwin`:
-      return `darwin_amd64`
-    case `linux`:
-      return `linux_amd64`
-  }
-})()
+const osFolderName = {
+  win32: `windows_amd64`,
+  darwin: `darwin_amd64`,
+  linux: `linux_amd64`
+}[process.platform]
 let cliBinary =
   process.env.BINARY_PATH ||
   path.join(__dirname, `../builds/Gaia/`, osFolderName, `gaiacli`)
@@ -88,9 +84,7 @@ async function initGenesis(
 }
 
 function getGenesis(homeDir) {
-  const genesisLocation = path.join(homeDir, `config/genesis.json`)
-  let genesis = fs.readJSONSync(genesisLocation)
-  return genesis
+  return require(path.join(homeDir, `config/genesis.json`))
 }
 
 // make it so that one initialized node will become a validator
@@ -132,18 +126,15 @@ async function makeValidator(
 
 async function getValPubKey(node_home) {
   let command = `${nodeBinary} tendermint show-validator --home ${node_home}`
-  const stdout = await makeExec(command)
-  return stdout.trim()
+  return await makeExec(command)
 }
 async function getNodeId(node_home) {
   let command = `${nodeBinary} tendermint show-node-id --home ${node_home}`
-  const stdout = await makeExec(command)
-  return stdout.trim()
+  return await makeExec(command)
 }
 async function getBalance(cliHome, address) {
   let command = `${cliBinary} query account ${address} --home ${cliHome} --output "json" --trust-node`
-  const stdout = await makeExec(command)
-  return JSON.parse(stdout.trim())
+  return JSON.parse(await makeExec(command))
 }
 
 // sends a create-validator tx
@@ -243,12 +234,9 @@ function startLocalNode(
 // execute command and return stdout
 function makeExec(command) {
   console.log(`$ ` + command)
-  return new Promise((resolve, reject) => {
-    exec(command, (err, stdout) => {
-      if (err) return reject(err)
-      resolve(stdout)
-    })
-  })
+  return util
+    .promisify(exec)(command)
+    .then(({ stdout }) => stdout.trim())
 }
 
 // execute command, write all inputs followed by enter to stdin and return stdout
@@ -298,5 +286,8 @@ module.exports = {
 
   cliBinary,
   nodeBinary,
-  defaultStartPort
+  defaultStartPort,
+
+  makeExec,
+  makeExecWithInputs
 }

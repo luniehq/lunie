@@ -482,7 +482,8 @@ async function pickAndConnect() {
     return
   }
 
-  // make the ca available to the view
+  // make the tls certificate available to the view process
+  // https://en.wikipedia.org/wiki/Certificate_authority
   global.config.ca = gaiaLite.ca
   const axiosInstance = axios.create({
     httpsAgent: new https.Agent({ ca: gaiaLite.ca })
