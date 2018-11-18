@@ -25,6 +25,16 @@ test(`wallet`, async function(t) {
 
   await login(app, `testkey`)
 
+  let balanceEl = denom => {
+    return app.client.waitForExist(`#coin-denom=${denom}`, 20000).then(() =>
+      $(`#coin-denom=${denom}`)
+        .$(`..`)
+        .$(`..`)
+        .$(`div.li-coin__content__left__amount`)
+        .$(`p`)
+    )
+  }
+
   t.test(`Coins`, async function(t) {
     t.equal((await app.client.$$(`.li-coin`)).length, 2, `it shows all 2 coins`)
     // denom
@@ -129,7 +139,6 @@ test(`wallet`, async function(t) {
       await amountInput().setValue(`100`)
       await sendBtn().click()
       t.equal(await sendBtn().getText(), `Send Tokens`, `not sending`)
-
       t.end()
     })
 
@@ -143,7 +152,6 @@ test(`wallet`, async function(t) {
 
       await app.client.waitForExist(`.tm-notification`, 10 * 1000)
       let msg = await app.client.$(`.tm-notification .body`).getText()
-      console.log(`msg`, msg)
       t.ok(msg.includes(`Success`), `Send successful`)
       // close the notifications to have a clean setup for the next tests
       await closeNotifications(app)
@@ -155,7 +163,7 @@ test(`wallet`, async function(t) {
       await navigate(app, `Wallet`)
 
       let mycoinEl = () => balanceEl(`Localcoin`)
-      await waitForText(mycoinEl, `900.0000000000`, 10000)
+      await waitForText(mycoinEl, `900.0000000000`, 20000)
       t.pass(`balance is reduced by 100`)
       t.end()
     })
@@ -175,7 +183,7 @@ test(`wallet`, async function(t) {
         15 * 1000
       )
 
-      await waitForText(LocalcoinEl, `100.0000000000`, 5000)
+      await waitForText(LocalcoinEl, `100.0000000000`, 10000)
       t.pass(`received mycoin transaction`)
       t.end()
     })

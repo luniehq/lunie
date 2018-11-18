@@ -281,30 +281,22 @@ exports[`PageWallet has the expected html structure 1`] = `
               class="li-coin__content"
             >
               <div
-                class="li-coin__content__left"
+                class="li-coin__content__left__denom"
               >
-                <div
-                  class="li-coin__content__caption"
+                <p
+                  id="coin-denom"
                 >
-                  <p
-                    id="coin-denom"
-                  >
-                    Fermion
-                  </p>
-                </div>
+                  Fermion
+                </p>
               </div>
               <div
-                class="li-coin__content__left"
+                class="li-coin__content__left__amount"
               >
-                <div
-                  class="li-coin__content__caption"
+                <p
+                  id="coin-amount"
                 >
-                  <p
-                    id="coin-amount"
-                  >
-                    2,300.0000000000
-                  </p>
-                </div>
+                  2,300.0000000000
+                </p>
               </div>
               <a
                 class=""
@@ -348,30 +340,22 @@ exports[`PageWallet has the expected html structure 1`] = `
               class="li-coin__content"
             >
               <div
-                class="li-coin__content__left"
+                class="li-coin__content__left__denom"
               >
-                <div
-                  class="li-coin__content__caption"
+                <p
+                  id="coin-denom"
                 >
-                  <p
-                    id="coin-denom"
-                  >
-                    Mycoin
-                  </p>
-                </div>
+                  Mycoin
+                </p>
               </div>
               <div
-                class="li-coin__content__left"
+                class="li-coin__content__left__amount"
               >
-                <div
-                  class="li-coin__content__caption"
+                <p
+                  id="coin-amount"
                 >
-                  <p
-                    id="coin-amount"
-                  >
-                    1,000.0000000000
-                  </p>
-                </div>
+                  1,000.0000000000
+                </p>
               </div>
               <a
                 class=""
@@ -415,30 +399,22 @@ exports[`PageWallet has the expected html structure 1`] = `
               class="li-coin__content"
             >
               <div
-                class="li-coin__content__left"
+                class="li-coin__content__left__denom"
               >
-                <div
-                  class="li-coin__content__caption"
+                <p
+                  id="coin-denom"
                 >
-                  <p
-                    id="coin-denom"
-                  >
-                    Steak
-                  </p>
-                </div>
+                  Steak
+                </p>
               </div>
               <div
-                class="li-coin__content__left"
+                class="li-coin__content__left__amount"
               >
-                <div
-                  class="li-coin__content__caption"
+                <p
+                  id="coin-amount"
                 >
-                  <p
-                    id="coin-amount"
-                  >
-                    1,000.0000000000
-                  </p>
-                </div>
+                  1,000.0000000000
+                </p>
               </div>
               <a
                 class=""
@@ -776,30 +752,22 @@ exports[`PageWallet should filter the balances 1`] = `
               class="li-coin__content"
             >
               <div
-                class="li-coin__content__left"
+                class="li-coin__content__left__denom"
               >
-                <div
-                  class="li-coin__content__caption"
+                <p
+                  id="coin-denom"
                 >
-                  <p
-                    id="coin-denom"
-                  >
-                    Steak
-                  </p>
-                </div>
+                  Steak
+                </p>
               </div>
               <div
-                class="li-coin__content__left"
+                class="li-coin__content__left__amount"
               >
-                <div
-                  class="li-coin__content__caption"
+                <p
+                  id="coin-amount"
                 >
-                  <p
-                    id="coin-amount"
-                  >
-                    1,000.0000000000
-                  </p>
-                </div>
+                  1,000.0000000000
+                </p>
               </div>
               <a
                 class=""

@@ -3,12 +3,10 @@
   .li-coin__icon
     img(src="../../assets/images/cosmos-logo.png")
   .li-coin__content
-    .li-coin__content__left
-      .li-coin__content__caption
+    .li-coin__content__left__denom
         p#coin-denom {{ this.denomination }}
 
-    .li-coin__content__left
-      .li-coin__content__caption
+    .li-coin__content__left__amount
         p#coin-amount {{ this.amount }}
 
     router-link(:to="{ name: 'send', params: { denom: coin.denom }}")
@@ -78,25 +76,13 @@ export default {
     padding 1rem
     font-size m
 
-    &__left, &__action
+    &__left
       display flex
       flex-direction column
 
-    &__left
-      flex 0.5
-
-    &__action
-      flex 0.3
-      justify-content center
-      padding 0 1rem
-      border-left 1px solid var(--bc-dim)
-
-      button
-        width 9rem
-
-    &__caption
-      vertical-align middle
-      font-size lg
-      color var(--bright)
-
+      &__amount, &__denom
+        flex 0.5
+        vertical-align middle
+        font-size lg
+        color var(--bright)
 </style>

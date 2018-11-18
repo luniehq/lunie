@@ -15,30 +15,22 @@ exports[`LiCoin has the expected html structure 1`] = `
     class="li-coin__content"
   >
     <div
-      class="li-coin__content__left"
+      class="li-coin__content__left__denom"
     >
-      <div
-        class="li-coin__content__caption"
+      <p
+        id="coin-denom"
       >
-        <p
-          id="coin-denom"
-        >
-          Stake
-        </p>
-      </div>
+        Stake
+      </p>
     </div>
     <div
-      class="li-coin__content__left"
+      class="li-coin__content__left__amount"
     >
-      <div
-        class="li-coin__content__caption"
+      <p
+        id="coin-amount"
       >
-        <p
-          id="coin-amount"
-        >
-          1,000.0000000000
-        </p>
-      </div>
+        1,000.0000000000
+      </p>
     </div>
     <a
       class=""

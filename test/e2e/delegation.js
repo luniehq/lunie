@@ -41,7 +41,6 @@ test(`delegation`, async function(t) {
       .$(`.li-validator__delegated-steak`)
       .getText()
     let myVotes = parseFloat(myVotesText.replace(/,/g, ``))
-    console.log(myVotesText, myVotes)
     await t.equal(
       myVotes,
       parseFloat(bondedStake),
