@@ -162,8 +162,14 @@ test(`wallet`, async function(t) {
     t.test(`own balance updated`, async function(t) {
       await navigate(app, `Wallet`)
 
-      let mycoinEl = () => balanceEl(`Localcoin`)
-      await waitForText(mycoinEl, `900.0000000000`, 20000)
+      t.equal(
+        (await app.client.$$(`.li-coin`)).length,
+        2,
+        `it shows all 2 coins`
+      )
+
+      let LocalcoinEl = () => balanceEl(`Localcoin`)
+      await waitForText(LocalcoinEl, `900.0000000000`, 20000)
       t.pass(`balance is reduced by 100`)
       t.end()
     })
