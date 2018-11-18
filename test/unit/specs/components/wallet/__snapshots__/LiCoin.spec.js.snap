@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiCoin has the expected html structure 1`] = `
+<div
+  class="li-coin"
+>
+  <div
+    class="li-coin__icon"
+  >
+    <img
+      src="../../assets/images/cosmos-logo.png"
+    />
+  </div>
+  <div
+    class="li-coin__content"
+  >
+    <div
+      class="li-coin__content__left"
+    >
+      <div
+        class="li-coin__content__caption"
+      >
+        <p
+          class="li-coin__content__caption__denom"
+        >
+          Stake
+        </p>
+      </div>
+    </div>
+    <div
+      class="li-coin__content__left"
+    >
+      <div
+        class="li-coin__content__caption"
+      >
+        <p
+          class="li-coin__content__caption__amount"
+        >
+          1,000.0000000000
+        </p>
+      </div>
+    </div>
+    <a
+      class=""
+      href="#/wallet/send/stake"
+    >
+      <button
+        class="tm-btn"
+      >
+        <span
+          class="tm-btn__container tm-btn__icon-right tm-btn--primary"
+        >
+          <i
+            aria-hidden="true"
+            class="tm-btn__icon material-icons"
+          >
+            chevron_right
+          </i>
+          <!---->
+          <span
+            class="tm-btn__value"
+          >
+            Send
+          </span>
+        </span>
+      </button>
+    </a>
+  </div>
+</div>
+`;
