@@ -23,7 +23,7 @@
 import num from "scripts/num"
 import { TmBtn } from "@tendermint/ui"
 export default {
-  name: "li-coin",
+  name: `li-coin`,
   components: {
     TmBtn
   },
@@ -39,7 +39,7 @@ export default {
       )
     }
   },
-  props: ["coin"]
+  props: [`coin`]
 }
 </script>
 
