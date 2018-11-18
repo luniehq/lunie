@@ -1,6 +1,5 @@
 "use strict"
 
-import axios from "axios"
 import Vue from "vue"
 import Electron from "vue-electron"
 import Router from "vue-router"
@@ -13,6 +12,7 @@ import App from "./App"
 import routes from "./routes"
 import Node from "./connectors/node"
 import Store from "./vuex/store"
+import AxiosProxy from "./scripts/axiosProxy"
 
 const config = remote.getGlobal(`config`)
 
@@ -67,10 +67,11 @@ Vue.directive(`focus`, {
 })
 
 async function main() {
-  let lcdPort = getQueryParameter(`lcd_port`)
-  let localLcdURL = `http://localhost:${lcdPort}`
+  let lcdPort = config.development ? config.lcd_port : config.lcd_port_prod
+  let localLcdURL = `https://localhost:${lcdPort}`
   console.log(`Expecting lcd-server on port: ` + lcdPort)
-  node = Node(axios, localLcdURL, config.node_lcd, config.mocked)
+
+  node = Node(AxiosProxy(), localLcdURL, config.node_lcd, config.mocked)
 
   store = Store({ node })
   store.dispatch(`loadTheme`)
@@ -138,15 +139,3 @@ main()
 module.exports.store = store
 module.exports.node = node
 module.exports.router = router
-
-function getQueryParameter(name) {
-  let queryString = window.location.search.substring(1)
-  let pairs = queryString
-    .split(`&`)
-    .map(pair => pair.split(`=`))
-    .filter(pair => pair[0] === name)
-  if (pairs.length > 0) {
-    return pairs[0][1]
-  }
-  return null
-}
