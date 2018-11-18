@@ -21,7 +21,7 @@ exports[`LiCoin has the expected html structure 1`] = `
         class="li-coin__content__caption"
       >
         <p
-          class="li-coin__content__caption__denom"
+          id="coin-denom"
         >
           Stake
         </p>
@@ -34,7 +34,7 @@ exports[`LiCoin has the expected html structure 1`] = `
         class="li-coin__content__caption"
       >
         <p
-          class="li-coin__content__caption__amount"
+          id="coin-amount"
         >
           1,000.0000000000
         </p>
@@ -46,6 +46,7 @@ exports[`LiCoin has the expected html structure 1`] = `
     >
       <button
         class="tm-btn"
+        id="sendTx-btn"
       >
         <span
           class="tm-btn__container tm-btn__icon-right tm-btn--primary"

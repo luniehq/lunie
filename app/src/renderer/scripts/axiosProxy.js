@@ -13,10 +13,8 @@ module.exports = (requestCounter = 0) => {
 
       const channel = `Axios/${requestCounter}`
 
-      console.log(`Request ${options.method.toUpperCase()} ${options.url}`)
       ipcRenderer.once(channel, (event, { exception, value }) => {
         ipcRenderer.removeAllListeners(channel)
-
         if (exception) {
           console.error(
             `Request ${options.method.toUpperCase()} ${options.url} failed`,
@@ -24,10 +22,6 @@ module.exports = (requestCounter = 0) => {
           )
           reject(exception)
         } else {
-          console.log(
-            `Request ${options.method.toUpperCase()} ${options.url} successful`,
-            value.data
-          )
           resolve(value)
         }
       })

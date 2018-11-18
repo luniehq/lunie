@@ -10,8 +10,8 @@ tm-page(data-title="Wallet")
 
   modal-search(type="balances" v-if="somethingToSearch")
 
-  tm-part.wallet-address__title(title='Your Address')
-    tm-list-item.wallet-address__content(
+  tm-part(title='Your Address')
+    tm-list-item(
       :title="wallet.address"
       :btn="'Receive'"
       :overflow="true")
@@ -138,10 +138,4 @@ export default {
 
     .list-items
       flex 1
-
-.tm-li-title
-  white-space nowrap
-  overflow hidden
-  text-overflow ellipsis
-  width 100%
 </style>

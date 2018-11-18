@@ -5,14 +5,14 @@
   .li-coin__content
     .li-coin__content__left
       .li-coin__content__caption
-        p.li-coin__content__caption__denom {{ this.denomination }}
+        p#coin-denom {{ this.denomination }}
 
     .li-coin__content__left
       .li-coin__content__caption
-        p.li-coin__content__caption__amount {{ this.amount }}
+        p#coin-amount {{ this.amount }}
 
     router-link(:to="{ name: 'send', params: { denom: coin.denom }}")
-      tm-btn(
+      tm-btn#sendTx-btn(
         value="Send"
         icon="chevron_right"
         icon-pos="right"
@@ -78,7 +78,7 @@ export default {
     padding 1rem
     font-size m
 
-    &__left, &__action, &__block
+    &__left, &__action
       display flex
       flex-direction column
 
