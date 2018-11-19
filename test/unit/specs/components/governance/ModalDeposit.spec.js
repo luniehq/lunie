@@ -40,7 +40,7 @@ describe(`ModalDeposit`, () => {
   })
 
   describe(`default values are set correctly`, () => {
-    it(`the 'amount' defaults to an empty string`, () => {
+    it(`the 'amount' defaults to 0`, () => {
       expect(wrapper.vm.amount).toEqual(0)
     })
   })
@@ -101,7 +101,16 @@ describe(`ModalDeposit`, () => {
       expect(wrapper.emittedByOrder()).toEqual([
         {
           name: `submitDeposit`,
-          args: [{ amount: 10 }]
+          args: [
+            {
+              amount: [
+                {
+                  amount: `10`,
+                  denom: `stake`
+                }
+              ]
+            }
+          ]
         },
         {
           name: `update:showModalDeposit`,

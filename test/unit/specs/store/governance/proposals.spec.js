@@ -85,13 +85,21 @@ describe(`Module: Proposals`, () => {
     }
     let dispatch = jest.fn()
     proposals.forEach(async (proposal, i) => {
-      await actions.submitProposal({ rootState, dispatch }, proposal)
+      await actions.submitProposal(
+        { rootState, dispatch },
+        {
+          type: proposal.proposal_type,
+          title: proposal.title,
+          description: proposal.description,
+          initial_deposit: proposal.initial_deposit
+        }
+      )
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
           type: `submitProposal`,
-          proposer: addresses[0],
           proposal_type: proposal.proposal_type,
+          proposer: addresses[0],
           title: proposal.title,
           description: proposal.description,
           initial_deposit: proposal.initial_deposit

@@ -3,11 +3,11 @@ tm-page(data-title="Staking").staking
   template(slot="menu-body")
     tm-balance(:tabs="tabs")
 
-  div(slot="menu"): vm-tool-bar
-    a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
-      i.material-icons refresh
-    a(@click='setSearch()' v-tooltip.bottom="'Search'")
-      i.search.material-icons search
+    vm-tool-bar
+      a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
+        i.material-icons refresh
+      a(@click='setSearch()' v-tooltip.bottom="'Search'")
+        i.search.material-icons search
 
   modal-search(type="delegates")
 

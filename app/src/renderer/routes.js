@@ -22,10 +22,6 @@ export default [
     ]
   },
   {
-    path: `/governance/proposals/new`,
-    component: governance(`ProposalsNewText`)
-  },
-  {
     path: `/governance/:proposalId`,
     name: `Proposal`,
     component: require(`./components/governance/PageProposal`).default,
