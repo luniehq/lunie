@@ -113,7 +113,7 @@ describe(`Module: Transactions`, () => {
 
   it(`should set error to true if dispatches fail`, () => {
     let err = new Error(`unexpected error`)
-    let { actions, state } = module
+    let { actions } = module
 
     const commit = jest.fn()
     const dispatch = jest.fn(() => {
