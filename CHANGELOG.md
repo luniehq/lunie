@@ -46,6 +46,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library to 0.4.1 @faboweb
 * [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library @faboweb
 * [\#1410](https://github.com/cosmos/voyager/issues/1410) removed end undelegations as not needed in the SDK anymore
+* [\#1556](https://github.com/cosmos/voyager/issues/1556) messages for transaction history and delegations tab @jbibla
 * [\#1543](https://github.com/cosmos/voyager/issues/1543) updated unit tests to use `describe` and `it` instead of `test` @fedekunze
 * [\#1377](https://github.com/cosmos/voyager/issues/1377) deleted AppFooter page @fedekunze
 * [\#1582](https://github.com/cosmos/voyager/issues/1582) proposals now use time instead of block number @fedekunze
@@ -66,6 +67,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1503](https://github.com/cosmos/voyager/issues/1503) Added e2e test for balance updates after delegation @faboweb
 * [\#1131](https://github.com/cosmos/voyager/issues/1131) Display only error message on notifications @fedekunze
 * [\#1440](https://github.com/cosmos/voyager/issues/1440) Fixed an error that prevented disconnecting from the RPC websocket if it wasn't defined @fedekunze
+* [\#1556](https://github.com/cosmos/voyager/issues/1556) Validator back button bug @jbibla
 * [\#1460](https://github.com/cosmos/voyager/issues/1460) Removing release-candidate tag when publishing @faboweb
 * [\#1402](https://github.com/cosmos/voyager/issues/1402) Fixed minor issues in voting and deposit @fedekunze
 * [\#1574](https://github.com/cosmos/voyager/issues/1574) Fixed typo on mocked governance txs that prevented the execution of the query @fedekunze

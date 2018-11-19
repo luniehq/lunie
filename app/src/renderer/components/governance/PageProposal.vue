@@ -69,6 +69,7 @@ import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { TmBtn, TmPage, TmToolBar } from "@tendermint/ui"
 import TmBalance from "common/TmBalance"
+import TmDataError from "common/TmDataError"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "./ModalDeposit"
 import ModalVote from "./ModalVote"
@@ -81,6 +82,7 @@ export default {
     ModalDeposit,
     ModalVote,
     TmToolBar,
+    TmDataError,
     TmPage,
     TextBlock
   },

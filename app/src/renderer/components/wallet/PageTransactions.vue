@@ -11,8 +11,10 @@ tm-page(data-title='Transactions')
   modal-search(type="transactions" v-if="somethingToSearch")
 
   tm-data-loading(v-if="transactions.loading")
-  data-empty-tx(v-else-if='allTransactions.length === 0')
-  data-empty-search(v-else-if="filteredTransactions.length === 0")
+  tm-data-error(v-if="!transactions.loading && transactions.error")
+  data-empty-tx(v-if='!transactions.loading && allTransactions.length === 0 && !transactions.error')
+  data-empty-search(v-if="!transactions.loading && !transactions.error && filteredTransactions.length === 0")
+
   template(v-else v-for="(tx, i) in filteredTransactions")
     tm-li-any-transaction(
       :validators="delegates.delegates"
@@ -33,6 +35,7 @@ import DataEmptySearch from "common/TmDataEmptySearch"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import ModalSearch from "common/TmModalSearch"
 import TmBalance from "common/TmBalance"
+import TmDataError from "common/TmDataError"
 import { TmPage, TmDataLoading, TmLiAnyTransaction } from "@tendermint/ui"
 import VmToolBar from "common/VmToolBar"
 export default {
@@ -41,6 +44,7 @@ export default {
     TmBalance,
     TmLiAnyTransaction,
     TmDataLoading,
+    TmDataError,
     DataEmptySearch,
     DataEmptyTx,
     ModalSearch,
