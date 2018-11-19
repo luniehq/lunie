@@ -11,7 +11,13 @@ describe(`TmSessionWelcome`, () => {
 
   beforeEach(() => {
     store = new Vuex.Store({
-      getters: { config: () => config.state },
+      getters: {
+        config: () => config.state,
+        lastHeader: () => ({ chain_id: `gaia-test`, height: `31337` }),
+        connected: () => true,
+        nodeURL: () => `http://nodeUrl`,
+        mockedConnector: () => false
+      },
       modules: { config }
     })
     wrapper = mount(TmSession, {

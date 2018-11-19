@@ -26,7 +26,6 @@ export default {
         return `tm-connected-network--mocked`
       }
     },
-
     networkTooltip({ mockedConnector, connected, nodeURL, chainId } = this) {
       if (mockedConnector) {
         return `You\'re using the offline demo and are not connected to any real nodes.`
@@ -36,13 +35,12 @@ export default {
         return `We\'re pinging nodes to try to connect you to ${chainId}.`
       }
     },
-
     chainId() {
       if (this.mockedConnector) {
         return startCase(toLower(this.lastHeader.chain_id))
+      } else {
+        return this.lastHeader.chain_id
       }
-
-      return this.lastHeader.chain_id
     },
     blockHeight() {
       return `#` + num.prettyInt(this.lastHeader.height)
@@ -52,17 +50,11 @@ export default {
     }
   },
   data: () => ({
-    num: num,
-    onPreferencesPage: false
+    num: num
   }),
   methods: {
     closeMenu() {
       this.$store.commit(`setActiveMenu`, ``)
-    }
-  },
-  watch: {
-    "$route.name"(newName) {
-      this.onPreferencesPage = newName === `preferences`
     }
   }
 }

@@ -291,23 +291,11 @@ export default {
           title: `Successful ${txTitle}!`,
           body: `You have successfully ${txBody} your ${this.bondingDenom}s`
         })
-      } catch (exception) {
-        const { message } = exception
-        let errData = message.split(`\n`)[5]
-        if (errData) {
-          let parsedErr = errData.split(`"`)[1]
-          this.$store.commit(`notifyError`, {
-            title: `Error while ${txAction} ${this.bondingDenom}s`,
-            body: parsedErr
-              ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
-              : errData
-          })
-        } else {
-          this.$store.commit(`notifyError`, {
-            title: `Error while ${txAction} ${this.bondingDenom}s`,
-            body: message
-          })
-        }
+      } catch ({ message }) {
+        this.$store.commit(`notifyError`, {
+          title: `Error while ${txAction} ${this.bondingDenom}s`,
+          body: message
+        })
       }
     },
     async submitUndelegation({ amount }) {
@@ -329,23 +317,11 @@ export default {
             this.bondingDenom
           }s.`
         })
-      } catch (exception) {
-        const { message } = exception
-        let errData = message.split(`\n`)[5]
-
-        if (errData) {
-          let parsedErr = errData.split(`"`)[1]
-
-          this.$store.commit(`notifyError`, {
-            title: `Error while undelegating ${this.bondingDenom}s`,
-            body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
-          })
-        } else {
-          this.$store.commit(`notifyError`, {
-            title: `Error while undelegating ${this.bondingDenom}s`,
-            body: message
-          })
-        }
+      } catch ({ message }) {
+        this.$store.commit(`notifyError`, {
+          title: `Error while undelegating ${this.bondingDenom}s`,
+          body: message
+        })
       }
     },
     delegationTargetOptions() {

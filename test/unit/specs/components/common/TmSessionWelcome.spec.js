@@ -14,7 +14,11 @@ describe(`NISessionWelcome`, () => {
   beforeEach(() => {
     getters = {
       config: () => ({ devMode: true }),
-      user: () => ({ accounts })
+      lastHeader: () => ({ chain_id: `gaia-test`, height: `31337` }),
+      user: () => ({ accounts }),
+      connected: () => true,
+      nodeURL: () => `http://nodeUrl`,
+      mockedConnector: () => false
     }
     store = new Vuex.Store({ getters })
     store.commit = jest.fn()

@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1548](https://github.com/cosmos/voyager/issues/1548) Add mocked deposit for testing @fedekunze
 * [\#1116](https://github.com/cosmos/voyager/issues/1116) Elaborate a bit about the release process. @NodeGuy
 * [\#1568](https://github.com/cosmos/voyager/issues/1568) Add mocked submit proposal for testing @fedekunze
+* [\#1388](https://github.com/cosmos/voyager/issues/1388) Added TmConnectedNetwork to session pages @jbibla
 * [\#1564](https://github.com/cosmos/voyager/issues/1564) Add support to query governance proposals on `lcdClient(Mock).js` @fedekunze
 
 ### Changed
@@ -69,6 +70,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1402](https://github.com/cosmos/voyager/issues/1402) Fixed minor issues in voting and deposit @fedekunze
 * [\#1574](https://github.com/cosmos/voyager/issues/1574) Fixed typo on mocked governance txs that prevented the execution of the query @fedekunze
 * [\#1575](https://github.com/cosmos/voyager/issues/1575) Fixed tags on governace transactions query @fedekunze
+* [\#1590](https://github.com/cosmos/voyager/issues/1590) Fixed empty error notifications caused by latest SDK update @fedekunze
 * [\#1596](https://github.com/cosmos/voyager/issues/1596) Fixed error that prevented from triggering updates after submitting a new proposal @fedekunze
 
 ## [0.10.7] - 2018-10-10

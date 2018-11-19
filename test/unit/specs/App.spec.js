@@ -17,6 +17,9 @@ describe(`App without analytics`, () => {
     captureException: err => console.error(err)
   }))
   jest.mock(`renderer/google-analytics.js`, () => () => {})
+  // popper.js is used by tooltips and causes some errors if
+  // not mocked because it requires a real DOM
+  jest.mock(`popper.js`, () => () => {})
   jest.mock(`electron`, () => ({
     remote: {
       getGlobal: () => ({
