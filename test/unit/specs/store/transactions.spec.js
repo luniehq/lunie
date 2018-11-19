@@ -90,8 +90,11 @@ describe(`Module: Transactions`, () => {
     expect(store.state.transactions.governance).toMatchSnapshot()
   })
 
-  it(`should fail if trying to get transactions of wrong type`, async done => {
-    await store.dispatch(`getTx`, `unknown`).catch(() => done())
+  it(`should fail if trying to get transactions of wrong type`, async () => {
+    await store.dispatch(`getTx`, `unknown`)
+    expect(store.state.transactions.error).toEqual(
+      new Error(`Unknown transaction type`)
+    )
   })
 
   it(`should query the txs on reconnection`, async () => {
@@ -109,5 +112,23 @@ describe(`Module: Transactions`, () => {
     jest.spyOn(node, `txs`)
     await store.dispatch(`reconnected`)
     expect(node.txs).not.toHaveBeenCalled()
+  })
+
+  it(`should store an error if failed to load wallet transactions`, async () => {
+    node.txs = () => Promise.reject(`Error`)
+    await store.dispatch(`getTx`, `wallet`)
+    expect(store.state.transactions.error).toBe(`Error`)
+  })
+
+  it(`should store an error if failed to load staking transactions`, async () => {
+    node.getDelegatorTxs = () => Promise.reject(`Error`)
+    await store.dispatch(`getTx`, `staking`)
+    expect(store.state.transactions.error).toBe(`Error`)
+  })
+
+  it(`should store an error if failed to load governance transactions`, async () => {
+    node.getGovernanceTxs = () => Promise.reject(`Error`)
+    await store.dispatch(`getTx`, `governance`)
+    expect(store.state.transactions.error).toBe(`Error`)
   })
 })

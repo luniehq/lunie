@@ -4,6 +4,7 @@ export default ({ node }) => {
   const emptyState = {
     validators: [],
     loading: false,
+    error: null,
     validatorHash: null
   }
   let state = JSON.parse(JSON.stringify(emptyState))
@@ -33,10 +34,7 @@ export default ({ node }) => {
         let validators = (await node.getValidatorSet()).validators
         commit(`setValidators`, validators)
       } catch (err) {
-        commit(`notifyError`, {
-          title: `Error fetching validator set`,
-          body: err.message
-        })
+        state.error = err
       }
       state.loading = false
     },

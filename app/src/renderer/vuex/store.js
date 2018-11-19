@@ -111,7 +111,7 @@ function loadPersistedState({ state, commit }, { password }) {
         loading: false
       },
       wallet: {
-        balancesLoading: false
+        loading: false
       },
       delegates: {
         loading: false

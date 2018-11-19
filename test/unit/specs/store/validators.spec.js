@@ -82,4 +82,10 @@ describe(`Module: Validators`, () => {
     store.dispatch(`reconnected`)
     expect(node.rpc.validators).not.toHaveBeenCalled()
   })
+
+  it(`should store an error if failed to load validators`, async () => {
+    node.getValidatorSet = () => Promise.reject(`Error`)
+    await store.dispatch(`getValidators`)
+    expect(store.state.validators.error).toBe(`Error`)
+  })
 })
