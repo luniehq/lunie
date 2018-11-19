@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1464](https://github.com/cosmos/voyager/issues/1464) Added governance transactions to tx history page @fedekunze
 * [\#1401](https://github.com/cosmos/voyager/issues/1401) Display governance proposals index. @fedekunze
 * [\#1472](https://github.com/cosmos/voyager/issues/1472) Added mock functionality for redelegation @fedekunze + @faboweb
+* [\#1402](https://github.com/cosmos/voyager/issues/1402) Proposal creation through modal @fedekunze + @NodeGuy + @jbibla
 * [\#1501](https://github.com/cosmos/voyager/issues/1501) Vote on proposals through modal @fedekunze + @jbibla
 * [\#1567](https://github.com/cosmos/voyager/pull/1567) Various refactors on `main`, `node` and `lcdClient`. @NodeGuy
 * [\#1502](https://github.com/cosmos/voyager/issues/1502) A page for each proposal. @jbibla
@@ -46,6 +47,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1410](https://github.com/cosmos/voyager/issues/1410) removed end undelegations as not needed in the SDK anymore
 * [\#1543](https://github.com/cosmos/voyager/issues/1543) updated unit tests to use `describe` and `it` instead of `test` @fedekunze
 * [\#1377](https://github.com/cosmos/voyager/issues/1377) deleted AppFooter page @fedekunze
+* [\#1582](https://github.com/cosmos/voyager/issues/1582) proposals now use time instead of block number @fedekunze
 * [\#1585](https://github.com/cosmos/voyager/issues/1585) updated style in coin balances from wallet page @fedekunze
 
 ### Fixed
@@ -65,6 +67,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [\#1131](https://github.com/cosmos/voyager/issues/1131) Display only error message on notifications @fedekunze
 * [\#1440](https://github.com/cosmos/voyager/issues/1440) Fixed an error that prevented disconnecting from the RPC websocket if it wasn't defined @fedekunze
 * [\#1460](https://github.com/cosmos/voyager/issues/1460) Removing release-candidate tag when publishing @faboweb
+* [\#1402](https://github.com/cosmos/voyager/issues/1402) Fixed minor issues in voting and deposit @fedekunze
 * [\#1574](https://github.com/cosmos/voyager/issues/1574) Fixed typo on mocked governance txs that prevented the execution of the query @fedekunze
 * [\#1575](https://github.com/cosmos/voyager/issues/1575) Fixed tags on governace transactions query @fedekunze
 

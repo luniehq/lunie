@@ -37,19 +37,17 @@ export default ({ node }) => {
         rootState: { wallet },
         dispatch
       },
-      proposal
+      { title, description, type, initial_deposit }
     ) {
       await dispatch(`sendTx`, {
         type: `submitProposal`,
         proposer: wallet.address,
-        proposal_type: proposal.proposal_type,
-        title: proposal.title,
-        description: proposal.description,
-        initial_deposit: proposal.initial_deposit
+        proposal_type: type,
+        title,
+        description,
+        initial_deposit
       })
-      setTimeout(async () => {
-        dispatch(`getProposals`)
-      }, 5000)
+      await dispatch(`getProposals`)
     }
   }
   return {

@@ -8,8 +8,8 @@ exports[`TabProposals has the expected html structure 1`] = `
             <th class=\\"sort-by proposal_title\\">
                <a class=\\"sort-by-link\\">Title</a>
             </th>
-            <th class=\\"sort-by submit_block\\">
-               <a class=\\"sort-by-link\\">Submitted Block</a>
+            <th class=\\"sort-by proposal_id\\">
+               <a class=\\"sort-by-link\\">Proposal id</a>
             </th>
             <th class=\\"sort-by yes_votes\\">
                <a class=\\"sort-by-link\\">Yes</a>
@@ -37,7 +37,7 @@ exports[`TabProposals has the expected html structure 1`] = `
                </p>
 </td>
             <td>
-               #10
+               #5
             </td>
             <td class=\\"li-proposal__value yes\\">
                0
@@ -63,7 +63,7 @@ exports[`TabProposals has the expected html structure 1`] = `
                </p>
 </td>
             <td>
-               #10
+               #2
             </td>
             <td class=\\"li-proposal__value yes\\">
                0
@@ -89,7 +89,7 @@ exports[`TabProposals has the expected html structure 1`] = `
                </p>
 </td>
             <td>
-               #120
+               #1
             </td>
             <td class=\\"li-proposal__value yes\\">
                500
