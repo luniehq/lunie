@@ -13,7 +13,6 @@ tr.li-proposal
 </template>
 
 <script>
-import num from "scripts/num"
 export default {
   name: `li-proposal`,
   computed: {
