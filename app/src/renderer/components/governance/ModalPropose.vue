@@ -71,7 +71,7 @@ export default {
     // TODO: get coin denom from governance params
     ...mapGetters([`wallet`]),
     balance() {
-      // TODO: refactor to get the selected coin when multicooin deposit is enabled
+      // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.balancesLoading && !!this.wallet.balances.length) {
         let balance = this.wallet.balances.find(
           coin => coin.denom === this.denom
