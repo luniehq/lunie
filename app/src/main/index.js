@@ -23,6 +23,7 @@ require(`electron-debug`)()
 
 let shuttingDown = false
 let mainWindow
+let createAccountWindow
 let lcdProcess
 let streams = []
 let connecting = true
@@ -134,6 +135,10 @@ function createWindow() {
     backgroundColor: `#15182d`,
     webPreferences: { webSecurity: false }
   })
+
+  // Set offset for modal windows.
+  mainWindow.setSheetOffset(150)
+
   mainWindow.once(`ready-to-show`, () => {
     setTimeout(() => {
       mainWindow.show()
@@ -401,11 +406,53 @@ if (!TEST) {
   })
 }
 
+const createSecureWindow = (parent, URL) => {
+  createAccountWindow = new BrowserWindow({
+    modal: true,
+    parent,
+    show: false,
+    width: 512,
+    height: 689,
+    center: true,
+    title: `Cosmos Voyager`,
+    darkTheme: true,
+    titleBarStyle: `hidden`,
+    backgroundColor: `#15182d`,
+    webPreferences: {
+      devTools: true,
+      webSecurity: false
+    }
+  })
+
+  createAccountWindow.once(`ready-to-show`, () => {
+    setTimeout(() => {
+      createAccountWindow.show()
+    }, 300)
+  })
+
+  const winURL = DEV
+    ? `http://localhost:${config.wds_port}/${URL}`
+    : `file://${__dirname}/${URL}`
+
+  createAccountWindow.loadURL(winURL + `?lcd_port=` + LCD_PORT)
+}
+
+const setModalSessionState = (event, value) => {
+  createSecureWindow(mainWindow, `${value}.html`)
+}
+
+const createAccount = (event, account) => {
+  console.log(`createAccount`, account)
+  createAccountWindow.close()
+}
+
 const eventHandlers = {
   booted: () => {
     log(`View has booted`)
     booted = true
   },
+
+  createAccount,
 
   "error-collection": (event, optin) => {
     Raven.uninstall()
@@ -420,6 +467,7 @@ const eventHandlers = {
   },
 
   reconnect: () => reconnect(),
+  setModalSessionState,
 
   "stop-lcd": () => stopLCD(),
 

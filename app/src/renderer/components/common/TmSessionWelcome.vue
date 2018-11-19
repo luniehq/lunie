@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { ipcRenderer } from "electron"
 import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import FundraiserWarning from "common/FundraiserWarning"
@@ -54,6 +55,7 @@ export default {
     },
     setState(value) {
       this.$store.commit(`setModalSessionState`, value)
+      ipcRenderer.send(`setModalSessionState`, value)
     }
   },
   mounted() {

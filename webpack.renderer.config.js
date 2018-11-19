@@ -96,6 +96,11 @@ let rendererConfig = {
         .import(`./app/src/renderer/styles/variables.styl`)
         .render()
     }),
+    new HtmlWebpackPlugin({
+      filename: `sign-up.html`,
+      inject: false,
+      template: `./app/sign-up.ejs`
+    }),
     new webpack.NoEmitOnErrorsPlugin(),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
     new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),
