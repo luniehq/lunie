@@ -1,4 +1,5 @@
 "use strict"
+import Vue from "vue"
 
 export default ({ node }) => {
   let emptyState = {
@@ -9,7 +10,7 @@ export default ({ node }) => {
 
   const mutations = {
     setProposal(state, proposal) {
-      state.proposals[proposal.proposal_id] = proposal
+      Vue.set(state.proposals, proposal.proposal_id, proposal)
     }
   }
   let actions = {
