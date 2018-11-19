@@ -1,8 +1,6 @@
 <template>
   <div class="ni-text">
-    <div class="ni-text-container">
-      <slot></slot>
-    </div>
+    <div class="ni-text-container"><slot></slot></div>
   </div>
 </template>
 
@@ -187,7 +185,7 @@ export default {
       &:last-child
         margin-bottom 1.5em
 
-  table 
+  table
     td, th
       border px solid bc
       padding 0.25em 0.5em
@@ -270,5 +268,4 @@ sbw = 20rem
 
     h3, h4, h5, h6, p, ul, ol
       padding-right 0.5rem
-
 </style>

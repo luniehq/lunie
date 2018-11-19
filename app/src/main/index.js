@@ -354,8 +354,8 @@ function afterBooted(cb) {
 }
 
 /*
-* log to file
-*/
+ * log to file
+ */
 function setupLogging(root) {
   if (!LOGGING) return
 

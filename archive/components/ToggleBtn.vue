@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 span(class="btn--select-wrapper" :class="[active ? 'active' : '']")
   btn(:value="value")
 </template>

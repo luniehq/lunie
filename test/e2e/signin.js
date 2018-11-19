@@ -5,12 +5,12 @@ let { getApp, refresh } = require(`./launch.js`)
 let { openMenu, login, sleep } = require(`./common.js`)
 
 /*
-* NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
-*/
+ * NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
+ */
 
 /*
-* NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
-*/
+ * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
+ */
 
 test(`sign in`, async function(t) {
   let { app } = await getApp(t)

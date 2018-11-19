@@ -1,9 +1,6 @@
 <template>
   <div class="new-bar">
-    <div class="label">
-      <i v-if="icon" :class="iconClass"></i>
-      {{ value }}
-    </div>
+    <div class="label"><i v-if="icon" :class="iconClass"></i> {{ value }}</div>
   </div>
 </template>
 

@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 section.tm-part
   .tm-part-container
     header.tm-part-header(v-if="$slots['title'] || title")

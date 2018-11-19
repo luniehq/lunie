@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 .ni-votes(:class="cssClass" @click='vote')
   .btn-vote.btn-vote-yea: i.material-icons expand_less
   .value {{ votes }}
@@ -51,7 +51,7 @@ export default {
 }
 </script>
 
-<style lang='stylus'>
+<style lang="stylus">
 @require '~variables'
 
 .ni-votes
