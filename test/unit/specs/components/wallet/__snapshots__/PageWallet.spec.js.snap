@@ -284,7 +284,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="li-coin__content__left__denom"
               >
                 <p
-                  id="coin-denom"
+                  class="coin-denom"
                 >
                   Fermion
                 </p>
@@ -293,7 +293,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="li-coin__content__left__amount"
               >
                 <p
-                  id="coin-amount"
+                  class="coin-amount"
                 >
                   2,300.0000000000
                 </p>
@@ -303,8 +303,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 href="#/wallet/send/fermion"
               >
                 <button
-                  class="tm-btn"
-                  id="sendTx-btn"
+                  class="tm-btn sendTx-btn"
                 >
                   <span
                     class="tm-btn__container tm-btn__icon-right tm-btn--primary"
@@ -343,7 +342,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="li-coin__content__left__denom"
               >
                 <p
-                  id="coin-denom"
+                  class="coin-denom"
                 >
                   Mycoin
                 </p>
@@ -352,7 +351,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="li-coin__content__left__amount"
               >
                 <p
-                  id="coin-amount"
+                  class="coin-amount"
                 >
                   1,000.0000000000
                 </p>
@@ -362,8 +361,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 href="#/wallet/send/mycoin"
               >
                 <button
-                  class="tm-btn"
-                  id="sendTx-btn"
+                  class="tm-btn sendTx-btn"
                 >
                   <span
                     class="tm-btn__container tm-btn__icon-right tm-btn--primary"
@@ -402,7 +400,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="li-coin__content__left__denom"
               >
                 <p
-                  id="coin-denom"
+                  class="coin-denom"
                 >
                   Steak
                 </p>
@@ -411,7 +409,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="li-coin__content__left__amount"
               >
                 <p
-                  id="coin-amount"
+                  class="coin-amount"
                 >
                   1,000.0000000000
                 </p>
@@ -421,8 +419,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 href="#/wallet/send/steak"
               >
                 <button
-                  class="tm-btn"
-                  id="sendTx-btn"
+                  class="tm-btn sendTx-btn"
                 >
                   <span
                     class="tm-btn__container tm-btn__icon-right tm-btn--primary"
@@ -755,7 +752,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 class="li-coin__content__left__denom"
               >
                 <p
-                  id="coin-denom"
+                  class="coin-denom"
                 >
                   Steak
                 </p>
@@ -764,7 +761,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 class="li-coin__content__left__amount"
               >
                 <p
-                  id="coin-amount"
+                  class="coin-amount"
                 >
                   1,000.0000000000
                 </p>
@@ -774,8 +771,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 href="#/wallet/send/steak"
               >
                 <button
-                  class="tm-btn"
-                  id="sendTx-btn"
+                  class="tm-btn sendTx-btn"
                 >
                   <span
                     class="tm-btn__container tm-btn__icon-right tm-btn--primary"

@@ -26,8 +26,8 @@ test(`wallet`, async function(t) {
   await login(app, `testkey`)
 
   let balanceEl = denom => {
-    return app.client.waitForExist(`#coin-denom=${denom}`, 20000).then(() =>
-      $(`#coin-denom=${denom}`)
+    return app.client.waitForExist(`.coin-denom=${denom}`, 20000).then(() =>
+      $(`.coin-denom=${denom}`)
         .$(`..`)
         .$(`..`)
         .$(`div.li-coin__content__left__amount`)
@@ -39,11 +39,11 @@ test(`wallet`, async function(t) {
     t.equal((await app.client.$$(`.li-coin`)).length, 2, `it shows all 2 coins`)
     // denom
     await t.ok(
-      await app.client.$(`#coin-denom=Steak`).isVisible(),
+      await app.client.$(`.coin-denom=Steak`).isVisible(),
       `show coin steak`
     )
     await t.ok(
-      await app.client.$(`#coin-denom=Localcoin`).isVisible(),
+      await app.client.$(`.coin-denom=Localcoin`).isVisible(),
       `show coin localcoin`
     )
     t.end()
@@ -53,7 +53,13 @@ test(`wallet`, async function(t) {
     async function goToSendPage() {
       await navigate(app, `Wallet`)
 
-      await $(`#sendTx-btn`).click()
+      await app.client
+        .$(`.coin-denom=Localcoin`)
+        .$(`..`)
+        .$(`..`)
+        .$(`a`)
+        .$(`button`)
+        .click()
     }
 
     await navigate(app, `Wallet`)

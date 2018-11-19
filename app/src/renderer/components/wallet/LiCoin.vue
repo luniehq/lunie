@@ -4,13 +4,13 @@
     img(src="../../assets/images/cosmos-logo.png")
   .li-coin__content
     .li-coin__content__left__denom
-        p#coin-denom {{ this.denomination }}
+        p.coin-denom {{ this.denomination }}
 
     .li-coin__content__left__amount
-        p#coin-amount {{ this.amount }}
+        p.coin-amount {{ this.amount }}
 
     router-link(:to="{ name: 'send', params: { denom: coin.denom }}")
-      tm-btn#sendTx-btn(
+      tm-btn.sendTx-btn(
         value="Send"
         icon="chevron_right"
         icon-pos="right"
