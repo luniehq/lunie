@@ -91,14 +91,16 @@ describe(`Module: Transactions`, () => {
   })
 
   it(`should fail if trying to get transactions of wrong type`, async () => {
+    jest.spyOn(console, `error`).mockImplementation(() => {})
     await store.dispatch(`getTx`, `unknown`)
     expect(store.state.transactions.error).toEqual(
       new Error(`Unknown transaction type`)
     )
+    console.error.mockReset()
   })
 
   it(`should query the txs on reconnection`, async () => {
-    store.state.node.stopConnecting = true
+    store.state.connection.stopConnecting = true
     node.getGovernanceTxs = jest.fn(() => lcdClientMock.state.txs.slice(2, 4))
     store.state.transactions.loading = true
     jest.spyOn(node, `txs`)
@@ -107,7 +109,7 @@ describe(`Module: Transactions`, () => {
   })
 
   it(`should not query the txs on reconnection if not stuck in loading`, async () => {
-    store.state.node.stopConnecting = true
+    store.state.connection.stopConnecting = true
     store.state.transactions.loading = false
     jest.spyOn(node, `txs`)
     await store.dispatch(`reconnected`)
@@ -115,20 +117,26 @@ describe(`Module: Transactions`, () => {
   })
 
   it(`should store an error if failed to load wallet transactions`, async () => {
+    jest.spyOn(console, `error`).mockImplementation(() => {})
     node.txs = () => Promise.reject(`Error`)
     await store.dispatch(`getTx`, `wallet`)
     expect(store.state.transactions.error).toBe(`Error`)
+    console.error.mockReset()
   })
 
   it(`should store an error if failed to load staking transactions`, async () => {
+    jest.spyOn(console, `error`).mockImplementation(() => {})
     node.getDelegatorTxs = () => Promise.reject(`Error`)
     await store.dispatch(`getTx`, `staking`)
     expect(store.state.transactions.error).toBe(`Error`)
+    console.error.mockReset()
   })
 
   it(`should store an error if failed to load governance transactions`, async () => {
+    jest.spyOn(console, `error`).mockImplementation(() => {})
     node.getGovernanceTxs = () => Promise.reject(`Error`)
     await store.dispatch(`getTx`, `governance`)
     expect(store.state.transactions.error).toBe(`Error`)
+    console.error.mockReset()
   })
 })

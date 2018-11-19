@@ -5,7 +5,8 @@ export default ({ node }) => {
       tallying: {},
       voting: {}
     },
-    loading: false
+    loading: false,
+    error: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -22,12 +23,11 @@ export default ({ node }) => {
         let deposit = await node.getGovDepositParameters()
         let tallying = await node.getGovTallyingParameters()
         let voting = await node.getGovVotingParameters()
+        state.error = null
         commit(`setGovParameters`, { deposit, tallying, voting })
-      } catch ({ message }) {
-        commit(`notifyError`, {
-          title: `Error fetching governance parameters`,
-          body: message
-        })
+      } catch (err) {
+        console.error(err)
+        state.error = err
       }
       state.loading = false
     }

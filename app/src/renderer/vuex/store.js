@@ -92,7 +92,7 @@ function persistState(state) {
 }
 
 function getStorageKey(state) {
-  const chainId = state.node.lastHeader.chain_id
+  const chainId = state.connection.lastHeader.chain_id
   const address = state.user.address
   return `store_${chainId}_${address}`
 }

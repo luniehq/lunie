@@ -72,9 +72,9 @@ export const votes = state => state.votes.votes
 export const deposits = state => state.deposits.deposits
 
 // status
-export const approvalRequired = state => state.node.approvalRequired
-export const connected = state => state.node.connected
-export const lastHeader = state => state.node.lastHeader
+export const approvalRequired = state => state.connection.approvalRequired
+export const connected = state => state.connection.connected
+export const lastHeader = state => state.connection.lastHeader
 export const nodeURL = state =>
-  state.node.node ? state.node.node.remoteLcdURL : undefined
-export const mockedConnector = state => state.node.mocked
+  state.connection.node ? state.connection.node.remoteLcdURL : undefined
+export const mockedConnector = state => state.connection.mocked

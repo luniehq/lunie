@@ -4,6 +4,7 @@ import { calculateShares } from "scripts/common"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
+    error: null,
     loadedOnce: false,
 
     // our delegations, maybe not yet committed
@@ -76,67 +77,74 @@ export default ({ node }) => {
       let address = rootState.user.address
       candidates = candidates || (await dispatch(`getDelegates`))
 
-      let delegations = await node.getDelegations(address)
-      let unbonding_delegations = await node.getUndelegations(address)
-      let redelegations = await node.getRedelegations(address)
-      let delegator = {
-        delegations,
-        unbonding_delegations,
-        redelegations
-      }
-      // the request runs that long, that the user might sign out and back in again
-      // the result is, that the new users state gets updated by the old users request
-      // here we check if the user is still the same
-      if (rootState.user.address !== address) return
+      try {
+        let delegations = await node.getDelegations(address)
+        let unbonding_delegations = await node.getUndelegations(address)
+        let redelegations = await node.getRedelegations(address)
+        let delegator = {
+          delegations,
+          unbonding_delegations,
+          redelegations
+        }
+        state.error = null
 
-      if (delegator.delegations) {
-        delegator.delegations.forEach(({ validator_addr, shares }) => {
-          commit(`setCommittedDelegation`, {
-            candidateId: validator_addr,
-            value: parseFloat(shares)
+        // the request runs that long, that the user might sign out and back in again
+        // the result is, that the new users state gets updated by the old users request
+        // here we check if the user is still the same
+        if (rootState.user.address !== address) return
+
+        if (delegator.delegations) {
+          delegator.delegations.forEach(({ validator_addr, shares }) => {
+            commit(`setCommittedDelegation`, {
+              candidateId: validator_addr,
+              value: parseFloat(shares)
+            })
+            if (shares > 0) {
+              const delegate = candidates.find(
+                ({ operator_address }) => operator_address === validator_addr // this should change to address instead of operator_address
+              )
+              commit(`addToCart`, delegate)
+            }
           })
-          if (shares > 0) {
-            const delegate = candidates.find(
-              ({ operator_address }) => operator_address === validator_addr // this should change to address instead of operator_address
+        }
+        // delete delegations not present anymore
+        Object.keys(state.committedDelegates).forEach(validatorAddr => {
+          if (
+            !delegator.delegations ||
+            !delegator.delegations.find(
+              ({ validator_addr }) => validator_addr === validatorAddr
             )
-            commit(`addToCart`, delegate)
-          }
-        })
-      }
-      // delete delegations not present anymore
-      Object.keys(state.committedDelegates).forEach(validatorAddr => {
-        if (
-          !delegator.delegations ||
-          !delegator.delegations.find(
-            ({ validator_addr }) => validator_addr === validatorAddr
           )
-        )
-          commit(`setCommittedDelegation`, {
-            candidateId: validatorAddr,
-            value: 0
-          })
-      })
-
-      if (delegator.unbonding_delegations) {
-        delegator.unbonding_delegations.forEach(ubd => {
-          commit(`setUnbondingDelegations`, ubd)
+            commit(`setCommittedDelegation`, {
+              candidateId: validatorAddr,
+              value: 0
+            })
         })
-      }
-      // delete undelegations not present anymore
-      Object.keys(state.unbondingDelegations).forEach(validatorAddr => {
-        if (
-          !delegator.unbonding_delegations ||
-          !delegator.unbonding_delegations.find(
-            ({ validator_addr }) => validator_addr === validatorAddr
-          )
-        )
-          commit(`setUnbondingDelegations`, {
-            validator_addr: validatorAddr,
-            balance: { amount: 0 }
-          })
-      })
 
-      state.loadedOnce = true
+        if (delegator.unbonding_delegations) {
+          delegator.unbonding_delegations.forEach(ubd => {
+            commit(`setUnbondingDelegations`, ubd)
+          })
+        }
+        // delete undelegations not present anymore
+        Object.keys(state.unbondingDelegations).forEach(validatorAddr => {
+          if (
+            !delegator.unbonding_delegations ||
+            !delegator.unbonding_delegations.find(
+              ({ validator_addr }) => validator_addr === validatorAddr
+            )
+          )
+            commit(`setUnbondingDelegations`, {
+              validator_addr: validatorAddr,
+              balance: { amount: 0 }
+            })
+        })
+        state.loadedOnce = true
+      } catch (err) {
+        console.error(err)
+        state.error = err
+      }
+
       state.loading = false
     },
     async updateDelegates({ dispatch }) {
@@ -222,38 +230,6 @@ export default ({ node }) => {
         dispatch(`updateDelegates`)
       }, 5000)
     }
-    // deprecated
-    // async endUnbonding({ rootState, state, dispatch, commit }, validatorAddr) {
-    //   try {
-    //     await dispatch(`sendTx`, {
-    //       type: `updateDelegations`,
-    //       to: rootState.wallet.address, // TODO strange syntax
-    //       complete_unbondings: [
-    //         {
-    //           delegator_addr: rootState.wallet.address,
-    //           validator_addr: validatorAddr
-    //         }
-    //       ]
-    //     })
-
-    //     let balance = state.unbondingDelegations[validatorAddr].balance
-    //     commit(`setUnbondingDelegations`, {
-    //       validator_addr: validatorAddr,
-    //       balance: { amount: 0 }
-    //     })
-    //     commit(`notify`, {
-    //       title: `Ending undelegation successful`,
-    //       body: `You successfully undelegated ${balance.amount} ${
-    //         balance.denom
-    //       }s from ${validatorAddr}`
-    //     })
-    //   } catch (err) {
-    //     commit(`notifyError`, {
-    //       title: `Ending undelegation failed`,
-    //       body: err
-    //     })
-    //   }
-    // }
   }
 
   return {

@@ -79,7 +79,7 @@ describe(`Module: Wallet`, () => {
   })
 
   it(`should query the balances on reconnection`, () => {
-    store.state.node.stopConnecting = true
+    store.state.connection.stopConnecting = true
     store.state.wallet.loading = true
     store.state.wallet.address = `12345678901234567890`
     jest.spyOn(node, `queryAccount`)
@@ -88,7 +88,7 @@ describe(`Module: Wallet`, () => {
   })
 
   it(`should not query the balances on reconnection if not stuck in loading`, () => {
-    store.state.node.stopConnecting = true
+    store.state.connection.stopConnecting = true
     store.state.wallet.loading = false
     jest.spyOn(node, `queryAccount`)
     store.dispatch(`reconnected`)
@@ -113,9 +113,9 @@ describe(`Module: Wallet`, () => {
 
   it(`should query wallet data at specified height`, async done => {
     jest.useFakeTimers()
-    let height = store.state.node.lastHeader.height
+    let height = store.state.connection.lastHeader.height
     store.dispatch(`queryWalletStateAfterHeight`, height + 1).then(() => done())
-    store.state.node.lastHeader.height++
+    store.state.connection.lastHeader.height++
     jest.runAllTimers()
     jest.useRealTimers()
   })
@@ -176,9 +176,11 @@ describe(`Module: Wallet`, () => {
   })
 
   it(`should store an error if failed to load balances`, async () => {
+    jest.spyOn(console, `error`).mockImplementation(() => {})
     store.state.wallet.address = `x`
     node.queryAccount = async () => Promise.reject(`Error`)
     await store.dispatch(`queryWalletBalances`)
     expect(store.state.wallet.error).toBe(`Error`)
+    console.error.mockReset()
   })
 })

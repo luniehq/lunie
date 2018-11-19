@@ -3,6 +3,7 @@
 export default ({ node }) => {
   let emptyState = {
     loading: false,
+    error: null,
     proposals: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
@@ -24,11 +25,17 @@ export default ({ node }) => {
     },
     async getProposals({ state, commit }) {
       state.loading = true
-      let proposals = await node.queryProposals()
-      if (proposals.length > 0) {
-        proposals.forEach(proposal => {
-          commit(`setProposal`, proposal.value)
-        })
+      try {
+        let proposals = await node.queryProposals()
+        state.error = null
+        if (proposals.length > 0) {
+          proposals.forEach(proposal => {
+            commit(`setProposal`, proposal.value)
+          })
+        }
+      } catch (err) {
+        console.error(err)
+        state.error = err
       }
       state.loading = false
     },

@@ -32,8 +32,10 @@ export default ({ node }) => {
       state.loading = true
       try {
         let validators = (await node.getValidatorSet()).validators
+        state.error = null
         commit(`setValidators`, validators)
       } catch (err) {
+        console.error(err)
         state.error = err
       }
       state.loading = false

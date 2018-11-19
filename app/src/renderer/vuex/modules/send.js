@@ -22,7 +22,7 @@ export default ({ node }) => {
       name: rootState.user.account,
       password: rootState.user.password,
       account_number: rootState.wallet.accountNumber, // TODO move into LCD?
-      chain_id: rootState.node.lastHeader.chain_id
+      chain_id: rootState.connection.lastHeader.chain_id
     }
     args.base_req = requestMetaData
 

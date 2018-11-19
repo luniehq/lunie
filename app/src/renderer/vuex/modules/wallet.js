@@ -63,6 +63,7 @@ export default ({ node }) => {
           return
         }
 
+        state.error = null
         let coins = res.coins || []
         commit(`setNonce`, res.sequence)
         commit(`setAccountNumber`, res.account_number)
@@ -74,6 +75,7 @@ export default ({ node }) => {
           }
         }
       } catch (err) {
+        console.error(err)
         state.error = err
       }
 
@@ -110,7 +112,7 @@ export default ({ node }) => {
       return new Promise(resolve => {
         // wait until height is >= `height`
         let interval = setInterval(() => {
-          if (rootState.node.lastHeader.height < height) return
+          if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
           dispatch(`queryWalletState`)
           resolve()

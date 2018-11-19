@@ -93,12 +93,12 @@ describe(`TmConnectedNetwork`, () => {
     router = instance.router
     wrapper = instance.wrapper
 
-    Object.assign(store.state.node, {
+    Object.assign(store.state.connection, {
       mocked: false,
       node: {
         remoteLcdURL: `123.123.123.123`
       },
-      lastHeader: Object.assign(store.state.node.lastHeader, {
+      lastHeader: Object.assign(store.state.connection.lastHeader, {
         chain_id: `chain_id`
       }),
       connected: true

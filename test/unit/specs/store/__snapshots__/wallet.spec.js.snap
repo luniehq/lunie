@@ -18,6 +18,7 @@ Object {
   "address": null,
   "balances": Array [],
   "denoms": Array [],
+  "error": null,
   "loading": true,
   "subscribedRPC": null,
   "zoneIds": Array [

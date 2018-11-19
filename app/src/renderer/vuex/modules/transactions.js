@@ -87,9 +87,11 @@ export default ({ node }) => {
           default:
             throw new Error(`Unknown transaction type`)
         }
+        state.error = null
         const transactionsPlusType = response.map(fp.set(`type`, type))
         return response ? uniqBy(transactionsPlusType, `hash`) : []
       } catch (err) {
+        console.error(err)
         state.error = err
         return []
       }

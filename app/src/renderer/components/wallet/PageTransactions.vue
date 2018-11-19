@@ -48,7 +48,7 @@ export default {
     VmToolBar
   },
   computed: {
-    ...mapState([`transactions`, `node`]),
+    ...mapState([`transactions`]),
     ...mapGetters([
       `filters`,
       `allTransactions`,

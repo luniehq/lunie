@@ -29,7 +29,7 @@ describe(`TmModalNoNodes`, () => {
   it(`switches to a mock connection`, () => {
     wrapper.vm.useMock()
 
-    expect(store.state.node.mocked).toBe(true)
+    expect(store.state.connection.mocked).toBe(true)
 
     // also closing the modal
     expect(store.state.config.modals.noNodes.active).toBe(false)
