@@ -85,7 +85,13 @@ export default {
       this.$emit(`update:showModalDeposit`, false)
     },
     onDeposit() {
-      this.$emit(`submitDeposit`, { amount: this.amount })
+      let amount = [
+        {
+          denom: this.denom,
+          amount: String(this.amount)
+        }
+      ]
+      this.$emit(`submitDeposit`, { amount })
       this.close()
     }
   },

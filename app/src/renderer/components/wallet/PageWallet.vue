@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(data-title="Wallet")
-  template(slot="menu-body", v-if="config.devMode"): tm-balance
-  div(slot="menu")
+  template(slot="menu-body")
+    tm-balance
     vm-tool-bar
       a(@click='connected && updateBalances()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
         i.material-icons refresh

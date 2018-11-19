@@ -12,29 +12,29 @@
 
     tm-form-group.modal-vote-form-group.options
       tm-btn#vote-yes(
-        @click.native="vote('yes')"
-        :class="[option ===  `yes` ? 'active' : '']"
+        @click.native="vote('Yes')"
+        :class="[option ===  `Yes` ? 'active' : '']"
         color="secondary"
         value="Yes"
         size="md")
 
       tm-btn#vote-no(
-        @click.native="vote('no')"
-        :class="[option === `no` ? 'active' : '']"
+        @click.native="vote('No')"
+        :class="[option === `No` ? 'active' : '']"
         color="secondary"
         value="No"
         size="md")
 
       tm-btn#vote-veto(
-        @click.native="vote('no_with_veto')"
-        :class="[option === `no_with_veto` ? 'active' : '']"
+        @click.native="vote('NoWithVeto')"
+        :class="[option === `NoWithVeto` ? 'active' : '']"
         color="secondary"
         value="No With Veto"
         size="md")
 
       tm-btn#vote-abstain(
-        @click.native="vote('abstain')"
-        :class="[option === `abstain` ? 'active' : '']"
+        @click.native="vote('Abstain')"
+        :class="[option === `Abstain` ? 'active' : '']"
         color="secondary"
         value="Abstain"
         size="md")
@@ -56,10 +56,10 @@ import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 const isValid = option =>
-  option === `yes` ||
-  option === `no` ||
-  option === `no_with_veto` ||
-  option === `abstain`
+  option === `Yes` ||
+  option === `No` ||
+  option === `NoWithVeto` ||
+  option === `Abstain`
 
 export default {
   name: `modal-vote`,
