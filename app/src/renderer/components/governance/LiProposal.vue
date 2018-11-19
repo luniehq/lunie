@@ -3,9 +3,9 @@ tr.li-proposal
   td.li-proposal__value
     span.validator-profile__status(v-bind:class="status.color" v-tooltip.top="status.message")
     h2
-      router-link(:to="{ name: 'Proposal', params: { proposalId, proposal, status }}") {{ proposal.title }}
+      router-link(:to="{ name: 'Proposal', params: { proposalId: proposal.proposal_id, proposal, status }}") {{ proposal.title }}
     p {{ description }}
-  td {{ submitBlock }}
+  td {{ `#` + proposal.proposal_id }}
   td.li-proposal__value.yes {{ proposal.tally_result.yes }}
   td.li-proposal__value.no {{ proposal.tally_result.no }}
   td.li-proposal__value.no_with_veto {{ proposal.tally_result.no_with_veto }}
@@ -53,12 +53,6 @@ export default {
       return this.proposal.description.length > 100
         ? this.proposal.description.substring(0, 100) + `…`
         : this.proposal.description.substring(0, 100)
-    },
-    submitBlock() {
-      return `#` + num.prettyInt(this.proposal.submit_block)
-    },
-    proposalId() {
-      return this.proposal.proposal_id
     }
   },
   props: [`proposal`]

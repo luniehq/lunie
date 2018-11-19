@@ -54,18 +54,12 @@ export default {
 
       let copiedProposals = JSON.parse(JSON.stringify(this.proposals))
       return Object.values(copiedProposals).map(p => {
-        p.tally_result.yes = Math.round(
-          ratToBigNumber(p.tally_result.yes).toNumber()
-        )
-        p.tally_result.no = Math.round(
-          ratToBigNumber(p.tally_result.no).toNumber()
-        )
+        p.tally_result.yes = Math.round(parseFloat(p.tally_result.yes))
+        p.tally_result.no = Math.round(parseFloat(p.tally_result.no))
         p.tally_result.no_with_veto = Math.round(
-          ratToBigNumber(p.tally_result.no_with_veto).toNumber()
+          parseFloat(p.tally_result.no_with_veto)
         )
-        p.tally_result.abstain = Math.round(
-          ratToBigNumber(p.tally_result.abstain).toNumber()
-        )
+        p.tally_result.abstain = Math.round(parseFloat(p.tally_result.abstain))
         return p
       })
     },
@@ -95,10 +89,10 @@ export default {
           class: `proposal_title`
         },
         {
-          title: `Submitted Block`,
-          value: `submit_block`,
-          tooltip: `Block height when proposal was submitted`,
-          class: `submit_block`
+          title: `Proposal id`,
+          value: `proposal_id`,
+          tooltip: `Id of the proposal`,
+          class: `proposal_id`
         },
         {
           title: `Yes`,

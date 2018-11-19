@@ -1,5 +1,6 @@
 "use strict"
 
+import moment from "moment"
 import Vuelidate from "vuelidate"
 import setup from "../../../helpers/vuex-setup"
 import PageProposal from "renderer/components/governance/PageProposal"
@@ -49,20 +50,22 @@ describe(`PageProposal`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
 
-    it(`should return the block number`, () => {
-      expect(wrapper.vm.voteBlock).toBe(`block #135`)
+    it(`should return the time of submission `, () => {
+      expect(wrapper.vm.submittedAgo).toEqual(
+        moment(new Date(proposal.submit_time)).fromNow()
+      )
     })
 
-    it(`should return the end of the sentence`, () => {
-      proposal.submit_block = `135`
-      let { wrapper } = mount(PageProposal, {
-        propsData: {
-          proposal,
-          status
-        }
-      })
-      wrapper.update()
-      expect(wrapper.vm.voteBlock).toBe(`the same block`)
+    it(`should return the time that voting started`, () => {
+      expect(wrapper.vm.votingStartedAgo).toEqual(
+        moment(new Date(proposal.voting_start_block)).fromNow()
+      )
+    })
+
+    it(`should return the time when deposits end`, () => {
+      expect(wrapper.vm.depositEndsIn).toEqual(
+        moment(new Date(proposal.deposit_end_time)).fromNow()
+      )
     })
 
     describe(`Modal onVote`, () => {
