@@ -36,18 +36,18 @@ export default {
   computed: {
     ...mapGetters([`connected`, `delegates`, `filters`])
   },
-  methods: {
-    setSearch(bool = !this.filters[`delegates`].search.visible) {
-      this.$store.commit(`setSearchVisible`, [`delegates`, bool])
-    },
-    ...mapActions([`updateDelegates`])
-  },
   async mounted() {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))
 
     // XXX temporary because querying the shares shows old shares after bonding
     // this.updateDelegates()
+  },
+  methods: {
+    setSearch(bool = !this.filters[`delegates`].search.visible) {
+      this.$store.commit(`setSearchVisible`, [`delegates`, bool])
+    },
+    ...mapActions([`updateDelegates`])
   }
 }
 </script>

@@ -50,6 +50,9 @@ export default {
       }.png`)
     }
   },
+  mounted() {
+    new PerfectScrollbar(this.$el.querySelector(`#onboarding .tm-session-main`))
+  },
   methods: {
     go(state) {
       this.$store.commit(`setOnboardingState`, state)
@@ -65,9 +68,6 @@ export default {
       this.$store.commit(`setOnboardingActive`, false)
       this.$store.commit(`setOnboardingState`, 0)
     }
-  },
-  mounted() {
-    new PerfectScrollbar(this.$el.querySelector(`#onboarding .tm-session-main`))
   }
 }
 </script>

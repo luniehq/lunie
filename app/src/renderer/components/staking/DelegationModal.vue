@@ -54,9 +54,8 @@ import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
   name: `delegation-modal`,
-  props: [`fromOptions`, `to`],
-  computed: {
-    ...mapGetters([`bondingDenom`])
+  directives: {
+    ClickOutside
   },
   components: {
     Modal,
@@ -65,10 +64,14 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
+  props: [`fromOptions`, `to`],
   data: () => ({
     amount: 0,
     selectedIndex: 0
   }),
+  computed: {
+    ...mapGetters([`bondingDenom`])
+  },
   validations() {
     return {
       amount: {
@@ -91,9 +94,6 @@ export default {
       })
       this.close()
     }
-  },
-  directives: {
-    ClickOutside
   }
 }
 </script>

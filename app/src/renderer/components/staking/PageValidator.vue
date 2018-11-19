@@ -226,6 +226,15 @@ export default {
       return this.totalAtoms - this.oldBondedAtoms
     }
   },
+  watch: {
+    validator: {
+      immediate: true,
+      handler(validator) {
+        if (!validator) return
+        this.$store.dispatch(`getSelfBond`, validator)
+      }
+    }
+  },
   methods: {
     closeCannotModal() {
       this.showCannotModal = false
@@ -365,15 +374,6 @@ export default {
     translateEmptyDescription(value) {
       if (!value || value === `[do-not-modify]`) return `n/a`
       return value
-    }
-  },
-  watch: {
-    validator: {
-      immediate: true,
-      handler(validator) {
-        if (!validator) return
-        this.$store.dispatch(`getSelfBond`, validator)
-      }
     }
   }
 }

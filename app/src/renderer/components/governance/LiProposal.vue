@@ -15,6 +15,7 @@ tr.li-proposal
 <script>
 export default {
   name: `li-proposal`,
+  props: [`proposal`],
   computed: {
     status() {
       if (this.proposal.proposal_status === `Passed`)
@@ -53,8 +54,7 @@ export default {
         ? this.proposal.description.substring(0, 100) + `…`
         : this.proposal.description.substring(0, 100)
     }
-  },
-  props: [`proposal`]
+  }
 }
 </script>
 

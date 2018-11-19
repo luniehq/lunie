@@ -79,9 +79,6 @@ export default {
     TmFormMsg,
     TmFormStruct
   },
-  computed: {
-    ...mapGetters([`connected`])
-  },
   data: () => ({
     creating: true,
     fields: {
@@ -92,6 +89,17 @@ export default {
       signUpWarning: false
     }
   }),
+  computed: {
+    ...mapGetters([`connected`])
+  },
+  mounted() {
+    this.$el.querySelector(`#sign-up-name`).focus()
+    this.$store.dispatch(`createSeed`).then(seedPhrase => {
+      this.creating = false
+      this.fields.signUpSeed = seedPhrase
+    })
+    new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
+  },
   methods: {
     help() {
       this.$store.commit(`setModalHelp`, true)
@@ -130,14 +138,6 @@ export default {
         })
       }
     }
-  },
-  mounted() {
-    this.$el.querySelector(`#sign-up-name`).focus()
-    this.$store.dispatch(`createSeed`).then(seedPhrase => {
-      this.creating = false
-      this.fields.signUpSeed = seedPhrase
-    })
-    new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
   },
   validations: () => ({
     fields: {

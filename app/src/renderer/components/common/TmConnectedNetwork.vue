@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 .tm-connected-network#tm-connected-network(v-if='connected' :class="cssClass")
   .tm-connected-network__connection
     .tm-connected-network__icon#tm-connected-network__icon: i.material-icons lock
@@ -19,6 +19,9 @@ import num from "scripts/num"
 import { startCase, toLower } from "lodash"
 export default {
   name: `tm-connected-network`,
+  data: () => ({
+    num: num
+  }),
   computed: {
     ...mapGetters([`lastHeader`, `nodeURL`, `connected`, `mockedConnector`]),
     cssClass() {
@@ -49,9 +52,6 @@ export default {
       return `https://explorecosmos.network/blocks/` + this.lastHeader.height
     }
   },
-  data: () => ({
-    num: num
-  }),
   methods: {
     closeMenu() {
       this.$store.commit(`setActiveMenu`, ``)

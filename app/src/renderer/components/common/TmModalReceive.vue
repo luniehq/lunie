@@ -11,11 +11,11 @@ import LiCopy from "common/TmLiCopy"
 import Modal from "common/TmModal"
 export default {
   name: `tm-modal-receive`,
-  props: [`value`],
   components: {
     LiCopy,
     Modal
   },
+  props: [`value`],
   computed: {
     ...mapGetters([`config`, `wallet`]),
     active() {

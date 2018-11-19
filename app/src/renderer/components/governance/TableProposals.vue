@@ -25,7 +25,6 @@ import PanelSort from "staking/PanelSort"
 import VmToolBar from "common/VmToolBar"
 export default {
   name: `table-proposals`,
-  props: [`proposals`, `loading`],
   components: {
     LiProposal,
     TmDataEmpty,
@@ -35,6 +34,7 @@ export default {
     PanelSort,
     VmToolBar
   },
+  props: [`proposals`, `loading`],
   data: () => ({
     query: ``,
     sort: {
@@ -120,6 +120,12 @@ export default {
       ]
     }
   },
+  mounted() {
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind([`command+n`, `ctrl+n`], () => this.newProposal())
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
+    this.$store.dispatch(`getProposals`)
+  },
   methods: {
     setSearch(
       bool = !this.filters[`proposals`].search.visible,
@@ -129,12 +135,6 @@ export default {
         $store.commit(`setSearchVisible`, [`proposals`, bool])
       }
     }
-  },
-  mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind([`command+n`, `ctrl+n`], () => this.newProposal())
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-    this.$store.dispatch(`getProposals`)
   }
 }
 </script>

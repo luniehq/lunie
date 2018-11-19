@@ -47,6 +47,15 @@ export default {
     TmPage,
     VmToolBar
   },
+  data: () => ({
+    shortid: shortid,
+    sort: {
+      property: `height`,
+      order: `desc`
+    },
+    validatorURL: `/staking/validators`,
+    proposalsURL: `/governance/proposals`
+  }),
   computed: {
     ...mapState([`transactions`, `node`]),
     ...mapGetters([
@@ -87,15 +96,11 @@ export default {
       }
     }
   },
-  data: () => ({
-    shortid: shortid,
-    sort: {
-      property: `height`,
-      order: `desc`
-    },
-    validatorURL: `/staking/validators`,
-    proposalsURL: `/governance/proposals`
-  }),
+  mounted() {
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
+    this.refreshTransactions()
+  },
   methods: {
     refreshTransactions() {
       this.$store.dispatch(`getAllTxs`)
@@ -121,11 +126,6 @@ export default {
       if (!this.somethingToSearch) return false
       this.$store.commit(`setSearchVisible`, [`transactions`, bool])
     }
-  },
-  mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-    this.refreshTransactions()
   }
 }
 </script>

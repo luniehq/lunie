@@ -9,6 +9,7 @@ tr.panel-sort-container
 <script>
 export default {
   name: `panel-sort`,
+  props: [`sort`, `properties`],
   methods: {
     orderBy(property) {
       let sortBys = this.$el.querySelectorAll(`.sort-by`)
@@ -32,8 +33,7 @@ export default {
       }
       el.classList.add(`active`)
     }
-  },
-  props: [`sort`, `properties`]
+  }
 }
 </script>
 
@@ -63,5 +63,4 @@ export default {
   &.desc:after
     content '\f0d7'
     color var(--tertiary)
-
 </style>

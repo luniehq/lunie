@@ -66,7 +66,26 @@ const notBlank = text => !isEmpty(trim(text))
 
 export default {
   name: `modal-propose`,
+  directives: {
+    ClickOutside
+  },
+  components: {
+    Modal,
+    TmBtn,
+    TmField,
+    TmFormGroup
+  },
   props: [`denom`],
+  data: () => ({
+    titleMinLength: 1,
+    titleMaxLength: 64,
+    descriptionMinLength: 1,
+    descriptionMaxLength: 200,
+    title: ``,
+    description: ``,
+    type: `Text`,
+    amount: 0
+  }),
   computed: {
     // TODO: get coin denom from governance params
     ...mapGetters([`wallet`]),
@@ -81,22 +100,6 @@ export default {
       return 0
     }
   },
-  components: {
-    Modal,
-    TmBtn,
-    TmField,
-    TmFormGroup
-  },
-  data: () => ({
-    titleMinLength: 1,
-    titleMaxLength: 64,
-    descriptionMinLength: 1,
-    descriptionMaxLength: 200,
-    title: ``,
-    description: ``,
-    type: `Text`,
-    amount: 0
-  }),
   validations() {
     return {
       title: {
@@ -144,9 +147,6 @@ export default {
       })
       this.close()
     }
-  },
-  directives: {
-    ClickOutside
   }
 }
 </script>

@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 tm-page(data-title='Send')
   div(slot="menu"): vm-tool-bar
   tm-form-struct(:submit="onSubmit")
@@ -91,6 +91,18 @@ export default {
     VmToolBar,
     TmModalSendConfirmation
   },
+  props: [`denom`],
+  data: () => ({
+    bech32error: null,
+    fields: {
+      address: ``,
+      amount: null,
+      denom: ``,
+      zoneId: `cosmos-hub-1`
+    },
+    confirmationPending: false,
+    sending: false
+  }),
   computed: {
     ...mapGetters([
       `wallet`,
@@ -113,17 +125,19 @@ export default {
       return this.wallet.zoneIds.map(z => ({ key: z, value: z }))
     }
   },
-  data: () => ({
-    bech32error: null,
-    fields: {
-      address: ``,
-      amount: null,
-      denom: ``,
-      zoneId: `cosmos-hub-1`
-    },
-    confirmationPending: false,
-    sending: false
-  }),
+  watch: {
+    // TODO ignored while we don't have IBC
+    // // if the zoneId gets added at a later time
+    // "wallet.zoneIds": () => {
+    //   this.fields.zoneId = this.wallet.zoneIds[0]
+    // }
+  },
+  mounted() {
+    if (this.denom) {
+      this.fields.denom = this.denom
+    }
+    this.fields.zoneId = this.wallet.zoneIds[0]
+  },
   methods: {
     resetForm() {
       this.fields.address = ``
@@ -188,13 +202,6 @@ export default {
     },
     ...mapActions([`sendTx`])
   },
-  props: [`denom`],
-  mounted() {
-    if (this.denom) {
-      this.fields.denom = this.denom
-    }
-    this.fields.zoneId = this.wallet.zoneIds[0]
-  },
   validations() {
     return {
       fields: {
@@ -210,13 +217,6 @@ export default {
         zoneId: { required }
       }
     }
-  },
-  watch: {
-    // TODO ignored while we don't have IBC
-    // // if the zoneId gets added at a later time
-    // "wallet.zoneIds": () => {
-    //   this.fields.zoneId = this.wallet.zoneIds[0]
-    // }
   }
 }
 </script>

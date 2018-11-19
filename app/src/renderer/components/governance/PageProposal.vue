@@ -74,7 +74,6 @@ import ModalDeposit from "./ModalDeposit"
 import ModalVote from "./ModalVote"
 export default {
   name: `page-proposal`,
-  props: [`proposal`, `status`],
   components: {
     TmBalance,
     TmBtn,
@@ -84,6 +83,7 @@ export default {
     TmPage,
     TextBlock
   },
+  props: [`proposal`, `status`],
   data: () => ({
     showModalDeposit: false,
     showModalVote: false
